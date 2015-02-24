@@ -3496,12 +3496,59 @@ public abstract class PO
 			return false;
 		int p_Record_ID = get_ID();
 
-		int p_AD_Tree_ID = MTree.getDefaultAD_Tree_ID(getAD_Client_ID(), get_TableName());
+		int p_AD_Tree_ID = MTree.getDefaultAD_Tree_ID(getAD_Client_ID(), get_Table_ID());
 		MTree tree =new MTree(getCtx(), p_AD_Tree_ID, get_TrxName());
 		int no = 0;
 		if(MTree.addNode(getCtx(), p_Record_ID, tree, get_TrxName()))
     		no++;
 
+		if (no > 0)
+			log.fine("#" + no + " - AD_Table_ID=" + AD_Table_ID);
+		else
+			log.warning("#" + no + " - AD_Table_ID=" + AD_Table_ID);
+		return no > 0;
+	}	//	insert_Tree
+
+	/**************************************************************************
+	 *  Insert id data into Tree FR[ 9223372036854775807 ]
+	 *	@return true if inserted
+	 */
+	private boolean insertTreeNode2()
+	{
+		int AD_Table_ID = get_Table_ID();
+		if (!MTree.hasTree(AD_Table_ID))
+			return false;
+		int id = get_ID();
+		int AD_Client_ID = getAD_Client_ID();
+		String treeTableName = MTree.getNodeTableName(AD_Table_ID);
+		int C_Element_ID = 0;
+		if (AD_Table_ID == X_C_ElementValue.Table_ID)
+		{
+			Integer ii = (Integer)get_Value("C_Element_ID");
+			if (ii != null)
+				C_Element_ID = ii.intValue();
+		}
+		//
+		StringBuilder sb = new StringBuilder ("INSERT INTO ")
+		.append(treeTableName)
+		.append(" (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Updated,UpdatedBy, ")
+		.append("AD_Tree_ID, Node_ID, Parent_ID, SeqNo) ")
+		//
+		.append("SELECT t.AD_Client_ID,0, 'Y', SysDate, 0, SysDate, 0,")
+		.append("t.AD_Tree_ID, ").append(id).append(", 0, 999 ")
+		.append("FROM AD_Tree t ")
+		.append("WHERE t.AD_Client_ID=").append(AD_Client_ID).append(" AND t.IsActive='Y'");
+		//	Account Element Value handling
+		if (C_Element_ID != 0)
+			sb.append(" AND EXISTS (SELECT * FROM C_Element ae WHERE ae.C_Element_ID=")
+			.append(C_Element_ID).append(" AND t.AD_Tree_ID=ae.AD_Tree_ID)");
+		else	//	std trees
+			sb.append(" AND t.IsAllNodes='Y' AND t.AD_Table_ID=").append(AD_Table_ID);
+		//	Duplicate Check
+		sb.append(" AND NOT EXISTS (SELECT * FROM ").append (treeTableName).append (" e ")
+		.append("WHERE e.AD_Tree_ID=t.AD_Tree_ID AND Node_ID=").append(id).append(")");
+		//
+		int no = DB.executeUpdate(sb.toString(), get_TrxName());
 		if (no > 0)
 			log.fine("#" + no + " - AD_Table_ID=" + AD_Table_ID);
 		else
