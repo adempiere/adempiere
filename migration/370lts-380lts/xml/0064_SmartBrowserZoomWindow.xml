@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Smart Browser zoom window" ReleaseNo="3.8.0" SeqNo="64">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50007" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53008</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50008" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">322</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50009" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53009</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50010" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53012</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50011" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53202</Data>
+        <Data AD_Column_ID="57995" Column="EntityType" oldValue="C">EE01</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50012" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53203</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50015" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53202</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50016" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53203</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50017" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53011</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50018" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53009</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50019" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53009</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50047" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53012</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50046" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53012</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50045" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53042</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50040" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">184</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50030" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53318</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50029" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53320</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50004" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53183</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50002" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53090</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50001" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">53090</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50000" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">143</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50000" Table="AD_Browse">
+        <Data AD_Column_ID="58003" Column="IsBetaFunctionality" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
