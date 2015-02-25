@@ -1635,22 +1635,16 @@ public class MTree extends X_AD_Tree
 		
 		if (TREETYPE_Activity.equals(treeType))
 			AD_Tree_ID = ci.getAD_Tree_Activity_ID();
-		else if (TREETYPE_BoM.equals(treeType))
-			throw new IllegalArgumentException("BoM Trees not supported");
 		else if (TREETYPE_BPartner.equals(treeType))
 			AD_Tree_ID = ci.getAD_Tree_BPartner_ID();
 		else if (TREETYPE_Campaign.equals(treeType))
 			AD_Tree_ID = ci.getAD_Tree_Campaign_ID();
-		else if (TREETYPE_ElementValue.equals(treeType))
-			throw new IllegalArgumentException("ElementValue cannot use this API");
 		else if (TREETYPE_Menu.equals(treeType))
 			AD_Tree_ID = ci.getAD_Tree_Menu_ID();
 		else if (TREETYPE_Organization.equals(treeType))
 			AD_Tree_ID = ci.getAD_Tree_Org_ID();
 		else if (TREETYPE_Product.equals(treeType))
 			AD_Tree_ID = ci.getAD_Tree_Product_ID();
-		else if (TREETYPE_ProductCategory.equals(treeType))
-			throw new IllegalArgumentException("Product Category Trees not supported");
 		else if (TREETYPE_Project.equals(treeType))
 			AD_Tree_ID = ci.getAD_Tree_Project_ID();
 		else if (TREETYPE_SalesRegion.equals(treeType))
@@ -1658,32 +1652,32 @@ public class MTree extends X_AD_Tree
 		else
 			AD_Tree_ID = m_MTree.getAD_Tree_ID();
 		
-//		if (AD_Tree_ID == 0)
-//			throw new IllegalArgumentException("No Tree found");
-//		MTree tree = get(ctx, AD_Tree_ID, trxName);
-//		if (tree.get_ID() != AD_Tree_ID)
-//			throw new IllegalArgumentException("Tree found AD_Tree_ID=" + AD_Tree_ID);
+		if (AD_Tree_ID == 0)
+			throw new IllegalArgumentException("No Tree found");
+		MTree tree = new MTree(ctx, AD_Tree_ID, trxName);
+		if (tree.get_ID() != AD_Tree_ID)
+			throw new IllegalArgumentException("Tree found AD_Tree_ID=" + AD_Tree_ID);
 
 		//	Insert Tree in correct tree
 		boolean saved = false;
 		if (TREETYPE_Menu.equals(treeType))
 		{
-			MTree_NodeMM node = new MTree_NodeMM (m_MTree, Record_ID);
+			MTree_NodeMM node = new MTree_NodeMM (tree, Record_ID);
 			saved = node.save();
 		}
 		else if  (TREETYPE_BPartner.equals(treeType))
 		{
-			MTree_NodeBP node = new MTree_NodeBP (m_MTree, Record_ID);
+			MTree_NodeBP node = new MTree_NodeBP (tree, Record_ID);
 			saved = node.save();
 		}
 		else if  (TREETYPE_Product.equals(treeType))
 		{
-			MTree_NodePR node = new MTree_NodePR (m_MTree, Record_ID);
+			MTree_NodePR node = new MTree_NodePR (tree, Record_ID);
 			saved = node.save();
 		}
 		else
 		{
-			MTree_Node node = new MTree_Node (m_MTree, Record_ID);
+			MTree_Node node = new MTree_Node (tree, Record_ID);
 			saved = node.save();
 		}
 		return saved;	
