@@ -16,63 +16,121 @@
  *****************************************************************************/
 package org.spinsuite.process;
 
+import java.util.List;
+
 import org.compiere.model.MRule;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Rule;
+import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.spinsuite.model.I_SPS_Table;
 import org.spinsuite.model.MSPSColumn;
 import org.spinsuite.model.MSPSTable;
 
 /**
- * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a>
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 	<li> BR [ 9223372036854775807 ] Add support to script create for all tables in Spin-Suite
+ * 	@see http://adempiere.atlassian.net/browse/ADEMPIERE-404
  *
  */
 public class GenerateScriptFromTable extends SvrProcess {
 	
 	/**	Record Identifier	*/
 	private int 			m_Record_ID = 0;
-	/**	Table for Sync wit mobile	*/
-	private MSPSTable 	m_Table = null;
+	/**	For All Tables		*/
+	private boolean 		p_AllTables = false;
+	/**	Entity Type			*/
+	private String			p_EntityType = null;	
+	
 	@Override
 	protected void prepare() {
-		m_Record_ID = getRecord_ID();
+		ProcessInfoParameter[] params = getParameter();
+		for (ProcessInfoParameter para : params) {
+			String name = para.getParameterName();
+			if (para.getParameter() == null)
+				;
+			else if(name.equals("SPS_Table_ID"))
+				m_Record_ID = para.getParameterAsInt();
+			else if(name.equals("AllTables"))
+				p_AllTables = para.getParameterAsBoolean();
+			else if(name.equals("EntityType"))
+				p_EntityType = para.getParameterAsString();
+		}
+		//	For same table
+		if(m_Record_ID == 0)
+			m_Record_ID = getRecord_ID();
+		//	For Entity Type
+		if(p_EntityType == null)
+			p_EntityType = "ECA01";
 	}
 
 	
 	@Override
 	protected String doIt() throws Exception {
-		m_Table = new MSPSTable(getCtx(), m_Record_ID, get_TrxName());
+		if(!p_AllTables) {
+			MSPSTable m_Table = new MSPSTable(getCtx(), m_Record_ID, get_TrxName());
+			//	Create Script
+			return createFromTable(m_Table);
+		} else {
+			//	Get All Tables
+			List<MSPSTable> list = new Query(getCtx(), I_SPS_Table.Table_Name, null, get_TrxName())
+				.setOnlyActiveRecords(true)
+				.<MSPSTable>list();
+			//	Iterate
+			for(MSPSTable table : list) {
+				String sql = createFromTable(table);
+				//	Add Log
+				addLog("@AD_Table_ID@ " + table.getTableName() + " @Processed@");
+				//	Log
+				log.fine(table.getTableName() + " SQL[" + sql + "]");
+			}
+		}
+		//	Return
+		return "Ok";
+	}
+	
+	/**
+	 * Create Script from Table
+	 * @param p_SPS_Table
+	 * @return
+	 * @throws AdempiereSystemError
+	 */
+	private String createFromTable(MSPSTable p_SPS_Table) {
 		//	Verify exists columns
-		MSPSColumn[] columns = m_Table.getColumns();
+		MSPSColumn[] columns = p_SPS_Table.getColumns();
 		//	
 		if (columns == null 
 				|| columns.length == 0)
-			throw new AdempiereSystemError("Table must have columns");
+			return "@AD_Column_ID@ @NotFound@";
 		
-		String sqlCreate = m_Table.getSQLCreate();
+		String sqlCreate = p_SPS_Table.getSQLCreate();
 		
-		int m_AD_Rule_ID = m_Table.getAD_Rule_ID();
+		int m_AD_Rule_ID = p_SPS_Table.getAD_Rule_ID();
 		
 		MRule ruleSQL = new MRule(getCtx(), m_AD_Rule_ID, get_TrxName());
 		//	if not exists
 		if(m_AD_Rule_ID == 0){
 			ruleSQL.setAD_Org_ID(Env.getAD_Org_ID(getCtx()));
-			ruleSQL.setValue("SQL:Create_" + m_Table.getTableName());
+			ruleSQL.setValue("SQL:Create_" + p_SPS_Table.getTableName());
 			ruleSQL.setName(Msg.translate(getCtx(), "AD_Rule_ID") 
-					+ " Create Table " + m_Table.getName());
+					+ " Create Table " + p_SPS_Table.getName());
 			ruleSQL.setEventType(X_AD_Rule.EVENTTYPE_Process);
 			ruleSQL.setRuleType(X_AD_Rule.RULETYPE_SQL);
 			ruleSQL.setAccessLevel(X_AD_Rule.ACCESSLEVEL_SystemOnly);
-			ruleSQL.setEntityType("ECA01");
+			ruleSQL.setEntityType(p_EntityType);
 		}
-		ruleSQL.setScript(sqlCreate);
+		//	Just Tables
+		if(!p_SPS_Table.isView()) {
+			ruleSQL.setScript(sqlCreate);
+		}
 		ruleSQL.saveEx();
 		//	Set Rule on Sync Table
-		m_Table.setAD_Rule_ID(ruleSQL.getAD_Rule_ID());
-		m_Table.saveEx();
-		//	
+		p_SPS_Table.setAD_Rule_ID(ruleSQL.getAD_Rule_ID());
+		p_SPS_Table.saveEx();
+		//	Return
 		return sqlCreate;
 	}
 
