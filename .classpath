@@ -346,5 +346,6 @@
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar"/>
+	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/spinsuite.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

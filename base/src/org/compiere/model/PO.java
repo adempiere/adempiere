@@ -56,6 +56,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.SecureEngine;
 import org.compiere.util.Trace;
 import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.compiere.util.ValueNamePair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -3488,7 +3489,31 @@ public abstract class PO
 	 *  Insert id data into Tree FR[ 9223372036854775807 ]
 	 *	@return true if inserted
 	 */
-	private boolean insertTreeNode()
+	public boolean insertTreeNode()
+	{
+		int AD_Table_ID = get_Table_ID();
+		if (!MTree.hasTree(AD_Table_ID))
+			return false;
+		int p_Record_ID = get_ID();
+
+		int p_AD_Tree_ID = MTree.getDefaultAD_Tree_ID(getAD_Client_ID(), get_Table_ID());
+		MTree tree =new MTree(getCtx(), p_AD_Tree_ID, get_TrxName());
+		int no = 0;
+		if(MTree.addNode(getCtx(), p_Record_ID, tree, get_TrxName()))
+    		no++;
+
+		if (no > 0)
+			log.fine("#" + no + " - AD_Table_ID=" + AD_Table_ID);
+		else
+			log.warning("#" + no + " - AD_Table_ID=" + AD_Table_ID);
+		return no > 0;
+	}	//	insert_Tree
+
+	/**************************************************************************
+	 *  Insert id data into Tree FR[ 9223372036854775807 ]
+	 *	@return true if inserted
+	 */
+	private boolean insertTreeNode2()
 	{
 		int AD_Table_ID = get_Table_ID();
 		if (!MTree.hasTree(AD_Table_ID))

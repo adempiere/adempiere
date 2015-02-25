@@ -21,6 +21,7 @@ import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.lang.Objects;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -93,6 +94,9 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo, boolean editable, String whereClause, String trxName) { 
 		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, editable, true, whereClause, trxName);
 		MTreeNode root = vTree.getRoot();
+		//  Raul Muñoz 20/02/2015, 14:36
+		//  translate name of menu.
+		root.setName(Msg.getMsg(Env.getCtx(), vTree.getName() ));
 		SimpleTreeModel treeModel = SimpleTreeModel.createFrom(root);
 		treeModel.setItemDraggable(true);
 		treeModel.addOnDropEventListener(new ADTreeOnDropListener(tree, treeModel, vTree, windowNo));

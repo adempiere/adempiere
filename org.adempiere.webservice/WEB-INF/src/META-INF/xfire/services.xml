@@ -41,5 +41,14 @@
 	<style>rpc</style>
   </service>
 
+ <service>
+  <name>SpinSuiteService</name>
+   <namespace>http://www.erpcya.com</namespace>
+    <serviceClass>org.spinsuite.service.SpinSuiteService</serviceClass>
+    <implementationClass>org.spinsuite.service.SpinSuiteServiceImpl</implementationClass>
+    <serviceFactory>org.codehaus.xfire.xmlbeans.XmlBeansServiceFactory</serviceFactory>
+	<scope>request</scope>
+	<style>rpc</style>
+  </service>
 </beans>
 <!-- END SNIPPET: services -->
