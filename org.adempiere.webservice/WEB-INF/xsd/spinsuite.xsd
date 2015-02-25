@@ -1,0 +1,57 @@
+<xsd:schema targetNamespace="http://www.erpcya.com/" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.erpcya.com/" xmlns:wsdl="wsdl">
+
+  <!-- Call Web Service --> 
+  <xsd:element name="ILCall" type="tns:Login"/>
+  <!-- Response Of Web Service -->
+  <xsd:element name="ILResponse" type="tns:Response"/>
+
+  	 <!-- Login Adempiere -->
+     <xsd:complexType name="Login">
+  	 	<xsd:sequence>
+  	  		<xsd:element name="User" type="xsd:string"/>
+  	  		<xsd:element name="PassWord" type="xsd:string"/>
+  	  		<xsd:element name="serviceDefinition" type="xsd:string"/>
+  	  		<xsd:element name="serviceMethod" type="xsd:string"/>
+  	  		<xsd:element name="serviceType" type="xsd:string"/>
+  	  		<xsd:element name="Page" type="xsd:int"/>
+  	  		<xsd:element name="Lang" type="xsd:string"/>
+  	  		<xsd:element name="WSNumber" type="xsd:int"/>
+  	  		
+	 	</xsd:sequence>
+     </xsd:complexType>
+
+     <!-- Response Web Service -->
+     <xsd:complexType name="Response">
+   	 	<xsd:sequence>
+   			<xsd:element name="Query" type="tns:Query" minOccurs="0" maxOccurs="unbounded"/>
+   			<xsd:element name="Pages" type="xsd:int"/>
+   			<xsd:element name="WSCount" type="xsd:int"/>
+			<xsd:element name="Error" type="xsd:string"/>
+     	</xsd:sequence>
+     </xsd:complexType>
+
+     <!-- SQL Structure  -->
+     <xsd:complexType name="Query">
+  	 	<xsd:sequence>
+	  		<xsd:element name="Name" type="xsd:string"/>
+  	  		<xsd:element name="SQL" type="xsd:string"/>
+  	  		<xsd:element name="DataRow" type="tns:DataRow" minOccurs="0" maxOccurs="unbounded"/>
+  	  		
+	 	</xsd:sequence>
+     </xsd:complexType>
+
+     <!-- DataRow  -->
+     <xsd:complexType name="DataRow">
+  	 	<xsd:sequence>
+	  		<xsd:element name="Values" type="tns:Values" minOccurs="0" maxOccurs="unbounded"/>
+	 	</xsd:sequence>
+     </xsd:complexType>
+
+     <!-- Values  -->
+     <xsd:complexType name="Values">
+  	 	<xsd:sequence>
+	  		<xsd:element name="Value" type="xsd:string"/>
+	 	</xsd:sequence>
+     </xsd:complexType>
+
+</xsd:schema>
