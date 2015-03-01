@@ -18,7 +18,6 @@ package org.compiere.util;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.security.AlgorithmParameters;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -151,14 +150,11 @@ public class Secure implements SecureInterface
 		Cipher cc = null;
 		try
 		{
-			// XXX should not be hardcoded
-			//cc = Cipher.getInstance("DES/ECB/PKCS5Padding");
-			cc = Cipher.getInstance("AES/ECB/PKCS5Padding ");
+			cc = Cipher.getInstance("DES/ECB/PKCS5Padding");
 			//	Key
-			if (cc != null)
+			if (false)
 			{
-				KeyGenerator keygen = KeyGenerator.getInstance("AES");
-				keygen.init(128);
+				KeyGenerator keygen = KeyGenerator.getInstance("DES");
 				m_key = keygen.generateKey();
 				byte[] key = m_key.getEncoded();
 				StringBuffer sb = new StringBuffer ("Key ")
@@ -170,7 +166,7 @@ public class Secure implements SecureInterface
 			}
 			else
 				m_key = new javax.crypto.spec.SecretKeySpec
-					(new BigInteger("h7SN-9$LztnbWc3!Q!+A&JfK9h=3IycXUJ7&)4PHL-5uOQB*MRbM3kWtFfpq4Ju@",64).toByteArray(), "RSA");
+					(new byte[] {100,25,28,-122,-26,94,-3,-26}, "DES");
 		}
 		catch (Exception ex)
 		{
