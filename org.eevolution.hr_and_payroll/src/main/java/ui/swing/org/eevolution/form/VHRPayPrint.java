@@ -16,20 +16,6 @@
  *****************************************************************************/
 package org.eevolution.form;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.logging.Level;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-
 import org.compiere.apps.ADialog;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.form.FormFrame;
@@ -49,6 +35,20 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.model.MHRPaySelectionCheck;
+import org.eevolution.util.HRPaymentExport;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  *  Payment Print & Export
@@ -85,7 +85,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 
 	
 	/**	FormFrame			*/
-	private FormFrame 		m_frame;
+	private FormFrame m_frame;
 	
 	//  Static Variables
 	private CPanel centerPanel = new CPanel();
@@ -154,33 +154,33 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 		southPanel.add(bProcess, null);
 		//
 		centerPanel.add(lPaySelect,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(12, 12, 5, 5), 0, 0));
+			, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(12, 12, 5, 5), 0, 0));
 		centerPanel.add(fPaySelect,    new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(12, 0, 5, 12), 0, 0));
+			, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(12, 0, 5, 12), 0, 0));
 		centerPanel.add(lBank,   new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
+			, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
 		centerPanel.add(fBank,    new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
+			, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
 		centerPanel.add(lPaymentRule,   new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
+			, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
 		centerPanel.add(fPaymentRule,    new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
+			, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
 		centerPanel.add(lDocumentNo,   new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
+			, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
 		centerPanel.add(fDocumentNo,    new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
+			, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
 		centerPanel.add(lNoPayments,   new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
+			, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
 		centerPanel.add(fNoPayments,    new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
+			, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
 		centerPanel.add(lBalance,    new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
+			, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
 		centerPanel.add(fBalance,    new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
+			, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
 		centerPanel.add(lCurrency,  new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 12, 5), 0, 0));
+			, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 12, 5), 0, 0));
 		centerPanel.add(fCurrency,   new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 12, 12), 0, 0));
+			, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 12, 12), 0, 0));
 	}   //  VPayPrint
 
 	/**
@@ -213,7 +213,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 
 	/**
 	 * 	Set Payment Selection
-	 *	@param C_PaySelection_ID id
+	 *	@param HR_PaySelection_ID id
 	 */
 	public void setPaySelection (int HR_PaySelection_ID)
 	{
@@ -324,40 +324,75 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 			ADialog.error(m_WindowNo, panel, msg);
 	}   //  loadPaymentRuleInfo
 
+    /**************************************************************************
+     *  Export payments to file
+     */
+    private void cmd_export()
+    {
+        String PaymentRule = ((ValueNamePair)fPaymentRule.getSelectedItem()).getValue();
+        log.info(PaymentRule);
+        if (!getChecks(PaymentRule))
+            return;
 
-	/**************************************************************************
-	 *  Export payments to file
-	 */
-	private void cmd_export()
-	{
-		String PaymentRule = ((ValueNamePair)fPaymentRule.getSelectedItem()).getValue();
-		log.info(PaymentRule);
-		if (!getChecks(PaymentRule))
-			return;
 
-		//  Get File Info
-		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle(Msg.getMsg(Env.getCtx(), "Export"));
-		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		fc.setMultiSelectionEnabled(false);
-		fc.setSelectedFile(new java.io.File("paymentExport.txt"));
-		if (fc.showSaveDialog(panel) != JFileChooser.APPROVE_OPTION)
-			return;
+        try
+        {
+            JFileChooser fc = new JFileChooser();
+            fc.setDialogTitle(Msg.getMsg(Env.getCtx(), "Export"));
+            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fc.setMultiSelectionEnabled(false);
+            fc.setSelectedFile(new java.io.File("paymentExport.txt"));
+            if (fc.showSaveDialog(panel) != JFileChooser.APPROVE_OPTION)
+                return;
 
-		//  Create File
-		int no = MHRPaySelectionCheck.exportToFile(m_checks, fc.getSelectedFile());
-		ADialog.info(m_WindowNo, panel, "Saved",
-			fc.getSelectedFile().getAbsolutePath() + "\n"
-			+ Msg.getMsg(Env.getCtx(), "NoOfLines") + "=" + no);
 
-		if (ADialog.ask(m_WindowNo, panel, "VPayPrintSuccess?"))
-		{
-		//	int lastDocumentNo = 
-			MHRPaySelectionCheck.confirmPrint (m_checks, m_batch);
-			//	document No not updated
-		}
-		dispose();
-	}   //  cmd_export
+            //  Create File
+            int no = 0;
+            StringBuffer err = new StringBuffer("");
+            if (m_PaymentExportClass == null || m_PaymentExportClass.trim().length() == 0) {
+                m_PaymentExportClass = "org.eevolution.util.HRGenericPaymentExport";
+            }
+            //	Get Payment Export Class
+            HRPaymentExport custom = null;
+            try
+            {
+                Class<?> clazz = Class.forName(m_PaymentExportClass);
+                custom = (HRPaymentExport)clazz.newInstance();
+                no = custom.exportToFile(m_checks, fc.getSelectedFile(), err);
+            }
+            catch (ClassNotFoundException e)
+            {
+                no = -1;
+                err.append("No custom PaymentExport class " + m_PaymentExportClass + " - " + e.toString());
+                log.log(Level.SEVERE, err.toString(), e);
+            }
+            catch (Exception e)
+            {
+                no = -1;
+                err.append("Error in " + m_PaymentExportClass + " check log, " + e.toString());
+                log.log(Level.SEVERE, err.toString(), e);
+            }
+            if (no >= 0) {
+                //Filedownload.save(new FileInputStream(fc.getSelectedFile()), "plain/text", "paymentExport.txt");
+                ADialog.info(m_WindowNo, panel, "Saved",
+                        Msg.getMsg(Env.getCtx(), "NoOfLines") + "=" + no);
+
+                if (ADialog.ask(m_WindowNo, panel, "VPayPrintSuccess?"))
+                {
+                    //	int lastDocumentNo =
+                    MHRPaySelectionCheck.confirmPrint(m_checks, m_batch);
+                    //	document No not updated
+                }
+            } else {
+                ADialog.error(m_WindowNo, panel, "Error", err.toString());
+            }
+            dispose();
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+        }
+    }   //  cmd_export
 
 	/**
 	 *  Create EFT payment
@@ -389,7 +424,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 		for (MHRPaySelectionCheck check : m_checks)
 		{
 			//	ReportCtrl will check BankAccountDoc for PrintFormat
-			boolean ok = ReportCtl.startDocumentPrint(10, check.get_ID(), null, Env.getWindowNo(panel), directPrint);
+			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.HR_CHECK, check.get_ID(), null, Env.getWindowNo(panel), directPrint);
 			if (!somethingPrinted && ok)
 				somethingPrinted = true;
 		}
@@ -397,7 +432,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 		//	Confirm Print and Update BankAccountDoc
 		if (somethingPrinted && ADialog.ask(m_WindowNo, panel, "VPayPrintSuccess?"))
 		{
-			int lastDocumentNo = MHRPaySelectionCheck.confirmPrint (m_checks, m_batch);
+			int lastDocumentNo = MHRPaySelectionCheck.confirmPrint(m_checks, m_batch);
 			if (lastDocumentNo != 0)
 			{
 				StringBuffer sb = new StringBuffer();
@@ -412,7 +447,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 		{
 			for (MHRPaySelectionCheck check : m_checks)
 			{
-				ReportCtl.startDocumentPrint(ReportEngine.REMITTANCE, check.get_ID(), null, Env.getWindowNo(panel), directPrint);
+				ReportCtl.startDocumentPrint(ReportEngine.HR_REMITTANCE, check.get_ID(), null, Env.getWindowNo(panel), directPrint);
 			}
 		}	//	remittance
 
@@ -433,7 +468,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 			|| fPaymentRule.getSelectedIndex() == -1 || fDocumentNo.getValue() == null)
 		{
 			ADialog.error(m_WindowNo, panel, "VPayPrintNoRecords",
-				"(" + Msg.translate(Env.getCtx(), "HR_PaySelectionLine_ID") + "=0)");
+                    "(" + Msg.translate(Env.getCtx(), "HR_PaySelectionLine_ID") + "=0)");
 			return false;
 		}
 
@@ -453,7 +488,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 		if (m_checks == null || m_checks.size() == 0)
 		{
 			ADialog.error(m_WindowNo, panel, "VPayPrintNoRecords",
-				"(" + Msg.translate(Env.getCtx(), "HR_PaySelectionLine_ID") + " #0");
+                    "(" + Msg.translate(Env.getCtx(), "HR_PaySelectionLine_ID") + " #0");
 			return false;
 		}
 

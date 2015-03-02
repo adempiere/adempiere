@@ -32,7 +32,7 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_I_Budget (Properties ctx, int I_Budget_ID, String trxName)

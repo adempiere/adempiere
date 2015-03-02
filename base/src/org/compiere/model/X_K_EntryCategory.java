@@ -30,7 +30,7 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_K_EntryCategory (Properties ctx, int K_EntryCategory_ID, String trxName)

@@ -32,7 +32,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_TaxDeclarationLine (Properties ctx, int C_TaxDeclarationLine_ID, String trxName)

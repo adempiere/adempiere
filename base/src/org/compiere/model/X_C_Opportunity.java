@@ -33,7 +33,7 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_Opportunity (Properties ctx, int C_Opportunity_ID, String trxName)

@@ -29,7 +29,7 @@ public class X_M_Warehouse_Acct extends PO implements I_M_Warehouse_Acct, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_M_Warehouse_Acct (Properties ctx, int M_Warehouse_Acct_ID, String trxName)

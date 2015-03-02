@@ -120,6 +120,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		setPP_Order_ID(PP_Order_ID);
 		//
 		setValue(workflow.getValue());
+		setDocumentNo(workflow.getDocumentNo());
 		setWorkflowType(workflow.getWorkflowType());
 		setQtyBatchSize(workflow.getQtyBatchSize());
 		setName(workflow.getName());

@@ -32,7 +32,7 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_CommissionDetail (Properties ctx, int C_CommissionDetail_ID, String trxName)

@@ -77,7 +77,8 @@ public class MColumn extends X_AD_Column
 		if(element.getAD_Reference_ID() == DisplayType.ID)
 		{
 			String columnName = table.get_TableName()+"_ID";
-			if(!columnName.equals(element.getColumnName()) )
+            String tableDir = column.getColumnName().replace("_ID", "");
+			if(!columnName.equals(element.getColumnName()) && MTable.getTable_ID(tableDir) > 0)
 			{
 				column.setAD_Reference_ID(DisplayType.TableDir);
 			}

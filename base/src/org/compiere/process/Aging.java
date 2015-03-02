@@ -223,13 +223,15 @@ public class Aging extends SvrProcess
 						aging.saveEx();
 						log.fine("#" + ++counter + " - " + aging);
 					}
-					aging = new MAging (getCtx(), AD_PInstance_ID, p_StatementDate, 
+					aging = new MAging (getCtx(), AD_PInstance_ID, p_StatementDate,
 						C_BPartner_ID, C_Currency_ID, 
 						C_Invoice_ID, C_InvoicePaySchedule_ID, 
 						C_BP_Group_ID, AD_Org_ID, DueDate, IsSOTrx, get_TrxName());
 					aging.setC_Activity_ID(C_Activity_ID);
 					aging.setC_Campaign_ID(C_Campaign_ID);
 					aging.setC_Project_ID(C_Project_ID);
+                    aging.set_ValueOfColumn("C_BankAccount_ID", 0);
+                    aging.set_ValueOfColumn("C_CashFlow_ID", 0);
 					aging.setDateAcct(p_DateAcct);
 				}
 				//	Fill Buckets

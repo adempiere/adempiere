@@ -29,7 +29,7 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_M_LotCtlExclude (Properties ctx, int M_LotCtlExclude_ID, String trxName)

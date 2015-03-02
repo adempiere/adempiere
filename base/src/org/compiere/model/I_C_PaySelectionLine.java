@@ -62,6 +62,21 @@ public interface I_C_PaySelectionLine
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_InvoicePaySchedule_ID */
+    public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
+
+	/** Set Invoice Payment Schedule.
+	  * Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID);
+
+	/** Get Invoice Payment Schedule.
+	  * Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID();
+
+	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
+
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 

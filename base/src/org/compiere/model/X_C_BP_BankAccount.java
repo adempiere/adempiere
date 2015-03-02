@@ -30,7 +30,7 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_BP_BankAccount (Properties ctx, int C_BP_BankAccount_ID, String trxName)

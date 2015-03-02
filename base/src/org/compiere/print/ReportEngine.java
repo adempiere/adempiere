@@ -1095,6 +1095,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				whereClause = rs.getString(2);
 				if (rs.wasNull())
 					whereClause = "";
+
+				whereClause = Env.parseContext(ctx, 0, whereClause, false);
 				//
 				AD_Table_ID = rs.getInt(3);
 				TableName = rs.getString(4);			//	required for query
@@ -1233,6 +1235,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	/** Payroll Check = 10  */
 	public static final int		HR_CHECK = 10;	
 
+    public static final int     HR_REMITTANCE = 11;
+
+
 	//	private static final String[]	DOC_TABLES = new String[] {
 	//		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
 	//		"C_RfQResponse_v",
@@ -1242,17 +1247,17 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		"C_Order", "M_InOut", "C_Invoice", "C_Project",
 		"C_RfQResponse",
 		"C_PaySelectionCheck", "C_PaySelectionCheck", 
-		"C_DunningRunEntry","PP_Order", "DD_Order","HR_PaySelectionCheck"};
+		"C_DunningRunEntry","PP_Order", "DD_Order", "HR_PaySelectionCheck","HR_PaySelectionCheck"};
 	private static final String[]	DOC_IDS = new String[] {
 		"C_Order_ID", "M_InOut_ID", "C_Invoice_ID", "C_Project_ID",
 		"C_RfQResponse_ID",
 		"C_PaySelectionCheck_ID", "C_PaySelectionCheck_ID", 
-		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID","HR_PaySelectionCheck_ID" };
+		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" , "HR_PaySelectionCheck_ID", "HR_PaySelectionCheck" };
 	private static final int[]	DOC_TABLE_ID = new int[] {
 		MOrder.Table_ID, MInOut.Table_ID, MInvoice.Table_ID, MProject.Table_ID,
 		MRfQResponse.Table_ID,
 		MPaySelectionCheck.Table_ID, MPaySelectionCheck.Table_ID, 
-		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID, X_HR_PaySelectionCheck.Table_ID };
+		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID , X_HR_PaySelectionCheck.Table_ID ,  X_HR_PaySelectionCheck.Table_ID };
 
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.
@@ -1312,6 +1317,15 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
 				+ " INNER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID) "
 				+ "WHERE d.C_PaySelectionCheck_ID=?";		//	info from BankAccount
+        else if (type == HR_CHECK)
+            sql = "SELECT bad.Check_PrintFormat_ID,"								//	1
+                    + "	c.IsMultiLingualDocument,bp.AD_Language,bp.C_BPartner_ID,d.DocumentNo "		//	2..5
+                    + "FROM HR_PaySelectionCheck d"
+                    + " INNER JOIN HR_PaySelection ps ON (d.HR_PaySelection_ID=ps.HR_PaySelection_ID)"
+                    + " INNER JOIN C_BankAccountDoc bad ON (ps.C_BankAccount_ID=bad.C_BankAccount_ID AND d.PaymentRule=bad.PaymentRule)"
+                    + " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
+                    + " INNER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID) "
+                    + "WHERE d.HR_PaySelectionCheck_ID=?";		//	info from BankAccount
 		else if (type == DUNNING)
 			sql = "SELECT dl.Dunning_PrintFormat_ID,"
 				+ " c.IsMultiLingualDocument,bp.AD_Language,bp.C_BPartner_ID,dr.DunningDate "
@@ -1330,6 +1344,15 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " INNER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID) "
 				+ "WHERE d.C_PaySelectionCheck_ID=?"		//	info from PrintForm
 				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) ORDER BY pf.AD_Org_ID DESC";
+        else if (type == HR_REMITTANCE)
+            sql = "SELECT pf.Remittance_PrintFormat_ID,"
+                    + " c.IsMultiLingualDocument,bp.AD_Language,bp.C_BPartner_ID,d.DocumentNo "
+                    + "FROM HR_PaySelectionCheck d"
+                    + " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
+                    + " INNER JOIN AD_PrintForm pf ON (c.AD_Client_ID=pf.AD_Client_ID)"
+                    + " INNER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID) "
+                    + "WHERE d.HR_PaySelectionCheck_ID=?"		//	info from PrintForm
+                    + " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) ORDER BY pf.AD_Org_ID DESC";
 		else if (type == PROJECT)
 			sql = "SELECT pf.Project_PrintFormat_ID,"
 				+ " c.IsMultiLingualDocument,bp.AD_Language,bp.C_BPartner_ID,d.Value "
@@ -1388,17 +1411,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ "WHERE d." + DOC_IDS[type] + "=?"			//	info from PrintForm
 				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) "
 				+ "ORDER BY pf.AD_Org_ID DESC";
-		else if (type == HR_CHECK)
-		{
-			sql = " SELECT bad.Check_PrintFormat_ID,"								//	1
-				+ "	c.IsMultiLingualDocument,bp.AD_Language,bp.C_BPartner_ID,d.DocumentNo "		//	2..5
-				+ "FROM HR_PaySelectionCheck d"
-				+ " INNER JOIN HR_PaySelection ps ON (d.HR_PaySelection_ID=ps.HR_PaySelection_ID)"
-				+ " INNER JOIN C_BankAccountDoc bad ON (ps.C_BankAccount_ID=bad.C_BankAccount_ID AND d.PaymentRule=bad.PaymentRule)"
-				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
-				+ " INNER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID) "
-				+ "WHERE d.HR_PaySelectionCheck_ID=?";		//	info from BankAccount
-		}
 		else	//	Get PrintFormat from Org or 0 of document client
 			sql = "SELECT pf.Order_PrintFormat_ID,pf.Shipment_PrintFormat_ID,"		//	1..2
 				//	Prio: 1. BPartner 2. DocType, 3. PrintFormat (Org)	//	see InvoicePrint
@@ -1426,9 +1438,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			rs = pstmt.executeQuery();
 			if (rs.next())	//	first record only
 			{
-				if (type == CHECK || type == DUNNING || type == REMITTANCE 
-				||  type == PROJECT || type == RFQ || type == MANUFACTURING_ORDER 
-				||  type == DISTRIBUTION_ORDER || type == HR_CHECK)
+				if (type == CHECK || type == HR_CHECK|| type == DUNNING || type == REMITTANCE || type == HR_REMITTANCE
+				||  type == PROJECT || type == RFQ || type == MANUFACTURING_ORDER || type == DISTRIBUTION_ORDER)
 				{
 					AD_PrintFormat_ID = rs.getInt(1);
 					copies = 1;

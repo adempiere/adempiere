@@ -564,7 +564,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		else if (isCostCollectorType(COSTCOLLECTORTYPE_UsegeVariance) && getPP_Order_BOMLine_ID() > 0)
 		{
 			MPPOrderBOMLine orderBOMLine = getPP_Order_BOMLine();
-			orderBOMLine.setQtyDelivered(orderBOMLine.getQtyDelivered().add(getMovementQty()));
 			orderBOMLine.setQtyScrap(orderBOMLine.getQtyScrap().add(getScrappedQty()));
 			orderBOMLine.setQtyReject(orderBOMLine.getQtyReject().add(getQtyReject()));
 			//orderBOMLine.setDateDelivered(getMovementDate());	//	overwrite=last

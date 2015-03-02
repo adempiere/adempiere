@@ -343,7 +343,10 @@ public class CostEngine {
 				}
 			} else if (MCostElement.COSTELEMENTTYPE_Material.equals(costElement
 					.getCostElementType())) {
-				costThisLevel = model.getPriceActual();
+				if (model.getPriceActual().signum() != 0)
+					costThisLevel = model.getPriceActual();
+				//else of cost should only be take from source document in this case purchase order
+                //    costThisLevel = cost.getCurrentCostPrice();
 			}
 		}
 
@@ -373,7 +376,7 @@ public class CostEngine {
 						costThisLevel = getSeedCost(
                                 transaction.getCtx(),
                                 transaction.getM_Product_ID(),
-                                transaction.get_TableName());
+                                transaction.get_TrxName());
 						
 				// Material Receipt for Production light
 				if (productionLine.isParent()) {
@@ -388,6 +391,23 @@ public class CostEngine {
 					costLowLevel= Env.ZERO;
 			}
 		}
+        else if (MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod())){
+            costThisLevel = cost.getCurrentCostPrice();
+            costLowLevel = cost.getCurrentCostPriceLL();
+            if (costThisLevel.signum() == 0
+            &&  MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+                costThisLevel = getSeedCost(transaction.getCtx(), transaction.getM_Product_ID(), transaction.get_TrxName());
+                if (costThisLevel.signum() == 0)
+                    if (model instanceof  MInOutLine && !model.isSOTrx()) {
+                        MInOutLine inOutLine = (MInOutLine) model;
+                        costThisLevel = inOutLine.getC_OrderLine().getPriceActual();
+                    }
+                if (costThisLevel.signum() != 0) {
+                    cost.setCurrentCostPrice(costThisLevel);
+                    cost.saveEx();
+                }
+            }
+        }
 
 		final ICostingMethod method = CostingMethodFactory.get()
 				.getCostingMethod(costType.getCostingMethod());

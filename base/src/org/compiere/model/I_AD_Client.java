@@ -258,6 +258,15 @@ public interface I_AD_Client
 	  */
 	public boolean isUseBetaFunctions();
 
+    /** Column name LDAPQuery */
+    public static final String COLUMNNAME_LDAPQuery = "LDAPQuery";
+
+	/** Set LDAP Query	  */
+	public void setLDAPQuery (String LDAPQuery);
+
+	/** Get LDAP Query	  */
+	public String getLDAPQuery();
+
     /** Column name MMPolicy */
     public static final String COLUMNNAME_MMPolicy = "MMPolicy";
 

@@ -30,7 +30,7 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_Attribute (Properties ctx, int AD_Attribute_ID, String trxName)

@@ -29,7 +29,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
@@ -276,6 +276,34 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	public int getM_Warehouse_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException
+    {
+		return (org.compiere.model.I_PA_Goal)MTable.get(getCtx(), org.compiere.model.I_PA_Goal.Table_Name)
+			.getPO(getPA_Goal_ID(), get_TrxName());	}
+
+	/** Set Goal.
+		@param PA_Goal_ID 
+		Performance Goal
+	  */
+	public void setPA_Goal_ID (int PA_Goal_ID)
+	{
+		if (PA_Goal_ID < 1) 
+			set_Value (COLUMNNAME_PA_Goal_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
+	}
+
+	/** Get Goal.
+		@return Performance Goal
+	  */
+	public int getPA_Goal_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Goal_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

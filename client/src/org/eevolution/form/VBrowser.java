@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
@@ -139,7 +138,6 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		m_frame.setTitle(browse.getTitle());
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 		windowNo = Env.createWindowNo(m_frame);
-		Env.clearWinContext(windowNo);
 		setContextWhere(browse, whereClause);		
 		initComponents();
 		statInit();
@@ -176,9 +174,8 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		int col = 2;
 		int row = 0;
 		for (MBrowseField field : m_Browse.getCriteriaFields()) {
-
-			String name = field.getAD_View_Column().getColumnName();
 			String title = field.getName();
+			String name = field.getAD_View_Column().getColumnName();
 			searchPanel.addField(field, row, cols, name, title);
 			cols = cols + col;
 
@@ -199,8 +196,9 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 					m_Browse.getAD_Process_ID());
 			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+			pi.setWindowNo(getWindowNo());
 			setBrowseProcessInfo(pi);
-			parameterPanel = new ProcessParameterPanel(windowNo, getBrowseProcessInfo());
+			parameterPanel = new ProcessParameterPanel(pi.getWindowNo() , pi);
 			parameterPanel.setMode(ProcessParameterPanel.MODE_HORIZONTAL);
 			parameterPanel.init();
 			processPanel.add(parameterPanel, BorderLayout.CENTER);
@@ -278,15 +276,18 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 	protected void executeQuery() {
 
 		if (evaluateMandatoryFilter()) {
-			bZoom.setEnabled(true);
+			if (getAD_Window_ID() > 1)
+				bZoom.setEnabled(true);
+
 			bSelectAll.setEnabled(true);
 			bExport.setEnabled(true);
+
 			if (isDeleteable())
 				bDelete.setEnabled(true);
 
-			p_loadedOK = initBrowser();
 			collapsibleSearch.setCollapsed(isCollapsibleByDefault());
-			//p_loadedOK = initBrowser();
+
+			p_loadedOK = initBrowser();
 
 			Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
 			if (parameterPanel != null)
@@ -332,6 +333,7 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		}	
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		bDelete.setSelected(false);
+		executeQuery();;
 		
 	}//cmd_deleteSelection
 
@@ -350,7 +352,6 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		// Table Selection (Invoked before setting column class so that row
 		// selection is enabled)
 		detail.setRowSelectionAllowed(true);
-		// detail.addMouseListener(this);
 		detail.setMultiSelection(p_multiSelection);
 		detail.setShowTotals(m_Browse.isShowTotal());
 
@@ -418,54 +419,6 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 	} // saveSelection
 
 	/**
-	 * Save Selection Details To be overwritten by concrete classes
-	 */
-	protected void saveSelectionDetail() {
-	}
-
-	/**
-	 * Get the keys of selected row/s based on layout defined in prepareTable
-	 * 
-	 * @return IDs if selection present
-	 */
-	public ArrayList<Integer> getSelectedRowKeys() {
-		ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
-
-		if (m_keyColumnIndex == -1) {
-			return selectedDataList;
-		}
-
-		if (p_multiSelection) {
-			int rows = detail.getRowCount();
-			for (int row = 0; row < rows; row++) {
-				Object data = detail.getModel().getValueAt(row,
-						m_keyColumnIndex);
-				if (data instanceof IDColumn) {
-					IDColumn dataColumn = (IDColumn) data;
-					if (dataColumn.isSelected()) {
-						selectedDataList.add(dataColumn.getRecord_ID());
-					}
-				}
-			}
-		}
-
-		if (selectedDataList.size() == 0) {
-			int row = detail.getSelectedRow();
-			if (row != -1 && m_keyColumnIndex != -1) {
-				Object data = detail.getModel().getValueAt(row,
-						m_keyColumnIndex);
-				if (data instanceof IDColumn)
-					selectedDataList.add(((IDColumn) data).getRecord_ID());
-				if (data instanceof Integer)
-					selectedDataList.add((Integer) data);
-			}
-		}
-
-		return selectedDataList;
-	} // getSelectedRowKeys
-	
-	
-	/**
 	 * save result values
 	 */
 	protected void saveResultSelection() {
@@ -522,11 +475,46 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 	}
 
 	/**
-	 * Dispose and save Selection
-	 * 
-	 * @param ok
-	 *            OK pressed
+	 * Get the keys of selected row/s based on layout defined in prepareTable
+	 *
+	 * @return IDs if selection present
 	 */
+	public ArrayList<Integer> getSelectedRowKeys() {
+		ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
+
+		if (m_keyColumnIndex == -1) {
+			return selectedDataList;
+		}
+
+		if (p_multiSelection) {
+			int rows = detail.getRowCount();
+			for (int row = 0; row < rows; row++) {
+				Object data = detail.getModel().getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					if (dataColumn.isSelected()) {
+						selectedDataList.add(dataColumn.getRecord_ID());
+					}
+				}
+			}
+		}
+
+		if (selectedDataList.size() == 0) {
+			int row = detail.getSelectedRow();
+			if (row != -1 && m_keyColumnIndex != -1) {
+				Object data = detail.getModel().getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn)
+					selectedDataList.add(((IDColumn) data).getRecord_ID());
+				if (data instanceof Integer)
+					selectedDataList.add((Integer) data);
+			}
+		}
+
+		return selectedDataList;
+	}
+
 	public void dispose(boolean ok) {
 		log.config("OK=" + ok);
 		m_ok = ok;
@@ -542,13 +530,9 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		
 		saveResultSelection();
 		saveSelection();
-		
-		
+
 		m_frame.removeAll();
 		m_frame.dispose();
-
-		
-				
 		if (m_Browse.getAD_Process_ID() <= 0)
 			return;
 
@@ -561,22 +545,20 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		
 		ProcessInfo pi = getBrowseProcessInfo();
 		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		pi.setWindowNo(getWindowNo());
 		parameterPanel.saveParameters();
 		ProcessInfoUtil.setParameterFromDB(pi);
 		setBrowseProcessInfo(pi);
 		//Save Values Browse Field Update
 		createT_Selection_Browse(instance.getAD_PInstance_ID());
-		
-		// call process 
 		// Execute Process
-		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(m_frame),
-				getBrowseProcessInfo(), null);
+		ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
 		worker.start(); // complete tasks in unlockUI /
+        Env.clearWinContext(getWindowNo());
 	} // dispose
 
 	private void setupToolBar() {
-		AppsAction a = new AppsAction(ConfirmPanel.A_OK, null,
-				ConfirmPanel.A_OK);
+		AppsAction a = new AppsAction(ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
 		bOk = new javax.swing.JButton(a);
 		a = new AppsAction(ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
 		bCancel = new javax.swing.JButton(a);
@@ -591,7 +573,7 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		bDelete = new javax.swing.JButton(a);
 		a = new AppsAction("Find", null, "Find");
 		bFind = new javax.swing.JButton(a);
-		a = new AppsAction("SelectAll", null,Msg.getMsg(Env.getCtx(),"SelectAll"));
+		a = new AppsAction("SelectAll", null, Msg.getMsg(Env.getCtx(),"SelectAll"));
 		bSelectAll = new javax.swing.JButton(a);
 	}
 
@@ -637,42 +619,7 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 
 		bSelectAll.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				
-				int topIndex = detail.isShowTotals() ? 2 : 1;
-
-				ListSelectionModel selectionModel = detail
-						.getSelectionModel();
-				selectionModel.setSelectionInterval(0, detail.getRowCount()
-						- topIndex);
-				
-				int rows = detail.getRowCount();
-				TableModel model =  detail.getModel();
-				
-				if (!isAllSelected) {
-					
-					for (int row = 0; row <= rows - topIndex; row++) {
-						Object data = model.getValueAt(row,
-								m_keyColumnIndex);
-						if (data instanceof IDColumn) {
-							IDColumn dataColumn = (IDColumn) data;
-							dataColumn.setSelected(true);
-							model.setValueAt(dataColumn, row,m_keyColumnIndex);
-						}
-					}
-
-				} else {
-					for (int row = 0; row <= rows - topIndex; row++) {
-						Object data = model.getValueAt(row,
-								m_keyColumnIndex);
-						if (data instanceof IDColumn) {
-							IDColumn dataColumn = (IDColumn) data;
-							dataColumn.setSelected(false);
-							model.setValueAt(dataColumn, row, m_keyColumnIndex);
-						}
-					}
-					detail.clearSelection();
-				}
-				isAllSelected = !isAllSelected;
+				selectedRows();
 			}
 		});
 
@@ -813,6 +760,37 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		m_frame.getContentPane().add(tabsPanel, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
 
+	private void selectedRows()
+	{
+		int topIndex = detail.isShowTotals() ? 2 : 1;
+		int rows = detail.getRowCount();
+		TableModel model =  detail.getModel();
+
+		if (isAllSelected) {
+			for (int row = 0; row <= rows - topIndex; row++) {
+				Object data = model.getValueAt(row, m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					dataColumn.setSelected(true);
+					model.setValueAt(dataColumn, row,m_keyColumnIndex);
+				}
+			}
+
+		} else {
+			for (int row = 0; row <= rows - topIndex; row++) {
+				Object data = model.getValueAt(row, m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					dataColumn.setSelected(false);
+					model.setValueAt(dataColumn, row, m_keyColumnIndex);
+				}
+			}
+			detail.clearSelection();
+		}
+		isAllSelected = !isAllSelected;
+	}
+
+
 	private void bZoomActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bZoomActionPerformed
 		// TODO add your handling code here:
 		cmd_zoom();
@@ -844,6 +822,7 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 					null);
 			
 			ProcessInfo pi = getBrowseProcessInfo();
+			pi.setWindowNo(getWindowNo());
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 			// call process 
 			parameterPanel.saveParameters();
@@ -852,8 +831,7 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 			//Save Values Browse Field Update
 			createT_Selection_Browse(instance.getAD_PInstance_ID());
 			// Execute Process
-			ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(m_frame),
-					getBrowseProcessInfo() , null);
+			ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
 			m_waiting = new Waiting (m_frame, Msg.getMsg(Env.getCtx(), "Processing"), false, getBrowseProcessInfo().getEstSeconds());
 			worker.run(); // complete tasks in unlockUI /
 			m_waiting.doNotWait();
@@ -866,12 +844,31 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 	}
 
 	private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {
+		this.dispose();
+	}
+
+	/**
+	 *  Dispose
+	 */
+	public void dispose()
+	{
 		searchPanel.dispose();
 		m_frame.removeAll();
 		m_frame.dispose();
-	}
+	}   //  dis
 
 	private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bSearchActionPerformed
+		bZoom.setEnabled(true);
+		bSelectAll.setEnabled(true);
+		bExport.setEnabled(true);
+		bDelete.setEnabled(true);
+		collapsibleSearch.setCollapsed(!isCollapsibleByDefault());
+		p_loadedOK = initBrowser();
+		Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
+
+		if (m_Browse.getAD_Process_ID() > 0)
+			parameterPanel.refreshContext();
+
 		executeQuery();
 	}// GEN-LAST:event_bSearchActionPerformed
 
@@ -1044,6 +1041,8 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 				detail.getSelectionModel().setSelectionInterval(0, 0);
 				detail.requestFocus();
 			}
+			isAllSelected = isSelectedByDefault();
+			selectedRows();
 		} // run
 
 		/**
@@ -1231,6 +1230,10 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 					m_parameters.add(field.Help);
 					m_parameters_values.add(editor.getValue());
 					onRange = true;
+				}
+				else if (editor.getValue() == null
+						&& field.isRange) {
+					onRange = true;
 				} else
 					continue;
 			} else if (editor.getValue() != null
@@ -1246,8 +1249,8 @@ public class VBrowser extends Browser implements IBrowser, ActionListener,
 		}
 		m_whereClause = sql.toString();
 		return sql.toString();
-	}	
-	
+	}
+
 	public void setParameters() {
 		
 		m_parameters_values = new ArrayList<Object>();

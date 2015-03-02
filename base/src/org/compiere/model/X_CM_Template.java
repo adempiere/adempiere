@@ -30,7 +30,7 @@ public class X_CM_Template extends PO implements I_CM_Template, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_CM_Template (Properties ctx, int CM_Template_ID, String trxName)

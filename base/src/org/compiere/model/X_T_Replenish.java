@@ -31,7 +31,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_T_Replenish (Properties ctx, int T_Replenish_ID, String trxName)

@@ -352,6 +352,12 @@ public class AdempiereMonitor extends HttpServlet
 			fileHandler.flush();
 		
 		//	Spool File
+        ////prevent local file inclusion
+        if (!traceCmd.contains(Ini.getAdempiereHome()))
+        {
+        			log.warning ("Trying to access unauthorized system files");
+        	return false;
+        }
 		File file = new File (traceCmd);
 		if (!file.exists())
 		{

@@ -32,7 +32,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_PaySelectionLine (Properties ctx, int C_PaySelectionLine_ID, String trxName)
@@ -85,6 +85,34 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_InvoicePaySchedule)MTable.get(getCtx(), org.compiere.model.I_C_InvoicePaySchedule.Table_Name)
+			.getPO(getC_InvoicePaySchedule_ID(), get_TrxName());	}
+
+	/** Set Invoice Payment Schedule.
+		@param C_InvoicePaySchedule_ID 
+		Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
+	{
+		if (C_InvoicePaySchedule_ID < 1) 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
+	}
+
+	/** Get Invoice Payment Schedule.
+		@return Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoicePaySchedule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {

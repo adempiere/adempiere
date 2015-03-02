@@ -63,21 +63,6 @@ public interface I_WM_Definition
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
-
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
@@ -92,6 +77,21 @@ public interface I_WM_Definition
 	public int getC_BP_Group_ID();
 
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Classification */
     public static final String COLUMNNAME_Classification = "Classification";

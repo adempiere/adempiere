@@ -30,7 +30,7 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_WF_ActivityResult (Properties ctx, int AD_WF_ActivityResult_ID, String trxName)

@@ -30,7 +30,7 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_PrintLabelLine (Properties ctx, int AD_PrintLabelLine_ID, String trxName)

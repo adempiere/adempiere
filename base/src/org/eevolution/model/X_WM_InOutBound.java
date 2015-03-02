@@ -34,7 +34,7 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_WM_InOutBound (Properties ctx, int WM_InOutBound_ID, String trxName)
@@ -720,23 +720,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Pick Date.
-		@param PickDate 
-		Date/Time when picked for Shipment
-	  */
-	public void setPickDate (Timestamp PickDate)
-	{
-		set_Value (COLUMNNAME_PickDate, PickDate);
-	}
-
-	/** Get Pick Date.
-		@return Date/Time when picked for Shipment
-	  */
-	public Timestamp getPickDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_PickDate);
-	}
-
 	/** Set Order Reference.
 		@param POReference 
 		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
@@ -752,6 +735,23 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 	public String getPOReference () 
 	{
 		return (String)get_Value(COLUMNNAME_POReference);
+	}
+
+	/** Set Pick Date.
+		@param PickDate 
+		Date/Time when picked for Shipment
+	  */
+	public void setPickDate (Timestamp PickDate)
+	{
+		set_Value (COLUMNNAME_PickDate, PickDate);
+	}
+
+	/** Get Pick Date.
+		@return Date/Time when picked for Shipment
+	  */
+	public Timestamp getPickDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_PickDate);
 	}
 
 	/** PriorityRule AD_Reference_ID=154 */
@@ -991,26 +991,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 		return bd;
 	}
 
-	/** Set Weight.
-		@param Weight 
-		Weight of a product
-	  */
-	public void setWeight (BigDecimal Weight)
-	{
-		set_Value (COLUMNNAME_Weight, Weight);
-	}
-
-	/** Get Weight.
-		@return Weight of a product
-	  */
-	public BigDecimal getWeight () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Weight);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set In & Out Bound Order.
 		@param WM_InOutBound_ID In & Out Bound Order	  */
 	public void setWM_InOutBound_ID (int WM_InOutBound_ID)
@@ -1029,5 +1009,25 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Weight.
+		@param Weight 
+		Weight of a product
+	  */
+	public void setWeight (BigDecimal Weight)
+	{
+		set_Value (COLUMNNAME_Weight, Weight);
+	}
+
+	/** Get Weight.
+		@return Weight of a product
+	  */
+	public BigDecimal getWeight () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Weight);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 }

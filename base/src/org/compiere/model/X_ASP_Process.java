@@ -30,7 +30,7 @@ public class X_ASP_Process extends PO implements I_ASP_Process, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_ASP_Process (Properties ctx, int ASP_Process_ID, String trxName)

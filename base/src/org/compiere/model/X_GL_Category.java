@@ -30,7 +30,7 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_GL_Category (Properties ctx, int GL_Category_ID, String trxName)
@@ -117,6 +117,92 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** DocBaseType AD_Reference_ID=183 */
+	public static final int DOCBASETYPE_AD_Reference_ID=183;
+	/** GL Journal = GLJ */
+	public static final String DOCBASETYPE_GLJournal = "GLJ";
+	/** GL Document = GLD */
+	public static final String DOCBASETYPE_GLDocument = "GLD";
+	/** AP Invoice = API */
+	public static final String DOCBASETYPE_APInvoice = "API";
+	/** AP Payment = APP */
+	public static final String DOCBASETYPE_APPayment = "APP";
+	/** AR Invoice = ARI */
+	public static final String DOCBASETYPE_ARInvoice = "ARI";
+	/** AR Receipt = ARR */
+	public static final String DOCBASETYPE_ARReceipt = "ARR";
+	/** Sales Order = SOO */
+	public static final String DOCBASETYPE_SalesOrder = "SOO";
+	/** AR Pro Forma Invoice = ARF */
+	public static final String DOCBASETYPE_ARProFormaInvoice = "ARF";
+	/** Material Delivery = MMS */
+	public static final String DOCBASETYPE_MaterialDelivery = "MMS";
+	/** Material Receipt = MMR */
+	public static final String DOCBASETYPE_MaterialReceipt = "MMR";
+	/** Material Movement = MMM */
+	public static final String DOCBASETYPE_MaterialMovement = "MMM";
+	/** Purchase Order = POO */
+	public static final String DOCBASETYPE_PurchaseOrder = "POO";
+	/** Purchase Requisition = POR */
+	public static final String DOCBASETYPE_PurchaseRequisition = "POR";
+	/** Material Physical Inventory = MMI */
+	public static final String DOCBASETYPE_MaterialPhysicalInventory = "MMI";
+	/** AP Credit Memo = APC */
+	public static final String DOCBASETYPE_APCreditMemo = "APC";
+	/** AR Credit Memo = ARC */
+	public static final String DOCBASETYPE_ARCreditMemo = "ARC";
+	/** Bank Statement = CMB */
+	public static final String DOCBASETYPE_BankStatement = "CMB";
+	/** Cash Journal = CMC */
+	public static final String DOCBASETYPE_CashJournal = "CMC";
+	/** Payment Allocation = CMA */
+	public static final String DOCBASETYPE_PaymentAllocation = "CMA";
+	/** Material Production = MMP */
+	public static final String DOCBASETYPE_MaterialProduction = "MMP";
+	/** Match Invoice = MXI */
+	public static final String DOCBASETYPE_MatchInvoice = "MXI";
+	/** Match PO = MXP */
+	public static final String DOCBASETYPE_MatchPO = "MXP";
+	/** Project Issue = PJI */
+	public static final String DOCBASETYPE_ProjectIssue = "PJI";
+	/** Maintenance Order = MOF */
+	public static final String DOCBASETYPE_MaintenanceOrder = "MOF";
+	/** Manufacturing Order = MOP */
+	public static final String DOCBASETYPE_ManufacturingOrder = "MOP";
+	/** Quality Order = MQO */
+	public static final String DOCBASETYPE_QualityOrder = "MQO";
+	/** Payroll = HRP */
+	public static final String DOCBASETYPE_Payroll = "HRP";
+	/** Distribution Order = DOO */
+	public static final String DOCBASETYPE_DistributionOrder = "DOO";
+	/** Manufacturing Cost Collector = MCC */
+	public static final String DOCBASETYPE_ManufacturingCostCollector = "MCC";
+	/** Warehouse Management Order = WMO */
+	public static final String DOCBASETYPE_WarehouseManagementOrder = "WMO";
+	/** Fixed Assets Addition = FAA */
+	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
+	/** Fixed Assets Disposal = FAD */
+	public static final String DOCBASETYPE_FixedAssetsDisposal = "FAD";
+	/** Fixed Assets Depreciation = FDP */
+	public static final String DOCBASETYPE_FixedAssetsDepreciation = "FDP";
+	/** Set Document BaseType.
+		@param DocBaseType 
+		Logical type of document
+	  */
+	public void setDocBaseType (String DocBaseType)
+	{
+
+		set_Value (COLUMNNAME_DocBaseType, DocBaseType);
+	}
+
+	/** Get Document BaseType.
+		@return Logical type of document
+	  */
+	public String getDocBaseType () 
+	{
+		return (String)get_Value(COLUMNNAME_DocBaseType);
 	}
 
 	/** Set GL Category.

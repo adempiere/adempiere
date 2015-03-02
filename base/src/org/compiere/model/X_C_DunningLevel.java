@@ -32,7 +32,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_DunningLevel (Properties ctx, int C_DunningLevel_ID, String trxName)

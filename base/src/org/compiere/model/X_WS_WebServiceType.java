@@ -30,7 +30,7 @@ public class X_WS_WebServiceType extends PO implements I_WS_WebServiceType, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_WS_WebServiceType (Properties ctx, int WS_WebServiceType_ID, String trxName)

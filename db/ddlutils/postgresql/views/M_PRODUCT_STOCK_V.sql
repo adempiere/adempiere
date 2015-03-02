@@ -5,7 +5,7 @@ AS
 SELECT 
 ms.IsActive, ms.Created, ms.CreatedBy, ms.Updated, ms.UpdatedBy,
 mp.M_Product_ID, mp.VALUE, mp.help, (ms.qtyonhand - ms.qtyreserved) AS qtyavailable, ms.qtyonhand, 
-ms.qtyreserved, mp.description, mw.NAME AS warehouse, mw.m_warehouse_id, mw.ad_client_id, 
+ms.qtyreserved, ms.qtyordered , mp.description, mw.NAME AS warehouseName, mw.m_warehouse_id, mw.ad_client_id,
 mw.ad_org_id, mp.documentnote
 FROM M_STORAGE ms 
 JOIN M_PRODUCT mp ON ms.m_product_id = mp.m_product_id

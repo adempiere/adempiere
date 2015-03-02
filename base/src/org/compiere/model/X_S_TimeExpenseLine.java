@@ -33,7 +33,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_S_TimeExpenseLine (Properties ctx, int S_TimeExpenseLine_ID, String trxName)

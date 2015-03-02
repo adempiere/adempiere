@@ -33,7 +33,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_InvoiceLine (Properties ctx, int C_InvoiceLine_ID, String trxName)

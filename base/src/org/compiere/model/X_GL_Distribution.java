@@ -32,7 +32,7 @@ public class X_GL_Distribution extends PO implements I_GL_Distribution, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_GL_Distribution (Properties ctx, int GL_Distribution_ID, String trxName)

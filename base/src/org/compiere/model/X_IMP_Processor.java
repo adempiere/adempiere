@@ -30,7 +30,7 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_IMP_Processor (Properties ctx, int IMP_Processor_ID, String trxName)

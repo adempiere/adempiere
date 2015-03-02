@@ -62,6 +62,15 @@ public interface I_C_AllocationLine
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AllocationNo */
+    public static final String COLUMNNAME_AllocationNo = "AllocationNo";
+
+	/** Set Allocation No	  */
+	public void setAllocationNo (int AllocationNo);
+
+	/** Get Allocation No	  */
+	public int getAllocationNo();
+
     /** Column name Amount */
     public static final String COLUMNNAME_Amount = "Amount";
 

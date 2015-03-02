@@ -149,6 +149,7 @@ public class MSetup
 		m_client.setValue(m_clientName);
 		m_client.setName(m_clientName);
 		m_client.setIsUseBetaFunctions(false);
+        m_client.setIsCostImmediate(true);
 		m_client.setAutoArchive(MClient.AUTOARCHIVE_ExternalDocuments);
 		
 		MCountry country = MCountry.get(m_ctx, Country_ID);

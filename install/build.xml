@@ -273,6 +273,15 @@
   		<fileset dir="../glassfishfacet/config"/>
   	</copy>
 
+  <chmod perm="755">
+      <fileset dir="${build.dir}/Adempiere/">
+          <include name="*.sh"/>
+          <include name="utils/*.sh"/>
+          <include name="utils/**/*.sh"/>
+          <include name="jboss/bin/*.sh"/>
+      </fileset>
+  </chmod>
+
 
 	<!-- Create Install ZIP		-->
 	<zip zipfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip"
