@@ -398,7 +398,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 					value = null;
 
 				if (value == null && column.isMandatory() && column.getDefaultValue() != null)
-					value = column.getDefaultValue();
+					value = Env.parseVariable(column.getDefaultValue() ,  po, po.get_TrxName(), false);
 
 				// backup existing value
 				if ( !po.is_new() )
@@ -411,12 +411,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 					data.saveEx(get_TrxName());
 				}
-
 				// apply new values
 				if ( getAction().equals(ACTION_Insert) || getAction().equals(ACTION_Update) )
-				{
 						po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
-				}
+
 			}
 
 

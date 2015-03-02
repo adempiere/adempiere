@@ -30,7 +30,7 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_CM_Chat (Properties ctx, int CM_Chat_ID, String trxName)

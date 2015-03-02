@@ -42,14 +42,15 @@ public class FDialog
     private static final CLogger logger = CLogger.getCLogger(FDialog.class);
     
     /**
-     * Construct a message from the AD_Message and the additional message
+     * Construct a message from the AD_Message and the additional message replacing carriage 
+     * returns with html line breaks
      *
      * @param adMessage	AD_Message string
      * @param message	additional message
      * @return The translated AD_Message appended with the additional message
      */
 
-    private static StringBuffer constructMessage(String adMessage, String message)
+    private static String constructMessage(String adMessage, String message)
 	{
 		StringBuffer out = new StringBuffer();
 
@@ -60,10 +61,10 @@ public class FDialog
 
 		if (message != null && message.length() > 0)
 		{
-			out.append("\n").append(message);
+			out.append("<br><br>").append(message);
 		}
 
-		return out;
+		return out.toString().replace("\n", "<br>");
 	}
 
 
@@ -116,12 +117,9 @@ public class FDialog
     public static void warn(int windowNo, Component comp, String adMessage, String message, String title)
     {
     	Properties ctx = Env.getCtx();
-    	StringBuffer out = null;
 
     	logger.info(adMessage + " - " + message);
 
-    	out = constructMessage(adMessage, message);
-    	
     	String newTitle;
 
     	if (title == null)
@@ -133,10 +131,11 @@ public class FDialog
     		newTitle = title;
     	}
     	
+    	String out = constructMessage(adMessage, message);
+    	
 		try
 		{
-			String s = out.toString().replace("\n", "<br>");
-			Messagebox.showDialog(s, newTitle, Messagebox.OK, Messagebox.EXCLAMATION);
+			Messagebox.showDialog(out, newTitle, Messagebox.OK, Messagebox.EXCLAMATION);
 		}
 		catch (InterruptedException exception)
 		{
@@ -221,7 +220,6 @@ public class FDialog
     public static void error(int windowNo, Component comp, String adMessage, String message)
     {
     	Properties ctx = Env.getCtx();
-		StringBuffer out = new StringBuffer();
 
 		logger.info(adMessage + " - " + message);
 
@@ -230,12 +228,11 @@ public class FDialog
 			Trace.printStack();
 		}
 
-		out = constructMessage(adMessage, message);
+		String out = constructMessage(adMessage, message);
 		
 		try
 		{
-			String s = out.toString().replace("\n", "<br>");
-			Messagebox.showDialog(s, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.ERROR);
+			Messagebox.showDialog(out, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.ERROR);
 		}
 		catch (InterruptedException exception)
 		{
@@ -258,13 +255,21 @@ public class FDialog
 	 */    
     public static boolean ask(int windowNo, Component comp, String adMessage, String msg)
     {
-    	StringBuffer out = new StringBuffer();
-		if (adMessage != null && !adMessage.equals(""))
-			out.append(Msg.getMsg(Env.getCtx(), adMessage));
-		if (msg != null && msg.length() > 0)
-			out.append("\n").append(msg);
-		String s = out.toString().replace("\n", "<br>");
-		return ask(windowNo, comp, s);
+    	String out = constructMessage(adMessage, msg);
+		
+        try
+        {
+            int response = Messagebox.showDialog(out, AEnv.getDialogHeader(Env.getCtx(), windowNo), Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION);
+
+            return (response == Messagebox.OK);
+        }
+        catch (InterruptedException ex)
+        {
+			// Restore the interrupted status
+            Thread.currentThread().interrupt();
+        }
+		
+		return true;
     }
     
 	/**************************************************************************
@@ -279,18 +284,8 @@ public class FDialog
     
     public static boolean ask(int windowNo, Component comp, String adMessage)
     {
-        try
-        {
-        	String s = Msg.getMsg(Env.getCtx(), adMessage).replace("\n", "<br>");
-            int response = Messagebox.showDialog(s, AEnv.getDialogHeader(Env.getCtx(), windowNo), Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION);
-
-            return (response == Messagebox.OK);
-        }
-        catch (InterruptedException ex)
-        {
-			// Restore the interrupted status
-            Thread.currentThread().interrupt();
-        }
+    	// Display the message with no clear text component.
+    	ask(windowNo, comp, adMessage, null);
     	
         return true;
     }
@@ -328,8 +323,6 @@ public class FDialog
     {
         Properties ctx = Env.getCtx();
         
-        StringBuffer out = new StringBuffer();
-
         logger.info(adMessage + " - " + message);
 
         if (CLogMgt.isLevelFinest())
@@ -337,12 +330,11 @@ public class FDialog
             Trace.printStack();
         }
 
-        out = constructMessage(adMessage, message);
+        String out = constructMessage(adMessage, message).toString();
 
         try
         {
-        	String s = out.toString().replace("\n", "<br>");
-        	Messagebox.showDialog(s, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
+        	Messagebox.showDialog(out, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
         }
         catch (InterruptedException exception)
         {

@@ -30,7 +30,7 @@ public class X_C_SalesRegion extends PO implements I_C_SalesRegion, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_SalesRegion (Properties ctx, int C_SalesRegion_ID, String trxName)

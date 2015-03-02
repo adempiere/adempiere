@@ -42,7 +42,7 @@ SELECT s.ad_client_id,
    			mpr.m_pricelist_version_id, 
    			org.name,  
    			mp.name
-	UNION 
+	UNION
          SELECT r.ad_client_id, 
          	r.ad_org_id, 
          	r.isactive, 

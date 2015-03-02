@@ -3625,7 +3625,7 @@ public class GridTable extends AbstractTableModel
 		return false;
 	}
 
-	
+	//BF [ADEMPIERE-369]
 	/**
 	 * get Parent Tab No
 	 * @return Tab No
@@ -3634,14 +3634,21 @@ public class GridTable extends AbstractTableModel
 	{
 		int tabNo = m_TabNo;
 		int currentLevel = Env.getContextAsInt(m_ctx, m_WindowNo, tabNo, GridTab.CTX_TabLevel);
-		int parentLevel = currentLevel-1;
+		// The parent level should be at least one level below.  Consider that the level of the 
+		// current tab could be set to anything.
+		int parentLevel = currentLevel-1;  
+		
 		if (parentLevel < 0)
 			return tabNo;
-			while (parentLevel != currentLevel)
-			{
-				tabNo--;				
-				currentLevel = Env.getContextAsInt(m_ctx, m_WindowNo, tabNo, GridTab.CTX_TabLevel);
-			}
+		
+		//  The parent is the first currentLevel tab with a level equal to or below
+		//  the parentLevel.  Also can't go lower than tabNo 0.
+		while (parentLevel < currentLevel && tabNo > 0)
+		{
+			tabNo--;				
+			currentLevel = Env.getContextAsInt(m_ctx, m_WindowNo, tabNo, GridTab.CTX_TabLevel);
+		}
+		
 		return tabNo;
 	}
 	

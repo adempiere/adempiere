@@ -29,7 +29,7 @@ public class X_ASP_Form extends PO implements I_ASP_Form, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_ASP_Form (Properties ctx, int ASP_Form_ID, String trxName)

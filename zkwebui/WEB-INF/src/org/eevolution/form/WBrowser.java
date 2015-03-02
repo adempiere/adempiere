@@ -141,9 +141,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		
 		m_frame = new CustomForm();
 		windowNo = SessionManager.getAppDesktop().registerWindow(this);
-		Env.clearWinContext(windowNo);
 		setContextWhere(browse, whereClause);
-
 		initComponents();
 		statInit();
 		detail.setMultiSelection(true);
@@ -191,8 +189,9 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 					m_Browse.getAD_Process_ID());
 			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+			pi.setWindowNo(getWindowNo());
 			setBrowseProcessInfo(pi);
-			parameterPanel = new ProcessParameterPanel(getWindowNo(), getBrowseProcessInfo() , "100%");
+			parameterPanel = new ProcessParameterPanel(pi.getWindowNo(), pi , "100%");
 			parameterPanel.setMode(ProcessParameterPanel.BROWSER_MODE);
 			parameterPanel.init();
 			
@@ -371,6 +370,9 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		return true;
 	}
 
+	/**
+	 * Save Selection - Called by dispose
+	 */
 	protected void saveSelection() {
 		// Already disposed
 		if (detail == null)
@@ -457,6 +459,11 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		}
 	}
 
+	/**
+	 * Get the keys of selected row/s based on layout defined in prepareTable
+	 *
+	 * @return IDs if selection present
+	 */
 	public ArrayList<Integer> getSelectedRowKeys() {
 		ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
 
@@ -512,14 +519,16 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 				null);
 		ProcessInfo pi = getBrowseProcessInfo();
 		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		pi.setWindowNo(getWindowNo());
 		parameterPanel.saveParameters();
 		ProcessInfoUtil.setParameterFromDB(pi);
 		setBrowseProcessInfo(pi);
 		//Save Values Browse Field Update
 		createT_Selection_Browse(instance.getAD_PInstance_ID());
 		// Execute Process
-		ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
+		ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
 		worker.start();
+        Env.clearWinContext(getWindowNo());
 		SessionManager.getAppDesktop().closeActiveWindow();
 	}
 
@@ -784,8 +793,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 	}
 	
 	private void selectedRows()
-	{	
-		//int topIndex = 1 ; //detail.isShowTotals() ? 	 : 1;
+	{
 		int topIndex = detail.isShowTotals() ? 2 : 1;
 		int rows = detail.getRowCount();
 		int selectedList[] = new int[rows];
@@ -814,7 +822,6 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 			}
 			detail.clearSelection();
 		}
-			
 			isAllSelected = !isAllSelected;
 	}
 
@@ -839,8 +846,9 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 	
 			DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
 					null);
-			
+
 			ProcessInfo pi = getBrowseProcessInfo();
+			pi.setWindowNo(getWindowNo());
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 			//Save Values Browse Field Update
 			createT_Selection_Browse(instance.getAD_PInstance_ID());
@@ -849,7 +857,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 			setBrowseProcessInfo(pi);
 						
 			// Execute Process
-			ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
+			ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo(), pi , null);
 			showBusyDialog();
 			worker.run();
 			hideBusyDialog();
@@ -926,7 +934,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		}				
 		return rows;
 	}
-	
+
 	
 	private void bDeleteActionPerformed(Event evt) {
 		cmd_deleteSelection();
@@ -1075,7 +1083,6 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
 					sql.append(" AND ");
-
                     if(DisplayType.String == field.displayType)
                     {
 						if (field.ColumnName.equals("Value")

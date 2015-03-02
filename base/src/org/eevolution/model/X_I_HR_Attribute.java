@@ -33,7 +33,7 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_I_HR_Attribute (Properties ctx, int I_HR_Attribute_ID, String trxName)

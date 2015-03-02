@@ -29,7 +29,7 @@ import net.sourceforge.openforecast.models.MultipleLinearRegressionModel;
 
 
 /**
- * DoubleExponentialSmoothing Implementation
+ * Multiple Linear Regression Implementation
  * 
  * @author victor.perez@e-evolution.com, www.e-Evolution.com
  * 

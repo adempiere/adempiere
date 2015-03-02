@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="EE02" Name="Remove Beta Functionality" ReleaseNo="3.8.0" SeqNo="59">
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE  AD_Form SET IsBetaFunctionality ='N' WHERE IsBetaFunctionality ='Y' AND EntityType IN ('EE01','EE02','EE03','EE04','EE05','EE06','EE07');
+UPDATE  AD_Process SET IsBetaFunctionality ='N' WHERE IsBetaFunctionality ='Y' AND EntityType IN ('EE01','EE02','EE03','EE04','EE05','EE06','EE07');
+UPDATE  AD_Window SET IsBetaFunctionality ='N' WHERE IsBetaFunctionality ='Y' AND EntityType IN ('EE01','EE02','EE03','EE04','EE05','EE06','EE07');
+UPDATE  AD_Workflow SET IsBetaFunctionality ='N' WHERE IsBetaFunctionality ='Y' AND EntityType IN ('EE01','EE02','EE03','EE04','EE05','EE06','EE07');
+</SQLStatement>
+      <RollbackStatement>UPDATE  AD_Form SET IsBetaFunctionality ='Y' WHERE IsBetaFunctionality ='N' AND EntityType IN ('EE01','EE02','EE03','EE04','EE05','EE06','EE07');
+UPDATE  AD_Process SET IsBetaFunctionality ='Y' WHERE IsBetaFunctionality ='N' AND EntityType IN ('EE01','EE02','EE03','EE04','EE05','EE06','EE07');
+UPDATE  AD_Window SET IsBetaFunctionality ='Y' WHERE IsBetaFunctionality ='N' AND EntityType IN ('EE01','EE02','EE03','EE04','EE05','EE06','EE07');
+UPDATE  AD_Workflow SET IsBetaFunctionality ='Y' WHERE IsBetaFunctionality ='N' AND EntityType IN ('EE01','EE02','EE03','EE04','EE05','EE06','EE07');</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

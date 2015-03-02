@@ -27,8 +27,12 @@ import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPrice;
+import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.X_I_Product;
+import org.compiere.model.X_M_Product_Class;
+import org.compiere.model.X_M_Product_Classification;
+import org.compiere.model.X_M_Product_Group;
 import org.compiere.util.DB;
 
 /**
@@ -40,6 +44,9 @@ import org.compiere.util.DB;
  * @author Carlos Ruiz, globalqss
  * 			<li>FR [ 2788278 ] Data Import Validator - migrate core processes
  * 				https://sourceforge.net/tracker/?func=detail&aid=2788278&group_id=176962&atid=879335
+ * 
+ * Since 3.8.0#001 - Added import of Product Class, Classification and Group fields. 
+ * 			See ADEMPIERE-213 https://adempiere.atlassian.net/browse/ADEMPIERE-213
  */
 public class ImportProduct extends SvrProcess implements ImportProcess
 {
@@ -181,7 +188,60 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.info("Set Category=" + no);
 
+		//	Since 3.8.1 - Set Product Class
+		sql = new StringBuffer ("UPDATE I_Product "
+			+ "SET ProductClass_Value=(SELECT MAX(Value) FROM M_Product_Class"
+			+ " WHERE IsDefault='Y' AND AD_Client_ID=").append(m_AD_Client_ID).append(") "
+			+ "WHERE ProductClass_Value IS NULL AND M_Product_Class_ID IS NULL"
+			+ " AND M_Product_ID IS NULL"	//	set class only if product not found 
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Class Default Value=" + no);
+		//
+		sql = new StringBuffer ("UPDATE I_Product i "
+			+ "SET M_Product_Class_ID=(SELECT M_Product_Class_ID FROM M_Product_Class c"
+			+ " WHERE i.ProductClass_Value=c.Value AND i.AD_Client_ID=c.AD_Client_ID) "
+			+ "WHERE ProductClass_Value IS NOT NULL AND M_Product_Class_ID IS NULL"
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.info("Set Class=" + no);
 		
+		//	Since 3.8.1 - Set Product Classification
+		sql = new StringBuffer ("UPDATE I_Product "
+			+ "SET ProductClassification_Value=(SELECT MAX(Value) FROM M_Product_Classification"
+			+ " WHERE IsDefault='Y' AND AD_Client_ID=").append(m_AD_Client_ID).append(") "
+			+ "WHERE ProductClassification_Value IS NULL AND M_Product_Classification_ID IS NULL"
+			+ " AND M_Product_ID IS NULL"	//	set Classification only if product not found 
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Classification Default Value=" + no);
+		//
+		sql = new StringBuffer ("UPDATE I_Product i "
+			+ "SET M_Product_Classification_ID=(SELECT M_Product_Classification_ID FROM M_Product_Classification c"
+			+ " WHERE i.ProductClassification_Value=c.Value AND i.AD_Client_ID=c.AD_Client_ID) "
+			+ "WHERE ProductClassification_Value IS NOT NULL AND M_Product_Classification_ID IS NULL"
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.info("Set Classification=" + no);
+		
+		//	Since 3.8.1 - Set Product Group
+		sql = new StringBuffer ("UPDATE I_Product "
+			+ "SET ProductGroup_Value=(SELECT MAX(Value) FROM M_Product_Group"
+			+ " WHERE IsDefault='Y' AND AD_Client_ID=").append(m_AD_Client_ID).append(") "
+			+ "WHERE ProductGroup_Value IS NULL AND M_Product_Group_ID IS NULL"
+			+ " AND M_Product_ID IS NULL"	//	set Group only if product not found 
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Group Default Value=" + no);
+		//
+		sql = new StringBuffer ("UPDATE I_Product i "
+			+ "SET M_Product_Group_ID=(SELECT M_Product_Group_ID FROM M_Product_Group c"
+			+ " WHERE i.ProductGroup_Value=c.Value AND i.AD_Client_ID=c.AD_Client_ID) "
+			+ "WHERE ProductGroup_Value IS NOT NULL AND M_Product_Group_ID IS NULL"
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.info("Set Group=" + no);
+
 		//	Copy From Product if Import does not have value
 		String[] strFields = new String[] {"Value","Name","Description","DocumentNote","Help",
 			"UPC","SKU","Classification","ProductType",
@@ -199,6 +259,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 				log.fine(strFields[i] + " - default from existing Product=" + no);
 		}
 		String[] numFields = new String[] {"C_UOM_ID","M_Product_Category_ID",
+			"M_Product_Class_ID", "M_Product_Classification_ID", "M_Product_Group_ID",
 			"Volume","Weight","ShelfWidth","ShelfHeight","ShelfDepth","UnitsPerPallet"};
 		for (int i = 0; i < numFields.length; i++)
 		{
@@ -396,6 +457,9 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		int noUpdate = 0;
 		int noInsertPO = 0;
 		int noUpdatePO = 0;
+		
+		//  Check for new Product Class, Classification or Group
+		
 
 		//	Go through Records
 		log.fine("start inserting/updating ...");
@@ -489,6 +553,84 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 				boolean newProduct = M_Product_ID == 0;
 				log.fine("I_Product_ID=" + I_Product_ID + ", M_Product_ID=" + M_Product_ID 
 					+ ", C_BPartner_ID=" + C_BPartner_ID);
+				
+				// Since 3.8.1 Check and add product Class, Classification and Group
+				Boolean saveNeeded = false;
+				// Class
+				if (imp.getM_Product_Class_ID() == 0 
+						&& imp.getProductClass_Value() != null 
+						&& !imp.getProductClass_Value().isEmpty()) {
+					String value = imp.getProductClass_Value();
+					String whereClause = "VALUE= '" + value + "'";
+					// Have we already added it?
+					X_M_Product_Class pClass = MTable.get(getCtx(), X_M_Product_Class.Table_ID)
+						.createQuery(whereClause, get_TrxName())  // will lock the table
+						.setOnlyActiveRecords(true)
+						.setClient_ID()
+						.first();
+					if (pClass == null) {
+						pClass = new X_M_Product_Class(getCtx(), 0, get_TrxName());
+						pClass.setValue(imp.getProductClass_Value());
+						pClass.setName(imp.getProductClass_Value());
+						pClass.setIsActive(true);
+						pClass.setIsDefault(false);
+						pClass.saveEx();
+					}
+					imp.setM_Product_Class_ID(pClass.getM_Product_Class_ID());
+					pClass = null;
+					saveNeeded = true;
+				}
+				// Classification
+				if (imp.getM_Product_Classification_ID() == 0 
+						&& imp.getProductClassification_Value() != null 
+						&& !imp.getProductClassification_Value().isEmpty()) {
+					String value = imp.getProductClassification_Value();
+					String whereClause = "VALUE= '" + value + "'";
+					// Have we already added it?
+					X_M_Product_Classification pClassification = MTable.get(getCtx(), X_M_Product_Classification.Table_ID)
+						.createQuery(whereClause, get_TrxName())  // will lock the table
+						.setOnlyActiveRecords(true)
+						.setClient_ID()
+						.first();
+					if (pClassification == null) {
+						pClassification = new X_M_Product_Classification(getCtx(), 0, get_TrxName());
+						pClassification.setValue(imp.getProductClassification_Value());
+						pClassification.setName(imp.getProductClassification_Value());
+						pClassification.setIsActive(true);
+						pClassification.setIsDefault(false);
+						pClassification.saveEx();
+					}
+					imp.setM_Product_Classification_ID(pClassification.getM_Product_Classification_ID());
+					pClassification = null;
+					saveNeeded = true;
+				}
+				// Group
+				if (imp.getM_Product_Group_ID() == 0 
+						&& imp.getProductGroup_Value() != null 
+						&& !imp.getProductGroup_Value().isEmpty()) {
+					String value = imp.getProductGroup_Value();
+					String whereClause = "VALUE= '" + value + "'";
+					// Have we already added it?
+					X_M_Product_Group pGroup = MTable.get(getCtx(), X_M_Product_Group.Table_ID)
+						.createQuery(whereClause, get_TrxName())  // will lock the table
+						.setOnlyActiveRecords(true)
+						.setClient_ID()
+						.first();
+					if (pGroup == null) {
+						pGroup = new X_M_Product_Group(getCtx(), 0, get_TrxName());
+						pGroup.setValue(imp.getProductGroup_Value());
+						pGroup.setName(imp.getProductGroup_Value());
+						pGroup.setIsActive(true);
+						pGroup.setIsDefault(false);
+						pGroup.saveEx();
+					}
+					imp.setM_Product_Group_ID(pGroup.getM_Product_Group_ID());
+					pGroup = null;
+					saveNeeded = true;
+				}
+				
+				if (saveNeeded)
+					imp.saveEx();
 
 				//	Product
 				if (newProduct)			//	Insert new Product
@@ -516,10 +658,12 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 					String sqlt = "UPDATE M_PRODUCT "
 						+ "SET (Value,Name,Description,DocumentNote,Help,"
 						+ "UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,"
+						+ "M_Product_Class_ID, M_Product_Classification_ID, M_Product_Group_ID,"
 						+ "Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,"
 						+ "Discontinued,DiscontinuedBy, DiscontinuedAt, Updated,UpdatedBy)= "
 						+ "(SELECT Value,Name,Description,DocumentNote,Help,"
 						+ "UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,"
+						+ "M_Product_Class_ID, M_Product_Classification_ID, M_Product_Group_ID,"
 						+ "Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,"
 						+ "Discontinued,DiscontinuedBy, DiscontinuedAt, SysDate,UpdatedBy"
 						+ " FROM I_Product WHERE I_Product_ID="+I_Product_ID+") "

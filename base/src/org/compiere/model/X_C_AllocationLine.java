@@ -33,7 +33,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_AllocationLine (Properties ctx, int C_AllocationLine_ID, String trxName)
@@ -76,6 +76,23 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Allocation No.
+		@param AllocationNo Allocation No	  */
+	public void setAllocationNo (int AllocationNo)
+	{
+		set_Value (COLUMNNAME_AllocationNo, Integer.valueOf(AllocationNo));
+	}
+
+	/** Get Allocation No.
+		@return Allocation No	  */
+	public int getAllocationNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AllocationNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Amount.
 		@param Amount 

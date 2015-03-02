@@ -50,19 +50,6 @@ public interface I_WM_InOutBound
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -75,6 +62,19 @@ public interface I_WM_InOutBound
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -407,19 +407,6 @@ public interface I_WM_InOutBound
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
-    /** Column name PickDate */
-    public static final String COLUMNNAME_PickDate = "PickDate";
-
-	/** Set Pick Date.
-	  * Date/Time when picked for Shipment
-	  */
-	public void setPickDate (Timestamp PickDate);
-
-	/** Get Pick Date.
-	  * Date/Time when picked for Shipment
-	  */
-	public Timestamp getPickDate();
-
     /** Column name POReference */
     public static final String COLUMNNAME_POReference = "POReference";
 
@@ -432,6 +419,19 @@ public interface I_WM_InOutBound
 	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
 	  */
 	public String getPOReference();
+
+    /** Column name PickDate */
+    public static final String COLUMNNAME_PickDate = "PickDate";
+
+	/** Set Pick Date.
+	  * Date/Time when picked for Shipment
+	  */
+	public void setPickDate (Timestamp PickDate);
+
+	/** Get Pick Date.
+	  * Date/Time when picked for Shipment
+	  */
+	public Timestamp getPickDate();
 
     /** Column name PriorityRule */
     public static final String COLUMNNAME_PriorityRule = "PriorityRule";
@@ -581,6 +581,15 @@ public interface I_WM_InOutBound
 	  */
 	public BigDecimal getVolume();
 
+    /** Column name WM_InOutBound_ID */
+    public static final String COLUMNNAME_WM_InOutBound_ID = "WM_InOutBound_ID";
+
+	/** Set In & Out Bound Order	  */
+	public void setWM_InOutBound_ID (int WM_InOutBound_ID);
+
+	/** Get In & Out Bound Order	  */
+	public int getWM_InOutBound_ID();
+
     /** Column name Weight */
     public static final String COLUMNNAME_Weight = "Weight";
 
@@ -593,13 +602,4 @@ public interface I_WM_InOutBound
 	  * Weight of a product
 	  */
 	public BigDecimal getWeight();
-
-    /** Column name WM_InOutBound_ID */
-    public static final String COLUMNNAME_WM_InOutBound_ID = "WM_InOutBound_ID";
-
-	/** Set In & Out Bound Order	  */
-	public void setWM_InOutBound_ID (int WM_InOutBound_ID);
-
-	/** Get In & Out Bound Order	  */
-	public int getWM_InOutBound_ID();
 }

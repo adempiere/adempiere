@@ -32,7 +32,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_T_Aging (Properties ctx, int T_Aging_ID, String trxName)
@@ -44,10 +44,10 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 			setC_BP_Group_ID (0);
 			setC_BPartner_ID (0);
 			setC_CashFlow_ID (0);
-// 0
+// -1
 			setC_Currency_ID (0);
 			setC_Order_ID (0);
-// 0
+// 1
 			setDue0 (Env.ZERO);
 			setDue0_30 (Env.ZERO);
 			setDue0_7 (Env.ZERO);

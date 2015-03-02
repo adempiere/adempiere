@@ -31,7 +31,7 @@ public class X_HR_LeaveTypeCombination extends PO implements I_HR_LeaveTypeCombi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_LeaveTypeCombination (Properties ctx, int HR_LeaveTypeCombination_ID, String trxName)

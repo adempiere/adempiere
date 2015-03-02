@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW rv_pp_order_workflow AS 
+DROP VIEW rv_pp_order_workflow;
+CREATE OR REPLACE VIEW rv_pp_order_workflow AS
 SELECT 
 n.ad_client_id,
 n.ad_org_id, 
@@ -13,7 +14,7 @@ n.pp_order_id,
 n.docstatus, 
 n.value,
 n.s_resource_id,
-n.durationrequired AS durationrequiered, 
+n.durationrequired AS durationrequired,
 n.durationreal,
 n.durationrequired - n.durationreal AS duration,
 n.movingtime, 

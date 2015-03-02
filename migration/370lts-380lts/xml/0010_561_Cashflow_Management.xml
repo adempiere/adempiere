@@ -2,7 +2,7 @@
 <Migrations>
 	<Migration EntityType="D" Name="Cash Flow Management"
 		ReleaseNo="3.8.0" SeqNo="10">
-        <Step DBType="Oracle" SeqNo="1" StepType="SQL">
+        <Step DBType="Oracle" Parse="Y" SeqNo="1" StepType="SQL">
             <SQLStatement>
                 ALTER TABLE T_Aging DROP PRIMARY KEY;
                 DROP INDEX T_Aging_Key;
@@ -13,7 +13,7 @@
                 c_invoice_id, c_invoicepayschedule_id, c_order_id, c_cashflow_id);
             </RollbackStatement>
         </Step>
-        <Step DBType="Oracle" SeqNo="2" StepType="SQL">
+        <Step DBType="Oracle" Parse="Y" SeqNo="2" StepType="SQL">
             <SQLStatement>CREATE OR REPLACE VIEW rv_c_bankaccount AS
                 SELECT
                 c_bankaccount.c_bankaccount_id, c_bankaccount.ad_client_id,
@@ -34,7 +34,7 @@
             </SQLStatement>
             <RollbackStatement>DROP VIEW rv_c_bankaccount;</RollbackStatement>
         </Step>
-		<Step DBType="Postgres" SeqNo="3" StepType="SQL">
+		<Step DBType="Postgres" Parse="Y" SeqNo="3" StepType="SQL">
 			<SQLStatement>alter table T_Aging drop constraint t_aging_pkey;
 			</SQLStatement>
 			<RollbackStatement>alter table T_Aging add constraint t_aging_key
@@ -42,7 +42,7 @@
 				c_invoice_id, c_invoicepayschedule_id, c_order_id, c_cashflow_id);
 			</RollbackStatement>
 		</Step>
-		<Step DBType="Postgres" SeqNo="4" StepType="SQL">
+		<Step DBType="Postgres" Parse="Y" SeqNo="4" StepType="SQL">
 			<SQLStatement>CREATE OR REPLACE VIEW rv_c_bankaccount AS
 				SELECT
 				c_bankaccount.c_bankaccount_id, c_bankaccount.ad_client_id,
@@ -3332,7 +3332,7 @@
 				<Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
 			</PO>
 		</Step>
-		<Step DBType="Postgres" SeqNo="750" StepType="SQL">
+		<Step DBType="Postgres" Parse="Y" SeqNo="750" StepType="SQL">
 			<SQLStatement>alter table T_Aging add constraint t_aging_key PRIMARY
 				KEY (ad_pinstance_id, c_bankaccount_id ,c_bpartner_id,
 				c_currency_id, c_invoice_id, c_invoicepayschedule_id, c_order_id,
@@ -3344,7 +3344,7 @@
 				c_invoicepayschedule_id, c_order_id, c_cashflow_id);
 			</RollbackStatement>
 		</Step>
-		<Step DBType="Oracle" SeqNo="760" StepType="SQL">
+		<Step DBType="Oracle" Parse="Y" SeqNo="760" StepType="SQL">
 			<SQLStatement>alter table T_Aging add constraint t_aging_key PRIMARY
 				KEY (ad_pinstance_id, c_bankaccount_id ,c_bpartner_id,
 				c_currency_id, c_invoice_id, c_invoicepayschedule_id, c_order_id,

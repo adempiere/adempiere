@@ -76,6 +76,15 @@ public interface I_C_TaxBase
 	  */
 	public String getBase();
 
+    /** Column name C_TaxBase_ID */
+    public static final String COLUMNNAME_C_TaxBase_ID = "C_TaxBase_ID";
+
+	/** Set Tax Base	  */
+	public void setC_TaxBase_ID (int C_TaxBase_ID);
+
+	/** Get Tax Base	  */
+	public int getC_TaxBase_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -91,15 +100,6 @@ public interface I_C_TaxBase
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_TaxBase_ID */
-    public static final String COLUMNNAME_C_TaxBase_ID = "C_TaxBase_ID";
-
-	/** Set Tax Base	  */
-	public void setC_TaxBase_ID (int C_TaxBase_ID);
-
-	/** Get Tax Base	  */
-	public int getC_TaxBase_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

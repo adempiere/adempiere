@@ -30,7 +30,7 @@ public class X_AD_ClientShare extends PO implements I_AD_ClientShare, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_ClientShare (Properties ctx, int AD_ClientShare_ID, String trxName)

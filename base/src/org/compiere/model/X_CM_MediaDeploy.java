@@ -30,7 +30,7 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_CM_MediaDeploy (Properties ctx, int CM_MediaDeploy_ID, String trxName)

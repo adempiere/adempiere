@@ -589,4 +589,30 @@ public interface I_GL_JournalLine
 	public int getUser2_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
+
+    /** Column name UserElement1_ID */
+    public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
+
+	/** Set User Element 1.
+	  * User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID);
+
+	/** Get User Element 1.
+	  * User defined accounting Element
+	  */
+	public int getUserElement1_ID();
+
+    /** Column name UserElement2_ID */
+    public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
+
+	/** Set User Element 2.
+	  * User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID);
+
+	/** Get User Element 2.
+	  * User defined accounting Element
+	  */
+	public int getUserElement2_ID();
 }

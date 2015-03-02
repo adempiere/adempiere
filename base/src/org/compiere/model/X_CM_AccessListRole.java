@@ -29,7 +29,7 @@ public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_CM_AccessListRole (Properties ctx, int CM_AccessListRole_ID, String trxName)

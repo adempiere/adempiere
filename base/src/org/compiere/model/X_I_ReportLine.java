@@ -30,7 +30,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_I_ReportLine (Properties ctx, int I_ReportLine_ID, String trxName)

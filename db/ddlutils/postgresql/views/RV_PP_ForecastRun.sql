@@ -1,6 +1,11 @@
 DROP VIEW RV_PP_ForecastRun;
 CREATE OR REPLACE VIEW RV_PP_ForecastRun AS 
- SELECT 
+ SELECT
+ frun.IsActive,
+ frun.Created,
+ frun.CreatedBy,
+ frun.Updated,
+ frun.UpdatedBy,
  frun.ad_client_id,
  frun.ad_org_id,
  frun.pp_forecastrun_id,

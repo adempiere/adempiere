@@ -30,7 +30,7 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_K_CategoryValue (Properties ctx, int K_CategoryValue_ID, String trxName)

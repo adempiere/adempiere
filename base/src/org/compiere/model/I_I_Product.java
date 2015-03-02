@@ -227,6 +227,19 @@ public interface I_I_Product
 	  */
 	public Timestamp getDiscontinuedAt();
 
+    /** Column name DiscontinuedBy */
+    public static final String COLUMNNAME_DiscontinuedBy = "DiscontinuedBy";
+
+	/** Set Discontinued by.
+	  * Discontinued By
+	  */
+	public void setDiscontinuedBy (Timestamp DiscontinuedBy);
+
+	/** Get Discontinued by.
+	  * Discontinued By
+	  */
+	public Timestamp getDiscontinuedBy();
+
     /** Column name DocumentNote */
     public static final String COLUMNNAME_DocumentNote = "DocumentNote";
 
@@ -345,6 +358,51 @@ public interface I_I_Product
 	public int getM_Product_Category_ID();
 
 	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
+
+    /** Column name M_Product_Class_ID */
+    public static final String COLUMNNAME_M_Product_Class_ID = "M_Product_Class_ID";
+
+	/** Set Product Class.
+	  * Class of a Product
+	  */
+	public void setM_Product_Class_ID (int M_Product_Class_ID);
+
+	/** Get Product Class.
+	  * Class of a Product
+	  */
+	public int getM_Product_Class_ID();
+
+	public org.compiere.model.I_M_Product_Class getM_Product_Class() throws RuntimeException;
+
+    /** Column name M_Product_Classification_ID */
+    public static final String COLUMNNAME_M_Product_Classification_ID = "M_Product_Classification_ID";
+
+	/** Set Product Classification.
+	  * Classification of a Product
+	  */
+	public void setM_Product_Classification_ID (int M_Product_Classification_ID);
+
+	/** Get Product Classification.
+	  * Classification of a Product
+	  */
+	public int getM_Product_Classification_ID();
+
+	public org.compiere.model.I_M_Product_Classification getM_Product_Classification() throws RuntimeException;
+
+    /** Column name M_Product_Group_ID */
+    public static final String COLUMNNAME_M_Product_Group_ID = "M_Product_Group_ID";
+
+	/** Set Product Group.
+	  * Group of a Product
+	  */
+	public void setM_Product_Group_ID (int M_Product_Group_ID);
+
+	/** Get Product Group.
+	  * Group of a Product
+	  */
+	public int getM_Product_Group_ID();
+
+	public org.compiere.model.I_M_Product_Group getM_Product_Group() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -508,6 +566,45 @@ public interface I_I_Product
 
 	/** Get Product Category Key	  */
 	public String getProductCategory_Value();
+
+    /** Column name ProductClass_Value */
+    public static final String COLUMNNAME_ProductClass_Value = "ProductClass_Value";
+
+	/** Set Product Class Key.
+	  * The key value for the product class
+	  */
+	public void setProductClass_Value (String ProductClass_Value);
+
+	/** Get Product Class Key.
+	  * The key value for the product class
+	  */
+	public String getProductClass_Value();
+
+    /** Column name ProductClassification_Value */
+    public static final String COLUMNNAME_ProductClassification_Value = "ProductClassification_Value";
+
+	/** Set Product Classification Key.
+	  * The key value for the product classification
+	  */
+	public void setProductClassification_Value (String ProductClassification_Value);
+
+	/** Get Product Classification Key.
+	  * The key value for the product classification
+	  */
+	public String getProductClassification_Value();
+
+    /** Column name ProductGroup_Value */
+    public static final String COLUMNNAME_ProductGroup_Value = "ProductGroup_Value";
+
+	/** Set Product Group Key.
+	  * The key value for the product group
+	  */
+	public void setProductGroup_Value (String ProductGroup_Value);
+
+	/** Get Product Group Key.
+	  * The key value for the product group
+	  */
+	public String getProductGroup_Value();
 
     /** Column name ProductType */
     public static final String COLUMNNAME_ProductType = "ProductType";

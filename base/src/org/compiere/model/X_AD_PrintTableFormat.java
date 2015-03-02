@@ -32,7 +32,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_PrintTableFormat (Properties ctx, int AD_PrintTableFormat_ID, String trxName)

@@ -3130,7 +3130,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		return list;
 	}
 	
-	//BF [ 2910358 ] 
+	//BF [ 2910358 ]
+	//BF [ADEMPIERE-369]
 	/**
 	 * get Parent Tab No
 	 * @return Tab No
@@ -3139,14 +3140,20 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{
 		int tabNo = m_vo.TabNo;
 		int currentLevel = m_vo.TabLevel;
+		// The parent level should be at least one level below.  Consider that the level of the 
+		// current tab could be set to anything.
 		int parentLevel = currentLevel-1;
+
 		if (parentLevel < 0)
 			return tabNo;
-			while (parentLevel != currentLevel)
-			{
-				tabNo--;				
-				currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
-			}
+		
+		//  The parent is the first currentLevel tab with a level equal to or below
+		//  the parentLevel.  Also can't go lower than tabNo 0.
+		while (parentLevel < currentLevel && tabNo > 0)
+		{
+			tabNo--;				
+			currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
+		}
 		return tabNo;
 	}
 

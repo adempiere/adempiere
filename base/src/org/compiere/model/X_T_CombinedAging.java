@@ -32,7 +32,7 @@ public class X_T_CombinedAging extends PO implements I_T_CombinedAging, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_T_CombinedAging (Properties ctx, int T_CombinedAging_ID, String trxName)

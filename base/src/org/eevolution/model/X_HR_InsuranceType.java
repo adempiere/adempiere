@@ -31,7 +31,7 @@ public class X_HR_InsuranceType extends PO implements I_HR_InsuranceType, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_InsuranceType (Properties ctx, int HR_InsuranceType_ID, String trxName)

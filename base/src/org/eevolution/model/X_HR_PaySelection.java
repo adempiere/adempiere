@@ -34,7 +34,7 @@ public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_PaySelection (Properties ctx, int HR_PaySelection_ID, String trxName)
@@ -50,6 +50,7 @@ public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persis
 			setPayDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setProcessed (false);
+// N
 			setProcessing (false);
 			setTotalAmt (Env.ZERO);
         } */

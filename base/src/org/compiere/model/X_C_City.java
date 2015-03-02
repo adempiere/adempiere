@@ -30,7 +30,7 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_City (Properties ctx, int C_City_ID, String trxName)

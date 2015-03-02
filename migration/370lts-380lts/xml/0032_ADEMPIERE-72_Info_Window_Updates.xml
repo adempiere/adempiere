@@ -218,37 +218,23 @@
         <Data AD_Column_ID="6765" Column="AD_Message_ID">53244</Data>
       </PO>
     </Step>
-    <Step DBType="Postgres" SeqNo="130" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="130" StepType="SQL">
       <Comments>Add M_Product_ID to M_Product_Stock_V </Comments>
-      <SQLStatement>DROP VIEW adempiere.m_product_stock_v;
-
-CREATE OR REPLACE VIEW adempiere.m_product_stock_v AS 
- SELECT ms.isactive, ms.created, ms.createdby, ms.updated, ms.updatedby, mp.m_product_id, mp.value, mp.help, ms.qtyonhand - ms.qtyreserved AS qtyavailable, ms.qtyonhand, ms.qtyreserved, mp.description, mw.name AS warehouse, mw.m_warehouse_id, mw.ad_client_id, mw.ad_org_id, mp.documentnote
-   FROM adempiere.m_storage ms
-   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
-   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
-   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
-  ORDER BY mw.name;
-
-ALTER TABLE adempiere.m_product_stock_v
-  OWNER TO adempiere;</SQLStatement>
-      <RollbackStatement>DROP VIEW adempiere.m_product_stock_v;
-
-CREATE OR REPLACE VIEW adempiere.m_product_stock_v AS 
- SELECT ms.isactive, ms.created, ms.createdby, ms.updated, ms.updatedby, mp.value, mp.help, ms.qtyonhand - ms.qtyreserved AS qtyavailable, ms.qtyonhand, ms.qtyreserved, mp.description, mw.name AS warehouse, mw.m_warehouse_id, mw.ad_client_id, mw.ad_org_id, mp.documentnote
-   FROM adempiere.m_storage ms
-   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
-   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
-   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
-  ORDER BY mw.name;
-
-ALTER TABLE adempiere.m_product_stock_v
-  OWNER TO adempiere;</RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" SeqNo="135" StepType="SQL">
-      <Comments>Add M_Product_ID to M_Product_Stock_V </Comments>
-      <SQLStatement>--create views
-DROP VIEW M_Product_Stock_V;
+      <SQLStatement>DROP VIEW M_Product_Stock_V;
+CREATE OR REPLACE VIEW M_PRODUCT_STOCK_V
+AS
+SELECT 
+ms.IsActive, ms.Created, ms.CreatedBy, ms.Updated, ms.UpdatedBy,
+mp.M_Product_ID, mp.VALUE, mp.help, (ms.qtyonhand - ms.qtyreserved) AS qtyavailable, ms.qtyonhand, 
+ms.qtyreserved, ms.qtyordered , mp.description, mw.NAME AS warehousename, mw.m_warehouse_id, mw.ad_client_id, 
+mw.ad_org_id, mp.documentnote
+FROM M_STORAGE ms 
+JOIN M_PRODUCT mp ON ms.m_product_id = mp.m_product_id
+JOIN M_LOCATOR ml ON ms.m_locator_id = ml.m_locator_id
+JOIN M_WAREHOUSE mw ON ml.m_warehouse_id = mw.m_warehouse_id 
+ORDER BY mw.NAME;
+</SQLStatement>
+      <RollbackStatement>DROP VIEW M_Product_Stock_V;
 CREATE OR REPLACE VIEW M_PRODUCT_STOCK_V
 AS
 SELECT 
@@ -261,71 +247,113 @@ JOIN M_PRODUCT mp ON ms.m_product_id = mp.m_product_id
 JOIN M_LOCATOR ml ON ms.m_locator_id = ml.m_locator_id
 JOIN M_WAREHOUSE mw ON ml.m_warehouse_id = mw.m_warehouse_id 
 ORDER BY mw.NAME;
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="135" StepType="SQL">
+      <Comments>Add M_Product_ID to M_Product_Stock_V </Comments>
+      <SQLStatement>DROP VIEW M_Product_Stock_V;
+CREATE OR REPLACE VIEW M_PRODUCT_STOCK_V
+AS
+SELECT 
+ms.IsActive, ms.Created, ms.CreatedBy, ms.Updated, ms.UpdatedBy,
+mp.M_Product_ID, mp.VALUE, mp.help, (ms.qtyonhand - ms.qtyreserved) AS qtyavailable, ms.qtyonhand, 
+ms.qtyreserved, ms.qtyordered , mp.description, mw.NAME AS warehousename, mw.m_warehouse_id, mw.ad_client_id, 
+mw.ad_org_id, mp.documentnote
+FROM M_STORAGE ms 
+JOIN M_PRODUCT mp ON ms.m_product_id = mp.m_product_id
+JOIN M_LOCATOR ml ON ms.m_locator_id = ml.m_locator_id
+JOIN M_WAREHOUSE mw ON ml.m_warehouse_id = mw.m_warehouse_id 
+ORDER BY mw.NAME;
 </SQLStatement>
-      <RollbackStatement>DROP VIEW M_Product_Stock_V;
+      <RollbackStatement>DROP VIEW M_PRODUCT_SUBSTITUTERELATED_V;
 
-CREATE VIEW M_PRODUCT_STOCK_V
-AS SELECT ms.isactive, ms.created, ms.createdby, ms.updated, ms.updatedby, mp.m_product_id, mp.value, mp.help, ms.qtyonhand - ms.qtyreserved AS qtyavailable, ms.qtyonhand, ms.qtyreserved, mp.description, mw.name AS warehouse, mw.m_warehouse_id, mw.ad_client_id, mw.ad_org_id, mp.documentnote
-   FROM adempiere.m_storage ms
-   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
-   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
-   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
-  ORDER BY mw.name;</RollbackStatement>
+CREATE OR REPLACE VIEW M_PRODUCT_SUBSTITUTERELATED_V AS
+SELECT s.ad_client_id, 
+		s.ad_org_id, 
+		s.isactive, 
+		s.created, 
+		s.createdby, 
+		s.updated, 
+		s.updatedby,
+		s.m_product_id, 
+		s.substitute_id,
+		s.name AS description, 
+		'S' AS rowtype,
+		mp.value,
+		mp.name, 
+		sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, 
+		sum(ms.qtyonhand) AS qtyonhand, 
+		sum(ms.qtyreserved) AS qtyreserved,
+		ROUND(MAX(mpr.pricestd),0) AS pricestd, 
+		mpr.m_pricelist_version_id, 
+		mw.m_warehouse_id, 
+		org.name AS orgname
+           FROM m_substitute s
+      JOIN m_storage ms ON ms.m_product_id = s.substitute_id
+   JOIN m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN ad_org org ON org.ad_org_id = mw.ad_org_id
+   GROUP BY s.ad_client_id, 
+   			s.ad_org_id, 
+   			s.isactive, 
+   			s.created, 
+   			s.createdby, 
+   			s.updated, 
+   			s.updatedby, 
+   			s.m_product_id, 
+   			s.substitute_id, 
+   			s.name, mp.value, 
+   			mw.m_warehouse_id, 
+   			mpr.m_pricelist_version_id, 
+   			org.name,  
+   			mp.name
+	UNION
+         SELECT r.ad_client_id, 
+         	r.ad_org_id, 
+         	r.isactive, 
+         	r.created, 
+         	r.createdby, 
+         	r.updated, 
+         	r.updatedby,
+			r.m_product_id, 
+			r.relatedproduct_id AS substitute_id,
+			r.name AS description, 
+			'R' AS rowtype, 
+			mp.value, 
+			mp.name, 
+			sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, 
+			sum(ms.qtyonhand) AS qtyonhand, 
+			sum(ms.qtyreserved) AS qtyreserved, 
+			ROUND(MAX(mpr.pricestd),0) AS pricestd, 
+			mpr.m_pricelist_version_id, 
+			mw.m_warehouse_id, 
+			org.name AS orgname
+           FROM m_relatedproduct r
+      JOIN m_storage ms ON ms.m_product_id = r.relatedproduct_id
+   JOIN m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN ad_org org ON org.ad_org_id = mw.ad_org_id 
+   GROUP BY r.ad_client_id, 
+   			r.ad_org_id, 
+   			r.isactive, 
+   			r.created, 
+   			r.createdby, 
+   			r.updated, 
+   			r.updatedby, 
+   			r.m_product_id, 
+   			r.relatedproduct_id, 
+   			r.name, 
+   			mw.m_warehouse_id, 
+   			mpr.m_pricelist_version_id, 
+   			org.name, 
+   			mp.value,
+   			mp.name;</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" SeqNo="140" StepType="SQL">
-      <Comments>Adding field description to the m_product_substituterelated_v view</Comments>
-      <SQLStatement>DROP VIEW adempiere.m_product_substituterelated_v;
-
-CREATE OR REPLACE VIEW adempiere.m_product_substituterelated_v AS 
-         SELECT s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby, s.m_product_id, s.substitute_id, s.name AS description, 'S'::text AS rowtype, mp.value, mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved, round(max(mpr.pricestd), 0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
-           FROM adempiere.m_substitute s
-      JOIN adempiere.m_storage ms ON ms.m_product_id = s.substitute_id
-   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
-   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
-   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
-   JOIN adempiere.m_productprice mpr ON ms.m_product_id = mpr.m_product_id
-   JOIN adempiere.ad_org org ON org.ad_org_id = mw.ad_org_id
-  GROUP BY s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby, s.m_product_id, s.substitute_id, s.name, mp.value, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name, mp.name
-UNION 
-         SELECT r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby, r.m_product_id, r.relatedproduct_id AS substitute_id, r.name AS description, 'R'::text AS rowtype, mp.value, mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved, round(max(mpr.pricestd), 0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
-           FROM adempiere.m_relatedproduct r
-      JOIN adempiere.m_storage ms ON ms.m_product_id = r.relatedproduct_id
-   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
-   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
-   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
-   JOIN adempiere.m_productprice mpr ON ms.m_product_id = mpr.m_product_id
-   JOIN adempiere.ad_org org ON org.ad_org_id = mw.ad_org_id
-  GROUP BY r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby, r.m_product_id, r.relatedproduct_id, r.name, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name, mp.value, mp.name;
-
-ALTER TABLE adempiere.m_product_substituterelated_v
-  OWNER TO adempiere;</SQLStatement>
-      <RollbackStatement>DROP VIEW adempiere.m_product_substituterelated_v;
-
-CREATE OR REPLACE VIEW adempiere.m_product_substituterelated_v AS 
-         SELECT s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby, s.m_product_id, s.substitute_id, 'S'::text AS rowtype, mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved, round(max(mpr.pricestd), 0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
-           FROM adempiere.m_substitute s
-      JOIN adempiere.m_storage ms ON ms.m_product_id = s.substitute_id
-   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
-   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
-   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
-   JOIN adempiere.m_productprice mpr ON ms.m_product_id = mpr.m_product_id
-   JOIN adempiere.ad_org org ON org.ad_org_id = mw.ad_org_id
-  GROUP BY s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby, s.m_product_id, s.substitute_id, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name, mp.name
-UNION 
-         SELECT r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby, r.m_product_id, r.relatedproduct_id AS substitute_id, 'R'::text AS rowtype, mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved, round(max(mpr.pricestd), 0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
-           FROM adempiere.m_relatedproduct r
-      JOIN adempiere.m_storage ms ON ms.m_product_id = r.relatedproduct_id
-   JOIN adempiere.m_product mp ON ms.m_product_id = mp.m_product_id
-   JOIN adempiere.m_locator ml ON ms.m_locator_id = ml.m_locator_id
-   JOIN adempiere.m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
-   JOIN adempiere.m_productprice mpr ON ms.m_product_id = mpr.m_product_id
-   JOIN adempiere.ad_org org ON org.ad_org_id = mw.ad_org_id
-  GROUP BY r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby, r.m_product_id, r.relatedproduct_id, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name, mp.name;
-
-ALTER TABLE adempiere.m_product_substituterelated_v
-  OWNER TO adempiere;</RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" SeqNo="140" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="140" StepType="SQL">
       <Comments>Adding field description to the m_product_substituterelated_v view</Comments>
       <SQLStatement>DROP VIEW M_PRODUCT_SUBSTITUTERELATED_V;
 
@@ -371,7 +399,7 @@ SELECT s.ad_client_id,
    			mpr.m_pricelist_version_id, 
    			org.name,  
    			mp.name
-	UNION 
+	UNION
          SELECT r.ad_client_id, 
          	r.ad_org_id, 
          	r.isactive, 
@@ -417,10 +445,27 @@ SELECT s.ad_client_id,
 </SQLStatement>
       <RollbackStatement>DROP VIEW M_PRODUCT_SUBSTITUTERELATED_V;
 
-CREATE OR REPLACE FORCE VIEW "ADEMPIERE"."M_PRODUCT_SUBSTITUTERELATED_V" ("AD_CLIENT_ID", "AD_ORG_ID", "ISACTIVE", "CREATED", "CREATEDBY", "UPDATED", "UPDATEDBY", "M_PRODUCT_ID", "SUBSTITUTE_ID", "ROWTYPE", "NAME", "QTYAVAILABLE", "QTYONHAND", "QTYRESERVED", "PRICESTD", "M_PRICELIST_VERSION_ID", "M_WAREHOUSE_ID", "ORGNAME") AS 
-  SELECT s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby,
-	s.m_product_id, s.substitute_id, 'S' AS rowtype,  mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved,
-ROUND(MAX(mpr.pricestd),0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
+CREATE OR REPLACE VIEW M_PRODUCT_SUBSTITUTERELATED_V AS
+SELECT s.ad_client_id, 
+		s.ad_org_id, 
+		s.isactive, 
+		s.created, 
+		s.createdby, 
+		s.updated, 
+		s.updatedby,
+		s.m_product_id, 
+		s.substitute_id,
+		s.name AS description, 
+		'S' AS rowtype,
+		mp.value,
+		mp.name, 
+		sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, 
+		sum(ms.qtyonhand) AS qtyonhand, 
+		sum(ms.qtyreserved) AS qtyreserved,
+		ROUND(MAX(mpr.pricestd),0) AS pricestd, 
+		mpr.m_pricelist_version_id, 
+		mw.m_warehouse_id, 
+		org.name AS orgname
            FROM m_substitute s
       JOIN m_storage ms ON ms.m_product_id = s.substitute_id
    JOIN m_product mp ON ms.m_product_id = mp.m_product_id
@@ -428,19 +473,242 @@ ROUND(MAX(mpr.pricestd),0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehou
    JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
    JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
    JOIN ad_org org ON org.ad_org_id = mw.ad_org_id
-   GROUP BY s.ad_client_id, s.ad_org_id, s.isactive, s.created, s.createdby, s.updated, s.updatedby, s.m_product_id, s.substitute_id, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name,  mp.name
-UNION
-         SELECT r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby,
-	r.m_product_id, r.relatedproduct_id AS substitute_id, 'R' AS rowtype,  mp.name, sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, sum(ms.qtyonhand) AS qtyonhand, sum(ms.qtyreserved) AS qtyreserved, round(MAX(mpr.pricestd),0) AS pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id, org.name AS orgname
+   GROUP BY s.ad_client_id, 
+   			s.ad_org_id, 
+   			s.isactive, 
+   			s.created, 
+   			s.createdby, 
+   			s.updated, 
+   			s.updatedby, 
+   			s.m_product_id, 
+   			s.substitute_id, 
+   			s.name, mp.value, 
+   			mw.m_warehouse_id, 
+   			mpr.m_pricelist_version_id, 
+   			org.name,  
+   			mp.name
+	UNION
+         SELECT r.ad_client_id, 
+         	r.ad_org_id, 
+         	r.isactive, 
+         	r.created, 
+         	r.createdby, 
+         	r.updated, 
+         	r.updatedby,
+			r.m_product_id, 
+			r.relatedproduct_id AS substitute_id,
+			r.name AS description, 
+			'R' AS rowtype, 
+			mp.value, 
+			mp.name, 
+			sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, 
+			sum(ms.qtyonhand) AS qtyonhand, 
+			sum(ms.qtyreserved) AS qtyreserved, 
+			ROUND(MAX(mpr.pricestd),0) AS pricestd, 
+			mpr.m_pricelist_version_id, 
+			mw.m_warehouse_id, 
+			org.name AS orgname
            FROM m_relatedproduct r
       JOIN m_storage ms ON ms.m_product_id = r.relatedproduct_id
    JOIN m_product mp ON ms.m_product_id = mp.m_product_id
    JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
    JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
    JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN ad_org org ON org.ad_org_id = mw.ad_org_id 
+   GROUP BY r.ad_client_id, 
+   			r.ad_org_id, 
+   			r.isactive, 
+   			r.created, 
+   			r.createdby, 
+   			r.updated, 
+   			r.updatedby, 
+   			r.m_product_id, 
+   			r.relatedproduct_id, 
+   			r.name, 
+   			mw.m_warehouse_id, 
+   			mpr.m_pricelist_version_id, 
+   			org.name, 
+   			mp.value,
+   			mp.name;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="140" StepType="SQL">
+      <Comments>Adding field description to the m_product_substituterelated_v view</Comments>
+      <SQLStatement>DROP VIEW M_PRODUCT_SUBSTITUTERELATED_V;
+
+CREATE OR REPLACE VIEW M_PRODUCT_SUBSTITUTERELATED_V AS
+SELECT s.ad_client_id, 
+		s.ad_org_id, 
+		s.isactive, 
+		s.created, 
+		s.createdby, 
+		s.updated, 
+		s.updatedby,
+		s.m_product_id, 
+		s.substitute_id,
+		s.name AS description, 
+		'S' AS rowtype,
+		mp.value,
+		mp.name, 
+		sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, 
+		sum(ms.qtyonhand) AS qtyonhand, 
+		sum(ms.qtyreserved) AS qtyreserved,
+		ROUND(MAX(mpr.pricestd),0) AS pricestd, 
+		mpr.m_pricelist_version_id, 
+		mw.m_warehouse_id, 
+		org.name AS orgname
+           FROM m_substitute s
+      JOIN m_storage ms ON ms.m_product_id = s.substitute_id
+   JOIN m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
    JOIN ad_org org ON org.ad_org_id = mw.ad_org_id
-   GROUP BY r.ad_client_id, r.ad_org_id, r.isactive, r.created, r.createdby, r.updated, r.updatedby, r.m_product_id, r.relatedproduct_id, mw.m_warehouse_id, mpr.m_pricelist_version_id, org.name,  mp.name;
-</RollbackStatement>
+   GROUP BY s.ad_client_id, 
+   			s.ad_org_id, 
+   			s.isactive, 
+   			s.created, 
+   			s.createdby, 
+   			s.updated, 
+   			s.updatedby, 
+   			s.m_product_id, 
+   			s.substitute_id, 
+   			s.name, mp.value, 
+   			mw.m_warehouse_id, 
+   			mpr.m_pricelist_version_id, 
+   			org.name,  
+   			mp.name
+	UNION
+         SELECT r.ad_client_id, 
+         	r.ad_org_id, 
+         	r.isactive, 
+         	r.created, 
+         	r.createdby, 
+         	r.updated, 
+         	r.updatedby,
+			r.m_product_id, 
+			r.relatedproduct_id AS substitute_id,
+			r.name AS description, 
+			'R' AS rowtype, 
+			mp.value, 
+			mp.name, 
+			sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, 
+			sum(ms.qtyonhand) AS qtyonhand, 
+			sum(ms.qtyreserved) AS qtyreserved, 
+			ROUND(MAX(mpr.pricestd),0) AS pricestd, 
+			mpr.m_pricelist_version_id, 
+			mw.m_warehouse_id, 
+			org.name AS orgname
+           FROM m_relatedproduct r
+      JOIN m_storage ms ON ms.m_product_id = r.relatedproduct_id
+   JOIN m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN ad_org org ON org.ad_org_id = mw.ad_org_id 
+   GROUP BY r.ad_client_id, 
+   			r.ad_org_id, 
+   			r.isactive, 
+   			r.created, 
+   			r.createdby, 
+   			r.updated, 
+   			r.updatedby, 
+   			r.m_product_id, 
+   			r.relatedproduct_id, 
+   			r.name, 
+   			mw.m_warehouse_id, 
+   			mpr.m_pricelist_version_id, 
+   			org.name, 
+   			mp.value,
+   			mp.name;</SQLStatement>
+      <RollbackStatement>DROP VIEW M_PRODUCT_SUBSTITUTERELATED_V;
+
+DROP VIEW M_PRODUCT_SUBSTITUTERELATED_V;
+
+CREATE OR REPLACE VIEW M_PRODUCT_SUBSTITUTERELATED_V AS
+SELECT s.ad_client_id, 
+		s.ad_org_id, 
+		s.isactive, 
+		s.created, 
+		s.createdby, 
+		s.updated, 
+		s.updatedby,
+		s.m_product_id, 
+		s.substitute_id,
+		s.name AS description, 
+		'S' AS rowtype,
+		mp.value,
+		mp.name, 
+		sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, 
+		sum(ms.qtyonhand) AS qtyonhand, 
+		sum(ms.qtyreserved) AS qtyreserved,
+		ROUND(MAX(mpr.pricestd),0) AS pricestd, 
+		mpr.m_pricelist_version_id, 
+		mw.m_warehouse_id, 
+		org.name AS orgname
+           FROM m_substitute s
+      JOIN m_storage ms ON ms.m_product_id = s.substitute_id
+   JOIN m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN ad_org org ON org.ad_org_id = mw.ad_org_id
+   GROUP BY s.ad_client_id, 
+   			s.ad_org_id, 
+   			s.isactive, 
+   			s.created, 
+   			s.createdby, 
+   			s.updated, 
+   			s.updatedby, 
+   			s.m_product_id, 
+   			s.substitute_id, 
+   			s.name, mp.value, 
+   			mw.m_warehouse_id, 
+   			mpr.m_pricelist_version_id, 
+   			org.name,  
+   			mp.name
+	UNION
+         SELECT r.ad_client_id, 
+         	r.ad_org_id, 
+         	r.isactive, 
+         	r.created, 
+         	r.createdby, 
+         	r.updated, 
+         	r.updatedby,
+			r.m_product_id, 
+			r.relatedproduct_id AS substitute_id,
+			r.name AS description, 
+			'R' AS rowtype, 
+			mp.value, 
+			mp.name, 
+			sum(ms.qtyonhand - ms.qtyreserved) AS qtyavailable, 
+			sum(ms.qtyonhand) AS qtyonhand, 
+			sum(ms.qtyreserved) AS qtyreserved, 
+			ROUND(MAX(mpr.pricestd),0) AS pricestd, 
+			mpr.m_pricelist_version_id, 
+			mw.m_warehouse_id, 
+			org.name AS orgname
+           FROM m_relatedproduct r
+      JOIN m_storage ms ON ms.m_product_id = r.relatedproduct_id
+   JOIN m_product mp ON ms.m_product_id = mp.m_product_id
+   JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
+   JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id
+   JOIN m_productprice mpr ON ms.m_product_id = mpr.m_product_id
+   JOIN ad_org org ON org.ad_org_id = mw.ad_org_id 
+   GROUP BY r.ad_client_id, 
+   			r.ad_org_id, 
+   			r.isactive, 
+   			r.created, 
+   			r.createdby, 
+   			r.updated, 
+   			r.updatedby, 
+   			r.m_product_id, 
+   			r.relatedproduct_id, 
+   			r.name, 
+   			mw.m_warehouse_id, 
+   			mpr.m_pricelist_version_id, 
+   			org.name, 
+   			mp.value,
+   			mp.name;</RollbackStatement>
     </Step>
   </Migration>
 </Migrations>

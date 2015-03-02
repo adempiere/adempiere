@@ -30,7 +30,7 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_Migration (Properties ctx, int AD_Migration_ID, String trxName)
@@ -192,14 +192,6 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
-
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -281,6 +273,14 @@ public class X_AD_Migration extends PO implements I_AD_Migration, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
+    }
 
 	/** StatusCode AD_Reference_ID=53311 */
 	public static final int STATUSCODE_AD_Reference_ID=53311;

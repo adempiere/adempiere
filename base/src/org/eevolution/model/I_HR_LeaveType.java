@@ -50,19 +50,6 @@ public interface I_HR_LeaveType
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AdjacentHolidayType */
-    public static final String COLUMNNAME_AdjacentHolidayType = "AdjacentHolidayType";
-
-	/** Set Adjacent Holidays Type.
-	  * Adjacent Holidays Type
-	  */
-	public void setAdjacentHolidayType (String AdjacentHolidayType);
-
-	/** Get Adjacent Holidays Type.
-	  * Adjacent Holidays Type
-	  */
-	public String getAdjacentHolidayType();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -75,6 +62,19 @@ public interface I_HR_LeaveType
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AdjacentHolidayType */
+    public static final String COLUMNNAME_AdjacentHolidayType = "AdjacentHolidayType";
+
+	/** Set Adjacent Holidays Type.
+	  * Adjacent Holidays Type
+	  */
+	public void setAdjacentHolidayType (String AdjacentHolidayType);
+
+	/** Get Adjacent Holidays Type.
+	  * Adjacent Holidays Type
+	  */
+	public String getAdjacentHolidayType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

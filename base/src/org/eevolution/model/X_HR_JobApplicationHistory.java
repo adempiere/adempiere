@@ -31,7 +31,7 @@ public class X_HR_JobApplicationHistory extends PO implements I_HR_JobApplicatio
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_JobApplicationHistory (Properties ctx, int HR_JobApplicationHistory_ID, String trxName)

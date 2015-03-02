@@ -31,7 +31,7 @@ public class X_PP_ForecastDefinition extends PO implements I_PP_ForecastDefiniti
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_PP_ForecastDefinition (Properties ctx, int PP_ForecastDefinition_ID, String trxName)

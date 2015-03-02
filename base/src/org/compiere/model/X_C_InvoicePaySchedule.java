@@ -33,7 +33,7 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_InvoicePaySchedule (Properties ctx, int C_InvoicePaySchedule_ID, String trxName)
