@@ -284,7 +284,7 @@ public class MSPSColumn extends X_SPS_Column {
 		}
 		//
 		if (displayType == DisplayType.Integer)
-			return "NUMBERIC(10)";
+			return "NUMERIC(10)";
 		if (DisplayType.isDate(displayType))
 			return "TIMESTAMP";
 		if (DisplayType.isNumeric(displayType))
@@ -312,7 +312,7 @@ public class MSPSColumn extends X_SPS_Column {
 		if (displayType == DisplayType.Button)
 		{
 			if (columnName.endsWith("_ID"))
-				return "NUMBERIC(10)";
+				return "NUMERIC(10)";
 			else
 				return "CHAR(" + fieldLength + ")";
 		}
