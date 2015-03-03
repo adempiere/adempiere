@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="135">
+    <Comments>Meta-Data - 19</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53501" Action="I" Record_ID="50561" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65731" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65732" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="65742" Column="AD_RuleAfter_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65743" Column="AD_RuleBefore_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65733" Column="Created">2015-03-02 21:58:58.685</Data>
+        <Data AD_Column_ID="65734" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65745" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71493" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65746" Column="ErrImgUrl" isNewNull="true"/>
+        <Data AD_Column_ID="65748" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="65735" Column="IsActive">true</Data>
+        <Data AD_Column_ID="65751" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="65752" Column="Name">Create Table Order</Data>
+        <Data AD_Column_ID="74390" Column="Processing">false</Data>
+        <Data AD_Column_ID="65736" Column="SPS_SyncMenu_ID">50561</Data>
+        <Data AD_Column_ID="71529" Column="SPS_Table_ID">50300</Data>
+        <Data AD_Column_ID="65737" Column="Updated">2015-03-02 21:58:58.686</Data>
+        <Data AD_Column_ID="65738" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="65755" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="71602" Column="WS_WebService_ID">50006</Data>
+        <Data AD_Column_ID="74327" Column="WS_WebServiceMethod_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65756" Column="WS_WebServiceType_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="289" Action="I" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2868" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2869" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID">50005</Data>
+        <Data AD_Column_ID="2871" Column="Created">2015-03-02 21:59:05.116</Data>
+        <Data AD_Column_ID="2872" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2870" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID">50561</Data>
+        <Data AD_Column_ID="2877" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2879" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="2873" Column="Updated">2015-03-02 21:59:05.116</Data>
+        <Data AD_Column_ID="2874" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53164" Action="I" Record_ID="50586" Table="WS_WebServiceType">
+        <Data AD_Column_ID="56719" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56720" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56733" Column="AD_Table_ID" isNewNull="true"/>
+        <Data AD_Column_ID="56721" Column="Created">2015-03-02 21:59:20.938</Data>
+        <Data AD_Column_ID="56722" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56723" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="56724" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56725" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56727" Column="Name">Create Table Order</Data>
+        <Data AD_Column_ID="56728" Column="Updated">2015-03-02 21:59:20.938</Data>
+        <Data AD_Column_ID="56729" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56730" Column="Value">Create Table Order</Data>
+        <Data AD_Column_ID="56731" Column="WS_WebService_ID">50006</Data>
+        <Data AD_Column_ID="56732" Column="WS_WebServiceMethod_ID">50046</Data>
+        <Data AD_Column_ID="56726" Column="WS_WebServiceType_ID">50586</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53165" Action="I" Record_ID="51057" Table="WS_WebService_Para">
+        <Data AD_Column_ID="56736" Column="WS_WebServiceType_ID">50586</Data>
+        <Data AD_Column_ID="56734" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56735" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56745" Column="ConstantValue">Script</Data>
+        <Data AD_Column_ID="56738" Column="Created">2015-03-02 21:59:21.826</Data>
+        <Data AD_Column_ID="56739" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56740" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56743" Column="ParameterName">Action</Data>
+        <Data AD_Column_ID="56744" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="56741" Column="Updated">2015-03-02 21:59:21.826</Data>
+        <Data AD_Column_ID="56742" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56737" Column="WS_WebService_Para_ID">51057</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50561" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65756" Column="WS_WebServiceType_ID" isOldNull="true">50586</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50561">50561</Data>
+        <Data AD_Column_ID="2877" Column="Parent_ID" isOldNull="true">50189</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="0">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50193">50193</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="110">111</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53501" Action="I" Record_ID="50562" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65731" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65732" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="65742" Column="AD_RuleAfter_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65743" Column="AD_RuleBefore_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65733" Column="Created">2015-03-02 22:01:12.536</Data>
+        <Data AD_Column_ID="65734" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65745" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71493" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65746" Column="ErrImgUrl" isNewNull="true"/>
+        <Data AD_Column_ID="65748" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="65735" Column="IsActive">true</Data>
+        <Data AD_Column_ID="65751" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="65752" Column="Name">Create Table Order Line</Data>
+        <Data AD_Column_ID="74390" Column="Processing">false</Data>
+        <Data AD_Column_ID="65736" Column="SPS_SyncMenu_ID">50562</Data>
+        <Data AD_Column_ID="71529" Column="SPS_Table_ID">50301</Data>
+        <Data AD_Column_ID="65737" Column="Updated">2015-03-02 22:01:12.536</Data>
+        <Data AD_Column_ID="65738" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="65755" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="71602" Column="WS_WebService_ID">50006</Data>
+        <Data AD_Column_ID="74327" Column="WS_WebServiceMethod_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65756" Column="WS_WebServiceType_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="289" Action="I" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2868" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2869" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID">50005</Data>
+        <Data AD_Column_ID="2871" Column="Created">2015-03-02 22:01:13.545</Data>
+        <Data AD_Column_ID="2872" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2870" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID">50562</Data>
+        <Data AD_Column_ID="2877" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2879" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="2873" Column="Updated">2015-03-02 22:01:13.545</Data>
+        <Data AD_Column_ID="2874" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53164" Action="I" Record_ID="50587" Table="WS_WebServiceType">
+        <Data AD_Column_ID="56719" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56720" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56733" Column="AD_Table_ID" isNewNull="true"/>
+        <Data AD_Column_ID="56721" Column="Created">2015-03-02 22:01:38.997</Data>
+        <Data AD_Column_ID="56722" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56723" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="56724" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56725" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56727" Column="Name">Create Table Order Line</Data>
+        <Data AD_Column_ID="56728" Column="Updated">2015-03-02 22:01:38.997</Data>
+        <Data AD_Column_ID="56729" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56730" Column="Value">Create Table Order Line</Data>
+        <Data AD_Column_ID="56731" Column="WS_WebService_ID">50006</Data>
+        <Data AD_Column_ID="56732" Column="WS_WebServiceMethod_ID">50046</Data>
+        <Data AD_Column_ID="56726" Column="WS_WebServiceType_ID">50587</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53165" Action="I" Record_ID="51058" Table="WS_WebService_Para">
+        <Data AD_Column_ID="56734" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56735" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56745" Column="ConstantValue">Script</Data>
+        <Data AD_Column_ID="56738" Column="Created">2015-03-02 22:01:39.888</Data>
+        <Data AD_Column_ID="56739" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56740" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56743" Column="ParameterName">Action</Data>
+        <Data AD_Column_ID="56744" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="56741" Column="Updated">2015-03-02 22:01:39.888</Data>
+        <Data AD_Column_ID="56742" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56737" Column="WS_WebService_Para_ID">51058</Data>
+        <Data AD_Column_ID="56736" Column="WS_WebServiceType_ID">50587</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50562" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65756" Column="WS_WebServiceType_ID" isOldNull="true">50587</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50562">50562</Data>
+        <Data AD_Column_ID="2877" Column="Parent_ID" isOldNull="true">50189</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="0">111</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50193">50193</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="111">112</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53501" Action="I" Record_ID="50563" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65731" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65732" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="65742" Column="AD_RuleAfter_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65743" Column="AD_RuleBefore_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65733" Column="Created">2015-03-02 22:10:21.845</Data>
+        <Data AD_Column_ID="65734" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65745" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71493" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65746" Column="ErrImgUrl" isNewNull="true"/>
+        <Data AD_Column_ID="65748" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="65735" Column="IsActive">true</Data>
+        <Data AD_Column_ID="65751" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="65752" Column="Name">Create Table Charge</Data>
+        <Data AD_Column_ID="74390" Column="Processing">false</Data>
+        <Data AD_Column_ID="65736" Column="SPS_SyncMenu_ID">50563</Data>
+        <Data AD_Column_ID="71529" Column="SPS_Table_ID">50298</Data>
+        <Data AD_Column_ID="65737" Column="Updated">2015-03-02 22:10:21.845</Data>
+        <Data AD_Column_ID="65738" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="65755" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="71602" Column="WS_WebService_ID">50006</Data>
+        <Data AD_Column_ID="74327" Column="WS_WebServiceMethod_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65756" Column="WS_WebServiceType_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="289" Action="I" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2868" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2869" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID">50005</Data>
+        <Data AD_Column_ID="2871" Column="Created">2015-03-02 22:10:22.81</Data>
+        <Data AD_Column_ID="2872" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2870" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID">50563</Data>
+        <Data AD_Column_ID="2877" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2879" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="2873" Column="Updated">2015-03-02 22:10:22.81</Data>
+        <Data AD_Column_ID="2874" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50563">50563</Data>
+        <Data AD_Column_ID="2877" Column="Parent_ID" isOldNull="true">50189</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="0">112</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50193">50193</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="112">113</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53164" Action="I" Record_ID="50588" Table="WS_WebServiceType">
+        <Data AD_Column_ID="56719" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56720" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56733" Column="AD_Table_ID" isNewNull="true"/>
+        <Data AD_Column_ID="56721" Column="Created">2015-03-02 22:10:38.357</Data>
+        <Data AD_Column_ID="56722" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56723" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="56724" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56725" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56727" Column="Name">Create Table Charge</Data>
+        <Data AD_Column_ID="56728" Column="Updated">2015-03-02 22:10:38.357</Data>
+        <Data AD_Column_ID="56729" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56730" Column="Value">Create Table Charge</Data>
+        <Data AD_Column_ID="56731" Column="WS_WebService_ID">50006</Data>
+        <Data AD_Column_ID="56732" Column="WS_WebServiceMethod_ID">50046</Data>
+        <Data AD_Column_ID="56726" Column="WS_WebServiceType_ID">50588</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53165" Action="I" Record_ID="51059" Table="WS_WebService_Para">
+        <Data AD_Column_ID="56734" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56735" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56745" Column="ConstantValue">Script</Data>
+        <Data AD_Column_ID="56738" Column="Created">2015-03-02 22:10:39.089</Data>
+        <Data AD_Column_ID="56739" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56740" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56743" Column="ParameterName">Action</Data>
+        <Data AD_Column_ID="56744" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="56741" Column="Updated">2015-03-02 22:10:39.089</Data>
+        <Data AD_Column_ID="56742" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56737" Column="WS_WebService_Para_ID">51059</Data>
+        <Data AD_Column_ID="56736" Column="WS_WebServiceType_ID">50588</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50563" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65756" Column="WS_WebServiceType_ID" isOldNull="true">50588</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53501" Action="I" Record_ID="50564" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65731" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65732" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="65742" Column="AD_RuleAfter_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65743" Column="AD_RuleBefore_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65733" Column="Created">2015-03-02 22:12:31.212</Data>
+        <Data AD_Column_ID="65734" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65745" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71493" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65746" Column="ErrImgUrl" isNewNull="true"/>
+        <Data AD_Column_ID="65748" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="65735" Column="IsActive">true</Data>
+        <Data AD_Column_ID="65751" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="65752" Column="Name">Create Table Charge Type</Data>
+        <Data AD_Column_ID="74390" Column="Processing">false</Data>
+        <Data AD_Column_ID="65736" Column="SPS_SyncMenu_ID">50564</Data>
+        <Data AD_Column_ID="71529" Column="SPS_Table_ID">50299</Data>
+        <Data AD_Column_ID="65737" Column="Updated">2015-03-02 22:12:31.212</Data>
+        <Data AD_Column_ID="65738" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="65755" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="71602" Column="WS_WebService_ID">50006</Data>
+        <Data AD_Column_ID="74327" Column="WS_WebServiceMethod_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65756" Column="WS_WebServiceType_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="289" Action="I" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2868" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2869" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID">50005</Data>
+        <Data AD_Column_ID="2871" Column="Created">2015-03-02 22:12:32.202</Data>
+        <Data AD_Column_ID="2872" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2870" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID">50564</Data>
+        <Data AD_Column_ID="2877" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2879" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="2873" Column="Updated">2015-03-02 22:12:32.202</Data>
+        <Data AD_Column_ID="2874" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50564">50564</Data>
+        <Data AD_Column_ID="2877" Column="Parent_ID" isOldNull="true">50189</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="0">113</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50193">50193</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="113">114</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50418" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65745" Column="Description" isNewNull="true" oldValue="Table for the Fields"/>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56211" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID">127</Data>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">566</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">11</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">SeqNo</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-02 23:18:12.785</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description">Method of ordering records; lowest number comes first</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Sequence</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo">0</Data>
+        <Data AD_Column_ID="65718" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56211</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50249</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-02 23:18:12.786</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="53058" Action="U" Record_ID="50197" Table="AD_Rule">
+        <Data AD_Column_ID="54257" Column="Script" oldValue="CREATE TABLE AD_Column (AD_Client_ID NUMERIC(10) NOT NULL, AD_Column_ID NUMERIC(10) NOT NULL, AD_Element_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Process_ID NUMERIC(10) DEFAULT NULL , AD_Reference_ID NUMERIC(10) NOT NULL, AD_Reference_Value_ID NUMERIC(10) DEFAULT NULL , AD_Table_ID NUMERIC(10) NOT NULL, AD_Val_Rule_ID NUMERIC(10) DEFAULT NULL , Callout VARCHAR(255) DEFAULT NULL , ColumnName VARCHAR(30) NOT NULL, ColumnSQL VARCHAR(2000) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DefaultValue VARCHAR(2000) DEFAULT NULL , Description VARCHAR(255) DEFAULT NULL , EntityType VARCHAR(40) DEFAULT 'U' NOT NULL, FieldLength NUMBERIC(10) DEFAULT NULL , FormatPattern VARCHAR(22) DEFAULT NULL , Help VARCHAR(2000) DEFAULT NULL , InfoFactoryClass VARCHAR(255) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsAllowLogging CHAR(1) DEFAULT 'Y' CHECK (IsAllowLogging IN ('Y','N')), IsAlwaysUpdateable CHAR(1) DEFAULT 'N' CHECK (IsAlwaysUpdateable IN ('Y','N')) NOT NULL, IsAutocomplete CHAR(1) DEFAULT 'N' CHECK (IsAutocomplete IN ('Y','N')) NOT NULL, IsEncrypted CHAR(1) DEFAULT 'N' NOT NULL, IsIdentifier CHAR(1) CHECK (IsIdentifier IN ('Y','N')) NOT NULL, IsKey CHAR(1) CHECK (IsKey IN ('Y','N')) NOT NULL, IsMandatory CHAR(1) CHECK (IsMandatory IN ('Y','N')) NOT NULL, IsParent CHAR(1) CHECK (IsParent IN ('Y','N')) NOT NULL, IsSelectionColumn CHAR(1) CHECK (IsSelectionColumn IN ('Y','N')) NOT NULL, IsSyncDatabase CHAR(1) DEFAULT NULL , IsTranslated CHAR(1) CHECK (IsTranslated IN ('Y','N')) NOT NULL, IsUpdateable CHAR(1) DEFAULT 'Y' CHECK (IsUpdateable IN ('Y','N')) NOT NULL, MandatoryLogic VARCHAR(2000) DEFAULT NULL , Name VARCHAR(60) NOT NULL, ReadOnlyLogic VARCHAR(2000) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, ValueMax VARCHAR(20) DEFAULT NULL , ValueMin VARCHAR(20) DEFAULT NULL , VFormat VARCHAR(60) DEFAULT NULL , CONSTRAINT AD_Column_Key PRIMARY KEY (AD_Column_ID))">CREATE TABLE AD_Column (AD_Client_ID NUMERIC(10) NOT NULL, AD_Column_ID NUMERIC(10) NOT NULL, AD_Element_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Process_ID NUMERIC(10) DEFAULT NULL , AD_Reference_ID NUMERIC(10) NOT NULL, AD_Reference_Value_ID NUMERIC(10) DEFAULT NULL , AD_Table_ID NUMERIC(10) NOT NULL, AD_Val_Rule_ID NUMERIC(10) DEFAULT NULL , Callout VARCHAR(255) DEFAULT NULL , ColumnName VARCHAR(30) NOT NULL, ColumnSQL VARCHAR(2000) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DefaultValue VARCHAR(2000) DEFAULT NULL , Description VARCHAR(255) DEFAULT NULL , EntityType VARCHAR(40) DEFAULT 'U' NOT NULL, FieldLength NUMBERIC(10) DEFAULT NULL , FormatPattern VARCHAR(22) DEFAULT NULL , Help VARCHAR(2000) DEFAULT NULL , InfoFactoryClass VARCHAR(255) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsAllowLogging CHAR(1) DEFAULT 'Y' CHECK (IsAllowLogging IN ('Y','N')), IsAlwaysUpdateable CHAR(1) DEFAULT 'N' CHECK (IsAlwaysUpdateable IN ('Y','N')) NOT NULL, IsAutocomplete CHAR(1) DEFAULT 'N' CHECK (IsAutocomplete IN ('Y','N')) NOT NULL, IsEncrypted CHAR(1) DEFAULT 'N' NOT NULL, IsIdentifier CHAR(1) CHECK (IsIdentifier IN ('Y','N')) NOT NULL, IsKey CHAR(1) CHECK (IsKey IN ('Y','N')) NOT NULL, IsMandatory CHAR(1) CHECK (IsMandatory IN ('Y','N')) NOT NULL, IsParent CHAR(1) CHECK (IsParent IN ('Y','N')) NOT NULL, IsSelectionColumn CHAR(1) CHECK (IsSelectionColumn IN ('Y','N')) NOT NULL, IsSyncDatabase CHAR(1) DEFAULT NULL , IsTranslated CHAR(1) CHECK (IsTranslated IN ('Y','N')) NOT NULL, IsUpdateable CHAR(1) DEFAULT 'Y' CHECK (IsUpdateable IN ('Y','N')) NOT NULL, MandatoryLogic VARCHAR(2000) DEFAULT NULL , Name VARCHAR(60) NOT NULL, ReadOnlyLogic VARCHAR(2000) DEFAULT NULL , SeqNo NUMBERIC(10) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, ValueMax VARCHAR(20) DEFAULT NULL , ValueMin VARCHAR(20) DEFAULT NULL , VFormat VARCHAR(60) DEFAULT NULL , CONSTRAINT AD_Column</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53058" Action="U" Record_ID="50197" Table="AD_Rule">
+        <Data AD_Column_ID="54257" Column="Script" oldValue="CREATE TABLE AD_Column (AD_Client_ID NUMERIC(10) NOT NULL, AD_Column_ID NUMERIC(10) NOT NULL, AD_Element_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Process_ID NUMERIC(10) DEFAULT NULL , AD_Reference_ID NUMERIC(10) NOT NULL, AD_Reference_Value_ID NUMERIC(10) DEFAULT NULL , AD_Table_ID NUMERIC(10) NOT NULL, AD_Val_Rule_ID NUMERIC(10) DEFAULT NULL , Callout VARCHAR(255) DEFAULT NULL , ColumnName VARCHAR(30) NOT NULL, ColumnSQL VARCHAR(2000) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DefaultValue VARCHAR(2000) DEFAULT NULL , Description VARCHAR(255) DEFAULT NULL , EntityType VARCHAR(40) DEFAULT 'U' NOT NULL, FieldLength NUMBERIC(10) DEFAULT NULL , FormatPattern VARCHAR(22) DEFAULT NULL , Help VARCHAR(2000) DEFAULT NULL , InfoFactoryClass VARCHAR(255) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsAllowLogging CHAR(1) DEFAULT 'Y' CHECK (IsAllowLogging IN ('Y','N')), IsAlwaysUpdateable CHAR(1) DEFAULT 'N' CHECK (IsAlwaysUpdateable IN ('Y','N')) NOT NULL, IsAutocomplete CHAR(1) DEFAULT 'N' CHECK (IsAutocomplete IN ('Y','N')) NOT NULL, IsEncrypted CHAR(1) DEFAULT 'N' NOT NULL, IsIdentifier CHAR(1) CHECK (IsIdentifier IN ('Y','N')) NOT NULL, IsKey CHAR(1) CHECK (IsKey IN ('Y','N')) NOT NULL, IsMandatory CHAR(1) CHECK (IsMandatory IN ('Y','N')) NOT NULL, IsParent CHAR(1) CHECK (IsParent IN ('Y','N')) NOT NULL, IsSelectionColumn CHAR(1) CHECK (IsSelectionColumn IN ('Y','N')) NOT NULL, IsSyncDatabase CHAR(1) DEFAULT NULL , IsTranslated CHAR(1) CHECK (IsTranslated IN ('Y','N')) NOT NULL, IsUpdateable CHAR(1) DEFAULT 'Y' CHECK (IsUpdateable IN ('Y','N')) NOT NULL, MandatoryLogic VARCHAR(2000) DEFAULT NULL , Name VARCHAR(60) NOT NULL, ReadOnlyLogic VARCHAR(2000) DEFAULT NULL , SeqNo NUMBERIC(10) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, ValueMax VARCHAR(20) DEFAULT NULL , ValueMin VARCHAR(20) DEFAULT NULL , VFormat VARCHAR(60) DEFAULT NULL , CONSTRAINT AD_Column">CREATE TABLE AD_Column (AD_Client_ID NUMERIC(10) NOT NULL, AD_Column_ID NUMERIC(10) NOT NULL, AD_Element_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Process_ID NUMERIC(10) DEFAULT NULL , AD_Reference_ID NUMERIC(10) NOT NULL, AD_Reference_Value_ID NUMERIC(10) DEFAULT NULL , AD_Table_ID NUMERIC(10) NOT NULL, AD_Val_Rule_ID NUMERIC(10) DEFAULT NULL , Callout VARCHAR(255) DEFAULT NULL , ColumnName VARCHAR(30) NOT NULL, ColumnSQL VARCHAR(2000) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DefaultValue VARCHAR(2000) DEFAULT NULL , Description VARCHAR(255) DEFAULT NULL , EntityType VARCHAR(40) DEFAULT 'U' NOT NULL, FieldLength NUMBERIC(10) DEFAULT NULL , FormatPattern VARCHAR(22) DEFAULT NULL , Help VARCHAR(2000) DEFAULT NULL , InfoFactoryClass VARCHAR(255) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsAllowLogging CHAR(1) DEFAULT 'Y' CHECK (IsAllowLogging IN ('Y','N')), IsAlwaysUpdateable CHAR(1) DEFAULT 'N' CHECK (IsAlwaysUpdateable IN ('Y','N')) NOT NULL, IsAutocomplete CHAR(1) DEFAULT 'N' CHECK (IsAutocomplete IN ('Y','N')) NOT NULL, IsEncrypted CHAR(1) DEFAULT 'N' NOT NULL, IsIdentifier CHAR(1) CHECK (IsIdentifier IN ('Y','N')) NOT NULL, IsKey CHAR(1) CHECK (IsKey IN ('Y','N')) NOT NULL, IsMandatory CHAR(1) CHECK (IsMandatory IN ('Y','N')) NOT NULL, IsParent CHAR(1) CHECK (IsParent IN ('Y','N')) NOT NULL, IsSelectionColumn CHAR(1) CHECK (IsSelectionColumn IN ('Y','N')) NOT NULL, IsSyncDatabase CHAR(1) DEFAULT NULL , IsTranslated CHAR(1) CHECK (IsTranslated IN ('Y','N')) NOT NULL, IsUpdateable CHAR(1) DEFAULT 'Y' CHECK (IsUpdateable IN ('Y','N')) NOT NULL, MandatoryLogic VARCHAR(2000) DEFAULT NULL , Name VARCHAR(60) NOT NULL, ReadOnlyLogic VARCHAR(2000) DEFAULT NULL , SeqNo NUMERIC(10) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, ValueMax VARCHAR(20) DEFAULT NULL , ValueMin VARCHAR(20) DEFAULT NULL , VFormat VARCHAR(60) DEFAULT NULL , CONSTRAINT AD_Column_</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53499" Action="D" Record_ID="56211" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true" oldValue="127"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID" isNewNull="true" oldValue="566"/>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID" isNewNull="true" oldValue="11"/>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName" isNewNull="true" oldValue="SeqNo"/>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created" isNewNull="true" oldValue="2015-03-02 23:18:12.0"/>
+        <Data AD_Column_ID="65692" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description" isNewNull="true" oldValue="Method of ordering records; lowest number comes first"/>
+        <Data AD_Column_ID="71491" Column="EntityType" isNewNull="true" oldValue="ECA01"/>
+        <Data AD_Column_ID="65706" Column="FieldLength" isNewNull="true" oldValue="22"/>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="65709" Column="IsEncrypted" isNewNull="true" oldValue="N"/>
+        <Data AD_Column_ID="65710" Column="IsIdentifier" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65711" Column="IsKey" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65712" Column="IsMandatory" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65713" Column="IsParent" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65715" Column="IsUpdateable" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="65716" Column="Name" isNewNull="true" oldValue="Sequence"/>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID" isNewNull="true" oldValue="56211"/>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID" isNewNull="true" oldValue="50249"/>
+        <Data AD_Column_ID="65695" Column="Updated" isNewNull="true" oldValue="2015-03-02 23:18:12.0"/>
+        <Data AD_Column_ID="65696" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="53167" Action="D" Record_ID="53039" Table="WS_WebServiceFieldOutput">
+        <Data AD_Column_ID="56756" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56757" Column="AD_Column_ID" isNewNull="true" oldValue="110"/>
+        <Data AD_Column_ID="56758" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56759" Column="Created" isNewNull="true" oldValue="2015-02-07 21:07:16.0"/>
+        <Data AD_Column_ID="56760" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="56761" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="56762" Column="Updated" isNewNull="true" oldValue="2015-02-07 21:07:16.0"/>
+        <Data AD_Column_ID="56763" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="56764" Column="WS_WebServiceFieldOutput_ID" isNewNull="true" oldValue="53039"/>
+        <Data AD_Column_ID="56765" Column="WS_WebServiceType_ID" isNewNull="true" oldValue="50423"/>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53167" Action="D" Record_ID="53034" Table="WS_WebServiceFieldOutput">
+        <Data AD_Column_ID="56756" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56757" Column="AD_Column_ID" isNewNull="true" oldValue="127"/>
+        <Data AD_Column_ID="56758" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56759" Column="Created" isNewNull="true" oldValue="2015-02-07 21:07:14.0"/>
+        <Data AD_Column_ID="56760" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="56761" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="56762" Column="Updated" isNewNull="true" oldValue="2015-02-07 21:07:14.0"/>
+        <Data AD_Column_ID="56763" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="56764" Column="WS_WebServiceFieldOutput_ID" isNewNull="true" oldValue="53034"/>
+        <Data AD_Column_ID="56765" Column="WS_WebServiceType_ID" isNewNull="true" oldValue="50423"/>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="53058" Action="U" Record_ID="50197" Table="AD_Rule">
+        <Data AD_Column_ID="54257" Column="Script" oldValue="CREATE TABLE AD_Column (AD_Client_ID NUMERIC(10) NOT NULL, AD_Column_ID NUMERIC(10) NOT NULL, AD_Element_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Process_ID NUMERIC(10) DEFAULT NULL , AD_Reference_ID NUMERIC(10) NOT NULL, AD_Reference_Value_ID NUMERIC(10) DEFAULT NULL , AD_Table_ID NUMERIC(10) NOT NULL, AD_Val_Rule_ID NUMERIC(10) DEFAULT NULL , Callout VARCHAR(255) DEFAULT NULL , ColumnName VARCHAR(30) NOT NULL, ColumnSQL VARCHAR(2000) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DefaultValue VARCHAR(2000) DEFAULT NULL , Description VARCHAR(255) DEFAULT NULL , EntityType VARCHAR(40) DEFAULT 'U' NOT NULL, FieldLength NUMBERIC(10) DEFAULT NULL , FormatPattern VARCHAR(22) DEFAULT NULL , Help VARCHAR(2000) DEFAULT NULL , InfoFactoryClass VARCHAR(255) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsAllowLogging CHAR(1) DEFAULT 'Y' CHECK (IsAllowLogging IN ('Y','N')), IsAlwaysUpdateable CHAR(1) DEFAULT 'N' CHECK (IsAlwaysUpdateable IN ('Y','N')) NOT NULL, IsAutocomplete CHAR(1) DEFAULT 'N' CHECK (IsAutocomplete IN ('Y','N')) NOT NULL, IsEncrypted CHAR(1) DEFAULT 'N' NOT NULL, IsIdentifier CHAR(1) CHECK (IsIdentifier IN ('Y','N')) NOT NULL, IsKey CHAR(1) CHECK (IsKey IN ('Y','N')) NOT NULL, IsMandatory CHAR(1) CHECK (IsMandatory IN ('Y','N')) NOT NULL, IsParent CHAR(1) CHECK (IsParent IN ('Y','N')) NOT NULL, IsSelectionColumn CHAR(1) CHECK (IsSelectionColumn IN ('Y','N')) NOT NULL, IsSyncDatabase CHAR(1) DEFAULT NULL , IsTranslated CHAR(1) CHECK (IsTranslated IN ('Y','N')) NOT NULL, IsUpdateable CHAR(1) DEFAULT 'Y' CHECK (IsUpdateable IN ('Y','N')) NOT NULL, MandatoryLogic VARCHAR(2000) DEFAULT NULL , Name VARCHAR(60) NOT NULL, ReadOnlyLogic VARCHAR(2000) DEFAULT NULL , SeqNo NUMERIC(10) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, ValueMax VARCHAR(20) DEFAULT NULL , ValueMin VARCHAR(20) DEFAULT NULL , VFormat VARCHAR(60) DEFAULT NULL , CONSTRAINT AD_Column_">CREATE TABLE AD_Column (AD_Client_ID NUMERIC(10) NOT NULL, AD_Column_ID NUMERIC(10) NOT NULL, AD_Element_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Process_ID NUMERIC(10) DEFAULT NULL , AD_Reference_ID NUMERIC(10) NOT NULL, AD_Reference_Value_ID NUMERIC(10) DEFAULT NULL , AD_Table_ID NUMERIC(10) NOT NULL, AD_Val_Rule_ID NUMERIC(10) DEFAULT NULL , Callout VARCHAR(255) DEFAULT NULL , ColumnName VARCHAR(30) NOT NULL, ColumnSQL VARCHAR(2000) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DefaultValue VARCHAR(2000) DEFAULT NULL , Description VARCHAR(255) DEFAULT NULL , EntityType VARCHAR(40) DEFAULT 'U' NOT NULL, FieldLength NUMBERIC(10) DEFAULT NULL , FormatPattern VARCHAR(22) DEFAULT NULL , Help VARCHAR(2000) DEFAULT NULL , InfoFactoryClass VARCHAR(255) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsAllowLogging CHAR(1) DEFAULT 'Y' CHECK (IsAllowLogging IN ('Y','N')), IsAlwaysUpdateable CHAR(1) DEFAULT 'N' CHECK (IsAlwaysUpdateable IN ('Y','N')) NOT NULL, IsAutocomplete CHAR(1) DEFAULT 'N' CHECK (IsAutocomplete IN ('Y','N')) NOT NULL, IsEncrypted CHAR(1) DEFAULT 'N' NOT NULL, IsIdentifier CHAR(1) CHECK (IsIdentifier IN ('Y','N')) NOT NULL, IsKey CHAR(1) CHECK (IsKey IN ('Y','N')) NOT NULL, IsMandatory CHAR(1) CHECK (IsMandatory IN ('Y','N')) NOT NULL, IsParent CHAR(1) CHECK (IsParent IN ('Y','N')) NOT NULL, IsSelectionColumn CHAR(1) CHECK (IsSelectionColumn IN ('Y','N')) NOT NULL, IsSyncDatabase CHAR(1) DEFAULT NULL , IsTranslated CHAR(1) CHECK (IsTranslated IN ('Y','N')) NOT NULL, IsUpdateable CHAR(1) DEFAULT 'Y' CHECK (IsUpdateable IN ('Y','N')) NOT NULL, MandatoryLogic VARCHAR(2000) DEFAULT NULL , Name VARCHAR(60) NOT NULL, ReadOnlyLogic VARCHAR(2000) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, ValueMax VARCHAR(20) DEFAULT NULL , ValueMin VARCHAR(20) DEFAULT NULL , VFormat VARCHAR(60) DEFAULT NULL , CONSTRAINT AD_Column_Key PRIMARY KEY (AD_Column_ID))</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53167" Action="D" Record_ID="54005" Table="WS_WebServiceFieldOutput">
+        <Data AD_Column_ID="56756" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56757" Column="AD_Column_ID" isNewNull="true" oldValue="74389"/>
+        <Data AD_Column_ID="56758" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56759" Column="Created" isNewNull="true" oldValue="2015-02-07 21:16:11.0"/>
+        <Data AD_Column_ID="56760" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="56761" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="56762" Column="Updated" isNewNull="true" oldValue="2015-02-07 21:16:11.0"/>
+        <Data AD_Column_ID="56763" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="56764" Column="WS_WebServiceFieldOutput_ID" isNewNull="true" oldValue="54005"/>
+        <Data AD_Column_ID="56765" Column="WS_WebServiceType_ID" isNewNull="true" oldValue="50475"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
