@@ -32,7 +32,7 @@ public class X_PP_MRP_Detail extends PO implements I_PP_MRP_Detail, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_PP_MRP_Detail (Properties ctx, int PP_MRP_Detail_ID, String trxName)

@@ -31,7 +31,7 @@ public class X_WM_Area extends PO implements I_WM_Area, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_WM_Area (Properties ctx, int WM_Area_ID, String trxName)

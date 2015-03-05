@@ -31,7 +31,7 @@ public class X_HR_Designation extends PO implements I_HR_Designation, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_Designation (Properties ctx, int HR_Designation_ID, String trxName)

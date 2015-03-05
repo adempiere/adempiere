@@ -75,7 +75,7 @@ public interface IBrowser {
 
     public String  getSQLWhere(boolean refresh);
 
-    public String getAxisSQLWhere(I_AD_View_Column viewColumn, boolean refresh);
+    public String getAxisSQLWhere(I_AD_View_Column viewColumn);
 
     public String getSQLOrderBy();
 

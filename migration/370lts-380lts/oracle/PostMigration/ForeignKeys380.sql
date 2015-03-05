@@ -118,9 +118,9 @@ ALTER TABLE GL_JournalLine ADD (CONSTRAINT AliasValidCombination_GLJourna FOREIG
 
 ALTER TABLE GL_JournalLine ADD (CONSTRAINT MProduct_GLJournalLine FOREIGN KEY (M_Product_ID) REFERENCES M_Product);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 
-ALTER TABLE GL_JournalLine ADD (CONSTRAINT UserElement1_GLJournalLine FOREIGN KEY (UserElement1_ID) REFERENCES C_ElementValue);
+--ALTER TABLE GL_JournalLine ADD (CONSTRAINT UserElement1_GLJournalLine FOREIGN KEY (UserElement1_ID) REFERENCES C_ElementValue);
 
-ALTER TABLE GL_JournalLine ADD (CONSTRAINT UserElement2_GLJournalLine FOREIGN KEY (UserElement2_ID) REFERENCES C_ElementValue);
+--ALTER TABLE GL_JournalLine ADD (CONSTRAINT UserElement2_GLJournalLine FOREIGN KEY (UserElement2_ID) REFERENCES C_ElementValue);
 
 ALTER TABLE HR_Attribute ADD (CONSTRAINT CCharge_HRAttribute FOREIGN KEY (C_Charge_ID) REFERENCES C_Charge);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
@@ -523,3 +523,187 @@ ALTER TABLE I_Budget ADD (CONSTRAINT GLBudget_IBudget FOREIGN KEY (GL_Budget_ID)
 ALTER TABLE I_Budget ADD (CONSTRAINT GLJournalBatch_IBudget FOREIGN KEY (GL_JournalBatch_ID) REFERENCES GL_JournalBatch);
 
 ALTER TABLE I_Budget ADD (CONSTRAINT MProduct_IBudget FOREIGN KEY (M_Product_ID) REFERENCES M_Product);
+
+ALTER TABLE A_Asset ADD (CONSTRAINT AAssetClass_AAsset FOREIGN KEY (A_Asset_Class_ID) REFERENCES A_Asset_Class);
+
+ALTER TABLE A_Asset ADD (CONSTRAINT AAssetType_AAsset FOREIGN KEY (A_Asset_Type_ID) REFERENCES A_Asset_Type);
+
+ALTER TABLE A_Asset ADD (CONSTRAINT CActivity_AAsset FOREIGN KEY (C_Activity_ID) REFERENCES C_Activity);
+
+ALTER TABLE A_Asset_Acct ADD (CONSTRAINT ADepreciationF_AAssetAcct FOREIGN KEY (A_Depreciation_F_ID) REFERENCES A_Depreciation);
+
+ALTER TABLE A_Asset_Acct ADD (CONSTRAINT ADepreciationConvF_AAssetAcct FOREIGN KEY (A_Depreciation_Conv_F_ID) REFERENCES A_Depreciation_Convention);
+
+ALTER TABLE A_Asset_Acct ADD (CONSTRAINT ADepreciationMethodF_AAssetAcc FOREIGN KEY (A_Depreciation_Method_F_ID) REFERENCES A_Depreciation_Method);
+
+ALTER TABLE A_Asset_Addition ADD (CONSTRAINT CCharge_AAssetAddition FOREIGN KEY (C_Charge_ID) REFERENCES C_Charge);
+
+ALTER TABLE A_Asset_Addition ADD (CONSTRAINT CConversionType_AAssetAddition FOREIGN KEY (C_ConversionType_ID) REFERENCES C_ConversionType);
+
+ALTER TABLE A_Asset_Addition ADD (CONSTRAINT CCurrency_AAssetAddition FOREIGN KEY (C_Currency_ID) REFERENCES C_Currency);
+
+ALTER TABLE A_Asset_Addition ADD (CONSTRAINT CDocType_AAssetAddition FOREIGN KEY (C_DocType_ID) REFERENCES C_DocType);
+
+ALTER TABLE A_Asset_Addition ADD (CONSTRAINT CProject_AAssetAddition FOREIGN KEY (C_Project_ID) REFERENCES C_Project);
+
+ALTER TABLE A_Asset_Addition ADD (CONSTRAINT IFixedAsset_AAssetAddition FOREIGN KEY (I_FixedAsset_ID) REFERENCES I_FixedAsset);
+
+ALTER TABLE A_Asset_Addition ADD (CONSTRAINT MInOutLine_AAssetAddition FOREIGN KEY (M_InOutLine_ID) REFERENCES M_InOutLine);
+
+ALTER TABLE A_Asset_Addition ADD (CONSTRAINT MMatchInv_AAssetAddition FOREIGN KEY (M_MatchInv_ID) REFERENCES M_MatchInv);
+
+ALTER TABLE A_Asset_Addition ADD (CONSTRAINT MProduct_AAssetAddition FOREIGN KEY (M_Product_ID) REFERENCES M_Product);
+
+--ALTER TABLE A_Asset_Change ADD (CONSTRAINT AAssetSpreadT_AAssetChange FOREIGN KEY (A_Asset_Spread_Type) REFERENCES A_Asset_Spread);
+
+--ALTER TABLE A_Asset_Change ADD (CONSTRAINT DepreciationT_AAssetChange FOREIGN KEY (DepreciationType) REFERENCES A_Depreciation);
+
+--ALTER TABLE A_Asset_Change ADD (CONSTRAINT ConventionT_AAssetChange FOREIGN KEY (ConventionType) REFERENCES A_Depreciation_Convention);
+
+--ALTER TABLE A_Asset_Change ADD (CONSTRAINT ADepreciationCalcT_AAssetChang FOREIGN KEY (A_Depreciation_Calc_Type) REFERENCES A_Depreciation_Method);
+
+ALTER TABLE A_Asset_Change ADD (CONSTRAINT CBPartner_AAssetChange FOREIGN KEY (C_BPartner_ID) REFERENCES C_BPartner);
+
+ALTER TABLE A_Asset_Disposed ADD (CONSTRAINT AAsset_AAssetDisposed FOREIGN KEY (A_Asset_ID) REFERENCES A_Asset);
+
+ALTER TABLE A_Asset_Disposed ADD (CONSTRAINT CDocType_AAssetDisposed FOREIGN KEY (C_DocType_ID) REFERENCES C_DocType);
+
+ALTER TABLE A_Asset_Disposed ADD (CONSTRAINT CInvoice_AAssetDisposed FOREIGN KEY (C_Invoice_ID) REFERENCES C_Invoice);
+
+ALTER TABLE A_Asset_Disposed ADD (CONSTRAINT CInvoiceLine_AAssetDisposed FOREIGN KEY (C_InvoiceLine_ID) REFERENCES C_InvoiceLine);
+
+ALTER TABLE A_Asset_Group ADD (CONSTRAINT AAssetClass_AAssetGroup FOREIGN KEY (A_Asset_Class_ID) REFERENCES A_Asset_Class);
+
+ALTER TABLE A_Asset_Group ADD (CONSTRAINT AAssetType_AAssetGroup FOREIGN KEY (A_Asset_Type_ID) REFERENCES A_Asset_Type);
+
+--ALTER TABLE A_Asset_Group_Acct ADD (CONSTRAINT AAssetSpreadT_AAssetGroupAcct FOREIGN KEY (A_Asset_Spread_Type) REFERENCES A_Asset_Spread);
+
+ALTER TABLE A_Asset_Group_Acct ADD (CONSTRAINT ADepreciationF_AAssetGroupAcct FOREIGN KEY (A_Depreciation_F_ID) REFERENCES A_Depreciation);
+
+--ALTER TABLE A_Asset_Group_Acct ADD (CONSTRAINT DepreciationT_AAssetGroupAcct FOREIGN KEY (DepreciationType) REFERENCES A_Depreciation);
+
+ALTER TABLE A_Asset_Group_Acct ADD (CONSTRAINT ADepreciationConvF_AAssetGroup FOREIGN KEY (A_Depreciation_Conv_F_ID) REFERENCES A_Depreciation_Convention);
+
+ALTER TABLE A_Asset_Group_Acct ADD (CONSTRAINT ADepreciationConv_AAssetGroupA FOREIGN KEY (A_Depreciation_Conv_ID) REFERENCES A_Depreciation_Convention);
+
+--ALTER TABLE A_Asset_Group_Acct ADD (CONSTRAINT ConventionT_AAssetGroupAcct FOREIGN KEY (ConventionType) REFERENCES A_Depreciation_Convention);
+
+--ALTER TABLE A_Asset_Group_Acct ADD (CONSTRAINT ADepreciationCalcT_AAssetGroup FOREIGN KEY (A_Depreciation_Calc_Type) REFERENCES A_Depreciation_Method);
+
+ALTER TABLE A_Asset_Group_Acct ADD (CONSTRAINT ADepreciationMethodF_AAssetGro FOREIGN KEY (A_Depreciation_Method_F_ID) REFERENCES A_Depreciation_Method);
+
+ALTER TABLE A_Asset_Group_Acct ADD (CONSTRAINT ADepreciationMethod_AAssetGrou FOREIGN KEY (A_Depreciation_Method_ID) REFERENCES A_Depreciation_Method);
+
+ALTER TABLE A_Asset_Info_Fin ADD (CONSTRAINT AAsset_AAssetInfoFin FOREIGN KEY (A_Asset_ID) REFERENCES A_Asset);
+
+ALTER TABLE A_Asset_Info_Fin ADD (CONSTRAINT CBPartner_AAssetInfoFin FOREIGN KEY (C_BPartner_ID) REFERENCES C_BPartner);
+
+ALTER TABLE A_Asset_Info_Lic ADD (CONSTRAINT AAsset_AAssetInfoLic FOREIGN KEY (A_Asset_ID) REFERENCES A_Asset);
+
+ALTER TABLE A_Asset_Product ADD (CONSTRAINT AAsset_AAssetProduct FOREIGN KEY (A_Asset_ID) REFERENCES A_Asset);
+
+ALTER TABLE A_Asset_Product ADD (CONSTRAINT MProduct_AAssetProduct FOREIGN KEY (M_Product_ID) REFERENCES M_Product);
+
+ALTER TABLE A_Asset_Reval ADD (CONSTRAINT AAsset_AAssetReval FOREIGN KEY (A_Asset_ID) REFERENCES A_Asset);
+
+--ALTER TABLE A_Asset_Split ADD (CONSTRAINT AAssetID_AAssetSplit FOREIGN KEY (A_Asset_ID_To) REFERENCES A_Asset (A_Asset_ID));
+
+ALTER TABLE A_Asset_Transfer ADD (CONSTRAINT AAsset_AAssetTransfer FOREIGN KEY (A_Asset_ID) REFERENCES A_Asset);
+
+ALTER TABLE A_Depreciation_Exp ADD (CONSTRAINT AAsset_ADepreciationExp FOREIGN KEY (A_Asset_ID) REFERENCES A_Asset);
+
+ALTER TABLE A_Depreciation_Exp ADD (CONSTRAINT AAssetAddition_ADepreciationEx FOREIGN KEY (A_Asset_Addition_ID) REFERENCES A_Asset_Addition);
+
+ALTER TABLE A_Depreciation_Exp ADD (CONSTRAINT AAssetDisposed_ADepreciationEx FOREIGN KEY (A_Asset_Disposed_ID) REFERENCES A_Asset_Disposed);
+
+ALTER TABLE A_Depreciation_Exp ADD (CONSTRAINT ADepreciationEntry_ADepreciati FOREIGN KEY (A_Depreciation_Entry_ID) REFERENCES A_Depreciation_Entry);
+
+ALTER TABLE A_Depreciation_Workfile ADD (CONSTRAINT AAsset_ADepreciationWorkfile FOREIGN KEY (A_Asset_ID) REFERENCES A_Asset);
+
+ALTER TABLE A_Depreciation_Workfile ADD (CONSTRAINT AFundingMode_ADepreciationWork FOREIGN KEY (A_FundingMode_ID) REFERENCES A_FundingMode);
+
+--ALTER TABLE AD_MigrationData ADD (CONSTRAINT ADColumn_ADMigrationData FOREIGN KEY (AD_Column_ID) REFERENCES AD_Column);
+
+--ALTER TABLE AD_MigrationStep ADD (CONSTRAINT ADTable_ADMigrationStep FOREIGN KEY (AD_Table_ID) REFERENCES AD_Table);
+
+--ALTER TABLE AD_Package_Exp_Detail ADD (CONSTRAINT ADEntityType_ADPackageExpDetai FOREIGN KEY (AD_EntityType_ID) REFERENCES AD_EntityType);
+
+ALTER TABLE A_FundingMode_Acct ADD (CONSTRAINT AFundingMode_AFundingModeAcct FOREIGN KEY (A_FundingMode_ID) REFERENCES A_FundingMode);
+
+ALTER TABLE A_FundingMode_Acct ADD (CONSTRAINT CAcctSchema_AFundingModeAcct FOREIGN KEY (C_AcctSchema_ID) REFERENCES C_AcctSchema);
+
+--ALTER TABLE Fact_Acct_Summary ADD (CONSTRAINT ADOrgTrx_FactAcctSummary FOREIGN KEY (AD_OrgTrx_ID) REFERENCES AD_Org (AD_Org_ID));
+
+--ALTER TABLE Fact_Acct_Summary ADD (CONSTRAINT CLocFrom_FactAcctSummary FOREIGN KEY (C_LocFrom_ID) REFERENCES C_Location (C_Location_ID));
+
+--ALTER TABLE Fact_Acct_Summary ADD (CONSTRAINT CLocTo_FactAcctSummary FOREIGN KEY (C_LocTo_ID) REFERENCES C_Location (C_Location_ID));
+
+--ALTER TABLE GL_JournalLine ADD (CONSTRAINT UserElement1_GLJournalLine FOREIGN KEY (UserElement1_ID) REFERENCES UserElement1);
+
+--ALTER TABLE GL_JournalLine ADD (CONSTRAINT UserElement2_GLJournalLine FOREIGN KEY (UserElement2_ID) REFERENCES UserElement2);
+
+ALTER TABLE HR_Movement ADD (CONSTRAINT CSalesRegion_HRMovement FOREIGN KEY (C_SalesRegion_ID) REFERENCES C_SalesRegion);
+
+ALTER TABLE HR_Movement ADD (CONSTRAINT HRAttribute_HRMovement FOREIGN KEY (HR_Attribute_ID) REFERENCES HR_Attribute);
+
+ALTER TABLE HR_Movement ADD (CONSTRAINT HRContract_HRMovement FOREIGN KEY (HR_Contract_ID) REFERENCES HR_Contract);
+
+ALTER TABLE HR_Movement ADD (CONSTRAINT HRDesignation_HRMovement FOREIGN KEY (HR_Designation_ID) REFERENCES HR_Designation);
+
+ALTER TABLE HR_Movement ADD (CONSTRAINT HREmployeeType_HRMovement FOREIGN KEY (HR_EmployeeType_ID) REFERENCES HR_EmployeeType);
+
+ALTER TABLE HR_Movement ADD (CONSTRAINT HRJobType_HRMovement FOREIGN KEY (HR_JobType_ID) REFERENCES HR_JobType);
+
+ALTER TABLE HR_Movement ADD (CONSTRAINT HRPayroll_HRMovement FOREIGN KEY (HR_Payroll_ID) REFERENCES HR_Payroll);
+
+ALTER TABLE HR_Movement ADD (CONSTRAINT HRPayrollConcept_HRMovement FOREIGN KEY (HR_PayrollConcept_ID) REFERENCES HR_PayrollConcept);
+
+ALTER TABLE HR_Movement ADD (CONSTRAINT HRSkillType_HRMovement FOREIGN KEY (HR_SkillType_ID) REFERENCES HR_SkillType);
+
+--ALTER TABLE I_Asset ADD (CONSTRAINT AAssetSpreadT_IAsset FOREIGN KEY (A_Asset_Spread_Type) REFERENCES A_Asset_Spread);
+
+--ALTER TABLE I_Asset ADD (CONSTRAINT DepreciationT_IAsset FOREIGN KEY (DepreciationType) REFERENCES A_Depreciation);
+
+--ALTER TABLE I_Asset ADD (CONSTRAINT ConventionT_IAsset FOREIGN KEY (ConventionType) REFERENCES A_Depreciation_Convention);
+
+--ALTER TABLE I_Asset ADD (CONSTRAINT ADepreciationCalcT_IAsset FOREIGN KEY (A_Depreciation_Calc_Type) REFERENCES A_Depreciation_Method);
+
+ALTER TABLE I_FixedAsset ADD (CONSTRAINT AAsset_IFixedAsset FOREIGN KEY (A_Asset_ID) REFERENCES A_Asset);
+
+ALTER TABLE I_FixedAsset ADD (CONSTRAINT AAssetClass_IFixedAsset FOREIGN KEY (A_Asset_Class_ID) REFERENCES A_Asset_Class);
+
+ALTER TABLE I_FixedAsset ADD (CONSTRAINT AAssetGroup_IFixedAsset FOREIGN KEY (A_Asset_Group_ID) REFERENCES A_Asset_Group);
+
+ALTER TABLE I_FixedAsset ADD (CONSTRAINT AAssetType_IFixedAsset FOREIGN KEY (A_Asset_Type_ID) REFERENCES A_Asset_Type);
+
+ALTER TABLE I_FixedAsset ADD (CONSTRAINT CBPartnerSR_IFixedAsset FOREIGN KEY (C_BPartnerSR_ID) REFERENCES C_BPartner);
+
+ALTER TABLE I_FixedAsset ADD (CONSTRAINT CCity_IFixedAsset FOREIGN KEY (C_City_ID) REFERENCES C_City);
+
+ALTER TABLE I_FixedAsset ADD (CONSTRAINT CUOM_IFixedAsset FOREIGN KEY (C_UOM_ID) REFERENCES C_UOM);
+
+ALTER TABLE I_FixedAsset ADD (CONSTRAINT MLocator_IFixedAsset FOREIGN KEY (M_Locator_ID) REFERENCES M_Locator);
+
+ALTER TABLE I_FixedAsset ADD (CONSTRAINT MProduct_IFixedAsset FOREIGN KEY (M_Product_ID) REFERENCES M_Product);
+
+ALTER TABLE I_HR_Attribute ADD (CONSTRAINT ADRule_IHRAttribute FOREIGN KEY (AD_Rule_ID) REFERENCES AD_Rule);
+
+ALTER TABLE I_HR_Attribute ADD (CONSTRAINT CBPartner_IHRAttribute FOREIGN KEY (C_BPartner_ID) REFERENCES C_BPartner);
+
+ALTER TABLE I_HR_Attribute ADD (CONSTRAINT HRAttribute_IHRAttribute FOREIGN KEY (HR_Attribute_ID) REFERENCES HR_Attribute);
+
+ALTER TABLE I_HR_Attribute ADD (CONSTRAINT HRConcept_IHRAttribute FOREIGN KEY (HR_Concept_ID) REFERENCES HR_Concept);
+
+ALTER TABLE I_HR_Attribute ADD (CONSTRAINT HRPayroll_IHRAttribute FOREIGN KEY (HR_Payroll_ID) REFERENCES HR_Payroll);
+
+--ALTER TABLE I_Movement ADD (CONSTRAINT ADOrgTrx_IMovement FOREIGN KEY (AD_OrgTrx_ID) REFERENCES AD_Org (AD_Org_ID));
+
+ALTER TABLE I_Product ADD (CONSTRAINT MProductClass_IProduct FOREIGN KEY (M_Product_Class_ID) REFERENCES M_Product_Class);
+
+ALTER TABLE I_Product ADD (CONSTRAINT MProductClassification_IProduc FOREIGN KEY (M_Product_Classification_ID) REFERENCES M_Product_Classification);
+
+ALTER TABLE I_Product ADD (CONSTRAINT MProductGroup_IProduct FOREIGN KEY (M_Product_Group_ID) REFERENCES M_Product_Group);
+
+--ALTER TABLE PP_MRP_Detail ADD (CONSTRAINT MRPDemand_PPMRPDetail FOREIGN KEY (MRP_Demand_ID) REFERENCES RV_PP_MRP);
+
+--ALTER TABLE PP_MRP_Detail ADD (CONSTRAINT MRPSupply_PPMRPDetail FOREIGN KEY (MRP_Supply_ID) REFERENCES RV_PP_MRP);

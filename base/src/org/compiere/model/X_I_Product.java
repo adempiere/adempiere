@@ -33,7 +33,7 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_I_Product (Properties ctx, int I_Product_ID, String trxName)
@@ -307,6 +307,23 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DiscontinuedAt);
 	}
 
+	/** Set Discontinued by.
+		@param DiscontinuedBy 
+		Discontinued By
+	  */
+	public void setDiscontinuedBy (Timestamp DiscontinuedBy)
+	{
+		set_Value (COLUMNNAME_DiscontinuedBy, DiscontinuedBy);
+	}
+
+	/** Get Discontinued by.
+		@return Discontinued By
+	  */
+	public Timestamp getDiscontinuedBy () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DiscontinuedBy);
+	}
+
 	/** Set Document Note.
 		@param DocumentNote 
 		Additional information for a Document
@@ -462,6 +479,90 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	public int getM_Product_Category_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_Category_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Product_Class getM_Product_Class() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product_Class)MTable.get(getCtx(), org.compiere.model.I_M_Product_Class.Table_Name)
+			.getPO(getM_Product_Class_ID(), get_TrxName());	}
+
+	/** Set Product Class.
+		@param M_Product_Class_ID 
+		Class of a Product
+	  */
+	public void setM_Product_Class_ID (int M_Product_Class_ID)
+	{
+		if (M_Product_Class_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_Class_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Class_ID, Integer.valueOf(M_Product_Class_ID));
+	}
+
+	/** Get Product Class.
+		@return Class of a Product
+	  */
+	public int getM_Product_Class_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_Class_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Product_Classification getM_Product_Classification() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product_Classification)MTable.get(getCtx(), org.compiere.model.I_M_Product_Classification.Table_Name)
+			.getPO(getM_Product_Classification_ID(), get_TrxName());	}
+
+	/** Set Product Classification.
+		@param M_Product_Classification_ID 
+		Classification of a Product
+	  */
+	public void setM_Product_Classification_ID (int M_Product_Classification_ID)
+	{
+		if (M_Product_Classification_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_Classification_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Classification_ID, Integer.valueOf(M_Product_Classification_ID));
+	}
+
+	/** Get Product Classification.
+		@return Classification of a Product
+	  */
+	public int getM_Product_Classification_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_Classification_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Product_Group getM_Product_Group() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product_Group)MTable.get(getCtx(), org.compiere.model.I_M_Product_Group.Table_Name)
+			.getPO(getM_Product_Group_ID(), get_TrxName());	}
+
+	/** Set Product Group.
+		@param M_Product_Group_ID 
+		Group of a Product
+	  */
+	public void setM_Product_Group_ID (int M_Product_Group_ID)
+	{
+		if (M_Product_Group_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Group_ID, Integer.valueOf(M_Product_Group_ID));
+	}
+
+	/** Get Product Group.
+		@return Group of a Product
+	  */
+	public int getM_Product_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -723,6 +824,57 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	public String getProductCategory_Value () 
 	{
 		return (String)get_Value(COLUMNNAME_ProductCategory_Value);
+	}
+
+	/** Set Product Class Key.
+		@param ProductClass_Value 
+		The key value for the product class
+	  */
+	public void setProductClass_Value (String ProductClass_Value)
+	{
+		set_Value (COLUMNNAME_ProductClass_Value, ProductClass_Value);
+	}
+
+	/** Get Product Class Key.
+		@return The key value for the product class
+	  */
+	public String getProductClass_Value () 
+	{
+		return (String)get_Value(COLUMNNAME_ProductClass_Value);
+	}
+
+	/** Set Product Classification Key.
+		@param ProductClassification_Value 
+		The key value for the product classification
+	  */
+	public void setProductClassification_Value (String ProductClassification_Value)
+	{
+		set_Value (COLUMNNAME_ProductClassification_Value, ProductClassification_Value);
+	}
+
+	/** Get Product Classification Key.
+		@return The key value for the product classification
+	  */
+	public String getProductClassification_Value () 
+	{
+		return (String)get_Value(COLUMNNAME_ProductClassification_Value);
+	}
+
+	/** Set Product Group Key.
+		@param ProductGroup_Value 
+		The key value for the product group
+	  */
+	public void setProductGroup_Value (String ProductGroup_Value)
+	{
+		set_Value (COLUMNNAME_ProductGroup_Value, ProductGroup_Value);
+	}
+
+	/** Get Product Group Key.
+		@return The key value for the product group
+	  */
+	public String getProductGroup_Value () 
+	{
+		return (String)get_Value(COLUMNNAME_ProductGroup_Value);
 	}
 
 	/** ProductType AD_Reference_ID=270 */

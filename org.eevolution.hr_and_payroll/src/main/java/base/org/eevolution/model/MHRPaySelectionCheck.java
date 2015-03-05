@@ -94,7 +94,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	 *	@param trxName transaction
 	 *  @return array of checks
 	 */
-	static public Collection<MHRPaySelectionCheck> get (Properties ctx, int HR_PaySelection_ID,
+	static public List<MHRPaySelectionCheck> get (Properties ctx, int HR_PaySelection_ID,
 		String PaymentRule, int startDocumentNo, String trxName)
 	{
 		s_log.fine("HR_PaySelection_ID=" + HR_PaySelection_ID
@@ -103,7 +103,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 		final String where = I_HR_PaySelectionCheck.COLUMNNAME_HR_PaySelection_ID + "=? AND "
 						   + I_HR_PaySelectionCheck.COLUMNNAME_PaymentRule + "=?";
 		
-		Collection<MHRPaySelectionCheck> pscs = new Query(ctx, I_HR_PaySelectionCheck.Table_Name, where , trxName)
+		List<MHRPaySelectionCheck> pscs = new Query(ctx, I_HR_PaySelectionCheck.Table_Name, where , trxName)
 		.setClient_ID()
 		.setParameters(new Object[]{HR_PaySelection_ID, PaymentRule})
 		.list();
@@ -125,7 +125,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	 *  @param file file to export checks
 	 *  @return number of lines
 	 */
-	public static int exportToFile (Collection<MHRPaySelectionCheck> checks, File file)
+	public static int exportToFile (List<MHRPaySelectionCheck> checks, File file)
 	{
 		if (checks == null || checks.size() == 0)
 			return 0;
@@ -437,7 +437,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	/**************************************************************************
 	 *	Constructor
 	 *  @param ctx context
-	 *  @param C_PaySelectionCheck_ID C_PaySelectionCheck_ID
+	 *  @param HR_PaySelectionCheck_ID HR_PaySelectionCheck_ID
 	 *	@param trxName transaction
 	 */
 	public MHRPaySelectionCheck (Properties ctx, int HR_PaySelectionCheck_ID, String trxName)
@@ -529,7 +529,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	/**	Parent					*/
 	private MHRPaySelection			m_parent = null;
 	/**	Payment Selection lines of this check	*/
-	private Collection<MHRPaySelectionLine>		m_lines = null;
+	private List<MHRPaySelectionLine>		m_lines = null;
 
 	
 	/**
@@ -606,13 +606,13 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	 *	@param requery requery
 	 * 	@return array of peyment selection lines
 	 */
-	public Collection<MHRPaySelectionLine> getPaySelectionLines (boolean requery)
+	public List<MHRPaySelectionLine> getPaySelectionLines (boolean requery)
 	{
 		if (m_lines != null && !requery) {
 			return m_lines;
 		}		
 		final String where = COLUMNNAME_HR_PaySelectionCheck_ID + "=?";
-		Collection<MHRPaySelectionLine> list = new Query(getCtx(), I_HR_PaySelectionLine.Table_Name, where , get_TrxName())
+		List<MHRPaySelectionLine> list = new Query(getCtx(), I_HR_PaySelectionLine.Table_Name, where , get_TrxName())
 		.setClient_ID()
 		.setParameters(new Object[]{getHR_PaySelectionCheck_ID()})
 		.setOrderBy(I_HR_PaySelectionLine.COLUMNNAME_Line)

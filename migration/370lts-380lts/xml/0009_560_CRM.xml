@@ -8348,7 +8348,7 @@ INNER JOIN C_SalesStage s ON (s.C_SalesStage_ID=o.C_SalesStage_ID)</Data>
         <Data AD_Column_ID="12130" Column="WinWidth">0</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" SeqNo="3529" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="3529" StepType="SQL">
       <SQLStatement>create or replace view c_salesdashboard as
 select ad_client_id, ad_org_id, created, createdby, updated, updatedby, isactive, ad_user_id, name, 0 as salespipeline
 from ad_user;</SQLStatement>

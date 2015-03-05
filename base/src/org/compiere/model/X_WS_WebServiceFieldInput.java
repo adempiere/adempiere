@@ -30,7 +30,7 @@ public class X_WS_WebServiceFieldInput extends PO implements I_WS_WebServiceFiel
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_WS_WebServiceFieldInput (Properties ctx, int WS_WebServiceFieldInput_ID, String trxName)

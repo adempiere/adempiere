@@ -1591,7 +1591,12 @@ FROM RV_M_Forecast f GROUP BY AD_Client_ID , AD_Org_ID , M_Forecast_ID , M_Produ
 ;
 
 CREATE OR REPLACE VIEW RV_PP_ForecastRun AS 
- SELECT 
+ SELECT
+ frun.IsActive,
+ frun.Created,
+ frun.CreatedBy,
+ frun.Updated,
+ frun.UpdatedBy,
  frun.ad_client_id,
  frun.ad_org_id,
  frun.pp_forecastrun_id,

@@ -94,10 +94,13 @@ public class MTransaction extends X_M_Transaction
 	{
 		ArrayList<MTransaction> transactions = new ArrayList();
 		
-		MInOutLineMA[] lines = MInOutLineMA.get(line.getCtx(), line.getM_InOutLine_ID(), line.get_TrxName());
-		if(lines != null && lines.length == 0)
-		{	
-			transactions.add(get(line, line.getM_AttributeSetInstance_ID()));
+		List<MInOutLineMA> lines = MInOutLineMA.get(line.getCtx(), line.getM_InOutLine_ID(), line.get_TrxName());
+		if(lines != null && lines.size() == 0)
+		{
+            MTransaction transaction = get(line, line.getM_AttributeSetInstance_ID());
+            if (transaction != null && transaction.get_ID() > 0)
+			    transactions.add(transaction);
+
 			return transactions;
 		}
 		for(MInOutLineMA ma : lines)

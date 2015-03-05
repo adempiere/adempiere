@@ -671,7 +671,7 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 	 */
 
 	protected boolean isOnlyReceipt() {
-		super.setIsOnlyReceipt(pickcombo.getDisplay().equals("OnlyReceipt"));
+		super.setIsOnlyReceipt(pickcombo.getValue().equals(3));
 		return super.isOnlyReceipt();
 	}
 
@@ -682,7 +682,7 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 	 */
 
 	protected boolean isOnlyIssue() {
-		super.setIsOnlyIssue(pickcombo.getDisplay().equals("OnlyIssue"));
+		super.setIsOnlyIssue(pickcombo.getValue().equals(2));
 		return super.isOnlyIssue();
 	}
 
@@ -692,7 +692,7 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 	 * @return
 	 */
 	protected boolean isBackflush() {
-		super.setIsBackflush(pickcombo.getDisplay().equals("IsBackflush"));
+		super.setIsBackflush(pickcombo.getValue().equals(1));
 		return super.isBackflush();
 	}
 

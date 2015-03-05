@@ -188,6 +188,19 @@ public interface I_M_Product_PO
 	  */
 	public Timestamp getDiscontinuedAt();
 
+    /** Column name DiscontinuedBy */
+    public static final String COLUMNNAME_DiscontinuedBy = "DiscontinuedBy";
+
+	/** Set Discontinued by.
+	  * Discontinued By
+	  */
+	public void setDiscontinuedBy (Timestamp DiscontinuedBy);
+
+	/** Get Discontinued by.
+	  * Discontinued By
+	  */
+	public Timestamp getDiscontinuedBy();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 

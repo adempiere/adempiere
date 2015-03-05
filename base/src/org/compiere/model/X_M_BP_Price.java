@@ -33,7 +33,7 @@ public class X_M_BP_Price extends PO implements I_M_BP_Price, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_M_BP_Price (Properties ctx, int M_BP_Price_ID, String trxName)

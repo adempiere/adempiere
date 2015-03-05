@@ -118,28 +118,15 @@ public interface I_PP_Period
 	  */
 	public String getName();
 
-    /** Column name PeriodNo */
-    public static final String COLUMNNAME_PeriodNo = "PeriodNo";
-
-	/** Set Period No.
-	  * Unique Period Number
-	  */
-	public void setPeriodNo (int PeriodNo);
-
-	/** Get Period No.
-	  * Unique Period Number
-	  */
-	public int getPeriodNo();
-
     /** Column name PP_PeriodDefinition_ID */
     public static final String COLUMNNAME_PP_PeriodDefinition_ID = "PP_PeriodDefinition_ID";
 
-	/** Set Period Definition.
+	/** Set Current Period.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public void setPP_PeriodDefinition_ID (int PP_PeriodDefinition_ID);
 
-	/** Get Period Definition.
+	/** Get Current Period.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public int getPP_PeriodDefinition_ID();
@@ -158,6 +145,19 @@ public interface I_PP_Period
 	  * Forecast Definition Periods.
 	  */
 	public int getPP_Period_ID();
+
+    /** Column name PeriodNo */
+    public static final String COLUMNNAME_PeriodNo = "PeriodNo";
+
+	/** Set Period No.
+	  * Unique Period Number
+	  */
+	public void setPeriodNo (int PeriodNo);
+
+	/** Get Period No.
+	  * Unique Period Number
+	  */
+	public int getPeriodNo();
 
     /** Column name StartDate */
     public static final String COLUMNNAME_StartDate = "StartDate";

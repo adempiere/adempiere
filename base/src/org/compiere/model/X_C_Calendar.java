@@ -30,7 +30,7 @@ public class X_C_Calendar extends PO implements I_C_Calendar, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_Calendar (Properties ctx, int C_Calendar_ID, String trxName)

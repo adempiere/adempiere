@@ -541,3 +541,12 @@ div.z-vfiletree-body td.menu-tree-cell {
 	cursor: pointer; padding: 0 2px;
 	font-size: ${fontSizeM}; font-weight: normal; overflow: visible;
 }
+
+tr.z-row td.z-row-inner{
+	background-color : #FAFAFA;
+	margin-left:4px;
+	margin-right:4px;
+	border-bottom: 0px solid #DDE3EB;
+	border-left: 0;
+	border-right: 0px solid #DDE3EB;
+}

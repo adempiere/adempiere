@@ -586,7 +586,7 @@ public class MRP extends SvrProcess
 							final int PP_MRP_ID = rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID);
 							final String TypeMRP = rs.getString(MPPMRP.COLUMNNAME_TypeMRP);
 							final String OrderType = rs.getString(MPPMRP.COLUMNNAME_OrderType);
-							final Timestamp DatePromised = rs.getTimestamp(MPPMRP.COLUMNNAME_DatePromised);
+							final Timestamp DatePromised = rs.getTimestamp(MPPMRP.COLUMNNAME_DateStartSchedule);
 							final BigDecimal Qty = rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty);
 							final int M_Product_ID = rs.getInt(MPPMRP.COLUMNNAME_M_Product_ID); 
 		

@@ -30,7 +30,7 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_UserMail (Properties ctx, int AD_UserMail_ID, String trxName)

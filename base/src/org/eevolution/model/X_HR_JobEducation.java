@@ -31,7 +31,7 @@ public class X_HR_JobEducation extends PO implements I_HR_JobEducation, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_JobEducation (Properties ctx, int HR_JobEducation_ID, String trxName)

@@ -20,7 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MLookupFactory;
@@ -47,13 +47,18 @@ public class HRPayPrint
 	/**	Used Bank Account	*/
 	public int				m_C_BankAccount_ID = -1;
 
-	/** Payment Information */
-	public Collection<MHRPaySelectionCheck>     m_checks = null;
+	/**	Export Class for Bank Account	*/
+	public String			m_PaymentExportClass = null;
+
+
+
+    /** Payment Information */
+	public List<MHRPaySelectionCheck> m_checks = null;
 	/** Payment Batch		*/
 	public MPaymentBatch	m_batch = null; 
 	/**	Logger			*/
 	public static CLogger log = CLogger.getCLogger(HRPayPrint.class);
-	
+
 	public ArrayList<KeyNamePair> getPaySelectionData()
 	{
 		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
@@ -99,7 +104,7 @@ public class HRPayPrint
 		//  load Banks from PaySelectLine
 		m_C_BankAccount_ID = -1;
 		String sql = "SELECT ps.C_BankAccount_ID, b.Name || ' ' || ba.AccountNo,"	//	1..2
-			+ " c.ISO_Code, CurrentBalance "										//	3..4
+			+ " c.ISO_Code, CurrentBalance , ba.PaymentExportClass "										//	3..4
 			+ "FROM HR_PaySelection ps"
 			+ " INNER JOIN C_BankAccount ba ON (ps.C_BankAccount_ID=ba.C_BankAccount_ID)"
 			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID)"
@@ -116,6 +121,7 @@ public class HRPayPrint
 				bank = rs.getString(2);
 				currency = rs.getString(3);
 				balance = rs.getBigDecimal(4);
+                m_PaymentExportClass = rs.getString(5);
 			}
 			else
 			{
@@ -123,6 +129,7 @@ public class HRPayPrint
 				bank = "";
 				currency = "";
 				balance = Env.ZERO;
+                m_PaymentExportClass = null;
 				log.log(Level.SEVERE, "No active BankAccount for HR_PaySelection_ID=" + HR_PaySelection_ID);
 			}
 			rs.close();

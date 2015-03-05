@@ -30,7 +30,7 @@ public class X_PA_SLA_Criteria extends PO implements I_PA_SLA_Criteria, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_PA_SLA_Criteria (Properties ctx, int PA_SLA_Criteria_ID, String trxName)
