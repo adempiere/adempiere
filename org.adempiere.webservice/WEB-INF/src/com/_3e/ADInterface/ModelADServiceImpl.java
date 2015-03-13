@@ -1044,8 +1044,9 @@ public class ModelADServiceImpl implements ModelADService {
 						+ field.getColumn() + " not allowed", new QName("queryData"));
     		}
 		}
+		//	Dixon Martinez Fix Error in filter For Query FR [ 9223372036854775807 ]
 		if (modelCRUD.getFilter() != null && modelCRUD.getFilter().length() > 0)
-			sqlWhere += " AND " + modelCRUD.getFilter();
+			sqlWhere +=  (sqlWhere.length() > 0) ? sqlWhere += " AND " + modelCRUD.getFilter() : modelCRUD.getFilter();
 		
     	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
     	int cnt = 0;
