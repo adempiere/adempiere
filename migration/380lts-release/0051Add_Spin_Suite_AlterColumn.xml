@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA01" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="235">
+    <Comments>Meta-Data - 29</Comments>
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_Rule ALTER COLUMN Script TYPE CHARACTER VARYING (6000);</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>UPDATE AD_Ref_Table SET OrderByClause = NULL WHERE OrderByClause = '';</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="30" StepType="SQL">
+      <SQLStatement>UPDATE AD_Ref_Table SET WhereClause = NULL WHERE WhereClause = '';</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

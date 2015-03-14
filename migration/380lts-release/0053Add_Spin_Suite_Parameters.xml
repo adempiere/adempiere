@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="255">
+    <Comments>Meta-Data - 31</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53165" Action="D" Record_ID="50515" Table="WS_WebService_Para">
+        <Data AD_Column_ID="56734" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56735" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56745" Column="ConstantValue" isNewNull="true" oldValue="AD_Table"/>
+        <Data AD_Column_ID="56738" Column="Created" isNewNull="true" oldValue="2015-02-07 21:27:25.0"/>
+        <Data AD_Column_ID="56739" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="56740" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="56743" Column="ParameterName" isNewNull="true" oldValue="TableName"/>
+        <Data AD_Column_ID="56744" Column="ParameterType" isNewNull="true" oldValue="C"/>
+        <Data AD_Column_ID="56741" Column="Updated" isNewNull="true" oldValue="2015-02-07 21:27:25.0"/>
+        <Data AD_Column_ID="56742" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="56737" Column="WS_WebService_Para_ID" isNewNull="true" oldValue="50515"/>
+        <Data AD_Column_ID="56736" Column="WS_WebServiceType_ID" isNewNull="true" oldValue="50415"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53165" Action="I" Record_ID="51071" Table="WS_WebService_Para">
+        <Data AD_Column_ID="56734" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56735" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56745" Column="ConstantValue">AD_Process_Access</Data>
+        <Data AD_Column_ID="56738" Column="Created">2015-03-13 19:57:01.459</Data>
+        <Data AD_Column_ID="56739" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56740" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56743" Column="ParameterName">TableName</Data>
+        <Data AD_Column_ID="56744" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="56741" Column="Updated">2015-03-13 19:57:01.459</Data>
+        <Data AD_Column_ID="56742" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56737" Column="WS_WebService_Para_ID">51071</Data>
+        <Data AD_Column_ID="56736" Column="WS_WebServiceType_ID">50415</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
