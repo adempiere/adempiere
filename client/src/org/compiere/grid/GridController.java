@@ -465,13 +465,20 @@ public class GridController extends CPanel
 		if (m_mTab.isTreeTab() && AD_Tree_ID != 0)
 		{
 			m_tree = new VTreePanel(m_WindowNo, false, true);
-			if (m_mTab.getTabNo() == 0)	//	initialize other tabs later
-				m_tree.initTree(AD_Tree_ID);
+			//	Yamel Senih FR[ 9223372036854775807 ]
+			//	if (m_mTab.getTabNo() == 0)	//	initialize other tabs later
+				//	m_tree.initTree(AD_Tree_ID);
+			if (m_mTab.getTabNo() == 0)	{//	initialize other tabs later
+				String whereClause = m_mTab.getWhereExtended();
+				whereClause = Env.parseContext(Env.getCtx(), m_WindowNo, whereClause, false, false);
+				//	Init Tree
+				m_tree.initTree(AD_Tree_ID, whereClause);
+			}
 			m_tree.addPropertyChangeListener(VTreePanel.NODE_SELECTION, this);
 			graphPanel.add(m_tree, BorderLayout.CENTER);
 			splitPane.setDividerLocation(250);
 		//	splitPane.resetToPreferredSizes();
-		}
+		}		
 		else    //  No Graphics - hide
 		{
 			graphPanel.setPreferredSize(new Dimension(0,0));
