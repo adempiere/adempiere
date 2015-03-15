@@ -1,0 +1,1012 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="235">
+    <Comments>Meta-Data - 27</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="4394" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_ReportView ALTER COLUMN AD_Table_ID DROP NOT NULL;</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="30" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_ReportView ALTER COLUMN AD_Table_ID  SET DEFAULT NULL;</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="40" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_PrintFormat ALTER COLUMN AD_Table_ID DROP NOT NULL;</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="50" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_PrintFormat ALTER COLUMN AD_Table_ID SET DEFAULT NULL;</SQLStatement>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53503" Action="I" Record_ID="50333" Table="SPS_Table">
+        <Data AD_Column_ID="65783" Column="IsView">false</Data>
+        <Data AD_Column_ID="74602" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="65769" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65770" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="65777" Column="AD_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65778" Column="AD_Table_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65779" Column="CopyColumnsFromTable">N</Data>
+        <Data AD_Column_ID="65771" Column="Created">2015-03-13 16:42:40.728</Data>
+        <Data AD_Column_ID="65772" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65780" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71490" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65781" Column="GenerateScriptFromTable">N</Data>
+        <Data AD_Column_ID="65773" Column="IsActive">true</Data>
+        <Data AD_Column_ID="66323" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="75969" Column="IsChangeLog">true</Data>
+        <Data AD_Column_ID="65782" Column="IsDeleteable">false</Data>
+        <Data AD_Column_ID="65784" Column="Name">Synchronization Table</Data>
+        <Data AD_Column_ID="65774" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65785" Column="TableName">SPS_SyncTable</Data>
+        <Data AD_Column_ID="65775" Column="Updated">2015-03-13 16:42:40.729</Data>
+        <Data AD_Column_ID="65776" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56264" Table="SPS_Column">
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:42:47.126</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">AD_Client_ID</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:42:47.126</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue">@#AD_Client_ID@</Data>
+        <Data AD_Column_ID="65705" Column="Description">Client/Tenant for this installation.</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="65716" Column="Name">Client</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56264</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">102</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID">129</Data>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56265" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">113</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID">104</Data>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">AD_Org_ID</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:42:48.571</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue">@#AD_Org_ID@</Data>
+        <Data AD_Column_ID="65705" Column="Description">Organizational entity within client</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="65716" Column="Name">Organization</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56265</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:42:48.571</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56266" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">348</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">IsActive</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:42:49.63</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue">Y</Data>
+        <Data AD_Column_ID="65705" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="65716" Column="Name">Active</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56266</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:42:49.63</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56267" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">245</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">16</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">Created</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:42:50.738</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description">Date this record was created</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">7</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Created</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56267</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:42:50.738</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56268" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">607</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">16</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">Updated</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:42:51.794</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description">Date this record was updated</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">7</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Updated</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56268</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:42:51.794</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56269" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">246</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID">110</Data>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">CreatedBy</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:42:52.832</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description">User who created this records</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Created By</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56269</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:42:52.832</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56270" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">608</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID">110</Data>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">UpdatedBy</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:42:53.851</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description">User who updated this records</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Updated By</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56270</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:42:53.851</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="57905" Table="AD_Element">
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">57905</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2602" Column="ColumnName">SPS_SyncTable_ID</Data>
+        <Data AD_Column_ID="2598" Column="Created">2015-03-13 16:42:55.007</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="6484" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength" isNewNull="true"/>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Synchronization Table ID</Data>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Synchronization Table ID</Data>
+        <Data AD_Column_ID="2600" Column="Updated">2015-03-13 16:42:55.008</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56271" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">57905</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">13</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">SPS_SyncTable_ID</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:42:55.907</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">true</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="65716" Column="Name">Synchronization Table ID</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56271</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:42:55.908</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="115" Action="I" Record_ID="54121" Table="AD_Sequence">
+        <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1186" Column="AD_Sequence_ID">54121</Data>
+        <Data AD_Column_ID="627" Column="Created">2015-03-13 16:42:56.938</Data>
+        <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+        <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
+        <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+        <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+        <Data AD_Column_ID="347" Column="Description">Table SPS_SyncTable</Data>
+        <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+        <Data AD_Column_ID="349" Column="IsActive">true</Data>
+        <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+        <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+        <Data AD_Column_ID="350" Column="IsTableID">true</Data>
+        <Data AD_Column_ID="216" Column="Name">SPS_SyncTable</Data>
+        <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+        <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+        <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+        <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+        <Data AD_Column_ID="629" Column="Updated">2015-03-13 16:42:56.938</Data>
+        <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53503" Action="U" Record_ID="50333" Table="SPS_Table">
+        <Data AD_Column_ID="74602" Column="AccessLevel" oldValue="3">4</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="65697" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56272" Table="SPS_Column">
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">13</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID">65774</Data>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">55949</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">SPS_Table_ID</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:46:50.315</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">f</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="65716" Column="Name">Mobile Table</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo">0</Data>
+        <Data AD_Column_ID="65718" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56272</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:46:50.315</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56273" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID">62107</Data>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">538</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">28</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">Record_ID</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:48:49.419</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description">Direct internal record ID</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">f</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="65716" Column="Name">Record ID</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo">0</Data>
+        <Data AD_Column_ID="65718" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56273</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:48:49.419</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="57906" Table="AD_Element">
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">57906</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">28</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2602" Column="ColumnName">SyncRecord_ID</Data>
+        <Data AD_Column_ID="2598" Column="Created">2015-03-13 16:49:58.592</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="6484" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Synchronization Record ID</Data>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Synchronization Record ID</Data>
+        <Data AD_Column_ID="2600" Column="Updated">2015-03-13 16:49:58.592</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56274" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">57906</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">28</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">SyncRecord_ID</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:53:22.201</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Synchronization Record ID</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo">0</Data>
+        <Data AD_Column_ID="65718" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56274</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:53:22.202</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="53499" Action="D" Record_ID="56273" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true" oldValue="62107"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID" isNewNull="true" oldValue="538"/>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID" isNewNull="true" oldValue="28"/>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName" isNewNull="true" oldValue="Record_ID"/>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created" isNewNull="true" oldValue="2015-03-13 16:48:49.0"/>
+        <Data AD_Column_ID="65692" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description" isNewNull="true" oldValue="Direct internal record ID"/>
+        <Data AD_Column_ID="71491" Column="EntityType" isNewNull="true" oldValue="ECA01"/>
+        <Data AD_Column_ID="65706" Column="FieldLength" isNewNull="true" oldValue="22"/>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="65709" Column="IsEncrypted" isNewNull="true" oldValue="f"/>
+        <Data AD_Column_ID="65710" Column="IsIdentifier" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65711" Column="IsKey" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65712" Column="IsMandatory" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65713" Column="IsParent" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65715" Column="IsUpdateable" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65716" Column="Name" isNewNull="true" oldValue="Record ID"/>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID" isNewNull="true" oldValue="56273"/>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID" isNewNull="true" oldValue="50333"/>
+        <Data AD_Column_ID="65695" Column="Updated" isNewNull="true" oldValue="2015-03-13 16:48:49.0"/>
+        <Data AD_Column_ID="65696" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="53499" Action="D" Record_ID="56272" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true" oldValue="65774"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID" isNewNull="true" oldValue="55949"/>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID" isNewNull="true" oldValue="13"/>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName" isNewNull="true" oldValue="SPS_Table_ID"/>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created" isNewNull="true" oldValue="2015-03-13 16:46:50.0"/>
+        <Data AD_Column_ID="65692" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="71491" Column="EntityType" isNewNull="true" oldValue="ECA01"/>
+        <Data AD_Column_ID="65706" Column="FieldLength" isNewNull="true" oldValue="22"/>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="65709" Column="IsEncrypted" isNewNull="true" oldValue="f"/>
+        <Data AD_Column_ID="65710" Column="IsIdentifier" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65711" Column="IsKey" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65712" Column="IsMandatory" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="65713" Column="IsParent" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65715" Column="IsUpdateable" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="65716" Column="Name" isNewNull="true" oldValue="Mobile Table"/>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="65718" Column="SeqNo" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID" isNewNull="true" oldValue="56272"/>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID" isNewNull="true" oldValue="50333"/>
+        <Data AD_Column_ID="65695" Column="Updated" isNewNull="true" oldValue="2015-03-13 16:46:50.0"/>
+        <Data AD_Column_ID="65696" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56275" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">538</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">28</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">Record_ID</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:54:50.74</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description">Direct internal record ID</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Record ID</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo">0</Data>
+        <Data AD_Column_ID="65718" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56275</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:54:50.74</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56276" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">55949</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">SPS_Table_ID</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:55:06.005</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Mobile Table</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo">0</Data>
+        <Data AD_Column_ID="65718" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56276</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:55:06.005</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56277" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">57892</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">319</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">IsSynchronized</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:55:31.059</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Synchronized</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo">0</Data>
+        <Data AD_Column_ID="65718" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56277</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:55:31.059</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56278" Table="SPS_Column">
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">53345</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">17</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID">53238</Data>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">EventChangeLog</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 16:55:40.454</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description">Type of Event in Change Log</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Event Change Log</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo">0</Data>
+        <Data AD_Column_ID="65718" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56278</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 16:55:40.454</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53058" Action="I" Record_ID="50286" Table="AD_Rule">
+        <Data AD_Column_ID="54256" Column="AccessLevel">4</Data>
+        <Data AD_Column_ID="54241" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="54242" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54248" Column="AD_Rule_ID">50286</Data>
+        <Data AD_Column_ID="54243" Column="Created">2015-03-13 16:56:03.95</Data>
+        <Data AD_Column_ID="54244" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54245" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="54253" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="54255" Column="EventType">P</Data>
+        <Data AD_Column_ID="54246" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54247" Column="IsActive">true</Data>
+        <Data AD_Column_ID="54249" Column="Name">Rule Create Table Synchronization Table</Data>
+        <Data AD_Column_ID="54254" Column="RuleType">Q</Data>
+        <Data AD_Column_ID="54257" Column="Script">CREATE TABLE SPS_SyncTable (AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, EventChangeLog CHAR(1) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsSynchronized VARCHAR(1) DEFAULT NULL , Record_ID NUMERIC(10) DEFAULT NULL , SPS_SyncTable_ID NUMERIC(10) NOT NULL, SPS_Table_ID NUMERIC(10) DEFAULT NULL , SyncRecord_ID NUMERIC(10) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, CONSTRAINT SPS_SyncTable_Key PRIMARY KEY (SPS_SyncTable_ID))</Data>
+        <Data AD_Column_ID="54250" Column="Updated">2015-03-13 16:56:03.95</Data>
+        <Data AD_Column_ID="54251" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54252" Column="Value">SQL:Create_SPS_SyncTable</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53503" Action="U" Record_ID="50333" Table="SPS_Table">
+        <Data AD_Column_ID="65777" Column="AD_Rule_ID" isOldNull="true">50286</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="53501" Action="I" Record_ID="50574" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65742" Column="AD_RuleAfter_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65731" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65732" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="65743" Column="AD_RuleBefore_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65733" Column="Created">2015-03-13 16:57:23.497</Data>
+        <Data AD_Column_ID="65734" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65745" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="71493" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65746" Column="ErrImgUrl" isNewNull="true"/>
+        <Data AD_Column_ID="65748" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="65735" Column="IsActive">true</Data>
+        <Data AD_Column_ID="65751" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="65752" Column="Name">Create Synchronization Table</Data>
+        <Data AD_Column_ID="74390" Column="Processing">false</Data>
+        <Data AD_Column_ID="65736" Column="SPS_SyncMenu_ID">50574</Data>
+        <Data AD_Column_ID="71529" Column="SPS_Table_ID">50333</Data>
+        <Data AD_Column_ID="65737" Column="Updated">2015-03-13 16:57:23.498</Data>
+        <Data AD_Column_ID="65738" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="65755" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="71602" Column="WS_WebService_ID">50006</Data>
+        <Data AD_Column_ID="74327" Column="WS_WebServiceMethod_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65756" Column="WS_WebServiceType_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="289" Action="I" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2868" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2869" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID">50005</Data>
+        <Data AD_Column_ID="2871" Column="Created">2015-03-13 16:57:24.721</Data>
+        <Data AD_Column_ID="2872" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2870" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID">50574</Data>
+        <Data AD_Column_ID="2877" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2879" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="2873" Column="Updated">2015-03-13 16:57:24.721</Data>
+        <Data AD_Column_ID="2874" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="53164" Action="I" Record_ID="50599" Table="WS_WebServiceType">
+        <Data AD_Column_ID="56719" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56720" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56733" Column="AD_Table_ID" isNewNull="true"/>
+        <Data AD_Column_ID="56721" Column="Created">2015-03-13 16:57:33.312</Data>
+        <Data AD_Column_ID="56722" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56723" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="56724" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56725" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56727" Column="Name">Create Synchronization Table</Data>
+        <Data AD_Column_ID="56728" Column="Updated">2015-03-13 16:57:33.312</Data>
+        <Data AD_Column_ID="56729" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56730" Column="Value">Create Synchronization Table</Data>
+        <Data AD_Column_ID="56731" Column="WS_WebService_ID">50006</Data>
+        <Data AD_Column_ID="56732" Column="WS_WebServiceMethod_ID">50046</Data>
+        <Data AD_Column_ID="56726" Column="WS_WebServiceType_ID">50599</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53165" Action="I" Record_ID="51070" Table="WS_WebService_Para">
+        <Data AD_Column_ID="56739" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56734" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56735" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56745" Column="ConstantValue">Script</Data>
+        <Data AD_Column_ID="56738" Column="Created">2015-03-13 16:57:34.23</Data>
+        <Data AD_Column_ID="56740" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56743" Column="ParameterName">Action</Data>
+        <Data AD_Column_ID="56744" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="56741" Column="Updated">2015-03-13 16:57:34.23</Data>
+        <Data AD_Column_ID="56742" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56737" Column="WS_WebService_Para_ID">51070</Data>
+        <Data AD_Column_ID="56736" Column="WS_WebServiceType_ID">50599</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50574" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65756" Column="WS_WebServiceType_ID" isOldNull="true">50599</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50574">50574</Data>
+        <Data AD_Column_ID="2877" Column="Parent_ID" isOldNull="true">50189</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="0">114</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50564">50564</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="114">115</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50005" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50567">50567</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="115">116</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

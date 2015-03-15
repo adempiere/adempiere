@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="265">
+    <Comments>Meta-Data - 32</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50393" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="IsDefinedForMobile='Y'">IsDefinedForMobile='Y' and Updated &gt;= '@#AD_Form_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50389" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Column where SPS_Column.AD_Column_ID = AD_Column_Trl.AD_Column_ID)">exists(select 1 from SPS_Column where SPS_Column.AD_Column_ID = AD_Column_Trl.AD_Column_ID)
+and Updated &gt;= '@#AD_Column_Trl_LastSyncDate@'
+</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50390" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from SPS_Column where SPS_Column.AD_Element_ID = AD_Element.AD_Element_ID) or exists (select 1 from AD_Process inner join AD_Process_Para on(AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID) where AD_Process_Para.AD_Element_ID = AD_Element.AD_Element_ID and AD_Process.IsDefinedForMobile = 'Y')">exists (select 1 from SPS_Column where SPS_Column.AD_Element_ID = AD_Element.AD_Element_ID) or exists (select 1 from AD_Process inner join AD_Process_Para on(AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID) where AD_Process_Para.AD_Element_ID = AD_Element.AD_Element_ID and AD_Process.IsDefinedForMobile = 'Y')
+and Updated &gt;= '@#AD_Element_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50391" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue=" exists(select 1 from SPS_Column where SPS_Column.AD_Element_ID = AD_Element.AD_Element_ID) or exists(select 1 from AD_Process inner join AD_Process_Para on(AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID) where AD_Process_Para.AD_Element_ID = AD_Element_Trl.AD_Element_ID AND AD_Process.IsDefinedForMobile = 'Y')"> exists(select 1 from SPS_Column where SPS_Column.AD_Element_ID = AD_Element.AD_Element_ID) or exists(select 1 from AD_Process inner join AD_Process_Para on(AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID) where AD_Process_Para.AD_Element_ID = AD_Element_Trl.AD_Element_ID AND AD_Process.IsDefinedForMobile = 'Y')
+and Updated &gt;= '@#AD_Element_Trl_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50412" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Reference.AD_Reference_ID) or exists(select 1 from AD_Process p inner join AD_Process_Para pp on(pp.AD_Process_ID = p.AD_Process_ID) where pp.AD_Reference_Value_ID = AD_Reference.AD_Reference_ID) AND Updated &gt;= '@#AD_Reference_LastSyncDate@'">exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Reference.AD_Reference_ID) or exists(select 1 from AD_Process p inner join AD_Process_Para pp on(pp.AD_Process_ID = p.AD_Process_ID) where pp.AD_Reference_Value_ID = AD_Reference.AD_Reference_ID) and Updated &gt;= '@#AD_Reference_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50406" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Menu m where m.AD_Process_ID = AD_Process_Para.AD_Process_ID) AND  Updated &gt;= '@#AD_Process_Para_LastSyncDate@'">exists(select 1 from SPS_Menu m where m.AD_Process_ID = AD_Process_Para.AD_Process_ID) and  Updated &gt;= '@#AD_Process_Para_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50411" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Ref_Table.AD_Reference_ID) AND Updated &gt;= '@#AD_Ref_Table_LastSyncDate@'">exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Ref_Table.AD_Reference_ID) and Updated &gt;= '@#AD_Ref_Table_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50420" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from AD_Table inner join SPS_Table on AD_Table.AD_Table_ID = SPS_Table.AD_Table_ID where AD_Table.AD_Table_ID=AD_Tree.AD_Table_ID) andAD_Tree.TreeType = 'CU' and Updated &gt;= '@#AD_Tree_LastSyncDate@'">exists(select 1 from AD_Table inner join SPS_Table on AD_Table.AD_Table_ID = SPS_Table.AD_Table_ID where AD_Table.AD_Table_ID=AD_Tree.AD_Table_ID) and AD_Tree.TreeType = 'CU' and Updated &gt;= '@#AD_Tree_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50410" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from AD_Ref_List rl where rl.AD_Ref_List_ID = AD_Ref_List_Trl.AD_Ref_List_ID AND exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = rl.AD_Reference_ID)) AND Updated &gt;= '@#AD_Ref_List_Trl_LastSyncDate@'">exists(select 1 from AD_Ref_List rl where rl.AD_Ref_List_ID = AD_Ref_List_Trl.AD_Ref_List_ID and exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = rl.AD_Reference_ID)) and Updated &gt;= '@#AD_Ref_List_Trl_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50415" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 FROM SPS_SyncMenu WHERE SPS_SyncMenu.AD_RuleAfter_ID=AD_Rule.AD_Rule_ID OR SPS_SyncMenu.AD_RuleBefore_ID=AD_Rule.AD_Rule_ID) and Updated &gt;= '@#AD_Rule_LastSyncDate@'">exists(select 1 from SPS_SyncMenu where SPS_SyncMenu.AD_RuleAfter_ID=AD_Rule.AD_Rule_ID or SPS_SyncMenu.AD_RuleBefore_ID=AD_Rule.AD_Rule_ID) and Updated &gt;= '@#AD_Rule_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50413" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Reference_Trl.AD_Reference_ID) AND Updated &gt;= '@#AD_Reference_Trl_LastSyncDate@'">exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Reference_Trl.AD_Reference_ID) and Updated &gt;= '@#AD_Reference_Trl_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50409" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Ref_List.AD_Reference_ID) AND Updated &gt;= '@#AD_Ref_List_LastSyncDate@'">exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Ref_List.AD_Reference_ID) and Updated &gt;= '@#AD_Ref_List_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50414" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Table t where t.SPS_Table_ID = AD_ReportView.SPS_Table_ID) AND Updated &gt;= '@#AD_ReportView_LastSyncDate@'">exists(select 1 from SPS_Table t where t.SPS_Table_ID = AD_ReportView.SPS_Table_ID) and Updated &gt;= '@#AD_ReportView_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50407" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Menu m inner join AD_Process_Para pp on(pp.AD_Process_ID = m.AD_Process_ID) where pp.AD_Process_Para_ID = AD_Process_Para_Trl.AD_Process_Para_ID)  AND Updated &gt;= '@#AD_Process_Para_Trl_LastSyncDate@'">exists(select 1 from SPS_Menu m inner join AD_Process_Para pp on(pp.AD_Process_ID = m.AD_Process_ID) where pp.AD_Process_Para_ID = AD_Process_Para_Trl.AD_Process_Para_ID)  and Updated &gt;= '@#AD_Process_Para_Trl_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50405" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="IsDefinedForMobile = 'Y' AND Updated &gt;= '@#AD_Process_LastSyncDate@'">IsDefinedForMobile = 'Y' and Updated &gt;= '@#AD_Process_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50408" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Menu m where m.AD_Process_ID = AD_Process_Trl.AD_Process_ID) AND Updated &gt;= '@#AD_Process_Trl_LastSyncDate@'">exists(select 1 from SPS_Menu m where m.AD_Process_ID = AD_Process_Trl.AD_Process_ID) and Updated &gt;= '@#AD_Process_Trl_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50394" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from AD_Form where AD_Form.AD_Form_ID = AD_Form_Trl.AD_Form_ID and AD_Form.IsDefinedForMobile='Y')">exists(select 1 from AD_Form where AD_Form.AD_Form_ID = AD_Form_Trl.AD_Form_ID and AD_Form.IsDefinedForMobile='Y')
+and Updated &gt;= '@#AD_Form_Trl_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50388" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Column where SPS_Column.AD_Column_ID = AD_Column.AD_Column_ID)">exists(select 1 from SPS_Column where SPS_Column.AD_Column_ID = AD_Column.AD_Column_ID)
+and Updated &gt;= '@#AD_Column_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50401" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from AD_PrintFormat pf where pf.SPS_Table_ID IS NOT NULL AND pf.AD_PrintFormat_ID = AD_PrintFormatItem.AD_PrintFormat_ID) AND Updated &gt;= '@#AD_PrintFormatItem_LastSyncDate@'">exists(select 1 from AD_PrintFormat pf where pf.SPS_Table_ID Iis not null and pf.AD_PrintFormat_ID = AD_PrintFormatItem.AD_PrintFormat_ID) and Updated &gt;= '@#AD_PrintFormatItem_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50391" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue=" exists(select 1 from SPS_Column where SPS_Column.AD_Element_ID = AD_Element.AD_Element_ID) or exists(select 1 from AD_Process inner join AD_Process_Para on(AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID) where AD_Process_Para.AD_Element_ID = AD_Element_Trl.AD_Element_ID AND AD_Process.IsDefinedForMobile = 'Y')&#10;and Updated &gt;= '@#AD_Element_Trl_LastSyncDate@'"> exists(select 1 from SPS_Column where SPS_Column.AD_Element_ID = AD_Element.AD_Element_ID) or exists(select 1 from AD_Process inner join AD_Process_Para on(AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID) where AD_Process_Para.AD_Element_ID = AD_Element_Trl.AD_Element_ID and AD_Process.IsDefinedForMobile = 'Y')
+and Updated &gt;= '@#AD_Element_Trl_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50402" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from AD_PrintFormatItem pfi where pfi.AD_PrintFormatItem_ID = AD_PrintFormatItem_Trl.AD_PrintFormatItem_ID AND exists(select 1 from AD_PrintFormat pf where pf.SPS_Table_ID IS NOT NULL AND pf.AD_PrintFormat_ID = pfi.AD_PrintFormat_ID)) AND Updated &gt;= '@#AD_PrintFormatItem_Trl_LastSyncDate@'">exists(select 1 from AD_PrintFormatItem pfi where pfi.AD_PrintFormatItem_ID = AD_PrintFormatItem_Trl.AD_PrintFormatItem_ID and exists(select 1 from AD_PrintFormat pf where pf.SPS_Table_ID is not null  pf.AD_PrintFormat_ID = pfi.AD_PrintFormat_ID)) and Updated &gt;= '@#AD_PrintFormatItem_Trl_LastSyncDate@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53499" Action="I" Record_ID="56279" Table="SPS_Column">
+        <Data AD_Column_ID="71496" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="65694" Column="SPS_Column_ID">56279</Data>
+        <Data AD_Column_ID="65719" Column="SPS_Table_ID">50103</Data>
+        <Data AD_Column_ID="65695" Column="Updated">2015-03-13 22:52:28.832</Data>
+        <Data AD_Column_ID="65696" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71495" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="71494" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="75970" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="65697" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="71458" Column="AD_Element_ID">3059</Data>
+        <Data AD_Column_ID="65690" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72598" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65698" Column="AD_Reference_ID">16</Data>
+        <Data AD_Column_ID="65699" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65700" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="65701" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="65702" Column="ColumnName">LastSynchronized</Data>
+        <Data AD_Column_ID="65703" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="65691" Column="Created">2015-03-13 22:52:28.832</Data>
+        <Data AD_Column_ID="65692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="65704" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="65705" Column="Description">Date when last synchronized</Data>
+        <Data AD_Column_ID="71491" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="65706" Column="FieldLength">7</Data>
+        <Data AD_Column_ID="71497" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="71690" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="65707" Column="IsActive">true</Data>
+        <Data AD_Column_ID="66325" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="65709" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="65710" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="65711" Column="IsKey">false</Data>
+        <Data AD_Column_ID="65712" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="65713" Column="IsParent">false</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="65716" Column="Name">Last Synchronized</Data>
+        <Data AD_Column_ID="65717" Column="SelectionSeqNo">0</Data>
+        <Data AD_Column_ID="65718" Column="SeqNo">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="53058" Action="U" Record_ID="50185" Table="AD_Rule">
+        <Data AD_Column_ID="54257" Column="Script" oldValue="CREATE TABLE SPS_SyncMenu (AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_RuleAfter_ID NUMERIC(10) DEFAULT NULL , AD_RuleBefore_ID NUMERIC(10) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, Description VARCHAR(255) DEFAULT NULL , EntityType VARCHAR(40) DEFAULT 'ECA01' NOT NULL, ErrImgUrl VARCHAR(60) DEFAULT NULL , ImageURL VARCHAR(120) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsSummary CHAR(1) DEFAULT 'N' CHECK (IsSummary IN ('Y','N')) NOT NULL, IsSynchronized CHAR(1) DEFAULT 'N' CHECK (IsSynchronized IN ('Y','N')), Name VARCHAR(60) NOT NULL, Processing CHAR(1) DEFAULT NULL , SPS_SyncMenu_ID NUMERIC(10) NOT NULL, SPS_Table_ID NUMERIC(10) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, WhereClause VARCHAR(2000) DEFAULT NULL , WS_WebService_ID NUMERIC(10) DEFAULT NULL , WS_WebServiceMethod_ID NUMERIC(10) DEFAULT NULL , WS_WebServiceType_ID NUMERIC(10) DEFAULT NULL , CONSTRAINT SPS_SyncMenu_Key PRIMARY KEY (SPS_SyncMenu_ID))">CREATE TABLE SPS_SyncMenu (AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_RuleAfter_ID NUMERIC(10) DEFAULT NULL , AD_RuleBefore_ID NUMERIC(10) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, Description VARCHAR(255) DEFAULT NULL , EntityType VARCHAR(40) DEFAULT 'ECA01' NOT NULL, ErrImgUrl VARCHAR(60) DEFAULT NULL , ImageURL VARCHAR(120) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsSummary CHAR(1) DEFAULT 'N' CHECK (IsSummary IN ('Y','N')) NOT NULL, IsSynchronized CHAR(1) DEFAULT 'N' CHECK (IsSynchronized IN ('Y','N')), LastSynchronized TIMESTAMP DEFAULT NULL , Name VARCHAR(60) NOT NULL, Processing CHAR(1) DEFAULT NULL , SPS_SyncMenu_ID NUMERIC(10) NOT NULL, SPS_Table_ID NUMERIC(10) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, WhereClause VARCHAR(2000) DEFAULT NULL , WS_WebService_ID NUMERIC(10) DEFAULT NULL , WS_WebServiceMethod_ID NUMERIC(10) DEFAULT NULL , WS_WebServiceType_ID NUMERIC(10) DEFAULT NULL , CONSTRAINT SPS_SyncMenu_Key PRIMARY KEY (SPS_SyncMenu_ID))</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
