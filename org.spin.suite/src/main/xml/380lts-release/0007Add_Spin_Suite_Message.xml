@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="55">
+    <Comments>Add Message for Menu</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="50004" Table="AD_Tree">
+        <Data AD_Column_ID="2864" Column="Name" oldValue="Mobile Menu">SPSMobileMenu</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="288" Action="U" Record_ID="50005" Table="AD_Tree">
+        <Data AD_Column_ID="2864" Column="Name" oldValue="Synchronizing Menu">SPSSyncMenu</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53303" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53303</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2015-02-09 23:03:13.425</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Synchronization Menu</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">M</Data>
+        <Data AD_Column_ID="591" Column="Updated">2015-02-09 23:03:13.425</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6766" Column="Value">SPSSyncMenu</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA01</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53304" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53304</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2015-02-09 23:04:40.861</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Mobile Menu</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">M</Data>
+        <Data AD_Column_ID="591" Column="Updated">2015-02-09 23:04:40.861</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6766" Column="Value">SPSMobileMenu</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53925" Table="AD_Menu">
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53926" Table="AD_Menu">
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="71684" Table="AD_Column">
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">106</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="10">18</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="71654" Table="AD_Column">
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">106</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="10">18</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="71622" Table="AD_Column">
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">106</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="10">18</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
