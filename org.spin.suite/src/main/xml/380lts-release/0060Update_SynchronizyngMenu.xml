@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="325">
+    <Comments>Update Synchronizyng Menu</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="55833" Table="SPS_Column">
+        <Data AD_Column_ID="65713" Column="IsParent" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53058" Action="U" Record_ID="50240" Table="AD_Rule">
+        <Data AD_Column_ID="54257" Column="Script" oldValue="CREATE TABLE AD_OrgInfo (AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_OrgType_ID NUMERIC(10) DEFAULT NULL , C_Calendar_ID NUMERIC(10) DEFAULT NULL , C_Location_ID NUMERIC(10) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DropShip_Warehouse_ID NUMERIC(10) DEFAULT NULL , DUNS VARCHAR(11) NOT NULL, EMail VARCHAR(60) DEFAULT NULL , Fax VARCHAR(40) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, Logo_ID NUMERIC(10) DEFAULT NULL , M_Warehouse_ID NUMERIC(10) DEFAULT NULL , Parent_Org_ID NUMERIC(10) DEFAULT NULL , Phone VARCHAR(40) DEFAULT NULL , Phone2 VARCHAR(40) DEFAULT NULL , ReceiptFooterMsg TEXT DEFAULT '1', Supervisor_ID NUMERIC(10) DEFAULT NULL , TaxID VARCHAR(20) NOT NULL, TransferBank_ID NUMERIC(10) DEFAULT NULL , TransferCashBook_ID NUMERIC(10) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL)">CREATE TABLE AD_OrgInfo (AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_OrgType_ID NUMERIC(10) DEFAULT NULL , C_Calendar_ID NUMERIC(10) DEFAULT NULL , C_Location_ID NUMERIC(10) DEFAULT NULL , Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, DropShip_Warehouse_ID NUMERIC(10) DEFAULT NULL , DUNS VARCHAR(11) NOT NULL, EMail VARCHAR(60) DEFAULT NULL , Fax VARCHAR(40) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, Logo_ID NUMERIC(10) DEFAULT NULL , M_Warehouse_ID NUMERIC(10) DEFAULT NULL , Parent_Org_ID NUMERIC(10) DEFAULT NULL , Phone VARCHAR(40) DEFAULT NULL , Phone2 VARCHAR(40) DEFAULT NULL , ReceiptFooterMsg TEXT DEFAULT '1', Supervisor_ID NUMERIC(10) DEFAULT NULL , TaxID VARCHAR(20) NOT NULL, TransferBank_ID NUMERIC(10) DEFAULT NULL , TransferCashBook_ID NUMERIC(10) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, CONSTRAINT AD_OrgInfo_Key PRIMARY KEY (AD_Org_ID))</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50341" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_User_ID=@#AD_User_ID@</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50300" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">CreatedBy=@#AD_User_ID@</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50406" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from AD_Process inner join AD_Process_Para on (AD_Process.AD_Process_ID = AD_Process_Para.AD_Process_ID) and AD_Process.IsDefinedForMobile = 'Y')">exists (select 1 from AD_Process where AD_Process.IsDefinedForMobile = 'Y'and AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID )</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50406" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from AD_Process where AD_Process.IsDefinedForMobile = 'Y'and AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID )">exists (select 1 from AD_Process where AD_Process.IsDefinedForMobile = 'Y' and AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID )</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50421" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_User_ID=@#AD_User_ID@</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
