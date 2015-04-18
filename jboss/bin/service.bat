@@ -13,17 +13,30 @@ REM -------------------------------------------------------------------------
 @if "%OS%" == "Windows_NT" setlocal
 set DIRNAME=%CD%
 
+REM Set the ADempiere environment variables
+@if (%ADEMPIERE_HOME%) == () (CALL myEnvironment.bat Server) else (CALL %ADEMPIERE_HOME%\utils\myEnvironment.bat Server)
+
+@Rem  To use your own Encryption class (implementing org.compiere.util.SecureInterface),
+@Rem  you need to set it here (and in the client start script) - example:
+@Rem  SET SECURE=-DADEMPIERE_SECURE=org.compiere.util.Secure
+@SET SECURE=
+
+
+@IF '%ADEMPIERE_APPS_TYPE%' == 'jboss' GOTO JBOSS
+@GOTO UNSUPPORTED
+
+:JBOSS
 REM
 REM VERSION, VERSION_MAJOR and VERSION_MINOR are populated
 REM during the build with ant filter.
 REM
-set SVCNAME=JBAS50SVC
-set SVCDISP=JBoss Application Server 5.0
-set SVCDESC=JBoss Application Server 5.0.0 GA/Platform: Windows x64
+set SVCNAME=ADempiere
+set SVCDISP=ADempiere Application Server 380LTS
+set SVCDESC=ADempiere Application Server 380LTS/Platform: Windows x64
 set NOPAUSE=Y
 
 REM Suppress killing service on logoff event
-set JAVA_OPTS=-Xrs
+@Set JAVA_OPTS=-Xrs -server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true
 
 REM Figure out the running mode
 
@@ -71,9 +84,9 @@ if not errorlevel 1 (
   goto cmdEnd
 )
 echo Y > .r.lock
-jbosssvc.exe -p 1 "Starting %SVCDISP%" > run.log
-call run.bat < .r.lock >> run.log 2>&1
-jbosssvc.exe -p 1 "Shutdown %SVCDISP% service" >> run.log
+jbosssvc.exe -p 1 "Starting %SVCDISP%" > service.log
+call run.bat -c adempiere -b %ADEMPIERE_APPS_SERVER% < .r.lock >> service.log 2>&1
+jbosssvc.exe -p 1 "Shutdown %SVCDISP% service" >> service.log
 del .r.lock
 goto cmdEnd
 
@@ -116,5 +129,8 @@ goto cmdEnd
 :execSignal
 jbosssvc.exe -k%2 %SVCNAME%
 goto cmdEnd
+
+:UNSUPPORTED
+Echo Apps Server start of %ADEMPIERE_APPS_TYPE% not supported
 
 :cmdEnd
