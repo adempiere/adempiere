@@ -32,7 +32,7 @@ REM during the build with ant filter.
 REM
 set SVCNAME=ADempiere
 set SVCDISP=ADempiere Application Server 380LTS
-set SVCDESC=ADempiere Application Server 380LTS/Platform: Windows x64
+set SVCDESC=This is the ADempiere Application Server, version 380LTS, for Windows 64 bit operating systems.
 set NOPAUSE=Y
 
 REM Suppress killing service on logoff event
