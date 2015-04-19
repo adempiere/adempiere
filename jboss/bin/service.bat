@@ -84,9 +84,9 @@ if not errorlevel 1 (
   goto cmdEnd
 )
 echo Y > .r.lock
-jbosssvc.exe -p 1 "Starting %SVCDISP%" > service.log
-call run.bat -c adempiere -b %ADEMPIERE_APPS_SERVER% < .r.lock >> service.log 2>&1
-jbosssvc.exe -p 1 "Shutdown %SVCDISP% service" >> service.log
+jbosssvc.exe -p 1 "Starting %SVCDISP%" > run.log
+call run.bat -c adempiere -b %ADEMPIERE_APPS_SERVER% < .r.lock >> run.log 2>&1
+jbosssvc.exe -p 1 "Shutdown %SVCDISP% service" >> run.log
 del .r.lock
 goto cmdEnd
 
