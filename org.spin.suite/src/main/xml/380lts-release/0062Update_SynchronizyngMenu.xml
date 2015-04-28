@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="" SeqNo="355">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="56234" Table="SPS_Column">
+        <Data AD_Column_ID="65712" Column="IsMandatory" oldValue="false">true</Data>
+        <Data AD_Column_ID="65713" Column="IsParent" oldValue="false">true</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="56221" Table="SPS_Column">
+        <Data AD_Column_ID="65715" Column="IsUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="56221" Table="SPS_Column">
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="56235" Table="SPS_Column">
+        <Data AD_Column_ID="65712" Column="IsMandatory" oldValue="false">true</Data>
+        <Data AD_Column_ID="65714" Column="IsSelectionColumn" oldValue="false">true</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="56223" Table="SPS_Column">
+        <Data AD_Column_ID="65710" Column="IsIdentifier" oldValue="false">true</Data>
+        <Data AD_Column_ID="65715" Column="IsUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="56224" Table="SPS_Column">
+        <Data AD_Column_ID="65715" Column="IsUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="56227" Table="SPS_Column">
+        <Data AD_Column_ID="65708" Column="IsAlwaysUpdateable" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="56240" Table="SPS_Column">
+        <Data AD_Column_ID="65704" Column="DefaultValue" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="56239" Table="SPS_Column">
+        <Data AD_Column_ID="65715" Column="IsUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="56238" Table="SPS_Column">
+        <Data AD_Column_ID="65715" Column="IsUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53058" Action="U" Record_ID="50284" Table="AD_Rule">
+        <Data AD_Column_ID="54257" Column="Script" oldValue="CREATE TABLE SPS_ChangeLog (AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Session_ID NUMERIC(10) NOT NULL, Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, Description VARCHAR(255) DEFAULT NULL , EventChangeLog CHAR(1) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsCustomization CHAR(1) DEFAULT 'N' CHECK (IsCustomization IN ('Y','N')) NOT NULL, IsSynchronized CHAR(1) DEFAULT NULL  CHECK (IsSynchronized IN ('Y','N')), NewValue VARCHAR(2000) DEFAULT NULL , OldValue VARCHAR(2000) DEFAULT NULL , Record_ID NUMERIC(10) NOT NULL, Redo CHAR(1) DEFAULT NULL , SPS_ChangeLog_ID NUMERIC(10) NOT NULL, SPS_Column_ID NUMERIC(10) DEFAULT NULL , SPS_Table_ID NUMERIC(10) DEFAULT NULL , TrxName VARCHAR(60) DEFAULT NULL , Undo CHAR(1) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, CONSTRAINT SPS_ChangeLog_Key PRIMARY KEY (AD_Session_ID, SPS_ChangeLog_ID))">CREATE TABLE SPS_ChangeLog (AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, AD_Session_ID NUMERIC(10) NOT NULL, Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, Description VARCHAR(255) DEFAULT NULL , EventChangeLog CHAR(1) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, IsCustomization CHAR(1) DEFAULT 'N' CHECK (IsCustomization IN ('Y','N')) NOT NULL, IsSynchronized CHAR(1) DEFAULT 'N' CHECK (IsSynchronized IN ('Y','N')), NewValue VARCHAR(2000) DEFAULT NULL , OldValue VARCHAR(2000) DEFAULT NULL , Record_ID NUMERIC(10) NOT NULL, Redo CHAR(1) DEFAULT NULL , SPS_ChangeLog_ID NUMERIC(10) NOT NULL, SPS_Column_ID NUMERIC(10) NOT NULL, SPS_Table_ID NUMERIC(10) NOT NULL, TrxName VARCHAR(60) DEFAULT NULL , Undo CHAR(1) DEFAULT NULL , Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, CONSTRAINT SPS_ChangeLog_Key PRIMARY KEY (AD_Session_ID, SPS_ChangeLog_ID, SPS_Column_ID))</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

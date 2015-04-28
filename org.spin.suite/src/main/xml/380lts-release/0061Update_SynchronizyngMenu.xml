@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="345">
+    <Comments>Update Synchronizyng Menu</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50480" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UD Locator">U Locator</Data>
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from M_Warehouse where (exists (select 1 from AD_User_OrgAccess where AD_User_OrgAccess.AD_Org_ID = M_WareHouse.AD_Org_ID and AD_User_OrgAccess.AD_User_ID=@#AD_User_ID@ ) or exists (select 1 from AD_User_Roles inner join AD_Role_OrgAccess on AD_User_Roles.AD_Role_ID=AD_Role_OrgAccess.AD_Role_ID where AD_Role_OrgAccess.AD_Org_ID = M_WareHouse.AD_Org_ID and AD_User_Roles.AD_User_ID= @#AD_User_ID@) or exists (select 1 from AD_User_Roles inner join AD_Role on AD_User_Roles.AD_Role_ID=AD_Role.AD_Role_ID where AD_Role.IsAccessAllOrgs = 'Y' and (AD_Role.AD_Client_ID=M_WareHouse.AD_Client_ID or M_WareHouse.AD_Client_ID=0) and  AD_User_Roles.AD_User_ID= @#AD_User_ID@))and M_Locator.M_Warehouse_ID = M_Warehouse.M_Warehouse_ID)">exists (select 1 from M_Warehouse where (exists (select 1 from AD_User_OrgAccess where AD_User_OrgAccess.AD_Org_ID = M_WareHouse.AD_Org_ID and AD_User_OrgAccess.AD_User_ID=@#AD_User_ID@ ) or exists (select 1 from AD_User_Roles inner join AD_Role_OrgAccess on AD_User_Roles.AD_Role_ID=AD_Role_OrgAccess.AD_Role_ID where AD_Role_OrgAccess.AD_Org_ID = M_WareHouse.AD_Org_ID and AD_User_Roles.AD_User_ID= @#AD_User_ID@) or exists (select 1 from AD_User_Roles inner join AD_Role on AD_User_Roles.AD_Role_ID=AD_Role.AD_Role_ID where AD_Role.IsAccessAllOrgs = 'Y' and (AD_Role.AD_Client_ID=M_WareHouse.AD_Client_ID or M_WareHouse.AD_Client_ID=0) and  AD_User_Roles.AD_User_ID= @#AD_User_ID@))and M_Locator.M_Warehouse_ID = M_Warehouse.M_Warehouse_ID) </Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50480" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="U Locator">UD Locator</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50452" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Warehouse">UD Warehouse</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50460" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US City">UD City</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50462" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Currency">UD Currency</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50459" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Charge">UD Charge</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50464" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Document Type">UD Document Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50461" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Country">UD Country</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50465" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Document Type Trl">UD Document Type Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50469" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Tax Trl">UD Tax Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50473" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US UOM Conversion">UD UOM Conversion</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50468" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Tax">UD Tax</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50463" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Currency Trl">UD Currency Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50467" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Region">UD Region</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50470" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Tax Category">UD Tax Category</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50471" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Tax Category Trl">UD Tax Category Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50472" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US UOM">UD UOM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50474" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US UOM Trl">UD UOM Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50466" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Address">UD Address</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50478" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Product Category">UD Product Category</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50479" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Product Price">UD Product Price</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50496" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Bank Account">UD Bank Account</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50497" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Cash Book">UD Cash Book</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50450" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Organization">UD Organization</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50500" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Discount Schema">UD Discount Schema</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50494" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Activity">UD Activity</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50501" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Discount Schema Break">UD Discount Schema Break</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50477" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Product">UD Product</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50493" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Language ID">UD Language ID</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50499" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Sales Region">UD Sales Region</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50502" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US RMA Type">UD RMA Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50495" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Bank">UD Bank</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50455" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Business Partner">UD Business Partner</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50498" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Currency Type">UD Currency Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50476" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Price List Version">UD Price List Version</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50475" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Price List">UD Price List</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50448" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Client">UD Client</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50431" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Sync/Option Menu">UM Sync/Option Menu</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50393" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Special Form">UMD Special Form</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50392" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Entity Type">UMD Entity Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50389" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Column Trl">UMD Column Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50390" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM System Element">UMD System Element</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50397" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Print Color">UMD Print Color</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50401" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Print Format Item">UMD Print Format Item</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50399" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Print Form">UMD Print Form</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50404" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Print Table Format">UMD Print Table Format</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50391" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue=" exists(select 1 from SPS_Column where SPS_Column.AD_Element_ID = AD_Element_Trl.AD_Element_ID) or exists(select 1 from AD_Process inner join AD_Process_Para on(AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID) where AD_Process_Para.AD_Element_ID = AD_Element_Trl.AD_Element_ID and AD_Process.IsDefinedForMobile = 'Y') and AD_Language = '@#AD_Language@'"> exists(select 1 from SPS_Column where SPS_Column.AD_Element_ID = AD_Element_Trl.AD_Element_ID) and AD_Language = '@#AD_Language@' or exists(select 1 from AD_Process inner join AD_Process_Para on(AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID) where AD_Process_Para.AD_Element_ID = AD_Element_Trl.AD_Element_ID and AD_Process.IsDefinedForMobile = 'Y') </Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50391" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue=" exists(select 1 from SPS_Column where SPS_Column.AD_Element_ID = AD_Element_Trl.AD_Element_ID) and AD_Language = '@#AD_Language@' or exists(select 1 from AD_Process inner join AD_Process_Para on(AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID) where AD_Process_Para.AD_Element_ID = AD_Element_Trl.AD_Element_ID and AD_Process.IsDefinedForMobile = 'Y') ">( exists(select 1 from SPS_Column where SPS_Column.AD_Element_ID = AD_Element_Trl.AD_Element_ID)  or exists(select 1 from AD_Process inner join AD_Process_Para on(AD_Process_Para.AD_Process_ID = AD_Process.AD_Process_ID) where AD_Process_Para.AD_Element_ID = AD_Element_Trl.AD_Element_ID and AD_Process.IsDefinedForMobile = 'Y') )and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50391" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM System Element Trl">UMD System Element Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50402" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Print Format Item Trl">UMD Print Format Item Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50396" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Message Trl">UMD Message Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50398" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Print Font">UMD Print Font</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50412" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Reference">UMD Reference</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50406" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Process Parameter">UMD Process Parameter</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50403" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Print Paper">UMD Print Paper</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50411" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM AD_Ref_Table">UMD AD_Ref_Table</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50420" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Tree">UMD Tree</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50418" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Table">UMD Table</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50410" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Reference List Trl">UMD Reference List Trl</Data>
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from AD_Ref_List rl where rl.AD_Ref_List_ID = AD_Ref_List_Trl.AD_Ref_List_ID and exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = rl.AD_Reference_ID)) and AD_Language = @#AD_Language@">exists(select 1 from AD_Ref_List rl where rl.AD_Ref_List_ID = AD_Ref_List_Trl.AD_Ref_List_ID and exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = rl.AD_Reference_ID)) and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50415" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Rule">UMD Rule</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50413" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Reference Trl">UMD Reference Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50409" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Reference List">UMD Reference List</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50416" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Sequence">UMD Sequence</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50414" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Report View">UMD Report View</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50407" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Process Parameter Trl">UMD Process Parameter Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50425" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Mobile Column">UMD Mobile Column</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50426" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Mobile Column Trl">UMD Mobile Column Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50405" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Process">UMD Process</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50422" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Tree Node">UMD Tree Node</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50421" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM AD_TreeBar">UMD AD_TreeBar</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50408" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Process Trl">UMD Process Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50417" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM System Configurator">UMD System Configurator</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50419" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Table Trl">UMD Table Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50433" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Tab">UMD Tab</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50400" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Print Format">UMD Print Format</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50431" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="UM Sync/Option Menu">UMD Sync/Option Menu</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50423" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Dynamic Validation">UMD Dynamic Validation</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50394" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Special Form Trl">UMD Special Form Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50430" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Menu Option Trl">UMD Menu Option Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50428" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Field Trl">UMD Field Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50434" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Tab Trl">UMD Tab Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50441" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Web Service Field Input">UMD Web Service Field Input</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50440" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Web Service Parameters">UMD Web Service Parameters</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50429" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Menu Option">UMD Menu Option</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50439" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Web Service">UMD Web Service</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50427" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Field">UMD Field</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50443" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Web Service Method">UMD Web Service Method</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50444" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Web Service Type">UMD Web Service Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50435" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Mobile Table">UMD Mobile Table</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50438" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Window Mobile Trl">UMD Window Mobile Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50442" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Web Service Field Output">UMD Web Service Field Output</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50437" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Window Mobile">UMD Window Mobile</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50436" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Mobile Table Trl">UMD Mobile Table Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="940" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50432" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Sync/Option Menu Trl">UMD Sync/Option Menu Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="950" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50395" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Message">UMD Message</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="960" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50388" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Column">UMD Column</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="970" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50452" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">exists (select 1 from AD_User_OrgAccess where AD_User_OrgAccess.AD_Org_ID = M_WareHouse.AD_Org_ID and AD_User_OrgAccess.AD_User_ID=@#AD_User_ID@) or exists (select 1 from AD_User_Roles inner join AD_Role_OrgAccess on AD_User_Roles.AD_Role_ID=AD_Role_OrgAccess.AD_Role_ID where AD_Role_OrgAccess.AD_Org_ID = M_WareHouse.AD_Org_ID and AD_User_Roles.AD_User_ID= @#AD_User_ID@) or exists (select 1 from AD_User_Roles inner join AD_Role on AD_User_Roles.AD_Role_ID=AD_Role.AD_Role_ID where AD_Role.IsAccessAllOrgs = 'Y' and (AD_Role.AD_Client_ID=M_WareHouse.AD_Client_ID or M_WareHouse.AD_Client_ID=0) and  AD_User_Roles.AD_User_ID=@#AD_User_ID@)</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

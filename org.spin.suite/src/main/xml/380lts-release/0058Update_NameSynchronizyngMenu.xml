@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="305">
+    <Comments>Update name of Synchronizyng Menu</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53503" Action="U" Record_ID="50068" Table="SPS_Table">
+        <Data AD_Column_ID="74602" Column="AccessLevel" oldValue="4">3</Data>
+        <Data AD_Column_ID="65784" Column="Name" oldValue="AD_Form_Access">Form Access</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50378" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update AD_Form_Access">US Form Access</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53503" Action="U" Record_ID="50067" Table="SPS_Table">
+        <Data AD_Column_ID="74602" Column="AccessLevel" oldValue="4">3</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50379" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Process Access">US Process Access</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50380" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update AD_Role_OrgAccess">US AD_Role_OrgAccess</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50381" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Usuario">US User</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50382" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update AD_User_OrgAccess">US AD_User_OrgAccess</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50383" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update AD_User_Roles">US AD_User_Roles</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50384" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Doc Sequence by User">US Doc Sequence by User</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50386" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Web Service Type Access">US Web Service Type Access</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50385" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update SPS_Window_Access">US SPS_Window_Access</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50454" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Business Partner Group">UD Business Partner Group</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50451" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Organization Info">UD Organization Info</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50457" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Payment Term">UD Payment Term</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50452" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Warehouse">US Warehouse</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50460" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update City">US City</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50456" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Partner Location">UD Partner Location</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50458" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Payment Term Trl">US Payment Term Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50462" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Currency">US Currency</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50459" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Charge">US Charge</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50464" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Document Type">US Document Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50461" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Country">US Country</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50465" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Document Type Trl">US Document Type Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50469" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Tax Trl">US Tax Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50473" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update UOM Conversion">US UOM Conversion</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50468" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Tax">US Tax</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50463" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Currency Trl">US Currency Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50467" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Region">US Region</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50470" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Tax Category">US Tax Category</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50471" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Tax Category Trl">US Tax Category Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50472" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update UOM">US UOM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50474" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update UOM Trl">US UOM Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50466" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Address">US Address</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50478" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Product Category">US Product Category</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50479" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Product Price">US Product Price</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50496" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Bank Account">US Bank Account</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50497" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Cash Book">US Cash Book</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50480" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Locator">US Locator</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50450" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Organization">US Organization</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50500" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Discount Schema">US Discount Schema</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50494" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Activity">US Activity</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50501" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Discount Schema Break">US Discount Schema Break</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50477" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Product">US Product</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50493" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Language ID">US Language ID</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50499" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Sales Region">US Sales Region</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50502" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update  RMA Type">US RMA Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50495" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Bank">US Bank</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50455" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Business Partner ">US Business Partner</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50498" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Currency Type">US Currency Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50476" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Price List Version">US Price List Version</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50475" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Price List">US Price List</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50448" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Client">US Client</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50393" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Special Form">UM Special Form</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50392" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Entity Type">US Entity Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50389" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Column Trl">US Column Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50390" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update System Element">US System Element</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50397" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Print Color">US Print Color</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50401" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Print Format Item">US Print Format Item</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50399" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Print Form">US Print Form</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50389" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Column Trl">UM Column Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50401" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Print Format Item">UM Print Format Item</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50397" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Print Color">UM Print Color</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50390" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US System Element">UM System Element</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50392" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Entity Type">UM Entity Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50399" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="US Print Form">UM Print Form</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50404" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Print Table Format">UM Print Table Format</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50391" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update System Element Trl">UM System Element Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50402" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Print Format Item Trl">UM Print Format Item Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50396" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Message Trl">UM Message Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50398" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Print Font">UM Print Font</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50412" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Reference">UM Reference</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50406" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Process Parameter">UM Process Parameter</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50403" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Print Paper">Print Paper</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50403" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Print Paper">UM Print Paper</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50411" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update AD_Ref_Table">UM AD_Ref_Table</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50420" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Tree">UM Tree</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50418" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Table">UM Table</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50410" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Reference List Trl">UM Reference List Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50415" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Rule">UM Rule</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50413" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Reference Trl">Reference Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50413" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Reference Trl">UM Reference Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50409" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Reference List">UM Reference List</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50416" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Sequence">UM Sequence</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50414" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Report View">UM Report View</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50407" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Process Parameter Trl">UM Process Parameter Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50425" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Mobile Column">Mobile Column</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50425" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Mobile Column">UM Mobile Column</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50426" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Mobile Column Trl">UM Mobile Column Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50405" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Process">UM Process</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50422" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Tree Node">UM Tree Node</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50421" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update AD_TreeBar">UM AD_TreeBar</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50408" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Process Trl">UM Process Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50417" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update System Configurator">UM System Configurator</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="940" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50419" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Table Trl">UM Table Trl</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="950" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50433" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Tab">Tab</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="960" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50400" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Update Print Format">Print Format</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="970" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50400" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Print Format">UM Print Format</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="980" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50433" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Tab">UM Tab</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
