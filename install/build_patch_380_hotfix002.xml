@@ -57,17 +57,11 @@
 		 -->
 		<mkdir dir="${patch.dir}/jar/src/patches"/>
 
-		<!-- copy todir="${patch.dir}/jar/src/patches">
-		  <fileset dir="${base.dir}/base/build">
-		  	<include name="org/compiere/model/I_M_Locator.class"/>
-		  	<include name="org/compiere/model/MLocator.class"/>
-		  	<include name="org/compiere/model/MLocatorLookup.class"/>
-		  	<include name="org/compiere/model/X_M_Locator.class"/>
-		  </fileset>
+		<copy todir="${patch.dir}/jar/src/patches">
 		  <fileset dir="${base.dir}/client/build">
-		  	<include name="org/compiere/grid/ed/VLocatorDialog.class"/>
+		  	<include name="org/compiere/apps/ProcessParameterPanel.class"/>
 		  </fileset>
-		</copy -->
+		</copy>
 
 		
 		<!-- put everything into the patches.jar file -->
