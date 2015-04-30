@@ -191,6 +191,10 @@ public class Doc_InOut extends Doc
 					dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
 					dr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
                     dr.setM_Product_ID(cost.getM_Product_ID());
+                    //  fact.createLine adds the UoM from the line.  However, this represents the 
+                    //  UoM entered, not the product UoM Ordered which could be different.  The qty
+                    //  received/shipped is the qty ordered, not the qty entered.  
+                    dr.setC_UOM_ID(product.getC_UOM_ID());
 					dr.setQty(cost.getQty().negate());
 					dr.addDescription(description);
 					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
@@ -220,6 +224,10 @@ public class Doc_InOut extends Doc
 					cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
 					cr.addDescription(description);
                     cr.setM_Product_ID(cost.getM_Product_ID());
+                    //  fact.createLine adds the UoM from the line.  However, this represents the 
+                    //  UoM entered, not the product UoM Ordered which could be different.  The qty
+                    //  received/shipped is the qty ordered, not the qty entered.  
+                    cr.setC_UOM_ID(product.getC_UOM_ID());
                     cr.setQty(cost.getQty());
 					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
 							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
@@ -298,6 +306,10 @@ public class Doc_InOut extends Doc
 					dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
 					dr.addDescription(description);
                     dr.setM_Product_ID(cost.getM_Product_ID());
+                    //  fact.createLine adds the UoM from the line.  However, this represents the 
+                    //  UoM entered, not the product UoM Ordered which could be different.  The qty
+                    //  received/shipped is the qty ordered, not the qty entered.  
+                    dr.setC_UOM_ID(product.getC_UOM_ID());
                     dr.setQty(cost.getQty());
 					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
 							&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
@@ -326,6 +338,10 @@ public class Doc_InOut extends Doc
 					cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
 					cr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
                     cr.setM_Product_ID(cost.getM_Product_ID());
+                    //  fact.createLine adds the UoM from the line.  However, this represents the 
+                    //  UoM entered, not the product UoM Ordered which could be different.  The qty
+                    //  received/shipped is the qty ordered, not the qty entered.  
+                    cr.setC_UOM_ID(product.getC_UOM_ID());
 					cr.setQty(cost.getQty().negate());
 					cr.addDescription(description);
 					if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
@@ -402,6 +418,10 @@ public class Doc_InOut extends Doc
 						dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
 						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
                         dr.setM_Product_ID(cost.getM_Product_ID());
+                        //  fact.createLine adds the UoM from the line.  However, this represents the 
+                        //  UoM entered, not the product UoM Ordered which could be different.  The qty
+                        //  received/shipped is the qty ordered, not the qty entered.  
+                        dr.setC_UOM_ID(product.getC_UOM_ID());
                         dr.setQty(cost.getQty());
 						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
@@ -429,7 +449,11 @@ public class Doc_InOut extends Doc
 						cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 						cr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
                         cr.setM_Product_ID(cost.getM_Product_ID());
-						cr.setQty(cost.getQty().negate());
+                        //  fact.createLine adds the UoM from the line.  However, this represents the 
+                        //  UoM entered, not the product UoM Ordered which could be different.  The qty
+                        //  received/shipped is the qty ordered, not the qty entered.  
+                        cr.setC_UOM_ID(product.getC_UOM_ID());
+                        cr.setQty(cost.getQty().negate());
 						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
 							//	Set AmtAcctCr from Original Shipment/Receipt
@@ -491,6 +515,10 @@ public class Doc_InOut extends Doc
 						dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 						dr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
                         dr.setM_Product_ID(cost.getM_Product_ID());
+                        //  fact.createLine adds the UoM from the line.  However, this represents the 
+                        //  UoM entered, not the product UoM Ordered which could be different.  The qty
+                        //  received/shipped is the qty ordered, not the qty entered.  
+                        dr.setC_UOM_ID(product.getC_UOM_ID());
 						dr.setQty(cost.getQty().negate());
 						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
@@ -521,6 +549,10 @@ public class Doc_InOut extends Doc
 						cr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
 						cr.addDescription(description);
                         cr.setM_Product_ID(cost.getM_Product_ID());
+                        //  fact.createLine adds the UoM from the line.  However, this represents the 
+                        //  UoM entered, not the product UoM Ordered which could be different.  The qty
+                        //  received/shipped is the qty ordered, not the qty entered.  
+                        cr.setC_UOM_ID(product.getC_UOM_ID());
                         cr.setQty(cost.getQty());
 						if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 						{
