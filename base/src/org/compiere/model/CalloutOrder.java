@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,6 +41,10 @@ import org.compiere.util.Msg;
  *  @author Michael McKay (mjmckay)
  *  		<li> BF3468458 - Attribute Set Instance not filled on Orders when product lookup not used.
  *  			 See https://sourceforge.net/tracker/?func=detail&aid=3468458&group_id=176962&atid=879332
+ *  		<li> ADEMPIERE-60 Wrong price precision with different UOM
+ *  			 See https://adempiere.atlassian.net/browse/ADEMPIERE-60
+ *  		<li> ADEMPIERE-75 erratic behavior with context variables set on callouts
+ *  			 See https://adempiere.atlassian.net/browse/ADEMPIERE-75 
  */
 public class CalloutOrder extends CalloutEngine
 {
@@ -354,7 +359,7 @@ public class CalloutOrder extends CalloutEngine
 				if (IsSOTrx)
 				{
 					double CreditLimit = rs.getDouble("SO_CreditLimit");
-					String SOCreditStatus = rs.getString("SOCreditStatus");
+					//String SOCreditStatus = rs.getString("SOCreditStatus");
 					if (CreditLimit != 0)
 					{
 						double CreditAvailable = rs.getDouble("CreditAvailable");
@@ -684,7 +689,8 @@ public class CalloutOrder extends CalloutEngine
 	/*************************************************************************
 	 *	Order Line - Product.
 	 *		- reset C_Charge_ID / M_AttributeSetInstance_ID
-	 *		- PriceList, PriceStd, PriceLimit, C_Currency_ID, EnforcePriceLimit
+	 *		- PriceEntered, PriceActual (PriceStd), PriceList, PriceLimit, 
+	 *		- C_Currency_ID, EnforcePriceLimit
 	 *		- UOM
 	 *	Calls Tax
 	 *
@@ -698,12 +704,15 @@ public class CalloutOrder extends CalloutEngine
 	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
 		Integer M_Product_ID = (Integer)value;
+		
 		Integer M_AttributeSetInstance_ID = 0;
 		//
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 		{
 			//  If the product information is deleted, zero the other items as well
 			mTab.setValue("M_AttributeSetInstance_ID", null);
+			mTab.setValue("QtyEntered", new BigDecimal(1));
+			mTab.setValue("QtyActual", new BigDecimal(1));
 			mTab.setValue("PriceList", new BigDecimal(0));
 			mTab.setValue("PriceLimit", new BigDecimal(0));
 			mTab.setValue("PriceActual", new BigDecimal(0));
@@ -730,31 +739,13 @@ public class CalloutOrder extends CalloutEngine
 			mTab.setValue("M_AttributeSetInstance_ID", asi.getM_AttributeSetInstance_ID());
 		}
 		/*****	Price Calculation see also qty	****/
-		int C_BPartner_ID = Env.getContextAsInt(ctx, WindowNo, "C_BPartner_ID");
+		
+		//  The qty to use for calculations is QtyOrdered.  QtyEntered may be in different units of measure
+		//  Ideally, QtyOrdered*PriceActual = QtyEntered*PriceEntered but the QtyOrdered & PriceActual are
+		//  the real numbers used in the accounting.
 		BigDecimal Qty = (BigDecimal)mTab.getValue("QtyOrdered");
-		boolean IsSOTrx = Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y");
-		MProductPricing pp = new MProductPricing (M_Product_ID.intValue(), C_BPartner_ID, Qty, IsSOTrx);
-		//
-		int M_PriceList_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID");
-		pp.setM_PriceList_ID(M_PriceList_ID);
 		Timestamp orderDate = (Timestamp)mTab.getValue("DateOrdered");
-		/** PLV is only accurate if PL selected in header */
-		int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
-		if ( M_PriceList_Version_ID == 0 && M_PriceList_ID > 0)
-		{
-			String sql = "SELECT plv.M_PriceList_Version_ID "
-				+ "FROM M_PriceList_Version plv "
-				+ "WHERE plv.M_PriceList_ID=? "						//	1
-				+ " AND plv.ValidFrom <= ? "
-				+ "ORDER BY plv.ValidFrom DESC";
-			//	Use newest price list - may not be future
-			
-			M_PriceList_Version_ID = DB.getSQLValueEx(null, sql, M_PriceList_ID, orderDate);
-			if ( M_PriceList_Version_ID > 0 )
-				Env.setContext(ctx, WindowNo, "M_PriceList_Version_ID", M_PriceList_Version_ID );
-		}
-		pp.setM_PriceList_Version_ID(M_PriceList_Version_ID); 
-		pp.setPriceDate(orderDate);
+		MProductPricing pp = getMProductPricing(ctx, WindowNo, M_Product_ID.intValue(), Qty, orderDate);
 		//		
 		mTab.setValue("PriceList", pp.getPriceList());
 		mTab.setValue("PriceLimit", pp.getPriceLimit());
@@ -763,7 +754,10 @@ public class CalloutOrder extends CalloutEngine
 		mTab.setValue("C_Currency_ID", new Integer(pp.getC_Currency_ID()));
 		mTab.setValue("Discount", pp.getDiscount());
 		mTab.setValue("C_UOM_ID", new Integer(pp.getC_UOM_ID()));
-		mTab.setValue("QtyOrdered", mTab.getValue("QtyEntered"));
+		mTab.setValue("QtyOrdered", mTab.getValue("QtyEntered"));  // When C_UOM_ID = pp.getC_UOM_ID()
+		
+		// ADEMPIERE-75 These context settings are not related to fields and may not be accurate if the 
+		// user logs out and back in again. Use with caution
 		Env.setContext(ctx, WindowNo, "EnforcePriceLimit", pp.isEnforcePriceLimit() ? "Y" : "N");
 		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
 		
@@ -781,13 +775,15 @@ public class CalloutOrder extends CalloutEngine
 		{
 			if (product.isStocked())
 			{
+				// Stock & QtyOrdered is measured in the product UOM, not the displayed C_UOM_ID
 				BigDecimal QtyOrdered = (BigDecimal)mTab.getValue("QtyOrdered");
 				int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
 				M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
+				// Search the whole warehouse - locator set to 0
 				BigDecimal available = MStorage.getQtyAvailable
-					(M_Warehouse_ID, M_Product_ID.intValue(), M_AttributeSetInstance_ID, null);
+					(M_Warehouse_ID, 0, M_Product_ID.intValue(), M_AttributeSetInstance_ID, null);
 				if (available == null)
-					available = Env.ZERO;
+					available = Env.ZERO;  // There was an error if null but ignore it.
 				if (available.signum() == 0)
 					mTab.fireDataStatusEEvent ("NoQtyAvailable", "0", false);
 				else if (available.compareTo(QtyOrdered) < 0)
@@ -958,8 +954,9 @@ public class CalloutOrder extends CalloutEngine
 
 
 	/**
-	 *	Order Line - Amount.
-	 *		- called from QtyOrdered, Discount and PriceActual
+	 *	Order Line - Amount
+	 *		- called from C_UOM_ID, Discount, PriceEntered and PriceActual
+	 *		- called from PriceList, QtyEntered, QtyOrdered, S_ResourceAssignment_ID
 	 *		- calculates Discount or Actual Amount
 	 *		- calculates LineNetAmt
 	 *		- enforces PriceLimit
@@ -979,8 +976,11 @@ public class CalloutOrder extends CalloutEngine
 		int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
 		int M_PriceList_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID");
-		int StdPrecision = MPriceList.getStandardPrecision(ctx, M_PriceList_ID);
+		int StdPrecision = MPriceList.getStandardPrecision(ctx, M_PriceList_ID);  // Currency
+		int PricePrecision =  MPriceList.getPricePrecision(ctx, M_PriceList_ID);  // Pricing
 		BigDecimal QtyEntered, QtyOrdered, PriceEntered, PriceActual, PriceLimit, Discount, PriceList;
+		Boolean isSOTrx = Env.isSOTrx(ctx, WindowNo);
+		
 		//	get values
 		QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
 		QtyOrdered = (BigDecimal)mTab.getValue("QtyOrdered");
@@ -991,7 +991,9 @@ public class CalloutOrder extends CalloutEngine
 		Discount = (BigDecimal)mTab.getValue("Discount");
 		PriceLimit = (BigDecimal)mTab.getValue("PriceLimit");
 		PriceList = (BigDecimal)mTab.getValue("PriceList");
-		log.fine("PriceList=" + PriceList + ", Limit=" + PriceLimit + ", Precision=" + StdPrecision);
+		Timestamp orderDate = (Timestamp)mTab.getValue("DateOrdered");
+		
+		log.fine("PriceList=" + PriceList + ", Limit=" + PriceLimit + ", Precision=" + PricePrecision);
 		log.fine("PriceEntered=" + PriceEntered + ", Actual=" + PriceActual + ", Discount=" + Discount);
 
 		//		No Product
@@ -1010,120 +1012,128 @@ public class CalloutOrder extends CalloutEngine
 				mTab.setValue("PriceActual", value);
 			}
 		}
-		//	Product Qty changed - recalc price
-		else if ((mField.getColumnName().equals("QtyOrdered") 
-			|| mField.getColumnName().equals("QtyEntered")
-			|| mField.getColumnName().equals("C_UOM_ID")
-			|| mField.getColumnName().equals("M_Product_ID")) 
-			&& !"N".equals(Env.getContext(ctx, WindowNo, "DiscountSchema")))
-		{
-			int C_BPartner_ID = Env.getContextAsInt(ctx, WindowNo, "C_BPartner_ID");
-			if (mField.getColumnName().equals("QtyEntered"))
-				QtyOrdered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-					C_UOM_To_ID, QtyEntered);
-			if (QtyOrdered == null)
-				QtyOrdered = QtyEntered;
-			boolean IsSOTrx = Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y");
-			MProductPricing pp = new MProductPricing (M_Product_ID, C_BPartner_ID, QtyOrdered, IsSOTrx);
-			pp.setM_PriceList_ID(M_PriceList_ID);
-			int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
-			pp.setM_PriceList_Version_ID(M_PriceList_Version_ID);
-			Timestamp date = (Timestamp)mTab.getValue("DateOrdered");
-			pp.setPriceDate(date);
-			//
-			PriceEntered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, pp.getPriceStd());
-			if (PriceEntered == null)
-				PriceEntered = pp.getPriceStd();
-			//
-			log.fine("QtyChanged -> PriceActual=" + pp.getPriceStd() 
-				+ ", PriceEntered=" + PriceEntered + ", Discount=" + pp.getDiscount());
-			PriceActual = pp.getPriceStd();
-			mTab.setValue("PriceActual", pp.getPriceStd());
-			mTab.setValue("Discount", pp.getDiscount());
-			mTab.setValue("PriceEntered", PriceEntered);
-			Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
-		}
-		else if (mField.getColumnName().equals("PriceActual"))
-		{
-			PriceActual = (BigDecimal)value;
-			PriceEntered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, PriceActual);
-			if (PriceEntered == null)
-				PriceEntered = PriceActual;
-			//
-			log.fine("PriceActual=" + PriceActual 
-				+ " -> PriceEntered=" + PriceEntered);
-			mTab.setValue("PriceEntered", PriceEntered);
-		}
-		else if (mField.getColumnName().equals("PriceEntered"))
-		{
-			PriceEntered = (BigDecimal)value;
-			PriceActual = MUOMConversion.convertProductTo (ctx, M_Product_ID, 
-				C_UOM_To_ID, PriceEntered);
-			if (PriceActual == null)
-				PriceActual = PriceEntered;
-			//
-			log.fine("PriceEntered=" + PriceEntered 
-				+ " -> PriceActual=" + PriceActual);
-			mTab.setValue("PriceActual", PriceActual);
-		}
-		
-		//  Discount entered - Calculate Actual/Entered
-		if (mField.getColumnName().equals("Discount"))
-		{
-			if ( PriceList.doubleValue() != 0 )
-				PriceActual = new BigDecimal ((100.0 - Discount.doubleValue()) / 100.0 * PriceList.doubleValue());
-			if (PriceActual.scale() > StdPrecision)
-				PriceActual = PriceActual.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP);
-			PriceEntered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, PriceActual);
-			if (PriceEntered == null)
-				PriceEntered = PriceActual;
-			mTab.setValue("PriceActual", PriceActual);
-			mTab.setValue("PriceEntered", PriceEntered);
-		}
-		//	calculate Discount
 		else
 		{
-			if (PriceList.intValue() == 0)
-				Discount = Env.ZERO;
-			else
-				Discount = new BigDecimal ((PriceList.doubleValue() - PriceActual.doubleValue()) / PriceList.doubleValue() * 100.0);
-			if (Discount.scale() > 2)
-				Discount = Discount.setScale(2, BigDecimal.ROUND_HALF_UP);
-			mTab.setValue("Discount", Discount);
-		}
-		log.fine("PriceEntered=" + PriceEntered + ", Actual=" + PriceActual + ", Discount=" + Discount);
-
-		//	Check PriceLimit
-		String epl = Env.getContext(ctx, WindowNo, "EnforcePriceLimit");
-		boolean enforce = Env.isSOTrx(ctx, WindowNo) && epl != null && epl.equals("Y");
-		if (enforce && MRole.getDefault().isOverwritePriceLimit())
-			enforce = false;
-		//	Check Price Limit?
-		if (enforce && PriceLimit.doubleValue() != 0.0
-		  && PriceActual.compareTo(PriceLimit) < 0)
-		{
-			PriceActual = PriceLimit;
-			PriceEntered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, PriceLimit);
-			if (PriceEntered == null)
-				PriceEntered = PriceLimit;
-			log.fine("(under) PriceEntered=" + PriceEntered + ", Actual" + PriceLimit);
-			mTab.setValue ("PriceActual", PriceLimit);
-			mTab.setValue ("PriceEntered", PriceEntered);
-			mTab.fireDataStatusEEvent ("UnderLimitPrice", "", false);
-			//	Repeat Discount calc
-			if (PriceList.intValue() != 0)
+			//  There is a known product displayed, get the product pricing
+			MProductPricing pp = getMProductPricing(ctx, WindowNo, M_Product_ID, QtyOrdered, orderDate);
+			Discount = pp.getDiscount();
+			
+			//	Product or UOM changed - recalc price
+			if (mField.getColumnName().equals("C_UOM_ID")
+				|| mField.getColumnName().equals("M_Product_ID")
+				|| mField.getColumnName().equals("QtyEntered")
+				|| mField.getColumnName().equals("QtyOrdered")) //Shouldn't happen
+			{				
+				// Something affecting the pricing has changed.  Set the price entered
+				// based on the price list and the unit of measure
+				
+				if (pp.isDiscountSchema())
+				{
+					// If the quantity has changed, reset the actual price to the standard price using any discounts.
+					PriceActual = pp.getPriceStd();
+				}
+				PriceEntered = adjustPrice(PriceActual, QtyOrdered, QtyEntered, PricePrecision);
+				//
+				mTab.setValue("PriceActual", PriceActual);
+				mTab.setValue("PriceEntered", PriceEntered);
+								
+				// ADEMPIERE-75 These context settings are not related to fields and may not be accurate if the 
+				// user logs out and back in again. Use with caution
+				//Env.setContext(ctx, WindowNo, "DiscountSchema", isDiscountSchema ? "Y" : "N");
+			}
+			else if (mField.getColumnName().equals("PriceActual"))
 			{
-				Discount = new BigDecimal ((PriceList.doubleValue () - PriceActual.doubleValue ()) / PriceList.doubleValue () * 100.0);
-				if (Discount.scale () > 2)
-					Discount = Discount.setScale (2, BigDecimal.ROUND_HALF_UP);
-				mTab.setValue ("Discount", Discount);
+				PriceActual = (BigDecimal)value;
+				PriceEntered = adjustPrice(PriceActual, QtyOrdered, QtyEntered, PricePrecision);
+				mTab.setValue("PriceEntered", PriceEntered);	
+			}
+			else if (mField.getColumnName().equals("PriceEntered"))
+			{
+				PriceEntered = (BigDecimal)value;
+				PriceActual = adjustPrice(PriceEntered, QtyEntered, QtyOrdered, PricePrecision);
+				//
+				mTab.setValue("PriceActual", PriceActual);
+			}
+			
+			//  Discount entered - Calculate Actual/Entered
+			if (mField.getColumnName().equals("Discount"))
+			{
+				BigDecimal fieldDiscount = (BigDecimal) value;
+				
+				//PriceActual = new BigDecimal ((100.0 - Discount.doubleValue()) / 100.0 * PriceList.doubleValue());
+				PriceActual = PriceList.multiply((Env.ONEHUNDRED).subtract(fieldDiscount).divide(Env.ONEHUNDRED));
+				if (PriceActual.scale() > PricePrecision)
+				{
+					PriceActual = PriceActual.setScale(PricePrecision, BigDecimal.ROUND_HALF_UP);
+				}
+				PriceEntered = adjustPrice(PriceActual, QtyOrdered, QtyEntered, PricePrecision);
+				mTab.setValue("PriceActual", PriceActual);
+				mTab.setValue("PriceEntered", PriceEntered);
+			}
+			//	calculate Discount
+			else
+			{
+				if (PriceList.compareTo(Env.ZERO) == 0)
+					Discount = Env.ZERO;
+				else
+				{
+					// To calculate the discount, don't use the adjusted PriceActual. Start with the calculation of it.
+//					BigDecimal lineNetAmt = QtyEntered.multiply(PriceEntered);
+//					// Now determine the precise actual price assuming the quantity ordered is accurate
+//					double price = lineNetAmt.doubleValue()/QtyOrdered.doubleValue();
+
+					Discount = new BigDecimal ((PriceList.subtract(PriceActual).doubleValue()) / PriceList.doubleValue() * 100.0);
+				}
+				if (Discount.scale() > 2)
+					Discount = Discount.setScale(2, BigDecimal.ROUND_HALF_UP);
+				mTab.setValue("Discount", Discount);
+			}
+			log.fine("PriceEntered=" + PriceEntered + ", Actual=" + PriceActual + ", Discount=" + Discount);
+	
+			//	Check PriceLimit
+			// ADEMPIERE-75 Erratic behaviour with context variables - specifically for variables that 
+			// are not related to fields
+			//String epl = Env.getContext(ctx, WindowNo, "EnforcePriceLimit");
+			//boolean enforce = Env.isSOTrx(ctx, WindowNo) && epl != null && epl.equals("Y");
+			
+			// Enforce the price limit.  The price limit can be overwritten by the role settings
+			// or by the settings on the price list.  Limits are enforced only on sales transactions.
+			boolean enforce = isSOTrx 
+						&& pp.isEnforcePriceLimit() 
+						&& !MRole.getDefault().isOverwritePriceLimit();
+
+			//	Check Price Limit?
+			if (enforce && PriceLimit.doubleValue() != 0.0
+			  && PriceActual.compareTo(PriceLimit) < 0)
+			{
+				PriceActual = PriceLimit;
+				PriceEntered = adjustPrice(PriceActual, QtyOrdered, QtyEntered, PricePrecision);
+				log.fine("(under) PriceEntered=" + PriceEntered + ", Actual" + PriceLimit);
+				mTab.setValue ("PriceActual", PriceLimit);
+				mTab.setValue ("PriceEntered", PriceEntered);
+				mTab.fireDataStatusEEvent ("UnderLimitPrice", "", false);
+				//	Repeat Discount calc
+				if (PriceList.compareTo(Env.ZERO) != 0)
+				{
+					Discount = new BigDecimal ((PriceList.subtract(PriceActual).doubleValue()) / PriceList.doubleValue() * 100.0);
+				}
+				if (Discount.scale() > 2)
+					Discount = Discount.setScale(2, BigDecimal.ROUND_HALF_UP);
+				mTab.setValue("Discount", Discount);
 			}
 		}
-
+		
+//		//  On POs, set the cost price to PriceActual if it is non-zero
+//		//  The user will have to add to it any other costs
+//		if (!isSOTrx && mTab.getValue("PriceCost") != null)
+//		{
+//			BigDecimal PriceCost = (BigDecimal)mTab.getValue("PriceCost");
+//			if (PriceCost.compareTo(Env.ZERO) == 0)
+//			{
+//				mTab.setValue("PriceCost",PriceActual);
+//			}		
+//		}
+		
 		//	Line Net Amt
 		BigDecimal LineNetAmt = QtyOrdered.multiply(PriceActual);
 		if (LineNetAmt.scale() > StdPrecision)
@@ -1149,10 +1159,13 @@ public class CalloutOrder extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
+
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
+		
+		int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");;
 		if (steps) log.warning("init - M_Product_ID=" + M_Product_ID + " - " );
-		BigDecimal QtyOrdered = Env.ZERO;
-		BigDecimal QtyEntered, PriceActual, PriceEntered;
+		
+		BigDecimal QtyOrdered, QtyEntered;
 		
 		//	No Product
 		if (M_Product_ID == 0)
@@ -1161,94 +1174,78 @@ public class CalloutOrder extends CalloutEngine
 			QtyOrdered = QtyEntered;
 			mTab.setValue("QtyOrdered", QtyOrdered);
 		}
-		//	UOM Changed - convert from Entered -> Product
 		else if (mField.getColumnName().equals("C_UOM_ID"))
 		{
-			int C_UOM_To_ID = ((Integer)value).intValue();
+			//	UOM Changed 
+			//  The QtyEntered is represents the qty in the entered UoM.
+			//  QtyOrdered will be in the Product UoM.  Prices will be handled by amt() callout
+
+			C_UOM_To_ID = ((Integer)value).intValue();
+
+			// Get the QtyEntered.  This will have a scale of 12 decimal places.
 			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
-			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), BigDecimal.ROUND_HALF_UP);
-			if (QtyEntered.compareTo(QtyEntered1) != 0)
+			// Set the scale of QtyEntered to match the UOM
+			MUOM uom = MUOM.get (ctx, C_UOM_To_ID);
+			if (uom != null)
 			{
-				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID 
-					+ "; QtyEntered=" + QtyEntered + "->" + QtyEntered1);  
-				QtyEntered = QtyEntered1;
-				mTab.setValue("QtyEntered", QtyEntered);
+				QtyEntered = QtyEntered.setScale(uom.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
 			}
-			QtyOrdered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, QtyEntered);
-			if (QtyOrdered == null)
-				QtyOrdered = QtyEntered;
-			boolean conversion = QtyEntered.compareTo(QtyOrdered) != 0;
-			PriceActual = (BigDecimal)mTab.getValue("PriceActual");
-			PriceEntered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, PriceActual);
-			if (PriceEntered == null)
-				PriceEntered = PriceActual; 
-			log.fine("UOM=" + C_UOM_To_ID 
-				+ ", QtyEntered/PriceActual=" + QtyEntered + "/" + PriceActual
-				+ " -> " + conversion 
-				+ " QtyOrdered/PriceEntered=" + QtyOrdered + "/" + PriceEntered);
-			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
+			//
+			// Change the quantity ordered based on the new UoM
+			QtyOrdered = adjustQuantityActual(ctx, M_Product_ID, C_UOM_To_ID, QtyEntered);
+			mTab.setValue("QtyEntered", QtyEntered);
 			mTab.setValue("QtyOrdered", QtyOrdered);
-			mTab.setValue("PriceEntered", PriceEntered);
 		}
-		//	QtyEntered changed - calculate QtyOrdered
 		else if (mField.getColumnName().equals("QtyEntered"))
 		{
-			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
-			QtyEntered = (BigDecimal)value;
+			//	QtyEntered changed - calculate QtyOrdered.  Prices will stay the same.
+			//  The Product UoM may be different than the displayed UoM 
+			QtyEntered = (BigDecimal)value;// Will have a scale of 12 decimals
+			//  Round the QtyEntered to the precision of the new unit of measure.  
+			//  If the QtyEntered was 1.01 and the new unit of measure has a standard 
+			//  precision of 1, the QtyEntered will be truncated to 1.0 
 			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), BigDecimal.ROUND_HALF_UP);
 			if (QtyEntered.compareTo(QtyEntered1) != 0)
 			{
 				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID 
-					+ "; QtyEntered=" + QtyEntered + "->" + QtyEntered1);  
-				QtyEntered = QtyEntered1;
-				mTab.setValue("QtyEntered", QtyEntered);
+					+ "; QtyEntered =" + QtyEntered + "->" + QtyEntered1);  
+				mTab.setValue("QtyEntered", QtyEntered1);
 			}
-			QtyOrdered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, QtyEntered);
-			if (QtyOrdered == null)
-				QtyOrdered = QtyEntered;
-			boolean conversion = QtyEntered.compareTo(QtyOrdered) != 0;
-			log.fine("UOM=" + C_UOM_To_ID 
-				+ ", QtyEntered=" + QtyEntered
-				+ " -> " + conversion 
-				+ " QtyOrdered=" + QtyOrdered);
-			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
+			//
+			QtyOrdered = adjustQuantityActual(ctx, M_Product_ID, C_UOM_To_ID, QtyEntered);
 			mTab.setValue("QtyOrdered", QtyOrdered);
 		}
-		//	QtyOrdered changed - calculate QtyEntered (should not happen)
 		else if (mField.getColumnName().equals("QtyOrdered"))
 		{
-			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
+			//	QtyOrdered changed - calculate QtyEntered (should not happen)
+			//  Prices will stay the same.
 			QtyOrdered = (BigDecimal)value;
+			//  Round the QtyOrdered to the precision of the product unit of measure.  
+			//  If the QtyOrdered was 1.01 and the new unit of measure has a standard 
+			//  precision of 1, the QtyOrdered will be truncated to 1.0 
 			int precision = MProduct.get(ctx, M_Product_ID).getUOMPrecision(); 
 			BigDecimal QtyOrdered1 = QtyOrdered.setScale(precision, BigDecimal.ROUND_HALF_UP);
 			if (QtyOrdered.compareTo(QtyOrdered1) != 0)
 			{
 				log.fine("Corrected QtyOrdered Scale " 
 					+ QtyOrdered + "->" + QtyOrdered1);  
-				QtyOrdered = QtyOrdered1;
-				mTab.setValue("QtyOrdered", QtyOrdered);
+				mTab.setValue("QtyOrdered", QtyOrdered1);
 			}
-			QtyEntered = MUOMConversion.convertProductTo (ctx, M_Product_ID, 
-				C_UOM_To_ID, QtyOrdered);
-			if (QtyEntered == null)
-				QtyEntered = QtyOrdered;
-			boolean conversion = QtyOrdered.compareTo(QtyEntered) != 0;
-			log.fine("UOM=" + C_UOM_To_ID 
-				+ ", QtyOrdered=" + QtyOrdered
-				+ " -> " + conversion 
-				+ " QtyEntered=" + QtyEntered);
-			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
+			QtyOrdered = QtyOrdered1;  // Sets the scale on QtyOrdered
+			//  Find the QtyEntered that matches the QtyOrdered based on the UoM entered.
+			QtyEntered = adjustQuantityEntered(ctx, M_Product_ID, C_UOM_To_ID, QtyOrdered);
 			mTab.setValue("QtyEntered", QtyEntered);
 		}
 		else
 		{
-		//	QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
+			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
 			QtyOrdered = (BigDecimal)mTab.getValue("QtyOrdered");
 		}
-		
+		log.fine("UOM=" + C_UOM_To_ID 
+				+ ", QtyEntered=" + QtyEntered
+				+ " -> " + (QtyEntered.compareTo(QtyOrdered) != 0 ? "UoM conversion" : "no UoM conversion") 
+				+ " QtyProduct=" + QtyOrdered);
+
 		//	Storage
 		if (M_Product_ID != 0 
 			&& Env.isSOTrx(ctx, WindowNo)
@@ -1260,7 +1257,7 @@ public class CalloutOrder extends CalloutEngine
 				int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
 				int M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
 				BigDecimal available = MStorage.getQtyAvailable
-					(M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID, null);
+					(M_Warehouse_ID, 0, M_Product_ID, M_AttributeSetInstance_ID, null);
 				if (available == null)
 					available = Env.ZERO;
 				if (available.signum() == 0)
@@ -1292,5 +1289,200 @@ public class CalloutOrder extends CalloutEngine
 		return "";
 	}	//	qty
 	
+	/**
+	 * Adjust the actual quantity according to the units of measure. The entered unit of measure 
+	 * could be different than the product/actual unit of measure.  The Quantity Entered is in the
+	 * displayed/entered unit of measure. The Quantity Actual is in the product unit of measure.
+	 * @return QtyActual The quantity in the product UoM 
+	 * @param ctx
+	 * @param M_Product_ID
+	 * @param C_UOM_To_ID
+	 * @param QtyEntered
+	 */
+	public static BigDecimal adjustQuantityActual(Properties ctx, int M_Product_ID, int C_UOM_To_ID, BigDecimal QtyEntered)
+	{
+		if (QtyEntered == null)
+			return Env.ZERO;
+
+		//  Convert the QtyEntered in the UoM entered to a quantity in the Product UoM. The result will be
+		//  rounded to the higher precision of the QtyEntered or the Product UoM.
+		BigDecimal QtyActual = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
+			C_UOM_To_ID, QtyEntered);
+		if (QtyActual == null)
+			QtyActual = QtyEntered;
+		
+		return QtyActual;
+	}
+	
+	/**
+	 * Adjust the entered quantity according to the units of measure. The entered unit of measure 
+	 * could be different than the product/actual unit of measure.  The Quantity Entered is in the
+	 * displayed/entered unit of measure. The Quantity Product is in the product unit of measure.
+	 * @return QtyEnterd The quantity in the entered UoM 
+	 * @param ctx
+	 * @param M_Product_ID
+	 * @param C_UOM_To_ID
+	 * @param QtyActual
+	 */
+	public static BigDecimal adjustQuantityEntered(Properties ctx, int M_Product_ID, int C_UOM_To_ID, BigDecimal QtyActual)
+	{
+		if (QtyActual == null)
+			return Env.ZERO;
+
+		//  Convert the QtyActual in the Product UoM to a quantity in the entered UoM. The result will be
+		//  rounded to the higher precision of the QtyActual or the Product UoM.
+		BigDecimal QtyEntered = MUOMConversion.convertProductTo (ctx, M_Product_ID, C_UOM_To_ID, QtyActual);
+		if (QtyEntered == null)
+			QtyEntered = QtyActual;
+		
+		return QtyEntered;
+	}
+	
+	/**
+	 * Adjust the price according to the units of measure. The entered unit of measure 
+	 * could be different than the product unit of measure.  The Price Entered is in the
+	 * displayed/entered unit of measure. The Actual Price is in the product unit of measure.
+	 *
+	 * @param ctx
+	 * @param M_Product_ID
+	 * @param C_UOM_To_ID
+	 * @param PriceEntered
+	 * @param QtyEntered
+	 * @param QtyOrdered
+	 * @param StdPrecision
+	 * @param WindowNo
+	 * @param mTab
+	 */
+	public static BigDecimal adjustPriceEntered(BigDecimal PriceActual, BigDecimal QtyEntered, BigDecimal QtyActual, int stdPrecision)
+	{
+		// If the QtyEntered is zero, just return the PriceEntered 
+		if (QtyEntered.compareTo(Env.ZERO) == 0)
+			return PriceActual;
+		
+		// The user will expect the quantity entered times to the price entered to match the line net amount, rounded to
+		// the set precision.
+		// Set the entered price so the rounded line net amount is equal in both entered and actual units of measure
+		// We'll allow the entered price per product UoM to have the precision required as it has no impact on 
+		// accounting.  First, find the line net amount in terms of the actual values. 
+		BigDecimal lineNetAmt = QtyActual.multiply(PriceActual);
+		// Now determine the precise actual price assuming the actual quantity is accurate
+		BigDecimal PriceEntered = new BigDecimal(lineNetAmt.doubleValue()/QtyEntered.doubleValue());
+		
+		// Reduce the precision to the minimum necessary given the standard precision of the lineNetAmt. 
+		// There is no need for the extra decimals as they are only confusing to the user.
+		// The max precisions is set by the display type. 
+		int maxScale = DisplayType.getNumberFormat(DisplayType.Number).getMaximumFractionDigits();
+		for (int i=stdPrecision; i<=maxScale; i++)
+		{
+			BigDecimal adjPrice = PriceEntered.setScale(i, RoundingMode.HALF_UP);
+			BigDecimal error = lineNetAmt.subtract(adjPrice.multiply(QtyEntered)).setScale(stdPrecision, RoundingMode.HALF_UP);
+			if ( error.compareTo(Env.ZERO) == 0)
+			{
+				PriceEntered = adjPrice;				
+				break;
+			}
+		}
+
+		return PriceEntered;
+
+	}
+	
+	/**
+	 * Adjust the price so that the line net amount is equal in both actual and entered 
+	 * values.  The entered unit of measure could be different than the product (actual) unit of 
+	 * measure.  This function returns the least precise value of the price that meets 
+	 * the following condition: </br>
+	 * </br>
+	 *    ABS((adjustPrice*QtyTarget) - (PriceRef*QtyRef)) < 10^-stdPrecision
+	 *
+	 * @param PriceRef
+	 * @param QtyRef
+	 * @param QtyTarget
+	 * @param stdPrecision
+	 * @return adjustPrice
+	 */
+	public static BigDecimal adjustPrice(BigDecimal PriceRef, BigDecimal QtyRef, BigDecimal QtyTarget, int stdPrecision)
+	{
+		// If the QtyEntered is zero, just return the PriceEntered 
+		if (QtyRef.compareTo(Env.ZERO) == 0)
+			return PriceRef;
+		
+		// The user will expect the quantity entered times to the price entered to match the line net amount, rounded to
+		// the set precision.
+		// Set the actual price so the rounded line net amount is equal in both entered and actual units of measure
+		// We'll allow the actual price per product UoM to have the precision required as it has no impact on 
+		// accounting.  First, find the line net amount in terms of the entered values. 
+		BigDecimal lineNetAmt = QtyRef.multiply(PriceRef);
+		// Now determine the precise actual price assuming the actual quantity is accurate
+		BigDecimal adjustedPrice = new BigDecimal(lineNetAmt.doubleValue()/QtyTarget.doubleValue());
+		
+		// Reduce the precision to the minimum necessary given the standard precision of the lineNetAmt. 
+		// There is no need for the extra decimals as they are only confusing to the user.
+		// The max precisions is set by the display type. 
+		int maxScale = DisplayType.getNumberFormat(DisplayType.Number).getMaximumFractionDigits();
+		for (int i=stdPrecision; i<=maxScale; i++)
+		{
+			BigDecimal adjPrice = adjustedPrice.setScale(i, RoundingMode.HALF_UP);
+			BigDecimal error = lineNetAmt.subtract(adjPrice.multiply(QtyTarget)).setScale(stdPrecision, RoundingMode.HALF_UP);
+			if ( error.compareTo(Env.ZERO) == 0)
+			{
+				adjustedPrice = adjPrice;				
+				break;
+			}
+		}
+
+		return adjustedPrice;
+	}
+	
+	/**
+	 * Get the version ID of the price list based on the date
+	 * @param ctx
+	 * @param WindowNo
+	 * @param M_PriceList_ID
+	 * @param date
+	 * @return
+	 */
+	private static int getM_PriceList_Version_ID(Properties ctx, int WindowNo, int M_PriceList_ID, Timestamp date) {
+		// Price List Version is only accurate if Price List is selected in header
+		// ADEMPIERE-75 Environment variables will only be accurate for fields.  The context of M_PriceList_Version_ID
+		// may have been changed since if the order was saved, the user logs out and in and then opens the order
+		// again.
+		//int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
+		//if ( M_PriceList_Version_ID == 0 && M_PriceList_ID > 0)
+		//{
+		
+		if (M_PriceList_ID == 0)
+			return 0;
+
+		String sql = "SELECT plv.M_PriceList_Version_ID "
+			+ "FROM M_PriceList_Version plv "
+			+ "WHERE plv.M_PriceList_ID=? "						//	1
+			+ " AND plv.ValidFrom <= ? "
+			+ "ORDER BY plv.ValidFrom DESC";
+		//	Use newest price list - may not be future
+		
+		int M_PriceList_Version_ID = DB.getSQLValueEx(null, sql, M_PriceList_ID, date);
+		if ( M_PriceList_Version_ID > 0 )
+		{
+			Env.setContext(ctx, WindowNo, "M_PriceList_Version_ID", M_PriceList_Version_ID );
+		}
+		return M_PriceList_Version_ID;
+	}
+	
+	public static MProductPricing getMProductPricing(Properties ctx, int WindowNo, int M_Product_ID,  
+													  BigDecimal Qty, Timestamp orderDate) {
+
+		int C_BPartner_ID = Env.getContextAsInt(ctx, WindowNo, "C_BPartner_ID");
+		boolean IsSOTrx = Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y");
+		MProductPricing pp = new MProductPricing (M_Product_ID, C_BPartner_ID, Qty, IsSOTrx);
+		//
+		int M_PriceList_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID");
+		pp.setM_PriceList_ID(M_PriceList_ID);
+		int M_PriceList_Version_ID = getM_PriceList_Version_ID(ctx, WindowNo, M_PriceList_ID, orderDate);
+		pp.setM_PriceList_Version_ID(M_PriceList_Version_ID); 
+		pp.setPriceDate(orderDate);
+		return pp;
+	}
+
 }	//	CalloutOrder
 
