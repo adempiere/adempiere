@@ -42,6 +42,10 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: MUOMConversion.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  
+ *  @author Michael McKay (mjmckay)
+ *  		<li> ADEMPIERE-60 Wrong price precision with different UOM
+ *  			 See https://adempiere.atlassian.net/browse/ADEMPIERE-60
  */
 public class MUOMConversion extends X_C_UOM_Conversion
 {
@@ -474,11 +478,26 @@ public class MUOMConversion extends X_C_UOM_Conversion
 		if (retValue != null)
 		{
 			if (Env.ONE.compareTo(retValue) == 0)
+			{
 				return qtyPrice;
+			}
+			retValue = retValue.multiply(qtyPrice);
+			
+			// Check the scale
 			MUOM uom = MUOM.get (ctx, C_UOM_To_ID);
 			if (uom != null)
-				return uom.round(retValue.multiply(qtyPrice), true);
-			return retValue.multiply(qtyPrice);
+			{
+				if (uom.getStdPrecision() >= qtyPrice.scale())
+				{
+					retValue = uom.round(retValue, true);	
+				}
+				else
+				{
+					retValue = retValue.setScale(qtyPrice.scale(), BigDecimal.ROUND_HALF_UP);
+				}
+			}
+				
+			return retValue;
 		}
 		return null;
 	}	//	convertProductTo
@@ -516,10 +535,14 @@ public class MUOMConversion extends X_C_UOM_Conversion
 	/**************************************************************************
 	 *	Convert PRICE expressed in product UoM to equivalent price in entered UoM and round. <br/>
 	 *  OR Convert QTY in entered UOM to qty in product UoM and round.  <br/>
-	 *  
-	 *   eg: $1/ea => $6/6pk <br/>
-	 *   OR 1 X 6pk => 6 X ea
-	 *   
+	 *  Rounding is to the greater precision of the UOM or the qtyPrice parameter <br/>
+	 *  <br/>
+	 *   eg1:<br/>
+	 *   	Product UoM = Kg, Entered UoM meter, UoM Qty precision 3, Price precision 4<br/>
+	 *      UOM Rate from: kg/meter = 1.31<br/>
+	 *      Qty 225.191 meter = 295.000 kg (Precision 3)<br/>
+	 *      Price $1.2500/kg = $1.6375/meter (Precision 4)<br/>
+	 *      
 	 *  @param ctx context
 	 *  @param M_Product_ID product
 	 *  @param C_UOM_To_ID entered UOM
@@ -541,11 +564,25 @@ public class MUOMConversion extends X_C_UOM_Conversion
 		if (retValue != null)
 		{
 			if (Env.ONE.compareTo(retValue) == 0)
+			{
 				return qtyPrice;
+			}
+			retValue = retValue.multiply(qtyPrice);
+			
+			// Check the scale
 			MUOM uom = MUOM.get (ctx, C_UOM_To_ID);
 			if (uom != null)
-				return uom.round(retValue.multiply(qtyPrice), true);
-			return retValue.multiply(qtyPrice);
+			{
+				if (uom.getStdPrecision() >= qtyPrice.scale())
+				{
+					retValue = uom.round(retValue, true);
+				}
+				else 
+				{
+					retValue = retValue.setScale(qtyPrice.scale(), BigDecimal.ROUND_HALF_UP);
+				}
+			}
+			return retValue;
 		}
 		s_log.fine("No Rate M_Product_ID=" + M_Product_ID);
 		return null;

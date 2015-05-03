@@ -32,6 +32,10 @@ import org.compiere.util.Trace;
  *
  *  @author Jorg Janke
  *  @version $Id: MProductPricing.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  
+ *  @author Michael McKay (mjmckay)
+ *  	<li> ADEMPIERE-415 Value m_discountSchema is not set in MProductPricing
+ *  		 See https://adempiere.atlassian.net/browse/ADEMPIERE-415
  */
 public class MProductPricing
 {
@@ -797,8 +801,12 @@ public class MProductPricing
 	 */
 	public BigDecimal getDiscount()
 	{
+		// ADEMPIERE-415
+		if (!m_calculated)
+			calculatePrice();
+
 		BigDecimal Discount = Env.ZERO;
-		if (m_PriceList.intValue() != 0)
+		if (m_PriceList.compareTo(Env.ZERO) != 0)
 			Discount = new BigDecimal ((m_PriceList.doubleValue() - m_PriceStd.doubleValue())
 				/ m_PriceList.doubleValue() * 100.0);
 		if (Discount.scale() > 2)
@@ -974,6 +982,10 @@ public class MProductPricing
 	 */
 	public boolean isDiscountSchema()
 	{
+		// ADEMPIERE-415
+		// Have to calculate first or the flags will be at default settings
+		if (!m_calculated)
+			calculatePrice();
 		return m_discountSchema || m_useVendorBreak;	
 	}	//	isDiscountSchema
 	
