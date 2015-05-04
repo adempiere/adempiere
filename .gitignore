@@ -37,3 +37,4 @@ migration/postgresql.properties
 .DS_Store
 .DS_Store?
 ._*
+install/patch/
