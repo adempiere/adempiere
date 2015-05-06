@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution 380" ReleaseNo="3.8.0" SeqNo="365">
+    <Comments>Update Synchronizyng Menu</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50340" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from SPS_Table st where st.AD_Table_ID = AD_Table_Trl.AD_Table_ID)">exists (select 1 from SPS_Table st where st.AD_Table_ID = AD_Table_Trl.AD_Table_ID) and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50349" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50351" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50291" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50306" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from SPS_Column sc where sc.AD_Element_ID = AD_Element_Trl.AD_Element_ID)&#10;">exists (select 1 from SPS_Column sc where sc.AD_Element_ID = AD_Element_Trl.AD_Element_ID)  and AD_Language = '@#AD_Language@'
+</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50303" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from SPS_Column sc where sc.AD_Column_ID = AD_Column_Trl.AD_Column_ID)">exists (select 1 from SPS_Column sc where sc.AD_Column_ID = AD_Column_Trl.AD_Column_ID)  and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50358" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50360" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50362" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50356" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50327" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from SPS_Menu m where m.AD_Process_ID = AD_Process_Trl.AD_Process_ID)">exists (select 1 from SPS_Menu m where m.AD_Process_ID = AD_Process_Trl.AD_Process_ID)  and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50325" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from SPS_Menu m inner join AD_Process_Para pp on (pp.AD_Process_ID = m.AD_Process_ID) where pp.AD_Process_Para_ID = AD_Process_Para_Trl.AD_Process_Para_ID) ">exists (select 1 from SPS_Menu m inner join AD_Process_Para pp on (pp.AD_Process_ID = m.AD_Process_ID) where pp.AD_Process_Para_ID = AD_Process_Para_Trl.AD_Process_Para_ID)   and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50310" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from AD_Form where AD_Form.AD_Form_ID = AD_Form_Trl.AD_Form_ID AND AD_Form.IsDefinedForMobile='Y')">exists (select 1 from AD_Form where AD_Form.AD_Form_ID = AD_Form_Trl.AD_Form_ID AND AD_Form.IsDefinedForMobile='Y')
+ and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50313" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50318" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from AD_PrintFormatItem pfi where pfi.AD_PrintFormatItem_ID = AD_PrintFormatItem_Trl.AD_PrintFormatItem_ID and exists(select 1 from AD_PrintFormat pf where pf.SPS_Table_ID is not null and pf.AD_PrintFormat_ID = pfi.AD_PrintFormat_ID))">exists (select 1 from AD_PrintFormatItem pfi where pfi.AD_PrintFormatItem_ID = AD_PrintFormatItem_Trl.AD_PrintFormatItem_ID and exists(select 1 from AD_PrintFormat pf where pf.SPS_Table_ID is not null and pf.AD_PrintFormat_ID = pfi.AD_PrintFormat_ID))  and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50329" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Reference_Trl.AD_Reference_ID)">exists (select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Reference_Trl.AD_Reference_ID)  and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50331" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from AD_Ref_List rl where rl.AD_Ref_List_ID = AD_Ref_List_Trl.AD_Ref_List_ID and exists (select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = rl.AD_Reference_ID))">exists (select 1 from AD_Ref_List rl where rl.AD_Ref_List_ID = AD_Ref_List_Trl.AD_Ref_List_ID and exists (select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = rl.AD_Reference_ID))  and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50458" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50465" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50469" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50463" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50471" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50474" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50389" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Column where SPS_Column.AD_Column_ID = AD_Column_Trl.AD_Column_ID)&#10;">exists(select 1 from SPS_Column where SPS_Column.AD_Column_ID = AD_Column_Trl.AD_Column_ID)
+  and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50402" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from AD_PrintFormatItem where AD_PrintFormatItem.AD_PrintFormatItem_ID = AD_PrintFormatItem_Trl.AD_PrintFormatItem_ID and exists(select 1 from AD_PrintFormat where AD_PrintFormat.SPS_Table_ID is not null AND AD_PrintFormat.AD_PrintFormat_ID = AD_PrintFormatItem.AD_PrintFormat_ID))">exists(select 1 from AD_PrintFormatItem where AD_PrintFormatItem.AD_PrintFormatItem_ID = AD_PrintFormatItem_Trl.AD_PrintFormatItem_ID and exists(select 1 from AD_PrintFormat where AD_PrintFormat.SPS_Table_ID is not null AND AD_PrintFormat.AD_PrintFormat_ID = AD_PrintFormatItem.AD_PrintFormat_ID))  and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50396" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50413" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Reference_Trl.AD_Reference_ID)">exists(select 1 from SPS_Column sc where sc.AD_Reference_Value_ID = AD_Reference_Trl.AD_Reference_ID) and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50407" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Menu m inner join AD_Process_Para pp on(pp.AD_Process_ID = m.AD_Process_ID) where pp.AD_Process_Para_ID = AD_Process_Para_Trl.AD_Process_Para_ID)">exists(select 1 from SPS_Menu m inner join AD_Process_Para pp on(pp.AD_Process_ID = m.AD_Process_ID) where pp.AD_Process_Para_ID = AD_Process_Para_Trl.AD_Process_Para_ID) and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50426" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50408" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Menu m where m.AD_Process_ID = AD_Process_Trl.AD_Process_ID)">exists(select 1 from SPS_Menu m where m.AD_Process_ID = AD_Process_Trl.AD_Process_ID) and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50419" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from SPS_Table st where st.AD_Table_ID = AD_Table_Trl.AD_Table_ID) ">exists(select 1 from SPS_Table st where st.AD_Table_ID = AD_Table_Trl.AD_Table_ID)  and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50394" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists(select 1 from AD_Form where AD_Form.AD_Form_ID = AD_Form_Trl.AD_Form_ID and AD_Form.IsDefinedForMobile='Y')">exists(select 1 from AD_Form where AD_Form.AD_Form_ID = AD_Form_Trl.AD_Form_ID and AD_Form.IsDefinedForMobile='Y') and AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50430" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50428" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50434" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50436" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50432" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" isOldNull="true">AD_Language = '@#AD_Language@'</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
