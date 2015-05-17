@@ -110,7 +110,7 @@ public class Doc_PPCostCollector extends Doc
 	 */
 	public ArrayList<Fact> createFacts (MAcctSchema as)
 	{
-		setC_Currency_ID (as.getC_Currency_ID());
+		setC_Currency_ID(as.getC_Currency_ID());
 		final ArrayList<Fact> facts = new ArrayList<Fact>();
 		
 		if(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt.equals(m_cc.getCostCollectorType()))
@@ -372,12 +372,17 @@ public class Doc_PPCostCollector extends Doc
 		for (MCostDetail cd : getCostDetails())
 		{
 			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
-            MCost costDimension =  MCost.getDimension(product , as.getC_AcctSchema_ID() , cd.getAD_Org_ID() , cd.getM_Warehouse_ID() , cd.getM_CostElement_ID() , 0  , cd.getM_CostType_ID());
-			BigDecimal costs = cd.getAmt().add(costDimension.getCurrentCostPriceLL()).negate();
-			if (costs.scale() > as.getStdPrecision())
-				costs = costs.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
-			BigDecimal qty = cd.getQty();
-			createLines(element, as, fact, product, debit, credit, costs, qty);
+            MCost costDimension =  MCost.getDimension(product, as.getC_AcctSchema_ID(), cd.getAD_Org_ID(), cd.getM_Warehouse_ID(), cd.getM_CostElement_ID(), 0, cd.getM_CostType_ID());
+			if (costDimension != null) {
+				BigDecimal costs = cd.getAmt().add(costDimension.getCurrentCostPriceLL()).negate();
+				if (costs == null)
+					costs = BigDecimal.ZERO;
+
+				if (costs.scale() > as.getStdPrecision())
+					costs = costs.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
+				BigDecimal qty = cd.getQty();
+				createLines(element, as, fact, product, debit, credit, costs, qty);
+			}
 		}
 		return fact;
 	}
