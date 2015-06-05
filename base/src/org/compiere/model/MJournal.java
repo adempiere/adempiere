@@ -722,6 +722,11 @@ public class MJournal extends X_GL_Journal implements DocAction
 		addDescription("(" + reverse.getDocumentNo() + "<-)");
 		//	Lines
 		reverse.copyLinesFrom(this, null, 'C');
+		for (MJournalLine journalLine : reverse.getLines(true))
+		{
+			journalLine.setProcessed(true);
+			journalLine.saveEx();
+		}
 		reverse.setProcessed(true);
 		reverse.setDocAction(DOCACTION_None);
 		reverse.setDocStatus(DOCSTATUS_Reversed);
