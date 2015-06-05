@@ -97,7 +97,7 @@ public abstract class Browser {
 				} else if (valueBigDecimal != null) {
 					values.put(columnName, valueBigDecimal);
 					continue;
-				}
+				} else values.put(columnName, valueString);
 			}
 
 		} catch (SQLException ex) {
