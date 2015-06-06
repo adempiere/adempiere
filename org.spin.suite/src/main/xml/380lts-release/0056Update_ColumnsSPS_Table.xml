@@ -102,11 +102,6 @@
         <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">N</Data>
       </PO>
     </Step>
-    <Step SeqNo="210" StepType="AD">
-      <PO AD_Table_ID="101" Action="U" Record_ID="12964" Table="AD_Column">
-        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">N</Data>
-      </PO>
-    </Step>
     <Step SeqNo="220" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="12964" Table="AD_Column">
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true" oldValue="N"/>

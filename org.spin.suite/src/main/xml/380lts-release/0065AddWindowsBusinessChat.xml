@@ -2745,7 +2745,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="780" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76480" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -2791,7 +2791,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="790" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76481" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -2834,7 +2834,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="800" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76482" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -2877,7 +2877,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="810" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76483" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -2920,7 +2920,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="820" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76484" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">255</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -2963,7 +2963,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="830" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76485" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">60</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3006,7 +3006,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="840" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76486" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3049,7 +3049,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="850" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76487" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">255</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3092,7 +3092,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="860" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76488" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3135,7 +3135,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="870" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76489" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3290,7 +3290,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1030" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76490" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3341,7 +3341,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3379,7 +3379,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1050" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76492" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3422,7 +3422,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1060" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76493" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3465,7 +3465,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1070" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76494" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3508,7 +3508,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1080" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76495" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3787,7 +3787,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1300" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76496" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3833,7 +3833,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1310" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76497" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3876,7 +3876,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1320" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76498" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3919,7 +3919,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1330" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76499" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -3962,7 +3962,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1340" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76500" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">600</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -4005,7 +4005,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1350" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76501" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">255</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -4048,7 +4048,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1360" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76502" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -4091,7 +4091,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1370" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76503" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">2</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -4134,7 +4134,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1380" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76504" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">255</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -4177,7 +4177,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1390" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="76505" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>
@@ -4221,7 +4221,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="107" Action="I" Record_ID="76506" Table="AD_Field">
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">N</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">Y</Data>

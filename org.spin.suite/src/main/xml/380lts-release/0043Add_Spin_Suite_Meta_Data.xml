@@ -1018,11 +1018,6 @@
         <Data AD_Column_ID="54257" Column="Script" oldValue="CREATE TABLE AD_PInstance_Para (AD_Client_ID NUMERIC(10) DEFAULT NULL , AD_Org_ID NUMERIC(10) DEFAULT NULL , AD_PInstance_ID NUMERIC(10) NOT NULL, Created TIMESTAMP DEFAULT NULL , CreatedBy NUMERIC(10) DEFAULT NULL , Info VARCHAR(60) DEFAULT NULL , Info_To VARCHAR(60) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')), ParameterName VARCHAR(60) DEFAULT NULL , P_Date TIMESTAMP DEFAULT NULL , P_Date_To TIMESTAMP DEFAULT NULL , P_Number NUMBER DEFAULT NULL , P_Number_To NUMBER DEFAULT NULL , P_String VARCHAR(255) DEFAULT NULL , P_String_To VARCHAR(255) DEFAULT NULL , SeqNo VARCHAR(22) NOT NULL, Updated TIMESTAMP DEFAULT NULL , UpdatedBy NUMERIC(10) DEFAULT NULL , CONSTRAINT AD_PInstance_Para_Key PRIMARY KEY (AD_PInstance_ID, SeqNo))">CREATE TABLE AD_PInstance_Para (AD_Client_ID NUMERIC(10) DEFAULT NULL , AD_Org_ID NUMERIC(10) DEFAULT NULL , AD_PInstance_ID NUMERIC(10) NOT NULL, Created TIMESTAMP DEFAULT NULL , CreatedBy NUMERIC(10) DEFAULT NULL , Info VARCHAR(60) DEFAULT NULL , Info_To VARCHAR(60) DEFAULT NULL , IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')), IsSynchronized CHAR(1) DEFAULT NULL  CHECK (IsSynchronized IN ('Y','N')), ParameterName VARCHAR(60) DEFAULT NULL , P_Date TIMESTAMP DEFAULT NULL , P_Date_To TIMESTAMP DEFAULT NULL , P_Number NUMBER DEFAULT NULL , P_Number_To NUMBER DEFAULT NULL , P_String VARCHAR(255) DEFAULT NULL , P_String_To VARCHAR(255) DEFAULT NULL , SeqNo VARCHAR(22) NOT NULL, Updated TIMESTAMP DEFAULT NULL , UpdatedBy NUMERIC(10) DEFAULT NULL , CONSTRAINT AD_PInstance_Para_Key PRIMARY KEY (AD_PInstance_ID, SeqNo))</Data>
       </PO>
     </Step>
-    <Step SeqNo="330" StepType="AD">
-      <PO AD_Table_ID="814" Action="U" Record_ID="1000000" Table="AD_UserQuery">
-        <Data AD_Column_ID="14361" Column="Code" oldValue="SPS_Table_ID&lt;^&gt;=&lt;^&gt;50249&lt;^&gt;&lt;^&gt;AND&lt;^&gt;&lt;^&gt;">SPS_Table_ID&lt;^&gt;=&lt;^&gt;50328&lt;^&gt;&lt;^&gt;AND&lt;^&gt;&lt;^&gt;</Data>
-      </PO>
-    </Step>
     <Step SeqNo="340" StepType="AD">
       <PO AD_Table_ID="53499" Action="I" Record_ID="56260" Table="SPS_Column">
         <Data AD_Column_ID="65689" Column="AD_Client_ID">0</Data>
