@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Changes to support costing" ReleaseNo="3.8.0" SeqNo="39">
+    <Comments>Set System Configurator, set Immediate costing and add default costs to Garden World so that costing and accounting processes function correctly after loading the seed.  Also fix bug  ADEMPIERE-343 Report Product Cost has error in Report View.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <Comments>Set Client Accounting to Immediate</Comments>
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50109" Table="AD_SysConfig">
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50109</Data>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">C</Data>
+        <Data AD_Column_ID="50190" Column="Created">2014-10-30 05:17:51.442</Data>
+        <Data AD_Column_ID="50192" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="50197" Column="Description">Enable client Accounting -&gt; D - Disabled (default) / Q - Queue (enabled to post by hand - queue documents for posterior processing) / I - Immediate (immediate post)</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">U</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50195" Column="Name">CLIENT_ACCOUNTING</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2014-10-30 05:17:51.442</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="50196" Column="Value">I</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
+      <Comments>Add m_warehouse_id to rv_cost.</Comments>
+      <SQLStatement>-- View: adempiere.rv_cost
+
+-- DROP VIEW adempiere.rv_cost;
+
+CREATE OR REPLACE VIEW adempiere.rv_cost AS 
+ SELECT c.ad_client_id, c.ad_org_id, c.isactive, c.created, c.createdby, c.updated, c.updatedby, p.m_product_id, p.value, p.name, p.upc, p.isbom, p.producttype, p.m_product_category_id, c.m_costtype_id, ce.m_costelement_id, ce.costelementtype, ce.costingmethod, ce.iscalculated, acct.c_acctschema_id, acct.c_currency_id, c.currentcostprice, c.futurecostprice, c.description, c.currentcostpricell, c.futurecostpricell, c.iscostfrozen, c.m_warehouse_id
+   FROM adempiere.m_cost c
+   JOIN adempiere.m_product p ON c.m_product_id = p.m_product_id
+   JOIN adempiere.m_costelement ce ON c.m_costelement_id = ce.m_costelement_id
+   JOIN adempiere.c_acctschema acct ON c.c_acctschema_id = acct.c_acctschema_id;
+
+ALTER TABLE adempiere.rv_cost
+  OWNER TO adempiere;
+</SQLStatement>
+      <RollbackStatement>-- View: adempiere.rv_cost
+
+DROP VIEW adempiere.rv_cost;
+
+CREATE OR REPLACE VIEW adempiere.rv_cost AS 
+ SELECT c.ad_client_id, c.ad_org_id, c.isactive, c.created, c.createdby, c.updated, c.updatedby, p.m_product_id, p.value, p.name, p.upc, p.isbom, p.producttype, p.m_product_category_id, c.m_costtype_id, ce.m_costelement_id, ce.costelementtype, ce.costingmethod, ce.iscalculated, acct.c_acctschema_id, acct.c_currency_id, c.currentcostprice, c.futurecostprice, c.description, c.currentcostpricell, c.futurecostpricell, c.iscostfrozen
+   FROM adempiere.m_cost c
+   JOIN adempiere.m_product p ON c.m_product_id = p.m_product_id
+   JOIN adempiere.m_costelement ce ON c.m_costelement_id = ce.m_costelement_id
+   JOIN adempiere.c_acctschema acct ON c.c_acctschema_id = acct.c_acctschema_id;
+
+ALTER TABLE adempiere.rv_cost
+  OWNER TO adempiere;
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="25" StepType="SQL">
+      <Comments>Add m_warehouse_id to rv_cost.</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW RV_COST
+AS SELECT 	c.AD_Client_ID, c.AD_Org_ID, c.IsActive, c.Created,c.CreatedBy,c.Updated,c.UpdatedBy,
+    p.M_Product_ID, p.Value, p.Name, p.UPC, p.IsBOM, p.ProductType, p.M_Product_Category_ID,
+    c.M_CostType_ID,
+    ce.M_CostElement_ID, ce.CostElementType, ce.CostingMethod, ce.IsCalculated,
+    acct.C_AcctSchema_ID, acct.C_Currency_ID,
+    c.CurrentCostPrice, c.FutureCostPrice, c.Description,
+    c.CurrentCostPriceLL, c.FutureCostPriceLL, c.IsCostFrozen, c.M_WareHouse_ID
+FROM M_Cost c
+  INNER JOIN M_Product p ON (c.M_Product_ID=p.M_Product_ID)
+  INNER JOIN M_CostElement ce ON (c.M_CostElement_ID=ce.M_CostElement_ID)
+  INNER JOIN C_AcctSchema acct ON (c.C_AcctSchema_ID=acct.C_AcctSchema_ID);</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_COST
+AS SELECT 	c.AD_Client_ID, c.AD_Org_ID, c.IsActive, c.Created,c.CreatedBy,c.Updated,c.UpdatedBy,
+    p.M_Product_ID, p.Value, p.Name, p.UPC, p.IsBOM, p.ProductType, p.M_Product_Category_ID,
+    c.M_CostType_ID,
+    ce.M_CostElement_ID, ce.CostElementType, ce.CostingMethod, ce.IsCalculated,
+    acct.C_AcctSchema_ID, acct.C_Currency_ID,
+    c.CurrentCostPrice, c.FutureCostPrice, c.Description,
+    c.CurrentCostPriceLL, c.FutureCostPriceLL, c.IsCostFrozen
+FROM M_Cost c
+  INNER JOIN M_Product p ON (c.M_Product_ID=p.M_Product_ID)
+  INNER JOIN M_CostElement ce ON (c.M_CostElement_ID=ce.M_CostElement_ID)
+  INNER JOIN C_AcctSchema acct ON (c.C_AcctSchema_ID=acct.C_AcctSchema_ID);</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="30" StepType="SQL">
+      <Comments>Add m_warehouse_id to rv_costsummary.</Comments>
+      <SQLStatement>-- View: adempiere.rv_costsummary
+
+-- DROP VIEW adempiere.rv_costsummary;
+
+CREATE OR REPLACE VIEW adempiere.rv_costsummary AS 
+ SELECT c.ad_client_id, c.ad_org_id, c.isactive, 0 AS createdby, adempiere.getdate() AS created, 0 AS updatedby, adempiere.getdate() AS updated, p.m_product_id, p.value, p.name, p.upc, p.isbom, p.producttype, p.m_product_category_id, c.m_costtype_id, acct.c_acctschema_id, acct.c_currency_id, sum(c.currentcostprice) AS currentcostprice, sum(c.futurecostprice) AS futurecostprice, c.m_warehouse_id
+   FROM adempiere.m_cost c
+   JOIN adempiere.m_product p ON c.m_product_id = p.m_product_id
+   JOIN adempiere.c_acctschema acct ON c.c_acctschema_id = acct.c_acctschema_id
+  WHERE acct.m_costtype_id = c.m_costtype_id
+  GROUP BY c.ad_client_id, c.ad_org_id, c.isactive, p.m_product_id, p.value, p.name, p.upc, p.isbom, p.producttype, p.m_product_category_id, c.m_costtype_id, acct.c_acctschema_id, acct.c_currency_id, c.m_warehouse_id;
+
+ALTER TABLE adempiere.rv_costsummary
+  OWNER TO adempiere;
+</SQLStatement>
+      <RollbackStatement>-- View: adempiere.rv_costsummary
+
+DROP VIEW adempiere.rv_costsummary;
+
+CREATE OR REPLACE VIEW adempiere.rv_costsummary AS 
+ SELECT c.ad_client_id, c.ad_org_id, c.isactive, 0 AS createdby, adempiere.getdate() AS created, 0 AS updatedby, adempiere.getdate() AS updated, p.m_product_id, p.value, p.name, p.upc, p.isbom, p.producttype, p.m_product_category_id, c.m_costtype_id, acct.c_acctschema_id, acct.c_currency_id, sum(c.currentcostprice) AS currentcostprice, sum(c.futurecostprice) AS futurecostprice
+   FROM adempiere.m_cost c
+   JOIN adempiere.m_product p ON c.m_product_id = p.m_product_id
+   JOIN adempiere.c_acctschema acct ON c.c_acctschema_id = acct.c_acctschema_id
+  WHERE acct.m_costtype_id = c.m_costtype_id
+  GROUP BY c.ad_client_id, c.ad_org_id, c.isactive, p.m_product_id, p.value, p.name, p.upc, p.isbom, p.producttype, p.m_product_category_id, c.m_costtype_id, acct.c_acctschema_id, acct.c_currency_id;
+
+ALTER TABLE adempiere.rv_costsummary
+  OWNER TO adempiere;
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="35" StepType="SQL">
+      <Comments>Add m_warehouse_id to rv_costsummary.</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW RV_COSTSUMMARY
+AS SELECT 	c.AD_Client_ID, c.AD_Org_ID, c.IsActive, 0 AS CreatedBy,SysDate AS Created,0 AS UpdatedBy,SysDate AS Updated,
+    p.M_Product_ID, p.Value, p.Name, p.UPC, p.IsBOM, p.ProductType, p.M_Product_Category_ID,
+    c.M_CostType_ID, 
+    acct.C_AcctSchema_ID, acct.C_Currency_ID,
+    SUM(c.CurrentCostPrice) AS CurrentCostPrice, SUM(c.FutureCostPrice) AS FutureCostPrice,
+    c.M_Warehouse_ID
+FROM M_Cost c
+  INNER JOIN M_Product p ON (c.M_Product_ID=p.M_Product_ID)
+  INNER JOIN C_AcctSchema acct ON (c.C_AcctSchema_ID=acct.C_AcctSchema_ID)
+WHERE acct.M_CostType_ID=c.M_CostType_ID
+GROUP BY c.AD_Client_ID, c.AD_Org_ID, c.IsActive, 
+    p.M_Product_ID, p.Value, p.Name, p.UPC, p.IsBOM, p.ProductType, p.M_Product_Category_ID,
+    c.M_CostType_ID, acct.C_AcctSchema_ID, acct.C_Currency_ID, c.M_Warehouse_ID;
+</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_COSTSUMMARY
+AS SELECT 	c.AD_Client_ID, c.AD_Org_ID, c.IsActive, 0 AS CreatedBy,SysDate AS Created,0 AS UpdatedBy,SysDate AS Updated,
+    p.M_Product_ID, p.Value, p.Name, p.UPC, p.IsBOM, p.ProductType, p.M_Product_Category_ID,
+    c.M_CostType_ID, 
+    acct.C_AcctSchema_ID, acct.C_Currency_ID,
+    SUM(c.CurrentCostPrice) AS CurrentCostPrice, SUM(c.FutureCostPrice) AS FutureCostPrice
+FROM M_Cost c
+  INNER JOIN M_Product p ON (c.M_Product_ID=p.M_Product_ID)
+  INNER JOIN C_AcctSchema acct ON (c.C_AcctSchema_ID=acct.C_AcctSchema_ID)
+WHERE acct.M_CostType_ID=c.M_CostType_ID
+GROUP BY c.AD_Client_ID, c.AD_Org_ID, c.IsActive, 
+    p.M_Product_ID, p.Value, p.Name, p.UPC, p.IsBOM, p.ProductType, p.M_Product_Category_ID,
+    c.M_CostType_ID, acct.C_AcctSchema_ID, acct.C_Currency_ID;
+</RollbackStatement>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">1.220000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50016">50016</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">1.830000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">0.250000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50013">50013</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">0.300000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50014">50014</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">3.790000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="146">146</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">0.164000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50008">50008</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">8.200000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="136">136</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">15.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50007">50007</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">1.370000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50015">50015</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">12.750000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="138">138</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">2.700000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="137">137</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">0.322400000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50009">50009</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">27.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="133">133</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">0.322400000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50010">50010</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="45">0</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="126">126</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">15.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="105">105</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="126">126</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">0.322400000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50012">50012</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="208" Action="U" Record_ID="50012" Table="M_Product">
+        <Data AD_Column_ID="1760" Column="C_UOM_ID" oldValue="50002">50001</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="208" Action="U" Record_ID="50010" Table="M_Product">
+        <Data AD_Column_ID="1760" Column="C_UOM_ID" oldValue="50002">50001</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="208" Action="U" Record_ID="50009" Table="M_Product">
+        <Data AD_Column_ID="1760" Column="C_UOM_ID" oldValue="50002">50001</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="146" Action="U" Record_ID="50001" Table="C_UOM">
+        <Data AD_Column_ID="58382" Column="UOMType" isOldNull="true">WE</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="146" Action="I" Record_ID="50005" Table="C_UOM">
+        <Data AD_Column_ID="848" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="849" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="485" Column="C_UOM_ID">50005</Data>
+        <Data AD_Column_ID="489" Column="CostingPrecision">0</Data>
+        <Data AD_Column_ID="851" Column="Created">2014-10-30 06:40:33.892</Data>
+        <Data AD_Column_ID="852" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="487" Column="Description">A metric ton is 1000 Kg</Data>
+        <Data AD_Column_ID="850" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4194" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="486" Column="Name">Metric Ton</Data>
+        <Data AD_Column_ID="488" Column="StdPrecision">3</Data>
+        <Data AD_Column_ID="855" Column="UOMSymbol">t</Data>
+        <Data AD_Column_ID="58382" Column="UOMType">WE</Data>
+        <Data AD_Column_ID="853" Column="Updated">2014-10-30 06:40:33.892</Data>
+        <Data AD_Column_ID="854" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1451" Column="X12DE355">t</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="208" Action="U" Record_ID="50009" Table="M_Product">
+        <Data AD_Column_ID="1760" Column="C_UOM_ID" oldValue="50001">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0.322400000000">320.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50009">50009</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="208" Action="U" Record_ID="50010" Table="M_Product">
+        <Data AD_Column_ID="1760" Column="C_UOM_ID" oldValue="50001">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0.322400000000">320.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50010">50010</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="208" Action="U" Record_ID="50012" Table="M_Product">
+        <Data AD_Column_ID="1760" Column="C_UOM_ID" oldValue="50001">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0.322400000000">320.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50012">50012</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">0.050000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50002">50002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">2.270000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50004">50004</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">29.750000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="144">144</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">7.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="148">148</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">7.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="147">147</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="208" Action="U" Record_ID="50003" Table="M_Product">
+        <Data AD_Column_ID="1760" Column="C_UOM_ID" oldValue="50000">50003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">0.000200000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="50017">50017</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="112" Action="U" Record_ID="11" Table="AD_Client">
+        <Data AD_Column_ID="14403" Column="IsCostImmediate" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">7.500000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="139">139</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">10.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="140">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">3.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="142">142</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">2.500000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="141">141</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="771" Action="U" Record_ID="0" Table="M_Cost">
+        <Data AD_Column_ID="13468" Column="AD_Org_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13471" Column="C_AcctSchema_ID" oldValue="101">101</Data>
+        <Data AD_Column_ID="13478" Column="CurrentCostPrice" oldValue="0">25.000000000000</Data>
+        <Data AD_Column_ID="14196" Column="M_AttributeSetInstance_ID" oldValue="0">0</Data>
+        <Data AD_Column_ID="13472" Column="M_CostElement_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13470" Column="M_CostType_ID" oldValue="100">100</Data>
+        <Data AD_Column_ID="13469" Column="M_Product_ID" oldValue="143">143</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

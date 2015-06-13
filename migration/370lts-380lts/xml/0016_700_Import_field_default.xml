@@ -53,7 +53,7 @@
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="64102" Table="AD_Field">
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="579" Column="Created">2012-03-09 11:58:33.189</Data>
@@ -86,7 +86,7 @@
         <Data AD_Column_ID="169" Column="Description">Default value hierarchy, separated by ;</Data>
         <Data AD_Column_ID="168" Column="Name">Default Logic</Data>
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="62478" Column="IsDisplayedGrid" isNewNull="true"/>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
       </PO>
     </Step>

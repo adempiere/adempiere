@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Client
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_AD_Client extends PO implements I_AD_Client, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_Client (Properties ctx, int AD_Client_ID, String trxName)
@@ -379,6 +379,20 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set LDAP Query.
+		@param LDAPQuery LDAP Query	  */
+	public void setLDAPQuery (String LDAPQuery)
+	{
+		set_Value (COLUMNNAME_LDAPQuery, LDAPQuery);
+	}
+
+	/** Get LDAP Query.
+		@return LDAP Query	  */
+	public String getLDAPQuery () 
+	{
+		return (String)get_Value(COLUMNNAME_LDAPQuery);
 	}
 
 	/** MMPolicy AD_Reference_ID=335 */

@@ -88,7 +88,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 
 
 	public ADWindowPanel(Properties ctx, int windowNo, GridWindow gridWindow,
-			int tabIndex, IADTabpanel tabPanel) {
+			int tabIndex, IADTabPanel tabPanel) {
 		super(ctx, windowNo, gridWindow, tabIndex, tabPanel);
 	}
 
@@ -196,9 +196,9 @@ public class ADWindowPanel extends AbstractADWindowPanel
 			public void onSelect() {
 				IADTab adTab = getADTab();
 				if (adTab != null) {
-					IADTabpanel iadTabpanel = adTab.getSelectedTabpanel();
-					if (iadTabpanel != null && iadTabpanel instanceof ADTabpanel) {
-						ADTabpanel adTabpanel = (ADTabpanel) iadTabpanel;
+					IADTabPanel iadTabpanel = adTab.getSelectedTabpanel();
+					if (iadTabpanel != null && iadTabpanel instanceof ADTabPanel) {
+						ADTabPanel adTabpanel = (ADTabPanel) iadTabpanel;
 						if (adTabpanel.isGridView()) {
 							adTabpanel.getGridView().scrollToCurrentRow();
 						}
@@ -244,7 +244,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     		KeyEvent keyEvent = (KeyEvent) event;
     		//enter == 13
     		if (keyEvent.getKeyCode() == 13 && this.getComponent().getParent().isVisible()) {
-    			IADTabpanel panel = adTab.getSelectedTabpanel();
+    			IADTabPanel panel = adTab.getSelectedTabpanel();
     			if (panel != null) {
     				if (panel.onEnterKey()) {
     					keyEvent.stopPropagation();

@@ -27,7 +27,7 @@ import net.sourceforge.openforecast.Observation;
 import net.sourceforge.openforecast.models.MovingAverageModel;
 
 /**
- * DoubleExponentialSmoothing Implementation
+ * Moving Average Implementation
  * 
  * @author victor.perez@e-evolution.com, www.e-Evolution.com
  * 

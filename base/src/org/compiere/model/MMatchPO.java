@@ -666,6 +666,8 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 		MInOutLine inout_line = (MInOutLine) getM_InOutLine();
 		for (MTransaction trx: MTransaction.getByInOutLine(inout_line))
 		{
+			if (!inout_line.getM_Product().getProductType().equals(MProduct.PRODUCTTYPE_Item) || trx==null)
+				continue;
 			CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(trx,this);
 		}
 		

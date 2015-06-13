@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_FundingMode
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_A_FundingMode 
 {
@@ -40,15 +40,6 @@ public interface I_A_FundingMode
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
-
-    /** Column name A_FundingMode_ID */
-    public static final String COLUMNNAME_A_FundingMode_ID = "A_FundingMode_ID";
-
-	/** Set Asset Funding Mode	  */
-	public void setA_FundingMode_ID (int A_FundingMode_ID);
-
-	/** Get Asset Funding Mode	  */
-	public int getA_FundingMode_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -70,6 +61,15 @@ public interface I_A_FundingMode
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_FundingMode_ID */
+    public static final String COLUMNNAME_A_FundingMode_ID = "A_FundingMode_ID";
+
+	/** Set Asset Funding Mode	  */
+	public void setA_FundingMode_ID (int A_FundingMode_ID);
+
+	/** Get Asset Funding Mode	  */
+	public int getA_FundingMode_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

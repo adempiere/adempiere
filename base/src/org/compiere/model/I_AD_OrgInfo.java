@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_AD_OrgInfo 
 {
@@ -213,6 +213,21 @@ public interface I_AD_OrgInfo
 	public int getM_Warehouse_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
+    /** Column name PA_Goal_ID */
+    public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
+
+	/** Set Goal.
+	  * Performance Goal
+	  */
+	public void setPA_Goal_ID (int PA_Goal_ID);
+
+	/** Get Goal.
+	  * Performance Goal
+	  */
+	public int getPA_Goal_ID();
+
+	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException;
 
     /** Column name Parent_Org_ID */
     public static final String COLUMNNAME_Parent_Org_ID = "Parent_Org_ID";

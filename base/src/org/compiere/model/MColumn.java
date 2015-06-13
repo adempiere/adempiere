@@ -77,7 +77,8 @@ public class MColumn extends X_AD_Column
 		if(element.getAD_Reference_ID() == DisplayType.ID)
 		{
 			String columnName = table.get_TableName()+"_ID";
-			if(!columnName.equals(element.getColumnName()) )
+            String tableDir = column.getColumnName().replace("_ID", "");
+			if(!columnName.equals(element.getColumnName()) && MTable.getTable_ID(tableDir) > 0)
 			{
 				column.setAD_Reference_ID(DisplayType.TableDir);
 			}
@@ -733,7 +734,6 @@ public class MColumn extends X_AD_Column
 			if ( sql == null )
 				return "No sql";
 			
-			int no = 0;
 			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
 			{
 				DB.executeUpdateEx(sql, get_TrxName());
@@ -747,6 +747,8 @@ public class MColumn extends X_AD_Column
 				}
 			}
 			
+			// Remove the old table definition from cache 
+			POInfo.removeFromCache(getAD_Table_ID());
 			return sql;
 
 		} 

@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Concept_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_Concept_Category extends PO implements I_HR_Concept_Category, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_Concept_Category (Properties ctx, int HR_Concept_Category_ID, String trxName)
@@ -111,8 +111,10 @@ public class X_HR_Concept_Category extends PO implements I_HR_Concept_Category, 
 		return ii.intValue();
 	}
 
-	/** Set Payroll Concept Category.
-		@param HR_Concept_Category_ID Payroll Concept Category	  */
+	/** Set Global Payroll Concept Category.
+		@param HR_Concept_Category_ID 
+		Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
+	  */
 	public void setHR_Concept_Category_ID (int HR_Concept_Category_ID)
 	{
 		if (HR_Concept_Category_ID < 1) 
@@ -121,8 +123,9 @@ public class X_HR_Concept_Category extends PO implements I_HR_Concept_Category, 
 			set_ValueNoCheck (COLUMNNAME_HR_Concept_Category_ID, Integer.valueOf(HR_Concept_Category_ID));
 	}
 
-	/** Get Payroll Concept Category.
-		@return Payroll Concept Category	  */
+	/** Get Global Payroll Concept Category.
+		@return Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
+	  */
 	public int getHR_Concept_Category_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_Category_ID);

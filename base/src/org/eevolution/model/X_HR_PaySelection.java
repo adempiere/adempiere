@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PaySelection
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_PaySelection (Properties ctx, int HR_PaySelection_ID, String trxName)
@@ -50,6 +50,7 @@ public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persis
 			setPayDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setProcessed (false);
+// N
 			setProcessing (false);
 			setTotalAmt (Env.ZERO);
         } */

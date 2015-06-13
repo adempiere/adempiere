@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Cost Transaction Detail" ReleaseNo="3.8.0" SeqNo="21">
-    <Step DBType="ALL" SeqNo="1" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="1" StepType="SQL">
       <SQLStatement>DROP VIEW RV_M_Transaction_Costing;
 DROP VIEW RV_TRANSACTION;
 
@@ -105,7 +105,7 @@ FROM M_Transaction t
 
 </RollbackStatement>
     </Step>
-    <Step DBType="ALL" SeqNo="2" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="2" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_M_Transaction_Costing AS
  SELECT
  t.M_Transaction_ID,
@@ -302,13 +302,13 @@ LEFT OUTER JOIN M_CostElement ce ON (ce.M_CostElement_ID=cd.M_CostElement_ID);</
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -352,13 +352,13 @@ LEFT OUTER JOIN M_CostElement ce ON (ce.M_CostElement_ID=cd.M_CostElement_ID);</
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -404,13 +404,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -454,13 +454,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -504,13 +504,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -554,13 +554,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -604,13 +604,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -654,13 +654,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -704,13 +704,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -754,13 +754,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -804,13 +804,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -854,13 +854,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -904,13 +904,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -954,13 +954,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -1004,13 +1004,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -1054,13 +1054,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -1104,13 +1104,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -1154,13 +1154,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="56187" Column="IsAllowLogging" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete" isNewNull="true"/>
+         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange" isNewNull="true"/>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>

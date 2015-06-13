@@ -40,7 +40,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Combobox;
@@ -62,6 +61,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
+import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -84,6 +84,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.SecureEngine;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.au.out.AuFocus;
@@ -94,10 +95,10 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Center;
-import org.zkoss.zul.North;
-import org.zkoss.zul.South;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 
 /**
  *  This class is based on org.compiere.apps.search.Find written by Jorg Janke.
@@ -115,7 +116,7 @@ import org.zkoss.zul.Hbox;
  *  @date    October 4th,2013
  *      <li> Added Range based lookup for selection columns.            
  */
-public class FindWindow extends Window implements EventListener,ValueChangeListener
+public class FindWindow extends Window implements EventListener<Event>,ValueChangeListener
 {
 	/**
 	 * 
@@ -209,6 +210,9 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	/** Search messages using translation */
 	private String				m_sLast;
 	private String				m_sNew;
+	private String				m_sTipText;  // Text to display in ComboBoc	
+	private String				m_sToolTipText;  // Tool tip text to display 
+
 
 	private static final String FIELD_SEPARATOR = "<^>";
 	private static final String SEGMENT_SEPARATOR = "<~>";
@@ -401,8 +405,13 @@ center.setVflex("true");
 		btnSave.addEventListener(Events.ON_CLICK, this);
 
 		fQueryName = new Combobox();
+        fQueryName.setTooltiptext(m_sToolTipText);
 		fQueryName.setTooltiptext(Msg.getMsg(Env.getCtx(),"QueryName"));
 		fQueryName.setReadonly(false);
+		fQueryName.addEventListener(Events.ON_FOCUS, this);
+		fQueryName.addEventListener(Events.ON_BLUR, this);
+        fQueryName.addEventListener(Events.ON_SELECT, this);
+
 
 		Button btnOk = new Button();
 		btnOk.setName("btnOkAdv");
@@ -427,9 +436,7 @@ center.setVflex("true");
 		toolBar.appendChild(fQueryName);
 		toolBar.appendChild(btnSave);
 		toolBar.setWidth("100%");
-		fQueryName.setStyle("margin-left: 3px; margin-right: 3px; position: relative; top: 5px;");
-		fQueryName.addEventListener(Events.ON_SELECT, this);
-
+        fQueryName.setStyle("margin-left: 3px; margin-right: 3px; position: relative; top: 5px;");        
 
 		btnSave.setDisabled(m_AD_Tab_ID <= 0);
 
@@ -521,6 +528,9 @@ center.setVflex("true");
 		tabPanel.setStyle("height: 100%; width: 100%");
 		tabPanel.appendChild(winAdvanced);
 		winMain.addTab(tabPanel, Msg.getMsg(Env.getCtx(), "Advanced").replaceAll("&", ""), false, false);
+        m_sTipText = "<".concat(Msg.getMsg(Env.getCtx(),"SelectOrEnterQueryName")).concat(">");
+		m_sToolTipText = Msg.getMsg(Env.getCtx(),"SelectOrEnterQueryNameToolTip");
+		
 		initSimple();
 		initAdvanced();
 
@@ -530,15 +540,29 @@ center.setVflex("true");
 	 *  Dynamic Init.6
 	 *  Set up GridController
 	 **/
+    boolean isPair = false;
+	boolean isTwoColumns = false;
+	Row panel ;
+	
 	private void initFind()
 	{
 		log.config("");
 
-		//  Get Info from target Tab
-		for (int i = 0; i < m_findFields.length; i++)
-		{
-			GridField mField = m_findFields[i];
+        //  Get Info from target Tab
+        int parameterNo = 0;
+        for (int i = 0; i < m_findFields.length; i++)
+        {
+            GridField mField = m_findFields[i];
+            if(mField.isSelectionColumn())
+            	parameterNo++;
+        }
+        
+        if(parameterNo>=7)
+			isTwoColumns=true;
 
+        for (int i = 0; i < m_findFields.length; i++)
+        {
+            GridField mField = m_findFields[i];
 			// Make Yes-No searchable as list
 			if (mField.getVO().displayType == DisplayType.YesNo)
 			{
@@ -594,8 +618,11 @@ center.setVflex("true");
                 hasDescription = true;
             else
             /**/
-			if (mField.isSelectionColumn())
-				addSelectionColumn (mField);
+            if (mField.isSelectionColumn())
+            {
+                addSelectionColumn (mField);
+                isPair = !isPair;
+            }
 			/** metas: teo_sarca: Specify exactly which are the search fields - http://sourceforge.net/projects/adempiere/forums/forum/610548/topic/3736214
             else if (columnName.indexOf("Name") != -1)
                 addSelectionColumn (mField);
@@ -949,21 +976,29 @@ center.setVflex("true");
 			box.appendChild(separator);
 			Component fieldLabel1 = toRangeEditor.getComponent();
 			box.appendChild(toRangeEditor.getComponent());
-			if (displayLength > 0) // set it back
-				mField.setDisplayLength(displayLength);
-			//
-			panel.appendChild(ThemeUtils.makeRightAlign(label));
-			panel.appendChild(box);
-			fieldLabel.addEventListener(Events.ON_OK,this);
-			fieldLabel1.addEventListener(Events.ON_OK,this);
+        if (displayLength > 0)      //  set it back
+            mField.setDisplayLength(displayLength);
+        //
+        if(isTwoColumns)
+		{
+			if(!isPair)
+				panel = new Row();
 		}
-		else {
-			editor = WebEditorFactory.getEditor(mField, false);
-			label = editor.getLabel();
-			editor.setMandatory(false);
-			editor.setReadWrite(true);
-			editor.dynamicDisplay();
-			Component fieldLabel = editor.getComponent();
+		else
+			panel = new Row();
+
+        panel.appendChild(ThemeUtils.makeRightAlign(label));
+        panel.appendChild(box);
+        fieldLabel.addEventListener(Events.ON_OK,this);
+        fieldLabel1.addEventListener(Events.ON_OK,this);
+        }
+        else {
+            editor = WebEditorFactory.getEditor(mField, false);
+            label = editor.getLabel();
+            editor.setMandatory(false);
+            editor.setReadWrite(true);
+            editor.dynamicDisplay();
+            Component fieldLabel = editor.getComponent();
 
 			//
 			if (displayLength > 0)      //  set it back
@@ -1011,12 +1046,21 @@ center.setVflex("true");
 			else if (event.getTarget() == fQueryName)
 			{
 				int index = fQueryName.getSelectedIndex();
-				if(index < 0) return;
-				if(index == 0) { // no query - wipe and start over.
+    			if(index < 0) 
+    			{
+    				if (fQueryName.getSelectedItem() == null || fQueryName.getSelectedItem().equals(m_sTipText))
+    				{
+    					return;
+    				}
+    			}
+    			else if(index == 0) 
+    			{ // no query - wipe and start over.
 					List<?> rowList = advancedPanel.getChildren();
 					for (int rowIndex = rowList.size() - 1; rowIndex >= 1; rowIndex--)
 						rowList.remove(rowIndex);
-					createFields();  
+    				createFields();
+                    fQueryName.setSelectedIndex(-1);
+                    fQueryName.setText(m_sTipText);
 				}
 				else parseUserQuery(userQueries[index-1]);
 			}
@@ -1036,19 +1080,24 @@ center.setVflex("true");
 				else if ("btnDeleteAdv".equals(button.getAttribute("name").toString()))
 				{
 					int index = advancedPanel.getSelectedIndex();
-					advancedPanel.getSelectedItem().detach();
-					advancedPanel.setSelectedIndex(--index);
+                    if (index >= 0)
+                    {
+                    	advancedPanel.getSelectedItem().detach();
+                    	advancedPanel.setSelectedIndex(--index);
+                    	//refreshUserQueries();
+                    }
 				}
 
 				else if ("btnSaveAdv".equals(button.getAttribute("name").toString()))
 				{
-					cmd_save(true);
-				}
-			}
-			//  Confirm panel actions
-			else if(event.getTarget() instanceof Button)
-			{
-				Button btn = (Button)event.getTarget();
+                	// Save the query but don't overwrite the Last query
+                	cmd_save(false);
+                }
+            }
+            //  Confirm panel actions
+            else if(event.getTarget() instanceof Button)
+            {
+                Button btn = (Button)event.getTarget();
 
 				if ("btnOkSimple".equals(btn.getName()))
 				{
@@ -1106,9 +1155,41 @@ center.setVflex("true");
 				}
 			}
 		}
-
+        else if (Events.ON_FOCUS.equals(event.getName()))
+        {
+        	if (event.getTarget() == fQueryName)
+    		{
+        		// fQueryName received the focus - delete the tip text so the user can type without 
+        		// having to delete the tip.
+    			int index = fQueryName.getSelectedIndex();
+    			if(index < 0) 
+    			{
+    				if (fQueryName.getSelectedItem() == null || fQueryName.getSelectedItem().equals(m_sTipText))
+    				{
+                        fQueryName.setSelectedIndex(-1);
+                        fQueryName.setText("");
+    				}
+    			}
+    		}
+        }
+        else if (Events.ON_BLUR.equals(event.getName()))
+        {
+        	if (event.getTarget() == fQueryName)
+    		{
+        		// fQueryName lost the focus. If the field is blank, replace the tip text.
+				if (fQueryName.getSelectedItem() != null && fQueryName.getSelectedItem().equals(""))
+    			{
+                    fQueryName.setText(m_sTipText);
+				}
+    		}
+        }
 	}   //  onEvent
 
+    /** 
+     * Parse a user query from the database and fill the advanced query table.  The query is saved 
+     * in the database as a coded string.  See {@link #codeUserQuery()}.
+     * @param userQuery	The user query to parse.
+     */
 	private void parseUserQuery(MUserQuery userQuery)
 	{
 		String code = userQuery.getCode();
@@ -1211,9 +1292,99 @@ center.setVflex("true");
 
 	}	//	parseValue
 
+	/**
+	 * Save the advanced query in the database using the query name. If the query name is set,
+	 * the query will be updated or a new query saved.
+	 * @param saveQuery	Save the query as the Last Query.  Set to true when running the query.
+	 * Set to false to only save using the query name.
+	 */
 	private void cmd_save(boolean saveQuery)
 	{
 		//
+    	StringBuffer code = codeUserQuery();
+		//  Save the query
+		//  Every query is saved automatically as ** Last Query ** when run.
+		//  Queries run without a name will not be saved.
+
+		String name = fQueryName.getValue();
+		if (name == null)
+		{
+			return;
+		}
+		
+		if (name.equals(m_sNew) || name.equals(m_sLast) || name.equals(m_sTipText) || Util.isEmpty(name, true )) 
+		{
+			// No name to save to.  Just run the query.
+		}
+		else  // Save the query in the database.
+		{
+			MUserQuery uq = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, name);
+			if (code.length() > 0) { // New or updated
+				if (uq == null) // Create a new record
+				{
+					uq = new MUserQuery (Env.getCtx(), 0, null);
+					uq.setName (name);
+					uq.setAD_Table_ID(m_AD_Table_ID);
+					uq.setAD_Tab_ID(m_AD_Tab_ID); //red1 UserQuery [ 1798539 ] taking in new field from Compiere
+					uq.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); //red1 - [ 1798539 ] missing in Compiere delayed source :-)
+				}
+				uq.setCode (code.toString());  // Update the query code
+				
+			} 
+			else	if (code.length() <= 0) // Delete the query
+			{
+				if (uq.delete(true))
+				{
+					FDialog.info (m_targetWindowNo, this, "Deleted", name);
+					refreshUserQueries();
+				}
+				else
+					FDialog.warn (m_targetWindowNo, this, "DeleteError", name);
+				return;
+			}
+			//
+			if (uq.save())
+			{
+				//FDialog.info (m_targetWindowNo, this, "Saved", name);
+				refreshUserQueries();
+			}
+			else
+				FDialog.warn (m_targetWindowNo, this, "SaveError", name);
+		}
+		//
+		//  Save the query as the Last Query.
+		if (saveQuery)
+		{
+			MUserQuery last = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, m_sLast);
+			if (code.length() > 0) { // New or update				
+				if (last == null) // Create a new record
+				{
+					last = new MUserQuery (Env.getCtx(), 0, null);
+					last.setName (m_sLast);
+					last.setAD_Table_ID (m_AD_Table_ID);
+					last.setAD_Tab_ID(m_AD_Tab_ID); 
+					last.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); 
+				}
+				last.setCode (code.toString());  // Update the query code
+			} else	if (code.length() <= 0){ // Delete the query
+				if (last != null && !last.delete(true))
+					FDialog.warn (m_targetWindowNo, this, "DeleteError", name);
+				return;
+			}
+
+			if (!last.save())
+				FDialog.warn (m_targetWindowNo, this, "SaveError", name);
+		}
+	}	//	cmd_save
+
+    /**
+     * Code the query parameters entered in the table into a string that can be saved in the database.
+     * This is the counterpart to {@link #parseUserQuery()}. Also updates the {@link #m_query} variable with 
+     * the current query information.
+     * @return a StringBuffer containing the coded query information.
+     */
+	private StringBuffer codeUserQuery() {
+		
 		m_query = new MQuery(m_tableName);
 		StringBuffer code = new StringBuffer();
 
@@ -1270,50 +1441,51 @@ center.setVflex("true");
 				{
 					m_query.addRestriction(ColumnSQL, Operator, null,
 							infoName, null, and, openBrackets);
-				} else {
-					continue;
-				}
-			} else {  // Value has a value - check for range too.
-				Object parsedValue = parseValue(field, value);
-				if (parsedValue == null)
-					continue;
-				//encrypt the value if we are searching an encrypted column.
-				if (field.isEncryptedColumn()) {
-					value = SecureEngine.encrypt(value);
-				}
-				String infoDisplay = value.toString();
-				if (field.isLookup())
-					infoDisplay = field.getLookup().getDisplay(value);
-				else if (field.getDisplayType() == DisplayType.YesNo)
-					infoDisplay = Msg.getMsg(Env.getCtx(), infoDisplay);
-				//  Value2  ******
-				if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op.getSelectedItem().toValueNamePair()))
-				{
-					if (value2 == null)
-						continue;
-					Object parsedValue2 = parseValue(field, value2);
-					String infoDisplay_to = value2.toString();
-					if (parsedValue2 == null)
-						continue;
-					//encrypt the value if we are searching an encrypted column.
-					if (field.isEncryptedColumn()) {
-						value2 = SecureEngine.encrypt(value2);
-					}
-					m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,
-							infoName, infoDisplay, infoDisplay_to, and, openBrackets);
-				}
-				else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
-					if (!(parsedValue instanceof Integer)) {
-						continue;
-					}
-					m_query.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()), 
-							and, openBrackets);
-				}
-				else
-					m_query.addRestriction(ColumnSQL, Operator, parsedValue,
-							infoName, infoDisplay, and, openBrackets);
-			}
-			if (code.length() > 0)
+	            } else {
+	            	continue;
+	            }
+            } else {  // Value has a value - check for range too.
+	            Object parsedValue = parseValue(field, value);
+	            if (parsedValue == null)
+	                continue;
+	            //encrypt the value if we are searching an encrypted column.
+	            //TODO - verify compatibility with find.java
+	            if (field.isEncryptedColumn()) {
+	            	value = SecureEngine.encrypt(value);
+	            }
+	            String infoDisplay = value.toString();
+	            if (field.isLookup())
+	                infoDisplay = field.getLookup().getDisplay(value);
+	            else if (field.getDisplayType() == DisplayType.YesNo)
+	                infoDisplay = Msg.getMsg(Env.getCtx(), infoDisplay);
+	            //  Value2  ******
+	            if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op.getSelectedItem().toValueNamePair()))
+	            {
+	                if (value2 == null)
+	                    continue;
+	                Object parsedValue2 = parseValue(field, value2);
+	                String infoDisplay_to = value2.toString();
+	                if (parsedValue2 == null)
+	                    continue;
+	                //encrypt the value if we are searching an encrypted column.
+	                if (field.isEncryptedColumn()) {
+	                	value2 = SecureEngine.encrypt(value2);
+	                }
+	                m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,
+	                			infoName, infoDisplay, infoDisplay_to, and, openBrackets);
+	            }
+	            else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
+	                if (!(parsedValue instanceof Integer)) {
+	                    continue;
+	                }
+	                m_query.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()), 
+	                		and, openBrackets);
+	            }
+	            else
+	                m_query.addRestriction(ColumnSQL, Operator, parsedValue,
+	                    infoName, infoDisplay, and, openBrackets);
+	        }
+        	if (code.length() > 0)
 				code.append(SEGMENT_SEPARATOR);
 			code.append(ColumnName)
 			.append(FIELD_SEPARATOR)
@@ -1329,70 +1501,8 @@ center.setVflex("true");
 			.append(FIELD_SEPARATOR)
 			.append(rBrackets != null ? rBrackets : "");
 		}
-
-		String selected = fQueryName.getValue();
-		if (selected != null) {
-			String name = selected;
-			if ((fQueryName.getSelectedIndex() == 0 || name.equals(m_sLast)) && saveQuery){ // New query - needs a name
-
-				FDialog.warn (m_targetWindowNo, this, "NeedsName", name);
-				return;
-			}
-			if (saveQuery){
-				MUserQuery uq = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, name);
-				if (code.length() > 0) { // New or updated
-					if (uq == null) // Create a new record
-					{
-						uq = new MUserQuery (Env.getCtx(), 0, null);
-						uq.setName (name);
-						uq.setAD_Table_ID(m_AD_Table_ID);
-						uq.setAD_Tab_ID(m_AD_Tab_ID); //red1 UserQuery [ 1798539 ] taking in new field from Compiere
-						uq.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); //red1 - [ 1798539 ] missing in Compiere delayed source :-)
-					}
-					uq.setCode (code.toString());  // Update the query code
-
-				} else	if (code.length() <= 0){ // Delete the query
-					if (uq.delete(true))
-					{
-						FDialog.info (m_targetWindowNo, this, "Deleted", name);
-						refreshUserQueries();
-					}
-					else
-						FDialog.warn (m_targetWindowNo, this, "DeleteError", name);
-					return;
-				}
-				//
-				if (uq.save())
-				{
-					FDialog.info (m_targetWindowNo, this, "Saved", name);
-					refreshUserQueries();
-				}
-				else
-					FDialog.warn (m_targetWindowNo, this, "SaveError", name);
-			}
-			//
-			MUserQuery last = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, m_sLast);
-			if (code.length() > 0) { // New or update				
-				if (last == null) // Create a new record
-				{
-					last = new MUserQuery (Env.getCtx(), 0, null);
-					last.setName (m_sLast);
-					last.setAD_Table_ID (m_AD_Table_ID);
-					last.setAD_Tab_ID(m_AD_Tab_ID); 
-					last.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); 
-				}
-				last.setCode (code.toString());  // Update the query code
-			} else	if (code.length() <= 0){ // Delete the query
-				if (!last.delete(true))
-					FDialog.warn (m_targetWindowNo, this, "DeleteError", name);
-				return;
-			}
-
-			if (!last.save())
-				FDialog.warn (m_targetWindowNo, this, "SaveError", name);
-		}
-	}	//	cmd_save
-
+		return code;
+	}
 	private void refreshUserQueries()
 	{
 		String value = m_sLast;
@@ -1414,8 +1524,12 @@ center.setVflex("true");
 			}
 		}
 
-		if(!selected) fQueryName.setSelectedIndex(0);
-
+		if(!selected) 
+		{
+			fQueryName.setSelectedIndex(-1);
+			fQueryName.setText(m_sTipText);
+			createFields();
+		}		
 	}
 
 	/**
@@ -1451,17 +1565,17 @@ center.setVflex("true");
 		return getEditorComponent(row, true);
 	}
 
-	/**
-	 * add the editor component in the 'QueryValue' field
-	 * @param component editor component
-	 * @param label label to replace by editor component
-	 **/
-	private void addRowEditor(Component component, ListCell listcell)
-	{
-		listcell.setLabel("");
-		listcell.getChildren().clear();
-		listcell.appendChild(component);
-	}   //  addComponent
+    /**
+     * add the editor component in the 'QueryValue' field
+     * @param component editor component
+     * @param listcell label to replace by editor component
+    **/
+    private void addRowEditor(Component component, ListCell listcell)
+    {
+        listcell.setLabel("");
+        listcell.getChildren().clear();
+        listcell.appendChild(component);
+     }   //  addComponent
 
 	/**
 	 *    Retrieve operators depending on the item selected in the 'Column' field
@@ -1538,6 +1652,11 @@ center.setVflex("true");
 		editor.setReadWrite(enabled);
 		editor.setVisible(enabled);
 		editor.dynamicDisplay();
+        // Table Direct Editors don't update the lookups if not read enabled
+        // So we have to do this after setting the ReadWrite
+        if (enabled && editor instanceof WTableDirEditor) {
+        	((WTableDirEditor) editor).actionRefresh();
+        }
 		//
 		return editor.getComponent();
 
@@ -1740,7 +1859,7 @@ center.setVflex("true");
 	{
 		m_isCancel = false; // teo_sarca [ 1708717 ]
 		//  save pending
-		cmd_save(false);
+        cmd_save(true); // Always save and update the last query run
 		if (getNoOfRecords(m_query, true) != 0)
 			dispose();
 	}   //  cmd_ok_Advanced

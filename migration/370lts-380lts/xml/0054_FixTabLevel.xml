@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix Tab Levels" ReleaseNo="3.8.0" SeqNo="54">
+    <Comments>See https://adempiere.atlassian.net/browse/ADEMPIERE-369</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="53262" Table="AD_Tab">
+        <Data AD_Column_ID="6654" Column="TabLevel" oldValue="4">2</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

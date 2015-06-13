@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.graph.WGraph;
@@ -44,6 +46,7 @@ import org.compiere.model.MDashboardContent;
 import org.compiere.model.MGoal;
 import org.compiere.model.X_PA_DashboardContent;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;

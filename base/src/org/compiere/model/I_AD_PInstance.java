@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_AD_PInstance 
 {
@@ -93,12 +93,12 @@ public interface I_AD_PInstance
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set Usuario.
+	/** Set User/Contact.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get Usuario.
+	/** Get User/Contact.
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
@@ -151,18 +151,18 @@ public interface I_AD_PInstance
 
 	/** Get Processing	  */
 	public boolean isProcessing();
-	
-	/** Column name Name */
-	public static final String COLUMNNAME_Name = "Name";
-	
+
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
+
 	/** Set Name.
-	* Alphanumeric identifier of the entity
-	*/
+	  * Alphanumeric identifier of the entity
+	  */
 	public void setName (String Name);
-	
+
 	/** Get Name.
-	* Alphanumeric identifier of the entity
-	*/
+	  * Alphanumeric identifier of the entity
+	  */
 	public String getName();
 
     /** Column name Record_ID */

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for GL_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_GL_Category 
 {
@@ -103,6 +103,19 @@ public interface I_GL_Category
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name DocBaseType */
+    public static final String COLUMNNAME_DocBaseType = "DocBaseType";
+
+	/** Set Document BaseType.
+	  * Logical type of document
+	  */
+	public void setDocBaseType (String DocBaseType);
+
+	/** Get Document BaseType.
+	  * Logical type of document
+	  */
+	public String getDocBaseType();
 
     /** Column name GL_Category_ID */
     public static final String COLUMNNAME_GL_Category_ID = "GL_Category_ID";

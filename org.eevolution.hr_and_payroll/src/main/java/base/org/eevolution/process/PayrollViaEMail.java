@@ -16,63 +16,60 @@
 
 package org.eevolution.process;
 
-import java.io.File;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-
+import org.compiere.model.I_C_BPartner;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MClient;
 import org.compiere.model.MInterestArea;
 import org.compiere.model.MMailText;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
 import org.compiere.model.MProcess;
-import org.compiere.model.MUser;
+import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
 import org.compiere.util.EMail;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
+import org.eevolution.model.X_HR_Process;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 
 /**
- *  Send Mail to Interest Area Subscribers
+ *  Send mail to employee
  *
  *  @author Antonio Canaveral, www.e-evolution.com 
+ *  eEvolution author Victor Perez <victor.perez@e-evolution.com>
+ *  eEvolution author Alberto Juarez <alberto.juarez@e-evolution.com>
  */
-public class PayrollViaEMail extends SvrProcess 
+public class PayrollViaEMail extends SvrProcess
 {
 	/** What to send			*/
-	private int				m_R_MailText_ID = -1;
-	/**	Mail Text				*/
-	private MMailText		m_MailText = null;
+	private int mailTextId = -1;	/**	Mail Text				*/
+	private MMailText mailText = null;
 
 	/**	From (sender)			*/
-	private int				m_AD_User_ID = -1;
+	private int bPartnerId = -1;
 	/** Client Info				*/
-	private MClient			m_client = null;
+	private MClient client = null;
 	/**	From					*/
-	private MUser			m_from = null;
-	/** Recipient List to prevent duplicate mails	*/
-	private ArrayList<Integer>	m_list = new ArrayList<Integer>();
+	private MBPartner employee = null;
 
-	
 	private int 			m_counter = 0;
 	private int 			m_errors = 0;
 	/**	To Subscribers 			*/
-	private int				m_HR_Process_ID = -1;
+	private int payrollProcessId = -1;
 	/** Interest Area			*/
-	private MInterestArea 	m_ia = null;
+	private MInterestArea m_ia = null;
 	/** To Customer Type		*/
-	private int				m_C_BP_Group_ID = -1;
+	private int bPartnerGroupId = -1;
 	/** To Purchaser of Product	*/
 	//	comes here
-	private int 			m_AD_Process_ID=-1;
+	private int reportProcessId =-1;
 
 
 	/**
@@ -85,33 +82,19 @@ public class PayrollViaEMail extends SvrProcess
 		{
 			String name = para[i].getParameterName();
 			if (para[i].getParameter() == null)
-			{
-				log.fine("Null paramater: " + name);
-			}
+				log.fine("Null parameter: " + name);
 			else if (name.equals("HR_Process_ID"))
-			{
-				m_HR_Process_ID = para[i].getParameterAsInt();
-			}
+				payrollProcessId = para[i].getParameterAsInt();
 			else if (name.equals("R_MailText_ID"))
-			{
-				m_R_MailText_ID = para[i].getParameterAsInt();
-			}
+				mailTextId = para[i].getParameterAsInt();
 			else if (name.equals("C_BP_Group_ID"))
-			{
-				m_C_BP_Group_ID = para[i].getParameterAsInt();
-			}
-			else if (name.equals("AD_User_ID"))
-			{
-				m_AD_User_ID = para[i].getParameterAsInt();
-			}
+				bPartnerGroupId = para[i].getParameterAsInt();
+			else if (name.equals("C_BPartner_ID"))
+				bPartnerId = para[i].getParameterAsInt();
 			else if (name.equals("AD_Process_ID"))
-			{
-				m_AD_Process_ID = para[i].getParameterAsInt();
-			}
+				reportProcessId = para[i].getParameterAsInt();
 			else
-			{
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-			}
 		}
 	}	//	prepare
 
@@ -122,30 +105,32 @@ public class PayrollViaEMail extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		log.info("R_MailText_ID=" + m_R_MailText_ID);
+		log.info("R_MailText_ID=" + mailTextId);
 		//	Mail Test
-		m_MailText = new MMailText (getCtx(), m_R_MailText_ID, get_TrxName());
-		if (m_MailText.getR_MailText_ID() == 0)
-			throw new Exception ("Not found @R_MailText_ID@=" + m_R_MailText_ID);
+		mailText = new MMailText(getCtx(), mailTextId, get_TrxName());
+		if (mailText.getR_MailText_ID() == 0)
+			throw new Exception("@R_MailText_ID@=" + mailTextId +  " @NotFound@ ");
 		//	Client Info
-		m_client = MClient.get (getCtx());
-		if (m_client.getAD_Client_ID() == 0)
-			throw new Exception ("Not found @AD_Client_ID@");
-		if (m_client.getSMTPHost() == null || m_client.getSMTPHost().length() == 0)
-			throw new Exception ("No SMTP Host found");
+		client = MClient.get(getCtx());
+		if (client.getAD_Client_ID() == 0)
+			throw new Exception(" @AD_Client_ID@  @NotFound@ ");
+		if (client.getSMTPHost() == null || client.getSMTPHost().length() == 0)
+			throw new Exception("@SMTPHost@  @NotFound@ ");
 		//
 		long start = System.currentTimeMillis();
 		
-		m_from = new MUser(getCtx(),Env.getAD_User_ID(getCtx()),get_TrxName());
-		if (m_from.getAD_User_ID() == 0)
-			throw new Exception ("No found @AD_User_ID@=" + m_AD_User_ID);
-		if (m_AD_User_ID > 0)
+
+		if (bPartnerId > 0)
 		{
-				MUser tmpUser = new MUser(getCtx(),m_AD_User_ID,get_TrxName());
-				sendIndividualMail (m_from.getName(), tmpUser.getC_BPartner_ID(), null);
-		}else
+            employee = new MBPartner(getCtx(), bPartnerId, get_TrxName());
+            if (employee == null)
+                throw new Exception("@C_BPartner_ID@=" + bPartnerId + " @NotFound@");
+
+				sendIndividualMail (bPartnerId, null);
+		} else
 			sendBPGroup();
-		log.fine("From " + m_from);
+
+		log.fine("From " + employee);
 			
 
 		return "@Created@=" + m_counter + ", @Errors@=" + m_errors + " - "
@@ -157,118 +142,115 @@ public class PayrollViaEMail extends SvrProcess
 	 */
 	private void sendBPGroup()
 	{
-		log.info("C_BP_Group_ID=" + m_C_BP_Group_ID);
-		String sql = " SELECT bp.Name, bp.url, bp.c_bpartner_id" 
-					+ " FROM C_BPartner bp"
-					+ " WHERE bp.IsActive='Y'"
-					+ " AND bp.url IS NOT NULL";	
-			if (m_C_BP_Group_ID > 0)
-				sql += " AND bp.C_BP_Group_ID=?";
-			
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			if (m_C_BP_Group_ID > 0)
-				pstmt.setInt(1, m_C_BP_Group_ID);
-			ResultSet rsMail = pstmt.executeQuery();
-			List <Integer> tabla = new  ArrayList<Integer>();
-			while (rsMail.next())
-			{
-				tabla.add(new Integer(rsMail.getInt(3)));
-			}
-			for(int i=0;i<tabla.size();i++)
-			{
-				
-				Boolean ok = sendIndividualMail ("", tabla.get(i).intValue(), null);
-				if (ok == null)
-				{
-					//nothing to do
-				}
-				else if (ok.booleanValue())
-				{
-					m_counter++;
-				}
-				else
-				{
-					m_errors++;
-				}
-			}
-			rsMail.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-		}
-		//	Clean Up
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-			log.log(Level.SEVERE, sql, ex1);
-		}
-		pstmt = null;
+
+        List<Object> parameters = new ArrayList<Object>();
+        StringBuffer whereClause = new StringBuffer();
+
+        whereClause.append(I_C_BPartner.COLUMNNAME_IsActive).append("=? AND ")
+                   .append(I_C_BPartner.COLUMNNAME_IsEmployee).append("=? AND ")
+                   .append("EXISTS (SELECT 1 FROM HR_Movement m WHERE m.C_BPartner_ID=C_BPartner.C_BPartner_ID AND m.HR_Process_ID=?)");
+
+        parameters.add(true);
+        parameters.add(true);
+        parameters.add(payrollProcessId);
+
+        if (bPartnerGroupId > 0) {
+            whereClause.append(" AND ").append(I_C_BPartner.COLUMNNAME_C_BP_Group_ID).append("=? ");
+            parameters.add(bPartnerGroupId);
+        }
+
+        int[] employeeIds = new Query(getCtx() , I_C_BPartner.Table_Name, whereClause.toString() , get_TrxName())
+                .setClient_ID()
+                .setParameters(parameters)
+                .getIDs();
+
+        for (Integer employeeId : employeeIds)
+        {
+            Boolean ok = sendIndividualMail (employeeId, null);
+            if (ok == null)
+            {
+                //nothing to do
+            }
+            else if (ok.booleanValue())
+            {
+                m_counter++;
+            }
+            else
+            {
+                m_errors++;
+            }
+        }
 	}	//	sendBPGroup
 	
 	/**
 	 * 	Send Individual Mail
-	 *	@param Name user name
-	 *	@param AD_User_ID user
-	 *	@param unsubscribe unsubscribe message
+	 *	@param bPartnerId user
+	 *	@param unSubscribe unsubscribe message
 	 *	@return true if mail has been sent
 	 */
-	private Boolean sendIndividualMail (String Name, int C_BPartner_ID,String unsubscribe)
+	private Boolean sendIndividualMail (int bPartnerId,String unSubscribe)
 	{
-		//	Prevent two email
 		try
 		{
-			Integer ii = new Integer (C_BPartner_ID);
-			//int BPartner_ID=0;
-			if (m_list.contains(ii))
-				return null;
-			m_list.add(ii);
-			//
-			//MUser to = new MUser (getCtx(), AD_User_ID, null);
-			MBPartner to = new MBPartner(getCtx(), C_BPartner_ID, null);
-			//m_MailText.setUser(AD_User_ID);		//	parse context
-			//BPartner_ID=to.getC_BPartner_ID();
-			String message = m_MailText.getMailText(true);
-			//	Unsubscribe
-			if (unsubscribe != null)
-				message += unsubscribe;
-			//
-			//EMail email = new EMail(m_client,m_from.getEMail(),to.getURL(),m_MailText.getMailHeader(), message);
-			EMail email = m_client.createEMail(m_from, to.getURL(), m_MailText.getMailHeader(), message);
-			if (m_MailText.isHtml())
-				email.setMessageHTML(m_MailText.getMailHeader(), message);
+			MBPartner employee = new MBPartner(getCtx(), bPartnerId, null);
+			String message = mailText.getMailText(true);
+			if (unSubscribe != null)
+				message += unSubscribe;
+
+            StringBuffer whereClause = new StringBuffer();
+            whereClause.append(MBPartnerLocation.COLUMNNAME_C_BPartner_ID)
+                    .append(" = ? AND ")
+                    .append(MBPartnerLocation.COLUMNNAME_ContactType)
+                    .append("=?");
+
+
+			MBPartnerLocation location = new Query(getCtx(), MBPartnerLocation.Table_Name, whereClause.toString() , get_TrxName())
+								.setOnlyActiveRecords(true)
+								.setParameters(bPartnerId, MBPartnerLocation.CONTACTTYPE_Primary)
+								.first();
+			
+			if(location == null) {
+                addLog(0 ,null , null , employee.getName() +  " @Email@ @NotFound@" );
+                return false;
+            }
+
+			MClient client = MClient.get(getCtx());
+			String smtp = client.getSMTPHost();
+			String eMailFrom = client.getRequestEMail();
+			String emailFrom = location.get_ValueAsString("EMail");
+
+			String userMailFrom = client.getRequestUser();
+			String password = client.getRequestUserPW();
+
+			EMail email = new EMail(getCtx(), smtp, eMailFrom, emailFrom, mailText.getMailHeader(), message);
+
+			if (mailText.isHtml())
+				email.setMessageHTML(mailText.getMailHeader(), message);
 			else
 			{
-				email.setSubject (m_MailText.getMailHeader());
+				email.setSubject (mailText.getMailHeader());
 				email.setMessageText (message);
 			}
-			email.addAttachment(CreatePDF(C_BPartner_ID));
+			email.addAttachment(CreatePDF(bPartnerId));
 			if (!email.isValid() && !email.isValid(true))
 			{
 				log.warning("NOT VALID - " + email);
-				to.setIsActive(false);
-				to.save();
+				employee.setIsActive(false);
+				employee.save();
 				return Boolean.FALSE;
 			}
 			
-			boolean OK = EMail.SENT_OK.equals(email.send());
-			//new MUserMail(m_MailText, AD_User_ID, email).save();
-			//
+			email.createAuthenticator(userMailFrom, password);
 			
-			if (OK)
-				log.fine(to.getURL());
+			boolean OK = EMail.SENT_OK.equals(email.send());
+			if (OK) {
+                addLog(0 ,null , null , employee.getName() +  " @Email@ @OK@" );
+                log.fine(employee.getURL());
+
+            }
 			else
-				log.warning("FAILURE - " + to.getURL());
-			addLog(0, null, null, (OK ? "@OK@" : "@ERROR@") + " - " + to.getURL());
+				log.warning("FAILURE - " + employee.getURL());
+			addLog(0, null, null, (OK ? "@OK@" : "@ERROR@") + " - " + emailFrom);
 			return OK;
 		}catch(Exception e)
 		{
@@ -276,23 +258,22 @@ public class PayrollViaEMail extends SvrProcess
 		}
 	}	//	sendIndividualMail
 	
-	private File CreatePDF(int BPartner_ID)
+	private File CreatePDF(int bPartnerId)
 	{
 		File attachment = null;
-		int AD_Process_ID = m_AD_Process_ID;
-		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
-		if (!instance.save())
-		{
-			return null;
-		}
-		//call process
-		ProcessInfo pi = new ProcessInfo ("PH_SendEmail", AD_Process_ID);
+		int AD_Process_ID = reportProcessId;
+		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, bPartnerId);
+		instance.saveEx();
+
+		ProcessInfo pi = new ProcessInfo("PH_SendEmail", AD_Process_ID);
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
 		//	Add Parameter - Selection=Y
 		MPInstancePara ip = new MPInstancePara(instance, 10);
-		pi.setRecord_ID(m_HR_Process_ID);
-		
+		ip.setParameter(X_HR_Process.COLUMNNAME_HR_Process_ID, payrollProcessId);
+        ip.saveEx();
+
+		pi.setRecord_ID(bPartnerId);
 		pi.setIsBatch(true);
 		MProcess worker = new MProcess(getCtx(),AD_Process_ID,get_TrxName());
 		worker.processIt(pi, Trx.get(get_TrxName(), true));

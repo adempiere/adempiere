@@ -79,11 +79,12 @@ public class Match
 	/**
 	 *  Match From Changed - Fill Match To
 	 */
-	protected Vector<String> cmd_matchFrom(String selection)
+	protected Vector<Vector<Object>> cmd_matchFrom(String selection)
 	{
 	//	log.fine( "VMatch.cmd_matchFrom");
 		//String selection = (String)matchFrom.getSelectedItem();
-		Vector<String> vector = new Vector<String>(2);
+		Vector<Vector<Object>> returnVector = new Vector<Vector<Object>>(1);
+		Vector<Object> vector = new Vector<Object>(2);
 		if (selection.equals(m_matchOptions[MATCH_INVOICE]))
 			vector.add(m_matchOptions[MATCH_SHIPMENT]);
 		else if (selection.equals(m_matchOptions[MATCH_ORDER]))
@@ -93,7 +94,8 @@ public class Match
 			vector.add(m_matchOptions[MATCH_INVOICE]);
 			vector.add(m_matchOptions[MATCH_ORDER]);
 		}
-		return vector;
+		returnVector.add(vector);
+		return returnVector;
 	}   //  cmd_matchFrom
 
 	

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Forecast
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_A_Depreciation_Forecast 
 {
@@ -40,37 +40,6 @@ public interface I_A_Depreciation_Forecast
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
-
-    /** Column name A_Depreciation_Forecast_ID */
-    public static final String COLUMNNAME_A_Depreciation_Forecast_ID = "A_Depreciation_Forecast_ID";
-
-	/** Set Depreciation Forecast	  */
-	public void setA_Depreciation_Forecast_ID (int A_Depreciation_Forecast_ID);
-
-	/** Get Depreciation Forecast	  */
-	public int getA_Depreciation_Forecast_ID();
-
-    /** Column name A_End_Asset_ID */
-    public static final String COLUMNNAME_A_End_Asset_ID = "A_End_Asset_ID";
-
-	/** Set End Aset ID	  */
-	public void setA_End_Asset_ID (int A_End_Asset_ID);
-
-	/** Get End Aset ID	  */
-	public int getA_End_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_End_Asset() throws RuntimeException;
-
-    /** Column name A_Start_Asset_ID */
-    public static final String COLUMNNAME_A_Start_Asset_ID = "A_Start_Asset_ID";
-
-	/** Set Start Asset	  */
-	public void setA_Start_Asset_ID (int A_Start_Asset_ID);
-
-	/** Get Start Asset	  */
-	public int getA_Start_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_Start_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -92,6 +61,37 @@ public interface I_A_Depreciation_Forecast
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Depreciation_Forecast_ID */
+    public static final String COLUMNNAME_A_Depreciation_Forecast_ID = "A_Depreciation_Forecast_ID";
+
+	/** Set Depreciation Forecast	  */
+	public void setA_Depreciation_Forecast_ID (int A_Depreciation_Forecast_ID);
+
+	/** Get Depreciation Forecast	  */
+	public int getA_Depreciation_Forecast_ID();
+
+    /** Column name A_End_Asset_ID */
+    public static final String COLUMNNAME_A_End_Asset_ID = "A_End_Asset_ID";
+
+	/** Set To Asset	  */
+	public void setA_End_Asset_ID (int A_End_Asset_ID);
+
+	/** Get To Asset	  */
+	public int getA_End_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_End_Asset() throws RuntimeException;
+
+    /** Column name A_Start_Asset_ID */
+    public static final String COLUMNNAME_A_Start_Asset_ID = "A_Start_Asset_ID";
+
+	/** Set From Asset	  */
+	public void setA_Start_Asset_ID (int A_Start_Asset_ID);
+
+	/** Get From Asset	  */
+	public int getA_Start_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Start_Asset() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

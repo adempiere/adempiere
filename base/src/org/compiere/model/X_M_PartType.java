@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for M_PartType
  *  @author Adempiere (generated) 
- */
-public class X_M_PartType extends org.compiere.model.PO implements I_M_PartType, org.compiere.model.I_Persistent 
+ *  @version Release 3.8.0 - $Id$ */
+public class X_M_PartType extends PO implements I_M_PartType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1753897655L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_M_PartType (Properties ctx, int M_PartType_ID, String trxName)
@@ -48,20 +48,21 @@ public class X_M_PartType extends org.compiere.model.PO implements I_M_PartType,
       super (ctx, rs, trxName);
     }
 
+    /** AccessLevel
+      * @return 3 - Client - Org 
+      */
     protected int get_AccessLevel()
     {
       return accessLevel.intValue();
     }
 
     /** Load Meta Data */
-    @Override
-    protected org.compiere.model.POInfo initPO (Properties ctx)
+    protected POInfo initPO (Properties ctx)
     {
-      org.compiere.model.POInfo poi = org.compiere.model.POInfo.getPOInfo (ctx, Table_Name, get_TrxName());
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 
-    @Override
     public String toString()
     {
       StringBuffer sb = new StringBuffer ("X_M_PartType[")
@@ -73,8 +74,7 @@ public class X_M_PartType extends org.compiere.model.PO implements I_M_PartType,
 		@param Description 
 		Optional short description of the record
 	  */
-	@Override
-	public void setDescription (java.lang.String Description)
+	public void setDescription (String Description)
 	{
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -82,15 +82,13 @@ public class X_M_PartType extends org.compiere.model.PO implements I_M_PartType,
 	/** Get Description.
 		@return Optional short description of the record
 	  */
-	@Override
-	public java.lang.String getDescription () 
+	public String getDescription () 
 	{
-		return (java.lang.String)get_Value(COLUMNNAME_Description);
+		return (String)get_Value(COLUMNNAME_Description);
 	}
 
 	/** Set Part Type.
 		@param M_PartType_ID Part Type	  */
-	@Override
 	public void setM_PartType_ID (int M_PartType_ID)
 	{
 		if (M_PartType_ID < 1) 
@@ -101,7 +99,6 @@ public class X_M_PartType extends org.compiere.model.PO implements I_M_PartType,
 
 	/** Get Part Type.
 		@return Part Type	  */
-	@Override
 	public int getM_PartType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_PartType_ID);
@@ -114,8 +111,7 @@ public class X_M_PartType extends org.compiere.model.PO implements I_M_PartType,
 		@param Name 
 		Alphanumeric identifier of the entity
 	  */
-	@Override
-	public void setName (java.lang.String Name)
+	public void setName (String Name)
 	{
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -123,9 +119,8 @@ public class X_M_PartType extends org.compiere.model.PO implements I_M_PartType,
 	/** Get Name.
 		@return Alphanumeric identifier of the entity
 	  */
-	@Override
-	public java.lang.String getName () 
+	public String getName () 
 	{
-		return (java.lang.String)get_Value(COLUMNNAME_Name);
+		return (String)get_Value(COLUMNNAME_Name);
 	}
 }

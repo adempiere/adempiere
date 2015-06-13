@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Client
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_AD_Client 
 {
@@ -257,6 +257,15 @@ public interface I_AD_Client
 	  * Enable the use of Beta Functionality
 	  */
 	public boolean isUseBetaFunctions();
+
+    /** Column name LDAPQuery */
+    public static final String COLUMNNAME_LDAPQuery = "LDAPQuery";
+
+	/** Set LDAP Query	  */
+	public void setLDAPQuery (String LDAPQuery);
+
+	/** Get LDAP Query	  */
+	public String getLDAPQuery();
 
     /** Column name MMPolicy */
     public static final String COLUMNNAME_MMPolicy = "MMPolicy";

@@ -24,14 +24,14 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_EmployeeExperience
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_EmployeeExperience extends PO implements I_HR_EmployeeExperience, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20131208L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_EmployeeExperience (Properties ctx, int HR_EmployeeExperience_ID, String trxName)

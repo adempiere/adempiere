@@ -20,9 +20,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.adempiere.exceptions.AdempiereException;
 import org.apache.commons.io.FileUtils;
 import org.compiere.Adempiere;
-import org.compiere.model.MColumn;
+import org.compiere.model.I_AD_Migration;
 import org.compiere.model.MMigration;
 import org.compiere.model.MTable;
+import org.compiere.process.CleanUpGW;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.RoleAccessUpdate;
 import org.compiere.process.SequenceCheck;
@@ -40,12 +41,13 @@ import org.xml.sax.SAXException;
 
 public class MigrationLoader {
 	
+	DocumentBuilder builder;
 
 	/**	Logger	*/
-	private CLogger	log	= CLogger.getCLogger (MigrationLoader.class);
+	private static CLogger	log	= CLogger.getCLogger (MigrationLoader.class);
 	private MMigration m_Migration;
 	
-	private Comparator<File> fileComparator = new Comparator<File>() {
+	public Comparator<File> fileComparator = new Comparator<File>() {
 		// Note - Not locale sensitive.
 	    public int compare(File f1, File f2) {
 	        return f1.getName().compareToIgnoreCase(f2.getName());
@@ -58,82 +60,50 @@ public class MigrationLoader {
 	  return new String(encoded, encoding);
 	}
 		
-	public void loadXML(Properties ctx)
+	@SuppressWarnings("unchecked")
+	/**
+	 * Load XML migration file or files.  
+	 * @param file A file or directory containing migration files.  If file 
+	 * points to a directory, a recursive search of all sub-directories will
+	 * be performed and all XML files found will be loaded. 
+	 * @param apply True if the loaded migrations are to be applied.
+	 */
+	public void loadXML(File file, Boolean apply)
 	{
-		
-		if (! DB.isConnected()) {
-			log.info("No DB Connection");
-			System.exit(1);
-		}
+		Boolean success = false;
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(true);
 		dbf.setIgnoringElementContentWhitespace(true);
 
-		DocumentBuilder builder;
 		try {
 			builder = dbf.newDocumentBuilder();
 			
+			List<File> migrationFiles = new ArrayList<File>();
 			
-			File home = new File (Adempiere.getAdempiereHome() + File.separator + "migration");
-			if ( !home.exists() && !home.isDirectory() )
+			if ( !file.exists() )
 			{
-				log.log(Level.WARNING, "No migration directory");
+				log.log(Level.WARNING, "No file or directory found");
 				return;
 			}
-			else
+			else if ( file.isDirectory() )  // file exists
 			{
-				log.log(Level.CONFIG, "Processing migration files in directory: " + home.getAbsolutePath() );
+				log.log(Level.CONFIG, "Processing migration files in directory: " + file.getAbsolutePath() );
+				// Recursively find files
+				migrationFiles = (List<File>) FileUtils.listFiles(file, new String[]{"xml"}, true);
+				Collections.sort(migrationFiles, fileComparator);
+			}
+			else {
+				log.log(Level.CONFIG, "Processing migration file: " + file.getAbsolutePath() );				
+				migrationFiles.add(file);
 			}
 			
-			// Recursively find files
-			@SuppressWarnings("unchecked")
-			List<File> migrationFiles = (List<File>) FileUtils.listFiles(home, new String[]{"xml"}, true);
-			Collections.sort(migrationFiles, fileComparator);
-
 			
-			for (File file : migrationFiles )
+			for (File migFile : migrationFiles )
 			{
-				if (file.getName().equals("build.xml")) continue; 
-				log.log(Level.CONFIG, "Loading file: " + file);
-				
-				Document doc = builder.parse(file);
-
-				NodeList migrations = doc.getDocumentElement().getElementsByTagName("Migration");
-				for ( int i = 0; i < migrations.getLength(); i++ ) {
-					
-				   Trx.run(new TrxRunnable() 
-				   {
-					   private Properties ctx;
-					   private Element element;
-					   private MigrationLoader loader;
-					   
-					   TrxRunnable setParamenters(Properties ctx , Element element, MigrationLoader loader)
-					   {
-						   this.ctx =  ctx;
-						   this.element = element;
-						   this.loader = loader;
-						   return this;
-					   }
-			            public void run(String trxName) {
-			            	try {
-			            		MMigration mig = MMigration.fromXmlNode(ctx, element , trxName);
-			            		if (loader != null) {
-			            			loader.setMigration(mig);
-			            		}
-			            		if (mig == null) {
-			            			log.log(Level.CONFIG, "XML file not a Migration. Skipping.");
-			            		}
-							} catch (SQLException e) {
-								e.printStackTrace();
-							}
-			            }
-			       }.setParamenters(ctx, (Element) migrations.item(i), this));
-				   
-				   
-				   // Apply the migration just loaded.
-				   applyMigration(m_Migration);
-				}
+				loadFile(migFile, apply);
 			}
+			
+			success = true;
 
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
@@ -145,21 +115,116 @@ public class MigrationLoader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		// If the loading and application of the migrations was successful,
+		// run the post processes.  Don't run these if the migrations are 
+		// just loaded but not applied.
+		if (apply && success) {
+			
+			// Run the post processes
+
+			ProcessInfo pi = new ProcessInfo("Sequence Check", 258);
+			pi.setAD_Client_ID(0);
+			pi.setAD_User_ID(100);
+			
+			SequenceCheck scheck = new SequenceCheck();
+			scheck.startProcess(Env.getCtx(), pi, null);
+
+			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
+			
+			
+			pi = new ProcessInfo("Synchronize Terminology", 172);
+			pi.setAD_Client_ID(0);
+			pi.setAD_User_ID(100);
+			
+			SynchronizeTerminology sc = new SynchronizeTerminology();
+			sc.startProcess(Env.getCtx(), pi, null);
+			
+			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+			
+			pi = new ProcessInfo("Role Access Update", 295);
+			pi.setAD_Client_ID(0);
+			pi.setAD_User_ID(100);
+			
+			RoleAccessUpdate rau = new RoleAccessUpdate();
+			rau.startProcess(Env.getCtx(), pi, null);
+			
+			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+
+			pi = new ProcessInfo("Updating Garden World", 53733);
+			pi.setAD_Client_ID(0);
+			pi.setAD_User_ID(100);
+			
+			CleanUpGW updateGW = new CleanUpGW();
+			updateGW.startProcess(Env.getCtx(), pi, null);
+
+			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
+
+		}
 	}
 	
+	public void loadFile(File file, Boolean apply) throws SAXException, IOException {
+
+		if (!file.exists()) return;
+		
+		if (!file.getName().endsWith(".xml")) return;
+		
+		if (file.getName().equals("build.xml")) return; 
+		
+		log.log(Level.CONFIG, "Loading file: " + file);
+		
+		Document doc = builder.parse(file);
+
+		NodeList migrations = doc.getDocumentElement().getElementsByTagName("Migration");
+		for ( int i = 0; i < migrations.getLength(); i++ ) {
+			
+		   Trx.run(new TrxRunnable() 
+		   {
+			   private Properties ctx;
+			   private Element element;
+			   private MigrationLoader loader;
+			   
+			   TrxRunnable setParameters(Properties ctx, Element element, MigrationLoader loader)
+			   {
+				   this.ctx =  ctx;
+				   this.element = element;
+				   this.loader = loader;
+				   return this;
+			   }
+	            public void run(String trxName) {
+	            	try {
+	            		MMigration mig = MMigration.fromXmlNode(ctx, element , trxName);
+	            		if (loader != null) {
+	            			loader.setMigration(mig);
+	            		}
+	            		if (mig == null) {
+	            			log.log(Level.CONFIG, "XML file not a Migration. Skipping.");
+	            		}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+	            }
+	       }.setParameters(Env.getCtx(), (Element) migrations.item(i), this));
+		}
+		if (apply) {
+			// Apply the migration just loaded.
+			applyMigration(m_Migration);
+		}
+
+	}
+
 	private void applyMigration(MMigration migration) {
 		
 		if (migration == null)
 			return;
 
 		if (MMigration.STATUSCODE_Applied.equals(migration.getStatusCode())) {
-			log.log(Level.CONFIG, "Migration already applied - skipping: " + migration);
+			log.log(Level.CONFIG, migration.toString() + " ---> Migration already applied - skipping.");
 			return;
 		}
 			
-		migration.set_ColSyncCallback(this);
-		log.log(Level.CONFIG, "Applying migration: " + migration);
-		migration.setFailOnError(true);
+		log.log(Level.CONFIG, migration.toString());
+		migration.setFailOnError(false);
 		try {
 			migration.apply();
 		} catch (AdempiereException e) {
@@ -187,100 +252,48 @@ public class MigrationLoader {
 	}
 	
 	public static void main(String[] args) {
+		
+		
+		Boolean clean_migrations = false;
+		// If called with the argument "clean", the loader will apply any
+		// outstanding migrations, mark ALL applied dictionary migrations as processed
+		// and delete all the steps and data to save space.
+		if (args.length > 0)
+		 clean_migrations = args[0].equals("clean");
+		
 		Adempiere.startupEnvironment(false);
 		CLogMgt.setLevel(Level.CONFIG);
 		
-		MigrationLoader loader = new MigrationLoader();
-		loader.loadXML(Env.getCtx());  // and apply - each migration has to be applied before the next is loaded.
-		//loader.applyMigrations();	
+		if (! DB.isConnected()) {
+			log.info("No DB Connection");
+			System.exit(1);
+		}
 		
-		ProcessInfo pi = new ProcessInfo("Sequence Check", 258);
-		pi.setAD_Client_ID(0);
-		pi.setAD_User_ID(100);
-		
-		SequenceCheck scheck = new SequenceCheck();
-		scheck.startProcess(Env.getCtx(), pi, null);
+		// Load migrations from the default location
+		File home = new File (Adempiere.getAdempiereHome() + File.separator + "migration");
+		Boolean apply = true;
 
-		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
-		
-		
-		pi = new ProcessInfo("Synchronize Terminology", 172);
-		pi.setAD_Client_ID(0);
-		pi.setAD_User_ID(100);
-		
-		SynchronizeTerminology sc = new SynchronizeTerminology();
-		sc.startProcess(Env.getCtx(), pi, null);
-		
-		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-		
-		pi = new ProcessInfo("Role Access Update", 295);
-		pi.setAD_Client_ID(0);
-		pi.setAD_User_ID(100);
-		
-		RoleAccessUpdate rau = new RoleAccessUpdate();
-		rau.startProcess(Env.getCtx(), pi, null);
-		
-		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+		MigrationLoader loader = new MigrationLoader();		
+		loader.loadXML(home, apply);  // and apply - each migration has to be applied before the next is loaded.
+		loader.clean(Env.getCtx(), clean_migrations, null);		
 	}
-	
-	// Synchronizing the column in the database with the changes in the AD_Column table
-	// has to be performed in its own transaction to avoid a database lock.
-	// The following classes and interface provide a method of doing so.  
-	
-	/**
-	 * Interface to identify the column to sync.  Called from the step.apply().
-	 *
-	 */
-	public interface SyncCol {
-		  public void addSyncColumn(int column_id);
-	}
-	
-	/**
-	 * Array list containing the column IDs that need to be synced with the database
-	 */
-	private List<Integer> syncColumns = new ArrayList<Integer>();
-	
-	/**
-	 * Add a column ID to the list of columns that need to be synced with the database
-	 * @param ad_column_id
-	 */
-	public void addSyncColumn (int ad_column_id) {
-		syncColumns.add(ad_column_id);
-	}
-	
-	/**
-	 * Synchronize all columns in the list with the database.  This operation is performed in
-	 * its own transaction.
-	 */
-	public void syncColumns() {
-		if (syncColumns == null || syncColumns.size() == 0)
+
+	private void clean(Properties ctx, Boolean clean_migrations, String trxName) {
+		
+		if (!clean_migrations)
+			return;
+		// For backward compatibility, check if the processed column has been added 
+		// to the AD_Migration table
+		// The processed column was added to AD_MigrationStep just prior to release 3.8.0.
+		MMigration migration = new MMigration(ctx,0,trxName);
+		if (migration.get_ColumnIndex(I_AD_Migration.COLUMNNAME_Processed) < 0)
 			return;
 
-		for (int ad_column_id : syncColumns) {
-			try {
-				Trx.run(new SyncRunner(ad_column_id));
-			}
-			catch (org.adempiere.exceptions.DBException e) {
-				log.log(Level.CONFIG, "Error synchronizing column " + ad_column_id + ". " + e.toString());
-			}
+		migration = null;
+		Boolean notProcessed = false;
+		for (MMigration mig : MMigration.getMigrations(ctx, notProcessed, trxName)) {
+			if (mig != null)
+				mig.clean();
 		}
-		syncColumns.clear();
-	}
-
-	class SyncRunner implements TrxRunnable {
-			int ad_column_id;
-				
-			public SyncRunner(int column_id) {
-				this.ad_column_id = column_id;
-			}
-			
-			public void run(String trxName) {
-	
-			MColumn col = new MColumn(Env.getCtx(), ad_column_id, trxName);
-			if (ad_column_id > 0 && !col.isVirtualColumn())	{
-				log.log(Level.CONFIG, "Synchronizing column " + ad_column_id + ": " + col.toString());
-				col.syncDatabase();
-			}
-		}
-	}
+	}	
 }

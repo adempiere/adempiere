@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_PA_Report 
 {
@@ -266,6 +266,24 @@ public interface I_PA_Report
 	  */
 	public int getPA_Report_ID();
 
+    /** Column name PosPeriodName */
+    public static final String COLUMNNAME_PosPeriodName = "PosPeriodName";
+
+	/** Set Pos Period Name	  */
+	public void setPosPeriodName (String PosPeriodName);
+
+	/** Get Pos Period Name	  */
+	public String getPosPeriodName();
+
+    /** Column name PrePeriodName */
+    public static final String COLUMNNAME_PrePeriodName = "PrePeriodName";
+
+	/** Set Pre Period Name	  */
+	public void setPrePeriodName (String PrePeriodName);
+
+	/** Get Pre Period Name	  */
+	public String getPrePeriodName();
+
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
 
@@ -290,22 +308,4 @@ public interface I_PA_Report
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name posperiodname */
-    public static final String COLUMNNAME_posperiodname = "posperiodname";
-
-	/** Set posperiodname	  */
-	public void setposperiodname (String posperiodname);
-
-	/** Get posperiodname	  */
-	public String getposperiodname();
-
-    /** Column name preperiodname */
-    public static final String COLUMNNAME_preperiodname = "preperiodname";
-
-	/** Set preperiodname	  */
-	public void setpreperiodname (String preperiodname);
-
-	/** Get preperiodname	  */
-	public String getpreperiodname();
 }

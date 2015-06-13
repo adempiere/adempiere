@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Group_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140901L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_A_Asset_Group_Acct (Properties ctx, int A_Asset_Group_Acct_ID, String trxName)
@@ -45,12 +45,8 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 			setA_Asset_Group_Acct_ID (0);
 			setA_Asset_Group_ID (0);
 			setA_Depreciation_Acct (0);
-			setA_Depreciation_Conv_F_ID (0);
-			setA_Depreciation_Conv_ID (0);
 			setA_Depreciation_F_ID (0);
 			setA_Depreciation_ID (0);
-			setA_Depreciation_Method_F_ID (0);
-			setA_Depreciation_Method_ID (0);
 			setA_Disposal_Loss_Acct (0);
 			setA_Disposal_Revenue_Acct (0);
 			setA_Split_Percent (Env.ZERO);
@@ -72,7 +68,7 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
     }
 
     /** AccessLevel
-      * @return 7 - System - Client - Org 
+      * @return 3 - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -506,72 +502,6 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		return bd;
 	}
 
-	public I_C_ValidCombination getA_Disposal_G() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getA_Disposal_Gain(), get_TrxName());	}
-
-	/** Set Disposal Gain.
-		@param A_Disposal_Gain Disposal Gain	  */
-	public void setA_Disposal_Gain (int A_Disposal_Gain)
-	{
-		set_Value (COLUMNNAME_A_Disposal_Gain, Integer.valueOf(A_Disposal_Gain));
-	}
-
-	/** Get Disposal Gain.
-		@return Disposal Gain	  */
-	public int getA_Disposal_Gain () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Gain);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_ValidCombination getA_Disposal_Gain_A() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getA_Disposal_Gain_Acct(), get_TrxName());	}
-
-	/** Set Disposal Gain Acct.
-		@param A_Disposal_Gain_Acct Disposal Gain Acct	  */
-	public void setA_Disposal_Gain_Acct (int A_Disposal_Gain_Acct)
-	{
-		set_Value (COLUMNNAME_A_Disposal_Gain_Acct, Integer.valueOf(A_Disposal_Gain_Acct));
-	}
-
-	/** Get Disposal Gain Acct.
-		@return Disposal Gain Acct	  */
-	public int getA_Disposal_Gain_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Gain_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_ValidCombination getA_Disposal_L() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getA_Disposal_Loss(), get_TrxName());	}
-
-	/** Set Loss on Disposal.
-		@param A_Disposal_Loss Loss on Disposal	  */
-	public void setA_Disposal_Loss (int A_Disposal_Loss)
-	{
-		set_Value (COLUMNNAME_A_Disposal_Loss, Integer.valueOf(A_Disposal_Loss));
-	}
-
-	/** Get Loss on Disposal.
-		@return Loss on Disposal	  */
-	public int getA_Disposal_Loss () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Loss);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_ValidCombination getA_Disposal_Loss_A() throws RuntimeException
     {
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
@@ -589,28 +519,6 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 	public int getA_Disposal_Loss_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Loss_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_ValidCombination getA_Disposal_Reve() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getA_Disposal_Revenue(), get_TrxName());	}
-
-	/** Set Disposal Revenue.
-		@param A_Disposal_Revenue Disposal Revenue	  */
-	public void setA_Disposal_Revenue (int A_Disposal_Revenue)
-	{
-		set_Value (COLUMNNAME_A_Disposal_Revenue, Integer.valueOf(A_Disposal_Revenue));
-	}
-
-	/** Get Disposal Revenue.
-		@return Disposal Revenue	  */
-	public int getA_Disposal_Revenue () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Revenue);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

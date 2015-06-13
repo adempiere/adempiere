@@ -21,6 +21,7 @@
 	<!--property name="reference.adempiere.dir" value="../reference/Adempiere340" /-->
 	<property name="reference.adempiere.dir" value="../../tools" />
 	<property name="reference.adempiere.lib" value="../../lib" />
+	<property name="reference.adempiere.packages" value="../../packages" />
 	<property name="reference.aspectj.dir" value="../reference/aspectJ" />
 	<property name="posteritadevhome.exists" value="false" />
 	<property file="${posterita.dev.home}/AdempiereEnv.properties" />
@@ -53,6 +54,9 @@
 					<include name="*.jar" />
 				</fileset>
 				<fileset dir="${reference.adempiere.dir}/lib/">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${reference.adempiere.packages}">
 					<include name="*.jar" />
 				</fileset>
 				<fileset dir="${reference.adempiere.lib}">

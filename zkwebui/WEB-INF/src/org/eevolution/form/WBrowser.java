@@ -93,7 +93,7 @@ import org.zkoss.zul.Vbox;
  *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  *
  */
-public class WBrowser extends Browser implements IFormController,
+public class WBrowser extends Browser implements IBrowser ,IFormController,
 		EventListener, WTableModelListener, ValueChangeListener, ASyncProcess {
 
 	private CustomForm m_frame = new CustomForm();
@@ -140,10 +140,8 @@ public class WBrowser extends Browser implements IFormController,
 				whereClause);
 		
 		m_frame = new CustomForm();
-		p_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
-		Env.clearWinContext(p_WindowNo);
+		windowNo = SessionManager.getAppDesktop().registerWindow(this);
 		setContextWhere(browse, whereClause);
-
 		initComponents();
 		statInit();
 		detail.setMultiSelection(true);
@@ -191,8 +189,9 @@ public class WBrowser extends Browser implements IFormController,
 					m_Browse.getAD_Process_ID());
 			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+			pi.setWindowNo(getWindowNo());
 			setBrowseProcessInfo(pi);
-			parameterPanel = new ProcessParameterPanel(p_WindowNo, getBrowseProcessInfo() , "100%");
+			parameterPanel = new ProcessParameterPanel(pi.getWindowNo(), pi , "100%");
 			parameterPanel.setMode(ProcessParameterPanel.BROWSER_MODE);
 			parameterPanel.init();
 			
@@ -239,7 +238,7 @@ public class WBrowser extends Browser implements IFormController,
 
 		List<MBrowseField> list = initBrowserData();
 		if (list.size() == 0) {
-			FDialog.error(p_WindowNo, m_frame, "Error", "No Browse Fields");
+			FDialog.error(getWindowNo(), m_frame, "Error", "No Browse Fields");
 			log.log(Level.SEVERE, "No Browser for view=" + m_View.getName());
 			return null;
 		}
@@ -248,37 +247,6 @@ public class WBrowser extends Browser implements IFormController,
 
 		return list;
 	} // initInfoTable
-
-	/*private boolean initBrowser() {
-
-		if (!initBrowserTable())
-			return false;
-
-		// prepare table	
-		StringBuilder where = new StringBuilder("");
-		setContextWhere(m_Browse , null);
-		if (p_whereClause.length() > 0) {
-			where.append(p_whereClause);
-		}
-
-		prepareTable(m_generalLayout, m_View.getFromClause(), where.toString(),
-				"2");
-		return true;
-	}
-
-	private boolean initBrowserTable() {
-		ArrayList<Info_Column> list = initBrowserData();
-		if (list.size() == 0) {
-
-			log.log(Level.SEVERE, "No Brwose for view=" + m_View.getName());
-			return false;
-		}
-		log.finest("Browse Fields #" + list.size());	
-		// Convert ArrayList to Array
-		m_generalLayout = new Info_Column[list.size()];
-		list.toArray(m_generalLayout);
-		return true;
-	}*/
 
 	public void setStatusLine(String text, boolean error) {
 		statusBar.setStatusLine(text, error);
@@ -289,35 +257,34 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	protected void executeQuery() {
-		
-		if (getAD_Window_ID() > 1 )
-			bZoom.setEnabled(true);
+		if (evaluateMandatoryFilter()) {
+			if (getAD_Window_ID() > 1)
+				bZoom.setEnabled(true);
 
-		bSelectAll.setEnabled(true);
-		bExport.setEnabled(true);
-		
-		if(isDeleteable())
-			bDelete.setEnabled(true);
-		
-		collapsibleSeach.setOpen(!isCollapsibleByDefault());
-		
-		p_loadedOK = initBrowser();		
-		
-		Env.setContext(Env.getCtx(), 0, "currWindowNo", p_WindowNo);
-		if(parameterPanel !=null)
-			parameterPanel.refreshContext();
-		
-		if (!testCount())
-			return;
-		
-		setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
-		
-		work();
-		
-		isAllSelected = isSelectedByDefault();
-		selectedRows();		
-	
+			bSelectAll.setEnabled(true);
+			bExport.setEnabled(true);
 
+			if (isDeleteable())
+				bDelete.setEnabled(true);
+
+			collapsibleSeach.setOpen(!isCollapsibleByDefault());
+
+			p_loadedOK = initBrowser();
+
+			Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
+			if (parameterPanel != null)
+				parameterPanel.refreshContext();
+
+			if (!testCount())
+				return;
+
+			setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
+
+			work();
+
+			isAllSelected = isSelectedByDefault();
+			selectedRows();
+		}
 	}
 
 	private void cmd_zoom() {
@@ -331,7 +298,7 @@ public class WBrowser extends Browser implements IFormController,
 	}
 	
 	private void cmd_deleteSelection() {
-		if (FDialog.ask(p_WindowNo, m_frame, "DeleteSelection"))
+		if (FDialog.ask(getWindowNo(), m_frame, "DeleteSelection"))
 		{	
 			int records = deleteSelection();
 			setStatusLine(Msg.getMsg(Env.getCtx(), "Deleted") + records, false);
@@ -341,16 +308,16 @@ public class WBrowser extends Browser implements IFormController,
 
 	/**************************************************************************
 	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
-	 * @param layout layout array
+	 * @param fields layout array
 	 * @param from from clause
 	 * @param staticWhere where clause
 	 * @param orderBy order by clause
 	 */
-	protected void prepareTable(List<MBrowseField> layout,String from,
+	protected void prepareTable(List<MBrowseField> fields,String from,
 								String staticWhere, String orderBy) {
-		p_layout = layout;
+		browserFields = fields;
 		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
-		sql.append(detail.prepareTable(p_layout, p_multiSelection));
+		sql.append(detail.prepareTable(fields, p_multiSelection));
 		detail.setMultiSelection(p_multiSelection);
 		detail.setShowTotals(m_Browse.isShowTotal());
 
@@ -398,11 +365,14 @@ public class WBrowser extends Browser implements IFormController,
 
 		MRole role = MRole.getDefault();
 		if (role.isQueryMax(no))
-			return true; // use dialog //ADialog.ask(p_WindowNo, m_frame,
-							// "InfoHighRecordCount", String.valueOf(no));
+			return true;
+
 		return true;
 	}
 
+	/**
+	 * Save Selection - Called by dispose
+	 */
 	protected void saveSelection() {
 		// Already disposed
 		if (detail == null)
@@ -489,6 +459,11 @@ public class WBrowser extends Browser implements IFormController,
 		}
 	}
 
+	/**
+	 * Get the keys of selected row/s based on layout defined in prepareTable
+	 *
+	 * @return IDs if selection present
+	 */
 	public ArrayList<Integer> getSelectedRowKeys() {
 		ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
 
@@ -544,14 +519,16 @@ public class WBrowser extends Browser implements IFormController,
 				null);
 		ProcessInfo pi = getBrowseProcessInfo();
 		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+		pi.setWindowNo(getWindowNo());
 		parameterPanel.saveParameters();
 		ProcessInfoUtil.setParameterFromDB(pi);
 		setBrowseProcessInfo(pi);
 		//Save Values Browse Field Update
 		createT_Selection_Browse(instance.getAD_PInstance_ID());
 		// Execute Process
-		ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
+		ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
 		worker.start();
+        Env.clearWinContext(getWindowNo());
 		SessionManager.getAppDesktop().closeActiveWindow();
 	}
 
@@ -594,7 +571,7 @@ public class WBrowser extends Browser implements IFormController,
 		searchTab = new Borderlayout();
 		collapsibleSeach = new North();
 		topPanel = new Hbox();
-		searchGrid = new WBrowserSearch(p_WindowNo);
+		searchGrid = new WBrowserSearch(getWindowNo());
 		bSearch = new Button();
 		detail = new WBrowseListbox(this);
 		bCancel = new Button();
@@ -817,9 +794,8 @@ public class WBrowser extends Browser implements IFormController,
 	}
 	
 	private void selectedRows()
-	{	
-		//int topIndex = 1 ; //detail.getShowTotals() ? 	 : 1;
-		int topIndex = detail.getShowTotals() ? 2 : 1;
+	{
+		int topIndex = detail.isShowTotals() ? 2 : 1;
 		int rows = detail.getRowCount();
 		int selectedList[] = new int[rows];
 		if(isAllSelected)
@@ -847,7 +823,6 @@ public class WBrowser extends Browser implements IFormController,
 			}
 			detail.clearSelection();
 		}
-			
 			isAllSelected = !isAllSelected;
 	}
 
@@ -872,8 +847,9 @@ public class WBrowser extends Browser implements IFormController,
 	
 			DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
 					null);
-			
+
 			ProcessInfo pi = getBrowseProcessInfo();
+			pi.setWindowNo(getWindowNo());
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 			//Save Values Browse Field Update
 			createT_Selection_Browse(instance.getAD_PInstance_ID());
@@ -882,7 +858,7 @@ public class WBrowser extends Browser implements IFormController,
 			setBrowseProcessInfo(pi);
 						
 			// Execute Process
-			ProcessCtl worker = new ProcessCtl(this, 0, getBrowseProcessInfo(), null);
+			ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo(), pi , null);
 			showBusyDialog();
 			worker.run();
 			hideBusyDialog();
@@ -914,7 +890,7 @@ public class WBrowser extends Browser implements IFormController,
 		bDelete.setEnabled(true);
 		collapsibleSeach.setOpen(!isCollapsibleByDefault());
 		p_loadedOK = initBrowser();
-		Env.setContext(Env.getCtx(), 0, "currWindowNo", p_WindowNo);
+		Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
 		
 		if (m_Browse.getAD_Process_ID() > 0)
 			parameterPanel.refreshContext();
@@ -941,10 +917,10 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	
-	protected   ArrayList<ArrayList<Object>> getDataRows()
+	public  ArrayList<ArrayList<Object>> getDataRows()
 	{
 		ArrayList<ArrayList<Object>> rows = m_rows;
-		if (isShowTotal)
+		if (isShowTotal())
 		{	
 			ArrayList<Object> row = new ArrayList<Object>();
 			int lastRow = detail.getRowCount() - 1;
@@ -959,7 +935,7 @@ public class WBrowser extends Browser implements IFormController,
 		}				
 		return rows;
 	}
-	
+
 	
 	private void bDeleteActionPerformed(Event evt) {
 		cmd_deleteSelection();
@@ -1014,7 +990,7 @@ public class WBrowser extends Browser implements IFormController,
 		}	
 		
 
-		int topIndex = detail.getShowTotals() ? 2 : 1;		//int topIndex = 1 ;
+		int topIndex = detail.isShowTotals() ? 2 : 1;		//int topIndex = 1 ;
 		int rows = detail.getRowCount();
 		int selectedList[] = new int[rows];
 
@@ -1081,7 +1057,7 @@ public class WBrowser extends Browser implements IFormController,
 	 */
 	@Override
 	public Object getParameterValue(Object key)
-	{       WEditor editor = (WEditor)  searchGrid.getParamenters().get(key);
+	{       WEditor editor = (WEditor)  searchGrid.getParameters().get(key);
 			if(editor != null)
 				return editor.getValue();
 			else
@@ -1099,7 +1075,7 @@ public class WBrowser extends Browser implements IFormController,
 		boolean onRange = false;
 		StringBuilder sql = new StringBuilder(p_whereClause);
 
-		for (Entry<Object, Object> entry : searchGrid.getParamenters().entrySet()) {
+		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
 			GridFieldVO field = editor.getGridField().getVO();
 			if (!onRange) {
@@ -1108,7 +1084,6 @@ public class WBrowser extends Browser implements IFormController,
 						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
 					sql.append(" AND ");
-
                     if(DisplayType.String == field.displayType)
                     {
 						if (field.ColumnName.equals("Value")
@@ -1184,7 +1159,7 @@ public class WBrowser extends Browser implements IFormController,
 		m_parameters_field = new ArrayList<GridFieldVO>();
 		boolean onRange = false;
 		
-		for (Entry<Object, Object> entry : searchGrid.getParamenters().entrySet()) {
+		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
 			GridFieldVO field = editor.getGridField().getVO();
 			if (!onRange) {
@@ -1212,5 +1187,63 @@ public class WBrowser extends Browser implements IFormController,
 				onRange = false;
 			}
 		}
+	}
+
+	/**
+	 * Evaluate Mandatory Filter
+	 * @return
+	 */
+	public boolean evaluateMandatoryFilter()
+	{
+		Object value_from=null;
+		boolean onRange = false;
+		boolean result =true;
+
+		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
+			WEditor editor = (WEditor) entry.getValue();
+			GridFieldVO field = editor.getGridField().getVO();
+			if (!onRange) {
+
+				if ((editor.getValue() == null
+						|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
+						&& !field.isRange
+						&& editor.isMandatory()) {
+					FDialog.error(getWindowNo(), getForm(), "FillMandatory", Msg.translate(Env.getCtx(), field.ColumnName));
+					return false;
+				} else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange
+						&& editor.isMandatory()) {
+					onRange = true;
+					value_from =editor.getValue();
+				}else if (editor.getValue() == null
+						&& field.isRange
+						&& editor.isMandatory()) {
+					onRange = true;
+					value_from = null;
+				}
+				else
+					continue;
+			} else if ((editor.getValue() == null
+					|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
+					&& editor.isMandatory()) {
+				if (value_from!=null){
+					value_from=null;
+					onRange = false;
+				}
+				else
+				{
+					FDialog.error(getWindowNo(), getForm(), "FillMandatory", Msg.translate(Env.getCtx(),field.ColumnName));
+					return false;
+				}
+			}
+			else{
+				onRange = false;
+				value_from=null;
+			}
+
+		}
+
+		return result;
 	}
 }

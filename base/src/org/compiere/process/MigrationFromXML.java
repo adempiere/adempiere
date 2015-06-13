@@ -3,15 +3,23 @@ package org.compiere.process;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.process.MigrationLoader;
+import org.apache.commons.io.FileUtils;
 import org.compiere.model.MMigration;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -21,6 +29,7 @@ public class MigrationFromXML extends SvrProcess {
 
 	private String fileName = null;
 	private boolean apply = false;
+	private MigrationLoader loader;
 
 	@Override
 	protected String doIt() throws Exception {
@@ -28,49 +37,12 @@ public class MigrationFromXML extends SvrProcess {
 		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
 		{
 			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
-			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
+			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSet");
 		}
 		
-		File file = new File(fileName);
-		if ( !file.exists() )
-			throw new AdempiereException("@FileNotFound@");
-		
-		File[] migrationFiles = null;
-		if ( file.isDirectory() )
-		{
-			migrationFiles = file.listFiles(new FilenameFilter() {
-				
-				@Override
-				public boolean accept(File dir, String name) {
-					
-					return name.endsWith(".xml");
-				}
-			});	
-		}
-		else 
-		{
-			migrationFiles = new File[] {file};
-		}
-		
-		for (File xmlfile : migrationFiles )
-		{
-			log.log(Level.FINE, "Loading migration from file: " + file.getAbsolutePath());
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			dbf.setNamespaceAware(true);
-			dbf.setIgnoringElementContentWhitespace(true);
-
-			DocumentBuilder builder = dbf.newDocumentBuilder();
-			InputSource is1 = new InputSource(new FileInputStream(xmlfile));
-			Document doc = builder.parse(is1);
-
-			NodeList migrations = doc.getDocumentElement().getElementsByTagName("Migration");
-			for ( int i = 0; i < migrations.getLength(); i++ )
-			{
-				MMigration migration = MMigration.fromXmlNode(getCtx(), (Element) migrations.item(i), get_TrxName());
-				if ( migration != null && apply )
-					migration.apply();
-			}
-		}
+		// file can be a file or directory
+		File file = new File(fileName);		
+		loader.loadXML(file, apply);
 		
 		return "Import complete";
 
@@ -86,6 +58,9 @@ public class MigrationFromXML extends SvrProcess {
 			else if ( para.getParameterName().equals("Apply"))
 				apply  = para.getParameterAsBoolean();
 		}
+		
+		// Create the migration loader
+		loader = new MigrationLoader();
 	}
 
 }

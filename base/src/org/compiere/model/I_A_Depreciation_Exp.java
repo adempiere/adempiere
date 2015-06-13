@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_A_Depreciation_Exp 
 {
@@ -41,6 +41,27 @@ public interface I_A_Depreciation_Exp
 
     /** Load Meta Data */
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name A_Account_Number_Acct */
     public static final String COLUMNNAME_A_Account_Number_Acct = "A_Account_Number_Acct";
 
@@ -55,14 +76,10 @@ public interface I_A_Depreciation_Exp
     /** Column name A_Accumulated_Depr */
     public static final String COLUMNNAME_A_Accumulated_Depr = "A_Accumulated_Depr";
 
-	/** Set Accumulated Depreciation.
-	  * Accumulated Depreciation
-	  */
+	/** Set Accumulated Depreciation	  */
 	public void setA_Accumulated_Depr (BigDecimal A_Accumulated_Depr);
 
-	/** Get Accumulated Depreciation.
-	  * Accumulated Depreciation
-	  */
+	/** Get Accumulated Depreciation	  */
 	public BigDecimal getA_Accumulated_Depr();
 
     /** Column name A_Accumulated_Depr_Delta */
@@ -106,14 +123,10 @@ public interface I_A_Depreciation_Exp
     /** Column name A_Asset_Cost */
     public static final String COLUMNNAME_A_Asset_Cost = "A_Asset_Cost";
 
-	/** Set Asset Cost.
-	  * Asset Cost
-	  */
+	/** Set Asset Cost	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost);
 
-	/** Get Asset Cost.
-	  * Asset Cost
-	  */
+	/** Get Asset Cost	  */
 	public BigDecimal getA_Asset_Cost();
 
     /** Column name A_Asset_Cost_Delta */
@@ -207,27 +220,6 @@ public interface I_A_Depreciation_Exp
 	/** Get Asset Period	  */
 	public int getA_Period();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name CR_Account_ID */
     public static final String COLUMNNAME_CR_Account_ID = "CR_Account_ID";
 
@@ -259,6 +251,21 @@ public interface I_A_Depreciation_Exp
 	  */
 	public int getCreatedBy();
 
+    /** Column name DR_Account_ID */
+    public static final String COLUMNNAME_DR_Account_ID = "DR_Account_ID";
+
+	/** Set Account (debit).
+	  * Account used
+	  */
+	public void setDR_Account_ID (int DR_Account_ID);
+
+	/** Get Account (debit).
+	  * Account used
+	  */
+	public int getDR_Account_ID();
+
+	public I_C_ValidCombination getDR_Account() throws RuntimeException;
+
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
 
@@ -284,21 +291,6 @@ public interface I_A_Depreciation_Exp
 	  * Optional short description of the record
 	  */
 	public String getDescription();
-
-    /** Column name DR_Account_ID */
-    public static final String COLUMNNAME_DR_Account_ID = "DR_Account_ID";
-
-	/** Set Account (debit).
-	  * Account used
-	  */
-	public void setDR_Account_ID (int DR_Account_ID);
-
-	/** Get Account (debit).
-	  * Account used
-	  */
-	public int getDR_Account_ID();
-
-	public I_C_ValidCombination getDR_Account() throws RuntimeException;
 
     /** Column name Expense */
     public static final String COLUMNNAME_Expense = "Expense";

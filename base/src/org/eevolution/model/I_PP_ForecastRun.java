@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_ForecastRun
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_PP_ForecastRun 
 {
@@ -205,12 +205,12 @@ public interface I_PP_ForecastRun
     /** Column name PP_PeriodDefinition_ID */
     public static final String COLUMNNAME_PP_PeriodDefinition_ID = "PP_PeriodDefinition_ID";
 
-	/** Set Period Definition.
+	/** Set Current Period.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public void setPP_PeriodDefinition_ID (int PP_PeriodDefinition_ID);
 
-	/** Get Period Definition.
+	/** Get Current Period.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public int getPP_PeriodDefinition_ID();
@@ -255,12 +255,12 @@ public interface I_PP_ForecastRun
     /** Column name Ref_DefinitionPeriod_ID */
     public static final String COLUMNNAME_Ref_DefinitionPeriod_ID = "Ref_DefinitionPeriod_ID";
 
-	/** Set Period Definition.
+	/** Set Past Period Definition.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public void setRef_DefinitionPeriod_ID (int Ref_DefinitionPeriod_ID);
 
-	/** Get Period Definition.
+	/** Get Past Period Definition.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public int getRef_DefinitionPeriod_ID();

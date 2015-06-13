@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product_PO
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_M_Product_PO 
 {
@@ -187,6 +187,19 @@ public interface I_M_Product_PO
 	  * Discontinued At indicates Date when product was discontinued
 	  */
 	public Timestamp getDiscontinuedAt();
+
+    /** Column name DiscontinuedBy */
+    public static final String COLUMNNAME_DiscontinuedBy = "DiscontinuedBy";
+
+	/** Set Discontinued by.
+	  * Discontinued By
+	  */
+	public void setDiscontinuedBy (Timestamp DiscontinuedBy);
+
+	/** Get Discontinued by.
+	  * Discontinued By
+	  */
+	public Timestamp getDiscontinuedBy();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

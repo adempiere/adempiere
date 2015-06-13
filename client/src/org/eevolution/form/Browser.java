@@ -59,7 +59,6 @@ import org.compiere.util.Msg;
  * 
  */
 public abstract class Browser {
-
 	static public LinkedHashMap<String, Object> getBrowseValues(
 			int AD_PInstance_ID, String alias, int recordId, String trxName) {
 		LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
@@ -156,8 +155,7 @@ public abstract class Browser {
 	public CLogger log = CLogger.getCLogger(getClass());
 
 	/** Layout of Grid */
-	//public Info_Column[] p_layout;
-	public List<MBrowseField> p_layout;
+	public List<MBrowseField> browserFields;
 
 	public String m_sqlMain;
 	/** Count SQL Statement */
@@ -165,7 +163,7 @@ public abstract class Browser {
 	/** Order By Clause */
 	public String m_sqlOrderBy;
 	/** Master (owning) Window */
-	public int p_WindowNo;
+	public int windowNo;
 	/** Table Name */
 	public String p_FromClause;
 	/** Key Column Name */
@@ -201,7 +199,6 @@ public abstract class Browser {
 		m_language = Language.getLanguage(Env
 				.getAD_Language(m_Browse.getCtx()));
 
-		//p_layout = m_Browse.getDisplayFields();
 		
 		isCollapsibleByDefault = browse.isCollapsibleByDefault();
 		isDeleteable = browse.isDeleteable();
@@ -227,7 +224,7 @@ public abstract class Browser {
 		if (whereClause == null || whereClause.indexOf('@') == -1)
 			p_whereClause = whereClause;
 		else {
-			p_whereClause = Env.parseContext(Env.getCtx(), p_WindowNo,
+			p_whereClause = Env.parseContext(Env.getCtx(), getWindowNo(),
 					whereClause, true, true);
 			if (p_whereClause.length() == 0)
 				log.log(Level.SEVERE, "Cannot parse context= " + whereClause);
@@ -257,22 +254,15 @@ public abstract class Browser {
 
 
 		for (MBrowseField field : m_Browse.getDisplayFields()) {
-			//MViewColumn viewColumn = field.getAD_View_Column();
-
-			//String title = m_Browse.getTitle();
-			//MColumn column =  vcol.getAD_Column();
-			//String columnName = column.getColumnName();
 
 			if (field.isQueryCriteria()) {
 				m_queryColumns.add(field.getName());
 			}
 			m_queryColumnsSql.add(field.getAD_View_Column().getColumnSQL());
 
-			//int displayType = field.getAD_Reference_ID();
 			if(field.isKey())
 				continue;
 
-			//boolean isDisplayed = field.isDisplayed();
 			// Defines Field as Y-Axis
 			if(field.getAxis_Column_ID() > 0)
 			{
@@ -281,190 +271,10 @@ public abstract class Browser {
 				}
 				continue;
 			}
-
-			/*String IDcolSQL = "";
-			String columnSql = vcol.getColumnSQL() + " AS "
-					+ vcol.getColumnName();
-			if (columnSql == null || columnSql.length() == 0)
-				columnSql = columnName;
-			// Default
-			StringBuilder colSql = new StringBuilder(columnSql);
-			Class colClass = null;
-			if (!isDisplayed)
-				;
-			else if (column.isVirtualColumn())
-			{
-				colSql = new StringBuilder("(" + column.getColumnSQL() + ")");
-				colClass = DisplayType.getClass(displayType, true);
-			}
-			else if (DisplayType.YesNo == displayType)
-				colClass = Boolean.class;
-			else if (DisplayType.Amount == displayType)
-				colClass = BigDecimal.class;
-			else if (DisplayType.Number == displayType
-					|| DisplayType.Quantity == displayType)
-				colClass = Double.class;
-			else if (DisplayType.Integer == displayType)
-				colClass = Integer.class;
-			else if (DisplayType.TableDir == displayType
-					|| DisplayType.Search == displayType) {
-				String alias = vcol.getAD_View_Definition().getTableAlias();
-				colSql = new StringBuilder("("
-						+ MLookupFactory.getLookup_TableDirEmbed(m_language,
-						columnName, alias) + ") AS "
-						+ vcol.getColumnName());
-				IDcolSQL = vcol.getColumnSQL();
-				colClass = KeyNamePair.class;
-			} else if (DisplayType.Table == displayType) {
-				String alias = vcol.getAD_View_Definition().getTableAlias();
-				colSql = new StringBuilder("("
-						+ MLookupFactory.getLookup_TableEmbed(m_language,
-						columnName, alias,
-						field.getAD_Reference_Value_ID()) + ") AS "
-						+ vcol.getColumnName());
-				IDcolSQL = vcol.getColumnSQL();
-				colClass = KeyNamePair.class;
-			} else if (DisplayType.String == displayType
-					|| DisplayType.Text == displayType
-					|| DisplayType.Memo == displayType)
-				colClass = String.class;
-			else if (DisplayType.isDate(displayType))
-				colClass = Timestamp.class;
-			else if (DisplayType.List == displayType) {
-				colSql = new StringBuilder("("
-						+ MLookupFactory.getLookup_ListEmbed(m_language,
-						field.getAD_Reference_Value_ID(),
-						vcol.getColumnSQL()) + ") AS "
-						+ vcol.getColumnName());
-				colClass = String.class;;
-			}
-			if (colClass != null) {
-				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass , displayType , IDcolSQL );
-				infocol.setReadOnly(field.isReadOnly());
-				list.add(infocol);
-				log.finest("Added Field=" + columnName + " Name=" + field.getName());
-			} else
-				log.finest("Not Added Field=" +  columnName + "Name=" + field.getName());
-			*/
 			list.add(field);
 		}
 		return list;
 	}
-
-
-
-	/*public ArrayList<Info_Column> initBrowserData() {
-		List<MBrowseField> fields = m_Browse.getDisplayFields();
-		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
-		
-		MBrowseField fieldKey =  m_Browse.getFieldKey();
-		if(fieldKey != null)
-		{
-			String columnSql = fieldKey.getAD_View_Column().getColumnSQL() + " AS "+ fieldKey.getAD_View_Column().getColumnName();
-			Info_Column infoCol = new Info_Column(fieldKey.getName(), columnSql , IDColumn.class , "" );
-			infoCol.setReadOnly(false);
-			list.add(infoCol);
-		}
-		else
-		{
-			Info_Column infoCol = new Info_Column("Row", "'Row' AS \"Row\"", IDColumn.class  , "" );
-			infoCol.setReadOnly(false);
-			list.add(infoCol);
-		}
-			
-
-		for (MBrowseField field : fields) {
-			MViewColumn vcol = field.getAD_View_Column();
-
-			//String title = m_Browse.getTitle();
-			MColumn column =  vcol.getAD_Column();
-			String columnName = column.getColumnName();
-			
-			if (field.isQueryCriteria()) {
-				m_queryColumns.add(field.getName());
-			}
-			m_queryColumnsSql.add(vcol.getColumnSQL());
-
-			int displayType = field.getAD_Reference_ID();
-			if(field.isKey())
-				continue;
-			boolean isDisplayed = field.isDisplayed();
-			// Defines Field as Y-Axis
-			if(field.getAxis_Column_ID() > 0)
-			{
-					ArrayList<Info_Column> vlist = getInfoColumnForAxisField(field);
-					for (Info_Column infoCol : vlist){
-						list.add(infoCol);
-					}
-					continue;	
-			}
-			
-			String IDcolSQL = "";
-			String columnSql = vcol.getColumnSQL() + " AS "
-					+ vcol.getColumnName();
-			if (columnSql == null || columnSql.length() == 0)
-				columnSql = columnName;
-			// Default
-			StringBuilder colSql = new StringBuilder(columnSql);
-			Class colClass = null;
-			if (!isDisplayed)
-				;
-			else if (column.isVirtualColumn())
-			{
-				colSql = new StringBuilder("(" + column.getColumnSQL() + ")");
-				colClass = DisplayType.getClass(displayType, true);
-			}
-			else if (DisplayType.YesNo == displayType)
-				colClass = Boolean.class;
-			else if (DisplayType.Amount == displayType)
-				colClass = BigDecimal.class;
-			else if (DisplayType.Number == displayType
-					|| DisplayType.Quantity == displayType)
-				colClass = Double.class;
-			else if (DisplayType.Integer == displayType)
-				colClass = Integer.class;
-			else if (DisplayType.TableDir == displayType
-					|| DisplayType.Search == displayType) {
-				String alias = vcol.getAD_View_Definition().getTableAlias();
-				colSql = new StringBuilder("("
-						+ MLookupFactory.getLookup_TableDirEmbed(m_language,
-								columnName, alias) + ") AS "
-						+ vcol.getColumnName());
-				IDcolSQL = vcol.getColumnSQL();
-				colClass = KeyNamePair.class;
-			} else if (DisplayType.Table == displayType) {
-				String alias = vcol.getAD_View_Definition().getTableAlias();
-				colSql = new StringBuilder("("
-						+ MLookupFactory.getLookup_TableEmbed(m_language,
-								columnName, alias,
-								field.getAD_Reference_Value_ID()) + ") AS "
-						+ vcol.getColumnName());
-				IDcolSQL = vcol.getColumnSQL();
-				colClass = KeyNamePair.class;
-			} else if (DisplayType.String == displayType
-					|| DisplayType.Text == displayType
-					|| DisplayType.Memo == displayType)
-				colClass = String.class;
-			else if (DisplayType.isDate(displayType))
-				colClass = Timestamp.class;
-			else if (DisplayType.List == displayType) {
-				colSql = new StringBuilder("("
-						+ MLookupFactory.getLookup_ListEmbed(m_language,
-								field.getAD_Reference_Value_ID(),
-								vcol.getColumnSQL()) + ") AS "
-						+ vcol.getColumnName());
-				colClass = String.class;;
-			}
-			if (colClass != null) {
-				Info_Column infocol = new Info_Column(field.getName(), colSql.toString(), colClass , displayType , IDcolSQL );
-				infocol.setReadOnly(field.isReadOnly());
-				list.add(infocol);
-				log.finest("Added Field=" + columnName + " Name=" + field.getName());
-			} else
-				log.finest("Not Added Field=" +  columnName + "Name=" + field.getName());
-		}		
-		return list;
-	}*/
 
 	public ArrayList<Object> getParameters() {
 		return m_parameters;
@@ -635,97 +445,6 @@ public abstract class Browser {
 	 * @param field defined as Axis
 	 * @return Info_Column with Axis Field
 	 */
-	/*public ArrayList<Info_Column> getInfoColumnForAxisField(MBrowseField field)
-	{	
-		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
-		try {
-			I_AD_View_Column xcol, pcol, ycol;
-			xcol = field.getAD_View_Column();
-			pcol = field.getAxis_Parent_Column();
-			ycol = field.getAxis_Column();
-			
-			String columnName = xcol.getAD_Column().getColumnName();
-		
-			MBrowseField fieldKey = ((MBrowse) field.getAD_Browse()).getFieldKey();
-			if(fieldKey == null)
-				throw new AdempiereException("@NotFound@ @IsKey@");
-			
-			MTable xTable = (MTable) ycol.getAD_View_Definition().getAD_Table();
-			String xTableName = xTable.getTableName();
-	
-			String keyColumn = MQuery.getZoomColumnName(columnName);
-			String tableName = MQuery.getZoomTableName(columnName);
-
-			String whereClause =  "";
-			
-			if (pcol != null && pcol.getAD_View_Column_ID() > 0) 
-			{	
-				MTable parentTable = MTable.get(field.getCtx(), tableName);
-				MColumn parentColumn = getParentColumn(parentTable.getAD_Table_ID());
-				if (parentColumn == null)
-					throw new AdempiereException("@NotFound@ @IsParent@");
-				
-				if(field.getAD_Val_Rule_ID() > 0)
-					whereClause = Env.parseContext(Env.getCtx(), p_WindowNo, field.getAD_Val_Rule().getCode(), false);
-
-			}
-
-
-			MLookup lookup = MLookupFactory.get(Env.getCtx(), 0,
-					xcol.getAD_Column_ID(), field.getAD_Reference_ID(),
-					m_language, keyColumn, field.getAD_Reference_Value_ID(), false, whereClause);
-
-			int cols = 0;
-
-			StringBuilder axisSql = new StringBuilder("(SELECT ");
-			axisSql.append("SUM(")
-			.append(ycol.getAD_Column()
-					.getColumnName())
-			.append(") FROM  ")
-			.append(ycol.getAD_View_Definition().getAD_Table().getTableName())
-			.append(" WHERE ")
-			.append(xTableName)
-			.append(".")
-			.append(fieldKey.getAD_View_Column().getAD_Column()
-			.getColumnName()).append("=")
-			.append(fieldKey.getAD_View_Column().getColumnSQL())
-			.append(getAxisSQLWhere(pcol, true))
-			.append(" AND ")
-			.append(xTableName).append(".")
-			.append(xcol.getAD_Column().getColumnName());
-
-			for (int id :  getAxisRecordIds(tableName, whereClause)) {
-				cols ++;
-				String display =  lookup.getDisplay(id).trim();
-				display = display.length() > 12 ? display.substring(1,12) + "_" + cols : display;
-				String joinColumn = Msg.translate(m_language, ycol.getAD_Column()
-						.getColumnName());
-				joinColumn = joinColumn.length() > 15 ? joinColumn.substring(1, 15) :  joinColumn; 
-				String sqlColName = display + "/" + joinColumn;
-				String colName = lookup.getDisplay(id).trim() + "/" + Msg.translate(m_language, ycol.getAD_Column()
-						.getColumnName());
-				
-				StringBuffer select = new StringBuffer(axisSql);						
-				select.append("=").append(id).append(") AS ");
-				select.append("\"").append(sqlColName).append("\"");
-				Info_Column infocol = new Info_Column(colName,
-						select.toString(), DisplayType.getClass(ycol.getAD_Column().getAD_Reference_ID(), true));
-				infocol.setReadOnly(field.isReadOnly());
-				list.add(infocol);
-				log.finest("Added Column=" + sqlColName +  " SQL = " + select);
-			}
-			
-		} catch (Exception e) {
-			throw new AdempiereException(e);
-		}	
-		return list;
-	}*/
-
-	/**
-	 * Get Info_Column for Axis Field
-	 * @param field defined as Axis
-	 * @return Info_Column with Axis Field
-	 */
 	public List<MBrowseField> getInfoColumnForAxisField(MBrowseField field)
 	{
 		List<MBrowseField> list = new ArrayList<MBrowseField>();
@@ -758,7 +477,7 @@ public abstract class Browser {
 					throw new AdempiereException("@NotFound@ @IsParent@");
 
 				if(field.getAD_Val_Rule_ID() > 0)
-					whereClause = Env.parseContext(Env.getCtx(), p_WindowNo, field.getAD_Val_Rule().getCode(), false);
+					whereClause = Env.parseContext(Env.getCtx(), getWindowNo() , field.getAD_Val_Rule().getCode(), false);
 
 			}
 
@@ -781,7 +500,7 @@ public abstract class Browser {
 					.append(fieldKey.getAD_View_Column().getAD_Column()
 							.getColumnName()).append("=")
 					.append(fieldKey.getAD_View_Column().getColumnSQL())
-					.append(getAxisSQLWhere(pcol, true))
+					.append(getAxisSQLWhere(ycol))
 					.append(" AND ")
 					.append(xTableName).append(".")
 					.append(xcol.getAD_Column().getColumnName());
@@ -798,15 +517,16 @@ public abstract class Browser {
 						.getColumnName());
 
 				StringBuffer select = new StringBuffer(axisSql);
-				select.append("=").append(id).append(") AS ");
-				select.append("\"").append(sqlColName).append("\"");
+				select.append("=").append(id).append(")");
 
 				MViewColumn viewColumn = new MViewColumn(field.getCtx() , 0 , field.get_TrxName());
-				MViewColumn.copyValues(field.getAD_View_Column(), viewColumn);
-				viewColumn.setAD_View_Column_ID(field.getAD_View_Column_ID());
+				MViewColumn.copyValues((MViewColumn) ycol, viewColumn);
+				viewColumn.setAD_View_Column_ID(ycol.getAD_View_Column_ID());
+				viewColumn.setAD_Column_ID(ycol.getAD_Column_ID());
 				viewColumn.setColumnSQL(select.toString());
+				viewColumn.setColumnName("\"" + sqlColName + "\"");
 
-				MBrowseField browseField = new MBrowseField(field.getCtx() , 0 , field.get_TrxName());
+				MBrowseField browseField = new MBrowseField((MBrowse)field.getAD_Browse() , viewColumn);
 				browseField.setAD_Browse_ID(field.getAD_Browse_ID());
 				browseField.setAD_Element_ID(field.getAD_Element_ID());
 				browseField.setName(colName);
@@ -818,13 +538,11 @@ public abstract class Browser {
 				browseField.setIsIdentifier(viewColumn.isIdentifier());
 				browseField.setIsRange(false);
 				browseField.setIsQueryCriteria(false);
-				browseField.setAD_Reference_ID(viewColumn.getAD_Reference_ID());
-				browseField.setAD_Reference_Value_ID(viewColumn.getAD_Column().getAD_Reference_Value_ID());
+				browseField.setAD_Reference_ID(ycol.getAD_Column().getAD_Reference_ID());
+				browseField.setAD_Reference_Value_ID(ycol.getAD_Column().getAD_Reference_Value_ID());
 				browseField.setIsKey(false);
 				browseField.setIsDisplayed(true);
-				browseField.setAD_Reference_ID(ycol.getAD_Column().getAD_Reference_ID());
 				browseField.setIsReadOnly(field.isReadOnly());
-				browseField.setAD_Reference_ID(ycol.getAD_Column().getAD_Reference_ID());
 				browseField.setAD_Element_ID(field.getAD_Element_ID());
 
 				list.add(browseField);
@@ -920,11 +638,11 @@ public abstract class Browser {
 	 */
 	 public abstract Object getParameterValue(Object key);
 	 
-	 abstract void setParameters();	 
+	 public abstract void setParameters();
 	 
 	 abstract public String  getSQLWhere(boolean refresh);
 	 
-	 public String getAxisSQLWhere(I_AD_View_Column viewColumn, boolean refresh)
+	 public String getAxisSQLWhere(I_AD_View_Column viewColumn)
 	 {
 		 MViewDefinition viewDefinition = (MViewDefinition) viewColumn.getAD_View_Definition();
 		 MTable tableBaseName = (MTable) viewDefinition.getAD_Table();
@@ -933,12 +651,13 @@ public abstract class Browser {
 		 setParameters();
 		 
 			for (int i = 0; i < m_parameters_field.size(); i++) {
-				
-				if (!m_parameters_field.get(i).Help.contains(viewDefinition.getTableAlias()))
-					continue;
-				
-				String fieldName = m_parameters_field.get(i).Help.replace(viewDefinition.getTableAlias(),tableBaseName.getTableName());
-				
+                String fieldName = "";
+                MColumn  column = tableBaseName.getColumn(m_parameters_field.get(i).ColumnName);
+                if (column != null)
+                    fieldName = tableBaseName.getTableName() + "." + column.getColumnName();
+                else
+                    continue;
+
 				if (!onRange) {
 
 					if (m_parameters_values.get(i) != null
@@ -1018,13 +737,14 @@ public abstract class Browser {
 	public String getSQLOrderBy() {
 		StringBuilder sqlOrderBy = new StringBuilder();
 		for (MBrowseField field : m_Browse.getOrderByFields()) {
-			if (sqlOrderBy.length() > 0 && field.isOrderBy())
-				sqlOrderBy.append(",");
-
 			if (field.isOrderBy()) {
-				int orderByPosition = getOrderByPosition(field
-						.getAD_View_Column());
-				if (orderByPosition > 0)
+				int orderByPosition = getOrderByPosition(field);
+				if (orderByPosition <= 0)
+					continue;
+
+				if (sqlOrderBy.length() > 0)
+					sqlOrderBy.append(",");
+
 					sqlOrderBy.append(orderByPosition);
 			}
 		}
@@ -1033,21 +753,22 @@ public abstract class Browser {
 	}
 
 
-	private int getOrderByPosition(MViewColumn viewColumn)
+	private int getOrderByPosition(MBrowseField BrowserField)
 	{
 		int colOffset = 1; // columns start with 1
 		int col = 0;
-		for (MBrowseField field : p_layout) {
+		for (MBrowseField field : browserFields) {
 			int sortBySqlNo = col + colOffset;
-			Class<?> c = DisplayType.getClass(field.getAD_Reference_ID(), true);
-			if (c == KeyNamePair.class)
-				colOffset++;
-			if (viewColumn.getAD_View_Column_ID() == field.getAD_View_Column_ID())
+			//Class<?> c = DisplayType.getClass(field.getAD_Reference_ID(), true);
+			//if (c == KeyNamePair.class)
+			//	colOffset++;
+			if (BrowserField.getAD_Browse_Field_ID() == field.getAD_Browse_Field_ID())
 				return sortBySqlNo;
 			col ++;
 		}
 
-		return 0;
+
+		return -1;
 	}
 	
 	protected PreparedStatement getStatement(String sql) {
@@ -1064,7 +785,7 @@ public abstract class Browser {
 		return stmt;
 	}
 	
-	protected abstract  ArrayList<ArrayList<Object>> getDataRows();
+	public abstract  ArrayList<ArrayList<Object>> getDataRows();
 	
 	protected File exportXLS() {
 		File file = null;
@@ -1224,7 +945,7 @@ public abstract class Browser {
 					ArrayList<Object> row = new ArrayList<Object>();
 					int colOffset = 1; // columns start with 1
 					int col = 0;
-					for (MBrowseField field : p_layout) {
+					for (MBrowseField field : browserFields) {
 
 						if (isFirstRow) {
 							String columnName = field.getName();
@@ -1257,43 +978,7 @@ public abstract class Browser {
 						row.add(data);
 						col++;
 					}
-					/*for (int col = 0; col < p_layout.length; col++) {
 
-						if (isFirstRow) {
-							//String columnName = p_layout[col].getColHeader();
-							String columnName = p_layout[col].getName();
-							header.add(columnName);
-						}
-						Object data = null;
-						//Class<?> c = p_layout[col].getColClass();
-						MBrowseField bField = p_layout[col];
-						int colIndex = col + colOffset;
-						if (c == IDColumn.class && !p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
-							data = new IDColumn(m_rs.getInt(colIndex));
-						else if (c == IDColumn.class && p_layout[col].getColSQL().equals("'Row' AS \"Row\""))
-							data = new IDColumn(no);
-						else if (c == Boolean.class)
-							data = new Boolean("Y".equals(m_rs
-									.getString(colIndex)));
-						else if (c == Timestamp.class)
-							data = m_rs.getTimestamp(colIndex);
-						else if (c == BigDecimal.class)
-							data = m_rs.getBigDecimal(colIndex);
-						else if (c == Double.class)
-							data = new Double(m_rs.getDouble(colIndex));
-						else if (c == Integer.class)
-							data = new Integer(m_rs.getInt(colIndex));
-						else if (c == KeyNamePair.class) {
-							String display = m_rs.getString(colIndex);
-							int key = m_rs.getInt(colIndex + 1);
-							data = new KeyNamePair(key, display);
-							colOffset++;
-						} else
-							data = m_rs.getString(colIndex);
-						
-						row.add(data);
-					}*/
-					
 					if (isFirstRow)
 						m_rows.add(header);
 					m_rows.add(row);
@@ -1319,122 +1004,8 @@ public abstract class Browser {
 		}
 	} // Exporter
 
-
-
-	/**
-	 * Evaluate Mandatory for Filter
-	 * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 20/10/2013, 22:29:37
-	 * @return
-	 * @return boolean
-	 */
-	/*public boolean evaluateMandatoryFilter(CFrame m_frame)
+	public int getWindowNo()
 	{
-		Object value_from=null;
-		boolean onRange = false;
-		boolean result =true;
-
-		for (Entry<Object, Object> entry : searchPanel.getParamenters().entrySet()) {
-			VEditor editor = (VEditor) entry.getValue();
-			GridFieldVO field = editor.getField().getVO();
-			if (!onRange) {
-
-				if ((editor.getValue() == null
-						|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
-						&& !field.isRange
-						&& editor.isMandatory()) {
-					ADialog.error(p_WindowNo, m_frame.getContentPane(), "FillMandatory", Msg.translate(Env.getCtx(),field.ColumnName));
-					return false;
-				} else if (editor.getValue() != null
-						&& !editor.getValue().toString().isEmpty()
-						&& field.isRange
-						&& editor.isMandatory()) {
-					onRange = true;
-					value_from =editor.getValue();
-				}else if (editor.getValue() == null
-						&& field.isRange
-						&& editor.isMandatory()) {
-					onRange = true;
-					value_from = null;
-				}
-				else
-					continue;
-			} else if ((editor.getValue() == null
-					|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
-					&& editor.isMandatory()) {
-				if (value_from!=null){
-					value_from=null;
-					onRange = false;
-				}
-				else
-				{
-					ADialog.error(p_WindowNo, m_frame.getContentPane(), "FillMandatory", Msg.translate(Env.getCtx(),field.ColumnName));
-					return false;
-				}
-			}
-			else{
-				onRange = false;
-				value_from=null;
-			}
-
-		}
-
-		return result;
+		return windowNo;
 	}
-
-	public String getSQLWhere(boolean refresh) {
-
-		if(!refresh)
-			return m_whereClause;
-
-		m_parameters_values = new ArrayList<Object>();
-		m_parameters = new ArrayList<Object>();
-
-		boolean onRange = false;
-		StringBuilder sql = new StringBuilder(p_whereClause);
-
-		for (Entry<Object, Object> entry : searchPanel.getParamenters().entrySet()) {
-			VEditor editor = (VEditor) entry.getValue();
-			GridFieldVO field = editor.getField().getVO();
-			if (!onRange) {
-
-				if (editor.getValue() != null
-						&& !editor.getValue().toString().isEmpty()
-						&& !field.isRange) {
-					sql.append(" AND ");
-					sql.append(field.Help).append("=? ");
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
-				} else if (editor.getValue() != null
-						&& !editor.getValue().toString().isEmpty()
-						&& field.isRange) {
-					sql.append(" AND ");
-
-					//sql.append(field.Help).append(" BETWEEN ?");
-					sql.append(field.Help).append(" >= ? ");
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
-					onRange = true;
-
-				}else if (editor.getValue() == null
-						&& field.isRange) {
-					onRange = true;
-				}
-				else
-					continue;
-			} else if (editor.getValue() != null
-					&& !editor.getValue().toString().isEmpty()) {
-
-				//sql.append(" AND ? ");
-				sql.append(" AND ").append(field.Help).append(" <= ? ");
-				m_parameters.add(field.Help);
-				m_parameters_values.add(editor.getValue());
-				onRange = false;
-			}
-			else
-				onRange = false;
-
-		}
-		m_whereClause = sql.toString();
-		return sql.toString();
-	}*/
 }

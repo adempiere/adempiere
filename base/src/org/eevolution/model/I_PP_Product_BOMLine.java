@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Product_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_PP_Product_BOMLine 
 {
@@ -341,7 +341,7 @@ public interface I_PP_Product_BOMLine
 	/** Get Part Type	  */
 	public int getM_PartType_ID();
 
-	public I_M_PartType getM_PartType() throws RuntimeException;
+	public org.compiere.model.I_M_PartType getM_PartType() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";

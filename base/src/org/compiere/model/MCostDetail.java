@@ -1566,123 +1566,66 @@ public class MCostDetail extends X_M_CostDetail
 								 + "INNER JOIN M_Locator l ON (t.M_Locator_ID=l.M_Locator_ID) WHERE cd.M_CostDetail_ID=? ";
 		return DB.getSQLValue(this.get_TrxName(), whereClause , getM_CostDetail_ID());		
 	}
-	
 
-	
 	/**
-	 * Get a list of cost detail based on the document line and cost type
-	 * @param docLine Document Line
-	 * @param C_AcctSchema_ID Account Schema
-	 * @param M_CostType_ID Cost type
-	 * @return list MCostDetail 
+	 * Get cost detail by document line landed cost allocation
+	 * @param landedCostAllocation
+	 * @param acctSchemaId
+	 * @param costTypeId
+	 * @return
 	 */
-	//SHW
-	public static List<MCostDetail> getByDocLine(DocLine docLine ,int C_AcctSchema_ID, int M_CostType_ID)
+	public static BigDecimal getByDocLineLandedCost(MLandedCostAllocation landedCostAllocation ,int acctSchemaId, int costTypeId)
 	{
-		final String whereClause = MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND "
-		+ MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND "
-		+ MCostDetail.COLUMNNAME_M_Product_ID+ "=? AND "
-		//+ MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+ "=? AND "
-		+ MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND "
-
-		+ docLine.getTableName() + "_ID=?";
-		return new Query (docLine.getCtx(), I_M_CostDetail.Table_Name, whereClause , docLine.getTrxName())
+		StringBuffer whereClause = new StringBuffer();
+		whereClause.append(COLUMNNAME_AD_Client_ID).append("=? AND ")
+				   .append(COLUMNNAME_C_AcctSchema_ID).append("=? AND ")
+				   .append(COLUMNNAME_M_Product_ID).append("=? AND ")
+				   .append(COLUMNNAME_M_AttributeSetInstance_ID).append("=? AND ")
+				   .append(COLUMNNAME_M_CostType_ID).append("=? AND ")
+				   .append(COLUMNNAME_C_InvoiceLine_ID).append("=? AND ")
+				   .append(COLUMNNAME_M_InOutLine_ID).append("=? ");
+		return new Query (landedCostAllocation.getCtx(), Table_Name, whereClause.toString() , landedCostAllocation.get_TrxName())
 		.setParameters(
-				docLine.getAD_Client_ID(),
-				C_AcctSchema_ID,
-				docLine.getM_Product_ID(),
-				//docLine.getM_AttributeSetInstance_ID(),
-				M_CostType_ID,
-				docLine.get_ID())
-		.setOrderBy(MCostDetail.COLUMNNAME_M_Transaction_ID)
-		.list();
-	}
-	/**
-	 * Get a summary cost of all cost details based on the document line and cost type
-	 * @param docLine Document Line
-	 * @param C_AcctSchema_ID Account Schema
-	 * @param M_CostType_ID Cost type
-	 * @return list MCostDetail 
-	 */
-	public static BigDecimal getCostByDocLine(DocLine docLine ,int C_AcctSchema_ID, int M_CostType_ID)
-	{
-		String whereClause = MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND "
-		+ MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND "
-		+ MCostDetail.COLUMNNAME_M_Product_ID+ "=? AND "
-		//+ MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+ "=? AND "
-		+ MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND "
-		+ docLine.getTableName() + "_ID=?";
-		if (docLine.getTableName().equals(MInOut.Table_Name))
-			whereClause = whereClause + " and " + MInvoiceLine.COLUMNNAME_C_InvoiceLine_ID + " is null " +
-					" and " + MLandedCostAllocation.COLUMNNAME_C_LandedCostAllocation_ID + " is null";
-		BigDecimal costs = Env.ZERO;
-		costs = new Query (docLine.getCtx(), I_M_CostDetail.Table_Name, whereClause , docLine.getTrxName())
-		.setParameters(
-				docLine.getAD_Client_ID(),
-				C_AcctSchema_ID,
-				docLine.getM_Product_ID(),
-				//docLine.getM_AttributeSetInstance_ID(),
-				M_CostType_ID,
-				docLine.get_ID())
-		.aggregate(MCostDetail.COLUMNNAME_CostAmt + " + " +
-					MCostDetail.COLUMNNAME_CostAdjustment+ " + " +
-					MCostDetail.COLUMNNAME_CostAmtLL + " + " + 
-					MCostDetail.COLUMNNAME_CostAdjustmentLL, Query.AGGREGATE_SUM );
-		return costs;
-	}
-	
-	public static BigDecimal getByDocLineLandedCost(MLandedCostAllocation lca ,int C_AcctSchema_ID, int M_CostType_ID)
-	{
-		final String whereClause = MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND "
-		+ MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND "
-		+ MCostDetail.COLUMNNAME_M_Product_ID+ "=? AND "
-		//+ MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+ "=? AND "
-		+ MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND "
-
-		+ "c_invoiceline_ID=? and m_inoutline_id=?";
-		return new Query (lca.getCtx(), I_M_CostDetail.Table_Name, whereClause , lca.get_TrxName())
-		.setParameters(
-				lca.getAD_Client_ID(),
-				C_AcctSchema_ID,
-				lca.getM_Product_ID(),
-				M_CostType_ID,
-				lca.getC_InvoiceLine_ID(),
-				lca.getM_InOutLine_ID())
+				landedCostAllocation.getAD_Client_ID(),
+				acctSchemaId,
+				landedCostAllocation.getM_Product_ID(),
+				costTypeId,
+				landedCostAllocation.getC_InvoiceLine_ID(),
+				landedCostAllocation.getM_InOutLine_ID())
 		
-		.aggregate(MCostDetail.COLUMNNAME_CostAmt + " + " +
-					MCostDetail.COLUMNNAME_CostAdjustment+ " + " +
-					MCostDetail.COLUMNNAME_CostAmtLL + " + " + 
-					MCostDetail.COLUMNNAME_CostAdjustmentLL, Query.AGGREGATE_SUM );
+		.aggregate(COLUMNNAME_CostAmt + " + " +
+				COLUMNNAME_CostAdjustment + " + " +
+				COLUMNNAME_CostAmtLL + " + " +
+				COLUMNNAME_CostAdjustmentLL, Query.AGGREGATE_SUM);
 	}
 	/**
 	 * Returns the summary costs of costdetails (different cost elements)
-	 * @param iLine
-	 * @param ioLine
-	 * @param C_AcctSchema_ID
-	 * @param M_CostType_ID
+	 * @param invoiceLine
+	 * @param inOutLine
+	 * @param acctSchemaId
+	 * @param costTypeId
 	 * @return
 	 */
-	public static BigDecimal getByDocLineMatchInv(MInvoiceLine iLine, MInOutLine ioLine ,int C_AcctSchema_ID, int M_CostType_ID)
+	public static BigDecimal getByDocLineMatchInv(MInvoiceLine invoiceLine, MInOutLine inOutLine ,int acctSchemaId, int costTypeId)
 	{
-		final String whereClause = MCostDetail.COLUMNNAME_AD_Client_ID + "=? AND "
-		+ MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND "
-		+ MCostDetail.COLUMNNAME_M_Product_ID+ "=? AND "
-		//+ MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+ "=? AND "
-		+ MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND "
+		final StringBuilder whereClause = new StringBuilder();
+		whereClause.append(COLUMNNAME_AD_Client_ID).append("=? AND ")
+				   .append(COLUMNNAME_C_AcctSchema_ID).append("=? AND ")
+				   .append(COLUMNNAME_M_Product_ID).append( "=? AND ")
+				   .append(COLUMNNAME_M_AttributeSetInstance_ID + "=? AND ")
+				   .append(COLUMNNAME_M_CostType_ID).append("=? AND ")
+				   .append(COLUMNNAME_C_InvoiceLine_ID).append("=? AND ")
+				   .append(COLUMNNAME_M_InOutLine_ID).append("=?");
 
-		+ "c_invoiceline_ID=? and m_inoutline_id=?";
-		return new Query (iLine.getCtx(), I_M_CostDetail.Table_Name, whereClause , iLine.get_TrxName())
+		return new Query (invoiceLine.getCtx(), I_M_CostDetail.Table_Name, whereClause.toString() , invoiceLine.get_TrxName())
 		.setParameters(
-				iLine.getAD_Client_ID(),
-				C_AcctSchema_ID,
-				ioLine.getM_Product_ID(),
-				M_CostType_ID,
-				iLine.getC_InvoiceLine_ID(),
-				ioLine.getM_InOutLine_ID())
-		.aggregate(MCostDetail.COLUMNNAME_CostAmt + " + " +
-				MCostDetail.COLUMNNAME_CostAdjustment+ " + " +
-				MCostDetail.COLUMNNAME_CostAmtLL + " + " + 
-				MCostDetail.COLUMNNAME_CostAdjustmentLL, Query.AGGREGATE_SUM );
+				invoiceLine.getAD_Client_ID(),
+				acctSchemaId,
+				invoiceLine.getM_Product_ID(),
+				costTypeId,
+				invoiceLine.getC_InvoiceLine_ID(),
+				inOutLine.getM_InOutLine_ID())
+		.aggregate(COLUMNNAME_CostAdjustment + " + " +
+				COLUMNNAME_CostAdjustmentLL, Query.AGGREGATE_SUM);
 	}
-	//SHW Ende
 }	//	MCostDetail

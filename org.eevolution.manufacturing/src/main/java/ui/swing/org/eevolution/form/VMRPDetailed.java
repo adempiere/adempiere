@@ -113,17 +113,16 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 			p_table.setRowCount(0);
 			//
 			StringBuffer sql = new StringBuffer(m_sqlMain);
-			String dynWhere = getSQLWhere();
+			String dynWhere = getWhereClause(getSQLWhere());
 			if (dynWhere.length() > 0) {
 				sql.append(dynWhere); // includes first AND
 			}
 			sql.append(m_sqlAdd);
-			String xSql = Msg.parseTranslation(getCtx(), sql.toString()); // Variables
-			xSql = MRole.getDefault().addAccessSQL(xSql, getTableName(),
-					MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+			StringBuilder sqlFinal = new StringBuilder (MRole.getDefault().addAccessSQL(Msg.parseTranslation(getCtx(), sql.toString()), getTableName(),
+					MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO));
 			try {
-				PreparedStatement pstmt = DB.prepareStatement(xSql, null);
-				log.fine("SQL=" + xSql);
+				PreparedStatement pstmt = DB.prepareStatement(sqlFinal.toString(), null);
+				log.fine("SQL=" + sqlFinal);
 				setParameters(pstmt, false);
 				// Log.trace(Log.l6_Database, "Info.Worker.run - start query");
 				ResultSet rs = pstmt.executeQuery();
@@ -168,7 +167,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
-				log.log(Level.SEVERE, "Info.Worker.run - " + xSql, e);
+				log.log(Level.SEVERE, "Info.Worker.run - " + sqlFinal, e);
 			}
 
 			p_table.autoSize();
@@ -513,7 +512,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 	 *             if Lookups cannot be initialized
 	 */
 	private void fillPicks() throws Exception {
-		prepareTable(m_layout, getTableName(), getSQLWhere(),"DatePromised,ProductValue"
+		prepareTable(m_layout, getTableName(), getWhereClause(getSQLWhere()) ,"DatePromised,ProductValue"
 				);
 	}
 
@@ -782,7 +781,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 					layout[i].isReadOnly(), layout[i].getColHeader());
 
 		sql.append(" FROM ").append(from);
-		sql.append(" WHERE ").append(getWhereClause(staticWhere));
+		sql.append(" WHERE ");
 
 		m_sqlMain = sql.toString();
 

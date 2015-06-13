@@ -116,8 +116,21 @@ public class Label extends org.zkoss.zul.Label
 		return m_zoomable;
 	}
 	
+	/**
+	 * Sets the zoomable flag.  This add the CSS class "zoomable" to the label component
+	 * so the appropriate CSS styles can be applied in the theme. 
+	 * @param zoomable
+	 */
 	public void setZoomable(boolean zoomable) {
 		m_zoomable  = zoomable;
+		if(m_zoomable)
+		{
+			ThemeUtils.addSclass("zoomable", this);
+		}
+		else
+		{
+			ThemeUtils.removeSclass("zoomable", this);
+		}
 	}
 	
 }

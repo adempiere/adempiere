@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_AllocationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_C_AllocationLine 
 {
@@ -61,6 +61,15 @@ public interface I_C_AllocationLine
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AllocationNo */
+    public static final String COLUMNNAME_AllocationNo = "AllocationNo";
+
+	/** Set Allocation No	  */
+	public void setAllocationNo (int AllocationNo);
+
+	/** Get Allocation No	  */
+	public int getAllocationNo();
 
     /** Column name Amount */
     public static final String COLUMNNAME_Amount = "Amount";

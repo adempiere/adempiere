@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_Group
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_R_Group 
 {
@@ -116,6 +116,21 @@ public interface I_R_Group
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name M_BOM_ID */
+    public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
+
+	/** Set BOM.
+	  * Bill of Material
+	  */
+	public void setM_BOM_ID (int M_BOM_ID);
+
+	/** Get BOM.
+	  * Bill of Material
+	  */
+	public int getM_BOM_ID();
+
+	public org.compiere.model.I_M_BOM getM_BOM() throws RuntimeException;
 
     /** Column name M_ChangeNotice_ID */
     public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";

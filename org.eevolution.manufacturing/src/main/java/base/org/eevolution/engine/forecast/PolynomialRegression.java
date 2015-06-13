@@ -29,7 +29,7 @@ import net.sourceforge.openforecast.models.RegressionModel;
 
 
 /**
- * DoubleExponentialSmoothing Implementation
+ * Polynomial Regression Implementation
  * 
  * @author victor.perez@e-evolution.com, www.e-Evolution.com
  * 

@@ -38,7 +38,8 @@ public class BrowserCallOutExample extends BrowserCallOutEngine {
 		System.out.println("This is a Old Value :"+oldValue);
 		System.out.println("This is a Value for GridField:" + field.getValue());
 		System.out.println("This is a Old Value for GridField:" + field.getOldValue());
-		row.setValueOfColumn("SO_CreditUsed", new BigDecimal(9999.33), currentRow);
+		field.setValue(new BigDecimal(9999.33), true);
+		row.setValueOfColumn(currentRow, "SO_CreditUsed", field);
 		return "";
 	}
 	

@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_FixedAsset
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140901L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_I_FixedAsset (Properties ctx, int I_FixedAsset_ID, String trxName)
@@ -50,8 +50,6 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 // 'CO'
 			setI_IsImported (false);
 // 'N'
-			setUseLifeMonths (0);
-			setUseLifeMonths_F (0);
         } */
     }
 
@@ -747,6 +745,23 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Org Key.
+		@param OrgValue 
+		Key of the Organization
+	  */
+	public void setOrgValue (String OrgValue)
+	{
+		set_Value (COLUMNNAME_OrgValue, OrgValue);
+	}
+
+	/** Get Org Key.
+		@return Key of the Organization
+	  */
+	public String getOrgValue () 
+	{
+		return (String)get_Value(COLUMNNAME_OrgValue);
 	}
 
 	/** Set Processed.

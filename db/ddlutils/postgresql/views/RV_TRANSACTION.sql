@@ -17,7 +17,7 @@ SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
     -- In/Out
     t.M_InOutLine_ID,iol.M_InOut_ID,
     -- Production
-    t.M_ProductionLine_ID,prdl.M_ProductionPlan_ID,prdp.M_Production_ID,
+    t.M_ProductionLine_ID,prdl.M_ProductionPlan_ID,prdl.M_Production_ID,
     -- ProjectIssue
     t.C_ProjectIssue_ID,
     t.PP_Cost_Collector_ID,
@@ -44,8 +44,8 @@ FROM M_Transaction t
   LEFT OUTER JOIN M_InOutLine iol ON (t.M_InOutLine_ID=iol.M_InOutLine_ID)
   LEFT OUTER JOIN M_InOut io ON (iol.M_InOut_ID = io.M_InOut_ID)
   LEFT OUTER JOIN M_ProductionLine prdl ON (t.M_ProductionLine_ID=prdl.M_ProductionLine_ID)
-  LEFT OUTER JOIN M_ProductionPlan prdp ON (prdl.M_ProductionPlan_ID=prdp.M_ProductionPlan_ID)
-  LEFT OUTER JOIN M_Production prd ON prdp.M_Production_ID = prd.M_Production_ID
+  --LEFT OUTER JOIN M_ProductionPlan prdp ON (prdl.M_Productio  nPlan_ID=prdp.M_ProductionPlan_ID)
+  LEFT OUTER JOIN M_Production prd ON prdl.M_Production_ID = prd.M_Production_ID
   LEFT OUTER JOIN C_ProjectIssue pjl ON (t.C_ProjectIssue_ID=pjl.C_ProjectIssue_ID)
   LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id
   LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;

@@ -127,6 +127,8 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		//  Set Default
 		Object defaultObject = gField.getDefault();
 		gField.setValue (defaultObject, true);
+		if (defaultObject != null)
+			processNewValue(defaultObject, gField.getVO().Help);
 		gField.lookupLoadComplete();
 		m_mFields.add(gField);
 		
@@ -212,7 +214,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		}
 	}
 
-	public LinkedHashMap<Object, Object> getParamenters() {
+	public LinkedHashMap<Object, Object> getParameters() {
 		return m_search;
 	}
 

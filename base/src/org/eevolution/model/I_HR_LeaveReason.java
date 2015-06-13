@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_LeaveReason
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_HR_LeaveReason 
 {
@@ -134,12 +134,12 @@ public interface I_HR_LeaveReason
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
-	/** Set Reason.
+	/** Set Name.
 	  * Alphanumeric identifier of the entity
 	  */
 	public void setName (String Name);
 
-	/** Get Reason.
+	/** Get Name.
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();

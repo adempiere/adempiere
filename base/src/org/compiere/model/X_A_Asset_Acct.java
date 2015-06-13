@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140901L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_A_Asset_Acct (Properties ctx, int A_Asset_Acct_ID, String trxName)
@@ -46,12 +46,8 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			setA_Asset_Acct_ID (0);
 			setA_Asset_ID (0);
 			setA_Depreciation_Acct (0);
-			setA_Depreciation_Conv_F_ID (0);
-			setA_Depreciation_Conv_ID (0);
 			setA_Depreciation_F_ID (0);
 			setA_Depreciation_ID (0);
-			setA_Depreciation_Method_F_ID (0);
-			setA_Depreciation_Method_ID (0);
 			setA_Disposal_Loss_Acct (0);
 			setA_Disposal_Revenue_Acct (0);
 			setA_Period_End (0);
@@ -71,7 +67,7 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
     }
 
     /** AccessLevel
-      * @return 7 - System - Client - Org 
+      * @return 3 - Client - Org 
       */
     protected int get_AccessLevel()
     {

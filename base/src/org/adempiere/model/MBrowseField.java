@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.compiere.model.GridField;
+import org.compiere.model.GridFieldVO;
 import org.compiere.model.M_Element;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
@@ -43,6 +44,62 @@ public class MBrowseField extends X_AD_Browse_Field {
 	private static final long serialVersionUID = 3076943543303710639L;
 
 	private GridField gridField;
+
+
+	/**
+	 *
+	 * @param field
+	 * @param windowNo
+	 */
+	static public GridField createGridFieldVO(MBrowseField field , int windowNo)
+	{
+		GridFieldVO valueObject = GridFieldVO.createStdField(field.getCtx(), windowNo, 0, 0, 0, false, false, false);
+
+		String uniqueName =  field.getAD_View_Column().getColumnSQL();
+		valueObject.isProcess = true;
+		valueObject.IsDisplayed = field.isDisplayed();
+		valueObject.IsReadOnly = field.isReadOnly();
+		valueObject.IsUpdateable = true;
+		valueObject.WindowNo = windowNo;
+		valueObject.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
+		valueObject.AD_Table_ID = field.getAD_View_Column().getAD_Column()
+				.getAD_Table_ID();
+		valueObject.ColumnName = field.getAD_View_Column().getAD_Column()
+				.getColumnName();
+		valueObject.displayType = field.getAD_Reference_ID();
+		valueObject.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
+		valueObject.IsMandatory = field.isMandatory();
+		valueObject.IsAlwaysUpdateable = false;
+		valueObject.IsKey = field.isKey();
+		valueObject.DefaultValue = field.getDefaultValue();
+		valueObject.DefaultValue2 = field.getDefaultValue2();
+		valueObject.InfoFactoryClass = field.getInfoFactoryClass();
+		valueObject.FieldLength = field.getFieldLength();
+		valueObject.ReadOnlyLogic = field.getReadOnlyLogic();
+		valueObject.DisplayLogic =  field.getDisplayLogic();
+		valueObject.VFormat = field.getVFormat();
+		valueObject.ValueMin = field.getValueMin();
+		valueObject.ValueMax = field.getValueMax();
+		valueObject.ValidationCode = field.getAD_Val_Rule().getCode();
+		valueObject.isRange = field.isRange();
+		valueObject.Description = field.getDescription();
+		if (field.getAD_View_Column().getAD_Column_ID() < 0)
+			valueObject.ColumnSQL = uniqueName;
+		valueObject.Help = uniqueName;
+		valueObject.Header = field.getName();
+		valueObject.Callout = field.getCallout();
+		valueObject.initFinish();
+
+		GridField gridField = new GridField(valueObject);
+		if(gridField.isLookup())
+			gridField.lookupLoadComplete();
+
+		if (!gridField.isReadOnly()) {
+			Object defaultObject = gridField.getDefault();
+			gridField.setValue(defaultObject, true);
+		}
+		return gridField;
+	}
 
 	/**
 	 * get Browse Field based on View Column
@@ -132,6 +189,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 		setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
 		setIsKey(false);
 		setIsDisplayed(true);
+		m_view_column = column;
 	}
 
 	/**
@@ -235,12 +293,4 @@ public class MBrowseField extends X_AD_Browse_Field {
 				Env.getAD_Language(Env.getCtx()));
 	}
 
-
-	public void setGridField(GridField gridField) {
-		this.gridField = gridField;
-	}
-
-	public GridField getGridField() {
-		return gridField;
-	}
 }

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_InvoiceLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_C_InvoiceLine 
 {
@@ -108,19 +108,19 @@ public interface I_C_InvoiceLine
     /** Column name A_CapvsExp */
     public static final String COLUMNNAME_A_CapvsExp = "A_CapvsExp";
 
-	/** Set Capital vs Expense	  */
+	/** Set Capital/Expense	  */
 	public void setA_CapvsExp (String A_CapvsExp);
 
-	/** Get Capital vs Expense	  */
+	/** Get Capital/Expense	  */
 	public String getA_CapvsExp();
 
     /** Column name A_CreateAsset */
     public static final String COLUMNNAME_A_CreateAsset = "A_CreateAsset";
 
-	/** Set Asset Related?	  */
+	/** Set Create Asset	  */
 	public void setA_CreateAsset (boolean A_CreateAsset);
 
-	/** Get Asset Related?	  */
+	/** Get Create Asset	  */
 	public boolean isA_CreateAsset();
 
     /** Column name A_Processed */
@@ -324,6 +324,19 @@ public interface I_C_InvoiceLine
 	  */
 	public String getDescription();
 
+    /** Column name GenerateTo */
+    public static final String COLUMNNAME_GenerateTo = "GenerateTo";
+
+	/** Set Generate To.
+	  * Generate To
+	  */
+	public void setGenerateTo (String GenerateTo);
+
+	/** Get Generate To.
+	  * Generate To
+	  */
+	public String getGenerateTo();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -337,6 +350,19 @@ public interface I_C_InvoiceLine
 	  */
 	public boolean isActive();
 
+    /** Column name IsCollectiveAsset */
+    public static final String COLUMNNAME_IsCollectiveAsset = "IsCollectiveAsset";
+
+	/** Set Collective Asset.
+	  * Asset Quantity is Collective
+	  */
+	public void setIsCollectiveAsset (boolean IsCollectiveAsset);
+
+	/** Get Collective Asset.
+	  * Asset Quantity is Collective
+	  */
+	public boolean isCollectiveAsset();
+
     /** Column name IsDescription */
     public static final String COLUMNNAME_IsDescription = "IsDescription";
 
@@ -349,6 +375,15 @@ public interface I_C_InvoiceLine
 	  * if true, the line is just description and no transaction
 	  */
 	public boolean isDescription();
+
+    /** Column name IsFixedAssetInvoice */
+    public static final String COLUMNNAME_IsFixedAssetInvoice = "IsFixedAssetInvoice";
+
+	/** Set IsFixedAssetInvoice	  */
+	public void setIsFixedAssetInvoice (boolean IsFixedAssetInvoice);
+
+	/** Get IsFixedAssetInvoice	  */
+	public boolean isFixedAssetInvoice();
 
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";

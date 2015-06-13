@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_PA_Report extends PO implements I_PA_Report, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_PA_Report (Properties ctx, int PA_Report_ID, String trxName)
@@ -398,6 +398,34 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Pos Period Name.
+		@param PosPeriodName Pos Period Name	  */
+	public void setPosPeriodName (String PosPeriodName)
+	{
+		set_Value (COLUMNNAME_PosPeriodName, PosPeriodName);
+	}
+
+	/** Get Pos Period Name.
+		@return Pos Period Name	  */
+	public String getPosPeriodName () 
+	{
+		return (String)get_Value(COLUMNNAME_PosPeriodName);
+	}
+
+	/** Set Pre Period Name.
+		@param PrePeriodName Pre Period Name	  */
+	public void setPrePeriodName (String PrePeriodName)
+	{
+		set_Value (COLUMNNAME_PrePeriodName, PrePeriodName);
+	}
+
+	/** Get Pre Period Name.
+		@return Pre Period Name	  */
+	public String getPrePeriodName () 
+	{
+		return (String)get_Value(COLUMNNAME_PrePeriodName);
+	}
+
 	/** Set Process Now.
 		@param Processing Process Now	  */
 	public void setProcessing (boolean Processing)
@@ -417,33 +445,5 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set posperiodname.
-		@param posperiodname posperiodname	  */
-	public void setposperiodname (String posperiodname)
-	{
-		set_Value (COLUMNNAME_posperiodname, posperiodname);
-	}
-
-	/** Get posperiodname.
-		@return posperiodname	  */
-	public String getposperiodname () 
-	{
-		return (String)get_Value(COLUMNNAME_posperiodname);
-	}
-
-	/** Set preperiodname.
-		@param preperiodname preperiodname	  */
-	public void setpreperiodname (String preperiodname)
-	{
-		set_Value (COLUMNNAME_preperiodname, preperiodname);
-	}
-
-	/** Get preperiodname.
-		@return preperiodname	  */
-	public String getpreperiodname () 
-	{
-		return (String)get_Value(COLUMNNAME_preperiodname);
 	}
 }

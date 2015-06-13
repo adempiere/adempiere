@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_Movement (Properties ctx, int HR_Movement_ID, String trxName)
@@ -395,6 +395,34 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
+			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
+
+	/** Set Sales Region.
+		@param C_SalesRegion_ID 
+		Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
+	{
+		if (C_SalesRegion_ID < 1) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+	}
+
+	/** Get Sales Region.
+		@return Sales coverage region
+	  */
+	public int getC_SalesRegion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesRegion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** ColumnType AD_Reference_ID=53243 */
 	public static final int COLUMNTYPE_AD_Reference_ID=53243;
 	/** Amount = A */
@@ -437,13 +465,60 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Document Note.
+		@param DocumentNote 
+		Additional information for a Document
+	  */
+	public void setDocumentNote (String DocumentNote)
+	{
+		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
+	}
+
+	/** Get Document Note.
+		@return Additional information for a Document
+	  */
+	public String getDocumentNote () 
+	{
+		return (String)get_Value(COLUMNNAME_DocumentNote);
+	}
+
+	public org.eevolution.model.I_HR_Attribute getHR_Attribute() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Attribute)MTable.get(getCtx(), org.eevolution.model.I_HR_Attribute.Table_Name)
+			.getPO(getHR_Attribute_ID(), get_TrxName());	}
+
+	/** Set Payroll Employee Attribute.
+		@param HR_Attribute_ID 
+		Employee Attribute allows to add any metadata of type (text, date , quantity and amount ) of an Employee.
+	  */
+	public void setHR_Attribute_ID (int HR_Attribute_ID)
+	{
+		if (HR_Attribute_ID < 1) 
+			set_Value (COLUMNNAME_HR_Attribute_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Attribute_ID, Integer.valueOf(HR_Attribute_ID));
+	}
+
+	/** Get Payroll Employee Attribute.
+		@return Employee Attribute allows to add any metadata of type (text, date , quantity and amount ) of an Employee.
+	  */
+	public int getHR_Attribute_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Attribute_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_Concept_Category getHR_Concept_Category() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Concept_Category)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Category.Table_Name)
 			.getPO(getHR_Concept_Category_ID(), get_TrxName());	}
 
-	/** Set Payroll Concept Category.
-		@param HR_Concept_Category_ID Payroll Concept Category	  */
+	/** Set Global Payroll Concept Category.
+		@param HR_Concept_Category_ID 
+		Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
+	  */
 	public void setHR_Concept_Category_ID (int HR_Concept_Category_ID)
 	{
 		if (HR_Concept_Category_ID < 1) 
@@ -452,8 +527,9 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 			set_Value (COLUMNNAME_HR_Concept_Category_ID, Integer.valueOf(HR_Concept_Category_ID));
 	}
 
-	/** Get Payroll Concept Category.
-		@return Payroll Concept Category	  */
+	/** Get Global Payroll Concept Category.
+		@return Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
+	  */
 	public int getHR_Concept_Category_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_Category_ID);
@@ -467,8 +543,10 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return (org.eevolution.model.I_HR_Concept)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept.Table_Name)
 			.getPO(getHR_Concept_ID(), get_TrxName());	}
 
-	/** Set Payroll Concept.
-		@param HR_Concept_ID Payroll Concept	  */
+	/** Set AD Payroll Concept.
+		@param HR_Concept_ID 
+		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
 		if (HR_Concept_ID < 1) 
@@ -477,11 +555,37 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 			set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get Payroll Concept.
-		@return Payroll Concept	  */
+	/** Get AD Payroll Concept.
+		@return The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Contract getHR_Contract() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Contract)MTable.get(getCtx(), org.eevolution.model.I_HR_Contract.Table_Name)
+			.getPO(getHR_Contract_ID(), get_TrxName());	}
+
+	/** Set Payroll Contract.
+		@param HR_Contract_ID Payroll Contract	  */
+	public void setHR_Contract_ID (int HR_Contract_ID)
+	{
+		if (HR_Contract_ID < 1) 
+			set_Value (COLUMNNAME_HR_Contract_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Contract_ID, Integer.valueOf(HR_Contract_ID));
+	}
+
+	/** Get Payroll Contract.
+		@return Payroll Contract	  */
+	public int getHR_Contract_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Contract_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -492,8 +596,10 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
 			.getPO(getHR_Department_ID(), get_TrxName());	}
 
-	/** Set Payroll Department.
-		@param HR_Department_ID Payroll Department	  */
+	/** Set Department.
+		@param HR_Department_ID 
+		Department of the organization
+	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -502,11 +608,96 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Payroll Department.
-		@return Payroll Department	  */
+	/** Get Department.
+		@return Department of the organization
+	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Designation getHR_Designation() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Designation)MTable.get(getCtx(), org.eevolution.model.I_HR_Designation.Table_Name)
+			.getPO(getHR_Designation_ID(), get_TrxName());	}
+
+	/** Set Designation.
+		@param HR_Designation_ID 
+		Designation is a nationally recognized level
+	  */
+	public void setHR_Designation_ID (int HR_Designation_ID)
+	{
+		if (HR_Designation_ID < 1) 
+			set_Value (COLUMNNAME_HR_Designation_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Designation_ID, Integer.valueOf(HR_Designation_ID));
+	}
+
+	/** Get Designation.
+		@return Designation is a nationally recognized level
+	  */
+	public int getHR_Designation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Designation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_EmployeeType)MTable.get(getCtx(), org.eevolution.model.I_HR_EmployeeType.Table_Name)
+			.getPO(getHR_EmployeeType_ID(), get_TrxName());	}
+
+	/** Set Employee Type.
+		@param HR_EmployeeType_ID 
+		Employee Type
+	  */
+	public void setHR_EmployeeType_ID (int HR_EmployeeType_ID)
+	{
+		if (HR_EmployeeType_ID < 1) 
+			set_Value (COLUMNNAME_HR_EmployeeType_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_EmployeeType_ID, Integer.valueOf(HR_EmployeeType_ID));
+	}
+
+	/** Get Employee Type.
+		@return Employee Type
+	  */
+	public int getHR_EmployeeType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_EmployeeType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_JobType getHR_JobType() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_JobType)MTable.get(getCtx(), org.eevolution.model.I_HR_JobType.Table_Name)
+			.getPO(getHR_JobType_ID(), get_TrxName());	}
+
+	/** Set Job Type.
+		@param HR_JobType_ID 
+		The Job Type for a Job Openings
+	  */
+	public void setHR_JobType_ID (int HR_JobType_ID)
+	{
+		if (HR_JobType_ID < 1) 
+			set_Value (COLUMNNAME_HR_JobType_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_JobType_ID, Integer.valueOf(HR_JobType_ID));
+	}
+
+	/** Get Job Type.
+		@return The Job Type for a Job Openings
+	  */
+	public int getHR_JobType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_JobType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -557,6 +748,62 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_HR_PayrollConcept getHR_PayrollConcept() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_PayrollConcept)MTable.get(getCtx(), org.eevolution.model.I_HR_PayrollConcept.Table_Name)
+			.getPO(getHR_PayrollConcept_ID(), get_TrxName());	}
+
+	/** Set Payroll Concept.
+		@param HR_PayrollConcept_ID 
+		The payroll concept allows to define all those Global Concept that are using to calculate a payroll.
+	  */
+	public void setHR_PayrollConcept_ID (int HR_PayrollConcept_ID)
+	{
+		if (HR_PayrollConcept_ID < 1) 
+			set_Value (COLUMNNAME_HR_PayrollConcept_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_PayrollConcept_ID, Integer.valueOf(HR_PayrollConcept_ID));
+	}
+
+	/** Get Payroll Concept.
+		@return The payroll concept allows to define all those Global Concept that are using to calculate a payroll.
+	  */
+	public int getHR_PayrollConcept_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PayrollConcept_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Payroll)MTable.get(getCtx(), org.eevolution.model.I_HR_Payroll.Table_Name)
+			.getPO(getHR_Payroll_ID(), get_TrxName());	}
+
+	/** Set Payroll.
+		@param HR_Payroll_ID 
+		The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
+	public void setHR_Payroll_ID (int HR_Payroll_ID)
+	{
+		if (HR_Payroll_ID < 1) 
+			set_Value (COLUMNNAME_HR_Payroll_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Payroll_ID, Integer.valueOf(HR_Payroll_ID));
+	}
+
+	/** Get Payroll.
+		@return The Payroll definition allows to define all the payroll concepts , year and periods, to  calculate a payroll.
+	  */
+	public int getHR_Payroll_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_Process getHR_Process() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Process)MTable.get(getCtx(), org.eevolution.model.I_HR_Process.Table_Name)
@@ -589,6 +836,34 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getHR_Process_ID()));
     }
+
+	public org.eevolution.model.I_HR_SkillType getHR_SkillType() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_SkillType)MTable.get(getCtx(), org.eevolution.model.I_HR_SkillType.Table_Name)
+			.getPO(getHR_SkillType_ID(), get_TrxName());	}
+
+	/** Set Skill Type.
+		@param HR_SkillType_ID 
+		Skill Type for an Employee
+	  */
+	public void setHR_SkillType_ID (int HR_SkillType_ID)
+	{
+		if (HR_SkillType_ID < 1) 
+			set_Value (COLUMNNAME_HR_SkillType_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_SkillType_ID, Integer.valueOf(HR_SkillType_ID));
+	}
+
+	/** Get Skill Type.
+		@return Skill Type for an Employee
+	  */
+	public int getHR_SkillType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_SkillType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Manual.
 		@param IsManual 
@@ -663,6 +938,60 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	/** PaymentRule AD_Reference_ID=195 */
+	public static final int PAYMENTRULE_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULE_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULE_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULE_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULE_OnCredit = "P";
+	/** Direct Debit = D */
+	public static final String PAYMENTRULE_DirectDebit = "D";
+	/** Mixed = M */
+	public static final String PAYMENTRULE_Mixed = "M";
+	/** Set Payment Rule.
+		@param PaymentRule 
+		How you pay the invoice
+	  */
+	public void setPaymentRule (String PaymentRule)
+	{
+
+		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+	}
+
+	/** Get Payment Rule.
+		@return How you pay the invoice
+	  */
+	public String getPaymentRule () 
+	{
+		return (String)get_Value(COLUMNNAME_PaymentRule);
+	}
+
+	/** Set Period No.
+		@param PeriodNo 
+		Unique Period Number
+	  */
+	public void setPeriodNo (int PeriodNo)
+	{
+		set_Value (COLUMNNAME_PeriodNo, Integer.valueOf(PeriodNo));
+	}
+
+	/** Get Period No.
+		@return Unique Period Number
+	  */
+	public int getPeriodNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -705,6 +1034,26 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Sequence.
+		@param SeqNo 
+		Method of ordering records; lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo)
+	{
+		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
+	}
+
+	/** Get Sequence.
+		@return Method of ordering records; lowest number comes first
+	  */
+	public int getSeqNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Service date.

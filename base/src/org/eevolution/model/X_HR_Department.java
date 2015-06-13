@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Department
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_HR_Department extends PO implements I_HR_Department, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_Department (Properties ctx, int HR_Department_ID, String trxName)
@@ -100,6 +100,50 @@ public class X_HR_Department extends PO implements I_HR_Department, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Current Strength.
+		@param CurrentStrength 
+		Current Strength 
+	  */
+	public void setCurrentStrength (String CurrentStrength)
+	{
+		throw new IllegalArgumentException ("CurrentStrength is virtual column");	}
+
+	/** Get Current Strength.
+		@return Current Strength 
+	  */
+	public String getCurrentStrength () 
+	{
+		return (String)get_Value(COLUMNNAME_CurrentStrength);
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -117,8 +161,10 @@ public class X_HR_Department extends PO implements I_HR_Department, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Payroll Department.
-		@param HR_Department_ID Payroll Department	  */
+	/** Set Department.
+		@param HR_Department_ID 
+		Department of the organization
+	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -127,8 +173,9 @@ public class X_HR_Department extends PO implements I_HR_Department, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Payroll Department.
-		@return Payroll Department	  */
+	/** Get Department.
+		@return Department of the organization
+	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -161,6 +208,26 @@ public class X_HR_Department extends PO implements I_HR_Department, I_Persistent
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	/** Set Stregth Required.
+		@param StrengthRequired 
+		Stregth Required
+	  */
+	public void setStrengthRequired (int StrengthRequired)
+	{
+		set_Value (COLUMNNAME_StrengthRequired, Integer.valueOf(StrengthRequired));
+	}
+
+	/** Get Stregth Required.
+		@return Stregth Required
+	  */
+	public int getStrengthRequired () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_StrengthRequired);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Search Key.
 		@param Value 

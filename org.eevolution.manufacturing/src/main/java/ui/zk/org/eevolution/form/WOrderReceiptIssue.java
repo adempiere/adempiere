@@ -648,7 +648,7 @@ ValueChangeListener,Serializable,WTableModelListener
 	 */
 	protected boolean isOnlyReceipt() 
 	{
-		super.setIsOnlyReceipt(pickcombo.getText().equals("OnlyReceipt"));
+		super.setIsOnlyReceipt(pickcombo.getSelectedIndex() == 2);
 		return super.isOnlyReceipt();
 	}
 	
@@ -658,7 +658,7 @@ ValueChangeListener,Serializable,WTableModelListener
 	 */
 	protected boolean isOnlyIssue() 
 	{
-		super.setIsOnlyIssue(pickcombo.getText().equals("OnlyIssue"));
+		super.setIsOnlyIssue(pickcombo.getSelectedIndex() == 1 );
 		return super.isOnlyIssue();
 	}
 
@@ -668,7 +668,7 @@ ValueChangeListener,Serializable,WTableModelListener
 	 */
 	protected boolean isBackflush()
 	{
-		super.setIsBackflush(pickcombo.getText().equals("IsBackflush"));
+		super.setIsBackflush(pickcombo.getSelectedIndex() == 0);
 		return super.isBackflush();
 	}
 

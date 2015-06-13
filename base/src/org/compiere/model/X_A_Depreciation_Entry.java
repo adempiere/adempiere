@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140901L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Entry (Properties ctx, int A_Depreciation_Entry_ID, String trxName)
@@ -50,13 +50,12 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @Date@
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
-// @Date@
+// @#Date@
 			setDocAction (null);
 // 'CO'
 			setDocStatus (null);
 // 'DR'
 			setDocumentNo (null);
-			setGL_Category_ID (0);
 			setIsApproved (false);
 // @#IsCanApproveOwnDoc@
 			setPosted (false);

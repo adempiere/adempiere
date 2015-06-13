@@ -47,6 +47,7 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.X_C_AcctSchema_Element;
+import org.compiere.report.core.RColumn;
 import org.compiere.report.core.RModel;
 import org.compiere.report.core.RModelExcelExporter;
 import org.compiere.util.CLogMgt;
@@ -974,9 +975,13 @@ south.setVflex("true");
 
 		for (int i = 0; i < elements.length && selectionIndex < labels.length; i++)
 		{
-			MAcctSchemaElement ase = elements[i];
-			String columnName = ase.getColumnName();
-			String displayColumnName = ase.getDisplayColumnName();
+			MAcctSchemaElement acctSchemaElement = elements[i];
+			String columnName = acctSchemaElement.getColumnName();
+			String displayColumnName;
+			if (columnName.equals("User1_ID") || columnName.equals("User2_ID"))
+				displayColumnName = acctSchemaElement.getName();
+			else
+				displayColumnName = acctSchemaElement.getDisplayColumnName();
 
 			//  Add Sort Option
 
@@ -984,8 +989,8 @@ south.setVflex("true");
 
 			//  Additional Elements
 
-			if (!ase.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Organization)
-				&& !ase.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Account))
+			if (!acctSchemaElement.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Organization)
+				&& !acctSchemaElement.isElementType(X_C_AcctSchema_Element.ELEMENTTYPE_Account))
 			{
 				labels[selectionIndex].setValue(Msg.translate(Env.getCtx(), displayColumnName));
 				labels[selectionIndex].setVisible(true);
@@ -1202,11 +1207,27 @@ south.setVflex("true");
 
 			for (int i = 0; i < rmodel.getColumnCount(); i++)
 			{
-				Listheader listheader = new Listheader(rmodel.getColumnName(i));
+				// Replace user columns with the user selected names
+				String displayColumnName = rmodel.getColumnName(i);;
+				String columnName;
+				RColumn col = rmodel.getColumn(i);
+				columnName = col.getColumnName();
+				MAcctSchema as = MAcctSchema.get(Env.getCtx(), m_data.C_AcctSchema_ID);
+				if (columnName.equals("User1_ID")) {
+					MAcctSchemaElement ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList1);
+					if (ase != null)
+						displayColumnName = Msg.translate(Env.getCtx(), ase.getName());					
+				}
+				else if (columnName.equals("User2_ID")) {
+					MAcctSchemaElement ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList2);
+					if (ase != null)
+						displayColumnName = Msg.translate(Env.getCtx(), ase.getName());					
+				}
+
+				Listheader listheader = new Listheader(displayColumnName);
 				listheader.setTooltiptext(rmodel.getColumnName(i));
 				listhead.appendChild(listheader);
 			}
-
 			table.appendChild(listhead);
 		}
 		// Elaine 2008/07/28

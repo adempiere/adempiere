@@ -27,7 +27,7 @@ import net.sourceforge.openforecast.Observation;
 import net.sourceforge.openforecast.models.DoubleExponentialSmoothingModel;
 
 /**
- * DoubleExponentialSmoothing Implementation
+ * Double Exponential Smoothing Implementation
  * 
  * @author victor.perez@e-evolution.com, www.e-Evolution.com
  * 

@@ -674,6 +674,7 @@ public class MovementGenerate extends SvrProcess
 	{
 		if (m_movement != null)
 		{
+			getProcessInfo().setRecord_ID(m_movement.get_ID());
 			//	Fails if there is a confirmation
 			if (!m_movement.processIt(p_docAction))
 				log.warning("Failed: " + m_movement);

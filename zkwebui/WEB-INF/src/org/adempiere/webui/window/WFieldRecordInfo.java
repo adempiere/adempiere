@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -139,7 +141,7 @@ public class WFieldRecordInfo extends Window implements EventListener
 		Center center = new Center();
 		center.setParent(layout);
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		if (showTable)
 		{
 			center.appendChild(table);
@@ -222,7 +224,12 @@ center.setVflex("true");
 		}
 		
 		table.appendChild(listhead);
-		SimpleListModel model = new SimpleListModel(m_data);
+		List<Object> list = new ArrayList<Object>();
+		for (Vector<String> data : m_data)
+		{
+			list.add(data.toString());
+		}
+		SimpleListModel model = new SimpleListModel(list);
 		table.setItemRenderer(model);
 		table.setModel(model);
 		

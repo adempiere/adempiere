@@ -251,10 +251,36 @@ public class AboutWindow extends Window implements EventListener<Event> {
 		content.setWidth("100%");
 		content.setParent(div);
 		link = new ToolBarButton();
+		link = new ToolBarButton();
+
+		link.setLabel("eEvolution");
+		link.setHref("http://www.eevolution.com/");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Adaxa");
+		link.setHref("http://www.adaxa.com/");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Westfalia IT");
+		link.setHref("http://www.westfalia-it.com");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Walkingtree ");
+		link.setHref("http://www.walkingtree.in");
+		link.setTarget("_blank");
+		link.setParent(content);
+
 		link.setLabel("Sysnova");
 		link.setHref("http://www.sysnova.com/");
 		link.setTarget("_blank");
 		link.setParent(content);
+
 		link = new ToolBarButton();
 		link.setLabel("Idalica");
 		link.setHref("http://www.idalica.com/");
@@ -276,6 +302,33 @@ public class AboutWindow extends Window implements EventListener<Event> {
 		content = new Vbox();
 		content.setWidth("100%");
 		content.setParent(div);
+
+		link = new ToolBarButton();
+		link.setLabel("Victor Pérez");
+		link.setHref("http://www.adempiere.com/wiki/index.php/User:vpj-cd");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+		link = new ToolBarButton();
+		link.setLabel("Paul Bowden");
+		link.setHref("http://www.adempiere.com/wiki/index.php/User:Phib");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+
+		link = new ToolBarButton();
+		link.setLabel("Michael McKay");
+		link.setHref("http://www.adempiere.com/index.php/User:MJMcKay");
+		link.setTarget("_blank");
+		link.setParent(content);
+
+
+		link = new ToolBarButton();
+		link.setLabel("Mario Calderon");
+		link.setHref("http://www.adempiere.com/wiki/index.php/User:mar_cal_westf");
+		link.setTarget("_blank");
+		link.setParent(content);
+
 		link = new ToolBarButton();
 		link.setLabel("Ashley G Ramdass");
 		link.setHref("http://www.adempiere.com/wiki/index.php/User:Agramdass");
@@ -334,24 +387,16 @@ public class AboutWindow extends Window implements EventListener<Event> {
 		//separator = new Separator();
 		//separator.setParent(vbox);
 		ToolBarButton link = new ToolBarButton();
-		link.setLabel("Sourceforge.net Project Site");
-		link.setHref("http://www.sourceforge.net/projects/adempiere");
+		link.setLabel("Github Project Site");
+		link.setHref("http://github.com/adempiere");
 		link.setTarget("_blank");
 		link.setParent(vbox);
 
 		//separator = new Separator();
 		//separator.setParent(vbox);
 		link = new ToolBarButton();
-		link.setLabel("ADempiere Wiki");
-		link.setHref("http://www.adempiere.com/wiki/index.php");
-		link.setTarget("_blank");
-		link.setParent(vbox);
-
-		//separator = new Separator();
-		//separator.setParent(vbox);
-		link = new ToolBarButton();
-		link.setLabel("ADempiere.org");
-		link.setHref("http://www.adempiere.org");
+		link.setLabel("ADempiere.io");
+		link.setHref("http://www.adempiere.io");
 		link.setTarget("_blank");
 		link.setParent(vbox);
 
@@ -360,6 +405,22 @@ public class AboutWindow extends Window implements EventListener<Event> {
 		link = new ToolBarButton();
 		link.setLabel("ADempiere.com");
 		link.setHref("http://www.adempiere.com");
+		link.setTarget("_blank");
+		link.setParent(vbox);
+
+		//separator = new Separator();
+		//separator.setParent(vbox);
+		link = new ToolBarButton();
+		link.setLabel("ADempiere.net");
+		link.setHref("http://www.adempiere.net");
+		link.setTarget("_blank");
+		link.setParent(vbox);
+
+		//separator = new Separator();
+		//separator.setParent(vbox);
+		link = new ToolBarButton();
+		link.setLabel("ADempiere Wiki");
+		link.setHref("http://www.adempiere.com/wiki/index.php");
 		link.setTarget("_blank");
 		link.setParent(vbox);
 

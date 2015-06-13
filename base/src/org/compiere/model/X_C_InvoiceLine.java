@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoiceLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_InvoiceLine (Properties ctx, int C_InvoiceLine_ID, String trxName)
@@ -177,30 +177,30 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	public static final String A_CAPVSEXP_Capital = "Cap";
 	/** Expense = Exp */
 	public static final String A_CAPVSEXP_Expense = "Exp";
-	/** Set Capital vs Expense.
-		@param A_CapvsExp Capital vs Expense	  */
+	/** Set Capital/Expense.
+		@param A_CapvsExp Capital/Expense	  */
 	public void setA_CapvsExp (String A_CapvsExp)
 	{
 
 		set_Value (COLUMNNAME_A_CapvsExp, A_CapvsExp);
 	}
 
-	/** Get Capital vs Expense.
-		@return Capital vs Expense	  */
+	/** Get Capital/Expense.
+		@return Capital/Expense	  */
 	public String getA_CapvsExp () 
 	{
 		return (String)get_Value(COLUMNNAME_A_CapvsExp);
 	}
 
-	/** Set Asset Related?.
-		@param A_CreateAsset Asset Related?	  */
+	/** Set Create Asset.
+		@param A_CreateAsset Create Asset	  */
 	public void setA_CreateAsset (boolean A_CreateAsset)
 	{
 		set_Value (COLUMNNAME_A_CreateAsset, Boolean.valueOf(A_CreateAsset));
 	}
 
-	/** Get Asset Related?.
-		@return Asset Related?	  */
+	/** Get Create Asset.
+		@return Create Asset	  */
 	public boolean isA_CreateAsset () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_CreateAsset);
@@ -562,6 +562,47 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Generate To.
+		@param GenerateTo 
+		Generate To
+	  */
+	public void setGenerateTo (String GenerateTo)
+	{
+		set_Value (COLUMNNAME_GenerateTo, GenerateTo);
+	}
+
+	/** Get Generate To.
+		@return Generate To
+	  */
+	public String getGenerateTo () 
+	{
+		return (String)get_Value(COLUMNNAME_GenerateTo);
+	}
+
+	/** Set Collective Asset.
+		@param IsCollectiveAsset 
+		Asset Quantity is Collective
+	  */
+	public void setIsCollectiveAsset (boolean IsCollectiveAsset)
+	{
+		set_Value (COLUMNNAME_IsCollectiveAsset, Boolean.valueOf(IsCollectiveAsset));
+	}
+
+	/** Get Collective Asset.
+		@return Asset Quantity is Collective
+	  */
+	public boolean isCollectiveAsset () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCollectiveAsset);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Description Only.
 		@param IsDescription 
 		if true, the line is just description and no transaction
@@ -577,6 +618,27 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	public boolean isDescription () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsDescription);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set IsFixedAssetInvoice.
+		@param IsFixedAssetInvoice IsFixedAssetInvoice	  */
+	public void setIsFixedAssetInvoice (boolean IsFixedAssetInvoice)
+	{
+		set_Value (COLUMNNAME_IsFixedAssetInvoice, Boolean.valueOf(IsFixedAssetInvoice));
+	}
+
+	/** Get IsFixedAssetInvoice.
+		@return IsFixedAssetInvoice	  */
+	public boolean isFixedAssetInvoice () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsFixedAssetInvoice);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

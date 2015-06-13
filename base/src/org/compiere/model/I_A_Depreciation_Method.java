@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Method
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC
+ *  @version Release 3.8.0
  */
 public interface I_A_Depreciation_Method 
 {
@@ -40,15 +40,6 @@ public interface I_A_Depreciation_Method
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
-
-    /** Column name A_Depreciation_Method_ID */
-    public static final String COLUMNNAME_A_Depreciation_Method_ID = "A_Depreciation_Method_ID";
-
-	/** Set Depreciation Calculation Type	  */
-	public void setA_Depreciation_Method_ID (int A_Depreciation_Method_ID);
-
-	/** Get Depreciation Calculation Type	  */
-	public int getA_Depreciation_Method_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -70,6 +61,15 @@ public interface I_A_Depreciation_Method
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Depreciation_Method_ID */
+    public static final String COLUMNNAME_A_Depreciation_Method_ID = "A_Depreciation_Method_ID";
+
+	/** Set Depreciation Method	  */
+	public void setA_Depreciation_Method_ID (int A_Depreciation_Method_ID);
+
+	/** Get Depreciation Method	  */
+	public int getA_Depreciation_Method_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -151,10 +151,10 @@ public interface I_A_Depreciation_Method
     /** Column name Text */
     public static final String COLUMNNAME_Text = "Text";
 
-	/** Set Text	  */
+	/** Set Description	  */
 	public void setText (String Text);
 
-	/** Get Text	  */
+	/** Get Description	  */
 	public String getText();
 
     /** Column name Updated */

@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Forecast
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0RC - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20140327L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_M_Forecast (Properties ctx, int M_Forecast_ID, String trxName)
@@ -381,7 +381,7 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
 		return (org.eevolution.model.I_PP_PeriodDefinition)MTable.get(getCtx(), org.eevolution.model.I_PP_PeriodDefinition.Table_Name)
 			.getPO(getPP_PeriodDefinition_ID(), get_TrxName());	}
 
-	/** Set Period Definition.
+	/** Set Current Period.
 		@param PP_PeriodDefinition_ID 
 		Period Definition, allows to define time cycles for the Operational Calendar
 	  */
@@ -393,7 +393,7 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_PP_PeriodDefinition_ID, Integer.valueOf(PP_PeriodDefinition_ID));
 	}
 
-	/** Get Period Definition.
+	/** Get Current Period.
 		@return Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public int getPP_PeriodDefinition_ID () 

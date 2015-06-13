@@ -239,17 +239,17 @@ public class ImportPayrollMovement extends SvrProcess
 				X_I_HR_Movement imp = new X_I_HR_Movement(getCtx(), rs, get_TrxName());
 				int I_HR_Movement_ID = imp.getI_HR_Movement_ID();
 				int HR_Movement_ID = imp.getHR_Movement_ID();
-				boolean newMovement = HR_Movement_ID == 0;
+				boolean newPayrollMovement = HR_Movement_ID == 0;
 				log.fine("I_HR_Movement_ID=" + I_HR_Movement_ID + ", HR_Movement_ID=" + HR_Movement_ID);
 
-				MHRMovement hrmovement = null; 
+				MHRMovement payrollMovement = null;
 				//	HR Movement
-				if (newMovement)			//	Insert new HR Movement
+				if (newPayrollMovement)			//	Insert new HR Movement
 				{
-					hrmovement = new MHRMovement(imp);
-					if (hrmovement.save())
+					payrollMovement = new MHRMovement(imp);
+					if (payrollMovement.save())
 					{
-						HR_Movement_ID = hrmovement.getHR_Movement_ID();
+						HR_Movement_ID = payrollMovement.getHR_Movement_ID();
 						log.finer("Insert HR Movement");
 						noInserthrm++;
 					}
@@ -262,25 +262,25 @@ public class ImportPayrollMovement extends SvrProcess
 						continue;
 					}
 				} else {
-					hrmovement = new MHRMovement(getCtx(), HR_Movement_ID, get_TrxName());
-					MHRConcept hrconcept = new MHRConcept(getCtx(), hrmovement.getHR_Concept_ID(), get_TrxName());
+					payrollMovement = new MHRMovement(getCtx(), HR_Movement_ID, get_TrxName());
+					MHRConcept payrollConcept = new MHRConcept(getCtx(), payrollMovement.getHR_Concept_ID(), get_TrxName());
 					
 					// set corresponding values
-					hrmovement.setAmount(null);
-					hrmovement.setQty(null);
-					hrmovement.setServiceDate(null);
-					hrmovement.setTextMsg(null);
-					if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
-						hrmovement.setQty(imp.getQty());
-					} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
-						hrmovement.setAmount(imp.getAmount());
-					} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
-						hrmovement.setServiceDate(imp.getServiceDate());
-					} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
-						hrmovement.setTextMsg(imp.getTextMsg());
+					payrollMovement.setAmount(null);
+					payrollMovement.setQty(null);
+					payrollMovement.setServiceDate(null);
+					payrollMovement.setTextMsg(null);
+					if (payrollConcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
+						payrollMovement.setQty(imp.getQty());
+					} else if (payrollConcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
+						payrollMovement.setAmount(imp.getAmount());
+					} else if (payrollConcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
+						payrollMovement.setServiceDate(imp.getServiceDate());
+					} else if (payrollConcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
+						payrollMovement.setTextMsg(imp.getTextMsg());
 					}
 					
-					if (hrmovement.save())
+					if (payrollMovement.save())
 					{
 						noUpdatehrm++;
 					}

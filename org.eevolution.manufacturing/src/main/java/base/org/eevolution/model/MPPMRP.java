@@ -682,7 +682,7 @@ public class MPPMRP extends X_PP_MRP
 		String trxName = fl.get_TrxName();
 		Properties ctx = fl.getCtx();
 		
-		X_M_Forecast f = new X_M_Forecast(ctx, fl.getM_Forecast_ID(), trxName);
+		MForecast f = new MForecast(ctx, fl.getM_Forecast_ID(), trxName);
 		MPPMRP mrp = getQuery(fl, null, null).firstOnly();
 		if (mrp == null)
 		{

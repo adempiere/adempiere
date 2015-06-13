@@ -1,5 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<jnlp spec = "1.7+" version = "3.7.0LTS"
+<jnlp spec = "1.7+" version = "3.8.0LTS"
 	codebase = "$$context/adempiereHome" 
 	href = "$$context/adempiere.jnlp">  
 	<information>

@@ -16,9 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PartType
  *  @author Adempiere (generated) 
+ *  @version Release 3.8.0
  */
 public interface I_M_PartType 
 {
@@ -27,13 +31,13 @@ public interface I_M_PartType
     public static final String Table_Name = "M_PartType";
 
     /** AD_Table_ID=53334 */
-//    public static final int Table_ID = MTable.getTable_ID(Table_Name);
+    public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
-//    org.compiere.util.KeyNamePair Model = new org.compiere.util.KeyNamePair(Table_ID, Table_Name);
+    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
     /** AccessLevel = 3 - Client - Org 
      */
-   java.math.BigDecimal accessLevel = java.math.BigDecimal.valueOf(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -48,23 +52,23 @@ public interface I_M_PartType
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organisation.
-	  * Organisational entity within client
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organisation.
-	  * Organisational entity within client
+	/** Get Organization.
+	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-	
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
 	/** Get Created.
 	  * Date this record was created
 	  */
-	public java.sql.Timestamp getCreated();
+	public Timestamp getCreated();
 
     /** Column name CreatedBy */
     public static final String COLUMNNAME_CreatedBy = "CreatedBy";
@@ -80,12 +84,12 @@ public interface I_M_PartType
 	/** Set Description.
 	  * Optional short description of the record
 	  */
-	public void setDescription (java.lang.String Description);
+	public void setDescription (String Description);
 
 	/** Get Description.
 	  * Optional short description of the record
 	  */
-	public java.lang.String getDescription();
+	public String getDescription();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -115,12 +119,12 @@ public interface I_M_PartType
 	/** Set Name.
 	  * Alphanumeric identifier of the entity
 	  */
-	public void setName (java.lang.String Name);
+	public void setName (String Name);
 
 	/** Get Name.
 	  * Alphanumeric identifier of the entity
 	  */
-	public java.lang.String getName();
+	public String getName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -128,7 +132,7 @@ public interface I_M_PartType
 	/** Get Updated.
 	  * Date this record was updated
 	  */
-	public java.sql.Timestamp getUpdated();
+	public Timestamp getUpdated();
 
     /** Column name UpdatedBy */
     public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
