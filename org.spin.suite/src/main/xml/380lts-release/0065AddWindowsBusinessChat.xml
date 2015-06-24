@@ -2767,7 +2767,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Active</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -2813,7 +2813,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Business Chat Request</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -2856,7 +2856,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Client</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -2899,7 +2899,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Group</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -2942,7 +2942,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Last Msg</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -2985,7 +2985,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Name</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3028,7 +3028,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Organization</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3071,7 +3071,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Topic</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3114,7 +3114,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Type</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3157,7 +3157,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">User/Contact</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3312,7 +3312,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Active</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">U</Data>
@@ -3363,7 +3363,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Business Chat Request</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3401,7 +3401,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Client</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">U</Data>
@@ -3444,7 +3444,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Organization</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">U</Data>
@@ -3487,7 +3487,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Status</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3530,7 +3530,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">User/Contact</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3809,7 +3809,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Active</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3855,7 +3855,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Business Chat Message</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3898,7 +3898,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Business Chat Request</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3941,7 +3941,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Client</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -3984,7 +3984,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Description</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -4027,7 +4027,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">File Name</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -4070,7 +4070,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Organization</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -4113,7 +4113,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Status</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -4156,7 +4156,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Topic</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -4199,7 +4199,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">Type</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>
@@ -4242,7 +4242,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">0</Data>
         <Data AD_Column_ID="168" Column="Name">User/Contact</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="7714" Column="EntityType">ECA01</Data>

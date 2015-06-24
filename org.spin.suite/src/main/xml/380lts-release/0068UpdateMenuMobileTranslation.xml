@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="415">
+    <Comments>Update Menu Mobile Translation</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="76519" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="74528" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="170">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="72271" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="180">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="76519" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="160">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50582" Table="AD_TreeNode">
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="361">117</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50582">50582</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50581" Table="AD_TreeNode">
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="362">116</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50581">50581</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50193" Table="AD_TreeNode">
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="116">117</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50193">50193</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50582" Table="AD_TreeNode">
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="117">118</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50582">50582</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50580" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="363">116</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50580">50580</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50581" Table="AD_TreeNode">
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="116">117</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50581">50581</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50193" Table="AD_TreeNode">
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="117">118</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50193">50193</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50582" Table="AD_TreeNode">
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="118">119</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50582">50582</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50579" Table="AD_TreeNode">
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50579">50579</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50192" Table="AD_TreeNode">
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="1">4</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50192">50192</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50376" Table="AD_TreeNode">
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="2">5</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50376">50376</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50387" Table="AD_TreeNode">
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="5">6</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50387">50387</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="289" Action="U" Record_ID="50578" Table="AD_TreeNode">
+        <Data AD_Column_ID="2879" Column="SeqNo" oldValue="3">7</Data>
+        <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50578">50578</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="50005">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50566" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Create Table Parameter Audit">Parameter Audit</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50252" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65752" Column="Name" oldValue="Create Table System Configurator">System Configurator</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
