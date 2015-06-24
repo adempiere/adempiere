@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="435">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53167" Action="I" Record_ID="55616" Table="WS_WebServiceFieldOutput">
+        <Data AD_Column_ID="56756" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56757" Column="AD_Column_ID">76493</Data>
+        <Data AD_Column_ID="56758" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56759" Column="Created">2015-06-06 16:04:23.251</Data>
+        <Data AD_Column_ID="56760" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56761" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56762" Column="Updated">2015-06-06 16:04:23.251</Data>
+        <Data AD_Column_ID="56763" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56764" Column="WS_WebServiceFieldOutput_ID">55616</Data>
+        <Data AD_Column_ID="56765" Column="WS_WebServiceType_ID">50329</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53167" Action="I" Record_ID="55617" Table="WS_WebServiceFieldOutput">
+        <Data AD_Column_ID="56756" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56757" Column="AD_Column_ID">76493</Data>
+        <Data AD_Column_ID="56758" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="56759" Column="Created">2015-06-06 16:09:53.349</Data>
+        <Data AD_Column_ID="56760" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="56761" Column="IsActive">true</Data>
+        <Data AD_Column_ID="56762" Column="Updated">2015-06-06 16:09:53.349</Data>
+        <Data AD_Column_ID="56763" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56764" Column="WS_WebServiceFieldOutput_ID">55617</Data>
+        <Data AD_Column_ID="56765" Column="WS_WebServiceType_ID">50466</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50431" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="76493" Column="IsForced" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50416" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65745" Column="Description" oldValue="Document Sequence">Document Sequence </Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50416" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65755" Column="WhereClause" oldValue="exists (select 1 from SPS_Table where SPS_Table.TableName=AD_Sequence.Name)&#9;(exists (select 1 from SPS_Table where SPS_Table.TableName=AD_Sequence.Name) or  exists ( select 1 from C_DocType where exists ( select 1 from AD_User_Roles inner join AD_Role ON (AD_User_Roles.AD_Role_ID = AD_Role.AD_Role_ID) inner join AD_Document_Action_Access ON (AD_Role.AD_Role_ID = AD_Document_Action_Access.AD_Role_ID) where AD_User_Roles.AD_User_ID = @#AD_User_ID@ and C_DocType.C_DocType_ID = AD_Document_Action_Access.C_DocType_ID and C_DocType.DocBaseType = 'SOO' )and C_DocType.DocNoSequence_ID = AD_Sequence.AD_Sequence_ID) or exists (select 1 from SPS_UserDocSequence where AD_User_ID = @#AD_User_ID@  and SPS_UserDocSequence.AD_Sequence_ID = AD_Sequence.AD_Sequence_ID))">(exists (select 1 from SPS_Table where SPS_Table.TableName=AD_Sequence.Name) or  exists ( select 1 from C_DocType where exists ( select 1 from AD_User_Roles inner join AD_Role ON (AD_User_Roles.AD_Role_ID = AD_Role.AD_Role_ID) inner join AD_Document_Action_Access ON (AD_Role.AD_Role_ID = AD_Document_Action_Access.AD_Role_ID) where AD_User_Roles.AD_User_ID = @#AD_User_ID@ and C_DocType.C_DocType_ID = AD_Document_Action_Access.C_DocType_ID and C_DocType.DocBaseType = 'SOO' )and C_DocType.DocNoSequence_ID = AD_Sequence.AD_Sequence_ID) or exists (select 1 from SPS_UserDocSequence where AD_User_ID = @#AD_User_ID@  and SPS_UserDocSequence.AD_Sequence_ID = AD_Sequence.AD_Sequence_ID))</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50500" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="76493" Column="IsForced" oldValue="false">true</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

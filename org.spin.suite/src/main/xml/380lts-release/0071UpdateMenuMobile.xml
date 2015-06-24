@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin-Suite-Contribution" ReleaseNo="3.8.0" SeqNo="445">
+    <Comments>Update Menu Mobile</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53756" Action="I" Record_ID="50644" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="71675" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="72062" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="72063" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72064" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72065" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72066" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="71665" Column="SPS_Field_ID">50644</Data>
+        <Data AD_Column_ID="71658" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="71659" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="72067" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="71660" Column="IsActive">true</Data>
+        <Data AD_Column_ID="71661" Column="Created">2015-06-06 23:19:48.555</Data>
+        <Data AD_Column_ID="71662" Column="Updated">2015-06-06 23:19:48.555</Data>
+        <Data AD_Column_ID="71663" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="71664" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71666" Column="SPS_Tab_ID">50003</Data>
+        <Data AD_Column_ID="71667" Column="SPS_Column_ID">55013</Data>
+        <Data AD_Column_ID="71668" Column="Name">Business Partner Group</Data>
+        <Data AD_Column_ID="71669" Column="Description">Business Partner Group</Data>
+        <Data AD_Column_ID="71670" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="71671" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="71672" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="71673" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="72068" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="72069" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="72070" Column="AD_FieldGroup_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53756" Action="I" Record_ID="50645" Table="SPS_Field">
+        <Data AD_Column_ID="71665" Column="SPS_Field_ID">50645</Data>
+        <Data AD_Column_ID="71658" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="71659" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="71660" Column="IsActive">true</Data>
+        <Data AD_Column_ID="71661" Column="Created">2015-06-06 23:19:50.538</Data>
+        <Data AD_Column_ID="71662" Column="Updated">2015-06-06 23:19:50.538</Data>
+        <Data AD_Column_ID="71663" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="71664" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71666" Column="SPS_Tab_ID">50003</Data>
+        <Data AD_Column_ID="71667" Column="SPS_Column_ID">55000</Data>
+        <Data AD_Column_ID="71668" Column="Name">Client</Data>
+        <Data AD_Column_ID="71669" Column="Description">Client/Tenant for this installation.</Data>
+        <Data AD_Column_ID="71670" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="71671" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="71672" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="71673" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="71674" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="71675" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="72062" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="72063" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72064" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72065" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72066" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="72067" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="72068" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="72069" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="72070" Column="AD_FieldGroup_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53756" Action="I" Record_ID="50646" Table="SPS_Field">
+        <Data AD_Column_ID="71665" Column="SPS_Field_ID">50646</Data>
+        <Data AD_Column_ID="71658" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="71659" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="71660" Column="IsActive">true</Data>
+        <Data AD_Column_ID="71661" Column="Created">2015-06-06 23:19:52.229</Data>
+        <Data AD_Column_ID="71662" Column="Updated">2015-06-06 23:19:52.229</Data>
+        <Data AD_Column_ID="71663" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="71664" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71666" Column="SPS_Tab_ID">50003</Data>
+        <Data AD_Column_ID="71667" Column="SPS_Column_ID">55001</Data>
+        <Data AD_Column_ID="71668" Column="Name">Organization</Data>
+        <Data AD_Column_ID="71669" Column="Description">Organizational entity within client</Data>
+        <Data AD_Column_ID="71670" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="71671" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="71672" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="71673" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="71674" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="71675" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="72062" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="72063" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72064" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72065" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72066" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="72067" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="72068" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="72069" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="72070" Column="AD_FieldGroup_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53756" Action="I" Record_ID="50647" Table="SPS_Field">
+        <Data AD_Column_ID="71665" Column="SPS_Field_ID">50647</Data>
+        <Data AD_Column_ID="71658" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="71659" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="71660" Column="IsActive">true</Data>
+        <Data AD_Column_ID="71661" Column="Created">2015-06-06 23:20:06.95</Data>
+        <Data AD_Column_ID="71662" Column="Updated">2015-06-06 23:20:06.95</Data>
+        <Data AD_Column_ID="71663" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="71664" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="71666" Column="SPS_Tab_ID">50003</Data>
+        <Data AD_Column_ID="71667" Column="SPS_Column_ID">55069</Data>
+        <Data AD_Column_ID="71668" Column="Name">Search Key</Data>
+        <Data AD_Column_ID="71669" Column="Description">Search key for the record in the format required - must be unique</Data>
+        <Data AD_Column_ID="71670" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="71671" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="71672" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="71673" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="71674" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="71675" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="72062" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="72063" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72064" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72065" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="72066" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="72067" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="72068" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="72069" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="72070" Column="AD_FieldGroup_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50645" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="0">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50017" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="10">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50018" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="20">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50646" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="0">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50647" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="0">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50019" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="30">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50464" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="40">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50021" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="50">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50022" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="60">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50644" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="0">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50437" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="70">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50234" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="80">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50023" Table="SPS_Field">
+        <Data AD_Column_ID="71674" Column="SeqNo" oldValue="90">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50645" Table="SPS_Field">
+        <Data AD_Column_ID="71671" Column="IsReadOnly" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53756" Action="D" Record_ID="50017" Table="SPS_Field">
+        <Data AD_Column_ID="71671" Column="IsReadOnly" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="71672" Column="IsDisplayed" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="71673" Column="IsSameLine" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="71674" Column="SeqNo" isNewNull="true" oldValue="20"/>
+        <Data AD_Column_ID="71663" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71664" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71665" Column="SPS_Field_ID" isNewNull="true" oldValue="50017"/>
+        <Data AD_Column_ID="71658" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="71666" Column="SPS_Tab_ID" isNewNull="true" oldValue="50003"/>
+        <Data AD_Column_ID="71659" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="71660" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="71661" Column="Created" isNewNull="true" oldValue="2015-02-07 20:49:22.0"/>
+        <Data AD_Column_ID="71662" Column="Updated" isNewNull="true" oldValue="2015-06-06 23:21:37.0"/>
+        <Data AD_Column_ID="71667" Column="SPS_Column_ID" isNewNull="true" oldValue="55632"/>
+        <Data AD_Column_ID="71668" Column="Name" isNewNull="true" oldValue="Client"/>
+        <Data AD_Column_ID="71669" Column="Description" isNewNull="true" oldValue="Client/Tenant for this installation."/>
+        <Data AD_Column_ID="71670" Column="Help" isNewNull="true" oldValue="A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client."/>
+        <Data AD_Column_ID="71675" Column="EntityType" isNewNull="true" oldValue="ECA01"/>
+        <Data AD_Column_ID="72062" Column="DisplayLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72063" Column="AD_Reference_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72064" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72065" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72066" Column="IsMandatory" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72067" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72068" Column="IsEncrypted" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="72069" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="72070" Column="AD_FieldGroup_ID" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53756" Action="D" Record_ID="50018" Table="SPS_Field">
+        <Data AD_Column_ID="71665" Column="SPS_Field_ID" isNewNull="true" oldValue="50018"/>
+        <Data AD_Column_ID="71658" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="71659" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="71660" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="71661" Column="Created" isNewNull="true" oldValue="2015-02-07 20:49:23.0"/>
+        <Data AD_Column_ID="71662" Column="Updated" isNewNull="true" oldValue="2015-06-06 23:21:37.0"/>
+        <Data AD_Column_ID="71663" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71664" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71666" Column="SPS_Tab_ID" isNewNull="true" oldValue="50003"/>
+        <Data AD_Column_ID="71667" Column="SPS_Column_ID" isNewNull="true" oldValue="55633"/>
+        <Data AD_Column_ID="71668" Column="Name" isNewNull="true" oldValue="Organization"/>
+        <Data AD_Column_ID="71669" Column="Description" isNewNull="true" oldValue="Organizational entity within client"/>
+        <Data AD_Column_ID="71670" Column="Help" isNewNull="true" oldValue="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations."/>
+        <Data AD_Column_ID="71671" Column="IsReadOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="71672" Column="IsDisplayed" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="71673" Column="IsSameLine" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="71674" Column="SeqNo" isNewNull="true" oldValue="30"/>
+        <Data AD_Column_ID="71675" Column="EntityType" isNewNull="true" oldValue="ECA01"/>
+        <Data AD_Column_ID="72062" Column="DisplayLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72063" Column="AD_Reference_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72064" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72065" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72066" Column="IsMandatory" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72067" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72068" Column="IsEncrypted" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="72069" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="72070" Column="AD_FieldGroup_ID" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53756" Action="U" Record_ID="50646" Table="SPS_Field">
+        <Data AD_Column_ID="71673" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53756" Action="D" Record_ID="50019" Table="SPS_Field">
+        <Data AD_Column_ID="71660" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="71665" Column="SPS_Field_ID" isNewNull="true" oldValue="50019"/>
+        <Data AD_Column_ID="71658" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="71659" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="71661" Column="Created" isNewNull="true" oldValue="2015-02-07 20:49:24.0"/>
+        <Data AD_Column_ID="71662" Column="Updated" isNewNull="true" oldValue="2015-06-06 23:21:37.0"/>
+        <Data AD_Column_ID="71663" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71664" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71666" Column="SPS_Tab_ID" isNewNull="true" oldValue="50003"/>
+        <Data AD_Column_ID="71667" Column="SPS_Column_ID" isNewNull="true" oldValue="55503"/>
+        <Data AD_Column_ID="71668" Column="Name" isNewNull="true" oldValue="Search Key"/>
+        <Data AD_Column_ID="71669" Column="Description" isNewNull="true" oldValue="Search key for the record in the format required - must be unique"/>
+        <Data AD_Column_ID="71670" Column="Help" isNewNull="true" oldValue="A search key allows you a fast method of finding a particular record.&#10;If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order)."/>
+        <Data AD_Column_ID="71671" Column="IsReadOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="71672" Column="IsDisplayed" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="71673" Column="IsSameLine" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="71674" Column="SeqNo" isNewNull="true" oldValue="60"/>
+        <Data AD_Column_ID="71675" Column="EntityType" isNewNull="true" oldValue="ECA01"/>
+        <Data AD_Column_ID="72062" Column="DisplayLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72063" Column="AD_Reference_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72064" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72065" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72066" Column="IsMandatory" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72067" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72068" Column="IsEncrypted" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="72069" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="72070" Column="AD_FieldGroup_ID" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="53756" Action="D" Record_ID="50022" Table="SPS_Field">
+        <Data AD_Column_ID="71665" Column="SPS_Field_ID" isNewNull="true" oldValue="50022"/>
+        <Data AD_Column_ID="71658" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="71659" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="71660" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="71661" Column="Created" isNewNull="true" oldValue="2015-02-07 20:49:26.0"/>
+        <Data AD_Column_ID="71662" Column="Updated" isNewNull="true" oldValue="2015-06-06 23:21:38.0"/>
+        <Data AD_Column_ID="71663" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71664" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="71666" Column="SPS_Tab_ID" isNewNull="true" oldValue="50003"/>
+        <Data AD_Column_ID="71667" Column="SPS_Column_ID" isNewNull="true" oldValue="54985"/>
+        <Data AD_Column_ID="71668" Column="Name" isNewNull="true" oldValue="Business Partner Group"/>
+        <Data AD_Column_ID="71669" Column="Description" isNewNull="true" oldValue="Business Partner Group"/>
+        <Data AD_Column_ID="71670" Column="Help" isNewNull="true" oldValue="The Business Partner Group provides a method of defining defaults to be used for individual Business Partners."/>
+        <Data AD_Column_ID="71671" Column="IsReadOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="71672" Column="IsDisplayed" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="71673" Column="IsSameLine" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="71674" Column="SeqNo" isNewNull="true" oldValue="90"/>
+        <Data AD_Column_ID="71675" Column="EntityType" isNewNull="true" oldValue="ECA01"/>
+        <Data AD_Column_ID="72062" Column="DisplayLogic" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72063" Column="AD_Reference_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72064" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72065" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72066" Column="IsMandatory" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72067" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="72068" Column="IsEncrypted" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="72069" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="72070" Column="AD_FieldGroup_ID" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="53754" Action="U" Record_ID="50024" Table="SPS_Tab">
+        <Data AD_Column_ID="72073" Column="SPS_Column_ID" isOldNull="true">55647</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="53518" Action="U" Record_ID="50018" Table="SPS_Menu">
+        <Data AD_Column_ID="66047" Column="DeploymentType" isOldNull="true">L</Data>
+        <Data AD_Column_ID="66052" Column="SPS_Table_ID" isOldNull="true">50300</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="55062" Table="SPS_Column">
+        <Data AD_Column_ID="65704" Column="DefaultValue" isOldNull="true">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53499" Action="U" Record_ID="55064" Table="SPS_Column">
+        <Data AD_Column_ID="65704" Column="DefaultValue" isOldNull="true">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50451" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50457" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50452" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50460" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50456" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50458" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50462" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50459" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50464" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50461" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50465" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50469" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50473" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50468" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50463" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50467" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50470" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50471" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50472" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50474" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50466" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50478" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50479" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50496" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50497" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50480" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50450" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50500" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50494" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50501" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50477" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50493" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50499" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50502" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50495" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50455" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50476" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50498" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50475" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50448" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50475" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50457" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50500" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50455" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50461" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50460" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50467" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50499" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50470" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50452" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50480" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50472" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50473" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50462" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50476" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50479" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50477" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50478" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50464" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="53501" Action="U" Record_ID="50468" Table="SPS_SyncMenu">
+        <Data AD_Column_ID="65735" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
