@@ -49,3 +49,4 @@ install/patch/
 *.css.dsp.src
 zkwebui/css/adempiere_default.css.dsp
 zkwebui/theme/green_thumb/**/*.css.dsp
+*.diff
