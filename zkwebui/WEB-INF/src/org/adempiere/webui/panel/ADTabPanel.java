@@ -336,19 +336,20 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
             	//included tab
             	if (field.getIncluded_Tab_ID() > 0)
             	{
-            		// Complete the current row
-            		if (row.getChildren().size() == 2)
-        			{
-        				row.appendCellChild(createSpacer());
+            		// Complete the current row - don't do anything if the row as no children
+            		if (row.getChildren().size() > 0)
+            		{
+	            		if (row.getChildren().size() == 2)
+	        			{
+	        				row.appendCellChild(createSpacer());
+	                        row.appendCellChild(createSpacer());
+	
+	        			} 
                         row.appendCellChild(createSpacer());
-                        row.appendCellChild(createSpacer());
+                        addRow(row);
+                        row = new Row();
+            		}
 
-        			} else if (row.getChildren().size() > 0)
-        			{
-                        row.appendCellChild(createSpacer());
-        			}
-
-            		addRow(row);
             		// End current field group
             		if (currentGroup != null) {
             			Groupfoot groupfoot = new Groupfoot();
@@ -364,16 +365,28 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
             		// Create a new group for the included tab
             		Group group = new Group();
             		group.setSpan(numCols);
+            		currentGroup = group;
+            		currentFieldGroup = null;  // TODO Are included tabs part of the field group?
+            		allCollapsibleGroups.add(group);
+            		group.setOpen(true);
+            		includedTab.put(field.getIncluded_Tab_ID(), group);           		
             		rows.appendChild(group);
-            		includedTab.put(field.getIncluded_Tab_ID(), group);
-            		Groupfoot groupfoot = new Groupfoot();
-            		rows.appendChild(groupfoot);
-            		includedTabFooter.put(field.getIncluded_Tab_ID(), groupfoot);
 
             		for (EmbeddedPanel ep : includedPanel) {
             			if (ep.adTabId == field.getIncluded_Tab_ID()) {
-            				ep.group = (Group) includedTab.get(ep.adTabId);
-            				createEmbeddedPanelUI(ep);
+
+            				row.setHeight("400px");
+            				Cell cell = new Cell();
+            				cell.setColspan(5);
+            				row.appendChild(cell);
+
+            				ep.group = group;
+            				ep.createPart(cell);
+
+            				// Only using a single toolbar for all panels
+            				//group.appendChild(ep.windowPanel.getToolbar());
+
+            				addRow(row);
                             //((ADTabPanel)ep.tabPanel).autoResize();
             				break;
             			}
@@ -388,6 +401,13 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
                             break;
                         }
                     }
+
+            		// Create a group foot
+            		Groupfoot groupfoot = new Groupfoot();
+            		includedTabFooter.put(field.getIncluded_Tab_ID(), groupfoot);
+            		rows.appendChild(groupfoot);
+            		
+            		currentGroup = null;
 
             		// Start a new row for the next field
             		row = new Row();
@@ -413,11 +433,17 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
             			}
             			addRow(row);
             			
+            			// Add a footer to the current group
+                		if (currentGroup != null) {
+                			Groupfoot groupfoot = new Groupfoot();
+                			rows.appendChild(groupfoot);
+                			currentGroup = null;
+                			currentFieldGroup = null;
+                		}
+            			
             			// Start a new row
             			row = new Row();
 
-            			// TODO - Group footer for the previous group?
-            			
             			// Start a new group
             			currentFieldGroup = fieldGroup;
 
@@ -436,7 +462,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
                     		group.setSpan(numCols);
             				rows.appendChild(group);
             				headerRows.add(group);
-            				// TODO remove collabsible functionality with a style
+            				// TODO remove collapsable functionality with a style
             			}
             			else
             			{
@@ -530,7 +556,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
                     	editor.addValueChangeListener(dataBinder);
                     }
 
-                    //streach component to fill grid cell
+                    //stretch component to fill grid cell
                     editor.fillHorizontal();
 
                     //setup editor context menu
@@ -607,7 +633,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         //   return;
         //}
     	
-    	//  This funciton can be called by several events which can all occur at
+    	//  This function can be called by several events which can all occur at
     	//  roughly the same time.  Only need to proceed with the first of these
     	//  and execute the function once.
     	long callTime = System.currentTimeMillis();
@@ -921,12 +947,6 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         		setFocusToField();
         	}
         }
-
-        //activate embedded panel
-        for(EmbeddedPanel ep : includedPanel)
-        {
-        	activateChild(activate, ep);
-        }
     }
 
 	private void activateChild(boolean activate, EmbeddedPanel panel) {
@@ -936,12 +956,6 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 			panel.windowPanel.getADTab().setSelectedIndex(0);
 			panel.tabPanel.query(false, 0, 0);
 		}
-		panel.tabPanel.activate(activate);
-		if (activate)
-		{
-			activateTabPanel(panel);
-		}
-
 	}
 	
 	private void activateTabPanel(EmbeddedPanel panel) {
@@ -999,9 +1013,9 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
     public void onEvent(Event event)
     {
     	if (event.getTarget() == listPanel.getListbox())
-	{
-		this.switchRowPresentation();
-	}
+		{
+			this.switchRowPresentation();
+		}
     	else if (event.getTarget() instanceof Tab)
     	{
     		Tab tab = (Tab)event.getTarget();
@@ -1069,7 +1083,9 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
     	}
 		
     }
-    
+
+    //  TODO - Sizing should be done in the theme - the difficulty is due to the current embedded borderLayouts
+    //  Embedded panels should just be a set of rows within a row.
 //    public void autoResize()
 //    {
 //    	if(windowPanel!=null)
@@ -1447,12 +1463,13 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 		}
 		ADWindowPanel panel = new ADWindowPanel(ctx, windowNo, gridWindow, tabIndex, tabPanel);
 		ep.windowPanel = panel;
+		//ep.init();
 
-		if (group != null) {
-			createEmbeddedPanelUI(ep);
+		//if (group != null) {
+			//createEmbeddedPanelUI(ep);
 			if (active)
 				activateChild(true, ep);
-		}
+		//}
 	}
 	
 	private Tabbox setTabPanels(EmbeddedPanel ep, Panel panel  ) {
@@ -1516,6 +1533,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 
 	class EmbeddedPanel {
 		Group group;
+		Groupfoot groupfoot;
 		GridWindow gridWindow;
 		int tabIndex;
 		ADWindowPanel windowPanel;
@@ -1523,6 +1541,45 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 		int adTabId;
 		Panelchildren panelChildren;
 		Row toolbarRow;
+		
+		public void createPart(Component parent) {
+			
+//			if(!ep.gridWindow.getTab(ep.tabIndex).isDisplayed())
+//			{
+//				row.setVisible(false);
+//				ep.group.setVisible(false);
+//			}
+			
+			if (group != null)
+			{
+				group.setLabel(gridWindow.getTab(tabIndex).getName());
+				group.setVisible(gridWindow.getTab(tabIndex).isDisplayed());
+			}
+			
+			// Since ZK 7.0. ep.windoPanel.getComponent() is a zk borderlayout. The height of Borderlayout 
+			// does not expand accordingly to the sizes of its child components, therefore, 
+			// when placing Borderlayout in a container, users have to specify a fixed height 
+			// in order for Borderlayout to be visible.  The default height of Borderlayout is dependent 
+			// on its parent component, therefore, users can also put Borderlayout in a container with a fixed height.
+			// Since the panel borderlayout also includes a borderlayout, both heights must be set. 
+			// TODO - simplify this as the embedded panel doesn't require this level of complexity.
+			
+			windowPanel.createPart(parent);
+			// Move this to the style
+			windowPanel.getComponent().setWidth("100%");
+			windowPanel.getComponent().setStyle("position: relative");
+			windowPanel.getComponent().setHeight("400px");
+			//ep.windowPanel.getComponent().setVflex("min");
+
+			windowPanel.getStatusBar().setZclass("z-group-foot");
+			windowPanel.initPanel(-1, null);
+		}
+
+		public void init()
+		{
+			windowPanel.initPanel(-1, null);
+		}
+
 	}
 
 	/**
@@ -1570,44 +1627,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 		treePanel.nodeChanged(save, keyID, name, description,
 			summary, imageIndicator);
 	}   //  rowChanged
-	
-	private void createEmbeddedPanelUI(EmbeddedPanel ep) {
-		Row row = new Row();
-		
-		if(!ep.gridWindow.getTab(ep.tabIndex).isDisplayed())
-		{
-			row.setVisible(false);
-			ep.group.setVisible(false);
-		}
-
-		grid.getRows().insertBefore(row, includedTabFooter.get(ep.adTabId));
-
-		// Since ZK 7.0. ep.windoPanel.getComponent() is a zk borderlayout. The height of Borderlayout 
-		// does not expand accordingly to the sizes of its child components, therefore, 
-		// when placing Borderlayout in a container, users have to specify a fixed height 
-		// in order for Borderlayout to be visible.  The default height of Borderlayout is dependent 
-		// on its parent component, therefore, users can also put Borderlayout in a container with a fixed height.
-		// Since the panel borderlayout also includes a borderlayout, both heights must be set. 
-		// TODO - simplify this as the embedded panel doesn't require this level of complexity.
-		
-		row.setHeight("400px");
-		Cell cell = new Cell();
-		cell.setColspan(5);
-		row.appendChild(cell);
-		ep.windowPanel.createPart(cell);
-		// Move this to the style
-		ep.windowPanel.getComponent().setWidth("100%");
-		ep.windowPanel.getComponent().setStyle("position: relative");
-		ep.windowPanel.getComponent().setHeight("400px");
-		//ep.windowPanel.getComponent().setVflex("min");
-
-		Label title = new Label(ep.gridWindow.getTab(ep.tabIndex).getName());
-		ep.group.appendChild(title);
-		ep.group.appendChild(ep.windowPanel.getToolbar());
-		ep.windowPanel.getStatusBar().setZclass("z-group-foot");
-		ep.windowPanel.initPanel(-1, null);
-	}
-    
+	    
 	@Override
 	public void focus() {
 		if (formComponent.isVisible())
@@ -1964,8 +1984,11 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
             ADTabPanel atp = (ADTabPanel) tabPanel;
             atp.listPanel.setPageSize(-1);
         }
-        ADWindowPanel panel = new ADWindowPanel(ctx, windowNo, gridWindow, tabIndex, tabPanel);
-        ep.windowPanel = panel;
+        // TODO - don't need the complexity of a ADWindowPanel (borderLayout) here.  An embedded panel is only a series of rows.  
+        // The ADWindowPanel/borderLayout adds no value and makes the sizing difficult.
+        //ADWindowPanel panel = new ADWindowPanel(ctx, windowNo, gridWindow, tabIndex, tabPanel);
+        //ep.windowPanel = panel;
+        ep.windowPanel = null;
   
 
         if (parentRow != null) {
