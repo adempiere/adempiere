@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add User 1 and User2 Report Source Type Combination" ReleaseNo="" SeqNo="71">
+  <Migration EntityType="D" Name="Add User 1 and User2 Report Source Type Combination" ReleaseNo="3.8.0#002" SeqNo="71">
     <Comments>Add User 1 and User 2 Dimension for Report Source Type Combination
 https://adempiere.atlassian.net/browse/ADEMPIERE-431</Comments>
     <Step SeqNo="10" StepType="AD">
@@ -139,11 +139,11 @@ https://adempiere.atlassian.net/browse/ADEMPIERE-431</Comments>
         <Data AD_Column_ID="168" Column="Name">User List 1</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-07-02 22:27:09.387</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="40" StepType="AD">
@@ -182,11 +182,11 @@ https://adempiere.atlassian.net/browse/ADEMPIERE-431</Comments>
         <Data AD_Column_ID="168" Column="Name">User List 2</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-07-02 22:27:10.866</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="50" StepType="AD">
@@ -407,11 +407,11 @@ https://adempiere.atlassian.net/browse/ADEMPIERE-431</Comments>
         <Data AD_Column_ID="168" Column="Name">Include Nulls in User 1</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-07-02 22:36:03.516</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="160" StepType="AD">
@@ -450,11 +450,11 @@ https://adempiere.atlassian.net/browse/ADEMPIERE-431</Comments>
         <Data AD_Column_ID="168" Column="Name">Include Nulls in User 2</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-07-02 22:36:05.005</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="170" StepType="AD">
@@ -763,11 +763,11 @@ https://adempiere.atlassian.net/browse/ADEMPIERE-431</Comments>
         <Data AD_Column_ID="168" Column="Name">Include Nulls in User 1</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-07-02 22:50:15.392</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="360" StepType="AD">
@@ -806,11 +806,11 @@ https://adempiere.atlassian.net/browse/ADEMPIERE-431</Comments>
         <Data AD_Column_ID="168" Column="Name">Include Nulls in User 2</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-07-02 22:50:16.252</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="370" StepType="AD">
@@ -849,11 +849,11 @@ https://adempiere.atlassian.net/browse/ADEMPIERE-431</Comments>
         <Data AD_Column_ID="168" Column="Name">User List 1</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-07-02 22:50:17.057</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="380" StepType="AD">
@@ -892,11 +892,11 @@ https://adempiere.atlassian.net/browse/ADEMPIERE-431</Comments>
         <Data AD_Column_ID="168" Column="Name">User List 2</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
-        <Data AD_Column_ID="181" Column="SeqNo">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">@SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Field WHERE AD_Tab_ID=@AD_Tab_ID@</Data>
         <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2015-07-02 22:50:17.933</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="390" StepType="AD">
