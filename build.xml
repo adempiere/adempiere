@@ -3,24 +3,16 @@
         Building AD-POS-WebUI AD-POS-WebUI.jar
         Copy of Smart Browse eevolution
         by
-        carlosaparadam@gmail.com
-        @carlosaparadam
+        raulmunozn@gmail.com
+        @raulmunozn
     </description>
   <!-- set global properties for this build -->
   <property file="build.properties"/>
   <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
   <property name="dist" value="${basedir}/dist"/>
   
-  <!-- 
-  <property name="client" value="${basedir}/client"/>
-  <property name="base" value="${basedir}/base"/>
-  <property name="patches" value="${basedir}/patches"/>
-  -->
   <property name="zksrc" value="${basedir}/zkwebui/WEB-INF/src"/>
   <property name="zkclasses" value="${dist}/zkclass/WEB-INF/classes"/>
-  <!--
-  <property name="class" value="${dist}/class"/>
-    -->
   <property name="zkjar" value="${dist}/zkclass"/>
   
   <!-- @author Carlos Parada Set Path --> 
@@ -72,20 +64,10 @@
     <jar jarfile="${project.trunk}/zkpackages/${project.name}/lib/${project.name}.jar" basedir="${zkjar}"/>
   </target>
 
-  <!-- @author Carlos Parada Compile Class Directory --> 	
-  <target name="compile" depends="init_class"
-        description="compile the source " >
-    <echo message="Compile Swing Classes "/>
-    <!-- Compile the zk java code from ${src} into ${zkclasses}
-    <javac srcdir="${client}:${base}:${patches}" destdir="${class}" includeantruntime="false" >
-      <classpath refid="compile.classpath"/>
-    </javac>
-    <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${class}"/> -->
-  </target>
-  
+    
 	
   <!-- @author Carlos Parada Compile All Class Directory --> 
-  <target name="compileall" depends="compile,zkcompile" >
+  <target name="compileall" depends="zkcompile" >
     <echo message="Compile All Project"/>
   	<echo message="Compile All Project"/>
   </target>

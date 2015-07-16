@@ -625,14 +625,26 @@ public class WSubOrder extends WPosSubPanel
 				return;
 			}
 
-			if ( WPosPayment.pay(p_posPanel) )
+			if ( WPosPayment.pay(p_posPanel, this) )
 			{
+				WPosPayment a = new WPosPayment(p_posPanel, this);
+				a.setVisible(true);
 				printTicket();
-				p_posPanel.setOrder(0);
+				setOrder(0);
 			}
 		}	
 	}
-
+	/**
+	 * @param m_c_order_id
+	 */
+	public void setOrder(int m_c_order_id) 
+	{
+		if ( m_c_order_id == 0 )
+			m_order = null;
+		else
+			m_order = new PosOrderModel(p_ctx , m_c_order_id, null, p_pos);
+	}
+	
 	/**
 	 * 
 	 */

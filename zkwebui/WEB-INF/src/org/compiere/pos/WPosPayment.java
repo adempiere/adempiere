@@ -205,12 +205,12 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 	private Label lReturnAmt;
 	private CButton f_bCancel;
 
-	public WPosPayment(WPosBasePanel posPanel) {
+	public WPosPayment(WPosBasePanel posPanel, WSubOrder subOrder) {
 		super();
 		p_posPanel = posPanel;
-		p_pos = posPanel.p_pos;
+		p_pos = subOrder.p_pos;
 		p_ctx = p_pos.getCtx();
-		p_order = p_posPanel.m_order;
+		p_order = subOrder.m_order;
 		
 		if ( p_order == null )
 			dispose();
@@ -325,7 +325,7 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 		/**
 		 *	Load Credit Cards
 		 */
-		ValueNamePair[] ccs = p_order.getCreditCards(new BigDecimal(fPayAmt.getValue()));
+//		ValueNamePair[] ccs = p_order.getCreditCards(new BigDecimal(fPayAmt.getValue().toString()));
 		//	Set Selection
 //		fCCardType.setRenderer(new ListCellRenderer() {
 //			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
@@ -477,10 +477,12 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 		}
 	}
 
-	public static boolean pay(WPosBasePanel posPanel) {
+	public static boolean pay(WPosBasePanel posPanel, WSubOrder subOrder) {
 		
-		WPosPayment pay = new WPosPayment(posPanel);
+		WPosPayment pay = new WPosPayment(posPanel, subOrder);
 		pay.setVisible(true);
+		pay.setMinwidth(300);
+		pay.setMinheight(300);
 		
 		return pay.isPaid();
 	}

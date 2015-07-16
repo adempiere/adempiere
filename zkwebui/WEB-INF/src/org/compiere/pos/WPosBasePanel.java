@@ -170,6 +170,7 @@ public class WPosBasePanel extends Panel
 			}
 		return MPOS.getAll(m_ctx, pass_field, pass_ID);
 	}	//	getPOSs
+	
 	/**
 	 * @param m_c_order_id
 	 */
