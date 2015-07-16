@@ -1,0 +1,134 @@
+<project name="Custom Smart Browse" default="compileall" basedir=".">
+    <description>
+        Building AD-POS-WebUI AD-POS-WebUI.jar
+        Copy of Smart Browse eevolution
+        by
+        carlosaparadam@gmail.com
+        @carlosaparadam
+    </description>
+  <!-- set global properties for this build -->
+  <property file="build.properties"/>
+  <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
+  <property name="dist" value="${basedir}/dist"/>
+  
+  <!-- 
+  <property name="client" value="${basedir}/client"/>
+  <property name="base" value="${basedir}/base"/>
+  <property name="patches" value="${basedir}/patches"/>
+  -->
+  <property name="zksrc" value="${basedir}/zkwebui/WEB-INF/src"/>
+  <property name="zkclasses" value="${dist}/zkclass/WEB-INF/classes"/>
+  <!--
+  <property name="class" value="${dist}/class"/>
+    -->
+  <property name="zkjar" value="${dist}/zkclass"/>
+  
+  <!-- @author Carlos Parada Set Path --> 
+  <path id="compile.classpath">
+    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+    
+    <fileset dir="${adempiere.trunk}/lib">
+      <include name="*.jar"/>
+    </fileset>
+    
+    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+      <include name="*.jar"/>
+    </fileset>
+    
+    <fileset dir="${adempiere.trunk}/zkwebui/dist">
+      <include name="*.war"/>
+    </fileset>
+    
+      	
+  </path>
+
+  <!-- @author Carlos Parada Set Path --> 
+  <path id="compilezk.classpath">
+        
+    <fileset dir="${adempiere.trunk}/lib">
+      <include name="*.jar"/>
+    </fileset>
+    
+    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+      <include name="*.jar"/>
+    </fileset>
+
+    <fileset dir="${adempiere.trunk}/zkwebui/dist">
+      <include name="*.war"/>
+    </fileset>
+    
+      	
+  </path>
+	
+  	
+	
+  <!-- @author Carlos Parada Compile ZK Directory --> 
+  <target name="zkcompile" depends="init_zk"
+        description="compile the source " >
+    <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+    <javac srcdir="${zksrc}" destdir="${zkclasses}" includeantruntime="false" >
+      <classpath refid="compilezk.classpath"/>
+    </javac>
+    <jar jarfile="${project.trunk}/zkpackages/${project.name}/lib/${project.name}.jar" basedir="${zkjar}"/>
+  </target>
+
+  <!-- @author Carlos Parada Compile Class Directory --> 	
+  <target name="compile" depends="init_class"
+        description="compile the source " >
+    <echo message="Compile Swing Classes "/>
+    <!-- Compile the zk java code from ${src} into ${zkclasses}
+    <javac srcdir="${client}:${base}:${patches}" destdir="${class}" includeantruntime="false" >
+      <classpath refid="compile.classpath"/>
+    </javac>
+    <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${class}"/> -->
+  </target>
+  
+	
+  <!-- @author Carlos Parada Compile All Class Directory --> 
+  <target name="compileall" depends="compile,zkcompile" >
+    <echo message="Compile All Project"/>
+  	<echo message="Compile All Project"/>
+  </target>
+	
+  <!-- @author Carlos Parada Remove All Class Directory --> 
+  <target name="clean" depends="clean_class,clean_zk"
+        description="clean up" >
+  	<echo message="Remove Classes Directory"/>
+  </target>
+	
+  <!-- @author Carlos Parada Remove Class Directory -->
+  <target name="clean_class" description="clean up class" >
+	<echo message="Remove Class Directory"/>
+  	<delete dir="${class}"/>
+  </target>
+	
+  <!-- @author Carlos Parada Remove Class ZK Directory -->
+  <target name="clean_zk" description="clean up class" >
+	<echo message="Remove Class ZK Directory"/>
+  	<delete dir="${zkjar}"/>
+  </target>
+	
+  <!-- @author Carlos Parada Create Class Directory -->
+  <target name="init_class" depends="clean_class" description="clean up class" >
+	<echo message="Create Class Directory"/>
+  	<!-- Create the classes directory structure used by compile -->
+	<mkdir dir="${dist}"/>
+	<mkdir dir="${class}"/>
+  </target>
+	
+  <!-- @author Carlos Parada Create ZK Directory -->
+  <target name="init_zk" depends="clean_zk" description="clean up class" >
+	<echo message="Create Class ZK Directory"/>
+  	<!-- Create the classes directory structure used by compile -->
+	<mkdir dir="${dist}"/>
+	<mkdir dir="${zkjar}"/>
+  	<mkdir dir="${zkjar}/WEB-INF"/>
+  	<mkdir dir="${zkclasses}"/>
+  </target>	
+  
+  <!-- @author Carlos Parada Create Class And ZK Directory -->
+  <target name="init" depends="clean,init_class,init_zk">
+	<echo message="Initialize Folders "/>
+  </target>
+	
+</project>
