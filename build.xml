@@ -10,7 +10,6 @@
   <property file="build.properties"/>
   <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
   <property name="dist" value="${basedir}/dist"/>
-  
   <property name="zksrc" value="${basedir}/zkwebui/WEB-INF/src"/>
   <property name="zkclasses" value="${dist}/zkclass/WEB-INF/classes"/>
   <property name="zkjar" value="${dist}/zkclass"/>
@@ -36,7 +35,9 @@
 
   <!-- @author Carlos Parada Set Path --> 
   <path id="compilezk.classpath">
-        
+    
+    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+    
     <fileset dir="${adempiere.trunk}/lib">
       <include name="*.jar"/>
     </fileset>
