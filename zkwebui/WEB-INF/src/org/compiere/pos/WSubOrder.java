@@ -62,6 +62,8 @@ import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
 import org.compiere.print.MPrintColor;
 import org.compiere.print.MPrintFont;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -625,13 +627,16 @@ public class WSubOrder extends WPosSubPanel
 				return;
 			}
 
-			if ( WPosPayment.pay(p_posPanel, this) )
-			{
-				WPosPayment a = new WPosPayment(p_posPanel, this);
-				a.setVisible(true);
-				printTicket();
-				setOrder(0);
-			}
+//			if (  )
+//			{
+				WPosPayment.pay(p_posPanel, this);
+//				WPosPayment a = new WPosPayment(p_posPanel, this);
+//				a.setVisible(true);
+//				a.setWidth("300px");
+//				a.setHeight("300px");
+//				printTicket();
+//				setOrder(0);
+//			}
 		}	
 	}
 	/**
@@ -866,7 +871,7 @@ public class WSubOrder extends WPosSubPanel
 					PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
 				*/ 
 				//print standard document
-//				ReportCtl.startDocumentPrint(ReportEngine.ORDER, order.getC_Order_ID(), null, Env.getWindowNo(this), true);
+//				ReportCtl.startDocumentPrint(ReportEngine.ORDER, order.getC_Order_ID(), null, 0, true);
 //				
 			}
 			catch (Exception e) 

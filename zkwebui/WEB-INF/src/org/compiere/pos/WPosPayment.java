@@ -13,48 +13,25 @@
  *****************************************************************************/
 package org.compiere.pos;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Event;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
-import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingUtilities;
-import javax.swing.border.TitledBorder;
-import javax.swing.text.MaskFormatter;
-
-import net.miginfocom.swing.MigLayout;
-
-import org.adempiere.plaf.AdempierePLAF;
-import org.adempiere.webui.component.Combobox;
+import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.ConfirmPanel;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
-import org.compiere.apps.AppsAction;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -62,52 +39,21 @@ import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentValidate;
-import org.compiere.swing.CButton;
-import org.compiere.swing.CComboBox;
-import org.compiere.swing.CDialog;
-import org.compiere.swing.CPanel;
-import org.compiere.swing.CTextField;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 
-public class WPosPayment extends Window implements WPosKeyListener, VetoableChangeListener, ActionListener, EventListener {
+public class WPosPayment extends Window implements WPosKeyListener, EventListener {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1961106531807910948L;
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		if ( e.getSource().equals(fTenderAmt) || e.getSource().equals(fPayAmt) )
-		{
-			BigDecimal tender = new BigDecimal( fTenderAmt.getText() );
-			BigDecimal pay = new BigDecimal( fPayAmt.getText() );
-			if ( tender.compareTo(Env.ZERO) != 0 )
-			{
-				fReturnAmt.setValue(tender.subtract(pay).toString());
-			}
-			return;
-		}
-
-		if ( e.getSource().equals(f_bProcess))
-		{
-			processPayment();
-		}
-		if ( e.getSource().equals(f_bCancel))
-		{
-			dispose();
-			return;
-		}
-
-		setTotals();
-
-	}
 
 	private void processPayment() {
 
@@ -118,11 +64,11 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 
 			if ( tenderType.equals(MPayment.TENDERTYPE_Cash) )
 			{
-				p_posPanel.m_order.payCash(amt);
+				p_order.payCash(amt);
 			}
 			else if ( tenderType.equals(MPayment.TENDERTYPE_Check) )
 			{
-				p_posPanel.m_order.payCheck(amt,fCheckAccountNo.getText(), fCheckRouteNo.getText(), fCheckNo.getText());
+				p_order.payCheck(amt,fCheckAccountNo.getText(), fCheckRouteNo.getText(), fCheckNo.getText());
 				p_posPanel.f_order.openCashDrawer();
 			}
 			else if ( tenderType.equals(MPayment.TENDERTYPE_CreditCard) )
@@ -153,7 +99,7 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 			}
 			else if ( tenderType.equals(MPayment.TENDERTYPE_Account) )
 			{
-				p_posPanel.m_order.payCash(amt);
+				p_order.payCash(amt);
 				p_posPanel.f_order.openCashDrawer();
 			}
 			else
@@ -179,7 +125,6 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 	private Textbox fBalance = new Textbox();
 	private Listbox tenderTypePick = ListboxFactory.newDropdownListbox();
 	private WPosTextField fPayAmt;
-	private CButton f_bProcess;
 	private boolean paid = false;
 	private BigDecimal balance = Env.ZERO;
 	private WPosTextField fCheckAccountNo;
@@ -203,7 +148,6 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 	private Label lTenderAmt;
 	private WPosTextField fReturnAmt;
 	private Label lReturnAmt;
-	private CButton f_bCancel;
 
 	public WPosPayment(WPosBasePanel posPanel, WSubOrder subOrder) {
 		super();
@@ -211,36 +155,60 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 		p_pos = subOrder.p_pos;
 		p_ctx = p_pos.getCtx();
 		p_order = subOrder.m_order;
-		
+		setTitle(Msg.translate(p_ctx, "Payment"));
 		if ( p_order == null )
 			dispose();
 		
 		init();
-//		pack();
-//		setLocationByPlatform(true);
 	}
 
 	private void init() {
 		
-		Font font = AdempierePLAF.getFont_Field().deriveFont(18f);
+		Panel panel = new Panel();
+		appendChild(panel);
+		//	Content
+		if(getWidth()==null){
+			setWidth("750px");
+			setHeight("380px");
+		}
+		Panel mainPanel = new Panel();
+		Borderlayout mainLayout = new Borderlayout();
+		Grid productLayout = GridFactory.newGridLayout();
+		appendChild(panel);
 		
 		//	North
-		Panel mainPanel = new Panel();
+		Panel northPanel = new Panel();
+		mainPanel.appendChild(mainLayout);
+		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
+		mainLayout.setHeight("100%");
+		mainLayout.setWidth("100%");
+		//
+		Center north = new Center();
+		north.setStyle("border: none");
+		mainLayout.appendChild(north);
+		north.appendChild(northPanel);
+		northPanel.appendChild(productLayout);
+		productLayout.setWidth("100%");
 		appendChild(mainPanel);
+		Rows rows = null;
+		Row row = null;
+		rows = productLayout.newRows();
+		row = rows.newRow();
+
+
+		
 		//Msg.translate(p_ctx, "Payment")
 		Label gtLabel = new Label(Msg.translate(p_ctx, "GrandTotal"));
-		mainPanel.appendChild(gtLabel);
-		mainPanel.appendChild(fTotal);
+		row.appendChild(gtLabel.rightAlign());
+		row.appendChild(fTotal);
 		fTotal.setEnabled(false);
-//		fTotal.setHorizontalAlignment(JTextField.TRAILING);
-		
-		mainPanel.appendChild(new Label(Msg.translate(p_ctx, "Balance")));
-		mainPanel.appendChild(fBalance);
+		row = rows.newRow();
+		row.appendChild(new Label(Msg.translate(p_ctx, "Balance")).rightAlign());
+		row.appendChild(fBalance);
 		fBalance.setEnabled(false);
-//		fBalance.setHorizontalAlignment(JTextField.TRAILING);
-		
-		
-		mainPanel.appendChild(new Label(Msg.translate(p_ctx, "TenderType")));
+
+		row = rows.newRow();
+		row.appendChild(new Label(Msg.translate(p_ctx, "TenderType")).rightAlign());
 		// Payment type selection
 		int AD_Column_ID = 8416; //C_Payment_v.TenderType
 		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
@@ -255,130 +223,87 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 				tenderTypePick.appendItem(key.getName(), key);
 				if ( key.getID().equals("X"))   // Cash
 					tenderTypePick.setSelectedValueNamePair(key);
-				
-//				if ( ! "CKX".contains(key.getID() ) )
-//					tenderTypePick.removeItemFromSelection(key);
 			}
 		}
 		
-//		tenderTypePick.setFont(font);
-		tenderTypePick.addActionListener(this);
-//		tenderTypePick.setRenderer(new ListCellRenderer() {
-//			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
-//
-//			public Component getListCellRendererComponent(JList list, Object value,
-//					int index, boolean isSelected, boolean cellHasFocus) {
-//				
-//				JLabel renderer = (JLabel) defaultRenderer
-//		        .getListCellRendererComponent(list, value, index, isSelected,
-//		            cellHasFocus);
-//				
-//				renderer.setPreferredSize(new Dimension(50, 50));
-//				renderer.setHorizontalAlignment(JLabel.CENTER);
-//				
-//				return renderer;
-//
-//			}
-//		});
 		
-		mainPanel.appendChild(tenderTypePick);
-		
+		row.appendChild(tenderTypePick);
+		row = rows.newRow();
 		fPayAmt = new WPosTextField(p_posPanel, p_pos.getOSNP_KeyLayout_ID());
-		mainPanel.appendChild(new Label(Msg.translate(p_ctx, "PayAmt")));
-//		fPayAmt.setHorizontalAlignment(JTextField.TRAILING);
-//		fPayAmt.addActionListener(this);
-		mainPanel.appendChild(fPayAmt);
+		row.appendChild(new Label(Msg.translate(p_ctx, "PayAmt")).rightAlign());
+		row.appendChild(fPayAmt);
 		
+		row = rows.newRow();
 		fTenderAmt = new WPosTextField(p_posPanel, p_pos.getOSNP_KeyLayout_ID());
 		lTenderAmt = new Label(Msg.translate(p_ctx, "AmountTendered"));
-		mainPanel.appendChild(lTenderAmt);
-//		fTenderAmt.addActionListener(this);
-//		fTenderAmt.setHorizontalAlignment(JTextField.TRAILING);
-		mainPanel.appendChild(fTenderAmt);
-		
+		row.appendChild(lTenderAmt.rightAlign());
+		row.appendChild(fTenderAmt);
+
+		row = rows.newRow();		
 		fReturnAmt = new WPosTextField(p_posPanel, p_pos.getOSNP_KeyLayout_ID());
 		lReturnAmt = new Label(Msg.translate(p_ctx, "AmountReturned"));
-		mainPanel.appendChild(lReturnAmt);
-//		fReturnAmt.setHorizontalAlignment(JTextField.TRAILING);
-		mainPanel.appendChild(fReturnAmt);
+		
+		row = rows.newRow();
+		row.appendChild(lReturnAmt.rightAlign());
+		row.appendChild(fReturnAmt);
 		fReturnAmt.setEnabled(false);
 		
+		row = rows.newRow();
 		fCheckRouteNo = new WPosTextField(p_posPanel, p_pos.getOSNP_KeyLayout_ID());
 		lCheckRouteNo = new Label(Msg.translate(p_ctx, "RoutingNo"));
-		mainPanel.appendChild(lCheckRouteNo);
-		mainPanel.appendChild(fCheckRouteNo);
-//		fCheckRouteNo.setFont(font);
-//		fCheckRouteNo.setHorizontalAlignment(JTextField.TRAILING);
-			
+		row.appendChild(lCheckRouteNo.rightAlign());
+		row.appendChild(fCheckRouteNo);
+
+		row = rows.newRow();
 		fCheckAccountNo = new WPosTextField(p_posPanel, p_pos.getOSNP_KeyLayout_ID());
 		lCheckAccountNo = new Label(Msg.translate(p_ctx, "AccountNo"));
-		mainPanel.appendChild(lCheckAccountNo);
-		mainPanel.appendChild(fCheckAccountNo);
-//		fCheckAccountNo.setHorizontalAlignment(JTextField.TRAILING);
+
+		row = rows.newRow();
+		row.appendChild(lCheckAccountNo.rightAlign());
+		row.appendChild(fCheckAccountNo);
 		
 		fCheckNo = new WPosTextField(p_posPanel, p_pos.getOSNP_KeyLayout_ID());
 		lCheckNo = new Label(Msg.translate(p_ctx, "CheckNo"));
-		mainPanel.appendChild(lCheckNo);
-		mainPanel.appendChild(fCheckNo);
-//		fCheckNo.setHorizontalAlignment(JTextField.TRAILING);
-		
-		/**
-		 *	Load Credit Cards
-		 */
-//		ValueNamePair[] ccs = p_order.getCreditCards(new BigDecimal(fPayAmt.getValue().toString()));
-		//	Set Selection
-//		fCCardType.setRenderer(new ListCellRenderer() {
-//			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
-//
-//			public Component getListCellRendererComponent(JList list, Object value,
-//					int index, boolean isSelected, boolean cellHasFocus) {
-//				
-//				JLabel renderer = (JLabel) defaultRenderer
-//		        .getListCellRendererComponent(list, value, index, isSelected,
-//		            cellHasFocus);
-//				
-//				renderer.setPreferredSize(new Dimension(50, 50));
-//				renderer.setHorizontalAlignment(JLabel.CENTER);
-//				
-//				return renderer;
-//
-//			}
-//		});
+		row = rows.newRow();
+		row.appendChild(lCheckNo.rightAlign());
+		row.appendChild(fCheckNo);
+
 		lCCardType = new Label(Msg.translate(p_ctx, "CreditCardType"));
-		mainPanel.appendChild(lCCardType);
-		mainPanel.appendChild(fCCardType);
-//		fCCardType.setFont(font);
+		row = rows.newRow();
+		row.appendChild(lCCardType.rightAlign());
+		row.appendChild(fCCardType);
 			
 		fCCardNo = new WPosTextField(p_posPanel, p_pos.getOSNP_KeyLayout_ID(),  new DecimalFormat("#"));
 		lCCardNo = new Label(Msg.translate(p_ctx, "CreditCardNumber"));
-		mainPanel.appendChild(lCCardNo);
-		mainPanel.appendChild(fCCardNo);
-//		fCCardNo.setHorizontalAlignment(JTextField.TRAILING);
+		row = rows.newRow();
+		row.appendChild(lCCardNo.rightAlign());
+		row.appendChild(fCCardNo);
 		
 		fCCardName = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
 		lCCardName = new Label(Msg.translate(p_ctx, "Name"));
-		mainPanel.appendChild(lCCardName);
-		mainPanel.appendChild(fCCardName);
-//		fCCardName.setHorizontalAlignment(JTextField.TRAILING);
+		row = rows.newRow();
+		row.appendChild(lCCardName.rightAlign());
+		row.appendChild(fCCardName);
 		
 		fCCardMonth = new WPosTextField(p_posPanel, p_pos.getOSNP_KeyLayout_ID(), new DecimalFormat("#"));
 		lCCardMonth = new Label(Msg.translate(p_ctx, "Expires"));
-		mainPanel.appendChild(lCCardMonth);
-		mainPanel.appendChild(fCCardMonth);
-//		fCCardMonth.setHorizontalAlignment(JTextField.TRAILING);
+		row = rows.newRow();
+		row.appendChild(lCCardMonth.rightAlign());
+		row.appendChild(fCCardMonth);
 		
 		fCCardVC = new WPosTextField(p_posPanel, p_pos.getOSNP_KeyLayout_ID(),  new DecimalFormat("#"));
 		lCCardVC = new Label(Msg.translate(p_ctx, "CVC"));
-		mainPanel.appendChild(lCCardVC);
-		mainPanel.appendChild(fCCardVC);
-//		fCCardVC.setHorizontalAlignment(JTextField.TRAILING);
+		row = rows.newRow();
+		row.appendChild(lCCardVC.rightAlign());
+		row.appendChild(fCCardVC);
 
+		South south = new South();
 		ConfirmPanel confirm = new ConfirmPanel(true, false, true, false, false, false, false);
 		confirm.addActionListener(this);
 
-		mainPanel.appendChild(confirm);
+		mainLayout.appendChild(south);
+		south.appendChild(confirm);
 		
-//		pack();
 		
 		setTotals();
 	}
@@ -430,33 +355,13 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 		
 		fBalance.setValue(balance.toString());
 		fPayAmt.setValue(balance.toString());
-		if ( !MPayment.TENDERTYPE_Cash.equals(tenderType) )
-		{
-//			fPayAmt.requestFocusInWindow();
-			SwingUtilities.invokeLater(new Runnable() {
 
-				public void run() {
-					fPayAmt.select();
-				}
-			});
-		}
-		else
-		{
-//			fTenderAmt.requestFocusInWindow();
-		}
-		
-//		pack();
 	}
 
 	public void keyReturned(MPOSKey key) {
 		
 		String text = key.getText();
 		String payAmt = fPayAmt.getText();
-//		String selected = fPayAmt.getSelectedText();
-//		if ( selected != null && !selected.isEmpty() )
-//		{
-//			payAmt = payAmt.replaceAll(selected, "");
-//		}
 		
 		if ( text != null && !text.isEmpty() )
 		{
@@ -481,9 +386,10 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 		
 		WPosPayment pay = new WPosPayment(posPanel, subOrder);
 		pay.setVisible(true);
-		pay.setMinwidth(300);
-		pay.setMinheight(300);
-		
+		pay.setWidth("350px");;
+		pay.setHeight("350px"); ;
+		pay.setClosable(true);
+		AEnv.showWindow(pay);
 		return pay.isPaid();
 	}
 
@@ -491,15 +397,33 @@ public class WPosPayment extends Window implements WPosKeyListener, VetoableChan
 		return paid ;
 	}
 
-	public void vetoableChange(PropertyChangeEvent arg0)
-			throws PropertyVetoException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event event) throws Exception {
-		// TODO Auto-generated method stub
+		if ( event.getTarget().equals(fTenderAmt) || event.getTarget().equals(fPayAmt) )
+			{
+				BigDecimal tender = new BigDecimal( fTenderAmt.getText() );
+				BigDecimal pay = new BigDecimal( fPayAmt.getText() );
+				if ( tender.compareTo(Env.ZERO) != 0 )
+				{
+					fReturnAmt.setValue(tender.subtract(pay).toString());
+				}
+				return;
+			}
+		String action = event.getTarget().getId();
+			if ( action.equals(ConfirmPanel.A_OK))
+			{
+				processPayment();
+				onClose();
+			}
+			if ( action.equals(ConfirmPanel.A_CANCEL))
+			{
+				onClose();
+				return;
+			}
+	
+			setTotals();
+
 		
 	}
 
