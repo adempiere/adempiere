@@ -1,6 +1,5 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,6 +9,10 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Raul Muñoz www.erpcya.com					              *
  *****************************************************************************/
 
 package org.compiere.pos;
@@ -24,12 +27,10 @@ import org.compiere.model.MPOS;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.EventListener;
 
+
 /**
- *	POS Sub Panel Base Class.
- *  @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright (c) Jorg Janke
- *  
+ * 
+ * @author Raul Muñoz 20/03/2015 
  */
 public abstract class WPosSubPanel extends Borderlayout 
 	implements EventListener

@@ -3,10 +3,10 @@ function Text_action()
 {
 
 	
-	this.clearAlll = clearAlll;
+	this.textEvent = textEvent;
 	
 
-	function clearAlll(calcTextId, key, keyBoardType)
+	function textEvent(calcTextId, key, keyBoardType)
 	{
 		try
 		{

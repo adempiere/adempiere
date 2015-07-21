@@ -1,6 +1,5 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,14 +9,16 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Raul Muñoz www.erpcya.com					              *
  *****************************************************************************/
 
 package org.compiere.pos;
 
 import java.awt.Color;
 import java.awt.Event;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,10 +28,8 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import javax.swing.Icon;
 import javax.swing.KeyStroke;
 
-import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
@@ -50,7 +49,6 @@ import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCurrency;
-import org.compiere.model.MImage;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPOSKey;
@@ -80,10 +78,7 @@ import org.zkoss.zul.Doublebox;
 /**
  *	Customer Sub Panel
  *	
- *  @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � Jorg Janke
- *  @version $Id: SubBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
+ * @author Raul Muñoz 20/03/2015 
  */
 public class WSubOrder extends WPosSubPanel 
 	implements EventListener, WTableModelListener
@@ -281,16 +276,12 @@ public class WSubOrder extends WPosSubPanel
 		Label qtyLabel = new Label(Msg.translate(Env.getCtx(), "QtyOrdered"));
 		row.appendChild(qtyLabel.rightAlign());
 		
-		//f_quantity = new WPosTextField(Msg.translate(Env.getCtx(), "QtyOrdered"),
-//		p_posPanel,p_pos.getOSNP_KeyLayout_ID(), DisplayType.getNumberFormat(DisplayType.Quantity));
 		
 		f_quantity = new Doublebox(1);
-//		f_quantity.setHorizontalAlignment(JTextField.TRAILING);
-//		f_quantity.addActionListener(this);
 		row.appendChild(f_quantity);
 		f_quantity.addEventListener("onFocus", this);
 		keyLayoutId=p_pos.getOSNP_KeyLayout_ID();
-//		setQty(Env.ONE);
+		setQty(Env.ONE);
 		//
 		f_plus = createButtonAction("Plus", null);
 		row.appendChild(f_plus);
@@ -299,13 +290,9 @@ public class WSubOrder extends WPosSubPanel
 		Label priceLabel = new Label(Msg.translate(Env.getCtx(), "PriceActual"));
 		row.appendChild(priceLabel.rightAlign());
 		
-		//new WPosTextField(Msg.translate(Env.getCtx(), "PriceActual"),
-//		p_posPanel,p_pos.getOSNP_KeyLayout_ID(), DisplayType.getNumberFormat(DisplayType.Amount));
 		f_price = new Doublebox(0.0);
-//		f_price.addActionListener(this);
-//		f_price.setHorizontalAlignment(JTextField.TRAILING);
 		row.appendChild(f_price);
-//		setPrice(Env.ZERO);
+		setPrice(Env.ZERO);
 		
 		center = new Center();
 		detailPanel.appendChild(center);
@@ -373,26 +360,11 @@ public class WSubOrder extends WPosSubPanel
 		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal"));
 		row.appendChild(lNet.rightAlign());
 		f_net = new Doublebox(DisplayType.Amount);
-//		f_net.setHorizontalAlignment(JTextField.TRAILING);
 		f_net.setDisabled(true);
-//		f_net.setFocusable(false);
-//		lNet.setLabelFor(f_net);
 		row.appendChild(f_net);
 		f_net.setText(Env.ZERO+"");
 		//
 				
-		/*
-		// BPARTNER
-		f_bSearch = createButtonAction ("BPartner", KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
-		add (f_bSearch,buttonSize + ", spany 2");
-		*/
-		
-		/*
-		* f_name.setName("Name");
-		f_name.addActionListener(this);
-		f_name.addFocusListener(this);
-		add (f_name, "wrap");
-		*/
 		row = rows.newRow();
 		row.setSpans("2,2,2,2");
 		// SALES REP
@@ -405,18 +377,9 @@ public class WSubOrder extends WPosSubPanel
 		Label lTax = new Label (Msg.translate(Env.getCtx(), "TaxAmt"));
 		row.appendChild(lTax.rightAlign());
 		f_tax = new Doublebox(DisplayType.Amount);
-//		f_tax.setHorizontalAlignment(JTextField.TRAILING);
 		f_tax.setDisabled(true);
-//		f_tax.setFocusable(false);
-//		lTax.setLabelFor(f_tax);
 		row.appendChild(f_tax);
 		f_tax.setValue(Env.ZERO.doubleValue());
-		//
-		
-				/*
-				f_location = new CComboBox();
-				add (f_location, " wrap");
-			*/
 
 		row = rows.newRow();
 		row.setSpans("2,2,2,2");
@@ -432,10 +395,7 @@ public class WSubOrder extends WPosSubPanel
 		lTotal.setStyle("Font-size:medium");
 		row.appendChild(lTotal.rightAlign());
 		f_total = new Doublebox(DisplayType.Amount);
-//		f_total.setHorizontalAlignment(JTextField.TRAILING);f_total.setFont(bigFont);
 		f_total.setDisabled(true);
-//		f_total.setFocusable(false);
-//		lTotal.setLabelFor(f_total);
 		row.appendChild(f_total);
 		f_total.setValue (Env.ZERO.doubleValue());
 		f_total.setStyle("Font-size:medium");
@@ -627,16 +587,10 @@ public class WSubOrder extends WPosSubPanel
 				return;
 			}
 
-//			if (  )
-//			{
-				WPosPayment.pay(p_posPanel, this);
-//				WPosPayment a = new WPosPayment(p_posPanel, this);
-//				a.setVisible(true);
-//				a.setWidth("300px");
-//				a.setHeight("300px");
-//				printTicket();
-//				setOrder(0);
-//			}
+			if (WPosPayment.pay(p_posPanel, this)) {
+				printTicket();
+				setOrder(0);
+			}
 		}	
 	}
 	/**
@@ -778,35 +732,6 @@ public class WSubOrder extends WPosSubPanel
 		return m_bpartner;
 	}	//	getBPartner
 	
-	/**
-	 * 	Get BPartner Location
-	 *	@return C_BPartner_Location_ID
-	 */
-	public int getC_BPartner_Location_ID ()
-	{
-//		if (m_bpartner != null)
-//		{
-//			KeyNamePair pp = (KeyNamePair)f_location.getSelectedItem();
-//			if (pp != null)
-//				return pp.getKey();
-//		}
-		return 0;
-	}	//	getC_BPartner_Location_ID
-	
-	/**
-	 * 	Get BPartner Contact
-	 *	@return AD_User_ID
-	 */
-	public int getAD_User_ID ()
-	{
-//		if (m_bpartner != null)
-//		{
-//			KeyNamePair pp = (KeyNamePair)f_user.getSelectedItem();
-//			if (pp != null)
-//				return pp.getKey();
-//		}
-		return 0;
-	}	//	getC_BPartner_Location_ID
 
 	/**
 	 * 	Get M_PriceList_Version_ID.
@@ -848,9 +773,7 @@ public class WSubOrder extends WPosSubPanel
 	
 	/**
 	 * 	Print Ticket
-	 *  @author Comunidad de Desarrollo OpenXpertya 
-	 *  *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *  *Copyright � ConSerTi
+	 *  @author Raul Muñoz raulmunozn@gmail.com 
 	 */
 	public void printTicket()
 	{
@@ -865,14 +788,12 @@ public class WSubOrder extends WPosSubPanel
 		{
 			try 
 			{
-				//TODO: to incorporate work from Posterita
 				/*
 				if (p_pos.getAD_PrintLabel_ID() != 0)
 					PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
 				*/ 
 				//print standard document
-//				ReportCtl.startDocumentPrint(ReportEngine.ORDER, order.getC_Order_ID(), null, 0, true);
-//				
+				ReportCtl.startDocumentPrint(ReportEngine.ORDER, order.getC_Order_ID(), null, 0, true);
 			}
 			catch (Exception e) 
 			{

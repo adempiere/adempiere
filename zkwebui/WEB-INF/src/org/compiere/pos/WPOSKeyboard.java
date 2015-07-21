@@ -1,6 +1,5 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,6 +9,10 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Raul Muñoz www.erpcya.com					              *
  *****************************************************************************/
 
 package org.compiere.pos;
@@ -39,12 +42,13 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Doublebox;
+import org.zkoss.zul.Textbox;
 
 
 /**
  *	On Screen Keyboard
- *	@author Paul Bowden
- *	Adaxa Pty Ltd
+ * @author Raul Muñoz 19/03/2015, 12:50
+ *	
  */
 public class WPOSKeyboard extends Window implements ActionListener, PosKeyListener, EventListener
 {
@@ -57,6 +61,9 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		private Doublebox dfield;
 		private MPOSKeyLayout keylayout;
 		private boolean keyBoardType;
+		private Textbox txtCalc = new Textbox();
+		private HashMap<Integer, MPOSKey> keys;
+
 
 	/**
 	 * 	Constructor
@@ -85,10 +92,7 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		AEnv.showCenterWindow(parent, this);
 	}
 
-	private org.zkoss.zul.Textbox txtCalc = new org.zkoss.zul.Textbox();
-
-	private HashMap<Integer, MPOSKey> keys;
-	
+		
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(POSKeyboard.class);
 	
@@ -190,7 +194,6 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		String action = e.getSource().toString();
 		if (action == null || action.length() == 0)
 			return;
@@ -200,11 +203,6 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 				txtCalc.setText("0");
 			else
 				txtCalc.setText("");
-//			try {
-////				text.commitEdit();
-//			} catch (ParseException e1) {
-//				log.log(Level.FINE, "JFormattedTextField commit failed");
-//			}
 		}
 		else if ( action.equals(ConfirmPanel.A_CANCEL))
 		{
@@ -213,11 +211,6 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		else if (e.getSource().equals(ConfirmPanel.A_OK))
 		{
 			field.setText(txtCalc.getText());
-//			try {
-////				field.commitEdit();
-//			} catch (ParseException e1) {
-//				log.log(Level.FINE, "JFormattedTextField commit failed");
-//			}
 			close();
 		}
 		log.info( "PosSubBasicKeys - actionPerformed: " + action);
@@ -252,4 +245,4 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		log.info( "PosSubBasicKeys - actionPerformed: " + action);
 	}
 
-}	//	PosSubBasicKeys
+}	

@@ -1,6 +1,5 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,6 +9,10 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Raul Muñoz www.erpcya.com					              *
  *****************************************************************************/
 
 package org.compiere.pos;
@@ -20,8 +23,6 @@ import java.util.HashMap;
 
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.event.ActionEvent;
-import org.adempiere.webui.event.ActionListener;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
 import org.compiere.print.MPrintColor;
@@ -31,11 +32,10 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 /**
  * Button panel supporting multiple linked layouts
- * @author Paul Bowden
- * Adaxa Pty Ltd
+ * @author Raul Muñoz
  *
  */
-public class WPosKeyPanel extends Panel implements ActionListener, EventListener {
+public class WPosKeyPanel extends Panel implements EventListener {
 	/**
 	 * 
 	 */
@@ -170,7 +170,7 @@ public class WPosKeyPanel extends Panel implements ActionListener, EventListener
 			button.setHeight("55px");
 			button.setWidth("55px");
 
-			button.setAction("onClick : clearAlll.text_event('" +  m_txtCalc + "', '" + key.getText() + "', '" + this.keyBoardType + "')");
+			button.setAction("onClick : text_action.clearAlll('" +  m_txtCalc + "', '" + key.getText() + "', '" + this.keyBoardType + "')");
 			button.setId(""+key.getC_POSKey_ID());
 			button.addEventListener("onClick", this);
 
@@ -211,7 +211,6 @@ public class WPosKeyPanel extends Panel implements ActionListener, EventListener
 
 	@Override
 	public void onEvent(Event event) throws Exception {
-		// TODO Auto-generated method stub
 		String action = event.getTarget().getId();
 
 		HashMap<Integer, MPOSKey> currentKeymap = keymap.get(currentLayout);
@@ -242,10 +241,5 @@ public class WPosKeyPanel extends Panel implements ActionListener, EventListener
 		}
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 }
