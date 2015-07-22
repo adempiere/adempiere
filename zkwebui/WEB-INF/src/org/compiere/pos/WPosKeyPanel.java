@@ -170,7 +170,7 @@ public class WPosKeyPanel extends Panel implements EventListener {
 			button.setHeight("55px");
 			button.setWidth("55px");
 
-			button.setAction("onClick : text_action.clearAlll('" +  m_txtCalc + "', '" + key.getText() + "', '" + this.keyBoardType + "')");
+			button.setAction("onClick : text_action.textEvent('" +  m_txtCalc + "', '" + key.getText() + "', '" + this.keyBoardType + "')");
 			button.setId(""+key.getC_POSKey_ID());
 			button.addEventListener("onClick", this);
 

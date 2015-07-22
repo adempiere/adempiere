@@ -55,7 +55,7 @@ public class WPosBasePanel extends Panel
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
 		init();
 	}	//	PosPanel
-
+	
 	/**	Window No			*/
 	private int         	m_WindowNo = 0;
 	/**	FormFrame			*/
@@ -103,6 +103,7 @@ public class WPosBasePanel extends Panel
 		try
 		{
 			dynInit();
+			
 		}
 		catch(Exception e)
 		{
@@ -202,20 +203,44 @@ public class WPosBasePanel extends Panel
 	}
 
 	public WPOSKeyboard getKeyboard(int keyLayoutId) {
-		if ( keyboards.containsKey(keyLayoutId) )
-			return keyboards.get(keyLayoutId);
-		else
-		{
 			WPOSKeyboard keyboard = new WPOSKeyboard(this, keyLayoutId);
 			keyboards.put(keyLayoutId, keyboard);
 			return keyboard;
-		}
 	}
 	public WPOSKeyboard getKeyboard(int keyLayoutId, Window wPosQuery, WPosTextField field) {
 			WPOSKeyboard keyboard = new WPOSKeyboard(wPosQuery,this, keyLayoutId, field);
 			keyboards.put(keyLayoutId, keyboard);
 			return keyboard;
 	}
-	
+	/**
+	 * 	Dispose - Free Resources
+	 */
+	public void dispose()
+	{
+		keyboards.clear();
+		keyboards = null;
+		
+		if (m_focusMgr != null)
+			m_focusMgr.stop();
+		m_focusMgr = null;
+		//
+		if (f_order != null)
+			f_order.dispose();
+		f_order = null;
+		if (f_curLine != null)
+		{
+			// if ( m_order != null )
+			// 	m_order.deleteOrder();
+			f_curLine.dispose();
+		}
+		f_curLine = null;
+
+		if (m_frame != null)
+			m_frame.detach();
+		
+		m_frame = null;
+		m_ctx = null;
+	}	//	dispose
+
 }	//	PosPanel
 

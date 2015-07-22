@@ -54,15 +54,19 @@ function Text_action()
 						else {
 							try
 							{
+								if(calcText.value == "0")
+									var textbox = "";
+								else
+									var textbox = calcText.value;
 								var number = parseInt(entry);		// test if number
 								if ( number >= 0 && number <= 9 )
 								{
-									calcText.value=calcText.value+number;
+									calcText.value=textbox+number;
 								}
 								// greater than 9, add to existing
 								else 
 								{
-									calcText.value=parseInt(calcText.value)+parseInt(number);
+									calcText.value=parseInt(textbox)+parseInt(number);
 								}
 		
 							}

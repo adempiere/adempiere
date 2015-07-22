@@ -31,7 +31,6 @@ import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.event.ActionEvent;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MWarehousePrice;
@@ -57,9 +56,9 @@ public class WQueryProduct extends WPosQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryProduct (WPosBasePanel posPanel)
+	public WQueryProduct (WPosBasePanel posPanel, WSubOrder order)
 	{
-		super(posPanel);
+		super(posPanel, order);
 	}	//	PosQueryProduct
 	
 	private WPosTextField		f_value;
@@ -73,9 +72,9 @@ public class WQueryProduct extends WPosQuery
 	//
 	private int 			m_M_PriceList_Version_ID;
 	private int 			m_M_Warehouse_ID;
-	private Button f_refresh;
-	private Button f_ok;
-	private Button f_cancel;
+	private Button 			f_refresh;
+	private Button 			f_ok;
+	private Button 			f_cancel;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(QueryProduct.class);
 	
@@ -160,6 +159,7 @@ public class WQueryProduct extends WPosQuery
 		row.setHeight("65px");
 		f_refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
 		row.appendChild(f_refresh);
+		
 		//  New Line
 		row = rows.newRow();
 		row.setSpans("5");
@@ -178,7 +178,7 @@ public class WQueryProduct extends WPosQuery
 		row.appendChild(panelbutton);
 
 		m_table = ListboxFactory.newDataTable();
-		String sql = m_table.prepareTable (s_layout, s_sqlFrom, 
+		String f = m_table.prepareTable (s_layout, s_sqlFrom, 
 			s_sqlWhere, false, "RV_WarehousePrice")
 			+ " ORDER BY Margin, QtyAvailable";
 		
@@ -329,12 +329,6 @@ public class WQueryProduct extends WPosQuery
 		if(event.getTarget().equals(f_cancel)){
 			close();
 		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-	}
-	
+	}	
 	
 }	//	PosQueryProduct

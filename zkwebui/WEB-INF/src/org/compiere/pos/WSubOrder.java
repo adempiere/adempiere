@@ -103,12 +103,12 @@ public class WSubOrder extends WPosSubPanel
 	private Button 		f_cashPayment;
 	private Button 		f_process;
 	private Button 		f_print;
-	private Textbox 		f_DocumentNo;
+	private Textbox 	f_DocumentNo;
 	private Button 		f_logout;
-	private Doublebox f_net;
-	private Doublebox f_tax;
-	private Doublebox f_total;
-	private Textbox f_RepName;
+	private Doublebox 	f_net;
+	private Doublebox 	f_tax;
+	private Doublebox 	f_total;
+	private Textbox 	f_RepName;
 	
 	/**	The Business Partner		*/
 	private MBPartner	m_bpartner;
@@ -319,6 +319,7 @@ public class WSubOrder extends WPosSubPanel
 				
 		// HISTORY
 		f_history = createButtonAction("History", null);
+		f_history.addActionListener(this);
 		row.appendChild(f_history); 
 				
 		// CANCEL
@@ -344,14 +345,16 @@ public class WSubOrder extends WPosSubPanel
 		 		
 				//
 		f_logout = createButtonAction ("Logout", null);
+		f_logout.addActionListener(this);
 		row.appendChild (f_logout);
+		
 				
 		row = rows.newRow();
 				
-//		// DOC NO
+		// DOC NO
 		row.setSpans("2,2,2,2");
 		row.appendChild (new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")).rightAlign());
-//				
+
 		f_DocumentNo = new Textbox();
 		f_DocumentNo.setName("DocumentNo");
 		f_DocumentNo.setEnabled(false);
@@ -549,11 +552,8 @@ public class WSubOrder extends WPosSubPanel
 	 */
 	public void dispose()
 	{
-//		if (f_name != null)
-//			f_name.removeFocusListener(this);
-//		f_name = null;
-//		removeAll();
-//		super.dispose();
+		f_name = null;
+		super.dispose();
 	}	//	dispose
 
 	
@@ -732,6 +732,8 @@ public class WSubOrder extends WPosSubPanel
 		return m_bpartner;
 	}	//	getBPartner
 	
+	
+	
 
 	/**
 	 * 	Get M_PriceList_Version_ID.
@@ -777,10 +779,10 @@ public class WSubOrder extends WPosSubPanel
 	 */
 	public void printTicket()
 	{
-		if ( p_posPanel.m_order == null )
+		if ( m_order == null )
 			return;
 		
-		MOrder order = p_posPanel.m_order;
+		MOrder order = m_order;
 		//int windowNo = p_posPanel.getWindowNo();
 		//Properties m_ctx = p_posPanel.getPropiedades();
 		
@@ -803,12 +805,8 @@ public class WSubOrder extends WPosSubPanel
 	}	
 	
 	/**
-	 * Is order fully pay ?
-	 * Calculates if the given money is sufficient to pay the order
-	 * 
-	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
+	 * Is order fully pay 
+	 * @author Raul Muñoz 
 	 */
 	public boolean isOrderFullyPaid()
 	{
@@ -829,11 +827,8 @@ public class WSubOrder extends WPosSubPanel
 	}
 	
 	/**
-	 * 	Display cash return
-	 *  Display the difference between tender amount and bill amount
-	 *  @author Comunidad de Desarrollo OpenXpertya 
-	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *         *Copyright � ConSerTi
+	 * 	Update Order
+	 *  @author Raul Muñoz 
 	 */
 	public void updateOrder()
 	{
@@ -867,11 +862,8 @@ public class WSubOrder extends WPosSubPanel
 	}	
 
 	/**
-	 * 	Abrir caja
-	 *  Abre la caja registradora
-	 *  @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
+	 * 	Open Box
+	 *  @author Raul Muñoz 
 	 */
 	public void openCashDrawer()
 	{
@@ -952,12 +944,16 @@ public class WSubOrder extends WPosSubPanel
 			}
 		else if(e.getTarget().equals(f_cashPayment)){
 			payOrder();
-		}	
+		}
+		else if(e.getTarget().equals(f_logout)){
+			dispose();
+			return;
+		}
 		//	Product
 		else if (e.getTarget().equals(f_bSearch))
 			{
 				setParameter();
-				WQueryProduct qt = new WQueryProduct(p_posPanel);
+				WQueryProduct qt = new WQueryProduct(p_posPanel, this);
 				
 				qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
 				qt.setVisible(true);
@@ -995,18 +991,25 @@ public class WSubOrder extends WPosSubPanel
 		}
 		
 		else if (e.getTarget().equals(f_down)){
-			if((m_table.getRowCount()-1)>m_table.getSelectedRow() && m_table.getRowCount() != 0){
-				m_table.setSelectedIndex(m_table.getSelectedRow()+1);
-			}
-			else
-				m_table.setSelectedIndex(0);
+			int rows = m_table.getRowCount();
+			if (rows == 0)
+				return;
+			int row = m_table.getSelectedRow();
+			row++;
+			if (row >= rows)
+				row = rows - 1;
+			m_table.setSelectedIndex(row);
 			return;
 		}
 		else if (e.getTarget().equals(f_up)){
-			if((m_table.getRowCount()-1)<m_table.getSelectedRow() && m_table.getRowCount() != 0) 
-				m_table.setSelectedIndex(m_table.getSelectedRow()-1);
-			else
-				m_table.setSelectedIndex(m_table.getRowCount()-1);
+			int rows = m_table.getRowCount();
+			if (rows == 0)
+				return;
+			int row = m_table.getSelectedRow();
+			row--;
+			if (row < 0)
+				row = 0;
+			m_table.setSelectedIndex(row);
 			return;
 		}
 		//	Delete
@@ -1059,6 +1062,13 @@ public class WSubOrder extends WPosSubPanel
 			}
 			return;
 		}
+		//	Register
+		if (e.getTarget().equals(f_history)) {
+			WPosQuery qt = new WQueryTicket(p_posPanel, this);
+			qt.setVisible(true);
+			AEnv.showWindow(qt);
+			return;
+		}
 			//	Product
 		else if (e.getTarget().equals(f_quantity))
 			{
@@ -1106,7 +1116,6 @@ public class WSubOrder extends WPosSubPanel
 			if ( key.getSubKeyLayout_ID() > 0 )
 			{
 				currentLayout = key.getSubKeyLayout_ID();
-				//(this, Integer.toString(key.getSubKeyLayout_ID())
 				if(all_SubCard.getContext().equals(e.getTarget().getId())){
 					all_SubCard.setVisible(true);
 					popular_SubCard.setVisible(false);
@@ -1177,7 +1186,7 @@ public class WSubOrder extends WPosSubPanel
 		}
 		else	//	more than one
 		{
-			WQueryProduct qt = new WQueryProduct(p_posPanel);
+			WQueryProduct qt = new WQueryProduct(p_posPanel, this);
 			qt.setResults(results);
 			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
 			qt.setVisible(true);
@@ -1364,7 +1373,6 @@ public class WSubOrder extends WPosSubPanel
 		
 	}
 
-	
 	/***************************************************************************
 	 * New Line
 	 */
@@ -1413,4 +1421,4 @@ public class WSubOrder extends WPosSubPanel
 		}
 	}	//	setM_Product_ID
 	
-}	//	PosSubCustomer
+}

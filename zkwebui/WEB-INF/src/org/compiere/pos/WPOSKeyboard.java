@@ -137,7 +137,7 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 
 		String txtCalcId = txtCalc.getId();
 		row.appendChild(txtCalc);
-		txtCalc.setName("sdsd");
+		txtCalc.setName("number");
 		WPosKeyPanel keys = new WPosKeyPanel(POSKeyLayout_ID, this, txtCalcId, keyBoardType);
 		center = new Center();
 		center.setStyle("border: none");
@@ -164,12 +164,14 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		{
 			keys.clear();
 			keys = null;
+			field = null;
+			txtCalc = null;
+			dfield = null;
 		}
 		onClose();
 	}	//	dispose
 
 	public void onChanging(InputEvent e){
-		System.out.println("position"+e.getStart());
 	}
 	
 	@Override

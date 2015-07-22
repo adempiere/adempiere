@@ -61,9 +61,9 @@ public class WQueryTicket extends WPosQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryTicket (WPosBasePanel posPanel)
+	public WQueryTicket (WPosBasePanel posPanel, WSubOrder order)
 	{
-		super(posPanel);
+		super(posPanel, order);
 	}	//	PosQueryProduct
 
 	
@@ -173,8 +173,6 @@ public class WQueryTicket extends WPosQuery
 				, false, "C_Order")
 			+ " ORDER BY Margin, QtyAvailable";
 
-		m_table.addActionListener(this);
-//		m_table.getSelectionModel().addListSelectionListener(this);
 		enableButtons();
 		center = new Center();
 		center.setStyle("border: none");
@@ -183,12 +181,11 @@ public class WQueryTicket extends WPosQuery
 		m_table.addActionListener(this);
 		center.appendChild(m_table);
 		mainLayout.appendChild(center);
-//		m_table.loadTable(new PO[0]);
+		m_table.addActionListener(this);
 		m_table.autoSize();
 		date = new Date(Env.getContextAsDate(Env.getCtx(), "#Date").getTime());
 		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), date);
 	}	//	init
-
 	
 	/**
 	 * 
@@ -202,8 +199,6 @@ public class WQueryTicket extends WPosQuery
 		
 		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), date);
 	}
-
-	
 
 	/**
 	 * 	Set/display Results
@@ -220,7 +215,7 @@ public class WQueryTicket extends WPosQuery
 			sql += " AND o.Processed = " + ( processed ? "'Y' " : "'N' ");
 			if (doc != null && !doc.equalsIgnoreCase(""))
 				sql += " AND o.DocumentNo = '" + doc + "'";
-			if ( date != null )
+			if ( date != null)
 				sql += " AND o.DateOrdered = '"+ date +"' Order By o.DocumentNo DESC";
 			PreparedStatement pstm = DB.prepareStatement(sql, null);
 			ResultSet rs = pstm.executeQuery();
@@ -267,8 +262,8 @@ public class WQueryTicket extends WPosQuery
 		
 		if (m_c_order_id > 0)
 		{
-			p_posPanel.setOrder(m_c_order_id);
-//			p_posPanel.updateInfo();
+			p_order.setOrder(m_c_order_id);
+			p_order.updateInfo();
 
 		}
 		dispose();
@@ -277,19 +272,16 @@ public class WQueryTicket extends WPosQuery
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		// TODO Auto-generated method stub
 		if (f_refresh.equals(e.getTarget())
 				|| e.getTarget().equals(f_processed) || e.getTarget().equals(f_documentno)
-				|| e.getTarget().equals(f_date))
-			{
+				|| e.getTarget().equals(f_date)) {
+				if(f_date.getValue()!=null)
+					date = new Date(f_date.getValue().getTime());
+				else
+					date = null;
 				setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), date);
 				return;
 			}
-//			else if ("Reset".equals(e.getActionCommand()))
-//			{
-//				reset();
-//				return;
-//			}
 			else if (e.getTarget().equals(f_up)) {
 				int rows = m_table.getRowCount();
 				if (rows == 0)
@@ -298,11 +290,10 @@ public class WQueryTicket extends WPosQuery
 				row--;
 				if (row < 0)
 					row = 0;
-//				m_table.getSelectionModel().setSelectionInterval(row, row);
+				m_table.setSelectedIndex(row);
 				return;
 			}
-			else if (e.getTarget().equals(f_down))
-			{
+			else if (e.getTarget().equals(f_down)) {
 				int rows = m_table.getRowCount();
 				if (rows == 0)
 					return;
@@ -310,25 +301,20 @@ public class WQueryTicket extends WPosQuery
 				row++;
 				if (row >= rows)
 					row = rows - 1;
-//				m_table.getSelectionModel().setSelectionInterval(row, row);
+				m_table.setSelectedIndex(row);
 				return;
 			}
-			else if (e.getTarget().equals(f_cancel))
-			{
+			else if (e.getTarget().equals(f_cancel)) {
 				dispose();
 				return;
 			}
-//			//	Exit
-//			close();
-
+			else if(e.getTarget().equals(f_ok)) {
+				close();
+				return;
+			}
+		enableButtons();
 			
 	}
 
-
-	@Override
-	public void actionPerformed(org.adempiere.webui.event.ActionEvent e) {
-		// TODO Auto-generated method stub
-//		log.info("PosQueryProduct.actionPerformed - " + e.getActionCommand());
-	}
 	
 }	//	PosQueryProduct

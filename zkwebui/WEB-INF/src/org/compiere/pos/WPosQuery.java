@@ -30,7 +30,6 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
-import org.adempiere.webui.event.ActionEvent;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.model.MPOS;
 import org.compiere.util.CLogger;
@@ -47,17 +46,19 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 	 */
 	private static final long serialVersionUID = 6318532272101473014L;
 	
-	protected Properties p_ctx;
+	protected Properties 		p_ctx;
 	/** POS Panel							*/
-	protected WPosBasePanel p_posPanel = null;
+	protected WPosBasePanel 	p_posPanel = null;
+	/** Order 								*/
+	protected WSubOrder 		p_order = null;
 	/**	Underlying POS Model				*/
-	protected MPOS p_pos = null;
+	protected MPOS 				p_pos = null;
 	/** The Table					*/
-	protected WListbox m_table;
-	protected Panel northPanel;
-	protected ConfirmPanel confirm;
-	protected Button f_up;
-	protected Button f_down;
+	protected WListbox 			m_table;
+	protected Panel 			northPanel;
+	protected ConfirmPanel	 	confirm;
+	protected Button 			f_up;
+	protected Button 			f_down;
 	/**	Logger			*/
 	protected static CLogger log = CLogger.getCLogger(QueryProduct.class);
 
@@ -69,8 +70,6 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 
 	public abstract void reset();
 
-	public abstract void actionPerformed(ActionEvent e);
-
 
 	protected abstract void init();
 	protected abstract void enableButtons();
@@ -78,10 +77,11 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 	/**
 	 * 	Constructor
 	 */
-	public WPosQuery (WPosBasePanel posPanel)
+	public WPosQuery (WPosBasePanel posPanel, WSubOrder order)
 	{
 		super();
 		p_posPanel = posPanel;
+		p_order = order;
 		p_pos = posPanel.p_pos;
 		p_ctx = p_pos.getCtx();
 		this.setAttribute("mode", "modal");
