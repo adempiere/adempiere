@@ -103,8 +103,7 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 	public void mouseClicked(MouseEvent e)
 	{
 		//  Single click with selected row => exit
-		if (e.getClickCount() > 0 && m_table.getSelectedRow() != -1)
-		{
+		if (e.getClickCount() > 0 && m_table.getSelectedRow() != -1) {
 			enableButtons();
 			close();
 		}
@@ -122,8 +121,7 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 	 * 	Table selection changed
 	 *	@param e event
 	 */
-	public void valueChanged (ListSelectionEvent e)
-	{
+	public void valueChanged (ListSelectionEvent e)	{
 		if (e.getValueIsAdjusting())
 			return;
 		enableButtons();

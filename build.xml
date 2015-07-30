@@ -17,7 +17,7 @@
   <!-- @author Carlos Parada Set Path --> 
   <path id="compile.classpath">
     <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
-    
+   
     <fileset dir="${adempiere.trunk}/lib">
       <include name="*.jar"/>
     </fileset>
