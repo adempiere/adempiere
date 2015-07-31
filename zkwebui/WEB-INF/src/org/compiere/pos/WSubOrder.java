@@ -905,8 +905,6 @@ public class WSubOrder extends WPosSubPanel
 
 	@Override
 	public void tableChanged(WTableModelEvent event) {
-		// TODO Auto-generated method stub
-
 		int row = m_table.getSelectedRow();
 		if (row != -1 )
 		{
@@ -937,7 +935,6 @@ public class WSubOrder extends WPosSubPanel
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
 		String action = e.getTarget().getId();
-
 		if (e.getTarget().equals(f_bNew)) {
 				newOrder(); //red1 New POS Order instead - B_Partner already has direct field
 				e.stopPropagation();
@@ -987,6 +984,7 @@ public class WSubOrder extends WPosSubPanel
 				cont=0;
 				f_bSearch.setFocus(true);
 			}
+			updateInfo();
 			return;
 		}
 		
@@ -1352,7 +1350,7 @@ public class WSubOrder extends WPosSubPanel
 	private void enableButtons()
 	{
 		boolean enabled = true;
-		if ( m_table == null || m_table.getRowCount() == 0 || m_table.getSelectedRowKey() == null )
+		if ( m_table == null || m_table.getRowCount() == 0 || m_table.getSelectedRowKey() == null || m_table.getSelectedRowKey() == 0 )
 			enabled = false;
 		
 		f_down.setEnabled(enabled);
