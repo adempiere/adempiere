@@ -1042,6 +1042,8 @@ public class WSubOrder extends WPosSubPanel
 					{
 						line.setQty(line.getQtyOrdered().add(Env.ONE));
 						line.saveEx();
+						//31-07-2015
+						f_quantity.setValue(f_quantity.getValue()+1);
 						updateInfo();
 					}
 				}
@@ -1334,7 +1336,8 @@ public class WSubOrder extends WPosSubPanel
 			IDColumn key = (IDColumn) m_table.getModel().getValueAt(i, 0);
 			if ( key != null && orderLineId > 0 && key.getRecord_ID() == orderLineId )
 			{
-				m_table.getSelectedRow();
+				// 31-07-2015
+				m_table.setSelectedIndex(i);
 				break;
 			}
 		}

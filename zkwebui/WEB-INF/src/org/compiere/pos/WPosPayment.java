@@ -234,11 +234,13 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 				tenderTypePick.appendItem(key.getName(), key);
 				if ( key.getID().equals("X")){   // Cash
 					tenderTypePick.setSelectedValueNamePair(key);
-					position++;
+					
 				}
 				else if (!"CKX".contains(key.getID() ) ) {
 					tenderTypePick.removeItemAt(position);
+					position--;
 				}
+				position++;
 			}
 		}
 		tenderTypePick.addActionListener(this);
