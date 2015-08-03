@@ -48,6 +48,7 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
@@ -129,6 +130,7 @@ public class WSubOrder extends WPosSubPanel
 	private Doublebox f_quantity;
 	protected WPosTextField	f_name1;
 	private Button			f_bSearch;
+	private Button			f_bSearch1;
 	private int orderLineId = 0;
 	private int currentLayout;
 	/** The Table					*/
@@ -386,13 +388,15 @@ public class WSubOrder extends WPosSubPanel
 
 		row = rows.newRow();
 		row.setSpans("2,2,2,2");
+		row.setHeight("60px");
 		// BP
 		row.appendChild (new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")).rightAlign());
 		f_name = new Textbox();
 		f_name.setEnabled(false);
 		f_name.setName("Name");
 		row.appendChild  (f_name);
-
+		f_bSearch = createButtonAction("BPartner", p_pos.getOSK_KeyLayout_ID());
+		row.appendChild(f_bSearch);
 				//
 		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal"));
 		lTotal.setStyle("Font-size:medium");
@@ -406,8 +410,8 @@ public class WSubOrder extends WPosSubPanel
 
 		row = rows.newRow();
 		row.setSpans("2,2,2,2");
-		f_bSearch = createButtonAction ("Product", p_pos.getOSK_KeyLayout_ID());
-		row.appendChild(f_bSearch);
+		f_bSearch1 = createButtonAction ("Product", p_pos.getOSK_KeyLayout_ID());
+		row.appendChild(f_bSearch1);
 		row.setHeight("60px");
 		Label productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		row.appendChild(productLabel);
@@ -620,62 +624,62 @@ public class WSubOrder extends WPosSubPanel
 	private void findBPartner()
 	{
 		
-//		String query = f_name.getText();
-//		
-//		if (query == null || query.length() == 0)
-//			return;
-//		
-//		// unchanged
-//		if ( m_bpartner != null && m_bpartner.getName().equals(query))
-//			return;
-//		
-//		query = query.toUpperCase();
-//		//	Test Number
-//		boolean allNumber = true;
-//		boolean noNumber = true;
-//		char[] qq = query.toCharArray();
-//		for (int i = 0; i < qq.length; i++)
-//		{
-//			if (Character.isDigit(qq[i]))
-//			{
-//				noNumber = false;
-//				break;
-//			}
-//		}
-//		try
-//		{
-//			Integer.parseInt(query);
-//		}
-//		catch (Exception e)
-//		{
-//			allNumber = false;
-//		}
-//		String Value = query;
-//		String Name = (allNumber ? null : query);
-//		String EMail = (query.indexOf('@') != -1 ? query : null); 
-//		String Phone = (noNumber ? null : query);
-//		String City = null;
-//		//
-//		//TODO: contact have been remove from rv_bpartner
-//		MBPartnerInfo[] results = MBPartnerInfo.find(p_ctx, Value, Name, 
-//			/*Contact, */null, EMail, Phone, City);
-//		
-//		//	Set Result
-//		if (results.length == 0)
-//		{
-//			setC_BPartner_ID(0);
-//		}
-//		else if (results.length == 1)
-//		{
-//			setC_BPartner_ID(results[0].getC_BPartner_ID());
-//			f_name.setText(results[0].getName());
-//		}
-//		else	//	more than one
-//		{
-//			WQueryBPartner qt = new WQueryBPartner(p_posPanel);
-//			qt.setResults (results);
-//			qt.setVisible(true);
-//		}
+		String query = f_name.getText();
+		
+		if (query == null || query.length() == 0)
+			return;
+		
+		// unchanged
+		if ( m_bpartner != null && m_bpartner.getName().equals(query))
+			return;
+		
+		query = query.toUpperCase();
+		//	Test Number
+		boolean allNumber = true;
+		boolean noNumber = true;
+		char[] qq = query.toCharArray();
+		for (int i = 0; i < qq.length; i++)
+		{
+			if (Character.isDigit(qq[i]))
+			{
+				noNumber = false;
+				break;
+			}
+		}
+		try
+		{
+			Integer.parseInt(query);
+		}
+		catch (Exception e)
+		{
+			allNumber = false;
+		}
+		String Value = query;
+		String Name = (allNumber ? null : query);
+		String EMail = (query.indexOf('@') != -1 ? query : null); 
+		String Phone = (noNumber ? null : query);
+		String City = null;
+		//
+		//TODO: contact have been remove from rv_bpartner
+		MBPartnerInfo[] results = MBPartnerInfo.find(p_ctx, Value, Name, 
+			/*Contact, */null, EMail, Phone, City);
+		
+		//	Set Result
+		if (results.length == 0)
+		{
+			setC_BPartner_ID(0);
+		}
+		else if (results.length == 1)
+		{
+			setC_BPartner_ID(results[0].getC_BPartner_ID());
+			f_name.setText(results[0].getName());
+		}
+		else	//	more than one
+		{
+			WQueryBPartner qt = new WQueryBPartner(p_posPanel, this);
+			qt.setResults (results);
+			qt.setVisible(true);
+		}
 	}	//	findBPartner
 	
 	
@@ -946,8 +950,24 @@ public class WSubOrder extends WPosSubPanel
 			dispose();
 			return;
 		}
-		//	Product
-		else if (e.getTarget().equals(f_bSearch))
+//		Product
+			else if (e.getTarget().equals(f_bSearch))
+				{
+					setParameter();
+					WQueryBPartner qt = new WQueryBPartner(p_posPanel, this);
+					
+//					qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
+					qt.setVisible(true);
+					
+					AEnv.showWindow(qt);
+					findBPartner();
+					if(m_table.getRowCount() > 0){
+						int row = m_table.getSelectedRow();
+						if (row < 0) row = 0;
+						m_table.setSelectedIndex(row);
+					}
+			}//	Product
+		else if (e.getTarget().equals(f_bSearch1))
 			{
 				setParameter();
 				WQueryProduct qt = new WQueryProduct(p_posPanel, this);
