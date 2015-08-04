@@ -214,7 +214,6 @@ public class WQueryBPartner extends WPosQuery
 			s_sqlWhere, false, "RV_BPartner")
 			+ " ORDER BY Value";
 		m_table.addActionListener(this);
-//		m_table.getSelectionModel().addListSelectionListener(this);
 		enableButtons();
 		center = new Center();
 		center.setStyle("border: none");
@@ -270,12 +269,12 @@ public class WQueryBPartner extends WPosQuery
 		
 		if (m_C_BPartner_ID > 0)
 		{
-			p_posPanel.f_order.setC_BPartner_ID(m_C_BPartner_ID);
+			p_order.setC_BPartner_ID(m_C_BPartner_ID);
 		//	p_posPanel.f_curLine.setCurrency(m_Price);
 		}
 		else
 		{
-			p_posPanel.f_order.setC_BPartner_ID(0);
+			p_order.setC_BPartner_ID(0);
 		//	p_posPanel.f_curLine.setPrice(Env.ZERO);
 		}
 		dispose();
@@ -330,8 +329,8 @@ public class WQueryBPartner extends WPosQuery
 				m_table.setSelectedIndex(row);
 				return;
 			}
-//			Dixon Martinez 2015-07-31
-//			Support for creating customers from the point of sale
+			//	Dixon Martinez 2015-07-31
+			//	Support for creating customers from the point of sale
 			else if(bot_New.equals(e.getTarget())) {
 				
 				WBPartner t = new WBPartner(0);

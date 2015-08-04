@@ -712,8 +712,8 @@ public class WSubOrder extends WPosSubPanel
 		m_M_PriceList_Version_ID = 0;
 		getM_PriceList_Version_ID();
 		//fillCombos();
-		if ( p_posPanel.m_order != null && m_bpartner != null )
-			p_posPanel.m_order.setBPartner(m_bpartner);  //added by ConSerTi to update the client in the request
+		if ( m_order != null && m_bpartner != null )
+			m_order.setBPartner(m_bpartner);  //added by ConSerTi to update the client in the request
 	}	//	setC_BPartner_ID
 
 	/**
@@ -950,23 +950,23 @@ public class WSubOrder extends WPosSubPanel
 			dispose();
 			return;
 		}
-//		Product
-			else if (e.getTarget().equals(f_bSearch))
-				{
-					setParameter();
-					WQueryBPartner qt = new WQueryBPartner(p_posPanel, this);
-					
-//					qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
-					qt.setVisible(true);
-					
-					AEnv.showWindow(qt);
-					findBPartner();
-					if(m_table.getRowCount() > 0){
-						int row = m_table.getSelectedRow();
-						if (row < 0) row = 0;
-						m_table.setSelectedIndex(row);
-					}
-			}//	Product
+			//  Partner
+		else if (e.getTarget().equals(f_bSearch))
+			{
+				setParameter();
+				WQueryBPartner qt = new WQueryBPartner(p_posPanel, this);
+				
+				qt.setVisible(true);
+				
+				AEnv.showWindow(qt);
+				findBPartner();
+				if(m_table.getRowCount() > 0){
+					int row = m_table.getSelectedRow();
+					if (row < 0) row = 0;
+					m_table.setSelectedIndex(row);
+				}
+		}
+		//	Product
 		else if (e.getTarget().equals(f_bSearch1))
 			{
 				setParameter();
