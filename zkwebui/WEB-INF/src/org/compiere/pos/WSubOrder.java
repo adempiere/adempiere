@@ -60,7 +60,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
 import org.compiere.print.MPrintColor;
-import org.compiere.print.MPrintFont;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
@@ -295,7 +294,7 @@ public class WSubOrder extends WPosSubPanel
 		f_price = new Doublebox(0.0);
 		row.appendChild(f_price);
 		setPrice(Env.ZERO);
-		
+		f_price.addEventListener("onBlur", this);
 		center = new Center();
 		detailPanel.appendChild(center);
 		center.appendChild(m_table);
@@ -582,18 +581,18 @@ public class WSubOrder extends WPosSubPanel
 	private void payOrder() {
 
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		
 		if( m_order != null ) 
 		{
-			if ( !m_order.isProcessed() && !m_order.processOrder() )
-			{
-				FDialog.warn(0, p_posPanel, "PosOrderProcessFailed", "");
-				return;
-			}
-
 			if (WPosPayment.pay(p_posPanel, this)) {
-				printTicket();
-				setOrder(0);
+				if ( !m_order.isProcessed() && !m_order.processOrder() )
+				{
+					FDialog.warn(0, p_posPanel, "PosOrderProcessFailed", "");
+					return;
+				}
+				else {
+					printTicket();
+					setOrder(0);
+				}
 			}
 		}	
 	}
@@ -1089,9 +1088,19 @@ public class WSubOrder extends WPosSubPanel
 			AEnv.showWindow(qt);
 			return;
 		}
-			//	Product
-		else if (e.getTarget().equals(f_quantity))
+		//	Price
+		else if (e.getTarget().equals(f_price)) {
+			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+			if ( line != null )
 			{
+				line.setPrice(new BigDecimal(f_price.getValue().toString()));
+				line.saveEx();
+				updateInfo();
+			}
+		}
+		//	Quantity
+		else if (e.getTarget().equals(f_quantity))
+		{
 			cont++;
 			if(cont<2){
 				if(e.getName().equals("onFocus")) {
@@ -1408,8 +1417,8 @@ public class WSubOrder extends WPosSubPanel
 		if (price == null)
 			price = Env.ZERO;
 		f_price.setValue(price.doubleValue());
-		boolean rw = Env.ZERO.compareTo(price) == 0 || p_pos.isModifyPrice();
-		f_price.setDisabled(!rw);
+		boolean rw = Env.ZERO.compareTo(price) == 0 || !p_pos.isModifyPrice();
+		f_price.setReadonly(rw);
 	} //	setPrice
 	public void setQty(BigDecimal qty) {
 		if (qty == null)
