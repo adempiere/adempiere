@@ -213,7 +213,6 @@ public class WSubOrder extends WPosSubPanel
 		currentLayout = C_POSKeyLayout_ID;
 		east.appendChild(
 				createPanel(C_POSKeyLayout_ID));
-//		row.appendChild(new Label("dsds"));
 		
 		West west = new West();
 		west.setStyle("border: none;");
@@ -897,7 +896,6 @@ public class WSubOrder extends WPosSubPanel
 		}
 		else
 		{
-			// order.getMOrder().prepareIt();
 			f_net.setValue(order.getSubtotal().doubleValue());
 			f_total.setValue(order.getGrandTotal().doubleValue());
 			f_tax.setValue(order.getTaxAmt().doubleValue());

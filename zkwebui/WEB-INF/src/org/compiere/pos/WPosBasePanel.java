@@ -23,12 +23,28 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 
+
+
+
+import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.Borderlayout;
+import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
+import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOS;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zkex.zul.Center;
 import org.zkoss.zul.Iframe;
 
 /**
@@ -36,8 +52,9 @@ import org.zkoss.zul.Iframe;
  * @author Raul Muñoz 19/03/2015, 12:57
  *
  */
-public class WPosBasePanel extends Panel
+public class WPosBasePanel extends Panel implements EventListener
 	//implements FormPanel
+ 
 {
 	
 	/**
@@ -70,20 +87,26 @@ public class WPosBasePanel extends Panel
 	protected MPOS			p_pos = null;
 	/** Keyoard Focus Manager		*/
 	private PosKeyboardFocusManager	m_focusMgr = null;
-
+	
 	/** Order Panel				*/
 	protected WSubOrder 		f_order;
 	/** Current Line				*/
 	protected WSubCurrentLine 	f_curLine;
 	
 	PosOrderModel m_order = null;
-	
+	private boolean action = false;
+
+	private Button b_ok = new Button("Ok");
+	private Button b_cancel = new Button("Cancel");
+	private int m_Sales_ID = 0;
+	private Window selection;
 	//	Today's (login) date		*/
 	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
 	
 	private Iframe frame;
 	private HashMap<Integer, WPOSKeyboard> keyboards = new HashMap<Integer, WPOSKeyboard>();
 	public Panel parameterPanel = new Panel();
+	private Listbox listTerminal = ListboxFactory.newDropdownListbox();
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -120,8 +143,10 @@ public class WPosBasePanel extends Panel
 	private boolean dynInit()
 	{
 		
-		if (!setMPOS())
+		if (!setMPOS()){
+			dispose();
 			return false;
+		}
 		
 		f_order = new WSubOrder(this);
 		appendChild(f_order);
@@ -137,9 +162,11 @@ public class WPosBasePanel extends Panel
 	{
 		MPOS[] poss = null;
 		if (m_SalesRep_ID == 100)	//	superUser
-			poss = getPOSs (0);
-		else
+			poss = getPOSs (m_Sales_ID);
+		else{
+			m_Sales_ID = m_SalesRep_ID;
 			poss = getPOSs (m_SalesRep_ID);
+		}
 		//
 		if (poss.length == 0)
 		{
@@ -151,8 +178,49 @@ public class WPosBasePanel extends Panel
 			p_pos = poss[0];
 			return true;
 		}
-
-		return false;
+		//	Select POS
+			String msg = Msg.getMsg(m_ctx, "SelectPOS");
+			selection = new Window();
+			Panel mainPanel = new Panel();
+			Panel panel = new Panel();
+			selection.setTitle(msg);
+			Borderlayout mainLayout = new Borderlayout();
+			Grid layout = GridFactory.newGridLayout();
+			selection.appendChild(panel);
+			selection.setWidth("200px");
+			selection.setHeight("100px");
+			//	North
+			Panel centerPanel = new Panel();
+			mainPanel.appendChild(mainLayout);
+			mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
+			mainLayout.setHeight("100%");
+			mainLayout.setWidth("100%");
+			//
+			Center center = new Center();
+			center.setStyle("border: none");
+			mainLayout.appendChild(center);
+			center.appendChild(centerPanel);
+			centerPanel.appendChild(layout);
+			layout.setWidth("100%");
+			layout.setHeight("100%");
+			selection.appendChild(mainPanel);
+			Rows rows = null;
+			Row row = null;
+			rows = layout.newRows();
+			row = rows.newRow();
+			for(int x=0; x<poss.length; x++){
+				listTerminal.addItem(poss[x].getKeyNamePair());
+			}
+			b_ok.addActionListener(this);
+			b_cancel.addEventListener("onClick", this);
+			row.setSpans("2");
+			row.appendChild(listTerminal);
+			row = rows.newRow();
+			row.appendChild(b_ok);
+			row.appendChild(b_cancel);
+			AEnv.showWindow(selection);
+			
+		return action;
 	}	//	setMPOS
 	
 	/**
@@ -242,5 +310,19 @@ public class WPosBasePanel extends Panel
 		m_ctx = null;
 	}	//	dispose
 
-}	//	PosPanel
+	@Override
+	public void onEvent(Event e) throws Exception {
+		if(e.getTarget().equals(b_ok)){
+			MPOS[] poss = getPOSs (m_Sales_ID);
+			System.out.println();
+			p_pos = poss[listTerminal.getSelectedIndex()];
+			action = true;
+			selection.dispose();
+		}
+		if(e.getTarget().equals(b_cancel)){
+			action = false;
+			selection.dispose();
+		}
+	}
+}	//	PosBasePanel
 
