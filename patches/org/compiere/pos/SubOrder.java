@@ -281,8 +281,9 @@ public class SubOrder extends PosSubPanel
 			
 			deleteOrder();
 		}
-		else if (action.equals("Cash"))
+		else if (action.equals("Cash")){
 			payOrder();
+		}
 		else if (action.equals("Print"))
 			printOrder();
 		else if (action.equals("BPartner"))
