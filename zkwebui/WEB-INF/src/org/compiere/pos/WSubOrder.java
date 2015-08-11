@@ -57,9 +57,11 @@ import org.compiere.model.MPOSKeyLayout;
 import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUser;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
 import org.compiere.print.MPrintColor;
+import org.compiere.print.MPrintFont;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
@@ -67,6 +69,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.pos.BigDecimalEditor;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
@@ -149,7 +152,7 @@ public class WSubOrder extends WPosSubPanel
 		new ColumnInfo(Msg.translate(Env.getCtx(), "C_UOM_ID"), "UOMSymbol", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "PriceActual"), "PriceActual", BigDecimal.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "LineNetAmt"), "LineNetAmt", BigDecimal.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Discount"), "Discount", BigDecimal.class,  false, true, null), 
 	};
 	/**	From Clause							*/
 	private static String s_sqlFrom ;
@@ -232,11 +235,10 @@ public class WSubOrder extends WPosSubPanel
 		
 		setStyle("border: none");
 		
-		
 		m_table = ListboxFactory.newDataTable();
 		m_sql = m_table.prepareTable(s_layout, s_sqlFrom, 
 			s_sqlWhere, false, "C_Order_LineTax_v");
-
+		m_table.setColumnClass(6, BigDecimal.class, false);
 		m_table.autoSize();
 		m_table.getModel().addTableModelListener(this);
 		Center center = new Center();
@@ -271,11 +273,8 @@ public class WSubOrder extends WPosSubPanel
 		f_minus = createButtonAction("Minus", null);
 		row.appendChild(f_minus);
 
-
-		
 		Label qtyLabel = new Label(Msg.translate(Env.getCtx(), "QtyOrdered"));
 		row.appendChild(qtyLabel.rightAlign());
-		
 		
 		f_quantity = new Doublebox(1);
 		row.appendChild(f_quantity);
@@ -285,7 +284,6 @@ public class WSubOrder extends WPosSubPanel
 		//
 		f_plus = createButtonAction("Plus", null);
 		row.appendChild(f_plus);
-		
 		
 		Label priceLabel = new Label(Msg.translate(Env.getCtx(), "PriceActual"));
 		row.appendChild(priceLabel.rightAlign());
@@ -305,13 +303,19 @@ public class WSubOrder extends WPosSubPanel
 		parameterLayout3.setWidth("100%");
 		parameterLayout3.setHeight("100%");
 		rows = parameterLayout3.newRows();
+		parameterLayout3.setStyle("border:none");
 		row = rows.newRow();
 		row.setHeight("60px");
+
 		// NEW
 		f_bNew = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
 		f_bNew.addActionListener(this);
 		row.appendChild(f_bNew);
-		
+
+		// BPartner Search
+		f_bSearch = createButtonAction("BPartner", p_pos.getOSK_KeyLayout_ID());
+		row.appendChild(f_bSearch);
+				
 		// EDIT
 		f_bEdit = createButtonAction("Edit", null);
 		row.appendChild(f_bEdit);
@@ -321,7 +325,7 @@ public class WSubOrder extends WPosSubPanel
 		f_history = createButtonAction("History", null);
 		f_history.addActionListener(this);
 		row.appendChild(f_history); 
-				
+		
 		// CANCEL
 		f_process = createButtonAction("Cancel", null);
 		row.appendChild(f_process);
@@ -348,35 +352,46 @@ public class WSubOrder extends WPosSubPanel
 		f_logout.addActionListener(this);
 		row.appendChild (f_logout);
 		
-				
 		row = rows.newRow();
-				
-		// DOC NO
+		row.setSpans("2,7");
+		// BP
+		row.appendChild (new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")).rightAlign());
+		
+		f_name = new Textbox();
+		f_name.setEnabled(false);
+		f_name.setName("Name");
+		f_name.setWidth("100%");
+		row.appendChild  (f_name);
+		
+		//
+		row = rows.newRow();
 		row.setSpans("2,2,2,2");
+		// DOC NO
 		row.appendChild (new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")).rightAlign());
 
 		f_DocumentNo = new Textbox();
 		f_DocumentNo.setName("DocumentNo");
 		f_DocumentNo.setEnabled(false);
 		row.appendChild(f_DocumentNo);
-
+		
 		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal"));
 		row.appendChild(lNet.rightAlign());
 		f_net = new Doublebox(DisplayType.Amount);
 		f_net.setDisabled(true);
 		row.appendChild(f_net);
 		f_net.setText(Env.ZERO+"");
-		//
-				
+		
 		row = rows.newRow();
-		row.setSpans("2,2,2,2");
+		row.setSpans("2,2,2,2,2");
+
 		// SALES REP
 		row.appendChild(new Label(Msg.translate(Env.getCtx(), "SalesRep_ID")).rightAlign());
-		f_RepName = new Textbox("");
+		MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
+		f_RepName = new Textbox(salesRep.getName());
 		f_RepName.setName("SalesRep");
 		f_RepName.setEnabled(false);
 		row.appendChild (f_RepName);
-				
+		
 		Label lTax = new Label (Msg.translate(Env.getCtx(), "TaxAmt"));
 		row.appendChild(lTax.rightAlign());
 		f_tax = new Doublebox(DisplayType.Amount);
@@ -385,19 +400,24 @@ public class WSubOrder extends WPosSubPanel
 		f_tax.setValue(Env.ZERO.doubleValue());
 
 		row = rows.newRow();
-		row.setSpans("2,2,2,2");
+		row.setSpans("1,1,2,2,2");
 		row.setHeight("60px");
-		// BP
-		row.appendChild (new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")).rightAlign());
-		f_name = new Textbox();
-		f_name.setEnabled(false);
-		f_name.setName("Name");
-		row.appendChild  (f_name);
-		f_bSearch = createButtonAction("BPartner", p_pos.getOSK_KeyLayout_ID());
-		row.appendChild(f_bSearch);
-				//
+
+		f_bSearch1 = createButtonAction ("Product", p_pos.getOSK_KeyLayout_ID());
+		row.appendChild(f_bSearch1);
+		Label productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
+		row.appendChild(productLabel.rightAlign());
+		
+		f_name1 = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		
+		f_name1.setName("Name");
+		f_name1.setReadonly(true);
+		f_name1.addEventListener("onFocus", this);
+
+		row.appendChild(f_name1);
+		//
 		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal"));
-		lTotal.setStyle("Font-size:medium");
+		lTotal.setStyle("Font-size:12px");
 		row.appendChild(lTotal.rightAlign());
 		f_total = new Doublebox(DisplayType.Amount);
 		f_total.setDisabled(true);
@@ -406,22 +426,6 @@ public class WSubOrder extends WPosSubPanel
 		f_total.setStyle("Font-size:medium");
 		//
 
-		row = rows.newRow();
-		row.setSpans("2,2,2,2");
-		f_bSearch1 = createButtonAction ("Product", p_pos.getOSK_KeyLayout_ID());
-		row.appendChild(f_bSearch1);
-		row.setHeight("60px");
-		Label productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		row.appendChild(productLabel);
-		
-		f_name1 = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
-		
-		f_name1.setName("Name");
-		f_name1.setReadonly(true);
-		f_name1.addEventListener("onFocus", this);
-		
-		row.appendChild(f_name1);
-		
 	}	//	init
 	
 	public Panel createButton(int C_POSKeyLayout_ID){
@@ -896,6 +900,7 @@ public class WSubOrder extends WPosSubPanel
 		}
 		else
 		{
+			// order.getMOrder().prepareIt();
 			f_net.setValue(order.getSubtotal().doubleValue());
 			f_total.setValue(order.getGrandTotal().doubleValue());
 			f_tax.setValue(order.getTaxAmt().doubleValue());

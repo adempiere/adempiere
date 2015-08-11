@@ -22,7 +22,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
-
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -38,6 +37,7 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MCurrency;
+import org.compiere.model.MInvoice;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPOS;
@@ -77,6 +77,16 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			if ( tenderType.equals(MPayment.TENDERTYPE_Cash) )
 			{
 				p_order.payCash(amt);
+			}
+			else if ( tenderType.equals("F") )
+			{
+//				String ID = ((ValueNamePair) fCreditNotes.getSelectedItem()).getValue();
+//				MInvoice cn = new MInvoice(p_ctx, Integer.parseInt(ID), null);
+//				p_posPanel.m_order.payCreditNote(cn, amt);
+			}
+
+			else if ( tenderType.equals("N") )
+			{
 			}
 			else if ( tenderType.equals(MPayment.TENDERTYPE_Check) )
 			{
@@ -119,7 +129,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 				FDialog.warn(0, this, "Unsupported payment type", "");
 			}
 
-
 			p_posPanel.f_order.openCashDrawer();
 			setTotals();
 		}
@@ -145,6 +154,8 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private WPosTextField fCCardNo;
 	private WPosTextField fCCardName;
 	private Listbox fCCardType= ListboxFactory.newDropdownListbox();
+	private Listbox fCreditNotes= ListboxFactory.newDropdownListbox();
+
 	private WPosTextField fCCardMonth;
 	private WPosTextField fCCardVC;
 
@@ -156,6 +167,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private Label lCCardType;
 	private Label lCCardMonth;
 	private Label lCCardVC;
+	private Label lCreditNotes;
 	private WPosTextField fTenderAmt;
 	private Label lTenderAmt;
 	private WPosTextField fReturnAmt;
@@ -178,7 +190,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private void init() {
 		cont = 0;
 		Panel panel = new Panel();
-		appendChild(panel);
 		//	Content
 		if(getWidth()==null){
 			setWidth("750px");
@@ -226,6 +237,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		int AD_Column_ID = 8416; //C_Payment_v.TenderType
 		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
 		ArrayList<Object> types = lookup.getData(true, false, true, true);
+		
 		int position = 0;
 		// default to cash payment
 		for (Object obj : types) {
@@ -234,9 +246,8 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 				tenderTypePick.appendItem(key.getName(), key);
 				if ( key.getID().equals("X")){   // Cash
 					tenderTypePick.setSelectedValueNamePair(key);
-					
 				}
-				else if (!"CKX".contains(key.getID() ) ) {
+				if (!"CKXFN".contains(key.getID() ) ) {
 					tenderTypePick.removeItemAt(position);
 					position--;
 				}
@@ -327,6 +338,21 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		row.appendChild(lCCardVC.rightAlign());
 		row.appendChild(fCCardVC);
 
+		//SHW Credit Notes
+
+		/**
+		 *	Load Credit Notes
+		 */
+		ValueNamePair[] cnp = p_order.getCreditNotes();
+		//	Set Selection
+		fCreditNotes = new Listbox();
+		
+		lCreditNotes = new Label(Msg.translate(p_ctx, "CreditNote"));
+		fCreditNotes.addActionListener(this);
+		row.appendChild(lCreditNotes.rightAlign());
+		row.appendChild(fCreditNotes);
+		//SHW Ende
+		
 		South south = new South();
 		ConfirmPanel confirm = new ConfirmPanel(true, false, true, false, false, false, false);
 		confirm.addActionListener(this);
@@ -335,6 +361,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		south.appendChild(confirm);
 		
 		
+				
 		setTotals();
 	}
 
@@ -345,11 +372,14 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		boolean check = MPayment.TENDERTYPE_Check.equals(tenderType);
 		boolean creditcard = MPayment.TENDERTYPE_CreditCard.equals(tenderType);
 		boolean account = MPayment.TENDERTYPE_Account.equals(tenderType);
-
+		boolean creditNote = tenderType.equals("F");
+		boolean returnVisible = creditNote || cash;
+		fTenderAmt.setValue("0");
+		
 		fTenderAmt.setVisible(cash);
-		fReturnAmt.setVisible(cash);
+		fReturnAmt.setVisible(returnVisible);
 		lTenderAmt.setVisible(cash);
-		lReturnAmt.setVisible(cash);
+		lReturnAmt.setVisible(returnVisible);
 		
 		fCheckAccountNo.setVisible(check);
 		fCheckNo.setVisible(check);
@@ -369,6 +399,9 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		lCCardType.setVisible(creditcard);
 		lCCardVC.setVisible(creditcard);
 
+		lCreditNotes.setVisible(creditNote);
+		fCreditNotes.setVisible(creditNote);
+		
 		fTotal.setValue(p_order.getGrandTotal().toString());
 		
 		BigDecimal received = p_order.getPaidAmt();		
@@ -459,6 +492,22 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 				
 				cont=0;
 				fReturnAmt.setFocus(true);
+			}
+			return;
+		}
+		else if ( event.getTarget().equals(fCreditNotes) )
+		{
+			BigDecimal openamt = new BigDecimal( fTotal.getText() );
+			String ID = ((ValueNamePair) fCreditNotes.getSelectedItem().toValueNamePair()).getValue();
+			MInvoice cn = new MInvoice(p_ctx, Integer.parseInt(ID), null);
+			BigDecimal payamtmax = cn.getOpenAmt().negate();
+			BigDecimal payamt = openamt.compareTo(payamtmax) >=0? payamtmax:openamt;
+			fPayAmt.setValue(payamt.toString());
+			fTenderAmt.setValue(payamt.toString());
+			BigDecimal tender = new BigDecimal( fTenderAmt.getText() );
+			if ( tender.compareTo(Env.ZERO) != 0 )
+			{
+				fReturnAmt.setValue(tender.subtract(payamt).toString());
 			}
 			return;
 		}
