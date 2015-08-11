@@ -318,12 +318,12 @@ public class PosOrderModel extends MOrder {
 		payment.setC_CashBook_ID(m_pos.getC_CashBook_ID());
 		payment.setAmount(getC_Currency_ID(), amt);
 		payment.setC_BankAccount_ID(m_pos.getC_BankAccount_ID());
-		payment.save();
+		payment.saveEx();
 		payment.setDocAction(MPayment.DOCACTION_Complete);
 		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
 		if ( payment.processIt(MPayment.DOCACTION_Complete) )
 		{
-			payment.save();
+			payment.saveEx();
 			return true;
 		}
 		else return false;
@@ -476,8 +476,7 @@ public class PosOrderModel extends MOrder {
 				.list();
 			//
 			HashMap<String,ValueNamePair> map = new HashMap<String,ValueNamePair>(); //	to eliminate duplicates
-			ValueNamePair vpv = new ValueNamePair("", "");
-			map.put ("", null);
+			ValueNamePair vpv;
 			for (MInvoice inv:cns)
 			{
 				Integer ID = inv.getC_Invoice_ID();

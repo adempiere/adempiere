@@ -80,9 +80,9 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			}
 			else if ( tenderType.equals("F") )
 			{
-//				String ID = ((ValueNamePair) fCreditNotes.getSelectedItem()).getValue();
-//				MInvoice cn = new MInvoice(p_ctx, Integer.parseInt(ID), null);
-//				p_posPanel.m_order.payCreditNote(cn, amt);
+				String ID = ((ValueNamePair) fCreditNotes.getSelectedItem().toValueNamePair()).getValue();
+				MInvoice cn = new MInvoice(p_ctx, Integer.parseInt(ID), null);
+				p_posPanel.m_order.payCreditNote(cn, amt);
 			}
 
 			else if ( tenderType.equals("N") )
@@ -312,6 +312,21 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		for(int x = 0; x < ccs.length; x++){
 			fCCardType.appendItem(ccs[x].getName(),String.valueOf(ccs[x].getValue()));
 		}
+		//SHW Credit Notes
+
+		/**
+		 *	Load Credit Notes
+		 */
+		ValueNamePair[] cnp = p_order.getCreditNotes();
+		//	Set Selection
+		for(int x = 0; x < cnp.length; x++){
+			fCreditNotes.appendItem(cnp[x].getName(),String.valueOf(cnp[x].getValue()));
+		}
+		row = rows.newRow();
+		lCreditNotes = new Label(Msg.translate(p_ctx, "CreditNote"));
+		fCreditNotes.addActionListener(this);
+		row.appendChild(lCreditNotes.rightAlign());
+		row.appendChild(fCreditNotes);
 		
 		fCCardNo = new WPosTextField(p_posPanel, p_pos.getOSNP_KeyLayout_ID(),  new DecimalFormat("#"));
 		lCCardNo = new Label(Msg.translate(p_ctx, "CreditCardNumber"));
@@ -338,23 +353,11 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		row.appendChild(lCCardVC.rightAlign());
 		row.appendChild(fCCardVC);
 
-		//SHW Credit Notes
 
-		/**
-		 *	Load Credit Notes
-		 */
-		ValueNamePair[] cnp = p_order.getCreditNotes();
-		//	Set Selection
-		fCreditNotes = new Listbox();
-		
-		lCreditNotes = new Label(Msg.translate(p_ctx, "CreditNote"));
-		fCreditNotes.addActionListener(this);
-		row.appendChild(lCreditNotes.rightAlign());
-		row.appendChild(fCreditNotes);
-		//SHW Ende
+		//SHW End
 		
 		South south = new South();
-		ConfirmPanel confirm = new ConfirmPanel(true, false, true, false, false, false, false);
+		ConfirmPanel confirm = new ConfirmPanel(true, false, false, false, false, false, false);
 		confirm.addActionListener(this);
 
 		mainLayout.appendChild(south);
@@ -495,15 +498,14 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			}
 			return;
 		}
-		else if ( event.getTarget().equals(fCreditNotes) )
-		{
+		else if ( event.getTarget().equals(fCreditNotes) ) {
 			BigDecimal openamt = new BigDecimal( fTotal.getText() );
 			String ID = ((ValueNamePair) fCreditNotes.getSelectedItem().toValueNamePair()).getValue();
 			MInvoice cn = new MInvoice(p_ctx, Integer.parseInt(ID), null);
 			BigDecimal payamtmax = cn.getOpenAmt().negate();
-			BigDecimal payamt = openamt.compareTo(payamtmax) >=0? payamtmax:openamt;
-			fPayAmt.setValue(payamt.toString());
-			fTenderAmt.setValue(payamt.toString());
+			BigDecimal payamt = openamt.compareTo(payamtmax) >= 0 ? payamtmax:openamt;
+			fPayAmt.setText(payamt.toString());
+			fTenderAmt.setText(payamt.toString());
 			BigDecimal tender = new BigDecimal( fTenderAmt.getText() );
 			if ( tender.compareTo(Env.ZERO) != 0 )
 			{
@@ -511,16 +513,9 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			}
 			return;
 		}
-		else if (event.getTarget().equals(fReturnAmt) ){
-
-			BigDecimal tender = new BigDecimal( fTenderAmt.getText() );
-			BigDecimal pay = new BigDecimal( fPayAmt.getText() );
-			fReturnAmt.setValue(tender.subtract(pay).toString());
-		}
 		else if ( action.equals(ConfirmPanel.A_OK)) {
 			processPayment();
 			onClose();
-				
 		}
 		else if ( action.equals(ConfirmPanel.A_CANCEL))	{
 			onClose();
@@ -528,7 +523,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		}
 	
 			setTotals();
-
 		
 	}
 

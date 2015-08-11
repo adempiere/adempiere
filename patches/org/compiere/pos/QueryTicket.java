@@ -242,7 +242,7 @@ public class QueryTicket extends PosQuery
 		StringBuffer sql = new StringBuffer();
 		try 
 		{
-			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, coalesce(invoiceopen(i.c_invoice_ID, 0), 0) as invoiceopen, o.GrandTotal, b.Name, o.Processed")
+			sql.append(" SELECT distinct o.C_Order_ID, o.DocumentNo, coalesce(invoiceopen(i.c_invoice_ID, 0), 0) as invoiceopen, o.GrandTotal, b.Name, o.Processed")
 				.append(" FROM C_Order o ")
 				.append(" INNER JOIN C_BPartner b ON o.C_BPartner_ID=b.C_BPartner_ID")
 				.append(" LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID")

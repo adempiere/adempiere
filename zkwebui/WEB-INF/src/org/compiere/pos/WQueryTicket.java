@@ -209,14 +209,17 @@ public class WQueryTicket extends WPosQuery
 		String sql = "";
 		try 
 		{
-			sql = "SELECT o.C_Order_ID, o.DocumentNo, o.TotalLines, o.GrandTotal, b.Name, o.Processed" +
-					" FROM C_Order o INNER JOIN C_BPartner b ON o.C_BPartner_ID=b.C_BPartner_ID" +
-					" WHERE o.C_POS_ID = " + p_pos.getC_POS_ID();
+			sql=" SELECT distinct o.C_Order_ID, o.DocumentNo, coalesce(invoiceopen(i.c_invoice_ID, 0), 0) as invoiceopen, o.GrandTotal, b.Name, o.Processed"
+					+ " FROM C_Order o "
+					+ " INNER JOIN C_BPartner b ON o.C_BPartner_ID=b.C_BPartner_ID"
+					+ " LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID"
+					+ " WHERE o.C_POS_ID = " + p_pos.getC_POS_ID()
+					+ " and coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0 ";
 			sql += " AND o.Processed = " + ( processed ? "'Y' " : "'N' ");
 			if (doc != null && !doc.equalsIgnoreCase(""))
 				sql += " AND o.DocumentNo = '" + doc + "'";
 			if ( date != null)
-				sql += " AND o.DateOrdered = '"+ date +"' Order By o.DocumentNo DESC";
+				sql += " AND trunc(o.DateOrdered)s = '"+ date +"' Order By o.DocumentNo DESC";
 			PreparedStatement pstm = DB.prepareStatement(sql, null);
 			ResultSet rs = pstm.executeQuery();
 			m_table.loadTable(rs);

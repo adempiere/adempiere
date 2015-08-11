@@ -57,6 +57,7 @@ import org.compiere.model.MPOSKeyLayout;
 import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
+import org.compiere.model.MSequence;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
@@ -69,6 +70,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.pos.BigDecimalEditor;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
@@ -202,7 +204,7 @@ public class WSubOrder extends WPosSubPanel
 		Row row = null;
 
 		East east = new East();
-		east.setStyle("border: none; width:50%");
+		east.setStyle("border: none; width:40%");
 		east.setAutoscroll(true);
 		appendChild(east);
 		productPanel.appendChild(productLayout);
@@ -223,11 +225,11 @@ public class WSubOrder extends WPosSubPanel
 		fullPanel.setWidth("100%");
 		fullPanel.setHeight("100%");
 		North north = new North();
-		north.setStyle("border: none; width:50%");
+		north.setStyle("border: none; width:60%");
 		north.setZindex(0);
 		fullPanel.appendChild(north);
 		parameterPanel.appendChild(parameterLayout);
-		parameterLayout.setWidth("50%");
+		parameterLayout.setWidth("60%");
 		north.appendChild(parameterPanel);
 		rows = parameterLayout.newRows();
 		row = rows.newRow();
@@ -484,7 +486,7 @@ public class WSubOrder extends WPosSubPanel
 			button.setStyle("float:left; text-align:center; margin:1% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC;");
 			
 			
-			button.setHeight("65px");
+			button.setHeight("55px");
 			button.setId(""+key.getC_POSKey_ID());
 			button.addEventListener("onClick", this);
 
@@ -492,10 +494,10 @@ public class WSubOrder extends WPosSubPanel
 			if ( key.getSpanX() > 1 )
 			{
 				size = key.getSpanX();
-				button.setWidth(24*key.getSpanX()+"%");
+				button.setWidth(22*key.getSpanX()+"%");
 			}
 			else 
-				button.setWidth("22%");
+				button.setWidth("20%");
 			if ( key.getSpanY() > 1 )
 			{
 				size = size*key.getSpanY();
@@ -585,18 +587,19 @@ public class WSubOrder extends WPosSubPanel
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
 		if( m_order != null ) 
 		{
-			if (WPosPayment.pay(p_posPanel, this)) {
-				if ( !m_order.isProcessed() && !m_order.processOrder() )
-				{
-					FDialog.warn(0, p_posPanel, "PosOrderProcessFailed", "");
-					return;
-				}
-				else {
-					printTicket();
-					setOrder(0);
-				}
+
+			if ( !m_order.isProcessed() && !m_order.processOrder() )
+			{
+				FDialog.warn(0, "PosOrderProcessFailed");
+				return;
 			}
-		}	
+
+			if ( WPosPayment.pay(p_posPanel, this) )
+			{
+				printTicket();
+				setOrder(0);
+			}
+		}
 	}
 	/**
 	 * @param m_c_order_id
@@ -613,9 +616,19 @@ public class WSubOrder extends WPosSubPanel
 	 * 
 	 */
 	private void deleteOrder() {
-		if ( p_posPanel != null && FDialog.ask(0, this, "Delete order?") )
-			m_order.deleteOrder();
-		 newOrder();
+		if (m_order == null)
+			return;
+		if (m_order.getDocStatus().equals("CO"))
+		{
+			if (FDialog.ask(0, this, "Quiere cancelar la orden?")) {
+				p_posPanel.m_order.cancelOrder();
+			}
+		}
+		if (FDialog.ask(0, this, "Delete order?") )
+			if(m_order.deleteOrder());
+				m_order = null;
+			updateOrder();
+			newOrder();
 
 	}
 	
@@ -795,19 +808,32 @@ public class WSubOrder extends WPosSubPanel
 		{
 			try 
 			{
-				/*
-				if (p_pos.getAD_PrintLabel_ID() != 0)
-					PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
-				*/ 
 				//print standard document
-				ReportCtl.startDocumentPrint(ReportEngine.ORDER, order.getC_Order_ID(), null, 0, true);
+				Boolean print = true;
+				if (p_pos.get_ValueAsInt("AD_Sequence_ID") != 0)
+				{
+					MSequence seq = new MSequence(Env.getCtx(), p_pos.get_ValueAsInt("AD_Sequence_ID"), order.get_TrxName());
+					String docno = seq.getPrefix() + seq.getCurrentNext();
+					String q = "Confirmar el número consecutivo "  + docno;
+					if (org.compiere.apps.ADialog.ask(0, null, q))						
+					{
+						order.setPOReference(docno);
+						order.saveEx();
+						ReportCtl.startDocumentPrint(0, order.getC_Order_ID(), false);
+						int next = seq.getCurrentNext() + seq.getIncrementNo();
+						seq.setCurrentNext(next);
+						seq.saveEx();
+					}
+				}
+				else
+					ReportCtl.startDocumentPrint(0, order.getC_Order_ID(), false);				
 			}
 			catch (Exception e) 
 			{
 				log.severe("PrintTicket - Error Printing Ticket");
 			}
 		}	  
-	}	
+	}
 	
 	/**
 	 * Is order fully pay 
