@@ -624,10 +624,11 @@ public class WSubOrder extends WPosSubPanel
 			}
 		}
 		if (FDialog.ask(0, this, "Delete order?") )
-			if(m_order.deleteOrder());
+			if(m_order.deleteOrder()){
 				m_order = null;
-			updateOrder();
-			newOrder();
+				updateOrder();
+				newOrder();
+			}
 
 	}
 	
