@@ -219,7 +219,7 @@ public class WQueryTicket extends WPosQuery
 			if (doc != null && !doc.equalsIgnoreCase(""))
 				sql += " AND o.DocumentNo = '" + doc + "'";
 			if ( date != null)
-				sql += " AND trunc(o.DateOrdered)s = '"+ date +"' Order By o.DocumentNo DESC";
+				sql += " AND trunc(o.DateOrdered) = '"+ date +"' Order By o.DocumentNo DESC";
 			PreparedStatement pstm = DB.prepareStatement(sql, null);
 			ResultSet rs = pstm.executeQuery();
 			m_table.loadTable(rs);

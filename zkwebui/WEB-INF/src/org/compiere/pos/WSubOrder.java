@@ -1102,6 +1102,7 @@ public class WSubOrder extends WPosSubPanel
 				if ( line != null )
 				{
 					line.setQty(line.getQtyOrdered().subtract(Env.ONE));
+					f_quantity.setValue(f_quantity.getValue()-1);
 					line.saveEx();
 					updateInfo();
 				}
