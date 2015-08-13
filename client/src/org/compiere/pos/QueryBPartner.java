@@ -15,18 +15,18 @@
 package org.compiere.pos;
 
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.compiere.grid.ed.VBPartner;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
@@ -52,6 +52,11 @@ public class QueryBPartner extends PosQuery
 	 */
 	private static final long serialVersionUID = -7109518709654253628L;
 
+//	Dixon Martinez 2015-07-31
+//	Support for creating customers from the point of sale
+	private CButton bot_New;
+//	End Dixon Martinez
+	
 	/**
 	 * 	Constructor
 	 */
@@ -153,6 +158,12 @@ public class QueryBPartner extends PosQuery
 		
 		f_refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
 		northPanel.add(f_refresh, "w 50!, h 50!, wrap, alignx trailing");
+
+//		Dixon Martinez 2015-07-31
+//		Support for creating customers from the point of sale
+		bot_New = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
+		northPanel.add(bot_New, "w 50!, h 50!");
+//		End Dixon Martinez
 		
 		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
 		northPanel.add(f_up, "w 50!, h 50!, span, split 4");
@@ -227,6 +238,19 @@ public class QueryBPartner extends PosQuery
 			m_table.getSelectionModel().setSelectionInterval(row, row);
 			return;
 		}
+//		Dixon Martinez 2015-07-31
+//		Support for creating customers from the point of sale
+		else if("New".equalsIgnoreCase(e.getActionCommand())) {
+			
+			VBPartner t = new VBPartner(new Frame(), 0);
+			t.setVisible(true);
+			
+			m_C_BPartner_ID = t.getC_BPartner_ID();
+			
+			close();
+		}
+//		End Dixon Martinez
+		//	Exit
 		close();
 	}	//	actionPerformed
 	
@@ -278,6 +302,7 @@ public class QueryBPartner extends PosQuery
 		if (m_C_BPartner_ID > 0)
 		{
 			p_posPanel.f_order.setC_BPartner_ID(m_C_BPartner_ID);
+			log.fine("C_BPartner_ID=" + m_C_BPartner_ID); 
 		//	p_posPanel.f_curLine.setCurrency(m_Price);
 		}
 		else

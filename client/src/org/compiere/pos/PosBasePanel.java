@@ -346,7 +346,7 @@ public class PosBasePanel extends CPanel
 
 		if (org.compiere.apps.ADialog.ask(0, null, "¿Quiere generar un crédito fiscal?"))						
 		{
-			m_order.setC_DocTypeTarget_ID(p_pos.getC_DocTypewholesale_ID());
+//			m_order.setC_DocTypeTarget_ID(p_pos.getC_DocTypewholesale_ID());
 		}
 		f_curLine.newLine();
 		f_curLine.f_name.requestFocusInWindow();

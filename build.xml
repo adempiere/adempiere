@@ -12,13 +12,20 @@
   <property name="dist" value="${basedir}/dist"/>
   <property name="zksrc" value="${basedir}/zkwebui/WEB-INF/src"/>
   <property name="zkclasses" value="${dist}/zkclass/WEB-INF/classes"/>
+  <property name="class" value="${dist}/class"/>
   <property name="zkjar" value="${dist}/zkclass"/>
+  <property name="base" value="${basedir}/base"/>
+  <property name="client" value="${basedir}/client"/>
+  <property name="patches" value="${basedir}/patches"/>
   
   <!-- @author Carlos Parada Set Path --> 
   <path id="compile.classpath">
     <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
    
     <fileset dir="${adempiere.trunk}/lib">
+      <include name="*.jar"/>
+    </fileset>
+    <fileset dir="${project.trunk}/packages/AD-POS-WebUI/lib">
       <include name="*.jar"/>
     </fileset>
     
@@ -37,6 +44,10 @@
   <path id="compilezk.classpath">
     
     <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+
+    <fileset dir="${project.trunk}/packages/AD-POS-WebUI/lib">
+      <include name="*.jar"/>
+    </fileset>
     
     <fileset dir="${adempiere.trunk}/lib">
       <include name="*.jar"/>
@@ -65,10 +76,21 @@
     <jar jarfile="${project.trunk}/zkpackages/${project.name}/lib/${project.name}.jar" basedir="${zkjar}"/>
   </target>
 
+  
+  <!-- @author Carlos Parada Compile Class Directory --> 	
+  <target name="compile" depends="init_class"
+        description="compile the source " >
+    <echo message="Compile Swing Classes "/>
+    <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+    <javac srcdir="${base}:${client}:${patches}" destdir="${class}" includeantruntime="false" >
+      <classpath refid="compile.classpath"/>
+    </javac>
+    <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${class}"/>
+  </target>
     
 	
   <!-- @author Carlos Parada Compile All Class Directory --> 
-  <target name="compileall" depends="zkcompile" >
+  <target name="compileall" depends="compile,zkcompile" >
     <echo message="Compile All Project"/>
   	<echo message="Compile All Project"/>
   </target>
@@ -113,5 +135,23 @@
   <target name="init" depends="clean,init_class,init_zk">
 	<echo message="Initialize Folders "/>
   </target>
-	
+  
+  
+    <!-- @author Mario Calderón Copy js file to Adempiere trunk-->
+	<target name="Z1_copyJSFile" depends="" description="Copies js file to Adempiere trunk before build od Adempiere">
+		<echo message="=========== Copying js file to Adempiere trunk-START"/>
+		<copy todir="${adempiere.trunk}/zkwebui/js">
+			<fileset dir="${basedir}/js" includes="*.js"/>
+		</copy>
+		<echo message="=========== Copying js file to Adempiere trunk-END"/>
+	</target>
+  
+  <!-- @author Mario Calderón Copy WebUI package to Adempiere installation-->
+	<target name="Z2_copyWebUIPackage" depends="" description="Copies js file to Adempiere trunk before build od Adempiere">
+		<echo message="=========== Copying WebUI package to Adempiere installation-START"/>
+		<copy todir="${adempiere.installation}/zkpackages">
+			<fileset dir="${basedir}/zkpackages" includes="${project.name}"/>
+		</copy>
+		<echo message="=========== Copying WebUI package to Adempiere installation-END"/>
+	</target>
 </project>

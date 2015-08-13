@@ -325,7 +325,7 @@ public class SubOrder extends PosSubPanel
 		else if (e.getSource() == f_name)
 			findBPartner();
 		
-		else if (e.getSource() == "Edit")
+		else if (action.equals("Edit"))
 			onCreditSale();
 		
 		p_posPanel.updateInfo();
@@ -421,7 +421,6 @@ public class SubOrder extends PosSubPanel
 		
 		if (query == null || query.length() == 0)
 			return;
-	
 		
 		// unchanged
 		if ( m_bpartner != null && m_bpartner.getName().equals(query))
@@ -664,9 +663,9 @@ public class SubOrder extends PosSubPanel
 				*/ 
 				//print standard document
 				Boolean print = true;
-				if (p_pos.get_ValueAsInt("AD_Sequence_ID") != 0)
+				if (p_pos.getAD_Sequence_ID()!= 0)
 				{
-					MSequence seq = new MSequence(Env.getCtx(), p_pos.get_ValueAsInt("AD_Sequence_ID"), order.get_TrxName());
+					MSequence seq = new MSequence(Env.getCtx(), p_pos.getAD_Sequence_ID(), order.get_TrxName());
 					String docno = seq.getPrefix() + seq.getCurrentNext();
 					String q = "Confirmar el número consecutivo "  + docno;
 					if (org.compiere.apps.ADialog.ask(0, null, q))						
