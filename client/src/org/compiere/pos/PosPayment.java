@@ -24,7 +24,6 @@ import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -37,7 +36,6 @@ import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.MaskFormatter;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -52,16 +50,15 @@ import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentValidate;
-import org.compiere.model.Query;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextField;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
@@ -80,10 +77,10 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 			//	Dixon Martinez 2015-08-14 
 			//	Validate Null in Amount
 			String tenderAmt = fTenderAmt.getText() != null ? fTenderAmt.getText() : "0";
-			String payAmt = fPayAmt.getText() != null ? fTenderAmt.getText() : "0";
+			String payAmt = fPayAmt.getText() != null ? fPayAmt.getText() : "0";
 			
-			BigDecimal tender = new BigDecimal( tenderAmt.toString() );
-			BigDecimal pay = new BigDecimal( payAmt.toString() );
+			BigDecimal tender = new BigDecimal( getAmt(tenderAmt) );
+			BigDecimal pay = new BigDecimal( getAmt(payAmt) );
 			//	End Dixon Martinez
 			if ( tender.compareTo(Env.ZERO) != 0 )
 			{
@@ -124,12 +121,70 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		super.actionPerformed(e);
 	}
 
+
+	/**************************************************************************
+	 * 	Get Amount in Words
+	 * 	@param amount numeric amount (352.80)
+	 * 	@return amount in words (three*five*two 80/100)
+	 * 	@throws Exception
+	 */
+	public String getAmt (String amount) 
+	{
+		if (amount == null)
+			return amount;
+
+		Language lang = Env.getLanguage(Env.getCtx());
+		//
+		StringBuffer sb = new StringBuffer ();
+		int pos = 0;
+
+		if(lang.isDecimalPoint())
+    	 pos = amount.lastIndexOf ('.');    // Old
+		else
+		 pos = amount.lastIndexOf (',');
+
+		int pos2 = 0;
+		if(lang.isDecimalPoint())
+			pos2 = amount.lastIndexOf (',');   // Old
+		else
+			pos2 = amount.lastIndexOf ('.');
+
+		if (pos2 > pos)
+			pos = pos2;
+		String oldamt = amount;
+
+		if(lang.isDecimalPoint())
+			amount = amount.replaceAll (",", "");   // Old
+		else
+			amount = amount.replaceAll( "\\.","");
+
+		int newpos = 0;
+		if(lang.isDecimalPoint())
+			newpos = amount.lastIndexOf ('.');  // Old
+		else
+			newpos = amount.lastIndexOf (',');
+		//	Dixon Martinez 2015-01-20 
+		//	Add support for check new pos before parse
+		long pesos = 0; 
+		if(newpos > 0)
+			pesos = Long.parseLong(amount.substring (0, newpos));
+		else 
+			return "";
+		
+		sb.append(pesos);
+		//	End Dixon Martinez
+
+		return sb.toString ();
+	}	//	getAmtInWords
+
+	
+	
 	private void processPayment() {
 
 		try {
 
 			String tenderType = ((ValueNamePair) tenderTypePick.getValue()).getID();
-			BigDecimal amt = new BigDecimal(fPayAmt.getText());
+			BigDecimal amt = new BigDecimal(getAmt(fPayAmt.getText()));
 
 			if ( tenderType.equals(MPayment.TENDERTYPE_Cash) )
 			{
