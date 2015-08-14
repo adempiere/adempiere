@@ -77,8 +77,14 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		
 		if ( e.getSource().equals(fTenderAmt) || e.getSource().equals(fPayAmt) )
 		{
-			BigDecimal tender = new BigDecimal( fTenderAmt.getText() );
-			BigDecimal pay = new BigDecimal( fPayAmt.getText() );
+			//	Dixon Martinez 2015-08-14 
+			//	Validate Null in Amount
+			String tenderAmt = fTenderAmt.getText() != null ? fTenderAmt.getText() : "0";
+			String payAmt = fPayAmt.getText() != null ? fTenderAmt.getText() : "0";
+			
+			BigDecimal tender = new BigDecimal( tenderAmt.toString() );
+			BigDecimal pay = new BigDecimal( payAmt.toString() );
+			//	End Dixon Martinez
 			if ( tender.compareTo(Env.ZERO) != 0 )
 			{
 				fReturnAmt.setValue(tender.subtract(pay));
