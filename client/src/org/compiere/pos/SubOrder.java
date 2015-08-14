@@ -136,7 +136,11 @@ public class SubOrder extends PosSubPanel
 		// NEW
 		f_bNew = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
 		add (f_bNew, buttonSize);
-	
+
+		// BPARTNER
+		f_bSearch = createButtonAction ("BPartner", KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
+		add (f_bSearch,buttonSize );
+		
 		// EDIT
 		f_bEdit = createButtonAction("Edit", null);
 		add(f_bEdit, buttonSize);
@@ -168,12 +172,9 @@ public class SubOrder extends PosSubPanel
  		
 		//
 		f_logout = createButtonAction ("Logout", null);
-		add (f_logout, buttonSize + ", gapx 25");
+		add (f_logout, buttonSize + ", gapx 25, wrap");
 		
 		
-		// BPARTNER
-		f_bSearch = createButtonAction ("BPartner", KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
-		add (f_bSearch,buttonSize + ", gapx 25, wrap");
 
 		// BP
 
