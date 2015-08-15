@@ -119,7 +119,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		setTotals();
 
 		super.actionPerformed(e);
-	}
+	} // actionPerformed
 
 
 	/**************************************************************************
@@ -235,7 +235,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 			}
 			else
 			{
-				ADialog.warn(0, this, "Unsupported payment type");
+				ADialog.warn(0, this, Msg.getMsg(Env.getCtx(), "Unsupported payment type"));
 			}
 
 
@@ -244,9 +244,9 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		}
 		catch (Exception e )
 		{
-			ADialog.warn(0, this, "Payment processing failed: " + e.getMessage());
+			ADialog.warn(0, this, Msg.getMsg(Env.getCtx(), "Payment processing failed") + ": " + e.getMessage());
 		}
-	}
+	}  // processPayment
 
 	private PosBasePanel p_posPanel;
 	private MPOS p_pos;
@@ -519,7 +519,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		pack();
 		
 		setTotals();
-	}
+	} // init
 
 	private void setTotals() {
 
@@ -589,7 +589,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		}
 		
 		pack();
-	}
+	} // setTotals
 
 	public void keyReturned(MPOSKey key) {
 		
@@ -618,7 +618,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 				// ignore non-numbers
 			}
 		}
-	}
+	} // keyReturned
 
 	public static boolean pay(PosBasePanel posPanel) {
 		

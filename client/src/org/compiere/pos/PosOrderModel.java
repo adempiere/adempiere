@@ -36,6 +36,7 @@ import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -74,7 +75,7 @@ public class PosOrderModel extends MOrder {
 		if (partner == null || partner.get_ID() == 0)
 			partner = pos.getBPartner();
 		if (partner == null || partner.get_ID() == 0) {
-			throw new AdempierePOSException("No BPartner for order");
+			throw new AdempierePOSException(Msg.getMsg(Env.getCtx(), "No BPartner for order"));
 		}
 		order.setBPartner(partner);
 		//
@@ -84,7 +85,7 @@ public class PosOrderModel extends MOrder {
 		if (!order.save())
 		{
 			order = null;
-			throw new AdempierePOSException("Save order failed");
+			throw new AdempierePOSException(Msg.getMsg(Env.getCtx(), "Save order failed"));
 		}
 		
 		return order;
@@ -413,7 +414,7 @@ public class PosOrderModel extends MOrder {
 		if (getC_Invoice_ID() !=0)
 		{
 			MInvoice inv = new MInvoice(p_ctx, payment.getC_Invoice_ID(), null);
-			payment.setDescription("Factura No " + inv.getDocumentNo());
+			payment.setDescription(Msg.getMsg(Env.getCtx(), "Invoice No") + inv.getDocumentNo());
 		}
 			
 		return payment;
@@ -601,7 +602,7 @@ public class PosOrderModel extends MOrder {
 				}
 			}
 		}
-		return "No. Documento:" + " " +  order_cancel.getDocumentNo();
-	}	
+		return Msg.getMsg(Env.getCtx(), "DocumentNo")  + " " +  order_cancel.getDocumentNo();
+	} // cancelOrder	
 	
 } // PosOrderModel.class
