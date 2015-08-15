@@ -63,7 +63,10 @@ import org.compiere.util.Msg;
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright � Jorg Janke
- *  @version $Id: SubBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
+ *         *Copyright � ConSerTi
+ *  @author Mario Calderón, Systemhaus Westfalia
+ *  @version $Id: SubOrder.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
+ *  @version $Id: SubOrder.java,v 2.0 2015/09/01 00:00:00 mar_cal_westf
  */
 public class SubOrder extends PosSubPanel 
 	implements ActionListener, FocusListener
@@ -271,8 +274,8 @@ public class SubOrder extends PosSubPanel
 	}	//	dispose
 
 	
-	/**************************************************************************
-	 * 	Action Listener
+	/**
+	 * 	Distribute actions
 	 *	@param e event
 	 */
 	public void actionPerformed (ActionEvent e)
@@ -333,7 +336,7 @@ public class SubOrder extends PosSubPanel
 	}	//	actionPerformed
 
 	/**
-	 * 
+	 * 	Execute printing an order
 	 */
 	private void printOrder() {
 		{
@@ -347,7 +350,9 @@ public class SubOrder extends PosSubPanel
 	}
 
 	/**
-	 * 
+	 * Execute order payment
+	 * If order is not processed, process it first.
+	 * If it is successful, proceed to pay and print ticket
 	 */
 	private void payOrder() {
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
@@ -368,7 +373,10 @@ public class SubOrder extends PosSubPanel
 	}  // payOrder
 
 	/**
-	 * 
+	 * Execute deleting an order
+	 * If the order is in drafted status -> ask to delete it
+	 * If the order is in completed status -> ask to void it it
+	 * Otherwise, it must be done outside this class.
 	 */
 	private void deleteOrder() {
 		if (p_posPanel == null || p_posPanel.m_order == null) {
@@ -483,7 +491,11 @@ public class SubOrder extends PosSubPanel
 			qt.setVisible(true);
 		}
 	}	//	findBPartner
-	
+
+	/**
+	 * 	Process the order.
+	 * Usually, the action should be "complete".
+	 */
 	private void onCreditSale()
 	{
 		if( p_posPanel.m_order == null) {		
@@ -501,7 +513,7 @@ public class SubOrder extends PosSubPanel
 	} // onCreditSale
 	
 	
-	/**************************************************************************
+	/**
 	 * 	Set BPartner
 	 *	@param C_BPartner_ID id
 	 */
@@ -640,7 +652,7 @@ public class SubOrder extends PosSubPanel
 	 * Set Currency
 	 * 
 	 * @param currency
-	 *            currency
+	 * 
 	 */
 	public void setCurrency(String currency) {
 		if (currency == null)
@@ -651,9 +663,7 @@ public class SubOrder extends PosSubPanel
 	
 	/**
 	 * 	Print Ticket
-	 *  @author Comunidad de Desarrollo OpenXpertya 
-	 *  *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *  *Copyright � ConSerTi
+	 * 
 	 */
 	public void printTicket()
 	{
@@ -704,9 +714,6 @@ public class SubOrder extends PosSubPanel
 	 * Is order fully pay ?
 	 * Calculates if the given money is sufficient to pay the order
 	 * 
-	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
 	 */
 	public boolean isOrderFullyPaid()
 	{
@@ -729,9 +736,7 @@ public class SubOrder extends PosSubPanel
 	/**
 	 * 	Display cash return
 	 *  Display the difference between tender amount and bill amount
-	 *  @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
+	 *  
 	 */
 	public void updateOrder()
 	{
@@ -765,11 +770,8 @@ public class SubOrder extends PosSubPanel
 	}	
 
 	/**
-	 * 	Abrir caja
-	 *  Abre la caja registradora
-	 *  @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
+	 * 	Open cash drawer
+	 * 
 	 */
 	public void openCashDrawer()
 	{
