@@ -377,19 +377,30 @@ public class SubOrder extends PosSubPanel
 	/**
 	 * 
 	 */
-	private void deleteOrder() {
+	public void deleteOrder() {
 		if (p_posPanel == null || p_posPanel.m_order == null) {
 			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
 			return;			
 		}
-		if (p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Completed)) {	
-			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "The order is already completed. Do you want to void it?")))) {		
-				p_posPanel.m_order.cancelOrder();
+		else if ( p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Drafted) ) {
+			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, "Do you want to delete the Order?"))) {
+				if (p_posPanel.m_order.deleteOrder())
+					p_posPanel.m_order = null;	
+				else
+					ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order could not be deleted"));
 			}
 		}
-		else if ( p_posPanel != null && ADialog.ask(0, this, Msg.getMsg(p_ctx, "Do you want to delete the Order?")) )
-			if (p_posPanel.m_order.deleteOrder())
-				p_posPanel.m_order = null;
+		else if (p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Completed)) {	
+			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "The order is already completed. Do you want to void it?")))) {		
+				if (!p_posPanel.m_order.cancelOrder())
+					ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order could not be voided"));
+			}
+		}
+		else {
+			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order is not Drafted nor Completed. Try to delete it other way"));
+			return;
+		}
+		
 		updateOrder();
 		// p_posPanel.newOrder();
 
@@ -803,74 +814,5 @@ public class SubOrder extends PosSubPanel
 
 		}
 	}	//	setSums
-	private String cancelOrder()
-	{
-		String whereClause = "c_order_ID =?";
-		MOrder order_original = p_posPanel.m_order;
-		MDocType dt = (MDocType)order_original.getC_DocType();
-		if (dt.get_ValueAsInt("shw_c_doctype_orderReverse_ID") <=0)
-			return "No se trata de orden de venta a factura: Tiene que generar una devolución";
-		Timestamp now = Env.getContextAsDate(order_original.getCtx(), "Date");
-		MOrder order_cancel = 
-				MOrder.copyFrom(order_original, now, order_original.getC_DocType_ID(), order_original.isSOTrx()	, false, false, order_original.get_TrxName());
-		order_cancel.setC_DocType_ID(dt.get_ValueAsInt("shw_c_doctype_orderReverse_ID"));
-		order_cancel.setDocumentNo(order_original.getDocumentNo() + "Anulación");
-		order_cancel.saveEx();
-		for (MOrderLine oLine:order_cancel.getLines())
-		{
-			oLine.setQty(oLine.getQtyEntered().negate());
-			oLine.saveEx();
-		}
-		if (order_cancel.getC_DocTypeTarget().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_OnCreditOrder))
-		{
-
-			order_cancel.processIt(MOrder.DOCACTION_Complete);
-			order_cancel.setDocAction(MOrder.DOCACTION_Close);
-			order_cancel.setDocStatus(MOrder.DOCACTION_Complete);
-			order_cancel.saveEx();
-		}
-		int[] Invoice_IDs = MInvoice.getAllIDs(MInvoice.Table_Name, "c_Order_ID=" +order_original.getC_Order_ID() , order_original.get_TrxName());	
-		int laenge = Invoice_IDs.length;
-		for (int i  = 0; i < laenge; i++)
-		{
-			int invoice_ID = Invoice_IDs[i];
-			int[] Alo_IDs = MAllocationLine.getAllIDs(MAllocationLine.Table_Name, "C_Invoice_ID=" + invoice_ID, order_original.get_TrxName());
-			for (int alo_ID:Alo_IDs)
-			{
-				MAllocationLine alo = new MAllocationLine(order_original.getCtx(), alo_ID, order_original.get_TrxName());
-				if (alo.getC_Payment_ID() != 0)
-				{
-					MPayment pay_cancel = new MPayment(order_original.getCtx(), 0, order_original.get_TrxName());
-					MPayment.copyValues((MPayment)alo.getC_Payment(), pay_cancel);
-					pay_cancel.setDateTrx(order_cancel.getDateOrdered());
-					pay_cancel.setPayAmt(pay_cancel.getPayAmt().negate());
-					pay_cancel.setDescription(alo.getC_Payment().getDocumentNo() + "_Anulación");
-					pay_cancel.save();
-					for (int j:	MInvoice.getAllIDs(MInvoice.Table_Name, "c_Order_ID=" + order_cancel.getC_Order_ID(), order_original.get_TrxName()))
-					{
-						pay_cancel.setC_Invoice_ID(j);
-						pay_cancel.setC_Order_ID(order_cancel.getC_Order_ID());
-						pay_cancel.setDocStatus(MPayment.DOCSTATUS_Drafted);
-						pay_cancel.setDocAction(MPayment.DOCACTION_Complete);
-						pay_cancel.saveEx();
-						pay_cancel.processIt(MPayment.DOCACTION_Complete);
-					}
-				}
-				else
-				{
-					MAllocationHdr ahd = new MAllocationHdr(order_original.getCtx(), 0, order_original.get_TrxName());
-					for (int k:	MInvoice.getAllIDs(MInvoice.Table_Name, "c_Order_ID=" + order_cancel.getC_Order_ID(), order_original.get_TrxName()))
-					{
-						MAllocationLine alo_new = new MAllocationLine(ahd);
-						alo_new.setC_Invoice_ID(k);
-						alo_new.setAmount(alo.getAmount().negate());
-						alo_new.saveEx();
-					}
-					ahd.processIt(MAllocationHdr.DOCACTION_Complete);
-				}
-			}
-		}
-		return "No. Documento:" + " " +  order_cancel.getDocumentNo();
-	}	
-}
-	//	PosSubCustomer
+}//	PosSubCustomer
+	
