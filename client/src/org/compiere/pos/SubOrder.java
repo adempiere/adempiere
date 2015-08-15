@@ -14,11 +14,8 @@
 
 package org.compiere.pos;
 
-import java.awt.Cursor;
 import java.awt.Event;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -26,7 +23,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Vector;
 
@@ -34,13 +30,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
-import org.compiere.grid.ed.VNumber;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MBPartner;
@@ -49,16 +43,16 @@ import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MSequence;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
-import org.compiere.process.DocAction;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CLabel;
@@ -120,6 +114,22 @@ public class SubOrder extends PosSubPanel
 	private CButton f_bSettings;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(SubOrder.class);
+
+	private final String POS_ALTERNATIVE_DOCTYPE_ENABLED = "POS_ALTERNATIVE_DOCTYPE_ENABLED";  // System configurator entry
+	private final String NO_ALTERNATIVE_POS_DOCTYPE      = "N";
+	private final boolean isAlternativeDocTypeEnabled    = MSysConfig.getValue(POS_ALTERNATIVE_DOCTYPE_ENABLED, 
+			NO_ALTERNATIVE_POS_DOCTYPE, Env.getAD_Client_ID(p_ctx)).compareToIgnoreCase(NO_ALTERNATIVE_POS_DOCTYPE)==0?false:true;
+	
+
+	private final String ACTION_BPARTNER    = "BPartner";
+	private final String ACTION_CANCEL      = "Cancel";
+	private final String ACTION_CREDITSALE  = "Credit Sale";
+	private final String ACTION_HISTORY     = "History";
+	private final String ACTION_LOGOUT      = "Logout";
+	private final String ACTION_NEW         = "New";
+	private final String ACTION_PAYMENT     = "Payment";
+	private final String ACTION_PREFERENCES = "Preferences";
+	private final String ACTION_PRINT       = "Print";
 	
 	/**
 	 * 	Initialize
@@ -134,70 +144,65 @@ public class SubOrder extends PosSubPanel
 
 		String buttonSize = "w 50!, h 50!,";
 		// NEW
-		f_bNew = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
+		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
 		add (f_bNew, buttonSize);
 
 		// BPARTNER
-		f_bSearch = createButtonAction ("BPartner", KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
+		f_bSearch = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
 		add (f_bSearch,buttonSize );
 		
-		// EDIT
-		f_bEdit = createButtonAction("Edit", null);
+		// CREDIT SALE
+		f_bEdit = createButtonAction(ACTION_CREDITSALE, null);
 		add(f_bEdit, buttonSize);
  		f_bEdit.setEnabled(false);
 		
 		// HISTORY
-		f_history = createButtonAction("History", null);
+		f_history = createButtonAction(ACTION_HISTORY, null);
  		add (f_history, buttonSize); 
 		
 		// CANCEL
-		f_process = createButtonAction("Cancel", null);
+		f_process = createButtonAction(ACTION_CANCEL, null);
  		add (f_process, buttonSize);
  		f_process.setEnabled(false);
  		
  		// PAYMENT
- 		f_cashPayment = createButtonAction("Payment", null);
-		f_cashPayment.setActionCommand("Cash");
+ 		f_cashPayment = createButtonAction(ACTION_PAYMENT, null);
+		f_cashPayment.setActionCommand(ACTION_PAYMENT);
 		add (f_cashPayment, buttonSize); 
 		f_cashPayment.setEnabled(false);
 		
  		//PRINT
-		f_print = createButtonAction("Print", null);
+		f_print = createButtonAction(ACTION_PRINT, null);
  		add (f_print, buttonSize);
  		f_print.setEnabled(false);
  		
  		// Settings
-		f_bSettings = createButtonAction("Preference", null);
+		f_bSettings = createButtonAction(ACTION_PREFERENCES, null);
  		add (f_bSettings, buttonSize);
  		
-		//
-		f_logout = createButtonAction ("Logout", null);
+		// Logout
+		f_logout = createButtonAction (ACTION_LOGOUT, null);
 		add (f_logout, buttonSize + ", gapx 25, wrap");
-		
-		
 
 		// BP
-
-		CLabel BPLabelLabel = new CLabel(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		CLabel BPLabelLabel = new CLabel(Msg.translate(Env.getCtx(), MBPartner.COLUMNNAME_C_BPartner_ID)); 
 		//add(BPLabelLabel, "split 2, spanx 4, flowy, h 15");
 		add(BPLabelLabel, "");
 		//add(new CLabel(Msg.translate(Env.getCtx(), "C_BPartner_ID")), "");
 		f_name = new CTextField();
 		f_name.setEditable(false);
-		f_name.setName("Name");
+		f_name.setName(MBPartner.COLUMNNAME_Name);
 		add (f_name, "wrap,spanx 3, growx");
 		
-
-
  		// DOC NO
-		add (new CLabel(Msg.getMsg(Env.getCtx(),"DocumentNo")), "");
+		add (new CLabel(Msg.getMsg(Env.getCtx(),MOrder.COLUMNNAME_DocumentNo)), ""); 
 		
 		f_DocumentNo = new CTextField("");
-		f_DocumentNo.setName("DocumentNo");
+		f_DocumentNo.setName(MOrder.COLUMNNAME_DocumentNo);
 		f_DocumentNo.setEditable(false);
 		add (f_DocumentNo, "growx, pushx");
 		
-		CLabel lNet = new CLabel (Msg.translate(Env.getCtx(), "SubTotal"));
+		CLabel lNet = new CLabel (Msg.translate(Env.getCtx(), MOrder.COLUMNNAME_TotalLines));
 		add(lNet, "");
 		f_net = new JFormattedTextField(DisplayType.getNumberFormat(DisplayType.Amount));
 		f_net.setHorizontalAlignment(JTextField.TRAILING);
@@ -217,14 +222,14 @@ public class SubOrder extends PosSubPanel
 		
 
 		// SALES REP
-		add(new CLabel(Msg.translate(Env.getCtx(), "SalesRep_ID")), "");
+		add(new CLabel(Msg.translate(Env.getCtx(), MOrder.COLUMNNAME_SalesRep_ID)), ""); 
 		MUser salesrep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
 		f_RepName = new CTextField(salesrep.getName());
 		f_RepName.setName("SalesRep");
 		f_RepName.setEditable(false);
 		add (f_RepName, "growx, pushx");
 
-		CLabel lTax = new CLabel (Msg.translate(Env.getCtx(), "TaxAmt"));
+		CLabel lTax = new CLabel (Msg.translate(Env.getCtx(), MInvoiceLine.COLUMNNAME_TaxAmt));
 		add(lTax);
 		f_tax = new JFormattedTextField(DisplayType.getNumberFormat(DisplayType.Amount));
 		f_tax.setHorizontalAlignment(JTextField.TRAILING);
@@ -242,7 +247,7 @@ public class SubOrder extends PosSubPanel
 		
 
 		//
-		CLabel lTotal = new CLabel (Msg.translate(Env.getCtx(), "GrandTotal"));
+		CLabel lTotal = new CLabel (Msg.translate(Env.getCtx(), MOrder.COLUMNNAME_GrandTotal));
 		//lTotal.setFont(bigFont);
 		add(lTotal, "cell 2 4");
 		f_total = new JFormattedTextField(DisplayType.getNumberFormat(DisplayType.Amount));
@@ -284,40 +289,42 @@ public class SubOrder extends PosSubPanel
 			return;
 		log.info( "PosSubCustomer - actionPerformed: " + action);
 		//	New
-		if (action.equals("New"))
+		if (action.equals(ACTION_NEW))
 		{
 			p_posPanel.newOrder(); //red1 New POS Order instead - B_Partner already has direct field
 			return;
 		}
-		//	Register
-		if (action.equals("History"))
+		else if (action.equals(ACTION_HISTORY))
 		{
-			Boolean creditoFiscal = false;
-			if (org.compiere.apps.ADialog.ask(0, null, "¿Quiere generar un crédito fiscal?"))						
-			{
-				creditoFiscal = true;
+			// For already created, but either not completed or not yet paid POS Orders
+			Boolean alternativeDocType = false;
+			if(isAlternativeDocTypeEnabled) {
+				if (org.compiere.apps.ADialog.ask(0, null, Msg.getMsg(p_ctx, "Do you want to use the alternate Document type?")))						
+				{
+					alternativeDocType = true;
+				}			
 			}
 			PosQuery qt = new QueryTicket(p_posPanel);
-			qt.setVisible(true);
+			qt.setVisible(true);				
 			p_posPanel.updateInfo();
-			if (creditoFiscal)
+			
+			if (alternativeDocType)
 				p_posPanel.m_order.setC_DocTypeTarget_ID(0);
-			return;
 		}
-		else if (action.equals("Cancel"))
+		else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
-		else if (action.equals("Cash"))
+		else if (action.equals(ACTION_PAYMENT))
 			payOrder();
-		else if (action.equals("Print"))
+		else if (action.equals(ACTION_PRINT))
 			printOrder();
-		else if (action.equals("BPartner"))
-		{
+		else if (action.equals(ACTION_BPARTNER))
+		{	// Change to another BPartner
 			PosQuery qt = new QueryBPartner(p_posPanel);
 			qt.setVisible(true);
 			findBPartner();
 		}
 		// Logout
-		else if (action.equals("Logout"))
+		else if (action.equals(ACTION_LOGOUT))
 		{
 			p_posPanel.dispose();
 			return;
@@ -326,7 +333,7 @@ public class SubOrder extends PosSubPanel
 		else if (e.getSource() == f_name)
 			findBPartner();
 		
-		else if (action.equals("Edit"))
+		else if (action.equals(ACTION_CREDITSALE))
 			onCreditSale();
 		
 		p_posPanel.updateInfo();
@@ -350,15 +357,12 @@ public class SubOrder extends PosSubPanel
 	 * 
 	 */
 	private void payOrder() {
-
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-
 		if( p_posPanel.m_order != null ) 
 		{
-
 			if ( !p_posPanel.m_order.isProcessed() && !p_posPanel.m_order.processOrder() )
 			{
-				ADialog.warn(0, p_posPanel, "PosOrderProcessFailed");
+				ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "PosOrderProcessFailed"));
 				return;
 			}
 
@@ -368,28 +372,28 @@ public class SubOrder extends PosSubPanel
 				p_posPanel.setOrder(0);
 			}
 		}	
-	}
+	}  // payOrder
 
 	/**
 	 * 
 	 */
 	private void deleteOrder() {
-		if (p_posPanel == null || p_posPanel.m_order == null)
-			return;
-		if (p_posPanel.m_order.getDocStatus().equals("CO"))
-		{
-			if (ADialog.ask(0, this, "Quiere cancalar la orden?"))
-			{
+		if (p_posPanel == null || p_posPanel.m_order == null) {
+			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
+			return;			
+		}
+		if (p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Completed)) {	
+			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "The order is already completed. Do you want to void it?")))) {		
 				p_posPanel.m_order.cancelOrder();
 			}
 		}
-		if ( p_posPanel != null && ADialog.ask(0, this, "Delete order?") )
+		else if ( p_posPanel != null && ADialog.ask(0, this, Msg.getMsg(p_ctx, "Do you want to delete the Order?")) )
 			if (p_posPanel.m_order.deleteOrder())
 				p_posPanel.m_order = null;
 		updateOrder();
 		// p_posPanel.newOrder();
 
-	}
+	} // deleteOrder
 
 	/**
 	 * 	Focus Gained
@@ -478,16 +482,19 @@ public class SubOrder extends PosSubPanel
 	
 	private void onCreditSale()
 	{
-		if( p_posPanel.m_order != null ) 
-		{
-
-			if ( !p_posPanel.m_order.isProcessed() && !p_posPanel.m_order.processOrder() )
-			{
-				ADialog.warn(0, p_posPanel, "PosOrderProcessFailed");
-				return;
+		if( p_posPanel.m_order == null) {		
+			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
+		}
+		else {
+			if ( p_posPanel.m_order.getLines().length==0) {
+				ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "The Order does not contain lines"));
+			}
+			else if ( !p_posPanel.m_order.isProcessed() && !p_posPanel.m_order.processOrder() ) {		
+				ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "Error processing Credit sale"));
 			}
 		}
-	}
+		return;
+	} // onCreditSale
 	
 	
 	/**************************************************************************

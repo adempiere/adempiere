@@ -33,6 +33,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.compiere.apps.ADialog;
 import org.compiere.model.MPOS;
+import org.compiere.model.MSysConfig;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
@@ -104,6 +105,10 @@ public class PosBasePanel extends CPanel
 	private boolean debug = false;
 	private CFrame frame;
 	private HashMap<Integer, POSKeyboard> keyboards = new HashMap<Integer, POSKeyboard>();
+
+	private final String POS_ALTERNATIVE_DOCTYPE_ENABLED = "POS_ALTERNATIVE_DOCTYPE_ENABLED";  // System configurator entry
+	private final String NO_ALTERNATIVE_POS_DOCTYPE = "N";
+	private final boolean isAlternativeDocTypeEnabled = MSysConfig.getValue(POS_ALTERNATIVE_DOCTYPE_ENABLED, NO_ALTERNATIVE_POS_DOCTYPE, Env.getAD_Client_ID(m_ctx)).compareToIgnoreCase(NO_ALTERNATIVE_POS_DOCTYPE)==0?false:true;
 	
 	/**
 	 *	Initialize Panel
@@ -143,7 +148,7 @@ public class PosBasePanel extends CPanel
 		}
 		log.config( "PosPanel.init - " + getPreferredSize());
 		
-		if ( p_pos.get_ValueAsInt("AutoLogoutDelay") > 0 && logoutTimer == null )
+		if ( p_pos.getAutoLogoutDelay() > 0 && logoutTimer == null )
 		{
 			logoutTimer = new javax.swing.Timer(1000,
 					new ActionListener() {
@@ -312,9 +317,11 @@ public class PosBasePanel extends CPanel
 		m_order = null;
 		m_order = PosOrderModel.createOrder(p_pos, f_order.getBPartner());
 
-		if (org.compiere.apps.ADialog.ask(0, null, "¿Quiere generar un crédito fiscal?"))						
-		{
-//			m_order.setC_DocTypeTarget_ID(p_pos.getC_DocTypewholesale_ID());
+		if (isAlternativeDocTypeEnabled) {
+			if (org.compiere.apps.ADialog.ask(0, null, Msg.getMsg(m_ctx, "Do you want to use the alternate Document type?") ))						
+			{
+				m_order.setC_DocTypeTarget_ID(p_pos.getC_DocTypewholesale_ID());
+			}
 		}
 		f_curLine.newLine();
 		f_curLine.f_name.requestFocusInWindow();
