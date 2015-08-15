@@ -370,7 +370,7 @@ public class SubOrder extends PosSubPanel
 	/**
 	 * 
 	 */
-	public void deleteOrder() {
+	private void deleteOrder() {
 		if (p_posPanel == null || p_posPanel.m_order == null) {
 			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
 			return;			

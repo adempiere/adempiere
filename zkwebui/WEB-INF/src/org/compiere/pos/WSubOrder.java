@@ -45,6 +45,7 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartner;
@@ -629,22 +630,29 @@ public class WSubOrder extends WPosSubPanel
 	 * 
 	 */
 	private void deleteOrder() {
-		if (m_order == null)
-			return;
-		if (m_order.getDocStatus().equals("CO"))
-		{
-			if (FDialog.ask(0, this, "Quiere cancelar la orden?")) {
-				p_posPanel.m_order.cancelOrder();
+		if (m_order == null){
+			FDialog.warn(0, Msg.getMsg(p_ctx, "You must create an Order first"));
+			return;			
+		}
+		else if ( p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Drafted) ) {
+			if (FDialog.ask(0, this, Msg.getMsg(p_ctx, "Do you want to delete the Order?"))) {
+				if (p_posPanel.m_order.deleteOrder())
+					p_posPanel.m_order = null;	
+				else
+					FDialog.warn(0,  Msg.getMsg(p_ctx, "Order could not be deleted"));
 			}
 		}
-		if (FDialog.ask(0, this, "Delete order?") )
-			if(m_order.deleteOrder()){
-				m_order = null;
-				updateOrder();
-				newOrder();
+		else if (p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Completed)) {	
+			if (FDialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "The order is already completed. Do you want to void it?")))) {		
+				if (!p_posPanel.m_order.cancelOrder())
+					FDialog.warn(0,  Msg.getMsg(p_ctx, "Order could not be voided"));
 			}
-
-	}
+		}
+		else {
+			FDialog.warn(0,  Msg.getMsg(p_ctx, "Order is not Drafted nor Completed. Try to delete it other way"));
+			return;
+		}
+	}  // deleteOrder
 	
 	/**
 	 * 	Find/Set BPartner
