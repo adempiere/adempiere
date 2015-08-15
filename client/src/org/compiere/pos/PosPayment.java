@@ -122,11 +122,12 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 	} // actionPerformed
 
 
-	/**************************************************************************
-	 * 	Get Amount in Words
-	 * 	@param amount numeric amount (352.80)
-	 * 	@return amount in words (three*five*two 80/100)
-	 * 	@throws Exception
+
+	/**
+	 * Get Amount 
+	 * @author <a href="mailto:dmartinez@erpcya.com">Dixon Martinez</a> 15/8/2015, 11:43:03
+	 * @param amount
+	 * @return String
 	 */
 	public String getAmt (String amount) 
 	{
@@ -163,22 +164,31 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 			newpos = amount.lastIndexOf ('.');  // Old
 		else
 			newpos = amount.lastIndexOf (',');
-		//	Dixon Martinez 2015-01-20 
-		//	Add support for check new pos before parse
 		long pesos = 0; 
 		if(newpos > 0)
 			pesos = Long.parseLong(amount.substring (0, newpos));
 		else 
 			return "";
 		
-		sb.append(pesos);
-		//	End Dixon Martinez
+		
+		sb.append (pesos);
+		for (int i = 0; i < oldamt.length (); i++)
+		{
+			if (pos == i) //	we are done
+			{
+				String cents = oldamt.substring (i + 1);
+				if(lang.isDecimalPoint())
+					sb.append('.');
+				else
+					sb.append(',');
+				sb.append (cents);
+				break;
+			}
+		}
 
 		return sb.toString ();
-	}	//	getAmtInWords
+	}	//	getAmt
 
-	
-	
 	private void processPayment() {
 
 		try {
