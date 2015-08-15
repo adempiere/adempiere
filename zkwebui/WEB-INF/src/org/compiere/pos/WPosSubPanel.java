@@ -23,6 +23,7 @@ import javax.swing.KeyStroke;
 
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MPOS;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.EventListener;
@@ -76,6 +77,7 @@ public abstract class WPosSubPanel extends Borderlayout
 	public void dispose()
 	{
 		p_pos = null;
+		SessionManager.getAppDesktop().closeActiveWindow();
 	}	//	dispose
 
 	

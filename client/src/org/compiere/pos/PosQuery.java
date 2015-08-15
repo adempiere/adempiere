@@ -86,7 +86,7 @@ public abstract class PosQuery extends CDialog implements MouseListener, ListSel
 		init();
 		pack();
 		setLocationByPlatform(true);
-	}	//	PosQueryBPartner
+	}	//	PosQuery
 
 	/**
 	 *  Mouse Clicked

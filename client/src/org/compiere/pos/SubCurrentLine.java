@@ -54,7 +54,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.pos.BigDecimalEditor;
+import org.compiere.pos.BigDecimalEditor;
 
 /**
  * Current Line Sub Panel
@@ -662,7 +662,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		//	Set Result
 		if (results.length == 0)
 		{
-			String message = Msg.translate(p_ctx,  "search.product.notfound");
+			String message = Msg.translate(p_ctx,  "search product notfound");
 			ADialog.warn(0, p_posPanel, message + query);
 			setM_Product_ID(0);
 			p_posPanel.f_curLine.setPrice(Env.ZERO);
@@ -770,7 +770,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		}
 		enableButtons();
 		
-	}
+	}  // valueChanged
 
 
 	private void loadLine(int lineId) {

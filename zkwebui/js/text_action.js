@@ -66,7 +66,10 @@ function Text_action()
 								// greater than 9, add to existing
 								else 
 								{
-									calcText.value=parseInt(textbox)+parseInt(number);
+									if(textbox == "")
+										calcText.value=parseInt(number);
+									else
+										calcText.value=parseInt(textbox)+parseInt(number);
 								}
 		
 							}

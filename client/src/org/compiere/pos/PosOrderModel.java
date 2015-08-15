@@ -36,6 +36,7 @@ import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -74,7 +75,7 @@ public class PosOrderModel extends MOrder {
 		if (partner == null || partner.get_ID() == 0)
 			partner = pos.getBPartner();
 		if (partner == null || partner.get_ID() == 0) {
-			throw new AdempierePOSException("No BPartner for order");
+			throw new AdempierePOSException(Msg.getMsg(Env.getCtx(), "No BPartner for order"));
 		}
 		order.setBPartner(partner);
 		//
@@ -84,7 +85,7 @@ public class PosOrderModel extends MOrder {
 		if (!order.save())
 		{
 			order = null;
-			throw new AdempierePOSException("Save order failed");
+			throw new AdempierePOSException(Msg.getMsg(Env.getCtx(), "Save order failed"));
 		}
 		
 		return order;
@@ -98,7 +99,7 @@ public class PosOrderModel extends MOrder {
 	 */
 	public void setBPartner(MBPartner partner)
 	{
-		if (getDocStatus().equals("DR"))
+		if (getDocStatus().equals(STATUS_Drafted))
 		{
 			if (partner == null || partner.get_ID() == 0) {
 				throw new AdempierePOSException("no BPartner");
@@ -128,7 +129,7 @@ public class PosOrderModel extends MOrder {
 	public MOrderLine createLine(MProduct product, BigDecimal QtyOrdered,
 			BigDecimal PriceActual) {
 		
-		if (!getDocStatus().equals("DR") )
+		if (!getDocStatus().equals(STATUS_Drafted) )
 			return null;
 		//add new line or increase qty
 		
@@ -183,7 +184,7 @@ public class PosOrderModel extends MOrder {
  *         *Copyright � ConSerTi
 	 */		
 	public boolean deleteOrder () {
-		if (getDocStatus().equals("DR"))
+		if (getDocStatus().equals(STATUS_Drafted))
 			{
 				MOrderLine[] lines = getLines();
 				if (lines != null)
@@ -223,7 +224,7 @@ public class PosOrderModel extends MOrder {
 	public void deleteLine (int C_OrderLine_ID) {
 		if ( C_OrderLine_ID != -1 )
 		{
-			for ( MOrderLine line : getLines(true, "M_Product_ID") )
+			for ( MOrderLine line : getLines(true, MOrderLine.COLUMNNAME_M_Product_ID) )
 			{
 				if ( line.getC_OrderLine_ID() == C_OrderLine_ID )
 				{
@@ -244,7 +245,7 @@ public class PosOrderModel extends MOrder {
 		//Returning orderCompleted to check for order completeness
 		boolean orderCompleted = false;
 		// check if order completed OK
-		if (getDocStatus().equals("DR") || getDocStatus().equals("IP") )
+		if (getDocStatus().equals(STATUS_Drafted) || getDocStatus().equals(STATUS_InProgress) )
 		{ 
 			setDocAction(DocAction.ACTION_Complete);
 			try
@@ -264,11 +265,11 @@ public class PosOrderModel extends MOrder {
 			}
 			finally
 			{ // When order failed convert it back to draft so it can be processed
-				if( getDocStatus().equals("IN") )
+				if( getDocStatus().equals(STATUS_Invalid) )
 				{
-					setDocStatus("DR");
+					setDocStatus(STATUS_Drafted);
 				}
-				else if( getDocStatus().equals("CO") )
+				else if( getDocStatus().equals(STATUS_Completed) )
 				{
 					orderCompleted = true;
 					log.info( "SubCheckout - processOrder OK");	 
@@ -318,12 +319,12 @@ public class PosOrderModel extends MOrder {
 		payment.setC_CashBook_ID(m_pos.getC_CashBook_ID());
 		payment.setAmount(getC_Currency_ID(), amt);
 		payment.setC_BankAccount_ID(m_pos.getC_BankAccount_ID());
-		payment.save();
+		payment.saveEx();
 		payment.setDocAction(MPayment.DOCACTION_Complete);
 		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
 		if ( payment.processIt(MPayment.DOCACTION_Complete) )
 		{
-			payment.save();
+			payment.saveEx();
 			return true;
 		}
 		else return false;
@@ -413,7 +414,7 @@ public class PosOrderModel extends MOrder {
 		if (getC_Invoice_ID() !=0)
 		{
 			MInvoice inv = new MInvoice(p_ctx, payment.getC_Invoice_ID(), null);
-			payment.setDescription("Factura No " + inv.getDocumentNo());
+			payment.setDescription(Msg.getMsg(Env.getCtx(), "Invoice No") + inv.getDocumentNo());
 		}
 			
 		return payment;
@@ -476,8 +477,7 @@ public class PosOrderModel extends MOrder {
 				.list();
 			//
 			HashMap<String,ValueNamePair> map = new HashMap<String,ValueNamePair>(); //	to eliminate duplicates
-			ValueNamePair vpv = new ValueNamePair("", "");
-			map.put ("", null);
+			ValueNamePair vpv;
 			for (MInvoice inv:cns)
 			{
 				Integer ID = inv.getC_Invoice_ID();
@@ -561,12 +561,12 @@ public class PosOrderModel extends MOrder {
 			order_cancel.setDocStatus(MOrder.DOCACTION_Complete);
 			order_cancel.saveEx();
 		}
-		int[] Invoice_IDs = MInvoice.getAllIDs(MInvoice.Table_Name, "c_Order_ID=" +getC_Order_ID() , get_TrxName());	
+		int[] Invoice_IDs = MInvoice.getAllIDs(MInvoice.Table_Name, COLUMNNAME_C_Order_ID +"=" + getC_Order_ID() , get_TrxName());	
 		int laenge = Invoice_IDs.length;
 		for (int i  = 0; i < laenge; i++)
 		{
 			int invoice_ID = Invoice_IDs[i];
-			int[] Alo_IDs = MAllocationLine.getAllIDs(MAllocationLine.Table_Name, "C_Invoice_ID=" + invoice_ID, get_TrxName());
+			int[] Alo_IDs = MAllocationLine.getAllIDs(MAllocationLine.Table_Name, MAllocationLine.COLUMNNAME_C_Invoice_ID + "=" + invoice_ID, get_TrxName());
 			for (int alo_ID:Alo_IDs)
 			{
 				MAllocationLine alo = new MAllocationLine(getCtx(), alo_ID, get_TrxName());
@@ -578,7 +578,7 @@ public class PosOrderModel extends MOrder {
 					pay_cancel.setPayAmt(pay_cancel.getPayAmt().negate());
 					pay_cancel.setDescription(alo.getC_Payment().getDocumentNo() + "_Anulación");
 					pay_cancel.save();
-					for (int j:	MInvoice.getAllIDs(MInvoice.Table_Name, "c_Order_ID=" + order_cancel.getC_Order_ID(), get_TrxName()))
+					for (int j:	MInvoice.getAllIDs(MInvoice.Table_Name, COLUMNNAME_C_Order_ID + "=" + order_cancel.getC_Order_ID(), get_TrxName()))
 					{
 						pay_cancel.setC_Invoice_ID(j);
 						pay_cancel.setC_Order_ID(order_cancel.getC_Order_ID());
@@ -591,7 +591,7 @@ public class PosOrderModel extends MOrder {
 				else
 				{
 					MAllocationHdr ahd = new MAllocationHdr(getCtx(), 0, get_TrxName());
-					for (int k:	MInvoice.getAllIDs(MInvoice.Table_Name, "c_Order_ID=" + order_cancel.getC_Order_ID(), get_TrxName()))
+					for (int k:	MInvoice.getAllIDs(MInvoice.Table_Name, COLUMNNAME_C_Order_ID + "=" + order_cancel.getC_Order_ID(), get_TrxName()))
 					{
 						MAllocationLine alo_new = new MAllocationLine(ahd);
 						alo_new.setC_Invoice_ID(k);
@@ -602,7 +602,7 @@ public class PosOrderModel extends MOrder {
 				}
 			}
 		}
-		return "No. Documento:" + " " +  order_cancel.getDocumentNo();
-	}	
+		return Msg.getMsg(Env.getCtx(), "DocumentNo")  + " " +  order_cancel.getDocumentNo();
+	} // cancelOrder	
 	
 } // PosOrderModel.class

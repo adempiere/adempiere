@@ -24,7 +24,6 @@ import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -37,7 +36,6 @@ import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.MaskFormatter;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -52,16 +50,15 @@ import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentValidate;
-import org.compiere.model.Query;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextField;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
@@ -77,8 +74,14 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		
 		if ( e.getSource().equals(fTenderAmt) || e.getSource().equals(fPayAmt) )
 		{
-			BigDecimal tender = new BigDecimal( fTenderAmt.getText() );
-			BigDecimal pay = new BigDecimal( fPayAmt.getText() );
+			//	Dixon Martinez 2015-08-14 
+			//	Validate Null in Amount
+			String tenderAmt = fTenderAmt.getText() != null ? fTenderAmt.getText() : "0";
+			String payAmt = fPayAmt.getText() != null ? fPayAmt.getText() : "0";
+			
+			BigDecimal tender = new BigDecimal( getAmt(tenderAmt) );
+			BigDecimal pay = new BigDecimal( getAmt(payAmt) );
+			//	End Dixon Martinez
 			if ( tender.compareTo(Env.ZERO) != 0 )
 			{
 				fReturnAmt.setValue(tender.subtract(pay));
@@ -116,14 +119,82 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		setTotals();
 
 		super.actionPerformed(e);
-	}
+	} // actionPerformed
+
+
+
+	/**
+	 * Get Amount 
+	 * @author <a href="mailto:dmartinez@erpcya.com">Dixon Martinez</a> 15/8/2015, 11:43:03
+	 * @param amount
+	 * @return String
+	 */
+	public String getAmt (String amount) 
+	{
+		if (amount == null)
+			return amount;
+
+		Language lang = Env.getLanguage(Env.getCtx());
+		//
+		StringBuffer sb = new StringBuffer ();
+		int pos = 0;
+
+		if(lang.isDecimalPoint())
+    	 pos = amount.lastIndexOf ('.');    // Old
+		else
+		 pos = amount.lastIndexOf (',');
+
+		int pos2 = 0;
+		if(lang.isDecimalPoint())
+			pos2 = amount.lastIndexOf (',');   // Old
+		else
+			pos2 = amount.lastIndexOf ('.');
+
+		if (pos2 > pos)
+			pos = pos2;
+		String oldamt = amount;
+
+		if(lang.isDecimalPoint())
+			amount = amount.replaceAll (",", "");   // Old
+		else
+			amount = amount.replaceAll( "\\.","");
+
+		int newpos = 0;
+		if(lang.isDecimalPoint())
+			newpos = amount.lastIndexOf ('.');  // Old
+		else
+			newpos = amount.lastIndexOf (',');
+		long pesos = 0; 
+		if(newpos > 0)
+			pesos = Long.parseLong(amount.substring (0, newpos));
+		else 
+			return "";
+		
+		
+		sb.append (pesos);
+		for (int i = 0; i < oldamt.length (); i++)
+		{
+			if (pos == i) //	we are done
+			{
+				String cents = oldamt.substring (i + 1);
+				if(lang.isDecimalPoint())
+					sb.append('.');
+				else
+					sb.append(',');
+				sb.append (cents);
+				break;
+			}
+		}
+
+		return sb.toString ();
+	}	//	getAmt
 
 	private void processPayment() {
 
 		try {
 
 			String tenderType = ((ValueNamePair) tenderTypePick.getValue()).getID();
-			BigDecimal amt = new BigDecimal(fPayAmt.getText());
+			BigDecimal amt = new BigDecimal(getAmt(fPayAmt.getText()));
 
 			if ( tenderType.equals(MPayment.TENDERTYPE_Cash) )
 			{
@@ -174,7 +245,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 			}
 			else
 			{
-				ADialog.warn(0, this, "Unsupported payment type");
+				ADialog.warn(0, this, Msg.getMsg(Env.getCtx(), "Unsupported payment type"));
 			}
 
 
@@ -183,9 +254,9 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		}
 		catch (Exception e )
 		{
-			ADialog.warn(0, this, "Payment processing failed: " + e.getMessage());
+			ADialog.warn(0, this, Msg.getMsg(Env.getCtx(), "Payment processing failed") + ": " + e.getMessage());
 		}
-	}
+	}  // processPayment
 
 	private PosBasePanel p_posPanel;
 	private MPOS p_pos;
@@ -458,7 +529,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		pack();
 		
 		setTotals();
-	}
+	} // init
 
 	private void setTotals() {
 
@@ -528,7 +599,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		}
 		
 		pack();
-	}
+	} // setTotals
 
 	public void keyReturned(MPOSKey key) {
 		
@@ -557,7 +628,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 				// ignore non-numbers
 			}
 		}
-	}
+	} // keyReturned
 
 	public static boolean pay(PosBasePanel posPanel) {
 		
