@@ -128,7 +128,7 @@ public class SubOrder extends PosSubPanel
 	private final String ACTION_LOGOUT      = "Logout";
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_PAYMENT     = "Payment";
-	private final String ACTION_PREFERENCES = "Preferences";
+	private final String ACTION_PREFERENCES = "Preference";
 	private final String ACTION_PRINT       = "Print";
 	
 	/**
