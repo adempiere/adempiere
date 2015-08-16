@@ -63,6 +63,10 @@ import org.compiere.pos.BigDecimalEditor;
  * Based on Modified Original Code, Revised and Optimized
  *         *Copyright Jorg Janke
  * red1 - [2093355 ] Small bugs in OpenXpertya POS
+ *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
+ *  
+ *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
+ *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
 public class SubCurrentLine extends PosSubPanel implements ActionListener, FocusListener, ListSelectionListener, TableModelListener{
 	/**
@@ -79,15 +83,15 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		super(posPanel);
 	}
 
-	private CButton f_up;
-	private CButton f_delete;
-	private CButton f_down;
+	private CButton 		f_up;
+	private CButton 		f_delete;
+	private CButton 		f_down;
 	//
-	private CButton f_plus;
-	private CButton f_minus;
-	private PosTextField f_price;
-	private PosTextField f_quantity;
-	private PosTextField f_discount;
+	private CButton 		f_plus;
+	private CButton 		f_minus;
+	private PosTextField 	f_price;
+	private PosTextField 	f_quantity;
+	private PosTextField 	f_discount;
 	protected PosTextField	f_name;
 	private CButton			f_bSearch;
 	private int orderLineId = 0;
@@ -112,16 +116,23 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	private String			m_sql;
 	/**	Logger			*/
 	
+	static final private String NAME        = "Name";
+	static final private String QTY         = "Qty";
+	static final private String C_UOM_ID    = "C_UOM_ID";
+	static final private String PRICEACTUAL = "PriceActual";
+	static final private String LINENETAMT  = "LineNetAmt";
+	static final private String DISCOUNT    = "Discount";
+	
 	/**	Table Column Layout Info			*/
 	private static ColumnInfo[] s_layout = new ColumnInfo[] 
 	{
 		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Qty"), "QtyOrdered", Double.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_UOM_ID"), "UOMSymbol", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "PriceActual"), "PriceActual", BigDecimal.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "LineNetAmt"), "LineNetAmt", BigDecimal.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Discount"), "Discount", BigDecimal.class,  false, false, null), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), NAME), NAME, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), QTY), "QtyOrdered", Double.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), C_UOM_ID), "UOMSymbol", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), PRICEACTUAL), PRICEACTUAL, BigDecimal.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), LINENETAMT), LINENETAMT, BigDecimal.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), DISCOUNT), DISCOUNT, BigDecimal.class,  false, false, null), 
 	};
 	/**	From Clause							*/
 	private static String s_sqlFrom = "C_Order_LineTax_v";

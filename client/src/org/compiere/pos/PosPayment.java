@@ -62,11 +62,17 @@ import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
-public class PosPayment extends CDialog implements PosKeyListener, VetoableChangeListener, ActionListener {
+/**
+ * 
+ * Payment dialog
+ * 
+ *  @author Dixon Martinez, ERPCYA 
+ *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
+ *  
+ *  @version $Id: PosPayment.java,v 2.0 2015/09/01 00:00:00 scalderon
+ */
 
-	/**
-	 * 
-	 */
+public class PosPayment extends CDialog implements PosKeyListener, VetoableChangeListener, ActionListener {
 	private static final long serialVersionUID = 1961106531807910948L;
 
 	@Override
@@ -74,14 +80,10 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		
 		if ( e.getSource().equals(fTenderAmt) || e.getSource().equals(fPayAmt) )
 		{
-			//	Dixon Martinez 2015-08-14 
-			//	Validate Null in Amount
 			String tenderAmt = fTenderAmt.getText() != null ? fTenderAmt.getText() : "0";
-			String payAmt = fPayAmt.getText() != null ? fPayAmt.getText() : "0";
-			
+			String payAmt = fPayAmt.getText() != null ? fPayAmt.getText() : "0";			
 			BigDecimal tender = new BigDecimal( getAmt(tenderAmt) );
 			BigDecimal pay = new BigDecimal( getAmt(payAmt) );
-			//	End Dixon Martinez
 			if ( tender.compareTo(Env.ZERO) != 0 )
 			{
 				fReturnAmt.setValue(tender.subtract(pay));
@@ -136,11 +138,8 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		super.actionPerformed(e);
 	} // actionPerformed
 
-
-
 	/**
 	 * Get Amount 
-	 * @author <a href="mailto:dmartinez@erpcya.com">Dixon Martinez</a> 15/8/2015, 11:43:03
 	 * @param amount
 	 * @return String
 	 */
@@ -204,6 +203,10 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		return sb.toString ();
 	}	//	getAmt
 
+	/**
+	 * Processes different kinds of payment types
+	 * 
+	 */
 	private void processPayment() {
 
 		try {
@@ -546,6 +549,10 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		setTotals();
 	} // init
 
+	/**
+	 * Set totals for panel and visibility of components
+	 * 
+	 */
 	private void setTotals() {
 
 		String tenderType = ((ValueNamePair) tenderTypePick.getValue()).getID();
@@ -616,6 +623,11 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		pack();
 	} // setTotals
 
+
+	/**
+	 * Get key value
+	 * 
+	 */
 	public void keyReturned(MPOSKey key) {
 		
 		String text = key.getText();
@@ -645,13 +657,18 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		}
 	} // keyReturned
 
+
+	/**
+	 * Display and initialize Payment dialog
+	 * 
+	 */
 	public static boolean pay(PosBasePanel posPanel) {
 		
 		PosPayment pay = new PosPayment(posPanel);
 		pay.setVisible(true);
 		
 		return pay.isPaid();
-	}
+	}  // pay
 
 	private boolean isPaid() {
 		return paid ;

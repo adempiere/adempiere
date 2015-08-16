@@ -66,11 +66,17 @@ import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
+/**
+ * 
+ * Prepayment dialog
+ * 
+ *  @author Dixon Martinez, ERPCYA 
+ *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
+ *  
+ *  @version $Id: PosPrePayment.java,v 2.0 2015/09/01 00:00:00 scalderon
+ */
 public class PosPrePayment extends CDialog implements PosKeyListener, VetoableChangeListener, ActionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1961106531807910948L;
 
 	@Override
@@ -78,14 +84,10 @@ public class PosPrePayment extends CDialog implements PosKeyListener, VetoableCh
 		
 		if ( e.getSource().equals(fTenderAmt) || e.getSource().equals(fPayAmt) )
 		{
-			//	Dixon Martinez 2015-08-14 
-			//	Validate Null in Amount
 			String tenderAmt = fTenderAmt.getText() != null ? fTenderAmt.getText() : "0";
-			String payAmt = fPayAmt.getText() != null ? fPayAmt.getText() : "0";
-			
+			String payAmt = fPayAmt.getText() != null ? fPayAmt.getText() : "0";			
 			BigDecimal tender = new BigDecimal( getAmt(tenderAmt) );
 			BigDecimal pay = new BigDecimal( getAmt(payAmt) );
-			//	End Dixon Martinez
 			if ( tender.compareTo(Env.ZERO) != 0 )
 			{
 				fReturnAmt.setValue(tender.subtract(pay));
@@ -182,7 +184,6 @@ public class PosPrePayment extends CDialog implements PosKeyListener, VetoableCh
 
 	/**
 	 * Get Amount 
-	 * @author <a href="mailto:dmartinez@erpcya.com">Dixon Martinez</a> 15/8/2015, 11:43:03
 	 * @param amount
 	 * @return String
 	 */
@@ -245,7 +246,11 @@ public class PosPrePayment extends CDialog implements PosKeyListener, VetoableCh
 
 		return sb.toString ();
 	}	//	getAmt
-
+	
+	/**
+	 * Processes different kinds of payment types
+	 * 
+	 */
 	private void processPayment() {
 
 		try {
@@ -588,6 +593,11 @@ public class PosPrePayment extends CDialog implements PosKeyListener, VetoableCh
 		setTotals();
 	} // init
 
+
+	/**
+	 * Set totals for panel and visibility of components
+	 * 
+	 */
 	private void setTotals() {
 
 		String tenderType = ((ValueNamePair) tenderTypePick.getValue()).getID();
@@ -658,6 +668,10 @@ public class PosPrePayment extends CDialog implements PosKeyListener, VetoableCh
 		pack();
 	} // setTotals
 
+	/**
+	 * Get key value
+	 * 
+	 */
 	public void keyReturned(MPOSKey key) {
 		
 		String text = key.getText();
@@ -687,17 +701,21 @@ public class PosPrePayment extends CDialog implements PosKeyListener, VetoableCh
 		}
 	} // keyReturned
 
+	/**
+	 * Display and initialize Prepayment dialog
+	 * 
+	 */
 	public static boolean pay(PosBasePanel posPanel) {
 		
 		PosPrePayment pay = new PosPrePayment(posPanel);
 		pay.setVisible(true);
 		
 		return pay.isPaid();
-	}
+	} // pay
 
 	private boolean isPaid() {
 		return paid ;
-	}
+	} 
 
 	public void vetoableChange(PropertyChangeEvent arg0)
 			throws PropertyVetoException {

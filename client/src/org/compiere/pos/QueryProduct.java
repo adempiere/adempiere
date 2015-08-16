@@ -40,12 +40,15 @@ import org.compiere.util.Msg;
  *	
  *  @author Based on Modified Original Code, Revised and Optimized
  *         *Copyright (c) Jorg Janke
+ *  @author Dixon Martinez, ERPCYA 
+ *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
+ *  
+ *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
+ *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
 public class QueryProduct extends PosQuery
 {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 9172276999827406833L;
 
 	/**

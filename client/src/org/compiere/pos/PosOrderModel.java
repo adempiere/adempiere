@@ -37,8 +37,13 @@ import org.compiere.util.ValueNamePair;
 
 /**
  * Wrapper for standard order
- * @author Paul Bowden
- * Adaxa Pty Ltd
+ *  @author Comunidad de Desarrollo OpenXpertya 
+ *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
+ *         *Copyright � ConSerTi
+ *  @author Paul Bowden Adaxa Pty Ltd
+ *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
+ *  
+ *  @version $Id: PosOrderModel.java,v 2.0 2015/09/01 00:00:00 scalderon
  *
  */
 public class PosOrderModel extends MOrder {
@@ -89,9 +94,7 @@ public class PosOrderModel extends MOrder {
 
 
 	/**
-	 * @author Comunidad de Desarrollo OpenXpertya 
-	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *         *Copyright ConSerTi
+	 * set BPartner and save
 	 */
 	public void setBPartner(MBPartner partner)
 	{
@@ -175,9 +178,7 @@ public class PosOrderModel extends MOrder {
 	/**
 	 * Delete order from database
 	 * 
-	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
+	 * @return true if order deleted; otherwise false
 	 */		
 	public boolean deleteOrder () {
 		if (getDocStatus().equals(STATUS_Drafted))
@@ -214,8 +215,9 @@ public class PosOrderModel extends MOrder {
 	} //	deleteOrder
 	
 	/** 
-	 * to erase the lines from order
-	 * @return true if deleted
+	 * Delete one order line
+	 * To erase one line from order
+	 * 
 	 */
 	public void deleteLine (int C_OrderLine_ID) {
 		if ( C_OrderLine_ID != -1 )
@@ -232,9 +234,10 @@ public class PosOrderModel extends MOrder {
 
 	/**
 	 * 	Process Order
-	 *  @author Comunidad de Desarrollo OpenXpertya 
-	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *         *Copyright � ConSerTi
+	 * Only for status "Drafted" or "In Progress"
+	 * 
+	 * @return true if order processed; otherwise false
+	 * 
 	 */
 	public boolean processOrder()
 	{		
@@ -275,12 +278,15 @@ public class PosOrderModel extends MOrder {
 					log.info( "SubCheckout - processOrder - unrecognized DocStatus"); 
 				}					
 			} // try-finally
-
 		}
-
 		return orderCompleted;
 	}	// processOrder
 
+
+	/**
+	 * 	Gets Tax Amt from Order
+	 * 
+	 */
 	public BigDecimal getTaxAmt()	{
 		BigDecimal taxAmt = Env.ZERO;
 		for (MOrderTax tax : getTaxes(true))
@@ -289,10 +295,20 @@ public class PosOrderModel extends MOrder {
 		}
 		return taxAmt;
 	}
-	
+
+
+	/**
+	 * 	Gets Subtotal from Order
+	 * 
+	 */
 	public BigDecimal getSubtotal() {
 		return getGrandTotal().subtract(getTaxAmt());
 	}
+
+	/**
+	 * 	Gets Amount Paid from Order
+	 * 
+	 */
 
 	public BigDecimal getPaidAmt()
 	{
@@ -309,6 +325,13 @@ public class PosOrderModel extends MOrder {
 		return received;
 	}
 
+
+	/**
+	 * 	Process Payment
+	 * 
+	 * @return true if payment processed correctly; otherwise false
+	 * 
+	 */
 	public boolean payCash(BigDecimal amt) {
 
 		MPayment payment = createPayment(MPayment.TENDERTYPE_Cash);
@@ -326,10 +349,15 @@ public class PosOrderModel extends MOrder {
 		else return false;
 	} // payCash
 
+
+	/**
+	 * 	Payment with check
+	 * 
+	 * @return true if payment processed correctly; otherwise false
+	 * 
+	 */
 	public boolean payCheck(BigDecimal amt, String accountNo, String routingNo, String checkNo) 
 	{
-		//MPayment payment = createPayment(MPayment.TENDERTYPE_Check);
-
 		MPayment payment = createPayment(MPayment.TENDERTYPE_Cash);
 		payment.setC_CashBook_ID(m_pos.getC_CashBook_ID());
 		payment.setAmount(getC_Currency_ID(), amt);
@@ -348,7 +376,14 @@ public class PosOrderModel extends MOrder {
 		}
 		else return false;
 	} // payCheck
-	
+
+
+	/**
+	 * 	Payment with credit card
+	 * 
+	 * @return true if payment processed correctly; otherwise false
+	 * 
+	 */
 	public boolean payCreditCard(BigDecimal amt, String accountName, int month, int year,
 			String cardNo, String cvc, String cardtype) 
 	{
@@ -368,7 +403,14 @@ public class PosOrderModel extends MOrder {
 		}
 		else return false;
 	} // payCheck
-	
+
+
+	/**
+	 * 	Payment with credit note
+	 * 
+	 * @return true if payment processed correctly; otherwise false
+	 * 
+	 */
 	public boolean payCreditNote(MInvoice creditNote, BigDecimal amt) 
 	{
 		MPayment payment = createPayment(MPayment.TENDERTYPE_Account);
@@ -398,6 +440,14 @@ public class PosOrderModel extends MOrder {
 		else return false;
 	} // payCheck
 
+
+	/**
+	 * 	Create Payment object
+	 *  Refer to invoice if there is an invoice
+	 * 
+	 * @return Payment object
+	 * 
+	 */
 	private MPayment createPayment(String tenderType)
 	{
 		MPayment payment = new MPayment(getCtx(), 0, null);
@@ -416,6 +466,11 @@ public class PosOrderModel extends MOrder {
 		return payment;
 	}
 
+
+	/**
+	 * 	Load Order
+	 * 
+	 */
 	public void reload() {
 		load( get_TrxName());
 		getLines(true, "");
@@ -462,7 +517,12 @@ public class PosOrderModel extends MOrder {
 			return null;
 		}
 	}	//	getCreditCards
-	
+
+
+	/**
+	 * 	Get Credit Notes
+	 * 
+	 */
 	public ValueNamePair[] getCreditNotes ()
 	{
 		try
@@ -533,8 +593,18 @@ public class PosOrderModel extends MOrder {
 	}	//	getCreditCardName
 	
 
+
+	/**
+	 * 	Call Order void process 
+	 *  Only if Order is "In Progress" or "Completed"
+	 * 
+	 *  @return true if order voided; false otherwise
+	 */
 	public boolean cancelOrder()
 	{
+		if (!getDocStatus().equals(MOrder.STATUS_Completed) || !getDocStatus().equals(MOrder.STATUS_InProgress)) 
+			return false;
+		
 		// Standard way of voiding an order
 		setDocAction(MOrder.DOCACTION_Void);
 		if ( processIt(MOrder.DOCACTION_Void) )
