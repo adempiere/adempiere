@@ -92,6 +92,7 @@ public class SubOrder extends PosSubPanel
 	private CComboBox		f_location;
 	private CComboBox		f_user;
 	private CButton 		f_cashPayment;
+	private CButton 		f_cashPrePayment;
 	private CButton 		f_process;
 	private CButton 		f_print;
 	private CTextField 		f_DocumentNo;
@@ -124,6 +125,7 @@ public class SubOrder extends PosSubPanel
 	private final String ACTION_LOGOUT      = "Logout";
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_PAYMENT     = "Payment";
+	private final String ACTION_PREPAYMENT  = "Prepayment";
 	private final String ACTION_PREFERENCES = "Preference";
 	private final String ACTION_PRINT       = "Print";
 	
@@ -166,6 +168,12 @@ public class SubOrder extends PosSubPanel
 		f_cashPayment.setActionCommand(ACTION_PAYMENT);
 		add (f_cashPayment, buttonSize); 
 		f_cashPayment.setEnabled(false);
+ 		
+ 		// PREPAYMENT
+ 		f_cashPrePayment = createButtonAction(ACTION_PREPAYMENT, null);
+ 		f_cashPrePayment.setActionCommand(ACTION_PREPAYMENT);
+		add (f_cashPrePayment, buttonSize); 
+		f_cashPrePayment.setEnabled(false);
 		
  		//PRINT
 		f_print = createButtonAction(ACTION_PRINT, null);
@@ -311,6 +319,8 @@ public class SubOrder extends PosSubPanel
 			deleteOrder();
 		else if (action.equals(ACTION_PAYMENT))
 			payOrder();
+		else if (action.equals(ACTION_PREPAYMENT))
+			prePayOrder();
 		else if (action.equals(ACTION_PRINT))
 			printOrder();
 		else if (action.equals(ACTION_BPARTNER))
@@ -356,14 +366,11 @@ public class SubOrder extends PosSubPanel
 	 */
 	private void payOrder() {
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( p_posPanel.m_order != null ) 
+		if( p_posPanel.m_order == null) {		
+			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
+		}
+		else
 		{
-			if ( !p_posPanel.m_order.isProcessed() && !p_posPanel.m_order.processOrder() )
-			{
-				ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "PosOrderProcessFailed"));
-				return;
-			}
-
 			if ( PosPayment.pay(p_posPanel) )
 			{
 				printTicket();
@@ -371,6 +378,25 @@ public class SubOrder extends PosSubPanel
 			}
 		}	
 	}  // payOrder
+
+	/**
+	 * Execute order prepayment
+	 * If order is not processed, process it first.
+	 * If it is successful, proceed to pay and print ticket
+	 */
+	private void prePayOrder() {
+		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
+		if( p_posPanel.m_order == null) {		
+			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
+		}
+		else
+		{
+			if ( PosPrePayment.pay(p_posPanel) )
+			{
+				p_posPanel.setOrder(0);
+			}
+		}	
+	}  // prePayOrder
 
 	/**
 	 * Execute deleting an order
@@ -753,6 +779,7 @@ public class SubOrder extends PosSubPanel
   				f_process.setEnabled(true);
   				f_print.setEnabled(order.isProcessed());
   				f_cashPayment.setEnabled(order.getLines().length != 0);
+  				f_cashPrePayment.setEnabled(order.getLines().length != 0);
 			}
 			else
 			{
@@ -764,6 +791,7 @@ public class SubOrder extends PosSubPanel
 				f_process.setEnabled(false);
 				f_print.setEnabled(false);
 				f_cashPayment.setEnabled(false);
+				f_cashPrePayment.setEnabled(false);
 			}
 			
 		}

@@ -406,9 +406,9 @@ public class PosOrderModel extends MOrder {
 		payment.setC_Order_ID(getC_Order_ID());
 		payment.setIsReceipt(true);
 		payment.setC_BPartner_ID(getC_BPartner_ID());
-		payment.setC_Invoice_ID(getC_Invoice_ID());
-		if (getC_Invoice_ID() !=0)
+		if (getC_Invoice_ID()>0)
 		{
+			payment.setC_Invoice_ID(getC_Invoice_ID());
 			MInvoice inv = new MInvoice(p_ctx, payment.getC_Invoice_ID(), null);
 			payment.setDescription(Msg.getMsg(Env.getCtx(), "Invoice No") + inv.getDocumentNo());
 		}
