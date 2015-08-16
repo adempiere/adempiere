@@ -23,7 +23,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -35,18 +34,12 @@ import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
-import org.compiere.model.MAllocationHdr;
-import org.compiere.model.MAllocationLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MCurrency;
-import org.compiere.model.MDocType;
-import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MPayment;
 import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MSequence;
@@ -70,7 +63,10 @@ import org.compiere.util.Msg;
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright � Jorg Janke
- *  @version $Id: SubBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
+ *         *Copyright � ConSerTi
+ *  @author Mario Calderón, Systemhaus Westfalia
+ *  @version $Id: SubOrder.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
+ *  @version $Id: SubOrder.java,v 2.0 2015/09/01 00:00:00 mar_cal_westf
  */
 public class SubOrder extends PosSubPanel 
 	implements ActionListener, FocusListener
@@ -96,6 +92,7 @@ public class SubOrder extends PosSubPanel
 	private CComboBox		f_location;
 	private CComboBox		f_user;
 	private CButton 		f_cashPayment;
+	private CButton 		f_cashPrePayment;
 	private CButton 		f_process;
 	private CButton 		f_print;
 	private CTextField 		f_DocumentNo;
@@ -128,6 +125,7 @@ public class SubOrder extends PosSubPanel
 	private final String ACTION_LOGOUT      = "Logout";
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_PAYMENT     = "Payment";
+	private final String ACTION_PREPAYMENT  = "Prepayment";
 	private final String ACTION_PREFERENCES = "Preference";
 	private final String ACTION_PRINT       = "Print";
 	
@@ -170,6 +168,12 @@ public class SubOrder extends PosSubPanel
 		f_cashPayment.setActionCommand(ACTION_PAYMENT);
 		add (f_cashPayment, buttonSize); 
 		f_cashPayment.setEnabled(false);
+ 		
+ 		// PREPAYMENT
+ 		f_cashPrePayment = createButtonAction(ACTION_PREPAYMENT, null);
+ 		f_cashPrePayment.setActionCommand(ACTION_PREPAYMENT);
+		add (f_cashPrePayment, buttonSize); 
+		f_cashPrePayment.setEnabled(false);
 		
  		//PRINT
 		f_print = createButtonAction(ACTION_PRINT, null);
@@ -278,8 +282,8 @@ public class SubOrder extends PosSubPanel
 	}	//	dispose
 
 	
-	/**************************************************************************
-	 * 	Action Listener
+	/**
+	 * 	Distribute actions
 	 *	@param e event
 	 */
 	public void actionPerformed (ActionEvent e)
@@ -315,6 +319,8 @@ public class SubOrder extends PosSubPanel
 			deleteOrder();
 		else if (action.equals(ACTION_PAYMENT))
 			payOrder();
+		else if (action.equals(ACTION_PREPAYMENT))
+			prePayOrder();
 		else if (action.equals(ACTION_PRINT))
 			printOrder();
 		else if (action.equals(ACTION_BPARTNER))
@@ -340,7 +346,7 @@ public class SubOrder extends PosSubPanel
 	}	//	actionPerformed
 
 	/**
-	 * 
+	 * 	Execute printing an order
 	 */
 	private void printOrder() {
 		{
@@ -354,18 +360,17 @@ public class SubOrder extends PosSubPanel
 	}
 
 	/**
-	 * 
+	 * Execute order payment
+	 * If order is not processed, process it first.
+	 * If it is successful, proceed to pay and print ticket
 	 */
 	private void payOrder() {
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( p_posPanel.m_order != null ) 
+		if( p_posPanel.m_order == null) {		
+			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
+		}
+		else
 		{
-			if ( !p_posPanel.m_order.isProcessed() && !p_posPanel.m_order.processOrder() )
-			{
-				ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "PosOrderProcessFailed"));
-				return;
-			}
-
 			if ( PosPayment.pay(p_posPanel) )
 			{
 				printTicket();
@@ -375,21 +380,54 @@ public class SubOrder extends PosSubPanel
 	}  // payOrder
 
 	/**
-	 * 
+	 * Execute order prepayment
+	 * If order is not processed, process it first.
+	 * If it is successful, proceed to pay and print ticket
+	 */
+	private void prePayOrder() {
+		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
+		if( p_posPanel.m_order == null) {		
+			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
+		}
+		else
+		{
+			if ( PosPrePayment.pay(p_posPanel) )
+			{
+				p_posPanel.setOrder(0);
+			}
+		}	
+	}  // prePayOrder
+
+	/**
+	 * Execute deleting an order
+	 * If the order is in drafted status -> ask to delete it
+	 * If the order is in completed status -> ask to void it it
+	 * Otherwise, it must be done outside this class.
 	 */
 	private void deleteOrder() {
 		if (p_posPanel == null || p_posPanel.m_order == null) {
 			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
 			return;			
 		}
-		if (p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Completed)) {	
-			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "The order is already completed. Do you want to void it?")))) {		
-				p_posPanel.m_order.cancelOrder();
+		else if ( p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Drafted) ) {
+			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, "Do you want to delete the Order?"))) {
+				if (p_posPanel.m_order.deleteOrder())
+					p_posPanel.m_order = null;	
+				else
+					ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order could not be deleted"));
 			}
 		}
-		else if ( p_posPanel != null && ADialog.ask(0, this, Msg.getMsg(p_ctx, "Do you want to delete the Order?")) )
-			if (p_posPanel.m_order.deleteOrder())
-				p_posPanel.m_order = null;
+		else if (p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Completed)) {	
+			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "The order is already completed. Do you want to void it?")))) {		
+				if (!p_posPanel.m_order.cancelOrder())
+					ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order could not be voided"));
+			}
+		}
+		else {
+			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order is not Drafted nor Completed. Try to delete it other way"));
+			return;
+		}
+		
 		updateOrder();
 		// p_posPanel.newOrder();
 
@@ -479,7 +517,11 @@ public class SubOrder extends PosSubPanel
 			qt.setVisible(true);
 		}
 	}	//	findBPartner
-	
+
+	/**
+	 * 	Process the order.
+	 * Usually, the action should be "complete".
+	 */
 	private void onCreditSale()
 	{
 		if( p_posPanel.m_order == null) {		
@@ -497,7 +539,7 @@ public class SubOrder extends PosSubPanel
 	} // onCreditSale
 	
 	
-	/**************************************************************************
+	/**
 	 * 	Set BPartner
 	 *	@param C_BPartner_ID id
 	 */
@@ -636,7 +678,7 @@ public class SubOrder extends PosSubPanel
 	 * Set Currency
 	 * 
 	 * @param currency
-	 *            currency
+	 * 
 	 */
 	public void setCurrency(String currency) {
 		if (currency == null)
@@ -647,9 +689,7 @@ public class SubOrder extends PosSubPanel
 	
 	/**
 	 * 	Print Ticket
-	 *  @author Comunidad de Desarrollo OpenXpertya 
-	 *  *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *  *Copyright � ConSerTi
+	 * 
 	 */
 	public void printTicket()
 	{
@@ -700,9 +740,6 @@ public class SubOrder extends PosSubPanel
 	 * Is order fully pay ?
 	 * Calculates if the given money is sufficient to pay the order
 	 * 
-	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
 	 */
 	public boolean isOrderFullyPaid()
 	{
@@ -725,9 +762,7 @@ public class SubOrder extends PosSubPanel
 	/**
 	 * 	Display cash return
 	 *  Display the difference between tender amount and bill amount
-	 *  @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
+	 *  
 	 */
 	public void updateOrder()
 	{
@@ -744,6 +779,7 @@ public class SubOrder extends PosSubPanel
   				f_process.setEnabled(true);
   				f_print.setEnabled(order.isProcessed());
   				f_cashPayment.setEnabled(order.getLines().length != 0);
+  				f_cashPrePayment.setEnabled(order.getLines().length != 0);
 			}
 			else
 			{
@@ -755,17 +791,15 @@ public class SubOrder extends PosSubPanel
 				f_process.setEnabled(false);
 				f_print.setEnabled(false);
 				f_cashPayment.setEnabled(false);
+				f_cashPrePayment.setEnabled(false);
 			}
 			
 		}
 	}	
 
 	/**
-	 * 	Abrir caja
-	 *  Abre la caja registradora
-	 *  @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
+	 * 	Open cash drawer
+	 * 
 	 */
 	public void openCashDrawer()
 	{
@@ -803,74 +837,5 @@ public class SubOrder extends PosSubPanel
 
 		}
 	}	//	setSums
-	private String cancelOrder()
-	{
-		String whereClause = "c_order_ID =?";
-		MOrder order_original = p_posPanel.m_order;
-		MDocType dt = (MDocType)order_original.getC_DocType();
-		if (dt.get_ValueAsInt("shw_c_doctype_orderReverse_ID") <=0)
-			return "No se trata de orden de venta a factura: Tiene que generar una devolución";
-		Timestamp now = Env.getContextAsDate(order_original.getCtx(), "Date");
-		MOrder order_cancel = 
-				MOrder.copyFrom(order_original, now, order_original.getC_DocType_ID(), order_original.isSOTrx()	, false, false, order_original.get_TrxName());
-		order_cancel.setC_DocType_ID(dt.get_ValueAsInt("shw_c_doctype_orderReverse_ID"));
-		order_cancel.setDocumentNo(order_original.getDocumentNo() + "Anulación");
-		order_cancel.saveEx();
-		for (MOrderLine oLine:order_cancel.getLines())
-		{
-			oLine.setQty(oLine.getQtyEntered().negate());
-			oLine.saveEx();
-		}
-		if (order_cancel.getC_DocTypeTarget().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_OnCreditOrder))
-		{
-
-			order_cancel.processIt(MOrder.DOCACTION_Complete);
-			order_cancel.setDocAction(MOrder.DOCACTION_Close);
-			order_cancel.setDocStatus(MOrder.DOCACTION_Complete);
-			order_cancel.saveEx();
-		}
-		int[] Invoice_IDs = MInvoice.getAllIDs(MInvoice.Table_Name, "c_Order_ID=" +order_original.getC_Order_ID() , order_original.get_TrxName());	
-		int laenge = Invoice_IDs.length;
-		for (int i  = 0; i < laenge; i++)
-		{
-			int invoice_ID = Invoice_IDs[i];
-			int[] Alo_IDs = MAllocationLine.getAllIDs(MAllocationLine.Table_Name, "C_Invoice_ID=" + invoice_ID, order_original.get_TrxName());
-			for (int alo_ID:Alo_IDs)
-			{
-				MAllocationLine alo = new MAllocationLine(order_original.getCtx(), alo_ID, order_original.get_TrxName());
-				if (alo.getC_Payment_ID() != 0)
-				{
-					MPayment pay_cancel = new MPayment(order_original.getCtx(), 0, order_original.get_TrxName());
-					MPayment.copyValues((MPayment)alo.getC_Payment(), pay_cancel);
-					pay_cancel.setDateTrx(order_cancel.getDateOrdered());
-					pay_cancel.setPayAmt(pay_cancel.getPayAmt().negate());
-					pay_cancel.setDescription(alo.getC_Payment().getDocumentNo() + "_Anulación");
-					pay_cancel.save();
-					for (int j:	MInvoice.getAllIDs(MInvoice.Table_Name, "c_Order_ID=" + order_cancel.getC_Order_ID(), order_original.get_TrxName()))
-					{
-						pay_cancel.setC_Invoice_ID(j);
-						pay_cancel.setC_Order_ID(order_cancel.getC_Order_ID());
-						pay_cancel.setDocStatus(MPayment.DOCSTATUS_Drafted);
-						pay_cancel.setDocAction(MPayment.DOCACTION_Complete);
-						pay_cancel.saveEx();
-						pay_cancel.processIt(MPayment.DOCACTION_Complete);
-					}
-				}
-				else
-				{
-					MAllocationHdr ahd = new MAllocationHdr(order_original.getCtx(), 0, order_original.get_TrxName());
-					for (int k:	MInvoice.getAllIDs(MInvoice.Table_Name, "c_Order_ID=" + order_cancel.getC_Order_ID(), order_original.get_TrxName()))
-					{
-						MAllocationLine alo_new = new MAllocationLine(ahd);
-						alo_new.setC_Invoice_ID(k);
-						alo_new.setAmount(alo.getAmount().negate());
-						alo_new.saveEx();
-					}
-					ahd.processIt(MAllocationHdr.DOCACTION_Complete);
-				}
-			}
-		}
-		return "No. Documento:" + " " +  order_cancel.getDocumentNo();
-	}	
-}
-	//	PosSubCustomer
+}//	PosSubCustomer
+	

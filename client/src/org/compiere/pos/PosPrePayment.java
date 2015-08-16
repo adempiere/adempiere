@@ -25,6 +25,7 @@ import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.DefaultComboBoxModel;
@@ -43,13 +44,16 @@ import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AppsAction;
 import org.compiere.model.MCurrency;
+import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentValidate;
+import org.compiere.model.Query;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CDialog;
@@ -62,7 +66,7 @@ import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
-public class PosPayment extends CDialog implements PosKeyListener, VetoableChangeListener, ActionListener {
+public class PosPrePayment extends CDialog implements PosKeyListener, VetoableChangeListener, ActionListener {
 
 	/**
 	 * 
@@ -115,16 +119,54 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 				return;
 			}
 			
-			// Process Payment: first Process Order (if needed)
-			if ( !p_order.isProcessed() && !p_order.processOrder() )
-			{
-				ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "PosOrderProcessFailed"));
-				return;
+			if ( p_order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+					!p_order.getC_DocType().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_StandardOrder)) {
+				ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "Prepayment denied: Order is completed and not a Standard order"));
+				return;		
 			}
+			else if ( p_order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+					p_order.getC_DocType().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_StandardOrder) &&
+					p_order.isInvoiced()) {
+				ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "Prepayment denied: Order is already invoiced"));
+				return;		
+			}
+			else if ( p_order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) || 
+					p_order.getDocStatus().equals(MOrder.DOCSTATUS_InProgress) ) {
+				StringBuffer whereClause = new StringBuffer();
+				whereClause.append(MDocType.COLUMNNAME_DocBaseType + "=?");
+				whereClause.append(" AND " + MDocType.COLUMNNAME_DocSubTypeSO + "=?");
+				ArrayList<Object> params = new ArrayList<Object>();
+				params.add(MDocType.DOCBASETYPE_SalesOrder);
+				params.add(MDocType.DOCSUBTYPESO_StandardOrder);
+				
+				int C_DocType_ID = new Query(p_ctx, MDocType.Table_Name, whereClause.toString(), p_order.get_TrxName())
+					.setParameters(params)	
+					.setClient_ID()
+					.setOnlyActiveRecords(true)
+					.firstId();
+				
+				p_order.setC_DocTypeTarget_ID(C_DocType_ID);
+				p_order.saveEx();
 
-			// Then, process payment
-			processPayment();
-		}
+				// Process Payment: first Process Order (if needed)
+				if ( !p_order.processOrder() )
+				{
+					ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "PosOrderProcessFailed"));
+					return;
+				}
+
+				// Process Payment: first Process Order (if needed)
+				if ( !p_order.isProcessed() && !p_order.processOrder() )
+				{
+					ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "PosOrderProcessFailed"));
+					return;
+				}
+
+				// Then, process payment
+				processPayment();
+				return;		
+			}
+		} // Process
 		if ( e.getSource().equals(f_bCancel))
 		{
 			dispose();
@@ -312,7 +354,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 	
 	private MInvoice creditNote = null;
 
-	public PosPayment(PosBasePanel posPanel) {
+	public PosPrePayment(PosBasePanel posPanel) {
 		super(Env.getFrame(posPanel),true);
 		p_posPanel = posPanel;
 		p_pos = posPanel.p_pos;
@@ -647,7 +689,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 
 	public static boolean pay(PosBasePanel posPanel) {
 		
-		PosPayment pay = new PosPayment(posPanel);
+		PosPrePayment pay = new PosPrePayment(posPanel);
 		pay.setVisible(true);
 		
 		return pay.isPaid();

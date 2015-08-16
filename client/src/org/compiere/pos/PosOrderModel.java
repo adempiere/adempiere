@@ -14,15 +14,11 @@
 package org.compiere.pos;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.MAllocationHdr;
-import org.compiere.model.MAllocationLine;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
@@ -410,9 +406,9 @@ public class PosOrderModel extends MOrder {
 		payment.setC_Order_ID(getC_Order_ID());
 		payment.setIsReceipt(true);
 		payment.setC_BPartner_ID(getC_BPartner_ID());
-		payment.setC_Invoice_ID(getC_Invoice_ID());
-		if (getC_Invoice_ID() !=0)
+		if (getC_Invoice_ID()>0)
 		{
+			payment.setC_Invoice_ID(getC_Invoice_ID());
 			MInvoice inv = new MInvoice(p_ctx, payment.getC_Invoice_ID(), null);
 			payment.setDescription(Msg.getMsg(Env.getCtx(), "Invoice No") + inv.getDocumentNo());
 		}
@@ -537,72 +533,19 @@ public class PosOrderModel extends MOrder {
 	}	//	getCreditCardName
 	
 
-	public String cancelOrder()
+	public boolean cancelOrder()
 	{
-		Timestamp now = Env.getContextAsDate(getCtx(), "Date");
-		MDocType dt = (MDocType)getC_DocType();
-		if (dt.get_ValueAsInt("shw_c_doctype_orderReverse_ID") <=0)
-			return "No se trata de orden de venta a factura: Tiene que generar una devolución";
-		MOrder order_cancel = 
-				MOrder.copyFrom(this, now, getC_DocType_ID(), isSOTrx()	, false, false, get_TrxName());
-		order_cancel.setC_DocType_ID(dt.get_ValueAsInt("shw_c_doctype_orderReverse_ID"));
-		order_cancel.setDocumentNo(getDocumentNo() + "Anulación");
-		order_cancel.saveEx();
-		for (MOrderLine oLine:order_cancel.getLines())
+		// Standard way of voiding an order
+		setDocAction(MOrder.DOCACTION_Void);
+		if ( processIt(MOrder.DOCACTION_Void) )
 		{
-			oLine.setQty(oLine.getQtyEntered().negate());
-			oLine.saveEx();
+			setDocAction(MOrder.DOCACTION_None);
+			setDocStatus(MOrder.STATUS_Voided);
+			saveEx();
+			return true;
 		}
-		if (order_cancel.getC_DocTypeTarget().getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_OnCreditOrder))
-		{
-
-			order_cancel.processIt(MOrder.DOCACTION_Complete);
-			order_cancel.setDocAction(MOrder.DOCACTION_Close);
-			order_cancel.setDocStatus(MOrder.DOCACTION_Complete);
-			order_cancel.saveEx();
-		}
-		int[] Invoice_IDs = MInvoice.getAllIDs(MInvoice.Table_Name, COLUMNNAME_C_Order_ID +"=" + getC_Order_ID() , get_TrxName());	
-		int laenge = Invoice_IDs.length;
-		for (int i  = 0; i < laenge; i++)
-		{
-			int invoice_ID = Invoice_IDs[i];
-			int[] Alo_IDs = MAllocationLine.getAllIDs(MAllocationLine.Table_Name, MAllocationLine.COLUMNNAME_C_Invoice_ID + "=" + invoice_ID, get_TrxName());
-			for (int alo_ID:Alo_IDs)
-			{
-				MAllocationLine alo = new MAllocationLine(getCtx(), alo_ID, get_TrxName());
-				if (alo.getC_Payment_ID() != 0)
-				{
-					MPayment pay_cancel = new MPayment(getCtx(), 0, get_TrxName());
-					MPayment.copyValues((MPayment)alo.getC_Payment(), pay_cancel);
-					pay_cancel.setDateTrx(order_cancel.getDateOrdered());
-					pay_cancel.setPayAmt(pay_cancel.getPayAmt().negate());
-					pay_cancel.setDescription(alo.getC_Payment().getDocumentNo() + "_Anulación");
-					pay_cancel.save();
-					for (int j:	MInvoice.getAllIDs(MInvoice.Table_Name, COLUMNNAME_C_Order_ID + "=" + order_cancel.getC_Order_ID(), get_TrxName()))
-					{
-						pay_cancel.setC_Invoice_ID(j);
-						pay_cancel.setC_Order_ID(order_cancel.getC_Order_ID());
-						pay_cancel.setDocStatus(MPayment.DOCSTATUS_Drafted);
-						pay_cancel.setDocAction(MPayment.DOCACTION_Complete);
-						pay_cancel.saveEx();
-						pay_cancel.processIt(MPayment.DOCACTION_Complete);
-					}
-				}
-				else
-				{
-					MAllocationHdr ahd = new MAllocationHdr(getCtx(), 0, get_TrxName());
-					for (int k:	MInvoice.getAllIDs(MInvoice.Table_Name, COLUMNNAME_C_Order_ID + "=" + order_cancel.getC_Order_ID(), get_TrxName()))
-					{
-						MAllocationLine alo_new = new MAllocationLine(ahd);
-						alo_new.setC_Invoice_ID(k);
-						alo_new.setAmount(alo.getAmount().negate());
-						alo_new.saveEx();
-					}
-					ahd.processIt(MAllocationHdr.DOCACTION_Complete);
-				}
-			}
-		}
-		return Msg.getMsg(Env.getCtx(), "DocumentNo")  + " " +  order_cancel.getDocumentNo();
+		else 
+			return false;
 	} // cancelOrder	
 	
 } // PosOrderModel.class
