@@ -31,9 +31,12 @@ import javax.swing.JOptionPane;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.apps.ADialog;
+import org.compiere.model.MLocator;
 import org.compiere.model.MPOS;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MWarehouse;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
@@ -110,6 +113,7 @@ public class PosBasePanel extends CPanel
 	private final String NO_ALTERNATIVE_POS_DOCTYPE = "N";
 	private final boolean isAlternativeDocTypeEnabled = MSysConfig.getValue(POS_ALTERNATIVE_DOCTYPE_ENABLED, NO_ALTERNATIVE_POS_DOCTYPE, Env.getAD_Client_ID(m_ctx)).compareToIgnoreCase(NO_ALTERNATIVE_POS_DOCTYPE)==0?false:true;
 	
+	String msgLocator = "";
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -137,8 +141,13 @@ public class PosBasePanel extends CPanel
 			if (!dynInit())
 			{
 				dispose();
-				frame.dispose();
+				this.frame.setTitle(Msg.translate(Env.getCtx(), msgLocator));
+				this.frame.setPreferredSize(new Dimension(msgLocator.length() * 10, 25));
+				this.frame.setResizable(false);
+				this.frame.setExtendedState(JFrame.ABORT);
 				return;
+//				frame.dispose();
+//				return;
 			}
 			frame.getContentPane().add(this, BorderLayout.CENTER);
 		}
@@ -275,7 +284,21 @@ public class PosBasePanel extends CPanel
 		if (selection != null)
 		{
 			p_pos = (MPOS)selection;
-			return true;
+			MWarehouse warehouse = (MWarehouse) p_pos.getM_Warehouse();
+			MLocator[] locators = warehouse.getLocators(true);
+			for (MLocator mLocator : locators) {
+				if (mLocator.isDefault())
+					return true;
+				else
+					continue;
+			}
+			msgLocator = Msg.translate(Env.getCtx(), "M_Locator_ID") + " " +
+					Msg.translate(Env.getCtx(), "default") + " " +
+					Msg.translate(Env.getCtx(), "not.found") + " " +
+					Msg.translate(Env.getCtx(), "M_Warehouse_ID")+ ": " +
+					warehouse.getName();
+					;
+			return false;
 		}
 		return false;
 	}	//	setMPOS
