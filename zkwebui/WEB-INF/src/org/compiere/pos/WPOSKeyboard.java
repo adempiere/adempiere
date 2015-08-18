@@ -17,13 +17,18 @@
 
 package org.compiere.pos;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
+
+import javax.swing.JTextField;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
+import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
+import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -35,6 +40,7 @@ import org.compiere.model.MPOSKeyLayout;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.InputEvent;
@@ -50,21 +56,28 @@ import org.zkoss.zul.Textbox;
  * @author Raul Muñoz 19/03/2015, 12:50
  *	
  */
-public class WPOSKeyboard extends Window implements ActionListener, PosKeyListener, EventListener
+public class WPOSKeyboard extends Window implements PosKeyListener, EventListener
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3296839634889851637L;
+		
 
+		public static final int KEYBOARD_NUMERIC = 1;
+		public static final int KEYBOARD_NUMERIC_CASHOUT = 2;
 		private WPosTextField field;
 		private Doublebox dfield;
+		private Label lfield;
 		private MPOSKeyLayout keylayout;
 		private boolean keyBoardType;
 		private Textbox txtCalc = new Textbox();
 		private HashMap<Integer, MPOSKey> keys;
-
-
+		private int typeKeyboard = KEYBOARD_NUMERIC;
+		private BigDecimal cashOut;
+		private Button bCashOut;
+		private Component outComponent = null;
+		
 	/**
 	 * 	Constructor
 	 *	@param posPanel POS Panel
@@ -82,6 +95,7 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		keyBoardType = keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad);
 		init( keyLayoutId );
 	}
+	
 	public WPOSKeyboard(Window parent, WPosBasePanel posPanel, int keyLayoutId, WPosTextField field) {
 		super();
 		setPosTextField(field);
@@ -91,7 +105,29 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		init( keyLayoutId );
 		AEnv.showCenterWindow(parent, this);
 	}
-
+	public WPOSKeyboard(Panel parent, int keyLayoutId, WPosTextField field) {
+		super();
+		setWidth("280px");
+		setHeight("320px");
+		setPosTextField(field);
+		keylayout = MPOSKeyLayout.get(Env.getCtx(), keyLayoutId);
+		keyBoardType = keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad);
+		init( keyLayoutId );
+		
+	}
+	public WPOSKeyboard(int keyLayoutId, Label field, int typeKeyboard, Label balance) {
+		super();
+		setWidth("280px");
+		setHeight("320px");
+		setPosTextField(field);
+		setTypeKeyboard(typeKeyboard);
+		cashOut = new BigDecimal(balance.getValue());
+		keylayout = MPOSKeyLayout.get(Env.getCtx(), keyLayoutId);
+		keyBoardType = keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad);
+		
+		init( keyLayoutId );
+		
+	}
 		
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(POSKeyboard.class);
@@ -105,11 +141,8 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 	{
 		Panel panel = new Panel();
 		appendChild(panel);
+
 		//	Content
-		if(getWidth()==null){
-			setWidth("750px");
-			setHeight("380px");
-		}
 		Panel mainPanel = new Panel();
 		Borderlayout mainLayout = new Borderlayout();
 		Grid productLayout = GridFactory.newGridLayout();
@@ -138,6 +171,7 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		String txtCalcId = txtCalc.getId();
 		row.appendChild(txtCalc);
 		txtCalc.setName("number");
+		txtCalc.setWidth("92%");
 		WPosKeyPanel keys = new WPosKeyPanel(POSKeyLayout_ID, this, txtCalcId, keyBoardType);
 		center = new Center();
 		center.setStyle("border: none");
@@ -147,11 +181,19 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		center.appendChild(keys);
 		mainLayout.appendChild(center);
 		South south = new South();
-		ConfirmPanel confirm = new ConfirmPanel(true, false, true, false, false, false, false);
-		confirm.addActionListener(this);
-
+		if(typeKeyboard == KEYBOARD_NUMERIC){
+			ConfirmPanel confirm = new ConfirmPanel(true, false, true, false, false, false, false);
+			confirm.addActionListener(this);
+			south.appendChild(confirm);
+		}
+		else if(typeKeyboard == KEYBOARD_NUMERIC_CASHOUT){
+			bCashOut = new Button(Msg.translate(Env.getCtx(), "CashOut"));
+			bCashOut.addActionListener(this);
+			bCashOut.setWidth("255px");
+			south.appendChild(bCashOut);
+		}
 		mainLayout.appendChild(south);
-		south.appendChild(confirm);
+		
 		
 	}	//	init
 	
@@ -186,43 +228,30 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		txtCalc.setValue(field.getValue());
 		
 	}
+	public void setPosTextField(Label posTextField) {
+		
+		lfield = posTextField;
+		txtCalc.setText(lfield.getValue());
+		txtCalc.setValue(lfield.getValue());
+		
+	}
 	public void setPosTextField(Doublebox posTextField) {
 		
-		dfield = posTextField;
+		dfield = posTextField; 
 		txtCalc.setText(dfield.getText());
 		txtCalc.setValue(dfield.getValue().toString());
 		
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getSource().toString();
-		if (action == null || action.length() == 0)
-			return;
-		else if ( action.equals(ConfirmPanel.A_RESET))
-		{
-			if ( keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
-				txtCalc.setText("0");
-			else
-				txtCalc.setText("");
-		}
-		else if ( action.equals(ConfirmPanel.A_CANCEL))
-		{
-			close();
-		}
-		else if (e.getSource().equals(ConfirmPanel.A_OK))
-		{
-			field.setText(txtCalc.getText());
-			close();
-		}
-		log.info( "PosSubBasicKeys - actionPerformed: " + action);
-	}
+	
 
 	@Override
 	public void onEvent(Event e) throws Exception {
 	
 		String action = e.getTarget().getId();
-
+		if(e.getTarget().equals(bCashOut)){
+				(txtCalc).setText("" + getCashOut());
+		}
 		if (action == null || action.length() == 0)
 			return;
 		else if ( action.equals(ConfirmPanel.A_RESET))
@@ -238,13 +267,37 @@ public class WPOSKeyboard extends Window implements ActionListener, PosKeyListen
 		}
 		else if (action.equals(ConfirmPanel.A_OK))
 		{
-			if(dfield!=null)
+			if(dfield != null)
 				dfield.setText(txtCalc.getValue());
-			else 
+			else if (field != null)
 				field.setText(txtCalc.getValue());
+			else 
+				lfield.setText(txtCalc.getValue());
 			close();
 		}
 		log.info( "PosSubBasicKeys - actionPerformed: " + action);
 	}
+	public void getMount(){
+		if(dfield != null)
+			dfield.setText(txtCalc.getValue());
+		else if (field != null)
+			field.setText(txtCalc.getValue());
+		else 
+			lfield.setText(txtCalc.getValue());
+	}
+	public int getTypeKeyboard() {
+		return typeKeyboard;
+	}
 
+	public void setTypeKeyboard(int typeKeyboard) {
+		this.typeKeyboard = typeKeyboard;
+	}
+	public void setCashOut(BigDecimal cashOut) {
+		this.cashOut = cashOut;
+	}
+
+
+	public BigDecimal getCashOut() {
+		return cashOut;
+	}
 }	
