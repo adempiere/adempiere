@@ -49,7 +49,10 @@ import org.compiere.util.Msg;
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright (c) Jorg Janke
+ *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
+ *  
  *  @version $Id: PosPanel.java,v 1.10 2004/07/12 04:10:04 jjanke Exp $
+ *  @version $Id: PosBasePanel.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
 public class PosBasePanel extends CPanel
 	//implements FormPanel
@@ -305,7 +308,7 @@ public class PosBasePanel extends CPanel
 	
 	/**
 	 * 	Get POSs for specific Sales Rep or all
-	 *	@param SalesRep_ID
+	 *	@param SalesRep_ID ID od Sales Representative
 	 *	@return array of POS
 	 */
 	private MPOS[] getPOSs (int SalesRep_ID)

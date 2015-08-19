@@ -43,7 +43,11 @@ import org.compiere.util.Msg;
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright (c) Jorg Janke
+ *  @author Dixon Martinez, ERPCYA 
+ *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
+ *  
  *  @version $Id: QueryBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
+ *  @version $Id: QueryBPartner.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
 public class QueryBPartner extends PosQuery
 {
@@ -52,10 +56,8 @@ public class QueryBPartner extends PosQuery
 	 */
 	private static final long serialVersionUID = -7109518709654253628L;
 
-//	Dixon Martinez 2015-07-31
-//	Support for creating customers from the point of sale
+    //	Support for creating customers from the point of sale
 	private CButton bot_New;
-//	End Dixon Martinez
 	
 	/**
 	 * 	Constructor
@@ -159,11 +161,9 @@ public class QueryBPartner extends PosQuery
 		f_refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
 		northPanel.add(f_refresh, "w 50!, h 50!, wrap, alignx trailing");
 
-//		Dixon Martinez 2015-07-31
-//		Support for creating customers from the point of sale
+		// Support for creating customers from the point of sale
 		bot_New = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
 		northPanel.add(bot_New, "w 50!, h 50!");
-//		End Dixon Martinez
 		
 		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
 		northPanel.add(f_up, "w 50!, h 50!, span, split 4");
@@ -238,8 +238,7 @@ public class QueryBPartner extends PosQuery
 			m_table.getSelectionModel().setSelectionInterval(row, row);
 			return;
 		}
-//		Dixon Martinez 2015-07-31
-//		Support for creating customers from the point of sale
+		// Support for creating customers from the point of sale
 		else if("New".equalsIgnoreCase(e.getActionCommand())) {
 			
 			VBPartner t = new VBPartner(new Frame(), 0);
@@ -249,7 +248,6 @@ public class QueryBPartner extends PosQuery
 			
 			close();
 		}
-//		End Dixon Martinez
 		//	Exit
 		close();
 	}	//	actionPerformed

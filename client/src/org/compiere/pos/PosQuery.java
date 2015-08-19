@@ -35,6 +35,15 @@ import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 
+/**
+ * 
+ * Abstract dialog
+ * 
+ *  @author former authors from Java POS
+ *  @author Dixon Martinez, ERPCYA 
+ *  
+ *  @version $Id: PosQuery.java,v 2.0 2015/09/01 00:00:00 
+ */
 public abstract class PosQuery extends CDialog implements MouseListener, ListSelectionListener, ActionListener {
 
 	protected Properties p_ctx;
@@ -105,14 +114,12 @@ public abstract class PosQuery extends CDialog implements MouseListener, ListSel
 	public void mouseEntered (MouseEvent e) {}
 	public void mouseExited (MouseEvent e) {}
 	public void mousePressed (MouseEvent e) {
-		//		Dixon Martinez 2015-07-31
-		//		Add support search Business Partner
+		//	Add support search Business Partner
 		//  Single click with selected row => exit
 		if (e.getClickCount() > 0 
 				&& m_table.getSelectedRow() != -1)	{
 			enableButtons();
 		}
-		//		End Dixon Martinez
 	}
 	public void mouseReleased (MouseEvent e) {}
 
