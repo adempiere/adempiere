@@ -130,6 +130,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		p_ctx = p_pos.getCtx();
 		p_order = subOrder.m_order;
 		setTitle(Msg.translate(p_ctx, "Payment"));
+		setClosable(true);
 		if ( p_order == null )
 			dispose();
 		

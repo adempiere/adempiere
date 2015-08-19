@@ -23,6 +23,8 @@ import javax.swing.KeyStroke;
 
 
 
+
+
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
@@ -43,6 +45,7 @@ import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -83,6 +86,7 @@ public class WQueryBPartner extends WPosQuery
 	private Textbox				f_city;
 
 	private int 				cont;
+	private int 				aux;
 	private int					m_C_BPartner_ID;
 	private Button	 			f_refresh;
 	private Button	 			f_ok;
@@ -120,9 +124,10 @@ public class WQueryBPartner extends WPosQuery
 		Grid productLayout = GridFactory.newGridLayout();
 		//	Set title window
 		this.setTitle(Msg.getMsg(p_ctx, "Query"));
-		
+		this.setClosable(true);
 
 		cont=2;
+		aux=2;
 		appendChild(panel);
 		//	North
 		northPanel = new Panel();
@@ -180,34 +185,36 @@ public class WQueryBPartner extends WPosQuery
 		row.appendChild(lcity);
 		f_city = new Textbox();
 		row.appendChild(f_city);
-//		f_city.addActionListener(this);
+		f_city.addEventListener("onFocus", this);
 		//
-
+		Panel buttonsPanel = new Panel();
+		
 		row.setHeight("65px");
 		f_refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
 		row.appendChild(f_refresh);
 		// New Line
 		row = rows.newRow();
+		row.setSpans("6");
 		row.setHeight("65px");
 //		Dixon Martinez 2015-07-31
 //		Support for creating customers from the point of sale
 		bot_New = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
-		row.appendChild(bot_New);
+		buttonsPanel.appendChild(bot_New);
 		bot_New.addActionListener(this);
 //		End Dixon Martinez
 		
 		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-		row.appendChild(f_up);
+		buttonsPanel.appendChild(f_up);
 		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
-		row.appendChild(f_down);
-		
-		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
-		row.appendChild(f_ok);
+		buttonsPanel.appendChild(f_down);
 		
 		f_cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
-		row.appendChild(f_cancel);
+		buttonsPanel.appendChild(f_cancel);
 		
+		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+		buttonsPanel.appendChild(f_ok);		
 		
+		row.appendChild(buttonsPanel);
 		//	Center
 		m_table = new WListbox();
 		String sql = m_table.prepareTable (s_layout, s_sqlFrom, 
@@ -291,9 +298,33 @@ public class WQueryBPartner extends WPosQuery
 		f_city.setText(null);
 		setResults(new MBPartnerInfo[0]);
 	}
-
+	
+	public void showKeyboard(Component  p_field, String eventName){
+		WPosTextField field = (WPosTextField) p_field;
+		aux++;
+		if(aux<2){
+			WPOSKeyboard keyboard = p_posPanel.getKeyboard(field.getKeyLayoutId()); 
+			keyboard.setTitle(Msg.translate(Env.getCtx(), ""));
+			keyboard.setPosTextField(field);	
+			if(eventName.equals("onFocus")) {
+				keyboard.setVisible(true);
+				keyboard.setWidth("750px");
+				keyboard.setHeight("380px");
+				AEnv.showWindow(keyboard);
+			}
+		}
+		else {
+			aux=0;
+			f_refresh.setFocus(true);
+		}
+	}
 	@Override
 	public void onEvent(Event e) throws Exception {
+		if(e.getTarget().equals(f_name) || e.getTarget().equals(f_contact)
+				|| e.getTarget().equals(f_value) || e.getTarget().equals(f_email)
+				|| e.getTarget().equals(f_city) || e.getTarget().equals(f_phone)){
+			showKeyboard(e.getTarget(), e.getName());
+		}
 		if (f_refresh.equals(e.getTarget())
 				|| e.getTarget() == f_value // || e.getSource() == f_upc
 				|| e.getTarget() == f_name // || e.getSource() == f_sku
@@ -329,8 +360,8 @@ public class WQueryBPartner extends WPosQuery
 				m_table.setSelectedIndex(row);
 				return;
 			}
-			//	Dixon Martinez 2015-07-31
-			//	Support for creating customers from the point of sale
+//			Dixon Martinez 2015-07-31
+//			Support for creating customers from the point of sale
 			else if(bot_New.equals(e.getTarget())) {
 				
 				WBPartner t = new WBPartner(0);

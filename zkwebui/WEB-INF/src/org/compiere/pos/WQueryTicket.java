@@ -26,6 +26,7 @@ import java.util.Properties;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -76,6 +77,8 @@ public class WQueryTicket extends WPosQuery
 	private Button 			f_ok;
 	private Button			f_cancel;
 	private Date 			date;
+	private int				cont;
+	
 	/**	Table Column Layout Info			*/
 	private static ColumnInfo[] s_layout = new ColumnInfo[] 
 	{
@@ -99,7 +102,9 @@ public class WQueryTicket extends WPosQuery
 		Grid productLayout = GridFactory.newGridLayout();
 		//	Set title window
 		this.setTitle(Msg.getMsg(p_ctx, "Query"));
-
+		this.setClosable(true);
+		cont = 2;
+		
 		appendChild(panel);
 		northPanel = new Panel();
 		mainPanel.appendChild(mainLayout);
@@ -275,6 +280,23 @@ public class WQueryTicket extends WPosQuery
 
 	@Override
 	public void onEvent(Event e) throws Exception {
+		if(e.getTarget().equals(f_documentno)) {
+			cont++;
+			if(cont < 2) {
+				//	Get Keyboard Panel
+				WPOSKeyboard keyboard = p_posPanel.getKeyboard(f_documentno.getKeyLayoutId(), f_documentno);
+				
+				//	Set Title
+				keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
+				keyboard.setWidth("750px");
+				keyboard.setHeight("380px");
+				AEnv.showWindow(keyboard);
+			}
+			else {
+				cont=0;
+				f_refresh.setFocus(true);
+			}
+		}
 		if (f_refresh.equals(e.getTarget())
 				|| e.getTarget().equals(f_processed) || e.getTarget().equals(f_documentno)
 				|| e.getTarget().equals(f_date)) {

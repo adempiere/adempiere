@@ -26,6 +26,7 @@ import java.util.logging.Level;
 
 
 
+
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
@@ -275,6 +276,14 @@ public class WPosBasePanel extends Panel implements EventListener
 			keyboards.put(keyLayoutId, keyboard);
 			return keyboard;
 	}
+	
+	public WPOSKeyboard getKeyboard(int keyLayoutId, WPosTextField field) {
+		WPOSKeyboard keyboard = new WPOSKeyboard(this, keyLayoutId);
+		keyboard.setPosTextField(field);
+		keyboards.put(keyLayoutId, keyboard);
+		return keyboard;
+	}
+	
 	public WPOSKeyboard getKeyboard(int keyLayoutId, Window wPosQuery, WPosTextField field) {
 			WPOSKeyboard keyboard = new WPOSKeyboard(wPosQuery,this, keyLayoutId, field);
 			keyboards.put(keyLayoutId, keyboard);

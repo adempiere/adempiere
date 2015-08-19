@@ -185,6 +185,7 @@ public class WPosPrePayment extends Window implements WPosKeyListener, EventList
 		p_ctx = p_pos.getCtx();
 		p_order = subOrder.m_order;
 		setTitle(Msg.translate(p_ctx, "Payment"));
+		setClosable(true);
 		if ( p_order == null )
 			dispose();
 		

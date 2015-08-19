@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
@@ -107,7 +108,7 @@ public class WQueryProduct extends WPosQuery
 		Grid productLayout = GridFactory.newGridLayout();
 		//	Set title window
 		this.setTitle("Query Title");
-		
+		this.setClosable(true);
 		cont=2;
 		appendChild(panel);
 		//	North
@@ -282,18 +283,20 @@ public class WQueryProduct extends WPosQuery
 				WPOSKeyboard keyboard;
 				//	Get Keyboard Panel
 				if(event.getTarget().equals(f_value))
-					keyboard = p_posPanel.getKeyboard(f_value.getKeyLayoutId(), this, f_value);
+					keyboard = p_posPanel.getKeyboard(f_value.getKeyLayoutId(), f_value);
 				else if (event.getTarget().equals(f_upc))
-					keyboard = p_posPanel.getKeyboard(f_value.getKeyLayoutId(), this, f_upc);
+					keyboard = p_posPanel.getKeyboard(f_upc.getKeyLayoutId(), f_upc);
 				else if (event.getTarget().equals(f_name))
-					keyboard = p_posPanel.getKeyboard(f_value.getKeyLayoutId(), this, f_name);
+					keyboard = p_posPanel.getKeyboard(f_name.getKeyLayoutId(), f_name);
 				else 
-					keyboard = p_posPanel.getKeyboard(f_value.getKeyLayoutId(), this, f_sku);
+					keyboard = p_posPanel.getKeyboard(f_sku.getKeyLayoutId(), f_sku);
 				
 				//	Set Title
 				keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
-				keyboard.setVisible(true);
-				keyboard = null;
+				keyboard.setWidth("750px");
+				keyboard.setHeight("380px");
+				AEnv.showWindow(keyboard);
+				
 				//	Refresh Table
 				if(event.getName().equals("onFocus")) {
 					setResults(MWarehousePrice.find (p_ctx,

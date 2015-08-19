@@ -274,7 +274,7 @@ public class WSubOrder extends WPosSubPanel
 		detailPanel.appendChild(south);
 		south.appendChild(parameterLayout2);
 		parameterLayout2.setWidth("100%");
-		parameterLayout2.setHeight("65px");
+		parameterLayout2.setHeight("85px");
 
 		rows = parameterLayout2.newRows();
 		row = rows.newRow();
@@ -351,12 +351,6 @@ public class WSubOrder extends WPosSubPanel
 		f_history = createButtonAction(ACTION_HISTORY, null);
 		f_history.addActionListener(this);
 		row.appendChild(f_history); 
-		
-		// CANCEL
-		f_process = createButtonAction(ACTION_CANCEL, null);
-		row.appendChild(f_process);
-		f_process.setEnabled(false);
-		f_process.addActionListener(this);
 		 		
 		// PAYMENT
 		f_cashPayment = createButtonAction(ACTION_PAYMENT, null);
@@ -378,14 +372,20 @@ public class WSubOrder extends WPosSubPanel
 		// Settings
 		f_bSettings = createButtonAction(ACTION_PREFERENCES, null);
 		row.appendChild(f_bSettings);
-		 		
-		//
+
+		// CANCEL
+		f_process = createButtonAction(ACTION_CANCEL, null);
+		row.appendChild(f_process);
+		f_process.setEnabled(false);
+		f_process.addActionListener(this);
+		
+		// LOGOUT
 		f_logout = createButtonAction (ACTION_LOGOUT, null);
 		f_logout.addActionListener(this);
 		row.appendChild (f_logout);
 		
 		row = rows.newRow();
-		row.setSpans("2,7");
+		row.setSpans("3,7");
 		row.setHeight("30px");
 		// BP
 		Label bpartner = new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")+":");
@@ -400,7 +400,7 @@ public class WSubOrder extends WPosSubPanel
 		//
 		row = rows.newRow();
 		row.setHeight("30px");
-		row.setSpans("2,2,3,2");
+		row.setSpans("3,2,3,2");
 		// DOC NO
 		Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
 		row.appendChild (docNo.rightAlign());
@@ -419,7 +419,7 @@ public class WSubOrder extends WPosSubPanel
 		f_net.setText(Env.ZERO+"");
 
 		row = rows.newRow();
-		row.setSpans("2,2,3,2");
+		row.setSpans("3,2,3,2");
 		row.setHeight("30px");
 		// SALES REP
 		Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "SalesRep_ID")+":");
@@ -439,7 +439,7 @@ public class WSubOrder extends WPosSubPanel
 		f_tax.setText(Env.ZERO.toString());
 
 		row = rows.newRow();
-		row.setSpans("1,1,3,2,2");
+		row.setSpans("1,2,3,2,2");
 		row.setHeight("60px");
 
 		f_bSearch1 = createButtonAction ("Product", p_pos.getOSK_KeyLayout_ID());
@@ -1205,8 +1205,8 @@ public class WSubOrder extends WPosSubPanel
 			qt.setVisible(true);
 			AEnv.showWindow(qt);
 			updateInfo();
-			if (creditoFiscal)
-				m_order.setC_DocTypeTarget_ID(0);
+			//	if (creditoFiscal)
+			//	m_order.setC_DocTypeTarget_ID(0);
 			return;
 		}
 		//	Price
