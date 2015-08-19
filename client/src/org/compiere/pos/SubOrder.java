@@ -312,8 +312,8 @@ public class SubOrder extends PosSubPanel
 			qt.setVisible(true);				
 			p_posPanel.updateInfo();
 			
-			if (alternativeDocType)
-				p_posPanel.m_order.setC_DocTypeTarget_ID(0);
+			//  if (alternativeDocType)
+			//	p_posPanel.m_order.setC_DocTypeTarget_ID(0);
 		}
 		else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
