@@ -24,6 +24,7 @@ import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -58,7 +59,6 @@ import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextField;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
@@ -80,10 +80,13 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		
 		if ( e.getSource().equals(fTenderAmt) || e.getSource().equals(fPayAmt) )
 		{
+			
 			String tenderAmt = fTenderAmt.getText() != null ? fTenderAmt.getText() : "0";
 			String payAmt = fPayAmt.getText() != null ? fPayAmt.getText() : "0";			
-			BigDecimal tender = new BigDecimal( getAmt(tenderAmt) );
-			BigDecimal pay = new BigDecimal( getAmt(payAmt) );
+			
+			BigDecimal tender = new BigDecimal( getNumber(Env.getCtx(), tenderAmt, DisplayType.String).toString() );
+			BigDecimal pay = new BigDecimal( getNumber(Env.getCtx(), payAmt, DisplayType.String).toString());
+			
 			if ( tender.compareTo(Env.ZERO) != 0 )
 			{
 				fReturnAmt.setValue(tender.subtract(pay));
@@ -139,71 +142,6 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 	} // actionPerformed
 
 	/**
-	 * Get Amount 
-	 * @param amount
-	 * @return String
-	 */
-	public String getAmt (String amount) 
-	{
-		if (amount == null)
-			return amount;
-
-		Language lang = Env.getLanguage(Env.getCtx());
-		//
-		StringBuffer sb = new StringBuffer ();
-		int pos = 0;
-
-		if(lang.isDecimalPoint())
-    	 pos = amount.lastIndexOf ('.');    // Old
-		else
-		 pos = amount.lastIndexOf (',');
-
-		int pos2 = 0;
-		if(lang.isDecimalPoint())
-			pos2 = amount.lastIndexOf (',');   // Old
-		else
-			pos2 = amount.lastIndexOf ('.');
-
-		if (pos2 > pos)
-			pos = pos2;
-		String oldamt = amount;
-
-		if(lang.isDecimalPoint())
-			amount = amount.replaceAll (",", "");   // Old
-		else
-			amount = amount.replaceAll( "\\.","");
-
-		int newpos = 0;
-		if(lang.isDecimalPoint())
-			newpos = amount.lastIndexOf ('.');  // Old
-		else
-			newpos = amount.lastIndexOf (',');
-		long truncAmt = 0; 
-		if(newpos > 0)
-			truncAmt = Long.parseLong(amount.substring (0, newpos));
-		else 
-			return "";
-		
-		
-		sb.append (truncAmt);
-		for (int i = 0; i < oldamt.length (); i++)
-		{
-			if (pos == i) //	we are done
-			{
-				String cents = oldamt.substring (i + 1);
-				if(lang.isDecimalPoint())
-					sb.append('.');
-				else
-					sb.append(',');
-				sb.append (cents);
-				break;
-			}
-		}
-
-		return sb.toString ();
-	}	//	getAmt
-
-	/**
 	 * Processes different kinds of payment types
 	 * 
 	 */
@@ -212,7 +150,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		try {
 
 			String tenderType = ((ValueNamePair) tenderTypePick.getValue()).getID();
-			BigDecimal amt = new BigDecimal(getAmt(fPayAmt.getText()));
+			BigDecimal amt = new BigDecimal(getNumber(Env.getCtx(), fPayAmt.getText(), DisplayType.String).toString());
 
 			if ( tenderType.equals(MPayment.TENDERTYPE_Cash) )
 			{
@@ -679,6 +617,29 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 		// TODO Auto-generated method stub
 		
 	}
-
-
+	
+	/**
+	 * Get BigDecimal format
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 03/02/2014, 21:53:00
+	 * @param value
+	 * @param properties
+	 * @return
+	 * @return BigDecimal
+	 */
+	public BigDecimal getNumber(Properties properties, String value, int displayType) {
+		try {
+			if(value != null 
+					&& value.length() > 0) {
+				DecimalFormat dFormat = DisplayType.getNumberFormat(displayType);
+				//	
+				dFormat.setParseBigDecimal(true);
+				BigDecimal parsed = (BigDecimal)dFormat.parse(value, new ParsePosition(0));
+				return parsed;
+			}
+		} catch (Exception e) {
+		}
+		//	
+		return Env.ZERO;
+	}
+	
 }
