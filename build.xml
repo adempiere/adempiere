@@ -82,7 +82,7 @@
         description="compile the source " >
     <echo message="Compile Swing Classes "/>
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac srcdir="${base}:${client}:${patches}" destdir="${class}" includeantruntime="false" >
+    <javac srcdir="${base}:${client}" destdir="${class}" includeantruntime="false" >
       <classpath refid="compile.classpath"/>
     </javac>
     <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${class}"/>
