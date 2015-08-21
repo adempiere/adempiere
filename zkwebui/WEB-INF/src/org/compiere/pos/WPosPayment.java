@@ -72,8 +72,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private void processPayment() {
 
 		try {
-//			
-//			String tenderType = ((ValueNamePair) tenderTypePick.getValue()).getID();
 			BigDecimal amt = new BigDecimal(fPayAmt.getValue());
 			if(fTenderAmt.getValue().equals(0)){
 				FDialog.warn(0, p_posPanel, "Mount", "");
@@ -131,6 +129,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		p_order = subOrder.m_order;
 		setTitle(Msg.translate(p_ctx, "Payment"));
 		setClosable(true);
+		
 		if ( p_order == null )
 			dispose();
 		
@@ -422,10 +421,10 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			calculateAmt();
 		}
 		else if(action.equals(MPayment.TENDERTYPE_Check)){
-//			WPosCheckPayment chkpayment = new WPosCheckPayment(this);
-//			chkpayment.setWidth("680px");
-//			chkpayment.setHeight("420px");
-//			AEnv.showWindow(chkpayment);
+			WPosCheckPayment chkpayment = new WPosCheckPayment(this);
+			chkpayment.setWidth("75%");
+			chkpayment.setHeight("400px");
+			AEnv.showWindow(chkpayment);
 		}
 		else if (event.getTarget().equals(fTenderAmt) ){
 			cont++;
@@ -441,7 +440,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 				}
 			}
 			else {
-				
 				cont=0;
 				fReturnAmt.setFocus(true);
 			}
@@ -470,9 +468,14 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			onClose();
 			return;
 		}
-		
-			setTotals();
+
+		setTotals();
 		
 	}
-
+	public String getGranTotal(){
+		return fTotal.getValue();
+	}
+	public String getBalance(){
+		return fBalance.getValue();
+	}
 }

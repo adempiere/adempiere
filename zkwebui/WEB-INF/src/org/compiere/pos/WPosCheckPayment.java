@@ -87,10 +87,7 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 	private static final long serialVersionUID = 1961106531807910948L;
 
 
-	private WPosBasePanel p_posPanel;
-	private MPOS p_pos;
 	private Properties p_ctx;
-	private PosOrderModel p_order;
 	private Textbox fRoutNo = new Textbox();
 	private Label fBalance = new Label();
 	private Button tenderType;
@@ -118,18 +115,18 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 	private Button 		fReset;
 	private Checkbox	chckEditPay;
 	private Textbox		fSumAmount;
-	private Textbox		fGrandTotal;
-	private Textbox 	fPayAmt;
+	private Label		fGrandTotal;
+	private Label	 	fPayAmt;
 	private double 		dSumAmount;
 	private boolean 	bEdit = false;
 	private int RowEdit = 0;
 	
 	private static ColumnInfo[] s_layout = new ColumnInfo[] { 
-		new ColumnInfo(" ", "C_Payment_ID", IDColumn.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Routing No"), "routingno", String.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Account No"), "accountno", String.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Check No"), "checkno", String.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Payment Amount"), "payamt", Double.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Payment_ID"), "C_Payment_ID", IDColumn.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "RoutingNo"), "routingno", String.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "AccountNo"), "accountno", String.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "CheckNo"), "checkno", String.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Amount"), "payamt", Double.class)
 	};
 	/**	From Clause							*/
 	private static String s_sqlFrom = "c_payment";
@@ -141,12 +138,17 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 	WListbox		m_table;
 	/** The Query SQL				*/
 	private String			m_sql;
+	private String			m_grandTotal;
+	private String			m_balance;
 	
 	public WPosCheckPayment(WPosPayment posPayment) {
 		super();
 		p_ctx = Env.getCtx();
 		setTitle(Msg.translate(p_ctx, "Check"));
 		setClosable(true);
+		m_grandTotal = posPayment.getGranTotal();
+		m_balance = posPayment.getBalance();
+		
 		init();
 	}
 
@@ -178,7 +180,6 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		north.appendChild(northPanel);
 		northPanel.appendChild(layout);
 		layout.setWidth("100%");
-//		layout.setHeight("370px");
 		appendChild(mainPanel);
 		Rows rows = null;
 		Row row = null;
@@ -190,6 +191,7 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		
 		chckEditPay = new Checkbox();
 		chckEditPay.setLabel(Msg.translate(p_ctx, "EditPayment"));
+		chckEditPay.addActionListener(this);
 		row.appendChild(chckEditPay);
 
 		row.appendChild(new Space());
@@ -207,13 +209,13 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		west.appendChild(westPanel);
 		westPanel.appendChild(westLayout);
 		westLayout.setWidth("100%");
-		westLayout.setHeight("350px");
+		westLayout.setHeight("45%");
 		
 		rows = westLayout.newRows();
 		row = rows.newRow();
 
 		row.setSpans("1,2");
-		Label lRoutNo = new Label(Msg.translate(p_ctx, "routNo")+":");
+		Label lRoutNo = new Label(Msg.translate(p_ctx, "Routing No")+":");
 		lRoutNo.setStyle(FONT_SIZE+FONT_BOLD);
 		row.appendChild(lRoutNo.rightAlign());
 		row.appendChild(fRoutNo);
@@ -221,7 +223,7 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		
 		row = rows.newRow();
 		row.setSpans("1,2");
-		Label lAccoNo = new Label(Msg.translate(p_ctx, "accoNo")+":");
+		Label lAccoNo = new Label(Msg.translate(p_ctx, "Account No")+":");
 		lAccoNo.setStyle(FONT_SIZE+FONT_BOLD);
 		fAccoNo = new Textbox();
 		row.appendChild(lAccoNo.rightAlign());
@@ -230,7 +232,7 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 
 		row = rows.newRow();
 		row.setSpans("1,2");
-		Label lChckNo = new Label(Msg.translate(p_ctx, "chckno")+":");
+		Label lChckNo = new Label(Msg.translate(p_ctx, "Check No")+":");
 		lChckNo.setStyle(FONT_SIZE+FONT_BOLD);
 		fChckNo = new Textbox();
 		row.appendChild(lChckNo.rightAlign());
@@ -277,34 +279,32 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		
 		Label lGrantTotal = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
 		row.appendChild(lGrantTotal.rightAlign());
-		fGrandTotal = new Textbox();
+		fGrandTotal = new Label(m_grandTotal);
 		row.appendChild(fGrandTotal);
 
 		row.appendChild(new Space());
 		row.appendChild(new Space());
 		Label lPayAmt = new Label(Msg.translate(p_ctx, "PayAmt")+":");
 		row.appendChild(lPayAmt.rightAlign());
-		fPayAmt = new Textbox();
+		fPayAmt = new Label(m_balance);
 		row.appendChild(fPayAmt);
 		
-	
-		
-		
-//		keyboard = new WPOSKeyboard(keyLayoutId, this.fTenderAmt, WPOSKeyboard.KEYBOARD_NUMERIC_CASHOUT, fBalance);
-//		keyboard.setVisible(true);
 		//
-		East east = new East();
-		east.setStyle("overflow:visible");
-		mainLayout.appendChild(east);
+		Center center = new Center();
+		center.setStyle("border: none");
+		center.setAutoscroll(true);
 		m_table = ListboxFactory.newDataTable();
 		m_sql = m_table.prepareTable(s_layout, s_sqlFrom, s_sqlWhere, false, "c_payment") + " ORDER BY c_payment_id";
+		m_table.setWidth("100%");
+		ListModelTable model = m_table.getModel();
+		 s_layout[0].setVisibility(false);
+		 
 		m_table.repaint();
-		m_table.autoSize();
 		m_table.getModel().addTableModelListener(this);
-		east.appendChild(m_table);
+		center.appendChild(m_table);
+
+		mainLayout.appendChild(center);
 		
-		
-//		east.appendChild(keyboard);
 		
 	}
 	
@@ -451,7 +451,6 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 			int[] selectedRow = m_table.getSelectedIndices();
 
 			for (int i = 0; i < selectedRow.length; i++) {
-
 				String routingno = model_local.getValueAt(selectedRow[i], 1).toString();
 				String accountno = model_local.getValueAt(selectedRow[i], 2).toString();
 				String checkno = model_local.getValueAt(selectedRow[i], 3).toString();
@@ -491,7 +490,37 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		else if(event.getTarget().equals(fPlus)){
 			addPayment();
 		}
-		
+		else if(event.getTarget().equals(chckEditPay)){
+			if (bEdit) {
+				chckEditPay.setSelected(true);
+				return;
+			}
+			ListModelTable model = m_table.getModel();
+			if (model.getRowCount() > 0) {
+				int selectedRow = m_table.getSelectedRow();
+
+
+					String routingno = model.getValueAt(selectedRow, 1).toString();
+					String accountno = model.getValueAt(selectedRow, 2).toString();
+					String checkno = model.getValueAt(selectedRow, 3).toString();
+					Double payamt;
+					payamt = Double.parseDouble(model.getValueAt(selectedRow, 4).toString());
+					
+					fRoutNo.setText(routingno);
+					fAccoNo.setText(accountno);
+					fChckNo.setText(checkno);
+					fAmount.setText(payamt.toString());
+//					this.dtAmount.setText(model_local.getValueAt(i, 4).toString());
+					bEdit = true;
+					RowEdit = selectedRow;
+					setEditable(true);
+					fPlus.setEnabled(false);
+//					this.dtRoutingno.requestFocus();
+					chckEditPay.setSelected(true);
+
+			}
+
+		}
 		else if ( action.equals(ConfirmPanel.A_OK)) {
 			onClose();
 		}
@@ -506,5 +535,4 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		m_table.repaint();
 		
 	}
-
 }

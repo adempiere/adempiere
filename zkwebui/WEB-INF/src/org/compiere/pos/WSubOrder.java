@@ -504,7 +504,6 @@ public class WSubOrder extends WPosSubPanel
 		if ( cols == 0 )
 			cols = COLUMNS;
 		int buttons = 0;
-		String height = "55px";
 		log.fine( "PosSubFunctionKeys.init - NoKeys=" + noKeys 
 			+ ", Cols=" + cols);
 		//	Content
@@ -514,16 +513,13 @@ public class WSubOrder extends WPosSubPanel
 			if(!key.getName().equals("")){
 			map.put(key.getC_POSKey_ID(), key);
 			Color keyColor = stdColor;
-			StringBuffer buttonHTML = new StringBuffer("");
-			if (key.getAD_PrintColor_ID() != 0)
-			{
+			
+			if (key.getAD_PrintColor_ID() != 0)	{
 				MPrintColor color = MPrintColor.get(Env.getCtx(), key.getAD_PrintColor_ID());
 				keyColor = color.getColor();
 			}
 			
 			
-			buttonHTML.append(key.getName());
-			buttonHTML.append("");
 			log.fine( "#" + map.size() + " - " + keyColor); 
 			button = new Panel();
 			Button b_Img = new Button();
@@ -549,16 +545,19 @@ public class WSubOrder extends WPosSubPanel
 				bImg.setHeight("50px");
 				nt.appendChild(bImg);
 			}
-			label.setStyle("word-wrap: break-word; margin: 25px 0px 00px 0px; top:20px; font-size:12px; font-weight: bold;  background-color: transparent;");
+			label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;  background-color: transparent;");
 			label.setHeight("100%");
 			button.setHeight("80px");
 			st.appendChild(label);
-			button.setStyle("word-wrap: break-word; float:left; text-align:center; margin:1% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC;");
+			button.setClass("z-button");
+			button.setStyle("float:left; white-space: pre-line;text-align:center; margin:1% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC;");
+			
 			mainLayout.appendChild(nt);
 			mainLayout.appendChild(st);
 			mainLayout.setStyle("background-color: transparent");
 			nt.setStyle("background-color: transparent");
-			st.setStyle("background-color: transparent");
+			st.setStyle("background-color: transparent;clear: both; ");
+			st.setZindex(99);
 			button.appendChild(mainLayout);
 			
 			button.setId(""+key.getC_POSKey_ID());
