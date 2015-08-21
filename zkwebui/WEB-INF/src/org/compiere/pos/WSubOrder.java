@@ -28,7 +28,9 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.logging.Level;
 
+import javax.swing.Icon;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
@@ -50,6 +52,7 @@ import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MCurrency;
+import org.compiere.model.MImage;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPOSKey;
@@ -71,6 +74,8 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.image.AImage;
+import org.zkoss.image.Images;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
@@ -78,6 +83,9 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Doublebox;
+import org.zkoss.zul.Image;
+import org.zkoss.zul.Space;
+import org.zkoss.zul.impl.LabelImageElement;
 
 /**
  *	Customer Sub Panel
@@ -166,8 +174,9 @@ public class WSubOrder extends WPosSubPanel
 	private Panel button;
 
 	private int keyLayoutId;
-	
+	private int maxheigth = 0;
 	PosOrderModel m_order = null;
+	
 
 	/**	The Product					*/
 	private MProduct		m_product = null;
@@ -199,270 +208,270 @@ public class WSubOrder extends WPosSubPanel
 	 */
 	public void init()
 	{
-		//	Content
-		this.setHeight("100%");
-		this.setWidth("99%");
-		status = false;
-		cont  = 0;
-		keymap = new HashMap<Integer, HashMap<Integer,MPOSKey>>();
-		
-		s_sqlFrom = "C_Order_LineTax_v";
-		/** Where Clause						*/
-		s_sqlWhere = "C_Order_ID=? AND LineNetAmt <> 0";
-		
-		Panel parameterPanel = new Panel();
-		Borderlayout detailPanel = new Borderlayout();
-		Grid parameterLayout = GridFactory.newGridLayout();
-		Panel productPanel = new Panel();
-		Borderlayout fullPanel = new Borderlayout();
-		Grid productLayout = GridFactory.newGridLayout();
-		Grid parameterLayout2 = GridFactory.newGridLayout();
-		Grid parameterLayout3 = GridFactory.newGridLayout();
-		Rows rows = null;
-		Row row = null;
+//		Content
+			this.setHeight("100%");
+			this.setWidth("99%");
+			status = false;
+			cont  = 0;
+			keymap = new HashMap<Integer, HashMap<Integer,MPOSKey>>();
+			
+			s_sqlFrom = "C_Order_LineTax_v";
+			/** Where Clause						*/
+			s_sqlWhere = "C_Order_ID=? AND LineNetAmt <> 0";
+			
+			Panel parameterPanel = new Panel();
+			Borderlayout detailPanel = new Borderlayout();
+			Grid parameterLayout = GridFactory.newGridLayout();
+			Panel productPanel = new Panel();
+			Borderlayout fullPanel = new Borderlayout();
+			Grid productLayout = GridFactory.newGridLayout();
+			Grid parameterLayout2 = GridFactory.newGridLayout();
+			Grid parameterLayout3 = GridFactory.newGridLayout();
+			Rows rows = null;
+			Row row = null;
 
-		East east = new East();
-		east.setStyle("border: none; width:40%");
-		east.setAutoscroll(true);
-		appendChild(east);
-		productPanel.appendChild(productLayout);
-		productLayout.setWidth("100%");
-		rows = productLayout.newRows();
-		row = rows.newRow();
-		int C_POSKeyLayout_ID = p_pos.getC_POSKeyLayout_ID();
-		if (C_POSKeyLayout_ID == 0)
-			return;
-		currentLayout = C_POSKeyLayout_ID;
-		east.appendChild(
-				createPanel(C_POSKeyLayout_ID));
-		
-		West west = new West();
-		west.setStyle("border: none;");
-		appendChild(west);
-		west.appendChild(fullPanel);
-		fullPanel.setWidth("100%");
-		fullPanel.setHeight("100%");
-		North north = new North();
-		north.setStyle("border: none; width:60%");
-		north.setZindex(0);
-		fullPanel.appendChild(north);
-		parameterPanel.appendChild(parameterLayout);
-		parameterLayout.setWidth("60%");
-		north.appendChild(parameterPanel);
-		rows = parameterLayout.newRows();
-		row = rows.newRow();
-		
-		setStyle("border: none");
-		
-		m_table = ListboxFactory.newDataTable();
-		m_sql = m_table.prepareTable(s_layout, s_sqlFrom, 
-			s_sqlWhere, false, "C_Order_LineTax_v");
-		m_table.setColumnClass(6, BigDecimal.class, false);
-		m_table.autoSize();
-		m_table.getModel().addTableModelListener(this);
-		Center center = new Center();
-		center.setStyle("border: none; width:400px");
-		appendChild(center);
-		center.appendChild(detailPanel);
-		north = new North();
-		north.setStyle("border: none");
-		detailPanel.setHeight("40%");
-		detailPanel.setWidth("50%");
-		detailPanel.appendChild(north);
-		South south = new South();
-		south.setStyle("border: none");
-		detailPanel.appendChild(south);
-		south.appendChild(parameterLayout2);
-		parameterLayout2.setWidth("100%");
-		parameterLayout2.setHeight("85px");
+			East east = new East();
+			east.setStyle("border: none; width:40%");
+			east.setAutoscroll(true);
+			appendChild(east);
+			productPanel.appendChild(productLayout);
+			productLayout.setWidth("100%");
+			rows = productLayout.newRows();
+			row = rows.newRow();
+			int C_POSKeyLayout_ID = p_pos.getC_POSKeyLayout_ID();
+			if (C_POSKeyLayout_ID == 0)
+				return;
+			currentLayout = C_POSKeyLayout_ID;
+			east.appendChild(
+					createPanel(C_POSKeyLayout_ID));
+			
+			West west = new West();
+			west.setStyle("border: none;");
+			appendChild(west);
+			west.appendChild(fullPanel);
+			fullPanel.setWidth("100%");
+			fullPanel.setHeight("100%");
+			North north = new North();
+			north.setStyle("border: none; width:60%");
+			north.setZindex(0);
+			fullPanel.appendChild(north);
+			parameterPanel.appendChild(parameterLayout);
+			parameterLayout.setWidth("60%");
+			north.appendChild(parameterPanel);
+			rows = parameterLayout.newRows();
+			row = rows.newRow();
+			
+			setStyle("border: none");
+			
+			m_table = ListboxFactory.newDataTable();
+			m_sql = m_table.prepareTable(s_layout, s_sqlFrom, 
+				s_sqlWhere, false, "C_Order_LineTax_v");
+			m_table.setColumnClass(6, BigDecimal.class, false);
+			m_table.autoSize();
+			m_table.getModel().addTableModelListener(this);
+			Center center = new Center();
+			center.setStyle("border: none; width:400px");
+			appendChild(center);
+			center.appendChild(detailPanel);
+			north = new North();
+			north.setStyle("border: none");
+			detailPanel.setHeight("40%");
+			detailPanel.setWidth("50%");
+			detailPanel.appendChild(north);
+			South south = new South();
+			south.setStyle("border: none");
+			detailPanel.appendChild(south);
+			south.appendChild(parameterLayout2);
+			parameterLayout2.setWidth("100%");
+			parameterLayout2.setHeight("85px");
 
-		rows = parameterLayout2.newRows();
-		row = rows.newRow();
-		row.setHeight("60px");
-		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-		row.appendChild (f_up);
-		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
-		row.appendChild (f_down);
+			rows = parameterLayout2.newRows();
+			row = rows.newRow();
+			row.setHeight("60px");
+			f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
+			row.appendChild (f_up);
+			f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
+			row.appendChild (f_down);
 
+			
+			f_delete = createButtonAction(ACTION_CANCEL, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, Event.SHIFT_MASK));
+			row.appendChild (f_delete);
 		
-		f_delete = createButtonAction(ACTION_CANCEL, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, Event.SHIFT_MASK));
-		row.appendChild (f_delete);
-	
-		//
-		f_minus = createButtonAction("Minus", null);
-		row.appendChild(f_minus);
+			//
+			f_minus = createButtonAction("Minus", null);
+			row.appendChild(f_minus);
 
-		Label qtyLabel = new Label(Msg.translate(Env.getCtx(), "QtyOrdered"));
-		row.appendChild(qtyLabel.rightAlign());
-		
-		f_quantity = new Doublebox(1);
-		row.appendChild(f_quantity);
-		f_quantity.addEventListener("onFocus", this);
-		keyLayoutId=p_pos.getOSNP_KeyLayout_ID();
-		setQty(Env.ONE);
-		//
-		f_plus = createButtonAction("Plus", null);
-		row.appendChild(f_plus);
-		
-		Label discountLabel = new Label(Msg.translate(Env.getCtx(), "Discount"));
-		row.appendChild(discountLabel.rightAlign());
-		f_discount = new Doublebox(0.0);
-		row.appendChild(f_discount);
-		f_discount.addEventListener("onFocus", this);
-		
-		Label priceLabel = new Label(Msg.translate(Env.getCtx(), "PriceActual"));
-		row.appendChild(priceLabel.rightAlign());
-		
-		f_price = new Doublebox(0.0);
-		row.appendChild(f_price);
-		setPrice(Env.ZERO);
-		f_price.addEventListener("onBlur", this);
-		center = new Center();
-		detailPanel.appendChild(center);
-		center.appendChild(m_table);
-		m_table.setWidth("100%");
-		m_table.setHeight("99%");
-		center.setStyle("border: none");
-		
-		north.appendChild(parameterLayout3);
-		parameterLayout3.setWidth("100%");
-		parameterLayout3.setHeight("100%");
-		rows = parameterLayout3.newRows();
-		parameterLayout3.setStyle("border:none");
-		row = rows.newRow();
-		row.setHeight("60px");
+			Label qtyLabel = new Label(Msg.translate(Env.getCtx(), "QtyOrdered"));
+			row.appendChild(qtyLabel.rightAlign());
+			
+			f_quantity = new Doublebox(1);
+			row.appendChild(f_quantity);
+			f_quantity.addEventListener("onFocus", this);
+			keyLayoutId=p_pos.getOSNP_KeyLayout_ID();
+			setQty(Env.ONE);
+			//
+			f_plus = createButtonAction("Plus", null);
+			row.appendChild(f_plus);
+			
+			Label discountLabel = new Label(Msg.translate(Env.getCtx(), "Discount"));
+			row.appendChild(discountLabel.rightAlign());
+			f_discount = new Doublebox(0.0);
+			row.appendChild(f_discount);
+			f_discount.addEventListener("onFocus", this);
+			
+			Label priceLabel = new Label(Msg.translate(Env.getCtx(), "PriceActual"));
+			row.appendChild(priceLabel.rightAlign());
+			
+			f_price = new Doublebox(0.0);
+			row.appendChild(f_price);
+			setPrice(Env.ZERO);
+			f_price.addEventListener("onBlur", this);
+			center = new Center();
+			detailPanel.appendChild(center);
+			center.appendChild(m_table);
+			m_table.setWidth("100%");
+			m_table.setHeight("99%");
+			center.setStyle("border: none");
+			
+			north.appendChild(parameterLayout3);
+			parameterLayout3.setWidth("100%");
+			parameterLayout3.setHeight("100%");
+			rows = parameterLayout3.newRows();
+			parameterLayout3.setStyle("border:none");
+			row = rows.newRow();
+			row.setHeight("60px");
 
-		// NEW
-		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
-		f_bNew.addActionListener(this);
-		row.appendChild(f_bNew);
+			// NEW
+			f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
+			f_bNew.addActionListener(this);
+			row.appendChild(f_bNew);
 
-		// BPartner Search
-		f_bSearch = createButtonAction(ACTION_BPARTNER, p_pos.getOSK_KeyLayout_ID());
-		row.appendChild(f_bSearch);
-				
-		// EDIT
-		f_bEdit = createButtonAction(ACTION_CREDITSALE, null);
-		f_bEdit.addActionListener(this);
-		row.appendChild(f_bEdit);
-		f_bEdit.setEnabled(false);
-				
-		// HISTORY
-		f_history = createButtonAction(ACTION_HISTORY, null);
-		f_history.addActionListener(this);
-		row.appendChild(f_history); 
-		 		
-		// PAYMENT
-		f_cashPayment = createButtonAction(ACTION_PAYMENT, null);
-		f_cashPayment.addActionListener(this);
-		row.appendChild(f_cashPayment); 
-		f_cashPayment.setEnabled(false);
-		
-		// PREPAYMENT
-		f_cashPrePayment = createButtonAction(ACTION_PREPAYMENT, null);
-		f_cashPrePayment.addActionListener(this);
-		row.appendChild(f_cashPrePayment); 
-		f_cashPrePayment.setEnabled(false);
-		//PRINT
-		f_print = createButtonAction(ACTION_PRINT, null);
-		f_print.addActionListener(this);
-		row.appendChild(f_print);
-		f_print.setEnabled(false);
-		 		
-		// Settings
-		f_bSettings = createButtonAction(ACTION_PREFERENCES, null);
-		row.appendChild(f_bSettings);
+			// BPartner Search
+			f_bSearch = createButtonAction(ACTION_BPARTNER, p_pos.getOSK_KeyLayout_ID());
+			row.appendChild(f_bSearch);
+					
+			// EDIT
+			f_bEdit = createButtonAction(ACTION_CREDITSALE, null);
+			f_bEdit.addActionListener(this);
+			row.appendChild(f_bEdit);
+			f_bEdit.setEnabled(false);
+					
+			// HISTORY
+			f_history = createButtonAction(ACTION_HISTORY, null);
+			f_history.addActionListener(this);
+			row.appendChild(f_history); 
+			 		
+			// PAYMENT
+			f_cashPayment = createButtonAction(ACTION_PAYMENT, null);
+			f_cashPayment.addActionListener(this);
+			row.appendChild(f_cashPayment); 
+			f_cashPayment.setEnabled(false);
+			
+			// PREPAYMENT
+			f_cashPrePayment = createButtonAction(ACTION_PREPAYMENT, null);
+			f_cashPrePayment.addActionListener(this);
+			row.appendChild(f_cashPrePayment); 
+			f_cashPrePayment.setEnabled(false);
+			//PRINT
+			f_print = createButtonAction(ACTION_PRINT, null);
+			f_print.addActionListener(this);
+			row.appendChild(f_print);
+			f_print.setEnabled(false);
+			 		
+			// Settings
+			f_bSettings = createButtonAction(ACTION_PREFERENCES, null);
+			row.appendChild(f_bSettings);
 
-		// CANCEL
-		f_process = createButtonAction(ACTION_CANCEL, null);
-		row.appendChild(f_process);
-		f_process.setEnabled(false);
-		f_process.addActionListener(this);
-		
-		// LOGOUT
-		f_logout = createButtonAction (ACTION_LOGOUT, null);
-		f_logout.addActionListener(this);
-		row.appendChild (f_logout);
-		
-		row = rows.newRow();
-		row.setSpans("3,7");
-		row.setHeight("30px");
-		// BP
-		Label bpartner = new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")+":");
-		row.appendChild (bpartner.rightAlign());
-		bpartner.setStyle("Font-size:medium; font-weight:700");
-		
-		f_name = new Label();
-		f_name.setStyle("Font-size:medium");
-		f_name.setWidth("100%");
-		row.appendChild  (f_name);
-		
-		//
-		row = rows.newRow();
-		row.setHeight("30px");
-		row.setSpans("3,2,3,2");
-		// DOC NO
-		Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
-		row.appendChild (docNo.rightAlign());
+			// CANCEL
+			f_process = createButtonAction(ACTION_CANCEL, null);
+			row.appendChild(f_process);
+			f_process.setEnabled(false);
+			f_process.addActionListener(this);
+			
+			// LOGOUT
+			f_logout = createButtonAction (ACTION_LOGOUT, null);
+			f_logout.addActionListener(this);
+			row.appendChild (f_logout);
+			
+			row = rows.newRow();
+			row.setSpans("3,7");
+			row.setHeight("30px");
+			// BP
+			Label bpartner = new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")+":");
+			row.appendChild (bpartner.rightAlign());
+			bpartner.setStyle("Font-size:medium; font-weight:700");
+			
+			f_name = new Label();
+			f_name.setStyle("Font-size:medium");
+			f_name.setWidth("100%");
+			row.appendChild  (f_name);
+			
+			//
+			row = rows.newRow();
+			row.setHeight("30px");
+			row.setSpans("3,2,3,2");
+			// DOC NO
+			Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
+			row.appendChild (docNo.rightAlign());
 
-		docNo.setStyle("Font-size:medium; font-weight:700");
-		f_DocumentNo = new Label();
-		f_DocumentNo.setStyle("Font-size:medium");
-		row.appendChild(f_DocumentNo);
-		
-		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
-		lNet.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lNet.rightAlign());
-		f_net = new Label(String.valueOf(DisplayType.Amount));
-		f_net.setStyle("Font-size:medium");
-		row.appendChild(f_net);
-		f_net.setText(Env.ZERO+"");
+			docNo.setStyle("Font-size:medium; font-weight:700");
+			f_DocumentNo = new Label();
+			f_DocumentNo.setStyle("Font-size:medium");
+			row.appendChild(f_DocumentNo);
+			
+			Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
+			lNet.setStyle("Font-size:medium; font-weight:700");
+			row.appendChild(lNet.rightAlign());
+			f_net = new Label(String.valueOf(DisplayType.Amount));
+			f_net.setStyle("Font-size:medium");
+			row.appendChild(f_net);
+			f_net.setText(Env.ZERO+"");
 
-		row = rows.newRow();
-		row.setSpans("3,2,3,2");
-		row.setHeight("30px");
-		// SALES REP
-		Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "SalesRep_ID")+":");
-		row.appendChild(l_SalesRep.rightAlign());
-		l_SalesRep.setStyle("Font-size:medium; font-weight:700");
-		MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
-		f_RepName = new Label(salesRep.getName());
-		f_RepName.setStyle("Font-size:medium");
-		row.appendChild (f_RepName);
-		
-		Label lTax = new Label (Msg.translate(Env.getCtx(), "TaxAmt")+":");
-		lTax.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lTax.rightAlign());
-		f_tax = new Label(String.valueOf(DisplayType.Amount));
-		f_tax.setStyle("Font-size:medium");
-		row.appendChild(f_tax);
-		f_tax.setText(Env.ZERO.toString());
+			row = rows.newRow();
+			row.setSpans("3,2,3,2");
+			row.setHeight("30px");
+			// SALES REP
+			Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "SalesRep_ID")+":");
+			row.appendChild(l_SalesRep.rightAlign());
+			l_SalesRep.setStyle("Font-size:medium; font-weight:700");
+			MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
+			f_RepName = new Label(salesRep.getName());
+			f_RepName.setStyle("Font-size:medium");
+			row.appendChild (f_RepName);
+			
+			Label lTax = new Label (Msg.translate(Env.getCtx(), "TaxAmt")+":");
+			lTax.setStyle("Font-size:medium; font-weight:700");
+			row.appendChild(lTax.rightAlign());
+			f_tax = new Label(String.valueOf(DisplayType.Amount));
+			f_tax.setStyle("Font-size:medium");
+			row.appendChild(f_tax);
+			f_tax.setText(Env.ZERO.toString());
 
-		row = rows.newRow();
-		row.setSpans("1,2,3,2,2");
-		row.setHeight("60px");
+			row = rows.newRow();
+			row.setSpans("1,2,3,2,2");
+			row.setHeight("60px");
 
-		f_bSearch1 = createButtonAction ("Product", p_pos.getOSK_KeyLayout_ID());
-		row.appendChild(f_bSearch1);
-		Label productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID")+":");
-		productLabel.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(productLabel.rightAlign());
-		
-		f_name1 = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
-		
-		f_name1.setName("Name");
-		f_name1.setReadonly(true);
-		f_name1.addEventListener("onFocus", this);
-		
-		row.appendChild(f_name1);
-		//
-		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
-		lTotal.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lTotal.rightAlign());
-		f_total = new Label(String.valueOf(DisplayType.Amount));
-		row.appendChild(f_total);
-		f_total.setText(Env.ZERO.toString());
-		f_total.setStyle("Font-size:medium");
+			f_bSearch1 = createButtonAction ("Product", p_pos.getOSK_KeyLayout_ID());
+			row.appendChild(f_bSearch1);
+			Label productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID")+":");
+			productLabel.setStyle("Font-size:medium; font-weight:700");
+			row.appendChild(productLabel.rightAlign());
+			
+			f_name1 = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+			
+			f_name1.setName("Name");
+			f_name1.setReadonly(true);
+			f_name1.addEventListener("onFocus", this);
+			
+			row.appendChild(f_name1);
+			//
+			Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
+			lTotal.setStyle("Font-size:medium; font-weight:700");
+			row.appendChild(lTotal.rightAlign());
+			f_total = new Label(String.valueOf(DisplayType.Amount));
+			row.appendChild(f_total);
+			f_total.setText(Env.ZERO.toString());
+			f_total.setStyle("Font-size:medium");
 
 	}	//	init
 	
@@ -495,13 +504,14 @@ public class WSubOrder extends WPosSubPanel
 		if ( cols == 0 )
 			cols = COLUMNS;
 		int buttons = 0;
-		
+		String height = "55px";
 		log.fine( "PosSubFunctionKeys.init - NoKeys=" + noKeys 
 			+ ", Cols=" + cols);
 		//	Content
 		Panel content = new Panel ();
 		for (MPOSKey key :  keys)
 		{
+			if(!key.getName().equals("")){
 			map.put(key.getC_POSKey_ID(), key);
 			Color keyColor = stdColor;
 			StringBuffer buttonHTML = new StringBuffer("");
@@ -516,14 +526,41 @@ public class WSubOrder extends WPosSubPanel
 			buttonHTML.append("");
 			log.fine( "#" + map.size() + " - " + keyColor); 
 			button = new Panel();
+			Button b_Img = new Button();
 			Label label = new Label(key.getName());
-			label.setStyle("margin: 25px 0px 00px 0px; top:20px; font-size:medium; font-weight: bold;");
+			
+			North nt = new North();
+			South st = new South();
+			Borderlayout mainLayout = new Borderlayout();
+			if ( key.getAD_Image_ID() != 0 )
+			{
+				MImage m_mImage = MImage.get(Env.getCtx(), key.getAD_Image_ID());
+				AImage img = null;
+				byte[] data = m_mImage.getData();
+				if (data != null && data.length > 0) {
+					try {
+						img = new AImage(null, data);				
+					} catch (Exception e) {		
+					}
+				}
+				Image bImg = new Image();
+				bImg.setContent(img);
+				bImg.setWidth("50%");
+				bImg.setHeight("50px");
+				nt.appendChild(bImg);
+			}
+			label.setStyle("word-wrap: break-word; margin: 25px 0px 00px 0px; top:20px; font-size:12px; font-weight: bold;  background-color: transparent;");
 			label.setHeight("100%");
-			button.appendChild(label);
-			button.setStyle("float:left; text-align:center; margin:1% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC;");
+			button.setHeight("80px");
+			st.appendChild(label);
+			button.setStyle("word-wrap: break-word; float:left; text-align:center; margin:1% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC;");
+			mainLayout.appendChild(nt);
+			mainLayout.appendChild(st);
+			mainLayout.setStyle("background-color: transparent");
+			nt.setStyle("background-color: transparent");
+			st.setStyle("background-color: transparent");
+			button.appendChild(mainLayout);
 			
-			
-			button.setHeight("55px");
 			button.setId(""+key.getC_POSKey_ID());
 			button.addEventListener("onClick", this);
 
@@ -531,10 +568,10 @@ public class WSubOrder extends WPosSubPanel
 			if ( key.getSpanX() > 1 )
 			{
 				size = key.getSpanX();
-				button.setWidth(22*key.getSpanX()+"%");
+				button.setWidth("95%");
 			}
 			else 
-				button.setWidth("20%");
+				button.setWidth(88/cols+"%");
 			if ( key.getSpanY() > 1 )
 			{
 				size = size*key.getSpanY();
@@ -542,16 +579,11 @@ public class WSubOrder extends WPosSubPanel
 			buttons = buttons + size;
 			content.appendChild(button);
 		}
-		
+		}
 		int rows = Math.max ((buttons / cols), ROWS);
 		if ( buttons % cols > 0 )
 			rows = rows + 1;
-		
-		for (int i = buttons; i < rows*cols; i++)
-		{
-			Button button = new Button("");
-			content.appendChild(button);
-		}
+
 		
 		card.appendChild(content);
 		
@@ -1205,8 +1237,8 @@ public class WSubOrder extends WPosSubPanel
 			qt.setVisible(true);
 			AEnv.showWindow(qt);
 			updateInfo();
-			//	if (creditoFiscal)
-			//	m_order.setC_DocTypeTarget_ID(0);
+//			if (creditoFiscal)
+//				m_order.setC_DocTypeTarget_ID(0);
 			return;
 		}
 		//	Price
