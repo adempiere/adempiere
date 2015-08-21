@@ -301,13 +301,9 @@ public class SubOrder extends PosSubPanel
 		else if (action.equals(ACTION_HISTORY))
 		{
 			// For already created, but either not completed or not yet paid POS Orders
-			Boolean alternativeDocType = false;
 			PosQuery qt = new QueryTicket(p_posPanel);
 			qt.setVisible(true);				
 			p_posPanel.updateInfo();
-			
-			  if (alternativeDocType)
-				p_posPanel.m_order.setC_DocTypeTarget_ID(0);
 		}
 		else if (action.equals(ACTION_CANCEL))
 			deleteOrder();

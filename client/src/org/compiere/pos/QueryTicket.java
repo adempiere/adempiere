@@ -82,7 +82,7 @@ public class QueryTicket extends PosQuery
 	
 	static final private String DOCUMENTNO  = "DocumentNo";
 	static final private String TOTALLINES  = "TotalLines";
-	static final private String OPENAAMT    = "OpenAmt";
+	static final private String OPENAMT     = "OpenAmt";
 	static final private String GRANDTOTAL  = "GrandTotal";
 	static final private String BPARTNERID  = "C_BPartner_ID";
 	static final private String PROCESSED   = "Processed";
@@ -101,7 +101,7 @@ public class QueryTicket extends PosQuery
 	{
 		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAAMT), TOTALLINES, BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAMT), TOTALLINES, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), BPARTNERID), BPARTNERID, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), PROCESSED), PROCESSED, Boolean.class),
