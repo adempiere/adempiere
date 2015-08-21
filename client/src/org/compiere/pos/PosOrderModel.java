@@ -59,6 +59,8 @@ public class PosOrderModel extends MOrder {
 
 	/**
 	 * Get/create Order
+	 *	@param pos MPOS
+	 *	@param partner Business Partner
 	 * 
 	 * @return order or null
 	 */
@@ -72,7 +74,7 @@ public class PosOrderModel extends MOrder {
 		if (pos.getC_DocType_ID() != 0)
 			order.setC_DocTypeTarget_ID(pos.getC_DocType_ID());
 		else
-			order.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_POS);
+			order.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_OnCredit);
 		if (partner == null || partner.get_ID() == 0)
 			partner = pos.getBPartner();
 		if (partner == null || partner.get_ID() == 0) {
@@ -91,6 +93,45 @@ public class PosOrderModel extends MOrder {
 		
 		return order;
 	} //	createOrder
+
+
+/**
+ * Get/create Order
+	 *	@param pos MPOS
+	 *	@param partner Business Partner
+	 *	@param C_DocType_ID ID of document type
+ * 
+ * @return order or null
+ */
+public static PosOrderModel createOrder(MPOS pos, MBPartner partner, int C_DocType_ID) {
+	
+	PosOrderModel order = new PosOrderModel(Env.getCtx(), 0, null, pos);
+	order.setAD_Org_ID(pos.getAD_Org_ID());
+	order.setIsSOTrx(true);
+	order.setC_POS_ID(pos.getC_POS_ID());
+	order.setM_Warehouse_ID(pos.getM_Warehouse_ID());
+	if (C_DocType_ID != 0)
+		order.setC_DocTypeTarget_ID(C_DocType_ID);
+	else
+		order.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_OnCredit);
+	if (partner == null || partner.get_ID() == 0)
+		partner = pos.getBPartner();
+	if (partner == null || partner.get_ID() == 0) {
+		throw new AdempierePOSException(Msg.getMsg(Env.getCtx(), "No BPartner for order"));
+	}
+	order.setBPartner(partner);
+	//
+	order.setM_PriceList_ID(pos.getM_PriceList_ID());
+	order.setSalesRep_ID(pos.getSalesRep_ID());
+	order.setPaymentRule(MOrder.PAYMENTRULE_Cash);
+	if (!order.save())
+	{
+		order = null;
+		throw new AdempierePOSException(Msg.getMsg(Env.getCtx(), "Save order failed"));
+	}
+	
+	return order;
+} // PosOrderModel	
 
 
 	/**
@@ -616,6 +657,7 @@ public class PosOrderModel extends MOrder {
 		}
 		else 
 			return false;
-	} // cancelOrder	
+	} // cancelOrder
+	
 	
 } // PosOrderModel.class

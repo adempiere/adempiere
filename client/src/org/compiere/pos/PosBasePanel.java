@@ -341,14 +341,15 @@ public class PosBasePanel extends CPanel
 		log.info( "PosPanel.newOrder");
 		f_order.setC_BPartner_ID(0);
 		m_order = null;
-		m_order = PosOrderModel.createOrder(p_pos, f_order.getBPartner());
-
-		if (isAlternativeDocTypeEnabled) {
+		int C_DocType_ID=p_pos.getC_DocType_ID();
+		/*if (isAlternativeDocTypeEnabled) {
 			if (org.compiere.apps.ADialog.ask(0, null, Msg.getMsg(m_ctx, "Do you want to use the alternate Document type?") ))						
 			{
-				m_order.setC_DocTypeTarget_ID(p_pos.getC_DocTypewholesale_ID());
+				C_DocType_ID = p_pos.getC_DocTypewholesale_ID();
 			}
-		}
+		}*/
+		
+		m_order = PosOrderModel.createOrder(p_pos, f_order.getBPartner(), C_DocType_ID);
 		f_curLine.newLine();
 		f_curLine.f_name.requestFocusInWindow();
 		updateInfo();

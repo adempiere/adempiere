@@ -302,18 +302,12 @@ public class SubOrder extends PosSubPanel
 		{
 			// For already created, but either not completed or not yet paid POS Orders
 			Boolean alternativeDocType = false;
-			if(isAlternativeDocTypeEnabled) {
-				if (org.compiere.apps.ADialog.ask(0, null, Msg.getMsg(p_ctx, "Do you want to use the alternate Document type?")))						
-				{
-					alternativeDocType = true;
-				}			
-			}
 			PosQuery qt = new QueryTicket(p_posPanel);
 			qt.setVisible(true);				
 			p_posPanel.updateInfo();
 			
-			//  if (alternativeDocType)
-			//	p_posPanel.m_order.setC_DocTypeTarget_ID(0);
+			  if (alternativeDocType)
+				p_posPanel.m_order.setC_DocTypeTarget_ID(0);
 		}
 		else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
@@ -775,7 +769,8 @@ public class SubOrder extends PosSubPanel
   				setC_BPartner_ID(order.getC_BPartner_ID());
   				f_bNew.setEnabled(order.getLines().length != 0);
   				f_bEdit.setEnabled(true);
-  				f_history.setEnabled(order.getLines().length != 0);
+  				//f_history.setEnabled(order.getLines().length != 0);
+  				f_history.setEnabled(true);
   				f_process.setEnabled(true);
   				f_print.setEnabled(order.isProcessed());
   				f_cashPayment.setEnabled(order.getLines().length != 0);

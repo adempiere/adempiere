@@ -82,9 +82,11 @@ public class QueryTicket extends PosQuery
 	
 	static final private String DOCUMENTNO  = "DocumentNo";
 	static final private String TOTALLINES  = "TotalLines";
+	static final private String OPENAAMT    = "OpenAmt";
 	static final private String GRANDTOTAL  = "GrandTotal";
 	static final private String BPARTNERID  = "C_BPartner_ID";
 	static final private String PROCESSED   = "Processed";
+	static final private String PAID        = "IsPaid";
 	static final private String DATEORDERED = "DateOrdered";
 	static final private String REFRESH     = "Refresh";
 	static final private String QUERY       = "Query";
@@ -99,10 +101,11 @@ public class QueryTicket extends PosQuery
 	{
 		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), TOTALLINES), TOTALLINES, BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAAMT), TOTALLINES, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), BPARTNERID), BPARTNERID, String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), PROCESSED), PROCESSED, Boolean.class)
+		new ColumnInfo(Msg.translate(Env.getCtx(), PROCESSED), PROCESSED, Boolean.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), PAID), PAID, Boolean.class)
 	};
 
 	/**
@@ -252,17 +255,19 @@ public class QueryTicket extends PosQuery
 		StringBuffer sql = new StringBuffer();
 		try 
 		{
-			sql.append(" SELECT distinct o.C_Order_ID, o.DocumentNo, coalesce(invoiceopen(i.c_invoice_ID, 0), 0) as invoiceopen, o.GrandTotal, b.Name, o.Processed")
+			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, coalesce(invoiceopen(i.c_invoice_ID, 0), o.grandtotal) as invoiceopen")
+			     .append(", o.GrandTotal, b.Name, o.Processed, i.ispaid ")
 				.append(" FROM C_Order o ")
 				.append(" INNER JOIN C_BPartner b ON o.C_BPartner_ID=b.C_BPartner_ID")
 				.append(" LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID")
 				.append(" WHERE o.C_POS_ID = " + p_pos.getC_POS_ID())
-				.append(" and coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0 ")
-				.append(" AND (i.ispaid='N' or o.processed= "+ ( processed ? "'Y' )" : "'N' )"));
+				.append(" AND coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0 ")
+				.append(" AND (i.ispaid='N' OR o.processed= "+ ( processed ? "'Y' )" : "'N' )"));
 			if (doc != null && !doc.equalsIgnoreCase(""))
-				sql.append(" AND o.DocumentNo = '" + doc + "'");
+				sql.append(" AND (o.DocumentNo LIKE '%" + doc + "%' OR  i.DocumentNo LIKE '%" + doc + "%')");
 			if ( date != null )
-				sql.append(" AND o.DateOrdered = ? Order By o.DocumentNo DESC");
+				sql.append(" AND trunc(o.DateOrdered) = ? ");
+			sql.append(" ORDER BY o.DocumentNo DESC");
 			
 			PreparedStatement pstm = DB.prepareStatement(sql.toString(), null);
 			if ( date != null )
@@ -323,4 +328,4 @@ public class QueryTicket extends PosQuery
 		dispose();
 	}	//	close
 	
-}	//	PosQueryProduct
+}	//	QueryTicket
