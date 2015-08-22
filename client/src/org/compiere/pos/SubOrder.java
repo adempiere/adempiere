@@ -88,7 +88,7 @@ public class SubOrder extends PosSubPanel
 	private CButton 		f_history;
 	private	CTextField		f_name;
 	private CButton 		f_bNew;
-	private CButton 		f_bSearch;
+	private CButton 		f_bBPartner;
 	private CComboBox		f_location;
 	private CComboBox		f_user;
 	private CButton 		f_cashPayment;
@@ -107,16 +107,10 @@ public class SubOrder extends PosSubPanel
 	/**	Price List Version to use	*/
 	private int			m_M_PriceList_Version_ID = 0;
 	private CTextField f_currency = new CTextField();
-	private CButton f_bEdit;
+	private CButton f_bCreditSale;
 	private CButton f_bSettings;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(SubOrder.class);
-
-	private final String POS_ALTERNATIVE_DOCTYPE_ENABLED = "POS_ALTERNATIVE_DOCTYPE_ENABLED";  // System configurator entry
-	private final String NO_ALTERNATIVE_POS_DOCTYPE      = "N";
-	private final boolean isAlternativeDocTypeEnabled    = MSysConfig.getValue(POS_ALTERNATIVE_DOCTYPE_ENABLED, 
-			NO_ALTERNATIVE_POS_DOCTYPE, Env.getAD_Client_ID(p_ctx)).compareToIgnoreCase(NO_ALTERNATIVE_POS_DOCTYPE)==0?false:true;
-	
+	private static CLogger log = CLogger.getCLogger(SubOrder.class);	
 
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_CANCEL      = "Cancel";
@@ -146,13 +140,13 @@ public class SubOrder extends PosSubPanel
 		add (f_bNew, buttonSize);
 
 		// BPARTNER
-		f_bSearch = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
-		add (f_bSearch,buttonSize );
+		f_bBPartner = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
+		add (f_bBPartner,buttonSize );
 		
 		// CREDIT SALE
-		f_bEdit = createButtonAction(ACTION_CREDITSALE, null);
-		add(f_bEdit, buttonSize);
- 		f_bEdit.setEnabled(false);
+		f_bCreditSale = createButtonAction(ACTION_CREDITSALE, null);
+		add(f_bCreditSale, buttonSize);
+ 		f_bCreditSale.setEnabled(false);
 		
 		// HISTORY
 		f_history = createButtonAction(ACTION_HISTORY, null);
@@ -379,13 +373,24 @@ public class SubOrder extends PosSubPanel
 		if( p_posPanel.m_order == null) {		
 			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
 		}
-		else
-		{
-			if ( PosPrePayment.pay(p_posPanel) )
-			{
+		else if(p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Drafted) ) {
+			if(p_posPanel.m_order.getLines().length == 0) 
+				ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order must have lines"));
+			else if ( PosPrePayment.pay(p_posPanel) ) {
 				p_posPanel.setOrder(0);
 			}
-		}	
+		}
+		else if(p_posPanel.m_order.getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {
+			if(!p_posPanel.m_order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard) ||
+				p_posPanel.m_order.getC_Invoice_ID()>0) {
+				ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "It must be a not invoiced standard order"));
+			}
+			else { // OK -> proceed to prepayment
+				if ( PosPrePayment.pay(p_posPanel) ) {
+					p_posPanel.setOrder(0);
+				}
+			}	
+		}				    
 	}  // prePayOrder
 
 	/**
@@ -750,8 +755,8 @@ public class SubOrder extends PosSubPanel
 	}
 	
 	/**
-	 * 	Display cash return
-	 *  Display the difference between tender amount and bill amount
+	 * 	Update panel butttons
+	 *  Enable or disable buttons according to the context
 	 *  
 	 */
 	public void updateOrder()
@@ -762,22 +767,57 @@ public class SubOrder extends PosSubPanel
 			if (order != null)
 			{
   				f_DocumentNo.setText(order.getDocumentNo());
-  				setC_BPartner_ID(order.getC_BPartner_ID());
+  				
+  				// Button BPartner
+  				setC_BPartner_ID(order.getC_BPartner_ID());  				
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted))
+  					f_bBPartner.setEnabled(true);
+  				else
+  					f_bBPartner.setEnabled(false);
+  				
   				f_bNew.setEnabled(order.getLines().length != 0);
-  				f_bEdit.setEnabled(true);
-  				//f_history.setEnabled(order.getLines().length != 0);
-  				f_history.setEnabled(true);
+  				
+  				// Button Credit Sale: enable when drafted, with lines and not invoiced
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+  						order.getLines().length != 0 && 
+  						order.getC_Invoice_ID()<=0)
+  					f_bCreditSale.setEnabled(true);
+  				else
+  					f_bCreditSale.setEnabled(false);
+  				
+  				f_history.setEnabled(true);  				
   				f_process.setEnabled(true);
   				f_print.setEnabled(order.isProcessed());
-  				f_cashPayment.setEnabled(order.getLines().length != 0);
-  				f_cashPrePayment.setEnabled(order.getLines().length != 0);
+ 				
+  				// Button Payment
+  				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
+  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+  				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
+  				    order.getC_Invoice_ID()<=0
+  				   )
+  				  )
+  					f_cashPayment.setEnabled(true);
+  				else
+					f_cashPayment.setEnabled(false);
+ 				
+  				// Button Prepayment
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0 ||
+  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+  				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
+  				    order.getC_Invoice_ID()<=0
+  				   )
+  				  )
+  					f_cashPrePayment.setEnabled(true);
+  				else
+  					f_cashPrePayment.setEnabled(false);
 			}
 			else
 			{
 				f_DocumentNo.setText(null);
 				setC_BPartner_ID(0);
+				f_bBPartner.setEnabled(false);
 				f_bNew.setEnabled(true);
-				f_bEdit.setEnabled(false);
+				f_bCreditSale.setEnabled(false);
 				f_history.setEnabled(true);
 				f_process.setEnabled(false);
 				f_print.setEnabled(false);
