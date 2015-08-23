@@ -95,8 +95,8 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		}
 	}
 
-	private WPosBasePanel p_posPanel;
-	private MPOS p_pos;
+	public WPosBasePanel p_posPanel;
+	public MPOS p_pos;
 	private Properties p_ctx;
 	private PosOrderModel p_order;
 	private Label fTotal = new Label();
@@ -402,9 +402,30 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 				break;
 			}
 		}
-		
-		
 	}
+	
+	public void checkpay(String checkMountchk){
+		for(int i = 0; i < types.size(); i++){
+			if(lTenderAmount[i].getId().equals(MPayment.TENDERTYPE_Check+"_1")){
+				BigDecimal tender = new BigDecimal( checkMountchk );
+				BigDecimal checkpay = new BigDecimal( lTenderAmount[i].getValue() );
+				lTenderAmount[i].setValue(tender.add(checkpay).toString());
+				break;
+			}
+		}
+	}
+
+	public void cCardPay(String cCardMount){
+		for(int i = 0; i < types.size(); i++){
+			if(lTenderAmount[i].getId().equals(MPayment.TENDERTYPE_CreditCard+"_1")){
+				BigDecimal tender = new BigDecimal( cCardMount );
+				BigDecimal cCardPay = new BigDecimal( lTenderAmount[i].getValue() );
+				lTenderAmount[i].setValue(tender.add(cCardPay).toString());
+				break;
+			}
+		}
+	}
+	
 	public void cashout(){
 		BigDecimal tender = new BigDecimal( fTenderAmt.getValue() );
 		BigDecimal payAmt = new BigDecimal( fPayAmt.getValue() );
@@ -425,6 +446,20 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			chkpayment.setWidth("75%");
 			chkpayment.setHeight("400px");
 			AEnv.showWindow(chkpayment);
+			if (chkpayment.getbAcept()) {
+				String checkMountchk = chkpayment.getSumAmount();
+				checkpay(checkMountchk);
+			}
+		}
+		else if(action.equals(MPayment.TENDERTYPE_CreditCard)){
+			WPosCreditCardPayment cardCPayment = new WPosCreditCardPayment(this);
+			cardCPayment.setWidth("75%");
+			cardCPayment.setHeight("400px");
+			AEnv.showWindow(cardCPayment);
+			if (cardCPayment.getbAcept()) {
+				String cCardMount = cardCPayment.getSumAmount();
+				cCardPay(cCardMount);
+			}
 		}
 		else if (event.getTarget().equals(fTenderAmt) ){
 			cont++;
@@ -477,5 +512,8 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	}
 	public String getBalance(){
 		return fBalance.getValue();
+	}
+	public PosOrderModel getPosOrderModel(){
+		return p_order;
 	}
 }
