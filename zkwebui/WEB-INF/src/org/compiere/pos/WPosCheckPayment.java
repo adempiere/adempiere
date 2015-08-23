@@ -22,13 +22,10 @@ import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Properties;
 
 import javax.swing.KeyStroke;
-import javax.swing.table.DefaultTableModel;
 
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -36,7 +33,6 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
@@ -48,30 +44,16 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
-import org.adempiere.webui.window.FDialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MCurrency;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.MPayment;
-import org.compiere.model.MPaymentValidate;
-import org.compiere.model.PO;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.ValueNamePair;
-import org.w3c.dom.events.EventException;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.East;
+import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zkex.zul.West;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Space;
 
 
@@ -89,21 +71,15 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 
 	private Properties p_ctx;
 	private Textbox fRoutNo = new Textbox();
-	private Label fBalance = new Label();
-	private Button tenderType;
 	
-	private boolean paid = false;
-	private BigDecimal balance = Env.ZERO;
-	private Listbox fCreditNotes= ListboxFactory.newDropdownListbox();
+	private boolean bAcept = false;
 	private WPOSKeyboard keyboard; 
 	private Label fTenderAmt;
-	private Label fReturnAmt;
 	private Textbox fAccoNo;
 	private Textbox fChckNo;
 	private Textbox fAmount;
 	private int cont;
 	private int keyLayoutId;
-	private ArrayList<Object> types;
 	private final String FONT_SIZE = "Font-size:medium;";
 	private final String FONT_BOLD = "font-weight:700";
 	/** Button Width = 55			*/
@@ -119,7 +95,10 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 	private Label	 	fPayAmt;
 	private double 		dSumAmount;
 	private boolean 	bEdit = false;
-	private int RowEdit = 0;
+	private int 		RowEdit = 0;
+	private Button 		fDelete;
+	private Button		fProcess;
+	private Button		fCancel;
 	
 	private static ColumnInfo[] s_layout = new ColumnInfo[] { 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Payment_ID"), "C_Payment_ID", IDColumn.class), 
@@ -209,7 +188,7 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		west.appendChild(westPanel);
 		westPanel.appendChild(westLayout);
 		westLayout.setWidth("100%");
-		westLayout.setHeight("45%");
+		westLayout.setHeight("300px");
 		
 		rows = westLayout.newRows();
 		row = rows.newRow();
@@ -252,7 +231,7 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 
 		row = rows.newRow();
 		row.setHeight("55px");
-		row.setStyle("overflow:visible; border:0px");
+		row.setStyle("border:0px");
 		
 		// NEW
 		fNew = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
@@ -276,7 +255,30 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		southLayout.setHeight("100%");
 		rows = southLayout.newRows();
 		row = rows.newRow();
+		row.setHeight("55px");
+
+		Panel buttonsPanel = new Panel();
+		row.appendChild(new Space());
+		row.appendChild(new Space());
+		row.appendChild(new Space());
+		row.appendChild(new Space());
+		fDelete = createButtonAction("Delete", KeyStroke.getKeyStroke(KeyEvent.VK_F4, Event.F4));
+		buttonsPanel.appendChild(fDelete);
+		fDelete.addActionListener(this);
 		
+		buttonsPanel.appendChild(new Space());
+		buttonsPanel.appendChild(new Space());
+		fCancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_F6, Event.F6));
+		buttonsPanel.appendChild(fCancel);
+		fProcess = createButtonAction("Process", KeyStroke.getKeyStroke(KeyEvent.VK_F5, Event.F5));
+		buttonsPanel.appendChild(fProcess);
+		
+		row.appendChild(buttonsPanel);
+		
+		row = rows.newRow();
+
+		row.appendChild(new Space());
+		row.appendChild(new Space());
 		Label lGrantTotal = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
 		row.appendChild(lGrantTotal.rightAlign());
 		fGrandTotal = new Label(m_grandTotal);
@@ -284,10 +286,13 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 
 		row.appendChild(new Space());
 		row.appendChild(new Space());
+		row.appendChild(new Space());
 		Label lPayAmt = new Label(Msg.translate(p_ctx, "PayAmt")+":");
 		row.appendChild(lPayAmt.rightAlign());
 		fPayAmt = new Label(m_balance);
 		row.appendChild(fPayAmt);
+		
+
 		
 		//
 		Center center = new Center();
@@ -296,7 +301,7 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		m_table = ListboxFactory.newDataTable();
 		m_sql = m_table.prepareTable(s_layout, s_sqlFrom, s_sqlWhere, false, "c_payment") + " ORDER BY c_payment_id";
 		m_table.setWidth("100%");
-		ListModelTable model = m_table.getModel();
+		
 		 s_layout[0].setVisibility(false);
 		 
 		m_table.repaint();
@@ -490,6 +495,24 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 		else if(event.getTarget().equals(fPlus)){
 			addPayment();
 		}
+		else if(event.getTarget().equals(fDelete)){
+			if (bEdit) {
+				return;
+			}
+			ListModelTable model = m_table.getModel();
+				int selectedRow = m_table.getSelectedRow();
+					model.remove(selectedRow);
+				
+			setUpdatePay();
+		}
+		else if(event.getTarget().equals(fCancel)){
+			bAcept = false;
+			dispose();
+		}
+		else if(event.getTarget().equals(fProcess)){
+			bAcept = true;
+			dispose();
+		}
 		else if(event.getTarget().equals(chckEditPay)){
 			if (bEdit) {
 				chckEditPay.setSelected(true);
@@ -510,12 +533,10 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 					fAccoNo.setText(accountno);
 					fChckNo.setText(checkno);
 					fAmount.setText(payamt.toString());
-//					this.dtAmount.setText(model_local.getValueAt(i, 4).toString());
 					bEdit = true;
 					RowEdit = selectedRow;
 					setEditable(true);
 					fPlus.setEnabled(false);
-//					this.dtRoutingno.requestFocus();
 					chckEditPay.setSelected(true);
 
 			}
@@ -529,7 +550,12 @@ public class WPosCheckPayment extends Window implements WPosKeyListener, EventLi
 			return;
 		}
 	}
-
+	public boolean getbAcept(){
+		return bAcept;
+	}
+	public String getSumAmount(){
+		return fSumAmount.getValue();
+	}
 	@Override
 	public void tableChanged(WTableModelEvent event) {
 		m_table.repaint();
