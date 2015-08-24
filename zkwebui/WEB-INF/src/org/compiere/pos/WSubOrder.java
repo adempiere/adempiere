@@ -87,6 +87,8 @@ import org.zkoss.zul.Image;
 import org.zkoss.zul.Space;
 import org.zkoss.zul.impl.LabelImageElement;
 
+import com.sun.org.apache.commons.collections.StaticBucketMap;
+
 /**
  *	Customer Sub Panel
  *	
@@ -177,6 +179,8 @@ public class WSubOrder extends WPosSubPanel
 	private int maxheigth = 0;
 	PosOrderModel m_order = null;
 	
+	
+	
 
 	/**	The Product					*/
 	private MProduct		m_product = null;
@@ -191,7 +195,7 @@ public class WSubOrder extends WPosSubPanel
 	private final boolean isAlternativeDocTypeEnabled    = MSysConfig.getValue(POS_ALTERNATIVE_DOCTYPE_ENABLED, 
 			NO_ALTERNATIVE_POS_DOCTYPE, Env.getAD_Client_ID(p_ctx)).compareToIgnoreCase(NO_ALTERNATIVE_POS_DOCTYPE)==0?false:true;
 	
-
+	private final String BG_GRADIENT = "";
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_CANCEL      = "Cancel";
 	private final String ACTION_CREDITSALE  = "Credit Sale";
@@ -545,18 +549,21 @@ public class WSubOrder extends WPosSubPanel
 				bImg.setHeight("50px");
 				nt.appendChild(bImg);
 			}
-			label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;  background-color: transparent;");
+			label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;color: #FFF;");
 			label.setHeight("100%");
 			button.setHeight("80px");
 			st.appendChild(label);
 			button.setClass("z-button");
-			button.setStyle("float:left; white-space: pre-line;text-align:center; margin:1% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC;");
+			button.setStyle("float:left; white-space: pre-line;text-align:center; margin:1% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC; "
+					+ "background: -moz-linear-gradient(top, rgba(247,247,247,1) 0%, rgba(255,255,255,0.93) 7%, rgba(186,186,186,0.25) 15%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1) 100%);"
+					+ "background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(247,247,247,1)), color-stop(7%, rgba(255,255,255,0.93)), color-stop(15%, rgba(186,186,186,0.25)), color-stop(100%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1)));"
+					+ "background: -webkit-linear-gradient(top, rgba(247,247,247,1) 0%, rgba(255,255,255,0.93) 7%, rgba(186,186,186,0.25) 15%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1) 100%);");
 			
 			mainLayout.appendChild(nt);
 			mainLayout.appendChild(st);
 			mainLayout.setStyle("background-color: transparent");
 			nt.setStyle("background-color: transparent");
-			st.setStyle("background-color: transparent;clear: both; ");
+			st.setStyle("clear: both; background-color: #333; opacity: 0.6;");
 			st.setZindex(99);
 			button.appendChild(mainLayout);
 			
