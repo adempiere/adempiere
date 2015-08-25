@@ -16,6 +16,7 @@ package org.compiere.pos;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -24,10 +25,12 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentAllocate;
+import org.compiere.model.MPaymentProcessor;
 import org.compiere.model.MPaymentValidate;
 import org.compiere.model.X_C_Payment;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.ValueNamePair;
 
 /**
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Aug 24, 2015, 10:17:04 PM
@@ -351,6 +354,88 @@ public class Collect {
 		}
 	}  // processPayment
 	
+
+	/**
+	 * Duplicated from MPayment
+	 * 	Get Accepted Credit Cards for amount
+	 *	@param amt trx amount
+	 *	@return credit cards
+	 */
+	public ValueNamePair[] getCreditCards (BigDecimal p_amt, int p_AD_Client_ID, int p_AD_Org_ID, int p_C_Currency_ID, String p_TrxName)
+	{
+		try
+		{
+			MPaymentProcessor[] m_mPaymentProcessors = MPaymentProcessor.find (Env.getCtx(), null, null, 
+					p_AD_Client_ID,  p_AD_Org_ID, p_C_Currency_ID, p_amt, p_TrxName);
+			//
+			HashMap<String,ValueNamePair> map = new HashMap<String,ValueNamePair>(); //	to eliminate duplicates
+			for (int i = 0; i < m_mPaymentProcessors.length; i++)
+			{
+				if (m_mPaymentProcessors[i].isAcceptAMEX ())
+					map.put (MPayment.CREDITCARDTYPE_Amex, getCreditCardPair (MPayment.CREDITCARDTYPE_Amex));
+				if (m_mPaymentProcessors[i].isAcceptDiners ())
+					map.put (MPayment.CREDITCARDTYPE_Diners, getCreditCardPair (MPayment.CREDITCARDTYPE_Diners));
+				if (m_mPaymentProcessors[i].isAcceptDiscover ())
+					map.put (MPayment.CREDITCARDTYPE_Discover, getCreditCardPair (MPayment.CREDITCARDTYPE_Discover));
+				if (m_mPaymentProcessors[i].isAcceptMC ())
+					map.put (MPayment.CREDITCARDTYPE_MasterCard, getCreditCardPair (MPayment.CREDITCARDTYPE_MasterCard));
+				if (m_mPaymentProcessors[i].isAcceptCorporate ())
+					map.put (MPayment.CREDITCARDTYPE_PurchaseCard, getCreditCardPair (MPayment.CREDITCARDTYPE_PurchaseCard));
+				if (m_mPaymentProcessors[i].isAcceptVisa ())
+					map.put (MPayment.CREDITCARDTYPE_Visa, getCreditCardPair (MPayment.CREDITCARDTYPE_Visa));
+			} //	for all payment processors
+			//
+			ValueNamePair[] retValue = new ValueNamePair[map.size ()];
+			map.values ().toArray (retValue);
+			return retValue;
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			return null;
+		}
+	}	//	getCreditCards
+	
+	/**
+	 * 
+	 * Duplicated from MPayment
+	 * 	Get Type and name pair
+	 *	@param CreditCardType credit card Type
+	 *	@return pair
+	 */
+	private ValueNamePair getCreditCardPair (String CreditCardType)
+	{
+		return new ValueNamePair (CreditCardType, getCreditCardName(CreditCardType));
+	}	//	getCreditCardPair
+
+	/**
+	 * 
+	 * Duplicated from MPayment
+	 *	Get Name of Credit Card
+	 * 	@param CreditCardType credit card type
+	 *	@return Name
+	 */
+	public String getCreditCardName(String CreditCardType)
+	{
+		if (CreditCardType == null)
+			return "--";
+		else if (MPayment.CREDITCARDTYPE_MasterCard.equals(CreditCardType))
+			return "MasterCard";
+		else if (MPayment.CREDITCARDTYPE_Visa.equals(CreditCardType))
+			return "Visa";
+		else if (MPayment.CREDITCARDTYPE_Amex.equals(CreditCardType))
+			return "Amex";
+		else if (MPayment.CREDITCARDTYPE_ATM.equals(CreditCardType))
+			return "ATM";
+		else if (MPayment.CREDITCARDTYPE_Diners.equals(CreditCardType))
+			return "Diners";
+		else if (MPayment.CREDITCARDTYPE_Discover.equals(CreditCardType))
+			return "Discover";
+		else if (MPayment.CREDITCARDTYPE_PurchaseCard.equals(CreditCardType))
+			return "PurchaseCard";
+		return "?" + CreditCardType + "?";
+	}	//	getCreditCardName
+
 	/**
 	 * @return the m_C_BPartner_ID
 	 */
