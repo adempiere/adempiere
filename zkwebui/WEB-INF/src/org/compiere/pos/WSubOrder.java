@@ -47,6 +47,7 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartner;
@@ -129,7 +130,7 @@ public class WSubOrder extends WPosSubPanel
 	/**	The Business Partner		*/
 	private MBPartner	m_bpartner;
 	private Textbox f_currency = new Textbox();
-	private Button f_bEdit;
+	private Button f_bCreditSale;
 	private Button f_bSettings;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(SubOrder.class);
@@ -144,7 +145,7 @@ public class WSubOrder extends WPosSubPanel
 	private Doublebox 		f_price;
 	private Doublebox 		f_quantity;
 	protected WPosTextField	f_name1;
-	private Button			f_bSearch;
+	private Button			f_bBPartner;
 	private Button			f_bSearch1;
 	private int orderLineId = 0;
 	private int currentLayout;
@@ -190,10 +191,6 @@ public class WSubOrder extends WPosSubPanel
 	/** Warehouse					*/
 	private int 			m_M_Warehouse_ID;
 	private int cont; 
-	private final String POS_ALTERNATIVE_DOCTYPE_ENABLED = "POS_ALTERNATIVE_DOCTYPE_ENABLED";  // System configurator entry
-	private final String NO_ALTERNATIVE_POS_DOCTYPE      = "N";
-	private final boolean isAlternativeDocTypeEnabled    = MSysConfig.getValue(POS_ALTERNATIVE_DOCTYPE_ENABLED, 
-			NO_ALTERNATIVE_POS_DOCTYPE, Env.getAD_Client_ID(p_ctx)).compareToIgnoreCase(NO_ALTERNATIVE_POS_DOCTYPE)==0?false:true;
 	
 	private final String BG_GRADIENT = "";
 	private final String ACTION_BPARTNER    = "BPartner";
@@ -351,14 +348,14 @@ public class WSubOrder extends WPosSubPanel
 			row.appendChild(f_bNew);
 
 			// BPartner Search
-			f_bSearch = createButtonAction(ACTION_BPARTNER, p_pos.getOSK_KeyLayout_ID());
-			row.appendChild(f_bSearch);
+			f_bBPartner = createButtonAction(ACTION_BPARTNER, p_pos.getOSK_KeyLayout_ID());
+			row.appendChild(f_bBPartner);
 					
 			// EDIT
-			f_bEdit = createButtonAction(ACTION_CREDITSALE, null);
-			f_bEdit.addActionListener(this);
-			row.appendChild(f_bEdit);
-			f_bEdit.setEnabled(false);
+			f_bCreditSale = createButtonAction(ACTION_CREDITSALE, null);
+			f_bCreditSale.addActionListener(this);
+			row.appendChild(f_bCreditSale);
+			f_bCreditSale.setEnabled(false);
 					
 			// HISTORY
 			f_history = createButtonAction(ACTION_HISTORY, null);
@@ -656,23 +653,18 @@ public class WSubOrder extends WPosSubPanel
 	 * 
 	 */
 	private void payOrder() {
-
-		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( m_order != null ) 
+		//Check if order exists, if so, open the payment window
+		if( m_order == null )  { 	
+			FDialog.warn(0, Msg.getMsg(p_ctx, "You must create an Order first"));
+		}
+		else
 		{
-
-			if ( !m_order.isProcessed() && !m_order.processOrder() )
-			{
-				FDialog.warn(0, Msg.getMsg(p_ctx, "You must create an Order first"));
-				return;
-			}
-
 			if ( WPosPayment.pay(p_posPanel, this) )
 			{
 				printTicket();
 				setOrder(0);
 			}
-		}
+		}	
 	}
 	
 	/**
@@ -685,13 +677,24 @@ public class WSubOrder extends WPosSubPanel
 		if( m_order == null) {		
 			FDialog.warn(0, Msg.getMsg(p_ctx, "You must create an Order first"));
 		}
-		else
-		{
-			if ( WPosPrePayment.pay(p_posPanel, this) )
-			{
-				p_posPanel.setOrder(0);
+		else if(m_order.getDocStatus().equals(MOrder.STATUS_Drafted) ) {
+			if(m_order.getLines().length == 0) 
+				FDialog.warn(0, Msg.getMsg(p_ctx, "Order must have lines"));
+			else if ( WPosPrePayment.pay(p_posPanel, this) ) {
+				setOrder(0);
 			}
-		}	
+		}
+		else if(m_order.getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {
+			if(!m_order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard) ||
+				m_order.getC_Invoice_ID()>0) {
+				FDialog.warn(0, Msg.getMsg(p_ctx, "It must be a not invoiced standard order"));
+			}
+			else { // OK -> proceed to prepayment
+				if ( WPosPrePayment.pay(p_posPanel, this) ) {
+					setOrder(0);
+				}
+			}	
+		}				    
 	}  // prePayOrder
 	
 	/**
@@ -959,8 +962,8 @@ public class WSubOrder extends WPosSubPanel
 	}
 	
 	/**
-	 * 	Update Order
-	 *  @author Raul Muñoz 
+	 * 	Update panel butttons
+	 *  Enable or disable buttons according to the context
 	 */
 	public void updateOrder()
 	{
@@ -970,21 +973,58 @@ public class WSubOrder extends WPosSubPanel
 			if (order != null)
 			{
   				f_DocumentNo.setText(order.getDocumentNo());
-  				setC_BPartner_ID(order.getC_BPartner_ID());
+  				
+  				// Button BPartner
+  				setC_BPartner_ID(order.getC_BPartner_ID());  				
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted))
+  					f_bBPartner.setEnabled(true);
+  				else
+  					f_bBPartner.setEnabled(false);
+  				
   				f_bNew.setEnabled(order.getLines().length != 0);
-  				f_bEdit.setEnabled(true);
+  				
+  				// Button Credit Sale: enable when drafted, with lines and not invoiced
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+  						order.getLines().length != 0 && 
+  						order.getC_Invoice_ID()<=0)
+  					f_bCreditSale.setEnabled(true);
+  				else
+  					f_bCreditSale.setEnabled(false);
+  				
   				f_history.setEnabled(order.getLines().length != 0);
   				f_process.setEnabled(true);
   				f_print.setEnabled(order.isProcessed());
-  				f_cashPayment.setEnabled(order.getLines().length != 0);
-  				f_cashPrePayment.setEnabled(order.getLines().length != 0);
+
+ 				
+  				// Button Payment
+  				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
+  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+  				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
+  				    order.getC_Invoice_ID()<=0
+  				   )
+  				  )
+  					f_cashPayment.setEnabled(true);
+  				else
+					f_cashPayment.setEnabled(false);
+ 				
+  				// Button Prepayment
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0 ||
+  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+  				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
+  				    order.getC_Invoice_ID()<=0
+  				   )
+  				  )
+  					f_cashPrePayment.setEnabled(true);
+  				else
+  					f_cashPrePayment.setEnabled(false);
 			}
 			else
 			{
 				f_DocumentNo.setText("");
 				setC_BPartner_ID(0);
+				f_bBPartner.setEnabled(false);
 				f_bNew.setEnabled(true);
-				f_bEdit.setEnabled(false);
+				f_bCreditSale.setEnabled(false);
 				f_history.setEnabled(true);
 				f_process.setEnabled(false);
 				f_print.setEnabled(false);
@@ -1085,7 +1125,7 @@ public class WSubOrder extends WPosSubPanel
 				newOrder(); //red1 New POS Order instead - B_Partner already has direct field
 				e.stopPropagation();
 			}
-		else if (e.getTarget().equals(f_bEdit))
+		else if (e.getTarget().equals(f_bCreditSale))
 			onCreditSale();
 		else if(e.getTarget().equals(f_cashPayment)){
 			payOrder();
@@ -1100,7 +1140,7 @@ public class WSubOrder extends WPosSubPanel
 			return;
 		}
 			//  Partner
-		else if (e.getTarget().equals(f_bSearch))
+		else if (e.getTarget().equals(f_bBPartner))
 			{
 				setParameter();
 				WQueryBPartner qt = new WQueryBPartner(p_posPanel, this);
@@ -1151,7 +1191,7 @@ public class WSubOrder extends WPosSubPanel
 			}
 			else {
 				cont=0;
-				f_bSearch.setFocus(true);
+				f_bBPartner.setFocus(true);
 			}
 			updateInfo();
 			return;
@@ -1287,7 +1327,7 @@ public class WSubOrder extends WPosSubPanel
 			}
 				else {
 					cont=0;
-					f_bSearch.setFocus(true);
+					f_bBPartner.setFocus(true);
 				}
 		}
 		//	Discount
@@ -1318,7 +1358,7 @@ public class WSubOrder extends WPosSubPanel
 			}
 				else {
 					cont=0;
-					f_bSearch.setFocus(true);
+					f_bBPartner.setFocus(true);
 				}
 			}
 			
