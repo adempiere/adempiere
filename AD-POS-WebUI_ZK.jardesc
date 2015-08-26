@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="AD-POS-WebUI/packages/AD-POS-WebUI/lib/AD-POS-WebUI.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/AD-POS-WebUI/AD-POS-WebUI.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="AD-POS-WebUI/zkpackages/AD-POS-WebUI/lib/AD-POS-WebUI.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/AD-POS-WebUI/AD-POS-WebUI_ZK.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
@@ -11,7 +11,7 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=AD-POS-WebUI/base\/src"/>
-        <javaElement handleIdentifier="=AD-POS-WebUI/client\/src"/>
+        <javaElement handleIdentifier="=AD-POS-WebUI/zkwebui\/WEB-INF\/src"/>
+        <folder path="/AD-POS-WebUI/zkwebui"/>
     </selectedElements>
 </jardesc>
