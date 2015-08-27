@@ -20,6 +20,7 @@ package org.compiere.pos;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -127,10 +128,14 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private final String FONT_SIZE = "Font-size:10pt;";
 	private final String FONT_BOLD = "font-weight:700";
 	private Textbox fAmount;
-	private PaymentPanel pp;
+	private PaymentPanel pp[];
 	private Rows rows = null;
 	private Row row = null;
 	private Panel mainPanel; 
+	private Grid eastlayout;
+	private North north;
+	private Grid layout;
+	private int position=1;
 	public WPosPayment(WPosBasePanel posPanel, WSubOrder subOrder) {
 		super();
 		p_posPanel = posPanel;
@@ -139,7 +144,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		p_order = subOrder.m_order;
 		setTitle(Msg.translate(p_ctx, "Payment"));
 		setClosable(true);
-		
 		if ( p_order == null )
 			dispose();
 		
@@ -153,34 +157,23 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		
 		mainPanel = new Panel();
 		Borderlayout mainLayout = new Borderlayout();
-		Grid layout = GridFactory.newGridLayout();
-		Grid eastlayout = GridFactory.newGridLayout();
+		layout = GridFactory.newGridLayout();
 		appendChild(panel);
+		eastlayout = GridFactory.newGridLayout();
 		
 		//	Panels
 		Panel centerPanel = new Panel();
 		Panel eastPanel = new Panel();
 		mainPanel.appendChild(mainLayout);
-		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
+		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0;");
 		mainLayout.setHeight("100%");
 		mainLayout.setWidth("100%");
 		//
 		
-		Center center = new Center();
-		center.setStyle("border: none");
-		mainLayout.appendChild(center);
-		center.appendChild(centerPanel);
-		centerPanel.appendChild(layout);
-		layout.setWidth("100%");
-		layout.setHeight("370px");
-		appendChild(mainPanel);
-		
-		rows = layout.newRows();
-		row = rows.newRow();
 
 		//
-		North north = new North();
-		north.setStyle("border: none");
+		north = new North();
+		north.setStyle("border: none; ");
 		mainLayout.appendChild(north);
 		north.appendChild(eastPanel);
 		eastPanel.appendChild(eastlayout);
@@ -204,7 +197,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		row.appendChild(fsLabel.rightAlign());
 		row.appendChild(fSubTotal);
 		fSubTotal.setStyle(FONT_SIZE);
-				
+
 		fReturnAmt = new Label();
 		lReturnAmt = new Label(Msg.translate(p_ctx, "AmountReturned")+":");
 		lReturnAmt.setStyle(FONT_SIZE+FONT_BOLD);
@@ -216,46 +209,33 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 //		setTotals();
 		
 		row = rows.newRow();
-		lTenderType = new Label(Msg.translate(p_ctx, "TenderType"));
-		lTenderType.setStyle(FONT_SIZE+FONT_BOLD);
-		row.appendChild(lTenderType.rightAlign());
-		
-		// Payment type selection
-		int AD_Column_ID = 8416; //C_Payment_v.TenderType
-		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
-		ArrayList<Object> types = lookup.getData(true, false, true, true);
-		
-		int position = 0;
-		// default to cash payment
-		for (Object obj : types) {
-			if ( obj instanceof ValueNamePair )	{
-				ValueNamePair key = (ValueNamePair) obj;
-				tenderTypePick.appendItem(key.getName(), key);
-				if ( key.getID().equals("X")){   // Cash
-					tenderTypePick.setSelectedValueNamePair(key);
-				}
-				if (!"CKXFN".contains(key.getID() ) ) {
-					tenderTypePick.removeItemAt(position);
-					position--;
-				}
-				position++;
-			}
-		}
-		tenderTypePick.setStyle(FONT_SIZE);
-		tenderTypePick.addActionListener(this);
-		row.appendChild(tenderTypePick);
-		
-		fAmount = new Textbox();
-		row.appendChild(fAmount);
-		fAmount.setStyle(FONT_SIZE);
-		fAmount.setWidth("90px");
-		fAmount.setAttribute("placeholder", Msg.translate(p_ctx, "Amount"));
-
+		row.appendChild(new Space());
+		row.appendChild(new Space());
 		// Button Plus
 		fPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
 		row.appendChild(fPlus);
+		row.setHeight("55px");
+				
+		row = rows.newRow();
 
 		
+		Center center = new Center();
+		center.setStyle("border: none; overflow:auto;");
+		mainLayout.appendChild(center);
+		center.appendChild(centerPanel);
+		centerPanel.appendChild(layout);
+		layout.setWidth("100%");
+		layout.setHeight("100%");
+		layout.setStyle("overflow:auto;");
+		appendChild(mainPanel);
+		
+		rows = layout.newRows();
+		row = rows.newRow();
+		row.setSpans("3");
+		pp = new PaymentPanel[5];
+		pp[0] = new PaymentPanel(p_ctx, p_order, p_order.getC_POS_ID(), "X");
+		row.appendChild(pp[0].paymentPanel());
+
 		
 		//SHW End
 		South south = new South();
@@ -269,10 +249,11 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	
 	private void addTypePay(){
 		row = rows.newRow();
-		row.setSpans("4");
-		pp = new PaymentPanel(p_ctx, p_order, p_order.getC_POS_ID(), "C");
-		row.appendChild(pp.paymentPanel());
-		mainPanel.invalidate();
+		row.setSpans("3");
+		pp[position] = new PaymentPanel(p_ctx, p_order, p_order.getC_POS_ID(), "C");
+		row.appendChild(pp[position].paymentPanel());
+		layout.invalidate();
+		position++;
 		
 	}
 	protected Button createButtonAction (String action, KeyStroke accelerator)
@@ -312,7 +293,8 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		}
 		
 		else if ( action.equals(ConfirmPanel.A_OK)) {
-			processPayment();
+//			processPayment();
+			pp[0].savePay();
 			onClose();
 		}
 		else if ( action.equals(ConfirmPanel.A_CANCEL))	{
@@ -373,8 +355,8 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		
 		WPosPayment pay = new WPosPayment(posPanel, subOrder);
 		pay.setVisible(true);
-		pay.setWidth("430px");;
-		pay.setHeight("380px"); ;
+		pay.setWidth("320px");;
+		pay.setHeight("580px"); ;
 		pay.setClosable(true);
 		AEnv.showWindow(pay);
 		return pay.isPaid();
