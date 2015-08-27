@@ -148,7 +148,7 @@
 		<echo message="=============== Create ${adempiere.installation}/zkpackages/${project.name}/lib"/>
 		<mkdir dir="${adempiere.installation}/zkpackages/${project.name}/lib"/>
 		<copy todir="${adempiere.installation}/zkpackages/${project.name}/lib">
-			<fileset dir="${basedir}/packages/${project.name}/lib" includes="*.jar"/>
+			<fileset dir="${basedir}/zkpackages/${project.name}/lib" includes="*.jar"/>
 		</copy>
 		<echo message="=========== Copying WebUI package to Adempiere installation-END"/>
 	</target>
