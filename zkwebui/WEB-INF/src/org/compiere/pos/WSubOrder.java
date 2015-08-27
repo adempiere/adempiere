@@ -28,9 +28,7 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import javax.swing.Icon;
 import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
@@ -47,7 +45,6 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartner;
@@ -67,16 +64,13 @@ import org.compiere.model.MUser;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
 import org.compiere.print.MPrintColor;
-import org.compiere.print.MPrintFont;
 import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.image.AImage;
-import org.zkoss.image.Images;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
@@ -85,10 +79,6 @@ import org.zkoss.zkex.zul.South;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Image;
-import org.zkoss.zul.Space;
-import org.zkoss.zul.impl.LabelImageElement;
-
-import com.sun.org.apache.commons.collections.StaticBucketMap;
 
 /**
  *	Customer Sub Panel
@@ -203,6 +193,10 @@ public class WSubOrder extends WPosSubPanel
 	private final String ACTION_PREPAYMENT  = "Prepayment";
 	private final String ACTION_PREFERENCES = "Preference";
 	private final String ACTION_PRINT       = "Print";
+
+	private final String POS_ALTERNATIVE_DOCTYPE_ENABLED = "POS_ALTERNATIVE_DOCTYPE_ENABLED";  // System configurator entry
+	private final String NO_ALTERNATIVE_POS_DOCTYPE = "N";
+	private final boolean isAlternativeDocTypeEnabled = MSysConfig.getValue(POS_ALTERNATIVE_DOCTYPE_ENABLED, NO_ALTERNATIVE_POS_DOCTYPE, Env.getAD_Client_ID(p_ctx)).compareToIgnoreCase(NO_ALTERNATIVE_POS_DOCTYPE)==0?false:true;
 	
 	/**
 	 * 	Initialize
@@ -1122,7 +1116,7 @@ public class WSubOrder extends WPosSubPanel
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
 		String action = e.getTarget().getId();
 		if (e.getTarget().equals(f_bNew)) {
-				newOrder(); //red1 New POS Order instead - B_Partner already has direct field
+				newOrder(); 
 				e.stopPropagation();
 			}
 		else if (e.getTarget().equals(f_bCreditSale))
@@ -1547,13 +1541,17 @@ public class WSubOrder extends WPosSubPanel
 		log.info( "PosPanel.newOrder");
 		setC_BPartner_ID(0);
 		m_order = null;
-		m_order = PosOrderModel.createOrder(p_pos, getBPartner());
-		if (FDialog.ask(0, null, "¿Quiere generar un crédito fiscal?"))	{
-			m_order.setC_DocTypeTarget_ID(p_pos.getC_DocTypewholesale_ID());
+	
+		int C_DocType_ID=p_pos.getC_DocType_ID();
+		if (isAlternativeDocTypeEnabled) {
+			if (org.compiere.apps.ADialog.ask(0, null, Msg.getMsg(p_ctx, "Do you want to use the alternate Document type?") ))						
+			{
+				C_DocType_ID = p_pos.getC_DocTypewholesale_ID();
+			}
 		}
-
-		newLine();
 		
+		m_order = PosOrderModel.createOrder(p_pos, getBPartner(), C_DocType_ID);
+		newLine();		
 		updateInfo();
 	}	//	newOrder
 
