@@ -1,4 +1,4 @@
-<project name="Custom Smart Browse" default="compileall" basedir=".">
+<project name="AD-POS-WebUI" default="compileall" basedir=".">
     <description>
         Building AD-POS-WebUI AD-POS-WebUI.jar
         Copy of Smart Browse eevolution
