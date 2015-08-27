@@ -85,6 +85,7 @@
     <javac srcdir="${base}:${client}" destdir="${class}" includeantruntime="false" >
       <classpath refid="compile.classpath"/>
     </javac>
+    <echo message="Create jar file "/>
     <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${class}"/>
   </target>
     
@@ -140,8 +141,14 @@
     <!-- Copy WebUI package to Adempiere installation-->
 	<target name="Z1 copy WebUI Package after build" depends="" description="Copies zk file to Adempiere trunk AFTER build of Adempiere">
 		<echo message="=========== Copying WebUI package to Adempiere installation-START"/>
-		<copy todir="${adempiere.installation}/zkpackages">
-			<fileset dir="${basedir}/zkpackages" includes="${project.name}"/>
+		<echo message="=============== Delete ${adempiere.installation}/zkpackages/${project.name}"/>
+  		<delete dir="${adempiere.installation}/zkpackages/${project.name}"/>
+		<echo message="=============== Create ${adempiere.installation}/zkpackages/${project.name}"/>
+		<mkdir dir="${adempiere.installation}/zkpackages/${project.name}"/>
+		<echo message="=============== Create ${adempiere.installation}/zkpackages/${project.name}/lib"/>
+		<mkdir dir="${adempiere.installation}/zkpackages/${project.name}/lib"/>
+		<copy todir="${adempiere.installation}/zkpackages/${project.name}/lib">
+			<fileset dir="${basedir}/packages/${project.name}/lib" includes="*.jar"/>
 		</copy>
 		<echo message="=========== Copying WebUI package to Adempiere installation-END"/>
 	</target>
