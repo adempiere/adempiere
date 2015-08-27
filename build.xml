@@ -139,7 +139,7 @@
   
   
     <!-- Copy WebUI package to Adempiere installation-->
-	<target name="Z1 copy WebUI Package after build" depends="" description="Copies zk file to Adempiere trunk AFTER build of Adempiere">
+	<target name="package_dist" depends="" description="Copies zk file to Adempiere trunk AFTER build of Adempiere">
 		<echo message="=========== Copying WebUI package to Adempiere installation-START"/>
 		<echo message="=============== Delete ${adempiere.installation}/zkpackages/${project.name}"/>
   		<delete dir="${adempiere.installation}/zkpackages/${project.name}"/>
@@ -150,6 +150,17 @@
 		<copy todir="${adempiere.installation}/zkpackages/${project.name}/lib">
 			<fileset dir="${basedir}/zkpackages/${project.name}/lib" includes="*.jar"/>
 		</copy>
+			
+		<echo message="=============== Delete ${adempiere.installation}/packages/${project.name}"/>
+  		<delete dir="${adempiere.installation}/packages/${project.name}"/>
+		<echo message="=============== Create ${adempiere.installation}/packages/${project.name}"/>
+		<mkdir dir="${adempiere.installation}/packages/${project.name}"/>
+		<echo message="=============== Create ${adempiere.installation}/packages/${project.name}/lib"/>
+		<mkdir dir="${adempiere.installation}/packages/${project.name}/lib"/>
+		<copy todir="${adempiere.installation}/packages/${project.name}/lib">
+			<fileset dir="${basedir}/packages/${project.name}/lib" includes="*.jar"/>
+		</copy>
+				
 		<echo message="=========== Copying WebUI package to Adempiere installation-END"/>
 	</target>
 </project>
