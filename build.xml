@@ -5,6 +5,8 @@
         by
         raulmunozn@gmail.com
         @raulmunozn
+        @Carlos Parada 
+        @Mario Calderon
     </description>
   <!-- set global properties for this build -->
   <property file="build.properties"/>
@@ -18,7 +20,6 @@
   <property name="client" value="${basedir}/client"/>
   <property name="patches" value="${basedir}/patches"/>
   
-  <!-- @author Carlos Parada Set Path --> 
   <path id="compile.classpath">
     <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
    
@@ -40,7 +41,6 @@
       	
   </path>
 
-  <!-- @author Carlos Parada Set Path --> 
   <path id="compilezk.classpath">
     
     <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
@@ -66,7 +66,7 @@
 	
   	
 	
-  <!-- @author Carlos Parada Compile ZK Directory --> 
+  <!-- Compile ZK Directory --> 
   <target name="zkcompile" depends="init_zk"
         description="compile the source " >
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
@@ -77,7 +77,7 @@
   </target>
 
   
-  <!-- @author Carlos Parada Compile Class Directory --> 	
+  <!-- Compile Class Directory --> 	
   <target name="compile" depends="init_class"
         description="compile the source " >
     <echo message="Compile Swing Classes "/>
@@ -89,31 +89,31 @@
   </target>
     
 	
-  <!-- @author Carlos Parada Compile All Class Directory --> 
+  <!-- Compile All Class Directory --> 
   <target name="compileall" depends="compile,zkcompile" >
     <echo message="Compile All Project"/>
   	<echo message="Compile All Project"/>
   </target>
 	
-  <!-- @author Carlos Parada Remove All Class Directory --> 
+  <!-- Remove All Class Directory --> 
   <target name="clean" depends="clean_class,clean_zk"
         description="clean up" >
   	<echo message="Remove Classes Directory"/>
   </target>
 	
-  <!-- @author Carlos Parada Remove Class Directory -->
+  <!-- Remove Class Directory -->
   <target name="clean_class" description="clean up class" >
 	<echo message="Remove Class Directory"/>
   	<delete dir="${class}"/>
   </target>
 	
-  <!-- @author Carlos Parada Remove Class ZK Directory -->
+  <!-- Remove Class ZK Directory -->
   <target name="clean_zk" description="clean up class" >
 	<echo message="Remove Class ZK Directory"/>
   	<delete dir="${zkjar}"/>
   </target>
 	
-  <!-- @author Carlos Parada Create Class Directory -->
+  <!-- Create Class Directory -->
   <target name="init_class" depends="clean_class" description="clean up class" >
 	<echo message="Create Class Directory"/>
   	<!-- Create the classes directory structure used by compile -->
@@ -121,7 +121,7 @@
 	<mkdir dir="${class}"/>
   </target>
 	
-  <!-- @author Carlos Parada Create ZK Directory -->
+  <!-- Create ZK Directory -->
   <target name="init_zk" depends="clean_zk" description="clean up class" >
 	<echo message="Create Class ZK Directory"/>
   	<!-- Create the classes directory structure used by compile -->
@@ -131,23 +131,14 @@
   	<mkdir dir="${zkclasses}"/>
   </target>	
   
-  <!-- @author Carlos Parada Create Class And ZK Directory -->
+  <!-- Create Class And ZK Directory -->
   <target name="init" depends="clean,init_class,init_zk">
 	<echo message="Initialize Folders "/>
   </target>
   
   
-    <!-- @author Mario Calderón Copy js file to Adempiere trunk-->
-	<target name="Z1_copyJSFile" depends="" description="Copies js file to Adempiere trunk before build od Adempiere">
-		<echo message="=========== Copying js file to Adempiere trunk-START"/>
-		<copy todir="${adempiere.trunk}/zkwebui/js">
-			<fileset dir="${basedir}/js" includes="*.js"/>
-		</copy>
-		<echo message="=========== Copying js file to Adempiere trunk-END"/>
-	</target>
-  
-  <!-- @author Mario Calderón Copy WebUI package to Adempiere installation-->
-	<target name="Z2_copyWebUIPackage" depends="" description="Copies js file to Adempiere trunk before build od Adempiere">
+    <!-- Copy WebUI package to Adempiere installation-->
+	<target name="Z1 copy WebUI Package after build" depends="" description="Copies zk file to Adempiere trunk AFTER build of Adempiere">
 		<echo message="=========== Copying WebUI package to Adempiere installation-START"/>
 		<copy todir="${adempiere.installation}/zkpackages">
 			<fileset dir="${basedir}/zkpackages" includes="${project.name}"/>
