@@ -194,7 +194,7 @@ public class Collect {
 	 * 
 	 */
 	public boolean payCheck(BigDecimal amt, String accountNo, String routingNo, String checkNo) {
-		MPayment payment = createPayment(MPayment.TENDERTYPE_Cash);
+		MPayment payment = createPayment(MPayment.TENDERTYPE_Check);
 		payment.setC_CashBook_ID(m_POS.getC_CashBook_ID());
 		payment.setAmount(m_Order.getC_Currency_ID(), amt);
 		payment.setC_BankAccount_ID(m_POS.getC_BankAccount_ID());
@@ -225,7 +225,7 @@ public class Collect {
 	public boolean payCreditCard(BigDecimal amt, String accountName, int month, int year,
 			String cardNo, String cvc, String cardtype) {
 
-		MPayment payment = createPayment(MPayment.TENDERTYPE_Check);
+		MPayment payment = createPayment(MPayment.TENDERTYPE_CreditCard);
 		payment.setAmount(m_Order.getC_Currency_ID(), amt);
 		payment.setC_BankAccount_ID(m_POS.getC_BankAccount_ID());
 		payment.setDateTrx(getDateTrx());

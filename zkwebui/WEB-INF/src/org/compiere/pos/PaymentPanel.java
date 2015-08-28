@@ -1,6 +1,9 @@
 package org.compiere.pos;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -8,25 +11,34 @@ import javax.swing.KeyStroke;
 
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.SimpleListModel;
 import org.adempiere.webui.component.Textbox;
 import org.apache.poi.ss.formula.ptg.Ptg;
+import org.compiere.model.MBank;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPayment;
+import org.compiere.model.MPaymentValidate;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
@@ -37,11 +49,12 @@ public class PaymentPanel extends Collect implements EventListener {
 	private Panel mainPanel; 
 	private Grid mainGrid;
 	private Properties p_ctx;
-	
+
 	private Listbox tenderTypePick = ListboxFactory.newDropdownListbox();
+	private Listbox bankList = ListboxFactory.newDropdownListbox();
 	private Textbox fPayAmt;
 	private Textbox fCheckAccountNo;
-	private Textbox fCheckNo;
+	private Datebox fCheckdate;
 	private Textbox fCheckRouteNo;
 	private Textbox fCCardNo;
 	private Textbox fCCardName;
@@ -66,11 +79,14 @@ public class PaymentPanel extends Collect implements EventListener {
 	
 	private final String COLOR_GRAY = "color:#666";
 	private final String COLOR_BLACK = "color:#000";
+	private DateFormat 				dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private EventListener p_Event;
 	
-	public PaymentPanel(Properties ctx, MOrder m_Order, int m_M_POS_ID, String m_TendeType ) {
+	public PaymentPanel(Properties ctx, MOrder m_Order, int m_M_POS_ID, String m_TendeType, EventListener m_event ) {
 		super(ctx, m_Order, m_M_POS_ID);
 		p_TenderType = m_TendeType;
 		p_ctx = ctx;
+		p_Event = m_event;
 		//	Instance POS
 		p_MPOS = MPOS.get(ctx, m_M_POS_ID);
 		p_Order = m_Order;
@@ -79,17 +95,17 @@ public class PaymentPanel extends Collect implements EventListener {
 	public Panel paymentPanel(){
 		mainPanel = new Panel();
 		mainGrid = GridFactory.newGridLayout();
-		mainGrid.setStyle("overflow-y:hidden;overflow-x:hidden");
-		mainPanel.setStyle("overflow-y:hidden;overflow-x:hidden");
 		mainPanel.appendChild(mainGrid);
 		mainGrid.setWidth("99%");
-		mainGrid.setHeight("auto");
+		mainGrid.setHeight("70px");
 		Center center = new Center();
 		mainLayout = new Borderlayout();
 		mainLayout.appendChild(center);
-		mainLayout.setStyle("overflow-y:hidden;overflow-x:hidden");
-		center.setStyle("border: none;overflow-y:hidden;overflow-x:hidden");
+		
 		center.appendChild(mainPanel);
+		mainLayout.setStyle("overflow:hidden");
+		center.setStyle("border: none;overflow:hidden;");
+		
 		Rows rows = null;
 		Row row = null;
 		rows = mainGrid.newRows();
@@ -98,6 +114,16 @@ public class PaymentPanel extends Collect implements EventListener {
 		int AD_Column_ID = 8416; //C_Payment_v.TenderType
 		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
 		ArrayList<Object> types = lookup.getData(true, false, true, true);
+		
+		AD_Column_ID = 8374; //C_Payment_v.TenderType
+		MLookup cardlookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
+		ArrayList<Object> cards = cardlookup.getData(true, false, true, true);
+		
+		// Add Bank List
+		ValueNamePair[] banks = getBank();
+		for(int i=0; i < banks.length; i++)
+			bankList.appendItem(banks[i].getName(),banks[i].getValue());
+				
 		int position = 0;
 		// default to cash payment
 		for (Object obj : types) {
@@ -114,6 +140,7 @@ public class PaymentPanel extends Collect implements EventListener {
 				position++;
 			}
 		}
+		
 		tenderTypePick.addActionListener(this);
 		row.appendChild(tenderTypePick);
 		
@@ -132,19 +159,12 @@ public class PaymentPanel extends Collect implements EventListener {
 		row.appendChild(fCheckRouteNo);
 		fCheckRouteNo.setValue(lCheckRouteNo.getValue());
 		fCheckRouteNo.addFocusListener(this);
+		row.appendChild(bankList);
 		
-		fCheckAccountNo = new Textbox();
-		lCheckAccountNo = new Label(Msg.translate(p_ctx, "AccountNo"));
-		row.appendChild(fCheckAccountNo);
-		fCheckAccountNo.setValue(lCheckAccountNo.getValue());
-		fCheckAccountNo.addFocusListener(this);
-		
-		fCheckNo = new Textbox();
+		fCheckdate = new Datebox();
 		lCheckNo = new Label(Msg.translate(p_ctx, "CheckNo"));
 		row = rows.newRow();
-		row.appendChild(fCheckNo);
-		fCheckNo.setValue(lCheckNo.getValue());
-		fCheckNo.addFocusListener(this);
+		row.appendChild(fCheckdate);
 
 		lCCardType = new Label(Msg.translate(p_ctx, "CreditCardType"));
 		row = rows.newRow();
@@ -155,11 +175,12 @@ public class PaymentPanel extends Collect implements EventListener {
 		/**
 		 *	Load Credit Cards
 		 */
-		ValueNamePair[] ccs = getCreditCards(new BigDecimal ("0"), p_Order.getAD_Client_ID(),p_Order.getAD_Org_ID(), p_Order.getC_Campaign_ID(), null);
-		for(int x = 0; x < ccs.length; x++){
-			fCCardType.appendItem(ccs[x].getName(),String.valueOf(ccs[x].getValue()));
+		for (Object obj : cards) {
+			if ( obj instanceof ValueNamePair )	{
+				ValueNamePair key = (ValueNamePair) obj;
+				fCCardType.appendItem(key.getName(), key.getID());
+			}
 		}
-		
 		fCCardNo = new Textbox();
 		lCCardNo = new Label(Msg.translate(p_ctx, "CreditCardNumber"));
 		
@@ -190,11 +211,35 @@ public class PaymentPanel extends Collect implements EventListener {
 
 		return mainPanel;
 	}
-	
+	public ValueNamePair[] getBank(){
+		return DB.getValueNamePairs("SELECT C_Bank_ID, Name FROM C_Bank", true, null);
+	}
 	public boolean savePay(){
 		BigDecimal payAmt = new BigDecimal(fPayAmt.getValue());
+		
 		if(p_TenderType.equals(MPayment.TENDERTYPE_Cash))
 			addCash(payAmt);
+		else if(p_TenderType.equals(MPayment.TENDERTYPE_Check)) {
+			String hourString = dateFormat.format(fCheckdate.getValue());
+			String bank_ID = ((ValueNamePair) bankList.getSelectedItem().toValueNamePair()).getValue();
+			
+			String routeNo = fCheckRouteNo.getValue();
+			
+			Timestamp dateTrx = Timestamp.valueOf(hourString);
+			addCheck(payAmt, routeNo, Integer.parseInt(bank_ID), dateTrx);
+		}
+		else if(p_TenderType.equals(MPayment.TENDERTYPE_CreditCard)){
+
+			int month = MPaymentValidate.getCreditCardExpMM(fCCardMonth.getText());
+			int year = MPaymentValidate.getCreditCardExpYY(fCCardMonth.getText());
+			String cardNo = fCCardNo.getValue();
+			String cardCVC = fCCardVC.getValue();
+			ValueNamePair pp = fCCardType.getSelectedItem().toValueNamePair();
+			String cardType = ((ValueNamePair) fCCardType.getSelectedItem().toValueNamePair()).getValue();
+			
+			payCreditCard(payAmt, fCCardName.getValue(), month, year, cardNo, cardCVC, cardType);
+		}
+			
 		processPayment();
 		return true;
 	}
@@ -207,7 +252,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		boolean directDeposit = MPayment.TENDERTYPE_DirectDeposit.equals(tenderType);
 		boolean directDebit = MPayment.TENDERTYPE_DirectDebit.equals(tenderType);
 		boolean account = MPayment.TENDERTYPE_Account.equals(tenderType);
-
+		p_TenderType = tenderType;
 
 		if(check)
 			mainGrid.setHeight("120px");
@@ -224,12 +269,11 @@ public class PaymentPanel extends Collect implements EventListener {
 		else
 			mainGrid.setHeight("50px");
 			
-		fCheckAccountNo.setVisible(check);
-		fCheckNo.setVisible(check);
+		fCheckdate.setVisible(check);
 		fCheckRouteNo.setVisible(check);
-		lCheckAccountNo.setVisible(check);
 		lCheckNo.setVisible(check);
 		lCheckRouteNo.setVisible(check);
+		bankList.setVisible(check);
 
 		
 		fCCardMonth.setVisible(creditcard);
@@ -243,6 +287,11 @@ public class PaymentPanel extends Collect implements EventListener {
 		lCCardType.setVisible(creditcard);
 		lCCardVC.setVisible(creditcard);
 
+	}
+	public void clear(){
+		mainLayout = null;
+		mainGrid = null;
+		mainPanel = null;
 	}
 	protected Button createButtonAction (String action, KeyStroke accelerator)
 	{
@@ -261,7 +310,15 @@ public class PaymentPanel extends Collect implements EventListener {
 	public String getTenderType() {
 		return p_TenderType;
 	}
-
+	public Panel getMainPanel(){
+		return mainPanel;
+	}
+	public BigDecimal getPayAmt(){
+		return new BigDecimal(fPayAmt.getValue());
+	}
+	public Textbox getlPayAmt(){
+		return fPayAmt;
+	}
 	@Override
 	public void onEvent(Event e) throws Exception {
 		if(e.getName().equals("onFocus")){
@@ -271,8 +328,8 @@ public class PaymentPanel extends Collect implements EventListener {
 		if(e.getTarget().equals(fCheckAccountNo)){
 			fCheckAccountNo.setValue("");
 		}
-		if(e.getTarget().equals(fCheckNo)){
-			fCheckNo.setValue("");
+		if(e.getTarget().equals(fCheckdate)){
+//			fCheckdate.setValue("");
 		}
 		if(e.getTarget().equals(fCheckRouteNo)){
 			fCheckRouteNo.setValue("");
