@@ -1268,17 +1268,10 @@ public class WSubOrder extends WPosSubPanel
 		}
 		//	Register
 		if (e.getTarget().equals(f_history)) {
-			Boolean creditoFiscal = false;
-			if (FDialog.ask(0, null, "¿Quiere generar un crédito fiscal?"))						
-			{
-				creditoFiscal = true;
-			}
 			WPosQuery qt = new WQueryTicket(p_posPanel, this);
 			qt.setVisible(true);
 			AEnv.showWindow(qt);
 			updateInfo();
-//			if (creditoFiscal)
-//				m_order.setC_DocTypeTarget_ID(0);
 			return;
 		}
 		//	Price
