@@ -15,17 +15,12 @@ import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.SimpleListModel;
 import org.adempiere.webui.component.Textbox;
-import org.apache.poi.ss.formula.ptg.Ptg;
-import org.compiere.model.MBank;
-import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MOrder;
@@ -35,10 +30,8 @@ import org.compiere.model.MPaymentValidate;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
-import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
@@ -52,7 +45,7 @@ public class PaymentPanel extends Collect implements EventListener {
 
 	private Listbox tenderTypePick = ListboxFactory.newDropdownListbox();
 	private Listbox bankList = ListboxFactory.newDropdownListbox();
-	private Textbox fPayAmt;
+	public Textbox fPayAmt;
 	private Textbox fCheckAccountNo;
 	private Datebox fCheckdate;
 	private Textbox fCheckRouteNo;
@@ -151,7 +144,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		row.appendChild(fPayAmt);
 		fPayAmt.setText(lPayAmt.getValue());
 		fPayAmt.setStyle("text-align:right");
-		fPayAmt.addFocusListener(this);
+		fPayAmt.addFocusListener(p_Event);
 		
 		row = rows.newRow();
 		fCheckRouteNo = new Textbox();

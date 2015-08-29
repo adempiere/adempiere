@@ -20,7 +20,6 @@ package org.compiere.pos;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -34,34 +33,22 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.Listbox;
-import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.MCurrency;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
+import org.compiere.apps.ADialog;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPayment;
-import org.compiere.model.MPaymentValidate;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
-import org.w3c.dom.events.EventException;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
-import org.zkoss.zul.Space;
 
 
 /**
@@ -107,28 +94,20 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private PosOrderModel p_order;
 	private Label fTotal = new Label();
 	private Label fBalance = new Label();
-	private Button tenderType;
 	private Label fPayAmt;
 	private boolean paid = false;
 	private BigDecimal balance = Env.ZERO;
-	private Listbox fCreditNotes= ListboxFactory.newDropdownListbox();
 	private WPOSKeyboard keyboard; 
 	private Label fTenderAmt;
-	private Label lTenderAmt;
 	private Label fReturnAmt;
 	private Label lReturnAmt;
 	private Label fSubTotal;
-	private Label fTaxAmt;
-	private Label lTenderType;
 	private Label lTenderAmount[];
 	private Button fPlus;
 	private int cont;
-	private int keyLayoutId;
 	private ArrayList<Object> types;
-	private Listbox tenderTypePick = ListboxFactory.newDropdownListbox();
-	private final String FONT_SIZE = "Font-size:10pt;";
+	private final String FONT_SIZE = "Font-size:medium;";
 	private final String FONT_BOLD = "font-weight:700";
-	private Textbox fAmount;
 	private List<PaymentPanel> pp;
 	private List<Button> fMinus;
 	private Rows rows = null;
@@ -137,8 +116,9 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private Grid eastlayout;
 	private North north;
 	private Grid layout;
-	private int position=1;
-	private Button bMinus;
+	private int 	position=1;
+	private Button 	bMinus;
+
 	public WPosPayment(WPosBasePanel posPanel, WSubOrder subOrder) {
 		super();
 		p_posPanel = posPanel;
@@ -195,7 +175,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		fTotal.setValue(p_order.getGrandTotal().toString());
 		
 		row = rows.newRow();
-		Label fsLabel = new Label(Msg.translate(p_ctx, "SubTotal")+":");
+		Label fsLabel = new Label(Msg.translate(p_ctx, "AmountTendered")+":");
 		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		fSubTotal = new Label();
 		row.appendChild(fsLabel.rightAlign());
@@ -298,16 +278,28 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event event) throws Exception {
 		String action = event.getTarget().getId();
-		if(action.equals(MPayment.TENDERTYPE_Cash)){
-			cashpay();
-			calculateAmt();
-		}
+		if(event.getName().equals("onFocus")){
+			for(int x = 0; x < pp.size(); x++)
+				if(event.getTarget().equals(pp.get(x).fPayAmt)){
+					pp.get(x).fPayAmt.setValue("");
+			}
+		} else if (event.getName().equals("onBlur")) {
+			for(int x = 0; x < pp.size(); x++)
+				if(event.getTarget().equals(pp.get(x).fPayAmt)){
+					if(pp.get(x).fPayAmt.getValue().equals("")){
+						pp.get(x).fPayAmt.setValue("0");
+					}
+					else {
+						calculate();
+					}
+			}
+			
+			}
 		else if(event.getTarget().equals(fPlus)){
 			addTypePay();
 		}
 		
 		else if ( action.equals(ConfirmPanel.A_OK)) {
-//			processPayment();
 			for(int x = 0; x < pp.size(); x++)
 				pp.get(x).savePay();
 			onClose();
@@ -317,10 +309,8 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			return;
 		}
 		else {
-			System.out.println(event.getTarget().getId());
 			for(int x = 0; x < fMinus.size(); x++){
 				if(event.getTarget().getId().equals(fMinus.get(x).getId())){
-					int idPanel = Integer.parseInt(action);
 					fMinus.get(x).detach();
 					pp.get(x).getMainPanel().detach();
 					fMinus.remove(x);
@@ -329,29 +319,23 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 				}
 			}
 		}
-
-//		setTotals();
-		
 	}
-	private void setTotals() {
-
-		fTotal.setValue(p_order.getGrandTotal().toString());
+	private void calculate() {
+		BigDecimal mount = new BigDecimal(Env.ZERO.toString());
+		for(int x = 0; x < pp.size(); x++){
+				BigDecimal pay = new BigDecimal(pp.get(x).fPayAmt.getValue());
+				mount = mount.add(pay);
+		}
 		
-		BigDecimal received = p_order.getPaidAmt();		
-		balance  = p_order.getGrandTotal().subtract(received);
-		balance = balance.setScale(MCurrency.getStdPrecision(p_ctx, p_order.getC_Currency_ID()));
+		balance  = p_order.getGrandTotal().subtract(mount);
 		if ( balance.compareTo(Env.ZERO) <= 0 )
 		{
 			paid = true;
 			
-			if ( balance.compareTo(Env.ZERO) < 0 )
-					FDialog.warn(0, this, Msg.getMsg(p_ctx, "Change") + ": " + balance,"");
-			dispose();
 		}
 		fSubTotal.setValue(p_order.getSubtotal().toString());
 		fBalance.setValue(balance.toString());
-		fPayAmt.setValue(balance.toString());
-		fTaxAmt.setValue(p_order.getTaxAmt().toString());
+		fReturnAmt.setValue(balance.toString());
 
 	}
 
@@ -394,64 +378,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		return paid ;
 	}
 
-	public void calculateAmt() {
-
-		BigDecimal tender;
-		BigDecimal tenderPay = new BigDecimal(Env.ZERO.toString());
-		BigDecimal pay = new BigDecimal( fPayAmt.getValue() );
-		for(int i = 0; i < types.size(); i++){
-			tender = new BigDecimal(lTenderAmount[i].getValue());
-			tenderPay = tenderPay.add(tender);
-		}
-		
-		if ( !pay.equals(0) ) {
-			fReturnAmt.setValue(tenderPay.subtract(pay).toString());
-		}
-		fTenderAmt.setValue(tenderPay.toString());
-		cashout();
-	}
-	public void cashpay(){
-		keyboard.getMount();
-		for(int i = 0; i < types.size(); i++){
-			if(lTenderAmount[i].getId().equals(MPayment.TENDERTYPE_Cash+"_1")){
-				BigDecimal tender = new BigDecimal( fTenderAmt.getValue() );
-				BigDecimal cashpay = new BigDecimal( lTenderAmount[i].getValue() );
-				lTenderAmount[i].setValue(tender.add(cashpay).toString());
-				break;
-			}
-		}
-	}
-	
-	public void checkpay(String checkMountchk){
-		for(int i = 0; i < types.size(); i++){
-			if(lTenderAmount[i].getId().equals(MPayment.TENDERTYPE_Check+"_1")){
-				BigDecimal tender = new BigDecimal( checkMountchk );
-				BigDecimal checkpay = new BigDecimal( lTenderAmount[i].getValue() );
-				lTenderAmount[i].setValue(tender.add(checkpay).toString());
-				break;
-			}
-		}
-	}
-
-	public void cCardPay(String cCardMount){
-		for(int i = 0; i < types.size(); i++){
-			if(lTenderAmount[i].getId().equals(MPayment.TENDERTYPE_CreditCard+"_1")){
-				BigDecimal tender = new BigDecimal( cCardMount );
-				BigDecimal cCardPay = new BigDecimal( lTenderAmount[i].getValue() );
-				lTenderAmount[i].setValue(tender.add(cCardPay).toString());
-				break;
-			}
-		}
-	}
-	
-	public void cashout(){
-		BigDecimal tender = new BigDecimal( fTenderAmt.getValue() );
-		BigDecimal payAmt = new BigDecimal( fPayAmt.getValue() );
-		if(payAmt.compareTo(tender) > 0)
-			keyboard.setCashOut(payAmt.subtract(tender));
-		else
-			keyboard.setCashOut(Env.ZERO);
-	}
 	public String getGranTotal(){
 		return fTotal.getValue();
 	}
