@@ -18,9 +18,10 @@
 package org.compiere.pos;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 
-import javax.swing.JTextField;
+import org.adempiere.webui.component.Textbox;
+
+import java.util.HashMap;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
@@ -33,14 +34,11 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
-import org.adempiere.webui.event.ActionEvent;
-import org.adempiere.webui.event.ActionListener;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.InputEvent;
@@ -48,7 +46,6 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Doublebox;
-import org.zkoss.zul.Textbox;
 
 
 /**
@@ -67,6 +64,7 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		public static final int KEYBOARD_NUMERIC = 1;
 		public static final int KEYBOARD_NUMERIC_CASHOUT = 2;
 		private WPosTextField field;
+		private Textbox tfield;
 		private Doublebox dfield;
 		private Label lfield;
 		private MPOSKeyLayout keylayout;
@@ -76,7 +74,6 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		private int typeKeyboard = KEYBOARD_NUMERIC;
 		private BigDecimal cashOut;
 		private Button bCashOut;
-		private Component outComponent = null;
 		
 	/**
 	 * 	Constructor
@@ -220,7 +217,13 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 	public void keyReturned(MPOSKey key) {
 		
 	}
-
+	public void setPosTextField(Textbox posTextField) {
+		
+		tfield = posTextField;
+		txtCalc.setText(tfield.getText());
+		txtCalc.setValue(tfield.getValue());
+		
+	}
 	public void setPosTextField(WPosTextField posTextField) {
 		
 		field = posTextField;
@@ -271,8 +274,10 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 				dfield.setText(txtCalc.getValue());
 			else if (field != null)
 				field.setText(txtCalc.getValue());
-			else 
+			else if(lfield != null)
 				lfield.setText(txtCalc.getValue());
+			else 
+				tfield.setText(txtCalc.getValue());
 			close();
 		}
 		log.info( "PosSubBasicKeys - actionPerformed: " + action);
@@ -282,8 +287,10 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 			dfield.setText(txtCalc.getValue());
 		else if (field != null)
 			field.setText(txtCalc.getValue());
-		else 
+		else if (lfield != null)
 			lfield.setText(txtCalc.getValue());
+		else 
+			tfield.setText(txtCalc.getValue());
 	}
 	public int getTypeKeyboard() {
 		return typeKeyboard;

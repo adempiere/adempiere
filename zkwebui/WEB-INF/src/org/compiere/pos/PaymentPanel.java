@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Datebox;
@@ -46,14 +47,14 @@ public class PaymentPanel extends Collect implements EventListener {
 	private Listbox tenderTypePick = ListboxFactory.newDropdownListbox();
 	private Listbox bankList = ListboxFactory.newDropdownListbox();
 	public Textbox fPayAmt;
-	private Textbox fCheckAccountNo;
+	private WPosTextField fCheckAccountNo;
 	private Datebox fCheckdate;
-	private Textbox fCheckRouteNo;
-	private Textbox fCCardNo;
-	private Textbox fCCardName;
+	private WPosTextField fCheckRouteNo;
+	private WPosTextField fCCardNo;
+	private WPosTextField fCCardName;
 	private Listbox fCCardType= ListboxFactory.newDropdownListbox();
-	private Textbox fCCardMonth;
-	private Textbox fCCardVC;
+	private WPosTextField fCCardMonth;
+	private WPosTextField fCCardVC;
 
 	private Label lCheckNo;
 	private Label lCheckAccountNo;
@@ -74,8 +75,9 @@ public class PaymentPanel extends Collect implements EventListener {
 	private final String COLOR_BLACK = "color:#000";
 	private DateFormat 				dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private EventListener p_Event;
+	private WPosBasePanel p_posBasePanel;
 	
-	public PaymentPanel(Properties ctx, MOrder m_Order, int m_M_POS_ID, String m_TendeType, EventListener m_event ) {
+	public PaymentPanel(Properties ctx, MOrder m_Order, int m_M_POS_ID, String m_TendeType, EventListener m_event, WPosBasePanel m_posBasePanel ) {
 		super(ctx, m_Order, m_M_POS_ID);
 		p_TenderType = m_TendeType;
 		p_ctx = ctx;
@@ -83,8 +85,65 @@ public class PaymentPanel extends Collect implements EventListener {
 		//	Instance POS
 		p_MPOS = MPOS.get(ctx, m_M_POS_ID);
 		p_Order = m_Order;
+		p_posBasePanel = m_posBasePanel;
+		keyLayoutId = p_MPOS.getOSNP_KeyLayout_ID();
 	}
 	
+	public Panel cashPanel(){
+		mainPanel = new Panel();
+		mainGrid = GridFactory.newGridLayout();
+		mainPanel.appendChild(mainGrid);
+		mainGrid.setWidth("99%");
+		mainGrid.setHeight("50px");
+		Center center = new Center();
+		mainLayout = new Borderlayout();
+		mainLayout.appendChild(center);
+		
+		center.appendChild(mainPanel);
+		mainLayout.setStyle("overflow:hidden");
+		center.setStyle("border: none;overflow:hidden;");
+		
+		Rows rows = null;
+		Row row = null;
+		rows = mainGrid.newRows();
+		row = rows.newRow();
+		// Payment type selection
+		int AD_Column_ID = 8416; //C_Payment_v.TenderType
+		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
+		ArrayList<Object> types = lookup.getData(true, false, true, true);
+		
+		AD_Column_ID = 8374; //C_Payment_v.TenderType
+		MLookup cardlookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
+		ArrayList<Object> cards = cardlookup.getData(true, false, true, true);
+		
+		// Add Bank List
+		ValueNamePair[] banks = getBank();
+		for(int i=0; i < banks.length; i++)
+			bankList.appendItem(banks[i].getName(),banks[i].getValue());
+				
+		// default to cash payment
+		for (Object obj : types) {
+			if ( obj instanceof ValueNamePair )	{
+				ValueNamePair key = (ValueNamePair) obj;
+				if(p_TenderType.equals("X") && "X".contains(key.getID()))
+					tenderTypePick.appendItem(key.getName(), key);
+			}
+		}
+		tenderTypePick.setWidth("129px");
+		tenderTypePick.addActionListener(this);
+		row.appendChild(tenderTypePick);
+		
+
+		Label lPayAmt  = new Label(Msg.translate(p_ctx, "PayAmt"));
+		lPayAmt.setWidth("225px");
+		fPayAmt = new Textbox();
+		row.appendChild(fPayAmt);
+		fPayAmt.setText(lPayAmt.getValue());
+		fPayAmt.setStyle("text-align:right");
+		fPayAmt.addFocusListener(p_Event);
+
+		return mainPanel;
+	}
 	public Panel paymentPanel(){
 		mainPanel = new Panel();
 		mainGrid = GridFactory.newGridLayout();
@@ -126,11 +185,12 @@ public class PaymentPanel extends Collect implements EventListener {
 				if ( key.getID().equals(p_TenderType)){   // Cash
 					tenderTypePick.setSelectedIndex(position);
 				}
-				if (!"CKXFN".contains(key.getID() ) ) {
+				if (!"CKFN".contains(key.getID() ) ) {
 					tenderTypePick.removeItemAt(position);
 					position--;
 				}
 				position++;
+				
 			}
 		}
 		
@@ -147,11 +207,11 @@ public class PaymentPanel extends Collect implements EventListener {
 		fPayAmt.addFocusListener(p_Event);
 		
 		row = rows.newRow();
-		fCheckRouteNo = new Textbox();
+		fCheckRouteNo = new WPosTextField(p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
 		lCheckRouteNo = new Label(Msg.translate(p_ctx, "RoutingNo"));
 		row.appendChild(fCheckRouteNo);
 		fCheckRouteNo.setValue(lCheckRouteNo.getValue());
-		fCheckRouteNo.addFocusListener(this);
+		fCheckRouteNo.addEventListener("onFocus", this);
 		row.appendChild(bankList);
 		
 		fCheckdate = new Datebox();
@@ -174,36 +234,38 @@ public class PaymentPanel extends Collect implements EventListener {
 				fCCardType.appendItem(key.getName(), key.getID());
 			}
 		}
-		fCCardNo = new Textbox();
+		fCCardNo = new WPosTextField(p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
 		lCCardNo = new Label(Msg.translate(p_ctx, "CreditCardNumber"));
 		
 		row.appendChild(fCCardNo);
 		fCCardNo.setText(lCCardNo.getValue());
-		fCCardNo.addFocusListener(this);
+		fCCardNo.addEventListener("onFocus", this);
 		
-		fCCardName = new Textbox();
+		fCCardName = new WPosTextField(p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
 		lCCardName = new Label(Msg.translate(p_ctx, "Name"));
 		row = rows.newRow();
 		row.appendChild(fCCardName);
-		fCCardName.setValue(lCCardName.getValue());
-		fCCardName.addFocusListener(this);
 		
-		fCCardMonth = new Textbox();
+		fCCardName.setValue(lCCardName.getValue());
+		fCCardName.addEventListener("onFocus", this);
+		
+		fCCardMonth = new WPosTextField(p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
 		lCCardMonth = new Label(Msg.translate(p_ctx, "Expires"));
 		row.appendChild(fCCardMonth);
 		fCCardMonth.setValue(lCCardMonth.getValue());
-		fCCardMonth.addFocusListener(this);
+		fCCardMonth.addEventListener("onFocus", this);
 		
-		fCCardVC = new Textbox();
+		fCCardVC = new WPosTextField(p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
 		lCCardVC = new Label(Msg.translate(p_ctx, "CVC"));
 		row = rows.newRow();
 		row.appendChild(fCCardVC);
 		fCCardVC.setValue(lCCardVC.getValue());
-		fCCardVC.addFocusListener(this);
+		fCCardVC.addEventListener("onFocus", this);
 		setTotals();
 
 		return mainPanel;
 	}
+
 	public ValueNamePair[] getBank(){
 		return DB.getValueNamePairs("SELECT C_Bank_ID, Name FROM C_Bank", true, null);
 	}
@@ -312,32 +374,55 @@ public class PaymentPanel extends Collect implements EventListener {
 	public Textbox getlPayAmt(){
 		return fPayAmt;
 	}
+	
+	public void showKeyboard(WPosTextField field) {
+		cont++;
+		if(cont<2){
+				WPOSKeyboard keyboard = new WPOSKeyboard (p_posBasePanel, keyLayoutId); 
+				keyboard.setWidth("280px");
+				keyboard.setHeight("320px");
+				keyboard.setPosTextField(field);	
+				AEnv.showWindow(keyboard);
+			}
+		else {
+			cont=0;
+			mainPanel.setFocus(true);
+		}
+	
+	}
+		
 	@Override
 	public void onEvent(Event e) throws Exception {
 		if(e.getName().equals("onFocus")){
-		if(e.getTarget().equals(fPayAmt)){
-			fPayAmt.setValue("");
-		}
+		
 		if(e.getTarget().equals(fCheckAccountNo)){
 			fCheckAccountNo.setValue("");
+			showKeyboard(fCheckAccountNo);
 		}
+		
 		if(e.getTarget().equals(fCheckdate)){
 //			fCheckdate.setValue("");
+			
 		}
 		if(e.getTarget().equals(fCheckRouteNo)){
 			fCheckRouteNo.setValue("");
+			showKeyboard(fCheckRouteNo);
 		}
 		if(e.getTarget().equals(fCCardNo)){
 			fCCardNo.setValue("");
+			showKeyboard(fCCardNo);
 		}
 		if(e.getTarget().equals(fCCardName)){
 			fCCardName.setValue("");
+			showKeyboard(fCCardName);
 		}
 		if(e.getTarget().equals(fCCardMonth)){
 			fCCardMonth.setValue("");
+			showKeyboard(fCCardMonth);
 		}
 		if(e.getTarget().equals(fCCardVC)){
 			fCCardVC.setValue("");
+			showKeyboard(fCCardVC);
 		}
 		}
 			setTotals();
