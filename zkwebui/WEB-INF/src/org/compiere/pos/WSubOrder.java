@@ -120,6 +120,10 @@ public class WSubOrder extends WPosSubPanel
 	private Label	 	f_total;
 	private Label 		f_RepName;
 	private Doublebox	f_discount;
+	private Button 			f_Up;
+	private Button 			f_Down;
+	private Button 			f_Next;
+	private Button 			f_Back;
 	
 	/**	The Business Partner		*/
 	private MBPartner	m_bpartner;
@@ -151,12 +155,13 @@ public class WSubOrder extends WPosSubPanel
 	private static ColumnInfo[] s_layout = new ColumnInfo[] 
 	{
 		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "p_Name", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Qty"), "QtyOrdered", Double.class,false,true,null),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_UOM_ID"), "UOMSymbol", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_UOM_ID"), "UOM_name", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "PriceActual"), "PriceActual", BigDecimal.class,false,true,null), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "LineNetAmt"), "LineNetAmt", BigDecimal.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Discount"), "Discount", BigDecimal.class,  false, true, null), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "GrandTotal", BigDecimal.class,  false, true, null), 
 	};
 	/**	From Clause							*/
 	private static String s_sqlFrom ;
@@ -167,7 +172,6 @@ public class WSubOrder extends WPosSubPanel
 	private Panel button;
 
 	private int keyLayoutId;
-	private int maxheigth = 0;
 	PosOrderModel m_order = null;
 	
 	
@@ -186,7 +190,6 @@ public class WSubOrder extends WPosSubPanel
 	private final boolean isAlternativeDocTypeEnabled    = MSysConfig.getValue(POS_ALTERNATIVE_DOCTYPE_ENABLED, 
 			NO_ALTERNATIVE_POS_DOCTYPE, Env.getAD_Client_ID(p_ctx)).compareToIgnoreCase(NO_ALTERNATIVE_POS_DOCTYPE)==0?false:true;
 	
-	private final String BG_GRADIENT = "";
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_CANCEL      = "Cancel";
 	private final String ACTION_CREDITSALE  = "Credit Sale";
@@ -199,205 +202,217 @@ public class WSubOrder extends WPosSubPanel
 	 */
 	public void init()
 	{
-//		Content
-			this.setHeight("100%");
-			this.setWidth("99%");
-			status = false;
-			cont  = 0;
-			keymap = new HashMap<Integer, HashMap<Integer,MPOSKey>>();
-			
-			s_sqlFrom = "C_Order_LineTax_v";
-			/** Where Clause						*/
-			s_sqlWhere = "C_Order_ID=? AND LineNetAmt <> 0";
-			
-			Panel parameterPanel = new Panel();
-			Borderlayout detailPanel = new Borderlayout();
-			Grid parameterLayout = GridFactory.newGridLayout();
-			Panel productPanel = new Panel();
-			Borderlayout fullPanel = new Borderlayout();
-			Grid productLayout = GridFactory.newGridLayout();
-			Grid parameterLayout3 = GridFactory.newGridLayout();
-			Rows rows = null;
-			Row row = null;
+		//	Content
+		this.setHeight("100%");
+		this.setWidth("99%");
+		status = false;
+		cont  = 0;
+		keymap = new HashMap<Integer, HashMap<Integer,MPOSKey>>();
+		
+		s_sqlFrom = "POS_OrderLine_v";
+		/** Where Clause						*/
+		s_sqlWhere = "C_Order_ID=? AND LineNetAmt <> 0";
+		
+		Panel parameterPanel = new Panel();
+		Borderlayout detailPanel = new Borderlayout();
+		Grid parameterLayout = GridFactory.newGridLayout();
+		Panel productPanel = new Panel();
+		Borderlayout fullPanel = new Borderlayout();
+		Grid productLayout = GridFactory.newGridLayout();
+		Grid parameterLayout3 = GridFactory.newGridLayout();
+		Rows rows = null;
+		Row row = null;
 
-			East east = new East();
-			east.setStyle("border: none; width:40%");
-			east.setAutoscroll(true);
-			appendChild(east);
-			productPanel.appendChild(productLayout);
-			productLayout.setWidth("100%");
-			rows = productLayout.newRows();
-			row = rows.newRow();
-			int C_POSKeyLayout_ID = p_pos.getC_POSKeyLayout_ID();
-			if (C_POSKeyLayout_ID == 0)
-				return;
-			currentLayout = C_POSKeyLayout_ID;
-			east.appendChild(
-					createPanel(C_POSKeyLayout_ID));
-			
-			West west = new West();
-			west.setStyle("border: none;");
-			appendChild(west);
-			west.appendChild(fullPanel);
-			fullPanel.setWidth("100%");
-			fullPanel.setHeight("100%");
-			North north = new North();
-			north.setStyle("border: none; width:60%");
-			north.setZindex(0);
-			fullPanel.appendChild(north);
-			parameterPanel.appendChild(parameterLayout);
-			parameterLayout.setWidth("60%");
-			north.appendChild(parameterPanel);
-			rows = parameterLayout.newRows();
-			row = rows.newRow();
-			
-			setStyle("border: none");
-			
-			m_table = ListboxFactory.newDataTable();
-			m_sql = m_table.prepareTable(s_layout, s_sqlFrom, 
-				s_sqlWhere, false, "C_Order_LineTax_v");
-			m_table.setColumnClass(6, BigDecimal.class, false);
-			m_table.autoSize();
-			m_table.getModel().addTableModelListener(this);
-			Center center = new Center();
-			center.setStyle("border: none; width:400px");
-			appendChild(center);
-			center.appendChild(detailPanel);
-			north = new North();
-			north.setStyle("border: none");
-			detailPanel.setHeight("40%");
-			detailPanel.setWidth("50%");
-			detailPanel.appendChild(north);
-			
-			keyLayoutId=p_pos.getOSNP_KeyLayout_ID();
-			setQty(Env.ONE);
-			
-			setPrice(Env.ZERO);
+		East east = new East();
+		east.setStyle("border: none; width:40%");
+		east.setAutoscroll(true);
+		appendChild(east);
+		productPanel.appendChild(productLayout);
+		productLayout.setWidth("100%");
+		rows = productLayout.newRows();
+		row = rows.newRow();
+		int C_POSKeyLayout_ID = p_pos.getC_POSKeyLayout_ID();
+		if (C_POSKeyLayout_ID == 0)
+			return;
+		currentLayout = C_POSKeyLayout_ID;
+		east.appendChild(
+				createPanel(C_POSKeyLayout_ID));
+		
+		West west = new West();
+		west.setStyle("border: none;");
+		appendChild(west);
+		west.appendChild(fullPanel);
+		fullPanel.setWidth("100%");
+		fullPanel.setHeight("100%");
+		North north = new North();
+		north.setStyle("border: none; width:60%");
+		north.setZindex(0);
+		fullPanel.appendChild(north);
+		parameterPanel.appendChild(parameterLayout);
+		parameterLayout.setWidth("60%");
+		north.appendChild(parameterPanel);
+		rows = parameterLayout.newRows();
+		row = rows.newRow();
+		
+		setStyle("border: none");
+		
+		m_table = ListboxFactory.newDataTable();
+		m_sql = m_table.prepareTable(s_layout, s_sqlFrom, 
+			s_sqlWhere, false, "POS_OrderLine_v");
+		m_table.setColumnClass(6, BigDecimal.class, false);
+		m_table.autoSize();
+		m_table.getModel().addTableModelListener(this);
+		Center center = new Center();
+		center.setStyle("border: none; width:400px");
+		appendChild(center);
+		center.appendChild(detailPanel);
+		north = new North();
+		north.setStyle("border: none");
+		detailPanel.setHeight("40%");
+		detailPanel.setWidth("50%");
+		detailPanel.appendChild(north);
+		
+		keyLayoutId=p_pos.getOSNP_KeyLayout_ID();
+		setQty(Env.ONE);
+		
+		setPrice(Env.ZERO);
 
-			center = new Center();
-			detailPanel.appendChild(center);
-			center.appendChild(m_table);
-			m_table.setWidth("100%");
-			m_table.setHeight("99%");
-			center.setStyle("border: none");
-			
-			north.appendChild(parameterLayout3);
-			parameterLayout3.setWidth("100%");
-			parameterLayout3.setHeight("100%");
-			rows = parameterLayout3.newRows();
-			parameterLayout3.setStyle("border:none");
-			row = rows.newRow();
-			row.setHeight("60px");
+		center = new Center();
+		detailPanel.appendChild(center);
+		center.appendChild(m_table);
+		m_table.setWidth("100%");
+		m_table.setHeight("99%");
+		center.setStyle("border: none");
+		m_table.loadTable(new PO[0]);
+		
+		north.appendChild(parameterLayout3);
+		parameterLayout3.setWidth("100%");
+		parameterLayout3.setHeight("100%");
+		rows = parameterLayout3.newRows();
+		parameterLayout3.setStyle("border:none");
+		row = rows.newRow();
+		row.setHeight("60px");
 
-			row.appendChild(new Space());
-			// NEW
-			f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
-			f_bNew.addActionListener(this);
-			row.appendChild(f_bNew);
+		row.appendChild(new Space());
+		// NEW
+		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
+		f_bNew.addActionListener(this);
+		row.appendChild(f_bNew);
 
-			// BPartner Search
-			f_bBPartner = createButtonAction(ACTION_BPARTNER, p_pos.getOSK_KeyLayout_ID());
-			f_bBPartner.addActionListener(this);
-			row.appendChild(f_bBPartner);
-					
-			// EDIT
-			f_bEdit = createButtonAction(ACTION_CREDITSALE, null);
-			f_bEdit.addActionListener(this);
-			row.appendChild(f_bEdit);
-			f_bEdit.setEnabled(false);
-					
-			// HISTORY
-			f_history = createButtonAction(ACTION_HISTORY, null);
-			f_history.addActionListener(this);
-			row.appendChild(f_history); 
-			 		
-			// PAYMENT
-			f_cashPayment = createButtonAction(ACTION_PAYMENT, null);
-			f_cashPayment.addActionListener(this);
-			row.appendChild(f_cashPayment); 
-			f_cashPayment.setEnabled(false);
-			
-			// LOGOUT
-			f_logout = createButtonAction (ACTION_CANCEL, null);
-			f_logout.addActionListener(this);
-			row.appendChild (f_logout);
-			
-			row = rows.newRow();
-			row.setSpans("2,2,2");
-			row.setHeight("30px");
-			// BP
-			Label bpartner = new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")+":");
-			row.appendChild (bpartner.rightAlign());
-			bpartner.setStyle("Font-size:medium; font-weight:700");
-			
-			f_name = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
-			f_name.setStyle("Font-size:medium");
-			f_name.setWidth("100%");
-			f_name.addEventListener("onFocus",this);
-			row.appendChild  (f_name);
-			
+		// BPartner Search
+		f_bBPartner = createButtonAction(ACTION_BPARTNER, p_pos.getOSK_KeyLayout_ID());
+		f_bBPartner.addActionListener(this);
+		row.appendChild(f_bBPartner);
+				
+		// EDIT
+		f_bEdit = createButtonAction(ACTION_CREDITSALE, null);
+		f_bEdit.addActionListener(this);
+		row.appendChild(f_bEdit);
+		f_bEdit.setEnabled(false);
+				
+		// HISTORY
+		f_history = createButtonAction(ACTION_HISTORY, null);
+		f_history.addActionListener(this);
+		row.appendChild(f_history); 
 
-			Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
-			lNet.setStyle("Font-size:medium; font-weight:700");
-			row.appendChild(lNet.rightAlign());
-			f_net = new Label(String.valueOf(DisplayType.Amount));
-			f_net.setStyle("Font-size:medium");
-			row.appendChild(f_net);
-			f_net.setText(Env.ZERO+"");
-			
-			//
-			row = rows.newRow();
-			row.setHeight("30px");
-			row.setSpans("2,2,2");
-			// DOC NO
-			Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
-			row.appendChild (docNo.rightAlign());
+		f_Back = createButtonAction("Parent", KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0));
+		row.appendChild (f_Back);
+		f_Next = createButtonAction("Detail", KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0));
+		row.appendChild (f_Next);
+		
+		f_Up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
+		row.appendChild (f_Up);
+		f_Down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
+		row.appendChild (f_Down);
+		
+		// PAYMENT
+		f_cashPayment = createButtonAction(ACTION_PAYMENT, null);
+		f_cashPayment.addActionListener(this);
+		row.appendChild(f_cashPayment); 
+		f_cashPayment.setEnabled(false);
+		
+		// LOGOUT
+		f_logout = createButtonAction (ACTION_CANCEL, null);
+		f_logout.addActionListener(this);
+		row.appendChild (f_logout);
+		row.appendChild(new Space());
+		
+		row = rows.newRow();
+		row.setSpans("3,4,2");
+		row.setHeight("30px");
+		// BP
+		Label bpartner = new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")+":");
+		row.appendChild (bpartner.rightAlign());
+		bpartner.setStyle("Font-size:medium; font-weight:700");
+		
+		f_name = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_name.setStyle("Font-size:medium");
+		f_name.setWidth("100%");
+		f_name.setHeight("35px");
+		f_name.addEventListener("onFocus",this);
+		row.appendChild  (f_name);
+		
 
-			docNo.setStyle("Font-size:medium; font-weight:700");
-			f_DocumentNo = new Label();
-			f_DocumentNo.setStyle("Font-size:medium");
-			row.appendChild(f_DocumentNo);
-			
-			Label lTax = new Label (Msg.translate(Env.getCtx(), "TaxAmt")+":");
-			lTax.setStyle("Font-size:medium; font-weight:700");
-			row.appendChild(lTax.rightAlign());
-			f_tax = new Label(String.valueOf(DisplayType.Amount));
-			f_tax.setStyle("Font-size:medium");
-			row.appendChild(f_tax);
-			f_tax.setText(Env.ZERO.toString());
-			
-			row = rows.newRow();
-			row.setSpans("2,2,2,2");
-			row.setHeight("30px");
-			// SALES REP
-			Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "SalesRep_ID")+":");
-			row.appendChild(l_SalesRep.rightAlign());
-			l_SalesRep.setStyle("Font-size:medium; font-weight:700");
-			MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
-			f_RepName = new Label(salesRep.getName());
-			f_RepName.setStyle("Font-size:medium");
-			row.appendChild (f_RepName);
-			
-			Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
-			lTotal.setStyle("Font-size:medium; font-weight:700");
-			row.appendChild(lTotal.rightAlign());
-			f_total = new Label(String.valueOf(DisplayType.Amount));
-			row.appendChild(f_total);
-			f_total.setText(Env.ZERO.toString());
-			f_total.setStyle("Font-size:medium");
-			
-			row = rows.newRow();
-			row.setSpans("2,3,2,2");
-			row.setHeight("30px");
-			row.appendChild(new Space());
-			row.appendChild(new Space());
-			//
+		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
+		lNet.setStyle("Font-size:medium; font-weight:700");
+		row.appendChild(lNet.rightAlign());
+		f_net = new Label(String.valueOf(DisplayType.Amount));
+		f_net.setStyle("Font-size:medium");
+		row.appendChild(f_net);
+		f_net.setText(Env.ZERO+"");
+		
+		//
+		row = rows.newRow();
+		row.setHeight("30px");
+		row.setSpans("3,4,2");
+		// DOC NO
+		Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
+		row.appendChild (docNo.rightAlign());
+
+		docNo.setStyle("Font-size:medium; font-weight:700");
+		f_DocumentNo = new Label();
+		f_DocumentNo.setStyle("Font-size:medium");
+		row.appendChild(f_DocumentNo);
+		
+		Label lTax = new Label (Msg.translate(Env.getCtx(), "TaxAmt")+":");
+		lTax.setStyle("Font-size:medium; font-weight:700");
+		row.appendChild(lTax.rightAlign());
+		f_tax = new Label(String.valueOf(DisplayType.Amount));
+		f_tax.setStyle("Font-size:medium");
+		row.appendChild(f_tax);
+		f_tax.setText(Env.ZERO.toString());
+		
+		row = rows.newRow();
+		row.setSpans("3,4,2");
+		row.setHeight("30px");
+		// SALES REP
+		Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "SalesRep_ID")+":");
+		row.appendChild(l_SalesRep.rightAlign());
+		l_SalesRep.setStyle("Font-size:medium; font-weight:700");
+		MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
+		f_RepName = new Label(salesRep.getName());
+		f_RepName.setStyle("Font-size:medium");
+		row.appendChild (f_RepName);
+		
+		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
+		lTotal.setStyle("Font-size:medium; font-weight:700");
+		row.appendChild(lTotal.rightAlign());
+		f_total = new Label(String.valueOf(DisplayType.Amount));
+		row.appendChild(f_total);
+		f_total.setText(Env.ZERO.toString());
+		f_total.setStyle("Font-size:medium");
+		
+		row = rows.newRow();
+		row.setSpans("3,3,2,2");
+		row.setHeight("30px");
+		row.appendChild(new Space());
+		row.appendChild(new Space());
+		//
 
 	}	//	init
 	
 	public Panel createButton(int C_POSKeyLayout_ID){
-		if ( keymap.containsKey(C_POSKeyLayout_ID) )
-		{
+		if ( keymap.containsKey(C_POSKeyLayout_ID) ) {
 			return null;
 		}
 		Panel card = new Panel();
@@ -435,7 +450,7 @@ public class WSubOrder extends WPosSubPanel
 		
 		f_name1 = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
 		f_name1.setWidth("80%");
-		f_name1.setHeight("25px");
+		f_name1.setHeight("35px");
 		f_name1.setName("Name");
 		f_name1.setReadonly(true);
 		f_name1.addEventListener("onFocus", this);
@@ -1013,7 +1028,28 @@ public class WSubOrder extends WPosSubPanel
 			dispose();
 			return;
 		}
-		
+		else if (e.getTarget().equals(f_Up)){
+			int rows = m_table.getRowCount();
+			if (rows == 0)
+				return;
+			int row = m_table.getSelectedRow();
+			row--;
+			if (row < 0)
+				row = 0;
+			m_table.setSelectedIndex(row);
+			return;
+		}
+		else if (e.getTarget().equals(f_Down)){
+			int rows = m_table.getRowCount();
+			if (rows == 0)
+				return;
+			int row = m_table.getSelectedRow();
+			row++;
+			if (row >= rows)
+				row = rows - 1;
+			m_table.setSelectedIndex(row);
+			return;
+		}
 		else if (e.getTarget().equals(f_name1) ){
 			cont++;
 			if(cont<2){
@@ -1264,7 +1300,6 @@ public class WSubOrder extends WPosSubPanel
 			return false;
 		BigDecimal QtyOrdered  = BigDecimal.valueOf(f_quantity);
 		BigDecimal PriceActual = BigDecimal.valueOf(f_price);
-		
 		if (m_order == null ) {
 			m_order = PosOrderModel.createOrder(p_pos, getBPartner());
 		}
@@ -1273,7 +1308,7 @@ public class WSubOrder extends WPosSubPanel
 		
 		if ( m_order != null ) {
 			line = m_order.createLine(product, QtyOrdered, PriceActual);
-
+			
 			if (line == null)
 				return false;
 			line.saveEx();
@@ -1361,7 +1396,7 @@ public class WSubOrder extends WPosSubPanel
 		{
 			pstmt = DB.prepareStatement (m_sql, null);
 			pstmt.setInt (1, C_Order_ID);
-			rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery();
 			m_table.loadTable(rs);
 		}
 		catch (Exception e)

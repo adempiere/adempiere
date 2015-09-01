@@ -157,8 +157,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0;");
 		mainLayout.setHeight("100%");
 		mainLayout.setWidth("100%");
-		//
-		
 
 		//
 		north = new North();
@@ -176,6 +174,16 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		isPrePaiment.setText(Msg.translate(p_ctx, "isPrePayment"));
 		isPrePaiment.setStyle(FONT_SIZE);
 		row.appendChild(isPrePaiment);
+		Label fsLabel = new Label(Msg.translate(p_ctx, "SubTotal")+":");
+		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
+		fSubTotal = new Label();
+		row.appendChild(fsLabel.rightAlign());
+		row.appendChild(fSubTotal);
+		fSubTotal.setStyle(FONT_SIZE);
+		fSubTotal.setValue(p_order.getSubtotal().toString());
+		
+		row = rows.newRow();
+		row.appendChild(new Space());
 		Label gtLabel = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
 		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		row.appendChild(gtLabel.rightAlign());
@@ -183,15 +191,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		fTotal.setStyle(FONT_SIZE);
 		fTotal.setValue(p_order.getGrandTotal().toString());
 		
-		row = rows.newRow();
-		row.appendChild(new Space());
-		Label fsLabel = new Label(Msg.translate(p_ctx, "AmountTendered")+":");
-		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
-		fSubTotal = new Label();
-		row.appendChild(fsLabel.rightAlign());
-		row.appendChild(fSubTotal);
-		fSubTotal.setStyle(FONT_SIZE);
-		fSubTotal.setValue(p_order.getSubtotal().toString());
 		
 		fReturnAmt = new Label();
 		lReturnAmt = new Label(Msg.translate(p_ctx, "AmountReturned")+":");
@@ -301,6 +300,9 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 							keyboard.setHeight("320px");
 							keyboard.setPosTextField(pp.get(x).fPayAmt);	
 							AEnv.showWindow(keyboard);
+							if(pp.get(x).fPayAmt.getValue().equals(""))
+								pp.get(x).fPayAmt.setValue("0");
+							calculate();
 						}
 						
 					}
