@@ -600,7 +600,7 @@ public class PosPayment extends CDialog implements PosKeyListener, VetoableChang
 	 * Display and initialize Payment dialog
 	 * 
 	 */
-	public static boolean pay(PosBasePanel posPanel) {
+	public static boolean pay(I_POS posPanel) {
 		
 		PosPayment pay = new PosPayment(posPanel);
 		pay.setVisible(true);

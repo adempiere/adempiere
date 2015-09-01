@@ -48,7 +48,7 @@ public abstract class PosQuery extends CDialog implements MouseListener, ListSel
 
 	protected Properties p_ctx;
 	/** POS Panel							*/
-	protected PosBasePanel p_posPanel = null;
+	protected I_POS p_posPanel = null;
 	/**	Underlying POS Model				*/
 	protected MPOS p_pos = null;
 	/** The Table					*/
@@ -86,11 +86,11 @@ public abstract class PosQuery extends CDialog implements MouseListener, ListSel
 	/**
 	 * 	Constructor
 	 */
-	public PosQuery (PosBasePanel posPanel)
+	public PosQuery (I_POS posPanel)
 	{
 		super(Env.getFrame(posPanel), true);
 		p_posPanel = posPanel;
-		p_pos = posPanel.p_pos;
+		p_pos = posPanel.getM_POS();
 		p_ctx = p_pos.getCtx();
 		init();
 		pack();
