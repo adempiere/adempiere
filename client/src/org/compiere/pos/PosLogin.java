@@ -9,7 +9,6 @@ import javax.swing.KeyStroke;
 import net.miginfocom.swing.MigLayout;
 
 import org.compiere.apps.AppsAction;
-import org.compiere.model.MUser;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
@@ -24,7 +23,7 @@ public class PosLogin extends CDialog implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 8490567722808711399L;
-	private PosBasePanel posPanel;
+	private VPOS posPanel;
 	private PosTextField username;
 	private PosTextField pin;
 	private CButton bProcess;
@@ -33,9 +32,9 @@ public class PosLogin extends CDialog implements ActionListener {
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public PosLogin (PosBasePanel posPanel)
+	public PosLogin (VPOS posPanel)
 	{
-		super (Env.getFrame(posPanel),Msg.translate(posPanel.getCtx(), "Login"), true);
+		super (Env.getWindow(posPanel.getWindowNo()),Msg.translate(posPanel.getCtx(), "Login"), true);
 		init();
 		this.posPanel = posPanel;
 	}
@@ -48,13 +47,13 @@ public class PosLogin extends CDialog implements ActionListener {
 		panel.add(new CLabel(Msg.translate(posPanel.getCtx(),"SalesRep_ID")));
 		
 		username = new PosTextField(Msg.translate(posPanel.getCtx(),"SalesRep_ID"),
-		posPanel, posPanel.p_pos.getOSK_KeyLayout_ID());	
+		posPanel, posPanel.getM_POS().getOSK_KeyLayout_ID());	
 		
 		panel.add( username, "wrap");
 		
 		panel.add(new CLabel(Msg.translate(posPanel.getCtx(), "UserPIN")));
 		
-		pin = new PosTextField(Msg.translate(posPanel.getCtx(), "UserPIN"), posPanel, posPanel.p_pos.getOSNP_KeyLayout_ID());
+		pin = new PosTextField(Msg.translate(posPanel.getCtx(), "UserPIN"), posPanel, posPanel.getM_POS().getOSNP_KeyLayout_ID());
 		
 		panel.add(pin, "");
 		

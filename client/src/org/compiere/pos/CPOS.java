@@ -686,4 +686,14 @@ public class CPOS {
 		} else 
 			return false;
 	} // cancelOrder
+	
+	/**
+	 * Get Context
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Aug 31, 2015, 8:23:54 PM
+	 * @return
+	 * @return Properties
+	 */
+	public Properties getCtx() {
+		return m_ctx;
+	}
 }
