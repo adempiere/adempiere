@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -36,12 +37,15 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
+import org.adempiere.webui.event.TableValueChangeEvent;
+import org.adempiere.webui.event.TableValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.window.FDialog;
@@ -53,6 +57,7 @@ import org.compiere.model.MCurrency;
 import org.compiere.model.MImage;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
+import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
 import org.compiere.model.MPriceList;
@@ -64,13 +69,12 @@ import org.compiere.model.MUser;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
 import org.compiere.print.MPrintColor;
-import org.compiere.print.MPrintFont;
 import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.event.EventListener;
@@ -90,7 +94,7 @@ import org.zkoss.zul.Space;
  * @author Raul Muñoz 20/03/2015 
  */
 public class WSubOrder extends WPosSubPanel 
-	implements EventListener, WTableModelListener
+	implements EventListener, WTableModelListener, TableValueChangeListener
 {
 	/**
 	 * 
@@ -129,7 +133,6 @@ public class WSubOrder extends WPosSubPanel
 	private MBPartner	m_bpartner;
 	private Textbox f_currency = new Textbox();
 	private Button f_bEdit;
-	private Button f_bSettings;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(SubOrder.class);
 	
@@ -144,7 +147,7 @@ public class WSubOrder extends WPosSubPanel
 	private int orderLineId = 0;
 	private int currentLayout;
 	/** The Table					*/
-	WListbox		m_table;
+	private WListbox		m_table;
 	/** The Query SQL				*/
 	private String			m_sql;
 	/** Status Panel */
@@ -160,8 +163,8 @@ public class WSubOrder extends WPosSubPanel
 		new ColumnInfo(Msg.translate(Env.getCtx(), "C_UOM_ID"), "UOM_name", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "PriceActual"), "PriceActual", BigDecimal.class,false,true,null), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "LineNetAmt"), "LineNetAmt", BigDecimal.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "GrandTotal", BigDecimal.class,  false, true, null), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class, true, true, null), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "GrandTotal", BigDecimal.class,  true, true, null), 
 	};
 	/**	From Clause							*/
 	private static String s_sqlFrom ;
@@ -184,12 +187,15 @@ public class WSubOrder extends WPosSubPanel
 	private int			m_M_PriceList_Version_ID = 0;
 	/** Warehouse					*/
 	private int 			m_M_Warehouse_ID;
+	private ArrayList<Integer> orderList;
+	private int recordposition;
 	private int cont; 
 	private final String POS_ALTERNATIVE_DOCTYPE_ENABLED = "POS_ALTERNATIVE_DOCTYPE_ENABLED";  // System configurator entry
 	private final String NO_ALTERNATIVE_POS_DOCTYPE      = "N";
 	private final boolean isAlternativeDocTypeEnabled    = MSysConfig.getValue(POS_ALTERNATIVE_DOCTYPE_ENABLED, 
 			NO_ALTERNATIVE_POS_DOCTYPE, Env.getAD_Client_ID(p_ctx)).compareToIgnoreCase(NO_ALTERNATIVE_POS_DOCTYPE)==0?false:true;
 	
+	private final String BG_GRADIENT = "";
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_CANCEL      = "Cancel";
 	private final String ACTION_CREDITSALE  = "Credit Sale";
@@ -208,6 +214,8 @@ public class WSubOrder extends WPosSubPanel
 		status = false;
 		cont  = 0;
 		keymap = new HashMap<Integer, HashMap<Integer,MPOSKey>>();
+		listOrder();
+		recordposition = orderList.size()-1;
 		
 		s_sqlFrom = "POS_OrderLine_v";
 		/** Where Clause						*/
@@ -259,9 +267,10 @@ public class WSubOrder extends WPosSubPanel
 		m_table = ListboxFactory.newDataTable();
 		m_sql = m_table.prepareTable(s_layout, s_sqlFrom, 
 			s_sqlWhere, false, "POS_OrderLine_v");
-		m_table.setColumnClass(6, BigDecimal.class, false);
 		m_table.autoSize();
+
 		m_table.getModel().addTableModelListener(this);
+		
 		Center center = new Center();
 		center.setStyle("border: none; width:400px");
 		appendChild(center);
@@ -282,6 +291,7 @@ public class WSubOrder extends WPosSubPanel
 		center.appendChild(m_table);
 		m_table.setWidth("100%");
 		m_table.setHeight("99%");
+		m_table.addActionListener(this);
 		center.setStyle("border: none");
 		m_table.loadTable(new PO[0]);
 		
@@ -994,7 +1004,33 @@ public class WSubOrder extends WPosSubPanel
 				loadLine(id);
 			}
 		}
+		if (event.getModel().equals(m_table.getModel())) //Add Minitable Source Condition
+			valueChange();
 	}
+	
+	public void valueChange() {
+		
+		int id = m_table.getSelectedRow();
+		ListModelTable model = m_table.getModel();
+		if (id != -1) {	
+		IDColumn key = (IDColumn) model.getValueAt(id, 0);
+		
+		if ( key != null &&  key.getRecord_ID() != orderLineId )
+			orderLineId = key.getRecord_ID();
+			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+			if ( line != null )
+			{
+				
+					line.setPrice(new BigDecimal(m_table.getModel().getValueAt(id, 4).toString()));
+					line.setQty(new BigDecimal(m_table.getModel().getValueAt(id, 2).toString()));
+					line.saveEx();
+					updateInfo();
+				}
+			
+		}
+
+	}
+	
 	private void loadLine(int lineId) {
 		
 		if ( lineId <= 0 )
@@ -1009,11 +1045,12 @@ public class WSubOrder extends WPosSubPanel
 		}
 		
 	}
+	
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
 		String action = e.getTarget().getId();
 		if (e.getTarget().equals(f_bNew)) {
-				newOrder(); //red1 New POS Order instead - B_Partner already has direct field
+				newOrder(); 
 				e.stopPropagation();
 			}
 		else if (e.getTarget().equals(f_bEdit))
@@ -1021,7 +1058,16 @@ public class WSubOrder extends WPosSubPanel
 		else if(e.getTarget().equals(f_cashPayment)){
 			payOrder();
 		}
-		
+		else if (e.getTarget().equals(f_Back) ){
+			previousRecord();
+			updateInfo();
+			return;
+		}
+		else if (e.getTarget().equals(f_Next) ){
+			nextRecord();
+			updateInfo();
+			return;
+		}
 		else if (e.getTarget().equals(f_print))
 			printOrder();
 		else if(e.getTarget().equals(f_logout)){
@@ -1212,9 +1258,12 @@ public class WSubOrder extends WPosSubPanel
 		catch (Exception ex)
 		{
 		}
-
+		if(m_table.equals(e.getTarget())){
+			return;
+		}
 		updateInfo();
 	}
+
 	/**
 	 * 	Find/Set Product & Price
 	 */
@@ -1330,6 +1379,7 @@ public class WSubOrder extends WPosSubPanel
 		m_M_Warehouse_ID = p_pos.getM_Warehouse_ID();
 		m_M_PriceList_Version_ID = getM_PriceList_Version_ID();
 	}	//	setParameter
+	
 	/**
 	 * 	Get Product
 	 *	@return product
@@ -1458,7 +1508,7 @@ public class WSubOrder extends WPosSubPanel
 		f_quantity=qty.doubleValue();
 	} //
 	
-	/**************************************************************************
+	/**
 	 * 	Set Product
 	 *	@param M_Product_ID id
 	 */
@@ -1481,6 +1531,60 @@ public class WSubOrder extends WPosSubPanel
 		{
 			f_name1.setText(null);
 		}
+		
 	}	//	setM_Product_ID
+
+	@Override
+	public void tableValueChange(TableValueChangeEvent event) {
+		// TODO Auto-generated method stub
+	}
+	
+	/**
+	 * Previous Record Order
+	 */
+	public void previousRecord() {
+		if(recordposition>0)
+			setOrder(orderList.get(recordposition--));
+	}
+
+	/**
+	 * Next Record Order
+	 */
+	public void nextRecord() {
+		if(recordposition < orderList.size()-1)
+			setOrder(orderList.get(recordposition++));
+		
+	}
+	
+	/**
+	 * Get Data List Order
+	 */
+	public void listOrder() {
+		String sql = "";
+		PreparedStatement pstm;
+		ResultSet rs;
+		orderList = new ArrayList<Integer>();
+		try 
+		{
+			sql=" SELECT o.C_Order_ID"
+					+ " FROM C_Order o"
+					+ " LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID"
+					+ " WHERE"
+					+ " coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0"
+					+ " ORDER BY o.dateordered Asc";
+			
+			pstm= DB.prepareStatement(sql, null);
+			rs = pstm.executeQuery();
+			int i = 0;
+			while(rs.next()){
+				orderList.add(rs.getInt(1));
+				
+			}
+		}
+		catch(Exception e)
+		{
+			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+		}
+	}
 	
 }

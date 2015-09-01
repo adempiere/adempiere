@@ -39,7 +39,6 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPayment;
@@ -104,7 +103,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private Label fTenderAmt;
 	private Label fReturnAmt;
 	private Label lReturnAmt;
-	private Label fSubTotal;
 	private Label lTenderAmount[];
 	private Button fPlus;
 	private int cont;
@@ -174,16 +172,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		isPrePaiment.setText(Msg.translate(p_ctx, "isPrePayment"));
 		isPrePaiment.setStyle(FONT_SIZE);
 		row.appendChild(isPrePaiment);
-		Label fsLabel = new Label(Msg.translate(p_ctx, "SubTotal")+":");
-		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
-		fSubTotal = new Label();
-		row.appendChild(fsLabel.rightAlign());
-		row.appendChild(fSubTotal);
-		fSubTotal.setStyle(FONT_SIZE);
-		fSubTotal.setValue(p_order.getSubtotal().toString());
 		
-		row = rows.newRow();
-		row.appendChild(new Space());
 		Label gtLabel = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
 		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		row.appendChild(gtLabel.rightAlign());
@@ -191,6 +180,18 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		fTotal.setStyle(FONT_SIZE);
 		fTotal.setValue(p_order.getGrandTotal().toString());
 		
+		
+		row = rows.newRow();
+		row.appendChild(new Space());
+		
+
+		Label fsLabel = new Label(Msg.translate(p_ctx, "PayAmt")+":");
+		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
+		fPayAmt = new Label();
+		row.appendChild(fsLabel.rightAlign());
+		row.appendChild(fPayAmt);
+		fPayAmt.setStyle(FONT_SIZE);
+		fPayAmt.setValue(Env.ZERO.toString());
 		
 		fReturnAmt = new Label();
 		lReturnAmt = new Label(Msg.translate(p_ctx, "AmountReturned")+":");
@@ -366,10 +367,9 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			paid = true;
 			
 		}
-		fSubTotal.setValue(p_order.getSubtotal().toString());
 		fBalance.setValue(balance.toString());
 		fReturnAmt.setValue(balance.toString());
-
+		fPayAmt.setValue(mount.toString());
 	}
 
 	public void keyReturned(MPOSKey key) {
