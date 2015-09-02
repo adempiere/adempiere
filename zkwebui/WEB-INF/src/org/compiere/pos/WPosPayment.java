@@ -39,6 +39,7 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPayment;
@@ -162,7 +163,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		mainLayout.appendChild(north);
 		north.appendChild(eastPanel);
 		eastPanel.appendChild(eastlayout);
-		eastlayout.setWidth("100%");
+		eastlayout.setWidth("400px");
 		eastlayout.setHeight("100%");
 		
 		rows = eastlayout.newRows();
@@ -211,18 +212,18 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 
 		
 		Center center = new Center();
-		center.setStyle("border: none; overflow:auto;");
+		center.setStyle("border: none; overflow-y:auto;overflow-x:hidden;");
 		mainLayout.appendChild(center);
 		center.appendChild(centerPanel);
 		centerPanel.appendChild(layout);
-		layout.setWidth("100%");
+		layout.setWidth("400px");
 		layout.setHeight("100%");
 		layout.setStyle("overflow:auto;");
 		appendChild(mainPanel);
 		
 		rows = layout.newRows();
 		row = rows.newRow();
-		row.setSpans("2");
+		row.setWidth("100%");
 		
 		pp = new ArrayList<PaymentPanel> ();
 		fMinus = new ArrayList<Button> ();
@@ -248,7 +249,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	
 	private void addTypePay(){
 		row = rows.newRow();
-		row.setSpans("2");
 		// Button Minus
 		bMinus = createButtonAction("Minus", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
 		fMinus.add(bMinus);
@@ -400,7 +400,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		
 		WPosPayment pay = new WPosPayment(posPanel, subOrder);
 		pay.setVisible(true);
-		pay.setWidth("390px");;
+		pay.setWidth("430px");;
 		pay.setHeight("580px"); ;
 		pay.setClosable(true);
 		AEnv.showWindow(pay);
