@@ -72,7 +72,8 @@ public class QueryTicket extends PosQuery
 
 	
 	private PosTextField	f_documentno;
-	private VDate			f_date;
+	private VDate			f_dateFrom;
+	private VDate			f_dateTo;
 
 	private int				m_c_order_id;
 	private CCheckBox 		f_processed;
@@ -80,21 +81,22 @@ public class QueryTicket extends PosQuery
 	private CButton 		f_ok;
 	private CButton 		f_cancel;
 	
-	static final private String DOCUMENTNO  = "DocumentNo";
-	static final private String TOTALLINES  = "TotalLines";
-	static final private String OPENAMT     = "OpenAmt";
-	static final private String GRANDTOTAL  = "GrandTotal";
-	static final private String BPARTNERID  = "C_BPartner_ID";
-	static final private String PROCESSED   = "Processed";
-	static final private String PAID        = "IsPaid";
-	static final private String DATEORDERED = "DateOrdered";
-	static final private String REFRESH     = "Refresh";
-	static final private String QUERY       = "Query";
-	static final private String PREVIOUS    = "Previous";
-	static final private String NEXT        = "Next";
-	static final private String OK          = "Ok";
-	static final private String CANCEL      = "Cancel";
-	static final private String RESET       = "Reset";
+	static final private String DOCUMENTNO      = "DocumentNo";
+	static final private String TOTALLINES      = "TotalLines";
+	static final private String OPENAMT         = "OpenAmt";
+	static final private String GRANDTOTAL      = "GrandTotal";
+	static final private String BPARTNERID      = "C_BPartner_ID";
+	static final private String PROCESSED       = "Processed";
+	static final private String PAID            = "IsPaid";
+	static final private String DATEORDEREDFROM = "DateOrderedFrom";
+	static final private String DATEORDEREDTO   = "DateOrderedTo";
+	static final private String REFRESH         = "Refresh";
+	static final private String QUERY           = "Query";
+	static final private String PREVIOUS        = "Previous";
+	static final private String NEXT            = "Next";
+	static final private String OK              = "Ok";
+	static final private String CANCEL          = "Cancel";
+	static final private String RESET           = "Reset";
 
 	/**	Table Column Layout Info			*/
 	private static ColumnInfo[] s_layout = new ColumnInfo[] 
@@ -130,13 +132,22 @@ public class QueryTicket extends PosQuery
 		northPanel.add(f_documentno, "h 30, w 200");
 		f_documentno.addActionListener(this);
 		//
-		CLabel ldate = new CLabel(Msg.translate(p_ctx, DATEORDERED));
-		northPanel.add (ldate, "growy");
-		f_date = new VDate();
-		f_date.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		ldate.setLabelFor(f_date);
-		northPanel.add(f_date, "h 30, w 200");
-		f_date.addActionListener(this);
+		CLabel ldateFrom = new CLabel(Msg.translate(p_ctx, DATEORDEREDFROM));
+		northPanel.add (ldateFrom, "growy");
+		f_dateFrom = new VDate();
+		f_dateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		ldateFrom.setLabelFor(f_dateFrom);
+		northPanel.add(f_dateFrom, "h 30, w 200");
+		f_dateFrom.addActionListener(this);
+		
+		// Date To
+		CLabel ldateTo = new CLabel(Msg.translate(p_ctx, DATEORDEREDTO));
+		northPanel.add (ldateTo, "growy");
+		f_dateTo = new VDate();
+		f_dateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		ldateTo.setLabelFor(f_dateTo);
+		northPanel.add(f_dateTo, "h 30, w 200");
+		f_dateTo.addActionListener(this);
 		
 		f_processed = new CCheckBox(Msg.translate(p_ctx, PROCESSED));
 		f_processed.setSelected(false);
@@ -175,7 +186,7 @@ public class QueryTicket extends PosQuery
 		f_documentno.requestFocus();
 		pack();
 		
-		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), f_date.getTimestamp());
+		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), f_dateFrom.getTimestamp(), f_dateTo.getTimestamp());
 	}	//	init
 
 	
@@ -189,9 +200,9 @@ public class QueryTicket extends PosQuery
 		log.info("PosQueryProduct.actionPerformed - " + e.getActionCommand());
 		if (REFRESH.equals(e.getActionCommand())
 			|| e.getSource() == f_processed || e.getSource() == f_documentno
-			|| e.getSource() == f_date)
+			|| e.getSource() == f_dateFrom || e.getSource() == f_dateTo)
 		{
-			setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), f_date.getTimestamp());
+			setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), f_dateFrom.getTimestamp(), f_dateTo.getTimestamp());
 			return;
 		}
 		else if (RESET.equals(e.getActionCommand()))
@@ -241,8 +252,9 @@ public class QueryTicket extends PosQuery
 	{
 		f_processed.setSelected(false);
 		f_documentno.setText(null);
-		f_date.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), f_date.getTimestamp());
+		f_dateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		f_dateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), f_dateFrom.getTimestamp(), f_dateTo.getTimestamp());
 	}
 
 
@@ -250,7 +262,7 @@ public class QueryTicket extends PosQuery
 	 * 	Set/display Results
 	 *	@param results results
 	 */
-	public void setResults (Properties ctx, boolean processed, String doc, Timestamp date)
+	public void setResults (Properties ctx, boolean processed, String doc, Timestamp dateFrom, Timestamp dateTo)
 	{
 		StringBuffer sql = new StringBuffer();
 		try 
@@ -265,13 +277,20 @@ public class QueryTicket extends PosQuery
 				.append(" AND (i.ispaid='N' OR o.processed= "+ ( processed ? "'Y' )" : "'N' )"));
 			if (doc != null && !doc.equalsIgnoreCase(""))
 				sql.append(" AND (o.DocumentNo LIKE '%" + doc + "%' OR  i.DocumentNo LIKE '%" + doc + "%')");
-			if ( date != null )
-				sql.append(" AND trunc(o.DateOrdered) = ? ");
+			if ( dateFrom != null ) {
+				if ( dateTo != null && !dateTo.equals(dateFrom))
+					sql.append(" AND trunc(o.DateOrdered) BETWEEN ? AND ?");						
+				else
+					sql.append(" AND trunc(o.DateOrdered) = ? ");	
+			}
 			sql.append(" ORDER BY o.DocumentNo DESC");
 			
 			PreparedStatement pstm = DB.prepareStatement(sql.toString(), null);
-			if ( date != null )
-				pstm.setTimestamp(1, date);
+			if ( dateFrom != null ) {				
+				pstm.setTimestamp(1, dateFrom);
+				if ( dateTo != null && !dateTo.equals(dateFrom))	
+					pstm.setTimestamp(2, dateTo);
+			}
 			ResultSet rs = pstm.executeQuery();
 			m_table.loadTable(rs);
 			if ( m_table.getRowCount() > 0 )
