@@ -385,9 +385,9 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		if (action.equals("Product"))
 		{
 			setParameter();
-			QueryProduct qt = new QueryProduct(p_posPanel);
-			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
-			qt.setVisible(true);
+//			QueryProduct qt = new QueryProduct(p_posPanel);
+//			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
+//			qt.setVisible(true);
 			findProduct();
 			updateTable(p_posPanel.getM_Order());
 			int row = m_table.getSelectedRow();
@@ -459,8 +459,8 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			C_Order_ID = order.getC_Order_ID();
 		if (C_Order_ID == 0)
 		{
-			p_posPanel.f_curLine.m_table.loadTable(new PO[0]);
-			p_posPanel.f_order.setSums(null);
+//			p_posPanel.f_curLine.m_table.loadTable(new PO[0]);
+//			p_posPanel.f_order.setSums(null);
 		}
 		
 		PreparedStatement pstmt = null;
@@ -522,7 +522,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	{
 		//	What PriceList ?
 		m_M_Warehouse_ID = p_pos.getM_Warehouse_ID();
-		m_M_PriceList_Version_ID = p_posPanel.f_order.getM_PriceList_Version_ID();
+//		m_M_PriceList_Version_ID = p_posPanel.f_order.getM_PriceList_Version_ID();
 	}	//	setParameter
 
 	/**
@@ -630,10 +630,10 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		setParameter();
 		MWarehousePrice result = MWarehousePrice.get (m_product,
 			m_M_PriceList_Version_ID, m_M_Warehouse_ID, null);
-		if (result != null)
-			p_posPanel.f_curLine.setPrice(result.getPriceStd());
-		else
-			p_posPanel.f_curLine.setPrice(Env.ZERO);
+//		if (result != null)
+//			p_posPanel.f_curLine.setPrice(result.getPriceStd());
+//		else
+//			p_posPanel.f_curLine.setPrice(Env.ZERO);
 	}	//	setPrice
 	
 
@@ -675,22 +675,22 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			String message = Msg.translate(p_ctx,  "search product notfound");
 			ADialog.warn(p_posPanel.getWindowNo(), null, message + query);
 			setM_Product_ID(0);
-			p_posPanel.f_curLine.setPrice(Env.ZERO);
+//			p_posPanel.f_curLine.setPrice(Env.ZERO);
 		}
 		else if (results.length == 1)
 		{
 			setM_Product_ID(results[0].getM_Product_ID());
 			setQty(Env.ONE);
 			f_name.setText(results[0].getName());
-			p_posPanel.f_curLine.setPrice(results[0].getPriceStd());
+//			p_posPanel.f_curLine.setPrice(results[0].getPriceStd());
 			saveLine();
 		}
 		else	//	more than one
 		{
-			QueryProduct qt = new QueryProduct(p_posPanel);
-			qt.setResults(results);
-			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
-			qt.setVisible(true);
+//			QueryProduct qt = new QueryProduct(p_posPanel);
+//			qt.setResults(results);
+//			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
+//			qt.setVisible(true);
 		}
 	}	//	findProduct
 

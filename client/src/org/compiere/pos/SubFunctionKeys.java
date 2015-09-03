@@ -16,6 +16,7 @@ package org.compiere.pos;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.compiere.apps.ADialog;
 import org.compiere.model.MPOSKey;
 import org.compiere.util.CLogger;
 
@@ -82,13 +83,13 @@ public class SubFunctionKeys extends PosSubPanel implements PosKeyListener
 			return;
 		
 		// new line
-//		p_posPanel.f_curLine.setM_Product_ID(key.getM_Product_ID());
-//		p_posPanel.f_curLine.setPrice();
-//		p_posPanel.f_curLine.setQty(key.getQty());
-//		if ( !p_posPanel.f_curLine.saveLine() )
-//		{
-//			ADialog.error(0, this, "Could not save order line");
-//		}
+		p_posPanel.f_curLine.setM_Product_ID(key.getM_Product_ID());
+		p_posPanel.f_curLine.setPrice();
+		p_posPanel.f_curLine.setQty(key.getQty());
+		if ( !p_posPanel.f_curLine.saveLine() )
+		{
+			ADialog.error(0, this, "Could not save order line");
+		}
 		p_posPanel.updateInfo();
 		return;
 	}
