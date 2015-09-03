@@ -522,7 +522,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	{
 		//	What PriceList ?
 		m_M_Warehouse_ID = p_pos.getM_Warehouse_ID();
-//		m_M_PriceList_Version_ID = p_posPanel.f_order.getM_PriceList_Version_ID();
+		m_M_PriceList_Version_ID = p_posPanel.f_order.getM_PriceList_Version_ID();
 	}	//	setParameter
 
 	/**
@@ -630,10 +630,10 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		setParameter();
 		MWarehousePrice result = MWarehousePrice.get (m_product,
 			m_M_PriceList_Version_ID, m_M_Warehouse_ID, null);
-//		if (result != null)
-//			p_posPanel.f_curLine.setPrice(result.getPriceStd());
-//		else
-//			p_posPanel.f_curLine.setPrice(Env.ZERO);
+		if (result != null)
+			p_posPanel.f_curLine.setPrice(result.getPriceStd());
+		else
+			p_posPanel.f_curLine.setPrice(Env.ZERO);
 	}	//	setPrice
 	
 
