@@ -849,7 +849,7 @@ public class SubOrder extends PosSubPanel
 	/**
 	 * 	Set Sums from Table
 	 */
-	void setSums(I_POS order) {
+	void setSums(VPOS order) {
 //		int noLines = p_posPanel.f_curLine.m_table.getRowCount();
 //		if (order == null || noLines == 0)
 //		{

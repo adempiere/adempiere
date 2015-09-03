@@ -31,7 +31,6 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrderTax;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPayment;
-import org.compiere.model.MPaymentAllocate;
 import org.compiere.model.MPaymentProcessor;
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
@@ -93,8 +92,18 @@ public class CPOS {
 	 * @return
 	 * @return MOrder
 	 */
-	public MOrder getOrder() {
+	public MOrder getM_Order() {
 		return m_CurrentOrder;
+	}
+	
+	/**
+	 * Get POS Configuration
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return MPOS
+	 */
+	public MPOS getM_POS() {
+		return m_POS;
 	}
 	
 	/**
@@ -413,140 +422,6 @@ public class CPOS {
 		
 		return received;
 	}
-
-
-	/**
-	 * 	Process Payment
-	 * 
-	 * @return true if payment processed correctly; otherwise false
-	 * 
-	 */
-	public boolean payCash(BigDecimal amt) {
-
-		MPayment payment = createPayment(MPayment.TENDERTYPE_Cash);
-		payment.setC_CashBook_ID(m_POS.getC_CashBook_ID());
-		payment.setAmount(m_CurrentOrder.getC_Currency_ID(), amt);
-		payment.setC_BankAccount_ID(m_POS.getC_BankAccount_ID());
-		payment.saveEx();
-		payment.setDocAction(MPayment.DOCACTION_Complete);
-		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
-		if ( payment.processIt(MPayment.DOCACTION_Complete) ) {
-			payment.saveEx();
-			return true;
-		}
-		else return false;
-	} // payCash
-
-
-	/**
-	 * 	Payment with check
-	 * 
-	 * @return true if payment processed correctly; otherwise false
-	 * 
-	 */
-	public boolean payCheck(BigDecimal amt, String accountNo, String routingNo, String checkNo) {
-		MPayment payment = createPayment(MPayment.TENDERTYPE_Cash);
-		payment.setC_CashBook_ID(m_POS.getC_CashBook_ID());
-		payment.setAmount(m_CurrentOrder.getC_Currency_ID(), amt);
-		payment.setC_BankAccount_ID(m_POS.getC_BankAccount_ID());
-		payment.setAccountNo(accountNo);
-		payment.setRoutingNo(routingNo);
-		payment.setCheckNo(checkNo);
-		payment.setDescription("No de cheque:" +checkNo);
-		payment.saveEx();
-		payment.setDocAction(MPayment.DOCACTION_Complete);
-		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
-		if ( payment.processIt(MPayment.DOCACTION_Complete) ) {
-			payment.saveEx();
-			return true;
-		}
-		else return false;
-	} // payCheck
-
-
-	/**
-	 * 	Payment with credit card
-	 * 
-	 * @return true if payment processed correctly; otherwise false
-	 * 
-	 */
-	public boolean payCreditCard(BigDecimal amt, String accountName, int month, int year,
-			String cardNo, String cvc, String cardtype) {
-
-		MPayment payment = createPayment(MPayment.TENDERTYPE_Check);
-		payment.setAmount(m_CurrentOrder.getC_Currency_ID(), amt);
-		payment.setC_BankAccount_ID(m_POS.getC_BankAccount_ID());
-		payment.setCreditCard(MPayment.TRXTYPE_Sales, cardtype,
-				cardNo, cvc, month, year);
-		payment.saveEx();
-		payment.setDocAction(MPayment.DOCACTION_Complete);
-		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
-		if ( payment.processIt(MPayment.DOCACTION_Complete) ) {
-			payment.saveEx();
-			return true;
-		}
-		else return false;
-	} // payCheck
-
-
-	/**
-	 * 	Payment with credit note
-	 * 
-	 * @return true if payment processed correctly; otherwise false
-	 * 
-	 */
-	public boolean payCreditNote(MInvoice creditNote, BigDecimal amt) {
-		MPayment payment = createPayment(MPayment.TENDERTYPE_Account);
-		payment.setAmount(m_CurrentOrder.getC_Currency_ID(), Env.ZERO);
-		payment.setC_BankAccount_ID(m_POS.getC_BankAccount_ID());
-		payment.saveEx();
-		//Invoice
-		MPaymentAllocate pa = new MPaymentAllocate(Env.getCtx(), 0, null);
-		pa.setC_Payment_ID(payment.getC_Payment_ID());
-		pa.setC_Invoice_ID(m_CurrentOrder.getC_Invoice_ID());
-		pa.setAmount(amt);
-		pa.saveEx();
-		//CreditNote
-		pa = new MPaymentAllocate(Env.getCtx(), 0, null);
-		pa.setC_Payment_ID(payment.getC_Payment_ID());
-		pa.setC_Invoice_ID(creditNote.getC_Invoice_ID());
-		pa.setAmount(amt.negate());
-		pa.saveEx();
-		
-		payment.setDocAction(MPayment.DOCACTION_Complete);
-		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
-		if ( payment.processIt(MPayment.DOCACTION_Complete) )
-		{
-			payment.saveEx();
-			return true;
-		}
-		else return false;
-	} // payCheck
-
-
-	/**
-	 * 	Create Payment object
-	 *  Refer to invoice if there is an invoice
-	 * 
-	 * @return Payment object
-	 * 
-	 */
-	private MPayment createPayment(String tenderType) {
-		MPayment payment = new MPayment(Env.getCtx(), 0, null);
-		payment.setAD_Org_ID(m_POS.getAD_Org_ID());
-		payment.setTenderType(tenderType);
-		payment.setC_Order_ID(m_CurrentOrder.getC_Order_ID());
-		payment.setIsReceipt(true);
-		payment.setC_BPartner_ID(m_CurrentOrder.getC_BPartner_ID());
-		if (m_CurrentOrder.getC_Invoice_ID() > 0) {
-			payment.setC_Invoice_ID(m_CurrentOrder.getC_Invoice_ID());
-			MInvoice inv = new MInvoice(Env.getCtx(), payment.getC_Invoice_ID(), null);
-			payment.setDescription(Msg.getMsg(Env.getCtx(), "Invoice No") + inv.getDocumentNo());
-		}
-		//	Default Return	
-		return payment;
-	}
-
 
 	/**
 	 * 	Load Order

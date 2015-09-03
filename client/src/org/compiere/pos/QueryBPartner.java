@@ -62,7 +62,7 @@ public class QueryBPartner extends PosQuery
 	/**
 	 * 	Constructor
 	 */
-	public QueryBPartner (I_POS posPanel)
+	public QueryBPartner (VPOS posPanel)
 	{
 		super(posPanel);
 	}	//	PosQueryBPartner

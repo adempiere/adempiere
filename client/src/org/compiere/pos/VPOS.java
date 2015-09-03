@@ -35,7 +35,6 @@ import net.miginfocom.swing.MigLayout;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.model.MLocator;
-import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
 import org.compiere.model.MWarehouse;
 import org.compiere.swing.CFrame;
@@ -48,7 +47,7 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Aug 31, 2015, 12:00:10 AM
  *
  */
-public class VPOS extends CPOS implements FormPanel, I_POS {
+public class VPOS extends CPOS implements FormPanel {
 	
 	/**	Window No					*/
 	private int         					m_WindowNo;
@@ -62,8 +61,6 @@ public class VPOS extends CPOS implements FormPanel, I_POS {
 	protected SubCurrentLine 				f_curLine;
 	/** Function Keys				*/
 	protected SubFunctionKeys 				f_functionKeys;
-	/**	Cash Functions				*/
-	protected CashSubFunctions 				f_cashfunctions;
 	/**	Timer for logout			*/
 	private Timer 							logoutTimer;
 	/** Keyoard Focus Manager		*/
@@ -92,7 +89,7 @@ public class VPOS extends CPOS implements FormPanel, I_POS {
 	@Override
 	public void init(int WindowNo, FormFrame frame) {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		//	
 		m_SalesRep_ID = Env.getAD_User_ID(m_ctx);
 		log.info("init - SalesRep_ID=" + m_SalesRep_ID);
@@ -231,10 +228,6 @@ public class VPOS extends CPOS implements FormPanel, I_POS {
 		if (f_functionKeys != null)
 			f_functionKeys.dispose();
 		f_functionKeys = null;
-
-		if (f_cashfunctions != null)
-			f_cashfunctions.dispose();
-		f_cashfunctions = null;
 		if (m_frame != null)
 			m_frame.dispose();
 		m_frame = null;
@@ -246,7 +239,7 @@ public class VPOS extends CPOS implements FormPanel, I_POS {
 	 */
 	public void updateInfo() {
 		if ( f_curLine != null )
-			f_curLine.updateTable(getOrder());
+			f_curLine.updateTable(getM_Order());
 		if (f_order != null) {
 			f_order.updateOrder();
 		}
@@ -271,24 +264,23 @@ public class VPOS extends CPOS implements FormPanel, I_POS {
 			return keyboard;
 		}
 	}
-
-	@Override
-	public MOrder getM_Order() {
-		return getOrder();
-	}
-
-	@Override
-	public MPOS getM_POS() {
-		return m_POS;
-	}
 	
-	@Override
+	/**
+	 * Get Window Number
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
 	public int getWindowNo() {
 		return m_WindowNo;
 	}
 
-	@Override
+	/**
+	 * New Order
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
 	public void newOrder() {
-		
+		newOrder(f_order.getBPartner());
 	}
 }

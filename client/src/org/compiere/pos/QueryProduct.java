@@ -54,7 +54,7 @@ public class QueryProduct extends PosQuery
 	/**
 	 * 	Constructor
 	 */
-	public QueryProduct (PosBasePanel posPanel)
+	public QueryProduct (VPOS posPanel)
 	{
 		super(posPanel);
 	}	//	PosQueryProduct
