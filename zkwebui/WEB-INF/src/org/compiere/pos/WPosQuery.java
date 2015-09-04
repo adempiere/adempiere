@@ -82,7 +82,7 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 		super();
 		p_posPanel = posPanel;
 		p_order = order;
-		p_pos = posPanel.m_POS;
+		p_pos = order.p_pos;
 		p_ctx = p_pos.getCtx();
 		this.setAttribute("mode", "modal");
 		this.setBorder("normal");
