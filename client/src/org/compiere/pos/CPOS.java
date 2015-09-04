@@ -169,14 +169,14 @@ public class CPOS {
 	 * 	New Order
 	 *   
 	 */
-	public void newOrder(MBPartner p_C_BPartner) {
+	public void newOrder(MBPartner p_C_BPartner, boolean isDocType) {
 		log.info( "PosPanel.newOrder");
 		m_CurrentOrder = null;
 		int m_C_DocType_ID = m_POS.getC_DocType_ID();
 		int m_C_DocTypewholesale_ID = m_POS.getC_DocTypewholesale_ID();;
 		if (m_C_DocTypewholesale_ID > 0) {
 			//	Do you want to use the alternate Document type?
-			if (ADialog.ask(0, null, Msg.getMsg(m_ctx, "POS.AlternateDT"))) {
+			if (isDocType) {
 				m_C_DocType_ID = m_C_DocTypewholesale_ID;
 			}
 		}

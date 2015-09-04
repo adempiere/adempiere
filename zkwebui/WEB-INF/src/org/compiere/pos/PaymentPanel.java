@@ -75,9 +75,9 @@ public class PaymentPanel extends Collect implements EventListener {
 	private final String COLOR_BLACK = "color:#000";
 	private DateFormat 				dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private EventListener p_Event;
-	private WPosBasePanel p_posBasePanel;
+	private WPOS p_posBasePanel;
 	
-	public PaymentPanel(Properties ctx, MOrder m_Order, int m_M_POS_ID, String m_TendeType, EventListener m_event, WPosBasePanel m_posBasePanel ) {
+	public PaymentPanel(Properties ctx, MOrder m_Order, int m_M_POS_ID, String m_TendeType, EventListener m_event, WPOS m_posBasePanel ) {
 		super(ctx, m_Order, m_M_POS_ID);
 		p_TenderType = m_TendeType;
 		p_ctx = ctx;
@@ -93,7 +93,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		mainPanel = new Panel();
 		mainGrid = GridFactory.newGridLayout();
 		mainPanel.appendChild(mainGrid);
-		mainGrid.setWidth("99%");
+		mainGrid.setWidth("95%");
 		mainGrid.setHeight("50px");
 		Center center = new Center();
 		mainLayout = new Borderlayout();
@@ -129,7 +129,7 @@ public class PaymentPanel extends Collect implements EventListener {
 					tenderTypePick.appendItem(key.getName(), key);
 			}
 		}
-		tenderTypePick.setWidth("129px");
+		tenderTypePick.setWidth("139px");
 		tenderTypePick.addActionListener(this);
 		row.appendChild(tenderTypePick);
 		
@@ -148,7 +148,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		mainPanel = new Panel();
 		mainGrid = GridFactory.newGridLayout();
 		mainPanel.appendChild(mainGrid);
-		mainGrid.setWidth("99%");
+		mainGrid.setWidth("95%");
 		mainGrid.setHeight("70px");
 		Center center = new Center();
 		mainLayout = new Borderlayout();
@@ -203,6 +203,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		fPayAmt = new Textbox();
 		row.appendChild(fPayAmt);
 		fPayAmt.setText(lPayAmt.getValue());
+		fPayAmt.setValue("0.00");
 		fPayAmt.setStyle("text-align:right");
 		fPayAmt.addFocusListener(p_Event);
 		

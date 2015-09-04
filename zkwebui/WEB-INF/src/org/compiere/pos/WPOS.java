@@ -23,10 +23,6 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 
-
-
-
-
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
@@ -38,8 +34,13 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.model.MLocator;
 import org.compiere.model.MPOS;
+import org.compiere.model.MWarehouse;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -53,7 +54,7 @@ import org.zkoss.zul.Iframe;
  * @author Raul Muñoz 19/03/2015, 12:57
  *
  */
-public class WPosBasePanel extends Panel implements EventListener
+public class WPOS extends CPOS implements IFormController, EventListener
 	//implements FormPanel
  
 {
@@ -66,33 +67,29 @@ public class WPosBasePanel extends Panel implements EventListener
 	/**
 	 * 	Constructor - see init 
 	 */
-	public WPosBasePanel()
+	public WPOS()
 	{
 		super ();
 		m_focusMgr = new PosKeyboardFocusManager();
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
-		init();
+		zkinit();
 	}	//	PosPanel
 	
+
+	private CustomForm form = new CustomForm();
 	/**	Window No			*/
 	private int         	m_WindowNo = 0;
 	/**	FormFrame			*/
 	private Iframe 		m_frame;
 	/**	Logger				*/
 	private CLogger			log = CLogger.getCLogger(getClass());
-	/** Context				*/
-	private Properties		m_ctx = Env.getCtx();
-	/** Sales Rep 			*/
-	private int				m_SalesRep_ID = 0;
-	/** POS Model			*/
-	protected MPOS			p_pos = null;
+	
 	/** Keyoard Focus Manager		*/
 	private PosKeyboardFocusManager	m_focusMgr = null;
 	
 	/** Order Panel				*/
 	protected WSubOrder 		f_order;
 	/** Current Line				*/
-	protected WSubCurrentLine 	f_curLine;
 	
 	PosOrderModel m_order = null;
 	private boolean action = false;
@@ -109,16 +106,13 @@ public class WPosBasePanel extends Panel implements EventListener
 	public Panel parameterPanel = new Panel();
 	private Listbox listTerminal = ListboxFactory.newDropdownListbox();
 	/**
-	 *	Initialize Panel
+	 *	zk Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame parent frame
 	 */
-	public void init ()
+	public void zkinit ()
 	{
 
-		setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
-		
-		
 		m_SalesRep_ID = Env.getAD_User_ID(m_ctx);
 		log.info("init - SalesRep_ID=" + m_SalesRep_ID);
 		m_WindowNo = 0;
@@ -150,10 +144,17 @@ public class WPosBasePanel extends Panel implements EventListener
 		}
 		
 		f_order = new WSubOrder(this);
-		appendChild(f_order);
+		form.appendChild(f_order);
 		
 		return true;
 	}	//	dynInit
+
+	/**
+	 * Load POS
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return boolean
+	 */
+	
 
 	/**
 	 * 	Set MPOS
@@ -161,25 +162,11 @@ public class WPosBasePanel extends Panel implements EventListener
 	 */
 	private boolean setMPOS()
 	{
-		MPOS[] poss = null;
-		if (m_SalesRep_ID == 100)	//	superUser
-			poss = getPOSs (m_Sales_ID);
-		else{
-			m_Sales_ID = m_SalesRep_ID;
-			poss = getPOSs (m_SalesRep_ID);
-		}
-		//
-		if (poss.length == 0)
-		{
-			FDialog.error(m_WindowNo, m_frame, "NoPOSForUser");
-			return false;
-		}
-		else if (poss.length == 1)
-		{
-			p_pos = poss[0];
-			return true;
-		}
-		//	Select POS
+		m_SalesRep_ID = Env.getAD_User_ID(m_ctx);
+		boolean ok = setPOS();
+		if(!ok && msgLocator == null){
+			MPOS[] poss = getPOSs();
+			//	Select POS
 			String msg = Msg.getMsg(m_ctx, "SelectPOS");
 			selection = new Window();
 			Panel mainPanel = new Panel();
@@ -220,6 +207,10 @@ public class WPosBasePanel extends Panel implements EventListener
 			row.appendChild(b_ok);
 			row.appendChild(b_cancel);
 			AEnv.showWindow(selection);
+		}
+		else
+			return true;
+		
 			
 		return action;
 	}	//	setMPOS
@@ -241,16 +232,7 @@ public class WPosBasePanel extends Panel implements EventListener
 		return MPOS.getAll(m_ctx, pass_field, pass_ID);
 	}	//	getPOSs
 	
-	/**
-	 * @param m_c_order_id
-	 */
-	public void setOrder(int m_c_order_id) 
-	{
-		if ( m_c_order_id == 0 )
-			m_order = null;
-		else
-			m_order = new PosOrderModel(m_ctx , m_c_order_id, null, p_pos);
-	}
+	
 	
 	/**************************************************************************
 	 * 	Get Today's date
@@ -304,14 +286,7 @@ public class WPosBasePanel extends Panel implements EventListener
 		if (f_order != null)
 			f_order.dispose();
 		f_order = null;
-		if (f_curLine != null)
-		{
-			// if ( m_order != null )
-			// 	m_order.deleteOrder();
-			f_curLine.dispose();
-		}
-		f_curLine = null;
-
+		
 		if (m_frame != null)
 			m_frame.detach();
 		
@@ -323,8 +298,7 @@ public class WPosBasePanel extends Panel implements EventListener
 	public void onEvent(Event e) throws Exception {
 		if(e.getTarget().equals(b_ok)){
 			MPOS[] poss = getPOSs (m_Sales_ID);
-			System.out.println();
-			p_pos = poss[listTerminal.getSelectedIndex()];
+			m_POS = poss[listTerminal.getSelectedIndex()];
 			action = true;
 			selection.dispose();
 		}
@@ -333,5 +307,10 @@ public class WPosBasePanel extends Panel implements EventListener
 			selection.dispose();
 		}
 	}
-}	//	PosBasePanel
+
+	@Override
+	public ADForm getForm() {
+		return form;
+	}
+}	//	PosPanel
 

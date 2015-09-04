@@ -57,7 +57,7 @@ public class WQueryProduct extends WPosQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryProduct (WPosBasePanel posPanel, WSubOrder order)
+	public WQueryProduct (WPOS posPanel, WSubOrder order)
 	{
 		super(posPanel, order);
 	}	//	PosQueryProduct
@@ -109,6 +109,7 @@ public class WQueryProduct extends WPosQuery
 		//	Set title window
 		this.setTitle("Query Title");
 		this.setClosable(true);
+		
 		cont=2;
 		appendChild(panel);
 		//	North

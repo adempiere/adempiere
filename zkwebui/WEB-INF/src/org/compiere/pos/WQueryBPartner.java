@@ -14,16 +14,9 @@
 
 package org.compiere.pos;
 
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
-
-
-
-
-
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
@@ -37,7 +30,6 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.grid.WBPartner;
-import org.compiere.grid.ed.VBPartner;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartnerInfo;
@@ -73,7 +65,7 @@ public class WQueryBPartner extends WPosQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryBPartner (WPosBasePanel posPanel, WSubOrder order)
+	public WQueryBPartner (WPOS posPanel, WSubOrder order)
 	{
 		super(posPanel, order);
 	}	//	PosQueryBPartner
@@ -223,9 +215,8 @@ public class WQueryBPartner extends WPosQuery
 		m_table.addActionListener(this);
 		enableButtons();
 		center = new Center();
-		center.setStyle("border: none");
+		center.setStyle("border: none; Height=100%");
 		m_table.setWidth("100%");
-		m_table.setHeight("99%");
 		m_table.addActionListener(this);
 		center.appendChild(m_table);
 		mainLayout.appendChild(center);
@@ -320,22 +311,24 @@ public class WQueryBPartner extends WPosQuery
 	}
 	@Override
 	public void onEvent(Event e) throws Exception {
+		
 		if(e.getTarget().equals(f_name) || e.getTarget().equals(f_contact)
 				|| e.getTarget().equals(f_value) || e.getTarget().equals(f_email)
 				|| e.getTarget().equals(f_city) || e.getTarget().equals(f_phone)){
-			showKeyboard(e.getTarget(), e.getName());
+				showKeyboard(e.getTarget(), e.getName());
 		}
-		if (f_refresh.equals(e.getTarget())
-				|| e.getTarget() == f_value // || e.getSource() == f_upc
-				|| e.getTarget() == f_name // || e.getSource() == f_sku
-				)
-			{
-				setResults(MBPartnerInfo.find (p_ctx,
-					f_value.getText(), f_name.getText(), 
-					null, f_email.getText(),
-					f_phone.getText(), f_city.getText()));
-				return;
+		if(!e.getName().equals("onFocus")){
+			if (f_refresh.equals(e.getTarget())
+				|| e.getTarget() == f_value
+				|| e.getTarget() == f_name 
+				) {
+					setResults(MBPartnerInfo.find (p_ctx,
+							f_value.getText(), f_name.getText(), 
+							null, f_email.getText(),
+							f_phone.getText(), f_city.getText()));
+					return;
 			}
+		}
 			else if (f_down.equals(e.getTarget()))
 			{
 				int rows = m_table.getRowCount();

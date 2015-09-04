@@ -32,6 +32,8 @@ import javax.swing.Timer;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.adempiere.webui.window.FDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.model.MLocator;
@@ -281,6 +283,7 @@ public class VPOS extends CPOS implements FormPanel {
 	 * @return void
 	 */
 	public void newOrder() {
-		newOrder(f_order.getBPartner());
+		boolean isDocType = ADialog.ask(0, null, Msg.getMsg(m_ctx, "POS.AlternateDT"));
+		newOrder(f_order.getBPartner(), isDocType);
 	}
 }
