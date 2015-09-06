@@ -68,7 +68,6 @@ public class PaymentPanel extends Collect implements EventListener {
 	private int keyLayoutId;
 	private MPOS p_MPOS;
 	private MOrder p_Order;
-	private PosOrderModel p_order;
 	private Borderlayout mainLayout;
 	
 	private final String COLOR_GRAY = "color:#666";
