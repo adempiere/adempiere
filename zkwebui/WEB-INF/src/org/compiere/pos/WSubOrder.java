@@ -1343,7 +1343,7 @@ public class WSubOrder extends WPosSubPanel
 	 */
 	public void keyReturned(MPOSKey key) {
 		// processed order
-		if ( p_posPanel.m_order != null && p_posPanel.m_order.isProcessed() )
+		if ( p_posPanel.getM_Order() != null && p_posPanel.getM_Order().isProcessed() )
 			return;
 		
 		// new line
