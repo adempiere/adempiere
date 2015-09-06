@@ -37,10 +37,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
-import org.adempiere.webui.window.FDialog;
-import org.compiere.model.MLocator;
 import org.compiere.model.MPOS;
-import org.compiere.model.MWarehouse;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -54,16 +51,7 @@ import org.zkoss.zul.Iframe;
  * @author Raul Muñoz 19/03/2015, 12:57
  *
  */
-public class WPOS extends CPOS implements IFormController, EventListener
-	//implements FormPanel
- 
-{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3010214392188209281L;
-
+public class WPOS extends CPOS implements IFormController, EventListener {
 	/**
 	 * 	Constructor - see init 
 	 */
@@ -78,7 +66,7 @@ public class WPOS extends CPOS implements IFormController, EventListener
 
 	private CustomForm form = new CustomForm();
 	/**	Window No			*/
-	private int         	m_WindowNo = 0;
+//	private int         	m_WindowNo = 0;
 	/**	FormFrame			*/
 	private Iframe 		m_frame;
 	/**	Logger				*/
@@ -91,7 +79,6 @@ public class WPOS extends CPOS implements IFormController, EventListener
 	protected WSubOrder 		f_order;
 	/** Current Line				*/
 	
-	PosOrderModel m_order = null;
 	private boolean action = false;
 
 	private Button b_ok = new Button("Ok");
@@ -115,7 +102,7 @@ public class WPOS extends CPOS implements IFormController, EventListener
 
 		m_SalesRep_ID = Env.getAD_User_ID(m_ctx);
 		log.info("init - SalesRep_ID=" + m_SalesRep_ID);
-		m_WindowNo = 0;
+//		m_WindowNo = 0;
 		m_frame = frame;
 		//
 		try
