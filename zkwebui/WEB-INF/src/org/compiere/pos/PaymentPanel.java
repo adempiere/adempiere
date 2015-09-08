@@ -48,7 +48,7 @@ public class PaymentPanel extends Collect implements EventListener {
 	private Listbox bankList = ListboxFactory.newDropdownListbox();
 	public Textbox fPayAmt;
 	private WPosTextField fCheckAccountNo;
-	private Datebox fCheckdate;
+	private Textbox fCheckdate;
 	private WPosTextField fCheckRouteNo;
 	private WPosTextField fCCardNo;
 	private WPosTextField fCCardName;
@@ -68,6 +68,7 @@ public class PaymentPanel extends Collect implements EventListener {
 	private int keyLayoutId;
 	private MPOS p_MPOS;
 	private MOrder p_Order;
+	private PosOrderModel p_order;
 	private Borderlayout mainLayout;
 	
 	private final String COLOR_GRAY = "color:#666";
@@ -75,6 +76,10 @@ public class PaymentPanel extends Collect implements EventListener {
 	private DateFormat 				dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private EventListener p_Event;
 	private WPOS p_posBasePanel;
+	
+	private final String FONT_SIZE = "Font-size:medium;";
+	private final String HEIGHT = "height:33px;";
+	private final String WIDTH = "width:139px;";
 	
 	public PaymentPanel(Properties ctx, MOrder m_Order, int m_M_POS_ID, String m_TendeType, EventListener m_event, WPOS m_posBasePanel ) {
 		super(ctx, m_Order, m_M_POS_ID);
@@ -92,8 +97,8 @@ public class PaymentPanel extends Collect implements EventListener {
 		mainPanel = new Panel();
 		mainGrid = GridFactory.newGridLayout();
 		mainPanel.appendChild(mainGrid);
-		mainGrid.setWidth("95%");
-		mainGrid.setHeight("50px");
+		mainGrid.setWidth("98%");
+		mainGrid.setHeight("55px");
 		Center center = new Center();
 		mainLayout = new Borderlayout();
 		mainLayout.appendChild(center);
@@ -128,7 +133,8 @@ public class PaymentPanel extends Collect implements EventListener {
 					tenderTypePick.appendItem(key.getName(), key);
 			}
 		}
-		tenderTypePick.setWidth("139px");
+		bankList.setStyle(HEIGHT+WIDTH+FONT_SIZE);
+		tenderTypePick.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		tenderTypePick.addActionListener(this);
 		row.appendChild(tenderTypePick);
 		
@@ -136,9 +142,10 @@ public class PaymentPanel extends Collect implements EventListener {
 		Label lPayAmt  = new Label(Msg.translate(p_ctx, "PayAmt"));
 		lPayAmt.setWidth("225px");
 		fPayAmt = new Textbox();
+		
 		row.appendChild(fPayAmt);
 		fPayAmt.setText(lPayAmt.getValue());
-		fPayAmt.setStyle("text-align:right");
+		fPayAmt.setStyle("text-align:right;"+HEIGHT+WIDTH+FONT_SIZE);
 		fPayAmt.addFocusListener(p_Event);
 
 		return mainPanel;
@@ -147,7 +154,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		mainPanel = new Panel();
 		mainGrid = GridFactory.newGridLayout();
 		mainPanel.appendChild(mainGrid);
-		mainGrid.setWidth("95%");
+		mainGrid.setWidth("98%");
 		mainGrid.setHeight("70px");
 		Center center = new Center();
 		mainLayout = new Borderlayout();
@@ -192,18 +199,19 @@ public class PaymentPanel extends Collect implements EventListener {
 				
 			}
 		}
-		
+
+		bankList.setStyle(HEIGHT+WIDTH+FONT_SIZE);
+		tenderTypePick.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		tenderTypePick.addActionListener(this);
 		row.appendChild(tenderTypePick);
 		
 
 		Label lPayAmt  = new Label(Msg.translate(p_ctx, "PayAmt"));
-		lPayAmt.setWidth("225px");
 		fPayAmt = new Textbox();
 		row.appendChild(fPayAmt);
 		fPayAmt.setText(lPayAmt.getValue());
 		fPayAmt.setValue("0.00");
-		fPayAmt.setStyle("text-align:right");
+		fPayAmt.setStyle("text-align:right;"+HEIGHT+WIDTH+FONT_SIZE);
 		fPayAmt.addFocusListener(p_Event);
 		
 		row = rows.newRow();
@@ -212,16 +220,19 @@ public class PaymentPanel extends Collect implements EventListener {
 		row.appendChild(fCheckRouteNo);
 		fCheckRouteNo.setValue(lCheckRouteNo.getValue());
 		fCheckRouteNo.addEventListener("onFocus", this);
+		fCheckRouteNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(bankList);
 		
-		fCheckdate = new Datebox();
+		fCheckdate = new Textbox("MM/DD/YYYY");
 		lCheckNo = new Label(Msg.translate(p_ctx, "CheckNo"));
+		fCheckdate.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row = rows.newRow();
 		row.appendChild(fCheckdate);
 
 		lCCardType = new Label(Msg.translate(p_ctx, "CreditCardType"));
 		row = rows.newRow();
 		row.appendChild(fCCardType);
+		fCCardType.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		fCCardType.setValue(lCCardType.getValue());
 		fCCardType.addActionListener(this);
 		
@@ -236,7 +247,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		}
 		fCCardNo = new WPosTextField(p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
 		lCCardNo = new Label(Msg.translate(p_ctx, "CreditCardNumber"));
-		
+		fCCardNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(fCCardNo);
 		fCCardNo.setText(lCCardNo.getValue());
 		fCCardNo.addEventListener("onFocus", this);
@@ -245,7 +256,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		lCCardName = new Label(Msg.translate(p_ctx, "Name"));
 		row = rows.newRow();
 		row.appendChild(fCCardName);
-		
+		fCCardName.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		fCCardName.setValue(lCCardName.getValue());
 		fCCardName.addEventListener("onFocus", this);
 		
@@ -254,13 +265,14 @@ public class PaymentPanel extends Collect implements EventListener {
 		row.appendChild(fCCardMonth);
 		fCCardMonth.setValue(lCCardMonth.getValue());
 		fCCardMonth.addEventListener("onFocus", this);
-		
+		fCCardMonth.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		fCCardVC = new WPosTextField(p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
 		lCCardVC = new Label(Msg.translate(p_ctx, "CVC"));
 		row = rows.newRow();
 		row.appendChild(fCCardVC);
 		fCCardVC.setValue(lCCardVC.getValue());
 		fCCardVC.addEventListener("onFocus", this);
+		fCCardVC.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		setTotals();
 
 		return mainPanel;
@@ -310,19 +322,19 @@ public class PaymentPanel extends Collect implements EventListener {
 		p_TenderType = tenderType;
 
 		if(check)
-			mainGrid.setHeight("120px");
+			mainGrid.setHeight("150px");
 		else if(creditcard)
-			mainGrid.setHeight("160px");
+			mainGrid.setHeight("200px");
 		else if(account)
-			mainGrid.setHeight("170px");
+			mainGrid.setHeight("195px");
 		else if(directDebit)
-			mainGrid.setHeight("90px");
+			mainGrid.setHeight("95px");
 		else if(directDeposit)
-			mainGrid.setHeight("90px");
+			mainGrid.setHeight("95px");
 		else if(cash)
-			mainGrid.setHeight("50px");
+			mainGrid.setHeight("60px");
 		else
-			mainGrid.setHeight("50px");
+			mainGrid.setHeight("60px");
 			
 		fCheckdate.setVisible(check);
 		fCheckRouteNo.setVisible(check);
@@ -401,7 +413,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		}
 		
 		if(e.getTarget().equals(fCheckdate)){
-//			fCheckdate.setValue("");
+			fCheckdate.setValue("");
 			
 		}
 		if(e.getTarget().equals(fCheckRouteNo)){

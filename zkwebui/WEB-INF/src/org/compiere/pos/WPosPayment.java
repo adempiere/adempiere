@@ -152,7 +152,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		Label gtLabel = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
 		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		row.appendChild(gtLabel.rightAlign());
-		row.appendChild(fTotal);
+		row.appendChild(fTotal.rightAlign());
 		fTotal.setStyle(FONT_SIZE);
 		fTotal.setValue(p_order.getGrandTotal().toString());
 		
@@ -165,7 +165,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		fPayAmt = new Label();
 		row.appendChild(fsLabel.rightAlign());
-		row.appendChild(fPayAmt);
+		row.appendChild(fPayAmt.rightAlign());
 		fPayAmt.setStyle(FONT_SIZE);
 		fPayAmt.setValue(Env.ZERO.toString());
 		
@@ -176,7 +176,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		row = rows.newRow();
 		row.appendChild(new Space());
 		row.appendChild(lReturnAmt.rightAlign());
-		row.appendChild(fReturnAmt);
+		row.appendChild(fReturnAmt.rightAlign());
 		fReturnAmt.addEventListener("onFocus", this);
 		
 		// Button Plus
@@ -375,7 +375,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		
 		WPosPayment pay = new WPosPayment(posPanel, subOrder);
 		pay.setVisible(true);
-		pay.setWidth("430px");;
+		pay.setWidth("445px");;
 		pay.setHeight("580px"); ;
 		pay.setClosable(true);
 		AEnv.showWindow(pay);
