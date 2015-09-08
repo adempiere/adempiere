@@ -49,7 +49,6 @@ import org.adempiere.webui.event.TableValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartner;
@@ -58,7 +57,6 @@ import org.compiere.model.MCurrency;
 import org.compiere.model.MImage;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
 import org.compiere.model.MPriceList;
@@ -155,6 +153,7 @@ public class WSubOrder extends WPosSubPanel
 	private String			m_sql;
 	/** Status Panel */
 	private boolean status;
+	private int BPartnerStd;
 	private Panel all_SubCard;
 	private Panel popular_SubCard;
 	/**	Table Column Layout Info			*/
@@ -361,76 +360,20 @@ public class WSubOrder extends WPosSubPanel
 		
 		row = rows.newRow();
 		row.setSpans("3,4,2");
-		row.setHeight("30px");
-		
+		row.setHeight("25px");
+		row.appendChild(new Space());
 		// BP
 		Label bpartner = new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")+":");
-		row.appendChild (bpartner.rightAlign());
-		bpartner.setStyle("Font-size:medium; font-weight:700");
-		
+//		row.appendChild (bpartner.rightAlign());
+//		bpartner.setStyle("Font-size:medium; font-weight:700");
+//		
 		f_name = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
-		f_name.setStyle("Font-size:medium");
-		f_name.setWidth("100%");
-		f_name.setHeight("35px");
-		f_name.addEventListener("onFocus",this);
-		row.appendChild  (f_name);
-		
-
-		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
-		lNet.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lNet.rightAlign());
-		f_net = new Label(String.valueOf(DisplayType.Amount));
-		f_net.setStyle("Font-size:medium");
-		row.appendChild(f_net);
-		f_net.setText(Env.ZERO+"");
-		
-		//
-		row = rows.newRow();
-		row.setHeight("30px");
-		row.setSpans("3,4,2");
-		// DOC NO
-		Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
-		row.appendChild (docNo.rightAlign());
-
-		docNo.setStyle("Font-size:medium; font-weight:700");
-		f_DocumentNo = new Label();
-		f_DocumentNo.setStyle("Font-size:medium");
-		row.appendChild(f_DocumentNo);
-		
-		Label lTax = new Label (Msg.translate(Env.getCtx(), "TaxAmt")+":");
-		lTax.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lTax.rightAlign());
-		f_tax = new Label(String.valueOf(DisplayType.Amount));
-		f_tax.setStyle("Font-size:medium");
-		row.appendChild(f_tax);
-		f_tax.setText(Env.ZERO.toString());
-		
-		row = rows.newRow();
-		row.setSpans("3,4,2");
-		row.setHeight("30px");
-		// SALES REP
-		Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "SalesRep_ID")+":");
-		row.appendChild(l_SalesRep.rightAlign());
-		l_SalesRep.setStyle("Font-size:medium; font-weight:700");
-		MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
-		f_RepName = new Label(salesRep.getName());
-		f_RepName.setStyle("Font-size:medium");
-		row.appendChild (f_RepName);
-		
-		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
-		lTotal.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lTotal.rightAlign());
-		f_total = new Label(String.valueOf(DisplayType.Amount));
-		row.appendChild(f_total);
-		f_total.setText(Env.ZERO.toString());
-		f_total.setStyle("Font-size:medium");
-		
-		row = rows.newRow();
-		row.setSpans("3,3,2,2");
-		row.setHeight("30px");
-		row.appendChild(new Space());
-		row.appendChild(new Space());
-		//
+//		f_name.setStyle("Font-size:medium");
+//		f_name.setWidth("100%");
+//		f_name.setHeight("35px");
+//		f_name.addEventListener("onFocus",this);
+//		row.appendChild  (f_name);
+//		
 
 	}	//	init
 	
@@ -478,7 +421,6 @@ public class WSubOrder extends WPosSubPanel
 				keyColor = color.getColor();
 			}
 			
-			
 			log.fine( "#" + map.size() + " - " + keyColor); 
 			button = new Panel();
 			Label label = new Label(key.getName());
@@ -505,10 +447,10 @@ public class WSubOrder extends WPosSubPanel
 			}
 			label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;color: #FFF;");
 			label.setHeight("100%");
-			button.setHeight("80px");
+			button.setHeight("72px");
 			st.appendChild(label);
 			button.setClass("z-button");
-			button.setStyle("float:left; white-space: pre-line;text-align:center; margin:1% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC; "
+			button.setStyle("float:left; white-space: pre-line;text-align:center; margin:0.4% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC; "
 					+ "background: -moz-linear-gradient(top, rgba(247,247,247,1) 0%, rgba(255,255,255,0.93) 7%, rgba(186,186,186,0.25) 15%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1) 100%);"
 					+ "background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(247,247,247,1)), color-stop(7%, rgba(255,255,255,0.93)), color-stop(15%, rgba(186,186,186,0.25)), color-stop(100%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1)));"
 					+ "background: -webkit-linear-gradient(top, rgba(247,247,247,1) 0%, rgba(255,255,255,0.93) 7%, rgba(186,186,186,0.25) 15%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1) 100%);");
@@ -554,8 +496,68 @@ public class WSubOrder extends WPosSubPanel
 		Panel card = new Panel();
 		card.setWidth("100%");
 		MPOSKeyLayout keyLayout = MPOSKeyLayout.get(Env.getCtx(), C_POSKeyLayout_ID);
+		North north = new North();
+		Grid parameterLayout3 = GridFactory.newGridLayout();
+		Rows rows = null;
+		Row row = null;		
+		north.appendChild(parameterLayout3);
+		parameterLayout3.setWidth("100%");
+		parameterLayout3.setHeight("100%");
+		rows = parameterLayout3.newRows();
+		parameterLayout3.setStyle("border:none");
+		
+		//
+		row = rows.newRow();
+		row.setHeight("30px");
+		// DOC NO
+		Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
+		row.appendChild (docNo.rightAlign());
 
+		docNo.setStyle("Font-size:medium; font-weight:700");
+		f_DocumentNo = new Label();
+		f_DocumentNo.setStyle("Font-size:medium");
+		row.appendChild(f_DocumentNo);
 
+		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
+		lNet.setStyle("Font-size:medium; font-weight:700");
+		row.appendChild(lNet.rightAlign());
+		f_net = new Label(String.valueOf(DisplayType.Amount));
+		f_net.setStyle("Font-size:medium");
+		row.appendChild(f_net.rightAlign());
+		f_net.setText(Env.ZERO+"");
+		
+		row = rows.newRow();
+		row.setHeight("30px");
+		// SALES REP
+		Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "SalesRep_ID")+":");
+		row.appendChild(l_SalesRep.rightAlign());
+		l_SalesRep.setStyle("Font-size:medium; font-weight:700");
+		MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
+		f_RepName = new Label(salesRep.getName());
+		f_RepName.setStyle("Font-size:medium");
+		row.appendChild (f_RepName);
+		
+		Label lTax = new Label (Msg.translate(Env.getCtx(), "TaxAmt")+":");
+		lTax.setStyle("Font-size:medium; font-weight:700");
+		row.appendChild(lTax.rightAlign());
+		f_tax = new Label(String.valueOf(DisplayType.Amount));
+		f_tax.setStyle("Font-size:medium");
+		row.appendChild(f_tax.rightAlign());
+		f_tax.setText(Env.ZERO.toString());
+		
+
+		row = rows.newRow();
+		row.appendChild(new Space());		
+		row.appendChild(new Space());
+		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
+		lTotal.setStyle("Font-size:medium; font-weight:700");
+		row.appendChild(lTotal.rightAlign());
+		f_total = new Label(String.valueOf(DisplayType.Amount));
+		row.appendChild(f_total.rightAlign());
+		f_total.setText(Env.ZERO.toString());
+		f_total.setStyle("Font-size:medium");
+
+		card.appendChild(parameterLayout3);
 		f_name1 = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
 		f_name1.setWidth("80%");
 		f_name1.setHeight("35px");
@@ -715,6 +717,7 @@ public class WSubOrder extends WPosSubPanel
 		{
 			setC_BPartner_ID(results[0].getC_BPartner_ID());
 			f_name.setText(results[0].getName());
+			f_bBPartner.setImage("images/BPartner16.png");
 		}
 		else	//	more than one
 		{
@@ -732,19 +735,24 @@ public class WSubOrder extends WPosSubPanel
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
 		log.fine( "PosSubCustomer.setC_BPartner_ID=" + C_BPartner_ID);
-		if (C_BPartner_ID == 0)
+		System.out.println(C_BPartner_ID+"---");
+		if (C_BPartner_ID == 0){
 			m_bpartner = null;
+			
+		}
 		else
 		{
 			m_bpartner = new MBPartner(p_ctx, C_BPartner_ID, null);
-			if (m_bpartner.get_ID() == 0)
+			if (m_bpartner.get_ID() == 0) {
 				m_bpartner = null;
+			}
 		}
 		
 		//	Set Info
 		if (m_bpartner != null)
 		{
 			f_name.setText(m_bpartner.getName());
+			
 		}
 		else
 		{
@@ -1482,6 +1490,8 @@ public class WSubOrder extends WPosSubPanel
 		// reload order
 		if ( p_posPanel.getM_Order() != null )
 		{
+
+			BPartnerStd = getC_BPartner_ID();
 			p_posPanel.reload();
 			updateTable(p_posPanel.getM_Order());
 			updateOrder();
