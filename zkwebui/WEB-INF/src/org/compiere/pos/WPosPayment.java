@@ -39,11 +39,9 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.MPayment;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
@@ -74,12 +72,9 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private Label fPayAmt;
 	private boolean paid = false;
 	private BigDecimal balance = Env.ZERO;
-	private WPOSKeyboard keyboard;
 	private Checkbox isPrePaiment;
-	private Label fTenderAmt;
 	private Label fReturnAmt;
 	private Label lReturnAmt;
-	private Label lTenderAmount[];
 	private Button fPlus;
 	private int cont;
 	private ArrayList<Object> types;
@@ -153,9 +148,8 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		row.appendChild(gtLabel.rightAlign());
 		row.appendChild(fTotal.rightAlign());
-		fTotal.setStyle(FONT_SIZE);
+		fTotal.setStyle(FONT_SIZE+"Width:200px;");
 		fTotal.setValue(p_order.getGrandTotal().toString());
-		
 		
 		row = rows.newRow();
 		row.appendChild(new Space());
@@ -181,8 +175,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		
 		// Button Plus
 		fPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
-
-				
 		row = rows.newRow();
 
 		
@@ -264,43 +256,15 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event event) throws Exception {
 		String action = event.getTarget().getId();
-		if(event.getName().equals("onFocus")){
+		if (event.getName().equals("onBlur") || event.getName().equals("onFocus")) {
 			for(int x = 0; x < pp.size(); x++)
 				if(event.getTarget().equals(pp.get(x).fPayAmt)){
-					pp.get(x).fPayAmt.setValue("");
-					cont++;
-					if(cont<2){
-						if(event.getName().equals("onFocus")) {
-							WPOSKeyboard keyboard = new WPOSKeyboard (p_posPanel, keyLayoutId); 
-							keyboard.setWidth("280px");
-							keyboard.setHeight("320px");
-							keyboard.setPosTextField(pp.get(x).fPayAmt);	
-							AEnv.showWindow(keyboard);
-							if(pp.get(x).fPayAmt.getValue().equals(""))
-								pp.get(x).fPayAmt.setValue("0");
-							calculate();
-						}
-						
-					}
-						else {
-							cont=0;
-							mainPanel.setFocus(true);
-						}
-			}
-		} else if (event.getName().equals("onBlur")) {
-			for(int x = 0; x < pp.size(); x++)
-				if(event.getTarget().equals(pp.get(x).fPayAmt)){
-					if(pp.get(x).fPayAmt.getValue().equals("")){
-						pp.get(x).fPayAmt.setValue("0");
-					}
-					else {
 						calculate();
-					}
 			}
-			
-			}
+		}
 		else if(event.getTarget().equals(fPlus)){
 			addTypePay();
+			return;
 		}
 		
 		else if ( action.equals(ConfirmPanel.A_OK)) {
@@ -312,6 +276,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			for(int x = 0; x < pp.size(); x++)
 				pp.get(x).savePay();
 			onClose();
+			return;
 		}
 		else if ( action.equals(ConfirmPanel.A_CANCEL))	{
 			onClose();
@@ -327,12 +292,18 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 					layout.invalidate();
 				}
 			}
+			calculate();
+			return;
 		}
+		calculate();
 	}
 	private void calculate() {
 		BigDecimal mount = new BigDecimal(Env.ZERO.toString());
 		for(int x = 0; x < pp.size(); x++){
-				BigDecimal pay = new BigDecimal(pp.get(x).fPayAmt.getValue());
+			if(pp.get(x).fPayAmt.getValue() == null){
+				pp.get(x).fPayAmt.setValue("0");
+			}
+				BigDecimal pay = pp.get(x).fPayAmt.getValue();
 				mount = mount.add(pay);
 		}
 		
@@ -340,7 +311,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		if ( balance.compareTo(Env.ZERO) <= 0 )
 		{
 			paid = true;
-			
 		}
 		fBalance.setValue(balance.toString());
 		fReturnAmt.setValue(balance.toString());

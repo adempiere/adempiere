@@ -508,7 +508,7 @@ public class WSubOrder extends WPosSubPanel
 		
 		//
 		row = rows.newRow();
-		row.setHeight("30px");
+		row.setHeight("10px");
 		// DOC NO
 		Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
 		row.appendChild (docNo.rightAlign());
@@ -524,12 +524,13 @@ public class WSubOrder extends WPosSubPanel
 		f_net = new Label(String.valueOf(DisplayType.Amount));
 		f_net.setStyle("Font-size:medium");
 		row.appendChild(f_net.rightAlign());
+		
 		f_net.setText(Env.ZERO+"");
 		
 		row = rows.newRow();
 		row.setHeight("30px");
 		// SALES REP
-		Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "SalesRep_ID")+":");
+		Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "POS.SalesRep_ID")+":");
 		row.appendChild(l_SalesRep.rightAlign());
 		l_SalesRep.setStyle("Font-size:medium; font-weight:700");
 		MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
@@ -556,7 +557,7 @@ public class WSubOrder extends WPosSubPanel
 		row.appendChild(f_total.rightAlign());
 		f_total.setText(Env.ZERO.toString());
 		f_total.setStyle("Font-size:medium");
-
+		row.setWidth("25%");
 		card.appendChild(parameterLayout3);
 		f_name1 = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
 		f_name1.setWidth("80%");
@@ -735,7 +736,6 @@ public class WSubOrder extends WPosSubPanel
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
 		log.fine( "PosSubCustomer.setC_BPartner_ID=" + C_BPartner_ID);
-		System.out.println(C_BPartner_ID+"---");
 		if (C_BPartner_ID == 0){
 			m_bpartner = null;
 			
