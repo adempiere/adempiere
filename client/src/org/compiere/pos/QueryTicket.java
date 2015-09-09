@@ -65,7 +65,7 @@ public class QueryTicket extends PosQuery
 	/**
 	 * 	Constructor
 	 */
-	public QueryTicket (PosBasePanel posPanel)
+	public QueryTicket (VPOS posPanel)
 	{
 		super(posPanel);
 	}	//	PosQueryProduct

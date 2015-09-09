@@ -41,6 +41,7 @@ import org.compiere.apps.ADialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.I_C_POS;
+import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPriceList;
 import org.compiere.model.MProduct;
@@ -79,7 +80,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	 * 
 	 * @param posPanel POS Panel
 	 */
-	public SubCurrentLine(PosBasePanel posPanel) {
+	public SubCurrentLine(VPOS posPanel) {
 		super(posPanel);
 	}
 
@@ -384,11 +385,11 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		if (action.equals("Product"))
 		{
 			setParameter();
-			QueryProduct qt = new QueryProduct(p_posPanel);
-			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
-			qt.setVisible(true);
+//			QueryProduct qt = new QueryProduct(p_posPanel);
+//			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
+//			qt.setVisible(true);
 			findProduct();
-			updateTable(p_posPanel.m_order);
+			updateTable(p_posPanel.getM_Order());
 			int row = m_table.getSelectedRow();
 			if (row < 0) row = 0;
 			m_table.getSelectionModel().setSelectionInterval(row, row);
@@ -435,8 +436,8 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 				int row = m_table.getSelectedRow();
 				if (row != -1)
 				{
-					if ( p_posPanel.m_order != null )
-						p_posPanel.m_order.deleteLine(m_table.getSelectedRowKey());
+					if (p_posPanel.getM_Order() != null)
+						p_posPanel.deleteLine(m_table.getSelectedRowKey());
 					setQty(null);
 					setPrice(null);
 					
@@ -451,15 +452,15 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	 * 	Update Table
 	 *	@param order order
 	 */
-	public void updateTable (PosOrderModel order)
+	public void updateTable (MOrder order)
 	{
 		int C_Order_ID = 0;
 		if (order != null)
 			C_Order_ID = order.getC_Order_ID();
 		if (C_Order_ID == 0)
 		{
-			p_posPanel.f_curLine.m_table.loadTable(new PO[0]);
-			p_posPanel.f_order.setSums(null);
+//			p_posPanel.f_curLine.m_table.loadTable(new PO[0]);
+//			p_posPanel.f_order.setSums(null);
 		}
 		
 		PreparedStatement pstmt = null;
@@ -493,7 +494,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		
 		enableButtons();
 
-		p_posPanel.f_order.setSums(order);
+//		p_posPanel.f_order.setSums(order);
 		
 	}	//	updateTable
 	
@@ -587,16 +588,14 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		BigDecimal QtyOrdered = (BigDecimal) f_quantity.getValue();
 		BigDecimal PriceActual = (BigDecimal) f_price.getValue();
 		
-		if ( p_posPanel.m_order == null )
-		{
-			p_posPanel.m_order = PosOrderModel.createOrder(p_posPanel.p_pos, p_posPanel.f_order.getBPartner());
+		if (p_posPanel.getM_Order() == null) {
+			p_posPanel.newOrder();
 		}
 		
 		MOrderLine line = null;
 		
-		if ( p_posPanel.m_order != null )
-		{
-			line = p_posPanel.m_order.createLine(product, QtyOrdered, PriceActual);
+		if (p_posPanel.getM_Order() != null) {
+			line = p_posPanel.createLine(product, QtyOrdered, PriceActual);
 
 			if (line == null)
 				return false;
@@ -674,24 +673,24 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		if (results.length == 0)
 		{
 			String message = Msg.translate(p_ctx,  "search product notfound");
-			ADialog.warn(0, p_posPanel, message + query);
+			ADialog.warn(p_posPanel.getWindowNo(), null, message + query);
 			setM_Product_ID(0);
-			p_posPanel.f_curLine.setPrice(Env.ZERO);
+//			p_posPanel.f_curLine.setPrice(Env.ZERO);
 		}
 		else if (results.length == 1)
 		{
 			setM_Product_ID(results[0].getM_Product_ID());
 			setQty(Env.ONE);
 			f_name.setText(results[0].getName());
-			p_posPanel.f_curLine.setPrice(results[0].getPriceStd());
+//			p_posPanel.f_curLine.setPrice(results[0].getPriceStd());
 			saveLine();
 		}
 		else	//	more than one
 		{
-			QueryProduct qt = new QueryProduct(p_posPanel);
-			qt.setResults(results);
-			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
-			qt.setVisible(true);
+//			QueryProduct qt = new QueryProduct(p_posPanel);
+//			qt.setResults(results);
+//			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
+//			qt.setVisible(true);
 		}
 	}	//	findProduct
 

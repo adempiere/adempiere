@@ -79,21 +79,21 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public WPOSKeyboard (WPosBasePanel posPanel, int C_POSKeyLayout_ID, WPosTextField field, String title)
+	public WPOSKeyboard (WPOS posPanel, int C_POSKeyLayout_ID, WPosTextField field, String title)
 	{
 		this(posPanel, C_POSKeyLayout_ID);
 		setTitle(title);
 		setPosTextField(field);
 	}
 	
-	public WPOSKeyboard(WPosBasePanel posPanel, int keyLayoutId) {
+	public WPOSKeyboard(WPOS posPanel, int keyLayoutId) {
 		super();
 		keylayout = MPOSKeyLayout.get(posPanel.getCtx(), keyLayoutId);
 		keyBoardType = keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad);
 		init( keyLayoutId );
 	}
 	
-	public WPOSKeyboard(Window parent, WPosBasePanel posPanel, int keyLayoutId, WPosTextField field) {
+	public WPOSKeyboard(Window parent, WPOS posPanel, int keyLayoutId, WPosTextField field) {
 		super();
 		setPosTextField(field);
 		setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));

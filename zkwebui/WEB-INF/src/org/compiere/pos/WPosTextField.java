@@ -30,10 +30,10 @@ public class WPosTextField extends Textbox {
 	 * 
 	 */
 	private static final long serialVersionUID = -2453719110038264481L;
-	WPosBasePanel pos = null;
+	WPOS pos = null;
 	int keyLayoutId = 0;
 		
-	public WPosTextField( WPosBasePanel pos, final int posKeyLayout_ID, Format format ) {
+	public WPosTextField( WPOS pos, final int posKeyLayout_ID, Format format ) {
 		super();
 		
 		if ( posKeyLayout_ID > 0 )
@@ -47,7 +47,7 @@ public class WPosTextField extends Textbox {
 	public int getKeyLayoutId() {
 		return keyLayoutId;
 	}
-	public WPosTextField( WPosBasePanel pos, final int posKeyLayout_ID) {
+	public WPosTextField( WPOS pos, final int posKeyLayout_ID) {
 		super();
 		
 		if ( posKeyLayout_ID > 0 )

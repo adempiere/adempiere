@@ -26,6 +26,7 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MPOS;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
 
 
@@ -45,16 +46,16 @@ public abstract class WPosSubPanel extends Borderlayout
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public WPosSubPanel (WPosBasePanel posPanel)
+	public WPosSubPanel (WPOS posPanel)
 	{
 		super();
 		p_posPanel = posPanel;
-		p_pos = posPanel.p_pos;
+		p_pos = posPanel.getM_POS();
 		init();
 	}	//	PosSubPanel
 	
 	/** POS Panel							*/
-	protected WPosBasePanel 				p_posPanel;
+	protected WPOS 					p_posPanel;
 	/**	Underlying POS Model				*/
 	protected MPOS					p_pos;
 	/** Context								*/
@@ -90,11 +91,13 @@ public abstract class WPosSubPanel extends Borderlayout
 	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
+		button.setTooltiptext(Msg.translate(p_ctx, action));
 		button.setWidth(WIDTH+"px");
 		button.setHeight(HEIGHT+"px");
 		button.addActionListener(this);
 		return button;
 	}	//	getButtonAction
+	
 	/**
 	 * 	Create Action Button
 	 *	@param action action 
@@ -104,12 +107,14 @@ public abstract class WPosSubPanel extends Borderlayout
 	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
+		button.setTooltiptext(Msg.translate(p_ctx, action));
 		button.setId(m_OSK_KeyLayout_ID+"");
 		button.setWidth(WIDTH+"px");
 		button.setHeight(HEIGHT+"px");
 		button.addActionListener(this);
 		return button;
 	}	//	getButtonAction
+	
 	/**
 	 * 	Create Standard Button
 	 *	@param text text
