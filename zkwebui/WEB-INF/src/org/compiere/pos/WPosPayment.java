@@ -148,7 +148,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		row.appendChild(gtLabel.rightAlign());
 		row.appendChild(fTotal.rightAlign());
-		fTotal.setStyle(FONT_SIZE+"Width:200px;");
+		fTotal.setStyle(FONT_SIZE);
 		fTotal.setValue(p_order.getGrandTotal().toString());
 		
 		row = rows.newRow();
@@ -162,6 +162,14 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		row.appendChild(fPayAmt.rightAlign());
 		fPayAmt.setStyle(FONT_SIZE);
 		fPayAmt.setValue(Env.ZERO.toString());
+		
+
+		row = rows.newRow();
+		row.appendChild(new Space());		
+		row.appendChild(new Space());
+		row.setHeight("5px");
+		Label line = new Label ("____________________");
+		row.appendChild(line.rightAlign());
 		
 		fReturnAmt = new Label();
 		lReturnAmt = new Label(Msg.translate(p_ctx, "AmountReturned")+":");
@@ -279,6 +287,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			return;
 		}
 		else if ( action.equals(ConfirmPanel.A_CANCEL))	{
+			paid = false;
 			onClose();
 			return;
 		}
