@@ -137,9 +137,20 @@
 	<echo message="Initialize Folders "/>
   </target>
   
-  
-    <!-- Copy WebUI package to Adempiere installation-->
-	<target name="package_dist" depends="" description="Copies zk file to Adempiere trunk AFTER build of Adempiere">
+
+    <!-- Copy javascript files to Adempiere trunk BEFORE build of Adempiere -->
+	<target name="package_dist(BEFORE Adempiere build)" depends="" description="Copies javascript file(s) to Adempiere trunk BEFORE build of Adempiere">
+		<echo message="=============== Deploy javascript files BEGIN"/>
+  		<delete file="${adempiere.trunk}/zkwebui/js/text_action.js"/>
+		<copy todir="${adempiere.trunk}/zkwebui/js">
+			<fileset dir="${basedir}/zkwebui/js" includes="text_action.js"/>
+		</copy>
+		<echo message="=========== Deploy javascript files END"/>
+	</target>  
+	
+   
+    <!-- Copy WebUI and model packages to Adempiere installation  AFTER build of Adempiere-->
+	<target name="package_dist(AFTER Adempiere build)" depends="" description="Copies zk files to Adempiere installation AFTER build of Adempiere">
 		<echo message="=========== Copying WebUI package to Adempiere installation-START"/>
 		<echo message="=============== Delete ${adempiere.installation}/zkpackages/${project.name}"/>
   		<delete dir="${adempiere.installation}/zkpackages/${project.name}"/>
@@ -149,8 +160,8 @@
 		<mkdir dir="${adempiere.installation}/zkpackages/${project.name}/lib"/>
 		<copy todir="${adempiere.installation}/zkpackages/${project.name}/lib">
 			<fileset dir="${basedir}/zkpackages/${project.name}/lib" includes="*.jar"/>
-		</copy>
-			
+		</copy>	
+				
 		<echo message="=============== Delete ${adempiere.installation}/packages/${project.name}"/>
   		<delete dir="${adempiere.installation}/packages/${project.name}"/>
 		<echo message="=============== Create ${adempiere.installation}/packages/${project.name}"/>
@@ -159,8 +170,7 @@
 		<mkdir dir="${adempiere.installation}/packages/${project.name}/lib"/>
 		<copy todir="${adempiere.installation}/packages/${project.name}/lib">
 			<fileset dir="${basedir}/packages/${project.name}/lib" includes="*.jar"/>
-		</copy>
-				
+		</copy>				
 		<echo message="=========== Copying WebUI package to Adempiere installation-END"/>
 	</target>
 </project>
