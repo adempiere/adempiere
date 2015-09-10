@@ -326,7 +326,8 @@ public class CPOS {
 				}
 				//	
 				m_CurrentOrder.getLines(true, null);		// requery order
-				return m_CurrentOrder.delete(true);
+				
+				return m_CurrentOrder.delete(true); 
 			}
 		return false;
 	} //	deleteOrder
