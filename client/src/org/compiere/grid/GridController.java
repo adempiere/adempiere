@@ -157,6 +157,9 @@ import org.compiere.util.Util;
  * @author Teo Sarca - BF [ 1742159 ], BF [ 1707876 ]
  * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  * @contributor fer_luck @ centuryon  FR [ 1757088 ]
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ * @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -452,9 +455,16 @@ public class GridController extends CPanel
 
 		//  Tree Graphics Layout
 		int AD_Tree_ID = 0;
-		if (m_mTab.isTreeTab())
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Change to Table Identifier
+//		if (m_mTab.isTreeTab())
+//			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+//				Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
+		if (m_mTab.isTreeTab()) {
 			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-				Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
+				Env.getAD_Client_ID(Env.getCtx()), m_mTab.getAD_Table_ID());
+		}
+		//	End Yamel Senih
 		if (m_mTab.isTreeTab() && AD_Tree_ID != 0)
 		{
 			m_tree = new VTreePanel(m_WindowNo, false, true);
@@ -657,11 +667,25 @@ public class GridController extends CPanel
 			}
 			int AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), m_WindowNo, treeName, true);
 			log.config(keyColumnName + " -> " + treeName + " = " + AD_Tree_ID);
-			if (AD_Tree_ID == 0)
+			//	Yamel Senih [ 9223372036854775807 ]
+			//	Change for table identifier
+//			if (AD_Tree_ID == 0)
+//				AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+//					Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
+//			if (m_tree != null)
+//				m_tree.initTree (AD_Tree_ID);
+			if (AD_Tree_ID == 0) {
 				AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-					Env.getAD_Client_ID(Env.getCtx()), m_mTab.getKeyColumnName());
-			if (m_tree != null)
-				m_tree.initTree (AD_Tree_ID);
+					Env.getAD_Client_ID(Env.getCtx()), m_mTab.getAD_Table_ID());
+			}
+			//	Add Where Extended
+			if (m_tree != null){
+				String whereClause = m_mTab.getWhereExtended();
+				whereClause = Env.parseContext(Env.getCtx(), m_WindowNo, whereClause, false, false);
+				//	Init Tree
+				m_tree.initTree(AD_Tree_ID, whereClause);
+			}
+			//	End Yamel Senih
 		}
 
 		activateChilds();
@@ -720,7 +744,11 @@ public class GridController extends CPanel
 		//  Update UI
 		if (!isSingleRow())
 			vTable.autoSize(true);
-		activateChilds();
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Refresh Tree
+//		activateChilds();
+		activate();
+		//	End Yamel Senih
 	}   //  query
 
 	/*
