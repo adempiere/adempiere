@@ -43,7 +43,7 @@ public class MTree_Node extends X_AD_TreeNode
 	 *	@param Node_ID node
 	 *	@return node or null
 	 */
-	public static MTree_Node get (MTree_Base tree, int Node_ID)
+	public static MTree_Node get (MTree tree, int Node_ID)
 	{
 		MTree_Node retValue = null;
 		String sql = "SELECT * FROM AD_TreeNode WHERE AD_Tree_ID=? AND Node_ID=?";
@@ -96,7 +96,7 @@ public class MTree_Node extends X_AD_TreeNode
 	 *	@param tree tree
 	 *	@param Node_ID node
 	 */
-	public MTree_Node (MTree_Base tree, int Node_ID)
+	public MTree_Node (MTree tree, int Node_ID)
 	{
 		super (tree.getCtx(), 0, tree.get_TrxName());
 		setClientOrg(tree);

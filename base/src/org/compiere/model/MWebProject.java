@@ -90,26 +90,26 @@ public class MWebProject extends X_CM_WebProject
 		//	Create Trees
 		if (newRecord)
 		{
-			MTree_Base tree = new MTree_Base (getCtx(), 
-				getName()+MTree_Base.TREETYPE_CMContainer, MTree_Base.TREETYPE_CMContainer, get_TrxName());
+			MTree tree = new MTree (getCtx(), 
+				getName()+MTree.TREETYPE_CMContainer, MTree.TREETYPE_CMContainer, get_TrxName());
 			if (!tree.save())
 				return false;
 			setAD_TreeCMC_ID(tree.getAD_Tree_ID());
 			//
-			tree = new MTree_Base (getCtx(), 
-				getName()+MTree_Base.TREETYPE_CMContainerStage, MTree_Base.TREETYPE_CMContainerStage, get_TrxName());
+			tree = new MTree (getCtx(), 
+				getName()+MTree.TREETYPE_CMContainerStage, MTree.TREETYPE_CMContainerStage, get_TrxName());
 			if (!tree.save())
 				return false;
 			setAD_TreeCMS_ID(tree.getAD_Tree_ID());
 			//
-			tree = new MTree_Base (getCtx(), 
-				getName()+MTree_Base.TREETYPE_CMTemplate, MTree_Base.TREETYPE_CMTemplate, get_TrxName());
+			tree = new MTree (getCtx(), 
+				getName()+MTree.TREETYPE_CMTemplate, MTree.TREETYPE_CMTemplate, get_TrxName());
 			if (!tree.save())
 				return false;
 			setAD_TreeCMT_ID(tree.getAD_Tree_ID());
 			//
-			tree = new MTree_Base (getCtx(), 
-				getName()+MTree_Base.TREETYPE_CMMedia, MTree_Base.TREETYPE_CMMedia, get_TrxName());
+			tree = new MTree (getCtx(), 
+				getName()+MTree.TREETYPE_CMMedia, MTree.TREETYPE_CMMedia, get_TrxName());
 			if (!tree.save())
 				return false;
 			setAD_TreeCMM_ID(tree.getAD_Tree_ID());

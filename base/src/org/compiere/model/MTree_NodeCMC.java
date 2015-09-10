@@ -90,7 +90,7 @@ public class MTree_NodeCMC extends X_AD_TreeNodeCMC
 	 *	@param Node_ID node
 	 *	@return node or null
 	 */
-	public static MTree_NodeCMC get (MTree_Base tree, int Node_ID)
+	public static MTree_NodeCMC get (MTree tree, int Node_ID)
 	{
 		MTree_NodeCMC retValue = null;
 		String sql = "SELECT * FROM AD_TreeNodeCMC WHERE AD_Tree_ID=? AND Node_ID=?";
@@ -143,7 +143,7 @@ public class MTree_NodeCMC extends X_AD_TreeNodeCMC
 	 *	@param tree tree
 	 *	@param Node_ID node
 	 */
-	public MTree_NodeCMC (MTree_Base tree, int Node_ID)
+	public MTree_NodeCMC (MTree tree, int Node_ID)
 	{
 		super (tree.getCtx(), 0, tree.get_TrxName());
 		setClientOrg(tree);

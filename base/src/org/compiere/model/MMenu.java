@@ -33,6 +33,9 @@ import org.compiere.util.DB;
  *  @see FR [ 1966326 ] Is necessary create method to get ID menu use menu Name http://sourceforge.net/tracker/index.php?func=detail&aid=1966326&group_id=176962&atid=879335
  *  @author red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
  *  @version $Id: MMenu.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MMenu extends X_AD_Menu
 {
@@ -143,24 +146,30 @@ public class MMenu extends X_AD_Menu
 	 *	@param success success
 	 *	@return success
 	 */
-	protected boolean afterSave (boolean newRecord, boolean success)
-	{
-		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_Menu);
-		return success;
-	}	//	afterSave
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterSave (boolean newRecord, boolean success)
+//	{
+//		if (newRecord)
+//			insert_Tree(MTree.TREETYPE_Menu);
+//		return success;
+//	}	//	afterSave
+	//	End Yamel Senih
 
 	/**
 	 * 	After Delete
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Menu);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_Menu);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 	
 	/**
 	 *  FR [ 1966326 ]

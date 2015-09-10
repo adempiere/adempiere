@@ -41,6 +41,9 @@ import org.compiere.util.Msg;
  *  @author Armen Rizal, GOODWILL CONSULT  
  *      <LI>BF [ 2041226 ] BP Open Balance should count only Completed Invoice
  *			<LI>BF [ 2498949 ] BP Get Not Invoiced Shipment Value return null
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MBPartner extends X_C_BPartner
 {
@@ -983,8 +986,11 @@ public class MBPartner extends X_C_BPartner
 	{
 		if (newRecord && success)
 		{
+			//	Yamel Senih [ 9223372036854775807 ]
+			//	Change to PO
 			//	Trees
-			insert_Tree(MTree_Base.TREETYPE_BPartner);
+//			insert_Tree(MTree.TREETYPE_BPartner);
+			//	End Yamel Senih
 			//	Accounting
 			insert_Accounting("C_BP_Customer_Acct", "C_BP_Group_Acct", 
 				"p.C_BP_Group_ID=" + getC_BP_Group_ID());
@@ -1017,11 +1023,14 @@ public class MBPartner extends X_C_BPartner
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_BPartner);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_BPartner);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 
 }	//	MBPartner
