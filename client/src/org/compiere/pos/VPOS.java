@@ -26,22 +26,29 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.logging.Level;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
+import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MLocator;
+import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
+import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.swing.CFrame;
+import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -198,7 +205,9 @@ public class VPOS extends CPOS implements FormPanel {
 		m_MainPane.add(f_curLine, "h 300, growx, growy, gaptop 30");
 		
 		f_functionKeys = new SubFunctionKeys(this);
-		m_MainPane.add(f_functionKeys, "aligny top, h 500, growx, growy, flowy, split 2");
+		
+				
+		m_MainPane.add(f_functionKeys, "east");
 		
 		return true;
 	}	//	dynInit
@@ -283,7 +292,7 @@ public class VPOS extends CPOS implements FormPanel {
 	 * @return void
 	 */
 	public void newOrder() {
-		boolean isDocType = ADialog.ask(0, null, Msg.getMsg(m_ctx, "POS.AlternateDT"));
+		boolean isDocType = ADialog.ask(0, f_curLine.getParent(), Msg.getMsg(m_ctx, "POS.AlternateDT"));
 		newOrder(f_order.getBPartner(), isDocType);
 	}
 }

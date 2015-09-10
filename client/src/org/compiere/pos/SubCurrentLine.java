@@ -84,17 +84,9 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		super(posPanel);
 	}
 
-	private CButton 		f_up;
-	private CButton 		f_delete;
-	private CButton 		f_down;
-	//
-	private CButton 		f_plus;
-	private CButton 		f_minus;
-	private PosTextField 	f_price;
-	private PosTextField 	f_quantity;
-	private PosTextField 	f_discount;
+	private BigDecimal	 	f_price;
+	private BigDecimal	 	f_quantity;
 	protected PosTextField	f_name;
-	private CButton			f_bSearch;
 	private int orderLineId = 0;
 	
 
@@ -148,22 +140,8 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		//	Content
 		setLayout(new MigLayout("fill, ins 0 0"));
 		
-		String buttonSize = "w 50!, h 50!,";
-		//
-		f_bSearch = createButtonAction ("Product", KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.CTRL_MASK));
-		add (f_bSearch, buttonSize );
 		
-		CLabel productLabel = new CLabel(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		add(productLabel, "split 2, spanx 4, flowy, h 15");
-		
-		f_name = new PosTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), p_posPanel,p_pos.get_ValueAsInt("OSK_KeyLayout_ID"));
-		f_name.setName("Name");
-		f_name.addActionListener(this);
-		f_name.addFocusListener(this);
-		f_name.requestFocusInWindow();
-		
-		add (f_name, " growx, h 30:30:, wrap");
-
+	
 		m_table = new PosTable();
 		CScrollPane scroll = new CScrollPane(m_table);
 		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, 
@@ -245,57 +223,8 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 
 		add (scroll, "growx, spanx, growy, pushy, h 200:300:");
 		
-		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-		add (f_up, buttonSize);
-		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
-		add (f_down, buttonSize);
-
-		
-		f_delete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, Event.SHIFT_MASK));
-		add (f_delete, buttonSize);
-		
-		//
-		f_minus = createButtonAction("Minus", null);
-		add(f_minus, buttonSize);
-
-
-		
-		CLabel qtyLabel = new CLabel(Msg.translate(Env.getCtx(), "Qty"));
-		add(qtyLabel, "split 2, flowy, h 15");
-
-		//
-		f_quantity = new PosTextField(Msg.translate(Env.getCtx(), "QtyOrdered"),
-				p_posPanel,p_pos.get_ValueAsInt("OSNP_KeyLayout_ID"), DisplayType.getNumberFormat(DisplayType.Quantity));
-		f_quantity.setHorizontalAlignment(JTextField.TRAILING);
-		f_quantity.addActionListener(this);
-		add(f_quantity, "h 30:30:, w 100");
-		setQty(Env.ONE);
-		//
-		f_plus = createButtonAction("Plus", null);
-		add(f_plus, buttonSize);
-
-		
-		CLabel discountLabel = new CLabel(Msg.translate(Env.getCtx(), "Discount"));
-		add(discountLabel, "split 2, flowy, h 15");
-
-		//
-		f_discount = new PosTextField(Msg.translate(Env.getCtx(), "Discount"),
-				p_posPanel,p_pos.get_ValueAsInt("OSNP_KeyLayout_ID"), DisplayType.getNumberFormat(DisplayType.Quantity));
-		f_discount.setHorizontalAlignment(JTextField.TRAILING);
-		f_discount.addActionListener(this);
-		add(f_discount, "h 30:30:, w 100");
 		setQty(Env.ZERO);
 		
-		
-		CLabel priceLabel = new CLabel(Msg.translate(Env.getCtx(), "PriceActual"));
-		add(priceLabel, "split 2, flowy, h 15");
-		
-		//
-		f_price = new PosTextField(Msg.translate(Env.getCtx(), "PriceActual"),
-				p_posPanel,p_pos.get_ValueAsInt("OSK_KeyLayout_ID"), DisplayType.getNumberFormat(DisplayType.Amount));
-		f_price.addActionListener(this);
-		f_price.setHorizontalAlignment(JTextField.TRAILING);
-		add(f_price, "h 30, w 100, wrap");
 		setPrice(Env.ZERO);
 		
 		enableButtons();
@@ -349,37 +278,6 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 				}
 			}
 
-		}
-		//	VNumber
-		else if (e.getSource() == f_price)		{
-			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
-			if ( line != null )
-			{
-				line.setPrice(new BigDecimal(f_price.getValue().toString()));
-				line.saveEx();
-				p_posPanel.updateInfo();
-			}
-		}
-		else if (e.getSource() == f_quantity && orderLineId > 0 )
-		{
-			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
-			if ( line != null )
-			{
-				line.setQty(new BigDecimal(f_quantity.getValue().toString()));
-				line.saveEx();
-				p_posPanel.updateInfo();
-			}
-		}
-
-		else if (e.getSource() == f_discount && orderLineId > 0 )
-		{
-			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
-			if ( line != null )
-			{
-				line.setDiscount(new BigDecimal(f_discount.getValue().toString()));
-				line.saveEx();
-				p_posPanel.updateInfo();
-			}
 		}
 		//	Product
 		if (action.equals("Product"))
@@ -500,19 +398,6 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	
 	private void enableButtons()
 	{
-		boolean enabled = true;
-		if ( m_table == null || m_table.getRowCount() == 0 || m_table.getSelectedRowKey() == null )
-		{
-			enabled = false;
-		}
-		f_down.setEnabled(enabled);
-		f_up.setEnabled(enabled);
-		f_delete.setEnabled(enabled);
-		f_minus.setEnabled(enabled);
-		f_plus.setEnabled(enabled);
-		f_quantity.setEnabled(enabled);
-		f_discount.setEnabled(enabled);
-		f_price.setEnabled(enabled);
 	}
 	
 	/**
@@ -533,9 +418,8 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	public void setPrice(BigDecimal price) {
 		if (price == null)
 			price = Env.ZERO;
-		f_price.setValue(price);
+		f_price = price;
 		boolean rw = Env.ZERO.compareTo(price) == 0 || p_pos.isModifyPrice();
-		f_price.setEditable(rw);
 	} //	setPrice
 
 	/**
@@ -544,7 +428,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	 * @return price
 	 */
 	public BigDecimal getPrice() {
-		return (BigDecimal) f_price.getValue();
+		return f_price;
 	} //	getPrice
 
 	/**
@@ -553,7 +437,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	 * @param qty
 	 */
 	public void setQty(BigDecimal qty) {
-		f_quantity.setValue(qty);
+		f_quantity = qty;
 	} //	setQty
 
 	/**
@@ -562,7 +446,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	 * @return qty
 	 */
 	public BigDecimal getQty() {
-		return (BigDecimal) f_quantity.getValue();
+		return f_quantity;
 	} //	getQty
 
 	/***************************************************************************
@@ -585,8 +469,8 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		MProduct product = getProduct();
 		if (product == null)
 			return false;
-		BigDecimal QtyOrdered = (BigDecimal) f_quantity.getValue();
-		BigDecimal PriceActual = (BigDecimal) f_price.getValue();
+		BigDecimal QtyOrdered = f_quantity;
+		BigDecimal PriceActual = f_price;
 		
 		if (p_posPanel.getM_Order() == null) {
 			p_posPanel.newOrder();
