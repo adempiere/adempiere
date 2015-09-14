@@ -138,19 +138,25 @@
   </target>
   
 
-    <!-- Copy javascript files to Adempiere trunk BEFORE build of Adempiere -->
-	<target name="package_dist(BEFORE Adempiere build)" depends="" description="Copies javascript file(s) to Adempiere trunk BEFORE build of Adempiere">
-		<echo message="=============== Deploy javascript files BEGIN"/>
+    <!-- Copy necessary files to Adempiere trunk BEFORE build of Adempiere -->
+	<target name="package_dist(BEFORE Adempiere build)" depends="" description="Copies file(s) to Adempiere trunk BEFORE build of Adempiere">
+		<echo message="=============== Deploy files BEGIN"/>
   		<delete file="${adempiere.trunk}/zkwebui/js/text_action.js"/>
 		<copy todir="${adempiere.trunk}/zkwebui/js">
 			<fileset dir="${basedir}/zkwebui/js" includes="text_action.js"/>
 		</copy>
-		<echo message="=========== Deploy javascript files END"/>
+		
+  		<delete file="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk/lang-addon.xml"/>
+		<copy todir="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk">
+			<fileset dir="${basedir}/zkwebui/WEB-INF/metainfo/zk" includes="lang-addon.xml"/>
+		</copy>
+		
+		<echo message="=========== Deploy files END"/>
 	</target>  
 	
    
-    <!-- Copy WebUI and model packages to Adempiere installation  AFTER build of Adempiere-->
-	<target name="package_dist(AFTER Adempiere build)" depends="" description="Copies zk files to Adempiere installation AFTER build of Adempiere">
+    <!-- Deploys WebUI package, model package and webui.jar to Adempiere installation  AFTER build of AD-POS-WebUI -->
+	<target name="package_dist(AFTER Adempiere build)" depends="" description="Deploy files to Adempiere installation AFTER build of Adempiere">
 		<echo message="=========== Copying WebUI package to Adempiere installation-START"/>
 		<echo message="=============== Delete ${adempiere.installation}/zkpackages/${project.name}"/>
   		<delete dir="${adempiere.installation}/zkpackages/${project.name}"/>
@@ -170,7 +176,15 @@
 		<mkdir dir="${adempiere.installation}/packages/${project.name}/lib"/>
 		<copy todir="${adempiere.installation}/packages/${project.name}/lib">
 			<fileset dir="${basedir}/packages/${project.name}/lib" includes="*.jar"/>
-		</copy>				
+		</copy>		
+
+		<echo message="=============== Deploy webuiOriginal.war BEGIN"/>
+  		<delete file="${adempiere.installation}/lib/webuiOriginal.war"/>
+		<copy tofile="${adempiere.installation}/lib/webuiOriginal.war">
+			<fileset dir="${adempiere.trunk}/lib" includes="webui.war"/>
+		</copy>
+		<echo message="=========== Deploy webui.war END"/>
+				
 		<echo message="=========== Copying WebUI package to Adempiere installation-END"/>
 	</target>
 </project>
