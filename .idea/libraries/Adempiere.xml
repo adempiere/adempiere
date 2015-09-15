@@ -1,0 +1,63 @@
+<component name="libraryTable">
+  <library name="Adempiere">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../adempiere/lib/Adempiere.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/lib/postgresql.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/asm.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/bsh.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/cglib.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/commons-el.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/commons-fileupload.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/commons-io.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/fckez.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/Filters.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/gmapsz.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/jruby.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/js.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/json_simple.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/junit.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/jxl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/jython.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/keylistener.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/mvel.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/ognl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/timelinez.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/timeplotz.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/xercesImpl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zcommon.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zcommons-el.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zhtml.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zk.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zkex.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zkmax.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zkplus.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zml.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zul.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zweb.jar!/" />
+      <root url="file://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/classes" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/tools/lib/miglayout-3.7.1-swing.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/lib/CCTools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/lib/CSTools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/packages/liberoHR.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/packages/liberoMFG.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/packages/liberoWM.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/packages/liberoCashflow.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/packages/FixedAsset.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/timelinez-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zcommon-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zhtml-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zk-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zkex-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zkmax-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zkplus-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zml-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zul-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/lib/zweb-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/lib/CCTools.jar!/Lib" />
+      <root url="jar://$PROJECT_DIR$/../adempiere/lib/CSTools.jar!/Lib" />
+    </SOURCES>
+  </library>
+</component>
