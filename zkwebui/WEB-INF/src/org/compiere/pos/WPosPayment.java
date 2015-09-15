@@ -39,10 +39,9 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
+import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.MPayment;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
@@ -64,47 +63,18 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	 */
 	private static final long serialVersionUID = 1961106531807910948L;
 
-	private void processPayment() {
-
-		try {
-			BigDecimal amt = new BigDecimal(fPayAmt.getValue());
-			if(fTenderAmt.getValue().equals(0)){
-				FDialog.warn(0, p_posPanel, "Mount", "");
-				return;
-			}
-
-			for(int i = 0; i < types.size(); i++){
-				if(lTenderAmount[i].getId().equals(MPayment.TENDERTYPE_Cash+"_1")){
-					amt = new BigDecimal(lTenderAmount[i].getValue());
-						p_order.payCash(amt);
-				}
-			}
-			
-
-			p_posPanel.f_order.openCashDrawer();
-//			setTotals();
-		}
-		catch (Exception e )
-		{
-			FDialog.warn(0, this, "Payment processing failed: " + e.getMessage(),"");
-		}
-	}
-
-	public WPosBasePanel p_posPanel;
+	public WPOS p_posPanel;
 	public MPOS p_pos;
 	private Properties p_ctx;
-	private PosOrderModel p_order;
+	private MOrder p_order;
 	private Label fTotal = new Label();
 	private Label fBalance = new Label();
 	private Label fPayAmt;
 	private boolean paid = false;
 	private BigDecimal balance = Env.ZERO;
-	private WPOSKeyboard keyboard;
 	private Checkbox isPrePaiment;
-	private Label fTenderAmt;
 	private Label fReturnAmt;
 	private Label lReturnAmt;
-	private Label lTenderAmount[];
 	private Button fPlus;
 	private int cont;
 	private ArrayList<Object> types;
@@ -122,12 +92,12 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private Button 	bMinus;
 	private int 	keyLayoutId;
 
-	public WPosPayment(WPosBasePanel posPanel, WSubOrder subOrder) {
+	public WPosPayment(WPOS posPanel, WSubOrder subOrder) {
 		super();
 		p_posPanel = posPanel;
 		p_pos = subOrder.p_pos;
 		p_ctx = p_pos.getCtx();
-		p_order = subOrder.m_order;
+		p_order = posPanel.getM_Order();
 		keyLayoutId=p_pos.getOSNP_KeyLayout_ID();
 		
 		setTitle(Msg.translate(p_ctx, "Payment"));
@@ -177,10 +147,9 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		Label gtLabel = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
 		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		row.appendChild(gtLabel.rightAlign());
-		row.appendChild(fTotal);
+		row.appendChild(fTotal.rightAlign());
 		fTotal.setStyle(FONT_SIZE);
 		fTotal.setValue(p_order.getGrandTotal().toString());
-		
 		
 		row = rows.newRow();
 		row.appendChild(new Space());
@@ -190,9 +159,17 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		fPayAmt = new Label();
 		row.appendChild(fsLabel.rightAlign());
-		row.appendChild(fPayAmt);
+		row.appendChild(fPayAmt.rightAlign());
 		fPayAmt.setStyle(FONT_SIZE);
 		fPayAmt.setValue(Env.ZERO.toString());
+		
+
+		row = rows.newRow();
+		row.appendChild(new Space());		
+		row.appendChild(new Space());
+		row.setHeight("5px");
+		Label line = new Label ("____________________");
+		row.appendChild(line.rightAlign());
 		
 		fReturnAmt = new Label();
 		lReturnAmt = new Label(Msg.translate(p_ctx, "AmountReturned")+":");
@@ -201,13 +178,11 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		row = rows.newRow();
 		row.appendChild(new Space());
 		row.appendChild(lReturnAmt.rightAlign());
-		row.appendChild(fReturnAmt);
+		row.appendChild(fReturnAmt.rightAlign());
 		fReturnAmt.addEventListener("onFocus", this);
 		
 		// Button Plus
 		fPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
-
-				
 		row = rows.newRow();
 
 		
@@ -289,56 +264,30 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event event) throws Exception {
 		String action = event.getTarget().getId();
-		if(event.getName().equals("onFocus")){
+		if (event.getName().equals("onBlur") || event.getName().equals("onFocus")) {
 			for(int x = 0; x < pp.size(); x++)
 				if(event.getTarget().equals(pp.get(x).fPayAmt)){
-					pp.get(x).fPayAmt.setValue("");
-					cont++;
-					if(cont<2){
-						if(event.getName().equals("onFocus")) {
-							WPOSKeyboard keyboard = new WPOSKeyboard (p_posPanel, keyLayoutId); 
-							keyboard.setWidth("280px");
-							keyboard.setHeight("320px");
-							keyboard.setPosTextField(pp.get(x).fPayAmt);	
-							AEnv.showWindow(keyboard);
-							if(pp.get(x).fPayAmt.getValue().equals(""))
-								pp.get(x).fPayAmt.setValue("0");
-							calculate();
-						}
-						
-					}
-						else {
-							cont=0;
-							mainPanel.setFocus(true);
-						}
-			}
-		} else if (event.getName().equals("onBlur")) {
-			for(int x = 0; x < pp.size(); x++)
-				if(event.getTarget().equals(pp.get(x).fPayAmt)){
-					if(pp.get(x).fPayAmt.getValue().equals("")){
-						pp.get(x).fPayAmt.setValue("0");
-					}
-					else {
 						calculate();
-					}
 			}
-			
-			}
+		}
 		else if(event.getTarget().equals(fPlus)){
 			addTypePay();
+			return;
 		}
 		
 		else if ( action.equals(ConfirmPanel.A_OK)) {
 			// Process Payment: first Process Order (if needed)
-			if ( !p_order.isProcessed() && !p_order.processOrder() ) {
+			if ( !p_order.isProcessed() && !p_posPanel.processOrder() ) {
 					FDialog.warn(0, Msg.getMsg(p_ctx, "PosOrderProcessFailed"));
 					return;
 			}
 			for(int x = 0; x < pp.size(); x++)
 				pp.get(x).savePay();
 			onClose();
+			return;
 		}
 		else if ( action.equals(ConfirmPanel.A_CANCEL))	{
+			paid = false;
 			onClose();
 			return;
 		}
@@ -352,12 +301,18 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 					layout.invalidate();
 				}
 			}
+			calculate();
+			return;
 		}
+		calculate();
 	}
 	private void calculate() {
 		BigDecimal mount = new BigDecimal(Env.ZERO.toString());
 		for(int x = 0; x < pp.size(); x++){
-				BigDecimal pay = new BigDecimal(pp.get(x).fPayAmt.getValue());
+			if(pp.get(x).fPayAmt.getValue() == null){
+				pp.get(x).fPayAmt.setValue("0");
+			}
+				BigDecimal pay = pp.get(x).fPayAmt.getValue();
 				mount = mount.add(pay);
 		}
 		
@@ -365,7 +320,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		if ( balance.compareTo(Env.ZERO) <= 0 )
 		{
 			paid = true;
-			
 		}
 		fBalance.setValue(balance.toString());
 		fReturnAmt.setValue(balance.toString());
@@ -396,11 +350,11 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		}
 	}
 	
-	public static boolean pay(WPosBasePanel posPanel, WSubOrder subOrder) {
+	public static boolean pay(WPOS posPanel, WSubOrder subOrder) {
 		
 		WPosPayment pay = new WPosPayment(posPanel, subOrder);
 		pay.setVisible(true);
-		pay.setWidth("430px");;
+		pay.setWidth("445px");;
 		pay.setHeight("580px"); ;
 		pay.setClosable(true);
 		AEnv.showWindow(pay);
@@ -417,7 +371,5 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	public String getBalance(){
 		return fBalance.getValue();
 	}
-	public PosOrderModel getPosOrderModel(){
-		return p_order;
-	}
+	
 }
