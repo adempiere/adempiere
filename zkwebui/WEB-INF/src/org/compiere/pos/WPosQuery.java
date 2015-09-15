@@ -48,7 +48,7 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 	
 	protected Properties 		p_ctx;
 	/** POS Panel							*/
-	protected WPosBasePanel 	p_posPanel = null;
+	protected WPOS 	p_posPanel = null;
 	/** Order 								*/
 	protected WSubOrder 		p_order = null;
 	/**	Underlying POS Model				*/
@@ -77,12 +77,12 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 	/**
 	 * 	Constructor
 	 */
-	public WPosQuery (WPosBasePanel posPanel, WSubOrder order)
+	public WPosQuery (WPOS posPanel, WSubOrder order)
 	{
 		super();
 		p_posPanel = posPanel;
 		p_order = order;
-		p_pos = posPanel.p_pos;
+		p_pos = order.p_pos;
 		p_ctx = p_pos.getCtx();
 		this.setAttribute("mode", "modal");
 		this.setBorder("normal");

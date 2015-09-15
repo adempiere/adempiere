@@ -14,16 +14,9 @@
 
 package org.compiere.pos;
 
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
-
-
-
-
-
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
@@ -37,7 +30,6 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.grid.WBPartner;
-import org.compiere.grid.ed.VBPartner;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartnerInfo;
@@ -73,7 +65,7 @@ public class WQueryBPartner extends WPosQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryBPartner (WPosBasePanel posPanel, WSubOrder order)
+	public WQueryBPartner (WPOS posPanel, WSubOrder order)
 	{
 		super(posPanel, order);
 	}	//	PosQueryBPartner
@@ -319,8 +311,17 @@ public class WQueryBPartner extends WPosQuery
 	}
 	@Override
 	public void onEvent(Event e) throws Exception {
-		
-		if(e.getTarget().equals(f_name) || e.getTarget().equals(f_contact)
+//		Dixon Martinez 2015-07-31
+//		Support for creating customers from the point of sale
+		if(e.getTarget().equals(bot_New)) {
+			
+			WBPartner t = new WBPartner(1);
+			t.setVisible(true);
+			AEnv.showWindow(t);
+			m_C_BPartner_ID = t.getC_BPartner_ID();
+			return;
+		}
+		else if(e.getTarget().equals(f_name) || e.getTarget().equals(f_contact)
 				|| e.getTarget().equals(f_value) || e.getTarget().equals(f_email)
 				|| e.getTarget().equals(f_city) || e.getTarget().equals(f_phone)){
 				showKeyboard(e.getTarget(), e.getName());
@@ -361,16 +362,7 @@ public class WQueryBPartner extends WPosQuery
 				m_table.setSelectedIndex(row);
 				return;
 			}
-//			Dixon Martinez 2015-07-31
-//			Support for creating customers from the point of sale
-			else if(bot_New.equals(e.getTarget())) {
-				
-				WBPartner t = new WBPartner(0);
-				t.setVisible(true);
-				AEnv.showWindow(t);
-				m_C_BPartner_ID = t.getC_BPartner_ID();
-				return;
-			}
+
 
 			enableButtons();
 			if(e.getTarget().equals(f_ok)){
@@ -379,7 +371,6 @@ public class WQueryBPartner extends WPosQuery
 			if(e.getTarget().equals(f_cancel)){
 				close();
 			}
-		
 	}
 	
 }	//	PosQueryBPartner

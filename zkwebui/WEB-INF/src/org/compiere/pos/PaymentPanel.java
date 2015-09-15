@@ -3,8 +3,10 @@ package org.compiere.pos;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.KeyStroke;
@@ -18,6 +20,7 @@ import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
+import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -46,9 +49,9 @@ public class PaymentPanel extends Collect implements EventListener {
 
 	private Listbox tenderTypePick = ListboxFactory.newDropdownListbox();
 	private Listbox bankList = ListboxFactory.newDropdownListbox();
-	public Textbox fPayAmt;
+	public POSNumberBox fPayAmt;
 	private WPosTextField fCheckAccountNo;
-	private Datebox fCheckdate;
+	private Textbox fCheckdate;
 	private WPosTextField fCheckRouteNo;
 	private WPosTextField fCCardNo;
 	private WPosTextField fCCardName;
@@ -67,24 +70,22 @@ public class PaymentPanel extends Collect implements EventListener {
 	private int cont;
 	private int keyLayoutId;
 	private MPOS p_MPOS;
-	private MOrder p_Order;
-	private PosOrderModel p_order;
 	private Borderlayout mainLayout;
 	
-	private final String COLOR_GRAY = "color:#666";
-	private final String COLOR_BLACK = "color:#000";
-	private DateFormat 				dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private EventListener p_Event;
-	private WPosBasePanel p_posBasePanel;
+	private WPOS p_posBasePanel;
 	
-	public PaymentPanel(Properties ctx, MOrder m_Order, int m_M_POS_ID, String m_TendeType, EventListener m_event, WPosBasePanel m_posBasePanel ) {
+	private final String FONT_SIZE = "Font-size:medium;";
+	private final String HEIGHT = "height:33px;";
+	private final String WIDTH = "width:139px;";
+	
+	public PaymentPanel(Properties ctx, MOrder m_Order, int m_M_POS_ID, String m_TendeType, EventListener m_event, WPOS m_posBasePanel ) {
 		super(ctx, m_Order, m_M_POS_ID);
 		p_TenderType = m_TendeType;
 		p_ctx = ctx;
 		p_Event = m_event;
 		//	Instance POS
 		p_MPOS = MPOS.get(ctx, m_M_POS_ID);
-		p_Order = m_Order;
 		p_posBasePanel = m_posBasePanel;
 		keyLayoutId = p_MPOS.getOSNP_KeyLayout_ID();
 	}
@@ -93,8 +94,8 @@ public class PaymentPanel extends Collect implements EventListener {
 		mainPanel = new Panel();
 		mainGrid = GridFactory.newGridLayout();
 		mainPanel.appendChild(mainGrid);
-		mainGrid.setWidth("95%");
-		mainGrid.setHeight("50px");
+		mainGrid.setWidth("98%");
+		mainGrid.setHeight("55px");
 		Center center = new Center();
 		mainLayout = new Borderlayout();
 		mainLayout.appendChild(center);
@@ -129,26 +130,29 @@ public class PaymentPanel extends Collect implements EventListener {
 					tenderTypePick.appendItem(key.getName(), key);
 			}
 		}
-		tenderTypePick.setWidth("139px");
+		bankList.setStyle(HEIGHT+WIDTH+FONT_SIZE);
+		tenderTypePick.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		tenderTypePick.addActionListener(this);
 		row.appendChild(tenderTypePick);
 		
 
 		Label lPayAmt  = new Label(Msg.translate(p_ctx, "PayAmt"));
 		lPayAmt.setWidth("225px");
-		fPayAmt = new Textbox();
+		fPayAmt = new POSNumberBox(false);
+		
 		row.appendChild(fPayAmt);
-		fPayAmt.setText(lPayAmt.getValue());
-		fPayAmt.setStyle("text-align:right");
-		fPayAmt.addFocusListener(p_Event);
-
+		fPayAmt.setValue(new BigDecimal("0.0"));
+		fPayAmt.setStyle("text-align:right;"+HEIGHT+WIDTH+FONT_SIZE);
+		fPayAmt.addEventListener("onBlur",p_Event);
+		fPayAmt.addEventListener("onChange",p_Event);
+		fPayAmt.addEventListener("onFocus",p_Event);
 		return mainPanel;
 	}
 	public Panel paymentPanel(){
 		mainPanel = new Panel();
 		mainGrid = GridFactory.newGridLayout();
 		mainPanel.appendChild(mainGrid);
-		mainGrid.setWidth("95%");
+		mainGrid.setWidth("98%");
 		mainGrid.setHeight("70px");
 		Center center = new Center();
 		mainLayout = new Borderlayout();
@@ -193,19 +197,21 @@ public class PaymentPanel extends Collect implements EventListener {
 				
 			}
 		}
-		
+
+		bankList.setStyle(HEIGHT+WIDTH+FONT_SIZE);
+		tenderTypePick.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		tenderTypePick.addActionListener(this);
 		row.appendChild(tenderTypePick);
 		
 
 		Label lPayAmt  = new Label(Msg.translate(p_ctx, "PayAmt"));
-		lPayAmt.setWidth("225px");
-		fPayAmt = new Textbox();
+		fPayAmt = new POSNumberBox(false);
 		row.appendChild(fPayAmt);
-		fPayAmt.setText(lPayAmt.getValue());
-		fPayAmt.setValue("0.00");
-		fPayAmt.setStyle("text-align:right");
-		fPayAmt.addFocusListener(p_Event);
+		fPayAmt.setValue(new BigDecimal("0.0"));
+		fPayAmt.setStyle("text-align:right;"+HEIGHT+WIDTH+FONT_SIZE);
+		fPayAmt.addEventListener("onBlur",p_Event);
+		fPayAmt.addEventListener("onChange",p_Event);
+		fPayAmt.addEventListener("onFocus",p_Event);
 		
 		row = rows.newRow();
 		fCheckRouteNo = new WPosTextField(p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
@@ -213,16 +219,20 @@ public class PaymentPanel extends Collect implements EventListener {
 		row.appendChild(fCheckRouteNo);
 		fCheckRouteNo.setValue(lCheckRouteNo.getValue());
 		fCheckRouteNo.addEventListener("onFocus", this);
+		fCheckRouteNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(bankList);
 		
-		fCheckdate = new Datebox();
+		fCheckdate = new Textbox("MM/DD/YYYY");
 		lCheckNo = new Label(Msg.translate(p_ctx, "CheckNo"));
+		fCheckdate.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row = rows.newRow();
+		fCheckdate.addEventListener("onFocus", this);
 		row.appendChild(fCheckdate);
 
 		lCCardType = new Label(Msg.translate(p_ctx, "CreditCardType"));
 		row = rows.newRow();
 		row.appendChild(fCCardType);
+		fCCardType.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		fCCardType.setValue(lCCardType.getValue());
 		fCCardType.addActionListener(this);
 		
@@ -237,7 +247,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		}
 		fCCardNo = new WPosTextField(p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
 		lCCardNo = new Label(Msg.translate(p_ctx, "CreditCardNumber"));
-		
+		fCCardNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(fCCardNo);
 		fCCardNo.setText(lCCardNo.getValue());
 		fCCardNo.addEventListener("onFocus", this);
@@ -246,7 +256,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		lCCardName = new Label(Msg.translate(p_ctx, "Name"));
 		row = rows.newRow();
 		row.appendChild(fCCardName);
-		
+		fCCardName.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		fCCardName.setValue(lCCardName.getValue());
 		fCCardName.addEventListener("onFocus", this);
 		
@@ -255,13 +265,14 @@ public class PaymentPanel extends Collect implements EventListener {
 		row.appendChild(fCCardMonth);
 		fCCardMonth.setValue(lCCardMonth.getValue());
 		fCCardMonth.addEventListener("onFocus", this);
-		
+		fCCardMonth.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		fCCardVC = new WPosTextField(p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
 		lCCardVC = new Label(Msg.translate(p_ctx, "CVC"));
 		row = rows.newRow();
 		row.appendChild(fCCardVC);
 		fCCardVC.setValue(lCCardVC.getValue());
 		fCCardVC.addEventListener("onFocus", this);
+		fCCardVC.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		setTotals();
 
 		return mainPanel;
@@ -271,17 +282,25 @@ public class PaymentPanel extends Collect implements EventListener {
 		return DB.getValueNamePairs("SELECT C_Bank_ID, Name FROM C_Bank", true, null);
 	}
 	public boolean savePay(){
-		BigDecimal payAmt = new BigDecimal(fPayAmt.getValue());
+		BigDecimal payAmt = fPayAmt.getValue();
 		
 		if(p_TenderType.equals(MPayment.TENDERTYPE_Cash))
 			addCash(payAmt);
 		else if(p_TenderType.equals(MPayment.TENDERTYPE_Check)) {
-			String hourString = dateFormat.format(fCheckdate.getValue());
+		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+			String strDate = fCheckdate.getValue();
+		    Timestamp dateTrx = null;
+			try{
+			    Date parsedDate = dateFormat.parse(strDate);
+			    dateTrx = new Timestamp(parsedDate.getTime());
+			}catch(Exception e){
+				e.printStackTrace(); 
+			}
+
 			String bank_ID = ((ValueNamePair) bankList.getSelectedItem().toValueNamePair()).getValue();
 			
 			String routeNo = fCheckRouteNo.getValue();
 			
-			Timestamp dateTrx = Timestamp.valueOf(hourString);
 			addCheck(payAmt, routeNo, Integer.parseInt(bank_ID), dateTrx);
 		}
 		else if(p_TenderType.equals(MPayment.TENDERTYPE_CreditCard)){
@@ -290,7 +309,6 @@ public class PaymentPanel extends Collect implements EventListener {
 			int year = MPaymentValidate.getCreditCardExpYY(fCCardMonth.getText());
 			String cardNo = fCCardNo.getValue();
 			String cardCVC = fCCardVC.getValue();
-			ValueNamePair pp = fCCardType.getSelectedItem().toValueNamePair();
 			String cardType = ((ValueNamePair) fCCardType.getSelectedItem().toValueNamePair()).getValue();
 			
 			payCreditCard(payAmt, fCCardName.getValue(), month, year, cardNo, cardCVC, cardType);
@@ -311,19 +329,19 @@ public class PaymentPanel extends Collect implements EventListener {
 		p_TenderType = tenderType;
 
 		if(check)
-			mainGrid.setHeight("120px");
+			mainGrid.setHeight("150px");
 		else if(creditcard)
-			mainGrid.setHeight("160px");
+			mainGrid.setHeight("200px");
 		else if(account)
-			mainGrid.setHeight("170px");
+			mainGrid.setHeight("195px");
 		else if(directDebit)
-			mainGrid.setHeight("90px");
+			mainGrid.setHeight("95px");
 		else if(directDeposit)
-			mainGrid.setHeight("90px");
+			mainGrid.setHeight("95px");
 		else if(cash)
-			mainGrid.setHeight("50px");
+			mainGrid.setHeight("60px");
 		else
-			mainGrid.setHeight("50px");
+			mainGrid.setHeight("60px");
 			
 		fCheckdate.setVisible(check);
 		fCheckRouteNo.setVisible(check);
@@ -370,18 +388,18 @@ public class PaymentPanel extends Collect implements EventListener {
 		return mainPanel;
 	}
 	public BigDecimal getPayAmt(){
-		return new BigDecimal(fPayAmt.getValue());
+		return fPayAmt.getValue();
 	}
-	public Textbox getlPayAmt(){
+	public POSNumberBox getlPayAmt(){
 		return fPayAmt;
 	}
 	
 	public void showKeyboard(WPosTextField field) {
 		cont++;
-		if(cont<2){
-				WPOSKeyboard keyboard = new WPOSKeyboard (p_posBasePanel, keyLayoutId); 
-				keyboard.setWidth("280px");
-				keyboard.setHeight("320px");
+		if(cont==1){
+				WPOSKeyboard keyboard =  p_posBasePanel.getKeyboard(field.getKeyLayoutId()); 
+				keyboard.setWidth("750px");
+				keyboard.setHeight("380px");
 				keyboard.setPosTextField(field);	
 				AEnv.showWindow(keyboard);
 			}
@@ -402,6 +420,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		}
 		
 		if(e.getTarget().equals(fCheckdate)){
+			fCheckdate.setValue("");
 			
 		}
 		if(e.getTarget().equals(fCheckRouteNo)){

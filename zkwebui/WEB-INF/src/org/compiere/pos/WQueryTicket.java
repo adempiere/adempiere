@@ -62,7 +62,7 @@ public class WQueryTicket extends WPosQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryTicket (WPosBasePanel posPanel, WSubOrder order)
+	public WQueryTicket (WPOS posPanel, WSubOrder order)
 	{
 		super(posPanel, order);
 	}	//	PosQueryProduct
@@ -270,7 +270,7 @@ public class WQueryTicket extends WPosQuery
 		
 		if (m_c_order_id > 0)
 		{
-			p_order.setOrder(m_c_order_id);
+			p_order.p_posPanel.setOrder(m_c_order_id);
 			p_order.updateInfo();
 
 		}

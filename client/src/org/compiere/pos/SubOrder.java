@@ -43,7 +43,6 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MSequence;
-import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
@@ -80,7 +79,7 @@ public class SubOrder extends PosSubPanel
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public SubOrder (PosBasePanel posPanel)
+	public SubOrder (VPOS posPanel)
 	{
 		super (posPanel);
 	}	//	PosSubCustomer
@@ -92,11 +91,11 @@ public class SubOrder extends PosSubPanel
 	private CComboBox		f_location;
 	private CComboBox		f_user;
 	private CButton 		f_cashPayment;
-	private CButton 		f_cashPrePayment;
-	private CButton 		f_process;
-	private CButton 		f_print;
-	private CTextField 		f_DocumentNo;
+	private CButton 		f_Next;
+	private CButton 		f_Back;
+	private CButton 		f_Cancel;
 	private CButton 		f_logout;
+	private CTextField 		f_DocumentNo;
 	private JFormattedTextField f_net;
 	private JFormattedTextField f_tax;
 	private JFormattedTextField f_total;
@@ -108,7 +107,6 @@ public class SubOrder extends PosSubPanel
 	private int			m_M_PriceList_Version_ID = 0;
 	private CTextField f_currency = new CTextField();
 	private CButton f_bCreditSale;
-	private CButton f_bSettings;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(SubOrder.class);	
 
@@ -119,9 +117,8 @@ public class SubOrder extends PosSubPanel
 	private final String ACTION_LOGOUT      = "Logout";
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_PAYMENT     = "Payment";
-	private final String ACTION_PREPAYMENT  = "Prepayment";
-	private final String ACTION_PREFERENCES = "Preference";
-	private final String ACTION_PRINT       = "Print";
+	private final String ACTION_NEXT  		= "Detail";
+	private final String ACTION_BACK       	= "Parent";
 	
 	/**
 	 * 	Initialize
@@ -137,130 +134,55 @@ public class SubOrder extends PosSubPanel
 		String buttonSize = "w 50!, h 50!,";
 		// NEW
 		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
-		add (f_bNew, buttonSize);
+		add (f_bNew, buttonSize+",gapx 35");
 
 		// BPARTNER
 		f_bBPartner = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
-		add (f_bBPartner,buttonSize );
+		add (f_bBPartner,buttonSize+",gapx 35" );
 		
 		// CREDIT SALE
 		f_bCreditSale = createButtonAction(ACTION_CREDITSALE, null);
-		add(f_bCreditSale, buttonSize);
+		add(f_bCreditSale, buttonSize+",gapx 35");
  		f_bCreditSale.setEnabled(false);
 		
 		// HISTORY
 		f_history = createButtonAction(ACTION_HISTORY, null);
- 		add (f_history, buttonSize); 
+ 		add (f_history, buttonSize+",gapx 35"); 
 		
-		// CANCEL
-		f_process = createButtonAction(ACTION_CANCEL, null);
- 		add (f_process, buttonSize);
- 		f_process.setEnabled(false);
+ 		// 	PREPAYMENT
+ 		f_Back = createButtonAction(ACTION_BACK, null);
+ 		add (f_Back, buttonSize+",gapx 35");
+ 		f_Back.setEnabled(false);
+		
+ 		//PRINT
+ 		f_Next = createButtonAction(ACTION_NEXT, null);
+ 		f_Next.setActionCommand(ACTION_NEXT);
+		add (f_Next, buttonSize+",gapx 35"); 
+		f_Next.setEnabled(false);
  		
  		// PAYMENT
  		f_cashPayment = createButtonAction(ACTION_PAYMENT, null);
 		f_cashPayment.setActionCommand(ACTION_PAYMENT);
-		add (f_cashPayment, buttonSize); 
+		add (f_cashPayment, buttonSize+",gapx 35"); 
 		f_cashPayment.setEnabled(false);
  		
- 		// PREPAYMENT
- 		f_cashPrePayment = createButtonAction(ACTION_PREPAYMENT, null);
- 		f_cashPrePayment.setActionCommand(ACTION_PREPAYMENT);
-		add (f_cashPrePayment, buttonSize); 
-		f_cashPrePayment.setEnabled(false);
-		
- 		//PRINT
-		f_print = createButtonAction(ACTION_PRINT, null);
- 		add (f_print, buttonSize);
- 		f_print.setEnabled(false);
  		
- 		// Settings
-		f_bSettings = createButtonAction(ACTION_PREFERENCES, null);
- 		add (f_bSettings, buttonSize);
+ 		// CANCEL
+		f_Cancel = createButtonAction(ACTION_CANCEL, null);
+ 		add (f_Cancel, buttonSize +",gapx 35");
  		
 		// Logout
 		f_logout = createButtonAction (ACTION_LOGOUT, null);
-		add (f_logout, buttonSize + ", gapx 25, wrap");
+		add (f_logout, buttonSize + ", gapx 35, wrap");
 
 		// BP
-		CLabel BPLabelLabel = new CLabel(Msg.translate(Env.getCtx(), MBPartner.COLUMNNAME_C_BPartner_ID)); 
-		//add(BPLabelLabel, "split 2, spanx 4, flowy, h 15");
-		add(BPLabelLabel, "");
-		//add(new CLabel(Msg.translate(Env.getCtx(), "C_BPartner_ID")), "");
+//		CLabel BPLabelLabel = new CLabel(Msg.translate(Env.getCtx(), MBPartner.COLUMNNAME_C_BPartner_ID)); 
+//		add(BPLabelLabel, "");
 		f_name = new CTextField();
 		f_name.setEditable(false);
 		f_name.setName(MBPartner.COLUMNNAME_Name);
-		add (f_name, "wrap,spanx 3, growx");
-		
- 		// DOC NO
-		add (new CLabel(Msg.getMsg(Env.getCtx(),MOrder.COLUMNNAME_DocumentNo)), ""); 
-		
-		f_DocumentNo = new CTextField("");
-		f_DocumentNo.setName(MOrder.COLUMNNAME_DocumentNo);
-		f_DocumentNo.setEditable(false);
-		add (f_DocumentNo, "growx, pushx");
-		
-		CLabel lNet = new CLabel (Msg.translate(Env.getCtx(), MOrder.COLUMNNAME_TotalLines));
-		add(lNet, "");
-		f_net = new JFormattedTextField(DisplayType.getNumberFormat(DisplayType.Amount));
-		f_net.setHorizontalAlignment(JTextField.TRAILING);
-		f_net.setEditable(false);
-		f_net.setFocusable(false);
-		lNet.setLabelFor(f_net);
-		add(f_net, "wrap, growx, pushx");
-		f_net.setValue (Env.ZERO);
-		//
-	
-		
-		
-		//f_name.setName("Name");
-		//f_name.addActionListener(this);
-		//f_name.addFocusListener(this);
-		//add (f_name, "wrap");
-		
+//		add (f_name, "wrap,spanx 3, growx");
 
-		// SALES REP
-		add(new CLabel(Msg.translate(Env.getCtx(), MOrder.COLUMNNAME_SalesRep_ID)), ""); 
-		MUser salesrep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
-		f_RepName = new CTextField(salesrep.getName());
-		f_RepName.setName("SalesRep");
-		f_RepName.setEditable(false);
-		add (f_RepName, "growx, pushx");
-
-		CLabel lTax = new CLabel (Msg.translate(Env.getCtx(), MInvoiceLine.COLUMNNAME_TaxAmt));
-		add(lTax);
-		f_tax = new JFormattedTextField(DisplayType.getNumberFormat(DisplayType.Amount));
-		f_tax.setHorizontalAlignment(JTextField.TRAILING);
-		f_tax.setEditable(false);
-		f_tax.setFocusable(false);
-		lTax.setLabelFor(f_tax);
-		add(f_tax, "wrap, growx, pushx");
-		f_tax.setValue (Env.ZERO);
-		//
-		
-		/*
-		f_location = new CComboBox();
-		add (f_location, " wrap");
-	*/
-		
-
-		//
-		CLabel lTotal = new CLabel (Msg.translate(Env.getCtx(), MOrder.COLUMNNAME_GrandTotal));
-		//lTotal.setFont(bigFont);
-		add(lTotal, "cell 2 4");
-		f_total = new JFormattedTextField(DisplayType.getNumberFormat(DisplayType.Amount));
-		f_total.setHorizontalAlignment(JTextField.TRAILING);
-		//f_total.setFont(bigFont);
-		f_total.setEditable(false);
-		f_total.setFocusable(false);
-		lTotal.setLabelFor(f_total);
-		add(f_total, "cell 3 4");
-		f_total.setValue (Env.ZERO);
-		/*
-		//
-		f_user = new CComboBox();
-		add (f_user, "skip 1");
-		*/
 	}	//	init
 
 	/**
@@ -302,10 +224,12 @@ public class SubOrder extends PosSubPanel
 		else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
 		else if (action.equals(ACTION_PAYMENT))
-			payOrder();
-		else if (action.equals(ACTION_PREPAYMENT))
-			prePayOrder();
-		else if (action.equals(ACTION_PRINT))
+//			payOrder();
+			;
+		else if (action.equals(ACTION_NEXT))
+//			prePayOrder();
+			;
+		else if (action.equals(ACTION_BACK))
 			printOrder();
 		else if (action.equals(ACTION_BPARTNER))
 		{	// Change to another BPartner
@@ -348,50 +272,50 @@ public class SubOrder extends PosSubPanel
 	 * If order is not processed, process it first.
 	 * If it is successful, proceed to pay and print ticket
 	 */
-	private void payOrder() {
-		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( p_posPanel.m_order == null) {		
-			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
-		}
-		else
-		{
-			if ( PosPayment.pay(p_posPanel) )
-			{
-				printTicket();
-				p_posPanel.setOrder(0);
-			}
-		}	
-	}  // payOrder
+//	private void payOrder() {
+//		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
+//		if( p_posPanel.getM_Order() == null) {		
+//			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
+//		}
+//		else
+//		{
+//			if ( PosPayment.pay(p_posPanel) )
+//			{
+//				printTicket();
+//				p_posPanel.setOrder(0);
+//			}
+//		}	
+//	}  // payOrder
 
 	/**
 	 * Execute order prepayment
 	 * If order is not processed, process it first.
 	 * If it is successful, proceed to pay and print ticket
 	 */
-	private void prePayOrder() {
-		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( p_posPanel.m_order == null) {		
-			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
-		}
-		else if(p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Drafted) ) {
-			if(p_posPanel.m_order.getLines().length == 0) 
-				ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order must have lines"));
-			else if ( PosPrePayment.pay(p_posPanel) ) {
-				p_posPanel.setOrder(0);
-			}
-		}
-		else if(p_posPanel.m_order.getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {
-			if(!p_posPanel.m_order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard) ||
-				p_posPanel.m_order.getC_Invoice_ID()>0) {
-				ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "It must be a not invoiced standard order"));
-			}
-			else { // OK -> proceed to prepayment
-				if ( PosPrePayment.pay(p_posPanel) ) {
-					p_posPanel.setOrder(0);
-				}
-			}	
-		}				    
-	}  // prePayOrder
+//	private void prePayOrder() {
+//		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
+//		if( p_posPanel.m_order == null) {		
+//			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
+//		}
+//		else if(p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Drafted) ) {
+//			if(p_posPanel.m_order.getLines().length == 0) 
+//				ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order must have lines"));
+//			else if ( PosPrePayment.pay(p_posPanel) ) {
+//				p_posPanel.setOrder(0);
+//			}
+//		}
+//		else if(p_posPanel.m_order.getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {
+//			if(!p_posPanel.m_order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard) ||
+//				p_posPanel.m_order.getC_Invoice_ID()>0) {
+//				ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "It must be a not invoiced standard order"));
+//			}
+//			else { // OK -> proceed to prepayment
+//				if ( PosPrePayment.pay(p_posPanel) ) {
+//					p_posPanel.setOrder(0);
+//				}
+//			}	
+//		}				    
+//	}  // prePayOrder
 
 	/**
 	 * Execute deleting an order
@@ -400,26 +324,26 @@ public class SubOrder extends PosSubPanel
 	 * Otherwise, it must be done outside this class.
 	 */
 	private void deleteOrder() {
-		if (p_posPanel == null || p_posPanel.m_order == null) {
-			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
+		if (p_posPanel == null || p_posPanel.getM_Order() == null) {
+			ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(),  Msg.getMsg(p_ctx, "You must create an Order first"));
 			return;			
 		}
-		else if ( p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Drafted) ) {
-			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, "Do you want to delete the Order?"))) {
-				if (p_posPanel.m_order.deleteOrder())
-					p_posPanel.m_order = null;	
-				else
-					ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order could not be deleted"));
+		else if (p_posPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Drafted) ) {
+			if (ADialog.ask(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Do you want to delete the Order?"))) {
+				if (!p_posPanel.deleteOrder())
+//					p_posPanel.getM_Order() = null;	
+//				else
+					ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Order could not be deleted"));
 			}
 		}
-		else if (p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Completed)) {	
+		else if (p_posPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Completed)) {	
 			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "The order is already completed. Do you want to void it?")))) {		
-				if (!p_posPanel.m_order.cancelOrder())
-					ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order could not be voided"));
+				if (!p_posPanel.cancelOrder())
+					ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Order could not be voided"));
 			}
 		}
 		else {
-			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order is not Drafted nor Completed. Try to delete it other way"));
+			ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(),  Msg.getMsg(p_ctx, "Order is not Drafted nor Completed. Try to delete it other way"));
 			return;
 		}
 		
@@ -517,17 +441,15 @@ public class SubOrder extends PosSubPanel
 	 * 	Process the order.
 	 * Usually, the action should be "complete".
 	 */
-	private void onCreditSale()
-	{
-		if( p_posPanel.m_order == null) {		
-			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
-		}
-		else {
-			if ( p_posPanel.m_order.getLines().length==0) {
-				ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "The Order does not contain lines"));
-			}
-			else if ( !p_posPanel.m_order.isProcessed() && !p_posPanel.m_order.processOrder() ) {		
-				ADialog.warn(0, p_posPanel, Msg.getMsg(p_ctx, "Error processing Credit sale"));
+	private void onCreditSale() {
+		if( p_posPanel.getM_Order() == null) {		
+			ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(),  Msg.getMsg(p_ctx, "You must create an Order first"));
+		} else {
+			if ( p_posPanel.getM_Order().getLines().length==0) {
+				ADialog.warn(p_posPanel.getWindowNo(), null, Msg.getMsg(p_ctx, "The Order does not contain lines"));
+			} else if ( !p_posPanel.getM_Order().isProcessed() 
+					&& !p_posPanel.processOrder()) {		
+				ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Error processing Credit sale"));
 			}
 		}
 		return;
@@ -563,8 +485,8 @@ public class SubOrder extends PosSubPanel
 		m_M_PriceList_Version_ID = 0;
 		getM_PriceList_Version_ID();
 		//fillCombos();
-		if ( p_posPanel.m_order != null && m_bpartner != null )
-			p_posPanel.m_order.setBPartner(m_bpartner);  //added by ConSerTi to update the client in the request
+		if ( p_posPanel.getM_Order() != null && m_bpartner != null )
+			p_posPanel.getM_Order().setBPartner(m_bpartner);  //added by ConSerTi to update the client in the request
 	}	//	setC_BPartner_ID
 
 	/**
@@ -688,10 +610,10 @@ public class SubOrder extends PosSubPanel
 	 */
 	public void printTicket()
 	{
-		if ( p_posPanel.m_order == null )
+		if (p_posPanel.getM_Order() == null)
 			return;
 		
-		MOrder order = p_posPanel.m_order;
+		MOrder order = p_posPanel.getM_Order();
 		//int windowNo = p_posPanel.getWindowNo();
 		//Properties m_ctx = p_posPanel.getPropiedades();
 		
@@ -711,7 +633,7 @@ public class SubOrder extends PosSubPanel
 					MSequence seq = new MSequence(Env.getCtx(), p_pos.getAD_Sequence_ID(), order.get_TrxName());
 					String docno = seq.getPrefix() + seq.getCurrentNext();
 					String q = "Confirmar el número consecutivo "  + docno;
-					if (org.compiere.apps.ADialog.ask(0, null, q))						
+					if (org.compiere.apps.ADialog.ask(0, p_posPanel.f_curLine.getParent(), q))						
 					{
 						order.setPOReference(docno);
 						order.saveEx();
@@ -763,7 +685,7 @@ public class SubOrder extends PosSubPanel
 	{
 		if (p_posPanel != null )
 		{
-			MOrder order = p_posPanel.m_order;
+			MOrder order = p_posPanel.getM_Order();
 			if (order != null)
 			{
   				f_DocumentNo.setText(order.getDocumentNo());
@@ -786,8 +708,8 @@ public class SubOrder extends PosSubPanel
   					f_bCreditSale.setEnabled(false);
   				
   				f_history.setEnabled(true);  				
-  				f_process.setEnabled(true);
-  				f_print.setEnabled(order.isProcessed());
+  				f_Cancel.setEnabled(true);
+  				f_Back.setEnabled(order.isProcessed());
  				
   				// Button Payment
   				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
@@ -807,9 +729,9 @@ public class SubOrder extends PosSubPanel
   				    order.getC_Invoice_ID()<=0
   				   )
   				  )
-  					f_cashPrePayment.setEnabled(true);
+  					f_Next.setEnabled(true);
   				else
-  					f_cashPrePayment.setEnabled(false);
+  					f_Next.setEnabled(false);
 			}
 			else
 			{
@@ -819,10 +741,10 @@ public class SubOrder extends PosSubPanel
 				f_bNew.setEnabled(true);
 				f_bCreditSale.setEnabled(false);
 				f_history.setEnabled(true);
-				f_process.setEnabled(false);
-				f_print.setEnabled(false);
+				f_Cancel.setEnabled(false);
+				f_Back.setEnabled(false);
 				f_cashPayment.setEnabled(false);
-				f_cashPrePayment.setEnabled(false);
+				f_Next.setEnabled(false);
 			}
 			
 		}
@@ -850,23 +772,22 @@ public class SubOrder extends PosSubPanel
 	/**
 	 * 	Set Sums from Table
 	 */
-	void setSums(PosOrderModel order)
-	{
-		int noLines = p_posPanel.f_curLine.m_table.getRowCount();
-		if (order == null || noLines == 0)
-		{
-			f_net.setValue(Env.ZERO);
-			f_total.setValue(Env.ZERO);
-			f_tax.setValue(Env.ZERO);
-		}
-		else
-		{
-			// order.getMOrder().prepareIt();
-			f_net.setValue(order.getSubtotal());
-			f_total.setValue(order.getGrandTotal());
-			f_tax.setValue(order.getTaxAmt());
-
-		}
+	void setSums(VPOS order) {
+//		int noLines = p_posPanel.f_curLine.m_table.getRowCount();
+//		if (order == null || noLines == 0)
+//		{
+//			f_net.setValue(Env.ZERO);
+//			f_total.setValue(Env.ZERO);
+//			f_tax.setValue(Env.ZERO);
+//		}
+//		else
+//		{
+//			// order.getMOrder().prepareIt();
+//			f_net.setValue(order.getSubtotal());
+//			f_total.setValue(order.getGrandTotal());
+//			f_tax.setValue(order.getTaxAmt());
+//
+//		}
 	}	//	setSums
 }//	PosSubCustomer
 	

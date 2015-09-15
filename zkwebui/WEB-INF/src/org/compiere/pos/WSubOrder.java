@@ -49,7 +49,6 @@ import org.adempiere.webui.event.TableValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartner;
@@ -58,7 +57,6 @@ import org.compiere.model.MCurrency;
 import org.compiere.model.MImage;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
 import org.compiere.model.MPriceList;
@@ -85,8 +83,11 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Doublebox;
+import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Image;
+import org.zkoss.zul.Popup;
 import org.zkoss.zul.Space;
+import org.zkoss.zul.Vbox;
 
 
 /**
@@ -106,10 +107,11 @@ public class WSubOrder extends WPosSubPanel
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public WSubOrder (WPosBasePanel posPanel)
+	public WSubOrder (WPOS posPanel)
 	{
 		super (posPanel);
 	}	//	PosSubCustomer
+	
 	
 	private Button 		f_history;
 	private	Textbox		f_name;
@@ -134,7 +136,7 @@ public class WSubOrder extends WPosSubPanel
 	/**	The Business Partner		*/
 	private MBPartner	m_bpartner;
 	private Textbox f_currency = new Textbox();
-	private Button f_bEdit;
+	private Button f_bCreditSale;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(SubOrder.class);
 	
@@ -154,6 +156,7 @@ public class WSubOrder extends WPosSubPanel
 	private String			m_sql;
 	/** Status Panel */
 	private boolean status;
+	private int BPartnerStd;
 	private Panel all_SubCard;
 	private Panel popular_SubCard;
 	/**	Table Column Layout Info			*/
@@ -177,11 +180,7 @@ public class WSubOrder extends WPosSubPanel
 	private Panel button;
 
 	private int keyLayoutId;
-	PosOrderModel m_order = null;
 	
-	
-	
-
 	/**	The Product					*/
 	private MProduct		m_product = null;
 
@@ -322,10 +321,10 @@ public class WSubOrder extends WPosSubPanel
 		row.appendChild(f_bBPartner);
 				
 		// EDIT
-		f_bEdit = createButtonAction(ACTION_CREDITSALE, null);
-		f_bEdit.addActionListener(this);
-		row.appendChild(f_bEdit);
-		f_bEdit.setEnabled(false);
+		f_bCreditSale = createButtonAction(ACTION_CREDITSALE, null);
+		f_bCreditSale.addActionListener(this);
+		row.appendChild(f_bCreditSale);
+		f_bCreditSale.setEnabled(false);
 				
 		// HISTORY
 		f_history = createButtonAction(ACTION_HISTORY, null);
@@ -360,76 +359,12 @@ public class WSubOrder extends WPosSubPanel
 		
 		row = rows.newRow();
 		row.setSpans("3,4,2");
-		row.setHeight("30px");
-		
+		row.setHeight("25px");
+		row.appendChild(new Space());
 		// BP
 		Label bpartner = new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")+":");
-		row.appendChild (bpartner.rightAlign());
-		bpartner.setStyle("Font-size:medium; font-weight:700");
-		
+
 		f_name = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
-		f_name.setStyle("Font-size:medium");
-		f_name.setWidth("100%");
-		f_name.setHeight("35px");
-		f_name.addEventListener("onFocus",this);
-		row.appendChild  (f_name);
-		
-
-		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
-		lNet.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lNet.rightAlign());
-		f_net = new Label(String.valueOf(DisplayType.Amount));
-		f_net.setStyle("Font-size:medium");
-		row.appendChild(f_net);
-		f_net.setText(Env.ZERO+"");
-		
-		//
-		row = rows.newRow();
-		row.setHeight("30px");
-		row.setSpans("3,4,2");
-		// DOC NO
-		Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
-		row.appendChild (docNo.rightAlign());
-
-		docNo.setStyle("Font-size:medium; font-weight:700");
-		f_DocumentNo = new Label();
-		f_DocumentNo.setStyle("Font-size:medium");
-		row.appendChild(f_DocumentNo);
-		
-		Label lTax = new Label (Msg.translate(Env.getCtx(), "TaxAmt")+":");
-		lTax.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lTax.rightAlign());
-		f_tax = new Label(String.valueOf(DisplayType.Amount));
-		f_tax.setStyle("Font-size:medium");
-		row.appendChild(f_tax);
-		f_tax.setText(Env.ZERO.toString());
-		
-		row = rows.newRow();
-		row.setSpans("3,4,2");
-		row.setHeight("30px");
-		// SALES REP
-		Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "SalesRep_ID")+":");
-		row.appendChild(l_SalesRep.rightAlign());
-		l_SalesRep.setStyle("Font-size:medium; font-weight:700");
-		MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
-		f_RepName = new Label(salesRep.getName());
-		f_RepName.setStyle("Font-size:medium");
-		row.appendChild (f_RepName);
-		
-		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
-		lTotal.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lTotal.rightAlign());
-		f_total = new Label(String.valueOf(DisplayType.Amount));
-		row.appendChild(f_total);
-		f_total.setText(Env.ZERO.toString());
-		f_total.setStyle("Font-size:medium");
-		
-		row = rows.newRow();
-		row.setSpans("3,3,2,2");
-		row.setHeight("30px");
-		row.appendChild(new Space());
-		row.appendChild(new Space());
-		//
 
 	}	//	init
 	
@@ -477,7 +412,6 @@ public class WSubOrder extends WPosSubPanel
 				keyColor = color.getColor();
 			}
 			
-			
 			log.fine( "#" + map.size() + " - " + keyColor); 
 			button = new Panel();
 			Label label = new Label(key.getName());
@@ -504,10 +438,10 @@ public class WSubOrder extends WPosSubPanel
 			}
 			label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;color: #FFF;");
 			label.setHeight("100%");
-			button.setHeight("80px");
+			button.setHeight("70px");
 			st.appendChild(label);
 			button.setClass("z-button");
-			button.setStyle("float:left; white-space: pre-line;text-align:center; margin:1% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC; "
+			button.setStyle("float:left; white-space: pre-line;text-align:center; margin:0.4% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC; "
 					+ "background: -moz-linear-gradient(top, rgba(247,247,247,1) 0%, rgba(255,255,255,0.93) 7%, rgba(186,186,186,0.25) 15%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1) 100%);"
 					+ "background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(247,247,247,1)), color-stop(7%, rgba(255,255,255,0.93)), color-stop(15%, rgba(186,186,186,0.25)), color-stop(100%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1)));"
 					+ "background: -webkit-linear-gradient(top, rgba(247,247,247,1) 0%, rgba(255,255,255,0.93) 7%, rgba(186,186,186,0.25) 15%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1) 100%);");
@@ -553,8 +487,76 @@ public class WSubOrder extends WPosSubPanel
 		Panel card = new Panel();
 		card.setWidth("100%");
 		MPOSKeyLayout keyLayout = MPOSKeyLayout.get(Env.getCtx(), C_POSKeyLayout_ID);
+		North north = new North();
+		Grid parameterLayout3 = GridFactory.newGridLayout();
+		Rows rows = null;
+		Row row = null;		
+		north.appendChild(parameterLayout3);
+		parameterLayout3.setWidth("500px");
+		parameterLayout3.setHeight("100%");
+		rows = parameterLayout3.newRows();
+		parameterLayout3.setStyle("border:none");
+		
+		//
+		row = rows.newRow();
+		row.setHeight("10px");
+		// DOC NO
+		Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
+		row.appendChild (docNo.rightAlign());
 
+		docNo.setStyle("Font-size:medium; font-weight:700");
+		f_DocumentNo = new Label();
+		f_DocumentNo.setStyle("Font-size:medium");
+		row.appendChild(f_DocumentNo);
 
+		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
+		lNet.setStyle("Font-size:medium; font-weight:700");
+		row.appendChild(lNet.rightAlign());
+		f_net = new Label(String.valueOf(DisplayType.Amount));
+		f_net.setStyle("Font-size:medium; width:200px");
+		row.appendChild(f_net.rightAlign());
+		
+		f_net.setText("0.00");
+		
+		row = rows.newRow();
+		row.setHeight("30px");
+		// SALES REP
+		Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "POS.SalesRep_ID")+":");
+		row.appendChild(l_SalesRep.rightAlign());
+		l_SalesRep.setStyle("Font-size:medium; font-weight:700");
+		MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
+		f_RepName = new Label(salesRep.getName());
+		f_RepName.setStyle("Font-size:medium");
+		row.appendChild (f_RepName);
+		
+		Label lTax = new Label (Msg.translate(Env.getCtx(), "C_Tax_ID")+":");
+		lTax.setStyle("Font-size:medium; font-weight:700");
+		row.appendChild(lTax.rightAlign());
+		f_tax = new Label(String.valueOf(DisplayType.Amount));
+		f_tax.setStyle("Font-size:medium");
+		row.appendChild(f_tax.rightAlign());
+		f_tax.setText(Env.ZERO.toString());
+		
+		row = rows.newRow();
+		row.appendChild(new Space());		
+		row.appendChild(new Space());		
+		row.appendChild(new Space());
+		row.setHeight("5px");
+		Label line = new Label ("____________________");
+		row.appendChild(line.rightAlign());
+		
+		row = rows.newRow();
+		row.appendChild(new Space());		
+		row.appendChild(new Space());
+		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
+		lTotal.setStyle("Font-size:medium; font-weight:700");
+		row.appendChild(lTotal.rightAlign());
+		f_total = new Label(String.valueOf(DisplayType.Amount));
+		row.appendChild(f_total.rightAlign());
+		f_total.setText(Env.ZERO.toString());
+		f_total.setStyle("Font-size:medium");
+		row.setWidth("25%");
+		card.appendChild(parameterLayout3);
 		f_name1 = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
 		f_name1.setWidth("80%");
 		f_name1.setHeight("35px");
@@ -627,13 +629,13 @@ public class WSubOrder extends WPosSubPanel
 	private void payOrder() {
 
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( m_order == null ) {
+		if( p_posPanel.getM_Order() == null ) {
 				FDialog.warn(0, Msg.getMsg(p_ctx, "You must create an Order first"));
 				return;
 		}
 		else if ( WPosPayment.pay(p_posPanel, this) ) {
 				printTicket();
-				setOrder(0);
+				p_posPanel.setOrder(0);
 		}
 	}
 	
@@ -643,60 +645,21 @@ public class WSubOrder extends WPosSubPanel
 	 * If it is successful, proceed to pay and print ticket
 	 */
 	private void prePayOrder() {
-		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( m_order == null) {		
-			FDialog.warn(0, Msg.getMsg(p_ctx, "You must create an Order first"));
-		}
-		else
-		{
-			if ( WPosPrePayment.pay(p_posPanel, this) )
-			{
-				p_posPanel.setOrder(0);
-			}
-		}	
+//		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
+//		if( m_order == null) {		
+//			FDialog.warn(0, Msg.getMsg(p_ctx, "You must create an Order first"));
+//		}
+//		else
+//		{
+//			if ( WPosPrePayment.pay(p_posPanel, this) )
+//			{
+//				p_posPanel.setOrder(0);
+//			}
+//		}	
 	}  // prePayOrder
 	
-	/**
-	 * @param m_c_order_id
-	 */
-	public void setOrder(int m_c_order_id) 
-	{
-		if ( m_c_order_id == 0 )
-			m_order = null;
-		else
-			m_order = new PosOrderModel(p_ctx , m_c_order_id, null, p_pos);
-	}
 	
 	
-	/**
-	 * 
-	 */
-	private void deleteOrder() {
-		if (m_order == null){
-			FDialog.warn(0, Msg.getMsg(p_ctx, "You must create an Order first"));
-			return;			
-		}
-		else if ( m_order.getDocStatus().equals(MOrder.STATUS_Drafted) ) {
-			if (FDialog.ask(0, this, Msg.getMsg(p_ctx, "Do you want to delete the Order?"))) {
-				if (m_order.deleteOrder()){
-					m_order = null;
-					newOrder();
-				}
-				else
-					FDialog.warn(0,  Msg.getMsg(p_ctx, "Order could not be deleted"));
-			}
-		}
-		else if (m_order.getDocStatus().equals(MOrder.STATUS_Completed)) {	
-			if (FDialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "The order is already completed. Do you want to void it?")))) {		
-				if (! m_order.cancelOrder())
-					FDialog.warn(0,  Msg.getMsg(p_ctx, "Order could not be voided"));
-			}
-		}
-		else {
-			FDialog.warn(0,  Msg.getMsg(p_ctx, "Order is not Drafted nor Completed. Try to delete it other way"));
-			return;
-		}
-	}
 	
 	/**
 	 * 	Find/Set BPartner
@@ -753,6 +716,7 @@ public class WSubOrder extends WPosSubPanel
 		{
 			setC_BPartner_ID(results[0].getC_BPartner_ID());
 			f_name.setText(results[0].getName());
+			f_bBPartner.setImage("images/BPartner16.png");
 		}
 		else	//	more than one
 		{
@@ -770,13 +734,16 @@ public class WSubOrder extends WPosSubPanel
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
 		log.fine( "PosSubCustomer.setC_BPartner_ID=" + C_BPartner_ID);
-		if (C_BPartner_ID == 0)
+		if (C_BPartner_ID == 0){
 			m_bpartner = null;
+			
+		}
 		else
 		{
 			m_bpartner = new MBPartner(p_ctx, C_BPartner_ID, null);
-			if (m_bpartner.get_ID() == 0)
+			if (m_bpartner.get_ID() == 0) {
 				m_bpartner = null;
+			}
 		}
 		
 		//	Set Info
@@ -792,8 +759,8 @@ public class WSubOrder extends WPosSubPanel
 		m_M_PriceList_Version_ID = 0;
 		getM_PriceList_Version_ID();
 		//fillCombos();
-		if ( m_order != null && m_bpartner != null )
-			m_order.setBPartner(m_bpartner);  //added by ConSerTi to update the client in the request
+		if ( p_posPanel.getM_Order()  != null && m_bpartner != null )
+			p_posPanel.setBPartner(m_bpartner);  //added by ConSerTi to update the client in the request
 	}	//	setC_BPartner_ID
 
 	/**
@@ -816,9 +783,6 @@ public class WSubOrder extends WPosSubPanel
 		return m_bpartner;
 	}	//	getBPartner
 	
-	
-	
-
 	/**
 	 * 	Get M_PriceList_Version_ID.
 	 * 	Set Currency
@@ -863,10 +827,10 @@ public class WSubOrder extends WPosSubPanel
 	 */
 	public void printTicket()
 	{
-		if ( m_order == null )
+		if ( p_posPanel.getM_Order()  == null )
 			return;
 		
-		MOrder order = m_order;
+		MOrder order = p_posPanel.getM_Order();
 		//int windowNo = p_posPanel.getWindowNo();
 		//Properties m_ctx = p_posPanel.getPropiedades();
 		
@@ -931,16 +895,16 @@ public class WSubOrder extends WPosSubPanel
 	{
 		if (p_posPanel != null )
 		{
-			MOrder order = m_order;
+			MOrder order = p_posPanel.getM_Order();
 			if (order != null)
 			{
   				f_DocumentNo.setText(order.getDocumentNo());
   				setC_BPartner_ID(order.getC_BPartner_ID());
-  				f_bNew.setEnabled(order.getLines().length != 0);
-  				f_bEdit.setEnabled(true);
+  				f_bNew.setEnabled(m_table.getRowCount() != 0);
+  				f_bCreditSale.setEnabled(m_table.getRowCount() != 0);
   				f_cancel.setEnabled(true);
-  				f_history.setEnabled(order.getLines().length != 0);
-  				f_cashPayment.setEnabled(order.getLines().length != 0);
+  				f_history.setEnabled(m_table.getRowCount() != 0);
+  				f_cashPayment.setEnabled(m_table.getRowCount()!= 0);
 			}
 			else
 			{
@@ -948,7 +912,7 @@ public class WSubOrder extends WPosSubPanel
 				setC_BPartner_ID(0);
 				f_bNew.setEnabled(true);
 				f_cancel.setEnabled(false);
-				f_bEdit.setEnabled(false);
+				f_bCreditSale.setEnabled(false);
 				f_history.setEnabled(true);
 				f_cashPayment.setEnabled(false);
 			}
@@ -978,7 +942,7 @@ public class WSubOrder extends WPosSubPanel
 	/**
 	 * 	Set Sums from Table
 	 */
-	void setSums(PosOrderModel order)
+	void setSums(MOrder order)
 	{
 		int noLines = m_table.getRowCount();
 		if (order == null || noLines == 0)
@@ -990,19 +954,23 @@ public class WSubOrder extends WPosSubPanel
 		else
 		{
 			// order.getMOrder().prepareIt();
-			f_net.setValue(order.getSubtotal().toString());
+			f_net.setValue(order.getTotalLines().toString());
 			f_total.setValue(order.getGrandTotal().toString());
-			f_tax.setValue(order.getTaxAmt().toString());
+			BigDecimal total = new BigDecimal(f_total.getValue());
+			BigDecimal totalNet = new BigDecimal(f_net.getValue());
+			
+			BigDecimal tax = total.subtract(totalNet);
+			f_tax.setValue(tax.toString());
 
 		}
 	}	//	setSums
 
 	private void onCreditSale()
 	{
-		if( m_order != null ) 
+		if( p_posPanel.getM_Order()  != null ) 
 		{
 
-			if ( !m_order.isProcessed() && !m_order.processOrder() )
+			if ( !p_posPanel.getM_Order().isProcessed() && !p_posPanel.processOrder() )
 			{
 				FDialog.warn(0, "PosOrderProcessFailed");
 				return;
@@ -1065,6 +1033,20 @@ public class WSubOrder extends WPosSubPanel
 		
 	}
 	
+	/**
+	 * New Order
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
+	public void newOrder() {
+		//	Do you want to use the alternate Document type?
+		boolean isDocType = FDialog.ask(0, null, Msg.getMsg(p_ctx, "POS.AlternateDT"));
+		setC_BPartner_ID(0);
+		p_posPanel.newOrder(getBPartner(), isDocType);
+		newLine();
+		updateInfo();
+	}
+	
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
 		String action = e.getTarget().getId();
@@ -1072,7 +1054,7 @@ public class WSubOrder extends WPosSubPanel
 				newOrder(); 
 				e.stopPropagation();
 			}
-		else if (e.getTarget().equals(f_bEdit))
+		else if (e.getTarget().equals(f_bCreditSale))
 			onCreditSale();
 		else if(e.getTarget().equals(f_cashPayment)){
 			payOrder();
@@ -1181,7 +1163,11 @@ public class WSubOrder extends WPosSubPanel
 		}
 		// Cancel
 		else if (e.getTarget().equals(f_cancel)){
-			deleteOrder();
+			p_posPanel.deleteOrder();
+			updateInfo();
+			p_posPanel.setOrder(0);
+			updateOrder();
+			
 		}
 		//	Product
 		else if (e.getTarget().equals(f_bSearch))
@@ -1201,7 +1187,7 @@ public class WSubOrder extends WPosSubPanel
 				}
 		}
 		else if (e.getTarget().equals(f_process))
-			deleteOrder();		
+			p_posPanel.deleteOrder();		
 
 		//	Delete
 		else if (e.getTarget().equals(f_delete))
@@ -1212,11 +1198,10 @@ public class WSubOrder extends WPosSubPanel
 				int row = m_table.getSelectedRow();
 				if (row != -1)
 				{
-					if ( m_order != null )
-						m_order.deleteLine(m_table.getSelectedRowKey());
+					if ( p_posPanel.getM_Order() != null )
+						p_posPanel.deleteLine(m_table.getSelectedRowKey());
 					setQty(null);
 					setPrice(null);
-		
 					orderLineId = 0;
 				}
 			}
@@ -1339,7 +1324,7 @@ public class WSubOrder extends WPosSubPanel
 		if (results.length == 0)
 		{
 			String message = Msg.translate(p_ctx,  "search.product.notfound");
-			FDialog.warn(0, p_posPanel, message + query,"");
+			FDialog.warn(0, null, message + query,"");
 			setM_Product_ID(0);
 			setPrice(Env.ZERO);
 		}
@@ -1365,7 +1350,7 @@ public class WSubOrder extends WPosSubPanel
 	 */
 	public void keyReturned(MPOSKey key) {
 		// processed order
-		if ( p_posPanel.m_order != null && p_posPanel.m_order.isProcessed() )
+		if ( p_posPanel.getM_Order() != null && p_posPanel.getM_Order().isProcessed() )
 			return;
 		
 		// new line
@@ -1389,14 +1374,15 @@ public class WSubOrder extends WPosSubPanel
 			return false;
 		BigDecimal QtyOrdered  = BigDecimal.valueOf(f_quantity);
 		BigDecimal PriceActual = BigDecimal.valueOf(f_price);
-		if (m_order == null ) {
-			m_order = PosOrderModel.createOrder(p_pos, getBPartner());
+		if (p_posPanel.getM_Order() == null ) {
+			boolean isDocType = FDialog.ask(0, null, Msg.getMsg(p_ctx, "POS.AlternateDT"));
+			p_posPanel.newOrder(getBPartner(), isDocType);
 		}
 		
 		MOrderLine line = null;
 		
-		if ( m_order != null ) {
-			line = m_order.createLine(product, QtyOrdered, PriceActual);
+		if ( p_posPanel.getM_Order() != null ) {
+			line = p_posPanel.createLine(product, QtyOrdered, PriceActual);
 			
 			if (line == null)
 				return false;
@@ -1446,31 +1432,13 @@ public class WSubOrder extends WPosSubPanel
 			setPrice(Env.ZERO);
 	}	//	setPrice
 	
-	/**
-	 * 	New Order
-	 *   
-	 */
-	public void newOrder()
-	{
-		log.info( "PosPanel.newOrder");
-		setC_BPartner_ID(0);
-		m_order = null;
-		m_order = PosOrderModel.createOrder(p_pos, getBPartner());
-		if (FDialog.ask(0, null, "¿Quiere generar un crédito fiscal?"))	{
-			m_order.setC_DocTypeTarget_ID(p_pos.getC_DocTypewholesale_ID());
-		}
-
-		newLine();
-		
-		updateInfo();
-		listOrder();
-	}	//	newOrder
+	
 
 	/**
 	 * 	Update Table
 	 *	@param order order
 	 */
-	public void updateTable (PosOrderModel order)
+	public void updateTable (MOrder order)
 	{
 		int C_Order_ID = 0;
 		if (order != null)
@@ -1519,10 +1487,12 @@ public class WSubOrder extends WPosSubPanel
 	public void updateInfo()
 	{
 		// reload order
-		if ( m_order != null )
+		if ( p_posPanel.getM_Order() != null )
 		{
-			m_order.reload();
-			updateTable(m_order);
+
+			BPartnerStd = getC_BPartner_ID();
+			p_posPanel.reload();
+			updateTable(p_posPanel.getM_Order());
 			updateOrder();
 		}
 		
@@ -1585,7 +1555,7 @@ public class WSubOrder extends WPosSubPanel
 	 */
 	public void previousRecord() {
 		if(recordposition>0)
-			setOrder(orderList.get(recordposition--));
+			p_posPanel.setOrder(orderList.get(recordposition--));
 	}
 
 	/**
@@ -1593,7 +1563,7 @@ public class WSubOrder extends WPosSubPanel
 	 */
 	public void nextRecord() {
 		if(recordposition < orderList.size()-1)
-			setOrder(orderList.get(recordposition++));
+			p_posPanel.setOrder(orderList.get(recordposition++));
 		
 	}
 	
