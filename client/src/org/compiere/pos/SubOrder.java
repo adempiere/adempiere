@@ -23,6 +23,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -95,11 +96,6 @@ public class SubOrder extends PosSubPanel
 	private CButton 		f_Back;
 	private CButton 		f_Cancel;
 	private CButton 		f_logout;
-	private CTextField 		f_DocumentNo;
-	private JFormattedTextField f_net;
-	private JFormattedTextField f_tax;
-	private JFormattedTextField f_total;
-	private CTextField f_RepName;
 	
 	/**	The Business Partner		*/
 	private MBPartner	m_bpartner;
@@ -114,7 +110,7 @@ public class SubOrder extends PosSubPanel
 	private final String ACTION_CANCEL      = "Cancel";
 	private final String ACTION_CREDITSALE  = "Credit Sale";
 	private final String ACTION_HISTORY     = "History";
-	private final String ACTION_LOGOUT      = "Logout";
+	private final String ACTION_LOGOUT      = "End";
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_PAYMENT     = "Payment";
 	private final String ACTION_NEXT  		= "Detail";
@@ -224,8 +220,7 @@ public class SubOrder extends PosSubPanel
 		else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
 		else if (action.equals(ACTION_PAYMENT))
-//			payOrder();
-			;
+			payOrder();
 		else if (action.equals(ACTION_NEXT))
 //			prePayOrder();
 			;
@@ -272,20 +267,20 @@ public class SubOrder extends PosSubPanel
 	 * If order is not processed, process it first.
 	 * If it is successful, proceed to pay and print ticket
 	 */
-//	private void payOrder() {
-//		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-//		if( p_posPanel.getM_Order() == null) {		
-//			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
-//		}
-//		else
-//		{
-//			if ( PosPayment.pay(p_posPanel) )
-//			{
-//				printTicket();
-//				p_posPanel.setOrder(0);
-//			}
-//		}	
-//	}  // payOrder
+	private void payOrder() {
+		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
+		if( p_posPanel.getM_Order() == null) {		
+			ADialog.warn(0, p_posPanel.f_curLine,  Msg.getMsg(p_ctx, "You must create an Order first"));
+		}
+		else
+		{
+			if ( PosPayment.pay(p_posPanel) )
+			{
+				printTicket();
+				p_posPanel.setOrder(0);
+			}
+		}	
+	}  // payOrder
 
 	/**
 	 * Execute order prepayment
@@ -415,7 +410,6 @@ public class SubOrder extends PosSubPanel
 		String Phone = (noNumber ? null : query);
 		String City = null;
 		//
-		//TODO: contact have been remove from rv_bpartner
 		MBPartnerInfo[] results = MBPartnerInfo.find(p_ctx, Value, Name, 
 			/*Contact, */null, EMail, Phone, City);
 		
@@ -688,7 +682,7 @@ public class SubOrder extends PosSubPanel
 			MOrder order = p_posPanel.getM_Order();
 			if (order != null)
 			{
-  				f_DocumentNo.setText(order.getDocumentNo());
+  				p_posPanel.f_curLine.f_DocumentNo.setText(order.getDocumentNo());
   				
   				// Button BPartner
   				setC_BPartner_ID(order.getC_BPartner_ID());  				
@@ -735,7 +729,7 @@ public class SubOrder extends PosSubPanel
 			}
 			else
 			{
-				f_DocumentNo.setText(null);
+				p_posPanel.f_curLine.f_DocumentNo.setText(null);
 				setC_BPartner_ID(0);
 				f_bBPartner.setEnabled(false);
 				f_bNew.setEnabled(true);
@@ -772,22 +766,26 @@ public class SubOrder extends PosSubPanel
 	/**
 	 * 	Set Sums from Table
 	 */
-	void setSums(VPOS order) {
+	void setSums(MOrder order) {
 //		int noLines = p_posPanel.f_curLine.m_table.getRowCount();
-//		if (order == null || noLines == 0)
-//		{
-//			f_net.setValue(Env.ZERO);
-//			f_total.setValue(Env.ZERO);
-//			f_tax.setValue(Env.ZERO);
-//		}
-//		else
-//		{
-//			// order.getMOrder().prepareIt();
-//			f_net.setValue(order.getSubtotal());
-//			f_total.setValue(order.getGrandTotal());
-//			f_tax.setValue(order.getTaxAmt());
-//
-//		}
+		if (order == null )
+		{
+			p_posPanel.f_curLine.f_net.setText(Env.ZERO.toString());
+			p_posPanel.f_curLine.f_total.setText(Env.ZERO.toString());
+			p_posPanel.f_curLine.f_tax.setText(Env.ZERO.toString());
+		}
+		else
+		{
+			// order.getMOrder().prepareIt();
+			p_posPanel.f_curLine.f_net.setText(order.getTotalLines().toString());
+			p_posPanel.f_curLine.f_total.setText(order.getGrandTotal().toString());
+			BigDecimal total = new BigDecimal(p_posPanel.f_curLine.f_total.getText());
+			BigDecimal totalNet = new BigDecimal(p_posPanel.f_curLine.f_net.getText());
+			
+			BigDecimal tax = total.subtract(totalNet);
+			p_posPanel.f_curLine.f_tax.setText(tax.toString());
+
+		}
 	}	//	setSums
 }//	PosSubCustomer
 	

@@ -434,7 +434,14 @@ public class CPOS {
 		m_CurrentOrder.load(m_CurrentOrder.get_TrxName());
 		m_CurrentOrder.getLines(true, "");
 	}
-	
+
+	/**
+	 * 	Get Bank Data
+	 * 
+	 */
+	public ValueNamePair[] getBank(){
+		return DB.getValueNamePairs("SELECT C_Bank_ID, Name FROM C_Bank", true, null);
+	}
 	/**
 	 * Duplicated from MPayment
 	 * 	Get Accepted Credit Cards for amount

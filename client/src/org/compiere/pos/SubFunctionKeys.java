@@ -15,6 +15,7 @@
 package org.compiere.pos;
 
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
@@ -22,6 +23,7 @@ import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
@@ -64,12 +66,7 @@ public class SubFunctionKeys extends PosSubPanel implements PosKeyListener
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(SubFunctionKeys.class);
 	
-	public CLabel f_DocumentNo;
-	public CLabel f_net;
-	public CLabel f_tax;
-	public CLabel f_total;
-	public CLabel f_RepName;
-	public PosTextField f_name;	
+
 	/**
 	 * 	Initialize
 	 */
@@ -81,34 +78,48 @@ public class SubFunctionKeys extends PosSubPanel implements PosKeyListener
 		
 		PosKeyPanel panel = new PosKeyPanel(C_POSKeyLayout_ID, this);
 		this.setLayout(new MigLayout("fill, ins 0"));
-		
+		Font bigFont = AdempierePLAF.getFont_Field().deriveFont(16f);		
  		// DOC NO
-		add (new CLabel(Msg.getMsg(Env.getCtx(),MOrder.COLUMNNAME_DocumentNo)), ""); 
-		
-		f_DocumentNo = new CLabel("");
-		f_DocumentNo.setName(MOrder.COLUMNNAME_DocumentNo);
-		add (f_DocumentNo, "growx, pushx");
+		CLabel lDocNo = new CLabel(Msg.getMsg(Env.getCtx(),MOrder.COLUMNNAME_DocumentNo));
+		add (lDocNo, "growx"); 
+//		lDocNo.setFontBold(true);
+		lDocNo.setFont(bigFont);
+		p_posPanel.f_curLine.f_DocumentNo = new CLabel("");
+		lDocNo.setLabelFor(p_posPanel.f_curLine.f_DocumentNo);
+		p_posPanel.f_curLine.f_DocumentNo.setName(MOrder.COLUMNNAME_DocumentNo);
+		p_posPanel.f_curLine.f_DocumentNo.setFont(bigFont);
+		add (p_posPanel.f_curLine.f_DocumentNo, "pushx");
 		
 		CLabel lNet = new CLabel (Msg.translate(Env.getCtx(), MOrder.COLUMNNAME_TotalLines));
 		add(lNet, "");
-		f_net = new CLabel("0.00");
-		f_net.setFocusable(false);
-		lNet.setLabelFor(f_net);
-		add(f_net, "wrap, growx, pushx");
+		p_posPanel.f_curLine.f_net = new CLabel("0.00");
+		p_posPanel.f_curLine.f_net.setFocusable(false);
+		p_posPanel.f_curLine.f_net.setFont(bigFont);
+		lNet.setLabelFor(p_posPanel.f_curLine.f_net);
+//		lNet.setFontBold(true);
+		lNet.setFont(bigFont);
+		add(p_posPanel.f_curLine.f_net, "wrap, growx, pushx");
 	
 		// SALES REP
-		add(new CLabel(Msg.translate(Env.getCtx(), MOrder.COLUMNNAME_SalesRep_ID)), ""); 
+		CLabel lSalesRep = new CLabel(Msg.translate(Env.getCtx(), MOrder.COLUMNNAME_SalesRep_ID));
+		add(lSalesRep, ""); 
+		lSalesRep.setFont(bigFont);
+//		lSalesRep.setFontBold(true);
 		MUser salesrep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
-		f_RepName = new CLabel(salesrep.getName());
-		f_RepName.setName("SalesRep");
-		add (f_RepName, "");
+		p_posPanel.f_curLine.f_RepName = new CLabel(salesrep.getName());
+		p_posPanel.f_curLine.f_RepName.setName("SalesRep");
+		p_posPanel.f_curLine.f_RepName.setFont(bigFont);
+		add (p_posPanel.f_curLine.f_RepName, "");
 
 		CLabel lTax = new CLabel (Msg.translate(Env.getCtx(), MInvoiceLine.COLUMNNAME_TaxAmt));
 		add(lTax);
-		f_tax = new CLabel("0.00");
-		f_tax.setFocusable(false);
-		lTax.setLabelFor(f_tax);
-		add(f_tax, "wrap, growx, pushx");
+		p_posPanel.f_curLine.f_tax = new CLabel("0.00");
+		p_posPanel.f_curLine.f_tax.setFocusable(false);
+		p_posPanel.f_curLine.f_tax.setFont(bigFont);
+		lTax.setLabelFor(p_posPanel.f_curLine.f_tax);
+		lTax.setFont(bigFont);
+//		lTax.setFontBold(true);
+		add(p_posPanel.f_curLine.f_tax, "wrap, growx, pushx");
 		//
 		//
 		CLabel f_Line = new CLabel ("________________");
@@ -116,21 +127,21 @@ public class SubFunctionKeys extends PosSubPanel implements PosKeyListener
 		
 		CLabel lTotal = new CLabel (Msg.translate(Env.getCtx(), MOrder.COLUMNNAME_GrandTotal));
 		add(lTotal, "cell 2 4");
-		f_total = new CLabel("0.00");
-		f_total.setFocusable(false);
-		lTotal.setLabelFor(f_total);
-		add(f_total, "wrap, growx, pushx,cell 3 4");
+		p_posPanel.f_curLine.f_total = new CLabel("0.00");
+		p_posPanel.f_curLine.f_total.setFocusable(false);
+		p_posPanel.f_curLine.f_total.setFont(bigFont);
+		lTotal.setLabelFor(p_posPanel.f_curLine.f_total);
+//		lTotal.setFontBold(true);
+		lTotal.setFont(bigFont);
+		add(p_posPanel.f_curLine.f_total, "wrap, growx, pushx,cell 3 4");
 
-		CLabel productLabel = new CLabel(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		add(productLabel, "split 2,spanx 4");
+		CLabel lProduct = new CLabel(Msg.translate(Env.getCtx(), "M_Product_ID"));
+//		lProduct.setFontBold(true);
+		lProduct.setFont(bigFont);
+		add(lProduct, "split 2,spanx 4");
 		
-		f_name = new PosTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), p_posPanel,p_pos.get_ValueAsInt("OSK_KeyLayout_ID"));
-		f_name.setName("Name");
-		f_name.addActionListener(this);
-//		f_name.addFocusListener(this);
-		f_name.requestFocusInWindow();
-		
-		add (f_name, "spanx 3, growx, h 30:30:, wrap");
+		p_posPanel.f_curLine.f_name.setFont(bigFont);
+		add (p_posPanel.f_curLine.f_name, "spanx 3, growx, h 30:30:, wrap");
 
 		add(panel, "growx, growy, span");
 

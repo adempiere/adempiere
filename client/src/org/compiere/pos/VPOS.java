@@ -249,6 +249,7 @@ public class VPOS extends CPOS implements FormPanel {
 	 * Update Order Info
 	 */
 	public void updateInfo() {
+		reload();
 		if ( f_curLine != null )
 			f_curLine.updateTable(getM_Order());
 		if (f_order != null) {
@@ -294,5 +295,8 @@ public class VPOS extends CPOS implements FormPanel {
 	public void newOrder() {
 		boolean isDocType = ADialog.ask(0, f_curLine.getParent(), Msg.getMsg(m_ctx, "POS.AlternateDT"));
 		newOrder(f_order.getBPartner(), isDocType);
+		f_order.setC_BPartner_ID(0);
+		f_curLine.newLine();
+		updateInfo();
 	}
 }
