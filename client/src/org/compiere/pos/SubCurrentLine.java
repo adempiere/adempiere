@@ -36,6 +36,7 @@ import javax.swing.event.TableModelListener;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.adempiere.webui.component.ListModelTable;
 import org.apache.ecs.xhtml.ol;
 import org.compiere.apps.ADialog;
 import org.compiere.minigrid.ColumnInfo;
@@ -85,8 +86,13 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	}
 
 	private BigDecimal	 	f_price;
-	private BigDecimal	 	f_quantity;
-	protected PosTextField	f_name;
+	private BigDecimal		f_quantity;
+	public PosTextField		f_name;
+	public CLabel	 		f_net;
+	public CLabel 			f_tax;
+	public CLabel 			f_total;
+	public CLabel		 	f_RepName;
+	public CLabel 			f_DocumentNo;
 	private int orderLineId = 0;
 	
 
@@ -97,7 +103,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	private int 			m_M_Warehouse_ID;
 	/** PLV							*/
 	private int 			m_M_PriceList_Version_ID;
-	private MOrderLine oLine = null;
+	private MOrderLine 		oLine = null;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(SubCurrentLine.class);
@@ -114,21 +120,22 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	static final private String C_UOM_ID    = "C_UOM_ID";
 	static final private String PRICEACTUAL = "PriceActual";
 	static final private String LINENETAMT  = "LineNetAmt";
-	static final private String DISCOUNT    = "Discount";
+	static final private String GRANDTOTAL  = "GrandTotal";
 	
 	/**	Table Column Layout Info			*/
 	private static ColumnInfo[] s_layout = new ColumnInfo[] 
 	{
 		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), NAME), NAME, String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), QTY), "QtyOrdered", Double.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), C_UOM_ID), "UOMSymbol", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), PRICEACTUAL), PRICEACTUAL, BigDecimal.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), NAME), "p_Name", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), QTY), "QtyOrdered", Double.class,false,true,null),
+		new ColumnInfo(Msg.translate(Env.getCtx(), C_UOM_ID), "UOM_name", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), PRICEACTUAL), PRICEACTUAL, BigDecimal.class,false,true,null), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), LINENETAMT), LINENETAMT, BigDecimal.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), DISCOUNT), DISCOUNT, BigDecimal.class,  false, false, null), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class, true, true, null), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class,  true, true, null), 
 	};
 	/**	From Clause							*/
-	private static String s_sqlFrom = "C_Order_LineTax_v";
+	private static String s_sqlFrom = "POS_OrderLine_v";
 	/** Where Clause						*/
 	private static String s_sqlWhere = "C_Order_ID=? AND LineNetAmt <> 0"; 
 	
@@ -139,14 +146,11 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	
 		//	Content
 		setLayout(new MigLayout("fill, ins 0 0"));
-		
-		
 	
 		m_table = new PosTable();
 		CScrollPane scroll = new CScrollPane(m_table);
 		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, 
-				s_sqlWhere, false, "C_Order_LineTax_v")
-				+ " ORDER BY Line";
+				s_sqlWhere, false, "POS_OrderLine_v");
 		m_table.getSelectionModel().addListSelectionListener(this);
 		m_table.setColumnVisibility(m_table.getColumn(0), false);
 		m_table.getColumn(1).setPreferredWidth(500);
@@ -214,14 +218,18 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
          return xy;
     }
 
-
-				
 			
 		});
 		m_table.setFillsViewportHeight( true ); //@Trifon
 		m_table.growScrollbars();
 
 		add (scroll, "growx, spanx, growy, pushy, h 200:300:");
+		
+		f_name = new PosTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), p_posPanel,p_pos.get_ValueAsInt("OSK_KeyLayout_ID"));
+		f_name.setName("Name");
+		f_name.addActionListener(this);
+		f_name.addFocusListener(this);
+		f_name.requestFocusInWindow();
 		
 		setQty(Env.ZERO);
 		
@@ -357,8 +365,8 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			C_Order_ID = order.getC_Order_ID();
 		if (C_Order_ID == 0)
 		{
-//			p_posPanel.f_curLine.m_table.loadTable(new PO[0]);
-//			p_posPanel.f_order.setSums(null);
+			p_posPanel.f_curLine.m_table.loadTable(new PO[0]);
+			p_posPanel.f_order.setSums(null);
 		}
 		
 		PreparedStatement pstmt = null;
@@ -390,9 +398,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			}
 		}
 		
-		enableButtons();
-
-//		p_posPanel.f_order.setSums(order);
+		p_posPanel.f_order.setSums(order);
 		
 	}	//	updateTable
 	
@@ -419,7 +425,6 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		if (price == null)
 			price = Env.ZERO;
 		f_price = price;
-		boolean rw = Env.ZERO.compareTo(price) == 0 || p_pos.isModifyPrice();
 	} //	setPrice
 
 	/**
@@ -518,6 +523,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			p_posPanel.f_curLine.setPrice(result.getPriceStd());
 		else
 			p_posPanel.f_curLine.setPrice(Env.ZERO);
+
 	}	//	setPrice
 	
 
@@ -566,15 +572,15 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			setM_Product_ID(results[0].getM_Product_ID());
 			setQty(Env.ONE);
 			f_name.setText(results[0].getName());
-//			p_posPanel.f_curLine.setPrice(results[0].getPriceStd());
+			p_posPanel.f_curLine.setPrice(results[0].getPriceStd());
 			saveLine();
 		}
 		else	//	more than one
 		{
-//			QueryProduct qt = new QueryProduct(p_posPanel);
-//			qt.setResults(results);
-//			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
-//			qt.setVisible(true);
+			QueryProduct qt = new QueryProduct(p_posPanel);
+			qt.setResults(results);
+			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
+			qt.setVisible(true);
 		}
 	}	//	findProduct
 
@@ -645,27 +651,37 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			{
 				Integer id = (Integer) ((IDColumn)data).getRecord_ID();
 				orderLineId = id;
-				loadLine(id);/*
-				if (discount != null && oLine.getDiscount().compareTo(discount)!=0)
-				{
-					oLine.setDiscount(discount);
-					BigDecimal PriceActual = Env.ZERO;
-					if ( oLine.getPriceList().doubleValue() != 0 )
-						PriceActual = new BigDecimal ((100.0 - discount.doubleValue()) / 100.0 * oLine.getPriceList().doubleValue());
-
-					int StdPrecision = MPriceList.getStandardPrecision(oLine.getCtx(), oLine.getC_Order().getM_PriceList_ID());
-					if (PriceActual.scale() > StdPrecision)
-						PriceActual = PriceActual.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP);
-					oLine.setPriceActual(PriceActual);
-					oLine.saveEx();
-					updateTable(p_posPanel.m_order);					
-				}*/
+				loadLine(id);
+				
 			}
 		}
+		if (e.getSource().equals(m_table)) //Add Minitable Source Condition
+			valueChange();
 		enableButtons();
 		
 	}  // valueChanged
 
+	public void valueChange() {
+		
+		int id = m_table.getSelectedRow();
+		if (id != -1) {	
+		IDColumn key = (IDColumn) m_table.getModel().getValueAt(id, 0);
+		
+		if ( key != null &&  key.getRecord_ID() != orderLineId )
+			orderLineId = key.getRecord_ID();
+			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+			if ( line != null )
+			{
+				
+					line.setPrice(new BigDecimal(m_table.getModel().getValueAt(id, 4).toString()));
+					line.setQty(new BigDecimal(m_table.getModel().getValueAt(id, 2).toString()));
+					line.saveEx();
+					p_posPanel.updateInfo();
+				}
+			
+		}
+
+	}
 
 	private void loadLine(int lineId) {
 		
