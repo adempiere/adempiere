@@ -33,17 +33,9 @@ import javax.swing.KeyStroke;
 import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.adempiere.webui.component.Label;
 import org.compiere.apps.ADialog;
-import org.compiere.model.MBPartner;
-import org.compiere.model.MBPartnerInfo;
-import org.compiere.model.MBPartnerLocation;
-import org.compiere.model.MCurrency;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MOrder;
-import org.compiere.model.MPriceList;
-import org.compiere.model.MPriceListVersion;
-import org.compiere.model.MSequence;
-import org.compiere.model.MUser;
+import org.compiere.model.*;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
@@ -135,6 +127,11 @@ public class SubOrder extends PosSubPanel
 		// NEW
 		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
 		add (f_bNew, buttonSize+",gapx 35");
+
+		// DOC NO
+		f_DocumentNo = new CTextField();
+		f_DocumentNo.setEditable(false);
+		f_DocumentNo.setName(MOrder.COLUMNNAME_DocumentNo);
 
 		// BPARTNER
 		f_bBPartner = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
