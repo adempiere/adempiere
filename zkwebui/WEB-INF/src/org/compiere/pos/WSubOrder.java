@@ -636,6 +636,8 @@ public class WSubOrder extends WPosSubPanel
 		else if ( WPosPayment.pay(p_posPanel, this) ) {
 				printTicket();
 				p_posPanel.setOrder(0);
+				updateOrder();
+				updateTable(null);
 		}
 	}
 	

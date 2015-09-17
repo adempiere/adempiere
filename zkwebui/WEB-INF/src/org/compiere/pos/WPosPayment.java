@@ -210,7 +210,6 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		bMinus.setId("0");
 		row.appendChild(pp.get(0).cashPanel());
 		row.appendChild(fPlus);
-
 		
 		//SHW End
 		South south = new South();
