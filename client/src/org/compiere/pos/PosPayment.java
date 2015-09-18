@@ -90,6 +90,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 	private CPanel mainPanel = new CPanel();
 	private BorderLayout mainLayout = new BorderLayout();
 	private CPanel parameterPanel = new CPanel();
+	private CPanel centerPanel = new CPanel();
 
 	private CPanel C_Blast_credit = new CPanel();
 	private GridBagLayout G_Blast = new GridBagLayout();
@@ -97,7 +98,6 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 	private BigDecimal balance = Env.ZERO;
 	private CLabel fBalance = new CLabel();
 
-	// file1
 	private CLabel lGrandTotal;
 	private CLabel lReturnAmt;
 	private CLabel fReturnAmt = new CLabel("0");
@@ -105,7 +105,6 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 	private CLabel lPayAmt;
 	private CLabel fPayAmt = new CLabel("0");
 
-	// --dniamic-- FILE 2
 	private CButton bMinus;
 	private int add_file = 4;
 
@@ -132,6 +131,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		//
 		mainPanel.setLayout(mainLayout);
 		parameterPanel.setLayout(parameterLayout);
+		centerPanel.setLayout(parameterLayout);
 		C_Blast_credit.setLayout(G_Blast);
 		getContentPane().add(scrollPanel);
 		scrollPanel.add(parameterPanel);
@@ -171,9 +171,9 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		parameterPanel.add(fReturnAmt, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
-
+		
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
-
+		
 		VPaymentPanel pPayment = new VPaymentPanel(p_ctx, p_order,
 				p_order.getC_POS_ID(), "X", p_posPanel);
 		pp.add(pPayment);
@@ -198,6 +198,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		commandPanel.add(bProcess, null);
 		bProcess.addActionListener(this);
 		bCancel.addActionListener(this);
+		mainPanel.add(centerPanel, BorderLayout.CENTER);
 	}
 
 	@Override
@@ -217,9 +218,9 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		bMinus.setName(mirand);
 		bMinus.addActionListener(this);
 		// add parameter panel
-		parameterPanel.add(pp.get(pp.size() - 1).paymentPanel(),new GridBagConstraints(0, add_file, 2, 1, 0.0, 0.0,
+		centerPanel.add(pp.get(pp.size() - 1).paymentPanel(),new GridBagConstraints(0, add_file, 2, 1, 0.0, 0.0,
 						GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(fMinus.get(fMinus.size()-1),	new GridBagConstraints(3, add_file, 1, 1, 0.0, 0.0,
+		centerPanel.add(fMinus.get(fMinus.size()-1),	new GridBagConstraints(3, add_file, 1, 1, 0.0, 0.0,
 						GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		pp.get(pp.size()-1).panelTypePay.setName(mirand);
 		pp.get(pp.size()-1).f_PayAmt.addFocusListener(this);
