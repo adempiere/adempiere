@@ -82,7 +82,7 @@ import org.compiere.pos.BigDecimalEditor;
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class SubCurrentLine extends PosSubPanel implements ActionListener, FocusListener, ListSelectionListener,  TableModelListener, VetoableChangeListener{
+public class SubCurrentLine extends PosSubPanel implements ActionListener, FocusListener, ListSelectionListener,  TableModelListener {
 	/**
 	 * 
 	 */
@@ -176,7 +176,6 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		m_table.getColumnModel().getColumn(6).setCellEditor(
 				new BigDecimalEditor());
 		m_table.getModel().addTableModelListener(this);
-		m_table.addVetoableChangeListener(this);
 		m_table.addKeyListener(new java.awt.event.KeyAdapter() {
 			
 			@Override
@@ -645,7 +644,6 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		log.info( "PosSubProduct - focusLost");
 		findProduct();
 		p_posPanel.updateInfo();
-		p_posPanel.f_order.setSums(p_posPanel.getM_Order());
 	}	//	focusLost
 
 
@@ -695,7 +693,6 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			
     		BigDecimal price = new BigDecimal(m_table.getModel().getValueAt(id, 4).toString());
 			BigDecimal qty = new BigDecimal(m_table.getModel().getValueAt(id, 2).toString());
-			BigDecimal grandTotal;
 			m_table.getModel().removeTableModelListener(this);
 			
     			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
@@ -703,13 +700,15 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
     					line.setPrice(price);
     					line.setQty(qty);
     					line.saveEx();
-
+    					BigDecimal grandTotal = line.getLineNetAmt();
     					m_table.getModel().setValueAt(line.getLineNetAmt(), id, 5);
-    					
-    					grandTotal = line.getLineNetAmt();
-//    					grandTotal.multiply(line.get)
-//    					ol.linenetamt * t.rate / 100
-//    					m_table.getModel().setValueAt(, id, 7);
+    					if(!line.getC_Tax().getRate().equals(null)){
+    						grandTotal.multiply(line.getC_Tax().getRate());
+    					} 
+    					m_table.getModel().setValueAt(grandTotal, id, 7);
+    					if(qty.compareTo(Env.ZERO) <= 0){
+//    						p_posPanel.updateInfo();
+    					}
     			}
     			p_posPanel.reload();
     			p_posPanel.f_order.setSums(p_posPanel.m_CurrentOrder);
@@ -718,61 +717,5 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
     	}
        // ...// Do something with the data...
     }
-    public Vector<String> getPaymentColumnNames()
-	{	
-		
-		//  Header Info
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add(Msg.getMsg(Env.getCtx(), NAME));
-		columnNames.add(Msg.translate(Env.getCtx(), QTY));
-		columnNames.add(Msg.translate(Env.getCtx(), C_UOM_ID));
-		columnNames.add(Msg.getMsg(Env.getCtx(), PRICEACTUAL));
-		columnNames.add(Msg.translate(Env.getCtx(), LINENETAMT));
-		
-		columnNames.add(Msg.getMsg(Env.getCtx(), "C_Tax_ID"));
-		columnNames.add(Msg.getMsg(Env.getCtx(), GRANDTOTAL));
-		
-		return columnNames;
-	}
-    public Vector<Vector<Object>> getPaymentData(int m_C_Order_ID)
-	{		
-		
-		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		StringBuffer sql = new StringBuffer("SELECT name, QtyOrdered, UOM_name, PriceActual, LineNetAmt, TaxIndicator, GrandTotal FROM POS_OrderLine_v WHERE C_Order_ID =?");                   		//      #5
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
-			pstmt.setInt(1, m_C_Order_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				Vector<Object> line = new Vector<Object>();
 
-				line.add(rs.getTimestamp(1));       //  1-TrxDate
-				line.add(rs.getString(2));          //  2-DocumentNo
-				line.add(rs.getString(3));      	//  3-Currency
-				line.add(rs.getBigDecimal(4));  	//  4-PayAmt
-				line.add(rs.getBigDecimal(5));      //  3/5-ConvAmt
-				line.add(rs.getBigDecimal(6));      //  3/5-ConvAmt
-				line.add(rs.getBigDecimal(7));      //  3/5-ConvAmt
-				//
-				data.add(line);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-		}
-		
-		return data;
-	}
-	@Override
-	public void vetoableChange(PropertyChangeEvent evt)
-			throws PropertyVetoException {
-	}
-
-
-
-	} //	PosSubCurrentLine
+} //	PosSubCurrentLine
