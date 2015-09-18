@@ -13,6 +13,8 @@
  *****************************************************************************/
 package org.compiere.pos;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.Format;
@@ -26,7 +28,7 @@ import javax.swing.text.DefaultFormatterFactory;
  * Adaxa Pty Ltd
  *
  */
-public class PosTextField extends JFormattedTextField implements MouseListener {
+public class PosTextField extends JFormattedTextField implements MouseListener, FocusListener {
 	/**
 	 * 
 	 */
@@ -70,7 +72,7 @@ public class PosTextField extends JFormattedTextField implements MouseListener {
 		keyLayoutId = posKeyLayout_ID;
 		this.pos = pos;
 		this.title = title;
-		
+		setName(title);
 	}
 
 	public void mouseReleased(MouseEvent arg0) {}
@@ -89,4 +91,8 @@ public class PosTextField extends JFormattedTextField implements MouseListener {
 			fireActionPerformed();
 		}
 	}
+
+	public void focusGained(FocusEvent e) {}
+
+	public void focusLost(FocusEvent e) {}
 }

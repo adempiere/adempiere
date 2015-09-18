@@ -1,10 +1,15 @@
 package org.compiere.pos;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
@@ -19,6 +24,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 
 import org.compiere.grid.ed.VComboBox;
@@ -37,10 +43,11 @@ import org.compiere.swing.CTextField;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
-public class VPaymentPanel extends Collect implements VetoableChangeListener {
+public class VPaymentPanel extends Collect implements VetoableChangeListener, ActionListener, FocusListener {
 	
 	public CPanel 			panelTypePay 	= new CPanel();
 	private CPanel 			bank_Panel;
@@ -57,7 +64,6 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener {
 	private CTextField 		CNrouteDebit;
 	private CTextField 		CNcvcDebit;
 	private CTextField 		CPaisDebit;
-	private VLookup 		c_Pago 			= null;
 	
 	// Fields CreditCard
 	private CPanel 			Ccredit;
@@ -88,40 +94,24 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener {
 	public CPanel cashPayPanel(){
 		int AD_Column_ID = 8416; //C_Payment_v.TenderType
 		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
-		ArrayList<Object> types = lookup.getData(true, false, true, true);
-		String p_TenderType = "X";
-		DefaultComboBoxModel typeModel = new DefaultComboBoxModel(types.toArray()); 
-		tenderTypePick.setModel(typeModel);
+		types = lookup.getData(true, false, true, true);
 		// default to cash payment
-		for (Object obj : types) {
+		for (int x=0; x < types.size(); x++) {
+			Object obj = types.get(x); 
 			if ( obj instanceof ValueNamePair )	{
 				ValueNamePair key = (ValueNamePair) obj;
-				if(p_TenderType.equals("X") && "X".contains(key.getID()))
-					tenderTypePick.setSelectedItem(key);
+				if (!"X".contains(key.getID() ) ){ 
+					types.remove(x);
+					x--;
+				}
 			}
 		}
+		DefaultComboBoxModel typeModel = new DefaultComboBoxModel(types.toArray());
 		
-		tenderTypePick.setRenderer(new ListCellRenderer() {
-			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
-
-			public Component getListCellRendererComponent(JList list, Object value,
-					int index, boolean isSelected, boolean cellHasFocus) {
-				
-				JLabel renderer = (JLabel) defaultRenderer
-		        .getListCellRendererComponent(list, value, index, isSelected,
-		            cellHasFocus);
-				
-				renderer.setPreferredSize(new Dimension(50, 50));
-				renderer.setHorizontalAlignment(JLabel.CENTER);
-				
-				return renderer;
-
-			}
-		});
+		tenderTypePick.setModel(typeModel);
 		tenderTypePick.setPreferredSize(new Dimension(130, 30));
 		panelTypePay.add(tenderTypePick,  new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
 						,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-
 		f_PayAmt.setPreferredSize(new Dimension(130, 30));
 		panelTypePay.add(f_PayAmt,  new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
@@ -133,41 +123,75 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener {
 		public CPanel paymentPanel(){
 			
 			int AD_Column_ID = 5046;        //  C_PaySelectionCheck.C_PaySelection_ID
-			MLookup lookupPS = MLookupFactory.get (Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
-			c_Pago = new VLookup("TenderType", true, false, true, lookupPS);
-			c_Pago.addVetoableChangeListener(this);
+			MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
+			types = lookup.getData(true, false, true, true);
 			
 			AD_Column_ID = 8374; //C_Payment_v.TenderType
 			MLookup cardlookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
 			ArrayList<Object> cards = cardlookup.getData(true, false, true, true);
-			
+			filterTypes();
 			panelTypePay.setLayout(layout);
 			f_PayAmt = new VNumber();
+			DefaultComboBoxModel typeModel = new DefaultComboBoxModel(types.toArray());
 			
-			//<<<<<<<<<<<<<<<<<<hidden Fields bank>>>>>>>>>>>>>>>>>>>>
+			tenderTypePick.setModel(typeModel);
+			for (Object obj : types)
+			{
+				if ( obj instanceof ValueNamePair )	{
+					ValueNamePair key = (ValueNamePair) obj;
+					if ( key.getID().equals(p_TenderType))   // Cash
+						tenderTypePick.setSelectedItem(key);
+				}
+			}
+			tenderTypePick.setRenderer(new ListCellRenderer() {
+				protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
+
+				public Component getListCellRendererComponent(JList list, Object value,
+						int index, boolean isSelected, boolean cellHasFocus) {
+					
+					JLabel renderer = (JLabel) defaultRenderer
+			        .getListCellRendererComponent(list, value, index, isSelected,
+			            cellHasFocus);
+					
+					renderer.setPreferredSize(new Dimension(50, 50));
+					renderer.setHorizontalAlignment(JLabel.CENTER);
+					
+					return renderer;
+
+				}
+			});
+
+			tenderTypePick.addVetoableChangeListener(this);
 			bank_Panel = new CPanel();
 			bank_Panel.setLayout(layout);
 			
 			// Add Bank List
 			fCheckRouteNo = new PosTextField(Msg.translate(p_ctx, "RoutingNo"), p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
+			fCheckRouteNo.addFocusListener(this);
+			fCheckRouteNo.setForeground(Color.GRAY);
+			fCheckRouteNo.setText(Msg.translate(p_ctx, "RoutingNo"));
+			
 			fCheckdate = new CTextField("MM/DD/YYYY");
+			fCheckdate.addFocusListener(this);
+			fCheckdate.setName("MM/DD/YYYY");
+			fCheckdate.setForeground(Color.GRAY);
 			//	lCheckNo = new CLabel(Msg.translate(p_ctx, "CheckNo"));
 
 			ValueNamePair[] banks = getBank();
-					for(int i=0; i < banks.length; i++)
-						bankList.addItem(banks[i]);
-					c_Pago.setPreferredSize(new Dimension(130, 30));
-					fCheckRouteNo.setPreferredSize(new Dimension(130, 30));
-					bankList.setPreferredSize(new Dimension(130, 30));
-					fCheckdate.setPreferredSize(new Dimension(130, 30));
+			for(int i=0; i < banks.length; i++)
+				bankList.addItem(banks[i]);
+			
+			tenderTypePick.setPreferredSize(new Dimension(130, 30));
+			fCheckRouteNo.setPreferredSize(new Dimension(130, 30));
+			bankList.setPreferredSize(new Dimension(130, 30));
+			fCheckdate.setPreferredSize(new Dimension(130, 30));
 			bank_Panel.add(fCheckRouteNo,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 			bank_Panel.add(bankList,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 			bank_Panel.add(fCheckdate,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-			bank_Panel.setVisible(false);
-			//***<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>**** 
+			bank_Panel.setVisible(true);
 			
 			Cdebit = 		new CPanel();
 			Cdebit.setLayout(layoutDebit);
@@ -185,9 +209,7 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener {
 			Cdebit.add(CNcvcDebit,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 			Cdebit.setVisible(false);
-			//<<<<<<<<<<<<<<<<<<<Hidden Fields Debito>>>>>>>>>>>>>>>>>>>
 			
-			//<<<<<<<<<<<<<HIDDEN FIELD CREDIT TARGET>>>>>>>>>>>>>><<
 			Ccredit = 			new CPanel();
 			layoutCredit = 		new GridBagLayout();
 			Ccredit.setLayout(layoutCredit);
@@ -214,6 +236,22 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener {
 			fCCardName.setPreferredSize(new Dimension(130, 30));
 			fCCardVC.setPreferredSize(new Dimension(130, 30));
 
+			fCCardNo.addFocusListener(this);
+			fCCardNo.setText(Msg.translate(p_ctx, "CreditCardNumber"));
+			fCCardNo.setForeground(Color.GRAY);
+			
+			fCCardMonth.addFocusListener(this);
+			fCCardMonth.setText(Msg.translate(p_ctx, "Expires"));
+			fCCardMonth.setForeground(Color.GRAY);
+			
+			fCCardName.addFocusListener(this);
+			fCCardName.setText(Msg.translate(p_ctx, "Name"));
+			fCCardName.setForeground(Color.GRAY);
+			
+			fCCardVC.addFocusListener(this);
+			fCCardVC.setText(Msg.translate(p_ctx, "CVC"));
+			fCCardVC.setForeground(Color.GRAY);
+			
 			Ccredit.add(fCCardType,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 			
@@ -231,7 +269,7 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener {
 		
 			Ccredit.setVisible(false);
 		
-			panelTypePay.add(c_Pago,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+			panelTypePay.add(tenderTypePick,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 			
 			f_PayAmt.setPreferredSize(new Dimension(130, 30));
@@ -247,11 +285,12 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener {
 			panelTypePay.add(Ccredit,  new GridBagConstraints(0, 1, 3, 3, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 
-			c_Pago.addVetoableChangeListener(this);
+			tenderTypePick.addActionListener(this);
 			
 			panelTypePay.validate();
 			return panelTypePay;
 		}
+		
 		/**
 		 * 	Get Bank Data
 		 * 
@@ -259,29 +298,10 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener {
 		public ValueNamePair[] getBank(){
 			return DB.getValueNamePairs("SELECT C_Bank_ID, Name FROM C_Bank", true, null);
 		}
+		
 		@Override
 		public void vetoableChange(PropertyChangeEvent evt)
 				throws PropertyVetoException {
-
-			String temp_value = String.valueOf(((VLookup)evt.getSource()).getValue());
-			p_TenderType = temp_value;
-			if(temp_value.equals("K")){
-				((VLookup)evt.getSource()).getParent().getComponent(2).setVisible(true);
-				((VLookup)evt.getSource()).getParent().getComponent(3).setVisible(false);
-				((VLookup)evt.getSource()).getParent().getComponent(4).setVisible(false);
-			}else if(temp_value.equals("D")){
-				((VLookup)evt.getSource()).getParent().getComponent(2).setVisible(false);
-				((VLookup)evt.getSource()).getParent().getComponent(3).setVisible(true);
-				((VLookup)evt.getSource()).getParent().getComponent(4).setVisible(false);
-			}else if(temp_value.equals("C")){
-				((VLookup)evt.getSource()).getParent().getComponent(2).setVisible(false);
-				((VLookup)evt.getSource()).getParent().getComponent(3).setVisible(false);
-				((VLookup)evt.getSource()).getParent().getComponent(4).setVisible(true);
-			}else{	
-				((VLookup)evt.getSource()).getParent().getComponent(2).setVisible(false);
-				((VLookup)evt.getSource()).getParent().getComponent(3).setVisible(false);
-				((VLookup)evt.getSource()).getParent().getComponent(4).setVisible(false);
-			}	
 		}
 
 		public void filterTypes(){
@@ -332,5 +352,62 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener {
 				
 			processPayment();
 			return true;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent evt) {
+			if (evt.getSource() instanceof CComboBox) {
+				CComboBox c_TypePay = (CComboBox) evt.getSource();
+				ValueNamePair temp_value = (ValueNamePair)c_TypePay.getSelectedItem();
+				temp_value.getID();
+				p_TenderType = temp_value.getID();
+				if(p_TenderType.equals(MPayment.TENDERTYPE_Check)){
+					c_TypePay.getParent().getComponent(2).setVisible(true);
+					c_TypePay.getParent().getComponent(3).setVisible(false);
+					c_TypePay.getParent().getComponent(4).setVisible(false);
+				}else if(p_TenderType.equals(MPayment.TENDERTYPE_DirectDebit)){
+					c_TypePay.getParent().getComponent(2).setVisible(false);
+					c_TypePay.getParent().getComponent(3).setVisible(true);
+					c_TypePay.getParent().getComponent(4).setVisible(false);
+				}else if(p_TenderType.equals(MPayment.TENDERTYPE_CreditCard)){
+					c_TypePay.getParent().getComponent(2).setVisible(false);
+					c_TypePay.getParent().getComponent(3).setVisible(false);
+					c_TypePay.getParent().getComponent(4).setVisible(true);
+				}else{	
+					c_TypePay.getParent().getComponent(2).setVisible(false);
+					c_TypePay.getParent().getComponent(3).setVisible(false);
+					c_TypePay.getParent().getComponent(4).setVisible(false);
+				}	
+			}
+		}
+
+		public void placeHolder(Component p_Field){
+			JTextField field;
+			if (p_Field instanceof CTextField) {
+				 field = (CTextField) p_Field;
+			}
+			else {
+				field = (PosTextField) p_Field;
+			}
+			if(p_Field.getForeground().equals(Color.DARK_GRAY)){
+				field.setText(null);
+				field.setForeground(Color.BLACK);
+			}
+			else if(field.getForeground().equals(Color.BLACK) && field.getText().length()==0){
+				field.setText(field.getName());
+				field.setForeground(Color.DARK_GRAY);
+			}
+		}
+		
+		@Override
+		public void focusGained(FocusEvent e) {
+				placeHolder(e.getComponent());
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			if(e.getComponent().getName().equals(fCheckdate.getName())){
+				placeHolder(e.getComponent());
+			}
 		}
 }
