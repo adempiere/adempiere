@@ -18,21 +18,19 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.adempiere.webui.window.FDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
-import org.compiere.grid.ed.VLookup;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MOrder;
 import org.compiere.plaf.CompiereColor;
@@ -106,7 +104,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 	private CLabel fPayAmt = new CLabel("0");
 
 	private CButton bMinus;
-	private int add_file = 4;
+	private int add_file = 0;
 
 	private ArrayList<VPaymentPanel> pp = new ArrayList<VPaymentPanel>();
 	private ArrayList<CButton> fMinus = new ArrayList<CButton>();
@@ -118,8 +116,9 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 	private FlowLayout commandLayout = new FlowLayout();
 
 	private GridBagLayout parameterLayout = new GridBagLayout();
+	private GridBagLayout parameterLayout2 = new GridBagLayout();
 	private CPanel commandPanel = new CPanel();
-	private CScrollPane scrollPanel = new CScrollPane();
+	private JScrollPane scrollPanel = new JScrollPane();
 	private VPaymentPanel paymentPanel;
 	private CButton f_Plus;
 	private int precision;
@@ -131,10 +130,10 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		//
 		mainPanel.setLayout(mainLayout);
 		parameterPanel.setLayout(parameterLayout);
-		centerPanel.setLayout(parameterLayout);
+		centerPanel.setLayout(parameterLayout2);
 		C_Blast_credit.setLayout(G_Blast);
-		getContentPane().add(scrollPanel);
-		scrollPanel.add(parameterPanel);
+		mainPanel.add(scrollPanel);
+		scrollPanel.getViewport().add(centerPanel);
 
 		// sizeFrame
 		setPreferredSize(new Dimension(270, 400));
@@ -198,7 +197,6 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		commandPanel.add(bProcess, null);
 		bProcess.addActionListener(this);
 		bCancel.addActionListener(this);
-		mainPanel.add(centerPanel, BorderLayout.CENTER);
 	}
 
 	@Override
@@ -237,7 +235,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 			calculate();
 			// Process Payment: first Process Order (if needed)
 			if (!p_order.isProcessed() && !p_posPanel.processOrder()) {
-				FDialog.warn(0, Msg.getMsg(p_ctx, "PosOrderProcessFailed"));
+				ADialog.warn(0, this, Msg.getMsg(p_ctx, "PosOrderProcessFailed")+" "+Msg.translate(p_ctx, p_order.getProcessMsg()));
 				return;
 			}
 			for (int x = 0; x < pp.size(); x++)
@@ -260,16 +258,16 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 				}
 			}
 
-			// components
-			Component[] d = parameterPanel.getComponents();
-			// recorrer los componentes del panel
+			Component[] d = centerPanel.getComponents();
 			for (int k = 0; k < d.length; k++) {
 				if (d[k].getName() == temp_name) {
-					parameterPanel.remove(d[k]);
-				}// cierre del if
-			}// cierre del for
+					centerPanel.remove(d[k]);
+				}
+			}
 
 			calculate();
+			scrollPanel.validate();
+			scrollPanel.repaint();
 		}
 
 		mainPanel.validate();
