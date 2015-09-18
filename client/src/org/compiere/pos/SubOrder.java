@@ -24,6 +24,9 @@ import java.awt.event.KeyEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -43,6 +46,7 @@ import org.compiere.swing.CComboBox;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -92,9 +96,11 @@ public class SubOrder extends PosSubPanel
 	/**	The Business Partner		*/
 	private MBPartner	m_bpartner;
 	/**	Price List Version to use	*/
-	private int			m_M_PriceList_Version_ID = 0;
-	private CTextField f_currency = new CTextField();
-	private CButton f_bCreditSale;
+	private int					m_M_PriceList_Version_ID = 0;
+	private CTextField 			f_currency = new CTextField();
+	private CButton 			f_bCreditSale;
+	private int 				recordPosition;
+	private ArrayList<Integer>	orderList;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(SubOrder.class);	
 
@@ -116,7 +122,8 @@ public class SubOrder extends PosSubPanel
 		//	Content
 		MigLayout layout = new MigLayout("ins 0 0","[fill|fill|fill|fill]","[nogrid]unrel[||]");
 		setLayout(layout);
-		
+		listOrder();
+		recordPosition = orderList.size()-1;
 		Font bigFont = AdempierePLAF.getFont_Field().deriveFont(16f);
 
 		String buttonSize = "w 50!, h 50!,";
@@ -145,20 +152,19 @@ public class SubOrder extends PosSubPanel
  		// 	PREPAYMENT
  		f_Back = createButtonAction(ACTION_BACK, null);
  		add (f_Back, buttonSize+",gapx 35");
- 		f_Back.setEnabled(false);
+ 		f_Back.setEnabled(true);
 		
- 		//PRINT
+ 		//	NEXT
  		f_Next = createButtonAction(ACTION_NEXT, null);
  		f_Next.setActionCommand(ACTION_NEXT);
 		add (f_Next, buttonSize+",gapx 35"); 
-		f_Next.setEnabled(false);
+		f_Next.setEnabled(true);
  		
  		// PAYMENT
  		f_cashPayment = createButtonAction(ACTION_PAYMENT, null);
 		f_cashPayment.setActionCommand(ACTION_PAYMENT);
 		add (f_cashPayment, buttonSize+",gapx 35"); 
 		f_cashPayment.setEnabled(false);
- 		
  		
  		// CANCEL
 		f_Cancel = createButtonAction(ACTION_CANCEL, null);
@@ -218,11 +224,14 @@ public class SubOrder extends PosSubPanel
 			deleteOrder();
 		else if (action.equals(ACTION_PAYMENT))
 			payOrder();
-		else if (action.equals(ACTION_NEXT))
-//			prePayOrder();
-			;
-		else if (action.equals(ACTION_BACK))
-			printOrder();
+		else if (action.equals(ACTION_NEXT)){
+			nextRecord();
+			p_posPanel.updateInfo();
+		}
+		else if (action.equals(ACTION_BACK)){
+			previousRecord();
+			p_posPanel.updateInfo();
+		}
 		else if (action.equals(ACTION_BPARTNER))
 		{	// Change to another BPartner
 			PosQuery qt = new QueryBPartner(p_posPanel);
@@ -258,7 +267,23 @@ public class SubOrder extends PosSubPanel
 			}
 		}
 	}
+	
+	/**
+	 * Previous Record Order
+	 */
+	public void previousRecord() {
+		if(recordPosition>0)
+			p_posPanel.setOrder(orderList.get(recordPosition--));
+	}
 
+	/**
+	 * Next Record Order
+	 */
+	public void nextRecord() {
+		if(recordPosition < orderList.size()-1)
+			p_posPanel.setOrder(orderList.get(recordPosition++));
+		
+	}
 	/**
 	 * Execute order payment
 	 * If order is not processed, process it first.
@@ -700,7 +725,6 @@ public class SubOrder extends PosSubPanel
   				
   				f_history.setEnabled(true);  				
   				f_Cancel.setEnabled(true);
-  				f_Back.setEnabled(order.isProcessed());
  				
   				// Button Payment
   				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
@@ -710,19 +734,9 @@ public class SubOrder extends PosSubPanel
   				   )
   				  )
   					f_cashPayment.setEnabled(true);
-  				else
+  				else 
 					f_cashPayment.setEnabled(false);
  				
-  				// Button Prepayment
-  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0 ||
-  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
-  				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
-  				    order.getC_Invoice_ID()<=0
-  				   )
-  				  )
-  					f_Next.setEnabled(true);
-  				else
-  					f_Next.setEnabled(false);
 			}
 			else
 			{
@@ -733,9 +747,7 @@ public class SubOrder extends PosSubPanel
 				f_bCreditSale.setEnabled(false);
 				f_history.setEnabled(true);
 				f_Cancel.setEnabled(false);
-				f_Back.setEnabled(false);
 				f_cashPayment.setEnabled(false);
-				f_Next.setEnabled(false);
 			}
 			
 		}
@@ -781,8 +793,40 @@ public class SubOrder extends PosSubPanel
 			
 			BigDecimal tax = total.subtract(totalNet);
 			p_posPanel.f_curLine.f_tax.setText(tax.toString());
-
+			p_posPanel.f_curLine.validate();
+			p_posPanel.f_curLine.repaint();
 		}
 	}	//	setSums
+	
+	/**
+	 * Get Data List Order
+	 */
+	public void listOrder() {
+		String sql = "";
+		PreparedStatement pstm;
+		ResultSet rs;
+		orderList = new ArrayList<Integer>();
+		try 
+		{
+			sql=" SELECT o.C_Order_ID"
+					+ " FROM C_Order o"
+					+ " LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID"
+					+ " WHERE"
+					+ " coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0"
+					+ " ORDER BY o.dateordered ASC";
+			
+			pstm= DB.prepareStatement(sql, null);
+			rs = pstm.executeQuery();
+			int i = 0;
+			while(rs.next()){
+				orderList.add(rs.getInt(1));
+				
+			}
+		}
+		catch(Exception e)
+		{
+			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+		}
+	}
 }//	PosSubCustomer
 	
