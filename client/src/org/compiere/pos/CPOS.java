@@ -327,7 +327,7 @@ public class CPOS {
 				//	
 				m_CurrentOrder.getLines(true, null);		// requery order
 				
-				return m_CurrentOrder.delete(true); 
+				return m_CurrentOrder.voidIt(); 
 			}
 		return false;
 	} //	deleteOrder
@@ -365,7 +365,7 @@ public class CPOS {
 				if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
 					m_CurrentOrder.saveEx();
 				} else {
-					log.info( "Process Order FAILED");		
+					log.info( "Process Order FAILED"+m_CurrentOrder.getProcessMsg());		
 				}
 			} catch (Exception e) {
 				log.severe("Order can not be completed - " + e.getMessage());
