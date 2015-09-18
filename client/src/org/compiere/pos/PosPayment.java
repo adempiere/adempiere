@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import javax.swing.JButton;
 import javax.swing.KeyStroke;
 
+import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
@@ -106,11 +107,8 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 
 	// --dniamic-- FILE 2
 	private CButton bMinus;
-	private DecimalFormat	m_format;
-	// arraylist
 	private int add_file = 4;
 
-	private ArrayList<VLookup> DinamicVlookup = new ArrayList<VLookup>();
 	private ArrayList<VPaymentPanel> pp = new ArrayList<VPaymentPanel>();
 	private ArrayList<CButton> fMinus = new ArrayList<CButton>();
 	private Random rand = new Random();
@@ -130,6 +128,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 	// JBinit
 	private void jbInit() throws Exception {
 		CompiereColor.setBackground(panel);
+		Font bigFont = AdempierePLAF.getFont_Field().deriveFont(18f);
 		//
 		mainPanel.setLayout(mainLayout);
 		parameterPanel.setLayout(parameterLayout);
@@ -138,26 +137,26 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		scrollPanel.add(parameterPanel);
 
 		// sizeFrame
-		setPreferredSize(new Dimension(250, 400));
+		setPreferredSize(new Dimension(270, 400));
 		precision = MCurrency.getStdPrecision(p_ctx, p_posPanel.m_CurrentOrder.getC_Currency_ID());
 		// ADD
 		lGrandTotal = new CLabel(Msg.translate(p_ctx, "GrandTotal") + ":");
-		lGrandTotal.setFont(new Font("Helvetica", Font.BOLD, 16));
+		lGrandTotal.setFont(new Font("Helvetica", Font.BOLD, 18));
+		fGrandTotal.setFont(new Font("Helvetica", Font.BOLD, 18));
 		parameterPanel.add(lGrandTotal, new GridBagConstraints(0, 0, 1, 1, 0.0,0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 
-		fGrandTotal.setPreferredSize(new Dimension(60, 30));
-		fGrandTotal.setEnabled(false);
+		fGrandTotal.setPreferredSize(new Dimension(100, 30));
 		fGrandTotal.setText(p_order.getGrandTotal().toString());
 		parameterPanel.add(fGrandTotal, new GridBagConstraints(1, 0, 1, 1, 0.0,0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
 		lPayAmt = new CLabel(Msg.translate(p_ctx, "PayAmt") + ":");
-		lPayAmt.setFont(new Font("Helvetica", Font.BOLD, 16));
+		lPayAmt.setFont(new Font("Helvetica", Font.BOLD, 18));
+		fPayAmt.setFont(new Font("Helvetica", Font.BOLD, 18));
 		parameterPanel.add(lPayAmt, new GridBagConstraints(0, 1, 1, 1, 0.0,	0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
-		fPayAmt.setEnabled(false);
 		fPayAmt.setPreferredSize(new Dimension(60, 30));
 		parameterPanel.add(fPayAmt, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
@@ -166,7 +165,8 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		parameterPanel.add(f_Line, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		lReturnAmt = new CLabel(Msg.translate(p_ctx, "AmountReturned") + ":");
-		lReturnAmt.setFont(new Font("Helvetica", Font.BOLD, 16));
+		lReturnAmt.setFont(new Font("Helvetica", Font.BOLD, 18));
+		fReturnAmt.setFont(new Font("Helvetica", Font.BOLD, 18));
 		parameterPanel.add(lReturnAmt, new GridBagConstraints(0, 3, 1, 1, 0.0,0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		parameterPanel.add(fReturnAmt, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
@@ -208,7 +208,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 
 	public void addTypePay() {
 		add_file++;
-		paymentPanel = new VPaymentPanel(p_ctx, p_order, p_order.getC_POS_ID(),	"X", p_posPanel);
+		paymentPanel = new VPaymentPanel(p_ctx, p_order, p_order.getC_POS_ID(),	"K", p_posPanel);
 		pp.add(paymentPanel);
 		fMinus.add(bMinus = p_posPanel.f_order.createButtonAction("Minus",
 				KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2)));

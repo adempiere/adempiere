@@ -14,6 +14,7 @@
 
 package org.compiere.pos;
 
+import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,9 +23,14 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.JTextField;
@@ -33,19 +39,24 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.webui.component.ListModelTable;
+import org.adempiere.webui.event.TableValueChangeEvent;
+import org.adempiere.webui.event.TableValueChangeListener;
 import org.apache.ecs.xhtml.ol;
 import org.compiere.apps.ADialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.I_C_POS;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPriceList;
 import org.compiere.model.MProduct;
+import org.compiere.model.MRole;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
 import org.compiere.swing.CButton;
@@ -56,6 +67,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.compiere.pos.BigDecimalEditor;
 
 /**
@@ -70,7 +82,7 @@ import org.compiere.pos.BigDecimalEditor;
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class SubCurrentLine extends PosSubPanel implements ActionListener, FocusListener, ListSelectionListener, TableModelListener{
+public class SubCurrentLine extends PosSubPanel implements ActionListener, FocusListener, ListSelectionListener,  TableModelListener, VetoableChangeListener{
 	/**
 	 * 
 	 */
@@ -110,7 +122,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	
 
 	/** The Table					*/
-	PosTable		m_table;
+	private PosTable		m_table;
 	/** The Query SQL				*/
 	private String			m_sql;
 	/**	Logger			*/
@@ -151,19 +163,20 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		CScrollPane scroll = new CScrollPane(m_table);
 		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, 
 				s_sqlWhere, false, "POS_OrderLine_v");
-		m_table.getSelectionModel().addListSelectionListener(this);
+//		m_table.getSelectionModel().addListSelectionListener(this);
 		m_table.setColumnVisibility(m_table.getColumn(0), false);
-		m_table.getColumn(1).setPreferredWidth(500);
+		m_table.getColumn(1).setPreferredWidth(400);
 		m_table.getColumn(2).setPreferredWidth(75);
 		m_table.getColumn(3).setPreferredWidth(30);
 		m_table.getColumn(4).setPreferredWidth(75);
 		m_table.getColumn(5).setPreferredWidth(75);
-		m_table.getColumn(6).setPreferredWidth(30);
+		m_table.getColumn(6).setPreferredWidth(75);
 		m_table.setColumnClass(6, BigDecimal.class, false);
 		m_table.setFocusable(false);
 		m_table.getColumnModel().getColumn(6).setCellEditor(
 				new BigDecimalEditor());
 		m_table.getModel().addTableModelListener(this);
+		m_table.addVetoableChangeListener(this);
 		m_table.addKeyListener(new java.awt.event.KeyAdapter() {
 			
 			@Override
@@ -174,11 +187,10 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 					break;
 				case KeyEvent.VK_A:
 					break;
-
 				default:
 					break;
 				}
-
+				p_posPanel.updateInfo();
 			}
 			
 			@Override
@@ -194,6 +206,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 					break;
 				}
 
+				p_posPanel.updateInfo();
 			}
 			
 			@Override
@@ -208,6 +221,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 				default:
 					break;
 				}
+				p_posPanel.updateInfo();
 
 			}
 
@@ -220,10 +234,10 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 
 			
 		});
+
 		m_table.setFillsViewportHeight( true ); //@Trifon
 		m_table.growScrollbars();
-
-		add (scroll, "growx, spanx, growy, pushy, h 200:300:");
+		add (scroll, "growx, spanx, growy, pushy, h 100:30:");
 		
 		f_name = new PosTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), p_posPanel,p_pos.get_ValueAsInt("OSK_KeyLayout_ID"));
 		f_name.setName("Name");
@@ -235,7 +249,6 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		
 		setPrice(Env.ZERO);
 		
-		enableButtons();
 	} //init
 
 
@@ -402,9 +415,6 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		
 	}	//	updateTable
 	
-	private void enableButtons()
-	{
-	}
 	
 	/**
 	 * 	Set Query Parameter
@@ -634,8 +644,8 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			return;
 		log.info( "PosSubProduct - focusLost");
 		findProduct();
-		
 		p_posPanel.updateInfo();
+		p_posPanel.f_order.setSums(p_posPanel.getM_Order());
 	}	//	focusLost
 
 
@@ -644,44 +654,18 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			return;
 
 		int row = m_table.getSelectedRow();
-		if (row != -1 )
-		{
+		if (row != -1 ) {
 			Object data = m_table.getModel().getValueAt(row, 0);
-			if ( data != null )
-			{
+			if ( data != null )	{
 				Integer id = (Integer) ((IDColumn)data).getRecord_ID();
 				orderLineId = id;
 				loadLine(id);
-				
 			}
 		}
-		if (e.getSource().equals(m_table)) //Add Minitable Source Condition
-			valueChange();
-		enableButtons();
+
+		p_posPanel.f_order.setSums(p_posPanel.m_CurrentOrder);
 		
 	}  // valueChanged
-
-	public void valueChange() {
-		
-		int id = m_table.getSelectedRow();
-		if (id != -1) {	
-		IDColumn key = (IDColumn) m_table.getModel().getValueAt(id, 0);
-		
-		if ( key != null &&  key.getRecord_ID() != orderLineId )
-			orderLineId = key.getRecord_ID();
-			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
-			if ( line != null )
-			{
-				
-					line.setPrice(new BigDecimal(m_table.getModel().getValueAt(id, 4).toString()));
-					line.setQty(new BigDecimal(m_table.getModel().getValueAt(id, 2).toString()));
-					line.saveEx();
-					p_posPanel.updateInfo();
-				}
-			
-		}
-
-	}
 
 	private void loadLine(int lineId) {
 		
@@ -690,22 +674,105 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	
 		log.fine("SubCurrentLine - loading line " + lineId);
 		MOrderLine ol = new MOrderLine(p_ctx, lineId, null);
-		if ( ol != null )
-		{
+		if ( ol != null ) {
 			oLine = ol;
 			setPrice(ol.getPriceActual());
 			setQty(ol.getQtyOrdered());
 		}
 	}
     public void tableChanged(TableModelEvent e) {
-        int row = e.getFirstRow();
         int column = e.getColumn();
-        if (row <=0 || column <=0)
-        	return;
-        String columnName = m_table.getColumnName(column);
-        Object data = m_table.getValueAt(row, column);
+		int id = m_table.getSelectedRow();
+		boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
+		if (!isUpdate) {
+			return;
+		}
+        if (id != -1) {	
+    		IDColumn key = (IDColumn) m_table.getModel().getValueAt(id, 0);
+    		
+    		if ( key != null &&  key.getRecord_ID() != orderLineId )
+    			orderLineId = key.getRecord_ID();
+			
+    		BigDecimal price = new BigDecimal(m_table.getModel().getValueAt(id, 4).toString());
+			BigDecimal qty = new BigDecimal(m_table.getModel().getValueAt(id, 2).toString());
+			BigDecimal grandTotal;
+			m_table.getModel().removeTableModelListener(this);
+			
+    			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+    			if ( line != null ) {
+    					line.setPrice(price);
+    					line.setQty(qty);
+    					line.saveEx();
 
+    					m_table.getModel().setValueAt(line.getLineNetAmt(), id, 5);
+    					
+    					grandTotal = line.getLineNetAmt();
+//    					grandTotal.multiply(line.get)
+//    					ol.linenetamt * t.rate / 100
+//    					m_table.getModel().setValueAt(, id, 7);
+    			}
+    			p_posPanel.reload();
+    			p_posPanel.f_order.setSums(p_posPanel.m_CurrentOrder);
+    			m_table.getModel().addTableModelListener(this);
+    			
+    	}
        // ...// Do something with the data...
     }
+    public Vector<String> getPaymentColumnNames()
+	{	
+		
+		//  Header Info
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add(Msg.getMsg(Env.getCtx(), NAME));
+		columnNames.add(Msg.translate(Env.getCtx(), QTY));
+		columnNames.add(Msg.translate(Env.getCtx(), C_UOM_ID));
+		columnNames.add(Msg.getMsg(Env.getCtx(), PRICEACTUAL));
+		columnNames.add(Msg.translate(Env.getCtx(), LINENETAMT));
+		
+		columnNames.add(Msg.getMsg(Env.getCtx(), "C_Tax_ID"));
+		columnNames.add(Msg.getMsg(Env.getCtx(), GRANDTOTAL));
+		
+		return columnNames;
+	}
+    public Vector<Vector<Object>> getPaymentData(int m_C_Order_ID)
+	{		
+		
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		StringBuffer sql = new StringBuffer("SELECT name, QtyOrdered, UOM_name, PriceActual, LineNetAmt, TaxIndicator, GrandTotal FROM POS_OrderLine_v WHERE C_Order_ID =?");                   		//      #5
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt.setInt(1, m_C_Order_ID);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				Vector<Object> line = new Vector<Object>();
+
+				line.add(rs.getTimestamp(1));       //  1-TrxDate
+				line.add(rs.getString(2));          //  2-DocumentNo
+				line.add(rs.getString(3));      	//  3-Currency
+				line.add(rs.getBigDecimal(4));  	//  4-PayAmt
+				line.add(rs.getBigDecimal(5));      //  3/5-ConvAmt
+				line.add(rs.getBigDecimal(6));      //  3/5-ConvAmt
+				line.add(rs.getBigDecimal(7));      //  3/5-ConvAmt
+				//
+				data.add(line);
+			}
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		
+		return data;
+	}
+	@Override
+	public void vetoableChange(PropertyChangeEvent evt)
+			throws PropertyVetoException {
+	}
+
+
 
 	} //	PosSubCurrentLine
