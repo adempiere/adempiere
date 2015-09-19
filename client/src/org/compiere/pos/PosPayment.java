@@ -28,6 +28,8 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
@@ -35,6 +37,7 @@ import org.compiere.model.MCurrency;
 import org.compiere.model.MOrder;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CButton;
+import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -121,6 +124,9 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 	private VPaymentPanel paymentPanel;
 	private CButton f_Plus;
 	private int precision;
+	
+	private CCheckBox isPrePaiment;
+	private CCheckBox isCreditSale;
 
 	// JBinit
 	private void jbInit() throws Exception {
@@ -137,37 +143,50 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		// sizeFrame
 		setPreferredSize(new Dimension(270, 400));
 		precision = MCurrency.getStdPrecision(p_ctx, p_posPanel.m_CurrentOrder.getC_Currency_ID());
+		
+		isPrePaiment = new CCheckBox();
+		isPrePaiment.setText(Msg.translate(p_ctx, "isPrePayment"));
+		isPrePaiment.addActionListener(this);
+		parameterPanel.add(isPrePaiment, new GridBagConstraints(0, 0, 1, 1, 0.0,0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+
+		isCreditSale = new CCheckBox();
+		isCreditSale.setText(Msg.translate(p_ctx, "CreditSale"));
+		isCreditSale.addActionListener(this);
+		parameterPanel.add(isCreditSale, new GridBagConstraints(0, 1, 1, 1, 0.0,0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		
 		// ADD
 		lGrandTotal = new CLabel(Msg.translate(p_ctx, "GrandTotal") + ":");
 		lGrandTotal.setFont(fontBold);
 		fGrandTotal.setFont(fontBold);
-		parameterPanel.add(lGrandTotal, new GridBagConstraints(0, 0, 1, 1, 0.0,0.0, 
+		parameterPanel.add(lGrandTotal, new GridBagConstraints(1, 0, 1, 1, 0.0,0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 
 		fGrandTotal.setPreferredSize(new Dimension(100, 30));
 		fGrandTotal.setText(p_order.getGrandTotal().toString());
-		parameterPanel.add(fGrandTotal, new GridBagConstraints(1, 0, 1, 1, 0.0,0.0, 
+		parameterPanel.add(fGrandTotal, new GridBagConstraints(2, 0, 1, 1, 0.0,0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
 		lPayAmt = new CLabel(Msg.translate(p_ctx, "PayAmt") + ":");
 		lPayAmt.setFont(fontBold);
 		fPayAmt.setFont(fontBold);
-		parameterPanel.add(lPayAmt, new GridBagConstraints(0, 1, 1, 1, 0.0,	0.0, 
+		parameterPanel.add(lPayAmt, new GridBagConstraints(1, 1, 1, 1, 0.0,	0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
 		fPayAmt.setPreferredSize(new Dimension(60, 30));
-		parameterPanel.add(fPayAmt, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, 
+		parameterPanel.add(fPayAmt, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		
 		CLabel f_Line = new CLabel ("________________");
-		parameterPanel.add(f_Line, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, 
+		parameterPanel.add(f_Line, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		lReturnAmt = new CLabel(Msg.translate(p_ctx, "AmountReturned") + ":");
 		lReturnAmt.setFont(fontBold);
 		fReturnAmt.setFont(fontBold);
-		parameterPanel.add(lReturnAmt, new GridBagConstraints(0, 3, 1, 1, 0.0,0.0, 
+		parameterPanel.add(lReturnAmt, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
-		parameterPanel.add(fReturnAmt, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
+		parameterPanel.add(fReturnAmt, new GridBagConstraints(2, 3, 1, 1, 0.0,0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
@@ -249,6 +268,16 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 			dispose();
 			return;
 		}
+		
+		if(!isPrePaiment.isSelected() && balance.compareTo(Env.ZERO) > 0) {
+			ADialog.warn(0, this, Msg.getMsg(p_ctx, "POS.OrderPayNotCompleted"));
+			return;
+		}
+		if(isCreditSale.isSelected()){
+			onCreditSale();
+		}
+	
+	
 		else if (((CButton) e.getSource()).getName().indexOf("t_") >= 0) {
 			for (int i = 0; i < pp.size(); i++) {
 				temp_name = ((CButton) e.getSource()).getName();
@@ -275,6 +304,25 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		mainPanel.validate();
 	}
 
+	/**
+	 * 	Process the order.
+	 * Usually, the action should be "complete".
+	 */
+	private void onCreditSale() {
+		if( p_posPanel.getM_Order() == null) {		
+			ADialog.warn(0, this,  Msg.getMsg(p_ctx, "You must create an Order first"));
+		} else {
+			if ( p_posPanel.getM_Order().getLines().length==0) {
+				ADialog.warn(0, this, Msg.getMsg(p_ctx, "The Order does not contain lines"));
+			} else if ( !p_posPanel.getM_Order().isProcessed() 
+					&& !p_posPanel.processOrder()) {		
+				ADialog.warn(0, this, Msg.getMsg(p_ctx, "Error processing Credit sale"));
+			}
+		}
+		return;
+	} // onCreditSale
+	
+	
 	public static boolean pay(VPOS posPanel) {
 		PosPayment pay = new PosPayment(posPanel);
 		pay.setMinimumSize(new Dimension(445, 580));
