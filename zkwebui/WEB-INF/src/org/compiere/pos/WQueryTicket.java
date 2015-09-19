@@ -155,18 +155,24 @@ public class WQueryTicket extends WPosQuery
 		row.setSpans("5");
 		row.setHeight("65px");
 		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
+		f_up.setTooltiptext(Msg.translate(p_ctx, "Previous"));
 		panelbutton.appendChild(f_up);
 		f_up.addActionListener(this);
 		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
+		
+		f_down.setTooltiptext(Msg.translate(p_ctx, "Next"));
 		panelbutton.appendChild(f_down);
 		f_down.addActionListener(this);
 		
 		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
 		panelbutton.appendChild(f_ok);
+		f_ok.setTooltiptext(Msg.translate(p_ctx, "Ok"));
 		f_ok.addActionListener(this);
-		
+
+		f_refresh.setTooltiptext(Msg.translate(p_ctx, "Refresh"));
 		f_cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
 		panelbutton.appendChild(f_cancel);
+		f_cancel.setTooltiptext(Msg.translate(p_ctx, "Cancel"));
 		row.appendChild(panelbutton);
 		f_cancel.addActionListener(this);
 		

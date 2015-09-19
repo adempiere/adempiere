@@ -202,7 +202,8 @@ public class WQueryBPartner extends WPosQuery
 		
 		f_cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
 		buttonsPanel.appendChild(f_cancel);
-		
+		f_up.addActionListener(this);
+		f_down.addActionListener(this);
 		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
 		buttonsPanel.appendChild(f_ok);		
 		
@@ -338,19 +339,7 @@ public class WQueryBPartner extends WPosQuery
 					return;
 			}
 		}
-			else if (f_down.equals(e.getTarget()))
-			{
-				int rows = m_table.getRowCount();
-				if (rows == 0)
-					return;
-				int row = m_table.getSelectedRow();
-				row--;
-				if (row < 0)
-					row = 0;
-				m_table.setSelectedIndex(row);
-				return;
-			}
-			else if (f_up.equals(e.getTarget()))
+			 if (f_down.equals(e.getTarget()))
 			{
 				int rows = m_table.getRowCount();
 				if (rows == 0)
@@ -359,6 +348,19 @@ public class WQueryBPartner extends WPosQuery
 				row++;
 				if (row >= rows)
 					row = rows - 1;
+				m_table.setSelectedIndex(row);
+				return;
+			}
+			else if (f_up.equals(e.getTarget()))
+			{
+
+				int rows = m_table.getRowCount();
+				if (rows == 0)
+					return;
+				int row = m_table.getSelectedRow();
+				row--;
+				if (row < 0)
+					row = 0;
 				m_table.setSelectedIndex(row);
 				return;
 			}

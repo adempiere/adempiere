@@ -39,6 +39,7 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
@@ -73,6 +74,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	private boolean paid = false;
 	private BigDecimal balance = Env.ZERO;
 	private Checkbox isPrePaiment;
+	private Checkbox isCreditSale;
 	private Label fReturnAmt;
 	private Label lReturnAmt;
 	private Button fPlus;
@@ -140,6 +142,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		
 		row = rows.newRow();
 		isPrePaiment = new Checkbox();
+		isPrePaiment.addActionListener(this);
 		isPrePaiment.setText(Msg.translate(p_ctx, "isPrePayment"));
 		isPrePaiment.setStyle(FONT_SIZE);
 		row.appendChild(isPrePaiment);
@@ -152,16 +155,21 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		fTotal.setValue(p_order.getGrandTotal().toString());
 		
 		row = rows.newRow();
-		row.appendChild(new Space());
 		
-
+		isCreditSale = new Checkbox();
+		isCreditSale.setText(Msg.translate(p_ctx, "CreditSale"));
+		
+		isCreditSale.setStyle(FONT_SIZE);
+		isCreditSale.setHeight("30px");
+		isCreditSale.addActionListener(this);
+		row.appendChild(isCreditSale);
+		
 		Label fsLabel = new Label(Msg.translate(p_ctx, "PayAmt")+":");
 		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
-		fPayAmt = new Label();
+		fPayAmt = new Label(p_posPanel.getPayAmt().toString());
 		row.appendChild(fsLabel.rightAlign());
 		row.appendChild(fPayAmt.rightAlign());
 		fPayAmt.setStyle(FONT_SIZE);
-		fPayAmt.setValue(Env.ZERO.toString());
 		
 
 		row = rows.newRow();
@@ -210,6 +218,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		bMinus.setId("0");
 		row.appendChild(pp.get(0).cashPanel());
 		row.appendChild(fPlus);
+
 		
 		//SHW End
 		South south = new South();
@@ -263,7 +272,11 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event event) throws Exception {
 		String action = event.getTarget().getId();
-		if (event.getName().equals("onBlur") || event.getName().equals("onFocus")) {
+		if(event.getTarget().equals(isCreditSale))
+			isPrePaiment.setSelected(false);
+		else if(event.getTarget().equals(isPrePaiment))
+			isCreditSale.setSelected(false);
+		else if (event.getName().equals("onBlur") || event.getName().equals("onFocus")) {
 			for(int x = 0; x < pp.size(); x++)
 				if(event.getTarget().equals(pp.get(x).fPayAmt)){
 						calculate();
@@ -276,14 +289,24 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		
 		else if ( action.equals(ConfirmPanel.A_OK)) {
 			// Process Payment: first Process Order (if needed)
-			if ( !p_order.isProcessed() && !p_posPanel.processOrder() ) {
-					FDialog.warn(0, Msg.getMsg(p_ctx, "PosOrderProcessFailed"));
+				if(!isPrePaiment.isSelected() && balance.compareTo(Env.ZERO) > 0) {
+					FDialog.warn(0, Msg.getMsg(p_ctx, "POS.OrderPayNotCompleted"));
 					return;
-			}
-			for(int x = 0; x < pp.size(); x++)
-				pp.get(x).savePay();
-			onClose();
-			return;
+				}
+				if(isCreditSale.isSelected()){
+					onCreditSale();
+				}
+				if ( !p_order.isProcessed() && !p_posPanel.processOrder() ) {
+					FDialog.warn(0, "PosOrderProcessFailed" + Msg.parseTranslation(p_ctx, p_posPanel.getM_Order().getProcessMsg()));
+					return;
+				}
+				for(int x = 0; x < pp.size(); x++){
+					if(pp.get(x).fPayAmt.getValue().compareTo(Env.ZERO) > 0)
+						pp.get(x).savePay();
+				}
+				onClose();
+				return;
+			
 		}
 		else if ( action.equals(ConfirmPanel.A_CANCEL))	{
 			paid = false;
@@ -306,7 +329,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		calculate();
 	}
 	private void calculate() {
-		BigDecimal mount = new BigDecimal(Env.ZERO.toString());
+		BigDecimal mount = p_posPanel.getPayAmt();
 		for(int x = 0; x < pp.size(); x++){
 			if(pp.get(x).fPayAmt.getValue() == null){
 				pp.get(x).fPayAmt.setValue("0");
@@ -348,6 +371,24 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 			}
 		}
 	}
+	
+	/**
+	 * 	Process the order.
+	 * Usually, the action should be "complete".
+	 */
+	private void onCreditSale() {
+		if( p_posPanel.getM_Order() == null) {		
+			FDialog.warn(0,  Msg.getMsg(p_ctx, "You must create an Order first"));
+		} else {
+			if ( p_posPanel.getM_Order().getLines().length==0) {
+				FDialog.warn(0, Msg.getMsg(p_ctx, "The Order does not contain lines"));
+			} else if ( !p_posPanel.getM_Order().isProcessed() 
+					&& !p_posPanel.processOrder()) {		
+				FDialog.warn(0, Msg.getMsg(p_ctx, "Error processing Credit sale"));
+			}
+		}
+		return;
+	} // onCreditSale
 	
 	public static boolean pay(WPOS posPanel, WSubOrder subOrder) {
 		
