@@ -38,7 +38,6 @@ import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
-import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -126,7 +125,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 	// JBinit
 	private void jbInit() throws Exception {
 		CompiereColor.setBackground(panel);
-		Font bigFont = AdempierePLAF.getFont_Field().deriveFont(18f);
+		Font fontBold = new Font("Helvetica", Font.BOLD, 18);
 		//
 		mainPanel.setLayout(mainLayout);
 		parameterPanel.setLayout(parameterLayout);
@@ -140,8 +139,8 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		precision = MCurrency.getStdPrecision(p_ctx, p_posPanel.m_CurrentOrder.getC_Currency_ID());
 		// ADD
 		lGrandTotal = new CLabel(Msg.translate(p_ctx, "GrandTotal") + ":");
-		lGrandTotal.setFont(new Font("Helvetica", Font.BOLD, 18));
-		fGrandTotal.setFont(new Font("Helvetica", Font.BOLD, 18));
+		lGrandTotal.setFont(fontBold);
+		fGrandTotal.setFont(fontBold);
 		parameterPanel.add(lGrandTotal, new GridBagConstraints(0, 0, 1, 1, 0.0,0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 
@@ -151,8 +150,8 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
 		lPayAmt = new CLabel(Msg.translate(p_ctx, "PayAmt") + ":");
-		lPayAmt.setFont(new Font("Helvetica", Font.BOLD, 18));
-		fPayAmt.setFont(new Font("Helvetica", Font.BOLD, 18));
+		lPayAmt.setFont(fontBold);
+		fPayAmt.setFont(fontBold);
 		parameterPanel.add(lPayAmt, new GridBagConstraints(0, 1, 1, 1, 0.0,	0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
@@ -164,8 +163,8 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		parameterPanel.add(f_Line, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		lReturnAmt = new CLabel(Msg.translate(p_ctx, "AmountReturned") + ":");
-		lReturnAmt.setFont(new Font("Helvetica", Font.BOLD, 18));
-		fReturnAmt.setFont(new Font("Helvetica", Font.BOLD, 18));
+		lReturnAmt.setFont(fontBold);
+		fReturnAmt.setFont(fontBold);
 		parameterPanel.add(lReturnAmt, new GridBagConstraints(0, 3, 1, 1, 0.0,0.0, 
 								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		parameterPanel.add(fReturnAmt, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
@@ -179,6 +178,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 
 		parameterPanel.add(pp.get(0).cashPayPanel(), new GridBagConstraints(0, 4, 2, 1, 0.0, 0.0,
 							GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		pp.get(0).f_PayAmt.setValue(new Double(0.0));
 		pp.get(0).f_PayAmt.addFocusListener(this);
 		pp.get(0).f_PayAmt.addVetoableChangeListener(this);
 		f_Plus = p_posPanel.f_order.createButtonAction("Plus",
@@ -221,7 +221,9 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 		centerPanel.add(fMinus.get(fMinus.size()-1),	new GridBagConstraints(3, add_file, 1, 1, 0.0, 0.0,
 						GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		pp.get(pp.size()-1).panelTypePay.setName(mirand);
+		pp.get(pp.size()-1).f_PayAmt.setValue(new Double(0.0));
 		pp.get(pp.size()-1).f_PayAmt.addFocusListener(this);
+		pp.get(pp.size()-1).f_PayAmt.addVetoableChangeListener(this);
 	}
 
 	@Override
@@ -303,7 +305,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 			isPaid = true;
 		}
 		balance.setScale(2,BigDecimal.ROUND_HALF_UP);
-		mount.setScale(2,BigDecimal.ROUND_HALF_UP);
+		mount = mount.setScale(2,BigDecimal.ROUND_HALF_UP);
 		
 		p_posPanel.m_CurrentOrder.getC_Currency_ID();
 
