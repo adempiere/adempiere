@@ -13,6 +13,7 @@
  *****************************************************************************/
 package org.compiere.pos;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -114,12 +115,14 @@ public class PosTextField extends JFormattedTextField implements MouseListener,
 	public String getPlaceholder() {
 		return placeholder;
 	}
+	private Font font = new Font("Helvetica", Font.PLAIN, 18);
 
 	@Override
 	protected void paintComponent(final Graphics pG) {
 		super.paintComponent(pG);
 
-		if (placeholder.length() == 0 || getText().length() > 0) {
+		if (placeholder.length() == 0 
+				|| getText().length() > 0) {
 			return;
 		}
 
@@ -127,8 +130,8 @@ public class PosTextField extends JFormattedTextField implements MouseListener,
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(getDisabledTextColor());
-		g.drawString(placeholder, getInsets().left, pG.getFontMetrics()
-				.getMaxAscent() + getInsets().top);
+		g.setFont(font);
+		g.drawString(placeholder, getMargin().left  ,(getSize().height)/2 + getFont().getSize()/2 );
 	}
 
 	public void setPlaceholder(final String s) {
