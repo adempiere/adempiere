@@ -64,7 +64,7 @@ import org.compiere.util.Msg;
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright � Jorg Janke
  *         *Copyright � ConSerTi
- *  @author Mario Calderón, Systemhaus Westfalia
+ *  @author Mario Calderon, Systemhaus Westfalia
  *  @version $Id: SubOrder.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: SubOrder.java,v 2.0 2015/09/01 00:00:00 mar_cal_westf
  */

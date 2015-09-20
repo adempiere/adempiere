@@ -11,8 +11,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
+ * Copyright (C) 2015 Systemhaus Westfalia                                    *
  * All Rights Reserved.                                                       *
  * Contributor(s): Raul Muñoz www.erpcya.com					              *
+ * Contributor(s): Mario Calderon, www.westfalia-it.com  		              *
  *****************************************************************************/
 
 package org.compiere.pos;
