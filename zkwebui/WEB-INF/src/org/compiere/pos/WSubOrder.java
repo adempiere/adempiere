@@ -11,8 +11,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
+ * Copyright (C) 2015 Systemhaus Westfalia                                    *
  * All Rights Reserved.                                                       *
  * Contributor(s): Raul Muñoz www.erpcya.com					              *
+ * Contributor(s): Mario Calderon, www.westfalia-it.com  		              *
  *****************************************************************************/
 
 package org.compiere.pos;
@@ -31,6 +33,7 @@ import java.util.logging.Level;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
@@ -55,6 +58,7 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MImage;
+import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPOSKey;
@@ -114,7 +118,7 @@ public class WSubOrder extends WPosSubPanel
 	
 	
 	private Button 		f_history;
-	private	Textbox		f_name;
+	private	Label		f_name;
 	private Button 		f_bNew;
 	private Button 		f_cashPayment;
 
@@ -318,6 +322,7 @@ public class WSubOrder extends WPosSubPanel
 		// BPartner Search
 		f_bBPartner = createButtonAction(ACTION_BPARTNER, p_pos.getOSK_KeyLayout_ID());
 		f_bBPartner.addActionListener(this);
+		f_bBPartner.setTooltiptext(Msg.translate(p_ctx, "IsCustomer"));
 		row.appendChild(f_bBPartner);
 				
 		// EDIT
@@ -332,10 +337,11 @@ public class WSubOrder extends WPosSubPanel
 		row.appendChild(f_history); 
 
 		f_Back = createButtonAction("Parent", KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0));
+		f_Back.setTooltiptext(Msg.translate(p_ctx, "Previous"));
 		row.appendChild (f_Back);
 		f_Next = createButtonAction("Detail", KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0));
+		f_Next.setTooltiptext(Msg.translate(p_ctx, "Next"));
 		row.appendChild (f_Next);
-		
 		
 		// PAYMENT
 		f_cashPayment = createButtonAction(ACTION_PAYMENT, null);
@@ -346,7 +352,7 @@ public class WSubOrder extends WPosSubPanel
 		// Cancel
 		f_cancel = createButtonAction (ACTION_CANCEL, null);
 		f_cancel.addActionListener(this);
-		f_cancel.setTooltiptext(Msg.translate(p_ctx, "Cancel"));
+		f_cancel.setTooltiptext(Msg.translate(p_ctx, "POS.IsCancel"));
 		row.appendChild (f_cancel);
 		f_cancel.setEnabled(false);
 		
@@ -358,13 +364,17 @@ public class WSubOrder extends WPosSubPanel
 		row.appendChild(new Space());
 		
 		row = rows.newRow();
-		row.setSpans("3,4,2");
+		row.setSpans("3,5");
 		row.setHeight("25px");
-		row.appendChild(new Space());
 		// BP
-		Label bpartner = new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID")+":");
-
-		f_name = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		Label bpartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer")+":");
+		row.appendChild (bpartner.rightAlign());
+		bpartner.setStyle("Font-size:medium; font-weight:700");
+		
+		f_name = new Label();
+		f_name.setStyle("Font-size:medium");
+		f_name.setWidth("100%");
+		row.appendChild  (f_name);
 
 	}	//	init
 	
@@ -899,14 +909,42 @@ public class WSubOrder extends WPosSubPanel
 		{
 			MOrder order = p_posPanel.getM_Order();
 			if (order != null)
-			{
+			{			
   				f_DocumentNo.setText(order.getDocumentNo());
+  				
+  				// Button BPartner: enable when drafted, and order has no lines
   				setC_BPartner_ID(order.getC_BPartner_ID());
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+  						order.getLines().length == 0 )
+  					f_bBPartner.setEnabled(true);
+  				else
+  					f_bBPartner.setEnabled(false);
+  				
   				f_bNew.setEnabled(m_table.getRowCount() != 0);
-  				f_bCreditSale.setEnabled(m_table.getRowCount() != 0);
+  				
+  				// Button Credit Sale: enable when drafted, with lines and not invoiced
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+  						order.getLines().length != 0 && 
+  						order.getC_Invoice_ID()<=0)
+  					f_bCreditSale.setEnabled(true);
+  				else
+  					f_bCreditSale.setEnabled(false);
+  				
   				f_cancel.setEnabled(true);
   				f_history.setEnabled(m_table.getRowCount() != 0);
-  				f_cashPayment.setEnabled(m_table.getRowCount()!= 0);
+  				
+  				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
+  				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
+  	  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+  	  				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
+  	  				    	(order.getC_Invoice_ID()<=0  ||
+  	  				    	 !MInvoice.get(p_ctx, order.getC_Invoice_ID()).isPaid()
+  	  				    	 )
+  	  				   )
+  	  				  )
+  	  					f_cashPayment.setEnabled(true);
+  	  				else 
+  						f_cashPayment.setEnabled(false);
 			}
 			else
 			{
@@ -967,18 +1005,7 @@ public class WSubOrder extends WPosSubPanel
 		}
 	}	//	setSums
 
-	private void onCreditSale()
-	{
-		if( p_posPanel.getM_Order()  != null ) 
-		{
-
-			if ( !p_posPanel.getM_Order().isProcessed() && !p_posPanel.processOrder() )
-			{
-				FDialog.warn(0, "PosOrderProcessFailed");
-				return;
-			}
-		}
-	}
+	
 
 	@Override
 	public void tableChanged(WTableModelEvent event) {
@@ -1047,17 +1074,19 @@ public class WSubOrder extends WPosSubPanel
 		p_posPanel.newOrder(getBPartner(), isDocType);
 		newLine();
 		updateInfo();
+		orderList.add(p_posPanel.getM_Order().getC_Order_ID());
+		recordposition = orderList.size()-1;
+
 	}
 	
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
 		String action = e.getTarget().getId();
 		if (e.getTarget().equals(f_bNew)) {
-				newOrder(); 
+				newOrder();
 				e.stopPropagation();
 			}
-		else if (e.getTarget().equals(f_bCreditSale))
-			onCreditSale();
+		
 		else if(e.getTarget().equals(f_cashPayment)){
 			payOrder();
 		}
@@ -1359,8 +1388,9 @@ public class WSubOrder extends WPosSubPanel
 		setM_Product_ID(key.getM_Product_ID());
 		setPrice();
 		setQty(key.getQty());
-		if ( !saveLine() ) {
-			FDialog.error(0, this, "Could not save order line");
+		String saveLine = saveLine();
+		if ( !saveLine.equals(null) ) {
+			FDialog.error(0, this, saveLine);
 		}
 		updateInfo();
 		return;
@@ -1370,10 +1400,10 @@ public class WSubOrder extends WPosSubPanel
 	 * 
 	 * @return true if saved
 	 */
-	public boolean saveLine() {
+	public String saveLine() {
 		MProduct product = getProduct();
 		if (product == null)
-			return false;
+			return Msg.getMsg(p_ctx, "POS.ProductNotFound");
 		BigDecimal QtyOrdered  = BigDecimal.valueOf(f_quantity);
 		BigDecimal PriceActual = BigDecimal.valueOf(f_price);
 		if (p_posPanel.getM_Order() == null ) {
@@ -1384,17 +1414,19 @@ public class WSubOrder extends WPosSubPanel
 		MOrderLine line = null;
 		
 		if ( p_posPanel.getM_Order() != null ) {
+			try {
 			line = p_posPanel.createLine(product, QtyOrdered, PriceActual);
-			
-			if (line == null)
-				return false;
+			}
+			catch (Exception e) {
+				return Msg.getMsg(p_ctx, "POS.OrderLinesCannotBeCreated")+" - " + e.getMessage();
+			}
 			line.saveEx();
 		}
 		
 		orderLineId = line.getC_OrderLine_ID();
 		setM_Product_ID(0);
 		//
-		return true;
+		return null;
 	} //	saveLine
 	
 
@@ -1566,7 +1598,6 @@ public class WSubOrder extends WPosSubPanel
 	public void nextRecord() {
 		if(recordposition < orderList.size()-1)
 			p_posPanel.setOrder(orderList.get(recordposition++));
-		
 	}
 	
 	/**
@@ -1584,14 +1615,13 @@ public class WSubOrder extends WPosSubPanel
 					+ " LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID"
 					+ " WHERE"
 					+ " coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0"
-					+ " ORDER BY o.dateordered Asc";
+					+ " ORDER BY o.created Asc";
 			
 			pstm= DB.prepareStatement(sql, null);
 			rs = pstm.executeQuery();
 			int i = 0;
 			while(rs.next()){
 				orderList.add(rs.getInt(1));
-				
 			}
 		}
 		catch(Exception e)

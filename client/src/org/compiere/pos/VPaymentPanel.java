@@ -3,6 +3,7 @@ package org.compiere.pos;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 
 import javax.swing.DefaultComboBoxModel;
@@ -28,7 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 
 import org.compiere.grid.ed.VComboBox;
-import org.compiere.grid.ed.VLookup;
+import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -38,12 +40,11 @@ import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentValidate;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CPanel;
-import org.compiere.swing.CScrollPane;
 import org.compiere.swing.CTextField;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
@@ -62,6 +63,7 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 	private CPanel 			Cdebit;
 	private GridBagLayout 	layoutDebit 	= new GridBagLayout();
 	private CTextField 		CNrouteDebit;
+
 	private CTextField 		CNcvcDebit;
 	private CTextField 		CPaisDebit;
 	
@@ -81,6 +83,8 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 	private CComboBox 		tenderTypePick 	= new CComboBox();
 	public 	VNumber 		f_PayAmt 		= new VNumber();
 	private MPOS p_MPOS;
+	final Font font = new Font("Helvetica", Font.PLAIN, 18);
+	private VDate dateField = new VDate(DisplayType.Date);
 	
 	public VPaymentPanel(Properties ctx, MOrder m_Order, int m_M_POS_ID, String m_TendeType, VPOS m_posBasePanel) {
 		super(ctx, m_Order, m_M_POS_ID);
@@ -107,12 +111,14 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 			}
 		}
 		DefaultComboBoxModel typeModel = new DefaultComboBoxModel(types.toArray());
+		tenderTypePick.setFont(font);
 		
 		tenderTypePick.setModel(typeModel);
 		tenderTypePick.setPreferredSize(new Dimension(130, 30));
 		panelTypePay.add(tenderTypePick,  new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
 						,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		f_PayAmt.setPreferredSize(new Dimension(130, 30));
+		f_PayAmt.setFont(font);
 		panelTypePay.add(f_PayAmt,  new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		
@@ -121,7 +127,7 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 	}
 	//We create the dynamic rows
 		public CPanel paymentPanel(){
-			
+			final Font fontBold = new Font("Helvetica", Font.BOLD, 18);
 			int AD_Column_ID = 5046;        //  C_PaySelectionCheck.C_PaySelection_ID
 			MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
 			types = lookup.getData(true, false, true, true);
@@ -132,6 +138,7 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 			filterTypes();
 			panelTypePay.setLayout(layout);
 			f_PayAmt = new VNumber();
+			f_PayAmt.setFont(font);
 			DefaultComboBoxModel typeModel = new DefaultComboBoxModel(types.toArray());
 			
 			tenderTypePick.setModel(typeModel);
@@ -148,14 +155,14 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 
 				public Component getListCellRendererComponent(JList list, Object value,
 						int index, boolean isSelected, boolean cellHasFocus) {
-					
+
 					JLabel renderer = (JLabel) defaultRenderer
 			        .getListCellRendererComponent(list, value, index, isSelected,
 			            cellHasFocus);
 					
 					renderer.setPreferredSize(new Dimension(50, 50));
 					renderer.setHorizontalAlignment(JLabel.CENTER);
-					
+					renderer.setFont(font);
 					return renderer;
 
 				}
@@ -167,14 +174,20 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 			
 			// Add Bank List
 			fCheckRouteNo = new PosTextField(Msg.translate(p_ctx, "RoutingNo"), p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
-			fCheckRouteNo.addFocusListener(this);
-			fCheckRouteNo.setForeground(Color.GRAY);
-			fCheckRouteNo.setText(Msg.translate(p_ctx, "RoutingNo"));
-			
-			fCheckdate = new CTextField("MM/DD/YYYY");
-			fCheckdate.addFocusListener(this);
-			fCheckdate.setName("MM/DD/YYYY");
-			fCheckdate.setForeground(Color.GRAY);
+			fCheckRouteNo.setPlaceholder(Msg.translate(p_ctx, "RoutingNo"));
+			fCheckRouteNo.setFont(font);
+			String langName = Env.getAD_Language(p_ctx);
+		//	log.info( "Language: " + langName);
+			Language language = Language.getLanguage(langName);
+			Language.setLoginLanguage(language);
+			//	Locales
+			Locale loc = language.getLocale();
+			Locale.setDefault(loc);
+			dateField.setFormat();
+//			fCheckdate = new CTextField("MM/DD/YYYY");
+//			fCheckdate.addFocusListener(this);
+//			fCheckdate.setName("MM/DD/YYYY");
+//			fCheckdate.setForeground(Color.GRAY);
 			//	lCheckNo = new CLabel(Msg.translate(p_ctx, "CheckNo"));
 
 			ValueNamePair[] banks = getBank();
@@ -183,13 +196,16 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 			
 			tenderTypePick.setPreferredSize(new Dimension(130, 30));
 			fCheckRouteNo.setPreferredSize(new Dimension(130, 30));
+			fCheckRouteNo.setFont(font);
 			bankList.setPreferredSize(new Dimension(130, 30));
-			fCheckdate.setPreferredSize(new Dimension(130, 30));
+//			fCheckdate.setPreferredSize(new Dimension(130, 30));
+			dateField.setPreferredSize(new Dimension(130, 30));
 			bank_Panel.add(fCheckRouteNo,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 			bank_Panel.add(bankList,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-			bank_Panel.add(fCheckdate,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+//			bank_Panel.add(fCheckdate,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+			bank_Panel.add(dateField,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 			bank_Panel.setVisible(true);
 			
@@ -225,9 +241,13 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 			}
 			
 			fCCardNo = new PosTextField(Msg.translate(p_ctx, "CreditCardNumber"),p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
+			fCCardNo.setPlaceholder(Msg.translate(p_ctx, "CreditCardNumber"));
 			fCCardName = new PosTextField(Msg.translate(p_ctx, "Name"), p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
+			fCCardName.setPlaceholder(Msg.translate(p_ctx, "Name"));
 			fCCardMonth = new PosTextField(Msg.translate(p_ctx, "Expires"),p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
+			fCCardMonth.setPlaceholder(Msg.translate(p_ctx, "Expires"));
 			fCCardVC = new PosTextField(Msg.translate(p_ctx, "CVC"), p_posBasePanel, p_MPOS.getOSK_KeyLayout_ID());
+			fCCardVC.setPlaceholder(Msg.translate(p_ctx, "CVC"));
 			
 			//add layout  of credit Target fields 
 			fCCardType.setPreferredSize(new Dimension(130, 30));
@@ -236,21 +256,21 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 			fCCardName.setPreferredSize(new Dimension(130, 30));
 			fCCardVC.setPreferredSize(new Dimension(130, 30));
 
-			fCCardNo.addFocusListener(this);
-			fCCardNo.setText(Msg.translate(p_ctx, "CreditCardNumber"));
-			fCCardNo.setForeground(Color.GRAY);
+//			fCCardNo.addFocusListener(this);
+//			fCCardNo.setText(Msg.translate(p_ctx, "CreditCardNumber"));
+//			fCCardNo.setForeground(Color.GRAY);
 			
-			fCCardMonth.addFocusListener(this);
-			fCCardMonth.setText(Msg.translate(p_ctx, "Expires"));
-			fCCardMonth.setForeground(Color.GRAY);
+//			fCCardMonth.addFocusListener(this);
+//			fCCardMonth.setText(Msg.translate(p_ctx, "Expires"));
+//			fCCardMonth.setForeground(Color.GRAY);
 			
-			fCCardName.addFocusListener(this);
-			fCCardName.setText(Msg.translate(p_ctx, "Name"));
-			fCCardName.setForeground(Color.GRAY);
+//			fCCardName.addFocusListener(this);
+//			fCCardName.setText(Msg.translate(p_ctx, "Name"));
+//			fCCardName.setForeground(Color.GRAY);
 			
-			fCCardVC.addFocusListener(this);
-			fCCardVC.setText(Msg.translate(p_ctx, "CVC"));
-			fCCardVC.setForeground(Color.GRAY);
+//			fCCardVC.addFocusListener(this);
+//			fCCardVC.setText(Msg.translate(p_ctx, "CVC"));
+//			fCCardVC.setForeground(Color.GRAY);
 			
 			Ccredit.add(fCCardType,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
@@ -273,6 +293,7 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 			
 			f_PayAmt.setPreferredSize(new Dimension(130, 30));
+			f_PayAmt.setValue(new Double(0.0));
 			panelTypePay.add(f_PayAmt,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 			
@@ -321,23 +342,24 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 		public boolean savePay(){
 			BigDecimal payAmt = new BigDecimal(f_PayAmt.getValue().toString());
 			
-			if(p_TenderType.equals(MPayment.TENDERTYPE_Cash))
+			if(p_TenderType.equals(MPayment.TENDERTYPE_Cash)
+					&& payAmt.compareTo(Env.ZERO) > 0)
 				addCash(payAmt);
 			else if(p_TenderType.equals(MPayment.TENDERTYPE_Check)) {
-			    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				String strDate = fCheckdate.getText();
-			    Timestamp dateTrx = null;
-			    
-				try{
-				    Date parsedDate = dateFormat.parse(strDate);
-				    dateTrx = new Timestamp(parsedDate.getTime());
-				}catch(Exception e){
-					e.printStackTrace(); 
-				}
+//			    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//				String strDate = fCheckdate.getText();
+//			    Timestamp dateTrx = null;
+//			    
+//				try{
+//				    Date parsedDate = dateFormat.parse(strDate);
+//				    dateTrx = new Timestamp(parsedDate.getTime());
+//				}catch(Exception e){
+//					e.printStackTrace(); 
+//				}
 
 				String bank_ID = String.valueOf(bankList.getValue());
 				String routeNo = fCheckRouteNo.getText();
-				addCheck(payAmt, routeNo, Integer.parseInt(bank_ID), dateTrx);
+				addCheck(payAmt, routeNo, Integer.parseInt(bank_ID), dateField.getTimestamp());
 			}
 			else if(p_TenderType.equals(MPayment.TENDERTYPE_CreditCard)){
 
@@ -409,5 +431,9 @@ public class VPaymentPanel extends Collect implements VetoableChangeListener, Ac
 			if(e.getComponent().getName().equals(fCheckdate.getName())){
 				placeHolder(e.getComponent());
 			}
+		}
+		
+		public String getTenderType() {
+			return p_TenderType;
 		}
 }

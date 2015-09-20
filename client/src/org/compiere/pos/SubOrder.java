@@ -30,24 +30,28 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFormattedTextField;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.adempiere.webui.component.Label;
 import org.compiere.apps.ADialog;
-import org.compiere.model.*;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerInfo;
+import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MCurrency;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPriceList;
+import org.compiere.model.MPriceListVersion;
+import org.compiere.model.MSequence;
+import org.compiere.model.MUser;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
-import org.compiere.swing.CLabel;
 import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -60,7 +64,7 @@ import org.compiere.util.Msg;
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright � Jorg Janke
  *         *Copyright � ConSerTi
- *  @author Mario Calderón, Systemhaus Westfalia
+ *  @author Mario Calderon, Systemhaus Westfalia
  *  @version $Id: SubOrder.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: SubOrder.java,v 2.0 2015/09/01 00:00:00 mar_cal_westf
  */
@@ -111,8 +115,8 @@ public class SubOrder extends PosSubPanel
 	private final String ACTION_LOGOUT      = "End";
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_PAYMENT     = "Payment";
-	private final String ACTION_NEXT  		= "Detail";
-	private final String ACTION_BACK       	= "Parent";
+	private final String ACTION_NEXT  		= "Next";
+	private final String ACTION_BACK       	= "Back";
 	
 	/**
 	 * 	Initialize
@@ -131,11 +135,6 @@ public class SubOrder extends PosSubPanel
 		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
 		add (f_bNew, buttonSize+",gapx 35");
 
-		// DOC NO
-		f_DocumentNo = new CTextField();
-		f_DocumentNo.setEditable(false);
-		f_DocumentNo.setName(MOrder.COLUMNNAME_DocumentNo);
-
 		// BPARTNER
 		f_bBPartner = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
 		add (f_bBPartner,buttonSize+",gapx 35" );
@@ -149,7 +148,7 @@ public class SubOrder extends PosSubPanel
 		f_history = createButtonAction(ACTION_HISTORY, null);
  		add (f_history, buttonSize+",gapx 35"); 
 		
- 		// 	PREPAYMENT
+ 		// 	BACK
  		f_Back = createButtonAction(ACTION_BACK, null);
  		add (f_Back, buttonSize+",gapx 35");
  		f_Back.setEnabled(true);
@@ -706,9 +705,10 @@ public class SubOrder extends PosSubPanel
 			{
   				p_posPanel.f_curLine.f_DocumentNo.setText(order.getDocumentNo());
   				
-  				// Button BPartner
+  				// Button BPartner: enable when drafted, and order has no lines
   				setC_BPartner_ID(order.getC_BPartner_ID());  				
-  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted))
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+  						order.getLines().length == 0 )
   					f_bBPartner.setEnabled(true);
   				else
   					f_bBPartner.setEnabled(false);
@@ -726,11 +726,13 @@ public class SubOrder extends PosSubPanel
   				f_history.setEnabled(true);  				
   				f_Cancel.setEnabled(true);
  				
-  				// Button Payment
+  				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
   				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
   				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
   				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
-  				    order.getC_Invoice_ID()<=0
+  				    	(order.getC_Invoice_ID()<=0  ||
+  				    	 !MInvoice.get(p_ctx, order.getC_Invoice_ID()).isPaid()
+  				    	 )
   				   )
   				  )
   					f_cashPayment.setEnabled(true);

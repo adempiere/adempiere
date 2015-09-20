@@ -14,61 +14,37 @@
 
 package org.compiere.pos;
 
-import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
-import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Vector;
 import java.util.logging.Level;
 
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.adempiere.webui.component.ListModelTable;
-import org.adempiere.webui.event.TableValueChangeEvent;
-import org.adempiere.webui.event.TableValueChangeListener;
-import org.apache.ecs.xhtml.ol;
 import org.compiere.apps.ADialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.I_C_POS;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.MPriceList;
 import org.compiere.model.MProduct;
-import org.compiere.model.MRole;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
-import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Util;
-import org.compiere.pos.BigDecimalEditor;
 
 /**
  * Current Line Sub Panel
@@ -171,9 +147,10 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		m_table.getColumn(4).setPreferredWidth(75);
 		m_table.getColumn(5).setPreferredWidth(75);
 		m_table.getColumn(6).setPreferredWidth(75);
-		m_table.setColumnClass(6, BigDecimal.class, false);
+		m_table.getColumn(7).setPreferredWidth(75);
+		m_table.setColumnClass(7, BigDecimal.class, false);
 		m_table.setFocusable(false);
-		m_table.getColumnModel().getColumn(6).setCellEditor(
+		m_table.getColumnModel().getColumn(7).setCellEditor(
 				new BigDecimalEditor());
 		m_table.getModel().addTableModelListener(this);
 		m_table.addKeyListener(new java.awt.event.KeyAdapter() {
