@@ -292,6 +292,10 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 				if(!isPrePaiment.isSelected() && balance.compareTo(Env.ZERO) > 0) {
 					FDialog.warn(0, Msg.getMsg(p_ctx, "POS.OrderPayNotCompleted"));
 					return;
+				} 
+				if(balance.compareTo(Env.ZERO) < 0){
+					FDialog.warn(0, Msg.getMsg(p_ctx, "POS.OrderPayNotCompletedAmtExceeded"));
+					return;
 				}
 				if(isCreditSale.isSelected()){
 					onCreditSale();
