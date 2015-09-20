@@ -48,7 +48,7 @@
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">53407</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">N</Data>
       </PO>
     </Step>
     <Step DBType="ALL" Parse="Y" SeqNo="15" StepType="SQL">
@@ -87,7 +87,7 @@
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="186" Column="IsMandatory">N</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
