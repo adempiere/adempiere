@@ -254,6 +254,14 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 			calculate();
 		} else if (e.getSource().equals(bProcess)) {
 			calculate();
+			if(!isPrePaiment.isSelected() && balance.compareTo(Env.ZERO) > 0) {
+				ADialog.warn(0, this, Msg.getMsg(p_ctx, "POS.OrderPayNotCompleted"));
+				return;
+			}
+			if(balance.compareTo(Env.ZERO) < 0){
+				ADialog.warn(0, this, Msg.getMsg(p_ctx, "POS.OrderPayNotCompletedAmtExceeded"));
+				return;
+			}
 			// Process Payment: first Process Order (if needed)
 			if (!p_order.isProcessed() && !p_posPanel.processOrder()) {
 				ADialog.warn(0, this, Msg.getMsg(p_ctx, "PosOrderProcessFailed")+" "+Msg.translate(p_ctx, p_order.getProcessMsg()));
@@ -269,10 +277,7 @@ public class PosPayment extends CDialog implements VetoableChangeListener,
 			return;
 		}
 		
-		if(!isPrePaiment.isSelected() && balance.compareTo(Env.ZERO) > 0) {
-			ADialog.warn(0, this, Msg.getMsg(p_ctx, "POS.OrderPayNotCompleted"));
-			return;
-		}
+		
 		if(isCreditSale.isSelected()){
 			onCreditSale();
 		}

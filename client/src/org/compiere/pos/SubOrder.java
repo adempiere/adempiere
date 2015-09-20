@@ -729,17 +729,8 @@ public class SubOrder extends PosSubPanel
   				f_history.setEnabled(true);  				
   				f_Cancel.setEnabled(true);
  				
-  				// Button Payment
-  				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
-  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
-  				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
-  				    order.getC_Invoice_ID()<=0
-  				   )
-  				  )
   					f_cashPayment.setEnabled(true);
-  				else 
-					f_cashPayment.setEnabled(false);
- 				
+  				
 			}
 			else
 			{
