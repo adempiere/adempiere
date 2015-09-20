@@ -56,6 +56,7 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MImage;
+import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPOSKey;
@@ -906,14 +907,42 @@ public class WSubOrder extends WPosSubPanel
 		{
 			MOrder order = p_posPanel.getM_Order();
 			if (order != null)
-			{
+			{			
   				f_DocumentNo.setText(order.getDocumentNo());
+  				
+  				// Button BPartner: enable when drafted, and order has no lines
   				setC_BPartner_ID(order.getC_BPartner_ID());
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+  						order.getLines().length == 0 )
+  					f_bBPartner.setEnabled(true);
+  				else
+  					f_bBPartner.setEnabled(false);
+  				
   				f_bNew.setEnabled(m_table.getRowCount() != 0);
-  				f_bCreditSale.setEnabled(m_table.getRowCount() != 0);
+  				
+  				// Button Credit Sale: enable when drafted, with lines and not invoiced
+  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+  						order.getLines().length != 0 && 
+  						order.getC_Invoice_ID()<=0)
+  					f_bCreditSale.setEnabled(true);
+  				else
+  					f_bCreditSale.setEnabled(false);
+  				
   				f_cancel.setEnabled(true);
   				f_history.setEnabled(m_table.getRowCount() != 0);
-  				f_cashPayment.setEnabled(m_table.getRowCount()!= 0);
+  				
+  				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
+  				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
+  	  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+  	  				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
+  	  				    	(order.getC_Invoice_ID()<=0  ||
+  	  				    	 !MInvoice.get(p_ctx, order.getC_Invoice_ID()).isPaid()
+  	  				    	 )
+  	  				   )
+  	  				  )
+  	  					f_cashPayment.setEnabled(true);
+  	  				else 
+  						f_cashPayment.setEnabled(false);
 			}
 			else
 			{
