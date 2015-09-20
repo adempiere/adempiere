@@ -27,6 +27,7 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentValidate;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -44,7 +45,7 @@ public class PaymentPanel extends Collect implements EventListener {
 
 	private Listbox tenderTypePick = ListboxFactory.newDropdownListbox();
 	private Listbox bankList = ListboxFactory.newDropdownListbox();
-	public  POSNumberBox fPayAmt;
+	public POSNumberBox fPayAmt;
 	private WPosTextField fCheckAccountNo;
 	private Textbox fCheckdate;
 	private WPosTextField fCheckRouteNo;
@@ -55,6 +56,7 @@ public class PaymentPanel extends Collect implements EventListener {
 	private WPosTextField fCCardVC;
 
 	private Label lCheckNo;
+	private Label lCheckAccountNo;
 	private Label lCheckRouteNo;
 	private Label lCCardNo;
 	private Label lCCardName;
@@ -62,6 +64,7 @@ public class PaymentPanel extends Collect implements EventListener {
 	private Label lCCardMonth;
 	private Label lCCardVC;
 	private int cont;
+	private int keyLayoutId;
 	private MPOS p_MPOS;
 	private Borderlayout mainLayout;
 	
@@ -80,6 +83,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		//	Instance POS
 		p_MPOS = MPOS.get(ctx, m_M_POS_ID);
 		p_posBasePanel = m_posBasePanel;
+		keyLayoutId = p_MPOS.getOSNP_KeyLayout_ID();
 	}
 	
 	public Panel cashPanel(){
@@ -105,8 +109,12 @@ public class PaymentPanel extends Collect implements EventListener {
 		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
 		ArrayList<Object> types = lookup.getData(true, false, true, true);
 		
+		AD_Column_ID = 8374; //C_Payment_v.TenderType
+		MLookup cardlookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
+		ArrayList<Object> cards = cardlookup.getData(true, false, true, true);
+		
 		// Add Bank List
-		ValueNamePair[] banks = p_posBasePanel.getBank();
+		ValueNamePair[] banks = getBank();
 		for(int i=0; i < banks.length; i++)
 			bankList.appendItem(banks[i].getName(),banks[i].getValue());
 				
@@ -164,7 +172,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		ArrayList<Object> cards = cardlookup.getData(true, false, true, true);
 		
 		// Add Bank List
-		ValueNamePair[] banks = p_posBasePanel.getBank();
+		ValueNamePair[] banks = getBank();
 		for(int i=0; i < banks.length; i++)
 			bankList.appendItem(banks[i].getName(),banks[i].getValue());
 				
@@ -192,6 +200,7 @@ public class PaymentPanel extends Collect implements EventListener {
 		row.appendChild(tenderTypePick);
 		
 
+		Label lPayAmt  = new Label(Msg.translate(p_ctx, "PayAmt"));
 		fPayAmt = new POSNumberBox(false);
 		row.appendChild(fPayAmt);
 		fPayAmt.setValue(new BigDecimal("0.0"));
@@ -265,6 +274,9 @@ public class PaymentPanel extends Collect implements EventListener {
 		return mainPanel;
 	}
 
+	public ValueNamePair[] getBank(){
+		return DB.getValueNamePairs("SELECT C_Bank_ID, Name FROM C_Bank", true, null);
+	}
 	public boolean savePay(){
 		BigDecimal payAmt = fPayAmt.getValue();
 		

@@ -17,11 +17,15 @@
 package org.compiere.pos;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.ProductNotOnPriceListException;
 import org.compiere.apps.ADialog;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
@@ -165,6 +169,22 @@ public class CPOS {
 		return m_today;
 	}	//	getToday
 	
+	/***
+	 * Get PayAmt 
+	 */
+	public BigDecimal getPayAmt(){
+		String sql ="SELECT Sum(PayAmt) FROM C_Order o"
+				+ " LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID"
+				+ " LEFT JOIN C_Payment p on p.c_invoice_ID = i.c_invoice_ID"
+				+ " WHERE"
+				+ " coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0 and"
+				+ " o.C_Order_ID = ?";
+		BigDecimal received = DB.getSQLValueBD(null, sql, m_CurrentOrder.getC_Order_ID());
+		if ( received == null )
+			received = Env.ZERO;
+
+		return received;
+	}
 	/**
 	 * 	New Order
 	 *   
@@ -258,7 +278,7 @@ public class CPOS {
 		// catch Exceptions at order.getLines()
 		int numLines = 0;
 		MOrderLine[] lines = null;
-		try {
+//		try {
 			lines = m_CurrentOrder.getLines(null, "Line");
 			numLines = lines.length;
 			for (int i = 0; i < numLines; i++) {
@@ -271,13 +291,13 @@ public class CPOS {
 					lines[i].setPrice(); //	sets List/limit
 					if ( PriceActual.compareTo(Env.ZERO) > 0 )
 						lines[i].setPrice(PriceActual);
-					lines[i].save();
+					lines[i].saveEx();
 					return lines[i];
 				}
 			}
-		} catch (Exception e) {
-			log.severe("Order lines cannot be created - " + e.getMessage());
-		}
+//		} catch (Exception e) {
+//			log.severe("Order lines cannot be created - " + e.getMessage());
+//		}
 
         //create new line
 		MOrderLine line = new MOrderLine(m_CurrentOrder);
@@ -287,7 +307,8 @@ public class CPOS {
 		line.setPrice(); //	sets List/limit
 		if ( PriceActual.compareTo(Env.ZERO) > 0 )
 			line.setPrice(PriceActual);
-		line.save();
+			line.saveEx();
+		
 		return line;
 			
 	} //	createLine
@@ -327,7 +348,7 @@ public class CPOS {
 				//	
 				m_CurrentOrder.getLines(true, null);		// requery order
 				
-				return m_CurrentOrder.delete(true); 
+				return m_CurrentOrder.voidIt(); 
 			}
 		return false;
 	} //	deleteOrder
@@ -365,7 +386,7 @@ public class CPOS {
 				if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
 					m_CurrentOrder.saveEx();
 				} else {
-					log.info( "Process Order FAILED");		
+					log.info( "Process Order FAILED "+m_CurrentOrder.getProcessMsg());		
 				}
 			} catch (Exception e) {
 				log.severe("Order can not be completed - " + e.getMessage());

@@ -13,6 +13,10 @@
  *****************************************************************************/
 package org.compiere.pos;
 
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
@@ -24,11 +28,12 @@ import javax.swing.text.DefaultFormatterFactory;
 
 /**
  * Formatted Text field with on-screen keyboard support
- * @author Paul Bowden
- * Adaxa Pty Ltd
+ * 
+ * @author Paul Bowden Adaxa Pty Ltd
  *
  */
-public class PosTextField extends JFormattedTextField implements MouseListener, FocusListener {
+public class PosTextField extends JFormattedTextField implements MouseListener,
+		FocusListener {
 	/**
 	 * 
 	 */
@@ -37,54 +42,61 @@ public class PosTextField extends JFormattedTextField implements MouseListener, 
 	VPOS pos = null;
 	int keyLayoutId = 0;
 	private String title;
-		
-	public PosTextField(String title, VPOS pos, final int posKeyLayout_ID, Format format ) {
+
+	public PosTextField(String title, VPOS pos, final int posKeyLayout_ID,
+			Format format) {
 		super(format);
-		
-		if ( posKeyLayout_ID > 0 )
+
+		if (posKeyLayout_ID > 0)
 			addMouseListener(this);
-		
+
 		keyLayoutId = posKeyLayout_ID;
 		this.pos = pos;
 		this.title = title;
-		
+
 	}
-	
-	public PosTextField(String title, VPOS pos, final int posKeyLayout_ID, AbstractFormatter formatter ) {
+
+	public PosTextField(String title, VPOS pos, final int posKeyLayout_ID,
+			AbstractFormatter formatter) {
 		super(formatter);
-		
-		if ( posKeyLayout_ID > 0 )
+
+		if (posKeyLayout_ID > 0)
 			addMouseListener(this);
-		
+
 		keyLayoutId = posKeyLayout_ID;
 		this.pos = pos;
 		this.title = title;
-		
+
 	}
-	
-	
+
 	public PosTextField(String title, VPOS pos, final int posKeyLayout_ID) {
 		super();
-		
-		if ( posKeyLayout_ID > 0 )
+
+		if (posKeyLayout_ID > 0)
 			addMouseListener(this);
-		
+
 		keyLayoutId = posKeyLayout_ID;
 		this.pos = pos;
 		this.title = title;
 		setName(title);
 	}
 
-	public void mouseReleased(MouseEvent arg0) {}
-	public void mousePressed(MouseEvent arg0) {}
-	public void mouseExited(MouseEvent arg0) {}
-	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseReleased(MouseEvent arg0) {
+	}
+
+	public void mousePressed(MouseEvent arg0) {
+	}
+
+	public void mouseExited(MouseEvent arg0) {
+	}
+
+	public void mouseEntered(MouseEvent arg0) {
+	}
 
 	public void mouseClicked(MouseEvent arg0) {
 
-		if ( isEnabled() && isEditable() )
-		{
-			POSKeyboard keyboard = pos.getKeyboard(keyLayoutId); 
+		if (isEnabled() && isEditable()) {
+			POSKeyboard keyboard = pos.getKeyboard(keyLayoutId);
 			keyboard.setTitle(title);
 			keyboard.setPosTextField(this);
 			keyboard.setVisible(true);
@@ -92,7 +104,38 @@ public class PosTextField extends JFormattedTextField implements MouseListener, 
 		}
 	}
 
-	public void focusGained(FocusEvent e) {}
+	public void focusGained(FocusEvent e) {
+	}
 
-	public void focusLost(FocusEvent e) {}
+	public void focusLost(FocusEvent e) {
+	}
+
+	private String placeholder = "";
+
+	public String getPlaceholder() {
+		return placeholder;
+	}
+	private Font font = new Font("Helvetica", Font.PLAIN, 18);
+
+	@Override
+	protected void paintComponent(final Graphics pG) {
+		super.paintComponent(pG);
+
+		if (placeholder.length() == 0 
+				|| getText().length() > 0) {
+			return;
+		}
+
+		final Graphics2D g = (Graphics2D) pG;
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setColor(getDisabledTextColor());
+		g.setFont(font);
+		g.drawString(placeholder, getMargin().left  ,(getSize().height)/2 + getFont().getSize()/2 );
+	}
+
+	public void setPlaceholder(final String s) {
+		placeholder = s;
+	}
+
 }
