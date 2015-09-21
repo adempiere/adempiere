@@ -331,7 +331,7 @@ public class CPOS {
 					if (numLines > 0)
 						for (int i = numLines - 1; i >= 0; i--) {
 							if (lines[i] != null)
-								deleteLine(lines[i].getC_Order_ID());
+								deleteLine(lines[i].getC_OrderLine_ID());
 						}
 				}
 				
@@ -348,7 +348,7 @@ public class CPOS {
 				//	
 				m_CurrentOrder.getLines(true, null);		// requery order
 				
-				return m_CurrentOrder.voidIt(); 
+				return cancelOrder(); 
 			}
 		return false;
 	} //	deleteOrder
@@ -571,13 +571,14 @@ public class CPOS {
 
 	/**
 	 * 	Call Order void process 
-	 *  Only if Order is "In Progress" or "Completed"
+	 *  Only if Order is "Drafted", "In Progress" or "Completed"
 	 * 
 	 *  @return true if order voided; false otherwise
 	 */
 	public boolean cancelOrder() {
-		if (!m_CurrentOrder.getDocStatus().equals(MOrder.STATUS_Completed) 
-				|| !m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress)) 
+		if (!(m_CurrentOrder.getDocStatus().equals(MOrder.STATUS_Drafted) 
+				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress)
+				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Completed))) 
 			return false;
 		
 		// Standard way of voiding an order
