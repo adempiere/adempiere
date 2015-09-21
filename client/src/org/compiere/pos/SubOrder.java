@@ -749,8 +749,16 @@ public class SubOrder extends PosSubPanel
   				
   			    // Next and Back Buttons:  enabled when lines existing or order is voided
   				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided)) {
-  					f_Next.setEnabled(true);
-  	  				f_Back.setEnabled(true);
+
+  					if(recordPosition==orderList.size()-1)
+  					    f_Next.setEnabled(false); // End of order list
+  					else
+  	  					f_Next.setEnabled(true);
+
+  					if(recordPosition==0)
+  						f_Back.setEnabled(false); // Begin of order list
+  					else
+  						f_Back.setEnabled(true);
   				}
   				else{
   					f_Next.setEnabled(false);
@@ -845,7 +853,7 @@ public class SubOrder extends PosSubPanel
 		}
 		catch(Exception e)
 		{
-			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+			log.severe("SubOrder.listOrder: " + e + " -> " + sql);
 		}
 	}
 }//	PosSubCustomer

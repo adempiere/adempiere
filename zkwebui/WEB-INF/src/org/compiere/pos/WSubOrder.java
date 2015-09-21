@@ -957,8 +957,16 @@ public class WSubOrder extends WPosSubPanel
   				
   			    // Next and Back Buttons:  enabled when lines existing or order is voided
   				if(m_table.getRowCount() != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided)) {
-  					f_Next.setEnabled(true);
-  	  				f_Back.setEnabled(true);
+
+  					if(recordposition==orderList.size()-1)
+  					    f_Next.setEnabled(false); // End of order list
+  					else
+  	  					f_Next.setEnabled(true);
+
+  					if(recordposition==0)
+  						f_Back.setEnabled(false); // Begin of order list
+  					else
+  						f_Back.setEnabled(true);
   				}
   				else{
   					f_Next.setEnabled(false);
