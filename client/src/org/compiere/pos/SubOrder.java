@@ -364,7 +364,6 @@ public class SubOrder extends PosSubPanel
 		}
 		
 		updateOrder();
-		// p_posPanel.newOrder();
 
 	} // deleteOrder
 
@@ -705,26 +704,35 @@ public class SubOrder extends PosSubPanel
 			{
   				p_posPanel.f_curLine.f_DocumentNo.setText(order.getDocumentNo());
   				
-  				// Button BPartner: enable when drafted, and order has no lines
+  				// Button BPartner: enable when order drafted, and order has no lines
   				setC_BPartner_ID(order.getC_BPartner_ID());  				
   				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
   						order.getLines().length == 0 )
   					f_bBPartner.setEnabled(true);
   				else
   					f_bBPartner.setEnabled(false);
+
+  				// Button New: enabled when lines existing or order is voided
+  				f_bNew.setEnabled(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided));
   				
-  				f_bNew.setEnabled(order.getLines().length != 0);
-  				
-  				// Button Credit Sale: enable when drafted, with lines and not invoiced
+  				// Button Credit Sale: enabled when drafted, with lines and not invoiced
   				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
   						order.getLines().length != 0 && 
   						order.getC_Invoice_ID()<=0)
   					f_bCreditSale.setEnabled(true);
   				else
   					f_bCreditSale.setEnabled(false);
-  				
-  				f_history.setEnabled(true);  				
-  				f_Cancel.setEnabled(true);
+
+  			    // History Button: enabled when lines existing or order is voided
+  				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
+  	  				f_history.setEnabled(true);  	
+  				else
+  					f_history.setEnabled(false);
+
+  				if(!order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))			
+  	  				f_Cancel.setEnabled(true);
+  				else
+  					f_Cancel.setEnabled(false);
  				
   				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
   				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
@@ -737,7 +745,17 @@ public class SubOrder extends PosSubPanel
   				  )
   					f_cashPayment.setEnabled(true);
   				else 
-					f_cashPayment.setEnabled(false);
+					f_cashPayment.setEnabled(false);	
+  				
+  			    // Next and Back Buttons:  enabled when lines existing or order is voided
+  				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided)) {
+  					f_Next.setEnabled(true);
+  	  				f_Back.setEnabled(true);
+  				}
+  				else{
+  					f_Next.setEnabled(false);
+  	  				f_Back.setEnabled(false);
+  				}
  				
 			}
 			else
