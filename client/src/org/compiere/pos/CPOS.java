@@ -17,16 +17,11 @@
 package org.compiere.pos;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import org.adempiere.exceptions.ProductNotOnPriceListException;
-import org.compiere.apps.ADialog;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MInvoice;
@@ -425,6 +420,16 @@ public class CPOS {
 	public BigDecimal getSubtotal() {
 		return m_CurrentOrder.getGrandTotal().subtract(getTaxAmt());
 	}
+	
+	/**
+	 * Get Grand Total from current Order
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return BigDecimal
+	 */
+	public BigDecimal getGrandTotal() {
+		return m_CurrentOrder.getGrandTotal();
+	}
 
 	/**
 	 * 	Gets Amount Paid from Order
@@ -599,5 +604,19 @@ public class CPOS {
 	 */
 	public Properties getCtx() {
 		return m_ctx;
+	}
+	
+	/**
+	 * Get POS Key Layout Identifier
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	public int getOSKeyLayout_ID() {
+		if(m_POS != null) {
+			return m_POS.getOSK_KeyLayout_ID();
+		}
+		//	Default Return
+		return 0;
 	}
 }

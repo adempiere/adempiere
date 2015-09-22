@@ -1,3 +1,16 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************/
 package org.compiere.pos;
 
 import java.awt.event.ActionEvent;
@@ -17,6 +30,11 @@ import org.compiere.util.Env;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 
+/**
+ * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Sep 21, 2015, 1:52:09 AM
+ * <li> Add Support to new POS Text Field
+ */
 public class PosLogin extends CDialog implements ActionListener {
 	
 	/**
@@ -24,8 +42,8 @@ public class PosLogin extends CDialog implements ActionListener {
 	 */
 	private static final long serialVersionUID = 8490567722808711399L;
 	private VPOS posPanel;
-	private PosTextField username;
-	private PosTextField pin;
+	private POSTextField username;
+	private POSTextField pin;
 	private CButton bProcess;
 
 	/**
@@ -46,14 +64,13 @@ public class PosLogin extends CDialog implements ActionListener {
 		
 		panel.add(new CLabel(Msg.translate(posPanel.getCtx(),"SalesRep_ID")));
 		
-		username = new PosTextField(Msg.translate(posPanel.getCtx(),"SalesRep_ID"),
-		posPanel, posPanel.getM_POS().getOSK_KeyLayout_ID());	
+		username = new POSTextField(Msg.translate(posPanel.getCtx(),"SalesRep_ID"), posPanel.getKeyboard());
 		
 		panel.add( username, "wrap");
 		
 		panel.add(new CLabel(Msg.translate(posPanel.getCtx(), "UserPIN")));
 		
-		pin = new PosTextField(Msg.translate(posPanel.getCtx(), "UserPIN"), posPanel, posPanel.getM_POS().getOSNP_KeyLayout_ID());
+		pin = new POSTextField(Msg.translate(posPanel.getCtx(), "UserPIN"), posPanel.getKeyboard());
 		
 		panel.add(pin, "");
 		

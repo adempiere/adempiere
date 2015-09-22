@@ -26,10 +26,8 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import net.miginfocom.swing.MigLayout;
@@ -37,18 +35,12 @@ import net.miginfocom.swing.MigLayout;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
-import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MLocator;
-import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
-import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.swing.CFrame;
-import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
-import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -264,6 +256,7 @@ public class VPOS extends CPOS implements FormPanel {
 		super.setOldOrder(m_c_order_id);
 		updateInfo();
 	}
+	
 	/**
 	 * Get Keyboard
 	 */
@@ -275,6 +268,16 @@ public class VPOS extends CPOS implements FormPanel {
 			keyboards.put(keyLayoutId, keyboard);
 			return keyboard;
 		}
+	}
+	
+	/**
+	 * Get POS Keyboard
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return POSKeyboard
+	 */
+	public POSKeyboard getKeyboard() {
+		return getKeyboard(getOSKeyLayout_ID());
 	}
 	
 	/**

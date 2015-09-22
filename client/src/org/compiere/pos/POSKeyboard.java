@@ -48,7 +48,7 @@ public class POSKeyboard extends CDialog implements ActionListener, PosKeyListen
 	 */
 	private static final long serialVersionUID = 3296839634889851637L;
 
-		private PosTextField field;
+		private POSTextField field;
 
 		private MPOSKeyLayout keylayout;
 
@@ -57,7 +57,7 @@ public class POSKeyboard extends CDialog implements ActionListener, PosKeyListen
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public POSKeyboard (CPanel posPanel, int C_POSKeyLayout_ID, PosTextField field, String title)
+	public POSKeyboard (CPanel posPanel, int C_POSKeyLayout_ID, POSTextField field, String title)
 	{
 		this(posPanel, C_POSKeyLayout_ID);
 		setTitle(title);
@@ -248,7 +248,7 @@ public class POSKeyboard extends CDialog implements ActionListener, PosKeyListen
 		}
 	}
 
-	public void setPosTextField(PosTextField posTextField) {
+	public void setPosTextField(POSTextField posTextField) {
 		
 		field = posTextField;
 		text.setFormatterFactory(field.getFormatterFactory());

@@ -59,10 +59,10 @@ public class QueryProduct extends PosQuery
 		super(posPanel);
 	}	//	PosQueryProduct
 	
-	private PosTextField		f_value;
-	private PosTextField		f_name;
-	private PosTextField		f_upc;
-	private PosTextField		f_sku;
+	private POSTextField		f_value;
+	private POSTextField		f_name;
+	private POSTextField		f_upc;
+	private POSTextField		f_sku;
 
 	private int				m_M_Product_ID;
 	private String			m_ProductName;
@@ -111,28 +111,28 @@ public class QueryProduct extends PosQuery
 		//
 		CLabel lvalue = new CLabel(Msg.translate(p_ctx, "Value"));
 		northPanel.add (lvalue, "growy");
-		f_value = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_value = new POSTextField("", p_posPanel.getKeyboard());
 		lvalue.setLabelFor(f_value);
 		northPanel.add(f_value,  "h 30, w 200");
 		f_value.addActionListener(this);
 		//
 		CLabel lupc = new CLabel(Msg.translate(p_ctx, "UPC"));
 		northPanel.add (lupc, "growy");
-		f_upc = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_upc = new POSTextField("", p_posPanel.getKeyboard());
 		lupc.setLabelFor(f_upc);
 		northPanel.add(f_upc,  "h 30, w 200, wrap");
 		f_upc.addActionListener(this);
 		//
 		CLabel lname = new CLabel(Msg.translate(p_ctx, "Name"));
 		northPanel.add (lname, "growy");
-		f_name = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_name = new POSTextField("", p_posPanel.getKeyboard());
 		lname.setLabelFor(f_name);
 		northPanel.add(f_name,  "h 30, w 200");
 		f_name.addActionListener(this);
 		//
 		CLabel lsku = new CLabel(Msg.translate(p_ctx, "SKU"));
 		northPanel.add (lsku, "growy");
-		f_sku = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_sku = new POSTextField("", p_posPanel.getKeyboard());
 		lsku.setLabelFor(f_sku);
 		northPanel.add(f_sku,  "h 30, w 200");
 		f_sku.addActionListener(this);

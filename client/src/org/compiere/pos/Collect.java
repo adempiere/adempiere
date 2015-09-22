@@ -51,16 +51,29 @@ public class Collect {
 	 * @param trxName
 	 */
 	public Collect(Properties ctx, MOrder m_Order, int m_M_POS_ID) {
+		this(ctx, m_Order, MPOS.get(ctx, m_M_POS_ID));
+	}
+	
+	/**
+	 * 
+	 * *** Constructor ***
+	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Sep 20, 2015, 11:15:51 PM
+	 * @param ctx
+	 * @param m_Order
+	 * @param m_POS
+	 */
+	public Collect(Properties ctx, MOrder m_Order, MPOS m_POS) {
 		//	Instance Collects
 		m_Collects = new ArrayList<CollectDetail>();
 		//	Instance POS
-		m_POS = MPOS.get(ctx, m_M_POS_ID);
+		this.m_POS = m_POS;
 		//	Set Order
 		this.m_Order = m_Order;
 		this.m_C_BPartner_ID = m_Order.getC_BPartner_ID();
 		this.m_C_BankAccount_ID = m_POS.getC_BankAccount_ID();
 		this.m_DateTrx = m_Order.getDateOrdered();
 		this.trxName = m_Order.get_TrxName();
+
 	}
 	
 	/**	Transaction				*/
@@ -77,6 +90,42 @@ public class Collect {
 	private Timestamp			m_DateTrx;
 	/**	Collects				*/
 	private List<CollectDetail> m_Collects;
+	
+	/**
+	 * Add New Collect
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @param detail
+	 * @return void
+	 */
+	public void addCollect(CollectDetail detail) {
+		m_Collects.add(detail);
+	}
+	
+	/**
+	 * Remove a Collect  Detail
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @param detail
+	 * @return void
+	 */
+	public void removeCollect(CollectDetail detail) {
+		m_Collects.remove(detail);
+	}
+	
+	/**
+	 * Get Payment Amount
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return BigDecimal
+	 */
+	public BigDecimal getPayAmt() {
+		BigDecimal m_PayAmt = Env.ZERO;
+		//	Get from List
+		for(CollectDetail detail : m_Collects) {
+			m_PayAmt = m_PayAmt.add(detail.getPayAmt());
+		}
+		//	Default Return
+		return m_PayAmt;
+	}
 	
 	/**
 	 * Add Cash Collect

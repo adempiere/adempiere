@@ -71,7 +71,7 @@ public class QueryTicket extends PosQuery
 	}	//	PosQueryProduct
 
 	
-	private PosTextField	f_documentno;
+	private POSTextField	f_documentno;
 	private VDate			f_dateFrom;
 	private VDate			f_dateTo;
 
@@ -127,7 +127,7 @@ public class QueryTicket extends PosQuery
 		
 		CLabel ldoc = new CLabel(Msg.translate(p_ctx, DOCUMENTNO));
 		northPanel.add (ldoc, " growy");
-		f_documentno = new PosTextField("", p_posPanel, p_pos.get_ValueAsInt("OSK_KeyLayout_ID"));
+		f_documentno = new POSTextField("", p_posPanel.getKeyboard());
 		ldoc.setLabelFor(f_documentno);
 		northPanel.add(f_documentno, "h 30, w 200");
 		f_documentno.addActionListener(this);
