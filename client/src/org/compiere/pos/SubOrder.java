@@ -128,7 +128,6 @@ public class SubOrder extends PosSubPanel
 		setLayout(layout);
 		listOrder();
 		recordPosition = orderList.size()-1;
-		Font bigFont = AdempierePLAF.getFont_Field().deriveFont(16f);
 
 		String buttonSize = "w 50!, h 50!,";
 		// NEW
@@ -292,46 +291,14 @@ public class SubOrder extends PosSubPanel
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
 		if( p_posPanel.getM_Order() == null) {		
 			ADialog.warn(0, p_posPanel.f_curLine,  Msg.getMsg(p_ctx, "You must create an Order first"));
-		}
-		else
-		{
-			if ( PosPayment.pay(p_posPanel) )
-			{
+		} else {
+			VCollect collect = new VCollect(p_posPanel);
+			if (collect.showCollect()) {
 				printTicket();
 				p_posPanel.setOrder(0);
 			}
 		}	
 	}  // payOrder
-
-	/**
-	 * Execute order prepayment
-	 * If order is not processed, process it first.
-	 * If it is successful, proceed to pay and print ticket
-	 */
-//	private void prePayOrder() {
-//		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-//		if( p_posPanel.m_order == null) {		
-//			ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "You must create an Order first"));
-//		}
-//		else if(p_posPanel.m_order.getDocStatus().equals(MOrder.STATUS_Drafted) ) {
-//			if(p_posPanel.m_order.getLines().length == 0) 
-//				ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "Order must have lines"));
-//			else if ( PosPrePayment.pay(p_posPanel) ) {
-//				p_posPanel.setOrder(0);
-//			}
-//		}
-//		else if(p_posPanel.m_order.getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {
-//			if(!p_posPanel.m_order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard) ||
-//				p_posPanel.m_order.getC_Invoice_ID()>0) {
-//				ADialog.warn(0, p_posPanel,  Msg.getMsg(p_ctx, "It must be a not invoiced standard order"));
-//			}
-//			else { // OK -> proceed to prepayment
-//				if ( PosPrePayment.pay(p_posPanel) ) {
-//					p_posPanel.setOrder(0);
-//				}
-//			}	
-//		}				    
-//	}  // prePayOrder
 
 	/**
 	 * Execute deleting an order

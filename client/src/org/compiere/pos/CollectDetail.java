@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.compiere.model.X_C_Payment;
+import org.compiere.util.Env;
 
 /**
  * 
@@ -147,7 +148,7 @@ public class CollectDetail {
 	 * @param m_TenderType
 	 * @param m_PayAmt
 	 */
-	private CollectDetail(String m_TenderType, BigDecimal m_PayAmt) {
+	protected CollectDetail(String m_TenderType, BigDecimal m_PayAmt) {
 		this.m_TenderType = m_TenderType;
 		this.m_PayAmt = m_PayAmt;
 	}
@@ -222,6 +223,10 @@ public class CollectDetail {
 	 * @return the m_PayAmt
 	 */
 	public BigDecimal getPayAmt() {
+		if(m_PayAmt == null) {
+			return Env.ZERO;
+		}
+		//	Default Return
 		return m_PayAmt;
 	}
 

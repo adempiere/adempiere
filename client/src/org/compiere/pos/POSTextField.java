@@ -21,107 +21,125 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.Format;
 
 import javax.swing.JFormattedTextField;
-import javax.swing.text.DefaultFormatterFactory;
+
+import org.adempiere.plaf.AdempierePLAF;
 
 /**
  * Formatted Text field with on-screen keyboard support
  * 
  * @author Paul Bowden Adaxa Pty Ltd
- *
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * <li> Changes for generic use
  */
-public class PosTextField extends JFormattedTextField implements MouseListener,
-		FocusListener {
+public class POSTextField extends JFormattedTextField 
+		implements MouseListener, FocusListener {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2453719110038264481L;
-	private DefaultFormatterFactory formatFactory = new DefaultFormatterFactory();
-	VPOS pos = null;
-	int keyLayoutId = 0;
-	private String title;
+	private static final long serialVersionUID = -2643611240006156141L;
 
-	public PosTextField(String title, VPOS pos, final int posKeyLayout_ID,
-			Format format) {
-		super(format);
-
-		if (posKeyLayout_ID > 0)
-			addMouseListener(this);
-
-		keyLayoutId = posKeyLayout_ID;
-		this.pos = pos;
-		this.title = title;
-
-	}
-
-	public PosTextField(String title, VPOS pos, final int posKeyLayout_ID,
-			AbstractFormatter formatter) {
-		super(formatter);
-
-		if (posKeyLayout_ID > 0)
-			addMouseListener(this);
-
-		keyLayoutId = posKeyLayout_ID;
-		this.pos = pos;
-		this.title = title;
-
-	}
-
-	public PosTextField(String title, VPOS pos, final int posKeyLayout_ID) {
+	/**
+	 * Text field with keyboard
+	 * *** Constructor ***
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @param p_Title
+	 * @param p_Keyboard
+	 */
+	public POSTextField(String p_Title, POSKeyboard p_Keyboard) {
 		super();
-
-		if (posKeyLayout_ID > 0)
+		//	
+		m_Keyboard = p_Keyboard;
+		//	Valid and add Listener
+		if (p_Keyboard != null) {
 			addMouseListener(this);
-
-		keyLayoutId = posKeyLayout_ID;
-		this.pos = pos;
-		this.title = title;
-		setName(title);
+		}
+		//	Set Title
+		setName(p_Title);
 	}
-
+	
+	/**
+	 * Text field without keyboard
+	 * *** Constructor ***
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @param p_Title
+	 */
+	public POSTextField(String p_Title) {
+		this(p_Title, null);
+	}
+	
+	/**	Key Board				*/
+	private POSKeyboard 	m_Keyboard;
+	/**	Place Holder			*/
+	private String 			m_PlaceHolder;
+	/**	Default Font			*/
+	private Font 			m_Font = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 18);
+	
 	public void mouseReleased(MouseEvent arg0) {
+		//	Not yet implemented
 	}
 
 	public void mousePressed(MouseEvent arg0) {
+		//	Not yet implemented
 	}
 
 	public void mouseExited(MouseEvent arg0) {
+		//	Not yet implemented		
 	}
 
 	public void mouseEntered(MouseEvent arg0) {
+		//	Not yet implemented
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
-
-		if (isEnabled() && isEditable()) {
-			POSKeyboard keyboard = pos.getKeyboard(keyLayoutId);
-			keyboard.setTitle(title);
-			keyboard.setPosTextField(this);
-			keyboard.setVisible(true);
+		//	When the mouse is clicked
+		if (isEnabled() 
+				&& isEditable()
+				&& m_Keyboard != null) {
+			m_Keyboard.setTitle(getName());
+			m_Keyboard.setPosTextField(this);
+			m_Keyboard.setVisible(true);
 			fireActionPerformed();
 		}
 	}
 
 	public void focusGained(FocusEvent e) {
+		//	Not yet implemented
 	}
 
 	public void focusLost(FocusEvent e) {
+		//	Not yet implemented
 	}
 
-	private String placeholder = "";
-
+	/**
+	 * Get Place Holder
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return String
+	 */
 	public String getPlaceholder() {
-		return placeholder;
+		return m_PlaceHolder;
 	}
-	private Font font = new Font("Helvetica", Font.PLAIN, 18);
+	
+	/**
+	 * Set Place Holder
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @param p_PlaceHolder
+	 * @return void
+	 */
+	public void setPlaceholder(final String p_PlaceHolder) {
+		m_PlaceHolder = p_PlaceHolder;
+	}
 
 	@Override
 	protected void paintComponent(final Graphics pG) {
 		super.paintComponent(pG);
-
-		if (placeholder.length() == 0 
+		
+		//	Valid Null
+		if (m_PlaceHolder == null
+				|| m_PlaceHolder.length() == 0 
 				|| getText().length() > 0) {
 			return;
 		}
@@ -130,12 +148,7 @@ public class PosTextField extends JFormattedTextField implements MouseListener,
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(getDisabledTextColor());
-		g.setFont(font);
-		g.drawString(placeholder, getMargin().left  ,(getSize().height)/2 + getFont().getSize()/2 );
+		g.setFont(m_Font);
+		g.drawString(m_PlaceHolder, getMargin().left  ,(getSize().height)/2 + getFont().getSize()/2 );
 	}
-
-	public void setPlaceholder(final String s) {
-		placeholder = s;
-	}
-
 }

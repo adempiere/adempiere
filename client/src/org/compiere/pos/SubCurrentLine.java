@@ -75,7 +75,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 
 	private BigDecimal	 	f_price;
 	private BigDecimal		f_quantity;
-	public PosTextField		f_name;
+	public POSTextField		f_name;
 	public CLabel	 		f_net;
 	public CLabel 			f_tax;
 	public CLabel 			f_total;
@@ -215,7 +215,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		m_table.growScrollbars();
 		add (scroll, "growx, spanx, growy, pushy, h 100:30:");
 		
-		f_name = new PosTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), p_posPanel,p_pos.get_ValueAsInt("OSK_KeyLayout_ID"));
+		f_name = new POSTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), p_posPanel.getKeyboard());
 		f_name.setName("Name");
 		f_name.addActionListener(this);
 		f_name.addFocusListener(this);

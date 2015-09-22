@@ -67,11 +67,11 @@ public class QueryBPartner extends PosQuery
 		super(posPanel);
 	}	//	PosQueryBPartner
 	
-	private PosTextField		f_value;
-	private PosTextField		f_name;
-	private PosTextField		f_contact;
-	private PosTextField		f_email;
-	private PosTextField		f_phone;
+	private POSTextField		f_value;
+	private POSTextField		f_name;
+	private POSTextField		f_contact;
+	private POSTextField		f_email;
+	private POSTextField		f_phone;
 	private CTextField		f_city;
 
 	private int				m_C_BPartner_ID;
@@ -114,7 +114,7 @@ public class QueryBPartner extends PosQuery
 		
 		CLabel lvalue = new CLabel(Msg.translate(p_ctx, "Value"));
 		northPanel.add (lvalue, " growy");
-		f_value = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_value = new POSTextField("", p_posPanel.getKeyboard());
 		lvalue.setLabelFor(f_value);
 		northPanel.add(f_value, "h 30, w 200");
 		f_value.addActionListener(this);
@@ -122,7 +122,7 @@ public class QueryBPartner extends PosQuery
 		//
 		CLabel lcontact = new CLabel(Msg.translate(p_ctx, "Contact"));
 		northPanel.add (lcontact, " growy");
-		f_contact = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_contact = new POSTextField("", p_posPanel.getKeyboard());
 		lcontact.setLabelFor(f_contact);
 		northPanel.add(f_contact, "h 30, w 200");
 		f_contact.addActionListener(this);
@@ -130,7 +130,7 @@ public class QueryBPartner extends PosQuery
 		//
 		CLabel lphone = new CLabel(Msg.translate(p_ctx, "Phone"));
 		northPanel.add (lphone, " growy");
-		f_phone = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_phone = new POSTextField("", p_posPanel.getKeyboard());
 		lphone.setLabelFor(f_phone);
 		northPanel.add(f_phone, "h 30, w 200, wrap");
 		f_phone.addActionListener(this);
@@ -138,14 +138,14 @@ public class QueryBPartner extends PosQuery
 		//
 		CLabel lname = new CLabel(Msg.translate(p_ctx, "Name"));
 		northPanel.add (lname, " growy");
-		f_name = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_name = new POSTextField("", p_posPanel.getKeyboard());
 		lname.setLabelFor(f_name);
 		northPanel.add(f_name, "h 30, w 200");
 		f_name.addActionListener(this);
 		//
 		CLabel lemail = new CLabel(Msg.translate(p_ctx, "Email"));
 		northPanel.add (lemail, " growy");
-		f_email = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_email = new POSTextField("", p_posPanel.getKeyboard());
 		lemail.setLabelFor(f_email);
 		northPanel.add(f_email, "h 30, w 200");
 		f_email.addActionListener(this);
