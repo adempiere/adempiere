@@ -25,10 +25,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
-import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -40,7 +38,6 @@ import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
-import org.compiere.model.MCurrency;
 import org.compiere.model.X_C_Payment;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
@@ -48,6 +45,7 @@ import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -55,8 +53,7 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Aug 24, 2015, 10:17:04 PM
  *
  */
-public class VCollect extends Collect implements VetoableChangeListener,
-		ActionListener {
+public class VCollect extends Collect implements ActionListener {
 	
 	/**
 	 * From POS
@@ -68,6 +65,9 @@ public class VCollect extends Collect implements VetoableChangeListener,
 		super(posPanel.getCtx(), posPanel.getM_Order(), posPanel.getM_POS());
 		m_POSPanel = posPanel;
 		m_ctx = m_POSPanel.m_ctx;
+		collectRowNo = 0;
+		m_Balance = Env.ZERO;
+		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		init();
 	}
 
@@ -80,6 +80,7 @@ public class VCollect extends Collect implements VetoableChangeListener,
 		log.info("");
 		try {
 			jbInit();
+			refreshSummary();
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "", e);
 		}
@@ -116,14 +117,14 @@ public class VCollect extends Collect implements VetoableChangeListener,
 	/**	Generic Values		*/
 	private boolean 		isPaid;
 	private Properties 		m_ctx;
-	private int 			collectRowNo = 0;
-	private int 			precision;
-	private BigDecimal 		m_Balance = Env.ZERO;
+	private int 			collectRowNo;
+	private BigDecimal 		m_Balance;
+	private DecimalFormat	m_Format;
 	
 	/**	Log					*/
 	private CLogger 		log = CLogger.getCLogger(VCollect.class);
 	/**	Default Font		*/
-	private Font font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 18);
+	private Font 			font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 18);
 	/**	Default Width		*/
 	private final int		SUMMARY_FIELD_WIDTH 	= 200;
 	/**	Default Height		*/
@@ -157,7 +158,6 @@ public class VCollect extends Collect implements VetoableChangeListener,
 
 		// sizeFrame
 		v_Dialog.setPreferredSize(new Dimension(270, 400));
-		precision = MCurrency.getStdPrecision(m_ctx, m_POSPanel.m_CurrentOrder.getC_Currency_ID());
 		
 		// Add Grand Total
 		lGrandTotal = new CLabel(Msg.translate(m_ctx, "GrandTotal") + ":");
@@ -165,32 +165,19 @@ public class VCollect extends Collect implements VetoableChangeListener,
 		//	
 		fGrandTotal = new CLabel();
 		fGrandTotal.setFont(font);
-		v_ParameterPanel.add(lGrandTotal, new GridBagConstraints(1, 0, 1, 1, 0.0,0.0, 
-								GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		//	
 		fGrandTotal.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
 		
-		fGrandTotal.setText(m_POSPanel.getGrandTotal().toString());
-		
-		v_ParameterPanel.add(fGrandTotal, new GridBagConstraints(2, 0, 1, 1, 0.0,0.0, 
-								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		//	Add Payment Amount
 		lPayAmt = new CLabel(Msg.translate(m_ctx, "PayAmt") + ":");
 		lPayAmt.setFont(font);
 		//	
 		fPayAmt = new CLabel();
 		fPayAmt.setFont(font);
-		v_ParameterPanel.add(lPayAmt, new GridBagConstraints(1, 1, 1, 1, 0.0,	0.0, 
-								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
-		//	
 		fPayAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
-		v_ParameterPanel.add(fPayAmt, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, 
-								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		//	Add Line
 		fLine = new CLabel("________________");
 		fLine.setFont(font);
-		v_ParameterPanel.add(fLine, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, 
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		//	For Returned Amount
 		lReturnAmt = new CLabel(Msg.translate(m_ctx, "AmountReturned") + ":");
 		lReturnAmt.setFont(font);
@@ -198,22 +185,14 @@ public class VCollect extends Collect implements VetoableChangeListener,
 		fReturnAmt = new CLabel();
 		fReturnAmt.setFont(font);
 		fReturnAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
-		v_ParameterPanel.add(lReturnAmt, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
-								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
-		v_ParameterPanel.add(fReturnAmt, new GridBagConstraints(2, 3, 1, 1, 0.0,0.0, 
-								GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		
 		//	Add Is Pre-Payment
 		fIsPrePayment = new CCheckBox(Msg.translate(m_ctx, "IsPrePayment"));
 		fIsPrePayment.setFont(font);
-		v_ParameterPanel.add(fIsPrePayment, new GridBagConstraints(1, 4, 1, 1, 0.0,0.0, 
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
 		//	Add Is Credit Order
 		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "CreditSale"));
 		fIsCreditOrder.setFont(font);
-		v_ParameterPanel.add(fIsCreditOrder, new GridBagConstraints(2, 4, 1, 1, 0.0,0.0, 
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
 		//	Add Plus Button
 		bPlus = m_POSPanel.f_order.createButtonAction("Plus",
@@ -222,8 +201,35 @@ public class VCollect extends Collect implements VetoableChangeListener,
 		bOk = ConfirmPanel.createOKButton(true);
 		//	
 		//	
+		v_ParameterPanel.add(lGrandTotal, new GridBagConstraints(1, 0, 1, 1, 0.0,0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		
+		v_ParameterPanel.add(fGrandTotal, new GridBagConstraints(2, 0, 1, 1, 0.0,0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+		
+		v_ParameterPanel.add(lPayAmt, new GridBagConstraints(1, 1, 1, 1, 0.0,	0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+		
+		v_ParameterPanel.add(fPayAmt, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+
+		v_ParameterPanel.add(fLine, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		
+		v_ParameterPanel.add(lReturnAmt, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+		
+		v_ParameterPanel.add(fReturnAmt, new GridBagConstraints(2, 3, 1, 1, 0.0,0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+
+		v_ParameterPanel.add(fIsPrePayment, new GridBagConstraints(1, 4, 1, 1, 0.0,0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		
+		v_ParameterPanel.add(fIsCreditOrder, new GridBagConstraints(2, 4, 1, 1, 0.0,0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		
 		v_ParameterPanel.add(bPlus, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0,
-							GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,0, 5, 5), 0, 0));
+							GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 		
 		//	Add Fields to Main Panel
 		v_MainPanel.add(v_ParameterPanel, BorderLayout.NORTH);
@@ -244,12 +250,6 @@ public class VCollect extends Collect implements VetoableChangeListener,
 		//	Add to Dialog
 		v_Dialog.getContentPane().add(v_CommandPanel, BorderLayout.SOUTH);
 		v_Dialog.getContentPane().add(v_MainPanel, BorderLayout.CENTER);
-	}
-
-	@Override
-	public void vetoableChange(PropertyChangeEvent evt)
-			throws PropertyVetoException {
-		refreshSummary();
 	}
 
 	/**
@@ -307,7 +307,11 @@ public class VCollect extends Collect implements VetoableChangeListener,
 				fIsPrePayment.setSelected(false);
 			}
 			bPlus.setEnabled(!isChecked);
-			bOk.setEnabled(isChecked);
+			if(isChecked) {
+				bOk.setEnabled(isChecked);
+			} else {
+				bPlus.setEnabled(m_Balance.compareTo(Env.ZERO) == 0);
+			}
 		} else if(e.getSource().equals(fIsPrePayment)) {	//	For Pre-Payment Order Checked
 			if(fIsCreditOrder.isSelected()) {
 				fIsCreditOrder.setSelected(false);
@@ -370,14 +374,10 @@ public class VCollect extends Collect implements VetoableChangeListener,
 		BigDecimal m_PayAmt = getPayAmt();
 		//	
 		m_Balance = m_POSPanel.getGrandTotal().subtract(m_PayAmt);
-		//	
-		m_Balance.setScale(2,BigDecimal.ROUND_HALF_UP);
-		m_PayAmt = m_PayAmt.setScale(2,BigDecimal.ROUND_HALF_UP);
-		
-		m_POSPanel.m_CurrentOrder.getC_Currency_ID();
-		
-		fReturnAmt.setText(String.valueOf(m_Balance.setScale(precision,BigDecimal.ROUND_HALF_UP)));
-		fPayAmt.setText(String.valueOf(m_PayAmt.setScale(precision,BigDecimal.ROUND_HALF_UP)));
+		//	Change View
+		fGrandTotal.setText(m_Format.format(m_POSPanel.getGrandTotal()));
+		fPayAmt.setText(m_Format.format(m_PayAmt));
+		fReturnAmt.setText(m_Format.format(m_Balance));
 	}
 	
 	/**
