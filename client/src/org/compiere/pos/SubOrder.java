@@ -838,15 +838,12 @@ public class SubOrder extends PosSubPanel
 		{
 			sql=" SELECT o.C_Order_ID"
 					+ " FROM C_Order o"
-					+ " LEFT JOIN c_invoice i ON i.c_order_ID = o.c_order_ID"
+					+ " LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID"
 					+ " WHERE"
-					+ " (coalesce(invoiceopen(i.c_invoice_ID, 0), 0) > 0 OR o.docstatus IN ('DR', 'IP') ) AND "
-					+ " o.issotrx='Y' AND "
-					+ " o.ad_client_id=? "
-					+ " ORDER BY o.dateordered ASC, o.datepromised ASC";
+					+ " coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0"
+					+ " ORDER BY o.dateordered ASC";
 			
 			pstm= DB.prepareStatement(sql, null);
-			pstm.setInt (1, Env.getAD_Client_ID(Env.getCtx()));
 			rs = pstm.executeQuery();
 			int i = 0;
 			while(rs.next()){
