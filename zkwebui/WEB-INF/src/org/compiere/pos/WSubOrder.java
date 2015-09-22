@@ -920,18 +920,27 @@ public class WSubOrder extends WPosSubPanel
   				else
   					f_bBPartner.setEnabled(false);
   				
-  				f_bNew.setEnabled(m_table.getRowCount() != 0);
+  			    // Button New: enabled when lines existing or order is voided
+  				f_bNew.setEnabled(m_table.getRowCount() != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided));
   				
-  				// Button Credit Sale: enable when drafted, with lines and not invoiced
+  				// Button Credit Sale: enabled when drafted, with lines and not invoiced
   				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
   						order.getLines().length != 0 && 
   						order.getC_Invoice_ID()<=0)
   					f_bCreditSale.setEnabled(true);
   				else
   					f_bCreditSale.setEnabled(false);
-  				
-  				f_cancel.setEnabled(true);
-  				f_history.setEnabled(m_table.getRowCount() != 0);
+
+  				if(!order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))			
+  					f_cancel.setEnabled(true);
+  				else
+  					f_cancel.setEnabled(false);
+
+  			    // History Button: enabled when lines existing or order is voided
+  				if(m_table.getRowCount() != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
+  	  				f_history.setEnabled(true);  	
+  				else
+  					f_history.setEnabled(false);
   				
   				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
   				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
@@ -944,7 +953,25 @@ public class WSubOrder extends WPosSubPanel
   	  				  )
   	  					f_cashPayment.setEnabled(true);
   	  				else 
-  						f_cashPayment.setEnabled(false);
+  						f_cashPayment.setEnabled(false);	
+  				
+  			    // Next and Back Buttons:  enabled when lines existing or order is voided
+  				if(m_table.getRowCount() != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided)) {
+
+  					if(recordposition==orderList.size()-1)
+  					    f_Next.setEnabled(false); // End of order list
+  					else
+  	  					f_Next.setEnabled(true);
+
+  					if(recordposition==0)
+  						f_Back.setEnabled(false); // Begin of order list
+  					else
+  						f_Back.setEnabled(true);
+  				}
+  				else{
+  					f_Next.setEnabled(false);
+  	  				f_Back.setEnabled(false);
+  				}
 			}
 			else
 			{
@@ -1612,21 +1639,25 @@ public class WSubOrder extends WPosSubPanel
 		{
 			sql=" SELECT o.C_Order_ID"
 					+ " FROM C_Order o"
-					+ " LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID"
+					+ " LEFT JOIN c_invoice i ON i.c_order_ID = o.c_order_ID"
 					+ " WHERE"
-					+ " coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0"
-					+ " ORDER BY o.created Asc";
+					+ " (coalesce(invoiceopen(i.c_invoice_ID, 0), 0) > 0 OR o.docstatus IN ('DR', 'IP') ) AND "
+					+ " o.issotrx='Y' AND "
+					+ " o.ad_client_id=? "
+					+ " ORDER BY o.dateordered ASC, o.datepromised ASC";
 			
 			pstm= DB.prepareStatement(sql, null);
+			pstm.setInt (1, Env.getAD_Client_ID(Env.getCtx()));
 			rs = pstm.executeQuery();
 			int i = 0;
 			while(rs.next()){
 				orderList.add(rs.getInt(1));
+				
 			}
 		}
 		catch(Exception e)
 		{
-			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+			log.severe("WSubOrder.listOrder: " + e + " -> " + sql);
 		}
 	}
 	
