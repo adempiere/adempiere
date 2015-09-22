@@ -99,7 +99,7 @@ public class VCollectDetail extends CollectDetail
 	/**	Log					*/
 	private CLogger 		log = CLogger.getCLogger(VCollect.class);
 	/**	Default Width		*/
-	private final int		FIELD_WIDTH 	= 180;
+	private final int		FIELD_WIDTH 	= 170;
 	/**	Default Height		*/
 	private final int		FIELD_HEIGHT 	= 50;
 	
