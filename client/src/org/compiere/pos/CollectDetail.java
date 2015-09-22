@@ -14,6 +14,7 @@
 
 package org.compiere.pos;
 
+import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -512,5 +513,10 @@ public class CollectDetail {
 				+ m_A_EMail + ", m_A_Ident_DL=" + m_A_Ident_DL
 				+ ", m_A_Ident_SSN=" + m_A_Ident_SSN + ", m_RoutingNo="
 				+ m_RoutingNo + "]";
+	}
+
+	public void addKeyListener(KeyListener e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
