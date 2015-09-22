@@ -133,7 +133,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	public void init() {
 	
 		//	Content
-		setLayout(new MigLayout("fill, ins 0 0"));
+		setLayout(new MigLayout("fill, ins 10 10"));
 	
 		m_table = new PosTable();
 		CScrollPane scroll = new CScrollPane(m_table);
@@ -141,12 +141,12 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 				s_sqlWhere, false, "POS_OrderLine_v");
 //		m_table.getSelectionModel().addListSelectionListener(this);
 		m_table.setColumnVisibility(m_table.getColumn(0), false);
-		m_table.getColumn(1).setPreferredWidth(400);
-		m_table.getColumn(2).setPreferredWidth(75);
+		m_table.getColumn(1).setPreferredWidth(320);
+		m_table.getColumn(2).setPreferredWidth(65);
 		m_table.getColumn(3).setPreferredWidth(30);
 		m_table.getColumn(4).setPreferredWidth(75);
 		m_table.getColumn(5).setPreferredWidth(75);
-		m_table.getColumn(6).setPreferredWidth(75);
+		m_table.getColumn(6).setPreferredWidth(70);
 		m_table.getColumn(7).setPreferredWidth(75);
 		m_table.setColumnClass(7, BigDecimal.class, false);
 		m_table.setFocusable(false);
