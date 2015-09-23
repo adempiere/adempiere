@@ -354,7 +354,7 @@ public class VCollectDetail extends CollectDetail
 		//	Verify Event
 		if(e.getSource().equals(fPayAmt)){
 			setPayAmt((BigDecimal) fPayAmt.getValue());
-			v_Parent.refreshSummary();
+			v_Parent.refreshPanel();
 		}
 		else if(name.equals("TenderType")) {
 			String m_TenderType = ((String)(value != null? value: 0));
@@ -440,6 +440,6 @@ public class VCollectDetail extends CollectDetail
 	@Override
 	public void keyReleased(KeyEvent e) {
 		setPayAmt((BigDecimal) fPayAmt.getValue());
-		v_Parent.refreshSummary();
+		v_Parent.refreshPanel();
 	}
 }
