@@ -15,6 +15,7 @@ package org.compiere.pos;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.FlowLayout;
@@ -34,6 +35,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
+import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -48,6 +50,8 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 
 /**
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Aug 24, 2015, 10:17:04 PM
@@ -64,8 +68,8 @@ public class VCollect extends Collect
 	 */
 	public VCollect(VPOS posPanel) {
 		super(posPanel.getCtx(), posPanel.getM_Order(), posPanel.getM_POS());
-		m_POSPanel = posPanel;
-		m_ctx = m_POSPanel.m_ctx;
+		v_POSPanel = posPanel;
+		m_ctx = v_POSPanel.m_ctx;
 		collectRowNo = 0;
 		m_Balance = Env.ZERO;
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
@@ -88,7 +92,7 @@ public class VCollect extends Collect
 	} // init
 
 	/**	View Panel			*/
-	private VPOS 			m_POSPanel;
+	private VPOS 			v_POSPanel;
 	private CDialog 		v_Dialog;
 	private BorderLayout 	mainLayout;
 	private GridBagLayout 	parameterLayout;
@@ -139,7 +143,7 @@ public class VCollect extends Collect
 	 */
 	private void jbInit() throws Exception {
 		//	Instance Dialog
-		v_Dialog = new CDialog(Env.getWindow(m_POSPanel.getWindowNo()), Msg.translate(m_ctx, "Payment"), true);
+		v_Dialog = new CDialog(Env.getWindow(v_POSPanel.getWindowNo()), Msg.translate(m_ctx, "Payment"), true);
 		//
 		mainLayout = new BorderLayout();
 		parameterLayout = new GridBagLayout();
@@ -156,9 +160,6 @@ public class VCollect extends Collect
 		v_MainPanel.add(v_ScrollPanel);
 		v_ScrollPanel.getViewport().add(v_CenterPanel);
 		v_CommandPanel.setLayout(commandLayout);
-
-		// sizeFrame
-		v_Dialog.setPreferredSize(new Dimension(270, 400));
 		
 		// Add Grand Total
 		lGrandTotal = new CLabel(Msg.translate(m_ctx, "GrandTotal") + ":");
@@ -196,7 +197,7 @@ public class VCollect extends Collect
 		fIsCreditOrder.setFont(font);
 		
 		//	Add Plus Button
-		bPlus = m_POSPanel.f_order.createButtonAction("Plus",
+		bPlus = v_POSPanel.f_order.createButtonAction("Plus",
 				KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
 		bCancel = ConfirmPanel.createCancelButton(true);
 		bOk = ConfirmPanel.createOKButton(true);
@@ -230,7 +231,7 @@ public class VCollect extends Collect
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
 		v_ParameterPanel.add(bPlus, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0,
-							GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
+							GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 		
 		//	Add Fields to Main Panel
 		v_MainPanel.add(v_ParameterPanel, BorderLayout.NORTH);
@@ -278,6 +279,33 @@ public class VCollect extends Collect
 		collectRowNo++;
 	}
 
+	/**
+	 * Process Window
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return String
+	 */
+	public String saveData() {
+		try {
+			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			Trx.run(new TrxRunnable() {
+				public void run(String trxName) {
+					if(v_POSPanel.processOrder(trxName)) {
+						processPayment(trxName);
+					} else {
+						throw new POSaveFailedException(v_POSPanel.getProcessMsg());
+					}
+				}
+			});
+		} catch (Exception e) {
+			return e.getMessage();
+		} finally {
+			v_Dialog.setCursor(Cursor.getDefaultCursor());
+		}
+		//	Default
+		return null;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(bPlus)) {
@@ -286,11 +314,11 @@ public class VCollect extends Collect
 			//	Validate before process
 			String validResult = validatePanel();
 			if(validResult == null) {
-				validResult = processPayment();
+				validResult = saveData();
 			}
 			//	Show Dialog
 			if(validResult != null) {
-				ADialog.warn(0, v_Dialog, Msg.parseTranslation(m_ctx, validResult));
+				ADialog.warn(v_POSPanel.getWindowNo(), v_Dialog, Msg.parseTranslation(m_ctx, validResult));
 				return;
 			}
 			//	
@@ -330,7 +358,7 @@ public class VCollect extends Collect
 	 * @return boolean
 	 */
 	public boolean showCollect() {
-		v_Dialog.setMinimumSize(new Dimension(445, 580));
+		v_Dialog.setMinimumSize(new Dimension(500, 580));
 		v_Dialog.pack();
 		//	
 		AEnv.positionCenterScreen(v_Dialog);
@@ -345,7 +373,7 @@ public class VCollect extends Collect
 	 * @return POSKeyboard
 	 */
 	public POSKeyboard getKeyboard() {
-		return m_POSPanel.getKeyboard();
+		return v_POSPanel.getKeyboard();
 	}
 
 	@Override
@@ -353,10 +381,10 @@ public class VCollect extends Collect
 		//	Get from controller
 		BigDecimal m_PayAmt = getPayAmt();
 		//	
-		m_Balance = m_POSPanel.getGrandTotal().subtract(m_PayAmt);
+		m_Balance = v_POSPanel.getGrandTotal().subtract(m_PayAmt);
 		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
 		//	Change View
-		fGrandTotal.setText(m_Format.format(m_POSPanel.getGrandTotal()));
+		fGrandTotal.setText(m_Format.format(v_POSPanel.getGrandTotal()));
 		fPayAmt.setText(m_Format.format(m_PayAmt));
 		fReturnAmt.setText(m_Format.format(m_Balance));
 		//	
@@ -365,7 +393,7 @@ public class VCollect extends Collect
 
 	@Override
 	public String validatePanel() {
-		if(!m_POSPanel.hasOrder()) {	//	When is not created order
+		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			return "POS.MustCreateOrder";
 		} else if(fIsCreditOrder.isSelected()) {	//	For Credit Order
 			return null;
@@ -374,9 +402,8 @@ public class VCollect extends Collect
 			return "POS.OrderPayNotCompleted";
 		} else if(m_Balance.doubleValue() < 0) {
 			return "POS.OrderPayNotCompletedAmtExceeded";
-		} if (!m_POSPanel.processOrder()) {
-			return "@POS.OrderProcessFailed@ " + m_POSPanel.getProcessMsg();
 		}
+		//	
 		return null;
 	}
 

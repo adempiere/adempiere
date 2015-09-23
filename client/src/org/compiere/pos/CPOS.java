@@ -380,34 +380,38 @@ public class CPOS {
 	 * @return true if order processed; otherwise false
 	 * 
 	 */
-	public boolean processOrder() {		
+	public boolean processOrder(String trxName) {		
 		//Returning orderCompleted to check for order completeness
 		boolean orderCompleted = false;
 		// check if order completed OK
 		if (m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Drafted) 
 				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress) ) { 
 			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
-			try {
-				if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
-					m_CurrentOrder.saveEx();
-				} else {
-					log.info( "Process Order FAILED "+m_CurrentOrder.getProcessMsg());		
-				}
-			} catch (Exception e) {
-				log.severe("Order can not be completed - " + e.getMessage());
-			} finally { // When order failed convert it back to draft so it can be processed
-				if(m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Invalid) ) {
-					m_CurrentOrder.setDocStatus(DocAction.STATUS_Drafted);
-				} else if(m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Completed) ) {
-					orderCompleted = true;
-					log.info( "SubCheckout - processOrder OK");	 
-				} else {
-					log.info( "SubCheckout - processOrder - unrecognized DocStatus"); 
-				}					
-			} // try-finally
+			//	Replace
+			if(trxName == null) {
+				trxName = m_CurrentOrder.get_TrxName();
+			} else {
+				m_CurrentOrder.set_TrxName(trxName);
+			}
+			if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
+				m_CurrentOrder.saveEx();
+				orderCompleted = true;
+			} else {
+				log.info( "Process Order FAILED "+m_CurrentOrder.getProcessMsg());		
+			}
 		}
 		return orderCompleted;
 	}	// processOrder
+	
+	/**
+	 * Process Order Without transaction name
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return boolean
+	 */
+	public boolean processOrder() {
+		return processOrder(null);
+	}
 	
 	/**
 	 * Get Process Message
