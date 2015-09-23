@@ -23,6 +23,8 @@ import java.awt.MouseInfo;
 import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -41,6 +43,7 @@ import org.compiere.model.MWarehouse;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -59,7 +62,7 @@ public class VPOS extends CPOS implements FormPanel {
 	/** Order Panel					*/
 	protected SubOrder 						f_order;
 	/** Current Line				*/
-	protected SubCurrentLine 				f_curLine;
+	protected POSTotalPanel 				f_curLine;
 	/** Function Keys				*/
 	protected SubFunctionKeys 				f_functionKeys;
 	/**	Timer for logout			*/
@@ -70,7 +73,6 @@ public class VPOS extends CPOS implements FormPanel {
 	private KeyboardFocusManager 			originalKeyboardFocusManager;
 	/**	Key Boards					*/
 	private HashMap<Integer, POSKeyboard> 	keyboards = new HashMap<Integer, POSKeyboard>();
-	
 	
 	/**	Logger						*/
 	private CLogger							log = CLogger.getCLogger(getClass());
@@ -193,7 +195,7 @@ public class VPOS extends CPOS implements FormPanel {
 		f_order = new SubOrder(this);
 		m_MainPane.add(f_order, "split 2, flowy, growx, spany, spanx");
 		//
-		f_curLine = new SubCurrentLine(this);
+		f_curLine = new POSTotalPanel(this);
 		m_MainPane.add(f_curLine, "h 200, growx, growy, gaptop 30");
 		
 		f_functionKeys = new SubFunctionKeys(this);
@@ -243,7 +245,7 @@ public class VPOS extends CPOS implements FormPanel {
 	public void updateInfo() {
 		reload();
 		if ( f_curLine != null )
-			f_curLine.updateTable(getM_Order());
+			f_curLine.updateTable(getC_Order_ID());
 		if (f_order != null) {
 			f_order.updateOrder();
 		}
@@ -301,5 +303,23 @@ public class VPOS extends CPOS implements FormPanel {
 		f_order.setC_BPartner_ID(0);
 		f_curLine.newLine();
 		updateInfo();
+	}
+	
+	/**
+	 * Refresh Order Header
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
+	protected void refreshHeader() {
+		f_curLine.refresh();
+	}
+	
+	/**
+	 * Refresh Order Header
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
+	protected void refresh() {
+		refreshHeader();
 	}
 }

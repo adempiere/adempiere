@@ -22,6 +22,7 @@ import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 
 import javax.swing.event.ListSelectionEvent;
@@ -34,7 +35,6 @@ import net.miginfocom.swing.MigLayout;
 import org.compiere.apps.ADialog;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MWarehousePrice;
@@ -43,6 +43,7 @@ import org.compiere.swing.CLabel;
 import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -54,11 +55,13 @@ import org.compiere.util.Msg;
  *         *Copyright Jorg Janke
  * red1 - [2093355 ] Small bugs in OpenXpertya POS
  *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
+ *  
  */
-public class SubCurrentLine extends PosSubPanel implements ActionListener, FocusListener, ListSelectionListener,  TableModelListener {
+public class POSTotalPanel extends PosSubPanel implements ActionListener, FocusListener, ListSelectionListener,  TableModelListener {
 	/**
 	 * 
 	 */
@@ -69,8 +72,9 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	 * 
 	 * @param posPanel POS Panel
 	 */
-	public SubCurrentLine(VPOS posPanel) {
+	public POSTotalPanel(VPOS posPanel) {
 		super(posPanel);
+		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 	}
 
 	private BigDecimal	 	f_price;
@@ -81,7 +85,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	public CLabel 			f_total;
 	public CLabel		 	f_RepName;
 	public CLabel 			f_DocumentNo;
-	private int orderLineId = 0;
+	private int 			m_C_OrderLine_ID = 0;
 	
 
 	/**	The Product					*/
@@ -91,10 +95,13 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	private int 			m_M_Warehouse_ID;
 	/** PLV							*/
 	private int 			m_M_PriceList_Version_ID;
-	private MOrderLine 		oLine = null;
+	
+	/**	Format						*/
+	private DecimalFormat	m_Format;
+	
 	
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(SubCurrentLine.class);
+	private static CLogger log = CLogger.getCLogger(POSTotalPanel.class);
 	
 
 	/** The Table					*/
@@ -249,9 +256,9 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		//	Plus
 		if (action.equals("Plus"))
 		{
-			if ( orderLineId > 0 )
+			if ( m_C_OrderLine_ID > 0 )
 			{
-				MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+				MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
 				if ( line != null )
 				{
 					line.setQty(line.getQtyOrdered().add(Env.ONE));
@@ -264,9 +271,9 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		//	Minus
 		else if (action.equals("Minus"))
 		{
-			if ( orderLineId > 0 )
+			if ( m_C_OrderLine_ID > 0 )
 			{
-				MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+				MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
 				if ( line != null )
 				{
 					line.setQty(line.getQtyOrdered().subtract(Env.ONE));
@@ -284,7 +291,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 //			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
 //			qt.setVisible(true);
 			findProduct();
-			updateTable(p_posPanel.getM_Order());
+			updateTable(p_posPanel.getC_Order_ID());
 			int row = m_table.getSelectedRow();
 			if (row < 0) row = 0;
 			m_table.getSelectionModel().setSelectionInterval(row, row);
@@ -336,7 +343,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 					setQty(null);
 					setPrice(null);
 					
-					orderLineId = 0;
+					m_C_OrderLine_ID = 0;
 				}
 			}
 		}
@@ -345,17 +352,14 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 	
 	/**
 	 * 	Update Table
-	 *	@param order order
+	 *	@param p_C_Order_ID Order identifier
 	 */
-	public void updateTable (MOrder order)
+	public void updateTable (int p_C_Order_ID)
 	{
-		int C_Order_ID = 0;
-		if (order != null)
-			C_Order_ID = order.getC_Order_ID();
-		if (C_Order_ID == 0)
+		if (p_C_Order_ID == 0)
 		{
 			p_posPanel.f_curLine.m_table.loadTable(new PO[0]);
-			p_posPanel.f_order.setSums(null);
+			p_posPanel.refreshHeader();
 		}
 		
 		PreparedStatement pstmt = null;
@@ -363,7 +367,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		try
 		{
 			pstmt = DB.prepareStatement (m_sql, null);
-			pstmt.setInt (1, C_Order_ID);
+			pstmt.setInt (1, p_C_Order_ID);
 			rs = pstmt.executeQuery ();
 			m_table.loadTable(rs);
 		}
@@ -380,14 +384,14 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		for ( int i = 0; i < m_table.getRowCount(); i ++ )
 		{
 			IDColumn key = (IDColumn) m_table.getModel().getValueAt(i, 0);
-			if ( key != null && orderLineId > 0 && key.getRecord_ID() == orderLineId )
+			if ( key != null && m_C_OrderLine_ID > 0 && key.getRecord_ID() == m_C_OrderLine_ID )
 			{
 				m_table.getSelectionModel().setSelectionInterval(i, i);
 				break;
 			}
 		}
-		
-		p_posPanel.f_order.setSums(order);
+		//	Refresh
+		p_posPanel.refreshHeader();
 		
 	}	//	updateTable
 	
@@ -447,7 +451,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		setM_Product_ID(0);
 		setQty(Env.ONE);
 		setPrice(Env.ZERO);
-		orderLineId = 0;
+		m_C_OrderLine_ID = 0;
 		f_name.requestFocusInWindow();
 	} //	newLine
 
@@ -478,7 +482,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 				return false;
 		}
 		
-		orderLineId = line.getC_OrderLine_ID();
+		m_C_OrderLine_ID = line.getC_OrderLine_ID();
 		setM_Product_ID(0);
 		//
 		return true;
@@ -633,12 +637,12 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 			Object data = m_table.getModel().getValueAt(row, 0);
 			if ( data != null )	{
 				Integer id = (Integer) ((IDColumn)data).getRecord_ID();
-				orderLineId = id;
+				m_C_OrderLine_ID = id;
 				loadLine(id);
 			}
 		}
 
-		p_posPanel.f_order.setSums(p_posPanel.m_CurrentOrder);
+		p_posPanel.refreshHeader();
 		
 	}  // valueChanged
 
@@ -650,7 +654,6 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
 		log.fine("SubCurrentLine - loading line " + lineId);
 		MOrderLine ol = new MOrderLine(p_ctx, lineId, null);
 		if ( ol != null ) {
-			oLine = ol;
 			setPrice(ol.getPriceActual());
 			setQty(ol.getQtyOrdered());
 		}
@@ -665,14 +668,14 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
         if (id != -1) {	
     		IDColumn key = (IDColumn) m_table.getModel().getValueAt(id, 0);
     		
-    		if ( key != null &&  key.getRecord_ID() != orderLineId )
-    			orderLineId = key.getRecord_ID();
+    		if ( key != null &&  key.getRecord_ID() != m_C_OrderLine_ID )
+    			m_C_OrderLine_ID = key.getRecord_ID();
 			
     		BigDecimal price = new BigDecimal(m_table.getModel().getValueAt(id, 4).toString());
 			BigDecimal qty = new BigDecimal(m_table.getModel().getValueAt(id, 2).toString());
 			m_table.getModel().removeTableModelListener(this);
 			
-    			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+    			MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
     			if ( line != null ) {
     					line.setPrice(price);
     					line.setQty(qty);
@@ -688,11 +691,31 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener, Focus
     					}
     			}
     			p_posPanel.reload();
-    			p_posPanel.f_order.setSums(p_posPanel.m_CurrentOrder);
+    			p_posPanel.refresh();
     			m_table.getModel().addTableModelListener(this);
     			
     	}
        // ...// Do something with the data...
     }
-
+    
+    /**
+     * Refresh Values
+     * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+     * @return void
+     */
+	protected void refresh() {
+		if (!p_posPanel.hasOrder()) {
+			f_net.setText(m_Format.format(Env.ZERO));
+			f_total.setText(m_Format.format(Env.ZERO));
+			f_tax.setText(m_Format.format(Env.ZERO));
+		} else {
+			BigDecimal m_TotalLines = p_posPanel.getTotalLines();
+			BigDecimal m_GrandTotal = p_posPanel.getGrandTotal();
+			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
+			//	Set Values
+			f_net.setText(m_Format.format(m_TotalLines));
+			f_total.setText(m_Format.format(m_GrandTotal));
+			f_tax.setText(m_Format.format(m_TaxAmt));
+		}
+	}
 } //	PosSubCurrentLine

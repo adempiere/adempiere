@@ -406,26 +406,7 @@ public class SubOrder extends PosSubPanel
 			qt.setResults (results);
 			qt.setVisible(true);
 		}
-	}	//	findBPartner
-
-	/**
-	 * 	Process the order.
-	 * Usually, the action should be "complete".
-	 */
-	private void onCreditSale() {
-		if( p_posPanel.getM_Order() == null) {		
-			ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(),  Msg.getMsg(p_ctx, "You must create an Order first"));
-		} else {
-			if ( p_posPanel.getM_Order().getLines().length==0) {
-				ADialog.warn(p_posPanel.getWindowNo(), null, Msg.getMsg(p_ctx, "The Order does not contain lines"));
-			} else if ( !p_posPanel.getM_Order().isProcessed() 
-					&& !p_posPanel.processOrder()) {		
-				ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Error processing Credit sale"));
-			}
-		}
-		return;
-	} // onCreditSale
-	
+	}	//	findBPartner	
 	
 	/**
 	 * 	Set BPartner
@@ -751,33 +732,7 @@ public class SubOrder extends PosSubPanel
             m_out.write(data);
         } catch (IOException e) {
         }  
-	}	
-
-	/**
-	 * 	Set Sums from Table
-	 */
-	void setSums(MOrder order) {
-//		int noLines = p_posPanel.f_curLine.m_table.getRowCount();
-		if (order == null )
-		{
-			p_posPanel.f_curLine.f_net.setText(Env.ZERO.toString());
-			p_posPanel.f_curLine.f_total.setText(Env.ZERO.toString());
-			p_posPanel.f_curLine.f_tax.setText(Env.ZERO.toString());
-		}
-		else
-		{
-			// order.getMOrder().prepareIt();
-			p_posPanel.f_curLine.f_net.setText(order.getTotalLines().toString());
-			p_posPanel.f_curLine.f_total.setText(order.getGrandTotal().toString());
-			BigDecimal total = new BigDecimal(p_posPanel.f_curLine.f_total.getText());
-			BigDecimal totalNet = new BigDecimal(p_posPanel.f_curLine.f_net.getText());
-			
-			BigDecimal tax = total.subtract(totalNet);
-			p_posPanel.f_curLine.f_tax.setText(tax.toString());
-			p_posPanel.f_curLine.validate();
-			p_posPanel.f_curLine.repaint();
-		}
-	}	//	setSums
+	}
 	
 	/**
 	 * Get Data List Order

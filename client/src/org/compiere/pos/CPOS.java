@@ -96,6 +96,16 @@ public class CPOS {
 	}
 	
 	/**
+	 * Has Order
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return boolean
+	 */
+	public boolean hasOrder() {
+		return m_CurrentOrder != null;
+	}
+	
+	/**
 	 * Get POS Configuration
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
@@ -398,6 +408,16 @@ public class CPOS {
 		}
 		return orderCompleted;
 	}	// processOrder
+	
+	/**
+	 * Get Process Message
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return String
+	 */
+	public String getProcessMsg() {
+		return m_CurrentOrder.getProcessMsg();
+	}
 
 
 	/**
@@ -417,7 +437,7 @@ public class CPOS {
 	 * 	Gets Subtotal from Order
 	 * 
 	 */
-	public BigDecimal getSubtotal() {
+	public BigDecimal getTotalLines() {
 		return m_CurrentOrder.getGrandTotal().subtract(getTaxAmt());
 	}
 	
@@ -619,5 +639,15 @@ public class CPOS {
 		}
 		//	Default Return
 		return 0;
+	}
+	
+	/**
+	 * Get Order Identifier
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	protected int getC_Order_ID() {
+		return m_CurrentOrder.getC_Order_ID();
 	}
 }
