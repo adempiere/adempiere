@@ -156,7 +156,7 @@ public class CWindowToolbar extends FToolbar implements EventListener<Event>
 
     private void init()
     {
-    	ThemeUtils.addSclass("ad-cwindowtoolbar adwindow-toolbar", this);
+    	ThemeUtils.addSclass("ad-cwindowtoolbar", this);
 
         btnIgnore = createButton("Ignore", "Ignore", "Ignore");
         addSeparator();

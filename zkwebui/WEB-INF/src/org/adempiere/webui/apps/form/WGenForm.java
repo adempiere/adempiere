@@ -116,12 +116,11 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 			contentPane.appendChild(center);
 			center.appendChild(tabbedPane);
 			center.setHflex("true");
-center.setVflex("true");
+			center.setVflex("true");
 			South south = new South();
 			south.setStyle("border: none");
 			contentPane.appendChild(south);
 			south.appendChild(statusBar);
-			ThemeUtils.addSclass("status-border", statusBar);
 			south.setHeight("22px");			
 		}
 		catch(Exception ex)

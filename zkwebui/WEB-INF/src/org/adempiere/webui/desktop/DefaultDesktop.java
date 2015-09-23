@@ -119,7 +119,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
     	
     	
         layout = new Borderlayout();
-    	ThemeUtils.addSclass("desktop-layout", layout);
+    	ThemeUtils.addSclass("ad-defaultdesktop-layout", layout);
         if (parent != null)
         {
         	layout.setParent(parent);
@@ -202,7 +202,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
     
 	        	Panel panel = new Panel();
 	        	panel.setBorder("rounded");
-	        	ThemeUtils.addSclass("default-desktop-panel", panel);
+	        	ThemeUtils.addSclass("ad-defaultdesktop-layout-panel", panel);
 	        	panel.setTitle(dp.get_Translation(MDashboardContent.COLUMNNAME_Name));
 
 	        	String description = dp.getDescription();

@@ -135,7 +135,7 @@ public class StatusBarPanel extends Panel implements EventListener<Event>, IStat
         west.appendChild(statusLine);
         Vbox vbox = new Vbox();
         vbox.setPack("center");
-        ThemeUtils.addSclass("status", vbox);
+        ThemeUtils.addSclass("ad-statusbarpanel", vbox);
         vbox.appendChild(west);
         leftCell.appendChild(vbox);
 
@@ -150,13 +150,13 @@ public class StatusBarPanel extends Panel implements EventListener<Event>, IStat
         }
         east.appendChild(statusDB);
 
-        ThemeUtils.addSclass("status-db", statusDB);
+        ThemeUtils.addSclass("ad-statusbarpanel-db", statusDB);
         if (!embedded)
-        	ThemeUtils.addSclass("status-info", infoLine);
+        	ThemeUtils.addSclass("ad-statusbarpanel-info", infoLine);
         vbox = new Vbox();
         vbox.setAlign("stretch");
         vbox.setPack("center");
-        ThemeUtils.addSclass("status", vbox);
+        ThemeUtils.addSclass("ad-statusbarpanel", vbox);
         vbox.appendChild(east);
         rightCell.appendChild(vbox);
 

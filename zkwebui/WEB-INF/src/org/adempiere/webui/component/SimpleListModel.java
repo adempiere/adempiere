@@ -26,8 +26,6 @@ import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListitemRendererExt;
 import org.zkoss.zul.event.ListDataEvent;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 /**
  * 
  * @author Low Heng Sin

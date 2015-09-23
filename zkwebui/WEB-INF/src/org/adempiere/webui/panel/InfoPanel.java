@@ -404,7 +404,7 @@ public abstract class InfoPanel extends Window implements EventListener<Event>, 
 	
 	protected void init()
 	{
-		ThemeUtils.addSclass("info-panel", this);
+		ThemeUtils.addSclass("ad-infopanel", this);
 		if (isModal())
 		{
 			setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
@@ -415,7 +415,7 @@ public abstract class InfoPanel extends Window implements EventListener<Event>, 
     		setContentStyle("overflow: auto");
             setSizable(true);      
             setMaximizable(true);        
-    		ThemeUtils.addSclass("info-panel-modal", this);
+    		ThemeUtils.addSclass("ad-infopanel-modal", this);
 		}
 		else
 		{
@@ -424,7 +424,7 @@ public abstract class InfoPanel extends Window implements EventListener<Event>, 
 //			setWidth("100%");
 //			setHeight("100%");
 //			setStyle("position: absolute");
-    		ThemeUtils.addSclass("info-panel-embedded", this);
+    		ThemeUtils.addSclass("ad-infopanel-embedded", this);
 		}
 		
         confirmPanel = new ConfirmPanel(true, true, false, true, true, true);  // Elaine 2008/12/16

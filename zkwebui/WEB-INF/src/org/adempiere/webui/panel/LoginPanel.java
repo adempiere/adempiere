@@ -113,7 +113,7 @@ public class LoginPanel extends Window implements EventListener<Event>
         initComponents();
         init();
         this.setId("loginPanel");
-        ThemeUtils.addSclass("login-box", this);
+        ThemeUtils.addSclass("ad-loginpanel", this);
 
         AuFocus auf = new AuFocus(txtUserId);
         Clients.response(auf);
@@ -126,26 +126,26 @@ public class LoginPanel extends Window implements EventListener<Event>
     	//this.setContentSclass(ITheme.LOGIN_WINDOW_CLASS);
     	
     	Div div = new Div();
-    	ThemeUtils.addSclass("login-box-header",div);
+    	ThemeUtils.addSclass("ad-loginpanel-header",div);
     	Label label = new Label("Login");  // TODO - localization
-    	ThemeUtils.addSclass("login-box-header-text", label);
+    	ThemeUtils.addSclass("ad-loginpanel-header-text", label);
     	div.appendChild(label);
     	this.appendChild(div);
 
     	Table table = new Table();
     	table.setId("grdLogin");
-    	ThemeUtils.addSclass("login-box-body", table);
+    	ThemeUtils.addSclass("ad-loginpanel-body", table);
     	this.appendChild(table);
 
     	Tr tr = new Tr();
     	table.appendChild(tr);
     	Td td = new Td();
-    	ThemeUtils.addSclass("login-box-header-logo", td);
+    	ThemeUtils.addSclass("ad-loginpanel-header-logo", td);
     	tr.appendChild(td);
     	td.setDynamicProperty("colspan", "2");
     	Image image = new Image();
         image.setSrc(ThemeUtils.getLargeLogo());
-    	ThemeUtils.addSclass("login-box-header-logo",image);
+    	ThemeUtils.addSclass("ad-loginpanel-header-logo",image);
         td.appendChild(image);
 
         tr = new Tr();
@@ -199,11 +199,11 @@ public class LoginPanel extends Window implements EventListener<Event>
     	}
 
     	div = new Div();
-    	ThemeUtils.addSclass("login-box-footer", div);
+    	ThemeUtils.addSclass("ad-loginpanel-footer", div);
         ConfirmPanel pnlButtons = new ConfirmPanel(false);
         pnlButtons.addActionListener(this);
         
-        ThemeUtils.addSclass("login-box-footer-pnl", pnlButtons);
+        ThemeUtils.addSclass("ad-loginpanel-footer-pnl", pnlButtons);
         pnlButtons.getButton(ConfirmPanel.A_OK).setSclass("login-btn");
         div.appendChild(pnlButtons);
         this.appendChild(div);
@@ -263,23 +263,23 @@ public class LoginPanel extends Window implements EventListener<Event>
 
         txtUserId = new Textbox();
         txtUserId.setId("txtUserId");
-        txtUserId.setCols(25);
+        //txtUserId.setCols(25);
         txtUserId.setMaxlength(40);
-        txtUserId.setWidth("220px");
+        //txtUserId.setWidth("220px");
         txtUserId.addEventListener(Events.ON_CHANGE, this); // Elaine 2009/02/06
 
         txtPassword = new Textbox();
         txtPassword.setId("txtPassword");
         txtPassword.setType("password");
-        txtPassword.setCols(25);
-        txtPassword.setWidth("220px");
+        //txtPassword.setCols(25);
+        //txtPassword.setWidth("220px");
 
         lstLanguage = new Combobox();
         lstLanguage.setAutocomplete(true);
         lstLanguage.setAutodrop(true);
         lstLanguage.setId("lstLanguage");
         lstLanguage.addEventListener(Events.ON_SELECT, this);
-        lstLanguage.setWidth("220px");
+        //lstLanguage.setWidth("220px");
 
         // Update Language List
         lstLanguage.getItems().clear();

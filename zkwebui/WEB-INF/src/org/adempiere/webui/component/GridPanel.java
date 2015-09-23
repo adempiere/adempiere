@@ -203,6 +203,7 @@ private void init_components() {
 	this.appendChild(center);
 
 	south = new South();
+	ThemeUtils.addSclass("ad-gridpanel-south", south);
 	this.appendChild(south);
 }
 	/**

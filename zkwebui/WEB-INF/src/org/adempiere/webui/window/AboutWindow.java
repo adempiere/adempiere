@@ -85,8 +85,8 @@ public class AboutWindow extends Window implements EventListener<Event> {
 		this.setClosable(true);
 		this.setMaximizable(true);
 		this.setSizable(true);
-		this.setSclass("about-window");
-		this.setContentSclass("about-window-content");
+		this.setSclass("ad-about-window");
+		this.setContentSclass("ad-about-window-content");
 
 		this.addEventListener(Events.ON_SIZE, this);
 
@@ -374,7 +374,7 @@ public class AboutWindow extends Window implements EventListener<Event> {
 
 		Image image = new Image(ThemeUtils.getSmallLogo());
 		image.setParent(vbox);
-		image.setSclass("about-window-logo");
+		image.setSclass("ad-about-window-logo");
 
 		Text text = new Text(Adempiere.getSubtitle());
 		text.setParent(vbox);

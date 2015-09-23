@@ -59,17 +59,17 @@ public class Group extends org.zkoss.zul.Group {
 
 	public Group() {
 		super();
-		ThemeUtils.addSclass("adtab-grid-group", this);
+		ThemeUtils.addSclass("ad-group", this);
 	}
 	
 	public Group(String label) {
 		super(label);
-		ThemeUtils.addSclass("adtab-grid-group", this);
+		ThemeUtils.addSclass("ad-group", this);
 	}
 	
 	public <T> Group(String label, T value) {
 		super(label, value);
-		ThemeUtils.addSclass("adtab-grid-group", this);
+		ThemeUtils.addSclass("ad-group", this);
 	}
 
 	public String getLabel() {
@@ -141,22 +141,22 @@ public class Group extends org.zkoss.zul.Group {
 		
 		private void init()
 		{
-			ThemeUtils.addSclass("adtab-grid-group-header", this);
+			ThemeUtils.addSclass("ad-group-header", this);
 			
 			Div div = new Div();
-			ThemeUtils.addSclass("adtab-grid-group-header-body", div);
+			ThemeUtils.addSclass("ad-group-header-body", div);
 			appendChild(div);
 			
 			span = new Span();
 			div.appendChild(span);
 			span.addEventListener(Events.ON_CLICK, this);
-			ThemeUtils.addSclass("adtab-grid-group-header-button", span);
+			ThemeUtils.addSclass("ad-group-header-button", span);
 
 			lbl = new Label();
 			lbl.setStyle("cursor: pointer");
 			lbl.addEventListener(Events.ON_CLICK, this);
 			div.appendChild(lbl);
-			ThemeUtils.addSclass("adtab-grid-group-header-label", lbl);
+			ThemeUtils.addSclass("ad-group-header-label", lbl);
 		}
 		
 		public String getTitle() {

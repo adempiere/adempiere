@@ -104,14 +104,14 @@ public class ADWindowPanel extends AbstractADWindowPanel
         } else {
         	layout.setPage(page);
         }
-        ThemeUtils.addSclass("adwindow", layout);
+        ThemeUtils.addSclass("ad-adwindowpanel", layout);
 
         if (!isEmbedded())
         {
 	        North n = new North();
 	        n.setParent(layout);
 	        n.setCollapsible(false);
-	        ThemeUtils.addSclass("adwindow-toolbar-layout", n);
+	        ThemeUtils.addSclass("ad-adwindowpanel-toolbar-layout", n);
 	        //n.setHeight("30px");  // Moved to theme
 	        //toolbar.setHeight("30px");
 	        toolbar.setParent(n);
@@ -122,7 +122,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         layout.appendChild(s);
         s.setCollapsible(false);
         statusBar.setParent(s);
-        ThemeUtils.addSclass("adwindow-status", statusBar);
+        ThemeUtils.addSclass("ad-adwindowpanel-status", statusBar);
 
         if (!isEmbedded() && adTab.isUseExternalSelection())
         {	
@@ -135,7 +135,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     	        west.setAutoscroll(true);
     	        west.setHflex("true");
     	        west.setVflex("true");
-    	        ThemeUtils.addSclass("adwindow-nav adwindow-nav-left", west);
+    	        ThemeUtils.addSclass("ad-adwindowpanel-nav ad-adwindowpanel-nav-left", west);
     	       adTab.setTabplacement(IADTab.LEFT);
     	       adTab.getTabSelectionComponent().setParent(west);
 
@@ -153,7 +153,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 		        east.setAutoscroll(true);
 		        east.setHflex("true");
 		        east.setVflex("true");
-		        ThemeUtils.addSclass("adwindow-nav adwindow-nav-right", east);
+		        ThemeUtils.addSclass("ad-adwindowpanel-nav ad-adwindowpanel-nav-right", east);
 		        adTab.setTabplacement(IADTab.RIGHT);
 		        adTab.getTabSelectionComponent().setParent(east);
 
@@ -163,7 +163,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     	        	east.setCollapsible(true);
     	        }
         	}
-	        ThemeUtils.addSclass("adwindow-nav-content", (HtmlBasedComponent) adTab.getTabSelectionComponent());
+	        ThemeUtils.addSclass("ad-adwindowpanel-nav-content", (HtmlBasedComponent) adTab.getTabSelectionComponent());
         }
 
         contentArea = new Center();
@@ -171,7 +171,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         //contentArea.setAutoscroll(true);
         contentArea.setHflex("true");
         contentArea.setVflex("true");
-        ThemeUtils.addSclass("adwindow-content-area", contentArea);
+        ThemeUtils.addSclass("ad-adwindowpanel-content-area", contentArea);
         adTab.createPart(contentArea);
 
         if (parent instanceof Tabpanel) {

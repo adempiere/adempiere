@@ -366,7 +366,7 @@ public class GridTabRowRenderer implements RowRenderer<Object[]>, RowRendererExt
 			colIndex ++;
 
 			Div div = new Div();
-			ThemeUtils.addSclass("ad-grid-row-content", div);
+			ThemeUtils.addSclass("ad-gridtabrowrenderer", div);
 			org.zkoss.zul.Column column = (org.zkoss.zul.Column) columns.getChildren().get(colIndex);
 			if (column.isVisible()) {
 				Component component = getDisplayComponent(currentValues[i], gridField[i]);
