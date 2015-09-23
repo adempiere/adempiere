@@ -283,17 +283,10 @@ public class VCollect extends Collect
 		if (e.getSource().equals(bPlus)) {
 			addCollectType();
 		} else if (e.getSource().equals(bOk)) {
-			if(fIsCreditOrder.isSelected()) {	//	For Credit Order
-				onCreditSale();
-			} else if(!fIsPrePayment.isSelected() && m_Balance.compareTo(Env.ZERO) > 0) {	//	For Pre-Payment Order
-				ADialog.warn(0, v_Dialog, Msg.getMsg(m_ctx, "POS.OrderPayNotCompleted"));
-				return;
-			} else if(m_Balance.compareTo(Env.ZERO) < 0) {
-				ADialog.warn(0, v_Dialog, Msg.getMsg(m_ctx, "POS.OrderPayNotCompletedAmtExceeded"));
-				return;
-			} if (!m_POSPanel.processOrder()) {
-				ADialog.warn(0, v_Dialog, Msg.parseTranslation(m_ctx, "@POS.OrderProcessFailed@ " + m_POSPanel.getProcessMsg()));
-				return;
+			//	Validate before process
+			String validResult = validatePanel();
+			if(validResult != null){
+				ADialog.warn(0, v_Dialog, Msg.parseTranslation(m_ctx, validResult));
 			} else {
 				processPayment();
 			}
@@ -369,15 +362,26 @@ public class VCollect extends Collect
 		BigDecimal m_PayAmt = getPayAmt();
 		//	
 		m_Balance = m_POSPanel.getGrandTotal().subtract(m_PayAmt);
+		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
 		//	Change View
 		fGrandTotal.setText(m_Format.format(m_POSPanel.getGrandTotal()));
 		fPayAmt.setText(m_Format.format(m_PayAmt));
 		fReturnAmt.setText(m_Format.format(m_Balance));
+		//	
+		changeActionPanel();
 	}
 
 	@Override
 	public String validatePanel() {
-		// TODO Auto-generated method stub
+		if(fIsCreditOrder.isSelected()) {	//	For Credit Order
+			onCreditSale();
+		} else if(!fIsPrePayment.isSelected() && m_Balance.compareTo(Env.ZERO) > 0) {	//	For Pre-Payment Order
+			return "POS.OrderPayNotCompleted";
+		} else if(m_Balance.compareTo(Env.ZERO) < 0) {
+			return "POS.OrderPayNotCompletedAmtExceeded";
+		} if (!m_POSPanel.processOrder()) {
+			return "@POS.OrderProcessFailed@ " + m_POSPanel.getProcessMsg();
+		}
 		return null;
 	}
 
@@ -392,7 +396,7 @@ public class VCollect extends Collect
 			} else {
 				bPlus.setEnabled(false);
 			}
-		} else if(m_Balance.compareTo(Env.ZERO) == 0) {
+		} else if(m_Balance.doubleValue() == 0) {
 			bOk.setEnabled(true);
 		} else {
 			bOk.setEnabled(false);
