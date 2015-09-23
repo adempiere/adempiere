@@ -53,7 +53,8 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Aug 24, 2015, 10:17:04 PM
  *
  */
-public class VCollect extends Collect implements ActionListener {
+public class VCollect extends Collect 
+		implements ActionListener, I_POSPanel {
 	
 	/**
 	 * From POS
@@ -80,7 +81,7 @@ public class VCollect extends Collect implements ActionListener {
 		log.info("");
 		try {
 			jbInit();
-			refreshSummary();
+			refreshPanel();
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "", e);
 		}
@@ -309,7 +310,7 @@ public class VCollect extends Collect implements ActionListener {
 			//	
 		}
 		//	Valid Panel
-		changePanelAction();
+		changeActionPanel();
 	}
 
 	/**
@@ -351,13 +352,19 @@ public class VCollect extends Collect implements ActionListener {
 		v_Dialog.setVisible(true);
 		return isPaid;
 	}
-
+	
 	/**
-	 * Refresh Summary
+	 * Get Keyboard
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return void
+	 * @return
+	 * @return POSKeyboard
 	 */
-	protected void refreshSummary() {
+	public POSKeyboard getKeyboard() {
+		return m_POSPanel.getKeyboard();
+	}
+
+	@Override
+	public void refreshPanel() {
 		//	Get from controller
 		BigDecimal m_PayAmt = getPayAmt();
 		//	
@@ -367,13 +374,15 @@ public class VCollect extends Collect implements ActionListener {
 		fPayAmt.setText(m_Format.format(m_PayAmt));
 		fReturnAmt.setText(m_Format.format(m_Balance));
 	}
-	
-	/**
-	 * Validate Panel for correct collect
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return void
-	 */
-	protected void changePanelAction() {
+
+	@Override
+	public String validatePanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void changeActionPanel() {
 		if(fIsCreditOrder.isSelected()) {
 			fIsPrePayment.setSelected(false);
 			bPlus.setEnabled(true);
@@ -384,19 +393,9 @@ public class VCollect extends Collect implements ActionListener {
 				bPlus.setEnabled(false);
 			}
 		} else if(m_Balance.compareTo(Env.ZERO) == 0) {
-			bPlus.setEnabled(true);
+			bOk.setEnabled(true);
 		} else {
-			bPlus.setEnabled(false);
+			bOk.setEnabled(false);
 		}
-	}
-	
-	/**
-	 * Get Keyboard
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
-	 * @return POSKeyboard
-	 */
-	public POSKeyboard getKeyboard() {
-		return m_POSPanel.getKeyboard();
 	}
 }
