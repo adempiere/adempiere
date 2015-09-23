@@ -285,10 +285,13 @@ public class VCollect extends Collect
 		} else if (e.getSource().equals(bOk)) {
 			//	Validate before process
 			String validResult = validatePanel();
-			if(validResult != null){
+			if(validResult == null) {
+				validResult = processPayment();
+			}
+			//	Show Dialog
+			if(validResult != null) {
 				ADialog.warn(0, v_Dialog, Msg.parseTranslation(m_ctx, validResult));
-			} else {
-				processPayment();
+				return;
 			}
 			//	
 			v_Dialog.dispose();
@@ -319,17 +322,6 @@ public class VCollect extends Collect
 		v_ScrollPanel.validate();
 		v_ScrollPanel.repaint();
 	}
-	
-	/**
-	 * 	Process the order.
-	 * Usually, the action should be "complete".
-	 */
-	private void onCreditSale() {
-		if(!m_POSPanel.hasOrder()) {		
-			ADialog.warn(0, v_Dialog,  Msg.getMsg(m_ctx, "You must create an Order first"));	//	TODO translate it
-		}
-		return;
-	} // onCreditSale
 	
 	/**
 	 * Show Collect
@@ -373,11 +365,14 @@ public class VCollect extends Collect
 
 	@Override
 	public String validatePanel() {
-		if(fIsCreditOrder.isSelected()) {	//	For Credit Order
-			onCreditSale();
-		} else if(!fIsPrePayment.isSelected() && m_Balance.compareTo(Env.ZERO) > 0) {	//	For Pre-Payment Order
+		if(!m_POSPanel.hasOrder()) {	//	When is not created order
+			return "POS.MustCreateOrder";
+		} else if(fIsCreditOrder.isSelected()) {	//	For Credit Order
+			return null;
+		} else if(!fIsPrePayment.isSelected() 
+				&& m_Balance.doubleValue() > 0) {	//	For Pre-Payment Order
 			return "POS.OrderPayNotCompleted";
-		} else if(m_Balance.compareTo(Env.ZERO) < 0) {
+		} else if(m_Balance.doubleValue() < 0) {
 			return "POS.OrderPayNotCompletedAmtExceeded";
 		} if (!m_POSPanel.processOrder()) {
 			return "@POS.OrderProcessFailed@ " + m_POSPanel.getProcessMsg();
@@ -391,10 +386,10 @@ public class VCollect extends Collect
 			fIsPrePayment.setSelected(false);
 			bPlus.setEnabled(true);
 		} else if(fIsPrePayment.isSelected()) {
-			if(m_Balance.compareTo(Env.ZERO) > 0) {
-				bPlus.setEnabled(true);
+			if(m_Balance.doubleValue() > 0) {
+				bOk.setEnabled(true);
 			} else {
-				bPlus.setEnabled(false);
+				bOk.setEnabled(false);
 			}
 		} else if(m_Balance.doubleValue() == 0) {
 			bOk.setEnabled(true);

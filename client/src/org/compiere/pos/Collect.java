@@ -364,7 +364,8 @@ public class Collect {
 	 * Processes different kinds of payment types
 	 * 
 	 */
-	public void processPayment() {
+	public String processPayment() {
+		String error = null;
 		try {
 			for(CollectDetail m_Collect : m_Collects) {
 				if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
@@ -373,7 +374,6 @@ public class Collect {
 				} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {
 					payCheck(m_Collect.getPayAmt(), null, null, m_Collect.getReferenceNo());
 				} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {
-					String error = null;
 					error = MPaymentValidate.validateCreditCardExp(m_Collect.getCreditCardExpMM());
 					if(error != null && !error.isEmpty()) {
 						throw new AdempierePOSException(error);
@@ -385,7 +385,7 @@ public class Collect {
 					if(error != null && !error.isEmpty()) {
 						throw new AdempierePOSException(error);
 					}
-					//	PAy from Credit Card
+					//	Pay from Credit Card
 					payCreditCard(m_Collect.getPayAmt(), m_Collect.getA_Name(),
 							month, year, m_Collect.getCreditCardNumber(), m_Collect.getCreditCardVV(), m_Collect.getCreditCardType());
 				} 
@@ -399,8 +399,10 @@ public class Collect {
 				}
 			}
 		} catch (Exception e ) {
-			throw new AdempierePOSException("Payment processing failed : " + e.getMessage());
+			error = e.getMessage();
 		}
+		//	Error
+		return error;
 	}  // processPayment
 	
 

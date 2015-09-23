@@ -100,6 +100,8 @@ public class VCollectDetail extends CollectDetail
 	private CLogger 		log = CLogger.getCLogger(VCollect.class);
 	/**	Default Width		*/
 	private final int		FIELD_WIDTH 	= 170;
+	/**	Default Width		*/
+	private final int		CC_FIELD_WIDTH 	= 85;
 	/**	Default Height		*/
 	private final int		FIELD_HEIGHT 	= 50;
 	
@@ -274,13 +276,13 @@ public class VCollectDetail extends CollectDetail
 		String m_CreditCardExpMM = Msg.translate(p_ctx, "CreditCardExpMM");
 		fCreditCardExpMM = new POSTextField(m_CreditCardExpMM, v_Parent.getKeyboard());
 		fCreditCardExpMM.setPlaceholder(m_CreditCardExpMM);
-		fCreditCardExpMM.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
+		fCreditCardExpMM.setPreferredSize(new Dimension(CC_FIELD_WIDTH, FIELD_HEIGHT));
 		fCreditCardExpMM.setFont(font);
 		//	For Card Year
 		String m_CreditCardExpYY = Msg.translate(p_ctx, "CreditCardExpYY");
 		fCreditCardExpYY = new POSTextField(m_CreditCardExpYY, v_Parent.getKeyboard());
 		fCreditCardExpYY.setPlaceholder(m_CreditCardExpYY);
-		fCreditCardExpYY.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
+		fCreditCardExpYY.setPreferredSize(new Dimension(CC_FIELD_WIDTH, FIELD_HEIGHT));
 		fCreditCardExpYY.setFont(font);
 		//	For Card VV
 		String m_CreditCardVV = Msg.translate(p_ctx, "CreditCardVV");
@@ -298,9 +300,9 @@ public class VCollectDetail extends CollectDetail
 		v_CreditPanel.add(fCreditCardVV,  new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));	
 		v_CreditPanel.add(fCreditCardExpMM,  new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.NORTH, new Insets(1, 0, 5, 5), 0, 0));
 		v_CreditPanel.add(fCreditCardExpYY,  new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(1, 0, 5, 5), 0, 0));
 		//	Default visible false
 		v_CreditPanel.setVisible(false);
 	}
