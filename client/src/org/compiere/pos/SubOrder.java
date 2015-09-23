@@ -102,7 +102,6 @@ public class SubOrder extends PosSubPanel
 	/**	Price List Version to use	*/
 	private int					m_M_PriceList_Version_ID = 0;
 	private CTextField 			f_currency = new CTextField();
-	private CButton 			f_bCreditSale;
 	private int 				recordPosition;
 	private ArrayList<Integer>	orderList;
 	/**	Logger			*/
@@ -110,13 +109,12 @@ public class SubOrder extends PosSubPanel
 
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_CANCEL      = "Cancel";
-	private final String ACTION_CREDITSALE  = "Credit Sale";
 	private final String ACTION_HISTORY     = "History";
 	private final String ACTION_LOGOUT      = "End";
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_PAYMENT     = "Payment";
 	private final String ACTION_NEXT  		= "Next";
-	private final String ACTION_BACK       	= "Back";
+	private final String ACTION_BACK       	= "Previous";
 	
 	/**
 	 * 	Initialize
@@ -124,7 +122,7 @@ public class SubOrder extends PosSubPanel
 	public void init()
 	{
 		//	Content
-		MigLayout layout = new MigLayout("ins 0 0","[fill|fill|fill|fill]","[nogrid]unrel[||]");
+		MigLayout layout = new MigLayout("ins 20 20","[fill|fill|fill|fill]","[nogrid]unrel[||]");
 		setLayout(layout);
 		listOrder();
 		recordPosition = orderList.size()-1;
@@ -137,11 +135,6 @@ public class SubOrder extends PosSubPanel
 		// BPARTNER
 		f_bBPartner = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
 		add (f_bBPartner,buttonSize+",gapx 35" );
-		
-		// CREDIT SALE
-		f_bCreditSale = createButtonAction(ACTION_CREDITSALE, null);
-		add(f_bCreditSale, buttonSize+",gapx 35");
- 		f_bCreditSale.setEnabled(false);
 		
 		// HISTORY
 		f_history = createButtonAction(ACTION_HISTORY, null);
@@ -245,9 +238,6 @@ public class SubOrder extends PosSubPanel
 		//	Name
 		else if (e.getSource() == f_name)
 			findBPartner();
-		
-		else if (action.equals(ACTION_CREDITSALE))
-			onCreditSale();
 		
 		p_posPanel.updateInfo();
 	}	//	actionPerformed
@@ -686,9 +676,6 @@ public class SubOrder extends PosSubPanel
   				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
   						order.getLines().length != 0 && 
   						order.getC_Invoice_ID()<=0)
-  					f_bCreditSale.setEnabled(true);
-  				else
-  					f_bCreditSale.setEnabled(false);
 
   			    // History Button: enabled when lines existing or order is voided
   				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
@@ -739,7 +726,6 @@ public class SubOrder extends PosSubPanel
 				setC_BPartner_ID(0);
 				f_bBPartner.setEnabled(false);
 				f_bNew.setEnabled(true);
-				f_bCreditSale.setEnabled(false);
 				f_history.setEnabled(true);
 				f_Cancel.setEnabled(false);
 				f_cashPayment.setEnabled(false);
