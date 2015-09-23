@@ -261,7 +261,7 @@ public class VCollect extends Collect implements ActionListener {
 		//	
 		String tenderType = X_C_Payment.TENDERTYPE_Cash;
 		if(collectRowNo > 0) {
-			tenderType = X_C_Payment.TENDERTYPE_Check;
+			tenderType = X_C_Payment.TENDERTYPE_CreditCard;
 		}
 		//	
 		VCollectDetail collectDetail = new VCollectDetail(this, tenderType, Env.ZERO);

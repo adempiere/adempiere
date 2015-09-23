@@ -136,7 +136,7 @@ public class VCollectDetail extends CollectDetail
 	private void loadStandardPanel() {
 		v_StandardPanel = new CPanel(layout);
 		//	For Tender Type
-		int AD_Column_ID = 5046;        //  C_PaySelectionCheck.C_PaySelection_ID
+		int AD_Column_ID = 8416;        //  C_Payment_v.TenderType
 		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
 		fTenderType = new VLookup("TenderType", true, false, true, lookup);
 		((VComboBox)fTenderType.getCombo()).setRenderer(new POSLookupCellRenderer(font));
@@ -248,7 +248,7 @@ public class VCollectDetail extends CollectDetail
 	private void loadCreditPanel() {
 		v_CreditPanel = new CPanel(layout);
 		//	For Credit Card
-		int AD_Column_ID = 8374; 			//C_Payment_v.TenderType
+		int AD_Column_ID = 8374; 			//C_Payment_v.CreditCardType
 		MLookup cardlookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
 		fCreditCardType = new VLookup("CreditCardType", true, false, true, cardlookup);
 		//	For Credit Card Type
@@ -339,7 +339,9 @@ public class VCollectDetail extends CollectDetail
 		v_MainPanel.add(v_CreditPanel,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
 		//	Change View
-		changeView((String) fTenderType.getValue());
+		fTenderType.setValue(getTenderType());
+		//	
+		changeView();
 	}
 			
 	@Override
@@ -352,7 +354,7 @@ public class VCollectDetail extends CollectDetail
 		if(name.equals("TenderType")) {
 			String m_TenderType = ((String)(value != null? value: 0));
 			setTenderType(m_TenderType);
-			changeView(m_TenderType);
+			changeView();
 		} else if(e.equals(fCheckNo)) {	//	For Check
 			setReferenceNo(fCheckNo.getText());
 		} else if(e.equals(fCheckRoutingNo)) {
@@ -383,10 +385,10 @@ public class VCollectDetail extends CollectDetail
 	/**
 	 * Change view from tender type
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @param p_TenderType
 	 * @return void
 	 */
-	private void changeView(String p_TenderType) {
+	private void changeView() {
+		String p_TenderType = getTenderType();
 		//	Valid Null
 		if(p_TenderType == null)
 			return;
