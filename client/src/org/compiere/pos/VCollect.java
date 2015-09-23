@@ -291,8 +291,10 @@ public class VCollect extends Collect implements ActionListener {
 				ADialog.warn(0, v_Dialog, Msg.getMsg(m_ctx, "POS.OrderPayNotCompletedAmtExceeded"));
 				return;
 			} if (!m_POSPanel.processOrder()) {
-				ADialog.warn(0, v_Dialog, Msg.parseTranslation(m_ctx, "@POS.OrderProcessFailed@ " + m_POSPanel.getM_Order().getProcessMsg()));
+				ADialog.warn(0, v_Dialog, Msg.parseTranslation(m_ctx, "@POS.OrderProcessFailed@ " + m_POSPanel.getProcessMsg()));
 				return;
+			} else {
+				processPayment();
 			}
 			//	
 			v_Dialog.dispose();
@@ -302,26 +304,12 @@ public class VCollect extends Collect implements ActionListener {
 			v_Dialog.dispose();
 			return;
 		} if(e.getSource().equals(fIsCreditOrder)) {	//	For Credit Order Checked
-			boolean isChecked = fIsCreditOrder.isSelected();
-			if(fIsPrePayment.isSelected()) {
-				fIsPrePayment.setSelected(false);
-			}
-			bPlus.setEnabled(!isChecked);
-			if(isChecked) {
-				bOk.setEnabled(isChecked);
-			} else {
-				bPlus.setEnabled(m_Balance.compareTo(Env.ZERO) == 0);
-			}
+			//	
 		} else if(e.getSource().equals(fIsPrePayment)) {	//	For Pre-Payment Order Checked
-			if(fIsCreditOrder.isSelected()) {
-				fIsCreditOrder.setSelected(false);
-			}
-			if(m_Balance.compareTo(Env.ZERO) > 0) {
-				bPlus.setEnabled(true);
-			} else {
-				bPlus.setEnabled(false);
-			}
+			//	
 		}
+		//	Valid Panel
+		changePanelAction();
 	}
 
 	/**
@@ -343,7 +331,7 @@ public class VCollect extends Collect implements ActionListener {
 	 * Usually, the action should be "complete".
 	 */
 	private void onCreditSale() {
-		if( m_POSPanel.getM_Order() == null) {		
+		if(!m_POSPanel.hasOrder()) {		
 			ADialog.warn(0, v_Dialog,  Msg.getMsg(m_ctx, "You must create an Order first"));	//	TODO translate it
 		}
 		return;
@@ -378,6 +366,28 @@ public class VCollect extends Collect implements ActionListener {
 		fGrandTotal.setText(m_Format.format(m_POSPanel.getGrandTotal()));
 		fPayAmt.setText(m_Format.format(m_PayAmt));
 		fReturnAmt.setText(m_Format.format(m_Balance));
+	}
+	
+	/**
+	 * Validate Panel for correct collect
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
+	protected void changePanelAction() {
+		if(fIsCreditOrder.isSelected()) {
+			fIsPrePayment.setSelected(false);
+			bPlus.setEnabled(true);
+		} else if(fIsPrePayment.isSelected()) {
+			if(m_Balance.compareTo(Env.ZERO) > 0) {
+				bPlus.setEnabled(true);
+			} else {
+				bPlus.setEnabled(false);
+			}
+		} else if(m_Balance.compareTo(Env.ZERO) == 0) {
+			bPlus.setEnabled(true);
+		} else {
+			bPlus.setEnabled(false);
+		}
 	}
 	
 	/**
