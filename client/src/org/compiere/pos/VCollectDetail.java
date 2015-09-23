@@ -21,6 +21,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
@@ -148,6 +150,7 @@ public class VCollectDetail extends CollectDetail
 		fPayAmt.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		fPayAmt.setFont(font);
 		fPayAmt.setValue(Env.ZERO);
+		fPayAmt.addVetoableChangeListener(this);
 		fPayAmt.addKeyListener(this);
 		//	Button
 		AppsAction act = new AppsAction("Minus", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2), false);
@@ -351,7 +354,11 @@ public class VCollectDetail extends CollectDetail
 		Object value = e.getNewValue();
 		log.config(name + " = " + value);
 		//	Verify Event
-		if(name.equals("TenderType")) {
+		if(e.getSource().equals(fPayAmt)){
+			setPayAmt((BigDecimal) fPayAmt.getValue());
+			v_Parent.refreshSummary();
+		}
+		else if(name.equals("TenderType")) {
 			String m_TenderType = ((String)(value != null? value: 0));
 			setTenderType(m_TenderType);
 			changeView();
@@ -437,4 +444,5 @@ public class VCollectDetail extends CollectDetail
 		setPayAmt((BigDecimal) fPayAmt.getValue());
 		v_Parent.refreshSummary();
 	}
+
 }

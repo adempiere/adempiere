@@ -71,7 +71,7 @@ public class SubFunctionKeys extends PosSubPanel implements PosKeyListener
 			return;
 		
 		PosKeyPanel panel = new PosKeyPanel(C_POSKeyLayout_ID, this);
-		this.setLayout(new MigLayout("fill, ins 0"));
+		this.setLayout(new MigLayout("fill, ins 20 10"));
 		Font bigFont = AdempierePLAF.getFont_Field().deriveFont(18f);		
  		// DOC NO
 		CLabel lDocNo = new CLabel(Msg.getMsg(Env.getCtx(),MOrder.COLUMNNAME_DocumentNo)+":");
