@@ -14,12 +14,16 @@
 
 package org.compiere.pos;
 
-import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import org.compiere.model.X_C_Payment;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.ValueNamePair;
 
 /**
  * 
@@ -213,6 +217,57 @@ public class CollectDetail {
 	private String 		m_A_Ident_SSN;
 	/**	Bank Routing No					*/
 	private String		m_RoutingNo;
+	
+	/**
+	 * Get Months for Credit Card
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return ValueNamePair[]
+	 */
+	protected ValueNamePair[] getCCMonths() {
+		//	Populate Month
+		ArrayList<ValueNamePair> m_Months = new ArrayList<ValueNamePair>();
+		Locale locale = Language.getLoginLanguage().getLocale();
+		Calendar cal = Calendar.getInstance();
+		for(int i = Calendar.JANUARY; i <= Calendar.DECEMBER; i++) {
+			cal.set(1, i, 1);
+			String displayName = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, locale);
+			String value = String.format("%02d", i + 1);
+			m_Months.add(new ValueNamePair(value, displayName + "-" + value));
+		}
+		//	Convert to Array
+		ValueNamePair[] values = new ValueNamePair[m_Months.size()];
+		m_Months.toArray(values);
+		//	Return Values
+		return values;
+	}
+	
+	/**
+	 * Get Year for Credit Card
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return ValueNamePair[]
+	 */
+	protected ValueNamePair[] getCCYears() {
+		//	Populate Month
+		ArrayList<ValueNamePair> m_Years = new ArrayList<ValueNamePair>();
+		Locale locale = Language.getLoginLanguage().getLocale();
+		Calendar cal = Calendar.getInstance(locale);
+		for(int i = 0; i < 10; i++) {
+			//	Seek in new year
+			String year = String.valueOf(cal.get(Calendar.YEAR));
+			String shortYear = year.substring(2);
+			m_Years.add(new ValueNamePair(shortYear, year));
+			cal.add(Calendar.YEAR, 1);
+		}
+		//	Convert to Array
+		ValueNamePair[] values = new ValueNamePair[m_Years.size()];
+		m_Years.toArray(values);
+		//	Return Values
+		return values;
+	}
+	
+	
 	/**
 	 * @return the m_TenderType
 	 */
@@ -513,10 +568,5 @@ public class CollectDetail {
 				+ m_A_EMail + ", m_A_Ident_DL=" + m_A_Ident_DL
 				+ ", m_A_Ident_SSN=" + m_A_Ident_SSN + ", m_RoutingNo="
 				+ m_RoutingNo + "]";
-	}
-
-	public void addKeyListener(KeyListener e) {
-		// TODO Auto-generated method stub
-		
 	}
 }

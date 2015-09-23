@@ -364,47 +364,46 @@ public class Collect {
 	 * Processes different kinds of payment types
 	 * 
 	 */
-	public String processPayment() {
-		String error = null;
-		try {
-			for(CollectDetail m_Collect : m_Collects) {
-				if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
-						|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {
-					payCash(m_Collect.getPayAmt());
-				} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {
-					payCheck(m_Collect.getPayAmt(), null, null, m_Collect.getReferenceNo());
-				} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {
-					error = MPaymentValidate.validateCreditCardExp(m_Collect.getCreditCardExpMM());
-					if(error != null && !error.isEmpty()) {
-						throw new AdempierePOSException(error);
-					}
-					int month = MPaymentValidate.getCreditCardExpMM(m_Collect.getCreditCardExpMM());
-					int year = MPaymentValidate.getCreditCardExpYY(m_Collect.getCreditCardExpYY());
-
-					error = MPaymentValidate.validateCreditCardNumber(m_Collect.getCreditCardNumber(), m_Collect.getCreditCardType());
-					if(error != null && !error.isEmpty()) {
-						throw new AdempierePOSException(error);
-					}
-					//	Pay from Credit Card
-					payCreditCard(m_Collect.getPayAmt(), m_Collect.getA_Name(),
-							month, year, m_Collect.getCreditCardNumber(), m_Collect.getCreditCardVV(), m_Collect.getCreditCardType());
-				} 
+	public void processPayment(String trxName) {
+		this.trxName = trxName;
+		for(CollectDetail m_Collect : m_Collects) {
+			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
+					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
+				payCash(m_Collect.getPayAmt());
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
+				payCheck(m_Collect.getPayAmt(), null, null, m_Collect.getReferenceNo());
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
+				//	Valid Expedition
+				String mmyy = m_Collect.getCreditCardExpMM() + m_Collect.getCreditCardExpYY();
+				String processError = MPaymentValidate
+						.validateCreditCardExp(mmyy);
+				if(processError != null && !processError.isEmpty()) {
+					throw new AdempierePOSException(processError);
+				}
+				//	Valid Month and Year
+				int month = MPaymentValidate.getCreditCardExpMM(mmyy);
+				int year = MPaymentValidate.getCreditCardExpYY(mmyy);
+				//	
+				processError = MPaymentValidate
+						.validateCreditCardNumber(m_Collect.getCreditCardNumber(), m_Collect.getCreditCardType());
+				//	
+				if(processError != null && !processError.isEmpty()) {
+					throw new AdempierePOSException(processError);
+				}
+				//	Pay from Credit Card
+				payCreditCard(m_Collect.getPayAmt(), m_Collect.getA_Name(),
+						month, year, m_Collect.getCreditCardNumber(), m_Collect.getCreditCardVV(), m_Collect.getCreditCardType());
+			} 
 //				else if(m_Collect.getTenderType().equals("F")) {
 //					String ID = ((ValueNamePair) fCreditNotes.getSelectedItem()).getValue();
 //					MInvoice cn = new MInvoice(Env.getCtx(), Integer.parseInt(ID), trxName);
 //					payCreditNote(cn, m_Collect.getPayAmt());
 //				} 
-				else {
-					throw new AdempierePOSException("Unsupported payment type");
-				}
+			else {
+				throw new AdempierePOSException("POS.UnsupportedPaymentType");
 			}
-		} catch (Exception e ) {
-			error = e.getMessage();
 		}
-		//	Error
-		return error;
 	}  // processPayment
-	
 
 	/**
 	 * Duplicated from MPayment
