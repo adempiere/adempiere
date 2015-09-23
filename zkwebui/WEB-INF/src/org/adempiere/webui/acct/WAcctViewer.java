@@ -260,7 +260,7 @@ public class WAcctViewer extends Window implements EventListener<Event>
 
 	private void init() throws Exception
 	{
-		ThemeUtils.addSclass("wacct-viewer-window", this);
+		ThemeUtils.addSclass("ad-wacctviewer", this);
 		
 		// Modal or non-modal
 		if (isLookup())

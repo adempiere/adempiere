@@ -59,7 +59,7 @@ public class CompositeADTab extends AbstractADTab
     protected Component doCreatePart(Component parent)
     {
     	div= new Div();
-    	ThemeUtils.addSclass("ad-compositeadtab adtab-body", div);
+    	ThemeUtils.addSclass("ad-compositeadtab", div);
     	if (parent != null) {
     		div.setParent(parent);
     	} else {

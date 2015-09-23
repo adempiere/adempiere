@@ -197,7 +197,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 
     private void init()
     {
-    	ThemeUtils.addSclass("ad-editor", this.getComponent());
+    	ThemeUtils.addSclass("ad-weditor", this.getComponent());
 
         label = new Label("");
         label.setValue(strLabel);
@@ -582,9 +582,9 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         			}
         		} else if (getComponent() instanceof Image) {
         			Image image = (Image) getComponent();
-        			ThemeUtils.addSclass("ad-image", image);
+        			ThemeUtils.addSclass("image", image);
         		} else {
-        			ThemeUtils.addSclass("ad-component", getComponent());
+        			ThemeUtils.addSclass("component", getComponent());
         		}
         	}
         }

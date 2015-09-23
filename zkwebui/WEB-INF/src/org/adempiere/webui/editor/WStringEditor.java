@@ -73,7 +73,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     public WStringEditor(GridField gridField, boolean tableEditor)
     {
         super(gridField.isAutocomplete() ? new Combobox() : new Textbox(), gridField);
-        ThemeUtils.addSclass("ad-wstringeditor", this);
+        ThemeUtils.addSclass("ad-wstringeditor", this.getComponent());
         this.tableEditor = tableEditor;
         init(gridField.getObscureType());
     }
@@ -93,7 +93,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     		int displayLength, int fieldLength, String vFormat, String obscureType)
     {
     	super(new Textbox(), columnName, null, null, mandatory, isReadOnly,isUpdateable);
-        ThemeUtils.addSclass("ad-wstringeditor", this);
+        ThemeUtils.addSclass("ad-wstringeditor", this.getComponent());
     	init(obscureType);
     }
 
@@ -118,6 +118,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 		{
 	        getComponent().setMaxlength(gridField.getFieldLength());
 	        int displayLength = gridField.getDisplayLength();
+	        
 	        if (displayLength <= 0 || displayLength > MAX_DISPLAY_LENGTH)
 	        {
 	            displayLength = MAX_DISPLAY_LENGTH;

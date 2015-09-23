@@ -109,7 +109,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
         initComponents();
         init();
         this.setId("rolePanel");
-        ThemeUtils.addSclass("login-box", this);
+        ThemeUtils.addSclass("ad-rolepanel", this);
 
         AuFocus auf = new AuFocus(lstRole);
         Clients.response(auf);
@@ -120,27 +120,27 @@ public class RolePanel extends Window implements EventListener, Deferrable
     	//this.setContentSclass(ITheme.LOGIN_WINDOW_CLASS);
     	
     	Div div = new Div();
-    	ThemeUtils.addSclass("login-box-header",div);
+    	ThemeUtils.addSclass("ad-rolepanel-header",div);
     	Label label = new Label("Login");  //TODO - localization
-    	ThemeUtils.addSclass("login-box-header-text",label);
+    	ThemeUtils.addSclass("ad-rolepanel-header-text",label);
     	div.appendChild(label);
     	this.appendChild(div);
 
         Table table = new Table();
         table.setId("grdChooseRole");
-    	ThemeUtils.addSclass("login-box-body",table);
+    	ThemeUtils.addSclass("ad-rolepanel-body",table);
 
     	this.appendChild(table);
 
     	Tr tr = new Tr();
     	table.appendChild(tr);
     	Td td = new Td();
-    	ThemeUtils.addSclass("login-box-header-logo",td);
+    	ThemeUtils.addSclass("ad-rolepanel-header-logo",td);
     	tr.appendChild(td);
     	td.setDynamicProperty("colspan", "2");
     	Image image = new Image();
         image.setSrc(ThemeUtils.getLargeLogo());
-    	ThemeUtils.addSclass("login-box-header-logo",image);
+    	ThemeUtils.addSclass("ad-rolepanel-header-logo",image);
         td.appendChild(image);
 
         tr = new Tr();
@@ -192,10 +192,10 @@ public class RolePanel extends Window implements EventListener, Deferrable
     	td.appendChild(lstWarehouse);
 
     	div = new Div();
-    	ThemeUtils.addSclass("login-box-footer",div);
+    	ThemeUtils.addSclass("ad-rolepanel-footer",div);
         ConfirmPanel pnlButtons = new ConfirmPanel(true);
         pnlButtons.addActionListener(this);
-        ThemeUtils.addSclass("login-box-footer-pnl", pnlButtons);
+        ThemeUtils.addSclass("ad-rolepanel-footer-pnl", pnlButtons);
         pnlButtons.getButton(ConfirmPanel.A_OK).setSclass("login-btn");
         pnlButtons.getButton(ConfirmPanel.A_CANCEL).setSclass("login-btn");
         div.appendChild(pnlButtons);

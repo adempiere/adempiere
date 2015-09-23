@@ -24,7 +24,7 @@ public interface ITheme {
 	//css for login window and box
 	//public static final String WLOGIN_LAYOUT = "wlogin-layout";
 	//public static final String WLOGIN_LAYOUT_CENTER = "wlogin-layout-center";
-	//public static final String LOGIN_WINDOW_CLASS = "login-window";
+	//public static final String LOGIN_WINDOW_CLASS = "ad-loginwindow";
 	//public static final String LOGIN_PANEL_CLASS = "login-panel";
 	//public static final String LOGIN_BOX_CLASS = "login-box";
 	//public static final String LOGIN_BOX_HEADER_CLASS = "login-box-header";

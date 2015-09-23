@@ -217,6 +217,22 @@ public final class ConfirmPanel extends Hlayout
     {
         this(withCancel,false,false,false,false,false);
     }
+
+    /**
+     * Create confirm panel with New, Ok and Cancel button.  Used in the find window.
+     * @param withCancel with cancel
+     * @param withNew with new 
+     *
+     */
+    public ConfirmPanel(boolean withCancel, boolean withNew)
+    {
+        this(withCancel,false,false,false,false,false);
+        if (withNew)
+        {
+             addComponentsLeft(createButton(A_NEW));
+        }
+    }
+    
     //
     //private Hbox hboxBtnLeft;
     //private Hbox hboxBtnRight;

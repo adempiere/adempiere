@@ -40,7 +40,7 @@ public class Label extends org.zkoss.zul.Label
     public Label()
     {
         super();
-        ThemeUtils.addSclass("ad_label", this);
+        ThemeUtils.addSclass("ad-label", this);
     }
 
     public Label(String value)
@@ -56,7 +56,7 @@ public class Label extends org.zkoss.zul.Label
 		this.mandatory = mandatory;
 		setupMandatoryDecorator();
 		if(mandatory)
-			this.setSclass("mandatory-field-label");
+			this.setSclass("mandatory");
 	}
 
 	public Component getDecorator() {
@@ -92,6 +92,7 @@ public class Label extends org.zkoss.zul.Label
 	}
 
 	private void createMandatoryDecorator() {
+		//TODO Move to theme
 		decorator = new Label("*");
 		((Label)decorator).setSclass("mandatory-decorator-text");
 	}

@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.Obscure;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
@@ -46,12 +47,14 @@ public class Textbox extends org.zkoss.zul.Textbox implements EventListener<Even
     public Textbox()
     {
         super();
+        ThemeUtils.addSclass("ad-textbox", this);
         addFocusListener(this);
     }
 
     public Textbox(String value) throws WrongValueException
     {
         super(value);
+        ThemeUtils.addSclass("ad-textbox", this);
         addFocusListener(this);
     }
 

@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zul.Div;
 
 /**
@@ -39,5 +40,6 @@ public class Panel extends Div
     public Panel()
     {
         super();
-    }    
+        ThemeUtils.addSclass("ad-panel", this);
+    }   
 }

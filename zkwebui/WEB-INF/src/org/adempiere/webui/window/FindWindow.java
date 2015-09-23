@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Combobox;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListCell;
@@ -212,6 +213,7 @@ public class FindWindow extends Window implements EventListener<Event>,ValueChan
 	private String				m_sNew;
 	private String				m_sTipText;  // Text to display in ComboBoc	
 	private String				m_sToolTipText;  // Tool tip text to display 
+	private ConfirmPanel confirmPanel;
 
 
 	private static final String FIELD_SEPARATOR = "<^>";
@@ -232,6 +234,9 @@ public class FindWindow extends Window implements EventListener<Event>,ValueChan
 			int AD_Table_ID, String tableName, String whereExtended,
 			GridField[] findFields, int minRecords, int adTabId)
 	{
+		//super();
+		ThemeUtils.addSclass("ad-findwindow", this);
+		
 		m_targetWindowNo = targetWindowNo;
 		m_AD_Table_ID = AD_Table_ID;
 		m_tableName = tableName;
@@ -257,15 +262,15 @@ public class FindWindow extends Window implements EventListener<Event>,ValueChan
 			dispose();
 			return;
 		}
-		this.setBorder("normal");
-		this.setWidth("750px");
-		this.setHeight("350px");
 		this.setTitle(Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", "") + ": " + title);
 		this.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+		this.setBorder("normal") ;
 		this.setClosable(false);
 		this.setSizable(true);
-
 		this.setVisible(true);
+		this.setHeight("350px"); // Size required here to set size of child border layouts
+		this.setWidth("750px");
+		this.setVflex("1");
 		AEnv.showWindow(this);
 	}
 	/**
@@ -300,37 +305,11 @@ public class FindWindow extends Window implements EventListener<Event>,ValueChan
 		fieldValue = new Textbox();
 		fieldValue.setMaxlength(40);
 
-		Button btnNew = new Button();
-		btnNew.setName("btnNew");
-		btnNew.setImage(ServletFns.resolveThemeURL("~./images/New24.png"));
-		btnNew.addEventListener(Events.ON_CLICK,this);
-		ThemeUtils.addSclass("action-button", btnNew);
-
-		Button btnOk = new Button();
-		btnOk.setName("btnOkSimple");
-		btnOk.setImage(ServletFns.resolveThemeURL("~./images/Ok24.png"));
-		btnOk.addEventListener(Events.ON_CLICK,this);
-		ThemeUtils.addSclass("action-button", btnOk);
-
-		Button btnCancel = new Button();
-		btnCancel.setName("btnCancel");
-		btnCancel.setImage(ServletFns.resolveThemeURL("~./images/Cancel24.png"));
-		btnCancel.addEventListener(Events.ON_CLICK,this);
-		ThemeUtils.addSclass("action-button", btnCancel);
-
-		Panel pnlButtonRight = new Panel();
-		pnlButtonRight.appendChild(btnOk);
-		pnlButtonRight.appendChild(btnCancel);
-		pnlButtonRight.setAlign("right");
-		pnlButtonRight.setWidth("100%");
-
-		Panel pnlButtonLeft = new Panel();
-		pnlButtonLeft.appendChild(btnNew);
-
-		Hbox hboxButton = new Hbox();
-		hboxButton.appendChild(pnlButtonLeft);
-		hboxButton.appendChild(pnlButtonRight);
-		hboxButton.setWidth("100%");
+        ConfirmPanel confirmPanel = new ConfirmPanel(true, true);  // with Cancel and New buttons
+        confirmPanel.addActionListener(Events.ON_CLICK, this);
+        
+        // Change name of ok button to differentiate it with the advanced panel.
+        confirmPanel.getButton(ConfirmPanel.A_OK).setName("btnOkSimple");
 
 		pnlDocument = new Row();
 		pnlDocument.setId("pnlDocument");
@@ -371,11 +350,11 @@ public class FindWindow extends Window implements EventListener<Event>,ValueChan
 		layout.appendChild(center);
 		center.appendChild(contentSimple);
         center.setHflex("true");
-center.setVflex("true");
+        center.setVflex("true");
 
 		South south = new South();
 		layout.appendChild(south);
-		south.appendChild(hboxButton);
+		south.appendChild(confirmPanel);
 
 		winLookupRecord.setWidth("100%");
 		winLookupRecord.setHeight("100%");
@@ -412,24 +391,6 @@ center.setVflex("true");
 		fQueryName.addEventListener(Events.ON_BLUR, this);
         fQueryName.addEventListener(Events.ON_SELECT, this);
 
-
-		Button btnOk = new Button();
-		btnOk.setName("btnOkAdv");
-		btnOk.setImage(ServletFns.resolveThemeURL("~./images/Ok24.png"));
-		btnOk.addEventListener(Events.ON_CLICK, this);
-		ThemeUtils.addSclass("action-button", btnOk);
-
-		Button btnCancel = new Button();
-		btnCancel.setName("btnCancel");
-		btnCancel.setImage(ServletFns.resolveThemeURL("~./images/Cancel24.png"));
-		btnCancel.addEventListener(Events.ON_CLICK, this);
-		ThemeUtils.addSclass("action-button", btnCancel);
-
-		Panel pnlButtonRight = new Panel();
-		pnlButtonRight.appendChild(btnOk);
-		pnlButtonRight.appendChild(btnCancel);
-		pnlButtonRight.setAlign("right");
-
 		ToolBar toolBar = new ToolBar();
 		toolBar.appendChild(btnNew);
 		toolBar.appendChild(btnDelete);
@@ -440,9 +401,11 @@ center.setVflex("true");
 
 		btnSave.setDisabled(m_AD_Tab_ID <= 0);
 
-		Hbox confirmPanel = new Hbox();
-		confirmPanel.appendChild(pnlButtonRight);
-		confirmPanel.setWidth("100%");
+        ConfirmPanel confirmPanel = new ConfirmPanel(true, true);  // with Cancel and New buttons
+        confirmPanel.addActionListener(Events.ON_CLICK, this);
+        
+        // Change name of ok button to differentiate it with the advanced panel.
+        confirmPanel.getButton(ConfirmPanel.A_NEW).setName("btnOkAdvanced");
 
 		advancedPanel = new Listbox();
 		ListHead listhead = new ListHead();
@@ -497,7 +460,7 @@ center.setVflex("true");
 		layout.appendChild(center);
 		center.appendChild(advancedPanel);
         center.setHflex("true");
-center.setVflex("true");
+        center.setVflex("true");
 
 		South south = new South();
 		layout.appendChild(south);
@@ -517,7 +480,7 @@ center.setVflex("true");
 	{
 		winMain = new MultiTabPart();
 		winMain.createPart(this);
-		winMain.getComponent().setStyle("height: 100%; width: 100%; position: relative;");
+		winMain.getComponent().setVflex("1");
 		winAdvanced = new Window();
 		winLookupRecord = new Window();
 		Tabpanel tabPanel = new Tabpanel();
@@ -1099,7 +1062,7 @@ center.setVflex("true");
             {
                 Button btn = (Button)event.getTarget();
 
-				if ("btnOkSimple".equals(btn.getName()))
+                if ("btnOkSimple".equals(btn.getName()))
 				{
 					cmd_ok_Simple();
 					dispose();
@@ -1109,12 +1072,12 @@ center.setVflex("true");
 					cmd_ok_Advanced();
 					dispose();
 				}
-				else if("btnCancel".equals(btn.getName()))
+				else if(("btn" + ConfirmPanel.A_CANCEL).equals(btn.getName()))
 				{
 					m_isCancel = true;
 					dispose();
 				}
-				else if ("btnNew".equals(btn.getName()))
+				else if (("btn" + ConfirmPanel.A_NEW).equals(btn.getName()))
 				{
 					m_query = MQuery.getNoRecordQuery(m_tableName, true);
 					m_total = 0;

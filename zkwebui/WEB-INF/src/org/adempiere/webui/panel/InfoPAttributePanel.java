@@ -82,7 +82,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			p_M_AttributeSet_ID = ((InfoProductPanel)parent).getM_AttributeSet_ID();
 		}
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoPAttribute"));
-		ThemeUtils.addSclass("info-pattribute", this);
+		ThemeUtils.addSclass("ad-infopattributepanel", this);
 		this.setBorder("normal");
 		this.setMaximizable(true);
 		this.setSizable(true);
