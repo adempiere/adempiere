@@ -90,7 +90,9 @@ public class Collect {
 	private Timestamp			m_DateTrx;
 	/**	Collects				*/
 	private List<CollectDetail> m_Collects;
+	private boolean				isCreditOrder = false;
 	
+
 	/**
 	 * Add New Collect
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
@@ -366,6 +368,11 @@ public class Collect {
 	 */
 	public void processPayment(String trxName) {
 		this.trxName = trxName;
+		
+		// Credit Orders must not have a payment
+		if(isCreditOrder())
+			return;
+		
 		for(CollectDetail m_Collect : m_Collects) {
 			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
@@ -526,5 +533,13 @@ public class Collect {
 	 */
 	public void setDateTrx(Timestamp m_DateTrx) {
 		this.m_DateTrx = m_DateTrx;
+	}
+	
+	public boolean isCreditOrder() {
+		return isCreditOrder;
+	}
+
+	public void setCreditOrder(boolean isCreditOrder) {
+		this.isCreditOrder = isCreditOrder;
 	}
 }
