@@ -23,8 +23,6 @@ import java.awt.MouseInfo;
 import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -43,7 +41,6 @@ import org.compiere.model.MWarehouse;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -51,7 +48,7 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Aug 31, 2015, 12:00:10 AM
  *
  */
-public class VPOS extends CPOS implements FormPanel {
+public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
 	/**	Window No					*/
 	private int         					m_WindowNo;
@@ -60,11 +57,11 @@ public class VPOS extends CPOS implements FormPanel {
 	/**	Main Pane					*/
 	private CPanel							m_MainPane;
 	/** Order Panel					*/
-	protected SubOrder 						f_order;
+	protected POSCommandPanel 				f_order;
 	/** Current Line				*/
-	protected POSTotalPanel 				f_curLine;
+	protected POSOrderLinePanel 			f_curLine;
 	/** Function Keys				*/
-	protected SubFunctionKeys 				f_functionKeys;
+	protected POSProductPanel 				f_functionKeys;
 	/**	Timer for logout			*/
 	private Timer 							logoutTimer;
 	/** Keyoard Focus Manager		*/
@@ -192,13 +189,13 @@ public class VPOS extends CPOS implements FormPanel {
 			return false;
 		m_frame.setTitle("Adempiere POS: " + m_POS.getName());
 		//	Create Sub Panels
-		f_order = new SubOrder(this);
+		f_order = new POSCommandPanel(this);
 		m_MainPane.add(f_order, "split 2, flowy, growx, spany, spanx");
 		//
-		f_curLine = new POSTotalPanel(this);
+		f_curLine = new POSOrderLinePanel(this);
 		m_MainPane.add(f_curLine, "h 200, growx, growy, gaptop 30");
 		
-		f_functionKeys = new SubFunctionKeys(this);
+		f_functionKeys = new POSProductPanel(this);
 		
 				
 		m_MainPane.add(f_functionKeys, "east");
@@ -245,7 +242,7 @@ public class VPOS extends CPOS implements FormPanel {
 	public void updateInfo() {
 		reload();
 		if ( f_curLine != null )
-			f_curLine.updateTable(getC_Order_ID());
+			f_curLine.refreshPanel();
 		if (f_order != null) {
 			f_order.updateOrder();
 		}
@@ -299,8 +296,8 @@ public class VPOS extends CPOS implements FormPanel {
 	 */
 	public void newOrder() {
 		boolean isDocType = ADialog.ask(0, f_curLine.getParent(), Msg.getMsg(m_ctx, "POS.AlternateDT"));
-		newOrder(f_order.getBPartner(), isDocType);
-		f_order.setC_BPartner_ID(0);
+		newOrder(isDocType);
+		setC_BPartner_ID(0);
 		f_curLine.newLine();
 		updateInfo();
 	}
@@ -311,15 +308,21 @@ public class VPOS extends CPOS implements FormPanel {
 	 * @return void
 	 */
 	protected void refreshHeader() {
-		f_curLine.refresh();
+		f_curLine.refreshPanel();
 	}
-	
-	/**
-	 * Refresh Order Header
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return void
-	 */
-	protected void refresh() {
+
+	@Override
+	public void refreshPanel() {
 		refreshHeader();
+	}
+
+	@Override
+	public String validatePanel() {
+		return null;
+	}
+
+	@Override
+	public void changeViewPanel() {
+		
 	}
 }

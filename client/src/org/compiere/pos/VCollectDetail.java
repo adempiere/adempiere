@@ -56,7 +56,7 @@ import org.compiere.util.Msg;
  *
  */
 public class VCollectDetail extends CollectDetail 
-	implements VetoableChangeListener, ActionListener, KeyListener {
+	implements VetoableChangeListener, ActionListener, KeyListener, I_POSPanel {
 	
 	/**	Panels				*/
 	private CPanel 			v_MainPanel;
@@ -358,7 +358,7 @@ public class VCollectDetail extends CollectDetail
 		//	Change View
 		fTenderType.setValue(getTenderType());
 		//	
-		changeView();
+		changeViewPanel();
 	}
 			
 	@Override
@@ -374,7 +374,7 @@ public class VCollectDetail extends CollectDetail
 		} else if(name.equals("TenderType")) {
 			String m_TenderType = ((String)(value != null? value: 0));
 			setTenderType(m_TenderType);
-			changeView();
+			changeViewPanel();
 		} else if(e.getSource().equals(fCheckNo)) {	//	For Check
 			setReferenceNo(fCheckNo.getText());
 		} else if(e.getSource().equals(fCheckRoutingNo)) {
@@ -395,39 +395,6 @@ public class VCollectDetail extends CollectDetail
 			setA_Name(fA_Name.getText());
 		} else if(e.getSource().equals(fCreditCardVV)) {
 			setCreditCardVV(fCreditCardVV.getText());
-		}
-	}
-
-	/**
-	 * Change view from tender type
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return void
-	 */
-	private void changeView() {
-		String p_TenderType = getTenderType();
-		//	Valid Null
-		if(p_TenderType == null)
-			return;
-		//	Change Title
-		String m_DisplayTenderType = fTenderType.getDisplay();
-		v_TitleBorder.setTitle(m_DisplayTenderType);
-		//	
-		if(p_TenderType.equals(X_C_Payment.TENDERTYPE_Check)){
-			v_CheckPanel.setVisible(true);
-			v_DebitPanel.setVisible(false);
-			v_CreditPanel.setVisible(false);
-		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_DirectDebit)){
-			v_CheckPanel.setVisible(false);
-			v_DebitPanel.setVisible(true);
-			v_CreditPanel.setVisible(false);
-		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditCard)){
-			v_CheckPanel.setVisible(false);
-			v_DebitPanel.setVisible(false);
-			v_CreditPanel.setVisible(true);
-		} else {
-			v_CheckPanel.setVisible(false);
-			v_DebitPanel.setVisible(false);
-			v_CreditPanel.setVisible(false);
 		}
 	}
 
@@ -475,6 +442,46 @@ public class VCollectDetail extends CollectDetail
 		} else {	//	TODO Add validation with name, it is resolved when implement KeyListener in VNumber
 			setPayAmt((BigDecimal) fPayAmt.getValue());
 			v_Parent.refreshPanel();
+		}
+	}
+
+	@Override
+	public void refreshPanel() {
+		
+	}
+
+	@Override
+	public String validatePanel() {
+		
+		return null;
+	}
+
+	@Override
+	public void changeViewPanel() {
+		String p_TenderType = getTenderType();
+		//	Valid Null
+		if(p_TenderType == null)
+			return;
+		//	Change Title
+		String m_DisplayTenderType = fTenderType.getDisplay();
+		v_TitleBorder.setTitle(m_DisplayTenderType);
+		//	
+		if(p_TenderType.equals(X_C_Payment.TENDERTYPE_Check)){
+			v_CheckPanel.setVisible(true);
+			v_DebitPanel.setVisible(false);
+			v_CreditPanel.setVisible(false);
+		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_DirectDebit)){
+			v_CheckPanel.setVisible(false);
+			v_DebitPanel.setVisible(true);
+			v_CreditPanel.setVisible(false);
+		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditCard)){
+			v_CheckPanel.setVisible(false);
+			v_DebitPanel.setVisible(false);
+			v_CreditPanel.setVisible(true);
+		} else {
+			v_CheckPanel.setVisible(false);
+			v_DebitPanel.setVisible(false);
+			v_CreditPanel.setVisible(false);
 		}
 	}
 }

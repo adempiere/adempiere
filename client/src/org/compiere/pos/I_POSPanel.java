@@ -38,5 +38,5 @@ public interface I_POSPanel {
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
-	public void changeActionPanel();
+	public void changeViewPanel();
 }

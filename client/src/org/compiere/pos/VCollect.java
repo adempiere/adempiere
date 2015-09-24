@@ -334,7 +334,7 @@ public class VCollect extends Collect
 			//	
 		}
 		//	Valid Panel
-		changeActionPanel();
+		changeViewPanel();
 	}
 
 	/**
@@ -388,7 +388,7 @@ public class VCollect extends Collect
 		fPayAmt.setText(m_Format.format(m_PayAmt));
 		fReturnAmt.setText(m_Format.format(m_Balance));
 		//	
-		changeActionPanel();
+		changeViewPanel();
 	}
 
 	@Override
@@ -408,7 +408,7 @@ public class VCollect extends Collect
 	}
 
 	@Override
-	public void changeActionPanel() {
+	public void changeViewPanel() {
 		if(fIsCreditOrder.isSelected()) {
 			fIsPrePayment.setSelected(false);
 			bPlus.setEnabled(true);

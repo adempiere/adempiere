@@ -24,6 +24,7 @@ import java.util.Properties;
 
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
@@ -31,12 +32,15 @@ import org.compiere.model.MOrderTax;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentProcessor;
+import org.compiere.model.MPriceList;
+import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
@@ -49,7 +53,13 @@ public class CPOS {
 	/**	POS Configuration		*/
 	protected MPOS 				m_POS;
 	/**	Current Order			*/
-	protected MOrder			m_CurrentOrder;
+	private MOrder				m_CurrentOrder;
+	/**	The Business Partner	*/
+	private MBPartner			m_BPartner;
+	/**	Price List Version		*/
+	private int					m_M_PriceList_Version_ID;
+	/**	Currency				*/
+	private int					m_C_Currency_ID;
 	/** Sales Rep 				*/
 	protected int				m_SalesRep_ID;
 	/** Context					*/
@@ -104,6 +114,61 @@ public class CPOS {
 	public boolean hasOrder() {
 		return m_CurrentOrder != null;
 	}
+	
+	/**
+	 * Has Business Partner
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return boolean
+	 */
+	public boolean hasBPartner() {
+		return m_BPartner != null;
+	}
+	
+	/**
+	 * Compare BP Name
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @param p_Name
+	 * @return
+	 * @return boolean
+	 */
+	public boolean compareBPName(String p_Name) {
+		return m_BPartner.getName().equals(p_Name);
+	}
+	
+	/**
+	 * 	Get BPartner
+	 *	@return C_BPartner_ID
+	 */
+	public int getC_BPartner_ID () {
+		if (m_BPartner != null)
+			return m_BPartner.getC_BPartner_ID();
+		return 0;
+	}	//	getC_BPartner_ID
+	
+	/**
+	 * 	Get BPartner Location
+	 *	@return C_BPartner_Location_ID
+	 */
+	public int getC_BPartner_Location_ID () {
+//		if (m_bpartner != null) {
+//			KeyNamePair pp = (KeyNamePair)f_location.getSelectedItem();
+//			if (pp != null)
+//				return pp.getKey();
+//		}
+		return 0;
+	}	//	getC_BPartner_Location_ID
+	
+	/**
+	 * 	Get BPartner Contact
+	 *	@return AD_User_ID
+	 */
+	public int getAD_User_ID () {
+		if (m_BPartner != null) {
+			return m_SalesRep_ID;
+		}
+		return 0;
+	}	//	getC_BPartner_Location_ID	
 	
 	/**
 	 * Get POS Configuration
@@ -194,7 +259,7 @@ public class CPOS {
 	 * 	New Order
 	 *   
 	 */
-	public void newOrder(MBPartner p_C_BPartner, boolean isDocType) {
+	public void newOrder(boolean isDocType) {
 		log.info( "PosPanel.newOrder");
 		m_CurrentOrder = null;
 		int m_C_DocType_ID = m_POS.getC_DocType_ID();
@@ -206,7 +271,7 @@ public class CPOS {
 			}
 		}
 		//	Create Order
-		m_CurrentOrder = createOrder(p_C_BPartner, m_C_DocType_ID);
+		m_CurrentOrder = createOrder(m_BPartner, m_C_DocType_ID);
 		//	
 		updateInfo();
 	}	//	newOrder
@@ -409,7 +474,7 @@ public class CPOS {
 	 * @return
 	 * @return boolean
 	 */
-	public boolean processOrder() {
+	protected boolean processOrder() {
 		return processOrder(null);
 	}
 	
@@ -419,7 +484,7 @@ public class CPOS {
 	 * @return
 	 * @return String
 	 */
-	public String getProcessMsg() {
+	protected String getProcessMsg() {
 		return m_CurrentOrder.getProcessMsg();
 	}
 
@@ -428,7 +493,7 @@ public class CPOS {
 	 * 	Gets Tax Amt from Order
 	 * 
 	 */
-	public BigDecimal getTaxAmt() {
+	protected BigDecimal getTaxAmt() {
 		BigDecimal taxAmt = Env.ZERO;
 		for (MOrderTax tax : m_CurrentOrder.getTaxes(true)) {
 			taxAmt = taxAmt.add(tax.getTaxAmt());
@@ -441,7 +506,7 @@ public class CPOS {
 	 * 	Gets Subtotal from Order
 	 * 
 	 */
-	public BigDecimal getTotalLines() {
+	protected BigDecimal getTotalLines() {
 		return m_CurrentOrder.getGrandTotal().subtract(getTaxAmt());
 	}
 	
@@ -451,8 +516,18 @@ public class CPOS {
 	 * @return
 	 * @return BigDecimal
 	 */
-	public BigDecimal getGrandTotal() {
+	protected BigDecimal getGrandTotal() {
 		return m_CurrentOrder.getGrandTotal();
+	}
+	
+	/**
+	 * Get Document No
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return String
+	 */
+	protected String getDocumentNo() {
+		return m_CurrentOrder.getDocumentNo();
 	}
 
 	/**
@@ -484,14 +559,47 @@ public class CPOS {
 		m_CurrentOrder.load(m_CurrentOrder.get_TrxName());
 		m_CurrentOrder.getLines(true, "");
 	}
-
+	
 	/**
-	 * 	Get Bank Data
-	 * 
+	 * 	Get M_PriceList_Version_ID.
+	 * 	Set Currency
+	 *	@return plv
 	 */
-	public ValueNamePair[] getBank(){
-		return DB.getValueNamePairs("SELECT C_Bank_ID, Name FROM C_Bank", true, null);
-	}
+	public int getM_PriceList_Version_ID() {
+		if (m_M_PriceList_Version_ID == 0) {
+			int M_PriceList_ID = m_POS.getM_PriceList_ID();
+			if (m_BPartner != null && m_BPartner.getM_PriceList_ID() != 0)
+				M_PriceList_ID = m_BPartner.getM_PriceList_ID();
+			//
+			MPriceList pl = MPriceList.get(m_ctx, M_PriceList_ID, null);
+			m_C_Currency_ID = pl.getC_Currency_ID();
+			//
+			MPriceListVersion plv = pl.getPriceListVersion (getToday());
+			if (plv != null && plv.getM_PriceList_Version_ID() != 0)
+				m_M_PriceList_Version_ID = plv.getM_PriceList_Version_ID();
+		}
+		//	Default Return
+		return m_M_PriceList_Version_ID;
+	}	//	getM_PriceList_Version_ID
+	
+	/**
+	 * 	Set BPartner
+	 *	@param C_BPartner_ID id
+	 */
+	public void setC_BPartner_ID (int C_BPartner_ID) {
+		log.fine( "PosSubCustomer.setC_BPartner_ID=" + C_BPartner_ID);
+		if (C_BPartner_ID == 0)
+			m_BPartner = null;
+		else {
+			m_BPartner = MBPartner.get(m_ctx, C_BPartner_ID);
+			if (m_BPartner.get_ID() == 0)
+				m_BPartner = null;
+		}
+		//	Sets Currency
+		m_M_PriceList_Version_ID = 0;
+		getM_PriceList_Version_ID();
+	}	//	setC_BPartner_ID
+	
 	/**
 	 * Duplicated from MPayment
 	 * 	Get Accepted Credit Cards for amount

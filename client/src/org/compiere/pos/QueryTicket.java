@@ -127,7 +127,7 @@ public class QueryTicket extends PosQuery
 		
 		CLabel ldoc = new CLabel(Msg.translate(p_ctx, DOCUMENTNO));
 		northPanel.add (ldoc, " growy");
-		f_documentno = new POSTextField("", p_posPanel.getKeyboard());
+		f_documentno = new POSTextField("", v_POSPanel.getKeyboard());
 		ldoc.setLabelFor(f_documentno);
 		northPanel.add(f_documentno, "h 30, w 200");
 		f_documentno.addActionListener(this);
@@ -340,8 +340,8 @@ public class QueryTicket extends PosQuery
 		
 		if (m_c_order_id > 0)
 		{
-			p_posPanel.setOrder(m_c_order_id);
-			p_posPanel.updateInfo();
+			v_POSPanel.setOrder(m_c_order_id);
+			v_POSPanel.updateInfo();
 
 		}
 		dispose();
