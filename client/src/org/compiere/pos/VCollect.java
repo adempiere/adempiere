@@ -40,6 +40,7 @@ import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
+import org.compiere.model.MOrder;
 import org.compiere.model.X_C_Payment;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
@@ -196,6 +197,17 @@ public class VCollect extends Collect
 		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "CreditSale"));
 		fIsCreditOrder.setFont(font);
 		
+		// Pre-Payment, Credit Order: enable only if the order is drafted and there are lines 
+		if(v_POSPanel.getM_Order().getTotalLines().compareTo(Env.ZERO)==1 && 
+				v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted)) {		
+			fIsPrePayment.setEnabled(true);	
+			fIsCreditOrder.setEnabled(true);
+		}
+		else {
+			fIsPrePayment.setEnabled(false);	
+			fIsCreditOrder.setEnabled(false);
+		}
+		
 		//	Add Plus Button
 		bPlus = v_POSPanel.f_order.createButtonAction("Plus",
 				KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
@@ -288,6 +300,8 @@ public class VCollect extends Collect
 	public String saveData() {
 		try {
 			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			v_POSPanel.setPrepayment(fIsPrePayment.isSelected());
+			setCreditOrder(fIsCreditOrder.isSelected());
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					if(v_POSPanel.processOrder(trxName)) {
@@ -329,9 +343,16 @@ public class VCollect extends Collect
 			v_Dialog.dispose();
 			return;
 		} if(e.getSource().equals(fIsCreditOrder)) {	//	For Credit Order Checked
-			//	
+			fIsPrePayment.setSelected(false);
+			if(fIsCreditOrder.isSelected()) {				
+				bPlus.setVisible(false);  // TODO setEnable(false) doesn't work!!
+				bOk.setEnabled(true);
+			}
+			else 
+				bPlus.setVisible(true);
 		} else if(e.getSource().equals(fIsPrePayment)) {	//	For Pre-Payment Order Checked
-			//	
+			fIsCreditOrder.setSelected(false);
+			bPlus.setVisible(true);   // TODO setEnable(true) doesn't work!!
 		}
 		//	Valid Panel
 		changeViewPanel();
@@ -411,12 +432,12 @@ public class VCollect extends Collect
 	public void changeViewPanel() {
 		if(fIsCreditOrder.isSelected()) {
 			fIsPrePayment.setSelected(false);
-			bPlus.setEnabled(true);
+			bPlus.setEnabled(true);  // TODO setEnable(true) doesn't work!!
 		} else if(fIsPrePayment.isSelected()) {
 			if(m_Balance.doubleValue() > 0) {
-				bOk.setEnabled(true);
-			} else {
 				bOk.setEnabled(false);
+			} else {
+				bOk.setEnabled(true);
 			}
 		} else if(m_Balance.doubleValue() == 0) {
 			bOk.setEnabled(true);
