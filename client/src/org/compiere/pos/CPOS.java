@@ -58,7 +58,8 @@ public class CPOS {
 	protected String 			msgLocator;
 	/**	Today's (login) date	*/
 	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
-	
+	private boolean				isPrepayment = false;
+
 	/**	Logger					*/
 	private CLogger 			log = CLogger.getCLogger(getClass());
 	
@@ -375,9 +376,10 @@ public class CPOS {
 
 	/**
 	 * 	Process Order
-	 * Only for status "Drafted" or "In Progress"
+	 * For status "Drafted" or "In Progress": process order
+	 * For status "Completed": do nothing as it can be pre payment or payment on credit
 	 * 
-	 * @return true if order processed; otherwise false
+	 * @return true if order processed or pre payment/on credit; otherwise false
 	 * 
 	 */
 	public boolean processOrder(String trxName) {		
@@ -385,14 +387,17 @@ public class CPOS {
 		boolean orderCompleted = false;
 		// check if order completed OK
 		if (m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Drafted) 
-				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress) ) { 
-			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
+				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress) ) {
 			//	Replace
 			if(trxName == null) {
 				trxName = m_CurrentOrder.get_TrxName();
 			} else {
 				m_CurrentOrder.set_TrxName(trxName);
 			}
+			if(isPrepayment()) {
+				; // TODO: implement Prepayment
+			}
+			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
 				m_CurrentOrder.saveEx();
 				orderCompleted = true;
@@ -400,6 +405,10 @@ public class CPOS {
 				log.info( "Process Order FAILED "+m_CurrentOrder.getProcessMsg());		
 			}
 		}
+		else 
+			if (m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Completed) ) { 
+				orderCompleted = true;
+			}
 		return orderCompleted;
 	}	// processOrder
 	
@@ -446,13 +455,14 @@ public class CPOS {
 	}
 	
 	/**
-	 * Get Grand Total from current Order
+	 * Get Grand Total for current Order
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return BigDecimal
 	 */
 	public BigDecimal getGrandTotal() {
-		return m_CurrentOrder.getGrandTotal();
+		BigDecimal received = getPaidAmt();	
+		return m_CurrentOrder.getGrandTotal().subtract(received);
 	}
 
 	/**
@@ -653,5 +663,13 @@ public class CPOS {
 	 */
 	protected int getC_Order_ID() {
 		return m_CurrentOrder.getC_Order_ID();
+	}
+	
+	public boolean isPrepayment() {
+		return isPrepayment;
+	}
+
+	public void setPrepayment(boolean isPrepayment) {
+		this.isPrepayment = isPrepayment;
 	}
 }
