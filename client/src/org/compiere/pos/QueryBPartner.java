@@ -114,7 +114,7 @@ public class QueryBPartner extends PosQuery
 		
 		CLabel lvalue = new CLabel(Msg.translate(p_ctx, "Value"));
 		northPanel.add (lvalue, " growy");
-		f_value = new POSTextField("", p_posPanel.getKeyboard());
+		f_value = new POSTextField("", v_POSPanel.getKeyboard());
 		lvalue.setLabelFor(f_value);
 		northPanel.add(f_value, "h 30, w 200");
 		f_value.addActionListener(this);
@@ -122,7 +122,7 @@ public class QueryBPartner extends PosQuery
 		//
 		CLabel lcontact = new CLabel(Msg.translate(p_ctx, "Contact"));
 		northPanel.add (lcontact, " growy");
-		f_contact = new POSTextField("", p_posPanel.getKeyboard());
+		f_contact = new POSTextField("", v_POSPanel.getKeyboard());
 		lcontact.setLabelFor(f_contact);
 		northPanel.add(f_contact, "h 30, w 200");
 		f_contact.addActionListener(this);
@@ -130,7 +130,7 @@ public class QueryBPartner extends PosQuery
 		//
 		CLabel lphone = new CLabel(Msg.translate(p_ctx, "Phone"));
 		northPanel.add (lphone, " growy");
-		f_phone = new POSTextField("", p_posPanel.getKeyboard());
+		f_phone = new POSTextField("", v_POSPanel.getKeyboard());
 		lphone.setLabelFor(f_phone);
 		northPanel.add(f_phone, "h 30, w 200, wrap");
 		f_phone.addActionListener(this);
@@ -138,14 +138,14 @@ public class QueryBPartner extends PosQuery
 		//
 		CLabel lname = new CLabel(Msg.translate(p_ctx, "Name"));
 		northPanel.add (lname, " growy");
-		f_name = new POSTextField("", p_posPanel.getKeyboard());
+		f_name = new POSTextField("", v_POSPanel.getKeyboard());
 		lname.setLabelFor(f_name);
 		northPanel.add(f_name, "h 30, w 200");
 		f_name.addActionListener(this);
 		//
 		CLabel lemail = new CLabel(Msg.translate(p_ctx, "Email"));
 		northPanel.add (lemail, " growy");
-		f_email = new POSTextField("", p_posPanel.getKeyboard());
+		f_email = new POSTextField("", v_POSPanel.getKeyboard());
 		lemail.setLabelFor(f_email);
 		northPanel.add(f_email, "h 30, w 200");
 		f_email.addActionListener(this);
@@ -299,13 +299,13 @@ public class QueryBPartner extends PosQuery
 		
 		if (m_C_BPartner_ID > 0)
 		{
-			p_posPanel.f_order.setC_BPartner_ID(m_C_BPartner_ID);
+			v_POSPanel.setC_BPartner_ID(m_C_BPartner_ID);
 			log.fine("C_BPartner_ID=" + m_C_BPartner_ID); 
 		//	p_posPanel.f_curLine.setCurrency(m_Price);
 		}
 		else
 		{
-			p_posPanel.f_order.setC_BPartner_ID(0);
+			v_POSPanel.setC_BPartner_ID(0);
 		//	p_posPanel.f_curLine.setPrice(Env.ZERO);
 		}
 		dispose();

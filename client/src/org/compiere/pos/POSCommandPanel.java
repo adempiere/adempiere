@@ -15,7 +15,6 @@
 package org.compiere.pos;
 
 import java.awt.Event;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -23,7 +22,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -34,7 +32,6 @@ import javax.swing.KeyStroke;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
@@ -68,7 +65,7 @@ import org.compiere.util.Msg;
  *  @version $Id: SubOrder.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: SubOrder.java,v 2.0 2015/09/01 00:00:00 mar_cal_westf
  */
-public class SubOrder extends PosSubPanel 
+public class POSCommandPanel extends PosSubPanel 
 	implements ActionListener, FocusListener
 {
 	/**
@@ -80,7 +77,7 @@ public class SubOrder extends PosSubPanel
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public SubOrder (VPOS posPanel)
+	public POSCommandPanel (VPOS posPanel)
 	{
 		super (posPanel);
 	}	//	PosSubCustomer
@@ -97,15 +94,11 @@ public class SubOrder extends PosSubPanel
 	private CButton 		f_Cancel;
 	private CButton 		f_logout;
 	
-	/**	The Business Partner		*/
-	private MBPartner	m_bpartner;
-	/**	Price List Version to use	*/
-	private int					m_M_PriceList_Version_ID = 0;
 	private CTextField 			f_currency = new CTextField();
 	private int 				recordPosition;
 	private ArrayList<Integer>	orderList;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(SubOrder.class);	
+	private static CLogger log = CLogger.getCLogger(POSCommandPanel.class);	
 
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_CANCEL      = "Cancel";
@@ -201,15 +194,15 @@ public class SubOrder extends PosSubPanel
 		//	New
 		if (action.equals(ACTION_NEW))
 		{
-			p_posPanel.newOrder(); //red1 New POS Order instead - B_Partner already has direct field
+			v_POSPanel.newOrder(); //red1 New POS Order instead - B_Partner already has direct field
 			return;
 		}
 		else if (action.equals(ACTION_HISTORY))
 		{
 			// For already created, but either not completed or not yet paid POS Orders
-			PosQuery qt = new QueryTicket(p_posPanel);
+			PosQuery qt = new QueryTicket(v_POSPanel);
 			qt.setVisible(true);				
-			p_posPanel.updateInfo();
+			v_POSPanel.updateInfo();
 		}
 		else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
@@ -217,29 +210,29 @@ public class SubOrder extends PosSubPanel
 			payOrder();
 		else if (action.equals(ACTION_NEXT)){
 			nextRecord();
-			p_posPanel.updateInfo();
+			v_POSPanel.updateInfo();
 		}
 		else if (action.equals(ACTION_BACK)){
 			previousRecord();
-			p_posPanel.updateInfo();
+			v_POSPanel.updateInfo();
 		}
 		else if (action.equals(ACTION_BPARTNER))
 		{	// Change to another BPartner
-			PosQuery qt = new QueryBPartner(p_posPanel);
+			PosQuery qt = new QueryBPartner(v_POSPanel);
 			qt.setVisible(true);
 			findBPartner();
 		}
 		// Logout
 		else if (action.equals(ACTION_LOGOUT))
 		{
-			p_posPanel.dispose();
+			v_POSPanel.dispose();
 			return;
 		}
 		//	Name
 		else if (e.getSource() == f_name)
 			findBPartner();
 		
-		p_posPanel.updateInfo();
+		v_POSPanel.updateInfo();
 	}	//	actionPerformed
 
 	/**
@@ -261,7 +254,7 @@ public class SubOrder extends PosSubPanel
 	 */
 	public void previousRecord() {
 		if(recordPosition>0)
-			p_posPanel.setOrder(orderList.get(recordPosition--));
+			v_POSPanel.setOrder(orderList.get(recordPosition--));
 	}
 
 	/**
@@ -269,7 +262,7 @@ public class SubOrder extends PosSubPanel
 	 */
 	public void nextRecord() {
 		if(recordPosition < orderList.size()-1)
-			p_posPanel.setOrder(orderList.get(recordPosition++));
+			v_POSPanel.setOrder(orderList.get(recordPosition++));
 		
 	}
 	/**
@@ -279,13 +272,13 @@ public class SubOrder extends PosSubPanel
 	 */
 	private void payOrder() {
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( p_posPanel.getM_Order() == null) {		
-			ADialog.warn(0, p_posPanel.f_curLine,  Msg.getMsg(p_ctx, "You must create an Order first"));
+		if( v_POSPanel.getM_Order() == null) {		
+			ADialog.warn(0, v_POSPanel.f_curLine,  Msg.getMsg(p_ctx, "You must create an Order first"));
 		} else {
-			VCollect collect = new VCollect(p_posPanel);
+			VCollect collect = new VCollect(v_POSPanel);
 			if (collect.showCollect()) {
 				printTicket();
-				p_posPanel.setOrder(0);
+				v_POSPanel.setOrder(0);
 			}
 		}	
 	}  // payOrder
@@ -297,26 +290,26 @@ public class SubOrder extends PosSubPanel
 	 * Otherwise, it must be done outside this class.
 	 */
 	private void deleteOrder() {
-		if (p_posPanel == null || p_posPanel.getM_Order() == null) {
-			ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(),  Msg.getMsg(p_ctx, "You must create an Order first"));
+		if (v_POSPanel == null || v_POSPanel.getM_Order() == null) {
+			ADialog.warn(v_POSPanel.getWindowNo(), v_POSPanel.f_curLine.getParent(),  Msg.getMsg(p_ctx, "You must create an Order first"));
 			return;			
 		}
-		else if (p_posPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Drafted) ) {
-			if (ADialog.ask(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Do you want to delete the Order?"))) {
-				if (!p_posPanel.deleteOrder())
+		else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Drafted) ) {
+			if (ADialog.ask(v_POSPanel.getWindowNo(), v_POSPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Do you want to delete the Order?"))) {
+				if (!v_POSPanel.deleteOrder())
 //					p_posPanel.getM_Order() = null;	
 //				else
-					ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Order could not be deleted"));
+					ADialog.warn(v_POSPanel.getWindowNo(), v_POSPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Order could not be deleted"));
 			}
 		}
-		else if (p_posPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Completed)) {	
+		else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Completed)) {	
 			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "The order is already completed. Do you want to void it?")))) {		
-				if (!p_posPanel.cancelOrder())
-					ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Order could not be voided"));
+				if (!v_POSPanel.cancelOrder())
+					ADialog.warn(v_POSPanel.getWindowNo(), v_POSPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Order could not be voided"));
 			}
 		}
 		else {
-			ADialog.warn(p_posPanel.getWindowNo(), p_posPanel.f_curLine.getParent(),  Msg.getMsg(p_ctx, "Order is not Drafted nor Completed. Try to delete it other way"));
+			ADialog.warn(v_POSPanel.getWindowNo(), v_POSPanel.f_curLine.getParent(),  Msg.getMsg(p_ctx, "Order is not Drafted nor Completed. Try to delete it other way"));
 			return;
 		}
 		
@@ -348,16 +341,15 @@ public class SubOrder extends PosSubPanel
 	/**
 	 * 	Find/Set BPartner
 	 */
-	private void findBPartner()
-	{
+	private void findBPartner() {
 		String query = f_name.getText();
-		getBPartner();
-		
+		//	
 		if (query == null || query.length() == 0)
 			return;
 		
 		// unchanged
-		if ( m_bpartner != null && m_bpartner.getName().equals(query))
+		if (!v_POSPanel.hasBPartner() 
+				&& v_POSPanel.compareBPName(query))
 			return;
 		
 		query = query.toUpperCase();
@@ -365,20 +357,14 @@ public class SubOrder extends PosSubPanel
 		boolean allNumber = true;
 		boolean noNumber = true;
 		char[] qq = query.toCharArray();
-		for (int i = 0; i < qq.length; i++)
-		{
-			if (Character.isDigit(qq[i]))
-			{
+		for (int i = 0; i < qq.length; i++) {
+			if (Character.isDigit(qq[i])) {
 				noNumber = false;
 				break;
 			}
-		}
-		try
-		{
+		} try {
 			Integer.parseInt(query);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			allNumber = false;
 		}
 		String Value = query;
@@ -393,179 +379,30 @@ public class SubOrder extends PosSubPanel
 		//	Set Result
 		if (results.length == 0)
 		{
-			setC_BPartner_ID(0);
+			v_POSPanel.setC_BPartner_ID(0);
 		}
 		else if (results.length == 1)
 		{
-			setC_BPartner_ID(results[0].getC_BPartner_ID());
+			v_POSPanel.setC_BPartner_ID(results[0].getC_BPartner_ID());
 			f_name.setText(results[0].getName());
 		}
 		else	//	more than one
 		{
-			QueryBPartner qt = new QueryBPartner(p_posPanel);
+			QueryBPartner qt = new QueryBPartner(v_POSPanel);
 			qt.setResults (results);
 			qt.setVisible(true);
 		}
-	}	//	findBPartner	
-	
-	/**
-	 * 	Set BPartner
-	 *	@param C_BPartner_ID id
-	 */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		log.fine( "PosSubCustomer.setC_BPartner_ID=" + C_BPartner_ID);
-		if (C_BPartner_ID == 0)
-			m_bpartner = null;
-		else
-		{
-			m_bpartner = new MBPartner(p_ctx, C_BPartner_ID, null);
-			if (m_bpartner.get_ID() == 0)
-				m_bpartner = null;
-		}
-		
-		//	Set Info
-		if (m_bpartner != null)
-		{
-			f_name.setText(m_bpartner.getName());
-		}
-		else
-		{
-			f_name.setText(null);
-		}
-		//	Sets Currency
-		m_M_PriceList_Version_ID = 0;
-		getM_PriceList_Version_ID();
-		//fillCombos();
-		if ( p_posPanel.getM_Order() != null && m_bpartner != null )
-			p_posPanel.getM_Order().setBPartner(m_bpartner);  //added by ConSerTi to update the client in the request
-	}	//	setC_BPartner_ID
-
-	/**
-	 * 	Fill Combos (Location, User)
-	 */
-	private void fillCombos()
-	{
-		Vector<KeyNamePair> locationVector = new Vector<KeyNamePair>();
-		if (m_bpartner != null)
-		{
-			MBPartnerLocation[] locations = m_bpartner.getLocations(false);
-			for (int i = 0; i < locations.length; i++)
-				locationVector.add(locations[i].getKeyNamePair());
-		}
-		DefaultComboBoxModel locationModel = new DefaultComboBoxModel(locationVector); 
-		f_location.setModel(locationModel);
-		//
-		Vector<KeyNamePair> userVector = new Vector<KeyNamePair>();
-		if (m_bpartner != null)
-		{
-			MUser[] users = m_bpartner.getContacts(false);
-			for (int i = 0; i < users.length; i++)
-				userVector.add(users[i].getKeyNamePair());
-		}
-		DefaultComboBoxModel userModel = new DefaultComboBoxModel(userVector); 
-		f_user.setModel(userModel);
-	}	//	fillCombos
-	
-	
-	/**
-	 * 	Get BPartner
-	 *	@return C_BPartner_ID
-	 */
-	public int getC_BPartner_ID ()
-	{
-		if (m_bpartner != null)
-			return m_bpartner.getC_BPartner_ID();
-		return 0;
-	}	//	getC_BPartner_ID
-
-	/**
-	 * 	Get BPartner
-	 *	@return BPartner
-	 */
-	public MBPartner getBPartner ()
-	{
-		return m_bpartner;
-	}	//	getBPartner
-	
-	/**
-	 * 	Get BPartner Location
-	 *	@return C_BPartner_Location_ID
-	 */
-	public int getC_BPartner_Location_ID ()
-	{
-		if (m_bpartner != null)
-		{
-			KeyNamePair pp = (KeyNamePair)f_location.getSelectedItem();
-			if (pp != null)
-				return pp.getKey();
-		}
-		return 0;
-	}	//	getC_BPartner_Location_ID
-	
-	/**
-	 * 	Get BPartner Contact
-	 *	@return AD_User_ID
-	 */
-	public int getAD_User_ID ()
-	{
-		if (m_bpartner != null)
-		{
-			KeyNamePair pp = (KeyNamePair)f_user.getSelectedItem();
-			if (pp != null)
-				return pp.getKey();
-		}
-		return 0;
-	}	//	getC_BPartner_Location_ID
-
-	/**
-	 * 	Get M_PriceList_Version_ID.
-	 * 	Set Currency
-	 *	@return plv
-	 */
-	public int getM_PriceList_Version_ID()
-	{
-		if (m_M_PriceList_Version_ID == 0)
-		{
-			int M_PriceList_ID = p_pos.getM_PriceList_ID();
-			if (m_bpartner != null && m_bpartner.getM_PriceList_ID() != 0)
-				M_PriceList_ID = m_bpartner.getM_PriceList_ID();
-			//
-			MPriceList pl = MPriceList.get(p_ctx, M_PriceList_ID, null);
-			setCurrency(MCurrency.getISO_Code(p_ctx, pl.getC_Currency_ID()));
-			f_name.setToolTipText(pl.getName());
-			//
-			MPriceListVersion plv = pl.getPriceListVersion (p_posPanel.getToday());
-			if (plv != null && plv.getM_PriceList_Version_ID() != 0)
-				m_M_PriceList_Version_ID = plv.getM_PriceList_Version_ID();
-		}
-		return m_M_PriceList_Version_ID;
-	}	//	getM_PriceList_Version_ID
-	
-
-	/***************************************************************************
-	 * Set Currency
-	 * 
-	 * @param currency
-	 * 
-	 */
-	public void setCurrency(String currency) {
-		if (currency == null)
-			f_currency.setText("---");
-		else
-			f_currency.setText(currency);
-	} //	setCurrency
+	}	//	findBPartner
 	
 	/**
 	 * 	Print Ticket
 	 * 
 	 */
-	public void printTicket()
-	{
-		if (p_posPanel.getM_Order() == null)
+	public void printTicket() {
+		if (v_POSPanel.getM_Order() == null)
 			return;
 		
-		MOrder order = p_posPanel.getM_Order();
+		MOrder order = v_POSPanel.getM_Order();
 		//int windowNo = p_posPanel.getWindowNo();
 		//Properties m_ctx = p_posPanel.getPropiedades();
 		
@@ -585,7 +422,7 @@ public class SubOrder extends PosSubPanel
 					MSequence seq = new MSequence(Env.getCtx(), p_pos.getAD_Sequence_ID(), order.get_TrxName());
 					String docno = seq.getPrefix() + seq.getCurrentNext();
 					String q = "Confirmar el número consecutivo "  + docno;
-					if (org.compiere.apps.ADialog.ask(0, p_posPanel.f_curLine.getParent(), q))						
+					if (org.compiere.apps.ADialog.ask(0, v_POSPanel.f_curLine.getParent(), q))						
 					{
 						order.setPOReference(docno);
 						order.saveEx();
@@ -635,15 +472,13 @@ public class SubOrder extends PosSubPanel
 	 */
 	public void updateOrder()
 	{
-		if (p_posPanel != null )
+		if (v_POSPanel != null )
 		{
-			MOrder order = p_posPanel.getM_Order();
+			MOrder order = v_POSPanel.getM_Order();
 			if (order != null)
-			{
-  				p_posPanel.f_curLine.f_DocumentNo.setText(order.getDocumentNo());
-  				
+			{  				
   				// Button BPartner: enable when order drafted, and order has no lines
-  				setC_BPartner_ID(order.getC_BPartner_ID());  				
+  				v_POSPanel.setC_BPartner_ID(order.getC_BPartner_ID());  				
   				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
   						order.getLines().length == 0 )
   					f_bBPartner.setEnabled(true);
@@ -703,15 +538,15 @@ public class SubOrder extends PosSubPanel
 			}
 			else
 			{
-				p_posPanel.f_curLine.f_DocumentNo.setText(null);
-				setC_BPartner_ID(0);
+				v_POSPanel.setC_BPartner_ID(0);
 				f_bBPartner.setEnabled(false);
 				f_bNew.setEnabled(true);
 				f_history.setEnabled(true);
 				f_Cancel.setEnabled(false);
 				f_cashPayment.setEnabled(false);
 			}
-			
+			//	Refresh
+			v_POSPanel.refreshPanel();
 		}
 	}	
 

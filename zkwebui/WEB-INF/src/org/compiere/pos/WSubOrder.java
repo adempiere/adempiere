@@ -142,7 +142,7 @@ public class WSubOrder extends WPosSubPanel
 	private Textbox f_currency = new Textbox();
 	private Button f_bCreditSale;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(SubOrder.class);
+	private static CLogger log = CLogger.getCLogger(POSCommandPanel.class);
 	
 	
 	private Button 			f_delete;
@@ -1098,7 +1098,7 @@ public class WSubOrder extends WPosSubPanel
 		//	Do you want to use the alternate Document type?
 		boolean isDocType = FDialog.ask(0, null, Msg.getMsg(p_ctx, "POS.AlternateDT"));
 		setC_BPartner_ID(0);
-		p_posPanel.newOrder(getBPartner(), isDocType);
+		p_posPanel.newOrder(isDocType);
 		newLine();
 		updateInfo();
 		orderList.add(p_posPanel.getM_Order().getC_Order_ID());
@@ -1435,7 +1435,7 @@ public class WSubOrder extends WPosSubPanel
 		BigDecimal PriceActual = BigDecimal.valueOf(f_price);
 		if (p_posPanel.getM_Order() == null ) {
 			boolean isDocType = FDialog.ask(0, null, Msg.getMsg(p_ctx, "POS.AlternateDT"));
-			p_posPanel.newOrder(getBPartner(), isDocType);
+			p_posPanel.newOrder(isDocType);
 		}
 		
 		MOrderLine line = null;

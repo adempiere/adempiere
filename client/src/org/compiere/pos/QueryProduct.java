@@ -111,28 +111,28 @@ public class QueryProduct extends PosQuery
 		//
 		CLabel lvalue = new CLabel(Msg.translate(p_ctx, "Value"));
 		northPanel.add (lvalue, "growy");
-		f_value = new POSTextField("", p_posPanel.getKeyboard());
+		f_value = new POSTextField("", v_POSPanel.getKeyboard());
 		lvalue.setLabelFor(f_value);
 		northPanel.add(f_value,  "h 30, w 200");
 		f_value.addActionListener(this);
 		//
 		CLabel lupc = new CLabel(Msg.translate(p_ctx, "UPC"));
 		northPanel.add (lupc, "growy");
-		f_upc = new POSTextField("", p_posPanel.getKeyboard());
+		f_upc = new POSTextField("", v_POSPanel.getKeyboard());
 		lupc.setLabelFor(f_upc);
 		northPanel.add(f_upc,  "h 30, w 200, wrap");
 		f_upc.addActionListener(this);
 		//
 		CLabel lname = new CLabel(Msg.translate(p_ctx, "Name"));
 		northPanel.add (lname, "growy");
-		f_name = new POSTextField("", p_posPanel.getKeyboard());
+		f_name = new POSTextField("", v_POSPanel.getKeyboard());
 		lname.setLabelFor(f_name);
 		northPanel.add(f_name,  "h 30, w 200");
 		f_name.addActionListener(this);
 		//
 		CLabel lsku = new CLabel(Msg.translate(p_ctx, "SKU"));
 		northPanel.add (lsku, "growy");
-		f_sku = new POSTextField("", p_posPanel.getKeyboard());
+		f_sku = new POSTextField("", v_POSPanel.getKeyboard());
 		lsku.setLabelFor(f_sku);
 		northPanel.add(f_sku,  "h 30, w 200");
 		f_sku.addActionListener(this);
@@ -298,13 +298,13 @@ public class QueryProduct extends PosQuery
 		
 		if (m_M_Product_ID > 0)
 		{
-			p_posPanel.f_curLine.setM_Product_ID(m_M_Product_ID);
-			p_posPanel.f_curLine.setPrice(m_Price);
+			v_POSPanel.f_curLine.setM_Product_ID(m_M_Product_ID);
+			v_POSPanel.f_curLine.setPrice(m_Price);
 		}
 		else
 		{
-			p_posPanel.f_curLine.setM_Product_ID(0);
-			p_posPanel.f_curLine.setPrice(Env.ZERO);
+			v_POSPanel.f_curLine.setM_Product_ID(0);
+			v_POSPanel.f_curLine.setPrice(Env.ZERO);
 		}
 		dispose();
 	}	//	close

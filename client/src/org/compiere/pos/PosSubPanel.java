@@ -49,13 +49,13 @@ public abstract class PosSubPanel extends CPanel
 	public PosSubPanel (VPOS posPanel)
 	{
 		super();
-		p_posPanel = posPanel;
+		v_POSPanel = posPanel;
 		p_pos = posPanel.getM_POS();
 		init();
 	}	//	PosSubPanel
 	
 	/** POS Panel							*/
-	protected VPOS 				p_posPanel;
+	protected VPOS 				v_POSPanel;
 	/**	Underlying POS Model				*/
 	protected MPOS					p_pos;
 	/** Context								*/
