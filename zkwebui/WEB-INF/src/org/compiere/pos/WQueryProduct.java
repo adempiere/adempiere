@@ -36,6 +36,7 @@ import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
+import org.compiere.pos.search.QueryProduct;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

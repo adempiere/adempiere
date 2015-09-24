@@ -57,11 +57,11 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	/**	Main Pane					*/
 	private CPanel							m_MainPane;
 	/** Order Panel					*/
-	protected POSCommandPanel 				f_order;
+	private POSActionPanel 					f_OrderPanel;
 	/** Current Line				*/
-	protected POSOrderLinePanel 			f_curLine;
+	private POSOrderLinePanel 				f_OrderLinePanel;
 	/** Function Keys				*/
-	protected POSProductPanel 				f_functionKeys;
+	private POSProductPanel 				f_ProductKeysPanel;
 	/**	Timer for logout			*/
 	private Timer 							logoutTimer;
 	/** Keyoard Focus Manager		*/
@@ -106,6 +106,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 				m_frame.setExtendedState(JFrame.ABORT);
 				return;
 			}
+			//	Add to frame
 			frame.getContentPane().add(m_MainPane, BorderLayout.CENTER);
 		} catch(Exception e) {
 			log.log(Level.SEVERE, "init", e);
@@ -189,16 +190,16 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 			return false;
 		m_frame.setTitle("Adempiere POS: " + m_POS.getName());
 		//	Create Sub Panels
-		f_order = new POSCommandPanel(this);
-		m_MainPane.add(f_order, "split 2, flowy, growx, spany, spanx");
+		f_OrderPanel = new POSActionPanel(this);
+		m_MainPane.add(f_OrderPanel, "split 2, flowy, growx, spany, spanx");
 		//
-		f_curLine = new POSOrderLinePanel(this);
-		m_MainPane.add(f_curLine, "h 200, growx, growy, gaptop 30");
+		f_OrderLinePanel = new POSOrderLinePanel(this);
+		m_MainPane.add(f_OrderLinePanel, "h 200, growx, growy, gaptop 30");
 		
-		f_functionKeys = new POSProductPanel(this);
+		f_ProductKeysPanel = new POSProductPanel(this);
 		
 				
-		m_MainPane.add(f_functionKeys, "east");
+		m_MainPane.add(f_ProductKeysPanel, "east");
 		
 		return true;
 	}	//	dynInit
@@ -218,43 +219,23 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		m_focusMgr = null;
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(originalKeyboardFocusManager);
 		//
-		if (f_order != null)
-			f_order.dispose();
-		f_order = null;
-		if (f_curLine != null) {
+		if (f_OrderPanel != null)
+			f_OrderPanel.dispose();
+		f_OrderPanel = null;
+		if (f_OrderLinePanel != null) {
 			// if ( m_order != null )
 			// 	m_order.deleteOrder();
-			f_curLine.dispose();
+			f_OrderLinePanel.dispose();
 		}
-		f_curLine = null;
-		if (f_functionKeys != null)
-			f_functionKeys.dispose();
-		f_functionKeys = null;
+		f_OrderLinePanel = null;
+		if (f_ProductKeysPanel != null)
+			f_ProductKeysPanel.dispose();
+		f_ProductKeysPanel = null;
 		if (m_frame != null)
 			m_frame.dispose();
 		m_frame = null;
 		m_ctx = null;
 	}	//	dispose
-
-	/**
-	 * Update Order Info
-	 */
-	public void updateInfo() {
-		reload();
-		if ( f_curLine != null )
-			f_curLine.refreshPanel();
-		if (f_order != null) {
-			f_order.updateOrder();
-		}
-	}
-
-	/**
-	 * @param m_c_order_id
-	 */
-	public void setOldOrder(int m_c_order_id) {
-		super.setOldOrder(m_c_order_id);
-		updateInfo();
-	}
 	
 	/**
 	 * Get Keyboard
@@ -295,25 +276,18 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @return void
 	 */
 	public void newOrder() {
-		boolean isDocType = ADialog.ask(0, f_curLine.getParent(), Msg.getMsg(m_ctx, "POS.AlternateDT"));
+		boolean isDocType = ADialog.ask(0, m_MainPane, Msg.getMsg(m_ctx, "POS.AlternateDT"));
 		newOrder(isDocType);
 		setC_BPartner_ID(0);
-		f_curLine.newLine();
-		updateInfo();
-	}
-	
-	/**
-	 * Refresh Order Header
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return void
-	 */
-	protected void refreshHeader() {
-		f_curLine.refreshPanel();
 	}
 
 	@Override
 	public void refreshPanel() {
-		refreshHeader();
+		//	Reload from DB
+		reloadOrder();
+		f_OrderPanel.updateOrder();
+		f_ProductKeysPanel.refreshPanel();
+		f_OrderLinePanel.refreshPanel();
 	}
 
 	@Override

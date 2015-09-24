@@ -34,8 +34,6 @@ import net.miginfocom.swing.MigLayout;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.MProduct;
-import org.compiere.model.MWarehousePrice;
 import org.compiere.model.PO;
 import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
@@ -75,54 +73,17 @@ public class POSOrderLinePanel extends PosSubPanel
 		super(posPanel);
 	}
 
-	/**	Label Order			*/
-	private BigDecimal	 	f_price;
-	private BigDecimal		f_quantity;
+	/**	Current Order Line	*/
 	private int 			m_C_OrderLine_ID = 0;
 	
-
-	/**	The Product					*/
-	private MProduct		m_product = null; 
-
-	/** Warehouse					*/
-	private int 			m_M_Warehouse_ID;
-	/** PLV							*/
-	private int 			m_M_PriceList_Version_ID;
-	
-	
-	/**	Logger			*/
+	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(POSOrderLinePanel.class);
 	
 
-	/** The Table					*/
+	/** The Table			*/
 	private PosTable		m_table;
-	/** The Query SQL				*/
-	private String			m_sql;
-	/**	Logger			*/
-	
-	static final private String NAME        = "Name";
-	static final private String QTY         = "Qty";
-	static final private String C_UOM_ID    = "C_UOM_ID";
-	static final private String PRICEACTUAL = "PriceActual";
-	static final private String LINENETAMT  = "LineNetAmt";
-	static final private String GRANDTOTAL  = "GrandTotal";
-	
-	/**	Table Column Layout Info			*/
-	private static ColumnInfo[] s_layout = new ColumnInfo[] 
-	{
-		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), NAME), "p_Name", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), QTY), "QtyOrdered", Double.class,false,true,null),
-		new ColumnInfo(Msg.translate(Env.getCtx(), C_UOM_ID), "UOM_name", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), PRICEACTUAL), PRICEACTUAL, BigDecimal.class,false,true,null), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), LINENETAMT), LINENETAMT, BigDecimal.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class, true, true, null), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class,  true, true, null), 
-	};
-	/**	From Clause							*/
-	private static String s_sqlFrom = "POS_OrderLine_v";
-	/** Where Clause						*/
-	private static String s_sqlWhere = "C_Order_ID=? AND LineNetAmt <> 0"; 
+	/**	Table Handle		*/
+	private POSOrderLineTableHandle m_TableHandle;
 	
 	/**
 	 * Initialize
@@ -133,9 +94,9 @@ public class POSOrderLinePanel extends PosSubPanel
 		setLayout(new MigLayout("fill, ins 10 10"));
 	
 		m_table = new PosTable();
+		m_TableHandle = new POSOrderLineTableHandle(m_table);
 		CScrollPane scroll = new CScrollPane(m_table);
-		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, 
-				s_sqlWhere, false, "POS_OrderLine_v");
+		m_TableHandle.prepareTable();
 //		m_table.getSelectionModel().addListSelectionListener(this);
 		m_table.setColumnVisibility(m_table.getColumn(0), false);
 		m_table.getColumn(1).setPreferredWidth(320);
@@ -163,7 +124,7 @@ public class POSOrderLinePanel extends PosSubPanel
 				default:
 					break;
 				}
-				v_POSPanel.updateInfo();
+				v_POSPanel.refreshPanel();
 			}
 			
 			@Override
@@ -179,7 +140,7 @@ public class POSOrderLinePanel extends PosSubPanel
 					break;
 				}
 
-				v_POSPanel.updateInfo();
+				v_POSPanel.refreshPanel();
 			}
 			
 			@Override
@@ -194,28 +155,14 @@ public class POSOrderLinePanel extends PosSubPanel
 				default:
 					break;
 				}
-				v_POSPanel.updateInfo();
+				v_POSPanel.refreshPanel();
 
-			}
-
-    private int[] getSelectedCell() {
-         int[] xy = new int[2];
-         xy[0] = m_table.getSelectedRow();
-         xy[1] = m_table.getSelectedColumn();
-         return xy;
-    }
-
-			
+			}			
 		});
 
 		m_table.setFillsViewportHeight( true ); //@Trifon
 		m_table.growScrollbars();
-		add (scroll, "growx, spanx, growy, pushy, h 100:30:");
-		
-		setQty(Env.ZERO);
-		
-		setPrice(Env.ZERO);
-		
+		add (scroll, "growx, spanx, growy, pushy, h 100:30:");		
 	} //init
 
 
@@ -235,256 +182,18 @@ public class POSOrderLinePanel extends PosSubPanel
 		String action = e.getActionCommand();
 		if (action == null || action.length() == 0)
 			return;
-		log.info( "SubCurrentLine - actionPerformed: " + action);
-		
-		//	Plus
-		if (action.equals("Plus"))
-		{
-			if ( m_C_OrderLine_ID > 0 )
-			{
-				MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
-				if ( line != null )
-				{
-					line.setQty(line.getQtyOrdered().add(Env.ONE));
-					line.saveEx();
-					v_POSPanel.updateInfo();
-				}
-			}
-
-		}
-		//	Minus
-		else if (action.equals("Minus"))
-		{
-			if ( m_C_OrderLine_ID > 0 )
-			{
-				MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
-				if ( line != null )
-				{
-					line.setQty(line.getQtyOrdered().subtract(Env.ONE));
-					line.saveEx();
-					v_POSPanel.updateInfo();
-				}
-			}
-
-		}
+		log.info( "POSOrderLinePanel - actionPerformed: " + action);
 		//	Product
-		if (action.equals("Product"))
-		{
-			setParameter();
-//			QueryProduct qt = new QueryProduct(p_posPanel);
-//			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
-//			qt.setVisible(true);
-			refreshPanel();
-			int row = m_table.getSelectedRow();
-			if (row < 0) row = 0;
-			m_table.getSelectionModel().setSelectionInterval(row, row);
-			// https://sourceforge.net/tracker/?func=detail&atid=879332&aid=3121975&group_id=176962
-			m_table.scrollRectToVisible(m_table.getCellRect(row, 1, true)); //@Trifon - BF[3121975]
-		}
-		if ("Previous".equalsIgnoreCase(e.getActionCommand()))
-		{
-			int rows = m_table.getRowCount();
-			if (rows == 0) 
-				return;
-			int row = m_table.getSelectedRow();
-			row--;
-			if (row < 0)
-				row = 0;
-			m_table.getSelectionModel().setSelectionInterval(row, row);
-			// https://sourceforge.net/tracker/?func=detail&atid=879332&aid=3121975&group_id=176962
-			m_table.scrollRectToVisible(m_table.getCellRect(row, 1, true)); //@Trifon - BF[3121975]
-			return;
-		}
-		else if ("Next".equalsIgnoreCase(e.getActionCommand()))
-		{
-			int rows = m_table.getRowCount();
-			if (rows == 0)
-				return;
-			int row = m_table.getSelectedRow();
-			row++;
-			if (row >= rows)
-				row = rows - 1;
-			m_table.getSelectionModel().setSelectionInterval(row, row);
-			// https://sourceforge.net/tracker/?func=detail&atid=879332&aid=3121975&group_id=176962
-			m_table.scrollRectToVisible(m_table.getCellRect(row, 1, true)); //@Trifon - BF[3121975]
-			return;
-		}
-		//	Delete
-		else if (action.equals("Cancel"))
-		{
-			int rows = m_table.getRowCount();
-			if (rows != 0)
-			{
-				int row = m_table.getSelectedRow();
-				if (row != -1)
-				{
-					if (v_POSPanel.getM_Order() != null)
-						v_POSPanel.deleteLine(m_table.getSelectedRowKey());
-					setQty(null);
-					setPrice(null);
-					
-					m_C_OrderLine_ID = 0;
-				}
-			}
-		}
-		v_POSPanel.updateInfo();
+		//	Refresh All
+		v_POSPanel.refreshPanel();
 	} //	actionPerformed
-	
-	/**
-	 * 	Set Query Parameter
-	 */
-	private void setParameter()
-	{
-		//	What PriceList ?
-		m_M_Warehouse_ID = p_pos.getM_Warehouse_ID();
-		m_M_PriceList_Version_ID = v_POSPanel.getM_PriceList_Version_ID();
-	}	//	setParameter
-
-	/**
-	 * Set Price
-	 * 
-	 * @param price
-	 */
-	public void setPrice(BigDecimal price) {
-		if (price == null)
-			price = Env.ZERO;
-		f_price = price;
-	} //	setPrice
-
-	/**
-	 * Get Price
-	 * 
-	 * @return price
-	 */
-	public BigDecimal getPrice() {
-		return f_price;
-	} //	getPrice
-
-	/**
-	 * Set Qty
-	 * 
-	 * @param qty
-	 */
-	public void setQty(BigDecimal qty) {
-		f_quantity = qty;
-	} //	setQty
-
-	/**
-	 * Get Qty
-	 * 
-	 * @return qty
-	 */
-	public BigDecimal getQty() {
-		return f_quantity;
-	} //	getQty
-
-	/***************************************************************************
-	 * New Line
-	 */
-	public void newLine() {
-		setM_Product_ID(0);
-		setQty(Env.ONE);
-		setPrice(Env.ZERO);
-		m_C_OrderLine_ID = 0;
-	} //	newLine
-
-	/**
-	 * Save Line
-	 * 
-	 * @return true if saved
-	 */
-	public boolean saveLine() {
-		MProduct product = getProduct();
-		if (product == null)
-			return false;
-		BigDecimal QtyOrdered = f_quantity;
-		BigDecimal PriceActual = f_price;
-		
-		if (v_POSPanel.getM_Order() == null) {
-			v_POSPanel.newOrder();
-		}
-		
-		MOrderLine line = null;
-		
-		if (v_POSPanel.getM_Order() != null) {
-			line = v_POSPanel.createLine(product, QtyOrdered, PriceActual);
-
-			if (line == null)
-				return false;
-			if (!line.save())
-				return false;
-		}
-		
-		m_C_OrderLine_ID = line.getC_OrderLine_ID();
-		setM_Product_ID(0);
-		//
-		return true;
-	} //	saveLine
-
-
-	/**
-	 * 	Get Product
-	 *	@return product
-	 */
-	public MProduct getProduct()
-	{
-		return m_product;
-	}	//	getProduct
-	
-	/**
-	 * 	Set Price for defined product 
-	 */
-	public void setPrice()
-	{
-		if (m_product == null)
-			return;
-		//
-		setParameter();
-		MWarehousePrice result = MWarehousePrice.get (m_product,
-			m_M_PriceList_Version_ID, m_M_Warehouse_ID, null);
-		if (result != null)
-			v_POSPanel.f_curLine.setPrice(result.getPriceStd());
-		else
-			v_POSPanel.f_curLine.setPrice(Env.ZERO);
-
-	}	//	setPrice
-
-	/**************************************************************************
-	 * 	Set Product
-	 *	@param M_Product_ID id
-	 */
-	public void setM_Product_ID (int M_Product_ID)
-	{
-		log.fine( "PosSubProduct.setM_Product_ID=" + M_Product_ID);
-		if (M_Product_ID <= 0)
-			m_product = null;
-		else
-		{
-			m_product = MProduct.get(p_ctx, M_Product_ID);
-			if (m_product.get_ID() == 0)
-				m_product = null;
-		}
-		//	Set String Info
-		if (m_product != null)
-		{
-//			f_name.setText(m_product.getName());
-//			f_name.setToolTipText(m_product.getDescription());
-		}
-		else
-		{
-//			f_name.setText(null);
-//			f_name.setToolTipText(null);
-		}
-	}	//	setM_Product_ID
 	
 	/**
 	 * 	Focus Gained
 	 *	@param e
 	 */
-	public void focusGained (FocusEvent e)
-	{
-		
-		
+	public void focusGained (FocusEvent e) {
+		log.info("POSOrderLinePanel - focusGained: " + e);		
 	}	//	focusGained
 		
 
@@ -492,13 +201,11 @@ public class POSOrderLinePanel extends PosSubPanel
 	 * 	Focus Lost
 	 *	@param e
 	 */
-	public void focusLost (FocusEvent e)
-	{
+	public void focusLost (FocusEvent e) {
 		if (e.isTemporary())
 			return;
-		log.info( "PosSubProduct - focusLost");
-//		findProduct();
-		v_POSPanel.updateInfo();
+		log.info( "POSProductPanel - focusLost");
+		v_POSPanel.refreshPanel();
 	}	//	focusLost
 
 
@@ -512,62 +219,45 @@ public class POSOrderLinePanel extends PosSubPanel
 			if ( data != null )	{
 				Integer id = (Integer) ((IDColumn)data).getRecord_ID();
 				m_C_OrderLine_ID = id;
-				loadLine(id);
 			}
 		}
-
-		v_POSPanel.refreshHeader();
+		//	Refresh
+		v_POSPanel.refreshPanel();
 		
-	}  // valueChanged
-
-	private void loadLine(int lineId) {
-		
-		if ( lineId <= 0 )
-			return;
+	}  // valueChanged	
 	
-		log.fine("SubCurrentLine - loading line " + lineId);
-		MOrderLine ol = new MOrderLine(p_ctx, lineId, null);
-		if ( ol != null ) {
-			setPrice(ol.getPriceActual());
-			setQty(ol.getQtyOrdered());
-		}
-	}
     public void tableChanged(TableModelEvent e) {
-        int column = e.getColumn();
-		int id = m_table.getSelectedRow();
+        int id = m_table.getSelectedRow();
 		boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
 		if (!isUpdate) {
 			return;
 		}
         if (id != -1) {	
-    		IDColumn key = (IDColumn) m_table.getModel().getValueAt(id, 0);
+    		IDColumn key = (IDColumn) m_table.getModel().getValueAt(id, POSOrderLineTableHandle.POSITION_C_ORDER_ID);
     		
     		if ( key != null &&  key.getRecord_ID() != m_C_OrderLine_ID )
     			m_C_OrderLine_ID = key.getRecord_ID();
 			
-    		BigDecimal price = new BigDecimal(m_table.getModel().getValueAt(id, 4).toString());
-			BigDecimal qty = new BigDecimal(m_table.getModel().getValueAt(id, 2).toString());
+    		BigDecimal price = new BigDecimal(m_table.getModel().getValueAt(id, POSOrderLineTableHandle.POSITION_PRICE).toString());
+			BigDecimal qty = new BigDecimal(m_table.getModel().getValueAt(id, POSOrderLineTableHandle.POSITION_QTYORDERED).toString());
 			m_table.getModel().removeTableModelListener(this);
-			
-    			MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
-    			if ( line != null ) {
-    					line.setPrice(price);
-    					line.setQty(qty);
-    					line.saveEx();
-    					BigDecimal grandTotal = line.getLineNetAmt();
-    					m_table.getModel().setValueAt(line.getLineNetAmt(), id, 5);
-    					if(!line.getC_Tax().getRate().equals(null)){
-    						grandTotal.multiply(line.getC_Tax().getRate());
-    					} 
-    					m_table.getModel().setValueAt(grandTotal, id, 7);
-    					if(qty.compareTo(Env.ZERO) <= 0){
-//    						p_posPanel.updateInfo();
-    					}
-    			}
-    			v_POSPanel.reload();
-    			v_POSPanel.refreshPanel();
-    			m_table.getModel().addTableModelListener(this);
-    			
+			//	
+			MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
+			line.setPrice(price);
+			line.setQty(qty);
+			line.saveEx();
+			BigDecimal grandTotal = line.getLineNetAmt();
+			m_table.getModel().setValueAt(line.getLineNetAmt(), id, POSOrderLineTableHandle.POSITION_LINENETAMT);
+			if(!line.getC_Tax().getRate().equals(null)){
+				grandTotal.multiply(line.getC_Tax().getRate());
+			} 
+			m_table.getModel().setValueAt(grandTotal, id, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
+			if(qty.compareTo(Env.ZERO) <= 0){
+//						p_posPanel.updateInfo();
+			}
+			v_POSPanel.reloadOrder();
+			v_POSPanel.refreshPanel();
+			m_table.getModel().addTableModelListener(this);
     	}
        // ...// Do something with the data...
     }
@@ -575,24 +265,11 @@ public class POSOrderLinePanel extends PosSubPanel
 	@Override
 	public void refreshPanel() {
 		if (!v_POSPanel.hasOrder()) {
-			v_POSPanel.f_curLine.m_table.loadTable(new PO[0]);
-			v_POSPanel.refreshHeader();
+			m_table.loadTable(new PO[0]);
 		}
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement (m_sql, null);
-			pstmt.setInt (1, v_POSPanel.getC_Order_ID());
-			rs = pstmt.executeQuery ();
-			m_table.loadTable(rs);
-		} catch (Exception e) {
-			log.log(Level.SEVERE, m_sql, e);
-		} finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		
+		//	Load Data
+		m_TableHandle.loadTable(v_POSPanel.getC_Order_ID());
+		//	
 		for ( int i = 0; i < m_table.getRowCount(); i ++ ) {
 			IDColumn key = (IDColumn) m_table.getModel().getValueAt(i, 0);
 			if ( key != null && m_C_OrderLine_ID > 0 && key.getRecord_ID() == m_C_OrderLine_ID ) {
@@ -600,8 +277,6 @@ public class POSOrderLinePanel extends PosSubPanel
 				break;
 			}
 		}
-		//	Refresh
-		v_POSPanel.refreshHeader();
 	}
 
 
@@ -615,4 +290,4 @@ public class POSOrderLinePanel extends PosSubPanel
 	public void changeViewPanel() {
 		
 	}
-} //	PosSubCurrentLine
+} //	POSOrderLinePanel

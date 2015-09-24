@@ -12,7 +12,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
 
-package org.compiere.pos;
+package org.compiere.pos.search;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -31,6 +31,9 @@ import net.miginfocom.swing.MigLayout;
 import org.compiere.grid.ed.VDate;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.pos.POSTextField;
+import org.compiere.pos.PosTable;
+import org.compiere.pos.VPOS;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CLabel;
@@ -338,11 +341,9 @@ public class QueryTicket extends PosQuery
 		if (ID != null)
 			m_c_order_id = ID.intValue(); 		
 		
-		if (m_c_order_id > 0)
-		{
+		if (m_c_order_id > 0) {
 			v_POSPanel.setOrder(m_c_order_id);
-			v_POSPanel.updateInfo();
-
+//			v_POSPanel.refreshPanel();
 		}
 		dispose();
 	}	//	close

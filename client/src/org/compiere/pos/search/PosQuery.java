@@ -11,7 +11,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.compiere.pos;
+package org.compiere.pos.search;
 
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -28,6 +28,8 @@ import javax.swing.event.ListSelectionListener;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.model.MPOS;
+import org.compiere.pos.PosTable;
+import org.compiere.pos.VPOS;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;

@@ -34,6 +34,8 @@ import org.compiere.model.MPaymentProcessor;
 import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUser;
+import org.compiere.model.MWarehousePrice;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
@@ -167,7 +169,22 @@ public class CPOS {
 			return m_SalesRep_ID;
 		}
 		return 0;
-	}	//	getC_BPartner_Location_ID	
+	}	//	getAD_User_ID
+	
+	/**
+	 * Get Sales Rep. Name
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return String
+	 */
+	public String getSalesRepName() {
+		MUser salesrep = MUser.get(m_ctx);
+		if(salesrep == null) {
+			return null;
+		}
+		//	Default Return
+		return salesrep.getName();
+	}
 	
 	/**
 	 * Get POS Configuration
@@ -272,7 +289,7 @@ public class CPOS {
 		//	Create Order
 		m_CurrentOrder = createOrder(m_BPartner, m_C_DocType_ID);
 		//	
-		updateInfo();
+		reloadOrder();
 	}	//	newOrder
 
 	/**
@@ -286,17 +303,7 @@ public class CPOS {
 		else 
 			m_CurrentOrder = new MOrder(m_ctx , m_c_order_id, null);
 		//	
-		updateInfo();
-	}
-	
-	/**
-	 * Update Order Info
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return void
-	 */
-	public void updateInfo() {
-		// reload order
-		reload();
+		reloadOrder();
 	}
 	
 	/**
@@ -347,40 +354,83 @@ public class CPOS {
 		// catch Exceptions at order.getLines()
 		int numLines = 0;
 		MOrderLine[] lines = null;
-//		try {
-			lines = m_CurrentOrder.getLines(null, "Line");
-			numLines = lines.length;
-			for (int i = 0; i < numLines; i++) {
-				if (lines[i].getM_Product_ID() == product.getM_Product_ID()) {
-					//increase qty
-					BigDecimal current = lines[i].getQtyEntered();
-					BigDecimal toadd = QtyOrdered;
-					BigDecimal total = current.add(toadd);
-					lines[i].setQty(total);
-					lines[i].setPrice(); //	sets List/limit
-					if ( PriceActual.compareTo(Env.ZERO) > 0 )
-						lines[i].setPrice(PriceActual);
-					lines[i].saveEx();
-					return lines[i];
+		lines = m_CurrentOrder.getLines(null, "Line");
+		numLines = lines.length;
+		for (int i = 0; i < numLines; i++) {
+			if (lines[i].getM_Product_ID() == product.getM_Product_ID()) {
+				//increase qty
+				BigDecimal current = lines[i].getQtyEntered();
+				BigDecimal toadd = QtyOrdered;
+				BigDecimal total = current.add(toadd);
+				lines[i].setQty(total);
+				lines[i].setPrice(); //	sets List/limit
+				if (PriceActual.compareTo(Env.ZERO) > 0) {
+					lines[i].setPrice(PriceActual);
 				}
+				lines[i].saveEx();
+				return lines[i];
 			}
-//		} catch (Exception e) {
-//			log.severe("Order lines cannot be created - " + e.getMessage());
-//		}
-
+		}
         //create new line
 		MOrderLine line = new MOrderLine(m_CurrentOrder);
 		line.setProduct(product);
 		line.setQty(QtyOrdered);
 			
 		line.setPrice(); //	sets List/limit
-		if ( PriceActual.compareTo(Env.ZERO) > 0 )
+		if ( PriceActual.compareTo(Env.ZERO) > 0 ) {
 			line.setPrice(PriceActual);
-			line.saveEx();
-		
+		}
+		//	Save Line
+		line.saveEx();
 		return line;
 			
 	} //	createLine
+	
+	/**
+	 * Get Product Price
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @param p_Product
+	 * @return
+	 * @return BigDecimal
+	 */
+	public BigDecimal getPrice(MProduct p_Product) {
+		if (p_Product == null)
+			return Env.ZERO;
+		//
+		MWarehousePrice result = MWarehousePrice.get (p_Product,
+			m_M_PriceList_Version_ID, m_POS.getM_Warehouse_ID(), null);
+		if (result != null) {
+			return result.getPriceStd();
+		}
+		//	Default to return
+		return Env.ZERO;
+
+	}	//	setPrice
+	
+	/**
+	 * Save Line
+	 * 
+	 * @return true if saved
+	 */
+	public String saveLine(int p_M_Product_ID, BigDecimal p_QtyOrdered) {
+		String m_Error = null;
+		try {
+			MProduct m_Product = MProduct.get(m_ctx, p_M_Product_ID);
+			if (m_Product == null)
+				return "@No@ @InfoProduct@";
+			BigDecimal PriceActual = getPrice(m_Product);
+			//	Validate if exists a order
+			if (hasOrder()) {
+				createLine(m_Product, p_QtyOrdered, PriceActual);
+			} else {
+				return "@POS.MustCreateOrder@";
+			}
+		} catch (Exception e) {
+			m_Error = e.getMessage();
+		}
+		//	
+		return m_Error;
+	} //	saveLine
 	
 	
 	/**
@@ -565,7 +615,7 @@ public class CPOS {
 	 * 	Load Order
 	 * 
 	 */
-	public void reload() {
+	public void reloadOrder() {
 		if (m_CurrentOrder == null)
 			return;
 		m_CurrentOrder.load(m_CurrentOrder.get_TrxName());
@@ -593,6 +643,16 @@ public class CPOS {
 		//	Default Return
 		return m_M_PriceList_Version_ID;
 	}	//	getM_PriceList_Version_ID
+	
+	/**
+	 * Get Warehouse Identifier
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	public int getM_Warehouse_ID() {
+		return m_POS.getM_Warehouse_ID();
+	}
 	
 	/**
 	 * 	Set BPartner

@@ -12,7 +12,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
 
-package org.compiere.pos;
+package org.compiere.pos.search;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -27,6 +27,9 @@ import net.miginfocom.swing.MigLayout;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MWarehousePrice;
+import org.compiere.pos.POSTextField;
+import org.compiere.pos.PosTable;
+import org.compiere.pos.VPOS;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -42,6 +45,8 @@ import org.compiere.util.Msg;
  *         *Copyright (c) Jorg Janke
  *  @author Dixon Martinez, ERPCYA 
  *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  <li> Implement best practices
  *  
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
@@ -262,8 +267,7 @@ public class QueryProduct extends PosQuery
 	/**
 	 * 	Enable/Set Buttons and set ID
 	 */
-	protected void enableButtons()
-	{
+	protected void enableButtons() {
 		m_M_Product_ID = -1;
 		m_ProductName = null;
 		m_Price = null;
@@ -296,16 +300,16 @@ public class QueryProduct extends PosQuery
 		if (ID != null)
 			m_M_Product_ID = ID.intValue(); 
 		
-		if (m_M_Product_ID > 0)
-		{
-			v_POSPanel.f_curLine.setM_Product_ID(m_M_Product_ID);
-			v_POSPanel.f_curLine.setPrice(m_Price);
-		}
-		else
-		{
-			v_POSPanel.f_curLine.setM_Product_ID(0);
-			v_POSPanel.f_curLine.setPrice(Env.ZERO);
-		}
+//		if (m_M_Product_ID > 0)
+//		{
+//			v_POSPanel.f_curLine.setM_Product_ID(m_M_Product_ID);
+//			v_POSPanel.f_curLine.setPrice(m_Price);
+//		}
+//		else
+//		{
+//			v_POSPanel.f_curLine.setM_Product_ID(0);
+//			v_POSPanel.f_curLine.setPrice(Env.ZERO);
+//		}
 		dispose();
 	}	//	close
 

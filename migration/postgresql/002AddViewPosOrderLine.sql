@@ -1,23 +1,24 @@
-CREATE OR REPLACE VIEW pos_orderline_v AS 
- SELECT ol.c_orderline_id,
-    ol.c_order_id,
-    ol.ad_client_id,
-    ol.ad_org_id,
-    ol.isactive,
-    ol.created,
-    ol.createdby,
-    ol.updated,
-    ol.updatedby,
-    p.name AS p_name,
-    ol.priceactual,
-    ol.qtyordered,
-    uom.name AS uom_name,
-    t.taxindicator,
-    t.rate,
-    ol.linenetamt,
-    ol.linenetamt + ol.linenetamt * t.rate / 100::numeric AS grandtotal
-   FROM c_orderline ol
-     JOIN c_uom uom ON ol.c_uom_id = uom.c_uom_id
-     JOIN c_order i ON ol.c_order_id = i.c_order_id
-     LEFT JOIN m_product p ON ol.m_product_id = p.m_product_id
-     LEFT JOIN c_tax t ON ol.c_tax_id = t.c_tax_id;
+DROP VIEW IF EXISTS POS_OrderLine_v;
+CREATE OR REPLACE VIEW POS_OrderLine_v AS 
+ SELECT ol.C_OrderLine_ID,
+    ol.C_Order_ID,
+    ol.AD_Client_ID,
+    ol.AD_Org_ID,
+    ol.IsActive,
+    ol.Created,
+    ol.CreatedBy,
+    ol.Updated,
+    ol.UpdatedBy,
+    p.Name AS ProductName,
+    ol.PriceActual,
+    ol.QtyOrdered,
+    uom.UOMSymbol AS UOMSymbol,
+    t.TaxindIcator,
+    t.Rate,
+    ol.LineNetAmt,
+    ((ol.LineNetAmt + ol.LineNetAmt) * t.Rate) / 100 AS GrandTotal
+  FROM c_orderline ol
+     INNER JOIN C_UOM uom ON(ol.C_UOM_ID = uom.C_UOM_ID)
+     INNER JOIN C_order i ON(ol.C_Order_ID = i.C_Order_ID)
+     LEFT JOIN M_Product p ON(ol.M_Product_ID = p.M_Product_ID)
+     LEFT JOIN C_Tax t ON(ol.C_Tax_ID = t.C_Tax_ID);

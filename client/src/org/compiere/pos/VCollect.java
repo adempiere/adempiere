@@ -39,6 +39,7 @@ import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
+import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.model.MOrder;
 import org.compiere.model.X_C_Payment;
@@ -116,9 +117,9 @@ public class VCollect extends Collect
 	private CCheckBox 		fIsCreditOrder;
 	
 	/**	Action				*/
+	private CButton 		bPlus;
 	private JButton 		bCancel;
 	private JButton 		bOk;
-	private CButton 		bPlus;
 	
 	/**	Generic Values		*/
 	private boolean 		isPaid;
@@ -135,6 +136,8 @@ public class VCollect extends Collect
 	private final int		SUMMARY_FIELD_WIDTH 	= 200;
 	/**	Default Height		*/
 	private final int		SUMMARY_FIELD_HEIGHT 	= 30;
+	/**	Plus Button Size	*/
+	private final int		BUTTON_SIZE				= 50;
 
 	/**
 	 * Instance Frame and fill fields
@@ -209,8 +212,12 @@ public class VCollect extends Collect
 		}
 		
 		//	Add Plus Button
-		bPlus = v_POSPanel.f_order.createButtonAction("Plus",
-				KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
+		AppsAction act = new AppsAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2), false);
+		act.setDelegate(this);
+		bPlus = (CButton)act.getButton();
+		bPlus.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+		bPlus.setFocusable(false);
+		//	For Confirm Panel Button
 		bCancel = ConfirmPanel.createCancelButton(true);
 		bOk = ConfirmPanel.createOKButton(true);
 		//	
@@ -271,7 +278,7 @@ public class VCollect extends Collect
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
-	public void addCollectType() {
+	private void addCollectType() {
 		//	
 		String tenderType = X_C_Payment.TENDERTYPE_Cash;
 		if(collectRowNo > 0) {
@@ -322,6 +329,7 @@ public class VCollect extends Collect
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//	Validate Event
 		if (e.getSource().equals(bPlus)) {
 			addCollectType();
 		} else if (e.getSource().equals(bOk)) {
@@ -342,7 +350,7 @@ public class VCollect extends Collect
 			isPaid = false;
 			v_Dialog.dispose();
 			return;
-		} if(e.getSource().equals(fIsCreditOrder)) {	//	For Credit Order Checked
+		} else if(e.getSource().equals(fIsCreditOrder)) {	//	For Credit Order Checked
 			fIsPrePayment.setSelected(false);
 			if(fIsCreditOrder.isSelected()) {				
 				bPlus.setVisible(false);  // TODO setEnable(false) doesn't work!!
