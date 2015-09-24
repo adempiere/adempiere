@@ -363,16 +363,58 @@ public class Collect {
 	}
 	
 	/**
+	 * Validate Payments
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return String
+	 */
+	protected String validatePayment() {
+		// Credit Orders must not have a payment
+		if(isCreditOrder())
+			return null;
+		//	Iterate Payments methods
+		for(CollectDetail m_Collect : m_Collects) {
+			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
+					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
+				continue;
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
+				continue;	//	TODO Validate
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
+				//	Valid Expedition
+				String mmyy = m_Collect.getCreditCardExpMM() + m_Collect.getCreditCardExpYY();
+				String processError = MPaymentValidate
+						.validateCreditCardExp(mmyy);
+				//	Validate Month and Year
+				if(processError != null && !processError.isEmpty()) {
+					return processError;
+				}
+				//	
+				processError = MPaymentValidate
+						.validateCreditCardNumber(m_Collect.getCreditCardNumber(), m_Collect.getCreditCardType());
+				//	Validate Card Number
+				if(processError != null && !processError.isEmpty()) {
+					return processError;
+				}
+			} else {
+				return "POS.UnsupportedPaymentType";
+			}
+		}
+		//	Default
+		return null;
+	}  // processPayment
+	
+	/**
 	 * Processes different kinds of payment types
 	 * 
 	 */
 	public void processPayment(String trxName) {
 		this.trxName = trxName;
-		
-		// Credit Orders must not have a payment
-		if(isCreditOrder())
-			return;
-		
+		//	Validate before init transaction
+		String paymentError = validatePayment();
+		if(paymentError != null) {
+			throw new AdempierePOSException(paymentError);
+		}
+		//	Iterate Payments methods
 		for(CollectDetail m_Collect : m_Collects) {
 			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
@@ -382,21 +424,9 @@ public class Collect {
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
 				//	Valid Expedition
 				String mmyy = m_Collect.getCreditCardExpMM() + m_Collect.getCreditCardExpYY();
-				String processError = MPaymentValidate
-						.validateCreditCardExp(mmyy);
-				if(processError != null && !processError.isEmpty()) {
-					throw new AdempierePOSException(processError);
-				}
 				//	Valid Month and Year
 				int month = MPaymentValidate.getCreditCardExpMM(mmyy);
 				int year = MPaymentValidate.getCreditCardExpYY(mmyy);
-				//	
-				processError = MPaymentValidate
-						.validateCreditCardNumber(m_Collect.getCreditCardNumber(), m_Collect.getCreditCardType());
-				//	
-				if(processError != null && !processError.isEmpty()) {
-					throw new AdempierePOSException(processError);
-				}
 				//	Pay from Credit Card
 				payCreditCard(m_Collect.getPayAmt(), m_Collect.getA_Name(),
 						month, year, m_Collect.getCreditCardNumber(), m_Collect.getCreditCardVV(), m_Collect.getCreditCardType());
@@ -406,9 +436,6 @@ public class Collect {
 //					MInvoice cn = new MInvoice(Env.getCtx(), Integer.parseInt(ID), trxName);
 //					payCreditNote(cn, m_Collect.getPayAmt());
 //				} 
-			else {
-				throw new AdempierePOSException("POS.UnsupportedPaymentType");
-			}
 		}
 	}  // processPayment
 

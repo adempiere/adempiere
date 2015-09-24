@@ -25,9 +25,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Vector;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.KeyStroke;
 
 import net.miginfocom.swing.MigLayout;
@@ -35,22 +33,18 @@ import net.miginfocom.swing.MigLayout;
 import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
-import org.compiere.model.MBPartnerLocation;
-import org.compiere.model.MCurrency;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
-import org.compiere.model.MPriceList;
-import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MSequence;
-import org.compiere.model.MUser;
+import org.compiere.pos.search.PosQuery;
+import org.compiere.pos.search.QueryBPartner;
+import org.compiere.pos.search.QueryTicket;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
-import org.compiere.swing.CComboBox;
 import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 
 
@@ -62,11 +56,13 @@ import org.compiere.util.Msg;
  *         *Copyright � Jorg Janke
  *         *Copyright � ConSerTi
  *  @author Mario Calderon, Systemhaus Westfalia
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  <li> Implement best practices
  *  @version $Id: SubOrder.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: SubOrder.java,v 2.0 2015/09/01 00:00:00 mar_cal_westf
  */
-public class POSCommandPanel extends PosSubPanel 
-	implements ActionListener, FocusListener
+public class POSActionPanel extends PosSubPanel 
+	implements ActionListener, FocusListener, I_POSPanel
 {
 	/**
 	 * 
@@ -77,8 +73,7 @@ public class POSCommandPanel extends PosSubPanel
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public POSCommandPanel (VPOS posPanel)
-	{
+	public POSActionPanel (VPOS posPanel) {
 		super (posPanel);
 	}	//	PosSubCustomer
 	
@@ -86,19 +81,16 @@ public class POSCommandPanel extends PosSubPanel
 	private	CTextField		f_name;
 	private CButton 		f_bNew;
 	private CButton 		f_bBPartner;
-	private CComboBox		f_location;
-	private CComboBox		f_user;
 	private CButton 		f_cashPayment;
 	private CButton 		f_Next;
 	private CButton 		f_Back;
 	private CButton 		f_Cancel;
 	private CButton 		f_logout;
 	
-	private CTextField 			f_currency = new CTextField();
 	private int 				recordPosition;
 	private ArrayList<Integer>	orderList;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(POSCommandPanel.class);	
+	private static CLogger log = CLogger.getCLogger(POSActionPanel.class);	
 
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_CANCEL      = "Cancel";
@@ -185,54 +177,41 @@ public class POSCommandPanel extends PosSubPanel
 	 * 	Distribute actions
 	 *	@param e event
 	 */
-	public void actionPerformed (ActionEvent e)
-	{
+	public void actionPerformed (ActionEvent e) {
 		String action = e.getActionCommand();
 		if (action == null || action.length() == 0)
 			return;
 		log.info( "PosSubCustomer - actionPerformed: " + action);
 		//	New
-		if (action.equals(ACTION_NEW))
-		{
-			v_POSPanel.newOrder(); //red1 New POS Order instead - B_Partner already has direct field
+		if (action.equals(ACTION_NEW)) {
+			v_POSPanel.newOrder();
+			v_POSPanel.refreshPanel();
 			return;
-		}
-		else if (action.equals(ACTION_HISTORY))
-		{
+		} else if (action.equals(ACTION_HISTORY)) {
 			// For already created, but either not completed or not yet paid POS Orders
 			PosQuery qt = new QueryTicket(v_POSPanel);
-			qt.setVisible(true);				
-			v_POSPanel.updateInfo();
-		}
-		else if (action.equals(ACTION_CANCEL))
+			qt.setVisible(true);
+		} else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
 		else if (action.equals(ACTION_PAYMENT))
 			payOrder();
 		else if (action.equals(ACTION_NEXT)){
 			nextRecord();
-			v_POSPanel.updateInfo();
-		}
-		else if (action.equals(ACTION_BACK)){
+		} else if (action.equals(ACTION_BACK)){
 			previousRecord();
-			v_POSPanel.updateInfo();
-		}
-		else if (action.equals(ACTION_BPARTNER))
-		{	// Change to another BPartner
+			v_POSPanel.refreshPanel();
+		} else if (action.equals(ACTION_BPARTNER)) {	// Change to another BPartner
 			PosQuery qt = new QueryBPartner(v_POSPanel);
 			qt.setVisible(true);
 			findBPartner();
-		}
-		// Logout
-		else if (action.equals(ACTION_LOGOUT))
-		{
+		} else if (action.equals(ACTION_LOGOUT)) {	//	Logout
 			v_POSPanel.dispose();
 			return;
-		}
-		//	Name
-		else if (e.getSource() == f_name)
+		} else if (e.getSource() == f_name) {
 			findBPartner();
-		
-		v_POSPanel.updateInfo();
+		}
+		//	Refresh
+		v_POSPanel.refreshPanel();
 	}	//	actionPerformed
 
 	/**
@@ -273,7 +252,7 @@ public class POSCommandPanel extends PosSubPanel
 	private void payOrder() {
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
 		if( v_POSPanel.getM_Order() == null) {		
-			ADialog.warn(0, v_POSPanel.f_curLine,  Msg.getMsg(p_ctx, "You must create an Order first"));
+			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(p_ctx, "POS.MustCreateOrder"));
 		} else {
 			VCollect collect = new VCollect(v_POSPanel);
 			if (collect.showCollect()) {
@@ -291,28 +270,24 @@ public class POSCommandPanel extends PosSubPanel
 	 */
 	private void deleteOrder() {
 		if (v_POSPanel == null || v_POSPanel.getM_Order() == null) {
-			ADialog.warn(v_POSPanel.getWindowNo(), v_POSPanel.f_curLine.getParent(),  Msg.getMsg(p_ctx, "You must create an Order first"));
+			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(p_ctx, "POS.MustCreateOrder"));
 			return;			
-		}
-		else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Drafted) ) {
-			if (ADialog.ask(v_POSPanel.getWindowNo(), v_POSPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Do you want to delete the Order?"))) {
-				if (!v_POSPanel.deleteOrder())
-//					p_posPanel.getM_Order() = null;	
-//				else
-					ADialog.warn(v_POSPanel.getWindowNo(), v_POSPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Order could not be deleted"));
+		} else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Drafted) ) {
+			if (ADialog.ask(v_POSPanel.getWindowNo(), this, Msg.getMsg(p_ctx, "POS.DeleteOrder"))) {	//	TODO translate it: Do you want to delete the Order? 
+				if (!v_POSPanel.deleteOrder()) {
+					ADialog.warn(v_POSPanel.getWindowNo(), this, Msg.getMsg(p_ctx, "POS.OrderCouldNotDeleted"));	//	TODO translate it: Order could not be deleted
+				}
 			}
-		}
-		else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Completed)) {	
-			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "The order is already completed. Do you want to void it?")))) {		
+		} else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Completed)) {	
+			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "POS.OrderIsAlreadyCompleted")))) {	//	TODO Translate it: The order is already completed. Do you want to void it?
 				if (!v_POSPanel.cancelOrder())
-					ADialog.warn(v_POSPanel.getWindowNo(), v_POSPanel.f_curLine.getParent(), Msg.getMsg(p_ctx, "Order could not be voided"));
+					ADialog.warn(v_POSPanel.getWindowNo(), this, Msg.getMsg(p_ctx, "POS.OrderCouldNotVoided"));	//	TODO Translate it: Order could not be voided
 			}
-		}
-		else {
-			ADialog.warn(v_POSPanel.getWindowNo(), v_POSPanel.f_curLine.getParent(),  Msg.getMsg(p_ctx, "Order is not Drafted nor Completed. Try to delete it other way"));
+		} else {
+			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(p_ctx, "POS.OrderIsNotProcessed"));	//	TODO Translate it: Order is not Drafted nor Completed. Try to delete it other way
 			return;
 		}
-		
+		//	Update
 		updateOrder();
 
 	} // deleteOrder
@@ -417,13 +392,11 @@ public class POSCommandPanel extends PosSubPanel
 				*/ 
 				//print standard document
 				Boolean print = true;
-				if (p_pos.getAD_Sequence_ID()!= 0)
-				{
+				if (p_pos.getAD_Sequence_ID()!= 0) {
 					MSequence seq = new MSequence(Env.getCtx(), p_pos.getAD_Sequence_ID(), order.get_TrxName());
 					String docno = seq.getPrefix() + seq.getCurrentNext();
 					String q = "Confirmar el número consecutivo "  + docno;
-					if (org.compiere.apps.ADialog.ask(0, v_POSPanel.f_curLine.getParent(), q))						
-					{
+					if (org.compiere.apps.ADialog.ask(v_POSPanel.getWindowNo(), this, q)) {
 						order.setPOReference(docno);
 						order.saveEx();
 						ReportCtl.startDocumentPrint(0, order.getC_Order_ID(), false);
@@ -470,13 +443,10 @@ public class POSCommandPanel extends PosSubPanel
 	 *  Enable or disable buttons according to the context
 	 *  
 	 */
-	public void updateOrder()
-	{
-		if (v_POSPanel != null )
-		{
+	public void updateOrder() {
+		if (v_POSPanel != null) {
 			MOrder order = v_POSPanel.getM_Order();
-			if (order != null)
-			{  				
+			if (order != null) {  				
   				// Button BPartner: enable when order drafted, and order has no lines
   				v_POSPanel.setC_BPartner_ID(order.getC_BPartner_ID());  				
   				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
@@ -529,15 +499,12 @@ public class POSCommandPanel extends PosSubPanel
   						f_Back.setEnabled(false); // Begin of order list
   					else
   						f_Back.setEnabled(true);
-  				}
-  				else{
+  				} else {
   					f_Next.setEnabled(false);
   	  				f_Back.setEnabled(false);
   				}
  				
-			}
-			else
-			{
+			} else {
 				v_POSPanel.setC_BPartner_ID(0);
 				f_bBPartner.setEnabled(false);
 				f_bNew.setEnabled(true);
@@ -545,8 +512,6 @@ public class POSCommandPanel extends PosSubPanel
 				f_Cancel.setEnabled(false);
 				f_cashPayment.setEnabled(false);
 			}
-			//	Refresh
-			v_POSPanel.refreshPanel();
 		}
 	}	
 
@@ -577,8 +542,7 @@ public class POSCommandPanel extends PosSubPanel
 		PreparedStatement pstm;
 		ResultSet rs;
 		orderList = new ArrayList<Integer>();
-		try 
-		{
+		try {
 			sql=" SELECT o.C_Order_ID"
 					+ " FROM C_Order o"
 					+ " LEFT JOIN c_invoice i ON i.c_order_ID = o.c_order_ID"
@@ -591,16 +555,28 @@ public class POSCommandPanel extends PosSubPanel
 			pstm= DB.prepareStatement(sql, null);
 			pstm.setInt (1, Env.getAD_Client_ID(Env.getCtx()));
 			rs = pstm.executeQuery();
-			int i = 0;
+			//	Add to List
 			while(rs.next()){
 				orderList.add(rs.getInt(1));
-				
 			}
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e) {
 			log.severe("SubOrder.listOrder: " + e + " -> " + sql);
 		}
+	}
+
+	@Override
+	public void refreshPanel() {
+		
+	}
+
+	@Override
+	public String validatePanel() {
+		return null;
+	}
+
+	@Override
+	public void changeViewPanel() {
+		
 	}
 }//	PosSubCustomer
 	

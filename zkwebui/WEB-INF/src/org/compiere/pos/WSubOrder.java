@@ -142,7 +142,7 @@ public class WSubOrder extends WPosSubPanel
 	private Textbox f_currency = new Textbox();
 	private Button f_bCreditSale;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(POSCommandPanel.class);
+	private static CLogger log = CLogger.getCLogger(POSActionPanel.class);
 	
 	
 	private Button 			f_delete;
@@ -1442,7 +1442,7 @@ public class WSubOrder extends WPosSubPanel
 		
 		if ( p_posPanel.getM_Order() != null ) {
 			try {
-			line = p_posPanel.createLine(product, QtyOrdered, PriceActual);
+				line = p_posPanel.createLine(product, QtyOrdered, PriceActual);
 			}
 			catch (Exception e) {
 				return Msg.getMsg(p_ctx, "POS.OrderLinesCannotBeCreated")+" - " + e.getMessage();
@@ -1552,7 +1552,7 @@ public class WSubOrder extends WPosSubPanel
 		{
 
 			BPartnerStd = getC_BPartner_ID();
-			p_posPanel.reload();
+			p_posPanel.reloadOrder();
 			updateTable(p_posPanel.getM_Order());
 			updateOrder();
 		}

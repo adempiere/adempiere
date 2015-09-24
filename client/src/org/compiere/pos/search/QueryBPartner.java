@@ -12,7 +12,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
 
-package org.compiere.pos;
+package org.compiere.pos.search;
 
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -28,6 +28,9 @@ import org.compiere.grid.ed.VBPartner;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartnerInfo;
+import org.compiere.pos.POSTextField;
+import org.compiere.pos.PosTable;
+import org.compiere.pos.VPOS;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -291,22 +294,16 @@ public class QueryBPartner extends PosQuery
 	 * 	Close.
 	 * 	Set Values on other panels and close
 	 */
-	protected void close()
-	{
+	protected void close() {
 		Integer ID = m_table.getSelectedRowKey();
 			if (ID != null)
 				m_C_BPartner_ID = ID.intValue();
 		
-		if (m_C_BPartner_ID > 0)
-		{
+		if (m_C_BPartner_ID > 0) {
 			v_POSPanel.setC_BPartner_ID(m_C_BPartner_ID);
-			log.fine("C_BPartner_ID=" + m_C_BPartner_ID); 
-		//	p_posPanel.f_curLine.setCurrency(m_Price);
-		}
-		else
-		{
+			log.fine("C_BPartner_ID=" + m_C_BPartner_ID);
+		} else {
 			v_POSPanel.setC_BPartner_ID(0);
-		//	p_posPanel.f_curLine.setPrice(Env.ZERO);
 		}
 		dispose();
 	}	//	close
@@ -322,5 +319,4 @@ public class QueryBPartner extends PosQuery
 		f_city.setText(null);
 		setResults(new MBPartnerInfo[0]);
 	}
-	
 }	//	PosQueryBPartner

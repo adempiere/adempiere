@@ -32,6 +32,7 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.model.MPOS;
+import org.compiere.pos.search.QueryProduct;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.event.EventListener;
 
