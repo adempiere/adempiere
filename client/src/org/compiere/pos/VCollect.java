@@ -210,6 +210,11 @@ public class VCollect extends Collect
 		else {
 			fIsPrePayment.setEnabled(false);	
 			fIsCreditOrder.setEnabled(false);
+			if(v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Completed)  && 
+				v_POSPanel.getM_Order().isInvoiced()  && 
+				v_POSPanel.getOpenAmt().compareTo(Env.ZERO)==1) {
+				fIsCreditOrder.setSelected(true);
+			}
 		}
 		
 		//	Add Plus Button
@@ -311,6 +316,7 @@ public class VCollect extends Collect
 			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			v_POSPanel.setPrepayment(fIsPrePayment.isSelected());
 			setCreditOrder(fIsCreditOrder.isSelected());
+			setReturnAmt(new BigDecimal(fReturnAmt.getText()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					if(v_POSPanel.processOrder(trxName)) {
@@ -443,6 +449,10 @@ public class VCollect extends Collect
 		if(fIsCreditOrder.isSelected()) {
 			fIsPrePayment.setSelected(false);
 			bPlus.setEnabled(true);  // TODO setEnable(true) doesn't work!!
+			if(getPayAmt().doubleValue() > 0) 
+				bOk.setEnabled(true);
+			else
+				bOk.setEnabled(false);
 		} else if(fIsPrePayment.isSelected()) {
 			if(m_Balance.doubleValue() > 0) {
 				bOk.setEnabled(false);
