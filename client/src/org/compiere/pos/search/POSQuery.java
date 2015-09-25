@@ -46,8 +46,14 @@ import org.compiere.util.Env;
  *  
  *  @version $Id: PosQuery.java,v 2.0 2015/09/01 00:00:00 
  */
-public abstract class PosQuery extends CDialog implements MouseListener, ListSelectionListener, ActionListener {
+public abstract class POSQuery extends CDialog 
+	implements MouseListener, ListSelectionListener, ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6379099059318219432L;
+	
 	protected Properties p_ctx;
 	/** POS Panel							*/
 	protected VPOS v_POSPanel = null;
@@ -63,7 +69,7 @@ public abstract class PosQuery extends CDialog implements MouseListener, ListSel
 	/**	Logger			*/
 	protected static CLogger log = CLogger.getCLogger(QueryProduct.class);
 
-	public PosQuery() throws HeadlessException {
+	public POSQuery() throws HeadlessException {
 		super();
 	}
 
@@ -88,7 +94,7 @@ public abstract class PosQuery extends CDialog implements MouseListener, ListSel
 	/**
 	 * 	Constructor
 	 */
-	public PosQuery (VPOS posPanel)
+	public POSQuery (VPOS posPanel)
 	{
 		super(Env.getWindow(posPanel.getWindowNo()), true);
 		v_POSPanel = posPanel;

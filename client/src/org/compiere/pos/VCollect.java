@@ -37,6 +37,7 @@ import javax.swing.KeyStroke;
 
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.Adempiere;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
@@ -271,6 +272,7 @@ public class VCollect extends Collect
 		//	Add to Dialog
 		v_Dialog.getContentPane().add(v_CommandPanel, BorderLayout.SOUTH);
 		v_Dialog.getContentPane().add(v_MainPanel, BorderLayout.CENTER);
+		v_Dialog.setIconImage(Adempiere.getImage16());
 	}
 
 	/**

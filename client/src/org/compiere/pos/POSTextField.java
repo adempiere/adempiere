@@ -25,6 +25,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JFormattedTextField;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.AEnv;
 
 /**
  * Formatted Text field with on-screen keyboard support
@@ -100,8 +101,11 @@ public class POSTextField extends JFormattedTextField
 				&& m_Keyboard != null) {
 			m_Keyboard.setTitle(getName());
 			m_Keyboard.setPosTextField(this);
+			AEnv.positionCenterScreen(m_Keyboard);
 			m_Keyboard.setVisible(true);
-			fireActionPerformed();
+			if(m_Keyboard.isOk()) {
+				fireActionPerformed();
+			}
 		}
 	}
 

@@ -14,36 +14,34 @@ import org.compiere.apps.AKeyboardFocusManager;
 import org.compiere.apps.ALogin;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.model.MSession;
-import org.compiere.swing.CFrame;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
 
-public class PosApplication {
+public class POSApplication {
 	
+	/**	Properties		*/
 	private Properties m_ctx;
 
-	PosApplication() {
+	/**
+	 * *** Constructor ***
+	 */
+	public POSApplication() {
 		Adempiere.startup(true);	//	needs to be here for UI
 		Splash splash = Splash.getSplash();
-		final CFrame frame = new CFrame();
+		final FormFrame frame = new FormFrame(splash.getGraphicsConfiguration());
 		//  Focus Traversal
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(AKeyboardFocusManager.get());
-	//	FocusManager.getCurrentManager().setDefaultFocusTraversalPolicy(AFocusTraversalPolicy.get());
-	//	this.setFocusTraversalPolicy(AFocusTraversalPolicy.get());
-
-
+		
 		ALogin login = new ALogin(splash);
 		if (!login.initLogin())		//	no automatic login
 		{
 			//	Center the window
-			try
-			{
+			try {
 				AEnv.showCenterScreen(login);	//	HTML load errors
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
+				
 			}
 			if (!login.isConnected() || !login.isOKpressed())
 				AEnv.exit(1);
@@ -65,7 +63,7 @@ public class PosApplication {
 			System.exit(1);		
 		MSession.get (Env.getCtx(), true);		//	Start Session
 		
-	//  Default Image
+		//  Default Image
 		frame.setIconImage(Adempiere.getImage16());
 
 		// Setting close operation/listener - teo_sarca [ 1684168 ]
@@ -96,9 +94,6 @@ public class PosApplication {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-		new PosApplication();
-
+		new POSApplication();
 	}
-
 }

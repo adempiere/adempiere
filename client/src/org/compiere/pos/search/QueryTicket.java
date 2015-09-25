@@ -59,7 +59,7 @@ import org.compiere.util.Msg;
  * 
  */
 
-public class QueryTicket extends PosQuery
+public class QueryTicket extends POSQuery
 {
 	/**
 	 * 

@@ -32,9 +32,11 @@ import org.compiere.util.Env;
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright (c) Jorg Janke
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  <li>Change Name
  *  
  */
-public abstract class PosSubPanel extends CPanel 
+public abstract class POSSubPanel extends CPanel 
 	implements ActionListener
 {
 	/**
@@ -46,20 +48,20 @@ public abstract class PosSubPanel extends CPanel
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public PosSubPanel (VPOS posPanel)
+	public POSSubPanel (VPOS posPanel)
 	{
 		super();
 		v_POSPanel = posPanel;
-		p_pos = posPanel.getM_POS();
+		m_pos = posPanel.getM_POS();
 		init();
 	}	//	PosSubPanel
 	
 	/** POS Panel							*/
 	protected VPOS 				v_POSPanel;
 	/**	Underlying POS Model				*/
-	protected MPOS					p_pos;
+	protected MPOS				m_pos;
 	/** Context								*/
-	protected Properties			p_ctx = Env.getCtx();
+	protected Properties		m_ctx = Env.getCtx();
 	
 
 	/** Button Width = 50			*/
@@ -77,7 +79,7 @@ public abstract class PosSubPanel extends CPanel
 	 */
 	public void dispose()
 	{
-		p_pos = null;
+		m_pos = null;
 	}	//	dispose
 
 	

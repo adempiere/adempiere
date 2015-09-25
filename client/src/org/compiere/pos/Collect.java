@@ -374,7 +374,11 @@ public class Collect {
 			return null;
 		//	Iterate Payments methods
 		for(CollectDetail m_Collect : m_Collects) {
-			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
+			//	Valid Zero in Payment
+			if(m_Collect.getPayAmt() == null
+					|| m_Collect.getPayAmt().compareTo(Env.ZERO) <= 0) {
+				continue;
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
 				continue;
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
@@ -416,7 +420,11 @@ public class Collect {
 		}
 		//	Iterate Payments methods
 		for(CollectDetail m_Collect : m_Collects) {
-			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
+			//	Valid Zero in Payment
+			if(m_Collect.getPayAmt() == null
+					|| m_Collect.getPayAmt().compareTo(Env.ZERO) <= 0) {
+				continue;
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
 				payCash(m_Collect.getPayAmt());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check

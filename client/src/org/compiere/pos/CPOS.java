@@ -412,7 +412,7 @@ public class CPOS {
 	 * 
 	 * @return true if saved
 	 */
-	public String saveLine(int p_M_Product_ID, BigDecimal p_QtyOrdered) {
+	public String add(int p_M_Product_ID, BigDecimal p_QtyOrdered) {
 		String m_Error = null;
 		try {
 			MProduct m_Product = MProduct.get(m_ctx, p_M_Product_ID);

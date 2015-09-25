@@ -45,7 +45,7 @@ import org.compiere.util.Env;
  * Adaxa Pty Ltd
  *
  */
-public class PosKeyPanel extends CPanel implements ActionListener {
+public class POSKeyPanel extends CPanel implements ActionListener {
 	/**
 	 * 
 	 */
@@ -55,7 +55,7 @@ public class PosKeyPanel extends CPanel implements ActionListener {
 	/**
 	 * 	Constructor
 	 */
-	public PosKeyPanel (int C_POSKeyLayout_ID, PosKeyListener caller)
+	public POSKeyPanel (int C_POSKeyLayout_ID, PosKeyListener caller)
 	{
 		if (C_POSKeyLayout_ID == 0)
 			return;
@@ -74,7 +74,7 @@ public class PosKeyPanel extends CPanel implements ActionListener {
 	/** Currently displayed layout	*/
 	int currentLayout;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(PosKeyPanel.class);
+	private static CLogger log = CLogger.getCLogger(POSKeyPanel.class);
 	/** Caller			*/
 	private PosKeyListener caller;
 

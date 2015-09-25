@@ -98,6 +98,8 @@ public class POSOrderLineTableHandle {
 		//	Default Prepare
 		m_sql = m_Table.prepareTable (s_layout, s_sqlFrom, 
 				s_sqlWhere, false, TABLE_NAME);
+		m_Table.setColumnClass(POSITION_QTYORDERED, BigDecimal.class, false);
+		m_Table.setColumnClass(POSITION_PRICE, BigDecimal.class, false);
 		//	Default Return
 		return true;
 	}
