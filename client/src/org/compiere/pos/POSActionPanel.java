@@ -36,7 +36,7 @@ import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MSequence;
-import org.compiere.pos.search.PosQuery;
+import org.compiere.pos.search.POSQuery;
 import org.compiere.pos.search.QueryBPartner;
 import org.compiere.pos.search.QueryTicket;
 import org.compiere.print.ReportCtl;
@@ -61,7 +61,7 @@ import org.compiere.util.Msg;
  *  @version $Id: SubOrder.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: SubOrder.java,v 2.0 2015/09/01 00:00:00 mar_cal_westf
  */
-public class POSActionPanel extends PosSubPanel 
+public class POSActionPanel extends POSSubPanel 
 	implements ActionListener, FocusListener, I_POSPanel
 {
 	/**
@@ -189,7 +189,7 @@ public class POSActionPanel extends PosSubPanel
 			return;
 		} else if (action.equals(ACTION_HISTORY)) {
 			// For already created, but either not completed or not yet paid POS Orders
-			PosQuery qt = new QueryTicket(v_POSPanel);
+			POSQuery qt = new QueryTicket(v_POSPanel);
 			qt.setVisible(true);
 		} else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
@@ -201,7 +201,7 @@ public class POSActionPanel extends PosSubPanel
 			previousRecord();
 			v_POSPanel.refreshPanel();
 		} else if (action.equals(ACTION_BPARTNER)) {	// Change to another BPartner
-			PosQuery qt = new QueryBPartner(v_POSPanel);
+			POSQuery qt = new QueryBPartner(v_POSPanel);
 			qt.setVisible(true);
 			findBPartner();
 		} else if (action.equals(ACTION_LOGOUT)) {	//	Logout
@@ -221,7 +221,7 @@ public class POSActionPanel extends PosSubPanel
 		{
 			if (isOrderFullyPaid())
 			{
-				updateOrder();
+				changeViewPanel();
 				printTicket();
 				openCashDrawer();
 			}
@@ -252,7 +252,7 @@ public class POSActionPanel extends PosSubPanel
 	private void payOrder() {
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
 		if( v_POSPanel.getM_Order() == null) {		
-			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(p_ctx, "POS.MustCreateOrder"));
+			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(m_ctx, "POS.MustCreateOrder"));
 		} else {
 			VCollect collect = new VCollect(v_POSPanel);
 			if (collect.showCollect()) {
@@ -270,25 +270,25 @@ public class POSActionPanel extends PosSubPanel
 	 */
 	private void deleteOrder() {
 		if (v_POSPanel == null || v_POSPanel.getM_Order() == null) {
-			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(p_ctx, "POS.MustCreateOrder"));
+			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(m_ctx, "POS.MustCreateOrder"));
 			return;			
 		} else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Drafted) ) {
-			if (ADialog.ask(v_POSPanel.getWindowNo(), this, Msg.getMsg(p_ctx, "POS.DeleteOrder"))) {	//	TODO translate it: Do you want to delete the Order? 
+			if (ADialog.ask(v_POSPanel.getWindowNo(), this, Msg.getMsg(m_ctx, "POS.DeleteOrder"))) {	//	TODO translate it: Do you want to delete the Order? 
 				if (!v_POSPanel.deleteOrder()) {
-					ADialog.warn(v_POSPanel.getWindowNo(), this, Msg.getMsg(p_ctx, "POS.OrderCouldNotDeleted"));	//	TODO translate it: Order could not be deleted
+					ADialog.warn(v_POSPanel.getWindowNo(), this, Msg.getMsg(m_ctx, "POS.OrderCouldNotDeleted"));	//	TODO translate it: Order could not be deleted
 				}
 			}
 		} else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Completed)) {	
-			if (ADialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "POS.OrderIsAlreadyCompleted")))) {	//	TODO Translate it: The order is already completed. Do you want to void it?
+			if (ADialog.ask(0, this, Msg.getMsg(m_ctx, Msg.getMsg(m_ctx, "POS.OrderIsAlreadyCompleted")))) {	//	TODO Translate it: The order is already completed. Do you want to void it?
 				if (!v_POSPanel.cancelOrder())
-					ADialog.warn(v_POSPanel.getWindowNo(), this, Msg.getMsg(p_ctx, "POS.OrderCouldNotVoided"));	//	TODO Translate it: Order could not be voided
+					ADialog.warn(v_POSPanel.getWindowNo(), this, Msg.getMsg(m_ctx, "POS.OrderCouldNotVoided"));	//	TODO Translate it: Order could not be voided
 			}
 		} else {
-			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(p_ctx, "POS.OrderIsNotProcessed"));	//	TODO Translate it: Order is not Drafted nor Completed. Try to delete it other way
+			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(m_ctx, "POS.OrderIsNotProcessed"));	//	TODO Translate it: Order is not Drafted nor Completed. Try to delete it other way
 			return;
 		}
 		//	Update
-		updateOrder();
+		changeViewPanel();
 
 	} // deleteOrder
 
@@ -348,7 +348,7 @@ public class POSActionPanel extends PosSubPanel
 		String Phone = (noNumber ? null : query);
 		String City = null;
 		//
-		MBPartnerInfo[] results = MBPartnerInfo.find(p_ctx, Value, Name, 
+		MBPartnerInfo[] results = MBPartnerInfo.find(m_ctx, Value, Name, 
 			/*Contact, */null, EMail, Phone, City);
 		
 		//	Set Result
@@ -392,8 +392,8 @@ public class POSActionPanel extends PosSubPanel
 				*/ 
 				//print standard document
 				Boolean print = true;
-				if (p_pos.getAD_Sequence_ID()!= 0) {
-					MSequence seq = new MSequence(Env.getCtx(), p_pos.getAD_Sequence_ID(), order.get_TrxName());
+				if (m_pos.getAD_Sequence_ID()!= 0) {
+					MSequence seq = new MSequence(Env.getCtx(), m_pos.getAD_Sequence_ID(), order.get_TrxName());
 					String docno = seq.getPrefix() + seq.getCurrentNext();
 					String q = "Confirmar el número consecutivo "  + docno;
 					if (org.compiere.apps.ADialog.ask(v_POSPanel.getWindowNo(), this, q)) {
@@ -436,83 +436,6 @@ public class POSActionPanel extends PosSubPanel
 		return paid;
 		*/
 		return true;
-	}
-	
-	/**
-	 * 	Update panel butttons
-	 *  Enable or disable buttons according to the context
-	 *  
-	 */
-	public void updateOrder() {
-		if (v_POSPanel != null) {
-			MOrder order = v_POSPanel.getM_Order();
-			if (order != null) {  				
-  				// Button BPartner: enable when order drafted, and order has no lines
-  				v_POSPanel.setC_BPartner_ID(order.getC_BPartner_ID());  				
-  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
-  						order.getLines().length == 0 )
-  					f_bBPartner.setEnabled(true);
-  				else
-  					f_bBPartner.setEnabled(false);
-
-  				// Button New: enabled when lines existing or order is voided
-  				f_bNew.setEnabled(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided));
-  				
-  				// Button Credit Sale: enabled when drafted, with lines and not invoiced
-  				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
-  						order.getLines().length != 0 && 
-  						order.getC_Invoice_ID()<=0)
-
-  			    // History Button: enabled when lines existing or order is voided
-  				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
-  	  				f_history.setEnabled(true);  	
-  				else
-  					f_history.setEnabled(false);
-
-  				if(!order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))			
-  	  				f_Cancel.setEnabled(true);
-  				else
-  					f_Cancel.setEnabled(false);
- 				
-  				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
-  				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
-  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
-  				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
-  				    	(order.getC_Invoice_ID()<=0  ||
-  				    	 !MInvoice.get(p_ctx, order.getC_Invoice_ID()).isPaid()
-  				    	 )
-  				   )
-  				  )
-  					f_cashPayment.setEnabled(true);
-  				else 
-					f_cashPayment.setEnabled(false);	
-  				
-  			    // Next and Back Buttons:  enabled when lines existing or order is voided
-  				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided)) {
-
-  					if(recordPosition==orderList.size()-1)
-  					    f_Next.setEnabled(false); // End of order list
-  					else
-  	  					f_Next.setEnabled(true);
-
-  					if(recordPosition==0)
-  						f_Back.setEnabled(false); // Begin of order list
-  					else
-  						f_Back.setEnabled(true);
-  				} else {
-  					f_Next.setEnabled(false);
-  	  				f_Back.setEnabled(false);
-  				}
- 				
-			} else {
-				v_POSPanel.setC_BPartner_ID(0);
-				f_bBPartner.setEnabled(false);
-				f_bNew.setEnabled(true);
-				f_history.setEnabled(true);
-				f_Cancel.setEnabled(false);
-				f_cashPayment.setEnabled(false);
-			}
-		}
 	}	
 
 	/**
@@ -576,7 +499,72 @@ public class POSActionPanel extends PosSubPanel
 
 	@Override
 	public void changeViewPanel() {
-		
+		MOrder order = v_POSPanel.getM_Order();
+		if (order != null) {  				
+				// Button BPartner: enable when order drafted, and order has no lines
+				v_POSPanel.setC_BPartner_ID(order.getC_BPartner_ID());  				
+				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+						order.getLines().length == 0 )
+					f_bBPartner.setEnabled(true);
+				else
+					f_bBPartner.setEnabled(false);
+
+				// Button New: enabled when lines existing or order is voided
+				f_bNew.setEnabled(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided));
+				
+				// Button Credit Sale: enabled when drafted, with lines and not invoiced
+				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+						order.getLines().length != 0 && 
+						order.getC_Invoice_ID()<=0)
+
+			    // History Button: enabled when lines existing or order is voided
+				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
+	  				f_history.setEnabled(true);  	
+				else
+					f_history.setEnabled(false);
+
+				if(!order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))			
+	  				f_Cancel.setEnabled(true);
+				else
+					f_Cancel.setEnabled(false);
+				
+				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
+				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
+				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
+				    	(order.getC_Invoice_ID()<=0  ||
+				    	 !MInvoice.get(m_ctx, order.getC_Invoice_ID()).isPaid()
+				    	 )
+				   )
+				  )
+					f_cashPayment.setEnabled(true);
+				else 
+				f_cashPayment.setEnabled(false);	
+				
+			    // Next and Back Buttons:  enabled when lines existing or order is voided
+				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided)) {
+
+					if(recordPosition==orderList.size()-1)
+					    f_Next.setEnabled(false); // End of order list
+					else
+	  					f_Next.setEnabled(true);
+
+					if(recordPosition==0)
+						f_Back.setEnabled(false); // Begin of order list
+					else
+						f_Back.setEnabled(true);
+				} else {
+					f_Next.setEnabled(false);
+	  				f_Back.setEnabled(false);
+				}
+				
+		} else {
+			v_POSPanel.setC_BPartner_ID(0);
+			f_bBPartner.setEnabled(false);
+			f_bNew.setEnabled(true);
+			f_history.setEnabled(true);
+			f_Cancel.setEnabled(false);
+			f_cashPayment.setEnabled(false);
+		}
 	}
 }//	PosSubCustomer
-	

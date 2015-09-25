@@ -17,6 +17,10 @@ package org.compiere.pos;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -39,63 +43,79 @@ import org.compiere.util.Env;
 /**
  *	On Screen Keyboard
  *	@author Paul Bowden
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  <li>Centre Dialog
+ *  <li>Add support to SCAPE and ENTER keys
+ *  <li>Default focus in Text
  *	Adaxa Pty Ltd
  */
-public class POSKeyboard extends CDialog implements ActionListener, PosKeyListener
-{
+public class POSKeyboard extends CDialog 
+	implements ActionListener, PosKeyListener, KeyListener, FocusListener {
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3296839634889851637L;
-
-		private POSTextField field;
-
-		private MPOSKeyLayout keylayout;
+	
+	/**	Source Text Field	*/
+	private POSTextField 				f_SourceField;
+	/**	Key Layout			*/
+	private MPOSKeyLayout 				m_Keylayout;
+	/**	Format				*/
+	private JFormattedTextField 		m_Text = new JFormattedTextField();
+	/**	Keys				*/
+	private HashMap<Integer, MPOSKey> 	m_Keys;
+	/**	Is Ok Action		*/
+	private boolean 					m_IsOk;
+	/**	Logger				*/
+	private static CLogger log = CLogger.getCLogger(POSKeyboard.class);
 
 
 	/**
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public POSKeyboard (CPanel posPanel, int C_POSKeyLayout_ID, POSTextField field, String title)
-	{
+	public POSKeyboard (CPanel posPanel, int C_POSKeyLayout_ID, POSTextField field, String title) {
 		this(posPanel, C_POSKeyLayout_ID);
 		setTitle(title);
 		setPosTextField(field);
 	}
 
+	/**
+	 * Constructor
+	 * @param posPanel
+	 * @param keyLayoutId
+	 */
 	public POSKeyboard(CPanel posPanel, int keyLayoutId) {
 		super(Env.getFrame(posPanel), true);
-		keylayout = MPOSKeyLayout.get(Env.getCtx(), keyLayoutId);
-		init( keyLayoutId );
+		m_Keylayout = MPOSKeyLayout.get(Env.getCtx(), keyLayoutId);
+		init(keyLayoutId);
 	}
-
-	private JFormattedTextField text = new JFormattedTextField();
-
-	private HashMap<Integer, MPOSKey> keys;
-	
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(POSKeyboard.class);
-	
 	
 	/**
 	 * 	Initialize
 	 * @param startText 
 	 * @param POSKeyLayout_ID 
 	 */
-	public void init(int POSKeyLayout_ID )
-	{
+	public void init(int POSKeyLayout_ID) {
 		CPanel panel = new CPanel();
 		getContentPane().add(panel);
 		
 		//	Content
 		panel.setLayout(new MigLayout("fill"));
 		
-		if ( keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
-			text.setHorizontalAlignment(JTextField.TRAILING);
-		panel.add(text, "north, growx, h 30!, wrap, gap 10 10 10 10");
-
-		PosKeyPanel keys = new PosKeyPanel(POSKeyLayout_ID, this);
+		if (m_Keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
+			m_Text.setHorizontalAlignment(JTextField.TRAILING);
+		//	Add Listener
+		m_Text.addKeyListener(this);
+		m_Text.addFocusListener(this);
+		m_Text.setFocusable(true);
+		//	
+		panel.add(m_Text, "north, growx, h 30!, wrap, gap 10 10 10 10");
+		//	
+		POSKeyPanel keys = new POSKeyPanel(POSKeyLayout_ID, this);
+		keys.setFocusable(false);
+		//	
 		panel.add(keys, "center, growx, growy");
 		
 		ConfirmPanel confirm = new ConfirmPanel(true, false, true, false, false, false, false);
@@ -106,21 +126,17 @@ public class POSKeyboard extends CDialog implements ActionListener, PosKeyListen
 		confirm.getCancelButton().setPreferredSize(buttonDim);
 		panel.add(confirm, "south");
 		pack();
-		setLocationByPlatform(true);
-		text.requestFocusInWindow();
-		
 	}	//	init
 	
 	/**
 	 * 	Dispose - Free Resources
 	 */
-	public void dispose()
-	{
-		if (keys != null)
-		{
-			keys.clear();
-			keys = null;
+	public void dispose() {
+		if (m_Keys != null) {
+			m_Keys.clear();
+			m_Keys = null;
 		}
+		//	
 		super.dispose();
 	}	//	dispose
 
@@ -128,73 +144,89 @@ public class POSKeyboard extends CDialog implements ActionListener, PosKeyListen
 	 * 	Action Listener
 	 *	@param e event
 	 */
-	public void actionPerformed (ActionEvent e)
-	{
+	public void actionPerformed (ActionEvent e) {
 		String action = e.getActionCommand();
 		if (action == null || action.length() == 0)
 			return;
-		else if ( action.equals(ConfirmPanel.A_RESET))
-		{
-			if ( keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
-				text.setText("0");
+		else if (action.equals(ConfirmPanel.A_RESET)) {
+			if ( m_Keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
+				m_Text.setText("0");
 			else
-				text.setText("");
+				m_Text.setText("");
 			try {
-				text.commitEdit();
+				m_Text.commitEdit();
 			} catch (ParseException e1) {
 				log.log(Level.FINE, "JFormattedTextField commit failed");
 			}
-		}
-		else if ( action.equals(ConfirmPanel.A_CANCEL))
-		{
-			dispose();
-		}
-		else if (action.equals(ConfirmPanel.A_OK))
-		{
-			field.setText(text.getText());
-			try {
-				field.commitEdit();
-			} catch (ParseException e1) {
-				log.log(Level.FINE, "JFormattedTextField commit failed");
-			}
-			dispose();
+		} else if (action.equals(ConfirmPanel.A_CANCEL)) {
+			processCancelAction();
+		} else if (action.equals(ConfirmPanel.A_OK)) {
+			processOkAction();
 		}
 		log.info( "PosSubBasicKeys - actionPerformed: " + action);
 
 	}	//	actionPerformed
+	
+	/**
+	 * Process Ok Action
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
+	private void processOkAction() {
+		f_SourceField.setText(m_Text.getText());
+		try {
+			f_SourceField.commitEdit();
+			//	Set Is Ok
+			m_IsOk = true;
+		} catch (ParseException e1) {
+			log.log(Level.FINE, "JFormattedTextField commit failed");
+		}
+		dispose();
+	}
 
+	/**
+	 * For Cancel Action
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
+	private void processCancelAction() {
+		m_IsOk = false;
+		dispose();
+	}
+	
+	@Override
 	public void keyReturned(MPOSKey key) {
 		
 		String entry = key.getText();
-		String old = text.getText();
-		int caretPos = text.getCaretPosition();
-		if ( text.getSelectedText() != null )
-			caretPos = text.getSelectionStart();
+		String old = m_Text.getText();
+		int caretPos = m_Text.getCaretPosition();
+		if ( m_Text.getSelectedText() != null )
+			caretPos = m_Text.getSelectionStart();
 		String head = old.substring(0, caretPos);
-		if ( text.getSelectedText() != null )
-			caretPos = text.getSelectionEnd();
+		if ( m_Text.getSelectedText() != null )
+			caretPos = m_Text.getSelectionEnd();
 		String tail = old.substring(caretPos, old.length());
 		
 		if ( entry != null && !entry.isEmpty() )
 		{
-			if ( keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Keyboard))
+			if ( m_Keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Keyboard))
 			{
 				if ( key.getText() != null )
-					text.setText( head + entry + tail);
+					m_Text.setText( head + entry + tail);
 			}
-			else if ( keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
+			else if ( m_Keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
 			{
 				if ( entry.equals(".") )
 				{
-					text.setText(head + entry + tail);
+					m_Text.setText(head + entry + tail);
 				}
 				if ( entry.equals(",") )
 				{
-					text.setText(head + entry + tail);
+					m_Text.setText(head + entry + tail);
 				}
 				else if ( entry.equals("C") )
 				{
-					text.setText("0");
+					m_Text.setText("0");
 				}
 				else {
 				try
@@ -202,32 +234,32 @@ public class POSKeyboard extends CDialog implements ActionListener, PosKeyListen
 					int number = Integer.parseInt(entry);		// test if number
 					if ( number >= 0 && number <= 9 )
 					{
-						text.setText(head + number + tail);
+						m_Text.setText(head + number + tail);
 					}
 					// greater than 9, add to existing
 					else 
 					{
-						Object current = text.getValue();
+						Object current = m_Text.getValue();
 						if ( current == null )
 						{
-							text.setText(Integer.toString(number));
+							m_Text.setText(Integer.toString(number));
 						}
 						else if ( current instanceof BigDecimal )
 						{
-							text.setText(((BigDecimal) current).add( 
+							m_Text.setText(((BigDecimal) current).add( 
 									new BigDecimal(Integer.toString(number))).toPlainString());
 						}
 						else if ( current instanceof Integer )
 						{
-							text.setText(Integer.toString(((Integer) current) + number));
+							m_Text.setText(Integer.toString(((Integer) current) + number));
 						}
 						else if ( current instanceof Long )
 						{
-							text.setText(Long.toString(((Long) current) + number));
+							m_Text.setText(Long.toString(((Long) current) + number));
 						}
 						else if ( current instanceof Double )
 						{
-							text.setText(Double.toString(((Double) current) + number));
+							m_Text.setText(Double.toString(((Double) current) + number));
 						}
 					}
 
@@ -240,7 +272,7 @@ public class POSKeyboard extends CDialog implements ActionListener, PosKeyListen
 				}
 				
 				try {
-					text.commitEdit();
+					m_Text.commitEdit();
 				} catch (ParseException e) {
 					log.log(Level.FINE, "JFormattedTextField commit failed");
 				}
@@ -248,14 +280,61 @@ public class POSKeyboard extends CDialog implements ActionListener, PosKeyListen
 		}
 	}
 
+	/**
+	 * Set Pos Text Field
+	 * @param posTextField
+	 * @return void
+	 */
 	public void setPosTextField(POSTextField posTextField) {
 		
-		field = posTextField;
-		text.setFormatterFactory(field.getFormatterFactory());
-		text.setText(field.getText());
-		text.setValue(field.getValue());
+		f_SourceField = posTextField;
+		m_Text.setFormatterFactory(f_SourceField.getFormatterFactory());
+		m_Text.setText(f_SourceField.getText());
+		m_Text.setValue(f_SourceField.getValue());
 		getContentPane().invalidate();
 		
 	}
 
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		log.finest("Key=" + e.getKeyCode() + " - " + e.getKeyChar()
+			+ " -> " + m_Text.getText());
+
+		//  ESC
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			processCancelAction();
+		} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {	//	10
+			processOkAction();
+		}
+	}	//	keyReleased
+	
+	/**
+	 * Is Ok Pressed
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isOk() {
+		return m_IsOk;
+	}
+
+	@Override
+	public void focusGained(FocusEvent e) {
+		m_Text.selectAll();
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		
+	}
 }	//	PosSubBasicKeys

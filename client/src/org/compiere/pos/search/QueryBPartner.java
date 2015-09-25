@@ -52,7 +52,7 @@ import org.compiere.util.Msg;
  *  @version $Id: QueryBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: QueryBPartner.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class QueryBPartner extends PosQuery
+public class QueryBPartner extends POSQuery
 {
 	/**
 	 * 

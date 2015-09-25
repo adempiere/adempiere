@@ -20,9 +20,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.logging.Level;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -31,15 +28,12 @@ import javax.swing.event.TableModelListener;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.PO;
 import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 /**
  * Current Line Sub Panel
@@ -56,7 +50,7 @@ import org.compiere.util.Msg;
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  *  
  */
-public class POSOrderLinePanel extends PosSubPanel 
+public class POSOrderLinePanel extends POSSubPanel 
 	implements ActionListener, FocusListener, 
 		ListSelectionListener,  TableModelListener, I_POSPanel {
 	/**
@@ -98,18 +92,18 @@ public class POSOrderLinePanel extends PosSubPanel
 		CScrollPane scroll = new CScrollPane(m_table);
 		m_TableHandle.prepareTable();
 //		m_table.getSelectionModel().addListSelectionListener(this);
-		m_table.setColumnVisibility(m_table.getColumn(0), false);
-		m_table.getColumn(1).setPreferredWidth(320);
-		m_table.getColumn(2).setPreferredWidth(65);
-		m_table.getColumn(3).setPreferredWidth(30);
-		m_table.getColumn(4).setPreferredWidth(75);
-		m_table.getColumn(5).setPreferredWidth(75);
-		m_table.getColumn(6).setPreferredWidth(70);
-		m_table.getColumn(7).setPreferredWidth(75);
-		m_table.setColumnClass(7, BigDecimal.class, false);
-		m_table.setFocusable(false);
-		m_table.getColumnModel().getColumn(7).setCellEditor(
-				new BigDecimalEditor());
+//		m_table.setColumnVisibility(m_table.getColumn(0), true);
+//		m_table.getColumn(1).setPreferredWidth(320);
+//		m_table.getColumn(2).setPreferredWidth(65);
+//		m_table.getColumn(3).setPreferredWidth(30);
+//		m_table.getColumn(4).setPreferredWidth(75);
+//		m_table.getColumn(5).setPreferredWidth(75);
+//		m_table.getColumn(6).setPreferredWidth(70);
+//		m_table.getColumn(7).setPreferredWidth(75);
+//		m_table.setColumnClass(7, BigDecimal.class, false);
+//		m_table.setFocusable(false);
+//		m_table.getColumnModel().getColumn(7).setCellEditor(
+//				new BigDecimalEditor());
 		m_table.getModel().addTableModelListener(this);
 		m_table.addKeyListener(new java.awt.event.KeyAdapter() {
 			
@@ -242,7 +236,7 @@ public class POSOrderLinePanel extends PosSubPanel
 			BigDecimal qty = new BigDecimal(m_table.getModel().getValueAt(id, POSOrderLineTableHandle.POSITION_QTYORDERED).toString());
 			m_table.getModel().removeTableModelListener(this);
 			//	
-			MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
+			MOrderLine line = new MOrderLine(m_ctx, m_C_OrderLine_ID, null);
 			line.setPrice(price);
 			line.setQty(qty);
 			line.saveEx();

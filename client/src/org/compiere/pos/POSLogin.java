@@ -35,7 +35,7 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Sep 21, 2015, 1:52:09 AM
  * <li> Add Support to new POS Text Field
  */
-public class PosLogin extends CDialog implements ActionListener {
+public class POSLogin extends CDialog implements ActionListener {
 	
 	/**
 	 * 
@@ -50,7 +50,7 @@ public class PosLogin extends CDialog implements ActionListener {
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public PosLogin (VPOS posPanel)
+	public POSLogin (VPOS posPanel)
 	{
 		super (Env.getWindow(posPanel.getWindowNo()),Msg.translate(posPanel.getCtx(), "Login"), true);
 		init();

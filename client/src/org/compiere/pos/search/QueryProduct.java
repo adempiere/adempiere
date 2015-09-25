@@ -51,7 +51,7 @@ import org.compiere.util.Msg;
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class QueryProduct extends PosQuery
+public class QueryProduct extends POSQuery
 {
 
 	private static final long serialVersionUID = 9172276999827406833L;
@@ -59,26 +59,26 @@ public class QueryProduct extends PosQuery
 	/**
 	 * 	Constructor
 	 */
-	public QueryProduct (VPOS posPanel)
-	{
+	public QueryProduct (VPOS posPanel) {
 		super(posPanel);
 	}	//	PosQueryProduct
 	
-	private POSTextField		f_value;
-	private POSTextField		f_name;
-	private POSTextField		f_upc;
-	private POSTextField		f_sku;
-
+	/**	Search Fields		*/
+	private POSTextField	f_Value;
+	private POSTextField	f_ProductName;
+	private POSTextField	f_UPC;
+	private POSTextField	f_SKU;
+	/**	Action Buttons		*/
+	private CButton 		f_Refresh;
+	private CButton 		f_Ok;
+	private CButton 		f_Cancel;
+	/**	Internal Variables	*/
 	private int				m_M_Product_ID;
 	private String			m_ProductName;
 	private BigDecimal		m_Price;
-	//
 	private int 			m_M_PriceList_Version_ID;
 	private int 			m_M_Warehouse_ID;
-	private CButton f_refresh;
-	private CButton f_ok;
-	private CButton f_cancel;
-	/**	Logger			*/
+	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(QueryProduct.class);
 	
 	
@@ -116,47 +116,47 @@ public class QueryProduct extends PosQuery
 		//
 		CLabel lvalue = new CLabel(Msg.translate(p_ctx, "Value"));
 		northPanel.add (lvalue, "growy");
-		f_value = new POSTextField("", v_POSPanel.getKeyboard());
-		lvalue.setLabelFor(f_value);
-		northPanel.add(f_value,  "h 30, w 200");
-		f_value.addActionListener(this);
+		f_Value = new POSTextField("", v_POSPanel.getKeyboard());
+		lvalue.setLabelFor(f_Value);
+		northPanel.add(f_Value,  "h 30, w 200");
+		f_Value.addActionListener(this);
 		//
 		CLabel lupc = new CLabel(Msg.translate(p_ctx, "UPC"));
 		northPanel.add (lupc, "growy");
-		f_upc = new POSTextField("", v_POSPanel.getKeyboard());
-		lupc.setLabelFor(f_upc);
-		northPanel.add(f_upc,  "h 30, w 200, wrap");
-		f_upc.addActionListener(this);
+		f_UPC = new POSTextField("", v_POSPanel.getKeyboard());
+		lupc.setLabelFor(f_UPC);
+		northPanel.add(f_UPC,  "h 30, w 200, wrap");
+		f_UPC.addActionListener(this);
 		//
 		CLabel lname = new CLabel(Msg.translate(p_ctx, "Name"));
 		northPanel.add (lname, "growy");
-		f_name = new POSTextField("", v_POSPanel.getKeyboard());
-		lname.setLabelFor(f_name);
-		northPanel.add(f_name,  "h 30, w 200");
-		f_name.addActionListener(this);
+		f_ProductName = new POSTextField("", v_POSPanel.getKeyboard());
+		lname.setLabelFor(f_ProductName);
+		northPanel.add(f_ProductName,  "h 30, w 200");
+		f_ProductName.addActionListener(this);
 		//
 		CLabel lsku = new CLabel(Msg.translate(p_ctx, "SKU"));
 		northPanel.add (lsku, "growy");
-		f_sku = new POSTextField("", v_POSPanel.getKeyboard());
-		lsku.setLabelFor(f_sku);
-		northPanel.add(f_sku,  "h 30, w 200");
-		f_sku.addActionListener(this);
+		f_SKU = new POSTextField("", v_POSPanel.getKeyboard());
+		lsku.setLabelFor(f_SKU);
+		northPanel.add(f_SKU,  "h 30, w 200");
+		f_SKU.addActionListener(this);
 		//
 		
 
-		f_refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-		northPanel.add(f_refresh, "w 50!, h 50!, wrap, alignx trailing");
+		f_Refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+		northPanel.add(f_Refresh, "w 50!, h 50!, wrap, alignx trailing");
 		
 		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
 		northPanel.add(f_up, "w 50!, h 50!, span, split 4");
 		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
 		northPanel.add(f_down, "w 50!, h 50!");
 		
-		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
-		northPanel.add(f_ok, "w 50!, h 50!");
+		f_Ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+		northPanel.add(f_Ok, "w 50!, h 50!");
 		
-		f_cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
-		northPanel.add(f_cancel, "w 50!, h 50!");
+		f_Cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+		northPanel.add(f_Cancel, "w 50!, h 50!");
 
 		//	Center
 		m_table = new PosTable();
@@ -179,7 +179,7 @@ public class QueryProduct extends PosQuery
 		centerScroll = new CScrollPane(m_table);
 		panel.add (centerScroll, "growx, growy,south");
 		panel.setPreferredSize(new Dimension(800,600));
-		f_value.requestFocus();
+		f_Value.requestFocus();
 	}	//	init
 	
 	/**
@@ -201,12 +201,12 @@ public class QueryProduct extends PosQuery
 	{
 		log.info(e.getActionCommand());
 		if ("Refresh".equals(e.getActionCommand())
-			|| e.getSource() == f_value || e.getSource() == f_upc
-			|| e.getSource() == f_name || e.getSource() == f_sku)
+			|| e.getSource() == f_Value || e.getSource() == f_UPC
+			|| e.getSource() == f_ProductName || e.getSource() == f_SKU)
 		{
 			setResults(MWarehousePrice.find (p_ctx,
 				m_M_PriceList_Version_ID, m_M_Warehouse_ID,
-				f_value.getText(), f_name.getText(), f_upc.getText(), f_sku.getText(), null));
+				f_Value.getText(), f_ProductName.getText(), f_UPC.getText(), f_SKU.getText(), null));
 			return;
 		}
 		else if ("Reset".equals(e.getActionCommand()))
@@ -283,7 +283,7 @@ public class QueryProduct extends PosQuery
 				m_Price = (BigDecimal)m_table.getValueAt(row, 7);
 			}
 		}
-		f_ok.setEnabled(enabled);
+		f_Ok.setEnabled(enabled);
 		log.fine("M_Product_ID=" + m_M_Product_ID + " - " + m_ProductName + " - " + m_Price); 
 	}	//	enableButtons
 
@@ -299,29 +299,35 @@ public class QueryProduct extends PosQuery
 		Integer ID = m_table.getSelectedRowKey();
 		if (ID != null)
 			m_M_Product_ID = ID.intValue(); 
-		
-//		if (m_M_Product_ID > 0)
-//		{
-//			v_POSPanel.f_curLine.setM_Product_ID(m_M_Product_ID);
-//			v_POSPanel.f_curLine.setPrice(m_Price);
-//		}
-//		else
-//		{
-//			v_POSPanel.f_curLine.setM_Product_ID(0);
-//			v_POSPanel.f_curLine.setPrice(Env.ZERO);
-//		}
 		dispose();
 	}	//	close
 
+	/**
+	 * Get Product Identifier
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	public int getM_Product_ID() {
+		return m_M_Product_ID;
+	}
+	
+	/**
+	 * Get Product Name
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return String
+	 */
+	public String getProductName() {
+		return m_ProductName;
+	}
 
 	@Override
 	public void reset() {
-
-		f_value.setText(null);
-		f_name.setText(null);
-		f_sku.setText(null);
-		f_upc.setText(null);
+		f_Value.setText(null);
+		f_ProductName.setText(null);
+		f_SKU.setText(null);
+		f_UPC.setText(null);
 		setResults(new MWarehousePrice[0]);
 	}
-	
 }	//	PosQueryProduct

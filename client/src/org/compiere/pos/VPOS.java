@@ -17,7 +17,6 @@
 package org.compiere.pos;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
 import java.awt.MouseInfo;
 import java.awt.PointerInfo;
@@ -57,11 +56,11 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	/**	Main Pane					*/
 	private CPanel							m_MainPane;
 	/** Order Panel					*/
-	private POSActionPanel 					f_OrderPanel;
+	private POSActionPanel 					v_ActionPanel;
 	/** Current Line				*/
-	private POSOrderLinePanel 				f_OrderLinePanel;
+	private POSOrderLinePanel 				v_OrderLinePanel;
 	/** Function Keys				*/
-	private POSProductPanel 				f_ProductKeysPanel;
+	private POSProductPanel 				v_ProductKeysPanel;
 	/**	Timer for logout			*/
 	private Timer 							logoutTimer;
 	/** Keyoard Focus Manager		*/
@@ -73,6 +72,10 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
 	/**	Logger						*/
 	private CLogger							log = CLogger.getCLogger(getClass());
+	/**	Default Width				*/
+	public final int						PRODUCT_PANEL_WIDTH = 530;
+	/**	Default Height				*/
+	public final int						FIELD_HEIGHT = 50;
 	
 	
 	/**
@@ -101,9 +104,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 			if (!dynInit()) {
 				dispose();
 				m_frame.setTitle(Msg.translate(Env.getCtx(), msgLocator));
-				m_frame.setPreferredSize(new Dimension(msgLocator.length() * 10, 25));
-				m_frame.setResizable(false);
-				m_frame.setExtendedState(JFrame.ABORT);
 				return;
 			}
 			//	Add to frame
@@ -190,16 +190,15 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 			return false;
 		m_frame.setTitle("Adempiere POS: " + m_POS.getName());
 		//	Create Sub Panels
-		f_OrderPanel = new POSActionPanel(this);
-		m_MainPane.add(f_OrderPanel, "split 2, flowy, growx, spany, spanx");
+		v_ActionPanel = new POSActionPanel(this);
+		m_MainPane.add(v_ActionPanel, "split 2, flowy, growx, spany, spanx");
 		//
-		f_OrderLinePanel = new POSOrderLinePanel(this);
-		m_MainPane.add(f_OrderLinePanel, "h 200, growx, growy, gaptop 30");
+		v_OrderLinePanel = new POSOrderLinePanel(this);
+		m_MainPane.add(v_OrderLinePanel, "h 200, growx, growy, gaptop 30");
 		
-		f_ProductKeysPanel = new POSProductPanel(this);
+		v_ProductKeysPanel = new POSProductPanel(this);
 		
-				
-		m_MainPane.add(f_ProductKeysPanel, "east");
+		m_MainPane.add(v_ProductKeysPanel, "east");
 		
 		return true;
 	}	//	dynInit
@@ -219,18 +218,18 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		m_focusMgr = null;
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(originalKeyboardFocusManager);
 		//
-		if (f_OrderPanel != null)
-			f_OrderPanel.dispose();
-		f_OrderPanel = null;
-		if (f_OrderLinePanel != null) {
+		if (v_ActionPanel != null)
+			v_ActionPanel.dispose();
+		v_ActionPanel = null;
+		if (v_OrderLinePanel != null) {
 			// if ( m_order != null )
 			// 	m_order.deleteOrder();
-			f_OrderLinePanel.dispose();
+			v_OrderLinePanel.dispose();
 		}
-		f_OrderLinePanel = null;
-		if (f_ProductKeysPanel != null)
-			f_ProductKeysPanel.dispose();
-		f_ProductKeysPanel = null;
+		v_OrderLinePanel = null;
+		if (v_ProductKeysPanel != null)
+			v_ProductKeysPanel.dispose();
+		v_ProductKeysPanel = null;
 		if (m_frame != null)
 			m_frame.dispose();
 		m_frame = null;
@@ -285,9 +284,9 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public void refreshPanel() {
 		//	Reload from DB
 		reloadOrder();
-		f_OrderPanel.updateOrder();
-		f_ProductKeysPanel.refreshPanel();
-		f_OrderLinePanel.refreshPanel();
+		v_ActionPanel.changeViewPanel();
+		v_ProductKeysPanel.refreshPanel();
+		v_OrderLinePanel.refreshPanel();
 	}
 
 	@Override
