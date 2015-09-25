@@ -316,7 +316,7 @@ public class VCollect extends Collect
 			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			v_POSPanel.setPrepayment(fIsPrePayment.isSelected());
 			setCreditOrder(fIsCreditOrder.isSelected());
-			setReturnAmt(new BigDecimal(fReturnAmt.getText()));
+//			setReturnAmt(new BigDecimal(fReturnAmt.getText()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					if(v_POSPanel.processOrder(trxName)) {
