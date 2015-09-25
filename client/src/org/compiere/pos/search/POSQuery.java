@@ -156,11 +156,9 @@ public abstract class POSQuery extends CDialog
 			return;
 		} else if(f_Cancel.equals(e.getSource())) {
 			cancel();
-			dispose();
 		} else if (f_Ok.equals(e.getSource())) {
 			select();
 			close();
-			dispose();
 		}
 	}
 

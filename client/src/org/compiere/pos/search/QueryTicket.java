@@ -161,7 +161,7 @@ public class QueryTicket extends POSQuery {
 	 */
 	@Override
 	public void actionPerformed (ActionEvent e) {
-		log.info("PosQueryProduct.actionPerformed - " + e.getActionCommand());
+		super.actionPerformed(e);
 		if (e.getSource() == f_Processed || e.getSource() == f_DocumentNo
 			|| e.getSource() == f_DateFrom || e.getSource() == f_DateTo) {
 			refresh();
@@ -263,5 +263,6 @@ public class QueryTicket extends POSQuery {
 	@Override
 	protected void cancel() {
 		m_C_Order_ID = -1;
+		dispose();
 	}
 }	//	QueryTicket
