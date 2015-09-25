@@ -36,7 +36,6 @@ import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MSequence;
-import org.compiere.pos.search.POSQuery;
 import org.compiere.pos.search.QueryBPartner;
 import org.compiere.pos.search.QueryTicket;
 import org.compiere.print.ReportCtl;
@@ -189,8 +188,12 @@ public class POSActionPanel extends POSSubPanel
 			return;
 		} else if (action.equals(ACTION_HISTORY)) {
 			// For already created, but either not completed or not yet paid POS Orders
-			POSQuery qt = new QueryTicket(v_POSPanel);
+			QueryTicket qt = new QueryTicket(v_POSPanel);
 			qt.setVisible(true);
+			if (qt.getC_Order_ID() > 0) {
+				v_POSPanel.setOrder(qt.getC_Order_ID());
+				v_POSPanel.refreshPanel();
+			}
 		} else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
 		else if (action.equals(ACTION_PAYMENT))
@@ -201,8 +204,14 @@ public class POSActionPanel extends POSSubPanel
 			previousRecord();
 			v_POSPanel.refreshPanel();
 		} else if (action.equals(ACTION_BPARTNER)) {	// Change to another BPartner
-			POSQuery qt = new QueryBPartner(v_POSPanel);
+			QueryBPartner qt = new QueryBPartner(v_POSPanel);
 			qt.setVisible(true);
+			if (qt.getC_BPartner_ID() > 0) {
+				v_POSPanel.setC_BPartner_ID(qt.getC_BPartner_ID());
+				log.fine("C_BPartner_ID=" + qt.getC_BPartner_ID());
+			} else {
+				v_POSPanel.setC_BPartner_ID(0);
+			}
 			findBPartner();
 		} else if (action.equals(ACTION_LOGOUT)) {	//	Logout
 			v_POSPanel.dispose();
@@ -232,17 +241,22 @@ public class POSActionPanel extends POSSubPanel
 	 * Previous Record Order
 	 */
 	public void previousRecord() {
-		if(recordPosition>0)
+		if(recordPosition > 0) {
 			v_POSPanel.setOrder(orderList.get(recordPosition--));
+		}
+		//	Refresh
+		v_POSPanel.refreshPanel();
 	}
 
 	/**
 	 * Next Record Order
 	 */
 	public void nextRecord() {
-		if(recordPosition < orderList.size()-1)
+		if(recordPosition < orderList.size() - 1) {
 			v_POSPanel.setOrder(orderList.get(recordPosition++));
-		
+		}
+		//	Refresh
+		v_POSPanel.refreshPanel();
 	}
 	/**
 	 * Execute order payment
@@ -352,20 +366,21 @@ public class POSActionPanel extends POSSubPanel
 			/*Contact, */null, EMail, Phone, City);
 		
 		//	Set Result
-		if (results.length == 0)
-		{
+		if (results.length == 0) {
 			v_POSPanel.setC_BPartner_ID(0);
-		}
-		else if (results.length == 1)
-		{
+		} else if (results.length == 1) {
 			v_POSPanel.setC_BPartner_ID(results[0].getC_BPartner_ID());
 			f_name.setText(results[0].getName());
-		}
-		else	//	more than one
-		{
+		} else {	//	more than one
 			QueryBPartner qt = new QueryBPartner(v_POSPanel);
 			qt.setResults (results);
 			qt.setVisible(true);
+			if (qt.getC_BPartner_ID() > 0) {
+				v_POSPanel.setC_BPartner_ID(qt.getC_BPartner_ID());
+				log.fine("C_BPartner_ID=" + qt.getC_BPartner_ID());
+			} else {
+				v_POSPanel.setC_BPartner_ID(0);
+			}
 		}
 	}	//	findBPartner
 	

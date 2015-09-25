@@ -14,16 +14,13 @@
 
 package org.compiere.pos.search;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
-import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -32,13 +29,9 @@ import org.compiere.grid.ed.VDate;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.pos.POSTextField;
-import org.compiere.pos.PosTable;
 import org.compiere.pos.VPOS;
-import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CLabel;
-import org.compiere.swing.CPanel;
-import org.compiere.swing.CScrollPane;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -52,15 +45,15 @@ import org.compiere.util.Msg;
  *  author $Id: Consultoria y Soporte en Redes y Tecnologias de la Informacion S.L.
  *  @author Dixon Martinez, ERPCYA 
  *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
- *  
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  <li> Implement best practices
  *  @version $Id: QueryTicket.java,v 0.9 $
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  * 
  */
 
-public class QueryTicket extends POSQuery
-{
+public class QueryTicket extends POSQuery {
 	/**
 	 * 
 	 */
@@ -68,21 +61,18 @@ public class QueryTicket extends POSQuery
 	/**
 	 * 	Constructor
 	 */
-	public QueryTicket (VPOS posPanel)
-	{
+	public QueryTicket (VPOS posPanel) {
 		super(posPanel);
 	}	//	PosQueryProduct
 
+	/**	Search Fields		*/
+	private POSTextField	f_DocumentNo;
+	private VDate			f_DateFrom;
+	private VDate			f_DateTo;
+	/**	Internal Variables	*/
+	private int				m_C_Order_ID;
+	private CCheckBox 		f_Processed;
 	
-	private POSTextField	f_documentno;
-	private VDate			f_dateFrom;
-	private VDate			f_dateTo;
-
-	private int				m_c_order_id;
-	private CCheckBox 		f_processed;
-	private CButton 		f_refresh;
-	private CButton 		f_ok;
-	private CButton 		f_cancel;
 	
 	static final private String DOCUMENTNO      = "DocumentNo";
 	static final private String TOTALLINES      = "TotalLines";
@@ -93,17 +83,10 @@ public class QueryTicket extends POSQuery
 	static final private String PAID            = "IsPaid";
 	static final private String DATEORDEREDFROM = "DateOrderedFrom";
 	static final private String DATEORDEREDTO   = "DateOrderedTo";
-	static final private String REFRESH         = "Refresh";
 	static final private String QUERY           = "Query";
-	static final private String PREVIOUS        = "Previous";
-	static final private String NEXT            = "Next";
-	static final private String OK              = "Ok";
-	static final private String CANCEL          = "Cancel";
-	static final private String RESET           = "Reset";
 
 	/**	Table Column Layout Info			*/
-	private static ColumnInfo[] s_layout = new ColumnInfo[] 
-	{
+	private static ColumnInfo[] s_layout = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAMT), TOTALLINES, BigDecimal.class),
@@ -117,165 +100,100 @@ public class QueryTicket extends POSQuery
 	 * 	Set up Panel
 	 */
 	@Override
-	protected void init()
-	{
-		CPanel panel = new CPanel();
-		
-		panel.setLayout(new MigLayout("fill"));
-		getContentPane().add(panel);
+	protected void init() {
 		//	North
-		northPanel = new CPanel(new MigLayout("fill","", "[50][50][]"));
-		panel.add (northPanel, "north");
-		northPanel.setBorder(new TitledBorder(Msg.getMsg(p_ctx, QUERY)));
+		v_ParameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
+		v_ParameterPanel.setBorder(new TitledBorder(Msg.getMsg(m_ctx, QUERY)));
 		
-		CLabel ldoc = new CLabel(Msg.translate(p_ctx, DOCUMENTNO));
-		northPanel.add (ldoc, " growy");
-		f_documentno = new POSTextField("", v_POSPanel.getKeyboard());
-		ldoc.setLabelFor(f_documentno);
-		northPanel.add(f_documentno, "h 30, w 200");
-		f_documentno.addActionListener(this);
+		CLabel ldoc = new CLabel(Msg.translate(m_ctx, DOCUMENTNO));
+		v_ParameterPanel.add (ldoc, " growy");
+		f_DocumentNo = new POSTextField("", v_POSPanel.getKeyboard());
+		ldoc.setLabelFor(f_DocumentNo);
+		v_ParameterPanel.add(f_DocumentNo, "h 30, w 200");
+		f_DocumentNo.addActionListener(this);
 		//
-		CLabel ldateFrom = new CLabel(Msg.translate(p_ctx, DATEORDEREDFROM));
-		northPanel.add (ldateFrom, "growy");
-		f_dateFrom = new VDate();
-		f_dateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		ldateFrom.setLabelFor(f_dateFrom);
-		northPanel.add(f_dateFrom, "h 30, w 200");
-		f_dateFrom.addActionListener(this);
+		CLabel ldateFrom = new CLabel(Msg.translate(m_ctx, DATEORDEREDFROM));
+		v_ParameterPanel.add (ldateFrom, "growy");
+		f_DateFrom = new VDate();
+		f_DateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		ldateFrom.setLabelFor(f_DateFrom);
+		v_ParameterPanel.add(f_DateFrom, "h 30, w 200");
+		f_DateFrom.addActionListener(this);
 		
 		// Date To
-		CLabel ldateTo = new CLabel(Msg.translate(p_ctx, DATEORDEREDTO));
-		northPanel.add (ldateTo, "growy");
-		f_dateTo = new VDate();
-		f_dateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		ldateTo.setLabelFor(f_dateTo);
-		northPanel.add(f_dateTo, "h 30, w 200");
-		f_dateTo.addActionListener(this);
+		CLabel ldateTo = new CLabel(Msg.translate(m_ctx, DATEORDEREDTO));
+		v_ParameterPanel.add (ldateTo, "growy");
+		f_DateTo = new VDate();
+		f_DateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		ldateTo.setLabelFor(f_DateTo);
+		v_ParameterPanel.add(f_DateTo, "h 30, w 200");
+		f_DateTo.addActionListener(this);
 		
-		f_processed = new CCheckBox(Msg.translate(p_ctx, PROCESSED));
-		f_processed.setSelected(false);
-		northPanel.add(f_processed, "");
-		
-		f_refresh = createButtonAction(REFRESH, KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-		northPanel.add(f_refresh, "w 50!, h 50!, wrap, alignx trailing");
-		
-		f_up = createButtonAction(PREVIOUS, KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-		northPanel.add(f_up, "w 50!, h 50!, span, split 4");
-		f_down = createButtonAction(NEXT, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
-		northPanel.add(f_down, "w 50!, h 50!");
-		
-		f_ok = createButtonAction(OK, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
-		northPanel.add(f_ok, "w 50!, h 50!");
-		
-		f_cancel = createButtonAction(CANCEL, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
-		northPanel.add(f_cancel, "w 50!, h 50!");
-
-		
-		//	Center
-		m_table = new PosTable();
-		
-		String sql = m_table.prepareTable (s_layout, "C_Order", 
-				"C_POS_ID = " + p_pos.getC_POS_ID()
-				, false, "C_Order")
-			+ " ORDER BY Margin, QtyAvailable";
+		f_Processed = new CCheckBox(Msg.translate(m_ctx, PROCESSED));
+		f_Processed.setSelected(false);
+		v_ParameterPanel.add(f_Processed, "");
+		//	
+		m_table.prepareTable (s_layout, "C_Order", 
+				"C_POS_ID = " + v_POSPanel.getC_POS_ID()
+				, false, "C_Order");
 		m_table.addMouseListener(this);
 		m_table.getSelectionModel().addListSelectionListener(this);
-		enableButtons();
-		centerScroll = new CScrollPane(m_table);
-		panel.add (centerScroll, "growx, growy");
+		select();
 		m_table.growScrollbars();
-		panel.setPreferredSize(new Dimension(800,600));
-
-		f_documentno.requestFocus();
+		f_DocumentNo.requestFocus();
 		pack();
-		
-		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), f_dateFrom.getTimestamp(), f_dateTo.getTimestamp());
+		refresh();
 	}	//	init
 
+	/**
+	 * Get Order Identifier
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	public int getC_Order_ID() {
+		return m_C_Order_ID;
+	}
 	
 	/**
 	 * 	Action Listener
 	 *	@param e event
 	 */
 	@Override
-	public void actionPerformed (ActionEvent e)
-	{
+	public void actionPerformed (ActionEvent e) {
 		log.info("PosQueryProduct.actionPerformed - " + e.getActionCommand());
-		if (REFRESH.equals(e.getActionCommand())
-			|| e.getSource() == f_processed || e.getSource() == f_documentno
-			|| e.getSource() == f_dateFrom || e.getSource() == f_dateTo)
-		{
-			setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), f_dateFrom.getTimestamp(), f_dateTo.getTimestamp());
+		if (e.getSource() == f_Processed || e.getSource() == f_DocumentNo
+			|| e.getSource() == f_DateFrom || e.getSource() == f_DateTo) {
+			refresh();
 			return;
 		}
-		else if (RESET.equals(e.getActionCommand()))
-		{
-			reset();
-			return;
-		}
-		else if (PREVIOUS.equalsIgnoreCase(e.getActionCommand()))
-		{
-			int rows = m_table.getRowCount();
-			if (rows == 0)
-				return;
-			int row = m_table.getSelectedRow();
-			row--;
-			if (row < 0)
-				row = 0;
-			m_table.getSelectionModel().setSelectionInterval(row, row);
-			return;
-		}
-		else if (NEXT.equalsIgnoreCase(e.getActionCommand()))
-		{
-			int rows = m_table.getRowCount();
-			if (rows == 0)
-				return;
-			int row = m_table.getSelectedRow();
-			row++;
-			if (row >= rows)
-				row = rows - 1;
-			m_table.getSelectionModel().setSelectionInterval(row, row);
-			return;
-		}
-		else if (CANCEL.equalsIgnoreCase(e.getActionCommand()))
-		{
-			dispose();
-			return;
-		}
-		//	Exit
-		close();
 	}	//	actionPerformed
-	
 	
 	/**
 	 * 
 	 */
 	@Override
-	public void reset()
-	{
-		f_processed.setSelected(false);
-		f_documentno.setText(null);
-		f_dateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		f_dateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), f_dateFrom.getTimestamp(), f_dateTo.getTimestamp());
+	public void reset() {
+		f_Processed.setSelected(false);
+		f_DocumentNo.setText(null);
+		f_DateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		f_DateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		refresh();
 	}
-
-
+	
 	/**
 	 * 	Set/display Results
 	 *	@param results results
 	 */
-	public void setResults (Properties ctx, boolean processed, String doc, Timestamp dateFrom, Timestamp dateTo)
-	{
+	public void setResults (Properties ctx, boolean processed, String doc, Timestamp dateFrom, Timestamp dateTo) {
 		StringBuffer sql = new StringBuffer();
-		try 
-		{
+		try  {
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, coalesce(invoiceopen(i.c_invoice_ID, 0), o.grandtotal) as invoiceopen")
 			     .append(", o.GrandTotal, b.Name, o.Processed, i.ispaid ")
 				.append(" FROM C_Order o ")
 				.append(" INNER JOIN C_BPartner b ON o.C_BPartner_ID=b.C_BPartner_ID")
 				.append(" LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID")
-				.append(" WHERE o.C_POS_ID = " + p_pos.getC_POS_ID())
+				.append(" WHERE o.C_POS_ID = " + v_POSPanel.getC_POS_ID())
 				.append(" AND coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0 ")
 				.append(" AND (i.ispaid='N' OR o.processed= "+ ( processed ? "'Y' )" : "'N' )"));
 			if (doc != null && !doc.equalsIgnoreCase(""))
@@ -298,10 +216,8 @@ public class QueryTicket extends POSQuery
 			m_table.loadTable(rs);
 			if ( m_table.getRowCount() > 0 )
 				m_table.setRowSelectionInterval(0, 0);
-			enableButtons();
-		}
-		catch(Exception e)
-		{
+			select();
+		} catch(Exception e) {
 			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
 			
 		}
@@ -310,9 +226,8 @@ public class QueryTicket extends POSQuery
 	/**
 	 * 	Enable/Set Buttons and set ID
 	 */
-	protected void enableButtons()
-	{
-		m_c_order_id = -1;
+	protected void select() {
+		m_C_Order_ID = -1;
 		int row = m_table.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
@@ -320,13 +235,10 @@ public class QueryTicket extends POSQuery
 			Integer ID = m_table.getSelectedRowKey();
 			if (ID != null)
 			{
-				m_c_order_id = ID.intValue();
+				m_C_Order_ID = ID.intValue();
 			}
 		}
-		
-		f_ok.setEnabled(enabled);
-		
-		log.info("ID=" + m_c_order_id); 
+		log.info("ID=" + m_C_Order_ID); 
 	}	//	enableButtons
 
 	/**
@@ -334,18 +246,22 @@ public class QueryTicket extends POSQuery
 	 * 	Set Values on other panels and close
 	 */
 	@Override
-	protected void close()
-	{
-		log.info("C_Order_ID=" + m_c_order_id); 
+	protected void close() {
+		log.info("C_Order_ID=" + m_C_Order_ID); 
 		Integer ID = m_table.getSelectedRowKey();
 		if (ID != null)
-			m_c_order_id = ID.intValue(); 		
-		
-		if (m_c_order_id > 0) {
-			v_POSPanel.setOrder(m_c_order_id);
-//			v_POSPanel.refreshPanel();
-		}
+			m_C_Order_ID = ID.intValue(); 		
 		dispose();
 	}	//	close
 	
+	@Override
+	public void refresh() {
+		setResults(m_ctx, f_Processed.isSelected(), f_DocumentNo.getText(), 
+				f_DateFrom.getTimestamp(), f_DateTo.getTimestamp());
+	}
+	
+	@Override
+	protected void cancel() {
+		m_C_Order_ID = -1;
+	}
 }	//	QueryTicket
