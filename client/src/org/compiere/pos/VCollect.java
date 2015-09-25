@@ -37,7 +37,6 @@ import javax.swing.KeyStroke;
 
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.Adempiere;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
@@ -277,7 +276,6 @@ public class VCollect extends Collect
 		//	Add to Dialog
 		v_Dialog.getContentPane().add(v_CommandPanel, BorderLayout.SOUTH);
 		v_Dialog.getContentPane().add(v_MainPanel, BorderLayout.CENTER);
-		v_Dialog.setIconImage(Adempiere.getImage16());
 	}
 
 	/**
@@ -316,7 +314,7 @@ public class VCollect extends Collect
 			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			v_POSPanel.setPrepayment(fIsPrePayment.isSelected());
 			setCreditOrder(fIsCreditOrder.isSelected());
-//			setReturnAmt(new BigDecimal(fReturnAmt.getText()));
+			setReturnAmt(new BigDecimal(fReturnAmt.getText()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					if(v_POSPanel.processOrder(trxName)) {

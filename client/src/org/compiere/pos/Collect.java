@@ -91,7 +91,7 @@ public class Collect {
 	/**	Collects				*/
 	private List<CollectDetail> m_Collects;
 	private boolean				isCreditOrder = false;
-	
+	private BigDecimal			returnAmt = Env.ZERO;
 
 	/**
 	 * Add New Collect
@@ -369,16 +369,11 @@ public class Collect {
 	 * @return String
 	 */
 	protected String validatePayment() {
-		// Credit Orders must not have a payment
-		if(isCreditOrder())
-			return null;
 		//	Iterate Payments methods
 		for(CollectDetail m_Collect : m_Collects) {
-			//	Valid Zero in Payment
-			if(m_Collect.getPayAmt() == null
-					|| m_Collect.getPayAmt().compareTo(Env.ZERO) <= 0) {
-				continue;
-			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
+			if(!(m_Collect.getPayAmt().compareTo(Env.ZERO)==1))
+				return "Collect.validatePayment.ZeroAmount";
+			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
 				continue;
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
@@ -400,15 +395,20 @@ public class Collect {
 					return processError;
 				}
 			} else {
-				return "POS.UnsupportedPaymentType";
+				return "Collect.validatePayment.UnsupportedPaymentType";
 			}
 		}
+		// Credit Orders don't need validation
+		if(isCreditOrder())
+			return null;
+		
 		//	Default
 		return null;
 	}  // processPayment
 	
 	/**
 	 * Processes different kinds of payment types
+	 * For Cash: if there is a return amount, modify the payment amount accordingly.
 	 * 
 	 */
 	public void processPayment(String trxName) {
@@ -420,13 +420,11 @@ public class Collect {
 		}
 		//	Iterate Payments methods
 		for(CollectDetail m_Collect : m_Collects) {
-			//	Valid Zero in Payment
-			if(m_Collect.getPayAmt() == null
-					|| m_Collect.getPayAmt().compareTo(Env.ZERO) <= 0) {
-				continue;
-			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
+			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
-				payCash(m_Collect.getPayAmt());
+				BigDecimal payAmt = Env.ZERO;
+				payAmt = (getReturnAmt().compareTo(Env.ZERO)==-1)?m_Collect.getPayAmt().add(getReturnAmt()):m_Collect.getPayAmt();
+				payCash(payAmt);
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
 				payCheck(m_Collect.getPayAmt(), null, null, m_Collect.getReferenceNo());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
@@ -576,5 +574,13 @@ public class Collect {
 
 	public void setCreditOrder(boolean isCreditOrder) {
 		this.isCreditOrder = isCreditOrder;
+	}
+	
+	public BigDecimal getReturnAmt() {
+		return returnAmt;
+	}
+
+	public void setReturnAmt(BigDecimal returnAmt) {
+		this.returnAmt = returnAmt;
 	}
 }
