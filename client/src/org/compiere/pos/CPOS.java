@@ -18,12 +18,14 @@ package org.compiere.pos;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
@@ -517,8 +519,8 @@ public class CPOS {
 			} else {
 				m_CurrentOrder.set_TrxName(trxName);
 			}
-			if(isPrepayment()) {
-				; // TODO: implement Prepayment
+			if(isPrepayment()) {		
+				m_CurrentOrder.setC_DocTypeTarget_ID(getStandardOrder_ID());
 			}
 			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
@@ -608,8 +610,8 @@ public class CPOS {
 	 */
 
 	public BigDecimal getPaidAmt() {
-		String sql = "SELECT sum(PayAmt) FROM C_Payment WHERE C_Order_ID = ? AND DocStatus IN ('CO','CL')";
-		BigDecimal received = DB.getSQLValueBD(null, sql, m_CurrentOrder.getC_Order_ID());
+		String sql = "SELECT sum(PayAmt) FROM C_Payment WHERE (C_Invoice_ID = ? OR C_Order_ID = ?) AND DocStatus IN ('CO','CL')";
+		BigDecimal received = DB.getSQLValueBD(null, sql, m_CurrentOrder.getC_Invoice_ID(), m_CurrentOrder.getC_Order_ID());
 		if ( received == null )
 			received = Env.ZERO;
 		
@@ -851,5 +853,25 @@ public class CPOS {
 
 	public void setPrepayment(boolean isPrepayment) {
 		this.isPrepayment = isPrepayment;
+	}
+	
+	/**
+	 * Get Standard Order ID
+	 * @return int
+	 */
+	public int getStandardOrder_ID() {
+		StringBuffer whereClause = new StringBuffer();
+		whereClause.append(MDocType.COLUMNNAME_DocBaseType + "=?");
+		whereClause.append(" AND " + MDocType.COLUMNNAME_DocSubTypeSO + "=?");
+		ArrayList<Object> params = new ArrayList<Object>();
+		params.add(MDocType.DOCBASETYPE_SalesOrder);
+		params.add(MDocType.DOCSUBTYPESO_StandardOrder);
+
+		int C_DocType_ID = new Query(m_ctx, MDocType.Table_Name, whereClause.toString(), m_CurrentOrder.get_TrxName())
+		.setParameters(params)	
+		.setClient_ID()
+		.setOnlyActiveRecords(true)
+		.firstId();
+		return C_DocType_ID;
 	}
 }

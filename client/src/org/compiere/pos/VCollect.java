@@ -200,9 +200,18 @@ public class VCollect extends Collect
 		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "CreditSale"));
 		fIsCreditOrder.setFont(font);
 		
-		// Pre-Payment, Credit Order: enable only if the order is drafted and there are lines 
+		// Pre-Payment, Standard Order: enable only if the order is completed and there are lines 
 		if(v_POSPanel.getM_Order().getTotalLines().compareTo(Env.ZERO)==1 && 
-				v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted)) {		
+		   v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Completed) &&
+		   v_POSPanel.getM_Order().getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard)) {	
+			fIsPrePayment.setEnabled(false);	
+			fIsCreditOrder.setEnabled(false);
+			fIsPrePayment.setSelected(true);
+		}
+		// Pre-Payment, Credit Order: enable only if the order is drafted and there are lines 
+		else if(v_POSPanel.getM_Order().getTotalLines().compareTo(Env.ZERO)==1 && 
+				v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) &&
+				v_POSPanel.getM_Order().getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit)) {		
 			fIsPrePayment.setEnabled(true);	
 			fIsCreditOrder.setEnabled(true);
 		}
@@ -416,10 +425,10 @@ public class VCollect extends Collect
 		//	Get from controller
 		BigDecimal m_PayAmt = getPayAmt();
 		//	
-		m_Balance = v_POSPanel.getGrandTotal().subtract(m_PayAmt);
+		m_Balance = v_POSPanel.getOpenAmt().subtract(m_PayAmt);
 		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
 		//	Change View
-		fGrandTotal.setText(m_Format.format(v_POSPanel.getGrandTotal()));
+		fGrandTotal.setText(m_Format.format(v_POSPanel.getOpenAmt()));
 		fPayAmt.setText(m_Format.format(m_PayAmt));
 		fReturnAmt.setText(m_Format.format(m_Balance));
 		//	
@@ -447,15 +456,18 @@ public class VCollect extends Collect
 		if(fIsCreditOrder.isSelected()) {
 			fIsPrePayment.setSelected(false);
 			bPlus.setEnabled(true);  // TODO setEnable(true) doesn't work!!
-			if(getPayAmt().doubleValue() > 0) 
+			
+			if((v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) && m_Balance.doubleValue() > 0) ||
+			   (v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Completed) && getPayAmt().compareTo(Env.ZERO)==1) ) 
 				bOk.setEnabled(true);
 			else
 				bOk.setEnabled(false);
+			
 		} else if(fIsPrePayment.isSelected()) {
-			if(m_Balance.doubleValue() > 0) {
-				bOk.setEnabled(false);
-			} else {
+			if(getPayAmt().doubleValue() > 0) {
 				bOk.setEnabled(true);
+			} else {
+				bOk.setEnabled(false);
 			}
 		} else if(m_Balance.doubleValue() == 0) {
 			bOk.setEnabled(true);

@@ -337,7 +337,8 @@ public class Collect {
 
 	/**
 	 * 	Create Payment object
-	 *  Refer to invoice if there is an invoice
+	 *  Refer to invoice if there is an invoice.
+	 *  Otherwise refer to order (it is a prepayment)
 	 * 
 	 * @return Payment object
 	 * 
@@ -357,6 +358,7 @@ public class Collect {
 			payment.setDescription(Msg.getMsg(Env.getCtx(), "Invoice No") + inv.getDocumentNo());
 		} else {
 			payment.setC_Order_ID(m_Order.getC_Order_ID());
+			payment.setDescription(Msg.getMsg(Env.getCtx(), "Order No") + payment.getDocumentNo());
 		}
 			
 		return payment;
@@ -371,7 +373,8 @@ public class Collect {
 	protected String validatePayment() {
 		//	Iterate Payments methods
 		for(CollectDetail m_Collect : m_Collects) {
-			if(!(m_Collect.getPayAmt().compareTo(Env.ZERO)==1))
+			if(m_Collect.getPayAmt() == null
+					|| !(m_Collect.getPayAmt().compareTo(Env.ZERO)==1))
 				return "Collect.validatePayment.ZeroAmount";
 			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
@@ -398,9 +401,6 @@ public class Collect {
 				return "Collect.validatePayment.UnsupportedPaymentType";
 			}
 		}
-		// Credit Orders don't need validation
-		if(isCreditOrder())
-			return null;
 		
 		//	Default
 		return null;
@@ -424,7 +424,8 @@ public class Collect {
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
 				BigDecimal payAmt = Env.ZERO;
 				payAmt = (getReturnAmt().compareTo(Env.ZERO)==-1)?m_Collect.getPayAmt().add(getReturnAmt()):m_Collect.getPayAmt();
-				payCash(payAmt);
+				if(payAmt.compareTo(Env.ZERO)==1)
+					payCash(payAmt);
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
 				payCheck(m_Collect.getPayAmt(), null, null, m_Collect.getReferenceNo());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit

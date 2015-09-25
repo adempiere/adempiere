@@ -544,12 +544,17 @@ public class POSActionPanel extends POSSubPanel
 					f_Cancel.setEnabled(false);
 				
 				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
+				// or (is completed, standard and not fully paid)
 				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
 				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
 				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
 				    	(order.getC_Invoice_ID()<=0  ||
 				    	 !MInvoice.get(m_ctx, order.getC_Invoice_ID()).isPaid()
 				    	 )
+				   ) ||
+				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard) &&
+				    order.getGrandTotal().subtract(v_POSPanel.getPaidAmt()).compareTo(Env.ZERO)==1
 				   )
 				  )
 					f_cashPayment.setEnabled(true);
