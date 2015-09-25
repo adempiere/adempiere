@@ -225,6 +225,7 @@ public class QueryBPartner extends POSQuery {
 		Integer ID = m_table.getSelectedRowKey();
 		if (ID != null)
 			m_C_BPartner_ID = ID.intValue();
+		dispose();
 	}	//	close
 
 	/**
@@ -259,5 +260,6 @@ public class QueryBPartner extends POSQuery {
 	@Override
 	protected void cancel() {
 		m_C_BPartner_ID = 0;
+		dispose();
 	}
 }	//	PosQueryBPartner
