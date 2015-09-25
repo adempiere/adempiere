@@ -154,7 +154,7 @@ public class POSOrderLinePanel extends POSSubPanel
 			}			
 		});
 
-		m_table.setFillsViewportHeight( true ); //@Trifon
+		m_table.setFillsViewportHeight(true); //@Trifon
 		m_table.growScrollbars();
 		add (scroll, "growx, spanx, growy, pushy, h 100:30:");		
 	} //init

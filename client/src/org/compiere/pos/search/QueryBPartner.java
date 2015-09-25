@@ -14,7 +14,6 @@
 
 package org.compiere.pos.search;
 
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -29,12 +28,9 @@ import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.pos.POSTextField;
-import org.compiere.pos.PosTable;
 import org.compiere.pos.VPOS;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
-import org.compiere.swing.CPanel;
-import org.compiere.swing.CScrollPane;
 import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -48,12 +44,13 @@ import org.compiere.util.Msg;
  *         *Copyright (c) Jorg Janke
  *  @author Dixon Martinez, ERPCYA 
  *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  <li> Implement best practices
  *  
  *  @version $Id: QueryBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: QueryBPartner.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class QueryBPartner extends POSQuery
-{
+public class QueryBPartner extends POSQuery {
 	/**
 	 * 
 	 */
@@ -65,29 +62,25 @@ public class QueryBPartner extends POSQuery
 	/**
 	 * 	Constructor
 	 */
-	public QueryBPartner (VPOS posPanel)
-	{
+	public QueryBPartner (VPOS posPanel) {
 		super(posPanel);
 	}	//	PosQueryBPartner
 	
-	private POSTextField		f_value;
-	private POSTextField		f_name;
-	private POSTextField		f_contact;
-	private POSTextField		f_email;
-	private POSTextField		f_phone;
+	/**	Search Fields		*/
+	private POSTextField	f_value;
+	private POSTextField	f_name;
+	private POSTextField	f_contact;
+	private POSTextField	f_email;
+	private POSTextField	f_phone;
 	private CTextField		f_city;
-
+	/**	Internal Variables	*/
 	private int				m_C_BPartner_ID;
-	private CButton f_refresh;
-	private CButton f_ok;
-	private CButton f_cancel;
-	/**	Logger			*/
+	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(QueryBPartner.class);
 	
 	
 	/**	Table Column Layout Info			*/
-	private static ColumnInfo[] s_layout = new ColumnInfo[] 
-	{
+	private static ColumnInfo[] s_layout = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_BPartner_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "Value", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
@@ -104,189 +97,123 @@ public class QueryBPartner extends POSQuery
 	/**
 	 * 	Set up Panel
 	 */
-	protected void init()
-	{
-		CPanel panel = new CPanel();
-		
-		panel.setLayout(new MigLayout("fill"));
-		getContentPane().add(panel);
+	protected void init() {
 		//	North
-		northPanel = new CPanel(new MigLayout("fill","", "[50][50][]"));
-		panel.add (northPanel, "north");
-		northPanel.setBorder(new TitledBorder(Msg.getMsg(p_ctx, "Query")));
+		v_ParameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
+		v_ParameterPanel.setBorder(new TitledBorder(Msg.getMsg(m_ctx, "Query")));
 		
-		CLabel lvalue = new CLabel(Msg.translate(p_ctx, "Value"));
-		northPanel.add (lvalue, " growy");
+		CLabel lvalue = new CLabel(Msg.translate(m_ctx, "Value"));
+		v_ParameterPanel.add (lvalue, " growy");
 		f_value = new POSTextField("", v_POSPanel.getKeyboard());
 		lvalue.setLabelFor(f_value);
-		northPanel.add(f_value, "h 30, w 200");
+		v_ParameterPanel.add(f_value, "h 30, w 200");
 		f_value.addActionListener(this);
 		
 		//
-		CLabel lcontact = new CLabel(Msg.translate(p_ctx, "Contact"));
-		northPanel.add (lcontact, " growy");
+		CLabel lcontact = new CLabel(Msg.translate(m_ctx, "Contact"));
+		v_ParameterPanel.add (lcontact, " growy");
 		f_contact = new POSTextField("", v_POSPanel.getKeyboard());
 		lcontact.setLabelFor(f_contact);
-		northPanel.add(f_contact, "h 30, w 200");
+		v_ParameterPanel.add(f_contact, "h 30, w 200");
 		f_contact.addActionListener(this);
 		
 		//
-		CLabel lphone = new CLabel(Msg.translate(p_ctx, "Phone"));
-		northPanel.add (lphone, " growy");
+		CLabel lphone = new CLabel(Msg.translate(m_ctx, "Phone"));
+		v_ParameterPanel.add (lphone, " growy");
 		f_phone = new POSTextField("", v_POSPanel.getKeyboard());
 		lphone.setLabelFor(f_phone);
-		northPanel.add(f_phone, "h 30, w 200, wrap");
+		v_ParameterPanel.add(f_phone, "h 30, w 200, wrap");
 		f_phone.addActionListener(this);
 		
 		//
-		CLabel lname = new CLabel(Msg.translate(p_ctx, "Name"));
-		northPanel.add (lname, " growy");
+		CLabel lname = new CLabel(Msg.translate(m_ctx, "Name"));
+		v_ParameterPanel.add (lname, " growy");
 		f_name = new POSTextField("", v_POSPanel.getKeyboard());
 		lname.setLabelFor(f_name);
-		northPanel.add(f_name, "h 30, w 200");
+		v_ParameterPanel.add(f_name, "h 30, w 200");
 		f_name.addActionListener(this);
 		//
-		CLabel lemail = new CLabel(Msg.translate(p_ctx, "Email"));
-		northPanel.add (lemail, " growy");
+		CLabel lemail = new CLabel(Msg.translate(m_ctx, "Email"));
+		v_ParameterPanel.add (lemail, " growy");
 		f_email = new POSTextField("", v_POSPanel.getKeyboard());
 		lemail.setLabelFor(f_email);
-		northPanel.add(f_email, "h 30, w 200");
+		v_ParameterPanel.add(f_email, "h 30, w 200");
 		f_email.addActionListener(this);
 		//
-		CLabel lcity = new CLabel(Msg.translate(p_ctx, "City"));
-		northPanel.add (lcity, " growy");
+		CLabel lcity = new CLabel(Msg.translate(m_ctx, "City"));
+		v_ParameterPanel.add (lcity, " growy");
 		f_city = new CTextField(10);
 		lcity.setLabelFor(f_city);
-		northPanel.add(f_city, "h 30, w 200");
+		v_ParameterPanel.add(f_city, "h 30, w 200");
 		f_city.addActionListener(this);
 		//
-		
-		f_refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-		northPanel.add(f_refresh, "w 50!, h 50!, wrap, alignx trailing");
 
 		// Support for creating customers from the point of sale
 		bot_New = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
-		northPanel.add(bot_New, "w 50!, h 50!");
-		
-		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-		northPanel.add(f_up, "w 50!, h 50!, span, split 4");
-		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
-		northPanel.add(f_down, "w 50!, h 50!");
-		
-		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
-		northPanel.add(f_ok, "w 50!, h 50!");
-		
-		f_cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
-		northPanel.add(f_cancel, "w 50!, h 50!");
+		v_ParameterPanel.add(bot_New, "w 50!, h 50!");
 		
 		//	Center
-		m_table = new PosTable();
-		String sql = m_table.prepareTable (s_layout, s_sqlFrom, 
-			s_sqlWhere, false, "RV_BPartner")
-			+ " ORDER BY Value";
+		m_table.prepareTable (s_layout, s_sqlFrom, 
+			s_sqlWhere, false, "RV_BPartner");
 		m_table.addMouseListener(this);
 		m_table.getSelectionModel().addListSelectionListener(this);
-		enableButtons();
-		centerScroll = new CScrollPane(m_table);
-		panel.add (centerScroll, "growx, growy");
+		select();
 		m_table.growScrollbars();
-		panel.setPreferredSize(new Dimension(800,600));
 		f_value.requestFocus();
+		addNewAction();
 	}	//	init
 	
 	/**
 	 * 	Action Listener
 	 *	@param e event
 	 */
-	public void actionPerformed (ActionEvent e)
-	{
-		log.info(e.getActionCommand());
-		if ("Refresh".equals(e.getActionCommand())
-			|| e.getSource() == f_value // || e.getSource() == f_upc
-			|| e.getSource() == f_name // || e.getSource() == f_sku
-			)
-		{
-			setResults(MBPartnerInfo.find (p_ctx,
-				f_value.getText(), f_name.getText(), 
-				null, f_email.getText(),
-				f_phone.getText(), f_city.getText()));
+	public void actionPerformed (ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() == f_value
+			|| e.getSource() == f_name
+			) {
+			refresh();
 			return;
 		}
-		else if ("Reset".equals(e.getActionCommand()))
-		{
-			reset();
-			return;
-		}
-		else if ("Previous".equalsIgnoreCase(e.getActionCommand()))
-		{
-			int rows = m_table.getRowCount();
-			if (rows == 0)
-				return;
-			int row = m_table.getSelectedRow();
-			row--;
-			if (row < 0)
-				row = 0;
-			m_table.getSelectionModel().setSelectionInterval(row, row);
-			return;
-		}
-		else if ("Next".equalsIgnoreCase(e.getActionCommand()))
-		{
-			int rows = m_table.getRowCount();
-			if (rows == 0)
-				return;
-			int row = m_table.getSelectedRow();
-			row++;
-			if (row >= rows)
-				row = rows - 1;
-			m_table.getSelectionModel().setSelectionInterval(row, row);
-			return;
-		}
-		// Support for creating customers from the point of sale
-		else if("New".equalsIgnoreCase(e.getActionCommand())) {
-			
-			VBPartner t = new VBPartner(new Frame(), 0);
-			t.setVisible(true);
-			
-			m_C_BPartner_ID = t.getC_BPartner_ID();
-			
-			close();
-		}
-		//	Exit
-		close();
 	}	//	actionPerformed
 	
+	
+	@Override
+	protected void newAction() {
+		super.newAction();
+		VBPartner t = new VBPartner(new Frame(), 0);
+		t.setVisible(true);
+		m_C_BPartner_ID = t.getC_BPartner_ID();
+		//	Close
+		close();
+	}
 	
 	/**
 	 * 	Set/display Results
 	 *	@param results results
 	 */
-	public void setResults (MBPartnerInfo[] results)
-	{
+	public void setResults (MBPartnerInfo[] results) {
 		m_table.loadTable(results);
 		if (m_table.getRowCount() >0 )
 			m_table.setRowSelectionInterval(0, 0);
-		enableButtons();
+		select();
 	}	//	setResults
 
 	/**
 	 * 	Enable/Set Buttons and set ID
 	 */
-	protected void enableButtons()
-	{
+	protected void select() {
 		m_C_BPartner_ID = -1;
 		int row = m_table.getSelectedRow();
 		boolean enabled = row != -1;
-		if (enabled)
-		{
+		if (enabled) {
 			Integer ID = m_table.getSelectedRowKey();
-			if (ID != null)
-			{
+			if (ID != null) {
 				m_C_BPartner_ID = ID.intValue();
 			//	m_BPartnerName = (String)m_table.getValueAt(row, 2);
 			//	m_Price = (BigDecimal)m_table.getValueAt(row, 7);
 			}
 		}
-		f_ok.setEnabled(enabled);
 		log.fine("C_BPartner_ID=" + m_C_BPartner_ID); 
 	}	//	enableButtons
 
@@ -296,19 +223,20 @@ public class QueryBPartner extends POSQuery
 	 */
 	protected void close() {
 		Integer ID = m_table.getSelectedRowKey();
-			if (ID != null)
-				m_C_BPartner_ID = ID.intValue();
-		
-		if (m_C_BPartner_ID > 0) {
-			v_POSPanel.setC_BPartner_ID(m_C_BPartner_ID);
-			log.fine("C_BPartner_ID=" + m_C_BPartner_ID);
-		} else {
-			v_POSPanel.setC_BPartner_ID(0);
-		}
-		dispose();
+		if (ID != null)
+			m_C_BPartner_ID = ID.intValue();
 	}	//	close
 
-
+	/**
+	 * Get Busines Partner Identifier
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	public int getC_BPartner_ID() {
+		return m_C_BPartner_ID;
+	}
+	
 	@Override
 	public void reset() {
 		f_value.setText(null);
@@ -318,5 +246,18 @@ public class QueryBPartner extends POSQuery
 		f_phone.setText(null);
 		f_city.setText(null);
 		setResults(new MBPartnerInfo[0]);
+	}
+
+	@Override
+	public void refresh() {
+		setResults(MBPartnerInfo.find (m_ctx,
+				f_value.getText(), f_name.getText(), 
+				null, f_email.getText(),
+				f_phone.getText(), f_city.getText()));
+	}
+
+	@Override
+	protected void cancel() {
+		m_C_BPartner_ID = 0;
 	}
 }	//	PosQueryBPartner

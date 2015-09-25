@@ -69,6 +69,7 @@ public class POSProductPanel extends POSSubPanel
 	}	//	PosSubFunctionKeys
 	
 	/**	Panels				*/;
+	private CPanel 			v_HeaderPanel;
 	private TitledBorder 	v_TitleBorder;
 	/**	Document No			*/
 //	private CLabel 			f_lb_DocumentNo;
@@ -109,7 +110,7 @@ public class POSProductPanel extends POSSubPanel
 		setLayout(new GridBagLayout());
 		//	Document Panel
 		//	Set Font and Format
-		CPanel v_HeaderPanel = new CPanel(new GridBagLayout());
+		v_HeaderPanel = new CPanel(new GridBagLayout());
 		//	Set Border
 		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 18);
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
@@ -314,7 +315,6 @@ public class POSProductPanel extends POSSubPanel
 			f_ProductName.setText(results[0].getName());
 		} else {	//	more than one
 			QueryProduct qt = new QueryProduct(v_POSPanel);
-			qt.setResults(results);
 			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
 			qt.setVisible(true);
 			if (qt.getM_Product_ID() > 0) {
@@ -327,8 +327,6 @@ public class POSProductPanel extends POSSubPanel
 	@Override
 	public void refreshPanel() {
 		if (!v_POSPanel.hasOrder()) {
-//			f_DocumentNo.setText("");
-//			f_SalesRep_Name.setText("");
 			v_TitleBorder.setTitle("");
 			f_TotalLines.setText(m_Format.format(Env.ZERO));
 			f_GrandTotal.setText(m_Format.format(Env.ZERO));
@@ -338,9 +336,10 @@ public class POSProductPanel extends POSSubPanel
 			BigDecimal m_GrandTotal = v_POSPanel.getGrandTotal();
 			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
 			//	Set Values
-//			f_DocumentNo.setText(v_POSPanel.getDocumentNo());
 			v_TitleBorder.setTitle(v_POSPanel.getSalesRepName() + "[" + v_POSPanel.getDocumentNo() + "]");
-//			f_SalesRep_Name.setText(v_POSPanel.getSalesRepName());
+			v_HeaderPanel.setBorder(v_TitleBorder);
+			v_HeaderPanel.validate();
+			v_HeaderPanel.repaint();
 			f_TotalLines.setText(m_Format.format(m_TotalLines));
 			f_GrandTotal.setText(m_Format.format(m_GrandTotal));
 			f_TaxAmount.setText(m_Format.format(m_TaxAmt));

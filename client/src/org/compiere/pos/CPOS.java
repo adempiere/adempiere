@@ -197,6 +197,16 @@ public class CPOS {
 	}
 	
 	/**
+	 * Get POS Identifier
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	public int getC_POS_ID() {
+		return m_POS.getC_POS_ID();
+	}
+	
+	/**
 	 * Get/create Order
 		 *	@param pos MPOS
 		 *	@param partner Business Partner
