@@ -355,10 +355,10 @@ public class Collect {
 		if(m_C_Invoice_ID > 0) {
 			payment.setC_Invoice_ID(m_C_Invoice_ID);
 			MInvoice inv = new MInvoice(Env.getCtx(), payment.getC_Invoice_ID(), trxName);
-			payment.setDescription(Msg.getMsg(Env.getCtx(), "Invoice No") + inv.getDocumentNo());
+			payment.setDescription(Msg.getMsg(Env.getCtx(), "Invoice No ") + inv.getDocumentNo());
 		} else {
 			payment.setC_Order_ID(m_Order.getC_Order_ID());
-			payment.setDescription(Msg.getMsg(Env.getCtx(), "Order No") + payment.getDocumentNo());
+			payment.setDescription(Msg.getMsg(Env.getCtx(), "Order No ") + m_Order.getDocumentNo());
 		}
 			
 		return payment;
