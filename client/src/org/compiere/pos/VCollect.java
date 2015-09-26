@@ -210,8 +210,7 @@ public class VCollect extends Collect
 		}
 		// Pre-Payment, Credit Order: enable only if the order is drafted and there are lines 
 		else if(v_POSPanel.getM_Order().getTotalLines().compareTo(Env.ZERO)==1 && 
-				v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) &&
-				v_POSPanel.getM_Order().getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit)) {		
+				v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted)) {		
 			fIsPrePayment.setEnabled(true);	
 			fIsCreditOrder.setEnabled(true);
 		}
