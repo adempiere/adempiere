@@ -437,14 +437,14 @@ public class VCollect extends Collect
 	@Override
 	public String validatePanel() {
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
-			return "POS.MustCreateOrder";
+			return "VCollect.MustCreateOrder";
 		} else if(fIsCreditOrder.isSelected()) {	//	For Credit Order
 			return null;
 		} else if(!fIsPrePayment.isSelected() 
 				&& m_Balance.doubleValue() > 0) {	//	For Pre-Payment Order
-			return "POS.OrderPayNotCompleted";
-		} else if(m_Balance.doubleValue() < 0) {
-			return "POS.OrderPayNotCompletedAmtExceeded";
+			return "VCollect.OrderPayNotCompleted";
+		} else if(m_Balance.doubleValue() > 0) {
+			return "VCollect.InsufficientOrderPaymentAmt";
 		}
 		//	
 		return null;
@@ -468,7 +468,7 @@ public class VCollect extends Collect
 			} else {
 				bOk.setEnabled(false);
 			}
-		} else if(m_Balance.doubleValue() == 0) {
+		} else if(m_Balance.doubleValue() <= 0) {
 			bOk.setEnabled(true);
 		} else {
 			bOk.setEnabled(false);
