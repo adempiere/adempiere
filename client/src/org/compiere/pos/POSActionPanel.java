@@ -203,17 +203,9 @@ public class POSActionPanel extends POSSubPanel
 		} else if (action.equals(ACTION_BACK)){
 			previousRecord();
 			v_POSPanel.refreshPanel();
-		} else if (action.equals(ACTION_BPARTNER)) {	// Change to another BPartner
-			QueryBPartner qt = new QueryBPartner(v_POSPanel);
-			qt.setVisible(true);
-			if (qt.getC_BPartner_ID() > 0) {
-				v_POSPanel.setC_BPartner_ID(qt.getC_BPartner_ID());
-				log.fine("C_BPartner_ID=" + qt.getC_BPartner_ID());
-			} else {
-				v_POSPanel.setC_BPartner_ID(0);
-			}
-			findBPartner();
-		} else if (action.equals(ACTION_LOGOUT)) {	//	Logout
+		} else if (action.equals(ACTION_BPARTNER))
+			changeBusinessPartner(); 
+		else if (action.equals(ACTION_LOGOUT)) {	//	Logout
 			v_POSPanel.dispose();
 			return;
 		} else if (e.getSource() == f_name) {
@@ -369,8 +361,9 @@ public class POSActionPanel extends POSSubPanel
 		if (results.length == 0) {
 			v_POSPanel.setC_BPartner_ID(0);
 		} else if (results.length == 1) {
-			v_POSPanel.setC_BPartner_ID(results[0].getC_BPartner_ID());
-			f_name.setText(results[0].getName());
+			MBPartner bp = new MBPartner(m_ctx, results[0].getC_BPartner_ID(), v_POSPanel.getM_Order().get_TrxName());
+			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
+			f_name.setText(bp.getName());
 		} else {	//	more than one
 			QueryBPartner qt = new QueryBPartner(v_POSPanel);
 			qt.setResults (results);
@@ -587,4 +580,29 @@ public class POSActionPanel extends POSSubPanel
 			f_cashPayment.setEnabled(false);
 		}
 	}
-}//	PosSubCustomer
+	
+
+	/**
+	 * 	Change in Order the Business Partner, including Price list and location
+	 *  In Order and POS
+	 * 
+	 */
+	public void changeBusinessPartner() {
+		// Change to another BPartner
+		QueryBPartner qt = new QueryBPartner(v_POSPanel);
+		qt.setVisible(true);
+		if (qt.getC_BPartner_ID() > 0) {
+			MBPartner bp = new MBPartner(m_ctx, qt.getC_BPartner_ID(), v_POSPanel.getM_Order().get_TrxName());
+			f_name.setText(bp.getName()); 
+			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
+			log.fine("C_BPartner_ID=" + bp.getC_BPartner_ID());
+		} else {
+			v_POSPanel.setC_BPartner_ID(0);
+		}
+		findBPartner();
+		if (v_POSPanel.getC_BPartner_ID() > 0) {				
+			v_POSPanel.getM_Order().saveEx();  // TODO: how to avoid save here? Otherwise, neither BP nor PriceList are saved.
+		}	
+	}	
+
+}//	POSActionPanel

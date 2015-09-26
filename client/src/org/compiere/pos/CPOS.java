@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
@@ -667,17 +668,30 @@ public class CPOS {
 	}
 	
 	/**
-	 * 	Set BPartner
+	 * 	Set BPartner, update price list and locations
 	 *	@param C_BPartner_ID id
 	 */
 	public void setC_BPartner_ID (int C_BPartner_ID) {
-		log.fine( "PosSubCustomer.setC_BPartner_ID=" + C_BPartner_ID);
+		log.fine( "CPOS.setC_BPartner_ID=" + C_BPartner_ID);
 		if (C_BPartner_ID == 0)
 			m_BPartner = null;
 		else {
 			m_BPartner = MBPartner.get(m_ctx, C_BPartner_ID);
-			if (m_BPartner.get_ID() == 0)
-				m_BPartner = null;
+			if (m_BPartner!=null) {
+				m_CurrentOrder.setC_BPartner_ID(C_BPartner_ID);
+				int M_PriceList_ID = m_BPartner.getM_PriceList_ID();
+				m_CurrentOrder.setM_PriceList_ID(M_PriceList_ID);
+				
+				MBPartnerLocation [] bpLocations = m_BPartner.getLocations(true);
+				if(bpLocations.length>0) {
+					for(MBPartnerLocation loc:bpLocations) {
+						if(loc.isBillTo())
+							m_CurrentOrder.setBill_Location_ID(loc.getC_BPartner_Location_ID());	
+						if(loc.isShipTo())
+							m_CurrentOrder.setShip_Location_ID(loc.getC_BPartner_Location_ID());
+					}				
+				}
+			}
 		}
 		//	Sets Currency
 		m_M_PriceList_Version_ID = 0;
