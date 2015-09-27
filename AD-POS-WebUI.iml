@@ -7,6 +7,10 @@
       <sourceFolder url="file://$MODULE_DIR$/zkwebui/WEB-INF/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/base/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/client/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/vaadin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/zk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.pos/src/main/java/ui/swing" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
