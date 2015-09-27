@@ -26,6 +26,7 @@ import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MWarehousePrice;
 import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
+import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.swing.CLabel;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -44,7 +45,7 @@ import org.compiere.util.Msg;
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class QueryProduct extends POSQuery {
+public class QueryProduct extends POSQuery implements I_POSQuery {
 
 	private static final long serialVersionUID = 9172276999827406833L;
 
@@ -213,26 +214,6 @@ public class QueryProduct extends POSQuery {
 			m_M_Product_ID = ID.intValue();
 	}	//	close
 
-	/**
-	 * Get Product Identifier
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
-	 * @return int
-	 */
-	public int getM_Product_ID() {
-		return m_M_Product_ID;
-	}
-	
-	/**
-	 * Get Product Name
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
-	 * @return String
-	 */
-	public String getProductName() {
-		return m_ProductName;
-	}
-
 	@Override
 	public void reset() {
 		f_Value.setText(null);
@@ -254,5 +235,15 @@ public class QueryProduct extends POSQuery {
 		m_M_Product_ID = -1;
 		m_ProductName = null;
 		m_Price = Env.ZERO;
+	}
+
+	@Override
+	public int getRecord_ID() {
+		return m_M_Product_ID;
+	}
+
+	@Override
+	public String getValue() {
+		return m_ProductName;
 	}
 }	//	PosQueryProduct

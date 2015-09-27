@@ -40,6 +40,7 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.Query;
+import org.compiere.model.X_C_Order;
 import org.compiere.pos.AdempierePOSException;
 import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
@@ -99,6 +100,18 @@ public class CPOS {
 		//	
 		return false;
 	}	//	setMPOS
+	
+	/**
+	 * Validate if is Order Completed
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isCompleted() {
+		return m_CurrentOrder.isProcessed() 
+				&& m_CurrentOrder.getDocStatus()
+				.equals(X_C_Order.DOCSTATUS_Completed);
+	}
 
 	/**
 	 * Get Current Order

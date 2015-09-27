@@ -239,8 +239,8 @@ public class POSProductPanel extends POSSubPanel
 	 */
 	public void keyReturned(MPOSKey key) {
 		// processed order
-		if (v_POSPanel.getM_Order() != null 
-				&& v_POSPanel.getM_Order().isProcessed())
+		if (v_POSPanel.hasOrder() 
+				&& v_POSPanel.isCompleted())
 			return;
 		// Add line
 		addLine(key.getM_Product_ID(), key.getQty());
@@ -319,9 +319,9 @@ public class POSProductPanel extends POSSubPanel
 			QueryProduct qt = new QueryProduct(v_POSPanel);
 			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
 			qt.setVisible(true);
-			if (qt.getM_Product_ID() > 0) {
-				f_ProductName.setText(qt.getProductName());
-				addLine(qt.getM_Product_ID(), Env.ONE);
+			if (qt.getRecord_ID() > 0) {
+				f_ProductName.setText(qt.getValue());
+				addLine(qt.getRecord_ID(), Env.ONE);
 			}
 		}
 	}	//	findProduct

@@ -26,6 +26,7 @@ import javax.swing.border.TitledBorder;
 import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.pos.search.POSQuery;
+import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.grid.ed.VDate;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -54,7 +55,7 @@ import org.compiere.util.Msg;
  * 
  */
 
-public class QueryTicket extends POSQuery {
+public class QueryTicket extends POSQuery implements I_POSQuery {
 	/**
 	 * 
 	 */
@@ -145,16 +146,6 @@ public class QueryTicket extends POSQuery {
 		pack();
 		refresh();
 	}	//	init
-
-	/**
-	 * Get Order Identifier
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
-	 * @return int
-	 */
-	public int getC_Order_ID() {
-		return m_C_Order_ID;
-	}
 	
 	/**
 	 * 	Action Listener
@@ -265,5 +256,15 @@ public class QueryTicket extends POSQuery {
 	protected void cancel() {
 		m_C_Order_ID = -1;
 		dispose();
+	}
+
+	@Override
+	public int getRecord_ID() {
+		return m_C_Order_ID;
+	}
+
+	@Override
+	public String getValue() {
+		return null;
 	}
 }	//	QueryTicket
