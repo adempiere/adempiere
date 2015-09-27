@@ -31,6 +31,7 @@ import javax.swing.KeyStroke;
 import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
@@ -77,18 +78,20 @@ public class POSActionPanel extends POSSubPanel
 		super (posPanel);
 	}	//	PosSubCustomer
 	
-	private CButton 		f_history;
-	private	CTextField		f_name;
-	private CButton 		f_bNew;
-	private CButton 		f_bBPartner;
-	private CButton 		f_cashPayment;
-	private CButton 		f_Next;
-	private CButton 		f_Back;
-	private CButton 		f_Cancel;
-	private CButton 		f_logout;
-	
-	private int 				recordPosition;
-	private ArrayList<Integer>	orderList;
+	/**	Buttons Command		*/
+	private CButton 			f_bNew;
+	private CButton 			f_bBPartner;
+	private CButton 			f_bHistory;
+	private CButton 			f_bBack;
+	private CButton 			f_bNext;
+	private CButton 			f_bCollect;
+	private CButton 			f_bCancel;
+	private CButton 			f_bLogout;
+	/**	For Show BPartner	*/
+	private	CTextField			f_NameBPartner;
+	/**	For Orde List		*/
+	private int 				m_RecordPosition;
+	private ArrayList<Integer>	m_OrderList;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(POSActionPanel.class);	
 
@@ -110,7 +113,7 @@ public class POSActionPanel extends POSSubPanel
 		MigLayout layout = new MigLayout("ins 20 20","[fill|fill|fill|fill]","[nogrid]unrel[||]");
 		setLayout(layout);
 		listOrder();
-		recordPosition = orderList.size()-1;
+		m_RecordPosition = m_OrderList.size()-1;
 
 		String buttonSize = "w 50!, h 50!,";
 		// NEW
@@ -122,40 +125,40 @@ public class POSActionPanel extends POSSubPanel
 		add (f_bBPartner,buttonSize+",gapx 35" );
 		
 		// HISTORY
-		f_history = createButtonAction(ACTION_HISTORY, null);
- 		add (f_history, buttonSize+",gapx 35"); 
+		f_bHistory = createButtonAction(ACTION_HISTORY, null);
+ 		add (f_bHistory, buttonSize+",gapx 35"); 
 		
  		// 	BACK
- 		f_Back = createButtonAction(ACTION_BACK, null);
- 		add (f_Back, buttonSize+",gapx 35");
- 		f_Back.setEnabled(true);
+ 		f_bBack = createButtonAction(ACTION_BACK, null);
+ 		add (f_bBack, buttonSize+",gapx 35");
+ 		f_bBack.setEnabled(true);
 		
  		//	NEXT
- 		f_Next = createButtonAction(ACTION_NEXT, null);
- 		f_Next.setActionCommand(ACTION_NEXT);
-		add (f_Next, buttonSize+",gapx 35"); 
-		f_Next.setEnabled(true);
+ 		f_bNext = createButtonAction(ACTION_NEXT, null);
+ 		f_bNext.setActionCommand(ACTION_NEXT);
+		add (f_bNext, buttonSize+",gapx 35"); 
+		f_bNext.setEnabled(true);
  		
  		// PAYMENT
- 		f_cashPayment = createButtonAction(ACTION_PAYMENT, null);
-		f_cashPayment.setActionCommand(ACTION_PAYMENT);
-		add (f_cashPayment, buttonSize+",gapx 35"); 
-		f_cashPayment.setEnabled(false);
+ 		f_bCollect = createButtonAction(ACTION_PAYMENT, null);
+		f_bCollect.setActionCommand(ACTION_PAYMENT);
+		add (f_bCollect, buttonSize+",gapx 35"); 
+		f_bCollect.setEnabled(false);
  		
  		// CANCEL
-		f_Cancel = createButtonAction(ACTION_CANCEL, null);
- 		add (f_Cancel, buttonSize +",gapx 35");
+		f_bCancel = createButtonAction(ACTION_CANCEL, null);
+ 		add (f_bCancel, buttonSize +",gapx 35");
  		
 		// Logout
-		f_logout = createButtonAction (ACTION_LOGOUT, null);
-		add (f_logout, buttonSize + ", gapx 35, wrap");
+		f_bLogout = createButtonAction (ACTION_LOGOUT, null);
+		add (f_bLogout, buttonSize + ", gapx 35, wrap");
 
 		// BP
 //		CLabel BPLabelLabel = new CLabel(Msg.translate(Env.getCtx(), MBPartner.COLUMNNAME_C_BPartner_ID)); 
 //		add(BPLabelLabel, "");
-		f_name = new CTextField();
-		f_name.setEditable(false);
-		f_name.setName(MBPartner.COLUMNNAME_Name);
+		f_NameBPartner = new CTextField();
+		f_NameBPartner.setEditable(false);
+		f_NameBPartner.setName(MBPartner.COLUMNNAME_Name);
 //		add (f_name, "wrap,spanx 3, growx");
 
 	}	//	init
@@ -165,9 +168,9 @@ public class POSActionPanel extends POSSubPanel
 	 */
 	public void dispose()
 	{
-		if (f_name != null)
-			f_name.removeFocusListener(this);
-		f_name = null;
+		if (f_NameBPartner != null)
+			f_NameBPartner.removeFocusListener(this);
+		f_NameBPartner = null;
 		removeAll();
 		super.dispose();
 	}	//	dispose
@@ -189,10 +192,10 @@ public class POSActionPanel extends POSSubPanel
 			return;
 		} else if (action.equals(ACTION_HISTORY)) {
 			// For already created, but either not completed or not yet paid POS Orders
-			QueryTicket qt = new QueryTicket(v_POSPanel);
+			I_POSQuery qt = new QueryTicket(v_POSPanel);
 			qt.setVisible(true);
-			if (qt.getC_Order_ID() > 0) {
-				v_POSPanel.setOrder(qt.getC_Order_ID());
+			if (qt.getRecord_ID() > 0) {
+				v_POSPanel.setOrder(qt.getRecord_ID());
 			}
 		} else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
@@ -208,7 +211,7 @@ public class POSActionPanel extends POSSubPanel
 		else if (action.equals(ACTION_LOGOUT)) {	//	Logout
 			v_POSPanel.dispose();
 			return;
-		} else if (e.getSource() == f_name) {
+		} else if (e.getSource() == f_NameBPartner) {
 			findBPartner();
 		}
 		//	Refresh
@@ -233,8 +236,8 @@ public class POSActionPanel extends POSSubPanel
 	 * Previous Record Order
 	 */
 	public void previousRecord() {
-		if(recordPosition > 0) {
-			v_POSPanel.setOrder(orderList.get(recordPosition--));
+		if(m_RecordPosition > 0) {
+			v_POSPanel.setOrder(m_OrderList.get(m_RecordPosition--));
 		}
 		//	Refresh
 		v_POSPanel.refreshPanel();
@@ -244,12 +247,13 @@ public class POSActionPanel extends POSSubPanel
 	 * Next Record Order
 	 */
 	public void nextRecord() {
-		if(recordPosition < orderList.size() - 1) {
-			v_POSPanel.setOrder(orderList.get(recordPosition++));
+		if(m_RecordPosition < m_OrderList.size() - 1) {
+			v_POSPanel.setOrder(m_OrderList.get(m_RecordPosition++));
 		}
 		//	Refresh
 		v_POSPanel.refreshPanel();
 	}
+	
 	/**
 	 * Execute order payment
 	 * If order is not processed, process it first.
@@ -257,7 +261,7 @@ public class POSActionPanel extends POSSubPanel
 	 */
 	private void payOrder() {
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( v_POSPanel.getM_Order() == null) {		
+		if(!v_POSPanel.hasOrder()) {		
 			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(m_ctx, "POS.MustCreateOrder"));
 		} else {
 			VCollect collect = new VCollect(v_POSPanel);
@@ -275,16 +279,16 @@ public class POSActionPanel extends POSSubPanel
 	 * Otherwise, it must be done outside this class.
 	 */
 	private void deleteOrder() {
-		if (v_POSPanel == null || v_POSPanel.getM_Order() == null) {
+		if (!v_POSPanel.hasOrder()) {
 			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(m_ctx, "POS.MustCreateOrder"));
 			return;			
-		} else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Drafted) ) {
+		} else if (!v_POSPanel.isCompleted()) {
 			if (ADialog.ask(v_POSPanel.getWindowNo(), this, Msg.getMsg(m_ctx, "POS.DeleteOrder"))) {	//	TODO translate it: Do you want to delete the Order? 
 				if (!v_POSPanel.deleteOrder()) {
 					ADialog.warn(v_POSPanel.getWindowNo(), this, Msg.getMsg(m_ctx, "POS.OrderCouldNotDeleted"));	//	TODO translate it: Order could not be deleted
 				}
 			}
-		} else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Completed)) {	
+		} else if (v_POSPanel.isCompleted()) {	
 			if (ADialog.ask(0, this, Msg.getMsg(m_ctx, Msg.getMsg(m_ctx, "POS.OrderIsAlreadyCompleted")))) {	//	TODO Translate it: The order is already completed. Do you want to void it?
 				if (!v_POSPanel.cancelOrder())
 					ADialog.warn(v_POSPanel.getWindowNo(), this, Msg.getMsg(m_ctx, "POS.OrderCouldNotVoided"));	//	TODO Translate it: Order could not be voided
@@ -323,7 +327,7 @@ public class POSActionPanel extends POSSubPanel
 	 * 	Find/Set BPartner
 	 */
 	private void findBPartner() {
-		String query = f_name.getText();
+		String query = f_NameBPartner.getText();
 		//	
 		if (query == null || query.length() == 0)
 			return;
@@ -361,16 +365,16 @@ public class POSActionPanel extends POSSubPanel
 		if (results.length == 0) {
 			v_POSPanel.setC_BPartner_ID(0);
 		} else if (results.length == 1) {
-			MBPartner bp = new MBPartner(m_ctx, results[0].getC_BPartner_ID(), v_POSPanel.getM_Order().get_TrxName());
+			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
 			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
-			f_name.setText(bp.getName());
+			f_NameBPartner.setText(bp.getName());
 		} else {	//	more than one
 			QueryBPartner qt = new QueryBPartner(v_POSPanel);
 			qt.setResults (results);
 			qt.setVisible(true);
-			if (qt.getC_BPartner_ID() > 0) {
-				v_POSPanel.setC_BPartner_ID(qt.getC_BPartner_ID());
-				log.fine("C_BPartner_ID=" + qt.getC_BPartner_ID());
+			if (qt.getRecord_ID() > 0) {
+				v_POSPanel.setC_BPartner_ID(qt.getRecord_ID());
+				log.fine("C_BPartner_ID=" + qt.getRecord_ID());
 			} else {
 				v_POSPanel.setC_BPartner_ID(0);
 			}
@@ -382,9 +386,9 @@ public class POSActionPanel extends POSSubPanel
 	 * 
 	 */
 	public void printTicket() {
-		if (v_POSPanel.getM_Order() == null)
+		if (!v_POSPanel.hasOrder())
 			return;
-		
+		//	
 		MOrder order = v_POSPanel.getM_Order();
 		//int windowNo = p_posPanel.getWindowNo();
 		//Properties m_ctx = p_posPanel.getPropiedades();
@@ -472,7 +476,7 @@ public class POSActionPanel extends POSSubPanel
 		String sql = "";
 		PreparedStatement pstm;
 		ResultSet rs;
-		orderList = new ArrayList<Integer>();
+		m_OrderList = new ArrayList<Integer>();
 		try {
 			sql=" SELECT o.C_Order_ID"
 					+ " FROM C_Order o"
@@ -488,7 +492,7 @@ public class POSActionPanel extends POSSubPanel
 			rs = pstm.executeQuery();
 			//	Add to List
 			while(rs.next()){
-				orderList.add(rs.getInt(1));
+				m_OrderList.add(rs.getInt(1));
 			}
 		} catch(Exception e) {
 			log.severe("SubOrder.listOrder: " + e + " -> " + sql);
@@ -527,14 +531,14 @@ public class POSActionPanel extends POSSubPanel
 
 			    // History Button: enabled when lines existing or order is voided
 				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
-	  				f_history.setEnabled(true);  	
+	  				f_bHistory.setEnabled(true);  	
 				else
-					f_history.setEnabled(false);
+					f_bHistory.setEnabled(false);
 
 				if(!order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))			
-	  				f_Cancel.setEnabled(true);
+	  				f_bCancel.setEnabled(true);
 				else
-					f_Cancel.setEnabled(false);
+					f_bCancel.setEnabled(false);
 				
 				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
 				// or (is completed, standard and not fully paid)
@@ -550,34 +554,34 @@ public class POSActionPanel extends POSSubPanel
 				    order.getGrandTotal().subtract(v_POSPanel.getPaidAmt()).compareTo(Env.ZERO)==1
 				   )
 				  )
-					f_cashPayment.setEnabled(true);
+					f_bCollect.setEnabled(true);
 				else 
-				f_cashPayment.setEnabled(false);	
+				f_bCollect.setEnabled(false);	
 				
 			    // Next and Back Buttons:  enabled when lines existing or order is voided
 				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided)) {
 
-					if(recordPosition==orderList.size()-1)
-					    f_Next.setEnabled(false); // End of order list
+					if(m_RecordPosition==m_OrderList.size()-1)
+					    f_bNext.setEnabled(false); // End of order list
 					else
-	  					f_Next.setEnabled(true);
+	  					f_bNext.setEnabled(true);
 
-					if(recordPosition==0)
-						f_Back.setEnabled(false); // Begin of order list
+					if(m_RecordPosition==0)
+						f_bBack.setEnabled(false); // Begin of order list
 					else
-						f_Back.setEnabled(true);
+						f_bBack.setEnabled(true);
 				} else {
-					f_Next.setEnabled(false);
-	  				f_Back.setEnabled(false);
+					f_bNext.setEnabled(false);
+	  				f_bBack.setEnabled(false);
 				}
 				
 		} else {
 			v_POSPanel.setC_BPartner_ID(0);
 			f_bBPartner.setEnabled(false);
 			f_bNew.setEnabled(true);
-			f_history.setEnabled(true);
-			f_Cancel.setEnabled(false);
-			f_cashPayment.setEnabled(false);
+			f_bHistory.setEnabled(true);
+			f_bCancel.setEnabled(false);
+			f_bCollect.setEnabled(false);
 		}
 	}
 	
@@ -591,9 +595,9 @@ public class POSActionPanel extends POSSubPanel
 		// Change to another BPartner
 		QueryBPartner qt = new QueryBPartner(v_POSPanel);
 		qt.setVisible(true);
-		if (qt.getC_BPartner_ID() > 0) {
-			MBPartner bp = MBPartner.get(m_ctx, qt.getC_BPartner_ID());
-			f_name.setText(bp.getName()); 
+		if (qt.getRecord_ID() > 0) {
+			MBPartner bp = MBPartner.get(m_ctx, qt.getRecord_ID());
+			f_NameBPartner.setText(bp.getName()); 
 			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
 			log.fine("C_BPartner_ID=" + bp.getC_BPartner_ID());
 		}

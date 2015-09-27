@@ -23,6 +23,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
+import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.grid.ed.VBPartner;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -47,7 +48,7 @@ import org.compiere.util.Msg;
  *  @version $Id: QueryBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: QueryBPartner.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class QueryBPartner extends POSQuery {
+public class QueryBPartner extends POSQuery implements I_POSQuery {
 	/**
 	 * 
 	 */
@@ -216,16 +217,6 @@ public class QueryBPartner extends POSQuery {
 			m_C_BPartner_ID = ID.intValue();
 		dispose();
 	}	//	close
-
-	/**
-	 * Get Busines Partner Identifier
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
-	 * @return int
-	 */
-	public int getC_BPartner_ID() {
-		return m_C_BPartner_ID;
-	}
 	
 	@Override
 	public void reset() {
@@ -250,5 +241,15 @@ public class QueryBPartner extends POSQuery {
 	protected void cancel() {
 		m_C_BPartner_ID = 0;
 		dispose();
+	}
+
+	@Override
+	public int getRecord_ID() {
+		return m_C_BPartner_ID;
+	}
+
+	@Override
+	public String getValue() {
+		return null;
 	}
 }	//	PosQueryBPartner

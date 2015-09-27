@@ -203,23 +203,23 @@ public class VCollect extends Collect
 		fIsCreditOrder.setFont(font);
 		
 		// Pre-Payment, Standard Order: enable only if the order is completed and there are lines 
-		if(v_POSPanel.getM_Order().getTotalLines().compareTo(Env.ZERO)==1 && 
-		   v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Completed) &&
+		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
+		   v_POSPanel.isCompleted() &&
 		   v_POSPanel.getM_Order().getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard)) {	
 			fIsPrePayment.setEnabled(false);	
 			fIsCreditOrder.setEnabled(false);
 			fIsPrePayment.setSelected(true);
 		}
 		// Pre-Payment, Credit Order: enable only if the order is drafted and there are lines 
-		else if(v_POSPanel.getM_Order().getTotalLines().compareTo(Env.ZERO)==1 && 
-				v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted)) {		
+		else if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
+				!v_POSPanel.isCompleted()) {		
 			fIsPrePayment.setEnabled(true);	
 			fIsCreditOrder.setEnabled(true);
 		}
 		else {
 			fIsPrePayment.setEnabled(false);	
 			fIsCreditOrder.setEnabled(false);
-			if(v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Completed)  && 
+			if(v_POSPanel.isCompleted() && 
 				v_POSPanel.getM_Order().isInvoiced()  && 
 				v_POSPanel.getOpenAmt().compareTo(Env.ZERO)==1) {
 				fIsCreditOrder.setSelected(true);
@@ -457,8 +457,8 @@ public class VCollect extends Collect
 			fIsPrePayment.setSelected(false);
 			bPlus.setEnabled(true);  // TODO setEnable(true) doesn't work!!
 			
-			if((v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) && m_Balance.doubleValue() > 0) ||
-			   (v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Completed) && getPayAmt().compareTo(Env.ZERO)==1) ) 
+			if((!v_POSPanel.isCompleted() && m_Balance.doubleValue() > 0) ||
+			   (v_POSPanel.isCompleted() && getPayAmt().compareTo(Env.ZERO)==1) ) 
 				bOk.setEnabled(true);
 			else
 				bOk.setEnabled(false);
