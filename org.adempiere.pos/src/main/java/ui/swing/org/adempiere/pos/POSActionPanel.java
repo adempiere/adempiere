@@ -95,14 +95,14 @@ public class POSActionPanel extends POSSubPanel
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(POSActionPanel.class);	
 
-	private final String ACTION_BPARTNER    = "BPartner";
-	private final String ACTION_CANCEL      = "Cancel";
-	private final String ACTION_HISTORY     = "History";
-	private final String ACTION_LOGOUT      = "End";
 	private final String ACTION_NEW         = "New";
-	private final String ACTION_PAYMENT     = "Payment";
-	private final String ACTION_NEXT  		= "Next";
+	private final String ACTION_BPARTNER    = "BPartner";
+	private final String ACTION_HISTORY     = "History";
 	private final String ACTION_BACK       	= "Previous";
+	private final String ACTION_NEXT  		= "Next";
+	private final String ACTION_PAYMENT     = "Payment";
+	private final String ACTION_CANCEL      = "Cancel";
+	private final String ACTION_LOGOUT      = "End";
 	
 	/**
 	 * 	Initialize
@@ -186,29 +186,29 @@ public class POSActionPanel extends POSSubPanel
 			return;
 		log.info( "PosSubCustomer - actionPerformed: " + action);
 		//	New
-		if (action.equals(ACTION_NEW)) {
+		if (e.getSource().equals(f_bNew)) {
 			v_POSPanel.newOrder();
 			v_POSPanel.refreshPanel();
 			return;
-		} else if (action.equals(ACTION_HISTORY)) {
+		} else if (e.getSource().equals(f_bBPartner)) {
+			changeBusinessPartner(); 
+		} else if (e.getSource().equals(f_bHistory)) {
 			// For already created, but either not completed or not yet paid POS Orders
 			I_POSQuery qt = new QueryTicket(v_POSPanel);
 			qt.setVisible(true);
 			if (qt.getRecord_ID() > 0) {
 				v_POSPanel.setOrder(qt.getRecord_ID());
 			}
-		} else if (action.equals(ACTION_CANCEL))
-			deleteOrder();
-		else if (action.equals(ACTION_PAYMENT))
-			payOrder();
-		else if (action.equals(ACTION_NEXT)){
-			nextRecord();
-		} else if (action.equals(ACTION_BACK)){
+		} else if (e.getSource().equals(f_bBack)){
 			previousRecord();
 			v_POSPanel.refreshPanel();
-		} else if (action.equals(ACTION_BPARTNER))
-			changeBusinessPartner(); 
-		else if (action.equals(ACTION_LOGOUT)) {	//	Logout
+		} else if (e.getSource().equals(f_bNext)){
+			nextRecord();
+		} else if (e.getSource().equals(f_bCollect)) {
+			payOrder();
+		} else if (e.getSource().equals(f_bCancel)) {
+			deleteOrder();
+		} else if (e.getSource().equals(f_bLogout)) {	//	Logout
 			v_POSPanel.dispose();
 			return;
 		} else if (e.getSource() == f_NameBPartner) {

@@ -36,10 +36,8 @@ import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
-import org.compiere.model.MLocator;
 import org.compiere.model.MPOS;
-import org.compiere.model.MWarehouse;
-import org.compiere.pos.*;
+import org.compiere.pos.PosKeyboardFocusManager;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
@@ -64,6 +62,8 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private POSOrderLinePanel 				v_OrderLinePanel;
 	/** Function Keys				*/
 	private POSProductPanel 				v_ProductKeysPanel;
+	/**	POS Message					*/
+	private String 							m_POSMsg;
 	/**	Timer for logout			*/
 	private Timer 							logoutTimer;
 	/** Keyoard Focus Manager		*/
@@ -98,8 +98,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setResizable(true);
 		//	
-		m_SalesRep_ID = Env.getAD_User_ID(m_ctx);
-		log.info("init - SalesRep_ID=" + m_SalesRep_ID);
+		log.info("init - SalesRep_ID=" + getSalesRep_ID());
 		m_WindowNo = WindowNo;
 		m_frame = frame;
 		frame.setJMenuBar(null);
@@ -107,7 +106,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		try {
 			if (!dynInit()) {
 				dispose();
-				m_frame.setTitle(Msg.translate(Env.getCtx(), msgLocator));
+				m_frame.setTitle(Msg.parseTranslation(Env.getCtx(), m_POSMsg));
 				return;
 			}
 			//	Add to frame
@@ -117,7 +116,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		}
 		log.config( "PosPanel.init - " + m_MainPane.getPreferredSize());
 		
-		if (m_POS.getAutoLogoutDelay() > 0 && logoutTimer == null) {
+		if (getAutoLogoutDelay() > 0 && logoutTimer == null) {
 			logoutTimer = new javax.swing.Timer(1000,
 					new ActionListener() {
 
@@ -136,7 +135,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 					lastKeyboardEvent = m_focusMgr.getLastWhen();
 
-					if (m_POS.getAutoLogoutDelay()*1000 
+					if (getAutoLogoutDelay()*1000 
 							< now - Math.max(lastKeyboardEvent, lastMouseMove)) {
 					//	new PosLogin(this);
 					}
@@ -150,38 +149,25 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	/**
 	 * Load POS
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return boolean
+	 * @return String
 	 */
-	private boolean loadPOS() {
+	private String loadPOS() {
 		boolean ok = setPOS();
-		if(!ok
-				&& msgLocator == null) {
+		if(!ok) {
 			//	Select POS
-			String msg = Msg.getMsg(m_ctx, "SelectPOS");
-			String title = Env.getHeader(m_ctx, m_WindowNo);
+			String msg = Msg.getMsg(getCtx(), "SelectPOS");
+			String title = Env.getHeader(getCtx(), m_WindowNo);
 			Object selection = JOptionPane.showInputDialog(m_frame, msg, title, 
 				JOptionPane.QUESTION_MESSAGE, null, getPOSs(), null);
 			if (selection != null) {
-				m_POS = (MPOS)selection;
-				MWarehouse warehouse = (MWarehouse) m_POS.getM_Warehouse();
-				MLocator[] locators = warehouse.getLocators(true);
-				for (MLocator mLocator : locators) {
-					if (mLocator.isDefault())
-						return true;
-					else
-						continue;
-				}
-				//	
-				msgLocator = "@M_Locator_ID@ @default@ "
-						+ "@not.found@ @M_Warehouse_ID@: " 
-						+ warehouse.getName();
-						;
+				setM_POS((MPOS)selection);
+				return validLocator();
 			}
 		} else if(ok) {
-			return true;
+			return null;
 		}
 		//	
-		return false;
+		return "@POS.NoPOSForUser@";
 	}
 	
 	/**************************************************************************
@@ -190,9 +176,10 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * 	The Sub Panels return their position
 	 */
 	private boolean dynInit() {
-		if (!loadPOS())
+		m_POSMsg = loadPOS();
+		if (m_POSMsg != null)
 			return false;
-		m_frame.setTitle("Adempiere POS: " + m_POS.getName());
+		m_frame.setTitle("Adempiere POS: " + getPOSName());
 		//	Create Sub Panels
 		v_ActionPanel = new POSActionPanel(this);
 		m_MainPane.add(v_ActionPanel, "split 2, flowy, growx, spany, spanx");
@@ -237,7 +224,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		if (m_frame != null)
 			m_frame.dispose();
 		m_frame = null;
-		m_ctx = null;
 	}	//	dispose
 	
 	/**
@@ -279,7 +265,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @return void
 	 */
 	public void newOrder() {
-		boolean isDocType = ADialog.ask(0, m_MainPane, Msg.getMsg(m_ctx, "POS.AlternateDT"));
+		boolean isDocType = ADialog.ask(0, m_MainPane, Msg.getMsg(getCtx(), "POS.AlternateDT"));
 		newOrder(isDocType);
 		setC_BPartner_ID(0);
 	}

@@ -28,6 +28,7 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
+import org.compiere.model.MLocator;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrderTax;
@@ -38,6 +39,7 @@ import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUser;
+import org.compiere.model.MWarehouse;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Order;
@@ -55,8 +57,18 @@ import org.compiere.util.ValueNamePair;
  */
 public class CPOS {
 	
+	/**
+	 * 
+	 * *** Constructor ***
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 */
+	public CPOS() {
+		m_ctx = Env.getCtx();
+		setSalesRep_ID(Env.getAD_User_ID(m_ctx));
+	}
+	
 	/**	POS Configuration		*/
-	protected MPOS 				m_POS;
+	private MPOS 				m_POS;
 	/**	Current Order			*/
 	private MOrder				m_CurrentOrder;
 	/**	The Business Partner	*/
@@ -66,11 +78,9 @@ public class CPOS {
 	/**	Currency				*/
 	private int					m_C_Currency_ID;
 	/** Sales Rep 				*/
-	protected int				m_SalesRep_ID;
+	private int					m_SalesRep_ID;
 	/** Context					*/
-	protected Properties		m_ctx = Env.getCtx();
-	/**	Message					*/
-	protected String 			msgLocator;
+	private Properties			m_ctx = Env.getCtx();
 	/**	Today's (login) date	*/
 	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
 	private boolean				isPrepayment = false;
@@ -83,7 +93,7 @@ public class CPOS {
 	 * 	Set MPOS
 	 *	@return true if found/set
 	 */
-	protected boolean setPOS() {
+	public boolean setPOS() {
 		MPOS[] poss = null;
 		if (m_SalesRep_ID == 100)	//	superUser
 			poss = getPOSs();
@@ -91,7 +101,6 @@ public class CPOS {
 			poss = getPOSs();
 		//
 		if (poss.length == 0) {
-			msgLocator = "NoPOSForUser";
 			return false;
 		} else if (poss.length == 1) {
 			m_POS = poss[0];
@@ -100,6 +109,16 @@ public class CPOS {
 		//	
 		return false;
 	}	//	setMPOS
+	
+	/**
+	 * Set POS
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @param pos
+	 * @return void
+	 */
+	public void setM_POS(MPOS pos) {
+		m_POS = pos;
+	}
 	
 	/**
 	 * Validate if is Order Completed
@@ -165,6 +184,26 @@ public class CPOS {
 	}	//	getC_BPartner_ID
 	
 	/**
+	 * Set Sales Representative
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @param p_SalesRep_ID
+	 * @return void
+	 */
+	public void setSalesRep_ID(int p_SalesRep_ID) {
+		m_SalesRep_ID = p_SalesRep_ID;
+	}
+	
+	/**
+	 * Get Currency Identifier
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	public int getC_Currency_ID() {
+		return m_C_Currency_ID;
+	}
+	
+	/**
 	 * 	Get BPartner Location
 	 *	@return C_BPartner_Location_ID
 	 */
@@ -189,6 +228,16 @@ public class CPOS {
 	}	//	getAD_User_ID
 	
 	/**
+	 * Get Auto Delay
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	public int getAutoLogoutDelay() {
+		return m_POS.getAutoLogoutDelay();
+	}
+	
+	/**
 	 * Get Sales Rep. Name
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
@@ -204,6 +253,16 @@ public class CPOS {
 	}
 	
 	/**
+	 * Get Sales Representative
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	public int getSalesRep_ID() {
+		return m_SalesRep_ID;
+	}
+	
+	/**
 	 * Get POS Configuration
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
@@ -211,6 +270,16 @@ public class CPOS {
 	 */
 	public MPOS getM_POS() {
 		return m_POS;
+	}
+	
+	/**
+	 * Get POS Name
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return String
+	 */
+	public String getPOSName() {
+		return m_POS.getName();
 	}
 	
 	/**
@@ -231,7 +300,7 @@ public class CPOS {
 	 * 
 	 * @return order or null
 	 */
-	protected MOrder createOrder(MBPartner partner, int C_DocType_ID) {
+	public MOrder createOrder(MBPartner partner, int C_DocType_ID) {
 		MOrder order = new MOrder(Env.getCtx(), 0, null);
 		order.setAD_Org_ID(m_POS.getAD_Org_ID());
 		order.setIsSOTrx(true);
@@ -264,7 +333,7 @@ public class CPOS {
 	 * 	Get POSs for specific Sales Rep or all
 	 *	@return array of POS
 	 */
-	protected MPOS[] getPOSs () {
+	public MPOS[] getPOSs () {
 		String pass_field = MPOS.COLUMNNAME_SalesRep_ID;
 		int pass_ID = m_SalesRep_ID;
 		if (m_SalesRep_ID == 100) {
@@ -577,7 +646,7 @@ public class CPOS {
 	 * 	Gets Tax Amt from Order
 	 * 
 	 */
-	protected BigDecimal getTaxAmt() {
+	public BigDecimal getTaxAmt() {
 		BigDecimal taxAmt = Env.ZERO;
 		for (MOrderTax tax : m_CurrentOrder.getTaxes(true)) {
 			taxAmt = taxAmt.add(tax.getTaxAmt());
@@ -637,7 +706,7 @@ public class CPOS {
 		
 		return received;
 	}
-
+	
 	/**
 	 * 	Load Order
 	 * 
@@ -679,6 +748,40 @@ public class CPOS {
 	 */
 	public int getM_Warehouse_ID() {
 		return m_POS.getM_Warehouse_ID();
+	}
+	
+	/**
+	 * Valid Locator
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return String
+	 */
+	public String validLocator() {
+		MWarehouse warehouse = MWarehouse.get(m_ctx, getM_Warehouse_ID());
+		MLocator[] locators = warehouse.getLocators(true);
+		for (MLocator mLocator : locators) {
+			if (mLocator.isDefault()) {
+				return null;
+			}
+		}
+		//	False Return
+		return "@M_Locator_ID@ @default@ "
+				+ "@not.found@ @M_Warehouse_ID@: " 
+				+ warehouse.getName();
+	}
+	
+	/**
+	 * Get Warehouse Name
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return String
+	 */
+	public String getWarehouseName() {
+		if(getM_Warehouse_ID() > 0) {
+			MWarehouse.get(m_ctx, getM_Warehouse_ID()).getName();
+		}
+		//	Default
+		return "";
 	}
 	
 	/**
