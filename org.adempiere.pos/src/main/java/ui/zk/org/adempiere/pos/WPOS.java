@@ -94,16 +94,15 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	private HashMap<Integer, WPOSKeyboard> keyboards = new HashMap<Integer, WPOSKeyboard>();
 	public Panel parameterPanel = new Panel();
 	private Listbox listTerminal = ListboxFactory.newDropdownListbox();
+
 	/**
 	 *	zk Initialize Panel
-	 *  @param WindowNo window
-	 *  @param frame parent frame
 	 */
 	public void zkinit ()
 	{
 
-		m_SalesRep_ID = Env.getAD_User_ID(getCtx());
-		log.info("init - SalesRep_ID=" + m_SalesRep_ID);
+		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
+		log.info("init - SalesRep_ID=" + getSalesRep_ID());
 //		m_WindowNo = 0;
 		m_frame = frame;
 		//
@@ -151,9 +150,9 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	 */
 	private boolean setMPOS()
 	{
-		m_SalesRep_ID = Env.getAD_User_ID(getCtx());
+		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
 		boolean ok = setPOS();
-		if(!ok && msgLocator == null){
+		if(!ok && getMsgLocator() == null){
 			MPOS[] poss = getPOSs();
 			//	Select POS
 			String msg = Msg.getMsg(getCtx(), "SelectPOS");
