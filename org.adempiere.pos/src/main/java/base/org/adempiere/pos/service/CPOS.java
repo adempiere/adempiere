@@ -68,7 +68,7 @@ public class CPOS {
 	}
 	
 	/**	POS Configuration		*/
-	protected MPOS 				m_POS;
+	private MPOS 				m_POS;
 	/**	Current Order			*/
 	private MOrder				m_CurrentOrder;
 	/**	The Business Partner	*/
