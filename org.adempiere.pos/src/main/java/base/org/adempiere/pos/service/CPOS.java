@@ -78,9 +78,9 @@ public class CPOS {
 	/**	Currency				*/
 	private int					m_C_Currency_ID;
 	/** Sales Rep 				*/
-	protected int					m_SalesRep_ID;
+	private int					m_SalesRep_ID;
 	/**	Message					*/
-	protected String             msgLocator;
+	private String              msgLocator;
 	/** Context					*/
 	protected Properties			m_ctx = Env.getCtx();
 	/**	Today's (login) date	*/
@@ -97,7 +97,7 @@ public class CPOS {
 	 */
 	public boolean setPOS() {
 		MPOS[] poss = null;
-		if (m_SalesRep_ID == 100)	//	superUser
+		if (getSalesRep_ID() == 100)	//	superUser
 			poss = getPOSs();
 		else
 			poss = getPOSs();
@@ -993,6 +993,10 @@ public class CPOS {
 	 */
 	public boolean isPrepayment() {
 		return isPrepayment;
+	}
+
+	public String getMsgLocator() {
+		return msgLocator;
 	}
 
 	/**
