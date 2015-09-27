@@ -16,20 +16,17 @@ package org.adempiere.pos.search;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
-import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.adempiere.pos.POSTextField;
+import org.adempiere.pos.VPOS;
 import org.compiere.grid.ed.VBPartner;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartnerInfo;
-import org.adempiere.pos.POSTextField;
-import org.adempiere.pos.VPOS;
-import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
@@ -55,9 +52,6 @@ public class QueryBPartner extends POSQuery {
 	 * 
 	 */
 	private static final long serialVersionUID = -7109518709654253628L;
-
-    //	Support for creating customers from the point of sale
-	private CButton bot_New;
 	
 	/**
 	 * 	Constructor
@@ -146,11 +140,6 @@ public class QueryBPartner extends POSQuery {
 		lcity.setLabelFor(f_city);
 		v_ParameterPanel.add(f_city, "h 30, w 200");
 		f_city.addActionListener(this);
-		//
-
-		// Support for creating customers from the point of sale
-		bot_New = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
-		v_ParameterPanel.add(bot_New, "w 50!, h 50!");
 		
 		//	Center
 		m_table.prepareTable (s_layout, s_sqlFrom, 

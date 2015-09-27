@@ -859,13 +859,28 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getC_Order_ID() {
-		return m_CurrentOrder.getC_Order_ID();
+		int m_C_Order_ID = 0;
+		if(hasOrder()) {
+			m_C_Order_ID = m_CurrentOrder.getC_Order_ID();
+		}
+		//	Default
+		return m_C_Order_ID;
 	}
 	
+	/**
+	 * Verify if is Prepayment
+	 * @return
+	 * @return boolean
+	 */
 	public boolean isPrepayment() {
 		return isPrepayment;
 	}
 
+	/**
+	 * Set if is Prepayment
+	 * @param isPrepayment
+	 * @return void
+	 */
 	public void setPrepayment(boolean isPrepayment) {
 		this.isPrepayment = isPrepayment;
 	}

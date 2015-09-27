@@ -86,6 +86,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 */
 	public VPOS() {
+		super();
 		m_MainPane = new CPanel(new MigLayout(" fill","[1!]1[1:1:]","[350]"));
 		originalKeyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		m_focusMgr = new PosKeyboardFocusManager();

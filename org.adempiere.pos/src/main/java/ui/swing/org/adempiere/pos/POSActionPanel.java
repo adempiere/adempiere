@@ -193,7 +193,6 @@ public class POSActionPanel extends POSSubPanel
 			qt.setVisible(true);
 			if (qt.getC_Order_ID() > 0) {
 				v_POSPanel.setOrder(qt.getC_Order_ID());
-				v_POSPanel.refreshPanel();
 			}
 		} else if (action.equals(ACTION_CANCEL))
 			deleteOrder();
@@ -511,7 +510,7 @@ public class POSActionPanel extends POSSubPanel
 		MOrder order = v_POSPanel.getM_Order();
 		if (order != null) {  				
 				// Button BPartner: enable when order drafted, and order has no lines
-				v_POSPanel.setC_BPartner_ID(order.getC_BPartner_ID());  				
+//				v_POSPanel.setC_BPartner_ID(order.getC_BPartner_ID());  				
 				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
 						order.getLines().length == 0 )
 					f_bBPartner.setEnabled(true);
@@ -593,17 +592,18 @@ public class POSActionPanel extends POSSubPanel
 		QueryBPartner qt = new QueryBPartner(v_POSPanel);
 		qt.setVisible(true);
 		if (qt.getC_BPartner_ID() > 0) {
-			MBPartner bp = new MBPartner(m_ctx, qt.getC_BPartner_ID(), v_POSPanel.getM_Order().get_TrxName());
+			MBPartner bp = MBPartner.get(m_ctx, qt.getC_BPartner_ID());
 			f_name.setText(bp.getName()); 
 			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
 			log.fine("C_BPartner_ID=" + bp.getC_BPartner_ID());
-		} else {
-			v_POSPanel.setC_BPartner_ID(0);
 		}
-		findBPartner();
-		if (v_POSPanel.getC_BPartner_ID() > 0) {				
-			v_POSPanel.getM_Order().saveEx();  // TODO: how to avoid save here? Otherwise, neither BP nor PriceList are saved.
-		}	
+//		else {
+//			v_POSPanel.setC_BPartner_ID(0);
+//		}
+//		findBPartner();
+//		if (v_POSPanel.getC_BPartner_ID() > 0) {				
+//			v_POSPanel.getM_Order().saveEx();  // TODO: how to avoid save here? Otherwise, neither BP nor PriceList are saved.
+//		}	
 	}	
 
 }//	POSActionPanel
