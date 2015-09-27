@@ -2,11 +2,53 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c3371ab4-a070-4f51-9311-7e3115f6ee59" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/WebPOS.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/ant.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/I_C_POS.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/compiere/model/I_C_POS.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MPOS.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/compiere/model/MPOS.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/X_C_POS.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/compiere/model/X_C_POS.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/BigDecimalEditor.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/BigDecimalEditor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/CPOS.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/CPOS.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/Collect.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/Collect.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/CollectDetail.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/CollectDetail.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/I_POSPanel.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/I_POSPanel.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSActionPanel.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSActionPanel.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSApplication.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSApplication.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSKeyPanel.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSKeyPanel.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSKeyboard.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSKeyboard.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSLogin.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSLogin.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSLookupCellRenderer.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSLookupCellRenderer.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSOrderLinePanel.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSOrderLinePanel.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSOrderLineTableHandle.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSOrderLineTableHandle.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSProductPanel.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSProductPanel.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSSubPanel.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSSubPanel.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/POSTextField.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSTextField.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/VCollect.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/VCollect.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/VCollectDetail.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/VCollectDetail.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/VPOS.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/VPOS.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/search/POSQuery.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/POSQuery.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/search/QueryBPartner.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/QueryBPartner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/search/QueryProduct.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/QueryProduct.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/org/compiere/pos/search/QueryTicket.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/QueryTicket.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/metainfo/zk/lang-addon.xml" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/lang-addon.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/POSNumberBox.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/POSNumberBox.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/PaymentPanel.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/PaymentPanel.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WPOS.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPOS.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WPOSKeyboard.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPOSKeyboard.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WPosKeyListener.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosKeyListener.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WPosKeyPanel.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosKeyPanel.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WPosPayment.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosPayment.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WPosQuery.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosQuery.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WPosSubPanel.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosSubPanel.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WPosTextField.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosTextField.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WQueryBPartner.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WQueryBPartner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WQueryProduct.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WQueryProduct.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WQueryTicket.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WQueryTicket.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WSubOrder.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WSubOrder.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/zkwebui/js/text_action.js" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/js/text_action.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/AD-POS-WebUI/lib/AD-POS-WebUI.jar" afterPath="$PROJECT_DIR$/packages/AD-POS-WebUI/lib/AD-POS-WebUI.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/AD-POS-WebUI/lib/AD-POS-WebUI.jar" afterPath="$PROJECT_DIR$/zkpackages/AD-POS-WebUI/lib/AD-POS-WebUI.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AD-POS-WebUI.iml" afterPath="$PROJECT_DIR$/AD-POS-WebUI.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.properties" afterPath="$PROJECT_DIR$/build.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="AD-POS-WebUI.iws" />
@@ -30,100 +72,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="WPosTextField.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WPosTextField.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="27" column="7" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VPOS.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/org/compiere/pos/VPOS.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SubOrder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/org/compiere/pos/SubOrder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.185185">
-              <caret line="745" column="0" selection-start-line="745" selection-start-column="0" selection-end-line="745" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="build.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.3286712">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.38679245">
+              <caret line="131" column="29" selection-start-line="131" selection-start-column="29" selection-end-line="131" selection-end-column="29" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="73" selection-start-line="3" selection-start-column="73" selection-end-line="3" selection-end-column="73" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="002AddViewPosOrderLine.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/migration/postgresql/002AddViewPosOrderLine.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="001AddElementTranslationPosTerm_postgresql.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/migration/postgresql/001AddElementTranslationPosTerm_postgresql.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SubCurrentLine.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/org/compiere/pos/SubCurrentLine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="366" column="0" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WSubOrder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WSubOrder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-71.296295">
-              <caret line="522" column="38" selection-start-line="522" selection-start-column="38" selection-end-line="522" selection-end-column="38" />
-              <folding>
-                <marker date="1442712181000" expanded="false" signature="0:1043" placeholder="/**...*/" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -149,7 +103,26 @@
         <option value="$PROJECT_DIR$/client/src/org/compiere/pos/SubCurrentLine.java" />
         <option value="$PROJECT_DIR$/client/src/org/compiere/pos/PosOrderModel.java" />
         <option value="$PROJECT_DIR$/client/src/org/compiere/pos/SubOrder.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/BigDecimalEditor.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/PaymentPanel.java" />
         <option value="$PROJECT_DIR$/build.properties" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSActionPanel.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/POSQuery.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/search/POSQuery.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/POSQuery.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/CollectDetail.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/VCollect.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/CPOS.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/QueryBPartner.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/QueryBPartner.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/QueryTicket.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/QueryProduct.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosQuery.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WQueryProduct.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WSubOrder.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/PosCreditMemo.java" />
+        <option value="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSCreditMemo.java" />
+        <option value="$PROJECT_DIR$/build.xml" />
       </list>
     </option>
   </component>
@@ -175,9 +148,8 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-2" />
     <option name="y" value="23" />
-    <option name="width" value="1922" />
+    <option name="width" value="1920" />
     <option name="height" value="1173" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -203,6 +175,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -225,11 +199,160 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zkpackages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
-      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="compiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="compiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiere.pos" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AD-POS-WebUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiere.pos" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="search" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -250,6 +373,20 @@
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="dynamic.classpath" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.adempiere.pos" />
+      <recent name="org.adempiere.pos.search" />
+      <recent name="org.compiere.model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/org.adempiere.pos/src/main" />
+      <recent name="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk" />
+      <recent name="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org" />
+      <recent name="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing" />
+      <recent name="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base" />
+    </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.ZKPOS">
     <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
@@ -697,14 +834,15 @@
       <updated>1441324604906</updated>
       <workItem from="1441324621901" duration="7184000" />
       <workItem from="1442295244409" duration="11696000" />
+      <workItem from="1443306129309" duration="5682000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18880000" />
+    <option name="totallyTimeSpent" value="24562000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2" y="23" width="1922" height="1173" extended-state="0" />
+    <frame x="0" y="23" width="1920" height="1173" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -712,19 +850,20 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32978722" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16303317" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1315229" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20926517" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47298577" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49289098" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52511847" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32037914" sideWeight="0.8189563" order="17" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32037914" sideWeight="0.8189563" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25957447" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2593184" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42516556" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985783" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -736,10 +875,9 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16303317" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -764,10 +902,81 @@
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
     <buildFile url="file://$PROJECT_DIR$/build.xml">
+      <targetFilters>
+        <filter targetName="zkcompile" isVisible="true" />
+        <filter targetName="compile" isVisible="true" />
+        <filter targetName="compileall" isVisible="false" />
+        <filter targetName="clean" isVisible="true" />
+        <filter targetName="clean_class" isVisible="true" />
+        <filter targetName="clean_zk" isVisible="true" />
+        <filter targetName="init_class" isVisible="true" />
+        <filter targetName="init_zk" isVisible="true" />
+        <filter targetName="init" isVisible="false" />
+        <filter targetName="package_dist(BEFORE Adempiere build)" isVisible="true" />
+        <filter targetName="package_dist(AFTER Adempiere build)" isVisible="true" />
+      </targetFilters>
       <expanded value="true" />
     </buildFile>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosTextField.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="7" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/VPOS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="58" selection-start-line="3" selection-start-column="58" selection-end-line="3" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/postgresql/002AddViewPosOrderLine.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/postgresql/001AddElementTranslationPosTerm_postgresql.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WSubOrder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="522" column="38" selection-start-line="522" selection-start-column="38" selection-end-line="522" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/AD-POS-WebUI.eml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -789,7 +998,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WPosTextField.java">
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosTextField.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="27" column="7" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
@@ -799,31 +1008,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/compiere/pos/WSubOrder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-71.296295">
-          <caret line="522" column="38" selection-start-line="522" selection-start-column="38" selection-end-line="522" selection-end-column="38" />
-          <folding>
-            <marker date="1442712181000" expanded="false" signature="0:1043" placeholder="/**...*/" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/pos/VPOS.java">
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/VPOS.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/pos/SubCurrentLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="366" column="0" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -843,28 +1032,258 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/pos/SubOrder.java">
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/PaymentPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.185185">
-          <caret line="745" column="0" selection-start-line="745" selection-start-column="0" selection-end-line="745" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/lang-addon.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/js/text_action.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="73" selection-start-line="3" selection-start-column="73" selection-end-line="3" selection-end-column="73" />
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/compiere/model/I_C_POS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22206096">
+          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/I_POSPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/Collect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/CollectDetail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="24" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSActionPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="404" column="84" selection-start-line="404" selection-start-column="84" selection-end-line="404" selection-end-column="84" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSLogin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSLookupCellRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSOrderLineTableHandle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4934688">
+          <caret line="36" column="36" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSTextField.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29608127">
+          <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/BigDecimalEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2467344">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSSubPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33236575">
+          <caret line="59" column="32" selection-start-line="59" selection-start-column="32" selection-end-line="59" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSOrderLinePanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="266" column="49" selection-start-line="266" selection-start-column="49" selection-end-line="266" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSProductPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="340" column="86" selection-start-line="340" selection-start-column="86" selection-end-line="340" selection-end-column="86" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosPayment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="301" column="64" selection-start-line="301" selection-start-column="64" selection-end-line="301" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/VCollect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="332" column="75" selection-start-line="332" selection-start-column="75" selection-end-line="332" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/service/CPOS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.5185184">
+          <caret line="557" column="10" selection-start-line="557" selection-start-column="10" selection-end-line="557" selection-end-column="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/POSQuery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="50" column="30" selection-start-line="50" selection-start-column="22" selection-end-line="50" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/QueryBPartner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/QueryTicket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/search/QueryProduct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WPosQuery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WQueryProduct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="37" column="29" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/zk/org/adempiere/pos/WSubOrder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="142" column="37" selection-start-line="142" selection-start-column="37" selection-end-line="142" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/POSCreditMemo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17271408">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.3286712">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.38679245">
+          <caret line="131" column="29" selection-start-line="131" selection-start-column="29" selection-end-line="131" selection-end-column="29" />
           <folding />
         </state>
       </provider>

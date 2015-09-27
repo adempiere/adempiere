@@ -1,23 +1,23 @@
 <project name="AD-POS-WebUI" default="compileall" basedir=".">
     <description>
         Building AD-POS-WebUI AD-POS-WebUI.jar
-        Copy of Smart Browse eevolution
-        by
         raulmunozn@gmail.com
         @raulmunozn
         @Carlos Parada 
         @Mario Calderon
+        victor.perez@e-evolution.com
     </description>
   <!-- set global properties for this build -->
   <property file="build.properties"/>
   <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
   <property name="dist" value="${basedir}/dist"/>
-  <property name="zksrc" value="${basedir}/zkwebui/WEB-INF/src"/>
-  <property name="zkclasses" value="${dist}/zkclass/WEB-INF/classes"/>
-  <property name="class" value="${dist}/class"/>
+  <property name="domain_model_classes" value="${dist}/domain/class"/>
+  <property name="zk_classes" value="${dist}/zk/WEB-INF/classes"/>
+  <property name="swing_classes" value="${dist}/swing/class"/>
   <property name="zkjar" value="${dist}/zkclass"/>
-  <property name="base" value="${basedir}/base"/>
-  <property name="client" value="${basedir}/client"/>
+  <property name="domain_model" value="${basedir}/org.adempiere.pos/src/main/java/base"/>
+  <property name="swing_view" value="${basedir}/org.adempiere.pos/src/main/java/ui/swing"/>
+  <property name="zk_view" value="${basedir}/org.adempiere.pos/src/main/java/ui/zk"/>
   <property name="patches" value="${basedir}/patches"/>
   
   <path id="compile.classpath">
@@ -37,8 +37,11 @@
     <fileset dir="${adempiere.trunk}/zkwebui/dist">
       <include name="*.war"/>
     </fileset>
-    
-      	
+  </path>
+
+
+  <path id="compile.domain.classpath">
+    <pathelement location="${domain_model_classes}"/>
   </path>
 
   <path id="compilezk.classpath">
@@ -67,31 +70,45 @@
   	
 	
   <!-- Compile ZK Directory --> 
-  <target name="zkcompile" depends="init_zk"
+  <target name="compileZkView" depends="init_zk, compileDomainModel"
         description="compile the source " >
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac srcdir="${zksrc}" destdir="${zkclasses}" includeantruntime="false" >
+    <javac srcdir="${zk_view}" destdir="${zk_classes}" includeantruntime="false" >
+      <classpath refid="compile.domain.classpath"/>
       <classpath refid="compilezk.classpath"/>
     </javac>
     <jar jarfile="${project.trunk}/zkpackages/${project.name}/lib/${project.name}.jar" basedir="${zkjar}"/>
   </target>
 
-  
-  <!-- Compile Class Directory --> 	
-  <target name="compile" depends="init_class"
-        description="compile the source " >
-    <echo message="Compile Swing Classes "/>
-    <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac srcdir="${base}:${client}" destdir="${class}" includeantruntime="false" >
+
+  <!-- Compile Class Directory -->
+  <target name="compileDomainModel" depends="init_class"
+          description="compile the source " >
+    <echo message="Compile Domain Classes "/>
+    <javac srcdir="${domain_model}" destdir="${domain_model_classes}" includeantruntime="false" >
       <classpath refid="compile.classpath"/>
     </javac>
     <echo message="Create jar file "/>
-    <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${class}"/>
+    <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${domain_model_classes}"/>
+  </target>
+
+  
+  <!-- Compile Class Directory --> 	
+  <target name="compileSwingView" depends="init_class , compileDomainModel"
+        description="compile the source " >
+    <echo message="Compile Swing Classes "/>
+    <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+    <javac srcdir="${swing_view}" destdir="${swing_classes}" includeantruntime="false" >
+      <classpath refid="compile.domain.classpath"/>
+      <classpath refid="compile.classpath"/>
+    </javac>
+    <echo message="Create jar file "/>
+    <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${swing_classes}"/>
   </target>
     
 	
   <!-- Compile All Class Directory --> 
-  <target name="compileall" depends="compile,zkcompile" >
+  <target name="compileall" depends="compileSwingView,compileZkView" >
     <echo message="Compile All Project"/>
   	<echo message="Compile All Project"/>
   </target>
@@ -100,17 +117,19 @@
   <target name="clean" depends="clean_class,clean_zk"
         description="clean up" >
   	<echo message="Remove Classes Directory"/>
+    <delete dir="${domain_model_classes}"/>
   </target>
 	
   <!-- Remove Class Directory -->
   <target name="clean_class" description="clean up class" >
 	<echo message="Remove Class Directory"/>
-  	<delete dir="${class}"/>
+  	<delete dir="${swing_classes}"/>
   </target>
 	
   <!-- Remove Class ZK Directory -->
   <target name="clean_zk" description="clean up class" >
 	<echo message="Remove Class ZK Directory"/>
+    <delete dir="${zk_classes}"/>
   	<delete dir="${zkjar}"/>
   </target>
 	
@@ -119,7 +138,8 @@
 	<echo message="Create Class Directory"/>
   	<!-- Create the classes directory structure used by compile -->
 	<mkdir dir="${dist}"/>
-	<mkdir dir="${class}"/>
+    <mkdir dir="${domain_model_classes}"/>
+	<mkdir dir="${swing_classes}"/>
   </target>
 	
   <!-- Create ZK Directory -->
@@ -129,7 +149,7 @@
 	<mkdir dir="${dist}"/>
 	<mkdir dir="${zkjar}"/>
   	<mkdir dir="${zkjar}/WEB-INF"/>
-  	<mkdir dir="${zkclasses}"/>
+  	<mkdir dir="${zk_classes}"/>
   </target>	
   
   <!-- Create Class And ZK Directory -->
@@ -143,7 +163,7 @@
 		<echo message="=============== Deploy files BEGIN"/>
   		<delete file="${adempiere.trunk}/zkwebui/js/text_action.js"/>
 		<copy todir="${adempiere.trunk}/zkwebui/js">
-			<fileset dir="${basedir}/zkwebui/js" includes="text_action.js"/>
+			<fileset dir="/org.adempiere.pos/src/main/js" includes="text_action.js"/>
 		</copy>
 		
   		<delete file="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk/lang-addon.xml"/>
