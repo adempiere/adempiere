@@ -88,7 +88,7 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	private int m_Sales_ID = 0;
 	private Window selection;
 	//	Today's (login) date		*/
-	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
+	private Timestamp			m_today = Env.getContextAsDate(getCtx(), "#Date");
 	
 	private Iframe frame;
 	private HashMap<Integer, WPOSKeyboard> keyboards = new HashMap<Integer, WPOSKeyboard>();
@@ -102,7 +102,7 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	public void zkinit ()
 	{
 
-		m_SalesRep_ID = Env.getAD_User_ID(m_ctx);
+		m_SalesRep_ID = Env.getAD_User_ID(getCtx());
 		log.info("init - SalesRep_ID=" + m_SalesRep_ID);
 //		m_WindowNo = 0;
 		m_frame = frame;
@@ -151,12 +151,12 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	 */
 	private boolean setMPOS()
 	{
-		m_SalesRep_ID = Env.getAD_User_ID(m_ctx);
+		m_SalesRep_ID = Env.getAD_User_ID(getCtx());
 		boolean ok = setPOS();
 		if(!ok && msgLocator == null){
 			MPOS[] poss = getPOSs();
 			//	Select POS
-			String msg = Msg.getMsg(m_ctx, "SelectPOS");
+			String msg = Msg.getMsg(getCtx(), "SelectPOS");
 			selection = new Window();
 			Panel mainPanel = new Panel();
 			Panel panel = new Panel();

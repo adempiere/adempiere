@@ -68,7 +68,7 @@ public class CPOS {
 	}
 	
 	/**	POS Configuration		*/
-	private MPOS 				m_POS;
+	protected MPOS 				m_POS;
 	/**	Current Order			*/
 	private MOrder				m_CurrentOrder;
 	/**	The Business Partner	*/
@@ -78,9 +78,11 @@ public class CPOS {
 	/**	Currency				*/
 	private int					m_C_Currency_ID;
 	/** Sales Rep 				*/
-	private int					m_SalesRep_ID;
+	protected int					m_SalesRep_ID;
+	/**	Message					*/
+	protected String             msgLocator;
 	/** Context					*/
-	private Properties			m_ctx = Env.getCtx();
+	protected Properties			m_ctx = Env.getCtx();
 	/**	Today's (login) date	*/
 	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
 	private boolean				isPrepayment = false;
@@ -101,6 +103,7 @@ public class CPOS {
 			poss = getPOSs();
 		//
 		if (poss.length == 0) {
+			msgLocator = "NoPOSForUser";
 			return false;
 		} else if (poss.length == 1) {
 			m_POS = poss[0];
