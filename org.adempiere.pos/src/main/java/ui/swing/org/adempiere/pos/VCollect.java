@@ -277,7 +277,6 @@ public class VCollect extends Collect
 		
 		
 		//	Add Listeners
-		bPlus.addActionListener(this);
 		fIsPrePayment.addActionListener(this);
 		fIsCreditOrder.addActionListener(this);
 		bOk.addActionListener(this);
