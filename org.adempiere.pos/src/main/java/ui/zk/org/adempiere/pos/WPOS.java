@@ -286,7 +286,7 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	public void onEvent(Event e) throws Exception {
 		if(e.getTarget().equals(b_ok)){
 			MPOS[] poss = getPOSs (m_Sales_ID);
-			m_POS = poss[listTerminal.getSelectedIndex()];
+			setM_POS(poss[listTerminal.getSelectedIndex()]);
 			action = true;
 			selection.dispose();
 		}
