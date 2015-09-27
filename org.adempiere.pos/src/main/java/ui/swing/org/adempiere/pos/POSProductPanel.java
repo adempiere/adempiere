@@ -73,9 +73,6 @@ public class POSProductPanel extends POSSubPanel
 	/**	Panels				*/;
 	private CPanel 			v_HeaderPanel;
 	private TitledBorder 	v_TitleBorder;
-	/**	Document No			*/
-//	private CLabel 			f_lb_DocumentNo;
-//	private CLabel 			f_DocumentNo;
 	/**	Sales Rep.			*/
 //	private CLabel			f_lb_SalesRep_Name;
 //	private CLabel			f_SalesRep_Name;
@@ -119,6 +116,7 @@ public class POSProductPanel extends POSSubPanel
 		//	For Title Border
 		v_TitleBorder = BorderFactory.createTitledBorder("");
 		v_TitleBorder.setTitleFont(font);
+		v_TitleBorder.setTitleColor(AdempierePLAF.getTextColor_Label());
 		v_HeaderPanel.setBorder(v_TitleBorder);
  		// For Document No
 //		f_lb_DocumentNo = new CLabel(Msg.getMsg(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo)+":");
@@ -219,6 +217,7 @@ public class POSProductPanel extends POSSubPanel
 		GridBagConstraints m_KeyboardConstraint = new GridBagConstraints();
 		m_KeyboardConstraint.fill = GridBagConstraints.BOTH;
 		m_KeyboardConstraint.weightx = 1;
+		m_KeyboardConstraint.weighty = 1;
 		m_KeyboardConstraint.gridy = 2;
 		add(f_Keyboard,  m_KeyboardConstraint);
 		//	Refresh
