@@ -44,8 +44,9 @@ import org.compiere.util.Env;
  * Abstract dialog
  * 
  *  @author former authors from Java POS
- *  @author Dixon Martinez, ERPCYA 
- *  
+ *  @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  @author Dixon Martinez, dmartinez@erpcya.com, ERPCYA http://www.erpcya.com
  *  @version $Id: PosQuery.java,v 2.0 2015/09/01 00:00:00 
  */
 public abstract class POSQuery extends CDialog 
@@ -95,7 +96,6 @@ public abstract class POSQuery extends CDialog
 	
 	/**
 	 * Init Main Panel
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	private void initMainPanel() {
@@ -164,7 +164,6 @@ public abstract class POSQuery extends CDialog
 
 	/**
 	 * Set Visible the new button
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	protected void addNewAction() {
@@ -173,49 +172,42 @@ public abstract class POSQuery extends CDialog
 	
 	/**
 	 * Close Window
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	protected abstract void close();
 
 	/**
 	 * Reset Panel
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	public abstract void reset();
 	
 	/**
 	 * Refresh Panel
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	public abstract void refresh();
 
 	/**
 	 * Init Panel
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	protected abstract void init();
 	
 	/**
 	 * Select Row
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	protected abstract void select();
 	
 	/**
 	 * Cancel Search
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	protected abstract void cancel();
 	
 	/**
 	 * For New action
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	protected void newAction() {

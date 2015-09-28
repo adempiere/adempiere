@@ -1,6 +1,5 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,6 +9,11 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor: Yamel Senih www.erpcya.com                                    *
+ * Contributor: Mario Calderon www.westfalia-it.com                           *
  *****************************************************************************/
 package org.adempiere.pos;
 
@@ -54,7 +58,8 @@ import org.compiere.util.Language;
 import org.compiere.util.Msg;
 
 /**
- * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Aug 31, 2015, 12:00:10 AM
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *
  */
 public class VCollectDetail extends CollectDetail
@@ -107,7 +112,6 @@ public class VCollectDetail extends CollectDetail
 	
 	/**
 	 * Standard Constructor
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param p_VCollect
 	 * @param p_TenderType
 	 * @param m_PayAmt
@@ -122,8 +126,6 @@ public class VCollectDetail extends CollectDetail
 	
 	/**
 	 * Get Main Panel
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
 	 * @return CPanel
 	 */
 	public CPanel getPanel() {
@@ -132,7 +134,6 @@ public class VCollectDetail extends CollectDetail
 	
 	/**
 	 * Load Standard Fields for Collect
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	private void loadStandardPanel() {
@@ -167,7 +168,6 @@ public class VCollectDetail extends CollectDetail
 	
 	/**
 	 * Load Check Panel
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	private void loadCheckPanel() {
@@ -211,7 +211,6 @@ public class VCollectDetail extends CollectDetail
 	
 	/**
 	 * Load for Debit Panel
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	private void loadDebitPanel() {
@@ -250,7 +249,6 @@ public class VCollectDetail extends CollectDetail
 	
 	/**
 	 * Load for Credit Card
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	private void loadCreditPanel() {
@@ -325,7 +323,6 @@ public class VCollectDetail extends CollectDetail
 	
 	/**
 	 * Init Main Panel
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	private void init() {

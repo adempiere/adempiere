@@ -51,6 +51,7 @@ import org.compiere.util.Msg;
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright (c) Jorg Janke
+ *  @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  <li> Implement best practices
  *  @version $Id: SubFunctionKeys.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
@@ -257,7 +258,6 @@ public class POSProductPanel extends POSSubPanel
 	
 	/**
 	 * Add or replace order line
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param p_M_Product_ID
 	 * @param m_QtyOrdered
 	 * @return void
