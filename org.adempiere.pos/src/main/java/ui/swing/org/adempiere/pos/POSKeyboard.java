@@ -44,6 +44,7 @@ import org.compiere.util.Env;
 /**
  *	On Screen Keyboard
  *	@author Paul Bowden
+ *  @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  <li>Centre Dialog
  *  <li>Add support to SCAPE and ENTER keys
@@ -170,7 +171,6 @@ public class POSKeyboard extends CDialog
 	
 	/**
 	 * Process Ok Action
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	private void processOkAction() {
@@ -321,7 +321,6 @@ public class POSKeyboard extends CDialog
 	
 	/**
 	 * Is Ok Pressed
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return boolean
 	 */

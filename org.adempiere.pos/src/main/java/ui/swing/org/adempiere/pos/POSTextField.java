@@ -31,6 +31,7 @@ import org.compiere.apps.AEnv;
  * Formatted Text field with on-screen keyboard support
  * 
  * @author Paul Bowden Adaxa Pty Ltd
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * <li> Changes for generic use
  */
@@ -45,7 +46,6 @@ public class POSTextField extends JFormattedTextField
 	/**
 	 * Text field with keyboard
 	 * *** Constructor ***
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param p_Title
 	 * @param p_Keyboard
 	 */
@@ -119,8 +119,6 @@ public class POSTextField extends JFormattedTextField
 
 	/**
 	 * Get Place Holder
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
 	 * @return String
 	 */
 	public String getPlaceholder() {
@@ -129,7 +127,6 @@ public class POSTextField extends JFormattedTextField
 	
 	/**
 	 * Set Place Holder
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param p_PlaceHolder
 	 * @return void
 	 */

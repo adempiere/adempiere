@@ -32,7 +32,8 @@ import org.compiere.util.Msg;
 
 /**
  * 
- * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Sep 21, 2015, 1:52:09 AM
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * <li> Add Support to new POS Text Field
  */
 public class POSLogin extends CDialog implements ActionListener {
@@ -94,5 +95,4 @@ public class POSLogin extends CDialog implements ActionListener {
 		
 		dispose();
 	}
-
 }
