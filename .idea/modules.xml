@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AD-POS-WebUI.iml" filepath="$PROJECT_DIR$/AD-POS-WebUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project/.idea/modules/project.iml" filepath="$PROJECT_DIR$/project/.idea/modules/project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project/.idea/modules/project-build.iml" filepath="$PROJECT_DIR$/project/.idea/modules/project-build.iml" />
     </modules>
   </component>
 </project>
