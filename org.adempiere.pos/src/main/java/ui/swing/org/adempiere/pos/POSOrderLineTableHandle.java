@@ -12,7 +12,8 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ * Contributor: Yamel Senih www.erpcya.com                                    *
+ * Contributor: Mario Calderon www.westfalia-it.com                           *
  *****************************************************************************/
 package org.adempiere.pos;
 
@@ -30,7 +31,8 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
- * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Sep 24, 2015, 2:37:58 AM
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * <li> Define columns of order line table
  * <li> Handle the Load from DB
  */
@@ -39,7 +41,6 @@ public class POSOrderLineTableHandle {
 	/**
 	 * 
 	 * *** Constructor ***
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param p_OrderLineTable
 	 */
 	public POSOrderLineTableHandle (IMiniTable p_OrderLineTable) {
@@ -88,8 +89,6 @@ public class POSOrderLineTableHandle {
 	
 	/**
 	 * Prepare Table
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
 	 * @return boolean
 	 */
 	public boolean prepareTable() {
@@ -106,9 +105,7 @@ public class POSOrderLineTableHandle {
 	
 	/**
 	 * Load Table from SQL
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param p_C_Order_ID
-	 * @return
 	 * @return boolean
 	 */
 	public boolean loadTable(int p_C_Order_ID) {

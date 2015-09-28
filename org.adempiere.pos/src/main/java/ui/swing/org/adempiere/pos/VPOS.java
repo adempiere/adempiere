@@ -12,7 +12,8 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ * Contributor: Yamel Senih www.erpcya.com                                    *
+ * Contributor: Mario Calderon www.westfalia-it.com                           *
  *****************************************************************************/
 package org.adempiere.pos;
 
@@ -45,7 +46,8 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
- * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Aug 31, 2015, 12:00:10 AM
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *
  */
 public class VPOS extends CPOS implements FormPanel, I_POSPanel {
@@ -83,7 +85,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
 	/**
 	 * *** Constructor ***
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 */
 	public VPOS() {
 		super();
@@ -148,7 +149,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
 	/**
 	 * Load POS
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return String
 	 */
 	private String loadPOS() {
@@ -241,8 +241,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
 	/**
 	 * Get POS Keyboard
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
 	 * @return POSKeyboard
 	 */
 	public POSKeyboard getKeyboard() {
@@ -261,7 +259,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 	/**
 	 * New Order
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	public void newOrder() {

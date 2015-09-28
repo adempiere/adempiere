@@ -1,6 +1,5 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,6 +9,11 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor: Yamel Senih www.erpcya.com                                    *
+ * Contributor: Mario Calderon www.westfalia-it.com                           *
  *****************************************************************************/
 package org.adempiere.pos;
 
@@ -58,8 +62,8 @@ import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 
 /**
- * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Aug 24, 2015, 10:17:04 PM
- *
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 public class VCollect extends Collect
 		implements ActionListener, I_POSPanel {
@@ -67,7 +71,6 @@ public class VCollect extends Collect
 	/**
 	 * From POS
 	 * *** Constructor ***
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param posPanel
 	 */
 	public VCollect(VPOS posPanel) {
@@ -82,7 +85,6 @@ public class VCollect extends Collect
 
 	/**
 	 * Init Dialog
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	public void init() {
@@ -143,7 +145,6 @@ public class VCollect extends Collect
 
 	/**
 	 * Instance Frame and fill fields
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Sep 20, 2015, 11:22:46 PM
 	 * @throws Exception
 	 * @return void
 	 */
@@ -289,7 +290,6 @@ public class VCollect extends Collect
 
 	/**
 	 * Add new Collect
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	private void addCollectType() {
@@ -314,7 +314,6 @@ public class VCollect extends Collect
 
 	/**
 	 * Process Window
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return String
 	 */
@@ -383,7 +382,6 @@ public class VCollect extends Collect
 
 	/**
 	 * Remove Collect Detal From Child
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param child
 	 * @return void
 	 */
@@ -397,8 +395,6 @@ public class VCollect extends Collect
 	
 	/**
 	 * Show Collect
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
 	 * @return boolean
 	 */
 	public boolean showCollect() {
@@ -412,8 +408,6 @@ public class VCollect extends Collect
 	
 	/**
 	 * Get Keyboard
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
 	 * @return POSKeyboard
 	 */
 	public POSKeyboard getKeyboard() {
