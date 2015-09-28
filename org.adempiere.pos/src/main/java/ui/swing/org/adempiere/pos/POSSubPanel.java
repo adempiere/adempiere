@@ -32,6 +32,7 @@ import org.compiere.util.Env;
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright (c) Jorg Janke
+ *  @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  <li>Change Name
  *  
