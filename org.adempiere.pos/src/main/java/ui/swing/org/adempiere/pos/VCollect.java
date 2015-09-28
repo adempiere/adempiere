@@ -449,7 +449,7 @@ public class VCollect extends Collect
 	public void changeViewPanel() {
 		if(fIsCreditOrder.isSelected()) {
 			fIsPrePayment.setSelected(false);
-			bPlus.setEnabled(true);  // TODO setEnable(true) doesn't work!!
+			bPlus.setEnabled(false);  // TODO substitute it with the correct command, because setEnable(false) doesn't work!!
 			
 			if((!v_POSPanel.isCompleted() && m_Balance.doubleValue() > 0) ||
 			   (v_POSPanel.isCompleted() && getPayAmt().compareTo(Env.ZERO)==1) ) 
