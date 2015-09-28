@@ -574,6 +574,12 @@ public class POSActionPanel extends POSSubPanel
 					f_bNext.setEnabled(false);
 	  				f_bBack.setEnabled(false);
 				}
+
+			    // Logout Button: enabled when lines existing or order is voided
+				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
+	  				f_bLogout.setEnabled(true);  	
+				else
+					f_bLogout.setEnabled(false);
 				
 		} else {
 			v_POSPanel.setC_BPartner_ID(0);
