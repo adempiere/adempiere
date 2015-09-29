@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.pos.search.WPosQuery;
+import org.adempiere.pos.search.WQueryBPartner;
+import org.adempiere.pos.search.WQueryTicket;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;

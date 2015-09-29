@@ -15,7 +15,7 @@
  * Contributor(s): Raul Muñoz www.erpcya.com					              *
  *****************************************************************************/
 
-package org.adempiere.pos;
+package org.adempiere.pos.search;
 
 import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
@@ -26,6 +26,7 @@ import javax.swing.KeyStroke;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.adempiere.pos.WPOS;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.WListbox;

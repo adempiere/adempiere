@@ -3,6 +3,7 @@ package org.adempiere.pos;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
+import org.adempiere.pos.search.WQueryProduct;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
