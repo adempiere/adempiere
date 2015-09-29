@@ -797,10 +797,15 @@ public class CPOS {
 			m_BPartner = null;
 		else {
 			m_BPartner = MBPartner.get(m_ctx, C_BPartner_ID);
+			
 			if (m_BPartner!=null) {
 				m_CurrentOrder.setC_BPartner_ID(C_BPartner_ID);
 				int M_PriceList_ID = m_BPartner.getM_PriceList_ID();
-				m_CurrentOrder.setM_PriceList_ID(M_PriceList_ID);
+				// Raul Muñoz
+				if(M_PriceList_ID == 0) 
+					m_CurrentOrder.setM_PriceList_ID(m_POS.getM_PriceList_ID());
+				else
+					m_CurrentOrder.setM_PriceList_ID(M_PriceList_ID);
 				
 				MBPartnerLocation [] bpLocations = m_BPartner.getLocations(true);
 				if(bpLocations.length>0) {

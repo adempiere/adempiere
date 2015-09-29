@@ -62,9 +62,9 @@ public class WQueryTicket extends WPosQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryTicket (WPOS posPanel, WSubOrder order)
+	public WQueryTicket (WPOS posPanel)
 	{
-		super(posPanel, order);
+		super(posPanel);
 	}	//	PosQueryProduct
 
 	
@@ -129,7 +129,7 @@ public class WQueryTicket extends WPosQuery
 
 		row.setHeight("60px");
 		row.appendChild(ldoc);
-		f_documentno = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_documentno = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_documentno);
 		f_documentno.addEventListener("onFocus",this);
 		//
@@ -276,8 +276,8 @@ public class WQueryTicket extends WPosQuery
 		
 		if (m_c_order_id > 0)
 		{
-			p_order.p_posPanel.setOrder(m_c_order_id);
-			p_order.updateInfo();
+			v_POSPanel.setOrder(m_c_order_id);
+//			v_POSPanel.refreshPanel();
 
 		}
 		dispose();
@@ -290,7 +290,7 @@ public class WQueryTicket extends WPosQuery
 			cont++;
 			if(cont < 2) {
 				//	Get Keyboard Panel
-				WPOSKeyboard keyboard = p_posPanel.getKeyboard(f_documentno.getKeyLayoutId(), f_documentno);
+				WPOSKeyboard keyboard = v_POSPanel.getKeyboard(f_documentno.getKeyLayoutId(), f_documentno);
 				
 				//	Set Title
 				keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
@@ -344,8 +344,6 @@ public class WQueryTicket extends WPosQuery
 				return;
 			}
 		enableButtons();
-			
 	}
-
 	
 }	//	PosQueryProduct

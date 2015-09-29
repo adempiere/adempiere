@@ -21,16 +21,22 @@ package org.adempiere.pos;
 import java.awt.Color;
 import java.util.HashMap;
 
+import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
+import org.compiere.model.MImage;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
 import org.compiere.pos.PosKeyListener;
 import org.compiere.print.MPrintColor;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Image;
 /**
  * Button panel supporting multiple linked layouts
  * @author Raul Muñoz
@@ -59,6 +65,20 @@ public class WPosKeyPanel extends Panel implements EventListener {
 		
 		this.caller = caller;
 	}	//	PosSubFunctionKeys
+	/**
+	 * 	Constructor
+	 */
+	public WPosKeyPanel (int C_POSKeyLayout_ID, PosKeyListener caller)
+	{
+		if (C_POSKeyLayout_ID == 0)
+			return;
+		setHeight("100%");
+		setWidth("100%");
+		appendChild(createPanel(C_POSKeyLayout_ID));
+		currentLayout = C_POSKeyLayout_ID;
+		this.caller = caller;
+	}	//	PosSubFunctionKeys
+	
 	
 	/** Map of map of keys */
 	private HashMap<Integer, HashMap<Integer, MPOSKey>> keymap = new HashMap<Integer, HashMap<Integer,MPOSKey>>();
@@ -70,17 +90,134 @@ public class WPosKeyPanel extends Panel implements EventListener {
 	private PosKeyListener caller;
 	/** Status Panel */
 	private boolean status;
-	private Panel ABC_SubCard;
-	private Panel abc_SubCard;
+	private Panel primaryPanel;
+	private Panel secondPanel;
 	boolean keyBoardType; 
-	public Panel createPanel(int C_POSKeyLayout_ID, String m_txtCalc){
+	
+	public Panel createButton(int C_POSKeyLayout_ID){
+		if ( keymap.containsKey(C_POSKeyLayout_ID) ) {
+			return null;
+		}
+		Panel card = new Panel();
+		card.setWidth("100%");
+		MPOSKeyLayout keyLayout = MPOSKeyLayout.get(Env.getCtx(), C_POSKeyLayout_ID);
+		Color stdColor = Color.lightGray;
+		if (keyLayout.getAD_PrintColor_ID() != 0)
+		{
+			MPrintColor color = MPrintColor.get(Env.getCtx(), keyLayout.getAD_PrintColor_ID());
+			stdColor = color.getColor();
+		}
+		if (keyLayout.get_ID() == 0)
+			return null;
+		MPOSKey[] keys = keyLayout.getKeys(false);
+		
+		HashMap<Integer, MPOSKey> map = new HashMap<Integer, MPOSKey>(keys.length);
+
+		keymap.put(C_POSKeyLayout_ID, map);
+		
+		int COLUMNS = 3;	//	Min Columns
+		int ROWS = 3;		//	Min Rows
+		int noKeys = keys.length;
+		int cols = keyLayout.getColumns();
+		if ( cols == 0 )
+			cols = COLUMNS;
+		int buttons = 0;
+		log.fine( "PosSubFunctionKeys.init - NoKeys=" + noKeys 
+			+ ", Cols=" + cols);
+		//	Content
+		Panel content = new Panel ();
+				
+		for (MPOSKey key :  keys)
+		{
+			if(!key.getName().equals("")){
+			map.put(key.getC_POSKey_ID(), key);
+			Color keyColor = stdColor;
+			
+			if (key.getAD_PrintColor_ID() != 0)	{
+				MPrintColor color = MPrintColor.get(Env.getCtx(), key.getAD_PrintColor_ID());
+				keyColor = color.getColor();
+			}
+			
+			log.fine( "#" + map.size() + " - " + keyColor); 
+			Panel button = new Panel();
+			Label label = new Label(key.getName());
+			
+			North nt = new North();
+			South st = new South();
+			Borderlayout mainLayout = new Borderlayout();
+			if ( key.getAD_Image_ID() != 0 )
+			{
+				MImage m_mImage = MImage.get(Env.getCtx(), key.getAD_Image_ID());
+				AImage img = null;
+				byte[] data = m_mImage.getData();
+				if (data != null && data.length > 0) {
+					try {
+						img = new AImage(null, data);				
+					} catch (Exception e) {		
+					}
+				}
+				Image bImg = new Image();
+				bImg.setContent(img);
+				bImg.setWidth("50%");
+				bImg.setHeight("50px");
+				nt.appendChild(bImg);
+			}
+			label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;color: #FFF;");
+			label.setHeight("100%");
+			button.setHeight("70px");
+			st.appendChild(label);
+			button.setClass("z-button");
+			button.setStyle("float:left; white-space: pre-line;text-align:center; margin:0.4% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC; "
+					+ "background: -moz-linear-gradient(top, rgba(247,247,247,1) 0%, rgba(255,255,255,0.93) 7%, rgba(186,186,186,0.25) 15%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1) 100%);"
+					+ "background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(247,247,247,1)), color-stop(7%, rgba(255,255,255,0.93)), color-stop(15%, rgba(186,186,186,0.25)), color-stop(100%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1)));"
+					+ "background: -webkit-linear-gradient(top, rgba(247,247,247,1) 0%, rgba(255,255,255,0.93) 7%, rgba(186,186,186,0.25) 15%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1) 100%);");
+			
+			mainLayout.appendChild(nt);
+			mainLayout.appendChild(st);
+			mainLayout.setStyle("background-color: transparent");
+			nt.setStyle("background-color: transparent");
+			st.setStyle("clear: both; background-color: #333; opacity: 0.6;");
+			st.setZindex(99);
+			button.appendChild(mainLayout);
+			
+			button.setId(""+key.getC_POSKey_ID());
+			button.addEventListener("onClick", this);
+
+			int size = 1;
+			if ( key.getSpanX() > 1 )
+			{
+				size = key.getSpanX();
+				button.setWidth("96%");
+			}
+			else 
+				button.setWidth(88/cols+"%");
+			if ( key.getSpanY() > 1 )
+			{
+				size = size*key.getSpanY();
+			}
+			buttons = buttons + size;
+			content.appendChild(button);
+		}
+		}
+		int rows = Math.max ((buttons / cols), ROWS);
+		if ( buttons % cols > 0 )
+			rows = rows + 1;
+
+
+		
+		card.appendChild(content);
+		
+		return card;
+	}
+	
+	public Panel createPanel(int C_POSKeyLayout_ID){
 		Panel card = new Panel();
 		card.setWidth("100%");
 		MPOSKeyLayout keyLayout = MPOSKeyLayout.get(Env.getCtx(), C_POSKeyLayout_ID);
 		
-		if(abc_SubCard==null) {
-			abc_SubCard = createButton(C_POSKeyLayout_ID, m_txtCalc);
-			card.appendChild(abc_SubCard);
+		if(secondPanel==null) {
+			secondPanel = createButton(C_POSKeyLayout_ID);
+			card.appendChild(secondPanel);
 		}
 		if (keyLayout.get_ID() == 0)
 			return null;
@@ -91,18 +228,52 @@ public class WPosKeyPanel extends Panel implements EventListener {
 		{
 			if ( key.getSubKeyLayout_ID() > 0 )
 			{
-				if(ABC_SubCard == null){
-					ABC_SubCard = createButton(key.getSubKeyLayout_ID(), m_txtCalc);
+				if(primaryPanel == null){
+					primaryPanel = createButton(key.getSubKeyLayout_ID());
 				}
-				if ( ABC_SubCard != null  ){
+				if ( primaryPanel != null  ){
 					if(status==false) {
-						card.appendChild(ABC_SubCard);
-						ABC_SubCard.setVisible(status);
-						ABC_SubCard.setContext(""+key.getC_POSKey_ID());
+						card.appendChild(primaryPanel);
+						primaryPanel.setVisible(status);
+						primaryPanel.setContext(""+key.getC_POSKey_ID());
 						status=true;
 					}
 				}
-					card.appendChild(ABC_SubCard);
+					card.appendChild(primaryPanel);
+			}
+		}
+		return card;
+	}
+	public Panel createPanel(int C_POSKeyLayout_ID, String m_txtCalc){
+		Panel card = new Panel();
+		card.setWidth("100%");
+		MPOSKeyLayout keyLayout = MPOSKeyLayout.get(Env.getCtx(), C_POSKeyLayout_ID);
+		
+		if(secondPanel==null) {
+			secondPanel = createButton(C_POSKeyLayout_ID, m_txtCalc);
+			card.appendChild(secondPanel);
+		}
+		if (keyLayout.get_ID() == 0)
+			return null;
+		MPOSKey[] keys = keyLayout.getKeys(false);
+		
+		//	Content
+		for (MPOSKey key :  keys)
+		{
+			if ( key.getSubKeyLayout_ID() > 0 )
+			{
+				if(primaryPanel == null){
+					primaryPanel = createButton(key.getSubKeyLayout_ID(), m_txtCalc);
+				}
+				if ( primaryPanel != null  ){
+					if(status==false) {
+						card.appendChild(primaryPanel);
+						primaryPanel.setVisible(status);
+						primaryPanel.setContext(""+key.getC_POSKey_ID());
+						status=true;
+					}
+				}
+					card.appendChild(primaryPanel);
 			}
 		}
 		return card;
@@ -223,13 +394,13 @@ public class WPosKeyPanel extends Panel implements EventListener {
 			if ( key.getSubKeyLayout_ID() > 0 )
 			{
 				currentLayout = key.getSubKeyLayout_ID();
-				if(ABC_SubCard.getContext().equals(event.getTarget().getId())){
-					ABC_SubCard.setVisible(true);
-					abc_SubCard.setVisible(false);
+				if(primaryPanel.getContext().equals(event.getTarget().getId())){
+					primaryPanel.setVisible(true);
+					secondPanel.setVisible(false);
 				}
 				else {
-					ABC_SubCard.setVisible(false);
-					abc_SubCard.setVisible(true);
+					primaryPanel.setVisible(false);
+					secondPanel.setVisible(true);
 				}
 			}
 			else

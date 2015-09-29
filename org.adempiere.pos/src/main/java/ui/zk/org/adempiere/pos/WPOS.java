@@ -24,6 +24,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.pos.service.CPOS;
+import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
@@ -38,6 +39,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOS;
 import org.compiere.pos.PosKeyboardFocusManager;
 import org.compiere.util.CLogger;
@@ -46,6 +48,8 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.East;
+import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Iframe;
 
 /**
@@ -53,22 +57,19 @@ import org.zkoss.zul.Iframe;
  * @author Raul Muñoz 19/03/2015, 12:57
  *
  */
-public class WPOS extends CPOS implements IFormController, EventListener {
+public class WPOS extends CPOS implements IFormController, EventListener, I_POSPanel {
 	/**
 	 * 	Constructor - see init 
 	 */
 	public WPOS()
 	{
-		super ();
 		m_focusMgr = new PosKeyboardFocusManager();
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
-		zkinit();
+		init();
 	}	//	PosPanel
 	
 
 	private CustomForm form = new CustomForm();
-	/**	Window No			*/
-//	private int         	m_WindowNo = 0;
 	/**	FormFrame			*/
 	private Iframe 		m_frame;
 	/**	Logger				*/
@@ -78,7 +79,9 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	private PosKeyboardFocusManager	m_focusMgr = null;
 	
 	/** Order Panel				*/
-	protected WSubOrder 		f_order;
+	private WPOSActionPanel f_OrderPanel;
+	private WPOSProductPanel f_ProductKeysPanel;
+	private WPOSOrderLinePanel f_OrderLinePanel;
 	/** Current Line				*/
 	
 	private boolean action = false;
@@ -88,20 +91,25 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	private int m_Sales_ID = 0;
 	private Window selection;
 	//	Today's (login) date		*/
-	private Timestamp			m_today = Env.getContextAsDate(getCtx(), "#Date");
+	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
 	
 	private Iframe frame;
 	private HashMap<Integer, WPOSKeyboard> keyboards = new HashMap<Integer, WPOSKeyboard>();
 	public Panel parameterPanel = new Panel();
 	private Listbox listTerminal = ListboxFactory.newDropdownListbox();
-
+	/**	POS Message					*/
+	private String 				m_POSMsg;	
+	/**	POS Configuration		*/
+	private MPOS 				m_POS;
 	/**
 	 *	zk Initialize Panel
+	 *  @param WindowNo window
+	 *  @param frame parent frame
 	 */
-	public void zkinit ()
+	public void init ()
 	{
 
-		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
+		
 		log.info("init - SalesRep_ID=" + getSalesRep_ID());
 //		m_WindowNo = 0;
 		m_frame = frame;
@@ -125,21 +133,53 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	 */
 	private boolean dynInit()
 	{
+		Borderlayout mainLayout = new Borderlayout();	
 		
 		if (!setMPOS()){
+			m_POSMsg = "@POS.NoPOSForUser@";
 			dispose();
 			return false;
 		}
+
+		f_OrderPanel = new WPOSActionPanel(this);
+		f_ProductKeysPanel = new WPOSProductPanel(this);
+		f_OrderLinePanel = new WPOSOrderLinePanel(this);
+
+		East east = new East();
+		Center center = new Center();
+		North north = new North();
+		Borderlayout fullPanel = new Borderlayout();
 		
-		f_order = new WSubOrder(this);
-		form.appendChild(f_order);
+		center.setStyle("border: none; width:40%");
+		center.appendChild(fullPanel);
+		mainLayout.appendChild(center);
+
+		center.setStyle("border: none; width:40%");
+		fullPanel.setWidth("100%");
+		fullPanel.setHeight("100%");
+		Center cente2r = new Center();
+		cente2r.appendChild(f_OrderLinePanel);
+		north.appendChild(f_OrderPanel);
+		east.appendChild(f_ProductKeysPanel);
+		east.setStyle("border: none; width:40%");
+
+		fullPanel.appendChild(cente2r);
+		fullPanel.appendChild(north);
+		north.setStyle("border: none; width:40%; height:15%");
+		cente2r.setStyle("border: none; width:40%;  height:85%; ");
+		
+		mainLayout.setWidth("100%");
+		mainLayout.setHeight("100%");
+		mainLayout.appendChild(east);
+
+		form.appendChild(mainLayout);
 		
 		return true;
 	}	//	dynInit
 
 	/**
 	 * Load POS
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return boolean
 	 */
 	
@@ -150,12 +190,11 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	 */
 	private boolean setMPOS()
 	{
-		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
 		boolean ok = setPOS();
-		if(!ok && getMsgLocator() == null){
+		if(!ok){
 			MPOS[] poss = getPOSs();
 			//	Select POS
-			String msg = Msg.getMsg(getCtx(), "SelectPOS");
+			String msg = Msg.getMsg(m_ctx, "SelectPOS");
 			selection = new Window();
 			Panel mainPanel = new Panel();
 			Panel panel = new Panel();
@@ -271,10 +310,6 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 			m_focusMgr.stop();
 		m_focusMgr = null;
 		//
-		if (f_order != null)
-			f_order.dispose();
-		f_order = null;
-		
 		if (m_frame != null)
 			m_frame.detach();
 		
@@ -286,7 +321,8 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	public void onEvent(Event e) throws Exception {
 		if(e.getTarget().equals(b_ok)){
 			MPOS[] poss = getPOSs (m_Sales_ID);
-			setM_POS(poss[listTerminal.getSelectedIndex()]);
+			m_POS = poss[listTerminal.getSelectedIndex()];
+			setM_POS(m_POS);
 			action = true;
 			selection.dispose();
 		}
@@ -299,6 +335,47 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	@Override
 	public ADForm getForm() {
 		return form;
+	}
+	
+	/**
+	 * Get POS Keyboard
+	 * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return POSKeyboard
+	 */
+	public WPOSKeyboard getKeyboard() {
+		return getKeyboard(getOSKeyLayout_ID());
+	}
+	@Override
+	public String validatePanel() {
+		return null;
+	}
+
+	@Override
+	public void refreshPanel() {
+		//	Reload from DB
+		reloadOrder();
+		f_OrderPanel.changeViewPanel();
+		f_ProductKeysPanel.refreshPanel();
+		f_OrderLinePanel.refreshPanel();
+		
+	}
+
+	@Override
+	public void changeViewPanel() {
+	
+		
+	}
+	/**
+	 * New Order
+	 * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
+	public void newOrder() {
+		//	Do you want to use the alternate Document type?
+		boolean isDocType = FDialog.ask(0, null, Msg.getMsg(m_ctx, "POS.AlternateDT"));
+		setC_BPartner_ID(0);
+		newOrder(isDocType);
 	}
 }	//	PosPanel
 

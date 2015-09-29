@@ -57,9 +57,9 @@ public class WQueryProduct extends WPosQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryProduct (WPOS posPanel, WSubOrder order)
+	public WQueryProduct (WPOS posPanel)
 	{
-		super(posPanel, order);
+		super();
 	}	//	PosQueryProduct
 	
 	private WPosTextField		f_value;
@@ -134,13 +134,13 @@ public class WQueryProduct extends WPosQuery
 		//
 		Label lvalue = new Label(Msg.translate(p_ctx, "Value"));
 		row.appendChild(lvalue.rightAlign());
-		f_value = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_value = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
 		row.appendChild(f_value);
 		//
 		f_value.addEventListener("onFocus",this);
 		Label lupc = new Label(Msg.translate(p_ctx, "UPC"));
 		row.appendChild(lupc.rightAlign());
-		f_upc = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_upc = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
 		row.appendChild(f_upc);
 		f_upc.addEventListener("onFocus",this);
 		//  New Line
@@ -148,13 +148,13 @@ public class WQueryProduct extends WPosQuery
 		//
 		Label lname = new Label(Msg.translate(p_ctx, "Name"));
 		row.appendChild (lname.rightAlign());
-		f_name = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_name = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
 		row.appendChild(f_name);
 		f_name.addEventListener("onFocus",this);
 		//
 		Label lsku = new Label(Msg.translate(p_ctx, "SKU"));
 		row.appendChild(lsku.rightAlign());
-		f_sku = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_sku = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
 		row.appendChild(f_sku);
 		f_sku.addEventListener("onFocus",this);
 		//
@@ -172,13 +172,14 @@ public class WQueryProduct extends WPosQuery
 		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
 		panelbutton.appendChild(f_down);
 		
-		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
-		panelbutton.appendChild(f_ok);
-		f_ok.setFocus(true);
 		f_cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
 		panelbutton.appendChild(f_cancel);
 		row.appendChild(panelbutton);
 
+
+		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+		panelbutton.appendChild(f_ok);
+		f_ok.setFocus(true);
 		m_table = ListboxFactory.newDataTable();
 		String f = m_table.prepareTable (s_layout, s_sqlFrom, 
 			s_sqlWhere, false, "RV_WarehousePrice")
@@ -251,16 +252,16 @@ public class WQueryProduct extends WPosQuery
 	protected void close()
 	{
 		log.fine("M_Product_ID=" + m_M_Product_ID); 
-		if (m_M_Product_ID > 0)
-		{
-			p_posPanel.f_order.setM_Product_ID(m_M_Product_ID);
-			p_posPanel.f_order.setPrice(m_Price);
-		}
-		else
-		{
-			p_posPanel.f_order.setM_Product_ID(0);
-			p_posPanel.f_order.setPrice(Env.ZERO);
-		}
+//		if (m_M_Product_ID > 0)
+//		{
+//			v_POSPanel.f_order.setM_Product_ID(m_M_Product_ID);
+//			v_POSPanel.f_order.setPrice(m_Price);
+//		}
+//		else
+//		{
+//			v_POSPanel.f_order.setM_Product_ID(0);
+//			v_POSPanel.f_order.setPrice(Env.ZERO);
+//		}
 		this.detach();
 	}	//	close
 
@@ -284,13 +285,13 @@ public class WQueryProduct extends WPosQuery
 				WPOSKeyboard keyboard;
 				//	Get Keyboard Panel
 				if(event.getTarget().equals(f_value))
-					keyboard = p_posPanel.getKeyboard(f_value.getKeyLayoutId(), f_value);
+					keyboard = v_POSPanel.getKeyboard(f_value.getKeyLayoutId(), f_value);
 				else if (event.getTarget().equals(f_upc))
-					keyboard = p_posPanel.getKeyboard(f_upc.getKeyLayoutId(), f_upc);
+					keyboard = v_POSPanel.getKeyboard(f_upc.getKeyLayoutId(), f_upc);
 				else if (event.getTarget().equals(f_name))
-					keyboard = p_posPanel.getKeyboard(f_name.getKeyLayoutId(), f_name);
+					keyboard = v_POSPanel.getKeyboard(f_name.getKeyLayoutId(), f_name);
 				else 
-					keyboard = p_posPanel.getKeyboard(f_sku.getKeyLayoutId(), f_sku);
+					keyboard = v_POSPanel.getKeyboard(f_sku.getKeyLayoutId(), f_sku);
 				
 				//	Set Title
 				keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
