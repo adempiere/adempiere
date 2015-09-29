@@ -355,8 +355,6 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
-		System.out.println(e.getTarget().getId()+" "+fPayAmt.getId());
-		
 		if(e.getTarget().equals(bMinus)){
 			v_Parent.removeCollectDetail(this);
 		}

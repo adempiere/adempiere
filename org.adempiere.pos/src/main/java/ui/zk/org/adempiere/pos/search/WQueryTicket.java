@@ -15,7 +15,7 @@
  * Contributor(s): Raul Muñoz www.erpcya.com					              *
  *****************************************************************************/
 
-package org.adempiere.pos;
+package org.adempiere.pos.search;
 
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
@@ -26,6 +26,9 @@ import java.util.Properties;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.pos.WPOS;
+import org.adempiere.pos.WPOSKeyboard;
+import org.adempiere.pos.WPosTextField;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
