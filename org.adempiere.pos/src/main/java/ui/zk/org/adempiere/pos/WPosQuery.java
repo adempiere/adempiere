@@ -48,11 +48,7 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 	
 	protected Properties 		p_ctx;
 	/** POS Panel							*/
-	protected WPOS 	p_posPanel = null;
-	/** Order 								*/
-	protected WSubOrder 		p_order = null;
-	/**	Underlying POS Model				*/
-	protected MPOS 				p_pos = null;
+	protected WPOS 	v_POSPanel = null;
 	/** The Table					*/
 	protected WListbox 			m_table;
 	protected Panel 			northPanel;
@@ -61,6 +57,8 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 	protected Button 			f_down;
 	/**	Logger			*/
 	protected static CLogger log = CLogger.getCLogger(WQueryProduct.class);
+	/**	Underlying POS Model				*/
+	protected MPOS p_pos = null;
 
 	public WPosQuery() throws HeadlessException {
 		super();
@@ -77,13 +75,12 @@ public abstract class WPosQuery extends Window implements MouseListener, ListSel
 	/**
 	 * 	Constructor
 	 */
-	public WPosQuery (WPOS posPanel, WSubOrder order)
+	public WPosQuery (WPOS posPanel)
 	{
 		super();
-		p_posPanel = posPanel;
-		p_order = order;
-		p_pos = order.p_pos;
-		p_ctx = p_pos.getCtx();
+		v_POSPanel = posPanel;
+		p_pos = posPanel.getM_POS();
+		p_ctx = v_POSPanel.getCtx();
 		this.setAttribute("mode", "modal");
 		this.setBorder("normal");
 		this.setWidth("850px");

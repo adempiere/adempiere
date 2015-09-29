@@ -59,15 +59,15 @@ public class WQueryBPartner extends WPosQuery
 
 //	Dixon Martinez 2015-07-31
 //	Support for creating customers from the point of sale
-	private Button bot_New;
+	private Button f_New;
 //	End Dixon Martinez
 	
 	/**
 	 * 	Constructor
 	 */
-	public WQueryBPartner (WPOS posPanel, WSubOrder order)
+	public WQueryBPartner (WPOS posPanel)
 	{
-		super(posPanel, order);
+		super(posPanel);
 	}	//	PosQueryBPartner
 	
 	private WPosTextField		f_value;
@@ -77,7 +77,6 @@ public class WQueryBPartner extends WPosQuery
 	private WPosTextField		f_phone;
 	private Textbox				f_city;
 
-	private int 				cont;
 	private int 				aux;
 	private int					m_C_BPartner_ID;
 	private Button	 			f_refresh;
@@ -118,7 +117,6 @@ public class WQueryBPartner extends WPosQuery
 		this.setTitle(Msg.getMsg(p_ctx, "Query"));
 		this.setClosable(true);
 
-		cont=2;
 		aux=2;
 		appendChild(panel);
 		//	North
@@ -143,19 +141,19 @@ public class WQueryBPartner extends WPosQuery
 		
 		Label lvalue = new Label(Msg.translate(p_ctx, "Value"));
 		row.appendChild(lvalue);
-		f_value = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_value = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_value);
 		f_value.addEventListener("onFocus", this);
 		
 		Label lcontact = new Label(Msg.translate(p_ctx, "Contact"));
 		row.appendChild(lcontact);
-		f_contact = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_contact = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_contact);
 		f_contact.addEventListener("onFocus", this);
 		
 		Label lphone = new Label(Msg.translate(p_ctx, "Phone"));
 		row.appendChild(lphone);
-		f_phone = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_phone = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_phone);
 		f_phone.addEventListener("onFocus", this);
 		
@@ -163,13 +161,13 @@ public class WQueryBPartner extends WPosQuery
 		row = rows.newRow();
 		Label lname = new Label(Msg.translate(p_ctx, "Name"));
 		row.appendChild(lname);
-		f_name = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_name = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_name);
 		f_name.addEventListener("onFocus", this);
 		//
 		Label lemail = new Label(Msg.translate(p_ctx, "Email"));
 		row.appendChild(lemail);
-		f_email = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_email = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_email);
 		f_email.addEventListener("onFocus", this);
 		//
@@ -190,9 +188,9 @@ public class WQueryBPartner extends WPosQuery
 		row.setHeight("65px");
 //		Dixon Martinez 2015-07-31
 //		Support for creating customers from the point of sale
-		bot_New = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
-		buttonsPanel.appendChild(bot_New);
-		bot_New.addActionListener(this);
+		f_New = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
+		buttonsPanel.appendChild(f_New);
+		f_New.addActionListener(this);
 //		End Dixon Martinez
 		
 		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
@@ -206,7 +204,15 @@ public class WQueryBPartner extends WPosQuery
 		f_down.addActionListener(this);
 		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
 		buttonsPanel.appendChild(f_ok);		
-		
+		f_ok.setTooltiptext(Msg.translate(p_ctx, "Ok"));
+		f_down.setTooltiptext(Msg.translate(p_ctx, "Next"));
+		f_cancel.setTooltiptext(Msg.translate(p_ctx, "Cancel"));
+		f_up.setTooltiptext(Msg.translate(p_ctx, "Previous"));
+		f_ok.setTooltiptext(Msg.translate(p_ctx, "Ok"));
+		f_down.setTooltiptext(Msg.translate(p_ctx, "Next"));
+		f_cancel.setTooltiptext(Msg.translate(p_ctx, "Cancel"));
+		f_New.setTooltiptext(Msg.translate(p_ctx, "New"));
+		f_refresh.setTooltiptext(Msg.translate(p_ctx, "Refresh"));
 		row.appendChild(buttonsPanel);
 		//	Center
 		m_table = new WListbox();
@@ -264,17 +270,15 @@ public class WQueryBPartner extends WPosQuery
 	 */
 	protected void close()
 	{
-		log.fine("C_BPartner_ID=" + m_C_BPartner_ID); 
-		
-		if (m_C_BPartner_ID > 0)
-		{
-			p_order.setC_BPartner_ID(m_C_BPartner_ID);
-		//	p_posPanel.f_curLine.setCurrency(m_Price);
-		}
-		else
-		{
-			p_order.setC_BPartner_ID(0);
-		//	p_posPanel.f_curLine.setPrice(Env.ZERO);
+		Integer ID = m_table.getSelectedRowKey();
+		if (ID != null)
+			m_C_BPartner_ID = ID.intValue();
+	
+		if (m_C_BPartner_ID > 0) {
+			v_POSPanel.setC_BPartner_ID(m_C_BPartner_ID);
+			log.fine("C_BPartner_ID=" + m_C_BPartner_ID);
+		} else {
+			v_POSPanel.setC_BPartner_ID(0);
 		}
 		dispose();
 	}	//	close
@@ -295,7 +299,7 @@ public class WQueryBPartner extends WPosQuery
 		WPosTextField field = (WPosTextField) p_field;
 		aux++;
 		if(aux<2){
-			WPOSKeyboard keyboard = p_posPanel.getKeyboard(field.getKeyLayoutId()); 
+			WPOSKeyboard keyboard = v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
 			keyboard.setTitle(Msg.translate(Env.getCtx(), ""));
 			keyboard.setPosTextField(field);	
 			if(eventName.equals("onFocus")) {
@@ -314,7 +318,7 @@ public class WQueryBPartner extends WPosQuery
 	public void onEvent(Event e) throws Exception {
 //		Dixon Martinez 2015-07-31
 //		Support for creating customers from the point of sale
-		if(e.getTarget().equals(bot_New)) {
+		if(e.getTarget().equals(f_New)) {
 			
 			WBPartner t = new WBPartner(1);
 			t.setVisible(true);
@@ -364,7 +368,6 @@ public class WQueryBPartner extends WPosQuery
 				m_table.setSelectedIndex(row);
 				return;
 			}
-
 
 			enableButtons();
 			if(e.getTarget().equals(f_ok)){
