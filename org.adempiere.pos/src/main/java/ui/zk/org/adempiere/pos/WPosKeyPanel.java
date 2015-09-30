@@ -72,9 +72,9 @@ public class WPosKeyPanel extends Panel implements EventListener {
 	{
 		if (C_POSKeyLayout_ID == 0)
 			return;
-		setHeight("100%");
 		setWidth("100%");
 		appendChild(createPanel(C_POSKeyLayout_ID));
+		setStyle("overflow:auto");
 		currentLayout = C_POSKeyLayout_ID;
 		this.caller = caller;
 	}	//	PosSubFunctionKeys
@@ -213,6 +213,7 @@ public class WPosKeyPanel extends Panel implements EventListener {
 	public Panel createPanel(int C_POSKeyLayout_ID){
 		Panel card = new Panel();
 		card.setWidth("100%");
+		card.setStyle("overflow:AUTO");
 		MPOSKeyLayout keyLayout = MPOSKeyLayout.get(Env.getCtx(), C_POSKeyLayout_ID);
 		
 		if(secondPanel==null) {
@@ -338,7 +339,11 @@ public class WPosKeyPanel extends Panel implements EventListener {
 			label.setStyle("margin: 25px 0px 00px 0px; top:20px; font-size:medium; font-weight: bold;");
 			label.setHeight("100%");
 			button.appendChild(label);
-			button.setStyle("float:left; text-align:center; margin:1% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC;");
+			button.setClass("z-button");
+			button.setStyle("float:left; white-space: pre-line;text-align:center; margin:0.4% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC; "
+					+ "background: -moz-linear-gradient(top, rgba(247,247,247,1) 0%, rgba(255,255,255,0.93) 7%, rgba(186,186,186,0.25) 15%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1) 100%);"
+					+ "background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(247,247,247,1)), color-stop(7%, rgba(255,255,255,0.93)), color-stop(15%, rgba(186,186,186,0.25)), color-stop(100%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1)));"
+					+ "background: -webkit-linear-gradient(top, rgba(247,247,247,1) 0%, rgba(255,255,255,0.93) 7%, rgba(186,186,186,0.25) 15%, rgba("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+",1) 100%);");
 			button.setHeight("55px");
 			button.setWidth("55px");
 
@@ -366,7 +371,7 @@ public class WPosKeyPanel extends Panel implements EventListener {
 		for (int i = buttons; i < rows*cols; i++)
 		{
 			Panel button = new Panel();
-			button.setStyle("float:left; text-align:center; margin:1% 1%;  border: 2px outset #CCC;");
+			button.setStyle("float:left; text-align:center; margin:0.4% 1%;");
 			button.setHeight("55px");
 			button.setWidth("55px");
 			content.appendChild(button);

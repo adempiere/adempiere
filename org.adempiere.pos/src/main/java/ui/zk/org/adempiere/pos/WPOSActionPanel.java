@@ -58,20 +58,18 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	private Button 		f_cashPayment;
 
 	private Button			f_bBPartner;
+	private Label 		bpartner;
 	private Button 		f_logout;
 	private Button 		f_cancel;
 	private Button 			f_Next;
 	private Button 			f_Back;
 
-	private final String BG_GRADIENT = "";
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_LOGOUT      = "Cancel";
 	private final String ACTION_CANCEL      = "End";
-	private final String ACTION_CREDITSALE  = "Credit Sale";
 	private final String ACTION_HISTORY     = "History";
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_PAYMENT     = "Payment";
-	private Panel card;
 	private int 				recordPosition;
 	private ArrayList<Integer>	orderList;
 	/**	Logger			*/
@@ -83,9 +81,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		Panel parameterPanel = new Panel();
 		Borderlayout detailPanel = new Borderlayout();
 		Grid parameterLayout = GridFactory.newGridLayout();
-		Panel productPanel = new Panel();
 		Borderlayout fullPanel = new Borderlayout();
-		Grid productLayout = GridFactory.newGridLayout();
 		Grid parameterLayout3 = GridFactory.newGridLayout();
 		Rows rows = null;
 		Row row = null;	
@@ -169,15 +165,17 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		row.setSpans("3,5");
 		row.setHeight("25px");
 		// BP
-		Label bpartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer")+":");
+		bpartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer")+":");
 		row.appendChild (bpartner.rightAlign());
 		bpartner.setStyle("Font-size:medium; font-weight:700");
+		bpartner.setVisible(false);
 		
 		f_name = new Label("-");
 		f_name.setStyle("Font-size:medium");
 		f_name.setWidth("100%");
+		f_name.setVisible(false);
 		row.appendChild  (f_name);
-
+		
 	}
 	/**
 	 * 	Print Ticket
@@ -280,6 +278,8 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		
 		MBPartner results = MBPartner.get(p_ctx, v_POSPanel.getC_BPartner_ID());
 		f_name.setText(results.getName());
+		bpartner.setVisible(true);
+		f_name.setVisible(true);
 
 	}	//	findBPartner
 	
