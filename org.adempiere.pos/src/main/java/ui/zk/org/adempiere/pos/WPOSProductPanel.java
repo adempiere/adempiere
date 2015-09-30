@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 
 import org.adempiere.pos.search.WQueryProduct;
 import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
@@ -21,7 +23,9 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Space;
 
 public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_POSPanel{
@@ -39,36 +43,39 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		super (posPanel);
 	}	//	PosSubFunctionKeys
 	private WPosTextField	f_ProductName;
-	private Label	 	f_TotalLines;
-	private Label	 	f_TaxAmount;
-	private Label	 	f_GrandTotal;
-	private Label 		f_SalesRep_Name;
-	private Label	 	f_DocumentNo;
-	private Panel 		card;
+	private Button			f_HiddenField;
+	private Label	 		f_TotalLines;
+	private Label	 		f_TaxAmount;
+	private Label	 		f_GrandTotal;
+	private Label 			f_SalesRep_Name;
+	private Label	 		f_DocumentNo;
+	private Panel 			card;
 	/**	Format				*/
 	private DecimalFormat	m_Format;
 	/**	Logger				*/
 	private static CLogger 	log = CLogger.getCLogger(WPOSProductPanel.class);
+	private int cont; 
 	@Override
 	public void init(){
 		int C_POSKeyLayout_ID = p_pos.getC_POSKeyLayout_ID();
 		if (C_POSKeyLayout_ID == 0)
 			return;
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
-		
+		cont = 0;
 		card = new Panel();
 		card.setWidth("100%");
 		card.setHeight("100%");
-		Center east = new Center();
+		North north = new North();
 		Grid eastLayout = GridFactory.newGridLayout();
+		Grid layout = GridFactory.newGridLayout();
 		Rows rows = null;
 		Row row = null;		
-		east.appendChild(card);
+		north.appendChild(card);
 		eastLayout.setWidth("100%");
-		eastLayout.setHeight("100%");
+		eastLayout.setHeight("143px");
 		rows = eastLayout.newRows();
 		eastLayout.setStyle("border:none");
-		east.setStyle("border: none; width:60%");
+		north.setStyle("border: none; width:60%");
 		//
 		row = rows.newRow();
 		row.setHeight("10px");
@@ -134,25 +141,39 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		f_ProductName.setHeight("35px");
 		f_ProductName.setName("Name");
 		f_ProductName.setReadonly(true);
-		f_ProductName.addEventListener("onFocus", this);
-		
+		f_ProductName.addEventListener(Events.ON_FOCUS,this);
+		f_HiddenField = new Button();
 		row = rows.newRow();
 		row.setSpans("1,3");
 		Label productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID")+":");
 		productLabel.setStyle("Font-size:medium; font-weight:700");
 		row.appendChild(productLabel);
+		
+		Center center = new Center();
+		center.setStyle("border: none; overflow-y:auto;overflow-x:hidden;");
+		appendChild(center);
+		Panel centerPanel = new Panel();
+		center.appendChild(centerPanel);
+		centerPanel.appendChild(layout);
+		layout.setWidth("100%");
+		layout.setHeight("100%");
+		layout.setStyle("overflow:auto;");
+		
+		rows = layout.newRows();
+		
 		WPosKeyPanel panel = new WPosKeyPanel(C_POSKeyLayout_ID, this);
 		row.appendChild(f_ProductName);
 		row = rows.newRow();
 		row.setSpans("4");
 		row.appendChild(panel);
-		east.setAutoscroll(true);
-		appendChild(east);
+		north.setAutoscroll(true);
+		appendChild(north);
 		//	Refresh
 		f_TotalLines.setText(m_Format.format(Env.ZERO));
 		f_GrandTotal.setText(m_Format.format(Env.ZERO));
 		f_TaxAmount.setText(m_Format.format(Env.ZERO));
 	}
+	
 	@Override
 	public void refreshPanel() {
 		if (!v_POSPanel.hasOrder()) {
@@ -177,13 +198,11 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 
 	@Override
 	public String validatePanel() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void changeViewPanel() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -201,11 +220,25 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		// TODO Auto-generated method stub
-//		super.actionPerformed(e);
 		//	Name
-		if (e.getTarget() == f_ProductName) {
-			findProduct();
+		cont++;
+		if(cont<2){
+		if (e.getTarget().equals(f_ProductName)) {
+			WPOSKeyboard keyboard = v_POSPanel.getKeyboard(f_ProductName.getKeyLayoutId()); 
+			keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
+			keyboard.setPosTextField(f_ProductName);	
+			if(e.getName().equals("onFocus")) {
+				keyboard.setWidth("750px");
+				keyboard.setHeight("380px");
+				
+				AEnv.showWindow(keyboard);
+				if(!keyboard.isCancel())
+					findProduct();
+			}
+
+		}}else {
+			cont=0;
+			f_HiddenField.setFocus(true);
 		}	
 	}
 	/**
@@ -240,22 +273,28 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 				Value, Name, UPC, SKU, null);
 		
 		//	Set Result
-		if (results.length == 0)
-		{
-			String message = Msg.getMsg(p_ctx,  "POS.SearchProductNF");
-			FDialog.warn(0, null, message +" "+ query,"");
-		}
-		else if (results.length == 1)
+//		if (results.length == 0)
+//		{
+//			String message = Msg.getMsg(p_ctx,  "POS.SearchProductNF");
+//			FDialog.warn(0, null, message +" "+ query,"");
+//		}
+		if (results.length == 1)
 		{
 			addLine(results[0].getM_Product_ID(), Env.ONE);
-			f_ProductName.setText(results[0].getName());
+			f_ProductName.setValue(results[0].getName());
+			f_HiddenField.setFocus(true);
 		}
 		else	//	more than one
 		{
 			WQueryProduct qt = new WQueryProduct(v_POSPanel);
 			qt.setResults(results);
 			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
-			qt.setVisible(true);
+			AEnv.showWindow(qt);
+			if (qt.getRecord_ID() > 0) {
+				f_ProductName.setText(qt.getValue());
+				addLine(qt.getRecord_ID(), Env.ONE);
+			
+			}
 		}
 	}	//	findProduct
 	

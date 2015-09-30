@@ -128,6 +128,9 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 		if (action == null || action.length() == 0)
 			return;
 		log.info( "POSOrderLinePanel - actionPerformed: " + action);
+		if(arg0.getTarget().equals(m_table)){
+			return;
+		}
 		//	Product
 		//	Refresh All
 		v_POSPanel.refreshPanel();
@@ -135,22 +138,33 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 
 	@Override
 	public void tableChanged(WTableModelEvent event) {
-		// TODO Auto-generated method stub
+		int row = m_table.getSelectedRow();
+		if (event.getModel().equals(m_table.getModel())){ //Add Minitable Source Condition
+		if (row != -1 )
+		{
+			Object data = m_table.getModel().getValueAt(row, 0);
+			if ( data != null )
+			{
+				Integer id = (Integer) ((IDColumn)data).getRecord_ID();
+				m_C_OrderLine_ID = id;
+			}
+		}
 		int id = m_table.getSelectedRow();
 		ListModelTable model = m_table.getModel();
-		if (id != -1) {	
-			IDColumn key = (IDColumn) model.getValueAt(id, 0);
-			
+		
+			if (id != -1) {	
+				IDColumn key = (IDColumn) model.getValueAt(id, 0);
+				m_table.getModel().removeTableModelListener(this);			
 			if ( key != null &&  key.getRecord_ID() != m_C_OrderLine_ID )
 				m_C_OrderLine_ID = key.getRecord_ID();
 			BigDecimal qty = new BigDecimal(m_table.getModel().getValueAt(id, POSOrderLineTableHandle.POSITION_QTYORDERED).toString());
 			MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
 			if ( line != null )
 			{
-				
 					line.setPrice(new BigDecimal(m_table.getModel().getValueAt(id, 4).toString()));
 					line.setQty(new BigDecimal(m_table.getModel().getValueAt(id, 2).toString()));
 					line.saveEx();
+					refreshPanel();
 					BigDecimal grandTotal = line.getLineNetAmt();
 					m_table.getModel().setValueAt(line.getLineNetAmt(), id, POSOrderLineTableHandle.POSITION_LINENETAMT);
 					if(!line.getC_Tax().getRate().equals(null)){
@@ -158,12 +172,13 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 					} 
 					m_table.getModel().setValueAt(grandTotal, id, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
 					if(qty.compareTo(Env.ZERO) <= 0){
-//									p_posPanel.updateInfo();
+								line.delete(true);	
 					}
 					v_POSPanel.reloadOrder();
 					v_POSPanel.refreshPanel();
+					m_table.getModel().addTableModelListener(this);
 				}
-				
+			}
 			
 		}
 	}
