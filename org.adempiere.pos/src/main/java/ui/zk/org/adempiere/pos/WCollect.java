@@ -280,10 +280,19 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event event) throws Exception {
 		String action = event.getTarget().getId();
-		if(event.getTarget().equals(fIsCreditOrder))
+		if(event.getTarget().equals(fIsCreditOrder)){
 			fIsPrePayment.setSelected(false);
-		else if(event.getTarget().equals(fIsPrePayment))
+			if(fIsCreditOrder.isSelected()) {				
+				fPlus.setVisible(false);  // TODO setEnable(false) doesn't work!!
+				confirm.getOKButton().setEnabled(true);
+			}
+		else 
+			fPlus.setVisible(true);
+		}
+		else if(event.getTarget().equals(fIsPrePayment)){
 			fIsCreditOrder.setSelected(false);
+			fPlus.setVisible(true);   // TODO setEnable(true) doesn't work!!
+		}
 		else if (event.getName().equals("onBlur") || event.getName().equals("onFocus")) {
 		}
 		else if(event.getTarget().equals(fPlus)){
@@ -306,7 +315,11 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 			v_Window.dispose();
 			return;
 		}
-			
+
+		else if ( action.equals(ConfirmPanel.A_CANCEL)) {
+			v_Window.dispose();
+			return;
+		}
 		 else if(event.getTarget().equals(fIsPrePayment)) {	//	For Pre-Payment Order Checked
 			fIsCreditOrder.setSelected(false);
 			fPlus.setVisible(true); 
@@ -445,7 +458,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	public void changeViewPanel() {
 		if(fIsCreditOrder.isSelected()) {
 			fIsPrePayment.setSelected(false);
-			fPlus.setEnabled(true);  
+			fPlus.setEnabled(true);  // TODO setEnable(true) doesn't work!!
 			
 			if((!v_POSPanel.isCompleted() && m_Balance.doubleValue() > 0) ||
 			   (v_POSPanel.isCompleted() && getPayAmt().compareTo(Env.ZERO)==1) ) 
