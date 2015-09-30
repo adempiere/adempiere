@@ -17,14 +17,11 @@
 
 package org.adempiere.pos;
 
-import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -46,7 +43,6 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
@@ -71,11 +67,6 @@ import org.zkoss.zul.Space;
  */
 public class WCollect extends Collect implements WPosKeyListener, EventListener,I_POSPanel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1961106531807910948L;
-
 	public WPOS v_POSPanel;
 	public MPOS p_pos;
 	private Properties p_ctx;
@@ -99,7 +90,6 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	private Grid eastlayout;
 	private North north;
 	private Grid layout;
-	private int 	position=1;
 	private DecimalFormat 	m_Format;
 	private int 	collectRowNo = 0;
 	private Window v_Window;
@@ -114,8 +104,6 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		p_ctx = posPanel.getCtx();
 		p_order = posPanel.getM_Order();
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
-		
-		
 
 		init();
 	}
@@ -183,7 +171,6 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		row.appendChild(fPayAmt.rightAlign());
 		fPayAmt.setStyle(FONT_SIZE);
 		
-
 		row = rows.newRow();
 		row.appendChild(new Space());
 		row.appendChild(new Space());
@@ -322,19 +309,19 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 			
 		 else if(event.getTarget().equals(fIsPrePayment)) {	//	For Pre-Payment Order Checked
 			fIsCreditOrder.setSelected(false);
-			fPlus.setVisible(true);   // TODO setEnable(true) doesn't work!!
+			fPlus.setVisible(true); 
 		}
 		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
 				fIsPrePayment.setSelected(false);
 				if(fIsCreditOrder.isSelected()) {				
-					fPlus.setVisible(false);  // TODO setEnable(false) doesn't work!!
+					fPlus.setVisible(false);  
 					confirm.getOKButton().setEnabled(true);
 				}
 				else 
 					fPlus.setVisible(true);
 			} else if(event.getTarget().equals(fIsPrePayment)) {	//	For Pre-Payment Order Checked
 				fIsCreditOrder.setSelected(false);
-				fPlus.setVisible(true);   // TODO setEnable(true) doesn't work!!
+				fPlus.setVisible(true);   
 			}
 		else {
 					layout.invalidate();
@@ -367,25 +354,6 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		//	Default
 		return null;
 	}
-//	private void calculate() {
-//		BigDecimal mount = m_POSPanel.getPayAmt();
-//		for(int x = 0; x < pp.size(); x++){
-//			if(pp.get(x).fPayAmt.getValue() == null){
-//				pp.get(x).fPayAmt.setValue("0");
-//			}
-//				BigDecimal pay = pp.get(x).fPayAmt.getValue();
-//				mount = mount.add(pay);
-//		}
-//		
-//		m_Balance  = p_order.getGrandTotal().subtract(mount);
-//		if ( m_Balance.compareTo(Env.ZERO) <= 0 )
-//		{
-//			paid = true;
-//		}
-//		fBalance.setValue(m_Balance.toString());
-//		fReturnAmt.setValue(m_Balance.toString());
-//		fPayAmt.setValue(mount.toString());
-//	}
 
 	public void keyReturned(MPOSKey key) {
 		
@@ -410,24 +378,6 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 			}
 		}
 	}
-	
-	/**
-	 * 	Process the order.
-	 * Usually, the action should be "complete".
-	 */
-	private void onCreditSale() {
-		if( v_POSPanel.getM_Order() == null) {		
-			FDialog.warn(0,  Msg.getMsg(p_ctx, "You must create an Order first"));
-		} else {
-			if ( v_POSPanel.getM_Order().getLines().length==0) {
-				FDialog.warn(0, Msg.getMsg(p_ctx, "The Order does not contain lines"));
-			} else if ( !v_POSPanel.getM_Order().isProcessed() 
-					&& !v_POSPanel.processOrder()) {		
-				FDialog.warn(0, Msg.getMsg(p_ctx, "Error processing Credit sale"));
-			}
-		}
-		return;
-	} // onCreditSale
 	
 	public boolean showCollect() {
 		
@@ -495,7 +445,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	public void changeViewPanel() {
 		if(fIsCreditOrder.isSelected()) {
 			fIsPrePayment.setSelected(false);
-			fPlus.setEnabled(true);  // TODO setEnable(true) doesn't work!!
+			fPlus.setEnabled(true);  
 			
 			if((!v_POSPanel.isCompleted() && m_Balance.doubleValue() > 0) ||
 			   (v_POSPanel.isCompleted() && getPayAmt().compareTo(Env.ZERO)==1) ) 
