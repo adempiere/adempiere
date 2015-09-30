@@ -36,6 +36,7 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
+import org.compiere.pos.POSKeyboard;
 import org.compiere.pos.PosKeyListener;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -75,6 +76,7 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		private int typeKeyboard = KEYBOARD_NUMERIC;
 		private BigDecimal cashOut;
 		private Button bCashOut;
+		private boolean isCancel;
 		
 	/**
 	 * 	Constructor
@@ -128,7 +130,7 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 	}
 		
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(org.adempiere.pos.POSKeyboard.class);
+	private static CLogger log = CLogger.getCLogger(WPOSKeyboard.class);
 	
 	/**
 	 * 	Initialize
@@ -267,10 +269,12 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		}
 		else if ( action.equals(ConfirmPanel.A_CANCEL))
 		{
+			isCancel = true;
 			close();
 		}
 		else if (action.equals(ConfirmPanel.A_OK))
 		{
+			isCancel = false;
 			if(dfield != null)
 				dfield.setText(txtCalc.getValue());
 			else if (field != null)
@@ -304,7 +308,9 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		this.cashOut = cashOut;
 	}
 
-
+	public boolean isCancel(){
+		return isCancel;
+	}
 	public BigDecimal getCashOut() {
 		return cashOut;
 	}
