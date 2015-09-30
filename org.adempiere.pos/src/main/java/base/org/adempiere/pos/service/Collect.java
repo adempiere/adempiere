@@ -34,7 +34,8 @@ import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
 /**
- * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Aug 24, 2015, 10:17:04 PM
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *
  */
 public class Collect {
@@ -42,7 +43,6 @@ public class Collect {
 	/**
 	 * 
 	 * *** Constructor ***
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param ctx
 	 * @param m_Order
 	 * @param m_M_POS_ID
@@ -58,7 +58,6 @@ public class Collect {
 	/**
 	 * 
 	 * *** Constructor ***
-	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Sep 20, 2015, 11:15:51 PM
 	 * @param ctx
 	 * @param m_Order
 	 * @param m_POS
@@ -96,7 +95,6 @@ public class Collect {
 
 	/**
 	 * Add New Collect
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param detail
 	 * @return void
 	 */
@@ -106,7 +104,6 @@ public class Collect {
 	
 	/**
 	 * Remove a Collect  Detail
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param detail
 	 * @return void
 	 */
@@ -115,8 +112,18 @@ public class Collect {
 	}
 	
 	/**
+	 * Remove all Collect Details
+	 * @param none
+	 * @return void
+	 */
+	public void removeAllCollectDetails() {
+		int lenght = m_Collects.size();
+		for(int i=lenght-1; i>=0;i--)
+			m_Collects.remove(i);
+	}
+	
+	/**
 	 * Get Payment Amount
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return BigDecimal
 	 */
@@ -132,7 +139,6 @@ public class Collect {
 	
 	/**
 	 * Add Cash Collect
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param m_PayAmt
 	 * @return void
 	 */
@@ -154,7 +160,6 @@ public class Collect {
 	
 	/**
 	 * Add Check Collect
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param m_PayAmt
 	 * @param m_CheckNo
 	 * @param m_C_Bank_ID
@@ -179,7 +184,6 @@ public class Collect {
 	
 	/**
 	 * Find a Check
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param m_CheckNo
 	 * @return
 	 * @return int
@@ -198,8 +202,100 @@ public class Collect {
 	}
 	
 	/**
+	 * Is there at least one cash payment
+	 * @param none
+	 * @return position of first cash or -1
+	 */
+	public int isExistCash() {
+		for(int i = 0; i < m_Collects.size(); i++) {
+			CollectDetail m_Collect = m_Collects.get(i);
+			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)) {
+				return i;
+			}
+		}
+		return -1; // No Credit cash found
+	}
+	
+	/**
+	 * Is there only one Cash payment
+	 * @param none
+	 * @return true if there is only one payment and it is a cash
+	 */
+	public boolean isExistOnlyOneCash() {
+		int count = 0;
+		for(int i = 0; i < m_Collects.size(); i++) {
+			CollectDetail m_Collect = m_Collects.get(i);
+			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)) {
+				count = count+1;
+			}
+		}
+		return (count==1 && m_Collects.size()==1);
+	}
+	
+	/**
+	 * Is there a Credit Card payment
+	 * @param none
+	 * @return position of first credit card or -1
+	 */
+	public int isExistCreditCard() {
+		for(int i = 0; i < m_Collects.size(); i++) {
+			CollectDetail m_Collect = m_Collects.get(i);
+			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {
+				return i;
+			}
+		}
+		return -1; // No Credit card found
+	}
+	
+	/**
+	 * Is there only one Credit Card payment
+	 * @param none
+	 * @return true if there is only one payment and it is a credit card
+	 */
+	public boolean isExistOnlyOneCreditCard() {
+		int count = 0;
+		for(int i = 0; i < m_Collects.size(); i++) {
+			CollectDetail m_Collect = m_Collects.get(i);
+			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {
+				count = count+1;
+			}
+		}
+		return (count==1 && m_Collects.size()==1);
+	}
+	
+	/**
+	 * Is there a Check
+	 * @param none
+	 * @return position of first check or -1
+	 */
+	public int isExistCheck() {
+		for(int i = 0; i < m_Collects.size(); i++) {
+			CollectDetail m_Collect = m_Collects.get(i);
+			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {
+				return i;
+			}
+		}
+		return -1; // No Check found
+	}
+	
+	/**
+	 * Is there only one Check payment
+	 * @param none
+	 * @return true if there is only one payment and it is a check
+	 */
+	public boolean isExistOnlyOneCheck() {
+		int count = 0;
+		for(int i = 0; i < m_Collects.size(); i++) {
+			CollectDetail m_Collect = m_Collects.get(i);
+			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {
+				count = count+1;
+			}
+		}
+		return (count==1 && m_Collects.size()==1);
+	}
+	
+	/**
 	 * Find Cash
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return int
 	 */
@@ -367,7 +463,6 @@ public class Collect {
 	
 	/**
 	 * Validate Payments
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return String
 	 */
@@ -584,5 +679,14 @@ public class Collect {
 
 	public void setReturnAmt(BigDecimal returnAmt) {
 		this.returnAmt = returnAmt;
+	}
+	
+	/**
+	 * Get number of payment details
+	 * @return Quantity of payment details
+	 * @return int 
+	 */
+	public int getDetailQty() {
+		return m_Collects.size();
 	}
 }

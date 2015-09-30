@@ -442,6 +442,7 @@ public class VCollectDetail extends CollectDetail
 			setPayAmt((BigDecimal) fPayAmt.getValue());
 			v_Parent.refreshPanel();
 		}
+		v_Parent.refreshPanel();
 	}
 
 	@Override

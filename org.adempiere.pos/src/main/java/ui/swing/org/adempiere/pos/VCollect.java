@@ -368,12 +368,25 @@ public class VCollect extends Collect
 			fIsPrePayment.setSelected(false);
 			if(fIsCreditOrder.isSelected()) {				
 				bPlus.setVisible(false);  // TODO setEnable(false) doesn't work!!
+				removeAllCollectDetails();  // TODO update details panel
+				for(Component comp: v_CenterPanel.getComponents())
+					v_CenterPanel.remove(comp);
+				v_ScrollPanel.validate();
+				v_ScrollPanel.repaint();
+				calculatePanelData();
 				bOk.setEnabled(true);
 			}
-			else 
-				bPlus.setVisible(true);
+			else {
+				if(validatePayment()==null) {
+					bPlus.setEnabled(true);
+					bPlus.setVisible(true);
+				}
+				else
+					bPlus.setVisible(false);
+			}
 		} else if(e.getSource().equals(fIsPrePayment)) {	//	For Pre-Payment Order Checked
 			fIsCreditOrder.setSelected(false);
+			bPlus.setEnabled(true);
 			bPlus.setVisible(true);   // TODO setEnable(true) doesn't work!!
 		}
 		//	Valid Panel
@@ -416,16 +429,7 @@ public class VCollect extends Collect
 
 	@Override
 	public void refreshPanel() {
-		//	Get from controller
-		BigDecimal m_PayAmt = getPayAmt();
-		//	
-		m_Balance = v_POSPanel.getOpenAmt().subtract(m_PayAmt);
-		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
-		//	Change View
-		fGrandTotal.setText(m_Format.format(v_POSPanel.getOpenAmt()));
-		fPayAmt.setText(m_Format.format(m_PayAmt));
-		fReturnAmt.setText(m_Format.format(m_Balance));
-		//	
+		calculatePanelData();
 		changeViewPanel();
 	}
 
@@ -458,15 +462,70 @@ public class VCollect extends Collect
 				bOk.setEnabled(false);
 			
 		} else if(fIsPrePayment.isSelected()) {
-			if(getPayAmt().doubleValue() > 0) {
+			if(getPayAmt().doubleValue() > 0 && validatePayment()==null) {
 				bOk.setEnabled(true);
 			} else {
 				bOk.setEnabled(false);
 			}
-		} else if(m_Balance.doubleValue() <= 0) {
-			bOk.setEnabled(true);
-		} else {
+		} else if(isExistOnlyOneCreditCard() || isExistOnlyOneCheck()) {
+			// if payment consists of only one credit card or only one cash -> payment amount must be exact
+			if(validatePayment()==null) {
+				if(v_POSPanel.getOpenAmt().compareTo(getPayAmt())==0)
+					bOk.setEnabled(true);
+				else
+					bOk.setEnabled(false);				
+			}
+			else
+				bOk.setEnabled(false);
+		} else if(getDetailQty()>1 && isExistCash()==-1) {
+			// There is more than one payment and none is cash
+			if(m_Balance.doubleValue()== 0) {
+				// the amounts match exactly
+				if (validatePayment()==null)
+					bOk.setEnabled(true);
+				else
+					bOk.setEnabled(false);	
+			}
+			else
+				bOk.setEnabled(false);	
+		} else if(getDetailQty()>1 && isExistCash()!=-1) {
+			// There is more than one payment and there is at least one cash
+			if(m_Balance.doubleValue()<= 0) {
+				// the amounts match exactly
+				if (validatePayment()==null)
+					bOk.setEnabled(true);
+				else
+					bOk.setEnabled(false);	
+			}
+			else
+				bOk.setEnabled(false);	
+		} else if(!(m_Balance.doubleValue()<=0 && validatePayment()==null)) {
+			// Not enough payment(s) or invalid payment(s)
 			bOk.setEnabled(false);
-		}
+		} else if (getDetailQty()==0) { // no details -> disable button
+			bOk.setEnabled(false);
+		} else
+			bOk.setEnabled(true);
 	}
-}
+	
+	public BigDecimal getM_Balance() {
+		return m_Balance;
+	}
+
+	public void setM_Balance(BigDecimal m_Balance) {
+		this.m_Balance = m_Balance;
+	}
+	
+	public void calculatePanelData() {
+		//	Get from controller
+		BigDecimal m_PayAmt = getPayAmt();
+		//	
+		m_Balance = v_POSPanel.getOpenAmt().subtract(m_PayAmt);
+		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
+		//	Change View
+		fGrandTotal.setText(m_Format.format(v_POSPanel.getOpenAmt()));
+		fPayAmt.setText(m_Format.format(m_PayAmt));
+		fReturnAmt.setText(m_Format.format(m_Balance));
+	}
+
+} // VCollect
