@@ -491,7 +491,7 @@ public class VCollect extends Collect
 		} else if(getDetailQty()>1 && isExistCash()!=-1) {
 			// There is more than one payment and there is at least one cash
 			if(m_Balance.doubleValue()<= 0) {
-				// the amounts match exactly
+				// the amounts are equal or higher than required
 				if (validatePayment()==null)
 					bOk.setEnabled(true);
 				else
