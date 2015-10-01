@@ -19,6 +19,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Center;
+import org.zkoss.zul.Style;
 
 public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListener, I_POSPanel,FocusListener {
 	
@@ -100,6 +101,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 		m_table.addActionListener(this);
 		center.setStyle("border: none; height:95%;");
 		m_table.loadTable(new PO[0]);
+		m_table.setClass("Table-OrderLine");
 		
 		appendChild(center);
 	}
@@ -148,11 +150,13 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 				Integer id = (Integer) ((IDColumn)data).getRecord_ID();
 				m_C_OrderLine_ID = id;
 			}
+		}else {
+			return;
 		}
 		int id = m_table.getSelectedRow();
-		ListModelTable model = m_table.getModel();
 		
 			if (id != -1) {	
+				ListModelTable model = m_table.getModel();
 				IDColumn key = (IDColumn) model.getValueAt(id, 0);
 				m_table.getModel().removeTableModelListener(this);			
 			if ( key != null &&  key.getRecord_ID() != m_C_OrderLine_ID )
@@ -172,11 +176,19 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 					} 
 					m_table.getModel().setValueAt(grandTotal, id, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
 					if(qty.compareTo(Env.ZERO) <= 0){
-								line.delete(true);	
+						line.delete(true);
+						if(m_table.getRowCount() == 1){
+							m_table.getModel().remove(row);
+							m_TableHandle.loadTable(v_POSPanel.getC_Order_ID());
+						
+						}
+						
 					}
 					v_POSPanel.reloadOrder();
 					v_POSPanel.refreshPanel();
 					m_table.getModel().addTableModelListener(this);
+					
+					return;
 				}
 			}
 			

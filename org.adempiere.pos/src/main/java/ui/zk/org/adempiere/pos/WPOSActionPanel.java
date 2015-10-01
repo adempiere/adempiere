@@ -82,7 +82,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		Borderlayout detailPanel = new Borderlayout();
 		Grid parameterLayout = GridFactory.newGridLayout();
 		Borderlayout fullPanel = new Borderlayout();
-		Grid parameterLayout3 = GridFactory.newGridLayout();
+		Grid LayoutButton = GridFactory.newGridLayout();
 		Rows rows = null;
 		Row row = null;	
 		North north = new North();
@@ -104,15 +104,15 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		center.appendChild(detailPanel);
 		north = new North();
 		north.setStyle("border: none");
-		detailPanel.setHeight("40%");
+		detailPanel.setHeight("45%");
 		detailPanel.setWidth("50%");
 		detailPanel.appendChild(north);
 		
-		north.appendChild(parameterLayout3);
-		parameterLayout3.setWidth("100%");
-		parameterLayout3.setHeight("100%");
-		rows = parameterLayout3.newRows();
-		parameterLayout3.setStyle("border:none");
+		north.appendChild(LayoutButton);
+		LayoutButton.setWidth("100%");
+		LayoutButton.setHeight("100%");
+		rows = LayoutButton.newRows();
+		LayoutButton.setStyle("border:none");
 		row = rows.newRow();
 		row.setHeight("60px");
 
