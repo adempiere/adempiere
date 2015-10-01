@@ -3,6 +3,7 @@ package org.adempiere.pos;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -29,15 +30,14 @@ import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Caption;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Panelchildren;
+import org.zkoss.zul.Style;
 
 public class WCollectDetail extends CollectDetail implements EventListener, I_POSPanel {
 	
 	private String 			m_TenderType;
-	private Div 			v_Div; 
 	private Grid 			v_StandarPanel;
 	private Grid 			v_CheckPanel;
 	private Grid 			v_CreditPanel;
@@ -52,6 +52,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	private WPosTextField 	fCheckNo;
 	private Label 			lCheckNo;
 	private Label 			lCheckRouteNo;
+	private DateFormat 		dateFormat;
 	
 	/**	Credit Card			*/
 	private WPosTextField 	fCCardNo;
@@ -230,6 +231,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		fCreditCardExpMM.setName("CreditCardExpMM");
 		fCreditCardExpMM.addActionListener(this);
 		fCreditCardExpMM.setStyle(HEIGHT+"width:"+75+"px;"+FONT_SIZE);
+		
 		//	For Card Year
 		fCreditCardExpYY = ListboxFactory.newDropdownListbox();
 		data = getCCYears();
@@ -355,6 +357,8 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
+
+		 
 		if(e.getTarget().equals(bMinus)){
 			v_Parent.removeCollectDetail(this);
 		}
@@ -362,37 +366,55 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 			String m_TenderType =  ((ValueNamePair) fTenderType.getValue()).getID();
 			setTenderType(m_TenderType);
 			changeViewPanel();
+		}else if(e.getTarget().equals(fCheckdate)){
+			//	TODO add support to controller to be define
+//			dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//			String hourString = dateFormat.format(fCheckdate.getValue());
+//			Timestamp dateTrx = Timestamp.valueOf(hourString);
+//			setDateTrx(dateTrx);
 		}
 		else if(e.getName().equals("onFocus")){
 			if(e.getTarget().equals(fCheckNo)) {
 				 showKeyboard(fCheckNo,lCheckNo);
+				 setReferenceNo(fCheckNo.getText());
 			}
 			else if(e.getTarget().equals(fCheckRouteNo)) {
 				showKeyboard(fCheckRouteNo,lCheckRouteNo);
+				setRoutingNo(fCheckRouteNo.getText());
 			}
 			else if(e.getTarget().equals(fDebitRoutingNo)) {
 				showKeyboard(fDebitRoutingNo,lDebitRoutingNo);
+				setRoutingNo(fDebitRoutingNo.getText());
 			}
 			else if(e.getTarget().equals(fDebitCVC)) {
 				showKeyboard(fDebitCVC,lDebitCVC);
 			}
 			else if(e.getTarget().equals(fDebitCountry)) {
 				showKeyboard(fDebitCountry,lDebitCountry);
+				setA_Country(fDebitCountry.getText());
 			}
 			else if(e.getTarget().equals(fCCardNo)) {
 				showKeyboard(fCCardNo,lCCardNo);
+				setCreditCardNumber(fCCardNo.getText());
 			}
 			else if(e.getTarget().equals(fCCardName)) {
 				showKeyboard(fCCardName,lCCardName);
+				setA_Name(fCCardName.getText());
 			}
 			else if(e.getTarget().equals(fCCardVC)) {
 				showKeyboard(fCCardVC,lCCardVC);
+				setCreditCardVV(fCCardVC.getText());
 			}
+		}else if(e.getTarget().equals(fCCardType)) {
+			setCreditCardType((String) fCCardType.getValue());
 		}
 		else {
 			setPayAmt((BigDecimal) fPayAmt.getValue());
 			v_Parent.refreshPanel();
 		}
+
+		setCreditCardExpMM((String)fCreditCardExpMM.getValue());
+		setCreditCardExpYY((String)fCreditCardExpYY.getValue());
 	}
 	
 	/**
@@ -403,15 +425,15 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	private void init() {
 		v_MainPanel = new Panel();
 		v_PanelChildren = new Panelchildren();
-		v_Div = new Div();
 
 		groupPanel = new Groupbox();
-		v_PanelChildren.appendChild(v_Div);
 
 		v_PanelChildren.appendChild(groupPanel);
 
 		v_TitleBorder = new Caption("Credit Card");
-		v_TitleBorder.setStyle("Font-size:13pt");
+		Style style = new Style();
+		style.setContent(".z-fieldset legend {background-color:#FFF;font-size: medium; font-weight:bold;}");
+		style.setParent(v_TitleBorder);
 		groupPanel.appendChild(v_TitleBorder);
 		v_MainPanel.appendChild(v_PanelChildren);
 		

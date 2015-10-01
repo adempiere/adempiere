@@ -10,7 +10,6 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.window.FDialog;
@@ -26,7 +25,13 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Caption;
+import org.zkoss.zul.Groupbox;
+import org.zkoss.zul.Panel;
+import org.zkoss.zul.Panelchildren;
 import org.zkoss.zul.Space;
+import org.zkoss.zul.Style;
+
 
 public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_POSPanel{
 
@@ -49,12 +54,18 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	private Label	 		f_GrandTotal;
 	private Label 			f_SalesRep_Name;
 	private Label	 		f_DocumentNo;
-	private Panel 			card;
+	private Panel			card;
 	/**	Format				*/
 	private DecimalFormat	m_Format;
 	/**	Logger				*/
 	private static CLogger 	log = CLogger.getCLogger(WPOSProductPanel.class);
-	private int cont; 
+	private int cont;
+	private Caption 		v_TitleBorder;
+	private Groupbox 		v_GroupPanel;
+	private Grid 			v_StandarPanel;
+
+	private Panelchildren 	v_PanelChildren;
+	private MUser 			salesRep;
 	@Override
 	public void init(){
 		int C_POSKeyLayout_ID = p_pos.getC_POSKeyLayout_ID();
@@ -65,28 +76,37 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		card = new Panel();
 		card.setWidth("100%");
 		card.setHeight("100%");
-		North north = new North();
-		Grid eastLayout = GridFactory.newGridLayout();
-		Grid layout = GridFactory.newGridLayout();
+		v_StandarPanel = GridFactory.newGridLayout();
+		v_StandarPanel.setWidth("100%");
+		v_StandarPanel.setHeight("100%");
+
+		v_GroupPanel = new Groupbox();
+		v_GroupPanel.appendChild(v_StandarPanel);
+		
+		v_PanelChildren = new Panelchildren();
+
+
+		v_PanelChildren.appendChild(v_GroupPanel);
+		salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
+		v_TitleBorder = new Caption(salesRep.getName()+"[]");
+		Style style = new Style();
+		style.setContent(".z-fieldset legend {font-size: medium; font-weight:bold;}");
+		style.setParent(v_TitleBorder);
+		v_GroupPanel.appendChild(v_TitleBorder);
+		card.appendChild(v_PanelChildren);
+
 		Rows rows = null;
-		Row row = null;		
+		Row row = null;
+		rows = v_StandarPanel.newRows();
+
+		North north = new North();
+		Grid layout = GridFactory.newGridLayout();
+		
 		north.appendChild(card);
-		eastLayout.setWidth("100%");
-		eastLayout.setHeight("143px");
-		rows = eastLayout.newRows();
-		eastLayout.setStyle("border:none");
-		north.setStyle("border: none; width:60%");
+		north.setStyle("border: none; width:50%");
 		//
 		row = rows.newRow();
 		row.setHeight("10px");
-		// DOC NO
-		Label docNo = new Label(Msg.getMsg(Env.getCtx(),"DocumentNo")+":");
-		row.appendChild (docNo.rightAlign());
-
-		docNo.setStyle("Font-size:medium; font-weight:700");
-		f_DocumentNo = new Label();
-		f_DocumentNo.setStyle("Font-size:medium");
-		row.appendChild(f_DocumentNo);
 
 		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
 		lNet.setStyle("Font-size:medium; font-weight:700");
@@ -99,14 +119,6 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		
 		row = rows.newRow();
 		row.setHeight("30px");
-		// SALES REP
-		Label l_SalesRep = new Label(Msg.translate(Env.getCtx(), "POS.SalesRep_ID")+":");
-		row.appendChild(l_SalesRep.rightAlign());
-		l_SalesRep.setStyle("Font-size:medium; font-weight:700");
-		MUser salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
-		f_SalesRep_Name = new Label(salesRep.getName());
-		f_SalesRep_Name.setStyle("Font-size:medium");
-		row.appendChild (f_SalesRep_Name);
 		
 		Label lTax = new Label (Msg.translate(Env.getCtx(), "C_Tax_ID")+":");
 		lTax.setStyle("Font-size:medium; font-weight:700");
@@ -117,16 +129,12 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		f_TaxAmount.setText(Env.ZERO.toString());
 		
 		row = rows.newRow();
-		row.appendChild(new Space());		
-		row.appendChild(new Space());		
 		row.appendChild(new Space());
 		row.setHeight("5px");
 		Label line = new Label ("____________________");
 		row.appendChild(line.rightAlign());
 		
 		row = rows.newRow();
-		row.appendChild(new Space());		
-		row.appendChild(new Space());
 		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
 		lTotal.setStyle("Font-size:medium; font-weight:700");
 		row.appendChild(lTotal.rightAlign());
@@ -134,10 +142,9 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		row.appendChild(f_GrandTotal.rightAlign());
 		f_GrandTotal.setText(Env.ZERO.toString());
 		f_GrandTotal.setStyle("Font-size:medium");
-		row.setWidth("25%");
-		card.appendChild(eastLayout);
+		row.setWidth("15%");
 		f_ProductName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
-		f_ProductName.setWidth("80%");
+		f_ProductName.setWidth("100%");
 		f_ProductName.setHeight("35px");
 		f_ProductName.setName("Name");
 		f_ProductName.setReadonly(true);
@@ -152,7 +159,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		Center center = new Center();
 		center.setStyle("border: none; overflow-y:auto;overflow-x:hidden;");
 		appendChild(center);
-		Panel centerPanel = new Panel();
+		org.adempiere.webui.component.Panel centerPanel = new org.adempiere.webui.component.Panel();
 		center.appendChild(centerPanel);
 		centerPanel.appendChild(layout);
 		layout.setWidth("100%");
@@ -187,8 +194,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 			BigDecimal m_GrandTotal = v_POSPanel.getGrandTotal();
 			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
 			//	Set Values
-			f_DocumentNo.setText(v_POSPanel.getDocumentNo());
-			f_SalesRep_Name.setText(v_POSPanel.getSalesRepName());
+			v_TitleBorder.setLabel(v_POSPanel.getSalesRepName() + "[" + v_POSPanel.getDocumentNo() + "]");
 			f_TotalLines.setText(m_Format.format(m_TotalLines));
 			f_GrandTotal.setText(m_Format.format(m_GrandTotal));
 			f_TaxAmount.setText(m_Format.format(m_TaxAmt));

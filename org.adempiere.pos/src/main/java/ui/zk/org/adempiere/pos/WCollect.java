@@ -145,7 +145,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		mainLayout.appendChild(north);
 		north.appendChild(eastPanel);
 		eastPanel.appendChild(eastlayout);
-		eastlayout.setWidth("400px");
+		eastlayout.setWidth("100%");
 		eastlayout.setHeight("100%");
 		
 		rows = eastlayout.newRows();
@@ -214,7 +214,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		mainLayout.appendChild(center);
 		center.appendChild(centerPanel);
 		centerPanel.appendChild(layout);
-		layout.setWidth("400px");
+		layout.setWidth("100%");
 		layout.setHeight("100%");
 		layout.setStyle("overflow:auto;");
 		v_Window.appendChild(mainPanel);
