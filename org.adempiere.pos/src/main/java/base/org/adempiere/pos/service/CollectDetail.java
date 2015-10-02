@@ -156,6 +156,7 @@ public class CollectDetail {
 	protected CollectDetail(String m_TenderType, BigDecimal m_PayAmt) {
 		this.m_TenderType = m_TenderType;
 		this.m_PayAmt = m_PayAmt;
+		m_CreditCardType = X_C_Payment.CREDITCARDTYPE_MasterCard;
 	}
 	
 	/**

@@ -180,6 +180,7 @@ public class VCollectDetail extends CollectDetail
 		fCheckNo.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		fCheckNo.setFont(font);
 		fCheckNo.addKeyListener(this);
+		fCheckNo.addActionListener(this);
 		// For Check Route No
 		String m_RoutingNo = Msg.translate(p_ctx, "RoutingNo");
 		fCheckRoutingNo = new POSTextField(m_RoutingNo, keyboard);
@@ -187,6 +188,7 @@ public class VCollectDetail extends CollectDetail
 		fCheckRoutingNo.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		fCheckRoutingNo.setFont(font);
 		fCheckRoutingNo.addKeyListener(this);
+		fCheckRoutingNo.addActionListener(this);
 		//	For Check Date
 		String langName = Env.getAD_Language(p_ctx);
 		Language language = Language.getLanguage(langName);
@@ -198,6 +200,7 @@ public class VCollectDetail extends CollectDetail
 		fCheckDate.setFormat();	
 		fCheckDate.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		fCheckDate.setFont(font);
+		fCheckDate.addActionListener(this);
 		//	Add To Panel
 		v_CheckPanel.add(fCheckRoutingNo,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
@@ -222,6 +225,7 @@ public class VCollectDetail extends CollectDetail
 		fDebitRoutingNo.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		fDebitRoutingNo.setFont(font);
 		fDebitRoutingNo.addKeyListener(this);
+		fDebitRoutingNo.addActionListener(this);
 		//	For CVC
 		String m_R_CVV2Match = Msg.translate(p_ctx, "R_CVV2Match");
 		fDebitCVC = new POSTextField(m_R_CVV2Match, keyboard);
@@ -229,6 +233,7 @@ public class VCollectDetail extends CollectDetail
 		fDebitCVC.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		fDebitCVC.setFont(font);
 		fDebitCVC.addKeyListener(this);
+		fDebitCVC.addActionListener(this);
 		//	For Country
 		String m_A_Country = Msg.translate(p_ctx, "A_Country");
 		fDebitCountry = new POSTextField(m_A_Country, keyboard);
@@ -236,6 +241,7 @@ public class VCollectDetail extends CollectDetail
 		fDebitCountry.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		fDebitCountry.setFont(font);
 		fDebitCountry.addKeyListener(this);
+		fDebitCountry.addActionListener(this);
 		//	Add to Panel
 		v_DebitPanel.add(fDebitRoutingNo,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
@@ -270,6 +276,7 @@ public class VCollectDetail extends CollectDetail
 		fCreditCardNumber.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		fCreditCardNumber.setFont(font);
 		fCreditCardNumber.addKeyListener(this);
+		fCreditCardNumber.addActionListener(this);
 		//	For Card Name
 		String m_A_Name = Msg.translate(p_ctx, "A_Name");
 		fA_Name = new POSTextField(m_A_Name, v_Parent.getKeyboard());
@@ -277,6 +284,7 @@ public class VCollectDetail extends CollectDetail
 		fA_Name.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		fA_Name.setFont(font);
 		fA_Name.addKeyListener(this);
+		fA_Name.addActionListener(this);
 		//	For Card Month
 		fCreditCardExpMM = new VComboBox(getCCMonths());
 		fCreditCardExpMM.setName("CreditCardExpMM");
@@ -304,6 +312,7 @@ public class VCollectDetail extends CollectDetail
 		fCreditCardVV.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		fCreditCardVV.setFont(font);
 		fCreditCardVV.addKeyListener(this);
+		fCreditCardVV.addActionListener(this);
 		//	Add to Panel
 		v_CreditPanel.add(fCreditCardType,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
@@ -357,6 +366,7 @@ public class VCollectDetail extends CollectDetail
 				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
 		//	Change View
 		fTenderType.setValue(getTenderType());
+		fCreditCardType.setValue(getCreditCardType());
 		fPayAmt.setValue(getPayAmt());
 		//	
 		changeViewPanel();
@@ -376,6 +386,19 @@ public class VCollectDetail extends CollectDetail
 			String m_TenderType = ((String)(value != null? value: 0));
 			setTenderType(m_TenderType);
 			changeViewPanel();
+		} else if(name.equals("CreditCardType")) {
+			setCreditCardType((String) fCreditCardType.getValue());
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(bMinus)) {
+			v_Parent.removeCollectDetail(this);
+		} else if(e.getSource().equals(fCreditCardExpMM)) {
+			setCreditCardExpMM((String)fCreditCardExpMM.getValue());
+		} else if(e.getSource().equals(fCreditCardExpYY)) {
+			setCreditCardExpYY((String)fCreditCardExpYY.getValue());
 		} else if(e.getSource().equals(fCheckNo)) {	//	For Check
 			setReferenceNo(fCheckNo.getText());
 		} else if(e.getSource().equals(fCheckRoutingNo)) {
@@ -388,25 +411,12 @@ public class VCollectDetail extends CollectDetail
 			//	TODO add support to controller to be define
 		} else if(e.getSource().equals(fDebitCountry)) {
 			setA_Country(fDebitCountry.getText());
-		} else if(name.equals("CreditCardType")) {
-			setCreditCardType((String) fCreditCardType.getValue());
-		} else if(e.getSource().equals(fCreditCardNumber)) {
+		} else if(e.getSource().equals(fCreditCardNumber)) {	//	For Credit Card
 			setCreditCardNumber(fCreditCardNumber.getText());
 		} else if(e.getSource().equals(fA_Name)) {
 			setA_Name(fA_Name.getText());
 		} else if(e.getSource().equals(fCreditCardVV)) {
 			setCreditCardVV(fCreditCardVV.getText());
-		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(bMinus)) {
-			v_Parent.removeCollectDetail(this);
-		} else if(e.getSource().equals(fCreditCardExpMM)) {
-			setCreditCardExpMM((String)fCreditCardExpMM.getValue());
-		} else if(e.getSource().equals(fCreditCardExpYY)) {
-			setCreditCardExpYY((String)fCreditCardExpYY.getValue());
 		}
 	}
 
@@ -422,6 +432,10 @@ public class VCollectDetail extends CollectDetail
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		//	Validate for just L=letter digit
+		if(!Character.isLetterOrDigit(e.getKeyChar())) {
+			e.consume();
+		}
 		if(e.getSource().equals(fCheckNo)) {	//	For Check
 			setReferenceNo(fCheckNo.getText());
 		} else if(e.getSource().equals(fCheckRoutingNo)) {
