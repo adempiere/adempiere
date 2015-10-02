@@ -74,6 +74,7 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 	protected MPOS p_pos = null;
 
 	private Button f_New;
+	public Button f_Edit;
 	
 	public WPosQuery() throws HeadlessException {
 		super();
@@ -84,6 +85,7 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 	 */
 	protected void addNewAction() {
 		f_New.setVisible(true);
+		f_Edit.setVisible(true);
 	}
 	
 	/**
@@ -184,6 +186,11 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 		buttonsPanel.appendChild(f_New);
 		f_New.addActionListener(this);
 
+		f_Edit = createButtonAction("Edit", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
+		f_Edit.setId("Edit");
+		buttonsPanel.appendChild(f_Edit);
+		f_Edit.addActionListener(this);
+		
 		f_Reset = createButtonAction("Reset", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
 		buttonsPanel.appendChild(f_Reset);
 		f_Reset.setId("Reset");
@@ -203,6 +210,7 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 		f_Ok.setTooltiptext(Msg.translate(p_ctx, "Ok"));
 		f_Cancel.setTooltiptext(Msg.translate(p_ctx, "Cancel"));
 		f_New.setTooltiptext(Msg.translate(p_ctx, "New"));
+		f_Edit.setTooltiptext(Msg.translate(p_ctx, "Edit"));
 		f_Refresh.setTooltiptext(Msg.translate(p_ctx, "Refresh"));
 		row.appendChild(buttonsPanel);
 		//	Center
@@ -211,6 +219,8 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 		m_table.addActionListener(this);
 		//	Visible New
 		f_New.setVisible(false);
+		f_Edit.setVisible(false);
+		f_Edit.setEnabled(false);
 	}
 
 	/**

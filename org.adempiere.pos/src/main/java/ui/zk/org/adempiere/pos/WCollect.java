@@ -167,6 +167,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		Label fsLabel = new Label(Msg.translate(p_ctx, "PayAmt")+":");
 		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		fPayAmt = new Label();
+		fPayAmt.setText(getPrePayAmt().toString());
 		row.appendChild(fsLabel.rightAlign());
 		row.appendChild(fPayAmt.rightAlign());
 		fPayAmt.setStyle(FONT_SIZE);
@@ -311,7 +312,12 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 				FDialog.warn(0, Msg.parseTranslation(p_ctx, validResult));
 				return;
 			}
-					//	
+					//
+
+			v_POSPanel.setOrder(0);
+			v_POSPanel.setC_BPartner_ID(0);
+			v_POSPanel.refreshPanel();
+			
 			v_Window.dispose();
 			return;
 		}
@@ -353,10 +359,15 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 			setReturnAmt(new BigDecimal(fReturnAmt.getValue()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if(v_POSPanel.processOrder(trxName)) {
-						processPayment(trxName);
-					} else {
-						throw new POSaveFailedException(v_POSPanel.getProcessMsg());
+					String msg = validatePayment();
+					if(msg == null){
+						if(v_POSPanel.processOrder(trxName)) {
+							processPayment(trxName);
+						} else {
+							throw new POSaveFailedException(v_POSPanel.getProcessMsg());
+						}
+					} else{
+						FDialog.warn(0, Msg.parseTranslation(p_ctx, msg));
 					}
 				}
 			});
@@ -406,7 +417,8 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	public void refreshPanel() {
 		//	Get from controller
 		BigDecimal m_PayAmt = getPayAmt();
-		//	
+		//
+		m_PayAmt= m_PayAmt.add(getPrePayAmt());
 		m_Balance = v_POSPanel.getGrandTotal().subtract(m_PayAmt);
 		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
 		//	Change View

@@ -10,16 +10,13 @@ import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
-import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Center;
-import org.zkoss.zul.Style;
 
 public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListener, I_POSPanel,FocusListener {
 	
@@ -62,24 +59,6 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 	public static final int	POSITION_LINENETAMT 	= 5;
 	public static final int	POSITION_GRANDTOTAL 	= 7;
 	
-	/**	Table Column Layout Info	*/
-	private ColumnInfo[] s_layout = new ColumnInfo[] {
-		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), PRODUCTNAME), PRODUCTNAME, String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), QTYORDERED), QTYORDERED, BigDecimal.class, false, true, null),
-		new ColumnInfo(Msg.translate(Env.getCtx(), C_UOM_ID), "UOMSymbol", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), PRICEACTUAL), PRICEACTUAL, BigDecimal.class, false, true, null), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), LINENETAMT), LINENETAMT, BigDecimal.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class, true, true, null), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class,  true, true, null), 
-	};
-	
-	/**	From Clause					*/
-	private String 			s_sqlFrom = "POS_OrderLine_v";
-	/** Where Clause				*/
-	private String 			s_sqlWhere = "C_Order_ID=?";
-	/** The Query SQL				*/
-	private String			m_sql;
 
 	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(WPOSOrderLinePanel.class);
@@ -102,7 +81,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 		center.setStyle("border: none; height:95%;");
 		m_table.loadTable(new PO[0]);
 		m_table.setClass("Table-OrderLine");
-		
+		m_table.setColumnReadOnly(POSITION_QTYORDERED, true);
 		appendChild(center);
 	}
 
@@ -131,6 +110,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 			return;
 		log.info( "POSOrderLinePanel - actionPerformed: " + action);
 		if(arg0.getTarget().equals(m_table)){
+			m_table.setColumnReadOnly(POSITION_QTYORDERED, false);
 			return;
 		}
 		//	Product
@@ -177,12 +157,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 					m_table.getModel().setValueAt(grandTotal, id, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
 					if(qty.compareTo(Env.ZERO) <= 0){
 						line.delete(true);
-						if(m_table.getRowCount() == 1){
-							m_table.getModel().remove(row);
-							m_TableHandle.loadTable(v_POSPanel.getC_Order_ID());
-						
-						}
-						
+						m_table.setColumnReadOnly(POSITION_QTYORDERED, true);
 					}
 					v_POSPanel.reloadOrder();
 					v_POSPanel.refreshPanel();

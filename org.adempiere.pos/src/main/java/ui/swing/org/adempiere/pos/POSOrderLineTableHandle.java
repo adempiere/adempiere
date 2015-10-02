@@ -99,6 +99,7 @@ public class POSOrderLineTableHandle {
 				s_sqlWhere, false, TABLE_NAME);
 		m_Table.setColumnClass(POSITION_QTYORDERED, BigDecimal.class, false);
 		m_Table.setColumnClass(POSITION_PRICE, BigDecimal.class, false);
+		m_Table.setColumnClass(POSITION_GRANDTOTAL, BigDecimal.class, false);
 		//	Default Return
 		return true;
 	}

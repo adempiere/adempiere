@@ -240,6 +240,7 @@ public class WQueryBPartner extends WPosQuery {
 		f_phone.setText(null);
 		f_city.setText(null);
 		setResults(new MBPartnerInfo[0]);
+		f_Edit.setEnabled(false);
 	}
 	
 	public void showKeyboard(Component  p_field, String eventName){
@@ -253,6 +254,7 @@ public class WQueryBPartner extends WPosQuery {
 			keyboard.setWidth("750px");
 			keyboard.setHeight("380px");
 			AEnv.showWindow(keyboard);
+			m_table.setFocus(true);
 		}
 	}
 	@Override
@@ -265,12 +267,27 @@ public class WQueryBPartner extends WPosQuery {
 		close();
 		return;
 	}
+	
+	public void editAction() {
+		WBPartner t = new WBPartner(1);
+		t.loadBPartner(m_C_BPartner_ID);
+		select();
+		AEnv.showWindow(t);
+		m_C_BPartner_ID = t.getC_BPartner_ID();
+		//	Close
+		close();
+		return;
+	}
 	@Override
 	public void onEvent(Event e) throws Exception {
 		
 //		Support for creating customers from the point of sale
 		if(e.getTarget().getId().equals("New")) {
 			newAction();
+			dispose();
+			return;
+		}else if(e.getTarget().getId().equals("Edit")) {
+			editAction();
 			dispose();
 			return;
 		}
@@ -293,7 +310,12 @@ public class WQueryBPartner extends WPosQuery {
 				close();
 			}
 			if(e.getTarget().getId().equals("Cancel")){
-				close();
+				v_POSPanel.setC_BPartner_ID(0);
+				v_POSPanel.getM_Order().saveEx();
+				dispose();
+			}
+			if(e.getTarget().equals(m_table)){
+				select();
 			}
 	}
 
@@ -310,11 +332,14 @@ public class WQueryBPartner extends WPosQuery {
 	@Override
 	protected void select() {
 		m_C_BPartner_ID = -1;
+		
 		int row = m_table.getSelectedRow();
 		boolean enabled = row != -1;
+		f_Edit.setEnabled(false);
 		if (enabled) {
 			Integer ID = m_table.getSelectedRowKey();
 			if (ID != null) {
+				f_Edit.setEnabled(true);
 				m_C_BPartner_ID = ID.intValue();
 			//	m_BPartnerName = (String)m_table.getValueAt(row, 2);
 			//	m_Price = (BigDecimal)m_table.getValueAt(row, 7);

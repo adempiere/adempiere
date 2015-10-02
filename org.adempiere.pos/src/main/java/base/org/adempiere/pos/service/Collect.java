@@ -29,6 +29,7 @@ import org.compiere.model.MPaymentProcessor;
 import org.compiere.model.MPaymentValidate;
 import org.compiere.model.X_C_Payment;
 import org.compiere.pos.AdempierePOSException;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
@@ -446,7 +447,19 @@ public class Collect {
 //				} 
 		}
 	}  // processPayment
+	/**
+	* Get PayAmt 
+	*/
+	public BigDecimal getPrePayAmt(){
+		String sql ="SELECT Sum(PayAmt) FROM C_Order o"
+				+ "	LEFT JOIN C_Payment p on p.C_order_ID = o.C_order_ID"
+				+ "	WHERE o.C_Order_ID = ?";
+		BigDecimal received = DB.getSQLValueBD(null, sql, m_Order.getC_Order_ID());
+		if ( received == null )
+			received = Env.ZERO;
 
+		return received;
+	}
 	/**
 	 * Duplicated from MPayment
 	 * 	Get Accepted Credit Cards for amount
