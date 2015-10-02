@@ -330,6 +330,7 @@ public class VCollectDetail extends CollectDetail
 		v_MainPanel = new CPanel(layout);
 		//	Set Border
 		v_TitleBorder = BorderFactory.createTitledBorder("Credit Card");
+		v_TitleBorder.setTitleColor(AdempierePLAF.getTextColor_Label());
 		v_MainPanel.setBorder(v_TitleBorder);
 		//	Load Standard Panel
 		loadStandardPanel();
@@ -356,6 +357,7 @@ public class VCollectDetail extends CollectDetail
 				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
 		//	Change View
 		fTenderType.setValue(getTenderType());
+		fPayAmt.setValue(getPayAmt());
 		//	
 		changeViewPanel();
 	}
@@ -440,7 +442,6 @@ public class VCollectDetail extends CollectDetail
 			setCreditCardVV(fCreditCardVV.getText());
 		} else {	//	TODO Add validation with name, it is resolved when implement KeyListener in VNumber
 			setPayAmt((BigDecimal) fPayAmt.getValue());
-			v_Parent.refreshPanel();
 		}
 		v_Parent.refreshPanel();
 	}
@@ -456,6 +457,14 @@ public class VCollectDetail extends CollectDetail
 		return null;
 	}
 
+	/**
+	 * Request Focus in Payment Amount Field
+	 * @return void
+	 */
+	public void requestFocusInPayAmt() {
+		fPayAmt.requestFocus();
+	}
+	
 	@Override
 	public void changeViewPanel() {
 		String p_TenderType = getTenderType();

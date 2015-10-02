@@ -78,7 +78,6 @@ public class VCollect extends Collect
 		v_POSPanel = posPanel;
 		m_ctx = v_POSPanel.getCtx();
 		collectRowNo = 0;
-		m_Balance = Env.ZERO;
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		init();
 	}
@@ -129,7 +128,6 @@ public class VCollect extends Collect
 	private boolean 		isPaid;
 	private Properties 		m_ctx;
 	private int 			collectRowNo;
-	private BigDecimal 		m_Balance;
 	private DecimalFormat	m_Format;
 	
 	/**	Log					*/
@@ -298,8 +296,12 @@ public class VCollect extends Collect
 		if(collectRowNo > 0) {
 			tenderType = X_C_Payment.TENDERTYPE_CreditCard;
 		}
+		//	FR https://github.com/erpcya/AD-POS-WebUI/issues/7
+		BigDecimal m_Balance = getBalance();
+		if(m_Balance.compareTo(Env.ZERO) < 0)
+			m_Balance = Env.ZERO;
 		//	
-		VCollectDetail collectDetail = new VCollectDetail(this, tenderType, Env.ZERO);
+		VCollectDetail collectDetail = new VCollectDetail(this, tenderType, getBalance());
 		//	Add Collect controller
 		addCollect(collectDetail);
 		// add parameter panel
@@ -308,6 +310,8 @@ public class VCollect extends Collect
 		//	Repaint
 		v_ScrollPanel.validate();
 		v_ScrollPanel.repaint();
+		//	Request Focus
+		collectDetail.requestFocusInPayAmt();
 		//	Add Count
 		collectRowNo++;
 	}
@@ -435,6 +439,7 @@ public class VCollect extends Collect
 
 	@Override
 	public String validatePanel() {
+		BigDecimal m_Balance = getBalance();
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			return "VCollect.MustCreateOrder";
 		} else if(fIsCreditOrder.isSelected()) {	//	For Credit Order
@@ -451,6 +456,7 @@ public class VCollect extends Collect
 
 	@Override
 	public void changeViewPanel() {
+		BigDecimal m_Balance = getBalance();
 		if(fIsCreditOrder.isSelected()) {
 			fIsPrePayment.setSelected(false);
 			bPlus.setEnabled(false);  // TODO substitute it with the correct command, because setEnable(false) doesn't work!!
@@ -514,16 +520,8 @@ public class VCollect extends Collect
 	 * @return BigDecimal
 	 */
 	private BigDecimal getBalance() {
-		return m_Balance;
-	}
-
-	/**
-	 * Set Balance
-	 * @param m_Balance
-	 * @return void
-	 */
-	private void setBalance(BigDecimal m_Balance) {
-		this.m_Balance = m_Balance;
+		BigDecimal m_PayAmt = getPayAmt();
+		return v_POSPanel.getOpenAmt().subtract(m_PayAmt);
 	}
 	
 	/**
@@ -533,9 +531,7 @@ public class VCollect extends Collect
 	private void calculatePanelData() {
 		//	Get from controller
 		BigDecimal m_PayAmt = getPayAmt();
-		//	
-		m_Balance = v_POSPanel.getOpenAmt().subtract(m_PayAmt);
-		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal m_Balance = getBalance();
 		//	Change View
 		fGrandTotal.setText(m_Format.format(v_POSPanel.getOpenAmt()));
 		fPayAmt.setText(m_Format.format(m_PayAmt));
