@@ -509,11 +509,6 @@ public class Collect {
 	 */
 	public void processPayment(String trxName) {
 		this.trxName = trxName;
-		//	Validate before init transaction
-		String paymentError = validatePayment();
-		if(paymentError != null) {
-			throw new AdempierePOSException(paymentError);
-		}
 		//	Iterate Payments methods
 		for(CollectDetail m_Collect : m_Collects) {
 			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)

@@ -298,7 +298,7 @@ public class VCollect extends Collect
 		}
 		//	FR https://github.com/erpcya/AD-POS-WebUI/issues/7
 		BigDecimal m_Balance = getBalance();
-		if(m_Balance.compareTo(Env.ZERO) < 0)
+		if(m_Balance.doubleValue() < 0)
 			m_Balance = Env.ZERO;
 		//	
 		VCollectDetail collectDetail = new VCollectDetail(this, tenderType, getBalance());
@@ -440,18 +440,19 @@ public class VCollect extends Collect
 	@Override
 	public String validatePanel() {
 		BigDecimal m_Balance = getBalance();
+		String errorMsg = null;
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
-			return "VCollect.MustCreateOrder";
-		} else if(fIsCreditOrder.isSelected()) {	//	For Credit Order
-			return null;
+			errorMsg = "VCollect.MustCreateOrder";
 		} else if(!fIsPrePayment.isSelected() 
 				&& m_Balance.doubleValue() > 0) {	//	For Pre-Payment Order
-			return "VCollect.OrderPayNotCompleted";
+			errorMsg = "VCollect.OrderPayNotCompleted";
 		} else if(m_Balance.doubleValue() > 0) {
-			return "VCollect.InsufficientOrderPaymentAmt";
+			errorMsg = "VCollect.InsufficientOrderPaymentAmt";
+		} else {
+			errorMsg = validatePayment();
 		}
 		//	
-		return null;
+		return errorMsg;
 	}
 
 	@Override
@@ -475,15 +476,15 @@ public class VCollect extends Collect
 			}
 		} else if(isExistOnlyOneCreditCard() || isExistOnlyOneCheck()) {
 			// if payment consists of only one credit card or only one cash -> payment amount must be exact
-			if(validatePayment()==null) {
+//			if(validatePayment()==null) {
 				if(v_POSPanel.getOpenAmt().compareTo(getPayAmt())==0)
 					bOk.setEnabled(true);
 				else
 					bOk.setEnabled(false);				
-			}
-			else
-				bOk.setEnabled(false);
-		} else if(getDetailQty()>1 && isExistCash()==-1) {
+//			}
+//			else
+//				bOk.setEnabled(false);
+		} else if(getDetailQty()>1 && isExistCash() == -1) {
 			// There is more than one payment and none is cash
 			if(m_Balance.doubleValue()== 0) {
 				// the amounts match exactly
@@ -494,18 +495,18 @@ public class VCollect extends Collect
 			}
 			else
 				bOk.setEnabled(false);	
-		} else if(getDetailQty()>1 && isExistCash()!=-1) {
+		} else if(getDetailQty() > 1 && isExistCash() != -1) {
 			// There is more than one payment and there is at least one cash
-			if(m_Balance.doubleValue()<= 0) {
+			if(m_Balance.doubleValue() <= 0) {
 				// the amounts are equal or higher than required
-				if (validatePayment()==null)
+				if (validatePayment() == null)
 					bOk.setEnabled(true);
 				else
 					bOk.setEnabled(false);	
 			}
 			else
 				bOk.setEnabled(false);	
-		} else if(!(m_Balance.doubleValue()<=0 && validatePayment()==null)) {
+		} else if(!(m_Balance.doubleValue() <= 0 && validatePayment() == null)) {
 			// Not enough payment(s) or invalid payment(s)
 			bOk.setEnabled(false);
 		} else if (getDetailQty()==0) { // no details -> disable button
@@ -538,7 +539,7 @@ public class VCollect extends Collect
 		//	BR https://github.com/erpcya/AD-POS-WebUI/issues/6
 		//	Show pretty Return Amount
 		BigDecimal m_ReturnAmt = Env.ZERO;
-		if(m_Balance.compareTo(Env.ZERO) < 0) {
+		if(m_Balance.doubleValue() < 0) {
 			m_ReturnAmt = m_Balance.abs();
 		}
 		fReturnAmt.setText(m_Format.format(m_ReturnAmt));

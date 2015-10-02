@@ -64,7 +64,6 @@ public class POSTextField extends JFormattedTextField
 	/**
 	 * Text field without keyboard
 	 * *** Constructor ***
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @param p_Title
 	 */
 	public POSTextField(String p_Title) {
@@ -72,7 +71,7 @@ public class POSTextField extends JFormattedTextField
 	}
 	
 	/**	Key Board				*/
-	private POSKeyboard m_Keyboard;
+	private POSKeyboard 	m_Keyboard;
 	/**	Place Holder			*/
 	private String 			m_PlaceHolder;
 	/**	Default Font			*/
