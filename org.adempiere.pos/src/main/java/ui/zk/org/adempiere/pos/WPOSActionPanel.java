@@ -175,7 +175,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		f_name.setWidth("100%");
 		f_name.setVisible(false);
 		row.appendChild  (f_name);
-		
+		enableButton();
 	}
 	/**
 	 * 	Print Ticket
@@ -273,11 +273,19 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	private void findBPartner()
 	{
 		
-		if ( !v_POSPanel.hasBPartner() )
+		if ( !v_POSPanel.hasBPartner() || v_POSPanel.getC_BPartner_ID() <= 0){
+			bpartner.setVisible(false);
+			f_name.setVisible(false);
+			f_name.setText("");
+			v_POSPanel.setC_BPartner_ID(0);
 			return;
+		}
+			
 		
 		MBPartner results = MBPartner.get(p_ctx, v_POSPanel.getC_BPartner_ID());
 		f_name.setText(results.getName());
+		v_POSPanel.setC_BPartner_ID(results.getC_BPartner_ID());
+		v_POSPanel.getM_Order().saveEx();
 		bpartner.setVisible(true);
 		f_name.setVisible(true);
 
@@ -311,6 +319,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 				WQueryBPartner qt = new WQueryBPartner(v_POSPanel);
 				AEnv.showWindow(qt);
 				findBPartner();
+				
 //				if(m_table.getRowCount() > 0){
 //					int row = m_table.getSelectedRow();
 //					if (row < 0) row = 0;
@@ -350,7 +359,12 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		{
 			MOrder order = v_POSPanel.getM_Order();
 			if (order != null)
-			{			
+			{	
+				if(v_POSPanel.getC_BPartner_ID() <= 0) {
+					bpartner.setVisible(false);
+					f_name.setVisible(false);
+					f_name.setText("");
+				}
   				// Button BPartner: enable when drafted, and order has no lines
 //				v_POSPanel.setC_BPartner_ID(order.getC_BPartner_ID());
   				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
@@ -375,11 +389,12 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
   				
   				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
   				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
-  	  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
-  	  				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
-  	  				    	(order.getC_Invoice_ID()<=0  ||
-  	  				    	 !MInvoice.get(p_ctx, order.getC_Invoice_ID()).isPaid()
-  	  				    	 )
+  	  				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed)  
+//  	  				    order.getC_DocType().getDocSubTypeSO().equals(MOrder.DocSubTypeSO_OnCredit) 
+//  	  				    v_POSPanel.isPrepayment()
+//  	  				    	(order.getC_Invoice_ID()<=0  ||
+//  	  				    	 !MInvoice.get(p_ctx, order.getC_Invoice_ID()).isPaid()
+//  	  				    	 )
   	  				   )
   	  				  )
   	  					f_cashPayment.setEnabled(true);
@@ -412,13 +427,25 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 				f_cancel.setEnabled(false);
 				f_history.setEnabled(true);
 				f_cashPayment.setEnabled(false);
+				bpartner.setVisible(false);
+				f_name.setVisible(false);
+				f_name.setText("");
 			}
 			
 		}
-
-		
 	}
-
+	
+	public void enableButton(){
+		f_name.setText("");
+		bpartner.setVisible(false);
+		f_bBPartner.setEnabled(false);
+		v_POSPanel.setC_BPartner_ID(0);
+		f_bNew.setEnabled(true);
+		f_cancel.setEnabled(false);
+		f_history.setEnabled(true);
+		f_cashPayment.setEnabled(false);
+	}
+	
 	@Override
 	public void keyReturned(MPOSKey key) {
 		// TODO Auto-generated method stub
@@ -434,17 +461,15 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		ResultSet rs;
 		orderList = new ArrayList<Integer>();
 		try {
-			sql=" SELECT o.C_Order_ID"
+			sql="SELECT o.C_Order_ID"
 					+ " FROM C_Order o"
-					+ " LEFT JOIN c_invoice i ON i.c_order_ID = o.c_order_ID"
-					+ " WHERE"
-					+ " (coalesce(invoiceopen(i.c_invoice_ID, 0), 0) > 0 OR o.docstatus IN ('DR', 'IP') ) AND "
-					+ " o.issotrx='Y' AND "
-					+ " o.ad_client_id=? "
-					+ " ORDER BY o.dateordered ASC, o.datepromised ASC";
+					+ " INNER JOIN C_BPartner b ON o.C_BPartner_ID=b.C_BPartner_ID "
+					+ " LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID"
+					+ " WHERE o.C_POS_ID = "+ v_POSPanel.getC_POS_ID() 
+					+ " and coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0"
+					+ " Order By o.CREATED ASC";
 			
 			pstm= DB.prepareStatement(sql, null);
-			pstm.setInt (1, Env.getAD_Client_ID(Env.getCtx()));
 			rs = pstm.executeQuery();
 			//	Add to List
 			while(rs.next()){
@@ -460,7 +485,8 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	 */
 	public void previousRecord() {
 		if(recordPosition>0)
-			v_POSPanel.setOrder(orderList.get(recordPosition--));
+			recordPosition--;
+			v_POSPanel.setOrder(orderList.get(recordPosition));
 	}
 
 	/**
@@ -468,7 +494,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	 */
 	public void nextRecord() {
 		if(recordPosition < orderList.size()-1)
-			v_POSPanel.setOrder(orderList.get(recordPosition++));
-		
+			recordPosition++;
+			v_POSPanel.setOrder(orderList.get(recordPosition));
 	}
 }

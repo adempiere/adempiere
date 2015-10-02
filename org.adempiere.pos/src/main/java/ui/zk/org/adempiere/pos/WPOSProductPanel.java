@@ -52,8 +52,6 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	private Label	 		f_TotalLines;
 	private Label	 		f_TaxAmount;
 	private Label	 		f_GrandTotal;
-	private Label 			f_SalesRep_Name;
-	private Label	 		f_DocumentNo;
 	private Panel			card;
 	/**	Format				*/
 	private DecimalFormat	m_Format;
@@ -90,7 +88,9 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
 		v_TitleBorder = new Caption(salesRep.getName()+"[]");
 		Style style = new Style();
-		style.setContent(".z-fieldset legend {font-size: medium; font-weight:bold;}");
+		style.setContent(".z-fieldset legend {font-size: medium; font-weight:bold;} "
+				+ ".Table-OrderLine tr th div{font-size: 14px; font-weight:bold; padding:5px} "
+				+ ".Table-OrderLine tr td div, .Table-OrderLine tr td div input{font-size: medium; height:25px}");
 		style.setParent(v_TitleBorder);
 		v_GroupPanel.appendChild(v_TitleBorder);
 		card.appendChild(v_PanelChildren);
@@ -149,6 +149,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		f_ProductName.setName("Name");
 		f_ProductName.setReadonly(true);
 		f_ProductName.addEventListener(Events.ON_FOCUS,this);
+		
 		f_HiddenField = new Button();
 		row = rows.newRow();
 		row.setSpans("1,3");
@@ -184,11 +185,10 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	@Override
 	public void refreshPanel() {
 		if (!v_POSPanel.hasOrder()) {
-			f_DocumentNo.setText("");
-			f_SalesRep_Name.setText("");
 			f_TotalLines.setText(m_Format.format(Env.ZERO));
 			f_GrandTotal.setText(m_Format.format(Env.ZERO));
 			f_TaxAmount.setText(m_Format.format(Env.ZERO));
+			v_TitleBorder.setLabel(salesRep.getName()+"[]");
 		} else {
 			BigDecimal m_TotalLines = v_POSPanel.getTotalLines();
 			BigDecimal m_GrandTotal = v_POSPanel.getGrandTotal();
