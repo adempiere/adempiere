@@ -28,7 +28,6 @@ import org.compiere.model.MPaymentAllocate;
 import org.compiere.model.MPaymentProcessor;
 import org.compiere.model.MPaymentValidate;
 import org.compiere.model.X_C_Payment;
-import org.compiere.pos.AdempierePOSException;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
