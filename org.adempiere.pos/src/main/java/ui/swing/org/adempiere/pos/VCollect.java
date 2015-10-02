@@ -508,15 +508,29 @@ public class VCollect extends Collect
 			bOk.setEnabled(true);
 	}
 	
-	public BigDecimal getM_Balance() {
+	/**
+	 * Get Balance
+	 * @return
+	 * @return BigDecimal
+	 */
+	private BigDecimal getBalance() {
 		return m_Balance;
 	}
 
-	public void setM_Balance(BigDecimal m_Balance) {
+	/**
+	 * Set Balance
+	 * @param m_Balance
+	 * @return void
+	 */
+	private void setBalance(BigDecimal m_Balance) {
 		this.m_Balance = m_Balance;
 	}
 	
-	public void calculatePanelData() {
+	/**
+	 * Calculate and change data in panel
+	 * @return void
+	 */
+	private void calculatePanelData() {
 		//	Get from controller
 		BigDecimal m_PayAmt = getPayAmt();
 		//	
@@ -525,7 +539,12 @@ public class VCollect extends Collect
 		//	Change View
 		fGrandTotal.setText(m_Format.format(v_POSPanel.getOpenAmt()));
 		fPayAmt.setText(m_Format.format(m_PayAmt));
-		fReturnAmt.setText(m_Format.format(m_Balance));
+		//	BR https://github.com/erpcya/AD-POS-WebUI/issues/6
+		//	Show pretty Return Amount
+		BigDecimal m_ReturnAmt = Env.ZERO;
+		if(m_Balance.compareTo(Env.ZERO) < 0) {
+			m_ReturnAmt = m_Balance.abs();
+		}
+		fReturnAmt.setText(m_Format.format(m_ReturnAmt));
 	}
-
 } // VCollect

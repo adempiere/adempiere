@@ -16,9 +16,9 @@ CREATE OR REPLACE VIEW POS_OrderLine_v AS
     t.TaxindIcator,
     t.Rate,
     ol.LineNetAmt,
-    (ol.LineNetAmt + (ol.LineNetAmt * t.Rate) / 100) AS GrandTotal
+    (ol.LineNetAmt + ((ol.LineNetAmt * t.Rate) / 100)) AS GrandTotal
   FROM c_orderline ol
      INNER JOIN C_UOM uom ON(ol.C_UOM_ID = uom.C_UOM_ID)
-     INNER JOIN C_order i ON(ol.C_Order_ID = i.C_Order_ID)
+     INNER JOIN C_Order i ON(ol.C_Order_ID = i.C_Order_ID)
      LEFT JOIN M_Product p ON(ol.M_Product_ID = p.M_Product_ID)
      LEFT JOIN C_Tax t ON(ol.C_Tax_ID = t.C_Tax_ID);

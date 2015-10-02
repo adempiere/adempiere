@@ -70,6 +70,7 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 	private CTextField		f_city;
 	/**	Internal Variables	*/
 	private int				m_C_BPartner_ID;
+	private String 			m_BPartnerName;
 	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(QueryBPartner.class);
 	
@@ -200,8 +201,7 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 			Integer ID = m_table.getSelectedRowKey();
 			if (ID != null) {
 				m_C_BPartner_ID = ID.intValue();
-			//	m_BPartnerName = (String)m_table.getValueAt(row, 2);
-			//	m_Price = (BigDecimal)m_table.getValueAt(row, 7);
+				m_BPartnerName = (String)m_table.getValueAt(row, 2);
 			}
 		}
 		log.fine("C_BPartner_ID=" + m_C_BPartner_ID); 
@@ -213,8 +213,11 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 	 */
 	protected void close() {
 		Integer ID = m_table.getSelectedRowKey();
-		if (ID != null)
+		int row = m_table.getSelectedRow();
+		if (ID != null) {
 			m_C_BPartner_ID = ID.intValue();
+			m_BPartnerName = (String)m_table.getValueAt(row, 2);
+		}
 		dispose();
 	}	//	close
 	
@@ -250,6 +253,6 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 
 	@Override
 	public String getValue() {
-		return null;
+		return m_BPartnerName;
 	}
 }	//	PosQueryBPartner
