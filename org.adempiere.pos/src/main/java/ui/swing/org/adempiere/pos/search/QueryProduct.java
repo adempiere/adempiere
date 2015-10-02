@@ -212,6 +212,7 @@ public class QueryProduct extends POSQuery implements I_POSQuery {
 		Integer ID = m_table.getSelectedRowKey();
 		if (ID != null)
 			m_M_Product_ID = ID.intValue();
+		dispose();
 	}	//	close
 
 	@Override
@@ -235,6 +236,7 @@ public class QueryProduct extends POSQuery implements I_POSQuery {
 		m_M_Product_ID = -1;
 		m_ProductName = null;
 		m_Price = Env.ZERO;
+		dispose();
 	}
 
 	@Override
