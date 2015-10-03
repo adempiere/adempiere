@@ -439,21 +439,38 @@ public class CPOS {
 	}
 
 	/**
+	 * Update Line
+	 * @param p_C_OrderLine_ID
+	 * @param p_QtyOrdered
+	 * @param p_PriceEntered
+	 * @return void
+	 */
+	public void updateLine(int p_C_OrderLine_ID, BigDecimal p_QtyOrdered, BigDecimal p_PriceEntered) {
+		//	Valid Complete
+		if (isCompleted())
+			return;
+		//	
+		MOrderLine[] lines = m_CurrentOrder.getLines("AND C_OrderLine_ID = " + p_C_OrderLine_ID, "Line");
+		for(MOrderLine line : lines) {
+			line.setPrice(p_PriceEntered);
+			line.setQty(p_QtyOrdered);
+			line.setTax();
+			line.saveEx();
+		}
+	}
+	
+	/**
 	 * Create new Line
-	 * 
 	 * @return line or null
 	 */
 	public MOrderLine createLine(MProduct product, BigDecimal QtyOrdered,
 			BigDecimal PriceActual) {
-		
-		if (!m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Drafted) )
+		//	Valid Complete
+		if (isCompleted())
 			return null;
-		//add new line or increase qty
-		
 		// catch Exceptions at order.getLines()
 		int numLines = 0;
-		MOrderLine[] lines = null;
-		lines = m_CurrentOrder.getLines(null, "Line");
+		MOrderLine[] lines = m_CurrentOrder.getLines(null, "Line");
 		numLines = lines.length;
 		for (int i = 0; i < numLines; i++) {
 			if (lines[i].getM_Product_ID() == product.getM_Product_ID()) {
@@ -580,7 +597,7 @@ public class CPOS {
 		if ( C_OrderLine_ID != -1 ) {
 			for ( MOrderLine line : m_CurrentOrder.getLines(true, I_C_OrderLine.COLUMNNAME_M_Product_ID) ) {
 				if ( line.getC_OrderLine_ID() == C_OrderLine_ID ) {
-					line.delete(true);	
+					line.deleteEx(true);	
 				}
 			}
 		}
@@ -686,6 +703,11 @@ public class CPOS {
 		return m_CurrentOrder.getDocumentNo();
 	}
 	
+	/**
+	 * Get Open Amount
+	 * @return
+	 * @return BigDecimal
+	 */
 	public BigDecimal getOpenAmt() {
 		BigDecimal received = getPaidAmt();	
 		return m_CurrentOrder.getGrandTotal().subtract(received);

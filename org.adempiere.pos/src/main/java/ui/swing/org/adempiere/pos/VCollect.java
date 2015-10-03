@@ -42,6 +42,7 @@ import javax.swing.KeyStroke;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.pos.service.Collect;
+import org.adempiere.pos.service.CollectDetail;
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -116,7 +117,7 @@ public class VCollect extends Collect
 	private CLabel 			fLine;
 	private CLabel 			lPayAmt;
 	private CLabel 			fPayAmt;
-	private CCheckBox 		fIsPrePayment;
+	private CCheckBox 		fIsPrePayOrder;
 	private CCheckBox 		fIsCreditOrder;
 	
 	/**	Action				*/
@@ -194,8 +195,8 @@ public class VCollect extends Collect
 		fReturnAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
 		
 		//	Add Is Pre-Payment
-		fIsPrePayment = new CCheckBox(Msg.translate(m_ctx, "IsPrePayment"));
-		fIsPrePayment.setFont(font);
+		fIsPrePayOrder = new CCheckBox(Msg.translate(m_ctx, "IsPrePayment"));
+		fIsPrePayOrder.setFont(font);
 		
 		//	Add Is Credit Order
 		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "CreditSale"));
@@ -205,18 +206,18 @@ public class VCollect extends Collect
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 		   v_POSPanel.isCompleted() &&
 		   v_POSPanel.getM_Order().getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard)) {	
-			fIsPrePayment.setEnabled(false);	
+			fIsPrePayOrder.setEnabled(false);	
 			fIsCreditOrder.setEnabled(false);
-			fIsPrePayment.setSelected(true);
+			fIsPrePayOrder.setSelected(true);
 		}
 		// Pre-Payment, Credit Order: enable only if the order is drafted and there are lines 
 		else if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 				!v_POSPanel.isCompleted()) {		
-			fIsPrePayment.setEnabled(true);	
+			fIsPrePayOrder.setEnabled(true);	
 			fIsCreditOrder.setEnabled(true);
 		}
 		else {
-			fIsPrePayment.setEnabled(false);	
+			fIsPrePayOrder.setEnabled(false);	
 			fIsCreditOrder.setEnabled(false);
 			if(v_POSPanel.isCompleted() && 
 				v_POSPanel.getM_Order().isInvoiced()  && 
@@ -257,7 +258,7 @@ public class VCollect extends Collect
 		v_ParameterPanel.add(fReturnAmt, new GridBagConstraints(2, 3, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
-		v_ParameterPanel.add(fIsPrePayment, new GridBagConstraints(1, 4, 1, 1, 0.0,0.0, 
+		v_ParameterPanel.add(fIsPrePayOrder, new GridBagConstraints(1, 4, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
 		v_ParameterPanel.add(fIsCreditOrder, new GridBagConstraints(2, 4, 1, 1, 0.0,0.0, 
@@ -276,7 +277,7 @@ public class VCollect extends Collect
 		
 		
 		//	Add Listeners
-		fIsPrePayment.addActionListener(this);
+		fIsPrePayOrder.addActionListener(this);
 		fIsCreditOrder.addActionListener(this);
 		bOk.addActionListener(this);
 		bCancel.addActionListener(this);
@@ -324,13 +325,13 @@ public class VCollect extends Collect
 	public String saveData() {
 		try {
 			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			v_POSPanel.setPrepayment(fIsPrePayment.isSelected());
-			setCreditOrder(fIsCreditOrder.isSelected());
-			setReturnAmt(new BigDecimal(fReturnAmt.getText()));
+			v_POSPanel.setPrepayment(fIsPrePayOrder.isSelected());
+			setIsCreditOrder(fIsCreditOrder.isSelected());
+//			setReturnAmt(new BigDecimal(fReturnAmt.getText()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					if(v_POSPanel.processOrder(trxName)) {
-						processPayment(trxName);
+						processPayment(trxName, v_POSPanel.getOpenAmt());
 					} else {
 						throw new POSaveFailedException(v_POSPanel.getProcessMsg());
 					}
@@ -350,7 +351,7 @@ public class VCollect extends Collect
 		//	Validate Event
 		if (e.getSource().equals(bPlus)) {
 			addCollectType();
-		} else if (e.getSource().equals(bOk)) {
+		} else if (e.getSource().equals(bOk)) {	//	Process if is ok validation
 			//	Validate before process
 			String validResult = validatePanel();
 			if(validResult == null) {
@@ -369,34 +370,31 @@ public class VCollect extends Collect
 			v_Dialog.dispose();
 			return;
 		} else if(e.getSource().equals(fIsCreditOrder)) {	//	For Credit Order Checked
-			fIsPrePayment.setSelected(false);
-			if(fIsCreditOrder.isSelected()) {				
-				bPlus.setVisible(false);  // TODO setEnable(false) doesn't work!!
-				removeAllCollectDetails();  // TODO update details panel
-				for(Component comp: v_CenterPanel.getComponents())
-					v_CenterPanel.remove(comp);
-				v_ScrollPanel.validate();
-				v_ScrollPanel.repaint();
-				calculatePanelData();
-				bOk.setEnabled(true);
-			}
-			else {
-				if(validatePayment()==null) {
-					bPlus.setEnabled(true);
-					bPlus.setVisible(true);
-				}
-				else
-					bPlus.setVisible(false);
-			}
-		} else if(e.getSource().equals(fIsPrePayment)) {	//	For Pre-Payment Order Checked
-			fIsCreditOrder.setSelected(false);
-			bPlus.setEnabled(true);
-			bPlus.setVisible(true);   // TODO setEnable(true) doesn't work!!
+			//	Set to Controller
+			setIsCreditOrder(fIsCreditOrder.isSelected());
+		} else if(e.getSource().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
+			//	Set to Controller
+			setIsPrePayOrder(fIsCreditOrder.isSelected());
 		}
 		//	Valid Panel
 		changeViewPanel();
 	}
 
+	/**
+	 * Remove All Collect Detail
+	 * @return void
+	 */
+	public void removeAllCollectDetail() {
+		for(CollectDetail child : getCollectDetails()) {
+			Component comp = ((VCollectDetail)child).getPanel();
+			removeCollect(child);
+			v_CenterPanel.remove(comp);
+		}
+		//	Refresh View
+		v_ScrollPanel.validate();
+		v_ScrollPanel.repaint();
+	}
+	
 	/**
 	 * Remove Collect Detal From Child
 	 * @param child
@@ -442,14 +440,14 @@ public class VCollect extends Collect
 		BigDecimal m_Balance = getBalance();
 		String errorMsg = null;
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
-			errorMsg = "VCollect.MustCreateOrder";
-		} else if(!fIsPrePayment.isSelected() 
+			errorMsg = "@POS.MustCreateOrder@";
+		} else if(!fIsPrePayOrder.isSelected() 
 				&& m_Balance.doubleValue() > 0) {	//	For Pre-Payment Order
-			errorMsg = "VCollect.OrderPayNotCompleted";
+			errorMsg = "@POS.OrderPayNotCompleted@";
 		} else if(m_Balance.doubleValue() > 0) {
-			errorMsg = "VCollect.InsufficientOrderPaymentAmt";
+			errorMsg = "@POS.InsufficientOrderPaymentAmt@";
 		} else {
-			errorMsg = validatePayment();
+			errorMsg = validatePayment(v_POSPanel.getOpenAmt());
 		}
 		//	
 		return errorMsg;
@@ -457,62 +455,67 @@ public class VCollect extends Collect
 
 	@Override
 	public void changeViewPanel() {
-		BigDecimal m_Balance = getBalance();
-		if(fIsCreditOrder.isSelected()) {
-			fIsPrePayment.setSelected(false);
-			bPlus.setEnabled(false);  // TODO substitute it with the correct command, because setEnable(false) doesn't work!!
-			
-			if((!v_POSPanel.isCompleted() && m_Balance.doubleValue() > 0) ||
-			   (v_POSPanel.isCompleted() && getPayAmt().compareTo(Env.ZERO)==1) ) 
-				bOk.setEnabled(true);
-			else
-				bOk.setEnabled(false);
-			
-		} else if(fIsPrePayment.isSelected()) {
-			if(getPayAmt().doubleValue() > 0 && validatePayment()==null) {
-				bOk.setEnabled(true);
-			} else {
-				bOk.setEnabled(false);
-			}
-		} else if(isExistOnlyOneCreditCard() || isExistOnlyOneCheck()) {
-			// if payment consists of only one credit card or only one cash -> payment amount must be exact
-//			if(validatePayment()==null) {
-				if(v_POSPanel.getOpenAmt().compareTo(getPayAmt())==0)
-					bOk.setEnabled(true);
-				else
-					bOk.setEnabled(false);				
+//		BigDecimal m_Balance = getBalance();
+		//	Set Credit and Pre-Pay Order
+		fIsCreditOrder.setSelected(isCreditOrder());
+		fIsPrePayOrder.setSelected(isPrePayOrder());
+//		if(fIsCreditOrder.isSelected()) {
+//			fIsPrePayOrder.setSelected(false);
+//			bPlus.setEnabled(false);  // TODO substitute it with the correct command, because setEnable(false) doesn't work!!
+//			
+//			if((!v_POSPanel.isCompleted() && m_Balance.doubleValue() > 0) ||
+//			   (v_POSPanel.isCompleted() && getPayAmt().doubleValue() > 0) ) 
+//				bOk.setEnabled(true);
+//			else
+//				bOk.setEnabled(false);			
+//		} 
+//		else if(fIsPrePayOrder.isSelected()) {
+//			if(getPayAmt().doubleValue() > 0 && validatePayment()==null) {
+//				bOk.setEnabled(true);
+//			} else {
+//				bOk.setEnabled(false);
+//			}
+//		} 
+//		else 
+//		if(isExistOnlyOneCreditCard() || isExistOnlyOneCheck()) {
+//			// if payment consists of only one credit card or only one cash -> payment amount must be exact
+//			if(v_POSPanel.getOpenAmt().doubleValue() == getPayAmt().doubleValue())
+//				bOk.setEnabled(true);
+//			else
+//				bOk.setEnabled(false);				
+//		}
+//		else if(getDetailQty() > 1 && !isExistCash()) {
+//			// There is more than one payment and none is cash
+//			if(m_Balance.doubleValue() == 0) {
+//				// the amounts match exactly
+//				if (validatePayment()==null)
+//					bOk.setEnabled(true);
+//				else
+//					bOk.setEnabled(false);	
 //			}
 //			else
-//				bOk.setEnabled(false);
-		} else if(getDetailQty()>1 && isExistCash() == -1) {
-			// There is more than one payment and none is cash
-			if(m_Balance.doubleValue()== 0) {
-				// the amounts match exactly
-				if (validatePayment()==null)
-					bOk.setEnabled(true);
-				else
-					bOk.setEnabled(false);	
-			}
-			else
-				bOk.setEnabled(false);	
-		} else if(getDetailQty() > 1 && isExistCash() != -1) {
-			// There is more than one payment and there is at least one cash
-			if(m_Balance.doubleValue() <= 0) {
-				// the amounts are equal or higher than required
-				if (validatePayment() == null)
-					bOk.setEnabled(true);
-				else
-					bOk.setEnabled(false);	
-			}
-			else
-				bOk.setEnabled(false);	
-		} else if(!(m_Balance.doubleValue() <= 0 && validatePayment() == null)) {
-			// Not enough payment(s) or invalid payment(s)
-			bOk.setEnabled(false);
-		} else if (getDetailQty()==0) { // no details -> disable button
-			bOk.setEnabled(false);
-		} else
-			bOk.setEnabled(true);
+//				bOk.setEnabled(false);	
+//		} 
+//		else if(getDetailQty() > 1 && !isExistCash()) {
+//			// There is more than one payment and there is at least one cash
+//			if(m_Balance.doubleValue() <= 0) {
+//				// the amounts are equal or higher than required
+//				if (validatePayment() == null)
+//					bOk.setEnabled(true);
+//				else
+//					bOk.setEnabled(false);	
+//			}
+//			else
+//				bOk.setEnabled(false);	
+//		}
+//		else if(!(m_Balance.doubleValue() <= 0 && validatePayment() == null)) {
+//			// Not enough payment(s) or invalid payment(s)
+//			bOk.setEnabled(false);
+//		} 
+//		else if (getDetailQty()==0) { // no details -> disable button
+//			bOk.setEnabled(false);
+//		} else
+//			bOk.setEnabled(true);
 	}
 	
 	/**

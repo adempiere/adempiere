@@ -275,6 +275,16 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_ProductKeysPanel.refreshPanel();
 		v_OrderLinePanel.refreshPanel();
 	}
+	
+	/**
+	 * Refresh Header
+	 * @return void
+	 */
+	public void refreshHeader() {
+		reloadOrder();
+		v_ActionPanel.changeViewPanel();
+		v_ProductKeysPanel.refreshPanel();
+	}
 
 	@Override
 	public String validatePanel() {

@@ -89,8 +89,14 @@ public class Collect {
 	private Timestamp			m_DateTrx;
 	/**	Collects				*/
 	private List<CollectDetail> m_Collects;
-	private boolean				isCreditOrder = false;
-	private BigDecimal			returnAmt = Env.ZERO;
+	/**	Credit Order			*/
+	private boolean				m_IsCreditOrder = false;
+	/**	Pre-Payment Order		*/
+	private boolean				m_IsPrePayOrder = false;
+	/**	Return Amount			*/
+//	private BigDecimal			m_ReturnAmt = Env.ZERO;
+	/**	Error Message			*/
+	private StringBuffer		m_ErrorMsg = new StringBuffer();
 
 	/**
 	 * Add New Collect
@@ -117,8 +123,9 @@ public class Collect {
 	 */
 	public void removeAllCollectDetails() {
 		int lenght = m_Collects.size();
-		for(int i=lenght-1; i>=0;i--)
+		for(int i = lenght - 1; i >= 0; i--) {
 			m_Collects.remove(i);
+		}
 	}
 	
 	/**
@@ -203,16 +210,16 @@ public class Collect {
 	/**
 	 * Is there at least one cash payment
 	 * @param none
-	 * @return position of first cash or -1
+	 * @return true if exists
 	 */
-	public int isExistCash() {
+	public boolean isExistCash() {
 		for(int i = 0; i < m_Collects.size(); i++) {
 			CollectDetail m_Collect = m_Collects.get(i);
 			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)) {
-				return i;
+				return true;
 			}
 		}
-		return -1; // No Credit cash found
+		return false; // No Credit cash found
 	}
 	
 	/**
@@ -461,64 +468,139 @@ public class Collect {
 	}
 	
 	/**
-	 * Validate Payments
+	 * Add Error to Message
+	 * @param error
+	 * @return void
+	 */
+	private void addErrorMsg(String error) {
+		//	Valid Null error
+		if(error == null
+				|| error.length() == 0)
+			return;
+		//	
+		if(m_ErrorMsg.length() > 0) {
+			m_ErrorMsg.append(Env.NL);
+		} else {
+			m_ErrorMsg
+				.append("@ValidationError@")
+				.append(Env.NL);
+		}
+		//	Add Error
+		m_ErrorMsg.append(error);
+	}
+	
+	/**
+	 * Get Error Message after validate
 	 * @return
 	 * @return String
 	 */
-	protected String validatePayment() {
+	public String getErrorMsg() {
+		if(m_ErrorMsg.length() > 0) {
+			return m_ErrorMsg.toString();
+		}
+		//	Default Return
+		return null;
+	}
+	
+	/**
+	 * Reset error Message
+	 * @return void
+	 */
+	private void cleanErrorMsg() {
+		m_ErrorMsg = new StringBuffer();
+	}
+	
+	/**
+	 * Validate Payments
+	 * @param p_OpenAmt
+	 * @return
+	 * @return String
+	 */
+	protected String validatePayment(BigDecimal p_OpenAmt) {
+		cleanErrorMsg();
+		if(p_OpenAmt.doubleValue() <= 0) {
+			addErrorMsg("@POS.validatePayment.NoOpenAmt@");
+		}
+		//	For Credit order
+		if(isCreditOrder()) {	//	TODO must be supported? any suggest
+			//	Default Ok
+			return null;
+		} else if(isPrePayOrder()
+				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {	//	TODO must be supported
+			addErrorMsg("@POS.OrderPayNotCompleted@");
+		}
+		//	Local variables for not iterate again
+		BigDecimal m_CashPayment = Env.ZERO;
+		BigDecimal m_OtherPayment = Env.ZERO;
 		//	Iterate Payments methods
 		for(CollectDetail m_Collect : m_Collects) {
 			if(m_Collect.getPayAmt() == null
-					|| !(m_Collect.getPayAmt().compareTo(Env.ZERO)==1))
-				return "Collect.validatePayment.ZeroAmount";
-			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
-					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
-				continue;
+					|| !(m_Collect.getPayAmt().doubleValue() > 0))
+				addErrorMsg("@POS.validatePayment.ZeroAmount@");
+			else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)) {	//	For Cash
+				m_CashPayment = m_CashPayment.add(m_Collect.getPayAmt());
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {
+				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
-				continue;	//	TODO Validate
+				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
+				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 				//	Valid Expedition
 				String mmyy = m_Collect.getCreditCardExpMM() + m_Collect.getCreditCardExpYY();
 				String processError = MPaymentValidate
 						.validateCreditCardExp(mmyy);
 				//	Validate Month and Year
 				if(processError != null && !processError.isEmpty()) {
-					return processError;
+					addErrorMsg("@" + processError + "@");
 				}
 				//	
 				processError = MPaymentValidate
 						.validateCreditCardNumber(m_Collect.getCreditCardNumber(), m_Collect.getCreditCardType());
 				//	Validate Card Number
 				if(processError != null && !processError.isEmpty()) {
-					return processError;
+					addErrorMsg("@" + processError + "@");
 				}
 			} else {
-				return "Collect.validatePayment.UnsupportedPaymentType";
+				addErrorMsg("@POS.validatePayment.UnsupportedPaymentType@");
 			}
 		}
-		
+		//	Validate if payment consists credit card or cash -> payment amount must be exact
+		BigDecimal m_ReturnAmt = p_OpenAmt.subtract(m_OtherPayment.add(m_CashPayment));
+		if(m_ReturnAmt.signum() == -1) {
+			if(m_ReturnAmt.abs().doubleValue() > m_CashPayment.doubleValue()) {
+				addErrorMsg("@POS.validatePayment.PaymentBustBeExact@");
+			}
+		}
 		//	Default
-		return null;
+		return getErrorMsg();
 	}  // processPayment
 	
 	/**
 	 * Processes different kinds of payment types
 	 * For Cash: if there is a return amount, modify the payment amount accordingly.
-	 * 
+	 * @param trxName
+	 * @param p_OpenAmt
 	 */
-	public void processPayment(String trxName) {
+	public void processPayment(String trxName, BigDecimal p_OpenAmt) {
 		this.trxName = trxName;
+		//	
+		BigDecimal m_CashPayment = Env.ZERO;
+		BigDecimal m_OtherPayment = Env.ZERO;
 		//	Iterate Payments methods
 		for(CollectDetail m_Collect : m_Collects) {
 			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
-				BigDecimal payAmt = Env.ZERO;
-				payAmt = (getReturnAmt().compareTo(Env.ZERO)==-1)?m_Collect.getPayAmt().add(getReturnAmt()):m_Collect.getPayAmt();
-				if(payAmt.compareTo(Env.ZERO)==1)
-					payCash(payAmt);
+				m_CashPayment = m_CashPayment.add(m_Collect.getPayAmt());
+//				Moved to ending method
+//				BigDecimal payAmt = Env.ZERO;
+//				payAmt = (getReturnAmt().compareTo(Env.ZERO)==-1)?m_Collect.getPayAmt().add(getReturnAmt()):m_Collect.getPayAmt();
+//				if(payAmt.compareTo(Env.ZERO)==1)
+//					payCash(payAmt);
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
+				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 				payCheck(m_Collect.getPayAmt(), null, null, m_Collect.getReferenceNo());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
+				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 				//	Valid Expedition
 				String mmyy = m_Collect.getCreditCardExpMM() + m_Collect.getCreditCardExpYY();
 				//	Valid Month and Year
@@ -527,12 +609,20 @@ public class Collect {
 				//	Pay from Credit Card
 				payCreditCard(m_Collect.getPayAmt(), m_Collect.getA_Name(),
 						month, year, m_Collect.getCreditCardNumber(), m_Collect.getCreditCardVV(), m_Collect.getCreditCardType());
-			} 
-//				else if(m_Collect.getTenderType().equals("F")) {
-//					String ID = ((ValueNamePair) fCreditNotes.getSelectedItem()).getValue();
-//					MInvoice cn = new MInvoice(Env.getCtx(), Integer.parseInt(ID), trxName);
-//					payCreditNote(cn, m_Collect.getPayAmt());
-//				} 
+			}
+		}
+		//	Save Cash Payment
+		//	Validate if payment consists credit card or cash -> payment amount must be exact
+		BigDecimal m_ReturnAmt = p_OpenAmt.subtract(m_OtherPayment.add(m_CashPayment));
+		if(m_ReturnAmt.signum() == -1
+				&& m_CashPayment.doubleValue() > 0) {
+			if(m_ReturnAmt.abs().doubleValue() > m_CashPayment.doubleValue()) {
+				addErrorMsg("@POS.validatePayment.PaymentBustBeExact@");
+			} else {
+				payCash(m_CashPayment.add(m_ReturnAmt));
+			}
+		} else if(m_CashPayment.doubleValue() > 0) {
+			payCash(m_CashPayment);
 		}
 	}  // processPayment
 
@@ -659,21 +749,63 @@ public class Collect {
 		this.m_DateTrx = m_DateTrx;
 	}
 	
+	/**
+	 * Verify if is Prepay Order
+	 * @return
+	 * @return boolean
+	 */
 	public boolean isCreditOrder() {
-		return isCreditOrder;
-	}
-
-	public void setCreditOrder(boolean isCreditOrder) {
-		this.isCreditOrder = isCreditOrder;
+		return m_IsCreditOrder;
 	}
 	
-	public BigDecimal getReturnAmt() {
-		return returnAmt;
+	/**
+	 * Set Is Credit Order
+	 * @param isCreditOrder
+	 * @return void
+	 */
+	public void setIsCreditOrder(boolean isCreditOrder) {
+		this.m_IsCreditOrder = isCreditOrder;
+		//	Negate Pre-Pay
+		m_IsPrePayOrder = !isCreditOrder;
 	}
+	
+	/**
+	 * Is Pre-Payment Order
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isPrePayOrder() {
+		return m_IsPrePayOrder;
+	}
+	
+	/**
+	 * Set Is Pre-Payment Order
+	 * @param isPrePayOrder
+	 * @return void
+	 */
+	public void setIsPrePayOrder(boolean isPrePayOrder) {
+		this.m_IsPrePayOrder = isPrePayOrder;
+		//	Negate Credit Order
+		m_IsCreditOrder = !isPrePayOrder;
+	}
+	
+	/**
+	 * Get Return Amount
+	 * @return
+	 * @return BigDecimal
+	 */
+//	public BigDecimal getReturnAmt() {
+//		return m_ReturnAmt;
+//	}
 
-	public void setReturnAmt(BigDecimal returnAmt) {
-		this.returnAmt = returnAmt;
-	}
+	/**
+	 * Set Return Amount
+	 * @param returnAmt
+	 * @return void
+	 */
+//	public void setReturnAmt(BigDecimal returnAmt) {
+//		this.m_ReturnAmt = returnAmt;
+//	}
 	
 	/**
 	 * Get number of payment details
@@ -682,5 +814,14 @@ public class Collect {
 	 */
 	public int getDetailQty() {
 		return m_Collects.size();
+	}
+	
+	/**
+	 * Get all Collects detail
+	 * @return
+	 * @return List<CollectDetail>
+	 */
+	public List<CollectDetail> getCollectDetails() {
+		return m_Collects;
 	}
 }

@@ -30,7 +30,6 @@ import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.PO;
 import org.compiere.pos.PosTable;
 import org.compiere.swing.CScrollPane;
@@ -93,20 +92,8 @@ public class POSOrderLinePanel extends POSSubPanel
 		m_TableHandle = new POSOrderLineTableHandle(m_table);
 		CScrollPane scroll = new CScrollPane(m_table);
 		m_TableHandle.prepareTable();
-//		m_table.getSelectionModel().addListSelectionListener(this);
-//		m_table.setColumnVisibility(m_table.getColumn(0), true);
-//		m_table.getColumn(1).setPreferredWidth(320);
-//		m_table.getColumn(2).setPreferredWidth(65);
-//		m_table.getColumn(3).setPreferredWidth(30);
-//		m_table.getColumn(4).setPreferredWidth(75);
-//		m_table.getColumn(5).setPreferredWidth(75);
-//		m_table.getColumn(6).setPreferredWidth(70);
-//		m_table.getColumn(7).setPreferredWidth(75);
-//		m_table.setColumnClass(7, BigDecimal.class, false);
-//		m_table.setFocusable(false);
-//		m_table.getColumnModel().getColumn(7).setCellEditor(
-//				new BigDecimalEditor());
 		m_table.getModel().addTableModelListener(this);
+		m_table.setEditingColumn(0);
 		m_table.addKeyListener(new java.awt.event.KeyAdapter() {
 			
 			@Override
@@ -222,44 +209,62 @@ public class POSOrderLinePanel extends POSSubPanel
 		
 	}  // valueChanged	
 	
+	@Override
     public void tableChanged(TableModelEvent e) {
-        int id = m_table.getSelectedRow();
-		boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
-		if (!isUpdate) {
+        boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
+        int row = e.getFirstRow();
+		int col = e.getColumn();
+		//  Not a table update
+		if (!isUpdate
+				|| (col != POSOrderLineTableHandle.POSITION_QTYORDERED
+						&& col != POSOrderLineTableHandle.POSITION_PRICE)) {
 			return;
 		}
-        if (id != -1) {	
-    		IDColumn key = (IDColumn) m_table.getModel().getValueAt(id, POSOrderLineTableHandle.POSITION_C_ORDER_ID);
-    		
-    		if ( key != null &&  key.getRecord_ID() != m_C_OrderLine_ID )
-    			m_C_OrderLine_ID = key.getRecord_ID();
-			
-    		BigDecimal price = new BigDecimal(m_table.getModel().getValueAt(id, POSOrderLineTableHandle.POSITION_PRICE).toString());
-			BigDecimal qty = new BigDecimal(m_table.getModel().getValueAt(id, POSOrderLineTableHandle.POSITION_QTYORDERED).toString());
-			m_table.getModel().removeTableModelListener(this);
-			//	
-			MOrderLine line = new MOrderLine(m_ctx, m_C_OrderLine_ID, null);
-			line.setPrice(price);
-			line.setQty(qty);
-			line.saveEx();
-			BigDecimal grandTotal = line.getLineNetAmt();
-			m_table.getModel().setValueAt(line.getLineNetAmt(), id, POSOrderLineTableHandle.POSITION_LINENETAMT);
-			if(!line.getC_Tax().getRate().equals(null)){
-				grandTotal.multiply(line.getC_Tax().getRate());
-			} 
-			m_table.getModel().setValueAt(grandTotal, id, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
-			if(qty.compareTo(Env.ZERO) <= 0){
-//						p_posPanel.updateInfo();
+		//	Get ID
+		IDColumn key = (IDColumn) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_C_ORDER_ID);
+		//	Validate Key
+		if (key != null) {
+			//	Set Current Order Line
+			m_C_OrderLine_ID = key.getRecord_ID();
+    		//	Get Values
+    		BigDecimal m_QtyOrdered = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
+    		BigDecimal m_Price = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+			//	Remove Listener
+    		m_table.getModel().removeTableModelListener(this);
+			//	Remove line
+			if(m_QtyOrdered.compareTo(Env.ZERO) <= 0) {
+				v_POSPanel.deleteLine(m_C_OrderLine_ID);
+				v_POSPanel.refreshPanel();
+				//	Exit
+				return;
 			}
-			v_POSPanel.reloadOrder();
-			v_POSPanel.refreshPanel();
+			//	Get Order Line
+			v_POSPanel.updateLine(m_C_OrderLine_ID, m_QtyOrdered, m_Price);
+			//	Update Line
+//			BigDecimal m_LineNetAmt = line.getLineNetAmt();
+//			BigDecimal m_GrandTotal = Env.ZERO;
+//			BigDecimal m_TaxRate = MTax.get(m_ctx, line.getC_Tax_ID()).getRate();
+//			if(m_TaxRate == null) {
+//				m_TaxRate = Env.ZERO;
+//			}
+//			//	Calculate Total
+//			m_GrandTotal = m_LineNetAmt
+//						.add(m_LineNetAmt
+//								.multiply(m_TaxRate));
+//			//	Set Totals
+//			m_table.setValueAt(m_LineNetAmt, row, POSOrderLineTableHandle.POSITION_LINENETAMT);
+//			m_table.setValueAt(m_GrandTotal, row, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
 			m_table.getModel().addTableModelListener(this);
+			//	Only Refresh Header
+			v_POSPanel.refreshPanel();
     	}
-       // ...// Do something with the data...
     }
 
 	@Override
 	public void refreshPanel() {
+		//	Remove Listener
+		m_table.getModel().removeTableModelListener(this);
+		//	
 		if (!v_POSPanel.hasOrder()) {
 			m_table.loadTable(new PO[0]);
 		}
@@ -273,6 +278,8 @@ public class POSOrderLinePanel extends POSSubPanel
 				break;
 			}
 		}
+		//	Add Listener
+		m_table.getModel().addTableModelListener(this);
 	}
 
 
