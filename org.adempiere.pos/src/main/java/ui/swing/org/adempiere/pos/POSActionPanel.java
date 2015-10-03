@@ -14,7 +14,11 @@
 
 package org.adempiere.pos;
 
+import java.awt.Dimension;
 import java.awt.Event;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -28,8 +32,8 @@ import java.util.ArrayList;
 
 import javax.swing.KeyStroke;
 
-import net.miginfocom.swing.MigLayout;
-
+import org.adempiere.pos.search.QueryBPartner;
+import org.adempiere.pos.search.QueryTicket;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.apps.ADialog;
@@ -38,11 +42,10 @@ import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MSequence;
-import org.adempiere.pos.search.QueryBPartner;
-import org.adempiere.pos.search.QueryTicket;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
-import org.compiere.swing.CTextField;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -87,11 +90,21 @@ public class POSActionPanel extends POSSubPanel
 	private CButton 			f_bCollect;
 	private CButton 			f_bCancel;
 	private CButton 			f_bLogout;
+	/**	Button Panel		*/
+	private CPanel				v_ButtonPanel;
+	/**	Business Partner 	*/
+	private CPanel				v_BPPanel;
 	/**	For Show BPartner	*/
-	private	CTextField			f_NameBPartner;
+//	private CLabel				l_BPartner;
+	private	POSTextField		f_NameBPartner;
 	/**	For Orde List		*/
 	private int 				m_RecordPosition;
 	private ArrayList<Integer>	m_OrderList;
+	/**	Padding				*/
+	private int 				m_TopP;
+	private int 				m_LeftP;
+	private int 				m_BottonP;
+	private int 				m_RightP;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(POSActionPanel.class);	
 
@@ -107,59 +120,86 @@ public class POSActionPanel extends POSSubPanel
 	/**
 	 * 	Initialize
 	 */
-	public void init()
-	{
+	public void init() {
 		//	Content
-		MigLayout layout = new MigLayout("ins 20 20","[fill|fill|fill|fill]","[nogrid]unrel[||]");
-		setLayout(layout);
+		setLayout(new GridBagLayout());
 		listOrder();
 		m_RecordPosition = m_OrderList.size()-1;
 
-		String buttonSize = "w 50!, h 50!,";
+//		String buttonSize = "w 50!, h 50!,";
+		//	Button Panel
+		v_ButtonPanel = new CPanel(new GridBagLayout());
+		v_BPPanel =  new CPanel(new GridBagLayout());
+		//	
+		m_TopP = 10;
+		m_LeftP = 10;
+		m_BottonP = 10;
+		m_RightP = 10;
+		//	Add Button Panel
+		add(v_ButtonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		add(v_BPPanel, new GridBagConstraints(0, 1, 1, 1, 1, 1
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 		// NEW
 		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
-		add (f_bNew, buttonSize+",gapx 35");
-
+		f_bNew.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		v_ButtonPanel.add(f_bNew, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// BPARTNER
 		f_bBPartner = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
-		add (f_bBPartner,buttonSize+",gapx 35" );
-		
+		f_bBPartner.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		v_ButtonPanel.add(f_bBPartner, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// HISTORY
 		f_bHistory = createButtonAction(ACTION_HISTORY, null);
- 		add (f_bHistory, buttonSize+",gapx 35"); 
-		
+		f_bHistory.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		v_ButtonPanel.add(f_bHistory, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
  		// 	BACK
  		f_bBack = createButtonAction(ACTION_BACK, null);
- 		add (f_bBack, buttonSize+",gapx 35");
+ 		f_bBack.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+ 		v_ButtonPanel.add(f_bBack, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
  		f_bBack.setEnabled(true);
 		
  		//	NEXT
  		f_bNext = createButtonAction(ACTION_NEXT, null);
- 		f_bNext.setActionCommand(ACTION_NEXT);
-		add (f_bNext, buttonSize+",gapx 35"); 
+ 		f_bNext.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+ 		v_ButtonPanel.add(f_bNext, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		f_bNext.setEnabled(true);
  		
  		// PAYMENT
  		f_bCollect = createButtonAction(ACTION_PAYMENT, null);
-		f_bCollect.setActionCommand(ACTION_PAYMENT);
-		add (f_bCollect, buttonSize+",gapx 35"); 
+ 		f_bCollect.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+ 		v_ButtonPanel.add(f_bCollect, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		f_bCollect.setEnabled(false);
  		
  		// CANCEL
 		f_bCancel = createButtonAction(ACTION_CANCEL, null);
- 		add (f_bCancel, buttonSize +",gapx 35");
+		f_bCancel.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		v_ButtonPanel.add(f_bCancel, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
  		
 		// Logout
 		f_bLogout = createButtonAction (ACTION_LOGOUT, null);
-		add (f_bLogout, buttonSize + ", gapx 35, wrap");
-
+		f_bLogout.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		v_ButtonPanel.add(f_bLogout, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// BP
-//		CLabel BPLabelLabel = new CLabel(Msg.translate(Env.getCtx(), MBPartner.COLUMNNAME_C_BPartner_ID)); 
-//		add(BPLabelLabel, "");
-		f_NameBPartner = new CTextField();
-		f_NameBPartner.setEditable(false);
-		f_NameBPartner.setName(MBPartner.COLUMNNAME_Name);
-//		add (f_name, "wrap,spanx 3, growx");
+		String labelName = Msg.translate(Env.getCtx(), "IsCustomer"); 
+//		l_BPartner = new CLabel(labelName);
+		f_NameBPartner = new POSTextField(labelName, v_POSPanel.getKeyboard());
+		f_NameBPartner.setPlaceholder(labelName);
+		f_NameBPartner.addActionListener(this);
+		f_NameBPartner.setFont(v_POSPanel.getFont());
+		f_NameBPartner.setPreferredSize(new Dimension(v_POSPanel.PRODUCT_PANEL_WIDTH, v_POSPanel.FIELD_HEIGHT));
+//		l_BPartner.setLabelFor(f_NameBPartner);
+//		l_BPartner.setFont(v_POSPanel.getFont());
+		//	Add
+		v_BPPanel.add(f_NameBPartner, new GridBagConstraints(0, 0, 1, 1, 0, 1
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 
 	}	//	init
 
@@ -191,7 +231,7 @@ public class POSActionPanel extends POSSubPanel
 			v_POSPanel.refreshPanel();
 			return;
 		} else if (e.getSource().equals(f_bBPartner)) {
-			changeBusinessPartner(); 
+			changeBusinessPartner(null); 
 		} else if (e.getSource().equals(f_bHistory)) {
 			// For already created, but either not completed or not yet paid POS Orders
 			I_POSQuery qt = new QueryTicket(v_POSPanel);
@@ -333,7 +373,7 @@ public class POSActionPanel extends POSSubPanel
 			return;
 		
 		// unchanged
-		if (!v_POSPanel.hasBPartner() 
+		if (v_POSPanel.hasBPartner() 
 				&& v_POSPanel.compareBPName(query))
 			return;
 		
@@ -369,15 +409,7 @@ public class POSActionPanel extends POSSubPanel
 			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
 			f_NameBPartner.setText(bp.getName());
 		} else {	//	more than one
-			QueryBPartner qt = new QueryBPartner(v_POSPanel);
-			qt.setResults (results);
-			qt.setVisible(true);
-			if (qt.getRecord_ID() > 0) {
-				v_POSPanel.setC_BPartner_ID(qt.getRecord_ID());
-				log.fine("C_BPartner_ID=" + qt.getRecord_ID());
-			} else {
-				v_POSPanel.setC_BPartner_ID(0);
-			}
+			changeBusinessPartner(results);
 		}
 	}	//	findBPartner
 	
@@ -515,7 +547,7 @@ public class POSActionPanel extends POSSubPanel
 		if (order != null) {  				
 				// Button BPartner: enable when order drafted, and order has no lines
 //				v_POSPanel.setC_BPartner_ID(order.getC_BPartner_ID());  				
-				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+				if(!v_POSPanel.isCompleted() && 
 						order.getLines().length == 0 )
 					f_bBPartner.setEnabled(true);
 				else
@@ -590,30 +622,26 @@ public class POSActionPanel extends POSSubPanel
 			f_bCollect.setEnabled(false);
 		}
 	}
-	
 
 	/**
 	 * 	Change in Order the Business Partner, including Price list and location
 	 *  In Order and POS
-	 * 
+	 *  @param results
 	 */
-	public void changeBusinessPartner() {
+	public void changeBusinessPartner(MBPartnerInfo[] results) {
 		// Change to another BPartner
 		QueryBPartner qt = new QueryBPartner(v_POSPanel);
+		qt.setResults(results);
 		qt.setVisible(true);
 		if (qt.getRecord_ID() > 0) {
-			MBPartner bp = MBPartner.get(m_ctx, qt.getRecord_ID());
-			f_NameBPartner.setText(bp.getName()); 
-			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
-			log.fine("C_BPartner_ID=" + bp.getC_BPartner_ID());
-		}
-//		else {
-//			v_POSPanel.setC_BPartner_ID(0);
-//		}
-//		findBPartner();
-//		if (v_POSPanel.getC_BPartner_ID() > 0) {				
-//			v_POSPanel.getM_Order().saveEx();  // TODO: how to avoid save here? Otherwise, neither BP nor PriceList are saved.
-//		}	
+			f_NameBPartner.setText(qt.getValue());
+			if(!v_POSPanel.hasOrder()) {
+				v_POSPanel.newOrder(qt.getRecord_ID());
+				v_POSPanel.refreshPanel();
+			} else {
+				v_POSPanel.setC_BPartner_ID(qt.getRecord_ID());
+			}
+			log.fine("C_BPartner_ID=" + qt.getRecord_ID());
+		}	
 	}	
-
 }//	POSActionPanel

@@ -15,19 +15,18 @@
 package org.adempiere.pos;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.adempiere.pos.search.QueryProduct;
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.apps.ADialog;
 import org.compiere.model.I_C_Order;
@@ -36,11 +35,9 @@ import org.compiere.model.I_M_Product;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.pos.PosKeyListener;
-import org.adempiere.pos.search.QueryProduct;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -92,10 +89,6 @@ public class POSProductPanel extends POSSubPanel
 	private POSTextField	f_ProductName;
 	/**	Keyboard			*/
 	private POSKeyPanel 	f_Keyboard;
-	/**	Format				*/
-	private DecimalFormat	m_Format;
-	/**	Font				*/
-	private Font 			font;
 	/**	Logger				*/
 	private static CLogger 	log = CLogger.getCLogger(POSProductPanel.class);
 
@@ -111,80 +104,77 @@ public class POSProductPanel extends POSSubPanel
 		//	Document Panel
 		//	Set Font and Format
 		v_HeaderPanel = new CPanel(new GridBagLayout());
-		//	Set Border
-		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 18);
-		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		//	For Title Border
 		v_TitleBorder = BorderFactory.createTitledBorder("");
-		v_TitleBorder.setTitleFont(font);
+		v_TitleBorder.setTitleFont(v_POSPanel.getFont());
 		v_TitleBorder.setTitleColor(AdempierePLAF.getTextColor_Label());
 		v_HeaderPanel.setBorder(v_TitleBorder);
  		// For Document No
 //		f_lb_DocumentNo = new CLabel(Msg.getMsg(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo)+":");
-//		f_lb_DocumentNo.setFont(font);
+//		f_lb_DocumentNo.setFont(v_POSPanel.getFont());
 		//	Add
 //		v_HeaderPanel.add(f_lb_DocumentNo, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 //				,GridBagConstraints.WEST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
 		//	
 //		f_DocumentNo = new CLabel();
-//		f_DocumentNo.setFont(font);
+//		f_DocumentNo.setFont(v_POSPanel.getFont());
 		//	Add
 //		v_HeaderPanel.add(f_DocumentNo, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 //				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Total Lines
 		f_lb_TotalLines = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_TotalLines) + ":");
-		f_lb_TotalLines.setFont(font);
+		f_lb_TotalLines.setFont(v_POSPanel.getFont());
 		//	Add
 		v_HeaderPanel.add(f_lb_TotalLines, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	
 		f_TotalLines = new CLabel();
-		f_TotalLines.setFont(font);
+		f_TotalLines.setFont(v_POSPanel.getFont());
 		f_lb_TotalLines.setLabelFor(f_TotalLines);
 		//	Add
 		v_HeaderPanel.add(f_TotalLines, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		// Sales Representative
 //		f_lb_SalesRep_Name = new CLabel(Msg.translate(Env.getCtx(), "POS.SalesRep_ID") + ":");
-//		f_lb_SalesRep_Name.setFont(font);
+//		f_lb_SalesRep_Name.setFont(v_POSPanel.getFont());
 		//	Add
 //		v_HeaderPanel.add(f_lb_SalesRep_Name, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 //				,GridBagConstraints.WEST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
 		//	
 //		f_SalesRep_Name = new CLabel();
-//		f_SalesRep_Name.setFont(font);
+//		f_SalesRep_Name.setFont(v_POSPanel.getFont());
 //		f_lb_SalesRep_Name.setLabelFor(f_SalesRep_Name);
 		//	Add
 //		v_HeaderPanel.add (f_SalesRep_Name, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 //				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Tax Amount
 		f_lb_TaxAmount = new CLabel (Msg.translate(Env.getCtx(), I_C_OrderLine.COLUMNNAME_C_Tax_ID) + ":");
-		f_lb_TaxAmount.setFont(font);
+		f_lb_TaxAmount.setFont(v_POSPanel.getFont());
 		//	Add
 		v_HeaderPanel.add(f_lb_TaxAmount, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	
 		f_TaxAmount = new CLabel();
-		f_TaxAmount.setFont(font);
+		f_TaxAmount.setFont(v_POSPanel.getFont());
 		f_lb_TaxAmount.setLabelFor(f_TaxAmount);
 		//	Add
 		v_HeaderPanel.add(f_TaxAmount, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Line
 		f_lb_Line = new CLabel ("___________________");
-		f_lb_Line.setFont(font);
+		f_lb_Line.setFont(v_POSPanel.getFont());
 		//	Add
 		v_HeaderPanel.add(f_lb_Line, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Grand Total
 		f_lb_GrandTotal = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_GrandTotal)+":");
-		f_lb_GrandTotal.setFont(font);
+		f_lb_GrandTotal.setFont(v_POSPanel.getFont());
 		//	Add
 		v_HeaderPanel.add(f_lb_GrandTotal, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	
 		f_GrandTotal = new CLabel();
-		f_GrandTotal.setFont(font);
+		f_GrandTotal.setFont(v_POSPanel.getFont());
 		f_lb_GrandTotal.setLabelFor(f_GrandTotal);
 		//	Change Size
 		//	Add
@@ -198,7 +188,7 @@ public class POSProductPanel extends POSSubPanel
 		f_ProductName.setPlaceholder(labelName);
 		f_ProductName.addActionListener(this);
 		f_ProductName.requestFocusInWindow();
-		f_ProductName.setFont(font);
+		f_ProductName.setFont(v_POSPanel.getFont());
 		f_ProductName.setPreferredSize(new Dimension(v_POSPanel.PRODUCT_PANEL_WIDTH, v_POSPanel.FIELD_HEIGHT));
 		//	For Key Panel
 		f_Keyboard = new POSKeyPanel(C_POSKeyLayout_ID, this);
@@ -222,9 +212,10 @@ public class POSProductPanel extends POSSubPanel
 		m_KeyboardConstraint.gridy = 2;
 		add(f_Keyboard,  m_KeyboardConstraint);
 		//	Refresh
-		f_TotalLines.setText(m_Format.format(Env.ZERO));
-		f_GrandTotal.setText(m_Format.format(Env.ZERO));
-		f_TaxAmount.setText(m_Format.format(Env.ZERO));
+//		f_TotalLines.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
+//		f_GrandTotal.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
+//		f_TaxAmount.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
+		refreshPanel();
 	}	//	init
 	
 	/**
@@ -328,10 +319,11 @@ public class POSProductPanel extends POSSubPanel
 	@Override
 	public void refreshPanel() {
 		if (!v_POSPanel.hasOrder()) {
-			v_TitleBorder.setTitle("");
-			f_TotalLines.setText(m_Format.format(Env.ZERO));
-			f_GrandTotal.setText(m_Format.format(Env.ZERO));
-			f_TaxAmount.setText(m_Format.format(Env.ZERO));
+			v_TitleBorder.setTitle(Msg.getMsg(v_POSPanel.getCtx(), "New"));
+			v_HeaderPanel.setBorder(v_TitleBorder);
+			f_TotalLines.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
+			f_GrandTotal.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
+			f_TaxAmount.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
 		} else {
 			BigDecimal m_TotalLines = v_POSPanel.getTotalLines();
 			BigDecimal m_GrandTotal = v_POSPanel.getGrandTotal();
@@ -339,12 +331,13 @@ public class POSProductPanel extends POSSubPanel
 			//	Set Values
 			v_TitleBorder.setTitle(v_POSPanel.getSalesRepName() + "[" + v_POSPanel.getDocumentNo() + "]");
 			v_HeaderPanel.setBorder(v_TitleBorder);
-			v_HeaderPanel.validate();
-			v_HeaderPanel.repaint();
-			f_TotalLines.setText(m_Format.format(m_TotalLines));
-			f_GrandTotal.setText(m_Format.format(m_GrandTotal));
-			f_TaxAmount.setText(m_Format.format(m_TaxAmt));
+			f_TotalLines.setText(v_POSPanel.getNumberFormat().format(m_TotalLines));
+			f_GrandTotal.setText(v_POSPanel.getNumberFormat().format(m_GrandTotal));
+			f_TaxAmount.setText(v_POSPanel.getNumberFormat().format(m_TaxAmt));
 		}
+		//	Repaint
+		v_HeaderPanel.validate();
+		v_HeaderPanel.repaint();
 	}
 
 	@Override
