@@ -30,9 +30,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.compiere.apps.AppsAction;
+import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.model.PO;
 import org.compiere.pos.PosTable;
+import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
 import org.compiere.swing.CButton;
+import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CComboBox;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CScrollPane;
@@ -159,6 +165,12 @@ public abstract class POSQuery extends CDialog
 		} else if (f_Ok.equals(e.getSource())) {
 			select();
 			close();
+		} else if(e.getSource() instanceof POSTextField
+				|| e.getSource() instanceof VDate
+				|| e.getSource() instanceof VNumber
+				|| e.getSource() instanceof CCheckBox
+				|| e.getSource() instanceof CComboBox) {
+			refresh();
 		}
 	}
 
@@ -207,6 +219,13 @@ public abstract class POSQuery extends CDialog
 	protected abstract void cancel();
 	
 	/**
+	 * Set Result from search
+	 * @param results
+	 * @return void
+	 */
+	protected abstract void setResults(PO[] results);
+	
+	/**
 	 * For New action
 	 * @return void
 	 */
@@ -243,8 +262,7 @@ public abstract class POSQuery extends CDialog
 	 */
 	public void mouseClicked(MouseEvent e) {
 		//  Single click with selected row => exit
-		if (e.getClickCount() > 0 && m_table.getSelectedRow() != -1)
-		{
+		if (e.getClickCount() > 0 && m_table.getSelectedRow() != -1) {
 			select();
 			close();
 		}

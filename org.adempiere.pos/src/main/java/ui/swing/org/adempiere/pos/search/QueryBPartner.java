@@ -15,7 +15,6 @@
 package org.adempiere.pos.search;
 
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
 
 import javax.swing.border.TitledBorder;
 
@@ -28,6 +27,7 @@ import org.compiere.grid.ed.VBPartner;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartnerInfo;
+import org.compiere.model.PO;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
@@ -154,19 +154,15 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 		addNewAction();
 	}	//	init
 	
-	/**
-	 * 	Action Listener
-	 *	@param e event
-	 */
-	public void actionPerformed (ActionEvent e) {
-		super.actionPerformed(e);
-		if (e.getSource() == f_value
-			|| e.getSource() == f_name
-			) {
-			refresh();
-			return;
-		}
-	}	//	actionPerformed
+//	@Override
+//	public void actionPerformed (ActionEvent e) {
+//		super.actionPerformed(e);
+//		if (e.getSource() == f_value
+//			|| e.getSource() == f_name) {
+//			refresh();
+//			return;
+//		}
+//	}	//	actionPerformed
 	
 	
 	@Override
@@ -183,18 +179,32 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 	 * 	Set/display Results
 	 *	@param results results
 	 */
-	public void setResults (MBPartnerInfo[] results) {
+	private void setResultsFromArray(MBPartnerInfo[] results) {
 		m_table.loadTable(results);
-		if (m_table.getRowCount() >0 )
+		int rowCount = m_table.getRowCount();
+		if (rowCount > 0) {
 			m_table.setRowSelectionInterval(0, 0);
-		select();
+			if(rowCount == 1) {
+				select();
+			}
+		}
 	}	//	setResults
+	
+	@Override
+	public void setResults(PO[] results) {
+		//	Valid Result
+		if(results == null
+				|| !(results instanceof MBPartnerInfo[]))
+			return;
+		//	
+		setResultsFromArray((MBPartnerInfo[]) results);
+	}
 
 	/**
 	 * 	Enable/Set Buttons and set ID
 	 */
 	protected void select() {
-		m_C_BPartner_ID = -1;
+		cleanValues();
 		int row = m_table.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled) {
@@ -230,19 +240,30 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 		f_phone.setText(null);
 		f_city.setText(null);
 		setResults(new MBPartnerInfo[0]);
+		cleanValues();
 	}
 
 	@Override
 	public void refresh() {
+		cleanValues();
 		setResults(MBPartnerInfo.find (m_ctx,
 				f_value.getText(), f_name.getText(), 
 				null, f_email.getText(),
 				f_phone.getText(), f_city.getText()));
 	}
+	
+	/**
+	 * Clean Values
+	 * @return void
+	 */
+	private void cleanValues() {
+		m_C_BPartner_ID = -1;
+		m_BPartnerName = null;
+	}
 
 	@Override
 	protected void cancel() {
-		m_C_BPartner_ID = 0;
+		cleanValues();
 		dispose();
 	}
 

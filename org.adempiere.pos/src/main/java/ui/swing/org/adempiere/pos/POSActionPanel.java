@@ -44,7 +44,6 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MSequence;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
-import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -142,49 +141,49 @@ public class POSActionPanel extends POSSubPanel
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 		// NEW
 		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
-		f_bNew.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		f_bNew.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
 		v_ButtonPanel.add(f_bNew, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// BPARTNER
 		f_bBPartner = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
-		f_bBPartner.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		f_bBPartner.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
 		v_ButtonPanel.add(f_bBPartner, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// HISTORY
 		f_bHistory = createButtonAction(ACTION_HISTORY, null);
-		f_bHistory.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		f_bHistory.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
 		v_ButtonPanel.add(f_bHistory, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
  		// 	BACK
  		f_bBack = createButtonAction(ACTION_BACK, null);
- 		f_bBack.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+ 		f_bBack.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
  		v_ButtonPanel.add(f_bBack, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
  		f_bBack.setEnabled(true);
 		
  		//	NEXT
  		f_bNext = createButtonAction(ACTION_NEXT, null);
- 		f_bNext.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+ 		f_bNext.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
  		v_ButtonPanel.add(f_bNext, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		f_bNext.setEnabled(true);
  		
  		// PAYMENT
  		f_bCollect = createButtonAction(ACTION_PAYMENT, null);
- 		f_bCollect.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+ 		f_bCollect.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
  		v_ButtonPanel.add(f_bCollect, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		f_bCollect.setEnabled(false);
  		
  		// CANCEL
 		f_bCancel = createButtonAction(ACTION_CANCEL, null);
-		f_bCancel.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		f_bCancel.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
 		v_ButtonPanel.add(f_bCancel, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
  		
 		// Logout
 		f_bLogout = createButtonAction (ACTION_LOGOUT, null);
-		f_bLogout.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		f_bLogout.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
 		v_ButtonPanel.add(f_bLogout, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// BP
@@ -194,7 +193,7 @@ public class POSActionPanel extends POSSubPanel
 		f_NameBPartner.setPlaceholder(labelName);
 		f_NameBPartner.addActionListener(this);
 		f_NameBPartner.setFont(v_POSPanel.getFont());
-		f_NameBPartner.setPreferredSize(new Dimension(v_POSPanel.PRODUCT_PANEL_WIDTH, v_POSPanel.FIELD_HEIGHT));
+		f_NameBPartner.setPreferredSize(new Dimension(530, v_POSPanel.getFieldLenght()));
 //		l_BPartner.setLabelFor(f_NameBPartner);
 //		l_BPartner.setFont(v_POSPanel.getFont());
 		//	Add
@@ -261,16 +260,16 @@ public class POSActionPanel extends POSSubPanel
 	/**
 	 * 	Execute printing an order
 	 */
-	private void printOrder() {
-		{
-			if (isOrderFullyPaid())
-			{
-				changeViewPanel();
-				printTicket();
-				openCashDrawer();
-			}
-		}
-	}
+//	private void printOrder() {
+//		{
+//			if (isOrderFullyPaid())
+//			{
+//				changeViewPanel();
+//				printTicket();
+//				openCashDrawer();
+//			}
+//		}
+//	}
 	
 	/**
 	 * Previous Record Order
@@ -435,7 +434,7 @@ public class POSActionPanel extends POSSubPanel
 					PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
 				*/ 
 				//print standard document
-				Boolean print = true;
+//				Boolean print = true;
 				if (m_pos.getAD_Sequence_ID()!= 0) {
 					MSequence seq = new MSequence(Env.getCtx(), m_pos.getAD_Sequence_ID(), order.get_TrxName());
 					String docno = seq.getPrefix() + seq.getCurrentNext();
@@ -486,20 +485,20 @@ public class POSActionPanel extends POSSubPanel
 	 * 	Open cash drawer
 	 * 
 	 */
-	public void openCashDrawer()
-	{
-		String port = "/dev/lp";
-		
-		byte data[] = new byte[] {0x1B, 0x40, 0x1C};
-		try {  
-            FileOutputStream m_out = null;
-			if (m_out == null) {
-                m_out = new FileOutputStream(port);  // No poner append = true.
-            }
-            m_out.write(data);
-        } catch (IOException e) {
-        }  
-	}
+//	public void openCashDrawer()
+//	{
+//		String port = "/dev/lp";
+//		
+//		byte data[] = new byte[] {0x1B, 0x40, 0x1C};
+//		try {  
+//            FileOutputStream m_out = null;
+//			if (m_out == null) {
+//                m_out = new FileOutputStream(port);  // No poner append = true.
+//            }
+//            m_out.write(data);
+//        } catch (IOException e) {
+//        }  
+//	}
 	
 	/**
 	 * Get Data List Order

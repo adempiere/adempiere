@@ -189,19 +189,20 @@ public class POSProductPanel extends POSSubPanel
 		f_ProductName.addActionListener(this);
 		f_ProductName.requestFocusInWindow();
 		f_ProductName.setFont(v_POSPanel.getFont());
-		f_ProductName.setPreferredSize(new Dimension(v_POSPanel.PRODUCT_PANEL_WIDTH, v_POSPanel.FIELD_HEIGHT));
+		f_ProductName.setPreferredSize(new Dimension(530, 50/*v_POSPanel.getFieldLenght()*/));
 		//	For Key Panel
 		f_Keyboard = new POSKeyPanel(C_POSKeyLayout_ID, this);
 		//	Add Header
 		GridBagConstraints m_HeaderConstraint = new GridBagConstraints();
-		m_HeaderConstraint.fill = GridBagConstraints.HORIZONTAL;
+		m_HeaderConstraint.fill = GridBagConstraints.BOTH;
 		m_HeaderConstraint.weightx = 1;
 		m_HeaderConstraint.gridy = 0;
 		add(v_HeaderPanel, m_HeaderConstraint);
 		//	Add Product Name
 		GridBagConstraints m_ProductConstraint = new GridBagConstraints();
-		m_ProductConstraint.fill = GridBagConstraints.HORIZONTAL;
-		m_ProductConstraint.weightx = 1;
+		m_ProductConstraint.fill = GridBagConstraints.BOTH;
+		m_ProductConstraint.weightx = 0;
+		m_ProductConstraint.weighty = 0.05;
 		m_ProductConstraint.gridy = 1;
 		add (f_ProductName,  m_ProductConstraint);
 		//	Add Keyboard
@@ -285,25 +286,18 @@ public class POSProductPanel extends POSSubPanel
 		String Name = query;
 		String UPC = (allNumber ? query : null);
 		String SKU = (allNumber ? query : null);
-		
-		MWarehousePrice[] results = null;
-		
-		//	setParameter();
-		//
-		results = MWarehousePrice.find (m_ctx,
+		//	
+		MWarehousePrice[] results = MWarehousePrice.find (m_ctx,
 				v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID(), 
 				Value, Name, UPC, SKU, null);
 		
 		//	Set Result
-//		if (results.length == 0) {
-//			String message = Msg.getMsg(p_ctx,  "POS.SearchProductNF");	//	TODO Translate it: Search Product Not Found
-//			ADialog.warn(v_POSPanel.getWindowNo(), null, message + " " + query);
-//		} else 
 		if (results.length == 1) {	//	one
 			addLine(results[0].getM_Product_ID(), Env.ONE);
 			f_ProductName.setText(results[0].getName());
 		} else {	//	more than one
 			QueryProduct qt = new QueryProduct(v_POSPanel);
+			qt.setResults(results);
 			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
 			qt.setVisible(true);
 			if (qt.getRecord_ID() > 0) {

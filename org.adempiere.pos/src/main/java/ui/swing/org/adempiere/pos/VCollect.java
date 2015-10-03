@@ -30,7 +30,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -54,7 +53,6 @@ import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
@@ -77,7 +75,6 @@ public class VCollect extends Collect
 		v_POSPanel = posPanel;
 		m_ctx = v_POSPanel.getCtx();
 		collectRowNo = 0;
-		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		init();
 	}
 
@@ -127,7 +124,6 @@ public class VCollect extends Collect
 	private boolean 		isPaid;
 	private Properties 		m_ctx;
 	private int 			collectRowNo;
-	private DecimalFormat	m_Format;
 	
 	/**	Log					*/
 	private CLogger 		log = CLogger.getCLogger(VCollect.class);
@@ -224,7 +220,7 @@ public class VCollect extends Collect
 		AppsAction act = new AppsAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2), false);
 		act.setDelegate(this);
 		bPlus = (CButton)act.getButton();
-		bPlus.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
+		bPlus.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
 		bPlus.setFocusable(false);
 		//	For Confirm Panel Button
 		bCancel = ConfirmPanel.createCancelButton(true);

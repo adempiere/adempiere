@@ -14,7 +14,6 @@
 
 package org.adempiere.pos.search;
 
-import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +29,7 @@ import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.grid.ed.VDate;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.PO;
 import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
 import org.compiere.swing.CCheckBox;
@@ -140,26 +140,11 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 				, false, "C_Order");
 		m_table.addMouseListener(this);
 		m_table.getSelectionModel().addListSelectionListener(this);
-		select();
 		m_table.growScrollbars();
 		f_DocumentNo.requestFocus();
 		pack();
 		refresh();
 	}	//	init
-	
-	/**
-	 * 	Action Listener
-	 *	@param e event
-	 */
-	@Override
-	public void actionPerformed (ActionEvent e) {
-		super.actionPerformed(e);
-		if (e.getSource() == f_Processed || e.getSource() == f_DocumentNo
-			|| e.getSource() == f_DateFrom || e.getSource() == f_DateTo) {
-			refresh();
-			return;
-		}
-	}	//	actionPerformed
 	
 	/**
 	 * 
@@ -174,11 +159,21 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 	}
 	
 	/**
+	 * Clean Values
+	 * @return void
+	 */
+	private void cleanValues() {
+		m_C_Order_ID = -1;
+	}
+	
+	/**
 	 * 	Set/display Results
 	 *	@param results results
 	 */
-	public void setResults (Properties ctx, boolean processed, String doc, Timestamp dateFrom, Timestamp dateTo) {
+	public void setResultsFromArray(Properties ctx, boolean processed, String doc, Timestamp dateFrom, Timestamp dateTo) {
 		StringBuffer sql = new StringBuffer();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
 		try  {
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, coalesce(invoiceopen(i.c_invoice_ID, 0), o.grandtotal) as invoiceopen")
 			     .append(", o.GrandTotal, b.Name, o.Processed, i.ispaid ")
@@ -198,20 +193,27 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 			}
 			sql.append(" ORDER BY o.DocumentNo DESC");
 			
-			PreparedStatement pstm = DB.prepareStatement(sql.toString(), null);
-			if ( dateFrom != null ) {				
+			pstm = DB.prepareStatement(sql.toString(), null);
+			if (dateFrom != null) {				
 				pstm.setTimestamp(1, dateFrom);
 				if ( dateTo != null && !dateTo.equals(dateFrom))	
 					pstm.setTimestamp(2, dateTo);
 			}
-			ResultSet rs = pstm.executeQuery();
+			//	
+			rs = pstm.executeQuery();
 			m_table.loadTable(rs);
-			if ( m_table.getRowCount() > 0 )
+			int rowNo = m_table.getRowCount();
+			if (rowNo > 0) {
 				m_table.setRowSelectionInterval(0, 0);
-			select();
+				if(rowNo == 1) {
+					select();
+				}
+			}
 		} catch(Exception e) {
 			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
-			
+		} finally {
+			DB.close(rs);
+			DB.close(pstm);
 		}
 	}	//	setResults
 
@@ -219,7 +221,7 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 	 * 	Enable/Set Buttons and set ID
 	 */
 	protected void select() {
-		m_C_Order_ID = -1;
+		cleanValues();
 		int row = m_table.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
@@ -248,13 +250,19 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 	
 	@Override
 	public void refresh() {
-		setResults(m_ctx, f_Processed.isSelected(), f_DocumentNo.getText(), 
+		cleanValues();
+		setResultsFromArray(m_ctx, f_Processed.isSelected(), f_DocumentNo.getText(), 
 				f_DateFrom.getTimestamp(), f_DateTo.getTimestamp());
 	}
 	
 	@Override
+	public void setResults(PO[] results) {
+		//	
+	}
+	
+	@Override
 	protected void cancel() {
-		m_C_Order_ID = -1;
+		cleanValues();
 		dispose();
 	}
 
