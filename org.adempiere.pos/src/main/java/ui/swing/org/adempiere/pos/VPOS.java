@@ -88,16 +88,14 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
 	/**	Logger						*/
 	private CLogger							log = CLogger.getCLogger(getClass());
-	/**	Default Width				*/
-	public final int						PRODUCT_PANEL_WIDTH = 530;
-	/**	Default Height				*/
-	public final int						FIELD_HEIGHT = 50;
 	/**	Format						*/
 	private DecimalFormat					m_Format;
 	/**	Font						*/
 	private Font 							font;
+	/**	Default Height				*/
+	public int								m_FieldHeight;
 	/**	Plus Button Size			*/
-	public final int						BUTTON_SIZE	= 50;
+	private int								m_ButtonSize;
 	
 	
 	/**
@@ -118,6 +116,9 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		//	Set Border
 		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 18);
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
+		m_FieldHeight = 50;
+		m_ButtonSize = 50;
+		
 	}
 
 	@Override
@@ -189,6 +190,24 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 */
 	public DecimalFormat getNumberFormat() {
 		return m_Format;
+	}
+	
+	/**
+	 * Get Field Lenght
+	 * @return
+	 * @return int
+	 */
+	public int getFieldLenght() {
+		return m_FieldHeight;
+	}
+	
+	/**
+	 * Get Button Size
+	 * @return
+	 * @return int
+	 */
+	public int getButtonSize() {
+		return m_ButtonSize;
 	}
 	
 	/**

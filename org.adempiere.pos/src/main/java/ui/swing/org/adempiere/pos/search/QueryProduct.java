@@ -14,19 +14,19 @@
 
 package org.adempiere.pos.search;
 
-import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.compiere.minigrid.ColumnInfo;
-import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MWarehousePrice;
 import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
 import org.adempiere.pos.service.I_POSQuery;
+import org.compiere.minigrid.ColumnInfo;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MWarehousePrice;
+import org.compiere.model.PO;
 import org.compiere.swing.CLabel;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -45,7 +45,8 @@ import org.compiere.util.Msg;
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class QueryProduct extends POSQuery implements I_POSQuery {
+public class QueryProduct extends POSQuery 
+		implements I_POSQuery {
 
 	private static final long serialVersionUID = 9172276999827406833L;
 
@@ -137,7 +138,6 @@ public class QueryProduct extends POSQuery implements I_POSQuery {
 		m_table.getColumn(5).setPreferredWidth(75);
 		m_table.getColumn(6).setPreferredWidth(75);
 		m_table.getColumn(7).setPreferredWidth(75);
-		select();
 		m_table.setFillsViewportHeight(true); //@Trifon
 		m_table.growScrollbars();
 		f_Value.requestFocus();
@@ -153,38 +153,38 @@ public class QueryProduct extends POSQuery implements I_POSQuery {
 		m_M_Warehouse_ID = M_Warehouse_ID;
 	}	//	setQueryData
 	
-	/**
-	 * 	Action Listener
-	 *	@param e event
-	 */
-	public void actionPerformed (ActionEvent e) {
-		super.actionPerformed(e);
-		if (e.getSource() == f_Value || e.getSource() == f_UPC
-			|| e.getSource() == f_ProductName || e.getSource() == f_SKU) {
-			refresh();
-			return;
-		}
-		//	Exit
-	}	//	actionPerformed
+//	@Override
+//	public void actionPerformed (ActionEvent e) {
+//		super.actionPerformed(e);
+//		if (e.getSource() == f_Value || e.getSource() == f_UPC
+//			|| e.getSource() == f_ProductName || e.getSource() == f_SKU) {
+//			refresh();
+//			return;
+//		}
+//		//	Exit
+//	}	//	actionPerformed
 	
 	
 	/**
 	 * 	Set/display Results
 	 *	@param results results
 	 */
-	private void setResults (MWarehousePrice[] results) {
+	private void setResultsFromArray(MWarehousePrice[] results) {
 		m_table.loadTable(results);
-		if (m_table.getRowCount() >0 )
+		int rowCount = m_table.getRowCount();
+		if (rowCount > 0) {
 			m_table.setRowSelectionInterval(0, 0);
+			if(rowCount == 1) {
+				select();
+			}
+		}
 	}	//	setResults
 
 	/**
 	 * 	Enable/Set Buttons and set ID
 	 */
 	protected void select() {
-		m_M_Product_ID = -1;
-		m_ProductName = null;
-		m_Price = null;
+		cleanValues();
 		int row = m_table.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
@@ -201,7 +201,15 @@ public class QueryProduct extends POSQuery implements I_POSQuery {
 		log.fine("M_Product_ID=" + m_M_Product_ID + " - " + m_ProductName + " - " + m_Price); 
 	}	//	enableButtons
 
-
+	/**
+	 * Clean Values
+	 * @return void
+	 */
+	private void cleanValues() {
+		m_M_Product_ID = -1;
+		m_ProductName = null;
+		m_Price = Env.ZERO;
+	}
 
 	/**
 	 * 	Close.
@@ -226,16 +234,25 @@ public class QueryProduct extends POSQuery implements I_POSQuery {
 
 	@Override
 	public void refresh() {
+		cleanValues();
 		setResults(MWarehousePrice.find (m_ctx,
 				m_M_PriceList_Version_ID, m_M_Warehouse_ID,
 				f_Value.getText(), f_ProductName.getText(), f_UPC.getText(), f_SKU.getText(), null));
 	}
+	
+	@Override
+	public void setResults(PO[] results) {
+		//	Valid null result
+		if(results == null
+				|| !(results instanceof MWarehousePrice[]))
+			return;
+		//	
+		setResultsFromArray((MWarehousePrice[]) results);
+	}
 
 	@Override
 	protected void cancel() {
-		m_M_Product_ID = -1;
-		m_ProductName = null;
-		m_Price = Env.ZERO;
+		cleanValues();
 		dispose();
 	}
 
