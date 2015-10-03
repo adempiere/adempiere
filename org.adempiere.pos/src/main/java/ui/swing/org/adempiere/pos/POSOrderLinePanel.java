@@ -14,6 +14,7 @@
 
 package org.adempiere.pos;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -25,8 +26,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-
-import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.minigrid.IDColumn;
@@ -86,8 +85,8 @@ public class POSOrderLinePanel extends POSSubPanel
 	public void init() {
 	
 		//	Content
-		setLayout(new MigLayout("fill, ins 10 10"));
-	
+//		setLayout(new MigLayout("fill, ins 10 10"));
+		setLayout(new BorderLayout());
 		m_table = new PosTable();
 		m_TableHandle = new POSOrderLineTableHandle(m_table);
 		CScrollPane scroll = new CScrollPane(m_table);
@@ -145,7 +144,8 @@ public class POSOrderLinePanel extends POSSubPanel
 
 		m_table.setFillsViewportHeight(true); //@Trifon
 		m_table.growScrollbars();
-		add (scroll, "growx, spanx, growy, pushy, h 100:30:");		
+//		add (scroll, "growx, spanx, growy, pushy, h 100:30:");
+		add(scroll, BorderLayout.CENTER);
 	} //init
 
 

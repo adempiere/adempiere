@@ -323,11 +323,11 @@ public class CPOS {
 		order.setM_PriceList_ID(m_POS.getM_PriceList_ID());
 		order.setSalesRep_ID(m_POS.getSalesRep_ID());
 		order.setPaymentRule(MOrder.PAYMENTRULE_Cash);
-		if (!order.save()) {
-			order = null;
-			throw new AdempierePOSException(Msg.getMsg(Env.getCtx(), "Save order failed"));
-		}
-		
+		order.saveEx();
+//		if (!order.save()) {
+//			order = null;
+//			throw new AdempierePOSException(Msg.getMsg(Env.getCtx(), "Save order failed"));
+//		}
 		return order;
 	} // PosOrderModel	
 
@@ -814,19 +814,20 @@ public class CPOS {
 	 *	@param C_BPartner_ID id
 	 */
 	public void setC_BPartner_ID (int C_BPartner_ID) {
+		//	Valid if has a Order
+		if(!hasOrder())
+			return;
 		log.fine( "CPOS.setC_BPartner_ID=" + C_BPartner_ID);
 		if (C_BPartner_ID == 0)
 			m_BPartner = null;
 		else {
 			m_BPartner = MBPartner.get(m_ctx, C_BPartner_ID);
-			if (m_BPartner!=null) {
-				m_CurrentOrder.setC_BPartner_ID(C_BPartner_ID);
-				int M_PriceList_ID = m_BPartner.getM_PriceList_ID();
-				m_CurrentOrder.setM_PriceList_ID(M_PriceList_ID);
-				
-				MBPartnerLocation [] bpLocations = m_BPartner.getLocations(true);
-				if(bpLocations.length>0) {
-					for(MBPartnerLocation loc:bpLocations) {
+			if (m_BPartner != null) {
+				m_CurrentOrder.setBPartner(m_BPartner);
+				//	
+				MBPartnerLocation [] m_BPLocations = m_BPartner.getLocations(true);
+				if(m_BPLocations.length > 0) {
+					for(MBPartnerLocation loc : m_BPLocations) {
 						if(loc.isBillTo())
 							m_CurrentOrder.setBill_Location_ID(loc.getC_BPartner_Location_ID());	
 						if(loc.isShipTo())
