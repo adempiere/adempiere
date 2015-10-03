@@ -212,9 +212,6 @@ public class POSProductPanel extends POSSubPanel
 		m_KeyboardConstraint.gridy = 2;
 		add(f_Keyboard,  m_KeyboardConstraint);
 		//	Refresh
-//		f_TotalLines.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
-//		f_GrandTotal.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
-//		f_TaxAmount.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
 		refreshPanel();
 	}	//	init
 	
