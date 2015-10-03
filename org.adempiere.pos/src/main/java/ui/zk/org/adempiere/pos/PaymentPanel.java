@@ -311,7 +311,7 @@ public class PaymentPanel extends Collect implements EventListener {
 			payCreditCard(payAmt, fCCardName.getValue(), month, year, cardNo, cardCVC, cardType);
 		}
 			
-		processPayment(null);
+//		processPayment(null);
 		return true;
 	}
 	public void setTotals() {
