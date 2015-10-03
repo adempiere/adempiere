@@ -23,7 +23,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -40,7 +39,6 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
 import org.adempiere.pipo.exception.POSaveFailedException;
-import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.pos.service.Collect;
 import org.adempiere.pos.service.CollectDetail;
 import org.adempiere.pos.service.I_POSPanel;
@@ -133,14 +131,10 @@ public class VCollect extends Collect
 	
 	/**	Log					*/
 	private CLogger 		log = CLogger.getCLogger(VCollect.class);
-	/**	Default Font		*/
-	private Font 			font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 18);
 	/**	Default Width		*/
 	private final int		SUMMARY_FIELD_WIDTH 	= 200;
 	/**	Default Height		*/
 	private final int		SUMMARY_FIELD_HEIGHT 	= 30;
-	/**	Plus Button Size	*/
-	private final int		BUTTON_SIZE				= 50;
 
 	/**
 	 * Instance Frame and fill fields
@@ -169,38 +163,38 @@ public class VCollect extends Collect
 		
 		// Add Grand Total
 		lGrandTotal = new CLabel(Msg.translate(m_ctx, "GrandTotal") + ":");
-		lGrandTotal.setFont(font);
+		lGrandTotal.setFont(v_POSPanel.getFont());
 		//	
 		fGrandTotal = new CLabel();
-		fGrandTotal.setFont(font);
+		fGrandTotal.setFont(v_POSPanel.getFont());
 		//	
 		fGrandTotal.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
 		
 		//	Add Payment Amount
 		lPayAmt = new CLabel(Msg.translate(m_ctx, "PayAmt") + ":");
-		lPayAmt.setFont(font);
+		lPayAmt.setFont(v_POSPanel.getFont());
 		//	
 		fPayAmt = new CLabel();
-		fPayAmt.setFont(font);
+		fPayAmt.setFont(v_POSPanel.getFont());
 		fPayAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
 		//	Add Line
 		fLine = new CLabel("________________");
-		fLine.setFont(font);
+		fLine.setFont(v_POSPanel.getFont());
 		//	For Returned Amount
 		lReturnAmt = new CLabel(Msg.translate(m_ctx, "AmountReturned") + ":");
-		lReturnAmt.setFont(font);
+		lReturnAmt.setFont(v_POSPanel.getFont());
 		//	
 		fReturnAmt = new CLabel();
-		fReturnAmt.setFont(font);
+		fReturnAmt.setFont(v_POSPanel.getFont());
 		fReturnAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
 		
 		//	Add Is Pre-Payment
 		fIsPrePayOrder = new CCheckBox(Msg.translate(m_ctx, "IsPrePayment"));
-		fIsPrePayOrder.setFont(font);
+		fIsPrePayOrder.setFont(v_POSPanel.getFont());
 		
 		//	Add Is Credit Order
 		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "CreditSale"));
-		fIsCreditOrder.setFont(font);
+		fIsCreditOrder.setFont(v_POSPanel.getFont());
 		
 		// Pre-Payment, Standard Order: enable only if the order is completed and there are lines 
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
@@ -230,7 +224,7 @@ public class VCollect extends Collect
 		AppsAction act = new AppsAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2), false);
 		act.setDelegate(this);
 		bPlus = (CButton)act.getButton();
-		bPlus.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+		bPlus.setPreferredSize(new Dimension(v_POSPanel.BUTTON_SIZE, v_POSPanel.BUTTON_SIZE));
 		bPlus.setFocusable(false);
 		//	For Confirm Panel Button
 		bCancel = ConfirmPanel.createCancelButton(true);
@@ -348,6 +342,7 @@ public class VCollect extends Collect
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		isPaid = false;
 		//	Validate Event
 		if (e.getSource().equals(bPlus)) {
 			addCollectType();
@@ -363,10 +358,10 @@ public class VCollect extends Collect
 				return;
 			}
 			//	
+			isPaid = true;
 			v_Dialog.dispose();
 			return;
 		} else if (e.getSource().equals(bCancel)) {	//	Nothing
-			isPaid = false;
 			v_Dialog.dispose();
 			return;
 		} else if(e.getSource().equals(fIsCreditOrder)) {	//	For Credit Order Checked
@@ -537,14 +532,14 @@ public class VCollect extends Collect
 		BigDecimal m_PayAmt = getPayAmt();
 		BigDecimal m_Balance = getBalance();
 		//	Change View
-		fGrandTotal.setText(m_Format.format(v_POSPanel.getOpenAmt()));
-		fPayAmt.setText(m_Format.format(m_PayAmt));
+		fGrandTotal.setText(v_POSPanel.getNumberFormat().format(v_POSPanel.getOpenAmt()));
+		fPayAmt.setText(v_POSPanel.getNumberFormat().format(m_PayAmt));
 		//	BR https://github.com/erpcya/AD-POS-WebUI/issues/6
 		//	Show pretty Return Amount
 		BigDecimal m_ReturnAmt = Env.ZERO;
 		if(m_Balance.doubleValue() < 0) {
 			m_ReturnAmt = m_Balance.abs();
 		}
-		fReturnAmt.setText(m_Format.format(m_ReturnAmt));
+		fReturnAmt.setText(v_POSPanel.getNumberFormat().format(m_ReturnAmt));
 	}
 } // VCollect
