@@ -120,7 +120,7 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 		f_DateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		ldateFrom.setLabelFor(f_DateFrom);
 		v_ParameterPanel.add(f_DateFrom, "h 30, w 200");
-		f_DateFrom.addActionListener(this);
+		f_DateFrom.addVetoableChangeListener(this);
 		
 		// Date To
 		CLabel ldateTo = new CLabel(Msg.translate(m_ctx, DATEORDEREDTO));
@@ -129,10 +129,11 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 		f_DateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		ldateTo.setLabelFor(f_DateTo);
 		v_ParameterPanel.add(f_DateTo, "h 30, w 200");
-		f_DateTo.addActionListener(this);
+		f_DateTo.addVetoableChangeListener(this);
 		
 		f_Processed = new CCheckBox(Msg.translate(m_ctx, PROCESSED));
 		f_Processed.setSelected(false);
+		f_Processed.addActionListener(this);
 		v_ParameterPanel.add(f_Processed, "");
 		//	
 		m_table.prepareTable (s_layout, "C_Order", 
@@ -175,29 +176,35 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try  {
-			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, coalesce(invoiceopen(i.c_invoice_ID, 0), o.grandtotal) as invoiceopen")
-			     .append(", o.GrandTotal, b.Name, o.Processed, i.ispaid ")
+			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, COALESCE(invoiceopen(i.C_Invoice_ID, 0), o.GrandTotal) as InvoiceOpen")
+			     .append(", o.GrandTotal, b.Name, o.Processed, i.IsPaid ")
 				.append(" FROM C_Order o ")
-				.append(" INNER JOIN C_BPartner b ON o.C_BPartner_ID=b.C_BPartner_ID")
-				.append(" LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID")
-				.append(" WHERE o.C_POS_ID = " + v_POSPanel.getC_POS_ID())
-				.append(" AND coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0 ")
-				.append(" AND (i.ispaid='N' OR o.processed= "+ ( processed ? "'Y' )" : "'N' )"));
+				.append(" INNER JOIN C_BPartner b ON(o.C_BPartner_ID = b.C_BPartner_ID)")
+				.append(" LEFT JOIN C_invoice i ON(i.C_Order_ID = o.C_Order_ID)")
+				.append(" WHERE o.C_POS_ID = ?")
+				.append(" AND o.Processed= ?");
 			if (doc != null && !doc.equalsIgnoreCase(""))
 				sql.append(" AND (o.DocumentNo LIKE '%" + doc + "%' OR  i.DocumentNo LIKE '%" + doc + "%')");
 			if ( dateFrom != null ) {
 				if ( dateTo != null && !dateTo.equals(dateFrom))
-					sql.append(" AND trunc(o.DateOrdered) BETWEEN ? AND ?");						
+					sql.append(" AND o.DateOrdered >= ? AND o.DateOrdered <= ?");						
 				else
-					sql.append(" AND trunc(o.DateOrdered) = ? ");	
+					sql.append(" AND o.DateOrdered = ? ");	
 			}
-			sql.append(" ORDER BY o.DocumentNo DESC");
-			
+			sql.append(" ORDER BY o.Updated");
+			int i = 1;			
 			pstm = DB.prepareStatement(sql.toString(), null);
+			//	POS
+			pstm.setInt(i++, v_POSPanel.getC_POS_ID());
+			//	Processed
+			pstm.setString(i++, processed? "Y": "N");
+			//	Date From and To
 			if (dateFrom != null) {				
-				pstm.setTimestamp(1, dateFrom);
-				if ( dateTo != null && !dateTo.equals(dateFrom))	
-					pstm.setTimestamp(2, dateTo);
+				pstm.setTimestamp(i++, dateFrom);
+				if (dateTo != null 
+						&& !dateTo.equals(dateFrom)) {
+					pstm.setTimestamp(i++, dateTo);
+				}
 			}
 			//	
 			rs = pstm.executeQuery();

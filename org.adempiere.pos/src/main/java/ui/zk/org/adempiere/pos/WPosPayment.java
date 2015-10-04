@@ -165,7 +165,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		
 		Label fsLabel = new Label(Msg.translate(p_ctx, "PayAmt")+":");
 		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
-		fPayAmt = new Label(p_posPanel.getPayAmt().toString());
+		fPayAmt = new Label();
 		row.appendChild(fsLabel.rightAlign());
 		row.appendChild(fPayAmt.rightAlign());
 		fPayAmt.setStyle(FONT_SIZE);
@@ -332,7 +332,7 @@ public class WPosPayment extends Window implements WPosKeyListener, EventListene
 		calculate();
 	}
 	private void calculate() {
-		BigDecimal mount = p_posPanel.getPayAmt();
+		BigDecimal mount = p_posPanel.getPaidAmt();
 		for(int x = 0; x < pp.size(); x++){
 			if(pp.get(x).fPayAmt.getValue() == null){
 				pp.get(x).fPayAmt.setValue("0");
