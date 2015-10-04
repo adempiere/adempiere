@@ -317,10 +317,9 @@ public class Collect {
 	}
 
 	/**
-	 * 	Process Payment
-	 * 
+	 * Process Payment
+	 * @param amt
 	 * @return true if payment processed correctly; otherwise false
-	 * 
 	 */
 	public boolean payCash(BigDecimal amt) {
 
@@ -342,10 +341,12 @@ public class Collect {
 
 
 	/**
-	 * 	Payment with check
-	 * 
+	 * Payment with check
+	 * @param amt
+	 * @param accountNo
+	 * @param routingNo
+	 * @param checkNo
 	 * @return true if payment processed correctly; otherwise false
-	 * 
 	 */
 	public boolean payCheck(BigDecimal amt, String accountNo, String routingNo, String checkNo) {
 		MPayment payment = createPayment(MPayment.TENDERTYPE_Check);
@@ -355,7 +356,7 @@ public class Collect {
 		payment.setAccountNo(accountNo);
 		payment.setRoutingNo(routingNo);
 		payment.setCheckNo(checkNo);
-		payment.setDescription("No de cheque:" +checkNo);
+		payment.setDescription(checkNo);
 		payment.setDateTrx(getDateTrx());
 		payment.setDateAcct(getDateTrx());
 		payment.saveEx();
@@ -368,6 +369,35 @@ public class Collect {
 			return false;
 		}
 	} // payCheck
+	
+	/**
+	 * 	Payment with direct debit
+	 * @param amt
+	 * @param routingNo
+	 * @param accountCountry
+	 * @param cVV
+	 * @return true if payment processed correctly; otherwise false
+	 */
+	public boolean payDirectDebit(BigDecimal amt, String routingNo, String accountCountry, String cVV) {
+		MPayment payment = createPayment(MPayment.TENDERTYPE_DirectDebit);
+		payment.setC_CashBook_ID(m_POS.getC_CashBook_ID());
+		payment.setAmount(m_Order.getC_Currency_ID(), amt);
+		payment.setC_BankAccount_ID(m_POS.getC_BankAccount_ID());
+		payment.setRoutingNo(routingNo);
+		payment.setA_Country(accountCountry);
+		payment.setCreditCardVV(cVV);
+		payment.setDateTrx(getDateTrx());
+		payment.setDateAcct(getDateTrx());
+		payment.saveEx();
+		payment.setDocAction(MPayment.DOCACTION_Complete);
+		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
+		if(payment.processIt(MPayment.DOCACTION_Complete)) {
+			payment.saveEx();
+			return true;
+		} else { 
+			return false;
+		}
+	} // payDirectDebit
 
 
 	/**
@@ -541,6 +571,10 @@ public class Collect {
 				m_CashPayment = m_CashPayment.add(m_Collect.getPayAmt());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {
 				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDebit)) {	//	For Direct Debit 
+				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
+				payDirectDebit(m_Collect.getPayAmt(), m_Collect.getRoutingNo(), 
+						m_Collect.getA_Country(), m_Collect.getCreditCardVV());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
 				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
@@ -596,6 +630,9 @@ public class Collect {
 //				payAmt = (getReturnAmt().compareTo(Env.ZERO)==-1)?m_Collect.getPayAmt().add(getReturnAmt()):m_Collect.getPayAmt();
 //				if(payAmt.compareTo(Env.ZERO)==1)
 //					payCash(payAmt);
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Direct Debit
+				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
+				
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
 				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 				payCheck(m_Collect.getPayAmt(), null, null, m_Collect.getReferenceNo());
