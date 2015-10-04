@@ -14,19 +14,21 @@
   <property name="domain_model_classes" value="${dist}/domain/class"/>
   <property name="zk_classes" value="${dist}/zk/WEB-INF/classes"/>
   <property name="swing_classes" value="${dist}/swing/class"/>
-  <property name="zkjar" value="${dist}/zkclass"/>
+  <property name="zkjar" value="${dist}/zk"/>
   <property name="domain_model" value="${basedir}/org.adempiere.pos/src/main/java/base"/>
   <property name="swing_view" value="${basedir}/org.adempiere.pos/src/main/java/ui/swing"/>
   <property name="zk_view" value="${basedir}/org.adempiere.pos/src/main/java/ui/zk"/>
   <property name="patches" value="${basedir}/patches"/>
   
   <path id="compile.classpath">
+      
+    <fileset dir="${project.trunk}/packages/AD-POS-WebUI/lib">
+      <include name="*.jar"/>
+    </fileset>
+    
     <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
    
     <fileset dir="${adempiere.trunk}/lib">
-      <include name="*.jar"/>
-    </fileset>
-    <fileset dir="${project.trunk}/packages/AD-POS-WebUI/lib">
       <include name="*.jar"/>
     </fileset>
     
@@ -45,9 +47,10 @@
   </path>
 
   <path id="compilezk.classpath">
-    
+	
+	
     <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
-
+    
     <fileset dir="${project.trunk}/packages/AD-POS-WebUI/lib">
       <include name="*.jar"/>
     </fileset>
@@ -63,7 +66,6 @@
     <fileset dir="${adempiere.trunk}/zkwebui/dist">
       <include name="*.war"/>
     </fileset>
-    
       	
   </path>
 	
@@ -71,12 +73,16 @@
 	
   <!-- Compile ZK Directory --> 
   <target name="compileZkView" depends="init_zk, compileDomainModel"
-        description="compile the source " >
+        description="compile the source zk" >
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+    
+    <echo message="Compile ZK Classes "/>
     <javac srcdir="${zk_view}" destdir="${zk_classes}" includeantruntime="false" >
       <classpath refid="compile.domain.classpath"/>
       <classpath refid="compilezk.classpath"/>
     </javac>
+    
+    <echo message="Create jar file "/>
     <jar jarfile="${project.trunk}/zkpackages/${project.name}/lib/${project.name}.jar" basedir="${zkjar}"/>
   </target>
 
@@ -98,7 +104,7 @@
         description="compile the source " >
     <echo message="Compile Swing Classes "/>
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac srcdir="${swing_view}" destdir="${swing_classes}" includeantruntime="false" >
+    <javac srcdir="${domain_model}:${swing_view}" destdir="${swing_classes}" includeantruntime="false" >
       <classpath refid="compile.domain.classpath"/>
       <classpath refid="compile.classpath"/>
     </javac>
