@@ -740,34 +740,24 @@ public class WSubOrder extends WPosSubPanel
 	 */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		log.fine( "PosSubCustomer.setC_BPartner_ID=" + C_BPartner_ID);
-		if (C_BPartner_ID == 0){
-			m_bpartner = null;
-			
-		}
-		else
-		{
-			m_bpartner = new MBPartner(p_ctx, C_BPartner_ID, null);
-			if (m_bpartner.get_ID() == 0) {
-				m_bpartner = null;
-			}
-		}
-		
-		//	Set Info
-		if (m_bpartner != null)
-		{
-			f_name.setText(m_bpartner.getName());
-		}
-		else
-		{
-			f_name.setText(null);
-		}
-		//	Sets Currency
-		m_M_PriceList_Version_ID = 0;
-		getM_PriceList_Version_ID();
+//		log.fine( "PosSubCustomer.setC_BPartner_ID=" + C_BPartner_ID);
+//		if (C_BPartner_ID == 0){
+//			m_bpartner = null;
+//			
+//		} else {
+//			m_bpartner = MBPartner.get(p_ctx, C_BPartner_ID);
+//		}
+//		//	Set Info
+//		if (m_bpartner != null) {
+//			f_name.setText(m_bpartner.getName());
+//		} else {
+//			f_name.setText(null);
+//		}
+//		//	Sets Currency
+//		m_M_PriceList_Version_ID = 0;
+//		getM_PriceList_Version_ID();
 		//fillCombos();
-		if ( p_posPanel.getM_Order()  != null && m_bpartner != null )
-			p_posPanel.setBPartner(m_bpartner);  //added by ConSerTi to update the client in the request
+		p_posPanel.setC_BPartner_ID(C_BPartner_ID); //added by ConSerTi to update the client in the request
 	}	//	setC_BPartner_ID
 
 	/**

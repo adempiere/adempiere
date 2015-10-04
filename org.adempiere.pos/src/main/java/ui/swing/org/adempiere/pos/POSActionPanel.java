@@ -24,11 +24,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 
 import javax.swing.KeyStroke;
 
@@ -39,14 +34,12 @@ import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
-import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MSequence;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -96,9 +89,6 @@ public class POSActionPanel extends POSSubPanel
 	/**	For Show BPartner	*/
 //	private CLabel				l_BPartner;
 	private	POSTextField		f_NameBPartner;
-	/**	For Orde List		*/
-	private int 				m_RecordPosition;
-	private ArrayList<Integer>	m_OrderList;
 	/**	Padding				*/
 	private int 				m_TopP;
 	private int 				m_LeftP;
@@ -122,9 +112,6 @@ public class POSActionPanel extends POSSubPanel
 	public void init() {
 		//	Content
 		setLayout(new GridBagLayout());
-		listOrder();
-		m_RecordPosition = m_OrderList.size()-1;
-
 //		String buttonSize = "w 50!, h 50!,";
 		//	Button Panel
 		v_ButtonPanel = new CPanel(new GridBagLayout());
@@ -199,7 +186,8 @@ public class POSActionPanel extends POSSubPanel
 		//	Add
 		v_BPPanel.add(f_NameBPartner, new GridBagConstraints(0, 0, 1, 1, 0, 1
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-
+		//	List Orders
+		v_POSPanel.listOrder();
 	}	//	init
 
 	/**
@@ -227,8 +215,6 @@ public class POSActionPanel extends POSSubPanel
 		//	New
 		if (e.getSource().equals(f_bNew)) {
 			v_POSPanel.newOrder();
-			v_POSPanel.refreshPanel();
-			return;
 		} else if (e.getSource().equals(f_bBPartner)) {
 			changeBusinessPartner(null); 
 		} else if (e.getSource().equals(f_bHistory)) {
@@ -237,10 +223,10 @@ public class POSActionPanel extends POSSubPanel
 			qt.setVisible(true);
 			if (qt.getRecord_ID() > 0) {
 				v_POSPanel.setOrder(qt.getRecord_ID());
+				v_POSPanel.reloadIndex(qt.getRecord_ID());
 			}
 		} else if (e.getSource().equals(f_bBack)){
 			previousRecord();
-			v_POSPanel.refreshPanel();
 		} else if (e.getSource().equals(f_bNext)){
 			nextRecord();
 		} else if (e.getSource().equals(f_bCollect)) {
@@ -275,9 +261,7 @@ public class POSActionPanel extends POSSubPanel
 	 * Previous Record Order
 	 */
 	public void previousRecord() {
-		if(m_RecordPosition > 0) {
-			v_POSPanel.setOrder(m_OrderList.get(m_RecordPosition--));
-		}
+		v_POSPanel.previousRecord();
 		//	Refresh
 		v_POSPanel.refreshPanel();
 	}
@@ -286,9 +270,7 @@ public class POSActionPanel extends POSSubPanel
 	 * Next Record Order
 	 */
 	public void nextRecord() {
-		if(m_RecordPosition < m_OrderList.size() - 1) {
-			v_POSPanel.setOrder(m_OrderList.get(m_RecordPosition++));
-		}
+		v_POSPanel.nextRecord();
 		//	Refresh
 		v_POSPanel.refreshPanel();
 	}
@@ -401,9 +383,7 @@ public class POSActionPanel extends POSSubPanel
 			/*Contact, */null, EMail, Phone, City);
 		
 		//	Set Result
-		if (results.length == 0) {
-			v_POSPanel.setC_BPartner_ID(0);
-		} else if (results.length == 1) {
+		if (results.length == 1) {
 			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
 			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
 			f_NameBPartner.setText(bp.getName());
@@ -499,40 +479,10 @@ public class POSActionPanel extends POSSubPanel
 //        } catch (IOException e) {
 //        }  
 //	}
-	
-	/**
-	 * Get Data List Order
-	 */
-	public void listOrder() {
-		String sql = "";
-		PreparedStatement pstm;
-		ResultSet rs;
-		m_OrderList = new ArrayList<Integer>();
-		try {
-			sql=" SELECT o.C_Order_ID"
-					+ " FROM C_Order o"
-					+ " LEFT JOIN c_invoice i ON i.c_order_ID = o.c_order_ID"
-					+ " WHERE"
-					+ " (coalesce(invoiceopen(i.c_invoice_ID, 0), 0) > 0 OR o.docstatus IN ('DR', 'IP') ) AND "
-					+ " o.issotrx='Y' AND "
-					+ " o.ad_client_id=? "
-					+ " ORDER BY o.dateordered ASC, o.datepromised ASC";
-			
-			pstm= DB.prepareStatement(sql, null);
-			pstm.setInt (1, Env.getAD_Client_ID(Env.getCtx()));
-			rs = pstm.executeQuery();
-			//	Add to List
-			while(rs.next()){
-				m_OrderList.add(rs.getInt(1));
-			}
-		} catch(Exception e) {
-			log.severe("SubOrder.listOrder: " + e + " -> " + sql);
-		}
-	}
 
 	@Override
 	public void refreshPanel() {
-		
+		f_NameBPartner.setText(v_POSPanel.getBPName());
 	}
 
 	@Override
@@ -542,84 +492,109 @@ public class POSActionPanel extends POSSubPanel
 
 	@Override
 	public void changeViewPanel() {
-		MOrder order = v_POSPanel.getM_Order();
-		if (order != null) {  				
+		if(v_POSPanel.hasOrder()) {
+			//	When order is not completed, you can change BP
+			f_bBPartner.setEnabled(!v_POSPanel.isCompleted());
+			//	For Next
+			f_bNext.setEnabled(!v_POSPanel.isLastRecord());
+			//	For Back
+			f_bBack.setEnabled(!v_POSPanel.isFirstRecord());
+			//	For Collect
+			if(v_POSPanel.hasLines()
+					&& !v_POSPanel.isPaid()) {
+				//	For Credit Order
+				f_bCollect.setEnabled(true);
+			} else {
+				f_bCollect.setEnabled(false);
+			}
+			//	For Cancel Action
+			f_bCancel.setEnabled(!v_POSPanel.isVoided());
+		} else {
+			f_bNew.setEnabled(true);
+			f_bBPartner.setEnabled(true);
+			f_bHistory.setEnabled(true);
+			//	For Next
+			f_bNext.setEnabled(!v_POSPanel.isLastRecord());
+			//	For Back
+			f_bBack.setEnabled(!v_POSPanel.isFirstRecord());
+			f_bCollect.setEnabled(false);
+			//	For Cancel Action
+			f_bCancel.setEnabled(false);
+		}
+		
+//		MOrder order = v_POSPanel.getM_Order();
+//		if (order != null) {  				
 				// Button BPartner: enable when order drafted, and order has no lines
 //				v_POSPanel.setC_BPartner_ID(order.getC_BPartner_ID());  				
-				if(!v_POSPanel.isCompleted() && 
-						order.getLines().length == 0 )
-					f_bBPartner.setEnabled(true);
-				else
-					f_bBPartner.setEnabled(false);
+//				if(!v_POSPanel.isCompleted() && 
+//						order.getLines().length == 0 )
+//					f_bBPartner.setEnabled(true);
+//				else
+//					f_bBPartner.setEnabled(false);
 
 				// Button New: enabled when lines existing or order is voided
-				f_bNew.setEnabled(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided));
+				//	this is changed for recalculate lines
+//				f_bNew.setEnabled(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided));
 				
 				// Button Credit Sale: enabled when drafted, with lines and not invoiced
-				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
-						order.getLines().length != 0 && 
-						order.getC_Invoice_ID()<=0)
+//				if(order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && 
+//						order.getLines().length != 0 && 
+//						order.getC_Invoice_ID()<=0)
 
 			    // History Button: enabled when lines existing or order is voided
-				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
-	  				f_bHistory.setEnabled(true);  	
-				else
-					f_bHistory.setEnabled(false);
+//				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
+//	  				f_bHistory.setEnabled(true);  	
+//				else
+//					f_bHistory.setEnabled(false);
 
-				if(!order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))			
-	  				f_bCancel.setEnabled(true);
-				else
-					f_bCancel.setEnabled(false);
-				
+//				if(!order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))			
+//	  				f_bCancel.setEnabled(true);
+//				else
+//					f_bCancel.setEnabled(false);
+//				
 				// Button Payment: enable when (drafted, with lines) or (completed, on credit, (not invoiced or not paid) ) 
 				// or (is completed, standard and not fully paid)
-				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
-				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
-				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
-				    	(order.getC_Invoice_ID()<=0  ||
-				    	 !MInvoice.get(m_ctx, order.getC_Invoice_ID()).isPaid()
-				    	 )
-				   ) ||
-				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
-				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard) &&
-				    order.getGrandTotal().subtract(v_POSPanel.getPaidAmt()).compareTo(Env.ZERO)==1
-				   )
-				  )
-					f_bCollect.setEnabled(true);
-				else 
-				f_bCollect.setEnabled(false);	
+//				if((order.getDocStatus().equals(MOrder.DOCSTATUS_Drafted) && order.getLines().length != 0) ||
+//				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+//				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit) &&
+//				    	(order.getC_Invoice_ID()<=0  ||
+//				    	 !MInvoice.get(m_ctx, order.getC_Invoice_ID()).isPaid()
+//				    	 )
+//				   ) ||
+//				   (order.getDocStatus().equals(MOrder.DOCSTATUS_Completed) && 
+//				    order.getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard) &&
+//				    order.getGrandTotal().subtract(v_POSPanel.getPaidAmt()).compareTo(Env.ZERO)==1
+//				   )
+//				  )
+//					f_bCollect.setEnabled(true);
+//				else 
+//				f_bCollect.setEnabled(false);	
 				
 			    // Next and Back Buttons:  enabled when lines existing or order is voided
-				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided)) {
-
-					if(m_RecordPosition==m_OrderList.size()-1)
-					    f_bNext.setEnabled(false); // End of order list
-					else
-	  					f_bNext.setEnabled(true);
-
-					if(m_RecordPosition==0)
-						f_bBack.setEnabled(false); // Begin of order list
-					else
-						f_bBack.setEnabled(true);
-				} else {
-					f_bNext.setEnabled(false);
-	  				f_bBack.setEnabled(false);
-				}
+//				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided)) {
+//
+//					if(m_RecordPosition==m_OrderList.size()-1)
+//					    f_bNext.setEnabled(false); // End of order list
+//					else
+//	  					f_bNext.setEnabled(true);
+//
+//					if(m_RecordPosition==0)
+//						f_bBack.setEnabled(false); // Begin of order list
+//					else
+//						f_bBack.setEnabled(true);
+//				} else {
+//					f_bNext.setEnabled(false);
+//	  				f_bBack.setEnabled(false);
+//				}
 
 			    // Logout Button: enabled when lines existing or order is voided
-				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
-	  				f_bLogout.setEnabled(true);  	
-				else
-					f_bLogout.setEnabled(false);
+				//	It must be enable always
+//				if(order.getLines().length != 0 || order.getDocStatus().equals(MOrder.DOCSTATUS_Voided))
+//	  				f_bLogout.setEnabled(true);  	
+//				else
+//					f_bLogout.setEnabled(false);
 				
-		} else {
-			v_POSPanel.setC_BPartner_ID(0);
-			f_bBPartner.setEnabled(false);
-			f_bNew.setEnabled(true);
-			f_bHistory.setEnabled(true);
-			f_bCancel.setEnabled(false);
-			f_bCollect.setEnabled(false);
-		}
+//		} 
 	}
 
 	/**

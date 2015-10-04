@@ -126,7 +126,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setResizable(true);
 		//	
-		log.info("init - SalesRep_ID=" + getSalesRep_ID());
+		log.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
 		m_WindowNo = WindowNo;
 		m_frame = frame;
 		frame.setJMenuBar(null);
@@ -215,13 +215,14 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @return String
 	 */
 	private String loadPOS() {
-		boolean ok = setPOS();
+		int salesRep_ID = Env.getAD_User_ID(getCtx());
+		boolean ok = setPOS(salesRep_ID);
 		if(!ok) {
 			//	Select POS
 			String msg = Msg.getMsg(getCtx(), "SelectPOS");
 			String title = Env.getHeader(getCtx(), m_WindowNo);
 			Object selection = JOptionPane.showInputDialog(m_frame, msg, title, 
-				JOptionPane.QUESTION_MESSAGE, null, getPOSs(), null);
+				JOptionPane.QUESTION_MESSAGE, null, getPOSs(salesRep_ID), null);
 			if (selection != null) {
 				setM_POS((MPOS)selection);
 				return validLocator();
@@ -328,7 +329,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 */
 	public void newOrder(int p_C_BPartner_ID) {
 		boolean isDocType = ADialog.ask(0, v_MainPane, Msg.getMsg(getCtx(), "POS.AlternateDT"));
-		newOrder(isDocType);
+		newOrder(isDocType, p_C_BPartner_ID);
 		setC_BPartner_ID(p_C_BPartner_ID);
 	}
 	
@@ -344,6 +345,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public void refreshPanel() {
 		//	Reload from DB
 		reloadOrder();
+		v_ActionPanel.refreshPanel();
 		v_ActionPanel.changeViewPanel();
 		v_ProductKeysPanel.refreshPanel();
 		v_OrderLinePanel.refreshPanel();

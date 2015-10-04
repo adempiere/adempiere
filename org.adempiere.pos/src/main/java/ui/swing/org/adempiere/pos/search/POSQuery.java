@@ -23,6 +23,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.VetoableChangeListener;
 import java.util.Properties;
 
 import javax.swing.KeyStroke;
@@ -56,7 +58,7 @@ import org.compiere.util.Env;
  *  @version $Id: PosQuery.java,v 2.0 2015/09/01 00:00:00 
  */
 public abstract class POSQuery extends CDialog 
-	implements MouseListener, ListSelectionListener, ActionListener {
+	implements MouseListener, ListSelectionListener, ActionListener, VetoableChangeListener {
 
 	/**
 	 * 
@@ -166,10 +168,17 @@ public abstract class POSQuery extends CDialog
 			select();
 			close();
 		} else if(e.getSource() instanceof POSTextField
-				|| e.getSource() instanceof VDate
+				|| e.getSource() instanceof CCheckBox) {
+			refresh();
+		}
+	}
+	
+	@Override
+	public void vetoableChange (PropertyChangeEvent e) {
+		log.info(e.getPropertyName());
+		if(e.getSource() instanceof VDate
 				|| e.getSource() instanceof VNumber
-				|| e.getSource() instanceof CCheckBox
-				|| e.getSource() instanceof CComboBox) {
+				|| e.getSource() instanceof CComboBox){
 			refresh();
 		}
 	}

@@ -101,7 +101,7 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	public void zkinit ()
 	{
 
-		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
+//		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
 		log.info("init - SalesRep_ID=" + getSalesRep_ID());
 //		m_WindowNo = 0;
 		m_frame = frame;
@@ -150,10 +150,11 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	 */
 	private boolean setMPOS()
 	{
-		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
-		boolean ok = setPOS();
+		int salesRep_ID = Env.getAD_User_ID(getCtx());
+//		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
+		boolean ok = setPOS(salesRep_ID);
 		if(!ok && getMsgLocator() == null){
-			MPOS[] poss = getPOSs();
+			MPOS[] poss = getPOSs(salesRep_ID);
 			//	Select POS
 			String msg = Msg.getMsg(getCtx(), "SelectPOS");
 			selection = new Window();
@@ -208,17 +209,17 @@ public class WPOS extends CPOS implements IFormController, EventListener {
 	 *	@param SalesRep_ID
 	 *	@return array of POS
 	 */
-	private MPOS[] getPOSs (int SalesRep_ID)
-	{
-		String pass_field = "SalesRep_ID";
-		int pass_ID = SalesRep_ID;
-		if (SalesRep_ID==0)
-			{
-			pass_field = "AD_Client_ID";
-			pass_ID = Env.getAD_Client_ID(m_ctx);
-			}
-		return MPOS.getAll(m_ctx, pass_field, pass_ID);
-	}	//	getPOSs
+//	private MPOS[] getPOSs (int SalesRep_ID)
+//	{
+//		String pass_field = "SalesRep_ID";
+//		int pass_ID = SalesRep_ID;
+//		if (SalesRep_ID==0)
+//			{
+//			pass_field = "AD_Client_ID";
+//			pass_ID = Env.getAD_Client_ID(m_ctx);
+//			}
+//		return MPOS.getAll(m_ctx, pass_field, pass_ID);
+//	}	//	getPOSs
 	
 	
 	
