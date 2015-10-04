@@ -15,20 +15,18 @@
  * Contributor(s): Raul Muñoz www.erpcya.com					              *
  *****************************************************************************/
 
-package org.adempiere.pos;
+package org.adempiere.pos.search;
 
-import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import javax.swing.KeyStroke;
-
+import org.adempiere.pos.WPOS;
+import org.adempiere.pos.WPOSKeyboard;
+import org.adempiere.pos.WPosTextField;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.Borderlayout;
-import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
@@ -62,9 +60,9 @@ public class WQueryTicket extends WPosQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryTicket (WPOS posPanel, WSubOrder order)
+	public WQueryTicket (WPOS posPanel)
 	{
-		super(posPanel, order);
+		super(posPanel);
 	}	//	PosQueryProduct
 
 	
@@ -73,12 +71,9 @@ public class WQueryTicket extends WPosQuery
 
 	private int				m_c_order_id;
 	private Checkbox 		f_processed;
-	private Button 			f_refresh;
-	private Button 			f_ok;
-	private Button			f_cancel;
 	private Date 			date;
-	private int				cont;
-	
+	/**	Internal Variables	*/
+	private int				m_C_Order_ID;
 	/**	Table Column Layout Info			*/
 	private static ColumnInfo[] s_layout = new ColumnInfo[] 
 	{
@@ -98,12 +93,10 @@ public class WQueryTicket extends WPosQuery
 		Panel panel = new Panel();
 		setVisible(true);
 		Panel mainPanel = new Panel();
-		Borderlayout mainLayout = new Borderlayout();
 		Grid productLayout = GridFactory.newGridLayout();
 		//	Set title window
 		this.setTitle(Msg.getMsg(p_ctx, "Query"));
 		this.setClosable(true);
-		cont = 2;
 		
 		appendChild(panel);
 		northPanel = new Panel();
@@ -129,7 +122,7 @@ public class WQueryTicket extends WPosQuery
 
 		row.setHeight("60px");
 		row.appendChild(ldoc);
-		f_documentno = new WPosTextField(p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_documentno = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_documentno);
 		f_documentno.addEventListener("onFocus",this);
 		//
@@ -146,35 +139,11 @@ public class WQueryTicket extends WPosQuery
 		row.appendChild(f_processed);
 		f_processed.addActionListener(this);
 		
-		f_refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-		row.appendChild(f_refresh);
-		f_refresh.addActionListener(this);
-		Panel panelbutton = new Panel();
 		//  New Line
 		row = rows.newRow();
 		row.setSpans("5");
 		row.setHeight("65px");
-		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-		f_up.setTooltiptext(Msg.translate(p_ctx, "Previous"));
-		panelbutton.appendChild(f_up);
-		f_up.addActionListener(this);
-		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
 		
-		f_down.setTooltiptext(Msg.translate(p_ctx, "Next"));
-		panelbutton.appendChild(f_down);
-		f_down.addActionListener(this);
-		
-		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
-		panelbutton.appendChild(f_ok);
-		f_ok.setTooltiptext(Msg.translate(p_ctx, "Ok"));
-		f_ok.addActionListener(this);
-
-		f_refresh.setTooltiptext(Msg.translate(p_ctx, "Refresh"));
-		f_cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
-		panelbutton.appendChild(f_cancel);
-		f_cancel.setTooltiptext(Msg.translate(p_ctx, "Cancel"));
-		row.appendChild(panelbutton);
-		f_cancel.addActionListener(this);
 		
 		//	Center
 		m_table = ListboxFactory.newDataTable();
@@ -259,9 +228,6 @@ public class WQueryTicket extends WPosQuery
 				m_c_order_id = ID.intValue();
 			}
 		}
-		
-		f_ok.setEnabled(enabled);
-		
 		log.info("ID=" + m_c_order_id); 
 	}	//	enableButtons
 
@@ -276,8 +242,7 @@ public class WQueryTicket extends WPosQuery
 		
 		if (m_c_order_id > 0)
 		{
-			p_order.p_posPanel.setOrder(m_c_order_id);
-			p_order.updateInfo();
+			v_POSPanel.setOrder(m_c_order_id);
 
 		}
 		dispose();
@@ -287,65 +252,71 @@ public class WQueryTicket extends WPosQuery
 	@Override
 	public void onEvent(Event e) throws Exception {
 		if(e.getTarget().equals(f_documentno)) {
-			cont++;
-			if(cont < 2) {
 				//	Get Keyboard Panel
-				WPOSKeyboard keyboard = p_posPanel.getKeyboard(f_documentno.getKeyLayoutId(), f_documentno);
+				WPOSKeyboard keyboard = v_POSPanel.getKeyboard(f_documentno.getKeyLayoutId(), f_documentno);
 				
 				//	Set Title
 				keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
 				keyboard.setWidth("750px");
 				keyboard.setHeight("380px");
 				AEnv.showWindow(keyboard);
-			}
-			else {
-				cont=0;
-				f_refresh.setFocus(true);
-			}
-		}
-		if (f_refresh.equals(e.getTarget())
-				|| e.getTarget().equals(f_processed) || e.getTarget().equals(f_documentno)
-				|| e.getTarget().equals(f_date)) {
-				if(f_date.getValue()!=null)
-					date = new Date(f_date.getValue().getTime());
-				else
-					date = null;
-				setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), date);
-				return;
-			}
-			else if (e.getTarget().equals(f_up)) {
-				int rows = m_table.getRowCount();
-				if (rows == 0)
-					return;
-				int row = m_table.getSelectedRow();
-				row--;
-				if (row < 0)
-					row = 0;
-				m_table.setSelectedIndex(row);
-				return;
-			}
-			else if (e.getTarget().equals(f_down)) {
-				int rows = m_table.getRowCount();
-				if (rows == 0)
-					return;
-				int row = m_table.getSelectedRow();
-				row++;
-				if (row >= rows)
-					row = rows - 1;
-				m_table.setSelectedIndex(row);
-				return;
-			}
-			else if (e.getTarget().equals(f_cancel)) {
-				dispose();
-				return;
-			}
-			else if(e.getTarget().equals(f_ok)) {
-				close();
-				return;
-			}
-		enableButtons();
+				refresh();
 			
+		} else if(e.getTarget().getId().equals("Refresh")) {
+			refresh();
+		}
+		if ( e.getTarget().equals(f_processed) 
+				|| e.getTarget().equals(f_date)) {
+				refresh();
+				return;
+		}
+		else if(e.getTarget().getId().equals("Ok")){
+			close();
+		}
+		else if(e.getTarget().getId().equals("Cancel")){
+			close();
+		}		else if(e.getTarget().getId().equals("Reset")){
+			reset();
+		}
+		enableButtons();
 	}
 
+	@Override
+	public void refresh() {
+		if(f_date.getValue()!=null)
+			date = new Date(f_date.getValue().getTime());
+		else
+			date = null;
+		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), date);
+	}
+
+	@Override
+	protected void select() {
+		m_C_Order_ID = -1;
+		int row = m_table.getSelectedRow();
+		boolean enabled = row != -1;
+		if (enabled)
+		{
+			Integer ID = m_table.getSelectedRowKey();
+			if (ID != null)
+			{
+				m_C_Order_ID = ID.intValue();
+			}
+		}
+		log.info("ID=" + m_C_Order_ID); 
+	}
+	@Override
+	protected void cancel() {
+		m_C_Order_ID = -1;
+		dispose();
+	}
+
+	public int getRecord_ID() {
+		return m_C_Order_ID;
+	}
+
+	public String getValue() {
+		return null;
+	}
 	
 }	//	PosQueryProduct
