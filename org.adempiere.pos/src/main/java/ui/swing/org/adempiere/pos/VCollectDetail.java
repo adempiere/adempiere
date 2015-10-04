@@ -445,10 +445,10 @@ public class VCollectDetail extends CollectDetail
 		} else if(e.getSource().equals(fDebitRoutingNo)) {	//	For Debit Card
 			setRoutingNo(fDebitRoutingNo.getText());
 		} else if(e.getSource().equals(fDebitCVC)) {
-			//	TODO add support to controller to be define
+			setCreditCardVV(fDebitCVC.getText());
 		} else if(e.getSource().equals(fDebitCountry)) {
 			setA_Country(fDebitCountry.getText());
-		} else if(e.getSource().equals(fCreditCardNumber)) {
+		} else if(e.getSource().equals(fCreditCardNumber)) {	//	For Credit Card
 			setCreditCardNumber(fCreditCardNumber.getText());
 		} else if(e.getSource().equals(fA_Name)) {
 			setA_Name(fA_Name.getText());
@@ -457,6 +457,7 @@ public class VCollectDetail extends CollectDetail
 		} else {	//	TODO Add validation with name, it is resolved when implement KeyListener in VNumber
 			setPayAmt((BigDecimal) fPayAmt.getValue());
 		}
+		//	Refresh
 		v_Parent.refreshPanel();
 	}
 

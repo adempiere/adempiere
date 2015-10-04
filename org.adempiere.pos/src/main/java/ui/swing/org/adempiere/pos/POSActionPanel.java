@@ -495,6 +495,7 @@ public class POSActionPanel extends POSSubPanel
 		if(v_POSPanel.hasOrder()) {
 			//	When order is not completed, you can change BP
 			f_bBPartner.setEnabled(!v_POSPanel.isCompleted());
+			f_NameBPartner.setEnabled(!v_POSPanel.isCompleted());
 			//	For Next
 			f_bNext.setEnabled(!v_POSPanel.isLastRecord());
 			//	For Back
@@ -512,6 +513,7 @@ public class POSActionPanel extends POSSubPanel
 		} else {
 			f_bNew.setEnabled(true);
 			f_bBPartner.setEnabled(true);
+			f_NameBPartner.setEnabled(true);
 			f_bHistory.setEnabled(true);
 			//	For Next
 			f_bNext.setEnabled(!v_POSPanel.isLastRecord());

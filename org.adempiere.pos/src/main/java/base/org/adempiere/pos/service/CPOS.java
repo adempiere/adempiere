@@ -748,7 +748,7 @@ public class CPOS {
 			DB.close(pstm);
 		}
 		//	Seek Position
-		m_RecordPosition = m_OrderList.size() - 1;
+		m_RecordPosition = m_OrderList.size();
 	}
 	
 	/**
