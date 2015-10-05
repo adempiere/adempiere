@@ -27,6 +27,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryTicket;
 import org.adempiere.pos.service.I_POSPanel;
@@ -56,6 +57,7 @@ import org.compiere.util.Msg;
  *  <li> Implement best practices
  *  @version $Id: SubOrder.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: SubOrder.java,v 2.0 2015/09/01 00:00:00 mar_cal_westf
+ *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class POSActionPanel extends POSSubPanel 
 	implements ActionListener, FocusListener, I_POSPanel
@@ -212,35 +214,39 @@ public class POSActionPanel extends POSSubPanel
 		if (action == null || action.length() == 0)
 			return;
 		log.info( "PosSubCustomer - actionPerformed: " + action);
-		//	New
-		if (e.getSource().equals(f_bNew)) {
-			v_POSPanel.newOrder();
-		} else if (e.getSource().equals(f_bBPartner)) {
-			changeBusinessPartner(null); 
-		} else if (e.getSource().equals(f_bHistory)) {
-			// For already created, but either not completed or not yet paid POS Orders
-			I_POSQuery qt = new QueryTicket(v_POSPanel);
-			qt.setVisible(true);
-			if (qt.getRecord_ID() > 0) {
-				v_POSPanel.setOrder(qt.getRecord_ID());
-				v_POSPanel.reloadIndex(qt.getRecord_ID());
-			}
-		} else if (e.getSource().equals(f_bBack)){
-			previousRecord();
-		} else if (e.getSource().equals(f_bNext)){
-			nextRecord();
-		} else if (e.getSource().equals(f_bCollect)) {
-			payOrder();
-		} else if (e.getSource().equals(f_bCancel)) {
-			deleteOrder();
-		} else if (e.getSource().equals(f_bLogout)) {	//	Logout
-			v_POSPanel.dispose();
-			return;
-		} else if (e.getSource() == f_NameBPartner) {
-			findBPartner();
+		try {
+				//	New
+				if (e.getSource().equals(f_bNew)) {
+					v_POSPanel.newOrder();
+				} else if (e.getSource().equals(f_bBPartner)) {
+					changeBusinessPartner(null);
+				} else if (e.getSource().equals(f_bHistory)) {
+					// For already created, but either not completed or not yet paid POS Orders
+					I_POSQuery qt = new QueryTicket(v_POSPanel);
+					qt.setVisible(true);
+					if (qt.getRecord_ID() > 0) {
+						v_POSPanel.setOrder(qt.getRecord_ID());
+						v_POSPanel.reloadIndex(qt.getRecord_ID());
+					}
+				} else if (e.getSource().equals(f_bBack)){
+					previousRecord();
+				} else if (e.getSource().equals(f_bNext)){
+					nextRecord();
+				} else if (e.getSource().equals(f_bCollect)) {
+					payOrder();
+				} else if (e.getSource().equals(f_bCancel)) {
+					deleteOrder();
+				} else if (e.getSource().equals(f_bLogout)) {	//	Logout
+					v_POSPanel.dispose();
+					return;
+				} else if (e.getSource() == f_NameBPartner) {
+					findBPartner();
+				}
+				//	Refresh
+				v_POSPanel.refreshPanel();
+		} catch (AdempiereException exception) {
+			ADialog.error(v_POSPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
-		//	Refresh
-		v_POSPanel.refreshPanel();
 	}	//	actionPerformed
 
 	/**
