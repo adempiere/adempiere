@@ -225,7 +225,13 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 				JOptionPane.QUESTION_MESSAGE, null, getPOSs(salesRep_ID), null);
 			if (selection != null) {
 				setM_POS((MPOS)selection);
-				return validLocator();
+				String errorValidation = validLocator();
+				if (errorValidation == null)
+					return errorValidation;
+
+				JOptionPane.showMessageDialog(m_frame , Msg.parseTranslation(getCtx() , errorValidation), "Info",
+						JOptionPane.ERROR_MESSAGE);
+
 			}
 		} else if(ok) {
 			return null;
