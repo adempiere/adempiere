@@ -25,7 +25,6 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -33,12 +32,12 @@ import org.compiere.util.ValueNamePair;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *
  */
-public class POSLookupCellRenderer implements ListCellRenderer<ValueNamePair> {
+public class POSLookupListCellRenderer implements ListCellRenderer<ValueNamePair> {
 	
 	/**
 	 * *** Constructor ***
 	 */
-	public POSLookupCellRenderer(Font p_Font) {
+	public POSLookupListCellRenderer(Font p_Font) {
 		defaultRenderer = new DefaultListCellRenderer();
 		font = p_Font;
 	}
