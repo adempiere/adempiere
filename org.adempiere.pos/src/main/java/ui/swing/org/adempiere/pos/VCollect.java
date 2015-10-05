@@ -317,7 +317,6 @@ public class VCollect extends Collect
 			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			v_POSPanel.setPrepayment(fIsPrePayOrder.isSelected());
 			setIsCreditOrder(fIsCreditOrder.isSelected());
-//			setReturnAmt(new BigDecimal(fReturnAmt.getText()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					if(v_POSPanel.processOrder(trxName)) {
@@ -428,15 +427,9 @@ public class VCollect extends Collect
 
 	@Override
 	public String validatePanel() {
-		BigDecimal m_Balance = getBalance();
 		String errorMsg = null;
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
-		} else if(!fIsPrePayOrder.isSelected() 
-				&& m_Balance.doubleValue() > 0) {	//	For Pre-Payment Order
-			errorMsg = "@POS.OrderPayNotCompleted@";
-		} else if(m_Balance.doubleValue() > 0) {
-			errorMsg = "@POS.InsufficientOrderPaymentAmt@";
 		} else {
 			errorMsg = validatePayment(v_POSPanel.getOpenAmt());
 		}
@@ -446,67 +439,10 @@ public class VCollect extends Collect
 
 	@Override
 	public void changeViewPanel() {
-//		BigDecimal m_Balance = getBalance();
 		//	Set Credit and Pre-Pay Order
 		fIsCreditOrder.setSelected(isCreditOrder());
 		fIsPrePayOrder.setSelected(isPrePayOrder());
-//		if(fIsCreditOrder.isSelected()) {
-//			fIsPrePayOrder.setSelected(false);
-//			bPlus.setEnabled(false);  // TODO substitute it with the correct command, because setEnable(false) doesn't work!!
-//			
-//			if((!v_POSPanel.isCompleted() && m_Balance.doubleValue() > 0) ||
-//			   (v_POSPanel.isCompleted() && getPayAmt().doubleValue() > 0) ) 
-//				bOk.setEnabled(true);
-//			else
-//				bOk.setEnabled(false);			
-//		} 
-//		else if(fIsPrePayOrder.isSelected()) {
-//			if(getPayAmt().doubleValue() > 0 && validatePayment()==null) {
-//				bOk.setEnabled(true);
-//			} else {
-//				bOk.setEnabled(false);
-//			}
-//		} 
-//		else 
-//		if(isExistOnlyOneCreditCard() || isExistOnlyOneCheck()) {
-//			// if payment consists of only one credit card or only one cash -> payment amount must be exact
-//			if(v_POSPanel.getOpenAmt().doubleValue() == getPayAmt().doubleValue())
-//				bOk.setEnabled(true);
-//			else
-//				bOk.setEnabled(false);				
-//		}
-//		else if(getDetailQty() > 1 && !isExistCash()) {
-//			// There is more than one payment and none is cash
-//			if(m_Balance.doubleValue() == 0) {
-//				// the amounts match exactly
-//				if (validatePayment()==null)
-//					bOk.setEnabled(true);
-//				else
-//					bOk.setEnabled(false);	
-//			}
-//			else
-//				bOk.setEnabled(false);	
-//		} 
-//		else if(getDetailQty() > 1 && !isExistCash()) {
-//			// There is more than one payment and there is at least one cash
-//			if(m_Balance.doubleValue() <= 0) {
-//				// the amounts are equal or higher than required
-//				if (validatePayment() == null)
-//					bOk.setEnabled(true);
-//				else
-//					bOk.setEnabled(false);	
-//			}
-//			else
-//				bOk.setEnabled(false);	
-//		}
-//		else if(!(m_Balance.doubleValue() <= 0 && validatePayment() == null)) {
-//			// Not enough payment(s) or invalid payment(s)
-//			bOk.setEnabled(false);
-//		} 
-//		else if (getDetailQty()==0) { // no details -> disable button
-//			bOk.setEnabled(false);
-//		} else
-//			bOk.setEnabled(true);
+		bPlus.setEnabled(!isCreditOrder());
 	}
 	
 	/**
