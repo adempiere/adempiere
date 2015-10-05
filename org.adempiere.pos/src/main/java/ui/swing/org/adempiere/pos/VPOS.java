@@ -225,7 +225,13 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 				JOptionPane.QUESTION_MESSAGE, null, getPOSs(salesRep_ID), null);
 			if (selection != null) {
 				setM_POS((MPOS)selection);
-				return validLocator();
+				String errorValidation = validLocator();
+				if (errorValidation == null)
+					return errorValidation;
+
+				JOptionPane.showMessageDialog(m_frame , Msg.parseTranslation(getCtx() , errorValidation), Msg.parseTranslation(getCtx() , "@Info@"),
+						JOptionPane.ERROR_MESSAGE);
+
 			}
 		} else if(ok) {
 			return null;
@@ -297,11 +303,12 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public POSKeyboard getKeyboard(int keyLayoutId) {
 		if ( keyboards.containsKey(keyLayoutId) )
 			return keyboards.get(keyLayoutId);
-		else {
+		else if (keyLayoutId > 0 ){
 			POSKeyboard keyboard = new POSKeyboard(v_MainPane, keyLayoutId);
 			keyboards.put(keyLayoutId, keyboard);
 			return keyboard;
 		}
+		return null;
 	}
 	
 	/**
