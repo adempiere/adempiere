@@ -822,19 +822,18 @@ public class CPOS {
 	 * @return true if order processed or pre payment/on credit; otherwise false
 	 * 
 	 */
-	public boolean processOrder(String trxName) {		
+	public boolean processOrder(String trxName, boolean p_IsPrepayment) {		
 		//Returning orderCompleted to check for order completeness
 		boolean orderCompleted = false;
 		// check if order completed OK
-		if (m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Drafted) 
-				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress) ) {
+		if (!isCompleted()) {
 			//	Replace
 			if(trxName == null) {
 				trxName = m_CurrentOrder.get_TrxName();
 			} else {
 				m_CurrentOrder.set_TrxName(trxName);
 			}
-			if(isPrepayment()) {		
+			if(p_IsPrepayment) {		
 				m_CurrentOrder.setC_DocTypeTarget_ID(getStandardOrder_ID());
 			}
 			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
@@ -844,23 +843,21 @@ public class CPOS {
 			} else {
 				log.info( "Process Order FAILED "+m_CurrentOrder.getProcessMsg());		
 			}
+		} else {
+			orderCompleted = isCompleted();
 		}
-		else 
-			if (m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Completed) ) { 
-				orderCompleted = true;
-			}
 		return orderCompleted;
 	}	// processOrder
 	
-	/**
-	 * Process Order Without transaction name
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
-	 * @return boolean
-	 */
-	public boolean processOrder() {
-		return processOrder(null);
-	}
+//	/**
+//	 * Process Order Without transaction name
+//	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+//	 * @return
+//	 * @return boolean
+//	 */
+//	public boolean processOrder() {
+//		return processOrder(null);
+//	}
 	
 	/**
 	 * Get Process Message
@@ -1078,7 +1075,13 @@ public class CPOS {
 	 */
 	public ValueNamePair[] getCreditNotes () {
 		try {
-			String whereClause = "c_bpartner_ID =? and ispaid ='N' and c_doctype_ID in (select c_doctype_ID from c_doctype where docbasetype ='ARC')";
+			String whereClause = "C_BPartner_ID = ? "
+					+ "AND IsPaid ='N' "
+					+ "AND EXISTS(SELECT 1 "
+					+ "				FROM C_DocType dt "
+					+ "				WHERE dt.C_DocType_ID = C_Invoice.C_DocType_ID "
+					+ "				AND dt.DocBaseType ='ARC'"
+					+ ")";
 			List<MInvoice> cns = new Query(Env.getCtx(), MInvoice.Table_Name, whereClause, null)
 				.setParameters(m_CurrentOrder.getC_BPartner_ID())
 				.list();
@@ -1200,15 +1203,6 @@ public class CPOS {
 		}
 		//	Default
 		return m_C_Order_ID;
-	}
-	
-	/**
-	 * Verify if is Prepayment
-	 * @return
-	 * @return boolean
-	 */
-	public boolean isPrepayment() {
-		return m_IsPrepayment;
 	}
 
 	/**

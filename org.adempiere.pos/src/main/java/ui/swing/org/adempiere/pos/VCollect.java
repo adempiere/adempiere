@@ -333,11 +333,10 @@ public class VCollect extends Collect
 	public String saveData() {
 		try {
 			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			v_POSPanel.setPrepayment(fIsPrePayOrder.isSelected());
 			setIsCreditOrder(fIsCreditOrder.isSelected());
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if(v_POSPanel.processOrder(trxName)) {
+					if(v_POSPanel.processOrder(trxName, isPrePayOrder())) {
 						processPayment(trxName, v_POSPanel.getOpenAmt());
 					} else {
 						throw new POSaveFailedException(v_POSPanel.getProcessMsg());
@@ -495,9 +494,15 @@ public class VCollect extends Collect
 	}
 
 	@Override
-	public void vetoableChange(PropertyChangeEvent evt)
+	public void vetoableChange(PropertyChangeEvent e)
 			throws PropertyVetoException {
-		// TODO Auto-generated method stub
-		
+		String name = e.getPropertyName();
+		Object value = e.getNewValue();
+		log.config(name + " = " + value);
+		//	Verify Event
+		if(name.equals("C_PaymentTerm_ID")) {
+			int m_C_PaymentTerm_ID = ((Integer)(value != null? value: 0)).intValue();
+			setC_PaymentTerm_ID(m_C_PaymentTerm_ID);
+		}
 	}
 } // VCollect
