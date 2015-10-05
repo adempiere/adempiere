@@ -18,9 +18,6 @@
 package org.adempiere.pos;
 
 import java.math.BigDecimal;
-
-import org.adempiere.webui.component.Textbox;
-
 import java.util.HashMap;
 
 import org.adempiere.webui.apps.AEnv;
@@ -33,10 +30,10 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
-import org.compiere.pos.POSKeyboard;
 import org.compiere.pos.PosKeyListener;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;

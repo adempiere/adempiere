@@ -3,7 +3,6 @@ package org.adempiere.pos;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -52,7 +51,6 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	private WPosTextField 	fCheckNo;
 	private Label 			lCheckNo;
 	private Label 			lCheckRouteNo;
-	private DateFormat 		dateFormat;
 	
 	/**	Credit Card			*/
 	private WPosTextField 	fCCardNo;
@@ -116,17 +114,22 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		row.setHeight("55px");
 		
 		fTenderType = ListboxFactory.newDropdownListbox();
-				
+		fTenderType.addActionListener(this);
 		// default to cash payment
 		for (Object obj : types) {
 			if ( obj instanceof ValueNamePair )	{
 				ValueNamePair key = (ValueNamePair) obj;
 					fTenderType.appendItem(key.getName(), key);
+					
+							if ( key.getID().equals(getTenderType())){
+								System.out.println(key.getID()+"-"+getTenderType());
+								fTenderType.setSelectedIndex(1); 
+							}
 			}
 		}
 
 		fTenderType.setStyle(HEIGHT+WIDTH+FONT_SIZE);
-		fTenderType.addActionListener(this);
+		
 		row.appendChild(fTenderType);
 		
 		Label lPayAmt  = new Label(Msg.translate(p_ctx, "PayAmt"));
@@ -290,40 +293,6 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 
 	}
 
-	/**
-	 * Change view from tender type
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @param p_TenderType
-	 * @return void
-	 */
-	private void changeView() {
-		String p_TenderType = getTenderType();
-		//	Valid Null
-		if(p_TenderType == null)
-			return;
-		//	Change Title
-		String m_DisplayTenderType = ((ValueNamePair)fTenderType.getValue()).getName();
-		v_TitleBorder.setLabel(m_DisplayTenderType);		
-		//	
-		if(p_TenderType.equals(X_C_Payment.TENDERTYPE_Check)){
-			v_CheckPanel.setVisible(true);
-			v_CreditPanel.setVisible(false);
-			v_DebitPanel.setVisible(false);
-		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_DirectDebit)){
-			v_CheckPanel.setVisible(false);
-			v_CreditPanel.setVisible(false);
-			v_DebitPanel.setVisible(true);
-		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditCard)){
-			v_CheckPanel.setVisible(false);
-			v_CreditPanel.setVisible(true);
-			v_DebitPanel.setVisible(false);
-		} else {
-			v_CheckPanel.setVisible(false);
-			v_CreditPanel.setVisible(false);
-			v_DebitPanel.setVisible(false);
-		}
-	}
-
 	public void clear(){
 		v_StandarPanel = null;
 	}
@@ -336,9 +305,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		return m_TenderType;
 	}
 	
-	public BigDecimal getPayAmt(){
-		return fPayAmt.getValue();
-	}
+	
 	public POSNumberBox getlPayAmt(){
 		return fPayAmt;
 	}
@@ -451,8 +418,10 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		groupPanel.appendChild(v_CreditPanel);
 		groupPanel.appendChild(v_DebitPanel);
 
-		//	Change View
-		changeView();
+	//  Change View
+		changeViewPanel();
+		fPayAmt.setValue(getPayAmt());
+		
 	}
 	
 	/**
@@ -479,8 +448,8 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		if(p_TenderType == null)
 			return;
 		//	Change Title
-		String m_DisplayTenderType = ((ValueNamePair)fTenderType.getValue()).getName();
-		v_TitleBorder.setLabel(m_DisplayTenderType);
+//		String m_DisplayTenderType = ((ValueNamePair)fTenderType.getValue()).getName();
+//		v_TitleBorder.setLabel(m_DisplayTenderType);
 		//	
 		if(p_TenderType.equals(X_C_Payment.TENDERTYPE_Check)){
 			v_CheckPanel.setVisible(true);

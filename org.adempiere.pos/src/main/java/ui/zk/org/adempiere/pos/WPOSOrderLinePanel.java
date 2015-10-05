@@ -39,9 +39,6 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 	public WPOSOrderLinePanel(WPOS posPanel) {
 		super(posPanel);
 	}
-	/**	Table Name			*/
-	private static final String	TABLE_NAME	= "POS_OrderLine_v";
-
 	/**	Current Order Line	*/
 	private int 			m_C_OrderLine_ID = 0;
 	

@@ -47,6 +47,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	public WPOSProductPanel (WPOS posPanel) {
 		super (posPanel);
 	}	//	PosSubFunctionKeys
+	
 	private WPosTextField	f_ProductName;
 	private Button			f_HiddenField;
 	private Label	 		f_TotalLines;
@@ -64,6 +65,8 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 
 	private Panelchildren 	v_PanelChildren;
 	private MUser 			salesRep;
+	private Label 			productLabel;
+	
 	@Override
 	public void init(){
 		int C_POSKeyLayout_ID = p_pos.getC_POSKeyLayout_ID();
@@ -133,7 +136,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		row.setHeight("5px");
 		Label line = new Label ("____________________");
 		row.appendChild(line.rightAlign());
-		
+	
 		row = rows.newRow();
 		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
 		lTotal.setStyle("Font-size:medium; font-weight:700");
@@ -143,19 +146,21 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		f_GrandTotal.setText(Env.ZERO.toString());
 		f_GrandTotal.setStyle("Font-size:medium");
 		row.setWidth("15%");
+
+		productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
+		
 		f_ProductName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
 		f_ProductName.setWidth("100%");
+		
 		f_ProductName.setHeight("35px");
+		f_ProductName.setStyle("Font-size:medium; font-weight:700");
 		f_ProductName.setName("Name");
 		f_ProductName.setReadonly(true);
 		f_ProductName.addEventListener(Events.ON_FOCUS,this);
-		
+		f_ProductName.setValue(productLabel.getValue());
 		f_HiddenField = new Button();
 		row = rows.newRow();
-		row.setSpans("1,3");
-		Label productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID")+":");
-		productLabel.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(productLabel);
+		row.setSpans("4");
 		
 		Center center = new Center();
 		center.setStyle("border: none; overflow-y:auto;overflow-x:hidden;");
@@ -176,10 +181,12 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		row.appendChild(panel);
 		north.setAutoscroll(true);
 		appendChild(north);
+		
 		//	Refresh
 		f_TotalLines.setText(m_Format.format(Env.ZERO));
 		f_GrandTotal.setText(m_Format.format(Env.ZERO));
 		f_TaxAmount.setText(m_Format.format(Env.ZERO));
+		
 	}
 	
 	@Override
@@ -224,25 +231,31 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		
 	}
 
+	public boolean showKeyboard(WPosTextField field, Label label) {
+		if(field.getText().equals(label.getValue()))
+			field.setValue("");
+		WPOSKeyboard keyboard =  v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
+		keyboard.setWidth("750px");
+		keyboard.setHeight("380px");
+		keyboard.setPosTextField(field);	
+		AEnv.showWindow(keyboard);
+		if(field.getText().equals("")) 
+			field.setValue(label.getValue());
+		return keyboard.isCancel();
+	}
+	
 	@Override
 	public void onEvent(Event e) throws Exception {
 		//	Name
 		cont++;
 		if(cont<2){
-		if (e.getTarget().equals(f_ProductName)) {
-			WPOSKeyboard keyboard = v_POSPanel.getKeyboard(f_ProductName.getKeyLayoutId()); 
-			keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
-			keyboard.setPosTextField(f_ProductName);	
-			if(e.getName().equals("onFocus")) {
-				keyboard.setWidth("750px");
-				keyboard.setHeight("380px");
-				
-				AEnv.showWindow(keyboard);
-				if(!keyboard.isCancel())
-					findProduct();
+			if (e.getTarget().equals(f_ProductName)) {
+				if(e.getTarget().equals(f_ProductName)) {
+					if(!showKeyboard(f_ProductName,productLabel))
+						findProduct(); 
+				}
 			}
-
-		}}else {
+		}else {
 			cont=0;
 			f_HiddenField.setFocus(true);
 		}	
