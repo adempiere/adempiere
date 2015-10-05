@@ -813,7 +813,9 @@ public class Collect {
 	public void setIsCreditOrder(boolean isCreditOrder) {
 		this.m_IsCreditOrder = isCreditOrder;
 		//	Negate Pre-Pay
-		m_IsPrePayOrder = !isCreditOrder;
+		if(isCreditOrder) {
+			m_IsPrePayOrder = !isCreditOrder;
+		}
 	}
 	
 	/**
@@ -833,7 +835,9 @@ public class Collect {
 	public void setIsPrePayOrder(boolean isPrePayOrder) {
 		this.m_IsPrePayOrder = isPrePayOrder;
 		//	Negate Credit Order
-		m_IsCreditOrder = !isPrePayOrder;
+		if(isPrePayOrder) {
+			m_IsCreditOrder = !isPrePayOrder;
+		}
 	}
 	
 	/**
