@@ -94,8 +94,6 @@ public class Collect {
 	private boolean				m_IsCreditOrder = false;
 	/**	Pre-Payment Order		*/
 	private boolean				m_IsPrePayOrder = false;
-	/**	Return Amount			*/
-//	private BigDecimal			m_ReturnAmt = Env.ZERO;
 	/**	Error Message			*/
 	private StringBuffer		m_ErrorMsg = new StringBuffer();
 
@@ -552,12 +550,12 @@ public class Collect {
 		if(p_OpenAmt.doubleValue() <= 0) {
 			addErrorMsg("@POS.validatePayment.NoOpenAmt@");
 		}
-		//	For Credit order
-		if(isCreditOrder()) {	//	TODO must be supported? any suggest
-			//	Default Ok
-			return null;
-		} else if(isPrePayOrder()
-				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {	//	TODO must be supported
+		//	For Prepay order
+		if(isPrePayOrder()
+				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
+			addErrorMsg("@POS.OrderPayNotCompleted@");
+		} else if(!isCreditOrder()
+				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
 			addErrorMsg("@POS.OrderPayNotCompleted@");
 		}
 		//	Local variables for not iterate again
@@ -617,6 +615,11 @@ public class Collect {
 	public void processPayment(String trxName, BigDecimal p_OpenAmt) {
 		this.trxName = trxName;
 		//	
+		//	For Credit order
+		if(isCreditOrder()) {
+			//	Default Ok
+			return;
+		}
 		BigDecimal m_CashPayment = Env.ZERO;
 		BigDecimal m_OtherPayment = Env.ZERO;
 		//	Iterate Payments methods
@@ -624,11 +627,6 @@ public class Collect {
 			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
 				m_CashPayment = m_CashPayment.add(m_Collect.getPayAmt());
-//				Moved to ending method
-//				BigDecimal payAmt = Env.ZERO;
-//				payAmt = (getReturnAmt().compareTo(Env.ZERO)==-1)?m_Collect.getPayAmt().add(getReturnAmt()):m_Collect.getPayAmt();
-//				if(payAmt.compareTo(Env.ZERO)==1)
-//					payCash(payAmt);
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDebit)) {	//	For Direct Debit
 				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 				payDirectDebit(m_Collect.getPayAmt(), m_Collect.getRoutingNo(), 
@@ -837,24 +835,6 @@ public class Collect {
 		//	Negate Credit Order
 		m_IsCreditOrder = !isPrePayOrder;
 	}
-	
-	/**
-	 * Get Return Amount
-	 * @return
-	 * @return BigDecimal
-	 */
-//	public BigDecimal getReturnAmt() {
-//		return m_ReturnAmt;
-//	}
-
-	/**
-	 * Set Return Amount
-	 * @param returnAmt
-	 * @return void
-	 */
-//	public void setReturnAmt(BigDecimal returnAmt) {
-//		this.m_ReturnAmt = returnAmt;
-//	}
 	
 	/**
 	 * Get number of payment details
