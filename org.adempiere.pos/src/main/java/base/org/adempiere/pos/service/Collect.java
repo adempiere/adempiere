@@ -94,6 +94,8 @@ public class Collect {
 	private boolean				m_IsCreditOrder = false;
 	/**	Pre-Payment Order		*/
 	private boolean				m_IsPrePayOrder = false;
+	/**	Payment Term			*/
+	private int 				m_C_PaymentTerm_ID = 0;
 	/**	Error Message			*/
 	private StringBuffer		m_ErrorMsg = new StringBuffer();
 
@@ -794,6 +796,24 @@ public class Collect {
 	 */
 	public void setDateTrx(Timestamp m_DateTrx) {
 		this.m_DateTrx = m_DateTrx;
+	}
+	
+	/**
+	 * Set Payment term
+	 * @param p_C_PaymentTerm_ID
+	 * @return void
+	 */
+	public void setC_PaymentTerm_ID(int p_C_PaymentTerm_ID) {
+		m_C_PaymentTerm_ID = p_C_PaymentTerm_ID;
+	}
+	
+	/**
+	 * Get Payment Term
+	 * @return
+	 * @return int
+	 */
+	public int getC_PaymentTerm_ID() {
+		return m_C_PaymentTerm_ID;
 	}
 	
 	/**

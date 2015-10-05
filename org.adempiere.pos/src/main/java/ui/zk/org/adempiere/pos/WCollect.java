@@ -354,14 +354,14 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	 */
 	public String saveData() {
 		try {
-			v_POSPanel.setPrepayment(fIsPrePayment.isSelected());
+//			v_POSPanel.setPrepayment(fIsPrePayment.isSelected());
 			setIsCreditOrder(fIsCreditOrder.isSelected());
 //			setReturnAmt(new BigDecimal(fReturnAmt.getValue()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					String msg = validatePayment(v_POSPanel.getOpenAmt());
 					if(msg == null){
-						if(v_POSPanel.processOrder(trxName)) {
+						if(v_POSPanel.processOrder(trxName, isPrePayOrder())) {
 							processPayment(trxName, v_POSPanel.getOpenAmt());
 						} else {
 							throw new POSaveFailedException(v_POSPanel.getProcessMsg());
