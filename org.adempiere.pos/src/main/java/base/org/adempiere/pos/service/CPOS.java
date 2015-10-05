@@ -41,6 +41,7 @@ import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPrice;
+import org.compiere.model.MTax;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.MWarehousePrice;
@@ -554,20 +555,39 @@ public class CPOS {
 	 * @param p_C_OrderLine_ID
 	 * @param p_QtyOrdered
 	 * @param p_PriceEntered
-	 * @return void
+	 * @param p_LineNetAmt
+	 * @param p_GrandTotal
+	 * @return BigDecimal []
 	 */
-	public void updateLine(int p_C_OrderLine_ID, BigDecimal p_QtyOrdered, BigDecimal p_PriceEntered) {
+	public BigDecimal [] updateLine(int p_C_OrderLine_ID, BigDecimal p_QtyOrdered, 
+			BigDecimal p_PriceEntered) {
 		//	Valid Complete
 		if (isCompleted())
-			return;
+			return null;
 		//	
 		MOrderLine[] lines = m_CurrentOrder.getLines("AND C_OrderLine_ID = " + p_C_OrderLine_ID, "Line");
+		BigDecimal m_LineNetAmt = Env.ZERO; 
+		BigDecimal m_TaxRate = Env.ZERO;
+		BigDecimal m_GrandTotal = Env.ZERO;
+		//	Search Line
 		for(MOrderLine line : lines) {
 			line.setPrice(p_PriceEntered);
 			line.setQty(p_QtyOrdered);
 			line.setTax();
 			line.saveEx();
+			//	Set Values for Grand Total
+			m_LineNetAmt = line.getLineNetAmt();
+			m_TaxRate = MTax.get(m_ctx, line.getC_Tax_ID()).getRate();
+			if(m_TaxRate == null) {
+				m_TaxRate = Env.ZERO;
+			}
+			//	Calculate Total
+			m_GrandTotal = m_LineNetAmt
+						.add(m_LineNetAmt
+								.multiply(m_TaxRate));
 		}
+		//	Return Value
+		return new BigDecimal[]{m_LineNetAmt, m_TaxRate, m_GrandTotal};
 	}
 	
 	/**
