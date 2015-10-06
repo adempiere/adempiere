@@ -18,11 +18,12 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
@@ -44,6 +45,9 @@ import org.compiere.util.Env;
  * Button panel supporting multiple linked layouts
  * @author Paul Bowden
  * Adaxa Pty Ltd
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * <li> Change Image Size
  *
  */
 public class POSKeyPanel extends CPanel implements ActionListener {
@@ -78,6 +82,8 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 	private static CLogger log = CLogger.getCLogger(POSKeyPanel.class);
 	/** Caller			*/
 	private PosKeyListener caller;
+	/**	Image Size		*/
+	private final int 	IMAGE_SIZE = 100;
 
 
 	/**
@@ -163,11 +169,13 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 			button.setBackground(keyColor);
 			button.setFont(keyFont);
 
-			if ( key.getAD_Image_ID() != 0 )
-			{
+			if (key.getAD_Image_ID() != 0) {
 				MImage image = MImage.get(Env.getCtx(), key.getAD_Image_ID());
-				Icon icon = image.getIcon();
-				button.setIcon(icon);
+				Image img = image.getImage();
+				//	https://github.com/erpcya/AD-POS-WebUI/issues/29
+				//	Change Image Size
+				Image imgResized = img.getScaledInstance(IMAGE_SIZE, IMAGE_SIZE, Image.SCALE_SMOOTH) ;  
+				button.setIcon(new ImageIcon(imgResized));
 				button.setVerticalTextPosition(SwingConstants.BOTTOM);
 				button.setHorizontalTextPosition(SwingConstants.CENTER);
 			}
@@ -189,6 +197,7 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 				size = size*key.getSpanY();
 			}
 			buttons = buttons + size;
+			
 			content.add (button, constraints);
 		}
 		

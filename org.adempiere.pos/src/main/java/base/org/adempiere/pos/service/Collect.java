@@ -122,7 +122,7 @@ public class Collect {
 	 * @param none
 	 * @return void
 	 */
-	public void removeAllCollectDetails() {
+	public void removeAllCollectDetail() {
 		int lenght = m_Collects.size();
 		for(int i = lenght - 1; i >= 0; i--) {
 			m_Collects.remove(i);
@@ -553,14 +553,17 @@ public class Collect {
 			addErrorMsg("@POS.validatePayment.NoOpenAmt@");
 		}
 		//	For Prepay order
-		if(!isPrePayOrder()
-				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
-			addErrorMsg("@POS.OrderPayNotCompleted@");
-		} else if(!isCreditOrder()
-				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
-			addErrorMsg("@POS.OrderPayNotCompleted@");
-		} else if(isCreditOrder()) {
+		if(isPrePayOrder()) {
 			return null;
+		} else if(isCreditOrder()) {
+			if(getC_PaymentTerm_ID() > 0) {
+				return null;
+			} else {
+				addErrorMsg("@C_PaymentTerm_ID@ @NotFound@");
+			}
+		} else if(p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
+			addErrorMsg("@POS.OrderPayNotCompleted@");
+			
 		}
 		//	Local variables for not iterate again
 		BigDecimal m_CashPayment = Env.ZERO;

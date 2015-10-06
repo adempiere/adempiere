@@ -106,13 +106,13 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_DividerPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		v_DividerPane.setBorder(BorderFactory.createEtchedBorder());
 		v_DividerPane.setContinuousLayout(true);
-		v_DividerPane.setDividerLocation(700);
+		v_DividerPane.setDividerLocation(600);
 		v_MainPane.add(v_DividerPane, BorderLayout.CENTER);
 		originalKeyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		m_focusMgr = new PosKeyboardFocusManager();
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
 		//	Set Border
-		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 18);
+		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 16);
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		m_FieldHeight = 50;
 		m_ButtonSize = 50;

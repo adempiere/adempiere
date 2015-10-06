@@ -28,6 +28,7 @@ import java.util.Properties;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MLocator;
@@ -78,8 +79,6 @@ public class CPOS {
 	private MBPartner			m_BPartner;
 	/**	Price List Version		*/
 	private int					m_M_PriceList_Version_ID;
-	/**	Currency				*/
-	private int					m_C_Currency_ID;
 	/** Context					*/
 	protected Properties		m_ctx = Env.getCtx();
 	/**	Today's (login) date	*/
@@ -262,7 +261,11 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getC_Currency_ID() {
-		return m_C_Currency_ID;
+		if (hasBPartner()) {
+			return m_CurrentOrder.getC_Currency_ID();
+		}
+		//	Default
+		return 0;
 	}
 	
 	/**
@@ -855,16 +858,6 @@ public class CPOS {
 		return orderCompleted;
 	}	// processOrder
 	
-//	/**
-//	 * Process Order Without transaction name
-//	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-//	 * @return
-//	 * @return boolean
-//	 */
-//	public boolean processOrder() {
-//		return processOrder(null);
-//	}
-	
 	/**
 	 * Get Process Message
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
@@ -886,7 +879,6 @@ public class CPOS {
 				&& !isCompleted()
 				&& !isVoided()) {
 			m_CurrentOrder.setC_PaymentTerm_ID(p_C_PaymentTerm_ID);
-			m_CurrentOrder.saveEx();
 		}
 	}
 	
@@ -1009,7 +1001,6 @@ public class CPOS {
 	private MPriceListVersion loadPriceListVersion(int p_M_PriceList_ID) {
 		m_M_PriceList_Version_ID = 0;
 		MPriceList pl = MPriceList.get(m_ctx, p_M_PriceList_ID, null);
-		m_C_Currency_ID = pl.getC_Currency_ID();
 		//
 		MPriceListVersion plv = pl.getPriceListVersion (getToday());
 		if (plv != null 
@@ -1056,6 +1047,39 @@ public class CPOS {
 	public String getWarehouseName() {
 		if(getM_Warehouse_ID() > 0) {
 			MWarehouse.get(m_ctx, getM_Warehouse_ID()).getName();
+		}
+		//	Default
+		return "";
+	}
+	
+	/**
+	 * Get Document Type Name
+	 * @return
+	 * @return String
+	 */
+	public String getDocumentTypeName() {
+		if(hasOrder()) {
+			MDocType m_DocType = MDocType.get(getCtx(), m_CurrentOrder.getC_DocTypeTarget_ID());
+			if(m_DocType != null) {
+				return m_DocType.getName();
+			}
+		}
+		//	Default None
+		return "";
+	}
+	
+	/**
+	 * Get Currency Symbol
+	 * @return
+	 * @return String
+	 */
+	public String getCurSymbol() {
+		int m_C_Currency_ID = getC_Currency_ID();
+		if(m_C_Currency_ID > 0) {
+			MCurrency m_Currency = MCurrency.get(getCtx(), m_C_Currency_ID);
+			if(m_Currency != null) {
+				return m_Currency.getCurSymbol();
+			}
 		}
 		//	Default
 		return "";
