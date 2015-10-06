@@ -80,8 +80,6 @@ public class CPOS {
 	private int					m_M_PriceList_Version_ID;
 	/**	Currency				*/
 	private int					m_C_Currency_ID;
-	/**	Is Prepayment			*/
-	private boolean 			m_IsPrepayment;
 	/** Context					*/
 	protected Properties		m_ctx = Env.getCtx();
 	/**	Today's (login) date	*/
@@ -97,7 +95,7 @@ public class CPOS {
 	/**
 	 * 	Set MPOS
 	 * @param p_SalesRep_ID
-	 *	@return true if found/set
+	 * @return true if found/set
 	 */
 	public void setPOS(int p_SalesRep_ID) {
 		MPOS[] poss = getPOSs(p_SalesRep_ID);
@@ -566,6 +564,11 @@ public class CPOS {
 		BigDecimal m_GrandTotal = Env.ZERO;
 		//	Search Line
 		for(MOrderLine line : lines) {
+			//	Valid No changes
+			if(p_QtyOrdered.doubleValue() == line.getQtyOrdered().doubleValue()
+					&& p_PriceEntered.doubleValue() == line.getPriceEntered().doubleValue()) {
+				return null;
+			}
 			line.setPrice(p_PriceEntered);
 			line.setQty(p_QtyOrdered);
 			line.setTax();
@@ -575,6 +578,9 @@ public class CPOS {
 			m_TaxRate = MTax.get(m_ctx, line.getC_Tax_ID()).getRate();
 			if(m_TaxRate == null) {
 				m_TaxRate = Env.ZERO;
+			} else {
+				m_TaxRate = m_TaxRate
+						.divide(Env.ONEHUNDRED);
 			}
 			//	Calculate Total
 			m_GrandTotal = m_LineNetAmt
@@ -841,7 +847,7 @@ public class CPOS {
 				m_CurrentOrder.saveEx();
 				orderCompleted = true;
 			} else {
-				log.info( "Process Order FAILED "+m_CurrentOrder.getProcessMsg());		
+				log.info( "Process Order FAILED " + m_CurrentOrder.getProcessMsg());		
 			}
 		} else {
 			orderCompleted = isCompleted();
@@ -1016,7 +1022,6 @@ public class CPOS {
 	
 	/**
 	 * Get Warehouse Identifier
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return int
 	 */
@@ -1026,7 +1031,6 @@ public class CPOS {
 	
 	/**
 	 * Valid Locator
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return String
 	 */
@@ -1046,7 +1050,6 @@ public class CPOS {
 	
 	/**
 	 * Get Warehouse Name
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return String
 	 */
@@ -1218,6 +1221,15 @@ public class CPOS {
 	}
 	
 	/**
+	 * Verify if can modify price
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isModifyPrice() {
+		return m_POS.isModifyPrice();
+	}
+	
+	/**
 	 * Get Order Identifier
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
@@ -1230,15 +1242,6 @@ public class CPOS {
 		}
 		//	Default
 		return m_C_Order_ID;
-	}
-
-	/**
-	 * Set if is Prepayment
-	 * @param isPrepayment
-	 * @return void
-	 */
-	public void setPrepayment(boolean isPrepayment) {
-		m_IsPrepayment = isPrepayment;
 	}
 	
 	/**

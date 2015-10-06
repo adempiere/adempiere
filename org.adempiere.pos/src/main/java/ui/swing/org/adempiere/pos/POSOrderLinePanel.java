@@ -90,7 +90,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		m_TableHandle = new POSOrderLineTableHandle(m_table);
 		CScrollPane scroll = new CScrollPane(m_table);
 		scroll.addKeyListener(this);
-		m_TableHandle.prepareTable();
+		m_TableHandle.prepareTable(v_POSPanel.isModifyPrice());
 		m_table.getModel().addTableModelListener(this);
 		m_table.addKeyListener(this);
 		

@@ -146,23 +146,11 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 		//	Center
 		m_table.prepareTable (s_layout, s_sqlFrom, 
 			s_sqlWhere, false, "RV_BPartner");
-		m_table.addMouseListener(this);
-		m_table.getSelectionModel().addListSelectionListener(this);
-		select();
+		//	
 		m_table.growScrollbars();
 		f_value.requestFocus();
 		addNewAction();
 	}	//	init
-	
-//	@Override
-//	public void actionPerformed (ActionEvent e) {
-//		super.actionPerformed(e);
-//		if (e.getSource() == f_value
-//			|| e.getSource() == f_name) {
-//			refresh();
-//			return;
-//		}
-//	}	//	actionPerformed
 	
 	
 	@Override
@@ -222,12 +210,7 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 	 * 	Set Values on other panels and close
 	 */
 	protected void close() {
-		Integer ID = m_table.getSelectedRowKey();
-		int row = m_table.getSelectedRow();
-		if (ID != null) {
-			m_C_BPartner_ID = ID.intValue();
-			m_BPartnerName = (String)m_table.getValueAt(row, 2);
-		}
+		select();
 		dispose();
 	}	//	close
 	

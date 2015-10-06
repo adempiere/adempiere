@@ -139,8 +139,6 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 		m_table.prepareTable (s_layout, "C_Order", 
 				"C_POS_ID = " + v_POSPanel.getC_POS_ID()
 				, false, "C_Order");
-		m_table.addMouseListener(this);
-		m_table.getSelectionModel().addListSelectionListener(this);
 		m_table.growScrollbars();
 		f_DocumentNo.requestFocus();
 		pack();
@@ -248,10 +246,7 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 	 */
 	@Override
 	protected void close() {
-		log.info("C_Order_ID=" + m_C_Order_ID); 
-		Integer ID = m_table.getSelectedRowKey();
-		if (ID != null)
-			m_C_Order_ID = ID.intValue(); 		
+		select();	
 		dispose();
 	}	//	close
 	

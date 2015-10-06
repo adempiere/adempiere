@@ -62,11 +62,9 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 	@Override
 	protected void init() {
 		m_table = ListboxFactory.newDataTable();
-
-		
-		
+		//	
 		m_TableHandle = new POSOrderLineTableHandle(m_table);
-		m_TableHandle.prepareTable();
+		m_TableHandle.prepareTable(v_POSPanel.isModifyPrice());
 		m_table.getModel().addTableModelListener(this);
 
 		m_table.setColumnClass(4, BigDecimal.class, true);

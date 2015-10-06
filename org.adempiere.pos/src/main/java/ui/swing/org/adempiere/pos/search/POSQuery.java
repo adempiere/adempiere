@@ -28,8 +28,6 @@ import java.beans.VetoableChangeListener;
 import java.util.Properties;
 
 import javax.swing.KeyStroke;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VDate;
@@ -58,7 +56,7 @@ import org.compiere.util.Env;
  *  @version $Id: PosQuery.java,v 2.0 2015/09/01 00:00:00 
  */
 public abstract class POSQuery extends CDialog 
-	implements MouseListener, ListSelectionListener, ActionListener, VetoableChangeListener {
+	implements MouseListener, ActionListener, VetoableChangeListener {
 
 	/**
 	 * 
@@ -147,6 +145,9 @@ public abstract class POSQuery extends CDialog
 		getContentPane().add(v_MainPanel);
 		//	Visible New
 		f_New.setVisible(false);
+		//	Add Listener
+		m_table.addMouseListener(this);
+//		m_table.getSelectionModel().addListSelectionListener(this);
 	}
 	
 	@Override
@@ -271,7 +272,7 @@ public abstract class POSQuery extends CDialog
 	 */
 	public void mouseClicked(MouseEvent e) {
 		//  Single click with selected row => exit
-		if (e.getClickCount() > 0 && m_table.getSelectedRow() != -1) {
+		if (e.getClickCount() > 1 && m_table.getSelectedRow() != -1) {
 			select();
 			close();
 		}
@@ -291,9 +292,10 @@ public abstract class POSQuery extends CDialog
 	public void mousePressed (MouseEvent e) {
 		//	Add support search Business Partner
 		//  Single click with selected row => exit
-		if (e.getClickCount() > 0 
+		if (e.getClickCount() > 1 
 				&& m_table.getSelectedRow() != -1)	{
 			select();
+			close();
 		}
 	}
 	
@@ -301,16 +303,6 @@ public abstract class POSQuery extends CDialog
 	public void mouseReleased (MouseEvent e) {
 		
 	}
-
-	/**
-	 * 	Table selection changed
-	 *	@param e event
-	 */
-	public void valueChanged (ListSelectionEvent e) {
-		if (e.getValueIsAdjusting())
-			return;
-		select();
-	}	//	valueChanged
 
 	/**
 	 * 	Create Action Button

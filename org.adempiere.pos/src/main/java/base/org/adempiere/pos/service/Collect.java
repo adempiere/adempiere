@@ -553,12 +553,14 @@ public class Collect {
 			addErrorMsg("@POS.validatePayment.NoOpenAmt@");
 		}
 		//	For Prepay order
-		if(isPrePayOrder()
+		if(!isPrePayOrder()
 				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
 			addErrorMsg("@POS.OrderPayNotCompleted@");
 		} else if(!isCreditOrder()
 				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
 			addErrorMsg("@POS.OrderPayNotCompleted@");
+		} else if(isCreditOrder()) {
+			return null;
 		}
 		//	Local variables for not iterate again
 		BigDecimal m_CashPayment = Env.ZERO;

@@ -128,8 +128,6 @@ public class QueryProduct extends POSQuery
 		m_table.prepareTable (s_layout, s_sqlFrom, 
 			s_sqlWhere, false, "RV_WarehousePrice");
 		//	
-		m_table.addMouseListener(this);
-		m_table.getSelectionModel().addListSelectionListener(this);
 		m_table.setColumnVisibility(m_table.getColumn(0), false);
 		m_table.getColumn(1).setPreferredWidth(175);
 		m_table.getColumn(2).setPreferredWidth(175);
@@ -152,18 +150,6 @@ public class QueryProduct extends POSQuery
 		m_M_PriceList_Version_ID = M_PriceList_Version_ID;
 		m_M_Warehouse_ID = M_Warehouse_ID;
 	}	//	setQueryData
-	
-//	@Override
-//	public void actionPerformed (ActionEvent e) {
-//		super.actionPerformed(e);
-//		if (e.getSource() == f_Value || e.getSource() == f_UPC
-//			|| e.getSource() == f_ProductName || e.getSource() == f_SKU) {
-//			refresh();
-//			return;
-//		}
-//		//	Exit
-//	}	//	actionPerformed
-	
 	
 	/**
 	 * 	Set/display Results
@@ -197,7 +183,6 @@ public class QueryProduct extends POSQuery
 				m_Price = (BigDecimal)m_table.getValueAt(row, 7);
 			}
 		}
-//		f_Ok.setEnabled(enabled);
 		log.fine("M_Product_ID=" + m_M_Product_ID + " - " + m_ProductName + " - " + m_Price); 
 	}	//	enableButtons
 
@@ -216,10 +201,7 @@ public class QueryProduct extends POSQuery
 	 * 	Set Values on other panels and close
 	 */
 	protected void close() {
-		log.fine("M_Product_ID=" + m_M_Product_ID);
-		Integer ID = m_table.getSelectedRowKey();
-		if (ID != null)
-			m_M_Product_ID = ID.intValue();
+		select();
 		dispose();
 	}	//	close
 
