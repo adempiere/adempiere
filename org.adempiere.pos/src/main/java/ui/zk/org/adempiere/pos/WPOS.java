@@ -21,7 +21,6 @@ import java.awt.KeyboardFocusManager;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.I_POSPanel;
@@ -88,7 +87,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 
 	private Button b_ok = new Button("Ok");
 	private Button b_cancel = new Button("Cancel");
-	private int m_Sales_ID = 0;
 	private Window selection;
 	//	Today's (login) date		*/
 	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
@@ -97,10 +95,10 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private HashMap<Integer, WPOSKeyboard> keyboards = new HashMap<Integer, WPOSKeyboard>();
 	public Panel parameterPanel = new Panel();
 	private Listbox listTerminal = ListboxFactory.newDropdownListbox();
-	/**	POS Message					*/
-	private String 				m_POSMsg;	
-	/**	POS Configuration		*/
-	private MPOS 				m_POS;
+	private MPOS[] poss; 
+	/** Window No **/
+	private int windowNo = 0 ;
+	
 	/**
 	 *	zk Initialize Panel
 	 *  @param WindowNo window
@@ -109,7 +107,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void init ()
 	{
 		log.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
-//		m_WindowNo = 0;
+		windowNo = form.getWindowNo();
 		m_frame = frame;
 		//
 		try
@@ -117,9 +115,11 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 			dynInit();
 			
 		}
-		catch(Exception e)
+		catch (AdempierePOSException exception)
 		{
-			log.log(Level.SEVERE, "init", e);
+			FDialog.error( getWindowNo() , m_frame , exception.getLocalizedMessage());
+			dispose();
+			return;
 		}
 		
 	}	//	init
@@ -132,13 +132,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private boolean dynInit()
 	{
 		Borderlayout mainLayout = new Borderlayout();	
-		
-		if (!setMPOS()){
-			m_POSMsg = "@POS.NoPOSForUser@";
-			dispose();
-			return false;
-		}
-
 		f_OrderPanel = new WPOSActionPanel(this);
 		f_ProductKeysPanel = new WPOSProductPanel(this);
 		f_OrderLinePanel = new WPOSOrderLinePanel(this);
@@ -163,8 +156,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 
 		fullPanel.appendChild(v_Table);
 		fullPanel.appendChild(north);
-		north.setStyle("border: none; width:40%; height:15%");
-		v_Table.setStyle("border: none; width:40%;  height:85%; ");
+		north.setStyle("border: none; width:40%; height:20%");
+		v_Table.setStyle("border: none; width:40%;  height:80%; ");
 		
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
@@ -190,75 +183,52 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	{
 		int salesRep_ID = Env.getAD_User_ID(getCtx());
 //		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
-		boolean ok = setPOS(salesRep_ID);
-		if(!ok && getMsgLocator() == null){
-			MPOS[] poss = getPOSs(salesRep_ID);
-			//	Select POS
-			String msg = Msg.getMsg(m_ctx, "SelectPOS");
-			selection = new Window();
-			Panel mainPanel = new Panel();
-			Panel panel = new Panel();
-			selection.setTitle(msg);
-			Borderlayout mainLayout = new Borderlayout();
-			Grid layout = GridFactory.newGridLayout();
-			selection.appendChild(panel);
-			selection.setWidth("200px");
-			selection.setHeight("100px");
-			//	North
-			Panel centerPanel = new Panel();
-			mainPanel.appendChild(mainLayout);
-			mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
-			mainLayout.setHeight("100%");
-			mainLayout.setWidth("100%");
-			//
-			Center center = new Center();
-			center.setStyle("border: none");
-			mainLayout.appendChild(center);
-			center.appendChild(centerPanel);
-			centerPanel.appendChild(layout);
-			layout.setWidth("100%");
-			layout.setHeight("100%");
-			selection.appendChild(mainPanel);
-			Rows rows = null;
-			Row row = null;
-			rows = layout.newRows();
-			row = rows.newRow();
-			for(int x=0; x<poss.length; x++){
-				listTerminal.addItem(poss[x].getKeyNamePair());
-			}
-			b_ok.addActionListener(this);
-			b_cancel.addEventListener("onClick", this);
-			row.setSpans("2");
-			row.appendChild(listTerminal);
-			row = rows.newRow();
-			row.appendChild(b_ok);
-			row.appendChild(b_cancel);
-			AEnv.showWindow(selection);
+		setPOS(salesRep_ID);
+		poss = getPOSs(salesRep_ID);
+		//	Select POS
+		String msg = Msg.getMsg(m_ctx, "SelectPOS");
+		selection = new Window();
+		Panel mainPanel = new Panel();
+		Panel panel = new Panel();
+		selection.setTitle(msg);
+		Borderlayout mainLayout = new Borderlayout();
+		Grid layout = GridFactory.newGridLayout();
+		selection.appendChild(panel);
+		selection.setWidth("200px");
+		selection.setHeight("100px");
+		//	North
+		Panel centerPanel = new Panel();
+		mainPanel.appendChild(mainLayout);
+		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
+		mainLayout.setHeight("100%");
+		mainLayout.setWidth("100%");
+		//
+		Center center = new Center();
+		center.setStyle("border: none");
+		mainLayout.appendChild(center);
+		center.appendChild(centerPanel);
+		centerPanel.appendChild(layout);
+		layout.setWidth("100%");
+		layout.setHeight("100%");
+		selection.appendChild(mainPanel);
+		Rows rows = null;
+		Row row = null;
+		rows = layout.newRows();
+		row = rows.newRow();
+		for(int x=0; x<poss.length; x++){
+			listTerminal.addItem(poss[x].getKeyNamePair());
 		}
-		else
-			return true;
-		
+		b_ok.addActionListener(this);
+		b_cancel.addEventListener("onClick", this);
+		row.setSpans("2");
+		row.appendChild(listTerminal);
+		row = rows.newRow();
+		row.appendChild(b_ok);
+		row.appendChild(b_cancel);
+		AEnv.showWindow(selection);
 			
-		return action;
+	return action;
 	}	//	setMPOS
-	
-	/**
-	 * 	Get POSs for specific Sales Rep or all
-	 *	@param SalesRep_ID
-	 *	@return array of POS
-	 */
-//	private MPOS[] getPOSs (int SalesRep_ID)
-//	{
-//		String pass_field = "SalesRep_ID";
-//		int pass_ID = SalesRep_ID;
-//		if (SalesRep_ID==0)
-//			{
-//			pass_field = "AD_Client_ID";
-//			pass_ID = Env.getAD_Client_ID(m_ctx);
-//			}
-//		return MPOS.getAll(m_ctx, pass_field, pass_ID);
-//	}	//	getPOSs
-	
 	
 	
 	/**************************************************************************
@@ -320,9 +290,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	@Override
 	public void onEvent(Event e) throws Exception {
 		if(e.getTarget().equals(b_ok)){
-			MPOS[] poss = getPOSs (m_Sales_ID);
-			m_POS = poss[listTerminal.getSelectedIndex()];
-			setM_POS(m_POS);
+			setM_POS(poss[listTerminal.getSelectedIndex()]);
 			action = true;
 			selection.dispose();
 		}
@@ -355,6 +323,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void refreshPanel() {
 		//	Reload from DB
 		reloadOrder();
+		f_OrderPanel.refreshPanel();
 		f_OrderPanel.changeViewPanel();
 		f_ProductKeysPanel.refreshPanel();
 		f_OrderLinePanel.refreshPanel();
@@ -368,14 +337,25 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	}
 	/**
 	 * New Order
-	 * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	public void newOrder() {
+		newOrder(0);
+	}
+	/**
+	 * New Order
+	 * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
+	public void newOrder(int p_C_BPartner_ID) {
 		//	Do you want to use the alternate Document type?
 		boolean isDocType = FDialog.ask(0, null, Msg.getMsg(m_ctx, "POS.AlternateDT"));
-		setC_BPartner_ID(0);
-		newOrder(isDocType);
+		setC_BPartner_ID(p_C_BPartner_ID);
+		newOrder(isDocType, p_C_BPartner_ID);
+	}
+	public int getWindowNo()
+	{
+		return windowNo;
 	}
 }	//	PosPanel
 

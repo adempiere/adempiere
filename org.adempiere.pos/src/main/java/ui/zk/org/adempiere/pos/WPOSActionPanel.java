@@ -23,7 +23,7 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MInvoice;
+import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MSequence;
@@ -33,6 +33,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Space;
@@ -52,15 +53,15 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		super (posPanel);
 	}	//	WPOSActionPanel
 
-	private Button 		f_history;
-	private	Label		f_name;
-	private Button 		f_bNew;
-	private Button 		f_cashPayment;
+	private Button 			f_history;
+	private	WPosTextField	f_name;
+	private Button 			f_bNew;
+	private Button 			f_cashPayment;
 
 	private Button			f_bBPartner;
-	private Label 		bpartner;
-	private Button 		f_logout;
-	private Button 		f_cancel;
+	private Label 			bpartner;
+	private Button 			f_logout;
+	private Button 			f_cancel;
 	private Button 			f_Next;
 	private Button 			f_Back;
 
@@ -75,6 +76,8 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WPOSActionPanel.class);
 	
+	private int cont;
+	
 	@Override
 	public void init() {
 
@@ -86,7 +89,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		Rows rows = null;
 		Row row = null;	
 		North north = new North();
-		
+		cont=0;
 		listOrder();
 		recordPosition = orderList.size()-1;
 
@@ -114,7 +117,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		rows = LayoutButton.newRows();
 		LayoutButton.setStyle("border:none");
 		row = rows.newRow();
-		row.setHeight("60px");
+		row.setHeight("55px");
 
 		row.appendChild(new Space());
 		// NEW
@@ -127,7 +130,6 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		f_bBPartner.addActionListener(this);
 		f_bBPartner.setTooltiptext(Msg.translate(p_ctx, "IsCustomer"));
 		row.appendChild(f_bBPartner);
-				
 				
 		// HISTORY
 		f_history = createButtonAction(ACTION_HISTORY, null);
@@ -162,18 +164,19 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		row.appendChild(new Space());
 		
 		row = rows.newRow();
-		row.setSpans("3,5");
-		row.setHeight("25px");
+		row.setSpans("1,7");
+		row.setHeight("55px");
 		// BP
-		bpartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer")+":");
-		row.appendChild (bpartner.rightAlign());
-		bpartner.setStyle("Font-size:medium; font-weight:700");
-		bpartner.setVisible(false);
+		bpartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer"));
+		row.appendChild (new Space());
+
 		
-		f_name = new Label("-");
-		f_name.setStyle("Font-size:medium");
+		f_name = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_name.setHeight("35px");
+		f_name.setStyle("Font-size:medium; font-weight:700");
 		f_name.setWidth("100%");
-		f_name.setVisible(false);
+		f_name.setValue(bpartner.getValue());
+		f_name.addEventListener(Events.ON_FOCUS, this);
 		row.appendChild  (f_name);
 		enableButton();
 	}
@@ -195,7 +198,6 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			try 
 			{
 				//print standard document
-				Boolean print = true;
 				if (p_pos.getAD_Sequence_ID() != 0)
 				{
 					MSequence seq = new MSequence(Env.getCtx(), p_pos.getAD_Sequence_ID(), order.get_TrxName());
@@ -272,28 +274,101 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	 */
 	private void findBPartner()
 	{
-		
-		if ( !v_POSPanel.hasBPartner() || v_POSPanel.getC_BPartner_ID() <= 0){
-			bpartner.setVisible(false);
-			f_name.setVisible(false);
-			f_name.setText("");
-			v_POSPanel.setC_BPartner_ID(0);
+		String query = f_name.getText();
+		//	
+		if (query == null || query.length() == 0)
 			return;
-		}
-			
 		
-		MBPartner results = MBPartner.get(p_ctx, v_POSPanel.getC_BPartner_ID());
-		f_name.setText(results.getName());
-		v_POSPanel.setC_BPartner_ID(results.getC_BPartner_ID());
-		v_POSPanel.getM_Order().saveEx();
-		bpartner.setVisible(true);
-		f_name.setVisible(true);
+		// unchanged
+		if (v_POSPanel.hasBPartner() 
+				&& v_POSPanel.compareBPName(query))
+			return;
+		
+		query = query.toUpperCase();
+		//	Test Number
+		boolean allNumber = true;
+		boolean noNumber = true;
+		char[] qq = query.toCharArray();
+		for (int i = 0; i < qq.length; i++) {
+			if (Character.isDigit(qq[i])) {
+				noNumber = false;
+				break;
+			}
+		} try {
+			Integer.parseInt(query);
+		} catch (Exception e) {
+			allNumber = false;
+		}
+		String Value = query;
+		String Name = (allNumber ? null : query);
+		String EMail = (query.indexOf('@') != -1 ? query : null); 
+		String Phone = (noNumber ? null : query);
+		String City = null;
+		//
+		MBPartnerInfo[] results = MBPartnerInfo.find(p_ctx, Value, Name, 
+			/*Contact, */null, EMail, Phone, City);
+		
+		//	Set Result
+		if (results.length == 1) {
+			MBPartner bp = MBPartner.get(p_ctx, results[0].getC_BPartner_ID());
+			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
+			f_name.setText(bp.getName());
+		} else {	//	more than one
+			changeBusinessPartner(results);
+		}
 
 	}	//	findBPartner
 	
+	/**
+	 * 	Change in Order the Business Partner, including Price list and location
+	 *  In Order and POS
+	 *  @param results
+	 */
+	public void changeBusinessPartner(MBPartnerInfo[] results) {
+		// Change to another BPartner
+		WQueryBPartner qt = new WQueryBPartner(v_POSPanel);
+		qt.setResults(results);
+		AEnv.showWindow(qt);
+		if (qt.getRecord_ID() > 0) {
+			f_name.setText(qt.getValue());
+			if(!v_POSPanel.hasOrder()) {
+				v_POSPanel.newOrder(qt.getRecord_ID());
+				v_POSPanel.refreshPanel();
+			} else {
+				v_POSPanel.setC_BPartner_ID(qt.getRecord_ID());
+			}
+			log.fine("C_BPartner_ID=" + qt.getRecord_ID());
+		}	
+	}	
+	public boolean showKeyboard(WPosTextField field, Label label) {
+		if(field.getText().equals(label.getValue()))
+			field.setValue("");
+		WPOSKeyboard keyboard =  v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
+		keyboard.setWidth("750px");
+		keyboard.setHeight("380px");
+		keyboard.setPosTextField(field);	
+		AEnv.showWindow(keyboard);
+		if(field.getText().equals("")) 
+			field.setValue(label.getValue());
+		return keyboard.isCancel();
+	}
+	
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
-		String action = e.getTarget().getId();
+		cont++;
+		if(e.getName().equals(Events.ON_FOCUS)) {
+			if(cont<2){
+				if (e.getTarget().equals(f_name)) {
+					if(e.getTarget().equals(f_name)) {
+						if(!showKeyboard(f_name,bpartner))
+							findBPartner(); 
+					}
+				}
+			}else {
+				cont=0;
+				f_bBPartner.setFocus(true);
+			}
+		}
 		if (e.getTarget().equals(f_bNew)){
 			v_POSPanel.newOrder();
 			v_POSPanel.refreshPanel();
@@ -343,8 +418,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 
 	@Override
 	public void refreshPanel() {
-		// TODO Auto-generated method stub
-		
+		f_name.setText(v_POSPanel.getBPName());
 	}
 
 	@Override
@@ -361,9 +435,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			if (order != null)
 			{	
 				if(v_POSPanel.getC_BPartner_ID() <= 0) {
-					bpartner.setVisible(false);
-					f_name.setVisible(false);
-					f_name.setText("");
+					f_name.setText(bpartner.getValue());
 				}
   				// Button BPartner: enable when drafted, and order has no lines
 //				v_POSPanel.setC_BPartner_ID(order.getC_BPartner_ID());
@@ -427,17 +499,14 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 				f_cancel.setEnabled(false);
 				f_history.setEnabled(true);
 				f_cashPayment.setEnabled(false);
-				bpartner.setVisible(false);
-				f_name.setVisible(false);
-				f_name.setText("");
+				f_name.setText(bpartner.getValue());
 			}
 			
 		}
 	}
 	
 	public void enableButton(){
-		f_name.setText("");
-		bpartner.setVisible(false);
+		f_name.setText(bpartner.getValue());
 		f_bBPartner.setEnabled(false);
 		v_POSPanel.setC_BPartner_ID(0);
 		f_bNew.setEnabled(true);
