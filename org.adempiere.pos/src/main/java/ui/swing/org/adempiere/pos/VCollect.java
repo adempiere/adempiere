@@ -47,10 +47,6 @@ import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
-import org.compiere.grid.ed.VComboBox;
-import org.compiere.grid.ed.VLookup;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
 import org.compiere.model.MOrder;
 import org.compiere.model.X_C_Payment;
 import org.compiere.swing.CButton;
@@ -59,7 +55,6 @@ import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
@@ -116,12 +111,12 @@ public class VCollect extends Collect
 	private CLabel 			fGrandTotal;
 	private CLabel 			lReturnAmt;
 	private CLabel 			fReturnAmt;
-	private CLabel 			fLine;
+//	private CLabel 			fLine;
 	private CLabel 			lPayAmt;
 	private CLabel 			fPayAmt;
 	private CCheckBox 		fIsPrePayOrder;
 	private CCheckBox 		fIsCreditOrder;
-	private VLookup 		fPaymentTerm;
+//	private VLookup 		fPaymentTerm;
 	
 	/**	Action				*/
 	private CButton 		bPlus;
@@ -182,8 +177,8 @@ public class VCollect extends Collect
 		fPayAmt.setFont(v_POSPanel.getFont());
 		fPayAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
 		//	Add Line
-		fLine = new CLabel("________________");
-		fLine.setFont(v_POSPanel.getFont());
+//		fLine = new CLabel("________________");
+//		fLine.setFont(v_POSPanel.getFont());
 		//	For Returned Amount
 		lReturnAmt = new CLabel(Msg.translate(m_ctx, "AmountReturned") + ":");
 		lReturnAmt.setFont(v_POSPanel.getFont());
@@ -223,13 +218,13 @@ public class VCollect extends Collect
 				fIsCreditOrder.setSelected(true);
 			}
 		}
-		int AD_Column_ID = 2187;        //  C_Order.C_PaymentTerm_ID
-		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.TableDir);
-		fPaymentTerm = new VLookup("C_PaymentTerm_ID", true, false, true, lookup);
-		((VComboBox)fPaymentTerm.getCombo()).setRenderer(new POSLookupTableDirCellRenderer(v_POSPanel.getFont()));
-		fPaymentTerm.setPreferredSize(new Dimension(200, v_POSPanel.getFieldLenght()));
-		((VComboBox)fPaymentTerm.getCombo()).setFont(v_POSPanel.getFont());
-		fPaymentTerm.addVetoableChangeListener(this);
+//		int AD_Column_ID = 2187;        //  C_Order.C_PaymentTerm_ID
+//		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.TableDir);
+//		fPaymentTerm = new VLookup("C_PaymentTerm_ID", true, false, true, lookup);
+//		((VComboBox)fPaymentTerm.getCombo()).setRenderer(new POSLookupTableDirCellRenderer(v_POSPanel.getFont()));
+//		fPaymentTerm.setPreferredSize(new Dimension(200, v_POSPanel.getFieldLenght()));
+//		((VComboBox)fPaymentTerm.getCombo()).setFont(v_POSPanel.getFont());
+//		fPaymentTerm.addVetoableChangeListener(this);
 		//	Add Plus Button
 		AppsAction act = new AppsAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2), false);
 		act.setDelegate(this);
@@ -253,26 +248,26 @@ public class VCollect extends Collect
 		v_ParameterPanel.add(fPayAmt, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
-		v_ParameterPanel.add(fLine, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, 
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+//		v_ParameterPanel.add(fLine, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, 
+//				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
-		v_ParameterPanel.add(lReturnAmt, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
+		v_ParameterPanel.add(lReturnAmt, new GridBagConstraints(1, 2, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		
-		v_ParameterPanel.add(fReturnAmt, new GridBagConstraints(2, 3, 1, 1, 0.0,0.0, 
+		v_ParameterPanel.add(fReturnAmt, new GridBagConstraints(2, 2, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
-		v_ParameterPanel.add(fIsPrePayOrder, new GridBagConstraints(1, 4, 1, 1, 0.0,0.0, 
+		v_ParameterPanel.add(fIsPrePayOrder, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
-		v_ParameterPanel.add(fIsCreditOrder, new GridBagConstraints(2, 4, 1, 1, 0.0,0.0, 
+		v_ParameterPanel.add(fIsCreditOrder, new GridBagConstraints(2, 3, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
-		v_ParameterPanel.add(bPlus, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0,
+		v_ParameterPanel.add(bPlus, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0,
 							GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 		
-		v_ParameterPanel.add(fPaymentTerm, new GridBagConstraints(2, 5, 1, 1, 0.0,0.0, 
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+//		v_ParameterPanel.add(fPaymentTerm, new GridBagConstraints(2, 5, 1, 1, 0.0,0.0, 
+//				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
 		//	Add Fields to Main Panel
 		v_MainPanel.add(v_ParameterPanel, BorderLayout.NORTH);
@@ -322,6 +317,8 @@ public class VCollect extends Collect
 		collectDetail.requestFocusInPayAmt();
 		//	Add Count
 		collectRowNo++;
+		//	Calculate Data
+		calculatePanelData();
 	}
 
 	/**
@@ -332,10 +329,8 @@ public class VCollect extends Collect
 	public String saveData() {
 		try {
 			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			setIsCreditOrder(fIsCreditOrder.isSelected());
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					v_POSPanel.setC_PaymentTerm_ID(getC_PaymentTerm_ID());
 					if(v_POSPanel.processOrder(trxName, isPrePayOrder())) {
 						processPayment(trxName, v_POSPanel.getOpenAmt());
 					} else {
@@ -456,28 +451,40 @@ public class VCollect extends Collect
 
 	@Override
 	public void changeViewPanel() {
+		//	Set Credit for Complete Documents
+		boolean isCreditOpen = (v_POSPanel.isCompleted() 
+				&& v_POSPanel.getOpenAmt().doubleValue() > 0);
+		//	Is Standard Order
+		boolean isStandardOrder = v_POSPanel.isStandardOrder();
+		//	Set Credit Order
+		setIsCreditOrder(isCreditOrder() 
+				|| (isCreditOpen && !isStandardOrder));
+		//	
+		setIsPrePayOrder(isPrePayOrder()
+				|| (isCreditOpen && isStandardOrder));
 		//	Set Credit and Pre-Pay Order
 		fIsCreditOrder.setSelected(isCreditOrder());
 		fIsPrePayOrder.setSelected(isPrePayOrder());
-		fPaymentTerm.setVisible(isCreditOrder());
+//		fPaymentTerm.setVisible(isCreditOrder());
 		//	Verify complete order
 		if(v_POSPanel.isCompleted()) {
 			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setEnabled(false);
-			fPaymentTerm.setEnabled(false);
-			bPlus.setEnabled(getBalance().doubleValue() > 0);
+//			fPaymentTerm.setEnabled(false);
+			bPlus.setEnabled(isCreditOpen);
 			bOk.setEnabled(true);
 		} else if(v_POSPanel.isVoided()){
 			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setEnabled(false);
-			fPaymentTerm.setEnabled(false);
+//			fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(false);
 			bOk.setEnabled(false);
 		} else {
 			fIsCreditOrder.setEnabled(true);
 			fIsPrePayOrder.setEnabled(true);
-			fPaymentTerm.setEnabled(true);
-			bPlus.setEnabled(!isCreditOrder());
+//			fPaymentTerm.setEnabled(true);
+			bPlus.setEnabled(!isCreditOrder()
+					|| isCreditOpen);
 			bOk.setEnabled(true);
 		}
 	}
@@ -501,8 +508,11 @@ public class VCollect extends Collect
 		BigDecimal m_PayAmt = getPayAmt();
 		BigDecimal m_Balance = getBalance();
 		//	Change View
-		fGrandTotal.setText(v_POSPanel.getNumberFormat().format(v_POSPanel.getOpenAmt()));
-		fPayAmt.setText(v_POSPanel.getNumberFormat().format(m_PayAmt));
+		String currencyISO_Code = v_POSPanel.getCurSymbol();
+		fGrandTotal.setText(currencyISO_Code + " " 
+				+ v_POSPanel.getNumberFormat().format(v_POSPanel.getGrandTotal()));
+		fPayAmt.setText(currencyISO_Code + " " 
+				+ v_POSPanel.getNumberFormat().format(m_PayAmt.add(v_POSPanel.getPaidAmt())));
 		//	BR https://github.com/erpcya/AD-POS-WebUI/issues/6
 		//	Show pretty Return Amount
 		BigDecimal m_ReturnAmt = Env.ZERO;
@@ -510,8 +520,9 @@ public class VCollect extends Collect
 			m_ReturnAmt = m_Balance.abs();
 		}
 		//	Set Return Amount
-		fReturnAmt.setText(v_POSPanel.getNumberFormat().format(m_ReturnAmt));
-		fPaymentTerm.setValue(getC_PaymentTerm_ID());
+		fReturnAmt.setText(currencyISO_Code + " " 
+				+ v_POSPanel.getNumberFormat().format(m_ReturnAmt));
+//		fPaymentTerm.setValue(getC_PaymentTerm_ID());
 	}
 
 	@Override

@@ -17,15 +17,23 @@
  *****************************************************************************/
 package org.adempiere.pos;
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.model.MImage;
+import org.compiere.model.MPOSKey;
+import org.compiere.model.MProduct;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -60,12 +68,18 @@ public class POSInfoProduct extends POSSubPanel {
 	private CLabel 		fValue;
 	/**	Product Name		*/
 	private CLabel 		fName;
+	/**	Product Price		*/
+	private CLabel 		fPrice;
 	/**	Product Description	*/
 	private CLabel		fDescription;
 	/**	Left Panel			*/
-	private CPanel		v_LeftPanel;
+//	private CPanel		v_LeftPanel;
 	/**	Right Panel			*/
 	private CPanel		v_RightPanel;
+	/**	Button Size			*/
+	private final int	BUTTON_SIZE = 100;
+	/**	Length for Labels	*/
+	private final int	LABEL_LENGTH = 300;
 	
 	
 	@Override
@@ -81,55 +95,83 @@ public class POSInfoProduct extends POSSubPanel {
 		int m_RightPadding = 30;
 		Font localFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 16);
 		//	Instance Panels
-		v_LeftPanel = new CPanel(new GridBagLayout());
+//		v_LeftPanel = new CPanel(new GridBagLayout());
 		v_RightPanel = new CPanel(new GridBagLayout());
+		//	For Price
+		fPrice = new CLabel (Msg.getElement(Env.getCtx(), "Price"));
+		fPrice.setFont(v_POSPanel.getFont());
+		fPrice.setHorizontalAlignment(CLabel.RIGHT);
+		//	Add
+		v_RightPanel.add(fPrice, new GridBagConstraints(3, 0, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Value
 		fValue = new CLabel (Msg.getElement(Env.getCtx(), "ProductValue"));
 		fValue.setFont(v_POSPanel.getFont());
 		fValue.setHorizontalAlignment(CLabel.LEFT);
 		//	Add
 		v_RightPanel.add(fValue, new GridBagConstraints(0, 0, 1, 1, 1, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Name
 		fName = new CLabel (Msg.getElement(Env.getCtx(), "ProductName"));
 		fName.setFont(localFont);
 		fName.setHorizontalAlignment(CLabel.LEFT);
 		//	Add
 		v_RightPanel.add(fName, new GridBagConstraints(0, 1, 1, 1, 1, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Description
 		fDescription = new CLabel (Msg.getElement(Env.getCtx(), "Description"));
 		fDescription.setFont(localFont);
 		fDescription.setHorizontalAlignment(CLabel.LEFT);
+		FontMetrics metrics = getFontMetrics(localFont);
+		fDescription.setPreferredSize(new Dimension(LABEL_LENGTH, metrics.getHeight()));
 		//	Add
 		v_RightPanel.add(fDescription, new GridBagConstraints(0, 2, 1, 1, 1, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Image
 		bImage = new CButton();
 		bImage.setFont(v_POSPanel.getFont());
+		bImage.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
 		bImage.setFocusable(false);
+		bImage.setVerticalTextPosition(SwingConstants.BOTTOM);
+		bImage.setHorizontalTextPosition(SwingConstants.CENTER);
 		//	Add to panel
-		v_LeftPanel.add(bImage);
+//		v_LeftPanel.add(bImage);
 		//	Add to main panel
 		//	Add Doc Info
-		add(v_LeftPanel, new GridBagConstraints(0, 0, 1, 1, 0.5, 1
-				,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
+		add(bImage, new GridBagConstraints(0, 0, 1, 1, 0.1, 1
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	Add to Header
 		add(v_RightPanel, new GridBagConstraints(1, 0, 1, 1, 1, 1
-				,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 	}
 	
-	
-//	public void refreshProduct(int p_M_Product_ID) {
-//		if (p_M_Product_ID != 0) {
-//			MImage image = MImage.get(Env.getCtx(), key.getAD_Image_ID());
-//			Image img = image.getImage();
-//			//	https://github.com/erpcya/AD-POS-WebUI/issues/29
-//			//	Change Image Size
-//			Image imgResized = img.getScaledInstance(IMAGE_SIZE, IMAGE_SIZE, Image.SCALE_SMOOTH) ;  
-//			button.setIcon(new ImageIcon(imgResized));
-//			button.setVerticalTextPosition(SwingConstants.BOTTOM);
-//			button.setHorizontalTextPosition(SwingConstants.CENTER);
-//		}
-//	}
+	/**
+	 * Refresh Product from Key
+	 * @param key
+	 * @return void
+	 */
+	public void refreshProduct(MPOSKey key) {
+		if (key != null) {
+			if(key.getAD_Image_ID() != 0) {
+				MImage image = MImage.get(Env.getCtx(), key.getAD_Image_ID());
+				Image img = image.getImage();
+				//	Change Image Size
+				Image imgResized = img.getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH) ;  
+				bImage.setIcon(new ImageIcon(imgResized));
+			} else {
+				bImage.setIcon(null);
+			}
+			//	Refresh Values
+			MProduct m_Product = MProduct.get(m_ctx, key.getM_Product_ID());
+			if(m_Product != null) {
+				String currencyISO_Code = v_POSPanel.getCurSymbol();
+				fValue.setText(m_Product.getValue());
+				fPrice.setText(currencyISO_Code + " " 
+							+ v_POSPanel.getNumberFormat()
+								.format(v_POSPanel.getPrice(m_Product)));
+				fName.setText(m_Product.getName());
+				fDescription.setText(m_Product.getDescription());
+			}
+		}
+	}
 }

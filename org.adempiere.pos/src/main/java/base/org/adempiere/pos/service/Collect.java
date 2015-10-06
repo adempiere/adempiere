@@ -555,13 +555,8 @@ public class Collect {
 		//	For Prepay order
 		if(isPrePayOrder()) {
 			return null;
-		} else if(isCreditOrder()) {
-			if(getC_PaymentTerm_ID() > 0) {
-				return null;
-			} else {
-				addErrorMsg("@C_PaymentTerm_ID@ @NotFound@");
-			}
-		} else if(p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
+		} else if(!isCreditOrder()
+				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
 			addErrorMsg("@POS.OrderPayNotCompleted@");
 			
 		}
@@ -622,11 +617,6 @@ public class Collect {
 	public void processPayment(String trxName, BigDecimal p_OpenAmt) {
 		this.trxName = trxName;
 		//	
-		//	For Credit order
-		if(isCreditOrder()) {
-			//	Default Ok
-			return;
-		}
 		BigDecimal m_CashPayment = Env.ZERO;
 		BigDecimal m_OtherPayment = Env.ZERO;
 		//	Iterate Payments methods

@@ -94,7 +94,7 @@ public class POSProductPanel extends POSSubPanel
 	private CLabel 			f_lb_TaxAmount;
 	private CLabel 			f_TaxAmount;
 	/**	Line				*/
-	private CLabel			f_lb_Line;
+//	private CLabel			f_lb_Line;
 	/**	Grand Total			*/
 	private CLabel 			f_lb_GrandTotal;
 	private CLabel 			f_GrandTotal;
@@ -201,11 +201,11 @@ public class POSProductPanel extends POSSubPanel
 		v_TotalPanel.add(f_TaxAmount, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Line
-		f_lb_Line = new CLabel ("_____________");
-		f_lb_Line.setFont(v_POSPanel.getFont());
-		//	Add
-		v_TotalPanel.add(f_lb_Line, new GridBagConstraints(3, 2, 1, 1, 1, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
+//		f_lb_Line = new CLabel ("_____________");
+//		f_lb_Line.setFont(v_POSPanel.getFont());
+//		//	Add
+//		v_TotalPanel.add(f_lb_Line, new GridBagConstraints(3, 2, 1, 1, 1, 0.0
+//				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Grand Total
 		f_lb_GrandTotal = new CLabel (Msg.getMsg(v_POSPanel.getCtx(), "Total") + ":");
 		f_lb_GrandTotal.setFont(v_POSPanel.getFont());
@@ -277,11 +277,15 @@ public class POSProductPanel extends POSSubPanel
 	public void keyReturned(MPOSKey key) {
 		// processed order
 		if (v_POSPanel.hasOrder() 
-				&& v_POSPanel.isCompleted())
+				&& v_POSPanel.isCompleted()) {
+			//	Show Product Info
+			v_POSPanel.refreshProductInfo(key);
 			return;
+		}
 		// Add line
 		addLine(key.getM_Product_ID(), key.getQty());
-		return;
+		//	Show Product Info
+		v_POSPanel.refreshProductInfo(key);
 	}
 	
 	@Override
