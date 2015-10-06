@@ -874,6 +874,33 @@ public class CPOS {
 		return m_CurrentOrder.getProcessMsg();
 	}
 
+	/**
+	 * Set Payment Term and save orders
+	 * @param p_C_PaymentTerm_ID
+	 * @return void
+	 */
+	public void setC_PaymentTerm_ID(int p_C_PaymentTerm_ID) {
+		if(p_C_PaymentTerm_ID != 0
+				&& hasOrder()
+				&& !isCompleted()
+				&& !isVoided()) {
+			m_CurrentOrder.setC_PaymentTerm_ID(p_C_PaymentTerm_ID);
+			m_CurrentOrder.saveEx();
+		}
+	}
+	
+	/**
+	 * Get Payment term from order
+	 * @return
+	 * @return int
+	 */
+	public int getC_PaymentTerm_ID() {
+		if(hasOrder()) {
+			return m_CurrentOrder.getC_PaymentTerm_ID();
+		}
+		//	Default
+		return 0;
+	}
 
 	/**
 	 * 	Gets Tax Amt from Order
