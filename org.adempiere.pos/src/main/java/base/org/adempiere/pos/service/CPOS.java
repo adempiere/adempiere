@@ -47,7 +47,7 @@ import org.compiere.model.MWarehouse;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Order;
-import org.compiere.pos.AdempierePOSException;
+import org.adempiere.pos.AdempierePOSException;
 import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -57,6 +57,7 @@ import org.compiere.util.ValueNamePair;
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class CPOS {
 	
@@ -79,10 +80,8 @@ public class CPOS {
 	private int					m_M_PriceList_Version_ID;
 	/**	Currency				*/
 	private int					m_C_Currency_ID;
-//	/**	Is Prepayment			*/
-//	private boolean 			m_IsPrepayment;
-	/**	Message					*/
-	private String              msgLocator;
+	/**	Is Prepayment			*/
+	private boolean 			m_IsPrepayment;
 	/** Context					*/
 	protected Properties		m_ctx = Env.getCtx();
 	/**	Today's (login) date	*/
@@ -100,18 +99,14 @@ public class CPOS {
 	 * @param p_SalesRep_ID
 	 *	@return true if found/set
 	 */
-	public boolean setPOS(int p_SalesRep_ID) {
+	public void setPOS(int p_SalesRep_ID) {
 		MPOS[] poss = getPOSs(p_SalesRep_ID);
 		//	
 		if (poss.length == 0) {
-			msgLocator = "NoPOSForUser";
-			return false;
+			throw new AdempierePOSException("@NoPOSForUser@");
 		} else if (poss.length == 1) {
 			m_POS = poss[0];
-			return true;
 		}
-		//	
-		return false;
 	}	//	setMPOS
 	
 	/**
@@ -1035,18 +1030,18 @@ public class CPOS {
 	 * @return
 	 * @return String
 	 */
-	public String validLocator() {
+	public void validLocator() {
 		MWarehouse warehouse = MWarehouse.get(m_ctx, getM_Warehouse_ID());
 		MLocator[] locators = warehouse.getLocators(true);
 		for (MLocator mLocator : locators) {
 			if (mLocator.isDefault()) {
-				return null;
+				return ;
 			}
 		}
-		//	False Return
-		return "@M_Locator_ID@ @default@ "
+
+		throw new AdempierePOSException("@M_Locator_ID@ @default@ "
 				+ "@not.found@ @M_Warehouse_ID@: " 
-				+ warehouse.getName();
+				+ warehouse.getName());
 	}
 	
 	/**
@@ -1236,33 +1231,15 @@ public class CPOS {
 		//	Default
 		return m_C_Order_ID;
 	}
-	
-//	/**
-//	 * Verify if is Prepayment
-//	 * @return
-//	 * @return boolean
-//	 */
-//	public boolean isPrepayment() {
-//		return m_IsPrepayment;
-//	}
 
 	/**
-	 * Is Prepayment
-	 * @return
-	 * @return String
+	 * Set if is Prepayment
+	 * @param isPrepayment
+	 * @return void
 	 */
-	public String getMsgLocator() {
-		return msgLocator;
+	public void setPrepayment(boolean isPrepayment) {
+		m_IsPrepayment = isPrepayment;
 	}
-
-//	/**
-//	 * Set if is Prepayment
-//	 * @param isPrepayment
-//	 * @return void
-//	 */
-//	public void setPrepayment(boolean isPrepayment) {
-//		m_IsPrepayment = isPrepayment;
-//	}
 	
 	/**
 	 * Get Standard Order ID

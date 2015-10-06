@@ -29,7 +29,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -44,6 +43,7 @@ import org.compiere.apps.ADialog;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.model.MPOS;
+import org.compiere.pos.AdempierePOSException;
 import org.compiere.pos.PosKeyboardFocusManager;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
@@ -55,7 +55,7 @@ import org.compiere.util.Msg;
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
@@ -75,8 +75,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private POSOrderLinePanel 				v_OrderLinePanel;
 	/** Function Keys				*/
 	private POSProductPanel 				v_ProductKeysPanel;
-	/**	POS Message					*/
-	private String 							m_POSMsg;
 	/**	Timer for logout			*/
 	private Timer 							logoutTimer;
 	/** Keyoard Focus Manager		*/
@@ -134,14 +132,18 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		try {
 			if (!dynInit()) {
 				dispose();
-				m_frame.setTitle(Msg.parseTranslation(Env.getCtx(), m_POSMsg));
 				return;
 			}
 			//	Add to frame
 			frame.getContentPane().add(v_MainPane, BorderLayout.CENTER);
-		} catch(Exception e) {
-			log.log(Level.SEVERE, "init", e);
 		}
+		catch (AdempierePOSException exception)
+		{
+			ADialog.error(getWindowNo(), m_frame , exception.getLocalizedMessage());
+			dispose();
+			return;
+		}
+
 		log.config( "PosPanel.init - " + v_MainPane.getPreferredSize());
 		
 		if (getAutoLogoutDelay() > 0 && logoutTimer == null) {
@@ -214,30 +216,19 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * Load POS
 	 * @return String
 	 */
-	private String loadPOS() {
+	private void loadPOS() {
 		int salesRep_ID = Env.getAD_User_ID(getCtx());
-		boolean ok = setPOS(salesRep_ID);
-		if(!ok) {
+		setPOS(salesRep_ID);
 			//	Select POS
-			String msg = Msg.getMsg(getCtx(), "SelectPOS");
-			String title = Env.getHeader(getCtx(), m_WindowNo);
-			Object selection = JOptionPane.showInputDialog(m_frame, msg, title, 
+		String msg = Msg.getMsg(getCtx(), "SelectPOS");
+		String title = Env.getHeader(getCtx(), m_WindowNo);
+		Object selection = JOptionPane.showInputDialog(m_frame, msg, title,
 				JOptionPane.QUESTION_MESSAGE, null, getPOSs(salesRep_ID), null);
-			if (selection != null) {
-				setM_POS((MPOS)selection);
-				String errorValidation = validLocator();
-				if (errorValidation == null)
-					return errorValidation;
 
-				JOptionPane.showMessageDialog(m_frame , Msg.parseTranslation(getCtx() , errorValidation), Msg.parseTranslation(getCtx() , "@Info@"),
-						JOptionPane.ERROR_MESSAGE);
-
-			}
-		} else if(ok) {
-			return null;
+		if (selection != null) {
+			setM_POS((MPOS)selection);
+			validLocator();
 		}
-		//	
-		return "@POS.NoPOSForUser@";
 	}
 	
 	/**************************************************************************
@@ -246,9 +237,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * 	The Sub Panels return their position
 	 */
 	private boolean dynInit() {
-		m_POSMsg = loadPOS();
-		if (m_POSMsg != null)
-			return false;
+		loadPOS();
 		m_frame.setTitle("Adempiere POS: " + getPOSName());
 		//	Create Sub Panels
 		v_LeftPanel = new CPanel(new GridBagLayout());
