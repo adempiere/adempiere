@@ -19,7 +19,6 @@ package org.adempiere.webui.panel;
 
 import java.util.TreeMap;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.AutoComplete;
 import org.adempiere.webui.component.Label;
@@ -35,8 +34,8 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.SimpleTreeNode;
+import org.zkoss.zul.DefaultTreeNode;
+import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treeitem;
 import org.zkoss.zul.event.TreeDataEvent;
@@ -48,7 +47,7 @@ import org.zkoss.zul.event.TreeDataListener;
  * @date    Mar 3, 2007
  * @version $Revision: 0.10 $
  */
-public class TreeSearchPanel extends Panel implements EventListener, TreeDataListener
+public class TreeSearchPanel extends Panel implements EventListener<Event>, TreeDataListener
 {
     /**
 	 * 
@@ -89,33 +88,27 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
 
     private void init()
     {
-    	Div div = new Div();
+    	Hlayout hLayout = new Hlayout();
+    	hLayout.setValign("middle");
+    	
         lblSearch = new Label();
-        LayoutUtils.addSclass("desktop-header-font", lblSearch);
         lblSearch.setValue(Msg.getMsg(Env.getCtx(),"TreeSearch").replaceAll("&", "") + ":");
         lblSearch.setTooltiptext(Msg.getMsg(Env.getCtx(),"TreeSearchText"));
-        div.appendChild(lblSearch);
-        String divStyle = " height: 20px; vertical-align: middle;";
-        if (!AEnv.isInternetExplorer())
-        {
-        	divStyle += "margin-bottom: 10px; display: inline-block;";
-        }
-        div.setStyle(divStyle);
 
         cmbSearch = new AutoComplete();
         cmbSearch.setAutodrop(true);
+        cmbSearch.setId("treeSearchCombo");
         cmbSearch.addEventListener(Events.ON_CHANGE, this);
+        cmbSearch.addEventListener(Events.ON_OK, this);
+        
         if (AEnv.isInternetExplorer())
         {
         	cmbSearch.setWidth("200px");
         }
-
-        this.appendChild(div);
-        this.appendChild(cmbSearch);
-        if (!AEnv.isInternetExplorer())
-        {
-        	this.setStyle("height: 20px; padding: 7px;");
-    	}
+        
+        hLayout.appendChild(lblSearch);
+        hLayout.appendChild(cmbSearch);
+        this.appendChild(hLayout);
     }
 
     private void addTreeItem(Treeitem treeItem)
@@ -124,7 +117,7 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
         treeNodeItemMap.put(key, treeItem);
     }
 
-    private void addTreeItem(SimpleTreeNode node) {
+    private void addTreeItem(DefaultTreeNode<?> node) {
     	Object data = node.getData();
     	if (data instanceof MTreeNode) {
     		MTreeNode mNode = (MTreeNode) data;
@@ -155,7 +148,7 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
 	    	});
 		} else {
 			TreeUtils.traverse(tree.getModel(), new TreeNodeAction() {
-				public void run(SimpleTreeNode treeNode) {
+				public void run(DefaultTreeNode<?> treeNode) {
 					addTreeItem(treeNode);
 				}
 	    	});
@@ -175,9 +168,9 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
         		treeValues[i] = treeItem.getLabel();
         		treeDescription[i] = treeItem.getTooltiptext();
         	}
-        	else if (value instanceof SimpleTreeNode)
+        	else if (value instanceof DefaultTreeNode)
         	{
-        		SimpleTreeNode sNode = (SimpleTreeNode) value;
+        		DefaultTreeNode<?> sNode = (DefaultTreeNode<?>) value;
         		MTreeNode mNode = (MTreeNode) sNode.getData();
         		treeValues[i] = mNode.getName();
         		treeDescription[i] = mNode.getDescription();
@@ -194,7 +187,7 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
      */
     public void onEvent(Event event)
     {
-        if (cmbSearch.equals(event.getTarget()) && (event.getName().equals(Events.ON_CHANGE)))
+        if (cmbSearch.equals(event.getTarget()) && ((event.getName().equals(Events.ON_CHANGE) || event.getName().equals(Events.ON_OK))))
         {
             String value = cmbSearch.getValue();
 
@@ -214,15 +207,15 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
             } else if (node instanceof Treeitem) {
 	            treeItem = (Treeitem) node;
             } else {
-            	SimpleTreeNode sNode = (SimpleTreeNode) node;
-            	int[] path = tree.getModel().getPath(tree.getModel().getRoot(), sNode);
+            	DefaultTreeNode<?> sNode = (DefaultTreeNode<?>) node;
+            	int[] path = tree.getModel().getPath(sNode);
     			treeItem = tree.renderItemByPath(path);
     			tree.setSelectedItem(treeItem);
             }
             if (treeItem != null)
             {
                 select(treeItem);
-                Clients.showBusy(Msg.getMsg(Env.getCtx(), "Loading"), true);
+                Clients.showBusy(Msg.getMsg(Env.getCtx(), "Loading"));
                 Events.echoEvent("onPostSelect", this, null);
             }
         }
@@ -232,7 +225,7 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
      * don't call this directly, use internally for post selection event
      */
     public void onPostSelect() {
-    	Clients.showBusy(null, false);
+    	Clients.clearBusy();
     	Event event = null;
     	if (eventToFire.equals(Events.ON_CLICK))
     		event = new Event(Events.ON_CLICK, tree.getSelectedItem().getTreerow());

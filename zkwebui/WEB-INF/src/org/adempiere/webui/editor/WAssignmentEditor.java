@@ -16,6 +16,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -40,7 +41,7 @@ public class WAssignmentEditor extends WEditor {
 	
 	private void initComponents() {
 		getComponent().getTextbox().setReadonly(true);
-		getComponent().setButtonImage("images/Assignment10.png");
+		getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/Assignment10.png"));
 	}
 
 	

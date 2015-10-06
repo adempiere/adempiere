@@ -103,7 +103,7 @@ public class MCostDetail extends X_M_CostDetail
         parameters.add(costTypeId);
         whereClause.append(I_M_CostDetail.COLUMNNAME_M_CostElement_ID).append("=? AND ");
         parameters.add(costElementId);
-        whereClause.append(I_M_CostDetail.COLUMNNAME_M_AttributeSetInstance_ID).append("=? AND");
+        whereClause.append(I_M_CostDetail.COLUMNNAME_M_AttributeSetInstance_ID).append("=? AND ");
         parameters.add(attributeSetInstanceId);
         whereClause.append(I_M_CostDetail.COLUMNNAME_SeqNo).append("<=?");
         parameters.add(seqNo);
@@ -384,8 +384,15 @@ public class MCostDetail extends X_M_CostDetail
 		params.add(M_CostType_ID);
 		whereClause.append(MCostDetail.COLUMNNAME_M_Transaction_ID ).append( "=? ");
 		params.add(mtrx.getM_Transaction_ID());
-		
-		if(model instanceof MMatchInv)
+
+		if(model instanceof MMatchPO)
+		{
+			MMatchPO matchInv = (MMatchPO) model;
+			whereClause.append(" AND ").append(MCostDetail.COLUMNNAME_C_OrderLine_ID).append( "=? AND ");
+			params.add(matchInv.getC_OrderLine_ID());
+			whereClause.append(MCostDetail.COLUMNNAME_Qty).append("=0 ");
+		}
+		else if(model instanceof MMatchInv)
 		{	
 			MMatchInv matchInv = (MMatchInv) model;
 			whereClause.append(" AND ").append(MCostDetail.COLUMNNAME_C_InvoiceLine_ID).append( "=? AND ");

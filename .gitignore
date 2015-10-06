@@ -37,3 +37,16 @@ migration/postgresql.properties
 .DS_Store
 .DS_Store?
 ._*
+install/patch/
+*.orig
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+.hgignore
+.hgsubstate
+.css.dsp.src
+*.css.dsp.src
+zkwebui/css/adempiere_default.css.dsp
+zkwebui/theme/green_thumb/**/*.css.dsp
+*.diff

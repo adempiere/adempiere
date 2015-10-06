@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.compiere.model.I_AD_Preference;
 import org.compiere.model.MPreference;
+import org.compiere.model.MTheme;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
@@ -72,6 +73,10 @@ public final class UserPreference implements Serializable {
 	public static final String P_MENU_COLLAPSED = "MenuCollapsed";
 	public static final String DEFAULT_MENU_COLLAPSED = "N";
 
+	/** Menu Collapsed **/
+	public static final String P_ZK_THEME_PREFERENCE = "ZKThemePreference";
+	public static final String DEFAULT_ZK_THEME_PREFERENCE = "";
+
 	/** Ini Properties */
 	private static final String[] PROPERTIES = new String[] {
 		P_LANGUAGE,
@@ -83,7 +88,9 @@ public final class UserPreference implements Serializable {
 		P_AUTO_NEW,
 		P_WINDOW_TAB_PLACEMENT,
 		P_WINDOW_TAB_COLLAPSIBLE,
-		P_MENU_COLLAPSED};
+		P_MENU_COLLAPSED,
+		P_ZK_THEME_PREFERENCE};
+	
 	/** Ini Property Values */
 	private static final String[] VALUES = new String[] {
 		DEFAULT_LANGUAGE,
@@ -95,7 +102,8 @@ public final class UserPreference implements Serializable {
 		DEFAULT_AUTO_NEW,
 		DEFAULT_WINDOW_TAB_PLACEMENT,
 		DEFAULT_WINDOW_TAB_COLLAPSIBLE,
-		DEFAULT_MENU_COLLAPSED};
+		DEFAULT_MENU_COLLAPSED,
+		DEFAULT_ZK_THEME_PREFERENCE};
 
 	/** Container for Properties */
 	private Properties props = new Properties();
@@ -243,5 +251,27 @@ public final class UserPreference implements Serializable {
 	 */
 	public boolean isPropertyBool(String key) {
 		return getProperty(key).equals("Y");
+	} // getProperty
+
+	/**
+	 * Get Propery as Int
+	 *
+	 * @param key
+	 * @return Value
+	 */
+	public int getPropertyAsInt(String key) {
+		String prop = getProperty(key);
+		
+		if (prop.length() == 0)
+			return 0;
+		
+		try {
+			return Integer.parseInt(prop);
+		}
+		catch (NumberFormatException e) {
+			// Not a number.
+			log.severe("User preferences property caused a NumberFormatException: " + prop);
+		}
+		return 0;
 	} // getProperty
 }

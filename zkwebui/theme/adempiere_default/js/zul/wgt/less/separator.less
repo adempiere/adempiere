@@ -1,0 +1,28 @@
+@import "~./zul/less/_header.less";
+
+.z-separator {
+	&-horizontal,
+	&-horizontal-bar {
+		font-size: 0;
+		height: 7px;
+		line-height: 0;
+		overflow: hidden;
+	}
+	&-horizontal-bar {
+		.encodeURL(background-image, "~./img/dot.gif");
+		background-position: center left; 
+		background-repeat: repeat-x;
+	}
+	
+	&-vertical,
+	&-vertical-bar {
+		display: inline-block;
+		width: 10px;
+		overflow: hidden;
+	}
+	&-vertical-bar {
+		.encodeURL(background-image, "~./img/dot.gif");
+		background-position: top center; 
+		background-repeat: repeat-y;
+	}
+}

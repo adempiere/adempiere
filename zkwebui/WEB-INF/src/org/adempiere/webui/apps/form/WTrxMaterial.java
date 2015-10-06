@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
@@ -35,9 +34,13 @@ import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.panel.*;
+import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.ADTabPanel;
+import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.IFormController;
+import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.apps.form.TrxMaterial;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MLookup;
@@ -47,11 +50,11 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.South;
 
 /**
  * Material Transaction History
@@ -161,7 +164,7 @@ public class WTrxMaterial extends TrxMaterial
 		mainLayout.appendChild(south);
 		south.appendChild(southPanel);
 		
-		LayoutUtils.addSclass("status-border", statusBar);
+		ThemeUtils.addSclass("status-border", statusBar);
 	}   //  jbInit
 
 	/**
@@ -209,7 +212,8 @@ public class WTrxMaterial extends TrxMaterial
 			m_gridController.switchRowPresentation();
 		Center center = new Center();
 		mainLayout.appendChild(center);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		center.appendChild(m_gridController);
 	}   //  dynInit
 

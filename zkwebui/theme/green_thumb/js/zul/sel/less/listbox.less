@@ -1,0 +1,427 @@
+@import "~./zul/less/_header.less";
+
+//reset table
+.resetTable() {
+	table {
+		border-spacing: 0;
+		th, td {
+			background-clip: padding-box;
+			padding: 0;
+		}
+		th {
+			text-align: inherit;
+		}
+	}
+}
+
+//listbox
+.z-listbox {
+	border: 1px solid @baseBorderColor;
+	overflow: hidden;
+	zoom: 1;
+	//listbox header
+	&-header {
+		width: 100%;
+		<c:if test="${ zk.ie != 8 }">
+			.verGradient(@baseGradientStart, @baseGradientEnd);
+		</c:if>
+		position: relative;
+		overflow: hidden;
+		.resetTable();
+	}
+	&-header-border {
+		border-bottom: 1px solid @meshTitleBorderColor;
+		margin-top: -1px;
+		position: relative;
+	}
+	//listbox body
+	&-body {
+		position: relative;
+		overflow: hidden;
+		.resetTable();
+	}
+	&-emptybody td {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @disabledColor);
+		font-style: italic;
+		text-align: center;
+	}
+	//listbox footer
+	&-footer {
+		border-top: 1px solid @baseBorderColor;
+		background: @meshFootBackgroundColor;
+		overflow: hidden;
+		.resetTable();
+	}
+
+	&-odd.z-listitem {
+		background: @meshStripeBackgroundColor;
+	}
+}
+//listhead
+.z-listhead {
+	th:first-child {
+		border-left: none;
+
+		// B50-3306729: the first header should have border-left when the first column is covered with other header
+		&.z-listhead-border {
+			border-left: 1px solid @meshTitleBorderColor;
+		}
+	}
+	&-bar {
+		border-left: 1px solid @meshTitleBorderColor;
+		border-bottom: 1px solid @meshTitleBorderColor;
+	}
+}
+.z-listheader {
+	border-left: 1px solid @meshTitleBorderColor;
+	border-bottom: 1px solid @meshTitleBorderColor;
+	padding: 0;
+	<c:if test="${ zk.ie != 8 }">
+		.verGradient(@baseGradientStart, @baseGradientEnd);
+	</c:if>
+	background-clip: padding-box;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	
+	&-hover {
+		<c:if test="${ zk.ie != 8 }">
+			.verGradient(@meshTitleHoverStart, @meshTitleHoverEnd);
+		</c:if>
+	}
+	&-sort {
+		.z-listheader-content {
+			cursor: pointer;
+		}
+		.z-listheader-sorticon {
+			color: @iconColor;
+			position: absolute;
+			top: -7px;
+			left: 50%;
+		}
+	}
+	&-hover .z-listheader-button {
+		display: block;
+	}
+	&-checkable {
+		.displaySize(inline-block, @baseIconWidth, @baseIconHeight);
+		border: 1px solid @checkedBorderColor;
+		background: @checkedBackgroundColor;
+		vertical-align: text-top;
+		
+		.z-listheader-icon {
+			display: none;
+			cursor: default;
+		}
+		&.z-listheader-checked .z-listheader-icon {
+			color: @checkedColor;
+			display: block;
+			padding-left: 1px;
+			line-height: @baseLineHeight;
+		}
+	}
+	&-button {
+		color: @iconColor;
+		.displaySize(none, @baseButtonWidth - 1, @baseBarHeight);
+		border-left: 1px solid darken(@meshTitleHoverStart, 15%);
+		line-height: @baseBarHeight;
+		text-align: center;
+		position: absolute;
+		top: 0;
+		right: 0;
+		text-decoration: none;
+		cursor: pointer;
+		z-index: 15;
+		.boxShadow('inset 1px 0 #FFFFFF');
+		
+		&:hover {
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(darken(@meshTitleHoverStart, 5%), darken(@meshTitleHoverEnd, 10%));
+			</c:if>
+		}
+	}
+	&-sizing,
+	&-sizing .z-listheader-button,
+	&-sizing.z-listheader-sort .z-listheader-content {
+		cursor: e-resize;
+	}
+}
+//list item and cell
+.z-listitem {
+	background: @meshBackgroundColor;
+	
+	td:first-child {
+		border-left: none;
+	}
+	//list cell
+	.z-listcell {
+		border-left: 1px solid @meshContentBorderColor;
+		overflow: hidden;
+		cursor: pointer;
+	}
+	&:hover {
+		> .z-listcell {
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@meshContentHoverStart, @meshContentHoverEnd);
+			</c:if>
+			background-clip: padding-box;
+			position: relative;
+		}
+		.z-listcell-content {
+			color: @hoverColor;
+		}
+	}
+	//check mark
+	&-checkable {
+		.displaySize(inline-block, @baseIconWidth, @baseIconHeight);
+		border: 1px solid @checkedBorderColor;
+		background: @checkedBackgroundColor;
+		vertical-align: text-top;
+		
+		&.z-listitem-radio {
+			.borderRadius(@baseIconWidth / 2);
+		}
+		.z-listitem-icon {
+			display: none;
+			cursor: default;
+		}
+	}
+	//selected list cell
+	&.z-listitem-selected {
+		.z-listcell {
+			border-color: @selectedGradientStart;
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@selectedGradientStart, @selectedGradientEnd);
+			</c:if>
+			background-clip: padding-box;
+			position: relative;
+		}
+		.z-listcell-content {
+			color: @selectedColor;
+		}
+		&:hover {
+			> .z-listcell {
+				border-color: @selectedHoverGradientStart;
+				<c:if test="${ zk.ie != 8 }">
+					.verGradient(@selectedHoverGradientStart, @selectedHoverGradientEnd);
+				</c:if>
+				position: relative;
+			}
+			.z-listcell-content {
+				color: @selectedHoverColor;
+			}
+		}
+	}
+	//selected check mark
+	&-selected {
+		.z-listitem-icon {
+			color: @checkedColor;
+			display: block;
+			padding-left: 1px;
+			line-height: @baseLineHeight;
+			cursor: pointer;
+			
+			&.z-icon-check {} //for checkbox, use font-awesome
+			&.z-icon-radio { //for radio
+				.size(@baseIconWidth / 2, @baseIconWidth / 2);
+				.borderRadius(@baseIconWidth / 4);
+				margin: 3px;
+				padding: 0;
+				background: @checkedColor;
+			}
+		}
+	}
+	//disabled
+	&.z-listitem-disabled {
+		* {
+			color: @disabledColor !important;
+			cursor: default !important;
+		}
+		&:hover > .z-listcell {
+			.resetGradient();
+			position: relative;
+		}
+		a, a:visited, a:hover {
+			text-decoration: none;
+		}
+	}
+	a, a:visited, a:hover {
+		text-decoration: none;
+	}
+}
+//Group
+.z-listgroup {
+	&-inner {
+		border: 1px solid @meshTitleBorderColor;
+		border-left: none;
+		border-right: none;
+		<c:if test="${ zk.ie != 8 }">
+			.verGradient(@groupGradientStart, @groupGradientEnd);
+		</c:if>
+		position: relative;
+		overflow: hidden;
+		
+		.z-listcell-content,
+		.z-listgroup-content {
+			padding: 3px 5px;
+		}
+	}
+	//check mark
+	&-checkable {
+		.displaySize(inline-block, @baseIconWidth, @baseIconHeight);
+		border: 1px solid @checkedBorderColor;
+		margin-right: 2px;
+		background: @checkedBackgroundColor;
+		vertical-align: text-top;
+		
+		.z-listgroup-icon {
+			display: none;
+			cursor: default;
+		}
+	}
+	//selected check mark
+	&-selected &-checkable {
+		.z-listgroup-icon {
+			.iconFontStyle(@fontSizeMedium, @checkedColor);
+			display: inline-block;
+			padding-right: 2px;
+			line-height: @baseLineHeight;
+			cursor: pointer;
+			
+			&:hover {
+				color: @checkedColor;
+			}
+		}
+	}
+	&-icon {
+		.iconFontStyle(@baseFontSize, @iconColor);
+		.displaySize(inline-block, @baseIconWidth, @baseIconHeight);
+		line-height: @baseIconHeight;
+		text-align: center;
+		vertical-align: text-top;
+		position: relative;
+		cursor: pointer;
+		
+		&:hover {
+			color: @iconHoverColor;
+		}
+	}
+}
+.z-listgroupfoot-inner {
+	<c:if test="${ zk.ie != 8 }">
+		.verGradient(@groupGradientEnd, @groupGradientStart);
+	</c:if>
+	overflow: hidden;
+}
+//content
+.z-listheader-content,
+.z-listcell-content,
+.z-listgroup-content,
+.z-listgroupfoot-content,
+.z-listfooter-content {
+	.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @textColorGrayLight);
+	padding: 4px 5px;
+	line-height: @baseButtonHeight;
+	overflow: hidden;
+}
+.z-listheader-content {
+	font-weight: bold;
+	padding: 4px 5px 3px;
+	position: relative;
+}
+.z-listgroup-content,
+.z-listgroupfoot-content {
+	.z-label {
+		font-weight: bold;
+	}
+}
+//paging
+.z-listbox-paging {
+	&-top {
+		border-bottom: 1px solid @pagingBorderColor;
+		overflow: hidden;
+		width: 100%;
+	}
+	&-bottom {
+		border-top: 1px solid @pagingBorderColor;
+		overflow: hidden;
+		width: 100%;
+	}
+}
+//column menu
+.z-listhead-menugrouping .z-menuitem-image {
+	.encodeThemeURL(background-image, '~./zul/img/grid/menu-group.png');
+}
+.z-listhead-menuungrouping .z-menuitem-image {
+	.encodeThemeURL(background-image, '~./zul/img/grid/menu-ungroup.png');
+}
+.z-listhead-menuascending .z-menuitem-image {
+	.encodeThemeURL(background-image, '~./zul/img/grid/menu-arrowup.png');
+}
+.z-listhead-menudescending .z-menuitem-image {
+	.encodeThemeURL(background-image, '~./zul/img/grid/menu-arrowdown.png');
+}
+//select mold
+.z-select {
+	font-family: @baseContentFontFamily;
+	font-size: @fontSizeMedium;
+}
+// IE8
+.ie8 { 
+	.z-listbox-header {
+		background: @meshBackgroundColorIE8;
+	}
+	.z-listheader {
+		position: static;
+		background: @meshBackgroundColorIE8;
+		&-hover {
+			background: @meshHoverBackgroundColorIE8;
+		}
+
+		&-button:hover {
+			background: darken(@meshHoverBackgroundColorIE8, 3%);
+		}
+	}
+	.z-listitem {
+		&:hover > .z-listcell {
+			background: @meshHoverBackgroundColorIE8;
+		}
+		&.z-listitem-selected {
+			.z-listcell {
+				position: static;
+				background: @meshSelectedBackgroundColorIE8;
+			}
+			&:hover > .z-listcell {
+				position: static;
+				background: @meshSelectedHoverBackgroundColorIE8;
+			}
+		}
+		// radio icon fallback
+		.z-icon-radio {
+			.displaySize(block, 13px, 13px);
+			.encodeThemeURL(background, '~./zul/img/common/check-sprite.gif', no-repeat);
+			position: relative;
+			top: 2px;
+			left: 2px;
+		}
+		&-radio {
+			border-width: 0;
+			background: transparent;
+
+			.z-icon-radio {
+				background-position: 0 -13px;
+			}
+		}
+		&-selected .z-icon-radio {
+			border-width: 0;
+			margin: 0;
+			background-position: -26px -13px;
+		}
+	}
+	.z-listgroup-inner {
+		background: @meshGroupBackgroundColorIE8;
+	}
+	.z-listgroupfoot-inner {
+		background: @meshGroupFooterBackgroundColorIE8;
+	}
+}

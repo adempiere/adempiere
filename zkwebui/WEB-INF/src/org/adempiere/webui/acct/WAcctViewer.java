@@ -42,6 +42,7 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
@@ -57,12 +58,14 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Cell;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Groupbox;
@@ -90,7 +93,7 @@ import org.zkoss.zul.Separator;
  * 			<li>http://sourceforge.net/tracker/?func=detail&aid=3435028&group_id=176962&atid=879335
  */
 
-public class WAcctViewer extends Window implements EventListener
+public class WAcctViewer extends Window implements EventListener<Event>
 {
 	/**
 	 *
@@ -257,29 +260,37 @@ public class WAcctViewer extends Window implements EventListener
 
 	private void init() throws Exception
 	{
+		ThemeUtils.addSclass("ad-wacctviewer", this);
+		
 		// Modal or non-modal
 		if (isLookup())
 		{
+			ThemeUtils.addSclass("modal",this);
 			setTitle(Msg.getMsg(Env.getCtx(), "Posting"));
 			setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
-			setBorder("normal");
 			setClosable(true);
-			int height = SessionManager.getAppDesktop().getClientInfo().desktopHeight * 85 / 100;
-    		int width = SessionManager.getAppDesktop().getClientInfo().desktopWidth * 80 / 100;
-    		setWidth(width + "px");
-    		setHeight(height + "px");
-    		setContentStyle("overflow: auto");
 			setSizable(true);
 			setMaximizable(true);
+			
+			// Move to theme
+			//setBorder("normal");
+			//int height = SessionManager.getAppDesktop().getClientInfo().desktopHeight * 85 / 100;
+    		//int width = SessionManager.getAppDesktop().getClientInfo().desktopWidth * 80 / 100;
+    		//setWidth(width + "px");
+    		//setHeight(height + "px");
+    		//setContentStyle("overflow: auto");
 		}
 		else
 		{
+			ThemeUtils.addSclass("embedded",this);
 			setTitle(Msg.getMsg(Env.getCtx(), "InfoAccount"));
 			setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
-			setBorder("none");
-			setWidth("100%");
-			setHeight("100%");
-			setStyle("position: absolute");
+
+			// Move to theme
+			//setBorder("none");
+			//setWidth("100%");
+			//setHeight("100%");
+			//setStyle("position: absolute");
 		}
 
 		
@@ -288,8 +299,10 @@ public class WAcctViewer extends Window implements EventListener
 		// Accounting Schema
 
 		Hbox boxAcctSchema = new Hbox();
-		boxAcctSchema.setWidth("100%");
-		boxAcctSchema.setWidths("30%, 70%");
+		ThemeUtils.addSclass("selection-box", boxAcctSchema);
+		ThemeUtils.addSclass("acct-schema", boxAcctSchema);
+		boxAcctSchema.setHflex("1");
+		// boxAcctSchema.setWidths("30%, 70%");
 
 		lacctSchema.setValue(Msg.translate(Env.getCtx(), "C_AcctSchema_ID"));
 		lacctSchema.setAttribute("zk_component_ID", "Lookup_Criteria_Label_C_AcctSchema_ID");
@@ -298,12 +311,21 @@ public class WAcctViewer extends Window implements EventListener
 		selAcctSchema.setRows(1);
 		selAcctSchema.setAttribute("zk_component_ID", "Lookup_Criteria_C_AcctSchema_ID");
 
-		boxAcctSchema.appendChild(lacctSchema);
-		boxAcctSchema.appendChild(selAcctSchema);
-
+		Cell cell = new Cell();
+		cell.appendChild(lacctSchema);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxAcctSchema.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(selAcctSchema);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxAcctSchema.appendChild(cell);
+		
 		Hbox boxSelDoc = new Hbox();
-		boxSelDoc.setWidth("100%");
-		boxSelDoc.setWidths("30%, 50%, 20%");
+		ThemeUtils.addSclass("selection-box", boxSelDoc);
+		ThemeUtils.addSclass("select-document", boxSelDoc);
+		boxSelDoc.setHflex("1");
+		//boxSelDoc.setWidths("30%, 50%, 20%");
 
 		selDocument.setLabel(Msg.getMsg(Env.getCtx(), "SelectDocument"));
 		selDocument.setAttribute("zk_component_ID", "Lookup_Criteria_selDocument");
@@ -313,16 +335,28 @@ public class WAcctViewer extends Window implements EventListener
 		selTable.setAttribute("zk_component_ID", "Lookup_Criteria_selTable");
 		selRecord.setAttribute("zk_component_ID", "Lookup_Criteria_selRecord");
 
+		cell = new Cell();
+		cell.appendChild(selDocument);
+		ThemeUtils.addSclass("doc-cell", cell);
+		boxSelDoc.appendChild(cell);
 
-		boxSelDoc.appendChild(selDocument);
-		boxSelDoc.appendChild(selTable);
-		boxSelDoc.appendChild(selRecord);
+		cell = new Cell();
+		cell.appendChild(selTable);
+		ThemeUtils.addSclass("table-cell", cell);
+		boxSelDoc.appendChild(cell);
+
+		cell = new Cell();
+		cell.appendChild(selRecord);
+		ThemeUtils.addSclass("record-cell", cell);
+		boxSelDoc.appendChild(cell);
 
 			// Posting Type
 
 		Hbox boxPostingType = new Hbox();
-		boxPostingType.setWidth("100%");
-		boxPostingType.setWidths("30%, 70%");
+		ThemeUtils.addSclass("selection-box", boxPostingType);
+		ThemeUtils.addSclass("select-posting", boxPostingType);
+		boxPostingType.setHflex("1");
+		//boxPostingType.setWidths("30%, 70%");
 
 		lpostingType.setValue(Msg.translate(Env.getCtx(), "PostingType"));
 		selPostingType.setMold("select");
@@ -330,29 +364,51 @@ public class WAcctViewer extends Window implements EventListener
 		selPostingType.addEventListener(Events.ON_CLICK, this);
 		selPostingType.setAttribute("zk_component_ID", "Lookup_Criteria_selPostingType");
 
-		boxPostingType.appendChild(lpostingType);
-		boxPostingType.appendChild(selPostingType);
+		cell = new Cell();
+		cell.appendChild(lpostingType);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxPostingType.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(selPostingType);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxPostingType.appendChild(cell);
 
 			// Date
 
 		Hbox boxDate = new Hbox();
-		boxDate.setWidth("100%");
-		boxDate.setWidths("30%, 35%, 35%");
+		ThemeUtils.addSclass("selection-box", boxDate);
+		ThemeUtils.addSclass("select-date", boxDate);
+		boxDate.setHflex("1");
+		//boxDate.setWidths("30%, 35%, 35%");
 
 		lDate.setValue(Msg.translate(Env.getCtx(), "DateAcct"));
 		lDate.setAttribute("zk_component_ID", "Lookup_Criteria_Label_Date");
 		selDateFrom.setAttribute("zk_component_ID", "Lookup_Criteria_selDateFrom");
 		selDateTo.setAttribute("zk_component_ID", "Lookup_Criteria_selDateTo");
 
-		boxDate.appendChild(lDate);
-		boxDate.appendChild(selDateFrom);
-		boxDate.appendChild(selDateTo);
+		cell = new Cell();
+		cell.appendChild(lDate);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxDate.appendChild(cell);
+
+		cell = new Cell();
+		cell.appendChild(selDateFrom);
+		ThemeUtils.addSclass("date-from-cell", cell);
+		boxDate.appendChild(cell);
+
+		cell = new Cell();
+		cell.appendChild(selDateTo);
+		ThemeUtils.addSclass("date-to-cell", cell);
+		boxDate.appendChild(cell);
 
 			// Organization
 
 		Hbox boxOrg = new Hbox();
-		boxOrg.setWidth("100%");
-		boxOrg.setWidths("30%, 70%");
+		ThemeUtils.addSclass("selection-box", boxOrg);
+		ThemeUtils.addSclass("select-org", boxOrg);
+		boxOrg.setHflex("1");
+		//boxOrg.setWidths("30%, 70%");
 
 		lOrg.setValue(Msg.translate(Env.getCtx(), "AD_Org_ID"));
 		selOrg.setMold("select");
@@ -361,79 +417,152 @@ public class WAcctViewer extends Window implements EventListener
 		lOrg.setAttribute("zk_component_ID", "Lookup_Criteria_Label_Org");
 		selOrg.setAttribute("zk_component_ID", "Lookup_Criteria_selOrg");
 
-		boxOrg.appendChild(lOrg);
-		boxOrg.appendChild(selOrg);
+		cell = new Cell();
+		cell.appendChild(lOrg);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxOrg.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(selOrg);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxOrg.appendChild(cell);
 
 			// Account
 
 		Hbox boxAcct = new Hbox();
-		boxAcct.setWidth("100%");
-		boxAcct.setWidths("30%, 70%");
+		ThemeUtils.addSclass("selection-box", boxAcct);
+		ThemeUtils.addSclass("select-acct", boxAcct);
+		boxAcct.setHflex("1");
+		//boxAcct.setWidths("30%, 70%");
 
 		lAcct.setValue(Msg.translate(Env.getCtx(), "Account_ID"));
 		lAcct.setAttribute("zk_component_ID", "Lookup_Criteria_Label_Acct");
 		selAcct.setAttribute("zk_component_ID", "Lookup_Criteria_selAcct");
 
-		boxAcct.appendChild(lAcct);
-		boxAcct.appendChild(selAcct);
-
+		cell = new Cell();
+		cell.appendChild(lAcct);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxAcct.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(selAcct);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxAcct.appendChild(cell);
+		
 		Hbox boxSel1 = new Hbox();
-		boxSel1.setWidth("100%");
-		boxSel1.setWidths("30%, 70%");
-
-		boxSel1.appendChild(lsel1);
-		boxSel1.appendChild(sel1);
+		ThemeUtils.addSclass("button-box", boxSel1);
+		boxSel1.setHflex("1");
+		
+		cell = new Cell();
+		cell.appendChild(lsel1);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel1.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel1);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel1.appendChild(cell);
 
 		Hbox boxSel2 = new Hbox();
-		boxSel2.setWidth("100%");
-		boxSel2.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel2);
+		boxSel2.setHflex("1");
 
-		boxSel2.appendChild(lsel2);
-		boxSel2.appendChild(sel2);
+		cell = new Cell();
+		cell.appendChild(lsel2);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel2.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel2);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel2.appendChild(cell);
 
 		Hbox boxSel3 = new Hbox();
-		boxSel3.setWidth("100%");
-		boxSel3.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel3);
+		boxSel3.setHflex("1");
 
-		boxSel3.appendChild(lsel3);
-		boxSel3.appendChild(sel3);
+		cell = new Cell();
+		cell.appendChild(lsel3);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel3.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel3);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel3.appendChild(cell);
 
 		Hbox boxSel4 = new Hbox();
-		boxSel4.setWidth("100%");
-		boxSel4.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel4);
+		boxSel4.setHflex("1");
 
-		boxSel4.appendChild(lsel4);
-		boxSel4.appendChild(sel4);
+		cell = new Cell();
+		cell.appendChild(lsel4);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel4.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel4);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel4.appendChild(cell);
 
 		Hbox boxSel5 = new Hbox();
-		boxSel5.setWidth("100%");
-		boxSel5.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel5);
+		boxSel5.setHflex("1");
 
-		boxSel5.appendChild(lsel5);
-		boxSel5.appendChild(sel5);
+		cell = new Cell();
+		cell.appendChild(lsel5);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel5.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel5);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel5.appendChild(cell);
 
 		Hbox boxSel6 = new Hbox();
-		boxSel6.setWidth("100%");
-		boxSel6.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel6);
+		boxSel6.setHflex("1");
 
-		boxSel6.appendChild(lsel6);
-		boxSel6.appendChild(sel6);
+		cell = new Cell();
+		cell.appendChild(lsel6);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel6.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel6);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel6.appendChild(cell);
 
 		Hbox boxSel7 = new Hbox();
-		boxSel7.setWidth("100%");
-		boxSel7.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel7);
+		boxSel7.setHflex("1");
 
-		boxSel7.appendChild(lsel7);
-		boxSel7.appendChild(sel7);
+		cell = new Cell();
+		cell.appendChild(lsel7);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel7.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel7);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel7.appendChild(cell);
 
 		Hbox boxSel8 = new Hbox();
-		boxSel8.setWidth("100%");
-		boxSel8.setWidths("30%, 70%");
+		ThemeUtils.addSclass("button-box", boxSel8);
+		boxSel8.setHflex("1");
 
-		boxSel8.appendChild(lsel8);
-		boxSel8.appendChild(sel8);
+		cell = new Cell();
+		cell.appendChild(lsel8);
+		ThemeUtils.addSclass("label-cell", cell);
+		boxSel8.appendChild(cell);
+		
+		cell = new Cell();
+		cell.appendChild(sel8);
+		ThemeUtils.addSclass("field-cell", cell);
+		boxSel8.appendChild(cell);
 
-		selectionPanel.setWidth("100%");
+		//selectionPanel.setWidth("100%");
+		selectionPanel.setHflex("1");
 		selectionPanel.appendChild(boxAcctSchema);
 		selectionPanel.appendChild(boxSelDoc);
 		selectionPanel.appendChild(boxPostingType);
@@ -560,16 +689,16 @@ public class WAcctViewer extends Window implements EventListener
 		forcePost.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "ForceInfo")));
 		forcePost.setVisible(false);
 
-		bQuery.setImage("/images/Refresh16.png");
+		bQuery.setImage(ServletFns.resolveThemeURL("~./images/Refresh16.png"));
 		bQuery.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Refresh")));
 		bQuery.addEventListener(Events.ON_CLICK, this);
 
 		//FR[3435028]
-		bExport.setImage("/images/Export16.png");
+		bExport.setImage(ServletFns.resolveThemeURL("~./images/Export16.png"));
 		bExport.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Export")));
 		bExport.addEventListener(Events.ON_CLICK, this);
 		
-		bPrint.setImage("/images/Print16.png");
+		bPrint.setImage(ServletFns.resolveThemeURL("~./images/Print16.png"));
 		bPrint.setTooltiptext(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Print")));
 		bPrint.addEventListener(Events.ON_CLICK, this);
 		
@@ -592,7 +721,8 @@ public class WAcctViewer extends Window implements EventListener
 		result.appendChild(resultPanel);
 
 		Center resultCenter = new Center();
-		resultCenter.setFlex(true);
+		resultCenter.setHflex("true");
+		resultCenter.setVflex("true");
 		resultPanel.appendChild(resultCenter);
 		table.setWidth("96%");
 		table.setHeight("98%");
@@ -639,19 +769,21 @@ public class WAcctViewer extends Window implements EventListener
 
 		Borderlayout layout = new Borderlayout();
 		layout.setParent(this);
-		layout.setHeight("100%");
-		layout.setWidth("100%");
-		layout.setStyle("background-color: transparent");
+//		layout.setHeight("100%");
+//		layout.setWidth("100%");
+//		layout.setStyle("background-color: transparent");
 
 		Center center = new Center();
 		center.setParent(layout);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		center.setStyle("background-color: transparent");
 		tabbedPane.setParent(center);
 
 		South south = new South();
 		south.setParent(layout);
-		south.setFlex(true);
+		south.setHflex("true");
+south.setVflex("true");
 		south.setStyle("background-color: transparent");
 		southPanel.setParent(south);
 
@@ -676,7 +808,7 @@ public class WAcctViewer extends Window implements EventListener
 		m_data.fillTable(selTable);
 		selTable.addEventListener(Events.ON_SELECT, this);
 
-		selRecord.setImage("/images/Find16.png");
+		selRecord.setImage(ServletFns.resolveThemeURL("~./images/Find16.png"));
 		selRecord.addEventListener(Events.ON_CLICK, this);
 		selRecord.setLabel("");
 
@@ -689,7 +821,7 @@ public class WAcctViewer extends Window implements EventListener
 		selAcct.setName("Account_ID");
 		selAcct.addEventListener(Events.ON_CLICK, this);
 		selAcct.setLabel("");
-		selAcct.setImage("/images/Find16.png");
+		selAcct.setImage(ServletFns.resolveThemeURL("~./images/Find16.png"));
 
 		statusLine.setValue(" " + Msg.getMsg(Env.getCtx(), "ViewerOptions"));
 
@@ -864,7 +996,7 @@ public class WAcctViewer extends Window implements EventListener
 				labels[selectionIndex].setVisible(true);
 				buttons[selectionIndex].setName(columnName); // actionCommand
 				buttons[selectionIndex].addEventListener(Events.ON_CLICK, this);
-				buttons[selectionIndex].setImage("/images/Find16.png");
+				buttons[selectionIndex].setImage(ServletFns.resolveThemeURL("~./images/Find16.png"));
 				buttons[selectionIndex].setLabel("");
 				buttons[selectionIndex].setVisible(true);
 				selectionIndex++;

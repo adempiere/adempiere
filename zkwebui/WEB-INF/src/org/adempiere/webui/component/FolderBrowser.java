@@ -20,13 +20,14 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.Ini;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 
 /**
  * Directory and File Browser
@@ -72,7 +73,8 @@ public class FolderBrowser extends Window implements EventListener
 		north.appendChild(txtPath);
 		
 		Center center = new Center();
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		contentLayout.appendChild(center);
 		center.appendChild(listDir);
 		
@@ -106,7 +108,7 @@ public class FolderBrowser extends Window implements EventListener
 			if(!dir.getParent().equals(root.getParent()))
 			{
 				ListItem li = new ListItem(dir.getName(), dir.getParent());
-				li.setImage("images/Undo16.png");
+				li.setImage(ServletFns.resolveThemeURL("~./images/Undo16.png"));
 				listDir.appendChild(li);
 			}
 
@@ -117,7 +119,7 @@ public class FolderBrowser extends Window implements EventListener
 				if(file.isDirectory())
 				{
 					ListItem li = new ListItem(file.getName(), file.getAbsolutePath());
-					li.setImage("images/Folder16.png");
+					li.setImage(ServletFns.resolveThemeURL("~./images/Folder16.png"));
 					listDir.appendChild(li);
 				}
 			}

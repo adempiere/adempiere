@@ -58,12 +58,12 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.OpenEvent;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.West;
-import org.zkoss.zkmax.zul.Portalchildren;
-import org.zkoss.zkmax.zul.Portallayout;
+import org.zkoss.zul.Anchorchildren;
+import org.zkoss.zul.Anchorlayout;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.West;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Html;
 import org.zkoss.zul.Panel;
@@ -144,7 +144,8 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
         leftRegion.setCollapsible(true);
         leftRegion.setSplittable(true);
         leftRegion.setTitle("Navigation");
-        leftRegion.setFlex(true);
+        leftRegion.setHflex("true");
+        leftRegion.setVflex("true");
         leftRegion.addEventListener(Events.ON_OPEN, new EventListener() {			
 			@Override
 			public void onEvent(Event event) throws Exception {
@@ -190,8 +191,8 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 
         windowArea = new Center();
         windowArea.setParent(layout);
-        windowArea.setFlex(true);
-
+        windowArea.setHflex("true");
+        windowArea.setVflex("true");
         windowContainer.createPart(windowArea);
 
         createHomeTab();
@@ -204,14 +205,11 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
         Tabpanel homeTab = new Tabpanel();
         windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
-        Portallayout portalLayout = new Portallayout();
-        portalLayout.setWidth("100%");
-        portalLayout.setHeight("100%");
-        portalLayout.setStyle("position: absolute; overflow: auto");
-        homeTab.appendChild(portalLayout);
+        Anchorlayout anchorLayout = new Anchorlayout();
+        homeTab.appendChild(anchorLayout);
 
         // Dashboard content
-        Portalchildren portalchildren = null;
+        Anchorchildren anchorchildren = null;
         int currentColumnNo = 0;
 
         String sql = "SELECT COUNT(DISTINCT COLUMNNO) "
@@ -243,12 +241,12 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 			while (rs.next())
 			{
 	        	int columnNo = rs.getInt(X_PA_DashboardContent.COLUMNNAME_ColumnNo);
-	        	if(portalchildren == null || currentColumnNo != columnNo)
+	        	if(anchorchildren == null || currentColumnNo != columnNo)
 	        	{
-	        		portalchildren = new Portalchildren();
-	                portalLayout.appendChild(portalchildren);
-	                portalchildren.setWidth(width + "%");
-	                portalchildren.setStyle("padding: 5px");
+	        		anchorchildren = new Anchorchildren();
+	                anchorLayout.appendChild(anchorchildren);
+	                anchorchildren.setWidth(width + "%");
+	                anchorchildren.setStyle("padding: 5px");
 
 	                currentColumnNo = columnNo;
 	        	}
@@ -265,7 +263,7 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
             	panel.setCollapsible(collapsible.equals("Y"));
 
 	        	panel.setBorder("normal");
-	        	portalchildren.appendChild(panel);
+	        	anchorchildren.appendChild(panel);
 	            Panelchildren content = new Panelchildren();
 	            panel.appendChild(content);
 
@@ -370,8 +368,8 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
         //register as 0
         registerWindow(homeTab);
 
-        if (!portalLayout.getDesktop().isServerPushEnabled())
-        	portalLayout.getDesktop().enableServerPush(true);
+        if (!anchorLayout.getDesktop().isServerPushEnabled())
+        	anchorLayout.getDesktop().enableServerPush(true);
 
         dashboardRunnable.refreshDashboard();
 

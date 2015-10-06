@@ -651,11 +651,15 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		mstep.setSeqNo(Integer.parseInt(step.getAttribute("SeqNo")));
 		mstep.setStepType(step.getAttribute("StepType"));
 		mstep.setStatusCode(MMigrationStep.STATUSCODE_Unapplied);
-		mstep.saveEx();
 		
 		Node comment = (Element) step.getElementsByTagName("Comments").item(0);
 		if ( comment != null )
 			mstep.setComments(comment.getTextContent());
+
+		mstep.saveEx();
+		
+		log.log(Level.FINE, "Migration: " + mstep.getAD_Migration().getName() + ": Step " + mstep.getSeqNo() + "(" + mstep.get_ID() + ") starting to load.");
+
 		if ( MMigrationStep.STEPTYPE_ApplicationDictionary.equals(mstep.getStepType()) )
 		{
 			NodeList children = step.getElementsByTagName("PO");
@@ -712,7 +716,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	protected boolean beforeDelete ()
 	{
 		for (MMigrationData data : m_migrationData) {
-			data.deleteEx(true);
+			data.deleteEx(true, get_TrxName());
 		}
 		return true;
 	}	//	beforeDelete

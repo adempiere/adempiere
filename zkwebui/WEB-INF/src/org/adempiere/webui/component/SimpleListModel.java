@@ -16,6 +16,7 @@ package org.adempiere.webui.component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Vector;
 
 import org.zkoss.zul.AbstractListModel;
 import org.zkoss.zul.Listbox;
@@ -37,18 +38,26 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 	 */
 	private static final long serialVersionUID = -572148106182756840L;
 
-	protected List list;
+	protected List<Object> list;
 	
 	private int[] maxLength;
 
 	public SimpleListModel() {
-		this(new ArrayList());
+		this(new ArrayList<Object>());
 	}
 	
-	public SimpleListModel(List list) {
+	public SimpleListModel(List<Object> list) {
 		this.list = list;
 	}
 	
+	public SimpleListModel(Vector<Vector<Object>> list) {
+		this.list = new ArrayList<Object>();
+		for (Object item : list)
+		{
+			this.list.add(item);
+		}
+	}
+
 	public Object getElementAt(int index) {
 		if (index >= 0 && index < list.size())
 			return list.get(index);
@@ -68,7 +77,8 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 			.append(src.substring(0, j)).append("...");
 	}
 	
-	public void render(Listitem item, Object data) throws Exception {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void render(Listitem item, Object data, int arg1) throws Exception {
 		if (data instanceof Object[]) {
 			renderArray(item, (Object[])data);
 		} else if (data instanceof Collection) {
@@ -91,7 +101,7 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 			listCell.setTooltiptext(tooltip);
 	}
 
-	private void renderCollection(Listitem item, Collection data) {
+	private void renderCollection(Listitem item, Collection<Object> data) {
 		int i = 0;
 		for (Object col : data) {
 			String value = (col != null ? col.toString() : "");

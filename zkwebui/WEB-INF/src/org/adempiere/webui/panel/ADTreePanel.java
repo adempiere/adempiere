@@ -23,11 +23,12 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.DefaultTreeNode;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Panelchildren;
-import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Toolbar;
 import org.zkoss.zul.Tree;
+import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.Treeitem;
 
 /**
@@ -35,7 +36,7 @@ import org.zkoss.zul.Treeitem;
  * @author hengsin
  *
  */
-public class ADTreePanel extends Panel implements EventListener
+public class ADTreePanel extends Panel implements EventListener<Event>
 {
     /**
 	 * 
@@ -161,6 +162,7 @@ public class ADTreePanel extends Panel implements EventListener
 	 *  @param  isSummary	summary node
 	 *  @param  imageIndicator image indicator
 	 */
+	@SuppressWarnings("unchecked")
 	public void nodeChanged (boolean save, int keyID,
 		String name, String description, boolean isSummary, String imageIndicator)
 	{
@@ -172,9 +174,10 @@ public class ADTreePanel extends Panel implements EventListener
 			return;	
 
 		//  try to find the node
-		SimpleTreeModel model = (SimpleTreeModel) tree.getModel();
-		SimpleTreeNode root = model.getRoot();
-		SimpleTreeNode node = model.find(null, keyID);
+		TreeModel<Object> model = tree.getModel();
+		DefaultTreeNode<Object> root = (DefaultTreeNode<Object>) model.getRoot();
+		SimpleTreeModel sModel = new SimpleTreeModel(root);
+		DefaultTreeNode<Object> node = sModel.find(null, keyID);
 		
 		//  Node not found and saved -> new
 		if (node == null && save)
@@ -182,9 +185,9 @@ public class ADTreePanel extends Panel implements EventListener
 			MTreeNode rootData = (MTreeNode) root.getData();
 			MTreeNode mTreeNode = new MTreeNode (keyID, 0, name, description,
 				rootData.getNode_ID(), isSummary, imageIndicator, false, null);
-			SimpleTreeNode newNode = new SimpleTreeNode(mTreeNode, null); 
-			model.addNode(root, newNode, 0);
-			int[] path = model.getPath(model.getRoot(), newNode);
+			DefaultTreeNode<Object> newNode = new DefaultTreeNode<Object>(mTreeNode); 
+			sModel.addNode(root, newNode, 0);
+			int[] path = sModel.getPath(newNode);
 			Treeitem ti = tree.renderItemByPath(path);
 			tree.setSelectedItem(ti);
 		}
@@ -195,7 +198,7 @@ public class ADTreePanel extends Panel implements EventListener
 			MTreeNode mTreeNode = (MTreeNode) node.getData();
 			mTreeNode.setName (name);
 			mTreeNode.setAllowsChildren(isSummary);
-			int[] path = model.getPath(model.getRoot(), node);
+			int[] path = sModel.getPath(node);
 			Treeitem ti = tree.renderItemByPath(path);
 			tree.setSelectedItem(ti);
 		}
@@ -203,7 +206,7 @@ public class ADTreePanel extends Panel implements EventListener
 		//  Node found and not saved -> delete
 		else if (node != null && !save)
 		{
-			model.removeNode(node);
+			sModel.removeNode(node);
 		}
 
 		//  Error

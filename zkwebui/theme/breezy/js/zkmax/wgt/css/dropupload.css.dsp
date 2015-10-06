@@ -1,0 +1,1 @@
+<%@ taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" %><%@ taglib uri="http://www.zkoss.org/dsp/zk/core" prefix="z" %><%@ taglib uri="http://www.zkoss.org/dsp/web/theme" prefix="t" %>.z-dropupload{width:100px;height:100px;${t:borderRadius('10px') };padding:2px;background:#e6e6e6}

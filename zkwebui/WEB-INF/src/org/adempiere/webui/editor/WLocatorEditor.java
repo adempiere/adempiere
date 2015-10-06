@@ -42,6 +42,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -91,7 +92,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		
 		setColumnName(columnName);
 		m_mLocator = mLocator;
-		getComponent().setButtonImage("/images/Locator10.png");
+		getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/Locator10.png"));
 
 		m_WindowNo = windowNo;	//Yvonne: move it b4 setDefault_Locator_ID()
 		setDefault_Locator_ID(); // set default locator, teo_sarca [ 1661546 ]
@@ -105,7 +106,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		super(new EditorBox(), gridField);
 		m_mLocator = (MLocatorLookup)gridField.getLookup();
 		
-		getComponent().setButtonImage("/images/Locator10.png");
+		getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/Locator10.png"));
 		
 		setDefault_Locator_ID(); // set default locator, teo_sarca [ 1661546 ]
 		

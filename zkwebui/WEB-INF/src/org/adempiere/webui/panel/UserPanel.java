@@ -19,12 +19,13 @@ package org.adempiere.webui.panel;
 
 import java.util.Properties;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Messagebox;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.WContext;
 import org.adempiere.webui.window.WPreference;
 import org.compiere.model.MClient;
@@ -49,7 +50,7 @@ import org.zkoss.zul.Vbox;
  * @author Michael Mckay
  * Add context viewer.  Configurable.
  */
-public class UserPanel extends Vbox  implements EventListener
+public class UserPanel extends Vbox  implements EventListener<Event>
 {
 
 	private static final long serialVersionUID = -45350536628290540L;
@@ -73,41 +74,51 @@ public class UserPanel extends Vbox  implements EventListener
 
     private void init()
     {
-    	this.setStyle("text-align:right");
-
-    	// Elaine 2008/11/07 - fix the layout problem in IE7
-    	this.setWidth("100%");
+    	
+    	this.setSclass("user-panel");  // vbox
     	this.setAlign("right");
-    	//
+    	
+    	// Top row
+    	lblUserNameValue.setValue(getUserName() + "@" + getClientName() + "." + getOrgName()+"/"+getRoleName());
+    	lblUserNameValue.setId("loginUserAndRole");
 
-    	lblUserNameValue.setValue(getUserName() + "@" + getClientName() + "." + getOrgName());
-    	lblUserNameValue.setStyle("text-align:right");
-    	LayoutUtils.addSclass("desktop-header-font", lblUserNameValue);
+    	ThemeUtils.addSclass("user-panel-username", lblUserNameValue);
     	this.appendChild(lblUserNameValue);
-
+    	
+    	   	
     	Hbox hbox = new Hbox();
+    	ThemeUtils.addSclass("user-panel-buttons", hbox);
+    	
+    	this.appendChild(hbox);
+    	
+    	hbox.setPack("end");
+    	hbox.setVflex("1");
     	
     	// TODO - make configurable
     	context.setLabel(Msg.getMsg(Env.getCtx(), "Context"));
+    	context.setId("context");
     	context.addEventListener(Events.ON_CLICK, this);
-    	context.setStyle("text-align:right");
-    	LayoutUtils.addSclass("desktop-header-font", context);
+    	ThemeUtils.addSclass("link", context);
     	context.setParent(hbox);    	
-
-    	preference.setLabel(Msg.getMsg(Env.getCtx(), "Preference"));
-    	preference.addEventListener(Events.ON_CLICK, this);
-    	preference.setStyle("text-align:right");
-    	LayoutUtils.addSclass("desktop-header-font", preference);
-    	preference.setParent(hbox);
 
     	Separator sep = new Separator("vertical");
     	sep.setBar(true);
     	sep.setParent(hbox);
 
+    	preference.setLabel(Msg.getMsg(Env.getCtx(), "Preference"));
+    	preference.setId("preference");
+    	preference.addEventListener(Events.ON_CLICK, this);
+    	ThemeUtils.addSclass("link", preference);
+    	preference.setParent(hbox);
+
+    	sep = new Separator("vertical");
+    	sep.setBar(true);
+    	sep.setParent(hbox);
+    	    	
     	role.setLabel(this.getRoleName());
+    	role.setId("role");
     	role.addEventListener(Events.ON_CLICK, this);
-    	role.setStyle("text-align:right");
-    	LayoutUtils.addSclass("desktop-header-font", role);
+    	ThemeUtils.addSclass("link", role);
     	role.setParent(hbox);
 
     	sep = new Separator("vertical");
@@ -115,12 +126,11 @@ public class UserPanel extends Vbox  implements EventListener
     	sep.setParent(hbox);
 
     	logout.setLabel(Msg.getMsg(Env.getCtx(),"Logout"));
+    	logout.setId("logout");
     	logout.addEventListener(Events.ON_CLICK, this);
-    	logout.setStyle("text-align:right");
-    	LayoutUtils.addSclass("desktop-header-font", logout);
+    	ThemeUtils.addSclass("link", logout);
     	logout.setParent(hbox);
 
-    	this.appendChild(hbox);
     }
 
     private String getUserName()

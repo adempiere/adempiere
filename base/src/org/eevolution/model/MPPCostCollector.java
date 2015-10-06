@@ -467,7 +467,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 						);
 			}	//	stock movement
 			
-			if (isIssue())				
+			if (isIssue() && !isVariance())
 			{
 				//	Update PP Order Line
 				MPPOrderBOMLine obomline = getPP_Order_BOMLine();
@@ -475,7 +475,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 				obomline.setQtyScrap(obomline.getQtyScrap().add(getScrappedQty()));
 				obomline.setQtyReject(obomline.getQtyReject().add(getQtyReject()));  
 				obomline.setDateDelivered(getMovementDate());	//	overwrite=last	
-				obomline.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
+
 				log.fine("OrderLine - Reserved=" + obomline.getQtyReserved() + ", Delivered=" + obomline.getQtyDelivered());				
 				obomline.saveEx();
 				log.fine("OrderLine -> Reserved="+obomline.getQtyReserved()+", Delivered="+obomline.getQtyDelivered());
@@ -566,12 +566,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			MPPOrderBOMLine orderBOMLine = getPP_Order_BOMLine();
 			orderBOMLine.setQtyScrap(orderBOMLine.getQtyScrap().add(getScrappedQty()));
 			orderBOMLine.setQtyReject(orderBOMLine.getQtyReject().add(getQtyReject()));
-			//orderBOMLine.setDateDelivered(getMovementDate());	//	overwrite=last
-			orderBOMLine.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
 			log.fine("OrderLine - Reserved=" + orderBOMLine.getQtyReserved() + ", Delivered=" + orderBOMLine.getQtyDelivered());
 			orderBOMLine.saveEx();
 			log.fine("OrderLine -> Reserved=" + orderBOMLine.getQtyReserved() + ", Delivered=" + orderBOMLine.getQtyDelivered());
-			//CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(null, this);
 			final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get()
 					.getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);
 			standardCostingMethod.createUsageVariances(this);

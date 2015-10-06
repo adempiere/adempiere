@@ -17,19 +17,20 @@ package org.adempiere.webui;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.theme.ITheme;
-import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.LoginWindow;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.metainfo.PageDefinition;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.East;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.East;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
+import org.zkoss.zul.West;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Vbox;
 import org.zkoss.zul.Window;
@@ -51,6 +52,7 @@ public class WLogin extends AbstractUIPart
     public WLogin(IWebClient app)
     {
         this.app = app;
+        ThemeUtils.addSclass("ad-wlogin", this);
     }
 
     protected Component doCreatePart(Component parent)
@@ -60,22 +62,21 @@ public class WLogin extends AbstractUIPart
         	layout.setParent(parent);
         else
         	layout.setPage(page);
-        LayoutUtils.addSclass(ITheme.LOGIN_WINDOW_CLASS, layout);
+        ThemeUtils.addSclass("ad-wlogin-layout", layout);
 
         Center center = new Center();
         center.setParent(layout);
-        center.setBorder("none");
-        center.setFlex(true);
+        center.setHflex("true");
+        center.setVflex("true");
         center.setAutoscroll(true);
-        center.setStyle("border: none; background-color: transparent;");
+        ThemeUtils.addSclass("ad-wlogin-layout-center", center);
 
         Vbox vb = new Vbox();
         vb.setParent(center);
-        vb.setHeight("100%");
-        vb.setWidth("100%");
         vb.setPack("center");
         vb.setAlign("center");
-        vb.setStyle("background-color: transparent;");
+        vb.setWidth("100%");
+        vb.setHeight("100%");
 
         LoginWindow loginWindow = new LoginWindow(app);
         loginWindow.setParent(vb);
@@ -85,21 +86,20 @@ public class WLogin extends AbstractUIPart
         	//TODO: localization
         	String msg = "You might experience slow performance and user interface anomalies using your current browser to access the application. We recommend the use of Firefox, Google Chrome or Apple Safari.";
         	browserWarningWindow = new Window();
+        	ThemeUtils.addSclass("ad-wlogin-browser-not-supported", browserWarningWindow);
         	Div div = new Div();
-        	div.setStyle("font-size: 9pt");
         	div.appendChild(new Text(msg));
-        	browserWarningWindow.appendChild(div);
         	browserWarningWindow.setPosition("top,right");
-        	browserWarningWindow.setWidth("550px");
+        	browserWarningWindow.appendChild(div);
         	browserWarningWindow.setPage(page);
         	browserWarningWindow.doOverlapped();
         }
         
         try {
-        	String right = ThemeManager.getLoginRightPanel();
+        	String right = ThemeUtils.getLoginRightPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(right);
 	    	East east = new East();
-	    	east.setSclass(ITheme.LOGIN_EAST_PANEL_CLASS);
+	    	ThemeUtils.addSclass("ad-wlogin-east-panel", east);
 	    	addContent(east, pageDefintion);
         } catch (Exception e) {
         	//ignore page not found exception
@@ -113,10 +113,10 @@ public class WLogin extends AbstractUIPart
         }
 
         try {
-	        String left = ThemeManager.getLoginLeftPanel();
+	        String left = ThemeUtils.getLoginLeftPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(left);
 	    	West west = new West();
-	    	west.setSclass(ITheme.LOGIN_WEST_PANEL_CLASS);
+	    	ThemeUtils.addSclass("ad-wlogin-west-panel", west);
 	    	addContent(west, pageDefintion);
         } catch (Exception e){
         	//ignore page not found exception
@@ -130,10 +130,10 @@ public class WLogin extends AbstractUIPart
         }
 
         try {
-	        String top = ThemeManager.getLoginTopPanel();
+	        String top = ThemeUtils.getLoginTopPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(top);
 	    	North north = new North();
-	    	north.setSclass(ITheme.LOGIN_NORTH_PANEL_CLASS);
+	    	ThemeUtils.addSclass("ad-wlogin-north-panel", north);
 	    	addContent(north, pageDefintion);
         } catch (Exception e) {
         	//ignore page not found exception
@@ -147,10 +147,10 @@ public class WLogin extends AbstractUIPart
         }
 
         try {
-	        String bottom = ThemeManager.getLoginBottomPanel();
+	        String bottom = ThemeUtils.getLoginBottomPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(bottom);
 	    	South south = new South();
-	    	south.setSclass(ITheme.LOGIN_SOUTH_PANEL_CLASS);
+	    	ThemeUtils.addSclass("ad-wlogin-south-panel", south);
 	    	addContent(south, pageDefintion);
         } catch (Exception e) {
         	//ignore page not found exception

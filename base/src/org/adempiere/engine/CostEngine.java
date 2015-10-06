@@ -297,8 +297,6 @@ public class CostEngine {
 			costThisLevel = allocation.getPriceActual();
 		}
 
-
-
 		MCost cost = MCost.validateCostForCostType(accountSchema, costType, costElement,
 				transaction.getM_Product_ID(), transaction.getAD_Org_ID(), transaction.getM_Warehouse_ID(),
 				transaction.getM_AttributeSetInstance_ID(), transaction.get_TrxName());
@@ -316,9 +314,7 @@ public class CostEngine {
 			|| (model instanceof MInOutLine && MTransaction.MOVEMENTTYPE_CustomerReturns.equals(transaction.getMovementType()))
 			) 
 			{				
-				costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);				
-				
-					
+				costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 				// If cost this level is zero and is a physical inventory then
 				// try get cost from physical inventory
 				if (model instanceof MInventoryLine
@@ -392,8 +388,28 @@ public class CostEngine {
 			}
 		}
         else if (MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod())){
-            costThisLevel = cost.getCurrentCostPrice();
-            costLowLevel = cost.getCurrentCostPriceLL();
+			costThisLevel = cost.getCurrentCostPrice();
+			costLowLevel = cost.getCurrentCostPriceLL();
+
+			if (model instanceof MInventoryLine
+					&& costThisLevel.signum() == 0
+					&& MCostElement.COSTELEMENTTYPE_Material.equals(costElement
+					.getCostElementType())) {
+				MInventoryLine inventoryLine = (MInventoryLine) model;
+				// Use the cost only for Physical Inventory
+				if (inventoryLine.getQtyInternalUse().signum() == 0 &&
+					inventoryLine.getCurrentCostPrice() != null &&
+					inventoryLine.getCurrentCostPrice().signum() > 0) {
+					costThisLevel = inventoryLine.getCurrentCostPrice();
+					cost.setCurrentCostPrice(costThisLevel);
+					cost.saveEx();
+				}
+
+				if(costThisLevel.signum() == 0)
+					costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
+			}
+
+
             if (costThisLevel.signum() == 0
             &&  MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
                 costThisLevel = getSeedCost(transaction.getCtx(), transaction.getM_Product_ID(), transaction.get_TrxName());

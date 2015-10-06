@@ -33,6 +33,7 @@ import java.util.Set;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.util.DisplayType;
@@ -144,11 +145,16 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	/* (non-Javadoc)
 	 * @see org.zkoss.zul.ListitemRenderer#render(org.zkoss.zul.Listitem, java.lang.Object)
 	 */
-	public void render(Listitem item, Object data) throws Exception
-	{
-		render((ListItem)item, data);
+//	public void render(Listitem item, Object data) throws Exception
+//	{
+//		render((Listitem)item, data, 0);
+//	}
+	@Override
+	public void render(Listitem arg0, Object arg1, int arg2) throws Exception {
+		render(arg0, arg1);		
 	}
-
+	
+	
 	/**
 	 * Renders the <code>data</code> to the specified <code>Listitem</code>.
 	 *
@@ -159,7 +165,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 * @throws Exception
 	 * @see {@link #render(Listitem, Object)}
 	 */
-	private void render(ListItem item, Object data)
+	private void render(Listitem item, Object data)
 	{
 		Listcell listcell = null;
 		int colIndex = 0;
@@ -179,8 +185,17 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			if (colorCode < 0)
 			{
 				//  Color the row.
-				//  TODO: do this with a class and CSS
-				item.setStyle("color: #FF0000; " + item.getStyle());
+				ThemeUtils.addSclass("color-row-low", item);
+			}
+			if (colorCode == 0)
+			{
+				//  Color the row.
+				ThemeUtils.addSclass("color-row-normal", item);
+			}
+			if (colorCode > 0)
+			{
+				//  Color the row.
+				ThemeUtils.addSclass("color-row-high", item);
 			}
 		}
 
@@ -496,6 +511,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	            header.setSort("auto");
 	            header.setSortAscending(ascComparator);
 	            header.setSortDescending(dscComparator);
+	            
+	            /*  After ZK 5+ use hflex to set column size.
 	
 	            int width = headerText.trim().length() * 9;
 	            if (width > 300)
@@ -520,6 +537,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	            	width = 100;
 	
 	            header.setWidth(width + "px");
+	            */
+	            header.setHflex("min");
         	}
             m_headers.add(header);
         }
@@ -952,6 +971,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		}
 
 	}
+
 }
 
 

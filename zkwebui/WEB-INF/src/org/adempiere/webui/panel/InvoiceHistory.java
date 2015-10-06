@@ -45,10 +45,10 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 
 /**
  * Price History for BPartner/Product
@@ -190,7 +190,8 @@ public class InvoiceHistory extends Window implements EventListener
 		Center center = new Center();
 		center.setStyle("border: none");
 		center.setAutoscroll(true);
-        center.setFlex(true);
+        center.setHflex("true");
+center.setVflex("true");
 		borderlayout.appendChild(center);
 		center.appendChild(tabbox);
 		

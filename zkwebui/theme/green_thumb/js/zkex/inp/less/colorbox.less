@@ -1,0 +1,261 @@
+@import "~./zul/less/_header.less";
+
+.z-colorbox {
+	.displaySize(inline-block, @baseWidth * 5, @baseButtonHeight);
+	border: 1px solid @colorboxBorderColor;
+	.borderRadius(@borderRadiusSmall);
+	margin: 0 2px;
+	padding: 3px;
+	background: @baseBackgroundColor;
+	vertical-align: middle;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+	
+	&-current {
+		.displaySize(inline-block, 100%, 100%);
+		position: relative;
+	}
+	
+	&-button {
+		font-size: 11px;
+		.displaySize(inline-block, 13px, 7px);
+		line-height: normal;
+		background: @baseBackgroundColor;
+		position: absolute;
+		bottom: 1px;
+		right: 0;
+		overflow: hidden;
+	}
+	
+	&-icon {
+		.iconFontStyle(@baseFontSize, @iconColor);
+		position: relative;
+		top: -3px;
+		left: 3px;
+	}
+	
+	&-disabled,
+	&-disabled * {
+		color: @disabledColor !important;
+		.opacity(@disabledOpacity);
+		cursor: default !important;
+	}
+}
+// Popup shadow
+.z-colorbox-popup,
+.z-menu-popup {
+	display: none;
+	position: absolute;
+	overflow: auto;
+	z-index: @basePopupZIndex;
+	.boxShadow('1px 1px 3px rgba(0, 0, 0, 0.5)');
+}
+// Colorpicker
+.z-colorpicker {
+	.size(384px, 332px);
+	border: 1px solid @colorboxBorderColor;
+	background: @baseBackgroundColor;
+	position: relative;
+	overflow: hidden;
+	
+	&-gradient {
+		.size(256px, 256px);
+		border: 1px solid @colorboxBorderColor;
+		position: absolute;
+		left: 7px;
+		top: 31px;
+		cursor: crosshair;
+	}
+	
+	&-overlay {
+		.size(256px, 256px);
+		.encodeURL(background-image, '~./zkex/img/colorbox/colorpicker_gradient.png');
+	}
+	
+	&-bar {
+		.size(12px, 256px);
+		border: 1px solid @colorboxBorderColor;
+		.encodeURL(background-image, '~./zkex/img/colorbox/colorpicker_hue.png');
+		position: absolute;
+		left: 7px;
+		overflow: hidden;
+		cursor: n-resize;
+	}
+	
+	&-circle {
+		.size(11px, 11px);
+		margin: -5px 0 0 -5px;
+		.encodeURL(background-image, '~./zkex/img/colorbox/colorpicker_select.gif');
+		position: absolute;
+		top: 0;
+		left: 0;
+		overflow: hidden;
+	}
+	
+	&-hue {
+		.size(27px, 256px);
+		position: absolute;
+		top: 31px;
+		left: 272px;
+	}
+	
+	&-arrows {
+		.size(27px, 9px);
+		margin: -4px 0 0 0;
+		.encodeURL(background-image, '~./zkex/img/colorbox/colorpicker_arrows.gif');
+		position: absolute;
+		left: 0;
+		overflow: hidden;
+		cursor: n-resize;
+	}
+	
+	&-color {
+		border: double;
+		background: transparent;
+		position: absolute;
+		top: 34px;
+		left: 315px;
+	}
+	
+	&-newcolor {
+		.size(48px, 32px);
+		border-bottom: 1px solid;
+		position: relative;
+	}
+	
+	&-current {
+		.size(48px, 32px);
+		border-top: 1px solid;
+		position: relative;
+	}
+	
+	&-r, &-g, &-b, &-h, &-s, &-v {
+		width: 55px;
+		position: absolute;
+		left: 310px;
+	}
+	
+	&-r {top: 122px;}
+	&-g {top: 147px;}
+	&-b {top: 172px;}
+	&-h {top: 212px;}
+	&-s {top: 237px;}
+	&-v {top: 262px;}
+	
+	&-text,
+	&-input {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @baseTextColor);
+	}
+	
+	&-input {
+		.size(@baseWidth * 5, @baseButtonHeight);
+		border: 1px solid @baseBorderColor;
+		padding: 2px;
+		background: @baseBackgroundColor;
+		float: right;
+	}
+	
+	&-hex {
+		position: absolute;
+		top: 300px;
+		left: 10px;
+		
+		.z-colorpicker-input {
+			margin-left: 5px;
+			width: @baseWidth * 8;
+		}
+	}
+	
+	&-button {
+		width: 42px;
+		position: absolute;
+		top: 300px;
+		left: 328px;
+		cursor: pointer;
+	}
+	
+	&-icon {
+		color: @textColorGreen;
+	}
+}
+// Color Palette
+.z-colorpalette {
+	.size(262px, 222px);
+	border: 1px solid @colorboxBorderColor;
+	padding-left: 4px;
+	background: @baseBackgroundColor;
+	
+	&-newcolor {
+		.size(50px, 24px);
+		border: 1px solid @colorboxBorderColor;
+		margin: 4px 2px;
+		position: relative;
+		left: 123px;
+	}
+	
+	&-input,
+	&-button {
+		position: absolute;
+		top: 5px;
+		left: 185px;
+	}
+	
+	&-input {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @baseTextColor);
+		.size(65px, @baseButtonHeight);
+		border: 1px solid @baseBorderColor;
+		padding: 2px;
+		background: @baseBackgroundColor;
+	}
+	
+	&-color {
+		.displaySize(inline-block, 14px, 14px);
+		border: 1px solid #FFFFFF;
+		cursor: pointer;
+		float: left; 
+		
+		&:hover {
+			border: 1px solid #000000;
+		}
+	}
+	
+	&-selected {
+		border: 1px solid #000000;
+	}
+}
+.z-colorbox-paletteicon,
+.z-menu-paletteicon,
+.z-colorbox-pickericon,
+.z-menu-pickericon {
+	.size(22px, 22px);
+	.encodeURL(background, '~./zkex/img/colorbox/cb-buttons.gif');
+	position: absolute;
+	cursor: pointer;
+	z-index: 10;
+}
+.z-colorbox-paletteicon,
+.z-menu-paletteicon {
+	background-position: 0 0;
+	top: 5px;
+	left: 6px;
+}
+.z-colorbox-pickericon,
+.z-menu-pickericon {
+	background-position: 0 -44px;
+	top: 5px;
+	left: 31px;
+}
+.z-colorpalette-popup .z-colorbox-paletteicon,
+.z-colorpalette-popup .z-menu-paletteicon {
+	background-position: 0 -22px;
+	left: 6px;
+}
+.z-colorpalette-popup .z-colorbox-pickericon,
+.z-colorpalette-popup .z-menu-pickericon {
+	left: 31px;
+}
+.z-colorpicker-popup .z-colorbox-pickericon,
+.z-colorpicker-popup .z-menu-pickericon {
+	background-position: 0 -66px;
+}

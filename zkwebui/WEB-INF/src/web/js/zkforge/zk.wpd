@@ -1,0 +1,3 @@
+<package name="zkforge" language="xul/html" depends="zul">
+	<widget name="KeyListener"/>
+</package>

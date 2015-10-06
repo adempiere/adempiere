@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+fileuploaddlg.zul
+
+	Purpose:
+		The fileupload modal dialog
+	Description:
+
+	History:
+		Tue Jul 19 12:06:22     2005, Created by tomyeh
+
+Copyright (C) 2005 Potix Corporation. All Rights Reserved.
+
+{{IS_RIGHT
+	This program is distributed under LGPL Version 2.1 in the hope that
+	it will be useful, but WITHOUT ANY WARRANTY.
+}}IS_RIGHT
+-->
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" ?>
+<?page language="xul/html"?>
+<?component name="uploaddlg" extends="window"
+ class="org.zkoss.zul.impl.FileuploadDlg" widgetClass="zul.fud.FileuploadDlg"?>
+<?component name="submit" extends="button" widgetClass="zul.fud.Submit"?>
+
+<uploaddlg title="${arg.title}" uploadListener="${arg.listener}" shadow="false" border="normal" width="360px" closable="true"
+xmlns:w="http://www.zkoss.org/2005/zk/client"
+	w:onClose="this.cancel()" w:max="${arg.max}">
+	<label value="${arg.message}"/>
+	<fileupload id="fileupload" forward="onUpload=" label="${c:l('mesg:org.zkoss.zul.mesg.MZul:UPLOAD_BROWSE')}"
+		upload="zul.fud.ModalFileViewer,maxsize=${arg.maxsize}${arg['native'] ? ',native':''}"/>
+	<separator bar="true"/>
+	<div id="uploaded" visible="false"></div>
+	<div id="btns">
+	<submit id="submit" label="${c:l('mesg:org.zkoss.zul.mesg.MZul:UPLOAD_SUBMIT')}"
+		w:onClick="this.submit()"/>
+	<button label="${c:l('mesg:org.zkoss.zul.mesg.MZul:UPLOAD_CANCEL')}" w:onClick="this.$o().cancel(true)"/>
+	</div>
+</uploaddlg>

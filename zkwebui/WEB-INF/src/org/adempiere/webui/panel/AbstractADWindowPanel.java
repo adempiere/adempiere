@@ -81,6 +81,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.WebDoc;
 import org.eevolution.form.WBrowser;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -89,8 +90,6 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
@@ -126,7 +125,7 @@ import org.zkoss.zul.Menupopup;
  *
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
-        EventListener, DataStatusListener, ActionListener, ASyncProcess
+        EventListener<Event>, DataStatusListener, ActionListener, ASyncProcess
 {
     private static final CLogger logger;
 
@@ -176,11 +175,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	private IADTabPanel embeddedTabPanel;
 
 	private boolean m_findCreateNew;
-	
-	public Borderlayout layout;
-	
-	public North north = new North();
-
 
 	/**
 	 * Constructor for non-embedded mode
@@ -514,7 +508,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     						}
     						else
     						{
-    							IADTabPanel parent = includedMap.get(gTab.getAD_Tab_ID());
+    							ADTabPanel parent = includedMap.get(gTab.getAD_Tab_ID());
     							int pindex = gridWindow.getTabIndex(parent.getGridTab());
     							if (pindex >= 0)
     								setActiveTab(pindex);
@@ -529,6 +523,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		return false;
 	}
 
+	/**
+	 * Initialize the embedded tab
+	 * @param query
+	 * @param tabIndex
+	 */
 	private void initEmbeddedTab(MQuery query, int tabIndex) {
 		GridTab gTab = gridWindow.getTab(tabIndex);
 		gTab.addDataStatusListener(this);
@@ -579,7 +578,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			sortTab.setGlobalToolbar(toolbar);
 			if (includedMap.containsKey(gTab.getAD_Tab_ID()))
 		    {
-				IADTabPanel includePanel = includedMap.get(gTab.getAD_Tab_ID());
+				ADTabPanel includePanel = includedMap.get(gTab.getAD_Tab_ID());
                 if (includePanel.isEmbedded())
                     includedMap.get(gTab.getAD_Tab_ID()).embed(ctx, curWindowNo, gridWindow, gTab.getAD_Tab_ID(), tabIndex, sortTab);
                 else
@@ -602,7 +601,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{
 			//build embedded tab map
 			ADTabPanel fTabPanel = new ADTabPanel();
-            toolbar.setCurrentPanel(fTabPanel);
+            toolbar.setCurrentPanel((IADTabPanel) fTabPanel);
 			fTabPanel.setGlobalToolbar(toolbar);
 			GridField[] fields = gTab.getTableModel().getFields();
 		    for(int i = 0; i < fields.length; i++)
@@ -813,7 +812,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 			m_lock = new Menuitem(Msg.translate(Env.getCtx(), "Lock"));
 			m_popup.appendChild(m_lock);
-			m_lock.addEventListener(Events.ON_CLICK, new EventListener()
+			m_lock.addEventListener(Events.ON_CLICK, new EventListener<Event>()
 			{
 				public void onEvent(Event event) throws Exception
 				{
@@ -826,7 +825,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 			m_access = new Menuitem(Msg.translate(Env.getCtx(), "RecordAccessDialog"));
 			m_popup.appendChild(m_access);
-			m_access.addEventListener(Events.ON_CLICK, new EventListener()
+			m_access.addEventListener(Events.ON_CLICK, new EventListener<Event>()
 			{
 				public void onEvent(Event event) throws Exception
 				{
@@ -1456,6 +1455,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 	// Elaine 2008/11/19
     /**
+     * Copy the current record
      * @see ToolbarListener#onCopy()
      */
     public void onCopy()
@@ -1489,9 +1489,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     //
 
     /**
+     * Find
      * @see ToolbarListener#onFind()
      */
-    public void onFind()
+    @SuppressWarnings("unused")
+	public void onFind()
     {
     	GridTab currentTab = toolbar.getCurrentPanel().getGridTab();
 
@@ -1710,6 +1712,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		messagePanel.appendChild(listbox);
 
 		Div div = new Div();
+		//TODO - move this to theme
 		div.setAlign("center");
 		messagePanel.appendChild(div);
 
@@ -1718,11 +1721,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		Button btnOk = new Button();
 		btnOk.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "OK")));
-		btnOk.setImage("/images/Ok16.png");
 		final GridTab newCurrentTab = currentTab;
-		btnOk.addEventListener(Events.ON_CLICK, new EventListener()
+		btnOk.setImage(ServletFns.resolveThemeURL("~./images/Ok16.png"));
+		btnOk.addEventListener(Events.ON_CLICK, new EventListener<Event>()
 		{
-			@SuppressWarnings("unchecked")
 			public void onEvent(Event event) throws Exception
 			{
 				if (FDialog.ask(curWindowNo, messagePanel, "DeleteSelection"))
@@ -1762,8 +1764,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		Button btnCancel = new Button();
 		btnCancel.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Cancel")));
-		btnCancel.setImage("/images/Cancel16.png");
-		btnCancel.addEventListener(Events.ON_CLICK, new EventListener()
+		btnCancel.setImage(ServletFns.resolveThemeURL("~./images/Cancel16.png"));
+		btnCancel.addEventListener(Events.ON_CLICK, new EventListener<Event>()
 		{
 			public void onEvent(Event event) throws Exception
 			{
@@ -1804,12 +1806,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				AD_Process_ID,table_ID, record_ID, true);
 		if (dialog.isValid()) {
 			dialog.setPosition("center");
-			try {
-				dialog.setPage(this.getComponent().getPage());
-				dialog.doModal();
-			}
-			catch (InterruptedException e) {
-			}
+			dialog.setPage(this.getComponent().getPage());
+			dialog.doModal();
 		}
 	}
 
@@ -2314,14 +2312,14 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		m_uiLocked = true;
 
 		if (Executions.getCurrent() != null)
-			Clients.showBusy(null, true);
+			Clients.showBusy(null);
 		else
 		{
 			try {
 				//get full control of desktop
 				Executions.activate(getComponent().getDesktop(), 500);
 				try {
-					Clients.showBusy(null, true);
+					Clients.showBusy(null);
                 } catch(Error ex){
                 	throw ex;
                 } finally{
@@ -2353,7 +2351,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				updateUI(pi);
 			}
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 		}
 		else
 		{
@@ -2365,7 +2363,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					{
 						updateUI(pi);
 					}
-                	Clients.showBusy(null, false);
+                	Clients.clearBusy();
                 } catch(Error ex){
                 	throw ex;
                 } finally{

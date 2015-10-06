@@ -61,14 +61,15 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.impl.InputElement;
@@ -209,7 +210,8 @@ public class WPAttributeDialog extends Window implements EventListener
 		
 		Center center = new Center();
 		center.setParent(mainLayout);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		center.appendChild(centerPanel);
 
 		South south = new South();
@@ -297,7 +299,7 @@ public class WPAttributeDialog extends Window implements EventListener
 				cbNewEdit.addEventListener(Events.ON_CHECK, this);
 				row.appendChild(cbNewEdit);
 				bSelect.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "SelectExisting")));
-				bSelect.setImage("images/PAttribute16.png");
+				bSelect.setImage(ServletFns.resolveThemeURL("~./images/PAttribute16.png"));
 				bSelect.addEventListener(Events.ON_CLICK, this);
 				row.appendChild(bSelect);
 				rows.appendChild(row);
@@ -378,7 +380,7 @@ public class WPAttributeDialog extends Window implements EventListener
 			}
 			//	Popup 
 //			fieldLot.addMouseListener(new VPAttributeDialog_mouseAdapter(this));    //  popup
-			mZoom = new Menuitem(Msg.getMsg(Env.getCtx(), "Zoom"), "images/Zoom16.png");
+			mZoom = new Menuitem(Msg.getMsg(Env.getCtx(), "Zoom"), ServletFns.resolveThemeURL("~./images/Zoom16.png"));
 			mZoom.addEventListener(Events.ON_CLICK, this);
 			popupMenu.appendChild(mZoom);
 			this.appendChild(popupMenu);

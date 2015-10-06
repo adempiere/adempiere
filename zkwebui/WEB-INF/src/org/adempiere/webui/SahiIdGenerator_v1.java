@@ -17,12 +17,13 @@ package org.adempiere.webui;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.metainfo.ComponentInfo;
 import org.zkoss.zk.ui.sys.IdGenerator;
 
 public class SahiIdGenerator_v1 implements IdGenerator {
 
 	@Override
-	public String nextComponentUuid(Desktop desktop, Component comp) {
+	public String nextComponentUuid(Desktop desktop, Component comp,ComponentInfo compInfo) {
 
 		int     i = Integer.parseInt(desktop.getAttribute("Id_Num").toString());
 		i++;// Start from 1

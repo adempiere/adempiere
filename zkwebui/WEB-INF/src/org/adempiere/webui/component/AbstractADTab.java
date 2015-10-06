@@ -24,20 +24,20 @@ import java.util.List;
 import org.adempiere.webui.panel.ADSortTab;
 import org.adempiere.webui.panel.ADTabPanel;
 import org.adempiere.webui.panel.AbstractADWindowPanel;
+import org.adempiere.webui.panel.IADTabPanel;
 import org.adempiere.webui.part.AbstractUIPart;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Evaluator;
 
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @author  <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
- * @author e-Evolution , victor.perez@e-evolution.com
- *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
- *    <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
@@ -49,11 +49,12 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     private ArrayList<String>   m_dependents = new ArrayList<String>();
     
     /** Tabs associated to this tab box */
-    protected List<org.adempiere.webui.panel.IADTabPanel> tabPanelList = new ArrayList<org.adempiere.webui.panel.IADTabPanel>();
+    protected List<IADTabPanel> tabPanelList = new ArrayList<IADTabPanel>();
 	protected AbstractADWindowPanel adWindowPanel;
     
     public AbstractADTab()
     {
+    	ThemeUtils.addSclass("ad-abstractadtab", this);
     }
     
     /**
@@ -62,7 +63,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
      *  @param gTab grid tab model
      *  @param tabElement GridController or VSortTab
      */
-    public void addTab(GridTab gTab, org.adempiere.webui.panel.IADTabPanel tabPanel)
+    public void addTab(GridTab gTab, IADTabPanel tabPanel)
     {
     	tabPanelList.add(tabPanel);
         ArrayList<String>  dependents = gTab.getDependentOn();
@@ -78,7 +79,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
         doAddTab(gTab, tabPanel);                
     }//  addTab
     
-    protected abstract void doAddTab(GridTab tab, org.adempiere.webui.panel.IADTabPanel tabPanel);
+    protected abstract void doAddTab(GridTab tab, IADTabPanel tabPanel);
 
 	/**
      * @param index of tab panel
@@ -89,26 +90,19 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     	return true;
     }// isEnabledAt
 
-    private boolean isDisplay(org.adempiere.webui.panel.IADTabPanel newTab)
+    private boolean isDisplay(IADTabPanel newTab)
     {
-    	return newTab.getGridTab().isDisplayed();
-    	/*
         String logic = newTab.getDisplayLogic();
         if (logic != null && logic.length() > 0)
         {
-        	
-        	String parsed = Env.parseContext (, newTab.getWindowNo(), logic, false, false).trim(); //Add WindowNo
-    		if (parsed.length() == 0)
-    			return true;
-        	
-            boolean display = Evaluator.evaluateLogic(newTab, parsed);
+            boolean display = Evaluator.evaluateLogic(newTab, logic);
             if (!display)
             {
                 log.info("Not displayed - " + logic);
                 return false;
             }
         }
-        return true;*/
+        return true;
     }
     
     /**
@@ -119,7 +113,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
      */
     public boolean updateSelectedIndex(int oldIndex, int newIndex)
     {
-        org.adempiere.webui.panel.IADTabPanel newTab = tabPanelList.get(newIndex);
+        IADTabPanel newTab = tabPanelList.get(newIndex);
         
         if (!isDisplay(newTab))
         {
@@ -141,7 +135,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
         return canJump;
     }
     
-    private void prepareContext(int newIndex, org.adempiere.webui.panel.IADTabPanel newTab) {
+    private void prepareContext(int newIndex, IADTabPanel newTab) {
 		//update context
 		if (newTab != null && (adWindowPanel == null || !adWindowPanel.isEmbedded()))
 		{
@@ -152,7 +146,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 				int currentLevel = newTab.getTabLevel();
 				for (int i = newIndex - 1; i >= 0; i--)
 				{
-					org.adempiere.webui.panel.IADTabPanel adtab = tabPanelList.get(i);
+					IADTabPanel adtab = tabPanelList.get(i);
 					if (adtab.getGridTab() == null) continue;
 					if (adtab instanceof ADSortTab) continue;
 					if (adtab.getTabLevel() < currentLevel || i == 0)
@@ -170,7 +164,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 			//clear context
 			for (int i = 0; i < tabPanelList.size(); i++)
 			{
-				org.adempiere.webui.panel.IADTabPanel adtab = tabPanelList.get(i);
+				IADTabPanel adtab = tabPanelList.get(i);
 				if (adtab.getGridTab() == null) continue;
 				if (adtab instanceof ADSortTab) continue;
 				GridField[] fields = adtab.getGridTab().getFields();
@@ -185,7 +179,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 			{
 				for(int i : parents)
 				{
-					org.adempiere.webui.panel.IADTabPanel adtab = tabPanelList.get(i);
+					IADTabPanel adtab = tabPanelList.get(i);
 
 					GridField[] fields = adtab.getGridTab().getFields();
 					for (GridField gf : fields)
@@ -204,8 +198,8 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     	if (index >= tabPanelList.size())
     		return false;
     	
-    	org.adempiere.webui.panel.IADTabPanel newTab = tabPanelList.get(index);
-    	if (newTab instanceof ADTabPanel)
+    	IADTabPanel newTab = tabPanelList.get(index);
+    	if (newTab instanceof ADTabPanel) 
     	{
 	    	if (!isDisplay(newTab))
 	        {
@@ -216,8 +210,8 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     }
     
 	public boolean canNavigateTo(int fromIndex, int toIndex) {
-    	org.adempiere.webui.panel.IADTabPanel newTab = tabPanelList.get(toIndex);
-    	if (newTab instanceof ADTabPanel)
+    	IADTabPanel newTab = tabPanelList.get(toIndex);
+    	if (newTab instanceof ADTabPanel) 
     	{
 	    	if (!isDisplay(newTab))
 	        {
@@ -229,16 +223,16 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 
         if (toIndex != fromIndex)
         {
-            org.adempiere.webui.panel.IADTabPanel oldTabpanel = fromIndex >= 0 ? tabPanelList.get(fromIndex) : null;
+            IADTabPanel oldTabpanel = fromIndex >= 0 ? tabPanelList.get(fromIndex) : null;
             if (oldTabpanel != null)
             {
-                org.adempiere.webui.panel.IADTabPanel oldTab = oldTabpanel;
+                IADTabPanel oldTab = oldTabpanel;
                 if (newTab.getTabLevel() > oldTab.getTabLevel())
                 {
                     int currentLevel = newTab.getTabLevel();
                     for (int i = toIndex - 1; i >= 0; i--)
                     {
-                        org.adempiere.webui.panel.IADTabPanel tabPanel = tabPanelList.get(i);
+                        IADTabPanel tabPanel = tabPanelList.get(i);
                         if (tabPanel.getTabLevel() < currentLevel)
                         {
                             if (!tabPanel.isCurrent())
@@ -263,13 +257,13 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     	StringBuffer path = new StringBuffer();
     	int s = this.getSelectedIndex();
     	if (s <= 0 ) s = 0;
-    	org.adempiere.webui.panel.IADTabPanel p = tabPanelList.get(s);
+    	IADTabPanel p = tabPanelList.get(s);
     	for (int i = 0; i <= s; i++) {
     		String n = null;
     		if (i == s)
     			n = p.getTitle();
     		else {
-    			org.adempiere.webui.panel.IADTabPanel t = tabPanelList.get(i);
+    			IADTabPanel t = tabPanelList.get(i);
     			if (t.getTabLevel() < p.getTabLevel())
     				n = t.getTitle();
     		}
@@ -319,11 +313,11 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
         return tabPanelList.size();
     }
     
-    public org.adempiere.webui.panel.IADTabPanel getADTabpanel(int index)
+    public IADTabPanel getADTabpanel(int index)
     {
         try
         {
-            org.adempiere.webui.panel.IADTabPanel tabPanel = tabPanelList.get(index);
+            IADTabPanel tabPanel = tabPanelList.get(index);
             return tabPanel;
         }
         catch (Exception ex)
@@ -340,4 +334,6 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 	public void setADWindowPanel(AbstractADWindowPanel abstractADWindowPanel) {
 		this.adWindowPanel = abstractADWindowPanel;
 	}
+
+
 }

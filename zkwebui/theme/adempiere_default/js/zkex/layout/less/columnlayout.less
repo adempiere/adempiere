@@ -1,0 +1,21 @@
+@import "~./zul/less/_header.less";
+
+.z-columnlayout,
+.z-columnchildren,
+.z-columnchildren-content {
+	overflow: hidden;
+}
+.z-columnchildren {
+	height: 100%;
+	float: left;
+	
+	&-content {
+		.size(100%, 100%);
+	}
+}
+<c:if test="${ zk.ie > 0 }">
+.z-columnlayout,
+.z-columnchildren {
+	zoom: 1;
+}
+</c:if>

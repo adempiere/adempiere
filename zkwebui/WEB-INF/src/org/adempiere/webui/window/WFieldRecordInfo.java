@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -43,12 +45,13 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Menuitem;
@@ -137,7 +140,8 @@ public class WFieldRecordInfo extends Window implements EventListener
 		
 		Center center = new Center();
 		center.setParent(layout);
-		center.setFlex(true);
+		center.setHflex("true");
+		center.setVflex("true");
 		if (showTable)
 		{
 			center.appendChild(table);
@@ -220,7 +224,12 @@ public class WFieldRecordInfo extends Window implements EventListener
 		}
 		
 		table.appendChild(listhead);
-		SimpleListModel model = new SimpleListModel(m_data);
+		List<Object> list = new ArrayList<Object>();
+		for (Vector<String> data : m_data)
+		{
+			list.add(data.toString());
+		}
+		SimpleListModel model = new SimpleListModel(list);
 		table.setItemRenderer(model);
 		table.setModel(model);
 		
@@ -369,7 +378,7 @@ public class WFieldRecordInfo extends Window implements EventListener
 	public static void addMenu(WEditorPopupMenu popupMenu) {
 		Menuitem changeLogItem = new Menuitem();
         changeLogItem.setLabel(Msg.getElement(Env.getCtx(), "AD_ChangeLog_ID"));
-        changeLogItem.setImage("/images/ChangeLog16.png");
+        changeLogItem.setImage(ServletFns.resolveThemeURL("~./images/ChangeLog16.png"));
         changeLogItem.setAttribute(WEditorPopupMenu.EVENT_ATTRIBUTE, WEditorPopupMenu.CHANGE_LOG_EVENT);
         changeLogItem.addEventListener(Events.ON_CLICK, popupMenu);
         

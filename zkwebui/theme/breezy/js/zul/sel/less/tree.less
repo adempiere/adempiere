@@ -1,0 +1,284 @@
+@import "~./zul/less/_header.less";
+
+//reset table
+.resetTable() {
+	table {
+		border-spacing: 0;
+		th, td {
+			background-clip: padding-box;
+			padding: 0;
+		}
+		th {
+			text-align: inherit;
+		}
+	}
+}
+
+//tree
+.z-tree {
+	border: 1px solid @baseBorderColor;
+	overflow: hidden;
+	zoom: 1;
+	//tree header div
+	&-header {
+		width: 100%;
+		<c:if test="${ zk.ie != 8 }">
+			.verGradient(@baseGradientStart, @baseGradientEnd);
+		</c:if>
+		position: relative;
+		overflow: hidden;
+		.resetTable();
+	}
+	&-header-border {
+		border-bottom: 1px solid @meshTitleBorderColor;
+		margin-top: -1px;
+		position: relative;
+	}
+	//tree body div
+	&-body {
+		position: relative;
+		overflow: hidden;
+		.resetTable();
+	}
+	&-emptybody td {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @disabledColor);
+		font-style: italic;
+		text-align: center;
+	}
+	//tree footer div
+	&-footer {
+		border-top: 1px solid @baseBorderColor;
+		background: @meshFootBackgroundColor;
+		overflow: hidden;
+		.resetTable();
+	}
+}
+//tree open icon and indent space
+.z-tree {
+	&-icon,
+	&-line {
+		.displaySize(inline-block, @baseIconWidth, @baseIconHeight);
+		line-height: @baseIconHeight;
+		vertical-align: middle;
+	}
+	&-icon {
+		.iconFontStyle(@baseFontSize, @iconColor);
+		text-align: center;
+		cursor: pointer;
+		
+		&:hover {
+			color: @iconHoverColor;
+		}
+	}
+}
+//treecols
+.z-treecols {
+	th:first-child {
+		border-left: none;
+
+		// B50-3306729: the first header should have border-left when the first column is covered with other header
+		&.z-treecols-border {
+			border-left: 1px solid @meshTitleBorderColor;
+		}
+	}
+	&-bar {
+		border-left: 1px solid @meshTitleBorderColor;
+		border-bottom: 1px solid @meshTitleBorderColor;
+	}
+}
+.z-treecol {
+	border-left: 1px solid @meshTitleBorderColor;
+	border-bottom: 1px solid @meshTitleBorderColor;
+	padding: 0;
+	<c:if test="${ zk.ie != 8 }">
+		.verGradient(@baseGradientStart, @baseGradientEnd);
+	</c:if>
+	background-clip: padding-box;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	
+	&-sort {
+		cursor: pointer;
+		
+		&:hover {
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@meshTitleHoverStart, @meshTitleHoverEnd);
+			</c:if>
+		}
+	}
+	&-sizing,
+	&-sizing .z-treecol-content {
+		cursor: e-resize;
+	}
+}
+//tree row and cell
+.z-treerow {
+	//tree cell
+	.z-treecell {
+		overflow: hidden;
+		cursor: pointer;
+	}
+	&:hover {
+		> .z-treecell {
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@meshContentHoverStart, @meshContentHoverEnd);
+			</c:if>
+			background-clip: padding-box;
+			position: relative;
+		}
+		.z-treecell-content {
+			color: @hoverColor;
+		}
+	}
+	//check mark
+	&-checkable {
+		.displaySize(inline-block, @baseIconWidth, @baseIconHeight);
+		border: 1px solid @checkedBorderColor;
+		background: @checkedBackgroundColor;
+		vertical-align: middle;
+		
+		&.z-treerow-radio {
+			.borderRadius(@baseIconWidth / 2);
+		}
+		.z-treerow-icon {
+			display: none;
+			cursor: default;
+		}
+	}
+	//selected tree cell
+	&.z-treerow-selected {
+		.z-treecell {
+			<c:if test="${ zk.ie != 8 }">
+				.verGradient(@selectedGradientStart, @selectedGradientEnd);
+			</c:if>
+			background-clip: padding-box;
+			position: relative;
+		}
+		.z-treecell-content {
+			color: @selectedColor;
+		}
+		&:hover {
+			> .z-treecell {
+				<c:if test="${ zk.ie != 8 }">
+					.verGradient(@selectedHoverGradientStart, @selectedHoverGradientEnd);
+				</c:if>
+			}
+			.z-listcell-content {
+				color: @selectedHoverColor;
+			}
+		}
+	}
+	//selected check mark
+	&-selected {
+		.z-treerow-icon {
+			color: @checkedColor;
+			display: block;
+			padding-left: 1px;
+			line-height: @baseLineHeight;
+			
+			&.z-icon-check {} //for checkbox, use font-awesome
+			&.z-icon-radio { //for radio
+				.size(@baseIconWidth / 2, @baseIconWidth / 2);
+				.borderRadius(@baseIconWidth / 4);
+				margin: 3px;
+				padding: 0;
+				background: @checkedColor;
+			}
+		}
+	}
+	//disabled
+	&.z-treerow-disabled {
+		* {
+			color: @disabledColor !important;
+			cursor: default !important;
+		}
+		&:hover > .z-treecell {
+			.resetGradient();
+			position: relative;
+		}
+	}
+}
+//content
+.z-treecol-content,
+.z-treecell-content,
+.z-treefooter-content {
+	.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @textColorGrayLight);
+	padding: 4px 5px;
+	line-height: @baseButtonHeight;
+	overflow: hidden;
+}
+.z-treecol-content {
+	font-weight: bold;
+	padding: 4px 5px 3px;
+	position: relative;
+}
+.z-treecell-content {
+	padding: 4px 2px;
+	line-height: @baseLineHeight;
+}
+.z-treecell-text {
+	vertical-align: middle;
+}
+//paging
+.z-tree-paging {
+	&-top {
+		border-bottom: 1px solid @pagingBorderColor;
+		overflow: hidden;
+		width: 100%;
+	}
+	&-bottom {
+		border-top: 1px solid @pagingBorderColor;
+		overflow: hidden;
+		width: 100%;
+	}
+}
+// IE8
+.ie8 {
+	.z-tree-header {
+		background: @meshBackgroundColorIE8;
+	}
+	.z-treecol {
+		position: static;
+		background: @meshBackgroundColorIE8;
+		&-hover, &-sort:hover {
+			background: @meshHoverBackgroundColorIE8;
+		}
+	}
+	.z-treerow {
+		&:hover > .z-treecell {
+			background: @meshHoverBackgroundColorIE8;
+		}
+		&.z-treerow-selected {
+			.z-treecell {
+				position: static;
+				background: @meshSelectedBackgroundColorIE8;
+			}
+			&:hover > .z-treecell {
+				position: static;
+				background: @meshSelectedHoverBackgroundColorIE8;
+			}
+		}
+		// radio icon fallback
+		.z-icon-radio {
+			.displaySize(block, 13px, 13px);
+			.encodeThemeURL(background, '~./zul/img/common/check-sprite.gif', no-repeat);
+			position: relative;
+			top: 2px;
+			left: 2px;
+		}
+		&-radio {
+			border-width: 0;
+			background: transparent;
+
+			.z-icon-radio {
+				background-position: 0 -13px;
+			}
+		}
+		&-selected .z-icon-radio {
+			border-width: 0;
+			margin: 0;
+			background-position: -26px -13px;
+		}
+	}
+}

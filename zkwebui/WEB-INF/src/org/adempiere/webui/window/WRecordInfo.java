@@ -22,6 +22,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -49,10 +51,10 @@ import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
@@ -153,7 +155,8 @@ public class WRecordInfo extends Window implements EventListener
 		
 		Center center = new Center();
 		center.setParent(layout);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		if (showTable)
 		{
 			North north = new North();
@@ -281,7 +284,12 @@ public class WRecordInfo extends Window implements EventListener
 		}
 		
 		table.appendChild(listhead);
-		SimpleListModel model = new SimpleListModel(m_data);
+		List<Object> list = new ArrayList<Object>();
+		for (Vector<String> data : m_data)
+		{
+			list.add(data.toString());
+		}
+		SimpleListModel model = new SimpleListModel(list);
 		table.setItemRenderer(model);
 		table.setModel(model);
 		

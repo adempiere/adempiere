@@ -29,6 +29,8 @@ import org.adempiere.webui.IWebClient;
 import org.adempiere.webui.component.FWindow;
 import org.adempiere.webui.panel.LoginPanel;
 import org.adempiere.webui.panel.RolePanel;
+import org.adempiere.webui.theme.ITheme;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -61,12 +63,12 @@ public class LoginWindow extends FWindow implements EventListener
         init();
         // add listener on 'ENTER' key for the login window
         addEventListener(Events.ON_OK,this);
+        ThemeUtils.addSclass("ad-loginwindow", this);
     }
 
     private void init()
     {
         this.appendChild(pnlLogin);
-        this.setStyle("background-color: transparent");
     }
 
     private void initComponents()

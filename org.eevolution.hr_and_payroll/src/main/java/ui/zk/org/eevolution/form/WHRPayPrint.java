@@ -44,12 +44,12 @@ import org.compiere.util.ValueNamePair;
 import org.eevolution.util.HRPaymentExport;
 import org.eevolution.model.MHRPaySelection;
 import org.eevolution.model.MHRPaySelectionCheck;
+import org.zkoss.zhtml.Filedownload;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zkmax.zul.Filedownload;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 
 import java.io.File;
 import java.io.FileInputStream;

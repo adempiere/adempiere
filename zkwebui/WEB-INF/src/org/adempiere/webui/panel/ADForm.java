@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.ADClassNameMap;
 import org.compiere.model.MForm;
 import org.compiere.process.ProcessInfo;
@@ -73,11 +74,8 @@ public abstract class ADForm extends Window implements EventListener
     protected ADForm()
     {
          m_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
-
-         this.setWidth("100%");
-         this.setHeight("95%");
-         this.setStyle("position:absolute");
-         this.setContentSclass("adform-content");
+         ThemeUtils.addSclass("ad-adform", this);
+         this.setContentSclass("ad-adform-content");
     }
 
     public int getWindowNo()

@@ -21,6 +21,13 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListitemRendererExt;
 
+/**
+ * 
+ * No longer used.
+ *
+ */
+
+@Deprecated // as of 3.8.0
 public class ADTabListModel extends AbstractListModel implements ListitemRenderer, ListitemRendererExt {
 	
 	/**
@@ -85,6 +92,13 @@ public class ADTabListModel extends AbstractListModel implements ListitemRendere
 		ListItem item = new ListItem();
 		item.applyProperties();
 		return item;
+	}
+
+	@Override
+	public void render(Listitem arg0, Object arg1, int arg2) throws Exception {
+		// TODO Auto-generated method stub
+		/* TODO-evenos: find out what should happen here */
+		
 	}
 
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- portlet.xml
+	Purpose:
+		
+	Description:
+		
+	History:
+		Wed Dec 29 12:26:49     2004, Created by tomyeh
+
+Copyright (C) 2004 Potix Corporation. All Rights Reserved.
+-->
+
+<portlet-app version="1.0"
+ xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+	<portlet>
+		<description>ZK loader for ZUML pages</description>
+		<portlet-name>zkPortletLoader</portlet-name>
+		<display-name>ZK Portlet Loader</display-name>
+
+		<portlet-class>org.zkoss.zk.ui.http.DHtmlLayoutPortlet</portlet-class>
+
+		<expiration-cache>0</expiration-cache>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>VIEW</portlet-mode>
+		</supports>
+
+		<supported-locale>en</supported-locale>
+
+		<portlet-info>
+			<title>ZK</title>
+			<short-title>ZK</short-title>
+			<keywords>ZK,ZUML</keywords>
+		</portlet-info>
+
+		<!-- An example to specify zk_page
+		<portlet-preferences>
+			<preference>
+				<name>zk_page</name>
+				<value>/index.zul</value>
+			</preference>
+		</portlet-preferences>
+		-->
+	</portlet>
+</portlet-app>

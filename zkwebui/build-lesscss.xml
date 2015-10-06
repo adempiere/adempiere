@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ======================================================== -->
+<!-- Zk Compile CSS with Less                                 -->
+<!-- ======================================================== -->
+
+<project name="less.compile" default="all" basedir=".">
+	
+	<!-- theme.path should use forward slashes -->
+	<!-- property name="theme.path" value="C:/dev/repos/workspace/adempiere/zkwebui/theme/"/ -->
+	<property name="theme.dir" value="${basedir}/theme/"/>
+	<property name="ext.input.dir" value="${basedir}/less"/>
+	<property name="ext.output.dir" value="${basedir}/css"/>
+	
+	<!-- less to css software requires theme.path to use forward slashes. -->
+	<!-- The other properties can use either.                             -->
+	<target name="fix_path">
+		<script language="javascript">
+		    var sys_dep_path = project.getProperty("theme.dir");
+		    project.setProperty("theme.path", sys_dep_path.replaceAll('\\\\', "/"));
+		</script>
+	</target>
+	
+	<target name="external">
+		<echo message="=========== Compiling external .less to .css ==========="/>
+		<echo message="input directory: ${ext.input.dir}"/>
+		<echo message="output directory: ${ext.output.dir}"/>
+
+		<java classname="CpLess" fork="true">
+			<arg value="${ext.input.dir}"  /><!-- input folder that contains less file -->
+			<arg value="${ext.output.dir}" /><!-- output folder -->
+			<classpath>
+			    <fileset dir="${basedir}/WEB-INF/lib">
+	                <include name="js.jar"/>
+	                <include name="zul.jar"/><!-- only needed if using _zkmixins.less -->
+			    </fileset>
+			    <fileset dir="${basedir}/WEB-INF/lib/ext">
+					<include name="commons-logging.jar"/>
+	                <include name="lesscss-engine.jar"/>
+	                <include name="yuicompressor.jar"/>
+	                <include name="zkjszips.jar"/>
+	                <include name="zkless.jar"/>
+			    </fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="adempiere_default"  depends="fix_path">
+		<local name="theme.name"/>
+		<property name="theme.name" value="adempiere_default"/>
+
+		<echo message="=========== Compiling theme .less to .css ==========="/>
+		<echo message="Theme: ${theme.path}${theme.name}"/>
+		<echo message="input directory: ${theme.dir}${theme.name}"/>
+		<echo message="output directory: ${theme.dir}${theme.name}"/>
+
+		<java classname="CpLess" fork="true">
+			<arg value="${theme.dir}${theme.name}"  /><!-- input folder that contains less file -->
+			<arg value="${theme.dir}${theme.name}" /><!-- output folder -->
+			<arg value="${theme.path}${theme.name}" /><!-- theme name -->			
+			<classpath>
+			    <fileset dir="${basedir}/WEB-INF/lib">
+	                <include name="js.jar"/>
+	                <include name="zul.jar"/><!-- only needed if using _zkmixins.less -->
+			    </fileset>
+			    <fileset dir="${basedir}/WEB-INF/lib/ext">
+					<include name="commons-logging.jar"/>
+	                <include name="lesscss-engine.jar"/>
+	                <include name="yuicompressor.jar"/>
+	                <include name="zkjszips.jar"/>
+	                <include name="zkless.jar"/>
+			    </fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="green_thumb"  depends="fix_path">
+		<local name="theme.name"/>
+		<property name="theme.name" value="green_thumb"/>
+	
+		<echo message="=========== Compiling theme .less to .css ==========="/>
+		<echo message="Theme: ${theme.path}${theme.name}"/>
+		<echo message="input directory: ${theme.dir}${theme.name}"/>
+		<echo message="output directory: ${theme.dir}${theme.name}"/>
+
+		<java classname="CpLess" fork="true">
+			<arg value="${theme.dir}${theme.name}"  /><!-- input folder that contains less file -->
+			<arg value="${theme.dir}${theme.name}" /><!-- output folder -->
+			<arg value="${theme.path}${theme.name}" /><!-- theme name -->			
+			<classpath>
+			    <fileset dir="${basedir}/WEB-INF/lib">
+	                <include name="js.jar"/>
+	                <include name="zul.jar"/><!-- only needed if using _zkmixins.less -->
+			    </fileset>
+			    <fileset dir="${basedir}/WEB-INF/lib/ext">
+					<include name="commons-logging.jar"/>
+	                <include name="lesscss-engine.jar"/>
+	                <include name="yuicompressor.jar"/>
+	                <include name="zkjszips.jar"/>
+	                <include name="zkless.jar"/>
+			    </fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="all"  depends="external, adempiere_default, green_thumb">
+	</target>
+
+</project>

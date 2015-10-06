@@ -53,9 +53,9 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
 
 /**
 *	Search Business Partner and return selection
@@ -71,7 +71,7 @@ import org.zkoss.zkex.zul.North;
 */
 
 
-public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTableModelListener
+public class InfoBPartnerPanel extends InfoPanel implements WTableModelListener
 {
 	/**
 	 * 
@@ -381,7 +381,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		p_criteriaGrid.appendChild(rows);
 		super.setSizes();
 		
-		contactTbl.addActionListener(new EventListener() {
+		contactTbl.addActionListener(new EventListener<Event>() {
 			public void onEvent(Event event) throws Exception {
 				int leadRowKey = 0;
 
@@ -395,7 +395,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 			}
 		});
 
-		addressTbl.addActionListener(new EventListener() {
+		addressTbl.addActionListener(new EventListener<Event>() {
 			public void onEvent(Event event) throws Exception {
 				int leadRowKey = 0;
 

@@ -16,23 +16,27 @@ package org.adempiere.webui.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Vbox;
 
 /**
  * A custom accoridon implementation using borderlayout
  * @author hengsin
+ * 
+ * Deprecated since zk 7 - use tabbox instead
  *
  */
-public class Accordion extends Borderlayout implements EventListener {
+@Deprecated
+public class Accordion extends Borderlayout implements EventListener<Event> {
 	
 	private static final long serialVersionUID = 5898232602746332810L;
 	
@@ -45,6 +49,7 @@ public class Accordion extends Borderlayout implements EventListener {
 	private int selectedIndex = -1;
 	
 	public Accordion() {
+		ThemeUtils.addSclass("ad-accordian", this);
 		North north = new North();		
 		appendChild(north);
 		northBox = new Vbox();
@@ -54,7 +59,8 @@ public class Accordion extends Borderlayout implements EventListener {
 		north.setCollapsible(false);
 		
 		Center center = new Center();
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 		appendChild(new Center());
 		
 		South south = new South();

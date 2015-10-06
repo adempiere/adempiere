@@ -72,10 +72,10 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Html;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Row;
@@ -143,7 +143,7 @@ ValueChangeListener,Serializable,WTableModelListener
 	
 	private WNumberEditor orderedQtyField = new WNumberEditor("QtyOrdered", false, false, false, DisplayType.Quantity, "QtyOrdered");
 	private WNumberEditor deliveredQtyField = new WNumberEditor("QtyDelivered", false, false, false, DisplayType.Quantity, "QtyDelivered");
-	private WNumberEditor openQtyField = new WNumberEditor("QtyOpen", false, false, false, DisplayType.Quantity, "QtyOpen");
+	private WNumberEditor openQtyField = new WNumberEditor("QtyBackOrdered", false, false, false, DisplayType.Quantity, "QtyBackOrdered");
 	private WNumberEditor toDeliverQty = new WNumberEditor("QtyToDeliver", true, false, true, DisplayType.Quantity, "QtyToDeliver");
 	private WNumberEditor rejectQty = new WNumberEditor("Qtyreject", false, false, true, DisplayType.Quantity, "QtyReject");
 	private WNumberEditor scrapQtyField = new WNumberEditor("Qtyscrap", false, false, true, DisplayType.Quantity, "Qtyscrap");
@@ -167,10 +167,7 @@ ValueChangeListener,Serializable,WTableModelListener
 
 	/**
 	 *	Initialize Panel
-	 *  @param WindowNo window
-	 *  @param frame frame
 	 */
-	
 	public WOrderReceiptIssue() 
 	{
 		Env.setContext(Env.getCtx(), form.getWindowNo(), "IsSOTrx", "Y");
@@ -254,9 +251,9 @@ ValueChangeListener,Serializable,WTableModelListener
 		scrapQtyField.setValue(Env.ZERO);
 		rejectQty.setValue(Env.ZERO);
 		// 4Layers - end
-		pickcombo.appendItem(Msg.translate(Env.getCtx(),"IsBackflush"), 1);
-		pickcombo.appendItem(Msg.translate(Env.getCtx(),"OnlyIssue"),2);
-		pickcombo.appendItem(Msg.translate(Env.getCtx(),"OnlyReceipt"),3);
+		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@IsBackflush@"), 1);
+		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@OnlyIssue@"),2);
+		pickcombo.appendItem(Msg.parseTranslation(Env.getCtx(),"@OnlyReceiptProduct@"),3);
 		pickcombo.addEventListener(Events.ON_CHANGE, this);
 		Process.addActionListener(this);
 		toDeliverQty.addValueChangeListener(this);
@@ -325,7 +322,7 @@ ValueChangeListener,Serializable,WTableModelListener
 		deliveredQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyDelivered"));
 		tmpRow.appendChild(deliveredQtyLabel.rightAlign());
 		tmpRow.appendChild(deliveredQtyField.getComponent());	
-		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyOpen"));
+		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyBackOrdered"));
 		tmpRow.appendChild(openQtyLabel.rightAlign());
 		tmpRow.appendChild(openQtyField.getComponent());
 		//3rd
@@ -346,7 +343,7 @@ ValueChangeListener,Serializable,WTableModelListener
 		QtyBatchSizeLabel.setText(Msg.translate(Env.getCtx(), "QtyBatchSize"));
 		tmpRow.appendChild(QtyBatchSizeLabel.rightAlign());
 		tmpRow.appendChild(qtyBatchSizeField.getComponent());	
-		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyOpen"));
+		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyBackOrdered"));
 		tmpRow.appendChild(openQtyLabel.rightAlign());
 		tmpRow.appendChild(openQtyField.getComponent());
 		//5th
@@ -395,8 +392,8 @@ ValueChangeListener,Serializable,WTableModelListener
 		Tabs tabs = new Tabs(); 
 		Tab tab1 =new Tab();
 		Tab tab2 =new Tab();
-		tab1.setLabel(Msg.translate(Env.getCtx(), "IsShipConfirm"));
-		tab2.setLabel(Msg.translate(Env.getCtx(), "Generate"));
+		tab1.setLabel(Msg.parseTranslation(Env.getCtx(), "@IsShipConfirm@"));
+		tab2.setLabel(Msg.parseTranslation(Env.getCtx(), "@Generate@"));
 		tabs.appendChild(tab1);
 		tabs.appendChild(tab2);
 	
@@ -444,7 +441,7 @@ ValueChangeListener,Serializable,WTableModelListener
 	 * Called when events occur in the window
 	 */
 	@Override
-	public void onEvent(Event e) throws Exception 
+	public void onEvent(Event e) throws Exception
 	{
 		if (e.getName().equals(Events.ON_CANCEL))
 		{
@@ -458,9 +455,9 @@ ValueChangeListener,Serializable,WTableModelListener
 			{
 					try
 					{
-					Messagebox.show( Msg.getMsg(Env.getCtx(), "NoDate"), "Info",Messagebox.OK, Messagebox.INFORMATION);
+					Messagebox.show( Msg.parseTranslation(Env.getCtx(), "@MovementDate@ @NotFound@"), "Info",Messagebox.OK, Messagebox.INFORMATION);
 					}
-					catch (InterruptedException ex)
+					catch (Exception ex)
 					{
 						throw new AdempiereException (ex);
 					}
@@ -471,9 +468,9 @@ ValueChangeListener,Serializable,WTableModelListener
 			{
 				try
 				{
-				Messagebox.show(Msg.getMsg(Env.getCtx(), "NoLocator"),"Info", Messagebox.OK, Messagebox.INFORMATION);
+				Messagebox.show(Msg.parseTranslation(Env.getCtx(), "@MLocator_ID@ @NotFound@"),"Info", Messagebox.OK, Messagebox.INFORMATION);
 				}
-				catch (InterruptedException ex)
+				catch (Exception ex)
 				{
 					throw new AdempiereException (ex);
 				}
@@ -485,18 +482,9 @@ ValueChangeListener,Serializable,WTableModelListener
 			
 			generateSummaryTable();
 			int result = -1;
-			try
-			{
 			result = Messagebox.show(Msg.getMsg(Env.getCtx(), "Update"),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION);
-			}
-			catch (InterruptedException ex)
-			{
-				throw new AdempiereException(ex);
-			}
 			if ( result == Messagebox.OK)
 			{				
-				try
-				{
 				final boolean isCloseDocument = (Messagebox.show(Msg.parseTranslation(Env.getCtx(),"@IsCloseDocument@ : "+  getPP_Order().getDocumentNo()),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION) == Messagebox.OK);
 
 				if (cmd_process(isCloseDocument, issue))
@@ -504,12 +492,7 @@ ValueChangeListener,Serializable,WTableModelListener
 					dispose();
 					return;
 				}
-				}
-				catch (InterruptedException ex)
-				{
-					throw new AdempiereException(ex);
-				}
-                Clients.showBusy(null, false);
+				Clients.clearBusy();
 			}
 			TabsReceiptsIssue.setSelectedIndex(0);
 		}	

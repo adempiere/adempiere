@@ -26,6 +26,7 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.panel.IADTabPanel;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
@@ -196,6 +197,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 
     private void init()
     {
+    	ThemeUtils.addSclass("ad-weditor", this.getComponent());
+
         label = new Label("");
         label.setValue(strLabel);
         label.setTooltiptext(description);
@@ -469,10 +472,10 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         label.setVisible(visible);
         
         
-        if (component instanceof org.adempiere.webui.component.StringBox)
-        {
-        	((StringBox)component).getTextBox().setVisible(visible);
-        }
+//        if (component instanceof org.adempiere.webui.component.StringBox)
+//        {
+//        	((StringBox)component).getTextBox().setVisible(visible);
+//        }
         		
         
         component.setVisible(visible);
@@ -570,23 +573,18 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         	//can't stretch bandbox & datebox
         	if (!(getComponent() instanceof Bandbox) &&
         		!(getComponent() instanceof Datebox)) {
-        		String width = "100%";
         		if (getComponent() instanceof Button) {
         			Button btn = (Button) getComponent();
-        			String zclass = btn.getZclass();
         			if (gridField.getDisplayType() == DisplayType.Image) {
-        				if (!zclass.contains("image-button-field ")) {
-            				btn.setZclass("image-button-field " + zclass);
-        				}
-        			} else if (!zclass.contains("form-button ")) {
-        				btn.setZclass("form-button " + zclass);
+        				ThemeUtils.addSclass("ad-button-image", btn);
+        			} else {
+        				ThemeUtils.addSclass("ad-button-form",btn);
         			}
         		} else if (getComponent() instanceof Image) {
         			Image image = (Image) getComponent();
-        			image.setWidth("48px");
-        			image.setHeight("48px");
+        			ThemeUtils.addSclass("image", image);
         		} else {
-        			((HtmlBasedComponent)getComponent()).setWidth(width);
+        			ThemeUtils.addSclass("component", getComponent());
         		}
         	}
         }
@@ -614,6 +612,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 	private static final String STYLE_EMPTY_MANDATORY_LABEL = "color: red;";
 
 	private void markMandatory(boolean mandatory) {
+		// TODO - move to the style
 		getLabel().setStyle( (getLabel().isZoomable() ? STYLE_ZOOMABLE_LABEL : "") + (mandatory ? STYLE_EMPTY_MANDATORY_LABEL : STYLE_NORMAL_LABEL));
 	}
 

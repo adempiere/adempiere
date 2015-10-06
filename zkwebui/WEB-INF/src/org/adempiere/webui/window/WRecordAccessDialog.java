@@ -35,6 +35,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -158,13 +159,13 @@ public class WRecordAccessDialog extends Window implements EventListener
 	 */
 	private void jbInit() throws Exception
 	{
-		bDelete.setImage("/images/Delete16.png");
+		bDelete.setImage(ServletFns.resolveThemeURL("~./images/Delete16.png"));
 		bDelete.setTooltiptext(Msg.getMsg(Env.getCtx(), "Delete"));
-		bNew.setImage("/images/New16.png");
+		bNew.setImage(ServletFns.resolveThemeURL("~./images/New16.png"));
 		bNew.setTooltiptext(Msg.getMsg(Env.getCtx(), "New"));
-		bUp.setImage("/images/Previous16.png");
+		bUp.setImage(ServletFns.resolveThemeURL("~./images/Previous16.png"));
 		bUp.setTooltiptext(Msg.getMsg(Env.getCtx(), "Previous"));
-		bDown.setImage("/images/Next16.png");
+		bDown.setImage(ServletFns.resolveThemeURL("~./images/Next16.png"));
 		bDown.setTooltiptext(Msg.getMsg(Env.getCtx(), "Next"));
 		
 		cbActive.setText(Msg.translate(Env.getCtx(), "IsActive"));

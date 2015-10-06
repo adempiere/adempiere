@@ -26,6 +26,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trace;
 
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.UiException;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Messagebox;
 
@@ -133,15 +134,7 @@ public class FDialog
     	
     	String out = constructMessage(adMessage, message);
     	
-		try
-		{
-			Messagebox.showDialog(out, newTitle, Messagebox.OK, Messagebox.EXCLAMATION);
-		}
-		catch (InterruptedException exception)
-		{
-			// Restore the interrupted status
-            Thread.currentThread().interrupt();
-		}
+		Messagebox.showDialog(out, newTitle, Messagebox.OK, Messagebox.EXCLAMATION);
 
 		return;
     }
@@ -230,15 +223,7 @@ public class FDialog
 
 		String out = constructMessage(adMessage, message);
 		
-		try
-		{
-			Messagebox.showDialog(out, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.ERROR);
-		}
-		catch (InterruptedException exception)
-		{
-			// Restore the interrupted status
-            Thread.currentThread().interrupt();
-		}
+		Messagebox.showDialog(out, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.ERROR);
 		
 		return;
     }
@@ -257,19 +242,10 @@ public class FDialog
     {
     	String out = constructMessage(adMessage, msg);
 		
-        try
-        {
-            int response = Messagebox.showDialog(out, AEnv.getDialogHeader(Env.getCtx(), windowNo), Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION);
+        int response = Messagebox.showDialog(out, AEnv.getDialogHeader(Env.getCtx(), windowNo), Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION);
 
-            return (response == Messagebox.OK);
-        }
-        catch (InterruptedException ex)
-        {
-			// Restore the interrupted status
-            Thread.currentThread().interrupt();
-        }
+		return (response == Messagebox.OK);
 		
-		return true;
     }
     
 	/**************************************************************************
@@ -332,15 +308,7 @@ public class FDialog
 
         String out = constructMessage(adMessage, message).toString();
 
-        try
-        {
-        	Messagebox.showDialog(out, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
-        }
-        catch (InterruptedException exception)
-        {
-            // Restore the interrupted status
-            Thread.currentThread().interrupt();
-        }
+        Messagebox.showDialog(out, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
         
         return;
     }

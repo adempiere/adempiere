@@ -21,6 +21,7 @@ import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.IFormLauncher;
 import org.adempiere.webui.process.WProcessInfo;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
 import org.compiere.apps.ProcessCtl;
@@ -30,16 +31,17 @@ import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.*;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
@@ -79,7 +81,6 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	 */
 
 	private static final long serialVersionUID = 5545731871518761455L;
-	private static final String MESSAGE_DIV_STYLE = "max-height: 150pt; overflow: auto";	
 	private Div messageDiv;
 	private Center center;
 	private North north;
@@ -92,7 +93,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
      */
 	public ProcessDialog (int AD_Process_ID, boolean isSOTrx)
 	{
-		
+		ThemeUtils.addSclass("ad-processdialog", this);
 		log.info("Process=" + AD_Process_ID );
 		m_ctx = Env.getCtx();
 		m_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
@@ -111,27 +112,23 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	}	//	ProcessDialog
 
 	private void initComponents() {
-		this.setStyle("position: absolute; width: 100%; height: 100%");
 		Borderlayout layout = new Borderlayout();
-		layout.setStyle("position: absolute; width: 100%; height: 100%; border: none;");
 		messageDiv = new Div();
 		message = new Html();
 		messageDiv.appendChild(message);
-		messageDiv.setStyle(MESSAGE_DIV_STYLE);
 		
 		north = new North();
 		north.appendChild(messageDiv);
 		layout.appendChild(north);
 		north.setAutoscroll(true);
-		north.setStyle("border: none;");
 		
 		centerPanel = new Panel();
 		center = new Center();
 		layout.appendChild(center);
 		center.appendChild(centerPanel);
-		center.setFlex(true);
+		center.setHflex("true");
+		center.setVflex("true");
 		center.setAutoscroll(true);
-		center.setStyle("border: none");
 		
 		Rows rows = southRowPanel.newRows();
 		Row row = rows.newRow();
@@ -146,13 +143,13 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		hBox.appendChild(fSavedName);
 
 		bSave.setEnabled(false);
-		bSave.setImage("/images/Save24.png");
+		bSave.setImage(ServletFns.resolveThemeURL("~./images/Save24.png"));
 		bSave.setSclass("action-button");
 		bSave.addActionListener(this);
 		hBox.appendChild(bSave);
 
 		bDelete.setEnabled(false);
-		bDelete.setImage("/images/Delete24.png");
+		bDelete.setImage(ServletFns.resolveThemeURL("~./images/Delete24.png"));
 		bDelete.setSclass("action-button");
 		bDelete.addActionListener(this);
 		hBox.appendChild(bDelete);
@@ -165,7 +162,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 
 		String label = Msg.getMsg(Env.getCtx(), "Start");
 		bOK = new Button(label.replaceAll("&", ""));
-		bOK.setImage("/images/Ok16.png");
+		bOK.setImage(ServletFns.resolveThemeURL("~./images/Ok16.png"));
 		bOK.setId("Ok");
 		bOK.addEventListener(Events.ON_CLICK, this);
 		bOK.setSclass("action-button");
@@ -173,7 +170,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		
 		label = Msg.getMsg(Env.getCtx(), "Cancel");
 		bCancle = new Button(label.replaceAll("&", ""));
-		bCancle.setImage("/images/Cancel16.png");
+		bCancle.setImage(ServletFns.resolveThemeURL("~./images/Cancel16.png"));
 		bCancle.addEventListener(Events.ON_CLICK, this);
 		bCancle.setSclass("action-button");
 		confParaPanel.appendChild(bCancle);

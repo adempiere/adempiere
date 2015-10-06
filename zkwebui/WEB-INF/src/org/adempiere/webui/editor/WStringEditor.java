@@ -21,12 +21,13 @@ import java.util.List;
 
 import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.component.Combobox;
-import org.adempiere.webui.component.StringBox;
+import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.adempiere.webui.window.WTextEditorDialog;
 import org.compiere.model.GridField;
@@ -34,7 +35,7 @@ import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.zk.ui.HtmlBasedComponent;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Menuitem;
@@ -71,7 +72,8 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 
     public WStringEditor(GridField gridField, boolean tableEditor)
     {
-        super(gridField.isAutocomplete() ? new Combobox() : new StringBox(), gridField);
+        super(gridField.isAutocomplete() ? new Combobox() : new Textbox(), gridField);
+        ThemeUtils.addSclass("ad-wstringeditor", this.getComponent());
         this.tableEditor = tableEditor;
         init(gridField.getObscureType());
     }
@@ -90,14 +92,14 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     public WStringEditor(String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
     		int displayLength, int fieldLength, String vFormat, String obscureType)
     {
-    	super(new StringBox(), columnName, null, null, mandatory, isReadOnly,isUpdateable);
-    	
+    	super(new Textbox(), columnName, null, null, mandatory, isReadOnly,isUpdateable);
+        ThemeUtils.addSclass("ad-wstringeditor", this.getComponent());
     	init(obscureType);
     }
 
     @Override
     public org.zkoss.zul.Textbox getComponent() {
-    	return (org.zkoss.zul.Textbox) (((StringBox)component).getTextBox());
+    	return (org.zkoss.zul.Textbox) component;
     }
 
     @Override
@@ -116,6 +118,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 		{
 	        getComponent().setMaxlength(gridField.getFieldLength());
 	        int displayLength = gridField.getDisplayLength();
+	        
 	        if (displayLength <= 0 || displayLength > MAX_DISPLAY_LENGTH)
 	        {
 	            displayLength = MAX_DISPLAY_LENGTH;
@@ -126,26 +129,23 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        {
 	            getComponent().setMultiline(true);
 	            getComponent().setRows(3);
-	            ((HtmlBasedComponent) getComponent()).setSclass("field-text");
 	        }
 	        else if (gridField.getDisplayType() == DisplayType.TextLong)
 	        {
 	            getComponent().setMultiline(true);
 	            getComponent().setRows(5);
-	            ((HtmlBasedComponent)getComponent()).setSclass("field-textlong");
 	        }
 	        else if (gridField.getDisplayType() == DisplayType.Memo)
 	        {
 	            getComponent().setMultiline(true);
 	            getComponent().setRows(8);
-	            ((HtmlBasedComponent)getComponent()).setSclass("field-memo");
 	        }
 
-	        if (getComponent() instanceof org.zkoss.zul.api.Textbox)
-	        	((StringBox)component).setObscureType(obscureType);
+	        if (getComponent() instanceof Textbox)
+	        	((Textbox)getComponent()).setObscureType(obscureType);
 
 	        popupMenu = new WEditorPopupMenu(false, false, true);
-	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/Editor16.png");
+	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), ServletFns.resolveThemeURL("~./images/Editor16.png"));
 	        editor.setAttribute("EVENT", EDITOR_EVENT);
 	        editor.addEventListener(Events.ON_CLICK, popupMenu);
 	        popupMenu.appendChild(editor);

@@ -52,6 +52,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Span;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -123,7 +124,7 @@ public class ADSortTab extends Panel implements IADTabPanel
 	private Button bRemove = new Button();
 	private Button bUp = new Button();
 	private Button bDown = new Button();
-	
+
 	private CWindowToolbar globalToolbar;
 
     private boolean isEmbedded = false;
@@ -329,10 +330,10 @@ public class ADSortTab extends Panel implements IADTabPanel
 		yesList.setSeltype("multiple");
 		noList.setSeltype("multiple");
 
-		bAdd.setImage("images/Detail24.png");
+		bAdd.setImage(ServletFns.resolveThemeURL("~./images/Detail24.png"));
 		bAdd.addEventListener(Events.ON_CLICK, actionListener);
 
-		bRemove.setImage("images/Parent24.png");
+		bRemove.setImage(ServletFns.resolveThemeURL("~./images/Parent24.png"));
 		bRemove.addEventListener(Events.ON_CLICK, actionListener);
 
 		EventListener crossListMouseListener = new DragListener();
@@ -348,10 +349,10 @@ public class ADSortTab extends Panel implements IADTabPanel
 			}
 		};
 
-		bUp.setImage("images/Previous24.png");
+		bUp.setImage(ServletFns.resolveThemeURL("~./images/Previous24.png"));
 		bUp.addEventListener(Events.ON_CLICK, actionListener);
 
-		bDown.setImage("images/Next24.png");
+		bDown.setImage(ServletFns.resolveThemeURL("~./images/Next24.png"));
 		bDown.addEventListener(Events.ON_CLICK, actionListener);
 
 		EventListener yesListMouseMotionListener = new EventListener()

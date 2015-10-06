@@ -26,6 +26,7 @@ import org.adempiere.webui.event.ValueChangeEvent;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 import org.zkoss.util.media.Media;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Fileupload;
@@ -46,7 +47,7 @@ public class WFilenameEditor extends WEditor
 	public WFilenameEditor(GridField gridField)
 	{
 		super(new FilenameBox(), gridField);
-		getComponent().setButtonImage("/images/Open16.png");
+		getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/Open16.png"));
 		getComponent().addEventListener(Events.ON_CLICK, this);
 	}
 
@@ -121,18 +122,10 @@ public class WFilenameEditor extends WEditor
 		//  Show File Open Dialog
 		Media file = null;
 
-		try
-		{
-			file = Fileupload.get(true);
+		file = Fileupload.get(true);
 
-			if (file == null)
-				return;
-		}
-		catch (InterruptedException e)
-		{
-			log.warning(e.getLocalizedMessage());
+		if (file == null)
 			return;
-		}
 
 		// String fileName = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + ;
 		// File tempFile = new File(fileName);

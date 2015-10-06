@@ -17,21 +17,22 @@ import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Div;
 
 /**
  * 
  * @author Low Heng Sin
- *
+ * Use ThemeUtils instead
  */
+@Deprecated
 public final class LayoutUtils {
 
 	/**
 	 * @param layout
 	 */
 	public static void sendDeferLayoutEvent(Borderlayout layout, int timeout) {
-		StringBuffer content = new StringBuffer();		
+		StringBuilder content = new StringBuilder();		
 		content.append("ad_deferRenderBorderLayout('")
 			   .append(layout.getUuid())
 			   .append("',").append(timeout).append(");");

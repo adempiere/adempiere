@@ -22,11 +22,11 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.ProcessDialog;
 import org.compiere.process.ProcessInfo;
@@ -140,14 +140,14 @@ public class ProcessModalDialog extends Window implements EventListener
 		div.setAlign("right");
 		Hbox hbox = new Hbox();
 		Button btn = new Button("Ok");
-		LayoutUtils.addSclass("action-text-button", btn);
+		ThemeUtils.addSclass("action-text-button", btn);
 		btn.setId("Ok");
 		btn.addEventListener(Events.ON_CLICK, this);
 		hbox.appendChild(btn);
 		
 		btn = new Button("Cancel");
 		btn.setId("Cancel");
-		LayoutUtils.addSclass("action-text-button", btn);
+		ThemeUtils.addSclass("action-text-button", btn);
 		btn.addEventListener(Events.ON_CLICK, this);
 		
 		hbox.appendChild(btn);
@@ -303,7 +303,7 @@ public class ProcessModalDialog extends Window implements EventListener
 		
 		if (m_ASyncProcess != null) {
 			m_ASyncProcess.lockUI(m_pi);
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 		}
 		
 		showBusyDialog();

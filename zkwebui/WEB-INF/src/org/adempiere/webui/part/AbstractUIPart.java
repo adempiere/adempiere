@@ -24,6 +24,10 @@ public abstract class AbstractUIPart implements UIPart {
 	
 	protected Page page = null;
 	
+	/**
+	 * 1. 找到component所对应的page
+	 * 2. 创建component/page
+	 */
 	public Component createPart(Object parent) {
 		if (parent == null)
 			throw new IllegalArgumentException("Null parent.");

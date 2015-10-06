@@ -30,7 +30,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -41,7 +41,7 @@ import org.adempiere.webui.event.TokenEvent;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
-import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
@@ -59,13 +59,13 @@ import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.zkoss.lang.Strings;
 import org.zkoss.util.Locales;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Div;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.au.out.AuScript;
-import org.zkoss.zk.fn.ZkFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
@@ -86,7 +86,7 @@ import org.zkoss.zul.Image;
  * @author <a href="mailto:sendy.yagambrum@posterita.org">Sendy Yagambrum</a>
  * @date    July 18, 2007
  */
-public class LoginPanel extends Window implements EventListener
+public class LoginPanel extends Window implements EventListener<Event>
 {
 	/**
 	 * 
@@ -113,6 +113,7 @@ public class LoginPanel extends Window implements EventListener
         initComponents();
         init();
         this.setId("loginPanel");
+        ThemeUtils.addSclass("ad-loginpanel", this);
 
         AuFocus auf = new AuFocus(txtUserId);
         Clients.response(auf);
@@ -122,29 +123,29 @@ public class LoginPanel extends Window implements EventListener
 
     private void init()
     {
+    	//this.setContentSclass(ITheme.LOGIN_WINDOW_CLASS);
+    	
     	Div div = new Div();
-    	div.setSclass(ITheme.LOGIN_BOX_HEADER_CLASS);
-    	Label label = new Label("Login");
-    	label.setSclass(ITheme.LOGIN_BOX_HEADER_TXT_CLASS);
+    	ThemeUtils.addSclass("ad-loginpanel-header",div);
+    	Label label = new Label("Login");  // TODO - localization
+    	ThemeUtils.addSclass("ad-loginpanel-header-text", label);
     	div.appendChild(label);
     	this.appendChild(div);
 
     	Table table = new Table();
     	table.setId("grdLogin");
-    	table.setDynamicProperty("cellpadding", "0");
-    	table.setDynamicProperty("cellspacing", "5");
-    	table.setSclass(ITheme.LOGIN_BOX_BODY_CLASS);
-
+    	ThemeUtils.addSclass("ad-loginpanel-body", table);
     	this.appendChild(table);
 
     	Tr tr = new Tr();
     	table.appendChild(tr);
     	Td td = new Td();
-    	td.setSclass(ITheme.LOGIN_BOX_HEADER_LOGO_CLASS);
+    	ThemeUtils.addSclass("ad-loginpanel-header-logo", td);
     	tr.appendChild(td);
     	td.setDynamicProperty("colspan", "2");
     	Image image = new Image();
-        image.setSrc(ThemeManager.getLargeLogo());
+        image.setSrc(ThemeUtils.getLargeLogo());
+    	ThemeUtils.addSclass("ad-loginpanel-header-logo",image);
         td.appendChild(image);
 
         tr = new Tr();
@@ -152,10 +153,10 @@ public class LoginPanel extends Window implements EventListener
         table.appendChild(tr);
     	td = new Td();
     	tr.appendChild(td);
-    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	ThemeUtils.addSclass("login-label", td);
     	td.appendChild(lblUserId);
     	td = new Td();
-    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	ThemeUtils.addSclass("login-field", td);
     	tr.appendChild(td);
     	td.appendChild(txtUserId);
 
@@ -164,10 +165,10 @@ public class LoginPanel extends Window implements EventListener
         table.appendChild(tr);
     	td = new Td();
     	tr.appendChild(td);
-    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	ThemeUtils.addSclass("login-label", td);
     	td.appendChild(lblPassword);
     	td = new Td();
-    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	ThemeUtils.addSclass("login-field", td);
     	tr.appendChild(td);
     	td.appendChild(txtPassword);
 
@@ -176,10 +177,10 @@ public class LoginPanel extends Window implements EventListener
         table.appendChild(tr);
     	td = new Td();
     	tr.appendChild(td);
-    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	ThemeUtils.addSclass("login-label", td);
     	td.appendChild(lblLanguage);
     	td = new Td();
-    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	ThemeUtils.addSclass("login-field", td);
     	tr.appendChild(td);
     	td.appendChild(lstLanguage);
 
@@ -189,25 +190,25 @@ public class LoginPanel extends Window implements EventListener
             table.appendChild(tr);
         	td = new Td();
         	tr.appendChild(td);
-        	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+        	ThemeUtils.addSclass("login-label", td);
         	td.appendChild(new Label(""));
         	td = new Td();
-        	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+        	ThemeUtils.addSclass("login-field", td);
         	tr.appendChild(td);
         	td.appendChild(chkRememberMe);
     	}
 
     	div = new Div();
-    	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
+    	ThemeUtils.addSclass("ad-loginpanel-footer", div);
         ConfirmPanel pnlButtons = new ConfirmPanel(false);
         pnlButtons.addActionListener(this);
-        LayoutUtils.addSclass(ITheme.LOGIN_BOX_FOOTER_PANEL_CLASS, pnlButtons);
-        pnlButtons.setWidth(null);
-        pnlButtons.getButton(ConfirmPanel.A_OK).setSclass(ITheme.LOGIN_BUTTON_CLASS);
+        
+        ThemeUtils.addSclass("ad-loginpanel-footer-pnl", pnlButtons);
+        pnlButtons.getButton(ConfirmPanel.A_OK).setSclass("login-btn");
         div.appendChild(pnlButtons);
         this.appendChild(div);
 
-        this.addEventListener(TokenEvent.ON_USER_TOKEN, new EventListener() {
+        this.addEventListener(TokenEvent.ON_USER_TOKEN, new EventListener<Event>() {
 
 			@Override
 			public void onEvent(Event event) throws Exception {
@@ -262,24 +263,23 @@ public class LoginPanel extends Window implements EventListener
 
         txtUserId = new Textbox();
         txtUserId.setId("txtUserId");
-        txtUserId.setCols(25);
+        //txtUserId.setCols(25);
         txtUserId.setMaxlength(40);
-        txtUserId.setWidth("220px");
+        //txtUserId.setWidth("220px");
         txtUserId.addEventListener(Events.ON_CHANGE, this); // Elaine 2009/02/06
 
         txtPassword = new Textbox();
         txtPassword.setId("txtPassword");
         txtPassword.setType("password");
-        txtPassword.setCols(25);
-//        txtPassword.setMaxlength(40);
-        txtPassword.setWidth("220px");
+        //txtPassword.setCols(25);
+        //txtPassword.setWidth("220px");
 
         lstLanguage = new Combobox();
         lstLanguage.setAutocomplete(true);
         lstLanguage.setAutodrop(true);
         lstLanguage.setId("lstLanguage");
         lstLanguage.addEventListener(Events.ON_SELECT, this);
-        lstLanguage.setWidth("220px");
+        //lstLanguage.setWidth("220px");
 
         // Update Language List
         lstLanguage.getItems().clear();
@@ -295,7 +295,8 @@ public class LoginPanel extends Window implements EventListener
         }
 
         chkRememberMe = new Checkbox(Msg.getMsg(Language.getBaseAD_Language(), "RememberMe"));
-
+        chkRememberMe.setId("chkRememberMe");
+        
         // Make the default language the language of client System
         String defaultLanguage = MClient.get(ctx, 0).getAD_Language();
         for(int i = 0; i < lstLanguage.getItemCount(); i++)
@@ -429,7 +430,6 @@ public class LoginPanel extends Window implements EventListener
 
             Locales.setThreadLocal(language.getLocale());
 
-            Clients.response("zkLocaleJavaScript", new AuScript(null, ZkFns.outLocaleJavaScript()));
             String timeoutText = getUpdateTimeoutTextScript();
             if (!Strings.isEmpty(timeoutText))
             	Clients.response("zkLocaleJavaScript2", new AuScript(null, timeoutText));

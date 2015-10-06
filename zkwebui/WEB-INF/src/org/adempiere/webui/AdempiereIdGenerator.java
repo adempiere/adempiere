@@ -25,6 +25,7 @@ import org.compiere.util.Env;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.metainfo.ComponentInfo;
 import org.zkoss.zk.ui.sys.IdGenerator;
 
 /**
@@ -65,9 +66,9 @@ public class AdempiereIdGenerator implements IdGenerator
 	}
 
 	@Override
-	public String nextComponentUuid(Desktop desktop, Component comp)
+	public String nextComponentUuid(Desktop desktop, Component comp, ComponentInfo compinfo)
 	{
-		return getIdGenerator().nextComponentUuid(desktop, comp);
+		return getIdGenerator().nextComponentUuid(desktop, comp, compinfo);
 	}
 
 	@Override
@@ -81,4 +82,5 @@ public class AdempiereIdGenerator implements IdGenerator
 	{
 		return getIdGenerator().nextPageUuid(page);
 	}
+
 }

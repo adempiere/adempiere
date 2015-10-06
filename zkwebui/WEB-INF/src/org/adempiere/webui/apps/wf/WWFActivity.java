@@ -55,15 +55,16 @@ import org.compiere.util.ValueNamePair;
 import org.compiere.wf.MWFActivity;
 import org.compiere.wf.MWFNode;
 import org.eevolution.form.WBrowser;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Html;
@@ -117,7 +118,7 @@ public class WWFActivity extends ADForm implements EventListener
 	private ListModelTable model = null;
 	private WListbox listbox = new WListbox();
 
-	private final static String HISTORY_DIV_START_TAG = "<div style='width: 100%; height: 100px; border: 1px solid #7F9DB9;'>";
+	private final static String HISTORY_DIV_START_TAG = "<div style='width: 100%; height: 100px; border: 1px solid #7F9DB9;box-sizing: border-box;-webkit-box-sizing:border-box;-moz-box-sizing: border-box;'>";
 	public WWFActivity()
 	{
 		super();
@@ -129,8 +130,8 @@ public class WWFActivity extends ADForm implements EventListener
 
         fAnswerList.setMold("select");
 
-    	bZoom.setImage("/images/Zoom16.png");
-    	bOK.setImage("/images/Ok24.png");
+    	bZoom.setImage(ServletFns.resolveThemeURL("~./images/Zoom16.png"));
+    	bOK.setImage(ServletFns.resolveThemeURL("~./images/Ok24.png"));
 
         MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
                 0, 10443, DisplayType.Search);
@@ -244,7 +245,8 @@ public class WWFActivity extends ADForm implements EventListener
 		North north = new North();
 		north.appendChild(listbox);
 		north.setSplittable(true);
-		north.setFlex(true);
+		north.setHflex("true");
+north.setVflex("true");
 		north.setHeight("50%");
 		layout.appendChild(north);
 		north.setStyle("background-color: transparent");
@@ -254,7 +256,8 @@ public class WWFActivity extends ADForm implements EventListener
 		center.appendChild(grid);
 		layout.appendChild(center);
 		center.setStyle("background-color: transparent");
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 
 		South south = new South();
 		south.appendChild(statusBar);
@@ -276,7 +279,7 @@ public class WWFActivity extends ADForm implements EventListener
     			cmd_zoom();
     		else if (comp == bOK)
     		{
-    			Clients.showBusy(Msg.getMsg(Env.getCtx(), "Processing"), true);
+    			Clients.showBusy(Msg.getMsg(Env.getCtx(), "Processing"));
     			Events.echoEvent("onOK", this, null);
     		}
     		else if (comp == fAnswerButton)
@@ -444,7 +447,7 @@ public class WWFActivity extends ADForm implements EventListener
 		fAnswerText.setVisible(false);
 		fAnswerList.setVisible(false);
 		fAnswerButton.setVisible(false);
-		fAnswerButton.setImage("/images/mWindow.png");
+		fAnswerButton.setImage(ServletFns.resolveThemeURL("~./images/mWindow.png"));
 		fTextMsg.setReadonly(!(selIndex >= 0));
 		bZoom.setEnabled(selIndex >= 0);
 		bOK.setEnabled(selIndex >= 0);
@@ -605,7 +608,7 @@ public class WWFActivity extends ADForm implements EventListener
 		log.config("Activity=" + m_activity);
 		if (m_activity == null)
 		{
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 			return;
 		}
 		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
@@ -699,7 +702,7 @@ public class WWFActivity extends ADForm implements EventListener
 		}
 		finally
 		{
-			Clients.showBusy(null, false);
+			Clients.clearBusy();
 			if (trx != null)
 				trx.close();
 		}

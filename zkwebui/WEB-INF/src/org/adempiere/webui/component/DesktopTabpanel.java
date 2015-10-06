@@ -12,6 +12,7 @@
  *****************************************************************************/
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.IdSpace;
 
 /**
@@ -26,4 +27,10 @@ public class DesktopTabpanel extends Tabpanel implements IdSpace {
 	 */
 	private static final long serialVersionUID = -7142048018260264752L;
 
+	/**
+	 * Simple constructor
+	 */
+	public DesktopTabpanel() {
+		ThemeUtils.addSclass("ad-desktoptabpanel", this);
+	}
 }

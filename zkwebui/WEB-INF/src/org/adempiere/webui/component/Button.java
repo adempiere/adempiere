@@ -17,6 +17,8 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.theme.ThemeUtils;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 
@@ -37,11 +39,14 @@ public class Button extends org.zkoss.zul.Button
     public Button()
     {
         super();
+        ThemeUtils.addSclass("ad-button", this);
     }
     
     public Button(String label)
     {
         super(label);
+        ThemeUtils.addSclass("ad-button", this);
+    	setName(label);
     }
     
     public void setName(String name)
@@ -70,5 +75,30 @@ public class Button extends org.zkoss.zul.Button
      */
 	public void addActionListener(EventListener listener) {
 		addEventListener(Events.ON_CLICK, listener);
-	}	
+	}
+	
+	public static Button NewButton() {
+		Button btn = new Button();
+		btn.setName("btnNew");
+		btn.setImage(ServletFns.resolveThemeURL("~./images/New24.png"));
+		ThemeUtils.addSclass("action-button", btn);
+		return btn;
+	}
+
+	public static Button OkButton() {
+		Button btn = new Button();
+		btn.setName("btnOk");
+		btn.setImage(ServletFns.resolveThemeURL("~./images/Ok24.png"));
+		ThemeUtils.addSclass("action-button", btn);
+		return btn;
+	}
+
+	public static Button CancelButton() {
+		Button btn = new Button();
+		btn.setName("btnCancel");
+		btn.setImage(ServletFns.resolveThemeURL("~./images/Cancel24.png"));
+		ThemeUtils.addSclass("action-button", btn);
+		return btn;
+	}
+
 }

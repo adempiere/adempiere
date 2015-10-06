@@ -25,6 +25,7 @@ import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.util.Env;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -37,7 +38,7 @@ public class WUrlEditor extends WEditor implements ContextMenuListener
 	public WUrlEditor(GridField gridField)
 	{
 		super(new Urlbox(), gridField);
-		getComponent().setButtonImage("/images/Online10.png");
+		getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/Online10.png"));
 		getComponent().getButton().setTarget("_blank");
 		popupMenu = new WEditorPopupMenu(false, false, true);
 		popupMenu.addMenuListener(this);

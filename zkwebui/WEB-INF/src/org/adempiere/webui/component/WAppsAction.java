@@ -20,8 +20,9 @@ package org.adempiere.webui.component;
 import java.io.IOException;
 import java.net.URI;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -107,7 +108,7 @@ public class WAppsAction
        {
     	   m_button.setLabel(newToolTipText);
        }
-       LayoutUtils.addSclass("action-button", m_button);
+       ThemeUtils.addSclass("action-button", m_button);
    }   //  Action
    
    private Button  m_button;

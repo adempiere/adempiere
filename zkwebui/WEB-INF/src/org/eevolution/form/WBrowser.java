@@ -65,9 +65,9 @@ import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
@@ -709,7 +709,8 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		dCenter.setBorder("none");
 		detail.setVflex(true);
 		detail.setFixedLayout(true);
-		dCenter.setFlex(true);
+		dCenter.setHflex("true");
+		dCenter.setVflex("true");
 		dCenter.setAutoscroll(true);
 		
 		detailPanel.setHeight("100%");

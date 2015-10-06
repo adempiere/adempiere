@@ -1,0 +1,187 @@
+@import "~./zul/less/_header.less";
+
+.z-calendar {
+	.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @textColorGrayLight);
+	border: 1px solid @baseBorderColor;
+	min-width: 230px;
+	<c:if test="${ zk.ie == 8 }">
+		min-width: 224px;
+	</c:if>
+	padding: 2px;
+
+	a {
+		text-decoration: none;
+	}
+	th {
+		font-family: @baseTitleFontFamily;
+		font-weight: bold;
+		padding: 12px 3px;
+	}
+
+	table {
+		width: 100%;
+	}
+
+	&-title {
+		font-family: @baseTitleFontFamily;
+		font-weight: bold;
+		color: @calendarTitleColor;
+		width: 100%;
+		padding: 5px 24px;
+		line-height: @baseLineHeight;
+		text-align: center;
+
+		&:hover {
+			color: @calendarTitleHoverColor;
+		}
+	}
+
+	&-header {
+		position: relative;
+
+		& > a {
+			display: inline-block;
+			line-height: normal;
+		}
+	}
+
+	&-body {
+		height: 100%;
+	}
+
+	&-decade {
+		min-height: 162px;
+	}
+	&-month,
+	&-year {
+		min-height: 162px;
+
+		.z-calendar-cell {
+			min-height: 48px;
+			line-height: @baseLineHeight * 3;
+		}
+	}
+	&-cell {
+		font-size: @fontSizeSmall;
+		color: @calendarCellColor;
+		min-width:  @baseButtonWidth;
+		min-height: @baseButtonHeight;
+		<c:if test="${ zk.ie == 8 }">
+			min-height: @baseButtonHeight - 6;
+		</c:if>
+		padding: 3px 0;
+		line-height: @baseLineHeight + 3;
+		background: @baseBackgroundColor;
+		text-align: center;
+		cursor: pointer;
+
+		&:hover {
+			.borderRadius(@baseBorderRadius);
+			background: @hoverBackgroundColor;
+		}
+	}
+	&-weekend {
+		color: @weekendColor;
+		background: @weekendBackgroundColor;
+	}
+	&-weekday {
+		color: @weekColor;
+		background: @baseBackgroundColor;
+	}
+	&-outrange {
+		color: @disabledColor;
+		text-shadow: none;
+	}
+	&-weekofyear {
+		font-style: italic;
+		color: @weekofyearColor;
+		background: @weekofyearBackgroundColor;
+		cursor: default;
+		
+		&:hover {
+			color: @weekofyearColor;
+			.borderRadius(0);
+			background: @weekofyearBackgroundColor;
+		}
+	}
+
+	// for transition's animation use only
+	&-anima {
+		overflow: hidden;
+		position: relative;
+	}
+	&-anima-inner {
+		width: 200%;
+		position: absolute;
+
+		table {
+			width: 50%;
+			float: left;
+		}
+	}
+	&-selected {
+		color: @calendarSelectedColor;
+		.borderRadius(@baseBorderRadius);
+		background: @selectedGradientEnd;
+		
+		&:hover {
+			color: @calendarSelectedHoverColor;
+			background: @selectedHoverGradientEnd;
+		}
+	}
+	&-outside {
+		color: @disabledColor;
+		text-shadow: none;
+	}
+	&-icon {
+		.iconFontStyle(20px, @iconColor);
+		.size(@baseButtonWidth, @baseButtonHeight);
+		padding: 0 8px;
+		position: absolute;
+
+		&:hover {
+			color: @iconHoverColor;
+		}
+	}
+	&-right {
+		right: 0px;
+	}
+	&-left {
+		left: 0px;
+	}
+
+	&-left[disabled],
+	&-right[disabled],
+	&-disabled {
+		color: @disabledColor !important;
+		.opacity(0.4);
+		text-shadow: none !important;
+		cursor: default !important;
+
+		&:hover {
+			background: @baseBackgroundColor;
+		}
+	}
+}
+
+.z-datebox-popup {
+	position: absolute;
+
+	.z-calendar {
+		border: 0;
+		& + .z-timebox {
+			margin: 5px;
+		}
+		& ~ .z-datebox-timezone {
+			margin: 0 5px 5px;
+		}
+	}
+
+}
+
+// Calendar and Datebox
+.z-datebox-timezone {
+	font-family: @baseContentFontFamily;
+	font-size: @fontSizeMedium;
+	font-weight: normal;
+}

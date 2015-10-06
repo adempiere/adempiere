@@ -17,7 +17,7 @@
 
 package org.adempiere.webui.component;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.Component;
 
 /**
@@ -40,6 +40,7 @@ public class Label extends org.zkoss.zul.Label
     public Label()
     {
         super();
+        ThemeUtils.addSclass("ad-label", this);
     }
 
     public Label(String value)
@@ -55,7 +56,7 @@ public class Label extends org.zkoss.zul.Label
 		this.mandatory = mandatory;
 		setupMandatoryDecorator();
 		if(mandatory)
-			this.setSclass("mandatory-field-label");
+			this.setSclass("mandatory");
 	}
 
 	public Component getDecorator() {
@@ -91,6 +92,7 @@ public class Label extends org.zkoss.zul.Label
 	}
 
 	private void createMandatoryDecorator() {
+		//TODO Move to theme
 		decorator = new Label("*");
 		((Label)decorator).setSclass("mandatory-decorator-text");
 	}
@@ -106,7 +108,7 @@ public class Label extends org.zkoss.zul.Label
 	}
 
 	public Component rightAlign() {
-		return LayoutUtils.makeRightAlign(this);
+		return ThemeUtils.makeRightAlign(this);
 	}
 	
 	private boolean m_zoomable = false;
@@ -115,8 +117,21 @@ public class Label extends org.zkoss.zul.Label
 		return m_zoomable;
 	}
 	
+	/**
+	 * Sets the zoomable flag.  This add the CSS class "zoomable" to the label component
+	 * so the appropriate CSS styles can be applied in the theme. 
+	 * @param zoomable
+	 */
 	public void setZoomable(boolean zoomable) {
 		m_zoomable  = zoomable;
+		if(m_zoomable)
+		{
+			ThemeUtils.addSclass("zoomable", this);
+		}
+		else
+		{
+			ThemeUtils.removeSclass("zoomable", this);
+		}
 	}
 	
 }

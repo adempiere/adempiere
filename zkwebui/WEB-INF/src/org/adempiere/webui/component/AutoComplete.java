@@ -20,6 +20,7 @@ package org.adempiere.webui.component;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.adempiere.webui.theme.ThemeUtils;
 import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zul.Comboitem;
 
@@ -77,6 +78,7 @@ public class AutoComplete extends Combobox
 	
 	public AutoComplete() 
 	{
+		ThemeUtils.addSclass("ad-autocomplete", this);
 		if (comboItems != null)
 			refresh("");
 	}
@@ -84,11 +86,13 @@ public class AutoComplete extends Combobox
 	public AutoComplete(String value) 
 	{
 		super.setValue(value);
+		ThemeUtils.addSclass("ad-autocomplete", this);
 	}
 
 	public void setValue(String value) 
 	{
 		super.setValue(value);
+		ThemeUtils.addSclass("ad-autocomplete", this);
 		refresh(value);
 	}
 	

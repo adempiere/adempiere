@@ -18,10 +18,11 @@ package org.adempiere.webui.window;
 
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.OSTask;
 import org.compiere.model.MTask;
 import org.compiere.util.CLogger;
@@ -32,9 +33,9 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Html;
 
@@ -174,7 +175,8 @@ public class WTask extends Window implements EventListener
 		div.setStyle("width: 100%; height:100%; overflow: auto");
 		div.appendChild(info);
 		center.appendChild(div);
-		center.setFlex(true);
+		center.setHflex("true");
+center.setVflex("true");
 
 		South south = new South();
 		layout.appendChild(south);
@@ -184,7 +186,7 @@ public class WTask extends Window implements EventListener
 		confirmPanel.addActionListener(this);
 		confirmPanel.getOKButton().setEnabled(false);
 
-		LayoutUtils.sendDeferLayoutEvent(layout, 100);
+		ThemeUtils.sendDeferLayoutEvent(layout, 100);
 	}   //  jbInit
 
 

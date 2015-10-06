@@ -22,13 +22,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Messagebox;
 /**
  * Application Confirm Panel
@@ -36,7 +40,7 @@ import org.zkoss.zul.Messagebox;
  * @author Sendy Yagambrum
  * @date July 25, 2007
  **/
-public final class ConfirmPanel extends Hbox
+public final class ConfirmPanel extends Hlayout
 {
 	/**
 	 * 
@@ -105,24 +109,22 @@ public final class ConfirmPanel extends Hbox
         button.setName("btn"+name);
         button.setId(name);  // Might get overwritten by renderer
         button.setAttribute("zk_component_ID", "ConfirmPanel_btn"+name);
-        String text = Msg.translate(Env.getCtx(), name);
-        if (!name.equals(text))
-        	text = text.replaceAll("[&]", "");
-        else
-        	text = null;
+        String text = Util.cleanAmp(Msg.translate(Env.getCtx(), name));
 
         if (m_withText && text != null)
         {
-        	button.setImage("images/"+name+"16.png");
+        	// TODO - move image names to theme
+        	button.setImage(ServletFns.resolveThemeURL("~./images/"+name+"16.png"));
         	button.setLabel(text);
-        	LayoutUtils.addSclass("action-text-button", button);
+        	ThemeUtils.addSclass("action-text-button", button);
         }
         else
         {
-        	button.setImage("images/"+name+"24.png");
+        	// TODO - move image names to theme
+        	button.setImage(ServletFns.resolveThemeURL("~./images/"+name+"24.png"));
         	if (text != null)
         		button.setTooltiptext(text);
-        	LayoutUtils.addSclass("action-button", button);
+        	ThemeUtils.addSclass("action-button", button);
         }
 
         buttonMap.put(name, button);
@@ -215,37 +217,49 @@ public final class ConfirmPanel extends Hbox
     {
         this(withCancel,false,false,false,false,false);
     }
+
+    /**
+     * Create confirm panel with New, Ok and Cancel button.  Used in the find window.
+     * @param withCancel with cancel
+     * @param withNew with new 
+     *
+     */
+    public ConfirmPanel(boolean withCancel, boolean withNew)
+    {
+        this(withCancel,false,false,false,false,false);
+        if (withNew)
+        {
+             addComponentsLeft(createButton(A_NEW));
+        }
+    }
+    
     //
-    private Hbox hboxBtnLeft;
-    private Hbox hboxBtnRight;
+    //private Hbox hboxBtnLeft;
+    //private Hbox hboxBtnRight;
     //
-    private Panel pnlBtnRight;
-    private Panel pnlBtnLeft;
+    private Hbox pnlBtnRight;
+    private Hbox pnlBtnLeft;
 
     /**
      * initialise components
      */
     private void init()
     {
-        pnlBtnLeft = new Panel();
-        pnlBtnLeft.setAlign("left");
+        pnlBtnLeft = new Hbox();
+        pnlBtnLeft.setPack("start"); // load from the left
+        pnlBtnLeft.setHflex("min"); // Shrink to fit the contents
+        pnlBtnLeft.setSizedByContent(false);
+        ThemeUtils.addSclass("ad-confirmpanel-left", pnlBtnLeft);
 
-        pnlBtnRight = new Panel();
-        pnlBtnRight.setAlign("right");
+        pnlBtnRight = new Hbox();
+        pnlBtnRight.setPack("end"); // Load from the right
+        pnlBtnRight.setHflex("1"); // Take up the rest of the space in the Confirm Panel
+        pnlBtnRight.setSizedByContent(false);
+        ThemeUtils.addSclass("ad-confirmpanel-right", pnlBtnRight);
 
-        hboxBtnRight = new Hbox();
-        hboxBtnRight.appendChild(pnlBtnRight);
-        hboxBtnRight.setWidth("100%");
-        hboxBtnRight.setStyle("text-align:right");
-
-        hboxBtnLeft = new Hbox();
-        hboxBtnLeft.appendChild(pnlBtnLeft);
-        hboxBtnLeft.setWidth("100%");
-        hboxBtnLeft.setStyle("text-align:left");
-
-        this.appendChild(hboxBtnLeft);
-        this.appendChild(hboxBtnRight);
-        this.setWidth("100%");
+        this.appendChild(pnlBtnLeft);
+        this.appendChild(pnlBtnRight);
+    	ThemeUtils.addSclass("ad-confirmpanel", this);
     }
 
     /**
@@ -431,7 +445,7 @@ public final class ConfirmPanel extends Hbox
      * @param event event
      * @param listener listener
      */
-    public void addActionListener(String event, EventListener listener)
+    public void addActionListener(String event, EventListener<Event> listener)
     {
         List<?> list1 = pnlBtnLeft.getChildren();
         List<?> list2 = pnlBtnRight.getChildren();
@@ -454,7 +468,7 @@ public final class ConfirmPanel extends Hbox
      * added to ease porting of swing form
      * @param listener
      */
-	public void addActionListener(EventListener listener) {
+	public void addActionListener(EventListener<Event> listener) {
 		addActionListener(Events.ON_CLICK, listener);
 	}
 

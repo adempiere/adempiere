@@ -41,6 +41,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -58,7 +59,7 @@ import org.zkoss.zul.Menupopup;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1904928 ] Request: Related Request field not filled
  */
-public class WRequest implements EventListener
+public class WRequest implements EventListener<Event>
 {
 	/**
 	 * 	Constructor
@@ -102,7 +103,7 @@ public class WRequest implements EventListener
 	private void getRequests (Component invoker)
 	{
 		m_new = new Menuitem(Msg.getMsg(Env.getCtx(), "RequestNew"));
-		m_new.setImage("/images/New16.png");
+		m_new.setImage(ServletFns.resolveThemeURL("~./images/New16.png"));
 		m_new.addEventListener(Events.ON_CLICK, this);
 		m_popup.appendChild(m_new);
 		//

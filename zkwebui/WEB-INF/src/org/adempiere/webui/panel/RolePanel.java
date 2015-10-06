@@ -26,7 +26,7 @@ package org.adempiere.webui.panel;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.component.ComboItem;
 import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -35,7 +35,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
-import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.model.MRole;
@@ -46,6 +46,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
@@ -69,6 +70,7 @@ import org.zkoss.zul.Image;
  * @author <a href="mailto:sendy.yagambrum@posterita.org">Sendy Yagambrum</a>
  * @date    July 18, 2007
  */
+@SuppressWarnings("rawtypes")
 public class RolePanel extends Window implements EventListener, Deferrable
 {
 	/**
@@ -107,6 +109,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
         initComponents();
         init();
         this.setId("rolePanel");
+        ThemeUtils.addSclass("ad-rolepanel", this);
 
         AuFocus auf = new AuFocus(lstRole);
         Clients.response(auf);
@@ -114,29 +117,30 @@ public class RolePanel extends Window implements EventListener, Deferrable
 
     private void init()
     {
+    	//this.setContentSclass(ITheme.LOGIN_WINDOW_CLASS);
+    	
     	Div div = new Div();
-    	div.setSclass(ITheme.LOGIN_BOX_HEADER_CLASS);
-    	Label label = new Label("Login");
-    	label.setSclass(ITheme.LOGIN_BOX_HEADER_TXT_CLASS);
+    	ThemeUtils.addSclass("ad-rolepanel-header",div);
+    	Label label = new Label("Login");  //TODO - localization
+    	ThemeUtils.addSclass("ad-rolepanel-header-text",label);
     	div.appendChild(label);
     	this.appendChild(div);
 
         Table table = new Table();
         table.setId("grdChooseRole");
-        table.setDynamicProperty("cellpadding", "0");
-    	table.setDynamicProperty("cellspacing", "5");
-    	table.setSclass(ITheme.LOGIN_BOX_BODY_CLASS);
+    	ThemeUtils.addSclass("ad-rolepanel-body",table);
 
     	this.appendChild(table);
 
     	Tr tr = new Tr();
     	table.appendChild(tr);
     	Td td = new Td();
-    	td.setSclass(ITheme.LOGIN_BOX_HEADER_LOGO_CLASS);
+    	ThemeUtils.addSclass("ad-rolepanel-header-logo",td);
     	tr.appendChild(td);
     	td.setDynamicProperty("colspan", "2");
     	Image image = new Image();
-        image.setSrc(ThemeManager.getLargeLogo());
+        image.setSrc(ThemeUtils.getLargeLogo());
+    	ThemeUtils.addSclass("ad-rolepanel-header-logo",image);
         td.appendChild(image);
 
         tr = new Tr();
@@ -144,10 +148,10 @@ public class RolePanel extends Window implements EventListener, Deferrable
         table.appendChild(tr);
     	td = new Td();
     	tr.appendChild(td);
-    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	ThemeUtils.addSclass("login-label", td);
     	td.appendChild(lblRole.rightAlign());
     	td = new Td();
-    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	ThemeUtils.addSclass("login-field", td);
     	tr.appendChild(td);
     	td.appendChild(lstRole);
 
@@ -156,10 +160,10 @@ public class RolePanel extends Window implements EventListener, Deferrable
         table.appendChild(tr);
     	td = new Td();
     	tr.appendChild(td);
-    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	ThemeUtils.addSclass("login-label", td);
     	td.appendChild(lblClient.rightAlign());
     	td = new Td();
-    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	ThemeUtils.addSclass("login-field", td);
     	tr.appendChild(td);
     	td.appendChild(lstClient);
 
@@ -168,10 +172,10 @@ public class RolePanel extends Window implements EventListener, Deferrable
         table.appendChild(tr);
     	td = new Td();
     	tr.appendChild(td);
-    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	ThemeUtils.addSclass("login-label", td);
     	td.appendChild(lblOrganisation.rightAlign());
     	td = new Td();
-    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	ThemeUtils.addSclass("login-field", td);
     	tr.appendChild(td);
     	td.appendChild(lstOrganisation);
 
@@ -180,26 +184,27 @@ public class RolePanel extends Window implements EventListener, Deferrable
         table.appendChild(tr);
     	td = new Td();
     	tr.appendChild(td);
-    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	ThemeUtils.addSclass("login-label", td);
     	td.appendChild(lblWarehouse.rightAlign());
     	td = new Td();
-    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	ThemeUtils.addSclass("login-field", td);
     	tr.appendChild(td);
     	td.appendChild(lstWarehouse);
 
     	div = new Div();
-    	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
+    	ThemeUtils.addSclass("ad-rolepanel-footer",div);
         ConfirmPanel pnlButtons = new ConfirmPanel(true);
         pnlButtons.addActionListener(this);
-        LayoutUtils.addSclass(ITheme.LOGIN_BOX_FOOTER_PANEL_CLASS, pnlButtons);
-        pnlButtons.setWidth(null);
-        pnlButtons.getButton(ConfirmPanel.A_OK).setSclass(ITheme.LOGIN_BUTTON_CLASS);
-        pnlButtons.getButton(ConfirmPanel.A_CANCEL).setSclass(ITheme.LOGIN_BUTTON_CLASS);
+        ThemeUtils.addSclass("ad-rolepanel-footer-pnl", pnlButtons);
+        pnlButtons.getButton(ConfirmPanel.A_OK).setSclass("login-btn");
+        pnlButtons.getButton(ConfirmPanel.A_CANCEL).setSclass("login-btn");
         div.appendChild(pnlButtons);
         this.appendChild(div);
+
     }
 
-    private void initComponents()
+    @SuppressWarnings("unchecked")
+	private void initComponents()
     {
     	Language language = Env.getLanguage(m_ctx);
 
@@ -226,28 +231,24 @@ public class RolePanel extends Window implements EventListener, Deferrable
         lstRole.setAutodrop(true);
         lstRole.setId("lstRole");
         lstRole.addEventListener(Events.ON_SELECT, this);
-        lstRole.setWidth("220px");
 
         lstClient = new Combobox();
         lstClient.setAutocomplete(true);
         lstClient.setAutodrop(true);
         lstClient.setId("lstClient");
         lstClient.addEventListener(Events.ON_SELECT, this);
-        lstClient.setWidth("220px");
 
         lstOrganisation = new Combobox();
         lstOrganisation.setAutocomplete(true);
         lstOrganisation.setAutodrop(true);
         lstOrganisation.setId("lstOrganisation");
         lstOrganisation.addEventListener(Events.ON_SELECT, this);
-        lstOrganisation.setWidth("220px");
 
         lstWarehouse = new Combobox();
         lstWarehouse.setAutocomplete(true);
         lstWarehouse.setAutodrop(true);
         lstWarehouse.setId("lstWarehouse");
         lstWarehouse.addEventListener(Events.ON_SELECT, this);
-        lstWarehouse.setWidth("220px");
 
         btnOk = new Button();
         btnOk.setId("btnOk");

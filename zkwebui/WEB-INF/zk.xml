@@ -20,19 +20,78 @@
 
 	<!--  change to false to use compress js which is much smaller -->
 	<client-config>
-		<debug-js>false</debug-js>
+		<debug-js>true</debug-js>
 	</client-config>
 
-	<!--
-		<language-config> <addon-uri>/WEB-INF/lang-addon.xml</addon-uri>
-		</language-config>
-	-->
+	<!-- Modifications to the language, adds components and javascript -->
+	<language-config>
+    	<addon-uri>/WEB-INF/classes/metainfo/zk/lang-addon.xml</addon-uri>
+	</language-config>
+
+	<system-config>
+		<id-generator-class>org.adempiere.webui.AdempiereIdGenerator</id-generator-class>
+	</system-config>
+	
+	<!-- Using the event thread is deprecated in ZK7 but its a lot of work to change the modal windows to spearate threads -->
+	<system-config>
+    	<disable-event-thread>false</disable-event-thread>
+	</system-config>
+
+	<desktop-config>
+	    <theme-provider-class>org.adempiere.webui.theme.AdempiereThemeProvider</theme-provider-class>
+	</desktop-config>
 
 	<session-config>
 		<device-type>ajax</device-type>
 		<automatic-timeout/> <!-- the same as <automatic-timeout>true</automatic-timeout> -->
 		<timeout-uri>/timeout.zul</timeout-uri>
 	</session-config>
+
+        <!-- if you prefer to ignore the second registration of the same listener (i.e., backward compatible with ZK 5 and earlier), you could specify a library property called -->
+        <library-property>
+		<name>org.zkoss.zk.ui.EventListener.duplicateIgnored</name>
+		<value>true</value>
+	</library-property>
+
+	<!-- turn off the floating scroll bar - behaviour is inconsistent. This can be removed after 7.02-->
+	<library-property>
+                <name>org.zkoss.zul.nativebar</name>
+                <value>true</value>
+	</library-property>
+
+	<!-- The name of the folder where the themes are stored under the root. "theme" is the default -->
+	<library-property>
+                <name>org.zkoss.theme.folder.root</name>
+                <value>theme</value>
+	</library-property>
+
+	<!-- Ensure that the basic default theme is selected.  This is a fall-back if the cookie method hasn't been used. -->	
+	<library-property>
+                <name>org.zkoss.theme.preferred</name>
+                <value>adempiere_default</value>
+	</library-property>
+	
+	<!-- Set to true in production environments -->
+	<library-property>
+                <name>org.zkoss.web.classWebResource.cache</name>
+                <value>false</value>
+	</library-property>
+
+	<!-- Set to true in production environments -->
+	<library-property>
+		<name>org.zkoss.zk.WCS.cache</name>
+		<value>false</value>
+	</library-property>
+
+        <!-- set to a positive number or comment out in production environments.  Set to -1 in development. -->
+	<library-property>
+                <name>org.zkoss.web.classWebResource.cache.CSS.hours</name>
+                <value>-1</value>
+	</library-property>
+
+
+	
+	<!-- //////////////////////////// -->
 	
 	<!--
 		Turn on the following if used with WebLogic 9.1 <system-config>
@@ -40,19 +99,17 @@
 		</system-config>
 	-->
 
-	<system-config>
-		<id-generator-class>org.adempiere.webui.AdempiereIdGenerator</id-generator-class>
-	</system-config>
-
 	<!--
 		polling - org.zkoss.zkex.ui.impl.PollingServerPush
 		comet - org.zkoss.zkmax.ui.comet.CometServerPush ( enterprise edition only )  
-	-->
+	
 	<device-config>
  		<device-type>ajax</device-type>
 		<server-push-class>org.zkoss.zkmax.ui.comet.CometServerPush</server-push-class>
 	</device-config>
+    -->
 
+	<!-- Moved to the theme - depreciated since zk 7.0
 	<library-property>
 		<name>org.zkoss.zul.theme.fontSizeM
 		</name>
@@ -73,4 +130,5 @@
 		</name>
 		<value>11px</value>
 	</library-property>
+	-->
 </zk>

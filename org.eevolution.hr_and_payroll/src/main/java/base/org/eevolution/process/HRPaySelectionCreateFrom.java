@@ -109,6 +109,9 @@ public class HRPaySelectionCreateFrom extends SvrProcess
 			+ ", Job=" + p_HR_Job_ID);
 		
 		MHRPaySelection psel = new MHRPaySelection (getCtx(), p_HR_PaySelection_ID, get_TrxName());
+		psel.setHR_Process_ID(p_HR_Process_ID);
+		psel.saveEx();
+		
 		MHRProcess process = new MHRProcess(getCtx(),p_HR_Process_ID,get_TrxName());
 		MHRPayroll payroll = new MHRPayroll(getCtx(),process.getHR_Payroll_ID(),get_TrxName()); 
 		

@@ -1,0 +1,157 @@
+@import "~./zul/less/_header.less";
+
+.z-textbox,
+.z-decimalbox,
+.z-intbox,
+.z-longbox,
+.z-doublebox {
+	.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @baseTextColor);
+	min-height: @baseButtonHeight;
+	<c:if test="${ zk.ie == 8 }">
+		min-height: @baseButtonHeight - 10 + 1;
+	</c:if>	
+	border: 1px solid @inputBorderColor;
+	.borderRadius(@borderRadiusSmall);
+	margin: 0;
+	padding: 4px 5px 3px;
+	line-height: @baseLineHeight;
+	background: @inputBackgroundColor;
+
+	&:focus {
+		.boxShadow('inset 1px 1px 1px rgba(210, 210, 210, 0.75)');
+		background: @inputBackgroundColorFocus;  // ad customization
+		border: 1px solid @themeColorPrimaryDark;
+	}
+	&[readonly] {
+		border-color: @readonlyBorderColor;
+		background: @readonlyBackgroundColor;
+	}
+	&[readonly]:focus {
+		.boxShadow('none');
+	}
+	&-invalid {
+		border-color: @invalidBorderColor;
+		background: @baseBackgroundColor;
+	}
+	&[disabled] {
+		color: @disabledColor !important;
+		background: @disabledBackgroundColor !important;
+		.opacity(@disabledOpacity);
+		cursor: default !important;
+	}
+
+	// Inplace editing
+	&-inplace {
+		border: 0;
+		padding: 3px;
+		background: none;
+		resize: none;
+		<c:if test="${ zk.ie == 8 }">
+			min-height: @baseButtonHeight - 6;
+			line-height: @baseIconHeight;
+		</c:if>
+	}
+}
+
+// error box
+.z-errorbox {
+	color: @errorboxColor;
+	width: 260px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	
+	& > .z-errorbox-icon {
+		.iconFontStyle(14px, @errorboxColor);
+		position: absolute;
+		top: 7px;
+		left: 7px;
+		z-index: 2;
+	}
+}
+.z-errorbox-left + .z-errorbox-icon {
+	left: 15px;
+}
+.z-errorbox-up + .z-errorbox-icon {
+	top: 15px;
+}
+.z-errorbox-content {
+	.fontStyle(@baseContentFontFamily, @fontSizeSmall, normal, @errorboxColor);
+	width: 100%;
+	border: 1px solid @errorboxBorderColor;
+	padding: 5px 20px 5px 26px;
+	background: @errorboxBackgroundColor;
+	vertical-align: middle;
+	position: relative;
+	overflow: hidden;
+	cursor: move;
+	.boxShadow('1px 1px 3px rgba(0, 0, 0, 0.35)');
+}
+
+.z-errorbox-pointer {
+	.displaySize(none, 0, 0);
+	border: 6px solid transparent;
+	position: absolute;
+	z-index: 100;
+}
+// errorbox arrows: base style
+.z-errorbox-left,
+.z-errorbox-right,
+.z-errorbox-up,
+.z-errorbox-down {
+	border: 6px solid transparent;
+}
+.z-errorbox-left {
+	border-right-color: @errorboxBorderColor;
+}
+.z-errorbox-right {
+	border-left-color: @errorboxBorderColor;
+}
+.z-errorbox-up {
+	border-bottom-color: @errorboxBorderColor;
+}
+.z-errorbox-down {
+	border-top-color: @errorboxBorderColor;
+}
+.z-errorbox-close {
+	font-size: @fontSizeXSmall;
+	.size(@baseIconWidth - 4, @baseIconHeight - 4);
+	border: 1px solid transparent;
+	padding: 0 1px;
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	cursor: pointer;
+	<c:if test="${ zk.ie != 8 }">
+		.opacity(0.6);
+	</c:if>
+
+	&:hover {
+		border: 1px solid @errorboxBorderColor;
+		.borderRadius(@borderRadiusSmall - 1);
+		<c:if test="${ zk.ie != 8 }">
+			.opacity(1);
+		</c:if>
+	}
+}
+.z-errorbox-icon {
+	position: absolute;
+	top: -1px;
+}
+.z-errorbox-pointer ~ .z-errorbox-close {
+	top: 7px;
+	right: 7px;
+}
+
+.z-errorbox-right ~ .z-errorbox-close {
+	top: 7px;
+	right: 14px;
+}
+
+.z-errorbox-up ~ .z-errorbox-close,
+.z-errorbox-down ~ .z-errorbox-close {
+	right: 7px;
+}
+.z-errorbox-up ~ .z-errorbox-close {
+	top: 15px;
+}

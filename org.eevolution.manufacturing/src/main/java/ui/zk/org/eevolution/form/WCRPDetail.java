@@ -52,14 +52,14 @@ import org.jfree.chart.encoders.ImageFormat;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
+import org.zkoss.zul.West;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Row;
-import org.zkoss.zul.SimpleTreeNode;
+import org.zkoss.zul.DefaultTreeNode;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treecol;
 import org.zkoss.zul.Treecols;
@@ -213,11 +213,11 @@ public class WCRPDetail extends CRPDetail implements IFormController,
 		Tree tree = new Tree();
 
 		List<String> nodes = model.getDataset().getColumnKeys();
-        SimpleTreeNode root = new SimpleTreeNode(getResource(resource.getValue()).getName(),
-                new ArrayList());
+		DefaultTreeNode root = new DefaultTreeNode(getResource(resource.getValue()).getName(),
+				new ArrayList());
 		for (String node : nodes) {
-            root.getChildren().add(new SimpleTreeNode(node, new ArrayList()));
-        }
+			root.getChildren().add(new DefaultTreeNode(node, new ArrayList()));
+		}
 
 		Treecols treeCols = new Treecols();
 		tree.appendChild(treeCols);

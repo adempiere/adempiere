@@ -32,19 +32,21 @@ import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.event.TokenEvent;
 import org.adempiere.webui.session.SessionContextListener;
 import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.theme.DefaultTheme;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MRole;
 import org.compiere.model.MSession;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MSystem;
+import org.compiere.model.MTheme;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
-import org.zkoss.zk.au.Command;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
@@ -58,9 +60,11 @@ import org.zkoss.zk.ui.sys.DesktopCache;
 import org.zkoss.zk.ui.sys.DesktopCtrl;
 import org.zkoss.zk.ui.sys.ExecutionCtrl;
 import org.zkoss.zk.ui.sys.ExecutionsCtrl;
+import org.zkoss.zk.ui.sys.PageCtrl;
 import org.zkoss.zk.ui.sys.SessionCtrl;
 import org.zkoss.zk.ui.sys.Visualizer;
 import org.zkoss.zul.Window;
+import org.zkoss.zul.theme.Themes;
 
 /**
  *
@@ -70,7 +74,7 @@ import org.zkoss.zul.Window;
  *
  * @author hengsin
  */
-public class AdempiereWebUI extends Window implements EventListener, IWebClient
+public class AdempiereWebUI extends Window implements EventListener<Event>, IWebClient
 {
 	/**
 	 * 
@@ -79,7 +83,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 	public static final String APP_NAME = "Adempiere";
 
-    public static final String UID          = "3.5";
+    public static final String UID          = "7.02"; // Important this matches the settings in metainfo/zk/lang-addon.xml
 
     private WLogin             loginDesktop;
 
@@ -97,24 +101,38 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 	public static final String ZK_DESKTOP_SESSION_KEY = "zk.desktop";
 
-    public AdempiereWebUI()
+    @SuppressWarnings("unchecked")
+	public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
     	this.setVisible(false);
-
-    	userPreference = new UserPreference();
+    	
+    	//  Register the available themes in the system.
+    	ThemeUtils.registerAllThemes(Env.getCtx());
+ 
+   	userPreference = new UserPreference();    	
     }
 
     public void onCreate()
     {
-        this.getPage().setTitle(ThemeManager.getBrowserTitle());
-
         Properties ctx = Env.getCtx();
         langSession = Env.getContext(ctx, Env.LANGUAGE);
         SessionManager.setSessionApplication(this);
         Session session = Executions.getCurrent().getDesktop().getSession();
         if (session.getAttribute(SessionContextListener.SESSION_CTX) == null || !SessionManager.isUserLoggedIn(ctx))
         {
+        	//  Set the system default theme used during the login.
+        	//  The default themes can be defined in the AD_Theme table (Theme Maintenance window)
+        	//  or in the System Configurator.  See the comments and code in 
+        	//  the DefaultTheme class.
+        	//
+        	//  The system defaults will be overridden by user preferences once the user
+        	//  logs in.
+        	if (ThemeUtils.setSystemDefaultTheme()) {
+        		return;
+        	};
+        	ThemeUtils.addBrowserIconAndTitle(this.getPage());
+
             loginDesktop = new WLogin(this);
             loginDesktop.createPart(this.getPage());
         }
@@ -122,8 +140,18 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
         {
             loginCompleted();
         }
+        
+        
+        /* TODO-evenos: Check if this works correctly, its copied from idempiere */
+        Executions.getCurrent().getDesktop().enableServerPush(true);
+        Executions.getCurrent().getDesktop().addListener(new DrillCommand());
+        Executions.getCurrent().getDesktop().addListener(new TokenCommand());
+        Executions.getCurrent().getDesktop().addListener(new ZoomCommand());
+        eventThreadEnabled = Executions.getCurrent().getDesktop().getWebApp().getConfiguration().isEventThreadEnabled();
     }
 
+    private static boolean eventThreadEnabled = false;  // Remove?
+	
     public void onOk()
     {
     }
@@ -137,13 +165,28 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	 */
     public void loginCompleted()
     {
+        Properties ctx = Env.getCtx();
+
+		// to reload preferences when the user refresh the browser
+		userPreference = loadUserPreference(Env.getAD_User_ID(ctx));
+
+		// Set the theme according to the user preferences.  If the theme changes, the page will
+		// be reloaded again - so do this first thing.
+		int theme_id = userPreference.getPropertyAsInt(UserPreference.P_ZK_THEME_PREFERENCE);
+		if (theme_id > 0) {  // If theme_id == 0, don't bother setting a new MTheme. Just use the current theme.
+			MTheme theme = MTheme.get(ctx, theme_id);
+			if(ThemeUtils.makeCurrent(theme)) {  // Make the theme active and reload the page.
+				return;
+			}
+		}
+    	ThemeUtils.addBrowserIconAndTitle(this.getPage());
+    	
     	if (loginDesktop != null)
     	{
     		loginDesktop.detach();
     		loginDesktop = null;
     	}
 
-        Properties ctx = Env.getCtx();
         String langLogin = Env.getContext(ctx, Env.LANGUAGE);
         if (langLogin == null || langLogin.length() <= 0)
         {
@@ -171,19 +214,18 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language()); //Bug
 
 		//	Create adempiere Session - user id in ctx
-        Session currSess = Executions.getCurrent().getDesktop().getSession();
+    	Execution exec = Executions.getCurrent();
+        Session currSess = exec.getDesktop().getSession();
         HttpSession httpSess = (HttpSession) currSess.getNativeSession();
 
-		MSession mSession = MSession.get (ctx, currSess.getRemoteAddr(),
-			currSess.getRemoteHost(), httpSess.getId() );
+		MSession mSession = MSession.get (ctx, exec.getRemoteAddr(),
+			exec.getRemoteHost(), httpSess.getId() );
 
 		//enable full interface, relook into this when doing preference
 		Env.setContext(ctx, "#ShowTrl", true);
 		Env.setContext(ctx, "#ShowAcct", MRole.getDefault().isShowAcct());
 		Env.setContext(ctx, "#ShowAdvanced", true);
 
-		// to reload preferences when the user refresh the browser
-		userPreference = loadUserPreference(Env.getAD_User_ID(ctx));
 		
 		//auto commit user preference
 		String autoCommit = userPreference.getProperty(UserPreference.P_AUTO_COMMIT);
@@ -192,7 +234,8 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		//auto new user preference
 		String autoNew = userPreference.getProperty(UserPreference.P_AUTO_NEW);
 		Env.setAutoNew(ctx, "true".equalsIgnoreCase(autoNew) || "y".equalsIgnoreCase(autoNew));
-
+		
+		
 		IDesktop d = (IDesktop) currSess.getAttribute("application.desktop");
 		if (d != null && d instanceof IDesktop)
 		{
@@ -361,11 +404,13 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		return userPreference;
 	}
 	
-	//global command
-	static {
-		new ZoomCommand("onZoom", Command.IGNORE_OLD_EQUIV);
-		new DrillCommand("onDrillAcross", Command.IGNORE_OLD_EQUIV);
-		new DrillCommand("onDrillDown", Command.IGNORE_OLD_EQUIV);
-		new TokenCommand(TokenEvent.ON_USER_TOKEN, Command.IGNORE_OLD_EQUIV);
-	}
+	/* TODO-evenos: do we need a replacement for this in zk 6? */
+//	//global command
+//	static {
+//		new ZoomCommand("onZoom", Command.IGNORE_OLD_EQUIV);
+//		new DrillCommand("onDrillAcross", Command.IGNORE_OLD_EQUIV);
+//		new DrillCommand("onDrillDown", Command.IGNORE_OLD_EQUIV);
+//		new TokenCommand(TokenEvent.ON_USER_TOKEN, Command.IGNORE_OLD_EQUIV);
+//	}
+		
 }

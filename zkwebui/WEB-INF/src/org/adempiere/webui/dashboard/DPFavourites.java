@@ -15,8 +15,8 @@ package org.adempiere.webui.dashboard;
 
 import java.util.Enumeration;
 
+import org.adempiere.webui.component.Button;
 import org.adempiere.exceptions.DBException;
-import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MTree;
@@ -24,6 +24,7 @@ import org.compiere.model.MTreeNode;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.DropEvent;
 import org.zkoss.zk.ui.event.Event;
@@ -44,7 +45,7 @@ import org.zkoss.zul.Vbox;
  * @author Elaine
  * @date November 20, 2008
  */
-public class DPFavourites extends DashboardPanel implements EventListener {
+public class DPFavourites extends DashboardPanel implements EventListener<Event> {
 
 	/**
 	 * 
@@ -66,6 +67,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		super();
 		
 		Panel panel = new Panel();
+		panel.setVflex("1"); 
 		this.appendChild(panel);
 		
 		Panelchildren favContent = new Panelchildren();
@@ -76,9 +78,9 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		this.appendChild(favToolbar);
 		
 		// Elaine 2008/07/24
-		Image img = new Image("/images/Delete24.png");
+		Image img = new Image(ServletFns.resolveThemeURL("~./images/Delete24.png"));
 		favToolbar.appendChild(img);
-		img.setAlign("right");
+		img.setStyle("text-align: right");
 		img.setDroppable(DELETE_FAV_DROPPABLE);
 		img.addEventListener(Events.ON_DROP, this);
 		//
@@ -114,9 +116,12 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 				MTreeNode nd = (MTreeNode)en.nextElement();
 				if (nd.isOnBar()) {
 					String label = nd.toString().trim();
-					ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(nd.getNode_ID()));
+					Button btnFavItem = new Button(String.valueOf(nd.getNode_ID()));
+					
+					
 					btnFavItem.setLabel(label);
 					btnFavItem.setImage(getIconFile(nd));
+					btnFavItem.setIconSclass("dp-favorite-button-image");
 					btnFavItem.setDraggable(DELETE_FAV_DROPPABLE);
 					btnFavItem.addEventListener(Events.ON_CLICK, this);
 					btnFavItem.addEventListener(Events.ON_DROP, this);
@@ -167,16 +172,16 @@ public class DPFavourites extends DashboardPanel implements EventListener {
         
         if(eventName.equals(Events.ON_CLICK))
         {
-            if(comp instanceof ToolBarButton)
+            if(comp instanceof Button)
             {
-            	ToolBarButton btn = (ToolBarButton) comp;
+            	Button btn = (Button) comp;
             	
             	int menuId = 0;
             	try
             	{
             		menuId = Integer.valueOf(btn.getName());            		
             	}
-            	catch (Exception e) {
+            	catch (NumberFormatException e) {
 					
 				}
             	
@@ -201,9 +206,9 @@ public class DPFavourites extends DashboardPanel implements EventListener {
         	}
         	else if(comp instanceof Image)
         	{
-        		if(dragged instanceof ToolBarButton)
+        		if(dragged instanceof Button)
         		{
-        			ToolBarButton btn = (ToolBarButton) dragged;
+        			Button btn = (Button) dragged;
         			removeLink(btn);
         		}
         	}
@@ -211,7 +216,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
         //
 	}
 
-	private void removeLink(ToolBarButton btn) {
+	private void removeLink(Button btn) {
 		String value = btn.getName();
 		
 		if(value != null)
@@ -241,7 +246,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 			if(barDBupdate(true, Node_ID))
 			{
 				String label = treeitem.getLabel().trim();
-				ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(Node_ID));
+				Button btnFavItem = new Button(String.valueOf(Node_ID));
 				btnFavItem.setLabel(label);
 				btnFavItem.setImage(treeitem.getImage());
 				btnFavItem.setDraggable(DELETE_FAV_DROPPABLE);
@@ -259,13 +264,13 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 	
 	private String getIconFile(MTreeNode mt) {
 		if (mt.isWindow())
-			return "images/mWindow.png";
+			return ServletFns.resolveThemeURL("~./images/mWindow.png");
 		if (mt.isReport())
-			return "images/mReport.png";
+			return ServletFns.resolveThemeURL("~./images/mReport.png");
 		if (mt.isProcess())
-			return "images/mProcess.png";
+			return ServletFns.resolveThemeURL("~./images/mProcess.png");
 		if (mt.isWorkFlow())
-			return "images/mWorkFlow.png";
-		return "images/mWindow.png";
+			return ServletFns.resolveThemeURL("~./images/mWorkFlow.png");
+		return ServletFns.resolveThemeURL("~./images/mWindow.png");
 	}
 }

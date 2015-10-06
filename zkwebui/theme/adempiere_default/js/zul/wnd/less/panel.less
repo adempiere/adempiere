@@ -1,0 +1,213 @@
+@import "~./zul/less/_header.less";
+
+.defaultOverflowZoom() {
+	//overflow: hidden;
+	overflow: auto;
+	zoom: 1;
+}
+
+.z-panel {
+	.defaultOverflowZoom();
+	
+	&-shadow {
+		.borderRadius(@baseBorderRadius);
+		.boxShadow('0 0 4px rgba(0, 0, 0, 0.5)');
+	}
+	
+	&-collapsed {
+		height: auto !important;
+	}
+	
+	&-head {
+		border: 1px solid @panelBorderColor;
+		border-bottom-color: @baseBorderColor;
+		.topBorderRadius(@baseBorderRadius);
+		//padding: 5px 5px 1px;
+		padding: 3px 5px;
+		background: @panelBackgroundColor;
+		overflow: hidden;
+		.boxShadow('inset 0px 1px 1px #FFFFFF');
+	}
+	
+	&-header {
+		.fontStyle(@baseTitleFontFamily, @fontSizeMedium, normal, @textColorGrayDark);
+		border: 0;
+		padding: 3px 0 5px 0;
+		line-height: @baseLineHeight;
+		//background: @panelBackgroundColor;
+		overflow: hidden;
+		zoom: 1;
+		
+		&-move {
+			cursor: move;
+		}
+	}
+	
+	&-body {
+		border: 1px solid @panelBorderColor;
+		border-top-width: 0;
+		.bottomBorderRadius(@baseBorderRadius);
+		margin: 0;
+		padding: 6px 3px 6px 3px;
+		background: @panelBodyBackground;
+		.defaultOverflowZoom();
+		
+		&:first-child {
+			height: 100%;
+		}
+	}
+	
+	.z-toolbar {
+		padding: 4px;
+	}
+	
+	&-top .z-toolbar,
+	&-footer .z-toolbar,
+	&-bottom .z-toolbar {
+		border-width: 0 1px 1px 1px;
+		padding: 4px 3px 3px 3px;
+	}
+
+	&-top .z-toolbar.z-toolbar-panel,
+	&-footer .z-toolbar.z-toolbar-panel {
+		border-width: 0px;
+		padding: 4px;
+	}
+	
+	&-icon {
+		color: @iconColor;
+		display: block;
+		border: 1px solid @baseBorderColor;
+		.borderRadius(@baseBorderRadius);
+		margin: auto 1px;
+		<c:if test="${ zk.ie != 8 }">
+			.verGradient(@baseGradientStart, @baseGradientEnd);
+		</c:if>
+		text-align: center;
+		overflow: hidden;
+		cursor: pointer;
+		float: right;
+		
+		&:hover {
+			color: @iconHoverColor;
+			border-color: @hoverBorderColor;
+			.resetGradient();
+			background: @hoverBackgroundColor;
+		}
+
+	}
+	
+	&-maximize, &-minimize, &-close, &-expand {
+		font-size: @fontSizeLarge;
+		.size(@baseButtonWidth, @baseButtonHeight);
+		line-height: @baseButtonHeight - 4;
+	}
+	
+	&-close {
+		font-size: @fontSizeXLarge;
+		line-height: 23px;
+	}
+	
+	&-minimize {
+		padding-top: 5px;
+	}
+	
+	//&-expand {
+	//	font-size: @fontSizeXLarge;
+	//}
+	
+	&-resize-faker {
+		border: 1px dashed #1854C2;
+		background: #D7E6F7;
+		.opacity(0.5);
+		position: absolute;
+		left: 0;
+		top: 0;
+		overflow: hidden;
+		z-index: 60000;
+	}
+	
+	&-move-ghost {
+		.topBorderRadius(@baseBorderRadius);
+		margin: 0;
+		padding: 0;
+		background: #D7E6F7;
+		.opacity(0.6);
+		position: absolute;
+		overflow: hidden;
+		cursor: move;
+		
+		.z-panel-body {
+			padding: 0;
+		}
+		
+		<c:if test="${ zk.ie == 8 }">
+		.z-panel-icon {
+			.opacity(1);
+		}
+		</c:if>
+		
+		dl {
+			font-size: 0;			
+			display: block;
+			border: 1px solid @baseBorderColor;
+			border-top: 0;
+			margin: 0;
+			padding: 0;
+			line-height: 0;
+			overflow: hidden;
+		}
+	}
+	
+ 	&-move-block {
+	 	border: 2px dashed #B2CAD6;
+	}
+	
+	&-noframe &-body {
+		border: 0;
+		.borderRadius(0);
+		padding: 0;
+		background: white;
+		
+		.z-panelchildren {
+			border-top: 0;
+		}
+	}
+	
+	&-noheader &-body {
+		border-top: 1px solid @panelBorderColor;
+		.borderRadius(@baseBorderRadius);
+	}
+	
+	&-noheader&-noframe &-body {
+		border: 0;
+		.borderRadius(0);
+	}
+	
+	&-noheader&-noframe .z-panelchildren {
+		border-top: 1px solid @baseBorderColor;
+	}
+	
+	&-noborder&-noframe .z-panelchildren {
+		border: none;
+	}
+	
+	&-noborder .z-panel-bottom .z-toolbar {
+		border: 0;
+		padding: 4px;
+	}
+}
+
+.z-panelchildren {
+	border: 1px solid @baseBorderColor;
+	background: @baseBackgroundColor;
+	position: relative;
+	.defaultOverflowZoom();
+}
+
+.ie8 .z-panel-icon {
+	.gradientFallback(@baseGradientStart, @baseGradientEnd);
+	.z-icon-minus {
+		margin-left: 1px;			
+	}
+}

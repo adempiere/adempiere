@@ -34,6 +34,8 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.component.Column;
+import org.adempiere.webui.component.Columns;
 import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
@@ -55,6 +57,7 @@ import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.part.ITabOnSelectHandler;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MRole;
@@ -68,22 +71,25 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.HtmlNativeComponent;
+import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.Frozen;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
+import org.zkoss.zul.West;
 import org.zkoss.zul.Div;
-import org.zkoss.zul.ListModelExt;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.event.ZulEvents;
+import org.zkoss.zul.ext.Sortable;
 
 /**
  *	Search Information and return selection - Base Class.
@@ -98,7 +104,7 @@ import org.zkoss.zul.event.ZulEvents;
  * @author Michael McKay, ADEMPIERE-72 VLookup and Info Window improvements
  * 	<li>https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
-public abstract class InfoPanel extends Window implements EventListener, WTableModelListener, ListModelExt
+public abstract class InfoPanel extends Window implements EventListener<Event>, WTableModelListener, Sortable<Object>
 {
 	
 	/**
@@ -271,7 +277,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 
 	/** Window Width                */
 	static final int        INFO_WIDTH = 800;
-	private boolean m_modal;
+	private boolean 		m_modal;
 
 	/**************************************************
      *  Detail Constructor 
@@ -331,7 +337,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			
 		});
 		
-		p_table.addActionListener(new EventListener() {
+		p_table.addActionListener(new EventListener<Event>() {
 			public void onEvent(Event event) throws Exception {
 
 				if (p_table.getRowCount() == 0)
@@ -343,7 +349,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 				
 				if (event.getName().equals("onSelect"))
 				{
-					SelectEvent se = ((SelectEvent) event);
+					SelectEvent<?, ?> se = ((SelectEvent<?, ?>) event);
 					setNumRecordsSelected(se.getSelectedItems().size());
 					recordSelected(p_table.getLeadRowKey());
 					p_selectedRecordKey = p_table.getLeadRowKey();
@@ -366,10 +372,12 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		//  the p_centerCenter which should fill the remaining space.
 		// Have to set the criteriaGrid height specifically.  58 is the height of the reset button and label.
 		// p_criteriaGrid is assumed to hold a Rows component that is non null and has children.
-		int rowHeight = (30*((Rows) p_criteriaGrid.getFirstChild()).getChildren().size());
-		rowHeight = rowHeight > 58 ? rowHeight : 58;
-		p_northLayout.setHeight(rowHeight + "px");
-		p_southLayout.setHeight("70px");
+		//int rowHeight = (25*((Rows) p_criteriaGrid.getFirstChild()).getChildren().size());
+		//rowHeight = rowHeight > 58 ? rowHeight : 58;
+		//p_northLayout.setHeight(rowHeight + "px");
+		p_northLayout.resize();
+		//p_southLayout.setHeight("70px");
+		//p_southLayout.setVflex("min");
 		
 		if (p_centerNorth.getChildren().size() == 0)
 		{
@@ -382,8 +390,10 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		
 		if (p_centerSouth.getChildren().size() > 0)
 		{
-			int detailHeight = (p_height * 25 / 100);
-			p_centerSouth.setHeight(detailHeight + "px");
+			//p_centerSouth.setVflex("min");  //  Since ZK 5+
+			//int detailHeight = (p_height * 25 / 100);
+			//p_centerSouth.setHeight(detailHeight + "px");
+			p_centerSouth.setSize("25%");
 		}
 		else
 		{
@@ -394,6 +404,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	
 	protected void init()
 	{
+		ThemeUtils.addSclass("ad-infopanel", this);
 		if (isModal())
 		{
 			setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
@@ -404,19 +415,20 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     		setContentStyle("overflow: auto");
             setSizable(true);      
             setMaximizable(true);        
+    		ThemeUtils.addSclass("ad-infopanel-modal", this);
 		}
 		else
 		{
 			setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
-			setBorder("none");
-			setWidth("100%");
-			setHeight("100%");
-			setStyle("position: absolute");
+//			setBorder("none");
+//			setWidth("100%");
+//			setHeight("100%");
+//			setStyle("position: absolute");
+    		ThemeUtils.addSclass("ad-infopanel-embedded", this);
 		}
 		
         confirmPanel = new ConfirmPanel(true, true, false, true, true, true);  // Elaine 2008/12/16
         confirmPanel.addActionListener(Events.ON_CLICK, this);
-        confirmPanel.setStyle("border-top: 2px; border-bottom: 2px; padding: 4px");
         
         // Elaine 2008/12/16
 		confirmPanel.getButton(ConfirmPanel.A_CUSTOMIZE).setVisible(hasCustomize());
@@ -437,6 +449,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		statusBar.setEastVisibility(false);
 		statusBar.setAttribute("zk_component_ID", "info_statusBar");
 		//
+		p_southLayout.setVflex("min");
 		Center center = new Center();
 		center.appendChild(confirmPanel);
 		p_southLayout.appendChild(center);
@@ -455,39 +468,53 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         p_table.setAttribute("zk_component_ID", "Lookup_Data_SearchResults");        
         p_table.setVflex(true);
         
-        p_centerLayout.setWidth("100%");
-        //p_centerLayout.setHeight("100%");
-        if (isModal())
-        	p_centerLayout.setStyle("border: none; position: relative");
-        else
-        	p_centerLayout.setStyle("border: none; position: absolute");
-
+        
+        // Sizes
+        p_centerNorth.setVflex("min");
+        p_centerCenter.setVflex("1");
+        p_centerSouth.setSize("25%");
+        //
+        ThemeUtils.addSclass("info-panel-center", p_centerLayout);
 		p_centerLayout.appendChild(p_centerNorth);  // May be empty
 		p_centerLayout.appendChild(p_centerCenter); // the table
 		p_centerLayout.appendChild(p_centerSouth);  // detail tabs or other
         //
 		Div div = new Div();  // Need to use a container for p_table so we can insert paging if required.
 		div.appendChild(p_table);
-		div.setStyle("width :100%; height: 100%");
+		div.setVflex("1");
+		div.setHflex("1");
 		p_centerCenter.appendChild(div);
 		p_centerCenter.setAutoscroll(false);
-        p_centerCenter.setFlex(true);
+        p_centerCenter.setVflex("1");
+        p_centerCenter.setHflex("1");
 		//
 		p_centerSouth.setCollapsible(true);
 		p_centerSouth.setSplittable(true);
-		p_centerSouth.setFlex(true);
+		p_centerSouth.setVflex("1");
+		p_centerSouth.setHflex("1");
 
 		//  Setup the north reset button and criteria grid
 		West spWest = new West();
-		spWest.setBorder("0");
+		spWest.setHflex("min");
+		ThemeUtils.addSclass("criteria", spWest);
 		Center spCenter = new Center();
-		spCenter.setBorder("0");
+		//spCenter.setWidth("100%");
+		spCenter.setHflex("1");
+		spCenter.setVflex("min");
+		ThemeUtils.addSclass("criteria", spCenter);
 
-		p_northLayout.setWidth("");
+		p_northLayout.setHflex("min");
+		p_northLayout.setVflex("min");
 		p_northLayout.appendChild(spWest);
 		p_northLayout.appendChild(spCenter);
 		// spWest - the reset button
 		Grid bGrid = GridFactory.newGridLayout();
+		bGrid.setSizedByContent(true);
+		Columns bColumns = new Columns();
+		Column col = new Column();
+		col.setHflex("min");
+		bColumns.appendChild(col);
+		bGrid.appendChild(bColumns);
 		Rows bRows = new Rows();
 		Row bRow = new Row();
 		bGrid.appendChild(bRows);
@@ -499,6 +526,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		spWest.appendChild(bGrid);
 		
 		// The criteria table
+		//p_criteriaGrid.setSizedByContent(true);
 		spCenter.appendChild(p_criteriaGrid);
 
         Borderlayout mainPanel = new Borderlayout();
@@ -660,13 +688,31 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             String where, 
             String orderBy)
 	{
-	//  For dynamic columns, we need to wipe the table.
+
+		//  For dynamic columns, we need to wipe the table.
 		if (p_resetColumns)
 		{
-			p_table.clear();
+			p_table.clear();  // Deletes all children
 			//  Prevent repeats
 			p_resetColumns = false;
 		}
+		
+		// Setup/add back frozen columns  - too buggy in presentation
+		// TODO - If there are future upgrades to zk 7.01 that fix the Frozen 
+		// implementation, the arguments frozenColumnCount and scrollStartColumn
+		// can be added to the function.
+		/*
+		try {
+			Frozen m_frozen = new Frozen();
+			m_frozen.setColumns(frozenColumnCount);
+			m_frozen.setStart(scrollStartColumn);
+			p_table.appendChild(m_frozen);
+		}
+		catch (WrongValueException e) {
+			log.warning(e.toString());
+		}
+		*/
+		
         String sql =p_table.prepareTable(layout, from,
                 where,p_multipleSelection && m_modal,
                 getTableName(),false);
@@ -981,7 +1027,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	}
 
     private void addDoubleClickListener() {
-		Iterator<?> i = p_table.getListenerIterator(Events.ON_DOUBLE_CLICK);
+		Iterable<EventListener<? extends Event>> el = p_table.getEventListeners(Events.ON_DOUBLE_CLICK);
+		Iterator<EventListener<? extends Event>> i = el.iterator();
 		while (i.hasNext()) {
 			if (i.next() == this)
 				return;
@@ -1874,7 +1921,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	        this.detach();
     }   //  dispose
         
-	public void sort(Comparator cmpr, boolean ascending) {
+	public void sort(Comparator<Object> cmpr, boolean ascending) {
 		WListItemRenderer.ColumnComparator lsc = (WListItemRenderer.ColumnComparator) cmpr;
 		if (m_useDatabasePaging)
 		{
@@ -2099,6 +2146,12 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	protected void setNumRecordsSelected(int numRecordsSeleted) {
 		p_numRecordsSelected = numRecordsSeleted;
+	}
+
+	@Override
+	public String getSortDirection(Comparator<Object> cmpr) {
+		// TODO Auto-generated method stub - fix this to make it functional
+		return "natural";
 	}
 
 }	//	Info

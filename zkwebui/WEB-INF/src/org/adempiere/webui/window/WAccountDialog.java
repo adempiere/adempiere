@@ -52,14 +52,15 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.North;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Groupbox;
@@ -187,13 +188,13 @@ public final class WAccountDialog extends Window
 		toolBar.setOrient("vertical");
 		toolBar.setStyle("border: none; margin: 5px");
 
-		bSave.setImage("images/Save24.png");
+		bSave.setImage(ServletFns.resolveThemeURL("~./images/Save24.png"));
 		bSave.setTooltiptext(Msg.getMsg(Env.getCtx(),"AccountNewUpdate"));
 		bSave.addEventListener(Events.ON_CLICK, this);
-		bRefresh.setImage("images/Refresh24.png");
+		bRefresh.setImage(ServletFns.resolveThemeURL("~./images/Refresh24.png"));
 		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(),"Refresh"));
 		bRefresh.addEventListener(Events.ON_CLICK, this);
-		bIgnore.setImage("images/Ignore24.png");
+		bIgnore.setImage(ServletFns.resolveThemeURL("~./images/Ignore24.png"));
 		bIgnore.setTooltiptext(Msg.getMsg(Env.getCtx(),"Ignore"));
 		bIgnore.addEventListener(Events.ON_CLICK, this);
 		//
@@ -227,7 +228,8 @@ public final class WAccountDialog extends Window
 
 		North nRegion = new North();
 		nRegion.setParent(layout);
-		nRegion.setFlex(false);
+		nRegion.setHflex("false");
+		nRegion.setVflex("false");
 		nRegion.appendChild(northPanel);
 		nRegion.setStyle("background-color: transparent; border: none");
 		northPanel.setStyle("background-color: transparent;");
@@ -235,8 +237,8 @@ public final class WAccountDialog extends Window
 		Center cRegion = new Center();
 		cRegion.setParent(layout);
 		cRegion.appendChild(m_adTabPanel);
-		cRegion.setFlex(true);
-
+		cRegion.setHflex("true");
+		cRegion.setVflex("true");
 		South sRegion = new South();
 		sRegion.setParent(layout);
 		Div div = new Div();

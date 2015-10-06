@@ -25,6 +25,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.part.WindowContainer;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.ADWindow;
 import org.adempiere.webui.window.WTask;
 import org.compiere.model.MQuery;
@@ -54,6 +55,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 	public TabbedDesktop() {
 		super();
 		windowContainer = new WindowContainer();
+		ThemeUtils.addSclass("tabbed-desktop", this);
 	}
 
 	/**

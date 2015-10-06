@@ -17,9 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.table.AbstractTableModel;
-import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.panel.AbstractADWindowPanel;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.panel.IADTabPanel;
 import org.adempiere.webui.util.SortComparator;
 import org.compiere.model.GridField;
@@ -37,9 +38,9 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Column;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Paging;
@@ -60,20 +61,21 @@ public class GridPanel extends Borderlayout implements EventListener
 	 * generated serial version ID
 	 */
 	private static final long serialVersionUID = -7151423393713654553L;
+	
+	private static final int MIN_COLUMN_WIDTH = 100;		
 
-	private static final int MIN_COLUMN_WIDTH = 100;
+	private static final int MAX_COLUMN_WIDTH = 300;		
 
-	private static final int MAX_COLUMN_WIDTH = 300;
+	private static final int MIN_COMBOBOX_WIDTH = 160;	
 
-	private static final int MIN_COMBOBOX_WIDTH = 160;
-
-	private static final int MIN_NUMERIC_COL_WIDTH = 130;
+	private static final int MIN_NUMERIC_COL_WIDTH = 130;	
 
 	private Grid listbox = null;
 
 	private int pageSize = 100;
 
 	private GridField[] gridField;
+	
 	private AbstractTableModel tableModel;
 
 	private int numColumns = 5;
@@ -82,7 +84,7 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	private GridTab gridTab;
 
-	private boolean init;
+	private boolean init;			
 
 	private GridTableListModel listModel;
 
@@ -124,15 +126,10 @@ public class GridPanel extends Borderlayout implements EventListener
 	 */
 	public GridPanel(int windowNo)
 	{
+		ThemeUtils.addSclass("ad-gridpanel adtab-grid-panel", this);
 		this.windowNo = windowNo;
-		listbox = new Grid();
 		
-		listbox.addEventListener(Events.ON_FOCUS, this);
-		
-		
-		listbox.setOddRowSclass(null);
-		south = new South();
-		this.appendChild(south);
+		init_components();
 
 		//default paging size
 		pageSize = MSysConfig.getIntValue(PAGE_SIZE_KEY, 100);
@@ -150,20 +147,65 @@ public class GridPanel extends Borderlayout implements EventListener
 		if (init) return;
 
 		this.gridTab = gridTab;
+		
 		tableModel = gridTab.getTableModel();
-
 		numColumns = tableModel.getColumnCount();
-
 		gridField = ((GridTable)tableModel).getFields();
 
+		// Create columns and append them to the listbox(Grid)
 		setupColumns();
-		render();
+		
+		// Create the model and attach to listmodel
+		updateModel();  // causes a re-render event
+
+		if (pageSize > 0)
+		{
+			paging = new Paging();
+			paging.setPageSize(pageSize);
+			paging.setTotalSize(tableModel.getRowCount());
+			paging.setDetailed(true);
+			south.appendChild(paging);
+			paging.addEventListener(ZulEvents.ON_PAGING, this);
+			renderer.setPaging(paging);
+		}
+		else
+		{
+			south.setVisible(false);
+		}
 
 		updateListIndex();
 
+		listbox.setModel(listModel);  // Triggers a re-render
+
 		this.init = true;
 	}
+	
+	/**
+	 * 
+	 */
+private void init_components() {
 
+	listbox = new Grid();
+	listbox.setOddRowSclass(null);
+
+	//listbox.setHeight("100%");
+        listbox.setVflex(true);
+	//true might look better, false for better performance
+        listbox.setSizedByContent(true);
+	listbox.addEventListener(Events.ON_CLICK, this);
+	listbox.setVflex("1");
+
+	Center center = new Center();
+	ThemeUtils.addSclass("ad-gridpanel-center", center);
+	center.setVflex("1");
+	center.setHflex("1");
+	center.appendChild(listbox);
+	this.appendChild(center);
+
+	south = new South();
+	ThemeUtils.addSclass("ad-gridpanel-south", south);
+	this.appendChild(south);
+}
 	/**
 	 *
 	 * @return boolean
@@ -194,8 +236,8 @@ public class GridPanel extends Borderlayout implements EventListener
 		}
 		else
 		{
-			listbox.setModel(listModel);
 			updateListIndex();
+			listbox.setModel(listModel);  // Triggers a render event
 		}
 	}
 
@@ -272,7 +314,7 @@ public class GridPanel extends Borderlayout implements EventListener
 		if (init) return;
 
 		Columns columns = new Columns();
-		listbox.appendChild(columns);
+		//	listbox.appendChild(columns);			// moved to end
 		columns.setSizable(true);
 		columns.setMenupopup("auto");
 		columns.setColumnsgroup(false);
@@ -293,7 +335,6 @@ public class GridPanel extends Borderlayout implements EventListener
 				
 				int displayLength = gridField[i].getPreferredWidthInListView() > 0 ? gridField[i].getPreferredWidthInListView() : gridField[i].getDisplayLength() * 9 ;
 
-				
 				int l = DisplayType.isNumeric(gridField[i].getDisplayType())
 					? 120 : displayLength ;
 				
@@ -321,38 +362,13 @@ public class GridPanel extends Borderlayout implements EventListener
 				}
 				
 				columns.appendChild(column);
+				listbox.appendChild(columns);
 			}
 		}
 	}
 
 	private void render()
 	{
-		LayoutUtils.addSclass("adtab-grid-panel", this);
-
-		listbox.setVflex(true);
-		listbox.setFixedLayout(true);
-		listbox.addEventListener(Events.ON_CLICK, this);
-
-		updateModel();
-
-		Center center = new Center();
-		center.appendChild(listbox);
-		this.appendChild(center);
-
-		if (pageSize > 0)
-		{
-			paging = new Paging();
-			paging.setPageSize(pageSize);
-			paging.setTotalSize(tableModel.getRowCount());
-			paging.setDetailed(true);
-			south.appendChild(paging);
-			paging.addEventListener(ZulEvents.ON_PAGING, this);
-			renderer.setPaging(paging);
-		}
-		else
-		{
-			south.setVisible(false);
-		}
 
 	}
 
@@ -366,7 +382,7 @@ public class GridPanel extends Borderlayout implements EventListener
 		renderer.setADWindowPanel(windowPanel);
 		
 		listbox.setRowRenderer(renderer);
-		listbox.setModel(listModel);
+		// listbox.setModel(listModel);  // causes a re-render
 	}
 
 	/**
@@ -629,9 +645,9 @@ public class GridPanel extends Borderlayout implements EventListener
                 }
                 else
                 {              	
+                    comp.dynamicDisplay();
                     boolean rw = mField.isEditable(true);   //  r/w - check Context
                     comp.setReadWrite(rw);
-                    comp.dynamicDisplay();
                 }
 
                 comp.setVisible(mField.isDisplayed(true));

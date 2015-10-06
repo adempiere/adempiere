@@ -32,6 +32,7 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MRole;
@@ -44,9 +45,9 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Center;
+import org.zkoss.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Textbox;
@@ -81,6 +82,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			p_M_AttributeSet_ID = ((InfoProductPanel)parent).getM_AttributeSet_ID();
 		}
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoPAttribute"));
+		ThemeUtils.addSclass("ad-infopattributepanel", this);
 		this.setBorder("normal");
 		this.setMaximizable(true);
 		this.setSizable(true);
@@ -145,10 +147,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 		layout.appendChild(south);
 
 		Grid grid = new Grid();
-		grid.setWidth("400px");
-		grid.setStyle("margin:0; padding:0;");
-		grid.makeNoStrip();
-		grid.setOddRowSclass("even");
+		ThemeUtils.addSclass("small-grid", grid);
 		center.appendChild(grid);
         
 		rows = new Rows();
@@ -294,7 +293,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 					Row row = new Row();
 					rows.appendChild(row);
 					row.setSpans("2");
-    				Label group = new Label(Msg.translate(Env.getCtx(), "IsInstanceAttribute")); 
+    				Label group = new Label(Msg.translate(Env.getCtx(), "IsInstanceAttribute")); 	
     				row.appendChild(group);
     				rows.appendChild(row);
     				
@@ -347,7 +346,12 @@ public class InfoPAttributePanel extends Window implements EventListener
 				row.appendChild(field);
 				//
 				field.setId(String.valueOf(attribute_ID));
-				field.setAttribute("zk_component_ID", "InfoPAttributePanel_field_" + name);
+				// The field name is used as the UUID so it has restricted characters - alpha numeric and the underscore.
+				// If name is null, replace it with "_"
+				if (name.equals("")) {
+					name = "_";
+				}
+				field.setAttribute("zk_component_ID", "InfoPAttributePanel_field_" + name.replaceAll("[^a-zA-Z0-9_]", "_"));
 				//
 				if (isInstanceAttribute)
 					m_instanceEditors.add(field);

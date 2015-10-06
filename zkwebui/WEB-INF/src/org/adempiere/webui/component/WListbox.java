@@ -152,8 +152,9 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	    	}
 	    }
 
-	    autoSize();
+	    // autoSize();
 		if(getShowTotals())
+			//  TODO use table footer component rather than adding a row to the table
 			addTotals(m_layout);
 		
 	    // re-render
@@ -1319,55 +1320,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	 */
 	public void autoSize()
 	{
-//  TODO finish port from SWING
-		if ( !autoResize  )
-			return;
-/*
-		long start = System.currentTimeMillis();
-		//
-		final int SLACK = 8;		//	making sure it fits in a column
-		final int MAXSIZE = 300;    //	max size of a column
-		//
-		ListModelTable model = this.getModel();
-		int size = model.getNoColumns();
-		//	for all columns
-		for (int col = 0; col < size; col++)
-		{
-			//  Column & minimum width
-			ListColumn tc = model.get.getColumn(col);
-			int width = 0;
-			if (m_minWidth.size() > col)
-				width = ((Integer)m_minWidth.get(col)).intValue();
-		//  log.config( "Column=" + col + " " + column.getHeaderValue());
-
-			//	Header
-			TableCellRenderer renderer = tc.getHeaderRenderer();
-			if (renderer == null)
-				renderer = new DefaultTableCellRenderer();
-			Component comp = renderer.getTableCellRendererComponent
-				(this, tc.getHeaderValue(), false, false, 0, 0);
-		//	log.fine( "Hdr - preferred=" + comp.getPreferredSize().width + ", width=" + comp.getWidth());
-			width = Math.max(width, comp.getPreferredSize().width + SLACK);
-
-			//	Cells
-			int maxRow = Math.min(30, getRowCount());       //  first 30 rows
-			for (int row = 0; row < maxRow; row++)
-			{
-				renderer = getCellRenderer(row, col);
-				comp = renderer.getTableCellRendererComponent
-					(this, getValueAt(row, col), false, false, row, col);
-				if (comp != null) {
-					int rowWidth = comp.getPreferredSize().width + SLACK;
-					width = Math.max(width, rowWidth);
-				}
-			}
-			//	Width not greater ..
-			width = Math.min(MAXSIZE, width);
-			tc.setPreferredWidth(width);
-		//	log.fine( "width=" + width);
-		}	//	for all columns
-		log.finer("Cols=" + size + " - " + (System.currentTimeMillis()-start) + "ms");
-*/
+		// Not required in ZK.  See hflex and vflex at the column level.
 	}	//	autoSize
 
 	/**

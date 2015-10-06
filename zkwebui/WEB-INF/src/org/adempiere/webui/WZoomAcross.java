@@ -16,14 +16,17 @@
  *****************************************************************************/
 package org.adempiere.webui;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.adempiere.model.ZoomInfoFactory;
 import org.adempiere.webui.apps.AEnv;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MQuery;
+import org.compiere.model.PO;
+import org.compiere.model.Query;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -71,7 +74,7 @@ public class WZoomAcross
 					+ zoomInfo.query.getRecordCount() + ")";
 
 			final Menuitem menuItem = new Menuitem(label);
-			menuItem.addEventListener(Events.ON_CLICK, new EventListener() {
+			menuItem.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
 				@Override
 				public void onEvent(Event event) throws Exception {
 					launchZoom(zoomInfo);

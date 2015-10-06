@@ -50,7 +50,7 @@
   <!-- ======================================================= -->
   <!-- Init                                                    -->
   <!-- ======================================================= -->
-  <target name="installInit" description="initialization target">
+  <target name="installInit" description="initialization target" depends="clean">
 	<echo message="=========== Build Install - ${env.ENCODING}"/>
 	<!-- create the time stamp -->
 	<tstamp/>

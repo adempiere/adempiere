@@ -26,6 +26,7 @@ import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.theme.ThemeUtils;
 import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
@@ -112,7 +113,7 @@ ContextMenuListener, IZoomableEditor
     
     private void init()
     {
-        getComponent().setWidth("200px"); 
+        ThemeUtils.addSclass("ad-wtabledireditor", getComponent());
         getComponent().setAutocomplete(true);
         getComponent().setAutodrop(true);
         getComponent().addEventListener(Events.ON_BLUR, this);
