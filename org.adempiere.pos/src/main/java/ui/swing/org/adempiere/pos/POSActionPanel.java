@@ -36,6 +36,7 @@ import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MOrder;
+import org.compiere.model.MPOSKey;
 import org.compiere.model.MSequence;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
@@ -127,11 +128,11 @@ public class POSActionPanel extends POSSubPanel
 		m_RightP = 5;
 		//	Add Button Panel
 		add(v_ButtonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 		add(v_BPPanel, new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-//		add(v_InfoProductPanel, new GridBagConstraints(0, 2, 1, 1, 1, 1
-//				,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		add(v_InfoProductPanel, new GridBagConstraints(0, 2, 1, 1, 1, 1
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 		// NEW
 		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
 		f_bNew.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
@@ -341,8 +342,8 @@ public class POSActionPanel extends POSSubPanel
 	 * 	Focus Gained
 	 *	@param e
 	 */
-	public void focusGained (FocusEvent e)
-	{
+	public void focusGained (FocusEvent e) {
+		
 	}	//	focusGained
 
 	/**
@@ -451,7 +452,16 @@ public class POSActionPanel extends POSSubPanel
 				log.severe("PrintTicket - Error Printing Ticket");
 			}
 		}	  
-	}	
+	}
+	
+	/**
+	 * Refresh Product Info
+	 * @param key
+	 * @return void
+	 */
+	public void refreshProductInfo(MPOSKey key) {
+		v_InfoProductPanel.refreshProduct(key);
+	}
 	
 	/**
 	 * Is order fully pay ?

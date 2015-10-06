@@ -43,6 +43,7 @@ import org.compiere.apps.ADialog;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.model.MPOS;
+import org.compiere.model.MPOSKey;
 import org.compiere.pos.AdempierePOSException;
 import org.compiere.pos.PosKeyboardFocusManager;
 import org.compiere.swing.CFrame;
@@ -349,6 +350,15 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_ActionPanel.changeViewPanel();
 		v_ProductKeysPanel.refreshPanel();
 		v_OrderLinePanel.refreshPanel();
+	}
+	
+	/**
+	 * Refresh Product Info
+	 * @param key
+	 * @return void
+	 */
+	public void refreshProductInfo(MPOSKey key) {
+		v_ActionPanel.refreshProductInfo(key);
 	}
 	
 	/**
