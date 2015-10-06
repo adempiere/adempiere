@@ -460,7 +460,26 @@ public class VCollect extends Collect
 		fIsCreditOrder.setSelected(isCreditOrder());
 		fIsPrePayOrder.setSelected(isPrePayOrder());
 		fPaymentTerm.setVisible(isCreditOrder());
-		bPlus.setEnabled(!isCreditOrder());
+		//	Verify complete order
+		if(v_POSPanel.isCompleted()) {
+			fIsCreditOrder.setEnabled(false);
+			fIsPrePayOrder.setEnabled(false);
+			fPaymentTerm.setEnabled(false);
+			bPlus.setEnabled(getBalance().doubleValue() > 0);
+			bOk.setEnabled(true);
+		} else if(v_POSPanel.isVoided()){
+			fIsCreditOrder.setEnabled(false);
+			fIsPrePayOrder.setEnabled(false);
+			fPaymentTerm.setEnabled(false);
+			bPlus.setEnabled(false);
+			bOk.setEnabled(false);
+		} else {
+			fIsCreditOrder.setEnabled(true);
+			fIsPrePayOrder.setEnabled(true);
+			fPaymentTerm.setEnabled(true);
+			bPlus.setEnabled(!isCreditOrder());
+			bOk.setEnabled(true);
+		}
 	}
 	
 	/**
@@ -490,7 +509,9 @@ public class VCollect extends Collect
 		if(m_Balance.doubleValue() < 0) {
 			m_ReturnAmt = m_Balance.abs();
 		}
+		//	Set Return Amount
 		fReturnAmt.setText(v_POSPanel.getNumberFormat().format(m_ReturnAmt));
+		fPaymentTerm.setValue(getC_PaymentTerm_ID());
 	}
 
 	@Override
