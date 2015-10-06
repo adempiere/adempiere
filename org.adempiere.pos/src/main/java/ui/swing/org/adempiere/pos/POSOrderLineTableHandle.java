@@ -68,12 +68,12 @@ public class POSOrderLineTableHandle {
 	private ColumnInfo[] s_layout = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), PRODUCTNAME), PRODUCTNAME, String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), QTYORDERED), QTYORDERED, BigDecimal.class, false, true, null),
+		new ColumnInfo(Msg.translate(Env.getCtx(), QTYORDERED), QTYORDERED, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), C_UOM_ID), "UOMSymbol", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), PRICEACTUAL), PRICEACTUAL, BigDecimal.class, false, true, null), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), PRICEACTUAL), PRICEACTUAL, BigDecimal.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), LINENETAMT), LINENETAMT, BigDecimal.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class, true, true, null), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class,  true, true, null), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class), 
 	};
 	
 	/**	From Clause					*/
@@ -89,17 +89,17 @@ public class POSOrderLineTableHandle {
 	
 	/**
 	 * Prepare Table
+	 * @param p_IsModifyPrice
 	 * @return boolean
 	 */
-	public boolean prepareTable() {
+	public boolean prepareTable(boolean p_IsModifyPrice) {
 		if(m_Table == null)
 			return false;
 		//	Default Prepare
 		m_sql = m_Table.prepareTable (s_layout, s_sqlFrom, 
 				s_sqlWhere, false, TABLE_NAME);
 		m_Table.setColumnClass(POSITION_QTYORDERED, BigDecimal.class, false);
-		m_Table.setColumnClass(POSITION_PRICE, BigDecimal.class, false);
-		m_Table.setColumnClass(POSITION_GRANDTOTAL, BigDecimal.class, false);
+		m_Table.setColumnClass(POSITION_PRICE, BigDecimal.class, !p_IsModifyPrice);
 		//	Default Return
 		return true;
 	}

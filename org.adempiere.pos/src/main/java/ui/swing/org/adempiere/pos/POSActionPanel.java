@@ -219,7 +219,8 @@ public class POSActionPanel extends POSSubPanel
 				if (e.getSource().equals(f_bNew)) {
 					v_POSPanel.newOrder();
 				} else if (e.getSource().equals(f_bBPartner)) {
-					changeBusinessPartner(null);
+					if(!changeBusinessPartner(null))
+						return;
 				} else if (e.getSource().equals(f_bHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
 					I_POSQuery qt = new QueryTicket(v_POSPanel);
@@ -227,6 +228,8 @@ public class POSActionPanel extends POSSubPanel
 					if (qt.getRecord_ID() > 0) {
 						v_POSPanel.setOrder(qt.getRecord_ID());
 						v_POSPanel.reloadIndex(qt.getRecord_ID());
+					} else {
+						return;
 					}
 				} else if (e.getSource().equals(f_bBack)){
 					previousRecord();
@@ -240,7 +243,8 @@ public class POSActionPanel extends POSSubPanel
 					v_POSPanel.dispose();
 					return;
 				} else if (e.getSource() == f_NameBPartner) {
-					findBPartner();
+					if(!findBPartner())
+						return;
 				}
 				//	Refresh
 				v_POSPanel.refreshPanel();
@@ -353,16 +357,16 @@ public class POSActionPanel extends POSSubPanel
 	/**
 	 * 	Find/Set BPartner
 	 */
-	private void findBPartner() {
+	private boolean findBPartner() {
 		String query = f_NameBPartner.getText();
 		//	
 		if (query == null || query.length() == 0)
-			return;
+			return false;
 		
 		// unchanged
 		if (v_POSPanel.hasBPartner() 
 				&& v_POSPanel.compareBPName(query))
-			return;
+			return false;
 		
 		query = query.toUpperCase();
 		//	Test Number
@@ -393,8 +397,9 @@ public class POSActionPanel extends POSSubPanel
 			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
 			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
 			f_NameBPartner.setText(bp.getName());
+			return true;
 		} else {	//	more than one
-			changeBusinessPartner(results);
+			return changeBusinessPartner(results);
 		}
 	}	//	findBPartner
 	
@@ -610,7 +615,7 @@ public class POSActionPanel extends POSSubPanel
 	 *  In Order and POS
 	 *  @param results
 	 */
-	public void changeBusinessPartner(MBPartnerInfo[] results) {
+	public boolean changeBusinessPartner(MBPartnerInfo[] results) {
 		// Change to another BPartner
 		QueryBPartner qt = new QueryBPartner(v_POSPanel);
 		qt.setResults(results);
@@ -619,11 +624,14 @@ public class POSActionPanel extends POSSubPanel
 			f_NameBPartner.setText(qt.getValue());
 			if(!v_POSPanel.hasOrder()) {
 				v_POSPanel.newOrder(qt.getRecord_ID());
-				v_POSPanel.refreshPanel();
 			} else {
 				v_POSPanel.setC_BPartner_ID(qt.getRecord_ID());
 			}
 			log.fine("C_BPartner_ID=" + qt.getRecord_ID());
-		}	
+			//	
+			return true;
+		}
+		//	
+		return false;
 	}	
 }//	POSActionPanel

@@ -219,7 +219,11 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private void loadPOS() {
 		int salesRep_ID = Env.getAD_User_ID(getCtx());
 		setPOS(salesRep_ID);
-			//	Select POS
+		if(getM_POS() != null) {
+			validLocator();
+			return;
+		}
+		//	Select POS
 		String msg = Msg.getMsg(getCtx(), "SelectPOS");
 		String title = Env.getHeader(getCtx(), m_WindowNo);
 		Object selection = JOptionPane.showInputDialog(m_frame, msg, title,
