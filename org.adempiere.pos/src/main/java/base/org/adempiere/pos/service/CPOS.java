@@ -541,6 +541,7 @@ public class CPOS {
 			m_CurrentOrder = null;
 		} else {
 			m_CurrentOrder = new MOrder(m_ctx , p_C_Order_ID, null);
+			loadPriceListVersion(m_CurrentOrder.getM_PriceList_ID());
 		}
 		//	
 		reloadOrder();
@@ -1239,6 +1240,19 @@ public class CPOS {
 	public int getOSKeyLayout_ID() {
 		if(m_POS != null) {
 			return m_POS.getOSK_KeyLayout_ID();
+		}
+		//	Default Return
+		return 0;
+	}
+	
+	/**
+	 * Get Key Layout
+	 * @return
+	 * @return int
+	 */
+	public int getC_POSKeyLayout_ID() {
+		if(m_POS != null) {
+			return m_POS.getC_POSKeyLayout_ID();
 		}
 		//	Default Return
 		return 0;
