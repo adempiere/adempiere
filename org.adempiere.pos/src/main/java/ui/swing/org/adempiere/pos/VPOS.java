@@ -362,6 +362,15 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	}
 	
 	/**
+	 * Refresh Product Info
+	 * @param p_M_Product_ID
+	 * @return void
+	 */
+	public void refreshProductInfo(int p_M_Product_ID) {
+		v_ActionPanel.refreshProductInfo(p_M_Product_ID);
+	}
+	
+	/**
 	 * Refresh Header
 	 * @return void
 	 */

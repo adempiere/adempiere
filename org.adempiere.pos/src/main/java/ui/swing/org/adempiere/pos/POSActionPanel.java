@@ -302,7 +302,11 @@ public class POSActionPanel extends POSSubPanel
 		} else {
 			VCollect collect = new VCollect(v_POSPanel);
 			if (collect.showCollect()) {
-				printTicket();
+				//	Print Ticket just when is not completed
+				if(!v_POSPanel.isCompleted()) {
+					printTicket();
+				}
+				//	
 				v_POSPanel.setOrder(0);
 			}
 		}	
@@ -455,12 +459,21 @@ public class POSActionPanel extends POSSubPanel
 	}
 	
 	/**
-	 * Refresh Product Info
+	 * Refresh Product Info from Key
 	 * @param key
 	 * @return void
 	 */
 	public void refreshProductInfo(MPOSKey key) {
 		v_InfoProductPanel.refreshProduct(key);
+	}
+	
+	/**
+	 * Refresh Product Info from Product
+	 * @param p_M_Product_ID
+	 * @return void
+	 */
+	public void refreshProductInfo(int p_M_Product_ID) {
+		v_InfoProductPanel.refreshProduct(p_M_Product_ID);
 	}
 	
 	/**
