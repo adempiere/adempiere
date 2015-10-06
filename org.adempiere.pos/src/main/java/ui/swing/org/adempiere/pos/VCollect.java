@@ -42,7 +42,6 @@ import javax.swing.KeyStroke;
 
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.pos.service.Collect;
-import org.adempiere.pos.service.CollectDetail;
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -336,6 +335,7 @@ public class VCollect extends Collect
 			setIsCreditOrder(fIsCreditOrder.isSelected());
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
+					v_POSPanel.setC_PaymentTerm_ID(getC_PaymentTerm_ID());
 					if(v_POSPanel.processOrder(trxName, isPrePayOrder())) {
 						processPayment(trxName, v_POSPanel.getOpenAmt());
 					} else {
@@ -379,6 +379,9 @@ public class VCollect extends Collect
 		} else if(e.getSource().equals(fIsCreditOrder)) {	//	For Credit Order Checked
 			//	Set to Controller
 			setIsCreditOrder(fIsCreditOrder.isSelected());
+			if(fIsCreditOrder.isSelected()) {
+				removeAllCollectDetail();
+			}
 		} else if(e.getSource().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
 			//	Set to Controller
 			setIsPrePayOrder(fIsPrePayOrder.isSelected());
@@ -392,11 +395,8 @@ public class VCollect extends Collect
 	 * @return void
 	 */
 	public void removeAllCollectDetail() {
-		for(CollectDetail child : getCollectDetails()) {
-			Component comp = ((VCollectDetail)child).getPanel();
-			removeCollect(child);
-			v_CenterPanel.remove(comp);
-		}
+		v_CenterPanel.removeAll();
+		super.removeAllCollectDetail();
 		//	Refresh View
 		v_ScrollPanel.validate();
 		v_ScrollPanel.repaint();
