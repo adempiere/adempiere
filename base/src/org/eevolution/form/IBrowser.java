@@ -40,8 +40,6 @@ public interface IBrowser {
 
     public void addSQLWhere(StringBuffer sql, int index, String value);
 
-    public void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException;
-
     public int getCount();
 
     public abstract ArrayList<Integer> getSelectedRowKeys();

@@ -147,6 +147,12 @@ public class WindowContainer extends AbstractUIPart
         	tabpanel = new Tabpanel();
         	tabpanel.appendChild(comp);
         }
+
+        tabpanel.setZclass("desktop-tabpanel");
+        tabpanel.setHeight("100%");
+        tabpanel.setWidth("100%");
+        tabpanel.setStyle("position: relative;");
+
         
         if (refTab == null)  
         {

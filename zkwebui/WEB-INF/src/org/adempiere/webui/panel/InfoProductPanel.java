@@ -445,7 +445,7 @@ public class InfoProductPanel extends InfoPanel implements ValueChangeListener
 		//
         ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
         		new ColumnInfo(" ", "M_Warehouse_ID", IDColumn.class),
-        		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "WarehouseName", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "WarehouseName"), "WarehouseName", String.class),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "sum(QtyAvailable)", Double.class, true, true, null),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "sum(QtyOnHand)", Double.class),
            		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "sum(QtyReserved)", Double.class),
@@ -458,7 +458,7 @@ public class InfoProductPanel extends InfoPanel implements ValueChangeListener
 //      String s_sqlWhere = "M_Product_ID = ?";
         m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_STOCK_V");
 		m_sqlWarehouse += " Group By M_Warehouse_ID, WarehouseName ";
-		m_sqlWarehouse += " Order By sum(QtyOnHand) DESC, WarehouseName ";		
+		m_sqlWarehouse += " Order By sum(QtyOnHand) DESC, WarehouseName ";
 		warehouseTbl.setMultiSelection(false);
 		warehouseTbl.setSizedByContent(false);
         //warehouseTbl.autoSize();

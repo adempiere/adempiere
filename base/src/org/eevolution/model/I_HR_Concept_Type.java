@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for HR_PaySelection
+/** Generated Interface for HR_Concept_Type
  *  @author Adempiere (generated) 
  *  @version Release 3.8.0
  */
-public interface I_HR_PaySelection 
+public interface I_HR_Concept_Type 
 {
 
-    /** TableName=HR_PaySelection */
-    public static final String Table_Name = "HR_PaySelection";
+    /** TableName=HR_Concept_Type */
+    public static final String Table_Name = "HR_Concept_Type";
 
-    /** AD_Table_ID=53248 */
+    /** AD_Table_ID=53981 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,34 +63,6 @@ public interface I_HR_PaySelection
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BankAccount_ID */
-    public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
-
-	/** Set Bank Account.
-	  * Account at the Bank
-	  */
-	public void setC_BankAccount_ID (int C_BankAccount_ID);
-
-	/** Get Bank Account.
-	  * Account at the Bank
-	  */
-	public int getC_BankAccount_ID();
-
-	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
-
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -120,25 +92,18 @@ public interface I_HR_PaySelection
 	  */
 	public String getDescription();
 
-    /** Column name HR_PaySelection_ID */
-    public static final String COLUMNNAME_HR_PaySelection_ID = "HR_PaySelection_ID";
+    /** Column name HR_Concept_Type_ID */
+    public static final String COLUMNNAME_HR_Concept_Type_ID = "HR_Concept_Type_ID";
 
-	/** Set Payroll Payment Selection ID	  */
-	public void setHR_PaySelection_ID (int HR_PaySelection_ID);
+	/** Set Global Payroll Concept Type.
+	  * Allows define types for concepts
+	  */
+	public void setHR_Concept_Type_ID (int HR_Concept_Type_ID);
 
-	/** Get Payroll Payment Selection ID	  */
-	public int getHR_PaySelection_ID();
-
-    /** Column name HR_Process_ID */
-    public static final String COLUMNNAME_HR_Process_ID = "HR_Process_ID";
-
-	/** Set Payroll Process	  */
-	public void setHR_Process_ID (int HR_Process_ID);
-
-	/** Get Payroll Process	  */
-	public int getHR_Process_ID();
-
-	public org.eevolution.model.I_HR_Process getHR_Process() throws RuntimeException;
+	/** Get Global Payroll Concept Type.
+	  * Allows define types for concepts
+	  */
+	public int getHR_Concept_Type_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -153,18 +118,18 @@ public interface I_HR_PaySelection
 	  */
 	public boolean isActive();
 
-    /** Column name IsApproved */
-    public static final String COLUMNNAME_IsApproved = "IsApproved";
+    /** Column name IsDefault */
+    public static final String COLUMNNAME_IsDefault = "IsDefault";
 
-	/** Set Approved.
-	  * Indicates if this document requires approval
+	/** Set Default.
+	  * Default value
 	  */
-	public void setIsApproved (boolean IsApproved);
+	public void setIsDefault (boolean IsDefault);
 
-	/** Get Approved.
-	  * Indicates if this document requires approval
+	/** Get Default.
+	  * Default value
 	  */
-	public boolean isApproved();
+	public boolean isDefault();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -178,54 +143,6 @@ public interface I_HR_PaySelection
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name PayDate */
-    public static final String COLUMNNAME_PayDate = "PayDate";
-
-	/** Set Payment date.
-	  * Date Payment made
-	  */
-	public void setPayDate (Timestamp PayDate);
-
-	/** Get Payment date.
-	  * Date Payment made
-	  */
-	public Timestamp getPayDate();
-
-    /** Column name Processed */
-    public static final String COLUMNNAME_Processed = "Processed";
-
-	/** Set Processed.
-	  * The document has been processed
-	  */
-	public void setProcessed (boolean Processed);
-
-	/** Get Processed.
-	  * The document has been processed
-	  */
-	public boolean isProcessed();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
-
-    /** Column name TotalAmt */
-    public static final String COLUMNNAME_TotalAmt = "TotalAmt";
-
-	/** Set Total Amount.
-	  * Total Amount
-	  */
-	public void setTotalAmt (BigDecimal TotalAmt);
-
-	/** Get Total Amount.
-	  * Total Amount
-	  */
-	public BigDecimal getTotalAmt();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -242,4 +159,17 @@ public interface I_HR_PaySelection
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }
