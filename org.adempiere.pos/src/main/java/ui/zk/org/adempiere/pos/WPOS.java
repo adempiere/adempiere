@@ -81,10 +81,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private WPOSActionPanel f_OrderPanel;
 	private WPOSProductPanel f_ProductKeysPanel;
 	private WPOSOrderLinePanel f_OrderLinePanel;
-	/** Current Line				*/
 	
-	private boolean action = false;
-
 	private Button b_ok = new Button("Ok");
 	private Button b_cancel = new Button("Cancel");
 	private Window selection;
@@ -130,7 +127,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	 * 	The Sub Panels return their position
 	 */
 	private boolean dynInit()
-	{
+	{ 
+		setMPOS();
 		Borderlayout mainLayout = new Borderlayout();	
 		f_OrderPanel = new WPOSActionPanel(this);
 		f_ProductKeysPanel = new WPOSProductPanel(this);
@@ -179,11 +177,13 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	 * 	Set MPOS
 	 *	@return true if found/set
 	 */
-	private boolean setMPOS()
-	{
+	private void setMPOS() {
 		int salesRep_ID = Env.getAD_User_ID(getCtx());
-//		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
 		setPOS(salesRep_ID);
+		if(getM_POS() != null) {
+			validLocator();
+			return;
+		}
 		poss = getPOSs(salesRep_ID);
 		//	Select POS
 		String msg = Msg.getMsg(m_ctx, "SelectPOS");
@@ -227,7 +227,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		row.appendChild(b_cancel);
 		AEnv.showWindow(selection);
 			
-	return action;
 	}	//	setMPOS
 	
 	
@@ -291,11 +290,9 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void onEvent(Event e) throws Exception {
 		if(e.getTarget().equals(b_ok)){
 			setM_POS(poss[listTerminal.getSelectedIndex()]);
-			action = true;
 			selection.dispose();
 		}
 		if(e.getTarget().equals(b_cancel)){
-			action = false;
 			selection.dispose();
 		}
 	}
@@ -358,4 +355,3 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		return windowNo;
 	}
 }	//	PosPanel
-
