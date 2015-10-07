@@ -198,7 +198,7 @@ public class VCollect extends Collect
 		// Pre-Payment, Standard Order: enable only if the order is completed and there are lines 
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 		   v_POSPanel.isCompleted() &&
-		   v_POSPanel.getM_Order().getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard)) {	
+		   v_POSPanel.isStandardOrder()) {	
 			fIsPrePayOrder.setEnabled(false);	
 			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setSelected(true);
