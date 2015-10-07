@@ -219,7 +219,6 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			}
 		}	  
 	}
-	
 
 	/**
 	 * Execute deleting an order
@@ -228,28 +227,23 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	 * Otherwise, it must be done outside this class.
 	 */
 	private void deleteOrder() {
-		if (v_POSPanel == null || v_POSPanel.getM_Order() == null) {
-			FDialog.warn(0,Msg.getMsg(p_ctx, "POS.MustCreateOrder"));
-			return;			
-		} else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Drafted) ) {
-			if (FDialog.ask(0, this, Msg.getMsg(p_ctx, "POS.DeleteOrder"))) {	//	TODO translate it: Do you want to delete the Order? 
-				if (!v_POSPanel.deleteOrder()) {
-					FDialog.warn(0, Msg.getMsg(p_ctx, "POS.OrderCouldNotDeleted"));	//	TODO translate it: Order could not be deleted
-				}
-			}
-		} else if (v_POSPanel.getM_Order().getDocStatus().equals(MOrder.STATUS_Completed)) {	
-			if (FDialog.ask(0, this, Msg.getMsg(p_ctx, Msg.getMsg(p_ctx, "POS.OrderIsAlreadyCompleted")))) {	//	TODO Translate it: The order is already completed. Do you want to void it?
-				if (!v_POSPanel.cancelOrder())
-					FDialog.warn(0, Msg.getMsg(p_ctx, "POS.OrderCouldNotVoided"));	//	TODO Translate it: Order could not be voided
-			}
-		} else {
-			FDialog.warn(0,  Msg.getMsg(p_ctx, "POS.OrderIsNotProcessed"));	//	TODO Translate it: Order is not Drafted nor Completed. Try to delete it other way
+		String errorMsg = null;
+		String askMsg = "POS.DeleteOrder";	//	TODO Translate it: Do you want to delete Order?
+		if (v_POSPanel.isCompleted()) {	
+			askMsg = "POS.OrderIsAlreadyCompleted";	//	TODO Translate it: The order is already completed. Do you want to void it?
+		}
+		//	Show Ask
+		if (FDialog.ask(0, this, Msg.getMsg(p_ctx, askMsg))) {
+			errorMsg = v_POSPanel.cancelOrder();
+		} 
+		if(errorMsg != null){
+			FDialog.error(0,  Msg.parseTranslation(p_ctx, errorMsg));
 			return;
 		}
 		//	Update
 		changeViewPanel();
-
 	} // deleteOrder
+	
 	/**
 	 * 
 	 */

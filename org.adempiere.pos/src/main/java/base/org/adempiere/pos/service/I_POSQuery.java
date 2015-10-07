@@ -41,8 +41,7 @@ public interface I_POSQuery {
 	/**
 	 * Show the dialog
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @param visible
 	 * @return void
 	 */
-	public void setVisible(boolean visible);
+	public void showView();
 }

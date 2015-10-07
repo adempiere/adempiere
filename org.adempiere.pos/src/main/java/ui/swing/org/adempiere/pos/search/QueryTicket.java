@@ -277,4 +277,9 @@ public class QueryTicket extends POSQuery implements I_POSQuery {
 	public String getValue() {
 		return null;
 	}
+	
+	@Override
+	public void showView() {
+		setVisible(true);
+	}
 }	//	QueryTicket

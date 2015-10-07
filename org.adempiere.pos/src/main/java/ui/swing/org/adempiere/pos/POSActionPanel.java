@@ -229,7 +229,7 @@ public class POSActionPanel extends POSSubPanel
 				} else if (e.getSource().equals(f_bHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
 					I_POSQuery qt = new QueryTicket(v_POSPanel);
-					qt.setVisible(true);
+					qt.showView();
 					if (qt.getRecord_ID() > 0) {
 						v_POSPanel.setOrder(qt.getRecord_ID());
 						v_POSPanel.reloadIndex(qt.getRecord_ID());

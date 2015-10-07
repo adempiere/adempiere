@@ -247,4 +247,9 @@ public class QueryProduct extends POSQuery
 	public String getValue() {
 		return m_ProductName;
 	}
+	
+	@Override
+	public void showView() {
+		setVisible(true);
+	}
 }	//	PosQueryProduct

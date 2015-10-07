@@ -259,4 +259,9 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 	public String getValue() {
 		return m_BPartnerName;
 	}
+	
+	@Override
+	public void showView() {
+		setVisible(true);
+	}
 }	//	PosQueryBPartner
