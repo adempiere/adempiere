@@ -168,7 +168,7 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 		selPanel.appendChild(center);
 		center.appendChild(miniTable);
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		miniTable.setHeight("99%");
 		confirmPanelSel.addActionListener(this);
 		//

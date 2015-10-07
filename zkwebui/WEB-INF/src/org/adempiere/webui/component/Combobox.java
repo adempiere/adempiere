@@ -39,6 +39,7 @@ public class Combobox extends org.zkoss.zul.Combobox
 	public Combobox() {
 		super();
 		ThemeUtils.addSclass("ad-combobox", this);
+		this.setHflex("1");
 	}
 
 	public Combobox(String value) throws WrongValueException {

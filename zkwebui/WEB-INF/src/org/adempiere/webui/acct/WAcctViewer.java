@@ -725,7 +725,7 @@ public class WAcctViewer extends Window implements EventListener<Event>
 		resultCenter.setVflex("true");
 		resultPanel.appendChild(resultCenter);
 		table.setWidth("96%");
-		table.setHeight("98%");
+		//table.setHeight("98%");
 		table.setVflex(true);
 		table.setStyle("overflow: auto; position: absolute;");
 		resultCenter.appendChild(table);
@@ -776,14 +776,14 @@ public class WAcctViewer extends Window implements EventListener<Event>
 		Center center = new Center();
 		center.setParent(layout);
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		center.setStyle("background-color: transparent");
 		tabbedPane.setParent(center);
 
 		South south = new South();
 		south.setParent(layout);
 		south.setHflex("true");
-south.setVflex("true");
+		south.setVflex("true");
 		south.setStyle("background-color: transparent");
 		southPanel.setParent(south);
 

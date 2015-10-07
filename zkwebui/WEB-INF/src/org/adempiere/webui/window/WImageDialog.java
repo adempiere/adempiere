@@ -136,7 +136,7 @@ public class WImageDialog extends Window implements EventListener
 		
 		Center center = new Center();
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		center.setParent(mainLayout);
 		center.appendChild(image);
 		center.setStyle("background-color: transparent");

@@ -213,7 +213,7 @@ public class WTrxMaterial extends TrxMaterial
 		Center center = new Center();
 		mainLayout.appendChild(center);
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		center.appendChild(m_gridController);
 	}   //  dynInit
 
