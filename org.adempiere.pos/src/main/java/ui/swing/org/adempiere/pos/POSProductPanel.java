@@ -110,12 +110,10 @@ public class POSProductPanel extends POSSubPanel
 	 */
 	public void init() {
 		int C_POSKeyLayout_ID = m_pos.getC_POSKeyLayout_ID();
-		if (C_POSKeyLayout_ID == 0)
-			return;
 		//	Set Layout
 		setLayout(new GridBagLayout());
 		//	Set Right Padding
-		int m_RightPadding = 30;
+		int m_RightPadding = 0;
 		//	Document Panel
 		//	Set Font and Format
 		v_HeaderPanel = new CPanel(new GridBagLayout());
@@ -237,9 +235,8 @@ public class POSProductPanel extends POSSubPanel
 		f_ProductName.addActionListener(this);
 		f_ProductName.requestFocusInWindow();
 		f_ProductName.setFont(v_POSPanel.getFont());
-		f_ProductName.setPreferredSize(new Dimension(530, 50/*v_POSPanel.getFieldLenght()*/));
-		//	For Key Panel
-		f_Keyboard = new POSKeyPanel(C_POSKeyLayout_ID, this);
+		f_ProductName.setPreferredSize(new Dimension(530, 50));
+		f_ProductName.setMinimumSize(new Dimension(530, 50));
 		//	Add Header
 		GridBagConstraints m_HeaderConstraint = new GridBagConstraints();
 		m_HeaderConstraint.fill = GridBagConstraints.BOTH;
@@ -248,18 +245,20 @@ public class POSProductPanel extends POSSubPanel
 		add(v_HeaderPanel, m_HeaderConstraint);
 		//	Add Product Name
 		GridBagConstraints m_ProductConstraint = new GridBagConstraints();
-		m_ProductConstraint.fill = GridBagConstraints.BOTH;
+		m_ProductConstraint.fill = GridBagConstraints.HORIZONTAL;
 		m_ProductConstraint.weightx = 0;
-		m_ProductConstraint.weighty = 0.05;
 		m_ProductConstraint.gridy = 1;
-		add (f_ProductName,  m_ProductConstraint);
+		m_ProductConstraint.gridwidth = 2;
+		v_HeaderPanel.add(f_ProductName, m_ProductConstraint);
 		//	Add Keyboard
 		GridBagConstraints m_KeyboardConstraint = new GridBagConstraints();
 		m_KeyboardConstraint.fill = GridBagConstraints.BOTH;
 		m_KeyboardConstraint.weightx = 1;
 		m_KeyboardConstraint.weighty = 1;
 		m_KeyboardConstraint.gridy = 2;
-		add(f_Keyboard,  m_KeyboardConstraint);
+		//	For Key Panel
+		f_Keyboard = new POSKeyPanel(C_POSKeyLayout_ID, this);
+		add(f_Keyboard, m_KeyboardConstraint);
 		//	Refresh
 		refreshPanel();
 	}	//	init
@@ -308,6 +307,8 @@ public class POSProductPanel extends POSSubPanel
 		if (!v_POSPanel.hasOrder()) {
 			v_POSPanel.newOrder();
 		}
+		//	Show Product Info
+		v_POSPanel.refreshProductInfo(p_M_Product_ID);
 		//	
 		String lineError = v_POSPanel.add(p_M_Product_ID, m_QtyOrdered);
 		if (lineError != null) {
