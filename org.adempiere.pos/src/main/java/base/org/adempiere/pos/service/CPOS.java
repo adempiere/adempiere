@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.compiere.apps.ADialog;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
@@ -53,6 +54,7 @@ import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -123,18 +125,13 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isCompleted() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
 		return m_CurrentOrder.isProcessed() 
 				&& m_CurrentOrder.getDocStatus()
 				.equals(X_C_Order.DOCSTATUS_Completed);
-	}
-	
-	/**
-	 * Validate if has lines
-	 * @return
-	 * @return boolean
-	 */
-	public boolean hasLines() {
-		return m_CurrentOrder.getLines().length > 0;
 	}
 	
 	/**
@@ -143,8 +140,41 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isVoided() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
 		return m_CurrentOrder.getDocStatus()
 				.equals(X_C_Order.DOCSTATUS_Voided);
+	}
+	
+	/**
+	 * Validate if is drafted
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isDrafted() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return !isCompleted() 
+				&& !isVoided() 
+				&& m_CurrentOrder.getDocStatus()
+				.equals(X_C_Order.DOCSTATUS_Drafted);
+	}
+	
+	/**
+	 * Validate if has lines
+	 * @return
+	 * @return boolean
+	 */
+	public boolean hasLines() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return m_CurrentOrder.getLines().length > 0;
 	}
 	
 	/**
@@ -153,9 +183,12 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isPOSOrder() {
-		return m_CurrentOrder
-			.getC_DocType().getDocSubTypeSO()
-			.equalsIgnoreCase(MOrder.DocSubTypeSO_POS);
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_POS);
 	}
 	
 	/**
@@ -164,9 +197,12 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isCreditOrder() {
-		return m_CurrentOrder
-				.getC_DocType().getDocSubTypeSO()
-				.equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit);
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_OnCredit);
 	}
 	
 	/**
@@ -175,9 +211,12 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isStandardOrder() {
-		return m_CurrentOrder
-				.getC_DocType().getDocSubTypeSO()
-				.equalsIgnoreCase(MOrder.DocSubTypeSO_Standard);
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_Standard);
 	}
 	
 	/**
@@ -186,9 +225,47 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isPrepayOrder() {
-		return m_CurrentOrder
-				.getC_DocType().getDocSubTypeSO()
-				.equalsIgnoreCase(MOrder.DocSubTypeSO_Prepay);
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_Prepay);
+	}
+	
+	/**
+	 * Get Document Sub Type SO
+	 * @return
+	 * @return String
+	 */
+	private String getDocSubTypeSO() {
+		//	
+		MDocType m_DocType = MDocType.get(getCtx(), getC_DocType_ID());
+		if(m_DocType != null) {
+			if(m_DocType.getDocSubTypeSO() != null) {
+				return m_DocType.getDocSubTypeSO();
+			}
+		}
+		//	
+		return "";
+	}
+	
+	/**
+	 * Get Document Type from Order
+	 * @return
+	 * @return int
+	 */
+	public int getC_DocType_ID() {
+		if(!hasOrder()) {
+			return 0;
+		}
+		//	
+		if(isCompleted()
+				|| isVoided()) {
+			return m_CurrentOrder.getC_DocType_ID();
+		} else {
+			return m_CurrentOrder.getC_DocTypeTarget_ID();
+		}
 	}
 
 	/**
@@ -687,42 +764,73 @@ public class CPOS {
 	
 	/**
 	 * Delete order from database
-	 * 
-	 * @return true if order deleted; otherwise false
 	 */		
-	public boolean deleteOrder () {
-		//	Valid Null Pointer
-		if(m_CurrentOrder == null)
-			return false;
+	private void deleteOrder() {
 		//	
-		if (m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Drafted)) {
-				MOrderLine[] lines = m_CurrentOrder.getLines();
-				if (lines != null) {
-					int numLines = lines.length;
-					if (numLines > 0)
-						for (int i = numLines - 1; i >= 0; i--) {
-							if (lines[i] != null)
-								deleteLine(lines[i].getC_OrderLine_ID());
-						}
+		if (isDrafted()) {
+			MOrderLine[] lines = m_CurrentOrder.getLines();
+			if (lines != null) {
+				for(MOrderLine line : lines){
+					line.deleteEx(true);
 				}
-				
-				MOrderTax[] taxs = m_CurrentOrder.getTaxes(true);
-				if (taxs != null) {
-					int numTax = taxs.length;
-					if (numTax > 0)
-						for (int i = taxs.length - 1; i >= 0; i--) {
-							if (taxs[i] != null)
-								taxs[i].delete(true);
-							taxs[i] = null;
-						}
-				}
-				//	
-				m_CurrentOrder.getLines(true, null);		// requery order
-				
-				return cancelOrder(); 
 			}
-		return false;
+			//	Delete Tax
+			MOrderTax[] taxs = m_CurrentOrder.getTaxes(true);
+			if (taxs != null) {
+				for (MOrderTax tax : taxs) {
+					tax.deleteEx(true);
+				}
+			}
+		}
 	} //	deleteOrder
+	
+	/**
+	 * 	Call Order void process 
+	 *  Only if Order is "Drafted", "In Progress" or "Completed"
+	 * 
+	 *  @return true if order voided; false otherwise
+	 */
+	private boolean voidOrder() {
+		if (!(m_CurrentOrder.getDocStatus().equals(MOrder.STATUS_Drafted) 
+				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress)
+				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Completed))) 
+			return false;
+		
+		// Standard way of voiding an order
+		m_CurrentOrder.setDocAction(MOrder.DOCACTION_Void);
+		if (m_CurrentOrder.processIt(MOrder.DOCACTION_Void) ) {
+			m_CurrentOrder.setDocAction(MOrder.DOCACTION_None);
+			m_CurrentOrder.setDocStatus(MOrder.STATUS_Voided);
+			m_CurrentOrder.saveEx();
+			return true;
+		} else 
+			return false;
+	} // cancelOrder
+	
+	/**
+	 * Execute deleting an order
+	 * If the order is in drafted status -> ask to delete it
+	 * If the order is in completed status -> ask to void it it
+	 * Otherwise, it must be done outside this class.
+	 */
+	public String cancelOrder() {
+		String errorMsg = null;
+		try {
+			if (!hasOrder()) {
+				throw new AdempierePOSException("@POS.MustCreateOrder@");
+			} else if (!isCompleted()) {
+				deleteOrder();
+			} else if (isCompleted()) {	
+				voidOrder();
+			} else {
+				throw new AdempierePOSException("@POS.OrderIsNotProcessed@");	//	TODO Translate it: Order is not Drafted nor Completed. Try to delete it other way
+			}
+		} catch(Exception e) {
+			errorMsg = e.getMessage();
+		}
+		//	Default Return
+		return errorMsg;
+	} // deleteOrder
 	
 	/** 
 	 * Delete one order line
@@ -1195,31 +1303,6 @@ public class CPOS {
 			return "PurchaseCard";
 		return "?" + CreditCardType + "?";
 	}	//	getCreditCardName
-	
-
-
-	/**
-	 * 	Call Order void process 
-	 *  Only if Order is "Drafted", "In Progress" or "Completed"
-	 * 
-	 *  @return true if order voided; false otherwise
-	 */
-	public boolean cancelOrder() {
-		if (!(m_CurrentOrder.getDocStatus().equals(MOrder.STATUS_Drafted) 
-				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress)
-				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Completed))) 
-			return false;
-		
-		// Standard way of voiding an order
-		m_CurrentOrder.setDocAction(MOrder.DOCACTION_Void);
-		if (m_CurrentOrder.processIt(MOrder.DOCACTION_Void) ) {
-			m_CurrentOrder.setDocAction(MOrder.DOCACTION_None);
-			m_CurrentOrder.setDocStatus(MOrder.STATUS_Voided);
-			m_CurrentOrder.saveEx();
-			return true;
-		} else 
-			return false;
-	} // cancelOrder
 	
 	/**
 	 * Get Context

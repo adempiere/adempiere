@@ -630,7 +630,7 @@ public class Collect {
 						m_Collect.getA_Country(), m_Collect.getCreditCardVV());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
 				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
-				payCheck(m_Collect.getPayAmt(), null, null, m_Collect.getReferenceNo());
+				payCheck(m_Collect.getPayAmt(), null, m_Collect.getRoutingNo(), m_Collect.getReferenceNo());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
 				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 				//	Valid Expedition
