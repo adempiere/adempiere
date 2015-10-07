@@ -19,6 +19,7 @@ package org.adempiere.pos;
 
 import java.awt.KeyboardFocusManager;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -40,8 +41,10 @@ import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOS;
+import org.compiere.model.MPOSKey;
 import org.compiere.pos.PosKeyboardFocusManager;
 import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -64,6 +67,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	{
 		m_focusMgr = new PosKeyboardFocusManager();
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
+		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		init();
 	}	//	PosPanel
 	
@@ -74,11 +78,13 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	/**	Logger				*/
 	private CLogger			log = CLogger.getCLogger(getClass());
 	
+	private DecimalFormat					m_Format;
+	
 	/** Keyoard Focus Manager		*/
 	private PosKeyboardFocusManager	m_focusMgr = null;
 	
 	/** Order Panel				*/
-	private WPOSActionPanel f_OrderPanel;
+	private WPOSActionPanel v_ActionPanel;
 	private WPOSProductPanel f_ProductKeysPanel;
 	private WPOSOrderLinePanel f_OrderLinePanel;
 	
@@ -130,10 +136,9 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	{ 
 		setMPOS();
 		Borderlayout mainLayout = new Borderlayout();	
-		f_OrderPanel = new WPOSActionPanel(this);
+		v_ActionPanel = new WPOSActionPanel(this);
 		f_ProductKeysPanel = new WPOSProductPanel(this);
 		f_OrderLinePanel = new WPOSOrderLinePanel(this);
-
 		East east = new East();
 		Center center = new Center();
 		North north = new North();
@@ -148,7 +153,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		fullPanel.setHeight("100%");
 		Center v_Table = new Center();
 		v_Table.appendChild(f_OrderLinePanel);
-		north.appendChild(f_OrderPanel);
+		north.appendChild(v_ActionPanel);
 		east.appendChild(f_ProductKeysPanel);
 		east.setStyle("border: none; width:55%");
 
@@ -320,8 +325,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void refreshPanel() {
 		//	Reload from DB
 		reloadOrder();
-		f_OrderPanel.refreshPanel();
-		f_OrderPanel.changeViewPanel();
+		v_ActionPanel.refreshPanel();
+		v_ActionPanel.changeViewPanel();
 		f_ProductKeysPanel.refreshPanel();
 		f_OrderLinePanel.refreshPanel();
 		
@@ -353,5 +358,31 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public int getWindowNo()
 	{
 		return windowNo;
+	}
+	
+	/**
+	 * Get number format
+	 * @return
+	 * @return DecimalFormat
+	 */
+	public DecimalFormat getNumberFormat() {
+		return m_Format;
+	}
+	/**
+	 * Refresh Product Info
+	 * @param key
+	 * @return void
+	 */
+	public void refreshProductInfo(MPOSKey key) {
+		v_ActionPanel.refreshProductInfo(key);
+	}
+	
+	/**
+	 * Refresh Product Info
+	 * @param p_M_Product_ID
+	 * @return void
+	 */
+	public void refreshProductInfo(int p_M_Product_ID) {
+		v_ActionPanel.refreshProductInfo(p_M_Product_ID);
 	}
 }	//	PosPanel

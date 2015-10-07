@@ -13,8 +13,8 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.model.I_C_Order;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.MUser;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.pos.PosKeyListener;
 import org.compiere.util.CLogger;
@@ -27,9 +27,6 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
-import org.zkoss.zul.Panel;
-import org.zkoss.zul.Panelchildren;
-import org.zkoss.zul.Space;
 import org.zkoss.zul.Style;
 
 
@@ -53,18 +50,22 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	private Label	 		f_TotalLines;
 	private Label	 		f_TaxAmount;
 	private Label	 		f_GrandTotal;
-	private Panel			card;
+	private Label	 		f_DocumentType;
+	private Label 			f_DocumentNo;
+
 	/**	Format				*/
 	private DecimalFormat	m_Format;
 	/**	Logger				*/
 	private static CLogger 	log = CLogger.getCLogger(WPOSProductPanel.class);
 	private int cont;
 	private Caption 		v_TitleBorder;
-	private Groupbox 		v_GroupPanel;
-	private Grid 			v_StandarPanel;
+	private Groupbox 		v_TotalsGroup;
+	private Groupbox 		v_InfOrderGroup;
+	private Grid 			v_TotalsPanel;
+	private Grid 			v_OrderPanel;
+	private Grid 			v_GroupPanel;
 
-	private Panelchildren 	v_PanelChildren;
-	private MUser 			salesRep;
+	private Label 			f_salesRep;
 	private Label 			productLabel;
 	
 	@Override
@@ -74,48 +75,123 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 			return;
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		cont = 0;
-		card = new Panel();
-		card.setWidth("100%");
-		card.setHeight("100%");
-		v_StandarPanel = GridFactory.newGridLayout();
-		v_StandarPanel.setWidth("100%");
-		v_StandarPanel.setHeight("100%");
 
-		v_GroupPanel = new Groupbox();
-		v_GroupPanel.appendChild(v_StandarPanel);
+		v_TotalsPanel = GridFactory.newGridLayout();
+		v_TotalsPanel.setWidth("350px");
+		v_TotalsPanel.setHeight("100%");
+
+		v_OrderPanel = GridFactory.newGridLayout();
+		v_OrderPanel.setWidth("320px");
+		v_OrderPanel.setHeight("100%");
+
+		v_GroupPanel = GridFactory.newGridLayout();
+		v_GroupPanel.setWidth("100%");
+		v_GroupPanel.setHeight("100%");
 		
-		v_PanelChildren = new Panelchildren();
+		//  Define the criteria rows and grid  
+		Rows rows = new Rows();
+		//
+		Row row = new Row();
+		rows.appendChild(row);
+		row.setSpans("1, 1");
+		
+		v_TotalsGroup = new Groupbox();
+		v_TotalsGroup.setWidth("100%");
+		v_InfOrderGroup = new Groupbox();
+		v_InfOrderGroup.setWidth("80%");
+		v_InfOrderGroup.appendChild(v_OrderPanel);
 
+		row.appendChild(v_InfOrderGroup);
+		row.appendChild(v_TotalsGroup);
+		productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
+		
+		f_ProductName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_ProductName.setWidth("100%");
+		
+		f_ProductName.setHeight("35px");
+		f_ProductName.setStyle("Font-size:medium; font-weight:bold");
+		f_ProductName.setName("Name");
+		f_ProductName.setReadonly(true);
+		f_ProductName.addEventListener(Events.ON_FOCUS,this);
+		f_ProductName.setValue(productLabel.getValue());
+		
+		
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("2");
+		row.appendChild(f_ProductName);
 
-		v_PanelChildren.appendChild(v_GroupPanel);
-		salesRep = new MUser(m_ctx, Env.getAD_User_ID(m_ctx), null);
-		v_TitleBorder = new Caption(salesRep.getName()+"[]");
+		v_GroupPanel.appendChild(rows);
+		
+		v_TotalsGroup.appendChild(v_TotalsPanel);
+		
+		v_TitleBorder = new Caption(Msg.getMsg(Env.getCtx(), "Totals"));
 		Style style = new Style();
 		style.setContent(".z-fieldset legend {font-size: medium; font-weight:bold;} "
 				+ ".Table-OrderLine tr th div{font-size: 14px; font-weight:bold; padding:5px} "
-				+ ".Table-OrderLine tr td div, .Table-OrderLine tr td div input{font-size: medium; height:25px}");
+				+ ".Table-OrderLine tr td div, .Table-OrderLine tr td div input{font-size: medium; height:25px}"
+				+ ".label-description {font-size: medium; display:block; height:15px; font-weight:bold; width: 350px; overflow:hidden;}");
 		style.setParent(v_TitleBorder);
-		v_GroupPanel.appendChild(v_TitleBorder);
-		card.appendChild(v_PanelChildren);
+		v_TotalsGroup.appendChild(v_TitleBorder);
 
-		Rows rows = null;
-		Row row = null;
-		rows = v_StandarPanel.newRows();
+		v_TitleBorder = new Caption(Msg.getMsg(Env.getCtx(), "InfoOrder"));
+		v_InfOrderGroup.appendChild(v_TitleBorder);
+		
+		rows = null;
+		row = null;
+		rows = v_OrderPanel.newRows();
 
 		North north = new North();
-		Grid layout = GridFactory.newGridLayout();
 		
-		north.appendChild(card);
-		north.setStyle("border: none; width:50%");
+		north.appendChild(v_GroupPanel);
+		north.setStyle("border: none; width:50%; height:170px");
+		//
+		row = rows.newRow();
+		row.setHeight("10px");
+		
+		Label f_lb_SalesRep = new Label (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_SalesRep_ID) + ":");
+		f_lb_SalesRep.setStyle("Font-size:medium; font-weight:bold");
+		row.appendChild(f_lb_SalesRep.rightAlign());
+		
+		f_salesRep = new Label(v_POSPanel.getSalesRepName());
+		f_salesRep.setStyle("Font-size:medium; font-weight:bold");
+		row.appendChild(f_salesRep.rightAlign());
+		
+		row = rows.newRow();
+		row.setHeight("30px");
+		
+		Label f_lb_DocumentType = new Label (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_C_DocType_ID) + ":");
+		f_lb_DocumentType.setStyle("Font-size:medium; font-weight:bold");
+		row.appendChild(f_lb_DocumentType.rightAlign());
+		
+		f_DocumentType = new Label();
+		f_DocumentType.setStyle("Font-size:medium; font-weight:bold");
+		row.appendChild(f_DocumentType.rightAlign());
+		
+		row = rows.newRow();
+		row.setHeight("30px");
+		
+		Label f_lb_DocumentNo = new Label (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo) + ":");
+		f_lb_DocumentNo.setStyle("Font-size:medium; font-weight:bold");
+		row.appendChild(f_lb_DocumentNo.rightAlign());
+		
+		f_DocumentNo = new Label();
+		f_DocumentNo.setStyle("Font-size:medium; font-weight:bold");
+		row.appendChild(f_DocumentNo.rightAlign());
+		
+		rows = null;
+		row = null;
+		rows = v_TotalsPanel.newRows();
+
 		//
 		row = rows.newRow();
 		row.setHeight("10px");
 
 		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
-		lNet.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lNet.rightAlign());
+		lNet.setStyle("Font-size:medium; font-weight:bold");
+		row.appendChild(lNet);
 		f_TotalLines = new Label(String.valueOf(DisplayType.Amount));
-		f_TotalLines.setStyle("Font-size:medium; width:200px");
+		f_TotalLines.setStyle("Font-size:medium;");
 		row.appendChild(f_TotalLines.rightAlign());
 		
 		f_TotalLines.setText("0.00");
@@ -124,45 +200,27 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		row.setHeight("30px");
 		
 		Label lTax = new Label (Msg.translate(Env.getCtx(), "C_Tax_ID")+":");
-		lTax.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lTax.rightAlign());
+		lTax.setStyle("Font-size:medium; font-weight:bold");
+		row.appendChild(lTax);
 		f_TaxAmount = new Label(String.valueOf(DisplayType.Amount));
 		f_TaxAmount.setStyle("Font-size:medium");
 		row.appendChild(f_TaxAmount.rightAlign());
 		f_TaxAmount.setText(Env.ZERO.toString());
 		
 		row = rows.newRow();
-		row.appendChild(new Space());
-		row.setHeight("5px");
-		Label line = new Label ("____________________");
-		row.appendChild(line.rightAlign());
-	
-		row = rows.newRow();
 		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
-		lTotal.setStyle("Font-size:medium; font-weight:700");
-		row.appendChild(lTotal.rightAlign());
+		lTotal.setStyle("Font-size:medium; font-weight:bold");
+		row.appendChild(lTotal);
 		f_GrandTotal = new Label(String.valueOf(DisplayType.Amount));
 		row.appendChild(f_GrandTotal.rightAlign());
 		f_GrandTotal.setText(Env.ZERO.toString());
 		f_GrandTotal.setStyle("Font-size:medium");
-		row.setWidth("15%");
 
-		productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		
-		f_ProductName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
-		f_ProductName.setWidth("100%");
-		
-		f_ProductName.setHeight("35px");
-		f_ProductName.setStyle("Font-size:medium; font-weight:700");
-		f_ProductName.setName("Name");
-		f_ProductName.setReadonly(true);
-		f_ProductName.addEventListener(Events.ON_FOCUS,this);
-		f_ProductName.setValue(productLabel.getValue());
 		f_HiddenField = new Button();
-		row = rows.newRow();
-		row.setSpans("4");
 		
 		Center center = new Center();
+		Grid layout = GridFactory.newGridLayout();
+
 		center.setStyle("border: none; overflow-y:auto;overflow-x:hidden;");
 		appendChild(center);
 		org.adempiere.webui.component.Panel centerPanel = new org.adempiere.webui.component.Panel();
@@ -175,7 +233,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		rows = layout.newRows();
 		
 		WPosKeyPanel panel = new WPosKeyPanel(C_POSKeyLayout_ID, this);
-		row.appendChild(f_ProductName);
+//		row.appendChild(f_ProductName);
 		row = rows.newRow();
 		row.setSpans("4");
 		row.appendChild(panel);
@@ -195,16 +253,19 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 			f_TotalLines.setText(m_Format.format(Env.ZERO));
 			f_GrandTotal.setText(m_Format.format(Env.ZERO));
 			f_TaxAmount.setText(m_Format.format(Env.ZERO));
-			v_TitleBorder.setLabel(salesRep.getName()+"[]");
+			v_TitleBorder.setLabel(Msg.getMsg(Env.getCtx(), "Totals"));
 		} else {
 			BigDecimal m_TotalLines = v_POSPanel.getTotalLines();
 			BigDecimal m_GrandTotal = v_POSPanel.getGrandTotal();
 			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
+			String currencyISO_Code = v_POSPanel.getCurSymbol();
 			//	Set Values
 			v_TitleBorder.setLabel(v_POSPanel.getSalesRepName() + "[" + v_POSPanel.getDocumentNo() + "]");
-			f_TotalLines.setText(m_Format.format(m_TotalLines));
-			f_GrandTotal.setText(m_Format.format(m_GrandTotal));
-			f_TaxAmount.setText(m_Format.format(m_TaxAmt));
+			f_TotalLines.setText(currencyISO_Code +" "+ m_Format.format(m_TotalLines));
+			f_GrandTotal.setText(currencyISO_Code +" "+ m_Format.format(m_GrandTotal));
+			f_TaxAmount.setText(currencyISO_Code +" "+ m_Format.format(m_TaxAmt));
+			f_DocumentNo.setText(v_POSPanel.getDocumentNo());
+			f_DocumentType.setText(v_POSPanel.getDocumentTypeName());
 		}
 		
 	}
@@ -222,11 +283,16 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	@Override
 	public void keyReturned(MPOSKey key) {
 		// processed order
-		if (v_POSPanel.getM_Order() != null 
-				&& v_POSPanel.getM_Order().isProcessed())
+		if (v_POSPanel.hasOrder() 
+				&& v_POSPanel.isCompleted()){
+			//	Show Product Info
+					v_POSPanel.refreshProductInfo(key);
 			return;
+		}
 		// Add line
 		addLine(key.getM_Product_ID(), key.getQty());
+		//	Show Product Info
+		v_POSPanel.refreshProductInfo(key);
 		return;
 		
 	}
