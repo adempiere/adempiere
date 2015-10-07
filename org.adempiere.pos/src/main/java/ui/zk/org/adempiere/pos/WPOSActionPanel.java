@@ -120,7 +120,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		// BPartner Search
 		f_bBPartner = createButtonAction(ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
 		f_bBPartner.addActionListener(this);
-		f_bBPartner.setTooltiptext(Msg.translate(p_ctx, "IsCustomer"));
+		f_bBPartner.setTooltiptext(Msg.translate(m_ctx, "IsCustomer"));
 		row.appendChild(f_bBPartner);
 				
 		// HISTORY
@@ -129,10 +129,10 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		row.appendChild(f_History); 
 
 		f_Back = createButtonAction("Parent", KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0));
-		f_Back.setTooltiptext(Msg.translate(p_ctx, "Previous"));
+		f_Back.setTooltiptext(Msg.translate(m_ctx, "Previous"));
 		row.appendChild (f_Back);
 		f_Next = createButtonAction("Detail", KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0));
-		f_Next.setTooltiptext(Msg.translate(p_ctx, "Next"));
+		f_Next.setTooltiptext(Msg.translate(m_ctx, "Next"));
 		row.appendChild (f_Next);
 		
 		// PAYMENT
@@ -144,14 +144,14 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		// Cancel
 		f_Cancel = createButtonAction (ACTION_CANCEL, null);
 		f_Cancel.addActionListener(this);
-		f_Cancel.setTooltiptext(Msg.translate(p_ctx, "POS.IsCancel"));
+		f_Cancel.setTooltiptext(Msg.translate(m_ctx, "POS.IsCancel"));
 		row.appendChild (f_Cancel);
 		f_Cancel.setEnabled(false);
 		
 		// LOGOUT
 		f_logout = createButtonAction (ACTION_LOGOUT, null);
 		f_logout.addActionListener(this);
-		f_logout.setTooltiptext(Msg.translate(p_ctx, "End"));
+		f_logout.setTooltiptext(Msg.translate(m_ctx, "End"));
 		row.appendChild (f_logout);
 		row.appendChild(new Space());
 		
@@ -233,15 +233,15 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			askMsg = "POS.OrderIsAlreadyCompleted";	//	TODO Translate it: The order is already completed. Do you want to void it?
 		}
 		//	Show Ask
-		if (FDialog.ask(0, this, Msg.getMsg(p_ctx, askMsg))) {
+		if (FDialog.ask(0, this, Msg.getMsg(m_ctx, askMsg))) {
 			errorMsg = v_POSPanel.cancelOrder();
 		} 
 		if(errorMsg != null){
-			FDialog.error(0,  Msg.parseTranslation(p_ctx, errorMsg));
+			FDialog.error(0,  Msg.parseTranslation(m_ctx, errorMsg));
 			return;
 		}
 		//	Update
-		changeViewPanel();
+		v_POSPanel.refreshPanel();
 	} // deleteOrder
 	
 	/**
@@ -251,7 +251,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
 		if( v_POSPanel.getM_Order() == null ) {
-				FDialog.warn(0, Msg.getMsg(p_ctx, "You must create an Order first"));
+				FDialog.warn(0, Msg.getMsg(m_ctx, "You must create an Order first"));
 				return;
 		}
 		WCollect collect = new WCollect(v_POSPanel);
@@ -296,7 +296,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		String Phone = (noNumber ? null : query);
 		String City = null;
 		//
-		MBPartnerInfo[] results = MBPartnerInfo.find(p_ctx, Value, Name, 
+		MBPartnerInfo[] results = MBPartnerInfo.find(m_ctx, Value, Name, 
 			/*Contact, */null, EMail, Phone, City);
 		
 		//	Set Result

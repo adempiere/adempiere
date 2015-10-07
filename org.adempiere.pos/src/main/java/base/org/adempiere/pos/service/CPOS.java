@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.apps.ADialog;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
@@ -54,7 +53,6 @@ import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -761,29 +759,6 @@ public class CPOS {
 		return m_Error;
 	} //	saveLine
 	
-	
-	/**
-	 * Delete order from database
-	 */		
-	private void deleteOrder() {
-		//	
-		if (isDrafted()) {
-			MOrderLine[] lines = m_CurrentOrder.getLines();
-			if (lines != null) {
-				for(MOrderLine line : lines){
-					line.deleteEx(true);
-				}
-			}
-			//	Delete Tax
-			MOrderTax[] taxs = m_CurrentOrder.getTaxes(true);
-			if (taxs != null) {
-				for (MOrderTax tax : taxs) {
-					tax.deleteEx(true);
-				}
-			}
-		}
-	} //	deleteOrder
-	
 	/**
 	 * 	Call Order void process 
 	 *  Only if Order is "Drafted", "In Progress" or "Completed"
@@ -819,7 +794,9 @@ public class CPOS {
 			if (!hasOrder()) {
 				throw new AdempierePOSException("@POS.MustCreateOrder@");
 			} else if (!isCompleted()) {
-				deleteOrder();
+				//	Delete Order
+				m_CurrentOrder.deleteEx(true);
+				m_CurrentOrder = null;
 			} else if (isCompleted()) {	
 				voidOrder();
 			} else {

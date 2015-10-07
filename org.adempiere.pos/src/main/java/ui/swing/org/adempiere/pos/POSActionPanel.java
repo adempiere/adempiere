@@ -334,7 +334,7 @@ public class POSActionPanel extends POSSubPanel
 					this, Msg.parseTranslation(m_ctx, errorMsg));
 		}
 		//	Update
-		changeViewPanel();
+		v_POSPanel.refreshPanel();
 	} // deleteOrder
 
 	/**
