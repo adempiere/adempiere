@@ -74,13 +74,13 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	private Label fGrandTotal = new Label();
 	private Label fBalance = new Label();
 	private Label fPayAmt;
-	private boolean paid = false;
+	private boolean isPaid = false;
 	private BigDecimal m_Balance = Env.ZERO;
-	private Checkbox fIsPrePayment;
+	private Checkbox fIsPrePayOrder;
 	private Checkbox fIsCreditOrder;
 	private Label fReturnAmt;
 	private Label lReturnAmt;
-	private Button fPlus;
+	private Button bPlus;
 	private ArrayList<Object> types;
 	private final String FONT_SIZE = "Font-size:medium;";
 	private final String FONT_BOLD = "font-weight:700";
@@ -96,7 +96,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	/**	Log					*/
 	private CLogger 		log = CLogger.getCLogger(WCollect.class);
 	private ConfirmPanel confirm;
-	
+	private Panel centerPanel;
 	public WCollect(WPOS posPanel) {
 		super(posPanel.getCtx(), posPanel.getM_Order(), posPanel.getM_POS());
 		
@@ -132,7 +132,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		eastlayout = GridFactory.newGridLayout();
 		
 		//	Panels
-		Panel centerPanel = new Panel();
+		centerPanel = new Panel();
 		Panel eastPanel = new Panel();
 		mainPanel.appendChild(mainLayout);
 		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0;");
@@ -191,16 +191,16 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		fReturnAmt.addEventListener("onFocus", this);
 		
 		// Button Plus
-		fPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
+		bPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
 		row = rows.newRow();
 
 		row.appendChild(new Space());
-		fIsPrePayment = new Checkbox();
-		fIsPrePayment.addActionListener(this);
-		fIsPrePayment.setText(Msg.translate(p_ctx, "isPrePayment"));
-		fIsPrePayment.setStyle(FONT_SIZE+ "; Text-Align:right");
+		fIsPrePayOrder = new Checkbox();
+		fIsPrePayOrder.addActionListener(this);
+		fIsPrePayOrder.setText(Msg.translate(p_ctx, "isPrePayment"));
+		fIsPrePayOrder.setStyle(FONT_SIZE+ "; Text-Align:right");
 		
-		row.appendChild(fIsPrePayment);
+		row.appendChild(fIsPrePayOrder);
 		fIsCreditOrder = new Checkbox();
 		fIsCreditOrder.setText(Msg.translate(p_ctx, "CreditSale"));
 		
@@ -208,7 +208,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		fIsCreditOrder.setHeight("30px");
 		fIsCreditOrder.addActionListener(this);
 		row.appendChild(fIsCreditOrder);
-		row.appendChild(fPlus);
+		row.appendChild(bPlus);
 		row.setHeight("60px");
 		Center center = new Center();
 		center.setStyle("border: none; overflow-y:auto;overflow-x:hidden;");
@@ -282,21 +282,21 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	public void onEvent(org.zkoss.zk.ui.event.Event event) throws Exception {
 		String action = event.getTarget().getId();
 		if(event.getTarget().equals(fIsCreditOrder)){
-			fIsPrePayment.setSelected(false);
+			fIsPrePayOrder.setSelected(false);
 			if(fIsCreditOrder.isSelected()) {				
-				fPlus.setVisible(false);  // TODO setEnable(false) doesn't work!!
+				bPlus.setVisible(false);  // TODO setEnable(false) doesn't work!!
 				confirm.getOKButton().setEnabled(true);
 			}
 		else 
-			fPlus.setVisible(true);
+			bPlus.setVisible(true);
 		}
-		else if(event.getTarget().equals(fIsPrePayment)){
+		else if(event.getTarget().equals(fIsPrePayOrder)){
 			fIsCreditOrder.setSelected(false);
-			fPlus.setVisible(true);   // TODO setEnable(true) doesn't work!!
+			bPlus.setVisible(true);   // TODO setEnable(true) doesn't work!!
 		}
 		else if (event.getName().equals("onBlur") || event.getName().equals("onFocus")) {
 		}
-		else if(event.getTarget().equals(fPlus)){
+		else if(event.getTarget().equals(bPlus)){
 			addCollectType();
 			return;
 		}
@@ -312,12 +312,10 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 				FDialog.warn(0, Msg.parseTranslation(p_ctx, validResult));
 				return;
 			}
-					//
-
 			v_POSPanel.setOrder(0);
 			v_POSPanel.setC_BPartner_ID(0);
 			v_POSPanel.refreshPanel();
-			
+			isPaid = true;
 			v_Window.dispose();
 			return;
 		}
@@ -326,26 +324,40 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 			v_Window.dispose();
 			return;
 		}
-		 else if(event.getTarget().equals(fIsPrePayment)) {	//	For Pre-Payment Order Checked
+		 else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
 			fIsCreditOrder.setSelected(false);
-			fPlus.setVisible(true); 
+			bPlus.setVisible(true); 
 		}
 		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
-				fIsPrePayment.setSelected(false);
+				fIsPrePayOrder.setSelected(false);
 				if(fIsCreditOrder.isSelected()) {				
-					fPlus.setVisible(false);  
+					bPlus.setVisible(false);  
 					confirm.getOKButton().setEnabled(true);
+					removeAllCollectDetail();
 				}
 				else 
-					fPlus.setVisible(true);
-			} else if(event.getTarget().equals(fIsPrePayment)) {	//	For Pre-Payment Order Checked
+					bPlus.setVisible(true);
+			} else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
 				fIsCreditOrder.setSelected(false);
-				fPlus.setVisible(true);   
+				bPlus.setVisible(true);   
 			}
 		else {
 					layout.invalidate();
 			return;
 		}
+	}
+	
+	/**
+	 * Remove All Collect Detail
+	 * @return void
+	 */
+	public void removeAllCollectDetail() {
+		layout.getChildren().clear();
+		centerPanel.getChildren().clear();
+		super.removeAllCollectDetail();
+		//	Refresh View
+//		v_ScrollPanel.validate();
+//		v_ScrollPanel.repaint();
 	}
 	/**
 	 * Process Window
@@ -359,15 +371,10 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 //			setReturnAmt(new BigDecimal(fReturnAmt.getValue()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					String msg = validatePayment(v_POSPanel.getOpenAmt());
-					if(msg == null){
-						if(v_POSPanel.processOrder(trxName, isPrePayOrder())) {
-							processPayment(trxName, v_POSPanel.getOpenAmt());
-						} else {
-							throw new POSaveFailedException(v_POSPanel.getProcessMsg());
-						}
-					} else{
-						FDialog.warn(0, Msg.parseTranslation(p_ctx, msg));
+					if(v_POSPanel.processOrder(trxName, isPrePayOrder())) {
+						processPayment(trxName, v_POSPanel.getOpenAmt());
+					} else {
+						throw new POSaveFailedException(v_POSPanel.getProcessMsg());
 					}
 				}
 			});
@@ -391,13 +398,11 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 				fPayAmt.setText(payAmt + text);
 				return;
 			}
-			try
-			{
+			try	{
 				Integer.parseInt(text);		// test if number
 				fPayAmt.setText(payAmt + text);
 			}
-			catch (NumberFormatException e)
-			{
+			catch (NumberFormatException e)	{
 				// ignore non-numbers
 			}
 		}
@@ -421,10 +426,11 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		m_PayAmt= m_PayAmt.add(getPrePayAmt());
 		m_Balance = v_POSPanel.getGrandTotal().subtract(m_PayAmt);
 		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
+		String currencyISO_Code = v_POSPanel.getCurSymbol();
 		//	Change View
-		fGrandTotal.setText(m_Format.format(v_POSPanel.getGrandTotal()));
-		fPayAmt.setText(m_Format.format(m_PayAmt));
-		fReturnAmt.setText(m_Format.format(m_Balance));
+		fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(v_POSPanel.getGrandTotal()));
+		fPayAmt.setText(currencyISO_Code +" "+ m_Format.format(m_PayAmt));
+		fReturnAmt.setText(currencyISO_Code +" "+ m_Format.format(m_Balance));
 		//	
 		changeViewPanel();
 	}
@@ -435,7 +441,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 			return "POS.MustCreateOrder";
 		} else if(fIsCreditOrder.isSelected()) {	//	For Credit Order
 			return null;
-		} else if(!fIsPrePayment.isSelected() 
+		} else if(!fIsPrePayOrder.isSelected() 
 				&& m_Balance.doubleValue() > 0) {	//	For Pre-Payment Order
 			return "POS.OrderPayNotCompleted";
 		} else if(m_Balance.doubleValue() < 0) {
@@ -446,7 +452,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	}
 
 	private boolean isPaid() {
-		return paid ;
+		return isPaid ;
 	}
 
 	public String getGranTotal(){
@@ -468,26 +474,40 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 
 	@Override
 	public void changeViewPanel() {
-		if(fIsCreditOrder.isSelected()) {
-			fIsPrePayment.setSelected(false);
-			fPlus.setEnabled(true);  // TODO setEnable(true) doesn't work!!
-			
-			if((!v_POSPanel.isCompleted() && m_Balance.doubleValue() > 0) ||
-			   (v_POSPanel.isCompleted() && getPayAmt().compareTo(Env.ZERO)==1) ) 
-				confirm.getOKButton().setEnabled(true);
-			else
-				confirm.getOKButton().setEnabled(false);
-			
-		} else if(fIsPrePayment.isSelected()) {
-			if(getPayAmt().doubleValue() > 0) {
-				confirm.getOKButton().setEnabled(true);
-			} else {
-				confirm.getOKButton().setEnabled(false);
-			}
-		} else if(m_Balance.doubleValue() <= 0) {
+		boolean isCreditOpen = (v_POSPanel.isCompleted() 
+				&& v_POSPanel.getOpenAmt().doubleValue() > 0);
+		//	Is Standard Order
+		boolean isStandardOrder = v_POSPanel.isStandardOrder();
+		//	Set Credit Order
+		setIsCreditOrder(isCreditOrder() 
+				|| (isCreditOpen && !isStandardOrder));
+		//	
+		setIsPrePayOrder(isPrePayOrder()
+				|| (isCreditOpen && isStandardOrder));
+		//	Set Credit and Pre-Pay Order
+		fIsCreditOrder.setSelected(isCreditOrder());
+		fIsPrePayOrder.setSelected(isPrePayOrder());
+//		fPaymentTerm.setVisible(isCreditOrder());
+		//	Verify complete order
+		if(v_POSPanel.isCompleted()) {
+			fIsCreditOrder.setEnabled(false);
+			fIsPrePayOrder.setEnabled(false);
+//			fPaymentTerm.setEnabled(false);
+			bPlus.setEnabled(isCreditOpen);
 			confirm.getOKButton().setEnabled(true);
-		} else {
+		} else if(v_POSPanel.isVoided()){
+			fIsCreditOrder.setEnabled(false);
+			fIsPrePayOrder.setEnabled(false);
+//			fPaymentTerm.setEnabled(false);
+			bPlus.setEnabled(false);
 			confirm.getOKButton().setEnabled(false);
+		} else {
+			fIsCreditOrder.setEnabled(true);
+			fIsPrePayOrder.setEnabled(true);
+//			fPaymentTerm.setEnabled(true);
+			bPlus.setEnabled(!isCreditOrder()
+					|| isCreditOpen);
+			confirm.getOKButton().setEnabled(true);
 		}
 	}
 	
