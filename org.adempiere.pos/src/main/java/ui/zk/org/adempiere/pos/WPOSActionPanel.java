@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.WPosQuery;
 import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.search.WQueryTicket;
@@ -24,6 +25,7 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
+import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MSequence;
@@ -179,6 +181,12 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		f_name.addEventListener(Events.ON_FOCUS, this);
 		row.appendChild  (f_name);
 		enableButton();
+		
+		WPOSInfoProduct panel = new WPOSInfoProduct(v_POSPanel);
+		row = rows.newRow();
+		row.setSpans("9");
+		row.appendChild(panel.getPanel());
+		
 	}
 	/**
 	 * 	Print Ticket
@@ -190,14 +198,13 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			return;
 		
 		MOrder order = v_POSPanel.getM_Order();
-		//int windowNo = p_posPanel.getWindowNo();
-		//Properties m_ctx = p_posPanel.getPropiedades();
 		
 		if (order != null)
 		{
 			try 
 			{
 				//print standard document
+				Boolean print = true;
 				if (p_pos.getAD_Sequence_ID() != 0)
 				{
 					MSequence seq = new MSequence(Env.getCtx(), p_pos.getAD_Sequence_ID(), order.get_TrxName());
@@ -355,6 +362,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
+		String action = e.getTarget().getId();
 		cont++;
 		if(e.getName().equals(Events.ON_FOCUS)) {
 			if(cont<2){
