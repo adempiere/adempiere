@@ -59,7 +59,7 @@ public abstract class WPosSubPanel extends Borderlayout
 	/**	Underlying POS Model				*/
 	protected MPOS					p_pos;
 	/** Context								*/
-	protected Properties			p_ctx = Env.getCtx();
+	protected Properties			m_ctx = Env.getCtx();
 	
 
 	/** Button Width = 55			*/
@@ -91,7 +91,7 @@ public abstract class WPosSubPanel extends Borderlayout
 	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
-		button.setTooltiptext(Msg.translate(p_ctx, action));
+		button.setTooltiptext(Msg.translate(m_ctx, action));
 		button.setWidth(WIDTH+"px");
 		button.setHeight(HEIGHT+"px");
 		button.addActionListener(this);
@@ -107,7 +107,7 @@ public abstract class WPosSubPanel extends Borderlayout
 	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
-		button.setTooltiptext(Msg.translate(p_ctx, action));
+		button.setTooltiptext(Msg.translate(m_ctx, action));
 		button.setId(m_OSK_KeyLayout_ID+"");
 		button.setWidth(WIDTH+"px");
 		button.setHeight(HEIGHT+"px");

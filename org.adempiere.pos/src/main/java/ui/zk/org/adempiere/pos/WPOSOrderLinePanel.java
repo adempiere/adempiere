@@ -137,7 +137,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 			if ( key != null &&  key.getRecord_ID() != m_C_OrderLine_ID )
 				m_C_OrderLine_ID = key.getRecord_ID();
 			BigDecimal qty = new BigDecimal(m_table.getModel().getValueAt(id, POSOrderLineTableHandle.POSITION_QTYORDERED).toString());
-			MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
+			MOrderLine line = new MOrderLine(m_ctx, m_C_OrderLine_ID, null);
 			if ( line != null )
 			{
 					line.setPrice(new BigDecimal(m_table.getModel().getValueAt(id, 4).toString()));
@@ -173,7 +173,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 			
 			if ( key != null &&  key.getRecord_ID() != m_C_OrderLine_ID ){
 				m_C_OrderLine_ID = key.getRecord_ID();
-				MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
+				MOrderLine line = new MOrderLine(m_ctx, m_C_OrderLine_ID, null);
 				if ( line != null )
 				{
 					

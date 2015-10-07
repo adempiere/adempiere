@@ -88,7 +88,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 
 
 		v_PanelChildren.appendChild(v_GroupPanel);
-		salesRep = new MUser(p_ctx, Env.getAD_User_ID(p_ctx), null);
+		salesRep = new MUser(m_ctx, Env.getAD_User_ID(m_ctx), null);
 		v_TitleBorder = new Caption(salesRep.getName()+"[]");
 		Style style = new Style();
 		style.setContent(".z-fieldset legend {font-size: medium; font-weight:bold;} "
@@ -287,7 +287,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		MWarehousePrice[] results = null;
 
 		//
-		results = MWarehousePrice.find  (p_ctx,
+		results = MWarehousePrice.find  (m_ctx,
 				v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID(), 
 				Value, Name, UPC, SKU, null);
 		
@@ -334,7 +334,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		if (lineError != null) {
 			log.warning("POS Error " + lineError);
 			FDialog.error(0, 
-					this, Msg.parseTranslation(p_ctx, lineError));
+					this, Msg.parseTranslation(m_ctx, lineError));
 		}
 		//	Update Info
 		v_POSPanel.refreshPanel();
