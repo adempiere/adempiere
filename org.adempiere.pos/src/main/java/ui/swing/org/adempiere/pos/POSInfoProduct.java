@@ -80,7 +80,7 @@ public class POSInfoProduct extends POSSubPanel {
 	/**	Button Size			*/
 	private final int	BUTTON_SIZE = 100;
 	/**	Length for Labels	*/
-	private final int	LABEL_LENGTH = 300;
+	private final int	LABEL_LENGTH = 200;
 	
 	
 	@Override
@@ -93,18 +93,11 @@ public class POSInfoProduct extends POSSubPanel {
 		border.setTitleColor(AdempierePLAF.getTextColor_Label());
 		setBorder(border);
 		//	Padding
-		int m_RightPadding = 30;
+		int m_RightPadding = 0;
 		Font localFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 16);
 		//	Instance Panels
 //		v_LeftPanel = new CPanel(new GridBagLayout());
 		v_RightPanel = new CPanel(new GridBagLayout());
-		//	For Price
-		fPrice = new CLabel (Msg.getElement(Env.getCtx(), "Price"));
-		fPrice.setFont(v_POSPanel.getFont());
-		fPrice.setHorizontalAlignment(CLabel.RIGHT);
-		//	Add
-		v_RightPanel.add(fPrice, new GridBagConstraints(3, 0, 1, 1, 1, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Value
 		fValue = new CLabel (Msg.getElement(Env.getCtx(), "ProductValue"));
 		fValue.setFont(v_POSPanel.getFont());
@@ -125,13 +118,23 @@ public class POSInfoProduct extends POSSubPanel {
 		fDescription.setHorizontalAlignment(CLabel.LEFT);
 		FontMetrics metrics = getFontMetrics(localFont);
 		fDescription.setPreferredSize(new Dimension(LABEL_LENGTH, metrics.getHeight()));
+		fDescription.setMinimumSize(new Dimension(LABEL_LENGTH, metrics.getHeight()));
 		//	Add
-		v_RightPanel.add(fDescription, new GridBagConstraints(0, 2, 1, 1, 1, 0.0
+		v_RightPanel.add(fDescription, new GridBagConstraints(0, 2, 2, 1, 1, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//	For Price
+		fPrice = new CLabel (Msg.getElement(Env.getCtx(), "Price"));
+		fPrice.setFont(v_POSPanel.getFont());
+		fPrice.setHorizontalAlignment(CLabel.RIGHT);
+		fPrice.setHorizontalTextPosition(CLabel.RIGHT);
+		//	Add
+		v_RightPanel.add(fPrice, new GridBagConstraints(2, 0, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Image
 		bImage = new CButton();
 		bImage.setFont(v_POSPanel.getFont());
 		bImage.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+		bImage.setMinimumSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
 		bImage.setFocusable(false);
 		bImage.setVerticalTextPosition(SwingConstants.BOTTOM);
 		bImage.setHorizontalTextPosition(SwingConstants.CENTER);

@@ -254,5 +254,4 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 		}
 		
 	}	//	actionPerformed
-
 }

@@ -88,7 +88,7 @@ public class POSActionPanel extends POSSubPanel
 	/**	Button Panel		*/
 	private CPanel				v_ButtonPanel;
 	/**	Business Partner 	*/
-	private CPanel				v_BPPanel;
+//	private CPanel				v_BPPanel;
 	/**	Info Product Panel	*/
 	private POSInfoProduct		v_InfoProductPanel;
 	/**	For Show BPartner	*/
@@ -119,20 +119,13 @@ public class POSActionPanel extends POSSubPanel
 		setLayout(new GridBagLayout());
 		//	Button Panel
 		v_ButtonPanel = new CPanel(new GridBagLayout());
-		v_BPPanel = new CPanel(new GridBagLayout());
+//		v_BPPanel = new CPanel(new GridBagLayout());
 		v_InfoProductPanel = new POSInfoProduct(v_POSPanel);
 		//	
-		m_TopP = 5;
-		m_LeftP = 5;
-		m_BottonP = 5;
-		m_RightP = 5;
-		//	Add Button Panel
-		add(v_ButtonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-		add(v_BPPanel, new GridBagConstraints(0, 1, 1, 1, 1, 1
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-		add(v_InfoProductPanel, new GridBagConstraints(0, 2, 1, 1, 1, 1
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+		m_TopP = 0;
+		m_LeftP = 1;
+		m_BottonP = 0;
+		m_RightP = 1;
 		// NEW
 		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
 		f_bNew.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
@@ -187,12 +180,23 @@ public class POSActionPanel extends POSSubPanel
 		f_NameBPartner.setPlaceholder(labelName);
 		f_NameBPartner.addActionListener(this);
 		f_NameBPartner.setFont(v_POSPanel.getFont());
-		f_NameBPartner.setPreferredSize(new Dimension(400, v_POSPanel.getFieldLenght()));
+		f_NameBPartner.setPreferredSize(new Dimension(250, v_POSPanel.getFieldLenght()));
+		f_NameBPartner.setMinimumSize(new Dimension(250, v_POSPanel.getFieldLenght()));
+		//	
+		v_InfoProductPanel.setPreferredSize(new Dimension(250, 130));
+		v_InfoProductPanel.setMinimumSize(new Dimension(250, 130));
 //		l_BPartner.setLabelFor(f_NameBPartner);
 //		l_BPartner.setFont(v_POSPanel.getFont());
 		//	Add
-		v_BPPanel.add(f_NameBPartner, new GridBagConstraints(0, 0, 1, 1, 0, 1
-				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+//		v_BPPanel.add(f_NameBPartner, new GridBagConstraints(0, 0, 1, 1, 0, 1
+//				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+		//	Add Button Panel
+		add(v_ButtonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+		add(f_NameBPartner, new GridBagConstraints(0, 1, 8, 1, 1, 1
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+		add(v_InfoProductPanel, new GridBagConstraints(0, 2, 8, 1, 1, 1
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 		//	List Orders
 		v_POSPanel.listOrder();
 	}	//	init

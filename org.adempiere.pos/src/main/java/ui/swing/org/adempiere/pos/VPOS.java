@@ -18,6 +18,7 @@
 package org.adempiere.pos;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -107,7 +108,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_DividerPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		v_DividerPane.setBorder(BorderFactory.createEtchedBorder());
 		v_DividerPane.setContinuousLayout(true);
-		v_DividerPane.setDividerLocation(600);
+		v_DividerPane.setDividerLocation(500);
 		v_MainPane.add(v_DividerPane, BorderLayout.CENTER);
 		originalKeyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		m_focusMgr = new PosKeyboardFocusManager();
@@ -249,11 +250,15 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_ActionPanel = new POSActionPanel(this);
 		v_LeftPanel.add(v_ActionPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		v_LeftPanel.setPreferredSize(new Dimension(500, 800));
+		v_LeftPanel.setMinimumSize(new Dimension(500, 800));
 		//
 		v_OrderLinePanel = new POSOrderLinePanel(this);
 		v_LeftPanel.add(v_OrderLinePanel, new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		v_ProductKeysPanel = new POSProductPanel(this);
+		v_ProductKeysPanel.setPreferredSize(new Dimension(500, 800));
+		v_ProductKeysPanel.setMinimumSize(new Dimension(500, 800));
 		v_DividerPane.add(v_LeftPanel, JSplitPane.LEFT);
 		v_DividerPane.add(v_ProductKeysPanel, JSplitPane.RIGHT);		
 		return true;
