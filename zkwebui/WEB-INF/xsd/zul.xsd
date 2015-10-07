@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.zkoss.org/2005/zul"
-	targetNamespace="http://www.zkoss.org/2005/zul" elementFormDefault="qualified">
+	targetNamespace="http://www.zkoss.org/2005/zul" elementFormDefault="qualified" version="8.0.0.201509091801">
     <!--
     SIMPLETYPE
     -->
@@ -466,10 +466,12 @@
 		<xs:attribute name="stubonly" type="xs:string" use="optional" />		
 		<xs:attribute name="use" type="xs:string" use="optional" />
 		<xs:attribute name="viewModel" type="xs:string" use="optional" />
+		<xs:attribute name="validationMessages" type="xs:string" use="optional" />
 		<xs:attribute name="visible" type="booleanType" use="optional" />
 	</xs:attributeGroup>
 	<xs:attributeGroup name="htmlBasedComponentAttrGroup">
 		<xs:attributeGroup ref="abstractComponentAttrGroup" />
+		<xs:attributeGroup ref="mouseExtAttrGroup" />
 		<xs:attribute name="width" type="xs:string" use="optional" />
 		<xs:attribute name="height" type="xs:string" use="optional" />
 		<xs:attribute name="sclass" type="xs:string" use="optional" />
@@ -531,6 +533,7 @@
 	</xs:attributeGroup>
 	<xs:attributeGroup name="labelImageElementAttrGroup">
 		<xs:attributeGroup ref="labelElementAttrGroup" />
+		<xs:attribute name="iconSclass" type="xs:string" use="optional" />
 		<xs:attribute name="image" type="xs:string" use="optional" />
 		<xs:attribute name="imageContent" type="mediaType" use="optional" />
 		<xs:attribute name="hoverImage" type="xs:string" use="optional" />
@@ -577,6 +580,7 @@
 			<xs:element ref="a" />
 			<xs:element ref="absolutelayout"/>
 			<xs:element ref="anchorlayout"/>
+			<xs:element ref="apply"/>
 			<xs:element ref="audio" />
 			<xs:element ref="bandbox" />
 			<xs:element ref="biglistbox" />
@@ -590,8 +594,9 @@
 			<xs:element ref="chart" />
 			<xs:element ref="charts" />
 			<xs:element ref="checkbox" />
-			<xs:element ref="ckeditor" />
+			<xs:element ref="choose" />
 			<xs:element ref="chosenbox" />
+			<xs:element ref="ckeditor" />
 			<xs:element ref="colorbox" />
 			<xs:element ref="columnlayout" />
 			<xs:element ref="combobox" />
@@ -606,6 +611,7 @@
 			<xs:element ref="fisheyebar" />
 			<xs:element ref="flash" />
 			<xs:element ref="flashchart" />
+			<xs:element ref="forEach" />
 			<xs:element ref="fusionchart" />
 			<xs:element ref="frozen" />
 			<xs:element ref="gmaps" />
@@ -615,6 +621,7 @@
 			<xs:element ref="hlayout" />
 			<xs:element ref="html" />
 			<xs:element ref="idspace" />
+			<xs:element ref="if" />
 			<xs:element ref="iframe" />
 			<xs:element ref="image" />
 			<xs:element ref="imagemap" />
@@ -626,6 +633,7 @@
 			<xs:element ref="menubar" />
 			<xs:element ref="menupopup" />
 			<xs:element ref="navbar" />
+			<xs:element ref="otherwise" />
 			<xs:element ref="paging" />
 			<xs:element ref="panel" />
 			<xs:element ref="pivottable" />
@@ -634,6 +642,7 @@
 			<xs:element ref="progressmeter" />
 			<xs:element ref="radio" />
 			<xs:element ref="radiogroup" />
+			<xs:element ref="rowlayout" />
 			<xs:element ref="script" />
 			<xs:element ref="scrollview" />
 			<xs:element ref="selectbox" />
@@ -644,14 +653,17 @@
 			<xs:element ref="style" />
 			<xs:element ref="tabbox" />
 			<xs:element ref="tablelayout" />
+			<xs:element ref="tbeditor" />
 			<xs:element ref="textbox" />
 			<xs:element ref="timer" />
 			<xs:element ref="timebox" />
+			<xs:element ref="timepicker" />
 			<xs:element ref="toolbar" />
 			<xs:element ref="toolbarbutton" />
 			<xs:element ref="tree" />
 			<xs:element ref="vbox" />
 			<xs:element ref="vlayout" />
+			<xs:element ref="when" />
 			<xs:element ref="window" />
 			<xs:element ref="zscript" />
 		</xs:choice>
@@ -662,6 +674,7 @@
 				<xs:element ref="a" />
 				<xs:element ref="absolutelayout"/>
 				<xs:element ref="anchorlayout"/>
+				<xs:element ref="apply"/>
 				<xs:element ref="audio" />
 				<xs:element ref="bandbox" />
 				<xs:element ref="biglistbox" />
@@ -675,6 +688,7 @@
 				<xs:element ref="chart" />
 				<xs:element ref="charts" />
 				<xs:element ref="checkbox" />
+				<xs:element ref="choose" />
 				<xs:element ref="chosenbox" />
 				<xs:element ref="ckeditor" />
 				<xs:element ref="colorbox" />
@@ -691,6 +705,7 @@
 				<xs:element ref="fisheyebar" />
 				<xs:element ref="flash" />
 				<xs:element ref="flashchart" />
+				<xs:element ref="forEach" />
 				<xs:element ref="fusionchart" />
 				<xs:element ref="frozen" />
 				<xs:element ref="gmaps" />
@@ -700,6 +715,7 @@
 				<xs:element ref="hlayout" />
 				<xs:element ref="html" />
 				<xs:element ref="idspace" />
+				<xs:element ref="if" />
 				<xs:element ref="iframe" />
 				<xs:element ref="image" />
 				<xs:element ref="imagemap" />
@@ -711,6 +727,7 @@
 				<xs:element ref="menubar" />
 				<xs:element ref="menupopup" />
 				<xs:element ref="navbar" />
+				<xs:element ref="otherwise" />
 				<xs:element ref="paging" />
 				<xs:element ref="panel" />
 				<xs:element ref="pivottable" />
@@ -719,6 +736,7 @@
 				<xs:element ref="progressmeter" />
 				<xs:element ref="radio" />
 				<xs:element ref="radiogroup" />
+				<xs:element ref="rowlayout" />
 				<xs:element ref="script" />
 				<xs:element ref="scrollview" />
 				<xs:element ref="selectbox" />
@@ -728,14 +746,17 @@
 				<xs:element ref="spinner" />
 				<xs:element ref="style" />
 				<xs:element ref="tabbox" />
+				<xs:element ref="tbeditor" />
 				<xs:element ref="textbox" />
 				<xs:element ref="timer" />
 				<xs:element ref="timebox" />
+				<xs:element ref="timepicker" />
 				<xs:element ref="toolbar" />
 				<xs:element ref="toolbarbutton" />
 				<xs:element ref="tree" />
 				<xs:element ref="vbox" />
 				<xs:element ref="vlayout" />
+				<xs:element ref="when" />
 				<xs:element ref="window" />
 				<xs:element ref="zscript" />
 			</xs:choice>
@@ -1634,6 +1655,7 @@
 		<xs:attribute name="innerWidth" type="xs:string" use="optional" />
 		<xs:attribute name="autopaging" type="booleanType" use="optional" />
 		<xs:attribute name="emptyMessage" type="xs:string" use="optional" />
+		<xs:attribute name="span" type="xs:string" use="optional" />
 	</xs:complexType>
 
     <!-- groupbox -->
@@ -1653,6 +1675,7 @@
 		<xs:attributeGroup ref="mouseExtAttrGroup" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
 		<xs:attributeGroup ref="rootAttrGroup" />
+		<xs:attribute name="title" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- group -->
 	<xs:element name="group" type="groupType" />
@@ -1898,6 +1921,7 @@
 		<xs:attribute name="nonselectableTags" type="xs:string" use="optional" />
 		<xs:attribute name="autopaging" type="booleanType" use="optional" />
 		<xs:attribute name="emptyMessage" type="xs:string" use="optional" />
+		<xs:attribute name="span" type="xs:string" use="optional" />
 	</xs:complexType>
 	<xs:simpleType name="pagingPositionAttrType">
 		<xs:union>
@@ -2079,7 +2103,7 @@
 			<xs:group ref="baseGroup" />
 			<xs:element ref="navitem" />
 		</xs:choice>
-		<xs:attributeGroup ref="xulElementAttrGroup" />
+		<xs:attributeGroup ref="labelImageElementAttrGroup" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
 	</xs:complexType>
 	<!-- navbar -->
@@ -2105,6 +2129,7 @@
 		<xs:attribute name="target" type="xs:string" use="optional" />
 		<xs:attribute name="disabled" type="booleanType" use="optional" />
 		<xs:attribute name="src" type="xs:string" use="optional" />
+		<xs:attribute name="selected" type="booleanType" use="optional" />
 	</xs:complexType>
     <!-- navseparator -->
 	<xs:element name="navseparator" type="navseparatorType" />
@@ -2309,28 +2334,36 @@
 		</xs:choice>
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 	</xs:complexType>
+	<!-- rowchildren -->
+	<xs:element name="rowchildren" type="rowchildrenType" />
+	<xs:complexType name="rowchildrenType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:group ref="baseGroup" />
+			<xs:element ref="panel" />
+		</xs:choice>
+		<xs:attributeGroup ref="xulElementAttrGroup" />
+	</xs:complexType>
+	<!-- rowlayout -->
+	<xs:element name="rowlayout" type="rowlayoutType" />
+	<xs:complexType name="rowlayoutType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:group ref="baseGroup" />
+			<xs:element ref="rowchildren" />
+		</xs:choice>
+		<xs:attributeGroup ref="xulElementAttrGroup" />
+		<xs:attribute name="orient" type="orientAttrType" use="optional" />
+	</xs:complexType>
     <!-- script -->
 	<xs:element name="script" type="scriptType" />
 	<xs:complexType name="scriptType" mixed="true">
 		<xs:group ref="baseGroup" minOccurs="0" maxOccurs="unbounded" />
 		<xs:attributeGroup ref="abstractComponentAttrGroup" />
 		<xs:attribute name="src" type="xs:string" use="optional" />
-		<xs:attribute name="type" type="scriptTypeAttrType" use="required" />
+		<xs:attribute name="type" type="xs:string" use="optional" />
 		<xs:attribute name="charset" type="xs:string" use="optional" />
 		<xs:attribute name="defer" type="booleanType" use="optional" />
 	</xs:complexType>
-	<xs:simpleType name="scriptTypeAttrType">
-		<xs:union>
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="text/javascript" />
-				</xs:restriction>
-			</xs:simpleType>
-			<xs:simpleType>
-				<xs:restriction base="annotationType" />
-			</xs:simpleType>
-		</xs:union>
-	</xs:simpleType>
+	
 	<!-- scrollview -->
 	<xs:element name="scrollview" type="scrollviewType" />
 	<xs:complexType name="scrollviewType" mixed="true">
@@ -2542,13 +2575,78 @@
 		<xs:attribute name="columns" type="intType" use="optional" />
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 	</xs:complexType>
+	<!-- tbeditor -->
+	<xs:element name="tbeditor" type="tbeditorType" />
+	<xs:complexType name="tbeditorType">
+		<xs:group ref="baseGroup" minOccurs="0" maxOccurs="unbounded" />
+		<xs:attributeGroup ref="abstractComponentAttrGroup" />
+		<xs:attribute name="width" type="xs:string" use="optional" />
+		<xs:attribute name="height" type="xs:string" use="optional" />
+		<xs:attribute name="value" type="xs:string" use="optional" />
+		<xs:attribute name="hflex" type="xs:string" use="optional" />
+		<xs:attribute name="vflex" type="xs:string" use="optional" />
+		<xs:attribute name="onChange" type="xs:string" use="optional" />
+		<xs:attribute name="onChanging" type="xs:string" use="optional" />
+	</xs:complexType>
 	<!-- template -->
 	<xs:element name="template" type="templateType" />
 	<xs:complexType name="templateType">
-		<xs:group ref="anyGroup" minOccurs="0" maxOccurs="unbounded" />
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:group ref="anyGroup"/>
+			<xs:element ref="area"/>
+			<xs:element ref="bandpopup"/>
+			<xs:element ref="caption"/>
+			<xs:element ref="center"/>
+			<xs:element ref="columns"/>
+			<xs:element ref="column"/>
+			<xs:element ref="comboitem"/>
+			<xs:element ref="detail"/>
+			<xs:element ref="east"/>
+			<xs:element ref="fisheye"/>
+			<xs:element ref="foot"/>
+			<xs:element ref="footer"/>
+			<xs:element ref="ginfo"/>
+			<xs:element ref="gmarker"/>
+			<xs:element ref="group"/>
+			<xs:element ref="groupfoot"/>
+			<xs:element ref="listcell"/>
+			<xs:element ref="listfoot"/>
+			<xs:element ref="listfooter"/>
+			<xs:element ref="listgroup"/>
+			<xs:element ref="listgroupfoot"/>
+			<xs:element ref="listhead"/>
+			<xs:element ref="listheader"/>
+			<xs:element ref="listitem"/>
+			<xs:element ref="menu"/>
+			<xs:element ref="menuitem"/>
+			<xs:element ref="menuseparator"/>
+			<xs:element ref="nav"/>
+			<xs:element ref="navitem"/>
+			<xs:element ref="navseparator"/>
+			<xs:element ref="north"/>
+			<xs:element ref="rows"/>
+			<xs:element ref="row"/>
+			<xs:element ref="splitter"/>
+			<xs:element ref="south"/>
+			<xs:element ref="tab"/>
+			<xs:element ref="tabpanel"/>
+			<xs:element ref="tabpanels"/>
+			<xs:element ref="tabs"/>
+			<xs:element ref="treecell"/>
+			<xs:element ref="treechildren"/>
+			<xs:element ref="treecol"/>
+			<xs:element ref="treecols"/>
+			<xs:element ref="treefoot"/>
+			<xs:element ref="treefooter"/>
+			<xs:element ref="treeitem"/>
+			<xs:element ref="treerow"/>
+			<xs:element ref="west"/>
+		</xs:choice>
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="src" type="xs:string" use="optional" />
 		<xs:attribute name="if" type="xs:string" use="optional" />
+		<xs:attribute name="var" type="xs:string" use="optional" />
+		<xs:attribute name="status" type="xs:string" use="optional" />
 		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- textbox -->
@@ -2583,6 +2681,20 @@
 		<xs:attribute name="constraint" type="datetimeConstraintAttrType" use="optional" />
 		<xs:attribute name="value" type="dateType" use="optional" />
 		<xs:attribute name="buttonVisible" type="booleanType" use="optional" />
+		<xs:attribute name="timeZone" type="timezoneType" use="optional" />
+		<xs:attribute name="locale" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
+	</xs:complexType>
+	<!-- timepicker -->
+	<xs:element name="timepicker" type="timepickerType" />
+	<xs:complexType name="timepickerType">
+		<xs:group ref="baseGroup" minOccurs="0" maxOccurs="unbounded" />
+		<xs:attributeGroup ref="formatInputElementAttrGroup" />
+		<xs:attribute name="constraint" type="datetimeConstraintAttrType" use="optional" />
+		<xs:attribute name="value" type="dateType" use="optional" />
+		<xs:attribute name="min" type="dateType" use="optional" />
+		<xs:attribute name="max" type="dateType" use="optional" />
+		<xs:attribute name="interval" type="xs:integer" use="optional" />
 		<xs:attribute name="timeZone" type="timezoneType" use="optional" />
 		<xs:attribute name="locale" type="xs:string" use="optional" />
 		<xs:attributeGroup ref="rootAttrGroup" />
@@ -2758,6 +2870,7 @@
 		<xs:attribute name="innerWidth" type="xs:string" use="optional" />
 		<xs:attribute name="nonselectableTags" type="xs:string" use="optional" />
 		<xs:attribute name="autopaging" type="booleanType" use="optional" />
+		<xs:attribute name="span" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- treecell -->
 	<xs:element name="treecell" type="treecellType" />
@@ -3310,6 +3423,49 @@
 			</xs:simpleType>
 		</xs:union>
 	</xs:simpleType>
+	<!-- shadow element: apply -->
+	<xs:element name="apply" type="applyType" />
+	<xs:complexType name="applyType">
+		<xs:group ref="anyGroup" minOccurs="0" maxOccurs="unbounded" />
+        <xs:attribute name="template" type="xs:string" use="required" />
+        <xs:attribute name="templateURI" type="xs:string" use="required" />
+	</xs:complexType>
+	<!-- shadow element: forEach -->
+	<xs:element name="forEach" type="forEachType" />
+	<xs:complexType name="forEachType">
+		<xs:group ref="anyGroup" minOccurs="1" maxOccurs="unbounded" />
+		<xs:attribute name="items" type="xs:string" use="required" />
+		<xs:attribute name="begin" type="intType" use="optional" />
+		<xs:attribute name="end" type="intType" use="optional" />
+        <xs:attribute name="step" type="intType" use="optional" />
+        <xs:attribute name="var" type="xs:string" use="required" />
+        <xs:attribute name="varStatus" type="xs:string" use="required" />
+	</xs:complexType>
+	<!-- shadow element: choose -->
+	<xs:element name="choose" type="chooseType" />
+	<xs:complexType name="chooseType">
+		<xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="when" />
+			</xs:sequence>
+			<xs:element ref="otherwise" />
+		</xs:sequence>
+		<!--no attrs-->
+	</xs:complexType>
+	<!-- shadow element: when -->
+	<xs:element name="when" type="ifType" />
+	<!-- shadow element: otherwise -->
+	<xs:element name="otherwise" type="otherwiseType" />
+	<xs:complexType name="otherwiseType">
+		<xs:group ref="anyGroup" minOccurs="1" maxOccurs="unbounded" />
+		<!--no attrs-->
+	</xs:complexType>
+	<!-- shadow element: if -->
+	<xs:element name="if" type="ifType" />
+	<xs:complexType name="ifType">
+		<xs:group ref="anyGroup" minOccurs="1" maxOccurs="unbounded" />
+		<xs:attribute name="test" type="booleanType" use="required" />
+	</xs:complexType>
 
 
 </xs:schema>
