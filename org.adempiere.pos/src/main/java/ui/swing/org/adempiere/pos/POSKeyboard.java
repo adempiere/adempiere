@@ -21,6 +21,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -52,7 +54,7 @@ import org.compiere.util.Env;
  *	Adaxa Pty Ltd
  */
 public class POSKeyboard extends CDialog 
-	implements ActionListener, PosKeyListener, KeyListener, FocusListener {
+	implements ActionListener, PosKeyListener, KeyListener, FocusListener, WindowFocusListener {
 	
 	/**
 	 * 
@@ -336,5 +338,15 @@ public class POSKeyboard extends CDialog
 	@Override
 	public void focusLost(FocusEvent e) {
 		
+	}
+
+	@Override
+	public void windowGainedFocus(WindowEvent e) {
+		
+	}
+
+	@Override
+	public void windowLostFocus(WindowEvent e) {
+		processCancelAction();
 	}
 }	//	PosSubBasicKeys

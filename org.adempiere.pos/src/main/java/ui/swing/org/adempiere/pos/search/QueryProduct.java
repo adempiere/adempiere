@@ -14,8 +14,10 @@
 
 package org.adempiere.pos.search;
 
+import java.awt.event.WindowFocusListener;
 import java.math.BigDecimal;
 
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -85,6 +87,11 @@ public class QueryProduct extends POSQuery
 		new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", BigDecimal.class)
 	};
 	
+	@Override
+	public synchronized void addWindowFocusListener(WindowFocusListener l) {
+		super.addWindowFocusListener(l);
+	}
+	
 	/**	From Clause							*/
 	private static String s_sqlFrom = "RV_WarehousePrice";
 	/** Where Clause						*/
@@ -138,7 +145,13 @@ public class QueryProduct extends POSQuery
 		m_table.getColumn(7).setPreferredWidth(75);
 		m_table.setFillsViewportHeight(true); //@Trifon
 		m_table.growScrollbars();
-		f_Value.requestFocus();
+		SwingUtilities.invokeLater(
+				new Runnable() { 
+					public void run() { 
+						f_Value.requestFocus(); 
+					} 
+				}
+		);
 	}	//	init
 	
 	/**

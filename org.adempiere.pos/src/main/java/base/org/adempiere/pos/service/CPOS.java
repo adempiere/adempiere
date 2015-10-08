@@ -910,6 +910,18 @@ public class CPOS {
 	}
 	
 	/**
+	 * Seek to last record
+	 * @return void
+	 */
+	public void lastRecord() {
+		m_RecordPosition = m_OrderList.size();
+		if(m_RecordPosition != 0) {
+			
+			setOrder(m_OrderList.get(--m_RecordPosition));
+		}
+	}
+	
+	/**
 	 * 	Process Order
 	 * For status "Drafted" or "In Progress": process order
 	 * For status "Completed": do nothing as it can be pre payment or payment on credit

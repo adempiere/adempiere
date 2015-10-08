@@ -128,7 +128,7 @@ public class POSInfoProduct extends POSSubPanel {
 		fPrice.setHorizontalAlignment(CLabel.RIGHT);
 		fPrice.setHorizontalTextPosition(CLabel.RIGHT);
 		//	Add
-		v_RightPanel.add(fPrice, new GridBagConstraints(2, 0, 1, 1, 1, 0.0
+		v_RightPanel.add(fPrice, new GridBagConstraints(2, 0, 1, 1, 1, 1
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Image
 		bImage = new CButton();

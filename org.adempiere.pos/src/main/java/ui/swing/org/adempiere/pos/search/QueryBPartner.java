@@ -29,7 +29,6 @@ import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.PO;
 import org.compiere.swing.CLabel;
-import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -62,12 +61,12 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 	}	//	PosQueryBPartner
 	
 	/**	Search Fields		*/
-	private POSTextField	f_value;
-	private POSTextField	f_name;
-	private POSTextField	f_contact;
-	private POSTextField	f_email;
-	private POSTextField	f_phone;
-	private CTextField		f_city;
+	private POSTextField	f_Value;
+	private POSTextField	f_Name;
+	private POSTextField	f_Contact;
+	private POSTextField	f_Email;
+	private POSTextField	f_Phone;
+	private POSTextField	f_City;
 	/**	Internal Variables	*/
 	private int				m_C_BPartner_ID;
 	private String 			m_BPartnerName;
@@ -100,55 +99,55 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 		
 		CLabel lvalue = new CLabel(Msg.translate(m_ctx, "Value"));
 		v_ParameterPanel.add (lvalue, " growy");
-		f_value = new POSTextField("", v_POSPanel.getKeyboard());
-		lvalue.setLabelFor(f_value);
-		v_ParameterPanel.add(f_value, "h 30, w 200");
-		f_value.addActionListener(this);
+		f_Value = new POSTextField("", v_POSPanel.getKeyboard());
+		lvalue.setLabelFor(f_Value);
+		v_ParameterPanel.add(f_Value, "h 30, w 200");
+		f_Value.addActionListener(this);
 		
 		//
 		CLabel lcontact = new CLabel(Msg.translate(m_ctx, "Contact"));
 		v_ParameterPanel.add (lcontact, " growy");
-		f_contact = new POSTextField("", v_POSPanel.getKeyboard());
-		lcontact.setLabelFor(f_contact);
-		v_ParameterPanel.add(f_contact, "h 30, w 200");
-		f_contact.addActionListener(this);
+		f_Contact = new POSTextField("", v_POSPanel.getKeyboard());
+		lcontact.setLabelFor(f_Contact);
+		v_ParameterPanel.add(f_Contact, "h 30, w 200");
+		f_Contact.addActionListener(this);
 		
 		//
 		CLabel lphone = new CLabel(Msg.translate(m_ctx, "Phone"));
 		v_ParameterPanel.add (lphone, " growy");
-		f_phone = new POSTextField("", v_POSPanel.getKeyboard());
-		lphone.setLabelFor(f_phone);
-		v_ParameterPanel.add(f_phone, "h 30, w 200, wrap");
-		f_phone.addActionListener(this);
+		f_Phone = new POSTextField("", v_POSPanel.getKeyboard());
+		lphone.setLabelFor(f_Phone);
+		v_ParameterPanel.add(f_Phone, "h 30, w 200, wrap");
+		f_Phone.addActionListener(this);
 		
 		//
 		CLabel lname = new CLabel(Msg.translate(m_ctx, "Name"));
 		v_ParameterPanel.add (lname, " growy");
-		f_name = new POSTextField("", v_POSPanel.getKeyboard());
-		lname.setLabelFor(f_name);
-		v_ParameterPanel.add(f_name, "h 30, w 200");
-		f_name.addActionListener(this);
+		f_Name = new POSTextField("", v_POSPanel.getKeyboard());
+		lname.setLabelFor(f_Name);
+		v_ParameterPanel.add(f_Name, "h 30, w 200");
+		f_Name.addActionListener(this);
 		//
 		CLabel lemail = new CLabel(Msg.translate(m_ctx, "Email"));
 		v_ParameterPanel.add (lemail, " growy");
-		f_email = new POSTextField("", v_POSPanel.getKeyboard());
-		lemail.setLabelFor(f_email);
-		v_ParameterPanel.add(f_email, "h 30, w 200");
-		f_email.addActionListener(this);
+		f_Email = new POSTextField("", v_POSPanel.getKeyboard());
+		lemail.setLabelFor(f_Email);
+		v_ParameterPanel.add(f_Email, "h 30, w 200");
+		f_Email.addActionListener(this);
 		//
 		CLabel lcity = new CLabel(Msg.translate(m_ctx, "City"));
 		v_ParameterPanel.add (lcity, " growy");
-		f_city = new CTextField(10);
-		lcity.setLabelFor(f_city);
-		v_ParameterPanel.add(f_city, "h 30, w 200");
-		f_city.addActionListener(this);
+		f_City = new POSTextField("", v_POSPanel.getKeyboard());
+		lcity.setLabelFor(f_City);
+		v_ParameterPanel.add(f_City, "h 30, w 200");
+		f_City.addActionListener(this);
 		
 		//	Center
 		m_table.prepareTable (s_layout, s_sqlFrom, 
 			s_sqlWhere, false, "RV_BPartner");
 		//	
 		m_table.growScrollbars();
-		f_value.requestFocus();
+		f_Value.requestFocus();
 		addNewAction();
 	}	//	init
 	
@@ -216,12 +215,12 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 	
 	@Override
 	public void reset() {
-		f_value.setText(null);
-		f_name.setText(null);
-		f_contact.setText(null);
-		f_email.setText(null);
-		f_phone.setText(null);
-		f_city.setText(null);
+		f_Value.setText(null);
+		f_Name.setText(null);
+		f_Contact.setText(null);
+		f_Email.setText(null);
+		f_Phone.setText(null);
+		f_City.setText(null);
 		setResults(new MBPartnerInfo[0]);
 		cleanValues();
 	}
@@ -230,9 +229,9 @@ public class QueryBPartner extends POSQuery implements I_POSQuery {
 	public void refresh() {
 		cleanValues();
 		setResults(MBPartnerInfo.find (m_ctx,
-				f_value.getText(), f_name.getText(), 
-				null, f_email.getText(),
-				f_phone.getText(), f_city.getText()));
+				f_Value.getText(), f_Name.getText(), 
+				null, f_Email.getText(),
+				f_Phone.getText(), f_City.getText()));
 	}
 	
 	/**
