@@ -17,7 +17,6 @@ package org.adempiere.pos.search;
 import java.awt.event.WindowFocusListener;
 import java.math.BigDecimal;
 
-import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -145,13 +144,6 @@ public class QueryProduct extends POSQuery
 		m_table.getColumn(7).setPreferredWidth(75);
 		m_table.setFillsViewportHeight(true); //@Trifon
 		m_table.growScrollbars();
-		SwingUtilities.invokeLater(
-				new Runnable() { 
-					public void run() { 
-						f_Value.requestFocus(); 
-					} 
-				}
-		);
 	}	//	init
 	
 	/**
@@ -261,8 +253,4 @@ public class QueryProduct extends POSQuery
 		return m_ProductName;
 	}
 	
-	@Override
-	public void showView() {
-		setVisible(true);
-	}
 }	//	PosQueryProduct
