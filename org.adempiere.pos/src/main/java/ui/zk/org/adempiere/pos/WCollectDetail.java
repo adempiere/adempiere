@@ -115,16 +115,17 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		
 		fTenderType = ListboxFactory.newDropdownListbox();
 		fTenderType.addActionListener(this);
+		int pos = 0;
 		// default to cash payment
 		for (Object obj : types) {
 			if ( obj instanceof ValueNamePair )	{
 				ValueNamePair key = (ValueNamePair) obj;
-					fTenderType.appendItem(key.getName(), key);
+				fTenderType.appendItem(key.getName(), key);
 					
-							if ( key.getID().equals(getTenderType())){
-								System.out.println(key.getID()+"-"+getTenderType());
-								fTenderType.setSelectedIndex(1); 
-							}
+				if ( key.getID().equals(getTenderType())){
+					fTenderType.setSelectedIndex(pos); 
+				}
+				pos++;
 			}
 		}
 
@@ -448,8 +449,8 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		if(p_TenderType == null)
 			return;
 		//	Change Title
-//		String m_DisplayTenderType = ((ValueNamePair)fTenderType.getValue()).getName();
-//		v_TitleBorder.setLabel(m_DisplayTenderType);
+		String m_DisplayTenderType = ((ValueNamePair)fTenderType.getValue()).getName();
+		v_TitleBorder.setLabel(m_DisplayTenderType);
 		//	
 		if(p_TenderType.equals(X_C_Payment.TENDERTYPE_Check)){
 			v_CheckPanel.setVisible(true);

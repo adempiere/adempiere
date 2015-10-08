@@ -66,12 +66,12 @@ public class WQueryProduct extends WPosQuery
 	private WPosTextField		f_ProductName;
 	private WPosTextField		f_UPC;
 	private WPosTextField		f_SKU;
-	private int				m_M_Product_ID;
-	private String			m_ProductName;
-	private BigDecimal		m_Price;
+	private int					m_M_Product_ID;
+	private String				m_ProductName;
+	private BigDecimal			m_Price;
 	//
-	private int 			m_M_PriceList_Version_ID;
-	private int 			m_M_Warehouse_ID;
+	private int 				m_M_PriceList_Version_ID;
+	private int 				m_M_Warehouse_ID;
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(QueryProduct.class);
