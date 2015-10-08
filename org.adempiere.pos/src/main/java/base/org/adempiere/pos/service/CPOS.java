@@ -674,38 +674,33 @@ public class CPOS {
 	 * Create new Line
 	 * @return line or null
 	 */
-	public MOrderLine createLine(MProduct product, BigDecimal QtyOrdered,
-			BigDecimal PriceActual) {
+	public MOrderLine createLine(MProduct product, BigDecimal p_QtyOrdered,
+			BigDecimal p_PriceActual) {
 		//	Valid Complete
 		if (isCompleted())
 			return null;
 		// catch Exceptions at order.getLines()
-		int numLines = 0;
-		MOrderLine[] lines = m_CurrentOrder.getLines(null, "Line");
-		numLines = lines.length;
-		for (int i = 0; i < numLines; i++) {
-			if (lines[i].getM_Product_ID() == product.getM_Product_ID()) {
+		MOrderLine[] lines = m_CurrentOrder.getLines(true, "Line");
+		for (MOrderLine line : lines) {
+			if (line.getM_Product_ID() == product.getM_Product_ID()) {
 				//increase qty
-				BigDecimal current = lines[i].getQtyEntered();
-				BigDecimal toadd = QtyOrdered;
-				BigDecimal total = current.add(toadd);
-				lines[i].setQty(total);
-				lines[i].setPrice(); //	sets List/limit
-				if (PriceActual.compareTo(Env.ZERO) > 0) {
-					lines[i].setPrice(PriceActual);
-				}
-				lines[i].saveEx();
-				return lines[i];
+				BigDecimal m_CurrentQty = line.getQtyEntered();
+				BigDecimal m_CurrentPrice = line.getPriceEntered();
+				BigDecimal m_TotalQty = m_CurrentQty.add(p_QtyOrdered);
+				line.setQty(m_TotalQty);
+				line.setPrice(m_CurrentPrice); //	sets List/limit
+				line.saveEx();
+				return line;
 			}
 		}
         //create new line
 		MOrderLine line = new MOrderLine(m_CurrentOrder);
 		line.setProduct(product);
-		line.setQty(QtyOrdered);
-			
+		line.setQty(p_QtyOrdered);
+		//	
 		line.setPrice(); //	sets List/limit
-		if ( PriceActual.compareTo(Env.ZERO) > 0 ) {
-			line.setPrice(PriceActual);
+		if ( p_PriceActual.compareTo(Env.ZERO) > 0 ) {
+			line.setPrice(p_PriceActual);
 		}
 		//	Save Line
 		line.saveEx();
