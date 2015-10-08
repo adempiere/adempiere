@@ -30,6 +30,7 @@ import java.beans.VetoableChangeListener;
 import java.util.Properties;
 
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
@@ -266,8 +267,8 @@ public abstract class POSQuery extends CDialog
 		initMainPanel();
 		init();
 		pack();
-		AEnv.positionCenterScreen(this);
 		addWindowFocusListener(this);
+		AEnv.positionCenterScreen(this);
 	}	//	PosQuery
 
 	/**
@@ -332,5 +333,19 @@ public abstract class POSQuery extends CDialog
 	@Override
 	public void windowLostFocus(WindowEvent e) {
 		cancel();
+	}
+	
+	/**
+	 * Show View
+	 * @return void
+	 */
+	public void showView() {
+		SwingUtilities.invokeLater(
+				new Runnable() { 
+					public void run() { 
+						setVisible(true);
+					} 
+				} 
+		);
 	}
 }

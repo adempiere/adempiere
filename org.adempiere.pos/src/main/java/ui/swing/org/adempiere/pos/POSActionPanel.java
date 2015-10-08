@@ -571,7 +571,7 @@ public class POSActionPanel extends POSSubPanel
 		// Change to another BPartner
 		QueryBPartner qt = new QueryBPartner(v_POSPanel);
 		qt.setResults(results);
-		qt.setVisible(true);
+		qt.showView();
 		if (qt.getRecord_ID() > 0) {
 			f_NameBPartner.setText(qt.getValue());
 			if(!v_POSPanel.hasOrder()) {
