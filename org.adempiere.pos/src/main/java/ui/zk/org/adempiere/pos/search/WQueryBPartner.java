@@ -17,6 +17,7 @@ package org.adempiere.pos.search;
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
 import org.adempiere.pos.WPosTextField;
+import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -178,14 +179,35 @@ public class WQueryBPartner extends WPosQuery {
 		addNewAction();
 	}	//	init
 	
-		
+
+
+	/**
+	 * 	Set/display Results
+	 *	@param results results
+	 */
+	private void setResultsFromArray(MBPartnerInfo[] results) {
+		m_table.loadTable(results);
+		int rowCount = m_table.getRowCount();
+		if (rowCount > 0) {
+			if(rowCount == 1) {
+				select();
+			}
+		}
+	}	//	setResults
+	
 	/**
 	 * 	Set/display Results
 	 *	@param results results
 	 */
 	public void setResults (MBPartnerInfo[] results)
 	{
-		m_table.loadTable(results);
+		//	Valid Result
+		if(results == null
+				|| !(results instanceof MBPartnerInfo[]))
+			return;
+		//	
+		setResultsFromArray((MBPartnerInfo[]) results);
+//		m_table.loadTable(results);
 		enableButtons();
 	}	//	setResults
 

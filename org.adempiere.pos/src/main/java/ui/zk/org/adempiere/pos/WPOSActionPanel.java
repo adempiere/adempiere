@@ -66,7 +66,8 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	private final String ACTION_HISTORY     = "History";
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_PAYMENT     = "Payment";
-
+	
+	private WPOSInfoProduct v_InfoProductPanel;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WPOSActionPanel.class);
 	
@@ -172,10 +173,10 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		row.appendChild  (f_Name);
 		enableButton();
 		
-		WPOSInfoProduct panel = new WPOSInfoProduct(v_POSPanel);
+		v_InfoProductPanel = new WPOSInfoProduct(v_POSPanel);
 		row = rows.newRow();
 		row.setSpans("9");
-		row.appendChild(panel.getPanel());
+		row.appendChild(v_InfoProductPanel.getPanel());
 		//	List Orders
 		v_POSPanel.listOrder();
 	}
@@ -314,7 +315,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	 *  In Order and POS
 	 *  @param results
 	 */
-	public void changeBusinessPartner(MBPartnerInfo[] results) {
+	public boolean changeBusinessPartner(MBPartnerInfo[] results) {
 		// Change to another BPartner
 		WQueryBPartner qt = new WQueryBPartner(v_POSPanel);
 		qt.setResults(results);
@@ -328,7 +329,9 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 //				v_POSPanel.setC_BPartner_ID(qt.getRecord_ID());
 			}
 			log.fine("C_BPartner_ID=" + qt.getRecord_ID());
-		}	
+			return true;
+		}
+		return false;
 	}	
 	public boolean showKeyboard(WPosTextField field, Label label) {
 		if(field.getText().equals(label.getValue()))
@@ -380,9 +383,8 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			return;
 		}
 		else if (e.getTarget().equals(f_bBPartner)) {
-			WQueryBPartner qt = new WQueryBPartner(v_POSPanel);
-			AEnv.showWindow(qt);
-			findBPartner();
+			changeBusinessPartner(null);
+			
 		}
 		// Cancel
 		else if (e.getTarget().equals(f_Cancel)){
@@ -504,5 +506,22 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		
 	}
 	
+	/**
+	 * Refresh Product Info from Key
+	 * @param key
+	 * @return void
+	 */
+	public void refreshProductInfo(MPOSKey key) {
+		v_InfoProductPanel.refreshProduct(key);
+	}
+	
+	/**
+	 * Refresh Product Info from Product
+	 * @param p_M_Product_ID
+	 * @return void
+	 */
+	public void refreshProductInfo(int p_M_Product_ID) {
+		v_InfoProductPanel.refreshProduct(p_M_Product_ID);
+	}
 	
 }
