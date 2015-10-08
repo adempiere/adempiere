@@ -23,12 +23,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
 import java.util.Properties;
 
 import javax.swing.KeyStroke;
 
+import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VNumber;
@@ -56,7 +59,7 @@ import org.compiere.util.Env;
  *  @version $Id: PosQuery.java,v 2.0 2015/09/01 00:00:00 
  */
 public abstract class POSQuery extends CDialog 
-	implements MouseListener, ActionListener, VetoableChangeListener {
+	implements MouseListener, ActionListener, VetoableChangeListener, WindowFocusListener {
 
 	/**
 	 * 
@@ -263,7 +266,8 @@ public abstract class POSQuery extends CDialog
 		initMainPanel();
 		init();
 		pack();
-		setLocationByPlatform(true);
+		AEnv.positionCenterScreen(this);
+		addWindowFocusListener(this);
 	}	//	PosQuery
 
 	/**
@@ -319,4 +323,14 @@ public abstract class POSQuery extends CDialog
 		button.setFocusable(false);
 		return button;
 	}	//	getButtonAction
+
+	@Override
+	public void windowGainedFocus(WindowEvent e) {
+		
+	}
+
+	@Override
+	public void windowLostFocus(WindowEvent e) {
+		cancel();
+	}
 }

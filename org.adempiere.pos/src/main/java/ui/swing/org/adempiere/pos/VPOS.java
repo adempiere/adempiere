@@ -108,7 +108,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_DividerPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		v_DividerPane.setBorder(BorderFactory.createEtchedBorder());
 		v_DividerPane.setContinuousLayout(true);
-		v_DividerPane.setDividerLocation(500);
+		v_DividerPane.setDividerLocation(650);
 		v_MainPane.add(v_DividerPane, BorderLayout.CENTER);
 		originalKeyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		m_focusMgr = new PosKeyboardFocusManager();
@@ -176,6 +176,15 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 			logoutTimer.start();
 		}
 		m_focusMgr.start();
+	}
+	
+	/**
+	 * Get Main Frame
+	 * @return
+	 * @return CFrame
+	 */
+	public CFrame getFrame() {
+		return m_frame;
 	}
 	
 	/**
@@ -260,7 +269,10 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_ProductKeysPanel.setPreferredSize(new Dimension(500, 800));
 		v_ProductKeysPanel.setMinimumSize(new Dimension(500, 800));
 		v_DividerPane.add(v_LeftPanel, JSplitPane.LEFT);
-		v_DividerPane.add(v_ProductKeysPanel, JSplitPane.RIGHT);		
+		v_DividerPane.add(v_ProductKeysPanel, JSplitPane.RIGHT);
+		//	Seek to last
+		lastRecord();
+		refreshPanel();
 		return true;
 	}	//	dynInit
 

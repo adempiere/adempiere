@@ -230,7 +230,7 @@ public class POSProductPanel extends POSSubPanel
 		String labelName = Msg.translate(Env.getCtx(), I_M_Product.COLUMNNAME_M_Product_ID);
 		//	
 		f_ProductName = new POSTextField(labelName, v_POSPanel.getKeyboard());
-		f_ProductName.setName("ProductName");
+		f_ProductName.setName(labelName);
 		f_ProductName.setPlaceholder(labelName);
 		f_ProductName.addActionListener(this);
 		f_ProductName.requestFocusInWindow();
@@ -349,10 +349,11 @@ public class POSProductPanel extends POSSubPanel
 			addLine(results[0].getM_Product_ID(), Env.ONE);
 			f_ProductName.setText(results[0].getName());
 		} else {	//	more than one
+			v_POSPanel.getFrame().getContentPane().invalidate();
 			QueryProduct qt = new QueryProduct(v_POSPanel);
 			qt.setResults(results);
 			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
-			qt.setVisible(true);
+			qt.showView();
 			if (qt.getRecord_ID() > 0) {
 				f_ProductName.setText(qt.getValue());
 				addLine(qt.getRecord_ID(), Env.ONE);
