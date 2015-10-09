@@ -64,7 +64,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 		m_table = ListboxFactory.newDataTable();
 		//	
 		m_TableHandle = new POSOrderLineTableHandle(m_table);
-		m_TableHandle.prepareTable(v_POSPanel.isModifyPrice());
+		m_TableHandle.prepareTable();
 		m_table.getModel().addTableModelListener(this);
 
 		m_table.setColumnClass(4, BigDecimal.class, true);
@@ -85,6 +85,9 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 		if (!v_POSPanel.hasOrder()) {
 			m_table.loadTable(new PO[0]);
 		}
+		//	Set Editable Columns
+		m_TableHandle.setEditable(v_POSPanel.isModifyPrice(), v_POSPanel.isDrafted());
+		//	
 		//	Load Data
 		m_TableHandle.loadTable(v_POSPanel.getC_Order_ID());
 		//	

@@ -93,7 +93,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		m_TableHandle = new POSOrderLineTableHandle(m_table);
 		CScrollPane scroll = new CScrollPane(m_table);
 		scroll.addKeyListener(this);
-		m_TableHandle.prepareTable(v_POSPanel.isModifyPrice());
+		m_TableHandle.prepareTable();
 		m_table.getModel().addTableModelListener(this);
 		m_table.addKeyListener(this);
 		m_table.addMouseListener(this);
@@ -190,7 +190,7 @@ public class POSOrderLinePanel extends POSSubPanel
 			//	Remove line
 			if(m_QtyOrdered.compareTo(Env.ZERO) <= 0) {
 				v_POSPanel.deleteLine(m_C_OrderLine_ID);
-				v_POSPanel.refreshPanel();
+				m_table.remove(row);
 				//	Exit
 				return;
 			}
@@ -213,6 +213,8 @@ public class POSOrderLinePanel extends POSSubPanel
 	public void refreshPanel() {
 		//	Remove Listener
 		m_table.getModel().removeTableModelListener(this);
+		//	Set Editable Columns
+		m_TableHandle.setEditable(v_POSPanel.isModifyPrice(), v_POSPanel.isDrafted());
 		//	
 		if (!v_POSPanel.hasOrder()) {
 			m_table.loadTable(new PO[0]);

@@ -89,19 +89,27 @@ public class POSOrderLineTableHandle {
 	
 	/**
 	 * Prepare Table
-	 * @param p_IsModifyPrice
 	 * @return boolean
 	 */
-	public boolean prepareTable(boolean p_IsModifyPrice) {
+	public boolean prepareTable() {
 		if(m_Table == null)
 			return false;
 		//	Default Prepare
 		m_sql = m_Table.prepareTable (s_layout, s_sqlFrom, 
 				s_sqlWhere, false, TABLE_NAME);
-		m_Table.setColumnClass(POSITION_QTYORDERED, BigDecimal.class, false);
-		m_Table.setColumnClass(POSITION_PRICE, BigDecimal.class, !p_IsModifyPrice);
 		//	Default Return
 		return true;
+	}
+	
+	/**
+	 * Set Editable Quantity and Price
+	 * @param p_IsModifyPrice
+	 * @param p_IsDrafted
+	 * @return void
+	 */
+	public void setEditable(boolean p_IsModifyPrice, boolean p_IsDrafted) {
+		m_Table.setColumnClass(POSITION_QTYORDERED, BigDecimal.class, !p_IsDrafted);
+		m_Table.setColumnClass(POSITION_PRICE, BigDecimal.class, !(p_IsModifyPrice && p_IsDrafted));
 	}
 	
 	/**
