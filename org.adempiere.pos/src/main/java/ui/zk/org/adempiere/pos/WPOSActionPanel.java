@@ -19,6 +19,7 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPOSKey;
@@ -170,6 +171,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		f_Name.setWidth("100%");
 		f_Name.setValue(bpartner.getValue());
 		f_Name.addEventListener(Events.ON_FOCUS, this);
+		
 		row.appendChild  (f_Name);
 		enableButton();
 		
@@ -184,8 +186,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	 * 	Print Ticket
 	 *  @author Raul Muñoz raulmunozn@gmail.com 
 	 */
-	public void printTicket()
-	{
+	public void printTicket() {
 		if ( v_POSPanel.getM_Order()  == null )
 			return;
 		
@@ -264,8 +265,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	/**
 	 * 	Find/Set BPartner
 	 */
-	private void findBPartner()
-	{
+	private void findBPartner() {
 		String query = f_Name.getText();
 		//	
 		if (query == null || query.length() == 0)
@@ -299,11 +299,13 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		//
 		MBPartnerInfo[] results = MBPartnerInfo.find(m_ctx, Value, Name, 
 			/*Contact, */null, EMail, Phone, City);
-		
+
 		//	Set Result
 		if (results.length == 1) {
+			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
 			v_POSPanel.setC_BPartner_ID(v_POSPanel.getC_BPartner_ID());
-			f_Name.setText(v_POSPanel.getBPName());
+			f_Name.setText(bp.getName()+"");
+			System.out.println(bp.getName()+"");
 		} else {	//	more than one
 			changeBusinessPartner(results);
 		}
