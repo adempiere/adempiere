@@ -59,6 +59,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	private static CLogger 	log = CLogger.getCLogger(WPOSProductPanel.class);
 	private int cont;
 	private Caption 		v_TitleBorder;
+	private Caption 		v_TitleInfo;
 	private Groupbox 		v_TotalsGroup;
 	private Groupbox 		v_InfOrderGroup;
 	private Grid 			v_TotalsPanel;
@@ -134,8 +135,8 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		style.setParent(v_TitleBorder);
 		v_TotalsGroup.appendChild(v_TitleBorder);
 
-		v_TitleBorder = new Caption(Msg.getMsg(Env.getCtx(), "InfoOrder"));
-		v_InfOrderGroup.appendChild(v_TitleBorder);
+		v_TitleInfo = new Caption(Msg.getMsg(Env.getCtx(), "InfoOrder"));
+		v_InfOrderGroup.appendChild(v_TitleInfo);
 		
 		rows = null;
 		row = null;
@@ -253,14 +254,13 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 			f_TotalLines.setText(m_Format.format(Env.ZERO));
 			f_GrandTotal.setText(m_Format.format(Env.ZERO));
 			f_TaxAmount.setText(m_Format.format(Env.ZERO));
-			v_TitleBorder.setLabel(Msg.getMsg(Env.getCtx(), "Totals"));
 		} else {
 			BigDecimal m_TotalLines = v_POSPanel.getTotalLines();
 			BigDecimal m_GrandTotal = v_POSPanel.getGrandTotal();
 			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
 			String currencyISO_Code = v_POSPanel.getCurSymbol();
 			//	Set Values
-			v_TitleBorder.setLabel(v_POSPanel.getSalesRepName() + "[" + v_POSPanel.getDocumentNo() + "]");
+			
 			f_TotalLines.setText(currencyISO_Code +" "+ m_Format.format(m_TotalLines));
 			f_GrandTotal.setText(currencyISO_Code +" "+ m_Format.format(m_GrandTotal));
 			f_TaxAmount.setText(currencyISO_Code +" "+ m_Format.format(m_TaxAmt));

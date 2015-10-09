@@ -1,8 +1,9 @@
 package org.adempiere.pos;
 
 
+
+
 import org.adempiere.webui.component.Borderlayout;
-import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
@@ -18,12 +19,13 @@ import org.compiere.util.Msg;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Image;
 
 public class WPOSInfoProduct extends WPosSubPanel {
 
 	private Panel parameterPanel;
 	/**	Image Product		*/
-	private Button		bImage;
+	private Panel		bImage;
 	/**	Product Code		*/
 	private Label 		fValue;
 	/**	Product Name		*/
@@ -73,9 +75,10 @@ public class WPOSInfoProduct extends WPosSubPanel {
 		row = rows.newRow();
 		
 		//	For Image
-		bImage = new Button("-");
+		bImage = new Panel();
 		row.appendChild(bImage);
-			
+		bImage.setWidth("70px");
+		bImage.setHeight("70px");	
 		
 		row.appendChild(buttonPanel);
 		rows = labelLayout.newRows();
@@ -130,22 +133,40 @@ public class WPOSInfoProduct extends WPosSubPanel {
 			fDescription.setText(m_Product.getDescription());
 		}
 		if(key.getAD_Image_ID() != 0) {
-			MImage image = MImage.get(Env.getCtx(), key.getAD_Image_ID());
-			AImage img = null;
-			byte[] data = image.getData();
-			if (data != null && data.length > 0) {
-				try {
-					img = new AImage(null, data);				
-				} catch (Exception e) {		
-				}
-			}
-			bImage.setWidth("50px");
-			bImage.setHeight("50px");
+			Label label = new Label(key.getName());
 			
-			//	Change Image Size
-//			bImage.setImageContent(img);
+			North nt = new North();
+//			South st = new South();
+			Borderlayout mainLayout = new Borderlayout();
+			if ( key.getAD_Image_ID() != 0 )
+			{
+				MImage m_mImage = MImage.get(Env.getCtx(), key.getAD_Image_ID());
+				AImage img = null;
+				byte[] data = m_mImage.getData();
+				if (data != null && data.length > 0) {
+					try {
+						img = new AImage(null, data);				
+					} catch (Exception e) {		
+					}
+				}
+				Image bImg = new Image();
+				bImg.setContent(img);
+				bImg.setWidth("100%");
+				bImg.setHeight("70px");
+				nt.appendChild(bImg);
+			}
+			label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;color: #FFF;");
+			label.setHeight("100%");
+			bImage.setClass("z-button");
+			
+			mainLayout.appendChild(nt);
+			mainLayout.setStyle("background-color: transparent");
+			nt.setStyle("background-color: transparent");
+			bImage.appendChild(mainLayout);
+
+			
 		} else {
-//			bImage.setImageContent(null);
+			bImage.getChildren().clear();
 		}
 	}
 	

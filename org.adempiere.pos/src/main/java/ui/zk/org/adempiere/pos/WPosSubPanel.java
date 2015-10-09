@@ -46,8 +46,7 @@ public abstract class WPosSubPanel extends Borderlayout
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public WPosSubPanel (WPOS posPanel)
-	{
+	public WPosSubPanel (WPOS posPanel) {
 		super();
 		v_POSPanel = posPanel;
 		p_pos = posPanel.getM_POS();
