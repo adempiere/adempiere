@@ -789,9 +789,24 @@ public class CPOS {
 			if (!hasOrder()) {
 				throw new AdempierePOSException("@POS.MustCreateOrder@");
 			} else if (!isCompleted()) {
+				//	Get Index
+				int currentIndex = m_OrderList.indexOf(m_CurrentOrder.getC_Order_ID());
 				//	Delete Order
 				m_CurrentOrder.deleteEx(true);
+				//	Remove from List
+				if(currentIndex >= 0) {
+					m_OrderList.remove(currentIndex);
+				}
+				//	
 				m_CurrentOrder = null;
+				//	Change to Next
+				if(isFirstRecord()) {
+					firstRecord();
+				} else if(isLastRecord()) {
+					lastRecord();
+				} else {
+					previousRecord();
+				}
 			} else if (isCompleted()) {	
 				voidOrder();
 			} else {
@@ -802,7 +817,7 @@ public class CPOS {
 		}
 		//	Default Return
 		return errorMsg;
-	} // deleteOrder
+	} // cancelOrder
 	
 	/** 
 	 * Delete one order line
@@ -911,8 +926,18 @@ public class CPOS {
 	public void lastRecord() {
 		m_RecordPosition = m_OrderList.size();
 		if(m_RecordPosition != 0) {
-			
-			setOrder(m_OrderList.get(--m_RecordPosition));
+			--m_RecordPosition;
+		}
+	}
+	
+	/**
+	 * Seek to first record
+	 * @return void
+	 */
+	public void firstRecord() {
+		m_RecordPosition = m_OrderList.size();
+		if(m_RecordPosition != 0) {
+			m_RecordPosition = 0;
 		}
 	}
 	
@@ -1069,8 +1094,13 @@ public class CPOS {
 	 * 	Load Order
 	 */
 	public void reloadOrder() {
-		if (m_CurrentOrder == null)
+		if (m_CurrentOrder == null) {
+			if(m_RecordPosition != -1) {
+				setOrder(m_OrderList.get(m_RecordPosition));
+			}
+			//	
 			return;
+		}
 		m_CurrentOrder.load(m_CurrentOrder.get_TrxName());
 		m_CurrentOrder.getLines(true, "");
 		m_BPartner = MBPartner.get(getCtx(), m_CurrentOrder.getC_BPartner_ID());
