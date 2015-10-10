@@ -17,6 +17,7 @@
  *****************************************************************************/
 package org.adempiere.pos;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -34,6 +35,7 @@ import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.model.MImage;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MProduct;
+import org.compiere.print.MPrintColor;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -168,6 +170,16 @@ public class POSInfoProduct extends POSSubPanel {
 			fName.setText(m_Product.getName());
 			fDescription.setText(m_Product.getDescription());
 		}
+		//	Standard Color
+		Color keyColor = Color.lightGray;
+		//	Set Color
+		if (key.getAD_PrintColor_ID() != 0) {
+			MPrintColor color = MPrintColor.get(Env.getCtx(), key.getAD_PrintColor_ID());
+			keyColor = color.getColor();
+		}
+		//	
+		bImage.setBackground(keyColor);
+		//	Set Image
 		if(key.getAD_Image_ID() != 0) {
 			MImage image = MImage.get(Env.getCtx(), key.getAD_Image_ID());
 			Image img = image.getImage();
@@ -210,6 +222,15 @@ public class POSInfoProduct extends POSSubPanel {
 			return;
 		}
 		MPOSKey key =  new MPOSKey(m_ctx, m_C_POSKey_ID, null);
+		//	Standard Color
+		Color keyColor = Color.lightGray;
+		//	Set Color
+		if (key.getAD_PrintColor_ID() != 0) {
+			MPrintColor color = MPrintColor.get(Env.getCtx(), key.getAD_PrintColor_ID());
+			keyColor = color.getColor();
+		}
+		//	
+		bImage.setBackground(keyColor);
 		if(key.getAD_Image_ID() != 0) {
 			MImage image = MImage.get(Env.getCtx(), key.getAD_Image_ID());
 			Image img = image.getImage();
