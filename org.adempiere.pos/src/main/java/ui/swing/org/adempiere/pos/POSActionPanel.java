@@ -87,12 +87,9 @@ public class POSActionPanel extends POSSubPanel
 	private CButton 			f_bLogout;
 	/**	Button Panel		*/
 	private CPanel				v_ButtonPanel;
-	/**	Business Partner 	*/
-//	private CPanel				v_BPPanel;
 	/**	Info Product Panel	*/
 	private POSInfoProduct		v_InfoProductPanel;
 	/**	For Show BPartner	*/
-//	private CLabel				l_BPartner;
 	private	POSTextField		f_NameBPartner;
 	/**	Padding				*/
 	private int 				m_TopP;
@@ -119,7 +116,6 @@ public class POSActionPanel extends POSSubPanel
 		setLayout(new GridBagLayout());
 		//	Button Panel
 		v_ButtonPanel = new CPanel(new GridBagLayout());
-//		v_BPPanel = new CPanel(new GridBagLayout());
 		v_InfoProductPanel = new POSInfoProduct(v_POSPanel);
 		//	
 		m_TopP = 0;
@@ -175,7 +171,6 @@ public class POSActionPanel extends POSSubPanel
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// BP
 		String labelName = Msg.translate(Env.getCtx(), "IsCustomer"); 
-//		l_BPartner = new CLabel(labelName);
 		f_NameBPartner = new POSTextField(labelName, v_POSPanel.getKeyboard());
 		f_NameBPartner.setPlaceholder(labelName);
 		f_NameBPartner.addActionListener(this);
@@ -183,20 +178,15 @@ public class POSActionPanel extends POSSubPanel
 		f_NameBPartner.setPreferredSize(new Dimension(250, v_POSPanel.getFieldLenght()));
 		f_NameBPartner.setMinimumSize(new Dimension(250, v_POSPanel.getFieldLenght()));
 		//	
-		v_InfoProductPanel.setPreferredSize(new Dimension(250, 130));
-		v_InfoProductPanel.setMinimumSize(new Dimension(250, 130));
-//		l_BPartner.setLabelFor(f_NameBPartner);
-//		l_BPartner.setFont(v_POSPanel.getFont());
-		//	Add
-//		v_BPPanel.add(f_NameBPartner, new GridBagConstraints(0, 0, 1, 1, 0, 1
-//				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+//		v_InfoProductPanel.setPreferredSize(new Dimension(250, 180));
+//		v_InfoProductPanel.setMinimumSize(new Dimension(250, 180));
 		//	Add Button Panel
 		add(v_ButtonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-		add(f_NameBPartner, new GridBagConstraints(0, 1, 8, 1, 1, 1
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-		add(v_InfoProductPanel, new GridBagConstraints(0, 2, 8, 1, 1, 1
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
+		add(f_NameBPartner, new GridBagConstraints(0, 1, 1, 1, 1, 1
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
+		add(v_InfoProductPanel, new GridBagConstraints(0, 2, 1, 2, 1, 2
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 		//	List Orders
 		v_POSPanel.listOrder();
 	}	//	init

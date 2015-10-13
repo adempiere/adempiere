@@ -93,8 +93,6 @@ public class POSProductPanel extends POSSubPanel
 	/**	Tax Amount			*/
 	private CLabel 			f_lb_TaxAmount;
 	private CLabel 			f_TaxAmount;
-	/**	Line				*/
-//	private CLabel			f_lb_Line;
 	/**	Grand Total			*/
 	private CLabel 			f_lb_GrandTotal;
 	private CLabel 			f_GrandTotal;
@@ -132,7 +130,7 @@ public class POSProductPanel extends POSSubPanel
 		//	For Document Info
 		//	For Sales Representative
 		f_lb_SalesRep = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_SalesRep_ID) + ":");
-		f_lb_SalesRep.setFont(v_POSPanel.getFont());
+		f_lb_SalesRep.setFont(v_POSPanel.getPlainFont());
 		//	Add
 		v_DocInfoPanel.add(f_lb_SalesRep, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
@@ -145,7 +143,7 @@ public class POSProductPanel extends POSSubPanel
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Tax Amount
 		f_lb_DocumentType = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_C_DocType_ID) + ":");
-		f_lb_DocumentType.setFont(v_POSPanel.getFont());
+		f_lb_DocumentType.setFont(v_POSPanel.getPlainFont());
 		//	Add
 		v_DocInfoPanel.add(f_lb_DocumentType, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
@@ -158,7 +156,7 @@ public class POSProductPanel extends POSSubPanel
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Grand Total
 		f_lb_DocumentNo = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo)+":");
-		f_lb_DocumentNo.setFont(v_POSPanel.getFont());
+		f_lb_DocumentNo.setFont(v_POSPanel.getPlainFont());
 		//	Add
 		v_DocInfoPanel.add(f_lb_DocumentNo, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
@@ -174,7 +172,7 @@ public class POSProductPanel extends POSSubPanel
 		//	For Totals
 		//	For Total Lines
 		f_lb_TotalLines = new CLabel (Msg.getMsg(Env.getCtx(), "SubTotal") + ":");
-		f_lb_TotalLines.setFont(v_POSPanel.getFont());
+		f_lb_TotalLines.setFont(v_POSPanel.getPlainFont());
 		//	Add
 		v_TotalPanel.add(f_lb_TotalLines, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
@@ -187,7 +185,7 @@ public class POSProductPanel extends POSSubPanel
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Tax Amount
 		f_lb_TaxAmount = new CLabel (Msg.translate(Env.getCtx(), I_C_OrderLine.COLUMNNAME_C_Tax_ID) + ":");
-		f_lb_TaxAmount.setFont(v_POSPanel.getFont());
+		f_lb_TaxAmount.setFont(v_POSPanel.getPlainFont());
 		//	Add
 		v_TotalPanel.add(f_lb_TaxAmount, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
@@ -198,12 +196,6 @@ public class POSProductPanel extends POSSubPanel
 		//	Add
 		v_TotalPanel.add(f_TaxAmount, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
-		//	For Line
-//		f_lb_Line = new CLabel ("_____________");
-//		f_lb_Line.setFont(v_POSPanel.getFont());
-//		//	Add
-//		v_TotalPanel.add(f_lb_Line, new GridBagConstraints(3, 2, 1, 1, 1, 0.0
-//				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Grand Total
 		f_lb_GrandTotal = new CLabel (Msg.getMsg(v_POSPanel.getCtx(), "Total") + ":");
 		f_lb_GrandTotal.setFont(v_POSPanel.getFont());
@@ -212,7 +204,7 @@ public class POSProductPanel extends POSSubPanel
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	
 		f_GrandTotal = new CLabel();
-		f_GrandTotal.setFont(v_POSPanel.getFont());
+		f_GrandTotal.setFont(v_POSPanel.getBigFont());
 		f_lb_GrandTotal.setLabelFor(f_GrandTotal);
 		//	Change Size
 		//	Add
