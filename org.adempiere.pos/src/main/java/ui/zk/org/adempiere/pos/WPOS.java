@@ -167,7 +167,9 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		mainLayout.appendChild(east);
 
 		form.appendChild(mainLayout);
-		
+		//	Seek to last
+		lastRecord();
+		refreshPanel();
 		return true;
 	}	//	dynInit
 
@@ -375,6 +377,16 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	 */
 	public void refreshProductInfo(MPOSKey key) {
 		v_ActionPanel.refreshProductInfo(key);
+	}
+	
+	/**
+	 * Refresh Header
+	 * @return void
+	 */
+	public void refreshHeader() {
+		reloadOrder();
+		v_ActionPanel.changeViewPanel();
+		f_ProductKeysPanel.refreshPanel();
 	}
 	
 	/**
