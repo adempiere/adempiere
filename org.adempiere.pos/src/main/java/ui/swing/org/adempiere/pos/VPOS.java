@@ -92,6 +92,12 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private DecimalFormat					m_Format;
 	/**	Font						*/
 	private Font 							font;
+	/**	Plain Font					*/
+	private Font 							plainFont;
+	/**	Big Font					*/
+	private Font 							bigFont;
+	/**	Big Plain Font				*/
+	private Font 							bigPlainFont;
 	/**	Default Height				*/
 	public int								m_FieldHeight;
 	/**	Plus Button Size			*/
@@ -115,6 +121,9 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
 		//	Set Border
 		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 16);
+		plainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 16);
+		bigFont = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 20);
+		bigPlainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 20);
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		m_FieldHeight = 50;
 		m_ButtonSize = 50;
@@ -197,6 +206,33 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	}
 	
 	/**
+	 * Get Plain font
+	 * @return
+	 * @return Font
+	 */
+	public Font getPlainFont() {
+		return plainFont;
+	}
+	
+	/**
+	 * Get big Font
+	 * @return
+	 * @return Font
+	 */
+	public Font getBigFont() {
+		return bigFont;
+	}
+	
+	/**
+	 * Get Big Plain
+	 * @return
+	 * @return Font
+	 */
+	public Font getBigPlainFont() {
+		return bigPlainFont;
+	}
+	
+	/**
 	 * Get number format
 	 * @return
 	 * @return DecimalFormat
@@ -257,14 +293,14 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		//	Create Sub Panels
 		v_LeftPanel = new CPanel(new GridBagLayout());
 		v_ActionPanel = new POSActionPanel(this);
-		v_LeftPanel.add(v_ActionPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
-				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		v_LeftPanel.add(v_ActionPanel, new GridBagConstraints(0, 0, 1, 1, 1, 0
+				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 		v_LeftPanel.setPreferredSize(new Dimension(500, 800));
 		v_LeftPanel.setMinimumSize(new Dimension(500, 800));
 		//
 		v_OrderLinePanel = new POSOrderLinePanel(this);
 		v_LeftPanel.add(v_OrderLinePanel, new GridBagConstraints(0, 1, 1, 1, 1, 1
-				,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		v_ProductKeysPanel = new POSProductPanel(this);
 		v_ProductKeysPanel.setPreferredSize(new Dimension(500, 800));
 		v_ProductKeysPanel.setMinimumSize(new Dimension(500, 800));

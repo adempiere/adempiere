@@ -23,8 +23,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
 import java.util.Properties;
@@ -32,14 +30,14 @@ import java.util.Properties;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.pos.POSTextField;
+import org.adempiere.pos.VPOS;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.PO;
 import org.compiere.pos.PosTable;
-import org.adempiere.pos.POSTextField;
-import org.adempiere.pos.VPOS;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CComboBox;
@@ -60,7 +58,7 @@ import org.compiere.util.Env;
  *  @version $Id: PosQuery.java,v 2.0 2015/09/01 00:00:00 
  */
 public abstract class POSQuery extends CDialog 
-	implements MouseListener, ActionListener, VetoableChangeListener, WindowFocusListener {
+	implements MouseListener, ActionListener, VetoableChangeListener {
 
 	/**
 	 * 
@@ -93,7 +91,7 @@ public abstract class POSQuery extends CDialog
 	private CPanel 			v_MainPanel;
 	
 	/**	Logger			*/
-	protected static CLogger log = CLogger.getCLogger(QueryProduct.class);
+	protected static CLogger log = CLogger.getCLogger(QueryTicket.class);
 	/**	Default Width	*/
 	private final int		BUTTON_WIDTH 	= 50;
 	/**	Default Height		*/
@@ -267,7 +265,6 @@ public abstract class POSQuery extends CDialog
 		initMainPanel();
 		init();
 		pack();
-		addWindowFocusListener(this);
 		AEnv.positionCenterScreen(this);
 	}	//	PosQuery
 
@@ -324,16 +321,6 @@ public abstract class POSQuery extends CDialog
 		button.setFocusable(false);
 		return button;
 	}	//	getButtonAction
-
-	@Override
-	public void windowGainedFocus(WindowEvent e) {
-		
-	}
-
-	@Override
-	public void windowLostFocus(WindowEvent e) {
-		cancel();
-	}
 	
 	/**
 	 * Show View
