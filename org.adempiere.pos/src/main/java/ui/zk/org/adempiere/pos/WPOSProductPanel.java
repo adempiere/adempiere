@@ -395,6 +395,8 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		if (!v_POSPanel.hasOrder()) {
 			v_POSPanel.newOrder();
 		}
+		//	Show Product Info
+		v_POSPanel.refreshProductInfo(p_M_Product_ID);
 		//	
 		String lineError = v_POSPanel.add(p_M_Product_ID, m_QtyOrdered);
 		if (lineError != null) {

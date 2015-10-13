@@ -72,7 +72,6 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	private Properties p_ctx;
 	private MOrder p_order;
 	private Label fGrandTotal = new Label();
-	private Label fBalance = new Label();
 	private Label fPayAmt;
 	private boolean isPaid = false;
 	private BigDecimal m_Balance = Env.ZERO;
@@ -232,7 +231,40 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		mainLayout.appendChild(south);
 		south.appendChild(confirm);
 
+		// Pre-Payment, Standard Order: enable only if the order is completed and there are lines 
+		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
+		   v_POSPanel.isCompleted() &&
+		   v_POSPanel.isStandardOrder()) {	
+			fIsPrePayOrder.setEnabled(false);	
+			fIsCreditOrder.setEnabled(false);
+			fIsPrePayOrder.setSelected(true);
+		}
+		// Pre-Payment, Credit Order: enable only if the order is drafted and there are lines 
+		else if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
+				!v_POSPanel.isCompleted()) {		
+			fIsPrePayOrder.setEnabled(true);	
+			fIsCreditOrder.setEnabled(true);
+		}
+		else {
+			fIsPrePayOrder.setEnabled(false);	
+			fIsCreditOrder.setEnabled(false);
+			if(v_POSPanel.isCompleted() && 
+				v_POSPanel.getM_Order().isInvoiced()  && 
+				v_POSPanel.getOpenAmt().compareTo(Env.ZERO)==1) {
+				fIsCreditOrder.setSelected(true);
+			}
+		}
 	}
+	/**
+	 * Get Balance
+	 * @return
+	 * @return BigDecimal
+	 */
+	private BigDecimal getBalance() {
+		BigDecimal m_PayAmt = getPayAmt();
+		return v_POSPanel.getOpenAmt().subtract(m_PayAmt);
+	}
+	
 	private void addCollectType(){
 		row = rows.newRow();
 		
@@ -240,7 +272,11 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		if(collectRowNo > 0) {
 			tenderType = X_C_Payment.TENDERTYPE_Check;
 		}
-		WCollectDetail collectDetail = new WCollectDetail(this, tenderType, Env.ZERO);
+		BigDecimal m_Balance = getBalance();
+		if(m_Balance.doubleValue() < 0)
+			m_Balance = Env.ZERO;
+		
+		WCollectDetail collectDetail = new WCollectDetail(this, tenderType, getBalance());
 
 		//	Add Collect controller
 		addCollect(collectDetail);
@@ -251,7 +287,8 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		layout.invalidate();
 		//	Add Count
 		collectRowNo++;
-
+		//	Calculate Data
+		calculatePanelData();
 	}
 	protected Button createButtonAction (String action, KeyStroke accelerator)
 	{
@@ -312,9 +349,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 				FDialog.warn(0, Msg.parseTranslation(p_ctx, validResult));
 				return;
 			}
-			v_POSPanel.setOrder(0);
-			v_POSPanel.setC_BPartner_ID(0);
-			v_POSPanel.refreshPanel();
+			
 			isPaid = true;
 			v_Window.dispose();
 			return;
@@ -417,9 +452,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		return isPaid();
 	}
 
-
-	@Override
-	public void refreshPanel() {
+	public void calculatePanelData(){
 		//	Get from controller
 		BigDecimal m_PayAmt = getPayAmt();
 		//
@@ -430,7 +463,16 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		//	Change View
 		fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(v_POSPanel.getGrandTotal()));
 		fPayAmt.setText(currencyISO_Code +" "+ m_Format.format(m_PayAmt));
-		fReturnAmt.setText(currencyISO_Code +" "+ m_Format.format(m_Balance));
+		
+		BigDecimal m_ReturnAmt = Env.ZERO;
+		if(m_Balance.doubleValue() < 0) {
+			m_ReturnAmt = m_Balance.abs();
+		}
+		fReturnAmt.setText(currencyISO_Code +" "+ m_Format.format(m_ReturnAmt));
+	}
+	@Override
+	public void refreshPanel() {
+		calculatePanelData();
 		//	
 		changeViewPanel();
 	}
@@ -458,9 +500,6 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	public String getGranTotal(){
 		return fGrandTotal.getValue();
 	}
-	public String getBalance(){
-		return fBalance.getValue();
-	}
 
 	/**
 	 * Get Keyboard
@@ -474,41 +513,42 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 
 	@Override
 	public void changeViewPanel() {
-		boolean isCreditOpen = (v_POSPanel.isCompleted() 
-				&& v_POSPanel.getOpenAmt().doubleValue() > 0);
-		//	Is Standard Order
-		boolean isStandardOrder = v_POSPanel.isStandardOrder();
-		//	Set Credit Order
-		setIsCreditOrder(isCreditOrder() 
-				|| (isCreditOpen && !isStandardOrder));
-		//	
-		setIsPrePayOrder(isPrePayOrder()
-				|| (isCreditOpen && isStandardOrder));
-		//	Set Credit and Pre-Pay Order
-		fIsCreditOrder.setSelected(isCreditOrder());
-		fIsPrePayOrder.setSelected(isPrePayOrder());
-//		fPaymentTerm.setVisible(isCreditOrder());
-		//	Verify complete order
-		if(v_POSPanel.isCompleted()) {
-			fIsCreditOrder.setEnabled(false);
-			fIsPrePayOrder.setEnabled(false);
-//			fPaymentTerm.setEnabled(false);
-			bPlus.setEnabled(isCreditOpen);
-			confirm.getOKButton().setEnabled(true);
-		} else if(v_POSPanel.isVoided()){
-			fIsCreditOrder.setEnabled(false);
-			fIsPrePayOrder.setEnabled(false);
-//			fPaymentTerm.setEnabled(false);
-			bPlus.setEnabled(false);
-			confirm.getOKButton().setEnabled(false);
-		} else {
-			fIsCreditOrder.setEnabled(true);
-			fIsPrePayOrder.setEnabled(true);
-//			fPaymentTerm.setEnabled(true);
-			bPlus.setEnabled(!isCreditOrder()
-					|| isCreditOpen);
-			confirm.getOKButton().setEnabled(true);
-		}
+//		Set Credit for Complete Documents
+			boolean isCreditOpen = (v_POSPanel.isCompleted() 
+					&& v_POSPanel.getOpenAmt().doubleValue() > 0);
+			//	Is Standard Order
+			boolean isStandardOrder = v_POSPanel.isStandardOrder();
+			//	Set Credit Order
+			setIsCreditOrder(isCreditOrder() 
+					|| (isCreditOpen && !isStandardOrder));
+			//	
+			setIsPrePayOrder(isPrePayOrder()
+					|| (isCreditOpen && isStandardOrder));
+			//	Set Credit and Pre-Pay Order
+			fIsCreditOrder.setSelected(isCreditOrder());
+			fIsPrePayOrder.setSelected(isPrePayOrder());
+//			fPaymentTerm.setVisible(isCreditOrder());
+			//	Verify complete order
+			if(v_POSPanel.isCompleted()) {
+				fIsCreditOrder.setEnabled(false);
+				fIsPrePayOrder.setEnabled(false);
+//				fPaymentTerm.setEnabled(false);
+				bPlus.setEnabled(isCreditOpen);
+				confirm.getOKButton().setEnabled(true);
+			} else if(v_POSPanel.isVoided()){
+				fIsCreditOrder.setEnabled(false);
+				fIsPrePayOrder.setEnabled(false);
+//				fPaymentTerm.setEnabled(false);
+				bPlus.setEnabled(false);
+				confirm.getOKButton().setEnabled(false);
+			} else {
+				fIsCreditOrder.setEnabled(true);
+				fIsPrePayOrder.setEnabled(true);
+//				fPaymentTerm.setEnabled(true);
+				bPlus.setEnabled(!isCreditOrder()
+						|| isCreditOpen);
+				confirm.getOKButton().setEnabled(true);
+			}
 	}
 	
 	/**

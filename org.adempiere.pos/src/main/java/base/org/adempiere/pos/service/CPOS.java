@@ -1094,7 +1094,10 @@ public class CPOS {
 	 * 	Load Order
 	 */
 	public void reloadOrder() {
+		if(m_OrderList.isEmpty())
+			return;
 		if (m_CurrentOrder == null) {
+			
 			if(m_RecordPosition != -1) {
 				setOrder(m_OrderList.get(m_RecordPosition));
 			}
