@@ -379,14 +379,14 @@ public abstract class InfoPanel extends Window implements EventListener<Event>, 
 		//p_southLayout.setHeight("70px");
 		//p_southLayout.setVflex("min");
 		
-		if (p_centerNorth.getChildren().size() == 0)
-		{
-			p_centerNorth.detach();
-		}
-		else
-		{
-			p_centerNorth.setHeight("25px");
-		}
+//		if (p_centerNorth.getChildren().size() == 0)
+//		{
+//			p_centerNorth.detach();
+//		}
+//		else
+//		{
+//			p_centerNorth.setHeight("25px");
+//		}
 		
 		if (p_centerSouth.getChildren().size() > 0)
 		{
@@ -472,7 +472,7 @@ public abstract class InfoPanel extends Window implements EventListener<Event>, 
         // Sizes
         p_centerNorth.setVflex("min");
         p_centerCenter.setVflex("1");
-        p_centerSouth.setSize("25%");
+        p_centerSouth.setHeight("25%");
         //
         ThemeUtils.addSclass("info-panel-center", p_centerLayout);
 		p_centerLayout.appendChild(p_centerNorth);  // May be empty
@@ -485,12 +485,10 @@ public abstract class InfoPanel extends Window implements EventListener<Event>, 
 		div.setHflex("1");
 		p_centerCenter.appendChild(div);
 		p_centerCenter.setAutoscroll(false);
-        p_centerCenter.setVflex("1");
         p_centerCenter.setHflex("1");
 		//
 		p_centerSouth.setCollapsible(true);
 		p_centerSouth.setSplittable(true);
-		p_centerSouth.setVflex("1");
 		p_centerSouth.setHflex("1");
 
 		//  Setup the north reset button and criteria grid

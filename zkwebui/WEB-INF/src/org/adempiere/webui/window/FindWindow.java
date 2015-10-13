@@ -271,7 +271,7 @@ public class FindWindow extends Window implements EventListener<Event>,ValueChan
 		this.setVisible(true);
 		this.setHeight("350px"); // Size required here to set size of child border layouts
 		this.setWidth("750px");
-		this.setVflex("1");
+		//this.setVflex("1");
 		AEnv.showWindow(this);
 	}
 	/**

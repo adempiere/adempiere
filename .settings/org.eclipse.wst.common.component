@@ -37,6 +37,9 @@
         <dependent-module archiveName="jcommon-1.0.21.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/adempiere/tools/lib/jcommon-1.0.21.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="javassist.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/adempiere/jboss/server/adempiere/lib/javassist.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
 		<property name="java-output-path" value="build/classes"/>
 		<property name="context-root" value="webui"/>
 	</wb-module>

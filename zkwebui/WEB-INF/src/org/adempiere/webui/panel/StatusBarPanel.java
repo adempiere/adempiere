@@ -105,7 +105,7 @@ public class StatusBarPanel extends Panel implements EventListener<Event>, IStat
         Hbox hbox = new Hbox();
         hbox.setWidth("100%");
         hbox.setHeight("100%");
-        hbox.setHflex("1");
+        //hbox.setHflex("1");
         
         /* TODO-evenos: zk6 */
 //        if (embedded)

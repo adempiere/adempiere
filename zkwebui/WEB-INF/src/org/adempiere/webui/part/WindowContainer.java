@@ -66,8 +66,8 @@ public class WindowContainer extends AbstractUIPart
 
         tabbox.appendChild(tabs);
         tabbox.appendChild(tabpanels);
-        tabbox.setWidth("100%");
-        tabbox.setHeight("100%");
+        //tabbox.setWidth("100%");
+        //tabbox.setHeight("100%");
         tabbox.setVflex("1");
         tabbox.setHflex("1");
         

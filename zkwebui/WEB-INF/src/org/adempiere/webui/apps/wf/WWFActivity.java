@@ -246,7 +246,7 @@ public class WWFActivity extends ADForm implements EventListener
 		north.appendChild(listbox);
 		north.setSplittable(true);
 		north.setHflex("true");
-north.setVflex("true");
+		//north.setVflex("true");
 		north.setHeight("50%");
 		layout.appendChild(north);
 		north.setStyle("background-color: transparent");
@@ -257,7 +257,7 @@ north.setVflex("true");
 		layout.appendChild(center);
 		center.setStyle("background-color: transparent");
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 
 		South south = new South();
 		south.appendChild(statusBar);

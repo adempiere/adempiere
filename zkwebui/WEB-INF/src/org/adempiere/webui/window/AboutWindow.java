@@ -186,7 +186,7 @@ public class AboutWindow extends Window implements EventListener<Event> {
 		vbox.appendChild(logTable);
 		logTable.setWidth("480px");
 		logTable.setHeight("310px");
-		logTable.setVflex(false);
+		//logTable.setVflex(false);
 
 		updateLogTable();
 

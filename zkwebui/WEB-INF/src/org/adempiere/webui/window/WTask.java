@@ -176,7 +176,7 @@ public class WTask extends Window implements EventListener
 		div.appendChild(info);
 		center.appendChild(div);
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 
 		South south = new South();
 		layout.appendChild(south);

@@ -135,7 +135,7 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
         w.setCollapsible(true);
         w.setSplittable(true);
         w.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Menu")));
-        w.setHflex("true");
+        //w.setHflex("true");
         w.setVflex("true");
         w.addEventListener(Events.ON_OPEN, new EventListener() {			
 			@Override
@@ -154,7 +154,7 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
         Center center = new Center();
         center.setParent(layout);
         center.setHflex("true");
-center.setVflex("true");
+        center.setVflex("true");
 
         Borderlayout innerLayout = new Borderlayout();
         innerLayout.setHeight("100%");

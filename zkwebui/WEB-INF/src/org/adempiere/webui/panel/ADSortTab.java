@@ -302,8 +302,8 @@ public class ADSortTab extends Panel implements IADTabPanel
 		noLabel.setValue("No");
 		yesLabel.setValue("Yes");
 
-		yesList.setHeight("100%");
-		noList.setHeight("100%");
+		//yesList.setHeight("100%");
+		//noList.setHeight("100%");
 		yesList.setVflex(true);
 		noList.setVflex(true);
 

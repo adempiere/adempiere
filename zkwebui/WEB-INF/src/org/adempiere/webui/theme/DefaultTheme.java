@@ -197,6 +197,7 @@ public class DefaultTheme extends Theme {
 			// Theme name forms part of the path.
 			throw new IllegalArgumentException("Theme name cannot be null or empty string.");
 		}
+		this.p_themeName = themeName;
 	}
 
 	/**
@@ -237,13 +238,15 @@ public class DefaultTheme extends Theme {
 	}
 
 	/**
-	 * @param themePriority the theme priority to set.  Used by the system to 
-	 * decide which theme to use after cookies and library properties have been
-	 * tried and failed.  A lower number has a higher priority.  The theme with
-	 * the lowest number will be used.
+	 * Theme priority is used by the system to decide which theme to use after cookies and 
+	 * library properties have been tried and failed.  A lower number has a higher 
+	 * priority.  Unless a theme is specified, the theme with the lowest number will be 
+	 * used.
+	 * 
+	 * @param themePriority the theme priority to set.  
 	 */
-	public void set_themePriority(int p_themePriority) {
-		this.p_themePriority = p_themePriority;
+	public void set_themePriority(int themePriority) {
+		this.p_themePriority = themePriority;
 	}
 
 

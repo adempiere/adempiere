@@ -111,7 +111,7 @@ public class WFPanel extends Borderlayout implements EventListener
 		contentPanel.setStyle("width: 100%; heigh: 100%;");
 		center.setAutoscroll(true);
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		
 		South south = new South();
 		this.appendChild(south);
@@ -121,7 +121,7 @@ center.setVflex("true");
 		south.setCollapsible(true);
 		south.setAutoscroll(true);
 		south.setHflex("true");
-south.setVflex("true");		
+		//south.setVflex("true");		
 	}	//	jbInit
 
 	/**

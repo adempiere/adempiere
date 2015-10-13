@@ -60,7 +60,7 @@ public class Accordion extends Borderlayout implements EventListener<Event> {
 		
 		Center center = new Center();
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		appendChild(new Center());
 		
 		South south = new South();

@@ -85,7 +85,7 @@ public class WFEditor extends ADForm {
 		layout.appendChild(center);
 		center.setAutoscroll(true);
 //		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		center.appendChild(imageMap);
 		
 		ConfirmPanel confirmPanel = new ConfirmPanel(true);
