@@ -872,6 +872,15 @@ public class CPOS {
 	}
 	
 	/**
+	 * Verify if has record in list
+	 * @return
+	 * @return boolean
+	 */
+	public boolean hasRecord(){
+		return m_OrderList.isEmpty();
+	}
+	
+	/**
 	 * Verify if is first record in list
 	 * @return
 	 * @return boolean
