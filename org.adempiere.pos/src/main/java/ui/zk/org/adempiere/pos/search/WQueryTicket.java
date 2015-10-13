@@ -26,6 +26,7 @@ import java.util.Properties;
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
 import org.adempiere.pos.WPosTextField;
+import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
@@ -51,7 +52,7 @@ import org.zkoss.zkex.zul.North;
  *  
  */
 
-public class WQueryTicket extends WPosQuery
+public class WQueryTicket extends WPosQuery implements I_POSQuery
 {
 	/**
 	 * 
@@ -186,6 +187,8 @@ public class WQueryTicket extends WPosQuery
 	 */
 	public void setResults (Properties ctx, boolean processed, String doc, Date date)
 	{
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
 		String sql = "";
 		try 
 		{
@@ -200,8 +203,8 @@ public class WQueryTicket extends WPosQuery
 				sql += " AND o.DocumentNo = '" + doc + "'";
 			if ( date != null)
 				sql += " AND trunc(o.DateOrdered) = '"+ date +"' Order By o.DocumentNo DESC";
-			PreparedStatement pstm = DB.prepareStatement(sql, null);
-			ResultSet rs = pstm.executeQuery();
+			pstm = DB.prepareStatement(sql, null);
+			rs = pstm.executeQuery();
 			m_table.loadTable(rs);
 			if ( m_table.getRowCount() > 0 )
 				enableButtons();
@@ -209,6 +212,9 @@ public class WQueryTicket extends WPosQuery
 		catch(Exception e)
 		{
 			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+		} finally {
+			DB.close(rs);
+			DB.close(pstm);
 		}
 	}	//	setResults
 
@@ -310,13 +316,21 @@ public class WQueryTicket extends WPosQuery
 		m_C_Order_ID = -1;
 		dispose();
 	}
-
+	
+	@Override
 	public int getRecord_ID() {
 		return m_C_Order_ID;
 	}
-
+	
+	@Override
 	public String getValue() {
 		return null;
+	}
+
+	@Override
+	public void showView() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }	//	PosQueryProduct
