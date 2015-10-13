@@ -15,6 +15,7 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -395,15 +396,10 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		//	History
 		if (e.getTarget().equals(f_History)) {
 			
-			WPosQuery qt = new WQueryTicket(v_POSPanel);
+			WQueryTicket qt = new WQueryTicket(v_POSPanel);
 			qt.setVisible(true);
 			AEnv.showWindow(qt);
-//			if (qt.getRecord_ID() > 0) {
-//				v_POSPanel.setOrder(qt.getRecord_ID());
-//				v_POSPanel.reloadIndex(qt.getRecord_ID());
-//			} else {
-//				return;
-//			}
+			v_POSPanel.reloadIndex(qt.getRecord_ID());
 		}
 		v_POSPanel.refreshPanel();
 

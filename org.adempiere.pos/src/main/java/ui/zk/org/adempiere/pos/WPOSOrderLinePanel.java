@@ -14,6 +14,7 @@ import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Center;
@@ -127,6 +128,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 			{
 				Integer id = (Integer) ((IDColumn)data).getRecord_ID();
 				m_C_OrderLine_ID = id;
+				showProductInfo(row);
 			}
 		}else {
 			return;
@@ -159,6 +161,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 					}
 					v_POSPanel.reloadOrder();
 					v_POSPanel.refreshPanel();
+					v_POSPanel.refreshHeader();
 					m_table.getModel().addTableModelListener(this);
 					
 					return;
@@ -222,5 +225,21 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 		// TODO Auto-generated method stub
 		
 	}
-
+	/**
+	 * Show Product Info
+	 * @param row
+	 * @return void
+	 */
+	private void showProductInfo(int row) {
+		Object data = m_table.getModel().getValueAt(row, 0);
+		if ( data != null )	{
+			Integer id = (Integer) ((IDColumn)data).getRecord_ID();
+			m_C_OrderLine_ID = id;
+			int m_M_Product_ID = DB.getSQLValue(null, "SELECT ol.M_Product_ID "
+					+ "FROM C_OrderLine ol "
+					+ "WHERE ol.C_OrderLine_ID = ?", m_C_OrderLine_ID);
+			//	Refresh
+			v_POSPanel.refreshProductInfo(m_M_Product_ID);
+		}
+	}
 }
