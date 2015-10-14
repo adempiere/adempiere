@@ -530,7 +530,8 @@ public class POSActionPanel extends POSSubPanel
 			f_bBack.setEnabled(!v_POSPanel.isFirstRecord() && v_POSPanel.hasRecord());
 			//	For Collect
 			if(v_POSPanel.hasLines()
-					&& !v_POSPanel.isPaid()) {
+					&& !v_POSPanel.isPaid()
+					&& !v_POSPanel.isVoided()) {
 				//	For Credit Order
 				f_bCollect.setEnabled(true);
 			} else {
