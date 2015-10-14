@@ -131,7 +131,8 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		style.setContent(".z-fieldset legend {font-size: medium; font-weight:bold;} "
 				+ ".Table-OrderLine tr th div{font-size: 14px; font-weight:bold; padding:5px} "
 				+ ".Table-OrderLine tr td div, .Table-OrderLine tr td div input{font-size: medium; height:25px}"
-				+ ".label-description {font-size: medium; display:block; height:15px; font-weight:bold; width: 350px; overflow:hidden;}");
+				+ ".label-description {font-size: medium; display:block; height:15px; font-weight:bold; width: 350px; overflow:hidden;}"
+				+ ".fontLarge label  {font-size: medium;}");
 		style.setParent(v_TitleBorder);
 		v_TotalsGroup.appendChild(v_TitleBorder);
 
