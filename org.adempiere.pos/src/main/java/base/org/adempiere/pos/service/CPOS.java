@@ -800,12 +800,14 @@ public class CPOS {
 				//	
 				m_CurrentOrder = null;
 				//	Change to Next
+				if(!hasRecord()){
 				if(isFirstRecord()) {
 					firstRecord();
 				} else if(isLastRecord()) {
 					lastRecord();
 				} else {
 					previousRecord();
+				}
 				}
 			} else if (isCompleted()) {	
 				voidOrder();
@@ -868,7 +870,19 @@ public class CPOS {
 			DB.close(pstm);
 		}
 		//	Seek Position
-		m_RecordPosition = m_OrderList.size();
+		if(!hasRecord())
+			m_RecordPosition = m_OrderList.size();
+		else 
+			m_RecordPosition = -1;
+	}
+	
+	/**
+	 * Verify if has record in list
+	 * @return
+	 * @return boolean
+	 */
+	public boolean hasRecord(){
+		return m_OrderList.isEmpty();
 	}
 	
 	/**
@@ -960,9 +974,7 @@ public class CPOS {
 			} else {
 				m_CurrentOrder.set_TrxName(trxName);
 			}
-			if(p_IsPrepayment) {		
-				m_CurrentOrder.setC_DocTypeTarget_ID(getStandardOrder_ID());
-			}
+			
 			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
 				m_CurrentOrder.saveEx();
@@ -1094,8 +1106,6 @@ public class CPOS {
 	 * 	Load Order
 	 */
 	public void reloadOrder() {
-		if(m_OrderList.isEmpty())
-			return;
 		if (m_CurrentOrder == null) {
 			
 			if(m_RecordPosition != -1) {
