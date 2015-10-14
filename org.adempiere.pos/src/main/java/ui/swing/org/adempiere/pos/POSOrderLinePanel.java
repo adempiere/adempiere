@@ -193,6 +193,7 @@ public class POSOrderLinePanel extends POSSubPanel
 				v_POSPanel.deleteLine(m_C_OrderLine_ID);
 				((DefaultTableModel)m_table.getModel()).removeRow(row);
 				m_table.getModel().addTableModelListener(this);
+				v_POSPanel.refreshHeader();
 				//	Exit
 				return;
 			}
