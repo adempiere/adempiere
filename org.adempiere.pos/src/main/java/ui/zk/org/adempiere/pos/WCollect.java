@@ -60,7 +60,6 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Space;
 
-
 /**
  * 
  * @author Raul Muñoz 20/03/2015, 12:50 
@@ -79,6 +78,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	private Checkbox fIsCreditOrder;
 	private Label fReturnAmt;
 	private Label lReturnAmt;
+	private Label fOpenAmt;
 	private Button bPlus;
 	private ArrayList<Object> types;
 	private final String FONT_SIZE = "Font-size:medium;";
@@ -96,6 +96,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	private CLogger 		log = CLogger.getCLogger(WCollect.class);
 	private ConfirmPanel confirm;
 	private Panel centerPanel;
+	
 	public WCollect(WPOS posPanel) {
 		super(posPanel.getCtx(), posPanel.getM_Order(), posPanel.getM_POS());
 		
@@ -115,8 +116,8 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "", e);
 		}
-				
 	}
+	
 	private void zkInit(){
 		Panel panel = new Panel();
 		//	Content
@@ -144,20 +145,18 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		mainLayout.appendChild(north);
 		north.appendChild(eastPanel);
 		eastPanel.appendChild(eastlayout);
-		eastlayout.setWidth("100%");
+		eastlayout.setWidth("445px");
 		eastlayout.setHeight("100%");
 		
 		rows = eastlayout.newRows();
-		
 		row = rows.newRow();
-
 		row.appendChild(new Space());
 		
 		Label gtLabel = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
 		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		row.appendChild(gtLabel.rightAlign());
 		row.appendChild(fGrandTotal.rightAlign());
-		fGrandTotal.setStyle(FONT_SIZE);
+		fGrandTotal.setStyle(FONT_SIZE+FONT_BOLD);
 		fGrandTotal.setValue(p_order.getGrandTotal().toString());
 		
 		row = rows.newRow();
@@ -173,11 +172,16 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		
 		row = rows.newRow();
 		row.appendChild(new Space());
-		row.appendChild(new Space());
-		row.setHeight("5px");
-		Label line = new Label ("____________________");
-		row.appendChild(line.rightAlign());
+		//	Add Payment Amount
+		Label lOpenAmt = new Label(Msg.translate(p_ctx, "OpenAmt") + ":");
+		lOpenAmt.setStyle(FONT_SIZE+FONT_BOLD);
+		row.appendChild(lOpenAmt.rightAlign());
 		
+		fOpenAmt = new Label();
+		fOpenAmt.setStyle(FONT_SIZE);
+			
+		row.appendChild(fOpenAmt.rightAlign());
+			
 		fReturnAmt = new Label();
 		lReturnAmt = new Label(Msg.translate(p_ctx, "AmountReturned")+":");
 		lReturnAmt.setStyle(FONT_SIZE+FONT_BOLD);
@@ -198,11 +202,12 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		fIsPrePayOrder.addActionListener(this);
 		fIsPrePayOrder.setText(Msg.translate(p_ctx, "isPrePayment"));
 		fIsPrePayOrder.setStyle(FONT_SIZE+ "; Text-Align:right");
-		
+		fIsPrePayOrder.setClass("fontLarge");
 		row.appendChild(fIsPrePayOrder);
+		
 		fIsCreditOrder = new Checkbox();
 		fIsCreditOrder.setText(Msg.translate(p_ctx, "CreditSale"));
-		
+		fIsCreditOrder.setClass("fontLarge");
 		fIsCreditOrder.setStyle(FONT_SIZE);
 		fIsCreditOrder.setHeight("30px");
 		fIsCreditOrder.addActionListener(this);
@@ -235,7 +240,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 		   v_POSPanel.isCompleted() &&
 		   v_POSPanel.isStandardOrder()) {	
-			fIsPrePayOrder.setEnabled(true);	
+			fIsPrePayOrder.setEnabled(false);	
 			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setSelected(true);
 		}
@@ -255,6 +260,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 			}
 		}
 	}
+	
 	/**
 	 * Get Balance
 	 * @return
@@ -290,8 +296,8 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		//	Calculate Data
 		calculatePanelData();
 	}
-	protected Button createButtonAction (String action, KeyStroke accelerator)
-	{
+	
+	protected Button createButtonAction (String action, KeyStroke accelerator)	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
 		button.setTooltiptext(Msg.translate(p_ctx, action));
@@ -318,16 +324,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event event) throws Exception {
 		String action = event.getTarget().getId();
-		if(event.getTarget().equals(fIsCreditOrder)){
-			fIsPrePayOrder.setSelected(false);
-			if(fIsCreditOrder.isSelected()) {				
-				bPlus.setVisible(false);  // TODO setEnable(false) doesn't work!!
-				confirm.getOKButton().setEnabled(true);
-			}
-		else 
-			bPlus.setVisible(true);
-		}
-		else if (event.getName().equals("onBlur") || event.getName().equals("onFocus")) {
+		if (event.getName().equals("onBlur") || event.getName().equals("onFocus")) {
 		}
 		else if(event.getTarget().equals(bPlus)){
 			addCollectType();
@@ -358,17 +355,18 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
 				fIsPrePayOrder.setSelected(false);
 				if(fIsCreditOrder.isSelected()) {				
-					bPlus.setVisible(false);  
+					bPlus.setEnabled(false);  
 					confirm.getOKButton().setEnabled(true);
 					removeAllCollectDetail();
+					calculatePanelData();
 				}
 				else 
-					bPlus.setVisible(true);
+					bPlus.setEnabled(true);
 			} else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
 				fIsCreditOrder.setSelected(false);
 				//	Set to Controller
 				setIsPrePayOrder(fIsPrePayOrder.isSelected());
-				bPlus.setVisible(true);   
+				bPlus.setEnabled(true);   
 				return;
 			}
 		else {
@@ -383,11 +381,12 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	 */
 	public void removeAllCollectDetail() {
 		layout.getChildren().clear();
-		centerPanel.getChildren().clear();
 		super.removeAllCollectDetail();
 		//	Refresh View
-//		v_ScrollPanel.validate();
-//		v_ScrollPanel.repaint();
+		rows = layout.newRows();
+		row = rows.newRow();
+		collectRowNo = 0;
+		layout.invalidate();
 	}
 	/**
 	 * Process Window
@@ -396,9 +395,6 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	 */
 	public String saveData() {
 		try {
-			setIsPrePayOrder(fIsPrePayOrder.isSelected());
-			setIsCreditOrder(fIsCreditOrder.isSelected());
-//			setReturnAmt(new BigDecimal(fReturnAmt.getValue()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					if(v_POSPanel.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
@@ -416,30 +412,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		return null;
 	}
 
-	public void keyReturned(MPOSKey key) {
-		
-		String text = key.getText();
-		String payAmt = fPayAmt.getValue();
-		
-		if ( text != null && !text.isEmpty() )
-		{
-			if ( text.equals(".") && payAmt.indexOf(".") == -1 )
-			{
-				fPayAmt.setText(payAmt + text);
-				return;
-			}
-			try	{
-				Integer.parseInt(text);		// test if number
-				fPayAmt.setText(payAmt + text);
-			}
-			catch (NumberFormatException e)	{
-				// ignore non-numbers
-			}
-		}
-	}
-	
 	public boolean showCollect() {
-		
 		v_Window.setWidth("445px");;
 		v_Window.setHeight("580px"); ;
 		v_Window.setClosable(true);
@@ -460,10 +433,17 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		fPayAmt.setText(currencyISO_Code +" "+ m_Format.format(m_PayAmt));
 		
 		BigDecimal m_ReturnAmt = Env.ZERO;
+		BigDecimal m_OpenAmt = Env.ZERO;
 		if(m_Balance.doubleValue() < 0) {
 			m_ReturnAmt = m_Balance.abs();
+		} else if(m_Balance.doubleValue() > 0){
+			m_OpenAmt = m_Balance;
 		}
+		//	Set Return Amount
 		fReturnAmt.setText(currencyISO_Code +" "+ m_Format.format(m_ReturnAmt));
+		//	Set Open Amount
+		fOpenAmt.setText(currencyISO_Code + " " 
+				+ v_POSPanel.getNumberFormat().format(m_OpenAmt));
 	}
 	@Override
 	public void refreshPanel() {
@@ -520,15 +500,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 			fIsPrePayOrder.setSelected(isPrePayOrder());
 //			fPaymentTerm.setVisible(isCreditOrder());
 			//	Verify complete order
-			if(v_POSPanel.isCompleted() &&
-					   v_POSPanel.isStandardOrder()){
-				fIsCreditOrder.setEnabled(false);
-				fIsPrePayOrder.setEnabled(true);
-//				fPaymentTerm.setEnabled(false);
-				bPlus.setEnabled(isCreditOpen);
-				confirm.getOKButton().setEnabled(true);
-			}
-			else if(v_POSPanel.isCompleted()) {
+			if(v_POSPanel.isCompleted()) {
 				fIsCreditOrder.setEnabled(false);
 				fIsPrePayOrder.setEnabled(false);
 //				fPaymentTerm.setEnabled(false);
@@ -556,10 +528,13 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	 * @return void
 	 */
 	public void removeCollectDetail(WCollectDetail child) {
-		org.zkoss.zul.Panel comp = child.getPanel();
+		org.zkoss.zul.Groupbox comp = child.getPanel();
 		removeCollect(child);
 		comp.detach();
-	
+	}
+
+	@Override
+	public void keyReturned(MPOSKey key) {
 		
 	}
 	
