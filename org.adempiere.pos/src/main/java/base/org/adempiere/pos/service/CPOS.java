@@ -1264,7 +1264,8 @@ public class CPOS {
 	public void reloadOrder() {
 		if (m_CurrentOrder == null) {
 			
-			if(m_RecordPosition != -1) {
+			if(m_RecordPosition != -1
+					&& m_RecordPosition < m_OrderList.size()) {
 				setOrder(m_OrderList.get(m_RecordPosition));
 			}
 			//	
