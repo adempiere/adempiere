@@ -549,7 +549,7 @@ public class CPOS {
 	 */
 	public void setC_BPartner_ID(int p_C_BPartner_ID) {
 		//	Valid if has a Order
-		if(!hasOrder() 
+		if(m_CurrentOrder == null 
 				|| isCompleted())
 			return;
 		log.fine( "CPOS.setC_BPartner_ID=" + p_C_BPartner_ID);
