@@ -76,7 +76,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	
 	@Override
 	public void init() {
-
+		
 		parameterPanel = new Panel();
 		Borderlayout detailPanel = new Borderlayout();
 		Grid parameterLayout = GridFactory.newGridLayout();
@@ -164,13 +164,12 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		bpartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer"));
 		row.appendChild (new Space());
 
-		
 		f_Name = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
 		f_Name.setHeight("35px");
 		f_Name.setStyle("Font-size:medium; font-weight:700");
 		f_Name.setWidth("100%");
 		f_Name.setValue(bpartner.getValue());
-		f_Name.addEventListener(Events.ON_CLICK, this);
+		f_Name.addEventListener(Events.ON_FOCUS, this);
 		
 		row.appendChild(f_Name);
 		enableButton();
@@ -202,8 +201,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 					MSequence seq = new MSequence(Env.getCtx(), p_pos.getAD_Sequence_ID(), order.get_TrxName());
 					String docno = seq.getPrefix() + seq.getCurrentNext();
 					String q = "Confirmar el número consecutivo "  + docno;
-					if (FDialog.ask(0, null, q))						
-					{
+					if (FDialog.ask(0, null, q)) {
 						order.setPOReference(docno);
 						order.saveEx();
 						ReportCtl.startDocumentPrint(0, order.getC_Order_ID(), false);
@@ -305,7 +303,6 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
 			v_POSPanel.setC_BPartner_ID(v_POSPanel.getC_BPartner_ID());
 			f_Name.setText(bp.getName()+"");
-			System.out.println(bp.getName()+"");
 		} else {	//	more than one
 			changeBusinessPartner(results);
 		}
@@ -367,6 +364,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		if (e.getTarget().equals(f_bNew)){
 			v_POSPanel.newOrder();
 			v_POSPanel.refreshPanel();
+			refreshProductInfo(null);
 			e.stopPropagation();
 				return;
 		}
@@ -374,11 +372,13 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			payOrder();
 			return;
 		}
-		else if (e.getTarget().equals(f_Back) ){
+		else if (e.getTarget().equals(f_Back)){
 			previousRecord();
+			refreshProductInfo(null);
 		}
-		else if (e.getTarget().equals(f_Next) ){
+		else if (e.getTarget().equals(f_Next)){
 			nextRecord();
+			refreshProductInfo(null);
 		}
 		else if(e.getTarget().equals(f_logout)){
 			dispose();
@@ -386,11 +386,11 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		}
 		else if (e.getTarget().equals(f_bBPartner)) {
 			changeBusinessPartner(null);
-			
 		}
 		// Cancel
 		else if (e.getTarget().equals(f_Cancel)){
 			deleteOrder();
+			refreshProductInfo(null);
 		}
 		//	History
 		if (e.getTarget().equals(f_History)) {
@@ -401,7 +401,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			v_POSPanel.reloadIndex(qt.getRecord_ID());
 		}
 		v_POSPanel.refreshPanel();
-
+		
 	}
 
 	@Override
