@@ -28,6 +28,8 @@ import javax.swing.border.TitledBorder;
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.pos.search.QueryProduct;
 import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
 import org.compiere.model.I_C_Order;
 import org.compiere.model.I_C_OrderLine;
@@ -54,7 +56,7 @@ import org.compiere.util.Msg;
  *  @version $Id: SubFunctionKeys.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
 public class POSProductPanel extends POSSubPanel 
-	implements PosKeyListener, ActionListener, I_POSPanel {
+	implements PosKeyListener, ActionListener, I_POSPanel, POSQueryListener {
 	/**
 	 * 
 	 */
@@ -343,13 +345,10 @@ public class POSProductPanel extends POSSubPanel
 		} else {	//	more than one
 			v_POSPanel.getFrame().getContentPane().invalidate();
 			QueryProduct qt = new QueryProduct(v_POSPanel);
+			qt.addOptionListener(this);
 			qt.setResults(results);
 			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
 			qt.showView();
-			if (qt.getRecord_ID() > 0) {
-				f_ProductName.setText(qt.getValue());
-				addLine(qt.getRecord_ID(), Env.ONE);
-			}
 		}
 	}	//	findProduct
 
@@ -390,5 +389,18 @@ public class POSProductPanel extends POSSubPanel
 	@Override
 	public void changeViewPanel() {
 		
+	}
+
+	@Override
+	public void okAction(I_POSQuery query) {
+		if (query.getRecord_ID() > 0) {
+			f_ProductName.setText(query.getValue());
+			addLine(query.getRecord_ID(), Env.ONE);
+		}
+	}
+
+	@Override
+	public void cancelAction(I_POSQuery query) {
+		//	Nothing
 	}
 }	//	POSProductPanel

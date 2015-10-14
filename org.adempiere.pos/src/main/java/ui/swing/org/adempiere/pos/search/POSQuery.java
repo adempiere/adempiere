@@ -32,6 +32,8 @@ import javax.swing.SwingUtilities;
 
 import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
+import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VDate;
@@ -58,7 +60,8 @@ import org.compiere.util.Env;
  *  @version $Id: PosQuery.java,v 2.0 2015/09/01 00:00:00 
  */
 public abstract class POSQuery extends CDialog 
-	implements MouseListener, ActionListener, VetoableChangeListener {
+	implements MouseListener, ActionListener, 
+		VetoableChangeListener, I_POSQuery {
 
 	/**
 	 * 
@@ -92,6 +95,8 @@ public abstract class POSQuery extends CDialog
 	
 	/**	Logger			*/
 	protected static CLogger log = CLogger.getCLogger(QueryTicket.class);
+	/**	Listener		*/
+	private POSQueryListener listener;
 	/**	Default Width	*/
 	private final int		BUTTON_WIDTH 	= 50;
 	/**	Default Height		*/
@@ -152,6 +157,15 @@ public abstract class POSQuery extends CDialog
 //		m_table.getSelectionModel().addListSelectionListener(this);
 	}
 	
+	/**
+	 * Add Listener
+	 * @param listener
+	 * @return void
+	 */
+	public void addOptionListener(POSQueryListener listener) {
+		this.listener = listener;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		log.info(e.getActionCommand());
@@ -167,9 +181,17 @@ public abstract class POSQuery extends CDialog
 			return;
 		} else if(f_Cancel.equals(e.getSource())) {
 			cancel();
+			//	Fire
+			if(listener != null) {
+				listener.cancelAction(this);
+			}
 		} else if (f_Ok.equals(e.getSource())) {
 			select();
 			close();
+			//	Fire
+			if(listener != null) {
+				listener.okAction(this);
+			}
 		} else if(e.getSource() instanceof POSTextField
 				|| e.getSource() instanceof CCheckBox) {
 			refresh();
@@ -298,6 +320,10 @@ public abstract class POSQuery extends CDialog
 				&& m_table.getSelectedRow() != -1)	{
 			select();
 			close();
+			//	Fire
+			if(listener != null) {
+				listener.okAction(this);
+			}
 		}
 	}
 	

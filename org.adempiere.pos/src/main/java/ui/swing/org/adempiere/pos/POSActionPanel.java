@@ -28,10 +28,12 @@ import java.awt.event.KeyEvent;
 import javax.swing.KeyStroke;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.pos.search.POSQuery;
 import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryTicket;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
@@ -61,8 +63,7 @@ import org.compiere.util.Msg;
  *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class POSActionPanel extends POSSubPanel 
-	implements ActionListener, FocusListener, I_POSPanel
-{
+	implements ActionListener, FocusListener, I_POSPanel, POSQueryListener {
 	/**
 	 * 
 	 */
@@ -177,9 +178,6 @@ public class POSActionPanel extends POSSubPanel
 		f_NameBPartner.setFont(v_POSPanel.getFont());
 		f_NameBPartner.setPreferredSize(new Dimension(250, v_POSPanel.getFieldLenght()));
 		f_NameBPartner.setMinimumSize(new Dimension(250, v_POSPanel.getFieldLenght()));
-		//	
-//		v_InfoProductPanel.setPreferredSize(new Dimension(250, 180));
-//		v_InfoProductPanel.setMinimumSize(new Dimension(250, 180));
 		//	Add Button Panel
 		add(v_ButtonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
@@ -218,18 +216,13 @@ public class POSActionPanel extends POSSubPanel
 				if (e.getSource().equals(f_bNew)) {
 					v_POSPanel.newOrder();
 				} else if (e.getSource().equals(f_bBPartner)) {
-					if(!changeBusinessPartner(null))
-						return;
+					changeBusinessPartner(null);
 				} else if (e.getSource().equals(f_bHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
-					I_POSQuery qt = new QueryTicket(v_POSPanel);
+					POSQuery qt = new QueryTicket(v_POSPanel);
+					qt.addOptionListener(this);
 					qt.showView();
-					if (qt.getRecord_ID() > 0) {
-						v_POSPanel.setOrder(qt.getRecord_ID());
-						v_POSPanel.reloadIndex(qt.getRecord_ID());
-					} else {
-						return;
-					}
+					return;
 				} else if (e.getSource().equals(f_bBack)){
 					previousRecord();
 				} else if (e.getSource().equals(f_bNext)){
@@ -241,7 +234,7 @@ public class POSActionPanel extends POSSubPanel
 				} else if (e.getSource().equals(f_bLogout)) {	//	Logout
 					v_POSPanel.dispose();
 					return;
-				} else if (e.getSource() == f_NameBPartner) {
+				} else if (e.getSource().equals(f_NameBPartner)) {
 					if(!findBPartner())
 						return;
 				}
@@ -397,8 +390,10 @@ public class POSActionPanel extends POSSubPanel
 			f_NameBPartner.setText(bp.getName());
 			return true;
 		} else {	//	more than one
-			return changeBusinessPartner(results);
+			changeBusinessPartner(results);
 		}
+		//	Default return
+		return false;
 	}	//	findBPartner
 	
 	/**
@@ -557,23 +552,38 @@ public class POSActionPanel extends POSSubPanel
 	 *  In Order and POS
 	 *  @param results
 	 */
-	public boolean changeBusinessPartner(MBPartnerInfo[] results) {
+	public void changeBusinessPartner(MBPartnerInfo[] results) {
 		// Change to another BPartner
 		QueryBPartner qt = new QueryBPartner(v_POSPanel);
+		qt.addOptionListener(this);
 		qt.setResults(results);
 		qt.showView();
-		if (qt.getRecord_ID() > 0) {
-			f_NameBPartner.setText(qt.getValue());
+	}
+
+	@Override
+	public void okAction(I_POSQuery query) {
+		if (query.getRecord_ID() <= 0)
+			return;
+		//	For Ticket
+		if(query instanceof QueryTicket) {
+			v_POSPanel.setOrder(query.getRecord_ID());
+			v_POSPanel.reloadIndex(query.getRecord_ID()); 
+		} else if(query instanceof QueryBPartner) {
+			f_NameBPartner.setText(query.getValue());
 			if(!v_POSPanel.hasOrder()) {
-				v_POSPanel.newOrder(qt.getRecord_ID());
+				v_POSPanel.newOrder(query.getRecord_ID());
 			} else {
-				v_POSPanel.setC_BPartner_ID(qt.getRecord_ID());
+				v_POSPanel.setC_BPartner_ID(query.getRecord_ID());
 			}
-			log.fine("C_BPartner_ID=" + qt.getRecord_ID());
 			//	
-			return true;
+			log.fine("C_BPartner_ID=" + query.getRecord_ID());
 		}
-		//	
-		return false;
+		//	Refresh
+		v_POSPanel.refreshPanel();
+	}
+
+	@Override
+	public void cancelAction(I_POSQuery query) {
+		//	Nothing
 	}	
 }//	POSActionPanel

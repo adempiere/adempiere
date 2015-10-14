@@ -25,7 +25,6 @@ import javax.swing.border.TitledBorder;
 import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.pos.search.POSQuery;
-import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.grid.ed.VDate;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -55,7 +54,7 @@ import org.compiere.util.Msg;
  * 
  */
 
-public class QueryTicket extends POSQuery implements I_POSQuery {
+public class QueryTicket extends POSQuery {
 	/**
 	 * 
 	 */
