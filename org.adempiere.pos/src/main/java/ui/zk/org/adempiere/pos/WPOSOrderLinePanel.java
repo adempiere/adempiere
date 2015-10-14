@@ -43,20 +43,6 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 	/**	Current Order Line	*/
 	private int 			m_C_OrderLine_ID = 0;
 	
-	/**	Column Names		*/
-	public static final String 	PRODUCTNAME	= "ProductName";
-	public static final String 	QTYORDERED  = "QtyOrdered";
-	public static final String 	C_UOM_ID    = "C_UOM_ID";
-	public static final String 	PRICEACTUAL = "PriceActual";
-	public static final String 	LINENETAMT  = "LineNetAmt";
-	public static final String 	GRANDTOTAL  = "GrandTotal";
-	/**	Column Position		*/
-	public static final int	POSITION_C_ORDER_ID 	= 0;
-	public static final int	POSITION_QTYORDERED 	= 2;
-	public static final int	POSITION_PRICE 			= 4;
-	public static final int	POSITION_LINENETAMT 	= 5;
-	public static final int	POSITION_GRANDTOTAL 	= 7;
-	
 
 	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(WPOSOrderLinePanel.class);
@@ -77,7 +63,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 		center.setStyle("border: none; height:95%;");
 		m_table.loadTable(new PO[0]);
 		m_table.setClass("Table-OrderLine");
-		m_table.setColumnReadOnly(POSITION_QTYORDERED, true);
+		m_table.setColumnReadOnly(POSOrderLineTableHandle.POSITION_QTYORDERED, true);
 		appendChild(center);
 	}
 
@@ -109,7 +95,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 			return;
 		log.info( "POSOrderLinePanel - actionPerformed: " + action);
 		if(arg0.getTarget().equals(m_table)){
-			m_table.setColumnReadOnly(POSITION_QTYORDERED, false);
+			m_table.setColumnReadOnly(POSOrderLineTableHandle.POSITION_QTYORDERED, false);
 			return;
 		}
 		//	Product
@@ -134,7 +120,6 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 			return;
 		}
 		int id = m_table.getSelectedRow();
-		
 			if (id != -1) {	
 				ListModelTable model = m_table.getModel();
 				IDColumn key = (IDColumn) model.getValueAt(id, 0);
@@ -157,7 +142,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 					m_table.getModel().setValueAt(grandTotal, id, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
 					if(qty.compareTo(Env.ZERO) <= 0){
 						line.delete(true);
-						m_table.setColumnReadOnly(POSITION_QTYORDERED, true);
+						m_table.setColumnReadOnly(POSOrderLineTableHandle.POSITION_QTYORDERED, true);
 					}
 					v_POSPanel.reloadOrder();
 					v_POSPanel.refreshPanel();

@@ -168,7 +168,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 
 		form.appendChild(mainLayout);
 		//	Seek to last
-		if(!hasRecord()){
+		if(hasRecord()){
 			lastRecord();	
 		}
 		refreshPanel();
