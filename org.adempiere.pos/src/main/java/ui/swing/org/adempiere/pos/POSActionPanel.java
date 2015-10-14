@@ -289,12 +289,13 @@ public class POSActionPanel extends POSSubPanel
 		} else {
 			VCollect collect = new VCollect(v_POSPanel);
 			if (collect.showCollect()) {
-				//	Print Ticket just when is not completed
-				if(!v_POSPanel.isCompleted()) {
+				//	Print Ticket just when is completed
+				if(v_POSPanel.isToPrint()) {
 					printTicket();
 				}
 				//	
 				v_POSPanel.setOrder(0);
+				v_POSPanel.refreshPanel();
 			}
 		}	
 	}  // payOrder

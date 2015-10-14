@@ -94,6 +94,8 @@ public class CPOS {
 	private ArrayList<Integer>	m_OrderList;
 	/**	Order List Position		*/
 	private int 				m_RecordPosition;
+	/**	Is Payment Completed	*/
+	private boolean 			m_IsToPrint;
 	/**	Logger					*/
 	private CLogger 			log = CLogger.getCLogger(getClass());
 	
@@ -300,6 +302,15 @@ public class CPOS {
 	}
 	
 	/**
+	 * Validate if is to print invoice
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isToPrint() {
+		return m_IsToPrint;
+	}
+	
+	/**
 	 * Get Current Order
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
@@ -316,7 +327,8 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean hasOrder() {
-		return m_CurrentOrder != null;
+		return m_CurrentOrder != null
+				&& m_CurrentOrder.getC_Order_ID() != 0;
 	}
 	
 	/**
@@ -645,10 +657,8 @@ public class CPOS {
 	 * @param p_C_Order_ID
 	 */
 	public void setOrder(int p_C_Order_ID) {
-		if (p_C_Order_ID == 0) {
-			m_CurrentOrder = null;
-		} else {
-			m_CurrentOrder = new MOrder(m_ctx , p_C_Order_ID, null);
+		m_CurrentOrder = new MOrder(m_ctx , p_C_Order_ID, null);
+		if (p_C_Order_ID != 0) {
 			loadPriceListVersion(m_CurrentOrder.getM_PriceList_ID());
 		}
 		//	
@@ -806,8 +816,9 @@ public class CPOS {
 			m_CurrentOrder.setDocStatus(MOrder.STATUS_Voided);
 			m_CurrentOrder.saveEx();
 			return true;
-		} else 
+		} else {
 			return false;
+		}
 	} // cancelOrder
 	
 	/**
@@ -819,21 +830,26 @@ public class CPOS {
 	public String cancelOrder() {
 		String errorMsg = null;
 		try {
+			//	Get Index
+			int currentIndex = m_OrderList.indexOf(m_CurrentOrder.getC_Order_ID());
 			if (!hasOrder()) {
 				throw new AdempierePOSException("@POS.MustCreateOrder@");
 			} else if (!isCompleted()) {
-				//	Get Index
-				int currentIndex = m_OrderList.indexOf(m_CurrentOrder.getC_Order_ID());
 				//	Delete Order
 				m_CurrentOrder.deleteEx(true);
-				//	Remove from List
-				if(currentIndex >= 0) {
-					m_OrderList.remove(currentIndex);
-				}
-				//	
-				m_CurrentOrder = null;
-				//	Change to Next
-				if(!hasRecord()){
+			} else if (isCompleted()) {	
+				voidOrder();
+			} else {
+				throw new AdempierePOSException("@POS.OrderIsNotProcessed@");	//	TODO Translate it: Order is not Drafted nor Completed. Try to delete it other way
+			}
+			//	Remove from List
+			if(currentIndex >= 0) {
+				m_OrderList.remove(currentIndex);
+			}
+			//	
+			m_CurrentOrder = null;
+			//	Change to Next
+			if(hasRecord()){
 				if(isFirstRecord()) {
 					firstRecord();
 				} else if(isLastRecord()) {
@@ -841,11 +857,6 @@ public class CPOS {
 				} else {
 					previousRecord();
 				}
-				}
-			} else if (isCompleted()) {	
-				voidOrder();
-			} else {
-				throw new AdempierePOSException("@POS.OrderIsNotProcessed@");	//	TODO Translate it: Order is not Drafted nor Completed. Try to delete it other way
 			}
 		} catch(Exception e) {
 			errorMsg = e.getMessage();
@@ -903,8 +914,8 @@ public class CPOS {
 			DB.close(pstm);
 		}
 		//	Seek Position
-		if(!hasRecord())
-			m_RecordPosition = m_OrderList.size();
+		if(hasRecord())
+			m_RecordPosition = m_OrderList.size() -1;
 		else 
 			m_RecordPosition = -1;
 	}
@@ -915,7 +926,7 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean hasRecord(){
-		return m_OrderList.isEmpty();
+		return !m_OrderList.isEmpty();
 	}
 	
 	/**
@@ -989,7 +1000,7 @@ public class CPOS {
 	}
 	
 	/**
-	 * 	Process Order
+	 * Process Order
 	 * For status "Drafted" or "In Progress": process order
 	 * For status "Completed": do nothing as it can be pre payment or payment on credit
 	 * @param trxName
@@ -1013,6 +1024,11 @@ public class CPOS {
 			if(p_IsPrepayment) {
 				//	Set Document Type
 				m_CurrentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
+				//	Force Delivery for POS
+				m_CurrentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
+				m_CurrentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
+			} else {
+				m_IsToPrint = true;
 			}
 			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
@@ -1023,6 +1039,7 @@ public class CPOS {
 			}
 		} else {	//	Default nothing
 			orderCompleted = isCompleted();
+			m_IsToPrint = false;
 		}
 		//	Validate for generate Invoice and Shipment
 		if(p_IsPrepayment
@@ -1033,6 +1050,7 @@ public class CPOS {
 			generateInvoice(trxName);
 			//	
 			orderCompleted = true;
+			m_IsToPrint = true;
 		}
 		return orderCompleted;
 	}	// processOrder

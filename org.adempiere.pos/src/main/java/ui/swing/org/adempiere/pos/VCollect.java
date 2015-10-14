@@ -124,7 +124,7 @@ public class VCollect extends Collect
 	private JButton 		bOk;
 	
 	/**	Generic Values		*/
-	private boolean 		isPaid;
+	private boolean 		isProcessed;
 	private Properties 		m_ctx;
 	private int 			collectRowNo;
 	
@@ -359,7 +359,7 @@ public class VCollect extends Collect
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		isPaid = false;
+		isProcessed = false;
 		//	Validate Event
 		if (e.getSource().equals(bPlus)) {
 			addCollectType();
@@ -374,8 +374,9 @@ public class VCollect extends Collect
 				ADialog.warn(v_POSPanel.getWindowNo(), v_Dialog, Msg.parseTranslation(m_ctx, validResult));
 				return;
 			}
+			//	Set Processed
+			isProcessed = true;
 			//	
-			isPaid = true;
 			v_Dialog.dispose();
 			return;
 		} else if (e.getSource().equals(bCancel)) {	//	Nothing
@@ -430,7 +431,7 @@ public class VCollect extends Collect
 		//	
 		AEnv.positionCenterScreen(v_Dialog);
 		v_Dialog.setVisible(true);
-		return isPaid;
+		return isProcessed;
 	}
 	
 	/**
