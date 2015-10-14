@@ -336,11 +336,12 @@ public class VCollect extends Collect
 	 * @return String
 	 */
 	public String saveData() {
+		String errorMsg = null;
 		try {
 			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if(v_POSPanel.processOrder(trxName, isPrePayOrder())) {
+					if(v_POSPanel.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
 						processPayment(trxName, v_POSPanel.getOpenAmt());
 					} else {
 						throw new POSaveFailedException(v_POSPanel.getProcessMsg());
@@ -348,12 +349,12 @@ public class VCollect extends Collect
 				}
 			});
 		} catch (Exception e) {
-			return e.getMessage();
+			errorMsg = e.getLocalizedMessage();
 		} finally {
 			v_Dialog.setCursor(Cursor.getDefaultCursor());
 		}
 		//	Default
-		return null;
+		return errorMsg;
 	}
 	
 	@Override
