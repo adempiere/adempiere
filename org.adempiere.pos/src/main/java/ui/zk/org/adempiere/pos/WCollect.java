@@ -235,13 +235,13 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 		   v_POSPanel.isCompleted() &&
 		   v_POSPanel.isStandardOrder()) {	
-			fIsPrePayOrder.setEnabled(false);	
+			fIsPrePayOrder.setEnabled(true);	
 			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setSelected(true);
 		}
 		// Pre-Payment, Credit Order: enable only if the order is drafted and there are lines 
 		else if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
-				!v_POSPanel.isCompleted()) {		
+				!v_POSPanel.isCompleted()) {
 			fIsPrePayOrder.setEnabled(true);	
 			fIsCreditOrder.setEnabled(true);
 		}
@@ -327,10 +327,6 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		else 
 			bPlus.setVisible(true);
 		}
-		else if(event.getTarget().equals(fIsPrePayOrder)){
-			fIsCreditOrder.setSelected(false);
-			bPlus.setVisible(true);   // TODO setEnable(true) doesn't work!!
-		}
 		else if (event.getName().equals("onBlur") || event.getName().equals("onFocus")) {
 		}
 		else if(event.getTarget().equals(bPlus)){
@@ -359,10 +355,6 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 			v_Window.dispose();
 			return;
 		}
-		 else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
-			fIsCreditOrder.setSelected(false);
-			bPlus.setVisible(true); 
-		}
 		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
 				fIsPrePayOrder.setSelected(false);
 				if(fIsCreditOrder.isSelected()) {				
@@ -374,7 +366,10 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 					bPlus.setVisible(true);
 			} else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
 				fIsCreditOrder.setSelected(false);
+				//	Set to Controller
+				setIsPrePayOrder(fIsPrePayOrder.isSelected());
 				bPlus.setVisible(true);   
+				return;
 			}
 		else {
 					layout.invalidate();
@@ -401,7 +396,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	 */
 	public String saveData() {
 		try {
-//			v_POSPanel.setPrepayment(fIsPrePayment.isSelected());
+			setIsPrePayOrder(fIsPrePayOrder.isSelected());
 			setIsCreditOrder(fIsCreditOrder.isSelected());
 //			setReturnAmt(new BigDecimal(fReturnAmt.getValue()));
 			Trx.run(new TrxRunnable() {
@@ -479,18 +474,14 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 
 	@Override
 	public String validatePanel() {
+		String errorMsg = null;
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
-			return "POS.MustCreateOrder";
-		} else if(fIsCreditOrder.isSelected()) {	//	For Credit Order
-			return null;
-		} else if(!fIsPrePayOrder.isSelected() 
-				&& m_Balance.doubleValue() > 0) {	//	For Pre-Payment Order
-			return "POS.OrderPayNotCompleted";
-		} else if(m_Balance.doubleValue() < 0) {
-			return "POS.OrderPayNotCompletedAmtExceeded";
+			errorMsg = "@POS.MustCreateOrder@";
+		} else {
+			errorMsg = validatePayment(v_POSPanel.getOpenAmt());
 		}
 		//	
-		return null;
+		return errorMsg;
 	}
 
 	private boolean isPaid() {
@@ -529,7 +520,15 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 			fIsPrePayOrder.setSelected(isPrePayOrder());
 //			fPaymentTerm.setVisible(isCreditOrder());
 			//	Verify complete order
-			if(v_POSPanel.isCompleted()) {
+			if(v_POSPanel.isCompleted() &&
+					   v_POSPanel.isStandardOrder()){
+				fIsCreditOrder.setEnabled(false);
+				fIsPrePayOrder.setEnabled(true);
+//				fPaymentTerm.setEnabled(false);
+				bPlus.setEnabled(isCreditOpen);
+				confirm.getOKButton().setEnabled(true);
+			}
+			else if(v_POSPanel.isCompleted()) {
 				fIsCreditOrder.setEnabled(false);
 				fIsPrePayOrder.setEnabled(false);
 //				fPaymentTerm.setEnabled(false);

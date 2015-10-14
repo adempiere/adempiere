@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
 
-import org.adempiere.pos.search.WPosQuery;
 import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.search.WQueryTicket;
 import org.adempiere.pos.service.I_POSPanel;
@@ -15,7 +14,6 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -70,6 +68,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	private final String ACTION_PAYMENT     = "Payment";
 	
 	private WPOSInfoProduct v_InfoProductPanel;
+	private Panel parameterPanel;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WPOSActionPanel.class);
 	
@@ -78,7 +77,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	@Override
 	public void init() {
 
-		Panel parameterPanel = new Panel();
+		parameterPanel = new Panel();
 		Borderlayout detailPanel = new Borderlayout();
 		Grid parameterLayout = GridFactory.newGridLayout();
 		Borderlayout fullPanel = new Borderlayout();
@@ -171,9 +170,9 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		f_Name.setStyle("Font-size:medium; font-weight:700");
 		f_Name.setWidth("100%");
 		f_Name.setValue(bpartner.getValue());
-		f_Name.addEventListener(Events.ON_FOCUS, this);
+		f_Name.addEventListener(Events.ON_CLICK, this);
 		
-		row.appendChild  (f_Name);
+		row.appendChild(f_Name);
 		enableButton();
 		
 		v_InfoProductPanel = new WPOSInfoProduct(v_POSPanel);
@@ -461,8 +460,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
   				else
   					f_History.setEnabled(false);
   				//  For Collect
-  				if(v_POSPanel.hasLines()
-  						&& !v_POSPanel.isPaid()) {
+  				if(v_POSPanel.hasLines()) {
   					//	For Credit Order
   					f_Collect.setEnabled(true);
   				} else {
@@ -511,6 +509,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	 */
 	public void refreshProductInfo(MPOSKey key) {
 		v_InfoProductPanel.refreshProduct(key);
+		parameterPanel.invalidate();
 	}
 	
 	/**
@@ -520,6 +519,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	 */
 	public void refreshProductInfo(int p_M_Product_ID) {
 		v_InfoProductPanel.refreshProduct(p_M_Product_ID);
+		parameterPanel.invalidate();
 	}
 	
 }
