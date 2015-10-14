@@ -76,12 +76,11 @@ public class QueryTicket extends POSQuery {
 	
 	
 	static final private String DOCUMENTNO      = "DocumentNo";
-	static final private String TOTALLINES      = "TotalLines";
-	static final private String OPENAMT         = "OpenAmt";
-	static final private String GRANDTOTAL      = "GrandTotal";
 	static final private String BPARTNERID      = "C_BPartner_ID";
-	static final private String PROCESSED       = "Processed";
+	static final private String GRANDTOTAL      = "GrandTotal";
+	static final private String OPENAMT         = "OpenAmt";
 	static final private String PAID            = "IsPaid";
+	static final private String PROCESSED       = "Processed";
 	static final private String DATEORDEREDFROM = "DateOrderedFrom";
 	static final private String DATEORDEREDTO   = "DateOrderedTo";
 	static final private String QUERY           = "Query";
@@ -90,11 +89,11 @@ public class QueryTicket extends POSQuery {
 	private static ColumnInfo[] s_layout = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAMT), TOTALLINES, BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), BPARTNERID), BPARTNERID, String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), PROCESSED), PROCESSED, Boolean.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), PAID), PAID, Boolean.class)
+		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAMT), OPENAMT, BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), PAID), PAID, Boolean.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), PROCESSED), PROCESSED, Boolean.class)
 	};
 
 	/**
@@ -173,8 +172,10 @@ public class QueryTicket extends POSQuery {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try  {
-			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, COALESCE(invoiceopen(i.C_Invoice_ID, 0), o.GrandTotal) as InvoiceOpen")
-			     .append(", o.GrandTotal, b.Name, o.Processed, i.IsPaid ")
+			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, ")
+				.append("b.Name, o.GrandTotal, ")
+				.append("COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal) as InvoiceOpen, ")
+			    .append("o.Processed, i.IsPaid ")
 				.append(" FROM C_Order o ")
 				.append(" INNER JOIN C_BPartner b ON(o.C_BPartner_ID = b.C_BPartner_ID)")
 				.append(" LEFT JOIN C_invoice i ON(i.C_Order_ID = o.C_Order_ID)")
@@ -188,6 +189,8 @@ public class QueryTicket extends POSQuery {
 				else
 					sql.append(" AND o.DateOrdered = ? ");	
 			}
+			//	Group By
+			sql.append(" GROUP BY o.C_Order_ID, o.DocumentNo, b.Name, o.GrandTotal, o.Processed, i.IsPaid ");
 			sql.append(" ORDER BY o.Updated");
 			int i = 1;			
 			pstm = DB.prepareStatement(sql.toString(), null);
