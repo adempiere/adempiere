@@ -29,6 +29,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.minigrid.IDColumn;
@@ -190,7 +191,8 @@ public class POSOrderLinePanel extends POSSubPanel
 			//	Remove line
 			if(m_QtyOrdered.compareTo(Env.ZERO) <= 0) {
 				v_POSPanel.deleteLine(m_C_OrderLine_ID);
-				m_table.remove(row);
+				((DefaultTableModel)m_table.getModel()).removeRow(row);
+				m_table.getModel().addTableModelListener(this);
 				//	Exit
 				return;
 			}
