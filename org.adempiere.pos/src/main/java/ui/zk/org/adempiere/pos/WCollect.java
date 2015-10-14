@@ -401,7 +401,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 //			setReturnAmt(new BigDecimal(fReturnAmt.getValue()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if(v_POSPanel.processOrder(trxName, isPrePayOrder())) {
+					if(v_POSPanel.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
 						processPayment(trxName, v_POSPanel.getOpenAmt());
 					} else {
 						throw new POSaveFailedException(v_POSPanel.getProcessMsg());

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
@@ -35,6 +36,8 @@ import org.compiere.model.MLocator;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrderTax;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentProcessor;
@@ -48,11 +51,15 @@ import org.compiere.model.MWarehouse;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Order;
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
+import org.adempiere.util.ProcessUtil;
 import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -229,6 +236,32 @@ public class CPOS {
 		//	
 		return getDocSubTypeSO()
 				.equals(MOrder.DocSubTypeSO_Prepay);
+	}
+	
+	/**
+	 * Valid date if is invoiced
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isInvoiced() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return m_CurrentOrder.isInvoiced();
+	}
+	
+	/**
+	 * Validate if is delivered
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isDelivered() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return m_CurrentOrder.isDelivered();
 	}
 	
 	/**
@@ -959,15 +992,17 @@ public class CPOS {
 	 * 	Process Order
 	 * For status "Drafted" or "In Progress": process order
 	 * For status "Completed": do nothing as it can be pre payment or payment on credit
-	 * 
+	 * @param trxName
+	 * @param p_IsPrepayment
+	 * @param p_IsPaid
 	 * @return true if order processed or pre payment/on credit; otherwise false
 	 * 
 	 */
-	public boolean processOrder(String trxName, boolean p_IsPrepayment) {		
+	public boolean processOrder(String trxName, boolean p_IsPrepayment, boolean p_IsPaid) {		
 		//Returning orderCompleted to check for order completeness
 		boolean orderCompleted = false;
 		// check if order completed OK
-		if (!isCompleted()) {
+		if (!isCompleted()) {	//	Complete Order
 			//	Replace
 			if(trxName == null) {
 				trxName = m_CurrentOrder.get_TrxName();
@@ -986,11 +1021,110 @@ public class CPOS {
 			} else {
 				log.info( "Process Order FAILED " + m_CurrentOrder.getProcessMsg());		
 			}
-		} else {
+		} else {	//	Default nothing
 			orderCompleted = isCompleted();
+		}
+		//	Validate for generate Invoice and Shipment
+		if(p_IsPrepayment
+				&& p_IsPaid
+				&& !isInvoiced()
+				&& !isDelivered()) {	//	Generate Invoice and Shipment
+			generateShipment(trxName);
+			generateInvoice(trxName);
+			//	
+			orderCompleted = true;
 		}
 		return orderCompleted;
 	}	// processOrder
+	
+	/**
+	 * Generate Shipment
+	 * @param trxName
+	 * @return void
+	 */
+	private void generateShipment(String trxName) {
+		int AD_Process_ID = 199;  // HARDCODED    M_InOut_Generate - org.compiere.process.InOutGenerate
+		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
+		if (!instance.save()) {
+			throw new AdempiereException("ProcessNoInstance");
+		}
+		//	Insert Values
+		DB.executeUpdateEx("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) Values(?, ?)", 
+				new Object[]{instance.getAD_PInstance_ID(), getC_Order_ID()}, trxName);
+		//	Add Lines
+		ProcessInfo pi = new ProcessInfo ("VInOutGen", AD_Process_ID);
+		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		pi.setClassName("org.compiere.process.InOutGenerate");
+
+		//	Add Is Selection
+		MPInstancePara para = new MPInstancePara(instance, 10);
+		para.setParameter("Selection", "Y");
+		if (!para.save()) {
+			String msg = "No Selection Parameter added";  //  not translated
+			log.log(Level.SEVERE, msg);
+			throw new AdempiereException(msg);
+		}
+		//	Add Warehouse
+		para = new MPInstancePara(instance, 20);
+		para.setParameter("M_Warehouse_ID", getM_Warehouse_ID());
+		if (!para.save()) {
+			String msg = "No Selection Parameter added";  //  not translated
+			log.log(Level.SEVERE, msg);
+			throw new AdempiereException(msg);
+		}
+		//	Create Trx
+		Trx trx = Trx.get(trxName, false);
+		//	Start Process
+		ProcessUtil.startJavaProcess(Env.getCtx(), pi, trx, false);
+		if(pi.isError()) {
+			throw new AdempiereException(pi.getSummary());
+		}
+	}
+	
+	/**
+	 * Generate Invoice
+	 * @param trxName
+	 * @return void
+	 */
+	private void generateInvoice(String trxName) {
+		int AD_Process_ID = 134;  // HARDCODED    C_InvoiceCreate - org.compiere.process.InvoiceGenerate
+		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
+		if (!instance.save()) {
+			throw new AdempiereException("ProcessNoInstance");
+		}
+		//	Insert Values
+		DB.executeUpdateEx("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) Values(?, ?)", 
+				new Object[]{instance.getAD_PInstance_ID(), getC_Order_ID()}, trxName);
+		//	Add Lines
+		ProcessInfo pi = new ProcessInfo ("", AD_Process_ID);
+		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		pi.setClassName("org.compiere.process.InvoiceGenerate");
+
+		//	Add Is Selection
+		MPInstancePara para = new MPInstancePara(instance, 10);
+		para.setParameter("Selection", "Y");
+		if (!para.save()) {
+			String msg = "No Selection Parameter added";  //  not translated
+			log.log(Level.SEVERE, msg);
+			throw new AdempiereException(msg);
+		}
+		//	For Document Action
+		para = new MPInstancePara(instance, 20);
+		para.setParameter("DocAction", "CO");
+		if (!para.save())
+		{
+			String msg = "No DocAction Parameter added";  //  not translated
+			log.log(Level.SEVERE, msg);
+			throw new AdempiereException(msg);
+		}
+		//	Create Trx
+		Trx trx = Trx.get(trxName, false);
+		//	Start Process
+		ProcessUtil.startJavaProcess(Env.getCtx(), pi, trx, false);
+		if(pi.isError()) {
+			throw new AdempiereException(pi.getSummary());
+		}
+	}
 	
 	/**
 	 * Get Process Message
