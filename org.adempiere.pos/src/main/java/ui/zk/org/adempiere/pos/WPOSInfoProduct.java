@@ -162,11 +162,13 @@ public class WPOSInfoProduct extends WPosSubPanel {
 			mainLayout.appendChild(nt);
 			mainLayout.setStyle("background-color: transparent");
 			nt.setStyle("background-color: transparent");
+			bImage.getChildren().clear();
 			bImage.appendChild(mainLayout);
-
+			bImage.invalidate();
 			
 		} else {
 			bImage.getChildren().clear();
+			bImage.invalidate();
 		}
 	}
 	
@@ -203,20 +205,42 @@ public class WPOSInfoProduct extends WPosSubPanel {
 		MPOSKey key =  new MPOSKey(m_ctx, m_C_POSKey_ID, null);
 		
 		if(key.getAD_Image_ID() != 0) {
-			MImage image = MImage.get(Env.getCtx(), key.getAD_Image_ID());
-			AImage img = null;
-			byte[] data = image.getData();
-			if (data != null && data.length > 0) {
-				try {
-					img = new AImage(null, data);				
-				} catch (Exception e) {		
-				}
-			}
+			Label label = new Label(key.getName());
 			
-			//	Change Image Size
-//			bImage.setImageContent(img);
+			North nt = new North();
+//			South st = new South();
+			Borderlayout mainLayout = new Borderlayout();
+			if ( key.getAD_Image_ID() != 0 )
+			{
+				MImage m_mImage = MImage.get(Env.getCtx(), key.getAD_Image_ID());
+				AImage img = null;
+				byte[] data = m_mImage.getData();
+				if (data != null && data.length > 0) {
+					try {
+						img = new AImage(null, data);				
+					} catch (Exception e) {		
+					}
+				}
+				Image bImg = new Image();
+				bImg.setContent(img);
+				bImg.setWidth("100%");
+				bImg.setHeight("70px");
+				nt.appendChild(bImg);
+			}
+			label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;color: #FFF;");
+			label.setHeight("100%");
+			bImage.setClass("z-button");
+			
+			mainLayout.appendChild(nt);
+			mainLayout.setStyle("background-color: transparent");
+			nt.setStyle("background-color: transparent");
+			bImage.getChildren().clear();
+			bImage.appendChild(mainLayout);
+			bImage.invalidate();
+			
 		} else {
-//			bImage.setImageContent(null);
+			bImage.getChildren().clear();
+			bImage.invalidate();
 		}
 	}
 }
