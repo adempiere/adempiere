@@ -265,7 +265,7 @@ public class CPOS {
 			return m_CurrentOrder.getC_DocTypeTarget_ID();
 		}
 	}
-
+	
 	/**
 	 * Get Current Order
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
@@ -974,7 +974,11 @@ public class CPOS {
 			} else {
 				m_CurrentOrder.set_TrxName(trxName);
 			}
-			
+			//	Get value for Standard Order
+			if(p_IsPrepayment) {
+				//	Set Document Type
+				m_CurrentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
+			}
 			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
 				m_CurrentOrder.saveEx();
@@ -1390,27 +1394,5 @@ public class CPOS {
 		}
 		//	Default
 		return m_C_Order_ID;
-	}
-	
-	/**
-	 * Get Standard Order ID
-	 * @return int
-	 */
-	public int getStandardOrder_ID() {
-		StringBuffer whereClause = new StringBuffer();
-		whereClause.append(MDocType.COLUMNNAME_DocBaseType + "=?");
-		whereClause.append(" AND " + MDocType.COLUMNNAME_DocSubTypeSO + "=?");
-		ArrayList<Object> params = new ArrayList<Object>();
-		params.add(MDocType.DOCBASETYPE_SalesOrder);
-		params.add(MDocType.DOCSUBTYPESO_StandardOrder);
-
-		int C_DocType_ID = new Query(m_ctx, MDocType.Table_Name, 
-				whereClause.toString(), 
-				m_CurrentOrder.get_TrxName())
-					.setParameters(params)	
-					.setClient_ID()
-					.setOnlyActiveRecords(true)
-					.firstId();
-		return C_DocType_ID;
 	}
 }

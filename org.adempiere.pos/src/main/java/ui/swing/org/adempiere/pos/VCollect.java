@@ -47,7 +47,6 @@ import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
-import org.compiere.model.MOrder;
 import org.compiere.model.X_C_Payment;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
@@ -109,11 +108,12 @@ public class VCollect extends Collect
 	/**	Fields Summary		*/
 	private CLabel 			lGrandTotal;
 	private CLabel 			fGrandTotal;
-	private CLabel 			lReturnAmt;
-	private CLabel 			fReturnAmt;
-//	private CLabel 			fLine;
 	private CLabel 			lPayAmt;
 	private CLabel 			fPayAmt;
+	private CLabel 			lOpenAmt;
+	private CLabel 			fOpenAmt;
+	private CLabel 			lReturnAmt;
+	private CLabel 			fReturnAmt;
 	private CCheckBox 		fIsPrePayOrder;
 	private CCheckBox 		fIsCreditOrder;
 //	private VLookup 		fPaymentTerm;
@@ -162,26 +162,32 @@ public class VCollect extends Collect
 		
 		// Add Grand Total
 		lGrandTotal = new CLabel(Msg.translate(m_ctx, "GrandTotal") + ":");
-		lGrandTotal.setFont(v_POSPanel.getFont());
+		lGrandTotal.setFont(v_POSPanel.getPlainFont());
 		//	
 		fGrandTotal = new CLabel();
-		fGrandTotal.setFont(v_POSPanel.getFont());
+		fGrandTotal.setFont(v_POSPanel.getBigFont());
 		//	
 		fGrandTotal.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
 		
 		//	Add Payment Amount
 		lPayAmt = new CLabel(Msg.translate(m_ctx, "PayAmt") + ":");
-		lPayAmt.setFont(v_POSPanel.getFont());
+		lPayAmt.setFont(v_POSPanel.getPlainFont());
 		//	
 		fPayAmt = new CLabel();
 		fPayAmt.setFont(v_POSPanel.getFont());
 		fPayAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
-		//	Add Line
-//		fLine = new CLabel("________________");
-//		fLine.setFont(v_POSPanel.getFont());
+		
+		//	Add Payment Amount
+		lOpenAmt = new CLabel(Msg.translate(m_ctx, "OpenAmt") + ":");
+		lOpenAmt.setFont(v_POSPanel.getPlainFont());
+		//	
+		fOpenAmt = new CLabel();
+		fOpenAmt.setFont(v_POSPanel.getFont());
+		fOpenAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
+		
 		//	For Returned Amount
 		lReturnAmt = new CLabel(Msg.translate(m_ctx, "AmountReturned") + ":");
-		lReturnAmt.setFont(v_POSPanel.getFont());
+		lReturnAmt.setFont(v_POSPanel.getPlainFont());
 		//	
 		fReturnAmt = new CLabel();
 		fReturnAmt.setFont(v_POSPanel.getFont());
@@ -189,11 +195,11 @@ public class VCollect extends Collect
 		
 		//	Add Is Pre-Payment
 		fIsPrePayOrder = new CCheckBox(Msg.translate(m_ctx, "IsPrePayment"));
-		fIsPrePayOrder.setFont(v_POSPanel.getFont());
+		fIsPrePayOrder.setFont(v_POSPanel.getPlainFont());
 		
 		//	Add Is Credit Order
 		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "CreditSale"));
-		fIsCreditOrder.setFont(v_POSPanel.getFont());
+		fIsCreditOrder.setFont(v_POSPanel.getPlainFont());
 		
 		// Pre-Payment, Standard Order: enable only if the order is completed and there are lines 
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
@@ -247,23 +253,26 @@ public class VCollect extends Collect
 		
 		v_ParameterPanel.add(fPayAmt, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
-
-//		v_ParameterPanel.add(fLine, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, 
-//				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
-		v_ParameterPanel.add(lReturnAmt, new GridBagConstraints(1, 2, 1, 1, 0.0,0.0, 
+		v_ParameterPanel.add(lOpenAmt, new GridBagConstraints(1, 2, 1, 1, 0.0,	0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		
-		v_ParameterPanel.add(fReturnAmt, new GridBagConstraints(2, 2, 1, 1, 0.0,0.0, 
+		v_ParameterPanel.add(fOpenAmt, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+		
+		v_ParameterPanel.add(lReturnAmt, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+		
+		v_ParameterPanel.add(fReturnAmt, new GridBagConstraints(2, 3, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
-		v_ParameterPanel.add(fIsPrePayOrder, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
+		v_ParameterPanel.add(fIsPrePayOrder, new GridBagConstraints(1, 4, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
-		v_ParameterPanel.add(fIsCreditOrder, new GridBagConstraints(2, 3, 1, 1, 0.0,0.0, 
+		v_ParameterPanel.add(fIsCreditOrder, new GridBagConstraints(2, 4, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
-		v_ParameterPanel.add(bPlus, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0,
+		v_ParameterPanel.add(bPlus, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0,
 							GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 		
 //		v_ParameterPanel.add(fPaymentTerm, new GridBagConstraints(2, 5, 1, 1, 0.0,0.0, 
@@ -516,12 +525,19 @@ public class VCollect extends Collect
 		//	BR https://github.com/erpcya/AD-POS-WebUI/issues/6
 		//	Show pretty Return Amount
 		BigDecimal m_ReturnAmt = Env.ZERO;
+		BigDecimal m_OpenAmt = Env.ZERO;
 		if(m_Balance.doubleValue() < 0) {
 			m_ReturnAmt = m_Balance.abs();
+		} else if(m_Balance.doubleValue() > 0){
+			m_OpenAmt = m_Balance;
 		}
+		//	Set Open Amount
+		fOpenAmt.setText(currencyISO_Code + " " 
+				+ v_POSPanel.getNumberFormat().format(m_OpenAmt));
 		//	Set Return Amount
 		fReturnAmt.setText(currencyISO_Code + " " 
 				+ v_POSPanel.getNumberFormat().format(m_ReturnAmt));
+		
 //		fPaymentTerm.setValue(getC_PaymentTerm_ID());
 	}
 
@@ -532,9 +548,9 @@ public class VCollect extends Collect
 		Object value = e.getNewValue();
 		log.config(name + " = " + value);
 		//	Verify Event
-		if(name.equals("C_PaymentTerm_ID")) {
-			int m_C_PaymentTerm_ID = ((Integer)(value != null? value: 0)).intValue();
-			setC_PaymentTerm_ID(m_C_PaymentTerm_ID);
-		}
+//		if(name.equals("C_PaymentTerm_ID")) {
+//			int m_C_PaymentTerm_ID = ((Integer)(value != null? value: 0)).intValue();
+//			setC_PaymentTerm_ID(m_C_PaymentTerm_ID);
+//		}
 	}
 } // VCollect
