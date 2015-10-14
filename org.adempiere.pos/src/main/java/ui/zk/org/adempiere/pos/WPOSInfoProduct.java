@@ -84,43 +84,59 @@ public class WPOSInfoProduct extends WPosSubPanel {
 		rows = labelLayout.newRows();
 		row = rows.newRow();
 		//	For Value
-		fValue = new Label (Msg.getElement(Env.getCtx(), "ProductValue"));
+		fValue = new Label ();
 		fValue.setStyle("Font-size:medium; font-weight:bold");
 		//	Add
 		row.appendChild(fValue);
-		fPrice = new Label (Msg.getElement(Env.getCtx(), "Price"));
+		fPrice = new Label ();
 		fPrice.setStyle("Font-size:medium; font-weight:bold");
 		//	Add
 		row.appendChild(fPrice);
 		
 		row = rows.newRow();
 		//	For Name
-		fName = new Label (Msg.getElement(Env.getCtx(), "ProductName"));
+		fName = new Label ();
 		fName.setStyle("Font-size:medium; font-weight:bold");
 		//	Add
 		row.appendChild(fName);
 		
 		row = rows.newRow();
 		//	For Description
-		fDescription = new Label (Msg.getElement(Env.getCtx(), "Description"));
+		fDescription = new Label ();
 
 		fDescription.setClass("label-description");
 		//	Add
 		row.appendChild(fDescription);
-
+		initialValue();
+	}
+	
+	/**
+	 * Initial value
+	 * @param key
+	 * @return void
+	 */
+	public void initialValue() {
+		fDescription.setText(Msg.getElement(Env.getCtx(), "Description"));
+		fName.setText(Msg.getElement(Env.getCtx(), "ProductName"));
+		fPrice.setText(Msg.getElement(Env.getCtx(), "Price"));
+		fValue.setText(Msg.getElement(Env.getCtx(), "ProductValue"));
+		bImage.getChildren().clear();
 	}
 	
 	public Panel getPanel(){
 		return parameterPanel;
 	}
+	
 	/**
 	 * Refresh Product from Key
 	 * @param key
 	 * @return void
 	 */
 	public void refreshProduct(MPOSKey key) {
-		if(key == null)
+		if(key == null){
+			initialValue();
 			return;
+		}
 		//	Refresh Values
 		MProduct m_Product = MProduct.get(m_ctx, key.getM_Product_ID());
 		if(m_Product != null) {
@@ -179,8 +195,10 @@ public class WPOSInfoProduct extends WPosSubPanel {
 	 */
 	public void refreshProduct(int p_M_Product_ID) {
 		//	Valid Product
-		if(p_M_Product_ID == 0)
+		if(p_M_Product_ID == 0) {
+			initialValue();
 			return;
+		}
 		MProduct m_Product = MProduct.get(m_ctx, p_M_Product_ID);
 		//	Refresh Product
 		if(m_Product != null) {
