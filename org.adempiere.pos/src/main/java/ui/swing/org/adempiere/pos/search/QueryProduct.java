@@ -23,7 +23,6 @@ import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
-import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MWarehousePrice;
@@ -46,8 +45,7 @@ import org.compiere.util.Msg;
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class QueryProduct extends POSQuery 
-		implements I_POSQuery {
+public class QueryProduct extends POSQuery {
 
 	private static final long serialVersionUID = 9172276999827406833L;
 

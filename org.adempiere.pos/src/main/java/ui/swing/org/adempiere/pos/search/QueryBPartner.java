@@ -22,7 +22,6 @@ import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
-import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.grid.ed.VBPartner;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -47,7 +46,7 @@ import org.compiere.util.Msg;
  *  @version $Id: QueryBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: QueryBPartner.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class QueryBPartner extends POSQuery implements I_POSQuery {
+public class QueryBPartner extends POSQuery {
 	/**
 	 * 
 	 */
