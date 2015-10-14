@@ -14,6 +14,7 @@
 
 package org.adempiere.pos;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.GridBagConstraints;
@@ -314,7 +315,11 @@ public class POSActionPanel extends POSSubPanel
 		}
 		//	Show Ask
 		if (ADialog.ask(0, this, Msg.getMsg(m_ctx, Msg.getMsg(m_ctx, askMsg)))) {
+			v_POSPanel.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			//	Cancel Order
 			errorMsg = v_POSPanel.cancelOrder();
+			//	Set Cursor to default
+			v_POSPanel.getFrame().setCursor(Cursor.getDefaultCursor());
 		}
 		//	show if exists error
 		if(errorMsg != null) {
@@ -520,9 +525,9 @@ public class POSActionPanel extends POSSubPanel
 			f_bBPartner.setEnabled(!v_POSPanel.isCompleted());
 			f_NameBPartner.setEnabled(!v_POSPanel.isCompleted());
 			//	For Next
-			f_bNext.setEnabled(!v_POSPanel.isLastRecord());
+			f_bNext.setEnabled(!v_POSPanel.isLastRecord() && v_POSPanel.hasRecord());
 			//	For Back
-			f_bBack.setEnabled(!v_POSPanel.isFirstRecord());
+			f_bBack.setEnabled(!v_POSPanel.isFirstRecord() && v_POSPanel.hasRecord());
 			//	For Collect
 			if(v_POSPanel.hasLines()
 					&& !v_POSPanel.isPaid()) {
@@ -539,9 +544,9 @@ public class POSActionPanel extends POSSubPanel
 			f_NameBPartner.setEnabled(true);
 			f_bHistory.setEnabled(true);
 			//	For Next
-			f_bNext.setEnabled(!v_POSPanel.isLastRecord());
+			f_bNext.setEnabled(!v_POSPanel.isLastRecord() && v_POSPanel.hasRecord());
 			//	For Back
-			f_bBack.setEnabled(!v_POSPanel.isFirstRecord());
+			f_bBack.setEnabled(!v_POSPanel.isFirstRecord() && v_POSPanel.hasRecord());
 			f_bCollect.setEnabled(false);
 			//	For Cancel Action
 			f_bCancel.setEnabled(false);
