@@ -53,26 +53,29 @@ public class POSOrderLineTableHandle {
 	/**	Column Names		*/
 	public static final String 	PRODUCTNAME	= "ProductName";
 	public static final String 	QTYORDERED  = "QtyOrdered";
-	public static final String 	C_UOM_ID    = "C_UOM_ID";
+	public static final String 	UOM    		= "C_UOM_ID";
 	public static final String 	PRICEACTUAL = "PriceActual";
+	public static final String 	TAX 		= "C_Tax_ID";
+	public static final String 	DISCOUNT 	= "Discount";
 	public static final String 	LINENETAMT  = "LineNetAmt";
 	public static final String 	GRANDTOTAL  = "GrandTotal";
 	/**	Column Position		*/
 	public static final int	POSITION_C_ORDER_ID 	= 0;
 	public static final int	POSITION_QTYORDERED 	= 2;
 	public static final int	POSITION_PRICE 			= 4;
-	public static final int	POSITION_LINENETAMT 	= 5;
-	public static final int	POSITION_GRANDTOTAL 	= 7;
+	public static final int	POSITION_LINENETAMT 	= 6;
+	public static final int	POSITION_GRANDTOTAL 	= 8;
 	
 	/**	Table Column Layout Info	*/
 	private ColumnInfo[] s_layout = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), PRODUCTNAME), PRODUCTNAME, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), QTYORDERED), QTYORDERED, BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), C_UOM_ID), "UOMSymbol", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), UOM), "UOMSymbol", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), PRICEACTUAL), PRICEACTUAL, BigDecimal.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), DISCOUNT), DISCOUNT, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), LINENETAMT), LINENETAMT, BigDecimal.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), TAX), "TaxIndicator", String.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class), 
 	};
 	
