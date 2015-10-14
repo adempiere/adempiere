@@ -400,7 +400,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 
 		v_TitleBorder = new Caption("Credit Card");
 		Style style = new Style();
-		style.setContent(".z-fieldset legend {background-color:#FFF;font-size: medium; font-weight:bold;}");
+		style.setContent(".z-fieldset legend {font-size: medium; font-weight:bold;}");
 		style.setParent(v_TitleBorder);
 		groupPanel.appendChild(v_TitleBorder);
 		v_MainPanel.appendChild(v_PanelChildren);
@@ -429,8 +429,8 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	 * Get Main Panel
 	 * @return Panel
 	 */
-	public Panel getPanel() {
-		return v_MainPanel;
+	public Groupbox getPanel() {
+		return groupPanel;
 	}
 
 	@Override
