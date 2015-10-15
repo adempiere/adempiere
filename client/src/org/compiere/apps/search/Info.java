@@ -107,6 +107,10 @@ import org.jdesktop.swingx.JXTaskPane;
  * @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li> BR [ 9223372036854775807 ] Lookup for search view not show button
+ *  	<li> Add default Tables lookup
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
  */
 public abstract class Info extends CDialog
 	implements ListSelectionListener, PropertyChangeListener
@@ -193,6 +197,26 @@ public abstract class Info extends CDialog
 		AEnv.positionCenterWindow(frame, info);
 		return info;
 	}   //  create
+	
+	/**
+	 * BR [ 9223372036854775807 ]
+	 * Verify if is default table for info
+	 * @param p_TableName
+	 * @return
+	 */
+	public static boolean isDefaultInfoTable(String p_TableName) {
+		//	Valid Null
+		if(p_TableName == null
+				|| p_TableName.trim().length() == 0)
+			return false;
+		//	Iterate it
+		for(String tableName : m_DefaultInfoTables) {
+			if(tableName.equals(p_TableName))
+				return true;
+		}
+		//	Default return
+		return false;
+	}
 
 	/**
 	 * Show BPartner Info (non modal)
@@ -464,6 +488,13 @@ public abstract class Info extends CDialog
 	private int m_popupRow = -1;
 	private int m_popupColumn = -1;
 	protected Container m_parentPanel;
+	//	BR [ 9223372036854775807 ]
+	private static final String[] m_DefaultInfoTables = new String[]{
+			"C_BPartner", "M_Product", 
+			"C_Invoice", "A_Asset", 
+			"C_Order", "M_InOut", 
+			"C_Payment", "C_CashLine", 
+			"S_ResourceAssignment"};
 
 	/**
 	 *	Static Init
