@@ -307,7 +307,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_DividerPane.add(v_LeftPanel, JSplitPane.LEFT);
 		v_DividerPane.add(v_ProductKeysPanel, JSplitPane.RIGHT);
 		//	Seek to last
-		if(!hasRecord())
+		if(hasRecord())
 			lastRecord();
 		refreshPanel();
 		return true;
