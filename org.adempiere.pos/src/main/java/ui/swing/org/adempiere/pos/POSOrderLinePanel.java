@@ -34,7 +34,7 @@ import javax.swing.table.DefaultTableModel;
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.PO;
-import org.compiere.pos.PosTable;
+import org.adempiere.pos.PosTable;
 import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

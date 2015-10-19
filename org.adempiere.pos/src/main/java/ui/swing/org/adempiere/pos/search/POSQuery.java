@@ -39,7 +39,7 @@ import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.PO;
-import org.compiere.pos.PosTable;
+import org.adempiere.pos.PosTable;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CComboBox;
