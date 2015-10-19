@@ -83,11 +83,6 @@ public class POSInfoProduct extends POSSubPanel {
 	/**	Button Size			*/
 	private final int	BUTTON_SIZE = 100;
 	
-	/**	Html Prefix			*/
-	private final String	HTML_PREFIX = "<html><p>";
-	/**	Html Suffix			*/
-	private final String	HTML_SUFFIX = "</p>";
-	
 	@Override
 	protected void init() {
 		//	Set Layout
@@ -152,6 +147,8 @@ public class POSInfoProduct extends POSSubPanel {
 		fDescription = new CLabel(Msg.getElement(Env.getCtx(), "Description"));
 		fDescription.setFont(v_POSPanel.getPlainFont());
 		fDescription.setHorizontalAlignment(CLabel.LEFT);
+		fDescription.setPreferredSize(new Dimension(20, metrics.getHeight()));
+		fDescription.setMaximumSize(new Dimension(20, metrics.getHeight()));
 		//	Add
 		v_RightPanel.add(fDescription, new GridBagConstraints(0, 5, 2, 1, 0, 1
 				,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
@@ -195,7 +192,7 @@ public class POSInfoProduct extends POSSubPanel {
 		String m_Description = m_Product.getDescription();
 		if(m_Description == null)
 			m_Description = "";
-		fDescription.setText(HTML_PREFIX + m_Description.trim() + HTML_SUFFIX);
+		fDescription.setText(m_Description.trim());
 		//	Set Image
 		if(p_AD_Image_ID != 0) {
 			MImage image = MImage.get(Env.getCtx(), p_AD_Image_ID);
