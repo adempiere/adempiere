@@ -272,6 +272,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			//	
 			v_POSPanel.setOrder(0);
 			v_POSPanel.refreshPanel();
+			refreshProductInfo(null);
 		}
 	}
 	/**

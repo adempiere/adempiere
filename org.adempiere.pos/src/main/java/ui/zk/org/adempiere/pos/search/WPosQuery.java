@@ -146,6 +146,7 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 		initMainPanel();
 		this.setAttribute("mode", "modal");
 		this.setBorder("normal");
+		this.setTitle(Msg.getMsg(p_ctx, "Query"));
 		this.setWidth("850px");
 		this.setHeight("500px");
 		this.setContentStyle("overflow: auto");
