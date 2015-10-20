@@ -175,7 +175,7 @@ public class QueryTicket extends POSQuery {
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, ")
 				.append("b.Name, o.GrandTotal, ")
 				.append("COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal) as InvoiceOpen, ")
-			    .append("o.Processed, i.IsPaid ")
+			    .append("i.IsPaid, o.Processed ")
 				.append(" FROM C_Order o ")
 				.append(" INNER JOIN C_BPartner b ON(o.C_BPartner_ID = b.C_BPartner_ID)")
 				.append(" LEFT JOIN C_invoice i ON(i.C_Order_ID = o.C_Order_ID)")
