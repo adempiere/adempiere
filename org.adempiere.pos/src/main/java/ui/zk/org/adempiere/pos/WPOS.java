@@ -18,6 +18,7 @@
 package org.adempiere.pos;
 
 import java.awt.KeyboardFocusManager;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -144,23 +145,23 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		North north = new North();
 		Borderlayout fullPanel = new Borderlayout();
 		
-		center.setStyle("border: none; width:40%");
+		center.setStyle("border: none; width:44%");
 		center.appendChild(fullPanel);
 		mainLayout.appendChild(center);
 
-		center.setStyle("border: none; width:40%");
+		center.setStyle("border: none; width:44%");
 		fullPanel.setWidth("80%");
 		fullPanel.setHeight("100%");
 		Center v_Table = new Center();
 		v_Table.appendChild(f_OrderLinePanel);
 		north.appendChild(v_ActionPanel);
 		east.appendChild(f_ProductKeysPanel);
-		east.setStyle("border: none; width:55%");
+		east.setStyle("border: none; width:53%");
 
 		fullPanel.appendChild(v_Table);
 		fullPanel.appendChild(north);
-		north.setStyle("border: none; width:40%; height:194px");
-		v_Table.setStyle("border: none; width:40%;  height:100%; ");
+		north.setStyle("border: none; width:44%; height:290px");
+		v_Table.setStyle("border: none; width:44%;  height:100%; ");
 		
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
@@ -174,13 +175,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		refreshPanel();
 		return true;
 	}	//	dynInit
-
-	/**
-	 * Load POS
-	 * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return boolean
-	 */
-	
 
 	/**
 	 * 	Set MPOS
@@ -336,6 +330,30 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		
 	}
 
+	/**
+	 * Add or replace order line
+	 * @param p_M_Product_ID
+	 * @param m_QtyOrdered
+	 * @return void
+	 */
+	public void addLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
+		//	Create Ordder if not exists
+		if (!hasOrder()) {
+			newOrder();
+		}
+		//	Show Product Info
+		refreshProductInfo(p_M_Product_ID);
+		//	
+		String lineError = add(p_M_Product_ID, m_QtyOrdered);
+		if (lineError != null) {
+			log.warning("POS Error " + lineError);
+			FDialog.error(0, 
+					m_frame, Msg.parseTranslation(m_ctx, lineError));
+		}
+		//	Update Info
+		refreshPanel();
+	}
+	
 	@Override
 	public void changeViewPanel() {
 	
@@ -350,7 +368,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	}
 	/**
 	 * New Order
-	 * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	public void newOrder(int p_C_BPartner_ID) {
