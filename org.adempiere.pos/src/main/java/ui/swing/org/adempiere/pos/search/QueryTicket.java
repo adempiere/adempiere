@@ -81,8 +81,8 @@ public class QueryTicket extends POSQuery {
 	static final private String OPENAMT         = "OpenAmt";
 	static final private String PAID            = "IsPaid";
 	static final private String PROCESSED       = "Processed";
-	static final private String DATEORDEREDFROM = "DateOrderedFrom";
-	static final private String DATEORDEREDTO   = "DateOrderedTo";
+	static final private String DATEORDEREDFROM = "From";
+	static final private String DATEORDEREDTO   = "To";
 	static final private String QUERY           = "Query";
 
 	/**	Table Column Layout Info			*/
