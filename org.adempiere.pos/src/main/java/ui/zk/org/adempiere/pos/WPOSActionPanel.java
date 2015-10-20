@@ -475,7 +475,6 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	
 	public void enableButton(){
 		f_ProductName.setText(productLabel.getValue());
-		f_bBPartner.setEnabled(false);
 		v_POSPanel.setC_BPartner_ID(0);
 		f_bNew.setEnabled(true);
 		f_Cancel.setEnabled(false);
