@@ -3,7 +3,7 @@ package org.adempiere.pos;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-import org.adempiere.pos.search.WQueryBPartner;
+import org.adempiere.pos.search.WQueryProduct;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
@@ -12,10 +12,10 @@ import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.model.I_C_Order;
-import org.compiere.model.MBPartner;
-import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MPOSKey;
+import org.compiere.model.MWarehousePrice;
 import org.compiere.pos.PosKeyListener;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
@@ -45,14 +45,13 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		super (posPanel);
 	}	//	PosSubFunctionKeys
 	
-	private WPosTextField	f_BPartnerName;
+	private WPosTextField	f_ProductName;
 	private Button			f_HiddenField;
 	private Label	 		f_TotalLines;
 	private Label	 		f_TaxAmount;
 	private Label	 		f_GrandTotal;
 	private Label	 		f_DocumentType;
 	private Label 			f_DocumentNo;
-	private Label			l_BPartner;
 
 	/**	Format				*/
 	private DecimalFormat	m_Format;
@@ -67,7 +66,8 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	private Grid 			v_OrderPanel;
 	private Grid 			v_GroupPanel;
 
-	private Label 			f_SalesRep;
+	private Label 			f_salesRep;
+	private Label 			productLabel;
 	
 	@Override
 	public void init(){
@@ -78,11 +78,11 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		cont = 0;
 
 		v_TotalsPanel = GridFactory.newGridLayout();
-		v_TotalsPanel.setWidth("345px");
+		v_TotalsPanel.setWidth("350px");
 		v_TotalsPanel.setHeight("100%");
 
 		v_OrderPanel = GridFactory.newGridLayout();
-		v_OrderPanel.setWidth("300px");
+		v_OrderPanel.setWidth("320px");
 		v_OrderPanel.setHeight("100%");
 
 		v_GroupPanel = GridFactory.newGridLayout();
@@ -104,22 +104,23 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 
 		row.appendChild(v_InfOrderGroup);
 		row.appendChild(v_TotalsGroup);
-		// BP
-		l_BPartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer"));
+		productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		
+		f_ProductName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_ProductName.setWidth("100%");
 		
-		f_BPartnerName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
-		f_BPartnerName.setHeight("35px");
-		f_BPartnerName.setStyle("Font-size:medium; font-weight:700");
-		f_BPartnerName.setWidth("100%");
-		f_BPartnerName.setValue(l_BPartner.getValue());
-		f_BPartnerName.addEventListener(Events.ON_FOCUS, this);
-	
+		f_ProductName.setHeight("35px");
+		f_ProductName.setStyle("Font-size:medium; font-weight:bold");
+		f_ProductName.setName("Name");
+		f_ProductName.setReadonly(true);
+		f_ProductName.addEventListener(Events.ON_FOCUS,this);
+		f_ProductName.setValue(productLabel.getValue());
+		
 		
 		row = new Row();
 		rows.appendChild(row);
 		row.setSpans("2");
-		row.appendChild(f_BPartnerName);
+		row.appendChild(f_ProductName);
 
 		v_GroupPanel.appendChild(rows);
 		
@@ -154,9 +155,9 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		f_lb_SalesRep.setStyle("Font-size:medium; font-weight:bold");
 		row.appendChild(f_lb_SalesRep.rightAlign());
 		
-		f_SalesRep = new Label(v_POSPanel.getSalesRepName());
-		f_SalesRep.setStyle("Font-size:medium; font-weight:bold");
-		row.appendChild(f_SalesRep.rightAlign());
+		f_salesRep = new Label(v_POSPanel.getSalesRepName());
+		f_salesRep.setStyle("Font-size:medium; font-weight:bold");
+		row.appendChild(f_salesRep.rightAlign());
 		
 		row = rows.newRow();
 		row.setHeight("30px");
@@ -251,26 +252,21 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	@Override
 	public void refreshPanel() {
 		if (!v_POSPanel.hasOrder()) {
-			f_SalesRep.setText(v_POSPanel.getSalesRepName());
-			f_DocumentType.setText(Msg.getMsg(v_POSPanel.getCtx(), "Order"));
-			f_DocumentNo.setText(Msg.getMsg(v_POSPanel.getCtx(), "New"));
-			f_TotalLines.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
-			f_GrandTotal.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
-			f_TaxAmount.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
-			f_BPartnerName.setText(null);
+			f_TotalLines.setText(m_Format.format(Env.ZERO));
+			f_GrandTotal.setText(m_Format.format(Env.ZERO));
+			f_TaxAmount.setText(m_Format.format(Env.ZERO));
 		} else {
 			BigDecimal m_TotalLines = v_POSPanel.getTotalLines();
 			BigDecimal m_GrandTotal = v_POSPanel.getGrandTotal();
 			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
 			String currencyISO_Code = v_POSPanel.getCurSymbol();
 			//	Set Values
-			f_SalesRep.setText(v_POSPanel.getSalesRepName());
-			f_DocumentType.setText(v_POSPanel.getDocumentTypeName());
+			
+			f_TotalLines.setText(currencyISO_Code +" "+ m_Format.format(m_TotalLines));
+			f_GrandTotal.setText(currencyISO_Code +" "+ m_Format.format(m_GrandTotal));
+			f_TaxAmount.setText(currencyISO_Code +" "+ m_Format.format(m_TaxAmt));
 			f_DocumentNo.setText(v_POSPanel.getDocumentNo());
-			f_TotalLines.setText(currencyISO_Code + " " + v_POSPanel.getNumberFormat().format(m_TotalLines));
-			f_GrandTotal.setText(currencyISO_Code + " " + v_POSPanel.getNumberFormat().format(m_GrandTotal));
-			f_TaxAmount.setText(currencyISO_Code + " " + v_POSPanel.getNumberFormat().format(m_TaxAmt));
-			f_BPartnerName.setText(v_POSPanel.getBPName());
+			f_DocumentType.setText(v_POSPanel.getDocumentTypeName());
 		}
 		
 	}
@@ -290,15 +286,16 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		// processed order
 		if (v_POSPanel.hasOrder() 
 				&& v_POSPanel.isCompleted()){
-					//	Show Product Info
-			v_POSPanel.refreshProductInfo(key);
-		return;
+			//	Show Product Info
+					v_POSPanel.refreshProductInfo(key);
+			return;
 		}
 		// Add line
-		v_POSPanel.addLine(key.getM_Product_ID(), key.getQty());
+		addLine(key.getM_Product_ID(), key.getQty());
 		//	Show Product Info
 		v_POSPanel.refreshProductInfo(key);
 		return;
+		
 	}
 
 	public boolean showKeyboard(WPosTextField field, Label label) {
@@ -319,10 +316,10 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		//	Name
 		cont++;
 		if(cont<2){
-			if (e.getTarget().equals(f_BPartnerName)) {
-				if(e.getTarget().equals(f_BPartnerName)) {
-					if(!showKeyboard(f_BPartnerName,l_BPartner))
-						findBPartner(); 
+			if (e.getTarget().equals(f_ProductName)) {
+				if(e.getTarget().equals(f_ProductName)) {
+					if(!showKeyboard(f_ProductName,productLabel))
+						findProduct(); 
 				}
 			}
 		}else {
@@ -330,79 +327,85 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 			f_HiddenField.setFocus(true);
 		}	
 	}
-	
 	/**
-	 * 	Find/Set BPartner
+	 * 	Find/Set Product & Price
 	 */
-	private void findBPartner() {
-		String query = f_BPartnerName.getText();
-		//	
+	private void findProduct()
+	{
+		String query = f_ProductName.getText();
 		if (query == null || query.length() == 0)
 			return;
-		
-		// unchanged
-		if (v_POSPanel.hasBPartner() 
-				&& v_POSPanel.compareBPName(query))
-			return;
-		
 		query = query.toUpperCase();
 		//	Test Number
 		boolean allNumber = true;
-		boolean noNumber = true;
-		char[] qq = query.toCharArray();
-		for (int i = 0; i < qq.length; i++) {
-			if (Character.isDigit(qq[i])) {
-				noNumber = false;
-				break;
-			}
-		} try {
-			Integer.parseInt(query);
-		} catch (Exception e) {
+		try
+		{
+			Integer.getInteger(query);
+		}
+		catch (Exception e)
+		{
 			allNumber = false;
 		}
 		String Value = query;
-		String Name = (allNumber ? null : query);
-		String EMail = (query.indexOf('@') != -1 ? query : null); 
-		String Phone = (noNumber ? null : query);
-		String City = null;
+		String Name = query;
+		String UPC = (allNumber ? query : null);
+		String SKU = (allNumber ? query : null);
+		
+		MWarehousePrice[] results = null;
+
 		//
-		MBPartnerInfo[] results = MBPartnerInfo.find(m_ctx, Value, Name, 
-			/*Contact, */null, EMail, Phone, City);
-
+		results = MWarehousePrice.find  (m_ctx,
+				v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID(), 
+				Value, Name, UPC, SKU, null);
+		
 		//	Set Result
-		if (results.length == 1) {
-			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
-			v_POSPanel.setC_BPartner_ID(v_POSPanel.getC_BPartner_ID());
-			f_BPartnerName.setText(bp.getName()+"");
+//		if (results.length == 0)
+//		{
+//			String message = Msg.getMsg(p_ctx,  "POS.SearchProductNF");
+//			FDialog.warn(0, null, message +" "+ query,"");
+//		}
+		if (results.length == 1)
+		{
+			addLine(results[0].getM_Product_ID(), Env.ONE);
+			f_ProductName.setValue(results[0].getName());
 			f_HiddenField.setFocus(true);
-		} else {	//	more than one
-			changeBusinessPartner(results);
 		}
-
-	}	//	findBPartner
-
-	/**
-	 * 	Change in Order the Business Partner, including Price list and location
-	 *  In Order and POS
-	 *  @param results
-	 */
-	public boolean changeBusinessPartner(MBPartnerInfo[] results) {
-		// Change to another BPartner
-		WQueryBPartner qt = new WQueryBPartner(v_POSPanel);
-		qt.setResults(results);
-		AEnv.showWindow(qt);
-		if (qt.getRecord_ID() > 0) {
-			f_BPartnerName.setText(v_POSPanel.getBPName());
-			if(!v_POSPanel.hasOrder()) {
-				v_POSPanel.newOrder(qt.getRecord_ID());
-				v_POSPanel.refreshPanel();
-			} else {
-				v_POSPanel.setC_BPartner_ID(qt.getRecord_ID());
+		else	//	more than one
+		{
+			WQueryProduct qt = new WQueryProduct(v_POSPanel);
+			qt.setResults(results);
+			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
+			AEnv.showWindow(qt);
+			if (qt.getRecord_ID() > 0) {
+				f_ProductName.setText(qt.getValue());
+				addLine(qt.getRecord_ID(), Env.ONE);
+			
 			}
-			log.fine("C_BPartner_ID=" + qt.getRecord_ID());
-			return true;
 		}
-		return false;
-	}
+	}	//	findProduct
 	
+	/**
+	 * Add or replace order line
+	 * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @param p_M_Product_ID
+	 * @param m_QtyOrdered
+	 * @return void
+	 */
+	private void addLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
+		//	Create Ordder if not exists
+		if (!v_POSPanel.hasOrder()) {
+			v_POSPanel.newOrder();
+		}
+		//	Show Product Info
+		v_POSPanel.refreshProductInfo(p_M_Product_ID);
+		//	
+		String lineError = v_POSPanel.add(p_M_Product_ID, m_QtyOrdered);
+		if (lineError != null) {
+			log.warning("POS Error " + lineError);
+			FDialog.error(0, 
+					this, Msg.parseTranslation(m_ctx, lineError));
+		}
+		//	Update Info
+		v_POSPanel.refreshPanel();
+	}
 }
