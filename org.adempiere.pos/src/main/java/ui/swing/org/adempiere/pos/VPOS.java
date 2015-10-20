@@ -28,6 +28,7 @@ import java.awt.MouseInfo;
 import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
@@ -312,6 +313,30 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		refreshPanel();
 		return true;
 	}	//	dynInit
+	
+	/**
+	 * Add or replace order line
+	 * @param p_M_Product_ID
+	 * @param m_QtyOrdered
+	 * @return void
+	 */
+	public void addLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
+		//	Create Ordder if not exists
+		if (!hasOrder()) {
+			newOrder();
+		}
+		//	Show Product Info
+		refreshProductInfo(p_M_Product_ID);
+		//	
+		String lineError = add(p_M_Product_ID, m_QtyOrdered);
+		if (lineError != null) {
+			log.warning("POS Error " + lineError);
+			ADialog.error(getWindowNo(), 
+					v_MainPane, Msg.parseTranslation(m_ctx, lineError));
+		}
+		//	Update Info
+		refreshPanel();
+	}
 
 	/**
 	 * 	Dispose - Free Resources

@@ -22,8 +22,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
@@ -31,16 +29,17 @@ import javax.swing.KeyStroke;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.search.POSQuery;
 import org.adempiere.pos.search.QueryBPartner;
+import org.adempiere.pos.search.QueryProduct;
 import org.adempiere.pos.search.QueryTicket;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
-import org.compiere.model.MBPartner;
-import org.compiere.model.MBPartnerInfo;
+import org.compiere.model.I_M_Product;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MSequence;
+import org.compiere.model.MWarehousePrice;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CPanel;
@@ -64,7 +63,7 @@ import org.compiere.util.Msg;
  *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class POSActionPanel extends POSSubPanel 
-	implements ActionListener, FocusListener, I_POSPanel, POSQueryListener {
+	implements ActionListener, I_POSPanel, POSQueryListener {
 	/**
 	 * 
 	 */
@@ -92,7 +91,7 @@ public class POSActionPanel extends POSSubPanel
 	/**	Info Product Panel	*/
 	private POSInfoProduct		v_InfoProductPanel;
 	/**	For Show BPartner	*/
-	private	POSTextField		f_NameBPartner;
+	private	POSTextField		f_ProductName;
 	/**	Padding				*/
 	private int 				m_TopP;
 	private int 				m_LeftP;
@@ -172,17 +171,17 @@ public class POSActionPanel extends POSSubPanel
 		v_ButtonPanel.add(f_bLogout, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// BP
-		String labelName = Msg.translate(Env.getCtx(), "IsCustomer"); 
-		f_NameBPartner = new POSTextField(labelName, v_POSPanel.getKeyboard());
-		f_NameBPartner.setPlaceholder(labelName);
-		f_NameBPartner.addActionListener(this);
-		f_NameBPartner.setFont(v_POSPanel.getFont());
-		f_NameBPartner.setPreferredSize(new Dimension(250, v_POSPanel.getFieldLenght()));
-		f_NameBPartner.setMinimumSize(new Dimension(250, v_POSPanel.getFieldLenght()));
+		String labelName = Msg.translate(Env.getCtx(), I_M_Product.COLUMNNAME_M_Product_ID); 
+		f_ProductName = new POSTextField(labelName, v_POSPanel.getKeyboard());
+		f_ProductName.setPlaceholder(labelName);
+		f_ProductName.addActionListener(this);
+		f_ProductName.setFont(v_POSPanel.getFont());
+		f_ProductName.setPreferredSize(new Dimension(250, v_POSPanel.getFieldLenght()));
+		f_ProductName.setMinimumSize(new Dimension(250, v_POSPanel.getFieldLenght()));
 		//	Add Button Panel
 		add(v_ButtonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
-		add(f_NameBPartner, new GridBagConstraints(0, 1, 1, 1, 1, 1
+		add(f_ProductName, new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 		add(v_InfoProductPanel, new GridBagConstraints(0, 2, 1, 2, 1, 2
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
@@ -195,9 +194,7 @@ public class POSActionPanel extends POSSubPanel
 	 */
 	public void dispose()
 	{
-		if (f_NameBPartner != null)
-			f_NameBPartner.removeFocusListener(this);
-		f_NameBPartner = null;
+		f_ProductName = null;
 		removeAll();
 		super.dispose();
 	}	//	dispose
@@ -217,7 +214,10 @@ public class POSActionPanel extends POSSubPanel
 				if (e.getSource().equals(f_bNew)) {
 					v_POSPanel.newOrder();
 				} else if (e.getSource().equals(f_bBPartner)) {
-					changeBusinessPartner(null);
+					QueryBPartner qt = new QueryBPartner(v_POSPanel);
+					qt.addOptionListener(this);
+					qt.setResults(null);
+					qt.showView();
 				} else if (e.getSource().equals(f_bHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
 					POSQuery qt = new QueryTicket(v_POSPanel);
@@ -235,9 +235,9 @@ public class POSActionPanel extends POSSubPanel
 				} else if (e.getSource().equals(f_bLogout)) {	//	Logout
 					v_POSPanel.dispose();
 					return;
-				} else if (e.getSource().equals(f_NameBPartner)) {
-					if(!findBPartner())
-						return;
+				} else if (e.getSource().equals(f_ProductName)) {
+					findProduct();
+					return;
 				}
 				//	Refresh
 				v_POSPanel.refreshPanel();
@@ -245,6 +245,44 @@ public class POSActionPanel extends POSSubPanel
 			ADialog.error(v_POSPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
 	}	//	actionPerformed
+	
+	/**************************************************************************
+	 * 	Find/Set Product & Price
+	 */
+	private void findProduct() {
+		String query = f_ProductName.getText();
+		if (query == null || query.length() == 0)
+			return;
+		query = query.toUpperCase();
+		//	Test Number
+		boolean allNumber = true;
+		try {
+			Integer.getInteger(query);
+		} catch (Exception e) {
+			allNumber = false;
+		}
+		String Value = query;
+		String Name = query;
+		String UPC = (allNumber ? query : null);
+		String SKU = (allNumber ? query : null);
+		//	
+		MWarehousePrice[] results = MWarehousePrice.find (m_ctx,
+				v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID(), 
+				Value, Name, UPC, SKU, null);
+		
+		//	Set Result
+		if (results.length == 1) {	//	one
+			v_POSPanel.addLine(results[0].getM_Product_ID(), Env.ONE);
+			f_ProductName.setText(results[0].getName());
+		} else {	//	more than one
+			v_POSPanel.getFrame().getContentPane().invalidate();
+			QueryProduct qt = new QueryProduct(v_POSPanel);
+			qt.addOptionListener(this);
+			qt.setResults(results);
+			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
+			qt.showView();
+		}
+	}	//	findProduct
 
 	/**
 	 * 	Execute printing an order
@@ -329,78 +367,6 @@ public class POSActionPanel extends POSSubPanel
 		//	Update
 		v_POSPanel.refreshPanel();
 	} // deleteOrder
-
-	/**
-	 * 	Focus Gained
-	 *	@param e
-	 */
-	public void focusGained (FocusEvent e) {
-		
-	}	//	focusGained
-
-	/**
-	 * 	Focus Lost
-	 *	@param e
-	 */
-	public void focusLost (FocusEvent e)
-	{
-		if (e.isTemporary())
-			return;
-		log.info(e.toString());
-		findBPartner();
-	}	//	focusLost
-
-	
-	/**
-	 * 	Find/Set BPartner
-	 */
-	private boolean findBPartner() {
-		String query = f_NameBPartner.getText();
-		//	
-		if (query == null || query.length() == 0)
-			return false;
-		
-		// unchanged
-		if (v_POSPanel.hasBPartner() 
-				&& v_POSPanel.compareBPName(query))
-			return false;
-		
-		query = query.toUpperCase();
-		//	Test Number
-		boolean allNumber = true;
-		boolean noNumber = true;
-		char[] qq = query.toCharArray();
-		for (int i = 0; i < qq.length; i++) {
-			if (Character.isDigit(qq[i])) {
-				noNumber = false;
-				break;
-			}
-		} try {
-			Integer.parseInt(query);
-		} catch (Exception e) {
-			allNumber = false;
-		}
-		String Value = query;
-		String Name = (allNumber ? null : query);
-		String EMail = (query.indexOf('@') != -1 ? query : null); 
-		String Phone = (noNumber ? null : query);
-		String City = null;
-		//
-		MBPartnerInfo[] results = MBPartnerInfo.find(m_ctx, Value, Name, 
-			/*Contact, */null, EMail, Phone, City);
-		
-		//	Set Result
-		if (results.length == 1) {
-			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
-			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
-			f_NameBPartner.setText(bp.getName());
-			return true;
-		} else {	//	more than one
-			changeBusinessPartner(results);
-		}
-		//	Default return
-		return false;
-	}	//	findBPartner
 	
 	/**
 	 * 	Print Ticket
@@ -510,7 +476,7 @@ public class POSActionPanel extends POSSubPanel
 
 	@Override
 	public void refreshPanel() {
-		f_NameBPartner.setText(v_POSPanel.getBPName());
+		//	
 	}
 
 	@Override
@@ -521,9 +487,6 @@ public class POSActionPanel extends POSSubPanel
 	@Override
 	public void changeViewPanel() {
 		if(v_POSPanel.hasOrder()) {
-			//	When order is not completed, you can change BP
-			f_bBPartner.setEnabled(!v_POSPanel.isCompleted());
-			f_NameBPartner.setEnabled(!v_POSPanel.isCompleted());
 			//	For Next
 			f_bNext.setEnabled(!v_POSPanel.isLastRecord() && v_POSPanel.hasRecord());
 			//	For Back
@@ -541,8 +504,6 @@ public class POSActionPanel extends POSSubPanel
 			f_bCancel.setEnabled(!v_POSPanel.isVoided());
 		} else {
 			f_bNew.setEnabled(true);
-			f_bBPartner.setEnabled(true);
-			f_NameBPartner.setEnabled(true);
 			f_bHistory.setEnabled(true);
 			//	For Next
 			f_bNext.setEnabled(!v_POSPanel.isLastRecord() && v_POSPanel.hasRecord());
@@ -554,19 +515,6 @@ public class POSActionPanel extends POSSubPanel
 		}
 	}
 
-	/**
-	 * 	Change in Order the Business Partner, including Price list and location
-	 *  In Order and POS
-	 *  @param results
-	 */
-	public void changeBusinessPartner(MBPartnerInfo[] results) {
-		// Change to another BPartner
-		QueryBPartner qt = new QueryBPartner(v_POSPanel);
-		qt.addOptionListener(this);
-		qt.setResults(results);
-		qt.showView();
-	}
-
 	@Override
 	public void okAction(I_POSQuery query) {
 		if (query.getRecord_ID() <= 0)
@@ -576,7 +524,6 @@ public class POSActionPanel extends POSSubPanel
 			v_POSPanel.setOrder(query.getRecord_ID());
 			v_POSPanel.reloadIndex(query.getRecord_ID()); 
 		} else if(query instanceof QueryBPartner) {
-			f_NameBPartner.setText(query.getValue());
 			if(!v_POSPanel.hasOrder()) {
 				v_POSPanel.newOrder(query.getRecord_ID());
 			} else {
@@ -584,6 +531,10 @@ public class POSActionPanel extends POSSubPanel
 			}
 			//	
 			log.fine("C_BPartner_ID=" + query.getRecord_ID());
+		} else if(query instanceof QueryProduct) {
+			if (query.getRecord_ID() > 0) {
+				v_POSPanel.addLine(query.getRecord_ID(), Env.ONE);
+			}
 		}
 		//	Refresh
 		v_POSPanel.refreshPanel();
