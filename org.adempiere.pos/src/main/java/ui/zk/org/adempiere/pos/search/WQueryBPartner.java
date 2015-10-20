@@ -335,8 +335,6 @@ public class WQueryBPartner extends WPosQuery {
 				close();
 			}
 			if(e.getTarget().getId().equals("Cancel")){
-				v_POSPanel.setC_BPartner_ID(0);
-				v_POSPanel.getM_Order().saveEx();
 				dispose();
 			}
 			if(e.getTarget().equals(m_table)){
