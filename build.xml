@@ -174,7 +174,7 @@
 		
   		<delete file="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk/lang-addon.xml"/>
 		<copy todir="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk">
-			<fileset dir="${basedir}/zkwebui/WEB-INF/metainfo/zk" includes="lang-addon.xml"/>
+			<fileset dir="${zk_view}" includes="lang-addon.xml"/>
 		</copy>
 		
 		<echo message="=========== Deploy files END"/>
