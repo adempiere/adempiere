@@ -17,7 +17,6 @@ package org.adempiere.pos.search;
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
 import org.adempiere.pos.WPosTextField;
-import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -38,6 +37,8 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Caption;
+import org.zkoss.zul.Groupbox;
 
 /**
  *	POS Query BPartner
@@ -100,12 +101,14 @@ public class WQueryBPartner extends WPosQuery {
 		Panel panel = new Panel();
 		setVisible(true);
 		Panel mainPanel = new Panel();
+		Grid bPartnerLayout = GridFactory.newGridLayout();
 		
-		Grid productLayout = GridFactory.newGridLayout();
+		Groupbox groupPanel = new Groupbox();
+		Caption v_TitleBorder = new Caption(Msg.getMsg(p_ctx, "Query"));
+		
 		//	Set title window
-		this.setTitle(Msg.getMsg(p_ctx, "Query"));
 		this.setClosable(true);
-
+		
 		appendChild(panel);
 		//	North
 		northPanel = new Panel();
@@ -118,13 +121,14 @@ public class WQueryBPartner extends WPosQuery {
 		North north = new North();
 		north.setStyle("border: none");
 		mainLayout.appendChild(north);
-		north.appendChild(northPanel);
-		northPanel.appendChild(productLayout);
+		north.appendChild(groupPanel);
+		groupPanel.appendChild(v_TitleBorder);
+		groupPanel.appendChild(bPartnerLayout);
 		appendChild(mainPanel);
-		productLayout.setWidth("100%");
+		bPartnerLayout.setWidth("100%");
 		Rows rows = null;
 		Row row = null;
-		rows = productLayout.newRows();
+		rows = bPartnerLayout.newRows();
 		row = rows.newRow();
 		
 		Label lvalue = new Label(Msg.translate(p_ctx, "Value"));
@@ -165,9 +169,8 @@ public class WQueryBPartner extends WPosQuery {
 		row.appendChild(f_city);
 		f_city.addEventListener("onFocus", this);
 		
-		String sql = m_table.prepareTable (s_layout, s_sqlFrom, 
-				s_sqlWhere, false, "RV_BPartner")
-				+ " ORDER BY Value";
+		m_table.prepareTable (s_layout, s_sqlFrom, 
+				s_sqlWhere, false, "RV_BPartner");
 		center = new Center();
 		center.setStyle("border: none; Height=80%");
 		m_table.setWidth("100%");

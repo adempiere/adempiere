@@ -45,6 +45,8 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Caption;
+import org.zkoss.zul.Groupbox;
 
 /**
  *	POS Query Product
@@ -68,22 +70,36 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 
 	
 	private WPosTextField	f_documentno;
-	private Datebox			f_date;
+	private Datebox			f_DateTo;
+	private Datebox			f_DateFrom;
+	private Date			m_DateTo;
+	private Date			m_DateFrom;
 
 	private int				m_c_order_id;
 	private Checkbox 		f_processed;
-	private Date 			date;
+	
 	/**	Internal Variables	*/
 	private int				m_C_Order_ID;
+	
+	static final private String DOCUMENTNO      = "DocumentNo";
+	static final private String BPARTNERID      = "C_BPartner_ID";
+	static final private String GRANDTOTAL      = "GrandTotal";
+	static final private String OPENAMT         = "OpenAmt";
+	static final private String PAID            = "IsPaid";
+	static final private String PROCESSED       = "Processed";
+	static final private String DATEORDEREDFROM = "From";
+	static final private String DATEORDEREDTO   = "To";
+	static final private String QUERY           = "Query";
+	
 	/**	Table Column Layout Info			*/
-	private static ColumnInfo[] s_layout = new ColumnInfo[] 
-	{
+	private static ColumnInfo[] s_layout = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"), "DocumentNo", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "TotalLines"), "TotalLines", BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "GrandTotal", BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "Name", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Processed"), "Processed", Boolean.class)
+		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), BPARTNERID), BPARTNERID, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAMT), OPENAMT, BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), PAID), PAID, Boolean.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), PROCESSED), PROCESSED, Boolean.class)
 	};
 
 	/**
@@ -94,14 +110,18 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		Panel panel = new Panel();
 		setVisible(true);
 		Panel mainPanel = new Panel();
-		Grid productLayout = GridFactory.newGridLayout();
+		Grid ticketLayout = GridFactory.newGridLayout();
+		
+		Groupbox groupPanel = new Groupbox();
+		Caption v_TitleBorder = new Caption(Msg.getMsg(p_ctx, QUERY));
+		
 		//	Set title window
-		this.setTitle(Msg.getMsg(p_ctx, "Query"));
 		this.setClosable(true);
 		
 		appendChild(panel);
 		northPanel = new Panel();
 		mainPanel.appendChild(mainLayout);
+		groupPanel.appendChild(v_TitleBorder);
 		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
 		mainLayout.setHeight("100%");
 		mainLayout.setWidth("100%");
@@ -110,16 +130,16 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		North north = new North();
 		north.setStyle("border: none");
 		mainLayout.appendChild(north);
-		north.appendChild(northPanel);
-		northPanel.appendChild(productLayout);
+		north.appendChild(groupPanel);
+		groupPanel.appendChild(ticketLayout);
 		appendChild(mainPanel);
-		productLayout.setWidth("100%");
+		ticketLayout.setWidth("100%");
 		Rows rows = null;
 		Row row = null;
-		rows = productLayout.newRows();
+		rows = ticketLayout.newRows();
 		row = rows.newRow();
 		
-		Label ldoc = new Label(Msg.translate(p_ctx, "DocumentNo"));
+		Label ldoc = new Label(Msg.translate(p_ctx, DOCUMENTNO));
 
 		row.setHeight("60px");
 		row.appendChild(ldoc);
@@ -127,32 +147,32 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		row.appendChild(f_documentno);
 		f_documentno.addEventListener("onFocus",this);
 		//
-		Label ldate = new Label(Msg.translate(p_ctx, "DateOrdered"));
+		Label ldateFrom = new Label(Msg.translate(p_ctx, DATEORDEREDFROM));
+		row.appendChild(ldateFrom);
+		f_DateFrom = new Datebox();
+		f_DateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		f_DateFrom.addEventListener("onBlur",this);
+		row.appendChild(f_DateFrom);
+		
+		// Date To
+		Label ldate = new Label(Msg.translate(p_ctx, DATEORDEREDTO));
 		row.appendChild(ldate);
-		f_date = new Datebox();
-		f_date.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		f_date.addEventListener("onBlur",this);
-		row.appendChild(f_date);
+		f_DateTo = new Datebox();
+		f_DateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		f_DateTo.addEventListener("onBlur",this);
+		row.appendChild(f_DateTo);
 		
 		f_processed = new Checkbox();
-		f_processed.setLabel(Msg.translate(p_ctx, "Processed"));
+		f_processed.setLabel(Msg.translate(p_ctx, PROCESSED));
 		f_processed.setSelected(false);
 		row.appendChild(f_processed);
 		f_processed.addActionListener(this);
 		
-		//  New Line
-		row = rows.newRow();
-		row.setSpans("5");
-		row.setHeight("65px");
-		
-		
 		//	Center
 		m_table = ListboxFactory.newDataTable();
-		
-		String sql = m_table.prepareTable (s_layout, "C_Order", 
+		m_table.prepareTable (s_layout, "C_Order", 
 				"C_POS_ID = " + p_pos.getC_POS_ID()
-				, false, "C_Order")
-			+ " ORDER BY Margin, QtyAvailable";
+				, false, "C_Order");
 
 		enableButtons();
 		center = new Center();
@@ -164,8 +184,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		mainLayout.appendChild(center);
 		m_table.addActionListener(this);
 		m_table.autoSize();
-		date = new Date(Env.getContextAsDate(Env.getCtx(), "#Date").getTime());
-		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), date);
+		refresh();
 	}	//	init
 	
 	/**
@@ -176,41 +195,66 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 	{
 		f_processed.setSelected(false);
 		f_documentno.setText(null);
-		date = new Date(Env.getContextAsDate(Env.getCtx(), "#Date").getTime());
-		
-		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), date);
+		f_DateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		f_DateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		refresh();
 	}
 
 	/**
 	 * 	Set/display Results
 	 *	@param results results
 	 */
-	public void setResults (Properties ctx, boolean processed, String doc, Date date)
+	public void setResults (Properties ctx, boolean processed, String doc, Date dateFrom, Date dateTo)
 	{
+		StringBuffer sql = new StringBuffer();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		String sql = "";
-		try 
-		{
-			sql=" SELECT distinct o.C_Order_ID, o.DocumentNo, coalesce(invoiceopen(i.c_invoice_ID, 0), 0) as invoiceopen, o.GrandTotal, b.Name, o.Processed"
-					+ " FROM C_Order o "
-					+ " INNER JOIN C_BPartner b ON o.C_BPartner_ID=b.C_BPartner_ID"
-					+ " LEFT JOIN c_invoice i on i.c_order_ID = o.c_order_ID"
-					+ " WHERE o.C_POS_ID = " + p_pos.getC_POS_ID()
-					+ " and coalesce(invoiceopen(i.c_invoice_ID, 0), 0)  >= 0 ";
-			sql += " AND o.Processed = " + ( processed ? "'Y' " : "'N' ");
+		try  {
+			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, ")
+				.append("b.Name, o.GrandTotal, ")
+				.append("COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal) as InvoiceOpen, ")
+			    .append("i.IsPaid, o.Processed ")
+				.append(" FROM C_Order o ")
+				.append(" INNER JOIN C_BPartner b ON(o.C_BPartner_ID = b.C_BPartner_ID)")
+				.append(" LEFT JOIN C_invoice i ON(i.C_Order_ID = o.C_Order_ID)")
+				.append(" WHERE o.DocStatus <> 'VO'")
+				.append(" AND o.C_POS_ID = ?")
+				.append(" AND o.Processed= ?");
 			if (doc != null && !doc.equalsIgnoreCase(""))
-				sql += " AND o.DocumentNo = '" + doc + "'";
-			if ( date != null)
-				sql += " AND trunc(o.DateOrdered) = '"+ date +"' Order By o.DocumentNo DESC";
-			pstm = DB.prepareStatement(sql, null);
+				sql.append(" AND (o.DocumentNo LIKE '%" + doc + "%' OR  i.DocumentNo LIKE '%" + doc + "%')");
+			if ( dateFrom != null ) {
+				if ( dateTo != null && !dateTo.equals(dateFrom))
+					sql.append(" AND o.DateOrdered >= ? AND o.DateOrdered <= ?");						
+				else
+					sql.append(" AND o.DateOrdered = ? ");	
+			}
+			//	Group By
+			sql.append(" GROUP BY o.C_Order_ID, o.DocumentNo, b.Name, o.GrandTotal, o.Processed, i.IsPaid ");
+			sql.append(" ORDER BY o.Updated");
+			int i = 1;			
+			pstm = DB.prepareStatement(sql.toString(), null);
+			//	POS
+			pstm.setInt(i++, v_POSPanel.getC_POS_ID());
+			//	Processed
+			pstm.setString(i++, processed? "Y": "N");
+			//	Date From and To
+			if (dateFrom != null) {				
+				pstm.setDate(i++, dateFrom);
+				if (dateTo != null 
+						&& !dateTo.equals(dateFrom)) {
+					pstm.setDate(i++, dateTo);
+				}
+			}
+			//	
 			rs = pstm.executeQuery();
 			m_table.loadTable(rs);
-			if ( m_table.getRowCount() > 0 )
-				enableButtons();
-		}
-		catch(Exception e)
-		{
+			int rowNo = m_table.getRowCount();
+			if (rowNo > 0) {
+				if(rowNo == 1) {
+					select();
+				}
+			}
+		} catch(Exception e) {
 			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
 		} finally {
 			DB.close(rs);
@@ -272,7 +316,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 			refresh();
 		}
 		if ( e.getTarget().equals(f_processed) 
-				|| e.getTarget().equals(f_date)) {
+				|| e.getTarget().equals(f_DateTo) || e.getTarget().equals(f_DateFrom)) {
 				refresh();
 				return;
 		}
@@ -289,11 +333,20 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 
 	@Override
 	public void refresh() {
-		if(f_date.getValue()!=null)
-			date = new Date(f_date.getValue().getTime());
-		else
-			date = null;
-		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), date);
+		if(f_DateTo.getValue()!=null) {
+			m_DateTo = new Date(f_DateTo.getValue().getTime());
+		}	
+		else {
+			m_DateTo = null;
+		}
+		if(f_DateFrom.getValue()!=null) {
+			m_DateFrom = new Date(f_DateFrom.getValue().getTime());
+		}
+		else {
+			m_DateFrom = null;
+		}
+		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), m_DateFrom, m_DateTo);
+
 	}
 
 	@Override

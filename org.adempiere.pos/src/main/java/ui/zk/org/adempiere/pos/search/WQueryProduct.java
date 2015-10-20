@@ -42,6 +42,8 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Caption;
+import org.zkoss.zul.Groupbox;
 
 /**
  * 
@@ -102,8 +104,11 @@ public class WQueryProduct extends WPosQuery
 		setVisible(true);
 		Panel mainPanel = new Panel();
 		Grid productLayout = GridFactory.newGridLayout();
+		
+		Groupbox groupPanel = new Groupbox();
+		Caption v_TitleBorder = new Caption(Msg.getMsg(p_ctx, "Query"));
+		
 		//	Set title window
-		this.setTitle("Query Title");
 		this.setClosable(true);
 		
 		appendChild(panel);
@@ -118,8 +123,9 @@ public class WQueryProduct extends WPosQuery
 		North north = new North();
 		north.setStyle("border: none");
 		mainLayout.appendChild(north);
-		north.appendChild(northPanel);
-		northPanel.appendChild(productLayout);
+		north.appendChild(groupPanel);
+		groupPanel.appendChild(v_TitleBorder);
+		groupPanel.appendChild(productLayout);
 		appendChild(mainPanel);
 		productLayout.setWidth("100%");
 		Rows rows = null;
@@ -157,9 +163,8 @@ public class WQueryProduct extends WPosQuery
 		
 
 		m_table = ListboxFactory.newDataTable();
-		String f = m_table.prepareTable (s_layout, s_sqlFrom, 
-			s_sqlWhere, false, "RV_WarehousePrice")
-			+ " ORDER BY Margin, QtyAvailable";
+		m_table.prepareTable (s_layout, s_sqlFrom, 
+			s_sqlWhere, false, "RV_WarehousePrice");
 		
 		center = new Center();
 		center.setStyle("border: none");

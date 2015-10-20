@@ -32,8 +32,6 @@ public class WPosTextField extends Textbox {
 	private static final long serialVersionUID = -2453719110038264481L;
 	WPOS pos = null;
 	int keyLayoutId = 0;
-	/**	Key Board				*/
-	private WPOSKeyboard 	m_Keyboard;
 		
 	public WPosTextField( WPOS pos, final int posKeyLayout_ID, Format format ) {
 		super();
@@ -60,22 +58,5 @@ public class WPosTextField extends Textbox {
 		
 	}
 
-	/**
-	 * Text field with keyboard
-	 * *** Constructor ***
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @param p_Title
-	 * @param p_Keyboard
-	 */
-	public WPosTextField(String p_Title, WPOSKeyboard p_Keyboard) {
-		super();
-		//	
-		m_Keyboard = p_Keyboard;
-		//	Valid and add Listener
-		if (p_Keyboard != null) {
-			addEventListener("onMouse", this);
-		}
-		//	Set Title
-		setName(p_Title);
-	}
+
 }
