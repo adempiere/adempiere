@@ -113,6 +113,7 @@ public abstract class POSQuery extends CDialog
 	 */
 	private void initMainPanel() {
 		//	Instance Panel
+		setLayout(new GridBagLayout());
 		//	For Table
 		m_table = new PosTable();
 		v_MainPanel = new CPanel(new GridBagLayout());		
@@ -142,19 +143,19 @@ public abstract class POSQuery extends CDialog
 				,GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
 		
 		//	Add To Main Panel
-		v_MainPanel.add(v_ParameterPanel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+		v_MainPanel.add(v_ParameterPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
-		v_MainPanel.add(v_CenterScroll, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+		v_MainPanel.add(v_CenterScroll, new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		v_MainPanel.add(v_ConfirmPanel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
+		v_MainPanel.add(v_ConfirmPanel, new GridBagConstraints(0, 2, 1, 1, 1, 1
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
 		//	Add Main Panel to Content
-		getContentPane().add(v_MainPanel);
+		getContentPane().add(v_MainPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
+				,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		//	Visible New
 		f_New.setVisible(false);
 		//	Add Listener
 		m_table.addMouseListener(this);
-//		m_table.getSelectionModel().addListSelectionListener(this);
 	}
 	
 	/**
@@ -174,6 +175,9 @@ public abstract class POSQuery extends CDialog
 			dispose();
 			return;
 		} if (f_Refresh.equals(e.getSource())) {
+			if(m_table == null)
+				return;
+			//	Refresh
 			refresh();
 			return;
 		} else if (f_Reset.equals(e.getSource())) {
@@ -194,6 +198,9 @@ public abstract class POSQuery extends CDialog
 			}
 		} else if(e.getSource() instanceof POSTextField
 				|| e.getSource() instanceof CCheckBox) {
+			if(m_table == null)
+				return;
+			//	Refresh
 			refresh();
 		}
 	}
@@ -204,6 +211,9 @@ public abstract class POSQuery extends CDialog
 		if(e.getSource() instanceof VDate
 				|| e.getSource() instanceof VNumber
 				|| e.getSource() instanceof CComboBox){
+			if(m_table == null)
+				return;
+			//	Refresh
 			refresh();
 		}
 	}
