@@ -191,7 +191,7 @@ public class POSInfoProduct extends POSSubPanel {
 		fProductTax.setText(m_Product.getC_TaxCategory().getName());
 		String m_Description = m_Product.getDescription();
 		if(m_Description == null)
-			m_Description = "";
+			m_Description = "-";
 		fDescription.setText(m_Description.trim());
 		//	Set Image
 		if(p_AD_Image_ID != 0) {
