@@ -26,16 +26,16 @@ import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.adempiere.pos.search.QueryProduct;
+import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
-import org.compiere.apps.ADialog;
+import org.compiere.model.I_C_BPartner;
 import org.compiere.model.I_C_Order;
 import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_M_Product;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.MWarehousePrice;
 import org.compiere.pos.PosKeyListener;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -99,7 +99,7 @@ public class POSProductPanel extends POSSubPanel
 	private CLabel 			f_lb_GrandTotal;
 	private CLabel 			f_GrandTotal;
 	/**	Product Name		*/
-	private POSTextField	f_ProductName;
+	private POSTextField	f_BPartnerName;
 	/**	Keyboard			*/
 	private POSKeyPanel 	f_Keyboard;
 	/**	Logger				*/
@@ -221,16 +221,16 @@ public class POSProductPanel extends POSSubPanel
 				,GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
 		
 		//	For Product
-		String labelName = Msg.translate(Env.getCtx(), I_M_Product.COLUMNNAME_M_Product_ID);
+		String labelName = Msg.translate(Env.getCtx(), I_C_BPartner.COLUMNNAME_IsCustomer);
 		//	
-		f_ProductName = new POSTextField(labelName, v_POSPanel.getKeyboard());
-		f_ProductName.setName(labelName);
-		f_ProductName.setPlaceholder(labelName);
-		f_ProductName.addActionListener(this);
-		f_ProductName.requestFocusInWindow();
-		f_ProductName.setFont(v_POSPanel.getFont());
-		f_ProductName.setPreferredSize(new Dimension(530, 50));
-		f_ProductName.setMinimumSize(new Dimension(530, 50));
+		f_BPartnerName = new POSTextField(labelName, v_POSPanel.getKeyboard());
+		f_BPartnerName.setName(labelName);
+		f_BPartnerName.setPlaceholder(labelName);
+		f_BPartnerName.addActionListener(this);
+		f_BPartnerName.requestFocusInWindow();
+		f_BPartnerName.setFont(v_POSPanel.getFont());
+		f_BPartnerName.setPreferredSize(new Dimension(530, 50));
+		f_BPartnerName.setMinimumSize(new Dimension(530, 50));
 		//	Add Header
 		GridBagConstraints m_HeaderConstraint = new GridBagConstraints();
 		m_HeaderConstraint.fill = GridBagConstraints.BOTH;
@@ -243,7 +243,7 @@ public class POSProductPanel extends POSSubPanel
 		m_ProductConstraint.weightx = 0;
 		m_ProductConstraint.gridy = 1;
 		m_ProductConstraint.gridwidth = 2;
-		v_HeaderPanel.add(f_ProductName, m_ProductConstraint);
+		v_HeaderPanel.add(f_BPartnerName, m_ProductConstraint);
 		//	Add Keyboard
 		GridBagConstraints m_KeyboardConstraint = new GridBagConstraints();
 		m_KeyboardConstraint.fill = GridBagConstraints.BOTH;
@@ -276,7 +276,7 @@ public class POSProductPanel extends POSSubPanel
 			return;
 		}
 		// Add line
-		addLine(key.getM_Product_ID(), key.getQty());
+		v_POSPanel.addLine(key.getM_Product_ID(), key.getQty());
 		//	Show Product Info
 		v_POSPanel.refreshProductInfo(key);
 	}
@@ -285,75 +285,68 @@ public class POSProductPanel extends POSSubPanel
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		//	Name
-		if (e.getSource() == f_ProductName) {
-			findProduct();
+		if (e.getSource() == f_BPartnerName) {
+			findBPartner();
 		}
 	}
 	
 	/**
-	 * Add or replace order line
-	 * @param p_M_Product_ID
-	 * @param m_QtyOrdered
-	 * @return void
+	 * 	Find/Set BPartner
 	 */
-	private void addLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
-		//	Create Ordder if not exists
-		if (!v_POSPanel.hasOrder()) {
-			v_POSPanel.newOrder();
-		}
-		//	Show Product Info
-		v_POSPanel.refreshProductInfo(p_M_Product_ID);
+	private void findBPartner() {
+		String query = f_BPartnerName.getText();
 		//	
-		String lineError = v_POSPanel.add(p_M_Product_ID, m_QtyOrdered);
-		if (lineError != null) {
-			log.warning("POS Error " + lineError);
-			ADialog.error(v_POSPanel.getWindowNo(), 
-					this, Msg.parseTranslation(m_ctx, lineError));
-		}
-		//	Update Info
-		v_POSPanel.refreshPanel();
-	}
-	
-	/**************************************************************************
-	 * 	Find/Set Product & Price
-	 */
-	private void findProduct() {
-		String query = f_ProductName.getText();
 		if (query == null || query.length() == 0)
 			return;
+		
+		// unchanged
+		if (v_POSPanel.hasBPartner() 
+				&& v_POSPanel.compareBPName(query))
+			return;
+		
 		query = query.toUpperCase();
 		//	Test Number
 		boolean allNumber = true;
-		try {
-			Integer.getInteger(query);
+		boolean noNumber = true;
+		char[] qq = query.toCharArray();
+		for (int i = 0; i < qq.length; i++) {
+			if (Character.isDigit(qq[i])) {
+				noNumber = false;
+				break;
+			}
+		} try {
+			Integer.parseInt(query);
 		} catch (Exception e) {
 			allNumber = false;
 		}
 		String Value = query;
-		String Name = query;
-		String UPC = (allNumber ? query : null);
-		String SKU = (allNumber ? query : null);
-		//	
-		MWarehousePrice[] results = MWarehousePrice.find (m_ctx,
-				v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID(), 
-				Value, Name, UPC, SKU, null);
+		String Name = (allNumber ? null : query);
+		String EMail = (query.indexOf('@') != -1 ? query : null); 
+		String Phone = (noNumber ? null : query);
+		String City = null;
+		//
+		MBPartnerInfo[] results = MBPartnerInfo.find(m_ctx, Value, Name, 
+			/*Contact, */null, EMail, Phone, City);
 		
 		//	Set Result
-		if (results.length == 1) {	//	one
-			addLine(results[0].getM_Product_ID(), Env.ONE);
-			f_ProductName.setText(results[0].getName());
+		if (results.length == 1) {
+			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
+			v_POSPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
+			f_BPartnerName.setText(bp.getName());
+			return;
 		} else {	//	more than one
-			v_POSPanel.getFrame().getContentPane().invalidate();
-			QueryProduct qt = new QueryProduct(v_POSPanel);
+			QueryBPartner qt = new QueryBPartner(v_POSPanel);
 			qt.addOptionListener(this);
 			qt.setResults(results);
-			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
 			qt.showView();
 		}
-	}	//	findProduct
+		//	Default return
+		return;
+	}	//	findBPartner
 
 	@Override
 	public void refreshPanel() {
+		log.fine("RefreshPanel");
 		if (!v_POSPanel.hasOrder()) {
 			//	Document Info
 			f_SalesRep.setText(v_POSPanel.getSalesRepName());
@@ -362,6 +355,7 @@ public class POSProductPanel extends POSSubPanel
 			f_TotalLines.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
 			f_GrandTotal.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
 			f_TaxAmount.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
+			f_BPartnerName.setText(null);
 		} else {
 			String currencyISO_Code = v_POSPanel.getCurSymbol();
 			BigDecimal m_TotalLines = v_POSPanel.getTotalLines();
@@ -375,6 +369,7 @@ public class POSProductPanel extends POSSubPanel
 			f_TotalLines.setText(currencyISO_Code + " " + v_POSPanel.getNumberFormat().format(m_TotalLines));
 			f_GrandTotal.setText(currencyISO_Code + " " + v_POSPanel.getNumberFormat().format(m_GrandTotal));
 			f_TaxAmount.setText(currencyISO_Code + " " + v_POSPanel.getNumberFormat().format(m_TaxAmt));
+			f_BPartnerName.setText(v_POSPanel.getBPName());
 		}
 		//	Repaint
 		v_TotalPanel.validate();
@@ -388,14 +383,25 @@ public class POSProductPanel extends POSSubPanel
 
 	@Override
 	public void changeViewPanel() {
-		
+		if(v_POSPanel.hasOrder()) {
+			//	When order is not completed, you can change BP
+			f_BPartnerName.setEnabled(!v_POSPanel.isCompleted());
+		} else {
+			f_BPartnerName.setEnabled(true);
+		}
 	}
 
 	@Override
 	public void okAction(I_POSQuery query) {
 		if (query.getRecord_ID() > 0) {
-			f_ProductName.setText(query.getValue());
-			addLine(query.getRecord_ID(), Env.ONE);
+			f_BPartnerName.setText(query.getValue());
+			if(!v_POSPanel.hasOrder()) {
+				v_POSPanel.newOrder(query.getRecord_ID());
+			} else {
+				v_POSPanel.setC_BPartner_ID(query.getRecord_ID());
+			}
+			//	
+			log.fine("C_BPartner_ID=" + query.getRecord_ID());
 		}
 	}
 
