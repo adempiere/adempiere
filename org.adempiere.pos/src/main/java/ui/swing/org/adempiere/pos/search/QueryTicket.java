@@ -179,7 +179,8 @@ public class QueryTicket extends POSQuery {
 				.append(" FROM C_Order o ")
 				.append(" INNER JOIN C_BPartner b ON(o.C_BPartner_ID = b.C_BPartner_ID)")
 				.append(" LEFT JOIN C_invoice i ON(i.C_Order_ID = o.C_Order_ID)")
-				.append(" WHERE o.C_POS_ID = ?")
+				.append(" WHERE o.DocStatus <> 'VO'")
+				.append(" AND o.C_POS_ID = ?")
 				.append(" AND o.Processed= ?");
 			if (doc != null && !doc.equalsIgnoreCase(""))
 				sql.append(" AND (o.DocumentNo LIKE '%" + doc + "%' OR  i.DocumentNo LIKE '%" + doc + "%')");
