@@ -358,6 +358,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 					bPlus.setEnabled(false);  
 					confirm.getOKButton().setEnabled(true);
 					removeAllCollectDetail();
+					setIsCreditOrder(fIsCreditOrder.isSelected());
 					calculatePanelData();
 				}
 				else 
