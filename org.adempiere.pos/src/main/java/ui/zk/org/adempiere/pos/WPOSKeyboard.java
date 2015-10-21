@@ -272,14 +272,16 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		else if (action.equals(ConfirmPanel.A_OK))
 		{
 			isCancel = false;
-			if(dfield != null)
-				dfield.setText(txtCalc.getValue());
-			else if (field != null)
-				field.setText(txtCalc.getValue());
-			else if(lfield != null)
-				lfield.setText(txtCalc.getValue());
-			else 
-				tfield.setText(txtCalc.getValue());
+			if(txtCalc.getValue().length() > 0) {
+				if(dfield != null)
+					dfield.setText(txtCalc.getValue());
+				else if (field != null)
+					field.setText(txtCalc.getValue());
+				else if(lfield != null)
+					lfield.setText(txtCalc.getValue());
+				else 
+					tfield.setText(txtCalc.getValue());
+			}
 			close();
 		}
 		log.info( "PosSubBasicKeys - actionPerformed: " + action);
