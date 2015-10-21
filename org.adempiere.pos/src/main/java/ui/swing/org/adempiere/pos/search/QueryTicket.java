@@ -81,6 +81,7 @@ public class QueryTicket extends POSQuery {
 	static final private String OPENAMT         = "OpenAmt";
 	static final private String PAID            = "IsPaid";
 	static final private String PROCESSED       = "Processed";
+	static final private String INVOICED       	= "IsInvoiced";
 	static final private String DATEORDEREDFROM = "From";
 	static final private String DATEORDEREDTO   = "To";
 	static final private String QUERY           = "Query";
@@ -93,7 +94,8 @@ public class QueryTicket extends POSQuery {
 		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAMT), OPENAMT, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), PAID), PAID, Boolean.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), PROCESSED), PROCESSED, Boolean.class)
+		new ColumnInfo(Msg.translate(Env.getCtx(), PROCESSED), PROCESSED, Boolean.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), INVOICED), INVOICED, Boolean.class)
 	};
 
 	/**
@@ -174,16 +176,15 @@ public class QueryTicket extends POSQuery {
 		try  {
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, ")
 				.append(" b.Name, o.GrandTotal, ")
-				.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal) - COALESCE(SUM(p.PayAmt),0)  as InvoiceOpen, ")
-			    .append(" CASE WHEN (i.IsPaid = 'Y' OR i.IsPaid = 'N') THEN i.IsPaid ")
-			    .append("      WHEN o.GrandTotal>0 AND COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)) , o.GrandTotal)-coalesce(Sum(p.PayAmt),0) =0 ")
-			    .append("      THEN 'Y' ELSE 'N' END as IsPaid, ")
-			    .append(" o.Processed ")
+				.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal - SUM(p.PayAmt), o.GrandTotal) AS InvoiceOpen, ")
+			    .append(" COALESCE(i.IsPaid, CASE WHEN o.GrandTotal - SUM(p.PayAmt) = 0 THEN 'Y' ELSE 'N' END) IsPaid, ")
+			    .append(" o.Processed, ")
+			    .append(" CASE WHEN COALESCE(COUNT(i.C_Invoice_ID), 0) > 0 THEN 'Y' ELSE 'N' END")
 				.append(" FROM C_Order o ")
 				.append(" INNER JOIN C_BPartner b ON (o.C_BPartner_ID = b.C_BPartner_ID)")
 				.append(" LEFT JOIN C_invoice   i ON (i.C_Order_ID = o.C_Order_ID)")
-				.append(" LEFT JOIN C_Payment   p on (p.C_order_ID = o.C_order_ID AND p.isprepayment='Y')")
-				.append(" WHERE  (o.docstatus <>'VO' AND o.docstatus <>'RE') ")
+				.append(" LEFT JOIN C_Payment   p ON (p.C_Order_ID = o.C_Order_ID)")
+				.append(" WHERE  o.DocStatus <> 'VO'")
 				.append(" AND o.C_POS_ID = ?")
 				.append(" AND o.Processed= ?");
 			if (doc != null && !doc.equalsIgnoreCase(""))
