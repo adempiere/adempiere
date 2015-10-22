@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.util.DisplayType;
+
 
 /**
  *	Field Model
@@ -29,6 +31,8 @@ import java.util.Properties;
  *  	<li> BR [ 9223372036854775807 ] Lookup for search view not show button
  *  	<li> Add default length to Yes No Display Type
  *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
+ *  	<li> FR [ 9223372036854775807 ] Add default values for Name, Description, Entity Type...
+ *		@see https://adempiere.atlassian.net/browse/ADEMPIERE-449
  */
 public class MField extends X_AD_Field
 {
@@ -130,10 +134,14 @@ public class MField extends X_AD_Field
 			M_Element element = M_Element.getOfColumn(getCtx(), getAD_Column_ID(), get_TrxName());
 			if(element != null)
 			{
-			setName (element.getName ());
-			setDescription (element.getDescription ());
-			setHelp (element.getHelp());
+				setName (element.getName ());
+				setDescription (element.getDescription ());
+				setHelp (element.getHelp());
 			}
+		} 
+		//	FR [ 9223372036854775807 ]
+		if(is_ValueChanged("AD_Column_ID")) {
+			setIsAllowCopy(isAllowCopy(getCtx(), getAD_Column_ID()));
 		}
 		//	BR [ 9223372036854775807 ]
 		//	Valid Lookup
@@ -144,4 +152,28 @@ public class MField extends X_AD_Field
 		}
 		return true;
 	}	//	beforeSave
+	
+	/**
+	 * Verify if column name and display type allow copy
+	 * @param ctx
+	 * @param p_AD_Column_ID
+	 * @return
+	 */
+	public static boolean isAllowCopy(Properties ctx, int p_AD_Column_ID) {
+		MColumn column = MColumn.get(ctx, p_AD_Column_ID);
+		//	Set values from column
+		if(column != null) {
+			//	for Allow copy
+			if(DisplayType.ID == column.getAD_Reference_ID()
+					|| DisplayType.Location == column.getAD_Reference_ID()
+					|| M_Element.isReservedColumnName(column.getColumnName())) {
+				return false;
+			}
+			//	
+			return true;
+		}
+		//	Default return
+		return false;
+	}
+	
 }	//	MField
