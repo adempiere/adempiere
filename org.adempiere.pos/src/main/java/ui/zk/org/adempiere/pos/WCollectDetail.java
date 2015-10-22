@@ -28,6 +28,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Panel;
@@ -71,7 +72,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	private Label 			lDebitRoutingNo;
 	private Label 			lDebitCVC;
 	private Label 			lDebitCountry;
-	 	
+	private boolean			isKeyboard;
 	private Button 			bMinus;
 	private Panelchildren 	v_PanelChildren;
 	
@@ -312,6 +313,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	}
 	
 	public void showKeyboard(WPosTextField field, Label label) {
+		isKeyboard = true;
 		if(field.getText().equals(label.getValue()))
 			field.setValue("");
 		WPOSKeyboard keyboard =  v_Parent.v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
@@ -321,6 +323,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		AEnv.showWindow(keyboard);
 		if(field.getText().equals("")) 
 			field.setValue(label.getValue());
+		
 	}
 		
 	@Override
@@ -341,37 +344,45 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 //			Timestamp dateTrx = Timestamp.valueOf(hourString);
 //			setDateTrx(dateTrx);
 		}
-		else if(e.getName().equals("onFocus")){
-			if(e.getTarget().equals(fCheckNo)) {
+		else if(e.getName().equals(Events.ON_FOCUS)){
+			if(e.getTarget().equals(fCheckNo.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
 				 showKeyboard(fCheckNo,lCheckNo);
 				 setReferenceNo(fCheckNo.getText());
+				 fCheckNo.setFocus(true);
 			}
-			else if(e.getTarget().equals(fCheckRouteNo)) {
+			else if(e.getTarget().equals(fCheckRouteNo.getComponent(WPosTextField.SECONDARY))) {
 				showKeyboard(fCheckRouteNo,lCheckRouteNo);
 				setRoutingNo(fCheckRouteNo.getText());
+				fCheckRouteNo.setFocus(true);
 			}
-			else if(e.getTarget().equals(fDebitRoutingNo)) {
+			else if(e.getTarget().equals(fDebitRoutingNo.getComponent(WPosTextField.SECONDARY))) {
 				showKeyboard(fDebitRoutingNo,lDebitRoutingNo);
 				setRoutingNo(fDebitRoutingNo.getText());
+				fDebitRoutingNo.setFocus(true);
 			}
-			else if(e.getTarget().equals(fDebitCVC)) {
+			else if(e.getTarget().equals(fDebitCVC.getComponent(WPosTextField.SECONDARY))) {
 				showKeyboard(fDebitCVC,lDebitCVC);
+				fDebitCVC.setFocus(true);
 			}
-			else if(e.getTarget().equals(fDebitCountry)) {
+			else if(e.getTarget().equals(fDebitCountry.getComponent(WPosTextField.SECONDARY))) {
 				showKeyboard(fDebitCountry,lDebitCountry);
 				setA_Country(fDebitCountry.getText());
+				fDebitCountry.setFocus(true);
 			}
-			else if(e.getTarget().equals(fCCardNo)) {
+			else if(e.getTarget().equals(fCCardNo.getComponent(WPosTextField.SECONDARY))) {
 				showKeyboard(fCCardNo,lCCardNo);
 				setCreditCardNumber(fCCardNo.getText());
+				fCCardNo.setFocus(true);
 			}
-			else if(e.getTarget().equals(fCCardName)) {
+			else if(e.getTarget().equals(fCCardName.getComponent(WPosTextField.SECONDARY))) {
 				showKeyboard(fCCardName,lCCardName);
 				setA_Name(fCCardName.getText());
+				fCCardName.setFocus(true);
 			}
-			else if(e.getTarget().equals(fCCardVC)) {
+			else if(e.getTarget().equals(fCCardVC.getComponent(WPosTextField.SECONDARY))) {
 				showKeyboard(fCCardVC,lCCardVC);
 				setCreditCardVV(fCCardVC.getText());
+				fCCardVC.setFocus(true);
 			}
 		}else if(e.getTarget().equals(fCCardType)) {
 			setCreditCardType((String) fCCardType.getValue());
@@ -383,6 +394,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 
 		setCreditCardExpMM((String)fCreditCardExpMM.getValue());
 		setCreditCardExpYY((String)fCreditCardExpYY.getValue());
+		isKeyboard = false;
 	}
 	
 	/**

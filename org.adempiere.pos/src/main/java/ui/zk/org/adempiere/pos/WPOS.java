@@ -103,6 +103,10 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	/** Window No **/
 	private int windowNo = 0 ;
 	
+	public static final String FONTSIZEMEDIUM = "Font-size:medium;";
+	public static final String FONTSIZESMALL = "Font-size:small;";
+	public static final String FONTSIZELARGE = "Font-size:large;";
+	public static final String FONTSTYLE = "font-weight:bold;";
 	/**
 	 *	zk Initialize Panel
 	 *  @param WindowNo window
@@ -255,6 +259,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public WPOSKeyboard getKeyboard(int keyLayoutId) {
 			WPOSKeyboard keyboard = new WPOSKeyboard(this, keyLayoutId);
 			keyboards.put(keyLayoutId, keyboard);
+			keyboard.setWidth("750px");
+			keyboard.setHeight("350px");
 			return keyboard;
 	}
 	

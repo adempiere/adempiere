@@ -87,6 +87,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 	static final private String OPENAMT         = "OpenAmt";
 	static final private String PAID            = "IsPaid";
 	static final private String PROCESSED       = "Processed";
+	static final private String INVOICED       	= "IsInvoiced";
 	static final private String DATEORDEREDFROM = "From";
 	static final private String DATEORDEREDTO   = "To";
 	static final private String QUERY           = "Query";
@@ -99,7 +100,8 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAMT), OPENAMT, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), PAID), PAID, Boolean.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), PROCESSED), PROCESSED, Boolean.class)
+		new ColumnInfo(Msg.translate(Env.getCtx(), PROCESSED), PROCESSED, Boolean.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), INVOICED), INVOICED, Boolean.class)
 	};
 
 	/**
@@ -110,7 +112,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		Panel panel = new Panel();
 		setVisible(true);
 		Panel mainPanel = new Panel();
-		Grid ticketLayout = GridFactory.newGridLayout();
+		Grid productLayout = GridFactory.newGridLayout();
 		
 		Groupbox groupPanel = new Groupbox();
 		Caption v_TitleBorder = new Caption(Msg.getMsg(p_ctx, QUERY));
@@ -131,35 +133,41 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		north.setStyle("border: none");
 		mainLayout.appendChild(north);
 		north.appendChild(groupPanel);
-		groupPanel.appendChild(ticketLayout);
+		groupPanel.appendChild(productLayout);
 		appendChild(mainPanel);
-		ticketLayout.setWidth("100%");
+		productLayout.setWidth("100%");
 		Rows rows = null;
 		Row row = null;
-		rows = ticketLayout.newRows();
+		rows = productLayout.newRows();
 		row = rows.newRow();
 		
 		Label ldoc = new Label(Msg.translate(p_ctx, DOCUMENTNO));
-
+		ldoc.setStyle(WPOS.FONTSIZESMALL);
 		row.setHeight("60px");
-		row.appendChild(ldoc);
+		row.appendChild(ldoc.rightAlign());
 		f_documentno = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_documentno);
 		f_documentno.addEventListener("onFocus",this);
+		f_documentno.setWidth("120px");
+		f_documentno.setStyle(WPOS.FONTSIZESMALL);
 		//
 		Label ldateFrom = new Label(Msg.translate(p_ctx, DATEORDEREDFROM));
-		row.appendChild(ldateFrom);
+		ldateFrom.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(ldateFrom.rightAlign());
 		f_DateFrom = new Datebox();
 		f_DateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		f_DateFrom.addEventListener("onBlur",this);
+		f_DateFrom.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(f_DateFrom);
 		
 		// Date To
 		Label ldate = new Label(Msg.translate(p_ctx, DATEORDEREDTO));
-		row.appendChild(ldate);
+		ldate.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(ldate.rightAlign());
 		f_DateTo = new Datebox();
 		f_DateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		f_DateTo.addEventListener("onBlur",this);
+		f_DateTo.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(f_DateTo);
 		
 		f_processed = new Checkbox();
@@ -167,6 +175,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		f_processed.setSelected(false);
 		row.appendChild(f_processed);
 		f_processed.addActionListener(this);
+		f_processed.setStyle(WPOS.FONTSIZESMALL);
 		
 		//	Center
 		m_table = ListboxFactory.newDataTable();
@@ -182,7 +191,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		m_table.addActionListener(this);
 		center.appendChild(m_table);
 		mainLayout.appendChild(center);
-		m_table.addActionListener(this);
+		m_table.setClass("Table-OrderLine");
 		m_table.autoSize();
 		refresh();
 	}	//	init
@@ -211,15 +220,18 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		ResultSet rs = null;
 		try  {
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, ")
-				.append("b.Name, o.GrandTotal, ")
-				.append("COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal) as InvoiceOpen, ")
-			    .append("i.IsPaid, o.Processed ")
-				.append(" FROM C_Order o ")
-				.append(" INNER JOIN C_BPartner b ON(o.C_BPartner_ID = b.C_BPartner_ID)")
-				.append(" LEFT JOIN C_invoice i ON(i.C_Order_ID = o.C_Order_ID)")
-				.append(" WHERE o.DocStatus <> 'VO'")
-				.append(" AND o.C_POS_ID = ?")
-				.append(" AND o.Processed= ?");
+			.append(" b.Name, o.GrandTotal, ")
+			.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal - SUM(p.PayAmt), o.GrandTotal) AS InvoiceOpen, ")
+		    .append(" COALESCE(i.IsPaid, CASE WHEN o.GrandTotal - SUM(p.PayAmt) = 0 THEN 'Y' ELSE 'N' END) IsPaid, ")
+		    .append(" o.Processed, ")
+		    .append(" CASE WHEN COALESCE(COUNT(i.C_Invoice_ID), 0) > 0 THEN 'Y' ELSE 'N' END")
+			.append(" FROM C_Order o ")
+			.append(" INNER JOIN C_BPartner b ON (o.C_BPartner_ID = b.C_BPartner_ID)")
+			.append(" LEFT JOIN C_invoice   i ON (i.C_Order_ID = o.C_Order_ID)")
+			.append(" LEFT JOIN C_Payment   p ON (p.C_Order_ID = o.C_Order_ID)")
+			.append(" WHERE  o.DocStatus <> 'VO'")
+			.append(" AND o.C_POS_ID = ?")
+			.append(" AND o.Processed= ?");
 			if (doc != null && !doc.equalsIgnoreCase(""))
 				sql.append(" AND (o.DocumentNo LIKE '%" + doc + "%' OR  i.DocumentNo LIKE '%" + doc + "%')");
 			if ( dateFrom != null ) {
@@ -301,17 +313,17 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if(e.getTarget().equals(f_documentno)) {
+		if(e.getTarget().equals(f_documentno.getComponent(WPosTextField.SECONDARY))) {
 				//	Get Keyboard Panel
 				WPOSKeyboard keyboard = v_POSPanel.getKeyboard(f_documentno.getKeyLayoutId(), f_documentno);
-				
 				//	Set Title
 				keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
 				keyboard.setWidth("750px");
 				keyboard.setHeight("380px");
 				AEnv.showWindow(keyboard);
 				refresh();
-			
+				f_documentno.setFocus(true);
+
 		} else if(e.getTarget().getId().equals("Refresh")) {
 			refresh();
 		}

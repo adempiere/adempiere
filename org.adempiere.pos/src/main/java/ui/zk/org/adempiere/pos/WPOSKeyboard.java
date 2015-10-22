@@ -257,20 +257,17 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		}
 		if (action == null || action.length() == 0)
 			return;
-		else if ( action.equals(ConfirmPanel.A_RESET))
-		{
+		else if ( action.equals(ConfirmPanel.A_RESET)) {
 			if ( keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
 				txtCalc.setText("0");
 			else
 				txtCalc.setText("");
 		}
-		else if ( action.equals(ConfirmPanel.A_CANCEL))
-		{
+		else if ( action.equals(ConfirmPanel.A_CANCEL))	{
 			isCancel = true;
 			close();
 		}
-		else if (action.equals(ConfirmPanel.A_OK))
-		{
+		else if (action.equals(ConfirmPanel.A_OK)) {
 			isCancel = false;
 			if(txtCalc.getValue().length() > 0) {
 				if(dfield != null)

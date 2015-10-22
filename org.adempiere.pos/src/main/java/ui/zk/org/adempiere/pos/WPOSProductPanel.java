@@ -6,7 +6,6 @@ import java.text.DecimalFormat;
 import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
@@ -46,7 +45,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	}	//	PosSubFunctionKeys
 	
 	private WPosTextField	f_BPartnerName;
-	private Button			f_HiddenField;
+	private boolean			isKeyboard;
 	private Label	 		f_TotalLines;
 	private Label	 		f_TaxAmount;
 	private Label	 		f_GrandTotal;
@@ -58,7 +57,6 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	private DecimalFormat	m_Format;
 	/**	Logger				*/
 	private static CLogger 	log = CLogger.getCLogger(WPOSProductPanel.class);
-	private int cont;
 	private Caption 		v_TitleBorder;
 	private Caption 		v_TitleInfo;
 	private Groupbox 		v_TotalsGroup;
@@ -75,10 +73,9 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		if (C_POSKeyLayout_ID == 0)
 			return;
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
-		cont = 0;
-
+		isKeyboard = false;
 		v_TotalsPanel = GridFactory.newGridLayout();
-		v_TotalsPanel.setWidth("345px");
+		v_TotalsPanel.setWidth("325px");
 		v_TotalsPanel.setHeight("100%");
 
 		v_OrderPanel = GridFactory.newGridLayout();
@@ -107,29 +104,28 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		// BP
 		l_BPartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer"));
 		
-		
 		f_BPartnerName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
 		f_BPartnerName.setHeight("35px");
-		f_BPartnerName.setStyle("Font-size:medium; font-weight:700");
-		f_BPartnerName.setWidth("100%");
+		f_BPartnerName.setStyle("Font-size:medium; font-weight:bold");
+		f_BPartnerName.setWidth("97%");
 		f_BPartnerName.setValue(l_BPartner.getValue());
-		f_BPartnerName.addEventListener(Events.ON_FOCUS, this);
-	
+		f_BPartnerName.addEventListener(this);
 		
 		row = new Row();
 		rows.appendChild(row);
 		row.setSpans("2");
 		row.appendChild(f_BPartnerName);
-
-		v_GroupPanel.appendChild(rows);
 		
+		v_GroupPanel.appendChild(rows);
+		v_GroupPanel.setStyle("Overflow:hidden;");
+		v_OrderPanel.setStyle("Overflow:hidden;");
 		v_TotalsGroup.appendChild(v_TotalsPanel);
 		
 		v_TitleBorder = new Caption(Msg.getMsg(Env.getCtx(), "Totals"));
 		Style style = new Style();
 		style.setContent(".z-fieldset legend {font-size: medium; font-weight:bold;} "
 				+ ".Table-OrderLine tr th div{font-size: 14px; font-weight:bold; padding:5px} "
-				+ ".Table-OrderLine tr td div, .Table-OrderLine tr td div input{font-size: medium; height:25px}"
+				+ ".Table-OrderLine tr td div, .Table-OrderLine tr td div input{font-size: medium; height:auto}"
 				+ ".label-description {font-size: medium; display:block; height:15px; font-weight:bold; width: 350px; overflow:hidden;}"
 				+ ".fontLarge label  {font-size: medium;}");
 		style.setParent(v_TitleBorder);
@@ -217,8 +213,6 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		f_GrandTotal.setText(Env.ZERO.toString());
 		f_GrandTotal.setStyle("Font-size:medium");
 
-		f_HiddenField = new Button();
-		
 		Center center = new Center();
 		Grid layout = GridFactory.newGridLayout();
 
@@ -245,7 +239,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		f_TotalLines.setText(m_Format.format(Env.ZERO));
 		f_GrandTotal.setText(m_Format.format(Env.ZERO));
 		f_TaxAmount.setText(m_Format.format(Env.ZERO));
-		
+
 	}
 	
 	@Override
@@ -302,6 +296,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	}
 
 	public boolean showKeyboard(WPosTextField field, Label label) {
+		isKeyboard = true;
 		if(field.getText().equals(label.getValue()))
 			field.setValue("");
 		WPOSKeyboard keyboard =  v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
@@ -317,18 +312,17 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	@Override
 	public void onEvent(Event e) throws Exception {
 		//	Name
-		cont++;
-		if(cont<2){
-			if (e.getTarget().equals(f_BPartnerName)) {
-				if(e.getTarget().equals(f_BPartnerName)) {
-					if(!showKeyboard(f_BPartnerName,l_BPartner))
-						findBPartner(); 
-				}
-			}
-		}else {
-			cont=0;
-			f_HiddenField.setFocus(true);
-		}	
+		if(e.getTarget().equals(f_BPartnerName.getComponent(WPosTextField.SECONDARY)) && e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
+			if(!showKeyboard(f_BPartnerName,l_BPartner))
+				findBPartner();
+			f_BPartnerName.setFocus(true);
+		}
+		if(e.getTarget().equals(f_BPartnerName.getComponent(WPosTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			isKeyboard = false;
+		}
+		//else {
+//			changeFocus();
+//		}	
 	}
 	
 	/**
@@ -374,7 +368,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
 			v_POSPanel.setC_BPartner_ID(v_POSPanel.getC_BPartner_ID());
 			f_BPartnerName.setText(bp.getName()+"");
-			f_HiddenField.setFocus(true);
+//			f_HiddenField.setFocus(true);
 		} else {	//	more than one
 			changeBusinessPartner(results);
 		}
@@ -404,5 +398,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		}
 		return false;
 	}
+
+
 	
 }
