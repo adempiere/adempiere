@@ -173,8 +173,10 @@ public class WPOSInfoProduct extends WPosSubPanel {
 	 * @return void
 	 */
 	public void setValuesFromProduct(int p_M_Product_ID, int p_AD_Image_ID) {
-		if(p_M_Product_ID <= 0)
+		if(p_M_Product_ID <= 0){
+			initialValue();
 			return;
+		}
 		
 		//	Refresh Values
 		MProduct m_Product = MProduct.get(m_ctx, p_M_Product_ID);

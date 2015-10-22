@@ -55,6 +55,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 
 	private Button 			f_History;
 	private	WPosTextField	f_ProductName;
+	private boolean			isKeyboard;
 	private Button 			f_bNew;
 	private Button 			f_Collect;
 
@@ -77,8 +78,6 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WPOSActionPanel.class);
 	
-	private int cont;
-	
 	@Override
 	public void init() {
 
@@ -90,7 +89,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		Rows rows = null;
 		Row row = null;	
 		North north = new North();
-		cont=0;
+		isKeyboard = false;
 
 		north.setStyle("border: none; width:60%");
 		north.setZindex(0);
@@ -169,15 +168,11 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		row.appendChild (new Space());
 
 		productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		
 		f_ProductName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
 		f_ProductName.setWidth("100%");
-		
 		f_ProductName.setHeight("35px");
 		f_ProductName.setStyle("Font-size:medium; font-weight:bold");
-		f_ProductName.setName("Name");
-		f_ProductName.setReadonly(true);
-		f_ProductName.addEventListener(Events.ON_FOCUS,this);
+		f_ProductName.addEventListener(this);
 		f_ProductName.setValue(productLabel.getValue());
 		
 		row.appendChild(f_ProductName);
@@ -334,6 +329,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 
 	
 	public boolean showKeyboard(WPosTextField field, Label label) {
+		isKeyboard = true;
 		if(field.getText().equals(label.getValue()))
 			field.setValue("");
 		WPOSKeyboard keyboard =  v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
@@ -348,20 +344,17 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
-		cont++;
-		if(e.getName().equals(Events.ON_FOCUS)) {
-			if(cont<2){
-				if (e.getTarget().equals(f_ProductName)) {
-					if(e.getTarget().equals(f_ProductName)) {
-						if(!showKeyboard(f_ProductName,productLabel))
-							findProduct(); 
-					}
-				}
-			}else {
-				cont=0;
-				f_bBPartner.setFocus(true);
+		
+			if(e.getTarget().equals(f_ProductName.getComponent(WPosTextField.SECONDARY)) 
+					&& e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
+				if(!showKeyboard(f_ProductName,productLabel))
+					findProduct(); 
+				f_ProductName.setFocus(true);
 			}
-		}
+			if(e.getTarget().equals(f_ProductName.getComponent(WPosTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+				isKeyboard = false;
+			}
+		
 		if (e.getTarget().equals(f_bNew)){
 			v_POSPanel.newOrder();
 			v_POSPanel.refreshPanel();

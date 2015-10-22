@@ -30,6 +30,7 @@ import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.Textbox;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MWarehousePrice;
@@ -38,8 +39,8 @@ import org.compiere.pos.QueryProduct;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Caption;
@@ -133,31 +134,44 @@ public class WQueryProduct extends WPosQuery
 		rows = productLayout.newRows();
 		row = rows.newRow();
 		//
-		Label lvalue = new Label(Msg.translate(p_ctx, "Value"));
-		row.appendChild(lvalue.rightAlign());
+		Label lValue = new Label(Msg.translate(p_ctx, "Value"));
+		row.appendChild(lValue.rightAlign());
+		lValue.setStyle(WPOS.FONTSIZESMALL);
 		f_Value = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_Value.setStyle(WPOS.FONTSIZESMALL);
+		f_Value.setWidth("120px");
 		row.appendChild(f_Value);
 		//
 		f_Value.addEventListener("onFocus",this);
-		Label lupc = new Label(Msg.translate(p_ctx, "UPC"));
-		row.appendChild(lupc.rightAlign());
+		Label lUpc = new Label(Msg.translate(p_ctx, "UPC"));
+		lUpc.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(lUpc.rightAlign());
 		f_UPC = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_UPC.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(f_UPC);
 		f_UPC.addEventListener("onFocus",this);
+		f_UPC.setWidth("120px");
 		//  New Line
 		row = rows.newRow();
 		//
-		Label lname = new Label(Msg.translate(p_ctx, "Name"));
-		row.appendChild (lname.rightAlign());
+		Label lName = new Label(Msg.translate(p_ctx, "Name"));
+		lName.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild (lName.rightAlign());
 		f_ProductName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_ProductName.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(f_ProductName);
 		f_ProductName.addEventListener("onFocus",this);
+		f_ProductName.setWidth("120px");
+		
 		//
-		Label lsku = new Label(Msg.translate(p_ctx, "SKU"));
-		row.appendChild(lsku.rightAlign());
+		Label lSku = new Label(Msg.translate(p_ctx, "SKU"));
+		lSku.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(lSku.rightAlign());
 		f_SKU = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_SKU.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(f_SKU);
 		f_SKU.addEventListener("onFocus",this);
+		f_SKU.setWidth("120px");
 		//
 		row.setHeight("65px");
 		
@@ -174,6 +188,7 @@ public class WQueryProduct extends WPosQuery
 		center.appendChild(m_table);
 		mainLayout.appendChild(center);
 		m_table.loadTable(new PO[0]);
+		m_table.setClass("Table-OrderLine");
 		m_table.autoSize();
 	}	//	init
 
@@ -231,16 +246,6 @@ public class WQueryProduct extends WPosQuery
 	protected void close()
 	{
 		log.fine("M_Product_ID=" + m_M_Product_ID); 
-//		if (m_M_Product_ID > 0)
-//		{
-//			v_POSPanel.f_order.setM_Product_ID(m_M_Product_ID);
-//			v_POSPanel.f_order.setPrice(m_Price);
-//		}
-//		else
-//		{
-//			v_POSPanel.f_order.setM_Product_ID(0);
-//			v_POSPanel.f_order.setPrice(Env.ZERO);
-//		}
 		this.detach();
 	}	//	close
 
@@ -253,18 +258,15 @@ public class WQueryProduct extends WPosQuery
 		f_UPC.setText(null);
 		setResults(new MWarehousePrice[0]);
 	}
-	public void showKeyboard(Component  p_field, String eventName){
-		WPosTextField field = (WPosTextField) p_field;
+	public String showKeyboard(Event e){
+		Textbox field = (Textbox) e.getTarget();
 
-		WPOSKeyboard keyboard = v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
-		keyboard.setTitle(Msg.translate(Env.getCtx(), ""));
-		keyboard.setPosTextField(field);	
-		if(eventName.equals("onFocus")) {
-			keyboard.setVisible(true);
-			keyboard.setWidth("750px");
-			keyboard.setHeight("380px");
+		WPOSKeyboard keyboard = v_POSPanel.getKeyboard();
+		if(e.getName().equals(Events.ON_FOCUS)){
+			keyboard.setPosTextField(field);	
 			AEnv.showWindow(keyboard);
 		}
+		return field.getText();
 	}
 
 	@Override
@@ -273,11 +275,25 @@ public class WQueryProduct extends WPosQuery
 				refresh();
 				return;
 			}
-		else if(event.getTarget().equals(f_Value) || event.getTarget().equals(f_UPC)
-				|| event.getTarget().equals(f_ProductName) || event.getTarget().equals(f_SKU)){
-			showKeyboard(event.getTarget(), event.getName());
+		else if(event.getTarget().equals(f_Value.getComponent(WPosTextField.SECONDARY))){
+			f_Value.setValue(showKeyboard(event));
 			refresh();
-			return;
+			f_Value.setFocus(true);
+		}
+		else if(event.getTarget().equals(f_UPC.getComponent(WPosTextField.SECONDARY))){
+			f_UPC.setValue(showKeyboard(event));
+			refresh();
+			f_UPC.setFocus(true);
+		}
+		else if(event.getTarget().equals(f_ProductName.getComponent(WPosTextField.SECONDARY))){
+			f_ProductName.setValue(showKeyboard(event));
+			refresh();
+			f_ProductName.setFocus(true);
+		}
+		else if(event.getTarget().equals(f_SKU.getComponent(WPosTextField.SECONDARY))){
+			f_SKU.setValue(showKeyboard(event));
+			refresh();
+			f_SKU.setFocus(true);
 		}		
 		enableButtons();
 		if(event.getTarget().getId().equals("Ok")){
