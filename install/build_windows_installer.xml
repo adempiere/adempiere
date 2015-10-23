@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="ADempiere Windows Installer" default="win64" basedir=".">
+
+    <!--
+        Generates the installer executables based on NSIS scripts.
+        NSIS must be installed and the NSIS_HOME property set to the 
+        path to the installed NSIS directory. 
+        
+        See the read-me in the WindowsInstallScript directory for more
+        information. 
+        
+        The ADempiere project should be built before execution.
+    -->
+	
+	
+	<property name="NSIS_HOME" value="C:\Program Files (x86)\NSIS" />
+	<property name="build.path" value="${basedir}\install_scripts"/>
+	<property name="bin.dir" value="${build.path}\bin"/>
+    <property name="temp.dir" value="${build.path}\temp"/>
+    <property name="build.dir" value="${basedir}\build"/>
+	<property name="nsis_result" value="" />
+    
+	<target name="clean" description="Removes previously generated installers">
+		<delete dir="${bin.dir}"/>
+	</target>
+
+    <target name="init" description="initialization target" depends="clean">
+        <echo message="=========== Build Windows Installer - ${env.ENCODING}"/>
+        <!-- create the time stamp -->
+        <tstamp/>
+        <mkdir dir="${bin.dir}"/>
+        <mkdir dir="${temp.dir}"/>
+    	
+        <!-- move todir="${temp.dir}">
+            <fileset dir="${build.dir}">
+            	<include name="*.zip"/>
+                <include name="*.zip.MD5"/>
+                <include name="*.tar.gz"/>
+                <include name="*.tar.gz.MD5"/>
+        	</fileset>
+        </move-->
+    </target>
+
+	<target name="win64" description="Generate Windows x64 installer" depends="init">
+        <exec executable="${NSIS_HOME}\bin\makensis.exe" failonerror="false" resultproperty="nsis_result">
+            <!-- passing the script -->
+            <arg value="/V4" /> <!-- Verbose, all output -->
+            <arg value="${build.path}\Adempiere_winx64.nsi"/>
+            <!-- arg value="${build.path}\AD_Install_x64.nsi"/ -->
+        </exec>
+        
+        <!-- move todir="${build.dir}">
+            <fileset dir="${temp.dir}"/>
+        </move -->
+        <delete dir="${temp.dir}"/>
+		
+		<fail message="Makensis for Adempiere Windows x64 Installer failed with result ${nsis_result}. See output for more info.">
+		    <condition>
+		       <not>
+		         <equals arg1="${nsis_result}" arg2=""/>
+		       </not>
+		     </condition>
+		</fail>
+    </target>
+
+</project>

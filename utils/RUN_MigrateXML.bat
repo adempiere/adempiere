@@ -13,10 +13,6 @@ SET errorGeneral=1
 SET errorNoEnvironment=10
 SET errorNoXMLFiles=11
 
-REM Can be called with argument "clean" to mark the applied dictionary migrations as processed
-REM and delete the steps and data to reduce the database size.
-SET cleanMode=%1
-
 REM change to directory in which this script resides
 SET DIR_SAV=%CD%
 CALL :NORMALIZE DIR_SAV
@@ -63,20 +59,40 @@ Echo =======================================
 Echo Migrate Adempiere using XML
 Echo =======================================
 Echo.
+REM If called with argument "silent", run without pause
+REM Can be called with argument "clean" to mark the applied dictionary migrations as processed
+REM and delete the steps and data to reduce the database size.
+SET silentMode=Pause
+SET cleanMode=""
+FOR %%a IN (%*) DO (
+    IF %%a==silent (
+        SET silentMode=silent
+    ) ELSE IF %%a==clean (
+        SET cleanMode=clean
+    ) ELSE (
+		Echo Unknown argument %%a.
+	)
+)
+Echo.
 Echo It is recommended that production databases be migrated using 
 Echo RUN_Migrate.bat.
 Echo.
-Echo Usage: RUN_Migrate.bat
+Echo Usage: RUN_Migrate.bat [clean] [silent]
 Echo.
 Echo Optional argument "clean" will mark all dictionary migrations that have
 Echo been applied as processed and will delete the steps and data to save 
 Echo space.
 Echo.
+Echo Optional argument "silent" will run the batch file without a pause
+Echo.
 Echo WARNING: If the database is not a fresh import of the seed, make sure 
 Echo you have a backup!
 Echo.
+
+if %silentMode%==silent GOTO :NOPAUSE
 PAUSE
 
+:NOPAUSE
 Set JAVA=%JAVA_HOME%\bin\java
 SET CP=%ADEMPIERE_HOME%\lib\CInstall.jar;%ADEMPIERE_HOME%\lib\Adempiere.jar;%ADEMPIERE_HOME%\lib\CCTools.jar;%ADEMPIERE_HOME%\lib\oracle.jar;%ADEMPIERE_HOME%\lib\jboss.jar;%ADEMPIERE_HOME%\lib\postgresql.jar;
 

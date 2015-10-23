@@ -14,6 +14,7 @@ REM For configuration see the jboss\bin\service.bat
 :ADEMPIERE_HOME_OK
 
 pushd %ADEMPIERE_HOME%\jboss\bin
+net stop adempiere
 call service.bat uninstall
 popd
 

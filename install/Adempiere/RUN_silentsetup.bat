@@ -19,6 +19,9 @@ goto START
 @Echo =======================================
 @Echo Starting Setup ...
 @Echo =======================================
+@Rem Change directory. The class path is relative to %ADEMPIERE_HOME%
+@Pushd %ADEMPIERE_HOME%
+
 @SET CP=lib\CInstall.jar;lib\Adempiere.jar;lib\CCTools.jar;lib\oracle.jar;lib\jboss.jar;lib\postgresql.jar;lib\mysql-connector-java-5.1.13-bin.jar;
 
 @Rem Trace Level Parameter, e.g. SET ARGS=ALL
@@ -39,6 +42,8 @@ goto START
 @Echo ***************************************
 @Rem Wait 10 second
 @PING 1.1.1.1 -n 1 -w 10000 > NUL
+@Rem Return to the calling directory
+@Popd
 @Exit
 
 
@@ -60,3 +65,4 @@ cd utils
 @Echo For problems, check log file in base directory
 @Rem Wait 10 second
 @PING 1.1.1.1 -n 1 -w 10000 > NUL
+@Rem - don't return to the calling directory
