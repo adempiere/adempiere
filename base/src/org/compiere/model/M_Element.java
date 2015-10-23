@@ -33,6 +33,9 @@ import org.compiere.util.Msg;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 9223372036854775807 ] Add default values for Name, Description, Entity Type...
  *		@see https://adempiere.atlassian.net/browse/ADEMPIERE-449
+ *		<li> Lookup for search view not show button
+ *  	<li> Add default Tables lookup
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
  */
 public class M_Element extends X_AD_Element
 {
@@ -321,6 +324,30 @@ public class M_Element extends X_AD_Element
 			// Bug [ 1807947 ] 
 			|| columnName.equals("C_DocType_ID")
 			|| (columnName.equals("Line"));
+	}
+	
+	/**
+	 * Verify if is default table info for column name
+	 * @param columnName
+	 * @return
+	 */
+	public static boolean isLookupColumnName(String columnName) {
+		//	Valid Null
+		if(columnName == null
+				|| columnName.trim().length() == 0)
+			return false;
+		//	Validation hard code, for support to old implementations
+		//	its must be change for dynamic dictionary query
+		return columnName.equals("C_BPartner_ID")
+				|| columnName.equals("M_Product_ID")
+				|| columnName.equals("C_Invoice_ID")
+				|| columnName.equals("A_Asset_ID")
+				|| columnName.equals("C_Order_ID")
+				|| columnName.equals("M_InOut_ID")
+				|| columnName.equals("C_Payment_ID")
+				|| columnName.equals("C_CashLine_ID")
+				|| columnName.equals("S_ResourceAssignment_ID");
+
 	}
 	
 	/**
