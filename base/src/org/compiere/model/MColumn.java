@@ -25,7 +25,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.apps.search.Info;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -412,7 +411,7 @@ public class MColumn extends X_AD_Column
 			} else if(p_AD_Reference_ID == DisplayType.Table
 					|| p_AD_Reference_ID == DisplayType.Search) {
 				if(p_AD_Reference_Value_ID == 0
-						&& !Info.isDefaultInfoTable(m_TableName))
+						&& !M_Element.isLookupColumnName(p_ColumnName))
 					throw new AdempiereException("@AD_Reference_Value_ID@ @IsMandatory@");
 			} else if(p_AD_Reference_ID == DisplayType.List) {
 				if(p_AD_Reference_Value_ID == 0) {
