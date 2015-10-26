@@ -30,7 +30,7 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_BP_EDI (Properties ctx, int C_BP_EDI_ID, String trxName)

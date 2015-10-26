@@ -62,18 +62,18 @@ public final class Adempiere
 	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - (s) for stable - and (LTS) for long term support
 	static public String	MAIN_VERSION	= "Release 3.8.0";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public String	DATE_VERSION	= "2015-01-01";
+	static public String	DATE_VERSION	= "2015-03-01";
 	/** Database Version as date    Compared with AD_System		*/
-	static public String	DB_VERSION		= "2015-01-01";
+	static public String	DB_VERSION		= "2015-03-01";
 
 	/** Product Name            */
 	static public final String	NAME 			= "ADempiere\u00AE";
 	/** URL of Product          */
 	static public final String	URL				= "www.adempiere.org";
 	/** 16*16 Product Image. **/
-	static private final String	s_File16x16		= "images/AD16.gif";
+	static private final String	s_File16x16		= "images/AD16.png";
 	/** 32*32 Product Image.   	*/
-	static private final String	s_file32x32		= "images/AD32.gif";
+	static private final String	s_file32x32		= "images/AD32.png";
 	/** 100*30 Product Image.  	*/
 	static private final String	s_file100x30	= "images/AD10030.png";
 //	static private final String	s_file100x30HR	= "images/AD10030HR.png";

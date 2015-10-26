@@ -30,7 +30,7 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_ASP_Tab (Properties ctx, int ASP_Tab_ID, String trxName)

@@ -31,7 +31,7 @@ public class X_HR_WorkGroup extends PO implements I_HR_WorkGroup, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_WorkGroup (Properties ctx, int HR_WorkGroup_ID, String trxName)

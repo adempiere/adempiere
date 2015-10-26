@@ -31,7 +31,7 @@ public class X_AD_View extends PO implements I_AD_View, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_View (Properties ctx, int AD_View_ID, String trxName)

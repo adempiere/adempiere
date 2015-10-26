@@ -520,6 +520,24 @@ public interface I_A_Asset
 	  */
 	public int getLastMaintenanceUnit();
 
+    /** Column name LastMaintenanceUseUnit */
+    public static final String COLUMNNAME_LastMaintenanceUseUnit = "LastMaintenanceUseUnit";
+
+	/** Set Last Maintenance Use Unit	  */
+	public void setLastMaintenanceUseUnit (int LastMaintenanceUseUnit);
+
+	/** Get Last Maintenance Use Unit	  */
+	public int getLastMaintenanceUseUnit();
+
+    /** Column name LastMaintenenceDate */
+    public static final String COLUMNNAME_LastMaintenenceDate = "LastMaintenenceDate";
+
+	/** Set Last Maintenence Date	  */
+	public void setLastMaintenenceDate (Timestamp LastMaintenenceDate);
+
+	/** Get Last Maintenence Date	  */
+	public Timestamp getLastMaintenenceDate();
+
     /** Column name LeaseTerminationDate */
     public static final String COLUMNNAME_LeaseTerminationDate = "LeaseTerminationDate";
 
@@ -681,6 +699,15 @@ public interface I_A_Asset
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name NextMaintenanceUseUnit */
+    public static final String COLUMNNAME_NextMaintenanceUseUnit = "NextMaintenanceUseUnit";
+
+	/** Set Next Maintenance Use Unit	  */
+	public void setNextMaintenanceUseUnit (int NextMaintenanceUseUnit);
+
+	/** Get Next Maintenance Use Unit	  */
+	public int getNextMaintenanceUseUnit();
 
     /** Column name NextMaintenenceDate */
     public static final String COLUMNNAME_NextMaintenenceDate = "NextMaintenenceDate";

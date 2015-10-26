@@ -1489,7 +1489,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 * Save standard costs records into PP_Order_Cost.
 	 * This will be usefull for calculating standard costs variances
 	 */
-	private final void createStandardCosts()
+	public final void createStandardCosts()
 	{
 		MAcctSchema as = MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema();
 		log.info("Cost_Group_ID" + as.getM_CostType_ID());

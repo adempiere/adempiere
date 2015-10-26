@@ -140,6 +140,15 @@ public interface I_HR_PaySelectionLine
 
 	public org.eevolution.model.I_HR_PaySelectionCheck getHR_PaySelectionCheck() throws RuntimeException;
 
+    /** Column name HR_PaySelectionLine_ID */
+    public static final String COLUMNNAME_HR_PaySelectionLine_ID = "HR_PaySelectionLine_ID";
+
+	/** Set Payroll Payment Selection Line ID	  */
+	public void setHR_PaySelectionLine_ID (int HR_PaySelectionLine_ID);
+
+	/** Get Payroll Payment Selection Line ID	  */
+	public int getHR_PaySelectionLine_ID();
+
     /** Column name HR_PaySelection_ID */
     public static final String COLUMNNAME_HR_PaySelection_ID = "HR_PaySelection_ID";
 
@@ -150,15 +159,6 @@ public interface I_HR_PaySelectionLine
 	public int getHR_PaySelection_ID();
 
 	public org.eevolution.model.I_HR_PaySelection getHR_PaySelection() throws RuntimeException;
-
-    /** Column name HR_PaySelectionLine_ID */
-    public static final String COLUMNNAME_HR_PaySelectionLine_ID = "HR_PaySelectionLine_ID";
-
-	/** Set Payroll Payment Selection Line ID	  */
-	public void setHR_PaySelectionLine_ID (int HR_PaySelectionLine_ID);
-
-	/** Get Payroll Payment Selection Line ID	  */
-	public int getHR_PaySelectionLine_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

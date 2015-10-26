@@ -27,17 +27,6 @@ ARGS=CONFIG
 
 $JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.compiere.install.Setup $ARGS
 
-#echo ===================================
-#echo Setup Adempiere Server Environment
-#echo ===================================
-#$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME -Dant.home="." org.apache.tools.ant.launch.Launcher setup
-
-echo ===================================
-echo Make .sh executable & set Env
-echo ===================================
-chmod -R a+x *.sh
-find . -name '*.sh' -exec chmod a+x '{}' \;
-
 # Sign database build
 cd utils
 . ./RUN_SignDatabaseBuild.sh 

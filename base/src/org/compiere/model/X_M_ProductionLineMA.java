@@ -32,7 +32,7 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_M_ProductionLineMA (Properties ctx, int M_ProductionLineMA_ID, String trxName)

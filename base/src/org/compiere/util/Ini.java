@@ -348,10 +348,10 @@ public final class Ini implements Serializable
 			if (isShowLicenseDialog())
 				if (!IniDialog.accept())
 					System.exit(-1);
+
+            checkProperties();
 		}
 
-		checkProperties();
-		
 		//  Save if not exist or could not be read
 		if (!loadOK || firstTime)
 			saveWebStartProperties();
@@ -454,10 +454,10 @@ public final class Ini implements Serializable
 			if (isShowLicenseDialog())
 				if (!IniDialog.accept())
 					System.exit(-1);
+
+            checkProperties();
 		}
 
-		checkProperties();
-		
 		//  Save if not exist or could not be read
 		if (!loadOK || firstTime)
 			saveProperties(true);

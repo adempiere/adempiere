@@ -1253,7 +1253,7 @@ public class MInOut extends X_M_InOut implements DocAction
 		Set<Integer> inOutOrders = new TreeSet<Integer>();
 		
 		//	For all lines
-		MInOutLine[] lines = getLines(false);
+		MInOutLine[] lines = getLines(true);
 		for (int lineIndex = 0; lineIndex < lines.length; lineIndex++)
 		{
 			MInOutLine sLine = lines[lineIndex];
@@ -1334,11 +1334,10 @@ public class MInOut extends X_M_InOut implements DocAction
 				//
 				if (sLine.getM_AttributeSetInstance_ID() == 0)
 				{
-					MInOutLineMA mas[] = MInOutLineMA.get(getCtx(),
+					List<MInOutLineMA> mas = MInOutLineMA.get(getCtx(),
 						sLine.getM_InOutLine_ID(), get_TrxName());
-					for (int j = 0; j < mas.length; j++)
+                    for (MInOutLineMA ma : mas)
 					{
-						MInOutLineMA ma = mas[j];
 						BigDecimal QtyMA = ma.getMovementQty();
 						if (MovementType.charAt(1) == '-')	//	C- Customer Shipment - V- Vendor Return
 							QtyMA = QtyMA.negate();
@@ -1580,7 +1579,7 @@ public class MInOut extends X_M_InOut implements DocAction
 					boolean isNewMatchPO = false;
 					if (po.get_ID() == 0)
 						isNewMatchPO = true;
-					if (!po.save(get_TrxName()))
+					if (!po.save())
 					{
 						m_processMsg = "Could not create PO Matching";
 						return DocAction.STATUS_Invalid;
@@ -2126,14 +2125,15 @@ public class MInOut extends X_M_InOut implements DocAction
 			//	We need to copy MA
 			if (rLine.getM_AttributeSetInstance_ID() == 0)
 			{
-				MInOutLineMA mas[] = MInOutLineMA.get(getCtx(),
+				List<MInOutLineMA> mas = MInOutLineMA.get(getCtx(),
 					sLines[i].getM_InOutLine_ID(), get_TrxName());
-				for (int j = 0; j < mas.length; j++)
+				//for (int j = 0; j < mas.length; j++)
+                for (MInOutLineMA ma : mas)
 				{
-					MInOutLineMA ma = new MInOutLineMA (rLine,
-						mas[j].getM_AttributeSetInstance_ID(),
-						mas[j].getMovementQty().negate());
-					ma.saveEx();
+					MInOutLineMA reverseLine = new MInOutLineMA (rLine,
+						ma.getM_AttributeSetInstance_ID(),
+						ma.getMovementQty().negate());
+                    reverseLine.saveEx();
 				}
 			}
 			//	De-Activate Asset

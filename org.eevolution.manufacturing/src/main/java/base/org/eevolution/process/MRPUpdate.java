@@ -376,7 +376,7 @@ public class MRPUpdate extends SvrProcess
 		//
 		//Insert from PP_Order_BOMLine
 		sql_insert = " SELECT t.ad_org_id,"
-			+"t.created, t.createdby , t.DateOrdered,"
+			+"t.created, t.createdby , o.DateOrdered,"
 			+"o.datepromised, o.datepromised, o.datestartschedule, o.DocumentNo," 
 			+"o.DocStatus, o.isactive , "
 			+" null, null, "

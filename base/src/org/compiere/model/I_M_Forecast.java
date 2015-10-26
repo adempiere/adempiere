@@ -264,12 +264,12 @@ public interface I_M_Forecast
     /** Column name PP_PeriodDefinition_ID */
     public static final String COLUMNNAME_PP_PeriodDefinition_ID = "PP_PeriodDefinition_ID";
 
-	/** Set Period Definition.
+	/** Set Current Period.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public void setPP_PeriodDefinition_ID (int PP_PeriodDefinition_ID);
 
-	/** Get Period Definition.
+	/** Get Current Period.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public int getPP_PeriodDefinition_ID();

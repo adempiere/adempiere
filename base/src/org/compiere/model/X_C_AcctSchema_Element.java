@@ -30,7 +30,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_AcctSchema_Element (Properties ctx, int C_AcctSchema_Element_ID, String trxName)

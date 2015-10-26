@@ -33,7 +33,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Entry (Properties ctx, int A_Depreciation_Entry_ID, String trxName)
@@ -422,6 +422,34 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	public String getDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
+	public org.compiere.model.I_GL_Category getGL_Category() throws RuntimeException
+    {
+		return (org.compiere.model.I_GL_Category)MTable.get(getCtx(), org.compiere.model.I_GL_Category.Table_Name)
+			.getPO(getGL_Category_ID(), get_TrxName());	}
+
+	/** Set GL Category.
+		@param GL_Category_ID 
+		General Ledger Category
+	  */
+	public void setGL_Category_ID (int GL_Category_ID)
+	{
+		if (GL_Category_ID < 1) 
+			set_Value (COLUMNNAME_GL_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
+	}
+
+	/** Get GL Category.
+		@return General Ledger Category
+	  */
+	public int getGL_Category_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Category_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Approved.

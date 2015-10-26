@@ -30,7 +30,7 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_WF_NextCondition (Properties ctx, int AD_WF_NextCondition_ID, String trxName)

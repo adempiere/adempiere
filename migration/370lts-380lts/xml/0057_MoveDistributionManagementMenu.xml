@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Move Distribution Management Menu" ReleaseNo="3.8.0" SeqNo="57">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53066" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53066">53066</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="53014">0</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="6">13</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

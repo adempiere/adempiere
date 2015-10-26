@@ -31,7 +31,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_PaySelectionCheck (Properties ctx, int C_PaySelectionCheck_ID, String trxName)

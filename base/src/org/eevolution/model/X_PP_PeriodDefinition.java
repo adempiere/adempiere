@@ -31,7 +31,7 @@ public class X_PP_PeriodDefinition extends PO implements I_PP_PeriodDefinition, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_PP_PeriodDefinition (Properties ctx, int PP_PeriodDefinition_ID, String trxName)
@@ -159,7 +159,7 @@ public class X_PP_PeriodDefinition extends PO implements I_PP_PeriodDefinition, 
 		return ii.intValue();
 	}
 
-	/** Set Period Definition.
+	/** Set Current Period.
 		@param PP_PeriodDefinition_ID 
 		Period Definition, allows to define time cycles for the Operational Calendar
 	  */
@@ -171,7 +171,7 @@ public class X_PP_PeriodDefinition extends PO implements I_PP_PeriodDefinition, 
 			set_ValueNoCheck (COLUMNNAME_PP_PeriodDefinition_ID, Integer.valueOf(PP_PeriodDefinition_ID));
 	}
 
-	/** Get Period Definition.
+	/** Get Current Period.
 		@return Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public int getPP_PeriodDefinition_ID () 

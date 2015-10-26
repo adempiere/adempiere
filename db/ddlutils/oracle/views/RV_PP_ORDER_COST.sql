@@ -1,9 +1,15 @@
+DROP VIEW RV_PP_ORDER_COST;
 CREATE OR REPLACE VIEW RV_PP_ORDER_COST AS
  SELECT o.ad_client_id,
     o.ad_org_id,
     o.pp_order_id,
     o.documentno,
     o.docstatus,
+    o.created,
+    o.createdby,
+    o.updated,
+    o.updatedby,
+    o.isactive,
     o.m_warehouse_id,
     o.m_product_id AS parent_id,
     p.m_product_category_id,
@@ -60,7 +66,6 @@ CREATE OR REPLACE VIEW RV_PP_ORDER_COST AS
     ocd.m_product_id,
     ocd.qty,
     ocd.currentcostprice,
-    ocd.*::rv_pp_order_costdetail AS ocd,
     ocd.currentcostpricell,
     ocd.qtyrequired,
     ocd.expectedcost,

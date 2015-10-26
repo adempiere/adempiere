@@ -257,7 +257,7 @@ public class GenerateCostDetail extends SvrProcess {
     public void generateCostDetail() {
 
         KeyNamePair[] transactions = getTransactionIdsByDateAcct();
-        System.out.println("Transaction to process : " + transactions.length);
+       // System.out.println("Transaction to process : " + transactions.length);
         Integer process = 0;
         Integer productId = 0;
         boolean processNewProduct = true;
@@ -287,7 +287,7 @@ public class GenerateCostDetail extends SvrProcess {
                     dbTransaction = Trx.get(productId.toString(), true);
 
                     MProduct product = new MProduct(Env.getCtx(), productId , dbTransaction.getTrxName());
-                    System.out.println("Product : " + product.getValue() + " Name :" + product.getName());
+                    //System.out.println("Product : " + product.getValue() + " Name :" + product.getName());
                 }
 
 
@@ -326,7 +326,7 @@ public class GenerateCostDetail extends SvrProcess {
                 }
 
                 process++;
-                System.out.println("Transaction : " + transactionId + " Transaction Type :"+ transaction.getMovementType() + " record ..." + process);
+                //System.out.println("Transaction : " + transactionId + " Transaction Type :"+ transaction.getMovementType() + " record ..." + process);
             }
 
             if (dbTransaction != null) {
@@ -373,7 +373,7 @@ public class GenerateCostDetail extends SvrProcess {
                                     dbTransaction = Trx.get(productId.toString(), true);
 
                                     MProduct product = MProduct.get(Env.getCtx(), productId);
-                                    System.out.println("Deferred Product : " + product.getValue() + " Name :" + product.getName());
+                                    //System.out.println("Deferred Product : " + product.getValue() + " Name :" + product.getName());
 
                                 }
 
@@ -485,8 +485,8 @@ public class GenerateCostDetail extends SvrProcess {
                 standardCostingMethod.createRateVariances(costCollector);
             else if (MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl.equals(costCollector.getCostCollectorType()))
                 standardCostingMethod.createActivityControl(costCollector);
-            else
-                System.out.println("Cost Collector Type: " + costCollector.getCostCollectorType());
+            //else
+                //System.out.println("Cost Collector Type: " + costCollector.getCostCollectorType());
         }
     }
 
@@ -513,7 +513,7 @@ public class GenerateCostDetail extends SvrProcess {
                 .append(whereClause)
                 .append(" ORDER BY M_Product_ID ,  TRUNC( DateAcct ) , M_Transaction_ID , SUBSTR(MovementType,2,1) ");
         //.append(" ORDER BY M_Product_ID , DateAcct , M_Transaction_ID");
-        System.out.append("SQL :" + sql);
+        //System.out.append("SQL :" + sql);
         return DB.getKeyNamePairs(get_TrxName(), sql.toString(), false, parameters.toArray());
     }
 }
