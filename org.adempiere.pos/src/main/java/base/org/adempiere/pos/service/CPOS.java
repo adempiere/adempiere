@@ -522,6 +522,10 @@ public class CPOS {
 		}
 		//	Set BPartner
 		setC_BPartner_ID(p_C_BPartner_ID);
+		//  Add record
+		addRecord(m_CurrentOrder.getC_Order_ID());
+		// Go to last record
+		nextRecord();
 	} // PosOrderModel
 	
 	/**
@@ -933,6 +937,14 @@ public class CPOS {
 	}
 	
 	/**
+	 * Add new Record
+	 * @return void
+	 */
+	public void addRecord(int m_C_Order_ID){
+		m_OrderList.add(m_C_Order_ID);
+	}
+	
+	/**
 	 * Verify if is first record in list
 	 * @return
 	 * @return boolean
@@ -1024,13 +1036,14 @@ public class CPOS {
 				m_CurrentOrder.set_TrxName(trxName);
 			}
 			//	Get value for Standard Order
-//			if(p_IsPrepayment) {
+			if(p_IsPrepayment) {
 				//	Set Document Type
 				m_CurrentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
 				//	Force Delivery for POS
+			}
+//			} else {
 				m_CurrentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
 				m_CurrentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
-//			} else {
 				m_IsToPrint = true;
 //			}
 			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
@@ -1044,6 +1057,7 @@ public class CPOS {
 			orderCompleted = isCompleted();
 			m_IsToPrint = false;
 		}
+		
 		//	Validate for generate Invoice and Shipment
 		if(p_IsPaid
 				&& !isInvoiced()

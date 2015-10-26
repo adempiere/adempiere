@@ -201,7 +201,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 						
 							String docno = v_POSPanel.getSequenceDoc(trxName);
 							String q = "Confirmar el número consecutivo "  + docno;
-							if (FDialog.ask(0, null, q)) {
+							if (FDialog.ask(0, null, "", q)) {
 								v_POSPanel.setPOReference(docno);
 								v_POSPanel.saveNextSeq(trxName);
 							}

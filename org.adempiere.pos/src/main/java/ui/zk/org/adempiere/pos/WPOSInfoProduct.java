@@ -104,7 +104,7 @@ public class WPOSInfoProduct extends WPosSubPanel {
 		//	Add
 		row.appendChild(fValue);
 		fPrice = new Label ();
-		fPrice.setStyle("Font-size:medium; font-weight:bold");
+		fPrice.setStyle(WPOS.FONTSIZELARGE+"font-weight:bold");
 		//	Add
 		row.appendChild(fPrice);
 		
