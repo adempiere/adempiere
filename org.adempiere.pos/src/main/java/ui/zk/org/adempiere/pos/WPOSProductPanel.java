@@ -77,7 +77,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		v_TotalsPanel = GridFactory.newGridLayout();
 		v_TotalsPanel.setWidth("325px");
 		v_TotalsPanel.setHeight("100%");
-
+		
 		v_OrderPanel = GridFactory.newGridLayout();
 		v_OrderPanel.setWidth("300px");
 		v_OrderPanel.setHeight("100%");
@@ -211,7 +211,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		f_GrandTotal = new Label(String.valueOf(DisplayType.Amount));
 		row.appendChild(f_GrandTotal.rightAlign());
 		f_GrandTotal.setText(Env.ZERO.toString());
-		f_GrandTotal.setStyle("Font-size:medium");
+		f_GrandTotal.setStyle(WPOS.FONTSIZELARGE);
 
 		Center center = new Center();
 		Grid layout = GridFactory.newGridLayout();
