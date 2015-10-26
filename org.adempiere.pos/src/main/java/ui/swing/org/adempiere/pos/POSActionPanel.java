@@ -36,9 +36,7 @@ import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
 import org.compiere.model.I_M_Product;
-import org.compiere.model.MOrder;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.MSequence;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
@@ -46,6 +44,8 @@ import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 
 
 /**
@@ -376,12 +376,9 @@ public class POSActionPanel extends POSSubPanel
 		if (!v_POSPanel.hasOrder())
 			return;
 		//	
-		MOrder order = v_POSPanel.getM_Order();
+		
 		//int windowNo = p_posPanel.getWindowNo();
 		//Properties m_ctx = p_posPanel.getPropiedades();
-		
-		if (order != null)
-		{
 			try 
 			{
 				//TODO: to incorporate work from Posterita
@@ -391,27 +388,26 @@ public class POSActionPanel extends POSSubPanel
 				*/ 
 				//print standard document
 //				Boolean print = true;
-				if (m_pos.getAD_Sequence_ID()!= 0) {
-					MSequence seq = new MSequence(Env.getCtx(), m_pos.getAD_Sequence_ID(), order.get_TrxName());
-					String docno = seq.getPrefix() + seq.getCurrentNext();
-					String q = "Confirmar el número consecutivo "  + docno;
-					if (org.compiere.apps.ADialog.ask(v_POSPanel.getWindowNo(), this, q)) {
-						order.setPOReference(docno);
-						order.saveEx();
-						ReportCtl.startDocumentPrint(0, order.getC_Order_ID(), false);
-						int next = seq.getCurrentNext() + seq.getIncrementNo();
-						seq.setCurrentNext(next);
-						seq.saveEx();
+				Trx.run(new TrxRunnable() {
+					public void run(String trxName) {
+						if (m_pos.getAD_Sequence_ID()!= 0) {
+							
+							String docno = v_POSPanel.getSequenceDoc(trxName);
+							String q = "Confirmar el número consecutivo "  + docno;
+							if (ADialog.ask(v_POSPanel.getWindowNo(), v_POSPanel.getFrame(), q)) {
+								v_POSPanel.setPOReference(docno);
+								v_POSPanel.saveNextSeq(trxName);
+							}
+						}
 					}
-				}
-				else
-					ReportCtl.startDocumentPrint(0, order.getC_Order_ID(), false);				
+				});
+				ReportCtl.startDocumentPrint(0, v_POSPanel.getC_Order_ID(), false);
 			}
-			catch (Exception e) 
-			{
+			catch (Exception e) {
 				log.severe("PrintTicket - Error Printing Ticket");
 			}
-		}	  
+			
+			  
 	}
 	
 	/**

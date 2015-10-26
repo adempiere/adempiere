@@ -24,15 +24,15 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.MOrder;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.MSequence;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.pos.PosKeyListener;
 import org.compiere.print.ReportCtl;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -190,39 +190,32 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	 *  @author Raul Muñoz raulmunozn@gmail.com 
 	 */
 	public void printTicket() {
-		if ( v_POSPanel.getM_Order()  == null )
+		if (!v_POSPanel.hasOrder())
 			return;
 		
-		MOrder order = v_POSPanel.getM_Order();
-		
-		if (order != null)
-		{
-			try 
-			{
-				//print standard document
-				if (p_pos.getAD_Sequence_ID() != 0)
-				{
-					MSequence seq = new MSequence(Env.getCtx(), p_pos.getAD_Sequence_ID(), order.get_TrxName());
-					String docno = seq.getPrefix() + seq.getCurrentNext();
-					String q = "Confirmar el número consecutivo "  + docno;
-					if (FDialog.ask(0, null, q))						
-					{
-						order.setPOReference(docno);
-						order.saveEx();
-						ReportCtl.startDocumentPrint(0, order.getC_Order_ID(), false);
-						int next = seq.getCurrentNext() + seq.getIncrementNo();
-						seq.setCurrentNext(next);
-						seq.saveEx();
+		try {
+			//print standard document
+				Trx.run(new TrxRunnable() {
+					public void run(String trxName) {
+						if (p_pos.getAD_Sequence_ID()!= 0) {
+						
+							String docno = v_POSPanel.getSequenceDoc(trxName);
+							String q = "Confirmar el número consecutivo "  + docno;
+							if (FDialog.ask(0, null, q)) {
+								v_POSPanel.setPOReference(docno);
+								v_POSPanel.saveNextSeq(trxName);
+							}
+						}
 					}
-				}
-				else
-					ReportCtl.startDocumentPrint(0, order.getC_Order_ID(), false);				
+				});
+			
+				ReportCtl.startDocumentPrint(0, v_POSPanel.getC_Order_ID(), false);				
 			}
 			catch (Exception e) 
 			{
 				log.severe("PrintTicket - Error Printing Ticket");
 			}
-		}	  
+			  
 	}
 
 	/**
@@ -319,10 +312,13 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			qt.setResults(results);
 			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
 			AEnv.showWindow(qt);
-			if (qt.getRecord_ID() > 0) {
-				f_ProductName.setText(qt.getValue());
-				v_POSPanel.addLine(qt.getRecord_ID(), Env.ONE);
+			Object[] result = qt.getSelectedKeys();
+			if(result == null) 
+				return;
 			
+			for(Object item : result) {
+				f_ProductName.setText(productLabel.getValue());
+				v_POSPanel.addLine((Integer)item, Env.ONE);
 			}
 		}
 	}	//	findProduct
@@ -334,7 +330,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			field.setValue("");
 		WPOSKeyboard keyboard =  v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
 		keyboard.setWidth("750px");
-		keyboard.setHeight("380px");
+		keyboard.setHeight("350px");
 		keyboard.setPosTextField(field);	
 		AEnv.showWindow(keyboard);
 		if(field.getText().equals("")) 
@@ -357,10 +353,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		
 		if (e.getTarget().equals(f_bNew)){
 			v_POSPanel.newOrder();
-			v_POSPanel.refreshPanel();
 			refreshProductInfo(null);
-			e.stopPropagation();
-				return;
 		}
 		else if(e.getTarget().equals(f_Collect)){
 			payOrder();

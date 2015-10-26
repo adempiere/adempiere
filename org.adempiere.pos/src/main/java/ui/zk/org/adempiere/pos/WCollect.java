@@ -44,7 +44,6 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MOrder;
-import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.X_C_Payment;
 import org.compiere.util.CLogger;
@@ -67,7 +66,6 @@ import org.zkoss.zul.Space;
 public class WCollect extends Collect implements WPosKeyListener, EventListener,I_POSPanel {
 
 	public WPOS v_POSPanel;
-	public MPOS p_pos;
 	private Properties p_ctx;
 	private MOrder p_order;
 	private Label fGrandTotal = new Label();
@@ -395,6 +393,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	 * @return String
 	 */
 	public String saveData() {
+		String errorMsg = null;
 		try {
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
@@ -406,11 +405,11 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 				}
 			});
 		} catch (Exception e) {
-			return e.getMessage();
+			errorMsg = e.getLocalizedMessage();
 		} finally {
 		}
 		//	Default
-		return null;
+		return errorMsg;
 	}
 
 	public boolean showCollect() {
@@ -532,6 +531,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		org.zkoss.zul.Groupbox comp = child.getPanel();
 		removeCollect(child);
 		comp.detach();
+		collectRowNo--;
 	}
 
 	@Override

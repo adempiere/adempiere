@@ -73,6 +73,7 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 	/**	Underlying POS Model				*/
 	protected MPOS p_pos = null;
 
+	
 	private Button f_New;
 	public Button f_Edit;
 	
@@ -268,7 +269,6 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 		button.addActionListener(this);
 		return button;
 	}	//	getButtonAction
-	
-	
+
 	
 }

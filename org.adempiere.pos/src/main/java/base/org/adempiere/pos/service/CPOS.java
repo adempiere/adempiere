@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.pos.AdempierePOSException;
+import org.adempiere.util.ProcessUtil;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
@@ -45,15 +48,13 @@ import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPrice;
+import org.compiere.model.MSequence;
 import org.compiere.model.MTax;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Order;
-import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.pos.AdempierePOSException;
-import org.adempiere.util.ProcessUtil;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
@@ -82,6 +83,8 @@ public class CPOS {
 	private MPOS 				m_POS;
 	/**	Current Order			*/
 	private MOrder				m_CurrentOrder;
+	/** Sequence Doc 			*/
+	private MSequence 			m_SeqDoc; 
 	/**	The Business Partner	*/
 	private MBPartner			m_BPartner;
 	/**	Price List Version		*/
@@ -1021,15 +1024,15 @@ public class CPOS {
 				m_CurrentOrder.set_TrxName(trxName);
 			}
 			//	Get value for Standard Order
-			if(p_IsPrepayment) {
+//			if(p_IsPrepayment) {
 				//	Set Document Type
 				m_CurrentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
 				//	Force Delivery for POS
 				m_CurrentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
 				m_CurrentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
-			} else {
+//			} else {
 				m_IsToPrint = true;
-			}
+//			}
 			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
 				m_CurrentOrder.saveEx();
@@ -1042,8 +1045,7 @@ public class CPOS {
 			m_IsToPrint = false;
 		}
 		//	Validate for generate Invoice and Shipment
-		if(p_IsPrepayment
-				&& p_IsPaid
+		if(p_IsPaid
 				&& !isInvoiced()
 				&& !isDelivered()) {	//	Generate Invoice and Shipment
 			generateShipment(trxName);
@@ -1548,4 +1550,40 @@ public class CPOS {
 		//	Default
 		return m_C_Order_ID;
 	}
+	
+	/**
+	 * Save Current Next Sequence
+	 * @param trxName
+	 * @return void
+	 */
+	public void saveNextSeq(String trxName){
+		int next = m_SeqDoc.getCurrentNext() + m_SeqDoc.getIncrementNo();
+		m_SeqDoc.setCurrentNext(next);
+		m_SeqDoc.saveEx(trxName);
+	}
+	
+	/**
+	 * Get Sequence Document
+	 * @param trxName
+	 * @return String
+	 */
+	public String getSequenceDoc(String trxName){
+		m_SeqDoc = new MSequence(Env.getCtx(), m_POS.getAD_Sequence_ID(), trxName);
+		return m_SeqDoc.getPrefix() + m_SeqDoc.getCurrentNext();
+	}
+	
+	/**
+	 * Set Purchase Order Reference 
+	 * @param docno
+	 * @return void
+	 */
+	public void setPOReference(String docno) {
+		String trxName = m_CurrentOrder.get_TrxName();
+		Trx trx = Trx.get(trxName, true);
+		m_CurrentOrder.setPOReference(docno);
+		m_CurrentOrder.saveEx(trx.getTrxName());
+		trx.close();
+		
+	}
+	
 }
