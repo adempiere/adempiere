@@ -300,8 +300,6 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		if(field.getText().equals(label.getValue()))
 			field.setValue("");
 		WPOSKeyboard keyboard =  v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
-		keyboard.setWidth("750px");
-		keyboard.setHeight("380px");
 		keyboard.setPosTextField(field);	
 		AEnv.showWindow(keyboard);
 		if(field.getText().equals("")) 
@@ -366,7 +364,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		//	Set Result
 		if (results.length == 1) {
 			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
-			v_POSPanel.setC_BPartner_ID(v_POSPanel.getC_BPartner_ID());
+			v_POSPanel.setC_BPartner_ID(results[0].getC_BPartner_ID());
 			f_BPartnerName.setText(bp.getName()+"");
 //			f_HiddenField.setFocus(true);
 		} else {	//	more than one

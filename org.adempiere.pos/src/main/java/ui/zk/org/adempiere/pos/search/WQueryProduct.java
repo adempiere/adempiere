@@ -18,6 +18,7 @@
 package org.adempiere.pos.search;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
@@ -95,7 +96,9 @@ public class WQueryProduct extends WPosQuery
 	private static String s_sqlFrom = "RV_WarehousePrice";
 	/** Where Clause						*/
 	private static String s_sqlWhere = "IsActive='Y'"; 
-
+	/** Result IDs              */
+	private ArrayList<Integer>	m_results = new ArrayList<Integer>(3);
+	
 	/**
 	 * 	Set up Panel
 	 */
@@ -189,7 +192,7 @@ public class WQueryProduct extends WPosQuery
 		mainLayout.appendChild(center);
 		m_table.loadTable(new PO[0]);
 		m_table.setClass("Table-OrderLine");
-		m_table.autoSize();
+		m_table.setMultiSelection(true);
 	}	//	init
 
 	
@@ -272,9 +275,9 @@ public class WQueryProduct extends WPosQuery
 	@Override
 	public void onEvent(Event event) throws Exception {
 		if (event.getTarget().getId().equals("Refresh")) {
-				refresh();
-				return;
-			}
+			refresh();
+			return;
+		}
 		else if(event.getTarget().equals(f_Value.getComponent(WPosTextField.SECONDARY))){
 			f_Value.setValue(showKeyboard(event));
 			refresh();
@@ -297,16 +300,17 @@ public class WQueryProduct extends WPosQuery
 		}		
 		enableButtons();
 		if(event.getTarget().getId().equals("Ok")){
+			saveSelection();
 			close();
 		}
 		if(event.getTarget().getId().equals("Cancel")){
 			close();
-		}		else if(event.getTarget().getId().equals("Reset")){
+		}
+		else if(event.getTarget().getId().equals("Reset")){
 			reset();
 		}
 
 	}
-
 
 	@Override
 	public void refresh() {
@@ -352,4 +356,81 @@ public class WQueryProduct extends WPosQuery
 	public String getValue() {
 		return m_ProductName;
 	}
+	
+	/**
+	 *	Get selected Keys
+	 *  @return selected keys (Integers)
+	 */
+	public Object[] getSelectedKeys()
+	{
+		if (m_results.size() == 0)
+			return null;
+		return m_results.toArray(new Integer[0]);
+	}	//	getSelectedKeys;
+
+	/**
+	 *	Get (first) selected Key
+	 *  @return selected key
+	 */
+	public Object getSelectedKey()
+	{
+		if ( m_results.size() == 0)
+			return null;
+		return m_results.get(0);
+	}	//	getSelectedKey
+	
+	/**
+     *  Get the keys of selected row/s based on layout defined in prepareTable
+     *  @return IDs if selection present
+     *  @author ashley
+     */
+    protected ArrayList<Integer> getSelectedRowKeys()
+    {
+        ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
+        
+        if (m_table.getKeyColumnIndex() == -1) {
+            return selectedDataList;
+        }
+        
+       int[] rows = m_table.getSelectedIndices();
+        for (int row = 0; row < rows.length; row++) {
+            Object data = m_table.getModel().getValueAt(rows[row], m_table.getKeyColumnIndex());
+            if (data instanceof IDColumn) {
+                IDColumn dataColumn = (IDColumn)data;
+                selectedDataList.add(dataColumn.getRecord_ID());
+            }
+            else {
+                log.severe("For multiple selection, IDColumn should be key column for selection");
+            }
+        }
+        
+        if (selectedDataList.size() == 0) {
+        	int row = m_table.getSelectedRow();
+    		if (row != -1 && m_table.getKeyColumnIndex() != -1) {
+    			Object data = m_table.getModel().getValueAt(row, m_table.getKeyColumnIndex());
+    			if (data instanceof IDColumn)
+    				selectedDataList.add(((IDColumn)data).getRecord_ID());
+    			if (data instanceof Integer)
+    				selectedDataList.add((Integer)data);
+    		}
+        }
+      
+        return selectedDataList;
+    }   //  getSelectedRowKeys
+
+    /**
+	 *	Save Selection	- Called by dispose
+	 */
+	protected void saveSelection ()	{
+		//	Already disposed
+		if (m_table == null)
+			return;
+
+		m_results.addAll(getSelectedRowKeys());
+
+		//	Save Settings of detail info screens
+//		saveSelectionDetail();
+		
+	}	//	saveSelection
+
 }	//	PosQueryProduct

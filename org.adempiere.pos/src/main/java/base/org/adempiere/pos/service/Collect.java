@@ -656,6 +656,7 @@ public class Collect {
 		} else if(m_CashPayment.doubleValue() > 0) {
 			payCash(m_CashPayment);
 		}
+		
 	}  // processPayment
 	/**
 	* Get PayAmt 
