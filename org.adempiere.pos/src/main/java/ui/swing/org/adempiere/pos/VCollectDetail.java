@@ -142,7 +142,7 @@ public class VCollectDetail extends CollectDetail
 		int AD_Column_ID = 8416;        //  C_Payment_v.TenderType
 		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
 		fTenderType = new VLookup("TenderType", true, false, true, lookup);
-		((VComboBox)fTenderType.getCombo()).setRenderer(new POSLookupCellRenderer(font));
+		((VComboBox)fTenderType.getCombo()).setRenderer(new POSLookupListCellRenderer(font));
 		fTenderType.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		((VComboBox)fTenderType.getCombo()).setFont(font);
 		fTenderType.addVetoableChangeListener(this);
@@ -264,7 +264,7 @@ public class VCollectDetail extends CollectDetail
 		MLookup cardlookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
 		fCreditCardType = new VLookup("CreditCardType", true, false, true, cardlookup);
 		//	For Credit Card Type
-		((VComboBox)fCreditCardType.getCombo()).setRenderer(new POSLookupCellRenderer(font));
+		((VComboBox)fCreditCardType.getCombo()).setRenderer(new POSLookupListCellRenderer(font));
 		fCreditCardType.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 		((VComboBox)fCreditCardType.getCombo()).setFont(font);
 		fCreditCardType.addVetoableChangeListener(this);
@@ -291,7 +291,7 @@ public class VCollectDetail extends CollectDetail
 		fCreditCardExpMM.setValue(-1);
 		fCreditCardExpMM.setMandatory(true);
 		fCreditCardExpMM.setPreferredSize(new Dimension(FIELD_WIDTH / 2, FIELD_HEIGHT));
-		fCreditCardExpMM.setRenderer(new POSLookupCellRenderer(font));
+		fCreditCardExpMM.setRenderer(new POSLookupListCellRenderer(font));
 		fCreditCardExpMM.setFont(font);
 		fCreditCardExpMM.addActionListener(this);
 		//	For Card Year
@@ -300,7 +300,7 @@ public class VCollectDetail extends CollectDetail
 		fCreditCardExpYY.setValue(-1);
 		fCreditCardExpYY.setMandatory(true);
 		fCreditCardExpYY.setPreferredSize(new Dimension(FIELD_WIDTH / 2, FIELD_HEIGHT));
-		fCreditCardExpYY.setRenderer(new POSLookupCellRenderer(font));
+		fCreditCardExpYY.setRenderer(new POSLookupListCellRenderer(font));
 		fCreditCardExpYY.setFont(font);
 		fCreditCardExpYY.addActionListener(this);
 		//	For Card VV

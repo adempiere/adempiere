@@ -18,9 +18,6 @@
 package org.adempiere.pos;
 
 import java.math.BigDecimal;
-
-import org.adempiere.webui.component.Textbox;
-
 import java.util.HashMap;
 
 import org.adempiere.webui.apps.AEnv;
@@ -33,10 +30,10 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
-import org.compiere.pos.POSKeyboard;
 import org.compiere.pos.PosKeyListener;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -260,29 +257,28 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		}
 		if (action == null || action.length() == 0)
 			return;
-		else if ( action.equals(ConfirmPanel.A_RESET))
-		{
+		else if ( action.equals(ConfirmPanel.A_RESET)) {
 			if ( keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
 				txtCalc.setText("0");
 			else
 				txtCalc.setText("");
 		}
-		else if ( action.equals(ConfirmPanel.A_CANCEL))
-		{
+		else if ( action.equals(ConfirmPanel.A_CANCEL))	{
 			isCancel = true;
 			close();
 		}
-		else if (action.equals(ConfirmPanel.A_OK))
-		{
+		else if (action.equals(ConfirmPanel.A_OK)) {
 			isCancel = false;
-			if(dfield != null)
-				dfield.setText(txtCalc.getValue());
-			else if (field != null)
-				field.setText(txtCalc.getValue());
-			else if(lfield != null)
-				lfield.setText(txtCalc.getValue());
-			else 
-				tfield.setText(txtCalc.getValue());
+			if(txtCalc.getValue().length() > 0) {
+				if(dfield != null)
+					dfield.setText(txtCalc.getValue());
+				else if (field != null)
+					field.setText(txtCalc.getValue());
+				else if(lfield != null)
+					lfield.setText(txtCalc.getValue());
+				else 
+					tfield.setText(txtCalc.getValue());
+			}
 			close();
 		}
 		log.info( "PosSubBasicKeys - actionPerformed: " + action);
