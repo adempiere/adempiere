@@ -17,8 +17,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -36,7 +34,7 @@ import org.compiere.apps.AEnv;
  * <li> Changes for generic use
  */
 public class POSTextField extends JFormattedTextField 
-		implements MouseListener, FocusListener {
+		implements MouseListener {
 	
 	/**
 	 * 
@@ -107,15 +105,7 @@ public class POSTextField extends JFormattedTextField
 			}
 		}
 	}
-
-	public void focusGained(FocusEvent e) {
-		//	Not yet implemented
-	}
-
-	public void focusLost(FocusEvent e) {
-		//	Not yet implemented
-	}
-
+	
 	/**
 	 * Get Place Holder
 	 * @return String

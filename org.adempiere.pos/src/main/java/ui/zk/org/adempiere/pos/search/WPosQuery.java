@@ -73,6 +73,7 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 	/**	Underlying POS Model				*/
 	protected MPOS p_pos = null;
 
+	
 	private Button f_New;
 	public Button f_Edit;
 	
@@ -145,8 +146,9 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 		p_ctx = v_POSPanel.getCtx();
 		initMainPanel();
 		this.setAttribute("mode", "modal");
+		this.setTitle(Msg.getMsg(p_ctx, "Query"));
 		this.setBorder("normal");
-		this.setWidth("850px");
+		this.setWidth("910px");
 		this.setHeight("500px");
 		this.setContentStyle("overflow: auto");
 		this.setSizable(true);      
@@ -267,7 +269,6 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 		button.addActionListener(this);
 		return button;
 	}	//	getButtonAction
-	
-	
+
 	
 }

@@ -28,16 +28,18 @@ import java.beans.VetoableChangeListener;
 import java.util.Properties;
 
 import javax.swing.KeyStroke;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.SwingUtilities;
 
+import org.adempiere.pos.POSTextField;
+import org.adempiere.pos.VPOS;
+import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryListener;
+import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.PO;
-import org.compiere.pos.PosTable;
-import org.adempiere.pos.POSTextField;
-import org.adempiere.pos.VPOS;
+import org.adempiere.pos.PosTable;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CComboBox;
@@ -58,7 +60,8 @@ import org.compiere.util.Env;
  *  @version $Id: PosQuery.java,v 2.0 2015/09/01 00:00:00 
  */
 public abstract class POSQuery extends CDialog 
-	implements MouseListener, ListSelectionListener, ActionListener, VetoableChangeListener {
+	implements MouseListener, ActionListener, 
+		VetoableChangeListener, I_POSQuery {
 
 	/**
 	 * 
@@ -91,7 +94,9 @@ public abstract class POSQuery extends CDialog
 	private CPanel 			v_MainPanel;
 	
 	/**	Logger			*/
-	protected static CLogger log = CLogger.getCLogger(QueryProduct.class);
+	protected static CLogger log = CLogger.getCLogger(QueryTicket.class);
+	/**	Listener		*/
+	private POSQueryListener listener;
 	/**	Default Width	*/
 	private final int		BUTTON_WIDTH 	= 50;
 	/**	Default Height		*/
@@ -108,6 +113,7 @@ public abstract class POSQuery extends CDialog
 	 */
 	private void initMainPanel() {
 		//	Instance Panel
+		setLayout(new GridBagLayout());
 		//	For Table
 		m_table = new PosTable();
 		v_MainPanel = new CPanel(new GridBagLayout());		
@@ -137,16 +143,28 @@ public abstract class POSQuery extends CDialog
 				,GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
 		
 		//	Add To Main Panel
-		v_MainPanel.add(v_ParameterPanel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+		v_MainPanel.add(v_ParameterPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
-		v_MainPanel.add(v_CenterScroll, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+		v_MainPanel.add(v_CenterScroll, new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		v_MainPanel.add(v_ConfirmPanel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
+		v_MainPanel.add(v_ConfirmPanel, new GridBagConstraints(0, 2, 1, 1, 1, 1
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
 		//	Add Main Panel to Content
-		getContentPane().add(v_MainPanel);
+		getContentPane().add(v_MainPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
+				,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		//	Visible New
 		f_New.setVisible(false);
+		//	Add Listener
+		m_table.addMouseListener(this);
+	}
+	
+	/**
+	 * Add Listener
+	 * @param listener
+	 * @return void
+	 */
+	public void addOptionListener(POSQueryListener listener) {
+		this.listener = listener;
 	}
 	
 	@Override
@@ -157,6 +175,9 @@ public abstract class POSQuery extends CDialog
 			dispose();
 			return;
 		} if (f_Refresh.equals(e.getSource())) {
+			if(m_table == null)
+				return;
+			//	Refresh
 			refresh();
 			return;
 		} else if (f_Reset.equals(e.getSource())) {
@@ -164,11 +185,22 @@ public abstract class POSQuery extends CDialog
 			return;
 		} else if(f_Cancel.equals(e.getSource())) {
 			cancel();
+			//	Fire
+			if(listener != null) {
+				listener.cancelAction(this);
+			}
 		} else if (f_Ok.equals(e.getSource())) {
 			select();
 			close();
+			//	Fire
+			if(listener != null) {
+				listener.okAction(this);
+			}
 		} else if(e.getSource() instanceof POSTextField
 				|| e.getSource() instanceof CCheckBox) {
+			if(m_table == null)
+				return;
+			//	Refresh
 			refresh();
 		}
 	}
@@ -179,6 +211,9 @@ public abstract class POSQuery extends CDialog
 		if(e.getSource() instanceof VDate
 				|| e.getSource() instanceof VNumber
 				|| e.getSource() instanceof CComboBox){
+			if(m_table == null)
+				return;
+			//	Refresh
 			refresh();
 		}
 	}
@@ -262,7 +297,7 @@ public abstract class POSQuery extends CDialog
 		initMainPanel();
 		init();
 		pack();
-		setLocationByPlatform(true);
+		AEnv.positionCenterScreen(this);
 	}	//	PosQuery
 
 	/**
@@ -271,7 +306,7 @@ public abstract class POSQuery extends CDialog
 	 */
 	public void mouseClicked(MouseEvent e) {
 		//  Single click with selected row => exit
-		if (e.getClickCount() > 0 && m_table.getSelectedRow() != -1) {
+		if (e.getClickCount() > 1 && m_table.getSelectedRow() != -1) {
 			select();
 			close();
 		}
@@ -291,9 +326,14 @@ public abstract class POSQuery extends CDialog
 	public void mousePressed (MouseEvent e) {
 		//	Add support search Business Partner
 		//  Single click with selected row => exit
-		if (e.getClickCount() > 0 
+		if (e.getClickCount() > 1 
 				&& m_table.getSelectedRow() != -1)	{
 			select();
+			close();
+			//	Fire
+			if(listener != null) {
+				listener.okAction(this);
+			}
 		}
 	}
 	
@@ -301,16 +341,6 @@ public abstract class POSQuery extends CDialog
 	public void mouseReleased (MouseEvent e) {
 		
 	}
-
-	/**
-	 * 	Table selection changed
-	 *	@param e event
-	 */
-	public void valueChanged (ListSelectionEvent e) {
-		if (e.getValueIsAdjusting())
-			return;
-		select();
-	}	//	valueChanged
 
 	/**
 	 * 	Create Action Button
@@ -327,4 +357,18 @@ public abstract class POSQuery extends CDialog
 		button.setFocusable(false);
 		return button;
 	}	//	getButtonAction
+	
+	/**
+	 * Show View
+	 * @return void
+	 */
+	public void showView() {
+		SwingUtilities.invokeLater(
+				new Runnable() { 
+					public void run() { 
+						setVisible(true);
+					} 
+				} 
+		);
+	}
 }

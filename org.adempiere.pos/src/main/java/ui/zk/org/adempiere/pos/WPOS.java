@@ -18,10 +18,11 @@
 package org.adempiere.pos;
 
 import java.awt.KeyboardFocusManager;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.I_POSPanel;
@@ -41,8 +42,10 @@ import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOS;
+import org.compiere.model.MPOSKey;
 import org.compiere.pos.PosKeyboardFocusManager;
 import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -65,6 +68,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	{
 		m_focusMgr = new PosKeyboardFocusManager();
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
+		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		init();
 	}	//	PosPanel
 	
@@ -75,20 +79,18 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	/**	Logger				*/
 	private CLogger			log = CLogger.getCLogger(getClass());
 	
+	private DecimalFormat					m_Format;
+	
 	/** Keyoard Focus Manager		*/
 	private PosKeyboardFocusManager	m_focusMgr = null;
 	
 	/** Order Panel				*/
-	private WPOSActionPanel f_OrderPanel;
+	private WPOSActionPanel v_ActionPanel;
 	private WPOSProductPanel f_ProductKeysPanel;
 	private WPOSOrderLinePanel f_OrderLinePanel;
-	/** Current Line				*/
 	
-	private boolean action = false;
-
 	private Button b_ok = new Button("Ok");
 	private Button b_cancel = new Button("Cancel");
-	private int m_Sales_ID = 0;
 	private Window selection;
 	//	Today's (login) date		*/
 	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
@@ -97,10 +99,14 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private HashMap<Integer, WPOSKeyboard> keyboards = new HashMap<Integer, WPOSKeyboard>();
 	public Panel parameterPanel = new Panel();
 	private Listbox listTerminal = ListboxFactory.newDropdownListbox();
-	/**	POS Message					*/
-	private String 				m_POSMsg;	
-	/**	POS Configuration		*/
-	private MPOS 				m_POS;
+	private MPOS[] poss; 
+	/** Window No **/
+	private int windowNo = 0 ;
+	
+	public static final String FONTSIZEMEDIUM = "Font-size:medium;";
+	public static final String FONTSIZESMALL = "Font-size:small;";
+	public static final String FONTSIZELARGE = "Font-size:large;";
+	public static final String FONTSTYLE = "font-weight:bold;";
 	/**
 	 *	zk Initialize Panel
 	 *  @param WindowNo window
@@ -109,7 +115,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void init ()
 	{
 		log.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
-//		m_WindowNo = 0;
+		windowNo = form.getWindowNo();
 		m_frame = frame;
 		//
 		try
@@ -117,9 +123,11 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 			dynInit();
 			
 		}
-		catch(Exception e)
+		catch (AdempierePOSException exception)
 		{
-			log.log(Level.SEVERE, "init", e);
+			FDialog.error( getWindowNo() , m_frame , exception.getLocalizedMessage());
+			dispose();
+			return;
 		}
 		
 	}	//	init
@@ -130,135 +138,103 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	 * 	The Sub Panels return their position
 	 */
 	private boolean dynInit()
-	{
+	{ 
+		setMPOS();
 		Borderlayout mainLayout = new Borderlayout();	
-		
-		if (!setMPOS()){
-			m_POSMsg = "@POS.NoPOSForUser@";
-			dispose();
-			return false;
-		}
-
-		f_OrderPanel = new WPOSActionPanel(this);
+		v_ActionPanel = new WPOSActionPanel(this);
 		f_ProductKeysPanel = new WPOSProductPanel(this);
 		f_OrderLinePanel = new WPOSOrderLinePanel(this);
-
 		East east = new East();
 		Center center = new Center();
 		North north = new North();
 		Borderlayout fullPanel = new Borderlayout();
 		
-		center.setStyle("border: none; width:40%");
+		center.setStyle("border: none; width:44%");
 		center.appendChild(fullPanel);
 		mainLayout.appendChild(center);
 
-		center.setStyle("border: none; width:40%");
+		center.setStyle("border: none; width:44%");
 		fullPanel.setWidth("80%");
 		fullPanel.setHeight("100%");
 		Center v_Table = new Center();
 		v_Table.appendChild(f_OrderLinePanel);
-		north.appendChild(f_OrderPanel);
+		north.appendChild(v_ActionPanel);
 		east.appendChild(f_ProductKeysPanel);
-		east.setStyle("border: none; width:35%");
+		east.setStyle("border: none; width:53%");
 
 		fullPanel.appendChild(v_Table);
 		fullPanel.appendChild(north);
-		north.setStyle("border: none; width:40%; height:15%");
-		v_Table.setStyle("border: none; width:40%;  height:85%; ");
+		north.setStyle("border: none; width:44%; height:290px");
+		v_Table.setStyle("border: none; width:44%;  height:100%; ");
 		
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
 		mainLayout.appendChild(east);
 
 		form.appendChild(mainLayout);
-		
+		//	Seek to last
+		if(hasRecord()){
+			lastRecord();	
+		}
+		refreshPanel();
 		return true;
 	}	//	dynInit
-
-	/**
-	 * Load POS
-	 * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return boolean
-	 */
-	
 
 	/**
 	 * 	Set MPOS
 	 *	@return true if found/set
 	 */
-	private boolean setMPOS()
-	{
+	private void setMPOS() {
 		int salesRep_ID = Env.getAD_User_ID(getCtx());
-//		setSalesRep_ID(Env.getAD_User_ID(getCtx()));
-		boolean ok = setPOS(salesRep_ID);
-		if(!ok && getMsgLocator() == null){
-			MPOS[] poss = getPOSs(salesRep_ID);
-			//	Select POS
-			String msg = Msg.getMsg(m_ctx, "SelectPOS");
-			selection = new Window();
-			Panel mainPanel = new Panel();
-			Panel panel = new Panel();
-			selection.setTitle(msg);
-			Borderlayout mainLayout = new Borderlayout();
-			Grid layout = GridFactory.newGridLayout();
-			selection.appendChild(panel);
-			selection.setWidth("200px");
-			selection.setHeight("100px");
-			//	North
-			Panel centerPanel = new Panel();
-			mainPanel.appendChild(mainLayout);
-			mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
-			mainLayout.setHeight("100%");
-			mainLayout.setWidth("100%");
-			//
-			Center center = new Center();
-			center.setStyle("border: none");
-			mainLayout.appendChild(center);
-			center.appendChild(centerPanel);
-			centerPanel.appendChild(layout);
-			layout.setWidth("100%");
-			layout.setHeight("100%");
-			selection.appendChild(mainPanel);
-			Rows rows = null;
-			Row row = null;
-			rows = layout.newRows();
-			row = rows.newRow();
-			for(int x=0; x<poss.length; x++){
-				listTerminal.addItem(poss[x].getKeyNamePair());
-			}
-			b_ok.addActionListener(this);
-			b_cancel.addEventListener("onClick", this);
-			row.setSpans("2");
-			row.appendChild(listTerminal);
-			row = rows.newRow();
-			row.appendChild(b_ok);
-			row.appendChild(b_cancel);
-			AEnv.showWindow(selection);
+		setPOS(salesRep_ID);
+		if(getM_POS() != null) {
+			validLocator();
+			return;
 		}
-		else
-			return true;
-		
+		poss = getPOSs(salesRep_ID);
+		//	Select POS
+		String msg = Msg.getMsg(m_ctx, "SelectPOS");
+		selection = new Window();
+		Panel mainPanel = new Panel();
+		Panel panel = new Panel();
+		selection.setTitle(msg);
+		Borderlayout mainLayout = new Borderlayout();
+		Grid layout = GridFactory.newGridLayout();
+		selection.appendChild(panel);
+		selection.setWidth("200px");
+		selection.setHeight("100px");
+		//	North
+		Panel centerPanel = new Panel();
+		mainPanel.appendChild(mainLayout);
+		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
+		mainLayout.setHeight("100%");
+		mainLayout.setWidth("100%");
+		//
+		Center center = new Center();
+		center.setStyle("border: none");
+		mainLayout.appendChild(center);
+		center.appendChild(centerPanel);
+		centerPanel.appendChild(layout);
+		layout.setWidth("100%");
+		layout.setHeight("100%");
+		selection.appendChild(mainPanel);
+		Rows rows = null;
+		Row row = null;
+		rows = layout.newRows();
+		row = rows.newRow();
+		for(int x=0; x<poss.length; x++){
+			listTerminal.addItem(poss[x].getKeyNamePair());
+		}
+		b_ok.addActionListener(this);
+		b_cancel.addEventListener("onClick", this);
+		row.setSpans("2");
+		row.appendChild(listTerminal);
+		row = rows.newRow();
+		row.appendChild(b_ok);
+		row.appendChild(b_cancel);
+		AEnv.showWindow(selection);
 			
-		return action;
 	}	//	setMPOS
-	
-	/**
-	 * 	Get POSs for specific Sales Rep or all
-	 *	@param SalesRep_ID
-	 *	@return array of POS
-	 */
-//	private MPOS[] getPOSs (int SalesRep_ID)
-//	{
-//		String pass_field = "SalesRep_ID";
-//		int pass_ID = SalesRep_ID;
-//		if (SalesRep_ID==0)
-//			{
-//			pass_field = "AD_Client_ID";
-//			pass_ID = Env.getAD_Client_ID(m_ctx);
-//			}
-//		return MPOS.getAll(m_ctx, pass_field, pass_ID);
-//	}	//	getPOSs
-	
 	
 	
 	/**************************************************************************
@@ -283,6 +259,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public WPOSKeyboard getKeyboard(int keyLayoutId) {
 			WPOSKeyboard keyboard = new WPOSKeyboard(this, keyLayoutId);
 			keyboards.put(keyLayoutId, keyboard);
+			keyboard.setWidth("750px");
+			keyboard.setHeight("350px");
 			return keyboard;
 	}
 	
@@ -320,14 +298,10 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	@Override
 	public void onEvent(Event e) throws Exception {
 		if(e.getTarget().equals(b_ok)){
-			MPOS[] poss = getPOSs (m_Sales_ID);
-			m_POS = poss[listTerminal.getSelectedIndex()];
-			setM_POS(m_POS);
-			action = true;
+			setM_POS(poss[listTerminal.getSelectedIndex()]);
 			selection.dispose();
 		}
 		if(e.getTarget().equals(b_cancel)){
-			action = false;
 			selection.dispose();
 		}
 	}
@@ -355,12 +329,37 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void refreshPanel() {
 		//	Reload from DB
 		reloadOrder();
-		f_OrderPanel.changeViewPanel();
+		v_ActionPanel.refreshPanel();
+		v_ActionPanel.changeViewPanel();
 		f_ProductKeysPanel.refreshPanel();
 		f_OrderLinePanel.refreshPanel();
 		
 	}
 
+	/**
+	 * Add or replace order line
+	 * @param p_M_Product_ID
+	 * @param m_QtyOrdered
+	 * @return void
+	 */
+	public void addLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
+		//	Create Ordder if not exists
+		if (!hasOrder()) {
+			newOrder();
+		}
+		//	Show Product Info
+		refreshProductInfo(p_M_Product_ID);
+		//	
+		String lineError = add(p_M_Product_ID, m_QtyOrdered);
+		if (lineError != null) {
+			log.warning("POS Error " + lineError);
+			FDialog.error(0, 
+					m_frame, Msg.parseTranslation(m_ctx, lineError));
+		}
+		//	Update Info
+		refreshPanel();
+	}
+	
 	@Override
 	public void changeViewPanel() {
 	
@@ -368,14 +367,60 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	}
 	/**
 	 * New Order
-	 * @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return void
 	 */
 	public void newOrder() {
+		newOrder(0);
+	}
+	/**
+	 * New Order
+	 * @return void
+	 */
+	public void newOrder(int p_C_BPartner_ID) {
 		//	Do you want to use the alternate Document type?
-		boolean isDocType = FDialog.ask(0, null, Msg.getMsg(m_ctx, "POS.AlternateDT"));
-		setC_BPartner_ID(0);
-		newOrder(isDocType);
+		boolean isDocType = false;
+		isDocType = FDialog.ask(0, m_frame, "", Msg.getMsg(m_ctx, "POS.AlternateDT"));
+		newOrder(isDocType, p_C_BPartner_ID);
+		setC_BPartner_ID(p_C_BPartner_ID);
+	}
+	public int getWindowNo()
+	{
+		return windowNo;
+	}
+	
+	/**
+	 * Get number format
+	 * @return
+	 * @return DecimalFormat
+	 */
+	public DecimalFormat getNumberFormat() {
+		return m_Format;
+	}
+	/**
+	 * Refresh Product Info
+	 * @param key
+	 * @return void
+	 */
+	public void refreshProductInfo(MPOSKey key) {
+		v_ActionPanel.refreshProductInfo(key);
+	}
+	
+	/**
+	 * Refresh Header
+	 * @return void
+	 */
+	public void refreshHeader() {
+		reloadOrder();
+		v_ActionPanel.changeViewPanel();
+		f_ProductKeysPanel.refreshPanel();
+	}
+	
+	/**
+	 * Refresh Product Info
+	 * @param p_M_Product_ID
+	 * @return void
+	 */
+	public void refreshProductInfo(int p_M_Product_ID) {
+		v_ActionPanel.refreshProductInfo(p_M_Product_ID);
 	}
 }	//	PosPanel
-

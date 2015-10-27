@@ -1,14 +1,11 @@
 package org.adempiere.pos;
 
 import java.awt.KeyboardFocusManager;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.Properties;
 
 import javax.swing.JFrame;
 
 import org.compiere.Adempiere;
-import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AKeyboardFocusManager;
 import org.compiere.apps.ALogin;
@@ -67,20 +64,20 @@ public class POSApplication {
 		frame.setIconImage(Adempiere.getImage16());
 
 		// Setting close operation/listener - teo_sarca [ 1684168 ]
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		frame.addWindowListener(new WindowListener() {
-			public void windowClosing(WindowEvent e) {
-				if (!ADialog.ask(0, null, "ExitApplication?"))
-					return;
-				frame.dispose();
-			}
-			public void windowActivated(WindowEvent e) {}
-			public void windowClosed(WindowEvent e) {}
-			public void windowDeactivated(WindowEvent e) {}
-			public void windowDeiconified(WindowEvent e) {}
-			public void windowIconified(WindowEvent e) {}
-			public void windowOpened(WindowEvent e) {}
-		});
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.addWindowListener(new WindowListener() {
+//			public void windowClosing(WindowEvent e) {
+//				if (!ADialog.ask(0, null, "ExitApplication?"))
+//					return;
+//				frame.dispose();
+//			}
+//			public void windowActivated(WindowEvent e) {}
+//			public void windowClosed(WindowEvent e) {}
+//			public void windowDeactivated(WindowEvent e) {}
+//			public void windowDeiconified(WindowEvent e) {}
+//			public void windowIconified(WindowEvent e) {}
+//			public void windowOpened(WindowEvent e) {}
+//		});
 
 		VPOS pos = new VPOS();
 		pos.init(0,(FormFrame) frame);
