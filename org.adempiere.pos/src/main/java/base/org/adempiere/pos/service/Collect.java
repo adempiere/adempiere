@@ -94,8 +94,8 @@ public class Collect {
 	private boolean				m_IsCreditOrder = false;
 	/**	Pre-Payment Order		*/
 	private boolean				m_IsPrePayOrder = false;
-	/**	Return Amount			*/
-//	private BigDecimal			m_ReturnAmt = Env.ZERO;
+	/**	Payment Term			*/
+	private int 				m_C_PaymentTerm_ID = 0;
 	/**	Error Message			*/
 	private StringBuffer		m_ErrorMsg = new StringBuffer();
 
@@ -122,7 +122,7 @@ public class Collect {
 	 * @param none
 	 * @return void
 	 */
-	public void removeAllCollectDetails() {
+	public void removeAllCollectDetail() {
 		int lenght = m_Collects.size();
 		for(int i = lenght - 1; i >= 0; i--) {
 			m_Collects.remove(i);
@@ -552,13 +552,13 @@ public class Collect {
 		if(p_OpenAmt.doubleValue() <= 0) {
 			addErrorMsg("@POS.validatePayment.NoOpenAmt@");
 		}
-		//	For Credit order
-		if(isCreditOrder()) {	//	TODO must be supported? any suggest
-			//	Default Ok
+		//	For Prepay order
+		if(isPrePayOrder()) {
 			return null;
-		} else if(isPrePayOrder()
-				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {	//	TODO must be supported
+		} else if(!isCreditOrder()
+				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
 			addErrorMsg("@POS.OrderPayNotCompleted@");
+			
 		}
 		//	Local variables for not iterate again
 		BigDecimal m_CashPayment = Env.ZERO;
@@ -624,18 +624,13 @@ public class Collect {
 			if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)
 					|| m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {	//	For Cash
 				m_CashPayment = m_CashPayment.add(m_Collect.getPayAmt());
-//				Moved to ending method
-//				BigDecimal payAmt = Env.ZERO;
-//				payAmt = (getReturnAmt().compareTo(Env.ZERO)==-1)?m_Collect.getPayAmt().add(getReturnAmt()):m_Collect.getPayAmt();
-//				if(payAmt.compareTo(Env.ZERO)==1)
-//					payCash(payAmt);
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDebit)) {	//	For Direct Debit
 				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 				payDirectDebit(m_Collect.getPayAmt(), m_Collect.getRoutingNo(), 
 						m_Collect.getA_Country(), m_Collect.getCreditCardVV());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
 				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
-				payCheck(m_Collect.getPayAmt(), null, null, m_Collect.getReferenceNo());
+				payCheck(m_Collect.getPayAmt(), null, m_Collect.getRoutingNo(), m_Collect.getReferenceNo());
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
 				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 				//	Valid Expedition
@@ -661,6 +656,7 @@ public class Collect {
 		} else if(m_CashPayment.doubleValue() > 0) {
 			payCash(m_CashPayment);
 		}
+		
 	}  // processPayment
 	/**
 	* Get PayAmt 
@@ -799,6 +795,24 @@ public class Collect {
 	}
 	
 	/**
+	 * Set Payment term
+	 * @param p_C_PaymentTerm_ID
+	 * @return void
+	 */
+	public void setC_PaymentTerm_ID(int p_C_PaymentTerm_ID) {
+		m_C_PaymentTerm_ID = p_C_PaymentTerm_ID;
+	}
+	
+	/**
+	 * Get Payment Term
+	 * @return
+	 * @return int
+	 */
+	public int getC_PaymentTerm_ID() {
+		return m_C_PaymentTerm_ID;
+	}
+	
+	/**
 	 * Verify if is Prepay Order
 	 * @return
 	 * @return boolean
@@ -815,7 +829,9 @@ public class Collect {
 	public void setIsCreditOrder(boolean isCreditOrder) {
 		this.m_IsCreditOrder = isCreditOrder;
 		//	Negate Pre-Pay
-		m_IsPrePayOrder = !isCreditOrder;
+		if(isCreditOrder) {
+			m_IsPrePayOrder = !isCreditOrder;
+		}
 	}
 	
 	/**
@@ -835,26 +851,10 @@ public class Collect {
 	public void setIsPrePayOrder(boolean isPrePayOrder) {
 		this.m_IsPrePayOrder = isPrePayOrder;
 		//	Negate Credit Order
-		m_IsCreditOrder = !isPrePayOrder;
+		if(isPrePayOrder) {
+			m_IsCreditOrder = !isPrePayOrder;
+		}
 	}
-	
-	/**
-	 * Get Return Amount
-	 * @return
-	 * @return BigDecimal
-	 */
-//	public BigDecimal getReturnAmt() {
-//		return m_ReturnAmt;
-//	}
-
-	/**
-	 * Set Return Amount
-	 * @param returnAmt
-	 * @return void
-	 */
-//	public void setReturnAmt(BigDecimal returnAmt) {
-//		this.m_ReturnAmt = returnAmt;
-//	}
 	
 	/**
 	 * Get number of payment details

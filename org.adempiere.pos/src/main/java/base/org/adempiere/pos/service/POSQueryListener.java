@@ -12,36 +12,28 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ * Contributor: Yamel Senih www.erpcya.com                                    *
+ * Contributor: Mario Calderon www.westfalia-it.com                           *
  *****************************************************************************/
 package org.adempiere.pos.service;
 
 /**
- * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Sep 26, 2015, 10:50:44 PM
- *
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
-public interface I_POSQuery {
+public interface POSQueryListener {
 	
 	/**
-	 * Get Record Identifier after select
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
-	 * @return int
-	 */
-	public int getRecord_ID();
-	
-	/**
-	 * Get Value from Form
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
-	 * @return String
-	 */
-	public String getValue();
-	
-	/**
-	 * Show the dialog
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * When press ok button or select a item from table
+	 * @param query
 	 * @return void
 	 */
-	public void showView();
+	public void okAction(I_POSQuery query);
+	
+	/**
+	 * When press cancel button
+	 * @param query
+	 * @return void
+	 */
+	public void cancelAction(I_POSQuery query);
 }

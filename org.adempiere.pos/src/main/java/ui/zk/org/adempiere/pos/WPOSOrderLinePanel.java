@@ -14,6 +14,7 @@ import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Center;
@@ -39,25 +40,8 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 	public WPOSOrderLinePanel(WPOS posPanel) {
 		super(posPanel);
 	}
-	/**	Table Name			*/
-	private static final String	TABLE_NAME	= "POS_OrderLine_v";
-
 	/**	Current Order Line	*/
 	private int 			m_C_OrderLine_ID = 0;
-	
-	/**	Column Names		*/
-	public static final String 	PRODUCTNAME	= "ProductName";
-	public static final String 	QTYORDERED  = "QtyOrdered";
-	public static final String 	C_UOM_ID    = "C_UOM_ID";
-	public static final String 	PRICEACTUAL = "PriceActual";
-	public static final String 	LINENETAMT  = "LineNetAmt";
-	public static final String 	GRANDTOTAL  = "GrandTotal";
-	/**	Column Position		*/
-	public static final int	POSITION_C_ORDER_ID 	= 0;
-	public static final int	POSITION_QTYORDERED 	= 2;
-	public static final int	POSITION_PRICE 			= 4;
-	public static final int	POSITION_LINENETAMT 	= 5;
-	public static final int	POSITION_GRANDTOTAL 	= 7;
 	
 
 	/**	Logger				*/
@@ -65,9 +49,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 	@Override
 	protected void init() {
 		m_table = ListboxFactory.newDataTable();
-
-		
-		
+		//	
 		m_TableHandle = new POSOrderLineTableHandle(m_table);
 		m_TableHandle.prepareTable();
 		m_table.getModel().addTableModelListener(this);
@@ -81,7 +63,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 		center.setStyle("border: none; height:95%;");
 		m_table.loadTable(new PO[0]);
 		m_table.setClass("Table-OrderLine");
-		m_table.setColumnReadOnly(POSITION_QTYORDERED, true);
+		m_table.setColumnReadOnly(POSOrderLineTableHandle.POSITION_QTYORDERED, true);
 		appendChild(center);
 	}
 
@@ -90,6 +72,9 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 		if (!v_POSPanel.hasOrder()) {
 			m_table.loadTable(new PO[0]);
 		}
+		//	Set Editable Columns
+		m_TableHandle.setEditable(v_POSPanel.isModifyPrice(), v_POSPanel.isDrafted());
+		//	
 		//	Load Data
 		m_TableHandle.loadTable(v_POSPanel.getC_Order_ID());
 		//	
@@ -110,7 +95,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 			return;
 		log.info( "POSOrderLinePanel - actionPerformed: " + action);
 		if(arg0.getTarget().equals(m_table)){
-			m_table.setColumnReadOnly(POSITION_QTYORDERED, false);
+			m_table.setColumnReadOnly(POSOrderLineTableHandle.POSITION_QTYORDERED, false);
 			return;
 		}
 		//	Product
@@ -129,12 +114,12 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 			{
 				Integer id = (Integer) ((IDColumn)data).getRecord_ID();
 				m_C_OrderLine_ID = id;
+				showProductInfo(row);
 			}
 		}else {
 			return;
 		}
 		int id = m_table.getSelectedRow();
-		
 			if (id != -1) {	
 				ListModelTable model = m_table.getModel();
 				IDColumn key = (IDColumn) model.getValueAt(id, 0);
@@ -142,7 +127,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 			if ( key != null &&  key.getRecord_ID() != m_C_OrderLine_ID )
 				m_C_OrderLine_ID = key.getRecord_ID();
 			BigDecimal qty = new BigDecimal(m_table.getModel().getValueAt(id, POSOrderLineTableHandle.POSITION_QTYORDERED).toString());
-			MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
+			MOrderLine line = new MOrderLine(m_ctx, m_C_OrderLine_ID, null);
 			if ( line != null )
 			{
 					line.setPrice(new BigDecimal(m_table.getModel().getValueAt(id, 4).toString()));
@@ -157,10 +142,11 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 					m_table.getModel().setValueAt(grandTotal, id, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
 					if(qty.compareTo(Env.ZERO) <= 0){
 						line.delete(true);
-						m_table.setColumnReadOnly(POSITION_QTYORDERED, true);
+						m_table.setColumnReadOnly(POSOrderLineTableHandle.POSITION_QTYORDERED, true);
 					}
 					v_POSPanel.reloadOrder();
 					v_POSPanel.refreshPanel();
+					v_POSPanel.refreshHeader();
 					m_table.getModel().addTableModelListener(this);
 					
 					return;
@@ -178,7 +164,7 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 			
 			if ( key != null &&  key.getRecord_ID() != m_C_OrderLine_ID ){
 				m_C_OrderLine_ID = key.getRecord_ID();
-				MOrderLine line = new MOrderLine(p_ctx, m_C_OrderLine_ID, null);
+				MOrderLine line = new MOrderLine(m_ctx, m_C_OrderLine_ID, null);
 				if ( line != null )
 				{
 					
@@ -224,5 +210,21 @@ public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListe
 		// TODO Auto-generated method stub
 		
 	}
-
+	/**
+	 * Show Product Info
+	 * @param row
+	 * @return void
+	 */
+	private void showProductInfo(int row) {
+		Object data = m_table.getModel().getValueAt(row, 0);
+		if ( data != null )	{
+			Integer id = (Integer) ((IDColumn)data).getRecord_ID();
+			m_C_OrderLine_ID = id;
+			int m_M_Product_ID = DB.getSQLValue(null, "SELECT ol.M_Product_ID "
+					+ "FROM C_OrderLine ol "
+					+ "WHERE ol.C_OrderLine_ID = ?", m_C_OrderLine_ID);
+			//	Refresh
+			v_POSPanel.refreshProductInfo(m_M_Product_ID);
+		}
+	}
 }
