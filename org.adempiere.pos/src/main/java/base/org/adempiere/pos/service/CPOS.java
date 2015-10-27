@@ -24,16 +24,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.pos.AdempierePOSException;
+import org.adempiere.util.ProcessUtil;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrderTax;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentProcessor;
@@ -41,21 +48,25 @@ import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPrice;
+import org.compiere.model.MSequence;
+import org.compiere.model.MTax;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Order;
-import org.compiere.pos.AdempierePOSException;
 import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class CPOS {
 	
@@ -72,16 +83,12 @@ public class CPOS {
 	private MPOS 				m_POS;
 	/**	Current Order			*/
 	private MOrder				m_CurrentOrder;
+	/** Sequence Doc 			*/
+	private MSequence 			m_SeqDoc; 
 	/**	The Business Partner	*/
 	private MBPartner			m_BPartner;
 	/**	Price List Version		*/
 	private int					m_M_PriceList_Version_ID;
-	/**	Currency				*/
-	private int					m_C_Currency_ID;
-	/**	Is Prepayment			*/
-	private boolean 			m_IsPrepayment;
-	/**	Message					*/
-	private String              msgLocator;
 	/** Context					*/
 	protected Properties		m_ctx = Env.getCtx();
 	/**	Today's (login) date	*/
@@ -90,6 +97,8 @@ public class CPOS {
 	private ArrayList<Integer>	m_OrderList;
 	/**	Order List Position		*/
 	private int 				m_RecordPosition;
+	/**	Is Payment Completed	*/
+	private boolean 			m_IsToPrint;
 	/**	Logger					*/
 	private CLogger 			log = CLogger.getCLogger(getClass());
 	
@@ -97,20 +106,16 @@ public class CPOS {
 	/**
 	 * 	Set MPOS
 	 * @param p_SalesRep_ID
-	 *	@return true if found/set
+	 * @return true if found/set
 	 */
-	public boolean setPOS(int p_SalesRep_ID) {
+	public void setPOS(int p_SalesRep_ID) {
 		MPOS[] poss = getPOSs(p_SalesRep_ID);
 		//	
 		if (poss.length == 0) {
-			msgLocator = "NoPOSForUser";
-			return false;
+			throw new AdempierePOSException("@NoPOSForUser@");
 		} else if (poss.length == 1) {
 			m_POS = poss[0];
-			return true;
 		}
-		//	
-		return false;
 	}	//	setMPOS
 	
 	/**
@@ -130,18 +135,13 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isCompleted() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
 		return m_CurrentOrder.isProcessed() 
 				&& m_CurrentOrder.getDocStatus()
 				.equals(X_C_Order.DOCSTATUS_Completed);
-	}
-	
-	/**
-	 * Validate if has lines
-	 * @return
-	 * @return boolean
-	 */
-	public boolean hasLines() {
-		return m_CurrentOrder.getLines().length > 0;
 	}
 	
 	/**
@@ -150,8 +150,41 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isVoided() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
 		return m_CurrentOrder.getDocStatus()
 				.equals(X_C_Order.DOCSTATUS_Voided);
+	}
+	
+	/**
+	 * Validate if is drafted
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isDrafted() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return !isCompleted() 
+				&& !isVoided() 
+				&& m_CurrentOrder.getDocStatus()
+				.equals(X_C_Order.DOCSTATUS_Drafted);
+	}
+	
+	/**
+	 * Validate if has lines
+	 * @return
+	 * @return boolean
+	 */
+	public boolean hasLines() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return m_CurrentOrder.getLines().length > 0;
 	}
 	
 	/**
@@ -160,9 +193,12 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isPOSOrder() {
-		return m_CurrentOrder
-			.getC_DocType().getDocSubTypeSO()
-			.equalsIgnoreCase(MOrder.DocSubTypeSO_POS);
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_POS);
 	}
 	
 	/**
@@ -171,9 +207,12 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isCreditOrder() {
-		return m_CurrentOrder
-				.getC_DocType().getDocSubTypeSO()
-				.equalsIgnoreCase(MOrder.DocSubTypeSO_OnCredit);
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_OnCredit);
 	}
 	
 	/**
@@ -182,9 +221,12 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isStandardOrder() {
-		return m_CurrentOrder
-				.getC_DocType().getDocSubTypeSO()
-				.equalsIgnoreCase(MOrder.DocSubTypeSO_Standard);
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_Standard);
 	}
 	
 	/**
@@ -193,11 +235,84 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isPrepayOrder() {
-		return m_CurrentOrder
-				.getC_DocType().getDocSubTypeSO()
-				.equalsIgnoreCase(MOrder.DocSubTypeSO_Prepay);
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_Prepay);
 	}
-
+	
+	/**
+	 * Valid date if is invoiced
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isInvoiced() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return m_CurrentOrder.isInvoiced();
+	}
+	
+	/**
+	 * Validate if is delivered
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isDelivered() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return m_CurrentOrder.isDelivered();
+	}
+	
+	/**
+	 * Get Document Sub Type SO
+	 * @return
+	 * @return String
+	 */
+	private String getDocSubTypeSO() {
+		//	
+		MDocType m_DocType = MDocType.get(getCtx(), getC_DocType_ID());
+		if(m_DocType != null) {
+			if(m_DocType.getDocSubTypeSO() != null) {
+				return m_DocType.getDocSubTypeSO();
+			}
+		}
+		//	
+		return "";
+	}
+	
+	/**
+	 * Get Document Type from Order
+	 * @return
+	 * @return int
+	 */
+	public int getC_DocType_ID() {
+		if(!hasOrder()) {
+			return 0;
+		}
+		//	
+		if(isCompleted()
+				|| isVoided()) {
+			return m_CurrentOrder.getC_DocType_ID();
+		} else {
+			return m_CurrentOrder.getC_DocTypeTarget_ID();
+		}
+	}
+	
+	/**
+	 * Validate if is to print invoice
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isToPrint() {
+		return m_IsToPrint;
+	}
+	
 	/**
 	 * Get Current Order
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
@@ -215,7 +330,8 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean hasOrder() {
-		return m_CurrentOrder != null;
+		return m_CurrentOrder != null
+				&& m_CurrentOrder.getC_Order_ID() != 0;
 	}
 	
 	/**
@@ -268,7 +384,11 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getC_Currency_ID() {
-		return m_C_Currency_ID;
+		if (hasBPartner()) {
+			return m_CurrentOrder.getC_Currency_ID();
+		}
+		//	Default
+		return 0;
 	}
 	
 	/**
@@ -402,6 +522,10 @@ public class CPOS {
 		}
 		//	Set BPartner
 		setC_BPartner_ID(p_C_BPartner_ID);
+		//  Add record
+		addRecord(m_CurrentOrder.getC_Order_ID());
+		// Go to last record
+		nextRecord();
 	} // PosOrderModel
 	
 	/**
@@ -432,7 +556,7 @@ public class CPOS {
 	 */
 	public void setC_BPartner_ID(int p_C_BPartner_ID) {
 		//	Valid if has a Order
-		if(!hasOrder() 
+		if(m_CurrentOrder == null 
 				|| isCompleted())
 			return;
 		log.fine( "CPOS.setC_BPartner_ID=" + p_C_BPartner_ID);
@@ -540,10 +664,9 @@ public class CPOS {
 	 * @param p_C_Order_ID
 	 */
 	public void setOrder(int p_C_Order_ID) {
-		if (p_C_Order_ID == 0) {
-			m_CurrentOrder = null;
-		} else {
-			m_CurrentOrder = new MOrder(m_ctx , p_C_Order_ID, null);
+		m_CurrentOrder = new MOrder(m_ctx , p_C_Order_ID, null);
+		if (p_C_Order_ID != 0) {
+			loadPriceListVersion(m_CurrentOrder.getM_PriceList_ID());
 		}
 		//	
 		reloadOrder();
@@ -554,58 +677,80 @@ public class CPOS {
 	 * @param p_C_OrderLine_ID
 	 * @param p_QtyOrdered
 	 * @param p_PriceEntered
-	 * @return void
+	 * @param p_LineNetAmt
+	 * @param p_GrandTotal
+	 * @return BigDecimal []
 	 */
-	public void updateLine(int p_C_OrderLine_ID, BigDecimal p_QtyOrdered, BigDecimal p_PriceEntered) {
+	public BigDecimal [] updateLine(int p_C_OrderLine_ID, BigDecimal p_QtyOrdered, 
+			BigDecimal p_PriceEntered) {
 		//	Valid Complete
 		if (isCompleted())
-			return;
+			return null;
 		//	
 		MOrderLine[] lines = m_CurrentOrder.getLines("AND C_OrderLine_ID = " + p_C_OrderLine_ID, "Line");
+		BigDecimal m_LineNetAmt = Env.ZERO; 
+		BigDecimal m_TaxRate = Env.ZERO;
+		BigDecimal m_GrandTotal = Env.ZERO;
+		//	Search Line
 		for(MOrderLine line : lines) {
+			//	Valid No changes
+			if(p_QtyOrdered.doubleValue() == line.getQtyOrdered().doubleValue()
+					&& p_PriceEntered.doubleValue() == line.getPriceEntered().doubleValue()) {
+				return null;
+			}
 			line.setPrice(p_PriceEntered);
 			line.setQty(p_QtyOrdered);
 			line.setTax();
 			line.saveEx();
+			//	Set Values for Grand Total
+			m_LineNetAmt = line.getLineNetAmt();
+			m_TaxRate = MTax.get(m_ctx, line.getC_Tax_ID()).getRate();
+			if(m_TaxRate == null) {
+				m_TaxRate = Env.ZERO;
+			} else {
+				m_TaxRate = m_TaxRate
+						.divide(Env.ONEHUNDRED);
+			}
+			//	Calculate Total
+			m_GrandTotal = m_LineNetAmt
+						.add(m_LineNetAmt
+								.multiply(m_TaxRate));
 		}
+		//	Return Value
+		return new BigDecimal[]{m_LineNetAmt, m_TaxRate, m_GrandTotal};
 	}
 	
 	/**
 	 * Create new Line
 	 * @return line or null
 	 */
-	public MOrderLine createLine(MProduct product, BigDecimal QtyOrdered,
-			BigDecimal PriceActual) {
+	public MOrderLine createLine(MProduct product, BigDecimal p_QtyOrdered,
+			BigDecimal p_PriceActual) {
 		//	Valid Complete
-		if (isCompleted())
+		if (!isDrafted())
 			return null;
 		// catch Exceptions at order.getLines()
-		int numLines = 0;
-		MOrderLine[] lines = m_CurrentOrder.getLines(null, "Line");
-		numLines = lines.length;
-		for (int i = 0; i < numLines; i++) {
-			if (lines[i].getM_Product_ID() == product.getM_Product_ID()) {
+		MOrderLine[] lines = m_CurrentOrder.getLines(true, "Line");
+		for (MOrderLine line : lines) {
+			if (line.getM_Product_ID() == product.getM_Product_ID()) {
 				//increase qty
-				BigDecimal current = lines[i].getQtyEntered();
-				BigDecimal toadd = QtyOrdered;
-				BigDecimal total = current.add(toadd);
-				lines[i].setQty(total);
-				lines[i].setPrice(); //	sets List/limit
-				if (PriceActual.compareTo(Env.ZERO) > 0) {
-					lines[i].setPrice(PriceActual);
-				}
-				lines[i].saveEx();
-				return lines[i];
+				BigDecimal m_CurrentQty = line.getQtyEntered();
+				BigDecimal m_CurrentPrice = line.getPriceEntered();
+				BigDecimal m_TotalQty = m_CurrentQty.add(p_QtyOrdered);
+				line.setQty(m_TotalQty);
+				line.setPrice(m_CurrentPrice); //	sets List/limit
+				line.saveEx();
+				return line;
 			}
 		}
         //create new line
 		MOrderLine line = new MOrderLine(m_CurrentOrder);
 		line.setProduct(product);
-		line.setQty(QtyOrdered);
-			
+		line.setQty(p_QtyOrdered);
+		//	
 		line.setPrice(); //	sets List/limit
-		if ( PriceActual.compareTo(Env.ZERO) > 0 ) {
-			line.setPrice(PriceActual);
+		if ( p_PriceActual.compareTo(Env.ZERO) > 0 ) {
+			line.setPrice(p_PriceActual);
 		}
 		//	Save Line
 		line.saveEx();
@@ -659,45 +804,73 @@ public class CPOS {
 		return m_Error;
 	} //	saveLine
 	
+	/**
+	 * 	Call Order void process 
+	 *  Only if Order is "Drafted", "In Progress" or "Completed"
+	 * 
+	 *  @return true if order voided; false otherwise
+	 */
+	private boolean voidOrder() {
+		if (!(m_CurrentOrder.getDocStatus().equals(MOrder.STATUS_Drafted) 
+				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress)
+				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Completed))) 
+			return false;
+		
+		// Standard way of voiding an order
+		m_CurrentOrder.setDocAction(MOrder.DOCACTION_Void);
+		if (m_CurrentOrder.processIt(MOrder.DOCACTION_Void) ) {
+			m_CurrentOrder.setDocAction(MOrder.DOCACTION_None);
+			m_CurrentOrder.setDocStatus(MOrder.STATUS_Voided);
+			m_CurrentOrder.saveEx();
+			return true;
+		} else {
+			return false;
+		}
+	} // cancelOrder
 	
 	/**
-	 * Delete order from database
-	 * 
-	 * @return true if order deleted; otherwise false
-	 */		
-	public boolean deleteOrder () {
-		//	Valid Null Pointer
-		if(m_CurrentOrder == null)
-			return false;
-		//	
-		if (m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Drafted)) {
-				MOrderLine[] lines = m_CurrentOrder.getLines();
-				if (lines != null) {
-					int numLines = lines.length;
-					if (numLines > 0)
-						for (int i = numLines - 1; i >= 0; i--) {
-							if (lines[i] != null)
-								deleteLine(lines[i].getC_OrderLine_ID());
-						}
-				}
-				
-				MOrderTax[] taxs = m_CurrentOrder.getTaxes(true);
-				if (taxs != null) {
-					int numTax = taxs.length;
-					if (numTax > 0)
-						for (int i = taxs.length - 1; i >= 0; i--) {
-							if (taxs[i] != null)
-								taxs[i].delete(true);
-							taxs[i] = null;
-						}
-				}
-				//	
-				m_CurrentOrder.getLines(true, null);		// requery order
-				
-				return cancelOrder(); 
+	 * Execute deleting an order
+	 * If the order is in drafted status -> ask to delete it
+	 * If the order is in completed status -> ask to void it it
+	 * Otherwise, it must be done outside this class.
+	 */
+	public String cancelOrder() {
+		String errorMsg = null;
+		try {
+			//	Get Index
+			int currentIndex = m_OrderList.indexOf(m_CurrentOrder.getC_Order_ID());
+			if (!hasOrder()) {
+				throw new AdempierePOSException("@POS.MustCreateOrder@");
+			} else if (!isCompleted()) {
+				//	Delete Order
+				m_CurrentOrder.deleteEx(true);
+			} else if (isCompleted()) {	
+				voidOrder();
+			} else {
+				throw new AdempierePOSException("@POS.OrderIsNotProcessed@");	//	TODO Translate it: Order is not Drafted nor Completed. Try to delete it other way
 			}
-		return false;
-	} //	deleteOrder
+			//	Remove from List
+			if(currentIndex >= 0) {
+				m_OrderList.remove(currentIndex);
+			}
+			//	
+			m_CurrentOrder = null;
+			//	Change to Next
+			if(hasRecord()){
+				if(isFirstRecord()) {
+					firstRecord();
+				} else if(isLastRecord()) {
+					lastRecord();
+				} else {
+					previousRecord();
+				}
+			}
+		} catch(Exception e) {
+			errorMsg = e.getMessage();
+		}
+		//	Default Return
+		return errorMsg;
+	} // cancelOrder
 	
 	/** 
 	 * Delete one order line
@@ -748,7 +921,27 @@ public class CPOS {
 			DB.close(pstm);
 		}
 		//	Seek Position
-		m_RecordPosition = m_OrderList.size();
+		if(hasRecord())
+			m_RecordPosition = m_OrderList.size() -1;
+		else 
+			m_RecordPosition = -1;
+	}
+	
+	/**
+	 * Verify if has record in list
+	 * @return
+	 * @return boolean
+	 */
+	public boolean hasRecord(){
+		return !m_OrderList.isEmpty();
+	}
+	
+	/**
+	 * Add new Record
+	 * @return void
+	 */
+	public void addRecord(int m_C_Order_ID){
+		m_OrderList.add(m_C_Order_ID);
 	}
 	
 	/**
@@ -800,51 +993,171 @@ public class CPOS {
 	}
 	
 	/**
-	 * 	Process Order
+	 * Seek to last record
+	 * @return void
+	 */
+	public void lastRecord() {
+		m_RecordPosition = m_OrderList.size();
+		if(m_RecordPosition != 0) {
+			--m_RecordPosition;
+		}
+	}
+	
+	/**
+	 * Seek to first record
+	 * @return void
+	 */
+	public void firstRecord() {
+		m_RecordPosition = m_OrderList.size();
+		if(m_RecordPosition != 0) {
+			m_RecordPosition = 0;
+		}
+	}
+	
+	/**
+	 * Process Order
 	 * For status "Drafted" or "In Progress": process order
 	 * For status "Completed": do nothing as it can be pre payment or payment on credit
-	 * 
+	 * @param trxName
+	 * @param p_IsPrepayment
+	 * @param p_IsPaid
 	 * @return true if order processed or pre payment/on credit; otherwise false
 	 * 
 	 */
-	public boolean processOrder(String trxName) {		
+	public boolean processOrder(String trxName, boolean p_IsPrepayment, boolean p_IsPaid) {		
 		//Returning orderCompleted to check for order completeness
 		boolean orderCompleted = false;
 		// check if order completed OK
-		if (m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Drafted) 
-				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress) ) {
+		if (!isCompleted()) {	//	Complete Order
 			//	Replace
 			if(trxName == null) {
 				trxName = m_CurrentOrder.get_TrxName();
 			} else {
 				m_CurrentOrder.set_TrxName(trxName);
 			}
-			if(isPrepayment()) {		
-				m_CurrentOrder.setC_DocTypeTarget_ID(getStandardOrder_ID());
+			//	Get value for Standard Order
+			if(p_IsPrepayment) {
+				//	Set Document Type
+				m_CurrentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
+				//	Force Delivery for POS
 			}
+//			} else {
+				m_CurrentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
+				m_CurrentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
+				m_IsToPrint = true;
+//			}
 			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
 				m_CurrentOrder.saveEx();
 				orderCompleted = true;
 			} else {
-				log.info( "Process Order FAILED "+m_CurrentOrder.getProcessMsg());		
+				log.info( "Process Order FAILED " + m_CurrentOrder.getProcessMsg());		
 			}
+		} else {	//	Default nothing
+			orderCompleted = isCompleted();
+			m_IsToPrint = false;
 		}
-		else 
-			if (m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Completed) ) { 
-				orderCompleted = true;
-			}
+		
+		//	Validate for generate Invoice and Shipment
+		if(p_IsPaid
+				&& !isInvoiced()
+				&& !isDelivered()) {	//	Generate Invoice and Shipment
+			generateShipment(trxName);
+			generateInvoice(trxName);
+			//	
+			orderCompleted = true;
+			m_IsToPrint = true;
+		}
 		return orderCompleted;
 	}	// processOrder
 	
 	/**
-	 * Process Order Without transaction name
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
-	 * @return boolean
+	 * Generate Shipment
+	 * @param trxName
+	 * @return void
 	 */
-	public boolean processOrder() {
-		return processOrder(null);
+	private void generateShipment(String trxName) {
+		int AD_Process_ID = 199;  // HARDCODED    M_InOut_Generate - org.compiere.process.InOutGenerate
+		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
+		if (!instance.save()) {
+			throw new AdempiereException("ProcessNoInstance");
+		}
+		//	Insert Values
+		DB.executeUpdateEx("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) Values(?, ?)", 
+				new Object[]{instance.getAD_PInstance_ID(), getC_Order_ID()}, trxName);
+		//	Add Lines
+		ProcessInfo pi = new ProcessInfo ("VInOutGen", AD_Process_ID);
+		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		pi.setClassName("org.compiere.process.InOutGenerate");
+
+		//	Add Is Selection
+		MPInstancePara para = new MPInstancePara(instance, 10);
+		para.setParameter("Selection", "Y");
+		if (!para.save()) {
+			String msg = "No Selection Parameter added";  //  not translated
+			log.log(Level.SEVERE, msg);
+			throw new AdempiereException(msg);
+		}
+		//	Add Warehouse
+		para = new MPInstancePara(instance, 20);
+		para.setParameter("M_Warehouse_ID", getM_Warehouse_ID());
+		if (!para.save()) {
+			String msg = "No Selection Parameter added";  //  not translated
+			log.log(Level.SEVERE, msg);
+			throw new AdempiereException(msg);
+		}
+		//	Create Trx
+		Trx trx = Trx.get(trxName, false);
+		//	Start Process
+		ProcessUtil.startJavaProcess(Env.getCtx(), pi, trx, false);
+		if(pi.isError()) {
+			throw new AdempiereException(pi.getSummary());
+		}
+	}
+	
+	/**
+	 * Generate Invoice
+	 * @param trxName
+	 * @return void
+	 */
+	private void generateInvoice(String trxName) {
+		int AD_Process_ID = 134;  // HARDCODED    C_InvoiceCreate - org.compiere.process.InvoiceGenerate
+		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
+		if (!instance.save()) {
+			throw new AdempiereException("ProcessNoInstance");
+		}
+		//	Insert Values
+		DB.executeUpdateEx("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) Values(?, ?)", 
+				new Object[]{instance.getAD_PInstance_ID(), getC_Order_ID()}, trxName);
+		//	Add Lines
+		ProcessInfo pi = new ProcessInfo ("", AD_Process_ID);
+		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		pi.setClassName("org.compiere.process.InvoiceGenerate");
+
+		//	Add Is Selection
+		MPInstancePara para = new MPInstancePara(instance, 10);
+		para.setParameter("Selection", "Y");
+		if (!para.save()) {
+			String msg = "No Selection Parameter added";  //  not translated
+			log.log(Level.SEVERE, msg);
+			throw new AdempiereException(msg);
+		}
+		//	For Document Action
+		para = new MPInstancePara(instance, 20);
+		para.setParameter("DocAction", "CO");
+		if (!para.save())
+		{
+			String msg = "No DocAction Parameter added";  //  not translated
+			log.log(Level.SEVERE, msg);
+			throw new AdempiereException(msg);
+		}
+		//	Create Trx
+		Trx trx = Trx.get(trxName, false);
+		//	Start Process
+		ProcessUtil.startJavaProcess(Env.getCtx(), pi, trx, false);
+		if(pi.isError()) {
+			throw new AdempiereException(pi.getSummary());
+		}
 	}
 	
 	/**
@@ -857,6 +1170,32 @@ public class CPOS {
 		return m_CurrentOrder.getProcessMsg();
 	}
 
+	/**
+	 * Set Payment Term and save orders
+	 * @param p_C_PaymentTerm_ID
+	 * @return void
+	 */
+	public void setC_PaymentTerm_ID(int p_C_PaymentTerm_ID) {
+		if(p_C_PaymentTerm_ID != 0
+				&& hasOrder()
+				&& !isCompleted()
+				&& !isVoided()) {
+			m_CurrentOrder.setC_PaymentTerm_ID(p_C_PaymentTerm_ID);
+		}
+	}
+	
+	/**
+	 * Get Payment term from order
+	 * @return
+	 * @return int
+	 */
+	public int getC_PaymentTerm_ID() {
+		if(hasOrder()) {
+			return m_CurrentOrder.getC_PaymentTerm_ID();
+		}
+		//	Default
+		return 0;
+	}
 
 	/**
 	 * 	Gets Tax Amt from Order
@@ -939,8 +1278,15 @@ public class CPOS {
 	 * 	Load Order
 	 */
 	public void reloadOrder() {
-		if (m_CurrentOrder == null)
+		if (m_CurrentOrder == null) {
+			
+			if(m_RecordPosition != -1
+					&& m_RecordPosition < m_OrderList.size()) {
+				setOrder(m_OrderList.get(m_RecordPosition));
+			}
+			//	
 			return;
+		}
 		m_CurrentOrder.load(m_CurrentOrder.get_TrxName());
 		m_CurrentOrder.getLines(true, "");
 		m_BPartner = MBPartner.get(getCtx(), m_CurrentOrder.getC_BPartner_ID());
@@ -964,7 +1310,6 @@ public class CPOS {
 	private MPriceListVersion loadPriceListVersion(int p_M_PriceList_ID) {
 		m_M_PriceList_Version_ID = 0;
 		MPriceList pl = MPriceList.get(m_ctx, p_M_PriceList_ID, null);
-		m_C_Currency_ID = pl.getC_Currency_ID();
 		//
 		MPriceListVersion plv = pl.getPriceListVersion (getToday());
 		if (plv != null 
@@ -977,7 +1322,6 @@ public class CPOS {
 	
 	/**
 	 * Get Warehouse Identifier
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return int
 	 */
@@ -987,33 +1331,64 @@ public class CPOS {
 	
 	/**
 	 * Valid Locator
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return String
 	 */
-	public String validLocator() {
+	public void validLocator() {
 		MWarehouse warehouse = MWarehouse.get(m_ctx, getM_Warehouse_ID());
 		MLocator[] locators = warehouse.getLocators(true);
 		for (MLocator mLocator : locators) {
 			if (mLocator.isDefault()) {
-				return null;
+				return ;
 			}
 		}
-		//	False Return
-		return "@M_Locator_ID@ @default@ "
+
+		throw new AdempierePOSException("@M_Locator_ID@ @default@ "
 				+ "@not.found@ @M_Warehouse_ID@: " 
-				+ warehouse.getName();
+				+ warehouse.getName());
 	}
 	
 	/**
 	 * Get Warehouse Name
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
 	 * @return String
 	 */
 	public String getWarehouseName() {
 		if(getM_Warehouse_ID() > 0) {
 			MWarehouse.get(m_ctx, getM_Warehouse_ID()).getName();
+		}
+		//	Default
+		return "";
+	}
+	
+	/**
+	 * Get Document Type Name
+	 * @return
+	 * @return String
+	 */
+	public String getDocumentTypeName() {
+		if(hasOrder()) {
+			MDocType m_DocType = MDocType.get(getCtx(), m_CurrentOrder.getC_DocTypeTarget_ID());
+			if(m_DocType != null) {
+				return m_DocType.getName();
+			}
+		}
+		//	Default None
+		return "";
+	}
+	
+	/**
+	 * Get Currency Symbol
+	 * @return
+	 * @return String
+	 */
+	public String getCurSymbol() {
+		int m_C_Currency_ID = getC_Currency_ID();
+		if(m_C_Currency_ID > 0) {
+			MCurrency m_Currency = MCurrency.get(getCtx(), m_C_Currency_ID);
+			if(m_Currency != null) {
+				return m_Currency.getCurSymbol();
+			}
 		}
 		//	Default
 		return "";
@@ -1063,7 +1438,13 @@ public class CPOS {
 	 */
 	public ValueNamePair[] getCreditNotes () {
 		try {
-			String whereClause = "c_bpartner_ID =? and ispaid ='N' and c_doctype_ID in (select c_doctype_ID from c_doctype where docbasetype ='ARC')";
+			String whereClause = "C_BPartner_ID = ? "
+					+ "AND IsPaid ='N' "
+					+ "AND EXISTS(SELECT 1 "
+					+ "				FROM C_DocType dt "
+					+ "				WHERE dt.C_DocType_ID = C_Invoice.C_DocType_ID "
+					+ "				AND dt.DocBaseType ='ARC'"
+					+ ")";
 			List<MInvoice> cns = new Query(Env.getCtx(), MInvoice.Table_Name, whereClause, null)
 				.setParameters(m_CurrentOrder.getC_BPartner_ID())
 				.list();
@@ -1123,31 +1504,6 @@ public class CPOS {
 		return "?" + CreditCardType + "?";
 	}	//	getCreditCardName
 	
-
-
-	/**
-	 * 	Call Order void process 
-	 *  Only if Order is "Drafted", "In Progress" or "Completed"
-	 * 
-	 *  @return true if order voided; false otherwise
-	 */
-	public boolean cancelOrder() {
-		if (!(m_CurrentOrder.getDocStatus().equals(MOrder.STATUS_Drafted) 
-				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress)
-				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Completed))) 
-			return false;
-		
-		// Standard way of voiding an order
-		m_CurrentOrder.setDocAction(MOrder.DOCACTION_Void);
-		if (m_CurrentOrder.processIt(MOrder.DOCACTION_Void) ) {
-			m_CurrentOrder.setDocAction(MOrder.DOCACTION_None);
-			m_CurrentOrder.setDocStatus(MOrder.STATUS_Voided);
-			m_CurrentOrder.saveEx();
-			return true;
-		} else 
-			return false;
-	} // cancelOrder
-	
 	/**
 	 * Get Context
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Aug 31, 2015, 8:23:54 PM
@@ -1173,6 +1529,28 @@ public class CPOS {
 	}
 	
 	/**
+	 * Get Key Layout
+	 * @return
+	 * @return int
+	 */
+	public int getC_POSKeyLayout_ID() {
+		if(m_POS != null) {
+			return m_POS.getC_POSKeyLayout_ID();
+		}
+		//	Default Return
+		return 0;
+	}
+	
+	/**
+	 * Verify if can modify price
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isModifyPrice() {
+		return m_POS.isModifyPrice();
+	}
+	
+	/**
 	 * Get Order Identifier
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return
@@ -1188,51 +1566,38 @@ public class CPOS {
 	}
 	
 	/**
-	 * Verify if is Prepayment
-	 * @return
-	 * @return boolean
-	 */
-	public boolean isPrepayment() {
-		return m_IsPrepayment;
-	}
-
-	/**
-	 * Is Prepayment
-	 * @return
-	 * @return String
-	 */
-	public String getMsgLocator() {
-		return msgLocator;
-	}
-
-	/**
-	 * Set if is Prepayment
-	 * @param isPrepayment
+	 * Save Current Next Sequence
+	 * @param trxName
 	 * @return void
 	 */
-	public void setPrepayment(boolean isPrepayment) {
-		m_IsPrepayment = isPrepayment;
+	public void saveNextSeq(String trxName){
+		int next = m_SeqDoc.getCurrentNext() + m_SeqDoc.getIncrementNo();
+		m_SeqDoc.setCurrentNext(next);
+		m_SeqDoc.saveEx(trxName);
 	}
 	
 	/**
-	 * Get Standard Order ID
-	 * @return int
+	 * Get Sequence Document
+	 * @param trxName
+	 * @return String
 	 */
-	public int getStandardOrder_ID() {
-		StringBuffer whereClause = new StringBuffer();
-		whereClause.append(MDocType.COLUMNNAME_DocBaseType + "=?");
-		whereClause.append(" AND " + MDocType.COLUMNNAME_DocSubTypeSO + "=?");
-		ArrayList<Object> params = new ArrayList<Object>();
-		params.add(MDocType.DOCBASETYPE_SalesOrder);
-		params.add(MDocType.DOCSUBTYPESO_StandardOrder);
-
-		int C_DocType_ID = new Query(m_ctx, MDocType.Table_Name, 
-				whereClause.toString(), 
-				m_CurrentOrder.get_TrxName())
-					.setParameters(params)	
-					.setClient_ID()
-					.setOnlyActiveRecords(true)
-					.firstId();
-		return C_DocType_ID;
+	public String getSequenceDoc(String trxName){
+		m_SeqDoc = new MSequence(Env.getCtx(), m_POS.getAD_Sequence_ID(), trxName);
+		return m_SeqDoc.getPrefix() + m_SeqDoc.getCurrentNext();
 	}
+	
+	/**
+	 * Set Purchase Order Reference 
+	 * @param docno
+	 * @return void
+	 */
+	public void setPOReference(String docno) {
+		String trxName = m_CurrentOrder.get_TrxName();
+		Trx trx = Trx.get(trxName, true);
+		m_CurrentOrder.setPOReference(docno);
+		m_CurrentOrder.saveEx(trx.getTrxName());
+		trx.close();
+		
+	}
+	
 }

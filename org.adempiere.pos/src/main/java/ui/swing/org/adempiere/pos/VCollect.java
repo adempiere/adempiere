@@ -29,6 +29,9 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -39,13 +42,11 @@ import javax.swing.KeyStroke;
 
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.pos.service.Collect;
-import org.adempiere.pos.service.CollectDetail;
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
-import org.compiere.model.MOrder;
 import org.compiere.model.X_C_Payment;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
@@ -63,7 +64,7 @@ import org.compiere.util.TrxRunnable;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 public class VCollect extends Collect
-		implements ActionListener, I_POSPanel {
+		implements ActionListener, I_POSPanel, VetoableChangeListener {
 	
 	/**
 	 * From POS
@@ -107,13 +108,15 @@ public class VCollect extends Collect
 	/**	Fields Summary		*/
 	private CLabel 			lGrandTotal;
 	private CLabel 			fGrandTotal;
-	private CLabel 			lReturnAmt;
-	private CLabel 			fReturnAmt;
-	private CLabel 			fLine;
 	private CLabel 			lPayAmt;
 	private CLabel 			fPayAmt;
+	private CLabel 			lOpenAmt;
+	private CLabel 			fOpenAmt;
+	private CLabel 			lReturnAmt;
+	private CLabel 			fReturnAmt;
 	private CCheckBox 		fIsPrePayOrder;
 	private CCheckBox 		fIsCreditOrder;
+//	private VLookup 		fPaymentTerm;
 	
 	/**	Action				*/
 	private CButton 		bPlus;
@@ -121,7 +124,7 @@ public class VCollect extends Collect
 	private JButton 		bOk;
 	
 	/**	Generic Values		*/
-	private boolean 		isPaid;
+	private boolean 		isProcessed;
 	private Properties 		m_ctx;
 	private int 			collectRowNo;
 	
@@ -159,26 +162,32 @@ public class VCollect extends Collect
 		
 		// Add Grand Total
 		lGrandTotal = new CLabel(Msg.translate(m_ctx, "GrandTotal") + ":");
-		lGrandTotal.setFont(v_POSPanel.getFont());
+		lGrandTotal.setFont(v_POSPanel.getPlainFont());
 		//	
 		fGrandTotal = new CLabel();
-		fGrandTotal.setFont(v_POSPanel.getFont());
+		fGrandTotal.setFont(v_POSPanel.getBigFont());
 		//	
 		fGrandTotal.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
 		
 		//	Add Payment Amount
 		lPayAmt = new CLabel(Msg.translate(m_ctx, "PayAmt") + ":");
-		lPayAmt.setFont(v_POSPanel.getFont());
+		lPayAmt.setFont(v_POSPanel.getPlainFont());
 		//	
 		fPayAmt = new CLabel();
 		fPayAmt.setFont(v_POSPanel.getFont());
 		fPayAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
-		//	Add Line
-		fLine = new CLabel("________________");
-		fLine.setFont(v_POSPanel.getFont());
+		
+		//	Add Payment Amount
+		lOpenAmt = new CLabel(Msg.translate(m_ctx, "OpenAmt") + ":");
+		lOpenAmt.setFont(v_POSPanel.getPlainFont());
+		//	
+		fOpenAmt = new CLabel();
+		fOpenAmt.setFont(v_POSPanel.getFont());
+		fOpenAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
+		
 		//	For Returned Amount
 		lReturnAmt = new CLabel(Msg.translate(m_ctx, "AmountReturned") + ":");
-		lReturnAmt.setFont(v_POSPanel.getFont());
+		lReturnAmt.setFont(v_POSPanel.getPlainFont());
 		//	
 		fReturnAmt = new CLabel();
 		fReturnAmt.setFont(v_POSPanel.getFont());
@@ -186,16 +195,16 @@ public class VCollect extends Collect
 		
 		//	Add Is Pre-Payment
 		fIsPrePayOrder = new CCheckBox(Msg.translate(m_ctx, "IsPrePayment"));
-		fIsPrePayOrder.setFont(v_POSPanel.getFont());
+		fIsPrePayOrder.setFont(v_POSPanel.getPlainFont());
 		
 		//	Add Is Credit Order
 		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "CreditSale"));
-		fIsCreditOrder.setFont(v_POSPanel.getFont());
+		fIsCreditOrder.setFont(v_POSPanel.getPlainFont());
 		
 		// Pre-Payment, Standard Order: enable only if the order is completed and there are lines 
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 		   v_POSPanel.isCompleted() &&
-		   v_POSPanel.getM_Order().getC_DocType().getDocSubTypeSO().equalsIgnoreCase(MOrder.DocSubTypeSO_Standard)) {	
+		   v_POSPanel.isStandardOrder()) {	
 			fIsPrePayOrder.setEnabled(false);	
 			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setSelected(true);
@@ -215,7 +224,13 @@ public class VCollect extends Collect
 				fIsCreditOrder.setSelected(true);
 			}
 		}
-		
+//		int AD_Column_ID = 2187;        //  C_Order.C_PaymentTerm_ID
+//		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.TableDir);
+//		fPaymentTerm = new VLookup("C_PaymentTerm_ID", true, false, true, lookup);
+//		((VComboBox)fPaymentTerm.getCombo()).setRenderer(new POSLookupTableDirCellRenderer(v_POSPanel.getFont()));
+//		fPaymentTerm.setPreferredSize(new Dimension(200, v_POSPanel.getFieldLenght()));
+//		((VComboBox)fPaymentTerm.getCombo()).setFont(v_POSPanel.getFont());
+//		fPaymentTerm.addVetoableChangeListener(this);
 		//	Add Plus Button
 		AppsAction act = new AppsAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2), false);
 		act.setDelegate(this);
@@ -238,9 +253,12 @@ public class VCollect extends Collect
 		
 		v_ParameterPanel.add(fPayAmt, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
-
-		v_ParameterPanel.add(fLine, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, 
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		
+		v_ParameterPanel.add(lOpenAmt, new GridBagConstraints(1, 2, 1, 1, 0.0,	0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+		
+		v_ParameterPanel.add(fOpenAmt, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, 
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		
 		v_ParameterPanel.add(lReturnAmt, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
@@ -256,6 +274,9 @@ public class VCollect extends Collect
 		
 		v_ParameterPanel.add(bPlus, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0,
 							GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
+		
+//		v_ParameterPanel.add(fPaymentTerm, new GridBagConstraints(2, 5, 1, 1, 0.0,0.0, 
+//				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
 		//	Add Fields to Main Panel
 		v_MainPanel.add(v_ParameterPanel, BorderLayout.NORTH);
@@ -305,6 +326,8 @@ public class VCollect extends Collect
 		collectDetail.requestFocusInPayAmt();
 		//	Add Count
 		collectRowNo++;
+		//	Calculate Data
+		calculatePanelData();
 	}
 
 	/**
@@ -313,14 +336,12 @@ public class VCollect extends Collect
 	 * @return String
 	 */
 	public String saveData() {
+		String errorMsg = null;
 		try {
 			v_Dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			v_POSPanel.setPrepayment(fIsPrePayOrder.isSelected());
-			setIsCreditOrder(fIsCreditOrder.isSelected());
-//			setReturnAmt(new BigDecimal(fReturnAmt.getText()));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if(v_POSPanel.processOrder(trxName)) {
+					if(v_POSPanel.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
 						processPayment(trxName, v_POSPanel.getOpenAmt());
 					} else {
 						throw new POSaveFailedException(v_POSPanel.getProcessMsg());
@@ -328,17 +349,17 @@ public class VCollect extends Collect
 				}
 			});
 		} catch (Exception e) {
-			return e.getMessage();
+			errorMsg = e.getLocalizedMessage();
 		} finally {
 			v_Dialog.setCursor(Cursor.getDefaultCursor());
 		}
 		//	Default
-		return null;
+		return errorMsg;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		isPaid = false;
+		isProcessed = false;
 		//	Validate Event
 		if (e.getSource().equals(bPlus)) {
 			addCollectType();
@@ -353,8 +374,9 @@ public class VCollect extends Collect
 				ADialog.warn(v_POSPanel.getWindowNo(), v_Dialog, Msg.parseTranslation(m_ctx, validResult));
 				return;
 			}
+			//	Set Processed
+			isProcessed = true;
 			//	
-			isPaid = true;
 			v_Dialog.dispose();
 			return;
 		} else if (e.getSource().equals(bCancel)) {	//	Nothing
@@ -363,9 +385,12 @@ public class VCollect extends Collect
 		} else if(e.getSource().equals(fIsCreditOrder)) {	//	For Credit Order Checked
 			//	Set to Controller
 			setIsCreditOrder(fIsCreditOrder.isSelected());
+			if(fIsCreditOrder.isSelected()) {
+				removeAllCollectDetail();
+			}
 		} else if(e.getSource().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
 			//	Set to Controller
-			setIsPrePayOrder(fIsCreditOrder.isSelected());
+			setIsPrePayOrder(fIsPrePayOrder.isSelected());
 		}
 		//	Valid Panel
 		changeViewPanel();
@@ -376,11 +401,8 @@ public class VCollect extends Collect
 	 * @return void
 	 */
 	public void removeAllCollectDetail() {
-		for(CollectDetail child : getCollectDetails()) {
-			Component comp = ((VCollectDetail)child).getPanel();
-			removeCollect(child);
-			v_CenterPanel.remove(comp);
-		}
+		v_CenterPanel.removeAll();
+		super.removeAllCollectDetail();
 		//	Refresh View
 		v_ScrollPanel.validate();
 		v_ScrollPanel.repaint();
@@ -409,7 +431,7 @@ public class VCollect extends Collect
 		//	
 		AEnv.positionCenterScreen(v_Dialog);
 		v_Dialog.setVisible(true);
-		return isPaid;
+		return isProcessed;
 	}
 	
 	/**
@@ -428,15 +450,9 @@ public class VCollect extends Collect
 
 	@Override
 	public String validatePanel() {
-		BigDecimal m_Balance = getBalance();
 		String errorMsg = null;
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
-		} else if(!fIsPrePayOrder.isSelected() 
-				&& m_Balance.doubleValue() > 0) {	//	For Pre-Payment Order
-			errorMsg = "@POS.OrderPayNotCompleted@";
-		} else if(m_Balance.doubleValue() > 0) {
-			errorMsg = "@POS.InsufficientOrderPaymentAmt@";
 		} else {
 			errorMsg = validatePayment(v_POSPanel.getOpenAmt());
 		}
@@ -446,67 +462,42 @@ public class VCollect extends Collect
 
 	@Override
 	public void changeViewPanel() {
-//		BigDecimal m_Balance = getBalance();
+		//	Set Credit for Complete Documents
+		boolean isCreditOpen = (v_POSPanel.isCompleted() 
+				&& v_POSPanel.getOpenAmt().doubleValue() > 0);
+		//	Is Standard Order
+		boolean isStandardOrder = v_POSPanel.isStandardOrder();
+		//	Set Credit Order
+		setIsCreditOrder(isCreditOrder() 
+				|| (isCreditOpen && !isStandardOrder));
+		//	
+		setIsPrePayOrder(isPrePayOrder()
+				|| (isCreditOpen && isStandardOrder));
 		//	Set Credit and Pre-Pay Order
 		fIsCreditOrder.setSelected(isCreditOrder());
 		fIsPrePayOrder.setSelected(isPrePayOrder());
-//		if(fIsCreditOrder.isSelected()) {
-//			fIsPrePayOrder.setSelected(false);
-//			bPlus.setEnabled(false);  // TODO substitute it with the correct command, because setEnable(false) doesn't work!!
-//			
-//			if((!v_POSPanel.isCompleted() && m_Balance.doubleValue() > 0) ||
-//			   (v_POSPanel.isCompleted() && getPayAmt().doubleValue() > 0) ) 
-//				bOk.setEnabled(true);
-//			else
-//				bOk.setEnabled(false);			
-//		} 
-//		else if(fIsPrePayOrder.isSelected()) {
-//			if(getPayAmt().doubleValue() > 0 && validatePayment()==null) {
-//				bOk.setEnabled(true);
-//			} else {
-//				bOk.setEnabled(false);
-//			}
-//		} 
-//		else 
-//		if(isExistOnlyOneCreditCard() || isExistOnlyOneCheck()) {
-//			// if payment consists of only one credit card or only one cash -> payment amount must be exact
-//			if(v_POSPanel.getOpenAmt().doubleValue() == getPayAmt().doubleValue())
-//				bOk.setEnabled(true);
-//			else
-//				bOk.setEnabled(false);				
-//		}
-//		else if(getDetailQty() > 1 && !isExistCash()) {
-//			// There is more than one payment and none is cash
-//			if(m_Balance.doubleValue() == 0) {
-//				// the amounts match exactly
-//				if (validatePayment()==null)
-//					bOk.setEnabled(true);
-//				else
-//					bOk.setEnabled(false);	
-//			}
-//			else
-//				bOk.setEnabled(false);	
-//		} 
-//		else if(getDetailQty() > 1 && !isExistCash()) {
-//			// There is more than one payment and there is at least one cash
-//			if(m_Balance.doubleValue() <= 0) {
-//				// the amounts are equal or higher than required
-//				if (validatePayment() == null)
-//					bOk.setEnabled(true);
-//				else
-//					bOk.setEnabled(false);	
-//			}
-//			else
-//				bOk.setEnabled(false);	
-//		}
-//		else if(!(m_Balance.doubleValue() <= 0 && validatePayment() == null)) {
-//			// Not enough payment(s) or invalid payment(s)
-//			bOk.setEnabled(false);
-//		} 
-//		else if (getDetailQty()==0) { // no details -> disable button
-//			bOk.setEnabled(false);
-//		} else
-//			bOk.setEnabled(true);
+//		fPaymentTerm.setVisible(isCreditOrder());
+		//	Verify complete order
+		if(v_POSPanel.isCompleted()) {
+			fIsCreditOrder.setEnabled(false);
+			fIsPrePayOrder.setEnabled(false);
+//			fPaymentTerm.setEnabled(false);
+			bPlus.setEnabled(isCreditOpen);
+			bOk.setEnabled(true);
+		} else if(v_POSPanel.isVoided()){
+			fIsCreditOrder.setEnabled(false);
+			fIsPrePayOrder.setEnabled(false);
+//			fPaymentTerm.setEnabled(false);
+			bPlus.setEnabled(false);
+			bOk.setEnabled(false);
+		} else {
+			fIsCreditOrder.setEnabled(true);
+			fIsPrePayOrder.setEnabled(true);
+//			fPaymentTerm.setEnabled(true);
+			bPlus.setEnabled(!isCreditOrder()
+					|| isCreditOpen);
+			bOk.setEnabled(true);
+		}
 	}
 	
 	/**
@@ -528,14 +519,40 @@ public class VCollect extends Collect
 		BigDecimal m_PayAmt = getPayAmt();
 		BigDecimal m_Balance = getBalance();
 		//	Change View
-		fGrandTotal.setText(v_POSPanel.getNumberFormat().format(v_POSPanel.getOpenAmt()));
-		fPayAmt.setText(v_POSPanel.getNumberFormat().format(m_PayAmt));
+		String currencyISO_Code = v_POSPanel.getCurSymbol();
+		fGrandTotal.setText(currencyISO_Code + " " 
+				+ v_POSPanel.getNumberFormat().format(v_POSPanel.getGrandTotal()));
+		fPayAmt.setText(currencyISO_Code + " " 
+				+ v_POSPanel.getNumberFormat().format(m_PayAmt.add(v_POSPanel.getPaidAmt())));
 		//	BR https://github.com/erpcya/AD-POS-WebUI/issues/6
 		//	Show pretty Return Amount
 		BigDecimal m_ReturnAmt = Env.ZERO;
+		BigDecimal m_OpenAmt = Env.ZERO;
 		if(m_Balance.doubleValue() < 0) {
 			m_ReturnAmt = m_Balance.abs();
+		} else if(m_Balance.doubleValue() > 0){
+			m_OpenAmt = m_Balance;
 		}
-		fReturnAmt.setText(v_POSPanel.getNumberFormat().format(m_ReturnAmt));
+		//	Set Open Amount
+		fOpenAmt.setText(currencyISO_Code + " " 
+				+ v_POSPanel.getNumberFormat().format(m_OpenAmt));
+		//	Set Return Amount
+		fReturnAmt.setText(currencyISO_Code + " " 
+				+ v_POSPanel.getNumberFormat().format(m_ReturnAmt));
+		
+//		fPaymentTerm.setValue(getC_PaymentTerm_ID());
+	}
+
+	@Override
+	public void vetoableChange(PropertyChangeEvent e)
+			throws PropertyVetoException {
+		String name = e.getPropertyName();
+		Object value = e.getNewValue();
+		log.config(name + " = " + value);
+		//	Verify Event
+//		if(name.equals("C_PaymentTerm_ID")) {
+//			int m_C_PaymentTerm_ID = ((Integer)(value != null? value: 0)).intValue();
+//			setC_PaymentTerm_ID(m_C_PaymentTerm_ID);
+//		}
 	}
 } // VCollect

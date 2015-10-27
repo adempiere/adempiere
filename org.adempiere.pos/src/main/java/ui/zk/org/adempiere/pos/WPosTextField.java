@@ -19,27 +19,37 @@ package org.adempiere.pos;
 
 import java.text.Format;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Textbox;
+import org.zkoss.zhtml.Table;
+import org.zkoss.zhtml.Td;
+import org.zkoss.zhtml.Tr;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Div;
 
 /**
  * 
  * @author Raul Muñoz 20/03/2015 
  */
-public class WPosTextField extends Textbox {
+public class WPosTextField extends Div {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2453719110038264481L;
 	WPOS pos = null;
 	int keyLayoutId = 0;
+	
+	private Textbox			f_HiddenField;
+	private Textbox			f_TextField;
+	private	String 			m_FontSize;
+	private	String			m_FontStyle;
+	public  static final String PRIMARY = "P";
+	public  static final String SECONDARY = "S";
+	private Table grid;
 	/**	Key Board				*/
-	private WPOSKeyboard 	m_Keyboard;
-		
 	public WPosTextField( WPOS pos, final int posKeyLayout_ID, Format format ) {
 		super();
-		
-		if ( posKeyLayout_ID > 0 )
-			addEventListener("onMouse", this);
 		
 		keyLayoutId = posKeyLayout_ID;
 		this.pos = pos;
@@ -49,33 +59,199 @@ public class WPosTextField extends Textbox {
 	public int getKeyLayoutId() {
 		return keyLayoutId;
 	}
+
 	public WPosTextField( WPOS pos, final int posKeyLayout_ID) {
 		super();
 		
-		if ( posKeyLayout_ID > 0 )
-			addEventListener("onMouse", this);
-		
 		keyLayoutId = posKeyLayout_ID;
 		this.pos = pos;
+		f_HiddenField = new Textbox();
+		f_HiddenField.setStyle("position:relative; left:-100%; margin-top:-20px; width:100%; height:100%; opacity:0.0");
+		f_TextField = new Textbox();
+		f_TextField.setHeight("23px");
+		f_TextField.setStyle("Font-size:medium; font-weight:bold");
 		
+		grid = new Table();
+		appendChild(grid);
+		this.setWidth("100%");
+		grid.setStyle("border: none; padding: 0px; margin: 0px;");
+		grid.setDynamicProperty("width", "100%");
+		grid.setDynamicProperty("border", "0");
+		grid.setDynamicProperty("cellpadding", "0");
+		grid.setDynamicProperty("cellspacing", "0");
+
+		Tr tr = new Tr();
+		grid.appendChild(tr);
+		tr.setStyle("width: 100%; border: none; padding: 0px; margin: 0px; white-space:nowrap; ");
+
+		Td td = new Td();
+		tr.appendChild(td);
+		td.setStyle("border: none; padding: 0px; margin: 0px;");
+		
+		td.appendChild(f_TextField);
+		td.appendChild(f_HiddenField);
+		
+		String style = AEnv.isFirefox2() ? "display: inline"
+				: "display: inline-block";
+		style = style
+				+ ";border: none; padding: 0px; margin: 0px; background-color: transparent;";
+		this.setStyle(style);
+	}
+	
+	/**
+	 * Get Font Size 
+	 * @return String
+	 */
+	public String getFontSize() {
+		return m_FontSize;
+	}
+	
+	/**
+	 *  Set Font Size
+	 * @param p_FontSize
+	 * @return void
+	 */
+	public void setFontSize(String p_FontSize) {
+		this.m_FontSize = p_FontSize;
+	}
+	
+	/**
+	 * Get Font Style 
+	 * @return String
+	 */
+	public String getFontStyle() {
+		return m_FontStyle;
 	}
 
 	/**
-	 * Text field with keyboard
-	 * *** Constructor ***
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @param p_Title
-	 * @param p_Keyboard
+	 * Set Font Style
+	 * @param p_FontStyle
+	 * @return void
 	 */
-	public WPosTextField(String p_Title, WPOSKeyboard p_Keyboard) {
-		super();
-		//	
-		m_Keyboard = p_Keyboard;
-		//	Valid and add Listener
-		if (p_Keyboard != null) {
-			addEventListener("onMouse", this);
-		}
-		//	Set Title
-		setName(p_Title);
+	public void setFontStyle(String p_FontStyle) {
+		this.m_FontStyle = p_FontStyle;
 	}
+	
+	/** 
+	 * Set Width
+	 * @param Width
+	 * @return void
+	 */
+	public void setWidth(String width){
+		f_TextField.setWidth(width);
+		grid.setDynamicProperty("width", width);
+	}
+	
+	/**
+	 * Set Height
+	 * @param Height
+	 * @return void
+	 */
+	public void setHeight(String height){
+		f_TextField.setHeight(height);
+		
+	}
+	
+	/**
+	 * Set Style
+	 * @param style
+	 * @return void
+	 */
+	public void setStyle(String style) {
+		f_TextField.setStyle(style);
+	}
+	
+	@Override
+	public boolean addEventListener(String Event, EventListener listener)
+	{
+		addEventListener(listener);
+	    return true;
+	}
+	/**
+	 * Add Event Listener
+	 * @param listener
+	 * @return void
+	 */
+	public void addEventListener(EventListener listener)
+	{
+
+		f_TextField.addEventListener(Events.ON_FOCUS, listener);
+		f_HiddenField.addEventListener(Events.ON_FOCUS, listener);
+	     
+	}
+	
+	/**
+	 * Set Value
+	 * @param value
+	 * @return void
+	 */
+	public void setValue(String value) {
+		f_TextField.setValue(value);
+	}
+
+	/**
+	 * Get Value
+	 * @return
+	 * @return String
+	 */
+	public String getValue() {
+		return f_TextField.getValue();
+	}
+	
+	/**
+	 * Set Text
+	 * @param value
+	 * @return void
+	 */
+	public void setText(String value) {
+		if(value != null)
+			f_TextField.setValue(value);
+		else
+			f_TextField.setValue("");
+	}
+	
+	/**
+	 * Get Text
+	 * @return
+	 * @return String
+	 */
+	public String getText() {
+			return f_TextField.getValue();
+	}
+	
+	/**
+	 * Set Read Only
+	 * @param readOnly
+	 * @return void
+	 */
+	public void setReadonly(Boolean readOnly) {
+		f_TextField.setReadonly(readOnly);
+		f_HiddenField.setReadonly(readOnly);
+	}
+	
+	/**
+	 * Get Component
+	 * @param comp
+	 * @return
+	 * @return Textbox
+	 */
+	public Textbox getComponent(String comp) {
+		if(comp.equals(PRIMARY)) {
+			return f_TextField;
+		} else if(comp.equals(SECONDARY)){
+			return f_HiddenField;
+		}
+		return null;
+	}
+	
+	/**
+	 * Set focus
+	 * @param focus
+	 * @return void
+	 */
+	@Override
+	public void setFocus(boolean focus){
+		f_TextField.setFocus(focus);
+	}
+			
 }

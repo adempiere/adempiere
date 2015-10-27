@@ -33,10 +33,12 @@ import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Caption;
+import org.zkoss.zul.Groupbox;
 
 /**
  *	POS Query BPartner
@@ -66,8 +68,7 @@ public class WQueryBPartner extends WPosQuery {
 	private WPosTextField		f_contact;
 	private WPosTextField		f_email;
 	private WPosTextField		f_phone;
-	private Textbox				f_city;
-
+	private WPosTextField		f_city;
 	private int					m_C_BPartner_ID;
 	
 	/**	Logger			*/
@@ -88,8 +89,8 @@ public class WQueryBPartner extends WPosQuery {
 	/**	From Clause							*/
 	private static String s_sqlFrom = "RV_BPartner";
 	/** Where Clause						*/
-	private static String s_sqlWhere = "IsActive='Y'"; 
-
+	private static String s_sqlWhere = "IsActive='Y'";
+	
 	/**
 	 * 	Set up Panel
 	 */
@@ -99,12 +100,14 @@ public class WQueryBPartner extends WPosQuery {
 		Panel panel = new Panel();
 		setVisible(true);
 		Panel mainPanel = new Panel();
+		Grid bPartnerLayout = GridFactory.newGridLayout();
 		
-		Grid productLayout = GridFactory.newGridLayout();
+		Groupbox groupPanel = new Groupbox();
+		Caption v_TitleBorder = new Caption(Msg.getMsg(p_ctx, "Query"));
+		
 		//	Set title window
-		this.setTitle(Msg.getMsg(p_ctx, "Query"));
 		this.setClosable(true);
-
+		
 		appendChild(panel);
 		//	North
 		northPanel = new Panel();
@@ -117,75 +120,114 @@ public class WQueryBPartner extends WPosQuery {
 		North north = new North();
 		north.setStyle("border: none");
 		mainLayout.appendChild(north);
-		north.appendChild(northPanel);
-		northPanel.appendChild(productLayout);
+		north.appendChild(groupPanel);
+		groupPanel.appendChild(v_TitleBorder);
+		groupPanel.appendChild(bPartnerLayout);
 		appendChild(mainPanel);
-		productLayout.setWidth("100%");
+		bPartnerLayout.setWidth("100%");
 		Rows rows = null;
 		Row row = null;
-		rows = productLayout.newRows();
+		rows = bPartnerLayout.newRows();
 		row = rows.newRow();
 		
-		Label lvalue = new Label(Msg.translate(p_ctx, "Value"));
-		row.appendChild(lvalue);
+		Label lValue = new Label(Msg.translate(p_ctx, "Value"));
+		row.appendChild(lValue.rightAlign());
+		lValue.setStyle(WPOS.FONTSIZESMALL);
 		f_value = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_value);
-		f_value.addEventListener("onFocus", this);
+		f_value.setWidth("120px");
+		f_value.addEventListener(this);
+		f_value.setStyle(WPOS.FONTSIZESMALL);
 		
-		Label lcontact = new Label(Msg.translate(p_ctx, "Contact"));
-		row.appendChild(lcontact);
+		Label lContact = new Label(Msg.translate(p_ctx, "Contact"));
+		row.appendChild(lContact.rightAlign());
+		lContact.setStyle(WPOS.FONTSIZESMALL);
 		f_contact = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_contact);
-		f_contact.addEventListener("onFocus", this);
+		f_contact.setWidth("120px");
+		f_contact.addEventListener(this);
+		f_contact.setStyle(WPOS.FONTSIZESMALL);
 		
-		Label lphone = new Label(Msg.translate(p_ctx, "Phone"));
-		row.appendChild(lphone);
+		Label lPhone = new Label(Msg.translate(p_ctx, "Phone"));
+		row.appendChild(lPhone.rightAlign());
+		lPhone.setStyle(WPOS.FONTSIZESMALL);
 		f_phone = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_phone);
-		f_phone.addEventListener("onFocus", this);
+		f_phone.setWidth("120px");
+		f_phone.addEventListener(this);
+		f_phone.setStyle(WPOS.FONTSIZESMALL);
 		
 		// New Line
 		row = rows.newRow();
-		Label lname = new Label(Msg.translate(p_ctx, "Name"));
-		row.appendChild(lname);
+		Label lName = new Label(Msg.translate(p_ctx, "Name"));
+		row.appendChild(lName.rightAlign());
+		lName.setStyle(WPOS.FONTSIZESMALL);
 		f_name = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_name);
-		f_name.addEventListener("onFocus", this);
+		f_name.addEventListener(this);
+		f_name.setWidth("120px");
+		f_name.setStyle(WPOS.FONTSIZESMALL);
 		//
-		Label lemail = new Label(Msg.translate(p_ctx, "Email"));
-		row.appendChild(lemail);
+		Label lEmail = new Label(Msg.translate(p_ctx, "Email"));
+		row.appendChild(lEmail.rightAlign());
+		lEmail.setStyle(WPOS.FONTSIZESMALL);
 		f_email = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_email);
-		f_email.addEventListener("onFocus", this);
+		f_email.addEventListener(this);
+		f_email.setWidth("120px");
+		f_email.setStyle(WPOS.FONTSIZESMALL);
 		//
-		Label lcity = new Label(Msg.translate(p_ctx, "City"));
-		row.appendChild(lcity);
-		f_city = new Textbox();
+		Label lCity = new Label(Msg.translate(p_ctx, "City"));
+		row.appendChild(lCity.rightAlign());
+		lCity.setStyle(WPOS.FONTSIZESMALL);
+		f_city = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
+		f_city.setWidth("120px");
 		row.appendChild(f_city);
 		f_city.addEventListener("onFocus", this);
+		f_city.setStyle(WPOS.FONTSIZESMALL);
 		
-		String sql = m_table.prepareTable (s_layout, s_sqlFrom, 
-				s_sqlWhere, false, "RV_BPartner")
-				+ " ORDER BY Value";
+		m_table.prepareTable (s_layout, s_sqlFrom, 
+				s_sqlWhere, false, "RV_BPartner");
 		center = new Center();
-		center.setStyle("border: none; Height=80%");
-		m_table.setWidth("100%");
+		center.setStyle("border: none; Height:80%;overflow:scroll");
 		m_table.addActionListener(this);
 		center.appendChild(m_table);
 		mainLayout.appendChild(center);
 		m_table.loadTable(new PO[0]);
 		m_table.autoSize();
+		m_table.setClass("Table-OrderLine");
 		addNewAction();
 	}	//	init
 	
-		
+
+
+	/**
+	 * 	Set/display Results
+	 *	@param results results
+	 */
+	private void setResultsFromArray(MBPartnerInfo[] results) {
+		m_table.loadTable(results);
+		int rowCount = m_table.getRowCount();
+		if (rowCount > 0) {
+			if(rowCount == 1) {
+				select();
+			}
+		}
+	}	//	setResults
+	
 	/**
 	 * 	Set/display Results
 	 *	@param results results
 	 */
 	public void setResults (MBPartnerInfo[] results)
 	{
-		m_table.loadTable(results);
+		//	Valid Result
+		if(results == null
+				|| !(results instanceof MBPartnerInfo[]))
+			return;
+		//	
+		setResultsFromArray((MBPartnerInfo[]) results);
+//		m_table.loadTable(results);
 		enableButtons();
 	}	//	setResults
 
@@ -243,20 +285,17 @@ public class WQueryBPartner extends WPosQuery {
 		f_Edit.setEnabled(false);
 	}
 	
-	public void showKeyboard(Component  p_field, String eventName){
-		WPosTextField field = (WPosTextField) p_field;
+	public String showKeyboard(Event e){
+		Textbox field = (Textbox) e.getTarget();
 
-		WPOSKeyboard keyboard = v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
-		keyboard.setTitle(Msg.translate(Env.getCtx(), ""));
-		keyboard.setPosTextField(field);	
-		if(eventName.equals("onFocus")) {
-			keyboard.setVisible(true);
-			keyboard.setWidth("750px");
-			keyboard.setHeight("380px");
+		WPOSKeyboard keyboard = v_POSPanel.getKeyboard();
+		if(e.getName().equals(Events.ON_FOCUS)){
+			keyboard.setPosTextField(field);	
 			AEnv.showWindow(keyboard);
-			m_table.setFocus(true);
 		}
+		return field.getText();
 	}
+	
 	@Override
 	protected void newAction() {
 		super.newAction();
@@ -294,12 +333,38 @@ public class WQueryBPartner extends WPosQuery {
 		else if(e.getTarget().getId().equals("Reset")){
 			reset();
 		}
-		else if(e.getTarget().equals(f_name) || e.getTarget().equals(f_contact)
-				|| e.getTarget().equals(f_value) || e.getTarget().equals(f_email)
-				|| e.getTarget().equals(f_city) || e.getTarget().equals(f_phone)){
-				showKeyboard(e.getTarget(), e.getName());
-				refresh();
+		else if(e.getTarget().equals(f_name.getComponent(WPosTextField.SECONDARY))) {
+			f_name.setValue(showKeyboard(e));
+			refresh();
+			f_name.setFocus(true);
 		}
+		else if(e.getTarget().equals(f_contact.getComponent(WPosTextField.SECONDARY))){
+			f_contact.setValue(showKeyboard(e));
+			refresh();
+			f_contact.setFocus(true);
+		}
+		else if(e.getTarget().equals(f_value.getComponent(WPosTextField.SECONDARY))){
+			f_value.setValue(showKeyboard(e));
+			refresh();
+			f_value.setFocus(true);
+		}
+		else if(e.getTarget().equals(f_email.getComponent(WPosTextField.SECONDARY))){
+			f_email.setValue(showKeyboard(e));
+			refresh();
+			f_email.setFocus(true);
+		}
+		else if(e.getTarget().equals(f_city.getComponent(WPosTextField.SECONDARY))){
+			f_city.setValue(showKeyboard(e));
+			refresh();
+			f_city.setFocus(true);
+		}
+		else if(e.getTarget().equals(f_phone.getComponent(WPosTextField.SECONDARY))){
+			f_phone.setValue(showKeyboard(e));
+			refresh();
+			f_phone.setFocus(true);
+			
+		}
+		
 		if (e.getTarget().getId().equals("Refresh")) {
 						refresh();
 						return;
@@ -310,15 +375,12 @@ public class WQueryBPartner extends WPosQuery {
 				close();
 			}
 			if(e.getTarget().getId().equals("Cancel")){
-				v_POSPanel.setC_BPartner_ID(0);
-				v_POSPanel.getM_Order().saveEx();
 				dispose();
 			}
 			if(e.getTarget().equals(m_table)){
 				select();
 			}
 	}
-
 
 	@Override
 	public void refresh() {
@@ -327,7 +389,6 @@ public class WQueryBPartner extends WPosQuery {
 				null, f_email.getText(),
 				f_phone.getText(), f_city.getText()));
 	}
-
 
 	@Override
 	protected void select() {
@@ -352,7 +413,6 @@ public class WQueryBPartner extends WPosQuery {
 	@Override
 	protected void cancel() {
 		// TODO Auto-generated method stub
-		m_C_BPartner_ID = 0;
 		dispose();
 	}
 	

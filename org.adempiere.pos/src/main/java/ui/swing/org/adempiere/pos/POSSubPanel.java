@@ -95,8 +95,8 @@ public abstract class POSSubPanel extends CPanel
 		act.setDelegate(this);
 		CButton button = (CButton)act.getButton();
 		button.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		button.setMinimumSize(getPreferredSize());
-		button.setMaximumSize(getPreferredSize());
+		button.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		button.setMaximumSize(new Dimension(WIDTH, HEIGHT));
 		button.setFocusable(false);
 		return button;
 	}	//	getButtonAction
@@ -113,8 +113,8 @@ public abstract class POSSubPanel extends CPanel
 		CButton button = new CButton(text);
 		button.addActionListener(this);
 		button.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		button.setMinimumSize(getPreferredSize());
-		button.setMaximumSize(getPreferredSize());
+		button.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		button.setMaximumSize(new Dimension(WIDTH, HEIGHT));
 		button.setFocusable(false);
 		return button;
 	}	//	getButton

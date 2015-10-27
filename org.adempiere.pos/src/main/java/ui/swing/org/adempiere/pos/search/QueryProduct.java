@@ -14,6 +14,7 @@
 
 package org.adempiere.pos.search;
 
+import java.awt.event.WindowFocusListener;
 import java.math.BigDecimal;
 
 import javax.swing.border.TitledBorder;
@@ -22,7 +23,6 @@ import net.miginfocom.swing.MigLayout;
 
 import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
-import org.adempiere.pos.service.I_POSQuery;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MWarehousePrice;
@@ -45,8 +45,7 @@ import org.compiere.util.Msg;
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
-public class QueryProduct extends POSQuery 
-		implements I_POSQuery {
+public class QueryProduct extends POSQuery {
 
 	private static final long serialVersionUID = 9172276999827406833L;
 
@@ -84,6 +83,11 @@ public class QueryProduct extends POSQuery
 		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", BigDecimal.class)
 	};
+	
+	@Override
+	public synchronized void addWindowFocusListener(WindowFocusListener l) {
+		super.addWindowFocusListener(l);
+	}
 	
 	/**	From Clause							*/
 	private static String s_sqlFrom = "RV_WarehousePrice";
@@ -128,8 +132,6 @@ public class QueryProduct extends POSQuery
 		m_table.prepareTable (s_layout, s_sqlFrom, 
 			s_sqlWhere, false, "RV_WarehousePrice");
 		//	
-		m_table.addMouseListener(this);
-		m_table.getSelectionModel().addListSelectionListener(this);
 		m_table.setColumnVisibility(m_table.getColumn(0), false);
 		m_table.getColumn(1).setPreferredWidth(175);
 		m_table.getColumn(2).setPreferredWidth(175);
@@ -140,7 +142,6 @@ public class QueryProduct extends POSQuery
 		m_table.getColumn(7).setPreferredWidth(75);
 		m_table.setFillsViewportHeight(true); //@Trifon
 		m_table.growScrollbars();
-		f_Value.requestFocus();
 	}	//	init
 	
 	/**
@@ -152,18 +153,6 @@ public class QueryProduct extends POSQuery
 		m_M_PriceList_Version_ID = M_PriceList_Version_ID;
 		m_M_Warehouse_ID = M_Warehouse_ID;
 	}	//	setQueryData
-	
-//	@Override
-//	public void actionPerformed (ActionEvent e) {
-//		super.actionPerformed(e);
-//		if (e.getSource() == f_Value || e.getSource() == f_UPC
-//			|| e.getSource() == f_ProductName || e.getSource() == f_SKU) {
-//			refresh();
-//			return;
-//		}
-//		//	Exit
-//	}	//	actionPerformed
-	
 	
 	/**
 	 * 	Set/display Results
@@ -197,7 +186,6 @@ public class QueryProduct extends POSQuery
 				m_Price = (BigDecimal)m_table.getValueAt(row, 7);
 			}
 		}
-//		f_Ok.setEnabled(enabled);
 		log.fine("M_Product_ID=" + m_M_Product_ID + " - " + m_ProductName + " - " + m_Price); 
 	}	//	enableButtons
 
@@ -216,10 +204,7 @@ public class QueryProduct extends POSQuery
 	 * 	Set Values on other panels and close
 	 */
 	protected void close() {
-		log.fine("M_Product_ID=" + m_M_Product_ID);
-		Integer ID = m_table.getSelectedRowKey();
-		if (ID != null)
-			m_M_Product_ID = ID.intValue();
+		select();
 		dispose();
 	}	//	close
 
@@ -265,4 +250,5 @@ public class QueryProduct extends POSQuery
 	public String getValue() {
 		return m_ProductName;
 	}
+	
 }	//	PosQueryProduct

@@ -18,6 +18,7 @@
 package org.adempiere.pos;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -27,9 +28,9 @@ import java.awt.MouseInfo;
 import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -44,6 +45,8 @@ import org.compiere.apps.ADialog;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.model.MPOS;
+import org.compiere.model.MPOSKey;
+import org.compiere.pos.AdempierePOSException;
 import org.compiere.pos.PosKeyboardFocusManager;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
@@ -55,7 +58,7 @@ import org.compiere.util.Msg;
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
@@ -75,8 +78,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private POSOrderLinePanel 				v_OrderLinePanel;
 	/** Function Keys				*/
 	private POSProductPanel 				v_ProductKeysPanel;
-	/**	POS Message					*/
-	private String 							m_POSMsg;
 	/**	Timer for logout			*/
 	private Timer 							logoutTimer;
 	/** Keyoard Focus Manager		*/
@@ -92,6 +93,12 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private DecimalFormat					m_Format;
 	/**	Font						*/
 	private Font 							font;
+	/**	Plain Font					*/
+	private Font 							plainFont;
+	/**	Big Font					*/
+	private Font 							bigFont;
+	/**	Big Plain Font				*/
+	private Font 							bigPlainFont;
 	/**	Default Height				*/
 	public int								m_FieldHeight;
 	/**	Plus Button Size			*/
@@ -108,13 +115,16 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_DividerPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		v_DividerPane.setBorder(BorderFactory.createEtchedBorder());
 		v_DividerPane.setContinuousLayout(true);
-		v_DividerPane.setDividerLocation(700);
+		v_DividerPane.setDividerLocation(650);
 		v_MainPane.add(v_DividerPane, BorderLayout.CENTER);
 		originalKeyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		m_focusMgr = new PosKeyboardFocusManager();
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
 		//	Set Border
-		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 18);
+		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 16);
+		plainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 16);
+		bigFont = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 20);
+		bigPlainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 20);
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		m_FieldHeight = 50;
 		m_ButtonSize = 50;
@@ -134,14 +144,18 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		try {
 			if (!dynInit()) {
 				dispose();
-				m_frame.setTitle(Msg.parseTranslation(Env.getCtx(), m_POSMsg));
 				return;
 			}
 			//	Add to frame
 			frame.getContentPane().add(v_MainPane, BorderLayout.CENTER);
-		} catch(Exception e) {
-			log.log(Level.SEVERE, "init", e);
 		}
+		catch (AdempierePOSException exception)
+		{
+			ADialog.error(getWindowNo(), m_frame , exception.getLocalizedMessage());
+			dispose();
+			return;
+		}
+
 		log.config( "PosPanel.init - " + v_MainPane.getPreferredSize());
 		
 		if (getAutoLogoutDelay() > 0 && logoutTimer == null) {
@@ -175,12 +189,48 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	}
 	
 	/**
+	 * Get Main Frame
+	 * @return
+	 * @return CFrame
+	 */
+	public CFrame getFrame() {
+		return m_frame;
+	}
+	
+	/**
 	 * Get main font
 	 * @return
 	 * @return Font
 	 */
 	public Font getFont() {
 		return font;
+	}
+	
+	/**
+	 * Get Plain font
+	 * @return
+	 * @return Font
+	 */
+	public Font getPlainFont() {
+		return plainFont;
+	}
+	
+	/**
+	 * Get big Font
+	 * @return
+	 * @return Font
+	 */
+	public Font getBigFont() {
+		return bigFont;
+	}
+	
+	/**
+	 * Get Big Plain
+	 * @return
+	 * @return Font
+	 */
+	public Font getBigPlainFont() {
+		return bigPlainFont;
 	}
 	
 	/**
@@ -214,24 +264,23 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * Load POS
 	 * @return String
 	 */
-	private String loadPOS() {
+	private void loadPOS() {
 		int salesRep_ID = Env.getAD_User_ID(getCtx());
-		boolean ok = setPOS(salesRep_ID);
-		if(!ok) {
-			//	Select POS
-			String msg = Msg.getMsg(getCtx(), "SelectPOS");
-			String title = Env.getHeader(getCtx(), m_WindowNo);
-			Object selection = JOptionPane.showInputDialog(m_frame, msg, title, 
-				JOptionPane.QUESTION_MESSAGE, null, getPOSs(salesRep_ID), null);
-			if (selection != null) {
-				setM_POS((MPOS)selection);
-				return validLocator();
-			}
-		} else if(ok) {
-			return null;
+		setPOS(salesRep_ID);
+		if(getM_POS() != null) {
+			validLocator();
+			return;
 		}
-		//	
-		return "@POS.NoPOSForUser@";
+		//	Select POS
+		String msg = Msg.getMsg(getCtx(), "SelectPOS");
+		String title = Env.getHeader(getCtx(), m_WindowNo);
+		Object selection = JOptionPane.showInputDialog(m_frame, msg, title,
+				JOptionPane.QUESTION_MESSAGE, null, getPOSs(salesRep_ID), null);
+
+		if (selection != null) {
+			setM_POS((MPOS)selection);
+			validLocator();
+		}
 	}
 	
 	/**************************************************************************
@@ -240,24 +289,54 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * 	The Sub Panels return their position
 	 */
 	private boolean dynInit() {
-		m_POSMsg = loadPOS();
-		if (m_POSMsg != null)
-			return false;
+		loadPOS();
 		m_frame.setTitle("Adempiere POS: " + getPOSName());
 		//	Create Sub Panels
 		v_LeftPanel = new CPanel(new GridBagLayout());
 		v_ActionPanel = new POSActionPanel(this);
-		v_LeftPanel.add(v_ActionPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
-				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		v_LeftPanel.add(v_ActionPanel, new GridBagConstraints(0, 0, 1, 1, 1, 0
+				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+		v_LeftPanel.setPreferredSize(new Dimension(500, 800));
+		v_LeftPanel.setMinimumSize(new Dimension(500, 800));
 		//
 		v_OrderLinePanel = new POSOrderLinePanel(this);
 		v_LeftPanel.add(v_OrderLinePanel, new GridBagConstraints(0, 1, 1, 1, 1, 1
-				,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		v_ProductKeysPanel = new POSProductPanel(this);
+		v_ProductKeysPanel.setPreferredSize(new Dimension(500, 800));
+		v_ProductKeysPanel.setMinimumSize(new Dimension(500, 800));
 		v_DividerPane.add(v_LeftPanel, JSplitPane.LEFT);
-		v_DividerPane.add(v_ProductKeysPanel, JSplitPane.RIGHT);		
+		v_DividerPane.add(v_ProductKeysPanel, JSplitPane.RIGHT);
+		//	Seek to last
+		if(hasRecord())
+			lastRecord();
+		refreshPanel();
 		return true;
 	}	//	dynInit
+	
+	/**
+	 * Add or replace order line
+	 * @param p_M_Product_ID
+	 * @param m_QtyOrdered
+	 * @return void
+	 */
+	public void addLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
+		//	Create Ordder if not exists
+		if (!hasOrder()) {
+			newOrder();
+		}
+		//	Show Product Info
+		refreshProductInfo(p_M_Product_ID);
+		//	
+		String lineError = add(p_M_Product_ID, m_QtyOrdered);
+		if (lineError != null) {
+			log.warning("POS Error " + lineError);
+			ADialog.error(getWindowNo(), 
+					v_MainPane, Msg.parseTranslation(m_ctx, lineError));
+		}
+		//	Update Info
+		refreshPanel();
+	}
 
 	/**
 	 * 	Dispose - Free Resources
@@ -297,11 +376,12 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public POSKeyboard getKeyboard(int keyLayoutId) {
 		if ( keyboards.containsKey(keyLayoutId) )
 			return keyboards.get(keyLayoutId);
-		else {
+		else if (keyLayoutId > 0 ){
 			POSKeyboard keyboard = new POSKeyboard(v_MainPane, keyLayoutId);
 			keyboards.put(keyLayoutId, keyboard);
 			return keyboard;
 		}
+		return null;
 	}
 	
 	/**
@@ -349,6 +429,24 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_ActionPanel.changeViewPanel();
 		v_ProductKeysPanel.refreshPanel();
 		v_OrderLinePanel.refreshPanel();
+	}
+	
+	/**
+	 * Refresh Product Info
+	 * @param key
+	 * @return void
+	 */
+	public void refreshProductInfo(MPOSKey key) {
+		v_ActionPanel.refreshProductInfo(key);
+	}
+	
+	/**
+	 * Refresh Product Info
+	 * @param p_M_Product_ID
+	 * @return void
+	 */
+	public void refreshProductInfo(int p_M_Product_ID) {
+		v_ActionPanel.refreshProductInfo(p_M_Product_ID);
 	}
 	
 	/**
