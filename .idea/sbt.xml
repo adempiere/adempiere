@@ -4,6 +4,12 @@
     <option name="linkedExternalProjectsSettings">
       <SbtProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/project" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/project/project" />
+            <option value="$PROJECT_DIR$/project/project/project" />
+          </set>
+        </option>
         <option name="sbtVersion" value="0.13.5" />
         <option name="useAutoImport" value="true" />
         <option name="useOurOwnAutoImport" value="true" />
