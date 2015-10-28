@@ -170,20 +170,8 @@
 	<lib name="asm.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/asm.jar!/"/>
 	</lib>
-	<lib name="commons-el.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/commons-el.jar!/"/>
-	</lib>
-	<lib name="commons-io.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/commons-io.jar!/"/>
-	</lib>
 	<lib name="fckez.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/fckez.jar!/"/>
-	</lib>
-	<lib name="Filters.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/Filters.jar!/"/>
-	</lib>
-	<lib name="gmapsz.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/gmapsz.jar!/"/>
 	</lib>
 	<lib name="jruby.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/jruby.jar!/"/>
@@ -194,22 +182,11 @@
 	<lib name="json_simple.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/json_simple.jar!/"/>
 	</lib>
-	<lib name="jxl.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/jxl.jar!/"/>
-	</lib>
 	<lib name="mvel.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/mvel.jar!/"/>
 	</lib>
 	<lib name="ognl.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/ognl.jar!/"/>
-	</lib>
-	<lib name="timelinez.jar" scope="COMPILE">
-		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/timelinez-sources.jar!/"/>
-		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/timelinez-sources.jar!/"/>
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/timelinez.jar!/"/>
-	</lib>
-	<lib name="zcommons-el.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zcommons-el.jar!/"/>
 	</lib>
 	<lib name="zhtml.jar" scope="COMPILE">
 		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zhtml-sources.jar!/"/>
@@ -219,56 +196,13 @@
 	<lib name="zhtml-sources.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zhtml-sources.jar!/"/>
 	</lib>
-	<lib name="zkex.jar" scope="COMPILE">
-		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkex-sources.jar!/"/>
-		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkex-sources.jar!/"/>
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkex.jar!/"/>
-	</lib>
-	<lib name="zkmax.jar" scope="COMPILE">
-		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkmax-sources.jar!/"/>
-		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkmax-sources.jar!/"/>
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkmax.jar!/"/>
-	</lib>
-	<lib name="zkmax-sources.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkmax-sources.jar!/"/>
-	</lib>
 	<lib name="zkplus.jar" scope="COMPILE">
 		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkplus-sources.jar!/"/>
 		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkplus-sources.jar!/"/>
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkplus.jar!/"/>
 	</lib>
-	<lib name="zml.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zml.jar!/"/>
-	</lib>
-	<lib name="bsh.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/bsh.jar!/"/>
-	</lib>
-	<lib name="zkwebui/WEB-INF/lib/commons-fileupload.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/commons-fileupload.jar!/"/>
-	</lib>
-	<lib name="zkwebui/WEB-INF/lib/jython.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/jython.jar!/"/>
-	</lib>
-	<lib name="timelinez-sources.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/timelinez-sources.jar!/"/>
-	</lib>
 	<lib name="zcommon-sources.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zcommon-sources.jar!/"/>
-	</lib>
-	<lib name="zkex-sources.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkex-sources.jar!/"/>
-	</lib>
-	<lib name="zk-sources.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zk-sources.jar!/"/>
-	</lib>
-	<lib name="zml-sources.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zml-sources.jar!/"/>
-	</lib>
-	<lib name="zul-sources.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zul-sources.jar!/"/>
-	</lib>
-	<lib name="zweb-sources.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zweb-sources.jar!/"/>
 	</lib>
 	<lib name="aspectjlib.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/reference/aspectJ/aspectjlib.jar!/"/>
@@ -313,13 +247,12 @@
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar!/"/>
 	</lib>
 	<lib name="zweb.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zweb-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zweb-sources.jar!/"/>
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zweb.jar!/"/>
 	</lib>
 	<lib name="posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar!/"/>
-	</lib>
-	<lib name="zkplus-sources.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkplus-sources.jar!/"/>
 	</lib>
 	<lib name="displaytag-export-poi-1.1.1.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar!/"/>
@@ -356,12 +289,6 @@
 	<lib name="groovy-all-2.0.1.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/groovy-all-2.0.1.jar!/"/>
 	</lib>
-	<lib name="jcommon-1.0.18.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jcommon-1.0.18.jar!/"/>
-	</lib>
-	<lib name="jfreechart-1.0.15.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jfreechart-1.0.15.jar!/"/>
-	</lib>
 	<lib name="jasperreports-5.1.0.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/JasperReportsTools/lib/jasperreports-5.1.0.jar!/"/>
 	</lib>
@@ -374,7 +301,7 @@
 	<lib name="liberoWM.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/packages/liberoWM.jar!/"/>
 	</lib>
-	<lib name="tools/lib/commons-io.jar" scope="COMPILE">
+	<lib name="commons-io.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/commons-io.jar!/"/>
 	</lib>
 	<lib name="xfire-all-1.2.6.jar" scope="COMPILE">
@@ -388,5 +315,26 @@
 	</lib>
 	<lib name="generated_xmlbeans.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar!/"/>
+	</lib>
+	<lib name="jcommon-1.0.21.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jcommon-1.0.21.jar!/"/>
+	</lib>
+	<lib name="jfreechart-1.0.17.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/tools/lib/jfreechart-1.0.17.jar!/"/>
+	</lib>
+	<lib name="bsh.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/ext/bsh.jar!/"/>
+	</lib>
+	<lib name="Filters.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/ext/Filters.jar!/"/>
+	</lib>
+	<lib name="gmapsz.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkforge/gmapsz.jar!/"/>
+	</lib>
+	<lib name="jxl.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/ext/jxl.jar!/"/>
+	</lib>
+	<lib name="timelinez.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zkforge/timelinez.jar!/"/>
 	</lib>
 </component>
