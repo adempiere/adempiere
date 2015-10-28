@@ -65,6 +65,9 @@ import org.compiere.wf.MWorkflow;
  * 	Generate ASP entries for a level
  *	
  *  @author Carlos Ruiz
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class ASPGenerateLevel extends SvrProcess
 {
@@ -118,7 +121,10 @@ public class ASPGenerateLevel extends SvrProcess
 		
 		MClientInfo clientInfo = MClientInfo.get(getCtx(), getAD_Client_ID(), get_TrxName());
 		int AD_Tree_ID = clientInfo.getAD_Tree_Menu_ID();
-		MTree thisTree = new MTree (getCtx(), AD_Tree_ID, true, true, true, get_TrxName());
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Change Constructor
+		MTree thisTree = new MTree (getCtx(), AD_Tree_ID, true, true, true, null, get_TrxName());
+		//	End Yamel Senih
 		MTreeNode node;
 		if (p_AD_Menu_ID > 0)
 			node = thisTree.getRoot().findNode(p_AD_Menu_ID);

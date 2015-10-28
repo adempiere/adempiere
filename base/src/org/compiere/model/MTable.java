@@ -55,6 +55,9 @@ import org.compiere.util.Util;
  *  		<li>FR [ 3426233 ] New Table should create the required columns
  * 			https://sourceforge.net/tracker/?func=detail&aid=3426233&group_id=176962&atid=879335
  *  @version $Id: MTable.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  		<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class MTable extends X_AD_Table
 {
@@ -177,7 +180,10 @@ public class MTable extends X_AD_Table
 	private static final String[]	s_special = new String[] {
 		"AD_Element", "org.compiere.model.M_Element",
 		"AD_Registration", "org.compiere.model.M_Registration",
-		"AD_Tree", "org.compiere.model.MTree_Base",
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Change to Default
+//		"AD_Tree", "org.compiere.model.MTree_Base",
+		//	End Yamel Senih
 		"R_Category", "org.compiere.model.MRequestCategory",
 		"GL_Category", "org.compiere.model.MGLCategory",
 		"K_Category", "org.compiere.model.MKCategory",

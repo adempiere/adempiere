@@ -432,7 +432,10 @@ public class MProject extends X_C_Project
 		if (newRecord && success)
 		{
 			insert_Accounting("C_Project_Acct", "C_AcctSchema_Default", null);
-			insert_Tree(MTree_Base.TREETYPE_Project);
+			//	Yamel Senih [ 9223372036854775807 ]
+			//	Change to PO
+//			insert_Tree(MTree.TREETYPE_Project);
+			//	End Yamel Senih
 		}
 
 		//	Value/Name change
@@ -457,12 +460,15 @@ public class MProject extends X_C_Project
 	 *	@param success
 	 *	@return deleted
 	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			delete_Tree(MTree_Base.TREETYPE_Project);
-		return success;
-	}	//	afterDelete
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change to PO
+//	protected boolean afterDelete (boolean success)
+//	{
+//		if (success)
+//			delete_Tree(MTree.TREETYPE_Project);
+//		return success;
+//	}	//	afterDelete
+	//	End Yamel Senih
 	
 	/**
 	 * 	Return the Invoices Generated for this Project

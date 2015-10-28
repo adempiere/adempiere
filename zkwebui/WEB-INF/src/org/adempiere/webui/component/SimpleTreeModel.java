@@ -40,6 +40,9 @@ import org.zkoss.zul.event.TreeDataEvent;
 /**
  * 
  * @author Low Heng Sin
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ * @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  *
  */
 public class SimpleTreeModel extends DefaultTreeModel<Object> implements TreeitemRenderer<Object>, EventListener<Event> {
@@ -64,8 +67,22 @@ public class SimpleTreeModel extends DefaultTreeModel<Object> implements Treeite
 	 * @param windowNo
 	 * @return SimpleTreeModel
 	 */
+	//	Yamel Senih [ 9223372036854775807 ]
+	//	Change for where Clause
 	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo) {
-		return initADTree(tree, AD_Tree_ID, windowNo, true, null);
+		return initADTree(tree, AD_Tree_ID, windowNo, true, null, null);
+	}
+	
+	/**
+	 * Init Tree with where clause
+	 * @param tree
+	 * @param AD_Tree_ID
+	 * @param windowNo
+	 * @param whereClause
+	 * @return
+	 */
+	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo, String whereClause) {
+		return initADTree(tree, AD_Tree_ID, windowNo, true, whereClause, null);
 	}
 	
 	/**
@@ -73,11 +90,13 @@ public class SimpleTreeModel extends DefaultTreeModel<Object> implements Treeite
 	 * @param AD_Tree_ID
 	 * @param windowNo
 	 * @param editable
+	 * @param whereClause
 	 * @param trxName
 	 * @return SimpleTreeModel
 	 */
-	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo, boolean editable, String trxName) { 
-		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, editable, true, trxName);
+	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo, boolean editable, String whereClause, String trxName) { 
+		//	Change to where clause
+		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, editable, true, false, whereClause, trxName);
 		MTreeNode root = vTree.getRoot();
 		SimpleTreeModel treeModel = SimpleTreeModel.createFrom(root);
 		treeModel.setItemDraggable(true);
@@ -97,6 +116,7 @@ public class SimpleTreeModel extends DefaultTreeModel<Object> implements Treeite
 		
 		return treeModel;
 	}
+	//	End Yamel Senih
 	
 	/**
 	 * 

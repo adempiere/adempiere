@@ -30,6 +30,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.CWindowToolbar;
+import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.component.*;
 import org.adempiere.webui.component.Column;
 import org.adempiere.webui.component.Columns;
 import org.adempiere.webui.component.EditorBox;
@@ -109,6 +111,13 @@ import org.zkoss.zul.West;
  * @version $Revision: 0.10 $
  *
  * @author Low Heng Sin
+ *
+ * @author e-Evolution , victor.perez@e-evolution.com
+ *      <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
+ *      <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
+ *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
+ * @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  */
 public class ADTabPanel extends Div implements Evaluatee, EventListener<Event>,
 DataStatusListener, IADTabPanel, VetoableChangeListener
@@ -189,7 +198,10 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
 	
 	private int INC = 30;
 	
-	public CWindowToolbar getGlobalToolbar () 
+	/**	Temporal Tree Identifier	*/
+	private int m_OldTree_ID = 0;
+		
+	public CWindowToolbar getGlobalToolbar()
 	{
 		return globalToolbar;
 	}
@@ -248,11 +260,18 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         this.dataBinder = new GridTabDataBinder(gridTab);
 
         this.getChildren().clear();
-
-        int AD_Tree_ID = 0;
-		if (gridTab.isTreeTab())
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Add support to dynamic tree
+        int AD_Tree_ID = Env.getContextAsInt(Env.getCtx(), windowNo, "AD_Tree_ID", true);
+//        if (gridTab.isTreeTab())
+//			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+//				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+		if (gridTab.isTreeTab() && AD_Tree_ID == 0)
+			//AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+				//Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
 			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+					Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
+		//	End Yamel Senih
 		if (gridTab.isTreeTab() && AD_Tree_ID != 0)
 		{
 			Borderlayout layout = new Borderlayout();
@@ -605,12 +624,32 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         }
 
         //create tree
+		//	Yamel Senih [ 9223372036854775807 ]
+		//	Add support to dynamic tree
+//        if (gridTab.isTreeTab() && treePanel != null) {
+//			int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+//				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+//			treePanel.initTree(AD_Tree_ID, windowNo);
+//        }
         if (gridTab.isTreeTab() && treePanel != null) {
-			int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
-				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
-			treePanel.initTree(AD_Tree_ID, windowNo);
+        	//int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+				//Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+			//treePanel.initTree(AD_Tree_ID, windowNo);
+        	int m_AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), windowNo, "AD_Tree_ID", true);
+        	//	Valid Tree Value from context
+        	if(m_AD_Tree_ID == 0) {
+        		m_AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+    					Env.getAD_Client_ID(Env.getCtx()), gridTab.getAD_Table_ID());
+        	}
+        	//	Where Extended
+        	String whereClause = gridTab.getWhereExtended();
+			whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
+			//	Save Old Tree
+			m_OldTree_ID = m_AD_Tree_ID;
+			//	Where
+        	treePanel.initTree(m_AD_Tree_ID, windowNo, null);
         }
-
+        //	End Yamel Senih
         if (!gridTab.isSingleRow() && !isGridView())
         	switchRowPresentation();
         
