@@ -144,7 +144,7 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
         leftRegion.setCollapsible(true);
         leftRegion.setSplittable(true);
         leftRegion.setTitle("Navigation");
-        leftRegion.setHflex("true");
+        //leftRegion.setHflex("true");
         leftRegion.setVflex("true");
         leftRegion.addEventListener(Events.ON_OPEN, new EventListener() {			
 			@Override

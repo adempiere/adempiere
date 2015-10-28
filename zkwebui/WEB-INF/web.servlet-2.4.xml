@@ -33,6 +33,7 @@ Copyright (C) 2004 Potix Corporation. All Rights Reserved.
 		<servlet-name>dspLoader</servlet-name>
 		<url-pattern>*.dsp</url-pattern>
 	</servlet-mapping>
+	
 	<!-- /// -->
 
 	<!-- //// -->
@@ -68,7 +69,7 @@ Copyright (C) 2004 Potix Corporation. All Rights Reserved.
 			INFO, DEBUG and FINER. If not specified, the system default is used.
 		<init-param>
 			<param-name>log-level</param-name>
-			<param-value>FINER</param-value>
+			<param-value>ERROR</param-value>
 		</init-param>
 		-->
 		<load-on-startup>1</load-on-startup><!-- Must -->
@@ -132,19 +133,6 @@ Copyright (C) 2004 Potix Corporation. All Rights Reserved.
 	<filter-mapping>
 		<filter-name>zkFilter</filter-name>
 		<url-pattern>your URI pattern</url-pattern>
-	</filter-mapping>
-	-->
-	<!-- [Optional]
-	Since ZK 7.0.0
-	Uncomment if you want to use the ZK filter to process the ZK Richlets
-	<filter>
-		<filter-name>RichletFilter</filter-name>
-		<filter-class>org.zkoss.zk.ui.http.RichletFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>RichletFilter</filter-name>
-		<url-pattern>/zk/*</url-pattern>
 	</filter-mapping>
 	-->
 	<!-- //// -->

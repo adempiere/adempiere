@@ -249,40 +249,40 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		<name>cat</name>
 		<function-class>org.zkoss.xel.fn.StringFns</function-class>
 		<function-signature>
-	java.lang.String cat(java.lang.String, java.lang.String)
+	java.lang.String cat(java.lang.Object, java.lang.Object)
 		</function-signature>
 		<description>
-	Catenates two strings. Note: null is considered as empty.
+	Catenates two objects. Note: null is considered as empty.
 		</description>
 	</function>
 	<function>
 		<name>cat3</name>
 		<function-class>org.zkoss.xel.fn.StringFns</function-class>
 		<function-signature>
-	java.lang.String cat3(java.lang.String, java.lang.String, java.lang.String)
+	java.lang.String cat3(java.lang.Object, java.lang.Object, java.lang.Object)
 		</function-signature>
 		<description>
-	Catenates three strings. Note: null is considered as empty.
+	Catenates three objects. Note: null is considered as empty.
 		</description>
 	</function>
 	<function>
 		<name>cat4</name>
 		<function-class>org.zkoss.xel.fn.StringFns</function-class>
 		<function-signature>
-	java.lang.String cat4(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	java.lang.String cat4(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object)
 		</function-signature>
 		<description>
-	Catenates four strings. Note: null is considered as empty.
+	Catenates four objects. Note: null is considered as empty.
 		</description>
 	</function>
 	<function>
 		<name>cat5</name>
 		<function-class>org.zkoss.xel.fn.StringFns</function-class>
 		<function-signature>
-	java.lang.String cat5(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	java.lang.String cat5(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object)
 		</function-signature>
 		<description>
-	Catenates five strings. Note: null is considered as empty.
+	Catenates five objects. Note: null is considered as empty.
 		</description>
 	</function>
 	<function>

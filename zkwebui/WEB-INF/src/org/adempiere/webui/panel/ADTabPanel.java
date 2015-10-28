@@ -2132,7 +2132,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         newGrid.setStyle("margin:0; padding:0; position: absolute; border: none;");
         newGrid.makeNoStrip();
         newGrid.setWidth("100%");
-        newGrid.setHeight("100%");
+        //newGrid.setHeight("100%");
         // Grid append to Panel Children
         ep.panelChildren.appendChild( newGrid );
         // Panel Children Append to Panel

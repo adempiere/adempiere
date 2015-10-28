@@ -274,7 +274,7 @@ public class WMatch extends Match
 		mainLayout.appendChild(center);
 		center.appendChild(centerPanel);
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		centerLayout.setWidth("100%");
 		centerLayout.setHeight("100%");
 		north = new North();

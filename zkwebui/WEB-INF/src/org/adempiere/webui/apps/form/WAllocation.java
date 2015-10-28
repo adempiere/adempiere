@@ -264,7 +264,7 @@ public class WAllocation extends Allocation
 		//
 		center = new Center();
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		mainLayout.appendChild(center);
 		center.appendChild(infoPanel);
 		
@@ -281,7 +281,7 @@ center.setVflex("true");
 		center = new Center();
 		center.setStyle("border: none");
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		infoPanel.appendChild(center);
 		center.appendChild(invoicePanel);
 	}   //  jbInit

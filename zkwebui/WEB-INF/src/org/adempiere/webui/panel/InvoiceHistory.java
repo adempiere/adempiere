@@ -191,7 +191,7 @@ public class InvoiceHistory extends Window implements EventListener
 		center.setStyle("border: none");
 		center.setAutoscroll(true);
         center.setHflex("true");
-center.setVflex("true");
+        center.setVflex("true");
 		borderlayout.appendChild(center);
 		center.appendChild(tabbox);
 		

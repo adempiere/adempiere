@@ -74,7 +74,7 @@ public class FolderBrowser extends Window implements EventListener
 		
 		Center center = new Center();
 		center.setHflex("true");
-center.setVflex("true");
+		center.setVflex("true");
 		contentLayout.appendChild(center);
 		center.appendChild(listDir);
 		

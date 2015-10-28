@@ -216,9 +216,10 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 		center.appendChild(miniTable);
 		mainLayout.appendChild(center);
 		miniTable.setVflex(true);
-		miniTable.setFixedLayout(true);
+		miniTable.setSizedByContent(true);
+		//miniTable.setFixedLayout(true);
 		miniTable.setWidth("99%");
-		miniTable.setHeight("99%");
+		//miniTable.setHeight("99%");
 		configureMiniTable();
 
 	} // jbInit

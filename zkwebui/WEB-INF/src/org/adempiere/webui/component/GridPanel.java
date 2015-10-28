@@ -189,11 +189,11 @@ private void init_components() {
 	listbox.setOddRowSclass(null);
 
 	//listbox.setHeight("100%");
-        listbox.setVflex(true);
+    listbox.setVflex(true);
 	//true might look better, false for better performance
-        listbox.setSizedByContent(true);
+    listbox.setSizedByContent(true);
 	listbox.addEventListener(Events.ON_CLICK, this);
-	listbox.setVflex("1");
+	//listbox.setVflex("1");
 
 	Center center = new Center();
 	ThemeUtils.addSclass("ad-gridpanel-center", center);

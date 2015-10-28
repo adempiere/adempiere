@@ -703,7 +703,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		searchTab.appendChild(collapsibleSeach);
 
 		detail.setWidth("100%");
-		detail.setHeight("100%");
+		//detail.setHeight("100%");
 		Center dCenter = new Center();
 		dCenter.appendChild(detail);
 		dCenter.setBorder("none");
