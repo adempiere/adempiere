@@ -77,7 +77,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 
 	private int				m_c_order_id;
 	private Checkbox 		f_processed;
-	
+	private boolean			isKeyboard;
 	/**	Internal Variables	*/
 	private int				m_C_Order_ID;
 	
@@ -145,9 +145,9 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		ldoc.setStyle(WPOS.FONTSIZESMALL);
 		row.setHeight("60px");
 		row.appendChild(ldoc.rightAlign());
-		f_documentno = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
+		f_documentno = new WPosTextField(v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_documentno);
-		f_documentno.addEventListener("onFocus",this);
+		f_documentno.addEventListener(this);
 		f_documentno.setWidth("120px");
 		f_documentno.setStyle(WPOS.FONTSIZESMALL);
 		//
@@ -313,18 +313,23 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if(e.getTarget().equals(f_documentno.getComponent(WPosTextField.SECONDARY))) {
-				//	Get Keyboard Panel
-				WPOSKeyboard keyboard = v_POSPanel.getKeyboard(f_documentno.getKeyLayoutId(), f_documentno);
-				//	Set Title
-				keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
-				keyboard.setWidth("750px");
-				keyboard.setHeight("380px");
-				AEnv.showWindow(keyboard);
-				refresh();
-				f_documentno.setFocus(true);
+		if(e.getTarget().equals(f_documentno.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
+			isKeyboard = true;
+			//	Get Keyboard Panel
+			WPOSKeyboard keyboard = v_POSPanel.getKeyboard(f_documentno.getKeyLayoutId(), f_documentno);
+			//	Set Title
+			keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
+			keyboard.setWidth("750px");
+			keyboard.setHeight("380px");
+			AEnv.showWindow(keyboard);
+			refresh();
+			f_documentno.setFocus(true);
 
-		} else if(e.getTarget().getId().equals("Refresh")) {
+		}
+		else if(e.getTarget().equals(f_documentno.getComponent(WPosTextField.PRIMARY))) {
+			 isKeyboard = false;
+		}
+		else if(e.getTarget().getId().equals("Refresh")) {
 			refresh();
 		}
 		if ( e.getTarget().equals(f_processed) 

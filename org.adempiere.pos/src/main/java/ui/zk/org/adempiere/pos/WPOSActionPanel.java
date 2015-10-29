@@ -168,7 +168,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		row.appendChild (new Space());
 
 		productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		f_ProductName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_ProductName = new WPosTextField(p_pos.getOSK_KeyLayout_ID());
 		f_ProductName.setWidth("100%");
 		f_ProductName.setHeight("35px");
 		f_ProductName.setStyle("Font-size:medium; font-weight:bold");

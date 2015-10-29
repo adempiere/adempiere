@@ -17,8 +17,6 @@
 
 package org.adempiere.pos;
 
-import java.text.Format;
-
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Textbox;
 import org.zkoss.zhtml.Table;
@@ -37,7 +35,6 @@ public class WPosTextField extends Div {
 	 * 
 	 */
 	private static final long serialVersionUID = -2453719110038264481L;
-	WPOS pos = null;
 	int keyLayoutId = 0;
 	
 	private Textbox			f_HiddenField;
@@ -47,24 +44,17 @@ public class WPosTextField extends Div {
 	public  static final String PRIMARY = "P";
 	public  static final String SECONDARY = "S";
 	private Table grid;
-	/**	Key Board				*/
-	public WPosTextField( WPOS pos, final int posKeyLayout_ID, Format format ) {
-		super();
-		
-		keyLayoutId = posKeyLayout_ID;
-		this.pos = pos;
-		
-	}
+	
 	
 	public int getKeyLayoutId() {
 		return keyLayoutId;
 	}
 
-	public WPosTextField( WPOS pos, final int posKeyLayout_ID) {
+	
+	public WPosTextField(final int posKeyLayout_ID) {
 		super();
 		
 		keyLayoutId = posKeyLayout_ID;
-		this.pos = pos;
 		f_HiddenField = new Textbox();
 		f_HiddenField.setStyle("position:relative; left:-100%; margin-top:-20px; width:100%; height:100%; opacity:0.0");
 		f_TextField = new Textbox();
@@ -90,73 +80,73 @@ public class WPosTextField extends Div {
 		
 		td.appendChild(f_TextField);
 		td.appendChild(f_HiddenField);
-		
+
 		String style = AEnv.isFirefox2() ? "display: inline"
 				: "display: inline-block";
 		style = style
 				+ ";border: none; padding: 0px; margin: 0px; background-color: transparent;";
 		this.setStyle(style);
 	}
-	
-	/**
-	 * Get Font Size 
-	 * @return String
-	 */
+
+	/**		
+	-	 * Get Font Size 		
+	-	 * @return String		
+	-	 */
 	public String getFontSize() {
 		return m_FontSize;
 	}
-	
-	/**
-	 *  Set Font Size
-	 * @param p_FontSize
-	 * @return void
-	 */
+
+	/**		
+	-	 *  Set Font Size		
+	-	 * @param p_FontSize		
+	-	 * @return void		
+	-	 */
 	public void setFontSize(String p_FontSize) {
 		this.m_FontSize = p_FontSize;
 	}
-	
-	/**
-	 * Get Font Style 
-	 * @return String
-	 */
+
+	/**		
+	-	 * Get Font Style		
+	-	 * @return String		
+	-	 */
 	public String getFontStyle() {
 		return m_FontStyle;
 	}
 
-	/**
-	 * Set Font Style
-	 * @param p_FontStyle
-	 * @return void
-	 */
+	/**		
+	-	 * Set Font Style		
+	-	 * @param p_FontStyle		
+	-	 * @return void		
+	-	 */
 	public void setFontStyle(String p_FontStyle) {
 		this.m_FontStyle = p_FontStyle;
 	}
 	
-	/** 
-	 * Set Width
-	 * @param Width
-	 * @return void
-	 */
+	/** 			
+	-	 * Set Width		
+	-	 * @param Width		
+	-	 * @return void		
+	-	 */		
 	public void setWidth(String width){
 		f_TextField.setWidth(width);
 		grid.setDynamicProperty("width", width);
 	}
 	
-	/**
-	 * Set Height
-	 * @param Height
-	 * @return void
-	 */
+	/**			
+	-	 * Set Height		
+	-	 * @param Height		
+	-	 * @return void		
+	-	 */
 	public void setHeight(String height){
 		f_TextField.setHeight(height);
 		
 	}
 	
-	/**
-	 * Set Style
-	 * @param style
-	 * @return void
-	 */
+	/**		
+	-	 * Set Style		
+	-	 * @param style		
+	-	 * @return void		
+	-	 */
 	public void setStyle(String style) {
 		f_TextField.setStyle(style);
 	}
@@ -167,11 +157,12 @@ public class WPosTextField extends Div {
 		addEventListener(listener);
 	    return true;
 	}
-	/**
-	 * Add Event Listener
-	 * @param listener
-	 * @return void
-	 */
+	
+	/**			
+	-	 * Add Event Listener		
+	-	 * @param listener		
+	-	 * @return void		
+	-	 */		
 	public void addEventListener(EventListener listener)
 	{
 
@@ -180,29 +171,29 @@ public class WPosTextField extends Div {
 	     
 	}
 	
-	/**
-	 * Set Value
-	 * @param value
-	 * @return void
-	 */
+	/**		
+	-	 * Set Value		
+	-	 * @param value		
+	-	 * @return void		
+	-	 */
 	public void setValue(String value) {
 		f_TextField.setValue(value);
 	}
-
-	/**
-	 * Get Value
-	 * @return
-	 * @return String
-	 */
+	
+	/**		
+	-	 * Get Value		
+	-	 * @return		
+	-	 * @return String		
+	-	 */
 	public String getValue() {
 		return f_TextField.getValue();
 	}
 	
-	/**
-	 * Set Text
-	 * @param value
-	 * @return void
-	 */
+	/**		
+	-	 * Set Text		
+	-	 * @param value		
+	-	 * @return void		
+	-	 */
 	public void setText(String value) {
 		if(value != null)
 			f_TextField.setValue(value);
@@ -210,31 +201,31 @@ public class WPosTextField extends Div {
 			f_TextField.setValue("");
 	}
 	
-	/**
-	 * Get Text
-	 * @return
-	 * @return String
-	 */
+	/**		
+	-	 * Get Text		
+	-	 * @return		
+	-	 * @return String		
+	-	 */
 	public String getText() {
 			return f_TextField.getValue();
 	}
 	
-	/**
-	 * Set Read Only
-	 * @param readOnly
-	 * @return void
-	 */
+	/**		
+	-	 * Set Read Only		
+	-	 * @param readOnly		
+	-	 * @return void		
+	-	 */
 	public void setReadonly(Boolean readOnly) {
 		f_TextField.setReadonly(readOnly);
 		f_HiddenField.setReadonly(readOnly);
 	}
 	
-	/**
-	 * Get Component
-	 * @param comp
-	 * @return
-	 * @return Textbox
-	 */
+	/**		
+	* Get Component		
+	* @param comp		
+	* @return		
+	* @return Textbox		
+	*/
 	public Textbox getComponent(String comp) {
 		if(comp.equals(PRIMARY)) {
 			return f_TextField;
@@ -244,11 +235,11 @@ public class WPosTextField extends Div {
 		return null;
 	}
 	
-	/**
-	 * Set focus
-	 * @param focus
-	 * @return void
-	 */
+	/**		
+	* Set focus		
+	* @param focus		
+	* @return void		
+	*/
 	@Override
 	public void setFocus(boolean focus){
 		f_TextField.setFocus(focus);

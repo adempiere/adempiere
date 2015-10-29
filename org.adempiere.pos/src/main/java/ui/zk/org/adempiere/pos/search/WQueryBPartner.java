@@ -17,6 +17,7 @@ package org.adempiere.pos.search;
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
 import org.adempiere.pos.WPosTextField;
+import org.adempiere.pos.grid.WPOSBPartner;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -25,7 +26,6 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.grid.WBPartner;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartnerInfo;
@@ -70,7 +70,7 @@ public class WQueryBPartner extends WPosQuery {
 	private WPosTextField		f_phone;
 	private WPosTextField		f_city;
 	private int					m_C_BPartner_ID;
-	
+	private boolean 			isKeyboard;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WQueryBPartner.class);
 	
@@ -133,7 +133,7 @@ public class WQueryBPartner extends WPosQuery {
 		Label lValue = new Label(Msg.translate(p_ctx, "Value"));
 		row.appendChild(lValue.rightAlign());
 		lValue.setStyle(WPOS.FONTSIZESMALL);
-		f_value = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
+		f_value = new WPosTextField(v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_value);
 		f_value.setWidth("120px");
 		f_value.addEventListener(this);
@@ -142,7 +142,7 @@ public class WQueryBPartner extends WPosQuery {
 		Label lContact = new Label(Msg.translate(p_ctx, "Contact"));
 		row.appendChild(lContact.rightAlign());
 		lContact.setStyle(WPOS.FONTSIZESMALL);
-		f_contact = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
+		f_contact = new WPosTextField(v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_contact);
 		f_contact.setWidth("120px");
 		f_contact.addEventListener(this);
@@ -151,7 +151,7 @@ public class WQueryBPartner extends WPosQuery {
 		Label lPhone = new Label(Msg.translate(p_ctx, "Phone"));
 		row.appendChild(lPhone.rightAlign());
 		lPhone.setStyle(WPOS.FONTSIZESMALL);
-		f_phone = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
+		f_phone = new WPosTextField(v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_phone);
 		f_phone.setWidth("120px");
 		f_phone.addEventListener(this);
@@ -162,7 +162,7 @@ public class WQueryBPartner extends WPosQuery {
 		Label lName = new Label(Msg.translate(p_ctx, "Name"));
 		row.appendChild(lName.rightAlign());
 		lName.setStyle(WPOS.FONTSIZESMALL);
-		f_name = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
+		f_name = new WPosTextField(v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_name);
 		f_name.addEventListener(this);
 		f_name.setWidth("120px");
@@ -171,7 +171,7 @@ public class WQueryBPartner extends WPosQuery {
 		Label lEmail = new Label(Msg.translate(p_ctx, "Email"));
 		row.appendChild(lEmail.rightAlign());
 		lEmail.setStyle(WPOS.FONTSIZESMALL);
-		f_email = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
+		f_email = new WPosTextField(v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(f_email);
 		f_email.addEventListener(this);
 		f_email.setWidth("120px");
@@ -180,7 +180,7 @@ public class WQueryBPartner extends WPosQuery {
 		Label lCity = new Label(Msg.translate(p_ctx, "City"));
 		row.appendChild(lCity.rightAlign());
 		lCity.setStyle(WPOS.FONTSIZESMALL);
-		f_city = new WPosTextField(v_POSPanel, v_POSPanel.getOSKeyLayout_ID());
+		f_city = new WPosTextField(v_POSPanel.getOSKeyLayout_ID());
 		f_city.setWidth("120px");
 		row.appendChild(f_city);
 		f_city.addEventListener("onFocus", this);
@@ -286,6 +286,7 @@ public class WQueryBPartner extends WPosQuery {
 	}
 	
 	public String showKeyboard(Event e){
+		isKeyboard = true;
 		Textbox field = (Textbox) e.getTarget();
 
 		WPOSKeyboard keyboard = v_POSPanel.getKeyboard();
@@ -299,7 +300,7 @@ public class WQueryBPartner extends WPosQuery {
 	@Override
 	protected void newAction() {
 		super.newAction();
-		WBPartner t = new WBPartner(1);
+		WPOSBPartner t = new WPOSBPartner(1, v_POSPanel);
 		AEnv.showWindow(t);
 		m_C_BPartner_ID = t.getC_BPartner_ID();
 		//	Close
@@ -308,7 +309,7 @@ public class WQueryBPartner extends WPosQuery {
 	}
 	
 	public void editAction() {
-		WBPartner t = new WBPartner(1);
+		WPOSBPartner t = new WPOSBPartner(1, v_POSPanel);
 		t.loadBPartner(m_C_BPartner_ID);
 		select();
 		AEnv.showWindow(t);
@@ -333,38 +334,40 @@ public class WQueryBPartner extends WPosQuery {
 		else if(e.getTarget().getId().equals("Reset")){
 			reset();
 		}
-		else if(e.getTarget().equals(f_name.getComponent(WPosTextField.SECONDARY))) {
+		else if(e.getTarget().equals(f_name.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
 			f_name.setValue(showKeyboard(e));
-			refresh();
 			f_name.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_contact.getComponent(WPosTextField.SECONDARY))){
+		else if(e.getTarget().equals(f_contact.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
 			f_contact.setValue(showKeyboard(e));
-			refresh();
 			f_contact.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_value.getComponent(WPosTextField.SECONDARY))){
+		else if(e.getTarget().equals(f_value.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
 			f_value.setValue(showKeyboard(e));
-			refresh();
 			f_value.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_email.getComponent(WPosTextField.SECONDARY))){
+		else if(e.getTarget().equals(f_email.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
 			f_email.setValue(showKeyboard(e));
-			refresh();
 			f_email.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_city.getComponent(WPosTextField.SECONDARY))){
+		else if(e.getTarget().equals(f_city.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
 			f_city.setValue(showKeyboard(e));
 			refresh();
 			f_city.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_phone.getComponent(WPosTextField.SECONDARY))){
+		else if(e.getTarget().equals(f_phone.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
 			f_phone.setValue(showKeyboard(e));
-			refresh();
 			f_phone.setFocus(true);
-			
 		}
-		
+		else if(e.getTarget().equals(f_name.getComponent(WPosTextField.PRIMARY))  
+					|| e.getTarget().equals(f_contact.getComponent(WPosTextField.PRIMARY))
+					|| e.getTarget().equals(f_value.getComponent(WPosTextField.PRIMARY))
+					|| e.getTarget().equals(f_email.getComponent(WPosTextField.PRIMARY))
+					|| e.getTarget().equals(f_city.getComponent(WPosTextField.PRIMARY))
+					|| e.getTarget().equals(f_phone.getComponent(WPosTextField.PRIMARY))) {
+			 	 refresh();
+				 isKeyboard = false;
+		}
 		if (e.getTarget().getId().equals("Refresh")) {
 						refresh();
 						return;
