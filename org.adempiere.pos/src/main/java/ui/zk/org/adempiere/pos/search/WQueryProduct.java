@@ -76,7 +76,7 @@ public class WQueryProduct extends WPosQuery
 	//
 	private int 				m_M_PriceList_Version_ID;
 	private int 				m_M_Warehouse_ID;
-
+	private boolean				isKeyboard;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(QueryProduct.class);
 	
@@ -140,7 +140,7 @@ public class WQueryProduct extends WPosQuery
 		Label lValue = new Label(Msg.translate(p_ctx, "Value"));
 		row.appendChild(lValue.rightAlign());
 		lValue.setStyle(WPOS.FONTSIZESMALL);
-		f_Value = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_Value = new WPosTextField(p_pos.getOSK_KeyLayout_ID());
 		f_Value.setStyle(WPOS.FONTSIZESMALL);
 		f_Value.setWidth("120px");
 		row.appendChild(f_Value);
@@ -149,7 +149,7 @@ public class WQueryProduct extends WPosQuery
 		Label lUpc = new Label(Msg.translate(p_ctx, "UPC"));
 		lUpc.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(lUpc.rightAlign());
-		f_UPC = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_UPC = new WPosTextField(p_pos.getOSK_KeyLayout_ID());
 		f_UPC.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(f_UPC);
 		f_UPC.addEventListener("onFocus",this);
@@ -160,7 +160,7 @@ public class WQueryProduct extends WPosQuery
 		Label lName = new Label(Msg.translate(p_ctx, "Name"));
 		lName.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild (lName.rightAlign());
-		f_ProductName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_ProductName = new WPosTextField(p_pos.getOSK_KeyLayout_ID());
 		f_ProductName.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(f_ProductName);
 		f_ProductName.addEventListener("onFocus",this);
@@ -170,7 +170,7 @@ public class WQueryProduct extends WPosQuery
 		Label lSku = new Label(Msg.translate(p_ctx, "SKU"));
 		lSku.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(lSku.rightAlign());
-		f_SKU = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_SKU = new WPosTextField(p_pos.getOSK_KeyLayout_ID());
 		f_SKU.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(f_SKU);
 		f_SKU.addEventListener("onFocus",this);
@@ -262,6 +262,7 @@ public class WQueryProduct extends WPosQuery
 		setResults(new MWarehousePrice[0]);
 	}
 	public String showKeyboard(Event e){
+		isKeyboard = true;
 		Textbox field = (Textbox) e.getTarget();
 
 		WPOSKeyboard keyboard = v_POSPanel.getKeyboard();
@@ -278,26 +279,29 @@ public class WQueryProduct extends WPosQuery
 			refresh();
 			return;
 		}
-		else if(event.getTarget().equals(f_Value.getComponent(WPosTextField.SECONDARY))){
+		else if(event.getTarget().equals(f_Value.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
 			f_Value.setValue(showKeyboard(event));
-			refresh();
 			f_Value.setFocus(true);
 		}
-		else if(event.getTarget().equals(f_UPC.getComponent(WPosTextField.SECONDARY))){
+		else if(event.getTarget().equals(f_UPC.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
 			f_UPC.setValue(showKeyboard(event));
-			refresh();
 			f_UPC.setFocus(true);
 		}
-		else if(event.getTarget().equals(f_ProductName.getComponent(WPosTextField.SECONDARY))){
+		else if(event.getTarget().equals(f_ProductName.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
 			f_ProductName.setValue(showKeyboard(event));
-			refresh();
 			f_ProductName.setFocus(true);
 		}
-		else if(event.getTarget().equals(f_SKU.getComponent(WPosTextField.SECONDARY))){
+		else if(event.getTarget().equals(f_SKU.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
 			f_SKU.setValue(showKeyboard(event));
-			refresh();
 			f_SKU.setFocus(true);
-		}		
+		}
+		 else if(event.getTarget().equals(f_Value.getComponent(WPosTextField.PRIMARY))  
+					|| event.getTarget().equals(f_UPC.getComponent(WPosTextField.PRIMARY))
+					|| event.getTarget().equals(f_ProductName.getComponent(WPosTextField.PRIMARY))
+					|| event.getTarget().equals(f_SKU.getComponent(WPosTextField.PRIMARY))) {
+			 	 refresh();
+				 isKeyboard = false;
+			}
 		enableButtons();
 		if(event.getTarget().getId().equals("Ok")){
 			saveSelection();

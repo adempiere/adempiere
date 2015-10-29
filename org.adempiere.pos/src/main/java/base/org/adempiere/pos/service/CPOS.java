@@ -1035,16 +1035,18 @@ public class CPOS {
 			} else {
 				m_CurrentOrder.set_TrxName(trxName);
 			}
+			m_IsToPrint = true;
 			//	Get value for Standard Order
 			if(p_IsPrepayment) {
 				//	Set Document Type
 				m_CurrentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
-				//	Force Delivery for POS
+				m_IsToPrint = false;	
 			}
 //			} else {
+			//	Force Delivery for POS
 				m_CurrentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
 				m_CurrentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
-				m_IsToPrint = true;
+						
 //			}
 			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {

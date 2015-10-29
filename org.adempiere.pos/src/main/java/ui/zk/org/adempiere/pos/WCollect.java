@@ -485,41 +485,41 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 	@Override
 	public void changeViewPanel() {
 //		Set Credit for Complete Documents
-			boolean isCreditOpen = (v_POSPanel.isCompleted() 
-					&& v_POSPanel.getOpenAmt().doubleValue() > 0);
-			//	Is Standard Order
-			boolean isStandardOrder = v_POSPanel.isStandardOrder();
-			//	Set Credit Order
-			setIsCreditOrder(isCreditOrder() 
-					|| (isCreditOpen && !isStandardOrder));
-			//	
-			setIsPrePayOrder(isPrePayOrder()
-					|| (isCreditOpen && isStandardOrder));
-			//	Set Credit and Pre-Pay Order
-			fIsCreditOrder.setSelected(isCreditOrder());
-			fIsPrePayOrder.setSelected(isPrePayOrder());
+		boolean isCreditOpen = (v_POSPanel.isCompleted() 
+				&& v_POSPanel.getOpenAmt().doubleValue() > 0);
+		//	Is Standard Order
+		boolean isStandardOrder = v_POSPanel.isStandardOrder();
+		//	Set Credit Order
+		setIsCreditOrder(isCreditOrder() 
+				|| (isCreditOpen && !isStandardOrder));
+		//	
+		setIsPrePayOrder(isPrePayOrder()
+				|| (isCreditOpen && isStandardOrder));
+		//	Set Credit and Pre-Pay Order
+		fIsCreditOrder.setSelected(isCreditOrder());
+		fIsPrePayOrder.setSelected(isPrePayOrder());
 //			fPaymentTerm.setVisible(isCreditOrder());
-			//	Verify complete order
-			if(v_POSPanel.isCompleted()) {
-				fIsCreditOrder.setEnabled(false);
-				fIsPrePayOrder.setEnabled(false);
+		//	Verify complete order
+		if(v_POSPanel.isCompleted()) {
+			fIsCreditOrder.setEnabled(false);
+			fIsPrePayOrder.setEnabled(false);
 //				fPaymentTerm.setEnabled(false);
-				bPlus.setEnabled(isCreditOpen);
-				confirm.getOKButton().setEnabled(true);
-			} else if(v_POSPanel.isVoided()){
-				fIsCreditOrder.setEnabled(false);
-				fIsPrePayOrder.setEnabled(false);
+			bPlus.setEnabled(isCreditOpen);
+			confirm.getOKButton().setEnabled(true);
+		} else if(v_POSPanel.isVoided()){
+			fIsCreditOrder.setEnabled(false);
+			fIsPrePayOrder.setEnabled(false);
 //				fPaymentTerm.setEnabled(false);
-				bPlus.setEnabled(false);
-				confirm.getOKButton().setEnabled(false);
-			} else {
-				fIsCreditOrder.setEnabled(true);
-				fIsPrePayOrder.setEnabled(true);
+			bPlus.setEnabled(false);
+			confirm.getOKButton().setEnabled(false);
+		} else {
+			fIsCreditOrder.setEnabled(true);
+			fIsPrePayOrder.setEnabled(true);
 //				fPaymentTerm.setEnabled(true);
-				bPlus.setEnabled(!isCreditOrder()
-						|| isCreditOpen);
-				confirm.getOKButton().setEnabled(true);
-			}
+			bPlus.setEnabled(!isCreditOrder()
+					|| isCreditOpen);
+			confirm.getOKButton().setEnabled(true);
+		}
 	}
 	
 	/**

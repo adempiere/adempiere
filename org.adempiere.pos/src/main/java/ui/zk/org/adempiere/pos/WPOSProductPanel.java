@@ -104,7 +104,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		// BP
 		l_BPartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer"));
 		
-		f_BPartnerName = new WPosTextField(v_POSPanel, p_pos.getOSK_KeyLayout_ID());
+		f_BPartnerName = new WPosTextField(p_pos.getOSK_KeyLayout_ID());
 		f_BPartnerName.setHeight("35px");
 		f_BPartnerName.setStyle("Font-size:medium; font-weight:bold");
 		f_BPartnerName.setWidth("97%");

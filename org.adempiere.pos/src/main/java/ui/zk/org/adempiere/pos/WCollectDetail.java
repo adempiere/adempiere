@@ -156,7 +156,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		Row row = rows.newRow();
 
 		lCheckRouteNo = new Label(Msg.translate(p_ctx, "RoutingNo"));
-		fCheckRouteNo = new WPosTextField(v_Parent.v_POSPanel, v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fCheckRouteNo = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(fCheckRouteNo);
 		fCheckRouteNo.setValue(lCheckRouteNo.getValue());
 		fCheckRouteNo.addEventListener("onFocus", this);
@@ -165,7 +165,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		row.appendChild(fCheckRouteNo);
 
 		lCheckNo = new Label(Msg.translate(p_ctx, "CheckNo"));
-		fCheckNo = new WPosTextField(v_Parent.v_POSPanel, v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fCheckNo = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
 		fCheckNo.setValue(lCheckNo.getValue());
 		fCheckNo.addEventListener("onFocus", this);
 		fCheckNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
@@ -212,14 +212,14 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		}
 		row.setSpans("1,2");
 		lCCardNo = new Label(Msg.translate(p_ctx, "CreditCardNumber"));
-		fCCardNo = new WPosTextField(v_Parent.v_POSPanel, v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fCCardNo = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
 		fCCardNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(fCCardNo);
 		fCCardNo.setText(lCCardNo.getValue());
 		fCCardNo.addEventListener("onFocus", this);
 		
 		lCCardName = new Label(Msg.translate(p_ctx, "Name"));
-		fCCardName = new WPosTextField(v_Parent.v_POSPanel, v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fCCardName = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
 		row = rows.newRow();
 		row.appendChild(fCCardName);
 		fCCardName.setStyle(HEIGHT+WIDTH+FONT_SIZE);
@@ -252,7 +252,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		row.appendChild(fCreditCardExpMM);
 		row.appendChild(fCreditCardExpYY);
 		lCCardVC = new Label(Msg.translate(p_ctx, "CVC"));
-		fCCardVC = new WPosTextField(v_Parent.v_POSPanel, v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fCCardVC = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
 		row = rows.newRow();
 		
 		row.appendChild(fCCardVC);
@@ -271,21 +271,21 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 
 		row.setSpans("1,2");
 		lDebitRoutingNo = new Label(Msg.translate(p_ctx, "RoutingNo"));
-		fDebitRoutingNo = new WPosTextField(v_Parent.v_POSPanel, v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fDebitRoutingNo = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
 		fDebitRoutingNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(fDebitRoutingNo);
 		fDebitRoutingNo.setText(lDebitRoutingNo.getValue());
 		fDebitRoutingNo.addEventListener("onFocus", this);
 		
 		lDebitCVC = new Label(Msg.translate(p_ctx, "A_Country"));
-		fDebitCVC = new WPosTextField(v_Parent.v_POSPanel, v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fDebitCVC = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
 		row.appendChild(fDebitCVC);
 		fDebitCVC.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		fDebitCVC.setValue(lDebitCVC.getValue());
 		fDebitCVC.addEventListener("onFocus", this);
 
 		lDebitCountry = new Label(Msg.translate(p_ctx, "R_CVV2Match"));
-		fDebitCountry = new WPosTextField(v_Parent.v_POSPanel, v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fDebitCountry = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
 		row = rows.newRow();
 		
 		row.appendChild(fDebitCountry);
