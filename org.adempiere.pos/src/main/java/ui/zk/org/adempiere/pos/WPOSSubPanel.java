@@ -52,10 +52,10 @@ public abstract class WPOSSubPanel extends Borderlayout
 		init();
 	}	//	PosSubPanel
 	
-	/** POS Panel							*/
-	protected WPOS 					v_POSPanel;
-	/** Context								*/
-	protected Properties			m_ctx = Env.getCtx();
+	/** POS Panel						*/
+	protected WPOS 				v_POSPanel;
+	/** Context							*/
+	protected Properties		m_ctx = Env.getCtx();
 	
 
 	/** Button Width = 55			*/

@@ -44,8 +44,9 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.South;
 
 /**
- * 
- * @author Raul Muñoz 20/03/2015 
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 public abstract class WPosQuery extends Window implements  MouseListener, ListSelectionListener, EventListener{
 
@@ -54,27 +55,55 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 	 */
 	private static final long serialVersionUID = 6318532272101473014L;
 	
+	/**
+	 * *** Constructor ***
+	 * @throws HeadlessException
+	 */
+	public WPosQuery() throws HeadlessException {
+		super();
+	}
+
+	/**
+	 * 	Constructor
+	 */
+	public WPosQuery (WPOS posPanel)
+	{
+		super();
+		v_POSPanel = posPanel;
+		p_ctx = v_POSPanel.getCtx();
+		initMainPanel();
+		this.setAttribute("mode", "modal");
+		this.setTitle(Msg.getMsg(p_ctx, "Query"));
+		this.setBorder("normal");
+		this.setWidth("910px");
+		this.setHeight("500px");
+		this.setContentStyle("overflow: auto");
+		this.setSizable(true);      
+        this.setMaximizable(true); 
+        this.setVisible(true);
+        
+		init();
+	}	//	PosQueryBPartner
+	
 	protected Properties 		p_ctx;
-	/** POS Panel							*/
-	protected WPOS 	v_POSPanel = null;
+	/** POS Panel					*/
+	protected WPOS 				v_POSPanel = null;
 	/** The Table					*/
 	protected WListbox 			m_table;
+	/** Panel						*/
 	protected Panel 			northPanel;
+	/** Actions						*/
 	protected ConfirmPanel	 	confirmPanel;
 	private Button	 			f_Refresh;
 	private Button	 			f_Reset;
 	private Button	 			f_Ok;
 	private Button	 			f_Cancel;
-	Borderlayout mainLayout;
+	private Button 				f_New;
+	public 	Button 				f_Edit;
+	public  Borderlayout 		mainLayout;
 	/**	Logger			*/
 	protected static CLogger log = CLogger.getCLogger(WPosQuery.class);
 	
-	private Button f_New;
-	public Button f_Edit;
-	
-	public WPosQuery() throws HeadlessException {
-		super();
-	}
 	/**
 	 * Set Visible the new button
 	 * @return void
@@ -127,30 +156,6 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 	protected void newAction() {
 		
 	}
-
-	
-
-	/**
-	 * 	Constructor
-	 */
-	public WPosQuery (WPOS posPanel)
-	{
-		super();
-		v_POSPanel = posPanel;
-		p_ctx = v_POSPanel.getCtx();
-		initMainPanel();
-		this.setAttribute("mode", "modal");
-		this.setTitle(Msg.getMsg(p_ctx, "Query"));
-		this.setBorder("normal");
-		this.setWidth("910px");
-		this.setHeight("500px");
-		this.setContentStyle("overflow: auto");
-		this.setSizable(true);      
-        this.setMaximizable(true); 
-        this.setVisible(true);
-        
-		init();
-	}	//	PosQueryBPartner
 	
 	/**
 	 * Init Main Panel
@@ -232,8 +237,6 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 		}
 	}   //  mouseClicked
 	
-
-    
     
 	public void mouseEntered (MouseEvent e) {}
 	public void mouseExited (MouseEvent e) {}

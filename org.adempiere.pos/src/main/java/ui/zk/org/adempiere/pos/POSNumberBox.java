@@ -45,35 +45,14 @@ import org.zkoss.zul.Vbox;
  * @version $Revision: 0.10 $
  * 
  * @author Low Heng Sin
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raúl Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
  */
 public class POSNumberBox extends Div
 {
+    	
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7089099079981906933L;
-
-	private Textbox txtCalc = new Textbox();
-    
-    boolean integral = false;
-    
-    NumberFormat format = null;
-    
-    private Decimalbox decimalBox = null;
-    private Button btn;
-
-    private Object m_oldValue = null;
-
-    private boolean btnEnabled = true;
-
-	private Popup popup;
-
-	private final String FONT_SIZE = "Font-size:medium;";
-	private final String HEIGHT = "height:30px;";
-	private final String WIDTH = "width:139px;";
-	
-    /**
-     * 
+     * Constructor
      * @param integral
      */
     public POSNumberBox(boolean integral)
@@ -82,9 +61,36 @@ public class POSNumberBox extends Div
         this.integral = integral;
         init();
     }
-    public void NumberBox(boolean i){
-    	
-    }
+    
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7089099079981906933L;
+	
+	/**	Field Calc					*/
+	private Textbox 		txtCalc = new Textbox();
+    /** Integral					*/
+    private boolean 		integral = false;
+    /** Number Format 				*/
+    private NumberFormat 	format = null;
+    /** Field Decimal 				*/
+    private Decimalbox 		decimalBox = null;
+    /** Action	 					*/
+    private Button 			btn;
+    /** Old Value 					*/
+    private Object 			m_oldValue = null;
+    /** Button Enabled 				*/
+    private boolean 		btnEnabled = true;
+    /** Pop Up						*/
+	private Popup 			popup;
+
+	/** Default Font Size 					*/
+	private final String 	FONT_SIZE 	= "Font-size:medium;";
+	/** Default Font Height 				*/
+	private final String 	HEIGHT 		= "height:30px;";
+	/** Default Font Width					*/
+	private final String 	WIDTH 		= "width:139px;";
+    
     private void init()
     {
     	Table grid = new Table();

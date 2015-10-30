@@ -54,9 +54,9 @@ import org.zkoss.zul.Separator;
  *
  * @author 	Niraj Sohun
  * 			Aug 15, 2007
- * 			Raul Munoz
- * 			Oct 28, 2015
- *
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 
 public class WPOSBPartner extends Window implements EventListener, ValueChangeListener
@@ -65,46 +65,13 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 	 * 
 	 */
 	private static final long serialVersionUID = 5842369060073088746L;
-
-	private static CLogger log = CLogger.getCLogger(WPOSBPartner.class);
 	
-	private int m_WindowNo;
-	
-	/** The Partner				*/
-	private MBPartner m_partner = null;
-	
-	/** The Location			*/
-	private MBPartnerLocation m_pLocation = null;
-	
-	/** The User				*/
-	private MUser m_user = null;
-	
-	/** Read Only				*/
-	private boolean m_readOnly = false;
-
-	private boolean		  isKeyboard;
-	private WPOSTextField fValue = new WPOSTextField(null, null);
-	private WPOSTextField fName = new WPOSTextField(null, null);
-	private WPOSTextField fName2 = new WPOSTextField(null, null);
-	private WPOSTextField fContact = new WPOSTextField(null, null);
-	private WPOSTextField fEMail = new WPOSTextField(null, null);
-	private WPOSTextField fPhone = new WPOSTextField(null, null);
-	private WPOSTextField fPhone2 = new WPOSTextField(null, null);
-	
-	private WLocationEditor fAddress;/* = new WLocationDialog();*/
-	
-	private VerticalBox centerPanel = new VerticalBox();
-	
-	private ConfirmPanel confirmPanel = new ConfirmPanel(true, false, false, false, false, false);
-	
-	private WPOS	v_POSPanel = null;
 	/**
 	 *	Constructor.
 	 *	Requires call loadBPartner
 	 * 	@param frame	parent
 	 * 	@param WindowNo	Window No
 	 */
-	
 	public WPOSBPartner(int WindowNo, WPOS p_posPanel) {
 		super();
 		v_POSPanel = p_posPanel;
@@ -126,12 +93,46 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 		initBPartner();
 		
 	}	//	WBPartner
+
+
 	
+	private static CLogger log = CLogger.getCLogger(WPOSBPartner.class);
+	
+	private int 				m_WindowNo;
+	
+	/** The Partner				*/
+	private MBPartner 			m_partner = null;
+	
+	/** The Location			*/
+	private MBPartnerLocation 	m_pLocation = null;
+	
+	/** The User				*/
+	private MUser 				m_user = null;
+	
+	/** Read Only				*/
+	private boolean 			m_readOnly = false;
+
+	private boolean		 		isKeyboard;
+	private WPOSTextField 		fValue = new WPOSTextField(null, null);
+	private WPOSTextField 		fName = new WPOSTextField(null, null);
+	private WPOSTextField 		fName2 = new WPOSTextField(null, null);
+	private WPOSTextField 		fContact = new WPOSTextField(null, null);
+	private WPOSTextField 		fEMail = new WPOSTextField(null, null);
+	private WPOSTextField 		fPhone = new WPOSTextField(null, null);
+	private WPOSTextField 		fPhone2 = new WPOSTextField(null, null);
+	
+	private WLocationEditor 	fAddress;/* = new WLocationDialog();*/
+	
+	private VerticalBox 		centerPanel = new VerticalBox();
+	
+	private ConfirmPanel 		confirmPanel = new ConfirmPanel(true, false, false, false, false, false);
+	
+	private WPOS				v_POSPanel = null;
+
 	/**
 	 *	Static Init
 	 * 	@throws Exception
 	 */
-	
 	void jbInit() throws Exception
 	{
 		this.setWidth("350px");

@@ -21,7 +21,6 @@ import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -43,7 +42,6 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.MOrder;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.X_C_Payment;
 import org.compiere.util.CLogger;
@@ -52,7 +50,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
-import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -66,48 +63,67 @@ import org.zkoss.zul.Space;
  *  <li>Change Name
  */
 public class WCollect extends Collect implements WPOSKeyListener, EventListener,I_POSPanel {
-
-	private WPOS v_POSPanel;
-	private Properties p_ctx;
-	private MOrder p_order;
-	private Label fGrandTotal = new Label();
-	private Label fPayAmt;
-	private boolean isPaid = false;
-	private BigDecimal m_Balance = Env.ZERO;
-	private Checkbox fIsPrePayOrder;
-	private Checkbox fIsCreditOrder;
-	private Label fReturnAmt;
-	private Label lReturnAmt;
-	private Label fOpenAmt;
-	private Button bPlus;
-	private ArrayList<Object> types;
-	private final String FONT_SIZE = "Font-size:medium;";
-	private final String FONT_BOLD = "font-weight:700";
-	private Rows rows = null;
-	private Row row = null;
-	private Panel mainPanel; 
-	private Grid eastlayout;
-	private North north;
-	private Grid layout;
-	private DecimalFormat 	m_Format;
-	private int 	collectRowNo = 0;
-	private Window v_Window;
-	/**	Log					*/
-	private CLogger 		log = CLogger.getCLogger(WCollect.class);
-	private ConfirmPanel confirm;
-	private Panel centerPanel;
 	
+	/**
+	 * 
+	 * *** Constructor ***
+	 * @param posPanel
+	 */
 	public WCollect(WPOS posPanel) {
 		super(posPanel.getCtx(), posPanel.getM_Order(), posPanel.getM_POS());
 		
 		v_POSPanel = posPanel;
 		p_ctx = posPanel.getCtx();
-		p_order = posPanel.getM_Order();
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 
 		init();
 	}
 
+	/**	Panels					*/
+	private Panel 				mainPanel; 
+	private Grid 				eastlayout;
+	private Rows 				rows;
+	private Row 				row;
+	private North 				north;
+	private Grid 				layout;
+	private Panel 				centerPanel;
+	
+	/** Window					 */
+	private Window 				v_Window;
+	private Properties 			p_ctx;
+	private WPOS 				v_POSPanel;
+	
+	/**	Fields Summary			*/
+	private Label 				fGrandTotal;
+	private Label 				fPayAmt;
+	private BigDecimal 			m_Balance = Env.ZERO;
+	private Checkbox 			fIsPrePayOrder;
+	private Checkbox 			fIsCreditOrder;
+	private Label 				fReturnAmt;
+	private Label 				lReturnAmt;
+	private Label 				fOpenAmt;
+	private DecimalFormat 		m_Format;
+	
+	/**	Action					*/
+	private Button 				bPlus;
+	private ConfirmPanel 		confirm;
+
+	/**	Generic Values			*/
+	private boolean 			isProcessed;
+	private int 				collectRowNo = 0;
+	
+	/**	Log						*/
+	private CLogger 			log = CLogger.getCLogger(WCollect.class);
+	/**	Default	Font Size		*/
+	private final String 		FONT_SIZE = "Font-size:medium;";
+	/**	Default	Font Weight		*/
+	private final String 		FONT_BOLD = "font-weight:700";
+	
+
+	/**
+	 * Init Dialog
+	 * @return void
+	 */
 	private void init() {
 		log.info("");
 		try {
@@ -118,6 +134,10 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		}
 	}
 	
+	/**
+	 * Instance Window and fill fields
+	 * @return void
+	 */
 	private void zkInit(){
 		Panel panel = new Panel();
 		//	Content
@@ -155,9 +175,10 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		Label gtLabel = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
 		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		row.appendChild(gtLabel.rightAlign());
+		
+		fGrandTotal =  new Label();
 		row.appendChild(fGrandTotal.rightAlign());
 		fGrandTotal.setStyle(FONT_SIZE+FONT_BOLD);
-		fGrandTotal.setValue(p_order.getGrandTotal().toString());
 		
 		row = rows.newRow();
 
@@ -271,6 +292,10 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		return v_POSPanel.getOpenAmt().subtract(m_PayAmt);
 	}
 	
+	/**
+	 * Add new Collect
+	 * @return void
+	 */
 	private void addCollectType(){
 		row = rows.newRow();
 		
@@ -297,6 +322,10 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		calculatePanelData();
 	}
 	
+	/**
+	 * Create Button Action
+	 * @return void
+	 */
 	protected Button createButtonAction (String action, KeyStroke accelerator)	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
@@ -307,19 +336,6 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		return button;
 	}	//	getButtonAction
 	
-	public void filterTypes(){
-		for (int x=0; x < types.size(); x++) {
-			Object obj = types.get(x); 
-			if ( obj instanceof ValueNamePair )	{
-				ValueNamePair key = (ValueNamePair) obj;
-				if (!"CKXFN".contains(key.getID() ) ){ 
-					types.remove(x);
-					x--;
-				}
-				
-			}
-		}
-	}
 
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event event) throws Exception {
@@ -343,7 +359,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 				return;
 			}
 			
-			isPaid = true;
+			isProcessed = true;
 			v_Window.dispose();
 			return;
 		}
@@ -414,14 +430,22 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		return errorMsg;
 	}
 	
+	/**
+	 * Show Collect
+	 * @return boolean
+	 */
 	public boolean showCollect() {
 		v_Window.setWidth("445px");;
 		v_Window.setHeight("580px"); ;
 		v_Window.setClosable(true);
 		AEnv.showWindow(v_Window);
-		return isPaid();
+		return isProcessed();
 	}
 
+	/**
+	 * Calculate and change data in panel
+	 * @return void
+	 */
 	public void calculatePanelData(){
 		//	Get from controller
 		BigDecimal m_PayAmt = getPayAmt();
@@ -466,8 +490,8 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		return errorMsg;
 	}
 
-	private boolean isPaid() {
-		return isPaid ;
+	private boolean isProcessed() {
+		return isProcessed ;
 	}
 
 	public String getGranTotal(){
@@ -476,8 +500,6 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 
 	/**
 	 * Get Keyboard
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
 	 * @return POSKeyboard
 	 */
 	public WPOSKeyboard getKeyboard() {

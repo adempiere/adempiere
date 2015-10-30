@@ -49,7 +49,9 @@ import org.zkoss.zul.Groupbox;
 
 /**
  * 
- * @author Raul Muñoz 20/03/2015 
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 public class WQueryProduct extends WPosQuery
 {
@@ -66,6 +68,7 @@ public class WQueryProduct extends WPosQuery
 		super(posPanel);
 	}	//	PosQueryProduct
 	
+	/** Fields 					*/
 	private WPOSTextField		f_Value;
 	private WPOSTextField		f_ProductName;
 	private WPOSTextField		f_UPC;

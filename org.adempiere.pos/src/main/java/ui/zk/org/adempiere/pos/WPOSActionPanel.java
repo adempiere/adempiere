@@ -19,7 +19,9 @@ package org.adempiere.pos;
 
 import java.awt.Event;
 import java.awt.event.KeyEvent;
+
 import javax.swing.KeyStroke;
+
 import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryProduct;
 import org.adempiere.pos.search.QueryTicket;
@@ -34,7 +36,6 @@ import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
-import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -80,7 +81,6 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	private Button 			f_Collect;
 
 	private Button			f_bBPartner;
-	private Label 			productLabel;
 	private Button 			f_logout;
 	private Button 			f_Cancel;
 	private Button 			f_Next;
@@ -187,13 +187,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 
 		row.appendChild (new Space());
 
-		productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		f_ProductName = new WPOSTextField(null, v_POSPanel.getKeyboard());
+		f_ProductName = new WPOSTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), v_POSPanel.getKeyboard());
 		f_ProductName.setWidth("100%");
 		f_ProductName.setHeight("35px");
 		f_ProductName.setStyle("Font-size:medium; font-weight:bold");
 		f_ProductName.addEventListener(this);
-		f_ProductName.setValue(productLabel.getValue());
 		
 		row.appendChild(f_ProductName);
 		enableButton();
@@ -207,7 +205,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	}
 	/**
 	 * 	Print Ticket
-	 *  @author Raul Muñoz raulmunozn@gmail.com 
+	 *  @return void
 	 */
 	public void printTicket() {
 		if (!v_POSPanel.hasOrder())
@@ -283,6 +281,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			refreshProductInfo(null);
 		}
 	}
+	
 	/**
 	 * 	Find/Set Product & Price
 	 */
@@ -337,39 +336,19 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 				return;
 			
 			for(Object item : result) {
-				f_ProductName.setText(productLabel.getValue());
+				f_ProductName.setText(f_ProductName.getTitle());
 				v_POSPanel.addLine((Integer)item, Env.ONE);
 			}
 		}
 	}	//	findProduct
 
-	/**
-	 * Show Keyboard
-	 * @param field
-	 * @param label
-	 * @return
-	 * @return boolean
-	 */
-	public boolean showKeyboard(WPOSTextField field, Label label) {
-		isKeyboard = true;
-		if(field.getText().equals(label.getValue()))
-			field.setValue("");
-		WPOSKeyboard keyboard = field.getKeyboard();
-		keyboard.setWidth("750px");
-		keyboard.setHeight("350px");
-		keyboard.setPosTextField(field);	
-		AEnv.showWindow(keyboard);
-		if(field.getText().equals("")) 
-			field.setValue(label.getValue());
-		return keyboard.isCancel();
-	}
-	
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
 		
 			if(e.getTarget().equals(f_ProductName.getComponent(WPOSTextField.SECONDARY)) 
 					&& e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
-				if(!showKeyboard(f_ProductName,productLabel))
+				isKeyboard = true;
+				if(!f_ProductName.showKeyboard())
 					findProduct(); 
 				f_ProductName.setFocus(true);
 			}
@@ -487,11 +466,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	}
 	
 	/**
-	 * Enable Bttons
+	 * Enable Buttons
 	 * @return void
 	 */
 	public void enableButton(){
-		f_ProductName.setText(productLabel.getValue());
+		f_ProductName.setText(f_ProductName.getTitle());
 		v_POSPanel.setC_BPartner_ID(0);
 		f_bNew.setEnabled(true);
 		f_Cancel.setEnabled(false);

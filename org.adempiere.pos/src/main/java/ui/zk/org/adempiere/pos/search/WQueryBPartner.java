@@ -46,6 +46,9 @@ import org.zkoss.zul.Groupbox;
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright (c) Jorg Janke
  *  @version $Id: QueryBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 public class WQueryBPartner extends WPosQuery {
 	/**
@@ -306,7 +309,11 @@ public class WQueryBPartner extends WPosQuery {
 		close();
 		return;
 	}
-	
+
+	/**
+	 * Edit Action
+	 * @return void
+	 */
 	public void editAction() {
 		WPOSBPartner t = new WPOSBPartner(1, v_POSPanel);
 		t.loadBPartner(m_C_BPartner_ID);
@@ -418,11 +425,20 @@ public class WQueryBPartner extends WPosQuery {
 		dispose();
 	}
 	
+	/** 
+	 * Get Record ID
+	 * @return
+	 * @return int
+	 */
 	public int getRecord_ID() {
 		return m_C_BPartner_ID;
 	}
 
-	
+	/** 
+	 * Get Value
+	 * @return
+	 * @return String
+	 */
 	public String getValue() {
 		return null;
 	}
