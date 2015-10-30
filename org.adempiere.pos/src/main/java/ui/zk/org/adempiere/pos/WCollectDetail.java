@@ -1,3 +1,20 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Raul Muñoz www.erpcya.com					              *
+ *****************************************************************************/
+
 package org.adempiere.pos;
 
 import java.awt.Event;
@@ -35,8 +52,31 @@ import org.zkoss.zul.Panel;
 import org.zkoss.zul.Panelchildren;
 import org.zkoss.zul.Style;
 
+/**
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raúl Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  <li>Change Name, Best practices
+ */
 public class WCollectDetail extends CollectDetail implements EventListener, I_POSPanel {
 	
+	/**
+	 * Standard Constructor
+	 * @param p_WCollect
+	 * @param p_TenderType
+	 * @param m_PayAmt
+	 */
+	public WCollectDetail(WCollect p_WCollect, String p_TenderType, BigDecimal m_PayAmt) {
+		super(p_TenderType, m_PayAmt);
+		m_TenderType = p_TenderType;
+		p_ctx = Env.getCtx();
+		//	Instance POS
+		v_Parent = p_WCollect;
+		keyboard = v_Parent.getKeyboard();
+		init();
+	}
+	
+	/**	Panels				*/
 	private String 			m_TenderType;
 	private Grid 			v_StandarPanel;
 	private Grid 			v_CheckPanel;
@@ -48,27 +88,27 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	
 	/**	Check				*/
 	private Datebox 		fCheckdate;
-	private WPosTextField 	fCheckRouteNo;
-	private WPosTextField 	fCheckNo;
+	private WPOSTextField 	fCheckRouteNo;
+	private WPOSTextField 	fCheckNo;
 	private Label 			lCheckNo;
 	private Label 			lCheckRouteNo;
 	
 	/**	Credit Card			*/
-	private WPosTextField 	fCCardNo;
-	private WPosTextField 	fCCardName;
+	private WPOSTextField 	fCCardNo;
+	private WPOSTextField 	fCCardName;
 	private Listbox 		fCCardType;
 	private Listbox 		fCreditCardExpMM;
 	private Listbox 		fCreditCardExpYY;
-	private WPosTextField 	fCCardVC;
+	private WPOSTextField 	fCCardVC;
 	private Label 			lCCardNo;
 	private Label 			lCCardName;
 	private Label 			lCCardType;
 	private Label 			lCCardVC;
 	
 	/**	Debit Card			*/
-	private WPosTextField 	fDebitRoutingNo;
-	private WPosTextField 	fDebitCVC;
-	private WPosTextField 	fDebitCountry;
+	private WPOSTextField 	fDebitRoutingNo;
+	private WPOSTextField 	fDebitCVC;
+	private WPOSTextField 	fDebitCountry;
 	private Label 			lDebitRoutingNo;
 	private Label 			lDebitCVC;
 	private Label 			lDebitCountry;
@@ -76,24 +116,25 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	private Button 			bMinus;
 	private Panelchildren 	v_PanelChildren;
 	
-	private final String FONT_SIZE = "Font-size:medium;";
-	private final String HEIGHT = "height:33px;";
-	private final String WIDTH = "width:149px;";
-	private WCollect v_Parent;
+	/**	Keyboard to use		*/
+	private WPOSKeyboard 	keyboard;
+	/**	Default Font		*/
+	private final String 	FONT_SIZE = "Font-size:medium;";
+	/**	Default Width		*/
+	private final String 	HEIGHT = "height:33px;";
+	/**	Default Height		*/
+	private final String 	WIDTH = "width:149px;";
+	
+	private WCollect 		v_Parent;
 	/**	Panels				*/
 	private Panel 			v_MainPanel;
-	private Caption v_TitleBorder;
-	private Groupbox groupPanel;
+	private Caption 		v_TitleBorder;
+	private Groupbox 		groupPanel;
 	
-	public WCollectDetail(WCollect p_WCollect, String p_TenderType, BigDecimal m_PayAmt) {
-		super(p_TenderType, m_PayAmt);
-		m_TenderType = p_TenderType;
-		p_ctx = Env.getCtx();
-		//	Instance POS
-		v_Parent = p_WCollect;
-		init();
-	}
-	
+	/**
+	 * Load standard Panel
+	 * @return void
+	 */
 	public void loadStandardPanel(){
 		v_StandarPanel = GridFactory.newGridLayout();
 		v_StandarPanel.setWidth("100%");
@@ -145,6 +186,10 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		fPayAmt.addEventListener("onBlur",this);
 	}
 	
+	/**
+	 * Load Check Panel
+	 * @return void
+	 */
 	public void loadCheckPanel(){
 		
 		v_CheckPanel = GridFactory.newGridLayout();
@@ -156,7 +201,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		Row row = rows.newRow();
 
 		lCheckRouteNo = new Label(Msg.translate(p_ctx, "RoutingNo"));
-		fCheckRouteNo = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fCheckRouteNo = new WPOSTextField(null, keyboard);
 		row.appendChild(fCheckRouteNo);
 		fCheckRouteNo.setValue(lCheckRouteNo.getValue());
 		fCheckRouteNo.addEventListener("onFocus", this);
@@ -165,7 +210,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		row.appendChild(fCheckRouteNo);
 
 		lCheckNo = new Label(Msg.translate(p_ctx, "CheckNo"));
-		fCheckNo = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fCheckNo = new WPOSTextField(null, keyboard);
 		fCheckNo.setValue(lCheckNo.getValue());
 		fCheckNo.addEventListener("onFocus", this);
 		fCheckNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
@@ -179,6 +224,10 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 
 	}
 
+	/**
+	 * Load Credit Panel
+	 * @return void
+	 */
 	public void loadCreditPanel(){
 		v_CreditPanel = GridFactory.newGridLayout();
 		v_CreditPanel.setWidth("100%");
@@ -210,16 +259,17 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 				fCCardType.appendItem(key.getName(), key.getID());
 			}
 		}
+		
 		row.setSpans("1,2");
 		lCCardNo = new Label(Msg.translate(p_ctx, "CreditCardNumber"));
-		fCCardNo = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fCCardNo = new WPOSTextField(null, keyboard);
 		fCCardNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(fCCardNo);
 		fCCardNo.setText(lCCardNo.getValue());
 		fCCardNo.addEventListener("onFocus", this);
 		
 		lCCardName = new Label(Msg.translate(p_ctx, "Name"));
-		fCCardName = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fCCardName = new WPOSTextField(null, keyboard);
 		row = rows.newRow();
 		row.appendChild(fCCardName);
 		fCCardName.setStyle(HEIGHT+WIDTH+FONT_SIZE);
@@ -252,7 +302,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		row.appendChild(fCreditCardExpMM);
 		row.appendChild(fCreditCardExpYY);
 		lCCardVC = new Label(Msg.translate(p_ctx, "CVC"));
-		fCCardVC = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fCCardVC = new WPOSTextField(null, keyboard);
 		row = rows.newRow();
 		
 		row.appendChild(fCCardVC);
@@ -261,6 +311,11 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		fCCardVC.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 
 	}
+	
+	/**
+	 * Load Debit Panel
+	 * @return void
+	 */
 	public void loadDebitPanel(){
 		v_DebitPanel = GridFactory.newGridLayout();
 		v_DebitPanel.setWidth("100%");
@@ -271,21 +326,21 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 
 		row.setSpans("1,2");
 		lDebitRoutingNo = new Label(Msg.translate(p_ctx, "RoutingNo"));
-		fDebitRoutingNo = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fDebitRoutingNo = new WPOSTextField(null, keyboard);
 		fDebitRoutingNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(fDebitRoutingNo);
 		fDebitRoutingNo.setText(lDebitRoutingNo.getValue());
 		fDebitRoutingNo.addEventListener("onFocus", this);
 		
 		lDebitCVC = new Label(Msg.translate(p_ctx, "A_Country"));
-		fDebitCVC = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fDebitCVC = new WPOSTextField(null, keyboard);
 		row.appendChild(fDebitCVC);
 		fDebitCVC.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		fDebitCVC.setValue(lDebitCVC.getValue());
 		fDebitCVC.addEventListener("onFocus", this);
 
 		lDebitCountry = new Label(Msg.translate(p_ctx, "R_CVV2Match"));
-		fDebitCountry = new WPosTextField(v_Parent.v_POSPanel.getOSKeyLayout_ID());
+		fDebitCountry = new WPOSTextField(null, keyboard);
 		row = rows.newRow();
 		
 		row.appendChild(fDebitCountry);
@@ -295,28 +350,48 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 
 	}
 
+	/**
+	 * Clear Panel
+	 * @return void
+	 */
 	public void clear(){
 		v_StandarPanel = null;
 	}
 
+	/**
+	 * Set Tender Type
+	 */
 	public void setTenderType(String p_TenderType) {
 		m_TenderType = p_TenderType;
 	}
 	
+	/**
+	 * Get Tender Type
+	 */
 	public String getTenderType() {
 		return m_TenderType;
 	}
 	
-	
+	/**
+	 * Get Payment Amount
+	 * @return
+	 * @return POSNumberBox
+	 */
 	public POSNumberBox getlPayAmt(){
 		return fPayAmt;
 	}
 	
-	public void showKeyboard(WPosTextField field, Label label) {
+	/**
+	 * Show Keyboard
+	 * @param field
+	 * @param label
+	 * @return void
+	 */
+	public void showKeyboard(WPOSTextField field, Label label) {
 		isKeyboard = true;
 		if(field.getText().equals(label.getValue()))
 			field.setValue("");
-		WPOSKeyboard keyboard =  v_Parent.v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
+		WPOSKeyboard keyboard = field.getKeyboard();
 		keyboard.setWidth("750px");
 		keyboard.setHeight("380px");
 		keyboard.setPosTextField(field);	
@@ -345,67 +420,67 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 //			setDateTrx(dateTrx);
 		}
 		else if(e.getName().equals(Events.ON_FOCUS)){
-			if(e.getTarget().equals(fCheckNo.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
+			if(e.getTarget().equals(fCheckNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				 showKeyboard(fCheckNo,lCheckNo);
 				 setReferenceNo(fCheckNo.getText());
 				 fCheckNo.setFocus(true);
 			}
-			else if(e.getTarget().equals(fCheckNo.getComponent(WPosTextField.PRIMARY))){
+			else if(e.getTarget().equals(fCheckNo.getComponent(WPOSTextField.PRIMARY))){
 				isKeyboard = false;
 			}
-			else if(e.getTarget().equals(fCheckRouteNo.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
+			else if(e.getTarget().equals(fCheckRouteNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				showKeyboard(fCheckRouteNo,lCheckRouteNo);
 				setRoutingNo(fCheckRouteNo.getText());
 				fCheckRouteNo.setFocus(true);
 			}
-			else if(e.getTarget().equals(fCheckRouteNo.getComponent(WPosTextField.PRIMARY))){
+			else if(e.getTarget().equals(fCheckRouteNo.getComponent(WPOSTextField.PRIMARY))){
 				isKeyboard = false;
 			}
-			else if(e.getTarget().equals(fDebitRoutingNo.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
+			else if(e.getTarget().equals(fDebitRoutingNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				showKeyboard(fDebitRoutingNo,lDebitRoutingNo);
 				setRoutingNo(fDebitRoutingNo.getText());
 				fDebitRoutingNo.setFocus(true);
 			}
-			else if(e.getTarget().equals(fDebitRoutingNo.getComponent(WPosTextField.PRIMARY))){
+			else if(e.getTarget().equals(fDebitRoutingNo.getComponent(WPOSTextField.PRIMARY))){
 				isKeyboard = false;
 			}
-			else if(e.getTarget().equals(fDebitCVC.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
+			else if(e.getTarget().equals(fDebitCVC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				showKeyboard(fDebitCVC,lDebitCVC);
 				fDebitCVC.setFocus(true);
 			}
-			else if(e.getTarget().equals(fDebitCVC.getComponent(WPosTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			else if(e.getTarget().equals(fDebitCVC.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 				isKeyboard = false;
 			}
-			else if(e.getTarget().equals(fDebitCountry.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
+			else if(e.getTarget().equals(fDebitCountry.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				showKeyboard(fDebitCountry,lDebitCountry);
 				setA_Country(fDebitCountry.getText());
 				fDebitCountry.setFocus(true);
 			}
-			else if(e.getTarget().equals(fDebitCountry.getComponent(WPosTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			else if(e.getTarget().equals(fDebitCountry.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 				isKeyboard = false;
 			}
-			else if(e.getTarget().equals(fCCardNo.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
+			else if(e.getTarget().equals(fCCardNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				showKeyboard(fCCardNo,lCCardNo);
 				setCreditCardNumber(fCCardNo.getText());
 				fCCardNo.setFocus(true);
 			}
-			else if(e.getTarget().equals(fCCardNo.getComponent(WPosTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			else if(e.getTarget().equals(fCCardNo.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 				isKeyboard = false;
 			}
-			else if(e.getTarget().equals(fCCardName.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
+			else if(e.getTarget().equals(fCCardName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				showKeyboard(fCCardName,lCCardName);
 				setA_Name(fCCardName.getText());
 				fCCardName.setFocus(true);
 			}
-			else if(e.getTarget().equals(fCCardName.getComponent(WPosTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			else if(e.getTarget().equals(fCCardName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 				isKeyboard = false;
 			}
-			else if(e.getTarget().equals(fCCardVC.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
+			else if(e.getTarget().equals(fCCardVC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				showKeyboard(fCCardVC,lCCardVC);
 				setCreditCardVV(fCCardVC.getText());
 				fCCardVC.setFocus(true);
 			}
-			else if(e.getTarget().equals(fCCardVC.getComponent(WPosTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			else if(e.getTarget().equals(fCCardVC.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 				isKeyboard = false;
 			}
 		}else if(e.getTarget().equals(fCCardType)) {
@@ -471,6 +546,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 
 	@Override
 	public void refreshPanel() {
+		
 	}
 
 	@Override
@@ -506,5 +582,4 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 			v_CreditPanel.setVisible(false);
 		}
 	}
-
 }

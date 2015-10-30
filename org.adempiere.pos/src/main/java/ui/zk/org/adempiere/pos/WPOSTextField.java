@@ -27,36 +27,38 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Div;
 
 /**
- * 
- * @author Raul Muñoz 20/03/2015 
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  */
-public class WPosTextField extends Div {
+public class WPOSTextField extends Div {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2453719110038264481L;
-	int keyLayoutId = 0;
 	
-	private Textbox			f_HiddenField;
+	/**	Keyboard to use		*/
+	private WPOSKeyboard 	m_Keyboard;
+	/**	Text Views			*/
+	private Textbox			f_PlaceHolder;
 	private Textbox			f_TextField;
 	private	String 			m_FontSize;
 	private	String			m_FontStyle;
+	/**	Constants			*/
 	public  static final String PRIMARY = "P";
 	public  static final String SECONDARY = "S";
 	private Table grid;
-	
-	
-	public int getKeyLayoutId() {
-		return keyLayoutId;
-	}
 
-	
-	public WPosTextField(final int posKeyLayout_ID) {
+	/**
+	 * Standard Constructor
+	 * @param p_Title
+	 * @param p_Keyboard
+	 */
+	public WPOSTextField(String p_Title, WPOSKeyboard p_Keyboard) {
 		super();
-		
-		keyLayoutId = posKeyLayout_ID;
-		f_HiddenField = new Textbox();
-		f_HiddenField.setStyle("position:relative; left:-100%; margin-top:-20px; width:100%; height:100%; opacity:0.0");
+		//	
+		m_Keyboard = p_Keyboard;
+		f_PlaceHolder = new Textbox();
+		f_PlaceHolder.setStyle("position:relative; left:-100%; margin-top:-20px; width:100%; height:100%; opacity:0.0");
 		f_TextField = new Textbox();
 		f_TextField.setHeight("23px");
 		f_TextField.setStyle("Font-size:medium; font-weight:bold");
@@ -79,13 +81,24 @@ public class WPosTextField extends Div {
 		td.setStyle("border: none; padding: 0px; margin: 0px;");
 		
 		td.appendChild(f_TextField);
-		td.appendChild(f_HiddenField);
+		td.appendChild(f_PlaceHolder);
 
 		String style = AEnv.isFirefox2() ? "display: inline"
 				: "display: inline-block";
 		style = style
 				+ ";border: none; padding: 0px; margin: 0px; background-color: transparent;";
 		this.setStyle(style);
+		//	Set Title
+		setText(p_Title);
+	}
+	
+	/**
+	 * Get Keyboard
+	 * @return
+	 * @return WPOSKeyboard
+	 */
+	public WPOSKeyboard getKeyboard() {
+		return m_Keyboard;
 	}
 
 	/**		
@@ -167,7 +180,7 @@ public class WPosTextField extends Div {
 	{
 
 		f_TextField.addEventListener(Events.ON_FOCUS, listener);
-		f_HiddenField.addEventListener(Events.ON_FOCUS, listener);
+		f_PlaceHolder.addEventListener(Events.ON_FOCUS, listener);
 	     
 	}
 	
@@ -217,7 +230,7 @@ public class WPosTextField extends Div {
 	-	 */
 	public void setReadonly(Boolean readOnly) {
 		f_TextField.setReadonly(readOnly);
-		f_HiddenField.setReadonly(readOnly);
+		f_PlaceHolder.setReadonly(readOnly);
 	}
 	
 	/**		
@@ -230,7 +243,7 @@ public class WPosTextField extends Div {
 		if(comp.equals(PRIMARY)) {
 			return f_TextField;
 		} else if(comp.equals(SECONDARY)){
-			return f_HiddenField;
+			return f_PlaceHolder;
 		}
 		return null;
 	}

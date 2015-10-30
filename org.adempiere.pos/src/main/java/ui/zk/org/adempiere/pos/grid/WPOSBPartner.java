@@ -1,4 +1,3 @@
-package org.adempiere.pos.grid;
 /******************************************************************************
  * Product: Posterita Ajax UI 												  *
  * Copyright (C) 2007 Posterita Ltd.  All Rights Reserved.                    *
@@ -15,13 +14,13 @@ package org.adempiere.pos.grid;
  * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
  * or via info@posterita.org or http://www.posterita.org/                     *
  *****************************************************************************/
-
+package org.adempiere.pos.grid;
 
 import java.util.logging.Level;
 
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
-import org.adempiere.pos.WPosTextField;
+import org.adempiere.pos.WPOSTextField;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
@@ -84,13 +83,13 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 	private boolean m_readOnly = false;
 
 	private boolean		  isKeyboard;
-	private WPosTextField fValue = new WPosTextField(0);
-	private WPosTextField fName = new WPosTextField(0);
-	private WPosTextField fName2 = new WPosTextField(0);
-	private WPosTextField fContact = new WPosTextField(0);
-	private WPosTextField fEMail = new WPosTextField(0);
-	private WPosTextField fPhone = new WPosTextField(0);
-	private WPosTextField fPhone2 = new WPosTextField(0);
+	private WPOSTextField fValue = new WPOSTextField(null, null);
+	private WPOSTextField fName = new WPOSTextField(null, null);
+	private WPOSTextField fName2 = new WPOSTextField(null, null);
+	private WPOSTextField fContact = new WPOSTextField(null, null);
+	private WPOSTextField fEMail = new WPOSTextField(null, null);
+	private WPOSTextField fPhone = new WPOSTextField(null, null);
+	private WPOSTextField fPhone2 = new WPOSTextField(null, null);
 	
 	private WLocationEditor fAddress;/* = new WLocationDialog();*/
 	
@@ -428,41 +427,41 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 		if (m_readOnly)
 			this.detach();
 		//	copy value
-		 if(e.getTarget().equals(fValue.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
+		 if(e.getTarget().equals(fValue.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			 fValue.setValue(showKeyboard(e));
 			 fValue.setFocus(true);
 		}
-		 else if(e.getTarget().equals(fName.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
+		 else if(e.getTarget().equals(fName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			 fName.setValue(showKeyboard(e));
 			 fName.setFocus(true);
 		}
-		 else if(e.getTarget().equals(fName2.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
+		 else if(e.getTarget().equals(fName2.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			 fName2.setValue(showKeyboard(e));
 			 fName2.setFocus(true);
 		}
-		 else if(e.getTarget().equals(fContact.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
+		 else if(e.getTarget().equals(fContact.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			 fContact.setValue(showKeyboard(e));
 			 fContact.setFocus(true);
 		}
-		 else if(e.getTarget().equals(fEMail.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
+		 else if(e.getTarget().equals(fEMail.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			 fEMail.setValue(showKeyboard(e));
 			 fEMail.setFocus(true);
 		}
-		 else if(e.getTarget().equals(fPhone.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
+		 else if(e.getTarget().equals(fPhone.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			 fPhone.setValue(showKeyboard(e));
 			 fPhone.setFocus(true);
 		}
-		 else if(e.getTarget().equals(fPhone2.getComponent(WPosTextField.SECONDARY)) && !isKeyboard){
+		 else if(e.getTarget().equals(fPhone2.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			 fPhone2.setValue(showKeyboard(e));
 			 fPhone2.setFocus(true);
 		}
-		 else if(e.getTarget().equals(fValue.getComponent(WPosTextField.PRIMARY)) 
-				|| e.getTarget().equals(fName.getComponent(WPosTextField.PRIMARY))
-				|| e.getTarget().equals(fName2.getComponent(WPosTextField.PRIMARY))
-				|| e.getTarget().equals(fContact.getComponent(WPosTextField.PRIMARY))
-				|| e.getTarget().equals(fEMail.getComponent(WPosTextField.PRIMARY))
-				|| e.getTarget().equals(fPhone.getComponent(WPosTextField.PRIMARY))
-				|| e.getTarget().equals(fPhone2.getComponent(WPosTextField.PRIMARY))) {
+		 else if(e.getTarget().equals(fValue.getComponent(WPOSTextField.PRIMARY)) 
+				|| e.getTarget().equals(fName.getComponent(WPOSTextField.PRIMARY))
+				|| e.getTarget().equals(fName2.getComponent(WPOSTextField.PRIMARY))
+				|| e.getTarget().equals(fContact.getComponent(WPOSTextField.PRIMARY))
+				|| e.getTarget().equals(fEMail.getComponent(WPOSTextField.PRIMARY))
+				|| e.getTarget().equals(fPhone.getComponent(WPOSTextField.PRIMARY))
+				|| e.getTarget().equals(fPhone2.getComponent(WPOSTextField.PRIMARY))) {
 
 			 isKeyboard = false;
 		}

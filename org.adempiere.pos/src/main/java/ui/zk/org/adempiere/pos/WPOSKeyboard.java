@@ -62,7 +62,7 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 
 		public static final int KEYBOARD_NUMERIC = 1;
 		public static final int KEYBOARD_NUMERIC_CASHOUT = 2;
-		private WPosTextField field;
+		private WPOSTextField field;
 		private Textbox tfield;
 		private Doublebox dfield;
 		private Label lfield;
@@ -79,7 +79,7 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public WPOSKeyboard (WPOS posPanel, int C_POSKeyLayout_ID, WPosTextField field, String title)
+	public WPOSKeyboard (WPOS posPanel, int C_POSKeyLayout_ID, WPOSTextField field, String title)
 	{
 		this(posPanel, C_POSKeyLayout_ID);
 		setTitle(title);
@@ -93,7 +93,7 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		init( keyLayoutId );
 	}
 	
-	public WPOSKeyboard(Window parent, WPOS posPanel, int keyLayoutId, WPosTextField field) {
+	public WPOSKeyboard(Window parent, WPOS posPanel, int keyLayoutId, WPOSTextField field) {
 		super();
 		setPosTextField(field);
 		setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
@@ -102,7 +102,7 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		init( keyLayoutId );
 		AEnv.showCenterWindow(parent, this);
 	}
-	public WPOSKeyboard(Panel parent, int keyLayoutId, WPosTextField field) {
+	public WPOSKeyboard(Panel parent, int keyLayoutId, WPOSTextField field) {
 		super();
 		setWidth("280px");
 		setHeight("320px");
@@ -169,7 +169,7 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		row.appendChild(txtCalc);
 		txtCalc.setName("number");
 		txtCalc.setWidth("92%");
-		WPosKeyPanel keys = new WPosKeyPanel(POSKeyLayout_ID, this, txtCalcId, keyBoardType);
+		WPOSKeyPanel keys = new WPOSKeyPanel(POSKeyLayout_ID, this, txtCalcId, keyBoardType);
 		center = new Center();
 		center.setStyle("border: none");
 		keys.setWidth("100%");
@@ -224,7 +224,7 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		txtCalc.setValue(tfield.getValue());
 		
 	}
-	public void setPosTextField(WPosTextField posTextField) {
+	public void setPosTextField(WPOSTextField posTextField) {
 		
 		field = posTextField;
 		txtCalc.setText(field.getText());

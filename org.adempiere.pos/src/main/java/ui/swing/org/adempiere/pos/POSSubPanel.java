@@ -22,7 +22,6 @@ import java.util.Properties;
 import javax.swing.KeyStroke;
 
 import org.compiere.apps.AppsAction;
-import org.compiere.model.MPOS;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CPanel;
 import org.compiere.util.Env;
@@ -53,14 +52,11 @@ public abstract class POSSubPanel extends CPanel
 	{
 		super();
 		v_POSPanel = posPanel;
-		m_pos = posPanel.getM_POS();
 		init();
 	}	//	PosSubPanel
 	
 	/** POS Panel							*/
 	protected VPOS 				v_POSPanel;
-	/**	Underlying POS Model				*/
-	protected MPOS				m_pos;
 	/** Context								*/
 	protected Properties		m_ctx = Env.getCtx();
 	
@@ -78,9 +74,7 @@ public abstract class POSSubPanel extends CPanel
 	/**
 	 * 	Dispose - Free Resources
 	 */
-	public void dispose()
-	{
-		m_pos = null;
+	public void dispose() {
 	}	//	dispose
 
 	

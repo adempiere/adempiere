@@ -34,7 +34,7 @@ import javax.swing.table.DefaultTableModel;
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.PO;
-import org.adempiere.pos.PosTable;
+import org.adempiere.pos.POSTable;
 import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -80,7 +80,7 @@ public class POSOrderLinePanel extends POSSubPanel
 	
 
 	/** The Table			*/
-	private PosTable 		m_table;
+	private POSTable 		m_table;
 	/**	Table Handle		*/
 	private POSOrderLineTableHandle m_TableHandle;
 	
@@ -90,7 +90,7 @@ public class POSOrderLinePanel extends POSSubPanel
 	public void init() {
 		//	Content
 		setLayout(new BorderLayout());
-		m_table = new PosTable();
+		m_table = new POSTable();
 		m_TableHandle = new POSOrderLineTableHandle(m_table);
 		CScrollPane scroll = new CScrollPane(m_table);
 		scroll.addKeyListener(this);

@@ -25,7 +25,7 @@ import java.util.Properties;
 
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
-import org.adempiere.pos.WPosTextField;
+import org.adempiere.pos.WPOSTextField;
 import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
@@ -69,7 +69,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 	}	//	PosQueryProduct
 
 	
-	private WPosTextField	f_documentno;
+	private WPOSTextField	f_documentno;
 	private Datebox			f_DateTo;
 	private Datebox			f_DateFrom;
 	private Date			m_DateTo;
@@ -145,7 +145,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		ldoc.setStyle(WPOS.FONTSIZESMALL);
 		row.setHeight("60px");
 		row.appendChild(ldoc.rightAlign());
-		f_documentno = new WPosTextField(v_POSPanel.getOSKeyLayout_ID());
+		f_documentno = new WPOSTextField(null, v_POSPanel.getKeyboard());
 		row.appendChild(f_documentno);
 		f_documentno.addEventListener(this);
 		f_documentno.setWidth("120px");
@@ -180,7 +180,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		//	Center
 		m_table = ListboxFactory.newDataTable();
 		m_table.prepareTable (s_layout, "C_Order", 
-				"C_POS_ID = " + p_pos.getC_POS_ID()
+				"C_POS_ID = " + v_POSPanel.getC_POS_ID()
 				, false, "C_Order");
 
 		enableButtons();
@@ -313,10 +313,10 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if(e.getTarget().equals(f_documentno.getComponent(WPosTextField.SECONDARY)) && !isKeyboard) {
+		if(e.getTarget().equals(f_documentno.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 			isKeyboard = true;
 			//	Get Keyboard Panel
-			WPOSKeyboard keyboard = v_POSPanel.getKeyboard(f_documentno.getKeyLayoutId(), f_documentno);
+			WPOSKeyboard keyboard = f_documentno.getKeyboard();
 			//	Set Title
 			keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
 			keyboard.setWidth("750px");
@@ -326,7 +326,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 			f_documentno.setFocus(true);
 
 		}
-		else if(e.getTarget().equals(f_documentno.getComponent(WPosTextField.PRIMARY))) {
+		else if(e.getTarget().equals(f_documentno.getComponent(WPOSTextField.PRIMARY))) {
 			 isKeyboard = false;
 		}
 		else if(e.getTarget().getId().equals("Refresh")) {

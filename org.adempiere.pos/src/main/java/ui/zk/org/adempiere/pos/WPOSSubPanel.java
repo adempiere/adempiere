@@ -24,17 +24,17 @@ import javax.swing.KeyStroke;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.model.MPOS;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
 
 
 /**
- * 
- * @author Raul Muñoz 20/03/2015 
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com 
  */
-public abstract class WPosSubPanel extends Borderlayout 
+public abstract class WPOSSubPanel extends Borderlayout 
 	implements EventListener
 {
 	/**
@@ -46,17 +46,14 @@ public abstract class WPosSubPanel extends Borderlayout
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public WPosSubPanel (WPOS posPanel) {
+	public WPOSSubPanel (WPOS posPanel) {
 		super();
 		v_POSPanel = posPanel;
-		p_pos = posPanel.getM_POS();
 		init();
 	}	//	PosSubPanel
 	
 	/** POS Panel							*/
 	protected WPOS 					v_POSPanel;
-	/**	Underlying POS Model				*/
-	protected MPOS					p_pos;
 	/** Context								*/
 	protected Properties			m_ctx = Env.getCtx();
 	
@@ -74,9 +71,7 @@ public abstract class WPosSubPanel extends Borderlayout
 	/**
 	 * 	Dispose - Free Resources
 	 */
-	public void dispose()
-	{
-		p_pos = null;
+	public void dispose() {
 		SessionManager.getAppDesktop().closeActiveWindow();
 	}	//	dispose
 

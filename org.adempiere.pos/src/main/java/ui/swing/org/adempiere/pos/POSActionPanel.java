@@ -347,9 +347,9 @@ public class POSActionPanel extends POSSubPanel
 	 */
 	private void deleteOrder() {
 		String errorMsg = null;
-		String askMsg = "POS.DeleteOrder";	//	TODO Translate it: Do you want to delete Order?
+		String askMsg = "POS.DeleteOrder";
 		if (v_POSPanel.isCompleted()) {	
-			askMsg = "POS.OrderIsAlreadyCompleted";	//	TODO Translate it: The order is already completed. Do you want to void it?
+			askMsg = "POS.OrderIsAlreadyCompleted";
 		}
 		//	Show Ask
 		if (ADialog.ask(0, this, Msg.getMsg(m_ctx, Msg.getMsg(m_ctx, askMsg)))) {
@@ -390,7 +390,7 @@ public class POSActionPanel extends POSSubPanel
 //				Boolean print = true;
 				Trx.run(new TrxRunnable() {
 					public void run(String trxName) {
-						if (m_pos.getAD_Sequence_ID()!= 0) {
+						if (v_POSPanel.getAD_Sequence_ID()!= 0) {
 							
 							String docno = v_POSPanel.getSequenceDoc(trxName);
 							String q = "Confirmar el número consecutivo "  + docno;

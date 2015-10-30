@@ -1,3 +1,17 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************/
+
 package org.adempiere.pos;
 
 import java.math.BigDecimal;
@@ -28,8 +42,11 @@ import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Style;
 
-
-public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_POSPanel{
+/**
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ */
+public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_POSPanel{
 
 	/**
 	 * 
@@ -44,7 +61,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		super (posPanel);
 	}	//	PosSubFunctionKeys
 	
-	private WPosTextField	f_BPartnerName;
+	private WPOSTextField	f_BPartnerName;
 	private boolean			isKeyboard;
 	private Label	 		f_TotalLines;
 	private Label	 		f_TaxAmount;
@@ -69,9 +86,8 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	
 	@Override
 	public void init(){
-		int C_POSKeyLayout_ID = p_pos.getC_POSKeyLayout_ID();
-		if (C_POSKeyLayout_ID == 0)
-			return;
+		int C_POSKeyLayout_ID = v_POSPanel.getC_POSKeyLayout_ID();
+		//	
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		isKeyboard = false;
 		v_TotalsPanel = GridFactory.newGridLayout();
@@ -104,7 +120,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		// BP
 		l_BPartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer"));
 		
-		f_BPartnerName = new WPosTextField(p_pos.getOSK_KeyLayout_ID());
+		f_BPartnerName = new WPOSTextField(null, v_POSPanel.getKeyboard());
 		f_BPartnerName.setHeight("35px");
 		f_BPartnerName.setStyle("Font-size:medium; font-weight:bold");
 		f_BPartnerName.setWidth("97%");
@@ -227,7 +243,7 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		
 		rows = layout.newRows();
 		
-		WPosKeyPanel panel = new WPosKeyPanel(C_POSKeyLayout_ID, this);
+		WPOSKeyPanel panel = new WPOSKeyPanel(C_POSKeyLayout_ID, this);
 //		row.appendChild(f_ProductName);
 		row = rows.newRow();
 		row.setSpans("4");
@@ -295,11 +311,18 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		return;
 	}
 
-	public boolean showKeyboard(WPosTextField field, Label label) {
+	/**
+	 * Show Keyboard
+	 * @param field
+	 * @param label
+	 * @return
+	 * @return boolean
+	 */
+	public boolean showKeyboard(WPOSTextField field, Label label) {
 		isKeyboard = true;
 		if(field.getText().equals(label.getValue()))
 			field.setValue("");
-		WPOSKeyboard keyboard =  v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
+		WPOSKeyboard keyboard = field.getKeyboard();
 		keyboard.setPosTextField(field);	
 		AEnv.showWindow(keyboard);
 		if(field.getText().equals("")) 
@@ -310,12 +333,12 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 	@Override
 	public void onEvent(Event e) throws Exception {
 		//	Name
-		if(e.getTarget().equals(f_BPartnerName.getComponent(WPosTextField.SECONDARY)) && e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
+		if(e.getTarget().equals(f_BPartnerName.getComponent(WPOSTextField.SECONDARY)) && e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
 			if(!showKeyboard(f_BPartnerName,l_BPartner))
 				findBPartner();
 			f_BPartnerName.setFocus(true);
 		}
-		if(e.getTarget().equals(f_BPartnerName.getComponent(WPosTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+		if(e.getTarget().equals(f_BPartnerName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 			isKeyboard = false;
 		}
 		//else {
@@ -396,7 +419,4 @@ public class WPOSProductPanel extends WPosSubPanel implements PosKeyListener, I_
 		}
 		return false;
 	}
-
-
-	
 }

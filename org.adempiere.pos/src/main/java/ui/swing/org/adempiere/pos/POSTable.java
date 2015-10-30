@@ -9,14 +9,14 @@ import javax.swing.ListSelectionModel;
 
 import org.compiere.minigrid.MiniTable;
 
-public class PosTable extends MiniTable {
+public class POSTable extends MiniTable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7884238751207398699L;
 
-	public PosTable() {
+	public POSTable() {
 		
 		super();
 		setRowSelectionAllowed(true);

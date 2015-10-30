@@ -264,14 +264,14 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 			return keyboard;
 	}
 	
-	public WPOSKeyboard getKeyboard(int keyLayoutId, WPosTextField field) {
+	public WPOSKeyboard getKeyboard(int keyLayoutId, WPOSTextField field) {
 		WPOSKeyboard keyboard = new WPOSKeyboard(this, keyLayoutId);
 		keyboard.setPosTextField(field);
 		keyboards.put(keyLayoutId, keyboard);
 		return keyboard;
 	}
 	
-	public WPOSKeyboard getKeyboard(int keyLayoutId, Window wPosQuery, WPosTextField field) {
+	public WPOSKeyboard getKeyboard(int keyLayoutId, Window wPosQuery, WPOSTextField field) {
 			WPOSKeyboard keyboard = new WPOSKeyboard(wPosQuery,this, keyLayoutId, field);
 			keyboards.put(keyLayoutId, keyboard);
 			return keyboard;
