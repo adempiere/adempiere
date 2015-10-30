@@ -100,7 +100,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		m_table.addMouseListener(this);
 		m_table.setFillsViewportHeight(true); //@Trifon
 		m_table.growScrollbars();
-		
+
 		add(scroll, BorderLayout.CENTER);
 		addKeyListener(this);
 	} //init
@@ -120,6 +120,7 @@ public class POSOrderLinePanel extends POSSubPanel
 	 */
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
+		System.out.println(e.getSource()+"....");
 		if (action == null || action.length() == 0)
 			return;
 		log.info( "POSOrderLinePanel - actionPerformed: " + action);
@@ -152,7 +153,6 @@ public class POSOrderLinePanel extends POSSubPanel
 	public void valueChanged(ListSelectionEvent e) {
 		if ( e.getValueIsAdjusting() )
 			return;
-
 		int row = m_table.getSelectedRow();
 		if (row != -1 ) {
 			Object data = m_table.getModel().getValueAt(row, POSOrderLineTableHandle.POSITION_C_ORDER_ID);
@@ -168,10 +168,31 @@ public class POSOrderLinePanel extends POSSubPanel
 	
 	@Override
     public void tableChanged(TableModelEvent e) {
+		
         boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
         int row = e.getFirstRow();
 		int col = e.getColumn();
 		//  Not a table update
+
+		if(col == POSOrderLineTableHandle.POSITION_DELETE) {
+			//	Remove Listener
+    		m_table.getModel().removeTableModelListener(this);
+
+			IDColumn key = (IDColumn) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_C_ORDER_ID);
+			m_C_OrderLine_ID = key.getRecord_ID();
+			v_POSPanel.deleteLine(m_C_OrderLine_ID);
+			
+			((DefaultTableModel)m_table.getModel()).removeRow(row);
+			m_table.getModel().addTableModelListener(this);
+			v_POSPanel.refreshHeader();
+			m_table.getModel().addTableModelListener(this);
+			//	Only Refresh Header
+			v_POSPanel.refreshHeader();
+			//	Request Focus
+			m_table.requestFocusInWindow();
+			//	Exit
+			return;
+		}
 		if (!isUpdate
 				|| (col != POSOrderLineTableHandle.POSITION_QTYORDERED
 						&& col != POSOrderLineTableHandle.POSITION_PRICE)) {
@@ -179,6 +200,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		}
 		//	Get ID
 		IDColumn key = (IDColumn) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_C_ORDER_ID);
+		
 		//	Validate Key
 		if (key != null) {
 			//	Set Current Order Line
@@ -300,10 +322,25 @@ public class POSOrderLinePanel extends POSSubPanel
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int row = m_table.getSelectedRow();
+		POSTable c_table = (POSTable)e.getSource();
+		int row = c_table.getSelectedRow();
+		int column = c_table.getSelectedColumn();
+		if(column == POSOrderLineTableHandle.POSITION_DELETE) {
+			m_table.getModel().removeTableModelListener(this);
+			IDColumn key = (IDColumn) c_table.getValueAt(row, 0);
+			m_C_OrderLine_ID = key.getRecord_ID();
+			v_POSPanel.deleteLine(m_C_OrderLine_ID);
+
+			((DefaultTableModel)m_table.getModel()).removeRow(row);
+			m_table.getModel().addTableModelListener(this);
+			v_POSPanel.refreshHeader();
+			return;
+		}
 		if (row != -1)	{
 			showProductInfo(row);
 		}
+		
+
 	}
 
 

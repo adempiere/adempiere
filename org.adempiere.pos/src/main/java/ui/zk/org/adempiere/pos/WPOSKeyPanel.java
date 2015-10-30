@@ -37,10 +37,12 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Image;
+
 /**
  * Button panel supporting multiple linked layouts
- * @author Raul Muñoz
- *
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 public class WPOSKeyPanel extends Panel implements EventListener {
 	/**
@@ -64,7 +66,8 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 		currentLayout = C_POSKeyLayout_ID;
 		
 		this.caller = caller;
-	}	//	PosSubFunctionKeys
+	}	//	PosFunctionKeys
+	
 	/**
 	 * 	Constructor
 	 */
@@ -77,23 +80,32 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 		setStyle("overflow:auto");
 		currentLayout = C_POSKeyLayout_ID;
 		this.caller = caller;
-	}	//	PosSubFunctionKeys
+	}	//	PosFunctionKeys
 	
 	
-	/** Map of map of keys */
-	private HashMap<Integer, HashMap<Integer, MPOSKey>> keymap = new HashMap<Integer, HashMap<Integer,MPOSKey>>();
 	/** Currently displayed layout	*/
-	int currentLayout;
+	private int 				currentLayout;
+	/** Caller					*/
+	private PosKeyListener 		caller;
+	/** Status Panel			 */
+	private boolean 			status;
+	/** Panels					*/
+	private Panel 				primaryPanel;
+	private Panel 				secondPanel;
+	/** KeyBoard Type			*/
+	private boolean 			keyBoardType; 
+	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WPOSKeyPanel.class);
-	/** Caller			*/
-	private PosKeyListener caller;
-	/** Status Panel */
-	private boolean status;
-	private Panel primaryPanel;
-	private Panel secondPanel;
-	boolean keyBoardType; 
+	/** Map of map of keys */
+	private HashMap<Integer, HashMap<Integer, MPOSKey>> keymap = new HashMap<Integer, HashMap<Integer,MPOSKey>>();
 	
+	/**
+	 * Create Button
+	 * @param C_POSKeyLayout_ID
+	 * @return
+	 * @return Panel
+	 */
 	public Panel createButton(int C_POSKeyLayout_ID){
 		if ( keymap.containsKey(C_POSKeyLayout_ID) ) {
 			return null;
@@ -210,6 +222,12 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 		return card;
 	}
 	
+	/** 
+	 * Create Panel
+	 * @param C_POSKeyLayout_ID
+	 * @return
+	 * @return Panel
+	 */
 	public Panel createPanel(int C_POSKeyLayout_ID){
 		Panel card = new Panel();
 		card.setWidth("100%");
@@ -245,6 +263,13 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 		}
 		return card;
 	}
+	/**
+	 * Create Panel For Keyboard
+	 * @param C_POSKeyLayout_ID
+	 * @param m_txtCalc
+	 * @return
+	 * @return Panel
+	 */
 	public Panel createPanel(int C_POSKeyLayout_ID, String m_txtCalc){
 		Panel card = new Panel();
 		card.setWidth("100%");
@@ -281,7 +306,11 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 	}
 	
 	/**
+	 * Create Buttton For Keyboard
+	 * @param C_POSKeyLayout_ID
+	 * @param m_txtCalc
 	 * @return
+	 * @return Panel
 	 */
 	private Panel createButton(int C_POSKeyLayout_ID, String m_txtCalc) {
 		
@@ -385,7 +414,6 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 	 * 	Action Listener
 	 *	@param e event
 	 */
-
 	@Override
 	public void onEvent(Event event) throws Exception {
 		String action = event.getTarget().getId();

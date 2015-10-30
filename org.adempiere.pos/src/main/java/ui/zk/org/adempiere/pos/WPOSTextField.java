@@ -29,6 +29,7 @@ import org.zkoss.zul.Div;
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 public class WPOSTextField extends Div {
 	/**
@@ -43,6 +44,7 @@ public class WPOSTextField extends Div {
 	private Textbox			f_TextField;
 	private	String 			m_FontSize;
 	private	String			m_FontStyle;
+	private String			m_Title;
 	/**	Constants			*/
 	public  static final String PRIMARY = "P";
 	public  static final String SECONDARY = "S";
@@ -90,6 +92,24 @@ public class WPOSTextField extends Div {
 		this.setStyle(style);
 		//	Set Title
 		setText(p_Title);
+		setTitle(p_Title);
+	}
+	
+	/** 
+	 * Set Title
+	 * @param p_Title
+	 */
+	public void setTitle(String p_Title) {
+		m_Title = p_Title;
+	}
+	
+	/**
+	 *  Get Title
+	 * @param p_Title
+	 * @return
+	 */
+	public String getTitle() {
+		return m_Title;
 	}
 	
 	/**
@@ -102,64 +122,64 @@ public class WPOSTextField extends Div {
 	}
 
 	/**		
-	-	 * Get Font Size 		
-	-	 * @return String		
-	-	 */
+	 * Get Font Size 		
+	 * @return String		
+	 */
 	public String getFontSize() {
 		return m_FontSize;
 	}
 
 	/**		
-	-	 *  Set Font Size		
-	-	 * @param p_FontSize		
-	-	 * @return void		
-	-	 */
+	*  Set Font Size		
+	* @param p_FontSize		
+	* @return void		
+	*/
 	public void setFontSize(String p_FontSize) {
 		this.m_FontSize = p_FontSize;
 	}
 
 	/**		
-	-	 * Get Font Style		
-	-	 * @return String		
-	-	 */
+	* Get Font Style		
+	* @return String		
+	*/
 	public String getFontStyle() {
 		return m_FontStyle;
 	}
 
 	/**		
-	-	 * Set Font Style		
-	-	 * @param p_FontStyle		
-	-	 * @return void		
-	-	 */
+	* Set Font Style		
+	* @param p_FontStyle		
+	* @return void		
+	*/
 	public void setFontStyle(String p_FontStyle) {
 		this.m_FontStyle = p_FontStyle;
 	}
 	
 	/** 			
-	-	 * Set Width		
-	-	 * @param Width		
-	-	 * @return void		
-	-	 */		
+	* Set Width		
+	* @param Width		
+	* @return void		
+	*/		
 	public void setWidth(String width){
 		f_TextField.setWidth(width);
 		grid.setDynamicProperty("width", width);
 	}
 	
 	/**			
-	-	 * Set Height		
-	-	 * @param Height		
-	-	 * @return void		
-	-	 */
+	* Set Height		
+	* @param Height		
+	* @return void		
+	*/
 	public void setHeight(String height){
 		f_TextField.setHeight(height);
 		
 	}
 	
 	/**		
-	-	 * Set Style		
-	-	 * @param style		
-	-	 * @return void		
-	-	 */
+	* Set Style		
+	* @param style		
+	* @return void		
+	*/
 	public void setStyle(String style) {
 		f_TextField.setStyle(style);
 	}
@@ -172,10 +192,10 @@ public class WPOSTextField extends Div {
 	}
 	
 	/**			
-	-	 * Add Event Listener		
-	-	 * @param listener		
-	-	 * @return void		
-	-	 */		
+	* Add Event Listener		
+	* @param listener		
+	* @return void		
+	*/		
 	public void addEventListener(EventListener listener)
 	{
 
@@ -185,28 +205,28 @@ public class WPOSTextField extends Div {
 	}
 	
 	/**		
-	-	 * Set Value		
-	-	 * @param value		
-	-	 * @return void		
-	-	 */
+	* Set Value		
+	* @param value		
+	* @return void		
+	*/
 	public void setValue(String value) {
 		f_TextField.setValue(value);
 	}
 	
 	/**		
-	-	 * Get Value		
-	-	 * @return		
-	-	 * @return String		
-	-	 */
+	* Get Value		
+	* @return		
+	* @return String		
+	*/
 	public String getValue() {
 		return f_TextField.getValue();
 	}
 	
 	/**		
-	-	 * Set Text		
-	-	 * @param value		
-	-	 * @return void		
-	-	 */
+	* Set Text		
+	* @param value		
+	* @return void		
+	*/
 	public void setText(String value) {
 		if(value != null)
 			f_TextField.setValue(value);
@@ -215,19 +235,19 @@ public class WPOSTextField extends Div {
 	}
 	
 	/**		
-	-	 * Get Text		
-	-	 * @return		
-	-	 * @return String		
-	-	 */
+	* Get Text		
+	* @return		
+	* @return String		
+	*/
 	public String getText() {
 			return f_TextField.getValue();
 	}
 	
 	/**		
-	-	 * Set Read Only		
-	-	 * @param readOnly		
-	-	 * @return void		
-	-	 */
+	* Set Read Only		
+	* @param readOnly		
+	* @return void		
+	*/
 	public void setReadonly(Boolean readOnly) {
 		f_TextField.setReadonly(readOnly);
 		f_PlaceHolder.setReadonly(readOnly);
@@ -257,5 +277,24 @@ public class WPOSTextField extends Div {
 	public void setFocus(boolean focus){
 		f_TextField.setFocus(focus);
 	}
-			
+	
+	/**
+	 * Show Keyboard
+	 * @param field
+	 * @param label
+	 * @return
+	 * @return boolean
+	 */
+	public boolean showKeyboard() {
+		if(getTitle() != null &&f_TextField.getText().equals(getTitle()))
+			f_TextField.setValue("");
+		WPOSKeyboard keyboard = m_Keyboard;
+		keyboard.setWidth("750px");
+		keyboard.setHeight("350px");
+		keyboard.setPosTextField(f_TextField);	
+		AEnv.showWindow(keyboard);
+		if(f_TextField.getText().equals("")) 
+			f_TextField.setValue(getTitle());
+		return keyboard.isCancel();
+	}
 }

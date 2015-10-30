@@ -90,8 +90,6 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	private Datebox 		fCheckdate;
 	private WPOSTextField 	fCheckRouteNo;
 	private WPOSTextField 	fCheckNo;
-	private Label 			lCheckNo;
-	private Label 			lCheckRouteNo;
 	
 	/**	Credit Card			*/
 	private WPOSTextField 	fCCardNo;
@@ -100,18 +98,11 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	private Listbox 		fCreditCardExpMM;
 	private Listbox 		fCreditCardExpYY;
 	private WPOSTextField 	fCCardVC;
-	private Label 			lCCardNo;
-	private Label 			lCCardName;
-	private Label 			lCCardType;
-	private Label 			lCCardVC;
 	
 	/**	Debit Card			*/
 	private WPOSTextField 	fDebitRoutingNo;
 	private WPOSTextField 	fDebitCVC;
 	private WPOSTextField 	fDebitCountry;
-	private Label 			lDebitRoutingNo;
-	private Label 			lDebitCVC;
-	private Label 			lDebitCountry;
 	private boolean			isKeyboard;
 	private Button 			bMinus;
 	private Panelchildren 	v_PanelChildren;
@@ -200,18 +191,14 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		Rows rows =v_CheckPanel.newRows();
 		Row row = rows.newRow();
 
-		lCheckRouteNo = new Label(Msg.translate(p_ctx, "RoutingNo"));
-		fCheckRouteNo = new WPOSTextField(null, keyboard);
+		fCheckRouteNo = new WPOSTextField(Msg.translate(p_ctx, "RoutingNo"), keyboard);
 		row.appendChild(fCheckRouteNo);
-		fCheckRouteNo.setValue(lCheckRouteNo.getValue());
 		fCheckRouteNo.addEventListener("onFocus", this);
 		fCheckRouteNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		
 		row.appendChild(fCheckRouteNo);
 
-		lCheckNo = new Label(Msg.translate(p_ctx, "CheckNo"));
-		fCheckNo = new WPOSTextField(null, keyboard);
-		fCheckNo.setValue(lCheckNo.getValue());
+		fCheckNo = new WPOSTextField(Msg.translate(p_ctx, "CheckNo"), keyboard);
 		fCheckNo.addEventListener("onFocus", this);
 		fCheckNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(fCheckNo);
@@ -242,12 +229,11 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		MLookup cardlookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.List);
 		ArrayList<Object> cards = cardlookup.getData(true, false, true, true);
 		
-		lCCardType = new Label(Msg.translate(p_ctx, "CreditCardType"));
 		row = rows.newRow();
 		fCCardType = ListboxFactory.newDropdownListbox();
 		row.appendChild(fCCardType);
 		fCCardType.setStyle(HEIGHT+WIDTH+FONT_SIZE);
-		fCCardType.setValue(lCCardType.getValue());
+		fCCardType.setValue(Msg.translate(p_ctx, "CreditCardType"));
 		fCCardType.addActionListener(this);
 		
 		/**
@@ -261,19 +247,15 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		}
 		
 		row.setSpans("1,2");
-		lCCardNo = new Label(Msg.translate(p_ctx, "CreditCardNumber"));
-		fCCardNo = new WPOSTextField(null, keyboard);
+		fCCardNo = new WPOSTextField(Msg.translate(p_ctx, "CreditCardNumber"), keyboard);
 		fCCardNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(fCCardNo);
-		fCCardNo.setText(lCCardNo.getValue());
 		fCCardNo.addEventListener("onFocus", this);
 		
-		lCCardName = new Label(Msg.translate(p_ctx, "Name"));
-		fCCardName = new WPOSTextField(null, keyboard);
+		fCCardName = new WPOSTextField(Msg.translate(p_ctx, "Name"), keyboard);
 		row = rows.newRow();
 		row.appendChild(fCCardName);
 		fCCardName.setStyle(HEIGHT+WIDTH+FONT_SIZE);
-		fCCardName.setValue(lCCardName.getValue());
 		fCCardName.addEventListener("onFocus", this);
 		
 		//	For Card Month
@@ -301,12 +283,10 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		//	For Card VV
 		row.appendChild(fCreditCardExpMM);
 		row.appendChild(fCreditCardExpYY);
-		lCCardVC = new Label(Msg.translate(p_ctx, "CVC"));
-		fCCardVC = new WPOSTextField(null, keyboard);
+		fCCardVC = new WPOSTextField(Msg.translate(p_ctx, "CVC"), keyboard);
 		row = rows.newRow();
 		
 		row.appendChild(fCCardVC);
-		fCCardVC.setValue(lCCardVC.getValue());
 		fCCardVC.addEventListener("onFocus", this);
 		fCCardVC.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 
@@ -325,26 +305,20 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		Row row = rows.newRow();
 
 		row.setSpans("1,2");
-		lDebitRoutingNo = new Label(Msg.translate(p_ctx, "RoutingNo"));
-		fDebitRoutingNo = new WPOSTextField(null, keyboard);
+		fDebitRoutingNo = new WPOSTextField(Msg.translate(p_ctx, "RoutingNo"), keyboard);
 		fDebitRoutingNo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(fDebitRoutingNo);
-		fDebitRoutingNo.setText(lDebitRoutingNo.getValue());
 		fDebitRoutingNo.addEventListener("onFocus", this);
 		
-		lDebitCVC = new Label(Msg.translate(p_ctx, "A_Country"));
-		fDebitCVC = new WPOSTextField(null, keyboard);
+		fDebitCVC = new WPOSTextField(Msg.translate(p_ctx, "A_Country"), keyboard);
 		row.appendChild(fDebitCVC);
 		fDebitCVC.setStyle(HEIGHT+WIDTH+FONT_SIZE);
-		fDebitCVC.setValue(lDebitCVC.getValue());
 		fDebitCVC.addEventListener("onFocus", this);
 
-		lDebitCountry = new Label(Msg.translate(p_ctx, "R_CVV2Match"));
-		fDebitCountry = new WPOSTextField(null, keyboard);
+		fDebitCountry = new WPOSTextField(Msg.translate(p_ctx, "R_CVV2Match"), keyboard);
 		row = rows.newRow();
 		
 		row.appendChild(fDebitCountry);
-		fDebitCountry.setValue(lDebitCountry.getValue());
 		fDebitCountry.addEventListener("onFocus", this);
 		fDebitCountry.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 
@@ -421,15 +395,17 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		}
 		else if(e.getName().equals(Events.ON_FOCUS)){
 			if(e.getTarget().equals(fCheckNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
-				 showKeyboard(fCheckNo,lCheckNo);
-				 setReferenceNo(fCheckNo.getText());
-				 fCheckNo.setFocus(true);
+				isKeyboard = true;
+				fCheckNo.showKeyboard();
+				setReferenceNo(fCheckNo.getText());
+				fCheckNo.setFocus(true);
 			}
 			else if(e.getTarget().equals(fCheckNo.getComponent(WPOSTextField.PRIMARY))){
 				isKeyboard = false;
 			}
 			else if(e.getTarget().equals(fCheckRouteNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
-				showKeyboard(fCheckRouteNo,lCheckRouteNo);
+				isKeyboard = true;
+				fCheckRouteNo.showKeyboard();
 				setRoutingNo(fCheckRouteNo.getText());
 				fCheckRouteNo.setFocus(true);
 			}
@@ -437,7 +413,8 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 				isKeyboard = false;
 			}
 			else if(e.getTarget().equals(fDebitRoutingNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
-				showKeyboard(fDebitRoutingNo,lDebitRoutingNo);
+				isKeyboard = true;
+				fDebitRoutingNo.showKeyboard();
 				setRoutingNo(fDebitRoutingNo.getText());
 				fDebitRoutingNo.setFocus(true);
 			}
@@ -445,14 +422,16 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 				isKeyboard = false;
 			}
 			else if(e.getTarget().equals(fDebitCVC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
-				showKeyboard(fDebitCVC,lDebitCVC);
+				isKeyboard = true;
+				fDebitCVC.showKeyboard();
 				fDebitCVC.setFocus(true);
 			}
 			else if(e.getTarget().equals(fDebitCVC.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 				isKeyboard = false;
 			}
 			else if(e.getTarget().equals(fDebitCountry.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
-				showKeyboard(fDebitCountry,lDebitCountry);
+				isKeyboard = true;
+				fDebitCountry.showKeyboard();
 				setA_Country(fDebitCountry.getText());
 				fDebitCountry.setFocus(true);
 			}
@@ -460,7 +439,8 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 				isKeyboard = false;
 			}
 			else if(e.getTarget().equals(fCCardNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
-				showKeyboard(fCCardNo,lCCardNo);
+				isKeyboard = true;
+				fCCardNo.showKeyboard();
 				setCreditCardNumber(fCCardNo.getText());
 				fCCardNo.setFocus(true);
 			}
@@ -468,7 +448,8 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 				isKeyboard = false;
 			}
 			else if(e.getTarget().equals(fCCardName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
-				showKeyboard(fCCardName,lCCardName);
+				isKeyboard = true;
+				fCCardName.showKeyboard();
 				setA_Name(fCCardName.getText());
 				fCCardName.setFocus(true);
 			}
@@ -476,7 +457,8 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 				isKeyboard = false;
 			}
 			else if(e.getTarget().equals(fCCardVC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
-				showKeyboard(fCCardVC,lCCardVC);
+				isKeyboard = true;
+				fCCardVC.showKeyboard();
 				setCreditCardVV(fCCardVC.getText());
 				fCCardVC.setFocus(true);
 			}

@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
+import org.adempiere.pos.minigrid.DeleteColumn;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
@@ -61,14 +62,16 @@ public class POSOrderLineTableHandle {
 	public static final String 	GRANDTOTAL  = "GrandTotal";
 	/**	Column Position		*/
 	public static final int	POSITION_C_ORDER_ID 	= 0;
-	public static final int	POSITION_QTYORDERED 	= 2;
-	public static final int	POSITION_PRICE 			= 4;
-	public static final int	POSITION_LINENETAMT 	= 6;
-	public static final int	POSITION_GRANDTOTAL 	= 8;
+	public static final int	POSITION_DELETE	 		= 1;
+	public static final int	POSITION_QTYORDERED 	= 3;
+	public static final int	POSITION_PRICE 			= 5;
+	public static final int	POSITION_LINENETAMT 	= 7;
+	public static final int	POSITION_GRANDTOTAL 	= 9;
 	
 	/**	Table Column Layout Info	*/
 	private ColumnInfo[] s_layout = new ColumnInfo[] {
-		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class), 
+		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class,0,false,true,null,false), 
+		new ColumnInfo("", "C_OrderLine_ID", DeleteColumn.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), PRODUCTNAME), PRODUCTNAME, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), QTYORDERED), QTYORDERED, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), UOM), "UOMSymbol", String.class),
@@ -76,7 +79,7 @@ public class POSOrderLineTableHandle {
 		new ColumnInfo(Msg.translate(Env.getCtx(), DISCOUNT), DISCOUNT, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), LINENETAMT), LINENETAMT, BigDecimal.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), TAX), "TaxIndicator", String.class), 
-		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
 	};
 	
 	/**	From Clause					*/

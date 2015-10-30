@@ -56,9 +56,10 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Iframe;
 
 /**
- *	Point of Sales Main Window.
- * @author Raul Muñoz 19/03/2015, 12:57
- *
+ *	Point of Sales Main Window. 
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 public class WPOS extends CPOS implements IFormController, EventListener, I_POSPanel {
 	/**
@@ -73,40 +74,45 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	}	//	PosPanel
 	
 
-	private CustomForm form = new CustomForm();
-	/**	FormFrame			*/
-	private Iframe 		m_frame;
-	/**	Logger				*/
-	private CLogger			log = CLogger.getCLogger(getClass());
-	
+	private CustomForm 						form 		 = new CustomForm();
+	/**	FormFrame							*/
+	private Iframe 							m_frame;
+	/**	Logger								*/
+	private CLogger							log 		 = CLogger.getCLogger(getClass());
 	private DecimalFormat					m_Format;
+	/** Window								*/
+	private Window 							selection;
+	/** Window No 							*/
+	private int 							windowNo 	 = 0 ;
+	/** Panel								*/
+	public Panel 							v_Panel 	 = new Panel();
+	/** Keyoard Focus Manager				*/
+	private PosKeyboardFocusManager			m_focusMgr   = null;
 	
-	/** Keyoard Focus Manager		*/
-	private PosKeyboardFocusManager	m_focusMgr = null;
+	/** Order Panel							*/
+	private WPOSActionPanel 				v_ActionPanel;
+	private WPOSProductPanel 				f_ProductKeysPanel;
+	private WPOSOrderLinePanel 				f_OrderLinePanel;
 	
-	/** Order Panel				*/
-	private WPOSActionPanel v_ActionPanel;
-	private WPOSProductPanel f_ProductKeysPanel;
-	private WPOSOrderLinePanel f_OrderLinePanel;
+	/** Actions 							*/
+	private Button 							b_ok 		 = new Button("Ok");
+	private Button 							b_cancel	 = new Button("Cancel");
 	
-	private Button b_ok = new Button("Ok");
-	private Button b_cancel = new Button("Cancel");
-	private Window selection;
-	//	Today's (login) date		*/
-	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
+	/**	Today's (login) date				*/
+	private Timestamp						m_today 	 = Env.getContextAsDate(m_ctx, "#Date");
+	private HashMap<Integer, WPOSKeyboard> 	keyboards 	 = new HashMap<Integer, WPOSKeyboard>();
+	private Listbox 						listTerminal = ListboxFactory.newDropdownListbox();
+	private MPOS[] 							poss; 
 	
-	private Iframe frame;
-	private HashMap<Integer, WPOSKeyboard> keyboards = new HashMap<Integer, WPOSKeyboard>();
-	public Panel parameterPanel = new Panel();
-	private Listbox listTerminal = ListboxFactory.newDropdownListbox();
-	private MPOS[] poss; 
-	/** Window No **/
-	private int windowNo = 0 ;
-	
-	public static final String FONTSIZEMEDIUM = "Font-size:medium;";
-	public static final String FONTSIZESMALL = "Font-size:small;";
-	public static final String FONTSIZELARGE = "Font-size:large;";
-	public static final String FONTSTYLE = "font-weight:bold;";
+	/** Default Font Size Medium 				*/
+	public static final String 	FONTSIZEMEDIUM	= "Font-size:medium;";
+	/** Default Font Size Small 				*/
+	public static final String 	FONTSIZESMALL 	= "Font-size:small;";
+	/** Default Font Size Large 				*/
+	public static final String 	FONTSIZELARGE 	= "Font-size:x-large;";
+	/** Default Font Weight	 					*/
+	public static final String 	FONTSTYLE 		= "font-weight:bold;";
+
 	/**
 	 *	zk Initialize Panel
 	 *  @param WindowNo window
@@ -116,7 +122,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	{
 		log.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
 		windowNo = form.getWindowNo();
-		m_frame = frame;
 		//
 		try
 		{
@@ -423,4 +428,5 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void refreshProductInfo(int p_M_Product_ID) {
 		v_ActionPanel.refreshProductInfo(p_M_Product_ID);
 	}
+	
 }	//	PosPanel

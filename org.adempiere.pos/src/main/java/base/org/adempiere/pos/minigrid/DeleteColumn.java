@@ -15,18 +15,79 @@
  * Contributor(s): Raul Muñoz www.erpcya.com					              *
  *****************************************************************************/
 
-
-package org.adempiere.pos;
-
-import org.compiere.model.MPOSKey;
+package org.adempiere.pos.minigrid;
 
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
- * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Raúl Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
-public interface WPOSKeyListener {
+public class DeleteColumn implements java.io.Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4752314456318509488L;
+
+
+	public DeleteColumn(int record_ID) {
+		this(new Integer(record_ID));
+	}
 	
-	void keyReturned( MPOSKey key );
+	public DeleteColumn(Integer record_ID) {
+		super();
+		
+		setRecord_ID(record_ID);
+		setSelected(false);
+	}
+
+	/** Is the row selected         */
+	private boolean     m_selected = false;
+	/** The Record_ID               */
+	private int     m_record_ID;
+
+
+	/**
+	 *  Set Selection
+	 *  @param selected
+	 */
+	public void setSelected(boolean selected)
+	{
+		m_selected = selected;
+	}
+	/**
+	 *  Is Selected
+	 *  @return true if selected
+	 */
+	public boolean isSelected()
+	{
+		return m_selected;
+	}
+
+	/**
+	 *  Set Record_ID
+	 *  @param record_ID
+	 */
+	public void setRecord_ID(int record_ID)
+	{
+		m_record_ID = record_ID;
+	}
+	/**
+	 * Get Record ID
+	 * @return ID
+	 */
+	public int getRecord_ID()
+	{
+		return m_record_ID;
+	}
+
+	/**
+	 *  To String
+	 *  @return String representation
+	 */
+	public String toString()
+	{
+		return "DeleteColumn - ID=" + m_record_ID + ", Selected=" + m_selected;
+	}   //  toString
 
 }

@@ -61,19 +61,21 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		super (posPanel);
 	}	//	PosSubFunctionKeys
 	
+	/** Fields               */
 	private WPOSTextField	f_BPartnerName;
-	private boolean			isKeyboard;
+	private Label 			f_SalesRep;
 	private Label	 		f_TotalLines;
 	private Label	 		f_TaxAmount;
 	private Label	 		f_GrandTotal;
 	private Label	 		f_DocumentType;
 	private Label 			f_DocumentNo;
-	private Label			l_BPartner;
+	private boolean			isKeyboard;
 
 	/**	Format				*/
 	private DecimalFormat	m_Format;
 	/**	Logger				*/
 	private static CLogger 	log = CLogger.getCLogger(WPOSProductPanel.class);
+	/**	Panels				*/
 	private Caption 		v_TitleBorder;
 	private Caption 		v_TitleInfo;
 	private Groupbox 		v_TotalsGroup;
@@ -82,7 +84,6 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 	private Grid 			v_OrderPanel;
 	private Grid 			v_GroupPanel;
 
-	private Label 			f_SalesRep;
 	
 	@Override
 	public void init(){
@@ -118,13 +119,10 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		row.appendChild(v_InfOrderGroup);
 		row.appendChild(v_TotalsGroup);
 		// BP
-		l_BPartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer"));
-		
-		f_BPartnerName = new WPOSTextField(null, v_POSPanel.getKeyboard());
+		f_BPartnerName = new WPOSTextField(Msg.translate(Env.getCtx(), "IsCustomer"), v_POSPanel.getKeyboard());
 		f_BPartnerName.setHeight("35px");
 		f_BPartnerName.setStyle("Font-size:medium; font-weight:bold");
 		f_BPartnerName.setWidth("97%");
-		f_BPartnerName.setValue(l_BPartner.getValue());
 		f_BPartnerName.addEventListener(this);
 		
 		row = new Row();
@@ -310,40 +308,20 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		v_POSPanel.refreshProductInfo(key);
 		return;
 	}
-
-	/**
-	 * Show Keyboard
-	 * @param field
-	 * @param label
-	 * @return
-	 * @return boolean
-	 */
-	public boolean showKeyboard(WPOSTextField field, Label label) {
-		isKeyboard = true;
-		if(field.getText().equals(label.getValue()))
-			field.setValue("");
-		WPOSKeyboard keyboard = field.getKeyboard();
-		keyboard.setPosTextField(field);	
-		AEnv.showWindow(keyboard);
-		if(field.getText().equals("")) 
-			field.setValue(label.getValue());
-		return keyboard.isCancel();
-	}
 	
 	@Override
 	public void onEvent(Event e) throws Exception {
 		//	Name
 		if(e.getTarget().equals(f_BPartnerName.getComponent(WPOSTextField.SECONDARY)) && e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
-			if(!showKeyboard(f_BPartnerName,l_BPartner))
+			isKeyboard = true;
+			if(!f_BPartnerName.showKeyboard()){
 				findBPartner();
+			}
 			f_BPartnerName.setFocus(true);
 		}
 		if(e.getTarget().equals(f_BPartnerName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 			isKeyboard = false;
 		}
-		//else {
-//			changeFocus();
-//		}	
 	}
 	
 	/**

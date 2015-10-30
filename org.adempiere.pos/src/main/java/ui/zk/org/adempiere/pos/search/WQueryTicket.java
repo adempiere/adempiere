@@ -49,11 +49,10 @@ import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 
 /**
- *	POS Query Product
- *	
- *  
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
-
 public class WQueryTicket extends WPosQuery implements I_POSQuery
 {
 	/**
@@ -68,7 +67,7 @@ public class WQueryTicket extends WPosQuery implements I_POSQuery
 		super(posPanel);
 	}	//	PosQueryProduct
 
-	
+	/** Fields 				*/
 	private WPOSTextField	f_documentno;
 	private Datebox			f_DateTo;
 	private Datebox			f_DateFrom;
