@@ -1,10 +1,25 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Raul Muñoz www.erpcya.com					              *
+ *****************************************************************************/
+
 package org.adempiere.pos;
 
 import java.awt.Event;
 import java.awt.event.KeyEvent;
-
 import javax.swing.KeyStroke;
-
 import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryProduct;
 import org.adempiere.pos.search.QueryTicket;
@@ -38,7 +53,12 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Space;
 
-public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_POSPanel, POSQueryListener{
+/**
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ */
+public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_POSPanel, POSQueryListener{
 
 	/**
 	 * 
@@ -54,7 +74,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	}	//	WPOSActionPanel
 
 	private Button 			f_History;
-	private	WPosTextField	f_ProductName;
+	private	WPOSTextField	f_ProductName;
 	private boolean			isKeyboard;
 	private Button 			f_bNew;
 	private Button 			f_Collect;
@@ -168,7 +188,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		row.appendChild (new Space());
 
 		productLabel = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		f_ProductName = new WPosTextField(p_pos.getOSK_KeyLayout_ID());
+		f_ProductName = new WPOSTextField(null, v_POSPanel.getKeyboard());
 		f_ProductName.setWidth("100%");
 		f_ProductName.setHeight("35px");
 		f_ProductName.setStyle("Font-size:medium; font-weight:bold");
@@ -197,7 +217,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 			//print standard document
 				Trx.run(new TrxRunnable() {
 					public void run(String trxName) {
-						if (p_pos.getAD_Sequence_ID()!= 0) {
+						if (v_POSPanel.getAD_Sequence_ID()!= 0) {
 						
 							String docno = v_POSPanel.getSequenceDoc(trxName);
 							String q = "Confirmar el número consecutivo "  + docno;
@@ -226,9 +246,9 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	 */
 	private void deleteOrder() {
 		String errorMsg = null;
-		String askMsg = "POS.DeleteOrder";	//	TODO Translate it: Do you want to delete Order?
+		String askMsg = "POS.DeleteOrder";
 		if (v_POSPanel.isCompleted()) {	
-			askMsg = "POS.OrderIsAlreadyCompleted";	//	TODO Translate it: The order is already completed. Do you want to void it?
+			askMsg = "POS.OrderIsAlreadyCompleted";
 		}
 		//	Show Ask
 		if (FDialog.ask(0, this, Msg.getMsg(m_ctx, askMsg))) {
@@ -249,7 +269,7 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
 		if( v_POSPanel.getM_Order() == null ) {
-				FDialog.warn(0, Msg.getMsg(m_ctx, "You must create an Order first"));
+				FDialog.warn(0, Msg.getMsg(m_ctx, "POS.MustCreateOrder"));
 				return;
 		}
 		WCollect collect = new WCollect(v_POSPanel);
@@ -323,12 +343,18 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		}
 	}	//	findProduct
 
-	
-	public boolean showKeyboard(WPosTextField field, Label label) {
+	/**
+	 * Show Keyboard
+	 * @param field
+	 * @param label
+	 * @return
+	 * @return boolean
+	 */
+	public boolean showKeyboard(WPOSTextField field, Label label) {
 		isKeyboard = true;
 		if(field.getText().equals(label.getValue()))
 			field.setValue("");
-		WPOSKeyboard keyboard =  v_POSPanel.getKeyboard(field.getKeyLayoutId()); 
+		WPOSKeyboard keyboard = field.getKeyboard();
 		keyboard.setWidth("750px");
 		keyboard.setHeight("350px");
 		keyboard.setPosTextField(field);	
@@ -341,13 +367,13 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
 		
-			if(e.getTarget().equals(f_ProductName.getComponent(WPosTextField.SECONDARY)) 
+			if(e.getTarget().equals(f_ProductName.getComponent(WPOSTextField.SECONDARY)) 
 					&& e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
 				if(!showKeyboard(f_ProductName,productLabel))
 					findProduct(); 
 				f_ProductName.setFocus(true);
 			}
-			if(e.getTarget().equals(f_ProductName.getComponent(WPosTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			if(e.getTarget().equals(f_ProductName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 				isKeyboard = false;
 			}
 		
@@ -403,11 +429,11 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 
 	@Override
 	public void refreshPanel() {
+		
 	}
 
 	@Override
 	public String validatePanel() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -460,6 +486,10 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		}
 	}
 	
+	/**
+	 * Enable Bttons
+	 * @return void
+	 */
 	public void enableButton(){
 		f_ProductName.setText(productLabel.getValue());
 		v_POSPanel.setC_BPartner_ID(0);
@@ -518,9 +548,9 @@ public class WPOSActionPanel extends WPosSubPanel implements PosKeyListener, I_P
 		//	Refresh
 		v_POSPanel.refreshPanel();
 	}
+	
 	@Override
 	public void cancelAction(I_POSQuery query) {
 		
-	}
-	
+	}	
 }

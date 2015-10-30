@@ -24,7 +24,7 @@ import org.compiere.model.MPOSKey;
  * Interface for listening to on screen key events
  * @author Raul Muñoz 20/03/2015, 12:50 
  */
-public interface WPosKeyListener {
+public interface WPOSKeyListener {
 	
 	void keyReturned( MPOSKey key );
 

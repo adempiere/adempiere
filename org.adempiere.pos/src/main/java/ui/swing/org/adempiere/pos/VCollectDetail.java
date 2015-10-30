@@ -65,6 +65,20 @@ import org.compiere.util.Msg;
 public class VCollectDetail extends CollectDetail
 	implements VetoableChangeListener, ActionListener, KeyListener, I_POSPanel {
 	
+	/**
+	 * Standard Constructor
+	 * @param p_VCollect
+	 * @param p_TenderType
+	 * @param m_PayAmt
+	 */
+	public VCollectDetail(VCollect p_VCollect, String p_TenderType, BigDecimal m_PayAmt) {
+		super(p_TenderType, m_PayAmt);
+		p_ctx = Env.getCtx();
+		v_Parent = p_VCollect;
+		keyboard = v_Parent.getKeyboard();
+		init();
+	}
+	
 	/**	Panels				*/
 	private CPanel 			v_MainPanel;
 	private CPanel 			v_StandardPanel;
@@ -100,7 +114,7 @@ public class VCollectDetail extends CollectDetail
 	private VCollect 		v_Parent;
 	
 	/**	Keyboard to use		*/
-	private POSKeyboard keyboard;
+	private POSKeyboard 	keyboard;
 	/**	Default Font		*/
 	private Font 			font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 18);
 	/**	Log					*/
@@ -109,20 +123,6 @@ public class VCollectDetail extends CollectDetail
 	private final int		FIELD_WIDTH 	= 200;
 	/**	Default Height		*/
 	private final int		FIELD_HEIGHT 	= 50;
-	
-	/**
-	 * Standard Constructor
-	 * @param p_VCollect
-	 * @param p_TenderType
-	 * @param m_PayAmt
-	 */
-	public VCollectDetail(VCollect p_VCollect, String p_TenderType, BigDecimal m_PayAmt) {
-		super(p_TenderType, m_PayAmt);
-		p_ctx = Env.getCtx();
-		v_Parent = p_VCollect;
-		keyboard = v_Parent.getKeyboard();
-		init();
-	}
 	
 	/**
 	 * Get Main Panel

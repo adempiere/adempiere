@@ -60,12 +60,14 @@ import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Space;
 
 /**
- * 
- * @author Raul Muñoz 20/03/2015, 12:50 
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raúl Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  <li>Change Name
  */
-public class WCollect extends Collect implements WPosKeyListener, EventListener,I_POSPanel {
+public class WCollect extends Collect implements WPOSKeyListener, EventListener,I_POSPanel {
 
-	public WPOS v_POSPanel;
+	private WPOS v_POSPanel;
 	private Properties p_ctx;
 	private MOrder p_order;
 	private Label fGrandTotal = new Label();
@@ -411,7 +413,7 @@ public class WCollect extends Collect implements WPosKeyListener, EventListener,
 		//	Default
 		return errorMsg;
 	}
-
+	
 	public boolean showCollect() {
 		v_Window.setWidth("445px");;
 		v_Window.setHeight("580px"); ;

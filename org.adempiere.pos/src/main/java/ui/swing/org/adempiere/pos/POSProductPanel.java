@@ -109,7 +109,7 @@ public class POSProductPanel extends POSSubPanel
 	 * 	Initialize
 	 */
 	public void init() {
-		int C_POSKeyLayout_ID = m_pos.getC_POSKeyLayout_ID();
+		int C_POSKeyLayout_ID = v_POSPanel.getC_POSKeyLayout_ID();
 		//	Set Layout
 		setLayout(new GridBagLayout());
 		//	Set Right Padding
@@ -157,7 +157,7 @@ public class POSProductPanel extends POSSubPanel
 		v_DocInfoPanel.add(f_DocumentType, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
 		//	For Grand Total
-		f_lb_DocumentNo = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo)+":");
+		f_lb_DocumentNo = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo) + ":");
 		f_lb_DocumentNo.setFont(v_POSPanel.getPlainFont());
 		//	Add
 		v_DocInfoPanel.add(f_lb_DocumentNo, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0

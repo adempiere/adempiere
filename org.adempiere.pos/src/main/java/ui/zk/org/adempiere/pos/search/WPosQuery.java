@@ -38,8 +38,6 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.compiere.apps.ConfirmPanel;
-import org.compiere.model.MPOS;
-import org.compiere.pos.QueryProduct;
 import org.compiere.util.CLogger;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
@@ -69,10 +67,7 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 	private Button	 			f_Cancel;
 	Borderlayout mainLayout;
 	/**	Logger			*/
-	protected static CLogger log = CLogger.getCLogger(QueryProduct.class);
-	/**	Underlying POS Model				*/
-	protected MPOS p_pos = null;
-
+	protected static CLogger log = CLogger.getCLogger(WPosQuery.class);
 	
 	private Button f_New;
 	public Button f_Edit;
@@ -142,7 +137,6 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 	{
 		super();
 		v_POSPanel = posPanel;
-		p_pos = posPanel.getM_POS();
 		p_ctx = v_POSPanel.getCtx();
 		initMainPanel();
 		this.setAttribute("mode", "modal");

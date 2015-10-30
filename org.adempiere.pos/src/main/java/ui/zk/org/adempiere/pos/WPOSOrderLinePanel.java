@@ -19,7 +19,7 @@ import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Center;
 
-public class WPOSOrderLinePanel extends WPosSubPanel implements WTableModelListener, I_POSPanel,FocusListener {
+public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListener, I_POSPanel,FocusListener {
 	
 	/**
 	 * 

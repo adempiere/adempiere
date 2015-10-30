@@ -23,7 +23,7 @@ import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Image;
 
-public class WPOSInfoProduct extends WPosSubPanel {
+public class WPOSInfoProduct extends WPOSSubPanel {
 
 	public WPOSInfoProduct(WPOS posPanel) {
 		super(posPanel);

@@ -42,7 +42,7 @@ import org.zkoss.zul.Image;
  * @author Raul Muñoz
  *
  */
-public class WPosKeyPanel extends Panel implements EventListener {
+public class WPOSKeyPanel extends Panel implements EventListener {
 	/**
 	 * 
 	 */
@@ -52,7 +52,7 @@ public class WPosKeyPanel extends Panel implements EventListener {
 	/**
 	 * 	Constructor
 	 */
-	public WPosKeyPanel (int C_POSKeyLayout_ID, PosKeyListener caller, String m_txtCalc, boolean keyBoardType)
+	public WPOSKeyPanel (int C_POSKeyLayout_ID, PosKeyListener caller, String m_txtCalc, boolean keyBoardType)
 	{
 		if (C_POSKeyLayout_ID == 0)
 			return;
@@ -68,7 +68,7 @@ public class WPosKeyPanel extends Panel implements EventListener {
 	/**
 	 * 	Constructor
 	 */
-	public WPosKeyPanel (int C_POSKeyLayout_ID, PosKeyListener caller)
+	public WPOSKeyPanel (int C_POSKeyLayout_ID, PosKeyListener caller)
 	{
 		if (C_POSKeyLayout_ID == 0)
 			return;
@@ -85,7 +85,7 @@ public class WPosKeyPanel extends Panel implements EventListener {
 	/** Currently displayed layout	*/
 	int currentLayout;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(WPosKeyPanel.class);
+	private static CLogger log = CLogger.getCLogger(WPOSKeyPanel.class);
 	/** Caller			*/
 	private PosKeyListener caller;
 	/** Status Panel */

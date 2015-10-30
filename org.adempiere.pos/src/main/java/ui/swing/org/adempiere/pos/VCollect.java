@@ -198,7 +198,7 @@ public class VCollect extends Collect
 		fIsPrePayOrder.setFont(v_POSPanel.getPlainFont());
 		
 		//	Add Is Credit Order
-		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "CreditSale"));
+		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "IsCreditSale"));
 		fIsCreditOrder.setFont(v_POSPanel.getPlainFont());
 		
 		// Pre-Payment, Standard Order: enable only if the order is completed and there are lines 

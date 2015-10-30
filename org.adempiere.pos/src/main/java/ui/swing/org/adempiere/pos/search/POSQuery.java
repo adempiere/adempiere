@@ -39,7 +39,7 @@ import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.PO;
-import org.adempiere.pos.PosTable;
+import org.adempiere.pos.POSTable;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CComboBox;
@@ -73,7 +73,7 @@ public abstract class POSQuery extends CDialog
 	/** POS Panel		*/
 	protected VPOS 			v_POSPanel = null;
 	/** The Table		*/
-	protected PosTable 		m_table;
+	protected POSTable 		m_table;
 	/**	New Action		*/
 	private CButton 		f_New;
 	/**	Refresh Action	*/
@@ -115,7 +115,7 @@ public abstract class POSQuery extends CDialog
 		//	Instance Panel
 		setLayout(new GridBagLayout());
 		//	For Table
-		m_table = new PosTable();
+		m_table = new POSTable();
 		v_MainPanel = new CPanel(new GridBagLayout());		
 		v_ParameterPanel = new CPanel(new GridBagLayout());
 		v_CenterScroll = new CScrollPane(m_table);

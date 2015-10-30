@@ -145,6 +145,15 @@ public class CPOS {
 	}
 	
 	/**
+	 * Get Sequence
+	 * @return
+	 * @return int
+	 */
+	public int getAD_Sequence_ID() {
+		return m_POS.getAD_Sequence_ID();
+	}
+	
+	/**
 	 * Validate if is voided
 	 * @return
 	 * @return boolean
