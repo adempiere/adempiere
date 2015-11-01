@@ -2243,7 +2243,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				dialog.setPosition("center");
 				AEnv.showWindow(dialog);
 			}
-			onRefresh(true); // Need to fire events to activate subordinate tabs.
+			//onRefresh(true); // Need to fire events to activate subordinate tabs.
 		}
 	} // actionButton
 
@@ -2344,6 +2344,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		boolean notPrint = pi != null
 		&& pi.getAD_Process_ID() != curTab.getAD_Process_ID()
 		&& pi.isReportingProcess() == false;
+		curTab.dataRefresh();
 		//
 		//  Process Result
 
