@@ -42,6 +42,10 @@ import org.compiere.util.Util;
  * 		https://sourceforge.net/tracker/?func=detail&aid=3426134&group_id=176962&atid=879335
  * 		<li> Add method that valid if a column is encrypted
  *  @version $Id: MColumn.java,v 1.6 2006/08/09 05:23:49 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li> BR [ 9223372036854775807 ] Lookup for search view not show button
+ *  	<li> Add default length to Yes No Display Type
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
  */
 public class MColumn extends X_AD_Column
 {
@@ -309,12 +313,16 @@ public class MColumn extends X_AD_Column
 				setFieldLength(14);
 			else if (DisplayType.isDate (displayType))
 				setFieldLength(7);
-			else
-		{
-			log.saveError("FillMandatory", Msg.getElement(getCtx(), "FieldLength"));
-			return false;
+			else if(displayType == DisplayType.YesNo)
+				setFieldLength(1);
+			else {
+				log.saveError("FillMandatory", Msg.getElement(getCtx(), "FieldLength"));
+				return false;
+			}
 		}
-		}
+		
+		//	BR [ 9223372036854775807 ]
+		validLookup(getColumnName(), getAD_Reference_ID(), getAD_Reference_Value_ID());
 		
 		/** Views are not updateable
 		UPDATE AD_Column c
@@ -379,8 +387,42 @@ public class MColumn extends X_AD_Column
 		}
 		return true;
 	}	//	beforeSave
-
 	
+	/**
+	 * Verify if is a lookup valid
+	 * @param p_ColumnName
+	 * @param p_AD_Reference_ID
+	 * @param p_AD_Reference_Value_ID
+	 * @return
+	 */
+	public static void validLookup(String p_ColumnName, int p_AD_Reference_ID, int p_AD_Reference_Value_ID) {
+		//	Valid 
+		if(p_ColumnName == null
+				||p_ColumnName.trim().length() == 0
+				|| !DisplayType.isLookup(p_AD_Reference_ID)) {
+			return;
+		} else {
+			String m_TableName = p_ColumnName.replace("_ID", "");
+			if(p_AD_Reference_ID == DisplayType.TableDir) {
+				if(!p_ColumnName.endsWith("_ID"))
+					throw new AdempiereException("@Reference@ @of@ @ColumnName@ @NotValid@");
+				//	Valid Table
+				MTable table = MTable.get(Env.getCtx(), m_TableName);
+				//	Valid Exists table
+				if(table == null)
+					throw new AdempiereException("@AD_Table_ID@ @NotFound@");
+			} else if(p_AD_Reference_ID == DisplayType.Table
+					|| p_AD_Reference_ID == DisplayType.Search) {
+				if(p_AD_Reference_Value_ID == 0
+						&& !M_Element.isLookupColumnName(p_ColumnName))
+					throw new AdempiereException("@AD_Reference_Value_ID@ @IsMandatory@");
+			} else if(p_AD_Reference_ID == DisplayType.List) {
+				if(p_AD_Reference_Value_ID == 0) {
+					throw new AdempiereException("@AD_Reference_Value_ID@ @IsMandatory@");
+				}
+			}
+		}
+	}
 	
 	/**
 	 * 	After Save

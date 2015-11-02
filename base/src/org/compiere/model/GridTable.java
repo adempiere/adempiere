@@ -84,6 +84,9 @@ import org.compiere.util.ValueNamePair;
  *  			https://sourceforge.net/tracker/?func=detail&aid=2910358&group_id=176962&atid=879332
  *     		<li>BF [ 2910368 ] Error in context when IsActive field is found in different
  *  			https://sourceforge.net/tracker/?func=detail&aid=2910368&group_id=176962&atid=879332
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 9223372036854775807 ] Add default values for Name, Description, Entity Type...
+ *			@see https://adempiere.atlassian.net/browse/ADEMPIERE-449
  */
 public class GridTable extends AbstractTableModel
 	implements Serializable
@@ -2480,7 +2483,8 @@ public class GridTable extends AbstractTableModel
 		//	fill data
 		if (copyCurrent)
 		{
-			boolean hasDocTypeTargetField = (getField("C_DocTypeTarget_ID") != null);
+			//	Changed for is Read Only attribute
+//			boolean hasDocTypeTargetField = (getField("C_DocTypeTarget_ID") != null);
 			Object[] origData = getDataAtRow(currentRow);
 			for (int i = 0; i < size; i++)
 			{
@@ -2489,25 +2493,11 @@ public class GridTable extends AbstractTableModel
 				if (field.isVirtualColumn())
 					;
 				else if (field.isKey()
-					|| columnName.equals("AD_Client_ID")
-					//
-					|| columnName.startsWith("Created") || columnName.startsWith("Updated")
-					|| columnName.equals("EntityType") || columnName.equals("DocumentNo")
-					|| columnName.equals("Processed") || columnName.equals("IsSelfService")
-					|| columnName.equals("DocAction") || columnName.equals("DocStatus")
-					|| columnName.equals("Posted") || columnName.equals("IsReconciled")
-					|| columnName.equals("IsApproved") // BF [ 1943682 ]
-					|| columnName.equals("IsGenerated") // BF [ 1943682 ]
-					|| columnName.startsWith("Ref_")
-					//	Order/Invoice
-					|| columnName.equals("GrandTotal") || columnName.equals("TotalLines")
-					|| columnName.equals("C_CashLine_ID") || columnName.equals("C_Payment_ID")
-					|| columnName.equals("IsPaid") || columnName.equals("IsAllocated")
+					//	FR [ 9223372036854775807 ]
+					|| M_Element.isReservedColumnName(columnName)
 					// Bug [ 1807947 ] 
-					|| ( columnName.equals("C_DocType_ID") && hasDocTypeTargetField )
-					|| ( columnName.equals("Line")
+					|| field.isReadOnly()
 					|| !field.IsAllowCopy())
-				)
 				{
 					rowData[i] = field.getDefault();
 					field.setValue(rowData[i], m_inserting);
