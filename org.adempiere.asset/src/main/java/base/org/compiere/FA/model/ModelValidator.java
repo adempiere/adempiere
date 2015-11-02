@@ -5,10 +5,28 @@ package org.compiere.FA.model;
 
 import java.util.List;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.acct.Fact;
-import org.compiere.model.*;
-import org.compiere.process.DocAction;
+import org.compiere.model.I_M_InOut;
+import org.compiere.model.I_M_Product;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAsset;
+import org.compiere.model.MAssetAddition;
+import org.compiere.model.MAssetDisposed;
+import org.compiere.model.MAssetGroup;
+import org.compiere.model.MClient;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MMatchInv;
+import org.compiere.model.MProduct;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.PO;
+import org.compiere.model.SetGetModel;
+import org.compiere.model.SetGetUtil;
+import org.compiere.model.X_C_InvoiceLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
@@ -29,11 +47,11 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 	/** Logger */
 	private static CLogger log = CLogger.getCLogger(ModelValidator.class);
 	/** Client */
-	private int m_AD_Client_ID = -1;
+	private int clientId = -1;
 
 	
 	public int getAD_Client_ID() {
-		return m_AD_Client_ID;
+		return clientId;
 	}
 
 	
@@ -41,7 +59,7 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 	{
 		if (client != null)
 		{
-			m_AD_Client_ID = client.getAD_Client_ID();
+			clientId = client.getAD_Client_ID();
 		}
 
 		engine.addModelChange(MInvoiceLine.Table_Name, this);				
@@ -113,13 +131,13 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 		// Asset Group
 		else if (po.get_TableName().equals(MAssetGroup.Table_Name))
 		{
-			MAssetGroup ag = (MAssetGroup)po;
+			MAssetGroup assetGroup = (MAssetGroup)po;
 			if (type == TYPE_NEW || type == TYPE_CHANGE) 
-				beforeSave(ag, type == TYPE_NEW);
+				beforeSave(assetGroup, type == TYPE_NEW);
 			else if (type == TYPE_AFTER_NEW || type == TYPE_AFTER_CHANGE) 
-				afterSave(ag, type == TYPE_AFTER_NEW);
+				afterSave(assetGroup, type == TYPE_AFTER_NEW);
 			else if (type == TYPE_DELETE) 
-				beforeDelete(ag);
+				beforeDelete(assetGroup);
 		}
 		
 		return null;
@@ -229,11 +247,10 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 	
 	/**
 	 * Model Change Invoice Line
-	 * @param ctx
-	 * @param m model 
+	 * @param model model
 	 * @param changeType set when called from model validator (See TYPE_*); else -1, when called from callout
 	 */
-	public static void modelChange_InvoiceLine(SetGetModel m, int changeType) {
+	public static void modelChange_InvoiceLine(SetGetModel model, int changeType) {
 		//
 		// Set Asset Related Fields:
 		if (-1 == changeType || TYPE_BEFORE_NEW == changeType || TYPE_BEFORE_CHANGE == changeType) {
@@ -243,10 +260,10 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 			/* comment by @win
 			boolean isFixedAsset = false;
 			*/
-			int assetGroup_ID = 0;
+			int assetGroupId = 0;
 			
 			//Goodwill - invoice is an Asset type Invoice
-			isAsset = SetGetUtil.get_AttrValueAsBoolean(m, MInvoiceLine.COLUMNNAME_A_CreateAsset);
+			isAsset = SetGetUtil.get_AttrValueAsBoolean(model, MInvoiceLine.COLUMNNAME_A_CreateAsset);
 
 			//@win commenting this out to enable relating AR Invoice to Asset Disposal
 			/*
@@ -262,53 +279,53 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 			}
 			*/
 			
-			int product_id = SetGetUtil.get_AttrValueAsInt(m, MInvoiceLine.COLUMNNAME_M_Product_ID);
-			if (product_id > 0) {
-				MProduct prod = MProduct.get(m.getCtx(), product_id);
-				if (prod.isCreateAsset())
+			int productId = SetGetUtil.get_AttrValueAsInt(model, MInvoiceLine.COLUMNNAME_M_Product_ID);
+			if (productId > 0) {
+				MProduct product = MProduct.get(model.getCtx(), productId);
+				if (product.isCreateAsset())
 				{
-					isAsset = (prod != null && prod.get_ID() > 0 && prod.isCreateAsset());
-					assetGroup_ID = prod.getA_Asset_Group_ID();
+					isAsset = (product != null && product.get_ID() > 0 && product.isCreateAsset());
+					assetGroupId = product.getA_Asset_Group_ID();
 				}
 				//Goodwill - if the product is not Asset Type
 				else 
-					assetGroup_ID = SetGetUtil.get_AttrValueAsInt(m, MInvoiceLine.COLUMNNAME_A_Asset_Group_ID);
+					assetGroupId = SetGetUtil.get_AttrValueAsInt(model, MInvoiceLine.COLUMNNAME_A_Asset_Group_ID);
 			}			
 			// end modification by @win
 			
-			m.set_AttrValue(MInvoiceLine.COLUMNNAME_A_CreateAsset, isAsset);
+			model.set_AttrValue(MInvoiceLine.COLUMNNAME_A_CreateAsset, isAsset);
 			if (isAsset) {
-				m.set_AttrValue(MInvoiceLine.COLUMNNAME_A_Asset_Group_ID, assetGroup_ID);
+				model.set_AttrValue(MInvoiceLine.COLUMNNAME_A_Asset_Group_ID, assetGroupId);
 				/* comment by @win
 				m.set_AttrValue(MInvoiceLine.COLUMNNAME_IsFixedAssetInvoice, isFixedAsset);
 				*/
-				m.set_AttrValue("IsFixedAssetInvoice", isAsset);
-				m.set_AttrValue(MInvoiceLine.COLUMNNAME_A_CreateAsset, "Y");
+				model.set_AttrValue("IsFixedAssetInvoice", isAsset);
+				model.set_AttrValue(MInvoiceLine.COLUMNNAME_A_CreateAsset, "Y");
 				
 			}
 			else {
-				m.set_AttrValue(MInvoiceLine.COLUMNNAME_A_Asset_Group_ID, null);
-				m.set_AttrValue(MInvoiceLine.COLUMNNAME_A_Asset_ID, null);
-				m.set_AttrValue("IsFixedAssetInvoice", false);
+				model.set_AttrValue(MInvoiceLine.COLUMNNAME_A_Asset_Group_ID, null);
+				model.set_AttrValue(MInvoiceLine.COLUMNNAME_A_Asset_ID, null);
+				model.set_AttrValue("IsFixedAssetInvoice", false);
 			}
 			//
 			// Validate persistent object: 
-			if (isAsset && (m instanceof MInvoiceLine)) {
-				MInvoiceLine line = (MInvoiceLine)m;
+			if (isAsset && (model instanceof MInvoiceLine)) {
+				MInvoiceLine invoiceLine = (MInvoiceLine)model;
 				//
 				// If is expense, then asset is mandatory
-				if (MInvoiceLine.A_CAPVSEXP_Expense.equals(line.getA_CapvsExp()) && line.getA_Asset_ID() <= 0) {
+				if (MInvoiceLine.A_CAPVSEXP_Expense.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.getA_Asset_ID() <= 0) {
 					throw new FillMandatoryException(MInvoiceLine.COLUMNNAME_A_Asset_ID);
 				}
 				//
 				// Check Amounts & Qty
-				if (line.getLineNetAmt().signum() == 0) {
+				if (invoiceLine.getLineNetAmt().signum() == 0) {
 					throw new FillMandatoryException(MInvoiceLine.COLUMNNAME_QtyEntered, MInvoiceLine.COLUMNNAME_PriceEntered);
 				}
 				//
 				// Check Product - fixed assets products shouldn't be stocked (but inventory objects are allowed)
-				MProduct product = line.getProduct();
-				if (product.isStocked() && line.get_ValueAsBoolean("IsFixedAssetInvoice")) {
+				MProduct product = invoiceLine.getProduct();
+				if (product.isStocked() && invoiceLine.get_ValueAsBoolean("IsFixedAssetInvoice")) {
 					throw new AssetProductStockedException(product);
 				}
 			}
@@ -317,7 +334,7 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 		//
 		// Update Invoice Header:
 		if (TYPE_AFTER_NEW == changeType || TYPE_AFTER_CHANGE == changeType || TYPE_AFTER_DELETE == changeType) {
-			int invoice_id = SetGetUtil.get_AttrValueAsInt(m, MInvoiceLine.COLUMNNAME_C_Invoice_ID);
+			int invoiceId = SetGetUtil.get_AttrValueAsInt(model, MInvoiceLine.COLUMNNAME_C_Invoice_ID);
 			String sql =
 				"UPDATE C_Invoice i SET IsFixedAssetInvoice"
 						+"=(SELECT COALESCE(MAX(il.IsFixedAssetInvoice),'N')"
@@ -326,7 +343,7 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 						+" AND il."+MInvoiceLine.COLUMNNAME_IsDescription+"='N'"
 						+")"
 				+" WHERE C_Invoice_ID=?";
-			DB.executeUpdateEx(sql, new Object[]{invoice_id}, m.get_TrxName());
+			DB.executeUpdateEx(sql, new Object[]{invoiceId}, model.get_TrxName());
 		}
 	}
 	
@@ -368,20 +385,20 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 	
 	/**
 	 *  Before Save Asset Group
-	 *  @param MAssetGroup ag
-	 *  @param boolean newRecord
+	 *  @param assetGroup
+	 *  @param newRecord
      *	@return error message or null
      *	@exception Exception if the recipient wishes the change to be not accept.
 	 */
-	private String beforeSave(MAssetGroup ag, boolean newRecord) throws Exception
+	private String beforeSave(MAssetGroup assetGroup, boolean newRecord) throws Exception
 	{		
-		if (ag.is_ValueChanged("IsDefault"))
+		if (assetGroup.is_ValueChanged("IsDefault"))
 		{
-			int no = DB.getSQLValue(ag.get_TrxName(), 
+			int no = DB.getSQLValue(assetGroup.get_TrxName(),
 					"SELECT count(*) FROM A_Asset_Group WHERE IsActive='Y' AND IsDefault='Y' AND Ad_Client_ID=? AND Ad_Org_ID=?",
-					ag.getAD_Client_ID(),ag.getAD_Org_ID());
+					assetGroup.getAD_Client_ID(),assetGroup.getAD_Org_ID());
 			
-			if (no == 1 && !ag.isDefault() && !newRecord)
+			if (no == 1 && !assetGroup.isDefault() && !newRecord)
 			{
 				throw new IllegalStateException("One active Default is expected");		
 			}
@@ -392,33 +409,33 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 	
 	/**
 	 *  After Save Asset Group
-	 *  @param MAssetGroup ag
-	 *  @param boolean newRecord
+	 *  @param assetGroup
+	 *  @param newRecord
      *	@return error message or null
      *	@exception Exception if the recipient wishes the change to be not accept.
 	 */
-	private String afterSave(MAssetGroup ag, boolean newRecord) throws Exception
+	private String afterSave(MAssetGroup assetGroup, boolean newRecord) throws Exception
 	{		
-		if ( ag.isDefault()) // now current group
+		if ( assetGroup.isDefault()) // now current group
 		{
 			DB.executeUpdateEx("UPDATE A_Asset_Group SET IsDefault='N' WHERE IsActive='Y' AND Ad_Client_ID=? AND Ad_Org_ID=? AND A_Asset_Group_ID !=?", 
-				new	Object[]{ag.getAD_Client_ID(),ag.getAD_Org_ID(),ag.getA_Asset_Group_ID()},ag.get_TrxName());			
+				new	Object[]{assetGroup.getAD_Client_ID(),assetGroup.getAD_Org_ID(),assetGroup.getA_Asset_Group_ID()},assetGroup.get_TrxName());
 		}
 		return null;
 	} //afterSave
-	
+
+
 	/**
-	 *  Before Delete MAssetGroup
-	 *  @param MLocator ml
-     *	@return error message or null
-     *	@exception Exception if the recipient wishes the change to be not accept.
+	 * Before Delete
+ 	 * @param assetGroup
+	 * @return
+	 * @throws Exception
 	 */
-	
-	private String beforeDelete(MAssetGroup ag) throws Exception
+	private String beforeDelete(MAssetGroup assetGroup) throws Exception
 	{
-		int no = DB.getSQLValue(ag.get_TrxName(), 
-					"SELECT count(*) FROM A_Asset_Group WHERE IsActive='Y' AND IsDefault='Y' AND Ad_Client_ID=? AND Ad_Org_ID=? AND A_Asset_Group_ID=? ",
-					ag.getAD_Client_ID(),ag.getAD_Org_ID(),ag.getA_Asset_Group_ID());
+		int no = DB.getSQLValue(assetGroup.get_TrxName(),
+				"SELECT count(*) FROM A_Asset_Group WHERE IsActive='Y' AND IsDefault='Y' AND Ad_Client_ID=? AND Ad_Org_ID=? AND A_Asset_Group_ID=? ",
+				assetGroup.getAD_Client_ID(), assetGroup.getAD_Org_ID(), assetGroup.getA_Asset_Group_ID());
 			
 		if (no == 1)
 		{
@@ -431,27 +448,28 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 	{
 		//Goodwill - Check for asset invoice 
 		if (invoiceLine.isA_CreateAsset())
-		{	
+		{
+			I_M_Product product = invoiceLine.getM_Product();
+			if (X_C_InvoiceLine.A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()) && product.getM_Product_Category().getA_Asset_Group_ID() == 0)
+				throw new AdempiereException("@A_Asset_Group_ID@ @NotFound@ @To@ @M_Product_ID@ : " + product.getName());
+
 			// Check for asset group and product differences
 			if (X_C_InvoiceLine.A_CAPVSEXP_Capital.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.getA_Asset_ID() > 0)
 			{
 				if (invoiceLine.getA_Asset_Group_ID() != invoiceLine.getA_Asset().getA_Asset_Group_ID())
 				{
-					log.saveError("Asset Group Error", Msg.translate(invoiceLine.getCtx(), "Asset Group on Invoice Line is different from Asset Group on Asset"));
-					return false;
+					throw new AdempiereException(Msg.translate(invoiceLine.getCtx(), "Asset Group on Invoice Line is different from Asset Group on Asset"));
 				}
 				if (invoiceLine.getM_Product_ID() != invoiceLine.getA_Asset().getM_Product_ID())
 				{
-					log.saveError("Product Error", Msg.translate(invoiceLine.getCtx(), "Product on Invoice Line is different from Asset Product"));
-					return false;
+					throw new AdempiereException(Msg.translate(invoiceLine.getCtx(), "Product on Invoice Line is different from Asset Product"));
 				}
-			}//
+			}
 		
 			//Expense Asset_ID check
 			if (X_C_InvoiceLine.A_CAPVSEXP_Expense.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.getA_Asset_ID() <= 0)
 			{
-				log.saveError("Asset Error", Msg.translate(invoiceLine.getCtx(), "No Asset ID"));
-				return false;
+				throw new AdempiereException("@A_Asset_ID@ @NotFound@");
 			}
 			if (X_C_InvoiceLine.A_CAPVSEXP_Expense.equals(invoiceLine.getA_CapvsExp()) && invoiceLine.getA_Asset_ID() > 0)
 			{
@@ -466,7 +484,7 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 	
 	/**
 	 * 	Before Reverse Correct Invoice
-	 * 	@param MInvoice invoice
+	 * 	@param invoice
 	 *	@return error message or null 
 	 */
 	private String beforeReverseCorrect(MInvoice invoice)
@@ -490,7 +508,7 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 	
 	/**
 	 *  After Void Invoice
-	 *  @param MInvoice invoice
+	 *  @param invoice
      *	@return error message or null
 	 */
 	private String afterVoid(MInvoice invoice)
