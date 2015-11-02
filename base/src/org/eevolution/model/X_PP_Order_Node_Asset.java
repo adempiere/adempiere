@@ -30,7 +30,7 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20150928L;
 
     /** Standard Constructor */
     public X_PP_Order_Node_Asset (Properties ctx, int PP_Order_Node_Asset_ID, String trxName)
