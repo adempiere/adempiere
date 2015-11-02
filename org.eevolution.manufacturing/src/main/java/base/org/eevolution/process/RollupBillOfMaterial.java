@@ -29,7 +29,9 @@ import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
 import org.compiere.model.MProduct;
+import org.compiere.model.MResource;
 import org.compiere.model.MUOMConversion;
+import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -51,19 +53,23 @@ import org.eevolution.model.MPPProductPlanning;
 public class RollupBillOfMaterial extends SvrProcess
 {
 	/* Organization 		*/ 
-	private int		 		p_AD_Org_ID = 0;
+	private int orgId = 0;
 	/* Account Schema 		*/
-	private int				p_C_AcctSchema_ID = 0;
+	private int acctSchemaId = 0;
+	/* Resource plant */
+	private int resourceId = 0;
+	/* Warehouse */
+	private int warehouseId = 0;
 	/* Cost Type			*/
-	private int				p_M_CostType_ID = 0;
+	private int costTypeId = 0;
 	/* Costing Method 		*/
-	private String 			p_ConstingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
+	private String constingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
 	/* Product 				*/
-	private int				p_M_Product_ID = 0;
+	private int productId = 0;
 	/* Product Category  	*/
-	private int				p_M_Product_Category_ID = 0;
+	private int productCategoryId = 0;
 	/* Product Type			*/
-	private String			p_ProductType = null;
+	private String productType = null;
 
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -76,20 +82,24 @@ public class RollupBillOfMaterial extends SvrProcess
 
 			if (para.getParameter() == null)
 				;
-			else if (name.equals(MCostElement.COLUMNNAME_AD_Org_ID))
-				p_AD_Org_ID = para.getParameterAsInt();
-			else if (name.equals(MAcctSchema.COLUMNNAME_C_AcctSchema_ID))  
-				p_C_AcctSchema_ID = para.getParameterAsInt();
-			else if (name.equals(MCostType.COLUMNNAME_M_CostType_ID))
-				p_M_CostType_ID = para.getParameterAsInt();
-			else if (name.equals(MCostElement.COLUMNNAME_CostingMethod))
-				p_ConstingMethod=(String)para.getParameter();	
-			else if (name.equals(MProduct.COLUMNNAME_M_Product_ID))   
-				p_M_Product_ID = para.getParameterAsInt();
-			else if (name.equals(MProduct.COLUMNNAME_M_Product_Category_ID))
-				p_M_Product_Category_ID = para.getParameterAsInt();
-			else if (name.equals(MProduct.COLUMNNAME_ProductType))
-				p_ProductType = para.getParameter() == null ? null : para.getParameter().toString();
+			else if (MCostElement.COLUMNNAME_AD_Org_ID.equals(name))
+				orgId = para.getParameterAsInt();
+			else if (MAcctSchema.COLUMNNAME_C_AcctSchema_ID.equals(name))
+				acctSchemaId = para.getParameterAsInt();
+			else if (MResource.COLUMNNAME_S_Resource_ID.equals(name))
+				resourceId = para.getParameterAsInt();
+			else if (MWarehouse.COLUMNNAME_M_Warehouse_ID.equals(name))
+				warehouseId = para.getParameterAsInt();
+			else if (MCostType.COLUMNNAME_M_CostType_ID.equals(name))
+				costTypeId = para.getParameterAsInt();
+			else if (MCostElement.COLUMNNAME_CostingMethod.equals(name))
+				constingMethod =(String)para.getParameter();
+			else if (MProduct.COLUMNNAME_M_Product_ID.equals(name))
+				productId = para.getParameterAsInt();
+			else if (MProduct.COLUMNNAME_M_Product_Category_ID.equals(name))
+				productCategoryId = para.getParameterAsInt();
+			else if (MProduct.COLUMNNAME_ProductType.equals(name))
+				productType = para.getParameter() == null ? null : para.getParameter().toString();
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
@@ -110,9 +120,9 @@ public class RollupBillOfMaterial extends SvrProcess
 		{
 			for (MProduct product : getProducts(lowLevel))
 			{
-				I_PP_Product_Planning pp = MPPProductPlanning.find(getCtx(), p_AD_Org_ID,
-						0, // M_Warehouse_ID
-						0, // S_Resource_ID
+				I_PP_Product_Planning pp = MPPProductPlanning.find(getCtx(), orgId,
+						warehouseId, // M_Warehouse_ID
+						resourceId, // S_Resource_ID
 						product.getM_Product_ID(),
 						get_TrxName());                 
 
@@ -182,15 +192,17 @@ public class RollupBillOfMaterial extends SvrProcess
                     baseDimension.getC_AcctSchema_ID() ,
                     baseDimension.getAD_Org_ID() ,
                     baseDimension.getM_Warehouse_ID() ,
-                    0 ,
+                    0 , // ASI
                     baseDimension.getM_CostType_ID() ,
                     baseDimension.getM_CostElement_ID());
+
 			if (dimension == null)
 			{
                 dimension = new MCost (baseDimension.getCtx(), 0, baseDimension.get_TrxName());
 				//cost.setAD_Client_ID(baseCost.getAD_Client_ID());
                 dimension.setAD_Org_ID(baseDimension.getAD_Org_ID());
                 dimension.setM_Product_ID(bomLine.getM_Product_ID());
+				dimension.setM_Warehouse_ID(baseDimension.getM_Warehouse_ID());
                 dimension.setM_CostType_ID(baseDimension.getM_CostType_ID());
                 dimension.setC_AcctSchema_ID(baseDimension.getC_AcctSchema_ID());
                 dimension.setM_CostElement_ID(baseDimension.getM_CostElement_ID());
@@ -264,12 +276,12 @@ public class RollupBillOfMaterial extends SvrProcess
 
 	private Collection<MCost> getCosts(MProduct product, int M_CostElement_ID)
 	{
-		MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
-		CostDimension d = new CostDimension(product, as, p_M_CostType_ID, p_AD_Org_ID, 0, 0, M_CostElement_ID);
+		MAcctSchema as = MAcctSchema.get(getCtx(), acctSchemaId);
+		CostDimension d = new CostDimension(product, as, costTypeId, orgId, 0, 0, M_CostElement_ID);
 		return d.toQuery(MCost.class, get_TrxName()).list();
 	}
 
-	private Collection<MProduct> getProducts(int lowLevel)
+	private List<MProduct> getProducts(int lowLevel)
 	{
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer("AD_Client_ID=?")
@@ -281,20 +293,20 @@ public class RollupBillOfMaterial extends SvrProcess
 		whereClause.append(" AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
 		params.add(true);
 
-		if (p_M_Product_ID > 0)
+		if (productId > 0)
 		{  
 			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_ID).append("=?");
-			params.add(p_M_Product_ID);
+			params.add(productId);
 		}		
-		else if (p_M_Product_Category_ID > 0)
+		else if (productCategoryId > 0)
 		{
 			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_Category_ID).append("=?");
-			params.add(p_M_Product_Category_ID);
+			params.add(productCategoryId);
 		}
-		if (p_M_Product_ID <= 0 && p_ProductType != null)
+		if (productId <= 0 && productType != null)
 		{
 			whereClause.append(" AND ").append(MProduct.COLUMNNAME_ProductType).append("=?");
-			params.add(p_ProductType);
+			params.add(productType);
 		}
 
 		return new Query(getCtx(),MProduct.Table_Name, whereClause.toString(), get_TrxName())
@@ -312,15 +324,15 @@ public class RollupBillOfMaterial extends SvrProcess
 		productWhereClause.append("AD_Client_ID=? AND "+MProduct.COLUMNNAME_LowLevel+"=?");
 		params.add(getAD_Client_ID());
 		params.add(0);
-		if (p_M_Product_ID > 0)
+		if (productId > 0)
 		{  
 			productWhereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_ID).append("=?");
-			params.add(p_M_Product_ID);
+			params.add(productId);
 		}		
-		else if (p_M_Product_Category_ID > 0)
+		else if (productCategoryId > 0)
 		{
 			productWhereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_Category_ID).append("=?");
-			params.add(p_M_Product_Category_ID);
+			params.add(productCategoryId);
 		}
 		//
 		final String sql = "UPDATE M_Cost c SET "+MCost.COLUMNNAME_CurrentCostPriceLL+"=0"
