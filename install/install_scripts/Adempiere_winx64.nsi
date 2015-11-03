@@ -78,7 +78,7 @@
 !define JDK_INSTALLER "jdk-8u60-windows-x64.exe"
 !define JDK_DEFAULT_DIR "$PROGRAMFILES64\Java\jdk1.8.0_60"
 !define JAVA_HOME "$PROGRAMFILES64\Java\jdk1.8.0_60"
-!define JDK_MIN_VERSION "1.8"
+!define JDK_MIN_VERSION "1.7"
 !define JDK_TARGET_VERSION "1.8"
 !define JDK_SIZE 335000             ; The required size in kb of the JDK install. Need if downloading zip.
 
@@ -94,7 +94,7 @@
 !define PG_USER "postgres"          ; Username of PG system account
 !define PG_PASSWORD "postgres"      ; Password for PostgreSQL installtion
 !define PG_PORT "5432"              ; PostgreSQL Port (5432)
-!define PG_MIN_VERSION "9.4"        ; Minimun acceptable PG Version
+!define PG_MIN_VERSION "9.0"        ; Minimun acceptable PG Version
 !define PG_SIZE  465000             ; The required size in kb of the PG install. Need if downloading zip.
 
 ; Installer Attributes
@@ -132,8 +132,8 @@ ShowUnInstDetails show
   UninstPage instfiles
 
 ; Add this after all other defines
-!include "LangStrings.nsh"
-
+!include "Language.nsh"
+ 
 Section "${PRODUCT_NAME} ${PRODUCT_VERSION}_${PRODUCT_PATCH}" AD_SECTION
   SectionIn RO
   StrCpy $ADEMPIERE_HOME "$AD_INSTALL_DRIVE\Adempiere"

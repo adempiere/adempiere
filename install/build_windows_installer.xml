@@ -11,6 +11,9 @@
         information. 
         
         The ADempiere project should be built before execution.
+        
+        If running this script manually, remember to refresh the directory
+        to see the completed installer executable.
     -->
 	
 	
@@ -26,7 +29,7 @@
 	</target>
 
     <target name="init" description="initialization target" depends="clean">
-        <echo message="=========== Build Windows Installer - ${env.ENCODING}"/>
+        <echo message="=========== Build Windows 64-bit Installer "/>
         <!-- create the time stamp -->
         <tstamp/>
         <mkdir dir="${bin.dir}"/>
