@@ -1217,7 +1217,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt,				//Production "+"
 					movementDate,													//MovementDate
 					qtyToDeliver, qtyScrap, qtyReject,								//qty,scrap,reject
-					0,Env.ZERO);															//durationSetup,duration
+					Env.ZERO,Env.ZERO);															//durationSetup,duration
 		}
 
 		order.setDateDelivered(movementDate);
@@ -1287,7 +1287,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 						CostCollectorType, 												//Production "-"
 						movementdate,													//MovementDate
 						qtyIssue, qtyScrapComponent, qtyReject,									//qty,scrap,reject
-						0,Env.ZERO														//durationSetup,duration
+						Env.ZERO,Env.ZERO														//durationSetup,duration
 				);
 				orderBOMLine.load(order.get_TrxName());
 				// Method Variance
@@ -1316,7 +1316,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue, 						//Production "-"
 					movementdate,															//MovementDate
 					toIssue, Env.ZERO, Env.ZERO,											//qty,scrap,reject
-					0,Env.ZERO																//durationSetup,duration
+					Env.ZERO,Env.ZERO																//durationSetup,duration
 					);
 					return;
 		}
@@ -1401,7 +1401,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			{
 				return true;
 			}
-			if(node.getDurationReal() > 0)
+			if(node.getDurationReal().signum() > 0)
 			{
 				return true;
 			}
@@ -1482,8 +1482,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 						getUpdated(),
 						activity.getQtyToDeliver(),
 						Env.ZERO, 
-						Env.ZERO, 
-						0, 
+						Env.ZERO,
+						Env.ZERO,
 						Env.ZERO);
 				}
 			}
@@ -1637,7 +1637,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				qtyUsageVariance, // Qty
 				Env.ZERO, // scrap,
 				Env.ZERO, // reject,
-				0, //durationSetup,
+				Env.ZERO, //durationSetup,
 				Env.ZERO // duration
 		);
 	}
@@ -1687,7 +1687,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				qtyMethodChangeVariance, // Qty
 				Env.ZERO, // scrap,
 				Env.ZERO, // reject,
-				0, //durationSetup,
+				Env.ZERO, //durationSetup,
 				Env.ZERO // duration
 		);
 	}
@@ -1697,8 +1697,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		final Timestamp movementDate = order.getUpdated();
 		final MPPOrderNode node = (MPPOrderNode)orderNode;
 		//
-		final BigDecimal setupTimeReal = BigDecimal.valueOf(node.getSetupTimeReal());
-		final BigDecimal durationReal = BigDecimal.valueOf(node.getDurationReal());
+		final BigDecimal setupTimeReal = node.getSetupTimeReal();
+		final BigDecimal durationReal = node.getDurationReal();
 		if (setupTimeReal.signum() == 0 && durationReal.signum() == 0)
 		{
 			// nothing reported on this activity => it's not a variance, this will be auto-reported on close
@@ -1707,8 +1707,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		//
 		final BigDecimal setupTimeVariancePrev = node.getSetupTimeUsageVariance();
 		final BigDecimal durationVariancePrev = node.getDurationUsageVariance();
-		final BigDecimal setupTimeRequired = BigDecimal.valueOf(node.getSetupTimeRequired());
-		final BigDecimal durationRequired = BigDecimal.valueOf(node.getDurationRequired());
+		final BigDecimal setupTimeRequired = node.getSetupTimeRequired();
+		final BigDecimal durationRequired = node.getDurationRequired();
 		final BigDecimal qtyOpen = node.getQtyToDeliver();
 		//
 		final BigDecimal setupTimeVariance = setupTimeRequired.subtract(setupTimeReal).subtract(setupTimeVariancePrev);
@@ -1733,7 +1733,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				qtyOpen, // Qty
 				Env.ZERO, // scrap,
 				Env.ZERO, // reject,
-				setupTimeVariance.intValueExact(), //durationSetup,
+				setupTimeVariance, //durationSetup,
 				durationVariance // duration
 		);
 	}

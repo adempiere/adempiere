@@ -136,7 +136,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			BigDecimal qty,
 			BigDecimal scrap,
 			BigDecimal reject,
-			int durationSetup,
+			BigDecimal durationSetup,
 			BigDecimal duration
 		)
 	{
@@ -157,7 +157,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		cc.setMovementQty(qty);
 		cc.setScrappedQty(scrap);
 		cc.setQtyReject(reject);
-		cc.setSetupTimeReal(new BigDecimal(durationSetup));
+		cc.setSetupTimeReal(durationSetup);
 		cc.setDurationReal(duration);
 		cc.setPosted(false);
 		cc.setProcessed(false);
@@ -372,8 +372,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			activity.setQtyDelivered(activity.getQtyDelivered().add(getMovementQty()));
 			activity.setQtyScrap(activity.getQtyScrap().add(getScrappedQty()));
 			activity.setQtyReject(activity.getQtyReject().add(getQtyReject()));
-			activity.setDurationReal(activity.getDurationReal()+getDurationReal().intValueExact());
-			activity.setSetupTimeReal(activity.getSetupTimeReal()+getSetupTimeReal().intValueExact());
+			activity.setDurationReal(activity.getDurationReal().add(getDurationReal()));
+			activity.setSetupTimeReal(activity.getSetupTimeReal().add(getSetupTimeReal()));
 			activity.saveEx();
 
 			// report all activity previews to milestone activity
@@ -550,8 +550,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			{
 				final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get()
 						.getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);
+
 				standardCostingMethod.createActivityControl(this);
-				
 				if(activity.getQtyDelivered().compareTo(activity.getQtyRequired()) >= 0)
 				{
 					activity.closeIt();
@@ -578,8 +578,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		else if (isCostCollectorType(COSTCOLLECTORTYPE_UsegeVariance) && getPP_Order_Node_ID() > 0)
 		{
 			MPPOrderNode activity = getPP_Order_Node();
-			activity.setDurationReal(activity.getDurationReal()+getDurationReal().intValueExact());
-			activity.setSetupTimeReal(activity.getSetupTimeReal()+getSetupTimeReal().intValueExact());
+			activity.setDurationReal(activity.getDurationReal().add(getDurationReal()));
+			activity.setSetupTimeReal(activity.getSetupTimeReal().add(getSetupTimeReal()));
 			activity.saveEx();
 			final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get()
 					.getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);

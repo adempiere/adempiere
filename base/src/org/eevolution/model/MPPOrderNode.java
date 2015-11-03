@@ -178,7 +178,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setValue(wfNode.getValue());
 		setS_Resource_ID(wfNode.getS_Resource_ID());
 		setSetupTime(wfNode.getSetupTime());
-		setSetupTimeRequired(wfNode.getSetupTime());
+		setSetupTimeRequired(BigDecimal.valueOf(wfNode.getSetupTime()));
 		setMovingTime(wfNode.getMovingTime());
 		setWaitingTime(wfNode.getWaitingTime());
 		setWorkingTime(wfNode.getWorkingTime());
@@ -258,7 +258,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setQtyRequired(qtyOrdered);
 		RoutingService routingService = RoutingServiceFactory.get().getRoutingService(getAD_Client_ID());
 		BigDecimal workingTime = routingService.estimateWorkingTime(this, qtyOrdered);
-		setDurationRequired(workingTime.intValueExact());
+		setDurationRequired(workingTime);
 	}
 	
 	/**
@@ -382,7 +382,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setDocStatus(MPPOrderNode.DOCSTATUS_Closed);
 		setDocAction(MPPOrderNode.DOCACTION_None);
 		setDateFinish(false);
-		int old = getDurationRequired();
+		BigDecimal old = getDurationRequired();
 		if (old != getDurationReal())
 		{	
 			addDescription(Msg.parseTranslation(getCtx(), "@closed@ ( @Duration@ :" + old + ") ( @QtyRequired@ :"+getQtyRequired()+")"));
@@ -410,8 +410,8 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setDocStatus(MPPOrderNode.DOCSTATUS_Voided);
 		setDocAction(MPPOrderNode.DOCACTION_None);
 		setQtyRequired(Env.ZERO);
-		setSetupTimeRequired(0);
-		setDurationRequired(0);
+		setSetupTimeRequired(Env.ZERO);
+		setDurationRequired(Env.ZERO);
 	}
 	
 	/**
