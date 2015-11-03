@@ -182,17 +182,17 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		row.appendChild(new Space());
 		
 		row = rows.newRow();
-		row.setSpans("1,7");
+		row.setSpans("1, 8");
 		row.setHeight("55px");
 
-		row.appendChild (new Space());
-
 		f_ProductName = new WPOSTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), v_POSPanel.getKeyboard());
-		f_ProductName.setWidth("100%");
+		f_ProductName.setWidth("98%");
 		f_ProductName.setHeight("35px");
 		f_ProductName.setStyle("Font-size:medium; font-weight:bold");
 		f_ProductName.addEventListener(this);
-		
+		f_ProductName.setValue(Msg.translate(Env.getCtx(), "M_Product_ID"));
+
+		row.appendChild(new Space());
 		row.appendChild(f_ProductName);
 		enableButton();
 		
@@ -342,14 +342,17 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		}
 	}	//	findProduct
 
+	
+	
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
 		
 			if(e.getTarget().equals(f_ProductName.getComponent(WPOSTextField.SECONDARY)) 
 					&& e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
 				isKeyboard = true;
-				if(!f_ProductName.showKeyboard())
+				if(!f_ProductName.showKeyboard()){
 					findProduct(); 
+				}
 				f_ProductName.setFocus(true);
 			}
 			if(e.getTarget().equals(f_ProductName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
@@ -378,6 +381,8 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		}
 		else if (e.getTarget().equals(f_bBPartner)) {
 			WQueryBPartner qt = new WQueryBPartner(v_POSPanel);
+			if(!v_POSPanel.isBPartnerStandard())
+				qt.loadData();
 			AEnv.showWindow(qt);
 			if (qt.getRecord_ID() > 0) {
 				if(!v_POSPanel.hasOrder()) {
@@ -466,7 +471,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	}
 	
 	/**
-	 * Enable Buttons
+	 * Enable Bttons
 	 * @return void
 	 */
 	public void enableButton(){

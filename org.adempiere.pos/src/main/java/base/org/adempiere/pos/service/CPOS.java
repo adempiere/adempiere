@@ -556,6 +556,18 @@ public class CPOS {
 	}
 	
 	/**
+	 * Is BPartner Standard 
+	 * @return boolean
+	 */
+	public boolean isBPartnerStandard() {
+		int p_C_BPartner_ID = m_CurrentOrder.getC_BPartner_ID();
+		if(m_POS.getC_BPartnerCashTrx_ID() == p_C_BPartner_ID)
+			return true;
+		else
+			return false;
+	}
+	
+	/**
 	 * 	Set BPartner, update price list and locations
 	 *	@param p_C_BPartner_ID id
 	 */

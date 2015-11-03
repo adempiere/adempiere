@@ -88,7 +88,8 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 	@Override
 	public void init(){
 		int C_POSKeyLayout_ID = v_POSPanel.getC_POSKeyLayout_ID();
-		//	
+		if (C_POSKeyLayout_ID == 0)
+			return;
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		isKeyboard = false;
 		v_TotalsPanel = GridFactory.newGridLayout();
@@ -101,34 +102,38 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 
 		v_GroupPanel = GridFactory.newGridLayout();
 		v_GroupPanel.setWidth("100%");
-		v_GroupPanel.setHeight("100%");
+		v_GroupPanel.setHeight("auto");
 		
 		//  Define the criteria rows and grid  
 		Rows rows = new Rows();
 		//
 		Row row = new Row();
 		rows.appendChild(row);
-		row.setSpans("1, 1");
-		
+		rows.setHeight("100%");
 		v_TotalsGroup = new Groupbox();
-		v_TotalsGroup.setWidth("100%");
+		v_TotalsGroup.setWidth("95%");
 		v_InfOrderGroup = new Groupbox();
 		v_InfOrderGroup.setWidth("80%");
 		v_InfOrderGroup.appendChild(v_OrderPanel);
-
+		
 		row.appendChild(v_InfOrderGroup);
 		row.appendChild(v_TotalsGroup);
 		// BP
+//		l_BPartner = new Label(Msg.translate(Env.getCtx(), "IsCustomer"));
 		f_BPartnerName = new WPOSTextField(Msg.translate(Env.getCtx(), "IsCustomer"), v_POSPanel.getKeyboard());
 		f_BPartnerName.setHeight("35px");
 		f_BPartnerName.setStyle("Font-size:medium; font-weight:bold");
 		f_BPartnerName.setWidth("97%");
+//		f_BPartnerName.setValue(l_BPartner.getValue());
 		f_BPartnerName.addEventListener(this);
 		
-		row = new Row();
-		rows.appendChild(row);
+		row = rows.newRow();
 		row.setSpans("2");
+		row.setHeight("10px");
+//		row.appendChild(l_BPartner.rightAlign());
+//		l_BPartner.setStyle("Font-size:medium; font-weight:bold");
 		row.appendChild(f_BPartnerName);
+		
 		
 		v_GroupPanel.appendChild(rows);
 		v_GroupPanel.setStyle("Overflow:hidden;");
@@ -146,8 +151,9 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		v_TotalsGroup.appendChild(v_TitleBorder);
 
 		v_TitleInfo = new Caption(Msg.getMsg(Env.getCtx(), "InfoOrder"));
-		v_InfOrderGroup.appendChild(v_TitleInfo);
 		
+		v_InfOrderGroup.appendChild(v_TitleInfo);
+
 		rows = null;
 		row = null;
 		rows = v_OrderPanel.newRows();
@@ -155,7 +161,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		North north = new North();
 		
 		north.appendChild(v_GroupPanel);
-		north.setStyle("border: none; width:50%; height:170px");
+		north.setStyle("border: none; width:50%; height:auto");
 		//
 		row = rows.newRow();
 		row.setHeight("10px");
@@ -190,8 +196,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		f_DocumentNo.setStyle("Font-size:medium; font-weight:bold");
 		row.appendChild(f_DocumentNo.rightAlign());
 		
-		rows = null;
-		row = null;
+		row = rows.newRow();
 		rows = v_TotalsPanel.newRows();
 
 		//
@@ -227,10 +232,11 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		f_GrandTotal.setText(Env.ZERO.toString());
 		f_GrandTotal.setStyle(WPOS.FONTSIZELARGE);
 
+		// Center Panel
 		Center center = new Center();
 		Grid layout = GridFactory.newGridLayout();
 
-		center.setStyle("border: none; overflow-y:auto;overflow-x:hidden;");
+		center.setStyle(" top:0px; border: none; overflow-y:auto;overflow-x:hidden;");
 		appendChild(center);
 		org.adempiere.webui.component.Panel centerPanel = new org.adempiere.webui.component.Panel();
 		center.appendChild(centerPanel);
@@ -241,8 +247,8 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		
 		rows = layout.newRows();
 		
+	
 		WPOSKeyPanel panel = new WPOSKeyPanel(C_POSKeyLayout_ID, this);
-//		row.appendChild(f_ProductName);
 		row = rows.newRow();
 		row.setSpans("4");
 		row.appendChild(panel);
@@ -253,6 +259,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		f_TotalLines.setText(m_Format.format(Env.ZERO));
 		f_GrandTotal.setText(m_Format.format(Env.ZERO));
 		f_TaxAmount.setText(m_Format.format(Env.ZERO));
+
 
 	}
 	
