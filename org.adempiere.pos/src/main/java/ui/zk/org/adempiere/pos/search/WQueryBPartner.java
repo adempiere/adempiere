@@ -13,6 +13,9 @@
  *****************************************************************************/
 package org.adempiere.pos.search;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
 import org.adempiere.pos.WPOSTextField;
@@ -21,6 +24,7 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -28,8 +32,8 @@ import org.adempiere.webui.component.Textbox;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MBPartnerInfo;
-import org.compiere.model.PO;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -55,7 +59,7 @@ public class WQueryBPartner extends WPosQuery {
 	 * 
 	 */
 	private static final long serialVersionUID = -7109518709654253628L;
-
+		
 	
 	/**
 	 * 	Constructor
@@ -88,10 +92,6 @@ public class WQueryBPartner extends WPosQuery {
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Postal"), "Postal", String.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "City"), "City", String.class) 
 	};
-	/**	From Clause							*/
-	private static String s_sqlFrom = "RV_BPartner";
-	/** Where Clause						*/
-	private static String s_sqlWhere = "IsActive='Y'";
 	
 	/**
 	 * 	Set up Panel
@@ -188,16 +188,20 @@ public class WQueryBPartner extends WPosQuery {
 		f_city.addEventListener("onFocus", this);
 		f_city.setStyle(WPOS.FONTSIZESMALL);
 		
-		m_table.prepareTable (s_layout, s_sqlFrom, 
-				s_sqlWhere, false, "RV_BPartner");
+		m_table = ListboxFactory.newDataTable();
+		m_table.prepareTable (s_layout, "C_Order", 
+				"C_POS_ID = " + v_POSPanel.getC_POS_ID()
+				, false, "C_Order");
+
 		center = new Center();
-		center.setStyle("border: none; Height:80%;overflow:scroll");
+		center.setStyle("border: none");
+		m_table.setWidth("100%");
+		m_table.setHeight("99%");
 		m_table.addActionListener(this);
 		center.appendChild(m_table);
 		mainLayout.appendChild(center);
-		m_table.loadTable(new PO[0]);
-		m_table.autoSize();
 		m_table.setClass("Table-OrderLine");
+		m_table.autoSize();
 		addNewAction();
 	}	//	init
 	
@@ -324,6 +328,40 @@ public class WQueryBPartner extends WPosQuery {
 		close();
 		return;
 	}
+	/**
+	 * Load Data BPartner
+	 * @return void
+	 */
+	public void loadData() {
+		StringBuffer sql = new StringBuffer();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		try  {
+			sql.append(" SELECT b.C_BPartner_ID, b.Value, b.Name, b.Email, b.Phone, b.Postal, b.City")
+				.append(" FROM RV_BPartner AS b")
+				.append(" WHERE b.C_BPartner_ID = ?");
+			int i = 1;			
+			pstm = DB.prepareStatement(sql.toString(), null);
+			//	POS
+			pstm.setInt(i++, v_POSPanel.getC_BPartner_ID());
+			rs = pstm.executeQuery();
+			m_table.loadTable(rs);
+			int rowNo = m_table.getRowCount();
+			if (rowNo > 0) {
+				m_table.setSelectedIndex(0);
+				if(rowNo == 1) {
+					select();
+				}
+			}
+		} catch(Exception e) {
+			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+		} finally {
+			DB.close(rs);
+			DB.close(pstm);
+		}
+
+	}
+
 	@Override
 	public void onEvent(Event e) throws Exception {
 		
@@ -384,6 +422,7 @@ public class WQueryBPartner extends WPosQuery {
 				close();
 			}
 			if(e.getTarget().getId().equals("Cancel")){
+				reset();
 				dispose();
 			}
 			if(e.getTarget().equals(m_table)){

@@ -40,6 +40,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Doublebox;
 
 /**
@@ -81,20 +82,20 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		init( keyLayoutId );
 		AEnv.showCenterWindow(parent, this);
 	}
+		
+	/** Fields 								*/
+	private WPOSTextField 					field;
+	private Textbox 						tfield;
+	private Doublebox 						dfield;
+	private Textbox 						txtCalc = new Textbox();
+	private Label 							lfield;
+	/** key Layout							*/
+	private MPOSKeyLayout 					keylayout;
+	private boolean 						keyBoardType;
+	private HashMap<Integer, MPOSKey> 		keys;
+	private boolean 						isCancel;
 
-	/** Type Fields 					*/
-	private WPOSTextField				field;
-	private Textbox 					tfield;
-	private Doublebox 					dfield;
-	private Label 						lfield;
-	/** Key Layout						*/
-	private MPOSKeyLayout 				keylayout;
-	private boolean 					keyBoardType;
-	/** Text Calc						*/
-	private Textbox 					txtCalc		 = new Textbox();
-	private HashMap<Integer, MPOSKey> 	keys;
-	private boolean 					isCancel;
-
+		
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WPOSKeyboard.class);
 	
@@ -146,7 +147,14 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 
 		center.appendChild(keys);
 		mainLayout.appendChild(center);
-
+		South south = new South();
+		
+		ConfirmPanel confirm = new ConfirmPanel(true, false, true, false, false, false, false);
+		confirm.addActionListener(this);
+		south.appendChild(confirm);
+		mainLayout.appendChild(south);
+		
+		
 	}	//	init
 	
 	/**

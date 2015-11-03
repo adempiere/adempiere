@@ -34,7 +34,7 @@ import org.compiere.util.Env;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Image;
 
@@ -154,7 +154,7 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 			Panel button = new Panel();
 			Label label = new Label(key.getName());
 			
-			North nt = new North();
+			Center nt = new Center();
 			South st = new South();
 			Borderlayout mainLayout = new Borderlayout();
 			if ( key.getAD_Image_ID() != 0 )
@@ -170,13 +170,13 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 				}
 				Image bImg = new Image();
 				bImg.setContent(img);
-				bImg.setWidth("50%");
-				bImg.setHeight("50px");
+				bImg.setWidth("66%");
+				bImg.setHeight("80%");
 				nt.appendChild(bImg);
 			}
 			label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;color: #FFF;");
 			label.setHeight("100%");
-			button.setHeight("70px");
+			button.setHeight("100px");
 			st.appendChild(label);
 			button.setClass("z-button");
 			button.setStyle("float:left; white-space: pre-line;text-align:center; margin:0.4% 1%; Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+"); border: 2px outset #CCC; "
@@ -202,7 +202,7 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 				button.setWidth("96%");
 			}
 			else 
-				button.setWidth(88/cols+"%");
+				button.setWidth(90/cols+"%");
 			if ( key.getSpanY() > 1 )
 			{
 				size = size*key.getSpanY();

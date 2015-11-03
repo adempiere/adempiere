@@ -54,7 +54,7 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		
 	}
 	
-	private Panel parameterPanel;
+	private Panel 		parameterPanel;
 	/**	Image Product		*/
 	private Panel		bImage;
 	/**	Product Code		*/
@@ -100,7 +100,7 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		Row row = null;	
 		North north = new North();
 
-		north.setStyle("border: none; width:100%");
+		north.setStyle("border: none; width:100%;");
 		north.setZindex(0);
 		fullPanel.appendChild(north);
 
@@ -116,8 +116,8 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		//	For Image
 		bImage = new Panel();
 		row.appendChild(bImage);
-		bImage.setWidth("70px");
-		bImage.setHeight("70px");	
+		bImage.setWidth("140px");
+		bImage.setHeight("130px");	
 		
 		row.appendChild(buttonPanel);
 		rows = labelLayout.newRows();
@@ -187,6 +187,10 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		bImage.getChildren().clear();
 	}
 	
+	/**
+	 * Get Panel 
+	 * @return Panel
+	 */
 	public Panel getPanel(){
 		return parameterPanel;
 	}
@@ -206,7 +210,7 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		MProduct m_Product = MProduct.get(m_ctx, p_M_Product_ID);
 		String currencyISO_Code = v_POSPanel.getCurSymbol();
 		fValue.setText(m_Product.getValue());
-		fPrice.setText(currencyISO_Code + " " 
+		fPrice.setText(currencyISO_Code + "" 
 					+ v_POSPanel.getNumberFormat()
 						.format(v_POSPanel.getPrice(m_Product)));
 		fName.setText(m_Product.getName());
@@ -231,7 +235,7 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 			Image bImg = new Image();
 			bImg.setContent(img);
 			bImg.setWidth("100%");
-			bImg.setHeight("70px");
+			bImg.setHeight("100px");
 			nt.appendChild(bImg);
 		
 		label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;color: #FFF;");
@@ -290,5 +294,4 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		//	
 		setValuesFromProduct(p_M_Product_ID, key.getAD_Image_ID());
 	}
-	
 }

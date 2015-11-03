@@ -76,6 +76,8 @@ public abstract class POSQuery extends CDialog
 	protected POSTable 		m_table;
 	/**	New Action		*/
 	private CButton 		f_New;
+	/**	Edit Action		*/
+	private CButton 		f_Edit;
 	/**	Refresh Action	*/
 	private CButton 		f_Reset;
 	/**	Refresh Action	*/
@@ -126,6 +128,7 @@ public abstract class POSQuery extends CDialog
 		
 		//	Create Buttons
 		f_New = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
+		f_Edit = createButtonAction("Edit", KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 		f_Reset = createButtonAction("Reset", KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
 		f_Refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
 		f_Cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
@@ -133,13 +136,15 @@ public abstract class POSQuery extends CDialog
 		//	
 		v_ConfirmPanel.add(f_New, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
-		v_ConfirmPanel.add(f_Reset, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+		v_ConfirmPanel.add(f_Edit, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
-		v_ConfirmPanel.add(f_Refresh, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+		v_ConfirmPanel.add(f_Reset, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
-		v_ConfirmPanel.add(f_Ok, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+		v_ConfirmPanel.add(f_Refresh, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
-		v_ConfirmPanel.add(f_Cancel, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+		v_ConfirmPanel.add(f_Ok, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
+		v_ConfirmPanel.add(f_Cancel, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
 		
 		//	Add To Main Panel
@@ -152,8 +157,11 @@ public abstract class POSQuery extends CDialog
 		//	Add Main Panel to Content
 		getContentPane().add(v_MainPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		//	Visible New
+		//	Visible New and Edit
 		f_New.setVisible(false);
+		f_Edit.setVisible(false);
+		// Enable Button Edit
+		f_Edit.setEnabled(false);
 		//	Add Listener
 		m_table.addMouseListener(this);
 	}
@@ -172,6 +180,10 @@ public abstract class POSQuery extends CDialog
 		log.info(e.getActionCommand());
 		if (f_New.equals(e.getSource())) {
 			newAction();
+			dispose();
+			return;
+		}if (f_Edit.equals(e.getSource())) {
+			editAction();
 			dispose();
 			return;
 		} if (f_Refresh.equals(e.getSource())) {
@@ -224,6 +236,7 @@ public abstract class POSQuery extends CDialog
 	 */
 	protected void addNewAction() {
 		f_New.setVisible(true);
+		f_Edit.setVisible(true);
 	}
 	
 	/**
@@ -277,6 +290,14 @@ public abstract class POSQuery extends CDialog
 		
 	}
 	
+	/**
+	 * For Edit action
+	 * @return void
+	 */
+	protected void editAction() {
+		
+	}
+	
 	@Override
 	public void dispose() {
 		removeAll();
@@ -326,8 +347,12 @@ public abstract class POSQuery extends CDialog
 	public void mousePressed (MouseEvent e) {
 		//	Add support search Business Partner
 		//  Single click with selected row => exit
+		if(m_table.getSelectedRow() != -1)
+			f_Edit.setEnabled(true);
+		
 		if (e.getClickCount() > 1 
 				&& m_table.getSelectedRow() != -1)	{
+			
 			select();
 			close();
 			//	Fire

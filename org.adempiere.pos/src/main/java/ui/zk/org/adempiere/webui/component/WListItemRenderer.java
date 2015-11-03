@@ -672,8 +672,11 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			col = getColumnPosition(source);
 
 			tableColumn = m_tableColumns.get(col);
-
-			if (source instanceof Checkbox)
+			if (source instanceof Button)
+			{
+				value = ((Button)source).getLabel();
+			}
+			else if (source instanceof Checkbox)
 			{
 				value = Boolean.valueOf(((Checkbox)source).isChecked());
 			}

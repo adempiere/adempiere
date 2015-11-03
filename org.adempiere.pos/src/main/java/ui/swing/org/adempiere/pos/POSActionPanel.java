@@ -216,7 +216,10 @@ public class POSActionPanel extends POSSubPanel
 				} else if (e.getSource().equals(f_bBPartner)) {
 					QueryBPartner qt = new QueryBPartner(v_POSPanel);
 					qt.addOptionListener(this);
-					qt.setResults(null);
+					if(v_POSPanel.isBPartnerStandard())
+						qt.setResults(null);
+					else
+						qt.loadData();
 					qt.showView();
 				} else if (e.getSource().equals(f_bHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders

@@ -15,6 +15,8 @@
 package org.adempiere.pos.search;
 
 import java.awt.Frame;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.swing.border.TitledBorder;
 
@@ -29,6 +31,7 @@ import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.PO;
 import org.compiere.swing.CLabel;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -161,6 +164,17 @@ public class QueryBPartner extends POSQuery {
 		close();
 	}
 	
+	@Override
+	public void editAction() {
+		super.editAction();
+		VPOSBPartner t = new VPOSBPartner(new Frame(), 1, v_POSPanel);
+		select();
+		t.loadBPartner(m_C_BPartner_ID);
+		t.setVisible(true);
+		//	Close
+		close();
+	}
+	
 	/**
 	 * 	Set/display Results
 	 *	@param results results
@@ -185,7 +199,45 @@ public class QueryBPartner extends POSQuery {
 		//	
 		setResultsFromArray((MBPartnerInfo[]) results);
 	}
+	
+	/**
+	 * Load Data BPartner
+	 * 
+	 * @return void
+	 */
+	public void loadData() {
+		StringBuffer sql = new StringBuffer();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		try  {
+			sql.append(" SELECT b.C_BPartner_ID, b.Value, b.Name, u.Email, u.Phone, l.Postal, lb.name AS City")
+				.append(" FROM C_BPartner AS b")
+				.append(" INNER JOIN AD_User u ON (u.C_BPartner_ID = b.C_BPartner_ID)")
+				.append(" INNER JOIN C_BPartner_Location lb ON (lb.C_BPartner_ID = b.C_BPartner_ID)")
+				.append(" INNER JOIN C_Location l ON (l.C_Location_ID = lb.C_Location_ID)")
+				.append(" WHERE b.C_BPartner_ID = ?");
+			int i = 1;			
+			pstm = DB.prepareStatement(sql.toString(), null);
+			//	POS
+			pstm.setInt(i++, v_POSPanel.getC_BPartner_ID());
+			rs = pstm.executeQuery();
+			m_table.loadTable(rs);
+			int rowNo = m_table.getRowCount();
+			if (rowNo > 0) {
+				m_table.setRowSelectionInterval(0, 0);
+				if(rowNo == 1) {
+					select();
+				}
+			}
+		} catch(Exception e) {
+			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+		} finally {
+			DB.close(rs);
+			DB.close(pstm);
+		}
 
+	}
+	
 	/**
 	 * 	Enable/Set Buttons and set ID
 	 */
@@ -208,7 +260,6 @@ public class QueryBPartner extends POSQuery {
 	 * 	Set Values on other panels and close
 	 */
 	protected void close() {
-		select();
 		dispose();
 	}	//	close
 	
