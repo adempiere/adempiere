@@ -80,8 +80,8 @@ public class MColumn extends X_AD_Column
 		M_Element element =  new M_Element(ctx, column.getAD_Element_ID() , trxName);
 		if(element.getAD_Reference_ID() == DisplayType.ID)
 		{
-			String columnName = table.get_TableName()+"_ID";
-            String tableDir = column.getColumnName().replace("_ID", "");
+			String columnName = table.getTableName()+"_ID";
+            String tableDir = element.getColumnName().replace("_ID", "");
 			if(!columnName.equals(element.getColumnName()) && MTable.getTable_ID(tableDir) > 0)
 			{
 				column.setAD_Reference_ID(DisplayType.TableDir);
@@ -89,6 +89,9 @@ public class MColumn extends X_AD_Column
 		}
 
 		String entityType = column.getAD_Table().getEntityType();
+		if (entityType == null)
+			throw  new AdempiereException("@EntityType@ @@AD_Table_ID@ @NotFound@");
+
 		if(!MTable.ENTITYTYPE_Dictionary.equals(entityType))
 			column.setEntityType(entityType);
 		
