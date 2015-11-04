@@ -632,12 +632,13 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		//	Reverse indicator
 		String description = reverse.getDescription();
 		if (description == null)
-			description = "** " + getDocumentNo() + " **";
+			description = "** (->" + getDocumentNo() + ") **";
 		else
-			description += " ** " + getDocumentNo() + " **";
+			description += " ** (->" + getDocumentNo() + ") **";
 		reverse.setDescription(description);
 		//[ 1948157  ]
 		reverse.setReversal_ID(getGL_JournalBatch_ID());
+		reverse.setControlAmt(getControlAmt().negate());
 		reverse.saveEx();
 		//
 		
@@ -652,11 +653,20 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				m_processMsg = "Could not reverse " + journal;
 				return false;
 			}
+			journal.setProcessed(true);
 			journal.saveEx();
 		}
 		
 		//[ 1948157  ]
+		reverse.setDocAction(DOCACTION_None);
+		reverse.setDocStatus(DOCSTATUS_Reversed);
+		reverse.setProcessed(true);
+		reverse.saveEx();
+
+		description = "** (" + reverse.getDocumentNo() + "<-) **";
+		setDescription(description);
 		setReversal_ID(reverse.getGL_JournalBatch_ID());
+		setDocAction(DOCACTION_None);
 		save();
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);

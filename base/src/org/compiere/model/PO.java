@@ -1035,7 +1035,7 @@ public abstract class PO
 		// [ 1845793 ] PO.set_CustomColumn not updating correctly m_newValues
 		// this is for columns not in PO - verify and call proper method if exists
 		int poIndex = get_ColumnIndex(columnName);
-		if (poIndex > 0) {
+		if (poIndex >= 0) {
 			// is not custom column - it exists in the PO
 			return set_Value(columnName, value);
 		}

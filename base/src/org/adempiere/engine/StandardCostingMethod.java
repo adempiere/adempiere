@@ -655,6 +655,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		costDetailVariance.setM_CostType_ID(costType.getM_CostType_ID());
 		costDetailVariance.setM_CostElement_ID(costElement.getM_CostElement_ID());
 		costDetailVariance.setAmt(amount);
+		costDetailVariance.setCostAmt(amount);
 		costDetailVariance.setAmtLL(BigDecimal.ZERO);
 		costDetailVariance.setQty(quantity);
 		costDetailVariance.setDateAcct(costCollector.getDateAcct());
@@ -673,6 +674,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 				.getRoutingService(costCollector.getAD_Client_ID());
 		final BigDecimal quantity = routingService.getResourceBaseValue(
 				costCollector.getS_Resource_ID(), costCollector);
+
 		for (MAcctSchema accountSchema : CostEngine.getAcctSchema(costCollector)) {
 			for (MCostElement costElement : MCostElement.getCostElement(costCollector.getCtx(), costCollector.get_TrxName())) {
 				if (!CostEngine.isActivityControlElement(costElement)) {
@@ -704,6 +706,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 							costCollector.get_TrxName(), costType.getM_CostType_ID());
 					costDetail.setPP_Cost_Collector_ID(costCollector.getPP_Cost_Collector_ID());
 					costDetail.setDateAcct(costCollector.getDateAcct());
+					costDetail.setCostAmt(costs.negate());
 					costDetail.saveEx();
 					processCostDetail(costDetail);
 				}

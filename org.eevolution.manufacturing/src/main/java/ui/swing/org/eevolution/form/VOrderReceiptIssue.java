@@ -120,8 +120,8 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 	private VNumber deliveredQtyField = new VNumber("QtyDelivered", false,
 			false, false, DisplayType.Quantity, "QtyDelivered");
 	private CLabel deliveredQtyLabel = new CLabel();
-	private VNumber openQtyField = new VNumber("QtyOpen", false, false, false,
-			DisplayType.Quantity, "QtyOpen");
+	private VNumber openQtyField = new VNumber("QtyBackOrdered", false, false, false,
+			DisplayType.Quantity, "QtyBackOrdered");
 	private CLabel openQtyLabel = new CLabel();
 	private VNumber toDeliverQty = new VNumber("QtyToDeliver", true, false,
 			true, DisplayType.Quantity, "QtyToDeliver");
@@ -270,12 +270,12 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 		scrapQtyField.setValue(Env.ZERO);
 		rejectQty.setValue(Env.ZERO);
 		// 4Layers - end
-		pickcombo.addItem(new KeyNamePair(1, Msg.translate(Env.getCtx(),
-				"IsBackflush")));
-		pickcombo.addItem(new KeyNamePair(2, Msg.translate(Env.getCtx(),
-				"OnlyIssue")));
-		pickcombo.addItem(new KeyNamePair(3, Msg.translate(Env.getCtx(),
-				"OnlyReceipt")));
+		pickcombo.addItem(new KeyNamePair(1, Msg.parseTranslation(Env.getCtx(),
+				"@IsBackflush@")));
+		pickcombo.addItem(new KeyNamePair(2, Msg.parseTranslation(Env.getCtx(),
+				"@OnlyIssue@")));
+		pickcombo.addItem(new KeyNamePair(3, Msg.parseTranslation(Env.getCtx(),
+				"@OnlyReceiptProduct@")));
 		pickcombo.addActionListener(this);
 		Process.addActionListener(this);
 		toDeliverQty.addActionListener(this);
@@ -371,7 +371,7 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 		northPanel.add(deliveredQtyField, new GridBagConstraints(3, 3, 1, 1,
 				0.0, 0.0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyOpen"));
+		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyBackOrdered"));
 		northPanel.add(openQtyLabel, new GridBagConstraints(4, 3, 1, 1, 0.0,
 				0.0, GridBagConstraints.EAST, GridBagConstraints.NONE,
 				new Insets(5, 5, 5, 5), 0, 0));
@@ -450,7 +450,7 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 
 		ReceiptIssueOrder.add(northPanel, java.awt.BorderLayout.NORTH);
 		TabsReceiptsIssue.add(ReceiptIssueOrder,
-				Msg.translate(Env.getCtx(), "IsShipConfirm"));
+				Msg.parseTranslation(Env.getCtx(), "@IsShipConfirm@"));
 		TabsReceiptsIssue
 				.add(Generate, Msg.translate(Env.getCtx(), "Generate"));
 		Generate.setLayout(new BorderLayout());
@@ -496,14 +496,14 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 		if (e.getSource().equals(Process)) {
 			if (getMovementDate() == null) {
 				JOptionPane.showMessageDialog(null,
-						Msg.getMsg(Env.getCtx(), "NoDate"), "Info",
+						Msg.parseTranslation(Env.getCtx(), "@MovementDate@ @NotFound@"), "Info",
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 
 			if ((isOnlyReceipt() || isBackflush()) && getM_Locator_ID() <= 0) {
 				JOptionPane.showMessageDialog(null,
-						Msg.getMsg(Env.getCtx(), "NoLocator"), "Info",
+						Msg.parseTranslation(Env.getCtx(), "@M_Locator_ID@ @NotFound@ "), "Info",
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
@@ -878,7 +878,7 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 				// JOptionPane.showMessageDialog(null,
 				// Msg.getMsg(Env.getCtx(),"NoLocator"), "Info",
 				// JOptionPane.INFORMATION_MESSAGE);
-				showMessage(Msg.getMsg(Env.getCtx(), "NoLocator"), false);
+				showMessage(Msg.parseTranslation(Env.getCtx(), "@M_Locator_ID@ @NotFound@"), false);
 			}
 		}
 		if (getPP_Order() == null || getMovementDate() == null) {

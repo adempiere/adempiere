@@ -97,7 +97,7 @@ public abstract class Browser {
 				} else if (valueBigDecimal != null) {
 					values.put(columnName, valueBigDecimal);
 					continue;
-				}
+				} else values.put(columnName, valueString);
 			}
 
 		} catch (SQLException ex) {
@@ -299,11 +299,6 @@ public abstract class Browser {
 		}
 	}
 
-	public void setParameters(PreparedStatement pstmt, boolean forCount)
-			throws SQLException {
-		int index = 1;
-	}
-
 	public int getCount() {
 		long start = System.currentTimeMillis();
 		String dynWhere = getSQLWhere(true);
@@ -322,7 +317,6 @@ public abstract class Browser {
 			pstmt = DB.prepareStatement(countSql, null);
 			if (getParametersValues().size() > 0)
 				DB.setParameters(pstmt, getParametersValues());
-			setParameters(pstmt, true);
 			rs = pstmt.executeQuery();
 			if (rs.next())
 				no = rs.getInt(1);
@@ -777,7 +771,6 @@ public abstract class Browser {
 			stmt = DB.prepareStatement(sql, null);
 			if (getParametersValues().size() > 0)
 				DB.setParameters(stmt, getParametersValues());
-			setParameters(stmt, false); // no count
 			return stmt;
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql, e);

@@ -32,7 +32,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20150707L;
 
     /** Standard Constructor */
     public X_HR_Concept (Properties ctx, int HR_Concept_ID, String trxName)
@@ -217,6 +217,34 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Concept_Type)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Type.Table_Name)
+			.getPO(getHR_Concept_Type_ID(), get_TrxName());	}
+
+	/** Set Global Payroll Concept Type.
+		@param HR_Concept_Type_ID 
+		Allows define types for concepts
+	  */
+	public void setHR_Concept_Type_ID (int HR_Concept_Type_ID)
+	{
+		if (HR_Concept_Type_ID < 1) 
+			set_Value (COLUMNNAME_HR_Concept_Type_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Concept_Type_ID, Integer.valueOf(HR_Concept_Type_ID));
+	}
+
+	/** Get Global Payroll Concept Type.
+		@return Allows define types for concepts
+	  */
+	public int getHR_Concept_Type_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_Type_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -483,6 +511,30 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public boolean isSaveInHistoric () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSaveInHistoric);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set SO Tax exempt.
+		@param IsTaxExempt 
+		Business partner is exempt from tax on sales
+	  */
+	public void setIsTaxExempt (boolean IsTaxExempt)
+	{
+		set_Value (COLUMNNAME_IsTaxExempt, Boolean.valueOf(IsTaxExempt));
+	}
+
+	/** Get SO Tax exempt.
+		@return Business partner is exempt from tax on sales
+	  */
+	public boolean isTaxExempt () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsTaxExempt);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

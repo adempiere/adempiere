@@ -136,7 +136,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			BigDecimal qty,
 			BigDecimal scrap,
 			BigDecimal reject,
-			int durationSetup,
+			BigDecimal durationSetup,
 			BigDecimal duration
 		)
 	{
@@ -157,7 +157,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		cc.setMovementQty(qty);
 		cc.setScrappedQty(scrap);
 		cc.setQtyReject(reject);
-		cc.setSetupTimeReal(new BigDecimal(durationSetup));
+		cc.setSetupTimeReal(durationSetup);
 		cc.setDurationReal(duration);
 		cc.setPosted(false);
 		cc.setProcessed(false);
@@ -372,8 +372,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			activity.setQtyDelivered(activity.getQtyDelivered().add(getMovementQty()));
 			activity.setQtyScrap(activity.getQtyScrap().add(getScrappedQty()));
 			activity.setQtyReject(activity.getQtyReject().add(getQtyReject()));
-			activity.setDurationReal(activity.getDurationReal()+getDurationReal().intValueExact());
-			activity.setSetupTimeReal(activity.getSetupTimeReal()+getSetupTimeReal().intValueExact());
+			activity.setDurationReal(activity.getDurationReal().add(getDurationReal()));
+			activity.setSetupTimeReal(activity.getSetupTimeReal().add(getSetupTimeReal()));
 			activity.saveEx();
 
 			// report all activity previews to milestone activity
@@ -467,7 +467,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 						);
 			}	//	stock movement
 			
-			if (isIssue())				
+			if (isIssue() && !isVariance())
 			{
 				//	Update PP Order Line
 				MPPOrderBOMLine obomline = getPP_Order_BOMLine();
@@ -475,7 +475,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 				obomline.setQtyScrap(obomline.getQtyScrap().add(getScrappedQty()));
 				obomline.setQtyReject(obomline.getQtyReject().add(getQtyReject()));  
 				obomline.setDateDelivered(getMovementDate());	//	overwrite=last	
-				obomline.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
+
 				log.fine("OrderLine - Reserved=" + obomline.getQtyReserved() + ", Delivered=" + obomline.getQtyDelivered());				
 				obomline.saveEx();
 				log.fine("OrderLine -> Reserved="+obomline.getQtyReserved()+", Delivered="+obomline.getQtyDelivered());
@@ -550,8 +550,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			{
 				final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get()
 						.getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);
+
 				standardCostingMethod.createActivityControl(this);
-				
 				if(activity.getQtyDelivered().compareTo(activity.getQtyRequired()) >= 0)
 				{
 					activity.closeIt();
@@ -566,12 +566,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			MPPOrderBOMLine orderBOMLine = getPP_Order_BOMLine();
 			orderBOMLine.setQtyScrap(orderBOMLine.getQtyScrap().add(getScrappedQty()));
 			orderBOMLine.setQtyReject(orderBOMLine.getQtyReject().add(getQtyReject()));
-			//orderBOMLine.setDateDelivered(getMovementDate());	//	overwrite=last
-			orderBOMLine.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
 			log.fine("OrderLine - Reserved=" + orderBOMLine.getQtyReserved() + ", Delivered=" + orderBOMLine.getQtyDelivered());
 			orderBOMLine.saveEx();
 			log.fine("OrderLine -> Reserved=" + orderBOMLine.getQtyReserved() + ", Delivered=" + orderBOMLine.getQtyDelivered());
-			//CostEngineFactory.getCostEngine(getAD_Client_ID()).createCostDetail(null, this);
 			final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get()
 					.getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);
 			standardCostingMethod.createUsageVariances(this);
@@ -581,8 +578,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		else if (isCostCollectorType(COSTCOLLECTORTYPE_UsegeVariance) && getPP_Order_Node_ID() > 0)
 		{
 			MPPOrderNode activity = getPP_Order_Node();
-			activity.setDurationReal(activity.getDurationReal()+getDurationReal().intValueExact());
-			activity.setSetupTimeReal(activity.getSetupTimeReal()+getSetupTimeReal().intValueExact());
+			activity.setDurationReal(activity.getDurationReal().add(getDurationReal()));
+			activity.setSetupTimeReal(activity.getSetupTimeReal().add(getSetupTimeReal()));
 			activity.saveEx();
 			final StandardCostingMethod standardCostingMethod = (StandardCostingMethod) CostingMethodFactory.get()
 					.getCostingMethod(X_M_CostType.COSTINGMETHOD_StandardCosting);

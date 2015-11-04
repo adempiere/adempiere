@@ -157,6 +157,21 @@ public interface I_HR_Concept
 	  */
 	public int getHR_Concept_ID();
 
+    /** Column name HR_Concept_Type_ID */
+    public static final String COLUMNNAME_HR_Concept_Type_ID = "HR_Concept_Type_ID";
+
+	/** Set Global Payroll Concept Type.
+	  * Allows define types for concepts
+	  */
+	public void setHR_Concept_Type_ID (int HR_Concept_Type_ID);
+
+	/** Get Global Payroll Concept Type.
+	  * Allows define types for concepts
+	  */
+	public int getHR_Concept_Type_ID();
+
+	public org.eevolution.model.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException;
+
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
@@ -310,6 +325,19 @@ public interface I_HR_Concept
 
 	/** Get Save In Historic	  */
 	public boolean isSaveInHistoric();
+
+    /** Column name IsTaxExempt */
+    public static final String COLUMNNAME_IsTaxExempt = "IsTaxExempt";
+
+	/** Set SO Tax exempt.
+	  * Business partner is exempt from tax on sales
+	  */
+	public void setIsTaxExempt (boolean IsTaxExempt);
+
+	/** Get SO Tax exempt.
+	  * Business partner is exempt from tax on sales
+	  */
+	public boolean isTaxExempt();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
