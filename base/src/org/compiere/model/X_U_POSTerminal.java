@@ -30,7 +30,7 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_U_POSTerminal (Properties ctx, int U_POSTerminal_ID, String trxName)

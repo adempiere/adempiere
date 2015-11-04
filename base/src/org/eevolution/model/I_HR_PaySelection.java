@@ -78,6 +78,19 @@ public interface I_HR_PaySelection
 
 	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
+    /** Column name CreateFrom */
+    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
+
+	/** Set Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public void setCreateFrom (String CreateFrom);
+
+	/** Get Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public String getCreateFrom();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -93,19 +106,6 @@ public interface I_HR_PaySelection
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -128,6 +128,17 @@ public interface I_HR_PaySelection
 
 	/** Get Payroll Payment Selection ID	  */
 	public int getHR_PaySelection_ID();
+
+    /** Column name HR_Process_ID */
+    public static final String COLUMNNAME_HR_Process_ID = "HR_Process_ID";
+
+	/** Set Payroll Process	  */
+	public void setHR_Process_ID (int HR_Process_ID);
+
+	/** Get Payroll Process	  */
+	public int getHR_Process_ID();
+
+	public org.eevolution.model.I_HR_Process getHR_Process() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Remove View Product Costing" ReleaseNo="3.8.0" SeqNo="40">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53036" Table="AD_Process">
+        <Data AD_Column_ID="3371" Column="IsReport" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53060" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53060" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="116" Action="D" Record_ID="53060" Table="AD_Menu">
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="399" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID" isNewNull="true" oldValue="53060"/>
+        <Data AD_Column_ID="400" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true" oldValue="53036"/>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="232" Column="Action" isNewNull="true" oldValue="R"/>
+        <Data AD_Column_ID="599" Column="Created" isNewNull="true" oldValue="2007-12-17 08:52:14.0"/>
+        <Data AD_Column_ID="600" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="230" Column="Description" isNewNull="true" oldValue="This report show the inventory in process"/>
+        <Data AD_Column_ID="7721" Column="EntityType" isNewNull="true" oldValue="EE01"/>
+        <Data AD_Column_ID="598" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="6651" Column="IsReadOnly" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="4426" Column="IsSOTrx" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="1169" Column="IsSummary" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="229" Column="Name" isNewNull="true" oldValue="Inventory in Process"/>
+        <Data AD_Column_ID="601" Column="Updated" isNewNull="true" oldValue="2015-01-31 08:44:03.0"/>
+        <Data AD_Column_ID="602" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53036" Table="AD_Process">
+        <Data AD_Column_ID="3371" Column="IsReport" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="284" Action="D" Record_ID="53036" Table="AD_Process">
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID" isNewNull="true" oldValue="53036"/>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true" oldValue="53003"/>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="5790" Column="AccessLevel" isNewNull="true" oldValue="3"/>
+        <Data AD_Column_ID="4656" Column="Classname" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2805" Column="Created" isNewNull="true" oldValue="2007-12-17 06:14:46.0"/>
+        <Data AD_Column_ID="2806" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2810" Column="Description" isNewNull="true" oldValue="This report show the inventory in process"/>
+        <Data AD_Column_ID="6485" Column="EntityType" isNewNull="true" oldValue="EE01"/>
+        <Data AD_Column_ID="2811" Column="Help" isNewNull="true" oldValue="This report show the inventory in process"/>
+        <Data AD_Column_ID="2804" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="3371" Column="IsReport" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="14084" Column="IsServerProcess" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2809" Column="Name" isNewNull="true" oldValue="Inventory in Process"/>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="50181" Column="ShowHelp" isNewNull="true" oldValue="Y"/>
+        <Data AD_Column_ID="6652" Column="Statistic_Count" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="2807" Column="Updated" isNewNull="true" oldValue="2015-01-31 08:44:33.0"/>
+        <Data AD_Column_ID="2808" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="4023" Column="Value" isNewNull="true" oldValue="RV_PP_Inventory in Process"/>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="361" Action="D" Record_ID="53003" Table="AD_ReportView">
+        <Data AD_Column_ID="4385" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4386" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4384" Column="AD_ReportView_ID" isNewNull="true" oldValue="53003"/>
+        <Data AD_Column_ID="4394" Column="AD_Table_ID" isNewNull="true" oldValue="53033"/>
+        <Data AD_Column_ID="4388" Column="Created" isNewNull="true" oldValue="2007-12-17 06:14:42.0"/>
+        <Data AD_Column_ID="4389" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4393" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="10032" Column="EntityType" isNewNull="true" oldValue="EE01"/>
+        <Data AD_Column_ID="4387" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="4392" Column="Name" isNewNull="true" oldValue="RV_PP_Inventory in Process"/>
+        <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="4390" Column="Updated" isNewNull="true" oldValue="2007-12-17 06:14:42.0"/>
+        <Data AD_Column_ID="4391" Column="UpdatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="4395" Column="WhereClause" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="100" Action="D" Record_ID="53033" Table="AD_Table">
+        <Data AD_Column_ID="65574" Column="ACTriggerLength" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="355" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="356" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="100" Column="AD_Table_ID" isNewNull="true" oldValue="53033"/>
+        <Data AD_Column_ID="106" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="105" Column="AD_Window_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="354" Column="AccessLevel" isNewNull="true" oldValue="3"/>
+        <Data AD_Column_ID="50183" Column="CopyColumnsFromTable" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="544" Column="Created" isNewNull="true" oldValue="2007-12-17 06:14:42.0"/>
+        <Data AD_Column_ID="545" Column="CreatedBy" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="103" Column="Description" isNewNull="true" oldValue="View Product Costing"/>
+        <Data AD_Column_ID="6488" Column="EntityType" isNewNull="true" oldValue="EE01"/>
+        <Data AD_Column_ID="104" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="6489" Column="ImportTable" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="543" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="59135" Column="IsCentrallyMaintained" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="8564" Column="IsChangeLog" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="727" Column="IsDeleteable" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="4196" Column="IsHighVolume" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="726" Column="IsSecurityEnabled" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="6125" Column="IsView" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="108" Column="LoadSeq" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="102" Column="Name" isNewNull="true" oldValue="View Product Costing"/>
+        <Data AD_Column_ID="9342" Column="PO_Window_ID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="9341" Column="ReplicationType" isNewNull="true" oldValue="L"/>
+        <Data AD_Column_ID="107" Column="TableName" isNewNull="true" oldValue="RV_PP_WIP"/>
+        <Data AD_Column_ID="546" Column="Updated" isNewNull="true" oldValue="2010-05-15 18:17:43.0"/>
+        <Data AD_Column_ID="547" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

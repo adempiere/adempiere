@@ -32,7 +32,7 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_M_Product_PO (Properties ctx, int M_Product_PO_ID, String trxName)
@@ -41,7 +41,7 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
       /** if (M_Product_PO_ID == 0)
         {
 			setC_BPartner_ID (0);
-// 0
+// -1
 			setIsCurrentVendor (true);
 // Y
 			setM_Product_ID (0);
@@ -262,6 +262,23 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	public Timestamp getDiscontinuedAt () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DiscontinuedAt);
+	}
+
+	/** Set Discontinued by.
+		@param DiscontinuedBy 
+		Discontinued By
+	  */
+	public void setDiscontinuedBy (Timestamp DiscontinuedBy)
+	{
+		set_Value (COLUMNNAME_DiscontinuedBy, DiscontinuedBy);
+	}
+
+	/** Get Discontinued by.
+		@return Discontinued By
+	  */
+	public Timestamp getDiscontinuedBy () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DiscontinuedBy);
 	}
 
 	/** Set Current vendor.

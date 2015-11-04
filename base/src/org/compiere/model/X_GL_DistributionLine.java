@@ -32,7 +32,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_GL_DistributionLine (Properties ctx, int GL_DistributionLine_ID, String trxName)

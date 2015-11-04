@@ -31,7 +31,7 @@ public class X_C_TaxGroup extends PO implements I_C_TaxGroup, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_TaxGroup (Properties ctx, int C_TaxGroup_ID, String trxName)

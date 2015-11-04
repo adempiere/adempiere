@@ -20,7 +20,7 @@
         <Data AD_Column_ID="50196" Column="Value">I</Data>
       </PO>
     </Step>
-    <Step DBType="Postgres" SeqNo="20" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
       <Comments>Add m_warehouse_id to rv_cost.</Comments>
       <SQLStatement>-- View: adempiere.rv_cost
 
@@ -51,7 +51,7 @@ ALTER TABLE adempiere.rv_cost
   OWNER TO adempiere;
 </RollbackStatement>
     </Step>
-    <Step DBType="Oracle" SeqNo="25" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="25" StepType="SQL">
       <Comments>Add m_warehouse_id to rv_cost.</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW RV_COST
 AS SELECT 	c.AD_Client_ID, c.AD_Org_ID, c.IsActive, c.Created,c.CreatedBy,c.Updated,c.UpdatedBy,
@@ -78,7 +78,7 @@ FROM M_Cost c
   INNER JOIN M_CostElement ce ON (c.M_CostElement_ID=ce.M_CostElement_ID)
   INNER JOIN C_AcctSchema acct ON (c.C_AcctSchema_ID=acct.C_AcctSchema_ID);</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" SeqNo="30" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="30" StepType="SQL">
       <Comments>Add m_warehouse_id to rv_costsummary.</Comments>
       <SQLStatement>-- View: adempiere.rv_costsummary
 
@@ -111,7 +111,7 @@ ALTER TABLE adempiere.rv_costsummary
   OWNER TO adempiere;
 </RollbackStatement>
     </Step>
-    <Step DBType="Oracle" SeqNo="35" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="35" StepType="SQL">
       <Comments>Add m_warehouse_id to rv_costsummary.</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW RV_COSTSUMMARY
 AS SELECT 	c.AD_Client_ID, c.AD_Org_ID, c.IsActive, 0 AS CreatedBy,SysDate AS Created,0 AS UpdatedBy,SysDate AS Updated,

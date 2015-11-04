@@ -33,7 +33,7 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_InvoiceBatchLine (Properties ctx, int C_InvoiceBatchLine_ID, String trxName)

@@ -244,15 +244,6 @@ public interface I_HR_Employee
 
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
 
-    /** Column name HR_Employee_ID */
-    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
-
-	/** Set Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID);
-
-	/** Get Payroll Employee	  */
-	public int getHR_Employee_ID();
-
     /** Column name HR_EmployeeType_ID */
     public static final String COLUMNNAME_HR_EmployeeType_ID = "HR_EmployeeType_ID";
 
@@ -267,6 +258,15 @@ public interface I_HR_Employee
 	public int getHR_EmployeeType_ID();
 
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
+
+    /** Column name HR_Employee_ID */
+    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
+
+	/** Set Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID);
+
+	/** Get Payroll Employee	  */
+	public int getHR_Employee_ID();
 
     /** Column name HR_Job_ID */
     public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";

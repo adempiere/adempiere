@@ -712,21 +712,31 @@ public class MJournal extends X_GL_Journal implements DocAction
 		reverse.setDateDoc(getDateDoc());
 		reverse.setC_Period_ID(getC_Period_ID());
 		reverse.setDateAcct(getDateAcct());
+		reverse.setControlAmt(getControlAmt().negate());
 		//	Reverse indicator
 		reverse.addDescription("(->" + getDocumentNo() + ")");
 		//FR [ 1948157  ] 
 		reverse.setReversal_ID(getGL_Journal_ID());
-		if (!reverse.save())
-			return null;
+		reverse.saveEx();
+
 		addDescription("(" + reverse.getDocumentNo() + "<-)");
-		
 		//	Lines
 		reverse.copyLinesFrom(this, null, 'C');
+		for (MJournalLine journalLine : reverse.getLines(true))
+		{
+			journalLine.setProcessed(true);
+			journalLine.saveEx();
+		}
+		reverse.setProcessed(true);
+		reverse.setDocAction(DOCACTION_None);
+		reverse.setDocStatus(DOCSTATUS_Reversed);
+		reverse.saveEx();
 		//
 		setProcessed(true);
 		//FR [ 1948157  ] 
 		setReversal_ID(reverse.getGL_Journal_ID());
 		setDocAction(DOCACTION_None);
+		setDocStatus(DOCSTATUS_Reversed);
 		return reverse;
 	}	//	reverseCorrectionIt
 	

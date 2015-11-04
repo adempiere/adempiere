@@ -31,7 +31,7 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_JobAssignment (Properties ctx, int C_JobAssignment_ID, String trxName)

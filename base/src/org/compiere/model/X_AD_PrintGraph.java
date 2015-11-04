@@ -30,7 +30,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_PrintGraph (Properties ctx, int AD_PrintGraph_ID, String trxName)
@@ -39,7 +39,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
       /** if (AD_PrintGraph_ID == 0)
         {
 			setAD_PrintFormat_ID (0);
-// 0
+// -1
 			setAD_PrintGraph_ID (0);
 			setData_PrintFormatItem_ID (0);
 			setDescription_PrintFormatItem_ID (0);

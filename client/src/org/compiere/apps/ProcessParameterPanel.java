@@ -28,8 +28,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
+
 import javax.swing.Box;
 import javax.swing.JLabel;
+import javax.swing.ScrollPaneLayout;
+
 import org.adempiere.exceptions.DBException;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
@@ -40,6 +43,7 @@ import org.compiere.model.MLookup;
 import org.compiere.model.MPInstancePara;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -114,6 +118,8 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 		//
 		private BorderLayout mainLayout = new BorderLayout();
 		private CPanel centerPanel = new CPanel();
+		private CScrollPane centerScroll = new CScrollPane();
+		private ScrollPaneLayout scrollPaneLayout = new ScrollPaneLayout();
 		private GridBagLayout centerLayout = new GridBagLayout();
 
 		/**
@@ -125,7 +131,9 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			setMode(MODE_VERTICAL);
 			this.setLayout(mainLayout);
 			centerPanel.setLayout(centerLayout);
-			this.add(centerPanel, BorderLayout.CENTER);
+			centerScroll.getViewport().add(centerPanel);
+			//centerScroll.add(centerPanel);
+			this.add(centerScroll, BorderLayout.CENTER);
 		}	//	jbInit
 
 		/**

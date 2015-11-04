@@ -97,7 +97,7 @@ public abstract class Browser {
 				} else if (valueBigDecimal != null) {
 					values.put(columnName, valueBigDecimal);
 					continue;
-				}
+				} else values.put(columnName, valueString);
 			}
 
 		} catch (SQLException ex) {
@@ -299,11 +299,6 @@ public abstract class Browser {
 		}
 	}
 
-	public void setParameters(PreparedStatement pstmt, boolean forCount)
-			throws SQLException {
-		int index = 1;
-	}
-
 	public int getCount() {
 		long start = System.currentTimeMillis();
 		String dynWhere = getSQLWhere(true);
@@ -322,7 +317,6 @@ public abstract class Browser {
 			pstmt = DB.prepareStatement(countSql, null);
 			if (getParametersValues().size() > 0)
 				DB.setParameters(pstmt, getParametersValues());
-			setParameters(pstmt, true);
 			rs = pstmt.executeQuery();
 			if (rs.next())
 				no = rs.getInt(1);
@@ -500,7 +494,7 @@ public abstract class Browser {
 					.append(fieldKey.getAD_View_Column().getAD_Column()
 							.getColumnName()).append("=")
 					.append(fieldKey.getAD_View_Column().getColumnSQL())
-					.append(getAxisSQLWhere(pcol, true))
+					.append(getAxisSQLWhere(ycol))
 					.append(" AND ")
 					.append(xTableName).append(".")
 					.append(xcol.getAD_Column().getColumnName());
@@ -642,7 +636,7 @@ public abstract class Browser {
 	 
 	 abstract public String  getSQLWhere(boolean refresh);
 	 
-	 public String getAxisSQLWhere(I_AD_View_Column viewColumn, boolean refresh)
+	 public String getAxisSQLWhere(I_AD_View_Column viewColumn)
 	 {
 		 MViewDefinition viewDefinition = (MViewDefinition) viewColumn.getAD_View_Definition();
 		 MTable tableBaseName = (MTable) viewDefinition.getAD_Table();
@@ -651,12 +645,13 @@ public abstract class Browser {
 		 setParameters();
 		 
 			for (int i = 0; i < m_parameters_field.size(); i++) {
-				
-				if (!m_parameters_field.get(i).Help.contains(viewDefinition.getTableAlias() + "."))
-					continue;
-				
-				String fieldName = m_parameters_field.get(i).Help.replace(viewDefinition.getTableAlias() + "." ,tableBaseName.getTableName() + ".");
-				
+                String fieldName = "";
+                MColumn  column = tableBaseName.getColumn(m_parameters_field.get(i).ColumnName);
+                if (column != null)
+                    fieldName = tableBaseName.getTableName() + "." + column.getColumnName();
+                else
+                    continue;
+
 				if (!onRange) {
 
 					if (m_parameters_values.get(i) != null
@@ -776,7 +771,6 @@ public abstract class Browser {
 			stmt = DB.prepareStatement(sql, null);
 			if (getParametersValues().size() > 0)
 				DB.setParameters(stmt, getParametersValues());
-			setParameters(stmt, false); // no count
 			return stmt;
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql, e);

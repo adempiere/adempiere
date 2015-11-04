@@ -30,7 +30,7 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_R_Group (Properties ctx, int R_Group_ID, String trxName)
@@ -103,6 +103,34 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	public org.compiere.model.I_M_BOM getM_BOM() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_BOM)MTable.get(getCtx(), org.compiere.model.I_M_BOM.Table_Name)
+			.getPO(getM_BOM_ID(), get_TrxName());	}
+
+	/** Set BOM.
+		@param M_BOM_ID 
+		Bill of Material
+	  */
+	public void setM_BOM_ID (int M_BOM_ID)
+	{
+		if (M_BOM_ID < 1) 
+			set_Value (COLUMNNAME_M_BOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
+	}
+
+	/** Get BOM.
+		@return Bill of Material
+	  */
+	public int getM_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException

@@ -32,7 +32,7 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_M_AttributeInstance (Properties ctx, int M_AttributeInstance_ID, String trxName)

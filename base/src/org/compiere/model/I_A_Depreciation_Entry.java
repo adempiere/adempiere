@@ -234,6 +234,21 @@ public interface I_A_Depreciation_Entry
 	  */
 	public String getDocumentNo();
 
+    /** Column name GL_Category_ID */
+    public static final String COLUMNNAME_GL_Category_ID = "GL_Category_ID";
+
+	/** Set GL Category.
+	  * General Ledger Category
+	  */
+	public void setGL_Category_ID (int GL_Category_ID);
+
+	/** Get GL Category.
+	  * General Ledger Category
+	  */
+	public int getGL_Category_ID();
+
+	public org.compiere.model.I_GL_Category getGL_Category() throws RuntimeException;
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 

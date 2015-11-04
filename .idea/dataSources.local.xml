@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - adempiere@localhost" uuid="8483ad34-1a4b-461b-961b-16939f8ccda7">
+      <secret-storage>master_key</secret-storage>
+      <user-name>adempiere</user-name>
+      <schema-pattern>adempiere.adempiere adempiere.pg_catalog adempiere.public</schema-pattern>
+      <default-schemas>adempiere.adempiere adempiere.pg_catalog adempiere.public</default-schemas>
+    </data-source>
+  </component>
+</project>

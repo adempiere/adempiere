@@ -31,7 +31,7 @@ public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_PP_ForecastRun (Properties ctx, int PP_ForecastRun_ID, String trxName)
@@ -121,34 +121,6 @@ public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persiste
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
-			.getPO(getM_Warehouse_ID(), get_TrxName());	}
-
-	/** Set Warehouse.
-		@param M_Warehouse_ID 
-		Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID)
-	{
-		if (M_Warehouse_ID < 1) 
-			set_Value (COLUMNNAME_M_Warehouse_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
-	}
-
-	/** Get Warehouse.
-		@return Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
@@ -177,21 +149,29 @@ public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Periods of History.
-		@param PeriodHistory 
-		Number Period of History
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
+
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
 	  */
-	public void setPeriodHistory (int PeriodHistory)
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		set_Value (COLUMNNAME_PeriodHistory, Integer.valueOf(PeriodHistory));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
-	/** Get Periods of History.
-		@return Number Period of History
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
 	  */
-	public int getPeriodHistory () 
+	public int getM_Warehouse_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodHistory);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -306,7 +286,7 @@ public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persiste
 		return (org.eevolution.model.I_PP_PeriodDefinition)MTable.get(getCtx(), org.eevolution.model.I_PP_PeriodDefinition.Table_Name)
 			.getPO(getPP_PeriodDefinition_ID(), get_TrxName());	}
 
-	/** Set Period Definition.
+	/** Set Current Period.
 		@param PP_PeriodDefinition_ID 
 		Period Definition, allows to define time cycles for the Operational Calendar
 	  */
@@ -318,12 +298,32 @@ public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persiste
 			set_Value (COLUMNNAME_PP_PeriodDefinition_ID, Integer.valueOf(PP_PeriodDefinition_ID));
 	}
 
-	/** Get Period Definition.
+	/** Get Current Period.
 		@return Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public int getPP_PeriodDefinition_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_PeriodDefinition_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Periods of History.
+		@param PeriodHistory 
+		Number Period of History
+	  */
+	public void setPeriodHistory (int PeriodHistory)
+	{
+		set_Value (COLUMNNAME_PeriodHistory, Integer.valueOf(PeriodHistory));
+	}
+
+	/** Get Periods of History.
+		@return Number Period of History
+	  */
+	public int getPeriodHistory () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodHistory);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -379,7 +379,7 @@ public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persiste
 		return (org.eevolution.model.I_PP_PeriodDefinition)MTable.get(getCtx(), org.eevolution.model.I_PP_PeriodDefinition.Table_Name)
 			.getPO(getRef_DefinitionPeriod_ID(), get_TrxName());	}
 
-	/** Set Period Definition.
+	/** Set Past Period Definition.
 		@param Ref_DefinitionPeriod_ID 
 		Period Definition, allows to define time cycles for the Operational Calendar
 	  */
@@ -391,7 +391,7 @@ public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persiste
 			set_Value (COLUMNNAME_Ref_DefinitionPeriod_ID, Integer.valueOf(Ref_DefinitionPeriod_ID));
 	}
 
-	/** Get Period Definition.
+	/** Get Past Period Definition.
 		@return Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public int getRef_DefinitionPeriod_ID () 

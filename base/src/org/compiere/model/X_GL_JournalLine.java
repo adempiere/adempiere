@@ -33,7 +33,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_GL_JournalLine (Properties ctx, int GL_JournalLine_ID, String trxName)
@@ -959,6 +959,52 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	public int getUser2_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 1.
+		@param UserElement1_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID)
+	{
+		if (UserElement1_ID < 1) 
+			set_Value (COLUMNNAME_UserElement1_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
+	}
+
+	/** Get User Element 1.
+		@return User defined accounting Element
+	  */
+	public int getUserElement1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 2.
+		@param UserElement2_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID)
+	{
+		if (UserElement2_ID < 1) 
+			set_Value (COLUMNNAME_UserElement2_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
+	}
+
+	/** Get User Element 2.
+		@return User defined accounting Element
+	  */
+	public int getUserElement2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

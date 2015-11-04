@@ -32,7 +32,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_A_Asset (Properties ctx, int A_Asset_ID, String trxName)
@@ -853,6 +853,37 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Last Maintenance Use Unit.
+		@param LastMaintenanceUseUnit Last Maintenance Use Unit	  */
+	public void setLastMaintenanceUseUnit (int LastMaintenanceUseUnit)
+	{
+		set_Value (COLUMNNAME_LastMaintenanceUseUnit, Integer.valueOf(LastMaintenanceUseUnit));
+	}
+
+	/** Get Last Maintenance Use Unit.
+		@return Last Maintenance Use Unit	  */
+	public int getLastMaintenanceUseUnit () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_LastMaintenanceUseUnit);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Last Maintenence Date.
+		@param LastMaintenenceDate Last Maintenence Date	  */
+	public void setLastMaintenenceDate (Timestamp LastMaintenenceDate)
+	{
+		set_Value (COLUMNNAME_LastMaintenenceDate, LastMaintenenceDate);
+	}
+
+	/** Get Last Maintenence Date.
+		@return Last Maintenence Date	  */
+	public Timestamp getLastMaintenenceDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_LastMaintenenceDate);
+	}
+
 	/** Set Lease Termination.
 		@param LeaseTerminationDate 
 		Lease Termination Date
@@ -1113,6 +1144,23 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Next Maintenance Use Unit.
+		@param NextMaintenanceUseUnit Next Maintenance Use Unit	  */
+	public void setNextMaintenanceUseUnit (int NextMaintenanceUseUnit)
+	{
+		set_Value (COLUMNNAME_NextMaintenanceUseUnit, Integer.valueOf(NextMaintenanceUseUnit));
+	}
+
+	/** Get Next Maintenance Use Unit.
+		@return Next Maintenance Use Unit	  */
+	public int getNextMaintenanceUseUnit () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_NextMaintenanceUseUnit);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Next Maintenence.

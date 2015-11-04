@@ -31,7 +31,7 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_Browse_Field (Properties ctx, int AD_Browse_Field_ID, String trxName)
@@ -775,6 +775,23 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
+	}
+
 	/** Set Max. Value.
 		@param ValueMax 
 		Maximum Value for a field
@@ -807,22 +824,5 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	public String getValueMin () 
 	{
 		return (String)get_Value(COLUMNNAME_ValueMin);
-	}
-
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }

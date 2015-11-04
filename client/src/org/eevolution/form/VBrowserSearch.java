@@ -152,6 +152,9 @@ public class VBrowserSearch extends CPanel implements
 		//  Set Default
 		Object defaultObject = gField.getDefault();
 		gField.setValue (defaultObject, true);
+		if (defaultObject != null)
+			processNewValue(defaultObject, gField.getVO().Help);
+
 		gField.lookupLoadComplete();
 		m_mFields.add(gField);
 
@@ -257,7 +260,7 @@ public class VBrowserSearch extends CPanel implements
 	 */
 	private void processDependencies (GridField changedField)
 	{
-		String columnName = changedField.getVO().Help;;
+		String columnName = changedField.getVO().Help;
 
 		for (GridField field : m_mFields) {
 			if (field == null || field == changedField)

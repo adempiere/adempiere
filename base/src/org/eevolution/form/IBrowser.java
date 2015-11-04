@@ -40,8 +40,6 @@ public interface IBrowser {
 
     public void addSQLWhere(StringBuffer sql, int index, String value);
 
-    public void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException;
-
     public int getCount();
 
     public abstract ArrayList<Integer> getSelectedRowKeys();
@@ -75,7 +73,7 @@ public interface IBrowser {
 
     public String  getSQLWhere(boolean refresh);
 
-    public String getAxisSQLWhere(I_AD_View_Column viewColumn, boolean refresh);
+    public String getAxisSQLWhere(I_AD_View_Column viewColumn);
 
     public String getSQLOrderBy();
 

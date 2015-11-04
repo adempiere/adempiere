@@ -20,12 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_C_BPartner;
 import org.compiere.model.MBPartner;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
 import org.eevolution.model.I_HR_Movement;
+import org.eevolution.model.MHREmployee;
 import org.eevolution.model.MHRMovement;
 import org.eevolution.model.MHRPaySelection;
 import org.eevolution.model.MHRPaySelectionLine;
@@ -109,6 +112,9 @@ public class HRPaySelectionCreateFrom extends SvrProcess
 			+ ", Job=" + p_HR_Job_ID);
 		
 		MHRPaySelection psel = new MHRPaySelection (getCtx(), p_HR_PaySelection_ID, get_TrxName());
+		psel.setHR_Process_ID(p_HR_Process_ID);
+		psel.saveEx();
+		
 		MHRProcess process = new MHRProcess(getCtx(),p_HR_Process_ID,get_TrxName());
 		MHRPayroll payroll = new MHRPayroll(getCtx(),process.getHR_Payroll_ID(),get_TrxName()); 
 		
@@ -166,29 +172,33 @@ public class HRPaySelectionCreateFrom extends SvrProcess
 		.setParameters(parameters)
 		.list();
 		
-		for(MHRMovement m : movements)
+		for(MHRMovement movement : movements)
 		{
-			MBPartner bp = new MBPartner(getCtx(),m.getC_BPartner_ID(),get_TrxName());
-			String PaymentRule = "";
-			if(bp.getPaymentRulePO() != null)
-			{
-				PaymentRule = bp.getPaymentRule();
-			}
-			else
-			{
-				PaymentRule = payroll.getPaymentRule();
-			}
-			if(PaymentRule == null)
-				PaymentRule = "D";
-			
+			MBPartner bp = new MBPartner(getCtx(),movement.getC_BPartner_ID(),get_TrxName());
+			String paymentRule = null;
+            MHREmployee employee = MHREmployee.getActiveEmployee(bp.getCtx(), bp.getC_BPartner_ID(), movement.get_TrxName());
+
+			if (employee != null)
+				paymentRule = employee.getPaymentRule();
+
+            if (paymentRule == null) {
+                if (bp.getPaymentRule() != null)
+                    paymentRule = bp.getPaymentRule();
+                else
+                    paymentRule = payroll.getPaymentRule();
+            }
+
+			if(paymentRule == null)
+				paymentRule = "T";
+
 			MHRPaySelectionLine psl = new MHRPaySelectionLine(getCtx(),0,get_TrxName());
 			psl.setHR_PaySelection_ID(p_HR_PaySelection_ID);
-			psl.setHR_Movement_ID(m.getHR_Movement_ID());
-			psl.setPaymentRule(PaymentRule);
+			psl.setHR_Movement_ID(movement.getHR_Movement_ID());
+			psl.setPaymentRule(paymentRule);
 			psl.setAD_Org_ID(psel.getAD_Org_ID());
 			psl.setLine((lines+1)*10);
-			psl.setOpenAmt(m.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
-			psl.setPayAmt(m.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+			psl.setOpenAmt(movement.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+			psl.setPayAmt(movement.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
 			psl.setDescription(bp.getName() +" "+ bp.getName2());
 			psl.setDifferenceAmt(Env.ZERO);
 			psl.setDiscountAmt(Env.ZERO);

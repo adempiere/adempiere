@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add comments for the find window advanced combo box" ReleaseNo="3.8.0" SeqNo="61">
+    <Comments>Add comment and tool tip to the combo box in the advanced find window.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53301" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53301</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2015-02-09 17:49:55.801</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2015-02-09 17:49:55.801</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">SelectOrEnterQueryName</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Select or enter a name</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53302" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53302</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="589" Column="Created">2015-02-09 17:53:27.353</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Select a saved query from the list or type a name to save the current query.  Select ** New Query ** to start a new query.  ** Last Query ** will display the last advanced query run.</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="591" Column="Updated">2015-02-09 17:53:27.353</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6766" Column="Value">SelectOrEnterQueryNameToolTip</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

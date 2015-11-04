@@ -34,7 +34,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150928L;
 
     /** Standard Constructor */
     public X_PP_Order_Node (Properties ctx, int PP_Order_Node_ID, String trxName)
@@ -42,10 +42,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
       super (ctx, PP_Order_Node_ID, trxName);
       /** if (PP_Order_Node_ID == 0)
         {
-			setAction (null);
-// Z
 			setAD_WF_Node_ID (0);
 			setAD_Workflow_ID (0);
+			setAction (null);
+// Z
 			setCost (Env.ZERO);
 			setEntityType (null);
 // U
@@ -95,54 +95,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Action AD_Reference_ID=302 */
-	public static final int ACTION_AD_Reference_ID=302;
-	/** Wait (Sleep) = Z */
-	public static final String ACTION_WaitSleep = "Z";
-	/** User Choice = C */
-	public static final String ACTION_UserChoice = "C";
-	/** Sub Workflow = F */
-	public static final String ACTION_SubWorkflow = "F";
-	/** Set Variable = V */
-	public static final String ACTION_SetVariable = "V";
-	/** User Window = W */
-	public static final String ACTION_UserWindow = "W";
-	/** User Form = X */
-	public static final String ACTION_UserForm = "X";
-	/** Apps Task = T */
-	public static final String ACTION_AppsTask = "T";
-	/** Apps Report = R */
-	public static final String ACTION_AppsReport = "R";
-	/** Apps Process = P */
-	public static final String ACTION_AppsProcess = "P";
-	/** Document Action = D */
-	public static final String ACTION_DocumentAction = "D";
-	/** EMail = M */
-	public static final String ACTION_EMail = "M";
-	/** User Workbench = B */
-	public static final String ACTION_UserWorkbench = "B";
-	/** Smart View = Q */
-	public static final String ACTION_SmartView = "Q";
-	/** Smart Browse = S */
-	public static final String ACTION_SmartBrowse = "S";
-	/** Set Action.
-		@param Action 
-		Indicates the Action to be performed
-	  */
-	public void setAction (String Action)
-	{
-
-		set_Value (COLUMNNAME_Action, Action);
-	}
-
-	/** Get Action.
-		@return Indicates the Action to be performed
-	  */
-	public String getAction () 
-	{
-		return (String)get_Value(COLUMNNAME_Action);
-	}
 
 	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
@@ -422,6 +374,54 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Action AD_Reference_ID=302 */
+	public static final int ACTION_AD_Reference_ID=302;
+	/** Wait (Sleep) = Z */
+	public static final String ACTION_WaitSleep = "Z";
+	/** User Choice = C */
+	public static final String ACTION_UserChoice = "C";
+	/** Sub Workflow = F */
+	public static final String ACTION_SubWorkflow = "F";
+	/** Set Variable = V */
+	public static final String ACTION_SetVariable = "V";
+	/** User Window = W */
+	public static final String ACTION_UserWindow = "W";
+	/** User Form = X */
+	public static final String ACTION_UserForm = "X";
+	/** Apps Task = T */
+	public static final String ACTION_AppsTask = "T";
+	/** Apps Report = R */
+	public static final String ACTION_AppsReport = "R";
+	/** Apps Process = P */
+	public static final String ACTION_AppsProcess = "P";
+	/** Document Action = D */
+	public static final String ACTION_DocumentAction = "D";
+	/** EMail = M */
+	public static final String ACTION_EMail = "M";
+	/** User Workbench = B */
+	public static final String ACTION_UserWorkbench = "B";
+	/** Smart View = Q */
+	public static final String ACTION_SmartView = "Q";
+	/** Smart Browse = S */
+	public static final String ACTION_SmartBrowse = "S";
+	/** Set Action.
+		@param Action 
+		Indicates the Action to be performed
+	  */
+	public void setAction (String Action)
+	{
+
+		set_Value (COLUMNNAME_Action, Action);
+	}
+
+	/** Get Action.
+		@return Indicates the Action to be performed
+	  */
+	public String getAction () 
+	{
+		return (String)get_Value(COLUMNNAME_Action);
 	}
 
 	/** Set Attribute Name.
@@ -705,36 +705,36 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 
 	/** Set Duration Real.
 		@param DurationReal Duration Real	  */
-	public void setDurationReal (int DurationReal)
+	public void setDurationReal (BigDecimal DurationReal)
 	{
-		set_Value (COLUMNNAME_DurationReal, Integer.valueOf(DurationReal));
+		set_Value (COLUMNNAME_DurationReal, DurationReal);
 	}
 
 	/** Get Duration Real.
 		@return Duration Real	  */
-	public int getDurationReal () 
+	public BigDecimal getDurationReal () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DurationReal);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DurationReal);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Duration Required.
 		@param DurationRequired Duration Required	  */
-	public void setDurationRequired (int DurationRequired)
+	public void setDurationRequired (BigDecimal DurationRequired)
 	{
-		set_Value (COLUMNNAME_DurationRequired, Integer.valueOf(DurationRequired));
+		set_Value (COLUMNNAME_DurationRequired, DurationRequired);
 	}
 
 	/** Get Duration Required.
 		@return Duration Required	  */
-	public int getDurationRequired () 
+	public BigDecimal getDurationRequired () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DurationRequired);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DurationRequired);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** EntityType AD_Reference_ID=389 */
@@ -1160,84 +1160,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Setup Time.
-		@param SetupTime 
-		Setup time before starting Production
-	  */
-	public void setSetupTime (int SetupTime)
-	{
-		set_Value (COLUMNNAME_SetupTime, Integer.valueOf(SetupTime));
-	}
-
-	/** Get Setup Time.
-		@return Setup time before starting Production
-	  */
-	public int getSetupTime () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTime);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Setup Time Real.
-		@param SetupTimeReal Setup Time Real	  */
-	public void setSetupTimeReal (int SetupTimeReal)
-	{
-		set_Value (COLUMNNAME_SetupTimeReal, Integer.valueOf(SetupTimeReal));
-	}
-
-	/** Get Setup Time Real.
-		@return Setup Time Real	  */
-	public int getSetupTimeReal () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTimeReal);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Setup Time Required.
-		@param SetupTimeRequired Setup Time Required	  */
-	public void setSetupTimeRequired (int SetupTimeRequired)
-	{
-		set_Value (COLUMNNAME_SetupTimeRequired, Integer.valueOf(SetupTimeRequired));
-	}
-
-	/** Get Setup Time Required.
-		@return Setup Time Required	  */
-	public int getSetupTimeRequired () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTimeRequired);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** SplitElement AD_Reference_ID=301 */
-	public static final int SPLITELEMENT_AD_Reference_ID=301;
-	/** AND = A */
-	public static final String SPLITELEMENT_AND = "A";
-	/** XOR = X */
-	public static final String SPLITELEMENT_XOR = "X";
-	/** Set Split Element.
-		@param SplitElement 
-		Semantics for multiple outgoing Transitions
-	  */
-	public void setSplitElement (String SplitElement)
-	{
-
-		set_Value (COLUMNNAME_SplitElement, SplitElement);
-	}
-
-	/** Get Split Element.
-		@return Semantics for multiple outgoing Transitions
-	  */
-	public String getSplitElement () 
-	{
-		return (String)get_Value(COLUMNNAME_SplitElement);
-	}
-
 	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
     {
 		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
@@ -1264,6 +1186,84 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Setup Time.
+		@param SetupTime 
+		Setup time before starting Production
+	  */
+	public void setSetupTime (int SetupTime)
+	{
+		set_Value (COLUMNNAME_SetupTime, Integer.valueOf(SetupTime));
+	}
+
+	/** Get Setup Time.
+		@return Setup time before starting Production
+	  */
+	public int getSetupTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Setup Time Real.
+		@param SetupTimeReal Setup Time Real	  */
+	public void setSetupTimeReal (BigDecimal SetupTimeReal)
+	{
+		set_Value (COLUMNNAME_SetupTimeReal, SetupTimeReal);
+	}
+
+	/** Get Setup Time Real.
+		@return Setup Time Real	  */
+	public BigDecimal getSetupTimeReal () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SetupTimeReal);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Setup Time Required.
+		@param SetupTimeRequired Setup Time Required	  */
+	public void setSetupTimeRequired (BigDecimal SetupTimeRequired)
+	{
+		set_Value (COLUMNNAME_SetupTimeRequired, SetupTimeRequired);
+	}
+
+	/** Get Setup Time Required.
+		@return Setup Time Required	  */
+	public BigDecimal getSetupTimeRequired () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SetupTimeRequired);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** SplitElement AD_Reference_ID=301 */
+	public static final int SPLITELEMENT_AD_Reference_ID=301;
+	/** AND = A */
+	public static final String SPLITELEMENT_AND = "A";
+	/** XOR = X */
+	public static final String SPLITELEMENT_XOR = "X";
+	/** Set Split Element.
+		@param SplitElement 
+		Semantics for multiple outgoing Transitions
+	  */
+	public void setSplitElement (String SplitElement)
+	{
+
+		set_Value (COLUMNNAME_SplitElement, SplitElement);
+	}
+
+	/** Get Split Element.
+		@return Semantics for multiple outgoing Transitions
+	  */
+	public String getSplitElement () 
+	{
+		return (String)get_Value(COLUMNNAME_SplitElement);
 	}
 
 	/** StartMode AD_Reference_ID=303 */
@@ -1473,26 +1473,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Yield %.
-		@param Yield 
-		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
-	  */
-	public void setYield (int Yield)
-	{
-		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
-	}
-
-	/** Get Yield %.
-		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
-	  */
-	public int getYield () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Y Position.
 		@param YPosition 
 		Absolute Y (vertical) position in 1/72 of an inch
@@ -1508,6 +1488,26 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public int getYPosition () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_YPosition);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Yield %.
+		@param Yield 
+		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public void setYield (int Yield)
+	{
+		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
+	}
+
+	/** Get Yield %.
+		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public int getYield () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

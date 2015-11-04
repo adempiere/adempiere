@@ -30,7 +30,7 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_W_Click (Properties ctx, int W_Click_ID, String trxName)

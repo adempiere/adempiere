@@ -30,7 +30,7 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_ValidCombination (Properties ctx, int C_ValidCombination_ID, String trxName)

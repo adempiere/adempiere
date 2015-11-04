@@ -29,7 +29,7 @@ public class X_C_OrderSource extends PO implements I_C_OrderSource, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_OrderSource (Properties ctx, int C_OrderSource_ID, String trxName)

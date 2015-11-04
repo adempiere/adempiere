@@ -34,7 +34,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_Employee (Properties ctx, int HR_Employee_ID, String trxName)
@@ -401,26 +401,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Payroll Employee.
-		@param HR_Employee_ID Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID)
-	{
-		if (HR_Employee_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
-	}
-
-	/** Get Payroll Employee.
-		@return Payroll Employee	  */
-	public int getHR_Employee_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_EmployeeType)MTable.get(getCtx(), org.eevolution.model.I_HR_EmployeeType.Table_Name)
@@ -444,6 +424,26 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	public int getHR_EmployeeType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_EmployeeType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID)
+	{
+		if (HR_Employee_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
+	}
+
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
+	public int getHR_Employee_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

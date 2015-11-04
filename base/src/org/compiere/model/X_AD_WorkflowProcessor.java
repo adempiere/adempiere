@@ -31,7 +31,7 @@ public class X_AD_WorkflowProcessor extends PO implements I_AD_WorkflowProcessor
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_WorkflowProcessor (Properties ctx, int AD_WorkflowProcessor_ID, String trxName)

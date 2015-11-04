@@ -73,6 +73,8 @@ public class MCost extends X_M_Cost
 
 		public static MCost getDimension(MProduct product , int C_AcctSchema_ID , int  AD_Org_ID , int  M_Warehouse_ID , int M_AttributeSetInstance_ID, int M_CostType_ID , int M_CostElement_ID)
 		{
+			MAcctSchema acctSchema = MAcctSchema.get(product.getCtx() , C_AcctSchema_ID);
+
 			ArrayList<Object> parameters = new ArrayList<Object>();
 			StringBuilder whereClause = new StringBuilder();
 			
@@ -85,10 +87,53 @@ public class MCost extends X_M_Cost
 			parameters.add(product.getM_Product_ID());
 			parameters.add(M_CostType_ID);
 			parameters.add(M_CostElement_ID);
-			
+
+			if (M_CostElement_ID == 0)
+				throw new IllegalArgumentException(
+						"No Costing Element Material Type");
+
+			if (M_CostType_ID == 0)
+				throw new AdempiereException(
+						"Error do not exist material cost element for method cost "
+								+ acctSchema.getCostingMethod());
+
+			String CostingLevel = product.getCostingLevel(acctSchema, AD_Org_ID);
+			String costingMethod = MCostType.get(product.getCtx() , M_CostType_ID).getCostingMethod();
+
+			if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel)) {
+				//Ignore organization, warehouse , asi
+				AD_Org_ID = 0;
+				M_Warehouse_ID = 0;
+				M_AttributeSetInstance_ID = 0;
+			}
+			else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+			{
+				//Ignore  warehouse , asi
+				M_Warehouse_ID = 0;
+				M_AttributeSetInstance_ID = 0;
+			}
+			else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
+			{
+				//Ignore organization asi
+				M_AttributeSetInstance_ID = 0;
+			}
+			else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+			{
+				//Ignore organization, warehouse
+				AD_Org_ID = 0;
+				M_Warehouse_ID = 0;
+			}
+			// Costing Method
+			if (costingMethod == null) {
+				costingMethod = product.getCostingMethod(acctSchema, AD_Org_ID);
+				if (costingMethod == null) {
+					throw new IllegalArgumentException("No Costing Method");
+				}
+			}
+
 			if (AD_Org_ID > 0 )
 			{
-				whereClause.append(" AND ").append(I_M_Cost.COLUMNNAME_AD_Org_ID).append("=? ");
+				whereClause.append(" AND (").append(I_M_Cost.COLUMNNAME_AD_Org_ID).append("=? ");
 				parameters.add(AD_Org_ID);
 			}
 			if (M_Warehouse_ID > 0 )

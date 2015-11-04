@@ -32,7 +32,7 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_CycleStep (Properties ctx, int C_CycleStep_ID, String trxName)

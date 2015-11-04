@@ -34,7 +34,7 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_C_SalesHistory (Properties ctx, int C_SalesHistory_ID, String trxName)
@@ -104,6 +104,34 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	{
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+	}
+
+	/** Get Business Partner Group.
+		@return Business Partner Group
+	  */
+	public int getC_BP_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
@@ -168,34 +196,6 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
-			.getPO(getC_BP_Group_ID(), get_TrxName());	}
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
-	{
-		if (C_BP_Group_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
-	}
-
-	/** Get Business Partner Group.
-		@return Business Partner Group
-	  */
-	public int getC_BP_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
@@ -247,54 +247,6 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 	public int getC_InvoiceLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Cost Value.
-		@param CostAmt 
-		Value with Cost
-	  */
-	public void setCostAmt (BigDecimal CostAmt)
-	{
-		set_Value (COLUMNNAME_CostAmt, CostAmt);
-	}
-
-	/** Get Cost Value.
-		@return Value with Cost
-	  */
-	public BigDecimal getCostAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -356,6 +308,34 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Sales History.
 		@param C_SalesHistory_ID 
 		Sales History for statistics and forecast
@@ -405,6 +385,26 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Cost Value.
+		@param CostAmt 
+		Value with Cost
+	  */
+	public void setCostAmt (BigDecimal CostAmt)
+	{
+		set_Value (COLUMNNAME_CostAmt, CostAmt);
+	}
+
+	/** Get Cost Value.
+		@return Value with Cost
+	  */
+	public BigDecimal getCostAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Date Invoiced.

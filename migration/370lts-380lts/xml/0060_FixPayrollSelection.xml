@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="EE02" Name="Payroll Selection Check" ReleaseNo="3.8.0" SeqNo="60">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58468" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="false">true</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="0">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58468" Table="AD_Field">
+        <Data AD_Column_ID="2007" Column="IsReadOnly" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58480" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" isOldNull="true">@Processed@='N'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="58707" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53139" Table="AD_Process_Para">
+        <Data AD_Column_ID="2817" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="55126" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">187</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53084</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55126</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">252</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_BPartner_ID</Data>
+        <Data AD_Column_ID="2818" Column="Created">2015-02-05 01:52:41.844</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Identifies a Business Partner</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">EE02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2824" Column="Help">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Business Partner </Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">50</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2015-02-05 01:52:41.846</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="53294" Table="AD_Tab">
+        <Data AD_Column_ID="6654" Column="TabLevel" oldValue="0">1</Data>
+        <Data AD_Column_ID="2741" Column="WhereClause" isNewNull="true" oldValue="HR_PaySelection_ID=@HR_PaySelection_ID@"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="53295" Table="AD_Tab">
+        <Data AD_Column_ID="6654" Column="TabLevel" oldValue="0">1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58497" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="80">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58485" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="false">true</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="0">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58485" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="80">0</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

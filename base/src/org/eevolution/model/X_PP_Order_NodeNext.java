@@ -30,7 +30,7 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150928L;
 
     /** Standard Constructor */
     public X_PP_Order_NodeNext (Properties ctx, int PP_Order_NodeNext_ID, String trxName)

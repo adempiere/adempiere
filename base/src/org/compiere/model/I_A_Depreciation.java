@@ -148,6 +148,19 @@ public interface I_A_Depreciation
 	  */
 	public boolean isProcessed();
 
+    /** Column name Script */
+    public static final String COLUMNNAME_Script = "Script";
+
+	/** Set Script.
+	  * Dynamic Java Language Script to calculate result
+	  */
+	public void setScript (String Script);
+
+	/** Get Script.
+	  * Dynamic Java Language Script to calculate result
+	  */
+	public String getScript();
+
     /** Column name Text */
     public static final String COLUMNNAME_Text = "Text";
 

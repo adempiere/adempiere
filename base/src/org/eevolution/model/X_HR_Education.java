@@ -30,7 +30,7 @@ public class X_HR_Education extends PO implements I_HR_Education, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_HR_Education (Properties ctx, int HR_Education_ID, String trxName)

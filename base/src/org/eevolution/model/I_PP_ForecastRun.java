@@ -118,21 +118,6 @@ public interface I_PP_ForecastRun
 	  */
 	public boolean isActive();
 
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
-
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
-
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID();
-
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
-
     /** Column name M_WarehouseSource_ID */
     public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 
@@ -148,18 +133,20 @@ public interface I_PP_ForecastRun
 
 	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
 
-    /** Column name PeriodHistory */
-    public static final String COLUMNNAME_PeriodHistory = "PeriodHistory";
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
-	/** Set Periods of History.
-	  * Number Period of History
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
 	  */
-	public void setPeriodHistory (int PeriodHistory);
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
 
-	/** Get Periods of History.
-	  * Number Period of History
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
 	  */
-	public int getPeriodHistory();
+	public int getM_Warehouse_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name PP_Calendar_ID */
     public static final String COLUMNNAME_PP_Calendar_ID = "PP_Calendar_ID";
@@ -218,17 +205,30 @@ public interface I_PP_ForecastRun
     /** Column name PP_PeriodDefinition_ID */
     public static final String COLUMNNAME_PP_PeriodDefinition_ID = "PP_PeriodDefinition_ID";
 
-	/** Set Period Definition.
+	/** Set Current Period.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public void setPP_PeriodDefinition_ID (int PP_PeriodDefinition_ID);
 
-	/** Get Period Definition.
+	/** Get Current Period.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public int getPP_PeriodDefinition_ID();
 
 	public org.eevolution.model.I_PP_PeriodDefinition getPP_PeriodDefinition() throws RuntimeException;
+
+    /** Column name PeriodHistory */
+    public static final String COLUMNNAME_PeriodHistory = "PeriodHistory";
+
+	/** Set Periods of History.
+	  * Number Period of History
+	  */
+	public void setPeriodHistory (int PeriodHistory);
+
+	/** Get Periods of History.
+	  * Number Period of History
+	  */
+	public int getPeriodHistory();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -255,12 +255,12 @@ public interface I_PP_ForecastRun
     /** Column name Ref_DefinitionPeriod_ID */
     public static final String COLUMNNAME_Ref_DefinitionPeriod_ID = "Ref_DefinitionPeriod_ID";
 
-	/** Set Period Definition.
+	/** Set Past Period Definition.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public void setRef_DefinitionPeriod_ID (int Ref_DefinitionPeriod_ID);
 
-	/** Get Period Definition.
+	/** Get Past Period Definition.
 	  * Period Definition, allows to define time cycles for the Operational Calendar
 	  */
 	public int getRef_DefinitionPeriod_ID();

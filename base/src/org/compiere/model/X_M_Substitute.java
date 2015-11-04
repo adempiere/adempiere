@@ -30,7 +30,7 @@ public class X_M_Substitute extends PO implements I_M_Substitute, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_M_Substitute (Properties ctx, int M_Substitute_ID, String trxName)

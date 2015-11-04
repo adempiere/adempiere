@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add process to clean up Garden World" ReleaseNo="3.8.0" SeqNo="55">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="I" Record_ID="53733" Table="AD_Process">
+        <Data AD_Column_ID="5790" Column="AccessLevel">4</Data>
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID">53733</Data>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4656" Column="Classname">org.compiere.process.CleanUpGW</Data>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
+        <Data AD_Column_ID="2805" Column="Created">2015-01-19 11:39:13.407</Data>
+        <Data AD_Column_ID="2806" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2810" Column="Description">Advance the Dates in Garden World</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
+        <Data AD_Column_ID="2811" Column="Help">Adds 96 months to the dates in GW.  Calendars need to exist.</Data>
+        <Data AD_Column_ID="2804" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint">false</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">false</Data>
+        <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
+        <Data AD_Column_ID="2809" Column="Name">Clean Up Garden World</Data>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
+        <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
+        <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
+        <Data AD_Column_ID="2807" Column="Updated">2015-01-19 11:39:13.407</Data>
+        <Data AD_Column_ID="2808" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="4023" Column="Value">CleanUpGardenWorld</Data>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53733" Table="AD_Process">
+        <Data AD_Column_ID="2811" Column="Help" oldValue="Adds 96 months to the dates in GW.  Calendars need to exist.">Brings all GardenWorld activity into the last two years.  Calendars need to exist.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="116" Action="I" Record_ID="53920" Table="AD_Menu">
+        <Data AD_Column_ID="232" Column="Action">P</Data>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">53920</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID">53733</Data>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="599" Column="Created">2015-01-19 11:43:03.486</Data>
+        <Data AD_Column_ID="600" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="230" Column="Description">Brings Garden World Activity into the previous two years.</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="229" Column="Name">Clean Up Garden World</Data>
+        <Data AD_Column_ID="601" Column="Updated">2015-01-19 11:43:03.486</Data>
+        <Data AD_Column_ID="602" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6151" Column="Created">2015-01-19 11:43:04.508</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">53920</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">0</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo">999</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2015-01-19 11:43:04.508</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53920">53920</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">155</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">16</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="383">383</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="16">17</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

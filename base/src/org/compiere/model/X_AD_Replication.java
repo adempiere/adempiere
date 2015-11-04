@@ -33,7 +33,7 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150101L;
+	private static final long serialVersionUID = 20150223L;
 
     /** Standard Constructor */
     public X_AD_Replication (Properties ctx, int AD_Replication_ID, String trxName)
