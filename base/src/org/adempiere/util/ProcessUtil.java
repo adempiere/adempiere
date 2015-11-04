@@ -17,6 +17,7 @@ import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.wf.MWFProcess;
@@ -33,6 +34,7 @@ import org.compiere.wf.MWorkflow;
 public final class ProcessUtil {
 
 	public static final String JASPER_STARTER_CLASS = "org.compiere.report.ReportStarter";
+	public static final String FINREPORT_WEB_CLASS = "org.adempiere.webui.report.FinReportWeb";
 
 	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(ProcessUtil.class);
@@ -119,6 +121,10 @@ public final class ProcessUtil {
 			if (proc.getJasperReport() != null)
 				className = JASPER_STARTER_CLASS;
 		}
+		// Goodwill
+		if (pi.getAD_Process_ID() == 202 && !Ini.isClient())
+			className = FINREPORT_WEB_CLASS;
+		//
 		//Get Class
 		Class<?> processClass = null;
 		//use context classloader if available

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -186,6 +187,9 @@ public class MInOut extends X_M_InOut implements DocAction
 		copyValues(from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
 		to.set_ValueNoCheck ("M_InOut_ID", I_ZERO);
 		to.set_ValueNoCheck ("DocumentNo", null);
+		// Goodwill
+		if (counter) // BF: counter document no get sequence from wrong org
+			to.setDocumentNo(from.getDocumentNo() + UUID.randomUUID().toString());	// temporarily until it gets the counter org
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
 		to.setDocAction(DOCACTION_Complete);
@@ -728,6 +732,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			if (counter)
 			{
 				line.setRef_InOutLine_ID(fromLine.getM_InOutLine_ID());
+				line.setC_OrderLine_ID(0);
 				if (fromLine.getC_OrderLine_ID() != 0)
 				{
 					MOrderLine peer = new MOrderLine (getCtx(), fromLine.getC_OrderLine_ID(), get_TrxName());
@@ -750,7 +755,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			if (counter)
 			{
 				fromLine.setRef_InOutLine_ID(line.getM_InOutLine_ID());
-				fromLine.save(get_TrxName());
+				fromLine.saveEx(get_TrxName());
 			}
 		}
 		if (fromLines.length != count) {
@@ -1890,6 +1895,8 @@ public class MInOut extends X_M_InOut implements DocAction
 	 */
 	private MInOut createCounterDoc()
 	{
+		if (isReversal())	// Goodwill
+			return null;
 		//	Is this a counter doc ?
 		if (getRef_InOut_ID() != 0)
 			return null;
@@ -1934,6 +1941,10 @@ public class MInOut extends X_M_InOut implements DocAction
 		//
 		counter.setAD_Org_ID(counterAD_Org_ID);
 		counter.setM_Warehouse_ID(counterOrgInfo.getM_Warehouse_ID());
+		// Goodwill BF: counter document no get sequence from wrong org
+		String value = DB.getDocumentNo(C_DocTypeTarget_ID, get_TrxName(), false, counter);
+		if (value != null)
+			counter.setDocumentNo(value);
 		//
 		counter.setBPartner(counterBP);
 
@@ -1947,7 +1958,7 @@ public class MInOut extends X_M_InOut implements DocAction
 
 		//	Refernces (Should not be required
 		counter.setSalesRep_ID(getSalesRep_ID());
-		counter.save(get_TrxName());
+		counter.saveEx(get_TrxName());
 
 		String MovementType = counter.getMovementType();
 		boolean inTrx = MovementType.charAt(1) == '+';	//	V+ Vendor Receipt
@@ -1962,7 +1973,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			counterLine.setM_Locator_ID(0);
 			counterLine.setM_Locator_ID(inTrx ? Env.ZERO : counterLine.getMovementQty());
 			//
-			counterLine.save(get_TrxName());
+			counterLine.saveEx(get_TrxName());
 		}
 
 		log.fine(counter.toString());
@@ -1973,8 +1984,11 @@ public class MInOut extends X_M_InOut implements DocAction
 			if (counterDT.getDocAction() != null)
 			{
 				counter.setDocAction(counterDT.getDocAction());
-				counter.processIt(counterDT.getDocAction());
-				counter.save(get_TrxName());
+				// added AdempiereException by zuhri
+				if (!counter.processIt(counterDT.getDocAction()))
+					throw new AdempiereException("Failed when processing document - " + counter.getProcessMsg());
+				// end added
+				counter.saveEx(get_TrxName());
 			}
 		}
 		return counter;
