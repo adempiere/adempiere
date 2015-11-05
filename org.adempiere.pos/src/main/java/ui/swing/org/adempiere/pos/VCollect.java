@@ -426,7 +426,11 @@ public class VCollect extends Collect
 	 * @return boolean
 	 */
 	public boolean showCollect() {
-		v_Dialog.setMinimumSize(new Dimension(500, 580));
+		//	Resize to Heigth
+		Dimension screenSize = Env.getWindow(v_POSPanel.getWindowNo()).getSize();
+		//	Set static width
+		screenSize.width = 500;
+		v_Dialog.setMinimumSize(screenSize);
 		v_Dialog.pack();
 		//	
 		AEnv.positionCenterScreen(v_Dialog);
