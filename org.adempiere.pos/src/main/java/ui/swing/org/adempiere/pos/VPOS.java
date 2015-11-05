@@ -415,17 +415,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public int getWindowNo() {
 		return m_WindowNo;
 	}
-
-	/**
-	 * New Order
-	 * @param p_C_BPartner_ID
-	 * @return void
-	 */
-	public void newOrder(int p_C_BPartner_ID) {
-		boolean isDocType = ADialog.ask(0, v_MainPane, Msg.getMsg(getCtx(), "POS.AlternateDT"));
-		newOrder(isDocType, p_C_BPartner_ID);
-		setC_BPartner_ID(p_C_BPartner_ID);
-	}
 	
 	/**
 	 * New Order
