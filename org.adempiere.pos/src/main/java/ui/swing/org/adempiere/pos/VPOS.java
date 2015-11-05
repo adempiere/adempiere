@@ -261,6 +261,20 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	}
 	
 	/**
+	 * Resize Split Panel
+	 * @return void
+	 */
+	public void autoSize() {
+		int width = v_OrderLinePanel.getTableWidth();
+		if(width > v_DividerPane.getDividerLocation()) {
+			v_DividerPane.setDividerLocation(
+					v_DividerPane.getDividerLocation() 
+					+ (width - v_DividerPane.getDividerLocation())
+					+ POSTable.SCROLLBAR_WIDTH + POSOrderLineTableHandle.COLUMN_QTY);
+		}
+	}
+	
+	/**
 	 * Load POS
 	 * @return String
 	 */

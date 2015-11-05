@@ -70,13 +70,13 @@ public abstract class POSSubPanel extends CPanel
 	 * 	Initialize
 	 */
 	protected abstract void init();
-	
+
 	/**
 	 * 	Dispose - Free Resources
 	 */
 	public void dispose() {
+		//	
 	}	//	dispose
-
 	
 	/**
 	 * 	Create Action Button

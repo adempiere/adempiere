@@ -256,13 +256,6 @@ public class POSProductPanel extends POSSubPanel
 		//	Refresh
 		refreshPanel();
 	}	//	init
-	
-	/**
-	 * 	Dispose - Free Resources
-	 */
-	public void dispose() {
-		super.dispose();
-	}	//	dispose
 
 	/**
 	 * Call back from key panel

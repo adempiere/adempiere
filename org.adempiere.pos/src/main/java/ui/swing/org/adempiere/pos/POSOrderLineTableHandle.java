@@ -60,6 +60,10 @@ public class POSOrderLineTableHandle {
 	public static final String 	DISCOUNT 	= "Discount";
 	public static final String 	LINENETAMT  = "LineNetAmt";
 	public static final String 	GRANDTOTAL  = "GrandTotal";
+	
+	/**	Columns Quantity	*/
+	public static final int	COLUMN_QTY = 10;
+	
 	/**	Column Position		*/
 	public static final int	POSITION_C_ORDER_ID 	= 0;
 	public static final int	POSITION_DELETE	 		= 1;

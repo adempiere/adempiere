@@ -35,6 +35,10 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.TreeCellEditor;
 
+/**
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ */
 public class POSDefaultCellEditor extends AbstractCellEditor implements TableCellEditor, TreeCellEditor {
 	
 	/**
