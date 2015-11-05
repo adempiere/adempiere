@@ -1,0 +1,326 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Raul Muñoz www.erpcya.com					              *
+ *****************************************************************************/
+
+package org.adempiere.pos.search;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.adempiere.pos.WPOS;
+import org.adempiere.pos.WPOSTextField;
+import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
+import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.ListboxFactory;
+import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
+import org.compiere.minigrid.ColumnInfo;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Caption;
+import org.zkoss.zul.Groupbox;
+
+/**
+ *	POS Query DocType
+ *	
+ *  @version $Id: QueryBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ */
+
+public class WQueryDocType extends WPosQuery implements I_POSQuery
+{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7713957495649128816L;
+	/**
+	 * 	Constructor
+	 */
+	public WQueryDocType (WPOS posPanel)
+	{
+		super(posPanel);
+	}	//	PosQueryProduct
+
+
+	private WPOSTextField	f_Name;
+	private WPOSTextField	f_Description;
+
+	private boolean			isKeyboard;
+	/**	Internal Variables	*/
+	private int				m_C_DocType_ID;
+	
+	static final private String NAME      		= "Name";
+	static final private String DOCNOSEQUENCE  	= "DocNoSequence_ID";
+	static final private String DESCRIPTION  	= "Description";
+	static final private String QUERY           = "Query";
+	
+	/**	Table Column Layout Info			*/
+	private static ColumnInfo[] s_layout = new ColumnInfo[] {
+		new ColumnInfo(" ", "C_DocType_ID", IDColumn.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), NAME), NAME, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), DOCNOSEQUENCE), DOCNOSEQUENCE, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), DESCRIPTION), DESCRIPTION, String.class),
+	};
+
+	/**
+	 * 	Set up Panel
+	 */
+	protected void init()
+	{
+		Panel panel = new Panel();
+		setVisible(true);
+		Panel mainPanel = new Panel();
+		Grid productLayout = GridFactory.newGridLayout();
+		
+		Groupbox groupPanel = new Groupbox();
+		Caption v_TitleBorder = new Caption(Msg.getMsg(p_ctx, QUERY));
+		
+		//	Set title window
+		this.setClosable(true);
+		
+		appendChild(panel);
+		northPanel = new Panel();
+		mainPanel.appendChild(mainLayout);
+		groupPanel.appendChild(v_TitleBorder);
+		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
+		mainLayout.setHeight("100%");
+		mainLayout.setWidth("100%");
+		Center center = new Center();
+		//
+		North north = new North();
+		north.setStyle("border: none");
+		mainLayout.appendChild(north);
+		north.appendChild(groupPanel);
+		groupPanel.appendChild(productLayout);
+		appendChild(mainPanel);
+		productLayout.setWidth("100%");
+		Rows rows = null;
+		Row row = null;
+		rows = productLayout.newRows();
+		row = rows.newRow();
+
+		Label lName = new Label(Msg.translate(p_ctx, NAME));
+		lName.setStyle(WPOS.FONTSIZESMALL);
+		row.setHeight("60px");
+		row.appendChild(lName.rightAlign());
+		f_Name = new WPOSTextField("", v_POSPanel.getKeyboard());
+		row.appendChild(f_Name);
+		f_Name.addEventListener(this);
+		f_Name.setWidth("120px");
+		f_Name.setStyle(WPOS.FONTSIZESMALL);
+
+		Label lDescription = new Label(Msg.translate(p_ctx, DESCRIPTION));
+		lDescription.setStyle(WPOS.FONTSIZESMALL);
+		row.setHeight("60px");
+		row.appendChild(lDescription.rightAlign());
+		f_Description = new WPOSTextField(null, v_POSPanel.getKeyboard());
+		row.appendChild(f_Description);
+		f_Description.addEventListener(this);
+		f_Description.setWidth("120px");
+		f_Description.setStyle(WPOS.FONTSIZESMALL);
+		
+		//	Center
+		m_table = ListboxFactory.newDataTable();
+		m_table.prepareTable (s_layout, "C_DocType",null, false, "C_DocType");
+
+		enableButtons();
+		center = new Center();
+		center.setStyle("border: none");
+		m_table.setWidth("100%");
+		m_table.setHeight("99%");
+		m_table.addActionListener(this);
+		center.appendChild(m_table);
+		mainLayout.appendChild(center);
+		m_table.setClass("Table-OrderLine");
+		m_table.autoSize();
+		refresh();
+	}	//	init
+	
+	/**
+	 * 
+	 */
+	@Override
+	public void reset() {
+		f_Name.setText("");
+		refresh();
+	}
+
+	/**
+	 * 	Set/display Results
+	 *	@param results results
+	 */
+	public void setResults (Properties ctx, String name, String description)
+	{
+		StringBuffer sql = new StringBuffer();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		try  {
+			sql.append(" SELECT d.C_DocType_ID, d.Name, s.CurrentNext, d.Description ")
+			.append(" FROM C_DocType d ")
+			.append(" INNER JOIN AD_Sequence s ON (s.AD_Sequence_ID = d.DocNoSequence_ID) ")
+			.append(" WHERE DocNoSequence_ID > 0");
+			if(name.length() > 0)
+				sql.append(" AND (d.Name LIKE '%" + name + "%')");
+			if(description.length() > 0)
+				sql.append(" AND (d.Name LIKE '%" + description + "%')");
+			
+			pstm = DB.prepareStatement(sql.toString(), null);
+			//	
+			rs = pstm.executeQuery();
+			m_table.loadTable(rs);
+			int rowNo = m_table.getRowCount();
+			if (rowNo > 0) {
+				if(rowNo == 1) {
+					select();
+				}
+			}
+		} catch(Exception e) {
+			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+		} finally {
+			DB.close(rs);
+			DB.close(pstm);
+		}
+	}	//	setResults
+
+	/**
+	 * 	Enable/Set Buttons and set ID
+	 */
+	protected void enableButtons()
+	{
+		m_C_DocType_ID = -1;
+		int row = m_table.getSelectedRow();
+		boolean enabled = row != -1;
+		if (enabled)
+		{
+			Integer ID = m_table.getSelectedRowKey();
+			if (ID != null)
+			{
+				m_C_DocType_ID = ID.intValue();
+			}
+		}
+		log.info("ID=" + m_C_DocType_ID); 
+	}	//	enableButtons
+
+	/**
+	 * 	Close.
+	 * 	Set Values on other panels and close
+	 */
+	@Override
+	protected void close()
+	{
+		System.out.println(m_C_DocType_ID);
+		log.info("C_DocType_ID=" + m_C_DocType_ID);
+		if (m_C_DocType_ID > 0)
+		{
+		v_POSPanel.setC_DocType_ID(m_C_DocType_ID);
+		}
+			dispose();
+	}	//	close
+
+
+	@Override
+	public void onEvent(Event e) throws Exception {
+		if(e.getTarget().equals(f_Name.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			isKeyboard = true;
+			//	Get Keyboard Panel
+			f_Name.showKeyboard();
+			refresh();
+			f_Name.setFocus(true);
+
+		}
+		else if(e.getTarget().equals(f_Name.getComponent(WPOSTextField.PRIMARY))) {
+			 isKeyboard = false;
+		}
+		if(e.getTarget().equals(f_Description.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			isKeyboard = true;
+			//	Get Keyboard Panel
+			f_Description.showKeyboard();
+			refresh();
+
+		}
+		else if(e.getTarget().equals(f_Description.getComponent(WPOSTextField.PRIMARY))) {
+			 isKeyboard = false;
+		}
+		else if(e.getTarget().getId().equals("Refresh")) {
+			refresh();
+		}
+		else if(e.getTarget().getId().equals("Ok")){
+			close();
+		}
+		else if(e.getTarget().getId().equals("Cancel")){
+			close();
+		}		else if(e.getTarget().getId().equals("Reset")){
+			reset();
+		}
+		enableButtons();
+	}
+
+	@Override
+	public void refresh() {
+		setResults(p_ctx, f_Name.getText(), f_Description.getText());
+
+	}
+
+	@Override
+	protected void select() {
+		m_C_DocType_ID = -1;
+		int row = m_table.getSelectedRow();
+		boolean enabled = row != -1;
+		if (enabled)
+		{
+			Integer ID = m_table.getSelectedRowKey();
+			if (ID != null)
+			{
+				m_C_DocType_ID = ID.intValue();
+			}
+		}
+		log.info("ID=" + m_C_DocType_ID); 
+	}
+	@Override
+	protected void cancel() {
+		m_C_DocType_ID = -1;
+		dispose();
+	}
+	
+	@Override
+	public int getRecord_ID() {
+		return m_C_DocType_ID;
+	}
+	
+	@Override
+	public String getValue() {
+		return null;
+	}
+
+	@Override
+	public void showView() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}	//	PosQueryProduct

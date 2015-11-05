@@ -26,6 +26,7 @@ import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryProduct;
 import org.adempiere.pos.search.QueryTicket;
 import org.adempiere.pos.search.WQueryBPartner;
+import org.adempiere.pos.search.WQueryDocType;
 import org.adempiere.pos.search.WQueryProduct;
 import org.adempiere.pos.search.WQueryTicket;
 import org.adempiere.pos.service.I_POSPanel;
@@ -78,6 +79,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	private	WPOSTextField	f_ProductName;
 	private boolean			isKeyboard;
 	private Button 			f_bNew;
+	private Button 			f_bTypeDoc;
 	private Button 			f_Collect;
 
 	private Button			f_bBPartner;
@@ -92,6 +94,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	private final String ACTION_HISTORY     = "History";
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_PAYMENT     = "Payment";
+	private final String ACTION_TYPEDOC     = "Type";
 	
 	private WPOSInfoProduct v_InfoProductPanel;
 	private Panel parameterPanel;
@@ -143,6 +146,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		f_bNew.addActionListener(this);
 		row.appendChild(f_bNew);
 
+		// DocType 
+		f_bTypeDoc = createButtonAction(ACTION_TYPEDOC, KeyStroke.getKeyStroke(KeyEvent.VK_F4, Event.F4));
+		f_bTypeDoc.addActionListener(this);
+		
+		row.appendChild(f_bTypeDoc);
 		// BPartner Search
 		f_bBPartner = createButtonAction(ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
 		f_bBPartner.addActionListener(this);
@@ -367,6 +375,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			payOrder();
 			return;
 		}
+		else if (e.getTarget().equals(f_bTypeDoc)){
+			WQueryDocType qt = new WQueryDocType(v_POSPanel);
+			qt.setVisible(true);
+			AEnv.showWindow(qt);
+		}
 		else if (e.getTarget().equals(f_Back)){
 			previousRecord();
 			refreshProductInfo(null);
@@ -476,7 +489,6 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	 */
 	public void enableButton(){
 		f_ProductName.setText(f_ProductName.getTitle());
-		v_POSPanel.setC_BPartner_ID(0);
 		f_bNew.setEnabled(true);
 		f_Cancel.setEnabled(false);
 		f_History.setEnabled(true);
