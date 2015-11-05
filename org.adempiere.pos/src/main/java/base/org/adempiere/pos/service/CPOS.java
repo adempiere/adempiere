@@ -531,10 +531,13 @@ public class CPOS {
 		}
 		//	Set BPartner
 		setC_BPartner_ID(p_C_BPartner_ID);
+		//	Add if is new
+		if(m_Free_C_Order_ID < 0) {
+			//	Add To List
+			m_OrderList.add(m_CurrentOrder.getC_Order_ID());
+		}
 		//  Add record
-		addRecord(m_CurrentOrder.getC_Order_ID());
-		// Go to last record
-		nextRecord();
+		reloadIndex(m_CurrentOrder.getC_Order_ID());
 	} // PosOrderModel
 	
 	/**
@@ -955,14 +958,6 @@ public class CPOS {
 	 */
 	public boolean hasRecord(){
 		return !m_OrderList.isEmpty();
-	}
-	
-	/**
-	 * Add new Record
-	 * @return void
-	 */
-	public void addRecord(int m_C_Order_ID){
-		m_OrderList.add(m_C_Order_ID);
 	}
 	
 	/**
