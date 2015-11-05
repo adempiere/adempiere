@@ -85,8 +85,15 @@ public class POSOrderLinePanel extends POSSubPanel
 	private POSOrderLineTableHandle m_TableHandle;
 	
 	/**
-	 * Initialize
-	 */ 
+	 * Get Table Width
+	 * @return
+	 * @return int
+	 */
+	public int getTableWidth() { 
+		return m_table.getColumnModel().getTotalColumnWidth();
+	}
+	
+	@Override
 	public void init() {
 		//	Content
 		setLayout(new BorderLayout());
@@ -105,22 +112,9 @@ public class POSOrderLinePanel extends POSSubPanel
 		addKeyListener(this);
 	} //init
 
-
-	/**
-	 * Dispose - Free Resources
-	 */
-	public void dispose() {
-		super.dispose();
-	} //	dispose
-
-	/**
-	 * Action Listener
-	 * 
-	 * @param e event
-	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
-		System.out.println(e.getSource()+"....");
 		if (action == null || action.length() == 0)
 			return;
 		log.info( "POSOrderLinePanel - actionPerformed: " + action);
@@ -129,19 +123,13 @@ public class POSOrderLinePanel extends POSSubPanel
 		v_POSPanel.refreshPanel();
 	} //	actionPerformed
 	
-	/**
-	 * 	Focus Gained
-	 *	@param e
-	 */
+	@Override
 	public void focusGained (FocusEvent e) {
 		log.info("POSOrderLinePanel - focusGained: " + e);		
 	}	//	focusGained
 		
 
-	/**
-	 * 	Focus Lost
-	 *	@param e
-	 */
+	@Override
 	public void focusLost (FocusEvent e) {
 		if (e.isTemporary())
 			return;
@@ -149,7 +137,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		v_POSPanel.refreshPanel();
 	}	//	focusLost
 
-
+	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if ( e.getValueIsAdjusting() )
 			return;
@@ -254,6 +242,8 @@ public class POSOrderLinePanel extends POSSubPanel
 				break;
 			}
 		}
+		//	Auto Size
+		v_POSPanel.autoSize();
 		//	Add Listener
 		m_table.getModel().addTableModelListener(this);
 	}

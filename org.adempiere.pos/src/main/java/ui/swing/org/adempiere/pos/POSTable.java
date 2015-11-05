@@ -1,3 +1,20 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2013 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor: Yamel Senih www.erpcya.com                                    *
+ * Contributor: Mario Calderon www.westfalia-it.com                           *
+ *****************************************************************************/
 package org.adempiere.pos;
 
 import java.awt.Container;
@@ -29,13 +46,24 @@ import org.compiere.swing.CCheckBox;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Util;
 
+/**
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ */
 public class POSTable extends MiniTable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7884238751207398699L;
-
+	
+	/**	For Scroll Bar	*/
+	public static final int 	SCROLLBAR_WIDTH = 30;
+	public static final int 	SCROLLBAR_HEIGHT = 30;
+	
+	/**
+	 * *** Constructor ***
+	 */
 	public POSTable() {
 		
 		super();
@@ -47,6 +75,10 @@ public class POSTable extends MiniTable {
 		setAutoResize(true);
 	}
 	
+	/**
+	 * 
+	 * @return void
+	 */
 	public void growScrollbars() {
 		// fatter scroll bars
 		Container p = getParent();
@@ -54,8 +86,8 @@ public class POSTable extends MiniTable {
 			Container gp = p.getParent();
 			if (gp instanceof JScrollPane) {
 				JScrollPane scrollPane = (JScrollPane) gp;             
-				scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(30,0));
-				scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0,30));
+				scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(SCROLLBAR_WIDTH, SCROLLBAR_HEIGHT));
+				scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(SCROLLBAR_WIDTH, SCROLLBAR_HEIGHT));
 			}
 		}
 	}
