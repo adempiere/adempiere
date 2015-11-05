@@ -367,9 +367,9 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	
 	@Override
 	public void changeViewPanel() {
-	
 		
 	}
+	
 	/**
 	 * New Order
 	 * @return void
@@ -377,17 +377,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void newOrder() {
 		newOrder(0);
 	}
-	/**
-	 * New Order
-	 * @return void
-	 */
-	public void newOrder(int p_C_BPartner_ID) {
-		//	Do you want to use the alternate Document type?
-		boolean isDocType = false;
-		isDocType = FDialog.ask(0, m_frame, "", Msg.getMsg(m_ctx, "POS.AlternateDT"));
-		newOrder(isDocType, p_C_BPartner_ID);
-		setC_BPartner_ID(p_C_BPartner_ID);
-	}
+	
 	public int getWindowNo()
 	{
 		return windowNo;

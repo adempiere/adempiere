@@ -475,20 +475,12 @@ public class CPOS {
 	
 	/**
 	 * 	New Order
-	 *  @param isDocType
 	 *  @param p_C_BPartner_ID
 	 */
-	public void newOrder(boolean isDocType, int p_C_BPartner_ID) {
+	public void newOrder(int p_C_BPartner_ID) {
 		log.info( "PosPanel.newOrder");
 		m_CurrentOrder = null;
 		int m_C_DocType_ID = m_POS.getC_DocType_ID();
-		int m_C_DocTypewholesale_ID = m_POS.getC_DocTypewholesale_ID();;
-		if (m_C_DocTypewholesale_ID > 0) {
-			//	Do you want to use the alternate Document type?
-			if (isDocType) {
-				m_C_DocType_ID = m_C_DocTypewholesale_ID;
-			}
-		}
 		//	Create Order
 		createOrder(p_C_BPartner_ID, m_C_DocType_ID);
 		//	
@@ -496,20 +488,25 @@ public class CPOS {
 	}	//	newOrder
 	
 	/**
-	 * New Order
-	 * @param isDocType
+	 * Set Custom Document Type
+	 * @param p_C_DocTypeTarget_ID
 	 * @return void
 	 */
-	public void newOrder(boolean isDocType) {
-		newOrder(isDocType, 0);
+	public void setC_DocType_ID(int p_C_DocTypeTarget_ID) {
+		//	Valid if has a Order
+		if(!isDrafted())
+			return;
+		//	Set Document Type
+		m_CurrentOrder.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
 	}
+	
 	
 	/**
 	 * Get/create Order
 	 *	@param p_C_BPartner_ID Business Partner
-	 *	@param C_DocType_ID ID of document type
+	 *	@param p_C_DocTypeTarget_ID ID of document type
 	 */
-	public void createOrder(int p_C_BPartner_ID, int C_DocType_ID) {
+	private void createOrder(int p_C_BPartner_ID, int p_C_DocTypeTarget_ID) {
 		int m_Free_C_Order_ID = getFreeC_Order_ID();
 		//	Change Values for new Order
 		if(m_Free_C_Order_ID > 0) {
@@ -524,8 +521,8 @@ public class CPOS {
 		m_CurrentOrder.setIsSOTrx(true);
 		m_CurrentOrder.setC_POS_ID(m_POS.getC_POS_ID());
 		m_CurrentOrder.setM_Warehouse_ID(m_POS.getM_Warehouse_ID());
-		if (C_DocType_ID != 0) {
-			m_CurrentOrder.setC_DocTypeTarget_ID(C_DocType_ID);
+		if (p_C_DocTypeTarget_ID != 0) {
+			m_CurrentOrder.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
 		} else {
 			m_CurrentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_OnCredit);
 		}
@@ -580,8 +577,8 @@ public class CPOS {
 	 */
 	public void setC_BPartner_ID(int p_C_BPartner_ID) {
 		//	Valid if has a Order
-		if(m_CurrentOrder == null 
-				|| isCompleted())
+		if(isCompleted()
+				|| isVoided())
 			return;
 		log.fine( "CPOS.setC_BPartner_ID=" + p_C_BPartner_ID);
 		boolean isSamePOSPartner = false;
@@ -707,8 +704,8 @@ public class CPOS {
 	 */
 	public BigDecimal [] updateLine(int p_C_OrderLine_ID, BigDecimal p_QtyOrdered, 
 			BigDecimal p_PriceEntered) {
-		//	Valid Complete
-		if (isCompleted())
+		//	Valid if has a Order
+		if(!isDrafted())
 			return null;
 		//	
 		MOrderLine[] lines = m_CurrentOrder.getLines("AND C_OrderLine_ID = " + p_C_OrderLine_ID, "Line");
@@ -871,7 +868,7 @@ public class CPOS {
 			} else if (isCompleted()) {	
 				voidOrder();
 			} else {
-				throw new AdempierePOSException("@POS.OrderIsNotProcessed@");	//	TODO Translate it: Order is not Drafted nor Completed. Try to delete it other way
+				throw new AdempierePOSException("@POS.OrderIsNotProcessed@");
 			}
 			//	Remove from List
 			if(currentIndex >= 0) {

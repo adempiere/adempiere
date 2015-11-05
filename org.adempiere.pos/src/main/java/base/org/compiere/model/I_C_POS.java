@@ -158,18 +158,7 @@ public interface I_C_POS
 	public int getC_DocType_ID();
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
-
-    /** Column name C_DocTypewholesale_ID */
-    public static final String COLUMNNAME_C_DocTypewholesale_ID = "C_DocTypewholesale_ID";
-
-	/** Set C_DocTypewholesale_ID	  */
-	public void setC_DocTypewholesale_ID (int C_DocTypewholesale_ID);
-
-	/** Get C_DocTypewholesale_ID	  */
-	public int getC_DocTypewholesale_ID();
-
-	public I_C_DocType getC_DocTypewholesale() throws RuntimeException;
-
+	
     /** Column name C_POS_ID */
     public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
 

@@ -251,32 +251,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
-
-	public I_C_DocType getC_DocTypewholesale() throws RuntimeException
-    {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
-			.getPO(getC_DocTypewholesale_ID(), get_TrxName());	}
-
-	/** Set C_DocTypewholesale_ID.
-		@param C_DocTypewholesale_ID C_DocTypewholesale_ID	  */
-	public void setC_DocTypewholesale_ID (int C_DocTypewholesale_ID)
-	{
-		if (C_DocTypewholesale_ID < 1) 
-			set_Value (COLUMNNAME_C_DocTypewholesale_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocTypewholesale_ID, Integer.valueOf(C_DocTypewholesale_ID));
-	}
-
-	/** Get C_DocTypewholesale_ID.
-		@return C_DocTypewholesale_ID	  */
-	public int getC_DocTypewholesale_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypewholesale_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
+	
 	/** Set POS Terminal.
 		@param C_POS_ID 
 		Point of Sales Terminal
