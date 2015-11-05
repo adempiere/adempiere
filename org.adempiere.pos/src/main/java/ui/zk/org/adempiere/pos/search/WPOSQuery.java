@@ -48,7 +48,7 @@ import org.zkoss.zkex.zul.South;
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
-public abstract class WPosQuery extends Window implements  MouseListener, ListSelectionListener, EventListener{
+public abstract class WPOSQuery extends Window implements  MouseListener, ListSelectionListener, EventListener{
 
 	/**
 	 * 
@@ -59,14 +59,14 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 	 * *** Constructor ***
 	 * @throws HeadlessException
 	 */
-	public WPosQuery() throws HeadlessException {
+	public WPOSQuery() throws HeadlessException {
 		super();
 	}
 
 	/**
 	 * 	Constructor
 	 */
-	public WPosQuery (WPOS posPanel)
+	public WPOSQuery (WPOS posPanel)
 	{
 		super();
 		v_POSPanel = posPanel;
@@ -102,7 +102,7 @@ public abstract class WPosQuery extends Window implements  MouseListener, ListSe
 	public 	Button 				f_Edit;
 	public  Borderlayout 		mainLayout;
 	/**	Logger			*/
-	protected static CLogger log = CLogger.getCLogger(WPosQuery.class);
+	protected static CLogger log = CLogger.getCLogger(WPOSQuery.class);
 	
 	/**
 	 * Set Visible the new button

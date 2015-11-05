@@ -51,7 +51,7 @@ import org.zkoss.zul.Groupbox;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 
-public class WQueryDocType extends WPosQuery implements I_POSQuery
+public class WQueryDocType extends WPOSQuery implements I_POSQuery
 {
 	/**
 	 * 

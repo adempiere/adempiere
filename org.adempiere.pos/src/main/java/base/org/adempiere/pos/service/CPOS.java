@@ -154,6 +154,15 @@ public class CPOS {
 	}
 	
 	/**
+	 * Get Organization
+	 * @return
+	 * @return int
+	 */
+	public int getAD_Org_ID() {
+		return m_POS.getAD_Org_ID();
+	}
+	
+	/**
 	 * Validate if is voided
 	 * @return
 	 * @return boolean
@@ -498,6 +507,12 @@ public class CPOS {
 			return;
 		//	Set Document Type
 		m_CurrentOrder.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
+		//	Set Sequenced No
+		String value = DB.getDocumentNo(getC_DocType_ID(), null, false, m_CurrentOrder);
+		if (value != null) {
+			m_CurrentOrder.setDocumentNo(value);
+		}
+		m_CurrentOrder.saveEx();
 	}
 	
 	
