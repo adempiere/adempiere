@@ -74,32 +74,37 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	public WPOSActionPanel (WPOS posPanel) {
 		super (posPanel);
 	}	//	WPOSActionPanel
-
-	private Button 			f_History;
-	private	WPOSTextField	f_ProductName;
-	private boolean			isKeyboard;
+		
+	/**	Buttons Command		*/
 	private Button 			f_bNew;
-	private Button 			f_bTypeDoc;
-	private Button 			f_Collect;
-
-	private Button			f_bBPartner;
-	private Button 			f_logout;
-	private Button 			f_Cancel;
-	private Button 			f_Next;
-	private Button 			f_Back;
-
-	private final String ACTION_BPARTNER    = "BPartner";
-	private final String ACTION_LOGOUT      = "Cancel";
-	private final String ACTION_CANCEL      = "End";
-	private final String ACTION_HISTORY     = "History";
-	private final String ACTION_NEW         = "New";
-	private final String ACTION_PAYMENT     = "Payment";
-	private final String ACTION_TYPEDOC     = "Type";
-	
-	private WPOSInfoProduct v_InfoProductPanel;
-	private Panel parameterPanel;
+	private Button 			f_bDocType;
+	private Button 			f_bBPartner;
+	private Button 			f_bHistory;
+	private Button 			f_bBack;
+	private Button 			f_bNext;
+	private Button 			f_bCollect;
+	private Button 			f_bCancel;
+	private Button 			f_bLogout;
+	/**	Is Keyboard			*/
+	private boolean			isKeyboard;
+	/**	For Show BPartner	*/
+	private	WPOSTextField	f_ProductName;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(WPOSActionPanel.class);
+	private static CLogger log = CLogger.getCLogger(WPOSActionPanel.class);	
+
+	private final String ACTION_NEW         = "New";
+	private final String ACTION_DOCTYPE     = "DocType";
+	private final String ACTION_BPARTNER    = "BPartner";
+	private final String ACTION_HISTORY     = "History";
+	private final String ACTION_BACK       	= "Parent";
+	private final String ACTION_NEXT  		= "Detail";
+	private final String ACTION_PAYMENT     = "Payment";
+	private final String ACTION_CANCEL      = "Cancel";
+	private final String ACTION_LOGOUT      = "End";
+	/**	Info Product Panel	*/
+	private WPOSInfoProduct v_InfoProductPanel;
+	/**	Paramenter Panel	*/
+	private Panel 			parameterPanel;
 	
 	@Override
 	public void init() {
@@ -147,10 +152,10 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		row.appendChild(f_bNew);
 
 		// DocType 
-		f_bTypeDoc = createButtonAction(ACTION_TYPEDOC, KeyStroke.getKeyStroke(KeyEvent.VK_F4, Event.F4));
-		f_bTypeDoc.addActionListener(this);
+		f_bDocType = createButtonAction(ACTION_DOCTYPE, KeyStroke.getKeyStroke(KeyEvent.VK_F4, Event.F4));
+		f_bDocType.addActionListener(this);
 		
-		row.appendChild(f_bTypeDoc);
+		row.appendChild(f_bDocType);
 		// BPartner Search
 		f_bBPartner = createButtonAction(ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
 		f_bBPartner.addActionListener(this);
@@ -158,35 +163,35 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		row.appendChild(f_bBPartner);
 				
 		// HISTORY
-		f_History = createButtonAction(ACTION_HISTORY, null);
-		f_History.addActionListener(this);
-		row.appendChild(f_History); 
+		f_bHistory = createButtonAction(ACTION_HISTORY, null);
+		f_bHistory.addActionListener(this);
+		row.appendChild(f_bHistory); 
 
-		f_Back = createButtonAction("Parent", KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0));
-		f_Back.setTooltiptext(Msg.translate(m_ctx, "Previous"));
-		row.appendChild (f_Back);
-		f_Next = createButtonAction("Detail", KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0));
-		f_Next.setTooltiptext(Msg.translate(m_ctx, "Next"));
-		row.appendChild (f_Next);
+		f_bBack = createButtonAction(ACTION_BACK, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0));
+		f_bBack.setTooltiptext(Msg.translate(m_ctx, "Previous"));
+		row.appendChild (f_bBack);
+		f_bNext = createButtonAction(ACTION_NEXT, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0));
+		f_bNext.setTooltiptext(Msg.translate(m_ctx, "Next"));
+		row.appendChild (f_bNext);
 		
 		// PAYMENT
-		f_Collect = createButtonAction(ACTION_PAYMENT, null);
-		f_Collect.addActionListener(this);
-		row.appendChild(f_Collect); 
-		f_Collect.setEnabled(false);
+		f_bCollect = createButtonAction(ACTION_PAYMENT, null);
+		f_bCollect.addActionListener(this);
+		row.appendChild(f_bCollect); 
+		f_bCollect.setEnabled(false);
 
 		// Cancel
-		f_Cancel = createButtonAction (ACTION_CANCEL, null);
-		f_Cancel.addActionListener(this);
-		f_Cancel.setTooltiptext(Msg.translate(m_ctx, "POS.IsCancel"));
-		row.appendChild (f_Cancel);
-		f_Cancel.setEnabled(false);
+		f_bCancel = createButtonAction (ACTION_CANCEL, null);
+		f_bCancel.addActionListener(this);
+		f_bCancel.setTooltiptext(Msg.translate(m_ctx, "POS.IsCancel"));
+		row.appendChild (f_bCancel);
+		f_bCancel.setEnabled(false);
 		
 		// LOGOUT
-		f_logout = createButtonAction (ACTION_LOGOUT, null);
-		f_logout.addActionListener(this);
-		f_logout.setTooltiptext(Msg.translate(m_ctx, "End"));
-		row.appendChild (f_logout);
+		f_bLogout = createButtonAction (ACTION_LOGOUT, null);
+		f_bLogout.addActionListener(this);
+		f_bLogout.setTooltiptext(Msg.translate(m_ctx, "End"));
+		row.appendChild (f_bLogout);
 		row.appendChild(new Space());
 		
 		row = rows.newRow();
@@ -370,25 +375,25 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		if (e.getTarget().equals(f_bNew)){
 			v_POSPanel.newOrder();
 			refreshProductInfo(null);
-		}
-		else if(e.getTarget().equals(f_Collect)){
-			payOrder();
-			return;
-		}
-		else if (e.getTarget().equals(f_bTypeDoc)){
+		} 
+		else if (e.getTarget().equals(f_bDocType)){
 			WQueryDocType qt = new WQueryDocType(v_POSPanel);
 			qt.setVisible(true);
 			AEnv.showWindow(qt);
 		}
-		else if (e.getTarget().equals(f_Back)){
+		else if(e.getTarget().equals(f_bCollect)){
+			payOrder();
+			return;
+		}
+		else if (e.getTarget().equals(f_bBack)){
 			previousRecord();
 			refreshProductInfo(null);
 		}
-		else if (e.getTarget().equals(f_Next)){
+		else if (e.getTarget().equals(f_bNext)){
 			nextRecord();
 			refreshProductInfo(null);
 		}
-		else if(e.getTarget().equals(f_logout)){
+		else if(e.getTarget().equals(f_bLogout)){
 			dispose();
 			return;
 		}
@@ -408,12 +413,12 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			}
 		}
 		// Cancel
-		else if (e.getTarget().equals(f_Cancel)){
+		else if (e.getTarget().equals(f_bCancel)){
 			deleteOrder();
 			refreshProductInfo(null);
 		}
 		//	History
-		if (e.getTarget().equals(f_History)) {
+		if (e.getTarget().equals(f_bHistory)) {
 			
 			WQueryTicket qt = new WQueryTicket(v_POSPanel);
 			qt.setVisible(true);
@@ -456,30 +461,30 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	public void changeViewPanel() {
 		if(v_POSPanel.hasOrder()) {
 			//	For Next
-			f_Next.setEnabled(!v_POSPanel.isLastRecord() && v_POSPanel.hasRecord());
+			f_bNext.setEnabled(!v_POSPanel.isLastRecord() && v_POSPanel.hasRecord());
 			//	For Back
-			f_Back.setEnabled(!v_POSPanel.isFirstRecord() && v_POSPanel.hasRecord());
+			f_bBack.setEnabled(!v_POSPanel.isFirstRecord() && v_POSPanel.hasRecord());
 			//	For Collect
 			if(v_POSPanel.hasLines()
 					&& !v_POSPanel.isPaid()
 					&& !v_POSPanel.isVoided()) {
 				//	For Credit Order
-				f_Collect.setEnabled(true);
+				f_bCollect.setEnabled(true);
 			} else {
-				f_Collect.setEnabled(false);
+				f_bCollect.setEnabled(false);
 			}
 			//	For Cancel Action
-			f_Cancel.setEnabled(!v_POSPanel.isVoided());
+			f_bCancel.setEnabled(!v_POSPanel.isVoided());
 		} else {
 			f_bNew.setEnabled(true);
-			f_History.setEnabled(true);
+			f_bHistory.setEnabled(true);
 			//	For Next
-			f_Next.setEnabled(!v_POSPanel.isLastRecord() && v_POSPanel.hasRecord());
+			f_bNext.setEnabled(!v_POSPanel.isLastRecord() && v_POSPanel.hasRecord());
 			//	For Back
-			f_Back.setEnabled(!v_POSPanel.isFirstRecord() && v_POSPanel.hasRecord());
-			f_Collect.setEnabled(false);
+			f_bBack.setEnabled(!v_POSPanel.isFirstRecord() && v_POSPanel.hasRecord());
+			f_bCollect.setEnabled(false);
 			//	For Cancel Action
-			f_Cancel.setEnabled(false);
+			f_bCancel.setEnabled(false);
 		}
 	}
 	
@@ -490,9 +495,9 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	public void enableButton(){
 		f_ProductName.setText(f_ProductName.getTitle());
 		f_bNew.setEnabled(true);
-		f_Cancel.setEnabled(false);
-		f_History.setEnabled(true);
-		f_Collect.setEnabled(false);
+		f_bCancel.setEnabled(false);
+		f_bHistory.setEnabled(true);
+		f_bCollect.setEnabled(false);
 	}
 	
 	@Override

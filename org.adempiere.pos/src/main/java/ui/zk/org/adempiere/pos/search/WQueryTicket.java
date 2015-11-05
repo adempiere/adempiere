@@ -53,7 +53,7 @@ import org.zkoss.zul.Groupbox;
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
-public class WQueryTicket extends WPosQuery implements I_POSQuery
+public class WQueryTicket extends WPOSQuery implements I_POSQuery
 {
 	/**
 	 * 
