@@ -77,11 +77,11 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 		Center center = new Center();
 		center.appendChild(m_table);
 		m_table.setWidth("100%");
-		m_table.setHeight("95%");
+		m_table.setHeight("100%");
 		m_table.addActionListener(this);
 		m_table.addEventListener(Events.ON_CLICK, this);
 		m_table.getModel().addTableModelListener(this);
-		center.setStyle("border: none; height:95%;");
+		center.setStyle("border: none; height:100%;");
 		m_table.setClass("Table-OrderLine");
 		m_table.setColumnReadOnly(POSOrderLineTableHandle.POSITION_QTYORDERED, true);
 		appendChild(center);
@@ -89,7 +89,6 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 
 	@Override
 	public void refreshPanel() {
-
 	
 		if (!v_POSPanel.hasOrder()) {
 			m_table.loadTable(new PO[0]);

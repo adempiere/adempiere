@@ -195,7 +195,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		row.appendChild(new Space());
 		
 		row = rows.newRow();
-		row.setSpans("1, 8");
+		row.setSpans("1, 9");
 		row.setHeight("55px");
 
 		f_ProductName = new WPOSTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), v_POSPanel.getKeyboard());
@@ -211,7 +211,8 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		
 		v_InfoProductPanel = new WPOSInfoProduct(v_POSPanel);
 		row = rows.newRow();
-		row.setSpans("9");
+		row.setSpans("1,9");
+		row.appendChild(new Space());
 		row.appendChild(v_InfoProductPanel.getPanel());
 		//	List Orders
 		v_POSPanel.listOrder();

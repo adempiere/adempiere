@@ -33,6 +33,7 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MOrder;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -180,16 +181,22 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 		ResultSet rs = null;
 		
 		try  {
-			sql.append(" SELECT d.C_DocType_ID, d.Name, s.CurrentNext, d.Description ")
-			.append(" FROM C_DocType d ")
-			.append(" INNER JOIN AD_Sequence s ON (s.AD_Sequence_ID = d.DocNoSequence_ID) ")
-			.append(" WHERE DocNoSequence_ID > 0");
-			if(name.length() > 0)
-				sql.append(" AND (d.Name LIKE '%" + name + "%')");
-			if(description.length() > 0)
-				sql.append(" AND (d.Name LIKE '%" + description + "%')");
-			
+			sql.append(" SELECT dt.C_DocType_ID, dt.Name, sq.Name, (COALESCE(sq.Prefix, '') || sq.CurrentNext || COALESCE(sq.Suffix, '')) SeqNo")
+			.append(" FROM C_DocType dt")
+			.append(" LEFT JOIN AD_Sequence sq ON (sq.AD_Sequence_ID = dt.DocNoSequence_ID)")
+			.append(" WHERE dt.AD_Client_ID = ? AND dt.AD_Org_ID IN (0, ?)")
+			.append(" AND dt.DocBaseType='SOO'")
+			.append(" AND dt.DocSubTypeSO IN(?, ?, ?, ?, ?)");
+			int i = 1;			
 			pstm = DB.prepareStatement(sql.toString(), null);
+			//	POS
+			pstm.setInt(i++, Env.getAD_Client_ID(p_ctx));
+			pstm.setInt(i++, v_POSPanel.getAD_Org_ID());
+			pstm.setString(i++, MOrder.DocSubTypeSO_POS);
+			pstm.setString(i++, MOrder.DocSubTypeSO_OnCredit);
+			pstm.setString(i++, MOrder.DocSubTypeSO_Standard);
+			pstm.setString(i++, MOrder.DocSubTypeSO_Prepay);
+			pstm.setString(i++, MOrder.DocSubTypeSO_Warehouse);
 			//	
 			rs = pstm.executeQuery();
 			m_table.loadTable(rs);
@@ -233,7 +240,6 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 	@Override
 	protected void close()
 	{
-		System.out.println(m_C_DocType_ID);
 		log.info("C_DocType_ID=" + m_C_DocType_ID);
 		if (m_C_DocType_ID > 0)
 		{
