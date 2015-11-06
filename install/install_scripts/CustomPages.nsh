@@ -17,6 +17,8 @@ Var loginLink
  */
 Function nsDialogsOptions1
     
+    Call skip_options  ; will abort if options can be skipped.
+    
     !insertmacro MUI_HEADER_TEXT $(LocS_ADSetupOptionsHeader) ""
     
     nsDialogs::Create /NOUNLOAD 1018

@@ -26,7 +26,7 @@
 ; Please read the Readme.txt file for more information on using this script.
 
 ; Include files
-!include "Adempiere_winx64.nsh"
+!include "Common.nsh"
 !include "CustomPages.nsh"
 
 ; *************************************
@@ -43,7 +43,7 @@
 ; Product name, version and patch number are used in the .exe file name
 !define PRODUCT_NAME "ADempiere"
 !define PRODUCT_VERSION "380LTS"
-!define PRODUCT_PATCH "2"
+!define PRODUCT_PATCH "_2"  ; Leading underscore if specifying a patch or null string
 !define PRODUCT_PUBLISHER "ADempiere Deutschland e.V."
 !define PRODUCT_WEB_SITE "http://www.adempiere.io"
 !define ADEMPIERE_WIKI_INSTALL_LINK_TEXT "Adempiere Windows Installer"
@@ -73,38 +73,64 @@
 ; *********************************
 ; JDK defines - name of the install executable and 
 ; the default install location
-!define JDK_NAME "Java JDK 1.8 Update 60 (Win x64)"
-!define JDK_DOWNLOAD_LINK "http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-windows-x64.exe"
-!define JDK_INSTALLER "jdk-8u60-windows-x64.exe"
-!define JDK_DEFAULT_DIR "$PROGRAMFILES64\Java\jdk1.8.0_60"
-!define JAVA_HOME "$PROGRAMFILES64\Java\jdk1.8.0_60"
+!ifdef AD_WIN32_INSTALL
+    !define JDK_NAME "Java JDK 1.8 Update 66 (Win x32)"
+    !define JDK_DOWNLOAD_LINK "http://download.oracle.com/otn-pub/java/jdk/8u66-b17/jdk-8u66-windows-i586.exe"
+    !define JDK_INSTALLER "jdk-8u66-windows-i586.exe"
+    !define JDK_DEFAULT_DIR "$PROGRAMFILES\Java\jdk1.8.0_66"
+    !define JAVA_HOME "$PROGRAMFILES\Java\jdk1.8.0_66"
+    !define JDK_SIZE 335000             ; The required size in kb of the JDK install. Need if downloading zip.
+!else
+    !define JDK_NAME "Java JDK 1.8 Update 60 (Win x64)"
+    !define JDK_DOWNLOAD_LINK "http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-windows-x64.exe"
+    !define JDK_INSTALLER "jdk-8u60-windows-x64.exe"
+    !define JDK_DEFAULT_DIR "$PROGRAMFILES64\Java\jdk1.8.0_60"
+    !define JAVA_HOME "$PROGRAMFILES64\Java\jdk1.8.0_60"
+    !define JDK_SIZE 335000             ; The required size in kb of the JDK install. Need if downloading zip.
+!endif
 !define JDK_MIN_VERSION "1.7"
 !define JDK_TARGET_VERSION "1.8"
-!define JDK_SIZE 335000             ; The required size in kb of the JDK install. Need if downloading zip.
 
 ; *********************************
 ; PostgreSQL defines - name of the install executable and 
 ; the default install location
-!define PG_NAME "PostgreSQL 9.4.5-1 Win x64"
-!define PG_DOWNLOAD_LINK "http://get.enterprisedb.com/postgresql/postgresql-9.4.5-1-windows-x64.exe"
-!define PG_INSTALLER "postgresql-9.4.5-1-windows-x64.exe"
-!define PG_DEFAULT_DIR "$PROGRAMFILES64\PostgreSQL\9.4"
-!define PG_SERVICE_ID "postgresql-x64-9.4"
-!define PG_VERSION_DETAIL "9.4.5-1"
+!ifdef AD_WIN32_INSTALL
+    !define PG_NAME "PostgreSQL 9.4.5-1 (Win x32)"
+    !define PG_DOWNLOAD_LINK "http://get.enterprisedb.com/postgresql/postgresql-9.4.5-1-windows.exe"
+    !define PG_INSTALLER "postgresql-9.4.5-1-windows.exe"
+    !define PG_DEFAULT_DIR "$PROGRAMFILES\PostgreSQL\9.4"
+    !define PG_SERVICE_ID "postgresql-x64-9.4"
+    !define PG_VERSION_DETAIL "9.4.5-1"
+    !define PG_SIZE  465000             ; The required size in kb of the PG install. Need if downloading zip.
+!else
+    !define PG_NAME "PostgreSQL 9.4.5-1 Win x64"
+    !define PG_DOWNLOAD_LINK "http://get.enterprisedb.com/postgresql/postgresql-9.4.5-1-windows-x64.exe"
+    !define PG_INSTALLER "postgresql-9.4.5-1-windows-x64.exe"
+    !define PG_DEFAULT_DIR "$PROGRAMFILES64\PostgreSQL\9.4"
+    !define PG_SERVICE_ID "postgresql-x64-9.4"
+    !define PG_VERSION_DETAIL "9.4.5-1"
+    !define PG_SIZE  465000             ; The required size in kb of the PG install. Need if downloading zip.
+!endif
+!define PG_MIN_VERSION "9.0"        ; Minimun acceptable PG Version
 !define PG_USER "postgres"          ; Username of PG system account
 !define PG_PASSWORD "postgres"      ; Password for PostgreSQL installtion
 !define PG_PORT "5432"              ; PostgreSQL Port (5432)
-!define PG_MIN_VERSION "9.0"        ; Minimun acceptable PG Version
-!define PG_SIZE  465000             ; The required size in kb of the PG install. Need if downloading zip.
 
 ; Installer Attributes
 Name "${PRODUCT_NAME} $PRODUCT_VERSION"
 !ifdef OFF-LINE
-    OutFile "${OUT_DIR}\Adempiere_${PRODUCT_VERSION}_${PRODUCT_PATCH}_windows_x64_offline.exe"
+    !define OFF_LINE_TAG "_offline"
+!else
+    !define OFF_LINE_TAG ""
 !endif
-!ifndef OFF-LINE
-    OutFile "${OUT_DIR}\Adempiere_${PRODUCT_VERSION}_${PRODUCT_PATCH}_windows_x64.exe"
+!ifdef AD_WIN32_INSTALL
+    !define OS_TAG "win_x32"
+!else
+    !define OS_TAG "win_x64"
 !endif
+
+OutFile "${OUT_DIR}\Adempiere_${PRODUCT_VERSION}${PRODUCT_PATCH}_${OS_TAG}${OFF_LINE_TAG}.exe"
+
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 AllowRootDirInstall true
 ShowInstDetails show
@@ -134,7 +160,7 @@ ShowUnInstDetails show
 ; Add this after all other defines
 !include "Language.nsh"
  
-Section "${PRODUCT_NAME} ${PRODUCT_VERSION}_${PRODUCT_PATCH}" AD_SECTION
+Section "${PRODUCT_NAME} ${PRODUCT_VERSION}${PRODUCT_PATCH}" AD_SECTION
   SectionIn RO
   StrCpy $ADEMPIERE_HOME "$AD_INSTALL_DRIVE\Adempiere"
     ;Store installation folder
@@ -145,8 +171,7 @@ Section "${PRODUCT_NAME} ${PRODUCT_VERSION}_${PRODUCT_PATCH}" AD_SECTION
   !ifdef OFF-LINE
       ; Extract the ADempiere files
       File /r "${SOURCE_FILE_DIR}\*.*"
-  !endif
-  !ifndef OFF-LINE
+  !else
     ; Find and extract the zip from the URL
         ; Adempiere Download
         ;${ClearStack}
@@ -166,7 +191,7 @@ Section "${PRODUCT_NAME} ${PRODUCT_VERSION}_${PRODUCT_PATCH}" AD_SECTION
   !endif
       
   WriteIniStr "$ADEMPIERE_HOME\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
-    
+  
   WriteUninstaller "$ADEMPIERE_HOME\uninst.exe"
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$ADEMPIERE_HOME\RUN_ADempiere.bat"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
@@ -200,8 +225,7 @@ Section "${JDK_NAME}" JDK_SECTION
     SetOutPath $PLUGINSDIR
     !ifdef OFF-LINE
         File "${TOOL_FILE_DIR}\java\${JDK_INSTALLER}"
-    !endif
-    !ifndef OFF-LINE
+    !else
         ; JAVA Download
         DetailPrint ${SEPARATOR}
         DetailPrint $(LocS_JavaDownload)
@@ -223,7 +247,7 @@ Section "${JDK_NAME}" JDK_SECTION
     ; Check if JDK was installed
     ; TODO Stronger check required
     ReadRegStr $JDK_VERSION HKLM "Software\JavaSoft\Java Development Kit" "CurrentVersion"
-    ${if} $JDK_VERSION != "1.8"
+    ${if} $JDK_VERSION != ${JDK_TARGET_VERSION}
         MessageBox MB_OK "$(LocS_JDKDownloadFailed): $(LocS_JDKIsRequired)"
         abort
     ${endif}
@@ -412,7 +436,13 @@ Section -Setup
     DetailPrint ${SEPARATOR}
     DetailPrint $(LocS_StartingService)
     DetailPrint ${SEPARATOR}
-    ExecDos::exec /NOUNLOAD "$ADEMPIERE_HOME\utils\windows\Adempiere_Service_Install_64.bat" "" "$ADEMPIERE_HOME\ServiceInstall.log"
+    !ifdef AD_WIN32_INSTALL
+        ExecDos::exec /NOUNLOAD "$ADEMPIERE_HOME\utils\windows\Adempiere_Service_Install.bat" "" "$ADEMPIERE_HOME\ServiceInstall.log"
+    !else
+        ExecDos::exec /NOUNLOAD "$ADEMPIERE_HOME\utils\windows\Adempiere_Service_Install_64.bat" "" "$ADEMPIERE_HOME\ServiceInstall.log"
+    !endif
+    
+    ; Start the service
     ExecDos::exec /NOUNLOAD "$ADEMPIERE_HOME\utils\windows\Adempiere_Service_Start.bat" "" "$ADEMPIERE_HOME\ServiceStart.log"
 
 SectionEnd
@@ -493,7 +523,10 @@ Function .onInit
          Abort
     ${endif}
 
-    SetRegView 64 ; needed to view the x64 entries in the registry
+    !ifndef AD_WIN32_INSTALL
+        SetRegView 64 ; needed to view the x64 entries in the registry
+    !endif
+    
     ; Get computer name
     ReadRegStr $COMPUTER_NAME HKLM "SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName" "ComputerName"
 
@@ -621,7 +654,6 @@ Function MigrateProgress
     IntOp $1 $R8 * 100
     IntOp $1 $1 / $EXPECTED_LINES_MIGRATION
     DetailPrint "Migrating Database ... $1%"
-
 FunctionEnd
 
 
@@ -636,13 +668,38 @@ Function un.onInit
   MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 $(LocS_UninstallConfirm) IDYES PROCEED
     Abort
   PROCEED:
+    !ifndef AD_WIN32_INSTALL
+        SetRegView 64 ; needed to view the x64 entries in the registry
+    !endif
     ; Load the ADEMPIERE_HOME environment variable
-    SetRegView 64 ; needed to view the x64 entries in the registry
     ReadEnvStr $ADEMPIERE_HOME ADEMPIERE_HOME
     ; Stop and uninstall the Adempiere service before the files are deleted.
     ; Don't include /NOUNLOAD so the batch file can be deleted after it exits.
     ; Execute synchronously - wait for completion of the batch
-    ExecDos::Exec "$ADEMPIERE_HOME\utils\windows\Adempiere_Service_Uninstall_64.bat" "" ""
+    !ifndef AD_WIN32_INSTALL
+        ExecDos::Exec "$ADEMPIERE_HOME\utils\windows\Adempiere_Service_Uninstall_64.bat" "" ""
+    !else
+        ExecDos::Exec "$ADEMPIERE_HOME\utils\windows\Adempiere_Service_Uninstall.bat" "" ""
+    !endif
+FunctionEnd
+
+Function skip_options
+
+    Push $R0
+    
+    ; If installing postgres, we can skip the options and use the 
+    ; defaults - gets closer to a single click installer
+    SectionGetFlags ${PG_SECTION} $R0
+    
+    IntCmp $R0 0 show   ; Using an existing install. Options are needed. 
+    
+    IntOp $R0 $R0 & ${SF_SELECTED}  ; Selected 
+    IntCmp $R0 0 show  ; If postgres is not selected, options are needed. 
+
+    Abort 
+    
+    show:
+    Pop $R0
 FunctionEnd
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN

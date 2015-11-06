@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="ADempiere Windows Installer" default="win64" basedir=".">
+<project name="ADempiere Windows Installer" default="all" basedir=".">
 
     <!--
         Generates the installer executables based on NSIS scripts.
@@ -28,36 +28,36 @@
 		<delete dir="${bin.dir}"/>
 	</target>
 
-    <target name="init" description="initialization target" depends="clean">
-        <echo message="=========== Build Windows 64-bit Installer "/>
+    <target name="-init" description="initialization target">
+        <echo message="=========== Build Windows Installers"/>
         <!-- create the time stamp -->
         <tstamp/>
         <mkdir dir="${bin.dir}"/>
-        <mkdir dir="${temp.dir}"/>
     	
-        <!-- move todir="${temp.dir}">
+    	<!-- If building off-line installers, rather than copy the entire ${basedir}\build,
+    	     it is easier to remove the files we don't need - specifically the archives. 
+    	     The installer will include all the remaining files.
+    	-->
+    	<!--
+        <mkdir dir="${temp.dir}"/>
+        <move todir="${temp.dir}">
             <fileset dir="${build.dir}">
             	<include name="*.zip"/>
                 <include name="*.zip.MD5"/>
                 <include name="*.tar.gz"/>
                 <include name="*.tar.gz.MD5"/>
         	</fileset>
-        </move-->
+        </move>
+        -->
     </target>
 
-	<target name="win64" description="Generate Windows x64 installer" depends="init">
+	<target name="-win64">
         <exec executable="${NSIS_HOME}\bin\makensis.exe" failonerror="false" resultproperty="nsis_result">
             <!-- passing the script -->
             <arg value="/V4" /> <!-- Verbose, all output -->
             <arg value="${build.path}\Adempiere_winx64.nsi"/>
-            <!-- arg value="${build.path}\AD_Install_x64.nsi"/ -->
         </exec>
         
-        <!-- move todir="${build.dir}">
-            <fileset dir="${temp.dir}"/>
-        </move -->
-        <delete dir="${temp.dir}"/>
-		
 		<fail message="Makensis for Adempiere Windows x64 Installer failed with result ${nsis_result}. See output for more info.">
 		    <condition>
 		       <not>
@@ -65,6 +65,40 @@
 		       </not>
 		     </condition>
 		</fail>
+    </target>
+
+   <target name="-win32">
+        <exec executable="${NSIS_HOME}\bin\makensis.exe" failonerror="false" resultproperty="nsis_result">
+            <!-- passing the script -->
+            <arg value="/V4" /> <!-- Verbose, all output -->
+            <arg value="${build.path}\Adempiere_winx32.nsi"/>
+        </exec>
+        
+        <fail message="Makensis for Adempiere Windows x32 Installer failed with result ${nsis_result}. See output for more info.">
+            <condition>
+               <not>
+                 <equals arg1="${nsis_result}" arg2=""/>
+               </not>
+             </condition>
+        </fail>
+    </target>
+		
+    <target name="-cleanup">
+    	<!-- If building offline installers
+        <move todir="${build.dir}">
+            <fileset dir="${temp.dir}"/>
+        </move>
+        <delete dir="${temp.dir}"/>
+        -->
+    </target>
+		
+    <target name="win64" description="Generate the win64 installer." depends="-init, -win64, -cleanup">
+    </target>
+
+    <target name="win32" description="Generate the win32 installer." depends="-init, -win32, -cleanup">
+    </target>
+
+    <target name="all" description="Generate the all windows installers." depends="-init, -win64, -win32, -cleanup">
     </target>
 
 </project>
