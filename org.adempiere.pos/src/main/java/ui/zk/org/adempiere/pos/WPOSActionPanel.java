@@ -93,7 +93,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	private static CLogger log = CLogger.getCLogger(WPOSActionPanel.class);	
 
 	private final String ACTION_NEW         = "New";
-	private final String ACTION_DOCTYPE     = "DocType";
+	private final String ACTION_DOCTYPE     = "Assignment";
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_HISTORY     = "History";
 	private final String ACTION_BACK       	= "Parent";
@@ -154,6 +154,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		// DocType 
 		f_bDocType = createButtonAction(ACTION_DOCTYPE, KeyStroke.getKeyStroke(KeyEvent.VK_F4, Event.F4));
 		f_bDocType.addActionListener(this);
+		f_bDocType.setTooltiptext(Msg.translate(m_ctx, "C_DocType_ID"));
 		
 		row.appendChild(f_bDocType);
 		// BPartner Search

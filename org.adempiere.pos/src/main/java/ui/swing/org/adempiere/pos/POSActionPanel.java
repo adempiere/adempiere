@@ -103,7 +103,7 @@ public class POSActionPanel extends POSSubPanel
 	private static CLogger log = CLogger.getCLogger(POSActionPanel.class);	
 
 	private final String ACTION_NEW         = "New";
-	private final String ACTION_DOCTYPE     = "DocType";
+	private final String ACTION_DOCTYPE     = "Assignment";
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_HISTORY     = "History";
 	private final String ACTION_BACK       	= "Previous";
@@ -134,6 +134,7 @@ public class POSActionPanel extends POSSubPanel
 		// DOCTYPE
 		f_bDocType = createButtonAction(ACTION_DOCTYPE, KeyStroke.getKeyStroke(KeyEvent.VK_F8, Event.F8));
 		f_bDocType.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
+		f_bDocType.setToolTipText(Msg.translate(m_ctx, "C_DocType_ID"));
 		v_ButtonPanel.add(f_bDocType, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// BPARTNER
