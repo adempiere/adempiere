@@ -109,14 +109,14 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		buttonPanel.appendChild(labelLayout);
 		parameterPanel.appendChild(groupPanel);
 		infoProductLayout.setWidth("100%");
-		infoProductLayout.setHeight("100%");
+		infoProductLayout.setHeight("95%");
 		rows = infoProductLayout.newRows();
 		row = rows.newRow();
 		
 		//	For Image
 		bImage = new Panel();
 		row.appendChild(bImage);
-		bImage.setWidth("140px");
+		bImage.setWidth("138px");
 		bImage.setHeight("130px");	
 		
 		row.appendChild(buttonPanel);

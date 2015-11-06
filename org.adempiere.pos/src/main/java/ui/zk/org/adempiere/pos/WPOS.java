@@ -165,12 +165,13 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		v_Table.appendChild(f_OrderLinePanel);
 		north.appendChild(v_ActionPanel);
 		east.appendChild(f_ProductKeysPanel);
-		east.setStyle("border: none; width:53%");
+		east.setSplittable(true);
+		east.setStyle("border: none;  min-width:44%; width:44%");
 
 		fullPanel.appendChild(v_Table);
 		fullPanel.appendChild(north);
-		north.setStyle("border: none; width:44%; height:290px");
-		v_Table.setStyle("border: none; width:44%;  height:100%; ");
+		north.setStyle("border: none; width:42%; height:295px");
+		v_Table.setStyle("border: none; width:54%;  height:100%; ");
 		
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");

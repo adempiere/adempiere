@@ -41,6 +41,7 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.X_C_Payment;
@@ -435,8 +436,8 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return boolean
 	 */
 	public boolean showCollect() {
-		v_Window.setWidth("445px");;
-		v_Window.setHeight("580px"); ;
+		v_Window.setWidth("445px");
+		v_Window.setHeight(SessionManager.getAppDesktop().getClientInfo().desktopHeight + "px"); 
 		v_Window.setClosable(true);
 		AEnv.showWindow(v_Window);
 		return isProcessed();

@@ -123,7 +123,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 
 		protected int preferredWidth;
 	}
-    
+
 	/**
 	 * Get the column details of the specified <code>column</code>.
 	 *
@@ -294,7 +294,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 					NumberBox numberbox = new NumberBox(false);
 					numberbox.setFormat(format);
 					numberbox.setValue(field);
-					numberbox.setWidth("100px");
+					numberbox.setWidth("50px");
 					numberbox.setEnabled(true);
 					numberbox.addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(numberbox);
@@ -512,7 +512,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         	}else if (classType != null && classType.isAssignableFrom(DeleteColumn.class))
         	{
         		header = new ListHeader("");
-        		header.setWidth("45px");
+        		header.setWidth("35px");
         	}
         	else
         	{
@@ -524,29 +524,35 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	            header.setSort("auto");
 	            header.setSortAscending(ascComparator);
 	            header.setSortDescending(dscComparator);
-	
-	            int width = headerText.trim().length() * 9;
+	            int qty = headerText.trim().length();
+	            int width = 0;
+	            if(qty >= 7)
+	            	width=(int)(qty * 7.5);
+	            else
+	            	width=(int)(qty * 15.5);
+	            
 	            if (width > 300)
 	            	width = 300;
 	            else if (classType != null)
 	            {
-	            	if (classType.equals(String.class))
-	            	{
-	            		if (width > 0 && width < 180)
-	            			width = 180;
-	            	}
-	            	else if (classType.equals(IDColumn.class))
+//	            	if (classType.equals(String.class))
+//	            	{
+//	            		if (width > 0 && width < 180)
+//	            			width = 180;
+//	            	}
+//	            	else
+	            		if (classType.equals(IDColumn.class))
 	            	{
 	            		header.setSort("none");
 	            		if (width == 0)
 	            			width = 30;
 	            	}
-		            else if (width > 0 && width < 100 && (classType == null || !classType.isAssignableFrom(Boolean.class)))
-	            		width = 100;
+//		            else if (width > 0 && width < 100 && (classType == null || !classType.isAssignableFrom(Boolean.class)))
+//	            		width = 100;
 	            }
-	            else if (width > 0 && width < 100)
-	            	width = 100;
-	
+//	            else if (width > 0 && width < 100)
+//	            	width = 100;
+//	
 	            header.setWidth(width + "px");
         	}
             m_headers.add(header);

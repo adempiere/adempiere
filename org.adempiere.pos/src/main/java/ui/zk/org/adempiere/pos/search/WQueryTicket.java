@@ -318,6 +318,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 			WPOSKeyboard keyboard = f_documentno.getKeyboard();
 			//	Set Title
 			keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
+			keyboard.setPosTextField(f_documentno);
 			keyboard.setWidth("750px");
 			keyboard.setHeight("380px");
 			AEnv.showWindow(keyboard);

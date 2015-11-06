@@ -273,7 +273,43 @@ public class WPOSTable extends WListbox {
 	{
 		return m_layout;
 	}
+	public void setColumnClass (int index, Class classType, boolean readOnly)
+    {
+        setColumnReadOnly(index, readOnly);
 
+        WListItemRenderer renderer = (WListItemRenderer)getItemRenderer();
+
+        renderer.setColumnClass(index, classType);
+
+        m_modelHeaderClass.add(classType);
+
+        return;
+    }
+
+	/**
+	 * Set the attributes of the column.
+	 *
+	 * @param classType	The class of data that the column will contain
+	 * @param readOnly	Whether the data in the column is read only
+	 * @param header	The header text for the column
+	 *
+	 * @see #setColumnClass(int, Class, boolean)
+	 * @see #addColumn(String)
+	 */
+	public void addColumn(Class classType, boolean readOnly, String header)
+	{
+		m_modelHeaderClass.add(classType);
+
+		setColumnReadOnly(m_modelHeaderClass.size() - 1, readOnly);
+
+		addColumn(header);
+
+		WListItemRenderer renderer = (WListItemRenderer)getItemRenderer();
+		renderer.setColumnClass((renderer.getNoColumns() - 1), classType);
+
+ 		return;
+	}
+	
 	/**
 	 * Set the attributes of the column.
 	 *

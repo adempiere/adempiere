@@ -53,9 +53,10 @@ public class QueryDocType extends POSQuery {
 	public QueryDocType (VPOS posPanel) {
 		super(posPanel);
 	}	//	PosQueryBPartner
-	
+
 	/**	Search Fields		*/
 	private POSTextField	f_Name;
+	private POSTextField	f_Description;
 	/**	Internal Variables	*/
 	private int				m_C_DocType_ID;
 	private String 			m_DocTypeName;
@@ -89,6 +90,13 @@ public class QueryDocType extends POSQuery {
 		lname.setLabelFor(f_Name);
 		v_ParameterPanel.add(f_Name, "h 30, w 200");
 		f_Name.addActionListener(this);
+		
+		CLabel ldescription = new CLabel(Msg.translate(m_ctx, "Description"));
+		v_ParameterPanel.add (ldescription, " growy");
+		f_Description = new POSTextField("", v_POSPanel.getKeyboard());
+		lname.setLabelFor(f_Description);
+		v_ParameterPanel.add(f_Description, "h 30, w 200");
+		f_Description.addActionListener(this);
 		//	Center
 		m_table.prepareTable (s_layout, s_sqlFrom, 
 			s_sqlWhere, false, "C_DocType");
