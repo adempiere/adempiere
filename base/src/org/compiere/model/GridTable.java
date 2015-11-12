@@ -49,6 +49,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.MSort;
+import org.compiere.util.Msg;
 import org.compiere.util.SecureEngine;
 import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
@@ -2098,10 +2099,19 @@ public class GridTable extends AbstractTableModel
 					
 					//   GridTable.dataSave(boolean manualCmd) has a Bug when comparing new, old and db value 
 					// - https://adempiere.atlassian.net/browse/ADEMPIERE-157
-					|| ((oldValue.getClass().equals(byte[].class) && dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
-					|| ((value.getClass().equals(byte[].class) && dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
+					|| ((oldValue !=null && dbValue !=  null && oldValue.getClass().equals(byte[].class) &&  dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
+					|| ((value != null && dbValue !=  null && oldValue != null  && value.getClass().equals(byte[].class) &&  dbValue.getClass().equals(byte[].class)) && Arrays.equals((byte[])oldValue, (byte[])dbValue))
 				) {
-					po.set_ValueNoCheck (columnName, value);
+					if(!po.set_ValueNoCheck (columnName, value))
+					{
+						ValueNamePair error = CLogger.retrieveError();
+						if (error != null)
+							fireDataStatusEEvent (error.getValue() != null ? error.getValue() : "" , field.getHeader() + " - " + (error.getName() != null ? error.getName() : "") , true);
+						else
+							fireDataStatusEEvent(Msg.parseTranslation(po.getCtx() , "@Value@ @NotValid@ "), field.getHeader(), true);
+
+						return SAVE_ERROR;
+					}
 				}
 				//	Original != DB
 				else
