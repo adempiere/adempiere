@@ -1229,7 +1229,7 @@ public class MRP extends SvrProcess
 			{	
 
 				//Org Must be linked to BPartner
-				MOrg org = MOrg.get(getCtx(), locator.getAD_Org_ID());
+				MOrg org = MOrg.get(getCtx(), locator_to.getAD_Org_ID());
 				int C_BPartner_ID = org.getLinkedC_BPartner_ID(trxName); 
 				if (C_BPartner_ID == 0)
 				{
@@ -1259,6 +1259,8 @@ public class MRP extends SvrProcess
 					order.setIsInDispute(false);
 					order.setIsInTransit(false);
 					order.setSalesRep_ID(m_product_planning.getPlanner_ID());
+					order.setProcessed(false);
+					order.setProcessing(false);
 					order.saveEx();
 					DD_Order_ID = order.get_ID();				
 					String key = order.getAD_Org_ID()+"#"+order.getM_Warehouse_ID()+"#"+network_line.getM_Shipper_ID()+"#"+C_BPartner_ID+"#"+TimeUtil.getDay(DemandDateStartSchedule.getTime())+"DR";
