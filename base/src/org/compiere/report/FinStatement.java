@@ -27,12 +27,10 @@ import java.util.logging.Level;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MElementValue;
 import org.compiere.model.MPeriod;
-import org.compiere.print.MPrintFormat;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 
@@ -50,6 +48,9 @@ import org.compiere.util.Msg;
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
  *	@author Armen Rizal, Goodwill Consulting
  *			<li>FR [2857076] User Element 1 and 2 completion - https://sourceforge.net/tracker/?func=detail&aid=2857076&group_id=176962&atid=879335
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 92 ] 
+ *		@see https://github.com/adempiere/adempiere/issues/92
  *   
  */
 public class FinStatement extends SvrProcess
@@ -272,13 +273,14 @@ public class FinStatement extends SvrProcess
 	{
 		createBalanceLine();
 		createDetailLines();
-
-		int AD_PrintFormat_ID = 134;
-		if (Ini.isClient())
-			getProcessInfo().setTransientObject (MPrintFormat.get (getCtx(), AD_PrintFormat_ID, false));
-		else
-			getProcessInfo().setSerializableObject(MPrintFormat.get (getCtx(), AD_PrintFormat_ID, false));
-
+		//	Yamel Senih, 2015-11-13
+		//	Delete hardcode
+//		int AD_PrintFormat_ID = 134;
+//		if (Ini.isClient())
+//			getProcessInfo().setTransientObject (MPrintFormat.get (getCtx(), AD_PrintFormat_ID, false));
+//		else
+//			getProcessInfo().setSerializableObject(MPrintFormat.get (getCtx(), AD_PrintFormat_ID, false));
+		//	End Yamel Senih
 		log.fine((System.currentTimeMillis() - m_start) + " ms");
 		return "";
 	}	//	doIt
