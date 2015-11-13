@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Improvement Unpost Document" ReleaseNo="3.8.0#02" SeqNo="73">
+  <Migration EntityType="D" Name="Improvement Unpost Document" ReleaseNo="3.8.0#002" SeqNo="73">
     <Step DBType="ALL" Parse="Y" SeqNo="1" StepType="SQL">
       <SQLStatement>DROP VIEW RV_UnPosted;
 CREATE OR REPLACE VIEW RV_UnPosted
