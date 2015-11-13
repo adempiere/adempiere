@@ -18,7 +18,6 @@ package org.compiere.print;
 
 import java.lang.reflect.Method;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.apps.ADialog;
@@ -42,6 +41,9 @@ import org.compiere.util.Ini;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1866739 ] ReportCtl: use printformat from the transient/serializable
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 92 ] 
+ *		@see https://github.com/adempiere/adempiere/issues/92
  */
 public class ReportCtl
 {
@@ -146,9 +148,12 @@ public class ReportCtl
 		**/
 		else if (pi.getAD_Process_ID() == 159)		//	Dunning
 			return startDocumentPrint(ReportEngine.DUNNING, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
-	   else if (pi.getAD_Process_ID() == 202			//	Financial Report
-			|| pi.getAD_Process_ID() == 204)			//	Financial Statement
-		   return startFinReport (pi);
+		//	Yamel Senih, 2015-11-13
+		//	Delete Hardcode
+//	   else if (pi.getAD_Process_ID() == 202			//	Financial Report
+//			|| pi.getAD_Process_ID() == 204)			//	Financial Statement
+//		   return startFinReport (pi);
+		//	End Yamel Senih
 		/********************
 		 *	Standard Report
 		 *******************/
@@ -218,27 +223,30 @@ public class ReportCtl
 	 *  @param pi Process Info
 	 *  @return true if OK
 	 */
-	static public boolean startFinReport (ProcessInfo pi)
-	{
-		//  Create Query from Parameters
-		String TableName = pi.getAD_Process_ID() == 202 ? "T_Report" : "T_ReportStatement";
-		MQuery query = MQuery.get (Env.getCtx(), pi.getAD_PInstance_ID(), TableName);
-
-		//	Get PrintFormat
-		MPrintFormat format = (MPrintFormat)pi.getTransientObject();
-		if (format == null)
-			format = (MPrintFormat)pi.getSerializableObject();
-		if (format == null)
-		{
-			s_log.log(Level.SEVERE, "startFinReport - No PrintFormat");
-			return false;
-		}
-		PrintInfo info = new PrintInfo(pi);
-
-		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, pi,info);
-		createOutput(re, pi.isPrintPreview(), null);
-		return true;
-	}	//	startFinReport
+	//	Yamel Senih, 2015-11-13
+	//	Delete Hardcode
+//	static public boolean startFinReport (ProcessInfo pi)
+//	{
+//		//  Create Query from Parameters
+//		String TableName = pi.getAD_Process_ID() == 202 ? "T_Report" : "T_ReportStatement";
+//		MQuery query = MQuery.get (Env.getCtx(), pi.getAD_PInstance_ID(), TableName);
+//
+//		//	Get PrintFormat
+//		MPrintFormat format = (MPrintFormat)pi.getTransientObject();
+//		if (format == null)
+//			format = (MPrintFormat)pi.getSerializableObject();
+//		if (format == null)
+//		{
+//			s_log.log(Level.SEVERE, "startFinReport - No PrintFormat");
+//			return false;
+//		}
+//		PrintInfo info = new PrintInfo(pi);
+//
+//		ReportEngine re = new ReportEngine(Env.getCtx(), format, query, pi,info);
+//		createOutput(re, pi.isPrintPreview(), null);
+//		return true;
+//	}	//	startFinReport
+	//	End Yamel Senih
 	
 	/**
 	 * 	Start Document Print for Type.
