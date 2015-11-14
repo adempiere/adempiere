@@ -41,6 +41,19 @@ public interface I_AD_Table
 
     /** Load Meta Data */
 
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
+
     /** Column name ACTriggerLength */
     public static final String COLUMNNAME_ACTriggerLength = "ACTriggerLength";
 
@@ -117,19 +130,6 @@ public interface I_AD_Table
 	public int getAD_Window_ID();
 
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
-
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
-
-	/** Set Data Access Level.
-	  * Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel);
-
-	/** Get Data Access Level.
-	  * Access Level required
-	  */
-	public String getAccessLevel();
 
     /** Column name CopyColumnsFromTable */
     public static final String COLUMNNAME_CopyColumnsFromTable = "CopyColumnsFromTable";
@@ -261,6 +261,19 @@ public interface I_AD_Table
 	  * Indicates if records can be deleted from the database
 	  */
 	public boolean isDeleteable();
+
+    /** Column name IsDocument */
+    public static final String COLUMNNAME_IsDocument = "IsDocument";
+
+	/** Set Is Document.
+	  * This flag determinate if the record is a document
+	  */
+	public void setIsDocument (boolean IsDocument);
+
+	/** Get Is Document.
+	  * This flag determinate if the record is a document
+	  */
+	public boolean isDocument();
 
     /** Column name IsHighVolume */
     public static final String COLUMNNAME_IsHighVolume = "IsHighVolume";
