@@ -42,6 +42,9 @@ import org.compiere.util.Env;
  *  @author victor.perez@e-evoluton.com, www.e-evolution.com
  *  	<li>FR [ 3426137 ] Smart Browser
  * 		https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335 
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 9223372036854775807 ] Add Dynamic-Tree Functionality
+ *		@see https://adempiere.atlassian.net/browse/ADEMPIERE-442
  *  @version    $Id: MTree.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
 public class MTree extends MTree_Base
