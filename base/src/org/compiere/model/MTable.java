@@ -921,6 +921,12 @@ public class MTable extends X_AD_Table
 			column.setIsMandatory(true);
 			column.setUpdateable(false);
 			column.saveEx();
+			//	Document Description
+			column = new MColumn(this, "Description", 1, DisplayType.Text, "");
+			column.setIsMandatory(false);
+			column.setUpdateable(true);
+			column.setIsAlwaysUpdateable(true);
+			column.saveEx();
 			//	Document Status
 			column = new MColumn(this, "DocStatus", 1, DisplayType.List, "DR");
 			column.setIsMandatory(true);
