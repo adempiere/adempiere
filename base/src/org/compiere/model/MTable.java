@@ -871,28 +871,6 @@ public class MTable extends X_AD_Table
 		column = new MColumn(this, COLUMNNAME_UpdatedBy	, 22 , DisplayType.Table, "");
 		column.setAD_Reference_Value_ID(110);
 		column.saveEx();
-		if(!isView())
-		{	
-			if(getTableName().endsWith("_Trl") || getTableName().endsWith("_Access"))
-				return;
-			
-			M_Element element = M_Element.get(getCtx(), getTableName()+"_ID", get_TrxName());
-			if(element != null)
-				return;				
-			element = new M_Element(getCtx(), 0 , get_TrxName());
-			element.setColumnName(getTableName()+"_ID");
-			element.setName(getName() + " ID");
-			element.setPrintName(getName() + " ID");
-			element.setEntityType(getEntityType());
-			element.saveEx();
-			
-			column = new MColumn(this, element.getColumnName(), 22 , DisplayType.ID, "");
-			column.setAD_Element_ID(element.get_ID());
-			column.setIsKey(true);
-			column.setUpdateable(false);
-			column.setIsMandatory(true);
-			column.saveEx();
-		}
 		//	Yamel Senih, 2015-11-14
 		//	Add Default Columns for Document Tables
 		if(isDocument()) {
@@ -942,6 +920,28 @@ public class MTable extends X_AD_Table
 			column.saveEx();
 		}
 		//	End Yamel Senih
+		if(!isView())
+		{	
+			if(getTableName().endsWith("_Trl") || getTableName().endsWith("_Access"))
+				return;
+			
+			M_Element element = M_Element.get(getCtx(), getTableName()+"_ID", get_TrxName());
+			if(element != null)
+				return;				
+			element = new M_Element(getCtx(), 0 , get_TrxName());
+			element.setColumnName(getTableName()+"_ID");
+			element.setName(getName() + " ID");
+			element.setPrintName(getName() + " ID");
+			element.setEntityType(getEntityType());
+			element.saveEx();
+			
+			column = new MColumn(this, element.getColumnName(), 22 , DisplayType.ID, "");
+			column.setAD_Element_ID(element.get_ID());
+			column.setIsKey(true);
+			column.setUpdateable(false);
+			column.setIsMandatory(true);
+			column.saveEx();
+		}
 	}
 	
 	/**
