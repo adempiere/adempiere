@@ -54,6 +54,7 @@ import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -70,13 +71,14 @@ import org.zkoss.zul.Space;
  * 
  * Contributor : Fabian Aguilar - OFBConsulting - Multiallocation
  */
-public class WAllocation extends Allocation
+public class WAllocation extends Allocation 
 	implements IFormController, EventListener, WTableModelListener, ValueChangeListener
 {
 	
 	/**
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 7806119329546820204L;
 	
 	private CustomForm form = new CustomForm();
@@ -141,6 +143,8 @@ public class WAllocation extends Allocation
 	
 	private Panel southPanel = new Panel();
 
+	private boolean m_isCalculating;
+
 	/**
 	 *  Static Init
 	 *  @throws Exception
@@ -185,7 +189,7 @@ public class WAllocation extends Allocation
 		Rows rows = null;
 		Row row = null;
 		
-		parameterLayout.setWidth("800px");
+		parameterLayout.setWidth("100%");
 		rows = parameterLayout.newRows();
 		row = rows.newRow();
 		row.appendChild(bpartnerLabel.rightAlign());
@@ -217,7 +221,7 @@ public class WAllocation extends Allocation
 		south.appendChild(southPanel);
 		southPanel.appendChild(allocationPanel);
 		allocationPanel.appendChild(allocationLayout);
-		allocationLayout.setWidth("600px");
+		allocationLayout.setWidth("100%");
 		rows = allocationLayout.newRows();
 		row = rows.newRow();
 		row.appendChild(differenceLabel.rightAlign());
@@ -257,6 +261,7 @@ public class WAllocation extends Allocation
 		center.appendChild(paymentTable);
 		paymentTable.setWidth("99%");
 		paymentTable.setHeight("99%");
+		paymentTable.setMultiSelection(true);
 		center.setStyle("border: none");
 		
 		north = new North();
@@ -272,6 +277,7 @@ public class WAllocation extends Allocation
 		center.appendChild(invoiceTable);
 		invoiceTable.setWidth("99%");
 		invoiceTable.setHeight("99%");
+		invoiceTable.setMultiSelection(true);
 		center.setStyle("border: none");
 		//
 		center = new Center();
@@ -372,19 +378,26 @@ public class WAllocation extends Allocation
 			calculate();
 			return;
 		}
+
+		// The writeoff() function causes additional tableChanged events which can be ignored.  
+		if(m_isCalculating)
+			return;
+		m_isCalculating = true;
+		Clients.showBusy(null,true);
 		
-		int row = e.getFirstRow();
-		int col = e.getColumn();
+		int eRow = e.getFirstRow();
+		int eCol = e.getColumn();
 		boolean isInvoice = (e.getModel().equals(invoiceTable.getModel()));
 		boolean isAutoWriteOff = autoWriteOff.isSelected();
-		
-		String msg = writeOff(row, col, isInvoice, paymentTable, invoiceTable, isAutoWriteOff);
+		String msg = writeOff(eRow, eCol, isInvoice, paymentTable, invoiceTable, isAutoWriteOff);
 		if(msg != null && msg.length() > 0)
 			FDialog.warn(form.getWindowNo(), "AllocationWriteOffWarn");
-		
 		calculate();
+		
+		Clients.showBusy(null,false);
+		m_isCalculating = false;
 	}   //  tableChanged
-	
+
 	/**
 	 *  Vetoable Change Listener.
 	 *  - Business Partner
@@ -397,8 +410,8 @@ public class WAllocation extends Allocation
 		String name = e.getPropertyName();
 		Object value = e.getNewValue();
 		log.config(name + "=" + value);
-		if (value == null)
-			return;
+//		if (value == null)
+//			return;
 		
 		// Organization
 		if (name.equals("AD_Org_ID"))
@@ -407,7 +420,6 @@ public class WAllocation extends Allocation
 				m_AD_Org_ID = 0;
 			else
 				m_AD_Org_ID = ((Integer) value).intValue();
-			
 			loadBPartner();
 		}
 
@@ -429,7 +441,6 @@ public class WAllocation extends Allocation
 				m_C_Charge_ID = ((Integer) value).intValue();
 			}
 			setAllocateButton();
-
 		}
 
 		//	Currency
@@ -468,10 +479,11 @@ public class WAllocation extends Allocation
 	 *  - Payments
 	 *  - Invoices
 	 */
-	private void loadBPartner ()
+	public void loadBPartner()
 	{
-		checkBPartner();
+		Clients.showBusy(null,true);
 		
+		//checkBPartner();
 		Vector<Vector<Object>> data = getPaymentData(multiCurrency.isSelected(), dateField.getValue(), paymentTable);
 		Vector<String> columnNames = getPaymentColumnNames(multiCurrency.isSelected());
 		
@@ -485,6 +497,7 @@ public class WAllocation extends Allocation
 		modelP.addTableModelListener(this);
 		paymentTable.setData(modelP, columnNames);
 		setPaymentColumnClass(paymentTable, multiCurrency.isSelected());
+		paymentTable.recreateListHead();
 		//
 
 		data = getInvoiceData(multiCurrency.isSelected(), dateField.getValue(), invoiceTable);
@@ -500,12 +513,14 @@ public class WAllocation extends Allocation
 		modelI.addTableModelListener(this);
 		invoiceTable.setData(modelI, columnNames);
 		setInvoiceColumnClass(invoiceTable, multiCurrency.isSelected());
+		invoiceTable.recreateListHead();
 		//
 		
 		calculate(multiCurrency.isSelected());
 		
 		//  Calculate Totals
 		calculate();
+		Clients.showBusy(null,false);
 	}   //  loadBPartner
 	
 	public void calculate()
@@ -562,4 +577,4 @@ public class WAllocation extends Allocation
 	{
 		return form;
 	}
-}   //  VAllocation
+}   //  WAllocation
