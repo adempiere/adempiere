@@ -71,7 +71,7 @@ import org.zkoss.zul.Space;
  * 
  * Contributor : Fabian Aguilar - OFBConsulting - Multiallocation
  */
-public class WAllocation extends Allocation 
+public class WAllocation extends Allocation
 	implements IFormController, EventListener, WTableModelListener, ValueChangeListener
 {
 	
@@ -389,9 +389,11 @@ public class WAllocation extends Allocation
 		int col = e.getColumn();
 		boolean isInvoice = (e.getModel().equals(invoiceTable.getModel()));
 		boolean isAutoWriteOff = autoWriteOff.isSelected();
+		
 		String msg = writeOff(row, col, isInvoice, paymentTable, invoiceTable, isAutoWriteOff);
 		if(msg != null && msg.length() > 0)
 			FDialog.warn(form.getWindowNo(), "AllocationWriteOffWarn");
+
 		calculate();
 		
 		Clients.showBusy(null,false);
@@ -427,13 +429,14 @@ public class WAllocation extends Allocation
 			if (value == null)
 			{
 				m_C_BPartner_ID = 0;
+				bpartnerSearch.setValue(null);
 			}
 			else
 			{
 				m_C_BPartner_ID = ((Integer)value).intValue();
+				bpartnerSearch.setValue(m_C_BPartner_ID);
 			}
 			
-			bpartnerSearch.setValue(m_C_BPartner_ID);
 			checkBPartner();
 			loadBPartner();
 		}
@@ -495,7 +498,7 @@ public class WAllocation extends Allocation
 	 *  - Payments
 	 *  - Invoices
 	 */
-	public void loadBPartner()
+	private void loadBPartner()
 	{
 		Clients.showBusy(null,true);
 		
