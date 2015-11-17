@@ -385,11 +385,11 @@ public class WAllocation extends Allocation
 		m_isCalculating = true;
 		Clients.showBusy(null,true);
 		
-		int eRow = e.getFirstRow();
-		int eCol = e.getColumn();
+		int row = e.getFirstRow();
+		int col = e.getColumn();
 		boolean isInvoice = (e.getModel().equals(invoiceTable.getModel()));
 		boolean isAutoWriteOff = autoWriteOff.isSelected();
-		String msg = writeOff(eRow, eCol, isInvoice, paymentTable, invoiceTable, isAutoWriteOff);
+		String msg = writeOff(row, col, isInvoice, paymentTable, invoiceTable, isAutoWriteOff);
 		if(msg != null && msg.length() > 0)
 			FDialog.warn(form.getWindowNo(), "AllocationWriteOffWarn");
 		calculate();
@@ -410,8 +410,6 @@ public class WAllocation extends Allocation
 		String name = e.getPropertyName();
 		Object value = e.getNewValue();
 		log.config(name + "=" + value);
-//		if (value == null)
-//			return;
 		
 		// Organization
 		if (name.equals("AD_Org_ID"))
@@ -426,8 +424,17 @@ public class WAllocation extends Allocation
 		//  BPartner
 		if (name.equals("C_BPartner_ID"))
 		{
-			bpartnerSearch.setValue(value);
-			m_C_BPartner_ID = ((Integer)value).intValue();
+			if (value == null)
+			{
+				m_C_BPartner_ID = 0;
+			}
+			else
+			{
+				m_C_BPartner_ID = ((Integer)value).intValue();
+			}
+			
+			bpartnerSearch.setValue(m_C_BPartner_ID);
+			checkBPartner();
 			loadBPartner();
 		}
         else if (name.equals("C_Charge_ID"))
@@ -446,12 +453,21 @@ public class WAllocation extends Allocation
 		//	Currency
 		else if (name.equals("C_Currency_ID"))
 		{
-			m_C_Currency_ID = ((Integer)value).intValue();
+			if (value == null)
+			{
+				m_C_Currency_ID = 0;
+			}
+			else
+			{
+				m_C_Currency_ID = ((Integer) value).intValue();
+			}
 			loadBPartner();
 		}
 		//	Date for Multi-Currency
 		else if (name.equals("Date") && multiCurrency.isSelected())
+		{
 			loadBPartner();
+		}
 	}   //  vetoableChange
 	
 	private void setAllocateButton() {
