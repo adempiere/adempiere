@@ -32,6 +32,9 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
+import org.compiere.wf.MWFNode;
+import org.compiere.wf.MWFNodeNext;
+import org.compiere.wf.MWorkflow;
 
 /**
  *	Persistent Table Model
@@ -54,6 +57,9 @@ import org.compiere.util.Util;
  * 			https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335 
  *  		<li>FR [ 3426233 ] New Table should create the required columns
  * 			https://sourceforge.net/tracker/?func=detail&aid=3426233&group_id=176962&atid=879335
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 94 ] "IsDocument" flag in table for create default columns
+ *			@see https://github.com/adempiere/adempiere/issues/94
  *  @version $Id: MTable.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class MTable extends X_AD_Table
@@ -865,6 +871,55 @@ public class MTable extends X_AD_Table
 		column = new MColumn(this, COLUMNNAME_UpdatedBy	, 22 , DisplayType.Table, "");
 		column.setAD_Reference_Value_ID(110);
 		column.saveEx();
+		//	Yamel Senih, 2015-11-14
+		//	Add Default Columns for Document Tables
+		if(isDocument()) {
+			//	Document Type
+			column = new MColumn(this, "C_DocType_ID", 22, DisplayType.TableDir, "");
+			column.setIsMandatory(true);
+			column.setUpdateable(false);
+			column.saveEx();
+			//	Document No
+			column = new MColumn(this, "DocumentNo", 60, DisplayType.String, "");
+			column.setIsMandatory(true);
+			column.setUpdateable(false);
+			column.saveEx();
+			//	Document Date
+			column = new MColumn(this, "DateDoc", 7, DisplayType.Date, "@#Date@");
+			column.setIsMandatory(true);
+			column.setUpdateable(false);
+			column.saveEx();
+			//	Processed
+			column = new MColumn(this, "Processed", 1, DisplayType.YesNo, "");
+			column.setIsMandatory(true);
+			column.setUpdateable(false);
+			column.saveEx();
+			//	Approved
+			column = new MColumn(this, "IsApproved", 1, DisplayType.YesNo, "");
+			column.setIsMandatory(true);
+			column.setUpdateable(false);
+			column.saveEx();
+			//	Document Description
+			column = new MColumn(this, "Description", 1, DisplayType.Text, "");
+			column.setIsMandatory(false);
+			column.setUpdateable(true);
+			column.setIsAlwaysUpdateable(true);
+			column.saveEx();
+			//	Document Status
+			column = new MColumn(this, "DocStatus", 1, DisplayType.List, "DR");
+			column.setIsMandatory(true);
+			column.setUpdateable(false);
+			column.setAD_Reference_Value_ID(131);
+			column.saveEx();
+			//	Document Action
+			column = new MColumn(this, "DocAction", 1, DisplayType.Button, "CO");
+			column.setIsMandatory(true);
+			column.setUpdateable(false);
+			column.setAD_Reference_Value_ID(135);
+			column.setAD_Process_ID(getworkFlowProcess());
+			column.saveEx();
+		}
+		//	End Yamel Senih
 		if(!isView())
 		{	
 			if(getTableName().endsWith("_Trl") || getTableName().endsWith("_Access"))
@@ -886,7 +941,99 @@ public class MTable extends X_AD_Table
 			column.setUpdateable(false);
 			column.setIsMandatory(true);
 			column.saveEx();
-		}	
+		}
+	}
+	
+	/**
+	 * Get / Create Process and Work Flow
+	 * @return
+	 */
+	private int getworkFlowProcess() {
+		//	Create Work Flow
+		MWorkflow workFlow = new MWorkflow(getCtx(), 0, get_TrxName());
+		workFlow.setValue("Process_" + getName());
+		workFlow.setName(workFlow.getValue());
+		workFlow.setDescription("(Standard Process_" + getName() + ")");
+		workFlow.setWorkflowType(X_AD_Workflow.WORKFLOWTYPE_DocumentProcess);
+		workFlow.setAD_Table_ID(getAD_Table_ID());
+		workFlow.setAccessLevel(getAccessLevel());
+		workFlow.setEntityType(getEntityType());
+		workFlow.setPublishStatus(X_AD_Workflow.PUBLISHSTATUS_Test);
+		workFlow.setAuthor("ADempiere");
+		workFlow.setDuration(1);
+		workFlow.saveEx();
+		//	Create Work Flow Node for (Start)
+		MWFNode wfNode_Start = new MWFNode(workFlow, "(Start)", "(Start)");
+		wfNode_Start.setDescription(workFlow.getName());
+		wfNode_Start.setEntityType(getEntityType());
+		wfNode_Start.setJoinElement(X_AD_WF_Node.JOINELEMENT_XOR);
+		wfNode_Start.setSplitElement(X_AD_WF_Node.SPLITELEMENT_XOR);
+		wfNode_Start.setAction(X_AD_WF_Node.ACTION_WaitSleep);
+		wfNode_Start.saveEx();
+		//	Set Start node in Workflow
+		workFlow.setAD_WF_Node_ID(wfNode_Start.getAD_WF_Node_ID());
+		workFlow.saveEx();
+		//	Create Work Flow Node for (DocAuto)
+		MWFNode wfNode_Auto = new MWFNode(workFlow, "(DocAuto)", "(DocAuto)");
+		wfNode_Auto.setDescription(workFlow.getName());
+		wfNode_Auto.setEntityType(getEntityType());
+		wfNode_Auto.setJoinElement(X_AD_WF_Node.JOINELEMENT_XOR);
+		wfNode_Auto.setSplitElement(X_AD_WF_Node.SPLITELEMENT_XOR);
+		wfNode_Auto.setAction(X_AD_WF_Node.ACTION_DocumentAction);
+		wfNode_Auto.setDocAction(X_AD_WF_Node.DOCACTION_None);
+		wfNode_Auto.saveEx();
+		//	Create Work Flow Node for (DocPrepare)
+		MWFNode wfNode_Prepare = new MWFNode(workFlow, "(DocPrepare)", "(DocPrepare)");
+		wfNode_Prepare.setDescription(workFlow.getName());
+		wfNode_Prepare.setEntityType(getEntityType());
+		wfNode_Prepare.setJoinElement(X_AD_WF_Node.JOINELEMENT_XOR);
+		wfNode_Prepare.setSplitElement(X_AD_WF_Node.SPLITELEMENT_XOR);
+		wfNode_Prepare.setAction(X_AD_WF_Node.ACTION_DocumentAction);
+		wfNode_Prepare.setDocAction(X_AD_WF_Node.DOCACTION_Prepare);
+		wfNode_Prepare.saveEx();
+		//	Create Work Flow Node for (DocComplete)
+		MWFNode wfNode_Complete = new MWFNode(workFlow, "(DocComplete)", "(DocComplete)");
+		wfNode_Complete.setDescription(workFlow.getName());
+		wfNode_Complete.setEntityType(getEntityType());
+		wfNode_Complete.setJoinElement(X_AD_WF_Node.JOINELEMENT_XOR);
+		wfNode_Complete.setSplitElement(X_AD_WF_Node.SPLITELEMENT_XOR);
+		wfNode_Complete.setAction(X_AD_WF_Node.ACTION_DocumentAction);
+		wfNode_Complete.setDocAction(X_AD_WF_Node.DOCACTION_Complete);
+		wfNode_Complete.saveEx();
+		//	Create Transition For Start Node
+		//	For Start
+		MWFNodeNext wfNodeNext = new MWFNodeNext(wfNode_Start, wfNode_Prepare.getAD_WF_Node_ID());
+		wfNodeNext.setDescription("(Standard Approval)");
+		wfNodeNext.setEntityType(getEntityType());
+		wfNodeNext.setSeqNo(10);
+		wfNodeNext.setIsStdUserWorkflow(true);
+		wfNodeNext.saveEx();
+		//	For DocAuto
+		wfNodeNext = new MWFNodeNext(wfNode_Start, wfNode_Auto.getAD_WF_Node_ID());
+		wfNodeNext.setDescription("(Standard Transition)");
+		wfNodeNext.setEntityType(getEntityType());
+		wfNodeNext.setSeqNo(100);
+		wfNodeNext.setIsStdUserWorkflow(false);
+		wfNodeNext.saveEx();
+		//	Create Transition For Prepare Node
+		//	For DocComplete
+		wfNodeNext = new MWFNodeNext(wfNode_Prepare, wfNode_Complete.getAD_WF_Node_ID());
+		wfNodeNext.setDescription("(Standard Transition)");
+		wfNodeNext.setEntityType(getEntityType());
+		wfNodeNext.setSeqNo(100);
+		wfNodeNext.setIsStdUserWorkflow(false);
+		wfNodeNext.saveEx();
+		//	Create Standard Process for Document Action
+		MProcess workFlowProcess = new MProcess(getCtx(), 0, get_TrxName());
+		workFlowProcess.setValue(getTableName() + "_Process");
+		workFlowProcess.setName("Process " + getName());
+		workFlowProcess.setEntityType(getEntityType());
+		workFlowProcess.setAccessLevel(getAccessLevel());
+		workFlowProcess.setAD_Workflow_ID(workFlow.getAD_Workflow_ID());
+		workFlowProcess.saveEx();
+		
+		//	Default Return
+		return workFlowProcess.getAD_Process_ID();
 	}
 
 	/**
