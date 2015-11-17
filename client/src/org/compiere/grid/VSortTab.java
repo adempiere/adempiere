@@ -19,7 +19,6 @@ package org.compiere.grid;
 import java.awt.AWTEvent;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -52,16 +51,10 @@ import javax.swing.event.MouseInputListener;
 
 import org.compiere.apps.ADialog;
 import org.compiere.apps.APanel;
-import org.compiere.model.GridFieldVO;
-import org.compiere.model.I_AD_Column;
 import org.compiere.model.MColumn;
-import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
-import org.compiere.model.MLookupInfo;
-import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
-import org.compiere.model.Query;
 import org.compiere.model.PO;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
@@ -85,6 +78,9 @@ import org.compiere.util.NamePair;
  * @author victor.perez@e-evolution.com, e-Evolution
  * 				FR [ 2826406 ] The Tab Sort without parent column
  *				<li> https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2826406&group_id=176962
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 93 ] 
+ *		@see https://github.com/adempiere/adempiere/issues/93
  */
 public class VSortTab extends CPanel implements APanelTab
 {
@@ -140,7 +136,7 @@ public class VSortTab extends CPanel implements APanelTab
 	private CButton bUp = new CButton();
 	private CButton bDown = new CButton();
 	//
-	DefaultListModel noModel = new DefaultListModel()
+	private DefaultListModel noModel = new DefaultListModel()
 	{
 		/**
 		 * 
@@ -163,8 +159,8 @@ public class VSortTab extends CPanel implements APanelTab
 			addElement(obj);
 		}
 	};
-	DefaultListModel yesModel = new DefaultListModel();
-	DefaultListCellRenderer listRenderer = new DefaultListCellRenderer() {
+	private DefaultListModel yesModel = new DefaultListModel();
+	private DefaultListCellRenderer listRenderer = new DefaultListCellRenderer() {
 		/**
 		 * 
 		 */
@@ -182,8 +178,8 @@ public class VSortTab extends CPanel implements APanelTab
 		}
 		
 	};
-	JList noList = new JList(noModel);
-	JList yesList = new JList(yesModel);
+	private JList noList = new JList(noModel);
+	private JList yesList = new JList(yesModel);
 	private JScrollPane noPane = new JScrollPane(noList);
 	private JScrollPane yesPane = new JScrollPane(yesList);
 
@@ -409,10 +405,9 @@ public class VSortTab extends CPanel implements APanelTab
 		};
 		yesList.addMouseMotionListener(yesListMouseMotionListener);
 
-		yesPane.setPreferredSize(new Dimension(200, 300));
+		//	Yamel Senih, 2015-11-13
+		//	Maximize Panel when the window is resized
 		yesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-
-		noPane.setPreferredSize(new Dimension(200, 300));
 		noList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		this.add(noLabel,    new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
@@ -421,16 +416,17 @@ public class VSortTab extends CPanel implements APanelTab
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		this.add(bDown,         new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(4, 4, 4, 4), 0, 0));
-		this.add(noPane,      new GridBagConstraints(0, 1, 1, 3, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(4, 4, 4, 4), 0, 0));
-		this.add(yesPane,      new GridBagConstraints(2, 1, 1, 3, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(4, 4, 4, 4), 0, 0));
+		this.add(noPane,      new GridBagConstraints(0, 1, 1, 3, 1, 1
+				,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(4, 4, 4, 4), 0, 0));
+		this.add(yesPane,      new GridBagConstraints(2, 1, 1, 3, 1, 1
+				,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(4, 4, 4, 4), 0, 0));
 		this.add(bUp,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(4, 4, 4, 4), 0, 0));
 		this.add(bAdd,  new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(4, 4, 4, 4), 0, 0));
 		this.add(bRemove,  new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(4, 4, 4, 4), 0, 0));
+		//	End Yamel Senih
 	}	//	jbInit
 
 	/* (non-Javadoc)
@@ -859,9 +855,7 @@ public class VSortTab extends CPanel implements APanelTab
 		/** The customCursor. */
 		private Cursor customCursor;
 
-		/* (non-Javadoc)
-		 * @see javax.swing.event.MouseInputAdapter#mousePressed(java.awt.event.MouseEvent)
-		 */
+		@Override
 		public void mousePressed(MouseEvent me)
 		{
 			JList list = (JList)me.getComponent();
@@ -880,9 +874,7 @@ public class VSortTab extends CPanel implements APanelTab
 			moved = false;
 		}	//	mousePressed
 
-		/* (non-Javadoc)
-		 * @see javax.swing.event.MouseInputAdapter#mouseDragged(java.awt.event.MouseEvent)
-		 */
+		@Override
 		public void mouseDragged(MouseEvent me)
 		{
 			if (selObject == null || !((ListItem)selObject).isUpdateable()) {
@@ -937,7 +929,7 @@ public class VSortTab extends CPanel implements APanelTab
 					setIsChanged(true);
 				}
 			}
-
+			//	
 			startList = null;
 			startModel = null;
 			selObject = null;
@@ -945,6 +937,4 @@ public class VSortTab extends CPanel implements APanelTab
 			setCursor(Cursor.getDefaultCursor());
 		}	//	mouseReleased
 	}
-
 }	//	VSortTab
-
