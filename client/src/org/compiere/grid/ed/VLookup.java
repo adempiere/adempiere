@@ -925,7 +925,7 @@ public class VLookup extends JComponent
 
 		if (updatedValue == null && m_value == null)
 			updated = true;
-		else if (updatedValue != null && value.equals(m_value))
+		else if (updatedValue != null && updatedValue.equals(m_value))
 			updated = true;
 		if (!updated)
 		{
