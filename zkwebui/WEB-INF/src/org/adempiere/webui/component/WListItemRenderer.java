@@ -473,71 +473,62 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         ListHeader header = null;
 
         String headerText = headerValue.toString();
+        
+        // If the header doesn't exist, add it to the end of the list
         if (m_headers.size() <= headerIndex || m_headers.get(headerIndex) == null)
         {
-        	if (!isColumnVisible(getColumn(headerIndex)))
-        	{
-        		header = new ListHeader("");
-        		header.setWidth("0px");
-        		header.setStyle("width: 0px");
-        	}
-        	else if (classType != null && classType.isAssignableFrom(IDColumn.class))
-        	{
-        		header = new ListHeader("");
-        		header.setWidth("35px");
-        	}
-        	else
-        	{
-	            Comparator<Object> ascComparator =  getColumnComparator(true, headerIndex);
-	            Comparator<Object> dscComparator =  getColumnComparator(false, headerIndex);
-	
-	            header = new ListHeader(headerText);
-	
-	            header.setSort("auto");
-	            header.setSortAscending(ascComparator);
-	            header.setSortDescending(dscComparator);
-	
-	            int width = headerText.trim().length() * 9;
-	            if (width > 300)
-	            	width = 300;
-	            else if (classType != null)
-	            {
-	            	if (classType.equals(String.class))
-	            	{
-	            		if (width > 0 && width < 180)
-	            			width = 180;
-	            	}
-	            	else if (classType.equals(IDColumn.class))
-	            	{
-	            		header.setSort("none");
-	            		if (width == 0)
-	            			width = 30;
-	            	}
-		            else if (width > 0 && width < 100 && (classType == null || !classType.isAssignableFrom(Boolean.class)))
-	            		width = 100;
-	            }
-	            else if (width > 0 && width < 100)
-	            	width = 100;
-	
-	            header.setWidth(width + "px");
-        	}
-            m_headers.add(header);
+        	header = new ListHeader("");
+        	m_headers.add(headerIndex, header);
         }
-        else
-        {
-            header = m_headers.get(headerIndex);
+        
+        header = m_headers.get(headerIndex);
+        
+    	if (!isColumnVisible(getColumn(headerIndex)))
+    	{
+    		header.setLabel("");
+    		header.setWidth("0px");
+    		header.setStyle("width: 0px");
+    	}
+    	else if (classType != null && classType.isAssignableFrom(IDColumn.class))
+    	{
+    		header.setLabel("");
+    		header.setWidth("35px");
+    	}
+    	else
+    	{
+            Comparator<Object> ascComparator =  getColumnComparator(true, headerIndex);
+            Comparator<Object> dscComparator =  getColumnComparator(false, headerIndex);
 
-            if (!isColumnVisible(getColumn(headerIndex)))
-        	{
-        		header.setLabel("");
-        		header.setWidth("0px");
-        		header.setStyle("width: 0px");
-        	}
-        	else if (!header.getLabel().equals(headerText))
+            header.setLabel(headerText);
+
+            header.setSort("auto");
+            header.setSortAscending(ascComparator);
+            header.setSortDescending(dscComparator);
+
+            int width = headerText.trim().length() * 9;
+            if (width > 300)
+            	width = 300;
+            else if (classType != null)
             {
-                header.setLabel(headerText);
+            	if (classType.equals(String.class))
+            	{
+            		if (width > 0 && width < 180)
+            			width = 180;
+            	}
+            	else if (classType.equals(IDColumn.class))
+            	{
+            		header.setSort("none");
+            		if (width == 0)
+            			width = 30;
+            	}
+	            else if (width > 0 && width < 100 && (classType == null || !classType.isAssignableFrom(Boolean.class)))
+            		width = 100;
             }
-        }
+            else if (width > 0 && width < 100)
+            	width = 100;
+
+            header.setWidth(width + "px");
+    	}
 
         header.setAttribute("zk_component_ID", "ListItem_Header_C" + headerIndex);
 
