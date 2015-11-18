@@ -1639,6 +1639,7 @@ public class MCostDetail extends X_M_CostDetail
 				invoiceLine.getAD_Client_ID(),
 				acctSchemaId,
 				invoiceLine.getM_Product_ID(),
+				invoiceLine.getM_AttributeSetInstance_ID(),
 				costTypeId,
 				invoiceLine.getC_InvoiceLine_ID(),
 				inOutLine.getM_InOutLine_ID())
