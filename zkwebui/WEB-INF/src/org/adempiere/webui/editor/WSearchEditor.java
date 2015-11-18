@@ -497,7 +497,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		
 		Object updatedValue = value;
 
-		if (updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
+		if (updatedValue != null && updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
 		{
 			updatedValue = ((Object[])updatedValue)[0];
 		}
