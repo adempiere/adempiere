@@ -447,7 +447,7 @@ public class MCost extends X_M_Cost
 	 *	@return current cost price or null
 	 *	@deprecated
 	 */
-	public static BigDecimal getCurrentCost (MProduct product,
+	/*public static BigDecimal getCurrentCost (MProduct product,
 		int M_AttributeSetInstance_ID,
 		MAcctSchema as, int AD_Org_ID, int M_Warehouse_ID, String costingMethod,
 		BigDecimal qty, int C_OrderLine_ID,
@@ -481,6 +481,7 @@ public class MCost extends X_M_Cost
 			as, AD_Org_ID, M_Warehouse_ID, as.getM_CostType_ID(), costingMethod, qty,
 			C_OrderLine_ID, zeroCostsOK, trxName);
 	}	//	getCurrentCost
+	*/
 
 	/**
 	 * 	Get Current Cost Price for Costing Level
@@ -1000,7 +1001,7 @@ public class MCost extends X_M_Cost
 	 *	@param client client
 	 */
 	@Deprecated
-	public static void create (MClient client)
+	/*public static void create (MClient client)
 	{
 		MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(client.getCtx(), client.getAD_Client_ID());
 		String trxName = client.get_TrxName();
@@ -1062,6 +1063,7 @@ public class MCost extends X_M_Cost
 			trx.close();
 		}
 	}	//	create
+	*/
 
 
 	/**
@@ -2025,7 +2027,7 @@ public class MCost extends X_M_Cost
 
 		Adempiere.startup(true);
 		MClient client = MClient.get(Env.getCtx(), 11);	//	GardenWorld
-		create(client);
+		//create(client);
 
 	}	//	main
 
