@@ -310,7 +310,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		return cd.getCumulatedQty().add(cd.getQty());
 	}
 
-	public void processCostDetail(MCostDetail costDetail) {
+	/*public void processCostDetail(MCostDetail costDetail) {
 		if (!costDetail.isProcessed()) {
 			MAcctSchema as = MAcctSchema.get(costDetail.getCtx(),
 					costDetail.getC_AcctSchema_ID());
@@ -318,7 +318,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 			if (client.isCostImmediate())
 				costDetail.process();
 		}
-	}
+	}*/
 
 	@Override
 	protected List<CostComponent> getCalculatedCosts() {
@@ -660,7 +660,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		costDetailVariance.setQty(quantity);
 		costDetailVariance.setDateAcct(costCollector.getDateAcct());
 		costDetailVariance.saveEx();
-		processCostDetail(costDetailVariance);
+		//processCostDetail(costDetailVariance);
 		return costDetailVariance;
 	}
 
@@ -708,7 +708,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 					costDetail.setDateAcct(costCollector.getDateAcct());
 					costDetail.setCostAmt(costs.negate());
 					costDetail.saveEx();
-					processCostDetail(costDetail);
+					//processCostDetail(costDetail);
 				}
 			}
 		}
