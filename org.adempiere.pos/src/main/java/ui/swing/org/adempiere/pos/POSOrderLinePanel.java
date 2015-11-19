@@ -15,6 +15,7 @@
 package org.adempiere.pos;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -34,7 +35,6 @@ import javax.swing.table.DefaultTableModel;
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.PO;
-import org.adempiere.pos.POSTable;
 import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -107,7 +107,8 @@ public class POSOrderLinePanel extends POSSubPanel
 		m_table.addMouseListener(this);
 		m_table.setFillsViewportHeight(true); //@Trifon
 		m_table.growScrollbars();
-
+		setMaximumSize(new Dimension(50, 50));
+		setPreferredSize(new Dimension(50, 50));
 		add(scroll, BorderLayout.CENTER);
 		addKeyListener(this);
 	} //init
@@ -118,7 +119,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		if (action == null || action.length() == 0)
 			return;
 		log.info( "POSOrderLinePanel - actionPerformed: " + action);
-		//	Product
+		
 		//	Refresh All
 		v_POSPanel.refreshPanel();
 	} //	actionPerformed
@@ -196,32 +197,47 @@ public class POSOrderLinePanel extends POSSubPanel
     		//	Get Values
     		BigDecimal m_QtyOrdered = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
     		BigDecimal m_Price = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
-			//	Remove Listener
-    		m_table.getModel().removeTableModelListener(this);
-			//	Remove line
-			if(m_QtyOrdered.compareTo(Env.ZERO) <= 0) {
-				v_POSPanel.deleteLine(m_C_OrderLine_ID);
-				((DefaultTableModel)m_table.getModel()).removeRow(row);
-				m_table.getModel().addTableModelListener(this);
-				v_POSPanel.refreshHeader();
-				//	Exit
-				return;
-			}
-			//	Get Order Line
-			BigDecimal[] m_Summary = v_POSPanel.updateLine(m_C_OrderLine_ID, m_QtyOrdered, m_Price);
-			//	Set Totals
-			if(m_Summary != null) {
-				m_table.setValueAt(m_Summary[0], row, POSOrderLineTableHandle.POSITION_LINENETAMT);
-				m_table.setValueAt(m_Summary[2], row, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
-			}
-			m_table.getModel().addTableModelListener(this);
-			//	Only Refresh Header
-			v_POSPanel.refreshHeader();
-			//	Request Focus
-			m_table.requestFocusInWindow();
+    		
+    		v_POSPanel.setQty(m_QtyOrdered);
+			v_POSPanel.setPrice(m_Price);
+			updateLine();
+    		
     	}
     }
 
+	public void updateLine() {
+		int row = m_table.getSelectedRow();
+		BigDecimal m_QtyOrdered = v_POSPanel.getQty();
+		BigDecimal m_Price = v_POSPanel.getPrice();
+		//	Remove Listener
+		m_table.getModel().removeTableModelListener(this);
+		//	Remove line
+		if(m_QtyOrdered.compareTo(Env.ZERO) <= 0) {
+			v_POSPanel.deleteLine(m_C_OrderLine_ID);
+			((DefaultTableModel)m_table.getModel()).removeRow(row);
+			m_table.getModel().addTableModelListener(this);
+			v_POSPanel.refreshHeader();
+			//	Exit
+			return;
+		}
+		
+		//	Get Order Line
+		BigDecimal[] m_Summary = v_POSPanel.updateLine(m_C_OrderLine_ID, m_QtyOrdered, m_Price);
+		//	Set Totals
+		if(m_Summary != null) {
+			m_table.setValueAt(m_Summary[0], row, POSOrderLineTableHandle.POSITION_LINENETAMT);
+			m_table.setValueAt(m_Summary[2], row, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
+		}
+		m_table.getModel().addTableModelListener(this);
+		//	Only Refresh Header
+		v_POSPanel.refreshHeader();
+		v_POSPanel.refreshPanel();
+		//	Request Focus
+		m_table.requestFocusInWindow();
+		return;
+	}
+	
+	
 	@Override
 	public void refreshPanel() {
 		//	Remove Listener
@@ -257,7 +273,18 @@ public class POSOrderLinePanel extends POSSubPanel
 
 	@Override
 	public void changeViewPanel() {
-		
+		int row = m_table.getSelectedRow();
+		if (row != -1) {
+			//	Set Current Order Line
+			BigDecimal m_QtyOrdered = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
+			BigDecimal m_Price = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+			v_POSPanel.setQty(m_QtyOrdered);
+			v_POSPanel.setPrice(m_Price);
+		}
+		else {
+			v_POSPanel.setQty(Env.ZERO);
+			v_POSPanel.setPrice(Env.ZERO);
+		}
 	}
 
 
@@ -303,12 +330,10 @@ public class POSOrderLinePanel extends POSSubPanel
 		}		
 	}
 
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
 	}
-
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -327,18 +352,15 @@ public class POSOrderLinePanel extends POSSubPanel
 			return;
 		}
 		if (row != -1)	{
+			v_POSPanel.changeViewPanel();
 			showProductInfo(row);
 		}
-		
-
 	}
-
-
+	
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		
 	}
-
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -367,5 +389,33 @@ public class POSOrderLinePanel extends POSSubPanel
 			//	Refresh
 			v_POSPanel.refreshProductInfo(m_M_Product_ID);
 		}
+	}
+
+	@Override
+	public void moveUp() {
+		 int rows = m_table.getRowCount();
+		 if (rows == 0)
+		 return;
+		 int row = m_table.getSelectedRow();
+		 row--;
+		 if (row < 0)
+		 row = 0;
+		 m_table.getSelectionModel().setSelectionInterval(row, row);
+		v_POSPanel.changeViewPanel();
+		return;
+	}
+
+	@Override
+	public void moveDown() {
+		 int rows = m_table.getRowCount();
+		 if (rows == 0)
+			 return;
+		 int row = m_table.getSelectedRow();
+		 row++;
+		 if (row < 0)
+			 row = 0;
+		m_table.getSelectionModel().setSelectionInterval(row, row);
+		v_POSPanel.changeViewPanel();
+		return;
 	}
 } //	POSOrderLinePanel

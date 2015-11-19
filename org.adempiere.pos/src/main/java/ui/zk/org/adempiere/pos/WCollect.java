@@ -559,8 +559,21 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		collectRowNo--;
 	}
 
+	
+
+	@Override
+	public void moveUp() {
+		
+	}
+
+	@Override
+	public void moveDown() {
+		
+	}
+
 	@Override
 	public void keyReturned(MPOSKey key) {
+		// TODO Auto-generated method stub
 		
 	}
 	

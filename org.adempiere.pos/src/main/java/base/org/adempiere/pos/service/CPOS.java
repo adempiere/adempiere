@@ -101,6 +101,10 @@ public class CPOS {
 	private boolean 			m_IsToPrint;
 	/**	Logger					*/
 	private CLogger 			log = CLogger.getCLogger(getClass());
+	/**	Quantity Ordered		*/
+	private BigDecimal			m_qty;
+	/**	Price					*/
+	private BigDecimal 			m_price;
 	
 	
 	/**
@@ -727,6 +731,7 @@ public class CPOS {
 		BigDecimal m_LineNetAmt = Env.ZERO; 
 		BigDecimal m_TaxRate = Env.ZERO;
 		BigDecimal m_GrandTotal = Env.ZERO;
+		
 		//	Search Line
 		for(MOrderLine line : lines) {
 			//	Valid No changes
@@ -1629,5 +1634,40 @@ public class CPOS {
 		trx.close();
 		
 	}
+
+	/**
+	 * Get Quantity of Product
+	 * @return m_qty
+	 */
+	public BigDecimal getQty() {
+		return m_qty;
+	}
+
+	/**
+	 * Set Quantity of Product
+	 * @param m_qty
+	 */
+	public void setQty(BigDecimal p_qty) {
+		m_qty = p_qty;
+	}
+
+	/**
+	 * Get Price of Product
+	 * @return m_price
+	 */
+	public BigDecimal getPrice() {
+		return m_price;
+	}
+
+	/**
+	 * Set Price of Product
+	 * @param m_price
+	 */
+	public void setPrice(BigDecimal p_price) {
+		m_price = p_price;
+	}
 	
+	public boolean IsShowLineControl() {
+		return true;
+	}
 }

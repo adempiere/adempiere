@@ -22,9 +22,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
 
-import org.adempiere.pos.search.QueryBPartner;
-import org.adempiere.pos.search.QueryProduct;
-import org.adempiere.pos.search.QueryTicket;
 import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.search.WQueryDocType;
 import org.adempiere.pos.search.WQueryProduct;
@@ -93,7 +90,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	private static CLogger log = CLogger.getCLogger(WPOSActionPanel.class);	
 
 	private final String ACTION_NEW         = "New";
-	private final String ACTION_DOCTYPE     = "Assignment";
+	private final String ACTION_DOCTYPE     = "DocType";
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_HISTORY     = "History";
 	private final String ACTION_BACK       	= "Parent";
@@ -390,10 +387,12 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		else if (e.getTarget().equals(f_bBack)){
 			previousRecord();
 			refreshProductInfo(null);
+			v_POSPanel.changeViewPanel();
 		}
 		else if (e.getTarget().equals(f_bNext)){
 			nextRecord();
 			refreshProductInfo(null);
+			v_POSPanel.changeViewPanel();
 		}
 		else if(e.getTarget().equals(f_bLogout)){
 			dispose();
@@ -532,10 +531,10 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		if (query.getRecord_ID() <= 0)
 			return;
 		//	For Ticket
-		if(query instanceof QueryTicket) {
+		if(query instanceof WQueryTicket) {
 			v_POSPanel.setOrder(query.getRecord_ID());
 			v_POSPanel.reloadIndex(query.getRecord_ID()); 
-		} else if(query instanceof QueryBPartner) {
+		} else if(query instanceof WQueryBPartner) {
 			if(!v_POSPanel.hasOrder()) {
 				v_POSPanel.newOrder(query.getRecord_ID());
 			} else {
@@ -543,7 +542,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			}
 			//	
 			log.fine("C_BPartner_ID=" + query.getRecord_ID());
-		} else if(query instanceof QueryProduct) {
+		} else if(query instanceof WQueryProduct) {
 			if (query.getRecord_ID() > 0) {
 				v_POSPanel.addLine(query.getRecord_ID(), Env.ONE);
 			}
@@ -555,5 +554,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	@Override
 	public void cancelAction(I_POSQuery query) {
 		
+	}
+	@Override
+	public void moveUp() {
+	}
+	@Override
+	public void moveDown() {
 	}	
 }

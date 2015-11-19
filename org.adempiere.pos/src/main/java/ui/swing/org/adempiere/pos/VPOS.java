@@ -78,6 +78,8 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private POSOrderLinePanel 				v_OrderLinePanel;
 	/** Function Keys				*/
 	private POSProductPanel 				v_ProductKeysPanel;
+	/** Control Panel				*/
+	private POSUpDownPanel	 				v_UpDownPanel;
 	/**	Timer for logout			*/
 	private Timer 							logoutTimer;
 	/** Keyoard Focus Manager		*/
@@ -316,6 +318,10 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_OrderLinePanel = new POSOrderLinePanel(this);
 		v_LeftPanel.add(v_OrderLinePanel, new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		v_UpDownPanel = new POSUpDownPanel(this);
+		v_LeftPanel.add(v_UpDownPanel, new GridBagConstraints(0, 2, 1, 1, 0, 0
+				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 1, 0, 1), 0, 0));
+		
 		v_ProductKeysPanel = new POSProductPanel(this);
 		v_ProductKeysPanel.setPreferredSize(new Dimension(500, 800));
 		v_ProductKeysPanel.setMinimumSize(new Dimension(500, 800));
@@ -469,6 +475,25 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 	@Override
 	public void changeViewPanel() {
-		
+		v_OrderLinePanel.changeViewPanel();
+		v_UpDownPanel.changeViewPanel();
+	}
+	
+	/**
+	 * Update Line Table
+	 * @param p_M_Product_ID
+	 */
+	public void updateLineTable() {
+		v_OrderLinePanel.updateLine();
+	}
+	
+	@Override
+	public void moveUp() {
+		v_OrderLinePanel.moveUp();
+	}
+
+	@Override
+	public void moveDown() {
+		v_OrderLinePanel.moveDown();
 	}
 }

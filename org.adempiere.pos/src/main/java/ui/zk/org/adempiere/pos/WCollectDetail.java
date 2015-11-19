@@ -564,4 +564,16 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 			v_CreditPanel.setVisible(false);
 		}
 	}
+
+	@Override
+	public void moveUp() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void moveDown() {
+		// TODO Auto-generated method stub
+		
+	}
 }

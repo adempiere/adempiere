@@ -559,4 +559,12 @@ public class VCollect extends Collect
 //			setC_PaymentTerm_ID(m_C_PaymentTerm_ID);
 //		}
 	}
+
+	@Override
+	public void moveUp() {
+	}
+
+	@Override
+	public void moveDown() {
+	}
 } // VCollect

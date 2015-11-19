@@ -53,6 +53,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Iframe;
 
 /**
@@ -93,6 +94,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private WPOSActionPanel 				v_ActionPanel;
 	private WPOSProductPanel 				f_ProductKeysPanel;
 	private WPOSOrderLinePanel 				f_OrderLinePanel;
+	private WPOSUpDownPanel 				v_UpDownPanel;
 	
 	/** Actions 							*/
 	private Button 							b_ok 		 = new Button("Ok");
@@ -149,15 +151,16 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		v_ActionPanel = new WPOSActionPanel(this);
 		f_ProductKeysPanel = new WPOSProductPanel(this);
 		f_OrderLinePanel = new WPOSOrderLinePanel(this);
+		v_UpDownPanel = new WPOSUpDownPanel(this);
 		East east = new East();
 		Center center = new Center();
 		North north = new North();
+		South south = new South();
 		Borderlayout fullPanel = new Borderlayout();
 		
 		center.setStyle("border: none; width:44%");
 		center.appendChild(fullPanel);
 		mainLayout.appendChild(center);
-
 		center.setStyle("border: none; width:44%");
 		fullPanel.setWidth("80%");
 		fullPanel.setHeight("100%");
@@ -168,10 +171,16 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		east.setSplittable(true);
 		east.setStyle("border: none;  min-width:44%; width:44%");
 
+		south.appendChild(v_UpDownPanel);
+		
 		fullPanel.appendChild(v_Table);
 		fullPanel.appendChild(north);
+		if(IsShowLineControl())
+			fullPanel.appendChild(south);
+		
 		north.setStyle("border: none; width:42%; height:295px");
-		v_Table.setStyle("border: none; width:54%;  height:100%; ");
+		south.setStyle("border: none; width:42%; height:12%");
+		v_Table.setStyle("border: none; width:54%;  height:50%; ");
 		
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
@@ -339,7 +348,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		v_ActionPanel.changeViewPanel();
 		f_ProductKeysPanel.refreshPanel();
 		f_OrderLinePanel.refreshPanel();
-		
+		v_UpDownPanel.refreshPanel();
 	}
 
 	/**
@@ -368,7 +377,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	
 	@Override
 	public void changeViewPanel() {
-		
+		f_OrderLinePanel.changeViewPanel();
+		v_UpDownPanel.changeViewPanel();
 	}
 	
 	/**
@@ -418,6 +428,24 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	 */
 	public void refreshProductInfo(int p_M_Product_ID) {
 		v_ActionPanel.refreshProductInfo(p_M_Product_ID);
+	}
+	
+	/**
+	 * Update Line Table
+	 * @param p_M_Product_ID
+	 */
+	public void updateLineTable() {
+		f_OrderLinePanel.updateLine();
+	}
+	
+	@Override
+	public void moveUp() {
+		f_OrderLinePanel.moveUp();
+	}
+
+	@Override
+	public void moveDown() {
+		f_OrderLinePanel.moveDown();
 	}
 	
 }	//	PosPanel
