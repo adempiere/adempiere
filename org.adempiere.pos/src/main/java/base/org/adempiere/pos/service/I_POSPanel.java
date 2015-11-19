@@ -27,6 +27,19 @@ public interface I_POSPanel {
 	public void refreshPanel();
 	
 	/**
+	 * Move Position up
+	 * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
+	public void moveUp();
+	
+	/**
+	 * Move Position Down
+	 * @author Raul Muñoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return void
+	 */
+	public void moveDown();
+	/**
 	 * Validate Input values
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return String

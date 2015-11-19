@@ -398,4 +398,12 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		}
 		return false;
 	}
+
+	@Override
+	public void moveUp() {
+	}
+
+	@Override
+	public void moveDown() {
+	}
 }

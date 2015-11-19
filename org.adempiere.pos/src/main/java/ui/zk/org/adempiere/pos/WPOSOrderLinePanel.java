@@ -23,11 +23,9 @@ import java.math.BigDecimal;
 
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.webui.component.ListModelTable;
-import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -93,8 +91,6 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 		if (!v_POSPanel.hasOrder()) {
 			m_table.loadTable(new PO[0]);
 		}
-		
-		//	
 		//	Load Data
 		m_TableHandle.loadTable(v_POSPanel.getC_Order_ID());
 		//	
@@ -118,19 +114,21 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 		log.info( "POSOrderLinePanel - actionPerformed: " + action);
 		
 		if(arg0.getName().equals(Events.ON_SELECT)) {
-			m_TableHandle.setEditable(v_POSPanel.isModifyPrice(), v_POSPanel.isDrafted());
-			WListbox c_table = (WListbox)arg0.getTarget();
-			IDColumn key = (IDColumn) m_table.getModel().getValueAt(c_table.getSelectedRow(), 0);
-			m_C_OrderLine_ID = key.getRecord_ID();
-			showProductInfo(c_table.getSelectedRow());
-			
+			selectLine();
 		}
 		
 		//	Refresh All
 		v_POSPanel.refreshPanel();
 		m_table.getModel().addTableModelListener(this);
 	}
-
+	
+	public void selectLine(){
+		m_TableHandle.setEditable(v_POSPanel.isModifyPrice(), v_POSPanel.isDrafted());
+		IDColumn key = (IDColumn) m_table.getModel().getValueAt(m_table.getSelectedRow(), 0);
+		m_C_OrderLine_ID = key.getRecord_ID();
+		showProductInfo(m_table.getSelectedRow());
+		v_POSPanel.changeViewPanel();
+	}
 	@Override
 	public void tableChanged(WTableModelEvent event) {
 		int row = m_table.getSelectedRow();
@@ -152,21 +150,9 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			return;
 		}
 		if (event.getModel().equals(m_table.getModel())){ //Add Minitable Source Condition
-			if (row != -1 )	{
-
-				Object data = m_table.getModel().getValueAt(row, 0);
-				if ( data != null )	{
-					Integer id = (Integer) ((IDColumn)data).getRecord_ID();
-					m_C_OrderLine_ID = id;
-					showProductInfo(row);
-				}
-			}else {
-				return;
-			}
-			int id = m_table.getSelectedRow();
-				if (id != -1) {	
+				if (row != -1) {	
 					ListModelTable model = m_table.getModel();
-					IDColumn key = (IDColumn) model.getValueAt(id, 0);
+					IDColumn key = (IDColumn) model.getValueAt(row, 0);
 					m_table.getModel().removeTableModelListener(this);			
 				
 				//	Validate Key
@@ -174,58 +160,67 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 					//	Set Current Order Line
 					m_C_OrderLine_ID = key.getRecord_ID();
 					BigDecimal m_QtyOrdered = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
-		    		BigDecimal m_Price = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
-					//	Remove Listener
-		    		m_table.getModel().removeTableModelListener(this);
-					//	Remove line
-					if(m_QtyOrdered.compareTo(Env.ZERO) <= 0) {
-						v_POSPanel.deleteLine(m_C_OrderLine_ID);
-						((ListModelTable)m_table.getModel()).remove(row);
-						m_table.getModel().addTableModelListener(this);
-						v_POSPanel.refreshHeader();
-						//	Exit
-						return;
-					}
-					//	Get Order Line
-					BigDecimal[] m_Summary = v_POSPanel.updateLine(m_C_OrderLine_ID, m_QtyOrdered, m_Price);
-					//	Set Totals
-					if(m_Summary != null) {
-						m_table.setValueAt(m_Summary[0], row, POSOrderLineTableHandle.POSITION_LINENETAMT);
-						m_table.setValueAt(m_Summary[2], row, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
-					}
-					m_table.getModel().addTableModelListener(this);
-					//	Only Refresh Header
-					v_POSPanel.refreshHeader();
-					
-					return;
+					BigDecimal m_Price = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+					v_POSPanel.setQty(m_QtyOrdered);
+					v_POSPanel.setPrice(m_Price);
+					updateLine();
 				}
 			}
 			
 		}
 	}
-	public void valueChange() {
-		int id = m_table.getSelectedRow();
-		ListModelTable model = m_table.getModel();
-		if (id != -1) {	
-			IDColumn key = (IDColumn) model.getValueAt(id, 0);
-			
-			if ( key != null &&  key.getRecord_ID() != m_C_OrderLine_ID ){
-				m_C_OrderLine_ID = key.getRecord_ID();
-				MOrderLine line = new MOrderLine(m_ctx, m_C_OrderLine_ID, null);
-				if ( line != null )
-				{
-					
-						line.setPrice(new BigDecimal(m_table.getModel().getValueAt(id, 4).toString()));
-						line.setQty(new BigDecimal(m_table.getModel().getValueAt(id, 2).toString()));
-						line.saveEx();
-						v_POSPanel.reloadOrder();
-						v_POSPanel.refreshPanel();
-					}
-				
+	
+	public void updateLine() {
+		int row = m_table.getSelectedRow();
+			BigDecimal m_QtyOrdered = v_POSPanel.getQty();
+			BigDecimal m_Price = v_POSPanel.getPrice();
+			//	Remove Listener
+			m_table.getModel().removeTableModelListener(this);
+			//	Remove line
+			if(m_QtyOrdered.compareTo(Env.ZERO) <= 0) {
+				v_POSPanel.deleteLine(m_C_OrderLine_ID);
+				((ListModelTable)m_table.getModel()).remove(row);
+				m_table.getModel().addTableModelListener(this);
+				v_POSPanel.refreshHeader();
+				//	Exit
+				return;
 			}
-		}
-
+			
+			//	Get Order Line
+			BigDecimal[] m_Summary = v_POSPanel.updateLine(m_C_OrderLine_ID, m_QtyOrdered, m_Price);
+			//	Set Totals
+			if(m_Summary != null) {
+				m_table.setValueAt(m_Summary[0], row, POSOrderLineTableHandle.POSITION_LINENETAMT);
+				m_table.setValueAt(m_Summary[2], row, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
+			}
+			m_table.getModel().addTableModelListener(this);
+			//	Only Refresh Header
+			v_POSPanel.refreshHeader();
+			v_POSPanel.refreshPanel();
+			
+			return;
 	}
+	
+	public void moveDown() {
+		if((m_table.getRowCount()-1) > m_table.getSelectedRow() && m_table.getRowCount() != 0) 
+			m_table.setSelectedIndex(m_table.getSelectedRow()+1);
+		else
+			m_table.setSelectedIndex(0);
+		selectLine();
+		v_POSPanel.changeViewPanel();
+		return;
+	}
+	
+	public void moveUp() {
+		if((m_table.getRowCount()-1) >= m_table.getSelectedRow() && m_table.getSelectedRow() != 0) 
+			m_table.setSelectedIndex(m_table.getSelectedRow()-1);
+		else
+			m_table.setSelectedIndex(m_table.getRowCount()-1);
+		selectLine();		
+		v_POSPanel.changeViewPanel();
+		return;
+	}
+	
 	/**
 	 * 	Focus Gained
 	 *	@param e
@@ -253,7 +248,18 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 
 	@Override
 	public void changeViewPanel() {
-		
+		int row = m_table.getSelectedRow();
+		if (row != -1) {
+			//	Set Current Order Line
+			BigDecimal m_QtyOrdered = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
+			BigDecimal m_Price = (BigDecimal) m_table.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+			v_POSPanel.setQty(m_QtyOrdered);
+			v_POSPanel.setPrice(m_Price);
+		}
+		else {
+			v_POSPanel.setQty(Env.ZERO);
+			v_POSPanel.setPrice(Env.ZERO);
+		}
 	}
 	/**
 	 * Show Product Info

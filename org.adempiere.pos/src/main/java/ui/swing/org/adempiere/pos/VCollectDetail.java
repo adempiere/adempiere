@@ -508,4 +508,12 @@ public class VCollectDetail extends CollectDetail
 			v_CreditPanel.setVisible(false);
 		}
 	}
+
+	@Override
+	public void moveUp() {
+	}
+
+	@Override
+	public void moveDown() {
+	}
 }

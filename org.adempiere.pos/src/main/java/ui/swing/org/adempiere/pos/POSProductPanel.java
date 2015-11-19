@@ -402,4 +402,12 @@ public class POSProductPanel extends POSSubPanel
 	public void cancelAction(I_POSQuery query) {
 		//	Nothing
 	}
+
+	@Override
+	public void moveUp() {
+	}
+
+	@Override
+	public void moveDown() {
+	}
 }	//	POSProductPanel
