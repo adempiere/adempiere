@@ -468,7 +468,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 						{
 							final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(ct.getCostingMethod());
 							method.setCostingMethod(as, trx, this, dimension, Env.ZERO, Env.ZERO, false);
-							method.processCostDetail(cd);
+							//method.processCostDetail(cd);
 						}
 					}
 				}

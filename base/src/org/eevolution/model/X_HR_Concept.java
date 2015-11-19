@@ -32,7 +32,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150707L;
+	private static final long serialVersionUID = 20151117L;
 
     /** Standard Constructor */
     public X_HR_Concept (Properties ctx, int HR_Concept_ID, String trxName)
@@ -75,6 +75,32 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
       return sb.toString();
     }
 
+	/** AccountSign AD_Reference_ID=118 */
+	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
+	/** Natural = N */
+	public static final String ACCOUNTSIGN_Natural = "N";
+	/** Debit = D */
+	public static final String ACCOUNTSIGN_Debit = "D";
+	/** Credit = C */
+	public static final String ACCOUNTSIGN_Credit = "C";
+	/** Set Account Sign.
+		@param AccountSign 
+		Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public void setAccountSign (String AccountSign)
+	{
+
+		set_Value (COLUMNNAME_AccountSign, AccountSign);
+	}
+
+	/** Get Account Sign.
+		@return Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public String getAccountSign () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountSign);
+	}
+
 	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
@@ -101,32 +127,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** AccountSign AD_Reference_ID=118 */
-	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
-	/** Natural = N */
-	public static final String ACCOUNTSIGN_Natural = "N";
-	/** Debit = D */
-	public static final String ACCOUNTSIGN_Debit = "D";
-	/** Credit = C */
-	public static final String ACCOUNTSIGN_Credit = "C";
-	/** Set Account Sign.
-		@param AccountSign 
-		Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign)
-	{
-
-		set_Value (COLUMNNAME_AccountSign, AccountSign);
-	}
-
-	/** Get Account Sign.
-		@return Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountSign);
 	}
 
 	/** ColumnType AD_Reference_ID=53243 */
@@ -442,6 +442,30 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public boolean isPaid () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsPaid);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Prepayment.
+		@param IsPrepayment 
+		The Payment/Receipt is a Prepayment
+	  */
+	public void setIsPrepayment (boolean IsPrepayment)
+	{
+		set_Value (COLUMNNAME_IsPrepayment, Boolean.valueOf(IsPrepayment));
+	}
+
+	/** Get Prepayment.
+		@return The Payment/Receipt is a Prepayment
+	  */
+	public boolean isPrepayment () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrepayment);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

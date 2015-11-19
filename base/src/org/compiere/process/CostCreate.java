@@ -66,9 +66,9 @@ public class CostCreate extends SvrProcess
 		if (product.get_ID() != p_M_Product_ID)
 			throw new AdempiereUserError("@NotFound@: @M_Product_ID@ = " + p_M_Product_ID);
 		//
-		if (MCostDetail.processProduct(product, get_TrxName()))
+		//if (MCostDetail.processProduct(product, get_TrxName()))
 			return "@OK@";
-		return "@Error@";
+		//return "@Error@";
 	}	//	doIt
 	
 }	//	CostCreate
