@@ -190,7 +190,7 @@ public class Allocation
 	{	
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>();
-		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+		columnNames.add(" ");
 		columnNames.add(Msg.translate(Env.getCtx(), "Date"));
 		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
 		if (isMultiCurrency)
@@ -326,7 +326,7 @@ public class Allocation
 	{
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>();
-		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+		columnNames.add(" ");
 		columnNames.add(Msg.translate(Env.getCtx(), "Date"));
 		columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
 		if (isMultiCurrency)
@@ -529,7 +529,7 @@ public class Allocation
 			invoice.setValueAt(writeOff, row, invoice.convertColumnIndexToView(i_writeOff));
 			invoice.setValueAt(overUnder, row, invoice.convertColumnIndexToView(i_overUnder));
 			
-			invoice.repaint(); //  update r/o
+			//invoice.repaint(); //  update r/o
 		}
 
 		m_calculating = false;

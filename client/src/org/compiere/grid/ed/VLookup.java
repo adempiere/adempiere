@@ -918,14 +918,14 @@ public class VLookup extends JComponent
 
 		Object updatedValue = value;
 
-		if (updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
+		if (updatedValue != null && updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
 		{
 			updatedValue = ((Object[])updatedValue)[0];
 		}
 
 		if (updatedValue == null && m_value == null)
 			updated = true;
-		else if (updatedValue != null && value.equals(m_value))
+		else if (updatedValue != null && updatedValue.equals(m_value))
 			updated = true;
 		if (!updated)
 		{

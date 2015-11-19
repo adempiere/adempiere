@@ -494,22 +494,27 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 				
 		//  is the value updated ?
 		boolean updated = false;
-		if (value instanceof Object[] && ((Object[])value).length > 0)
+		
+		Object updatedValue = value;
+
+		if (updatedValue != null && updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
 		{
-			value = ((Object[])value)[0];
+			updatedValue = ((Object[])updatedValue)[0];
 		}
 		
-		if (value == null && getValue() == null)
+		// Avoid events if the value hasn't changed.
+		if (updatedValue == null && getValue() == null)
 			updated = true;
-		else if (value != null && value.equals(getValue()) && !m_needsUpdate)
+		else if (updatedValue != null && updatedValue.equals(getValue()) && !m_needsUpdate)
 			updated = true;
 		if (!updated)
 		{
-			setValue(value);
+			setValue(updatedValue);
 		}
 		
 		// Fire the change event after the change so listeners can react in the same thread.
-		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), oldValue, getValue());
+		// Pass value as it may be an array for multiple selection.  updatedValue will be a single value.
+		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), oldValue, value);
 		// -> ADTabpanel - valuechange
 		fireValueChange(evt);
 

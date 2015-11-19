@@ -539,13 +539,13 @@ public class Doc_Invoice extends Doc
 						serviceAmt = serviceAmt.add(amt);
 					}
 					//
-					if (line.getM_Product_ID() != 0
+					/*if (line.getM_Product_ID() != 0
 						&& line.getProduct().isService())	//	otherwise Inv Matching
 						MCostDetail.createInvoice(as, line.getAD_Org_ID(), 
 							line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
 							line.get_ID(), 0,		//	No Cost Element
 							line.getAmtSource(), line.getQty(),
-							line.getDescription(), getTrxName());
+							line.getDescription(), getTrxName());*/
 				}
 			}
 			//  Set Locations
@@ -645,13 +645,13 @@ public class Doc_Invoice extends Doc
 						serviceAmt = serviceAmt.add(amt);
 					}
 					//
-					if (line.getM_Product_ID() != 0
+					/*if (line.getM_Product_ID() != 0
 						&& line.getProduct().isService())	//	otherwise Inv Matching
 						MCostDetail.createInvoice(as, line.getAD_Org_ID(), 
 							line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
 							line.get_ID(), 0,		//	No Cost Element
 							line.getAmtSource().negate(), line.getQty(),
-							line.getDescription(), getTrxName());
+							line.getDescription(), getTrxName());*/
 				}
 			}
 			//  Set Locations
@@ -914,11 +914,11 @@ public class Doc_Invoice extends Doc
 				allocationAmt = allocationAmt.negate();
 			// AZ Goodwill
 			// use createInvoice to create/update non Material Cost Detail
-			MCostDetail.createInvoice(as, lca.getAD_Org_ID(), 
+			/*MCostDetail.createInvoice(as, lca.getAD_Org_ID(),
 					lca.getM_Product_ID(), lca.getM_AttributeSetInstance_ID(),
 					C_InvoiceLine_ID, lca.getM_CostElement_ID(),
 					allocationAmt, lca.getQty(),
-					desc, getTrxName());
+					desc, getTrxName());*/
 			// end AZ
 		}
 		

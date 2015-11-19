@@ -15,6 +15,7 @@ package org.compiere.apps;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -130,9 +131,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 		{	
 			setMode(MODE_VERTICAL);
 			this.setLayout(mainLayout);
-			centerPanel.setLayout(centerLayout);
 			centerScroll.getViewport().add(centerPanel);
-			//centerScroll.add(centerPanel);
 			this.add(centerScroll, BorderLayout.CENTER);
 		}	//	jbInit
 
@@ -158,9 +157,12 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			if(MODE == MODE_HORIZONTAL)
 			{	
 				centerPanel.setLayout(new ALayout());
+				centerPanel.setPreferredSize(new Dimension(800,150));
+				centerScroll.createVerticalScrollBar();
 			}
 			if(MODE == MODE_VERTICAL)
 			{
+				centerPanel.setLayout(centerLayout);
 				//	Prepare panel
 				gbc.anchor = GridBagConstraints.NORTHWEST;
 				gbc.weightx = 0;
