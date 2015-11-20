@@ -157,8 +157,13 @@ public class MMigrationStep extends X_AD_MigrationStep {
 						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i)) 
 						|| isMultiKeyColumn)
 				{
-					if (value == null && info.getDefaultLogic(i) != null && !info.isColumnMandatory(i))
-						data.setNewValue(info.getDefaultLogic(i));
+					if (value == null && info.getDefaultLogic(i) != null && !info.isColumnMandatory(i)) {
+						Object defaultValue = po.getDefaultValue(i);
+						if (defaultValue != null)
+							data.setNewValue(defaultValue.toString());
+						else
+							data.setNewValue(null);
+					}
 					else if (value == null)
 						data.setIsNewNull(true);
 					else
