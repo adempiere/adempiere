@@ -99,7 +99,13 @@ public class ModelClassGenerator
 			sb = new StringBuffer();
 			tableName = createHeaderDocument(table, tableName, sb, packageName);
 			//	Write to file "M" class
-			writeToFile (sb, directory + tableName + ".java");
+			String fileName = directory + tableName + ".java";
+			//	Validate if exists
+			File out = new File (fileName);
+			if(!out.exists()) {
+				//	Create a File
+				writeToFile (sb, fileName);
+			}
 		}
 	}
 
