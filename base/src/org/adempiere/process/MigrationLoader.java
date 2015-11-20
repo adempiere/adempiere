@@ -218,7 +218,6 @@ public class MigrationLoader {
 		Trx.run(new TrxRunnable() {
 			private int migrationId;
 			private Properties ctx;
-
 			public TrxRunnable setParameters(Properties ctx , int migrationId)
 			{
 				this.migrationId= migrationId;
