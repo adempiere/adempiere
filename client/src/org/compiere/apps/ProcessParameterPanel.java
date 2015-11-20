@@ -157,8 +157,11 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			if(MODE == MODE_HORIZONTAL)
 			{	
 				centerPanel.setLayout(new ALayout());
-				centerPanel.setPreferredSize(new Dimension(800,150));
+				// The size of the centerScroll, sets the minimum size of the viewport.
+				// The actual size is determined by the parent layout.
+				centerScroll.setPreferredSize(new Dimension(400,100));
 				centerScroll.createVerticalScrollBar();
+				centerScroll.createHorizontalScrollBar();
 			}
 			if(MODE == MODE_VERTICAL)
 			{
@@ -301,6 +304,14 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 					centerPanel.add(Box.createVerticalStrut(10), gbc);    	//	bottom gap
 					gbc.gridx = 3;
 					centerPanel.add(Box.createHorizontalStrut(12), gbc);   	//	right gap
+				}
+				if(MODE == MODE_HORIZONTAL)
+				{
+					// Set the scrollpane size
+					// Limit the size of the centerPanel to something reasonable.
+					// The height should be a function of the number of rows.
+					// TODO the row count includes hidden parameters.
+					centerPanel.setPreferredSize(new Dimension(400,row*20)); // Row height 					
 				}
 				dynamicDisplay();
 			}
