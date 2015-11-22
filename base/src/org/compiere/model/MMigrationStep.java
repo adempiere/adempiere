@@ -219,7 +219,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		
 		// For backward compatibility, check if the parse column has been added by the migration yet.
 		// The parse column was added to AD_MigrationStep just prior to release 3.8.0.
-		if (this.get_ColumnIndex(I_AD_MigrationStep.COLUMNNAME_Parse) > 0)
+		if (this.get_ColumnIndex(I_AD_MigrationStep.COLUMNNAME_Parse) >= 0)
 			isParse = isParse();
 		
 		if ( sqlStatements == null || sqlStatements.trim().length() == 0 || sqlStatements.equals(";"))
@@ -262,8 +262,11 @@ public class MMigrationStep extends X_AD_MigrationStep {
              setErrorMsg(null);
              conn.close();
          } catch (SQLException e) {
-             setErrorMsg(e.toString());
              log.log(Level.SEVERE, "Step failed.", e);
+        	 java.sql.SQLException ne = ((java.sql.SQLException) e).getNextException();
+             if (ne != null) {
+                 log.log(Level.SEVERE, "Next Exception.", ne);
+             }
              try {
                  conn.rollback();
                  conn.close();
