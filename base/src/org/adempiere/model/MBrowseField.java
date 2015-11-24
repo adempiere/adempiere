@@ -61,11 +61,14 @@ public class MBrowseField extends X_AD_Browse_Field {
 		valueObject.IsReadOnly = field.isReadOnly();
 		valueObject.IsUpdateable = true;
 		valueObject.WindowNo = windowNo;
-		valueObject.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
-		valueObject.AD_Table_ID = field.getAD_View_Column().getAD_Column()
-				.getAD_Table_ID();
-		valueObject.ColumnName = field.getAD_View_Column().getAD_Column()
-				.getColumnName();
+		if (field.getAD_View_Column().getAD_Column_ID() > 0) {
+			valueObject.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
+			valueObject.AD_Table_ID = field.getAD_View_Column().getAD_Column()
+					.getAD_Table_ID();
+			valueObject.ColumnName = field.getAD_View_Column().getAD_Column()
+					.getColumnName();
+		}
+
 		valueObject.displayType = field.getAD_Reference_ID();
 		valueObject.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
 		valueObject.IsMandatory = field.isMandatory();
@@ -83,7 +86,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 		valueObject.ValidationCode = field.getAD_Val_Rule().getCode();
 		valueObject.isRange = field.isRange();
 		valueObject.Description = field.getDescription();
-		if (field.getAD_View_Column().getAD_Column_ID() < 0)
+		if (field.getAD_View_Column().getAD_Column_ID() <= 0)
 			valueObject.ColumnSQL = uniqueName;
 		valueObject.Help = uniqueName;
 		valueObject.Header = field.getName();
