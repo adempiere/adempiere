@@ -46,7 +46,7 @@ SELECT psc.AD_Client_ID, psc.AD_Org_ID,
 	ps.PayDate, psc.Payamt, psc.PayAmt AS AmtInWords, 
 	psc.Qty, psc.PaymentRule, psc.DocumentNo, NVL(oi.Logo_ID, ci.Logo_ID) AS Logo_ID,
 	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote, p.Description, 
-	psc.HR_PaySelection_ID , HR_PaySelectionCheck_ID
+	psc.HR_PaySelection_ID , psc.HR_PaySelectionCheck_ID
 FROM hr_payselectioncheck psc
    INNER JOIN HR_PaySelection ps ON (psc.HR_PaySelection_ID = ps.HR_PaySelection_ID)
    LEFT JOIN C_Payment p ON (psc.C_Payment_id = p.C_Payment_ID)
