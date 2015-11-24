@@ -996,7 +996,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 
 	//if isReversal CostDetail is created from CostDetail of original document 
 	// is made a new CostDetail where Amt and Qty are negate
-	private void createCostDetail(MTransaction trx, int reversalLine_ID) {
+	/*private void createCostDetail(MTransaction trx, int reversalLine_ID) {
 			
 		String whereClause = MCostDetail.COLUMNNAME_M_InventoryLine_ID+"=?"
 		                                 +" AND "+MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID+"=?";
@@ -1019,7 +1019,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 			cdnew.process();
 		}
 		
-	}
+	}*/
 
 	/**
 	 * 	Document Status is Complete or Closed

@@ -48,7 +48,10 @@ import org.compiere.util.Trx;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query
- * 			<li>BF [ 2665963 ] Copy Workflow name in Activity name 
+ * 			<li>BF [ 2665963 ] Copy Workflow name in Activity name
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 94 ] "IsDocument" flag in table for create default columns
+ *			@see https://github.com/adempiere/adempiere/issues/94
  */
 public class MWorkflow extends X_AD_Workflow
 {
@@ -74,6 +77,28 @@ public class MWorkflow extends X_AD_Workflow
 			s_cache.put(AD_Workflow_ID, retValue);
 		return retValue;
 	}	//	get
+	
+	/**
+	 * Get Workflow from Table if is Document
+	 * @param ctx
+	 * @param p_AD_Table_ID
+	 * @param trxName
+	 * @return
+	 */
+	public static MWorkflow getWorkFlowFromDocumentTable(Properties ctx, int p_AD_Table_ID, String trxName) {
+		int m_AD_Workflow_ID = DB.getSQLValue(trxName, "SELECT AD_Workflow_ID "
+				+ "FROM AD_Workflow "
+				+ "WHERE AD_Client_ID = ? "
+				+ "AND AD_Table_ID = ? "
+				+ "AND WorkflowType = ?", 0, p_AD_Table_ID, WORKFLOWTYPE_DocumentProcess);
+		//	Validate null
+		if(m_AD_Workflow_ID <= 0) {
+			return null;
+		}
+		//	Get from Cache or DB
+		return get(ctx, m_AD_Workflow_ID);
+	}
+	
 	
 	
 	/**

@@ -15,6 +15,7 @@ package org.compiere.apps;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -130,9 +131,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 		{	
 			setMode(MODE_VERTICAL);
 			this.setLayout(mainLayout);
-			centerPanel.setLayout(centerLayout);
 			centerScroll.getViewport().add(centerPanel);
-			//centerScroll.add(centerPanel);
 			this.add(centerScroll, BorderLayout.CENTER);
 		}	//	jbInit
 
@@ -158,9 +157,15 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			if(MODE == MODE_HORIZONTAL)
 			{	
 				centerPanel.setLayout(new ALayout());
+				// The size of the centerScroll, sets the minimum size of the viewport.
+				// The actual size is determined by the parent layout.
+				centerScroll.setPreferredSize(new Dimension(400,100));
+				centerScroll.createVerticalScrollBar();
+				centerScroll.createHorizontalScrollBar();
 			}
 			if(MODE == MODE_VERTICAL)
 			{
+				centerPanel.setLayout(centerLayout);
 				//	Prepare panel
 				gbc.anchor = GridBagConstraints.NORTHWEST;
 				gbc.weightx = 0;
@@ -299,6 +304,14 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 					centerPanel.add(Box.createVerticalStrut(10), gbc);    	//	bottom gap
 					gbc.gridx = 3;
 					centerPanel.add(Box.createHorizontalStrut(12), gbc);   	//	right gap
+				}
+				if(MODE == MODE_HORIZONTAL)
+				{
+					// Set the scrollpane size
+					// Limit the size of the centerPanel to something reasonable.
+					// The height should be a function of the number of rows.
+					// TODO the row count includes hidden parameters.
+					centerPanel.setPreferredSize(new Dimension(400,row*20)); // Row height 					
 				}
 				dynamicDisplay();
 			}

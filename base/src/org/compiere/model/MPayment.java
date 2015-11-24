@@ -691,6 +691,9 @@ public final class MPayment extends X_C_Payment
 		}
 	//	log.fine("getAllocatedAmt - " + retValue);
 		//	? ROUND(NVL(v_AllocatedAmt,0), 2);
+		if (retValue == null)
+			retValue = BigDecimal.ZERO;
+
 		return retValue;
 	}	//	getAllocatedAmt
 

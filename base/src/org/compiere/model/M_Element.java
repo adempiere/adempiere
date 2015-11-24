@@ -30,6 +30,12 @@ import org.compiere.util.Msg;
  *  @author Jorg Janke
  *  @version $Id: M_Element.java,v 1.3 2006/07/30 00:58:37 jjanke Exp $
  *  FR: [ 2214883 ] Remove SQL code and Replace for Query - red1, teo_sarca
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 9223372036854775807 ] Add default values for Name, Description, Entity Type...
+ *		@see https://adempiere.atlassian.net/browse/ADEMPIERE-449
+ *		<li> Lookup for search view not show button
+ *  	<li> Add default Tables lookup
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
  */
 public class M_Element extends X_AD_Element
 {
@@ -289,6 +295,60 @@ public class M_Element extends X_AD_Element
 		}
 		return success;
 	}	//	afterSave
+	
+	/**
+	 * Validate if column name is reserved
+	 * FR [ 9223372036854775807 ]
+	 * @return
+	 */
+	public static boolean isReservedColumnName(String columnName) {
+		//	Validate Null
+		if(columnName == null)
+			return false;
+		//	Validation hard code, for support to old implementations
+		//	its must be change for dynamic dictionary query
+		return columnName.equals("AD_Client_ID")
+			//
+			|| columnName.startsWith("Created") || columnName.startsWith("Updated")
+			|| columnName.equals("EntityType") || columnName.equals("DocumentNo")
+			|| columnName.equals("Processed") || columnName.equals("IsSelfService")
+			|| columnName.equals("DocAction") || columnName.equals("DocStatus")
+			|| columnName.equals("Posted") || columnName.equals("IsReconciled")
+			|| columnName.equals("IsApproved") // BF [ 1943682 ]
+			|| columnName.equals("IsGenerated") // BF [ 1943682 ]
+			|| columnName.startsWith("Ref_")
+			//	Order/Invoice
+			|| columnName.equals("GrandTotal") || columnName.equals("TotalLines")
+			|| columnName.equals("C_CashLine_ID") || columnName.equals("C_Payment_ID")
+			|| columnName.equals("IsPaid") || columnName.equals("IsAllocated")
+			// Bug [ 1807947 ] 
+			|| columnName.equals("C_DocType_ID")
+			|| (columnName.equals("Line"));
+	}
+	
+	/**
+	 * Verify if is default table info for column name
+	 * @param columnName
+	 * @return
+	 */
+	public static boolean isLookupColumnName(String columnName) {
+		//	Valid Null
+		if(columnName == null
+				|| columnName.trim().length() == 0)
+			return false;
+		//	Validation hard code, for support to old implementations
+		//	its must be change for dynamic dictionary query
+		return columnName.equals("C_BPartner_ID")
+				|| columnName.equals("M_Product_ID")
+				|| columnName.equals("C_Invoice_ID")
+				|| columnName.equals("A_Asset_ID")
+				|| columnName.equals("C_Order_ID")
+				|| columnName.equals("M_InOut_ID")
+				|| columnName.equals("C_Payment_ID")
+				|| columnName.equals("C_CashLine_ID")
+				|| columnName.equals("S_ResourceAssignment_ID");
+
+	}
 	
 	/**
 	 * 	String Representation

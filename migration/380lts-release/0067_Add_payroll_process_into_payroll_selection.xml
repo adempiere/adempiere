@@ -14,7 +14,6 @@
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">53248</Data>
         <Data AD_Column_ID="111" Column="Name">Payroll Process</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">HR_Process_ID</Data>
@@ -49,6 +48,16 @@
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">53407</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">N</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="15" StepType="SQL">
+      <SQLStatement>UPDATE HR_PaySelection ps SET HR_Process_ID = (SELECT MAX(hm.HR_Process_ID) FROM HR_PaySelectionLine psl INNER JOIN HR_Movement hm ON (psl.HR_Movement_ID=hm.HR_Movement_ID) WHERE psl.HR_PaySelection_ID=ps.HR_PaySelection_ID);
+</SQLStatement>
+    </Step>
+    <Step SeqNo="16" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="76625" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
@@ -78,7 +87,7 @@
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="186" Column="IsMandatory">N</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>

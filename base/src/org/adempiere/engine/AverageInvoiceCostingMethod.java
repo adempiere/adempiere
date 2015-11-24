@@ -426,9 +426,9 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		}
 	}
 
-	@Override
+	/*@Override
 	public void processCostDetail(MCostDetail costDetail) {
-	}
+	}*/
 
 	@Override
 	protected List<CostComponent> getCalculatedCosts() {

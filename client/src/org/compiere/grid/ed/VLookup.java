@@ -107,6 +107,9 @@ import org.eevolution.model.I_PP_Product_BOMLine;
  * @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li> BR [ 9223372036854775807 ] Lookup for search view not show button
+ * 		@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
  */
 public class VLookup extends JComponent
 	implements VEditor, ActionListener, FocusListener
@@ -267,11 +270,11 @@ public class VLookup extends JComponent
 			m_lookup.setMandatory(mandatory);
 			windowNo = m_lookup.getWindowNo();
 		}
-		//
-		if(!hasSearchableColumns()) // No known searchable columns
-		{
-			m_enableInfo = false;
-		}
+		//	BR [ 9223372036854775807 ]
+//		if(!hasSearchableColumns()) // No known searchable columns
+//		{
+//			m_enableInfo = false;
+//		}
 		//  Set default m_isSOTrx from context
 		if (Env.getContext(Env.getCtx(), windowNo, "IsSOTrx").equals("N"))
 			m_isSOTrx = false;				
@@ -331,7 +334,14 @@ public class VLookup extends JComponent
 			if ((m_lookup.getDisplayType() == DisplayType.List && Env.getContextAsInt(Env.getCtx(), "#AD_Role_ID") == 0)
 				|| m_lookup.getDisplayType() != DisplayType.List)     //  only system admins can change lists, so no need to zoom for others
 			{
-				if(m_enableInfo  &&  !m_hasButton)  //  Enable the info window from the pop-up menu if there is no button
+				//	BR [ 9223372036854775807 ]
+//				if(m_enableInfo  &&  !m_hasButton)  //  Enable the info window from the pop-up menu if there is no button
+//				{
+//					mInfo = new CMenuItem(Msg.getMsg(Env.getCtx(), "Info"), Env.getImageIcon("Info16.gif"));
+//					mInfo.addActionListener(this);
+//					popupMenu.add(mInfo);
+//				}
+				if(!m_hasButton)  //  Enable the info window from the pop-up menu if there is no button
 				{
 					mInfo = new CMenuItem(Msg.getMsg(Env.getCtx(), "Info"), Env.getImageIcon("Info16.gif"));
 					mInfo.addActionListener(this);
@@ -414,7 +424,8 @@ public class VLookup extends JComponent
 	/** The old Value - for comparison at future points in time.	*/
 	private Object				m_oldValue;
 	/** Enable Info								*/
-	private boolean				m_enableInfo = true;
+	//	BR [ 9223372036854775807 ]
+//	private boolean				m_enableInfo = true;
 	/** Is a button displayed?					*/
 	private boolean				m_hasButton = false;
 	/** Override context for sales transactions */
@@ -473,7 +484,13 @@ public class VLookup extends JComponent
 			LookAndFeel.installBorder(this, "TextField.border");
 			this.add(m_text, BorderLayout.CENTER);
 			this.add(m_combo, BorderLayout.SOUTH);  //  Need to attache m_combo to "this" so it has a parent
-			if (m_enableInfo && (m_lookup == null || m_lookup.getDisplayType() == DisplayType.Search))
+			//	BR [ 9223372036854775807 ]
+//			if (m_enableInfo && (m_lookup == null || m_lookup.getDisplayType() == DisplayType.Search))
+//			{
+//				this.add(m_button, BorderLayout.EAST);
+//				m_hasButton = true;
+//			}
+			if (m_lookup == null || m_lookup.getDisplayType() == DisplayType.Search)
 			{
 				this.add(m_button, BorderLayout.EAST);
 				m_hasButton = true;
@@ -494,11 +511,15 @@ public class VLookup extends JComponent
 		{
 			LookAndFeel.installBorder(this, "TextField.border");
 			this.add(m_text, BorderLayout.CENTER);
-			if(m_enableInfo)
-			{
-				this.add(m_button, BorderLayout.EAST);
-				m_hasButton = true;
-			}
+			//	BR [ 9223372036854775807 ]
+//			if(m_enableInfo)
+//			{
+//				this.add(m_button, BorderLayout.EAST);
+//				m_hasButton = true;
+//			}
+			this.add(m_button, BorderLayout.EAST);
+			m_hasButton = true;
+			//	
 			m_text.setReadWrite (true);
 			m_combo.setVisible(false);
 			m_comboActive = false;
@@ -897,14 +918,14 @@ public class VLookup extends JComponent
 
 		Object updatedValue = value;
 
-		if (updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
+		if (updatedValue != null && updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
 		{
 			updatedValue = ((Object[])updatedValue)[0];
 		}
 
 		if (updatedValue == null && m_value == null)
 			updated = true;
-		else if (updatedValue != null && value.equals(m_value))
+		else if (updatedValue != null && updatedValue.equals(m_value))
 			updated = true;
 		if (!updated)
 		{
@@ -974,11 +995,21 @@ public class VLookup extends JComponent
 			try {
 				Class<InfoFactory> clazz = (Class<InfoFactory>)this.getClass().getClassLoader().loadClass(infoFactoryClass);
 				InfoFactory factory = clazz.newInstance();
-				if (m_tableName == null)	//	sets table name & key column
-				{
-					if(!hasSearchableColumns()){
-						// Search should have been disabled for this field.
-						log.severe("Search enabled on field " + m_columnName + ". Associated table has no standard/identifier columns.");
+				//	BR [ 9223372036854775807 ]
+//				if (m_tableName == null)	//	sets table name & key column
+//				{
+//					if(!hasSearchableColumns()){
+//						// Search should have been disabled for this field.
+//						log.severe("Search enabled on field " + m_columnName + ". Associated table has no standard/identifier columns.");
+//						return;
+//					}
+//				}
+				if (m_tableName == null)
+				{	//	sets table name & key column
+					String rsql = getDirectAccessSQL("*");
+					if(rsql == null || rsql.length() == 0)
+					{
+						m_button.setEnabled(false);
 						return;
 					}
 				}
@@ -1242,59 +1273,60 @@ public class VLookup extends JComponent
 	/**
 	 * 	Determines if the lookup has searchable (text) fields.	
 	 */
-	private boolean hasSearchableColumns()
-	{
-		boolean retValue = false;
-
-		m_tableName = MQuery.getZoomTableName(m_columnName);
-		m_keyColumnName = MQuery.getZoomColumnName(m_columnName);
-
-		if (   m_columnName.equals("M_Product_ID") 
-		    || m_columnName.equals("M_ProductBOM_ID")
-			|| m_columnName.equals("C_BPartner_ID")
-			|| m_columnName.equals("C_Order_ID")
-			|| m_columnName.equals("C_Invoice_ID")
-			|| m_columnName.equals("M_InOut_ID")
-			|| m_columnName.equals("C_Payment_ID")
-			|| m_columnName.equals("GL_JournalBatch_ID")
-			|| m_columnName.equals("SalesRep_ID"))
-		{
-			retValue = true;
-		}
-		else
-		{
-			/** Check Well Known Columns of Table - assumes TableDir	**/
-			String query = "SELECT t.TableName, c.ColumnName "
-				+ "FROM AD_Column c "
-				+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID AND t.IsView='N')"
-				+ " WHERE (c.ColumnName IN ('DocumentNo', 'Value', 'Name') OR c.IsIdentifier='Y')"
-				+ " AND c.AD_Reference_ID IN (10,14)"
-				+ " AND EXISTS (SELECT * FROM AD_Column cc WHERE cc.AD_Table_ID=t.AD_Table_ID"
-					+ " AND cc.IsKey='Y' AND cc.ColumnName=?)";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement(query, null);
-				pstmt.setString(1, m_keyColumnName);
-				rs = pstmt.executeQuery();
-				if (rs.next())
-				{
-					retValue = true;
-				}
-			}
-			catch (SQLException ex)
-			{
-				log.log(Level.SEVERE, query, ex);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null; pstmt = null;
-			}
-		}
-		return retValue;
-	}
+	//	BR [ 9223372036854775807 ]
+//	private boolean hasSearchableColumns()
+//	{
+//		boolean retValue = false;
+//
+//		m_tableName = MQuery.getZoomTableName(m_columnName);
+//		m_keyColumnName = MQuery.getZoomColumnName(m_columnName);
+//
+//		if (   m_columnName.equals("M_Product_ID") 
+//		    || m_columnName.equals("M_ProductBOM_ID")
+//			|| m_columnName.equals("C_BPartner_ID")
+//			|| m_columnName.equals("C_Order_ID")
+//			|| m_columnName.equals("C_Invoice_ID")
+//			|| m_columnName.equals("M_InOut_ID")
+//			|| m_columnName.equals("C_Payment_ID")
+//			|| m_columnName.equals("GL_JournalBatch_ID")
+//			|| m_columnName.equals("SalesRep_ID"))
+//		{
+//			retValue = true;
+//		}
+//		else
+//		{
+//			/** Check Well Known Columns of Table - assumes TableDir	**/
+//			String query = "SELECT t.TableName, c.ColumnName "
+//				+ "FROM AD_Column c "
+//				+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID AND t.IsView='N')"
+//				+ " WHERE (c.ColumnName IN ('DocumentNo', 'Value', 'Name') OR c.IsIdentifier='Y')"
+//				+ " AND c.AD_Reference_ID IN (10,14)"
+//				+ " AND EXISTS (SELECT * FROM AD_Column cc WHERE cc.AD_Table_ID=t.AD_Table_ID"
+//					+ " AND cc.IsKey='Y' AND cc.ColumnName=?)";
+//			PreparedStatement pstmt = null;
+//			ResultSet rs = null;
+//			try
+//			{
+//				pstmt = DB.prepareStatement(query, null);
+//				pstmt.setString(1, m_keyColumnName);
+//				rs = pstmt.executeQuery();
+//				if (rs.next())
+//				{
+//					retValue = true;
+//				}
+//			}
+//			catch (SQLException ex)
+//			{
+//				log.log(Level.SEVERE, query, ex);
+//			}
+//			finally
+//			{
+//				DB.close(rs, pstmt);
+//				rs = null; pstmt = null;
+//			}
+//		}
+//		return retValue;
+//	}
 	
 	/**
 	 * 	Generate Access SQL for Search.
@@ -1306,6 +1338,10 @@ public class VLookup extends JComponent
 	 */
 	private String getDirectAccessSQL (String text)
 	{
+		//	Load Table and key Column
+		m_tableName = MQuery.getZoomTableName(m_columnName);
+		m_keyColumnName = MQuery.getZoomColumnName(m_columnName);
+		
 		StringBuffer sql = new StringBuffer();
 		//
 		if (m_columnName.equals("M_Product_ID"))

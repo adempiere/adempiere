@@ -45,7 +45,7 @@ public class MigrationLoader {
 
 	/**	Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (MigrationLoader.class);
-	private MMigration m_Migration;
+	private MMigration migration;
 	
 	public Comparator<File> fileComparator = new Comparator<File>() {
 		// Note - Not locale sensitive.
@@ -177,66 +177,78 @@ public class MigrationLoader {
 
 		NodeList migrations = doc.getDocumentElement().getElementsByTagName("Migration");
 		for ( int i = 0; i < migrations.getLength(); i++ ) {
-			
-		   Trx.run(new TrxRunnable() 
-		   {
-			   private Properties ctx;
-			   private Element element;
-			   private MigrationLoader loader;
-			   
-			   TrxRunnable setParameters(Properties ctx, Element element, MigrationLoader loader)
-			   {
-				   this.ctx =  ctx;
-				   this.element = element;
-				   this.loader = loader;
-				   return this;
-			   }
-	            public void run(String trxName) {
-	            	try {
-	            		MMigration mig = MMigration.fromXmlNode(ctx, element , trxName);
-	            		if (loader != null) {
-	            			loader.setMigration(mig);
-	            		}
-	            		if (mig == null) {
-	            			log.log(Level.CONFIG, "XML file not a Migration. Skipping.");
-	            		}
+
+			Trx.run(new TrxRunnable() {
+
+				private Properties ctx;
+				private Element element;
+				private MigrationLoader loader;
+
+				TrxRunnable setParameters(Properties ctx, Element element, MigrationLoader loader) {
+					this.ctx = ctx;
+					this.element = element;
+					this.loader = loader;
+					return this;
+				}
+
+				public void run(String trxName) {
+					try {
+						MMigration migration = MMigration.fromXmlNode(ctx, element, trxName);
+						if (loader != null) {
+							loader.setMigration(migration);
+						}
+						if (migration == null) {
+							log.log(Level.CONFIG, "XML file not a Migration. Skipping.");
+						}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-	            }
-	       }.setParameters(Env.getCtx(), (Element) migrations.item(i), this));
+				}
+
+			}.setParameters(Env.getCtx(), (Element) migrations.item(i), this));
 		}
+
 		if (apply) {
-			// Apply the migration just loaded.
-			applyMigration(m_Migration);
+			applyMigration(migration.getCtx() , migration.getAD_Migration_ID());
 		}
 
 	}
 
-	private void applyMigration(MMigration migration) {
-		
-		if (migration == null)
-			return;
+	private void applyMigration(Properties ctx  , int migrationId) {
+		Trx.run(new TrxRunnable() {
+			private int migrationId;
+			private Properties ctx;
+			public TrxRunnable setParameters(Properties ctx , int migrationId)
+			{
+				this.migrationId= migrationId;
+				this.ctx = ctx;
+				return this;
+			}
 
-		if (MMigration.STATUSCODE_Applied.equals(migration.getStatusCode())) {
-			log.log(Level.CONFIG, migration.toString() + " ---> Migration already applied - skipping.");
-			return;
-		}
-			
-		log.log(Level.CONFIG, migration.toString());
-		migration.setFailOnError(false);
-		try {
-			migration.apply();
-		} catch (AdempiereException e) {
-			throw new AdempiereException(e);
-		}
-		finally {
-			migration.updateStatus(null);
-		}
+			public void run(String trxName) {
+				try {
+					MMigration migration = new MMigration(ctx ,migrationId , trxName);
+					if (MMigration.STATUSCODE_Applied.equals(migration.getStatusCode())) {
+						log.log(Level.CONFIG, migration.toString() + " ---> Migration already applied - skipping.");
+						return;
+					}
+
+					log.log(Level.CONFIG, migration.toString());
+					migration.setFailOnError(false);
+
+					migration.apply();
+
+				} catch (AdempiereException e) {
+					throw new AdempiereException(e);
+				} finally {
+					migration.updateStatus(null);
+				}
+			}
+			}.setParameters(ctx , migrationId));
 	}
-	
-	protected void setMigration(MMigration mig) {
-		m_Migration = mig;
+
+	protected void setMigration(MMigration migration) {
+		this.migration = migration;
 	}
 
 	public void applyMigrations() {
@@ -247,7 +259,7 @@ public class MigrationLoader {
 		
 		for (MMigration migration : migrations )
 		{
-			applyMigration(migration);
+			applyMigration(migration.getCtx() , migration.getAD_Migration_ID());
 		}
 	}
 	

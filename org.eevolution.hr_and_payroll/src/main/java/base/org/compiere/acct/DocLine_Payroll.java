@@ -18,6 +18,7 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 
 import org.compiere.model.MBPartner;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.model.MHRConcept;
 import org.eevolution.model.MHRMovement;
@@ -39,14 +40,13 @@ public class DocLine_Payroll extends DocLine
 	{
 		super (line, doc);
 		int C_BPartner_ID = line.getC_BPartner_ID();
-		MBPartner   bpartner = new MBPartner(Env.getCtx(),C_BPartner_ID,null);     
 		MHRConcept  concept  = MHRConcept.get(Env.getCtx(), line.getHR_Concept_ID()); 
 		//
 		m_HR_Concept_ID    = concept.getHR_Concept_ID();
 		m_HR_Process_ID    = line.getHR_Process_ID();
 		m_C_BPartner_ID    = C_BPartner_ID;
 		m_HR_Department_ID = line.getHR_Department_ID();
-		m_C_BP_Group_ID    = bpartner.getC_BP_Group_ID();
+		m_C_BP_Group_ID    = DB.getSQLValue(doc.getTrxName(), "SELECT C_BP_Group_ID FROM C_BPartner WHERE  C_BPartner_ID=?", C_BPartner_ID);
 		m_AccountSign      = concept.getAccountSign();
 		m_Amount           = line.getAmount();
 		setAmount(line.getAmount());

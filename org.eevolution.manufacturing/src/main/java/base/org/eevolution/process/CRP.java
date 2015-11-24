@@ -250,8 +250,8 @@ public class CRP extends SvrProcess
 		// Total duration of workflow node (seconds) ...
 		// ... its static single parts ...
 		long totalDuration =
-				+ node.getQueuingTime() 
-				+ node.getSetupTimeRequired() // Use the present required setup time to notice later changes  
+				+ node.getQueuingTime()
+				+ node.getSetupTimeRequired().intValueExact() // Use the present required setup time to notice later changes
 				+ node.getMovingTime() 
 				+ node.getWaitingTime()
 		;
