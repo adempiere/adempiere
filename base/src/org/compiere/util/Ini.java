@@ -543,14 +543,26 @@ public final class Ini implements Serializable
 	 */
 	private static String getFileName (boolean tryUserHome)
 	{
+		// Check if the property files was defined as an argument
 		if (System.getProperty("PropertyFile") != null)
 			return System.getProperty("PropertyFile");
 		//
+		// If this is the client, look in the user directory.
+		// For the first run of the client after RUN_Setup, the
+		// property file will not exist in the user directory. 
+		// Fall back to the system property file in ADEMPIERE_HOME
+		// and then to the drive root.
 		String base = null;
+		boolean exists = false;
 		if (tryUserHome && s_client)
+		{
 			base = System.getProperty("user.home");
-		//  Server
-		if (!s_client || base == null || base.length() == 0)
+			// Test for the existence of the file
+			File varTmpDir = new File(base + ADEMPIERE_PROPERTY_FILE);
+			exists = varTmpDir.exists();
+		}
+		//  Server or client fall back
+		if (!s_client || base == null || base.length() == 0 || !exists)
 		{
 			String home = getAdempiereHome();
 			if (home != null)
@@ -558,6 +570,7 @@ public final class Ini implements Serializable
 		}
 		if (base != null && !base.endsWith(File.separator))
 			base += File.separator;
+		// Fall back to drive root
 		if (base == null)
 			base = "";
 		//
