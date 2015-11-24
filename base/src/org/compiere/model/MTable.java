@@ -740,15 +740,32 @@ public class MTable extends X_AD_Table
 				createMandatoryDocumentColumns();
 			}
 			
-			MSequence seq = MSequence.get(getCtx(), getTableName(), get_TrxName());
+			// Find or create the associated sequence and 
+			// Check if the database table name changed.
+			String oldTableName = (String) get_ValueOld(MTable.COLUMNNAME_TableName);
+
+			// Find the sequence based on the old TableName. If the table name hasn't 
+			// changed, nothing needs be done.
+			MSequence seq = MSequence.get(getCtx(), oldTableName, get_TrxName());
 			if (seq == null || seq.get_ID() == 0)
-				MSequence.createTableSequence(getCtx(), getTableName(), get_TrxName());
+			{
+				// Not found.  Check if a sequence exists with the new name.
+				seq = MSequence.get(getCtx(), getTableName(), get_TrxName());
+				if (seq == null || seq.get_ID() == 0)
+				{
+					// No sequence matches the old or new table name.  
+					// Create a new sequence using the new name.
+					MSequence.createTableSequence(getCtx(), getTableName(), get_TrxName());
+				} // else, sequence with the current tablename exists. Do nothing.
+			}
+			// A sequence with the old TableName exists. Check if it needs to be updated.
 			else if (!seq.getName().equals(getTableName()))
 			{
 				seq.setName(getTableName());
+				seq.setDescription("Table " + getTableName());
 				seq.saveEx();
 			}
-		}
+		}	
 		
 		return success;
 	}	//	afterSave
