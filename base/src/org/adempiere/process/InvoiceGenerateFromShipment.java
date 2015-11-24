@@ -16,22 +16,8 @@
  *****************************************************************************/
 package org.adempiere.process;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.logging.Level;
-
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MBPartner;
-import org.compiere.model.MClient;
-import org.compiere.model.MDocType;
-import org.compiere.model.MInOut;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MInvoiceSchedule;
-import org.compiere.model.MLocation;
-import org.compiere.model.MOrder;
+import org.compiere.model.*;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -39,6 +25,11 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
 
 /**
  *	Generate Invoices
@@ -265,6 +256,7 @@ public class InvoiceGenerateFromShipment extends SvrProcess {
 			descInvLine.setIsDescription(true);
 			descInvLine.setDescription(referenceDescr);
 			descInvLine.setLine(m_line + inOutLine.getLine() - 2);
+			descInvLine.setPARENTDOCQTY(Env.ZERO);      //AB 16-07-2015  Set Parent Doc Qty
 			if (!descInvLine.save())
 				throw new IllegalStateException("Could not create Invoice Comment Line (sh)");
 			//	Optional Ship Address if not Bill Address
@@ -274,6 +266,7 @@ public class InvoiceGenerateFromShipment extends SvrProcess {
 				descInvLine.setIsDescription(true);
 				descInvLine.setDescription(addr.toString());
 				descInvLine.setLine(m_line + inOutLine.getLine() - 1);
+				descInvLine.setPARENTDOCQTY(Env.ZERO);      //AB 16-07-2015  Set Parent Doc Qty
 				if (!descInvLine.save())
 					throw new IllegalStateException("Could not create Invoice Comment Line 2 (sh)");
 			}
@@ -298,6 +291,7 @@ public class InvoiceGenerateFromShipment extends SvrProcess {
 			invLine.setLineNetAmt( Env.ZERO );
 			invLine.setIsDescription( true );
 		}
+		invLine.setPARENTDOCQTY(inOutLine.getQtyEntered());      //AB 16-07-2015  Set Parent Doc Qty 
 		if (!invLine.save())
 			throw new IllegalStateException("Could not create Invoice Line (s)");
 		//	Link

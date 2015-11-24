@@ -16,16 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 
 
 /**
@@ -390,15 +390,22 @@ public class CalloutInOut extends CalloutEngine
 		if (C_OrderLine_ID == null || C_OrderLine_ID.intValue() == 0)
 			return "";
 
+		int AD_Org_ID = Env.getContextAsInt(ctx, WindowNo, "AD_Org_ID");
 		//	Get Details
 		MOrderLine ol = new MOrderLine (ctx, C_OrderLine_ID.intValue(), null);
 		if (ol.get_ID() != 0)
 		{
+			//AB
+			String sql="select sum(qtyonhand) from m_storage where m_product_id="+ol.getM_Product_ID()+" and "
+					+ "ad_org_id="+AD_Org_ID;
+			BigDecimal StockQty=DB.getSQLValueBD(null, sql);
+			
 			if (ol.getC_Charge_ID() > 0 && ol.getM_Product_ID() <= 0) {
 				mTab.setValue("C_Charge_ID", new Integer(ol.getC_Charge_ID()));
 			}
 			else {
-				mTab.setValue("M_Product_ID", new Integer(ol.getM_Product_ID()));
+				mTab.setValue("STOCKQTY", StockQty);
+				mTab.setValue("M_Product_ID", new Integer(ol.getM_Product_ID())); //AB
 				mTab.setValue("M_AttributeSetInstance_ID", new Integer(ol.getM_AttributeSetInstance_ID()));
 			}
 			//

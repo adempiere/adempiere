@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import org.compiere.Adempiere;
+
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,8 +27,6 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.Adempiere;
-
 /**
  *	Reads all Messages and stores them in a HashMap
  *
@@ -35,6 +35,11 @@ import org.compiere.Adempiere;
  */
 public final class Msg
 {
+	/* Ossagho Development Team - 11-03-2015
+	 * BP Address Check
+	 */
+	public static String ErrorMsg;
+	//AB
 	/** Initial size of HashMap     */
 	private static final int 		MAP_SIZE = 1500;
 	/**  Separator between Msg and optional Tip     */
@@ -350,7 +355,7 @@ public final class Msg
 	 *  @param AD_Message   Message key
 	 *  @param args         MessageFormat arguments
 	 *  @return translated text
-	 *  @see java.text.MessageFormat for formatting options
+	 *  @see MessageFormat for formatting options
 	 */
 	public static String getMsg(Properties ctx, String AD_Message, Object[] args)
 	{
@@ -363,7 +368,7 @@ public final class Msg
 	 *  @param AD_Message   Message key
 	 *  @param args         MessageFormat arguments
 	 *  @return translated text
-	 *  @see java.text.MessageFormat for formatting options
+	 *  @see MessageFormat for formatting options
 	 */
 	public static String getMsg(Language language, String AD_Message, Object[] args)
 	{
@@ -376,7 +381,7 @@ public final class Msg
 	 *  @param AD_Message   Message key
 	 *  @param args         MessageFormat arguments
 	 *  @return translated text
-	 *  @see java.text.MessageFormat for formatting options
+	 *  @see MessageFormat for formatting options
 	 */
 	public static String getMsg (String ad_language, String AD_Message, Object[] args)
 	{
@@ -607,6 +612,11 @@ public final class Msg
 	 */
 	public static String translate(Properties ctx, String text)
 	{
+		/* Ossagho Development Team - 11-03-2015
+		 * BP Address Check
+		 */
+		ErrorMsg=text;
+		//AB
 		if (text == null || text.length() == 0)
 			return text;
 		String s = (String)ctx.getProperty(text);

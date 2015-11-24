@@ -16,20 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.engine.IDocumentLine;
+import org.adempiere.exceptions.FillMandatoryException;
+import org.adempiere.exceptions.WarehouseLocatorConflictException;
+import org.compiere.util.*;
+
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
-
-import org.adempiere.engine.IDocumentLine;
-import org.adempiere.exceptions.FillMandatoryException;
-import org.adempiere.exceptions.WarehouseLocatorConflictException;
-import org.compiere.util.CCache;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.Util;
 
 /**
  * 	InOut Line
@@ -545,6 +541,41 @@ implements IDocumentLine
 			}
 		}
 
+        //AB 15-09-2015 Stock Qty Get in InOutLine
+        String query="select sum(qtyonhand) from m_storage where m_product_id="+getM_Product_ID()+" and m_locator_id="+getM_Locator_ID()+" and "
+                + "ad_org_id=(select ad_org_id from c_orderline where c_orderline_id="+getC_OrderLine_ID()+")";
+        BigDecimal StockQty=DB.getSQLValueBD(get_TrxName(), query);
+        setSTOCKQTY(StockQty);
+
+        //AB 15-07-2015  Check for Confirmation Made , Prevent Updation of Qty once Confirmation is Made.
+		query="select TARGETQTY from M_INOUTLINECONFIRM where M_INOUTLINE_ID="+getM_InOutLine_ID();
+		BigDecimal targetQty=DB.getSQLValueBD(get_TrxName(), query);
+
+        //AB Commented beacuse of AMSAT Client needs of no Stock Check on Generate Shipment Form
+/*		if(isSOTrx() && getQtyEntered().compareTo(getSTOCKQTY())>0 && getM_Product_ID()!=0)
+		{
+			log.saveError("Could Not Save - Error", "Qty cannot be greater than Stock Qty,  Please Correct the values!");
+			return false;
+		}*/
+		
+		if(targetQty!=null && (targetQty.compareTo(getQtyEntered())>0 ||targetQty.compareTo(getQtyEntered())<0) && getM_Product_ID()!=0)
+		{
+			log.saveError("Could Not Save - Error", "Qty cannot be updated once Confirmation is Created, Please Delete the confirmation First!");
+			return false;
+		}
+		
+		if(isSOTrx() && getBALANCEORDERQTY()==Env.ZERO)		//AB Set Balance Order Qty, for In Out Line 16-07-2015
+		{
+			MOrderLine oLine = new MOrderLine(getCtx(), getC_OrderLine_ID(), get_TrxName());
+			setBALANCEORDERQTY(oLine.getQtyReserved());
+		}
+	
+		if(getQtyEntered().compareTo(getBALANCEORDERQTY())>0 && getM_RMALine_ID()==0 && getM_Product_ID()!=0)			//AB 14-07-2015  Check for MR Qty , less than Balance Order Qty
+		{
+			log.saveError("Could Not Save - Error", "Qty Recieved cannot be greater than the Balance Qty i.e "+getBALANCEORDERQTY()+" , Please correct the Qty and try Again!");
+			return false;
+		}
+		
 		//	Get Line No
 		if (getLine() == 0)
 		{

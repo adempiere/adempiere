@@ -424,7 +424,14 @@ public class VLocationDialog extends CDialog
 			}
 			else
 			{
-				ADialog.error(m_WindowNo, this, "CityNotFound");
+				
+				/* Ossagho Development Team - 11-03-2015
+				 * BP Address Check
+				 */
+				//ADialog.error(m_WindowNo, this, "CityNotFound");
+				String EMsg=Msg.ErrorMsg;
+				ADialog.error(m_WindowNo, this, EMsg );
+				//AB
 			}
 			inOKAction = false;
 		}

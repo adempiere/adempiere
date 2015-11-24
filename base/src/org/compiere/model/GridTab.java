@@ -18,6 +18,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.*;
+
+import javax.script.ScriptEngine;
+import javax.swing.event.EventListenerList;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -27,26 +31,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.logging.Level;
-
-import javax.script.ScriptEngine;
-import javax.swing.event.EventListenerList;
-
-import org.compiere.util.CLogMgt;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Evaluatee;
-import org.compiere.util.Evaluator;
-import org.compiere.util.Msg;
-import org.compiere.util.Util;
-import org.compiere.util.ValueNamePair;
 
 /**
  *	Tab Model.
@@ -269,7 +255,33 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public boolean initTab (boolean async)
 	{
-		log.fine("#" + m_vo.TabNo + " - Async=" + async + " - Where=" + m_vo.WhereClause);
+
+		//Ossagho Development Team - 11-03-2015
+		//log.fine("#" + m_vo.TabNo + " - Async=" + async + " - Where=" + m_vo.WhereClause);
+				int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+				int AD_Role_ID= Env.getContextAsInt(Env.getCtx(), "#AD_Role_ID");
+				
+				AD_WindowCustomization tabwhere=new AD_WindowCustomization();
+				
+				String tabwhereclause= tabwhere.getTabWhereClause(m_vo.AD_Window_ID,m_vo.AD_Tab_ID,AD_User_ID,AD_Role_ID);
+//				
+				if(tabwhereclause!=null)	
+				{
+					if(m_vo.WhereClause.length()==0)
+					{
+						m_vo.WhereClause=m_vo.WhereClause + tabwhereclause+"";
+					}
+					else
+					{
+						m_vo.WhereClause=m_vo.WhereClause +" and "+tabwhereclause+"";
+					}
+				}
+				else
+				{
+				log.fine("#" + m_vo.TabNo + " - Async=" + async + " - Where=" + m_vo.WhereClause);
+				}
+		//AB
+				
 		if (isLoadComplete()) return true;
 		
 		if (m_loader != null && m_loader.isAlive())
@@ -401,6 +413,38 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 						m_OrderBys[2] += " DESC";
 				}
 				//  Add field
+				
+				/*Ossagho Development Team - 11-03-2015
+				 * //Window Customization Code
+				 */
+							int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+							int AD_Role_ID= Env.getContextAsInt(Env.getCtx(), "#AD_Role_ID");
+							int v_ColumnID=field.getAD_Column_ID();
+							Boolean v_setfield;
+							
+							String sql="select f.ad_field_id from ad_field f inner join ad_column c on c.ad_column_id=f.ad_column_id where c.ad_column_id="+v_ColumnID+""
+									+ "and f.ad_tab_id="+field.getAD_Tab_ID()+"";
+							int v_FieldID=DB.getSQLValue(null, sql);	
+
+							AD_WindowCustomization winc=new AD_WindowCustomization();
+							
+							String displayvalue= winc.getFieldHiddenStatus(field.getAD_Window_ID(),field.getAD_Tab_ID(),AD_User_ID,v_FieldID,AD_Role_ID);
+
+							if(displayvalue!=null)
+							{
+								 v_setfield=displayvalue.equals("Y")?false:true;
+								field.setDisplayed(v_setfield);
+							}
+							
+							String readvalue= winc.getFieldReadStatus(field.getAD_Window_ID(),field.getAD_Tab_ID(),AD_User_ID,v_FieldID,AD_Role_ID);
+							if(readvalue!=null)
+							{
+								 v_setfield=readvalue.equals("Y")?true:false;
+								 field.setReadOnly(v_setfield);
+								 
+							}
+				//AB
+				
 				m_mTable.addField(field);
 
 				//  List of ColumnNames, this field is dependent on
@@ -446,6 +490,26 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				m_mTable.addField(updatedBy);
 			}
 		}
+		
+		/*Ossagho Development Team - 11-03-2015
+		 * AB- Window Customization Code
+		 */
+		
+		AD_WindowCustomization ObjADC = new AD_WindowCustomization();
+		
+		String OC_Status_Update = ObjADC.getUpdateButtonStatus(m_vo.AD_Window_ID, m_vo.AD_Tab_ID, Env.getContextAsInt(Env.getCtx(), "#AD_User_ID"),
+				Env.getContextAsInt(Env.getCtx(), "#AD_Role_ID"));
+		if (OC_Status_Update !=null)
+		{
+			if(OC_Status_Update.equals("Y"))
+				m_mTable.setReadOnly(true);
+		}
+
+		m_mTable.setDeleteable(ObjADC.getDeleteButtonStatus(m_vo.AD_Window_ID, m_vo.AD_Tab_ID, Env.getContextAsInt(Env.getCtx(), "#AD_User_ID"),
+				Env.getContextAsInt(Env.getCtx(), "#AD_Role_ID")));
+
+		//AB
+		
 		return true;
 	}	//	loadFields
 
@@ -2750,7 +2814,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *
 	 * @param field field
 	 * @return error message or ""
-	 * @see org.compiere.model.Callout
+	 * @see Callout
 	 */
 	public String processCallout (GridField field)
 	{

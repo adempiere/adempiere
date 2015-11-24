@@ -16,8 +16,19 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.BPartnerNoAddressException;
+import org.adempiere.exceptions.DBException;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.util.*;
+import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
+
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,20 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.exceptions.BPartnerNoAddressException;
-import org.adempiere.exceptions.DBException;
-import org.compiere.print.ReportEngine;
-import org.compiere.process.DocAction;
-import org.compiere.process.DocumentEngine;
-import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
 
 
 /**
@@ -892,6 +889,37 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		if (getC_BPartner_Location_ID() == 0)
 			setBPartner(new MBPartner(getCtx(), getC_BPartner_ID(), null));
 
+			String Rtype=getRType();
+			Rtype=(Rtype==null)?"N":Rtype;			//AB Round Off logics
+
+			BigDecimal RoundOffAmt,GrandTotal;
+			
+				String sqlB="select TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID) from C_Invoice i WHERE C_Invoice_ID="+getC_Invoice_ID();
+				GrandTotal=DB.getSQLValueBD(null, sqlB);				
+				GrandTotal=(GrandTotal==null)?getGrandTotal():GrandTotal;
+				
+			if(Rtype.equals("L"))
+			{
+				setActualGT(GrandTotal);
+				RoundOffAmt=getActualGT().setScale(0,RoundingMode.DOWN);
+				setGrandTotal(RoundOffAmt);
+				setRAmount(getActualGT().subtract(RoundOffAmt));
+			}
+			else if(Rtype.equals("U"))
+			{
+				setActualGT(GrandTotal);
+				RoundOffAmt=getActualGT().setScale(0,RoundingMode.UP);
+				setGrandTotal(RoundOffAmt);
+				setRAmount(RoundOffAmt.subtract(getActualGT()));
+			}
+			else if(Rtype.equals("N"))
+			{
+				setActualGT(GrandTotal);
+				RoundOffAmt=getActualGT();
+				setGrandTotal(RoundOffAmt);
+				setRAmount(Env.ZERO);
+			}
+		
 		//	Price List
 		if (getM_PriceList_ID() == 0)
 		{
@@ -1174,6 +1202,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			{
 				allocated = allocated.abs();	//	is absolute
 				m_openAmt = m_openAmt.subtract(allocated);
+				System.out.println(m_openAmt);
 			}
 		}
 		//
@@ -1371,7 +1400,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-
+		
 		//	Add up Amounts
 		m_justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
@@ -1492,8 +1521,26 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				if (iTax != null)
 				{
 					iTax.setIsTaxIncluded(isTaxIncluded());
-					if (!iTax.calculateTaxFromLines())
-						return false;
+					/*String sql="select taxamt from c_invoicetax where c_tax_id="+iTax.getC_Tax_ID()+" and c_invoice_id="+getC_Invoice_ID(); //AB
+					BigDecimal TaxAmt=DB.getSQLValueBD(get_TrxName(), sql);*/
+					
+					String sql="select sum(taxamt) from c_invoicetax_detail where parent_taxid="+iTax.getC_Tax_ID()+" and c_invoice_id="+getC_Invoice_ID();
+					BigDecimal TaxAmt=DB.getSQLValueBD(null, sql);
+					
+					sql="select sum(taxbaseamt) from c_invoicetax where c_tax_id="+iTax.getC_Tax_ID()+" and c_invoice_id="+getC_Invoice_ID();
+					BigDecimal TaxBaseAmt=DB.getSQLValueBD(null, sql);
+					
+					if(TaxAmt==null && TaxBaseAmt==null)
+					{
+						if (!iTax.calculateTaxFromLines())					//AB
+							return false;
+					}
+					else
+					{
+						iTax.setTaxAmt(TaxAmt);
+						iTax.setTaxBaseAmt(TaxBaseAmt);	
+					}
+					
 					iTax.saveEx();
 					taxList.add(line.getC_Tax_ID());
 				}
@@ -1539,7 +1586,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		}
 		//
 		setTotalLines(totalLines);
-		setGrandTotal(grandTotal);
+        setGrandTotal(grandTotal);
+		
 		return true;
 	}	//	calculateTaxTotal
 

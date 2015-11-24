@@ -16,27 +16,17 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import org.compiere.model.*;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.logging.Level;
-
-import org.compiere.model.MBPartner;
-import org.compiere.model.MClient;
-import org.compiere.model.MDocType;
-import org.compiere.model.MInOut;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MInvoiceSchedule;
-import org.compiere.model.MLocation;
-import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Language;
 
 /**
  *	Generate Invoices
@@ -358,6 +348,7 @@ public class InvoiceGenerate extends SvrProcess
 		line.setQtyInvoiced(qtyInvoiced);
 		line.setQtyEntered(qtyEntered);
 		line.setLine(m_line + orderLine.getLine());
+		line.setPARENTDOCQTY(orderLine.getQtyEntered());      //AB 16-07-2015  Set Parent Doc Qty
 		if (!line.save())
 			throw new IllegalStateException("Could not create Invoice Line (o)");
 		log.fine(line.toString());
@@ -371,6 +362,9 @@ public class InvoiceGenerate extends SvrProcess
 	 */
 	private void createLine (MOrder order, MInOut ship, MInOutLine sLine)
 	{
+
+		MOrderLine orderLine= new MOrderLine (getCtx(), sLine.getC_OrderLine_ID(), get_TrxName());  //AB Get OrderLine From ShipLine
+		
 		if (m_invoice == null)
 		{
 			m_invoice = new MInvoice (order, 0, p_DateInvoiced);
@@ -403,6 +397,7 @@ public class InvoiceGenerate extends SvrProcess
 			line.setIsDescription(true);
 			line.setDescription(reference);
 			line.setLine(m_line + sLine.getLine() - 2);
+			line.setPARENTDOCQTY(Env.ZERO);      //AB 16-07-2015  Set Parent Doc Qty
 			if (!line.save())
 				throw new IllegalStateException("Could not create Invoice Comment Line (sh)");
 			//	Optional Ship Address if not Bill Address
@@ -413,6 +408,7 @@ public class InvoiceGenerate extends SvrProcess
 				line.setIsDescription(true);
 				line.setDescription(addr.toString());
 				line.setLine(m_line + sLine.getLine() - 1);
+				line.setPARENTDOCQTY(Env.ZERO);      //AB 16-07-2015  Set Parent Doc Qty
 				if (!line.save())
 					throw new IllegalStateException("Could not create Invoice Comment Line 2 (sh)");
 			}
@@ -437,6 +433,7 @@ public class InvoiceGenerate extends SvrProcess
 			line.setLineNetAmt( Env.ZERO );
 			line.setIsDescription( true );
 		}
+		line.setPARENTDOCQTY(orderLine.getQtyEntered());      //AB 16-07-2015  Set Parent Doc Qty 
 		if (!line.save())
 			throw new IllegalStateException("Could not create Invoice Line (s)");
 		//	Link

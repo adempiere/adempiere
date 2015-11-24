@@ -16,19 +16,6 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.File;
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.logging.Level;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
@@ -36,7 +23,14 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.*;
+import java.util.logging.Level;
 
 /**
  *  Shipment Model
@@ -50,10 +44,10 @@ import org.compiere.util.Msg;
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org
- *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
+ *			@see /tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
- *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
+ *  seetracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  *  @author Teo Sarca, teo.sarca@gmail.com
  * 			<li>BF [ 2993853 ] Voiding/Reversing Receipt should void confirmations
  * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2993853&group_id=176962
@@ -994,12 +988,13 @@ public class MInOut extends X_M_InOut implements DocAction
             return false;
         }
 
+        //AB Code Commented Shipment=Purchase Change
 		//	Shipment - Needs Order/RMA
-		if (!getMovementType().contentEquals(MInOut.MOVEMENTTYPE_CustomerReturns) && isSOTrx() && getC_Order_ID() == 0 && getM_RMA_ID() == 0)
+/*		if (!getMovementType().contentEquals(MInOut.MOVEMENTTYPE_CustomerReturns) && isSOTrx() && getC_Order_ID() == 0 && getM_RMA_ID() == 0)
 		{
 			log.saveError("FillMandatory", Msg.translate(getCtx(), "C_Order_ID"));
 			return false;
-		}
+		}*/
 
         if (isSOTrx() && getM_RMA_ID() != 0)
         {
@@ -1212,7 +1207,35 @@ public class MInOut extends X_M_InOut implements DocAction
 	 */
 	public String completeIt()
 	{
-		//	Re-Check
+/*		if(getC_Order_ID()==0 && getM_RMA_ID()==0)  // AB 07-07-15
+		{
+			m_processMsg="Purchase Order is Mandatory for Material Receipt, Please Create PO First...";
+			return DocAction.STATUS_InProgress;
+		}*/
+
+        //AB  12-09-15  //Shipment Completion Stock Check
+        MInOutLine[] lines = getLines(true);
+        for (int lineIndex = 0; lineIndex < lines.length; lineIndex++)
+        {
+            MInOutLine sLine = lines[lineIndex];
+            MProduct product = sLine.getProduct();
+
+            String query="select nvl(sum(qtyonhand),0) from m_storage where m_product_id="+sLine.getM_Product_ID()+" and m_locator_id="+sLine.getM_Locator_ID()+" and "
+                    + "ad_org_id=(select ad_org_id from c_orderline where c_orderline_id="+sLine.getC_OrderLine_ID()+")";
+            BigDecimal StockQty=DB.getSQLValueBD(get_TrxName(), query);
+            sLine.setSTOCKQTY(StockQty);
+
+            if((sLine.getQtyEntered().compareTo(StockQty)>0) && isSOTrx())
+            {
+                m_processMsg="There is no stock available for the product "+product.getValue()+"  "+product.getName()+", for this Invoice, Raise the stock and then Try Again..";
+                return DocAction.STATUS_InProgress;
+            }
+
+        }
+
+
+
+        //	Re-Check
 		if (!m_justPrepared)
 		{
 			String status = prepareIt();
@@ -1226,6 +1249,16 @@ public class MInOut extends X_M_InOut implements DocAction
 
 		//	Outstanding (not processed) Incoming Confirmations ?
 		MInOutConfirm[] confirmations = getConfirmations(true);
+		
+/*		if(!isReversal())	 //AB  07-07-15  //Code Commented as Type of Material Reciept Found, MR with Confirmation
+		{
+			if(confirmations.length<=0) //AB  07-02-15
+			{
+				m_processMsg="There are no confirmations, for this document, please create  confirmations first, as it is mandatory..";
+				return DocAction.STATUS_InProgress;
+			}
+		}*/
+
 		for (int i = 0; i < confirmations.length; i++)
 		{
 			MInOutConfirm confirm = confirmations[i];
@@ -1253,13 +1286,13 @@ public class MInOut extends X_M_InOut implements DocAction
 		Set<Integer> inOutOrders = new TreeSet<Integer>();
 		
 		//	For all lines
-		MInOutLine[] lines = getLines(true);
+		//MInOutLine[] lines = getLines(true);
 		for (int lineIndex = 0; lineIndex < lines.length; lineIndex++)
 		{
 			MInOutLine sLine = lines[lineIndex];
 			MProduct product = sLine.getProduct();
 
-			//	Qty & Type
+            //	Qty & Type
 			String MovementType = getMovementType();
 			BigDecimal Qty = sLine.getMovementQty();
 			if (MovementType.charAt(1) == '-' )	//	C- Customer Shipment - V- Vendor Return

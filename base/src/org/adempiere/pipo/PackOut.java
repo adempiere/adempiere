@@ -18,64 +18,25 @@
  *****************************************************************************/
 package org.adempiere.pipo;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Properties;
-import java.util.logging.Level;
-
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.sax.TransformerHandler;
-import javax.xml.transform.stream.StreamResult;
-
-import org.adempiere.pipo.handler.AdElementHandler;
-import org.adempiere.pipo.handler.BrowseElementHandler;
-import org.adempiere.pipo.handler.CodeSnipitElementHandler;
-import org.adempiere.pipo.handler.CommonTranslationHandler;
-import org.adempiere.pipo.handler.DataElementHandler;
-import org.adempiere.pipo.handler.DistFileElementHandler;
-import org.adempiere.pipo.handler.DynValRuleElementHandler;
-import org.adempiere.pipo.handler.EntityTypeElementHandler;
-import org.adempiere.pipo.handler.FieldGroupElementHandler;
-import org.adempiere.pipo.handler.FormElementHandler;
-import org.adempiere.pipo.handler.ImpFormatElementHandler;
-import org.adempiere.pipo.handler.MenuElementHandler;
-import org.adempiere.pipo.handler.MessageElementHandler;
-import org.adempiere.pipo.handler.ModelValidatorElementHandler;
-import org.adempiere.pipo.handler.PrintFormatElementHandler;
-import org.adempiere.pipo.handler.PrintPaperElementHandler;
-import org.adempiere.pipo.handler.ProcessElementHandler;
-import org.adempiere.pipo.handler.ReferenceElementHandler;
-import org.adempiere.pipo.handler.ReportViewElementHandler;
-import org.adempiere.pipo.handler.RoleElementHandler;
-import org.adempiere.pipo.handler.SQLStatementElementHandler;
-import org.adempiere.pipo.handler.TableElementHandler;
-import org.adempiere.pipo.handler.TaskElementHandler;
-import org.adempiere.pipo.handler.ViewElementHandler;
-import org.adempiere.pipo.handler.WindowElementHandler;
-import org.adempiere.pipo.handler.WorkflowElementHandler;
-import org.compiere.model.MSysConfig;
-import org.compiere.model.X_AD_Element;
-import org.compiere.model.X_AD_FieldGroup;
-import org.compiere.model.X_AD_Package_Exp;
-import org.compiere.model.X_AD_Package_Exp_Detail;
-import org.compiere.model.X_AD_PrintPaper;
-import org.compiere.model.X_AD_Reference;
+import org.adempiere.pipo.handler.*;
+import org.compiere.model.*;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
 
 /**
@@ -107,6 +68,9 @@ public class PackOut extends SvrProcess
 
     private Properties localContext = null;
     
+    //AB
+    ProcessAccessElementHandler processAccessHandler = new ProcessAccessElementHandler();
+    //AB
     ProcessElementHandler processHandler = new ProcessElementHandler();
     TaskElementHandler taskHandler = new TaskElementHandler();
     FormElementHandler formHandler = new FormElementHandler();
@@ -152,7 +116,7 @@ public class PackOut extends SvrProcess
 	 *	@return info
 	 *	@throws Exception
 	 */
-	protected String doIt() throws java.lang.Exception
+	protected String doIt() throws Exception
 	{
 		initContext();
 		
@@ -361,8 +325,7 @@ public class PackOut extends SvrProcess
 							else
 								targetDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
 							
-							copyCode(
-									targetDirectoryModified + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName),
+							copyCode(targetDirectoryModified + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName),
 									target_File + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName));
 							
 							atts.clear();
@@ -460,7 +423,7 @@ public class PackOut extends SvrProcess
 		//create compressed packages
 		//set the files	
 		File srcFolder = new File(packagedir);
-		File destZipFile = new File(packagename+".zip");
+		File destZipFile = new File(packagename+".pkg");
 		File destTarFile = new File(packagename+".tar");
 		File destGZipFile = new File(packagename+".tar.gz");
 		
@@ -491,7 +454,7 @@ public class PackOut extends SvrProcess
 
 	private void copyCode (String sourceName, String copyName)
 	{
-		copyFile (sourceName, copyName );
+		copyFile (sourceName,copyName);
 	}
 	
 	/**
@@ -621,6 +584,21 @@ public class PackOut extends SvrProcess
 		processHandler.create(getCtx(), packOutDocument);
 		getCtx().remove("AD_Process_ID");
 	}
+	
+	//AB
+	/**
+	 * 
+	 * @param AD_Process_ID
+	 * @param packOutDocument
+	 * @throws SAXException
+	 */
+	public void createProcessAccess (int AD_Process_ID, TransformerHandler packOutDocument) throws SAXException
+	{
+		Env.setContext(getCtx(), "AD_Process_ID", AD_Process_ID);
+		processAccessHandler.create(getCtx(), packOutDocument);
+		getCtx().remove("AD_Process_ID");
+	}
+	//AB
 	
 	/**
 	 * 

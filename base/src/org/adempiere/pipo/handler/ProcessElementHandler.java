@@ -16,16 +16,6 @@
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-
-import javax.xml.transform.sax.TransformerHandler;
-
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
@@ -38,6 +28,15 @@ import org.compiere.util.Env;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+
+import javax.xml.transform.sax.TransformerHandler;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 
 public class ProcessElementHandler extends AbstractElementHandler {
 
@@ -234,7 +233,7 @@ public class ProcessElementHandler extends AbstractElementHandler {
 					packOut.createBrowse(m_Process.getAD_Browse_ID(), 
 							document);
 				}
-				
+								
 				createProcessBinding(atts, m_Process);
 				document.startElement("", "", "process", atts);
 				// processpara tags
@@ -261,6 +260,15 @@ public class ProcessElementHandler extends AbstractElementHandler {
 					rsP.close();
 					pstmtP.close();
 					pstmtP = null;
+					
+					//AB
+					if (m_Process.getAccessLevel()!= null) {
+
+						packOut.createProcessAccess(m_Process.getAD_Process_ID(), 
+								document);
+					}
+					//AB
+					
 				} catch (Exception e) {
 					log.log(Level.SEVERE, "getProcess_Para", e);
 					if (e instanceof SAXException)

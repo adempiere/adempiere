@@ -16,16 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Properties;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * 	Product Model
@@ -684,6 +684,19 @@ public class MProduct extends X_M_Product
 			log.fine("Asset Description updated #" + no);
 		}
 		
+		/* Ossagho Development Team - 11-03-2015
+		 * BP Address Check
+		 */
+		if (is_ValueChanged("Name") || is_ValueChanged("Value"))
+		{
+				if(!Product_NameCheck(getM_Product_ID()))
+				{
+					log.saveError( "Product_NameCheck", Msg.translate(getCtx(), "Product_NameCheck" ));
+					return false;
+				}
+		}
+		//AB
+		
 		//	New - Acct, Tree, Old Costing
 		if (newRecord)
 		{
@@ -1025,4 +1038,26 @@ public class MProduct extends X_M_Product
 		else
 			return null;
 	}
+	
+	/* Ossagho Development Team - 12-03-2015
+	 * BP Address Check
+	 */
+		public boolean Product_NameCheck(int M_Product_ID)
+		{
+			boolean check=true;
+			int i,o;
+		
+			String sql="select count(1) from c_orderline where m_product_id="+M_Product_ID+"";
+			o=DB.getSQLValue(null, sql);
+			
+			String sql2="select count(1) from c_invoiceline where m_product_id="+M_Product_ID+"";
+			i=DB.getSQLValue(null, sql2);
+			
+			if(i>0||o>0)
+			{
+				check=false;
+			}
+			return check;
+		}
+	 // AB
 }	//	MProduct

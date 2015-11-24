@@ -16,7 +16,8 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.awt.ComponentOrientation;
+import javax.print.attribute.standard.MediaSize;
+import java.awt.*;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.DecimalFormatSymbols;
@@ -25,8 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.logging.Logger;
-
-import javax.print.attribute.standard.MediaSize;
 
 /**
  *  Language Management.
@@ -97,7 +96,7 @@ public class Language implements Serializable
 	 **/
 	static private Language[]   s_languages = {
 		new Language ("English",
-			AD_Language_en_US,  Locale.US,      null, null,
+			AD_Language_en_US,  Locale.US,      null,"dd/MM/yyyy",
 			MediaSize.NA.LETTER),							    //  Base Language
 		//	ordered by locale
 		//	Not predefined Locales - need to define decimal Point and date pattern (not sure about time)
@@ -438,8 +437,8 @@ public class Language implements Serializable
 	 *  @param javaDatePattern Java date pattern as not all locales are defined - if null, derived from Locale
 	 *  @param mediaSize default media size
 	 */
-	public Language (String name, String AD_Language, Locale locale,
-		Boolean decimalPoint, String javaDatePattern, MediaSize mediaSize)
+	public Language(String name, String AD_Language, Locale locale,
+                    Boolean decimalPoint, String javaDatePattern, MediaSize mediaSize)
 	{
 		if (name == null || AD_Language == null || locale == null)
 			throw new IllegalArgumentException ("Language - parameter is null");
@@ -459,7 +458,7 @@ public class Language implements Serializable
 	 *  (might be different than Locale - i.e. if the system does not support the language)
 	 *  @param locale - the Locale, e.g. Locale.US
 	 */
-	public Language (String name, String AD_Language, Locale locale)
+	public Language(String name, String AD_Language, Locale locale)
 	{
 		this (name, AD_Language, locale, null, null, null);
 	}	//	Language

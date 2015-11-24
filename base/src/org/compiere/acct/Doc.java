@@ -16,6 +16,11 @@
  *****************************************************************************/
 package org.compiere.acct;
 
+import org.adempiere.exceptions.DBException;
+import org.compiere.model.*;
+import org.compiere.process.DocumentEngine;
+import org.compiere.util.*;
+
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -27,25 +32,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.adempiere.exceptions.DBException;
-import org.compiere.model.MAccount;
-import org.compiere.model.MAcctSchema;
-import org.compiere.model.MConversionRate;
-import org.compiere.model.MDocType;
-import org.compiere.model.MNote;
-import org.compiere.model.MPeriod;
-import org.compiere.model.MTable;
-import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.ModelValidator;
-import org.compiere.model.PO;
-import org.compiere.process.DocumentEngine;
-import org.compiere.util.AdempiereUserError;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.Trx;
 
 /**
  *  Posting Document Root.
@@ -1300,6 +1286,8 @@ public abstract class Doc
 	public static final int     ACCTTYPE_CommitmentOffset = 111;
 	/** GL Accounts - Commitment Offset	Sales */
 	public static final int     ACCTTYPE_CommitmentOffsetSales = 112;
+	
+	public static final int     ACCTTYPE_RoundOffExpense = 113;    //AB
 
 
 	/**
@@ -1479,7 +1467,12 @@ public abstract class Doc
 			sql = "SELECT CommitmentOffsetSales_Acct FROM C_AcctSchema_GL WHERE C_AcctSchema_ID=?";
 			para_1 = -1;
 		}
-
+		else if (AcctType == ACCTTYPE_RoundOffExpense)
+		{
+			sql = "SELECT C_ROUNDOFF_ACCT FROM C_ACCTSCHEMA_DEFAULT WHERE C_AcctSchema_ID=?";
+			para_1 = -1;
+		}	
+		
 		else
 		{
 			log.severe ("Not found AcctType=" + AcctType);

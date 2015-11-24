@@ -16,6 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,11 +28,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 
 /**
  *	Invoice Callouts	
@@ -94,9 +94,11 @@ public class CalloutInvoice extends CalloutEngine
 				String s = rs.getString(5);
 				Env.setContext(ctx, WindowNo, "DocBaseType", s);
 				//  AP Check & AR Credit Memo
-				if (s.startsWith("AP"))
-					mTab.setValue("PaymentRule", "S");    //  Check
-				else if (s.endsWith("C"))
+				/*if (s.startsWith("AP"))
+					mTab.setValue("PaymentRule", "S");    //  Check*/
+                if (s.startsWith("AP"))
+                    mTab.setValue("PaymentRule", "P");    //AB 14-09 by default choose On credit
+                else if (s.endsWith("C"))
 					mTab.setValue("PaymentRule", "P");    //  OnCredit
 			}
 		}
@@ -725,7 +727,7 @@ public class CalloutInvoice extends CalloutEngine
 			return "";
 
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
-	//	log.log(Level.WARNING,"qty - init - M_Product_ID=" + M_Product_ID);
+	    //	log.log(Level.WARNING,"qty - init - M_Product_ID=" + M_Product_ID);
 		BigDecimal QtyInvoiced, QtyEntered, PriceActual, PriceEntered;
 		
 		//	No Product

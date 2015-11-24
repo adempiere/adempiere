@@ -17,6 +17,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.*;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -26,21 +28,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.logging.Level;
-
-import org.compiere.util.CLogMgt;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Evaluatee;
-import org.compiere.util.Evaluator;
 
 /**
  *  Grid Field Model.
@@ -698,7 +687,7 @@ public class GridField
 			if (DisplayType.isDate(m_vo.displayType))
 			{
 				// try timestamp format - then date format -- [ 1950305 ]
-				java.util.Date date = null;
+				Date date = null;
 				try {
 					date = DisplayType.getTimestampFormat_Default().parse (value);
 				} catch (java.text.ParseException e) {
@@ -1911,4 +1900,14 @@ public class GridField
     {
     	return m_vo.isEmbedded;
     }
+    /* Ossagho Development Team - 11-03-2015
+	 * Sets read Only Field
+	 */
+	
+	public void setReadOnly(boolean status) 
+	{
+		m_vo.IsReadOnly=status;
+		//Read Only Field
+	}
+	//AB
 }   //  MField

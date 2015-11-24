@@ -16,15 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.Properties;
-
 import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 
 /**
  *  Physical Inventory Line Model
@@ -296,6 +296,18 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine
 			if (getC_Charge_ID() == 0)
 			{
 				log.saveError("InternalUseNeedsCharge", "");
+				return false;
+			}
+		}
+		//	InternalUse Inventory
+		else if (getQTYINCREASE().signum() != 0)
+		{
+			if (!INVENTORYTYPE_ChargeAccount.equals(getInventoryType()))
+				setInventoryType(INVENTORYTYPE_ChargeAccount);
+			//
+			if (getC_Charge_ID() == 0)
+			{
+				log.saveError("Error", "For Inventory Raise , you need to define a Charge");
 				return false;
 			}
 		}
