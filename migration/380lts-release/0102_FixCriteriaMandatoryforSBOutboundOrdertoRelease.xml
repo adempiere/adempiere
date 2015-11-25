@@ -2,7 +2,7 @@
 <Migrations>
   <Migration EntityType="D" Name="Fix criteria mandatory for SB Outbound Order to Release" ReleaseNo="3.8.0#002" SeqNo="102">
     <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="53223" Action="U" Record_ID="50351" Table="AD_Browse_Field">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50395" Table="AD_Browse_Field">
         <Data AD_Column_ID="57985" Column="IsMandatory" oldValue="true">false</Data>
       </PO>
     </Step>
