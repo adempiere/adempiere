@@ -13,7 +13,7 @@
         <Data AD_Column_ID="2598" Column="Created">2015-11-13 23:34:19.54</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description">This flag determinate if the record is a document</Data>
-        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="58589" Column="FieldLength">1</Data>
         <Data AD_Column_ID="2605" Column="Help">This flag is used to mark those tables that behave like documents and allow create automatically columns like: C_DocType_ID, DocumentNo, DateDoc, DocAction, DocStatus, Processed, IsApproved, Description</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
