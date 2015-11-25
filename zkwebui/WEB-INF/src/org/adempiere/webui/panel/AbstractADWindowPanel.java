@@ -123,6 +123,9 @@ import org.zkoss.zul.Menupopup;
  * @author e-Evolution , victor.perez@e-evolution.com
  *      <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
  *      <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 127 ] ZK Open Form return "Process Error
+ *		@see https://github.com/adempiere/adempiere/issues/127
  *
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
@@ -2197,6 +2200,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		// call form
 		MProcess pr = new MProcess(ctx, wButton.getProcess_ID(), null);
 		int adFormID = pr.getAD_Form_ID();
+		//	Yamel Senih BR[ 127 ], 2015-11-25
+		//	Bug with launch form
+		int adBrowseID = pr.getAD_Browse_ID();
 		if (adFormID != 0 )
 		{
 			String title = wButton.getDescription();
@@ -2211,9 +2217,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			form.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 			SessionManager.getAppDesktop().showWindow(form);
 			onRefresh(false);
-		}
-		int adBrowseID = pr.getAD_Browse_ID();
-		if (adBrowseID != 0 )
+		} else if (adBrowseID != 0 )
 		{
 			String title = wButton.getDescription();
 			if (title == null || title.length() == 0)
