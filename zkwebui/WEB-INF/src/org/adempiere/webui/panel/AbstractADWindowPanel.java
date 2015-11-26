@@ -126,6 +126,8 @@ import org.zkoss.zul.Menupopup;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 127 ] ZK Open Form return "Process Error
  *		@see https://github.com/adempiere/adempiere/issues/127
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  *
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
@@ -2213,9 +2215,14 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
 			ADForm form = ADForm.openForm(adFormID);
 			form.setProcessInfo(pi);
-			form.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+			//	Yamel Senih FR [ 114 ], 2015-11-25
+			form.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
 			form.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
-			SessionManager.getAppDesktop().showWindow(form);
+			form.setClosable(true);
+			form.setSizable(true);
+			form.setVisible(true);
+			AEnv.showWindow(form);
+			//	End Yamel Senih
 			onRefresh(false);
 		} else if (adBrowseID != 0 )
 		{
