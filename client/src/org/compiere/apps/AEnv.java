@@ -44,6 +44,7 @@ import javax.swing.RepaintManager;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.compiere.apps.form.FormFrame;
 import org.compiere.db.CConnection;
 import org.compiere.grid.ed.Calculator;
 import org.compiere.interfaces.Server;
@@ -73,6 +74,9 @@ import org.compiere.util.Splash;
  *  @author Colin Rooney (croo) & kstan_79 RFE#1670185
  *  @author victor.perez@e-evolution.com 
  *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  *  
  */
 public final class AEnv
@@ -102,6 +106,16 @@ public final class AEnv
 		positionCenterScreen(window);
 		showWindow(window);
 	}   //  showCenterScreen
+	
+	/**
+	 * 	Show in the center of the screen.
+	 *  (pack, set location and set visibility)
+	 * 	@param frame with window to position
+	 * 	Yamel Senih FR [ 114 ] Support to form frame
+	 */
+	public static void showCenterScreen(FormFrame frame) {
+		showCenterScreen(frame.getWindow());
+	}
 	
 	/**
 	 * Show frame as maximized.
@@ -688,6 +702,18 @@ public final class AEnv
 		{
 			((AMenu)top).getWindowManager().add(frame);
 		}
+	}
+	
+	/**
+	 * Track open frame in window manager support
+	 * Yamel Senih FR [ 114 ]
+	 * @param frame
+	 */
+	public static void addToWindowManager(FormFrame frame) {
+		if(frame.isDialog())
+			return;
+		//	Add to window manager
+		addToWindowManager(frame.getCFrame());
 	}
 	
 	/**
