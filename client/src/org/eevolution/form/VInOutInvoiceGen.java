@@ -79,6 +79,9 @@ import org.compiere.util.Trx;
  *
  *  @author victor.perez@e-evolution.com
  *  @version $Id: VInOutInvoiceGen.java
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
 public class VInOutInvoiceGen extends CPanel
 	implements FormPanel, ActionListener, VetoableChangeListener, 
@@ -667,10 +670,12 @@ public class VInOutInvoiceGen extends CPanel
 					int M_InOut_ID = ids[i];
 					ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, this, Env.getWindowNo(this), true);
 				}
-				ADialogDialog d = new ADialogDialog (m_frame,
+				//	Yamel Senih 2015-11-23 FR [ 114 ] Add support to dynamic create from
+				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),
 					Env.getHeader(Env.getCtx(), m_WindowNo),
 					Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
 					JOptionPane.QUESTION_MESSAGE);
+				//	End Yamel Senih
 				retValue = d.getReturnCode();
 			}
 			while (retValue == ADialogDialog.A_CANCEL);
@@ -831,10 +836,12 @@ public class VInOutInvoiceGen extends CPanel
 					int C_Invoice_ID = ids[i];
 					ReportCtl.startDocumentPrint(ReportEngine.INVOICE, C_Invoice_ID, this, Env.getWindowNo(this), true);
 				}
-				ADialogDialog d = new ADialogDialog (m_frame,
+				//	Yamel Senih 2015-11-23 FR [ 114 ] Add support to dynamic create from
+				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),
 					Env.getHeader(Env.getCtx(), m_WindowNo),
 					Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
 					JOptionPane.QUESTION_MESSAGE);
+				//	End Yamel Senih
 				retValue = d.getReturnCode();
 			}
 			while (retValue == ADialogDialog.A_CANCEL);
