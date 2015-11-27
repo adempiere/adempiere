@@ -2219,8 +2219,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			form.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
 			form.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 			form.setClosable(true);
+			form.setMaximizable(true);
 			form.setSizable(true);
-			form.setVisible(true);
+			form.setHeight("90%");
+			form.setWidth("80%");
+			form.setContentStyle("overflow: auto");
 			AEnv.showWindow(form);
 			//	End Yamel Senih
 			onRefresh(false);
