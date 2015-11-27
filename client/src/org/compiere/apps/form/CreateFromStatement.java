@@ -11,7 +11,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.compiere.grid;
+package org.compiere.apps.form;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -21,12 +21,14 @@ import java.sql.Timestamp;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.GridTab;
+import org.compiere.model.I_C_BankStatement;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MPayment;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -43,33 +45,54 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
  *  @author Michael McKay (mjmckay)
  * 			<li>BF3439685 Create from for Statement Line picks wrong date
- * 			See https://sourceforge.net/tracker/?func=detail&aid=3439695&group_id=176962&atid=879332  
+ * 			See https://sourceforge.net/tracker/?func=detail&aid=3439695&group_id=176962&atid=879332
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
-public class CreateFromStatement extends CreateFrom 
-{
-	public MBankAccount bankAccount;
+public class CreateFromStatement {
+	/**	Logger				*/
+	protected CLogger 		log = CLogger.getCLogger(getClass());
+	/**	Model Statement		*/
+	private MBankStatement 	m_BankStatement;
+	/**	Bank Account		*/
+	private MBankAccount	m_BankAccount;
+	/**	Record Identifier	*/
+	private int 			m_Record_ID = 0;
 	
 	/**
-	 *  Protected Constructor
-	 *  @param mTab MTab
+	 * Valid Table and Record Identifier
+	 * @param p_AD_Table_ID
+	 * @param p_Record_ID
 	 */
-	public CreateFromStatement(GridTab mTab)
-	{
-		super(mTab);
-		log.info(mTab.toString());
-	}   //  VCreateFromInvoice
-
+	protected void validTable(int p_AD_Table_ID, int p_Record_ID) {
+		//	Valid Table
+		if(p_AD_Table_ID != I_C_BankStatement.Table_ID) {
+			throw new AdempiereException("@AD_Table_ID@ @C_BankStatement_ID@ @NotFound@");
+		}
+		//	Valid Record Identifier
+		if(p_Record_ID <= 0) {
+			throw new AdempiereException("@SaveErrorRowNotFound@");
+		}
+		//	Default
+		m_Record_ID = p_Record_ID;
+		//	Instance Bank Statement
+		m_BankStatement = new MBankStatement(Env.getCtx(), m_Record_ID, null);
+		m_BankAccount = m_BankStatement.getBankAccount();
+	}
+	
 	/**
-	 *  Dynamic Init
-	 *  @return true if initialized
+	 * Get Account
+	 * @return
 	 */
-	public boolean dynInit() throws Exception
-	{
-		log.config("");
-		setTitle(Msg.translate(Env.getCtx(), "C_BankStatement_ID") + " .. " + Msg.translate(Env.getCtx(), "CreateFrom"));
-		
-		return true;
-	}   //  dynInit
+	protected int getC_BankAccount_ID() {
+		//	Valid null
+		if(m_BankStatement != null) {
+			return m_BankStatement.getC_BankAccount_ID();
+		}
+		//	Default
+		return 0;
+	}
 	
 	/**************************************************************************
 	 *	Construct SQL Where Clause and define parameters
@@ -136,14 +159,13 @@ public class CreateFromStatement extends CreateFrom
 	 *  @param forCount for counting records
 	 *  @throws SQLException
 	 */
-	void setParameters(PreparedStatement pstmt, boolean forCount, 
+	private void setParameters(PreparedStatement pstmt, boolean forCount, 
 			String DocumentNo, Object BPartner, Object DateFrom, Object DateTo, 
 			Object AmtFrom, Object AmtTo, Object DocType, Object TenderType, String AuthCode) 
-	throws SQLException
-	{
+					throws SQLException {
 		int index = 1;
 		
-		pstmt.setInt(index++, bankAccount.getC_BankAccount_ID());
+		pstmt.setInt(index++, m_BankStatement.getC_BankAccount_ID());
 		
 		if (DocumentNo.length() > 0)
 			pstmt.setString(index++, getSQLText(DocumentNo));
@@ -260,13 +282,11 @@ public class CreateFromStatement extends CreateFrom
 		return data;
 	}
 	
-	public void info()
-	{
-		
-	}
-	
-	protected void configureMiniTable (IMiniTable miniTable)
-	{
+	/**
+	 * Configure Mini Table Column
+	 * @param miniTable
+	 */
+	protected void configureMiniTable (IMiniTable miniTable) {
 		miniTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
 		miniTable.setColumnClass(1, Timestamp.class, true);     //  1-TrxDate
 		miniTable.setColumnClass(2, String.class, true);        //  2-Payment
@@ -282,18 +302,14 @@ public class CreateFromStatement extends CreateFrom
 	 *  Save Statement - Insert Data
 	 *  @return true if saved
 	 */
-	public boolean save(IMiniTable miniTable, String trxName)
-	{
+	public boolean save(IMiniTable miniTable, String trxName) {
 		//  fixed values
-		int C_BankStatement_ID = ((Integer)getGridTab().getValue("C_BankStatement_ID")).intValue();
-		MBankStatement bs = new MBankStatement (Env.getCtx(), C_BankStatement_ID, trxName);
+		MBankStatement bs = new MBankStatement (Env.getCtx(), m_Record_ID, trxName);
 		log.config(bs.toString());
 
 		//  Lines
-		for (int i = 0; i < miniTable.getRowCount(); i++)
-		{
-			if (((Boolean)miniTable.getValueAt(i, 0)).booleanValue())
-			{
+		for (int i = 0; i < miniTable.getRowCount(); i++) {
+			if (((Boolean)miniTable.getValueAt(i, 0)).booleanValue()) {
 				Timestamp trxDate = (Timestamp)miniTable.getValueAt(i, 1);  //  1-DateTrx
 				KeyNamePair pp = (KeyNamePair)miniTable.getValueAt(i, 2);   //  2-C_Payment_ID
 				int C_Payment_ID = pp.getKey();
@@ -315,7 +331,7 @@ public class CreateFromStatement extends CreateFrom
 				
 				bsl.setTrxAmt(TrxAmt);
 				bsl.setStmtAmt(TrxAmt);
-				bsl.setC_Currency_ID(bankAccount.getC_Currency_ID()); 
+				bsl.setC_Currency_ID(m_BankAccount.getC_Currency_ID()); 
 				
 				if (!bsl.save())
 					log.log(Level.SEVERE, "Line not created #" + i);
@@ -324,8 +340,11 @@ public class CreateFromStatement extends CreateFrom
 		return true;
 	}   //  save
 	
-	protected Vector<String> getOISColumnNames()
-	{
+	/**
+	 * Get Column Names from Table
+	 * @return
+	 */
+	protected Vector<String> getOISColumnNames() {
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>(6);
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
