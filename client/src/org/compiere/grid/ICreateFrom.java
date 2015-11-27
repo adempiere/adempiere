@@ -13,6 +13,12 @@
  *****************************************************************************/
 package org.compiere.grid;
 
+/**
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Deprecated (Change "Create From" UI for Form like Dialog in window without "hardcode")
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ */
+@Deprecated
 public interface ICreateFrom
 {
 	public boolean isInitOK();
