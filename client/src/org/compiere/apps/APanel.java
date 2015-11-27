@@ -2653,6 +2653,8 @@ public final class APanel extends CPanel
 			ff.openForm(form_ID);
 			ff.pack();
 			AEnv.showCenterScreen(ff);
+			//	Refresh
+			m_curTab.dataRefresh();
 			//	End Yamel Senih
 			return;
 		}
