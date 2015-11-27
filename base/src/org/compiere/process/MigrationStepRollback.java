@@ -17,6 +17,7 @@ package org.compiere.process;
 
 import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
+import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 
@@ -30,6 +31,11 @@ import org.compiere.util.Msg;
 public class MigrationStepRollback extends SvrProcess {
 
 	private MMigrationStep migrationstep;
+
+	@Override
+	protected void prepare() {
+		migrationstep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
+	}
 
 	@Override
 	protected String doIt() throws Exception {
@@ -47,16 +53,10 @@ public class MigrationStepRollback extends SvrProcess {
 			retval += migrationstep.rollback();
 
 		// Set the parent status
-		MMigration migration = migrationstep.getParent();
-		migration.updateStatus(get_TrxName());
-		
+		if (!Env.getContext(getCtx(), "LogMigrationScriptBatch").equals("Y") ) {
+			MMigration migration = migrationstep.getParent();
+			migration.updateStatus();
+		}
 		return retval;
-	}
-
-	@Override
-	protected void prepare() {
-		
-		migrationstep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
-
 	}
 }
