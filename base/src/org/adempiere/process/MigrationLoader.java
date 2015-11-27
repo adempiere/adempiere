@@ -17,17 +17,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.apache.commons.io.FileUtils;
 import org.compiere.Adempiere;
 import org.compiere.model.I_AD_Migration;
 import org.compiere.model.MMigration;
-import org.compiere.model.MTable;
-import org.compiere.process.CleanUpGW;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.RoleAccessUpdate;
-import org.compiere.process.SequenceCheck;
-import org.compiere.process.SynchronizeTerminology;
+import org.compiere.process.ServerProcessCtl;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -45,7 +42,6 @@ public class MigrationLoader {
 
 	/**	Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (MigrationLoader.class);
-	private MMigration migration;
 	
 	public Comparator<File> fileComparator = new Comparator<File>() {
 		// Note - Not locale sensitive.
@@ -120,46 +116,60 @@ public class MigrationLoader {
 		// run the post processes.  Don't run these if the migrations are 
 		// just loaded but not applied.
 		if (apply && success) {
-			
-			// Run the post processes
 
-			ProcessInfo pi = new ProcessInfo("Sequence Check", 258);
-			pi.setAD_Client_ID(0);
-			pi.setAD_User_ID(100);
-			
-			SequenceCheck scheck = new SequenceCheck();
-			scheck.startProcess(Env.getCtx(), pi, null);
 
-			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
-			
-			
-			pi = new ProcessInfo("Synchronize Terminology", 172);
-			pi.setAD_Client_ID(0);
-			pi.setAD_User_ID(100);
-			
-			SynchronizeTerminology sc = new SynchronizeTerminology();
-			sc.startProcess(Env.getCtx(), pi, null);
-			
-			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-			
-			pi = new ProcessInfo("Role Access Update", 295);
-			pi.setAD_Client_ID(0);
-			pi.setAD_User_ID(100);
-			
-			RoleAccessUpdate rau = new RoleAccessUpdate();
-			rau.startProcess(Env.getCtx(), pi, null);
-			
-			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+			//SequenceCheck scheck = new SequenceCheck();
+			//scheck.startProcess(Env.getCtx(), pi, null);
+			Trx.run(trxName -> {
+				// Run the post processes
+				int processId = 258; // Sequence Check"
+				MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
+				instance.saveEx();
+				ProcessInfo pi = new ProcessInfo("Sequence Check", processId);
+				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 
-			pi = new ProcessInfo("Updating Garden World", 53733);
-			pi.setAD_Client_ID(0);
-			pi.setAD_User_ID(100);
-			
-			CleanUpGW updateGW = new CleanUpGW();
-			updateGW.startProcess(Env.getCtx(), pi, null);
+				ServerProcessCtl sequenceCheck = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
+                sequenceCheck.run();
+				log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+            });
 
-			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());		
+			Trx.run(trxName -> {
+				int processId = 172; // Synchronize Terminolog
+				MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
+				instance.saveEx();
+				ProcessInfo pi = new ProcessInfo("Synchronize Terminology", processId);
+				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+				ServerProcessCtl synchronizeTerminology = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
+				synchronizeTerminology.run();
+				log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+			});
 
+			Trx.run(trxName -> {
+				int processId = 172; // Role Access Update
+				MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
+				ProcessInfo pi = new ProcessInfo("Role Access Update", processId);
+				instance.saveEx();
+				pi.setAD_Client_ID(0);
+				pi.setAD_User_ID(100);
+				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+				ServerProcessCtl roleAccessUpdate = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
+				roleAccessUpdate.run();
+				log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+			});
+
+			Trx.run(trxName -> {
+				int processId = 53733; // Role Access Update
+				MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
+				instance.saveEx();
+				ProcessInfo pi = new ProcessInfo("Updating Garden World", processId);
+				pi.setAD_Client_ID(0);
+				pi.setAD_User_ID(100);
+				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+
+				ServerProcessCtl updateGW = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
+				updateGW.start();
+				log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+			});
 		}
 	}
 	
@@ -179,90 +189,58 @@ public class MigrationLoader {
 		for ( int i = 0; i < migrations.getLength(); i++ ) {
 
 			Trx.run(new TrxRunnable() {
-
 				private Properties ctx;
 				private Element element;
-				private MigrationLoader loader;
+				MMigration migration;
 
 				TrxRunnable setParameters(Properties ctx, Element element, MigrationLoader loader) {
 					this.ctx = ctx;
 					this.element = element;
-					this.loader = loader;
+					//this.loader = loader;
 					return this;
 				}
 
 				public void run(String trxName) {
 					try {
-						MMigration migration = MMigration.fromXmlNode(ctx, element, trxName);
-						if (loader != null) {
-							loader.setMigration(migration);
-						}
-						if (migration == null) {
-							log.log(Level.CONFIG, "XML file not a Migration. Skipping.");
-						}
+							migration = MMigration.fromXmlNode(ctx, element, trxName);
+                            if (MMigration.STATUSCODE_Applied.equals(migration.getStatusCode())) {
+                                log.log(Level.CONFIG, migration.toString() + " ---> Migration already applied - skipping.");
+                                return;
+                            }
+							if (migration == null)
+								log.log(Level.CONFIG, "XML file not a Migration. Skipping.");
+
+							if (apply)
+								applyMigration(migration.getCtx() , migration.getAD_Migration_ID());
+
+							migration.updateStatus();
+
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
-
 			}.setParameters(Env.getCtx(), (Element) migrations.item(i), this));
 		}
-
-		if (apply) {
-			applyMigration(migration.getCtx() , migration.getAD_Migration_ID());
-		}
-
 	}
 
 	private void applyMigration(Properties ctx  , int migrationId) {
-		Trx.run(new TrxRunnable() {
-			private int migrationId;
-			private Properties ctx;
-			public TrxRunnable setParameters(Properties ctx , int migrationId)
-			{
-				this.migrationId= migrationId;
-				this.ctx = ctx;
-				return this;
-			}
+		Trx.run(trxName -> {
+			int processId = 53173; // Role Access Update
+			MPInstance instance = new MPInstance(ctx, processId, migrationId);
+			instance.saveEx();
+			MPInstancePara parameter = new MPInstancePara(instance,10);
+			parameter.setParameter("FailOnError",true);
+			parameter.saveEx();
 
-			public void run(String trxName) {
-				try {
-					MMigration migration = new MMigration(ctx ,migrationId , trxName);
-					if (MMigration.STATUSCODE_Applied.equals(migration.getStatusCode())) {
-						log.log(Level.CONFIG, migration.toString() + " ---> Migration already applied - skipping.");
-						return;
-					}
-
-					log.log(Level.CONFIG, migration.toString());
-					migration.setFailOnError(false);
-
-					migration.apply();
-
-				} catch (AdempiereException e) {
-					throw new AdempiereException(e);
-				} finally {
-					migration.updateStatus(null);
-				}
-			}
-			}.setParameters(ctx , migrationId));
+			ProcessInfo pi = new ProcessInfo("Apply migration", processId);
+			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+			pi.setRecord_ID(migrationId);
+			ServerProcessCtl migrationProcess = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
+			migrationProcess.run();
+			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+		});
 	}
 
-	protected void setMigration(MMigration migration) {
-		this.migration = migration;
-	}
-
-	public void applyMigrations() {
-		String where = ("IsActive='Y'");
-		
-		List<MMigration> migrations = MTable.get(Env.getCtx(), MMigration.Table_Name)
-		.createQuery(where, null).setOrderBy("SeqNo").list();
-		
-		for (MMigration migration : migrations )
-		{
-			applyMigration(migration.getCtx() , migration.getAD_Migration_ID());
-		}
-	}
-	
 	public static void main(String[] args) {
 		
 		
