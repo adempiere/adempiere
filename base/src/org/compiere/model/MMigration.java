@@ -70,6 +70,9 @@ public class MMigration extends X_AD_Migration {
 		try{
 			for ( MMigrationStep step : getSteps(false) )
 			{
+				if (!step.isActive())
+					continue;
+
 				if (MMigrationStep.STATUSCODE_Applied.equals(step.getStatusCode())) {
 					log.log(Level.CONFIG, step.toString() + " ---> Migration Step already applied - skipping.");
 					continue;
@@ -148,9 +151,7 @@ public class MMigration extends X_AD_Migration {
 				.setOnlyActiveRecords(true)
 				.setParameters(getAD_Migration_ID() , MMigration.STATUSCODE_Applied)
 				.count();
-		
-		//sql = base + " AND StatusCode IN ('" + MMigration.STATUSCODE_Failed + "','" + MMigration.STATUSCODE_Unapplied + "')";  //  Failed or Unapplied
-		//nt unapplied = DB.getSQLValue(get_TrxName(), sql);
+
 		where = new StringBuilder(whereBase);
 		where.append(" AND ").append(MMigrationStep.COLUMNNAME_StatusCode).append(" IN( ? , ? )");
 		int unapplied  = new Query(getCtx() , I_AD_MigrationStep.Table_Name , where.toString() , get_TrxName())
@@ -179,8 +180,8 @@ public class MMigration extends X_AD_Migration {
 			status = "Partially Applied";
 		}
 		// overlaps with unapplied
-		else if ( applied <= 0 )
-			setStatusCode(MMigration.STATUSCODE_Failed);
+		//else if ( applied <= 0 )
+		//	setStatusCode(MMigration.STATUSCODE_Failed);
 
 		saveEx(get_TrxName());
 		log.log(Level.CONFIG, this.toString() + " ---> " + status + " (" + getStatusCode() + ")");

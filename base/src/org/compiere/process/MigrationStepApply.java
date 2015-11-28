@@ -26,9 +26,17 @@ import org.compiere.util.Msg;
 public class MigrationStepApply extends SvrProcess {
 
 	private MMigrationStep migrationStep;
+	private boolean migrationScriptBatch = false;
 
 	@Override
 	protected void prepare() {
+		if (!"Y".equals(Env.getContext(getCtx(), "LogMigrationScriptBatch")))
+		{
+			migrationScriptBatch = migrationScriptBatch == "Y".equals(Env.getContext(getCtx(), "LogMigrationScriptBatch"));
+			if (migrationScriptBatch)
+				Env.setContext(getCtx(), "LogMigrationScriptBatch", migrationScriptBatch);
+		} else migrationScriptBatch =  true;
+
 		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
 	}
 
@@ -52,10 +60,11 @@ public class MigrationStepApply extends SvrProcess {
 			return "No migration step";
 
 		retval += migrationStep.apply();
-		if (!Env.getContext(getCtx(), "LogMigrationScriptBatch").equals("Y") ) {
+		if (!migrationScriptBatch ) {
 			MMigration migration = migrationStep.getParent();
 			migration.updateStatus();
 		}
+		Env.setContext(getCtx(), "LogMigrationScriptBatch", !migrationScriptBatch);
 		return retval;
 	}
 }
