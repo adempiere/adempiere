@@ -29,11 +29,18 @@ import java.util.Properties;
 
 public class MigrationApply extends SvrProcess {
 
-	//private MMigration migration;
 	private boolean failOnError = false;
+	private boolean migrationScriptBatch = true;
 
 	@Override
 	protected void prepare() {
+		if (!"Y".equals(Env.getContext(getCtx(), "LogMigrationScriptBatch")))
+		{
+			migrationScriptBatch = migrationScriptBatch == "Y".equals(Env.getContext(getCtx(), "LogMigrationScriptBatch"));
+			if (migrationScriptBatch)
+				Env.setContext(getCtx(), "LogMigrationScriptBatch", migrationScriptBatch);
+		}
+
 		ProcessInfoParameter[] params = getParameter();
 		for ( ProcessInfoParameter p : params)
 		{
@@ -45,7 +52,6 @@ public class MigrationApply extends SvrProcess {
 
 	@Override
 	protected String doIt() throws Exception{
-			Env.setContext(Env.getCtx() , "LogMigrationScriptBatch", "Y");
 			Trx.run(new TrxRunnable() {
 			private int migrationId;
 			private Properties ctx;
@@ -98,6 +104,10 @@ public class MigrationApply extends SvrProcess {
 						else
 							addLog("Rollback failed. Please review migration steps for errors.");
 					}
+
+					if (!migrationScriptBatch)
+						migration.updateStatus();
+
 				} catch (AdempiereException e) {
 					addLog(e.getMessage());
 					addLog("Execute Rollback");
@@ -109,9 +119,7 @@ public class MigrationApply extends SvrProcess {
 				}
 			}
 		}.setParameters(getCtx() , getRecord_ID()));
-		MMigration migration = new MMigration(getCtx(),getRecord_ID() , get_TrxName());
-		migration.updateStatus();
-		Env.setContext(Env.getCtx() , "LogMigrationScriptBatch", "N");
+		Env.setContext(getCtx(), "LogMigrationScriptBatch", !migrationScriptBatch);
 		return "@OK@";
 	}
 }

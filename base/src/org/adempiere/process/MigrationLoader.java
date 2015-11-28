@@ -39,7 +39,6 @@ import org.xml.sax.SAXException;
 public class MigrationLoader {
 	
 	DocumentBuilder builder;
-
 	/**	Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (MigrationLoader.class);
 	
@@ -116,10 +115,6 @@ public class MigrationLoader {
 		// run the post processes.  Don't run these if the migrations are 
 		// just loaded but not applied.
 		if (apply && success) {
-
-
-			//SequenceCheck scheck = new SequenceCheck();
-			//scheck.startProcess(Env.getCtx(), pi, null);
 			Trx.run(trxName -> {
 				// Run the post processes
 				int processId = 258; // Sequence Check"
@@ -186,6 +181,7 @@ public class MigrationLoader {
 		Document doc = builder.parse(file);
 
 		NodeList migrations = doc.getDocumentElement().getElementsByTagName("Migration");
+		Env.setContext(Env.getCtx() , "LogMigrationScriptBatch", "Y");
 		for ( int i = 0; i < migrations.getLength(); i++ ) {
 
 			Trx.run(new TrxRunnable() {
@@ -196,7 +192,6 @@ public class MigrationLoader {
 				TrxRunnable setParameters(Properties ctx, Element element, MigrationLoader loader) {
 					this.ctx = ctx;
 					this.element = element;
-					//this.loader = loader;
 					return this;
 				}
 
@@ -207,20 +202,22 @@ public class MigrationLoader {
                                 log.log(Level.CONFIG, migration.toString() + " ---> Migration already applied - skipping.");
                                 return;
                             }
-							if (migration == null)
+							if (migration == null) {
 								log.log(Level.CONFIG, "XML file not a Migration. Skipping.");
+								return;
+							}
 
-							if (apply)
-								applyMigration(migration.getCtx() , migration.getAD_Migration_ID());
-
-							migration.updateStatus();
-
+							if (apply) {
+								applyMigration(migration.getCtx(), migration.getAD_Migration_ID());
+								migration.updateStatus();
+							}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
 			}.setParameters(Env.getCtx(), (Element) migrations.item(i), this));
 		}
+		Env.setContext(Env.getCtx() , "LogMigrationScriptBatch", "N");
 	}
 
 	private void applyMigration(Properties ctx  , int migrationId) {

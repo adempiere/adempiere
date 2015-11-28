@@ -30,11 +30,11 @@ import org.compiere.util.Msg;
  */
 public class MigrationStepRollback extends SvrProcess {
 
-	private MMigrationStep migrationstep;
+	private MMigrationStep migrationStep;
 
 	@Override
 	protected void prepare() {
-		migrationstep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
+		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
 	}
 
 	@Override
@@ -46,15 +46,15 @@ public class MigrationStepRollback extends SvrProcess {
 			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
 		}
 
-		String retval = migrationstep.toString();
-		if ( migrationstep == null || migrationstep.is_new() )
+		String retval = migrationStep.toString();
+		if ( migrationStep == null || migrationStep.is_new() )
 			return "No migration step";
 		else
-			retval += migrationstep.rollback();
+			retval += migrationStep.rollback();
 
 		// Set the parent status
 		if (!Env.getContext(getCtx(), "LogMigrationScriptBatch").equals("Y") ) {
-			MMigration migration = migrationstep.getParent();
+			MMigration migration = migrationStep.getParent();
 			migration.updateStatus();
 		}
 		return retval;
