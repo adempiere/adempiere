@@ -135,12 +135,12 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 	@Override
 	public void init(int WindowNo, FormFrame frame) {
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setResizable(true);
+		m_frame = frame.getCFrame();
+		m_frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		m_frame.setResizable(true);
 		//	
 		log.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
 		m_WindowNo = WindowNo;
-		m_frame = frame;
 		frame.setJMenuBar(null);
 		//
 		try {
