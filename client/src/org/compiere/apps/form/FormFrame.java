@@ -693,4 +693,12 @@ public class FormFrame
 	public void addWindowListener(WindowAdapter adapter) {
 		getWindow().addWindowListener(adapter);
 	}
+	
+	/**
+	 * Add support to setVisible Nethod
+	 * @param visible
+	 */
+	public void setVisible(boolean visible) {
+		getWindow().setVisible(visible);
+	}
 }	//	FormFrame
