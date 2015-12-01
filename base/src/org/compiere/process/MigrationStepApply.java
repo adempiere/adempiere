@@ -19,12 +19,26 @@ package org.compiere.process;
 
 import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
+import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 
 public class MigrationStepApply extends SvrProcess {
 
 	private MMigrationStep migrationStep;
+	private boolean migrationScriptBatch = false;
+
+	@Override
+	protected void prepare() {
+		if (!"Y".equals(Env.getContext(getCtx(), "LogMigrationScriptBatch")))
+		{
+			migrationScriptBatch = migrationScriptBatch == "Y".equals(Env.getContext(getCtx(), "LogMigrationScriptBatch"));
+			if (migrationScriptBatch)
+				Env.setContext(getCtx(), "LogMigrationScriptBatch", migrationScriptBatch);
+		} else migrationScriptBatch =  true;
+
+		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
+	}
 
 	/**
 	 * 
@@ -35,7 +49,6 @@ public class MigrationStepApply extends SvrProcess {
 	 */
 	@Override
 	protected String doIt() throws Exception {
-
 		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
 		{
 			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
@@ -45,25 +58,13 @@ public class MigrationStepApply extends SvrProcess {
 		String retval = migrationStep.toString();
 		if ( migrationStep == null || migrationStep.is_new() )
 			return "No migration step";
-		else if ( MMigrationStep.STATUSCODE_Applied.equals(migrationStep.getStatusCode()) )
-			retval += migrationStep.rollback();
-		else
-			retval += migrationStep.apply();
 
-        commitEx();
-
-		// Set the parent status
-		MMigration migration = migrationStep.getParent();
-		migration.updateStatus(get_TrxName());
-		
+		retval += migrationStep.apply();
+		if (!migrationScriptBatch ) {
+			MMigration migration = migrationStep.getParent();
+			migration.updateStatus();
+		}
+		Env.setContext(getCtx(), "LogMigrationScriptBatch", !migrationScriptBatch);
 		return retval;
 	}
-	
-	@Override
-	protected void prepare() {
-		
-		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
-
-	}
-
 }
