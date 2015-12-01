@@ -5622,12 +5622,6 @@ context.</Data>
         <Data AD_Column_ID="58588" Column="AD_Reference_ID" oldValue="10">14</Data>
       </PO>
     </Step>
-    <Step SeqNo="3200" StepType="AD">
-      <PO AD_Table_ID="106" Action="U" Record_ID="108" Table="AD_Tab">
-        <Data AD_Column_ID="13994" Column="IsInsertRecord" oldValue="true">false</Data>
-        <Data AD_Column_ID="2044" Column="IsReadOnly" oldValue="false">true</Data>
-      </PO>
-    </Step>
     <Step SeqNo="3210" StepType="AD">
       <PO AD_Table_ID="106" Action="U" Record_ID="772" Table="AD_Tab">
         <Data AD_Column_ID="2044" Column="IsReadOnly" oldValue="false">true</Data>
@@ -5646,11 +5640,6 @@ context.</Data>
     <Step SeqNo="3240" StepType="AD">
       <PO AD_Table_ID="106" Action="U" Record_ID="54145" Table="AD_Tab">
         <Data AD_Column_ID="2044" Column="IsReadOnly" oldValue="false">true</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="3250" StepType="AD">
-      <PO AD_Table_ID="106" Action="U" Record_ID="108" Table="AD_Tab">
-        <Data AD_Column_ID="2044" Column="IsReadOnly" oldValue="true">false</Data>
       </PO>
     </Step>
   </Migration>
