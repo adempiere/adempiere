@@ -25,11 +25,12 @@ import java.util.logging.Level;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.process.MigrationStepApply;
+import org.compiere.process.MigrationStepRollback;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 import org.compiere.util.Trx;
-import org.compiere.util.TrxRunnable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -64,70 +65,100 @@ public class MMigration extends X_AD_Migration {
 		super(ctx, rs, trxName);
 	}
 	
-	public void apply() throws AdempiereException {
-				
-		for ( MMigrationStep step : getSteps(false) )
-		{
-			// Reload the step in case the underlying table/columns have changed.
-			step.load(get_TrxName()); //= new MMigrationStep(Env.getCtx(),step.get_ID(), get_TrxName());
-			
-			if (!step.isActive())
-				continue;
-			
-			try {
-				Trx.run(new StepRunner(step, false));
-			}
-			catch (Exception e) {
-				if ( isFailOnError  )	// abort on first error
-					throw new AdempiereException(e);
-				// else continue processing
+	public void apply() {
+
+		try{
+			for ( MMigrationStep step : getSteps(false) )
+			{
+				if (!step.isActive())
+					continue;
+
+				if (MMigrationStep.STATUSCODE_Applied.equals(step.getStatusCode())) {
+					log.log(Level.CONFIG, step.toString() + " ---> Migration Step already applied - skipping.");
+					continue;
+				}
+
+				stepApply(step);
 			}
 		}
-		Trx trx = Trx.get("Migration", true);
-		this.set_TrxName(trx.getTrxName());
-		updateStatus(this.get_TrxName());
-		trx.commit();
-		trx.close();
-	}
-	
-	public void rollback() throws SQLException {
-		for ( MMigrationStep step : getSteps(true) )
+		catch (Exception e)
 		{
-			// Reload the step in case the underlying table/columns have changed.
-			step.load(get_TrxName()); //= new MMigrationStep(Env.getCtx(),step.get_ID(), get_TrxName());
+			if (isFailOnError)    // abort on first error
+				throw new AdempiereException(e);
 
-			if (!step.isActive())
-				continue;
+		}
+	}
 
-			try {
-				Trx.run(new StepRunner(step, true));
-			} catch (Exception e) {
-				if ( isFailOnError )
-					throw new AdempiereException(e);
-				// else continue
+	public void stepApply(MMigrationStep step)
+	{
+		Trx.run(trxName -> {
+			int processId = 53174; // Apply migration step
+			MPInstance instance = new MPInstance(step.getCtx() , processId, step.getAD_MigrationStep_ID());
+			instance.saveEx();
+
+			ProcessInfo pi = new ProcessInfo("Apply migration step", processId);
+			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+			pi.setRecord_ID(step.getAD_MigrationStep_ID());
+			MigrationStepApply migrationStepApply = new MigrationStepApply();
+			migrationStepApply.startProcess(step.getCtx() , pi , Trx.get(trxName, false));
+			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+		});
+
+	}
+
+	public void rollback() {
+		try {
+			for (MMigrationStep step : getSteps(true)) {
+				stepRollback(step);
 			}
 		}
+		catch (Exception e)
+		{
+			if (isFailOnError)    // abort on first error
+				throw new AdempiereException(e);
+		}
+	}
 
-		Trx trx = Trx.get("Migration", true);
-		this.set_TrxName(trx.getTrxName());
-		updateStatus(this.get_TrxName());
-		trx.commit();
-		trx.close();
+	public void stepRollback(MMigrationStep step)
+	{
+		Trx.run(trxName -> {
+			int processId = 0; // Apply migration stecp
+			MPInstance instance = new MPInstance(step.getCtx() , processId, step.getAD_MigrationStep_ID());
+			instance.saveEx();
+
+			ProcessInfo pi = new ProcessInfo("Apply migration step", processId);
+			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+			pi.setRecord_ID(step.getAD_MigrationStep_ID());
+			MigrationStepRollback migrationStepRollback = new MigrationStepRollback();
+			migrationStepRollback.startProcess(step.getCtx() , pi , Trx.get(trxName, false));
+			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+		});
+
 	}
 	
-	public void updateStatus(String trxName) {
-		
-		String base = "SELECT count(1) " +
-		" FROM AD_MigrationStep " +
-		" WHERE AD_Migration_ID = " + getAD_Migration_ID() +
-		" AND IsActive = 'Y'";
-		int total = DB.getSQLValue(trxName, base);
+	public void updateStatus() {
+		StringBuilder whereBase = new StringBuilder();
+		whereBase.append(MMigration.COLUMNNAME_AD_Migration_ID).append("=?");
 
-		String sql = base + " AND StatusCode = '" + MMigration.STATUSCODE_Applied + "'";
-		int applied = DB.getSQLValue(trxName, sql);
-		
-		sql = base + " AND StatusCode IN ('" + MMigration.STATUSCODE_Failed + "','" + MMigration.STATUSCODE_Unapplied + "')";  //  Failed or Unapplied
-		int unapplied = DB.getSQLValue(trxName, sql);
+		int total = new Query(getCtx() , MMigrationStep.Table_Name , whereBase.toString() , get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Migration_ID())
+				.count();
+
+		StringBuilder where = new StringBuilder(whereBase);
+		where.append(" AND ").append(MMigrationStep.COLUMNNAME_StatusCode).append("=?");
+		int applied = new Query(getCtx() , I_AD_MigrationStep.Table_Name , where.toString() , get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Migration_ID() , MMigration.STATUSCODE_Applied)
+				.count();
+
+		where = new StringBuilder(whereBase);
+		where.append(" AND ").append(MMigrationStep.COLUMNNAME_StatusCode).append(" IN( ? , ? )");
+		int unapplied  = new Query(getCtx() , I_AD_MigrationStep.Table_Name , where.toString() , get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Migration_ID() , MMigration.STATUSCODE_Failed ,  MMigration.STATUSCODE_Unapplied )
+				.count();
+
 		String status = "";
 		
 		if ( applied == total && applied > 0 )
@@ -151,7 +182,8 @@ public class MMigration extends X_AD_Migration {
 		// overlaps with unapplied
 		//else if ( applied <= 0 )
 		//	setStatusCode(MMigration.STATUSCODE_Failed);
-		saveEx();
+
+		saveEx(get_TrxName());
 		log.log(Level.CONFIG, this.toString() + " ---> " + status + " (" + getStatusCode() + ")");
 	}
 	
@@ -174,13 +206,13 @@ public class MMigration extends X_AD_Migration {
 		.list();
 	}
 
-	public static boolean updated = false;
+	//public static boolean updated = false;
 	
 	public static MMigration fromXmlNode(Properties ctx, Element element, String trxName) throws SQLException
 	{
 		
-		if ( !updated )
-			update();
+		//if ( !updated )
+		//	update();
 		
 		if ( !"Migration".equals(element.getLocalName() ) )
 				return null;
@@ -201,14 +233,12 @@ public class MMigration extends X_AD_Migration {
 			+ " AND SeqNo = ?"
 			+ " AND EntityType = ?"
 			+ " AND ReleaseNo = ?";
-		Object[] params = new Object[] {name, Integer.parseInt(seqNo), entityType, releaseNo};
 		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, trxName)
-		.setParameters(params).firstOnly();
+		.setParameters(name, Integer.parseInt(seqNo), entityType, releaseNo).firstOnly();
 		if ( mmigration != null ) {
 			return mmigration;  // already exists (TODO: update?)
 		}
 		mmigration = new MMigration(ctx, 0, trxName);
-		
 		mmigration.setName(name);
 		mmigration.setSeqNo(Integer.parseInt(seqNo));
 		mmigration.setEntityType(entityType);
@@ -229,28 +259,7 @@ public class MMigration extends X_AD_Migration {
 		}
 		
 		mmigration.saveEx();
-		
 		return mmigration;
-	}
-	
-	private static void update() {
-		
-		String sql = "UPDATE AD_Column SET FieldLength = 999999999 WHERE AD_Column_ID IN (57874, 57873) " +
-				"AND FieldLength = 2000";
-		int count = DB.executeUpdateEx(sql, null);
-		
-		if ( count > 0 )
-		{
-			MColumn col = new MColumn(Env.getCtx(), 57874, null);
-			col.syncDatabase();
-
-			col = new MColumn(Env.getCtx(), 57873, null);
-			col.syncDatabase();
-			
-		}
-
-		updated = true;
-		
 	}
 
 	public Node toXmlNode(Document document) throws ParserConfigurationException, SAXException {
@@ -295,24 +304,6 @@ public class MMigration extends X_AD_Migration {
 			log.log(Level.SEVERE, "[" + get_TrxName() + "]", e);
 		}
 		
-	}
-	
-	class StepRunner implements TrxRunnable {
-		MMigrationStep step;
-		boolean rollback;
-			
-		public StepRunner(MMigrationStep step, boolean rollback) {
-			this.step = step;
-			this.rollback = rollback;
-		}
-		public void run(String trxName) {
-						
-			step.set_TrxName(trxName);
-			if ( rollback )
-				step.rollback();
-			else
-				step.apply();			
-		}
 	}
 	
 	/**
@@ -366,6 +357,4 @@ public class MMigration extends X_AD_Migration {
 			this.saveEx();
 		}
 	}
-
-
 }
