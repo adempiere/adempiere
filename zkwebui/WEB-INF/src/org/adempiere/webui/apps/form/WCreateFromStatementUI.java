@@ -290,10 +290,10 @@ public class WCreateFromStatementUI extends CreateFromStatement
 	/**
 	 *  List total amount
 	 */
-	public void info() {
+	public boolean info() {
 		//	Valid null
 		if(v_CreateFromPanel == null)
-			return;
+			return false;
 		DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Amount);
 
 		BigDecimal total = new BigDecimal(0.0);
@@ -308,6 +308,8 @@ public class WCreateFromStatementUI extends CreateFromStatement
 			}
 		}
 		v_CreateFromPanel.setStatusLine(count, Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(total));
+		//	Default return true for update panel from it method
+		return true;
 	}   //  infoStatement
 
 	@Override

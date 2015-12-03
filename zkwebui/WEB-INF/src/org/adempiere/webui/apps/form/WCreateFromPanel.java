@@ -30,6 +30,8 @@ import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.form.ICreateFrom;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.zkoss.zk.ui.event.Event;
@@ -183,16 +185,18 @@ public class WCreateFromPanel extends Panel implements EventListener, WTableMode
 	 * Update Info
 	 */
 	public void info() {
-		ListModelTable model = dataTable.getModel();
-		int rows = model.getRowCount();
-		int count = 0;
-		for (int i = 0; i < rows; i++) {
-			if (((Boolean) model.getValueAt(i, 0)).booleanValue())
-				count++;
+		//	If the method is not used then refresh
+		if(!createFrom.info()) {
+			ListModelTable model = dataTable.getModel();
+			int rows = model.getRowCount();
+			int count = 0;
+			for (int i = 0; i < rows; i++) {
+				if (((Boolean) model.getValueAt(i, 0)).booleanValue())
+					count++;
+			}
+			//	Set Status Bar
+			setStatusLine(count, Msg.getMsg(Env.getCtx(), "Selected"));
 		}
-		setStatusLine(count, null);
-		
-		createFrom.info();
 	}
 	
 	/**

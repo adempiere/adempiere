@@ -34,8 +34,9 @@ public interface ICreateFrom {
 
 	/**
 	 * Prepare Information
+	 * Return false if it is not used
 	 */
-	public void info();
+	public boolean info();
 
 	/**
 	 * Save Data from table

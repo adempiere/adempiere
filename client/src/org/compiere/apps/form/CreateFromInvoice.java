@@ -11,7 +11,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.compiere.grid;
+package org.compiere.apps.form;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -21,8 +21,10 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.GridTab;
+import org.compiere.model.I_C_Invoice;
+import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
@@ -48,31 +50,122 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1896947 ] Generate invoice from Order error
  * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
-public class CreateFromInvoice extends CreateFrom
-{
+public class CreateFromInvoice extends CreateFromHelper {
+	/** Loaded Order		*/
+	private MOrder 			p_order = null;
+	/**	Loaded RMA			*/
+	private MRMA			m_rma = null;
+	/**	Record Identifier	*/
+	private int 			m_Record_ID = 0;
 	/**
-	 *  Protected Constructor
-	 *  @param mTab MTab
+	 * Valid Table and Record Identifier
+	 * @param p_AD_Table_ID
+	 * @param p_Record_ID
 	 */
-	public CreateFromInvoice(GridTab mTab)
-	{
-		super(mTab);
-		log.info(mTab.toString());
-	}   //  VCreateFromInvoice
-
+	protected void validTable(int p_AD_Table_ID, int p_Record_ID) {
+		//	Valid Table
+		if(p_AD_Table_ID != I_C_Invoice.Table_ID) {
+			throw new AdempiereException("@AD_Table_ID@ @C_BankStatement_ID@ @NotFound@");
+		}
+		//	Valid Record Identifier
+		if(p_Record_ID <= 0) {
+			throw new AdempiereException("@SaveErrorRowNotFound@");
+		}
+		//	Default
+		m_Record_ID = p_Record_ID;
+	}
+	
 	/**
-	 *  Dynamic Init
-	 *  @return true if initialized
+	 *  Load Data - Order
+	 *  @param C_Order_ID Order
+	 *  @param forInvoice true if for invoice vs. delivery qty
 	 */
-	public boolean dynInit() throws Exception
+	protected Vector<Vector<Object>> getOrderData (int C_Order_ID, boolean forInvoice)
 	{
-		log.config("");
-		setTitle(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false) + " .. " + Msg.translate(Env.getCtx(), "CreateFrom"));
+		/**
+		 *  Selected        - 0
+		 *  Qty             - 1
+		 *  C_UOM_ID        - 2
+		 *  M_Product_ID    - 3
+		 *  VendorProductNo - 4
+		 *  OrderLine       - 5
+		 *  ShipmentLine    - 6
+		 *  InvoiceLine     - 7
+		 */
+		log.config("C_Order_ID=" + C_Order_ID);
+		p_order = new MOrder (Env.getCtx(), C_Order_ID, null);
 
-		return true;
-	}   //  dynInit
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		StringBuffer sql = new StringBuffer("SELECT "
+			+ "l.QtyOrdered-SUM(COALESCE(m.Qty,0)),"					//	1
+			+ "CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END,"	//	2
+			+ " l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"			//	3..4
+			+ " COALESCE(l.M_Product_ID,0),COALESCE(p.Name,c.Name),po.VendorProductNo,"	//	5..7
+			+ " l.C_OrderLine_ID,l.Line "								//	8..9
+			+ "FROM C_OrderLine l"
+			+ " LEFT OUTER JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND l.C_BPartner_ID = po.C_BPartner_ID) "
+			+ " LEFT OUTER JOIN M_MatchPO m ON (l.C_OrderLine_ID=m.C_OrderLine_ID AND ");
+		sql.append(forInvoice ? "m.C_InvoiceLine_ID" : "m.M_InOutLine_ID");
+		sql.append(" IS NOT NULL)")
+			.append(" LEFT OUTER JOIN M_Product p ON (l.M_Product_ID=p.M_Product_ID)"
+			+ " LEFT OUTER JOIN C_Charge c ON (l.C_Charge_ID=c.C_Charge_ID)");
+		if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
+			sql.append(" LEFT OUTER JOIN C_UOM uom ON (l.C_UOM_ID=uom.C_UOM_ID)");
+		else
+			sql.append(" LEFT OUTER JOIN C_UOM_Trl uom ON (l.C_UOM_ID=uom.C_UOM_ID AND uom.AD_Language='")
+				.append(Env.getAD_Language(Env.getCtx())).append("')");
+		//
+		sql.append(" WHERE l.C_Order_ID=? "			//	#1
+			+ "GROUP BY l.QtyOrdered,CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END, "
+			+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),po.VendorProductNo, "
+				+ "l.M_Product_ID,COALESCE(p.Name,c.Name), l.Line,l.C_OrderLine_ID "
+			+ "ORDER BY l.Line");
+		//
+		log.finer(sql.toString());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt.setInt(1, C_Order_ID);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				Vector<Object> line = new Vector<Object>();
+				line.add(new Boolean(false));           //  0-Selection
+				BigDecimal qtyOrdered = rs.getBigDecimal(1);
+				BigDecimal multiplier = rs.getBigDecimal(2);
+				BigDecimal qtyEntered = qtyOrdered.multiply(multiplier);
+				line.add(qtyEntered);                   //  1-Qty
+				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
+				line.add(pp);                           //  2-UOM
+				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
+				line.add(pp);                           //  3-Product
+				line.add(rs.getString(7));				// 4-VendorProductNo
+				pp = new KeyNamePair(rs.getInt(8), rs.getString(9));
+				line.add(pp);                           //  5-OrderLine
+				line.add(null);                         //  6-Ship
+				line.add(null);                         //  7-Invoice
+				data.add(line);
+			}
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 
+		return data;
+	}   //  LoadOrder
+	
 	/**
 	 * Load PBartner dependent Order/Invoice/Shipment Field.
 	 * @param C_BPartner_ID
@@ -321,13 +414,9 @@ public class CreateFromInvoice extends CreateFrom
 	}
 
 	/**
-	 *  List number of rows selected
+	 * Set Column Class for mini table
+	 * @param miniTable
 	 */
-	public void info()
-	{
-
-	}   //  infoInvoice
-
 	protected void configureMiniTable (IMiniTable miniTable)
 	{
 		miniTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
@@ -349,8 +438,8 @@ public class CreateFromInvoice extends CreateFrom
 	public boolean save(IMiniTable miniTable, String trxName)
 	{
 		//  Invoice
-		int C_Invoice_ID = ((Integer)getGridTab().getValue("C_Invoice_ID")).intValue();
-		MInvoice invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, trxName);
+		//	Yamel Senih FR [ 114 ] get Record ID from record
+		MInvoice invoice = new MInvoice (Env.getCtx(), m_Record_ID, trxName);
 		log.config(invoice.toString());
 
 		if (p_order != null)
@@ -554,4 +643,33 @@ public class CreateFromInvoice extends CreateFrom
 	    return columnNames;
 	}
 
+	/**
+	 * Get Document Base Type from Document Type of Invoice
+	 * @return
+	 */
+	protected String getDocBaseType() {
+		if(m_Record_ID <= 0)
+			return "";
+		//	For other
+		MInvoice invoice = new MInvoice(Env.getCtx(), m_Record_ID, null);
+		MDocType docType = MDocType.get(Env.getCtx(), invoice.getC_DocTypeTarget_ID());
+		if(docType != null) {
+			return docType.getDocBaseType();
+		}
+		//	Default
+		return "";
+	}
+	
+	/**
+	 * Get Business Partner from Invoice
+	 * @return
+	 */
+	protected int getC_BPartner_ID() {
+		if(m_Record_ID <= 0)
+			return 0;
+		//	For other
+		MInvoice invoice = new MInvoice(Env.getCtx(), m_Record_ID, null);
+		//	Default
+		return invoice.getC_BPartner_ID();
+	}
 }
