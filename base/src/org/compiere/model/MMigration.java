@@ -87,6 +87,10 @@ public class MMigration extends X_AD_Migration {
 				throw new AdempiereException(e);
 
 		}
+		finally
+		{			
+			updateStatus();
+		}
 	}
 
 	public void stepApply(MMigrationStep step)
