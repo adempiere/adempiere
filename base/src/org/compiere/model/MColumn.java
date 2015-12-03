@@ -403,7 +403,8 @@ public class MColumn extends X_AD_Column
 			return;
 		} else {
 			String m_TableName = p_ColumnName.replace("_ID", "");
-			if(p_AD_Reference_ID == DisplayType.TableDir) {
+			if(p_AD_Reference_ID == DisplayType.TableDir
+					|| p_AD_Reference_ID == DisplayType.Search ) {
 				if(!p_ColumnName.endsWith("_ID"))
 					throw new AdempiereException("@Reference@ @of@ @ColumnName@ @NotValid@");
 				//	Valid Table

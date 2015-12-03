@@ -123,6 +123,11 @@ import org.zkoss.zul.Menupopup;
  * @author e-Evolution , victor.perez@e-evolution.com
  *      <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
  *      <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 127 ] ZK Open Form return "Process Error
+ *		@see https://github.com/adempiere/adempiere/issues/127
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  *
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
@@ -2197,6 +2202,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		// call form
 		MProcess pr = new MProcess(ctx, wButton.getProcess_ID(), null);
 		int adFormID = pr.getAD_Form_ID();
+		//	Yamel Senih BR[ 127 ], 2015-11-25
+		//	Bug with launch form
+		int adBrowseID = pr.getAD_Browse_ID();
 		if (adFormID != 0 )
 		{
 			String title = wButton.getDescription();
@@ -2207,13 +2215,19 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
 			ADForm form = ADForm.openForm(adFormID);
 			form.setProcessInfo(pi);
-			form.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+			//	Yamel Senih FR [ 114 ], 2015-11-25
+			form.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
 			form.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
-			SessionManager.getAppDesktop().showWindow(form);
-			onRefresh(false);
-		}
-		int adBrowseID = pr.getAD_Browse_ID();
-		if (adBrowseID != 0 )
+			form.setClosable(true);
+			form.setMaximizable(true);
+			form.setSizable(true);
+			form.setHeight("90%");
+			form.setWidth("80%");
+			form.setContentStyle("overflow: auto");
+			AEnv.showWindow(form);
+			//	End Yamel Senih
+			currentTab.dataRefreshAll();
+		} else if (adBrowseID != 0 )
 		{
 			String title = wButton.getDescription();
 			if (title == null || title.length() == 0)

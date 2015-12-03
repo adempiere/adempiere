@@ -11,7 +11,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.compiere.grid;
+package org.compiere.apps.form;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -29,12 +29,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
-import org.compiere.apps.AEnv;
 import org.compiere.grid.ed.VLookup;
-import org.compiere.model.GridTab;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
@@ -42,44 +41,30 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 
-/*
+/**
  * @author	Michael McKay
  * 				<li>release/380 - fix row selection event handling to fire single event per row selection
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
-public class VCreateFromInvoiceUI extends CreateFromInvoice implements ActionListener, VetoableChangeListener
-{
-	private static final long serialVersionUID = 1L;
+public class VCreateFromInvoiceUI extends CreateFromInvoice 
+	implements FormPanel, ICreateFrom, ActionListener, VetoableChangeListener {
 	
-	private VCreateFromDialog dialog;
+	/**
+	 * Standard Constructor
+	 */
+	public VCreateFromInvoiceUI() {
+		v_CreateFromPanel = new VCreateFromPanel(this);
+	}
 
-	public VCreateFromInvoiceUI(GridTab mTab)
-	{
-		super(mTab);
-		log.info(getGridTab().toString());
-		
-		dialog = new VCreateFromDialog(this, getGridTab().getWindowNo(), true);
-		
-		p_WindowNo = getGridTab().getWindowNo();
-
-		try
-		{
-			if (!dynInit())
-				return;
-			jbInit();
-
-			setInitOK(true);
-		}
-		catch(Exception e)
-		{
-			log.log(Level.SEVERE, "", e);
-			setInitOK(false);
-		}
-		AEnv.positionCenterWindow(Env.getWindow(p_WindowNo), dialog);
-	}   //  VCreateFrom
-	
-	/** Window No               */
+	//	Yamel Senih FR [ 114 ], 2015-11-26
+	//	Change to form
+	private FormFrame	v_Container = null;
+	/**	Main Panel for Create From	*/
+	private VCreateFromPanel v_CreateFromPanel;
+	/** Window No               	*/
 	private int p_WindowNo;
-
 	/**	Logger			*/
 	private CLogger log = CLogger.getCLogger(getClass());
 	
@@ -107,14 +92,8 @@ public class VCreateFromInvoiceUI extends CreateFromInvoice implements ActionLis
 	{
 		log.config("");
 		
-		super.dynInit();
-		
-		dialog.setTitle(getTitle());
-
 		// RMA Selection option should only be available for AP Credit Memo
-		Integer docTypeId = (Integer)getGridTab().getValue("C_DocTypeTarget_ID");
-		MDocType docType = MDocType.get(Env.getCtx(), docTypeId);
-		if (!MDocType.DOCBASETYPE_APCreditMemo.equals(docType.getDocBaseType()))
+		if (!MDocType.DOCBASETYPE_APCreditMemo.equals(getDocBaseType()))
 		{
 			rmaLabel.setVisible(false);
 		    rmaField.setVisible(false);
@@ -147,7 +126,10 @@ public class VCreateFromInvoiceUI extends CreateFromInvoice implements ActionLis
     	shipmentLabel.setText(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
     	rmaLabel.setText(Msg.translate(Env.getCtx(), "M_RMA_ID"));
     	
-    	CPanel parameterPanel = dialog.getParameterPanel();
+		//	Add to Main Form
+		v_Container.getContentPane().add(v_CreateFromPanel);
+		//	
+    	CPanel parameterPanel = v_CreateFromPanel.getParameterPanel();
     	parameterPanel.setLayout(new BorderLayout());
     	
     	CPanel parameterStdPanel = new CPanel(new GridBagLayout());
@@ -244,7 +226,7 @@ public class VCreateFromInvoiceUI extends CreateFromInvoice implements ActionLis
 			int C_BPartner_ID = ((Integer)e.getNewValue()).intValue();
 			initBPOrderDetails (C_BPartner_ID, true);
 		}
-		dialog.tableChanged(null);
+		v_CreateFromPanel.tableChanged(null);
 	}   //  vetoableChange
 	
 	/**************************************************************************
@@ -259,8 +241,8 @@ public class VCreateFromInvoiceUI extends CreateFromInvoice implements ActionLis
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.Search);
 		bPartnerField = new VLookup ("C_BPartner_ID", true, false, true, lookup);
 		//
-		int C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
-		bPartnerField.setValue(new Integer(C_BPartner_ID));
+		int C_BPartner_ID = getC_BPartner_ID();
+		bPartnerField.setValue(C_BPartner_ID);
 
 		//  initial loading
 		initBPOrderDetails(C_BPartner_ID, forInvoice);
@@ -279,18 +261,21 @@ public class VCreateFromInvoiceUI extends CreateFromInvoice implements ActionLis
 		orderField.removeActionListener(this);
 		orderField.removeAllItems();
 		orderField.addItem(pp);
-		
-		ArrayList<KeyNamePair> list = loadOrderData(C_BPartner_ID, forInvoice, false);
+		//	For Invoice dot use Warehouse
+		ArrayList<KeyNamePair> list = loadOrderData(C_BPartner_ID, forInvoice, 0);
 		for(KeyNamePair knp : list)
 			orderField.addItem(knp);
 		
 		orderField.setSelectedIndex(0);
 		orderField.addActionListener(this);
-		dialog.pack();
 
 		initBPDetails(C_BPartner_ID);
 	}   //  initBPartnerOIS
 	
+	/**
+	 * Init Business Partner detail
+	 * @param C_BPartner_ID
+	 */
 	public void initBPDetails(int C_BPartner_ID) 
 	{
 		initBPShipmentDetails(C_BPartner_ID);
@@ -350,11 +335,19 @@ public class VCreateFromInvoiceUI extends CreateFromInvoice implements ActionLis
 		loadTableOIS(getOrderData(C_Order_ID, forInvoice));
 	}   //  LoadOrder
 	
+	/**
+	 * Load from RMA
+	 * @param M_RMA_ID
+	 */
 	protected void loadRMA (int M_RMA_ID)
 	{
 		loadTableOIS(getRMAData(M_RMA_ID));
 	}
 	
+	/**
+	 * Load from Shipment
+	 * @param M_InOut_ID
+	 */
 	protected void loadShipment (int M_InOut_ID)
 	{
 		loadTableOIS(getShipmentData(M_InOut_ID));
@@ -367,22 +360,52 @@ public class VCreateFromInvoiceUI extends CreateFromInvoice implements ActionLis
 	protected void loadTableOIS (Vector<?> data)
 	{
 		//  Remove previous listeners
-		dialog.getMiniTable().removeMiniTableSelectionListener(dialog);
+		v_CreateFromPanel.getMiniTable().removeMiniTableSelectionListener(v_CreateFromPanel);
 		//  Set Model
 		DefaultTableModel model = new DefaultTableModel(data, getOISColumnNames());
-		dialog.getMiniTable().setModel(model);
+		v_CreateFromPanel.getMiniTable().setModel(model);
 		// 
-		configureMiniTable(dialog.getMiniTable());
-		dialog.getMiniTable().addMiniTableSelectionListener(dialog);
+		configureMiniTable(v_CreateFromPanel.getMiniTable());
+		v_CreateFromPanel.getMiniTable().addMiniTableSelectionListener(v_CreateFromPanel);
 	}   //  loadOrder
+
+	/**
+	 *  List total amount
+	 */
+	public boolean info() {
+		return false;
+	}   //  infoStatement
 	
-	public void showWindow()
-	{
-		dialog.setVisible(true);
+	@Override
+	public void init(int WindowNo, FormFrame frame) {
+		p_WindowNo = WindowNo;
+		v_Container = frame;
+		ProcessInfo info = frame.getProcessInfo();
+		try {
+			//	Valid for launched from a window
+			if(info != null) {
+				//	Valid Table and Record
+				validTable(info.getTable_ID(), 
+						info.getRecord_ID());
+			}
+			//	Init
+			if (!dynInit())
+				return;
+			jbInit();
+		} catch(Exception e) {
+			log.log(Level.SEVERE, "", e);
+		}
 	}
-	
-	public void closeWindow()
-	{
-		dialog.dispose();
+
+	@Override
+	public void dispose() {
+		if (v_Container != null)
+			v_Container.dispose();
+		v_Container = null;
+	}
+
+	@Override
+	public int getWindowNo() {
+		return p_WindowNo;
 	}
 }

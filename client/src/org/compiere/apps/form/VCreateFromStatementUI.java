@@ -11,7 +11,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.compiere.grid;
+package org.compiere.apps.form;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -29,20 +29,17 @@ import java.util.logging.Level;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
-import org.compiere.apps.ADialog;
-import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.grid.ed.VString;
-import org.compiere.model.GridTab;
-import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPayment;
+import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -52,45 +49,30 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
-/*
+/**
  * @author	Michael McKay
  * 				<li>release/380 - fix row selection event handling to fire single event per row selection
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
-
-public class VCreateFromStatementUI extends CreateFromStatement implements ActionListener
-{
-	private static final long serialVersionUID = 1L;
+public class VCreateFromStatementUI extends CreateFromStatement 
+	implements FormPanel, ICreateFrom, ActionListener {
 	
-	private VCreateFromDialog dialog;
-
-	public VCreateFromStatementUI(GridTab mTab)
-	{
-		super(mTab);
-		log.info(getGridTab().toString());
-		
-		dialog = new VCreateFromDialog(this, getGridTab().getWindowNo(), true);
-		
-		p_WindowNo = getGridTab().getWindowNo();
-
-		try
-		{
-			if (!dynInit())
-				return;
-			jbInit();
-
-			setInitOK(true);
-		}
-		catch(Exception e)
-		{
-			log.log(Level.SEVERE, "", e);
-			setInitOK(false);
-		}
-		AEnv.positionCenterWindow(Env.getWindow(p_WindowNo), dialog);
-	}   //  VCreateFrom
+	/**
+	 * Standard Constructor
+	 */
+	public VCreateFromStatementUI() {
+		v_CreateFromPanel = new VCreateFromPanel(this);
+	}
 	
-	/** Window No               */
+	//	Yamel Senih FR [ 114 ], 2015-11-26
+	//	Change to form
+	private FormFrame	v_Container = null;
+	/** Window No               	*/
 	private int p_WindowNo;
-
+	/**	Main Panel for Create From	*/
+	private VCreateFromPanel v_CreateFromPanel;
 	/**	Logger			*/
 	private CLogger log = CLogger.getCLogger(getClass());
 	
@@ -122,7 +104,6 @@ public class VCreateFromStatementUI extends CreateFromStatement implements Actio
 	private CLabel dateToLabel = new CLabel("-");
 	protected VDate dateToField = new VDate("DateTo", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "DateTo"));
 	
-	
 	/**
 	 *  Dynamic Init
 	 *  @throws Exception if Lookups cannot be initialized
@@ -131,31 +112,20 @@ public class VCreateFromStatementUI extends CreateFromStatement implements Actio
 	public boolean dynInit() throws Exception
 	{
 		log.config("");
-		
-		super.dynInit();
-		
 		//Refresh button
 		CButton refreshButton = ConfirmPanel.createRefreshButton(false);
 		refreshButton.setMargin(new Insets (1, 10, 0, 10));
 		refreshButton.setDefaultCapable(true);
 		refreshButton.addActionListener(this);
-		dialog.getConfirmPanel().addButton(refreshButton);
-		dialog.getRootPane().setDefaultButton(refreshButton);
-				
-		if (getGridTab().getValue("C_BankStatement_ID") == null)
-		{
-			ADialog.error(0, dialog, "SaveErrorRowNotFound");
-			return false;
-		}
-		
-		dialog.setTitle(getTitle());
+		v_CreateFromPanel.getConfirmPanel().addButton(refreshButton);
+		//	Add to Main Form
+		v_Container.getContentPane().add(v_CreateFromPanel);
 
 		int AD_Column_ID = 4917;        //  C_BankStatement.C_BankAccount_ID
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
 		bankAccountField = new VLookup ("C_BankAccount_ID", true, true, true, lookup);
 		//  Set Default
-		int C_BankAccount_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
-		bankAccountField.setValue(new Integer(C_BankAccount_ID));
+		bankAccountField.setValue(getC_BankAccount_ID());
 		//  initial Loading
 		authorizationField = new VString ("authorization", false, false, true, 10, 30, null, null);
 		authorizationField.addActionListener(this);
@@ -174,8 +144,6 @@ public class VCreateFromStatementUI extends CreateFromStatement implements Actio
 		
 		Timestamp date = Env.getContextAsDate(Env.getCtx(), p_WindowNo, MBankStatement.COLUMNNAME_StatementDate);
 		dateToField.setValue(date);
-	
-		bankAccount = new MBankAccount(Env.getCtx(), C_BankAccount_ID, null);
 		
 		loadBankAccount();
 		
@@ -214,7 +182,7 @@ public class VCreateFromStatementUI extends CreateFromStatement implements Actio
     	amtToLabel.setLabelFor(amtToField);
     	amtToField.setToolTipText(Msg.translate(Env.getCtx(), "AmtTo"));
     	
-    	CPanel parameterPanel = dialog.getParameterPanel();
+    	CPanel parameterPanel = v_CreateFromPanel.getParameterPanel();
     	parameterPanel.setLayout(new BorderLayout());
     	
     	CPanel parameterBankPanel = new CPanel();
@@ -288,59 +256,91 @@ public class VCreateFromStatementUI extends CreateFromStatement implements Actio
 		{
 			Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
 			loadBankAccount();
-			dialog.tableChanged(null);
+			v_CreateFromPanel.tableChanged(null);
 			Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 		}
 	}   //  actionPerformed
 	
-	protected void loadBankAccount()
-	{
+	/**
+	 * Load Bank Account
+	 */
+	private void loadBankAccount() {
 		loadTableOIS(getBankData(documentNoField.getText(), bPartnerLookup.getValue(), dateFromField.getValue(), dateToField.getValue(),
 				amtFromField.getValue(), amtToField.getValue(), documentTypeField.getValue(), tenderTypeField.getValue(), 
 				authorizationField.getText()));
 	}
 	
-	protected void loadTableOIS (Vector<?> data)
-	{
+	/**
+	 * Load Table Columns
+	 * @param data
+	 */
+	private void loadTableOIS (Vector<?> data) {
 		//  Remove previous listeners
-		dialog.getMiniTable().removeMiniTableSelectionListener(dialog);
+		v_CreateFromPanel.getMiniTable().removeMiniTableSelectionListener(v_CreateFromPanel);
 		//dialog.getMiniTable().getModel().removeTableModelListener(dialog);
 		//  Set Model
 		DefaultTableModel model = new DefaultTableModel(data, getOISColumnNames());
-		dialog.getMiniTable().setModel(model);
+		v_CreateFromPanel.getMiniTable().setModel(model);
 		// 
-		configureMiniTable(dialog.getMiniTable());
-		dialog.getMiniTable().addMiniTableSelectionListener(dialog);		
+		configureMiniTable(v_CreateFromPanel.getMiniTable());
+		v_CreateFromPanel.getMiniTable().addMiniTableSelectionListener(v_CreateFromPanel);		
 	}
 	
 	/**
 	 *  List total amount
 	 */
-	public void info()
-	{
+	public boolean info() {
+		//	Valid null
+		if(v_CreateFromPanel == null)
+			return false;
 		DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Amount);
 
 		BigDecimal total = new BigDecimal(0.0);
-		int rows = dialog.getMiniTable().getRowCount();
+		int rows = v_CreateFromPanel.getMiniTable().getRowCount();
 		int count = 0;
 		for (int i = 0; i < rows; i++)
 		{
-			if (((Boolean)dialog.getMiniTable().getValueAt(i, 0)).booleanValue())
+			if (((Boolean)v_CreateFromPanel.getMiniTable().getValueAt(i, 0)).booleanValue())
 			{
-				total = total.add((BigDecimal)dialog.getMiniTable().getValueAt(i, 4));
+				total = total.add((BigDecimal)v_CreateFromPanel.getMiniTable().getValueAt(i, 4));
 				count++;
 			}
 		}
-		dialog.setStatusLine(count, Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(total));
+		v_CreateFromPanel.setStatusLine(count, Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(total));
+		//	Default return true for update panel from it method
+		return true;
 	}   //  infoStatement
-	
-	public void showWindow()
-	{
-		dialog.setVisible(true);
+
+	@Override
+	public void init(int WindowNo, FormFrame frame) {
+		p_WindowNo = WindowNo;
+		v_Container = frame;
+		ProcessInfo info = frame.getProcessInfo();
+		try {
+			//	Valid for launched from a window
+			if(info != null) {
+				//	Valid Table and Record
+				validTable(info.getTable_ID(), 
+						info.getRecord_ID());
+			}
+			//	Init
+			if (!dynInit())
+				return;
+			jbInit();
+		} catch(Exception e) {
+			log.log(Level.SEVERE, "", e);
+		}
 	}
-	
-	public void closeWindow()
-	{
-		dialog.dispose();
+
+	@Override
+	public void dispose() {
+		if (v_Container != null)
+			v_Container.dispose();
+		v_Container = null;
+	}
+
+	@Override
+	public int getWindowNo() {
+		return p_WindowNo;
 	}
 }

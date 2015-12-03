@@ -144,6 +144,9 @@ import org.eevolution.form.VBrowser;
  *
  * 	@author hengsin, hengsin.low@idalica.com
  *  @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -2638,8 +2641,8 @@ public final class APanel extends CPanel
 			if (m_curTab.needSave(true, false))
 				if (!cmd_save(true))
 					return;
-
-			FormFrame ff = new FormFrame(getGraphicsConfiguration());
+			//	Yamel Senih FR [ 114 ] 2015-11-23 Add Support to Dialog for create from
+			FormFrame ff = new FormFrame(getWindowNo());
 			String title = vButton.getDescription();
 			if (title == null || title.length() == 0)
 				title = vButton.getName();
@@ -2650,6 +2653,9 @@ public final class APanel extends CPanel
 			ff.openForm(form_ID);
 			ff.pack();
 			AEnv.showCenterScreen(ff);
+			//	Refresh
+			m_curTab.dataRefresh();
+			//	End Yamel Senih
 			return;
 		}
 		int browse_ID = pr.getAD_Browse_ID();

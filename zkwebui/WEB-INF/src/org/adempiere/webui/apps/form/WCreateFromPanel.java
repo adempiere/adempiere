@@ -1,6 +1,5 @@
 /******************************************************************************
- * Copyright (C) 2009 Low Heng Sin                                            *
- * Copyright (C) 2009 Idalica Corporation                                     *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,8 +9,14 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
  *****************************************************************************/
 package org.adempiere.webui.apps.form;
+
+import java.io.IOException;
 
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -20,12 +25,13 @@ import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.WListbox;
-import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.grid.CreateFrom;
+import org.compiere.apps.form.ICreateFrom;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.zkoss.zk.ui.event.Event;
@@ -38,50 +44,49 @@ import org.zkoss.zul.Separator;
 
 /**
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *		<li> FR [ 114 ] Deprecated (Change "Create From" UI for Form like Dialog in window without "hardcode")
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
  *		@see https://github.com/adempiere/adempiere/issues/114
  */
-@Deprecated
-public class WCreateFromWindow extends Window implements EventListener, WTableModelListener
-{
-	private static final long serialVersionUID = 1L;
+public class WCreateFromPanel extends Panel implements EventListener, WTableModelListener {
 	
-	private CreateFrom createFrom;
-	private int windowNo;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4455920669263736422L;
 	
-	private Panel parameterPanel = new Panel();
-	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
-	private StatusBarPanel statusBar = new StatusBarPanel();
-	private WListbox dataTable = ListboxFactory.newDataTable();
-	
+	/**	Create From Parent	*/
+	private ICreateFrom 	createFrom;
+	/**	Parameter Panel		*/
+	private Panel 			parameterPanel = new Panel();
+	/**	Confirm Panel		*/
+	private ConfirmPanel 	confirmPanel = new ConfirmPanel(true);
+	/**	Status Bar			*/
+	private StatusBarPanel 	statusBar = new StatusBarPanel();
+	/**	Table				*/
+	private WListbox 		dataTable = ListboxFactory.newDataTable();
+	/**	Select All Constant	*/
 	public static final String SELECT_ALL = "SelectAll";
-
 	
-	public WCreateFromWindow(CreateFrom createFrom, int windowNo)
-	{
+	/**
+	 * Standard Constructor
+	 * @param createFrom
+	 */
+	public WCreateFromPanel(ICreateFrom createFrom) throws IOException {
 		super();
-		setAttribute("mode", "modal");
-		
 		this.createFrom = createFrom;
-		this.windowNo = windowNo;
-		
-		try
-		{
-			zkInit();
-			confirmPanel.addActionListener(this);
-			
-			statusBar.setStatusDB("");
-			tableChanged(null);
-			createFrom.setInitOK(true);
-		}
-		catch(Exception e)
-		{
-			createFrom.setInitOK(false);
-		}		
+		//	Create UI
+		zkInit();
+		confirmPanel.addActionListener(this);
+		//	Set Status Bar	
+		statusBar.setStatusDB("");
+		tableChanged(null);
     }
 	
-	protected void zkInit() throws Exception
-	{
+	/**
+	 * Create UI
+	 * @throws IOException 
+	 */
+	protected void zkInit() throws IOException {
 		Borderlayout contentPane = new Borderlayout();
 		appendChild(contentPane);
 		
@@ -110,8 +115,6 @@ public class WCreateFromWindow extends Window implements EventListener, WTableMo
 		
 		setWidth("750px");
 		setHeight("550px");
-		setSizable(true);
-		setBorder("normal");
 		contentPane.setWidth("100%");
 		contentPane.setHeight("100%");
 	}
@@ -119,38 +122,29 @@ public class WCreateFromWindow extends Window implements EventListener, WTableMo
 	public void onEvent(Event e) throws Exception
 	{
 		//  OK - Save
-		if (e.getTarget().getId().equals(ConfirmPanel.A_OK))
-		{
-			try
-			{
-				Trx.run(new TrxRunnable()
-				{
-					public void run(String trxName)
-					{
-						if (save(trxName))
-						{
-							dispose();
+		if (e.getTarget().getId().equals(ConfirmPanel.A_OK)) {
+			try {
+				Trx.run(new TrxRunnable() {
+					public void run(String trxName) {
+						if (save(trxName)) {
+							createFrom.dispose();
 						}
 					}
 				});
-			}
-			catch (Exception ex)
-			{
-				FDialog.error(windowNo, this, "Error", ex.getLocalizedMessage());
+			} catch (Exception ex) {
+				FDialog.error(createFrom.getWindowNo(), this, "Error", ex.getLocalizedMessage());
 			}
 		}
 		//  Cancel
-		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
-		{
-			dispose();
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL)) {
+			createFrom.dispose();
 		}
 		// Select All
 		// Trifon
 		else if (e.getTarget().getId().equals(SELECT_ALL)) {
 			ListModelTable model = dataTable.getModel();
 			int rows = model.getSize();
-			for (int i = 0; i < rows; i++)
-			{
+			for (int i = 0; i < rows; i++) {
 				model.setValueAt(new Boolean(true), i, 0);
 			}
 			//refresh
@@ -159,8 +153,10 @@ public class WCreateFromWindow extends Window implements EventListener, WTableMo
 		}
 	}
 
-	public void tableChanged (WTableModelEvent e)
-	{
+	/**
+	 * Changes in Table
+	 */
+	public void tableChanged (WTableModelEvent e) {
 		int type = -1;
 		if (e != null)
 		{
@@ -171,8 +167,12 @@ public class WCreateFromWindow extends Window implements EventListener, WTableMo
 		info();
 	}
 	
-	public boolean save(String trxName)
-	{
+	/**
+	 * Save Record
+	 * @param trxName
+	 * @return
+	 */
+	public boolean save(String trxName) {
 		ListModelTable model = dataTable.getModel();
 		int rows = model.getSize();
 		if (rows == 0)
@@ -181,23 +181,30 @@ public class WCreateFromWindow extends Window implements EventListener, WTableMo
 		return createFrom.save(dataTable, trxName);
 	}
 
-	public void info()
-	{
-		ListModelTable model = dataTable.getModel();
-		int rows = model.getRowCount();
-		int count = 0;
-		for (int i = 0; i < rows; i++)
-		{
-			if (((Boolean) model.getValueAt(i, 0)).booleanValue())
-				count++;
+	/**
+	 * Update Info
+	 */
+	public void info() {
+		//	If the method is not used then refresh
+		if(!createFrom.info()) {
+			ListModelTable model = dataTable.getModel();
+			int rows = model.getRowCount();
+			int count = 0;
+			for (int i = 0; i < rows; i++) {
+				if (((Boolean) model.getValueAt(i, 0)).booleanValue())
+					count++;
+			}
+			//	Set Status Bar
+			setStatusLine(count, Msg.getMsg(Env.getCtx(), "Selected"));
 		}
-		setStatusLine(count, null);
-		
-		createFrom.info();
 	}
 	
-	public void setStatusLine(int selectedRowCount, String text) 
-	{
+	/**
+	 * Set data to Status Bar
+	 * @param selectedRowCount
+	 * @param text
+	 */
+	public void setStatusLine(int selectedRowCount, String text)  {
 		StringBuffer sb = new StringBuffer(String.valueOf(selectedRowCount));
 		if (text != null && text.trim().length() > 0) {
 			sb.append(" - ").append(text);
@@ -207,18 +214,27 @@ public class WCreateFromWindow extends Window implements EventListener, WTableMo
 		confirmPanel.getOKButton().setEnabled(selectedRowCount > 0);
 	}
 	
-	public WListbox getWListbox()
-	{
+	/**
+	 * Get Table
+	 * @return
+	 */
+	public WListbox getWListbox() {
 		return dataTable;
 	}
 	
-	public Panel getParameterPanel()
-	{
+	/**
+	 * Get Parameter Panel, you must add custom parameter here
+	 * @return
+	 */
+	public Panel getParameterPanel() {
 		return parameterPanel;
 	}
 	
-	public ConfirmPanel getConfirmPanel()
-	{
+	/**
+	 * Get Confirm Panel
+	 * @return
+	 */
+	public ConfirmPanel getConfirmPanel() {
 		return confirmPanel;
 	}
 }
