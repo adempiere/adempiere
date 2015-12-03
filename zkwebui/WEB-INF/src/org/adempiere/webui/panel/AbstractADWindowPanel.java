@@ -2226,7 +2226,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			form.setContentStyle("overflow: auto");
 			AEnv.showWindow(form);
 			//	End Yamel Senih
-			onRefresh(false);
+			currentTab.dataRefreshAll();
 		} else if (adBrowseID != 0 )
 		{
 			String title = wButton.getDescription();

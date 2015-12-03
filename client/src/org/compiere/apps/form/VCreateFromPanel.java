@@ -33,6 +33,8 @@ import org.compiere.minigrid.MiniTable.MiniTableSelectionListener;
 import org.compiere.minigrid.MiniTable.RowSelectionEvent;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CPanel;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 
@@ -175,14 +177,19 @@ public class VCreateFromPanel extends CPanel implements ActionListener, MiniTabl
 	/**
 	 * Create Info
 	 */
-	public void info()
-	{
-		//Duplicated status info
-		//TableModel model = dataTable.getModel();
-		//int rows = model.getRowCount();
-		//int count = dataTable.getSelectedRowCount();
-		//setStatusLine(count, null);
-		createFrom.info();
+	public void info() {
+		//	If the method is not used then refresh
+		if(!createFrom.info()) {
+			TableModel model = dataTable.getModel();
+			int rows = model.getRowCount();
+			int count = 0;
+			for (int i = 0; i < rows; i++) {
+				if (((Boolean)model.getValueAt(i, 0)).booleanValue())
+					count++;
+			}
+			//	Set Status Bar
+			setStatusLine(count, Msg.getMsg(Env.getCtx(), "Selected"));
+		}
 	}
 	
 	/**

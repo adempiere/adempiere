@@ -18,7 +18,6 @@ import java.util.logging.Level;
 
 import org.compiere.grid.ICreateFrom;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_C_Invoice;
 import org.compiere.model.I_M_InOut;
 import org.compiere.model.I_M_RMA;
 import org.compiere.util.CLogger;
@@ -52,7 +51,7 @@ public class WCreateFromFactory
 	{
 		// Register defaults:
 		s_registeredClasses = new HashMap<Integer, Class<? extends ICreateFrom>>();
-		s_registeredClasses.put(I_C_Invoice.Table_ID, WCreateFromInvoiceUI.class);
+//		s_registeredClasses.put(I_C_Invoice.Table_ID, WCreateFromInvoiceUI.class);
 		
 //		s_registeredClasses.put(I_C_BankStatement.Table_ID, WCreateFromStatementUI.class);
 		s_registeredClasses.put(I_M_InOut.Table_ID, WCreateFromShipmentUI.class);
