@@ -34,6 +34,8 @@ import org.compiere.model.MLookupFactory;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.MUser;
+import org.compiere.model.X_AD_Reference;
+import org.compiere.model.X_AD_Val_Rule;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -103,20 +105,47 @@ public class RecordInfoController {
 		int m_AD_Table_ID = 0;
 		int m_AD_Column_ID = 0;
 		if(m_Field != null) {
-			m_AD_Column_ID = m_Field.getAD_Column_ID();
-			//  Info
-			m_info.append(Msg.translate(Env.getCtx(), "ColumnName"))
-				.append(": ").append(m_Field.getColumnName()).append("\n")
-				.append(Msg.translate(Env.getCtx(), "Name"))
-				.append(": ").append(m_Field.getHeader()).append("\n")
-				.append(Msg.translate(Env.getCtx(), "Description"))
-				.append(": ").append(m_Field.getDescription()).append("\n");
-			//	Title
-			m_Title = title + " - " + m_Field.getHeader();
 			//	Set Values
 			m_Record_ID = m_Field.getGridTab().getRecord_ID();
 			m_AD_Table_ID = m_Field.getGridTab().getAD_Table_ID();
 			m_AD_Column_ID = m_Field.getAD_Column_ID();
+			//	
+			MColumn column = MColumn.get(Env.getCtx(), m_AD_Column_ID);
+			X_AD_Reference reference = new X_AD_Reference(Env.getCtx(), m_Field.getDisplayType(), null);
+			DecimalFormat format = DisplayType.getNumberFormat(reference.getAD_Reference_ID());
+			MTable table = MTable.get(Env.getCtx(), m_AD_Table_ID);
+			//  Info
+			m_info.append("(").append(table.getTableName()).append(" - ").append(m_Field.getColumnName())
+				.append(" = ").append(m_Field.getValue()).append(")").append("\n")
+				.append(Msg.translate(Env.getCtx(), "Name"))
+				.append(": ").append(m_Field.getHeader()).append("\n")
+				.append(Msg.translate(Env.getCtx(), "Description"))
+				.append(": ").append(m_Field.getDescription()).append("\n")
+				.append(Msg.translate(Env.getCtx(), "AD_Reference_ID"))
+				.append(": ").append(reference.get_Translation("Name")).append("\n");
+			//	For Reference Key
+			if(m_Field.getDisplayType() == DisplayType.List
+					|| m_Field.getDisplayType() == DisplayType.Table
+					|| m_Field.getDisplayType() == DisplayType.Search) {
+				//	Valid Reference Value
+				if(m_Field.getAD_Reference_Value_ID() != 0) {
+					X_AD_Reference referenceKey = new X_AD_Reference(Env.getCtx(), m_Field.getAD_Reference_Value_ID(), null);
+					m_info.append(Msg.translate(Env.getCtx(), "AD_Reference_Value_ID"))
+						.append(": ").append(referenceKey.get_Translation("Name"))
+						.append(" (").append(m_Field.getAD_Reference_Value_ID()).append(")").append("\n");
+				}
+			}
+			//	Valid Dynamic Validation
+			if(column.getAD_Val_Rule_ID() != 0) {
+				X_AD_Val_Rule validation = (X_AD_Val_Rule) column.getAD_Val_Rule();
+				m_info.append(Msg.translate(Env.getCtx(), "AD_Val_Rule_ID"))
+					.append(": ").append(validation.get_Translation("Name"))
+					.append(" (").append(column.getAD_Val_Rule_ID()).append(")").append("\n");
+			}
+			m_info.append(Msg.translate(Env.getCtx(), "Length"))
+				.append(": ").append(format.format(column.getFieldLength()));
+			//	Title
+			m_Title = title + " - " + m_Field.getHeader();
 		} else {
 			if (dse.CreatedBy == null)
 				return;
