@@ -12,7 +12,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
 
-package org.compiere.grid;
+package org.compiere.apps.form;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -40,18 +40,17 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
-import org.compiere.apps.AEnv;
 import org.compiere.grid.ed.VLocator;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.GridTab;
 import org.compiere.model.MLocator;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
+import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
@@ -59,48 +58,31 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 
-/*
+/**
  * @author	Michael McKay
  * 				<li>release/380 - fix row selection event handling to fire single event per row selection
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
-
-public class VCreateFromShipmentUI extends CreateFromShipment implements ActionListener, VetoableChangeListener
-{
-	private static final int WINDOW_CUSTOMER_RETURN = 53097;
-
-	private static final int WINDOW_RETURN_TO_VENDOR = 53098;
-
-	private VCreateFromDialog dialog;
-
-	public VCreateFromShipmentUI(GridTab mTab)
-	{
-		super(mTab);
-		log.info(getGridTab().toString());
-		
-		dialog = new VCreateFromDialog(this, getGridTab().getWindowNo(), true);
-		
-		p_WindowNo = getGridTab().getWindowNo();
-
-		try
-		{
-			if (!dynInit())
-				return;
-			jbInit();
-
-			setInitOK(true);
-		}
-		catch(Exception e)
-		{
-			log.log(Level.SEVERE, "", e);
-			setInitOK(false);
-		}
-		AEnv.positionCenterWindow(Env.getWindow(p_WindowNo), dialog);
-	}   //  VCreateFrom
+public class VCreateFromShipmentUI extends CreateFromShipment 
+		implements FormPanel, ICreateFrom, ActionListener, VetoableChangeListener {
 	
-	/** Window No               */
-	private int p_WindowNo;
+	/**
+	 * Standard Constructor
+	 */
+	public VCreateFromShipmentUI() {
+		v_CreateFromPanel = new VCreateFromPanel(this);
+	}
 
-	/**	Logger			*/
+	//	Yamel Senih FR [ 114 ], 2015-11-26
+	//	Change to form
+	private FormFrame	v_Container = null;
+	/**	Main Panel for Create From	*/
+	private VCreateFromPanel v_CreateFromPanel;
+	/** Window No               	*/
+	private int p_WindowNo;
+	/**	Logger		*/
 	private CLogger log = CLogger.getCLogger(getClass());
 	
 	//
@@ -130,14 +112,8 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 	 *  @throws Exception if Lookups cannot be initialized
 	 *  @return true if initialized
 	 */
-	public boolean dynInit() throws Exception
-	{
+	public boolean dynInit() throws Exception {
 		log.config("");
-		
-		super.dynInit();
-		
-		dialog.setTitle(getTitle());
-		
 		//  load Locator
 		MLocatorLookup locator = new MLocatorLookup(Env.getCtx(), p_WindowNo);
 		locatorField = new VLocator ("M_Locator_ID", true, false, true,	locator, p_WindowNo);
@@ -166,7 +142,9 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 	 */
     private void jbInit() throws Exception
     {
-    	boolean isRMAWindow = ((getGridTab().getAD_Window_ID() == WINDOW_RETURN_TO_VENDOR) || (getGridTab().getAD_Window_ID() == WINDOW_CUSTOMER_RETURN)); 
+    	//	Yamel Senih FR [ 114 ] remove hardcode
+    	//	2015-12-03
+    	boolean isRMAWindow = isRMA(); 
     	
     	bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
     	orderLabel.setText(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
@@ -177,7 +155,10 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
     	rmaLabel.setText(Msg.translate(Env.getCtx(), "M_RMA_ID"));
         upcLabel.setText(Msg.getElement(Env.getCtx(), "UPC", false));
 
-    	CPanel parameterPanel = dialog.getParameterPanel();
+		//	Add to Main Form
+		v_Container.getContentPane().add(v_CreateFromPanel);
+		//	
+    	CPanel parameterPanel = v_CreateFromPanel.getParameterPanel();
     	parameterPanel.setLayout(new BorderLayout());
     	CPanel parameterStdPanel = new CPanel(new GridBagLayout());
     	parameterPanel.add(parameterStdPanel, BorderLayout.CENTER);
@@ -298,7 +279,7 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 			int C_BPartner_ID = ((Integer)e.getNewValue()).intValue();
 			initBPOrderDetails (C_BPartner_ID, false);
 		}
-		dialog.tableChanged(null);
+		v_CreateFromPanel.tableChanged(null);
 	}   //  vetoableChange
 	
 	/**************************************************************************
@@ -313,7 +294,7 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.Search);
 		bPartnerField = new VLookup ("C_BPartner_ID", true, false, true, lookup);
 		//
-		int C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
+		int C_BPartner_ID = getC_BPartner_ID();
 		bPartnerField.setValue(new Integer(C_BPartner_ID));
 
 		//  initial loading
@@ -333,14 +314,17 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 		orderField.removeActionListener(this);
 		orderField.removeAllItems();
 		orderField.addItem(pp);
-		
-		ArrayList<KeyNamePair> list = loadOrderData(C_BPartner_ID, forInvoice, sameWarehouseCb.isSelected());
+		int m_M_Warehouse_ID = 0;
+		//	Validate Same Warehouse
+		if(sameWarehouseCb.isSelected())
+			m_M_Warehouse_ID = getM_Warehouse_ID();
+		//	Get Data from Order
+		ArrayList<KeyNamePair> list = loadOrderData(C_BPartner_ID, forInvoice, m_M_Warehouse_ID);
 		for(KeyNamePair knp : list)
 			orderField.addItem(knp);
 		
 		orderField.setSelectedIndex(0);
 		orderField.addActionListener(this);
-		dialog.pack();
 
 		initBPDetails(C_BPartner_ID);
 	}   //  initBPartnerOIS
@@ -433,24 +417,14 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 	protected void loadTableOIS (Vector<?> data)
 	{
 		//  Remove previous listeners
-		dialog.getMiniTable().removeMiniTableSelectionListener(dialog);
+		v_CreateFromPanel.getMiniTable().removeMiniTableSelectionListener(v_CreateFromPanel);
 		//  Set Model
 		DefaultTableModel model = new DefaultTableModel(data, getOISColumnNames());
-		dialog.getMiniTable().setModel(model);
+		v_CreateFromPanel.getMiniTable().setModel(model);
 		// 
-		configureMiniTable(dialog.getMiniTable());
-		dialog.getMiniTable().addMiniTableSelectionListener(dialog);
+		configureMiniTable(v_CreateFromPanel.getMiniTable());
+		v_CreateFromPanel.getMiniTable().addMiniTableSelectionListener(v_CreateFromPanel);
 	}   //  loadOrder
-	
-	public void showWindow()
-	{
-		dialog.setVisible(true);
-	}
-	
-	public void closeWindow()
-	{
-		dialog.dispose();
-	}
 	
 	/**
 	 * Checks the UPC value and checks if the UPC matches any of the products in the
@@ -459,7 +433,7 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 	private void checkProductUsingUPC()
 	{
 		String upc = upcField.getText();
-		DefaultTableModel model = (DefaultTableModel)dialog.getMiniTable().getModel();
+		DefaultTableModel model = (DefaultTableModel)v_CreateFromPanel.getMiniTable().getModel();
 		// Lookup UPC
 		List<MProduct> products = MProduct.getByUPC(Env.getCtx(), upc, null);
 		for (MProduct product : products)
@@ -486,7 +460,7 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 	 */
 	private int findProductRow(int M_Product_ID)
 	{
-		DefaultTableModel model = (DefaultTableModel)dialog.getMiniTable().getModel();
+		DefaultTableModel model = (DefaultTableModel)v_CreateFromPanel.getMiniTable().getModel();
 		KeyNamePair kp;
 		for (int i=0; i<model.getRowCount(); i++) {
 			kp = (KeyNamePair)model.getValueAt(i, 4);
@@ -553,4 +527,41 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 
 	}
 
+	@Override
+	public boolean info() {
+		return false;
+	}
+
+	@Override
+	public void init(int WindowNo, FormFrame frame) {
+		p_WindowNo = WindowNo;
+		v_Container = frame;
+		ProcessInfo info = frame.getProcessInfo();
+		try {
+			//	Valid for launched from a window
+			if(info != null) {
+				//	Valid Table and Record
+				validTable(info.getTable_ID(), 
+						info.getRecord_ID());
+			}
+			//	Init
+			if (!dynInit())
+				return;
+			jbInit();
+		} catch(Exception e) {
+			log.log(Level.SEVERE, "", e);
+		}
+	}
+	
+	@Override
+	public void dispose() {
+		if (v_Container != null)
+			v_Container.dispose();
+		v_Container = null;
+	}
+
+	@Override
+	public int getWindowNo() {
+		return p_WindowNo;
+	}
 }

@@ -12,7 +12,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
 
-package org.compiere.grid;
+package org.compiere.apps.form;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -21,8 +21,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
+
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.GridTab;
+import org.compiere.model.I_M_InOut;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
@@ -34,6 +36,7 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MRMA;
 import org.compiere.model.MRMALine;
 import org.compiere.model.MWarehouse;
+import org.compiere.model.X_M_Transaction;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -49,36 +52,39 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1896947 ] Generate invoice from Order error
  * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
-public class CreateFromShipment extends CreateFrom 
-{
-	/**  Loaded Invoice             */
+public class CreateFromShipment extends CreateFromHelper {
+	/**  Loaded Invoice     */
 	private MInvoice		m_invoice = null;
-	/**  Loaded RMA             */
+	/**  Loaded RMA         */
 	private MRMA            m_rma = null;
-	private int defaultLocator_ID=0;
-
+	/** Loaded Order		*/
+	private MOrder 			p_order = null;
+	/**	Default Locator		*/
+	private int 			defaultLocator_ID = 0;
+	/**	Record Identifier	*/
+	private int 			m_Record_ID = 0;
+	
 	/**
-	 *  Protected Constructor
-	 *  @param mTab MTab
+	 * Valid Table and Record Identifier
+	 * @param p_AD_Table_ID
+	 * @param p_Record_ID
 	 */
-	public CreateFromShipment(GridTab mTab)
-	{
-		super(mTab);
-		log.info(mTab.toString());
-	}   //  VCreateFromShipment
-
-	/**
-	 *  Dynamic Init
-	 *  @return true if initialized
-	 */
-	public boolean dynInit() throws Exception
-	{
-		log.config("");
-		setTitle(Msg.getElement(Env.getCtx(), "M_InOut_ID", false) + " .. " + Msg.translate(Env.getCtx(), "CreateFrom"));
-		
-		return true;
-	}   //  dynInit
+	protected void validTable(int p_AD_Table_ID, int p_Record_ID) {
+		//	Valid Table
+		if(p_AD_Table_ID != I_M_InOut.Table_ID) {
+			throw new AdempiereException("@AD_Table_ID@ @M_RMA_ID@ @NotFound@");
+		}
+		//	Valid Record Identifier
+		if(p_Record_ID <= 0) {
+			throw new AdempiereException("@SaveErrorRowNotFound@");
+		}
+		//	Default
+		m_Record_ID = p_Record_ID;
+	}
 
 	
 	/**
@@ -479,14 +485,6 @@ public class CreateFromShipment extends CreateFrom
 		}
 		return pp;
 	}
-	
-	/**
-	 *  List number of rows selected
-	 */
-	public void info()
-	{
-
-	}   //  infoInvoice
 
 	protected void configureMiniTable (IMiniTable miniTable)
 	{
@@ -530,8 +528,7 @@ public class CreateFromShipment extends CreateFrom
 			return false;
 		}
 		// Get Shipment
-		int M_InOut_ID = ((Integer) getGridTab().getValue("M_InOut_ID")).intValue();
-		MInOut inout = new MInOut(Env.getCtx(), M_InOut_ID, trxName);
+		MInOut inout = new MInOut(Env.getCtx(), m_Record_ID, trxName);
 		log.config(inout + ", C_Locator_ID=" + M_Locator_ID);
 
 		// Lines
@@ -742,22 +739,81 @@ public class CreateFromShipment extends CreateFrom
 	    return columnNames;
 	}
 
+	/**
+	 * Get Order Data
+	 * @param C_Order_ID
+	 * @param forInvoice
+	 * @param M_Locator_ID
+	 * @return
+	 */
 	protected Vector<Vector<Object>> getOrderData (int C_Order_ID, boolean forInvoice, int M_Locator_ID)
 	{
 		defaultLocator_ID = M_Locator_ID;
 		return getOrderData (C_Order_ID, forInvoice);
 	}
 
+	/**
+	 * Get RMA Data
+	 * @param M_RMA_ID
+	 * @param M_Locator_ID
+	 * @return
+	 */
 	protected Vector<Vector<Object>> getRMAData (int M_RMA_ID, int M_Locator_ID)
 	{
 		defaultLocator_ID = M_Locator_ID;
 		return getRMAData (M_RMA_ID);
 	}
 
+	/**
+	 * Get Invoice Data
+	 * @param C_Invoice_ID
+	 * @param M_Locator_ID
+	 * @return
+	 */
 	protected Vector<Vector<Object>> getInvoiceData (int C_Invoice_ID, int M_Locator_ID)
 	{
 		defaultLocator_ID = M_Locator_ID;
 		return getInvoiceData (C_Invoice_ID);
 	}
 
+	/**
+	 * Get Warehouse Identifier from Shipment
+	 * @return
+	 */
+	protected int getM_Warehouse_ID() {
+		if(m_Record_ID <= 0)
+			return 0;
+		//	For other
+		MInOut inOut = new MInOut(Env.getCtx(), m_Record_ID, null);
+		//	Default
+		return inOut.getM_Warehouse_ID();
+	}
+	
+	/**
+	 * Get Business Partner from Invoice
+	 * @return
+	 */
+	protected int getC_BPartner_ID() {
+		if(m_Record_ID <= 0)
+			return 0;
+		//	For other
+		MInOut inOut = new MInOut(Env.getCtx(), m_Record_ID, null);
+		//	Default
+		return inOut.getC_BPartner_ID();
+	}
+	
+	/**
+	 * Verify if is Return Material
+	 * @return
+	 */
+	protected boolean isRMA() {
+		if(m_Record_ID <= 0)
+			return false;
+		//	For other
+		MInOut inOut = new MInOut(Env.getCtx(), m_Record_ID, null);
+		//	Default
+		return inOut.getMovementType() != null 
+				&& (inOut.getMovementType().equals(X_M_Transaction.MOVEMENTTYPE_CustomerReturns)
+						|| inOut.getMovementType().equals(X_M_Transaction.MOVEMENTTYPE_VendorReturns));
+	}
 }
