@@ -76,7 +76,7 @@ public class CreateFromShipment extends CreateFromHelper {
 	protected void validTable(int p_AD_Table_ID, int p_Record_ID) {
 		//	Valid Table
 		if(p_AD_Table_ID != I_M_InOut.Table_ID) {
-			throw new AdempiereException("@AD_Table_ID@ @M_RMA_ID@ @NotFound@");
+			throw new AdempiereException("@AD_Table_ID@ @M_InOut_ID@ @NotFound@");
 		}
 		//	Valid Record Identifier
 		if(p_Record_ID <= 0) {

@@ -11,7 +11,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.compiere.grid;
+package org.compiere.apps.form;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -20,8 +20,9 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.GridTab;
+import org.compiere.model.I_M_RMA;
 import org.compiere.model.MRMA;
 import org.compiere.model.MRMALine;
 import org.compiere.util.DB;
@@ -34,28 +35,41 @@ import org.compiere.util.Msg;
  * @author ashley
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
-public class CreateFromRMA extends CreateFrom {
+public class CreateFromRMA extends CreateFromHelper {
 
-	public CreateFromRMA(GridTab mTab)
-	{
-		super(mTab);
-		log.info(mTab.toString());
+	/**	Record Identifier	*/
+	private int 			m_Record_ID = 0;
+	
+	/**
+	 * Valid Table and Record Identifier
+	 * @param p_AD_Table_ID
+	 * @param p_Record_ID
+	 */
+	protected void validTable(int p_AD_Table_ID, int p_Record_ID) {
+		//	Valid Table
+		if(p_AD_Table_ID != I_M_RMA.Table_ID) {
+			throw new AdempiereException("@AD_Table_ID@ @M_RMA_ID@ @NotFound@");
+		}
+		//	Valid Record Identifier
+		if(p_Record_ID <= 0) {
+			throw new AdempiereException("@SaveErrorRowNotFound@");
+		}
+		//	Default
+		m_Record_ID = p_Record_ID;
 	}
 	
-	@Override
-	public boolean dynInit() throws Exception 
-	{
-		log.config("");
-        setTitle("Customer RMA - Create Lines From");
-
-		return true;
-	}
-	
+	/**
+	 * Get Data for RMA
+	 * @return
+	 */
 	protected Vector<Vector<Object>> getRMAData()
 	{
-		int M_InOut_ID = Env.getContextAsInt(Env.getCtx(), getGridTab().getWindowNo(), "InOut_ID");
-		int M_RMA_ID = Env.getContextAsInt(Env.getCtx(), getGridTab().getWindowNo(), "M_RMA_ID");
+		MRMA rma = new MRMA(Env.getCtx(), m_Record_ID, null);
+		int M_InOut_ID = rma.getInOut_ID();
 		
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		
@@ -81,7 +95,7 @@ public class CreateFromRMA extends CreateFrom {
         {
             PreparedStatement pstmt = DB.prepareStatement(sqlStmt.toString(), null);
             pstmt.setInt(1, M_InOut_ID);
-            pstmt.setInt(2, M_RMA_ID);
+            pstmt.setInt(2, m_Record_ID);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next())
             {
@@ -112,13 +126,11 @@ public class CreateFromRMA extends CreateFrom {
         
         return data;
 	}
-
-	@Override
-	public void info() 
-	{
-
-	}
 	
+	/**
+	 * Configure Mini Table
+	 * @param miniTable
+	 */
 	protected void configureMiniTable (IMiniTable miniTable)
 	{
 		miniTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
@@ -132,14 +144,17 @@ public class CreateFromRMA extends CreateFrom {
 		miniTable.autoSize();
 	}
 
-	@Override
+	/**
+	 * Save Record
+	 * @param miniTable
+	 * @param trxName
+	 * @return
+	 */
 	public boolean save(IMiniTable miniTable, String trxName) 
 	{
 		log.config("");
-		int M_RMA_ID = Env.getContextAsInt(Env.getCtx(), getGridTab().getWindowNo(), "M_RMA_ID");
-        
 //        Integer bpId = (Integer)bPartnerField.getValue();
-        MRMA rma = new MRMA(Env.getCtx(), M_RMA_ID, trxName);
+        MRMA rma = new MRMA(Env.getCtx(), m_Record_ID, trxName);
         //update BP
 //        rma.setC_BPartner_ID(bpId);
         
@@ -153,7 +168,7 @@ public class CreateFromRMA extends CreateFrom {
                 int inOutLineId = pp.getKey();
                 
                 MRMALine rmaLine = new MRMALine(rma.getCtx(), 0, rma.get_TrxName());
-                rmaLine.setM_RMA_ID(M_RMA_ID);
+                rmaLine.setM_RMA_ID(m_Record_ID);
                 rmaLine.setM_InOutLine_ID(inOutLineId);
                 rmaLine.setQty(d);
                 rmaLine.setAD_Org_ID(rma.getAD_Org_ID());
@@ -167,6 +182,10 @@ public class CreateFromRMA extends CreateFrom {
         return true;
 	}
 	
+	/**
+	 * Get OIS Column Names
+	 * @return
+	 */
 	protected Vector<String> getOISColumnNames()
 	{
 		//  Header Info
@@ -179,5 +198,18 @@ public class CreateFromRMA extends CreateFrom {
         columnNames.add(Msg.getElement(Env.getCtx(), "QtyDelivered", false));
 	    
 	    return columnNames;
+	}
+	
+	/**
+	 * Get Business Partner from Invoice
+	 * @return
+	 */
+	protected int getC_BPartner_ID() {
+		if(m_Record_ID <= 0)
+			return 0;
+		//	For other
+		MRMA rma = new MRMA(Env.getCtx(), m_Record_ID, null);
+		//	Default
+		return rma.getC_BPartner_ID();
 	}
 }
