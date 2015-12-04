@@ -41,7 +41,7 @@ import javax.swing.KeyStroke;
  *	
  *  @author Jorg Janke
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		<li> FR [ 145 ] Show dialogs like modal just for parent
  *		@see https://github.com/adempiere/adempiere/issues/145
  */
 public class CDialog extends JDialog 
@@ -101,7 +101,9 @@ public class CDialog extends JDialog
 		super(owner, title, modal);
 		//	Yamel Senih FR [ 145 ] just set busy the parent window
 		//	2015-12-03
-		setModalityType(ModalityType.DOCUMENT_MODAL);
+		if(modal) {
+			setModalityType(ModalityType.DOCUMENT_MODAL);
+		}
 	}
 	/**
 	 * 	CDialog
