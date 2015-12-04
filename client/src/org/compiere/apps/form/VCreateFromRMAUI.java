@@ -11,7 +11,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.compiere.grid;
+package org.compiere.apps.form;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -25,53 +25,39 @@ import java.util.logging.Level;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
-import org.compiere.apps.AEnv;
 import org.compiere.grid.ed.VLookup;
-import org.compiere.model.GridTab;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
-/*
+/**
  * @author	Michael McKay
  * 				<li>release/380 - fix row selection event handling to fire single event per row selection
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
 
-public class VCreateFromRMAUI extends CreateFromRMA implements VetoableChangeListener
+public class VCreateFromRMAUI extends CreateFromRMA 
+	implements FormPanel, ICreateFrom, VetoableChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
-	private VCreateFromDialog dialog;
+	/**
+	 * Standard Constructor
+	 */
+	public VCreateFromRMAUI() {
+		v_CreateFromPanel = new VCreateFromPanel(this);
+	}
 
-	public VCreateFromRMAUI(GridTab mTab)
-	{
-		super(mTab);
-		log.info(getGridTab().toString());
-		
-		dialog = new VCreateFromDialog(this, getGridTab().getWindowNo(), true);
-		
-		p_WindowNo = getGridTab().getWindowNo();
-
-		try
-		{
-			if (!dynInit())
-				return;
-			jbInit();
-
-			setInitOK(true);
-		}
-		catch(Exception e)
-		{
-			log.log(Level.SEVERE, "", e);
-			setInitOK(false);
-		}
-		AEnv.positionCenterWindow(Env.getWindow(p_WindowNo), dialog);
-	}   //  VCreateFrom
-	
+	//	Yamel Senih FR [ 114 ], 2015-11-26
+	//	Change to form
+	private FormFrame	v_Container = null;
+	/**	Main Panel for Create From	*/
+	private VCreateFromPanel v_CreateFromPanel;
 	/** Window No               */
 	private int p_WindowNo;
 
@@ -89,15 +75,9 @@ public class VCreateFromRMAUI extends CreateFromRMA implements VetoableChangeLis
 	 */
 	public boolean dynInit() throws Exception
 	{
-		log.config("");
-		
-		super.dynInit();
-		
-		dialog.setTitle(getTitle());
-
 		initBPartner(true);
 		bPartnerField.addVetoableChangeListener(this);
-		
+		//	Load RMA Data
 		loadRMA();
 		
 		return true;
@@ -120,8 +100,10 @@ public class VCreateFromRMAUI extends CreateFromRMA implements VetoableChangeLis
     private void jbInit() throws Exception
     {
     	bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
-    	
-    	CPanel parameterPanel = dialog.getParameterPanel();
+		//	Add to Main Form
+		v_Container.getContentPane().add(v_CreateFromPanel);
+		//	
+    	CPanel parameterPanel = v_CreateFromPanel.getParameterPanel();
     	parameterPanel.setLayout(new BorderLayout());
     	
     	CPanel parameterStdPanel = new CPanel(new GridBagLayout());
@@ -149,7 +131,7 @@ public class VCreateFromRMAUI extends CreateFromRMA implements VetoableChangeLis
 		{
 			loadRMA();
 		}
-		dialog.tableChanged(null);
+		v_CreateFromPanel.tableChanged(null);
 	}   //  vetoableChange
 	
 	/**************************************************************************
@@ -164,10 +146,13 @@ public class VCreateFromRMAUI extends CreateFromRMA implements VetoableChangeLis
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.Search);
 		bPartnerField = new VLookup ("C_BPartner_ID", true, false, true, lookup);
 		//
-		int C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
+		int C_BPartner_ID = getC_BPartner_ID();
 		bPartnerField.setValue(new Integer(C_BPartner_ID));
 	}   //  initBPartner
 	
+	/**
+	 * Load RMA
+	 */
 	protected void loadRMA()
 	{
 		loadTableOIS(getRMAData());
@@ -180,22 +165,50 @@ public class VCreateFromRMAUI extends CreateFromRMA implements VetoableChangeLis
 	protected void loadTableOIS (Vector<?> data)
 	{
 		//  Remove previous listeners
-		dialog.getMiniTable().removeMiniTableSelectionListener(dialog);
+		v_CreateFromPanel.getMiniTable().removeMiniTableSelectionListener(v_CreateFromPanel);
 		//  Set Model
 		DefaultTableModel model = new DefaultTableModel(data, getOISColumnNames());
-		dialog.getMiniTable().setModel(model);
+		v_CreateFromPanel.getMiniTable().setModel(model);
 		// 
-		configureMiniTable(dialog.getMiniTable());
-		dialog.getMiniTable().addMiniTableSelectionListener(dialog);
+		configureMiniTable(v_CreateFromPanel.getMiniTable());
+		v_CreateFromPanel.getMiniTable().addMiniTableSelectionListener(v_CreateFromPanel);
 	}   //  loadOrder
 	
-	public void showWindow()
-	{
-		dialog.setVisible(true);
+	@Override
+	public boolean info() {
+		return false;
+	}
+
+	@Override
+	public void init(int WindowNo, FormFrame frame) {
+		p_WindowNo = WindowNo;
+		v_Container = frame;
+		ProcessInfo info = frame.getProcessInfo();
+		try {
+			//	Valid for launched from a window
+			if(info != null) {
+				//	Valid Table and Record
+				validTable(info.getTable_ID(), 
+						info.getRecord_ID());
+			}
+			//	Init
+			if (!dynInit())
+				return;
+			jbInit();
+		} catch(Exception e) {
+			log.log(Level.SEVERE, "", e);
+		}
 	}
 	
-	public void closeWindow()
-	{
-		dialog.dispose();
+	@Override
+	public void dispose() {
+		if (v_Container != null)
+			v_Container.dispose();
+		v_Container = null;
+	}
+
+	@Override
+	public int getWindowNo() {
+		return p_WindowNo;
 	}
 }
