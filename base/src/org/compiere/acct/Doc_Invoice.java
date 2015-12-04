@@ -855,16 +855,14 @@ public class Doc_Invoice extends Doc
 			MCostType ct = MCostType.get(as, il.getM_Product_ID(), 0);
 			if(MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
 			{	
-				//for (MCostDetail cd:MCostDetail.getByDocLineLandedCost(lca, as.getC_AcctSchema_ID(), ct.getM_CostType_ID()))
-				{
 
-					 amt = MCostDetail.getByDocLineLandedCost(lca, as.getC_AcctSchema_ID(), ct.getM_CostType_ID());
+				amt = MCostDetail.getByDocLineLandedCost(lca, as.getC_AcctSchema_ID(), ct.getM_CostType_ID());
 
-						if (dr)
-							drAmt = amt;
-						else
-							crAmt = amt;
-				}/*
+				if (dr)
+					drAmt = amt;
+				else
+					crAmt = amt;
+				/*
 				int asi = lca.getM_InOutLine().getM_AttributeSetInstance_ID();
 				BigDecimal qty = new Query(getCtx(), MStorage.Table_Name, "m_attributesetinstance_ID=? and m_product_id=?", lca.get_TrxName())
 				.setParameters(asi, lca.getM_Product_ID())
