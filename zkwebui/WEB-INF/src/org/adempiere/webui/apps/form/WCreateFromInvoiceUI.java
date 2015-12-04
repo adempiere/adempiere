@@ -53,8 +53,8 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zul.Space;
 
 public class WCreateFromInvoiceUI extends CreateFromInvoice 
-	implements IFormController, ICreateFrom, EventListener, ValueChangeListener
-{
+	implements IFormController, ICreateFrom, EventListener, ValueChangeListener {
+	
 	/**
 	 * Standard Constructor
 	 */
@@ -137,6 +137,10 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice
 		return true;
 	}   //  dynInit
 	
+	/**
+	 * Init ZK
+	 * @throws Exception
+	 */
 	protected void zkInit() throws Exception
 	{
 		bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));

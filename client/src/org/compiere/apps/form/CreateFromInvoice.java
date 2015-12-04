@@ -61,6 +61,7 @@ public class CreateFromInvoice extends CreateFromHelper {
 	private MRMA			m_rma = null;
 	/**	Record Identifier	*/
 	private int 			m_Record_ID = 0;
+	
 	/**
 	 * Valid Table and Record Identifier
 	 * @param p_AD_Table_ID
@@ -69,7 +70,7 @@ public class CreateFromInvoice extends CreateFromHelper {
 	protected void validTable(int p_AD_Table_ID, int p_Record_ID) {
 		//	Valid Table
 		if(p_AD_Table_ID != I_C_Invoice.Table_ID) {
-			throw new AdempiereException("@AD_Table_ID@ @C_BankStatement_ID@ @NotFound@");
+			throw new AdempiereException("@AD_Table_ID@ @C_Invoice_ID@ @NotFound@");
 		}
 		//	Valid Record Identifier
 		if(p_Record_ID <= 0) {
