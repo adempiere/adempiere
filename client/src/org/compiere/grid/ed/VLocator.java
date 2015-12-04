@@ -42,7 +42,7 @@ import javax.swing.SwingUtilities;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AWindow;
-import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.RecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MLocator;
 import org.compiere.model.MLocatorLookup;
@@ -62,6 +62,9 @@ import org.compiere.util.Msg;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VLocator.java,v 1.5 2006/07/30 00:51:27 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class VLocator extends JComponent
 	implements VEditor, ActionListener
@@ -368,9 +371,9 @@ public class VLocator extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_mField);
+			RecordInfo.start(m_mField);
 			return;
 		}
 		
@@ -547,7 +550,7 @@ public class VLocator extends JComponent
 	{
 		m_mField = mField;
 		if (m_mField != null)
-			FieldRecordInfo.addMenu(this, popupMenu);
+			RecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 	@Override

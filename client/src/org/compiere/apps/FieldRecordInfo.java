@@ -56,7 +56,11 @@ import org.compiere.util.NamePair;
 /**
  * Change History for field
  * @author Heng Sin Low
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
+@Deprecated
 public class FieldRecordInfo extends CDialog
 {
 	private static final long serialVersionUID = -2860082302140462690L;

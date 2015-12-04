@@ -16,13 +16,6 @@
  *****************************************************************************/
 package org.adempiere.webui.window;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Vector;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
@@ -30,20 +23,13 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.SimpleListModel;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.editor.WEditorPopupMenu;
+import org.compiere.apps.RecordInfoController;
 import org.compiere.model.DataStatusEvent;
-import org.compiere.model.MChangeLog;
-import org.compiere.model.MColumn;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MRole;
-import org.compiere.model.MTable;
-import org.compiere.model.MUser;
+import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.NamePair;
 import org.zkoss.zhtml.Pre;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.event.Event;
@@ -56,6 +42,7 @@ import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
+import org.zkoss.zul.Menuitem;
 
 /**
  * Record Info (Who) With Change History
@@ -69,40 +56,63 @@ import org.zkoss.zul.Listheader;
  * 
  * Zk Port
  * @author Low Heng Sin
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
-public class WRecordInfo extends Window implements EventListener
+public class WRecordInfo extends RecordInfoController implements EventListener
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8325604065202356483L;
-
+	/**	Container			*/
+	private Window v_Container = null;
+	
 	/**
 	 *	Record Info
 	 *	@param title title
 	 *	@param dse data status event
+	 *	@param mField field for especific column
 	 */
-	public WRecordInfo (String title, DataStatusEvent dse)
+	public WRecordInfo (String title, DataStatusEvent dse, GridField mField)
 	{
-		super ();
-		this.setTitle(title);
-		this.setAttribute("modal", Boolean.TRUE);
-		this.setWidth("500px");
-		this.setHeight("400px");
-		this.setBorder("normal");
-		this.setSizable(true);
-		this.setClosable(true);
-		
+		super(title, dse, mField);
+		v_Container = new Window();
+		v_Container.setTitle(title);
+		v_Container.setAttribute("modal", Boolean.TRUE);
+		v_Container.setWidth("500px");
+		v_Container.setHeight("400px");
+		v_Container.setBorder("normal");
+		v_Container.setSizable(true);
+		v_Container.setClosable(true);
+		v_Container.setMaximizable(true);
+		//	Init
 		try
 		{
-			init ( dynInit(dse, title) );
+			dynInit();
+			init ();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "", e);
 		}
-		AEnv.showCenterScreen(this);
+		AEnv.showCenterScreen(v_Container);
 	}	//	RecordInfo
+	
+	/**
+	 * Constructor for generic window
+	 * @param title
+	 * @param dse
+	 */
+	public WRecordInfo (String title, DataStatusEvent dse) {
+		this(title, dse, null);
+	}
+
+	/**
+	 * Constructor for specific column
+	 * @param owner
+	 * @param mField
+	 */
+	public WRecordInfo (GridField mField) {
+		this(Msg.getElement(Env.getCtx(), "AD_ChangeLog_ID"), null, mField);
+	}
 
 
 	private Listbox table = new Listbox();
@@ -110,51 +120,31 @@ public class WRecordInfo extends Window implements EventListener
 
 	/**	Logger			*/
 	protected CLogger		log = CLogger.getCLogger(getClass());
-	/** The Data		*/
-	private Vector<Vector<String>>	m_data = new Vector<Vector<String>>();
-	/** Info			*/
-	private StringBuffer	m_info = new StringBuffer();
-
-	/** Date Time Format		*/
-	private SimpleDateFormat	m_dateTimeFormat = DisplayType.getDateFormat
-		(DisplayType.DateTime, Env.getLanguage(Env.getCtx()));
-	/** Date Format			*/
-	private SimpleDateFormat	m_dateFormat = DisplayType.getDateFormat
-		(DisplayType.DateTime, Env.getLanguage(Env.getCtx()));
-	/** Number Format		*/
-	private DecimalFormat		m_numberFormat = DisplayType.getNumberFormat
-		(DisplayType.Number, Env.getLanguage(Env.getCtx()));
-	/** Amount Format		*/
-	private DecimalFormat		m_amtFormat = DisplayType.getNumberFormat
-		(DisplayType.Amount, Env.getLanguage(Env.getCtx()));
-	/** Number Format		*/
-	private DecimalFormat		m_intFormat = DisplayType.getNumberFormat
-		(DisplayType.Integer, Env.getLanguage(Env.getCtx()));
-
+	
 	/**
 	 * 	Static Layout
 	 *	@throws Exception
 	 */
-	private void init (boolean showTable) throws Exception
+	private void init () throws Exception
 	{
 
 		Div div = new Div();
 		div.setStyle("width: 100%; height: 100%");
 		Pre pre = new Pre();
-		Text text = new Text(m_info.toString());
+		Text text = new Text(getInfo());
 		text.setParent(pre);
 		pre.setParent(div);
 		//
 		
 		Borderlayout layout = new Borderlayout();
-		layout.setParent(this);
+		layout.setParent(v_Container);
 		layout.setWidth("100%");
 		layout.setHeight("100%");
 		
 		Center center = new Center();
 		center.setParent(layout);
 		center.setFlex(true);
-		if (showTable)
+		if (isOk())
 		{
 			North north = new North();
 			north.setParent(layout);
@@ -179,238 +169,50 @@ public class WRecordInfo extends Window implements EventListener
 	
 	/**
 	 * 	Dynamic Init
-	 *	@param dse data status event
-	 *	@param title title
-	 *	@return true if table initialized
 	 */
-	private boolean dynInit(DataStatusEvent dse, String title)
-	{
-		if (dse.CreatedBy == null)
-			return false;
-		//  Info
-		MUser user = MUser.get(Env.getCtx(), dse.CreatedBy.intValue());
-		m_info.append(" ")
-			.append(Msg.translate(Env.getCtx(), "CreatedBy"))
-			.append(": ").append(user.getName())
-			.append(" - ").append(m_dateTimeFormat.format(dse.Created)).append("\n");
-		
-		if (!dse.Created.equals(dse.Updated) 
-			|| !dse.CreatedBy.equals(dse.UpdatedBy))
-		{
-			if (!dse.CreatedBy.equals(dse.UpdatedBy))
-				user = MUser.get(Env.getCtx(), dse.UpdatedBy.intValue());
-			m_info.append(" ")
-				.append(Msg.translate(Env.getCtx(), "UpdatedBy"))
-				.append(": ").append(user.getName())
-				.append(" - ").append(m_dateTimeFormat.format(dse.Updated)).append("\n");
-		}
-		if (dse.Info != null && dse.Info.length() > 0)
-			m_info.append("\n (").append(dse.Info).append(")");
-		
-		//	Title
-		if (dse.AD_Table_ID != 0)
-		{
-			MTable table1 = MTable.get (Env.getCtx(), dse.AD_Table_ID);
-			setTitle(title + " - " + table1.getName());
-		}
-
-		//	Only Client Preference can view Change Log
-		if (!MRole.PREFERENCETYPE_Client.equals(MRole.getDefault().getPreferenceType()))
-			return false;
-		
-		int Record_ID = 0;
-		if (dse.Record_ID instanceof Integer)
-			Record_ID = ((Integer)dse.Record_ID).intValue();
-		else
-			log.info("dynInit - Invalid Record_ID=" + dse.Record_ID);
-		if (Record_ID == 0)
-			return false;
-		
-		//	Data
-		String sql = "SELECT AD_Column_ID, Updated, UpdatedBy, OldValue, NewValue "
-			+ "FROM AD_ChangeLog "
-			+ "WHERE AD_Table_ID=? AND Record_ID=? "
-			+ "ORDER BY Updated DESC";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, dse.AD_Table_ID);
-			pstmt.setInt (2, Record_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				addLine (rs.getInt(1), rs.getTimestamp(2), rs.getInt(3),
-					rs.getString(4), rs.getString(5));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		//
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add(Msg.translate(Env.getCtx(), "Name"));
-		columnNames.add(Msg.translate(Env.getCtx(), "NewValue"));
-		columnNames.add(Msg.translate(Env.getCtx(), "OldValue"));
-		columnNames.add(Msg.translate(Env.getCtx(), "UpdatedBy"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Updated"));
-		columnNames.add(Msg.translate(Env.getCtx(), "AD_Column_ID"));
-		
+	private void dynInit()
+	{	
 		Listhead listhead = new Listhead();
 		listhead.setSizable(true);
-		
-		for (int i = 0; i < columnNames.size(); i++)
-		{
-			Listheader listheader = new Listheader(columnNames.get(i).replaceAll("[&]", ""));
+		//	Add Columns
+		for (String columnName : getColumnNames()) {
+			Listheader listheader = new Listheader(columnName.replaceAll("[&]", ""));
 			listhead.appendChild(listheader);
 		}
-		
+		//	Instance Table
 		table.appendChild(listhead);
-		SimpleListModel model = new SimpleListModel(m_data);
+		SimpleListModel model = new SimpleListModel(getData());
 		table.setItemRenderer(model);
 		table.setModel(model);
-		
-		return true;
 	}	//	dynInit
 	
 	/**
-	 * 	Add Line
-	 *	@param AD_Column_ID column
-	 *	@param Updated updated
-	 *	@param UpdatedBy user
-	 *	@param OldValue old
-	 *	@param NewValue new
+	 * Event
 	 */
-	private void addLine (int AD_Column_ID, Timestamp Updated, int UpdatedBy,
-		String OldValue, String NewValue)
-	{
-		Vector<String> line = new Vector<String>();
-		//	Column
-		MColumn column = MColumn.get (Env.getCtx(), AD_Column_ID);
-		line.add(Msg.translate(Env.getCtx(), column.getColumnName()));
-		//
-		if (OldValue != null && OldValue.equals(MChangeLog.NULL))
-			OldValue = null;
-		String showOldValue = OldValue;
-		if (NewValue != null && NewValue.equals(MChangeLog.NULL))
-			NewValue = null;
-		String showNewValue = NewValue;
-		//
-		try
-		{
-			if (DisplayType.isText (column.getAD_Reference_ID ()))
-				;
-			else if (column.getAD_Reference_ID() == DisplayType.YesNo)
-			{
-				if (OldValue != null)
-				{
-					boolean yes = OldValue.equals("true") || OldValue.equals("Y");
-					showOldValue = Msg.getMsg(Env.getCtx(), yes ? "Y" : "N");
-				}
-				if (NewValue != null)
-				{
-					boolean yes = NewValue.equals("true") || NewValue.equals("Y");
-					showNewValue = Msg.getMsg(Env.getCtx(), yes ? "Y" : "N");
-				}
-			}
-			else if (column.getAD_Reference_ID() == DisplayType.Amount)
-			{
-				if (OldValue != null)
-					showOldValue = m_amtFormat
-						.format (new BigDecimal (OldValue));
-				if (NewValue != null)
-					showNewValue = m_amtFormat
-						.format (new BigDecimal (NewValue));
-			}
-			else if (column.getAD_Reference_ID() == DisplayType.Integer)
-			{
-				if (OldValue != null)
-					showOldValue = m_intFormat.format (new Integer (OldValue));
-				if (NewValue != null)
-					showNewValue = m_intFormat.format (new Integer (NewValue));
-			}
-			else if (DisplayType.isNumeric (column.getAD_Reference_ID ()))
-			{
-				if (OldValue != null)
-					showOldValue = m_numberFormat.format (new BigDecimal (OldValue));
-				if (NewValue != null)
-					showNewValue = m_numberFormat.format (new BigDecimal (NewValue));
-			}
-			else if (column.getAD_Reference_ID() == DisplayType.Date)
-			{
-				if (OldValue != null)
-					showOldValue = m_dateFormat.format (Timestamp.valueOf (OldValue));
-				if (NewValue != null)
-					showNewValue = m_dateFormat.format (Timestamp.valueOf (NewValue));
-			}
-			else if (column.getAD_Reference_ID() == DisplayType.DateTime)
-			{
-				if (OldValue != null)
-					showOldValue = m_dateTimeFormat.format (Timestamp.valueOf (OldValue));
-				if (NewValue != null)
-					showNewValue = m_dateTimeFormat.format (Timestamp.valueOf (NewValue));
-			}
-			else if (DisplayType.isLookup(column.getAD_Reference_ID ()))
-			{
-				MLookup lookup = MLookupFactory.get (Env.getCtx(), 0,
-					AD_Column_ID, column.getAD_Reference_ID(),
-					Env.getLanguage(Env.getCtx()), column.getColumnName(),
-					column.getAD_Reference_Value_ID(),
-					column.isParent(), null);
-				if (OldValue != null)
-				{
-					Object key = OldValue; 
-					NamePair pp = lookup.get(key);
-					if (pp != null)
-						showOldValue = pp.getName();
-				}
-				if (NewValue != null)
-				{
-					Object key = NewValue; 
-					NamePair pp = lookup.get(key);
-					if (pp != null)
-						showNewValue = pp.getName();
-				}
-			}
-			else if (DisplayType.isLOB (column.getAD_Reference_ID ()))
-				;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.WARNING, OldValue + "->" + NewValue, e);
-		}
-		//
-		line.add(showNewValue);
-		line.add(showOldValue);
-		//	UpdatedBy
-		MUser user = MUser.get(Env.getCtx(), UpdatedBy);
-		line.add(user.getName());
-		//	Updated
-		line.add(m_dateFormat.format(Updated));
-		//	Column Name
-		line.add(column.getColumnName());
-
-		m_data.add(line);
-	}	//	addLine
-	
-	
 	public void onEvent(Event event) throws Exception {
-		this.detach();
+		v_Container.detach();
+	}
+	
+	/**
+	 * Open field record info dialog
+	 * @param gridField
+	 */
+	public static void start(GridField gridField) {
+		new WRecordInfo(gridField);
+	}
+
+	/**
+	 * Add change log menu item
+	 * @param popupMenu
+	 */
+	public static void addMenu(WEditorPopupMenu popupMenu) {
+		Menuitem changeLogItem = new Menuitem();
+        changeLogItem.setLabel(Msg.getElement(Env.getCtx(), "AD_ChangeLog_ID"));
+        changeLogItem.setImage("/images/ChangeLog16.png");
+        changeLogItem.setAttribute(WEditorPopupMenu.EVENT_ATTRIBUTE, WEditorPopupMenu.CHANGE_LOG_EVENT);
+        changeLogItem.addEventListener(Events.ON_CLICK, popupMenu);
+        //	Add
+        popupMenu.appendChild(changeLogItem);
 	}
 
 }	// WRecordInfo

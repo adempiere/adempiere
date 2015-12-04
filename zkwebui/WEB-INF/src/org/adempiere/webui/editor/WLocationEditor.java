@@ -26,7 +26,7 @@ import org.adempiere.webui.component.Locationbox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.webui.window.WRecordInfo;
 import org.adempiere.webui.window.WLocationDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MLocation;
@@ -45,6 +45,9 @@ import org.zkoss.zk.ui.event.Events;
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * 		<li>BF [ 3294610] The location should allow open a google map
  * 		<li>https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  * 
  * This class is based on VLocation written by Jorg Janke
  **/
@@ -92,7 +95,7 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
     	popupMenu.addMenuListener(this);
     	if (gridField != null && gridField.getGridTab() != null)
 		{
-			WFieldRecordInfo.addMenu(popupMenu);
+			WRecordInfo.addMenu(popupMenu);
 		}
     	getComponent().setContext(popupMenu.getId());
     }
@@ -216,7 +219,7 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
 	public void onMenu(ContextMenuEvent evt) {
 		if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 	}
 }

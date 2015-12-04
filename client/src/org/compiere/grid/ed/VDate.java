@@ -46,7 +46,7 @@ import javax.swing.text.Document;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
-import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.RecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.swing.CButton;
@@ -65,6 +65,9 @@ import org.compiere.util.Env;
  *  @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class VDate extends JComponent
 	implements VEditor, ActionListener, KeyListener, FocusListener
@@ -439,9 +442,9 @@ public class VDate extends JComponent
 				ValuePreference.start (m_mField, getValue(), getDisplay());
 			return;
 		}
-		else if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		else if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_mField);
+			RecordInfo.start(m_mField);
 			return;
 		}
 		if (e.getSource() == m_button)
@@ -573,7 +576,7 @@ public class VDate extends JComponent
 			&& MRole.getDefault().isShowPreference())
 			ValuePreference.addMenu (this, popupMenu);
 		if (m_mField != null)
-			FieldRecordInfo.addMenu(this, popupMenu);
+			RecordInfo.addMenu(this, popupMenu);
 	}	//  setField
 
 	@Override

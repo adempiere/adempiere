@@ -36,7 +36,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.RecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CTextPane;
@@ -49,6 +49,9 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: VTextLong.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class VTextLong extends CTextPane
 	implements VEditor, KeyListener, ActionListener, FocusListener
@@ -210,9 +213,9 @@ public class VTextLong extends CTextPane
 			}
 			catch (PropertyVetoException pve)	{}
 		}
-		else if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		else if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_mField);
+			RecordInfo.start(m_mField);
 			return;
 		}
 	}	//	actionPerformed
@@ -252,7 +255,7 @@ public class VTextLong extends CTextPane
 	{
 		m_mField = mField;
 		if (m_mField != null)
-			FieldRecordInfo.addMenu(this, popupMenu);
+			RecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 	@Override
