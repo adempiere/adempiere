@@ -2634,6 +2634,15 @@ public final class APanel extends CPanel
 
 		// call form
 		MProcess pr = new MProcess(m_ctx, vButton.getProcess_ID(), null);
+		//	Validate Access
+		MRole role = MRole.getDefault(m_ctx, false);
+		Boolean accessRW = role.checkProcessAccess(pr.getAD_Process_ID());
+		if(accessRW == null
+				|| !accessRW.booleanValue()) {
+			ADialog.error(m_curWindowNo, this, null, Msg.parseTranslation(m_ctx, "@AccessCannotProcess@"));
+			return;
+		}
+		//	
 		int form_ID = pr.getAD_Form_ID();
 		if (form_ID != 0 )
 		{
