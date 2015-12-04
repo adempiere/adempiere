@@ -1700,6 +1700,7 @@ public class MOrder extends X_C_Order implements DocAction
 			MInvoice invoice = createInvoice (dt, shipment, realTimePOS ? null : getDateOrdered());
 			if (invoice == null)
 				return DocAction.STATUS_Invalid;
+			setIsInvoiced(true);
 			info.append(" - @C_Invoice_ID@: ").append(invoice.getDocumentNo());
 			String msg = invoice.getProcessMsg();
 			if (msg != null && msg.length() > 0)
