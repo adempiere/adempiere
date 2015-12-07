@@ -985,6 +985,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			params.add(m_employee.get_ID());
 		}
 
+		whereClause.append(" AND (HR_Payroll_ID = ? OR HR_Payroll_ID IS NULL)");
+		params.add(this.getHR_Payroll_ID());
+
 		MHRAttribute att = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
 		.setParameters(params)
 		.setOnlyActiveRecords(true)
