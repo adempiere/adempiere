@@ -29,6 +29,7 @@ import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridField;
 import org.compiere.model.MChangeLog;
 import org.compiere.model.MColumn;
+import org.compiere.model.MEntityType;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MRole;
@@ -143,7 +144,11 @@ public class RecordInfoController {
 					.append(" (").append(column.getAD_Val_Rule_ID()).append(")").append("\n");
 			}
 			m_info.append(Msg.translate(Env.getCtx(), "Length"))
-				.append(": ").append(format.format(column.getFieldLength()));
+				.append(": ").append(format.format(column.getFieldLength())).append("\n");
+			//	Add Entity Type for info
+			MEntityType entity = MEntityType.get(Env.getCtx(), column.getEntityType());
+			m_info.append(Msg.translate(Env.getCtx(), "EntityType"))
+				.append(": ").append(entity.get_Translation("Name"));
 			//	Title
 			m_Title = title + " - " + m_Field.getHeader();
 		} else {
