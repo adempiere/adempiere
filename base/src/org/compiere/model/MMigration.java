@@ -46,6 +46,8 @@ public class MMigration extends X_AD_Migration {
 
 	/**	Logger	*/
 	private CLogger	log	= CLogger.getCLogger (MMigration.class);
+	private boolean isFailOnError = true;
+	private boolean isMigrationScriptBatch = false;
 
 	public boolean isFailOnError() {
 		return isFailOnError;
@@ -55,7 +57,15 @@ public class MMigration extends X_AD_Migration {
 		this.isFailOnError = isFailOnError;
 	}
 
-	private boolean isFailOnError = true;
+	public void setMigrationScriptBatch(boolean isMigrationScriptBatch)
+	{
+		this.isMigrationScriptBatch =  isMigrationScriptBatch;
+	}
+
+	public boolean isMigrationScriptBatch()
+	{
+		return  this.isMigrationScriptBatch;
+	}
 
 	public MMigration(Properties ctx, int AD_Migration_ID, String trxName) {
 		super(ctx, AD_Migration_ID, trxName);		
@@ -83,7 +93,7 @@ public class MMigration extends X_AD_Migration {
 		}
 		catch (Exception e)
 		{
-			if (isFailOnError)    // abort on first error
+			if (isFailOnError())    // abort on first error
 				throw new AdempiereException(e);
 
 		}
@@ -96,9 +106,15 @@ public class MMigration extends X_AD_Migration {
 			MPInstance instance = new MPInstance(step.getCtx() , processId, step.getAD_MigrationStep_ID());
 			instance.saveEx();
 
+			MPInstancePara parameter = new MPInstancePara(instance,10);
+			parameter.setParameter("MigrationScriptBatch", isMigrationScriptBatch());
+			parameter.saveEx();
+
 			ProcessInfo pi = new ProcessInfo("Apply migration step", processId);
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 			pi.setRecord_ID(step.getAD_MigrationStep_ID());
+
+
 			MigrationStepApply migrationStepApply = new MigrationStepApply();
 			migrationStepApply.startProcess(step.getCtx() , pi , Trx.get(trxName, false));
 			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
@@ -114,7 +130,7 @@ public class MMigration extends X_AD_Migration {
 		}
 		catch (Exception e)
 		{
-			if (isFailOnError)    // abort on first error
+			if (isFailOnError())    // abort on first error
 				throw new AdempiereException(e);
 		}
 	}
@@ -125,6 +141,10 @@ public class MMigration extends X_AD_Migration {
 			int processId = 0; // Apply migration stecp
 			MPInstance instance = new MPInstance(step.getCtx() , processId, step.getAD_MigrationStep_ID());
 			instance.saveEx();
+
+			MPInstancePara parameter = new MPInstancePara(instance,10);
+			parameter.setParameter("MigrationScriptBatch", isMigrationScriptBatch());
+			parameter.saveEx();
 
 			ProcessInfo pi = new ProcessInfo("Apply migration step", processId);
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
@@ -210,13 +230,9 @@ public class MMigration extends X_AD_Migration {
 	
 	public static MMigration fromXmlNode(Properties ctx, Element element, String trxName) throws SQLException
 	{
-		
-		//if ( !updated )
-		//	update();
-		
 		if ( !"Migration".equals(element.getLocalName() ) )
 				return null;
-		
+
 		// Restrict the name field to the field length in case the xml has extra characters.
 		MColumn col = MColumn.get(ctx, MColumn.getColumn_ID("AD_Migration", "Name"));
 		int length = col.getFieldLength();
@@ -233,33 +249,33 @@ public class MMigration extends X_AD_Migration {
 			+ " AND SeqNo = ?"
 			+ " AND EntityType = ?"
 			+ " AND ReleaseNo = ?";
-		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, trxName)
+		MMigration migration = new Query(ctx, MMigration.Table_Name, where, trxName)
 		.setParameters(name, Integer.parseInt(seqNo), entityType, releaseNo).firstOnly();
-		if ( mmigration != null ) {
-			return mmigration;  // already exists (TODO: update?)
-		}
-		mmigration = new MMigration(ctx, 0, trxName);
-		mmigration.setName(name);
-		mmigration.setSeqNo(Integer.parseInt(seqNo));
-		mmigration.setEntityType(entityType);
-		mmigration.setReleaseNo(releaseNo);
-		mmigration.saveEx();
+		if ( migration != null && migration.getAD_Migration_ID() > 0)
+			return migration;  // already exists (TODO: update?)
+
+		migration = new MMigration(ctx, 0, trxName);
+		migration.setName(name);
+		migration.setSeqNo(Integer.parseInt(seqNo));
+		migration.setEntityType(entityType);
+		migration.setReleaseNo(releaseNo);
+		migration.saveEx();
 
 		Node comment = (Element) element.getElementsByTagName("Comments").item(0);
 		if ( comment != null )
-			mmigration.setComments(comment.getTextContent());
+			migration.setComments(comment.getTextContent());
 		
 		NodeList children = element.getElementsByTagName("Step");
 		for ( int i = 0; i < children.getLength(); i++ )
 		{
 			Element step = (Element) children.item(i);
 			if ( "Step".equals(step.getTagName()))
-				MMigrationStep.fromXmlNode(mmigration, step);
+				MMigrationStep.fromXmlNode(migration, step);
 				Trx.get(trxName, false).commit(true);
 		}
 		
-		mmigration.saveEx();
-		return mmigration;
+		migration.saveEx();
+		return migration;
 	}
 
 	public Node toXmlNode(Document document) throws ParserConfigurationException, SAXException {

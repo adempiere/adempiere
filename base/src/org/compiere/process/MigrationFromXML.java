@@ -27,26 +27,10 @@ import org.xml.sax.InputSource;
 
 public class MigrationFromXML extends SvrProcess {
 
-	private String fileName = null;
-	private boolean apply = false;
+	private String fileName;
+	private boolean apply;
 	private MigrationLoader loader;
 
-	@Override
-	protected String doIt() throws Exception {
-		
-		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
-		{
-			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
-			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSet");
-		}
-		
-		// file can be a file or directory
-		File file = new File(fileName);		
-		loader.loadXML(file, apply);
-		
-		return "Import complete";
-
-	}
 
 	@Override
 	protected void prepare() {
@@ -58,9 +42,31 @@ public class MigrationFromXML extends SvrProcess {
 			else if ( para.getParameterName().equals("Apply"))
 				apply  = para.getParameterAsBoolean();
 		}
-		
+
 		// Create the migration loader
 		loader = new MigrationLoader();
 	}
 
+	@Override
+	protected String doIt() throws Exception {
+		
+		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
+		{
+			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
+			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSet");
+		}
+		
+		// file can be a file or directory
+		try {
+			File file = new File(fileName);
+			loader.loadXML(file, apply);
+		} catch (Exception e)
+		{
+			addLog(e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "Import complete";
+
+	}
 }
