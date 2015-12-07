@@ -29,6 +29,8 @@ webCM/deploy/
 zkwebui/dist/
 zkwebui/WEB-INF/classes/
 build/
+target/
+project/
 extend/test.properties
 .settings/org.eclipse.ltk.core.refactoring.prefs
 .settings/org.zkoss.eclipse.preferences.prefs
