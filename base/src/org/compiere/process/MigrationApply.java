@@ -30,23 +30,18 @@ import java.util.Properties;
 public class MigrationApply extends SvrProcess {
 
 	private boolean failOnError = false;
-	private boolean migrationScriptBatch = true;
+	private boolean migrationScriptBatch = false;
 
 	@Override
 	protected void prepare() {
-		if (!"Y".equals(Env.getContext(getCtx(), "LogMigrationScriptBatch")))
-		{
-			migrationScriptBatch = migrationScriptBatch == "Y".equals(Env.getContext(getCtx(), "LogMigrationScriptBatch"));
-			if (migrationScriptBatch)
-				Env.setContext(getCtx(), "LogMigrationScriptBatch", migrationScriptBatch);
-		}
-
 		ProcessInfoParameter[] params = getParameter();
 		for ( ProcessInfoParameter p : params)
 		{
 			String para = p.getParameterName();
 			if ( para.equals("FailOnError") )
 				failOnError  = "Y".equals((String)p.getParameter());
+			if ( para.equals("MigrationScriptBatch"))
+				migrationScriptBatch = p.getParameterAsBoolean();
 		}
 	}
 
@@ -64,6 +59,7 @@ public class MigrationApply extends SvrProcess {
 
 			public void run(String trxName) {
 				MMigration migration = new MMigration(ctx ,migrationId , trxName);
+				migration.setMigrationScriptBatch(migrationScriptBatch);
 				try {
 					if ( migration == null || migration.is_new() )
 					{
@@ -89,7 +85,7 @@ public class MigrationApply extends SvrProcess {
 					{
 						migration.apply();
 
-						if ( migration.getStatusCode().equals(MMigration.STATUSCODE_Applied))
+						if ( migration.getStatusCode() != null && migration.getStatusCode().equals(MMigration.STATUSCODE_Applied))
 							addLog("Migration successful");
 						else if ( migration.getStatusCode().equals(MMigration.STATUSCODE_PartiallyApplied))
 							addLog("Migration partially applied. Please review migration steps for errors.");
@@ -119,7 +115,6 @@ public class MigrationApply extends SvrProcess {
 				}
 			}
 		}.setParameters(getCtx() , getRecord_ID()));
-		Env.setContext(getCtx(), "LogMigrationScriptBatch", !migrationScriptBatch);
 		return "@OK@";
 	}
 }

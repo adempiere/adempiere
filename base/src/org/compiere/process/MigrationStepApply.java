@@ -30,12 +30,12 @@ public class MigrationStepApply extends SvrProcess {
 
 	@Override
 	protected void prepare() {
-		if (!"Y".equals(Env.getContext(getCtx(), "LogMigrationScriptBatch")))
-		{
-			migrationScriptBatch = migrationScriptBatch == "Y".equals(Env.getContext(getCtx(), "LogMigrationScriptBatch"));
-			if (migrationScriptBatch)
-				Env.setContext(getCtx(), "LogMigrationScriptBatch", migrationScriptBatch);
-		} else migrationScriptBatch =  true;
+		ProcessInfoParameter[] params = getParameter();
+		for ( ProcessInfoParameter p : params) {
+			String para = p.getParameterName();
+			if (para.equals("MigrationScriptBatch"))
+				migrationScriptBatch = p.getParameterAsBoolean();
+		}
 
 		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
 	}
@@ -64,7 +64,6 @@ public class MigrationStepApply extends SvrProcess {
 			MMigration migration = migrationStep.getParent();
 			migration.updateStatus();
 		}
-		Env.setContext(getCtx(), "LogMigrationScriptBatch", !migrationScriptBatch);
 		return retval;
 	}
 }

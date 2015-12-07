@@ -181,7 +181,6 @@ public class MigrationLoader {
 		Document doc = builder.parse(file);
 
 		NodeList migrations = doc.getDocumentElement().getElementsByTagName("Migration");
-		Env.setContext(Env.getCtx() , "LogMigrationScriptBatch", "Y");
 		for ( int i = 0; i < migrations.getLength(); i++ ) {
 
 			Trx.run(new TrxRunnable() {
@@ -198,6 +197,7 @@ public class MigrationLoader {
 				public void run(String trxName) {
 					try {
 							migration = MMigration.fromXmlNode(ctx, element, trxName);
+							migration.setMigrationScriptBatch(true);
                             if (MMigration.STATUSCODE_Applied.equals(migration.getStatusCode())) {
                                 log.log(Level.CONFIG, migration.toString() + " ---> Migration already applied - skipping.");
                                 return;
@@ -217,7 +217,7 @@ public class MigrationLoader {
 				}
 			}.setParameters(Env.getCtx(), (Element) migrations.item(i), this));
 		}
-		Env.setContext(Env.getCtx() , "LogMigrationScriptBatch", "N");
+
 	}
 
 	private void applyMigration(Properties ctx  , int migrationId) {
@@ -227,6 +227,10 @@ public class MigrationLoader {
 			instance.saveEx();
 			MPInstancePara parameter = new MPInstancePara(instance,10);
 			parameter.setParameter("FailOnError",true);
+			parameter.saveEx();
+
+			parameter = new MPInstancePara(instance,20);
+			parameter.setParameter("MigrationScriptBatch",true);
 			parameter.saveEx();
 
 			ProcessInfo pi = new ProcessInfo("Apply migration", processId);
