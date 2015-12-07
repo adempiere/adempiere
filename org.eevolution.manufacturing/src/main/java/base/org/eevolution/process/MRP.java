@@ -1180,7 +1180,15 @@ public class MRP extends SvrProcess
 		Integer DD_Order_ID = 0;
 
 		for (MDDNetworkDistributionLine network_line : network_lines)
-		{	
+		{
+			if(network_line.getM_Shipper_ID()==0)
+			{
+				String comment = Msg.translate(getCtx(), MDDNetworkDistribution.COLUMNNAME_Name)
+						+ " : " + network.getName();
+				createMRPNote("DRP-030", AD_Org_ID, PP_MRP_ID, product , null , null , comment, trxName);
+				continue;
+			}
+
 			//get supply source warehouse and locator
 			MWarehouse source = MWarehouse.get(getCtx(), network_line.getM_WarehouseSource_ID());	
 			MLocator locator = source.getDefaultLocator();
@@ -1212,14 +1220,6 @@ public class MRP extends SvrProcess
 				createMRPNote("DRP-010", AD_Org_ID, PP_MRP_ID, product , null , null , comment,trxName);
 				continue;
 			}
-
-			if(network_line.getM_Shipper_ID()==0)
-			{
-				String comment = Msg.translate(getCtx(), MDDNetworkDistribution.COLUMNNAME_Name) 
-				+ " : " + network.getName();
-				createMRPNote("DRP-030", AD_Org_ID, PP_MRP_ID, product , null , null , comment, trxName);
-				continue;
-			}
 			
 			if(M_Shipper_ID != network_line.getM_Shipper_ID())
 			{	
@@ -1243,7 +1243,7 @@ public class MRP extends SvrProcess
 				{	
 					order = new MDDOrder(getCtx() , 0 , trxName);
 					order.setAD_Org_ID(target.getAD_Org_ID());
-					order.addDescription(Msg.parseTranslation(getCtx() ,"@Generate@ @from@ " +  getName()));
+					order.addDescription(Msg.parseTranslation(getCtx() ,"@DD_Order_ID@ @DocumentNo@ "+ order.getDocumentNo() + " @Generate@ @from@ " +  getName()));
 					order.setC_BPartner_ID(C_BPartner_ID);
 					order.setAD_User_ID(bp.getPrimaryAD_User_ID());
 					order.setC_DocType_ID(docTypeDO_ID);  
@@ -1329,7 +1329,7 @@ public class MRP extends SvrProcess
 		req.setAD_User_ID(m_product_planning.getPlanner_ID());                                                        
 		req.setDateDoc(TimeUtil.addDays(DemandDateStartSchedule, 0 - duration));
 		req.setDateRequired(DemandDateStartSchedule);
-		req.setDescription(Msg.parseTranslation(getCtx() ,"@Generate@ @from@ " +  getName())); // TODO: add translation
+		req.setDescription(Msg.parseTranslation(getCtx() ,"@M_Requisition_ID@ @DocumentNo@ "+ req.getDocumentNo() +" @Generate@ @from@ " +  getName())); // TODO: add translation
 		req.setM_Warehouse_ID(m_product_planning.getM_Warehouse_ID());
 		req.setC_DocType_ID(docTypeReq_ID);
 		if (M_PriceList_ID > 0)
@@ -1377,7 +1377,7 @@ public class MRP extends SvrProcess
 		int duration = MPPMRP.getDurationDays(QtyPlanned, m_product_planning);
 		
 		MPPOrder order = new MPPOrder(getCtx(), 0, trxName);
-		order.addDescription(Msg.parseTranslation(getCtx() ,"@Generate@ @from@ " +  getName()));
+		order.addDescription(Msg.parseTranslation(getCtx() ,"@PP_Order_ID@ @DocumentNo@ "+ order.getDocumentNo() +" @Generate@ @from@ " +  getName()));
 		order.setAD_Org_ID(AD_Org_ID);
 		order.setLine(10);
 		if(MPPProductBOM.BOMTYPE_Maintenance.equals(getBOMType(trxName)))
@@ -1507,7 +1507,7 @@ public class MRP extends SvrProcess
 							message,
 							trxName);
 		note.setAD_Org_ID(AD_Org_ID);
-		//note.setDescription(description);
+
 		note.saveEx();
 		log.info(code+": "+note.getTextMsg());  
 		count_Msg += 1;
