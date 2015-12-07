@@ -1063,7 +1063,11 @@ public class GridField
 		String ob = getObscureType();
 		if (ob != null && ob.length() > 0)
 			return true;
-		return m_vo.ColumnName.equals("Password");
+
+		if (m_vo.ColumnName != null && m_vo.ColumnName.equals("Password"))
+			return true;
+
+		return false;
 	}
 	/**
 	 * 	Is Encrypted Column (data)
