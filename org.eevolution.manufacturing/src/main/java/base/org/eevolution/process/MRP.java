@@ -42,6 +42,7 @@ import org.compiere.model.MNote;
 import org.compiere.model.MOrg;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPO;
+import org.compiere.model.MRefList;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MResource;
@@ -327,7 +328,10 @@ public class MRP extends SvrProcess
 		}	
 		List <MResource> plants = new Query(getCtx(), MResource.Table_Name, whereClause.toString(), get_TrxName())
 										.setParameters(parameters)
-										.list(); 
+										.list();
+		if (plants == null || plants.size() <= 0)
+			return MRefList.getListName(getCtx() , MResource.MANUFACTURINGRESOURCETYPE_AD_Reference_ID , "PT" ) + " @S_Resource_ID@ @NotFound@";
+
 		for(MResource plant : plants)
 		{	
 			log.info("Run MRP to Plant: " + plant.getName());
@@ -396,6 +400,7 @@ public class MRP extends SvrProcess
 					count_MR = 0;
 					count_DO = 0;
 					count_Msg = 0;
+					addLog("");
 					addLog(resultMsg.toString());
 				}
 				//resultMsg.append("<br>finish MRP to Organization " +org.getName());
@@ -1190,12 +1195,25 @@ public class MRP extends SvrProcess
 			}
 
 			//get supply source warehouse and locator
-			MWarehouse source = MWarehouse.get(getCtx(), network_line.getM_WarehouseSource_ID());	
-			MLocator locator = source.getDefaultLocator();
-			
+			MWarehouse source = new MWarehouse(getCtx(), network_line.getM_WarehouseSource_ID(), trxName);
+			MLocator locator = MLocator.getDefault(source);
+			if (locator == null || locator.getM_Locator_ID() <= 0)
+			{
+				String comment = Msg.translate(getCtx(), " @M_Locator_ID@ @Default@ @NotFound@ @To@ ") + source.getName();
+				createMRPNote("DRP-001", AD_Org_ID, PP_MRP_ID, product , null , null , comment, trxName);
+				continue;
+			}
+
 			//get supply target warehouse and locator
-			MWarehouse target = MWarehouse.get(getCtx(), network_line.getM_Warehouse_ID());
-			MLocator locator_to =target.getDefaultLocator(); 
+			MWarehouse target = new MWarehouse(getCtx(), network_line.getM_Warehouse_ID(), trxName);
+			MLocator locator_to = MLocator.getDefault(target);
+			if (locator_to == null || locator_to.getM_Locator_ID() <= 0)
+			{
+				String comment = Msg.translate(getCtx(), " @M_Locator_ID@ @Default@ @NotFound@ @To@ ") + source.getName();
+				createMRPNote("DRP-001", AD_Org_ID, PP_MRP_ID, product , null , null , comment, trxName);
+				continue;
+			}
+
 			//get the transfer time
 			BigDecimal transferTime = network_line.getTransferTime(); 
 			if(transferTime.compareTo(Env.ZERO) <= 0)
@@ -1243,7 +1261,6 @@ public class MRP extends SvrProcess
 				{	
 					order = new MDDOrder(getCtx() , 0 , trxName);
 					order.setAD_Org_ID(target.getAD_Org_ID());
-					order.addDescription(Msg.parseTranslation(getCtx() ,"@DD_Order_ID@ @DocumentNo@ "+ order.getDocumentNo() + " @Generate@ @from@ " +  getName()));
 					order.setC_BPartner_ID(C_BPartner_ID);
 					order.setAD_User_ID(bp.getPrimaryAD_User_ID());
 					order.setC_DocType_ID(docTypeDO_ID);  
@@ -1258,6 +1275,9 @@ public class MRP extends SvrProcess
 					order.setProcessed(false);
 					order.setProcessing(false);
 					order.saveEx();
+					order.addDescription(Msg.parseTranslation(getCtx() ,"@DD_Order_ID@ @DocumentNo@ "+ order.getDocumentNo() + " @Generate@ @from@ " +  getName()));
+					order.saveEx();
+
 					DD_Order_ID = order.get_ID();				
 					String key = order.getAD_Org_ID()+"#"+order.getM_Warehouse_ID()+"#"+network_line.getM_Shipper_ID()+"#"+C_BPartner_ID+"#"+TimeUtil.getDay(DemandDateStartSchedule.getTime())+"DR";
 					dd_order_id_cache.put(key,DD_Order_ID);
@@ -1329,11 +1349,12 @@ public class MRP extends SvrProcess
 		req.setAD_User_ID(m_product_planning.getPlanner_ID());                                                        
 		req.setDateDoc(TimeUtil.addDays(DemandDateStartSchedule, 0 - duration));
 		req.setDateRequired(DemandDateStartSchedule);
-		req.setDescription(Msg.parseTranslation(getCtx() ,"@M_Requisition_ID@ @DocumentNo@ "+ req.getDocumentNo() +" @Generate@ @from@ " +  getName())); // TODO: add translation
 		req.setM_Warehouse_ID(m_product_planning.getM_Warehouse_ID());
 		req.setC_DocType_ID(docTypeReq_ID);
 		if (M_PriceList_ID > 0)
 			req.setM_PriceList_ID(M_PriceList_ID);
+		req.saveEx();
+		req.setDescription(Msg.parseTranslation(getCtx() ,"@M_Requisition_ID@ @DocumentNo@ "+ req.getDocumentNo() +" @Generate@ @from@ " +  getName())); // TODO: add translation
 		req.saveEx();
 
 		MRequisitionLine reqline = new  MRequisitionLine(req);
@@ -1377,7 +1398,6 @@ public class MRP extends SvrProcess
 		int duration = MPPMRP.getDurationDays(QtyPlanned, m_product_planning);
 		
 		MPPOrder order = new MPPOrder(getCtx(), 0, trxName);
-		order.addDescription(Msg.parseTranslation(getCtx() ,"@PP_Order_ID@ @DocumentNo@ "+ order.getDocumentNo() +" @Generate@ @from@ " +  getName()));
 		order.setAD_Org_ID(AD_Org_ID);
 		order.setLine(10);
 		if(MPPProductBOM.BOMTYPE_Maintenance.equals(getBOMType(trxName)))
@@ -1411,6 +1431,8 @@ public class MRP extends SvrProcess
 		order.setScheduleType(MPPMRP.TYPEMRP_Demand);
 		order.setPriorityRule(MPPOrder.PRIORITYRULE_Medium);
 		order.setDocAction(MPPOrder.DOCACTION_Complete);
+		order.saveEx();
+		order.addDescription(Msg.parseTranslation(getCtx() ,"@PP_Order_ID@ @DocumentNo@ "+ order.getDocumentNo() +" @Generate@ @from@ " +  getName()));
 		order.saveEx();
 
 		MPPMRP mrp = getSupply(MPPOrder.COLUMNNAME_PP_Order_ID, order.get_ID(), null , null, trxName);
@@ -1507,8 +1529,9 @@ public class MRP extends SvrProcess
 							message,
 							trxName);
 		note.setAD_Org_ID(AD_Org_ID);
-
 		note.saveEx();
+		String noteMessage = documentNo != null && documentNo.length() > 0 ? "@DocumentNo@ : " + documentNo +  " -> " + message : message;
+		addLog(noteMessage);
 		log.info(code+": "+note.getTextMsg());  
 		count_Msg += 1;
 	}
