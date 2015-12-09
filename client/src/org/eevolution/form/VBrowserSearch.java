@@ -113,7 +113,7 @@ public class VBrowserSearch extends CPanel implements
 		GridFieldVO voBase = GridFieldVO.createStdField(field.getCtx(),
 				p_WindowNo, 0, 0, 0, false, false, false);
 
-		String uniqueName = field.getAD_View_Column().getColumnName();
+		String uniqueName = field.getAD_View_Column().getColumnSQL();
 
 		voBase.isProcess = true;
 		voBase.IsDisplayed = true;
@@ -197,7 +197,7 @@ public class VBrowserSearch extends CPanel implements
 			//  Set Default
 			if (field.getAD_View_Column().getAD_Column_ID() > 0) {
 				defaultObject2 = gField2.getDefault();
-				if (defaultObject2 != null) {
+				if (defaultObject2 != null && field.getDefaultValue2() != null) {
 					gField2.setValue(defaultObject2, true);
 					editor2.setValue(defaultObject2);
 				}
