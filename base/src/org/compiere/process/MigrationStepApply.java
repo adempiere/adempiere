@@ -17,27 +17,17 @@
 
 package org.compiere.process;
 
-import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
-import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 
 public class MigrationStepApply extends SvrProcess {
 
 	private MMigrationStep migrationStep;
-	private boolean migrationScriptBatch = false;
 
 	@Override
 	protected void prepare() {
-		ProcessInfoParameter[] params = getParameter();
-		for ( ProcessInfoParameter p : params) {
-			String para = p.getParameterName();
-			if (para.equals("MigrationScriptBatch"))
-				migrationScriptBatch = p.getParameterAsBoolean();
-		}
-
-		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), get_TrxName());
+		
 	}
 
 	/**
@@ -49,21 +39,29 @@ public class MigrationStepApply extends SvrProcess {
 	 */
 	@Override
 	protected String doIt() throws Exception {
+		
+		// Test if the user is logging dictionary or other changes.  If so
+		// advise that the flag is set and exit as it is not a good idea to 
+		// log scripts and apply them at the same time.
 		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
 		{
 			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
 			return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
 		}
 
-		String retval = migrationStep.toString();
+		// Find the migrationSetp. Use a null transaction to create a read-only
+		// query.
+		migrationStep = new MMigrationStep(getCtx(), getRecord_ID(), null);
+		
 		if ( migrationStep == null || migrationStep.is_new() )
-			return "No migration step";
-
-		retval += migrationStep.apply();
-		if (!migrationScriptBatch ) {
-			MMigration migration = migrationStep.getParent();
-			migration.updateStatus();
+		{
+			// TODO Translate
+			addLog(Msg.getMsg(getCtx(), "NoMigrationStepFound"));
+			return "@Error@" + Msg.getMsg(getCtx(), "NoMigrationStepFound");
 		}
-		return retval;
+		
+		// This call will either rollback or apply based on the 
+		// status of the step.
+		return migrationStep.apply();			
 	}
 }
