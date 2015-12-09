@@ -23,6 +23,7 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  * 	Enitity Type Model
@@ -275,6 +276,13 @@ public class MEntityType extends X_AD_EntityType
 	 */
 	protected boolean beforeDelete ()
 	{
+		// Allow delete of entities for migration scripts
+		if (Env.getContext(getCtx(), "MigrationStepRollbackInProgress").equals("Y") )
+		{
+			s_entityTypes = null;	//	reset
+			return true;
+		}
+
 		if (isSystemMaintained())	//	all pre-defined
 		{
 			log.saveError("Error", "You cannot delete a System maintained entity");
