@@ -25,11 +25,9 @@ import java.util.logging.Level;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.process.MigrationStepApply;
-import org.compiere.process.MigrationStepRollback;
-import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,8 +44,6 @@ public class MMigration extends X_AD_Migration {
 
 	/**	Logger	*/
 	private CLogger	log	= CLogger.getCLogger (MMigration.class);
-	private boolean isFailOnError = true;
-	private boolean isMigrationScriptBatch = false;
 
 	public boolean isFailOnError() {
 		return isFailOnError;
@@ -57,15 +53,7 @@ public class MMigration extends X_AD_Migration {
 		this.isFailOnError = isFailOnError;
 	}
 
-	public void setMigrationScriptBatch(boolean isMigrationScriptBatch)
-	{
-		this.isMigrationScriptBatch =  isMigrationScriptBatch;
-	}
-
-	public boolean isMigrationScriptBatch()
-	{
-		return  this.isMigrationScriptBatch;
-	}
+	private boolean isFailOnError = true;
 
 	public MMigration(Properties ctx, int AD_Migration_ID, String trxName) {
 		super(ctx, AD_Migration_ID, trxName);		
@@ -75,88 +63,119 @@ public class MMigration extends X_AD_Migration {
 		super(ctx, rs, trxName);
 	}
 	
-	public void apply() {
+	/**
+	 * Apply or rollback a migration.
+	 * @return A string indicating the result
+	 */
+	public String apply() {
+
+		// TODO Translate the return values
+		
+		Boolean apply = true;
+		
+		// Determine whether to apply or rollback the migration
+		if (APPLY_Rollback.equals(getApply()))
+			apply = false;
+
+		String retVal = toString();
 
 		try{
-			for ( MMigrationStep step : getSteps(false) )
+			if ( !apply )
+				return rollback();
+
+			if (X_AD_Migration.STATUSCODE_Applied.equals(getStatusCode())) {
+				retVal += "---> Migration already applied - skipping.";
+				log.log(Level.CONFIG, retVal);
+				return retVal;
+			}
+
+			//  Apply the Migration Steps
+			//  Set a flag to prevent migration status updates
+			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "Y");
+			
+			// Get the set of active steps and apply each in order
+			for ( int stepID : getStepIDs(false) )
 			{
-				if (!step.isActive())
-					continue;
+				MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
 
 				if (MMigrationStep.STATUSCODE_Applied.equals(step.getStatusCode())) {
 					log.log(Level.CONFIG, step.toString() + " ---> Migration Step already applied - skipping.");
 					continue;
 				}
 
-				stepApply(step);
+				step.apply();
 			}
 		}
 		catch (Exception e)
 		{
-			if (isFailOnError())    // abort on first error
-				throw new AdempiereException(e);
-
+			log.warning(e.getMessage());
+			if (isFailOnError)    // abort on first error
+			{			
+				if (apply) // Try to rollback the transaction
+				{
+					rollback();
+				}
+				throw new AdempiereException(e.getMessage() , e);
+			}
 		}
+		finally
+		{			
+			// Unset a flag to prevent migration status updates
+			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "");
+			updateStatus();
+			if ( getStatusCode().equals(STATUSCODE_Applied))
+				retVal += "Migration successful";
+			else if ( getStatusCode().equals(STATUSCODE_PartiallyApplied))
+				retVal += "Migration partially applied. Please review migration steps for errors.";
+			else if ( getStatusCode().equals(STATUSCODE_Failed) )
+				retVal += "Migration failed. Please review migration steps for errors.";
+			else if ( getStatusCode().equals(STATUSCODE_Unapplied) )
+				retVal += "Migration not applied. Please review migration steps for errors.";
+			else
+				retVal += "Migration status unknown. Please review migration steps for errors.";
+		}
+		return retVal;
 	}
 
-	public void stepApply(MMigrationStep step)
-	{
-		Trx.run(trxName -> {
-			int processId = 53174; // Apply migration step
-			MPInstance instance = new MPInstance(step.getCtx() , processId, step.getAD_MigrationStep_ID());
-			instance.saveEx();
+	private String rollback() {
 
-			MPInstancePara parameter = new MPInstancePara(instance,10);
-			parameter.setParameter("MigrationScriptBatch", isMigrationScriptBatch());
-			parameter.saveEx();
-
-			ProcessInfo pi = new ProcessInfo("Apply migration step", processId);
-			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-			pi.setRecord_ID(step.getAD_MigrationStep_ID());
-
-
-			MigrationStepApply migrationStepApply = new MigrationStepApply();
-			migrationStepApply.startProcess(step.getCtx() , pi , Trx.get(trxName, false));
-			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-		});
-
-	}
-
-	public void rollback() {
+		String retVal = toString();
 		try {
-			for (MMigrationStep step : getSteps(true)) {
-				stepRollback(step);
+			// Set a flag to prevent migration status updates
+			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "Y");
+			for ( int stepID : getStepIDs(true) )
+			{
+				MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
+				step.rollback();
 			}
 		}
 		catch (Exception e)
 		{
-			if (isFailOnError())    // abort on first error
-				throw new AdempiereException(e);
+			if (isFailOnError)    // abort on first error
+				throw new AdempiereException(e.getMessage(), e);
 		}
+		finally
+		{
+			// Unset a flag to prevent migration status updates
+			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "");
+			updateStatus();
+			if ( getStatusCode().equals(STATUSCODE_Unapplied) )
+				retVal += "Rollback successful.";
+			else
+				retVal += "Rollback failed. Please review migration steps for errors.";
+		}
+		return retVal;
 	}
 
-	public void stepRollback(MMigrationStep step)
-	{
-		Trx.run(trxName -> {
-			int processId = 0; // Apply migration stecp
-			MPInstance instance = new MPInstance(step.getCtx() , processId, step.getAD_MigrationStep_ID());
-			instance.saveEx();
-
-			MPInstancePara parameter = new MPInstancePara(instance,10);
-			parameter.setParameter("MigrationScriptBatch", isMigrationScriptBatch());
-			parameter.saveEx();
-
-			ProcessInfo pi = new ProcessInfo("Apply migration step", processId);
-			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-			pi.setRecord_ID(step.getAD_MigrationStep_ID());
-			MigrationStepRollback migrationStepRollback = new MigrationStepRollback();
-			migrationStepRollback.startProcess(step.getCtx() , pi , Trx.get(trxName, false));
-			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-		});
-
-	}
-	
+	/**
+	 * Update the status of a Migration to reflect the status of its steps.
+	 * The status will be Applied, Partially Applied or Unapplied.
+	 */
 	public void updateStatus() {
+		// Don't update in the middle of a batch
+		if (Env.getContext(getCtx(), "MigrationScriptBatchInProgress").equals("Y") )
+			return;
+
 		StringBuilder whereBase = new StringBuilder();
 		whereBase.append(MMigration.COLUMNNAME_AD_Migration_ID).append("=?");
 
@@ -199,83 +218,79 @@ public class MMigration extends X_AD_Migration {
 			setApply(MMigration.APPLY_Rollback);
 			status = "Partially Applied";
 		}
-		// overlaps with unapplied
-		//else if ( applied <= 0 )
-		//	setStatusCode(MMigration.STATUSCODE_Failed);
 
-		saveEx(get_TrxName());
+		saveEx();
 		log.log(Level.CONFIG, this.toString() + " ---> " + status + " (" + getStatusCode() + ")");
 	}
 	
-	private List<MMigrationStep> getSteps(boolean rollback) {
+	private int[] getStepIDs(boolean rollback) {
 		String where = "AD_Migration_ID = " + getAD_Migration_ID();
 		String order = rollback ? "SeqNo DESC" : "SeqNo ASC";
 		return MTable.get(getCtx(), MMigrationStep.Table_ID)
-		//.createQuery(where, get_TrxName())  // locks the table
-		.createQuery(where, null)  // won't lock the table
+		.createQuery(where, null)  // Use a null Trx to generate a readonly query
 		.setOnlyActiveRecords(true)
 		.setOrderBy(order)
-		.list();
+		.getIDs();
 	}
-	
+
 	public static List<MMigration> getMigrations(Properties ctx, Boolean processed, String trxName) {
 		String where = "Processed = " + (processed ? "'Y'" : "'N'");
 		return MTable.get(ctx, MMigration.Table_ID)
-		.createQuery(where, trxName)  // locks the table
+		.createQuery(where, trxName)
 		.setOnlyActiveRecords(true)
 		.list();
 	}
 
-	//public static boolean updated = false;
-	
 	public static MMigration fromXmlNode(Properties ctx, Element element, String trxName) throws SQLException
-	{
+	{		
 		if ( !"Migration".equals(element.getLocalName() ) )
 				return null;
-
+		
 		// Restrict the name field to the field length in case the xml has extra characters.
 		MColumn col = MColumn.get(ctx, MColumn.getColumn_ID("AD_Migration", "Name"));
 		int length = col.getFieldLength();
-		String name = element.getAttribute("Name");
+		String name = element.getAttribute("Name").trim();
 		if (name.length() > length)
 			name = name.substring(0,length);
 		
-		String seqNo = element.getAttribute("SeqNo");
-		String entityType = element.getAttribute("EntityType");
-		String releaseNo = element.getAttribute("ReleaseNo");
+		String seqNo = element.getAttribute("SeqNo").trim();
+		String entityType = element.getAttribute("EntityType").trim();
+		String releaseNo = element.getAttribute("ReleaseNo").trim();
 		
 		
 		String where = "Name = ?"
 			+ " AND SeqNo = ?"
 			+ " AND EntityType = ?"
 			+ " AND ReleaseNo = ?";
-		MMigration migration = new Query(ctx, MMigration.Table_Name, where, trxName)
+//		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, trxName) // Locks migrationtable
+		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, null)
 		.setParameters(name, Integer.parseInt(seqNo), entityType, releaseNo).firstOnly();
-		if ( migration != null && migration.getAD_Migration_ID() > 0)
-			return migration;  // already exists (TODO: update?)
-
-		migration = new MMigration(ctx, 0, trxName);
-		migration.setName(name);
-		migration.setSeqNo(Integer.parseInt(seqNo));
-		migration.setEntityType(entityType);
-		migration.setReleaseNo(releaseNo);
-		migration.saveEx();
+		if ( mmigration != null ) {
+			return mmigration;  // already exists (TODO: update?)
+		}
+		mmigration = new MMigration(ctx, 0, trxName);
+		mmigration.setName(name);
+		mmigration.setSeqNo(Integer.parseInt(seqNo));
+		mmigration.setEntityType(entityType);
+		mmigration.setReleaseNo(releaseNo);
 
 		Node comment = (Element) element.getElementsByTagName("Comments").item(0);
 		if ( comment != null )
-			migration.setComments(comment.getTextContent());
+			mmigration.setComments(comment.getTextContent());
+
+		mmigration.saveEx();
+
 		
 		NodeList children = element.getElementsByTagName("Step");
 		for ( int i = 0; i < children.getLength(); i++ )
 		{
 			Element step = (Element) children.item(i);
 			if ( "Step".equals(step.getTagName()))
-				MMigrationStep.fromXmlNode(migration, step);
+				MMigrationStep.fromXmlNode(mmigration, step);
 				Trx.get(trxName, false).commit(true);
 		}
 		
-		migration.saveEx();
-		return migration;
+		return mmigration;
 	}
 
 	public Node toXmlNode(Document document) throws ParserConfigurationException, SAXException {
@@ -295,8 +310,9 @@ public class MMigration extends X_AD_Migration {
 		} 
 		
 		
-		for (MMigrationStep step : getSteps(false) )
+		for ( int stepID : getStepIDs(false) )
 		{
+			MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
 			log.log(Level.FINE, "Exporting step: " + step);
 			migration.appendChild(step.toXmlNode(document));
 		}
@@ -328,7 +344,9 @@ public class MMigration extends X_AD_Migration {
 	 */
 	protected boolean beforeDelete ()
 	{
-		for (MMigrationStep step : getSteps(false)) {
+		for ( int stepID : getStepIDs(false) )
+		{
+			MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
 			step.deleteEx(true);
 		}
 		return true;
@@ -350,7 +368,7 @@ public class MMigration extends X_AD_Migration {
 	
 	// String representation of the Migration
 	public String toString() {
-		return "Migration " + getSeqNo() + " - " + getName() + " - " + this.getReleaseNo() + " (" + this.getEntityType() + ")";
+		return "Migration " + getSeqNo() + " - " + getName() + " - " + this.getReleaseNo() + " (" + this.getEntityType() + ") ";
 	}
 
 	/**
@@ -366,7 +384,9 @@ public class MMigration extends X_AD_Migration {
 
 			this.setProcessed(true);
 			
-			for (MMigrationStep step : getSteps(false)) {
+			for ( int stepID : getStepIDs(false) )
+			{
+				MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
 				log.log(Level.CONFIG, "   Deleting step: " + step.toString());
 				step.deleteEx(true);
 			}
