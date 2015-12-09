@@ -533,14 +533,24 @@ public class BrowseTable extends CTable implements IBrowseTable {
                 //if (c == BigDecimal.class)
                 if (DisplayType.isNumeric(ReferenceType)) {
                     BigDecimal subtotal = Env.ZERO;
-                    if (total[col] != null)
-                        subtotal = (BigDecimal) (total[col]);
+                    if (total[col] != null) {
+                        if (total[col] instanceof BigDecimal)
+                            subtotal = (BigDecimal) (total[col]);
+                        if (total[col] instanceof Integer)
+                            subtotal = new BigDecimal((Integer)total[col]);
 
-                    BigDecimal amt = (BigDecimal) data;
+                    }
+
+                    BigDecimal amt = Env.ZERO;
+                    if (data == null)
+                        amt = Env.ZERO;
+                    if (data instanceof BigDecimal)
+                        amt = (BigDecimal) data;
+                    if (data instanceof Integer)
+                        amt = new BigDecimal((Integer) data);
                     if (subtotal == null)
                         subtotal = Env.ZERO;
-                    if (amt == null)
-                        amt = Env.ZERO;
+
                     total[col] = subtotal.add(amt);
                 }
             }
