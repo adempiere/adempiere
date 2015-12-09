@@ -79,8 +79,8 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		GridFieldVO voBase = GridFieldVO.createStdField(field.getCtx(),
 				p_WindowNo, 0, 0, 0, false, false, false);
 
-		String uniqueName =  field.getAD_View_Column().getColumnName();
-		
+		String uniqueName =  field.getAD_View_Column().getColumnSQL();
+
 		voBase.isProcess = true;
 		voBase.IsDisplayed = true;
 		voBase.IsReadOnly = false;
