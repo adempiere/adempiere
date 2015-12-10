@@ -19,7 +19,6 @@
 package org.eevolution.process;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.apps.ProcessCtl;
 import org.compiere.model.I_M_Movement;
 import org.compiere.model.MLocator;
 import org.compiere.model.MMovement;
@@ -30,6 +29,7 @@ import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.ServerProcessCtl;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -106,15 +106,12 @@ public class GenerateMovement extends SvrProcess {
     private void generate(MDDOrder order) {
         String trxName = Trx.createTrxName("IMG");
         Trx trx = Trx.get(trxName, true);
-
-        String info = "";
         //	Prepare Process
         int AD_Process_ID = MProcess.getProcess_ID("M_Generate Movement", null);
 
         MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
         if (!instance.save()) {
-            info = Msg.getMsg(Env.getCtx(), "ProcessNoInstance");
-            addLog(info);
+            addLog(Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
         }
         List<Integer> ordersId = new ArrayList<Integer>();
         ordersId.add(order.getDD_Order_ID());
@@ -139,18 +136,20 @@ public class GenerateMovement extends SvrProcess {
         ip.setParameter("MovementDate", movementDate);
         ip.saveEx();
 
-        ProcessCtl worker = new ProcessCtl(null, pi.getWindowNo(), pi, trx);
+        ServerProcessCtl worker = new ServerProcessCtl(null, pi, trx);
         worker.run();
 
         result = pi.getSummary();
 
         MMovement movement = new MMovement(getCtx(), pi.getRecord_ID(), trxName);
-        if (movement != null && movement.get_ID() > 0)
+        if (movement != null && movement.get_ID() > 0) {
+            StringBuffer resultText = new StringBuffer(Msg.translate(Env.getCtx(), "DocumentNo") + " : " + movement.getDocumentNo());
+            result = result == null ? " " + resultText.toString() : result + " " + resultText.toString();
             printDocument(movement, "Inventory Move Hdr (Example)", pi.getWindowNo());
+        }
         else
             throw new AdempiereException("@M_Movement_ID@ @NotFound@");
     }
-
 
     /**
      * Print Document
@@ -158,23 +157,18 @@ public class GenerateMovement extends SvrProcess {
      * @param document
      * @param printFormantName
      */
-    private void printDocument(PO document, String printFormantName, int documentNo) {
-        //  Switch Tabs
-        StringBuffer resultText = new StringBuffer(Msg.translate(Env.getCtx(), "DocumentNo") + " : " + document.get_ValueAsString("DocumentNo"));
-        result = result == null ? " " + resultText.toString() : result + " " + resultText.toString();
-
+    static public void printDocument(PO document, String printFormantName, int windowNo) {
         IPrintDocument IPrintDocument;
-
         //	OK to print shipments
         if (Ini.isClient())
             IPrintDocument = getPrintDocument("org.eevolution.form.VPrintDocument");
         else
             IPrintDocument = getPrintDocument("org.eevolution.form.WPrintDocument");
 
-        IPrintDocument.print(document, printFormantName, documentNo);
+        IPrintDocument.print(document, printFormantName, windowNo);
     }
 
-    public IPrintDocument getPrintDocument(String className) throws RuntimeException {
+    static public IPrintDocument getPrintDocument(String className) throws RuntimeException {
         Class<?> clazz;
         IPrintDocument result = null;
         try {
