@@ -136,6 +136,21 @@ public interface I_WM_InOutBoundLine
 
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
+    /** Column name C_Order_ID */
+    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+
+	/** Set Order.
+	  * Order
+	  */
+	public void setC_Order_ID (int C_Order_ID);
+
+	/** Get Order.
+	  * Order
+	  */
+	public int getC_Order_ID();
+
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
+
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 
@@ -211,6 +226,28 @@ public interface I_WM_InOutBoundLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name DD_OrderLine_ID */
+    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
+
+	/** Set Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
+
+	/** Get Distribution Order Line	  */
+	public int getDD_OrderLine_ID();
+
+	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException;
+
+    /** Column name DD_Order_ID */
+    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+
+	/** Set Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID);
+
+	/** Get Distribution Order	  */
+	public int getDD_Order_ID();
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -306,6 +343,47 @@ public interface I_WM_InOutBoundLine
 	  * Quantity of a product moved.
 	  */
 	public BigDecimal getMovementQty();
+
+    /** Column name PP_MRP_ID */
+    public static final String COLUMNNAME_PP_MRP_ID = "PP_MRP_ID";
+
+	/** Set Material Requirement Planning.
+	  * MRP ID
+	  */
+	public void setPP_MRP_ID (int PP_MRP_ID);
+
+	/** Get Material Requirement Planning.
+	  * MRP ID
+	  */
+	public int getPP_MRP_ID();
+
+	public org.eevolution.model.I_PP_MRP getPP_MRP() throws RuntimeException;
+
+    /** Column name PP_Order_BOMLine_ID */
+    public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
+
+	/** Set Manufacturing Order BOM Line	  */
+	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
+
+	/** Get Manufacturing Order BOM Line	  */
+	public int getPP_Order_BOMLine_ID();
+
+	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException;
+
+    /** Column name PP_Order_ID */
+    public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
+
+	/** Set Manufacturing Order.
+	  * Manufacturing Order
+	  */
+	public void setPP_Order_ID (int PP_Order_ID);
+
+	/** Get Manufacturing Order.
+	  * Manufacturing Order
+	  */
+	public int getPP_Order_ID();
+
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
 
     /** Column name PickDate */
     public static final String COLUMNNAME_PickDate = "PickDate";
