@@ -16,13 +16,10 @@
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
-import java.util.Properties;
-
-import javax.xml.transform.sax.TransformerHandler;
-
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.exception.DatabaseAccessException;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Process;
 import org.compiere.model.X_AD_Role;
 import org.compiere.util.DB;
@@ -30,6 +27,11 @@ import org.compiere.util.Env;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+
+import javax.xml.transform.sax.TransformerHandler;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 public class ProcessAccessElementHandler extends AbstractElementHandler {
 
@@ -47,52 +49,62 @@ public class ProcessAccessElementHandler extends AbstractElementHandler {
 		}
 		
 		if (atts.getValue("processname")!=null){
-			String name = atts.getValue("processname");		
+			String name = atts.getValue("processname");	
 			sqlB = new StringBuffer ("SELECT AD_Process_ID FROM AD_Process WHERE Name= ?");
 			processid = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),name);
 		}
 		
-		sqlB = new StringBuffer ("SELECT count(*) FROM AD_Process_Access WHERE AD_Role_ID=? and AD_Process_ID=?");		
-		int count = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),roleid,processid);
-		int AD_Backup_ID = -1;
-		String Object_Status = null;
+		List<X_AD_Role> roleList = new ArrayList<X_AD_Role>();
+		roleList=getroleList(ctx);
 		
-		if (count>0){		   	
-			Object_Status = "Update";			
-			sqlB = new StringBuffer ("UPDATE AD_Process_Access ")
-					.append( "SET isActive = '" + atts.getValue("isActive") )
-					.append( "', isReadWrite = '" + atts.getValue("isReadWrite") )
-					.append( "' WHERE AD_Role_ID = " + roleid )
-					.append( " and AD_Process_ID = " + processid );
-			
-			int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
-			if (no == -1) {
-				log.info("Update to process access failed");
-				throw new DatabaseAccessException("Update to process access failed");
+		for (X_AD_Role role : roleList)
+		{
+			if(!role.getName().equalsIgnoreCase("Role Template") && !role.getName().equalsIgnoreCase("Web Service Execution"))
+			{
+				roleid=role.getAD_Role_ID();
+				sqlB = new StringBuffer ("SELECT count(*) FROM AD_Process_Access WHERE AD_Role_ID=? and AD_Process_ID=?");		
+				int count = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),roleid,processid);
+				int AD_Backup_ID = -1;
+				String Object_Status = null;
+				
+				if (count>0){		   	
+					Object_Status = "Update";			
+					sqlB = new StringBuffer ("UPDATE AD_Process_Access ")
+							.append( "SET isActive = '" + atts.getValue("isActive") )
+							.append( "', isReadWrite = '" + atts.getValue("isReadWrite") )
+							.append( "' WHERE AD_Role_ID = " + roleid )
+							.append( " and AD_Process_ID = " + processid );
+					
+					int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
+					if (no == -1) {
+						log.info("Update to process access failed");
+						throw new DatabaseAccessException("Update to process access failed");
+					}
+				}
+				else{
+					Object_Status = "New";
+					AD_Backup_ID =0;
+					sqlB = new StringBuffer ("INSERT INTO AD_Process_Access")
+							.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
+							.append( "AD_Role_ID, AD_Process_ID, isActive, isReadWrite) " )
+							.append( "VALUES(" ) 
+							.append( " "+ Env.getAD_Client_ID(ctx) )
+							.append( ", "+ Env.getAD_Org_ID(ctx) )
+							.append( ", "+ Env.getAD_User_ID(ctx) )					
+							.append( ", "+ Env.getAD_User_ID(ctx) )
+							.append( ", " + roleid )
+							.append( ", " + processid )
+							.append( ", '" + atts.getValue("isActive") )
+							.append( "', '" + atts.getValue("isReadWrite")+"')" );
+					
+					int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
+					if (no == -1) {
+						log.info("Insert to process access failed");
+						throw new DatabaseAccessException("Insert to process access failed");
+					}
+				}
 			}
-		}
-		else{
-			Object_Status = "New";
-			AD_Backup_ID =0;
-			sqlB = new StringBuffer ("INSERT INTO AD_Process_Access")
-					.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
-					.append( "AD_Role_ID, AD_Process_ID, isActive, isReadWrite) " )
-					.append( "VALUES(" ) 
-					.append( " "+ Env.getAD_Client_ID(ctx) )
-					.append( ", "+ Env.getAD_Org_ID(ctx) )
-					.append( ", "+ Env.getAD_User_ID(ctx) )					
-					.append( ", "+ Env.getAD_User_ID(ctx) )
-					.append( ", " + roleid )
-					.append( ", " + processid )
-					.append( ", '" + atts.getValue("isActive") )
-					.append( "', '" + atts.getValue("isReadWrite")+"')" );
-			
-			int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
-			if (no == -1) {
-				log.info("Insert to process access failed");
-				throw new DatabaseAccessException("Insert to process access failed");
-			}
-		}
+		}	
 
 	}
 
@@ -134,5 +146,16 @@ public class ProcessAccessElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "isReadWrite", "CDATA", isReadWrite);
 
 		return atts;
+	}
+	
+	private List<X_AD_Role> getroleList(Properties ctx) {
+
+		StringBuffer whereClause = new StringBuffer();
+		List<X_AD_Role> rolelist = new ArrayList<X_AD_Role>();
+
+		rolelist = new Query(ctx, X_AD_Role.Table_Name,whereClause.toString(),getTrxName(ctx))
+					.list();
+		
+		return rolelist;
 	}
 }

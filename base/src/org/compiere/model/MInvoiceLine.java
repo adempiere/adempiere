@@ -16,6 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,12 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 
 /**
@@ -842,6 +842,13 @@ public class MInvoiceLine extends X_C_InvoiceLine
 				setPrice();
 		}
 
+		if(getQtyEntered().doubleValue()>getPARENTDOCQTY().doubleValue() && getM_Product_ID()!=0 && getC_OrderLine_ID()!=0) //AB
+		{
+			log.saveError("Could Not Save - Error", "Qty Invoiced cannot be greater " +
+                    "than the Parent Document Qty i.e "+getPARENTDOCQTY()+" , Please correct the Qty and try Again!");
+			return false;
+		}
+		
 		//	Set Tax
 		if (getC_Tax_ID() == 0)
 			setTax();
@@ -970,6 +977,78 @@ public class MInvoiceLine extends X_C_InvoiceLine
 				+ " SET GrandTotal=TotalLines "
 				+ "WHERE C_Invoice_ID=?";
 		else
+		{					//AB Round Off Logic 29-07-2015
+			String Rtype;
+			String sqlB="select rtype from c_invoice where c_invoice_id="+getC_Invoice_ID();
+			Rtype=DB.getSQLValueString(null, sqlB);	
+			
+			Rtype=(Rtype==null)?"N":Rtype;   //If Round Type null then Round Type assigned to None
+			
+			if(Rtype.equals("L"))
+			{
+				sql = "UPDATE C_Invoice i "
+						+ " SET ActualGT=TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID),"
+							+ "GrandTotal=floor(TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID)),"
+							+ "RAmount=((TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID))-(floor(TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID)))) "
+							+ "WHERE C_Invoice_ID=?";
+			}
+			else if(Rtype.equals("U"))
+			{
+				sql = "UPDATE C_Invoice i "
+						+ " SET ActualGT=TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID), "
+							+ "GrandTotal=ceil(TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID)),"
+							+ "RAmount=((ceil(TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID)))-(TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID))) "
+							+ "WHERE C_Invoice_ID=?";
+			}
+			else if(Rtype.equals("N"))
+			{
+				sql = "UPDATE C_Invoice i "
+						+ " SET ActualGT=TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID),"
+							+ "GrandTotal=TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID),"
+							+ "RAmount= 0 "
+							+ "WHERE C_Invoice_ID=?";
+			}
+		}
+			
+		no = DB.executeUpdateEx(sql, new Object[]{getC_Invoice_ID()}, get_TrxName());
+		if (no != 1)
+			log.warning("(2) #" + no);
+		m_parent = null;
+
+		return no == 1;
+	}	//	updateHeaderTax
+	
+	/**
+	 * AB
+	 */
+	/**
+	 *	Update Tax & Header
+	 *	@return true if header updated with tax
+	 */
+	public boolean updateHeadTax()
+	{
+		// Update header only if the document is not processed - teo_sarca BF [ 2317305 ]
+		if (isProcessed() && !is_ValueChanged(COLUMNNAME_Processed))
+			return true;
+
+		//	Recalculate Tax for this Tax
+		if (!updateInvoiceTax(false))
+			return false;
+
+		//	Update Invoice Header
+		String sql = "UPDATE C_Invoice i"
+			+ " SET TotalLines="
+				+ "(SELECT COALESCE(SUM(LineNetAmt),0) FROM C_InvoiceLine il WHERE i.C_Invoice_ID=il.C_Invoice_ID) "
+			+ "WHERE C_Invoice_ID=?";
+		int no = DB.executeUpdateEx(sql, new Object[]{getC_Invoice_ID()}, get_TrxName());
+		if (no != 1)
+			log.warning("(1) #" + no);
+
+		if (isTaxIncluded())
+			sql = "UPDATE C_Invoice i "
+				+ " SET GrandTotal=TotalLines "
+				+ "WHERE C_Invoice_ID=?";
+		else
 			sql = "UPDATE C_Invoice i "
 				+ " SET GrandTotal=TotalLines+"
 					+ "(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID) "
@@ -981,6 +1060,9 @@ public class MInvoiceLine extends X_C_InvoiceLine
 
 		return no == 1;
 	}	//	updateHeaderTax
+	//
+	
+	
 
 
 	/**************************************************************************

@@ -16,27 +16,16 @@
  *****************************************************************************/
 package org.compiere.acct;
 
+import org.compiere.model.*;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
-
-import org.compiere.model.MAccount;
-import org.compiere.model.MAcctSchema;
-import org.compiere.model.MClientInfo;
-import org.compiere.model.MConversionRate;
-import org.compiere.model.MCostDetail;
-import org.compiere.model.MCostType;
-import org.compiere.model.MCurrency;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MLandedCostAllocation;
-import org.compiere.model.MTax;
-import org.compiere.model.ProductCost;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  *  Post Invoice Documents.
@@ -100,9 +89,15 @@ public class Doc_Invoice extends Doc
 	private DocTax[] loadTaxes()
 	{
 		ArrayList<DocTax> list = new ArrayList<DocTax>();
+/*
+ * Ossagho Development Team - 10-03-2015
+ */
+//		String sql = "SELECT it.C_Tax_ID, t.Name, t.Rate, it.TaxBaseAmt, it.TaxAmt, t.IsSalesTax "
+//			+ "FROM C_Tax t, C_InvoiceTax it "
+//			+ "WHERE t.C_Tax_ID=it.C_Tax_ID AND it.C_Invoice_ID=?";
 		String sql = "SELECT it.C_Tax_ID, t.Name, t.Rate, it.TaxBaseAmt, it.TaxAmt, t.IsSalesTax "
-			+ "FROM C_Tax t, C_InvoiceTax it "
-			+ "WHERE t.C_Tax_ID=it.C_Tax_ID AND it.C_Invoice_ID=?";
+				+ "FROM C_Tax t, C_INVOICETAX_DETAIL it "
+				+ "WHERE t.C_Tax_ID=it.C_Tax_ID AND it.C_Invoice_ID=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -363,6 +358,9 @@ public class Doc_Invoice extends Doc
 					serviceAmt = serviceAmt.add(amt);
 				}
 			}
+			
+			createRoundoffFactLine(fact, as); //AB
+			
 			//  Set Locations
 			FactLine[] fLines = fact.getLines();
 			for (int i = 0; i < fLines.length; i++)
@@ -444,6 +442,9 @@ public class Doc_Invoice extends Doc
 					serviceAmt = serviceAmt.add(amt);
 				}
 			}
+			
+			createRoundoffFactLine(fact, as); //AB
+			
 			//  Set Locations
 			FactLine[] fLines = fact.getLines();
 			for (int i = 0; i < fLines.length; i++)
@@ -548,6 +549,9 @@ public class Doc_Invoice extends Doc
 							line.getDescription(), getTrxName());
 				}
 			}
+			
+			createRoundoffFactLine(fact, as); //AB
+			
 			//  Set Locations
 			FactLine[] fLines = fact.getLines();
 			for (int i = 0; i < fLines.length; i++)
@@ -654,6 +658,9 @@ public class Doc_Invoice extends Doc
 							line.getDescription(), getTrxName());
 				}
 			}
+			
+			createRoundoffFactLine(fact, as); //AB
+			
 			//  Set Locations
 			FactLine[] fLines = fact.getLines();
 			for (int i = 0; i < fLines.length; i++)
@@ -695,6 +702,34 @@ public class Doc_Invoice extends Doc
 		facts.add(fact);
 		return facts;
 	}   //  createFact
+	
+	
+	/**
+	 * AB Round Off Changes 29-07-2015
+	 * @param fact
+	 * @param as
+	 */
+	private void createRoundoffFactLine(Fact fact, MAcctSchema as) {
+
+		MInvoice invoice = new MInvoice(getCtx(), p_po.get_ID(), getTrxName());
+		
+		if(isSOTrx())
+		{
+			if (invoice.getRType()!= null && invoice.getRType().equals(X_C_Invoice.RTYPE_LowerRound)) {
+				fact.createLine(null,getAccount(Doc.ACCTTYPE_RoundOffExpense, as),getC_Currency_ID(), invoice.getRAmount(),null);
+			} else if (invoice.getRType() != null && invoice.getRType().equals(X_C_Invoice.RTYPE_UpperRound)) {
+				fact.createLine(null,getAccount(Doc.ACCTTYPE_RoundOffExpense, as),getC_Currency_ID(), null,invoice.getRAmount());
+			}
+		}
+		else
+		{
+			if (invoice.getRType()!= null && invoice.getRType().equals(X_C_Invoice.RTYPE_LowerRound)) {
+				fact.createLine(null,getAccount(Doc.ACCTTYPE_RoundOffExpense, as),getC_Currency_ID(), null,invoice.getRAmount());
+			} else if (invoice.getRType() != null && invoice.getRType().equals(X_C_Invoice.RTYPE_UpperRound)) {
+				fact.createLine(null,getAccount(Doc.ACCTTYPE_RoundOffExpense, as),getC_Currency_ID(), invoice.getRAmount(),null);
+			}
+		}
+	}
 	
 	/**
 	 * 	Create Fact Cash Based (i.e. only revenue/expense)

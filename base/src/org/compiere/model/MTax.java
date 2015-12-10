@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.util.CCache;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
@@ -243,6 +244,51 @@ public class MTax extends X_C_Tax
 		return sb.toString();
 	}	//	toString
 
+	
+	/**
+	 * @author AB
+	 * Ossagho Development Team
+	 * Calculate Child Tax 
+	 * @param C_Tax_ID
+	 * @param amount
+	 * @param taxIncluded
+	 * @param scale
+	 * @return
+	 */
+	public static BigDecimal calculateChildTax (int C_Tax_ID,BigDecimal amount, boolean taxIncluded, int scale,int Parent_Tax_ID ,BigDecimal v_TaxablePC)
+	{
+		BigDecimal rate;
+//	        Null Tax
+//		    if (isZeroTax())
+//			return Env.ZERO;
+		
+		//String sql="select rate from c_tax where c_tax_id="+C_Tax_ID+"";  10-02-2015
+		String sql ="select rate from (select rate from c_tax_childdetails cd inner join c_tax_child c on c.c_tax_child_id=cd.c_tax_child_id where  c.child_tax_id="+C_Tax_ID+" and c.c_tax_id="+Parent_Tax_ID+" and cd.validfrom<=(select sysdate from dual) order by cd.validfrom desc ) where rownum=1";
+		rate=DB.getSQLValueBD(null, sql);
+		BigDecimal multiplier = rate.divide(ONEHUNDRED, 12, BigDecimal.ROUND_HALF_UP);
+
+        //AB 28-10 Taxable Percentage Change
+        amount=(v_TaxablePC.divide(new BigDecimal(100))).multiply(amount);
+
+		BigDecimal tax = null;		
+		if (!taxIncluded)	//	$100 * 6 / 100 == $6 == $100 * 0.06
+		{
+			tax = amount.multiply (multiplier);
+		}
+		else			//	$106 - ($106 / (100+6)/100) == $6 == $106 - ($106/1.06)
+		{
+			multiplier = multiplier.add(Env.ONE);
+			BigDecimal base = amount.divide(multiplier, 12, BigDecimal.ROUND_HALF_UP); 
+			tax = amount.subtract(base);
+		}
+		BigDecimal finalTax = tax.setScale(scale, BigDecimal.ROUND_HALF_UP);
+//		log.fine("calculateTax " + amount 
+//			+ " (incl=" + taxIncluded + ",mult=" + multiplier + ",scale=" + scale 
+//			+ ") = " + finalTax + " [" + tax + "]");
+		return finalTax;
+	}	//	calculateTax
+
+	
 	
 	/**
 	 * 	Calculate Tax - no rounding

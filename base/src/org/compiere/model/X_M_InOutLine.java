@@ -17,22 +17,23 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.util.Properties;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+
 /** Generated Model for M_InOutLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version R/3 - $Id$ */
 public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20150717L;
 
     /** Standard Constructor */
     public X_M_InOutLine (Properties ctx, int M_InOutLine_ID, String trxName)
@@ -109,9 +110,26 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
+	/** Set BALANCEORDERQTY.
+		@param BALANCEORDERQTY BALANCEORDERQTY	  */
+	public void setBALANCEORDERQTY (BigDecimal BALANCEORDERQTY)
+	{
+		set_Value (COLUMNNAME_BALANCEORDERQTY, BALANCEORDERQTY);
+	}
+
+	/** Get BALANCEORDERQTY.
+		@return BALANCEORDERQTY	  */
+	public BigDecimal getBALANCEORDERQTY () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_BALANCEORDERQTY);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
+		return (I_C_Activity)MTable.get(getCtx(), I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -137,9 +155,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
+	public I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
+		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -165,9 +183,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
+	public I_C_Charge getC_Charge() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
+		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
@@ -193,9 +211,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
-		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
+		return (I_C_OrderLine)MTable.get(getCtx(), I_C_OrderLine.Table_Name)
 			.getPO(getC_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Sales Order Line.
@@ -221,9 +239,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
+		return (I_C_ProjectPhase)MTable.get(getCtx(), I_C_ProjectPhase.Table_Name)
 			.getPO(getC_ProjectPhase_ID(), get_TrxName());	}
 
 	/** Set Project Phase.
@@ -249,9 +267,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ProjectTask)MTable.get(getCtx(), org.compiere.model.I_C_ProjectTask.Table_Name)
+		return (I_C_ProjectTask)MTable.get(getCtx(), I_C_ProjectTask.Table_Name)
 			.getPO(getC_ProjectTask_ID(), get_TrxName());	}
 
 	/** Set Project Task.
@@ -277,9 +295,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+	public I_C_Project getC_Project() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -305,9 +323,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
+	public I_C_UOM getC_UOM() throws RuntimeException
     {
-		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
 			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
@@ -368,6 +386,27 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set ISSUMMERY.
+		@param ISSUMMERY ISSUMMERY	  */
+	public void setISSUMMERY (boolean ISSUMMERY)
+	{
+		set_Value (COLUMNNAME_ISSUMMERY, Boolean.valueOf(ISSUMMERY));
+	}
+
+	/** Get ISSUMMERY.
+		@return ISSUMMERY	  */
+	public boolean isSUMMERY () 
+	{
+		Object oo = get_Value(COLUMNNAME_ISSUMMERY);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Description Only.
@@ -497,9 +536,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException
+	public I_M_InOut getM_InOut() throws RuntimeException
     {
-		return (org.compiere.model.I_M_InOut)MTable.get(getCtx(), org.compiere.model.I_M_InOut.Table_Name)
+		return (I_M_InOut)MTable.get(getCtx(), I_M_InOut.Table_Name)
 			.getPO(getM_InOut_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt.
@@ -553,9 +592,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+	public I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -581,9 +620,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_RMALine getM_RMALine() throws RuntimeException
+	public I_M_RMALine getM_RMALine() throws RuntimeException
     {
-		return (org.compiere.model.I_M_RMALine)MTable.get(getCtx(), org.compiere.model.I_M_RMALine.Table_Name)
+		return (I_M_RMALine)MTable.get(getCtx(), I_M_RMALine.Table_Name)
 			.getPO(getM_RMALine_ID(), get_TrxName());	}
 
 	/** Set RMA Line.
@@ -670,6 +709,30 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return false;
 	}
 
+	/** Set Product Type.
+		@param ProductType 
+		Type of product
+	  */
+	public void setProductType (boolean ProductType)
+	{
+		set_Value (COLUMNNAME_ProductType, Boolean.valueOf(ProductType));
+	}
+
+	/** Get Product Type.
+		@return Type of product
+	  */
+	public boolean isProductType () 
+	{
+		Object oo = get_Value(COLUMNNAME_ProductType);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Quantity.
 		@param QtyEntered 
 		The Quantity Entered is based on the selected UoM
@@ -710,9 +773,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_InOutLine getReversalLine() throws RuntimeException
+	public I_M_InOutLine getReversalLine() throws RuntimeException
     {
-		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
+		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
 			.getPO(getReversalLine_ID(), get_TrxName());	}
 
 	/** Set Reversal Line.
@@ -736,6 +799,23 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set STOCKQTY.
+		@param STOCKQTY STOCKQTY	  */
+	public void setSTOCKQTY (BigDecimal STOCKQTY)
+	{
+		set_Value (COLUMNNAME_STOCKQTY, STOCKQTY);
+	}
+
+	/** Get STOCKQTY.
+		@return STOCKQTY	  */
+	public BigDecimal getSTOCKQTY () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_STOCKQTY);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Scrapped Quantity.
@@ -802,9 +882,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return false;
 	}
 
-	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
+	public I_C_ElementValue getUser1() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
 			.getPO(getUser1_ID(), get_TrxName());	}
 
 	/** Set User List 1.
@@ -830,9 +910,9 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
+	public I_C_ElementValue getUser2() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
 			.getPO(getUser2_ID(), get_TrxName());	}
 
 	/** Set User List 2.

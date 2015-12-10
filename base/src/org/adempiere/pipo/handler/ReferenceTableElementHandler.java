@@ -16,30 +16,22 @@
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
-import static org.compiere.model.I_AD_Ref_Table.COLUMNNAME_AD_Reference_ID;
-
-import java.util.Properties;
-
-import javax.xml.transform.sax.TransformerHandler;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
-import org.compiere.model.I_AD_Ref_Table;
-import org.compiere.model.I_AD_Reference;
-import org.compiere.model.MColumn;
-import org.compiere.model.MRefTable;
-import org.compiere.model.MTable;
-import org.compiere.model.Query;
-import org.compiere.model.X_AD_Ref_Table;
-import org.compiere.model.X_AD_Reference;
+import org.compiere.model.*;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+
+import javax.xml.transform.sax.TransformerHandler;
+import java.util.Properties;
+
+import static org.compiere.model.I_AD_Ref_Table.COLUMNNAME_AD_Reference_ID;
 
 public class ReferenceTableElementHandler extends AbstractElementHandler {
 
@@ -51,6 +43,7 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 		Attributes atts = element.attributes;
 		String entitytype = atts.getValue("EntityType");
 		String name = atts.getValue("ADRefenceNameID");
+		System.out.print(name);
 		if (isProcessElement(ctx, entitytype)) {
 			if (element.parent != null && element.parent.skip) {
 				element.skip = true;
@@ -130,6 +123,9 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 
             if (refTable != null)
             {
+            	isDisplayIdentifier=(isDisplayIdentifier==null)?"N":isDisplayIdentifier;
+            	isAlert=(isAlert==null)?"N":isAlert;
+            	
                     refTable.setAD_Table_ID(tableId);
                     refTable.setAD_Display(displayId);
                     refTable.setAD_Key(keyId);
@@ -146,16 +142,19 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
                                 "Reference Table", AD_Reference_ID, 0, "Update", "AD_Ref_Table",
                                 get_IDWithColumn(ctx, "AD_Table", "TableName",
                                         "AD_Ref_Table"));
-                    } else {
-                        record_log(ctx, 0, atts.getValue("ADRefenceNameID"),
-                                "Reference Table", AD_Reference_ID, 0, "Update", "AD_Ref_Table",
-                                get_IDWithColumn(ctx, "AD_Table", "TableName",
-                                        "AD_Ref_Table"));
+                    } 
+                    else 
+                    {
+                        record_log(ctx, 0, atts.getValue("ADRefenceNameID"),"Reference Table", AD_Reference_ID, 0, "Update", 
+                        		"AD_Ref_Table",get_IDWithColumn(ctx, "AD_Table", "TableName","AD_Ref_Table"));
                         throw new POSaveFailedException("ReferenceTable");
                     }
 			}
             else
             {
+            	isDisplayIdentifier=(isDisplayIdentifier==null)?"N":isDisplayIdentifier;
+            	isAlert=(isAlert==null)?"N":isAlert;
+            	
                 refTable = new MRefTable(ctx, 0 , getTrxName(ctx));
                 refTable.setAD_Reference_ID(AD_Reference_ID);
                 refTable.setAD_Table_ID(tableId);

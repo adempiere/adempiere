@@ -16,19 +16,19 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.File;
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Properties;
-
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Properties;
 
 /**
  *  Physical Inventory Model
@@ -398,6 +398,14 @@ public class MInventory extends X_M_Inventory implements DocAction
 
 			//Get Quantity Internal Use
 			BigDecimal qtyDiff = line.getQtyInternalUse().negate();
+			
+			//Get Quantity Raised  //AB
+			if(line.getQTYINCREASE()!=Env.ZERO)
+			{
+				qtyDiff = line.getQTYINCREASE();
+				line.setQtyCount(line.getQtyBook().add(qtyDiff));
+			}
+			
 			//If Quantity Internal Use = Zero Then Physical Inventory  Else Internal Use Inventory
 			if (qtyDiff.signum() == 0)
 			{
@@ -786,7 +794,11 @@ public class MInventory extends X_M_Inventory implements DocAction
 			//
 			rLine.setQtyBook (oLine.getQtyCount());		//	switch
 			rLine.setQtyCount (oLine.getQtyBook());
-			rLine.setQtyInternalUse (oLine.getQtyInternalUse().negate());		
+			rLine.setQtyInternalUse (oLine.getQtyInternalUse().negate());
+
+            //AB
+            if(oLine.getQTYINCREASE()!=Env.ZERO)
+            rLine.setQTYINCREASE(oLine.getQTYINCREASE().negate());
 			
 			rLine.saveEx();
 

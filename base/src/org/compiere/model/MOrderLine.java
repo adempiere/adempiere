@@ -16,17 +16,17 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Properties;
-import java.util.logging.Level;
-
 import org.adempiere.exceptions.ProductNotOnPriceListException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  *  Order Line Model.
@@ -809,6 +809,12 @@ public class MOrderLine extends X_C_OrderLine
 		if (m_M_PriceList_ID == 0)
 			setHeaderInfo(getParent());
 
+		if(getQtyEntered().doubleValue()<getQtyDelivered().doubleValue() && getM_Product_ID()!=0)			//AB 13-07-2015  Check for PO Qty after Reactivation , greater than Delivered Qty
+		{
+			log.saveError("Could Not Save - Error","Qty Entered is less than Delivered Qty, "
+					+ "Please enter Qty greater than or equal to  Delivered Qty.");
+			return false;
+		}
 		
 		//	R/O Check - Product/Warehouse Change
 		if (!newRecord 
@@ -940,7 +946,7 @@ public class MOrderLine extends X_C_OrderLine
 		}
 		if (Env.ZERO.compareTo(getQtyReserved()) != 0)
 		{
-			//	For PO should be On Order
+			//	For PO should be On Order Quantity
 			log.saveError("DeleteError", Msg.translate(getCtx(), "QtyReserved") + "=" + getQtyReserved());
 			return false;
 		}

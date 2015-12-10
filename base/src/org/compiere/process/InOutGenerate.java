@@ -16,6 +16,11 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import org.compiere.model.*;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,17 +28,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
-
-import org.compiere.model.MClient;
-import org.compiere.model.MInOut;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MProduct;
-import org.compiere.model.MStorage;
-import org.compiere.util.AdempiereUserError;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  *	Generate Shipments.
@@ -306,9 +300,8 @@ public class InOutGenerate extends SvrProcess
 						MStorage storage = storages[j];
 						onHand = onHand.add(storage.getQtyOnHand());
 					}
-					boolean fullLine = onHand.compareTo(toDeliver) >= 0
-						|| toDeliver.signum() < 0;
-					
+					boolean fullLine = onHand.compareTo(toDeliver) >= 0	|| toDeliver.signum() < 0;
+
 					//	Complete Order
 					if (completeOrder && !fullLine)
 					{
@@ -507,6 +500,12 @@ public class InOutGenerate extends SvrProcess
 				line.setQtyEntered(line.getMovementQty().multiply(orderLine.getQtyEntered())
 					.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
 			line.setLine(m_line + orderLine.getLine());
+			
+			String query="select sum(qtyonhand) from m_storage where m_product_id="+line.getM_Product_ID()+" and m_locator_id="+M_Locator_ID+" and "
+					+ "ad_org_id=(select ad_org_id from c_orderline where c_orderline_id="+line.getC_OrderLine_ID()+")";
+			BigDecimal StockQty=DB.getSQLValueBD(get_TrxName(), query);
+			line.setSTOCKQTY(StockQty);
+			line.setBALANCEORDERQTY(orderLine.getQtyReserved());		//AB 16-07-2015 Set Balance ORder Qty
 			if (!line.save())
 				throw new IllegalStateException("Could not create Shipment Line");
 			log.fine("ToDeliver=" + qty + "/" + deliver + " - " + line);

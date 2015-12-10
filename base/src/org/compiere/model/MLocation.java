@@ -16,19 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.*;
+
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.Util;
 
 /**
  *	Location (Address)
@@ -51,7 +47,7 @@ public class MLocation extends X_C_Location implements Comparator
 	 */
 	private static final long serialVersionUID = -1326655776792201217L;
 
-
+	public static int C_Loc_id;
 	/**
 	 * 	Get Location from Cache
 	 *	@param ctx context
@@ -61,10 +57,10 @@ public class MLocation extends X_C_Location implements Comparator
 	 */
 	public static MLocation get (Properties ctx, int C_Location_ID, String trxName)
 	{
-		//	New
+
 		if (C_Location_ID == 0)
 			return new MLocation(ctx, C_Location_ID, trxName);
-		//
+
 		Integer key = new Integer (C_Location_ID);
 		MLocation retValue = null;
 		if (trxName == null)
@@ -623,6 +619,16 @@ public class MLocation extends X_C_Location implements Comparator
 				setC_City_ID(city_id);
 		}
 
+		/* Ossagho Development Team - 11-03-2015
+		 * BP Address Check
+		 */
+				if(!Location_UpDelCheck())
+				{
+					log.saveError( "Location_Check", Msg.translate(getCtx(), "Location_Check" ));
+					return false;
+				}
+		//AB
+		
 		//check city
 		if (m_c != null && !m_c.isAllowCitiesOutOfList() && getC_City_ID()<=0) {
 			log.saveError("CityNotFound", Msg.translate(getCtx(), "CityNotFound"));
@@ -651,5 +657,35 @@ public class MLocation extends X_C_Location implements Comparator
 				+ " OR C_LocTo_ID=" + getC_Location_ID() + ")", get_TrxName());
 		return success;
 	}	//	afterSave
+	
+	/* Ossagho Development Team - 11-03-2015
+	 * BP Address Check
+	 */
+		public boolean Location_UpDelCheck()
+		{
+			boolean check=true;
+			int i,o;
+			BigDecimal C_BPLocation_ID;
+
+            if(getC_Location_ID()!=0)
+            {
+                String sql1="select c_bpartner_location_id from c_bpartner_location where c_location_id="+getC_Location_ID()+"";
+                C_BPLocation_ID=DB.getSQLValueBD(null, sql1);
+
+                String sql="select count(1) from c_order where c_bpartner_location_id="+C_BPLocation_ID+" OR  bill_location_id="+C_BPLocation_ID+"";
+                o=DB.getSQLValue(null, sql);
+
+                String sql2="select count(1) from c_invoice where c_bpartner_location_id="+C_BPLocation_ID+"";
+                i=DB.getSQLValue(null, sql2);
+
+                if(i>0||o>0)
+                {
+                    check=false;
+                }
+            }
+
+			return check;
+		}
+		//AB
 	
 }	//	MLocation

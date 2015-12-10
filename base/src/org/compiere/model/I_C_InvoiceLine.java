@@ -16,13 +16,14 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.KeyNamePair;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_InvoiceLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version R/3
  */
 public interface I_C_InvoiceLine 
 {
@@ -55,7 +56,7 @@ public interface I_C_InvoiceLine
 	/** Set Trx Organization.
 	  * Performing or initiating organization
 	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+	public void setAD_OrgTrx_ID(int AD_OrgTrx_ID);
 
 	/** Get Trx Organization.
 	  * Performing or initiating organization
@@ -68,7 +69,7 @@ public interface I_C_InvoiceLine
 	/** Set Organization.
 	  * Organizational entity within client
 	  */
-	public void setAD_Org_ID (int AD_Org_ID);
+	public void setAD_Org_ID(int AD_Org_ID);
 
 	/** Get Organization.
 	  * Organizational entity within client
@@ -81,14 +82,14 @@ public interface I_C_InvoiceLine
 	/** Set Asset Group.
 	  * Group of Assets
 	  */
-	public void setA_Asset_Group_ID (int A_Asset_Group_ID);
+	public void setA_Asset_Group_ID(int A_Asset_Group_ID);
 
 	/** Get Asset Group.
 	  * Group of Assets
 	  */
 	public int getA_Asset_Group_ID();
 
-	public org.compiere.model.I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
+	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
@@ -96,20 +97,20 @@ public interface I_C_InvoiceLine
 	/** Set Asset.
 	  * Asset used internally or by customers
 	  */
-	public void setA_Asset_ID (int A_Asset_ID);
+	public void setA_Asset_ID(int A_Asset_ID);
 
 	/** Get Asset.
 	  * Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
 
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
+	public I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name A_CapvsExp */
     public static final String COLUMNNAME_A_CapvsExp = "A_CapvsExp";
 
 	/** Set Capital/Expense	  */
-	public void setA_CapvsExp (String A_CapvsExp);
+	public void setA_CapvsExp(String A_CapvsExp);
 
 	/** Get Capital/Expense	  */
 	public String getA_CapvsExp();
@@ -118,7 +119,7 @@ public interface I_C_InvoiceLine
     public static final String COLUMNNAME_A_CreateAsset = "A_CreateAsset";
 
 	/** Set Create Asset	  */
-	public void setA_CreateAsset (boolean A_CreateAsset);
+	public void setA_CreateAsset(boolean A_CreateAsset);
 
 	/** Get Create Asset	  */
 	public boolean isA_CreateAsset();
@@ -127,7 +128,7 @@ public interface I_C_InvoiceLine
     public static final String COLUMNNAME_A_Processed = "A_Processed";
 
 	/** Set Processed	  */
-	public void setA_Processed (boolean A_Processed);
+	public void setA_Processed(boolean A_Processed);
 
 	/** Get Processed	  */
 	public boolean isA_Processed();
@@ -138,14 +139,14 @@ public interface I_C_InvoiceLine
 	/** Set Activity.
 	  * Business Activity
 	  */
-	public void setC_Activity_ID (int C_Activity_ID);
+	public void setC_Activity_ID(int C_Activity_ID);
 
 	/** Get Activity.
 	  * Business Activity
 	  */
 	public int getC_Activity_ID();
 
-	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
+	public I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -153,14 +154,14 @@ public interface I_C_InvoiceLine
 	/** Set Campaign.
 	  * Marketing Campaign
 	  */
-	public void setC_Campaign_ID (int C_Campaign_ID);
+	public void setC_Campaign_ID(int C_Campaign_ID);
 
 	/** Get Campaign.
 	  * Marketing Campaign
 	  */
 	public int getC_Campaign_ID();
 
-	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
+	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -168,14 +169,14 @@ public interface I_C_InvoiceLine
 	/** Set Charge.
 	  * Additional document charges
 	  */
-	public void setC_Charge_ID (int C_Charge_ID);
+	public void setC_Charge_ID(int C_Charge_ID);
 
 	/** Get Charge.
 	  * Additional document charges
 	  */
 	public int getC_Charge_ID();
 
-	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
+	public I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
@@ -183,7 +184,7 @@ public interface I_C_InvoiceLine
 	/** Set Invoice Line.
 	  * Invoice Detail Line
 	  */
-	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
+	public void setC_InvoiceLine_ID(int C_InvoiceLine_ID);
 
 	/** Get Invoice Line.
 	  * Invoice Detail Line
@@ -196,14 +197,14 @@ public interface I_C_InvoiceLine
 	/** Set Invoice.
 	  * Invoice Identifier
 	  */
-	public void setC_Invoice_ID (int C_Invoice_ID);
+	public void setC_Invoice_ID(int C_Invoice_ID);
 
 	/** Get Invoice.
 	  * Invoice Identifier
 	  */
 	public int getC_Invoice_ID();
 
-	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
+	public I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -211,14 +212,14 @@ public interface I_C_InvoiceLine
 	/** Set Sales Order Line.
 	  * Sales Order Line
 	  */
-	public void setC_OrderLine_ID (int C_OrderLine_ID);
+	public void setC_OrderLine_ID(int C_OrderLine_ID);
 
 	/** Get Sales Order Line.
 	  * Sales Order Line
 	  */
 	public int getC_OrderLine_ID();
 
-	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -226,14 +227,14 @@ public interface I_C_InvoiceLine
 	/** Set Project Phase.
 	  * Phase of a Project
 	  */
-	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID);
+	public void setC_ProjectPhase_ID(int C_ProjectPhase_ID);
 
 	/** Get Project Phase.
 	  * Phase of a Project
 	  */
 	public int getC_ProjectPhase_ID();
 
-	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
 
     /** Column name C_ProjectTask_ID */
     public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
@@ -241,14 +242,14 @@ public interface I_C_InvoiceLine
 	/** Set Project Task.
 	  * Actual Project Task in a Phase
 	  */
-	public void setC_ProjectTask_ID (int C_ProjectTask_ID);
+	public void setC_ProjectTask_ID(int C_ProjectTask_ID);
 
 	/** Get Project Task.
 	  * Actual Project Task in a Phase
 	  */
 	public int getC_ProjectTask_ID();
 
-	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -256,14 +257,14 @@ public interface I_C_InvoiceLine
 	/** Set Project.
 	  * Financial Project
 	  */
-	public void setC_Project_ID (int C_Project_ID);
+	public void setC_Project_ID(int C_Project_ID);
 
 	/** Get Project.
 	  * Financial Project
 	  */
 	public int getC_Project_ID();
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+	public I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
@@ -271,14 +272,14 @@ public interface I_C_InvoiceLine
 	/** Set Tax.
 	  * Tax identifier
 	  */
-	public void setC_Tax_ID (int C_Tax_ID);
+	public void setC_Tax_ID(int C_Tax_ID);
 
 	/** Get Tax.
 	  * Tax identifier
 	  */
 	public int getC_Tax_ID();
 
-	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException;
+	public I_C_Tax getC_Tax() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -286,14 +287,14 @@ public interface I_C_InvoiceLine
 	/** Set UOM.
 	  * Unit of Measure
 	  */
-	public void setC_UOM_ID (int C_UOM_ID);
+	public void setC_UOM_ID(int C_UOM_ID);
 
 	/** Get UOM.
 	  * Unit of Measure
 	  */
 	public int getC_UOM_ID();
 
-	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
+	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -317,7 +318,7 @@ public interface I_C_InvoiceLine
 	/** Set Description.
 	  * Optional short description of the record
 	  */
-	public void setDescription (String Description);
+	public void setDescription(String Description);
 
 	/** Get Description.
 	  * Optional short description of the record
@@ -330,7 +331,7 @@ public interface I_C_InvoiceLine
 	/** Set Generate To.
 	  * Generate To
 	  */
-	public void setGenerateTo (String GenerateTo);
+	public void setGenerateTo(String GenerateTo);
 
 	/** Get Generate To.
 	  * Generate To
@@ -343,7 +344,7 @@ public interface I_C_InvoiceLine
 	/** Set Active.
 	  * The record is active in the system
 	  */
-	public void setIsActive (boolean IsActive);
+	public void setIsActive(boolean IsActive);
 
 	/** Get Active.
 	  * The record is active in the system
@@ -356,7 +357,7 @@ public interface I_C_InvoiceLine
 	/** Set Collective Asset.
 	  * Asset Quantity is Collective
 	  */
-	public void setIsCollectiveAsset (boolean IsCollectiveAsset);
+	public void setIsCollectiveAsset(boolean IsCollectiveAsset);
 
 	/** Get Collective Asset.
 	  * Asset Quantity is Collective
@@ -369,7 +370,7 @@ public interface I_C_InvoiceLine
 	/** Set Description Only.
 	  * if true, the line is just description and no transaction
 	  */
-	public void setIsDescription (boolean IsDescription);
+	public void setIsDescription(boolean IsDescription);
 
 	/** Get Description Only.
 	  * if true, the line is just description and no transaction
@@ -380,7 +381,7 @@ public interface I_C_InvoiceLine
     public static final String COLUMNNAME_IsFixedAssetInvoice = "IsFixedAssetInvoice";
 
 	/** Set IsFixedAssetInvoice	  */
-	public void setIsFixedAssetInvoice (boolean IsFixedAssetInvoice);
+	public void setIsFixedAssetInvoice(boolean IsFixedAssetInvoice);
 
 	/** Get IsFixedAssetInvoice	  */
 	public boolean isFixedAssetInvoice();
@@ -391,7 +392,7 @@ public interface I_C_InvoiceLine
 	/** Set Printed.
 	  * Indicates if this document / line is printed
 	  */
-	public void setIsPrinted (boolean IsPrinted);
+	public void setIsPrinted(boolean IsPrinted);
 
 	/** Get Printed.
 	  * Indicates if this document / line is printed
@@ -404,7 +405,7 @@ public interface I_C_InvoiceLine
 	/** Set Line No.
 	  * Unique line for this document
 	  */
-	public void setLine (int Line);
+	public void setLine(int Line);
 
 	/** Get Line No.
 	  * Unique line for this document
@@ -417,7 +418,7 @@ public interface I_C_InvoiceLine
 	/** Set Line Amount.
 	  * Line Extended Amount (Quantity * Actual Price) without Freight and Charges
 	  */
-	public void setLineNetAmt (BigDecimal LineNetAmt);
+	public void setLineNetAmt(BigDecimal LineNetAmt);
 
 	/** Get Line Amount.
 	  * Line Extended Amount (Quantity * Actual Price) without Freight and Charges
@@ -430,7 +431,7 @@ public interface I_C_InvoiceLine
 	/** Set Line Total.
 	  * Total line amount incl. Tax
 	  */
-	public void setLineTotalAmt (BigDecimal LineTotalAmt);
+	public void setLineTotalAmt(BigDecimal LineTotalAmt);
 
 	/** Get Line Total.
 	  * Total line amount incl. Tax
@@ -443,7 +444,7 @@ public interface I_C_InvoiceLine
 	/** Set Attribute Set Instance.
 	  * Product Attribute Set Instance
 	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
+	public void setM_AttributeSetInstance_ID(int M_AttributeSetInstance_ID);
 
 	/** Get Attribute Set Instance.
 	  * Product Attribute Set Instance
@@ -458,14 +459,14 @@ public interface I_C_InvoiceLine
 	/** Set Shipment/Receipt Line.
 	  * Line on Shipment or Receipt document
 	  */
-	public void setM_InOutLine_ID (int M_InOutLine_ID);
+	public void setM_InOutLine_ID(int M_InOutLine_ID);
 
 	/** Get Shipment/Receipt Line.
 	  * Line on Shipment or Receipt document
 	  */
 	public int getM_InOutLine_ID();
 
-	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -473,14 +474,14 @@ public interface I_C_InvoiceLine
 	/** Set Product.
 	  * Product, Service, Item
 	  */
-	public void setM_Product_ID (int M_Product_ID);
+	public void setM_Product_ID(int M_Product_ID);
 
 	/** Get Product.
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_RMALine_ID */
     public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
@@ -488,14 +489,23 @@ public interface I_C_InvoiceLine
 	/** Set RMA Line.
 	  * Return Material Authorization Line
 	  */
-	public void setM_RMALine_ID (int M_RMALine_ID);
+	public void setM_RMALine_ID(int M_RMALine_ID);
 
 	/** Get RMA Line.
 	  * Return Material Authorization Line
 	  */
 	public int getM_RMALine_ID();
 
-	public org.compiere.model.I_M_RMALine getM_RMALine() throws RuntimeException;
+	public I_M_RMALine getM_RMALine() throws RuntimeException;
+
+    /** Column name PARENTDOCQTY */
+    public static final String COLUMNNAME_PARENTDOCQTY = "PARENTDOCQTY";
+
+	/** Set PARENTDOCQTY	  */
+	public void setPARENTDOCQTY(BigDecimal PARENTDOCQTY);
+
+	/** Get PARENTDOCQTY	  */
+	public BigDecimal getPARENTDOCQTY();
 
     /** Column name PriceActual */
     public static final String COLUMNNAME_PriceActual = "PriceActual";
@@ -503,7 +513,7 @@ public interface I_C_InvoiceLine
 	/** Set Unit Price.
 	  * Actual Price 
 	  */
-	public void setPriceActual (BigDecimal PriceActual);
+	public void setPriceActual(BigDecimal PriceActual);
 
 	/** Get Unit Price.
 	  * Actual Price 
@@ -516,7 +526,7 @@ public interface I_C_InvoiceLine
 	/** Set Price.
 	  * Price Entered - the price based on the selected/base UoM
 	  */
-	public void setPriceEntered (BigDecimal PriceEntered);
+	public void setPriceEntered(BigDecimal PriceEntered);
 
 	/** Get Price.
 	  * Price Entered - the price based on the selected/base UoM
@@ -529,7 +539,7 @@ public interface I_C_InvoiceLine
 	/** Set Limit Price.
 	  * Lowest price for a product
 	  */
-	public void setPriceLimit (BigDecimal PriceLimit);
+	public void setPriceLimit(BigDecimal PriceLimit);
 
 	/** Get Limit Price.
 	  * Lowest price for a product
@@ -542,7 +552,7 @@ public interface I_C_InvoiceLine
 	/** Set List Price.
 	  * List Price
 	  */
-	public void setPriceList (BigDecimal PriceList);
+	public void setPriceList(BigDecimal PriceList);
 
 	/** Get List Price.
 	  * List Price
@@ -555,7 +565,7 @@ public interface I_C_InvoiceLine
 	/** Set Processed.
 	  * The document has been processed
 	  */
-	public void setProcessed (boolean Processed);
+	public void setProcessed(boolean Processed);
 
 	/** Get Processed.
 	  * The document has been processed
@@ -568,7 +578,7 @@ public interface I_C_InvoiceLine
 	/** Set Quantity.
 	  * The Quantity Entered is based on the selected UoM
 	  */
-	public void setQtyEntered (BigDecimal QtyEntered);
+	public void setQtyEntered(BigDecimal QtyEntered);
 
 	/** Get Quantity.
 	  * The Quantity Entered is based on the selected UoM
@@ -581,7 +591,7 @@ public interface I_C_InvoiceLine
 	/** Set Quantity Invoiced.
 	  * Invoiced Quantity
 	  */
-	public void setQtyInvoiced (BigDecimal QtyInvoiced);
+	public void setQtyInvoiced(BigDecimal QtyInvoiced);
 
 	/** Get Quantity Invoiced.
 	  * Invoiced Quantity
@@ -594,7 +604,7 @@ public interface I_C_InvoiceLine
 	/** Set Revenue Recognition Amt.
 	  * Revenue Recognition Amount
 	  */
-	public void setRRAmt (BigDecimal RRAmt);
+	public void setRRAmt(BigDecimal RRAmt);
 
 	/** Get Revenue Recognition Amt.
 	  * Revenue Recognition Amount
@@ -607,7 +617,7 @@ public interface I_C_InvoiceLine
 	/** Set Revenue Recognition Start.
 	  * Revenue Recognition Start Date
 	  */
-	public void setRRStartDate (Timestamp RRStartDate);
+	public void setRRStartDate(Timestamp RRStartDate);
 
 	/** Get Revenue Recognition Start.
 	  * Revenue Recognition Start Date
@@ -618,7 +628,7 @@ public interface I_C_InvoiceLine
     public static final String COLUMNNAME_Ref_InvoiceLine_ID = "Ref_InvoiceLine_ID";
 
 	/** Set Referenced Invoice Line	  */
-	public void setRef_InvoiceLine_ID (int Ref_InvoiceLine_ID);
+	public void setRef_InvoiceLine_ID(int Ref_InvoiceLine_ID);
 
 	/** Get Referenced Invoice Line	  */
 	public int getRef_InvoiceLine_ID();
@@ -629,7 +639,7 @@ public interface I_C_InvoiceLine
 	/** Set Resource Assignment.
 	  * Resource Assignment
 	  */
-	public void setS_ResourceAssignment_ID (int S_ResourceAssignment_ID);
+	public void setS_ResourceAssignment_ID(int S_ResourceAssignment_ID);
 
 	/** Get Resource Assignment.
 	  * Resource Assignment
@@ -642,7 +652,7 @@ public interface I_C_InvoiceLine
 	/** Set Tax Amount.
 	  * Tax Amount for a document
 	  */
-	public void setTaxAmt (BigDecimal TaxAmt);
+	public void setTaxAmt(BigDecimal TaxAmt);
 
 	/** Get Tax Amount.
 	  * Tax Amount for a document
@@ -671,14 +681,14 @@ public interface I_C_InvoiceLine
 	/** Set User List 1.
 	  * User defined list element #1
 	  */
-	public void setUser1_ID (int User1_ID);
+	public void setUser1_ID(int User1_ID);
 
 	/** Get User List 1.
 	  * User defined list element #1
 	  */
 	public int getUser1_ID();
 
-	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
+	public I_C_ElementValue getUser1() throws RuntimeException;
 
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
@@ -686,12 +696,12 @@ public interface I_C_InvoiceLine
 	/** Set User List 2.
 	  * User defined list element #2
 	  */
-	public void setUser2_ID (int User2_ID);
+	public void setUser2_ID(int User2_ID);
 
 	/** Get User List 2.
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
 
-	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
+	public I_C_ElementValue getUser2() throws RuntimeException;
 }

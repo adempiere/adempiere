@@ -19,81 +19,7 @@
 
 package org.adempiere.pipo;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Stack;
-import java.util.logging.Level;
-
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.sax.TransformerHandler;
-import javax.xml.transform.stream.StreamResult;
-
-import org.adempiere.pipo.handler.AdElementHandler;
-import org.adempiere.pipo.handler.BrowseElementHandler;
-import org.adempiere.pipo.handler.BrowseFieldElementHandler;
-import org.adempiere.pipo.handler.CodeSnipitElementHandler;
-import org.adempiere.pipo.handler.ColumnElementHandler;
-import org.adempiere.pipo.handler.CommonTranslationHandler;
-import org.adempiere.pipo.handler.DataElementHandler;
-import org.adempiere.pipo.handler.DistFileElementHandler;
-import org.adempiere.pipo.handler.DynValRuleElementHandler;
-import org.adempiere.pipo.handler.EntityTypeElementHandler;
-import org.adempiere.pipo.handler.FieldElementHandler;
-import org.adempiere.pipo.handler.FieldGroupElementHandler;
-import org.adempiere.pipo.handler.FormAccessElementHandler;
-import org.adempiere.pipo.handler.FormElementHandler;
-import org.adempiere.pipo.handler.ImpFormatElementHandler;
-import org.adempiere.pipo.handler.ImpFormatRowElementHandler;
-import org.adempiere.pipo.handler.MenuElementHandler;
-import org.adempiere.pipo.handler.MessageElementHandler;
-import org.adempiere.pipo.handler.ModelValidatorElementHandler;
-import org.adempiere.pipo.handler.OrgRoleElementHandler;
-import org.adempiere.pipo.handler.PreferenceElementHandler;
-import org.adempiere.pipo.handler.PrintFormatElementHandler;
-import org.adempiere.pipo.handler.PrintFormatItemElementHandler;
-import org.adempiere.pipo.handler.PrintPaperElementHandler;
-import org.adempiere.pipo.handler.ProcessAccessElementHandler;
-import org.adempiere.pipo.handler.ProcessElementHandler;
-import org.adempiere.pipo.handler.ProcessParaElementHandler;
-import org.adempiere.pipo.handler.ReferenceElementHandler;
-import org.adempiere.pipo.handler.ReferenceListElementHandler;
-import org.adempiere.pipo.handler.ReferenceTableElementHandler;
-import org.adempiere.pipo.handler.ReportViewColElementHandler;
-import org.adempiere.pipo.handler.ReportViewElementHandler;
-import org.adempiere.pipo.handler.RoleElementHandler;
-import org.adempiere.pipo.handler.SQLStatementElementHandler;
-import org.adempiere.pipo.handler.TabElementHandler;
-import org.adempiere.pipo.handler.TableElementHandler;
-import org.adempiere.pipo.handler.TaskAccessElementHandler;
-import org.adempiere.pipo.handler.TaskElementHandler;
-import org.adempiere.pipo.handler.UserRoleElementHandler;
-import org.adempiere.pipo.handler.ViewColumnElementHandler;
-import org.adempiere.pipo.handler.ViewDefinitionElementHandler;
-import org.adempiere.pipo.handler.ViewElementHandler;
-import org.adempiere.pipo.handler.WindowAccessElementHandler;
-import org.adempiere.pipo.handler.WindowElementHandler;
-import org.adempiere.pipo.handler.WorkflowAccessElementHandler;
-import org.adempiere.pipo.handler.WorkflowElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeNextConditionElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeNextElementHandler;
+import org.adempiere.pipo.handler.*;
 import org.compiere.model.MSequence;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -105,6 +31,22 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
+import java.util.logging.Level;
 
 /**
  * SAX Handler for parsing XML description of the GUI.
@@ -263,10 +205,10 @@ public class PackInHandler extends DefaultHandler {
      * 	@param localName simple name
      * 	@param qName qualified name
      * 	@param atts attributes
-     * 	@throws org.xml.sax.SAXException
+     * 	@throws SAXException
      */
 	public void startElement (String uri, String localName, String qName, Attributes atts)
-	throws org.xml.sax.SAXException {
+	throws SAXException {
 		
 		// Create the package log    	
 		if (Start_Doc==0){
@@ -417,6 +359,8 @@ public class PackInHandler extends DefaultHandler {
 			menus.add(e);
 		}
 		else {
+			
+			System.out.print(qName);
 			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
 			if (stack.size() > 0)
 				e.parent = stack.peek();

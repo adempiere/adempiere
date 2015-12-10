@@ -13,6 +13,11 @@
  *****************************************************************************/
 package org.compiere.grid;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.minigrid.IMiniTable;
+import org.compiere.model.*;
+import org.compiere.util.*;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,24 +25,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
-
-import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.GridTab;
-import org.compiere.model.MInOut;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MProduct;
-import org.compiere.model.MRMA;
-import org.compiere.model.MRMALine;
-import org.compiere.model.MUOMConversion;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Msg;
 
 /**
  *  Create Invoice Transactions from PO Orders or Receipt
@@ -73,11 +60,11 @@ public class CreateFromInvoice extends CreateFrom
 		return true;
 	}   //  dynInit
 
-	/**
+	/** //AB 15-09-2015 Sales=Purchase Changes
 	 * Load PBartner dependent Order/Invoice/Shipment Field.
 	 * @param C_BPartner_ID
 	 */
-	protected ArrayList<KeyNamePair> loadShipmentData (int C_BPartner_ID)
+	protected ArrayList<KeyNamePair> loadShipmentData (int C_BPartner_ID,char isSOTrx)
 	{
 		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
 
@@ -85,23 +72,45 @@ public class CreateFromInvoice extends CreateFrom
 		StringBuffer display = new StringBuffer("s.DocumentNo||' - '||")
 			.append(DB.TO_CHAR("s.MovementDate", DisplayType.Date, Env.getAD_Language(Env.getCtx())));
 		//
-		StringBuffer sql = new StringBuffer("SELECT s.M_InOut_ID,").append(display)
-			.append(" FROM M_InOut s "
-			+ "WHERE s.C_BPartner_ID=? AND s.IsSOTrx='N' AND s.DocStatus IN ('CL','CO')"
-			+ " AND s.M_InOut_ID IN "
-				+ "(SELECT sl.M_InOut_ID FROM M_InOutLine sl"
-				+ " LEFT OUTER JOIN M_MatchInv mi ON (sl.M_InOutLine_ID=mi.M_InOutLine_ID) "
-				+ " JOIN M_InOut s2 ON (sl.M_InOut_ID=s2.M_InOut_ID) "
-				+ " WHERE s2.C_BPartner_ID=? AND s2.IsSOTrx='N' AND s2.DocStatus IN ('CL','CO') "
-				+ "GROUP BY sl.M_InOut_ID,mi.M_InOutLine_ID,sl.MovementQty "
-				+ "HAVING (sl.MovementQty<>SUM(mi.Qty) AND mi.M_InOutLine_ID IS NOT NULL)"
-				+ " OR mi.M_InOutLine_ID IS NULL) "
-			+ "ORDER BY s.MovementDate");
+        StringBuffer sql=null;
+        if(isSOTrx=='N')
+        {
+            sql = new StringBuffer("SELECT s.M_InOut_ID,").append(display)
+                    .append(" FROM M_InOut s "
+                            + "WHERE s.C_BPartner_ID=? AND s.IsSOTrx='"+isSOTrx+"' AND s.DocStatus IN ('CL','CO')"
+                            + " AND s.M_InOut_ID IN "
+                            + "(SELECT sl.M_InOut_ID FROM M_InOutLine sl"
+                            + " LEFT OUTER JOIN M_MatchInv mi ON (sl.M_InOutLine_ID=mi.M_InOutLine_ID) "
+                            + " JOIN M_InOut s2 ON (sl.M_InOut_ID=s2.M_InOut_ID) "
+                            + " WHERE s2.C_BPartner_ID=? AND s2.IsSOTrx='"+isSOTrx+"' AND s2.DocStatus IN ('CL','CO') "
+                            + "GROUP BY sl.M_InOut_ID,mi.M_InOutLine_ID,sl.MovementQty "
+                            + "HAVING (sl.MovementQty<>SUM(mi.Qty) AND mi.M_InOutLine_ID IS NOT NULL)"
+                            + " OR mi.M_InOutLine_ID IS NULL) "
+                            + "ORDER BY s.MovementDate");
+
+        }
+        else if(isSOTrx=='Y')
+        {
+            sql = new StringBuffer("SELECT s.M_InOut_ID,").append(display)
+                    .append(" FROM M_InOut s WHERE s.C_BPartner_ID=? AND s.IsSOTrx='"+isSOTrx+"' AND s.DocStatus IN ('CL','CO')" +
+                            " AND s.M_InOut_ID IN (select inout.M_INOUT_ID" +
+                            " from m_inoutline inoutline" +
+                            " left join c_invoiceline invline on inoutline.M_INOUTLINE_ID=invline.M_INOUTLINE_ID" +
+                            " left join c_invoice inv on inv.c_invoice_id=invline.C_INVOICE_ID"+
+                            " inner join m_inout inout on inout.M_INOUT_ID=inoutline.M_INOUT_ID" +
+                            " where inout.issotrx='Y'" +
+                            " and (inoutline.QTYENTERED-nvl(invline.QTYENTERED,0))>0 " +
+                            " and ((select docstatus from c_invoice where c_invoice_id=inv.C_INVOICE_ID) is null OR" +
+                            " (select docstatus from c_invoice where c_invoice_id=inv.C_INVOICE_ID)='DR'))" +
+                            " ORDER BY s.MovementDate");
+        }
+
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_BPartner_ID);
-			pstmt.setInt(2, C_BPartner_ID);
+            if(isSOTrx=='N')
+            {       pstmt.setInt(2, C_BPartner_ID); }
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -195,7 +204,7 @@ public class CreateFromInvoice extends CreateFrom
 			.append("GROUP BY l.MovementQty, l.QtyEntered/l.MovementQty, "
 				+ "l.C_UOM_ID, COALESCE(uom.UOMSymbol, uom.Name), "
 				+ "l.M_Product_ID, p.Name, po.VendorProductNo, l.M_InOutLine_ID, l.Line, l.C_OrderLine_ID ")
-			.append("ORDER BY l.Line");
+                .append("ORDER BY l.Line");
 
 		try
 		{
@@ -356,6 +365,7 @@ public class CreateFromInvoice extends CreateFrom
 		if (p_order != null)
 		{
 			invoice.setOrder(p_order);	//	overwrite header values
+			
 			invoice.saveEx();
 		}
 
@@ -398,6 +408,15 @@ public class CreateFromInvoice extends CreateFrom
 				pp = (KeyNamePair)miniTable.getValueAt(i, 5);               //  5-OrderLine
 				if (pp != null)
 					C_OrderLine_ID = pp.getKey();
+				
+				String query="select count(*) from c_invoiceline where INSTR(c_orderline_id, '"+C_OrderLine_ID+"') > 0 and c_invoice_id="+C_Invoice_ID+"";
+				int count=DB.getSQLValue(trxName, query);
+				
+				if(count>0)
+				{
+					throw new AdempiereException("Order Line Already present in the Invoice Line, Please Check Again!!!");
+				}
+				
 				int M_InOutLine_ID = 0;
 				pp = (KeyNamePair)miniTable.getValueAt(i, 6);               //  6-Shipment
 				if (pp != null)
@@ -531,6 +550,7 @@ public class CreateFromInvoice extends CreateFrom
 					else
 						log.fine("No RMA Line");
 				}
+				invoiceLine.setPARENTDOCQTY(QtyEntered);    				//AB ---- Setting Parent Doc Qty 15-07-2015
 				invoiceLine.saveEx();
 			}   //   if selected
 		}   //  for all rows

@@ -17,79 +17,13 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Event;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
-import java.util.Vector;
-import java.util.logging.Level;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import org.adempiere.model.MBrowse;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.search.Find;
-import org.compiere.grid.APanelTab;
-import org.compiere.grid.GridController;
-import org.compiere.grid.GridSynchronizer;
-import org.compiere.grid.ICreateFrom;
-import org.compiere.grid.RecordAccessDialog;
-import org.compiere.grid.VCreateFromFactory;
-import org.compiere.grid.VOnlyCurrentDays;
-import org.compiere.grid.VPayment;
-import org.compiere.grid.VSortTab;
-import org.compiere.grid.VTabbedPane;
+import org.compiere.grid.*;
 import org.compiere.grid.ed.VButton;
 import org.compiere.grid.ed.VDocAction;
-import org.compiere.model.DataStatusEvent;
-import org.compiere.model.DataStatusListener;
-import org.compiere.model.GridField;
-import org.compiere.model.GridTab;
-import org.compiere.model.GridTable;
-import org.compiere.model.GridWindow;
-import org.compiere.model.GridWindowVO;
-import org.compiere.model.GridWorkbench;
-import org.compiere.model.Lookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MProcess;
-import org.compiere.model.MQuery;
-import org.compiere.model.MRole;
-import org.compiere.model.MUser;
-import org.compiere.model.MWindow;
+import org.compiere.model.*;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.print.AReport;
 import org.compiere.process.DocAction;
@@ -97,15 +31,16 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
-import org.compiere.util.ASyncProcess;
-import org.compiere.util.CLogMgt;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Language;
-import org.compiere.util.Msg;
-import org.compiere.util.Util;
+import org.compiere.util.*;
 import org.eevolution.form.VBrowser;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import java.util.logging.Level;
 
 /**
  *	Main Panel of application window.
@@ -1264,6 +1199,13 @@ public final class APanel extends CPanel
 		if (m_curWinTab instanceof VTabbedPane)
 			((VTabbedPane)m_curWinTab).evaluate(e);
 	//	log.info("- fini", e.getMessage());
+		
+				/*
+				 * Ossagho Development team 10-03-2015
+				 */
+				setToolbarWC();
+				
+		
 	}	//	dataStatusChanged
 
 	/**
@@ -1349,7 +1291,7 @@ public final class APanel extends CPanel
 			if (tp.getSelectedComponent() instanceof JTabbedPane)
 				m_curWinTab = (JTabbedPane)tp.getSelectedComponent();
 			else
-				throw new java.lang.IllegalArgumentException("Window does not contain Tabs");
+				throw new IllegalArgumentException("Window does not contain Tabs");
 			if (m_curWinTab.getSelectedComponent() instanceof GridController) {
 				m_curGC = (GridController)m_curWinTab.getSelectedComponent();
 				initSwitchLineAction();
@@ -1357,7 +1299,7 @@ public final class APanel extends CPanel
 		//	else if (m_curWinTab.getSelectedComponent() instanceof APanelTab)
 		//		isAPanelTab = true;
 			else
-				throw new java.lang.IllegalArgumentException("Window-Tab does not contain GridControler");
+				throw new IllegalArgumentException("Window-Tab does not contain GridControler");
 			//  change pointers
 			m_curTabIndex = m_curWinTab.getSelectedIndex();
 		}
@@ -1376,7 +1318,7 @@ public final class APanel extends CPanel
 			else if (m_curWinTab.getSelectedComponent() instanceof APanelTab)
 				isAPanelTab = true;
 			else
-				throw new java.lang.IllegalArgumentException("Tab does not contain GridControler");
+				throw new IllegalArgumentException("Tab does not contain GridControler");
 			//  Save old Tab
 			if (m_curGC != null)
 			{
@@ -1582,6 +1524,12 @@ public final class APanel extends CPanel
 		m_curWinTab.requestFocusInWindow();
 		setBusy(false, true);
 		log.config( "fini");
+		
+		/*
+		 * Ossagho Development Team - 10-03-2015
+		 */
+		setToolbarWC();
+		//AB
 	}	//	stateChanged
 
 	/**
@@ -1850,7 +1798,7 @@ public final class APanel extends CPanel
 	 *
 	 * @param field field
 	 * @return error message or ""
-	 * @see org.compiere.model.Callout
+	 * @see Callout
 	 */
 	private String processButtonCallout (VButton button)
 	{
@@ -2895,5 +2843,30 @@ public final class APanel extends CPanel
 	public boolean isNested() {
 		return isNested;
 	}
+	
+	/*
+	 * Ossagho Development Team - 10-03-2015
+	 */
+			public void setToolbarWC()
+			{
+				int v_WindowID=m_curTab.getAD_Window_ID();
+		        int v_TabID=m_curTab.getAD_Tab_ID();
+		        int v_UserID=Env.getAD_User_ID(m_ctx);
+		        int v_RoleID=Env.getAD_Role_ID(m_ctx);
+		        
+		        AD_WindowCustomization winc=new AD_WindowCustomization();
+		        aDelete.setEnabled(winc.getDeleteButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+		        aNew.setEnabled(winc.getNewButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+		        aDeleteSelection.setEnabled(winc.getDeleteAllButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));        
+				aCopy.setEnabled(winc.getNewButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+		        aReport.setEnabled(winc.getReportButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+		        aPrint.setEnabled(winc.getPrintButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+		   //   aExport.setEnabled(winc.getExportButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));	    	        
+		    	        
+			}
+			
+
+			
+		//AB
 
 }	//	APanel

@@ -57,6 +57,7 @@ import org.adempiere.webui.window.FindWindow;
 import org.adempiere.webui.window.WChat;
 import org.adempiere.webui.window.WRecordAccessDialog;
 import org.compiere.grid.ICreateFrom;
+import org.compiere.model.AD_WindowCustomization;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
@@ -1175,6 +1176,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
                 toolbar.enableHistoryRecords(false);
             }
     	}
+		
+		/* Ossagho Development Team - 11-03-2015
+		 */
+        setToolbarWC();
+        //AB
 	}
 
 	/**
@@ -1355,6 +1361,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
         toolbar.enablePrint(curTab.isPrinted());
         toolbar.enableReport(true);
+        
+        /* Ossagho Development Team - 11-03-2015
+		 */
+        setToolbarWC();
+        //AB
     }
 
     /**
@@ -1377,6 +1388,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         currentTab.dataRefreshAll(fireEvent, true);
         curTabPanel.dynamicDisplay(0);
         focusToActivePanel();
+        
+        /* Ossagho Development Team - 11-03-2015
+		 */
+        setToolbarWC();
+        //AB
     }
 
     /**
@@ -1508,6 +1524,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 //                currentTab.getWhereExtended(), findFields, 1, currentTab.getAD_Tab_ID());
         //  Open a popup or the search window
         WSearch find = new WSearch (this, toolbar.getEvent().getTarget(), currentTab, findFields);
+        
+        /* Ossagho Development Team - 11-03-2015
+		 */
+        setToolbarWC();
+        //AB
     }
 
     public void onFindCallback(MQuery query)
@@ -1546,6 +1567,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        toolbar.enableIgnore(false);
     	}
     	focusToActivePanel();
+    	
+    	/* Ossagho Development Team - 11-03-2015
+		 */
+        setToolbarWC();
+        //AB
     }
 
     /**
@@ -2427,5 +2453,31 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	public Component getParent() {
 		return this.parent;
 	}
+	
+	/* Ossagho Development Team - 11-03-2015
+	 * @author - AB
+	 */
+		public void setToolbarWC()
+		{
+			
+	                int v_WindowID=gridWindow.getAD_Window_ID();
+	                int v_TabID=curTab.getAD_Tab_ID();
+	                int v_UserID=Env.getAD_User_ID(ctx);
+	                int v_RoleID=Env.getAD_Role_ID(ctx);
+	        
+	    	        AD_WindowCustomization winc=new AD_WindowCustomization();
+	    	        //
+	    	        toolbar.enableNew(winc.getNewButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+	    	        toolbar.enableCopy(winc.getNewButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+	    	        toolbar.enableDeleteSelection(winc.getDeleteAllButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+	    	        toolbar.enableReport(winc.getReportButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+	    	        toolbar.enablePrint(winc.getPrintButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+	    //	        toolbar.enableExport(winc.getExportButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+	    	        toolbar.enableDelete(winc.getDeleteButtonStatus(v_WindowID,v_TabID,v_UserID,v_RoleID));
+
+	    	        
+		}
+		
+	//AB
 
 }

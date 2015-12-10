@@ -16,12 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 /**
  *	Ship Confirmation Line Model
@@ -192,6 +192,13 @@ public class MInOutLineConfirm extends X_M_InOutLineConfirm
 		difference = difference.subtract(getScrappedQty());
 		setDifferenceQty(difference);
 		//
+
+		if(difference.compareTo(Env.ZERO)<0)	//AB 13-07-2015 Difference Can't be less than 0, Check to ensure qty correct
+		{
+			log.saveError("Error", "Wrong Values in Confirmed Qty or Scrapped Qty, Please Check!!!");
+			return false;
+		}
+	
 		return true;
 	}	//	beforeSave
 	

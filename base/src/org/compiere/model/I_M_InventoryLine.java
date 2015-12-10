@@ -16,13 +16,14 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.KeyNamePair;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InventoryLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version R/3
  */
 public interface I_M_InventoryLine 
 {
@@ -55,7 +56,7 @@ public interface I_M_InventoryLine
 	/** Set Organization.
 	  * Organizational entity within client
 	  */
-	public void setAD_Org_ID (int AD_Org_ID);
+	public void setAD_Org_ID(int AD_Org_ID);
 
 	/** Get Organization.
 	  * Organizational entity within client
@@ -68,14 +69,14 @@ public interface I_M_InventoryLine
 	/** Set Charge.
 	  * Additional document charges
 	  */
-	public void setC_Charge_ID (int C_Charge_ID);
+	public void setC_Charge_ID(int C_Charge_ID);
 
 	/** Get Charge.
 	  * Additional document charges
 	  */
 	public int getC_Charge_ID();
 
-	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
+	public I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -99,7 +100,7 @@ public interface I_M_InventoryLine
 	/** Set Current Cost Price.
 	  * The currently used cost price
 	  */
-	public void setCurrentCostPrice (BigDecimal CurrentCostPrice);
+	public void setCurrentCostPrice(BigDecimal CurrentCostPrice);
 
 	/** Get Current Cost Price.
 	  * The currently used cost price
@@ -112,7 +113,7 @@ public interface I_M_InventoryLine
 	/** Set Description.
 	  * Optional short description of the record
 	  */
-	public void setDescription (String Description);
+	public void setDescription(String Description);
 
 	/** Get Description.
 	  * Optional short description of the record
@@ -125,7 +126,7 @@ public interface I_M_InventoryLine
 	/** Set Inventory Type.
 	  * Type of inventory difference
 	  */
-	public void setInventoryType (String InventoryType);
+	public void setInventoryType(String InventoryType);
 
 	/** Get Inventory Type.
 	  * Type of inventory difference
@@ -138,7 +139,7 @@ public interface I_M_InventoryLine
 	/** Set Active.
 	  * The record is active in the system
 	  */
-	public void setIsActive (boolean IsActive);
+	public void setIsActive(boolean IsActive);
 
 	/** Get Active.
 	  * The record is active in the system
@@ -151,7 +152,7 @@ public interface I_M_InventoryLine
 	/** Set Line No.
 	  * Unique line for this document
 	  */
-	public void setLine (int Line);
+	public void setLine(int Line);
 
 	/** Get Line No.
 	  * Unique line for this document
@@ -164,7 +165,7 @@ public interface I_M_InventoryLine
 	/** Set Attribute Set Instance.
 	  * Product Attribute Set Instance
 	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
+	public void setM_AttributeSetInstance_ID(int M_AttributeSetInstance_ID);
 
 	/** Get Attribute Set Instance.
 	  * Product Attribute Set Instance
@@ -179,7 +180,7 @@ public interface I_M_InventoryLine
 	/** Set Phys.Inventory Line.
 	  * Unique line in an Inventory document
 	  */
-	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
+	public void setM_InventoryLine_ID(int M_InventoryLine_ID);
 
 	/** Get Phys.Inventory Line.
 	  * Unique line in an Inventory document
@@ -192,14 +193,14 @@ public interface I_M_InventoryLine
 	/** Set Phys.Inventory.
 	  * Parameters for a Physical Inventory
 	  */
-	public void setM_Inventory_ID (int M_Inventory_ID);
+	public void setM_Inventory_ID(int M_Inventory_ID);
 
 	/** Get Phys.Inventory.
 	  * Parameters for a Physical Inventory
 	  */
 	public int getM_Inventory_ID();
 
-	public org.compiere.model.I_M_Inventory getM_Inventory() throws RuntimeException;
+	public I_M_Inventory getM_Inventory() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -207,7 +208,7 @@ public interface I_M_InventoryLine
 	/** Set Locator.
 	  * Warehouse Locator
 	  */
-	public void setM_Locator_ID (int M_Locator_ID);
+	public void setM_Locator_ID(int M_Locator_ID);
 
 	/** Get Locator.
 	  * Warehouse Locator
@@ -222,14 +223,14 @@ public interface I_M_InventoryLine
 	/** Set Product.
 	  * Product, Service, Item
 	  */
-	public void setM_Product_ID (int M_Product_ID);
+	public void setM_Product_ID(int M_Product_ID);
 
 	/** Get Product.
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -237,12 +238,21 @@ public interface I_M_InventoryLine
 	/** Set Processed.
 	  * The document has been processed
 	  */
-	public void setProcessed (boolean Processed);
+	public void setProcessed(boolean Processed);
 
 	/** Get Processed.
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name QTYINCREASE */
+    public static final String COLUMNNAME_QTYINCREASE = "QTYINCREASE";
+
+	/** Set QTYINCREASE	  */
+	public void setQTYINCREASE(BigDecimal QTYINCREASE);
+
+	/** Get QTYINCREASE	  */
+	public BigDecimal getQTYINCREASE();
 
     /** Column name QtyBook */
     public static final String COLUMNNAME_QtyBook = "QtyBook";
@@ -250,7 +260,7 @@ public interface I_M_InventoryLine
 	/** Set Quantity book.
 	  * Book Quantity
 	  */
-	public void setQtyBook (BigDecimal QtyBook);
+	public void setQtyBook(BigDecimal QtyBook);
 
 	/** Get Quantity book.
 	  * Book Quantity
@@ -263,7 +273,7 @@ public interface I_M_InventoryLine
 	/** Set Quantity count.
 	  * Counted Quantity
 	  */
-	public void setQtyCount (BigDecimal QtyCount);
+	public void setQtyCount(BigDecimal QtyCount);
 
 	/** Get Quantity count.
 	  * Counted Quantity
@@ -274,7 +284,7 @@ public interface I_M_InventoryLine
     public static final String COLUMNNAME_QtyCsv = "QtyCsv";
 
 	/** Set QtyCsv	  */
-	public void setQtyCsv (BigDecimal QtyCsv);
+	public void setQtyCsv(BigDecimal QtyCsv);
 
 	/** Get QtyCsv	  */
 	public BigDecimal getQtyCsv();
@@ -285,7 +295,7 @@ public interface I_M_InventoryLine
 	/** Set Internal Use Qty.
 	  * Internal Use Quantity removed from Inventory
 	  */
-	public void setQtyInternalUse (BigDecimal QtyInternalUse);
+	public void setQtyInternalUse(BigDecimal QtyInternalUse);
 
 	/** Get Internal Use Qty.
 	  * Internal Use Quantity removed from Inventory
@@ -298,14 +308,14 @@ public interface I_M_InventoryLine
 	/** Set Reversal Line.
 	  * Use to keep the reversal line ID for reversing costing purpose
 	  */
-	public void setReversalLine_ID (int ReversalLine_ID);
+	public void setReversalLine_ID(int ReversalLine_ID);
 
 	/** Get Reversal Line.
 	  * Use to keep the reversal line ID for reversing costing purpose
 	  */
 	public int getReversalLine_ID();
 
-	public org.compiere.model.I_M_InventoryLine getReversalLine() throws RuntimeException;
+	public I_M_InventoryLine getReversalLine() throws RuntimeException;
 
     /** Column name UPC */
     public static final String COLUMNNAME_UPC = "UPC";
@@ -313,7 +323,7 @@ public interface I_M_InventoryLine
 	/** Set UPC/EAN.
 	  * Bar Code (Universal Product Code or its superset European Article Number)
 	  */
-	public void setUPC (String UPC);
+	public void setUPC(String UPC);
 
 	/** Get UPC/EAN.
 	  * Bar Code (Universal Product Code or its superset European Article Number)
@@ -342,7 +352,7 @@ public interface I_M_InventoryLine
 	/** Set Search Key.
 	  * Search key for the record in the format required - must be unique
 	  */
-	public void setValue (String Value);
+	public void setValue(String Value);
 
 	/** Get Search Key.
 	  * Search key for the record in the format required - must be unique
