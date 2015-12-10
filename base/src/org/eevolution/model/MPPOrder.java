@@ -1247,13 +1247,15 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 * @param shortages
 	 * @param forceIssue
 	 */
-	public static void createIssue(MPPOrder order, MPPOrderBOMLine orderBOMLine ,
+	public static List<MPPCostCollector> createIssue(MPPOrder order, MPPOrderBOMLine orderBOMLine ,
 			Timestamp movementdate,
 			BigDecimal qtyToDeliver, BigDecimal qtyScrapComponent, BigDecimal qtyReject,
 			MStorage[] shortages, boolean forceIssue)
 	{
+		List<MPPCostCollector> collectors = new ArrayList<MPPCostCollector>();
+
 		if (qtyToDeliver.signum() == 0)
-			return;
+			return null;
 
 		BigDecimal toIssue = qtyToDeliver.add(qtyScrapComponent);
 		for (MStorage storage : shortages)
@@ -1275,19 +1277,22 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_MixVariance;
 				}
 				//
-				MPPCostCollector.createCollector (
-						order, 															//MPPOrder
-						orderBOMLine.getM_Product_ID(),									//M_Product_ID
-						storage.getM_Locator_ID(),										//M_Locator_ID
-						storage.getM_AttributeSetInstance_ID(),							//M_AttributeSetInstance_ID
-						order.getS_Resource_ID(),										//S_Resource_ID
-						orderBOMLine.getPP_Order_BOMLine_ID(),							//PP_Order_BOMLine_ID
-						0,																//PP_Order_Node_ID
-						MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingCostCollector), 	//C_DocType_ID,
-						CostCollectorType, 												//Production "-"
-						movementdate,													//MovementDate
-						qtyIssue, qtyScrapComponent, qtyReject,									//qty,scrap,reject
-						Env.ZERO,Env.ZERO														//durationSetup,duration
+				collectors.add
+						(
+							MPPCostCollector.createCollector (
+							order, 															//MPPOrder
+							orderBOMLine.getM_Product_ID(),									//M_Product_ID
+							storage.getM_Locator_ID(),										//M_Locator_ID
+							storage.getM_AttributeSetInstance_ID(),							//M_AttributeSetInstance_ID
+							order.getS_Resource_ID(),										//S_Resource_ID
+							orderBOMLine.getPP_Order_BOMLine_ID(),							//PP_Order_BOMLine_ID
+							0,																//PP_Order_Node_ID
+							MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingCostCollector), 	//C_DocType_ID,
+							CostCollectorType, 												//Production "-"
+							movementdate,													//MovementDate
+							qtyIssue, qtyScrapComponent, qtyReject,									//qty,scrap,reject
+							Env.ZERO,Env.ZERO														//durationSetup,duration
+						)
 				);
 				orderBOMLine.load(order.get_TrxName());
 				// Method Variance
@@ -1302,23 +1307,27 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			if (toIssue.signum() == 0)
 				break;  
 		}
+
 		if(forceIssue && toIssue.signum() != 0)
 		{
-			MPPCostCollector.createCollector (
-					order, 																	//MPPOrder
-					orderBOMLine.getM_Product_ID(),										//M_Product_ID
-					orderBOMLine.getM_Locator_ID(),										//M_Locator_ID
-					orderBOMLine.getM_AttributeSetInstance_ID(),							//M_AttributeSetInstance_ID
-					order.getS_Resource_ID(),												//S_Resource_ID
-					orderBOMLine.getPP_Order_BOMLine_ID(),									//PP_Order_BOMLine_ID
-					0,																		//PP_Order_Node_ID
-					MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingCostCollector), 	//C_DocType_ID,
-					MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue, 						//Production "-"
-					movementdate,															//MovementDate
-					toIssue, Env.ZERO, Env.ZERO,											//qty,scrap,reject
-					Env.ZERO,Env.ZERO																//durationSetup,duration
+			collectors.add
+					(
+						MPPCostCollector.createCollector (
+						order, 																	//MPPOrder
+						orderBOMLine.getM_Product_ID(),										//M_Product_ID
+						orderBOMLine.getM_Locator_ID(),										//M_Locator_ID
+						orderBOMLine.getM_AttributeSetInstance_ID(),							//M_AttributeSetInstance_ID
+						order.getS_Resource_ID(),												//S_Resource_ID
+						orderBOMLine.getPP_Order_BOMLine_ID(),									//PP_Order_BOMLine_ID
+						0,																		//PP_Order_Node_ID
+						MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingCostCollector), 	//C_DocType_ID,
+						MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue, 						//Production "-"
+						movementdate,															//MovementDate
+						toIssue, Env.ZERO, Env.ZERO,											//qty,scrap,reject
+						Env.ZERO,Env.ZERO																//durationSetup,duration
+						)
 					);
-					return;
+					return collectors;
 		}
 
 		//remove logic to allow qty return component
@@ -1327,6 +1336,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			// should not happen because we validate Qty On Hand on start of this process
 			throw new AdempiereException("Should not happen toIssue="+toIssue);
 		}
+
+		return collectors;
 	}
 		
 	public static boolean isQtyAvailable(MPPOrder order, I_PP_Order_BOMLine line)
