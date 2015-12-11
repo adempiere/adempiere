@@ -212,11 +212,15 @@ public class POSOrderLinePanel extends POSSubPanel
 		//	Remove Listener
 		m_table.getModel().removeTableModelListener(this);
 		//	Remove line
-		if(m_QtyOrdered.compareTo(Env.ZERO) <= 0) {
-			v_POSPanel.deleteLine(m_C_OrderLine_ID);
-			((DefaultTableModel)m_table.getModel()).removeRow(row);
-			m_table.getModel().addTableModelListener(this);
-			v_POSPanel.refreshHeader();
+		if(m_QtyOrdered.signum() <= 0) {
+
+			if (m_C_OrderLine_ID > 0)
+				v_POSPanel.deleteLine(m_C_OrderLine_ID);
+			if (row > 0) {
+				((DefaultTableModel) m_table.getModel()).removeRow(row);
+				m_table.getModel().addTableModelListener(this);
+				v_POSPanel.refreshHeader();
+			}
 			//	Exit
 			return;
 		}
