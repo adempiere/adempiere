@@ -274,13 +274,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @return void
 	 */
 	public void autoSize() {
-		int width = v_OrderLinePanel.getTableWidth();
-		if(width > v_DividerPane.getDividerLocation()) {
-			v_DividerPane.setDividerLocation(
-					v_DividerPane.getDividerLocation() 
-					+ (width - v_DividerPane.getDividerLocation())
-					+ POSTable.SCROLLBAR_WIDTH + POSOrderLineTableHandle.COLUMN_QTY);
-		}
+		v_DividerPane.setResizeWeight(.5d);
 	}
 	
 	/**
@@ -319,7 +313,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		v_ActionPanel = new POSActionPanel(this);
 		v_LeftPanel.add(v_ActionPanel, new GridBagConstraints(0, 0, 1, 1, 1, 0
 				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-
 
 		v_LeftPanel.setPreferredSize(new Dimension(500, 800));
 		v_LeftPanel.setMinimumSize(new Dimension(500, 800));
