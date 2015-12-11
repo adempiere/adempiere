@@ -1,27 +1,11 @@
 package org.adempiere.process;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.adempiere.exceptions.AdempiereException;
-import org.apache.commons.io.FileUtils;
 import org.compiere.Adempiere;
-import org.compiere.model.I_AD_Migration;
-import org.compiere.model.MMigration;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
 import org.compiere.process.ProcessInfo;
@@ -30,11 +14,8 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Trx;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 public class MigrationLoader {
 	
@@ -59,6 +40,9 @@ public class MigrationLoader {
 			System.exit(1);
 		}
 		
+		// Turn off the Log Migration Script preference.
+		Ini.setProperty(Ini.P_LOGMIGRATIONSCRIPT, false);
+
 		
 		// Parameter values - these need to be final or effectively final
 		// Load migrations from the default location
@@ -97,12 +81,10 @@ public class MigrationLoader {
 				ServerProcessCtl migrationProcess = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
 				migrationProcess.run();
 				log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-				if (failOnError && pi.isError())
-					throw new AdempiereException(pi.getSummary());
+				//if (failOnError && pi.isError())
+				//	throw new AdempiereException(pi.getSummary());
 			});
 			
-			// The import process will throw an AdempiereException if unsuccessful.
-
 			// Run the post processes.
 			Trx.run(trxName -> {
 				// Run the post processes

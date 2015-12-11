@@ -54,6 +54,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	private static CLogger log = CLogger
 			.getCLogger(MMigrationStep.class);
 
+	private boolean apply = true;
 
 	/**
 	 * @param ctx
@@ -189,6 +190,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		if ( MMigrationStep.STATUSCODE_Applied.equals(getStatusCode())
 			&& MMigrationStep.APPLY_Rollback.equals(getApply()) )
 		{
+			apply = false;
 			return rollback();
 		}
 		
@@ -212,12 +214,13 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		log.log(Level.CONFIG, "Applying migration step: " + this.toString());
 
 		if ( MMigrationStep.STEPTYPE_SQLStatement.equals(getStepType()) )
-			retval += applySQL(false);
+			retval += applySQL(!apply);
 		else if ( MMigrationStep.STEPTYPE_ApplicationDictionary.equals(getStepType()) )
 			retval +=  applyPO();
 		else
-			retval += "Unknown step type";
-
+		{
+			bailout("Unknown step type.");
+		}
 		// Unset flag that a script is in progress to shut off some validation checks
 		Env.setContext(getCtx(), "MigrationStepApplyInProgress", "");
 
@@ -225,6 +228,31 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		getParent().updateStatus();
 		getParent().save();
 		return retval;
+	}
+
+	private void bailout(String error) {
+		bailout(error, null);
+	}
+
+	private void bailout(String error, Exception e) {
+        setErrorMsg(error);
+        setStatusCode(MMigrationStep.STATUSCODE_Failed);
+		setApply(apply ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
+        saveEx();
+
+        if (apply)
+			Env.setContext(getCtx(), "MigrationStepApplyInProgress", "");
+        else
+    		Env.setContext(getCtx(), "MigrationStepRollbackInProgress", "");
+        
+		getParent().updateStatus();
+		getParent().save();
+
+		log.warning(this.toString() + " " + getErrorMsg());
+		if (e != null)
+	        throw new AdempiereException(this.toString() + getErrorMsg(), e);
+		else
+			throw new AdempiereException(this.toString() + getErrorMsg());
 	}
 
 	public String rollback() {
@@ -245,7 +273,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		else if ( MMigrationStep.STEPTYPE_ApplicationDictionary.equals(getStepType()) )
 			retCode += rollbackPO();
 		else
-			retCode += "Unknown step type";
+		{
+			bailout("Unknown step type");
+		}
 		
 		// Unset the Flag that a script is in progress to shut off some validation checks
 		Env.setContext(getCtx(), "MigrationStepRollbackInProgress", "");
@@ -263,21 +293,16 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		
 		// For backward compatibility, check if the parse column has been added by the migration yet.
 		// The parse column was added to AD_MigrationStep just prior to release 3.8.0.
-		if (this.get_ColumnIndex(MMigrationStep.COLUMNNAME_Parse) > 0)
+		if (this.get_ColumnIndex(MMigrationStep.COLUMNNAME_Parse) >= 0)
 			isParse = isParse();
 		
 		if ( sqlStatements == null || sqlStatements.trim().length() == 0 || sqlStatements.equals(";"))
 		{
-			setErrorMsg("No SQL to execute.");
-			if ( !rollback )
-				setStatusCode(MMigrationStep.STATUSCODE_Failed);
-			setApply( rollback ? MMigrationStep.APPLY_Rollback : MMigrationStep.APPLY_Apply);
-			saveEx();
-			return "No SQL";
+			bailout("No SQL to execute.");
 		}
 
-		// Apply the sql if the database is supported.  Otherwise, ignore
-		// the step.
+		// Apply the sql if the database is supported.  Otherwise, mark the step 
+		// applied/rolled-back but take no action.
         if (getDBType().equals(MMigrationStep.DBTYPE_AllDatabaseTypes)
 		    || (DB.isOracle() && getDBType().equals(MMigrationStep.DBTYPE_Oracle))
 		    || (DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres))) 
@@ -320,11 +345,11 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		             ;  // all out of luck
 		         }
 		         
-		         final String message = rollback ? "Rollback failed. ":"Application failed. ";
-		         setErrorMsg(message + e.toString());
+		         setErrorMsg(rollback ? "Rollback failed. ":"Application failed. ");
 		         if (ne != null) {
-		             setErrorMsg(getErrorMsg() + " \n" + ne.toString());
+		             setErrorMsg(getErrorMsg() + ne.toString());
 		         }
+		         setErrorMsg(getErrorMsg() + "\n" + e.toString());
 		
 		         setApply(rollback ? MMigrationStep.APPLY_Rollback : MMigrationStep.APPLY_Apply);
 		         if (!rollback)
@@ -339,6 +364,13 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		         saveEx(null);
 		     }
 		 }
+        else 
+        {
+	         setStatusCode(rollback ? MMigrationStep.STATUSCODE_Unapplied : MMigrationStep.STATUSCODE_Applied);
+	         setApply(rollback ? MMigrationStep.APPLY_Apply : MMigrationStep.APPLY_Rollback);
+	         setErrorMsg(null);
+	         saveEx(null);
+        }
 		return rollback ? "successfully rolled back" : "successfully applied";
 	}
 	
@@ -386,11 +418,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 		if ( getAD_Table_ID() == 0 )
 		{
-			setStatusCode(MMigrationStep.STATUSCODE_Failed);
-			setApply(MMigrationStep.APPLY_Apply);
-			setErrorMsg("No table defined.");
-			saveEx();
-			return "No table";
+			bailout("No table defined");
 		}
 
 		try {
@@ -439,7 +467,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			else if (po == null) // Action other than insert
 			{
 				// The PO has not been set and we aren't inserting a new record - something is wrong.
-				throw new AdempiereException("Step " + getSeqNo() + ", Record " + getRecord_ID() + " was not found in table " + table.getName() + " (" + table.get_ID() + ").", new AdempiereException());
+				bailout("Step " + getSeqNo() + ", Record " + getRecord_ID() + " was not found in table " + table.getName() + " (" + table.get_ID() + ").");
 			}
 
 			for (MMigrationData data : m_migrationData )
@@ -499,12 +527,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 		
 		catch (Exception e) {
-			setErrorMsg("Application failed: " + e.toString());
-			setStatusCode(MMigrationStep.STATUSCODE_Failed);
-			setApply(MMigrationStep.APPLY_Apply);
-			saveEx(null);
-			log.severe(this.toString() + " " + getErrorMsg());
-			throw new AdempiereException(this.toString() + " " + getErrorMsg(), e);
+			bailout("Application failed: " + e.toString(), e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Applied);
 		setApply(MMigrationStep.APPLY_Rollback);
@@ -517,11 +540,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		
 		if ( getAD_Table_ID() == 0 )
 		{
-			setStatusCode(MMigrationStep.STATUSCODE_Failed);
-			setApply(MMigrationStep.APPLY_Apply);
-			setErrorMsg("No table defined.");
-			saveEx();
-			return "not rolled back. No table defined.";
+			bailout("No table defined.");
 		}
 		try 
 		{
@@ -621,10 +640,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			}
 		}
 		catch (Exception e) {
-			setErrorMsg("Rollback failed. " + e.toString());
-			saveEx(null);
-			log.severe(this.toString() + " " + getErrorMsg());
-			throw new AdempiereException(this.toString() + " " + getErrorMsg(), e);
+			bailout("Rollback failed. " + e.toString(), e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Unapplied);
 		setApply(MMigrationStep.APPLY_Apply);

@@ -71,36 +71,69 @@ public class MMigration extends X_AD_Migration {
 
 		// TODO Translate the return values
 		
-		Boolean apply = true;
+		Boolean apply = false;
+		
+		// The state of the migration is determined by the status code and the apply action.
+		// These values should have been set by default or by previous actions.  Valid
+		// values are (status/action):
+		//    STATUSCODE_APPLIED/APPLY_Rollback
+		//    STATUSCODE_PartiallyApplied/APPLY_Rollback
+		//    STATUSCODE_Unapplied/APPLY_Apply
+		
+		// The status code may have been changed by the user.  Check/reset it:
+		updateStatus();
+		
+		// If status code is null for some reason
+		if (getStatusCode() == null || getStatusCode().length() == 0)
+			setStatusCode(X_AD_Migration.STATUSCODE_Unapplied);
+
+		// If action code is null for some reason
+		if (getApply() == null || getApply().length() == 0)
+			setApply(X_AD_Migration.APPLY_Apply);
+
+		// Fix improperly set status and actions based on the status code
+		if ((getStatusCode().equals(X_AD_Migration.STATUSCODE_Applied)
+			 || getStatusCode().equals(X_AD_Migration.STATUSCODE_PartiallyApplied)) 
+			&& !getApply().equals(X_AD_Migration.APPLY_Rollback))
+		{
+			setApply(X_AD_Migration.APPLY_Rollback);
+		}
+		else if (getStatusCode().equals(X_AD_Migration.STATUSCODE_Unapplied) 
+				&& !getApply().equals(X_AD_Migration.APPLY_Apply))
+		{
+			setApply(X_AD_Migration.APPLY_Apply);
+		}
 		
 		// Determine whether to apply or rollback the migration
-		if (APPLY_Rollback.equals(getApply()))
-			apply = false;
+		if (getStatusCode().equals(X_AD_Migration.STATUSCODE_Unapplied))
+			apply = true;
 
 		String retVal = toString();
 
 		try{
-			if ( !apply )
-				return rollback();
-
-			if (X_AD_Migration.STATUSCODE_Applied.equals(getStatusCode())) {
-				retVal += "---> Migration already applied - skipping.";
-				log.log(Level.CONFIG, retVal);
-				return retVal;
-			}
-
 			//  Apply the Migration Steps
 			//  Set a flag to prevent migration status updates
 			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "Y");
 			
 			// Get the set of active steps and apply each in order
-			for ( int stepID : getStepIDs(false) )
+			for ( int stepID : getStepIDs(!apply) )
 			{
 				MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
-
-				if (MMigrationStep.STATUSCODE_Applied.equals(step.getStatusCode())) {
+				
+				// The migration will only be applied if all steps are unapplied.  Any partially
+				// applied migration will need to be rolled back first.
+				/*
+				if (apply && MMigrationStep.STATUSCODE_Applied.equals(step.getStatusCode())) 
+				{
 					log.log(Level.CONFIG, step.toString() + " ---> Migration Step already applied - skipping.");
 					continue;
+				}
+				else
+				*/ 
+				if (!apply && MMigrationStep.STATUSCODE_Unapplied.equals(step.getStatusCode())) 
+				{
+						log.log(Level.CONFIG, step.toString() + " ---> Migration Step unapplied - skipping.");
+						continue;
 				}
 
 				step.apply();
@@ -113,7 +146,9 @@ public class MMigration extends X_AD_Migration {
 			{			
 				if (apply) // Try to rollback the transaction
 				{
-					rollback();
+					// Set the status code to trigger a rollback
+					setStatusCode(X_AD_Migration.STATUSCODE_Failed);
+					apply();  // Apply/rollback
 				}
 				throw new AdempiereException(e.getMessage() , e);
 			}
@@ -122,49 +157,42 @@ public class MMigration extends X_AD_Migration {
 		{			
 			// Unset a flag to prevent migration status updates
 			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "");
+			// Update the status of the migration
 			updateStatus();
-			if ( getStatusCode().equals(STATUSCODE_Applied))
-				retVal += "Migration successful";
-			else if ( getStatusCode().equals(STATUSCODE_PartiallyApplied))
-				retVal += "Migration partially applied. Please review migration steps for errors.";
-			else if ( getStatusCode().equals(STATUSCODE_Failed) )
-				retVal += "Migration failed. Please review migration steps for errors.";
-			else if ( getStatusCode().equals(STATUSCODE_Unapplied) )
-				retVal += "Migration not applied. Please review migration steps for errors.";
-			else
-				retVal += "Migration status unknown. Please review migration steps for errors.";
+			
+			// Determine the return value
+			if (apply)
+			{
+				if ( getStatusCode().equals(STATUSCODE_Applied))
+					retVal += "Migration successful";
+				else if ( getStatusCode().equals(STATUSCODE_PartiallyApplied))
+					retVal += "Migration partially applied. Please review migration steps for errors.";
+				else if ( getStatusCode().equals(STATUSCODE_Failed) )
+					retVal += "Migration failed. Please review migration steps for errors.";
+				else if ( getStatusCode().equals(STATUSCODE_Unapplied) )
+					retVal += "Migration not applied. Please review migration steps for errors.";
+				else
+					retVal += "Migration status unknown. Please review migration steps for errors.";
+			}
+			else 
+			{
+				if ( getStatusCode().equals(STATUSCODE_Unapplied))
+					retVal += "Migration rollback successful.";
+				else if ( getStatusCode().equals(STATUSCODE_PartiallyApplied) 
+						|| getStatusCode().equals(STATUSCODE_Failed)
+						|| getStatusCode().equals(STATUSCODE_Applied) )
+					retVal += "Migration rollback failed. Please review migration steps for errors.";
+				else 
+					retVal += "Migration status unknown. Please review migration steps for errors.";				
+			}
 		}
 		return retVal;
 	}
-
+	
+	@Deprecated // Since 3.8.0#002.  Use apply() instead.
 	private String rollback() {
 
-		String retVal = toString();
-		try {
-			// Set a flag to prevent migration status updates
-			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "Y");
-			for ( int stepID : getStepIDs(true) )
-			{
-				MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
-				step.rollback();
-			}
-		}
-		catch (Exception e)
-		{
-			if (isFailOnError)    // abort on first error
-				throw new AdempiereException(e.getMessage(), e);
-		}
-		finally
-		{
-			// Unset a flag to prevent migration status updates
-			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "");
-			updateStatus();
-			if ( getStatusCode().equals(STATUSCODE_Unapplied) )
-				retVal += "Rollback successful.";
-			else
-				retVal += "Rollback failed. Please review migration steps for errors.";
-		}
-		return retVal;
+		return apply();
 	}
 
 	/**
@@ -249,19 +277,20 @@ public class MMigration extends X_AD_Migration {
 		// Restrict the name field to the field length in case the xml has extra characters.
 		MColumn col = MColumn.get(ctx, MColumn.getColumn_ID("AD_Migration", "Name"));
 		int length = col.getFieldLength();
-		String name = element.getAttribute("Name").trim();
+		String name = element.getAttribute("Name");
 		if (name.length() > length)
 			name = name.substring(0,length);
+		name = name.trim();
 		
 		String seqNo = element.getAttribute("SeqNo").trim();
 		String entityType = element.getAttribute("EntityType").trim();
 		String releaseNo = element.getAttribute("ReleaseNo").trim();
 		
 		
-		String where = "Name = ?"
+		String where = "TRIM(both from Name) = ?"
 			+ " AND SeqNo = ?"
-			+ " AND EntityType = ?"
-			+ " AND ReleaseNo = ?";
+			+ " AND TRIM(both from EntityType) = ?"
+			+ " AND TRIM(both from ReleaseNo) = ?";
 //		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, trxName) // Locks migrationtable
 		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, null)
 		.setParameters(name, Integer.parseInt(seqNo), entityType, releaseNo).firstOnly();

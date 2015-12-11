@@ -21,7 +21,12 @@ import org.compiere.model.MMigration;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 
-
+/**
+ * Apply or Rollback a migration.  The application or rollback is determined by
+ * the status of the migration.  Only unapplied migrations will be applied.
+ * All other migration status codes will result in a rollback.
+ *
+ */
 public class MigrationApply extends SvrProcess {
 
 	private boolean failOnError = true;
