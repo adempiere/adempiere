@@ -176,7 +176,13 @@ public class MigrationFromXML extends SvrProcess {
                                 log.log(Level.CONFIG, migration.toString() + " ---> Migration already applied - skipping.");
                                 return;
                             }
-                            //migration.apply();
+                            if (MMigration.STATUSCODE_Failed.equals(migration.getStatusCode())
+                        		|| MMigration.STATUSCODE_PartiallyApplied.equals(migration.getStatusCode())) {
+                                log.log(Level.CONFIG, migration.toString() + " ---> Migration exists but has to be rolled back.");
+                                // Rollback the migration to try and correct the error.
+    							applyMigration(migration.getCtx(), migration.getAD_Migration_ID(), trxName);                                
+                            }
+                            // Apply the migration
 							applyMigration(migration.getCtx(), migration.getAD_Migration_ID(), trxName);
 						}
 				} catch (AdempiereException|SQLException e) {
