@@ -113,12 +113,13 @@ public class CPOS {
 	 * @return true if found/set
 	 */
 	public void setPOS(int p_SalesRep_ID) {
-		MPOS[] poss = getPOSs(p_SalesRep_ID);
-		//	
-		if (poss.length == 0) {
+		//List<MPOS> poss = getPOSs(p_SalesRep_ID);
+		List<MPOS> poss = getPOSByOrganization(Env.getAD_Org_ID(getCtx()));
+		//
+		if (poss.size() == 0) {
 			throw new AdempierePOSException("@NoPOSForUser@");
-		} else if (poss.length == 1) {
-			m_POS = poss[0];
+		} else if (poss.size() == 1) {
+			m_POS = poss.get(0);
 		}
 	}	//	setMPOS
 	
@@ -682,15 +683,24 @@ public class CPOS {
 	 * 	Get POSs for specific Sales Rep or all
 	 *	@return array of POS
 	 */
-	public MPOS[] getPOSs (int p_SalesRep_ID) {
+	public List<MPOS> getPOSs (int p_SalesRep_ID) {
 		String pass_field = MPOS.COLUMNNAME_SalesRep_ID;
 		int pass_ID = p_SalesRep_ID;
 		if (p_SalesRep_ID == 100) {
 			pass_field = MPOS.COLUMNNAME_AD_Client_ID;
 			pass_ID = Env.getAD_Client_ID(m_ctx);
 		}
-		return MPOS.getAll(m_ctx, pass_field, pass_ID);
+		return MPOS.getAll(m_ctx, pass_field, pass_ID , null);
 	}	//	getPOSs
+
+
+	/**
+	 * 	Get POSs for specific Sales Rep or all
+	 *	@return array of POS
+	 */
+	public List<MPOS> getPOSByOrganization (int orgId) {
+		return MPOS.getByOrganization(m_ctx, orgId, null);
+	}
 
 	/**************************************************************************
 	 * 	Get Today's date
@@ -919,7 +929,7 @@ public class CPOS {
 	 * 
 	 */
 	public void deleteLine (int C_OrderLine_ID) {
-		if ( C_OrderLine_ID != -1 ) {
+		if ( C_OrderLine_ID != -1 && m_CurrentOrder != null ) {
 			for ( MOrderLine line : m_CurrentOrder.getLines(true, I_C_OrderLine.COLUMNNAME_M_Product_ID) ) {
 				if ( line.getC_OrderLine_ID() == C_OrderLine_ID ) {
 					line.deleteEx(true);	
