@@ -79,7 +79,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	/** Function Keys				*/
 	private POSProductPanel 				v_ProductKeysPanel;
 	/** Control Panel				*/
-	private POSUpDownPanel	 				v_UpDownPanel;
+	private POSQuantityPanel v_UpDownPanel;
 	/**	Timer for logout			*/
 	private Timer 							logoutTimer;
 	/** Keyoard Focus Manager		*/
@@ -142,6 +142,13 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		log.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
 		m_WindowNo = WindowNo;
 		frame.setJMenuBar(null);
+
+		loadPOS();
+		if (getM_POS() == null) {
+			if (m_frame != null)
+				m_frame.dispose();
+			return;
+		}
 		//
 		try {
 			if (!dynInit()) {
@@ -288,10 +295,11 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 			return;
 		}
 		//	Select POS
+		int orgId = Env.getAD_Org_ID(getCtx());
 		String msg = Msg.getMsg(getCtx(), "SelectPOS");
 		String title = Env.getHeader(getCtx(), m_WindowNo);
 		Object selection = JOptionPane.showInputDialog(m_frame, msg, title,
-				JOptionPane.QUESTION_MESSAGE, null, getPOSs(salesRep_ID), null);
+				JOptionPane.QUESTION_MESSAGE, null, getPOSByOrganization(orgId).toArray(), null);
 
 		if (selection != null) {
 			setM_POS((MPOS)selection);
@@ -305,23 +313,20 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * 	The Sub Panels return their position
 	 */
 	private boolean dynInit() {
-		loadPOS();
 		m_frame.setTitle("Adempiere POS: " + getPOSName());
 		//	Create Sub Panels
 		v_LeftPanel = new CPanel(new GridBagLayout());
 		v_ActionPanel = new POSActionPanel(this);
 		v_LeftPanel.add(v_ActionPanel, new GridBagConstraints(0, 0, 1, 1, 1, 0
 				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+
+
 		v_LeftPanel.setPreferredSize(new Dimension(500, 800));
 		v_LeftPanel.setMinimumSize(new Dimension(500, 800));
 		//
 		v_OrderLinePanel = new POSOrderLinePanel(this);
 		v_LeftPanel.add(v_OrderLinePanel, new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		v_UpDownPanel = new POSUpDownPanel(this);
-		v_LeftPanel.add(v_UpDownPanel, new GridBagConstraints(0, 2, 1, 1, 0, 0
-				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 1, 0, 1), 0, 0));
-		
 		v_ProductKeysPanel = new POSProductPanel(this);
 		v_ProductKeysPanel.setPreferredSize(new Dimension(500, 800));
 		v_ProductKeysPanel.setMinimumSize(new Dimension(500, 800));
@@ -481,7 +486,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
 	/**
 	 * Update Line Table
-	 * @param p_M_Product_ID
 	 */
 	public void updateLineTable() {
 		v_OrderLinePanel.updateLine();
