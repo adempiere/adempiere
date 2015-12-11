@@ -51,11 +51,11 @@ import org.compiere.util.TrxRunnable;
 
 /**
  *	Customer Sub Panel
- *	
- *  @author Comunidad de Desarrollo OpenXpertya 
+ *
+ *         *Copyright � ConSerTi
+ *  @author Comunidad de Desarrollo OpenXpertya
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright � Jorg Janke
- *         *Copyright � ConSerTi
  *  @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  <li> Implement best practices
@@ -77,12 +77,12 @@ public class POSActionPanel extends POSSubPanel
 	public POSActionPanel (VPOS posPanel) {
 		super (posPanel);
 	}	//	PosSubCustomer
-	
+
+	private CButton 			f_bHistory;
 	/**	Buttons Command		*/
 	private CButton 			f_bNew;
 	private CButton 			f_bDocType;
 	private CButton 			f_bBPartner;
-	private CButton 			f_bHistory;
 	private CButton 			f_bBack;
 	private CButton 			f_bNext;
 	private CButton 			f_bCollect;
@@ -92,6 +92,8 @@ public class POSActionPanel extends POSSubPanel
 	private CPanel				v_ButtonPanel;
 	/**	Info Product Panel	*/
 	private POSInfoProduct		v_InfoProductPanel;
+	/** Quantity panel 		*/
+	private POSQuantityPanel 	quantityPanel;
 	/**	For Show BPartner	*/
 	private	POSTextField		f_ProductName;
 	/**	Padding				*/
@@ -121,6 +123,7 @@ public class POSActionPanel extends POSSubPanel
 		//	Button Panel
 		v_ButtonPanel = new CPanel(new GridBagLayout());
 		v_InfoProductPanel = new POSInfoProduct(v_POSPanel);
+		quantityPanel = new POSQuantityPanel(v_POSPanel);
 		//	
 		m_TopP = 0;
 		m_LeftP = 1;
@@ -188,13 +191,15 @@ public class POSActionPanel extends POSSubPanel
 		f_ProductName.setPreferredSize(new Dimension(250, v_POSPanel.getFieldLenght()));
 		f_ProductName.setMinimumSize(new Dimension(250, v_POSPanel.getFieldLenght()));
 		//	Add Button Panel
-		add(v_ButtonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
+		add(v_ButtonPanel     , new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
-		add(f_ProductName, new GridBagConstraints(0, 1, 1, 1, 1, 1
+		add(f_ProductName     , new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
-		add(v_InfoProductPanel, new GridBagConstraints(0, 2, 1, 2, 1, 2
+		add(quantityPanel, new GridBagConstraints(0, 2, 1, 1, 1, 2
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0 , 0, 0), 0, 0));
+		add(v_InfoProductPanel, new GridBagConstraints(0, 3, 1, 1, 1, 2
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
-		//	List Orders
+
 		v_POSPanel.listOrder();
 	}	//	init
 
