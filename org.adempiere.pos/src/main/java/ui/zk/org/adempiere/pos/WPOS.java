@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.pos.service.CPOS;
@@ -104,7 +105,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private Timestamp						m_today 	 = Env.getContextAsDate(m_ctx, "#Date");
 	private HashMap<Integer, WPOSKeyboard> 	keyboards 	 = new HashMap<Integer, WPOSKeyboard>();
 	private Listbox 						listTerminal = ListboxFactory.newDropdownListbox();
-	private MPOS[] 							poss; 
+	private List<MPOS> poss;
 	
 	/** Default Font Size Medium 				*/
 	public static final String 	FONTSIZEMEDIUM	= "Font-size:medium;";
@@ -237,8 +238,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		Row row = null;
 		rows = layout.newRows();
 		row = rows.newRow();
-		for(int x=0; x<poss.length; x++){
-			listTerminal.addItem(poss[x].getKeyNamePair());
+		for(MPOS pos : poss){
+			listTerminal.addItem(pos.getKeyNamePair());
 		}
 		b_ok.addActionListener(this);
 		b_cancel.addEventListener("onClick", this);
@@ -313,7 +314,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	@Override
 	public void onEvent(Event e) throws Exception {
 		if(e.getTarget().equals(b_ok)){
-			setM_POS(poss[listTerminal.getSelectedIndex()]);
+			setM_POS(poss.get(listTerminal.getSelectedIndex()));
 			selection.dispose();
 		}
 		if(e.getTarget().equals(b_cancel)){
