@@ -41,10 +41,11 @@ import org.compiere.util.Msg;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Victor Perez , victor.perez@e-evolution.com , e-Evolution http//www.e-evolution.com
  */
-public class POSUpDownPanel extends POSSubPanel implements I_POSPanel, ActionListener {
+public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionListener {
 
-	public POSUpDownPanel(VPOS posPanel) {
+	public POSQuantityPanel(VPOS posPanel) {
 		super(posPanel);
 	}
 
@@ -82,25 +83,29 @@ public class POSUpDownPanel extends POSSubPanel implements I_POSPanel, ActionLis
 		m_LeftP = 1;
 		m_BottonP = 0;
 		m_RightP = 1;
-			
-		f_bUp = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-		v_ButtonPanel.add(f_bUp, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
-		f_bDown = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
-		v_ButtonPanel.add(f_bDown, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+
 
 		f_bDelete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, Event.SHIFT_MASK));
-		v_ButtonPanel.add(f_bDelete, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+		v_ButtonPanel.add(f_bDelete, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 
-		//
+		f_bPlus = createButtonAction("Plus", null);
+		v_ButtonPanel.add(f_bPlus, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+
 		f_bMinus = createButtonAction("Minus", null);
-		v_ButtonPanel.add(f_bMinus, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+		v_ButtonPanel.add(f_bMinus, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+
+		f_bUp = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
+		v_ButtonPanel.add(f_bUp, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+		f_bDown = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
+		v_ButtonPanel.add(f_bDown, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 
 		CLabel qtyLabel = new CLabel(Msg.translate(Env.getCtx(), "QtyOrdered"));
-		v_ButtonPanel.add(qtyLabel, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+		v_ButtonPanel.add(qtyLabel, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 
 		//
@@ -110,11 +115,7 @@ public class POSUpDownPanel extends POSSubPanel implements I_POSPanel, ActionLis
 		f_Quantity.setPreferredSize(new Dimension(100, 50));
 		f_Quantity.setMinimumSize(new Dimension(100, 50));
 		f_Quantity.setValue(Env.ZERO);
-		v_ButtonPanel.add(f_Quantity, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0 
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
-
-		f_bPlus = createButtonAction("Plus", null);
-		v_ButtonPanel.add(f_bPlus, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
+		v_ButtonPanel.add(f_Quantity, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 
 		CLabel priceLabel = new CLabel(Msg.translate(Env.getCtx(), "PriceActual"));
