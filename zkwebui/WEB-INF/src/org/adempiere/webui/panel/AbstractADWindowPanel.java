@@ -56,6 +56,7 @@ import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.FindWindow;
 import org.adempiere.webui.window.WChat;
 import org.adempiere.webui.window.WRecordAccessDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.grid.ICreateFrom;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
@@ -128,6 +129,8 @@ import org.zkoss.zul.Menupopup;
  *		@see https://github.com/adempiere/adempiere/issues/127
  *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
  *		@see https://github.com/adempiere/adempiere/issues/114
+ *		<li> BR [ 147 ] Form called from window must has access to process
+ *		@see https://github.com/adempiere/adempiere/issues/147
  *
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
@@ -2201,6 +2204,15 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		// call form
 		MProcess pr = new MProcess(ctx, wButton.getProcess_ID(), null);
+		//	Validate Access
+		//	BR [ 147 ]
+		MRole role = MRole.getDefault(ctx, false);
+		Boolean accessRW = role.checkProcessAccess(pr.getAD_Process_ID());
+		if(accessRW == null
+				|| !accessRW.booleanValue()) {
+			FDialog.error(curWindowNo, parent, "AccessCannotProcess");
+			return;
+		}
 		int adFormID = pr.getAD_Form_ID();
 		//	Yamel Senih BR[ 127 ], 2015-11-25
 		//	Bug with launch form
