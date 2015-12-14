@@ -15,9 +15,7 @@
 
 package org.compiere.process;
 
-import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;
-import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 
@@ -28,6 +26,7 @@ import org.compiere.util.Msg;
  * @author Paul Bowden, Adaxa Pty Ltd
  *
  */
+@Deprecated // Not used at all.  See MigrationStepApply which handles both apply and rollback functions. 
 public class MigrationStepRollback extends SvrProcess {
 
 	private MMigrationStep migrationStep;
@@ -52,11 +51,6 @@ public class MigrationStepRollback extends SvrProcess {
 		else
 			retval += migrationStep.rollback();
 
-		// Set the parent status
-		if (!Env.getContext(getCtx(), "LogMigrationScriptBatch").equals("Y") ) {
-			MMigration migration = migrationStep.getParent();
-			migration.updateStatus();
-		}
 		return retval;
 	}
 }

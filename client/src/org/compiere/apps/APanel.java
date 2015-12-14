@@ -2743,11 +2743,14 @@ public final class APanel extends CPanel
 			if ( pi.isError() )
 				ADialog.error(m_curWindowNo, this, null, pi.getSummary());
 			//	Get Log Info
-			ProcessInfoUtil.setLogFromDB(pi);
-			String logInfo = pi.getLogInfo();
-			if (logInfo.length() > 0)
-				ADialog.info(m_curWindowNo, this, Env.getHeader(m_ctx, m_curWindowNo),
-					pi.getTitle(), logInfo);	//	 clear text
+			else
+			{
+				ProcessInfoUtil.setLogFromDB(pi);
+				String logInfo = pi.getLogInfo();
+				if (logInfo.length() > 0)
+					ADialog.info(m_curWindowNo, this, Env.getHeader(m_ctx, m_curWindowNo),
+						pi.getTitle(), logInfo);	//	 clear text
+			}
 		}
 		else
 		{
