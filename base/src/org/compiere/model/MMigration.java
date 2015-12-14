@@ -116,9 +116,9 @@ public class MMigration extends X_AD_Migration {
 			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "Y");
 			
 			// Get the set of active steps and apply each in order
-			for ( int stepID : getStepIDs(!apply) )
+			for ( int stepId : getStepIds(!apply) )
 			{
-				MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
+				MMigrationStep step = new MMigrationStep(getCtx(), stepId, get_TrxName());
 				
 				// The migration will only be applied if all steps are unapplied.  Any partially
 				// applied migration will need to be rolled back first.
@@ -251,7 +251,7 @@ public class MMigration extends X_AD_Migration {
 		log.log(Level.CONFIG, this.toString() + " ---> " + status + " (" + getStatusCode() + ")");
 	}
 	
-	private int[] getStepIDs(boolean rollback) {
+	private int[] getStepIds(boolean rollback) {
 		String where = "AD_Migration_ID = " + getAD_Migration_ID();
 		String order = rollback ? "SeqNo DESC" : "SeqNo ASC";
 		return MTable.get(getCtx(), MMigrationStep.Table_ID)
@@ -339,9 +339,9 @@ public class MMigration extends X_AD_Migration {
 		} 
 		
 		
-		for ( int stepID : getStepIDs(false) )
+		for ( int stepId : getStepIds(false) )
 		{
-			MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
+			MMigrationStep step = new MMigrationStep(getCtx(), stepId, get_TrxName());
 			log.log(Level.FINE, "Exporting step: " + step);
 			migration.appendChild(step.toXmlNode(document));
 		}
@@ -373,7 +373,7 @@ public class MMigration extends X_AD_Migration {
 	 */
 	protected boolean beforeDelete ()
 	{
-		for ( int stepID : getStepIDs(false) )
+		for ( int stepID : getStepIds(false) )
 		{
 			MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
 			step.deleteEx(true);
@@ -413,9 +413,9 @@ public class MMigration extends X_AD_Migration {
 
 			this.setProcessed(true);
 			
-			for ( int stepID : getStepIDs(false) )
+			for ( int stepId : getStepIds(false) )
 			{
-				MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
+				MMigrationStep step = new MMigrationStep(getCtx(), stepId, get_TrxName());
 				log.log(Level.CONFIG, "   Deleting step: " + step.toString());
 				step.deleteEx(true);
 			}

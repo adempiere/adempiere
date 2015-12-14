@@ -100,7 +100,7 @@ public class MigrationLoader {
             });
 
 			Trx.run(trxName -> {
-				int processId = 172; // Synchronize Terminolog
+				int processId = 172; // Synchronize Terminology
 				MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
 				instance.saveEx();
 				ProcessInfo pi = new ProcessInfo("Synchronize Terminology", processId);
