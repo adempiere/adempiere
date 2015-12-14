@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.DBException;
+import org.compiere.model.MProduct;
 import org.compiere.model.MWarehouse;
+import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
@@ -43,33 +45,32 @@ import org.eevolution.model.MPPProductPlanning;
 public class CreateProductPlanning extends SvrProcess
 {
 	/** Process Parameters */;
-	private int             p_M_Product_Category_ID = 0;
-	private int             p_M_Warehouse_ID = 0;
-	private int             p_S_Resource_ID = 0 ;
-	private int             p_Planner = 0 ; 
-	private BigDecimal      p_DeliveryTime_Promised = Env.ZERO;
-	private int             p_DD_NetworkDistribution_ID = 0;
-	private int             p_AD_Workflow_ID = 0;
-	private BigDecimal      p_TimeFence = Env.ZERO;
-	private boolean         p_CreatePlan = false;
-	private boolean         p_MPS = false;
-	private String          p_OrderPolicy = "";
-	private BigDecimal      p_OrderPeriod = Env.ZERO;
-	private BigDecimal      p_TransferTime = Env.ZERO;
-	private BigDecimal      p_SafetyStock = Env.ZERO;
-	private BigDecimal      p_Order_Min = Env.ZERO;
-	private BigDecimal      p_Order_Max = Env.ZERO;
-	private BigDecimal      p_Order_Pack = Env.ZERO;
-	private BigDecimal      p_Order_Qty = Env.ZERO;
-	private BigDecimal      p_WorkingTime = Env.ZERO;
-	private int             p_Yield = 0;
-	private int 			m_AD_Org_ID = 0;	
-	private int 			m_AD_Client_ID = 0;
+	private int 			productCategoryId = 0;
+	private int 				  warehouseId = 0;
+	private int 				   resourceId = 0 ;
+	private int 					plannerId = 0 ;
+	private BigDecimal   deliveryTimePromised = Env.ZERO;
+	private int			networkDistributionId = 0;
+	private int 			 	   workflowId = 0;
+	private BigDecimal 				timeFence = Env.ZERO;
+	private boolean 			   createPlan = false;
+	private boolean 					isMPS = false;
+	private String 				  orderPolicy = "";
+	private BigDecimal 			  orderPeriod = Env.ZERO;
+	private BigDecimal 			 transferTime = Env.ZERO;
+	private BigDecimal 			  safetyStock = Env.ZERO;
+	private BigDecimal 				 orderMin = Env.ZERO;
+	private BigDecimal 				 orderMax = Env.ZERO;
+	private BigDecimal 				orderPack = Env.ZERO;
+	private BigDecimal 				 orderQty = Env.ZERO;
+	private BigDecimal 			  workingTime = Env.ZERO;
+	private int 						yield = 0;
+	private int 						orgId = 0;
+	private int 					 clientId = 0;
 
 	// Statistics 
-	private int count_created = 0;
-	private int count_updated = 0;
-	private int count_error = 0;
+	private int countCreated = 0;
+	private int countUpdated = 0;
 
 	/**
 	 * Prepare - e.g., get Parameters.
@@ -81,97 +82,55 @@ public class CreateProductPlanning extends SvrProcess
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("M_Product_Category_ID"))
-			{    
-				p_M_Product_Category_ID = para.getParameterAsInt();
-			}
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_M_Warehouse_ID))
-			{    
-				p_M_Warehouse_ID = para.getParameterAsInt();
-			}
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_S_Resource_ID))
-			{    
-				p_S_Resource_ID = para.getParameterAsInt();
-			}
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_IsCreatePlan))
-			{    
-				p_CreatePlan = "Y".equals((String)para.getParameter());
-			}
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_IsMPS))
-			{    
-				p_MPS = "Y".equals((String)para.getParameter());
-			}
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_DD_NetworkDistribution_ID))
-			{    
-				p_DD_NetworkDistribution_ID =  para.getParameterAsInt();                                
-			} 		
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_AD_Workflow_ID))
-			{    
-				p_AD_Workflow_ID =  para.getParameterAsInt();
-			}		
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_TimeFence))
-			{    
-				p_TimeFence =  ((BigDecimal)para.getParameter());  
-			} 
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_TransferTime))
-			{    
-				p_TransferTime =  ((BigDecimal)para.getParameter());  
-			} 
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_SafetyStock))
-			{    
-				p_SafetyStock =  ((BigDecimal)para.getParameter());  
-			}
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_Order_Min))
-			{    
-				p_Order_Min =  ((BigDecimal)para.getParameter());  
-			}
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_Order_Max))
-			{    
-				p_Order_Max =  ((BigDecimal)para.getParameter());  
-			} 
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_Order_Pack))
-			{    
-				p_Order_Pack =  ((BigDecimal)para.getParameter());  
-			} 
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_Order_Qty))
-			{    
-				p_Order_Qty =  ((BigDecimal)para.getParameter());  
-			} 
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_WorkingTime))
-			{    
-				p_WorkingTime =  ((BigDecimal)para.getParameter());  
-			} 
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_Yield))
-			{    
-				p_Yield =  ((BigDecimal)para.getParameter()).intValue();  
-			} 
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_DeliveryTime_Promised))
-			{    
-				p_DeliveryTime_Promised =  ((BigDecimal)para.getParameter());  
-			}           
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_Order_Period))
-			{    
-				p_OrderPeriod =  ((BigDecimal)para.getParameter());  
-			} 
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_Order_Policy))
-			{    
-				p_OrderPolicy =  ((String)para.getParameter()); 
-			} 
-			else if (name.equals(MPPProductPlanning.COLUMNNAME_Planner_ID))
-			{    
-				p_Planner =   para.getParameterAsInt(); 
-			}                        
+			else if (MProduct.COLUMNNAME_M_Product_Category_ID.equals(name))
+				productCategoryId = para.getParameterAsInt();
+			else if (MPPProductPlanning.COLUMNNAME_M_Warehouse_ID.equals(name))
+				warehouseId = para.getParameterAsInt();
+			else if (MPPProductPlanning.COLUMNNAME_S_Resource_ID.equals(name))
+				resourceId = para.getParameterAsInt();
+			else if (MPPProductPlanning.COLUMNNAME_IsCreatePlan.equals(name))
+				createPlan = para.getParameterAsBoolean();
+			else if (MPPProductPlanning.COLUMNNAME_IsMPS.equals(name))
+				isMPS = para.getParameterAsBoolean();
+			else if (MPPProductPlanning.COLUMNNAME_DD_NetworkDistribution_ID.equals(name))
+				networkDistributionId =  para.getParameterAsInt();
+			else if (MPPProductPlanning.COLUMNNAME_AD_Workflow_ID.equals(name))
+				workflowId =  para.getParameterAsInt();
+			else if (MPPProductPlanning.COLUMNNAME_TimeFence.equals(name))
+				timeFence =  para.getParameterAsBigDecimal();
+			else if (MPPProductPlanning.COLUMNNAME_TransferTime.equals(name))
+				transferTime =  para.getParameterAsBigDecimal();
+			else if (MPPProductPlanning.COLUMNNAME_SafetyStock.equals(name))
+				safetyStock = para.getParameterAsBigDecimal();
+			else if (MPPProductPlanning.COLUMNNAME_Order_Min.equals(name))
+				orderMin = para.getParameterAsBigDecimal();
+			else if (MPPProductPlanning.COLUMNNAME_Order_Max.equals(name))
+				orderMax =  para.getParameterAsBigDecimal();
+			else if (MPPProductPlanning.COLUMNNAME_Order_Pack.equals(name))
+				orderPack = para.getParameterAsBigDecimal();
+			else if (MPPProductPlanning.COLUMNNAME_Order_Qty.equals(name))
+				orderQty =  para.getParameterAsBigDecimal();
+			else if (MPPProductPlanning.COLUMNNAME_WorkingTime.equals(name))
+				workingTime = para.getParameterAsBigDecimal();
+			else if (MPPProductPlanning.COLUMNNAME_Yield.equals(name))
+				yield =  para.getParameterAsInt();
+			else if (MPPProductPlanning.COLUMNNAME_DeliveryTime_Promised.equals(name))
+				deliveryTimePromised =  para.getParameterAsBigDecimal();
+			else if (MPPProductPlanning.COLUMNNAME_Order_Period.equals(name))
+				orderPeriod = para.getParameterAsBigDecimal();
+			else if (MPPProductPlanning.COLUMNNAME_Order_Policy.equals(name))
+				orderPolicy =  para.getParameterAsString();
+			else if (MPPProductPlanning.COLUMNNAME_Planner_ID.equals(name))
+				plannerId =   para.getParameterAsInt();
 			else
-			{
 				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-			}
 		}
 		
-		m_AD_Client_ID = Env.getAD_Client_ID(getCtx());
-		if(p_M_Warehouse_ID > 0)
+		clientId = Env.getAD_Client_ID(getCtx());
+		if(warehouseId > 0)
 		{
-			MWarehouse w = MWarehouse.get(getCtx(), p_M_Warehouse_ID);
-			m_AD_Org_ID = w.getAD_Org_ID();
+			MWarehouse warehouse = MWarehouse.get(getCtx(), warehouseId);
+			orgId = warehouse.getAD_Org_ID();
 		}
 	}	// prepare
 
@@ -181,83 +140,60 @@ public class CreateProductPlanning extends SvrProcess
 	 */
 	protected String doIt() throws Exception                
 	{
-		ArrayList<Object> params = new ArrayList<Object>();
-		String sql = "SELECT p.M_Product_ID FROM M_Product p WHERE p.AD_Client_ID=?";
-		params.add(m_AD_Client_ID);
-		
-		if (p_M_Product_Category_ID > 0 )
-		{
-			sql += " AND p.M_Product_Category_ID=?";
-			params.add(p_M_Product_Category_ID);
-		}
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql,get_TrxName());
-			DB.setParameters(pstmt, params);
-			rs = pstmt.executeQuery ();
-			while (rs.next())
-			{                                                   
-				int M_Product_ID = rs.getInt(1);
-				createPlanning(M_Product_ID);
-			}
-		}
-		catch (SQLException e)
-		{
-			throw new DBException(e, sql);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-		return "@Created@ #"+count_created
-					+" @Updated@ #"+count_updated
-					+" @Error@ #"+count_error;
+		for (int productId : getProductIds(clientId))
+			createPlanning(productId);
+
+
+		return " @Created@ # " + countCreated +
+			   " @Updated@ # " + countUpdated;
+	}
+
+	private int[] getProductIds(int clientId)
+	{
+		return new Query(getCtx() , MProduct.Table_Name , "AD_Client_ID=?" , get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setParameters(clientId)
+				.getIDs();
 	}
 	
-	private void createPlanning(int M_Product_ID)
+	private void createPlanning(int productId)
 	{
-		MPPProductPlanning pp = MPPProductPlanning.get(getCtx(),m_AD_Client_ID , m_AD_Org_ID , p_M_Warehouse_ID, p_S_Resource_ID,M_Product_ID, get_TrxName());
-		boolean isNew = pp == null;
+		MPPProductPlanning productPlanning = MPPProductPlanning.get(getCtx(), clientId, orgId, warehouseId, resourceId , productId , get_TrxName());
+		boolean isNew = productPlanning == null;
 		// Create Product Data Planning
-		if (pp == null)
+		if (productPlanning == null)
 		{
-			pp = new MPPProductPlanning(getCtx(), 0, get_TrxName());                  
-			pp.setAD_Org_ID(m_AD_Org_ID);
-			pp.setM_Warehouse_ID(p_M_Warehouse_ID);
-			pp.setS_Resource_ID(p_S_Resource_ID);
-			pp.setM_Product_ID(M_Product_ID);
+			productPlanning = new MPPProductPlanning(getCtx(), 0, get_TrxName());
+			productPlanning.setAD_Org_ID(orgId);
+			productPlanning.setM_Warehouse_ID(warehouseId);
+			productPlanning.setS_Resource_ID(resourceId);
+			productPlanning.setM_Product_ID(productId);
 		}
-		pp.setDD_NetworkDistribution_ID (p_DD_NetworkDistribution_ID);		
-		pp.setAD_Workflow_ID(p_AD_Workflow_ID);
-		pp.setIsCreatePlan(p_CreatePlan);                                                                         
-		pp.setIsMPS(p_MPS);                                    
-		pp.setIsRequiredMRP(true);
-		pp.setIsRequiredDRP(true);
-		pp.setDeliveryTime_Promised(p_DeliveryTime_Promised);
-		pp.setOrder_Period(p_OrderPeriod); 
-		pp.setPlanner_ID(p_Planner);
-		pp.setOrder_Policy(p_OrderPolicy);
-		pp.setSafetyStock(p_SafetyStock);
-		pp.setOrder_Qty(p_Order_Qty);
-		pp.setOrder_Min(p_Order_Min);
-		pp.setOrder_Max(p_Order_Max);
-		pp.setOrder_Pack(p_Order_Pack);
-		pp.setTimeFence(p_TimeFence);
-		pp.setTransferTime(p_TransferTime);
-		pp.setIsPhantom(false);
-		pp.setWorkingTime(p_WorkingTime);
-		pp.setYield(p_Yield);                                                                                        
-		//
-		if (!pp.save())
-			count_error++;
+		productPlanning.setDD_NetworkDistribution_ID (networkDistributionId);
+		productPlanning.setAD_Workflow_ID(workflowId);
+		productPlanning.setIsCreatePlan(createPlan);
+		productPlanning.setIsMPS(isMPS);
+		productPlanning.setIsRequiredMRP(true);
+		productPlanning.setIsRequiredDRP(true);
+		productPlanning.setDeliveryTime_Promised(deliveryTimePromised);
+		productPlanning.setOrder_Period(orderPeriod);
+		productPlanning.setPlanner_ID(plannerId);
+		productPlanning.setOrder_Policy(orderPolicy);
+		productPlanning.setSafetyStock(safetyStock);
+		productPlanning.setOrder_Qty(orderQty);
+		productPlanning.setOrder_Min(orderMin);
+		productPlanning.setOrder_Max(orderMax);
+		productPlanning.setOrder_Pack(orderPack);
+		productPlanning.setTimeFence(timeFence);
+		productPlanning.setTransferTime(transferTime);
+		productPlanning.setIsPhantom(false);
+		productPlanning.setWorkingTime(workingTime);
+		productPlanning.setYield(yield);
+		productPlanning.saveEx();
+
 		if (isNew)
-			count_created++;
+			countCreated++;
 		else
-			count_updated++;
+			countUpdated++;
 	}
 }
