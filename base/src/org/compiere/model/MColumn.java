@@ -396,6 +396,11 @@ public class MColumn extends X_AD_Column
 	 * @return
 	 */
 	public static void validLookup(String p_ColumnName, int p_AD_Reference_ID, int p_AD_Reference_Value_ID) {
+		// For backwards compatibility with older XML, skip the validation of the lookup 
+		// if a migration script is running
+		if (Env.getContext(Env.getCtx(), "MigrationStepApplyInProgress").equals("Y") )
+			return;
+
 		//	Valid 
 		if(p_ColumnName == null
 				||p_ColumnName.trim().length() == 0

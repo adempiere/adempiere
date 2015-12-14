@@ -18,103 +18,60 @@ package org.compiere.process;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MMigration;
-import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
-import org.compiere.util.Trx;
-import org.compiere.util.TrxRunnable;
 
-import java.util.Properties;
-
-
+/**
+ * Apply or Rollback a migration.  The application or rollback is determined by
+ * the status of the migration.  Only unapplied migrations will be applied.
+ * All other migration status codes will result in a rollback.
+ *
+ */
 public class MigrationApply extends SvrProcess {
 
-	private boolean failOnError = false;
-	private boolean migrationScriptBatch = false;
+	private boolean failOnError = true;
 
 	@Override
 	protected void prepare() {
+
 		ProcessInfoParameter[] params = getParameter();
 		for ( ProcessInfoParameter p : params)
 		{
 			String para = p.getParameterName();
 			if ( para.equals("FailOnError") )
 				failOnError  = "Y".equals((String)p.getParameter());
-			if ( para.equals("MigrationScriptBatch"))
-				migrationScriptBatch = p.getParameterAsBoolean();
 		}
 	}
 
 	@Override
 	protected String doIt() throws Exception{
-			Trx.run(new TrxRunnable() {
-			private int migrationId;
-			private Properties ctx;
-			public TrxRunnable setParameters(Properties ctx , int migrationId)
+
+		if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
+		{
+			addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
+			return "@Error@";
+		}
+		
+			// Use a null transaction to generate a read only query
+			MMigration migration = new MMigration(getCtx(), getRecord_ID() , null);		// Doesn't lock table 
+			if ( migration == null || migration.is_new() )
 			{
-				this.migrationId= migrationId;
-				this.ctx = ctx;
-				return this;
+				addLog( Msg.getMsg(getCtx(), "NoMigrationMessage"));
+				//return;
+				return "@Error@";
 			}
+			
+			migration.setFailOnError(failOnError);
+			
+			try {
 
-			public void run(String trxName) {
-				MMigration migration = new MMigration(ctx ,migrationId , trxName);
-				migration.setMigrationScriptBatch(migrationScriptBatch);
-				try {
-					if ( migration == null || migration.is_new() )
-					{
-						addLog( Msg.getMsg(getCtx(), "NoMigrationMessage"));
-						return;
-						//return "@Error@" + Msg.getMsg(getCtx(), "NoMigration");
-					}
+				addLog(migration.apply());
 
-					if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
-					{
-						addLog( Msg.getMsg(getCtx(), "LogMigrationScriptFlagIsSetMessage"));
-						return;
-						//return "@Error@" + Msg.getMsg(getCtx(), "LogMigrationScripFlagtIsSet");
-					}
-
-					boolean apply = true;
-					if ( MMigration.APPLY_Rollback.equals(migration.getApply()))
-						apply = false;
-
-					migration.setFailOnError(failOnError);
-
-					if ( apply )
-					{
-						migration.apply();
-
-						if ( migration.getStatusCode() != null && migration.getStatusCode().equals(MMigration.STATUSCODE_Applied))
-							addLog("Migration successful");
-						else if ( migration.getStatusCode().equals(MMigration.STATUSCODE_PartiallyApplied))
-							addLog("Migration partially applied. Please review migration steps for errors.");
-						else if (  migration.getStatusCode().equals(MMigration.STATUSCODE_Failed) )
-							addLog("Migration failed. Please review migration steps for errors.");
-					}
-					else
-					{
-						migration.rollback();
-						if ( migration.getStatusCode().equals(MMigration.STATUSCODE_Unapplied) )
-							addLog("Rollback successful.");
-						else
-							addLog("Rollback failed. Please review migration steps for errors.");
-					}
-
-					if (!migrationScriptBatch)
-						migration.updateStatus();
-
-				} catch (AdempiereException e) {
-					addLog(e.getMessage());
-					addLog("Execute Rollback");
-					migration.rollback();
-					if ( migration.getStatusCode().equals(MMigration.STATUSCODE_Unapplied) )
-						addLog("Rollback successful.");
-					else
-						addLog("Rollback failed. Please review migration steps for errors.");
-				}
+			} catch (AdempiereException e) {
+				addLog(e.getMessage());
+				if (failOnError)    // abort on first error
+					throw new AdempiereException(e.getMessage(), e);
 			}
-		}.setParameters(getCtx() , getRecord_ID()));
 		return "@OK@";
 	}
 }
