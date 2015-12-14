@@ -72,7 +72,7 @@ public final class WMRuleEngine {
 	private HashMap<String, WMRuleInterface> m_WMRules = new HashMap<String, WMRuleInterface>();
 
 	/** Package for Warehouse Rule classes */
-	private String m_packageName = "org.eevolution.engines.Warehouse";
+	private String m_packageName = "org.eevolution.engine.warehouse";
 
 	/**
 	 * Get Warehouse Rules
@@ -420,6 +420,7 @@ public final class WMRuleEngine {
 			MWMRule rule = (MWMRule) detail.getWM_Rule();
 			WMRuleInterface implementation = engine.getWMRuleFactory(engine
 					.getClassName(rule));
+
 
 			List<MStorage> storages = implementation
 					.getStorage(strategy.getCtx(),
