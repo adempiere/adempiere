@@ -45,6 +45,7 @@ public class MEntityType extends X_AD_EntityType
 	 * 
 	 */
 	private static final long serialVersionUID = 8906219523978497906L;
+	private boolean isDeleteForced = false;
 
 	/**
 	 * 	Get Entity Types
@@ -64,7 +65,7 @@ public class MEntityType extends X_AD_EntityType
 		s_log.finer("# " + s_entityTypes.length);
 		return s_entityTypes;
 	}	//	getEntityTypes
-	
+
 	/**
 	 * Get EntityType object by name  
 	 * @param ctx
@@ -198,7 +199,18 @@ public class MEntityType extends X_AD_EntityType
 	 * 10=D, 20=C,  100=U, 110=CUST,  200=A, 210=EXT, 220=XX etc
 	 */
 	private static final int s_maxAD_EntityType_ID = 1000000;
-	
+
+
+	public void setIsDeleteForced(boolean isDeleteForced)
+	{
+		this.isDeleteForced = 	isDeleteForced;
+	}
+
+	public boolean isDeleteForced()
+	{
+		return isDeleteForced;
+	}
+
 	/**
 	 * Is System Maintained.
 	 * Any Entity Type with ID < 1000000.
@@ -276,8 +288,8 @@ public class MEntityType extends X_AD_EntityType
 	 */
 	protected boolean beforeDelete ()
 	{
-		// Allow delete of entities for migration scripts
-		if (Env.getContext(getCtx(), "MigrationStepRollbackInProgress").equals("Y") )
+		// Allow delete of entities way
+		if (isDeleteForced())
 		{
 			s_entityTypes = null;	//	reset
 			return true;

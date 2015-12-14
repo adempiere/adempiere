@@ -507,7 +507,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 			if ( getAction().equals(MMigrationStep.ACTION_Delete) )
 			{
-				po.deleteEx(false, get_TrxName());
+				if (po instanceof  MEntityType)
+				{
+					MEntityType entityType = (MEntityType) po;
+					entityType.setIsDeleteForced(true);
+					entityType.delete(true , get_TrxName());
+				}
+				else
+					po.deleteEx(false, get_TrxName());
 				// TODO unsync column?
 			}
 			else
