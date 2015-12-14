@@ -97,7 +97,7 @@ public class ReleaseInOutBound extends SvrProcess
 	protected boolean isPrintPickList;
 	protected boolean isCreateSupply;
 	
-	private MLocator locator ;
+	private MLocator outBoundLocator ;
 	private int userId ;
 	private Timestamp today = new Timestamp (System.currentTimeMillis());
 	private MDDOrder orderDistribution;
@@ -119,14 +119,14 @@ public class ReleaseInOutBound extends SvrProcess
 				areaTypeId = para.getParameterAsInt();
 			else if (MWMSectionType.COLUMNNAME_WM_Section_Type_ID.equals(name))
 				sectionTypeId = para.getParameterAsInt();
-			else if (MDDOrder.COLUMNNAME_DeliveryViaRule.equals(name))
+			else if (MDDOrder.COLUMNNAME_DeliveryRule.equals(name))
 				deliveryRule = (String)para.getParameter();
 			else if (MDDOrder.COLUMNNAME_DocAction.equals(name))
 				docAction = (String)para.getParameter();
 			else if (MDDOrder.COLUMNNAME_C_DocType_ID.equals(name))
 				docTypeId = para.getParameterAsInt();
 			else if (MLocator.COLUMNNAME_M_Locator_ID.equals(name))
-				locator = new MLocator(getCtx(), para.getParameterAsInt() , get_TrxName());
+				outBoundLocator = new MLocator(getCtx(), para.getParameterAsInt() , get_TrxName());
 			else if (name.equals("IsPrintPickList"))
 				isPrintPickList = "Y".equals(para.getParameter());
 			else if (name.equals("IsCreateSupply"))
@@ -154,7 +154,7 @@ public class ReleaseInOutBound extends SvrProcess
 					orderDistributionLine.saveEx();
 				}
 
-				if (orderDistributionLine.getM_LocatorTo_ID() == locator.getM_Locator_ID())
+				if (orderDistributionLine.getM_LocatorTo_ID() == outBoundLocator.getM_Locator_ID())
 					continue;
 			}
 
@@ -218,12 +218,12 @@ public class ReleaseInOutBound extends SvrProcess
 		if(storages != null && storages.size() > 0)
 		{	
 			//get the warehouse in transit
-			MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), locator.getAD_Org_ID());
+			MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), outBoundLocator.getAD_Org_ID());
 			if (wsts == null || wsts.length == 0)
 				throw new AdempiereException("@M_Warehouse_ID@ @IsInTransit@ @NotFound@");
 
 			//Org Must be linked to BPartner
-			MOrg org = MOrg.get(getCtx(),  locator.getAD_Org_ID());
+			MOrg org = MOrg.get(getCtx(),  outBoundLocator.getAD_Org_ID());
 			int partnerId = org.getLinkedC_BPartner_ID(get_TrxName());
 			if (partnerId == 0)
 				throw new NoBPartnerLinkedforOrgException (org);
@@ -233,7 +233,7 @@ public class ReleaseInOutBound extends SvrProcess
 			if(orderDistribution == null)
 			{
 				orderDistribution = new MDDOrder(getCtx() , 0 , get_TrxName());
-				orderDistribution.setAD_Org_ID(locator.getAD_Org_ID());
+				orderDistribution.setAD_Org_ID(outBoundLocator.getAD_Org_ID());
 				orderDistribution.setC_BPartner_ID(partnerId);
 				if(docTypeId > 0)
 				{
@@ -252,7 +252,7 @@ public class ReleaseInOutBound extends SvrProcess
 				
 				MUser[] users = MUser.getOfBPartner(getCtx(), partner.getC_BPartner_ID(), get_TrxName());
 				if (users == null || users.length == 0)
-					throw new AdempiereException("@AD_User_ID@ @NotFound@ @C_BPartner_ID@"+ partner.getName());
+					throw new AdempiereException("@AD_User_ID@ @NotFound@ @Value@ - @C_BPartner_ID@ : "+ partner.getValue() + " - "+ partner.getName());
 
 				orderDistribution.setAD_User_ID(users[0].getAD_User_ID());
 				orderDistribution.setDateOrdered(getToday());
@@ -268,7 +268,7 @@ public class ReleaseInOutBound extends SvrProcess
 			{			
 				MDDOrderLine orderLine = new MDDOrderLine(orderDistribution);
 				orderLine.setM_Locator_ID(storage.getM_Locator_ID());
-				orderLine.setM_LocatorTo_ID(locator.getM_Locator_ID());
+				orderLine.setM_LocatorTo_ID(outBoundLocator.getM_Locator_ID());
 				orderLine.setC_UOM_ID(outBoundOrderLine.getC_UOM_ID());
 				orderLine.setM_Product_ID(outBoundOrderLine.getM_Product_ID());
 				orderLine.setDateOrdered(getToday());
@@ -361,11 +361,11 @@ public class ReleaseInOutBound extends SvrProcess
 		priceListId = DB.getSQLValueEx(get_TrxName(), sql, partnerId);
 
 		MRequisition requisition = new  MRequisition(getCtx(),0, get_TrxName());
-		requisition.setAD_Org_ID(locator.getAD_Org_ID());
+		requisition.setAD_Org_ID(outBoundLocator.getAD_Org_ID());
 		requisition.setAD_User_ID(userId);
 		requisition.setDateRequired(outBoundOrderLine.getPickDate());
 		requisition.setDescription("Generate from Outbound Order"); // TODO: add translation
-		requisition.setM_Warehouse_ID(locator.getM_Warehouse_ID());
+		requisition.setM_Warehouse_ID(outBoundLocator.getM_Warehouse_ID());
 		requisition.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_PurchaseRequisition));
 		if (priceListId > 0)
 			requisition.setM_PriceList_ID(priceListId);
@@ -373,7 +373,7 @@ public class ReleaseInOutBound extends SvrProcess
 
 		MRequisitionLine reqline = new  MRequisitionLine(requisition);
 		reqline.setLine(10);
-		reqline.setAD_Org_ID(locator.getAD_Org_ID());
+		reqline.setAD_Org_ID(outBoundLocator.getAD_Org_ID());
 		reqline.setC_BPartner_ID(partnerId);
 		reqline.setM_Product_ID(product.getM_Product_ID());
 		reqline.setPrice();
