@@ -1633,13 +1633,13 @@ public class CPOS {
 	
 	/**
 	 * Set Purchase Order Reference 
-	 * @param docno
+	 * @param documentNo
 	 * @return void
 	 */
-	public void setPOReference(String docno) {
+	public void setPOReference(String documentN	o) {
 		String trxName = currentOrder.get_TrxName();
 		Trx trx = Trx.get(trxName, true);
-		currentOrder.setPOReference(docno);
+		currentOrder.setPOReference(documentNo);
 		currentOrder.saveEx(trx.getTrxName());
 		trx.close();
 		
@@ -1657,8 +1657,8 @@ public class CPOS {
 	 * Set Quantity of Product
 	 * @param m_qty
 	 */
-	public void setQty(BigDecimal p_qty) {
-		quantity = p_qty;
+	public void setQty(BigDecimal qty) {
+		this.quantity = qty;
 	}
 
 	/**
@@ -1666,15 +1666,16 @@ public class CPOS {
 	 * @return price
 	 */
 	public BigDecimal getPrice() {
-		return price;
+		return this.price;
 	}
 
 	/**
 	 * Set Price of Product
-	 * @param m_price
+	 * @param price
 	 */
-	public void setPrice(BigDecimal p_price) {
-		price = p_price;
+	public void setPrice(BigDecimal price)
+	{
+		this.price = price;
 	}
 	
 	public boolean IsShowLineControl() {
