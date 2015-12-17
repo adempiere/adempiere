@@ -17,10 +17,10 @@
 package org.adempiere.pos;
 
 import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -55,84 +55,84 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 	private static final long serialVersionUID = -8002370020007368736L;
 	
 	/** Buttons Controls  		*/
-	private CButton 			f_bUp;
-	private CButton 			f_bDelete;
-	private CButton 			f_bDown;
-	private CButton 			f_bPlus;
-	private CButton 			f_bMinus;
-	private VNumber		 		f_Price;
-	private VNumber		 		f_Quantity;
+	private CButton 			buttonUp;
+	private CButton 			buttonDelete;
+	private CButton				buttonDown;
+	private CButton 			buttonPlus;
+	private CButton 			buttonMinus;
+	private VNumber 			fieldPrice;
+	private VNumber 			fieldQuantity;
 	/**	Button Panel			*/
-	private CPanel				v_ButtonPanel;
+	private CPanel 				buttonPanel;
 	/**	Padding					*/
-	private int 				m_TopP;
-	private int 				m_LeftP;
-	private int 				m_BottonP;
-	private int 				m_RightP;
+	private int 				topPadding;
+	private int 				leftPadding;
+	private int 				bottonPadding;
+	private int 				rightPadding;
 
-	private final BigDecimal ACTION_QUANTITY    =  Env.ONE;
+	private final BigDecimal 	currentQuantity =  Env.ONE;
 	
 	@Override
 	protected void init() {
 		//	Content
 		setLayout(new GridBagLayout());
 		//	Button Panel
-		v_ButtonPanel = new CPanel(new GridBagLayout());
+		buttonPanel = new CPanel(new GridBagLayout());
 		//	
-		m_TopP = 0;
-		m_LeftP = 1;
-		m_BottonP = 0;
-		m_RightP = 1;
+		topPadding = 0;
+		leftPadding = 1;
+		bottonPadding = 0;
+		rightPadding = 1;
 
 
-		f_bDelete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, Event.SHIFT_MASK));
-		v_ButtonPanel.add(f_bDelete, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+		buttonDelete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		buttonPanel.add(buttonDelete, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
-		f_bPlus = createButtonAction("Plus", null);
-		v_ButtonPanel.add(f_bPlus, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+		buttonPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		buttonPanel.add(buttonPlus, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
-		f_bMinus = createButtonAction("Minus", null);
-		v_ButtonPanel.add(f_bMinus, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+		buttonMinus = createButtonAction("Minus", KeyStroke.getKeyStroke(KeyEvent.VK_MINUS,Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		buttonPanel.add(buttonMinus, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
-		f_bUp = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-		v_ButtonPanel.add(f_bUp, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
-		f_bDown = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
-		v_ButtonPanel.add(f_bDown, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+		buttonUp = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		buttonPanel.add(buttonUp, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
+		buttonDown = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		buttonPanel.add(buttonDown, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		CLabel qtyLabel = new CLabel(Msg.translate(Env.getCtx(), "QtyOrdered"));
-		v_ButtonPanel.add(qtyLabel, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+		buttonPanel.add(qtyLabel, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		//
-		f_Quantity = new VNumber();
-		f_Quantity.addActionListener(this);
-		f_Quantity.setFont(v_POSPanel.getFont());
-		f_Quantity.setPreferredSize(new Dimension(100, 50));
-		f_Quantity.setMinimumSize(new Dimension(100, 50));
-		f_Quantity.setValue(Env.ZERO);
-		v_ButtonPanel.add(f_Quantity, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+		fieldQuantity = new VNumber();
+		fieldQuantity.addActionListener(this);
+		fieldQuantity.setFont(posPanel.getFont());
+		fieldQuantity.setPreferredSize(new Dimension(100, 50));
+		fieldQuantity.setMinimumSize(new Dimension(100, 50));
+		fieldQuantity.setValue(Env.ZERO);
+		buttonPanel.add(fieldQuantity, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		CLabel priceLabel = new CLabel(Msg.translate(Env.getCtx(), "PriceActual"));
-		v_ButtonPanel.add(priceLabel, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+		buttonPanel.add(priceLabel, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		//
-		f_Price = new VNumber();
-		f_Price.setValue(Env.ZERO);
-		f_Price.addActionListener(this);
-		f_Price.setFont(v_POSPanel.getFont());
-		f_Price.setPreferredSize(new Dimension(100, 50));
-		f_Price.setMinimumSize(new Dimension(100, 50));
-		v_ButtonPanel.add(f_Price, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
+		fieldPrice = new VNumber();
+		fieldPrice.setValue(Env.ZERO);
+		fieldPrice.addActionListener(this);
+		fieldPrice.setFont(posPanel.getFont());
+		fieldPrice.setPreferredSize(new Dimension(100, 50));
+		fieldPrice.setMinimumSize(new Dimension(100, 50));
+		buttonPanel.add(fieldPrice, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 		
-		add(v_ButtonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
+		add(buttonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 
 		changeStatus(false);
@@ -143,38 +143,41 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 	 *	@param e event
 	 */
 	public void actionPerformed (ActionEvent e) {
-		if (e.getSource().equals(f_bUp)){
-			v_POSPanel.moveUp();
+
+		if (e.getSource().equals(buttonUp)){
+			posPanel.moveUp();
 			return;
 		}
-		else if (e.getSource().equals(f_bDown)){
-			v_POSPanel.moveDown();
+		else if (e.getSource().equals(buttonDown)){
+			posPanel.moveDown();
 			return;
 		}
-		if (e.getSource().equals(f_bMinus)){
-			f_Quantity.setValue(((BigDecimal) f_Quantity.getValue()).subtract(ACTION_QUANTITY));
+		if (e.getSource().equals(buttonMinus)){
+			fieldQuantity.setValue(((BigDecimal) fieldQuantity.getValue()).subtract(currentQuantity));
 		}
-		else if (e.getSource().equals(f_bPlus)){
-			f_Quantity.setValue(((BigDecimal) f_Quantity.getValue()).add(ACTION_QUANTITY));
+		else if (e.getSource().equals(buttonPlus)){
+			fieldQuantity.setValue(((BigDecimal) fieldQuantity.getValue()).add(currentQuantity));
 		}
-		else if (e.getSource().equals(f_bDelete)){
-			f_Quantity.setValue(0.0);
+		else if (e.getSource().equals(buttonDelete)) {
+			posPanel.deleteLine(posPanel.getC_OrderLine_ID());
+			fieldQuantity.setValue(0.0);
 		}
 
-		v_POSPanel.setQty((BigDecimal)f_Quantity.getValue());
-		v_POSPanel.setPrice((BigDecimal)f_Price.getValue());
-		v_POSPanel.updateLineTable();
+		posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
+		posPanel.setPrice((BigDecimal) fieldPrice.getValue());
+		posPanel.updateLineTable();
+		posPanel.changeViewQuantityPanel();
 
 	}
 
 	@Override
 	public void refreshPanel() {
-		if(v_POSPanel.hasLines()){
-			f_bDown.setEnabled(true);
-			f_bUp.setEnabled(true);
+		if(posPanel.hasLines()){
+			buttonDown.setEnabled(true);
+			buttonUp.setEnabled(true);
 		} else {
-			f_bDown.setEnabled(false);
-			f_bUp.setEnabled(false);
+			buttonDown.setEnabled(false);
+			buttonUp.setEnabled(false);
 		}
 	}
 
@@ -196,20 +199,20 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 	 * @param p_Status
 	 */
 	public void changeStatus(boolean p_Status) {
-		f_Quantity.setEnabled(p_Status);
-		f_Price.setEnabled(p_Status);
-		f_bDelete.setEnabled(p_Status);
-		f_bPlus.setEnabled(p_Status);
-		f_bMinus.setEnabled(p_Status);
+		fieldQuantity.setEnabled(p_Status);
+		fieldPrice.setEnabled(p_Status);
+		buttonDelete.setEnabled(p_Status);
+		buttonPlus.setEnabled(p_Status);
+		buttonMinus.setEnabled(p_Status);
 	}
 	
 	@Override
 	public void changeViewPanel() {
-		if(v_POSPanel.getQty().compareTo(Env.ZERO) == 0)
+		if(posPanel.getQty().compareTo(Env.ZERO) == 0)
 			changeStatus(false);
 		else
 			changeStatus(true);
-		f_Quantity.setValue(v_POSPanel.getQty().doubleValue());
-		f_Price.setValue(v_POSPanel.getPrice().doubleValue());
+		fieldQuantity.setValue(posPanel.getQty().doubleValue());
+		fieldPrice.setValue(posPanel.getPrice().doubleValue());
 	}
 }
