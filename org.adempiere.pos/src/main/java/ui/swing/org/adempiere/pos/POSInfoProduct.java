@@ -89,23 +89,23 @@ public class POSInfoProduct extends POSSubPanel {
 		setLayout(new GridBagLayout());
 		//	Set Border
 		TitledBorder border = BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "InfoProduct"));
-		border.setTitleFont(v_POSPanel.getFont());
+		border.setTitleFont(posPanel.getFont());
 		border.setTitleColor(AdempierePLAF.getTextColor_Label());
 		setBorder(border);
 		//	
-		FontMetrics metrics = getFontMetrics(v_POSPanel.getPlainFont());
+		FontMetrics metrics = getFontMetrics(posPanel.getPlainFont());
 		//	Instance Panels
 		v_RightPanel = new CPanel(new GridBagLayout());
 		//	For Name
 		fName = new CLabel (Msg.getElement(Env.getCtx(), "ProductName"));
-		fName.setFont(v_POSPanel.getBigFont());
+		fName.setFont(posPanel.getBigFont());
 		fName.setHorizontalAlignment(CLabel.LEFT);
 		//	Add
 		v_RightPanel.add(fName, new GridBagConstraints(0, 0, 1, 1, 1, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 0), 0, 0));
 		//	For Price
-		fPrice = new CLabel (v_POSPanel.getNumberFormat().format(Env.ZERO));
-		fPrice.setFont(v_POSPanel.getBigFont());
+		fPrice = new CLabel (posPanel.getNumberFormat().format(Env.ZERO));
+		fPrice.setFont(posPanel.getBigFont());
 		fPrice.setHorizontalAlignment(CLabel.RIGHT);
 		fPrice.setHorizontalTextPosition(CLabel.RIGHT);
 		fPrice.setPreferredSize(new Dimension(100, metrics.getHeight()));
@@ -115,7 +115,7 @@ public class POSInfoProduct extends POSSubPanel {
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 0), 0, 0));
 		//	For Value
 		fValue = new CLabel (Msg.getElement(Env.getCtx(), "ProductValue"));
-		fValue.setFont(v_POSPanel.getPlainFont());
+		fValue.setFont(posPanel.getPlainFont());
 		fValue.setHorizontalAlignment(CLabel.LEFT);
 		fValue.setHorizontalTextPosition(CLabel.LEFT);
 		//	Add
@@ -123,7 +123,7 @@ public class POSInfoProduct extends POSSubPanel {
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For UOM
 		fUOMSymbol = new CLabel (Msg.getElement(Env.getCtx(), "C_UOM_ID"));
-		fUOMSymbol.setFont(v_POSPanel.getPlainFont());
+		fUOMSymbol.setFont(posPanel.getPlainFont());
 		fUOMSymbol.setHorizontalAlignment(CLabel.LEFT);
 		fUOMSymbol.setHorizontalTextPosition(CLabel.LEFT);
 		//	Add
@@ -131,21 +131,21 @@ public class POSInfoProduct extends POSSubPanel {
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Category
 		fProductCategory = new CLabel(Msg.getElement(Env.getCtx(), "M_Product_Category_ID"));
-		fProductCategory.setFont(v_POSPanel.getPlainFont());
+		fProductCategory.setFont(posPanel.getPlainFont());
 		fProductCategory.setHorizontalAlignment(CLabel.LEFT);
 		//	Add
 		v_RightPanel.add(fProductCategory, new GridBagConstraints(0, 3, 2, 1, 1, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Category
 		fProductTax = new CLabel(Msg.getElement(Env.getCtx(), "C_TaxCategory_ID"));
-		fProductTax.setFont(v_POSPanel.getPlainFont());
+		fProductTax.setFont(posPanel.getPlainFont());
 		fProductTax.setHorizontalAlignment(CLabel.LEFT);
 		//	Add
 		v_RightPanel.add(fProductTax, new GridBagConstraints(0, 4, 2, 1, 1, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Description
 		fDescription = new CLabel(Msg.getElement(Env.getCtx(), "Description"));
-		fDescription.setFont(v_POSPanel.getPlainFont());
+		fDescription.setFont(posPanel.getPlainFont());
 		fDescription.setHorizontalAlignment(CLabel.LEFT);
 		fDescription.setPreferredSize(new Dimension(20, metrics.getHeight()));
 		fDescription.setMaximumSize(new Dimension(20, metrics.getHeight()));
@@ -154,7 +154,7 @@ public class POSInfoProduct extends POSSubPanel {
 				,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Image
 		bImage = new CButton();
-		bImage.setFont(v_POSPanel.getFont());
+		bImage.setFont(posPanel.getFont());
 		bImage.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
 		bImage.setMinimumSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
 		bImage.setFocusable(false);
@@ -179,12 +179,12 @@ public class POSInfoProduct extends POSSubPanel {
 		if(p_M_Product_ID <= 0)
 			return;
 		//	Refresh Values
-		MProduct m_Product = MProduct.get(m_ctx, p_M_Product_ID);
-		String currencyISO_Code = v_POSPanel.getCurSymbol();
+		MProduct m_Product = MProduct.get(ctx, p_M_Product_ID);
+		String currencyISO_Code = posPanel.getCurSymbol();
 		fValue.setText(m_Product.getValue());
 		fPrice.setText(currencyISO_Code + " " 
-					+ v_POSPanel.getNumberFormat()
-						.format(v_POSPanel.getPrice(m_Product)));
+					+ posPanel.getNumberFormat()
+						.format(posPanel.getPrice(m_Product)));
 		fName.setText(m_Product.getName());
 		fUOMSymbol.setText(m_Product.getC_UOM().getUOMSymbol());
 		fProductCategory.setText(m_Product.getM_Product_Category().getName());
@@ -222,21 +222,25 @@ public class POSInfoProduct extends POSSubPanel {
 	 * @return void
 	 */
 	public void refreshProduct(int p_M_Product_ID) {
+		int imageId = 0;
+
 		//	Valid Product
 		if(p_M_Product_ID == 0)
 			return;
+
 		//	Get POS Key
 		int m_C_POSKey_ID = DB.getSQLValue(null, "SELECT pk.C_POSKey_ID "
 				+ "FROM C_POSKey pk "
 				+ "WHERE pk.C_POSKeyLayout_ID = ? "
 				+ "AND pk.M_Product_ID = ? "
-				+ "AND pk.IsActive = 'Y'", v_POSPanel.getC_POSKeyLayout_ID(), p_M_Product_ID);
+				+ "AND pk.IsActive = 'Y'", posPanel.getC_POSKeyLayout_ID(), p_M_Product_ID);
 		//	Valid POS Key
 		if(m_C_POSKey_ID <= 0) {
-			return;
+			MPOSKey key =  new MPOSKey(ctx, m_C_POSKey_ID, null);
+			imageId = key.getAD_Image_ID();
 		}
-		MPOSKey key =  new MPOSKey(m_ctx, m_C_POSKey_ID, null);
+
 		//	
-		setValuesFromProduct(p_M_Product_ID, key.getAD_Image_ID());
+		setValuesFromProduct(p_M_Product_ID,imageId);
 	}
 }
