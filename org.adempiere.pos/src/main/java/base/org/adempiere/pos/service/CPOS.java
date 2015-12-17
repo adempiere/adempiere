@@ -1636,7 +1636,7 @@ public class CPOS {
 	 * @param documentNo
 	 * @return void
 	 */
-	public void setPOReference(String documentN	o) {
+	public void setPOReference(String documentNo) {
 		String trxName = currentOrder.get_TrxName();
 		Trx trx = Trx.get(trxName, true);
 		currentOrder.setPOReference(documentNo);
@@ -1657,7 +1657,7 @@ public class CPOS {
 	 * Set Quantity of Product
 	 * @param m_qty
 	 */
-	public void setQty(BigDecimal qty) {
+	public void setQuantity(BigDecimal qty) {
 		this.quantity = qty;
 	}
 
