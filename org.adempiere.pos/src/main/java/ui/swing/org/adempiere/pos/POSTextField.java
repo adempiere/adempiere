@@ -17,6 +17,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -24,6 +26,7 @@ import javax.swing.JFormattedTextField;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
+import org.compiere.swing.CTextField;
 
 /**
  * Formatted Text field with on-screen keyboard support
@@ -33,8 +36,8 @@ import org.compiere.apps.AEnv;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * <li> Changes for generic use
  */
-public class POSTextField extends JFormattedTextField 
-		implements MouseListener {
+public class POSTextField extends JFormattedTextField
+		implements MouseListener , KeyListener {
 	
 	/**
 	 * 
@@ -140,5 +143,20 @@ public class POSTextField extends JFormattedTextField
 		g.setColor(getDisabledTextColor());
 		g.setFont(m_Font);
 		g.drawString(m_PlaceHolder, getMargin().left  ,(getSize().height)/2 + getFont().getSize()/2 );
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
 	}
 }
