@@ -18,6 +18,7 @@ import java.awt.Frame;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -45,6 +46,7 @@ import org.compiere.util.Msg;
  *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  <li> Implement best practices
+ *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  *  
  *  @version $Id: QueryBPartner.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  *  @version $Id: QueryBPartner.java,v 2.0 2015/09/01 00:00:00 scalderon
@@ -63,15 +65,15 @@ public class QueryBPartner extends POSQuery {
 	}	//	PosQueryBPartner
 	
 	/**	Search Fields		*/
-	private POSTextField	f_Value;
-	private POSTextField	f_Name;
-	private POSTextField	f_Contact;
-	private POSTextField	f_Email;
-	private POSTextField	f_Phone;
-	private POSTextField	f_City;
+	private POSTextField fieldValue;
+	private POSTextField fieldName;
+	private POSTextField fieldContact;
+	private POSTextField fieldEmail;
+	private POSTextField fieldPhone;
+	private POSTextField fieldCity;
 	/**	Internal Variables	*/
-	private int				m_C_BPartner_ID;
-	private String 			m_BPartnerName;
+	private int 		 partnerId;
+	private String 		 partnerName;
 	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(QueryBPartner.class);
 	
@@ -87,69 +89,75 @@ public class QueryBPartner extends POSQuery {
 		new ColumnInfo(Msg.translate(Env.getCtx(), "City"), "City", String.class) 
 	};
 	/**	From Clause							*/
-	private static String s_sqlFrom = "RV_BPartner";
+	private static String sqlFrom = "RV_BPartner";
 	/** Where Clause						*/
-	private static String s_sqlWhere = "IsActive='Y'"; 
+	private static String sqlWhere = "IsActive='Y'";
 
 	/**
 	 * 	Set up Panel
 	 */
 	protected void init() {
 		//	North
-		v_ParameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
-		v_ParameterPanel.setBorder(new TitledBorder(Msg.getMsg(m_ctx, "Query")));
+		parameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
+		parameterPanel.setBorder(new TitledBorder(Msg.getMsg(ctx, "Query")));
 		
-		CLabel lvalue = new CLabel(Msg.translate(m_ctx, "Value"));
-		v_ParameterPanel.add (lvalue, " growy");
-		f_Value = new POSTextField("", v_POSPanel.getKeyboard());
-		lvalue.setLabelFor(f_Value);
-		v_ParameterPanel.add(f_Value, "h 30, w 200");
-		f_Value.addActionListener(this);
-		
-		//
-		CLabel lcontact = new CLabel(Msg.translate(m_ctx, "Contact"));
-		v_ParameterPanel.add (lcontact, " growy");
-		f_Contact = new POSTextField("", v_POSPanel.getKeyboard());
-		lcontact.setLabelFor(f_Contact);
-		v_ParameterPanel.add(f_Contact, "h 30, w 200");
-		f_Contact.addActionListener(this);
+		CLabel lvalue = new CLabel(Msg.translate(ctx, "Value"));
+		parameterPanel.add (lvalue, " growy");
+		fieldValue = new POSTextField("", posPanel.getKeyboard());
+		lvalue.setLabelFor(fieldValue);
+		parameterPanel.add(fieldValue, "h 30, w 200");
+		fieldValue.addActionListener(this);
 		
 		//
-		CLabel lphone = new CLabel(Msg.translate(m_ctx, "Phone"));
-		v_ParameterPanel.add (lphone, " growy");
-		f_Phone = new POSTextField("", v_POSPanel.getKeyboard());
-		lphone.setLabelFor(f_Phone);
-		v_ParameterPanel.add(f_Phone, "h 30, w 200, wrap");
-		f_Phone.addActionListener(this);
+		CLabel lcontact = new CLabel(Msg.translate(ctx, "Contact"));
+		parameterPanel.add (lcontact, " growy");
+		fieldContact = new POSTextField("", posPanel.getKeyboard());
+		lcontact.setLabelFor(fieldContact);
+		parameterPanel.add(fieldContact, "h 30, w 200");
+		fieldContact.addActionListener(this);
 		
 		//
-		CLabel lname = new CLabel(Msg.translate(m_ctx, "Name"));
-		v_ParameterPanel.add (lname, " growy");
-		f_Name = new POSTextField("", v_POSPanel.getKeyboard());
-		lname.setLabelFor(f_Name);
-		v_ParameterPanel.add(f_Name, "h 30, w 200");
-		f_Name.addActionListener(this);
+		CLabel lphone = new CLabel(Msg.translate(ctx, "Phone"));
+		parameterPanel.add (lphone, " growy");
+		fieldPhone = new POSTextField("", posPanel.getKeyboard());
+		lphone.setLabelFor(fieldPhone);
+		parameterPanel.add(fieldPhone, "h 30, w 200, wrap");
+		fieldPhone.addActionListener(this);
+		
 		//
-		CLabel lemail = new CLabel(Msg.translate(m_ctx, "Email"));
-		v_ParameterPanel.add (lemail, " growy");
-		f_Email = new POSTextField("", v_POSPanel.getKeyboard());
-		lemail.setLabelFor(f_Email);
-		v_ParameterPanel.add(f_Email, "h 30, w 200");
-		f_Email.addActionListener(this);
+		CLabel lname = new CLabel(Msg.translate(ctx, "Name"));
+		parameterPanel.add (lname, " growy");
+		fieldName = new POSTextField("", posPanel.getKeyboard());
+		lname.setLabelFor(fieldName);
+		parameterPanel.add(fieldName, "h 30, w 200");
+		fieldName.addActionListener(this);
 		//
-		CLabel lcity = new CLabel(Msg.translate(m_ctx, "City"));
-		v_ParameterPanel.add (lcity, " growy");
-		f_City = new POSTextField("", v_POSPanel.getKeyboard());
-		lcity.setLabelFor(f_City);
-		v_ParameterPanel.add(f_City, "h 30, w 200");
-		f_City.addActionListener(this);
+		CLabel lemail = new CLabel(Msg.translate(ctx, "Email"));
+		parameterPanel.add (lemail, " growy");
+		fieldEmail = new POSTextField("", posPanel.getKeyboard());
+		lemail.setLabelFor(fieldEmail);
+		parameterPanel.add(fieldEmail, "h 30, w 200");
+		fieldEmail.addActionListener(this);
+		//
+		CLabel lcity = new CLabel(Msg.translate(ctx, "City"));
+		parameterPanel.add (lcity, " growy");
+		fieldCity = new POSTextField("", posPanel.getKeyboard());
+		lcity.setLabelFor(fieldCity);
+		parameterPanel.add(fieldCity, "h 30, w 200");
+		fieldCity.addActionListener(this);
 		
 		//	Center
-		m_table.prepareTable (s_layout, s_sqlFrom, 
-			s_sqlWhere, false, "RV_BPartner");
+		posTable.prepareTable (s_layout, sqlFrom,
+				sqlWhere, false, "RV_BPartner");
 		//	
-		m_table.growScrollbars();
-		f_Value.requestFocus();
+		posTable.growScrollbars();
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run() {
+				fieldValue.requestFocus();
+			}
+		});
+
 		addNewAction();
 	}	//	init
 	
@@ -157,9 +165,9 @@ public class QueryBPartner extends POSQuery {
 	@Override
 	protected void newAction() {
 		super.newAction();
-		VPOSBPartner t = new VPOSBPartner(new Frame(), 0, v_POSPanel);
-		t.setVisible(true);
-		m_C_BPartner_ID = t.getC_BPartner_ID();
+		VPOSBPartner posPartner = new VPOSBPartner(new Frame(), 0, posPanel);
+		posPartner.setVisible(true);
+		partnerId = posPartner.getC_BPartner_ID();
 		//	Close
 		close();
 	}
@@ -167,10 +175,10 @@ public class QueryBPartner extends POSQuery {
 	@Override
 	public void editAction() {
 		super.editAction();
-		VPOSBPartner t = new VPOSBPartner(new Frame(), 1, v_POSPanel);
+		VPOSBPartner posPartner = new VPOSBPartner(new Frame(), 1, posPanel);
 		select();
-		t.loadBPartner(m_C_BPartner_ID);
-		t.setVisible(true);
+		posPartner.loadBPartner(partnerId);
+		posPartner.setVisible(true);
 		//	Close
 		close();
 	}
@@ -180,10 +188,10 @@ public class QueryBPartner extends POSQuery {
 	 *	@param results results
 	 */
 	private void setResultsFromArray(MBPartnerInfo[] results) {
-		m_table.loadTable(results);
-		int rowCount = m_table.getRowCount();
+		posTable.loadTable(results);
+		int rowCount = posTable.getRowCount();
 		if (rowCount > 0) {
-			m_table.setRowSelectionInterval(0, 0);
+			posTable.setRowSelectionInterval(0, 0);
 			if(rowCount == 1) {
 				select();
 			}
@@ -207,8 +215,8 @@ public class QueryBPartner extends POSQuery {
 	 */
 	public void loadData() {
 		StringBuffer sql = new StringBuffer();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		try  {
 			sql.append(" SELECT b.C_BPartner_ID, b.Value, b.Name, u.Email, u.Phone, l.Postal, lb.name AS City")
 				.append(" FROM C_BPartner AS b")
@@ -217,14 +225,14 @@ public class QueryBPartner extends POSQuery {
 				.append(" INNER JOIN C_Location l ON (l.C_Location_ID = lb.C_Location_ID)")
 				.append(" WHERE b.C_BPartner_ID = ?");
 			int i = 1;			
-			pstm = DB.prepareStatement(sql.toString(), null);
+			preparedStatement = DB.prepareStatement(sql.toString(), null);
 			//	POS
-			pstm.setInt(i++, v_POSPanel.getC_BPartner_ID());
-			rs = pstm.executeQuery();
-			m_table.loadTable(rs);
-			int rowNo = m_table.getRowCount();
+			preparedStatement.setInt(i++, posPanel.getC_BPartner_ID());
+			resultSet = preparedStatement.executeQuery();
+			posTable.loadTable(resultSet);
+			int rowNo = posTable.getRowCount();
 			if (rowNo > 0) {
-				m_table.setRowSelectionInterval(0, 0);
+				posTable.setRowSelectionInterval(0, 0);
 				if(rowNo == 1) {
 					select();
 				}
@@ -232,8 +240,8 @@ public class QueryBPartner extends POSQuery {
 		} catch(Exception e) {
 			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
 		} finally {
-			DB.close(rs);
-			DB.close(pstm);
+			DB.close(resultSet);
+			DB.close(preparedStatement);
 		}
 
 	}
@@ -243,16 +251,16 @@ public class QueryBPartner extends POSQuery {
 	 */
 	protected void select() {
 		cleanValues();
-		int row = m_table.getSelectedRow();
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled) {
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null) {
-				m_C_BPartner_ID = ID.intValue();
-				m_BPartnerName = (String)m_table.getValueAt(row, 2);
+				partnerId = ID.intValue();
+				partnerName = (String) posTable.getValueAt(row, 2);
 			}
 		}
-		log.fine("C_BPartner_ID=" + m_C_BPartner_ID); 
+		log.fine("C_BPartner_ID=" + partnerId);
 	}	//	enableButtons
 
 	/**
@@ -265,12 +273,12 @@ public class QueryBPartner extends POSQuery {
 	
 	@Override
 	public void reset() {
-		f_Value.setText(null);
-		f_Name.setText(null);
-		f_Contact.setText(null);
-		f_Email.setText(null);
-		f_Phone.setText(null);
-		f_City.setText(null);
+		fieldValue.setText(null);
+		fieldName.setText(null);
+		fieldContact.setText(null);
+		fieldEmail.setText(null);
+		fieldPhone.setText(null);
+		fieldCity.setText(null);
 		setResults(new MBPartnerInfo[0]);
 		cleanValues();
 	}
@@ -278,10 +286,10 @@ public class QueryBPartner extends POSQuery {
 	@Override
 	public void refresh() {
 		cleanValues();
-		setResults(MBPartnerInfo.find (m_ctx,
-				f_Value.getText(), f_Name.getText(), 
-				null, f_Email.getText(),
-				f_Phone.getText(), f_City.getText()));
+		setResults(MBPartnerInfo.find (ctx,
+				fieldValue.getText(), fieldName.getText(),
+				null, fieldEmail.getText(),
+				fieldPhone.getText(), fieldCity.getText()));
 	}
 	
 	/**
@@ -289,8 +297,8 @@ public class QueryBPartner extends POSQuery {
 	 * @return void
 	 */
 	private void cleanValues() {
-		m_C_BPartner_ID = -1;
-		m_BPartnerName = null;
+		partnerId = -1;
+		partnerName = null;
 	}
 
 	@Override
@@ -301,11 +309,12 @@ public class QueryBPartner extends POSQuery {
 
 	@Override
 	public int getRecord_ID() {
-		return m_C_BPartner_ID;
+		return partnerId;
 	}
 
 	@Override
 	public String getValue() {
-		return m_BPartnerName;
+		return partnerName;
 	}
+
 }	//	PosQueryBPartner

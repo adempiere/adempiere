@@ -41,6 +41,7 @@ import org.zkoss.zul.Image;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class WPOSInfoProduct extends WPOSSubPanel {
 	
@@ -207,12 +208,12 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		}
 		
 		//	Refresh Values
-		MProduct m_Product = MProduct.get(m_ctx, p_M_Product_ID);
-		String currencyISO_Code = v_POSPanel.getCurSymbol();
+		MProduct m_Product = MProduct.get(ctx, p_M_Product_ID);
+		String currencyISO_Code = posPanel.getCurSymbol();
 		fValue.setText(m_Product.getValue());
 		fPrice.setText(currencyISO_Code + "" 
-					+ v_POSPanel.getNumberFormat()
-						.format(v_POSPanel.getPrice(m_Product)));
+					+ posPanel.getNumberFormat()
+						.format(posPanel.getPrice(m_Product)));
 		fName.setText(m_Product.getName());
 		fUOMSymbol.setText(m_Product.getC_UOM().getUOMSymbol());
 		fProductCategory.setText(m_Product.getM_Product_Category().getName());
@@ -285,12 +286,12 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 				+ "FROM C_POSKey pk "
 				+ "WHERE pk.C_POSKeyLayout_ID = ? "
 				+ "AND pk.M_Product_ID = ? "
-				+ "AND pk.IsActive = 'Y'", v_POSPanel.getC_POSKeyLayout_ID(), p_M_Product_ID);
+				+ "AND pk.IsActive = 'Y'", posPanel.getC_POSKeyLayout_ID(), p_M_Product_ID);
 		//	Valid POS Key
 		if(m_C_POSKey_ID <= 0) {
 			return;
 		}
-		MPOSKey key =  new MPOSKey(m_ctx, m_C_POSKey_ID, null);
+		MPOSKey key =  new MPOSKey(ctx, m_C_POSKey_ID, null);
 		//	
 		setValuesFromProduct(p_M_Product_ID, key.getAD_Image_ID());
 	}

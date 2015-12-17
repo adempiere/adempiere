@@ -52,6 +52,7 @@ import org.zkoss.zul.Groupbox;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class WQueryTicket extends WPOSQuery implements I_POSQuery
 {
@@ -68,17 +69,15 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	}	//	PosQueryProduct
 
 	/** Fields 				*/
-	private WPOSTextField	f_documentno;
-	private Datebox			f_DateTo;
-	private Datebox			f_DateFrom;
-	private Date			m_DateTo;
-	private Date			m_DateFrom;
+	private WPOSTextField 	fieldDocumentNo;
+	private Datebox 		fieldDateTo;
+	private Datebox 		fieldDateFrom;
+	private Checkbox 		fieldProcessed;
 
-	private int				m_c_order_id;
-	private Checkbox 		f_processed;
+	private Date 			dateTo;
+	private Date 			dateFrom;
+	private int 			orderId;
 	private boolean			isKeyboard;
-	/**	Internal Variables	*/
-	private int				m_C_Order_ID;
 	
 	static final private String DOCUMENTNO      = "DocumentNo";
 	static final private String BPARTNERID      = "C_BPartner_ID";
@@ -92,7 +91,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	static final private String QUERY           = "Query";
 	
 	/**	Table Column Layout Info			*/
-	private static ColumnInfo[] s_layout = new ColumnInfo[] {
+	private static ColumnInfo[] columnInfos = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), BPARTNERID), BPARTNERID, String.class),
@@ -114,7 +113,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 		Grid productLayout = GridFactory.newGridLayout();
 		
 		Groupbox groupPanel = new Groupbox();
-		Caption v_TitleBorder = new Caption(Msg.getMsg(p_ctx, QUERY));
+		Caption v_TitleBorder = new Caption(Msg.getMsg(ctx, QUERY));
 		
 		//	Set title window
 		this.setClosable(true);
@@ -140,58 +139,57 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 		rows = productLayout.newRows();
 		row = rows.newRow();
 		
-		Label ldoc = new Label(Msg.translate(p_ctx, DOCUMENTNO));
-		ldoc.setStyle(WPOS.FONTSIZESMALL);
+		Label labelDocumentNo = new Label(Msg.translate(ctx, DOCUMENTNO));
+		labelDocumentNo.setStyle(WPOS.FONTSIZESMALL);
 		row.setHeight("60px");
-		row.appendChild(ldoc.rightAlign());
-		f_documentno = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		row.appendChild(f_documentno);
-		f_documentno.addEventListener(this);
-		f_documentno.setWidth("120px");
-		f_documentno.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(labelDocumentNo.rightAlign());
+		fieldDocumentNo = new WPOSTextField(null, posPanel.getKeyboard());
+		row.appendChild(fieldDocumentNo);
+		fieldDocumentNo.addEventListener(this);
+		fieldDocumentNo.setWidth("120px");
+		fieldDocumentNo.setStyle(WPOS.FONTSIZESMALL);
 		//
-		Label ldateFrom = new Label(Msg.translate(p_ctx, DATEORDEREDFROM));
-		ldateFrom.setStyle(WPOS.FONTSIZESMALL);
-		row.appendChild(ldateFrom.rightAlign());
-		f_DateFrom = new Datebox();
-		f_DateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		f_DateFrom.addEventListener("onBlur",this);
-		f_DateFrom.setStyle(WPOS.FONTSIZESMALL);
-		row.appendChild(f_DateFrom);
+		Label labelDateFrom = new Label(Msg.translate(ctx, DATEORDEREDFROM));
+		labelDateFrom.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(labelDateFrom.rightAlign());
+		fieldDateFrom = new Datebox();
+		fieldDateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		fieldDateFrom.addEventListener("onBlur",this);
+		fieldDateFrom.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(fieldDateFrom);
+
+		Label labelDateTo = new Label(Msg.translate(ctx, DATEORDEREDTO));
+		labelDateTo.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(labelDateTo.rightAlign());
+		fieldDateTo = new Datebox();
+		fieldDateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		fieldDateTo.addEventListener("onBlur",this);
+		fieldDateTo.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(fieldDateTo);
 		
-		// Date To
-		Label ldate = new Label(Msg.translate(p_ctx, DATEORDEREDTO));
-		ldate.setStyle(WPOS.FONTSIZESMALL);
-		row.appendChild(ldate.rightAlign());
-		f_DateTo = new Datebox();
-		f_DateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		f_DateTo.addEventListener("onBlur",this);
-		f_DateTo.setStyle(WPOS.FONTSIZESMALL);
-		row.appendChild(f_DateTo);
-		
-		f_processed = new Checkbox();
-		f_processed.setLabel(Msg.translate(p_ctx, PROCESSED));
-		f_processed.setSelected(false);
-		row.appendChild(f_processed);
-		f_processed.addActionListener(this);
-		f_processed.setStyle(WPOS.FONTSIZESMALL);
+		fieldProcessed = new Checkbox();
+		fieldProcessed.setLabel(Msg.translate(ctx, PROCESSED));
+		fieldProcessed.setSelected(false);
+		row.appendChild(fieldProcessed);
+		fieldProcessed.addActionListener(this);
+		fieldProcessed.setStyle(WPOS.FONTSIZESMALL);
 		
 		//	Center
-		m_table = ListboxFactory.newDataTable();
-		m_table.prepareTable (s_layout, "C_Order", 
-				"C_POS_ID = " + v_POSPanel.getC_POS_ID()
+		posTable = ListboxFactory.newDataTable();
+		posTable.prepareTable (columnInfos, "C_Order",
+				"C_POS_ID = " + posPanel.getC_POS_ID()
 				, false, "C_Order");
 
 		enableButtons();
 		center = new Center();
 		center.setStyle("border: none");
-		m_table.setWidth("100%");
-		m_table.setHeight("99%");
-		m_table.addActionListener(this);
-		center.appendChild(m_table);
+		posTable.setWidth("100%");
+		posTable.setHeight("99%");
+		posTable.addActionListener(this);
+		center.appendChild(posTable);
 		mainLayout.appendChild(center);
-		m_table.setClass("Table-OrderLine");
-		m_table.autoSize();
+		posTable.setClass("Table-OrderLine");
+		posTable.autoSize();
 		refresh();
 	}	//	init
 	
@@ -201,10 +199,10 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	@Override
 	public void reset()
 	{
-		f_processed.setSelected(false);
-		f_documentno.setText(null);
-		f_DateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		f_DateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		fieldProcessed.setSelected(false);
+		fieldDocumentNo.setText(null);
+		fieldDateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		fieldDateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		refresh();
 	}
 
@@ -215,8 +213,8 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	public void setResults (Properties ctx, boolean processed, String doc, Date dateFrom, Date dateTo)
 	{
 		StringBuffer sql = new StringBuffer();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		try  {
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, ")
 			.append(" b.Name, o.GrandTotal, ")
@@ -243,33 +241,33 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 			sql.append(" GROUP BY o.C_Order_ID, o.DocumentNo, b.Name, o.GrandTotal, o.Processed, i.IsPaid ");
 			sql.append(" ORDER BY o.Updated");
 			int i = 1;			
-			pstm = DB.prepareStatement(sql.toString(), null);
+			preparedStatement = DB.prepareStatement(sql.toString(), null);
 			//	POS
-			pstm.setInt(i++, v_POSPanel.getC_POS_ID());
+			preparedStatement.setInt(i++, posPanel.getC_POS_ID());
 			//	Processed
-			pstm.setString(i++, processed? "Y": "N");
+			preparedStatement.setString(i++, processed? "Y": "N");
 			//	Date From and To
 			if (dateFrom != null) {				
-				pstm.setDate(i++, dateFrom);
+				preparedStatement.setDate(i++, dateFrom);
 				if (dateTo != null 
 						&& !dateTo.equals(dateFrom)) {
-					pstm.setDate(i++, dateTo);
+					preparedStatement.setDate(i++, dateTo);
 				}
 			}
 			//	
-			rs = pstm.executeQuery();
-			m_table.loadTable(rs);
-			int rowNo = m_table.getRowCount();
+			resultSet = preparedStatement.executeQuery();
+			posTable.loadTable(resultSet);
+			int rowNo = posTable.getRowCount();
 			if (rowNo > 0) {
 				if(rowNo == 1) {
 					select();
 				}
 			}
 		} catch(Exception e) {
-			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+			logger.severe("QueryTicket.setResults: " + e + " -> " + sql);
 		} finally {
-			DB.close(rs);
-			DB.close(pstm);
+			DB.close(resultSet);
+			DB.close(preparedStatement);
 		}
 	}	//	setResults
 
@@ -278,18 +276,18 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	 */
 	protected void enableButtons()
 	{
-		m_c_order_id = -1;
-		int row = m_table.getSelectedRow();
+		orderId = -1;
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
 		{
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null)
 			{
-				m_c_order_id = ID.intValue();
+				orderId = ID.intValue();
 			}
 		}
-		log.info("ID=" + m_c_order_id); 
+		logger.info("ID=" + orderId);
 	}	//	enableButtons
 
 	/**
@@ -299,11 +297,11 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	@Override
 	protected void close()
 	{
-		log.info("C_Order_ID=" + m_c_order_id); 
+		logger.info("C_Order_ID=" + orderId);
 		
-		if (m_c_order_id > 0)
+		if (orderId > 0)
 		{
-			v_POSPanel.setOrder(m_c_order_id);
+			posPanel.setOrder(orderId);
 
 		}
 		dispose();
@@ -312,28 +310,28 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if(e.getTarget().equals(f_documentno.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+		if(e.getTarget().equals(fieldDocumentNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 			isKeyboard = true;
 			//	Get Keyboard Panel
-			WPOSKeyboard keyboard = f_documentno.getKeyboard();
+			WPOSKeyboard keyboard = fieldDocumentNo.getKeyboard();
 			//	Set Title
 			keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
-			keyboard.setPosTextField(f_documentno);
+			keyboard.setPosTextField(fieldDocumentNo);
 			keyboard.setWidth("750px");
 			keyboard.setHeight("380px");
 			AEnv.showWindow(keyboard);
 			refresh();
-			f_documentno.setFocus(true);
+			fieldDocumentNo.setFocus(true);
 
 		}
-		else if(e.getTarget().equals(f_documentno.getComponent(WPOSTextField.PRIMARY))) {
+		else if(e.getTarget().equals(fieldDocumentNo.getComponent(WPOSTextField.PRIMARY))) {
 			 isKeyboard = false;
 		}
 		else if(e.getTarget().getId().equals("Refresh")) {
 			refresh();
 		}
-		if ( e.getTarget().equals(f_processed) 
-				|| e.getTarget().equals(f_DateTo) || e.getTarget().equals(f_DateFrom)) {
+		if ( e.getTarget().equals(fieldProcessed)
+				|| e.getTarget().equals(fieldDateTo) || e.getTarget().equals(fieldDateFrom)) {
 				refresh();
 				return;
 		}
@@ -350,46 +348,46 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 
 	@Override
 	public void refresh() {
-		if(f_DateTo.getValue()!=null) {
-			m_DateTo = new Date(f_DateTo.getValue().getTime());
+		if(fieldDateTo.getValue()!=null) {
+			dateTo = new Date(fieldDateTo.getValue().getTime());
 		}	
 		else {
-			m_DateTo = null;
+			dateTo = null;
 		}
-		if(f_DateFrom.getValue()!=null) {
-			m_DateFrom = new Date(f_DateFrom.getValue().getTime());
+		if(fieldDateFrom.getValue()!=null) {
+			dateFrom = new Date(fieldDateFrom.getValue().getTime());
 		}
 		else {
-			m_DateFrom = null;
+			dateFrom = null;
 		}
-		setResults(p_ctx, f_processed.isSelected(), f_documentno.getText(), m_DateFrom, m_DateTo);
+		setResults(ctx, fieldProcessed.isSelected(), fieldDocumentNo.getText(), dateFrom, dateTo);
 
 	}
 
 	@Override
 	protected void select() {
-		m_C_Order_ID = -1;
-		int row = m_table.getSelectedRow();
+		orderId = -1;
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
 		{
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null)
 			{
-				m_C_Order_ID = ID.intValue();
+				orderId = ID.intValue();
 			}
 		}
-		log.info("ID=" + m_C_Order_ID); 
+		logger.info("ID=" + orderId);
 	}
 	@Override
 	protected void cancel() {
-		m_C_Order_ID = -1;
+		orderId = -1;
 		dispose();
 	}
 	
 	@Override
 	public int getRecord_ID() {
-		return m_C_Order_ID;
+		return orderId;
 	}
 	
 	@Override

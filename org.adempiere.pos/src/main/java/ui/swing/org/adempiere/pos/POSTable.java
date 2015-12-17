@@ -49,6 +49,7 @@ import org.compiere.util.Util;
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class POSTable extends MiniTable {
 	
@@ -95,161 +96,161 @@ public class POSTable extends MiniTable {
 	@Override
 	public void setColumnClass (int index, @SuppressWarnings("rawtypes") Class c, int displayType ,boolean readOnly, String header)
 	{
-	//	log.config( "MiniTable.setColumnClass - " + index, c.getName() + ", r/o=" + readOnly);
-		TableColumn tc = getColumnModel().getColumn(index);
-		if (tc == null)
+	//	logger.config( "MiniTable.setColumnClass - " + index, c.getName() + ", r/o=" + readOnly);
+		TableColumn tableColumn = getColumnModel().getColumn(index);
+		if (tableColumn == null)
 			return;
 		//  Set R/O
 		setColumnReadOnly(index, readOnly);
 
 		//  Header
 		if (header != null && header.length() > 0)
-			tc.setHeaderValue(Util.cleanAmp(header));
-		ArrayList<Integer>   m_minWidth = new ArrayList<Integer>();
-		boolean m_multiSelection = false;
+			tableColumn.setHeaderValue(Util.cleanAmp(header));
+		ArrayList<Integer>   minWidth = new ArrayList<Integer>();
+		boolean multiSelection = false;
 		//  ID Column & Selection
 		if (c == IDColumn.class)
 		{
-			IDColumnRenderer idcr = new IDColumnRenderer(m_multiSelection);
-			tc.setCellRenderer(idcr);
-			if (m_multiSelection)
+			IDColumnRenderer columnRenderer = new IDColumnRenderer(multiSelection);
+			tableColumn.setCellRenderer(columnRenderer);
+			if (multiSelection)
 			{
-				VHeaderRenderer vhr = new VHeaderRenderer(m_multiSelection);
-				tc.setCellEditor(new IDColumnEditor());
-				tc.setHeaderRenderer(vhr);
-				idcr.addChangeListener(vhr);  //  Connect the IDColumn with the header
+				VHeaderRenderer headerRenderer = new VHeaderRenderer(multiSelection);
+				tableColumn.setCellEditor(new IDColumnEditor());
+				tableColumn.setHeaderRenderer(headerRenderer);
+				columnRenderer.addChangeListener(headerRenderer);  //  Connect the IDColumn with the header
 				setColumnReadOnly(index, false);
 			}
 			else
 			{
-				tc.setCellEditor(new ROCellEditor());
-				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
+				tableColumn.setCellEditor(new ROCellEditor());
+				tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 			}
-			m_minWidth.add(new Integer(10));
-			tc.setMaxWidth(20);
-			tc.setPreferredWidth(20);
-			tc.setResizable(false);
+			minWidth.add(new Integer(10));
+			tableColumn.setMaxWidth(20);
+			tableColumn.setPreferredWidth(20);
+			tableColumn.setResizable(false);
 		}
 		//  Boolean
 		else if (DisplayType.YesNo == displayType || c == Boolean.class )
 		{
-			CheckRenderer cr = new CheckRenderer();
-			tc.setCellRenderer(cr);
+			CheckRenderer checkRenderer = new CheckRenderer();
+			tableColumn.setCellRenderer(checkRenderer);
 			if (readOnly)
 			{
-				tc.setCellEditor(new ROCellEditor());
-				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.YesNo));
+				tableColumn.setCellEditor(new ROCellEditor());
+				tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.YesNo));
 			}
 			else
 			{
-				if (m_multiSelection)
+				if (multiSelection)
 				{
-					VHeaderRenderer vhr = new VHeaderRenderer(m_multiSelection);
+					VHeaderRenderer headerRenderer = new VHeaderRenderer(multiSelection);
 					setColumnReadOnly(index, false);
 					CCheckBox check = new CCheckBox();
 					check.setMargin(new Insets(0,0,0,0));
 					check.setHorizontalAlignment(SwingConstants.CENTER);
-					tc.setCellEditor(new DefaultCellEditor(check));
-					tc.setHeaderRenderer(vhr);
-					cr.addChangeListener(vhr);  //  Connect the check control with the header
+					tableColumn.setCellEditor(new DefaultCellEditor(check));
+					tableColumn.setHeaderRenderer(headerRenderer);
+					checkRenderer.addChangeListener(headerRenderer);  //  Connect the check control with the header
 				}
 			}
-			m_minWidth.add(new Integer(30));
+			minWidth.add(new Integer(30));
 			
 		}
 		else if (c == DeleteColumn.class)
 		{
-			ButtonRenderer cr = new ButtonRenderer();
+			ButtonRenderer buttonRenderer = new ButtonRenderer();
 			
-			tc.setCellRenderer(cr);
+			tableColumn.setCellRenderer(buttonRenderer);
 			if (readOnly)
 			{
-				tc.setCellEditor(new ROCellEditor());
-				tc.setHeaderRenderer(new VHeaderRenderer());
+				tableColumn.setCellEditor(new ROCellEditor());
+				tableColumn.setHeaderRenderer(new VHeaderRenderer());
 			}
-			m_minWidth.add(new Integer(30));
+			minWidth.add(new Integer(30));
 			
 		}
 		//  Date
 		else if (DisplayType.Date == displayType || DisplayType.DateTime == displayType ||  c == Timestamp.class )
 		{
 			if(DisplayType.DateTime == displayType)
-				tc.setCellRenderer(new VCellRenderer(DisplayType.DateTime));
+				tableColumn.setCellRenderer(new VCellRenderer(DisplayType.DateTime));
 			else 
-				tc.setCellRenderer(new VCellRenderer(DisplayType.Date));
+				tableColumn.setCellRenderer(new VCellRenderer(DisplayType.Date));
 			
 			if (readOnly)
-				tc.setCellEditor(new ROCellEditor());
+				tableColumn.setCellEditor(new ROCellEditor());
 			else if (DisplayType.Date == displayType || DisplayType.DateTime == displayType)
-				tc.setCellEditor(new MiniCellEditor(c, displayType));
+				tableColumn.setCellEditor(new MiniCellEditor(c, displayType));
 			else 
-				tc.setCellEditor(new MiniCellEditor(c));
+				tableColumn.setCellEditor(new MiniCellEditor(c));
 			
-			m_minWidth.add(new Integer(30));
+			minWidth.add(new Integer(30));
 			if (DisplayType.DateTime == displayType)
-				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.DateTime));
+				tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.DateTime));
 			else 
-				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Date));
+				tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.Date));
 		}
 		//  Amount
 		else if (DisplayType.Amount == displayType || c == BigDecimal.class )
 		{
-			tc.setCellRenderer(new VCellRenderer(DisplayType.Amount));
+			tableColumn.setCellRenderer(new VCellRenderer(DisplayType.Amount));
 			if (readOnly)
 			{
-				tc.setCellEditor(new ROCellEditor());
-				m_minWidth.add(new Integer(70));
+				tableColumn.setCellEditor(new ROCellEditor());
+				minWidth.add(new Integer(70));
 			}
 			else
 			{
-				tc.setCellEditor(new MiniCellEditor(c));
-				m_minWidth.add(new Integer(80));
+				tableColumn.setCellEditor(new MiniCellEditor(c));
+				minWidth.add(new Integer(80));
 			}
 			
-			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
+			tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  Number
 		else if (DisplayType.Number == displayType || c == Double.class)
 		{
-			tc.setCellRenderer(new VCellRenderer(DisplayType.Number));
+			tableColumn.setCellRenderer(new VCellRenderer(DisplayType.Number));
 			if (readOnly)
 			{
-				tc.setCellEditor(new ROCellEditor());
-				m_minWidth.add(new Integer(70));
+				tableColumn.setCellEditor(new ROCellEditor());
+				minWidth.add(new Integer(70));
 			}
 			else
 			{
-				tc.setCellEditor(new MiniCellEditor(c));
-				m_minWidth.add(new Integer(80));
+				tableColumn.setCellEditor(new MiniCellEditor(c));
+				minWidth.add(new Integer(80));
 			}
 			
-			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
+			tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  Integer
 		else if (DisplayType.Integer == displayType || c == Integer.class )
 		{
-			tc.setCellRenderer(new VCellRenderer(DisplayType.Integer));
+			tableColumn.setCellRenderer(new VCellRenderer(DisplayType.Integer));
 			if (readOnly)
-				tc.setCellEditor(new ROCellEditor());
+				tableColumn.setCellEditor(new ROCellEditor());
 			else
-				tc.setCellEditor(new MiniCellEditor(c));
-			m_minWidth.add(new Integer(30));
+				tableColumn.setCellEditor(new MiniCellEditor(c));
+			minWidth.add(new Integer(30));
 			
-			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
+			tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
 		//  String
 		else
 		{
-			tc.setCellRenderer(new VCellRenderer(DisplayType.String));
+			tableColumn.setCellRenderer(new VCellRenderer(DisplayType.String));
 			if (readOnly)
-				tc.setCellEditor(new ROCellEditor());
+				tableColumn.setCellEditor(new ROCellEditor());
 			else
-				tc.setCellEditor(new MiniCellEditor(String.class));
-			m_minWidth.add(new Integer(30));
+				tableColumn.setCellEditor(new MiniCellEditor(String.class));
+			minWidth.add(new Integer(30));
 			
-			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.String));
+			tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.String));
 		}
-	//	log.fine( "Renderer=" + tc.getCellRenderer().toString() + ", Editor=" + tc.getCellEditor().toString());
+	//	logger.fine( "Renderer=" + tc.getCellRenderer().toString() + ", Editor=" + tc.getCellEditor().toString());
 	}
 
 	

@@ -52,6 +52,7 @@ import org.zkoss.zul.Groupbox;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class WQueryProduct extends WPOSQuery
 {
@@ -69,22 +70,22 @@ public class WQueryProduct extends WPOSQuery
 	}	//	PosQueryProduct
 	
 	/** Fields 					*/
-	private WPOSTextField		f_Value;
-	private WPOSTextField		f_ProductName;
-	private WPOSTextField		f_UPC;
-	private WPOSTextField		f_SKU;
-	private int					m_M_Product_ID;
-	private String				m_ProductName;
-	private BigDecimal			m_Price;
+	private WPOSTextField 	fieldValue;
+	private WPOSTextField 	fieldProductName;
+	private WPOSTextField 	fieldUPC;
+	private WPOSTextField 	fieldSKU;
+	private int 			productId;
+	private String 			productName;
+	private BigDecimal 		price;
 	//
-	private int 				m_M_PriceList_Version_ID;
-	private int 				m_M_Warehouse_ID;
-	private boolean				isKeyboard;
+	private int 			priceListVersionId;
+	private int 			warehouseId;
+	private boolean			isKeyboard;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(QueryProduct.class);
+	private static CLogger logger = CLogger.getCLogger(QueryProduct.class);
 	
 	/**	Table Column Layout Info			*/
-	private static ColumnInfo[] s_layout = new ColumnInfo[] 
+	private static ColumnInfo[] columnInfos = new ColumnInfo[]
 	{
 		new ColumnInfo(" ", "M_Product_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "Value", String.class),
@@ -96,11 +97,11 @@ public class WQueryProduct extends WPOSQuery
 		new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", BigDecimal.class)
 	};
 	/**	From Clause							*/
-	private static String s_sqlFrom = "RV_WarehousePrice";
+	private static String sqlFrom = "RV_WarehousePrice";
 	/** Where Clause						*/
-	private static String s_sqlWhere = "IsActive='Y'"; 
+	private static String sqlWhere = "IsActive='Y'";
 	/** Result IDs              */
-	private ArrayList<Integer>	m_results = new ArrayList<Integer>(3);
+	private ArrayList<Integer> results = new ArrayList<Integer>(3);
 	
 	/**
 	 * 	Set up Panel
@@ -113,7 +114,7 @@ public class WQueryProduct extends WPOSQuery
 		Grid productLayout = GridFactory.newGridLayout();
 		
 		Groupbox groupPanel = new Groupbox();
-		Caption v_TitleBorder = new Caption(Msg.getMsg(p_ctx, "Query"));
+		Caption v_TitleBorder = new Caption(Msg.getMsg(ctx, "Query"));
 		
 		//	Set title window
 		this.setClosable(true);
@@ -140,62 +141,62 @@ public class WQueryProduct extends WPOSQuery
 		rows = productLayout.newRows();
 		row = rows.newRow();
 		//
-		Label lValue = new Label(Msg.translate(p_ctx, "Value"));
-		row.appendChild(lValue.rightAlign());
-		lValue.setStyle(WPOS.FONTSIZESMALL);
-		f_Value = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		f_Value.setStyle(WPOS.FONTSIZESMALL);
-		f_Value.setWidth("120px");
-		row.appendChild(f_Value);
+		Label labelValue = new Label(Msg.translate(ctx, "Value"));
+		row.appendChild(labelValue.rightAlign());
+		labelValue.setStyle(WPOS.FONTSIZESMALL);
+		fieldValue = new WPOSTextField(null, posPanel.getKeyboard());
+		fieldValue.setStyle(WPOS.FONTSIZESMALL);
+		fieldValue.setWidth("120px");
+		row.appendChild(fieldValue);
 		//
-		f_Value.addEventListener("onFocus",this);
-		Label lUpc = new Label(Msg.translate(p_ctx, "UPC"));
-		lUpc.setStyle(WPOS.FONTSIZESMALL);
-		row.appendChild(lUpc.rightAlign());
-		f_UPC = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		f_UPC.setStyle(WPOS.FONTSIZESMALL);
-		row.appendChild(f_UPC);
-		f_UPC.addEventListener("onFocus",this);
-		f_UPC.setWidth("120px");
+		fieldValue.addEventListener("onFocus",this);
+		Label labelUPC = new Label(Msg.translate(ctx, "UPC"));
+		labelUPC.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(labelUPC.rightAlign());
+		fieldUPC = new WPOSTextField(null, posPanel.getKeyboard());
+		fieldUPC.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(fieldUPC);
+		fieldUPC.addEventListener("onFocus",this);
+		fieldUPC.setWidth("120px");
 		//  New Line
 		row = rows.newRow();
 		//
-		Label lName = new Label(Msg.translate(p_ctx, "Name"));
-		lName.setStyle(WPOS.FONTSIZESMALL);
-		row.appendChild (lName.rightAlign());
-		f_ProductName = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		f_ProductName.setStyle(WPOS.FONTSIZESMALL);
-		row.appendChild(f_ProductName);
-		f_ProductName.addEventListener("onFocus",this);
-		f_ProductName.setWidth("120px");
+		Label labelName = new Label(Msg.translate(ctx, "Name"));
+		labelName.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild (labelName.rightAlign());
+		fieldProductName = new WPOSTextField(null, posPanel.getKeyboard());
+		fieldProductName.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(fieldProductName);
+		fieldProductName.addEventListener("onFocus",this);
+		fieldProductName.setWidth("120px");
 		
 		//
-		Label lSku = new Label(Msg.translate(p_ctx, "SKU"));
-		lSku.setStyle(WPOS.FONTSIZESMALL);
-		row.appendChild(lSku.rightAlign());
-		f_SKU = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		f_SKU.setStyle(WPOS.FONTSIZESMALL);
-		row.appendChild(f_SKU);
-		f_SKU.addEventListener("onFocus",this);
-		f_SKU.setWidth("120px");
+		Label labelSKU = new Label(Msg.translate(ctx, "SKU"));
+		labelSKU.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(labelSKU.rightAlign());
+		fieldSKU = new WPOSTextField(null, posPanel.getKeyboard());
+		fieldSKU.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(fieldSKU);
+		fieldSKU.addEventListener("onFocus",this);
+		fieldSKU.setWidth("120px");
 		//
 		row.setHeight("65px");
 		
 
-		m_table = ListboxFactory.newDataTable();
-		m_table.prepareTable (s_layout, s_sqlFrom, 
-			s_sqlWhere, false, "RV_WarehousePrice");
+		posTable = ListboxFactory.newDataTable();
+		posTable.prepareTable (columnInfos, sqlFrom,
+				sqlWhere, false, "RV_WarehousePrice");
 		
 		center = new Center();
 		center.setStyle("border: none");
-		m_table.setWidth("100%");
-		m_table.setHeight("99%");
-		m_table.addActionListener(this);
-		center.appendChild(m_table);
+		posTable.setWidth("100%");
+		posTable.setHeight("99%");
+		posTable.addActionListener(this);
+		center.appendChild(posTable);
 		mainLayout.appendChild(center);
-		m_table.loadTable(new PO[0]);
-		m_table.setClass("Table-OrderLine");
-		m_table.setMultiSelection(true);
+		posTable.loadTable(new PO[0]);
+		posTable.setClass("Table-OrderLine");
+		posTable.setMultiSelection(true);
 	}	//	init
 
 	
@@ -206,8 +207,8 @@ public class WQueryProduct extends WPOSQuery
 	 */
 	public void setQueryData (int M_PriceList_Version_ID, int M_Warehouse_ID)
 	{
-		m_M_PriceList_Version_ID = M_PriceList_Version_ID;
-		m_M_Warehouse_ID = M_Warehouse_ID;
+		priceListVersionId = M_PriceList_Version_ID;
+		warehouseId = M_Warehouse_ID;
 	}	//	setQueryData
 	
 	/**
@@ -216,10 +217,10 @@ public class WQueryProduct extends WPOSQuery
 	 */
 	public void setResults (MWarehousePrice[] results)
 	{
-		m_table.loadTable(results);
-		if (m_table.getRowCount() >0 )
+		posTable.loadTable(results);
+		if (posTable.getRowCount() >0 )
 			enableButtons();
-		m_table.autoSize();
+		posTable.autoSize();
 	}	//	setResults
 
 	/**
@@ -227,22 +228,22 @@ public class WQueryProduct extends WPOSQuery
 	 */
 	protected void enableButtons()
 	{
-		m_M_Product_ID = -1;
-		m_ProductName = null;
-		m_Price = null;
-		int row = m_table.getSelectedRow();
+		productId = -1;
+		productName = null;
+		price = null;
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
 		{
-			Integer ID = m_table.getSelectedRowKey();
-			if (ID != null)
+			Integer id = posTable.getSelectedRowKey();
+			if (id != null)
 			{
-				m_M_Product_ID = ID.intValue();
-				m_ProductName = (String)m_table.getValueAt(row, 2);
-				m_Price = (BigDecimal)m_table.getValueAt(row, 7);
+				productId = id.intValue();
+				productName = (String) posTable.getValueAt(row, 2);
+				price = (BigDecimal) posTable.getValueAt(row, 7);
 			}
 		}
-		log.fine("M_Product_ID=" + m_M_Product_ID + " - " + m_ProductName + " - " + m_Price); 
+		logger.fine("M_Product_ID=" + productId + " - " + productName + " - " + price);
 	}	//	enableButtons
 
 	/**
@@ -251,24 +252,24 @@ public class WQueryProduct extends WPOSQuery
 	 */
 	protected void close()
 	{
-		log.fine("M_Product_ID=" + m_M_Product_ID); 
+		logger.fine("M_Product_ID=" + productId);
 		this.detach();
 	}	//	close
 
 
 	@Override
 	public void reset() {
-		f_Value.setText(null);
-		f_ProductName.setText(null);
-		f_SKU.setText(null);
-		f_UPC.setText(null);
+		fieldValue.setText(null);
+		fieldProductName.setText(null);
+		fieldSKU.setText(null);
+		fieldUPC.setText(null);
 		setResults(new MWarehousePrice[0]);
 	}
 	public String showKeyboard(Event e){
 		isKeyboard = true;
 		Textbox field = (Textbox) e.getTarget();
 
-		WPOSKeyboard keyboard = v_POSPanel.getKeyboard();
+		WPOSKeyboard keyboard = posPanel.getKeyboard();
 		if(e.getName().equals(Events.ON_FOCUS)){
 			keyboard.setPosTextField(field);	
 			AEnv.showWindow(keyboard);
@@ -282,26 +283,26 @@ public class WQueryProduct extends WPOSQuery
 			refresh();
 			return;
 		}
-		else if(event.getTarget().equals(f_Value.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			f_Value.setValue(showKeyboard(event));
-			f_Value.setFocus(true);
+		else if(event.getTarget().equals(fieldValue.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			fieldValue.setValue(showKeyboard(event));
+			fieldValue.setFocus(true);
 		}
-		else if(event.getTarget().equals(f_UPC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			f_UPC.setValue(showKeyboard(event));
-			f_UPC.setFocus(true);
+		else if(event.getTarget().equals(fieldUPC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			fieldUPC.setValue(showKeyboard(event));
+			fieldUPC.setFocus(true);
 		}
-		else if(event.getTarget().equals(f_ProductName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			f_ProductName.setValue(showKeyboard(event));
-			f_ProductName.setFocus(true);
+		else if(event.getTarget().equals(fieldProductName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			fieldProductName.setValue(showKeyboard(event));
+			fieldProductName.setFocus(true);
 		}
-		else if(event.getTarget().equals(f_SKU.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			f_SKU.setValue(showKeyboard(event));
-			f_SKU.setFocus(true);
+		else if(event.getTarget().equals(fieldSKU.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			fieldSKU.setValue(showKeyboard(event));
+			fieldSKU.setFocus(true);
 		}
-		 else if(event.getTarget().equals(f_Value.getComponent(WPOSTextField.PRIMARY))  
-					|| event.getTarget().equals(f_UPC.getComponent(WPOSTextField.PRIMARY))
-					|| event.getTarget().equals(f_ProductName.getComponent(WPOSTextField.PRIMARY))
-					|| event.getTarget().equals(f_SKU.getComponent(WPOSTextField.PRIMARY))) {
+		 else if(event.getTarget().equals(fieldValue.getComponent(WPOSTextField.PRIMARY))
+					|| event.getTarget().equals(fieldUPC.getComponent(WPOSTextField.PRIMARY))
+					|| event.getTarget().equals(fieldProductName.getComponent(WPOSTextField.PRIMARY))
+					|| event.getTarget().equals(fieldSKU.getComponent(WPOSTextField.PRIMARY))) {
 			 	 refresh();
 				 isKeyboard = false;
 			}
@@ -321,47 +322,47 @@ public class WQueryProduct extends WPOSQuery
 
 	@Override
 	public void refresh() {
-		setResults(MWarehousePrice.find (p_ctx,
-				m_M_PriceList_Version_ID, m_M_Warehouse_ID,
-				f_Value.getText(), f_ProductName.getText(), 
-				f_UPC.getText(), f_SKU.getText(), null));
+		setResults(MWarehousePrice.find (ctx,
+				priceListVersionId, warehouseId,
+				fieldValue.getText(), fieldProductName.getText(),
+				fieldUPC.getText(), fieldSKU.getText(), null));
 			return;
 	}
 
 
 	@Override
 	protected void select() {
-		m_M_Product_ID = -1;
-		m_ProductName = null;
-		m_Price = null;
-		int row = m_table.getSelectedRow();
+		productId = -1;
+		productName = null;
+		price = null;
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
 		{
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null)
 			{
-				m_M_Product_ID = ID.intValue();
-				m_ProductName = (String)m_table.getValueAt(row, 2);
-				m_Price = (BigDecimal)m_table.getValueAt(row, 7);
+				productId = ID.intValue();
+				productName = (String) posTable.getValueAt(row, 2);
+				price = (BigDecimal) posTable.getValueAt(row, 7);
 			}
 		}
-		log.fine("M_Product_ID=" + m_M_Product_ID + " - " + m_ProductName + " - " + m_Price);
+		logger.fine("M_Product_ID=" + productId + " - " + productName + " - " + price);
 	}
 
 
 	@Override
 	protected void cancel() {
-		m_M_Product_ID = -1;
-		m_ProductName = null;
-		m_Price = Env.ZERO;
+		productId = -1;
+		productName = null;
+		price = Env.ZERO;
 	}	
 	public int getRecord_ID() {
-		return m_M_Product_ID;
+		return productId;
 	}
 
 	public String getValue() {
-		return m_ProductName;
+		return productName;
 	}
 	
 	/**
@@ -370,9 +371,9 @@ public class WQueryProduct extends WPOSQuery
 	 */
 	public Object[] getSelectedKeys()
 	{
-		if (m_results.size() == 0)
+		if (results.size() == 0)
 			return null;
-		return m_results.toArray(new Integer[0]);
+		return results.toArray(new Integer[0]);
 	}	//	getSelectedKeys;
 
 	/**
@@ -381,9 +382,9 @@ public class WQueryProduct extends WPOSQuery
 	 */
 	public Object getSelectedKey()
 	{
-		if ( m_results.size() == 0)
+		if ( results.size() == 0)
 			return null;
-		return m_results.get(0);
+		return results.get(0);
 	}	//	getSelectedKey
 	
 	/**
@@ -395,26 +396,26 @@ public class WQueryProduct extends WPOSQuery
     {
         ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
         
-        if (m_table.getKeyColumnIndex() == -1) {
+        if (posTable.getKeyColumnIndex() == -1) {
             return selectedDataList;
         }
         
-       int[] rows = m_table.getSelectedIndices();
+       int[] rows = posTable.getSelectedIndices();
         for (int row = 0; row < rows.length; row++) {
-            Object data = m_table.getModel().getValueAt(rows[row], m_table.getKeyColumnIndex());
+            Object data = posTable.getModel().getValueAt(rows[row], posTable.getKeyColumnIndex());
             if (data instanceof IDColumn) {
                 IDColumn dataColumn = (IDColumn)data;
                 selectedDataList.add(dataColumn.getRecord_ID());
             }
             else {
-                log.severe("For multiple selection, IDColumn should be key column for selection");
+                logger.severe("For multiple selection, IDColumn should be key column for selection");
             }
         }
         
         if (selectedDataList.size() == 0) {
-        	int row = m_table.getSelectedRow();
-    		if (row != -1 && m_table.getKeyColumnIndex() != -1) {
-    			Object data = m_table.getModel().getValueAt(row, m_table.getKeyColumnIndex());
+        	int row = posTable.getSelectedRow();
+    		if (row != -1 && posTable.getKeyColumnIndex() != -1) {
+    			Object data = posTable.getModel().getValueAt(row, posTable.getKeyColumnIndex());
     			if (data instanceof IDColumn)
     				selectedDataList.add(((IDColumn)data).getRecord_ID());
     			if (data instanceof Integer)
@@ -430,10 +431,10 @@ public class WQueryProduct extends WPOSQuery
 	 */
 	protected void saveSelection ()	{
 		//	Already disposed
-		if (m_table == null)
+		if (posTable == null)
 			return;
 
-		m_results.addAll(getSelectedRowKeys());
+		results.addAll(getSelectedRowKeys());
 
 		//	Save Settings of detail info screens
 //		saveSelectionDetail();

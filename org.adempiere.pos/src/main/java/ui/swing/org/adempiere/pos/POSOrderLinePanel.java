@@ -50,9 +50,11 @@ import org.compiere.util.Env;
  *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  <li> Implement best practices
+ *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  *  
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
+ *
  *  
  */
 public class POSOrderLinePanel extends POSSubPanel 
@@ -76,7 +78,7 @@ public class POSOrderLinePanel extends POSSubPanel
 	private int orderLineId = 0;
 	
 	/**	Logger				*/
-	private static CLogger 	log = CLogger.getCLogger(POSOrderLinePanel.class);
+	private static CLogger logger = CLogger.getCLogger(POSOrderLinePanel.class);
 	
 
 	/** The Table			*/
@@ -118,7 +120,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		String action = e.getActionCommand();
 		if (action == null || action.length() == 0)
 			return;
-		log.info( "POSOrderLinePanel - actionPerformed: " + action);
+		logger.info( "POSOrderLinePanel - actionPerformed: " + action);
 		
 		//	Refresh All
 		posPanel.refreshPanel();
@@ -126,7 +128,7 @@ public class POSOrderLinePanel extends POSSubPanel
 	
 	@Override
 	public void focusGained (FocusEvent e) {
-		log.info("POSOrderLinePanel - focusGained: " + e);		
+		logger.info("POSOrderLinePanel - focusGained: " + e);
 	}	//	focusGained
 		
 
@@ -134,7 +136,7 @@ public class POSOrderLinePanel extends POSSubPanel
 	public void focusLost (FocusEvent e) {
 		if (e.isTemporary())
 			return;
-		log.info( "POSDocumentPanel - focusLost");
+		logger.info( "POSDocumentPanel - focusLost");
 		posPanel.refreshPanel();
 	}	//	focusLost
 

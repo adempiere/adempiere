@@ -47,6 +47,7 @@ import org.zkoss.zkex.zul.South;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public abstract class WPOSQuery extends Window implements  MouseListener, ListSelectionListener, EventListener{
 
@@ -69,11 +70,11 @@ public abstract class WPOSQuery extends Window implements  MouseListener, ListSe
 	public WPOSQuery (WPOS posPanel)
 	{
 		super();
-		v_POSPanel = posPanel;
-		p_ctx = v_POSPanel.getCtx();
+		this.posPanel = posPanel;
+		ctx = this.posPanel.getCtx();
 		initMainPanel();
 		this.setAttribute("mode", "modal");
-		this.setTitle(Msg.getMsg(p_ctx, "Query"));
+		this.setTitle(Msg.getMsg(ctx, "Query"));
 		this.setBorder("normal");
 		this.setWidth("910px");
 		this.setHeight("500px");
@@ -85,32 +86,32 @@ public abstract class WPOSQuery extends Window implements  MouseListener, ListSe
 		init();
 	}	//	PosQueryBPartner
 	
-	protected Properties 		p_ctx;
+	protected Properties 		ctx;
 	/** POS Panel					*/
-	protected WPOS 				v_POSPanel = null;
+	protected WPOS 				posPanel = null;
 	/** The Table					*/
-	protected WListbox 			m_table;
+	protected WListbox 			posTable;
 	/** Panel						*/
 	protected Panel 			northPanel;
 	/** Actions						*/
 	protected ConfirmPanel	 	confirmPanel;
-	private Button	 			f_Refresh;
-	private Button	 			f_Reset;
-	private Button	 			f_Ok;
-	private Button	 			f_Cancel;
-	private Button 				f_New;
-	public 	Button 				f_Edit;
+	private Button 				buttonRefresh;
+	private Button 				buttonReset;
+	private Button 				buttonOk;
+	private Button 				buttonCancel;
+	private Button 				buttonNew;
+	public 	Button 				buttonEdit;
 	public  Borderlayout 		mainLayout;
 	/**	Logger			*/
-	protected static CLogger log = CLogger.getCLogger(WPOSQuery.class);
+	protected static CLogger logger = CLogger.getCLogger(WPOSQuery.class);
 	
 	/**
 	 * Set Visible the new button
 	 * @return void
 	 */
 	protected void addNewAction() {
-		f_New.setVisible(true);
-		f_Edit.setVisible(true);
+		buttonNew.setVisible(true);
+		buttonEdit.setVisible(true);
 	}
 	
 	/**
@@ -182,46 +183,46 @@ public abstract class WPOSQuery extends Window implements  MouseListener, ListSe
 		row.setHeight("65px");
 		row.setSpans("6");
 
-		f_New = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
-		f_New.setId("New");
-		buttonsPanel.appendChild(f_New);
-		f_New.addActionListener(this);
+		buttonNew = createButtonAction("New", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
+		buttonNew.setId("New");
+		buttonsPanel.appendChild(buttonNew);
+		buttonNew.addActionListener(this);
 
-		f_Edit = createButtonAction("Edit", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
-		f_Edit.setId("Edit");
-		buttonsPanel.appendChild(f_Edit);
-		f_Edit.addActionListener(this);
+		buttonEdit = createButtonAction("Edit", KeyStroke.getKeyStroke(KeyEvent.VK_N, 0));
+		buttonEdit.setId("Edit");
+		buttonsPanel.appendChild(buttonEdit);
+		buttonEdit.addActionListener(this);
 		
-		f_Reset = createButtonAction("Reset", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-		buttonsPanel.appendChild(f_Reset);
-		f_Reset.setId("Reset");
-		f_Refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-		buttonsPanel.appendChild(f_Refresh);
-		f_Refresh.setId("Refresh");
+		buttonReset = createButtonAction("Reset", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+		buttonsPanel.appendChild(buttonReset);
+		buttonReset.setId("Reset");
+		buttonRefresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+		buttonsPanel.appendChild(buttonRefresh);
+		buttonRefresh.setId("Refresh");
 		
 		
-		f_Ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
-		buttonsPanel.appendChild(f_Ok);
-		f_Ok.setId("Ok");
-		f_Cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
-		buttonsPanel.appendChild(f_Cancel);
-		f_Cancel.setId("Cancel");
-		f_Ok.setTooltiptext(Msg.translate(p_ctx, "Ok"));
-		f_Cancel.setTooltiptext(Msg.translate(p_ctx, "Cancel"));
-		f_Ok.setTooltiptext(Msg.translate(p_ctx, "Ok"));
-		f_Cancel.setTooltiptext(Msg.translate(p_ctx, "Cancel"));
-		f_New.setTooltiptext(Msg.translate(p_ctx, "New"));
-		f_Edit.setTooltiptext(Msg.translate(p_ctx, "Edit"));
-		f_Refresh.setTooltiptext(Msg.translate(p_ctx, "Refresh"));
+		buttonOk = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+		buttonsPanel.appendChild(buttonOk);
+		buttonOk.setId("Ok");
+		buttonCancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+		buttonsPanel.appendChild(buttonCancel);
+		buttonCancel.setId("Cancel");
+		buttonOk.setTooltiptext(Msg.translate(ctx, "Ok"));
+		buttonCancel.setTooltiptext(Msg.translate(ctx, "Cancel"));
+		buttonOk.setTooltiptext(Msg.translate(ctx, "Ok"));
+		buttonCancel.setTooltiptext(Msg.translate(ctx, "Cancel"));
+		buttonNew.setTooltiptext(Msg.translate(ctx, "New"));
+		buttonEdit.setTooltiptext(Msg.translate(ctx, "Edit"));
+		buttonRefresh.setTooltiptext(Msg.translate(ctx, "Refresh"));
 		row.appendChild(buttonsPanel);
 		//	Center
-		m_table = new WListbox();
+		posTable = new WListbox();
 		
-		m_table.addActionListener(this);
+		posTable.addActionListener(this);
 		//	Visible New
-		f_New.setVisible(false);
-		f_Edit.setVisible(false);
-		f_Edit.setEnabled(false);
+		buttonNew.setVisible(false);
+		buttonEdit.setVisible(false);
+		buttonEdit.setEnabled(false);
 	}
 
 	/**
@@ -231,7 +232,7 @@ public abstract class WPOSQuery extends Window implements  MouseListener, ListSe
 	public void mouseClicked(MouseEvent e)
 	{
 		//  Single click with selected row => exit
-		if (e.getClickCount() > 0 && m_table.getSelectedRow() != -1) {
+		if (e.getClickCount() > 0 && posTable.getSelectedRow() != -1) {
 			select();
 			close();
 		}

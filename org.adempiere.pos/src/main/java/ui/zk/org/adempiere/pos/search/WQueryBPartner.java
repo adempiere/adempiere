@@ -53,6 +53,7 @@ import org.zkoss.zul.Groupbox;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class WQueryBPartner extends WPOSQuery {
 	/**
@@ -69,20 +70,20 @@ public class WQueryBPartner extends WPOSQuery {
 		super(posPanel);
 	}	//	PosQueryBPartner
 	
-	private WPOSTextField		f_value;
-	private WPOSTextField		f_name;
-	private WPOSTextField		f_contact;
-	private WPOSTextField		f_email;
-	private WPOSTextField		f_phone;
-	private WPOSTextField		f_city;
-	private int					m_C_BPartner_ID;
+	private WPOSTextField 		fieldValue;
+	private WPOSTextField 		fieldName;
+	private WPOSTextField 		fieldContact;
+	private WPOSTextField 		fieldEmail;
+	private WPOSTextField 		fieldPhone;
+	private WPOSTextField 		fieldCity;
+	private int 				partnerId;
 	private boolean 			isKeyboard;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(WQueryBPartner.class);
+	private static CLogger logger = CLogger.getCLogger(WQueryBPartner.class);
 	
 	
 	/**	Table Column Layout Info			*/
-	private static ColumnInfo[] s_layout = new ColumnInfo[] 
+	private static ColumnInfo[] columnInfos = new ColumnInfo[]
 	{
 		new ColumnInfo(" ", "C_BPartner_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "Value", String.class),
@@ -105,7 +106,7 @@ public class WQueryBPartner extends WPOSQuery {
 		Grid bPartnerLayout = GridFactory.newGridLayout();
 		
 		Groupbox groupPanel = new Groupbox();
-		Caption v_TitleBorder = new Caption(Msg.getMsg(p_ctx, "Query"));
+		Caption v_TitleBorder = new Caption(Msg.getMsg(ctx, "Query"));
 		
 		//	Set title window
 		this.setClosable(true);
@@ -132,76 +133,76 @@ public class WQueryBPartner extends WPOSQuery {
 		rows = bPartnerLayout.newRows();
 		row = rows.newRow();
 		
-		Label lValue = new Label(Msg.translate(p_ctx, "Value"));
+		Label lValue = new Label(Msg.translate(ctx, "Value"));
 		row.appendChild(lValue.rightAlign());
 		lValue.setStyle(WPOS.FONTSIZESMALL);
-		f_value = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		row.appendChild(f_value);
-		f_value.setWidth("120px");
-		f_value.addEventListener(this);
-		f_value.setStyle(WPOS.FONTSIZESMALL);
+		fieldValue = new WPOSTextField(null, posPanel.getKeyboard());
+		row.appendChild(fieldValue);
+		fieldValue.setWidth("120px");
+		fieldValue.addEventListener(this);
+		fieldValue.setStyle(WPOS.FONTSIZESMALL);
 		
-		Label lContact = new Label(Msg.translate(p_ctx, "Contact"));
+		Label lContact = new Label(Msg.translate(ctx, "Contact"));
 		row.appendChild(lContact.rightAlign());
 		lContact.setStyle(WPOS.FONTSIZESMALL);
-		f_contact = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		row.appendChild(f_contact);
-		f_contact.setWidth("120px");
-		f_contact.addEventListener(this);
-		f_contact.setStyle(WPOS.FONTSIZESMALL);
+		fieldContact = new WPOSTextField(null, posPanel.getKeyboard());
+		row.appendChild(fieldContact);
+		fieldContact.setWidth("120px");
+		fieldContact.addEventListener(this);
+		fieldContact.setStyle(WPOS.FONTSIZESMALL);
 		
-		Label lPhone = new Label(Msg.translate(p_ctx, "Phone"));
+		Label lPhone = new Label(Msg.translate(ctx, "Phone"));
 		row.appendChild(lPhone.rightAlign());
 		lPhone.setStyle(WPOS.FONTSIZESMALL);
-		f_phone = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		row.appendChild(f_phone);
-		f_phone.setWidth("120px");
-		f_phone.addEventListener(this);
-		f_phone.setStyle(WPOS.FONTSIZESMALL);
+		fieldPhone = new WPOSTextField(null, posPanel.getKeyboard());
+		row.appendChild(fieldPhone);
+		fieldPhone.setWidth("120px");
+		fieldPhone.addEventListener(this);
+		fieldPhone.setStyle(WPOS.FONTSIZESMALL);
 		
 		// New Line
 		row = rows.newRow();
-		Label lName = new Label(Msg.translate(p_ctx, "Name"));
+		Label lName = new Label(Msg.translate(ctx, "Name"));
 		row.appendChild(lName.rightAlign());
 		lName.setStyle(WPOS.FONTSIZESMALL);
-		f_name = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		row.appendChild(f_name);
-		f_name.addEventListener(this);
-		f_name.setWidth("120px");
-		f_name.setStyle(WPOS.FONTSIZESMALL);
+		fieldName = new WPOSTextField(null, posPanel.getKeyboard());
+		row.appendChild(fieldName);
+		fieldName.addEventListener(this);
+		fieldName.setWidth("120px");
+		fieldName.setStyle(WPOS.FONTSIZESMALL);
 		//
-		Label lEmail = new Label(Msg.translate(p_ctx, "Email"));
+		Label lEmail = new Label(Msg.translate(ctx, "Email"));
 		row.appendChild(lEmail.rightAlign());
 		lEmail.setStyle(WPOS.FONTSIZESMALL);
-		f_email = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		row.appendChild(f_email);
-		f_email.addEventListener(this);
-		f_email.setWidth("120px");
-		f_email.setStyle(WPOS.FONTSIZESMALL);
+		fieldEmail = new WPOSTextField(null, posPanel.getKeyboard());
+		row.appendChild(fieldEmail);
+		fieldEmail.addEventListener(this);
+		fieldEmail.setWidth("120px");
+		fieldEmail.setStyle(WPOS.FONTSIZESMALL);
 		//
-		Label lCity = new Label(Msg.translate(p_ctx, "City"));
+		Label lCity = new Label(Msg.translate(ctx, "City"));
 		row.appendChild(lCity.rightAlign());
 		lCity.setStyle(WPOS.FONTSIZESMALL);
-		f_city = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		f_city.setWidth("120px");
-		row.appendChild(f_city);
-		f_city.addEventListener("onFocus", this);
-		f_city.setStyle(WPOS.FONTSIZESMALL);
+		fieldCity = new WPOSTextField(null, posPanel.getKeyboard());
+		fieldCity.setWidth("120px");
+		row.appendChild(fieldCity);
+		fieldCity.addEventListener("onFocus", this);
+		fieldCity.setStyle(WPOS.FONTSIZESMALL);
 		
-		m_table = ListboxFactory.newDataTable();
-		m_table.prepareTable (s_layout, "C_Order", 
-				"C_POS_ID = " + v_POSPanel.getC_POS_ID()
+		posTable = ListboxFactory.newDataTable();
+		posTable.prepareTable (columnInfos, "C_Order",
+				"C_POS_ID = " + posPanel.getC_POS_ID()
 				, false, "C_Order");
 
 		center = new Center();
 		center.setStyle("border: none");
-		m_table.setWidth("100%");
-		m_table.setHeight("99%");
-		m_table.addActionListener(this);
-		center.appendChild(m_table);
+		posTable.setWidth("100%");
+		posTable.setHeight("99%");
+		posTable.addActionListener(this);
+		center.appendChild(posTable);
 		mainLayout.appendChild(center);
-		m_table.setClass("Table-OrderLine");
-		m_table.autoSize();
+		posTable.setClass("Table-OrderLine");
+		posTable.autoSize();
 		addNewAction();
 	}	//	init
 	
@@ -212,8 +213,8 @@ public class WQueryBPartner extends WPOSQuery {
 	 *	@param results results
 	 */
 	private void setResultsFromArray(MBPartnerInfo[] results) {
-		m_table.loadTable(results);
-		int rowCount = m_table.getRowCount();
+		posTable.loadTable(results);
+		int rowCount = posTable.getRowCount();
 		if (rowCount > 0) {
 			if(rowCount == 1) {
 				select();
@@ -233,7 +234,7 @@ public class WQueryBPartner extends WPOSQuery {
 			return;
 		//	
 		setResultsFromArray((MBPartnerInfo[]) results);
-//		m_table.loadTable(results);
+//		table.loadTable(results);
 		enableButtons();
 	}	//	setResults
 
@@ -242,21 +243,21 @@ public class WQueryBPartner extends WPOSQuery {
 	 */
 	protected void enableButtons()
 	{
-		m_C_BPartner_ID = -1;
-		int row = m_table.getSelectedRow();
+		partnerId = -1;
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
 		{
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null)
 			{
-				m_C_BPartner_ID = ID.intValue();
-			//	m_BPartnerName = (String)m_table.getValueAt(row, 2);
-			//	m_Price = (BigDecimal)m_table.getValueAt(row, 7);
+				partnerId = ID.intValue();
+			//	m_BPartnerName = (String)table.getValueAt(row, 2);
+			//	m_Price = (BigDecimal)table.getValueAt(row, 7);
 			}
 		}
 //		f_ok.setEnabled(enabled);
-		log.fine("C_BPartner_ID=" + m_C_BPartner_ID); 
+		logger.fine("C_BPartner_ID=" + partnerId);
 	}	//	enableButtons
 
 	/**
@@ -265,15 +266,15 @@ public class WQueryBPartner extends WPOSQuery {
 	 */
 	protected void close()
 	{
-		Integer ID = m_table.getSelectedRowKey();
+		Integer ID = posTable.getSelectedRowKey();
 		if (ID != null)
-			m_C_BPartner_ID = ID.intValue();
+			partnerId = ID.intValue();
 	
-		if (m_C_BPartner_ID > 0) {
-			v_POSPanel.setC_BPartner_ID(m_C_BPartner_ID);
-			log.fine("C_BPartner_ID=" + m_C_BPartner_ID);
+		if (partnerId > 0) {
+			posPanel.setC_BPartner_ID(partnerId);
+			logger.fine("C_BPartner_ID=" + partnerId);
 		} else {
-			v_POSPanel.setC_BPartner_ID(0);
+			posPanel.setC_BPartner_ID(0);
 		}
 		dispose();
 	}	//	close
@@ -281,21 +282,21 @@ public class WQueryBPartner extends WPOSQuery {
 
 	@Override
 	public void reset() {
-		f_value.setText(null);
-		f_name.setText(null);
-		f_contact.setText(null);
-		f_email.setText(null);
-		f_phone.setText(null);
-		f_city.setText(null);
+		fieldValue.setText(null);
+		fieldName.setText(null);
+		fieldContact.setText(null);
+		fieldEmail.setText(null);
+		fieldPhone.setText(null);
+		fieldCity.setText(null);
 		setResults(new MBPartnerInfo[0]);
-		f_Edit.setEnabled(false);
+		buttonEdit.setEnabled(false);
 	}
 	
 	public String showKeyboard(Event e){
 		isKeyboard = true;
 		Textbox field = (Textbox) e.getTarget();
 
-		WPOSKeyboard keyboard = v_POSPanel.getKeyboard();
+		WPOSKeyboard keyboard = posPanel.getKeyboard();
 		if(e.getName().equals(Events.ON_FOCUS)){
 			keyboard.setPosTextField(field);	
 			AEnv.showWindow(keyboard);
@@ -306,9 +307,9 @@ public class WQueryBPartner extends WPOSQuery {
 	@Override
 	protected void newAction() {
 		super.newAction();
-		WPOSBPartner t = new WPOSBPartner(1, v_POSPanel);
+		WPOSBPartner t = new WPOSBPartner(1, posPanel);
 		AEnv.showWindow(t);
-		m_C_BPartner_ID = t.getC_BPartner_ID();
+		partnerId = t.getC_BPartner_ID();
 		//	Close
 		close();
 		return;
@@ -319,11 +320,11 @@ public class WQueryBPartner extends WPOSQuery {
 	 * @return void
 	 */
 	public void editAction() {
-		WPOSBPartner t = new WPOSBPartner(1, v_POSPanel);
-		t.loadBPartner(m_C_BPartner_ID);
+		WPOSBPartner t = new WPOSBPartner(1, posPanel);
+		t.loadBPartner(partnerId);
 		select();
 		AEnv.showWindow(t);
-		m_C_BPartner_ID = t.getC_BPartner_ID();
+		partnerId = t.getC_BPartner_ID();
 		//	Close
 		close();
 		return;
@@ -343,18 +344,18 @@ public class WQueryBPartner extends WPOSQuery {
 			int i = 1;			
 			pstm = DB.prepareStatement(sql.toString(), null);
 			//	POS
-			pstm.setInt(i++, v_POSPanel.getC_BPartner_ID());
+			pstm.setInt(i++, posPanel.getC_BPartner_ID());
 			rs = pstm.executeQuery();
-			m_table.loadTable(rs);
-			int rowNo = m_table.getRowCount();
+			posTable.loadTable(rs);
+			int rowNo = posTable.getRowCount();
 			if (rowNo > 0) {
-				m_table.setSelectedIndex(0);
+				posTable.setSelectedIndex(0);
 				if(rowNo == 1) {
 					select();
 				}
 			}
 		} catch(Exception e) {
-			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+			logger.severe("QueryTicket.setResults: " + e + " -> " + sql);
 		} finally {
 			DB.close(rs);
 			DB.close(pstm);
@@ -378,37 +379,37 @@ public class WQueryBPartner extends WPOSQuery {
 		else if(e.getTarget().getId().equals("Reset")){
 			reset();
 		}
-		else if(e.getTarget().equals(f_name.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
-			f_name.setValue(showKeyboard(e));
-			f_name.setFocus(true);
+		else if(e.getTarget().equals(fieldName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			fieldName.setValue(showKeyboard(e));
+			fieldName.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_contact.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			f_contact.setValue(showKeyboard(e));
-			f_contact.setFocus(true);
+		else if(e.getTarget().equals(fieldContact.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			fieldContact.setValue(showKeyboard(e));
+			fieldContact.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_value.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			f_value.setValue(showKeyboard(e));
-			f_value.setFocus(true);
+		else if(e.getTarget().equals(fieldValue.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			fieldValue.setValue(showKeyboard(e));
+			fieldValue.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_email.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			f_email.setValue(showKeyboard(e));
-			f_email.setFocus(true);
+		else if(e.getTarget().equals(fieldEmail.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			fieldEmail.setValue(showKeyboard(e));
+			fieldEmail.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_city.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			f_city.setValue(showKeyboard(e));
+		else if(e.getTarget().equals(fieldCity.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			fieldCity.setValue(showKeyboard(e));
 			refresh();
-			f_city.setFocus(true);
+			fieldCity.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_phone.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			f_phone.setValue(showKeyboard(e));
-			f_phone.setFocus(true);
+		else if(e.getTarget().equals(fieldPhone.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			fieldPhone.setValue(showKeyboard(e));
+			fieldPhone.setFocus(true);
 		}
-		else if(e.getTarget().equals(f_name.getComponent(WPOSTextField.PRIMARY))  
-					|| e.getTarget().equals(f_contact.getComponent(WPOSTextField.PRIMARY))
-					|| e.getTarget().equals(f_value.getComponent(WPOSTextField.PRIMARY))
-					|| e.getTarget().equals(f_email.getComponent(WPOSTextField.PRIMARY))
-					|| e.getTarget().equals(f_city.getComponent(WPOSTextField.PRIMARY))
-					|| e.getTarget().equals(f_phone.getComponent(WPOSTextField.PRIMARY))) {
+		else if(e.getTarget().equals(fieldName.getComponent(WPOSTextField.PRIMARY))
+					|| e.getTarget().equals(fieldContact.getComponent(WPOSTextField.PRIMARY))
+					|| e.getTarget().equals(fieldValue.getComponent(WPOSTextField.PRIMARY))
+					|| e.getTarget().equals(fieldEmail.getComponent(WPOSTextField.PRIMARY))
+					|| e.getTarget().equals(fieldCity.getComponent(WPOSTextField.PRIMARY))
+					|| e.getTarget().equals(fieldPhone.getComponent(WPOSTextField.PRIMARY))) {
 			 	 refresh();
 				 isKeyboard = false;
 		}
@@ -425,36 +426,36 @@ public class WQueryBPartner extends WPOSQuery {
 				reset();
 				dispose();
 			}
-			if(e.getTarget().equals(m_table)){
+			if(e.getTarget().equals(posTable)){
 				select();
 			}
 	}
 
 	@Override
 	public void refresh() {
-		setResults(MBPartnerInfo.find (p_ctx,
-				f_value.getText(), f_name.getText(), 
-				null, f_email.getText(),
-				f_phone.getText(), f_city.getText()));
+		setResults(MBPartnerInfo.find (ctx,
+				fieldValue.getText(), fieldName.getText(),
+				null, fieldEmail.getText(),
+				fieldPhone.getText(), fieldCity.getText()));
 	}
 
 	@Override
 	protected void select() {
-		m_C_BPartner_ID = -1;
+		partnerId = -1;
 		
-		int row = m_table.getSelectedRow();
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
-		f_Edit.setEnabled(false);
+		buttonEdit.setEnabled(false);
 		if (enabled) {
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null) {
-				f_Edit.setEnabled(true);
-				m_C_BPartner_ID = ID.intValue();
-			//	m_BPartnerName = (String)m_table.getValueAt(row, 2);
-			//	m_Price = (BigDecimal)m_table.getValueAt(row, 7);
+				buttonEdit.setEnabled(true);
+				partnerId = ID.intValue();
+			//	m_BPartnerName = (String)table.getValueAt(row, 2);
+			//	m_Price = (BigDecimal)table.getValueAt(row, 7);
 			}
 		}
-		log.fine("C_BPartner_ID=" + m_C_BPartner_ID);
+		logger.fine("C_BPartner_ID=" + partnerId);
 	}
 
 
@@ -470,7 +471,7 @@ public class WQueryBPartner extends WPOSQuery {
 	 * @return int
 	 */
 	public int getRecord_ID() {
-		return m_C_BPartner_ID;
+		return partnerId;
 	}
 
 	/** 
