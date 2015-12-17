@@ -76,35 +76,35 @@ public class CPOS {
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 */
 	public CPOS() {
-		m_ctx = Env.getCtx();
+		ctx = Env.getCtx();
 	}
 	
 	/**	POS Configuration		*/
-	private MPOS 				m_POS;
+	private MPOS 				entityPOS;
 	/**	Current Order			*/
-	private MOrder				m_CurrentOrder;
+	private MOrder 				currentOrder;
 	/** Sequence Doc 			*/
-	private MSequence 			m_SeqDoc; 
+	private MSequence 			documentSequence;
 	/**	The Business Partner	*/
-	private MBPartner			m_BPartner;
+	private MBPartner 			partner;
 	/**	Price List Version		*/
-	private int					m_M_PriceList_Version_ID;
+	private int 				priceListVersionId;
 	/** Context					*/
-	protected Properties		m_ctx = Env.getCtx();
+	protected Properties 		ctx = Env.getCtx();
 	/**	Today's (login) date	*/
-	private Timestamp			m_today = Env.getContextAsDate(m_ctx, "#Date");
+	private Timestamp 			today = Env.getContextAsDate(ctx, "#Date");
 	/**	Order List				*/
-	private ArrayList<Integer>	m_OrderList;
+	private ArrayList<Integer>  orderList;
 	/**	Order List Position		*/
-	private int 				m_RecordPosition;
+	private int 				recordPosition;
 	/**	Is Payment Completed	*/
-	private boolean 			m_IsToPrint;
+	private boolean 			isToPrint;
 	/**	Logger					*/
 	private CLogger 			log = CLogger.getCLogger(getClass());
 	/**	Quantity Ordered		*/
-	private BigDecimal			m_qty;
+	private BigDecimal 			quantity = BigDecimal.ZERO;
 	/**	Price					*/
-	private BigDecimal 			m_price;
+	private BigDecimal 			price = BigDecimal.ZERO;
 	
 	
 	/**
@@ -119,7 +119,7 @@ public class CPOS {
 		if (poss.size() == 0) {
 			throw new AdempierePOSException("@NoPOSForUser@");
 		} else if (poss.size() == 1) {
-			m_POS = poss.get(0);
+			entityPOS = poss.get(0);
 		}
 	}	//	setMPOS
 	
@@ -130,7 +130,7 @@ public class CPOS {
 	 * @return void
 	 */
 	public void setM_POS(MPOS pos) {
-		m_POS = pos;
+		entityPOS = pos;
 	}
 	
 	/**
@@ -144,8 +144,8 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return m_CurrentOrder.isProcessed() 
-				&& m_CurrentOrder.getDocStatus()
+		return currentOrder.isProcessed()
+				&& currentOrder.getDocStatus()
 				.equals(X_C_Order.DOCSTATUS_Completed);
 	}
 	
@@ -155,7 +155,7 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getAD_Sequence_ID() {
-		return m_POS.getAD_Sequence_ID();
+		return entityPOS.getAD_Sequence_ID();
 	}
 	
 	/**
@@ -164,7 +164,7 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getAD_Org_ID() {
-		return m_POS.getAD_Org_ID();
+		return entityPOS.getAD_Org_ID();
 	}
 	
 	/**
@@ -177,7 +177,7 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return m_CurrentOrder.getDocStatus()
+		return currentOrder.getDocStatus()
 				.equals(X_C_Order.DOCSTATUS_Voided);
 	}
 	
@@ -193,7 +193,7 @@ public class CPOS {
 		//	
 		return !isCompleted() 
 				&& !isVoided() 
-				&& m_CurrentOrder.getDocStatus()
+				&& currentOrder.getDocStatus()
 				.equals(X_C_Order.DOCSTATUS_Drafted);
 	}
 	
@@ -207,7 +207,7 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return m_CurrentOrder.getLines().length > 0;
+		return currentOrder.getLines().length > 0;
 	}
 	
 	/**
@@ -276,7 +276,7 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return m_CurrentOrder.isInvoiced();
+		return currentOrder.isInvoiced();
 	}
 	
 	/**
@@ -289,7 +289,7 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return m_CurrentOrder.isDelivered();
+		return currentOrder.isDelivered();
 	}
 	
 	/**
@@ -321,9 +321,9 @@ public class CPOS {
 		//	
 		if(isCompleted()
 				|| isVoided()) {
-			return m_CurrentOrder.getC_DocType_ID();
+			return currentOrder.getC_DocType_ID();
 		} else {
-			return m_CurrentOrder.getC_DocTypeTarget_ID();
+			return currentOrder.getC_DocTypeTarget_ID();
 		}
 	}
 	
@@ -333,7 +333,7 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isToPrint() {
-		return m_IsToPrint;
+		return isToPrint;
 	}
 	
 	/**
@@ -343,7 +343,7 @@ public class CPOS {
 	 * @return MOrder
 	 */
 	public MOrder getM_Order() {
-		return m_CurrentOrder;
+		return currentOrder;
 	}
 	
 	/**
@@ -353,8 +353,8 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean hasOrder() {
-		return m_CurrentOrder != null
-				&& m_CurrentOrder.getC_Order_ID() != 0;
+		return currentOrder != null
+				&& currentOrder.getC_Order_ID() != 0;
 	}
 	
 	/**
@@ -364,7 +364,7 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean hasBPartner() {
-		return m_BPartner != null;
+		return partner != null;
 	}
 	
 	/**
@@ -375,7 +375,7 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean compareBPName(String p_Name) {
-		return m_BPartner.getName().equals(p_Name);
+		return partner.getName().equals(p_Name);
 	}
 	
 	/**
@@ -384,7 +384,7 @@ public class CPOS {
 	 */
 	public int getC_BPartner_ID () {
 		if (hasBPartner())
-			return m_BPartner.getC_BPartner_ID();
+			return partner.getC_BPartner_ID();
 		return 0;
 	}	//	getC_BPartner_ID
 	
@@ -396,7 +396,7 @@ public class CPOS {
 	 */
 	public String getBPName() {
 		if (hasBPartner())
-			return m_BPartner.getName();
+			return partner.getName();
 		return null;
 	}
 	
@@ -408,7 +408,7 @@ public class CPOS {
 	 */
 	public int getC_Currency_ID() {
 		if (hasBPartner()) {
-			return m_CurrentOrder.getC_Currency_ID();
+			return currentOrder.getC_Currency_ID();
 		}
 		//	Default
 		return 0;
@@ -429,7 +429,7 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getAutoLogoutDelay() {
-		return m_POS.getAutoLogoutDelay();
+		return entityPOS.getAutoLogoutDelay();
 	}
 	
 	/**
@@ -439,7 +439,7 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getSalesRepName() {
-		MUser salesrep = MUser.get(m_ctx);
+		MUser salesrep = MUser.get(ctx);
 		if(salesrep == null) {
 			return null;
 		}
@@ -454,7 +454,7 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getSalesRep_ID() {
-		return m_POS.getSalesRep_ID();
+		return entityPOS.getSalesRep_ID();
 	}
 	
 	/**
@@ -464,7 +464,7 @@ public class CPOS {
 	 * @return MPOS
 	 */
 	public MPOS getM_POS() {
-		return m_POS;
+		return entityPOS;
 	}
 	
 	/**
@@ -474,7 +474,7 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getPOSName() {
-		return m_POS.getName();
+		return entityPOS.getName();
 	}
 	
 	/**
@@ -484,7 +484,7 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getC_POS_ID() {
-		return m_POS.getC_POS_ID();
+		return entityPOS.getC_POS_ID();
 	}
 	
 	/**
@@ -493,8 +493,8 @@ public class CPOS {
 	 */
 	public void newOrder(int p_C_BPartner_ID) {
 		log.info( "PosPanel.newOrder");
-		m_CurrentOrder = null;
-		int m_C_DocType_ID = m_POS.getC_DocType_ID();
+		currentOrder = null;
+		int m_C_DocType_ID = entityPOS.getC_DocType_ID();
 		//	Create Order
 		createOrder(p_C_BPartner_ID, m_C_DocType_ID);
 		//	
@@ -511,13 +511,13 @@ public class CPOS {
 		if(!isDrafted())
 			return;
 		//	Set Document Type
-		m_CurrentOrder.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
+		currentOrder.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
 		//	Set Sequenced No
-		String value = DB.getDocumentNo(getC_DocType_ID(), null, false, m_CurrentOrder);
+		String value = DB.getDocumentNo(getC_DocType_ID(), null, false, currentOrder);
 		if (value != null) {
-			m_CurrentOrder.setDocumentNo(value);
+			currentOrder.setDocumentNo(value);
 		}
-		m_CurrentOrder.saveEx();
+		currentOrder.saveEx();
 	}
 	
 	
@@ -530,31 +530,31 @@ public class CPOS {
 		int m_Free_C_Order_ID = getFreeC_Order_ID();
 		//	Change Values for new Order
 		if(m_Free_C_Order_ID > 0) {
-			m_CurrentOrder = new MOrder(Env.getCtx(), m_Free_C_Order_ID, null);
-			m_CurrentOrder.setDateOrdered(getToday());
-			m_CurrentOrder.setDateAcct(getToday());
-			m_CurrentOrder.setDatePromised(getToday());
+			currentOrder = new MOrder(Env.getCtx(), m_Free_C_Order_ID, null);
+			currentOrder.setDateOrdered(getToday());
+			currentOrder.setDateAcct(getToday());
+			currentOrder.setDatePromised(getToday());
 		} else {
-			m_CurrentOrder = new MOrder(Env.getCtx(), 0, null);
+			currentOrder = new MOrder(Env.getCtx(), 0, null);
 		}
-		m_CurrentOrder.setAD_Org_ID(m_POS.getAD_Org_ID());
-		m_CurrentOrder.setIsSOTrx(true);
-		m_CurrentOrder.setC_POS_ID(m_POS.getC_POS_ID());
-		m_CurrentOrder.setM_Warehouse_ID(m_POS.getM_Warehouse_ID());
+		currentOrder.setAD_Org_ID(entityPOS.getAD_Org_ID());
+		currentOrder.setIsSOTrx(true);
+		currentOrder.setC_POS_ID(entityPOS.getC_POS_ID());
+		currentOrder.setM_Warehouse_ID(entityPOS.getM_Warehouse_ID());
 		if (p_C_DocTypeTarget_ID != 0) {
-			m_CurrentOrder.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
+			currentOrder.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
 		} else {
-			m_CurrentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_OnCredit);
+			currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_OnCredit);
 		}
 		//	Set BPartner
 		setC_BPartner_ID(p_C_BPartner_ID);
 		//	Add if is new
 		if(m_Free_C_Order_ID < 0) {
 			//	Add To List
-			m_OrderList.add(m_CurrentOrder.getC_Order_ID());
+			orderList.add(currentOrder.getC_Order_ID());
 		}
 		//  Add record
-		reloadIndex(m_CurrentOrder.getC_Order_ID());
+		reloadIndex(currentOrder.getC_Order_ID());
 	} // PosOrderModel
 	
 	/**
@@ -580,8 +580,8 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isBPartnerStandard() {
-		int p_C_BPartner_ID = m_CurrentOrder.getC_BPartner_ID();
-		if(m_POS.getC_BPartnerCashTrx_ID() == p_C_BPartner_ID)
+		int partnerId = currentOrder != null ? currentOrder.getC_BPartner_ID() : 0 ;
+		if(entityPOS.getC_BPartnerCashTrx_ID() == partnerId)
 			return true;
 		else
 			return false;
@@ -605,53 +605,53 @@ public class CPOS {
 		//	Validate BPartner
 		if (p_C_BPartner_ID == 0) {
 			isSamePOSPartner = true;
-			p_C_BPartner_ID = m_POS.getC_BPartnerCashTrx_ID();
+			p_C_BPartner_ID = entityPOS.getC_BPartnerCashTrx_ID();
 		}
 		//	Get BPartner
-		m_BPartner = MBPartner.get(m_ctx, p_C_BPartner_ID);
-		if (m_BPartner == null || m_BPartner.get_ID() == 0) {
+		partner = MBPartner.get(ctx, p_C_BPartner_ID);
+		if (partner == null || partner.get_ID() == 0) {
 			throw new AdempierePOSException("POS.NoBPartnerForOrder");
 		} else {
-			log.info("CPOS.SetC_BPartner_ID -" + m_BPartner);
-			m_CurrentOrder.setBPartner(m_BPartner);
+			log.info("CPOS.SetC_BPartner_ID -" + partner);
+			currentOrder.setBPartner(partner);
 			//	
-			if (m_BPartner != null) {
-				m_CurrentOrder.setBPartner(m_BPartner);
+			if (partner != null) {
+				currentOrder.setBPartner(partner);
 				//	
-				MBPartnerLocation [] m_BPLocations = m_BPartner.getLocations(true);
+				MBPartnerLocation [] m_BPLocations = partner.getLocations(true);
 				if(m_BPLocations.length > 0) {
 					for(MBPartnerLocation loc : m_BPLocations) {
 						if(loc.isBillTo())
-							m_CurrentOrder.setBill_Location_ID(loc.getC_BPartner_Location_ID());	
+							currentOrder.setBill_Location_ID(loc.getC_BPartner_Location_ID());
 						if(loc.isShipTo())
-							m_CurrentOrder.setShip_Location_ID(loc.getC_BPartner_Location_ID());
+							currentOrder.setShip_Location_ID(loc.getC_BPartner_Location_ID());
 					}				
 				}
 			}
 			//	Validate Same BPartner
 			if(isSamePOSPartner) {
-				m_CurrentOrder.setM_PriceList_ID(m_POS.getM_PriceList_ID());
-				m_CurrentOrder.setPaymentRule(MOrder.PAYMENTRULE_Cash);
+				currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
+				currentOrder.setPaymentRule(MOrder.PAYMENTRULE_Cash);
 			}
 			//	Set Sales Representative
-			m_CurrentOrder.setSalesRep_ID(m_POS.getSalesRep_ID());
+			currentOrder.setSalesRep_ID(entityPOS.getSalesRep_ID());
 			//	Save Header
-			m_CurrentOrder.saveEx();
+			currentOrder.saveEx();
 			//	Load Price List Version
-			MPriceListVersion plv = loadPriceListVersion(m_CurrentOrder.getM_PriceList_ID());
+			MPriceListVersion plv = loadPriceListVersion(currentOrder.getM_PriceList_ID());
 			MProductPrice[] ppList = plv.getProductPrice("AND EXISTS("
 					+ "SELECT 1 "
 					+ "FROM C_OrderLine ol "
-					+ "WHERE ol.C_Order_ID = " + m_CurrentOrder.getC_Order_ID() + " "
+					+ "WHERE ol.C_Order_ID = " + currentOrder.getC_Order_ID() + " "
 					+ "AND ol.M_Product_ID = M_ProductPrice.M_Product_ID)");
 			//	Update Lines
-			MOrderLine[] lines = m_CurrentOrder.getLines();
+			MOrderLine[] lines = currentOrder.getLines();
 			//	Delete if not exist in price list
 			for (MOrderLine line : lines) {
 				//	Verify if exist
 				if(existInPriceList(line.getM_Product_ID(), ppList)) {
-					line.setC_BPartner_ID(m_BPartner.getC_BPartner_ID());
-					line.setC_BPartner_Location_ID(m_CurrentOrder.getC_BPartner_Location_ID());
+					line.setC_BPartner_ID(partner.getC_BPartner_ID());
+					line.setC_BPartner_Location_ID(currentOrder.getC_BPartner_Location_ID());
 					line.setPrice();
 					line.setTax();
 					line.saveEx();
@@ -688,9 +688,9 @@ public class CPOS {
 		int pass_ID = p_SalesRep_ID;
 		if (p_SalesRep_ID == 100) {
 			pass_field = MPOS.COLUMNNAME_AD_Client_ID;
-			pass_ID = Env.getAD_Client_ID(m_ctx);
+			pass_ID = Env.getAD_Client_ID(ctx);
 		}
-		return MPOS.getAll(m_ctx, pass_field, pass_ID , null);
+		return MPOS.getAll(ctx, pass_field, pass_ID , null);
 	}	//	getPOSs
 
 
@@ -699,7 +699,7 @@ public class CPOS {
 	 *	@return array of POS
 	 */
 	public List<MPOS> getPOSByOrganization (int orgId) {
-		return MPOS.getByOrganization(m_ctx, orgId, null);
+		return MPOS.getByOrganization(ctx, orgId, null);
 	}
 
 	/**************************************************************************
@@ -707,16 +707,16 @@ public class CPOS {
 	 *	@return date
 	 */
 	public Timestamp getToday() {
-		return m_today;
+		return today;
 	}	//	getToday
 	
 	/**
 	 * @param p_C_Order_ID
 	 */
 	public void setOrder(int p_C_Order_ID) {
-		m_CurrentOrder = new MOrder(m_ctx , p_C_Order_ID, null);
+		currentOrder = new MOrder(ctx, p_C_Order_ID, null);
 		if (p_C_Order_ID != 0) {
-			loadPriceListVersion(m_CurrentOrder.getM_PriceList_ID());
+			loadPriceListVersion(currentOrder.getM_PriceList_ID());
 		}
 		//	
 		reloadOrder();
@@ -737,7 +737,7 @@ public class CPOS {
 		if(!isDrafted())
 			return null;
 		//	
-		MOrderLine[] lines = m_CurrentOrder.getLines("AND C_OrderLine_ID = " + p_C_OrderLine_ID, "Line");
+		MOrderLine[] lines = currentOrder.getLines("AND C_OrderLine_ID = " + p_C_OrderLine_ID, "Line");
 		BigDecimal m_LineNetAmt = Env.ZERO; 
 		BigDecimal m_TaxRate = Env.ZERO;
 		BigDecimal m_GrandTotal = Env.ZERO;
@@ -755,7 +755,7 @@ public class CPOS {
 			line.saveEx();
 			//	Set Values for Grand Total
 			m_LineNetAmt = line.getLineNetAmt();
-			m_TaxRate = MTax.get(m_ctx, line.getC_Tax_ID()).getRate();
+			m_TaxRate = MTax.get(ctx, line.getC_Tax_ID()).getRate();
 			if(m_TaxRate == null) {
 				m_TaxRate = Env.ZERO;
 			} else {
@@ -781,7 +781,7 @@ public class CPOS {
 		if (!isDrafted())
 			return null;
 		// catch Exceptions at order.getLines()
-		MOrderLine[] lines = m_CurrentOrder.getLines(true, "Line");
+		MOrderLine[] lines = currentOrder.getLines(true, "Line");
 		for (MOrderLine line : lines) {
 			if (line.getM_Product_ID() == product.getM_Product_ID()) {
 				//increase qty
@@ -795,7 +795,7 @@ public class CPOS {
 			}
 		}
         //create new line
-		MOrderLine line = new MOrderLine(m_CurrentOrder);
+		MOrderLine line = new MOrderLine(currentOrder);
 		line.setProduct(product);
 		line.setQty(p_QtyOrdered);
 		//	
@@ -821,7 +821,7 @@ public class CPOS {
 			return Env.ZERO;
 		//
 		MWarehousePrice result = MWarehousePrice.get (p_Product,
-			m_M_PriceList_Version_ID, m_POS.getM_Warehouse_ID(), null);
+				priceListVersionId, entityPOS.getM_Warehouse_ID(), null);
 		if (result != null) {
 			return result.getPriceStd();
 		}
@@ -838,7 +838,7 @@ public class CPOS {
 	public String add(int p_M_Product_ID, BigDecimal p_QtyOrdered) {
 		String m_Error = null;
 		try {
-			MProduct m_Product = MProduct.get(m_ctx, p_M_Product_ID);
+			MProduct m_Product = MProduct.get(ctx, p_M_Product_ID);
 			if (m_Product == null)
 				return "@No@ @InfoProduct@";
 			BigDecimal PriceActual = getPrice(m_Product);
@@ -862,17 +862,17 @@ public class CPOS {
 	 *  @return true if order voided; false otherwise
 	 */
 	private boolean voidOrder() {
-		if (!(m_CurrentOrder.getDocStatus().equals(MOrder.STATUS_Drafted) 
-				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_InProgress)
-				|| m_CurrentOrder.getDocStatus().equals(DocAction.STATUS_Completed))) 
+		if (!(currentOrder.getDocStatus().equals(MOrder.STATUS_Drafted)
+				|| currentOrder.getDocStatus().equals(DocAction.STATUS_InProgress)
+				|| currentOrder.getDocStatus().equals(DocAction.STATUS_Completed)))
 			return false;
 		
 		// Standard way of voiding an order
-		m_CurrentOrder.setDocAction(MOrder.DOCACTION_Void);
-		if (m_CurrentOrder.processIt(MOrder.DOCACTION_Void) ) {
-			m_CurrentOrder.setDocAction(MOrder.DOCACTION_None);
-			m_CurrentOrder.setDocStatus(MOrder.STATUS_Voided);
-			m_CurrentOrder.saveEx();
+		currentOrder.setDocAction(MOrder.DOCACTION_Void);
+		if (currentOrder.processIt(MOrder.DOCACTION_Void) ) {
+			currentOrder.setDocAction(MOrder.DOCACTION_None);
+			currentOrder.setDocStatus(MOrder.STATUS_Voided);
+			currentOrder.saveEx();
 			return true;
 		} else {
 			return false;
@@ -889,12 +889,12 @@ public class CPOS {
 		String errorMsg = null;
 		try {
 			//	Get Index
-			int currentIndex = m_OrderList.indexOf(m_CurrentOrder.getC_Order_ID());
+			int currentIndex = orderList.indexOf(currentOrder.getC_Order_ID());
 			if (!hasOrder()) {
 				throw new AdempierePOSException("@POS.MustCreateOrder@");
 			} else if (!isCompleted()) {
 				//	Delete Order
-				m_CurrentOrder.deleteEx(true);
+				currentOrder.deleteEx(true);
 			} else if (isCompleted()) {	
 				voidOrder();
 			} else {
@@ -902,10 +902,10 @@ public class CPOS {
 			}
 			//	Remove from List
 			if(currentIndex >= 0) {
-				m_OrderList.remove(currentIndex);
+				orderList.remove(currentIndex);
 			}
 			//	
-			m_CurrentOrder = null;
+			currentOrder = null;
 			//	Change to Next
 			if(hasRecord()){
 				if(isFirstRecord()) {
@@ -929,8 +929,8 @@ public class CPOS {
 	 * 
 	 */
 	public void deleteLine (int C_OrderLine_ID) {
-		if ( C_OrderLine_ID != -1 && m_CurrentOrder != null ) {
-			for ( MOrderLine line : m_CurrentOrder.getLines(true, I_C_OrderLine.COLUMNNAME_M_Product_ID) ) {
+		if ( C_OrderLine_ID != -1 && currentOrder != null ) {
+			for ( MOrderLine line : currentOrder.getLines(true, I_C_OrderLine.COLUMNNAME_M_Product_ID) ) {
 				if ( line.getC_OrderLine_ID() == C_OrderLine_ID ) {
 					line.deleteEx(true);	
 				}
@@ -952,7 +952,7 @@ public class CPOS {
 					+ "ORDER BY o.Updated");
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		m_OrderList = new ArrayList<Integer>();
+		orderList = new ArrayList<Integer>();
 		try {
 			//	Set Parameter
 			pstm= DB.prepareStatement(sql, null);
@@ -963,7 +963,7 @@ public class CPOS {
 			rs = pstm.executeQuery();
 			//	Add to List
 			while(rs.next()){
-				m_OrderList.add(rs.getInt(1));
+				orderList.add(rs.getInt(1));
 			}
 		} catch(Exception e) {
 			log.severe("SubOrder.listOrder: " + e + " -> " + sql);
@@ -973,9 +973,9 @@ public class CPOS {
 		}
 		//	Seek Position
 		if(hasRecord())
-			m_RecordPosition = m_OrderList.size() -1;
+			recordPosition = orderList.size() -1;
 		else 
-			m_RecordPosition = -1;
+			recordPosition = -1;
 	}
 	
 	/**
@@ -984,7 +984,7 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean hasRecord(){
-		return !m_OrderList.isEmpty();
+		return !orderList.isEmpty();
 	}
 	
 	/**
@@ -993,7 +993,7 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isFirstRecord() {
-		return m_RecordPosition == 0;
+		return recordPosition == 0;
 	}
 	
 	/**
@@ -1002,15 +1002,15 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isLastRecord() {
-		return m_RecordPosition == m_OrderList.size() - 1;
+		return recordPosition == orderList.size() - 1;
 	}
 	
 	/**
 	 * Previous Record Order
 	 */
 	public void previousRecord() {
-		if(m_RecordPosition > 0) {
-			setOrder(m_OrderList.get(--m_RecordPosition));
+		if(recordPosition > 0) {
+			setOrder(orderList.get(--recordPosition));
 		}
 	}
 
@@ -1018,8 +1018,8 @@ public class CPOS {
 	 * Next Record Order
 	 */
 	public void nextRecord() {
-		if(m_RecordPosition < m_OrderList.size() - 1) {
-			setOrder(m_OrderList.get(++m_RecordPosition));
+		if(recordPosition < orderList.size() - 1) {
+			setOrder(orderList.get(++recordPosition));
 		}
 	}
 	
@@ -1029,9 +1029,9 @@ public class CPOS {
 	 * @return void
 	 */
 	public void reloadIndex(int p_C_Order_ID) {
-		int position = m_OrderList.indexOf(p_C_Order_ID);
+		int position = orderList.indexOf(p_C_Order_ID);
 		if(position >= 0) {
-			m_RecordPosition = position;
+			recordPosition = position;
 		}
 	}
 	
@@ -1040,9 +1040,9 @@ public class CPOS {
 	 * @return void
 	 */
 	public void lastRecord() {
-		m_RecordPosition = m_OrderList.size();
-		if(m_RecordPosition != 0) {
-			--m_RecordPosition;
+		recordPosition = orderList.size();
+		if(recordPosition != 0) {
+			--recordPosition;
 		}
 	}
 	
@@ -1051,9 +1051,9 @@ public class CPOS {
 	 * @return void
 	 */
 	public void firstRecord() {
-		m_RecordPosition = m_OrderList.size();
-		if(m_RecordPosition != 0) {
-			m_RecordPosition = 0;
+		recordPosition = orderList.size();
+		if(recordPosition != 0) {
+			recordPosition = 0;
 		}
 	}
 	
@@ -1074,33 +1074,33 @@ public class CPOS {
 		if (!isCompleted()) {	//	Complete Order
 			//	Replace
 			if(trxName == null) {
-				trxName = m_CurrentOrder.get_TrxName();
+				trxName = currentOrder.get_TrxName();
 			} else {
-				m_CurrentOrder.set_TrxName(trxName);
+				currentOrder.set_TrxName(trxName);
 			}
-			m_IsToPrint = true;
+			isToPrint = true;
 			//	Get value for Standard Order
 			if(p_IsPrepayment) {
 				//	Set Document Type
-				m_CurrentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
-				m_IsToPrint = false;	
+				currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
+				isToPrint = false;
 			}
 //			} else {
 			//	Force Delivery for POS
-				m_CurrentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
-				m_CurrentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
+				currentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
+				currentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
 						
 //			}
-			m_CurrentOrder.setDocAction(DocAction.ACTION_Complete);
-			if (m_CurrentOrder.processIt(DocAction.ACTION_Complete) ) {
-				m_CurrentOrder.saveEx();
+			currentOrder.setDocAction(DocAction.ACTION_Complete);
+			if (currentOrder.processIt(DocAction.ACTION_Complete) ) {
+				currentOrder.saveEx();
 				orderCompleted = true;
 			} else {
-				log.info( "Process Order FAILED " + m_CurrentOrder.getProcessMsg());		
+				log.info( "Process Order FAILED " + currentOrder.getProcessMsg());
 			}
 		} else {	//	Default nothing
 			orderCompleted = isCompleted();
-			m_IsToPrint = false;
+			isToPrint = false;
 		}
 		
 		//	Validate for generate Invoice and Shipment
@@ -1111,7 +1111,7 @@ public class CPOS {
 			generateInvoice(trxName);
 			//	
 			orderCompleted = true;
-			m_IsToPrint = true;
+			isToPrint = true;
 		}
 		return orderCompleted;
 	}	// processOrder
@@ -1212,7 +1212,7 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getProcessMsg() {
-		return m_CurrentOrder.getProcessMsg();
+		return currentOrder.getProcessMsg();
 	}
 
 	/**
@@ -1225,7 +1225,7 @@ public class CPOS {
 				&& hasOrder()
 				&& !isCompleted()
 				&& !isVoided()) {
-			m_CurrentOrder.setC_PaymentTerm_ID(p_C_PaymentTerm_ID);
+			currentOrder.setC_PaymentTerm_ID(p_C_PaymentTerm_ID);
 		}
 	}
 	
@@ -1236,7 +1236,7 @@ public class CPOS {
 	 */
 	public int getC_PaymentTerm_ID() {
 		if(hasOrder()) {
-			return m_CurrentOrder.getC_PaymentTerm_ID();
+			return currentOrder.getC_PaymentTerm_ID();
 		}
 		//	Default
 		return 0;
@@ -1248,7 +1248,7 @@ public class CPOS {
 	 */
 	public BigDecimal getTaxAmt() {
 		BigDecimal taxAmt = Env.ZERO;
-		for (MOrderTax tax : m_CurrentOrder.getTaxes(true)) {
+		for (MOrderTax tax : currentOrder.getTaxes(true)) {
 			taxAmt = taxAmt.add(tax.getTaxAmt());
 		}
 		return taxAmt;
@@ -1259,7 +1259,7 @@ public class CPOS {
 	 * 
 	 */
 	public BigDecimal getTotalLines() {
-		return m_CurrentOrder.getGrandTotal().subtract(getTaxAmt());
+		return currentOrder.getGrandTotal().subtract(getTaxAmt());
 	}
 	
 	/**
@@ -1269,7 +1269,7 @@ public class CPOS {
 	 * @return BigDecimal
 	 */
 	public BigDecimal getGrandTotal() {
-		return m_CurrentOrder.getGrandTotal();
+		return currentOrder.getGrandTotal();
 	}
 	
 	/**
@@ -1279,7 +1279,7 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getDocumentNo() {
-		return m_CurrentOrder.getDocumentNo();
+		return currentOrder.getDocumentNo();
 	}
 	
 	/**
@@ -1289,7 +1289,7 @@ public class CPOS {
 	 */
 	public BigDecimal getOpenAmt() {
 		BigDecimal received = getPaidAmt();	
-		return m_CurrentOrder.getGrandTotal().subtract(received);
+		return currentOrder.getGrandTotal().subtract(received);
 	}
 	
 	/**
@@ -1307,12 +1307,12 @@ public class CPOS {
 	 */
 	public BigDecimal getPaidAmt() {
 		String sql = "SELECT sum(PayAmt) FROM C_Payment WHERE (C_Invoice_ID = ? OR C_Order_ID = ?) AND DocStatus IN ('CO','CL')";
-		BigDecimal received = DB.getSQLValueBD(null, sql, m_CurrentOrder.getC_Invoice_ID(), m_CurrentOrder.getC_Order_ID());
+		BigDecimal received = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID(), currentOrder.getC_Order_ID());
 		if ( received == null )
 			received = Env.ZERO;
 		
 		sql = "SELECT sum(Amount) FROM C_CashLine WHERE C_Invoice_ID = ? ";
-		BigDecimal cashline = DB.getSQLValueBD(null, sql, m_CurrentOrder.getC_Invoice_ID());
+		BigDecimal cashline = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID());
 		if ( cashline != null )
 			received = received.add(cashline);
 		
@@ -1323,18 +1323,18 @@ public class CPOS {
 	 * 	Load Order
 	 */
 	public void reloadOrder() {
-		if (m_CurrentOrder == null) {
+		if (currentOrder == null) {
 			
-			if(m_RecordPosition != -1
-					&& m_RecordPosition < m_OrderList.size()) {
-				setOrder(m_OrderList.get(m_RecordPosition));
+			if(recordPosition != -1
+					&& recordPosition < orderList.size()) {
+				setOrder(orderList.get(recordPosition));
 			}
 			//	
 			return;
 		}
-		m_CurrentOrder.load(m_CurrentOrder.get_TrxName());
-		m_CurrentOrder.getLines(true, "");
-		m_BPartner = MBPartner.get(getCtx(), m_CurrentOrder.getC_BPartner_ID());
+		currentOrder.load(currentOrder.get_TrxName());
+		currentOrder.getLines(true, "");
+		partner = MBPartner.get(getCtx(), currentOrder.getC_BPartner_ID());
 	}
 	
 	/**
@@ -1343,7 +1343,7 @@ public class CPOS {
 	 *	@return plv
 	 */
 	public int getM_PriceList_Version_ID() {
-		return m_M_PriceList_Version_ID;
+		return priceListVersionId;
 	}	//	getM_PriceList_Version_ID
 	
 	/**
@@ -1353,13 +1353,13 @@ public class CPOS {
 	 * @return MPriceListVersion
 	 */
 	private MPriceListVersion loadPriceListVersion(int p_M_PriceList_ID) {
-		m_M_PriceList_Version_ID = 0;
-		MPriceList pl = MPriceList.get(m_ctx, p_M_PriceList_ID, null);
+		priceListVersionId = 0;
+		MPriceList pl = MPriceList.get(ctx, p_M_PriceList_ID, null);
 		//
 		MPriceListVersion plv = pl.getPriceListVersion (getToday());
 		if (plv != null 
 				&& plv.getM_PriceList_Version_ID() != 0) {
-			m_M_PriceList_Version_ID = plv.getM_PriceList_Version_ID();
+			priceListVersionId = plv.getM_PriceList_Version_ID();
 		}
 		//	Default Return
 		return plv;
@@ -1371,7 +1371,7 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getM_Warehouse_ID() {
-		return m_POS.getM_Warehouse_ID();
+		return entityPOS.getM_Warehouse_ID();
 	}
 	
 	/**
@@ -1380,7 +1380,7 @@ public class CPOS {
 	 * @return String
 	 */
 	public void validLocator() {
-		MWarehouse warehouse = MWarehouse.get(m_ctx, getM_Warehouse_ID());
+		MWarehouse warehouse = MWarehouse.get(ctx, getM_Warehouse_ID());
 		MLocator[] locators = warehouse.getLocators(true);
 		for (MLocator mLocator : locators) {
 			if (mLocator.isDefault()) {
@@ -1400,7 +1400,7 @@ public class CPOS {
 	 */
 	public String getWarehouseName() {
 		if(getM_Warehouse_ID() > 0) {
-			MWarehouse.get(m_ctx, getM_Warehouse_ID()).getName();
+			MWarehouse.get(ctx, getM_Warehouse_ID()).getName();
 		}
 		//	Default
 		return "";
@@ -1413,7 +1413,7 @@ public class CPOS {
 	 */
 	public String getDocumentTypeName() {
 		if(hasOrder()) {
-			MDocType m_DocType = MDocType.get(getCtx(), m_CurrentOrder.getC_DocTypeTarget_ID());
+			MDocType m_DocType = MDocType.get(getCtx(), currentOrder.getC_DocTypeTarget_ID());
 			if(m_DocType != null) {
 				return m_DocType.getName();
 			}
@@ -1448,7 +1448,7 @@ public class CPOS {
 	public ValueNamePair[] getCreditCards (BigDecimal amt) {
 		try {
 			MPaymentProcessor[] m_mPaymentProcessors = MPaymentProcessor.find (Env.getCtx(), null, null, 
-					m_CurrentOrder.getAD_Client_ID (), m_CurrentOrder.getAD_Org_ID(), m_CurrentOrder.getC_Currency_ID (), amt, m_CurrentOrder.get_TrxName());
+					currentOrder.getAD_Client_ID (), currentOrder.getAD_Org_ID(), currentOrder.getC_Currency_ID (), amt, currentOrder.get_TrxName());
 			//
 			HashMap<String,ValueNamePair> map = new HashMap<String,ValueNamePair>(); //	to eliminate duplicates
 			for (int i = 0; i < m_mPaymentProcessors.length; i++) {
@@ -1491,7 +1491,7 @@ public class CPOS {
 					+ "				AND dt.DocBaseType ='ARC'"
 					+ ")";
 			List<MInvoice> cns = new Query(Env.getCtx(), MInvoice.Table_Name, whereClause, null)
-				.setParameters(m_CurrentOrder.getC_BPartner_ID())
+				.setParameters(currentOrder.getC_BPartner_ID())
 				.list();
 			//
 			HashMap<String,ValueNamePair> map = new HashMap<String,ValueNamePair>(); //	to eliminate duplicates
@@ -1556,7 +1556,7 @@ public class CPOS {
 	 * @return Properties
 	 */
 	public Properties getCtx() {
-		return m_ctx;
+		return ctx;
 	}
 	
 	/**
@@ -1566,8 +1566,8 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getOSKeyLayout_ID() {
-		if(m_POS != null) {
-			return m_POS.getOSK_KeyLayout_ID();
+		if(entityPOS != null) {
+			return entityPOS.getOSK_KeyLayout_ID();
 		}
 		//	Default Return
 		return 0;
@@ -1579,8 +1579,8 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getC_POSKeyLayout_ID() {
-		if(m_POS != null) {
-			return m_POS.getC_POSKeyLayout_ID();
+		if(entityPOS != null) {
+			return entityPOS.getC_POSKeyLayout_ID();
 		}
 		//	Default Return
 		return 0;
@@ -1592,7 +1592,7 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isModifyPrice() {
-		return m_POS.isModifyPrice();
+		return entityPOS.isModifyPrice();
 	}
 	
 	/**
@@ -1604,7 +1604,7 @@ public class CPOS {
 	public int getC_Order_ID() {
 		int m_C_Order_ID = 0;
 		if(hasOrder()) {
-			m_C_Order_ID = m_CurrentOrder.getC_Order_ID();
+			m_C_Order_ID = currentOrder.getC_Order_ID();
 		}
 		//	Default
 		return m_C_Order_ID;
@@ -1616,9 +1616,9 @@ public class CPOS {
 	 * @return void
 	 */
 	public void saveNextSeq(String trxName){
-		int next = m_SeqDoc.getCurrentNext() + m_SeqDoc.getIncrementNo();
-		m_SeqDoc.setCurrentNext(next);
-		m_SeqDoc.saveEx(trxName);
+		int next = documentSequence.getCurrentNext() + documentSequence.getIncrementNo();
+		documentSequence.setCurrentNext(next);
+		documentSequence.saveEx(trxName);
 	}
 	
 	/**
@@ -1627,8 +1627,8 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getSequenceDoc(String trxName){
-		m_SeqDoc = new MSequence(Env.getCtx(), m_POS.getAD_Sequence_ID(), trxName);
-		return m_SeqDoc.getPrefix() + m_SeqDoc.getCurrentNext();
+		documentSequence = new MSequence(Env.getCtx(), entityPOS.getAD_Sequence_ID(), trxName);
+		return documentSequence.getPrefix() + documentSequence.getCurrentNext();
 	}
 	
 	/**
@@ -1637,20 +1637,20 @@ public class CPOS {
 	 * @return void
 	 */
 	public void setPOReference(String docno) {
-		String trxName = m_CurrentOrder.get_TrxName();
+		String trxName = currentOrder.get_TrxName();
 		Trx trx = Trx.get(trxName, true);
-		m_CurrentOrder.setPOReference(docno);
-		m_CurrentOrder.saveEx(trx.getTrxName());
+		currentOrder.setPOReference(docno);
+		currentOrder.saveEx(trx.getTrxName());
 		trx.close();
 		
 	}
 
 	/**
 	 * Get Quantity of Product
-	 * @return m_qty
+	 * @return quantity
 	 */
 	public BigDecimal getQty() {
-		return m_qty;
+		return quantity;
 	}
 
 	/**
@@ -1658,15 +1658,15 @@ public class CPOS {
 	 * @param m_qty
 	 */
 	public void setQty(BigDecimal p_qty) {
-		m_qty = p_qty;
+		quantity = p_qty;
 	}
 
 	/**
 	 * Get Price of Product
-	 * @return m_price
+	 * @return price
 	 */
 	public BigDecimal getPrice() {
-		return m_price;
+		return price;
 	}
 
 	/**
@@ -1674,10 +1674,22 @@ public class CPOS {
 	 * @param m_price
 	 */
 	public void setPrice(BigDecimal p_price) {
-		m_price = p_price;
+		price = p_price;
 	}
 	
 	public boolean IsShowLineControl() {
 		return true;
+	}
+
+	/**
+	 * get if POS using a virtual Keyboard
+	 * @return
+	 */
+	public boolean isVirtualKeyboard()
+	{
+		if (getOSKeyLayout_ID() > 0)
+			return true;
+
+		return false;
 	}
 }
