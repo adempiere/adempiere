@@ -62,6 +62,7 @@ import org.zkoss.zul.Iframe;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class WPOS extends CPOS implements IFormController, EventListener, I_POSPanel {
 	/**
@@ -69,12 +70,19 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	 */
 	public WPOS()
 	{
-		m_focusMgr = new PosKeyboardFocusManager();
-		KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
+		//Setting Keyboard Manager
+		SettingKeyboardFocusManager();
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 		init();
 	}	//	PosPanel
-	
+
+	private void SettingKeyboardFocusManager()
+	{
+		if (isVirtualKeyboard()) {
+			m_focusMgr = new PosKeyboardFocusManager();
+			KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
+		}
+	}
 
 	private CustomForm 						form 		 = new CustomForm();
 	/**	FormFrame							*/
@@ -102,7 +110,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private Button 							b_cancel	 = new Button("Cancel");
 	
 	/**	Today's (login) date				*/
-	private Timestamp						m_today 	 = Env.getContextAsDate(m_ctx, "#Date");
+	private Timestamp						m_today 	 = Env.getContextAsDate(ctx, "#Date");
 	private HashMap<Integer, WPOSKeyboard> 	keyboards 	 = new HashMap<Integer, WPOSKeyboard>();
 	private Listbox 						listTerminal = ListboxFactory.newDropdownListbox();
 	private List<MPOS> poss;
@@ -209,7 +217,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		}
 		poss = getPOSs(salesRep_ID);
 		//	Select POS
-		String msg = Msg.getMsg(m_ctx, "SelectPOS");
+		String msg = Msg.getMsg(ctx, "SelectPOS");
 		selection = new Window();
 		Panel mainPanel = new Panel();
 		Panel panel = new Panel();
@@ -265,11 +273,11 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	/**
 	 * Get the properties for the process calls that it needs
 	 * 
-	 * @return getProperties m_ctx
+	 * @return getProperties ctx
 	 */
 	public Properties getCtx()
 	{
-		return m_ctx;
+		return ctx;
 	}
 
 	public WPOSKeyboard getKeyboard(int keyLayoutId) {
@@ -299,16 +307,18 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	{
 		keyboards.clear();
 		keyboards = null;
-		
-		if (m_focusMgr != null)
-			m_focusMgr.stop();
-		m_focusMgr = null;
+
+		if (isVirtualKeyboard()) {
+			if (m_focusMgr != null)
+				m_focusMgr.stop();
+			m_focusMgr = null;
+		}
 		//
 		if (m_frame != null)
 			m_frame.detach();
 		
 		m_frame = null;
-		m_ctx = null;
+		ctx = null;
 	}	//	dispose
 
 	@Override
@@ -370,7 +380,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		if (lineError != null) {
 			log.warning("POS Error " + lineError);
 			FDialog.error(0, 
-					m_frame, Msg.parseTranslation(m_ctx, lineError));
+					m_frame, Msg.parseTranslation(ctx, lineError));
 		}
 		//	Update Info
 		refreshPanel();

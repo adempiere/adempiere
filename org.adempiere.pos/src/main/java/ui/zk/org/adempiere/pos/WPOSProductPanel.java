@@ -45,6 +45,7 @@ import org.zkoss.zul.Style;
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_POSPanel{
 
@@ -87,7 +88,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 	
 	@Override
 	public void init(){
-		int C_POSKeyLayout_ID = v_POSPanel.getC_POSKeyLayout_ID();
+		int C_POSKeyLayout_ID = posPanel.getC_POSKeyLayout_ID();
 		if (C_POSKeyLayout_ID == 0)
 			return;
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
@@ -117,7 +118,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		row.appendChild(v_InfOrderGroup);
 		row.appendChild(v_TotalsGroup);
 		// BP
-		f_BPartnerName = new WPOSTextField(Msg.translate(Env.getCtx(), "IsCustomer"), v_POSPanel.getKeyboard());
+		f_BPartnerName = new WPOSTextField(Msg.translate(Env.getCtx(), "IsCustomer"), posPanel.getKeyboard());
 		f_BPartnerName.setHeight("35px");
 		f_BPartnerName.setStyle("Font-size:medium; font-weight:bold");
 		f_BPartnerName.setWidth("97%");
@@ -164,7 +165,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		f_lb_SalesRep.setStyle("Font-size:medium;");
 		row.appendChild(f_lb_SalesRep.rightAlign());
 		
-		f_SalesRep = new Label(v_POSPanel.getSalesRepName());
+		f_SalesRep = new Label(posPanel.getSalesRepName());
 		f_SalesRep.setStyle("Font-size:medium; font-weight:bold");
 		row.appendChild(f_SalesRep.rightAlign());
 		
@@ -260,27 +261,27 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 	
 	@Override
 	public void refreshPanel() {
-		if (!v_POSPanel.hasOrder()) {
-			f_SalesRep.setText(v_POSPanel.getSalesRepName());
-			f_DocumentType.setText(Msg.getMsg(v_POSPanel.getCtx(), "Order"));
-			f_DocumentNo.setText(Msg.getMsg(v_POSPanel.getCtx(), "New"));
-			f_TotalLines.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
-			f_GrandTotal.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
-			f_TaxAmount.setText(v_POSPanel.getNumberFormat().format(Env.ZERO));
+		if (!posPanel.hasOrder()) {
+			f_SalesRep.setText(posPanel.getSalesRepName());
+			f_DocumentType.setText(Msg.getMsg(posPanel.getCtx(), "Order"));
+			f_DocumentNo.setText(Msg.getMsg(posPanel.getCtx(), "New"));
+			f_TotalLines.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			f_GrandTotal.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			f_TaxAmount.setText(posPanel.getNumberFormat().format(Env.ZERO));
 			f_BPartnerName.setText(null);
 		} else {
-			BigDecimal m_TotalLines = v_POSPanel.getTotalLines();
-			BigDecimal m_GrandTotal = v_POSPanel.getGrandTotal();
+			BigDecimal m_TotalLines = posPanel.getTotalLines();
+			BigDecimal m_GrandTotal = posPanel.getGrandTotal();
 			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
-			String currencyISO_Code = v_POSPanel.getCurSymbol();
+			String currencyISO_Code = posPanel.getCurSymbol();
 			//	Set Values
-			f_SalesRep.setText(v_POSPanel.getSalesRepName());
-			f_DocumentType.setText(v_POSPanel.getDocumentTypeName());
-			f_DocumentNo.setText(v_POSPanel.getDocumentNo());
-			f_TotalLines.setText(currencyISO_Code + "" + v_POSPanel.getNumberFormat().format(m_TotalLines));
-			f_GrandTotal.setText(currencyISO_Code + "" + v_POSPanel.getNumberFormat().format(m_GrandTotal));
-			f_TaxAmount.setText(currencyISO_Code + "" + v_POSPanel.getNumberFormat().format(m_TaxAmt));
-			f_BPartnerName.setText(v_POSPanel.getBPName());
+			f_SalesRep.setText(posPanel.getSalesRepName());
+			f_DocumentType.setText(posPanel.getDocumentTypeName());
+			f_DocumentNo.setText(posPanel.getDocumentNo());
+			f_TotalLines.setText(currencyISO_Code + "" + posPanel.getNumberFormat().format(m_TotalLines));
+			f_GrandTotal.setText(currencyISO_Code + "" + posPanel.getNumberFormat().format(m_GrandTotal));
+			f_TaxAmount.setText(currencyISO_Code + "" + posPanel.getNumberFormat().format(m_TaxAmt));
+			f_BPartnerName.setText(posPanel.getBPName());
 		}
 		
 	}
@@ -298,16 +299,16 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 	@Override
 	public void keyReturned(MPOSKey key) {
 		// processed order
-		if (v_POSPanel.hasOrder() 
-				&& v_POSPanel.isCompleted()){
+		if (posPanel.hasOrder()
+				&& posPanel.isCompleted()){
 					//	Show Product Info
-			v_POSPanel.refreshProductInfo(key);
+			posPanel.refreshProductInfo(key);
 		return;
 		}
 		// Add line
-		v_POSPanel.addLine(key.getM_Product_ID(), key.getQty());
+		posPanel.addLine(key.getM_Product_ID(), key.getQty());
 		//	Show Product Info
-		v_POSPanel.refreshProductInfo(key);
+		posPanel.refreshProductInfo(key);
 		return;
 	}
 	
@@ -336,8 +337,8 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 			return;
 		
 		// unchanged
-		if (v_POSPanel.hasBPartner() 
-				&& v_POSPanel.compareBPName(query))
+		if (posPanel.hasBPartner()
+				&& posPanel.compareBPName(query))
 			return;
 		
 		query = query.toUpperCase();
@@ -361,13 +362,13 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		String Phone = (noNumber ? null : query);
 		String City = null;
 		//
-		MBPartnerInfo[] results = MBPartnerInfo.find(m_ctx, Value, Name, 
+		MBPartnerInfo[] results = MBPartnerInfo.find(ctx, Value, Name,
 			/*Contact, */null, EMail, Phone, City);
 
 		//	Set Result
 		if (results.length == 1) {
-			MBPartner bp = MBPartner.get(m_ctx, results[0].getC_BPartner_ID());
-			v_POSPanel.setC_BPartner_ID(results[0].getC_BPartner_ID());
+			MBPartner bp = MBPartner.get(ctx, results[0].getC_BPartner_ID());
+			posPanel.setC_BPartner_ID(results[0].getC_BPartner_ID());
 			f_BPartnerName.setText(bp.getName()+"");
 		} else {	//	more than one
 			changeBusinessPartner(results);
@@ -382,16 +383,16 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 	 */
 	public boolean changeBusinessPartner(MBPartnerInfo[] results) {
 		// Change to another BPartner
-		WQueryBPartner qt = new WQueryBPartner(v_POSPanel);
+		WQueryBPartner qt = new WQueryBPartner(posPanel);
 		qt.setResults(results);
 		AEnv.showWindow(qt);
 		if (qt.getRecord_ID() > 0) {
-			f_BPartnerName.setText(v_POSPanel.getBPName());
-			if(!v_POSPanel.hasOrder()) {
-				v_POSPanel.newOrder(qt.getRecord_ID());
-				v_POSPanel.refreshPanel();
+			f_BPartnerName.setText(posPanel.getBPName());
+			if(!posPanel.hasOrder()) {
+				posPanel.newOrder(qt.getRecord_ID());
+				posPanel.refreshPanel();
 			} else {
-				v_POSPanel.setC_BPartner_ID(qt.getRecord_ID());
+				posPanel.setC_BPartner_ID(qt.getRecord_ID());
 			}
 			log.fine("C_BPartner_ID=" + qt.getRecord_ID());
 			return true;

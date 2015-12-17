@@ -18,6 +18,7 @@ import java.awt.Frame;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -40,6 +41,7 @@ import org.compiere.util.Msg;
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class QueryDocType extends POSQuery {
 	/**
@@ -81,35 +83,40 @@ public class QueryDocType extends POSQuery {
 	 */
 	protected void init() {
 		//	North
-		v_ParameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
-		v_ParameterPanel.setBorder(new TitledBorder(Msg.getMsg(m_ctx, "Query")));
+		parameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
+		parameterPanel.setBorder(new TitledBorder(Msg.getMsg(ctx, "Query")));
 		//
-		CLabel lname = new CLabel(Msg.translate(m_ctx, "Name"));
-		v_ParameterPanel.add (lname, " growy");
-		f_Name = new POSTextField("", v_POSPanel.getKeyboard());
+		CLabel lname = new CLabel(Msg.translate(ctx, "Name"));
+		parameterPanel.add (lname, " growy");
+		f_Name = new POSTextField("", posPanel.getKeyboard());
 		lname.setLabelFor(f_Name);
-		v_ParameterPanel.add(f_Name, "h 30, w 200");
+		parameterPanel.add(f_Name, "h 30, w 200");
 		f_Name.addActionListener(this);
 		
-		CLabel ldescription = new CLabel(Msg.translate(m_ctx, "Description"));
-		v_ParameterPanel.add (ldescription, " growy");
-		f_Description = new POSTextField("", v_POSPanel.getKeyboard());
+		CLabel ldescription = new CLabel(Msg.translate(ctx, "Description"));
+		parameterPanel.add (ldescription, " growy");
+		f_Description = new POSTextField("", posPanel.getKeyboard());
 		lname.setLabelFor(f_Description);
-		v_ParameterPanel.add(f_Description, "h 30, w 200");
+		parameterPanel.add(f_Description, "h 30, w 200");
 		f_Description.addActionListener(this);
 		//	Center
-		m_table.prepareTable (s_layout, s_sqlFrom, 
+		posTable.prepareTable (s_layout, s_sqlFrom,
 			s_sqlWhere, false, "C_DocType");
 		//	
-		m_table.growScrollbars();
-		f_Name.requestFocus();
+		posTable.growScrollbars();
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run() {
+				f_Name.requestFocus();
+			}
+		});
 	}	//	init
 	
 	
 	@Override
 	protected void newAction() {
 		super.newAction();
-		VPOSBPartner t = new VPOSBPartner(new Frame(), 0, v_POSPanel);
+		VPOSBPartner t = new VPOSBPartner(new Frame(), 0, posPanel);
 		t.setVisible(true);
 		m_C_DocType_ID = t.getC_BPartner_ID();
 		//	Close
@@ -119,7 +126,7 @@ public class QueryDocType extends POSQuery {
 	@Override
 	public void editAction() {
 		super.editAction();
-		VPOSBPartner t = new VPOSBPartner(new Frame(), 1, v_POSPanel);
+		VPOSBPartner t = new VPOSBPartner(new Frame(), 1, posPanel);
 		select();
 		t.loadBPartner(m_C_DocType_ID);
 		t.setVisible(true);
@@ -132,10 +139,10 @@ public class QueryDocType extends POSQuery {
 	 *	@param results results
 	 */
 	private void setResultsFromArray(MDocType[] results) {
-		m_table.loadTable(results);
-		int rowCount = m_table.getRowCount();
+		posTable.loadTable(results);
+		int rowCount = posTable.getRowCount();
 		if (rowCount > 0) {
-			m_table.setRowSelectionInterval(0, 0);
+			posTable.setRowSelectionInterval(0, 0);
 			if(rowCount == 1) {
 				select();
 			}
@@ -171,8 +178,8 @@ public class QueryDocType extends POSQuery {
 			int i = 1;			
 			pstm = DB.prepareStatement(sql.toString(), null);
 			//	POS
-			pstm.setInt(i++, Env.getAD_Client_ID(m_ctx));
-			pstm.setInt(i++, v_POSPanel.getAD_Org_ID());
+			pstm.setInt(i++, Env.getAD_Client_ID(ctx));
+			pstm.setInt(i++, posPanel.getAD_Org_ID());
 			pstm.setString(i++, MOrder.DocSubTypeSO_POS);
 			pstm.setString(i++, MOrder.DocSubTypeSO_OnCredit);
 			pstm.setString(i++, MOrder.DocSubTypeSO_Standard);
@@ -180,10 +187,10 @@ public class QueryDocType extends POSQuery {
 			pstm.setString(i++, MOrder.DocSubTypeSO_Warehouse);
 			//	
 			rs = pstm.executeQuery();
-			m_table.loadTable(rs);
-			int rowNo = m_table.getRowCount();
+			posTable.loadTable(rs);
+			int rowNo = posTable.getRowCount();
 			if (rowNo > 0) {
-				m_table.setRowSelectionInterval(0, 0);
+				posTable.setRowSelectionInterval(0, 0);
 				if(rowNo == 1) {
 					select();
 				}
@@ -202,13 +209,13 @@ public class QueryDocType extends POSQuery {
 	 */
 	protected void select() {
 		cleanValues();
-		int row = m_table.getSelectedRow();
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled) {
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null) {
 				m_C_DocType_ID = ID.intValue();
-				m_DocTypeName = (String)m_table.getValueAt(row, 2);
+				m_DocTypeName = (String) posTable.getValueAt(row, 2);
 			}
 		}
 		log.fine("C_BPartner_ID=" + m_C_DocType_ID); 

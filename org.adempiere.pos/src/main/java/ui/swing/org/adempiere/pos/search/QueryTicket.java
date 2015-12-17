@@ -20,11 +20,11 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.adempiere.pos.search.POSQuery;
 import org.compiere.grid.ed.VDate;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -47,6 +47,7 @@ import org.compiere.util.Msg;
  *  @author Dixon Martinez, ERPCYA 
  *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  *  <li> Implement best practices
  *  @version $Id: QueryTicket.java,v 0.9 $
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
@@ -67,12 +68,12 @@ public class QueryTicket extends POSQuery {
 	}	//	PosQueryProduct
 
 	/**	Search Fields		*/
-	private POSTextField	f_DocumentNo;
-	private VDate			f_DateFrom;
-	private VDate			f_DateTo;
+	private POSTextField 	fieldDocumentNo;
+	private VDate 			fieldDateFrom;
+	private VDate 			fieldDateTo;
+	private CCheckBox 		fieldProcessed;
 	/**	Internal Variables	*/
-	private int				m_C_Order_ID;
-	private CCheckBox 		f_Processed;
+	private int 			orderId;
 	
 	
 	static final private String DOCUMENTNO      = "DocumentNo";
@@ -87,7 +88,7 @@ public class QueryTicket extends POSQuery {
 	static final private String QUERY           = "Query";
 
 	/**	Table Column Layout Info			*/
-	private static ColumnInfo[] s_layout = new ColumnInfo[] {
+	private static ColumnInfo[] columnInfos = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), BPARTNERID), BPARTNERID, String.class),
@@ -104,43 +105,50 @@ public class QueryTicket extends POSQuery {
 	@Override
 	protected void init() {
 		//	North
-		v_ParameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
-		v_ParameterPanel.setBorder(new TitledBorder(Msg.getMsg(m_ctx, QUERY)));
+		parameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
+		parameterPanel.setBorder(new TitledBorder(Msg.getMsg(ctx, QUERY)));
 		
-		CLabel ldoc = new CLabel(Msg.translate(m_ctx, DOCUMENTNO));
-		v_ParameterPanel.add (ldoc, " growy");
-		f_DocumentNo = new POSTextField("", v_POSPanel.getKeyboard());
-		ldoc.setLabelFor(f_DocumentNo);
-		v_ParameterPanel.add(f_DocumentNo, "h 30, w 200");
-		f_DocumentNo.addActionListener(this);
+		CLabel labelDocument = new CLabel(Msg.translate(ctx, DOCUMENTNO));
+		parameterPanel.add (labelDocument, " growy");
+		fieldDocumentNo = new POSTextField("", posPanel.getKeyboard());
+		labelDocument.setLabelFor(fieldDocumentNo);
+		parameterPanel.add(fieldDocumentNo, "h 30, w 200");
+		fieldDocumentNo.addActionListener(this);
 		//
-		CLabel ldateFrom = new CLabel(Msg.translate(m_ctx, DATEORDEREDFROM));
-		v_ParameterPanel.add (ldateFrom, "growy");
-		f_DateFrom = new VDate();
-		f_DateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		ldateFrom.setLabelFor(f_DateFrom);
-		v_ParameterPanel.add(f_DateFrom, "h 30, w 200");
-		f_DateFrom.addVetoableChangeListener(this);
+		CLabel labelDateFrom = new CLabel(Msg.translate(ctx, DATEORDEREDFROM));
+		parameterPanel.add (labelDateFrom, "growy");
+		fieldDateFrom = new VDate();
+		fieldDateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		labelDateFrom.setLabelFor(fieldDateFrom);
+		parameterPanel.add(fieldDateFrom, "h 30, w 200");
+		fieldDateFrom.addVetoableChangeListener(this);
 		
 		// Date To
-		CLabel ldateTo = new CLabel(Msg.translate(m_ctx, DATEORDEREDTO));
-		v_ParameterPanel.add (ldateTo, "growy");
-		f_DateTo = new VDate();
-		f_DateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		ldateTo.setLabelFor(f_DateTo);
-		v_ParameterPanel.add(f_DateTo, "h 30, w 200");
-		f_DateTo.addVetoableChangeListener(this);
+		CLabel labelDateTo = new CLabel(Msg.translate(ctx, DATEORDEREDTO));
+		parameterPanel.add (labelDateTo, "growy");
+		fieldDateTo = new VDate();
+		fieldDateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		labelDateTo.setLabelFor(fieldDateTo);
+		parameterPanel.add(fieldDateTo, "h 30, w 200");
+		fieldDateTo.addVetoableChangeListener(this);
 		
-		f_Processed = new CCheckBox(Msg.translate(m_ctx, PROCESSED));
-		f_Processed.setSelected(false);
-		f_Processed.addActionListener(this);
-		v_ParameterPanel.add(f_Processed, "");
+		fieldProcessed = new CCheckBox(Msg.translate(ctx, PROCESSED));
+		fieldProcessed.setSelected(false);
+		fieldProcessed.addActionListener(this);
+		parameterPanel.add(fieldProcessed, "");
 		//	
-		m_table.prepareTable (s_layout, "C_Order", 
-				"C_POS_ID = " + v_POSPanel.getC_POS_ID()
+		posTable.prepareTable (columnInfos, "C_Order",
+				"C_POS_ID = " + posPanel.getC_POS_ID()
 				, false, "C_Order");
-		m_table.growScrollbars();
-		f_DocumentNo.requestFocus();
+		posTable.growScrollbars();
+
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run() {
+				fieldDocumentNo.requestFocus();
+			}
+		});
+
 		pack();
 		refresh();
 	}	//	init
@@ -150,10 +158,10 @@ public class QueryTicket extends POSQuery {
 	 */
 	@Override
 	public void reset() {
-		f_Processed.setSelected(false);
-		f_DocumentNo.setText(null);
-		f_DateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
-		f_DateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		fieldProcessed.setSelected(false);
+		fieldDocumentNo.setText(null);
+		fieldDateFrom.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
+		fieldDateTo.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		refresh();
 	}
 	
@@ -162,7 +170,7 @@ public class QueryTicket extends POSQuery {
 	 * @return void
 	 */
 	private void cleanValues() {
-		m_C_Order_ID = -1;
+		orderId = -1;
 	}
 	
 	/**
@@ -171,8 +179,8 @@ public class QueryTicket extends POSQuery {
 	 */
 	public void setResultsFromArray(Properties ctx, boolean processed, String doc, Timestamp dateFrom, Timestamp dateTo) {
 		StringBuffer sql = new StringBuffer();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		try  {
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, ")
 				.append(" b.Name, o.GrandTotal, ")
@@ -199,34 +207,34 @@ public class QueryTicket extends POSQuery {
 			sql.append(" GROUP BY o.C_Order_ID, o.DocumentNo, b.Name, o.GrandTotal, o.Processed, i.IsPaid ");
 			sql.append(" ORDER BY o.Updated");
 			int i = 1;			
-			pstm = DB.prepareStatement(sql.toString(), null);
+			preparedStatement = DB.prepareStatement(sql.toString(), null);
 			//	POS
-			pstm.setInt(i++, v_POSPanel.getC_POS_ID());
+			preparedStatement.setInt(i++, posPanel.getC_POS_ID());
 			//	Processed
-			pstm.setString(i++, processed? "Y": "N");
+			preparedStatement.setString(i++, processed? "Y": "N");
 			//	Date From and To
 			if (dateFrom != null) {				
-				pstm.setTimestamp(i++, dateFrom);
+				preparedStatement.setTimestamp(i++, dateFrom);
 				if (dateTo != null 
 						&& !dateTo.equals(dateFrom)) {
-					pstm.setTimestamp(i++, dateTo);
+					preparedStatement.setTimestamp(i++, dateTo);
 				}
 			}
 			//	
-			rs = pstm.executeQuery();
-			m_table.loadTable(rs);
-			int rowNo = m_table.getRowCount();
+			resultSet = preparedStatement.executeQuery();
+			posTable.loadTable(resultSet);
+			int rowNo = posTable.getRowCount();
 			if (rowNo > 0) {
-				m_table.setRowSelectionInterval(0, 0);
+				posTable.setRowSelectionInterval(0, 0);
 				if(rowNo == 1) {
 					select();
 				}
 			}
 		} catch(Exception e) {
-			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+			logger.severe("QueryTicket.setResults: " + e + " -> " + sql);
 		} finally {
-			DB.close(rs);
-			DB.close(pstm);
+			DB.close(resultSet);
+			DB.close(preparedStatement);
 		}
 	}	//	setResults
 
@@ -235,17 +243,17 @@ public class QueryTicket extends POSQuery {
 	 */
 	protected void select() {
 		cleanValues();
-		int row = m_table.getSelectedRow();
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
 		{
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null)
 			{
-				m_C_Order_ID = ID.intValue();
+				orderId = ID.intValue();
 			}
 		}
-		log.info("ID=" + m_C_Order_ID); 
+		logger.info("ID=" + orderId);
 	}	//	enableButtons
 
 	/**
@@ -261,8 +269,8 @@ public class QueryTicket extends POSQuery {
 	@Override
 	public void refresh() {
 		cleanValues();
-		setResultsFromArray(m_ctx, f_Processed.isSelected(), f_DocumentNo.getText(), 
-				f_DateFrom.getTimestamp(), f_DateTo.getTimestamp());
+		setResultsFromArray(ctx, fieldProcessed.isSelected(), fieldDocumentNo.getText(),
+				fieldDateFrom.getTimestamp(), fieldDateTo.getTimestamp());
 	}
 	
 	@Override
@@ -278,7 +286,7 @@ public class QueryTicket extends POSQuery {
 
 	@Override
 	public int getRecord_ID() {
-		return m_C_Order_ID;
+		return orderId;
 	}
 
 	@Override

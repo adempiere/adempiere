@@ -50,6 +50,7 @@ import org.zkoss.zul.Groupbox;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 
 public class WQueryDocType extends WPOSQuery implements I_POSQuery
@@ -67,23 +68,23 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 	}	//	PosQueryProduct
 
 
-	private WPOSTextField	f_Name;
-	private WPOSTextField	f_Description;
+	private WPOSTextField 	fieldName;
+	private WPOSTextField 	fieldDescription;
 
 	private boolean			isKeyboard;
 	/**	Internal Variables	*/
-	private int				m_C_DocType_ID;
+	private int 			documentTypeId;
 	
 	static final private String NAME      		= "Name";
-	static final private String DOCNOSEQUENCE  	= "DocNoSequence_ID";
+	static final private String DOCUMENTNOSEQUENCE = "DocNoSequence_ID";
 	static final private String DESCRIPTION  	= "Description";
 	static final private String QUERY           = "Query";
 	
 	/**	Table Column Layout Info			*/
-	private static ColumnInfo[] s_layout = new ColumnInfo[] {
+	private static ColumnInfo[] columnInfos = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_DocType_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), NAME), NAME, String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), DOCNOSEQUENCE), DOCNOSEQUENCE, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNOSEQUENCE), DOCUMENTNOSEQUENCE, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DESCRIPTION), DESCRIPTION, String.class),
 	};
 
@@ -98,7 +99,7 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 		Grid productLayout = GridFactory.newGridLayout();
 		
 		Groupbox groupPanel = new Groupbox();
-		Caption v_TitleBorder = new Caption(Msg.getMsg(p_ctx, QUERY));
+		Caption v_TitleBorder = new Caption(Msg.getMsg(ctx, QUERY));
 		
 		//	Set title window
 		this.setClosable(true);
@@ -124,40 +125,40 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 		rows = productLayout.newRows();
 		row = rows.newRow();
 
-		Label lName = new Label(Msg.translate(p_ctx, NAME));
-		lName.setStyle(WPOS.FONTSIZESMALL);
+		Label labelName = new Label(Msg.translate(ctx, NAME));
+		labelName.setStyle(WPOS.FONTSIZESMALL);
 		row.setHeight("60px");
-		row.appendChild(lName.rightAlign());
-		f_Name = new WPOSTextField("", v_POSPanel.getKeyboard());
-		row.appendChild(f_Name);
-		f_Name.addEventListener(this);
-		f_Name.setWidth("120px");
-		f_Name.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(labelName.rightAlign());
+		fieldName = new WPOSTextField("", posPanel.getKeyboard());
+		row.appendChild(fieldName);
+		fieldName.addEventListener(this);
+		fieldName.setWidth("120px");
+		fieldName.setStyle(WPOS.FONTSIZESMALL);
 
-		Label lDescription = new Label(Msg.translate(p_ctx, DESCRIPTION));
-		lDescription.setStyle(WPOS.FONTSIZESMALL);
+		Label labelDescription = new Label(Msg.translate(ctx, DESCRIPTION));
+		labelDescription.setStyle(WPOS.FONTSIZESMALL);
 		row.setHeight("60px");
-		row.appendChild(lDescription.rightAlign());
-		f_Description = new WPOSTextField(null, v_POSPanel.getKeyboard());
-		row.appendChild(f_Description);
-		f_Description.addEventListener(this);
-		f_Description.setWidth("120px");
-		f_Description.setStyle(WPOS.FONTSIZESMALL);
+		row.appendChild(labelDescription.rightAlign());
+		fieldDescription = new WPOSTextField(null, posPanel.getKeyboard());
+		row.appendChild(fieldDescription);
+		fieldDescription.addEventListener(this);
+		fieldDescription.setWidth("120px");
+		fieldDescription.setStyle(WPOS.FONTSIZESMALL);
 		
 		//	Center
-		m_table = ListboxFactory.newDataTable();
-		m_table.prepareTable (s_layout, "C_DocType",null, false, "C_DocType");
+		posTable = ListboxFactory.newDataTable();
+		posTable.prepareTable (columnInfos, "C_DocType",null, false, "C_DocType");
 
 		enableButtons();
 		center = new Center();
 		center.setStyle("border: none");
-		m_table.setWidth("100%");
-		m_table.setHeight("99%");
-		m_table.addActionListener(this);
-		center.appendChild(m_table);
+		posTable.setWidth("100%");
+		posTable.setHeight("99%");
+		posTable.addActionListener(this);
+		center.appendChild(posTable);
 		mainLayout.appendChild(center);
-		m_table.setClass("Table-OrderLine");
-		m_table.autoSize();
+		posTable.setClass("Table-OrderLine");
+		posTable.autoSize();
 		refresh();
 	}	//	init
 	
@@ -166,7 +167,7 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 	 */
 	@Override
 	public void reset() {
-		f_Name.setText("");
+		fieldName.setText("");
 		refresh();
 	}
 
@@ -177,8 +178,8 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 	public void setResults (Properties ctx, String name, String description)
 	{
 		StringBuffer sql = new StringBuffer();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		
 		try  {
 			sql.append(" SELECT dt.C_DocType_ID, dt.Name, sq.Name, (COALESCE(sq.Prefix, '') || sq.CurrentNext || COALESCE(sq.Suffix, '')) SeqNo")
@@ -188,29 +189,29 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 			.append(" AND dt.DocBaseType='SOO'")
 			.append(" AND dt.DocSubTypeSO IN(?, ?, ?, ?, ?)");
 			int i = 1;			
-			pstm = DB.prepareStatement(sql.toString(), null);
+			preparedStatement = DB.prepareStatement(sql.toString(), null);
 			//	POS
-			pstm.setInt(i++, Env.getAD_Client_ID(p_ctx));
-			pstm.setInt(i++, v_POSPanel.getAD_Org_ID());
-			pstm.setString(i++, MOrder.DocSubTypeSO_POS);
-			pstm.setString(i++, MOrder.DocSubTypeSO_OnCredit);
-			pstm.setString(i++, MOrder.DocSubTypeSO_Standard);
-			pstm.setString(i++, MOrder.DocSubTypeSO_Prepay);
-			pstm.setString(i++, MOrder.DocSubTypeSO_Warehouse);
+			preparedStatement.setInt(i++, Env.getAD_Client_ID(ctx));
+			preparedStatement.setInt(i++, posPanel.getAD_Org_ID());
+			preparedStatement.setString(i++, MOrder.DocSubTypeSO_POS);
+			preparedStatement.setString(i++, MOrder.DocSubTypeSO_OnCredit);
+			preparedStatement.setString(i++, MOrder.DocSubTypeSO_Standard);
+			preparedStatement.setString(i++, MOrder.DocSubTypeSO_Prepay);
+			preparedStatement.setString(i++, MOrder.DocSubTypeSO_Warehouse);
 			//	
-			rs = pstm.executeQuery();
-			m_table.loadTable(rs);
-			int rowNo = m_table.getRowCount();
+			resultSet = preparedStatement.executeQuery();
+			posTable.loadTable(resultSet);
+			int rowNo = posTable.getRowCount();
 			if (rowNo > 0) {
 				if(rowNo == 1) {
 					select();
 				}
 			}
 		} catch(Exception e) {
-			log.severe("QueryTicket.setResults: " + e + " -> " + sql);
+			logger.severe("QueryTicket.setResults: " + e + " -> " + sql);
 		} finally {
-			DB.close(rs);
-			DB.close(pstm);
+			DB.close(resultSet);
+			DB.close(preparedStatement);
 		}
 	}	//	setResults
 
@@ -219,18 +220,18 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 	 */
 	protected void enableButtons()
 	{
-		m_C_DocType_ID = -1;
-		int row = m_table.getSelectedRow();
+		documentTypeId = -1;
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
 		{
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null)
 			{
-				m_C_DocType_ID = ID.intValue();
+				documentTypeId = ID.intValue();
 			}
 		}
-		log.info("ID=" + m_C_DocType_ID); 
+		logger.info("ID=" + documentTypeId);
 	}	//	enableButtons
 
 	/**
@@ -240,10 +241,10 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 	@Override
 	protected void close()
 	{
-		log.info("C_DocType_ID=" + m_C_DocType_ID);
-		if (m_C_DocType_ID > 0)
+		logger.info("C_DocType_ID=" + documentTypeId);
+		if (documentTypeId > 0)
 		{
-		v_POSPanel.setC_DocType_ID(m_C_DocType_ID);
+		posPanel.setC_DocType_ID(documentTypeId);
 		}
 			dispose();
 	}	//	close
@@ -251,25 +252,25 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if(e.getTarget().equals(f_Name.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+		if(e.getTarget().equals(fieldName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 			isKeyboard = true;
 			//	Get Keyboard Panel
-			f_Name.showKeyboard();
+			fieldName.showKeyboard();
 			refresh();
-			f_Name.setFocus(true);
+			fieldName.setFocus(true);
 
 		}
-		else if(e.getTarget().equals(f_Name.getComponent(WPOSTextField.PRIMARY))) {
+		else if(e.getTarget().equals(fieldName.getComponent(WPOSTextField.PRIMARY))) {
 			 isKeyboard = false;
 		}
-		if(e.getTarget().equals(f_Description.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+		if(e.getTarget().equals(fieldDescription.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 			isKeyboard = true;
 			//	Get Keyboard Panel
-			f_Description.showKeyboard();
+			fieldDescription.showKeyboard();
 			refresh();
 
 		}
-		else if(e.getTarget().equals(f_Description.getComponent(WPOSTextField.PRIMARY))) {
+		else if(e.getTarget().equals(fieldDescription.getComponent(WPOSTextField.PRIMARY))) {
 			 isKeyboard = false;
 		}
 		else if(e.getTarget().getId().equals("Refresh")) {
@@ -288,34 +289,34 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 
 	@Override
 	public void refresh() {
-		setResults(p_ctx, f_Name.getText(), f_Description.getText());
+		setResults(ctx, fieldName.getText(), fieldDescription.getText());
 
 	}
 
 	@Override
 	protected void select() {
-		m_C_DocType_ID = -1;
-		int row = m_table.getSelectedRow();
+		documentTypeId = -1;
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
 		{
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null)
 			{
-				m_C_DocType_ID = ID.intValue();
+				documentTypeId = ID.intValue();
 			}
 		}
-		log.info("ID=" + m_C_DocType_ID); 
+		logger.info("ID=" + documentTypeId);
 	}
 	@Override
 	protected void cancel() {
-		m_C_DocType_ID = -1;
+		documentTypeId = -1;
 		dispose();
 	}
 	
 	@Override
 	public int getRecord_ID() {
-		return m_C_DocType_ID;
+		return documentTypeId;
 	}
 	
 	@Override

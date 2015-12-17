@@ -41,7 +41,7 @@ import org.compiere.util.Msg;
  *  @author Susanne Calderón Schöningh, Systemhaus Westfalia
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  <li> Implement best practices
- *  
+ *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  *  @version $Id: QueryProduct.java,v 1.1 jjanke Exp $
  *  @version $Id: QueryProduct.java,v 2.0 2015/09/01 00:00:00 scalderon
  */
@@ -57,22 +57,22 @@ public class QueryProduct extends POSQuery {
 	}	//	PosQueryProduct
 	
 	/**	Search Fields		*/
-	private POSTextField	f_Value;
-	private POSTextField	f_ProductName;
-	private POSTextField	f_UPC;
-	private POSTextField	f_SKU;
+	private POSTextField fieldValue;
+	private POSTextField fieldProductName;
+	private POSTextField fieldUPC;
+	private POSTextField fieldSKU;
 	/**	Internal Variables	*/
-	private int				m_M_Product_ID;
-	private String			m_ProductName;
-	private BigDecimal		m_Price;
-	private int 			m_M_PriceList_Version_ID;
-	private int 			m_M_Warehouse_ID;
+	private int 			productId;
+	private String 			productName;
+	private BigDecimal 		price;
+	private int 			priceListVersionId;
+	private int 			warehouseId;
 	/**	Logger				*/
-	private static CLogger log = CLogger.getCLogger(QueryProduct.class);
+	private static CLogger logger = CLogger.getCLogger(QueryProduct.class);
 	
 	
 	/**	Table Column Layout Info			*/
-	private static ColumnInfo[] s_layout = new ColumnInfo[] 
+	private static ColumnInfo[] columnInfos = new ColumnInfo[]
 	{
 		new ColumnInfo(" ", "M_Product_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "Value", String.class),
@@ -90,58 +90,58 @@ public class QueryProduct extends POSQuery {
 	}
 	
 	/**	From Clause							*/
-	private static String s_sqlFrom = "RV_WarehousePrice";
+	private static String sqlFrom = "RV_WarehousePrice";
 	/** Where Clause						*/
-	private static String s_sqlWhere = "IsActive='Y'"; 
+	private static String sqlWhere = "IsActive='Y'";
 
 	/**
 	 * 	Set up Panel
 	 */
 	protected void init() {
-		v_ParameterPanel.setLayout(new MigLayout("fill", "", "[50][50][]"));
-		v_ParameterPanel.setBorder(new TitledBorder(Msg.getMsg(m_ctx, "Query")));
+		parameterPanel.setLayout(new MigLayout("fill", "", "[50][50][]"));
+		parameterPanel.setBorder(new TitledBorder(Msg.getMsg(ctx, "Query")));
 		//
-		CLabel lvalue = new CLabel(Msg.translate(m_ctx, "Value"));
-		v_ParameterPanel.add (lvalue, "growy");
-		f_Value = new POSTextField("", v_POSPanel.getKeyboard());
-		lvalue.setLabelFor(f_Value);
-		v_ParameterPanel.add(f_Value,  "h 30, w 200");
-		f_Value.addActionListener(this);
+		CLabel labelValue = new CLabel(Msg.translate(ctx, "Value"));
+		parameterPanel.add (labelValue, "growy");
+		fieldValue = new POSTextField("", posPanel.getKeyboard());
+		labelValue.setLabelFor(fieldValue);
+		parameterPanel.add(fieldValue,  "h 30, w 200");
+		fieldValue.addActionListener(this);
 		//
-		CLabel lupc = new CLabel(Msg.translate(m_ctx, "UPC"));
-		v_ParameterPanel.add (lupc, "growy");
-		f_UPC = new POSTextField("", v_POSPanel.getKeyboard());
-		lupc.setLabelFor(f_UPC);
-		v_ParameterPanel.add(f_UPC,  "h 30, w 200, wrap");
-		f_UPC.addActionListener(this);
+		CLabel lableUPC = new CLabel(Msg.translate(ctx, "UPC"));
+		parameterPanel.add (lableUPC, "growy");
+		fieldUPC = new POSTextField("", posPanel.getKeyboard());
+		lableUPC.setLabelFor(fieldUPC);
+		parameterPanel.add(fieldUPC,  "h 30, w 200, wrap");
+		fieldUPC.addActionListener(this);
 		//
-		CLabel lname = new CLabel(Msg.translate(m_ctx, "Name"));
-		v_ParameterPanel.add (lname, "growy");
-		f_ProductName = new POSTextField("", v_POSPanel.getKeyboard());
-		lname.setLabelFor(f_ProductName);
-		v_ParameterPanel.add(f_ProductName,  "h 30, w 200");
-		f_ProductName.addActionListener(this);
+		CLabel labelName = new CLabel(Msg.translate(ctx, "Name"));
+		parameterPanel.add (labelName, "growy");
+		fieldProductName = new POSTextField("", posPanel.getKeyboard());
+		labelName.setLabelFor(fieldProductName);
+		parameterPanel.add(fieldProductName,  "h 30, w 200");
+		fieldProductName.addActionListener(this);
 		//
-		CLabel lsku = new CLabel(Msg.translate(m_ctx, "SKU"));
-		v_ParameterPanel.add (lsku, "growy");
-		f_SKU = new POSTextField("", v_POSPanel.getKeyboard());
-		lsku.setLabelFor(f_SKU);
-		v_ParameterPanel.add(f_SKU,  "h 30, w 200");
-		f_SKU.addActionListener(this);
+		CLabel labelSKU = new CLabel(Msg.translate(ctx, "SKU"));
+		parameterPanel.add (labelSKU, "growy");
+		fieldSKU = new POSTextField("", posPanel.getKeyboard());
+		labelSKU.setLabelFor(fieldSKU);
+		parameterPanel.add(fieldSKU,  "h 30, w 200");
+		fieldSKU.addActionListener(this);
 		//	Prepare Table
-		m_table.prepareTable (s_layout, s_sqlFrom, 
-			s_sqlWhere, false, "RV_WarehousePrice");
+		posTable.prepareTable (columnInfos, sqlFrom,
+				sqlWhere, false, "RV_WarehousePrice");
 		//	
-		m_table.setColumnVisibility(m_table.getColumn(0), false);
-		m_table.getColumn(1).setPreferredWidth(175);
-		m_table.getColumn(2).setPreferredWidth(175);
-		m_table.getColumn(3).setPreferredWidth(100);
-		m_table.getColumn(4).setPreferredWidth(75);
-		m_table.getColumn(5).setPreferredWidth(75);
-		m_table.getColumn(6).setPreferredWidth(75);
-		m_table.getColumn(7).setPreferredWidth(75);
-		m_table.setFillsViewportHeight(true); //@Trifon
-		m_table.growScrollbars();
+		posTable.setColumnVisibility(posTable.getColumn(0), false);
+		posTable.getColumn(1).setPreferredWidth(175);
+		posTable.getColumn(2).setPreferredWidth(175);
+		posTable.getColumn(3).setPreferredWidth(100);
+		posTable.getColumn(4).setPreferredWidth(75);
+		posTable.getColumn(5).setPreferredWidth(75);
+		posTable.getColumn(6).setPreferredWidth(75);
+		posTable.getColumn(7).setPreferredWidth(75);
+		posTable.setFillsViewportHeight(true); //@Trifon
+		posTable.growScrollbars();
 	}	//	init
 	
 	/**
@@ -150,8 +150,8 @@ public class QueryProduct extends POSQuery {
 	 *	@param M_Warehouse_ID wh
 	 */
 	public void setQueryData (int M_PriceList_Version_ID, int M_Warehouse_ID) {
-		m_M_PriceList_Version_ID = M_PriceList_Version_ID;
-		m_M_Warehouse_ID = M_Warehouse_ID;
+		priceListVersionId = M_PriceList_Version_ID;
+		warehouseId = M_Warehouse_ID;
 	}	//	setQueryData
 	
 	/**
@@ -159,10 +159,10 @@ public class QueryProduct extends POSQuery {
 	 *	@param results results
 	 */
 	private void setResultsFromArray(MWarehousePrice[] results) {
-		m_table.loadTable(results);
-		int rowCount = m_table.getRowCount();
+		posTable.loadTable(results);
+		int rowCount = posTable.getRowCount();
 		if (rowCount > 0) {
-			m_table.setRowSelectionInterval(0, 0);
+			posTable.setRowSelectionInterval(0, 0);
 			if(rowCount == 1) {
 				select();
 			}
@@ -174,19 +174,19 @@ public class QueryProduct extends POSQuery {
 	 */
 	protected void select() {
 		cleanValues();
-		int row = m_table.getSelectedRow();
+		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled)
 		{
-			Integer ID = m_table.getSelectedRowKey();
+			Integer ID = posTable.getSelectedRowKey();
 			if (ID != null)
 			{
-				m_M_Product_ID = ID.intValue();
-				m_ProductName = (String)m_table.getValueAt(row, 2);
-				m_Price = (BigDecimal)m_table.getValueAt(row, 7);
+				productId = ID.intValue();
+				productName = (String) posTable.getValueAt(row, 2);
+				price = (BigDecimal) posTable.getValueAt(row, 7);
 			}
 		}
-		log.fine("M_Product_ID=" + m_M_Product_ID + " - " + m_ProductName + " - " + m_Price); 
+		logger.fine("M_Product_ID=" + productId + " - " + productName + " - " + price);
 	}	//	enableButtons
 
 	/**
@@ -194,9 +194,9 @@ public class QueryProduct extends POSQuery {
 	 * @return void
 	 */
 	private void cleanValues() {
-		m_M_Product_ID = -1;
-		m_ProductName = null;
-		m_Price = Env.ZERO;
+		productId = -1;
+		productName = null;
+		price = Env.ZERO;
 	}
 
 	/**
@@ -210,19 +210,19 @@ public class QueryProduct extends POSQuery {
 
 	@Override
 	public void reset() {
-		f_Value.setText(null);
-		f_ProductName.setText(null);
-		f_SKU.setText(null);
-		f_UPC.setText(null);
+		fieldValue.setText(null);
+		fieldProductName.setText(null);
+		fieldSKU.setText(null);
+		fieldUPC.setText(null);
 		setResults(new MWarehousePrice[0]);
 	}
 
 	@Override
 	public void refresh() {
 		cleanValues();
-		setResults(MWarehousePrice.find (m_ctx,
-				m_M_PriceList_Version_ID, m_M_Warehouse_ID,
-				f_Value.getText(), f_ProductName.getText(), f_UPC.getText(), f_SKU.getText(), null));
+		setResults(MWarehousePrice.find (ctx,
+				priceListVersionId, warehouseId,
+				fieldValue.getText(), fieldProductName.getText(), fieldUPC.getText(), fieldSKU.getText(), null));
 	}
 	
 	@Override
@@ -243,12 +243,12 @@ public class QueryProduct extends POSQuery {
 
 	@Override
 	public int getRecord_ID() {
-		return m_M_Product_ID;
+		return productId;
 	}
 
 	@Override
 	public String getValue() {
-		return m_ProductName;
+		return productName;
 	}
 	
 }	//	PosQueryProduct

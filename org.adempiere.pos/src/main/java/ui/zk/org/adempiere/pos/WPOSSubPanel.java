@@ -32,7 +32,8 @@ import org.zkoss.zk.ui.event.EventListener;
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com 
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public abstract class WPOSSubPanel extends Borderlayout 
 	implements EventListener
@@ -48,14 +49,14 @@ public abstract class WPOSSubPanel extends Borderlayout
 	 */
 	public WPOSSubPanel (WPOS posPanel) {
 		super();
-		v_POSPanel = posPanel;
+		this.posPanel = posPanel;
 		init();
 	}	//	PosSubPanel
 	
 	/** POS Panel						*/
-	protected WPOS 				v_POSPanel;
+	protected WPOS 				posPanel;
 	/** Context							*/
-	protected Properties		m_ctx = Env.getCtx();
+	protected Properties 		ctx = Env.getCtx();
 	
 
 	/** Button Width = 55			*/
@@ -85,7 +86,7 @@ public abstract class WPOSSubPanel extends Borderlayout
 	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
-		button.setTooltiptext(Msg.translate(m_ctx, action));
+		button.setTooltiptext(Msg.translate(ctx, action));
 		button.setWidth(WIDTH+"px");
 		button.setHeight(HEIGHT+"px");
 		button.addActionListener(this);
@@ -101,7 +102,7 @@ public abstract class WPOSSubPanel extends Borderlayout
 	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
-		button.setTooltiptext(Msg.translate(m_ctx, action));
+		button.setTooltiptext(Msg.translate(ctx, action));
 		button.setId(m_OSK_KeyLayout_ID+"");
 		button.setWidth(WIDTH+"px");
 		button.setHeight(HEIGHT+"px");

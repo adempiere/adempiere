@@ -41,6 +41,7 @@ import org.zkoss.zkex.zul.North;
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class WPOSUpDownPanel extends WPOSSubPanel implements I_POSPanel {
 
@@ -54,17 +55,17 @@ public class WPOSUpDownPanel extends WPOSSubPanel implements I_POSPanel {
 	}
 
 	/** Buttons Controls  		*/
-	private Button 			f_bUp;
-	private Button 			f_bDown;
-	private Button 			f_bDelete;
-	private Button 			f_bMinus;
-	private Button 			f_bPlus;
-	private POSNumberBox	f_Quantity;
-	private POSNumberBox	f_Price;		 			
+	private Button 			buttonUp;
+	private Button 			buttonDown;
+	private Button 			buttonDelete;
+	private Button 			buttonMinus;
+	private Button 			buttonPlus;
+	private POSNumberBox 	fieldQuantity;
+	private POSNumberBox 	fieldPrice;
 
 	private final String ACTION_UP       	= "Previous";
 	private final String ACTION_DOWN  		= "Next";
-	private final BigDecimal ACTION_QUANTITY    =  Env.ONE;
+	private final BigDecimal CurrentQuantity =  Env.ONE;
 
 	@Override
 	protected void init() {
@@ -83,65 +84,65 @@ public class WPOSUpDownPanel extends WPOSSubPanel implements I_POSPanel {
 		row = rows.newRow();
 		row.setHeight("55px");
 
-		f_bUp = createButtonAction(ACTION_UP, KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-		f_bUp.setTooltiptext(Msg.translate(m_ctx, "Previous"));
-		row.appendChild (f_bUp);
-		f_bDown = createButtonAction(ACTION_DOWN, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
-		f_bDown.setTooltiptext(Msg.translate(m_ctx, "Next"));
-		row.appendChild (f_bDown);
+		buttonUp = createButtonAction(ACTION_UP, KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
+		buttonUp.setTooltiptext(Msg.translate(ctx, "Previous"));
+		row.appendChild (buttonUp);
+		buttonDown = createButtonAction(ACTION_DOWN, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
+		buttonDown.setTooltiptext(Msg.translate(ctx, "Next"));
+		row.appendChild (buttonDown);
 		
-		f_bDelete = createButtonAction("Cancel", null);
-		row.appendChild (f_bDelete);
+		buttonDelete = createButtonAction("Cancel", null);
+		row.appendChild (buttonDelete);
 		
 		//
-		f_bMinus = createButtonAction("Minus", null);
-		row.appendChild(f_bMinus);
+		buttonMinus = createButtonAction("Minus", null);
+		row.appendChild(buttonMinus);
 		
 		Label qtyLabel = new Label(Msg.translate(Env.getCtx(), "QtyOrdered"));
 		row.appendChild(qtyLabel);
 
-		f_Quantity = new POSNumberBox(false);
-		row.appendChild(f_Quantity);
-		f_Quantity.addEventListener(Events.ON_CHANGE, this);
-		f_Quantity.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
+		fieldQuantity = new POSNumberBox(false);
+		row.appendChild(fieldQuantity);
+		fieldQuantity.addEventListener(Events.ON_CHANGE, this);
+		fieldQuantity.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
 		//
-		f_bPlus = createButtonAction("Plus", null);
-		row.appendChild(f_bPlus);
+		buttonPlus = createButtonAction("Plus", null);
+		row.appendChild(buttonPlus);
 		
 		Label priceLabel = new Label(Msg.translate(Env.getCtx(), "PriceActual"));
 		row.appendChild(priceLabel);
 		
-		f_Price = new POSNumberBox(false);
-		row.appendChild(f_Price);
-		f_Price.addEventListener(Events.ON_CHANGE, this);
-		f_Price.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
+		fieldPrice = new POSNumberBox(false);
+		row.appendChild(fieldPrice);
+		fieldPrice.addEventListener(Events.ON_CHANGE, this);
+		fieldPrice.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
 		
 		changeStatus(false);
 	}
 	
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if (e.getTarget().equals(f_bUp)){
-			v_POSPanel.moveUp();
+		if (e.getTarget().equals(buttonUp)){
+			posPanel.moveUp();
 			return;
 		}
-		else if (e.getTarget().equals(f_bDown)){
-			v_POSPanel.moveDown();
+		else if (e.getTarget().equals(buttonDown)){
+			posPanel.moveDown();
 			return;
 		}
-		if (e.getTarget().equals(f_bMinus)){
-			f_Quantity.setValue(f_Quantity.getValue().subtract(ACTION_QUANTITY));
+		if (e.getTarget().equals(buttonMinus)){
+			fieldQuantity.setValue(fieldQuantity.getValue().subtract(CurrentQuantity));
 		}
-		else if (e.getTarget().equals(f_bPlus)){
-			f_Quantity.setValue(f_Quantity.getValue().add(ACTION_QUANTITY));
+		else if (e.getTarget().equals(buttonPlus)){
+			fieldQuantity.setValue(fieldQuantity.getValue().add(CurrentQuantity));
 		}
-		else if (e.getTarget().equals(f_bDelete)){
-			f_Quantity.setValue(0.0);
+		else if (e.getTarget().equals(buttonDelete)){
+			fieldQuantity.setValue(0.0);
 		}
 
-		v_POSPanel.setQty(f_Quantity.getValue());
-		v_POSPanel.setPrice(f_Price.getValue());
-		v_POSPanel.updateLineTable();
+		posPanel.setQuantity(fieldQuantity.getValue());
+		posPanel.setPrice(fieldPrice.getValue());
+		posPanel.updateLineTable();
 	}
 
 	/**
@@ -149,21 +150,21 @@ public class WPOSUpDownPanel extends WPOSSubPanel implements I_POSPanel {
 	 * @param p_Status
 	 */
 	public void changeStatus(boolean p_Status) {
-		f_Quantity.setEnabled(p_Status);
-		f_Price.setEnabled(p_Status);
-		f_bDelete.setEnabled(p_Status);
-		f_bPlus.setEnabled(p_Status);
-		f_bMinus.setEnabled(p_Status);
+		fieldQuantity.setEnabled(p_Status);
+		fieldPrice.setEnabled(p_Status);
+		buttonDelete.setEnabled(p_Status);
+		buttonPlus.setEnabled(p_Status);
+		buttonMinus.setEnabled(p_Status);
 	}
 	
 	@Override
 	public void refreshPanel() {
-		if(v_POSPanel.hasLines()){
-			f_bDown.setEnabled(true);
-			f_bUp.setEnabled(true);
+		if(posPanel.hasLines()){
+			buttonDown.setEnabled(true);
+			buttonUp.setEnabled(true);
 		} else {
-			f_bDown.setEnabled(false);
-			f_bUp.setEnabled(false);
+			buttonDown.setEnabled(false);
+			buttonUp.setEnabled(false);
 		}
 	}
 
@@ -184,12 +185,12 @@ public class WPOSUpDownPanel extends WPOSSubPanel implements I_POSPanel {
 
 	@Override
 	public void changeViewPanel() {
-		if(v_POSPanel.getQty().compareTo(Env.ZERO) == 0)
+		if(posPanel.getQty().compareTo(Env.ZERO) == 0)
 			changeStatus(false);
 		else
 			changeStatus(true);
-		f_Quantity.setValue(v_POSPanel.getQty().doubleValue());
-		f_Price.setValue(v_POSPanel.getPrice().doubleValue());
+		fieldQuantity.setValue(posPanel.getQty().doubleValue());
+		fieldPrice.setValue(posPanel.getPrice().doubleValue());
 	}
 
 }
