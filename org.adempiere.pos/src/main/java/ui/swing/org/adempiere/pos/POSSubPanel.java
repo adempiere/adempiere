@@ -17,6 +17,7 @@ package org.adempiere.pos;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.Properties;
 
 import javax.swing.KeyStroke;
@@ -51,14 +52,14 @@ public abstract class POSSubPanel extends CPanel
 	public POSSubPanel (VPOS posPanel)
 	{
 		super();
-		v_POSPanel = posPanel;
+		this.posPanel = posPanel;
 		init();
 	}	//	PosSubPanel
 	
 	/** POS Panel							*/
-	protected VPOS 				v_POSPanel;
+	protected VPOS 				posPanel;
 	/** Context								*/
-	protected Properties		m_ctx = Env.getCtx();
+	protected Properties 		ctx = Env.getCtx();
 	
 
 	/** Button Width = 50			*/
@@ -85,13 +86,26 @@ public abstract class POSSubPanel extends CPanel
 	 */
 	protected CButton createButtonAction (String action, KeyStroke accelerator)
 	{
-		AppsAction act = new AppsAction(action, accelerator, false);
+		String acceleratorText = "";
+		if (action != null && accelerator != null) {
+
+			if (accelerator != null) {
+				int modifiers = accelerator.getModifiers();
+				if (modifiers >= 0) {
+					acceleratorText = "(" + KeyEvent.getKeyModifiersText(modifiers);
+					//acceleratorText += "+";
+				}
+				acceleratorText += KeyEvent.getKeyText(accelerator.getKeyCode());
+			}
+			posPanel.addStatusBarInfo(action + acceleratorText + ")");
+		}
+
+		AppsAction act = new AppsAction(action , accelerator , acceleratorText , false);  //AppsAction(action, accelerator, false);
 		act.setDelegate(this);
 		CButton button = (CButton)act.getButton();
 		button.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		button.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		button.setMaximumSize(new Dimension(WIDTH, HEIGHT));
-		button.setFocusable(false);
 		return button;
 	}	//	getButtonAction
 	
