@@ -227,9 +227,9 @@ public class VCollect extends Collect
 //		int AD_Column_ID = 2187;        //  C_Order.C_PaymentTerm_ID
 //		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.TableDir);
 //		fPaymentTerm = new VLookup("C_PaymentTerm_ID", true, false, true, lookup);
-//		((VComboBox)fPaymentTerm.getCombo()).setRenderer(new POSLookupTableDirCellRenderer(v_POSPanel.getFont()));
-//		fPaymentTerm.setPreferredSize(new Dimension(200, v_POSPanel.getFieldLenght()));
-//		((VComboBox)fPaymentTerm.getCombo()).setFont(v_POSPanel.getFont());
+//		((VComboBox)fPaymentTerm.getCombo()).setRenderer(new POSLookupTableDirCellRenderer(posPanel.getFont()));
+//		fPaymentTerm.setPreferredSize(new Dimension(200, posPanel.getFieldLenght()));
+//		((VComboBox)fPaymentTerm.getCombo()).setFont(posPanel.getFont());
 //		fPaymentTerm.addVetoableChangeListener(this);
 		//	Add Plus Button
 		AppsAction act = new AppsAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2), false);
@@ -275,7 +275,7 @@ public class VCollect extends Collect
 		v_ParameterPanel.add(bPlus, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0,
 							GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 		
-//		v_ParameterPanel.add(fPaymentTerm, new GridBagConstraints(2, 5, 1, 1, 0.0,0.0, 
+//		parameterPanel.add(fPaymentTerm, new GridBagConstraints(2, 5, 1, 1, 0.0,0.0,
 //				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
 		//	Add Fields to Main Panel
