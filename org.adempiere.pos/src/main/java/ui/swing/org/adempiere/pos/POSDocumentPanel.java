@@ -71,188 +71,188 @@ public class POSDocumentPanel extends POSSubPanel
 	}	//	POSDocumentPanel
 	
 	/**	Header Panel		*/
-	private CPanel 			v_HeaderPanel;
+	private CPanel 			headerPanel;
 	/**	Total Panel			*/;
-	private CPanel 			v_TotalPanel;
+	private CPanel 			totalPanel;
 	/**	Doc Info Panel		*/
-	private CPanel 			v_DocInfoPanel;
+	private CPanel 			documentInfoPanel;
 	/**	Total Title Border	*/
-	private TitledBorder 	v_TotalTitle;
+	private TitledBorder 	totalTitle;
 	/**	Doc Title Border	*/
-	private TitledBorder 	v_DocTitle;
+	private TitledBorder 	documentTitle;
 	/**	Sales Representative*/
-	private CLabel	 		f_lb_SalesRep;
-	private CLabel	 		f_SalesRep;
+	private CLabel 			labelSalesRep;
+	private CLabel 			fieldSalesRep;
 	/**	Document Type		*/
-	private CLabel 			f_lb_DocumentType;
-	private CLabel 			f_DocumentType;
+	private CLabel 			labelDocumentType;
+	private CLabel 			fieldDocumentType;
 	/**	Document No			*/
-	private CLabel 			f_lb_DocumentNo;
-	private CLabel 			f_DocumentNo;
+	private CLabel 			labelDocumentNo;
+	private CLabel 			fieldDocumentNo;
 	/**	Total Lines			*/
-	private CLabel	 		f_lb_TotalLines;
-	private CLabel	 		f_TotalLines;
+	private CLabel 			labelTotalLines;
+	private CLabel 			fieldTotalLines;
 	/**	Tax Amount			*/
-	private CLabel 			f_lb_TaxAmount;
-	private CLabel 			f_TaxAmount;
+	private CLabel 			labelTaxAmount;
+	private CLabel 			fieldTaxAmount;
 	/**	Grand Total			*/
-	private CLabel 			f_lb_GrandTotal;
-	private CLabel 			f_GrandTotal;
+	private CLabel 			labelGrandTotal;
+	private CLabel 			fieldGrandTotal;
 	/**	Product Name		*/
-	private POSTextField	f_BPartnerName;
+	private POSTextField 	fieldPartnerName;
 	/**	Keyboard			*/
-	private POSKeyPanel 	f_Keyboard;
+	private POSKeyPanel 	keyboardPanel;
 	/**	Logger				*/
-	private static CLogger 	log = CLogger.getCLogger(POSDocumentPanel.class);
+	private static CLogger logger = CLogger.getCLogger(POSDocumentPanel.class);
 
 	/**
 	 * 	Initialize
 	 */
 	public void init() {
-		int C_POSKeyLayout_ID = posPanel.getC_POSKeyLayout_ID();
+		int posKeyLayoutId = posPanel.getC_POSKeyLayout_ID();
 		//	Set Layout
 		setLayout(new GridBagLayout());
 		//	Set Right Padding
-		int m_RightPadding = 0;
+		int rightPadding = 0;
 		//	Document Panel
 		//	Set Font and Format
-		v_HeaderPanel = new CPanel(new GridBagLayout());
-		v_DocInfoPanel = new CPanel(new GridBagLayout());
-		v_TotalPanel = new CPanel(new GridBagLayout());
+		headerPanel = new CPanel(new GridBagLayout());
+		documentInfoPanel = new CPanel(new GridBagLayout());
+		totalPanel = new CPanel(new GridBagLayout());
 		//	For Doc Title Border
-		v_DocTitle = BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "InfoOrder"));
-		v_DocTitle.setTitleFont(posPanel.getFont());
-		v_DocTitle.setTitleColor(AdempierePLAF.getTextColor_Label());
-		v_DocInfoPanel.setBorder(v_DocTitle);
+		documentTitle = BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "InfoOrder"));
+		documentTitle.setTitleFont(posPanel.getFont());
+		documentTitle.setTitleColor(AdempierePLAF.getTextColor_Label());
+		documentInfoPanel.setBorder(documentTitle);
 		//	For Total Title Border
-		v_TotalTitle = BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "Totals"));
-		v_TotalTitle.setTitleFont(posPanel.getFont());
-		v_TotalTitle.setTitleColor(AdempierePLAF.getTextColor_Label());
-		v_TotalPanel.setBorder(v_TotalTitle);
+		totalTitle = BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "Totals"));
+		totalTitle.setTitleFont(posPanel.getFont());
+		totalTitle.setTitleColor(AdempierePLAF.getTextColor_Label());
+		totalPanel.setBorder(totalTitle);
 		//	For Document Info
 		//	For Sales Representative
-		f_lb_SalesRep = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_SalesRep_ID) + ":");
-		f_lb_SalesRep.setFont(posPanel.getPlainFont());
+		labelSalesRep = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_SalesRep_ID) + ":");
+		labelSalesRep.setFont(posPanel.getPlainFont());
 		//	Add
-		v_DocInfoPanel.add(f_lb_SalesRep, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+		documentInfoPanel.add(labelSalesRep, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	
-		f_SalesRep = new CLabel();
-		f_SalesRep.setFont(posPanel.getFont());
-		f_lb_SalesRep.setLabelFor(f_SalesRep);
+		fieldSalesRep = new CLabel();
+		fieldSalesRep.setFont(posPanel.getFont());
+		labelSalesRep.setLabelFor(fieldSalesRep);
 		//	Add
-		v_DocInfoPanel.add(f_SalesRep, new GridBagConstraints(3, 0, 1, 1, 1, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
+		documentInfoPanel.add(fieldSalesRep, new GridBagConstraints(3, 0, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 		//	For Tax Amount
-		f_lb_DocumentType = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_C_DocType_ID) + ":");
-		f_lb_DocumentType.setFont(posPanel.getPlainFont());
+		labelDocumentType = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_C_DocType_ID) + ":");
+		labelDocumentType.setFont(posPanel.getPlainFont());
 		//	Add
-		v_DocInfoPanel.add(f_lb_DocumentType, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+		documentInfoPanel.add(labelDocumentType, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	
-		f_DocumentType = new CLabel();
-		f_DocumentType.setFont(posPanel.getFont());
-		f_lb_DocumentType.setLabelFor(f_DocumentType);
+		fieldDocumentType = new CLabel();
+		fieldDocumentType.setFont(posPanel.getFont());
+		labelDocumentType.setLabelFor(fieldDocumentType);
 		//	Add
-		v_DocInfoPanel.add(f_DocumentType, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
+		documentInfoPanel.add(fieldDocumentType, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 		//	For Grand Total
-		f_lb_DocumentNo = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo) + ":");
-		f_lb_DocumentNo.setFont(posPanel.getPlainFont());
+		labelDocumentNo = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo) + ":");
+		labelDocumentNo.setFont(posPanel.getPlainFont());
 		//	Add
-		v_DocInfoPanel.add(f_lb_DocumentNo, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
+		documentInfoPanel.add(labelDocumentNo, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	
-		f_DocumentNo = new CLabel();
-		f_DocumentNo.setFont(posPanel.getFont());
-		f_lb_DocumentNo.setLabelFor(f_DocumentNo);
+		fieldDocumentNo = new CLabel();
+		fieldDocumentNo.setFont(posPanel.getFont());
+		labelDocumentNo.setLabelFor(fieldDocumentNo);
 		//	Change Size
 		//	Add
-		v_DocInfoPanel.add(f_DocumentNo,  new GridBagConstraints(3, 3, 1, 1, 1, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
+		documentInfoPanel.add(fieldDocumentNo,  new GridBagConstraints(3, 3, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 		
 		//	For Totals
 		//	For Total Lines
-		f_lb_TotalLines = new CLabel (Msg.getMsg(Env.getCtx(), "SubTotal") + ":");
-		f_lb_TotalLines.setFont(posPanel.getPlainFont());
+		labelTotalLines = new CLabel (Msg.getMsg(Env.getCtx(), "SubTotal") + ":");
+		labelTotalLines.setFont(posPanel.getPlainFont());
 		//	Add
-		v_TotalPanel.add(f_lb_TotalLines, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+		totalPanel.add(labelTotalLines, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	
-		f_TotalLines = new CLabel();
-		f_TotalLines.setFont(posPanel.getFont());
-		f_lb_TotalLines.setLabelFor(f_TotalLines);
+		fieldTotalLines = new CLabel();
+		fieldTotalLines.setFont(posPanel.getFont());
+		labelTotalLines.setLabelFor(fieldTotalLines);
 		//	Add
-		v_TotalPanel.add(f_TotalLines, new GridBagConstraints(3, 0, 1, 1, 1, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
+		totalPanel.add(fieldTotalLines, new GridBagConstraints(3, 0, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 		//	For Tax Amount
-		f_lb_TaxAmount = new CLabel (Msg.translate(Env.getCtx(), I_C_OrderLine.COLUMNNAME_C_Tax_ID) + ":");
-		f_lb_TaxAmount.setFont(posPanel.getPlainFont());
+		labelTaxAmount = new CLabel (Msg.translate(Env.getCtx(), I_C_OrderLine.COLUMNNAME_C_Tax_ID) + ":");
+		labelTaxAmount.setFont(posPanel.getPlainFont());
 		//	Add
-		v_TotalPanel.add(f_lb_TaxAmount, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+		totalPanel.add(labelTaxAmount, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	
-		f_TaxAmount = new CLabel();
-		f_TaxAmount.setFont(posPanel.getFont());
-		f_lb_TaxAmount.setLabelFor(f_TaxAmount);
+		fieldTaxAmount = new CLabel();
+		fieldTaxAmount.setFont(posPanel.getFont());
+		labelTaxAmount.setLabelFor(fieldTaxAmount);
 		//	Add
-		v_TotalPanel.add(f_TaxAmount, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
+		totalPanel.add(fieldTaxAmount, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 		//	For Grand Total
-		f_lb_GrandTotal = new CLabel (Msg.getMsg(posPanel.getCtx(), "Total") + ":");
-		f_lb_GrandTotal.setFont(posPanel.getFont());
+		labelGrandTotal = new CLabel (Msg.getMsg(posPanel.getCtx(), "Total") + ":");
+		labelGrandTotal.setFont(posPanel.getFont());
 		//	Add
-		v_TotalPanel.add(f_lb_GrandTotal, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
+		totalPanel.add(labelGrandTotal, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	
-		f_GrandTotal = new CLabel();
-		f_GrandTotal.setFont(posPanel.getBigFont());
-		f_lb_GrandTotal.setLabelFor(f_GrandTotal);
+		fieldGrandTotal = new CLabel();
+		fieldGrandTotal.setFont(posPanel.getBigFont());
+		labelGrandTotal.setLabelFor(fieldGrandTotal);
 		//	Change Size
 		//	Add
-		v_TotalPanel.add(f_GrandTotal,  new GridBagConstraints(3, 3, 1, 1, 1, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, m_RightPadding), 0, 0));
+		totalPanel.add(fieldGrandTotal,  new GridBagConstraints(3, 3, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 		
 		//	Add Doc Info
-		v_HeaderPanel.add(v_DocInfoPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
+		headerPanel.add(documentInfoPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
 		//	Add to Header
-		v_HeaderPanel.add(v_TotalPanel, new GridBagConstraints(1, 0, 1, 1, 1, 1
+		headerPanel.add(totalPanel, new GridBagConstraints(1, 0, 1, 1, 1, 1
 				,GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
 		
 		//	For Product
 		String labelName = Msg.translate(Env.getCtx(), I_C_BPartner.COLUMNNAME_IsCustomer);
 		//	
-		f_BPartnerName = new POSTextField(labelName, posPanel.getKeyboard());
-		f_BPartnerName.setName(labelName);
-		f_BPartnerName.setPlaceholder(labelName);
-		f_BPartnerName.addActionListener(this);
-		f_BPartnerName.setFocusable(true);
-		f_BPartnerName.setFont(posPanel.getFont());
-		f_BPartnerName.setPreferredSize(new Dimension(530, 50));
-		f_BPartnerName.setMinimumSize(new Dimension(530, 50));
+		fieldPartnerName = new POSTextField(labelName, posPanel.getKeyboard());
+		fieldPartnerName.setName(labelName);
+		fieldPartnerName.setPlaceholder(labelName);
+		fieldPartnerName.addActionListener(this);
+		fieldPartnerName.setFocusable(true);
+		fieldPartnerName.setFont(posPanel.getFont());
+		fieldPartnerName.setPreferredSize(new Dimension(530, 50));
+		fieldPartnerName.setMinimumSize(new Dimension(530, 50));
 		//	Add Header
-		GridBagConstraints m_HeaderConstraint = new GridBagConstraints();
-		m_HeaderConstraint.fill = GridBagConstraints.BOTH;
-		m_HeaderConstraint.weightx = 1;
-		m_HeaderConstraint.gridy = 0;
-		add(v_HeaderPanel, m_HeaderConstraint);
+		GridBagConstraints headerConstraint = new GridBagConstraints();
+		headerConstraint.fill = GridBagConstraints.BOTH;
+		headerConstraint.weightx = 1;
+		headerConstraint.gridy = 0;
+		add(headerPanel, headerConstraint);
 		//	Add Product Name
-		GridBagConstraints m_ProductConstraint = new GridBagConstraints();
-		m_ProductConstraint.fill = GridBagConstraints.HORIZONTAL;
-		m_ProductConstraint.weightx = 0;
-		m_ProductConstraint.gridy = 1;
-		m_ProductConstraint.gridwidth = 2;
-		v_HeaderPanel.add(f_BPartnerName, m_ProductConstraint);
+		GridBagConstraints productConstraint = new GridBagConstraints();
+		productConstraint.fill = GridBagConstraints.HORIZONTAL;
+		productConstraint.weightx = 0;
+		productConstraint.gridy = 1;
+		productConstraint.gridwidth = 2;
+		headerPanel.add(fieldPartnerName, productConstraint);
 		//	Add Keyboard
-		GridBagConstraints m_KeyboardConstraint = new GridBagConstraints();
-		m_KeyboardConstraint.fill = GridBagConstraints.BOTH;
-		m_KeyboardConstraint.weightx = 1;
-		m_KeyboardConstraint.weighty = 1;
-		m_KeyboardConstraint.gridy = 2;
+		GridBagConstraints keyboardConstraint = new GridBagConstraints();
+		keyboardConstraint.fill = GridBagConstraints.BOTH;
+		keyboardConstraint.weightx = 1;
+		keyboardConstraint.weighty = 1;
+		keyboardConstraint.gridy = 2;
 		//	For Key Panel
-		f_Keyboard = new POSKeyPanel(C_POSKeyLayout_ID, this);
-		add(f_Keyboard, m_KeyboardConstraint);
+		keyboardPanel = new POSKeyPanel(posKeyLayoutId, this);
+		add(keyboardPanel, keyboardConstraint);
 		//	Refresh
 		refreshPanel();
 	}	//	init
@@ -278,7 +278,7 @@ public class POSDocumentPanel extends POSSubPanel
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		//	Name
-		if (e.getSource() == f_BPartnerName) {
+		if (e.getSource() == fieldPartnerName) {
 			findBPartner();
 		}
 	}
@@ -287,7 +287,7 @@ public class POSDocumentPanel extends POSSubPanel
 	 * 	Find/Set BPartner
 	 */
 	private void findBPartner() {
-		String query = f_BPartnerName.getText();
+		String query = fieldPartnerName.getText();
 		//	
 		if (query == null || query.length() == 0)
 			return;
@@ -312,20 +312,20 @@ public class POSDocumentPanel extends POSSubPanel
 		} catch (Exception e) {
 			allNumber = false;
 		}
-		String Value = query;
-		String Name = (allNumber ? null : query);
-		String EMail = (query.indexOf('@') != -1 ? query : null); 
-		String Phone = (noNumber ? null : query);
-		String City = null;
+		String value = query;
+		String name = (allNumber ? null : query);
+		String eMail = (query.indexOf('@') != -1 ? query : null);
+		String phone = (noNumber ? null : query);
+		String city = null;
 		//
-		MBPartnerInfo[] results = MBPartnerInfo.find(ctx, Value, Name,
-			/*Contact, */null, EMail, Phone, City);
+		MBPartnerInfo[] results = MBPartnerInfo.find(ctx, value, name,
+			/*Contact, */null, eMail, phone, city);
 		
 		//	Set Result
 		if (results.length == 1) {
 			MBPartner bp = MBPartner.get(ctx, results[0].getC_BPartner_ID());
 			posPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
-			f_BPartnerName.setText(bp.getName());
+			fieldPartnerName.setText(bp.getName());
 			return;
 		} else {	//	more than one
 			QueryBPartner qt = new QueryBPartner(posPanel);
@@ -339,16 +339,16 @@ public class POSDocumentPanel extends POSSubPanel
 
 	@Override
 	public void refreshPanel() {
-		log.fine("RefreshPanel");
+		logger.fine("RefreshPanel");
 		if (!posPanel.hasOrder()) {
 			//	Document Info
-			f_SalesRep.setText(posPanel.getSalesRepName());
-			f_DocumentType.setText(Msg.getMsg(posPanel.getCtx(), "Order"));
-			f_DocumentNo.setText(Msg.getMsg(posPanel.getCtx(), "New"));
-			f_TotalLines.setText(posPanel.getNumberFormat().format(Env.ZERO));
-			f_GrandTotal.setText(posPanel.getNumberFormat().format(Env.ZERO));
-			f_TaxAmount.setText(posPanel.getNumberFormat().format(Env.ZERO));
-			f_BPartnerName.setText(null);
+			fieldSalesRep.setText(posPanel.getSalesRepName());
+			fieldDocumentType.setText(Msg.getMsg(posPanel.getCtx(), "Order"));
+			fieldDocumentNo.setText(Msg.getMsg(posPanel.getCtx(), "New"));
+			fieldTotalLines.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			fieldGrandTotal.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			fieldTaxAmount.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			fieldPartnerName.setText(null);
 		} else {
 			String currencyISO_Code = posPanel.getCurSymbol();
 			BigDecimal m_TotalLines = posPanel.getTotalLines();
@@ -356,17 +356,17 @@ public class POSDocumentPanel extends POSSubPanel
 			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
 			//	Set Values
 			//	Document Info
-			f_SalesRep.setText(posPanel.getSalesRepName());
-			f_DocumentType.setText(posPanel.getDocumentTypeName());
-			f_DocumentNo.setText(posPanel.getDocumentNo());
-			f_TotalLines.setText(currencyISO_Code + " " + posPanel.getNumberFormat().format(m_TotalLines));
-			f_GrandTotal.setText(currencyISO_Code + " " + posPanel.getNumberFormat().format(m_GrandTotal));
-			f_TaxAmount.setText(currencyISO_Code + " " + posPanel.getNumberFormat().format(m_TaxAmt));
-			f_BPartnerName.setText(posPanel.getBPName());
+			fieldSalesRep.setText(posPanel.getSalesRepName());
+			fieldDocumentType.setText(posPanel.getDocumentTypeName());
+			fieldDocumentNo.setText(posPanel.getDocumentNo());
+			fieldTotalLines.setText(currencyISO_Code + " " + posPanel.getNumberFormat().format(m_TotalLines));
+			fieldGrandTotal.setText(currencyISO_Code + " " + posPanel.getNumberFormat().format(m_GrandTotal));
+			fieldTaxAmount.setText(currencyISO_Code + " " + posPanel.getNumberFormat().format(m_TaxAmt));
+			fieldPartnerName.setText(posPanel.getBPName());
 		}
 		//	Repaint
-		v_TotalPanel.validate();
-		v_TotalPanel.repaint();
+		totalPanel.validate();
+		totalPanel.repaint();
 	}
 
 	@Override
@@ -378,23 +378,23 @@ public class POSDocumentPanel extends POSSubPanel
 	public void changeViewPanel() {
 		if(posPanel.hasOrder()) {
 			//	When order is not completed, you can change BP
-			f_BPartnerName.setEnabled(!posPanel.isCompleted());
+			fieldPartnerName.setEnabled(!posPanel.isCompleted());
 		} else {
-			f_BPartnerName.setEnabled(true);
+			fieldPartnerName.setEnabled(true);
 		}
 	}
 
 	@Override
 	public void okAction(I_POSQuery query) {
 		if (query.getRecord_ID() > 0) {
-			f_BPartnerName.setText(query.getValue());
+			fieldPartnerName.setText(query.getValue());
 			if(!posPanel.hasOrder()) {
 				posPanel.newOrder(query.getRecord_ID());
 			} else {
 				posPanel.setC_BPartner_ID(query.getRecord_ID());
 			}
 			//	
-			log.fine("C_BPartner_ID=" + query.getRecord_ID());
+			logger.fine("C_BPartner_ID=" + query.getRecord_ID());
 		}
 	}
 
