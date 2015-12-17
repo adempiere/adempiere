@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.search.POSQuery;
@@ -37,7 +38,6 @@ import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
 import org.compiere.model.I_M_Product;
-import org.compiere.model.MPOSKey;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
@@ -89,11 +89,7 @@ public class POSActionPanel extends POSSubPanel
 	private CButton 			f_bCancel;
 	private CButton 			f_bLogout;
 	/**	Button Panel		*/
-	private CPanel				v_ButtonPanel;
-	/**	Info Product Panel	*/
-	private POSInfoProduct		v_InfoProductPanel;
-	/** Quantity panel 		*/
-	private POSQuantityPanel 	quantityPanel;
+	private CPanel 				buttonPanel;
 	/**	For Show BPartner	*/
 	private	POSTextField		f_ProductName;
 	/**	Padding				*/
@@ -121,86 +117,83 @@ public class POSActionPanel extends POSSubPanel
 		//	Content
 		setLayout(new GridBagLayout());
 		//	Button Panel
-		v_ButtonPanel = new CPanel(new GridBagLayout());
-		v_InfoProductPanel = new POSInfoProduct(v_POSPanel);
-		quantityPanel = new POSQuantityPanel(v_POSPanel);
-		//	
+		buttonPanel = new CPanel(new GridBagLayout());
+
 		m_TopP = 0;
 		m_LeftP = 1;
 		m_BottonP = 0;
 		m_RightP = 1;
 		// NEW
-		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2));
-		f_bNew.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
-		v_ButtonPanel.add(f_bNew, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+		f_bNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
+		f_bNew.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonPanel.add(f_bNew, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// DOCTYPE
-		f_bDocType = createButtonAction(ACTION_DOCTYPE, KeyStroke.getKeyStroke(KeyEvent.VK_F8, Event.F8));
-		f_bDocType.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
-		f_bDocType.setToolTipText(Msg.translate(m_ctx, "C_DocType_ID"));
-		v_ButtonPanel.add(f_bDocType, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+		f_bDocType = createButtonAction(ACTION_DOCTYPE,  KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0));
+		f_bDocType.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		f_bDocType.setToolTipText(Msg.translate(ctx, "C_DocType_ID"));
+		buttonPanel.add(f_bDocType, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// BPARTNER
-		f_bBPartner = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.CTRL_MASK));
-		f_bBPartner.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
-		v_ButtonPanel.add(f_bBPartner, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+		f_bBPartner = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.ALT_MASK));
+		f_bBPartner.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonPanel.add(f_bBPartner, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// HISTORY
-		f_bHistory = createButtonAction(ACTION_HISTORY, null);
-		f_bHistory.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
-		v_ButtonPanel.add(f_bHistory, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+		f_bHistory = createButtonAction(ACTION_HISTORY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
+		f_bHistory.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonPanel.add(f_bHistory, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
  		// 	BACK
- 		f_bBack = createButtonAction(ACTION_BACK, null);
- 		f_bBack.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
- 		v_ButtonPanel.add(f_bBack, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+ 		f_bBack = createButtonAction(ACTION_BACK, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, Event.ALT_MASK));
+ 		f_bBack.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+ 		buttonPanel.add(f_bBack, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
  		f_bBack.setEnabled(true);
 		
  		//	NEXT
- 		f_bNext = createButtonAction(ACTION_NEXT, null);
- 		f_bNext.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
- 		v_ButtonPanel.add(f_bNext, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+ 		f_bNext = createButtonAction(ACTION_NEXT, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,Event.ALT_MASK));
+ 		f_bNext.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+ 		buttonPanel.add(f_bNext, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		f_bNext.setEnabled(true);
  		
  		// PAYMENT
  		f_bCollect = createButtonAction(ACTION_PAYMENT, null);
- 		f_bCollect.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
- 		v_ButtonPanel.add(f_bCollect, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
+ 		f_bCollect.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+ 		buttonPanel.add(f_bCollect, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		f_bCollect.setEnabled(false);
  		
  		// CANCEL
 		f_bCancel = createButtonAction(ACTION_CANCEL, null);
-		f_bCancel.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
-		v_ButtonPanel.add(f_bCancel, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
+		f_bCancel.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonPanel.add(f_bCancel, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
  		
 		// Logout
-		f_bLogout = createButtonAction (ACTION_LOGOUT, null);
-		f_bLogout.setPreferredSize(new Dimension(v_POSPanel.getButtonSize(), v_POSPanel.getButtonSize()));
-		v_ButtonPanel.add(f_bLogout, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
+		f_bLogout = createButtonAction (ACTION_LOGOUT, KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.ALT_MASK+Event.SHIFT_MASK));
+		f_bLogout.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonPanel.add(f_bLogout, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(m_TopP, m_LeftP, m_BottonP, m_RightP), 0, 0));
 		// BP
 		String labelName = Msg.translate(Env.getCtx(), I_M_Product.COLUMNNAME_M_Product_ID); 
-		f_ProductName = new POSTextField(labelName, v_POSPanel.getKeyboard());
+		f_ProductName = new POSTextField(labelName, posPanel.getKeyboard());
 		f_ProductName.setPlaceholder(labelName);
 		f_ProductName.addActionListener(this);
-		f_ProductName.setFont(v_POSPanel.getFont());
-		f_ProductName.setPreferredSize(new Dimension(250, v_POSPanel.getFieldLenght()));
-		f_ProductName.setMinimumSize(new Dimension(250, v_POSPanel.getFieldLenght()));
+		f_ProductName.setFont(posPanel.getFont());
+		f_ProductName.setPreferredSize(new Dimension(250, posPanel.getFieldLenght()));
+		f_ProductName.setMinimumSize(new Dimension(250, posPanel.getFieldLenght()));
+		f_ProductName.setFocusable(true);
+
 		//	Add Button Panel
-		add(v_ButtonPanel     , new GridBagConstraints(0, 0, 1, 1, 1, 1
+		add(buttonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 		add(f_ProductName     , new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
-		add(quantityPanel, new GridBagConstraints(0, 2, 1, 1, 1, 2
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0 , 0, 0), 0, 0));
-		add(v_InfoProductPanel, new GridBagConstraints(0, 3, 1, 1, 1, 2
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 
-		v_POSPanel.listOrder();
+		posPanel.listOrder();
+		getMainFocus();
 	}	//	init
 
 	/**
@@ -226,23 +219,23 @@ public class POSActionPanel extends POSSubPanel
 		try {
 				//	New
 				if (e.getSource().equals(f_bNew)) {
-					v_POSPanel.newOrder();
+					posPanel.newOrder();
 				} if (e.getSource().equals(f_bDocType)) {
-					QueryDocType qt = new QueryDocType(v_POSPanel);
+					QueryDocType qt = new QueryDocType(posPanel);
 					qt.addOptionListener(this);
 					qt.loadData();
 					qt.showView();
 				} else if (e.getSource().equals(f_bBPartner)) {
-					QueryBPartner qt = new QueryBPartner(v_POSPanel);
+					QueryBPartner qt = new QueryBPartner(posPanel);
 					qt.addOptionListener(this);
-					if(v_POSPanel.isBPartnerStandard())
+					if(posPanel.isBPartnerStandard())
 						qt.setResults(null);
 					else
 						qt.loadData();
 					qt.showView();
 				} else if (e.getSource().equals(f_bHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
-					POSQuery qt = new QueryTicket(v_POSPanel);
+					POSQuery qt = new QueryTicket(posPanel);
 					qt.addOptionListener(this);
 					qt.showView();
 					return;
@@ -255,19 +248,29 @@ public class POSActionPanel extends POSSubPanel
 				} else if (e.getSource().equals(f_bCancel)) {
 					deleteOrder();
 				} else if (e.getSource().equals(f_bLogout)) {	//	Logout
-					v_POSPanel.dispose();
+					posPanel.dispose();
 					return;
 				} else if (e.getSource().equals(f_ProductName)) {
 					findProduct();
+					getMainFocus();
 					return;
 				}
+				getMainFocus();
 				//	Refresh
-				v_POSPanel.refreshPanel();
+				posPanel.refreshPanel();
 		} catch (AdempiereException exception) {
-			ADialog.error(v_POSPanel.getWindowNo(), this, exception.getLocalizedMessage());
+			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
 	}	//	actionPerformed
-	
+
+	private void getMainFocus() {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				f_ProductName.requestFocusInWindow();
+			}
+		});
+	}
+
 	/**************************************************************************
 	 * 	Find/Set Product & Price
 	 */
@@ -288,21 +291,23 @@ public class POSActionPanel extends POSSubPanel
 		String UPC = (allNumber ? query : null);
 		String SKU = (allNumber ? query : null);
 		//	
-		MWarehousePrice[] results = MWarehousePrice.find (m_ctx,
-				v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID(), 
+		MWarehousePrice[] results = MWarehousePrice.find (ctx,
+				posPanel.getM_PriceList_Version_ID(), posPanel.getM_Warehouse_ID(),
 				Value, Name, UPC, SKU, null);
 		
 		//	Set Result
 		if (results.length == 1) {	//	one
-			v_POSPanel.addLine(results[0].getM_Product_ID(), Env.ONE);
+			posPanel.addLine(results[0].getM_Product_ID(), Env.ONE);
 			f_ProductName.setText(results[0].getName());
 		} else {	//	more than one
-			v_POSPanel.getFrame().getContentPane().invalidate();
-			QueryProduct qt = new QueryProduct(v_POSPanel);
+			posPanel.getFrame().getContentPane().invalidate();
+			QueryProduct qt = new QueryProduct(posPanel);
 			qt.addOptionListener(this);
 			qt.setResults(results);
-			qt.setQueryData(v_POSPanel.getM_PriceList_Version_ID(), v_POSPanel.getM_Warehouse_ID());
+			qt.setQueryData(posPanel.getM_PriceList_Version_ID(), posPanel.getM_Warehouse_ID());
 			qt.showView();
+			f_ProductName.setValue(null);
+			f_ProductName.setText("");
 		}
 	}	//	findProduct
 
@@ -324,18 +329,18 @@ public class POSActionPanel extends POSSubPanel
 	 * Previous Record Order
 	 */
 	public void previousRecord() {
-		v_POSPanel.previousRecord();
+		posPanel.previousRecord();
+		//quantityPanel.changeViewPanel();
 		//	Refresh
-		v_POSPanel.refreshPanel();
+		posPanel.refreshPanel();
 	}
 
 	/**
 	 * Next Record Order
 	 */
 	public void nextRecord() {
-		v_POSPanel.nextRecord();
-		//	Refresh
-		v_POSPanel.refreshPanel();
+		posPanel.nextRecord();
+		posPanel.refreshPanel();
 	}
 	
 	/**
@@ -345,18 +350,18 @@ public class POSActionPanel extends POSSubPanel
 	 */
 	private void payOrder() {
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if(!v_POSPanel.hasOrder()) {		
-			ADialog.warn(v_POSPanel.getWindowNo(), this,  Msg.getMsg(m_ctx, "POS.MustCreateOrder"));
+		if(!posPanel.hasOrder()) {
+			ADialog.warn(posPanel.getWindowNo(), this,  Msg.getMsg(ctx, "POS.MustCreateOrder"));
 		} else {
-			VCollect collect = new VCollect(v_POSPanel);
+			VCollect collect = new VCollect(posPanel);
 			if (collect.showCollect()) {
 				//	Print Ticket just when is completed
-				if(v_POSPanel.isToPrint()) {
+				if(posPanel.isToPrint()) {
 					printTicket();
 				}
 				//	
-				v_POSPanel.setOrder(0);
-				v_POSPanel.refreshPanel();
+				posPanel.setOrder(0);
+				posPanel.refreshPanel();
 			}
 		}	
 	}  // payOrder
@@ -370,24 +375,24 @@ public class POSActionPanel extends POSSubPanel
 	private void deleteOrder() {
 		String errorMsg = null;
 		String askMsg = "POS.DeleteOrder";
-		if (v_POSPanel.isCompleted()) {	
+		if (posPanel.isCompleted()) {
 			askMsg = "POS.OrderIsAlreadyCompleted";
 		}
 		//	Show Ask
-		if (ADialog.ask(0, this, Msg.getMsg(m_ctx, Msg.getMsg(m_ctx, askMsg)))) {
-			v_POSPanel.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		if (ADialog.ask(0, this, Msg.getMsg(ctx, Msg.getMsg(ctx, askMsg)))) {
+			posPanel.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			//	Cancel Order
-			errorMsg = v_POSPanel.cancelOrder();
+			errorMsg = posPanel.cancelOrder();
 			//	Set Cursor to default
-			v_POSPanel.getFrame().setCursor(Cursor.getDefaultCursor());
+			posPanel.getFrame().setCursor(Cursor.getDefaultCursor());
 		}
 		//	show if exists error
 		if(errorMsg != null) {
-			ADialog.error(v_POSPanel.getWindowNo(), 
-					this, Msg.parseTranslation(m_ctx, errorMsg));
+			ADialog.error(posPanel.getWindowNo(),
+					this, Msg.parseTranslation(ctx, errorMsg));
 		}
 		//	Update
-		v_POSPanel.refreshPanel();
+		posPanel.refreshPanel();
 	} // deleteOrder
 	
 	/**
@@ -395,12 +400,12 @@ public class POSActionPanel extends POSSubPanel
 	 * 
 	 */
 	public void printTicket() {
-		if (!v_POSPanel.hasOrder())
+		if (!posPanel.hasOrder())
 			return;
 		//	
 		
 		//int windowNo = p_posPanel.getWindowNo();
-		//Properties m_ctx = p_posPanel.getPropiedades();
+		//Properties ctx = p_posPanel.getPropiedades();
 			try 
 			{
 				//TODO: to incorporate work from Posterita
@@ -412,42 +417,24 @@ public class POSActionPanel extends POSSubPanel
 //				Boolean print = true;
 				Trx.run(new TrxRunnable() {
 					public void run(String trxName) {
-						if (v_POSPanel.getAD_Sequence_ID()!= 0) {
+						if (posPanel.getAD_Sequence_ID()!= 0) {
 							
-							String docno = v_POSPanel.getSequenceDoc(trxName);
+							String docno = posPanel.getSequenceDoc(trxName);
 							String q = "Confirmar el número consecutivo "  + docno;
-							if (ADialog.ask(v_POSPanel.getWindowNo(), v_POSPanel.getFrame(), q)) {
-								v_POSPanel.setPOReference(docno);
-								v_POSPanel.saveNextSeq(trxName);
+							if (ADialog.ask(posPanel.getWindowNo(), posPanel.getFrame(), q)) {
+								posPanel.setPOReference(docno);
+								posPanel.saveNextSeq(trxName);
 							}
 						}
 					}
 				});
-				ReportCtl.startDocumentPrint(0, v_POSPanel.getC_Order_ID(), false);
+				ReportCtl.startDocumentPrint(0, posPanel.getC_Order_ID(), false);
 			}
 			catch (Exception e) {
 				log.severe("PrintTicket - Error Printing Ticket");
 			}
 			
 			  
-	}
-	
-	/**
-	 * Refresh Product Info from Key
-	 * @param key
-	 * @return void
-	 */
-	public void refreshProductInfo(MPOSKey key) {
-		v_InfoProductPanel.refreshProduct(key);
-	}
-	
-	/**
-	 * Refresh Product Info from Product
-	 * @param p_M_Product_ID
-	 * @return void
-	 */
-	public void refreshProductInfo(int p_M_Product_ID) {
-		v_InfoProductPanel.refreshProduct(p_M_Product_ID);
 	}
 	
 	/**
@@ -504,33 +491,34 @@ public class POSActionPanel extends POSSubPanel
 
 	@Override
 	public void changeViewPanel() {
-		if(v_POSPanel.hasOrder()) {
+		if(posPanel.hasOrder()) {
 			//	For Next
-			f_bNext.setEnabled(!v_POSPanel.isLastRecord() && v_POSPanel.hasRecord());
+			f_bNext.setEnabled(!posPanel.isLastRecord() && posPanel.hasRecord());
 			//	For Back
-			f_bBack.setEnabled(!v_POSPanel.isFirstRecord() && v_POSPanel.hasRecord());
+			f_bBack.setEnabled(!posPanel.isFirstRecord() && posPanel.hasRecord());
 			//	For Collect
-			if(v_POSPanel.hasLines()
-					&& !v_POSPanel.isPaid()
-					&& !v_POSPanel.isVoided()) {
+			if(posPanel.hasLines()
+					&& !posPanel.isPaid()
+					&& !posPanel.isVoided()) {
 				//	For Credit Order
 				f_bCollect.setEnabled(true);
 			} else {
 				f_bCollect.setEnabled(false);
 			}
 			//	For Cancel Action
-			f_bCancel.setEnabled(!v_POSPanel.isVoided());
+			f_bCancel.setEnabled(!posPanel.isVoided());
 		} else {
 			f_bNew.setEnabled(true);
 			f_bHistory.setEnabled(true);
 			//	For Next
-			f_bNext.setEnabled(!v_POSPanel.isLastRecord() && v_POSPanel.hasRecord());
+			f_bNext.setEnabled(!posPanel.isLastRecord() && posPanel.hasRecord());
 			//	For Back
-			f_bBack.setEnabled(!v_POSPanel.isFirstRecord() && v_POSPanel.hasRecord());
+			f_bBack.setEnabled(!posPanel.isFirstRecord() && posPanel.hasRecord());
 			f_bCollect.setEnabled(false);
 			//	For Cancel Action
 			f_bCancel.setEnabled(false);
 		}
+		posPanel.changeViewQuantityPanel();
 	}
 
 	@Override
@@ -539,27 +527,27 @@ public class POSActionPanel extends POSSubPanel
 			return;
 		//	For Ticket
 		if(query instanceof QueryTicket) {
-			v_POSPanel.setOrder(query.getRecord_ID());
-			v_POSPanel.reloadIndex(query.getRecord_ID()); 
+			posPanel.setOrder(query.getRecord_ID());
+			posPanel.reloadIndex(query.getRecord_ID());
 		} else if(query instanceof QueryBPartner) {
-			if(!v_POSPanel.hasOrder()) {
-				v_POSPanel.newOrder(query.getRecord_ID());
+			if(!posPanel.hasOrder()) {
+				posPanel.newOrder(query.getRecord_ID());
 			} else {
-				v_POSPanel.setC_BPartner_ID(query.getRecord_ID());
+				posPanel.setC_BPartner_ID(query.getRecord_ID());
 			}
 			//	
 			log.fine("C_BPartner_ID=" + query.getRecord_ID());
 		} else if(query instanceof QueryProduct) {
 			if (query.getRecord_ID() > 0) {
-				v_POSPanel.addLine(query.getRecord_ID(), Env.ONE);
+				posPanel.addLine(query.getRecord_ID(), Env.ONE);
 			}
 		} else if(query instanceof QueryDocType) {
 			if (query.getRecord_ID() > 0) {
-				v_POSPanel.setC_DocType_ID(query.getRecord_ID());
+				posPanel.setC_DocType_ID(query.getRecord_ID());
 			}
 		}
 		//	Refresh
-		v_POSPanel.refreshPanel();
+		posPanel.refreshPanel();
 	}
 
 	@Override
