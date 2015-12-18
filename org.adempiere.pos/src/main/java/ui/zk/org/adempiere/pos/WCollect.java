@@ -492,7 +492,8 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
 		} else {
-			errorMsg = validatePayment(v_POSPanel.getOpenAmt());
+			if(!v_POSPanel.isStandardOrder()) // No Check at Standard Order
+				errorMsg = validatePayment(v_POSPanel.getOpenAmt());
 		}
 		//	
 		return errorMsg;
