@@ -1085,12 +1085,14 @@ public class CPOS {
 				currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
 				isToPrint = false;
 			}
-//			} else {
-			//	Force Delivery for POS
+			
+			//	Force Delivery for POS not for Standard Order
+			if(!currentOrder.getC_DocTypeTarget().getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_Standard)) {				
 				currentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
 				currentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
-						
-//			}
+			}
+				
 			currentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (currentOrder.processIt(DocAction.ACTION_Complete) ) {
 				currentOrder.saveEx();
