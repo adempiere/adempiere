@@ -64,9 +64,9 @@ import org.compiere.util.Msg;
 public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
 	/**	Window No					*/
-	private int         					m_WindowNo;
+	private int 							windowNo;
 	/**	FormFrame					*/
-	private CFrame 							m_frame;
+	private CFrame 							frame;
 	/**	Main Panel					*/
 	private CPanel 							mainPanel;
 	/**	Divider Pane				*/
@@ -95,9 +95,9 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private HashMap<Integer, POSKeyboard> 	keyboards = new HashMap<Integer, POSKeyboard>();
 	
 	/**	Logger						*/
-	private CLogger							log = CLogger.getCLogger(getClass());
+	private CLogger 						logger = CLogger.getCLogger(getClass());
 	/**	Format						*/
-	private DecimalFormat					m_Format;
+	private DecimalFormat 					decimalFormat;
 	/**	Font						*/
 	private Font 							font;
 	/**	Plain Font					*/
@@ -140,7 +140,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		plainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 16);
 		bigFont = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 20);
 		bigPlainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 20);
-		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
+		decimalFormat = DisplayType.getNumberFormat(DisplayType.Amount);
 		fieldHeight = 50;
 		buttonSize = 50;
 		
@@ -157,18 +157,18 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 	@Override
 	public void init(int WindowNo, FormFrame frame) {
-		m_frame = frame.getCFrame();
-		m_frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		m_frame.setResizable(true);
+		this.frame = frame.getCFrame();
+		this.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.frame.setResizable(true);
 		//	
-		log.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
-		m_WindowNo = WindowNo;
+		logger.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
+		windowNo = WindowNo;
 		frame.setJMenuBar(null);
 
 		loadPOS();
 		if (getM_POS() == null) {
-			if (m_frame != null)
-				m_frame.dispose();
+			if (this.frame != null)
+				this.frame.dispose();
 			return;
 		}
 		//
@@ -182,12 +182,12 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		}
 		catch (AdempierePOSException exception)
 		{
-			ADialog.error(getWindowNo(), m_frame , exception.getLocalizedMessage());
+			ADialog.error(getWindowNo(), this.frame, exception.getLocalizedMessage());
 			dispose();
 			return;
 		}
 
-		log.config( "PosPanel.init - " + mainPanel.getPreferredSize());
+		logger.config( "PosPanel.init - " + mainPanel.getPreferredSize());
 		
 		if (getAutoLogoutDelay() > 0 && logoutTimer == null) {
 			logoutTimer = new javax.swing.Timer(1000,
@@ -229,7 +229,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @return CFrame
 	 */
 	public CFrame getFrame() {
-		return m_frame;
+		return frame;
 	}
 	
 	/**
@@ -274,7 +274,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @return DecimalFormat
 	 */
 	public DecimalFormat getNumberFormat() {
-		return m_Format;
+		return decimalFormat;
 	}
 	
 	/**
@@ -317,8 +317,8 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		//	Select POS
 		int orgId = Env.getAD_Org_ID(getCtx());
 		String msg = Msg.getMsg(getCtx(), "SelectPOS");
-		String title = Env.getHeader(getCtx(), m_WindowNo);
-		Object selection = JOptionPane.showInputDialog(m_frame, msg, title,
+		String title = Env.getHeader(getCtx(), windowNo);
+		Object selection = JOptionPane.showInputDialog(frame, msg, title,
 				JOptionPane.QUESTION_MESSAGE, null, getPOSByOrganization(orgId).toArray(), null);
 
 		if (selection != null) {
@@ -333,7 +333,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * 	The Sub Panels return their position
 	 */
 	private boolean dynInit() {
-		m_frame.setTitle("Adempiere POS: " + getPOSName());
+		frame.setTitle("Adempiere POS: " + getPOSName());
 		//	Create Sub Panels
 		leftPanel = new CPanel(new GridBagLayout());
 		actionPanel = new POSActionPanel(this);
@@ -383,7 +383,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		//	
 		String lineError = add(p_M_Product_ID, m_QtyOrdered);
 		if (lineError != null) {
-			log.warning("POS Error " + lineError);
+			logger.warning("POS Error " + lineError);
 			ADialog.error(getWindowNo(),
 					mainPanel, Msg.parseTranslation(ctx, lineError));
 		}
@@ -420,9 +420,9 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		if (v_ProductKeysPanel != null)
 			v_ProductKeysPanel.dispose();
 		v_ProductKeysPanel = null;
-		if (m_frame != null)
-			m_frame.dispose();
-		m_frame = null;
+		if (frame != null)
+			frame.dispose();
+		frame = null;
 	}	//	dispose
 	
 	/**
@@ -454,7 +454,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @return int
 	 */
 	public int getWindowNo() {
-		return m_WindowNo;
+		return windowNo;
 	}
 	
 	/**
@@ -533,7 +533,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 	public void changeViewQuantityPanel()
 	{
-		changeViewQuantityPanel();
+		quantityPanel.changeViewPanel();
 	}
 
 	public StatusBar getStatusBar()
