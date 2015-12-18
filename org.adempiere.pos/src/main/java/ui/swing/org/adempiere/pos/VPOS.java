@@ -120,9 +120,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public VPOS() {
 		super();
 
-		//Setting Keyboard Manager
-		SettingKeyboardFocusManager();
-
 		mainPanel = new CPanel(new BorderLayout());
 		mainPanel.setFocusCycleRoot(true);
 		dividerPane = new JSplitPane();
@@ -166,6 +163,9 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		frame.setJMenuBar(null);
 
 		loadPOS();
+
+		SettingKeyboardFocusManager();
+
 		if (getM_POS() == null) {
 			if (this.frame != null)
 				this.frame.dispose();
@@ -310,6 +310,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private void loadPOS() {
 		int salesRep_ID = Env.getAD_User_ID(getCtx());
 		setPOS(salesRep_ID);
+
 		if(getM_POS() != null) {
 			validLocator();
 			return;
