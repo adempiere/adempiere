@@ -611,6 +611,7 @@ public class Collect {
 	/**
 	 * Processes different kinds of payment types
 	 * For Cash: if there is a return amount, modify the payment amount accordingly.
+	 * If there are no payment methods, nothing happens
 	 * @param trxName
 	 * @param p_OpenAmt
 	 */
