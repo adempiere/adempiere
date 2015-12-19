@@ -82,7 +82,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	/** Current Line				*/
 	private POSOrderLinePanel 				orderLinePanel;
 	/** Function Keys				*/
-	private POSDocumentPanel v_ProductKeysPanel;
+	private POSDocumentPanel 				productKeysPanel;
 	/** Status Bar 					*/
 	private StatusBar 						statusBar;
 	/**	Timer for logout			*/
@@ -338,27 +338,28 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		//	Create Sub Panels
 		leftPanel = new CPanel(new GridBagLayout());
 		actionPanel = new POSActionPanel(this);
-		quantityPanel = new POSQuantityPanel(this);
 		infoProductPanel = new POSInfoProduct(this);
+		quantityPanel = new POSQuantityPanel(this);
 
 		leftPanel.add(actionPanel, new GridBagConstraints(0, 0, 1, 1, 1, 0
 				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-		leftPanel.add(quantityPanel, new GridBagConstraints(0, 1, 1, 1, 1, 0
-				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0 , 0, 0), 0, 0));
-		leftPanel.add(infoProductPanel, new GridBagConstraints(0, 2, 1, 1, 1, 0
+		leftPanel.add(infoProductPanel, new GridBagConstraints(0, 1, 1, 1, 1, 0
 				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+		leftPanel.add(quantityPanel, new GridBagConstraints(0, 2, 1, 1, 1, 0
+				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0 , 10 , 0), 0, 0));
+
 
 		leftPanel.setPreferredSize(new Dimension(500, 800));
 		leftPanel.setMinimumSize(new Dimension(500, 800));
 		//
 		orderLinePanel = new POSOrderLinePanel(this);
-		leftPanel.add(orderLinePanel, new GridBagConstraints(0, 3, 1, 1, 1, 1
+		leftPanel.add(orderLinePanel, new GridBagConstraints(0, 4, 1, 1, 1, 1
 				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		v_ProductKeysPanel = new POSDocumentPanel(this);
-		v_ProductKeysPanel.setPreferredSize(new Dimension(500, 800));
-		v_ProductKeysPanel.setMinimumSize(new Dimension(500, 800));
+		productKeysPanel = new POSDocumentPanel(this);
+		productKeysPanel.setPreferredSize(new Dimension(500, 800));
+		productKeysPanel.setMinimumSize(new Dimension(500, 800));
 		dividerPane.add(leftPanel, JSplitPane.LEFT);
-		dividerPane.add(v_ProductKeysPanel, JSplitPane.RIGHT);
+		dividerPane.add(productKeysPanel, JSplitPane.RIGHT);
 
 		statusBar.setInfo("");
 		//	Seek to last
@@ -370,19 +371,19 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	
 	/**
 	 * Add or replace order line
-	 * @param p_M_Product_ID
-	 * @param m_QtyOrdered
+	 * @param productId
+	 * @param qtyOrdered
 	 * @return void
 	 */
-	public void addLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
+	public void addLine(int productId, BigDecimal qtyOrdered) {
 		//	Create Ordder if not exists
 		if (!hasOrder()) {
 			newOrder();
 		}
 		//	Show Product Info
-		refreshProductInfo(p_M_Product_ID);
+		refreshProductInfo(productId);
 		//	
-		String lineError = add(p_M_Product_ID, m_QtyOrdered);
+		String lineError = add(productId, qtyOrdered);
 		if (lineError != null) {
 			logger.warning("POS Error " + lineError);
 			ADialog.error(getWindowNo(),
@@ -418,9 +419,9 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 			orderLinePanel.dispose();
 		}
 		orderLinePanel = null;
-		if (v_ProductKeysPanel != null)
-			v_ProductKeysPanel.dispose();
-		v_ProductKeysPanel = null;
+		if (productKeysPanel != null)
+			productKeysPanel.dispose();
+		productKeysPanel = null;
 		if (frame != null)
 			frame.dispose();
 		frame = null;
@@ -472,7 +473,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		reloadOrder();
 		actionPanel.refreshPanel();
 		actionPanel.changeViewPanel();
-		v_ProductKeysPanel.refreshPanel();
+		productKeysPanel.refreshPanel();
 		orderLinePanel.refreshPanel();
 	}
 	
@@ -482,16 +483,16 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @return void
 	 */
 	public void refreshProductInfo(MPOSKey key) {
-		infoProductPanel.refreshProduct(key);
+		infoProductPanel.refreshProduct(key , getM_PriceList_Version_ID() , getM_Warehouse_ID());
 	}
 	
 	/**
 	 * Refresh Product Info
-	 * @param p_M_Product_ID
+	 * @param productId
 	 * @return void
 	 */
-	public void refreshProductInfo(int p_M_Product_ID) {
-		infoProductPanel.refreshProduct(p_M_Product_ID);
+	public void refreshProductInfo(int productId) {
+		infoProductPanel.refreshProduct( productId , getM_PriceList_Version_ID() , getM_Warehouse_ID());
 	}
 	
 	/**
@@ -501,7 +502,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public void refreshHeader() {
 		reloadOrder();
 		actionPanel.changeViewPanel();
-		v_ProductKeysPanel.refreshPanel();
+		productKeysPanel.refreshPanel();
 	}
 
 	@Override

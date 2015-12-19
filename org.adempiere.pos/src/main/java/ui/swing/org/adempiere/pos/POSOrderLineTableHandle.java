@@ -65,10 +65,11 @@ public class POSOrderLineTableHandle {
 	public static final int	COLUMN_QTY = 10;
 	
 	/**	Column Position		*/
-	public static final int	POSITION_C_ORDER_ID 	= 0;
+	public static final int POSITION_C_ORDERLINE_ID = 0;
 	public static final int	POSITION_DELETE	 		= 1;
 	public static final int	POSITION_QTYORDERED 	= 3;
 	public static final int	POSITION_PRICE 			= 5;
+	public static final int	POSITION_DISCOUNT 		= 6;
 	public static final int	POSITION_LINENETAMT 	= 7;
 	public static final int	POSITION_GRANDTOTAL 	= 9;
 	

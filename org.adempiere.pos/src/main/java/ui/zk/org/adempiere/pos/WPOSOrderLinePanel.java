@@ -173,12 +173,10 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 	
 	public void updateLine() {
 		int row = posTable.getSelectedRow();
-			BigDecimal m_QtyOrdered = posPanel.getQty();
-			BigDecimal m_Price = posPanel.getPrice();
 			//	Remove Listener
 			posTable.getModel().removeTableModelListener(this);
 			//	Remove line
-			if(m_QtyOrdered.compareTo(Env.ZERO) <= 0) {
+			if(posPanel.getQty().signum() <= 0) {
 				posPanel.deleteLine(orderLineId);
 				((ListModelTable) posTable.getModel()).remove(row);
 				posTable.getModel().addTableModelListener(this);
@@ -188,7 +186,13 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			}
 			
 			//	Get Order Line
-			BigDecimal[] m_Summary = posPanel.updateLine(orderLineId, m_QtyOrdered, m_Price);
+			BigDecimal[] m_Summary = posPanel.updateLine(
+					orderLineId,
+					posPanel.getQty() ,
+					posPanel.getPriceLimit(),
+					posPanel.getPrice() ,
+					posPanel.getPriceList(),
+					posPanel.getDiscountPercentage());
 			//	Set Totals
 			if(m_Summary != null) {
 				posTable.setValueAt(m_Summary[0], row, POSOrderLineTableHandle.POSITION_LINENETAMT);

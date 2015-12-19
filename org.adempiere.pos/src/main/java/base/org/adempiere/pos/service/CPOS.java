@@ -42,6 +42,7 @@ import org.compiere.model.MOrderTax;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
 import org.compiere.model.MPOS;
+import org.compiere.model.MPOSKey;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentProcessor;
 import org.compiere.model.MPriceList;
@@ -103,16 +104,22 @@ public class CPOS {
 	private CLogger 			log = CLogger.getCLogger(getClass());
 	/**	Quantity Ordered		*/
 	private BigDecimal 			quantity = BigDecimal.ZERO;
+	/** Price Limit 			*/
+	private BigDecimal 			priceLimit = BigDecimal.ZERO;
 	/**	Price					*/
 	private BigDecimal 			price = BigDecimal.ZERO;
+	/**	Price List				*/
+	private BigDecimal 			priceList = BigDecimal.ZERO;
+	/**	% Discount		    	*/
+	private BigDecimal 			discountPercentage = BigDecimal.ZERO;
 	
 	
 	/**
 	 * 	Set MPOS
-	 * @param p_SalesRep_ID
+	 * @param salesRepId
 	 * @return true if found/set
 	 */
-	public void setPOS(int p_SalesRep_ID) {
+	public void setPOS(int salesRepId) {
 		//List<MPOS> poss = getPOSs(p_SalesRep_ID);
 		List<MPOS> poss = getPOSByOrganization(Env.getAD_Org_ID(getCtx()));
 		//
@@ -299,10 +306,10 @@ public class CPOS {
 	 */
 	private String getDocSubTypeSO() {
 		//	
-		MDocType m_DocType = MDocType.get(getCtx(), getC_DocType_ID());
-		if(m_DocType != null) {
-			if(m_DocType.getDocSubTypeSO() != null) {
-				return m_DocType.getDocSubTypeSO();
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		if(docType != null) {
+			if(docType.getDocSubTypeSO() != null) {
+				return docType.getDocSubTypeSO();
 			}
 		}
 		//	
@@ -370,12 +377,12 @@ public class CPOS {
 	/**
 	 * Compare BP Name
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @param p_Name
+	 * @param name
 	 * @return
 	 * @return boolean
 	 */
-	public boolean compareBPName(String p_Name) {
-		return partner.getName().equals(p_Name);
+	public boolean compareBPName(String name) {
+		return partner.getName().equals(name);
 	}
 	
 	/**
@@ -439,12 +446,12 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getSalesRepName() {
-		MUser salesrep = MUser.get(ctx);
-		if(salesrep == null) {
+		MUser salesRep = MUser.get(ctx);
+		if(salesRep == null) {
 			return null;
 		}
 		//	Default Return
-		return salesrep.getName();
+		return salesRep.getName();
 	}
 	
 	/**
@@ -489,29 +496,29 @@ public class CPOS {
 	
 	/**
 	 * 	New Order
-	 *  @param p_C_BPartner_ID
+	 *  @param partnerId
 	 */
-	public void newOrder(int p_C_BPartner_ID) {
+	public void newOrder(int partnerId) {
 		log.info( "PosPanel.newOrder");
 		currentOrder = null;
-		int m_C_DocType_ID = entityPOS.getC_DocType_ID();
+		int docTypeId = entityPOS.getC_DocType_ID();
 		//	Create Order
-		createOrder(p_C_BPartner_ID, m_C_DocType_ID);
+		createOrder(partnerId, docTypeId);
 		//	
 		reloadOrder();
 	}	//	newOrder
 	
 	/**
 	 * Set Custom Document Type
-	 * @param p_C_DocTypeTarget_ID
+	 * @param docTypeTargetId
 	 * @return void
 	 */
-	public void setC_DocType_ID(int p_C_DocTypeTarget_ID) {
+	public void setC_DocType_ID(int docTypeTargetId) {
 		//	Valid if has a Order
 		if(!isDrafted())
 			return;
 		//	Set Document Type
-		currentOrder.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
+		currentOrder.setC_DocTypeTarget_ID(docTypeTargetId);
 		//	Set Sequenced No
 		String value = DB.getDocumentNo(getC_DocType_ID(), null, false, currentOrder);
 		if (value != null) {
@@ -523,14 +530,14 @@ public class CPOS {
 	
 	/**
 	 * Get/create Order
-	 *	@param p_C_BPartner_ID Business Partner
-	 *	@param p_C_DocTypeTarget_ID ID of document type
+	 *	@param partnerId Business Partner
+	 *	@param docTypeTargetId ID of document type
 	 */
-	private void createOrder(int p_C_BPartner_ID, int p_C_DocTypeTarget_ID) {
-		int m_Free_C_Order_ID = getFreeC_Order_ID();
+	private void createOrder(int partnerId, int docTypeTargetId) {
+		int orderId = getFreeC_Order_ID();
 		//	Change Values for new Order
-		if(m_Free_C_Order_ID > 0) {
-			currentOrder = new MOrder(Env.getCtx(), m_Free_C_Order_ID, null);
+		if(orderId > 0) {
+			currentOrder = new MOrder(Env.getCtx(), orderId, null);
 			currentOrder.setDateOrdered(getToday());
 			currentOrder.setDateAcct(getToday());
 			currentOrder.setDatePromised(getToday());
@@ -541,15 +548,15 @@ public class CPOS {
 		currentOrder.setIsSOTrx(true);
 		currentOrder.setC_POS_ID(entityPOS.getC_POS_ID());
 		currentOrder.setM_Warehouse_ID(entityPOS.getM_Warehouse_ID());
-		if (p_C_DocTypeTarget_ID != 0) {
-			currentOrder.setC_DocTypeTarget_ID(p_C_DocTypeTarget_ID);
+		if (docTypeTargetId != 0) {
+			currentOrder.setC_DocTypeTarget_ID(docTypeTargetId);
 		} else {
 			currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_OnCredit);
 		}
 		//	Set BPartner
-		setC_BPartner_ID(p_C_BPartner_ID);
+		setC_BPartner_ID(partnerId);
 		//	Add if is new
-		if(m_Free_C_Order_ID < 0) {
+		if(orderId < 0) {
 			//	Add To List
 			orderList.add(currentOrder.getC_Order_ID());
 		}
@@ -595,20 +602,20 @@ public class CPOS {
 	/**
 	 * set BPartner and save
 	 */
-	public void setC_BPartner_ID(int p_C_BPartner_ID) {
+	public void setC_BPartner_ID(int partnerId) {
 		//	Valid if has a Order
 		if(isCompleted()
 				|| isVoided())
 			return;
-		log.fine( "CPOS.setC_BPartner_ID=" + p_C_BPartner_ID);
+		log.fine( "CPOS.setC_BPartner_ID=" + partnerId);
 		boolean isSamePOSPartner = false;
 		//	Validate BPartner
-		if (p_C_BPartner_ID == 0) {
+		if (partnerId == 0) {
 			isSamePOSPartner = true;
-			p_C_BPartner_ID = entityPOS.getC_BPartnerCashTrx_ID();
+			partnerId = entityPOS.getC_BPartnerCashTrx_ID();
 		}
 		//	Get BPartner
-		partner = MBPartner.get(ctx, p_C_BPartner_ID);
+		partner = MBPartner.get(ctx, partnerId);
 		if (partner == null || partner.get_ID() == 0) {
 			throw new AdempierePOSException("POS.NoBPartnerForOrder");
 		} else {
@@ -618,13 +625,13 @@ public class CPOS {
 			if (partner != null) {
 				currentOrder.setBPartner(partner);
 				//	
-				MBPartnerLocation [] m_BPLocations = partner.getLocations(true);
-				if(m_BPLocations.length > 0) {
-					for(MBPartnerLocation loc : m_BPLocations) {
-						if(loc.isBillTo())
-							currentOrder.setBill_Location_ID(loc.getC_BPartner_Location_ID());
-						if(loc.isShipTo())
-							currentOrder.setShip_Location_ID(loc.getC_BPartner_Location_ID());
+				MBPartnerLocation [] partnerLocations = partner.getLocations(true);
+				if(partnerLocations.length > 0) {
+					for(MBPartnerLocation partnerLocation : partnerLocations) {
+						if(partnerLocation.isBillTo())
+							currentOrder.setBill_Location_ID(partnerLocation.getC_BPartner_Location_ID());
+						if(partnerLocation.isShipTo())
+							currentOrder.setShip_Location_ID(partnerLocation.getC_BPartner_Location_ID());
 					}				
 				}
 			}
@@ -638,8 +645,8 @@ public class CPOS {
 			//	Save Header
 			currentOrder.saveEx();
 			//	Load Price List Version
-			MPriceListVersion plv = loadPriceListVersion(currentOrder.getM_PriceList_ID());
-			MProductPrice[] ppList = plv.getProductPrice("AND EXISTS("
+			MPriceListVersion priceListVersion = loadPriceListVersion(currentOrder.getM_PriceList_ID());
+			MProductPrice[] productPrices = priceListVersion.getProductPrice("AND EXISTS("
 					+ "SELECT 1 "
 					+ "FROM C_OrderLine ol "
 					+ "WHERE ol.C_Order_ID = " + currentOrder.getC_Order_ID() + " "
@@ -649,7 +656,7 @@ public class CPOS {
 			//	Delete if not exist in price list
 			for (MOrderLine line : lines) {
 				//	Verify if exist
-				if(existInPriceList(line.getM_Product_ID(), ppList)) {
+				if(existInPriceList(line.getM_Product_ID(), productPrices)) {
 					line.setC_BPartner_ID(partner.getC_BPartner_ID());
 					line.setC_BPartner_Location_ID(currentOrder.getC_BPartner_Location_ID());
 					line.setPrice();
@@ -664,14 +671,13 @@ public class CPOS {
 	
 	/**
 	 * Verify if exist in price list
-	 * @param p_M_Product_ID
-	 * @param p_PPList
-	 * @return
+	 * @param productId
+	 * @param productPrices
 	 * @return boolean
 	 */
-	private boolean existInPriceList(int p_M_Product_ID, MProductPrice[] p_PPList) {
-		for(MProductPrice pp : p_PPList) {
-			if(p_M_Product_ID == pp.getM_Product_ID()) {
+	private boolean existInPriceList(int productId, MProductPrice[] productPrices) {
+		for(MProductPrice productPrice : productPrices) {
+			if(productId == productPrice.getM_Product_ID()) {
 				return true;
 			}
 		}
@@ -683,14 +689,14 @@ public class CPOS {
 	 * 	Get POSs for specific Sales Rep or all
 	 *	@return array of POS
 	 */
-	public List<MPOS> getPOSs (int p_SalesRep_ID) {
-		String pass_field = MPOS.COLUMNNAME_SalesRep_ID;
-		int pass_ID = p_SalesRep_ID;
-		if (p_SalesRep_ID == 100) {
-			pass_field = MPOS.COLUMNNAME_AD_Client_ID;
-			pass_ID = Env.getAD_Client_ID(ctx);
+	public List<MPOS> getPOSs (int salesRepId) {
+		String searchBy = MPOS.COLUMNNAME_SalesRep_ID;
+		int id = salesRepId;
+		if (salesRepId == 100) {
+			searchBy = MPOS.COLUMNNAME_AD_Client_ID;
+			id = Env.getAD_Client_ID(ctx);
 		}
-		return MPOS.getAll(ctx, pass_field, pass_ID , null);
+		return MPOS.getAll(ctx, searchBy, id , null);
 	}	//	getPOSs
 
 
@@ -711,11 +717,11 @@ public class CPOS {
 	}	//	getToday
 	
 	/**
-	 * @param p_C_Order_ID
+	 * @param orderId
 	 */
-	public void setOrder(int p_C_Order_ID) {
-		currentOrder = new MOrder(ctx, p_C_Order_ID, null);
-		if (p_C_Order_ID != 0) {
+	public void setOrder(int orderId) {
+		currentOrder = new MOrder(ctx, orderId, null);
+		if (orderId != 0) {
 			loadPriceListVersion(currentOrder.getM_PriceList_ID());
 		}
 		//	
@@ -724,59 +730,72 @@ public class CPOS {
 	
 	/**
 	 * Update Line
-	 * @param p_C_OrderLine_ID
-	 * @param p_QtyOrdered
-	 * @param p_PriceEntered
-	 * @param p_LineNetAmt
-	 * @param p_GrandTotal
-	 * @return BigDecimal []
-	 */
-	public BigDecimal [] updateLine(int p_C_OrderLine_ID, BigDecimal p_QtyOrdered, 
-			BigDecimal p_PriceEntered) {
+	 * @param orderLineId
+	 * @param qtyOrdered
+	 * @param priceLimit
+	 * @param priceEntered
+	 * @param priceList
+     * @param discountPercentage
+	 * @return
+     */
+	public BigDecimal [] updateLine(int orderLineId,
+									BigDecimal qtyOrdered,
+									BigDecimal priceLimit,
+									BigDecimal priceEntered,
+									BigDecimal priceList, BigDecimal discountPercentage) {
 		//	Valid if has a Order
 		if(!isDrafted())
 			return null;
 		//	
-		MOrderLine[] lines = currentOrder.getLines("AND C_OrderLine_ID = " + p_C_OrderLine_ID, "Line");
-		BigDecimal m_LineNetAmt = Env.ZERO; 
-		BigDecimal m_TaxRate = Env.ZERO;
-		BigDecimal m_GrandTotal = Env.ZERO;
+		MOrderLine[] mOrderLines = currentOrder.getLines("AND C_OrderLine_ID = " + orderLineId, "Line");
+		BigDecimal lineNetAmt = Env.ZERO;
+		BigDecimal taxRate = Env.ZERO;
+		BigDecimal grandTotal = Env.ZERO;
 		
 		//	Search Line
-		for(MOrderLine line : lines) {
+		for(MOrderLine orderLine : mOrderLines) {
 			//	Valid No changes
-			if(p_QtyOrdered.doubleValue() == line.getQtyOrdered().doubleValue()
-					&& p_PriceEntered.doubleValue() == line.getPriceEntered().doubleValue()) {
+			if(qtyOrdered.compareTo(orderLine.getQtyOrdered()) == 0
+			&& priceEntered.compareTo(orderLine.getPriceEntered()) == 0
+			&& discountPercentage.compareTo(orderLine.getDiscount()) == 0 ) {
 				return null;
 			}
-			line.setPrice(p_PriceEntered);
-			line.setQty(p_QtyOrdered);
-			line.setTax();
-			line.saveEx();
+
+			if (discountPercentage.compareTo(orderLine.getDiscount()) != 0) {
+				BigDecimal discountAmount = orderLine.getPriceList().multiply(discountPercentage.divide(Env.ONEHUNDRED));
+				priceEntered = orderLine.getPriceList().subtract(discountAmount);
+			}
+
+			orderLine.setPrice(priceEntered);
+			orderLine.setQty(qtyOrdered);
+			orderLine.setTax();
+			orderLine.saveEx();
 			//	Set Values for Grand Total
-			m_LineNetAmt = line.getLineNetAmt();
-			m_TaxRate = MTax.get(ctx, line.getC_Tax_ID()).getRate();
-			if(m_TaxRate == null) {
-				m_TaxRate = Env.ZERO;
+			lineNetAmt = orderLine.getLineNetAmt();
+			taxRate = MTax.get(ctx, orderLine.getC_Tax_ID()).getRate();
+			if(taxRate == null) {
+				taxRate = Env.ZERO;
 			} else {
-				m_TaxRate = m_TaxRate
+				taxRate = taxRate
 						.divide(Env.ONEHUNDRED);
 			}
 			//	Calculate Total
-			m_GrandTotal = m_LineNetAmt
-						.add(m_LineNetAmt
-								.multiply(m_TaxRate));
+			grandTotal = lineNetAmt
+						.add(lineNetAmt
+								.multiply(taxRate));
 		}
 		//	Return Value
-		return new BigDecimal[]{m_LineNetAmt, m_TaxRate, m_GrandTotal};
+		return new BigDecimal[]{lineNetAmt, taxRate, grandTotal};
 	}
-	
+
 	/**
 	 * Create new Line
-	 * @return line or null
-	 */
-	public MOrderLine createLine(MProduct product, BigDecimal p_QtyOrdered,
-			BigDecimal p_PriceActual) {
+	 * @param product
+	 * @param qtyOrdered
+	 * @param warehousePrice
+     * @return
+     */
+	public MOrderLine createLine(MProduct product, BigDecimal qtyOrdered, MWarehousePrice warehousePrice) {
 		//	Valid Complete
 		if (!isDrafted())
 			return null;
@@ -785,11 +804,11 @@ public class CPOS {
 		for (MOrderLine line : lines) {
 			if (line.getM_Product_ID() == product.getM_Product_ID()) {
 				//increase qty
-				BigDecimal m_CurrentQty = line.getQtyEntered();
-				BigDecimal m_CurrentPrice = line.getPriceEntered();
-				BigDecimal m_TotalQty = m_CurrentQty.add(p_QtyOrdered);
-				line.setQty(m_TotalQty);
-				line.setPrice(m_CurrentPrice); //	sets List/limit
+				BigDecimal currentQty = line.getQtyEntered();
+				BigDecimal currentPrice = line.getPriceEntered();
+				BigDecimal totalQty = currentQty.add(qtyOrdered);
+				line.setQty(totalQty);
+				line.setPrice(currentPrice); //	sets List/limit
 				line.saveEx();
 				return line;
 			}
@@ -797,62 +816,53 @@ public class CPOS {
         //create new line
 		MOrderLine line = new MOrderLine(currentOrder);
 		line.setProduct(product);
-		line.setQty(p_QtyOrdered);
+		line.setQty(qtyOrdered);
 		//	
 		line.setPrice(); //	sets List/limit
-		if ( p_PriceActual.compareTo(Env.ZERO) > 0 ) {
-			line.setPrice(p_PriceActual);
+		if ( warehousePrice.getPriceStd().signum() > 0 ) {
+			line.setPriceLimit(warehousePrice.getPriceLimit());
+			line.setPrice(warehousePrice.getPriceStd());
+			line.setPriceList(warehousePrice.getPriceList());
+			setPriceLimit(warehousePrice.getPriceLimit());
+			//setPrice(warehousePrice.getPriceStd());
+			setPriceList(warehousePrice.getPriceList());
+			BigDecimal percentageDiscount = line.getDiscount();
+			setDiscountPercentage(percentageDiscount);
 		}
 		//	Save Line
 		line.saveEx();
 		return line;
 			
 	} //	createLine
-	
-	/**
-	 * Get Product Price
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @param p_Product
-	 * @return
-	 * @return BigDecimal
-	 */
-	public BigDecimal getPrice(MProduct p_Product) {
-		if (p_Product == null)
-			return Env.ZERO;
-		//
-		MWarehousePrice result = MWarehousePrice.get (p_Product,
-				priceListVersionId, entityPOS.getM_Warehouse_ID(), null);
-		if (result != null) {
-			return result.getPriceStd();
-		}
-		//	Default to return
-		return Env.ZERO;
 
-	}	//	setPrice
-	
 	/**
-	 * Save Line
-	 * 
-	 * @return true if saved
-	 */
-	public String add(int p_M_Product_ID, BigDecimal p_QtyOrdered) {
-		String m_Error = null;
+	 *  Save Line
+	 * @param productId
+	 * @param qtyOrdered
+     * @return
+     */
+	public String add(int productId, BigDecimal qtyOrdered) {
+		String errorMessage = null;
 		try {
-			MProduct m_Product = MProduct.get(ctx, p_M_Product_ID);
-			if (m_Product == null)
+			MProduct product = MProduct.get(ctx, productId);
+			if (product == null)
 				return "@No@ @InfoProduct@";
-			BigDecimal PriceActual = getPrice(m_Product);
+
+			MWarehousePrice warehousePrice = MWarehousePrice.get(product,getM_PriceList_Version_ID(),getM_Warehouse_ID(),null);
+			if (warehousePrice == null)
+					throw new AdempiereException("@Price@ @NotFound@");
+
 			//	Validate if exists a order
 			if (hasOrder()) {
-				createLine(m_Product, p_QtyOrdered, PriceActual);
+				createLine(product, qtyOrdered, warehousePrice);
 			} else {
 				return "@POS.MustCreateOrder@";
 			}
 		} catch (Exception e) {
-			m_Error = e.getMessage();
+			errorMessage = e.getMessage();
 		}
 		//	
-		return m_Error;
+		return errorMessage;
 	} //	saveLine
 	
 	/**
@@ -928,10 +938,10 @@ public class CPOS {
 	 * To erase one line from order
 	 * 
 	 */
-	public void deleteLine (int C_OrderLine_ID) {
-		if ( C_OrderLine_ID != -1 && currentOrder != null ) {
+	public void deleteLine (int orderLineId) {
+		if ( orderLineId != -1 && currentOrder != null ) {
 			for ( MOrderLine line : currentOrder.getLines(true, I_C_OrderLine.COLUMNNAME_M_Product_ID) ) {
-				if ( line.getC_OrderLine_ID() == C_OrderLine_ID ) {
+				if ( line.getC_OrderLine_ID() == orderLineId ) {
 					line.deleteEx(true);	
 				}
 			}
@@ -950,26 +960,26 @@ public class CPOS {
 					+ "AND o.C_POS_ID = ? "
 					+ "AND o.SalesRep_ID = ? "
 					+ "ORDER BY o.Updated");
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		orderList = new ArrayList<Integer>();
 		try {
 			//	Set Parameter
-			pstm= DB.prepareStatement(sql, null);
-			pstm.setInt (1, Env.getAD_Client_ID(Env.getCtx()));
-			pstm.setInt (2, getC_POS_ID());
-			pstm.setInt (3, getSalesRep_ID());
+			preparedStatement= DB.prepareStatement(sql, null);
+			preparedStatement.setInt (1, Env.getAD_Client_ID(Env.getCtx()));
+			preparedStatement.setInt (2, getC_POS_ID());
+			preparedStatement.setInt (3, getSalesRep_ID());
 			//	Execute
-			rs = pstm.executeQuery();
+			resultSet = preparedStatement.executeQuery();
 			//	Add to List
-			while(rs.next()){
-				orderList.add(rs.getInt(1));
+			while(resultSet.next()){
+				orderList.add(resultSet.getInt(1));
 			}
 		} catch(Exception e) {
 			log.severe("SubOrder.listOrder: " + e + " -> " + sql);
 		} finally {
-			DB.close(rs);
-			DB.close(pstm);
+			DB.close(resultSet);
+			DB.close(preparedStatement);
 		}
 		//	Seek Position
 		if(hasRecord())
@@ -1025,11 +1035,11 @@ public class CPOS {
 	
 	/**
 	 * Reload List Index
-	 * @param p_C_Order_ID
+	 * @param orderId
 	 * @return void
 	 */
-	public void reloadIndex(int p_C_Order_ID) {
-		int position = orderList.indexOf(p_C_Order_ID);
+	public void reloadIndex(int orderId) {
+		int position = orderList.indexOf(orderId);
 		if(position >= 0) {
 			recordPosition = position;
 		}
@@ -1062,12 +1072,12 @@ public class CPOS {
 	 * For status "Drafted" or "In Progress": process order
 	 * For status "Completed": do nothing as it can be pre payment or payment on credit
 	 * @param trxName
-	 * @param p_IsPrepayment
+	 * @param isPrepayment
 	 * @param p_IsPaid
 	 * @return true if order processed or pre payment/on credit; otherwise false
 	 * 
 	 */
-	public boolean processOrder(String trxName, boolean p_IsPrepayment, boolean p_IsPaid) {		
+	public boolean processOrder(String trxName, boolean isPrepayment, boolean isPaid) {
 		//Returning orderCompleted to check for order completeness
 		boolean orderCompleted = false;
 		// check if order completed OK
@@ -1080,7 +1090,7 @@ public class CPOS {
 			}
 			isToPrint = true;
 			//	Get value for Standard Order
-			if(p_IsPrepayment) {
+			if(isPrepayment) {
 				//	Set Document Type
 				currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
 				isToPrint = false;
@@ -1104,7 +1114,7 @@ public class CPOS {
 		}
 		
 		//	Validate for generate Invoice and Shipment
-		if(p_IsPaid
+		if(isPaid
 				&& !isInvoiced()
 				&& !isDelivered()) {	//	Generate Invoice and Shipment
 			generateShipment(trxName);
@@ -1122,8 +1132,8 @@ public class CPOS {
 	 * @return void
 	 */
 	private void generateShipment(String trxName) {
-		int AD_Process_ID = 199;  // HARDCODED    M_InOut_Generate - org.compiere.process.InOutGenerate
-		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
+		int processId = 199;  // HARDCODED    M_InOut_Generate - org.compiere.process.InOutGenerate
+		MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
 		if (!instance.save()) {
 			throw new AdempiereException("ProcessNoInstance");
 		}
@@ -1131,9 +1141,9 @@ public class CPOS {
 		DB.executeUpdateEx("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) Values(?, ?)", 
 				new Object[]{instance.getAD_PInstance_ID(), getC_Order_ID()}, trxName);
 		//	Add Lines
-		ProcessInfo pi = new ProcessInfo ("VInOutGen", AD_Process_ID);
-		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
-		pi.setClassName("org.compiere.process.InOutGenerate");
+		ProcessInfo processInfo = new ProcessInfo ("VInOutGen", processId);
+		processInfo.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		processInfo.setClassName("org.compiere.process.InOutGenerate");
 
 		//	Add Is Selection
 		MPInstancePara para = new MPInstancePara(instance, 10);
@@ -1154,9 +1164,9 @@ public class CPOS {
 		//	Create Trx
 		Trx trx = Trx.get(trxName, false);
 		//	Start Process
-		ProcessUtil.startJavaProcess(Env.getCtx(), pi, trx, false);
-		if(pi.isError()) {
-			throw new AdempiereException(pi.getSummary());
+		ProcessUtil.startJavaProcess(Env.getCtx(), processInfo, trx, false);
+		if(processInfo.isError()) {
+			throw new AdempiereException(processInfo.getSummary());
 		}
 	}
 	
@@ -1166,8 +1176,8 @@ public class CPOS {
 	 * @return void
 	 */
 	private void generateInvoice(String trxName) {
-		int AD_Process_ID = 134;  // HARDCODED    C_InvoiceCreate - org.compiere.process.InvoiceGenerate
-		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
+		int processId = 134;  // HARDCODED    C_InvoiceCreate - org.compiere.process.InvoiceGenerate
+		MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
 		if (!instance.save()) {
 			throw new AdempiereException("ProcessNoInstance");
 		}
@@ -1175,9 +1185,9 @@ public class CPOS {
 		DB.executeUpdateEx("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) Values(?, ?)", 
 				new Object[]{instance.getAD_PInstance_ID(), getC_Order_ID()}, trxName);
 		//	Add Lines
-		ProcessInfo pi = new ProcessInfo ("", AD_Process_ID);
-		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
-		pi.setClassName("org.compiere.process.InvoiceGenerate");
+		ProcessInfo processInfo = new ProcessInfo ("", processId);
+		processInfo.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		processInfo.setClassName("org.compiere.process.InvoiceGenerate");
 
 		//	Add Is Selection
 		MPInstancePara para = new MPInstancePara(instance, 10);
@@ -1199,9 +1209,9 @@ public class CPOS {
 		//	Create Trx
 		Trx trx = Trx.get(trxName, false);
 		//	Start Process
-		ProcessUtil.startJavaProcess(Env.getCtx(), pi, trx, false);
-		if(pi.isError()) {
-			throw new AdempiereException(pi.getSummary());
+		ProcessUtil.startJavaProcess(Env.getCtx(), processInfo, trx, false);
+		if(processInfo.isError()) {
+			throw new AdempiereException(processInfo.getSummary());
 		}
 	}
 	
@@ -1217,15 +1227,15 @@ public class CPOS {
 
 	/**
 	 * Set Payment Term and save orders
-	 * @param p_C_PaymentTerm_ID
+	 * @param paymentTermId
 	 * @return void
 	 */
-	public void setC_PaymentTerm_ID(int p_C_PaymentTerm_ID) {
-		if(p_C_PaymentTerm_ID != 0
+	public void setC_PaymentTerm_ID(int paymentTermId) {
+		if(paymentTermId != 0
 				&& hasOrder()
 				&& !isCompleted()
 				&& !isVoided()) {
-			currentOrder.setC_PaymentTerm_ID(p_C_PaymentTerm_ID);
+			currentOrder.setC_PaymentTerm_ID(paymentTermId);
 		}
 	}
 	
@@ -1312,9 +1322,9 @@ public class CPOS {
 			received = Env.ZERO;
 		
 		sql = "SELECT sum(Amount) FROM C_CashLine WHERE C_Invoice_ID = ? ";
-		BigDecimal cashline = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID());
-		if ( cashline != null )
-			received = received.add(cashline);
+		BigDecimal cashLineAmount = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID());
+		if ( cashLineAmount != null )
+			received = received.add(cashLineAmount);
 		
 		return received;
 	}
@@ -1348,21 +1358,21 @@ public class CPOS {
 	
 	/**
 	 * Load Price List Version from Price List
-	 * @param p_M_PriceList_ID
+	 * @param priceListId
 	 * @return
 	 * @return MPriceListVersion
 	 */
-	private MPriceListVersion loadPriceListVersion(int p_M_PriceList_ID) {
+	private MPriceListVersion loadPriceListVersion(int priceListId) {
 		priceListVersionId = 0;
-		MPriceList pl = MPriceList.get(ctx, p_M_PriceList_ID, null);
+		MPriceList priceList = MPriceList.get(ctx, priceListId, null);
 		//
-		MPriceListVersion plv = pl.getPriceListVersion (getToday());
-		if (plv != null 
-				&& plv.getM_PriceList_Version_ID() != 0) {
-			priceListVersionId = plv.getM_PriceList_Version_ID();
+		MPriceListVersion priceListVersion = priceList.getPriceListVersion (getToday());
+		if (priceListVersion != null
+				&& priceListVersion.getM_PriceList_Version_ID() != 0) {
+			priceListVersionId = priceListVersion.getM_PriceList_Version_ID();
 		}
 		//	Default Return
-		return plv;
+		return priceListVersion;
 	}
 	
 	/**
@@ -1428,11 +1438,11 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getCurSymbol() {
-		int m_C_Currency_ID = getC_Currency_ID();
-		if(m_C_Currency_ID > 0) {
-			MCurrency m_Currency = MCurrency.get(getCtx(), m_C_Currency_ID);
-			if(m_Currency != null) {
-				return m_Currency.getCurSymbol();
+		int currencyId = getC_Currency_ID();
+		if(currencyId > 0) {
+			MCurrency currency = MCurrency.get(getCtx(), currencyId);
+			if(currency != null) {
+				return currency.getCurSymbol();
 			}
 		}
 		//	Default
@@ -1447,28 +1457,28 @@ public class CPOS {
 	 */
 	public ValueNamePair[] getCreditCards (BigDecimal amt) {
 		try {
-			MPaymentProcessor[] m_mPaymentProcessors = MPaymentProcessor.find (Env.getCtx(), null, null, 
+			MPaymentProcessor[] paymentProcessors = MPaymentProcessor.find (Env.getCtx(), null, null,
 					currentOrder.getAD_Client_ID (), currentOrder.getAD_Org_ID(), currentOrder.getC_Currency_ID (), amt, currentOrder.get_TrxName());
 			//
 			HashMap<String,ValueNamePair> map = new HashMap<String,ValueNamePair>(); //	to eliminate duplicates
-			for (int i = 0; i < m_mPaymentProcessors.length; i++) {
-				if (m_mPaymentProcessors[i].isAcceptAMEX ())
+			for (int i = 0; i < paymentProcessors.length; i++) {
+				if (paymentProcessors[i].isAcceptAMEX ())
 					map.put (MPayment.CREDITCARDTYPE_Amex, getCreditCardPair (MPayment.CREDITCARDTYPE_Amex));
-				if (m_mPaymentProcessors[i].isAcceptDiners ())
+				if (paymentProcessors[i].isAcceptDiners ())
 					map.put (MPayment.CREDITCARDTYPE_Diners, getCreditCardPair (MPayment.CREDITCARDTYPE_Diners));
-				if (m_mPaymentProcessors[i].isAcceptDiscover ())
+				if (paymentProcessors[i].isAcceptDiscover ())
 					map.put (MPayment.CREDITCARDTYPE_Discover, getCreditCardPair (MPayment.CREDITCARDTYPE_Discover));
-				if (m_mPaymentProcessors[i].isAcceptMC ())
+				if (paymentProcessors[i].isAcceptMC ())
 					map.put (MPayment.CREDITCARDTYPE_MasterCard, getCreditCardPair (MPayment.CREDITCARDTYPE_MasterCard));
-				if (m_mPaymentProcessors[i].isAcceptCorporate ())
+				if (paymentProcessors[i].isAcceptCorporate ())
 					map.put (MPayment.CREDITCARDTYPE_PurchaseCard, getCreditCardPair (MPayment.CREDITCARDTYPE_PurchaseCard));
-				if (m_mPaymentProcessors[i].isAcceptVisa ())
+				if (paymentProcessors[i].isAcceptVisa ())
 					map.put (MPayment.CREDITCARDTYPE_Visa, getCreditCardPair (MPayment.CREDITCARDTYPE_Visa));
 			} //	for all payment processors
 			//
 			ValueNamePair[] retValue = new ValueNamePair[map.size ()];
 			map.values ().toArray (retValue);
-			log.fine("getCreditCards - #" + retValue.length + " - Processors=" + m_mPaymentProcessors.length);
+			log.fine("getCreditCards - #" + retValue.length + " - Processors=" + paymentProcessors.length);
 			return retValue;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -1490,16 +1500,16 @@ public class CPOS {
 					+ "				WHERE dt.C_DocType_ID = C_Invoice.C_DocType_ID "
 					+ "				AND dt.DocBaseType ='ARC'"
 					+ ")";
-			List<MInvoice> cns = new Query(Env.getCtx(), MInvoice.Table_Name, whereClause, null)
+			List<MInvoice> invoiceList = new Query(Env.getCtx(), MInvoice.Table_Name, whereClause, null)
 				.setParameters(currentOrder.getC_BPartner_ID())
 				.list();
 			//
 			HashMap<String,ValueNamePair> map = new HashMap<String,ValueNamePair>(); //	to eliminate duplicates
-			ValueNamePair vpv;
-			for (MInvoice inv : cns) {
-				Integer ID = inv.getC_Invoice_ID();
-				vpv = new ValueNamePair(ID.toString(), inv.getDocumentNo() + " " + inv.getOpenAmt().toString());
-					map.put (inv.getDocumentNo(), vpv);
+			ValueNamePair valueNamePair;
+			for (MInvoice invoice : invoiceList) {
+				Integer id = invoice.getC_Invoice_ID();
+				valueNamePair = new ValueNamePair(id.toString(), invoice.getDocumentNo() + " " + invoice.getOpenAmt().toString());
+					map.put (invoice.getDocumentNo(), valueNamePair);
 			} //	for all payment processors
 			//
 			ValueNamePair[] retValue = new ValueNamePair[map.size ()];
@@ -1670,6 +1680,37 @@ public class CPOS {
 	}
 
 	/**
+	 * Get Price of Product
+	 * @return price
+	 */
+	public BigDecimal getDiscountPercentage() {
+		return this.discountPercentage;
+	}
+
+
+	public void setDiscountPercentage(BigDecimal discountPercentage)
+	{
+		this.discountPercentage = discountPercentage;
+	}
+
+	public void setPriceLimit(BigDecimal priceLimit)
+	{
+		this.priceLimit = priceLimit;
+	}
+
+	public BigDecimal getPriceLimit() {
+		return this.priceLimit;
+	}
+
+	public BigDecimal getPriceList() {
+		return this.priceList;
+	}
+
+	public void setPriceList(BigDecimal priceList) {
+		this.priceList = priceList;
+	}
+
+	/**
 	 * Set Price of Product
 	 * @param price
 	 */
@@ -1677,7 +1718,14 @@ public class CPOS {
 	{
 		this.price = price;
 	}
-	
+
+	public void setPrice (MWarehousePrice warehousePrice)
+	{
+		setPriceLimit(warehousePrice.getPriceLimit());
+		setPrice(warehousePrice.getPriceStd());
+		setPriceList(warehousePrice.getPriceList());
+	}
+
 	public boolean IsShowLineControl() {
 		return true;
 	}
@@ -1692,5 +1740,39 @@ public class CPOS {
 			return true;
 
 		return false;
+	}
+
+	/**
+	 * Refresh from product
+	 * @param productId
+	 * @return void
+	 */
+	public int getProductImageId(int productId , int posKeyLayoutId) {
+		int imageId = 0;
+
+		//	Valid Product
+		if(productId == 0)
+			return imageId;
+
+		//	Get POS Key
+		int m_C_POSKey_ID = DB.getSQLValue(null, "SELECT pk.C_POSKey_ID "
+				+ "FROM C_POSKey pk "
+				+ "WHERE pk.C_POSKeyLayout_ID = ? "
+				+ "AND pk.M_Product_ID = ? "
+				+ "AND pk.IsActive = 'Y'", posKeyLayoutId , productId);
+		//	Valid POS Key
+		if(m_C_POSKey_ID <= 0) {
+			MPOSKey key =  new MPOSKey(ctx, m_C_POSKey_ID, null);
+			imageId = key.getAD_Image_ID();
+		}
+		return imageId;
+	}
+
+	public int getM_Product_ID(int orderLineId)
+	{
+		return DB.getSQLValue(null, "SELECT ol.M_Product_ID "
+				+ "FROM C_OrderLine ol "
+				+ "WHERE ol.C_OrderLine_ID = ?", orderLineId);
+
 	}
 }
