@@ -17,6 +17,7 @@
 
 package org.adempiere.pos;
 
+import org.adempiere.pos.service.ProductInfo;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -195,38 +196,36 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	public Panel getPanel(){
 		return parameterPanel;
 	}
-	
+
 	/**
-	 * Refresh Product from Key
-	 * @param key
-	 * @return void
-	 */
-	public void setValuesFromProduct(int p_M_Product_ID, int p_AD_Image_ID) {
-		if(p_M_Product_ID <= 0){
+	 * setValuesFromProduct
+	 * @param productId
+	 * @param imageId
+     */
+	public void setValuesFromProduct(int productId, int imageId) {
+		if(productId <= 0){
 			initialValue();
 			return;
 		}
 		
 		//	Refresh Values
-		MProduct m_Product = MProduct.get(ctx, p_M_Product_ID);
+		ProductInfo productInfo = new ProductInfo(productId, imageId , posPanel.getM_PriceList_Version_ID() , posPanel.getM_Warehouse_ID());
 		String currencyISO_Code = posPanel.getCurSymbol();
-		fValue.setText(m_Product.getValue());
+		fValue.setText(productInfo.value);
 		fPrice.setText(currencyISO_Code + "" 
 					+ posPanel.getNumberFormat()
-						.format(posPanel.getPrice(m_Product)));
-		fName.setText(m_Product.getName());
-		fUOMSymbol.setText(m_Product.getC_UOM().getUOMSymbol());
-		fProductCategory.setText(m_Product.getM_Product_Category().getName());
-		fProductTax.setText(m_Product.getC_TaxCategory().getName());
-		fDescription.setText(m_Product.getDescription());
-		if(p_AD_Image_ID != 0) {
+						.format(productInfo.priceStd));
+		fName.setText(productInfo.name);
+		fUOMSymbol.setText(productInfo.uomSymbol);
+		fProductCategory.setText(productInfo.productCategoryName);
+		fProductTax.setText(productInfo.productTaxCategory);
+		fDescription.setText(productInfo.description);
+		if(productInfo.imageData != null) {
 			Label label = new Label();
-			
 			North nt = new North();
 			Borderlayout mainLayout = new Borderlayout();
-			MImage m_mImage = MImage.get(Env.getCtx(), p_AD_Image_ID);
 			AImage img = null;
-			byte[] data = m_mImage.getData();
+			byte[] data = productInfo.imageData;
 			if (data != null && data.length > 0) {
 				try {
 					img = new AImage(null, data);				

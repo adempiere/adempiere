@@ -23,16 +23,23 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.adempiere.pos.service.ProductInfo;
 import org.compiere.model.MImage;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MProduct;
+import org.compiere.model.MWarehousePrice;
+import org.compiere.sqlj.Product;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -70,8 +77,14 @@ public class POSInfoProduct extends POSSubPanel {
 	private CLabel 		labelName;
 	/**	Product UOM Symbol	*/
 	private CLabel 		labelUOMSymbol;
+	/**	Product Name		*/
+	private CLabel 		labelPriceName;
+	/**	Product Price		*/
+	private CLabel 		labelPriceLimit;
 	/**	Product Price		*/
 	private CLabel 		labelPrice;
+	/**	Product Price		*/
+	private CLabel 		labelPriceList;
 	/**	Product Category	*/
 	private CLabel 		labelProductCategory;
 	/**	Product Tax			*/
@@ -103,6 +116,27 @@ public class POSInfoProduct extends POSSubPanel {
 		//	Add
 		rightPanel.add(labelName, new GridBagConstraints(0, 0, 1, 1, 1, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 0), 0, 0));
+
+		labelPriceName = new CLabel (Msg.parseTranslation(ctx , "@PriceStd@ , @PriceList@ ") + posPanel.getCurSymbol());
+		labelPriceName.setFont(posPanel.getPlainFont());
+		labelPriceName.setHorizontalAlignment(CLabel.LEFT);
+		labelPriceName.setHorizontalTextPosition(CLabel.LEFT);
+		//	Add
+		rightPanel.add(labelPriceName, new GridBagConstraints(0, 1, 1, 1, 1, 1
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 0), 0, 0));
+
+
+
+		/*labelPriceLimit = new CLabel (posPanel.getNumberFormat().format(Env.ZERO));
+		labelPriceLimit.setFont(posPanel.getBigFont());
+		labelPriceLimit.setHorizontalAlignment(CLabel.RIGHT);
+		labelPriceLimit.setHorizontalTextPosition(CLabel.RIGHT);
+		labelPriceLimit.setPreferredSize(new Dimension(100, metrics.getHeight()));
+		labelPriceLimit.setMinimumSize(new Dimension(150, metrics.getHeight()));
+		//	Add
+		rightPanel.add(labelPriceLimit, new GridBagConstraints(1, 1, 1, 1, 1, 1
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 0), 0, 0));*/
+
 		//	For Price
 		labelPrice = new CLabel (posPanel.getNumberFormat().format(Env.ZERO));
 		labelPrice.setFont(posPanel.getBigFont());
@@ -111,15 +145,28 @@ public class POSInfoProduct extends POSSubPanel {
 		labelPrice.setPreferredSize(new Dimension(100, metrics.getHeight()));
 		labelPrice.setMinimumSize(new Dimension(150, metrics.getHeight()));
 		//	Add
-		rightPanel.add(labelPrice, new GridBagConstraints(1, 0, 1, 1, 1, 1
+		rightPanel.add(labelPrice, new GridBagConstraints(2, 1, 1, 1, 1, 1
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 0), 0, 0));
+
+
+		labelPriceList = new CLabel (posPanel.getNumberFormat().format(Env.ZERO));
+		labelPriceList.setFont(posPanel.getBigFont());
+		labelPriceList.setHorizontalAlignment(CLabel.RIGHT);
+		labelPriceList.setHorizontalTextPosition(CLabel.RIGHT);
+		labelPriceList.setPreferredSize(new Dimension(100, metrics.getHeight()));
+		labelPriceList.setMinimumSize(new Dimension(150, metrics.getHeight()));
+		//	Add
+		rightPanel.add(labelPriceList, new GridBagConstraints(3, 1, 1, 1, 1, 1
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 0), 0, 0));
+
+
 		//	For Value
 		labelValue = new CLabel (Msg.getElement(Env.getCtx(), "ProductValue"));
 		labelValue.setFont(posPanel.getPlainFont());
 		labelValue.setHorizontalAlignment(CLabel.LEFT);
 		labelValue.setHorizontalTextPosition(CLabel.LEFT);
 		//	Add
-		rightPanel.add(labelValue, new GridBagConstraints(0, 1, 1, 1, 1, 0.0
+		rightPanel.add(labelValue, new GridBagConstraints(0, 2, 1, 1, 1, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For UOM
 		labelUOMSymbol = new CLabel (Msg.getElement(Env.getCtx(), "C_UOM_ID"));
@@ -127,21 +174,21 @@ public class POSInfoProduct extends POSSubPanel {
 		labelUOMSymbol.setHorizontalAlignment(CLabel.LEFT);
 		labelUOMSymbol.setHorizontalTextPosition(CLabel.LEFT);
 		//	Add
-		rightPanel.add(labelUOMSymbol, new GridBagConstraints(0, 2, 1, 1, 1, 0.0
+		rightPanel.add(labelUOMSymbol, new GridBagConstraints(0, 3, 1, 1, 1, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Category
 		labelProductCategory = new CLabel(Msg.getElement(Env.getCtx(), "M_Product_Category_ID"));
 		labelProductCategory.setFont(posPanel.getPlainFont());
 		labelProductCategory.setHorizontalAlignment(CLabel.LEFT);
 		//	Add
-		rightPanel.add(labelProductCategory, new GridBagConstraints(0, 3, 2, 1, 1, 0.0
+		rightPanel.add(labelProductCategory, new GridBagConstraints(0, 4, 2, 1, 1, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Category
 		labelProductTax = new CLabel(Msg.getElement(Env.getCtx(), "C_TaxCategory_ID"));
 		labelProductTax.setFont(posPanel.getPlainFont());
 		labelProductTax.setHorizontalAlignment(CLabel.LEFT);
 		//	Add
-		rightPanel.add(labelProductTax, new GridBagConstraints(0, 4, 2, 1, 1, 0.0
+		rightPanel.add(labelProductTax, new GridBagConstraints(0, 5, 2, 1, 1, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Description
 		labelDescription = new CLabel(Msg.getElement(Env.getCtx(), "Description"));
@@ -150,7 +197,7 @@ public class POSInfoProduct extends POSSubPanel {
 		labelDescription.setPreferredSize(new Dimension(20, metrics.getHeight()));
 		labelDescription.setMaximumSize(new Dimension(20, metrics.getHeight()));
 		//	Add
-		rightPanel.add(labelDescription, new GridBagConstraints(0, 5, 2, 1, 0, 1
+		rightPanel.add(labelDescription, new GridBagConstraints(0, 6, 2, 1, 0, 1
 				,GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5, 0, 5, 5), 0, 0));
 		//	For Image
 		buttonImage = new CButton();
@@ -175,31 +222,34 @@ public class POSInfoProduct extends POSSubPanel {
 	 * @param imageId
 	 * @return void
 	 */
-	private void setValuesFromProduct(int productId, int imageId) {
+	private void setValuesFromProduct(int productId, int imageId, int priceListVersionId , int warehouseId) {
 		if(productId <= 0)
 			return;
 		//	Refresh Values
-		MProduct product = MProduct.get(ctx, productId);
-		String currencyISOCode = posPanel.getCurSymbol();
-		labelValue.setText(product.getValue());
-		labelPrice.setText(currencyISOCode + " "
-					+ posPanel.getNumberFormat()
-						.format(posPanel.getPrice(product)));
-		labelName.setText(product.getName());
-		labelUOMSymbol.setText(product.getC_UOM().getUOMSymbol());
-		labelProductCategory.setText(product.getM_Product_Category().getName());
-		labelProductTax.setText(product.getC_TaxCategory().getName());
-		String m_Description = product.getDescription();
-		if(m_Description == null)
-			m_Description = "-";
-		labelDescription.setText(m_Description.trim());
+		labelPriceName.setText(Msg.parseTranslation(ctx , "@PriceStd@ , @PriceList@ ") + posPanel.getCurSymbol());
+		ProductInfo productInfo = new ProductInfo(productId , imageId , priceListVersionId , warehouseId );
+		labelValue.setText(productInfo.value);
+		//labelPriceLimit.setText(posPanel.getNumberFormat().format(warehousePrice.getPriceLimit()));
+		labelPrice.setText(posPanel.getNumberFormat().format(productInfo.priceStd));
+		labelPriceList.setText(posPanel.getNumberFormat().format(productInfo.priceList));
+		labelName.setText(productInfo.name);
+		labelUOMSymbol.setText(productInfo.uomSymbol);
+		labelProductCategory.setText(productInfo.productCategoryName);
+		labelProductTax.setText(productInfo.productTaxCategory);
+		String description = productInfo.description;
+		if(description == null)
+			description = "-";
+		labelDescription.setText(description.trim());
 		//	Set Image
-		if(imageId != 0) {
-			MImage image = MImage.get(Env.getCtx(), imageId);
-			Image img = image.getImage();
-			//	Change Image Size
-			Image imgResized = img.getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH) ;  
-			buttonImage.setIcon(new ImageIcon(imgResized));
+		if(productInfo.imageData != null) {
+			try
+			{
+				BufferedImage image = ImageIO.read(new ByteArrayInputStream(productInfo.imageData));
+				Image imgResized = image.getScaledInstance(BUTTON_SIZE, BUTTON_SIZE, Image.SCALE_SMOOTH);
+				buttonImage.setIcon(new ImageIcon(imgResized));
+			}
+			catch (IOException e) {
+			}
 		} else {
 			buttonImage.setIcon(null);
 		}
@@ -210,37 +260,20 @@ public class POSInfoProduct extends POSSubPanel {
 	 * @param key
 	 * @return void
 	 */
-	public void refreshProduct(MPOSKey key) {
+	public void refreshProduct(MPOSKey key , int priceListVersionId , int warehouseId) {
 		if(key == null)
 			return;
-		setValuesFromProduct(key.getM_Product_ID(), key.getAD_Image_ID());
+		setValuesFromProduct(key.getM_Product_ID(), key.getAD_Image_ID() , priceListVersionId , warehouseId);
+		setValuesFromProduct(key.getM_Product_ID(), key.getAD_Image_ID() , priceListVersionId , warehouseId);
 	}
-	
+
 	/**
 	 * Refresh from product
 	 * @param productId
 	 * @return void
 	 */
-	public void refreshProduct(int productId) {
-		int imageId = 0;
-
-		//	Valid Product
-		if(productId == 0)
-			return;
-
-		//	Get POS Key
-		int m_C_POSKey_ID = DB.getSQLValue(null, "SELECT pk.C_POSKey_ID "
-				+ "FROM C_POSKey pk "
-				+ "WHERE pk.C_POSKeyLayout_ID = ? "
-				+ "AND pk.M_Product_ID = ? "
-				+ "AND pk.IsActive = 'Y'", posPanel.getC_POSKeyLayout_ID(), productId);
-		//	Valid POS Key
-		if(m_C_POSKey_ID <= 0) {
-			MPOSKey key =  new MPOSKey(ctx, m_C_POSKey_ID, null);
-			imageId = key.getAD_Image_ID();
-		}
-
-		//	
-		setValuesFromProduct(productId,imageId);
+	public void refreshProduct(int productId , int priceListVersionId , int warehouseId) {
+		int imageId = posPanel.getProductImageId(productId, posPanel.getC_POSKeyLayout_ID());
+		setValuesFromProduct(productId, imageId , priceListVersionId , warehouseId);
 	}
 }

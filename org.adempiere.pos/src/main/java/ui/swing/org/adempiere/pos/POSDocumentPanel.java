@@ -350,18 +350,18 @@ public class POSDocumentPanel extends POSSubPanel
 			fieldTaxAmount.setText(posPanel.getNumberFormat().format(Env.ZERO));
 			fieldPartnerName.setText(null);
 		} else {
-			String currencyISO_Code = posPanel.getCurSymbol();
-			BigDecimal m_TotalLines = posPanel.getTotalLines();
-			BigDecimal m_GrandTotal = posPanel.getGrandTotal();
-			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
+			String currencyISOCode = posPanel.getCurSymbol();
+			BigDecimal totalLines = posPanel.getTotalLines();
+			BigDecimal grandTotal = posPanel.getGrandTotal();
+			BigDecimal taxAmt = grandTotal.subtract(totalLines);
 			//	Set Values
 			//	Document Info
 			fieldSalesRep.setText(posPanel.getSalesRepName());
 			fieldDocumentType.setText(posPanel.getDocumentTypeName());
 			fieldDocumentNo.setText(posPanel.getDocumentNo());
-			fieldTotalLines.setText(currencyISO_Code + " " + posPanel.getNumberFormat().format(m_TotalLines));
-			fieldGrandTotal.setText(currencyISO_Code + " " + posPanel.getNumberFormat().format(m_GrandTotal));
-			fieldTaxAmount.setText(currencyISO_Code + " " + posPanel.getNumberFormat().format(m_TaxAmt));
+			fieldTotalLines.setText(currencyISOCode + " " + posPanel.getNumberFormat().format(totalLines));
+			fieldGrandTotal.setText(currencyISOCode + " " + posPanel.getNumberFormat().format(grandTotal));
+			fieldTaxAmount.setText(currencyISOCode + " " + posPanel.getNumberFormat().format(taxAmt));
 			fieldPartnerName.setText(posPanel.getBPName());
 		}
 		//	Repaint
