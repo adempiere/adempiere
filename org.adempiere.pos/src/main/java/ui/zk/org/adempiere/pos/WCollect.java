@@ -250,7 +250,6 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		row = rows.newRow();
 		row.setWidth("100%");
 
-		//SHW End
 		South south = new South();
 		confirm = new ConfirmPanel(true);
 		confirm.addActionListener(this);
@@ -258,7 +257,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		mainLayout.appendChild(south);
 		south.appendChild(confirm);
 
-		// Pre-Payment, Standard Order: enable only if the order is completed and there are lines 
+		// Completed Standard Order: only prepayment possible 
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 		   v_POSPanel.isCompleted() &&
 		   v_POSPanel.isStandardOrder()) {	
@@ -266,11 +265,20 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setSelected(true);
 		}
-		// Pre-Payment, Credit Order: enable only if the order is drafted and there are lines 
+		// Not completed Order 
 		else if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
-				!v_POSPanel.isCompleted()) {
-			fIsPrePayOrder.setEnabled(true);	
-			fIsCreditOrder.setEnabled(true);
+				!v_POSPanel.isCompleted()) {		
+			if(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder()) {
+				 // Standard Order or Warehouse Order: no Credit Order, no prepayment
+				fIsPrePayOrder.setEnabled(false);	
+				fIsPrePayOrder.setSelected(false);	
+				fIsCreditOrder.setEnabled(false);
+				fIsCreditOrder.setSelected(false);
+			}
+			else {		
+				fIsPrePayOrder.setEnabled(true);	
+				fIsCreditOrder.setEnabled(true);
+			}
 		}
 		else {
 			fIsPrePayOrder.setEnabled(false);	
@@ -485,7 +493,9 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
 		} else {
-			errorMsg = validatePayment(v_POSPanel.getOpenAmt());
+			if(!(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder())) 
+				// No Check if Order is not Standard Order nor Warehouse Order
+				errorMsg = validatePayment(v_POSPanel.getOpenAmt());
 		}
 		//	
 		return errorMsg;
@@ -537,7 +547,13 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 //				fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(false);
 			confirm.getOKButton().setEnabled(false);
-		} else {
+		} else if(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder()) { 
+			// Standard Order or Warehouse Order: no Credit Order, no prepayment
+			fIsPrePayOrder.setEnabled(false);	
+			fIsCreditOrder.setEnabled(false);
+			bPlus.setEnabled(false);
+		}
+		else {
 			fIsCreditOrder.setEnabled(true);
 			fIsPrePayOrder.setEnabled(true);
 //				fPaymentTerm.setEnabled(true);

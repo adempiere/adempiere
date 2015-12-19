@@ -355,8 +355,8 @@ public class POSActionPanel extends POSSubPanel
 		} else {
 			VCollect collect = new VCollect(posPanel);
 			if (collect.showCollect()) {
-				//	Print Ticket just when is completed
-				if(posPanel.isToPrint()) {
+				//	Print Ticket just when is completed and it is not a Standard Order nor a Warehouse Order
+				if(!posPanel.isStandardOrder() && !posPanel.isWarehouseOrder() && posPanel.isToPrint()) {
 					printTicket();
 				}
 				//	

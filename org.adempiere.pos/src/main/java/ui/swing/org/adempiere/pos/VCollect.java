@@ -201,7 +201,7 @@ public class VCollect extends Collect
 		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "IsCreditSale"));
 		fIsCreditOrder.setFont(v_POSPanel.getPlainFont());
 		
-		// Pre-Payment, Standard Order: enable only if the order is completed and there are lines 
+		// Completed Standard Order: only prepayment possible 
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 		   v_POSPanel.isCompleted() &&
 		   v_POSPanel.isStandardOrder()) {	
@@ -209,11 +209,20 @@ public class VCollect extends Collect
 			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setSelected(true);
 		}
-		// Pre-Payment, Credit Order: enable only if the order is drafted and there are lines 
+		// Not completed Order 
 		else if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
-				!v_POSPanel.isCompleted()) {		
-			fIsPrePayOrder.setEnabled(true);	
-			fIsCreditOrder.setEnabled(true);
+				!v_POSPanel.isCompleted()) {	
+			if(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder()) {
+				 // Standard Order or Warehouse Order: no Credit Order, no prepayment
+				fIsPrePayOrder.setEnabled(false);	
+				fIsPrePayOrder.setSelected(false);	
+				fIsCreditOrder.setEnabled(false);
+				fIsCreditOrder.setSelected(false);
+			}
+			else {		
+				fIsPrePayOrder.setEnabled(true);	
+				fIsCreditOrder.setEnabled(true);
+			}
 		}
 		else {
 			fIsPrePayOrder.setEnabled(false);	
@@ -458,7 +467,9 @@ public class VCollect extends Collect
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
 		} else {
-			errorMsg = validatePayment(v_POSPanel.getOpenAmt());
+			if(!(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder())) 
+				// No Check if Order is not Standard Order nor Warehouse Order
+				errorMsg = validatePayment(v_POSPanel.getOpenAmt());
 		}
 		//	
 		return errorMsg;
@@ -494,7 +505,13 @@ public class VCollect extends Collect
 //			fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(false);
 			bOk.setEnabled(false);
-		} else {
+		} else if(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder()) { 
+			// Standard Order or Warehouse Order: no Credit Order, no prepayment
+			fIsPrePayOrder.setEnabled(false);	
+			fIsCreditOrder.setEnabled(false);
+			bPlus.setEnabled(false);
+		}
+		else {
 			fIsCreditOrder.setEnabled(true);
 			fIsPrePayOrder.setEnabled(true);
 //			fPaymentTerm.setEnabled(true);
