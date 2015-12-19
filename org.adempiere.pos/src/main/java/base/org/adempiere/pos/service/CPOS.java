@@ -267,6 +267,20 @@ public class CPOS {
 	}
 	
 	/**
+	 * Validate if is Standard Order
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isWarehouseOrder() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_Warehouse);
+	}
+	
+	/**
 	 * Valid date if is invoiced
 	 * @return
 	 * @return boolean
