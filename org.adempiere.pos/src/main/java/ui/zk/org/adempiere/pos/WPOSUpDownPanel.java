@@ -29,6 +29,7 @@ import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.compiere.model.MOrder;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -162,6 +163,22 @@ public class WPOSUpDownPanel extends WPOSSubPanel implements I_POSPanel {
 		if(posPanel.hasLines()){
 			buttonDown.setEnabled(true);
 			buttonUp.setEnabled(true);
+			
+			// Only enable buttons if status==(drafted or in progress)
+			if(posPanel.getM_Order().getDocStatus().compareToIgnoreCase(MOrder.STATUS_Drafted)==0 || 
+			   posPanel.getM_Order().getDocStatus().compareToIgnoreCase(MOrder.STATUS_InProgress)==0 ){
+				buttonDelete.setEnabled(true);
+				buttonPlus.setEnabled(true);
+				buttonMinus.setEnabled(true);
+				fieldPrice.setEnabled(true);
+				fieldQuantity.setEnabled(true);
+			}else {
+				buttonDelete.setEnabled(false);
+				buttonPlus.setEnabled(false);
+				buttonMinus.setEnabled(false);
+				fieldPrice.setEnabled(false);
+				fieldQuantity.setEnabled(false);
+			}
 		} else {
 			buttonDown.setEnabled(false);
 			buttonUp.setEnabled(false);

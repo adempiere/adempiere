@@ -390,6 +390,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void changeViewPanel() {
 		f_OrderLinePanel.changeViewPanel();
 		v_UpDownPanel.changeViewPanel();
+		v_UpDownPanel.refreshPanel();
 	}
 	
 	/**

@@ -474,6 +474,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		actionPanel.changeViewPanel();
 		v_ProductKeysPanel.refreshPanel();
 		orderLinePanel.refreshPanel();
+		quantityPanel.refreshPanel();
 	}
 	
 	/**
@@ -513,6 +514,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public void changeViewPanel() {
 		orderLinePanel.changeViewPanel();
 		quantityPanel.changeViewPanel();
+		quantityPanel.refreshPanel();
 	}
 
 	/**

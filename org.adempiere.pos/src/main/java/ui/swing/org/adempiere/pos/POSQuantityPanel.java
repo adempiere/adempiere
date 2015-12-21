@@ -30,6 +30,7 @@ import javax.swing.KeyStroke;
 
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.grid.ed.VNumber;
+import org.compiere.model.MOrder;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -175,6 +176,22 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		if(posPanel.hasLines()){
 			buttonDown.setEnabled(true);
 			buttonUp.setEnabled(true);
+			
+			// Only enable buttons if status==(drafted or in progress)
+			if(posPanel.getM_Order().getDocStatus().compareToIgnoreCase(MOrder.STATUS_Drafted)==0 || 
+			   posPanel.getM_Order().getDocStatus().compareToIgnoreCase(MOrder.STATUS_InProgress)==0 ){
+				buttonDelete.setEnabled(true);
+				buttonPlus.setEnabled(true);
+				buttonMinus.setEnabled(true);
+				fieldPrice.setEnabled(true);
+				fieldQuantity.setEnabled(true);
+			}else {
+				buttonDelete.setEnabled(false);
+				buttonPlus.setEnabled(false);
+				buttonMinus.setEnabled(false);
+				fieldPrice.setEnabled(false);
+				fieldQuantity.setEnabled(false);
+			}
 		} else {
 			buttonDown.setEnabled(false);
 			buttonUp.setEnabled(false);
