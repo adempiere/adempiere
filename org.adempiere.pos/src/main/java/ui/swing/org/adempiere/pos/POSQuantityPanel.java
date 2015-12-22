@@ -62,7 +62,7 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 	private CButton 			buttonPlus;
 	private CButton 			buttonMinus;
 	private VNumber 			fieldPrice;
-	private VNumber 			fieldDiscountPerentage;
+	private VNumber 			fieldDiscountPercentage;
 	private VNumber 			fieldQuantity;
 	/**	Button Panel			*/
 	private CPanel 				buttonPanel;
@@ -136,13 +136,13 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		buttonPanel.add(discountPerentageLabel, new GridBagConstraints(9, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
-		fieldDiscountPerentage = new VNumber();
-		fieldDiscountPerentage.setValue(Env.ZERO);
-		fieldDiscountPerentage.addActionListener(this);
-		fieldDiscountPerentage.setFont(posPanel.getFont());
-		fieldDiscountPerentage.setPreferredSize(new Dimension(100, 50));
-		fieldDiscountPerentage.setMinimumSize(new Dimension(100, 50));
-		buttonPanel.add(fieldDiscountPerentage, new GridBagConstraints(10, 0, 1, 1, 0.0, 0.0
+		fieldDiscountPercentage = new VNumber();
+		fieldDiscountPercentage.setValue(Env.ZERO);
+		fieldDiscountPercentage.addActionListener(this);
+		fieldDiscountPercentage.setFont(posPanel.getFont());
+		fieldDiscountPercentage.setPreferredSize(new Dimension(100, 50));
+		fieldDiscountPercentage.setMinimumSize(new Dimension(100, 50));
+		buttonPanel.add(fieldDiscountPercentage, new GridBagConstraints(10, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		
@@ -179,14 +179,14 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 
 		BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
 		BigDecimal price = (BigDecimal) fieldPrice.getValue();
-		BigDecimal discountPerentage = (BigDecimal) fieldDiscountPerentage.getValue();
+		BigDecimal discountPerentage = (BigDecimal) fieldDiscountPercentage.getValue();
 
 		if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged() && e.getSource().equals(fieldQuantity))
 		|| 	(posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getSource().equals(fieldPrice))
-		|| 	(posPanel.getDiscountPercentage().compareTo(discountPerentage) != 0 && fieldDiscountPerentage.hasChanged() && e.getSource().equals(fieldDiscountPerentage))) {
+		|| 	(posPanel.getDiscountPercentage().compareTo(discountPerentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getSource().equals(fieldDiscountPercentage))) {
 			posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
 			posPanel.setPrice((BigDecimal) fieldPrice.getValue());
-			posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPerentage.getValue());
+			posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
 			posPanel.changeViewQuantityPanel();
 			posPanel.updateLineTable();
 		}
@@ -239,7 +239,7 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 	public void changeStatus(boolean status) {
 		fieldQuantity.setEnabled(status);
 		fieldPrice.setEnabled(status);
-		fieldDiscountPerentage.setEnabled(status);
+		fieldDiscountPercentage.setEnabled(status);
 		buttonDelete.setEnabled(status);
 		buttonPlus.setEnabled(status);
 		buttonMinus.setEnabled(status);
@@ -253,6 +253,6 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 			changeStatus(true);
 		fieldQuantity.setValue(posPanel.getQty().doubleValue());
 		fieldPrice.setValue(posPanel.getPrice().doubleValue());
-		fieldDiscountPerentage.setValue(posPanel.getDiscountPercentage().doubleValue());
+		fieldDiscountPercentage.setValue(posPanel.getDiscountPercentage().doubleValue());
 	}
 }
