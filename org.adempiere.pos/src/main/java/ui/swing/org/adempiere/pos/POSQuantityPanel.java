@@ -175,15 +175,18 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		else if (e.getSource().equals(buttonDelete)) {
 			posPanel.deleteLine(posPanel.getC_OrderLine_ID());
 			fieldQuantity.setValue(0.0);
+			fieldPrice.setValue(0.0);
+			fieldDiscountPercentage.setValue(0.0);
 		}
 
 		BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
 		BigDecimal price = (BigDecimal) fieldPrice.getValue();
-		BigDecimal discountPerentage = (BigDecimal) fieldDiscountPercentage.getValue();
+		BigDecimal discountPercentage = (BigDecimal) fieldDiscountPercentage.getValue();
 
-		if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged() && e.getSource().equals(fieldQuantity))
+		if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged() 
+				&& (e.getSource().equals(fieldQuantity) || e.getSource().equals(buttonDelete) || e.getSource().equals(buttonPlus) || e.getSource().equals(buttonMinus)))
 		|| 	(posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getSource().equals(fieldPrice))
-		|| 	(posPanel.getDiscountPercentage().compareTo(discountPerentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getSource().equals(fieldDiscountPercentage))) {
+		|| 	(posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getSource().equals(fieldDiscountPercentage))) {
 			posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
 			posPanel.setPrice((BigDecimal) fieldPrice.getValue());
 			posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
@@ -206,12 +209,14 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 				buttonMinus.setEnabled(true);
 				fieldPrice.setEnabled(true);
 				fieldQuantity.setEnabled(true);
+				fieldDiscountPercentage.setEnabled(true);
 			}else {
 				buttonDelete.setEnabled(false);
 				buttonPlus.setEnabled(false);
 				buttonMinus.setEnabled(false);
 				fieldPrice.setEnabled(false);
 				fieldQuantity.setEnabled(false);
+				fieldDiscountPercentage.setEnabled(false);
 			}
 		} else {
 			buttonDown.setEnabled(false);
