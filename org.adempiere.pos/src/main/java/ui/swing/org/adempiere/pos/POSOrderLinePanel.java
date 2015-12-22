@@ -218,7 +218,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		if(posPanel.getQty() != null && posPanel.getQty().signum() <= 0) {
 			if (orderLineId > 0)
 				posPanel.deleteLine(orderLineId);
-			if (row > 0) {
+			if (row >= 0) {
 				((DefaultTableModel) posTable.getModel()).removeRow(row);
 				posTable.getModel().addTableModelListener(this);
 				posPanel.refreshHeader();

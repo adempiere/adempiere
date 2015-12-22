@@ -139,11 +139,20 @@ public class WPOSUpDownPanel extends WPOSSubPanel implements I_POSPanel {
 		}
 		else if (e.getTarget().equals(buttonDelete)){
 			fieldQuantity.setValue(0.0);
+			fieldPrice.setValue(0.0);
 		}
 
-		posPanel.setQuantity(fieldQuantity.getValue());
-		posPanel.setPrice(fieldPrice.getValue());
-		posPanel.updateLineTable();
+		BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
+		BigDecimal price = (BigDecimal) fieldPrice.getValue();
+		
+		if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged() 
+				&& (e.getTarget().equals(fieldQuantity) || e.getTarget().equals(buttonDelete) || e.getTarget().equals(buttonPlus) || e.getTarget().equals(buttonMinus)))
+		|| 	(posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getTarget().equals(fieldPrice))) {
+			posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
+			posPanel.setPrice((BigDecimal) fieldPrice.getValue());
+			posPanel.changeViewPanel();
+			posPanel.updateLineTable();
+		}
 	}
 
 	/**
