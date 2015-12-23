@@ -76,7 +76,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	/**	Buttons Command		*/
 	private Button 			buttonNew;
 	private Button 			buttonDocType;
-	private Button 			buttonPartner;
+	private Button 			buttonBPartner;
 	private Button 			buttonHistory;
 	private Button 			buttonBack;
 	private Button 			buttonNext;
@@ -156,10 +156,10 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		
 		row.appendChild(buttonDocType);
 		// BPartner Search
-		buttonPartner = createButtonAction(ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
-		buttonPartner.addActionListener(this);
-		buttonPartner.setTooltiptext(Msg.translate(ctx, "IsCustomer"));
-		row.appendChild(buttonPartner);
+		buttonBPartner = createButtonAction(ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
+		buttonBPartner.addActionListener(this);
+		buttonBPartner.setTooltiptext(Msg.translate(ctx, "IsCustomer"));
+		row.appendChild(buttonBPartner);
 				
 		// HISTORY
 		buttonHistory = createButtonAction(ACTION_HISTORY, null);
@@ -399,7 +399,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			dispose();
 			return;
 		}
-		else if (e.getTarget().equals(buttonPartner)) {
+		else if (e.getTarget().equals(buttonBPartner)) {
 			WQueryBPartner qt = new WQueryBPartner(posPanel);
 			if(!posPanel.isBPartnerStandard())
 				qt.loadData();
@@ -475,6 +475,14 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			} else {
 				buttonCollect.setEnabled(false);
 			}
+			// For BusinessPartner and Document Type
+			if(posPanel.isDrafted() || posPanel.isInProgress()) {
+				buttonDocType.setEnabled(true);
+				buttonBPartner.setEnabled(true);
+			} else {
+				buttonDocType.setEnabled(false);
+				buttonBPartner.setEnabled(false);
+			} 
 			//	For Cancel Action
 			buttonCancel.setEnabled(!posPanel.isVoided());
 		} else {
@@ -487,6 +495,9 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			buttonCollect.setEnabled(false);
 			//	For Cancel Action
 			buttonCancel.setEnabled(false);
+			// For BusinessPartner and Document Type
+			buttonDocType.setEnabled(false);
+			buttonBPartner.setEnabled(false);
 		}
 	}
 	
