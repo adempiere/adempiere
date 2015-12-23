@@ -279,7 +279,9 @@ public class POSDocumentPanel extends POSSubPanel
 		super.actionPerformed(e);
 		//	Name
 		if (e.getSource() == fieldPartnerName) {
-			findBPartner();
+			if(posPanel.isDrafted() || posPanel.isInProgress())  {
+				findBPartner();		
+			}
 		}
 	}
 	
