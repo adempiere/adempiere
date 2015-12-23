@@ -505,6 +505,14 @@ public class POSActionPanel extends POSSubPanel
 			} else {
 				buttonCollect.setEnabled(false);
 			}
+			// For BusinessPartner and Document Type
+			if(posPanel.isDrafted() || posPanel.isInProgress()) {
+				buttonDocType.setEnabled(true);
+				buttonBPartner.setEnabled(true);
+			} else {
+				buttonDocType.setEnabled(false);
+				buttonBPartner.setEnabled(false);
+			} 
 			//	For Cancel Action
 			buttonCancel.setEnabled(!posPanel.isVoided());
 		} else {
@@ -517,6 +525,9 @@ public class POSActionPanel extends POSSubPanel
 			buttonCollect.setEnabled(false);
 			//	For Cancel Action
 			buttonCancel.setEnabled(false);
+			// For BusinessPartner and Document Type
+			buttonDocType.setEnabled(false);
+			buttonBPartner.setEnabled(false);
 		}
 		posPanel.changeViewQuantityPanel();
 	}

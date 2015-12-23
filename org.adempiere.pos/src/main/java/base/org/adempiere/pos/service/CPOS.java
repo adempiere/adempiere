@@ -205,6 +205,22 @@ public class CPOS {
 	}
 	
 	/**
+	 * Validate if is "In Process"}
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isInProgress() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return !isCompleted() 
+				&& !isVoided() 
+				&& currentOrder.getDocStatus()
+				.equals(X_C_Order.DOCSTATUS_InProgress);
+	}
+	
+	/**
 	 * Validate if has lines
 	 * @return
 	 * @return boolean
