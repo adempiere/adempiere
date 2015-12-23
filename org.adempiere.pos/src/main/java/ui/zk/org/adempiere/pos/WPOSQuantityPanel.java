@@ -12,7 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
- * Contributor(s): Raul Muñoz www.erpcya.com					              *
+ * 
  *****************************************************************************/
 
 package org.adempiere.pos;
@@ -44,14 +44,14 @@ import org.zkoss.zkex.zul.North;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WPOSUpDownPanel extends WPOSSubPanel implements I_POSPanel {
+public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -21082207371857594L;
 
-	public WPOSUpDownPanel(WPOS posPanel) {
+	public WPOSQuantityPanel(WPOS posPanel) {
 		super(posPanel);
 	}
 

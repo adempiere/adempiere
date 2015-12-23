@@ -103,7 +103,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private WPOSActionPanel 				v_ActionPanel;
 	private WPOSProductPanel 				f_ProductKeysPanel;
 	private WPOSOrderLinePanel 				f_OrderLinePanel;
-	private WPOSUpDownPanel 				v_UpDownPanel;
+	private WPOSQuantityPanel 				v_QuantityPanel;
 	
 	/** Actions 							*/
 	private Button 							b_ok 		 = new Button("Ok");
@@ -160,7 +160,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		v_ActionPanel = new WPOSActionPanel(this);
 		f_ProductKeysPanel = new WPOSProductPanel(this);
 		f_OrderLinePanel = new WPOSOrderLinePanel(this);
-		v_UpDownPanel = new WPOSUpDownPanel(this);
+		v_QuantityPanel = new WPOSQuantityPanel(this);
 		East east = new East();
 		Center center = new Center();
 		North north = new North();
@@ -180,7 +180,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		east.setSplittable(true);
 		east.setStyle("border: none;  min-width:44%; width:44%");
 
-		south.appendChild(v_UpDownPanel);
+		south.appendChild(v_QuantityPanel);
 		
 		fullPanel.appendChild(v_Table);
 		fullPanel.appendChild(north);
@@ -359,7 +359,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		v_ActionPanel.changeViewPanel();
 		f_ProductKeysPanel.refreshPanel();
 		f_OrderLinePanel.refreshPanel();
-		v_UpDownPanel.refreshPanel();
+		v_QuantityPanel.refreshPanel();
 	}
 
 	/**
@@ -389,8 +389,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	@Override
 	public void changeViewPanel() {
 		f_OrderLinePanel.changeViewPanel();
-		v_UpDownPanel.changeViewPanel();
-		v_UpDownPanel.refreshPanel();
+		v_QuantityPanel.changeViewPanel();
+		v_QuantityPanel.refreshPanel();
 	}
 	
 	/**
