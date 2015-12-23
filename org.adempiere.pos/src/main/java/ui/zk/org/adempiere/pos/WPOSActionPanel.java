@@ -362,11 +362,13 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		
 			if(e.getTarget().equals(fieldProductName.getComponent(WPOSTextField.SECONDARY))
 					&& e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
-				isKeyboard = true;
-				if(!fieldProductName.showKeyboard()){
-					findProduct(); 
+				if(posPanel.isDrafted() || posPanel.isInProgress())  {
+					isKeyboard = true;
+					if(!fieldProductName.showKeyboard()){
+						findProduct(); 
+					}		
+					fieldProductName.setFocus(true);	
 				}
-				fieldProductName.setFocus(true);
 			}
 			if(e.getTarget().equals(fieldProductName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 				isKeyboard = false;

@@ -226,13 +226,15 @@ public class POSActionPanel extends POSSubPanel
 					queryDocType.loadData();
 					queryDocType.showView();
 				} else if (e.getSource().equals(buttonBPartner)) {
-					QueryBPartner queryBPartner = new QueryBPartner(posPanel);
-					queryBPartner.addOptionListener(this);
-					if(posPanel.isBPartnerStandard())
-						queryBPartner.setResults(null);
-					else
-						queryBPartner.loadData();
-					queryBPartner.showView();
+					if(posPanel.isDrafted() || posPanel.isInProgress())  {		
+						QueryBPartner queryBPartner = new QueryBPartner(posPanel);
+						queryBPartner.addOptionListener(this);
+						if(posPanel.isBPartnerStandard())
+							queryBPartner.setResults(null);
+						else
+							queryBPartner.loadData();
+						queryBPartner.showView();
+					}
 				} else if (e.getSource().equals(buttonHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
 					POSQuery queryTicket = new QueryTicket(posPanel);
@@ -251,8 +253,11 @@ public class POSActionPanel extends POSSubPanel
 					posPanel.dispose();
 					return;
 				} else if (e.getSource().equals(fieldProductName)) {
-					findProduct();
-					getMainFocus();
+					if(posPanel.isDrafted() || posPanel.isInProgress())  {
+						// Allow to add product only when order is drafted or in process
+						findProduct();
+						getMainFocus();			
+					}
 					return;
 				}
 				getMainFocus();
