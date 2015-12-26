@@ -1793,7 +1793,7 @@ public class CPOS {
 				+ "AND pk.M_Product_ID = ? "
 				+ "AND pk.IsActive = 'Y'", posKeyLayoutId , productId);
 		//	Valid POS Key
-		if(m_C_POSKey_ID <= 0) {
+		if(m_C_POSKey_ID > 0) {
 			MPOSKey key =  new MPOSKey(ctx, m_C_POSKey_ID, null);
 			imageId = key.getAD_Image_ID();
 		}

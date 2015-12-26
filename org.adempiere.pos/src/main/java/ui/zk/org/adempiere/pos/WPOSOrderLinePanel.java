@@ -100,7 +100,15 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			if ( key != null && orderLineId > 0 && key.getRecord_ID() == orderLineId)
 			{
 				posTable.setSelectedIndex(i);
+				posPanel.changeViewPanel();
+				showProductInfo(i);
 				break;
+			}
+			// Select first row, if end of table and no row has been selected
+			if(i==posTable.getRowCount()-1)	 {
+				posTable.setSelectedIndex(0);
+				posPanel.changeViewPanel();
+				showProductInfo(0);
 			}
 		}
 		return;
