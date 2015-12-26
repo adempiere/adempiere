@@ -256,9 +256,8 @@ public class POSOrderLinePanel extends POSSubPanel
 		//	Set Editable Columns
 		orderLineTableHandle.setEditable(posPanel.isModifyPrice(), posPanel.isDrafted());
 		//	
-		if (!posPanel.hasOrder()) {
+		if (!posPanel.hasOrder())
 			posTable.loadTable(new PO[0]);
-		}
 		//	Load Data
 		orderLineTableHandle.loadTable(posPanel.getC_Order_ID());
 		//	
@@ -266,9 +265,17 @@ public class POSOrderLinePanel extends POSSubPanel
 			IDColumn key = (IDColumn) posTable.getModel().getValueAt(i, POSOrderLineTableHandle.POSITION_C_ORDERLINE_ID);
 			if ( key != null && orderLineId > 0 && key.getRecord_ID() == orderLineId) {
 				posTable.getSelectionModel().setSelectionInterval(i, i);
+				posPanel.changeViewPanel();
+				showProductInfo(i);
 				break;
 			}
-		}
+			// Select first row, if end of table and no row has been selected
+			if(i==posTable.getRowCount()-1)	 {
+				posTable.getSelectionModel().setSelectionInterval(0, 0);
+				posPanel.changeViewPanel();
+				showProductInfo(0);
+			}
+		}	
 		//	Auto Size
 		posPanel.autoSize();
 		//	Add Listener
