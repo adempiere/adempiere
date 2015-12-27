@@ -35,15 +35,10 @@ import javax.swing.border.TitledBorder;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.pos.service.ProductInfo;
-import org.compiere.model.MImage;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.MProduct;
-import org.compiere.model.MWarehousePrice;
-import org.compiere.sqlj.Product;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
