@@ -224,6 +224,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			posTable.setSelectedIndex(0);
 		selectLine();
 		posPanel.changeViewPanel();
+		showProductInfo(posTable.getSelectedIndex());
 		return;
 	}
 	
@@ -234,6 +235,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			posTable.setSelectedIndex(posTable.getRowCount()-1);
 		selectLine();		
 		posPanel.changeViewPanel();
+		showProductInfo(posTable.getSelectedIndex());
 		return;
 	}
 	
