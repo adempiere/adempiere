@@ -424,6 +424,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		 row = 0;
 		 posTable.getSelectionModel().setSelectionInterval(row, row);
 		 posPanel.changeViewPanel();
+		 showProductInfo(row);
 		return;
 	}
 
@@ -442,6 +443,7 @@ public class POSOrderLinePanel extends POSSubPanel
 			 row = 0;
 		posTable.getSelectionModel().setSelectionInterval(row, row);
 		posPanel.changeViewPanel();
+		 showProductInfo(row);
 		return;
 	}
 
