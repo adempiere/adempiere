@@ -42,6 +42,7 @@ import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.apps.StatusBar;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.pos.PosKeyboardFocusManager;
@@ -104,6 +105,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private WPOSProductPanel 				f_ProductKeysPanel;
 	private WPOSOrderLinePanel 				f_OrderLinePanel;
 	private WPOSQuantityPanel 				v_QuantityPanel;
+	/** Status Bar 					*/
+	private StatusBar 						statusBar;
 	
 	/** Actions 							*/
 	private Button 							b_ok 		 = new Button("Ok");
@@ -123,6 +126,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public static final String 	FONTSIZELARGE 	= "Font-size:x-large;";
 	/** Default Font Weight	 					*/
 	public static final String 	FONTSTYLE 		= "font-weight:bold;";
+	/** Status bar info				*/
+	private String 							statusBarInfo;
 
 	/**
 	 *	zk Initialize Panel
@@ -458,6 +463,27 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	@Override
 	public void moveDown() {
 		f_OrderLinePanel.moveDown();
+	}
+
+	public void changeViewQuantityPanel()
+	{
+		v_QuantityPanel.changeViewPanel();
+	}
+
+	public StatusBar getStatusBar()
+	{
+		return statusBar;
+	}
+
+	public void addStatusBarInfo(String info)
+	{
+		statusBarInfo = statusBarInfo + " " + info + " ";
+		getStatusBar().setStatusLine(statusBarInfo);
+	}
+
+	public int getC_OrderLine_ID()
+	{
+		return f_OrderLinePanel.getC_OrderLine_ID();
 	}
 	
 }	//	PosPanel

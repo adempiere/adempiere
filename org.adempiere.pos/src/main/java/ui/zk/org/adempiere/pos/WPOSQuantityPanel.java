@@ -147,6 +147,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 			fieldQuantity.setValue(fieldQuantity.getValue().add(CurrentQuantity));
 		}
 		else if (e.getTarget().equals(buttonDelete)){
+			posPanel.deleteLine(posPanel.getC_OrderLine_ID());
 			fieldQuantity.setValue(0.0);
 			fieldPrice.setValue(0.0);
 			fieldDiscountPercentage.setValue(0.0);
@@ -163,7 +164,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 			posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
 			posPanel.setPrice((BigDecimal) fieldPrice.getValue());
 			posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
-			posPanel.changeViewPanel();
+			posPanel.changeViewQuantityPanel();
 			posPanel.updateLineTable();
 		}
 	}
