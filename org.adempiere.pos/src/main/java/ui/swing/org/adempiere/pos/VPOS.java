@@ -376,7 +376,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @return void
 	 */
 	public void addLine(int productId, BigDecimal qtyOrdered) {
-		//	Create Ordder if not exists
+		//	Create Order if none exists
 		if (!hasOrder()) {
 			newOrder();
 		}
