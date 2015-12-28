@@ -190,7 +190,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 				if (row >= 0) {
 					((ListModelTable) posTable.getModel()).remove(row);
 					posTable.getModel().addTableModelListener(this);
-					posPanel.refreshHeader();
+					posPanel.refreshPanel();
 				}
 				//	Exit
 				return;
