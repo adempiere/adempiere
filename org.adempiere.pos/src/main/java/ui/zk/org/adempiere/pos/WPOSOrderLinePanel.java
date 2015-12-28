@@ -296,4 +296,9 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			posPanel.refreshProductInfo(m_M_Product_ID);
 		}
 	}
+
+	public int getC_OrderLine_ID()
+	{
+		return orderLineId;
+	}
 }
