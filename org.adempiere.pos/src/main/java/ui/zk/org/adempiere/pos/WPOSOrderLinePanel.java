@@ -168,10 +168,12 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 				if (key != null) {
 					//	Set Current Order Line
 					orderLineId = key.getRecord_ID();
-					BigDecimal m_QtyOrdered = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
-					BigDecimal m_Price = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+					BigDecimal m_QtyOrdered       = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
+					BigDecimal m_Price            = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+					BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
 					posPanel.setQuantity(m_QtyOrdered);
 					posPanel.setPrice(m_Price);
+					posPanel.setDiscountPercentage(discountPercentage);
 					updateLine();
 				}
 			}
@@ -267,16 +269,21 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 	@Override
 	public void changeViewPanel() {
 		int row = posTable.getSelectedRow();
-		if (row != -1) {
+		if (row != -1 &&  row < posTable.getRowCount()) {
 			//	Set Current Order Line
 			BigDecimal m_QtyOrdered = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
 			BigDecimal m_Price = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+			BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
+			
 			posPanel.setQuantity(m_QtyOrdered);
 			posPanel.setPrice(m_Price);
+			posPanel.setDiscountPercentage(discountPercentage);
+			posPanel.changeViewQuantityPanel();
 		}
 		else {
 			posPanel.setQuantity(Env.ZERO);
 			posPanel.setPrice(Env.ZERO);
+			posPanel.setDiscountPercentage(Env.ZERO);
 		}
 	}
 	/**

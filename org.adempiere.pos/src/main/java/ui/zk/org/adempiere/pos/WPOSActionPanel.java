@@ -501,6 +501,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			buttonDocType.setEnabled(false);
 			buttonBPartner.setEnabled(false);
 		}
+		posPanel.changeViewQuantityPanel();
 	}
 	
 	/**
