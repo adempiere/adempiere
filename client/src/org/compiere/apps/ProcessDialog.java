@@ -211,7 +211,12 @@ public class ProcessDialog extends CFrame
 		message.setEditable(false);
 		message.setBackground(Color.white);
 		message.setFocusable(true);
+	//scroller added  by Mohemmed Bilal Ilyas
 		getContentPane().add(dialog);
+		JScrollPane scroller = new JScrollPane(dialog);
+		//scroller added  by Mohemmed Bilal Ilyas
+
+		this.getContentPane().add(scroller, BorderLayout.CENTER);
 		dialog.add(southPanel, BorderLayout.SOUTH);
 		southPanel.add(bPrint, null);
 		southPanel.add(bOK, null);
