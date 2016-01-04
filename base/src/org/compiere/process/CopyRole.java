@@ -73,11 +73,11 @@ public class CopyRole extends SvrProcess
 	protected String doIt() throws Exception
 	{	
 		String[] tables = new String[] {"AD_Window_Access", "AD_Process_Access", "AD_Form_Access",
-				"AD_Workflow_Access", "AD_Task_Access", "AD_Document_Action_Access",
+				"AD_Workflow_Access", "AD_Task_Access", "AD_Document_Action_Access", "AD_Browse_Access",
 				I_AD_Role_Included.Table_Name,
 		};
 		String[] keycolumns = new String[] {"AD_Window_ID", "AD_Process_ID", "AD_Form_ID",
-				"AD_Workflow_ID", "AD_Task_ID", "C_DocType_ID, AD_Ref_List_ID",
+				"AD_Workflow_ID", "AD_Task_ID", "C_DocType_ID, AD_Ref_List_ID", "AD_Browse_ID",
 				I_AD_Role_Included.COLUMNNAME_Included_Role_ID,
 		};
 		
