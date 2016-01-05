@@ -1605,8 +1605,8 @@ public class MCostDetail extends X_M_CostDetail
 		.setParameters(
 				landedCostAllocation.getAD_Client_ID(),
 				acctSchemaId,
-				landedCostAllocation.getM_AttributeSetInstanceTo_ID(),
 				landedCostAllocation.getM_Product_ID(),
+				landedCostAllocation.getM_AttributeSetInstanceTo_ID(),
 				costTypeId,
 				landedCostAllocation.getC_InvoiceLine_ID(),
 				landedCostAllocation.getM_InOutLine_ID())
