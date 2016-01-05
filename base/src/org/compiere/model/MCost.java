@@ -73,7 +73,7 @@ public class MCost extends X_M_Cost
 
 		public static MCost getDimension(MProduct product , int C_AcctSchema_ID , int  AD_Org_ID , int  M_Warehouse_ID , int M_AttributeSetInstance_ID, int M_CostType_ID , int M_CostElement_ID)
 		{
-			MAcctSchema acctSchema = MAcctSchema.get(product.getCtx() , C_AcctSchema_ID);
+			MAcctSchema acctSchema = new  MAcctSchema(product.getCtx(), C_AcctSchema_ID , product.get_TrxName());
 
 			ArrayList<Object> parameters = new ArrayList<Object>();
 			StringBuilder whereClause = new StringBuilder();
@@ -98,7 +98,8 @@ public class MCost extends X_M_Cost
 								+ acctSchema.getCostingMethod());
 
 			String CostingLevel = product.getCostingLevel(acctSchema, AD_Org_ID);
-			String costingMethod = MCostType.get(product.getCtx() , M_CostType_ID).getCostingMethod();
+			MCostType costType =  new MCostType(product.getCtx() , M_CostType_ID , product.get_TrxName());
+			String costingMethod = costType.getCostingMethod();
 
 			if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel)) {
 				//Ignore organization, warehouse , asi
