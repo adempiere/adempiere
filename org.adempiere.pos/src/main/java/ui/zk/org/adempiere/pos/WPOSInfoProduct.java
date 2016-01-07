@@ -286,9 +286,16 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 				+ "WHERE pk.C_POSKeyLayout_ID = ? "
 				+ "AND pk.M_Product_ID = ? "
 				+ "AND pk.IsActive = 'Y'", posPanel.getC_POSKeyLayout_ID(), p_M_Product_ID);
-		//	Valid POS Key
 		if(m_C_POSKey_ID <= 0) {
-			return;
+			//	No record has been found for a product in the current Key Layout. Try it in the Subkey Layout.
+			m_C_POSKey_ID = DB.getSQLValue(null, "SELECT pk2.C_POSKey_ID "
+					+ "FROM C_POSKey pk1 "
+					+ "INNER JOIN C_POSKey pk2 ON pk1.subkeylayout_id=pk2.c_poskeylayout_id AND pk1.subkeylayout_id IS NOT NULL "
+					+ "WHERE pk2.M_Product_ID = ? "
+					+ "AND pk1.IsActive = 'Y' AND pk2.IsActive = 'Y'", p_M_Product_ID);
+			
+			if(m_C_POSKey_ID <= 0)
+				return;
 		}
 		MPOSKey key =  new MPOSKey(ctx, m_C_POSKey_ID, null);
 		//	
