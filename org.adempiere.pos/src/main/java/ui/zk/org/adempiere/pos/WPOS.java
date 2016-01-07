@@ -168,33 +168,34 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		v_QuantityPanel = new WPOSQuantityPanel(this);
 		East east = new East();
 		Center center = new Center();
-		North north = new North();
-		South south = new South();
+		North actionPanel = new North();
+		Center qtyPanel = new Center();
+		South table = new South();
 		Borderlayout fullPanel = new Borderlayout();
 		
-		center.setStyle("border: none; width:44%");
+		center.setStyle("border: none; width:40%");
 		center.appendChild(fullPanel);
 		mainLayout.appendChild(center);
-		center.setStyle("border: none; width:44%");
-		fullPanel.setWidth("80%");
+		center.setStyle("border: none; height:60%");
+		fullPanel.setWidth("100%");
 		fullPanel.setHeight("100%");
-		Center v_Table = new Center();
-		v_Table.appendChild(f_OrderLinePanel);
-		north.appendChild(v_ActionPanel);
+		
+		table.appendChild(f_OrderLinePanel);
+		actionPanel.appendChild(v_ActionPanel);
 		east.appendChild(f_ProductKeysPanel);
 		east.setSplittable(true);
 		east.setStyle("border: none;  min-width:44%; width:44%");
 
-		south.appendChild(v_QuantityPanel);
+		qtyPanel.appendChild(v_QuantityPanel);
 		
-		fullPanel.appendChild(v_Table);
-		fullPanel.appendChild(north);
+		fullPanel.appendChild(actionPanel);
 		if(IsShowLineControl())
-			fullPanel.appendChild(south);
-		
-		north.setStyle("border: none; width:42%; height:295px");
-		south.setStyle("border: none; width:42%; height:12%");
-		v_Table.setStyle("border: none; width:54%;  height:50%; ");
+			fullPanel.appendChild(qtyPanel);
+		fullPanel.appendChild(table);
+		//	FR [ 44 ] Change Button location
+		actionPanel.setStyle("border: none; width:42%; height:60%");
+		qtyPanel.setStyle("border: none; width:60%; height:70%");
+		table.setStyle("border: none; width:25%; height:30%");
 		
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
@@ -389,6 +390,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		}
 		//	Update Info
 		refreshPanel();
+		f_OrderLinePanel.seekFromProduct(p_M_Product_ID);
 	}
 	
 	@Override
