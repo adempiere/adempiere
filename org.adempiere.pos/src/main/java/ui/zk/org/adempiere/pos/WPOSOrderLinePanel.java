@@ -242,6 +242,26 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 	}
 	
 	/**
+	 * Seek in record from Product
+	 * @param p_M_Product_ID
+	 */
+	public void seekFromProduct(int p_M_Product_ID) {
+		int m_C_OrderLine_ID = getC_OrderLine_ID(p_M_Product_ID);
+		if(m_C_OrderLine_ID <= 0)
+			return;
+		//	
+		orderLineId = m_C_OrderLine_ID;
+		//	Iterate
+		for (int i = 0; i < posTable.getRowCount(); i ++ ) {
+			IDColumn key = (IDColumn) posTable.getModel().getValueAt(i, 0);
+			if ( key != null && orderLineId > 0 && key.getRecord_ID() == orderLineId) {
+				posTable.setSelectedIndex(i);
+				selectLine();
+				break;
+			}
+		}
+	}
+	/**
 	 * 	Focus Gained
 	 *	@param e
 	 */
@@ -286,6 +306,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			posPanel.setDiscountPercentage(Env.ZERO);
 		}
 	}
+	
 	/**
 	 * Show Product Info
 	 * @param row
@@ -304,6 +325,18 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 		}
 	}
 
+	/**
+	 * Get Order Line from Product
+	 * @param p_M_Product_ID
+	 * @return
+	 */
+	private int getC_OrderLine_ID(int p_M_Product_ID) {
+		return DB.getSQLValue(null, "SELECT ol.C_OrderLine_ID "
+				+ "FROM C_OrderLine ol "
+				+ "WHERE ol.M_Product_ID = ? AND ol.C_Order_ID = ?", 
+				p_M_Product_ID, posPanel.getC_Order_ID());
+	}
+	
 	public int getC_OrderLine_ID()
 	{
 		return orderLineId;
