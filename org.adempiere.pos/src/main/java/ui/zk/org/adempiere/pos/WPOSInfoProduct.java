@@ -301,4 +301,22 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		//	
 		setValuesFromProduct(p_M_Product_ID, key.getAD_Image_ID());
 	}
+	
+	/**
+	 * Reset Values of Info Product
+	 * @return void
+	 */
+	public void resetValues() {
+		final String NO_TEXT = "--";
+		fValue.setText(NO_TEXT);
+		fPrice.setText(NO_TEXT);
+		fName.setText(NO_TEXT);
+		fUOMSymbol.setText(NO_TEXT);
+		fProductCategory.setText(NO_TEXT);
+		fProductTax.setText(NO_TEXT);
+		fDescription.setText(NO_TEXT);
+		bImage.getChildren().clear();
+		bImage.invalidate();
+	}
+
 }
