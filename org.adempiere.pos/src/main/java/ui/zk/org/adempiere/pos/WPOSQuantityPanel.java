@@ -237,4 +237,18 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		fieldDiscountPercentage.setValue(posPanel.getDiscountPercentage().doubleValue());
 	}
 
+	public void resetPanel() {
+		fieldQuantity.setValue(0);
+		fieldPrice.setValue(0);
+		fieldDiscountPercentage.setValue(0);
+		buttonDown.setEnabled(false);
+		buttonUp.setEnabled(false);
+		buttonDelete.setEnabled(false);
+		buttonPlus.setEnabled(false);
+		buttonMinus.setEnabled(false);
+		fieldPrice.setEnabled(false);
+		fieldQuantity.setEnabled(false);
+		fieldDiscountPercentage.setEnabled(false);
+	}
+
 }

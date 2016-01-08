@@ -366,6 +366,10 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		f_ProductKeysPanel.refreshPanel();
 		f_OrderLinePanel.refreshPanel();
 		v_QuantityPanel.refreshPanel();
+		if(!hasLines()) {
+			v_ActionPanel.resetProductInfo();
+			v_QuantityPanel.resetPanel();
+		}
 	}
 
 	/**
@@ -375,7 +379,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	 * @return void
 	 */
 	public void addLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
-		//	Create Ordder if not exists
+		//	Create Order if not exists
 		if (!hasOrder()) {
 			newOrder();
 		}
@@ -406,6 +410,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	 */
 	public void newOrder() {
 		newOrder(0);
+		v_ActionPanel.resetProductInfo();
+		v_QuantityPanel.resetPanel();
 	}
 	
 	public int getWindowNo()

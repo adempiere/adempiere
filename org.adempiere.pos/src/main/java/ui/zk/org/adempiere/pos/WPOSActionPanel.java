@@ -576,4 +576,12 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	@Override
 	public void moveDown() {
 	}	
+	
+	/**
+	 * Reset Product Info 
+	 * @return void
+	 */
+	public void resetProductInfo() {
+		infoProductPanel.resetValues();
+	}
 }
