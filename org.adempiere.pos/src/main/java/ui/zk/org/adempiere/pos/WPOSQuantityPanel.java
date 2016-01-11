@@ -157,10 +157,11 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		BigDecimal price              = (BigDecimal) fieldPrice.getValue();
 		BigDecimal discountPercentage =  (BigDecimal) fieldDiscountPercentage.getValue();
 		
+		// Update table panel
 		if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged() 
-				&& (e.getTarget().equals(fieldQuantity) || e.getTarget().equals(buttonDelete) || e.getTarget().equals(buttonPlus) || e.getTarget().equals(buttonMinus)))
-		|| 	(posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getTarget().equals(fieldPrice))
-		|| 	(posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getTarget().equals(fieldDiscountPercentage))) {
+				&& (e.getTarget().equals(fieldQuantity.getDecimalbox()) || e.getTarget().equals(buttonDelete) || e.getTarget().equals(buttonPlus) || e.getTarget().equals(buttonMinus)))
+		|| 	(posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getTarget().equals(fieldPrice.getDecimalbox()))
+		|| 	(posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getTarget().equals(fieldDiscountPercentage.getDecimalbox()))) {
 			posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
 			posPanel.setPrice((BigDecimal) fieldPrice.getValue());
 			posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
