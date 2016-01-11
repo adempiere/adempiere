@@ -409,11 +409,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			if (qt.getRecord_ID() > 0) {
 				if(!posPanel.hasOrder()) {
 					posPanel.newOrder(qt.getRecord_ID());
-					posPanel.refreshPanel();
 				} else {
 					posPanel.setC_BPartner_ID(qt.getRecord_ID());
 				}
 				logger.fine("C_BPartner_ID=" + qt.getRecord_ID());
+				posPanel.refreshPanel();
 			}
 		}
 		// Cancel
