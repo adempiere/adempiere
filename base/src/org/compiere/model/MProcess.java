@@ -25,6 +25,7 @@ import org.adempiere.util.ProcessUtil;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.wf.MWFNode;
 
@@ -45,6 +46,19 @@ public class MProcess extends X_AD_Process
 	 */
 	private static final long serialVersionUID = 6665942554198058466L;
 
+	/**
+	 * Get based on java class
+	 * @param processClass
+	 * @return
+     */
+	public static MProcess getUsingJavaClass(final Class<?> processClass)
+	{
+		String className = processClass.getClass().getCanonicalName();
+		if (className == null)
+			return null;
+
+		return new Query(Env.getCtx() , MProcess.Table_Name , MProcess.COLUMNNAME_Classname + "=?" , null).first();
+	}
 
 	/**
 	 * 	Get MProcess from Cache
