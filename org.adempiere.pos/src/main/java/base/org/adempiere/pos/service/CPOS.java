@@ -626,6 +626,7 @@ public class CPOS {
 	
 	/**
 	 * 	Set BPartner, update price list and locations
+	 *  Configuration of Business Partner has priority over POS configuration
 	 *	@param p_C_BPartner_ID id
 	 */
 	
@@ -652,23 +653,21 @@ public class CPOS {
 			log.info("CPOS.SetC_BPartner_ID -" + partner);
 			currentOrder.setBPartner(partner);
 			//	
-			if (partner != null) {
-				currentOrder.setBPartner(partner);
-				//	
-				MBPartnerLocation [] partnerLocations = partner.getLocations(true);
-				if(partnerLocations.length > 0) {
-					for(MBPartnerLocation partnerLocation : partnerLocations) {
-						if(partnerLocation.isBillTo())
-							currentOrder.setBill_Location_ID(partnerLocation.getC_BPartner_Location_ID());
-						if(partnerLocation.isShipTo())
-							currentOrder.setShip_Location_ID(partnerLocation.getC_BPartner_Location_ID());
-					}				
-				}
+			MBPartnerLocation [] partnerLocations = partner.getLocations(true);
+			if(partnerLocations.length > 0) {
+				for(MBPartnerLocation partnerLocation : partnerLocations) {
+					if(partnerLocation.isBillTo())
+						currentOrder.setBill_Location_ID(partnerLocation.getC_BPartner_Location_ID());
+					if(partnerLocation.isShipTo())
+						currentOrder.setShip_Location_ID(partnerLocation.getC_BPartner_Location_ID());
+				}				
 			}
 			//	Validate Same BPartner
 			if(isSamePOSPartner) {
-				currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
-				currentOrder.setPaymentRule(MOrder.PAYMENTRULE_Cash);
+				if(currentOrder.getM_PriceList_ID()==0)
+					currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
+				if(currentOrder.getPaymentRule()==null)
+					currentOrder.setPaymentRule(MOrder.PAYMENTRULE_Cash);
 			}
 			//	Set Sales Representative
 			currentOrder.setSalesRep_ID(entityPOS.getSalesRep_ID());
