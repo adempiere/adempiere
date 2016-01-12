@@ -34,7 +34,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.North;
 
 
 /**
@@ -75,10 +74,8 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		Grid LayoutButton = GridFactory.newGridLayout();
 		Rows rows = null;
 		Row row = null;	
-		North north = new North();
-		appendChild(north);
-		
-		north.appendChild(LayoutButton);
+
+		appendChild(LayoutButton);
 		LayoutButton.setWidth("100%");
 		LayoutButton.setHeight("100%");
 		rows = LayoutButton.newRows();
@@ -156,12 +153,11 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		BigDecimal quantity           = (BigDecimal) fieldQuantity.getValue();
 		BigDecimal price              = (BigDecimal) fieldPrice.getValue();
 		BigDecimal discountPercentage =  (BigDecimal) fieldDiscountPercentage.getValue();
-		
-		// Update table panel
 		if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged() 
 				&& (e.getTarget().equals(fieldQuantity.getDecimalbox()) || e.getTarget().equals(buttonDelete) || e.getTarget().equals(buttonPlus) || e.getTarget().equals(buttonMinus)))
 		|| 	(posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getTarget().equals(fieldPrice.getDecimalbox()))
-		|| 	(posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getTarget().equals(fieldDiscountPercentage.getDecimalbox()))) {
+		|| 	(posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getTarget().equals(fieldDiscountPercentage.getDecimalbox()))) 
+		{
 			posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
 			posPanel.setPrice((BigDecimal) fieldPrice.getValue());
 			posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());

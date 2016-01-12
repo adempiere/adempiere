@@ -21,8 +21,8 @@ import java.util.Properties;
 
 import javax.swing.KeyStroke;
 
-import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -35,7 +35,7 @@ import org.zkoss.zk.ui.event.EventListener;
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public abstract class WPOSSubPanel extends Borderlayout 
+public abstract class WPOSSubPanel extends Panel 
 	implements EventListener
 {
 	/**
