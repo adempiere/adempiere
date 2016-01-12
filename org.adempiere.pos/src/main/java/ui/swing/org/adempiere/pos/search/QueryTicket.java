@@ -104,6 +104,7 @@ public class QueryTicket extends POSQuery {
 	 */
 	@Override
 	protected void init() {
+		setTitle(Msg.translate(Env.getCtx(), "C_Order_ID"));
 		//	North
 		parameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
 		parameterPanel.setBorder(new TitledBorder(Msg.getMsg(ctx, QUERY)));

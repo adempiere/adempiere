@@ -82,6 +82,7 @@ public class QueryDocType extends POSQuery {
 	 * 	Set up Panel
 	 */
 	protected void init() {
+		setTitle(Msg.translate(Env.getCtx(), "C_DocType_ID"));
 		//	North
 		parameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
 		parameterPanel.setBorder(new TitledBorder(Msg.getMsg(ctx, "Query")));

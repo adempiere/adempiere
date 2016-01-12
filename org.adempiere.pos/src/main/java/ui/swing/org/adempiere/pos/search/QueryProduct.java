@@ -98,6 +98,7 @@ public class QueryProduct extends POSQuery {
 	 * 	Set up Panel
 	 */
 	protected void init() {
+		setTitle("M_Product_ID");
 		parameterPanel.setLayout(new MigLayout("fill", "", "[50][50][]"));
 		parameterPanel.setBorder(new TitledBorder(Msg.getMsg(ctx, "Query")));
 		//
