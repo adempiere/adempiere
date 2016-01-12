@@ -30,7 +30,6 @@ import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -48,8 +47,6 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Space;
 
 /**
@@ -108,36 +105,20 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	public void init() {
 
 		parameterPanel = new Panel();
-		Borderlayout detailPanel = new Borderlayout();
 		Grid parameterLayout = GridFactory.newGridLayout();
-		Borderlayout fullPanel = new Borderlayout();
 		Grid LayoutButton = GridFactory.newGridLayout();
 		Rows rows = null;
 		Row row = null;	
-		North north = new North();
 		isKeyboard = false;
 
-		north.setStyle("border: none; width:60%");
-		north.setZindex(0);
-		fullPanel.appendChild(north);
-		parameterPanel.appendChild(parameterLayout);
+		appendChild(parameterLayout);
 		parameterLayout.setWidth("60%");
-		north.appendChild(parameterPanel);
 		rows = parameterLayout.newRows();
 		row = rows.newRow();
-		Center center = new Center();
-		center.setStyle("border: none; width:400px");
-		appendChild(center);
-		center.appendChild(detailPanel);
-		north = new North();
-		north.setStyle("border: none");
-		detailPanel.setHeight("45%");
-		detailPanel.setWidth("50%");
-		detailPanel.appendChild(north);
+		parameterLayout.setStyle("border: none; width:400px; height:100%;");
+		LayoutButton.setStyle("border: none; width:400px; height:100%;");
 		
-		north.appendChild(LayoutButton);
-		LayoutButton.setWidth("100%");
-		LayoutButton.setHeight("100%");
+		appendChild(LayoutButton);
 		rows = LayoutButton.newRows();
 		LayoutButton.setStyle("border:none");
 		row = rows.newRow();
@@ -409,11 +390,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			if (qt.getRecord_ID() > 0) {
 				if(!posPanel.hasOrder()) {
 					posPanel.newOrder(qt.getRecord_ID());
+					posPanel.refreshPanel();
 				} else {
 					posPanel.setC_BPartner_ID(qt.getRecord_ID());
 				}
 				logger.fine("C_BPartner_ID=" + qt.getRecord_ID());
-				posPanel.refreshPanel();
 			}
 		}
 		// Cancel

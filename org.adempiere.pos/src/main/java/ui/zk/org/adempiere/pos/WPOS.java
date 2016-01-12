@@ -55,7 +55,6 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Iframe;
 
 /**
@@ -169,14 +168,15 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		East east = new East();
 		Center center = new Center();
 		North actionPanel = new North();
-		Center qtyPanel = new Center();
-		South table = new South();
+		North qtyPanel = new North();
+		Center table = new Center();
 		Borderlayout fullPanel = new Borderlayout();
+		Borderlayout mediumPanel = new Borderlayout();
 		
 		center.setStyle("border: none; width:40%");
 		center.appendChild(fullPanel);
 		mainLayout.appendChild(center);
-		center.setStyle("border: none; height:60%");
+		center.setStyle("border: none; height:100%");
 		fullPanel.setWidth("100%");
 		fullPanel.setHeight("100%");
 		
@@ -184,18 +184,24 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		actionPanel.appendChild(v_ActionPanel);
 		east.appendChild(f_ProductKeysPanel);
 		east.setSplittable(true);
-		east.setStyle("border: none;  min-width:44%; width:44%");
+		east.setStyle("border: none; min-width:44%; width:44%");
+		actionPanel.setStyle("border: none; height:auto; position:relative;float:left;overflow:auto; ");
 
 		qtyPanel.appendChild(v_QuantityPanel);
 		
 		fullPanel.appendChild(actionPanel);
+
+		Center centerPanel = new Center();
+		fullPanel.appendChild(centerPanel);
+		centerPanel.appendChild(mediumPanel);
 		if(IsShowLineControl())
-			fullPanel.appendChild(qtyPanel);
-		fullPanel.appendChild(table);
+			mediumPanel.appendChild(qtyPanel);
+		
+		mediumPanel.appendChild(table);
 		//	FR [ 44 ] Change Button location
-		actionPanel.setStyle("border: none; width:42%; height:60%");
-		qtyPanel.setStyle("border: none; width:60%; height:70%");
-		table.setStyle("border: none; width:25%; height:30%");
+		actionPanel.setStyle("border: none; width:42%; height:auto;position:relative;float:left;overflow:auto;");
+		qtyPanel.setStyle("border: none; width:60%; height:auto;");
+		table.setStyle("border: none; width:30%; height:auto;");
 		
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");

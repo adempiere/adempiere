@@ -32,7 +32,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Center;
 
 /**
  * Button panel supporting multiple linked layouts
@@ -73,17 +72,14 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 		lineTableHandle.prepareTable();
 
 		posTable.setColumnClass(4, BigDecimal.class, true);
-		Center center = new Center();
-		center.appendChild(posTable);
+		appendChild(posTable);
 		posTable.setWidth("100%");
 		posTable.setHeight("100%");
 		posTable.addActionListener(this);
 		posTable.addEventListener(Events.ON_CLICK, this);
 		posTable.getModel().addTableModelListener(this);
-		center.setStyle("border: none; height:100%;");
 		posTable.setClass("Table-OrderLine");
 		posTable.setColumnReadOnly(POSOrderLineTableHandle.POSITION_QTYORDERED, true);
-		appendChild(center);
 	}
 
 	@Override
