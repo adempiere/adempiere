@@ -108,6 +108,7 @@ public class WQueryProduct extends WPOSQuery
 	 */
 	protected void init()
 	{
+		setTitle(Msg.translate(Env.getCtx(), "C_Product_ID"));
 		Panel panel = new Panel();
 		setVisible(true);
 		Panel mainPanel = new Panel();

@@ -107,6 +107,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	 */
 	protected void init()
 	{
+		setTitle(Msg.translate(Env.getCtx(), "C_Order_ID"));
 		Panel panel = new Panel();
 		setVisible(true);
 		Panel mainPanel = new Panel();
