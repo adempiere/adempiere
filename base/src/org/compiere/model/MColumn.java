@@ -46,6 +46,8 @@ import org.compiere.util.Util;
  *  	<li> BR [ 9223372036854775807 ] Lookup for search view not show button
  *  	<li> Add default length to Yes No Display Type
  *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
+ *  	<li> BR [ 185 ] Fixed error with validation in beforeSave method for MColumn 
+ *  	@see https://github.com/adempiere/adempiere/issues/185
  */
 public class MColumn extends X_AD_Column
 {
@@ -408,8 +410,8 @@ public class MColumn extends X_AD_Column
 			return;
 		} else {
 			String m_TableName = p_ColumnName.replace("_ID", "");
-			if(p_AD_Reference_ID == DisplayType.TableDir
-					|| p_AD_Reference_ID == DisplayType.Search ) {
+			//	BR [ 185 ]
+			if(p_AD_Reference_ID == DisplayType.TableDir) {
 				if(!p_ColumnName.endsWith("_ID"))
 					throw new AdempiereException("@Reference@ @of@ @ColumnName@ @NotValid@");
 				//	Valid Table
