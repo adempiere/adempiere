@@ -314,6 +314,10 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 			if(!f_BPartnerName.showKeyboard()){
 				findBPartner();
 			}
+			if(posPanel.getKeyboard() == null){
+				f_BPartnerName.setValue(" ");
+				findBPartner();
+			}
 			f_BPartnerName.setFocus(true);
 		}
 		if(e.getTarget().equals(f_BPartnerName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){

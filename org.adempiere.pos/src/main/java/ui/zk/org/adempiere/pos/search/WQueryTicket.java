@@ -315,15 +315,19 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 			isKeyboard = true;
 			//	Get Keyboard Panel
 			WPOSKeyboard keyboard = fieldDocumentNo.getKeyboard();
-			//	Set Title
-			keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
-			keyboard.setPosTextField(fieldDocumentNo);
-			keyboard.setWidth("750px");
-			keyboard.setHeight("380px");
-			AEnv.showWindow(keyboard);
+			
+			if(keyboard != null) {
+				
+				//	Set Title
+				keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
+				keyboard.setPosTextField(fieldDocumentNo);
+				keyboard.setWidth("750px");
+				keyboard.setHeight("380px");
+				AEnv.showWindow(keyboard);
+				
+				fieldDocumentNo.setFocus(true);
+			}
 			refresh();
-			fieldDocumentNo.setFocus(true);
-
 		}
 		else if(e.getTarget().equals(fieldDocumentNo.getComponent(WPOSTextField.PRIMARY))) {
 			 isKeyboard = false;

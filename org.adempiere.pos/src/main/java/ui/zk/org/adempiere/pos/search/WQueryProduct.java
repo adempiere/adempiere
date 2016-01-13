@@ -269,35 +269,46 @@ public class WQueryProduct extends WPOSQuery
 	public String showKeyboard(Event e){
 		isKeyboard = true;
 		Textbox field = (Textbox) e.getTarget();
-
+		
 		WPOSKeyboard keyboard = posPanel.getKeyboard();
-		if(e.getName().equals(Events.ON_FOCUS)){
-			keyboard.setPosTextField(field);	
-			AEnv.showWindow(keyboard);
+		if(keyboard != null) {
+			if(e.getName().equals(Events.ON_FOCUS)){
+				keyboard.setPosTextField(field);	
+				AEnv.showWindow(keyboard);
+			}
 		}
 		return field.getText();
 	}
 
 	@Override
 	public void onEvent(Event event) throws Exception {
+		String m_Text;
 		if (event.getTarget().getId().equals("Refresh")) {
 			refresh();
 			return;
 		}
 		else if(event.getTarget().equals(fieldValue.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			fieldValue.setValue(showKeyboard(event));
+			m_Text = showKeyboard(event);
+			if(m_Text.length() > 0)
+				fieldValue.setValue(m_Text);
 			fieldValue.setFocus(true);
 		}
 		else if(event.getTarget().equals(fieldUPC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			fieldUPC.setValue(showKeyboard(event));
+			m_Text = showKeyboard(event);
+			if(m_Text.length() > 0)
+				fieldUPC.setValue(m_Text);
 			fieldUPC.setFocus(true);
 		}
 		else if(event.getTarget().equals(fieldProductName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			fieldProductName.setValue(showKeyboard(event));
+			m_Text = showKeyboard(event);
+			if(m_Text.length() > 0)	
+				fieldProductName.setValue(m_Text);
 			fieldProductName.setFocus(true);
 		}
 		else if(event.getTarget().equals(fieldSKU.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			fieldSKU.setValue(showKeyboard(event));
+			m_Text = showKeyboard(event);
+			if(m_Text.length() > 0)
+				fieldSKU.setValue(m_Text);
 			fieldSKU.setFocus(true);
 		}
 		 else if(event.getTarget().equals(fieldValue.getComponent(WPOSTextField.PRIMARY))

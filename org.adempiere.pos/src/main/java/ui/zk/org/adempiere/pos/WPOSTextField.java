@@ -286,15 +286,20 @@ public class WPOSTextField extends Div {
 	 * @return boolean
 	 */
 	public boolean showKeyboard() {
-		if(getTitle() != null &&f_TextField.getText().equals(getTitle()))
+		
+		if(getTitle() != null && f_TextField.getText().equals(getTitle()))
 			f_TextField.setValue("");
-		WPOSKeyboard keyboard = m_Keyboard;
-		keyboard.setWidth("750px");
-		keyboard.setHeight("350px");
-		keyboard.setPosTextField(f_TextField);	
-		AEnv.showWindow(keyboard);
-		if(f_TextField.getText().equals("")) 
-			f_TextField.setValue(getTitle());
-		return keyboard.isCancel();
+		if(m_Keyboard != null) {
+			WPOSKeyboard keyboard = m_Keyboard;
+			keyboard.setWidth("750px");
+			keyboard.setHeight("350px");
+			keyboard.setPosTextField(f_TextField);	
+		
+			AEnv.showWindow(keyboard);
+			if(f_TextField.getText().equals("")) 
+				f_TextField.setValue(getTitle());
+			m_Keyboard.isCancel();
+		} 
+		return false;
 	}
 }
