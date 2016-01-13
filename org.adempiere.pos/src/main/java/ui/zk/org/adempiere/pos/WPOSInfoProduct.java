@@ -71,8 +71,8 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	private Label		fProductCategory;
 	/**	Product Tax			*/
 	private Label		fProductTax;
+	private Grid 		infoProductLayout;
 	
-
 	/**
 	 * 
 	 */
@@ -87,29 +87,25 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	protected void init() {
 		parameterPanel = new Panel();
 		Groupbox groupPanel = new Groupbox();
-		Grid infoProductLayout = GridFactory.newGridLayout();
+		infoProductLayout = GridFactory.newGridLayout();
 
 		Caption v_TitleBorder = new Caption(Msg.getMsg(Env.getCtx(), "InfoProduct"));
 		groupPanel.appendChild(v_TitleBorder);
 		groupPanel.appendChild(infoProductLayout);
 		
 		Grid labelLayout = GridFactory.newGridLayout();
-		Borderlayout fullPanel = new Borderlayout();
 		
-		Rows rows = null;
-		Row row = null;	
-		North north = new North();
-
-		north.setStyle("border: none; width:100%;");
-		north.setZindex(0);
-		fullPanel.appendChild(north);
-
 		Panel buttonPanel = new Panel();
 
 		buttonPanel.appendChild(labelLayout);
 		parameterPanel.appendChild(groupPanel);
-		infoProductLayout.setWidth("100%");
-		infoProductLayout.setHeight("95%");
+		
+		buttonPanel.setStyle("border: none; width:99%;moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
+		labelLayout.setStyle("border: none; width:100%;moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
+		infoProductLayout.setStyle("border: none; width:100%; height: moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
+		
+		Rows rows = null;
+		Row  row = null;
 		rows = infoProductLayout.newRows();
 		row = rows.newRow();
 		
@@ -165,6 +161,8 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		//	For Description
 		fDescription = new Label ();
 
+		fDescription.setHeight("19px");	
+
 		fDescription.setClass("label-description");
 		//	Add
 		row.appendChild(fDescription);
@@ -219,7 +217,6 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		fProductTax.setText(productInfo.productTaxCategory);
 		fDescription.setText(productInfo.description);
 		if(productInfo.imageData != null) {
-			Label label = new Label();
 			North nt = new North();
 			Borderlayout mainLayout = new Borderlayout();
 			AImage img = null;
@@ -236,8 +233,6 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 			bImg.setHeight("100px");
 			nt.appendChild(bImg);
 		
-		label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;color: #FFF;");
-		label.setHeight("100%");
 		bImage.setClass("z-button");
 		
 		mainLayout.appendChild(nt);
@@ -246,7 +241,7 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		bImage.getChildren().clear();
 		bImage.appendChild(mainLayout);
 		bImage.invalidate();
-		
+		infoProductLayout.invalidate();
 		} else {
 			bImage.getChildren().clear();
 			bImage.invalidate();
