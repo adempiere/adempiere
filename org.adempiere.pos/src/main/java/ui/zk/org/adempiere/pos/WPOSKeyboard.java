@@ -63,8 +63,10 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 	public WPOSKeyboard(WPOS posPanel, int keyLayoutId) {
 		super();
 		keylayout = MPOSKeyLayout.get(Env.getCtx(), keyLayoutId);
-		keyBoardType = keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad);
-		init( keyLayoutId );
+		if(keylayout.getPOSKeyLayoutType() != null){
+			keyBoardType = keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad);
+			init( keyLayoutId );
+		}
 	}
 
 	/**
@@ -78,9 +80,12 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		setPosTextField(field);
 		setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		keylayout = MPOSKeyLayout.get(posPanel.getCtx(), keyLayoutId);
-		keyBoardType = keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad);
-		init( keyLayoutId );
-		AEnv.showCenterWindow(parent, this);
+		if(keylayout.getPOSKeyLayoutType() != null){
+			keyBoardType = keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad);
+			init( keyLayoutId );
+			AEnv.showCenterWindow(parent, this);
+		}
+		
 	}
 		
 	/** Fields 								*/

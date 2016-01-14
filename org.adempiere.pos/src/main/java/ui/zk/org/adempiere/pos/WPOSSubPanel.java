@@ -50,6 +50,7 @@ public abstract class WPOSSubPanel extends Panel
 	public WPOSSubPanel (WPOS posPanel) {
 		super();
 		this.posPanel = posPanel;
+		setHeight("100%");
 		init();
 	}	//	PosSubPanel
 	
