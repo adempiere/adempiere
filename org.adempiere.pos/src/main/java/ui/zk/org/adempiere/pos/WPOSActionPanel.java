@@ -105,17 +105,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	public void init() {
 
 		parameterPanel = new Panel();
-		Grid parameterLayout = GridFactory.newGridLayout();
 		Grid LayoutButton = GridFactory.newGridLayout();
 		Rows rows = null;
 		Row row = null;	
 		isKeyboard = false;
 
-		appendChild(parameterLayout);
-		parameterLayout.setWidth("60%");
-		rows = parameterLayout.newRows();
-		row = rows.newRow();
-		parameterLayout.setStyle("border: none; width:400px; height:100%;");
 		LayoutButton.setStyle("border: none; width:400px; height:100%;");
 		
 		appendChild(LayoutButton);
@@ -182,9 +176,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		fieldProductName.setWidth("98%");
 		fieldProductName.setHeight("35px");
 		fieldProductName.setStyle("Font-size:medium; font-weight:bold");
-		fieldProductName.addEventListener(this);
 		fieldProductName.setValue(Msg.translate(Env.getCtx(), "M_Product_ID"));
-
 		row.appendChild(new Space());
 		row.appendChild(fieldProductName);
 		enableButton();
@@ -340,8 +332,8 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
-		
-			if(e.getTarget().equals(fieldProductName.getComponent(WPOSTextField.SECONDARY))
+
+		if(e.getTarget().equals(fieldProductName.getComponent(WPOSTextField.SECONDARY))
 					&& e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
 				if(posPanel.isDrafted() || posPanel.isInProgress())  {
 					isKeyboard = true;
