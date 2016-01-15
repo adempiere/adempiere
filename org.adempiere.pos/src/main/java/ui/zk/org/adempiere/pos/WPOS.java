@@ -41,8 +41,8 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
+import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.StatusBar;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.pos.PosKeyboardFocusManager;
@@ -55,6 +55,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Iframe;
 
 /**
@@ -104,8 +105,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private WPOSProductPanel 				f_ProductKeysPanel;
 	private WPOSOrderLinePanel 				f_OrderLinePanel;
 	private WPOSQuantityPanel 				v_QuantityPanel;
-	/** Status Bar 					*/
-	private StatusBar 						statusBar;
+	/** Status Bar 							*/
+	private StatusBarPanel 					statusBar = new StatusBarPanel();
 	
 	/** Actions 							*/
 	private Button 							b_ok 		 = new Button("Ok");
@@ -126,7 +127,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	/** Default Font Weight	 					*/
 	public static final String 	FONTSTYLE 		= "font-weight:bold;";
 	/** Status bar info				*/
-	private String 							statusBarInfo;
+	private String 							statusBarInfo = "";
 
 	/**
 	 *	zk Initialize Panel
@@ -169,10 +170,11 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		Center center = new Center();
 		North actionPanel = new North();
 		North qtyPanel = new North();
+		South southPanel = new South();
 		Center table = new Center();
 		Borderlayout fullPanel = new Borderlayout();
 		Borderlayout mediumPanel = new Borderlayout();
-		
+		southPanel.appendChild(statusBar);
 		center.setStyle("border: none; width:40%");
 		center.appendChild(fullPanel);
 		mainLayout.appendChild(center);
@@ -206,13 +208,14 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
 		mainLayout.appendChild(east);
-
+		mainLayout.appendChild(southPanel);
 		form.appendChild(mainLayout);
 		//	Seek to last
 		if(hasRecord()){
 			lastRecord();	
 		}
 		refreshPanel();
+		form.setHeight("100%");
 		return true;
 	}	//	dynInit
 
@@ -490,7 +493,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		v_QuantityPanel.changeViewPanel();
 	}
 
-	public StatusBar getStatusBar()
+	public StatusBarPanel getStatusBar()
 	{
 		return statusBar;
 	}
