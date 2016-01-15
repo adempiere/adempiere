@@ -96,7 +96,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		v_TotalsPanel.setStyle("width:130%;height:100%");
 		v_OrderPanel = GridFactory.newGridLayout();
 		
-		v_OrderPanel.setStyle("width:130%; height:100%");
+		v_OrderPanel.setStyle("border: none; width:130%; height:100%");
 		v_GroupPanel = GridFactory.newGridLayout();
 		v_GroupPanel.setWidth("100%");
 		v_GroupPanel.setHeight("auto");
@@ -139,7 +139,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 				+ ".z-fieldset legend {font-size: medium; font-weight:bold; width:100%;} "
 				+ ".Table-OrderLine tr th div{font-size: 13px; padding:5px} "
 				+ ".Table-OrderLine tr td div, .Table-OrderLine tr td div input{font-size: 13; height:auto}"
-				+ ".label-description {font-size: medium; display:block; height:15px; font-weight:bold; width: 400px; overflow:hidden;}"
+				+ ".label-description {font-size: medium; display:block; height:15px; font-weight:bold; width: 415px; overflow:hidden;}"
 				+ ".fontLarge label  {font-size: medium;}");
 		style.setParent(v_TitleBorder);
 		v_TotalsGroup.appendChild(v_TitleBorder);
@@ -175,7 +175,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		
 		f_DocumentType = new Label();
 		f_DocumentType.setClass("label-description");
-		f_DocumentType.setStyle("Font-size:1.4em; font-weight:bold; width:145px !important; white-space:pre;");
+		f_DocumentType.setStyle("Font-size:1.4em; font-weight:bold; width:auto !important;max-width:225px !important; white-space:pre;");
 		row.appendChild(f_DocumentType.rightAlign());
 		
 		row = rows.newRow();
@@ -230,16 +230,17 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 
 		org.adempiere.webui.component.Panel centerPanel = new org.adempiere.webui.component.Panel();
 		appendChild(centerPanel);
+		centerPanel.setStyle("overflow:auto; height:75%");
 		centerPanel.appendChild(layout);
 		layout.setWidth("100%");
-		layout.setHeight("100%");
-		layout.setStyle("overflow:auto;");
+		layout.setStyle("");
 		
 		rows = layout.newRows();
 		
 	
 		WPOSKeyPanel panel = new WPOSKeyPanel(C_POSKeyLayout_ID, this);
 		row = rows.newRow();
+		row.setHeight("50%");
 		row.setSpans("4");
 		row.appendChild(panel);
 		
