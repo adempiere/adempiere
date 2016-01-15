@@ -17,10 +17,7 @@
 
 package org.adempiere.pos;
 
-import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
-
-import javax.swing.KeyStroke;
 
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.webui.component.Button;
@@ -32,8 +29,10 @@ import org.adempiere.webui.component.Rows;
 import org.compiere.model.MOrder;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 
 
 /**
@@ -83,20 +82,22 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		row = rows.newRow();
 		row.setHeight("55px");
 		
-		buttonDelete = createButtonAction("Cancel", null);
+		
+    	
+		buttonDelete = createButtonAction("Cancel", "Ctrl+F3");
 		row.appendChild (buttonDelete);
 		
-		buttonPlus = createButtonAction("Plus", null);
+		buttonPlus = createButtonAction("Plus", "Ctrl+1");
 		row.appendChild(buttonPlus);
 		
-		buttonMinus = createButtonAction("Minus", null);
+		buttonMinus = createButtonAction("Minus", "Ctrl+0");
 		row.appendChild(buttonMinus);
 
-		buttonUp = createButtonAction(ACTION_UP, KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
+		buttonUp = createButtonAction(ACTION_UP, "Alt+Up");
 		buttonUp.setTooltiptext(Msg.translate(ctx, "Previous"));
 		row.appendChild (buttonUp);
 		
-		buttonDown = createButtonAction(ACTION_DOWN, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
+		buttonDown = createButtonAction(ACTION_DOWN, "Alt+Down");
 		buttonDown.setTooltiptext(Msg.translate(ctx, "Next"));
 		row.appendChild (buttonDown);
 		
@@ -124,11 +125,44 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		fieldDiscountPercentage.addEventListener(Events.ON_CHANGE, this);
 		fieldDiscountPercentage.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
 		
+		Keylistener keyListener = new Keylistener();
+		fieldPrice.appendChild(keyListener);
+    	keyListener.setCtrlKeys("@#up@#down^#f3^1^0");
+    	keyListener.addEventListener(Events.ON_CTRL_KEY, posPanel);
+    	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+    	keyListener.setAutoBlur(false);
+    	
 		changeStatus(false);
 	}
 	
 	@Override
 	public void onEvent(Event e) throws Exception {
+		if (Events.ON_CTRL_KEY.equals(e.getName())) {
+    		KeyEvent keyEvent = (KeyEvent) e;
+    		//Alt+up == 38
+    		if (keyEvent.getKeyCode() == 38 ) {
+    			posPanel.moveUp();
+    		}
+    		//Alt+down == 40
+    		if (keyEvent.getKeyCode() == 40 ) {
+    			posPanel.moveDown();
+    		}
+    		//ctrl+f3 == 114
+    		if (keyEvent.getKeyCode() == 114 ) {
+				posPanel.deleteLine(posPanel.getC_OrderLine_ID());
+				fieldQuantity.setValue(0.0);
+				fieldPrice.setValue(0.0);
+				fieldDiscountPercentage.setValue(0.0);
+    		}
+    		//ctrl+1 == 49
+    		if (keyEvent.getKeyCode() == 49 ) {
+    			fieldQuantity.setValue(fieldQuantity.getValue().add(CurrentQuantity));
+    		}
+    		//ctrl+0 == 48
+    		if (keyEvent.getKeyCode() == 48 ) {
+    			fieldQuantity.setValue(fieldQuantity.getValue().subtract(CurrentQuantity));
+    		}
+		}
 		if (e.getTarget().equals(buttonUp)){
 			posPanel.moveUp();
 			return;
@@ -153,7 +187,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		BigDecimal quantity           = (BigDecimal) fieldQuantity.getValue();
 		BigDecimal price              = (BigDecimal) fieldPrice.getValue();
 		BigDecimal discountPercentage =  (BigDecimal) fieldDiscountPercentage.getValue();
-		if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged() 
+		if (Events.ON_CTRL_KEY.equals(e.getName()) || (posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged() 
 				&& (e.getTarget().equals(fieldQuantity.getDecimalbox()) || e.getTarget().equals(buttonDelete) || e.getTarget().equals(buttonPlus) || e.getTarget().equals(buttonMinus)))
 		|| 	(posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getTarget().equals(fieldPrice.getDecimalbox()))
 		|| 	(posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getTarget().equals(fieldDiscountPercentage.getDecimalbox()))) 

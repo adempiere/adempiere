@@ -19,8 +19,6 @@ package org.adempiere.pos;
 
 import java.util.Properties;
 
-import javax.swing.KeyStroke;
-
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.session.SessionManager;
@@ -83,7 +81,7 @@ public abstract class WPOSSubPanel extends Panel
 	 *	@param action action 
 	 *	@return button
 	 */
-	protected Button createButtonAction (String action, KeyStroke accelerator)
+	protected Button createButtonAction (String action, String accelerator)
 	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
@@ -91,6 +89,8 @@ public abstract class WPOSSubPanel extends Panel
 		button.setWidth(WIDTH+"px");
 		button.setHeight(HEIGHT+"px");
 		button.addActionListener(this);
+		if(action != null || accelerator != null)
+			posPanel.addStatusBarInfo("("+action + accelerator + ") ");
 		return button;
 	}	//	getButtonAction
 	
