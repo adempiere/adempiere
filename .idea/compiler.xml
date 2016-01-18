@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
+    <option name="BUILD_PROCESS_HEAP_SIZE" value="1700" />
     <resourceExtensions />
     <wildcardResourcePatterns>
       <entry name="!?*.java" />
@@ -20,4 +21,3 @@
     </annotationProcessing>
   </component>
 </project>
-
