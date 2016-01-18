@@ -1,3 +1,20 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2014 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Raul Muñoz www.erpcya.com					              *
+ *****************************************************************************/
+
 package org.adempiere.pos.test;
 
 import java.io.BufferedInputStream;
@@ -10,7 +27,15 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
-public class POSClientSide {  
+
+/**
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author victor.perez@e-evolution.com , http://www.e-evolution.com
+ **/
+
+public class POSClientSide extends Thread {  
 
 	private Socket socketClient = null;
 	private String m_Host = null;
@@ -19,14 +44,19 @@ public class POSClientSide {
 	public POSClientSide(String p_Host, String p_Print) {
 		m_Host = p_Host;
 		m_Print = p_Print;
+		try {
+			socketClient = new Socket(m_Host, 5444);
+			start();
+		} catch (IOException e) {
+		    JOptionPane.showMessageDialog(null, "Error Connecting", "Error", JOptionPane.ERROR_MESSAGE);
+		}		
+		    
+		
 	}
 	
-	public void connect() {
-		try {
-		      socketClient = new Socket(m_Host, 5444);
-		    } catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Error Connecting", "Error", JOptionPane.ERROR_MESSAGE);
-		}
+	public void run(){
+		
+
 	    try {
 	      while (true) {
 	    	  DataInputStream dis = new DataInputStream(socketClient.getInputStream());
@@ -58,16 +88,14 @@ public class POSClientSide {
 	      }	      
 	      
 	    } catch (IOException e) {
-		System.out.println("IOException: " + e.getMessage());
+	    	System.out.println("IOException: " + e.getMessage());
 	    }
 	}
-
 
 	public void closeConnect(){
 		try {
 			socketClient.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
