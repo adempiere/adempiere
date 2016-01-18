@@ -313,7 +313,14 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return currentOrder.isInvoiced();
+		int[] invoice_IDs = MInvoice.getAllIDs(MInvoice.Table_Name, MInvoice.COLUMNNAME_C_Order_ID + "=" + currentOrder.getC_Order_ID(), null);
+		boolean orderInvoiced = false;
+		if (invoice_IDs!=null && invoice_IDs[0]>0) {
+			MInvoice invoice = new MInvoice(getCtx(), invoice_IDs[0], null);
+			orderInvoiced = invoice.getDocStatus().equalsIgnoreCase(MInvoice.DOCSTATUS_Completed);
+		}
+	
+		return currentOrder.isInvoiced() || orderInvoiced;
 	}
 	
 	/**
@@ -1144,15 +1151,17 @@ public class CPOS {
 			isToPrint = false;
 		}
 		
-		//	Validate for generate Invoice and Shipment
-		if(isPaid
-				&& !isInvoiced()
-				&& !isDelivered()) {	//	Generate Invoice and Shipment
-			generateShipment(trxName);
-			generateInvoice(trxName);
+		//	Validate for Invoice and Shipment generation (not for Standard Orders)
+		if(isPaid && !getDocSubTypeSO().equals(MOrder.DocSubTypeSO_Standard)) {	
+			if(!isDelivered())
+				generateShipment(trxName);
+
+			if(!isInvoiced() && !getDocSubTypeSO().equals(MOrder.DocSubTypeSO_Warehouse)) {
+				generateInvoice(trxName);
+				isToPrint = true;				
+			}
 			//	
 			orderCompleted = true;
-			isToPrint = true;
 		}
 		return orderCompleted;
 	}	// processOrder
