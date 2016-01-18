@@ -31,9 +31,6 @@ class CreateSalesOrder extends FeatureSpec  with AdempiereTestCase with GivenWhe
     info("The customer paid using your credit card 50 % of sales ticket and other 50% in cash")
 
     scenario("Create sales order") {
-
-      import org.eevolution.dsl._
-
       //Functions for this scenario
       val JoeBlock = { MBPartner.get(Context , "JoeBlock") }
       val SalePriceList = { MPriceList.getDefault(Context, true) }

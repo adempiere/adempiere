@@ -23,7 +23,7 @@ import org.eevolution.dsl._
 import scala.collection.JavaConversions._
 
 /**
- *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 14/12/13.
+ *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 15/01/16.
  */
 trait PaymentService {
 
