@@ -21,6 +21,8 @@ import java.util.{ArrayList, List}
 import org.compiere.model.{I_M_Product, Query}
 import org.compiere.util.Env
 
+import org.eevolution.dsl._
+
 /**
  *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 14/12/13.
  */

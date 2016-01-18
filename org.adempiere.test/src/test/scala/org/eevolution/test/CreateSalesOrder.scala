@@ -17,7 +17,7 @@
 package org.eevolution.test
 
 import org.compiere.model._
-import org.eevolution.service._
+import org.eevolution.service.ProductService
 import org.scalatest.{GivenWhenThen, FeatureSpec}
 
 /**
@@ -32,47 +32,47 @@ class CreateSalesOrder extends FeatureSpec  with AdempiereTestCase with GivenWhe
 
     scenario("Create sales order") {
 
-      import org.eevolution.dsl.builder._
+      import org.eevolution.dsl._
 
       //Functions for this scenario
       val JoeBlock = { MBPartner.get(Context , "JoeBlock") }
       val SalePriceList = { MPriceList.getDefault(Context, true) }
       import X_C_DocType._
-      val WarehouseOrder = { DOCSUBTYPESO_WarehouseOrder }
+      val AsWarehouseOrder = { DOCSUBTYPESO_WarehouseOrder }
       val HQ = { Organization }
       val HQWarehouse = { Warehouse }
       val QtyOak = { BigDecimal(1) }
       val Oak = { getProduct("Oak", trxName) }
       val OakPrice  = { 61.75 }
       val QtyAzalea =  { 2 }
-      val Azalea = { getProduct("Azalea Bush",trxName) }
+      val Azalea  = { getProduct("Azalea Bush",trxName) }
       val AzaleaPrice = { 23.75}
       val TotalSales = { (OakPrice * 1)+(AzaleaPrice * 2) }
 
-      given(s"Joe Block buy one Oak Trees with $OakPrice USD by unit and two Azalea Bush with $AzaleaPrice USD by unit")
-      when("when sales order is created ")
-      val order = OrderBuilder(Context , trxName)
-        .AddLine(Oak , QtyOak) AddLine (Azalea , QtyAzalea) AsSalesOrder() With HQ With JoeBlock With HQWarehouse With SalePriceList With WarehouseOrder build()
-      then("the order have a organization")
+      Given(s"Joe Block buy one Oak Trees with $OakPrice USD by unit and two Azalea Bush with $AzaleaPrice USD by unit")
+      When("when sales order is created ")
+      import org.eevolution.dsl.builder.OrderBuilder
+      val order = OrderBuilder(Context , trxName) AddLine(Oak , QtyOak) AddLine (Azalea , QtyAzalea) withOrganization HQ withPartner JoeBlock withWarehouse  HQWarehouse withPriceList  SalePriceList withBaseDocumentType  DOCBASETYPE_SalesOrder withSubType AsWarehouseOrder  build()
+      Then("the order have a organization")
       assert( order.getAD_Org_ID == HQ.getAD_Org_ID)
       info(Organization.getName)
-      and("the Document No have the value ")
+      And("the Document No have the value ")
       assert( order.getDocumentNo.length > 0)
       info(order.getDocumentNo)
-      and("the order have a partner ")
+      And("the order have a partner ")
       assert ( order.getC_BPartner == JoeBlock)
       info(JoeBlock.getName)
-      and("the order have a warehouse ")
+      And("the order have a warehouse ")
       assert ( order.getM_Warehouse == HQWarehouse)
       info(HQWarehouse.getName)
-      and("the order have two lines ")
+      And("the order have two lines ")
       assert ( order.getLines().length == 2)
       info("--------------------------------------------------------")
       for (orderLine <- order.getLines)
         info ("Product : " + orderLine.getM_Product.getName + " Qty : " + orderLine.getQtyOrdered +  " Total Line : " +  orderLine.getLineNetAmt)
 
       info("--------------------------------------------------------")
-      and(s"the total Sales Order is that $TotalSales")
+      And(s"the total Sales Order is that $TotalSales")
       assert(TotalSales.toDouble == order.getGrandTotal.doubleValue())
     }
   }

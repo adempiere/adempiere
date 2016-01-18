@@ -14,29 +14,22 @@
   * Contributor(s): Victor Perez www.e-evolution.com                           *
   * ****************************************************************************/
 
-package org.eevolution
+package org.eevolution.services
+
+import java.util.Properties
 
 import org.compiere.model._
-import org.compiere.util.Trx
 
 /**
-  * Define DSL types for testing and other services
-  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 07/01/16.
-  */
-package object service {
-
-  type Organization =  MOrg
-  type Partner = MBPartner
-  type Product = MProduct
-  type PriceList = MPriceList
-  type Order = MOrder
-  type OrderLine = MOrderLine
-  type Shipment = MInOut
-  type ShipmentLine = MInOutLine
-  type Warehouse = MWarehouse
-  type Payment = MPayment
-  type Context = java.util.Properties
-  type Transaction = Trx
-  type Quantity = BigDecimal
-
+ *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on /12/13.
+ */
+trait SysConfigService {
+  def getSysConfig(context: Properties , name : String ,  trxName : String ) : MSysConfig = {
+    val whereClause = new StringBuilder()
+    whereClause.append(I_AD_SysConfig.COLUMNNAME_Name).append("=?")
+    val sysConfig:MSysConfig = new Query(context, I_AD_SysConfig.Table_Name, whereClause.toString(), trxName)
+      .setParameters(name)
+      .first()
+    sysConfig
+  }
 }
