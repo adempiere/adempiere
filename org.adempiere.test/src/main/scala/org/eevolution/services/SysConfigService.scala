@@ -21,7 +21,7 @@ import java.util.Properties
 import org.compiere.model._
 
 /**
- *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on /12/13.
+ *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 15/01/16
  */
 trait SysConfigService {
   def getSysConfig(context: Properties , name : String ,  trxName : String ) : MSysConfig = {
