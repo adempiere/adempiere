@@ -26,14 +26,14 @@ scalaVersion := "2.11.7"
 fork := true
 val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/Adempiere.properties"
 
-scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-encoding" , "utf8")
+//scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-encoding" , "utf8")
 javaOptions in Test := Seq (adempiereProperties)
 
 libraryDependencies += "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided"
 libraryDependencies ++= Seq(
   "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided",
   "com.typesafe" % "config" % "1.2.0",
-  "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+  "org.scalatest" % "scalatest_2.11" % "2.2.4" % "provided"
 )
 javaOptions in Jetty ++= Seq(
   adempiereProperties,
@@ -42,13 +42,16 @@ javaOptions in Jetty ++= Seq(
 )
 
 assemblyJarName in assembly := "AdempiereTestSuite.jar"
+test in assembly := {}
 
-assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = true, includeDependency = false)
+
+
+assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = true, includeDependency =false)
 
 lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
   organization := "org.eevolution",
-  scalaVersion := "2.11.6"
+  scalaVersion := "2.11.7"
 )
 
 

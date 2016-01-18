@@ -31,6 +31,8 @@
 	<classpathentry kind="src" path="org.adempiere.asset/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.webservice/WEB-INF/src"/>
 	<classpathentry kind="src" path="com.kkalice.adempiere.migrate/src"/>
+	<classpathentry kind="src" path="org.adempiere.test/src/test/scala"/>
+	<classpathentry kind="src" path="org.adempiere.test/src/main/scala"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
@@ -347,5 +349,11 @@
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/scala-sdk-2.11.7"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scala-lang:scala-reflect:2.11.2:jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scala-lang.modules:scala-xml_2.11:1.0.2:jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scala-lang:scala-library:2.11.7:jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: javax.servlet:javax.servlet-api:3.0.1:jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scalatest:scalatest_2.11:2.2.4:jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
