@@ -21,6 +21,8 @@ import java.awt.Container;
 import java.awt.SystemTray;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -70,12 +72,14 @@ public class POSClientWindow extends JFrame implements ActionListener {
 	/**	Select Print		*/
 	private JComboBox 	cPrint;	
 	
+	private POSClientSide	p_Client;
+	
 	private void init() {
 		  container = getContentPane();
 		  container.setLayout(null);
-
+		  
 		  btnConnect = new JButton();
-		 btnConnect.setText("Connect");
+		  btnConnect.setText("Connect");
 		  btnConnect.setBounds(60, 100, 100, 23);
 		  btnConnect.addActionListener(this);
 		  
@@ -83,6 +87,7 @@ public class POSClientWindow extends JFrame implements ActionListener {
 		  btnDisconnect.setText("Disconnect");
 		  btnDisconnect.setBounds(160, 100, 120, 23);
 		  btnDisconnect.addActionListener(this);
+		  btnDisconnect.setEnabled(false);
 		  
 		  lblTitle = new JLabel();
 		  lblTitle.setText("Print POS");
@@ -120,11 +125,20 @@ public class POSClientWindow extends JFrame implements ActionListener {
 	
 	
   @Override
-  public void actionPerformed(ActionEvent e) {
+  public void actionPerformed(ActionEvent e)  {
+	  boolean status;
       if (e.getSource()==btnConnect) {
     	  String m_print = (String)cPrint.getSelectedItem();
-    	  POSClientSide client = new POSClientSide(fHost.getText(), m_print);
-    	  client.connect();
+    	  p_Client = new POSClientSide(fHost.getText(), m_print);
+    	  status = p_Client.isAlive();
+    	  
+			btnConnect.setEnabled(!status);
+			btnDisconnect.setEnabled(status);
+      }
+      else if(e.getSource()==btnDisconnect) {
+    	  p_Client.closeConnect();
+    	  btnConnect.setEnabled(true);
+    	  btnDisconnect.setEnabled(false);
       }
     }
   

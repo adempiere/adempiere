@@ -17,6 +17,8 @@
 
 package org.adempiere.pos;
 
+import java.io.StringWriter;
+
 import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.search.WQueryDocType;
 import org.adempiere.pos.search.WQueryProduct;
@@ -24,6 +26,7 @@ import org.adempiere.pos.search.WQueryTicket;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
+import org.adempiere.pos.test.SideServer;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
@@ -36,12 +39,14 @@ import org.compiere.model.MPOSKey;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.pos.PosKeyListener;
 import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.zkforge.keylistener.Keylistener;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.KeyEvent;
@@ -222,6 +227,14 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 				});
 			
 				ReportCtl.startDocumentPrint(0, posPanel.getC_Order_ID(), false);
+				ReportEngine m_reportEngine = ReportEngine.get(ctx, ReportEngine.ORDER, posPanel.getC_Order_ID());
+				StringWriter sw = new StringWriter();							
+				m_reportEngine.createCSV(sw, '\t', m_reportEngine.getPrintFormat().getLanguage());
+				byte[] data = sw.getBuffer().toString().getBytes();	
+				
+				AMedia media = new AMedia(m_reportEngine.getPrintFormat().getName() + ".txt", null, "application/octet-stream", data);
+				
+				SideServer.printFile(media.getByteData());	
 			}
 			catch (Exception e) 
 			{
