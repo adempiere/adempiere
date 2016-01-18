@@ -140,7 +140,8 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 				+ ".Table-OrderLine tr th div{font-size: 13px; padding:5px} "
 				+ ".Table-OrderLine tr td div, .Table-OrderLine tr td div input{font-size: 13; height:auto}"
 				+ ".label-description {font-size: medium; display:block; height:15px; font-weight:bold; width: 415px; overflow:hidden;}"
-				+ ".fontLarge label  {font-size: medium;}");
+				+ ".fontLarge label  {font-size: medium;}"
+				+ "div.z-grid-body {-moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;}");
 		style.setParent(v_TitleBorder);
 		v_TotalsGroup.appendChild(v_TitleBorder);
 

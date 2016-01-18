@@ -63,6 +63,9 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	private Label 		fName;
 	/**	Product Price		*/
 	private Label 		fPrice;
+	/**	Product Price List	*/
+	private Label 		lPriceList;
+	private Label 		fPriceList;
 	/**	Product Description	*/
 	private Label		fDescription;
 	/**	Product UOM Symbol	*/
@@ -71,8 +74,10 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	private Label		fProductCategory;
 	/**	Product Tax			*/
 	private Label		fProductTax;
+	/** Grid Panel 			*/
 	private Grid 		infoProductLayout;
-	
+	private Grid 		labelLayout;
+	private Panel 		buttonPanel;
 	/**
 	 * 
 	 */
@@ -93,16 +98,16 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		groupPanel.appendChild(v_TitleBorder);
 		groupPanel.appendChild(infoProductLayout);
 		
-		Grid labelLayout = GridFactory.newGridLayout();
+		labelLayout = GridFactory.newGridLayout();
 		
-		Panel buttonPanel = new Panel();
+		buttonPanel = new Panel();
 
 		buttonPanel.appendChild(labelLayout);
 		parameterPanel.appendChild(groupPanel);
 		
 		buttonPanel.setStyle("border: none; width:99%;moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
 		labelLayout.setStyle("border: none; width:100%;moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
-		infoProductLayout.setStyle("border: none; width:100%; height: moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
+		infoProductLayout.setStyle("border: none; width:100%; moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
 		
 		Rows rows = null;
 		Row  row = null;
@@ -123,10 +128,24 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		fValue.setStyle("Font-size:medium; font-weight:bold");
 		//	Add
 		row.appendChild(fValue);
+		
+		row = rows.newRow();
+		//  For Price List
+		lPriceList = new Label ();
+		lPriceList.setStyle("Font-size:medium; font-weight:bold");
+		//	Add
+		row.appendChild(lPriceList);
+		
+
 		fPrice = new Label ();
 		fPrice.setStyle(WPOS.FONTSIZELARGE+"font-weight:bold");
 		//	Add
 		row.appendChild(fPrice);
+		
+		fPriceList = new Label ();
+		fPriceList.setStyle(WPOS.FONTSIZELARGE+"font-weight:bold");
+		//	Add
+		row.appendChild(fPriceList);
 		
 		row = rows.newRow();
 		//	For Name
@@ -177,7 +196,7 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	public void initialValue() {
 		fDescription.setText(Msg.getElement(Env.getCtx(), "Description"));
 		fName.setText(Msg.getElement(Env.getCtx(), "ProductName"));
-		fPrice.setText(Msg.getElement(Env.getCtx(), "Price"));
+		lPriceList.setText(Msg.parseTranslation(ctx , "@PriceStd@ , @PriceList@ ") + posPanel.getCurSymbol());
 		fValue.setText(Msg.getElement(Env.getCtx(), "ProductValue"));
 		fUOMSymbol.setText(Msg.getElement(Env.getCtx(), "C_UOM_ID"));
 		fProductCategory.setText(Msg.getElement(Env.getCtx(), "M_Product_Category_ID"));
@@ -206,11 +225,10 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		
 		//	Refresh Values
 		ProductInfo productInfo = new ProductInfo(productId, imageId , posPanel.getM_PriceList_Version_ID() , posPanel.getM_Warehouse_ID());
-		String currencyISO_Code = posPanel.getCurSymbol();
+		lPriceList.setText(Msg.parseTranslation(ctx , "@PriceStd@ , @PriceList@ ") + posPanel.getCurSymbol());
 		fValue.setText(productInfo.value);
-		fPrice.setText(currencyISO_Code + "" 
-					+ posPanel.getNumberFormat()
-						.format(productInfo.priceStd));
+		fPrice.setText(posPanel.getNumberFormat().format(productInfo.priceStd));
+		fPriceList.setText(posPanel.getNumberFormat().format(productInfo.priceList));
 		fName.setText(productInfo.name);
 		fUOMSymbol.setText(productInfo.uomSymbol);
 		fProductCategory.setText(productInfo.productCategoryName);
@@ -242,6 +260,8 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		bImage.appendChild(mainLayout);
 		bImage.invalidate();
 		infoProductLayout.invalidate();
+		labelLayout.invalidate();
+		buttonPanel.invalidate();
 		} else {
 			bImage.getChildren().clear();
 			bImage.invalidate();
@@ -303,6 +323,8 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		final String NO_TEXT = "--";
 		fValue.setText(NO_TEXT);
 		fPrice.setText(NO_TEXT);
+		lPriceList.setText(NO_TEXT);
+		fPriceList.setText(NO_TEXT);
 		fName.setText(NO_TEXT);
 		fUOMSymbol.setText(NO_TEXT);
 		fProductCategory.setText(NO_TEXT);
