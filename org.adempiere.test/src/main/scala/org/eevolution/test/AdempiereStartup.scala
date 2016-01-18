@@ -14,7 +14,7 @@
   * Contributor(s): Victor Perez www.e-evolution.com                           *
   * ****************************************************************************/
 
-package org.eevolution.service
+package org.eevolution.test
 
 import java.util.logging.Level
 

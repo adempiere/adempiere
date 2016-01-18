@@ -14,15 +14,25 @@
   * Contributor(s): Victor Perez www.e-evolution.com                           *
   * ****************************************************************************/
 
-package org.eevolution.dsl
+package org.eevolution.services
+
+import java.util.{ArrayList, List}
+
+import org.compiere.model._
+import org.eevolution.dsl._
+import scala.collection.JavaConversions._
 
 /**
-  * Created by e-Evolution on 05/01/16.
-  */
-package object builder {
+ *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 14/12/13.
+ */
+trait PaymentService {
 
-  sealed trait Count
-  sealed trait Zero extends Count
-  sealed trait Once extends Count
-
+  def getOrderPayments(order : Order) : List[Payment] = {
+    val whereClause = new StringBuilder()
+    whereClause.append(I_C_Payment.COLUMNNAME_C_Order_ID).append("=?")
+    val payments = new Query(order.getCtx(), I_C_Payment.Table_Name, whereClause.toString(), order.get_TrxName())
+      .setClient_ID().setParameters(order.get_ID().asInstanceOf[Object])
+      .list().toList
+    payments
+  }
 }
