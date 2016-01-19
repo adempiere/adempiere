@@ -313,7 +313,14 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return currentOrder.isInvoiced();
+		int[] invoice_IDs = MInvoice.getAllIDs(MInvoice.Table_Name, MInvoice.COLUMNNAME_C_Order_ID + "=" + currentOrder.getC_Order_ID(), null);
+		boolean orderInvoiced = false;
+		if (invoice_IDs!=null && invoice_IDs[0]>0) {
+			MInvoice invoice = new MInvoice(getCtx(), invoice_IDs[0], null);
+			orderInvoiced = invoice.getDocStatus().equalsIgnoreCase(MInvoice.DOCSTATUS_Completed);
+		}
+	
+		return currentOrder.isInvoiced() || orderInvoiced;
 	}
 	
 	/**
@@ -626,6 +633,7 @@ public class CPOS {
 	
 	/**
 	 * 	Set BPartner, update price list and locations
+	 *  Configuration of Business Partner has priority over POS configuration
 	 *	@param p_C_BPartner_ID id
 	 */
 	
@@ -652,23 +660,21 @@ public class CPOS {
 			log.info("CPOS.SetC_BPartner_ID -" + partner);
 			currentOrder.setBPartner(partner);
 			//	
-			if (partner != null) {
-				currentOrder.setBPartner(partner);
-				//	
-				MBPartnerLocation [] partnerLocations = partner.getLocations(true);
-				if(partnerLocations.length > 0) {
-					for(MBPartnerLocation partnerLocation : partnerLocations) {
-						if(partnerLocation.isBillTo())
-							currentOrder.setBill_Location_ID(partnerLocation.getC_BPartner_Location_ID());
-						if(partnerLocation.isShipTo())
-							currentOrder.setShip_Location_ID(partnerLocation.getC_BPartner_Location_ID());
-					}				
-				}
+			MBPartnerLocation [] partnerLocations = partner.getLocations(true);
+			if(partnerLocations.length > 0) {
+				for(MBPartnerLocation partnerLocation : partnerLocations) {
+					if(partnerLocation.isBillTo())
+						currentOrder.setBill_Location_ID(partnerLocation.getC_BPartner_Location_ID());
+					if(partnerLocation.isShipTo())
+						currentOrder.setShip_Location_ID(partnerLocation.getC_BPartner_Location_ID());
+				}				
 			}
 			//	Validate Same BPartner
 			if(isSamePOSPartner) {
-				currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
-				currentOrder.setPaymentRule(MOrder.PAYMENTRULE_Cash);
+				if(currentOrder.getM_PriceList_ID()==0)
+					currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
+				if(currentOrder.getPaymentRule()==null)
+					currentOrder.setPaymentRule(MOrder.PAYMENTRULE_Cash);
 			}
 			//	Set Sales Representative
 			currentOrder.setSalesRep_ID(entityPOS.getSalesRep_ID());
@@ -1145,15 +1151,17 @@ public class CPOS {
 			isToPrint = false;
 		}
 		
-		//	Validate for generate Invoice and Shipment
-		if(isPaid
-				&& !isInvoiced()
-				&& !isDelivered()) {	//	Generate Invoice and Shipment
-			generateShipment(trxName);
-			generateInvoice(trxName);
+		//	Validate for Invoice and Shipment generation (not for Standard Orders)
+		if(isPaid && !getDocSubTypeSO().equals(MOrder.DocSubTypeSO_Standard)) {	
+			if(!isDelivered())
+				generateShipment(trxName);
+
+			if(!isInvoiced() && !getDocSubTypeSO().equals(MOrder.DocSubTypeSO_Warehouse)) {
+				generateInvoice(trxName);
+				isToPrint = true;				
+			}
 			//	
 			orderCompleted = true;
-			isToPrint = true;
 		}
 		return orderCompleted;
 	}	// processOrder
@@ -1775,9 +1783,12 @@ public class CPOS {
 	}
 
 	/**
-	 * Refresh from product
+	 * Get Product Image
+	 * Right now, it is only possible a two-stage lookup.
+	 * A general lookup has to be implemented, where more than 2 stages are considered.
 	 * @param productId
-	 * @return void
+	 * @param posKeyLayoutId
+	 * @return int
 	 */
 	public int getProductImageId(int productId , int posKeyLayoutId) {
 		int imageId = 0;
@@ -1792,10 +1803,24 @@ public class CPOS {
 				+ "WHERE pk.C_POSKeyLayout_ID = ? "
 				+ "AND pk.M_Product_ID = ? "
 				+ "AND pk.IsActive = 'Y'", posKeyLayoutId , productId);
-		//	Valid POS Key
+		
 		if(m_C_POSKey_ID > 0) {
+			//	Valid POS Key
 			MPOSKey key =  new MPOSKey(ctx, m_C_POSKey_ID, null);
 			imageId = key.getAD_Image_ID();
+		}
+		else  {
+			//	No record has been found for a product in the current Key Layout. Try it in the Subkey Layout.
+			m_C_POSKey_ID = DB.getSQLValue(null, "SELECT pk2.C_POSKey_ID "
+					+ "FROM C_POSKey pk1 "
+					+ "INNER JOIN C_POSKey pk2 ON pk1.subkeylayout_id=pk2.c_poskeylayout_id AND pk1.subkeylayout_id IS NOT NULL "
+					+ "WHERE pk2.M_Product_ID = ? "
+					+ "AND pk1.IsActive = 'Y' AND pk2.IsActive = 'Y'", productId);
+			//	Valid POS Key
+			if(m_C_POSKey_ID > 0) {
+				MPOSKey key =  new MPOSKey(ctx, m_C_POSKey_ID, null);
+				imageId = key.getAD_Image_ID();
+			}
 		}
 		return imageId;
 	}

@@ -25,9 +25,7 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.compiere.model.MImage;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.MProduct;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -65,6 +63,9 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	private Label 		fName;
 	/**	Product Price		*/
 	private Label 		fPrice;
+	/**	Product Price List	*/
+	private Label 		lPriceList;
+	private Label 		fPriceList;
 	/**	Product Description	*/
 	private Label		fDescription;
 	/**	Product UOM Symbol	*/
@@ -73,8 +74,10 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	private Label		fProductCategory;
 	/**	Product Tax			*/
 	private Label		fProductTax;
-	
-
+	/** Grid Panel 			*/
+	private Grid 		infoProductLayout;
+	private Grid 		labelLayout;
+	private Panel 		buttonPanel;
 	/**
 	 * 
 	 */
@@ -89,29 +92,25 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	protected void init() {
 		parameterPanel = new Panel();
 		Groupbox groupPanel = new Groupbox();
-		Grid infoProductLayout = GridFactory.newGridLayout();
+		infoProductLayout = GridFactory.newGridLayout();
 
 		Caption v_TitleBorder = new Caption(Msg.getMsg(Env.getCtx(), "InfoProduct"));
 		groupPanel.appendChild(v_TitleBorder);
 		groupPanel.appendChild(infoProductLayout);
 		
-		Grid labelLayout = GridFactory.newGridLayout();
-		Borderlayout fullPanel = new Borderlayout();
+		labelLayout = GridFactory.newGridLayout();
 		
-		Rows rows = null;
-		Row row = null;	
-		North north = new North();
-
-		north.setStyle("border: none; width:100%;");
-		north.setZindex(0);
-		fullPanel.appendChild(north);
-
-		Panel buttonPanel = new Panel();
+		buttonPanel = new Panel();
 
 		buttonPanel.appendChild(labelLayout);
 		parameterPanel.appendChild(groupPanel);
-		infoProductLayout.setWidth("100%");
-		infoProductLayout.setHeight("95%");
+		
+		buttonPanel.setStyle("border: none; width:99%;moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
+		labelLayout.setStyle("border: none; width:100%;moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
+		infoProductLayout.setStyle("border: none; width:100%; moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
+		
+		Rows rows = null;
+		Row  row = null;
 		rows = infoProductLayout.newRows();
 		row = rows.newRow();
 		
@@ -129,10 +128,24 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		fValue.setStyle("Font-size:medium; font-weight:bold");
 		//	Add
 		row.appendChild(fValue);
+		
+		row = rows.newRow();
+		//  For Price List
+		lPriceList = new Label ();
+		lPriceList.setStyle("Font-size:medium; font-weight:bold");
+		//	Add
+		row.appendChild(lPriceList);
+		
+
 		fPrice = new Label ();
 		fPrice.setStyle(WPOS.FONTSIZELARGE+"font-weight:bold");
 		//	Add
 		row.appendChild(fPrice);
+		
+		fPriceList = new Label ();
+		fPriceList.setStyle(WPOS.FONTSIZELARGE+"font-weight:bold");
+		//	Add
+		row.appendChild(fPriceList);
 		
 		row = rows.newRow();
 		//	For Name
@@ -167,6 +180,8 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		//	For Description
 		fDescription = new Label ();
 
+		fDescription.setHeight("19px");	
+
 		fDescription.setClass("label-description");
 		//	Add
 		row.appendChild(fDescription);
@@ -181,7 +196,7 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	public void initialValue() {
 		fDescription.setText(Msg.getElement(Env.getCtx(), "Description"));
 		fName.setText(Msg.getElement(Env.getCtx(), "ProductName"));
-		fPrice.setText(Msg.getElement(Env.getCtx(), "Price"));
+		lPriceList.setText(Msg.parseTranslation(ctx , "@PriceStd@ , @PriceList@ ") + posPanel.getCurSymbol());
 		fValue.setText(Msg.getElement(Env.getCtx(), "ProductValue"));
 		fUOMSymbol.setText(Msg.getElement(Env.getCtx(), "C_UOM_ID"));
 		fProductCategory.setText(Msg.getElement(Env.getCtx(), "M_Product_Category_ID"));
@@ -210,18 +225,16 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		
 		//	Refresh Values
 		ProductInfo productInfo = new ProductInfo(productId, imageId , posPanel.getM_PriceList_Version_ID() , posPanel.getM_Warehouse_ID());
-		String currencyISO_Code = posPanel.getCurSymbol();
+		lPriceList.setText(Msg.parseTranslation(ctx , "@PriceStd@ , @PriceList@ ") + posPanel.getCurSymbol());
 		fValue.setText(productInfo.value);
-		fPrice.setText(currencyISO_Code + "" 
-					+ posPanel.getNumberFormat()
-						.format(productInfo.priceStd));
+		fPrice.setText(posPanel.getNumberFormat().format(productInfo.priceStd));
+		fPriceList.setText(posPanel.getNumberFormat().format(productInfo.priceList));
 		fName.setText(productInfo.name);
 		fUOMSymbol.setText(productInfo.uomSymbol);
 		fProductCategory.setText(productInfo.productCategoryName);
 		fProductTax.setText(productInfo.productTaxCategory);
 		fDescription.setText(productInfo.description);
 		if(productInfo.imageData != null) {
-			Label label = new Label();
 			North nt = new North();
 			Borderlayout mainLayout = new Borderlayout();
 			AImage img = null;
@@ -238,8 +251,6 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 			bImg.setHeight("100px");
 			nt.appendChild(bImg);
 		
-		label.setStyle("word-wrap: break-word; white-space: pre-line;margin: 25px 0px 0px 0px; top:20px; font-size:10pt; font-weight: bold;color: #FFF;");
-		label.setHeight("100%");
 		bImage.setClass("z-button");
 		
 		mainLayout.appendChild(nt);
@@ -248,7 +259,9 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		bImage.getChildren().clear();
 		bImage.appendChild(mainLayout);
 		bImage.invalidate();
-		
+		infoProductLayout.invalidate();
+		labelLayout.invalidate();
+		buttonPanel.invalidate();
 		} else {
 			bImage.getChildren().clear();
 			bImage.invalidate();
@@ -286,12 +299,39 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 				+ "WHERE pk.C_POSKeyLayout_ID = ? "
 				+ "AND pk.M_Product_ID = ? "
 				+ "AND pk.IsActive = 'Y'", posPanel.getC_POSKeyLayout_ID(), p_M_Product_ID);
-		//	Valid POS Key
 		if(m_C_POSKey_ID <= 0) {
-			return;
+			//	No record has been found for a product in the current Key Layout. Try it in the Subkey Layout.
+			m_C_POSKey_ID = DB.getSQLValue(null, "SELECT pk2.C_POSKey_ID "
+					+ "FROM C_POSKey pk1 "
+					+ "INNER JOIN C_POSKey pk2 ON pk1.subkeylayout_id=pk2.c_poskeylayout_id AND pk1.subkeylayout_id IS NOT NULL "
+					+ "WHERE pk2.M_Product_ID = ? "
+					+ "AND pk1.IsActive = 'Y' AND pk2.IsActive = 'Y'", p_M_Product_ID);
+			
+			if(m_C_POSKey_ID <= 0)
+				return;
 		}
 		MPOSKey key =  new MPOSKey(ctx, m_C_POSKey_ID, null);
 		//	
 		setValuesFromProduct(p_M_Product_ID, key.getAD_Image_ID());
 	}
+	
+	/**
+	 * Reset Values of Info Product
+	 * @return void
+	 */
+	public void resetValues() {
+		final String NO_TEXT = "--";
+		fValue.setText(NO_TEXT);
+		fPrice.setText(NO_TEXT);
+		lPriceList.setText(NO_TEXT);
+		fPriceList.setText(NO_TEXT);
+		fName.setText(NO_TEXT);
+		fUOMSymbol.setText(NO_TEXT);
+		fProductCategory.setText(NO_TEXT);
+		fProductTax.setText(NO_TEXT);
+		fDescription.setText(NO_TEXT);
+		bImage.getChildren().clear();
+		bImage.invalidate();
+	}
+
 }

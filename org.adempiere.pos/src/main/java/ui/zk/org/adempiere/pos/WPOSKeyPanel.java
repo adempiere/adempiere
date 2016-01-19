@@ -194,7 +194,7 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 			
 			button.setId(""+key.getC_POSKey_ID());
 			button.addEventListener("onClick", this);
-
+			
 			int size = 1;
 			if ( key.getSpanX() > 1 )
 			{

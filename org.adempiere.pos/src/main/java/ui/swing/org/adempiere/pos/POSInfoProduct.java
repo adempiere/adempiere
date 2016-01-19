@@ -271,4 +271,22 @@ public class POSInfoProduct extends POSSubPanel {
 		int imageId = posPanel.getProductImageId(productId, posPanel.getC_POSKeyLayout_ID());
 		setValuesFromProduct(productId, imageId , priceListVersionId , warehouseId);
 	}
+	
+	/**
+	 * Reset Values of Info Product
+	 * @return void
+	 */
+	public void resetValues() {
+		final String NO_TEXT = "--";
+		labelPriceName.setText(NO_TEXT);
+		labelValue.setText(NO_TEXT);
+		labelPrice.setText(NO_TEXT);
+		labelPriceList.setText(NO_TEXT);
+		labelName.setText(NO_TEXT);
+		labelUOMSymbol.setText(NO_TEXT);
+		labelProductCategory.setText(NO_TEXT);
+		labelProductTax.setText(NO_TEXT);
+		labelDescription.setText(NO_TEXT);
+		buttonImage.setIcon(null);
+	}
 }

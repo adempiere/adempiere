@@ -99,7 +99,7 @@ public class WQueryBPartner extends WPOSQuery {
 	 */
 	protected void init()
 	{
-
+		setTitle(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		Panel panel = new Panel();
 		setVisible(true);
 		Panel mainPanel = new Panel();
@@ -297,9 +297,12 @@ public class WQueryBPartner extends WPOSQuery {
 		Textbox field = (Textbox) e.getTarget();
 
 		WPOSKeyboard keyboard = posPanel.getKeyboard();
-		if(e.getName().equals(Events.ON_FOCUS)){
-			keyboard.setPosTextField(field);	
-			AEnv.showWindow(keyboard);
+		
+		if(keyboard != null) {
+			if(e.getName().equals(Events.ON_FOCUS)){
+				keyboard.setPosTextField(field);	
+				AEnv.showWindow(keyboard);
+			}
 		}
 		return field.getText();
 	}
@@ -365,7 +368,7 @@ public class WQueryBPartner extends WPOSQuery {
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		
+		String m_Text;
 //		Support for creating customers from the point of sale
 		if(e.getTarget().getId().equals("New")) {
 			newAction();
@@ -380,28 +383,41 @@ public class WQueryBPartner extends WPOSQuery {
 			reset();
 		}
 		else if(e.getTarget().equals(fieldName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
-			fieldName.setValue(showKeyboard(e));
+			m_Text = showKeyboard(e);
+			if(showKeyboard(e).length() > 0)
+				fieldName.setValue(m_Text);
 			fieldName.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldContact.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			fieldContact.setValue(showKeyboard(e));
+			m_Text = showKeyboard(e);
+			if(showKeyboard(e).length() > 0)
+				fieldContact.setValue(m_Text);
 			fieldContact.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldValue.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			fieldValue.setValue(showKeyboard(e));
+			m_Text = showKeyboard(e);
+			if(showKeyboard(e).length() > 0)
+				fieldValue.setValue(m_Text);
 			fieldValue.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldEmail.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			fieldEmail.setValue(showKeyboard(e));
+			m_Text = showKeyboard(e);
+			if(showKeyboard(e).length() > 0)
+				fieldEmail.setValue(m_Text);
+			
 			fieldEmail.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldCity.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			fieldCity.setValue(showKeyboard(e));
+			m_Text = showKeyboard(e);
+			if(showKeyboard(e).length() > 0)
+				fieldCity.setValue(m_Text);
 			refresh();
 			fieldCity.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldPhone.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-			fieldPhone.setValue(showKeyboard(e));
+			m_Text = showKeyboard(e);
+			if(showKeyboard(e).length() > 0)
+				fieldPhone.setValue(m_Text);
 			fieldPhone.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldName.getComponent(WPOSTextField.PRIMARY))

@@ -41,6 +41,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
+import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
@@ -104,6 +105,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private WPOSProductPanel 				f_ProductKeysPanel;
 	private WPOSOrderLinePanel 				f_OrderLinePanel;
 	private WPOSQuantityPanel 				v_QuantityPanel;
+	/** Status Bar 							*/
+	private StatusBarPanel 					statusBar = new StatusBarPanel();
 	
 	/** Actions 							*/
 	private Button 							b_ok 		 = new Button("Ok");
@@ -123,6 +126,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public static final String 	FONTSIZELARGE 	= "Font-size:x-large;";
 	/** Default Font Weight	 					*/
 	public static final String 	FONTSTYLE 		= "font-weight:bold;";
+	/** Status bar info				*/
+	private String 							statusBarInfo = "";
 
 	/**
 	 *	zk Initialize Panel
@@ -163,44 +168,54 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		v_QuantityPanel = new WPOSQuantityPanel(this);
 		East east = new East();
 		Center center = new Center();
-		North north = new North();
-		South south = new South();
+		North actionPanel = new North();
+		North qtyPanel = new North();
+		South southPanel = new South();
+		Center table = new Center();
 		Borderlayout fullPanel = new Borderlayout();
-		
-		center.setStyle("border: none; width:44%");
+		Borderlayout mediumPanel = new Borderlayout();
+		southPanel.appendChild(statusBar);
+		center.setStyle("border: none; width:40%");
 		center.appendChild(fullPanel);
 		mainLayout.appendChild(center);
-		center.setStyle("border: none; width:44%");
-		fullPanel.setWidth("80%");
+		center.setStyle("border: none; height:100%");
+		fullPanel.setWidth("100%");
 		fullPanel.setHeight("100%");
-		Center v_Table = new Center();
-		v_Table.appendChild(f_OrderLinePanel);
-		north.appendChild(v_ActionPanel);
+		
+		table.appendChild(f_OrderLinePanel);
+		actionPanel.appendChild(v_ActionPanel);
 		east.appendChild(f_ProductKeysPanel);
 		east.setSplittable(true);
-		east.setStyle("border: none;  min-width:44%; width:44%");
+		east.setStyle("border: none; min-width:44%; width:44%");
+		actionPanel.setStyle("border: none; height:auto; position:relative;float:left;overflow:auto; ");
 
-		south.appendChild(v_QuantityPanel);
+		qtyPanel.appendChild(v_QuantityPanel);
 		
-		fullPanel.appendChild(v_Table);
-		fullPanel.appendChild(north);
+		fullPanel.appendChild(actionPanel);
+
+		Center centerPanel = new Center();
+		fullPanel.appendChild(centerPanel);
+		centerPanel.appendChild(mediumPanel);
 		if(IsShowLineControl())
-			fullPanel.appendChild(south);
+			mediumPanel.appendChild(qtyPanel);
 		
-		north.setStyle("border: none; width:42%; height:295px");
-		south.setStyle("border: none; width:42%; height:12%");
-		v_Table.setStyle("border: none; width:54%;  height:50%; ");
+		mediumPanel.appendChild(table);
+		//	FR [ 44 ] Change Button location
+		actionPanel.setStyle("border: none; width:42%; height:auto;position:relative;float:left;overflow:auto;");
+		qtyPanel.setStyle("border: none; width:60%; height:auto;");
+		table.setStyle("border: none; width:30%; height:auto;");
 		
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
 		mainLayout.appendChild(east);
-
+		mainLayout.appendChild(southPanel);
 		form.appendChild(mainLayout);
 		//	Seek to last
 		if(hasRecord()){
 			lastRecord();	
 		}
 		refreshPanel();
+		form.setHeight("100%");
 		return true;
 	}	//	dynInit
 
@@ -281,18 +296,24 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	}
 
 	public WPOSKeyboard getKeyboard(int keyLayoutId) {
+		if (keyLayoutId > 0 ){
 			WPOSKeyboard keyboard = new WPOSKeyboard(this, keyLayoutId);
 			keyboards.put(keyLayoutId, keyboard);
 			keyboard.setWidth("750px");
 			keyboard.setHeight("350px");
 			return keyboard;
+		}
+		return null;
 	}
 	
 	public WPOSKeyboard getKeyboard(int keyLayoutId, WPOSTextField field) {
-		WPOSKeyboard keyboard = new WPOSKeyboard(this, keyLayoutId);
-		keyboard.setPosTextField(field);
-		keyboards.put(keyLayoutId, keyboard);
-		return keyboard;
+		if (keyLayoutId > 0 ){
+			WPOSKeyboard keyboard = new WPOSKeyboard(this, keyLayoutId);
+			keyboard.setPosTextField(field);
+			keyboards.put(keyLayoutId, keyboard);
+			return keyboard;
+		}
+		return null;
 	}
 	
 	public WPOSKeyboard getKeyboard(int keyLayoutId, Window wPosQuery, WPOSTextField field) {
@@ -360,6 +381,10 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		f_ProductKeysPanel.refreshPanel();
 		f_OrderLinePanel.refreshPanel();
 		v_QuantityPanel.refreshPanel();
+		if(!hasLines()) {
+			v_ActionPanel.resetProductInfo();
+			v_QuantityPanel.resetPanel();
+		}
 	}
 
 	/**
@@ -369,7 +394,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	 * @return void
 	 */
 	public void addLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
-		//	Create Ordder if not exists
+		//	Create Order if not exists
 		if (!hasOrder()) {
 			newOrder();
 		}
@@ -384,6 +409,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		}
 		//	Update Info
 		refreshPanel();
+		f_OrderLinePanel.seekFromProduct(p_M_Product_ID);
 	}
 	
 	@Override
@@ -399,6 +425,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	 */
 	public void newOrder() {
 		newOrder(0);
+		v_ActionPanel.resetProductInfo();
+		v_QuantityPanel.resetPanel();
 	}
 	
 	public int getWindowNo()
@@ -458,6 +486,27 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	@Override
 	public void moveDown() {
 		f_OrderLinePanel.moveDown();
+	}
+
+	public void changeViewQuantityPanel()
+	{
+		v_QuantityPanel.changeViewPanel();
+	}
+
+	public StatusBarPanel getStatusBar()
+	{
+		return statusBar;
+	}
+
+	public void addStatusBarInfo(String info)
+	{
+		statusBarInfo = statusBarInfo + " " + info + " ";
+		getStatusBar().setStatusLine(statusBarInfo);
+	}
+
+	public int getC_OrderLine_ID()
+	{
+		return f_OrderLinePanel.getC_OrderLine_ID();
 	}
 	
 }	//	PosPanel

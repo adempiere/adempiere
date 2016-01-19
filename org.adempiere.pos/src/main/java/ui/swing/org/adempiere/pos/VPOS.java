@@ -465,6 +465,8 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 */
 	public void newOrder() {
 		newOrder(0);
+		infoProductPanel.resetValues();
+		quantityPanel.resetPanel();
 	}
 
 	@Override
@@ -476,6 +478,10 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		productKeysPanel.refreshPanel();
 		orderLinePanel.refreshPanel();
 		quantityPanel.refreshPanel();
+		if(!hasLines()) {
+			infoProductPanel.resetValues();
+			quantityPanel.resetPanel();
+		}
 	}
 	
 	/**

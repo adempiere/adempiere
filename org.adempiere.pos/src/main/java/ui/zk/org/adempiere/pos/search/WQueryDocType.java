@@ -93,6 +93,7 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 	 */
 	protected void init()
 	{
+		setTitle(Msg.translate(Env.getCtx(), "C_DocType_ID"));
 		Panel panel = new Panel();
 		setVisible(true);
 		Panel mainPanel = new Panel();

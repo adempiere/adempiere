@@ -32,7 +32,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Center;
 
 /**
  * Button panel supporting multiple linked layouts
@@ -73,17 +72,15 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 		lineTableHandle.prepareTable();
 
 		posTable.setColumnClass(4, BigDecimal.class, true);
-		Center center = new Center();
-		center.appendChild(posTable);
+		appendChild(posTable);
 		posTable.setWidth("100%");
-		posTable.setHeight("100%");
+		posTable.setHeight("100%");		
+
 		posTable.addActionListener(this);
 		posTable.addEventListener(Events.ON_CLICK, this);
 		posTable.getModel().addTableModelListener(this);
-		center.setStyle("border: none; height:100%;");
 		posTable.setClass("Table-OrderLine");
 		posTable.setColumnReadOnly(POSOrderLineTableHandle.POSITION_QTYORDERED, true);
-		appendChild(center);
 	}
 
 	@Override
@@ -168,10 +165,12 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 				if (key != null) {
 					//	Set Current Order Line
 					orderLineId = key.getRecord_ID();
-					BigDecimal m_QtyOrdered = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
-					BigDecimal m_Price = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+					BigDecimal m_QtyOrdered       = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
+					BigDecimal m_Price            = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+					BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
 					posPanel.setQuantity(m_QtyOrdered);
 					posPanel.setPrice(m_Price);
+					posPanel.setDiscountPercentage(discountPercentage);
 					updateLine();
 				}
 			}
@@ -240,6 +239,26 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 	}
 	
 	/**
+	 * Seek in record from Product
+	 * @param p_M_Product_ID
+	 */
+	public void seekFromProduct(int p_M_Product_ID) {
+		int m_C_OrderLine_ID = getC_OrderLine_ID(p_M_Product_ID);
+		if(m_C_OrderLine_ID <= 0)
+			return;
+		//	
+		orderLineId = m_C_OrderLine_ID;
+		//	Iterate
+		for (int i = 0; i < posTable.getRowCount(); i ++ ) {
+			IDColumn key = (IDColumn) posTable.getModel().getValueAt(i, 0);
+			if ( key != null && orderLineId > 0 && key.getRecord_ID() == orderLineId) {
+				posTable.setSelectedIndex(i);
+				selectLine();
+				break;
+			}
+		}
+	}
+	/**
 	 * 	Focus Gained
 	 *	@param e
 	 */
@@ -267,18 +286,24 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 	@Override
 	public void changeViewPanel() {
 		int row = posTable.getSelectedRow();
-		if (row != -1) {
+		if (row != -1 &&  row < posTable.getRowCount()) {
 			//	Set Current Order Line
 			BigDecimal m_QtyOrdered = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
 			BigDecimal m_Price = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+			BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
+			
 			posPanel.setQuantity(m_QtyOrdered);
 			posPanel.setPrice(m_Price);
+			posPanel.setDiscountPercentage(discountPercentage);
+			posPanel.changeViewQuantityPanel();
 		}
 		else {
 			posPanel.setQuantity(Env.ZERO);
 			posPanel.setPrice(Env.ZERO);
+			posPanel.setDiscountPercentage(Env.ZERO);
 		}
 	}
+	
 	/**
 	 * Show Product Info
 	 * @param row
@@ -295,5 +320,22 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			//	Refresh
 			posPanel.refreshProductInfo(m_M_Product_ID);
 		}
+	}
+
+	/**
+	 * Get Order Line from Product
+	 * @param p_M_Product_ID
+	 * @return
+	 */
+	private int getC_OrderLine_ID(int p_M_Product_ID) {
+		return DB.getSQLValue(null, "SELECT ol.C_OrderLine_ID "
+				+ "FROM C_OrderLine ol "
+				+ "WHERE ol.M_Product_ID = ? AND ol.C_Order_ID = ?", 
+				p_M_Product_ID, posPanel.getC_Order_ID());
+	}
+	
+	public int getC_OrderLine_ID()
+	{
+		return orderLineId;
 	}
 }
