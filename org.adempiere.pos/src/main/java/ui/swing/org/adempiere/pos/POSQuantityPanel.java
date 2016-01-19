@@ -260,4 +260,18 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		fieldPrice.setValue(posPanel.getPrice().doubleValue());
 		fieldDiscountPercentage.setValue(posPanel.getDiscountPercentage().doubleValue());
 	}
+
+	public void resetPanel() {
+		fieldQuantity.setValue(0);
+		fieldPrice.setValue(0);
+		fieldDiscountPercentage.setValue(0);
+		buttonDown.setEnabled(false);
+		buttonUp.setEnabled(false);
+		buttonDelete.setEnabled(false);
+		buttonPlus.setEnabled(false);
+		buttonMinus.setEnabled(false);
+		fieldPrice.setEnabled(false);
+		fieldQuantity.setEnabled(false);
+		fieldDiscountPercentage.setEnabled(false);
+	}
 }

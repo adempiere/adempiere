@@ -19,10 +19,8 @@ package org.adempiere.pos;
 
 import java.util.Properties;
 
-import javax.swing.KeyStroke;
-
-import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -35,7 +33,7 @@ import org.zkoss.zk.ui.event.EventListener;
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public abstract class WPOSSubPanel extends Borderlayout 
+public abstract class WPOSSubPanel extends Panel 
 	implements EventListener
 {
 	/**
@@ -50,6 +48,7 @@ public abstract class WPOSSubPanel extends Borderlayout
 	public WPOSSubPanel (WPOS posPanel) {
 		super();
 		this.posPanel = posPanel;
+		setHeight("100%");
 		init();
 	}	//	PosSubPanel
 	
@@ -82,7 +81,7 @@ public abstract class WPOSSubPanel extends Borderlayout
 	 *	@param action action 
 	 *	@return button
 	 */
-	protected Button createButtonAction (String action, KeyStroke accelerator)
+	protected Button createButtonAction (String action, String accelerator)
 	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
@@ -90,6 +89,8 @@ public abstract class WPOSSubPanel extends Borderlayout
 		button.setWidth(WIDTH+"px");
 		button.setHeight(HEIGHT+"px");
 		button.addActionListener(this);
+		if(action != null || accelerator != null)
+			posPanel.addStatusBarInfo("("+action + accelerator + ") ");
 		return button;
 	}	//	getButtonAction
 	

@@ -328,7 +328,6 @@ public class POSDocumentPanel extends POSSubPanel
 			MBPartner bp = MBPartner.get(ctx, results[0].getC_BPartner_ID());
 			posPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
 			fieldPartnerName.setText(bp.getName());
-			return;
 		} else {	//	more than one
 			QueryBPartner qt = new QueryBPartner(posPanel);
 			qt.addOptionListener(this);
@@ -336,6 +335,7 @@ public class POSDocumentPanel extends POSSubPanel
 			qt.showView();
 		}
 		//	Default return
+		posPanel.refreshPanel();
 		return;
 	}	//	findBPartner
 
