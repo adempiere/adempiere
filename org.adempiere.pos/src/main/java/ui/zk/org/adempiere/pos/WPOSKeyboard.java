@@ -38,6 +38,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
@@ -66,6 +67,10 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		if(keylayout.getPOSKeyLayoutType() != null){
 			keyBoardType = keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad);
 			init( keyLayoutId );
+			// add listener on 'ENTER' key for the login window
+	        addEventListener(Events.ON_OK,this);
+			// add listener on 'ESC' key for the login window
+	        addEventListener(Events.ON_CANCEL,this);
 		}
 	}
 
@@ -83,6 +88,10 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 		if(keylayout.getPOSKeyLayoutType() != null){
 			keyBoardType = keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad);
 			init( keyLayoutId );
+			// add listener on 'ENTER' key for the login window
+	        addEventListener(Events.ON_OK,this);
+			// add listener on 'ESC' key for the login window
+	        addEventListener(Events.ON_CANCEL,this);
 			AEnv.showCenterWindow(parent, this);
 		}
 		
@@ -235,7 +244,15 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-	
+		// check that 'ENTER' key is pressed
+        if (Events.ON_OK.equals(e.getName())) {
+    	   closeWindow();
+   		} 
+        // check that 'ESC' key is pressed
+        else if (Events.ON_CANCEL.equals(e.getName())) {
+        	isCancel = true;
+			close();
+    	}
 		String action = e.getTarget().getId();
 		if (action == null || action.length() == 0)
 			return;
@@ -250,20 +267,28 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 			close();
 		}
 		else if (action.equals(ConfirmPanel.A_OK)) {
-			isCancel = false;
-			if(txtCalc.getValue().length() > 0) {
-				if(dfield != null)
-					dfield.setText(txtCalc.getValue());
-				else if (field != null)
-					field.setText(txtCalc.getValue());
-				else if(lfield != null)
-					lfield.setText(txtCalc.getValue());
-				else 
-					tfield.setText(txtCalc.getValue());
-			}
-			close();
+			closeWindow();
 		}
 		log.info( "PosSubBasicKeys - actionPerformed: " + action);
+	}
+	
+	/**
+	 * Close Window
+	 * @return void
+	 */
+	private void closeWindow() {
+		isCancel = false;
+		if(txtCalc.getValue().length() > 0) {
+			if(dfield != null)
+				dfield.setText(txtCalc.getValue());
+			else if (field != null)
+				field.setText(txtCalc.getValue());
+			else if(lfield != null)
+				lfield.setText(txtCalc.getValue());
+			else 
+				tfield.setText(txtCalc.getValue());
+		}
+		close();
 	}
 	
 	/**

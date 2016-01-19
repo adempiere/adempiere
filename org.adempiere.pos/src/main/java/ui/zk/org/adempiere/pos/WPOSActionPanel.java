@@ -188,8 +188,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
     	
 		fieldProductName.setStyle("Font-size:medium; font-weight:bold");
 		fieldProductName.setValue(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		fieldProductName.getComponent(WPOSTextField.SECONDARY).setAction("onKeyUp : text_action.textKey('" +  buttonBPartner.getId() + "')");
-		fieldProductName.getComponent(WPOSTextField.PRIMARY).setAction("onKeyUp : text_action.textKey('" +  buttonBPartner.getId() + "')");
+		fieldProductName.addEventListener(this);
 		row.appendChild(new Space());
 		row.appendChild(fieldProductName);
 		enableButton();
