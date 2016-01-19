@@ -449,10 +449,12 @@ public class WQueryBPartner extends WPOSQuery {
 
 	@Override
 	public void refresh() {
+		lockUI();
 		setResults(MBPartnerInfo.find (ctx,
 				fieldValue.getText(), fieldName.getText(),
 				null, fieldEmail.getText(),
 				fieldPhone.getText(), fieldCity.getText()));
+		unlockUI();
 	}
 
 	@Override
