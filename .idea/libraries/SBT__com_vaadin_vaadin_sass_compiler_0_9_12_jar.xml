@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: com.vaadin:vaadin-sass-compiler:0.9.12:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.vaadin/vaadin-sass-compiler/jars/vaadin-sass-compiler-0.9.12.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
