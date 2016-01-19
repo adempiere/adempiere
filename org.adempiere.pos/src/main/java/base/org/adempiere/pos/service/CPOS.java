@@ -315,7 +315,7 @@ public class CPOS {
 		//	
 		int[] invoice_IDs = MInvoice.getAllIDs(MInvoice.Table_Name, MInvoice.COLUMNNAME_C_Order_ID + "=" + currentOrder.getC_Order_ID(), null);
 		boolean orderInvoiced = false;
-		if (invoice_IDs!=null && invoice_IDs[0]>0) {
+		if (invoice_IDs!=null && invoice_IDs.length>0 && invoice_IDs[0]>0) {
 			MInvoice invoice = new MInvoice(getCtx(), invoice_IDs[0], null);
 			orderInvoiced = invoice.getDocStatus().equalsIgnoreCase(MInvoice.DOCSTATUS_Completed);
 		}
