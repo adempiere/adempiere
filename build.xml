@@ -22,9 +22,9 @@
   
   <path id="compile.classpath">
       
-    <fileset dir="${project.trunk}/packages/ADempierePOS/lib">
+    <!--fileset dir="${project.trunk}/packages/ADempierePOS/lib">
       <include name="*.jar"/>
-    </fileset>
+    </fileset-->
     
     <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
    
