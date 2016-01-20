@@ -159,7 +159,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 				centerPanel.setLayout(new ALayout());
 				// The size of the centerScroll, sets the minimum size of the viewport.
 				// The actual size is determined by the parent layout.
-				centerScroll.setPreferredSize(new Dimension(400,100));
+				//centerScroll.setPreferredSize(new Dimension(400,150));
 				centerScroll.createVerticalScrollBar();
 				centerScroll.createHorizontalScrollBar();
 			}
@@ -311,7 +311,8 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 					// Limit the size of the centerPanel to something reasonable.
 					// The height should be a function of the number of rows.
 					// TODO the row count includes hidden parameters.
-					centerPanel.setPreferredSize(new Dimension(400,row*20)); // Row height 					
+					centerPanel.setPreferredSize(new Dimension(400,row*28)); // Row height
+					centerScroll.setPreferredSize(centerPanel.getPreferredSize());
 				}
 				dynamicDisplay();
 			}
