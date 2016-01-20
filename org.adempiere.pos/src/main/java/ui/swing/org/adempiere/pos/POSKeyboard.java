@@ -108,7 +108,8 @@ public class POSKeyboard extends CDialog
 		//	Content
 		panel.setLayout(new MigLayout("fill"));
 		
-		if (m_Keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
+		if (m_Keylayout.getPOSKeyLayoutType() != null &&
+			m_Keylayout.getPOSKeyLayoutType().equals(MPOSKeyLayout.POSKEYLAYOUTTYPE_Numberpad))
 			m_Text.setHorizontalAlignment(JTextField.TRAILING);
 		//	Add Listener
 		m_Text.addKeyListener(this);
