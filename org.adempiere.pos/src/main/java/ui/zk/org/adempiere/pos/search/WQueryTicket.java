@@ -353,6 +353,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 
 	@Override
 	public void refresh() {
+		lockUI();
 		if(fieldDateTo.getValue()!=null) {
 			dateTo = new Date(fieldDateTo.getValue().getTime());
 		}	
@@ -366,7 +367,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 			dateFrom = null;
 		}
 		setResults(ctx, fieldProcessed.isSelected(), fieldDocumentNo.getText(), dateFrom, dateTo);
-
+		unlockUI();
 	}
 
 	@Override
