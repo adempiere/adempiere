@@ -796,6 +796,21 @@ public class MOrder extends X_C_Order implements DocAction
 	}	//	getShipments
 
 	/**
+	 * 	Get RMA of Order
+	 * 	@return RMAs
+	 */
+	public List<MRMA> getRMA()
+	{
+		final String whereClause = "EXISTS (SELECT 1 FROM M_InOut io "
+				+" WHERE io.M_InOut_ID=M_RMA.InOut_ID AND io.C_Order_ID = ?)";
+		return new Query(getCtx(), I_M_RMA.Table_Name , whereClause, get_TrxName())
+				.setParameters(get_ID())
+				.setOrderBy("M_RMA_ID DESC")
+				.list();
+	}	//	get RMAs
+
+
+	/**
 	 *	Get ISO Code of Currency
 	 *	@return Currency ISO
 	 */
