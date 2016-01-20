@@ -60,6 +60,8 @@ import org.compiere.wf.MWFProcess;
  */
 public class ProcessCtl implements Runnable
 {
+
+
 	/**
 	 *	Process Control
 	 *  <code>
@@ -137,7 +139,7 @@ public class ProcessCtl implements Runnable
 		}
 		return worker;
 	}	//	execute
-	
+
 	/**
 	 *	Async Process - Do it all.
 	 *  <code>
@@ -211,8 +213,6 @@ public class ProcessCtl implements Runnable
 		}
 		return worker;
 	}	//	execute
-
-
 	
 	/**************************************************************************
 	 *  Constructor
@@ -646,7 +646,10 @@ public class ProcessCtl implements Runnable
 			if (m_pi.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
 				return ProcessUtil.startScriptProcess(Env.getCtx(), m_pi, m_trx);
 			} else {
-				return ProcessUtil.startJavaProcess(Env.getCtx(), m_pi, m_trx);
+				if (m_pi.isManagedTransaction())
+					return ProcessUtil.startJavaProcess(Env.getCtx(), m_pi, m_trx);
+				else
+					return ProcessUtil.startJavaProcess(Env.getCtx(), m_pi, m_trx, m_pi.isManagedTransaction());
 			}
 		}
 		return !m_pi.isError();
@@ -713,7 +716,10 @@ public class ProcessCtl implements Runnable
 		//try locally
 		if (!started)
 		{
-			return ProcessUtil.startDatabaseProcedure(m_pi, ProcedureName, m_trx);
+			if (m_pi.isManagedTransaction())
+				return ProcessUtil.startDatabaseProcedure(m_pi, ProcedureName, m_trx);
+			else
+				return  ProcessUtil.startDatabaseProcedure(m_pi , ProcedureName , m_trx , m_pi.isManagedTransaction());
 		}
 	//	log.fine(Log.l4_Data, "ProcessCtl.startProcess - done");
 		return true;
