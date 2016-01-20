@@ -84,6 +84,20 @@ public final class MPayment extends X_C_Payment
      */
     private static final long serialVersionUID = 6200327948230438741L;
 
+
+	/**
+	 * Get payment for order
+	 * @param order
+	 * @return payments list
+     */
+	public static List<MPayment> getOfOrder(MOrder order)
+	{
+		return new Query(order.getCtx() , MPayment.Table_Name , MOrder.COLUMNNAME_C_Order_ID + "=?", order.get_TrxName())
+				.setClient_ID()
+				.setParameters(order.getC_Order_ID())
+				.list();
+	}
+
 	/**
 	 * 	Get Payments Of BPartner
 	 *	@param ctx context
