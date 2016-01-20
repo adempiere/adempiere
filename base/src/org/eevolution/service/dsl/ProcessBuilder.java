@@ -58,6 +58,7 @@ public class ProcessBuilder {
     private MProcess process;
     private ASyncProcess parent;
     private List<Integer> selectedRecordsIds;
+    private Boolean managedTransaction = true;
 
     /**
      * Private constructor is called when an instance is created
@@ -156,8 +157,9 @@ public class ProcessBuilder {
             DB.createT_Selection(instance.getAD_PInstance_ID(), selectedRecordsIds, null);
 
 
-        processInfo = new ProcessInfo(title, processId, tableId , recordId);
+        processInfo = new ProcessInfo(title, processId, tableId , recordId, managedTransaction);
         processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+        processInfo.setClassName(MProcess.get(context , processId).getClassname());
         ProcessInfoUtil.setParameterFromDB(processInfo);
     }
 
@@ -169,9 +171,9 @@ public class ProcessBuilder {
     {
         Runnable processCtl;
         if (windowNo == 0)
-            processCtl = processCtl("org.compiere.process.ServerProcessCtl", parent, windowNo ,processInfo, Trx.get(trxName, false));
+            processCtl = processCtl("org.compiere.process.ServerProcessCtl", parent, windowNo, processInfo, Trx.get(trxName, false));
         else
-            processCtl = processCtl("org.compiere.apps.ProcessCtl", parent, windowNo ,processInfo, Trx.get(trxName, false));
+            processCtl = processCtl("org.compiere.apps.ProcessCtl", parent, windowNo, processInfo, Trx.get(trxName, false));
 
         processCtl.run();
     }
@@ -288,6 +290,13 @@ public class ProcessBuilder {
         return this;
     }
 
+
+   public ProcessBuilder withoutTransactionClose()
+   {
+       this.managedTransaction = false;
+       return this;
+   }
+
     /**
      * Define paramenter with automatic sequence
      * @param name
@@ -362,6 +371,7 @@ public class ProcessBuilder {
                 .withParameter("", "")
                 .withParameter("", "")
                 .withRecordId(MInvoice.Table_ID ,10001)
+                .withoutTransactionClose()
                 .execute();
     }
 }
