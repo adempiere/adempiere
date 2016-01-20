@@ -17,6 +17,7 @@
 package org.adempiere.pos;
 
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -85,22 +86,22 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		rightPadding = 1;
 
 
-		buttonDelete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		buttonDelete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.CTRL_MASK));
 		buttonPanel.add(buttonDelete, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
-		buttonPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		buttonPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_1, Event.CTRL_MASK));
 		buttonPanel.add(buttonPlus, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
-		buttonMinus = createButtonAction("Minus", KeyStroke.getKeyStroke(KeyEvent.VK_MINUS,Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		buttonMinus = createButtonAction("Minus", KeyStroke.getKeyStroke(KeyEvent.VK_0,Event.CTRL_MASK));
 		buttonPanel.add(buttonMinus, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
-		buttonUp = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		buttonUp = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.ALT_MASK));
 		buttonPanel.add(buttonUp, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
-		buttonDown = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		buttonDown = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.ALT_MASK));
 		buttonPanel.add(buttonDown, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
