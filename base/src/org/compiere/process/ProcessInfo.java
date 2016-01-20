@@ -59,6 +59,12 @@ public class ProcessInfo implements Serializable
 			m_printPreview = false;
 	}   //  ProcessInfo
 
+	public ProcessInfo (String title, int processId, int tableId, int recordId, boolean managedTransaction)
+	{
+		this(title, processId , tableId , recordId);
+		this.managedTransaction = managedTransaction;
+	}
+
 	/**
 	 *  Constructor
 	 *  @param Title Title
@@ -68,6 +74,12 @@ public class ProcessInfo implements Serializable
 	{
 		this (Title, AD_Process_ID, 0, 0);
 	}   //  ProcessInfo
+
+	public ProcessInfo (String title, int processId, boolean managedTransaction)
+	{
+		this (title , processId);
+		this.managedTransaction = managedTransaction;
+	}
 
 	/**	Serialization Info	**/
 	static final long serialVersionUID = -1993220053515488725L;
@@ -124,6 +136,8 @@ public class ProcessInfo implements Serializable
 	private boolean				m_reportingProcess = false;
 	//FR 1906632
 	private File 			    m_pdf_report = null;
+
+	private boolean managedTransaction = false;
 	
 	/**
 	 * If the process fails with an Throwable, the Throwable is caught and stored here
@@ -788,4 +802,14 @@ public class ProcessInfo implements Serializable
 
 	private String m_whereClause = "";
 	// metas end
+
+	public void setManagedTransaction(boolean managedTransaction)
+	{
+		this.managedTransaction = managedTransaction;
+	}
+
+	public boolean isManagedTransaction()
+	{
+		return managedTransaction;
+	}
 }   //  ProcessInfo

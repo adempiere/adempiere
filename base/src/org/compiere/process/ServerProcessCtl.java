@@ -43,7 +43,7 @@ public class ServerProcessCtl implements Runnable {
 		m_pi = pi;
 		m_trx = trx;	//	handled correctly
 	}   //  ProcessCtl
-	
+
 	/**
 	 *	Process Control
 	 *  <code>
@@ -107,7 +107,7 @@ public class ServerProcessCtl implements Runnable {
 		}
 		return worker;
 	}	//	execute
-	
+
 	/**
 	 * Run this process in a new thread
 	 */
@@ -411,7 +411,10 @@ public class ServerProcessCtl implements Runnable {
 			if (m_pi.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
 				return ProcessUtil.startScriptProcess(Env.getCtx(), m_pi, m_trx);
 			} else {
-				return ProcessUtil.startJavaProcess(Env.getCtx(), m_pi, m_trx);
+				if (m_pi.isManagedTransaction())
+					return ProcessUtil.startJavaProcess(Env.getCtx(), m_pi, m_trx);
+				else
+					return ProcessUtil.startJavaProcess(Env.getCtx(), m_pi, m_trx, m_pi.isManagedTransaction());
 			}
 		}
 		return !m_pi.isError();
@@ -478,7 +481,11 @@ public class ServerProcessCtl implements Runnable {
 		//try locally
 		if (!started)
 		{
-			return ProcessUtil.startDatabaseProcedure(m_pi, ProcedureName, m_trx);
+			if (m_pi.isManagedTransaction())
+				return ProcessUtil.startDatabaseProcedure(m_pi, ProcedureName, m_trx);
+			else
+				return ProcessUtil.startDatabaseProcedure(m_pi, ProcedureName, m_trx , m_pi.isManagedTransaction());
+
 		}
 		return true;
 	}   //  startDBProcess
