@@ -35,6 +35,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
     private int sourceOrderId;
     private int billPartnerId;
     private Timestamp today;
+    private boolean isShipConfirm = false;
 
 
     @Override
@@ -42,10 +43,13 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
         ProcessInfoParameter[] params = getParameter();
         for (ProcessInfoParameter parameter : params) {
             String para = parameter.getParameterName();
-            if (para.equals(I_C_Order.COLUMNNAME_C_Order_ID))
+            if (I_C_Order.COLUMNNAME_C_Order_ID.equals(para))
                 sourceOrderId = parameter.getParameterAsInt();
-            if (para.equals(I_C_Order.COLUMNNAME_Bill_BPartner_ID))
+            if (I_C_Order.COLUMNNAME_Bill_BPartner_ID.equals(para))
                 billPartnerId =  parameter.getParameterAsInt();
+            if ("IsShipConfirm".equals(para))
+                isShipConfirm = parameter.getParameterAsBoolean();
+
         }
     }
 
@@ -63,8 +67,9 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
         // If not exist invoice then only is necessary reverse shipment
         if (shipments.length > 0) {
             // Validate if partner not is POS partner standard then reverse shipment
-            if (sourceOrder.getC_BPartner_ID() != billPartnerId)
+            if (sourceOrder.getC_BPartner_ID() != billPartnerId) {
                 cancelShipments(shipments);
+            }
 
         }
         MInvoice[] invoices = sourceOrder.getInvoices();
@@ -76,6 +81,9 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
         //Cancel original payment
         cancelPayments(sourceOrder);
+
+        sourceOrder.processIt(DocAction.ACTION_Close);
+        sourceOrder.saveEx();
         return "@Ok@";
     }
 
@@ -86,7 +94,10 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
             rma.setM_InOut_ID(sourceShipment.getM_InOut_ID());
             rma.setAD_Org_ID(sourceShipment.getAD_Org_ID());
             rma.setM_RMAType_ID(getRMATypeId());
-            rma.setC_BPartner_ID(sourceShipment.getAD_Client_ID());
+            rma.setC_BPartner_ID(sourceShipment.getC_BPartner_ID());
+            rma.setName(sourceShipment.getDocumentInfo());
+            rma.setIsSOTrx(true);
+            rma.setSalesRep_ID(sourceShipment.getSalesRep_ID());
             rma.setC_DocType_ID(MDocType.getDocTypeBaseOnSubType(sourceShipment.getAD_Org_ID() , MDocType.DOCBASETYPE_SalesOrder , MDocType.DOCSUBTYPESO_ReturnMaterial));
             rma.setDocStatus(DocAction.STATUS_Drafted);
             rma.setDocAction(DocAction.ACTION_Complete);
@@ -96,20 +107,31 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
             PO.copyValues(sourceShipment, customerReturn);
             customerReturn.setM_RMA_ID(rma.getM_RMA_ID());
             customerReturn.setIsSOTrx(true);
-            customerReturn.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_MaterialReceipt));
+            customerReturn.setC_BPartner_ID(sourceShipment.getC_BPartner_ID());
+            customerReturn.setC_Order_ID(-1);
+            for (MDocType documentType : MDocType.getOfDocBaseType(getCtx() , MDocType.DOCBASETYPE_MaterialReceipt))
+                if (documentType.isSOTrx())
+                    customerReturn.setC_DocType_ID();
+
+            customerReturn.setDocStatus(DocAction.STATUS_Drafted);
+            customerReturn.setDocAction(DocAction.ACTION_Complete);
+            customerReturn.setProcessed(false);
             customerReturn.saveEx();
 
-            for (MInOutLine sourceShimentLine : sourceShipment.getLines())
+            for (MInOutLine sourceShipmentLine : sourceShipment.getLines())
             {
                 MRMALine rmaLine = new MRMALine(getCtx() , 0 , get_TrxName());
-                rmaLine.setAD_Org_ID(sourceShimentLine.getAD_Org_ID());
-                rmaLine.setM_InOutLine_ID(sourceShimentLine.getM_InOutLine_ID());
-                rmaLine.setQty(sourceShimentLine.getMovementQty());
+                rmaLine.setM_RMA_ID(rma.getM_RMA_ID());
+                rmaLine.setAD_Org_ID(sourceShipmentLine.getAD_Org_ID());
+                rmaLine.setM_InOutLine_ID(sourceShipmentLine.getM_InOutLine_ID());
+                rmaLine.setQty(sourceShipmentLine.getMovementQty());
                 rmaLine.saveEx();
 
                 MInOutLine customerReturnLine = new MInOutLine(getCtx() , 0 , get_TrxName());
+                customerReturnLine.setM_InOut_ID(customerReturn.getM_InOut_ID());
                 customerReturnLine.setM_RMALine_ID(rmaLine.getM_RMALine_ID());
                 customerReturnLine.setM_Product_ID(rmaLine.getM_Product_ID());
+                customerReturnLine.setM_Locator_ID(sourceShipmentLine.getM_Locator_ID());
                 customerReturnLine.setMovementQty(rmaLine.getQty());
                 customerReturnLine.saveEx();
             }
@@ -117,8 +139,26 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
             rma.processIt(DocAction.ACTION_Complete);
             rma.saveEx();
 
+            if (customerReturn.getC_DocType().isShipConfirm() && isShipConfirm)
+            {
+                customerReturn.processIt(DocAction.STATUS_InProgress);
+                customerReturn.saveEx();
+
+
+                for (MInOutConfirm confirm : customerReturn.getConfirmations(true)) {
+                    for (MInOutLineConfirm confirmLine : confirm.getLines(true)) {
+                        confirmLine.setConfirmedQty(confirmLine.getTargetQty());
+                        confirmLine.saveEx();
+                    }
+
+                    confirm.processIt(DocAction.ACTION_Complete);
+                    confirm.saveEx();
+                }
+            }
+
             customerReturn.processIt(DocAction.STATUS_Completed);
             customerReturn.saveEx();
+
         }
     }
 
