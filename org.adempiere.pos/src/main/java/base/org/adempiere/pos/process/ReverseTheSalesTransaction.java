@@ -17,7 +17,21 @@
 package org.adempiere.pos.process;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.*;
+import org.compiere.model.I_C_Order;
+import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutConfirm;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MInOutLineConfirm;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPayment;
+import org.compiere.model.MRMA;
+import org.compiere.model.MRMALine;
+import org.compiere.model.PO;
+import org.compiere.model.Query;
+import org.compiere.model.X_M_RMAType;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -27,8 +41,8 @@ import java.util.List;
 
 
 /**
- * Process allows reverse the sales order using reverse documents and different dates
- * Created by e-Evolution on 23/12/15.
+ * Process allows reverse the sales order using new documents with new dates and cancel of original effects
+ * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 23/12/15.
  */
 public class ReverseTheSalesTransaction extends SvrProcess  {
 

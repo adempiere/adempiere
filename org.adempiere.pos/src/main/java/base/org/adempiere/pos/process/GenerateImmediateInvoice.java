@@ -1,7 +1,27 @@
+/** ****************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
+ * Contributor(s): Victor Perez www.e-evolution.com                           *
+ * ****************************************************************************/
+
 package org.adempiere.pos.process;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.*;
+import org.compiere.model.I_C_DocType;
+import org.compiere.model.I_C_Order;
+import org.compiere.model.I_C_Payment;
+import org.compiere.model.MDocType;
+import org.compiere.model.MOrder;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
@@ -12,7 +32,9 @@ import org.eevolution.service.dsl.ProcessBuilder;
 import java.sql.Timestamp;
 
 /**
- * Created by e-Evolution on 28/12/15.
+ * This process call of create order based on another and reverse the sales transactions process
+ * to implement the business case where is necessary to create a sales ticket and invoice next day on behalf of other business partner
+ * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 28/12/15.
  */
 public class GenerateImmediateInvoice extends SvrProcess implements ASyncProcess {
     private String  docSubTypeSO;
@@ -85,9 +107,6 @@ public class GenerateImmediateInvoice extends SvrProcess implements ASyncProcess
 
         if (processInfo.isError())
             throw new AdempiereException(processInfo.getTitle()  +  " @ProcessRunError@ " + processInfo.getSummary());
-
-        //sourceOrder.processIt(DocAction.ACTION_Close);
-        //sourceOrder.saveEx(get_TrxName());
 
         getProcessInfo().setRecord_ID(newOrderId);
         return "@Ok@";
