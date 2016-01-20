@@ -429,7 +429,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
     			refreshProductInfo(null);
     			posPanel.changeViewPanel();
     		}
-    		//Alt+L == 76
+    		//CTL+L == 76
     		else if (keyEvent.getKeyCode() == 76 ) {
     			dispose();
     			return;
