@@ -28,6 +28,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.adempiere.pos.WPOS;
+import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
@@ -102,6 +103,7 @@ public abstract class WPOSQuery extends Window implements  MouseListener, ListSe
 	private Button 				buttonNew;
 	public 	Button 				buttonEdit;
 	public  Borderlayout 		mainLayout;
+	private BusyDialog 		progressWindow;
 	/**	Logger			*/
 	protected static CLogger logger = CLogger.getCLogger(WPOSQuery.class);
 	
@@ -267,6 +269,27 @@ public abstract class WPOSQuery extends Window implements  MouseListener, ListSe
 		button.addActionListener(this);
 		return button;
 	}	//	getButtonAction
-
+	
+	/**
+	 *  Lock User Interface.
+	 *  Called from the Worker before processing
+	 *  @param pi process info
+	 */
+	public void lockUI () {
+		progressWindow = new BusyDialog();
+		progressWindow.setPage(this.getPage());
+		progressWindow.doHighlighted();
+	}   //  lockUI
+	
+	/**
+	 *  Unlock User Interface.
+	 *  Called from the Worker when processing is done
+	 */
+	public void unlockUI ()	{		
+		if (progressWindow != null) {
+			progressWindow.dispose();
+			progressWindow = null;
+		}
+	}
 	
 }

@@ -290,8 +290,9 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 
 	@Override
 	public void refresh() {
+		lockUI();
 		setResults(ctx, fieldName.getText(), fieldDescription.getText());
-
+		unlockUI();
 	}
 
 	@Override

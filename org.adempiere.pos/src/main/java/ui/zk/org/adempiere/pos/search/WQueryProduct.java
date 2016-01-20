@@ -334,10 +334,12 @@ public class WQueryProduct extends WPOSQuery
 
 	@Override
 	public void refresh() {
+		lockUI();
 		setResults(MWarehousePrice.find (ctx,
 				priceListVersionId, warehouseId,
 				fieldValue.getText(), fieldProductName.getText(),
 				fieldUPC.getText(), fieldSKU.getText(), null));
+		unlockUI();
 			return;
 	}
 
