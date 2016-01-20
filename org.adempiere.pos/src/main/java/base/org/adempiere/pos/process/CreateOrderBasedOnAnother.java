@@ -1,7 +1,32 @@
+/** ****************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
+ * Contributor(s): Victor Perez www.e-evolution.com                           *
+ * ****************************************************************************/
+
 package org.adempiere.pos.process;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.*;
+import org.compiere.model.I_C_DocType;
+import org.compiere.model.I_C_Order;
+import org.compiere.model.I_C_Payment;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MAllocationLine;
+import org.compiere.model.MDocType;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPayment;
+import org.compiere.model.PO;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -12,7 +37,9 @@ import java.util.List;
 
 
 /**
- * Created by e-Evolution on 23/12/15.
+ * This process allows create a new sales order based on other and change the business partner
+ * all payments and allocations can be replicated for new order with new business partner
+ * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 23/12/15.
  */
 public class CreateOrderBasedOnAnother extends SvrProcess {
 
@@ -33,20 +60,16 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
             String para = parameter.getParameterName();
             if (para.equals(I_C_Order.COLUMNNAME_C_Order_ID))
                 sourceOrderId = parameter.getParameterAsInt();
-            if (para.equals(I_C_Order.COLUMNNAME_Bill_BPartner_ID)) {
+            if (para.equals(I_C_Order.COLUMNNAME_Bill_BPartner_ID))
                 billPartnerId = parameter.getParameterAsInt();
-            }
             if (para.equals(I_C_Order.COLUMNNAME_DocAction))
-            {
                 docAction = parameter.getParameterAsString();
-            }
             if (para.equals(I_C_DocType.COLUMNNAME_DocSubTypeSO))
                 docSubTypeSO = parameter.getParameterAsString();
             if (para.equals("IsIncludePayments"))
                 isIncludePayments = parameter.getParameterAsBoolean();
             if (para.equals(I_C_Payment.COLUMNNAME_IsAllocated))
                 isAllocated = parameter.getParameterAsBoolean();
-
         }
 
     }
@@ -93,8 +116,12 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
         return "@C_Order_ID@ " + targetOrder.getDocumentInfo();
     }
 
+    /**
+     * Create Allocations for new order
+     * @param targetOrder
+     */
     private void createAllocations(MOrder targetOrder) {
-        List<MPayment> payments = getPayment(targetOrder.get_ID());
+        List<MPayment> payments = MPayment.getOfOrder(targetOrder);
         MInvoice[] invoices = targetOrder.getInvoices();
         BigDecimal totalPay = BigDecimal.ZERO;
         BigDecimal totalInvoiced =  BigDecimal.ZERO;
@@ -141,11 +168,14 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
         }
     }
 
-
+    /**
+     * Create payment for new Order
+     * @param sourceOrder
+     * @param targetOrder
+     */
     private void createPayments(MOrder sourceOrder , MOrder targetOrder)
     {
-        List<MPayment> payments = getPayment(sourceOrder.get_ID());
-        for (MPayment sourcePayment : payments)
+        for (MPayment sourcePayment : MPayment.getOfOrder(sourceOrder))
         {
             MPayment payment = new MPayment(getCtx() ,  0 , get_TrxName());
             PO.copyValues(sourcePayment, payment);
@@ -159,13 +189,5 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
             payment.setIsPrepayment(true);
             payment.saveEx();
         }
-    }
-
-    private List<MPayment> getPayment(int orderId)
-    {
-        return new Query(getCtx() , MPayment.Table_Name , MOrder.COLUMNNAME_C_Order_ID + "=?", get_TrxName())
-                .setClient_ID()
-                .setParameters(orderId)
-                .list();
     }
 }
