@@ -98,7 +98,7 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
 
         targetOrder.setC_BPartner_ID(billPartnerId);
         targetOrder.setRef_Order_ID(sourceOrder.get_ID());
-        targetOrder.setDocAction(DocAction.ACTION_Complete);
+        targetOrder.setDocAction(docAction);
         targetOrder.setDocStatus(DocAction.STATUS_Drafted);
         targetOrder.setProcessed(false);
         targetOrder.saveEx();
