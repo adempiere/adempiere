@@ -181,7 +181,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		
 		Keylistener keyListener = new Keylistener();
 		fieldProductName.appendChild(keyListener);
-    	keyListener.setCtrlKeys("#f2#f3#f4#f9#f10@b@#left@#right^l");
+    	keyListener.setCtrlKeys("#f2#f3#f4#f9#f10@b@#left@#right^l@i");
     	keyListener.addEventListener(Events.ON_CTRL_KEY, posPanel);
     	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
     	keyListener.setAutoBlur(false);
@@ -333,18 +333,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		}
 		else	//	more than one
 		{
-			WQueryProduct qt = new WQueryProduct(posPanel);
-			qt.setResults(results);
-			qt.setQueryData(posPanel.getM_PriceList_Version_ID(), posPanel.getM_Warehouse_ID());
-			AEnv.showWindow(qt);
-			Object[] result = qt.getSelectedKeys();
-			if(result == null) 
-				return;
-			
-			for(Object item : result) {
-				fieldProductName.setText(fieldProductName.getTitle());
-				posPanel.addLine((Integer)item, Env.ONE);
-			}
+			showWindowProduct(results);
 		}
 	}	//	findProduct
 
@@ -434,6 +423,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
     			dispose();
     			return;
     		}
+    		//Alt+I == 73
+    		else if (keyEvent.getKeyCode() == 73 ) {
+    			showWindowProduct(null);
+    			return;
+    		}
 		}
 		if(e.getTarget().equals(fieldProductName.getComponent(WPOSTextField.SECONDARY))
 					&& e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
@@ -488,7 +482,25 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		posPanel.refreshPanel();
 
 	}
-
+	
+	/**
+	 * Show Window Product
+	 */
+	private void showWindowProduct(MWarehousePrice[] p_results) {
+		WQueryProduct qt = new WQueryProduct(posPanel);
+		if(p_results != null)
+			qt.setResults(p_results);
+		qt.setQueryData(posPanel.getM_PriceList_Version_ID(), posPanel.getM_Warehouse_ID());
+		AEnv.showWindow(qt);
+		Object[] result = qt.getSelectedKeys();
+		if(result == null) 
+			return;
+		
+		for(Object item : result) {
+			fieldProductName.setText(fieldProductName.getTitle());
+			posPanel.addLine((Integer)item, Env.ONE);
+		}
+	}
 	@Override
 	public void refreshPanel() {
 		

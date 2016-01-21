@@ -65,12 +65,7 @@ public class SideServer implements Runnable {
 	public static boolean printFile(byte[] p_file) {
 			if(!isStopped()) {
 			    String m_file = System.getProperty("user.home")+"/test.txt";
-			    try {
-					clientSocket = serverSocket.accept();
-					System.out.println("Connection Accept: "+ clientSocket);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+			    
 			    try{
 			    	OutputStream out = new FileOutputStream(m_file); 
 			    	out.write(p_file); 
@@ -93,13 +88,13 @@ public class SideServer implements Runnable {
 				    bis.read( buffer ); 
 				    
 				    bis.close();
-				    bos.close();
+				    
 				 
 				    for( int i = 0; i < buffer.length; i++ )
 				    {
 				        bos.write( buffer[ i ] ); 
 				    } 
-				 
+				    bos.close();
 			  }
 			  catch( Exception e )
 			  {
@@ -131,6 +126,13 @@ public class SideServer implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException("Cannot open port "+PORT, e);
         }
-        
+        try {
+        	while(true){
+        		clientSocket = serverSocket.accept();
+        		System.out.println("Connection Accept: "+ clientSocket);
+        	}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
     }
 }
