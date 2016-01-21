@@ -21,8 +21,6 @@ import java.awt.Container;
 import java.awt.SystemTray;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.UnknownHostException;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
