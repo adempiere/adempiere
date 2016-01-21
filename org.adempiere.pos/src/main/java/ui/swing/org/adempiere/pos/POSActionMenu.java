@@ -19,21 +19,30 @@ package org.adempiere.pos;
 
 import org.adempiere.pos.search.POSQuery;
 import org.adempiere.pos.search.QueryBPartner;
-import org.adempiere.pos.search.QueryTicket;
 import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
-import org.compiere.model.*;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.Waiting;
+import org.compiere.model.I_C_DocType;
+import org.compiere.model.I_C_Order;
+import org.compiere.model.I_C_Payment;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MDocType;
+import org.compiere.model.MProcess;
+import org.compiere.model.X_C_DocType;
+import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.service.dsl.ProcessBuilder;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -46,41 +55,77 @@ public class POSActionMenu extends JPopupMenu implements  ActionListener , POSQu
     private Integer processId;
     private Integer partnerId;
     private POSQuery queryPartner;
-    private POSQuery queryTicket;
+    private Waiting waiting;
+
+    static private String GENERATE_IMMEDIATE_INVOICE =  "C_POS Generate Immediate Invoice";
+    static private String GENERATE_REVERSE_SALES_REVERSE = "C_POS ReverseTheSalesTransaction";
+    static private String GENERATE_RETURN = "C_POS CreateOrderBasedOnAnother" ;
+
+    private HashMap<String , ActionProcess> actionProcessList = new HashMap<String , ActionProcess>(){
+        {
+            put(GENERATE_IMMEDIATE_INVOICE, new ActionProcess(null, GENERATE_IMMEDIATE_INVOICE, null));
+            put(GENERATE_REVERSE_SALES_REVERSE, new ActionProcess(null, GENERATE_REVERSE_SALES_REVERSE, null));
+            put(GENERATE_RETURN, new ActionProcess(null, GENERATE_RETURN, "Crear Devolución Parcial"));
+        }
+    };
+
+    class ActionProcess {
+
+        protected Optional<Integer> processId;
+        protected String value;
+        protected String name;
+        protected Optional<String> alias;
+
+        ActionProcess(Integer processId , String value , String alias)
+        {
+            this.value = value;
+            this.processId =  Optional.ofNullable(processId);
+            this.alias = Optional.ofNullable(alias);
+            if (value != null && value.length() > 0 ) {
+                this.processId = Optional.of(MProcess.getProcess_ID(value, null));
+                if (this.processId.isPresent())
+                    this.name = MProcess.get(Env.getCtx(), this.processId.get()).getName();
+                else
+                    throw new AdempierePOSException("@AD_Process_ID@ @NotFound@");
+            }
+        }
+    }
+
+    private ActionProcess getActionProcess(String actionCommand)
+    {
+        return actionProcessList.values()
+                .stream()
+                .filter(actionProcess -> actionProcess.alias.orElse(actionProcess.name) == actionCommand)
+                .findFirst()
+                .orElseThrow(() -> new AdempierePOSException("@AD_Process_ID@ @NotFound@"));
+    }
 
     public POSActionMenu(VPOS pos)
     {
         this.pos = pos;
-        addActionProcess("C_POS Generate Immediate Invoice");
+        this.waiting = new Waiting(pos.getFrame(),"@Processing@",false, 120);
+        waiting.setVisible(false);
+        for (Map.Entry<String, ActionProcess> actionProcess : actionProcessList.entrySet())
+            addActionProcess(actionProcess.getValue());
+
     }
 
-    private Hashtable<String,Integer> processList = new Hashtable<>();
-
-    private void addActionProcess(String value)
+    private void addActionProcess(ActionProcess processAction)
     {
-        Integer processId = MProcess.getProcess_ID(value,null);
-        if (processId == null || processId <= 0)
-            return;
-
-        MProcess process = MProcess.get(pos.getCtx(), processId);
-        processList.put(process.getName(), processId);
-        JMenuItem menuItem =  new JMenuItem(process.getName());
+        JMenuItem menuItem =  new JMenuItem(processAction.alias.orElse(processAction.name));
         add(menuItem).addActionListener(this);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
         setVisible(false);
-
-        if (processList.containsKey(e.getActionCommand()))
-            processId = processList.get(e.getActionCommand());
-
-        beforeExecutionProcess();
+        beforeExecutionProcess(getActionProcess(e.getActionCommand()));
     }
 
-    private void beforeExecutionProcess()
+    private void beforeExecutionProcess(ActionProcess actionProcess)
     {
-        if (processList.get("Generate Immediate Invoice") == processId)
+        if (actionProcess.value == GENERATE_IMMEDIATE_INVOICE)
         {
             queryPartner = new QueryBPartner(pos);
             queryPartner.setModal(true);
@@ -88,35 +133,38 @@ public class POSActionMenu extends JPopupMenu implements  ActionListener , POSQu
             queryPartner.showView();
             return;
         }
-    }
-
-    private void afterExecutionProcess()
-    {
-        if (processList.get("Generate Immediate Invoice") == processId)
+        if (actionProcess.value == GENERATE_REVERSE_SALES_REVERSE)
         {
+            executeProcess(actionProcess);
+            return;
+        }
+
+        if (actionProcess.value == GENERATE_RETURN)
+        {
+            executeProcess(actionProcess);
+            return;
         }
     }
 
-    private void executeProcess()
+    private void afterExecutionProcess(ActionProcess actionProcess)
     {
-        if (processList.get("Generate Immediate Invoice") == processId
-        &&  pos.getC_Order_ID() > 0
-        &&  pos.getC_Order_ID() > 0 )
-        {
-            MProcess process = MProcess.get(pos.getCtx(), processId);
+    }
+
+    private void executeProcess(ActionProcess actionProcess) throws AdempierePOSException
+    {
+        if (actionProcess.value == GENERATE_IMMEDIATE_INVOICE &&  pos.getC_Order_ID() > 0) {
             partnerId = queryPartner.getRecord_ID();
             MBPartner partner = MBPartner.get(pos.getCtx(), partnerId);
             Optional<String> taxId = Optional.ofNullable(partner.getTaxID());
-            String processMessage = process.getName()
+            String processMessage = actionProcess.name
                     + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
                     + " @To@ @C_BPartner_ID@ : " + partner.getName()
                     + " @TaxID@ : " + taxId.orElse("");
             if (ADialog.ask(pos.getWindowNo(), this, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
-
-                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                waiting.setVisible(true);
                 ProcessInfo processInfo = ProcessBuilder.
-                        create(pos.getCtx()).process(processId)
-                        .withTitle(process.getName())
+                        create(pos.getCtx()).process(actionProcess.processId.get())
+                        .withTitle(actionProcess.alias.get())
                         .withParameter("C_Order_ID", pos.getC_Order_ID())
                         .withParameter("DocSubTypeSO", X_C_DocType.DOCSUBTYPESO_OnCreditOrder)
                         .withParameter("IsIncludePayments", true)
@@ -124,15 +172,84 @@ public class POSActionMenu extends JPopupMenu implements  ActionListener , POSQu
                         .withParameter("IsShipConfirm", true)
                         .withParameter("Bill_BPartner_ID", partnerId)
                         .execute();
-                setCursor(Cursor.getDefaultCursor());
+                waiting.setVisible(false);
+                if (processInfo.isError()) {
+                    String errorMessage = Msg.parseTranslation(pos.getCtx(), processInfo.getTitle() + " @ProcessRunError@ " + processInfo.getSummary());
+                    throw new AdempierePOSException(errorMessage);
+                } else {
+                    ADialog.info(pos.getWindowNo(), this, "ProcessOK", actionProcess.alias.get() + " " + processInfo.getSummary());
+                    afterExecutionProcess(actionProcess);
+                    pos.setOrder(processInfo.getRecord_ID());
+                    pos.refreshHeader();
+                    pos.refreshPanel();
+                    return;
+                }
+            }
+        }
+        //Reverse The Sales Transaction
+        if (actionProcess.value == GENERATE_REVERSE_SALES_REVERSE && pos.getC_Order_ID() > 0)
+        {
+            String processMessage = actionProcess.name
+                    + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
+                    + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
+
+            if (ADialog.ask(pos.getWindowNo(), this, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
+                waiting.setVisible(true);
+                //Reverse The Sales Transaction for Source Order
+                ProcessInfo processInfo = ProcessBuilder
+                        .create(pos.getCtx())
+                        .process(actionProcess.processId.get())
+                        .withTitle("Reverse The Sales Transaction")
+                        .withParameter(I_C_Order.COLUMNNAME_C_Order_ID , pos.getC_Order_ID())
+                        .withParameter(I_C_Order.COLUMNNAME_Bill_BPartner_ID , pos.getC_BPartner_ID())
+                        .withParameter("IsShipConfirm", true)
+                        .execute();
+                waiting.setVisible(false);
                 if (processInfo.isError()) {
                     String errorMessage = Msg.parseTranslation(pos.getCtx() , processInfo.getTitle() + " @ProcessRunError@ " + processInfo.getSummary());
                     throw new AdempierePOSException(errorMessage);
                 }
                 else
                 {
-                    ADialog.info(pos.getWindowNo(), this ,"ProcessOK", process.getName() + " " + processInfo.getSummary());
-                    afterExecutionProcess();
+                    ADialog.info(pos.getWindowNo(), this ,"ProcessOK", actionProcess.alias + " " + processInfo.getSummary());
+                    afterExecutionProcess(actionProcess);
+                    pos.refreshHeader();
+                    pos.refreshPanel();
+                    return;
+                }
+            }
+        }
+        //Return product
+        if (actionProcess.value == GENERATE_RETURN  &&  pos.getC_Order_ID() > 0)
+        {
+            String processMessage = actionProcess.name
+                    + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
+                    + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
+
+            if (ADialog.ask(pos.getWindowNo(), this, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
+                AEnv.showCenterScreen(waiting);
+                waiting.setVisible(true);
+                //Create partial return
+                ProcessInfo processInfo = ProcessBuilder
+                        .create(pos.getCtx())
+                        .process(actionProcess.processId.get())
+                        .withTitle(actionProcess.name)
+                        .withParameter(I_C_Order.COLUMNNAME_C_Order_ID , pos.getC_Order_ID())
+                        .withParameter(I_C_Order.COLUMNNAME_Bill_BPartner_ID , pos.getC_BPartner_ID())
+                        .withParameter(I_C_DocType.COLUMNNAME_DocSubTypeSO , MDocType.DOCSUBTYPESO_ReturnMaterial)
+                        .withParameter(I_C_Order.COLUMNNAME_DocAction, DocAction.ACTION_None)
+                        .withParameter("IsIncludePayments", true)
+                        .withParameter(I_C_Payment.COLUMNNAME_IsAllocated, false)
+                        .execute();
+                waiting.setVisible(false);
+                if (processInfo.isError()) {
+                    String errorMessage = Msg.parseTranslation(pos.getCtx() , processInfo.getTitle() + " @ProcessRunError@ " + processInfo.getSummary());
+                    throw new AdempierePOSException(errorMessage);
+                }
+                else
+                {
+                    ADialog.info(pos.getWindowNo(), this ,"ProcessOK", actionProcess.name + " " + processInfo.getSummary());
+                    afterExecutionProcess(actionProcess);
                     pos.setOrder(processInfo.getRecord_ID());
                     pos.refreshHeader();
                     pos.refreshPanel();
@@ -150,7 +267,6 @@ public class POSActionMenu extends JPopupMenu implements  ActionListener , POSQu
         //	For Ticket
         if(query instanceof QueryBPartner) {
           partnerId = query.getRecord_ID();
-          executeProcess();
         }
     }
 
