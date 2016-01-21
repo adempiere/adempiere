@@ -24,9 +24,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 
 /**
@@ -38,46 +37,55 @@ import javax.swing.JOptionPane;
 
 public class POSClientSide extends Thread {  
 
-	public POSClientSide(String p_Host, String p_Print) {
+	public POSClientSide(String p_Host, String p_Print, JTextArea m_Terminal) {
 		m_Host = p_Host;
 		m_Print = p_Print;
-		try {
-			connect();
-			socketClient.setKeepAlive(true);
-			isStopped = false;
-			start();
-		} catch (IOException e) {
-		    JOptionPane.showMessageDialog(null, "Error Connecting: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}		
-		    
-		
+		fTerminal = m_Terminal;
+
+		if(connect())		
+			this.start();
 	}
 	
-	/** Socket Client */
-	private Socket 	socketClient = null;
-	/** Host Name */
-	private String 	m_Host = null;
-	/** Print Name */
-	private String 	m_Print = null;
-	/** Is Stop */
-	private boolean isStopped;
-	/** Data Input Stream */
-	DataInputStream dis = null;
+	/** Socket Client 			*/
+	private Socket 				socketClient = null;
+	/** Host Name 				*/
+	private String 				m_Host = null;
+	/** Print Name 				*/
+	private String 				m_Print = null;
+	/** Is Stop 				*/
+	private boolean 			isStopped;
+	/** Data Input Stream 		*/
+	private DataInputStream 	dis = null;
+	/** Field Terminal    		*/
+	private JTextArea 			fTerminal = null;
 	
-	private void connect() throws UnknownHostException, IOException {
-		socketClient = new Socket(m_Host, 5444);
+	/**
+	 * Connect with Server
+	 * @return
+	 * @return boolean
+	 */
+	private boolean connect() {
+		try {
+			socketClient = new Socket(m_Host, 5444);
+			socketClient.setKeepAlive(true);
+			isStopped = false;
+	    	setText("Connected");
+			return isStopped;
+		} catch (IOException e) {
+	    	setText("Error Connecting: "+e.getMessage());
+	    	return isStopped = true;
+		}
 	}
 		
 	public void run(){
 		
-
-  	  
 	    try {
 	    	 
 	      while(!isStopped) {
 			 connect();
 	    	 dis = new DataInputStream(socketClient.getInputStream());
-              String name = "zk"+dis.readUTF().toString(); 
+	    	 // Name File
+             String name = "zk"+dis.readUTF().toString(); 
 
               // Size File
               int tam = dis.readInt(); 
@@ -92,38 +100,62 @@ public class POSClientSide extends Thread {
                  buffer[ i ] = ( byte )in.read( ); 
               }
               
-              out.write( buffer ); 
+              out.write( buffer );
+			  setText("File Received");
+              
               out.flush(); 
     		  out.close();
     		  try{
     			  String[] cmd = new String[] { "lp" , "-d", m_Print, path};
     			  Runtime.getRuntime().exec(cmd);
+    			  setText("Printing File");
     		  }catch(Exception a){
-    			  JOptionPane.showMessageDialog(null, "No Printing", "Error", JOptionPane.ERROR_MESSAGE);
+    			  setText("Error Printing: "+a.getMessage());
     		  }
 
-  		    System.out.println(socketClient.isConnected());
 	       }     
 	      	
 	    } catch (IOException e) {
 	    	isStopped=true;
-	    	System.out.println("IOException: " + e.getLocalizedMessage());
+	    	setText(e.getLocalizedMessage());
 	    }
-	   if(!socketClient.isConnected()) {
-			try {
-				
-				connect();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	   }
 	}
-
+	
+	/**
+	 * Set Text
+	 * @param m_Text
+	 * @return void
+	 */
+	private void setText(String m_Text) {
+		fTerminal.setText(getText()+m_Text+"\n");
+	}
+	
+	/**
+	 * Get Text
+	 * @return String
+	 */
+	private String getText() {
+		return fTerminal.getText();
+	}
+	
+	/**
+	 * IsStopped
+	 * @return boolean
+	 */
+	public boolean isStopped() {
+		return isStopped;
+	}
+	
+	/**
+	 * Close Connection 
+	 * @return void
+	 */
 	public void closeConnect(){
 		try {
 			isStopped = true;
 			socketClient.close();
+			this.interrupt();
+			setText("Disconnected");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

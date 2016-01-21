@@ -17,7 +17,10 @@
 
 package org.adempiere.pos.test;
 
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.SystemTray;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +31,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
@@ -44,7 +49,7 @@ public class POSClientWindow extends JFrame implements ActionListener {
 	public POSClientWindow(){
 		init();
 		setTitle("Print POS");
-		setSize(300,180);
+		setSize(300,280);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		if (!SystemTray.isSupported()) {
@@ -53,6 +58,7 @@ public class POSClientWindow extends JFrame implements ActionListener {
         }
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
 	final SystemTray tray = SystemTray.getSystemTray();
 	/**	Container			*/
 	private Container 	container;
@@ -70,7 +76,9 @@ public class POSClientWindow extends JFrame implements ActionListener {
 	private JTextField 	fHost;
 	/**	Select Print		*/
 	private JComboBox 	cPrint;	
-	
+	/**	Field Terminal		*/
+    private JTextArea 	fTerminal = new JTextArea("");
+    /** POS Client Side		*/
 	private POSClientSide	p_Client;
 	
 	private void init() {
@@ -112,6 +120,15 @@ public class POSClientWindow extends JFrame implements ActionListener {
 		  
 		  cPrint.setBounds(100, 69, 180, 23);
 	
+		  fTerminal.setBounds(0,150,300,300);
+	        fTerminal.setBackground(Color.black);
+	        fTerminal.setForeground(Color.green);
+	        fTerminal.setSelectionColor(Color.red);
+	        fTerminal.setFont(new Font("consolas",1,10));
+	        fTerminal.setEnabled(false);
+			fTerminal.setWrapStyleWord(true);
+			fTerminal.setLineWrap(true);
+	        
 		  container.add(lblTitle);
 		  container.add(lblHost);
 		  container.add(fHost);
@@ -119,7 +136,11 @@ public class POSClientWindow extends JFrame implements ActionListener {
 		  container.add(cPrint);
 		  container.add(btnConnect);
 		  container.add(btnDisconnect);
-		  
+
+	       JScrollPane scroll = new JScrollPane(fTerminal);
+
+	        scroll.setBounds(new Rectangle(25,130,255,120));
+		  getContentPane().add(scroll);
 	 }
 	
 	
@@ -128,11 +149,11 @@ public class POSClientWindow extends JFrame implements ActionListener {
 	  boolean status;
       if (e.getSource()==btnConnect) {
     	  String m_print = (String)cPrint.getSelectedItem();
-    	  p_Client = new POSClientSide(fHost.getText(), m_print);
-    	  status = p_Client.isAlive();
+    	  p_Client = new POSClientSide(fHost.getText(), m_print, fTerminal);
+    	  status = p_Client.isStopped();
     	  
-			btnConnect.setEnabled(!status);
-			btnDisconnect.setEnabled(status);
+			btnConnect.setEnabled(status);
+			btnDisconnect.setEnabled(!status);
       }
       else if(e.getSource()==btnDisconnect) {
     	  p_Client.closeConnect();
