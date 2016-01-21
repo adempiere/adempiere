@@ -51,6 +51,7 @@ public class POSClientWindow extends JFrame implements ActionListener {
             System.out.println("SystemTray is not supported");
             return;
         }
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	final SystemTray tray = SystemTray.getSystemTray();
 	/**	Container			*/
