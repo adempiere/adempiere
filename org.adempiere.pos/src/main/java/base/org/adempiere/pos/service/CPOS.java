@@ -302,6 +302,20 @@ public class CPOS {
 		return getDocSubTypeSO()
 				.equals(MOrder.DocSubTypeSO_Warehouse);
 	}
+
+	/**
+	 * Validate if is Return Material
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isReturnMaterial() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//
+		return getDocSubTypeSO()
+				.equals(MOrder.DocSubTypeSO_RMA);
+	}
 	
 	/**
 	 * Valid date if is invoiced
