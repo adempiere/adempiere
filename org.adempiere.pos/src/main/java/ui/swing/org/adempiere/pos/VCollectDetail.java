@@ -50,6 +50,7 @@ import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.X_C_Payment;
 import org.compiere.swing.CButton;
+import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
@@ -106,6 +107,11 @@ public class VCollectDetail extends CollectDetail
 	private VComboBox 		fCreditCardExpMM;
 	private VComboBox 		fCreditCardExpYY;
 	private POSTextField 	fCreditCardVV;
+	
+	/**	Credit Note			*/
+	private CPanel 			v_CreditNotePanel;
+	private VLookup 		fCreditNote;
+	private CLabel			lCreditNote;
 	
 	/**	Generic Values		*/
 	private Properties 		p_ctx;
@@ -331,6 +337,36 @@ public class VCollectDetail extends CollectDetail
 	}
 	
 	/**
+	 * Load for Credit Notes
+	 * @return void
+	 */
+	private void loadCreditNote() {
+		v_CreditNotePanel = new CPanel(layout);
+		//	Add label credit note
+		lCreditNote = new CLabel(Msg.translate(Env.getCtx(), "CreditNote") + ":");
+		lCreditNote.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
+
+		//	For Credit Note
+		MLookup cardNotelookup = getCreditMemoLockup(v_Parent.getC_BPartner_ID());
+		fCreditNote = new VLookup("CreditMemo", false, false, true, cardNotelookup);
+		//	For Credit Card Type
+//		((VComboBox)fCreditNote.getCombo()).setRenderer(new POSLookupListCellRenderer(font));
+		fCreditNote.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
+//		((VComboBox)fCreditNote.getCombo()).setFont(font);
+		fCreditNote.addVetoableChangeListener(this);
+		
+		//	Add to Panel
+		v_CreditNotePanel.add(lCreditNote,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+		
+		v_CreditNotePanel.add(fCreditNote,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+		
+		//	Default visible false
+		v_CreditNotePanel.setVisible(false);
+	}
+	
+	/**
 	 * Init Main Panel
 	 * @return void
 	 */
@@ -349,6 +385,9 @@ public class VCollectDetail extends CollectDetail
 		loadDebitPanel();
 		//	Load Credit Panel
 		loadCreditPanel();
+		//	Load Credit Note Panel
+		loadCreditNote();
+		
 		//	Add to Main Panel
 		v_MainPanel.add(v_StandardPanel,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
@@ -364,6 +403,10 @@ public class VCollectDetail extends CollectDetail
 		
 		v_MainPanel.add(v_CreditPanel,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+		
+		v_MainPanel.add(v_CreditNotePanel,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+		
 		//	Change View
 		fTenderType.setValue(getTenderType());
 		fCreditCardType.setValue(getCreditCardType());
@@ -386,8 +429,18 @@ public class VCollectDetail extends CollectDetail
 			String m_TenderType = ((String)(value != null? value: 0));
 			setTenderType(m_TenderType);
 			changeViewPanel();
+			fPayAmt.setValue(getInitPayAmt());
+			setPayAmt((BigDecimal) fPayAmt.getValue());
+			v_Parent.refreshPanel();
 		} else if(name.equals("CreditCardType")) {
 			setCreditCardType((String) fCreditCardType.getValue());
+		} else if(name.equals("CreditMemo")) {
+			int m_C_Invoice_ID = ((Integer)(value != null? value: 0)).intValue();
+			setC_Invoice_ID(m_C_Invoice_ID);
+			fPayAmt.setValue(getOpenAmtCreditNote());
+			
+			setPayAmt((BigDecimal) fPayAmt.getValue());
+			v_Parent.refreshPanel();
 		}
 	}
 
@@ -494,21 +547,30 @@ public class VCollectDetail extends CollectDetail
 			v_CheckPanel.setVisible(true);
 			v_DebitPanel.setVisible(false);
 			v_CreditPanel.setVisible(false);
+			v_CreditNotePanel.setVisible(false);
 		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_DirectDebit)){
 			v_CheckPanel.setVisible(false);
 			v_DebitPanel.setVisible(true);
 			v_CreditPanel.setVisible(false);
+			v_CreditNotePanel.setVisible(false);
 		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditCard)){
 			v_CheckPanel.setVisible(false);
 			v_DebitPanel.setVisible(false);
 			v_CreditPanel.setVisible(true);
+			v_CreditNotePanel.setVisible(false);
+		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo)){
+			v_CheckPanel.setVisible(false);
+			v_DebitPanel.setVisible(false);
+			v_CreditPanel.setVisible(false);
+			v_CreditNotePanel.setVisible(true);
 		} else {
 			v_CheckPanel.setVisible(false);
 			v_DebitPanel.setVisible(false);
 			v_CreditPanel.setVisible(false);
+			v_CreditNotePanel.setVisible(false);
 		}
 	}
-
+	
 	@Override
 	public void moveUp() {
 	}
