@@ -29,8 +29,6 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.ASyncProcess;
 import org.eevolution.service.dsl.ProcessBuilder;
 
-import java.sql.Timestamp;
-
 /**
  * This process call of create order based on another and reverse the sales transactions process
  * to implement the business case where is necessary to create a sales ticket and invoice next day on behalf of other business partner
