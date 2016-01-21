@@ -115,7 +115,7 @@ public class VCollect extends Collect
 	private CLabel 			lReturnAmt;
 	private CLabel 			fReturnAmt;
 	private CCheckBox 		fIsPrePayOrder;
-	private CCheckBox 		fIsCreditOrder;
+//	private CCheckBox 		fIsCreditOrder;
 //	private VLookup 		fPaymentTerm;
 	
 	/**	Action				*/
@@ -198,15 +198,15 @@ public class VCollect extends Collect
 		fIsPrePayOrder.setFont(v_POSPanel.getPlainFont());
 		
 		//	Add Is Credit Order
-		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "IsCreditSale"));
-		fIsCreditOrder.setFont(v_POSPanel.getPlainFont());
+//		fIsCreditOrder = new CCheckBox(Msg.translate(m_ctx, "IsCreditSale"));
+//		fIsCreditOrder.setFont(v_POSPanel.getPlainFont());
 		
 		// Completed Standard Order: only prepayment possible 
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 		   v_POSPanel.isCompleted() &&
 		   v_POSPanel.isStandardOrder()) {	
 			fIsPrePayOrder.setEnabled(false);	
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setSelected(true);
 		}
 		// Not completed Order 
@@ -216,21 +216,21 @@ public class VCollect extends Collect
 				 // Standard Order or Warehouse Order: no Credit Order, no prepayment
 				fIsPrePayOrder.setEnabled(false);	
 				fIsPrePayOrder.setSelected(false);	
-				fIsCreditOrder.setEnabled(false);
-				fIsCreditOrder.setSelected(false);
+//				fIsCreditOrder.setEnabled(false);
+//				fIsCreditOrder.setSelected(false);
 			}
 			else {		
 				fIsPrePayOrder.setEnabled(true);	
-				fIsCreditOrder.setEnabled(true);
+//				fIsCreditOrder.setEnabled(true);
 			}
 		}
 		else {
 			fIsPrePayOrder.setEnabled(false);	
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			if(v_POSPanel.isCompleted() && 
 				v_POSPanel.getM_Order().isInvoiced()  && 
 				v_POSPanel.getOpenAmt().compareTo(Env.ZERO)==1) {
-				fIsCreditOrder.setSelected(true);
+//				fIsCreditOrder.setSelected(true);
 			}
 		}
 //		int AD_Column_ID = 2187;        //  C_Order.C_PaymentTerm_ID
@@ -278,8 +278,8 @@ public class VCollect extends Collect
 		v_ParameterPanel.add(fIsPrePayOrder, new GridBagConstraints(1, 4, 1, 1, 0.0,0.0, 
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
-		v_ParameterPanel.add(fIsCreditOrder, new GridBagConstraints(2, 4, 1, 1, 0.0,0.0, 
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+//		v_ParameterPanel.add(fIsCreditOrder, new GridBagConstraints(2, 4, 1, 1, 0.0,0.0, 
+//				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		
 		v_ParameterPanel.add(bPlus, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0,
 							GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
@@ -298,7 +298,7 @@ public class VCollect extends Collect
 		
 		//	Add Listeners
 		fIsPrePayOrder.addActionListener(this);
-		fIsCreditOrder.addActionListener(this);
+//		fIsCreditOrder.addActionListener(this);
 		bOk.addActionListener(this);
 		bCancel.addActionListener(this);
 		
@@ -391,13 +391,15 @@ public class VCollect extends Collect
 		} else if (e.getSource().equals(bCancel)) {	//	Nothing
 			v_Dialog.dispose();
 			return;
-		} else if(e.getSource().equals(fIsCreditOrder)) {	//	For Credit Order Checked
-			//	Set to Controller
-			setIsCreditOrder(fIsCreditOrder.isSelected());
-			if(fIsCreditOrder.isSelected()) {
-				removeAllCollectDetail();
-			}
-		} else if(e.getSource().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
+		} 
+//		else if(e.getSource().equals(fIsCreditOrder)) {	//	For Credit Order Checked
+//			//	Set to Controller
+//			setIsCreditOrder(fIsCreditOrder.isSelected());
+//			if(fIsCreditOrder.isSelected()) {
+//				removeAllCollectDetail();
+//			}
+//		} 
+		else if(e.getSource().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
 			//	Set to Controller
 			setIsPrePayOrder(fIsPrePayOrder.isSelected());
 		}
@@ -483,24 +485,24 @@ public class VCollect extends Collect
 		//	Is Standard Order
 		boolean isStandardOrder = v_POSPanel.isStandardOrder();
 		//	Set Credit Order
-		setIsCreditOrder(isCreditOrder() 
-				|| (isCreditOpen && !isStandardOrder));
+//		setIsCreditOrder(isCreditOrder() || 
+//				(isCreditOpen && !isStandardOrder));
 		//	
 		setIsPrePayOrder(isPrePayOrder()
 				|| (isCreditOpen && isStandardOrder));
 		//	Set Credit and Pre-Pay Order
-		fIsCreditOrder.setSelected(isCreditOrder());
+//		fIsCreditOrder.setSelected(isCreditOrder());
 		fIsPrePayOrder.setSelected(isPrePayOrder());
 //		fPaymentTerm.setVisible(isCreditOrder());
 		//	Verify complete order
 		if(v_POSPanel.isCompleted()) {
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setEnabled(false);
 //			fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(isCreditOpen);
 			bOk.setEnabled(true);
 		} else if(v_POSPanel.isVoided()){
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setEnabled(false);
 //			fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(false);
@@ -508,15 +510,16 @@ public class VCollect extends Collect
 		} else if(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder()) { 
 			// Standard Order or Warehouse Order: no Credit Order, no prepayment
 			fIsPrePayOrder.setEnabled(false);	
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			bPlus.setEnabled(false);
 		}
 		else {
-			fIsCreditOrder.setEnabled(true);
+//			fIsCreditOrder.setEnabled(true);
 			fIsPrePayOrder.setEnabled(true);
 //			fPaymentTerm.setEnabled(true);
-			bPlus.setEnabled(!isCreditOrder()
-					|| isCreditOpen);
+//			bPlus.setEnabled(!false
+//					!isCreditOrder()
+//					&& isCreditOpen);
 			bOk.setEnabled(true);
 		}
 	}

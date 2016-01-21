@@ -99,7 +99,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	private Label 				fPayAmt;
 	private BigDecimal 			m_Balance = Env.ZERO;
 	private Checkbox 			fIsPrePayOrder;
-	private Checkbox 			fIsCreditOrder;
+//	private Checkbox 			fIsCreditOrder;
 	private Label 				fReturnAmt;
 	private Label 				lReturnAmt;
 	private Label 				fOpenAmt;
@@ -227,13 +227,13 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		fIsPrePayOrder.setClass("fontLarge");
 		row.appendChild(fIsPrePayOrder);
 		
-		fIsCreditOrder = new Checkbox();
-		fIsCreditOrder.setText(Msg.translate(p_ctx, "CreditSale"));
-		fIsCreditOrder.setClass("fontLarge");
-		fIsCreditOrder.setStyle(FONT_SIZE);
-		fIsCreditOrder.setHeight("30px");
-		fIsCreditOrder.addActionListener(this);
-		row.appendChild(fIsCreditOrder);
+//		fIsCreditOrder = new Checkbox();
+//		fIsCreditOrder.setText(Msg.translate(p_ctx, "CreditSale"));
+//		fIsCreditOrder.setClass("fontLarge");
+//		fIsCreditOrder.setStyle(FONT_SIZE);
+//		fIsCreditOrder.setHeight("30px");
+//		fIsCreditOrder.addActionListener(this);
+//		row.appendChild(fIsCreditOrder);
 		row.appendChild(bPlus);
 		row.setHeight("60px");
 		Center center = new Center();
@@ -262,7 +262,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		   v_POSPanel.isCompleted() &&
 		   v_POSPanel.isStandardOrder()) {	
 			fIsPrePayOrder.setEnabled(false);	
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setSelected(true);
 		}
 		// Not completed Order 
@@ -272,21 +272,21 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 				 // Standard Order or Warehouse Order: no Credit Order, no prepayment
 				fIsPrePayOrder.setEnabled(false);	
 				fIsPrePayOrder.setSelected(false);	
-				fIsCreditOrder.setEnabled(false);
-				fIsCreditOrder.setSelected(false);
+//				fIsCreditOrder.setEnabled(false);
+//				fIsCreditOrder.setSelected(false);
 			}
 			else {		
 				fIsPrePayOrder.setEnabled(true);	
-				fIsCreditOrder.setEnabled(true);
+//				fIsCreditOrder.setEnabled(true);
 			}
 		}
 		else {
 			fIsPrePayOrder.setEnabled(false);	
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			if(v_POSPanel.isCompleted() && 
 				v_POSPanel.getM_Order().isInvoiced()  && 
 				v_POSPanel.getOpenAmt().compareTo(Env.ZERO)==1) {
-				fIsCreditOrder.setSelected(true);
+//				fIsCreditOrder.setSelected(true);
 			}
 		}
 	}
@@ -377,19 +377,21 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			v_Window.dispose();
 			return;
 		}
-		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
-				fIsPrePayOrder.setSelected(false);
-				if(fIsCreditOrder.isSelected()) {				
-					bPlus.setEnabled(false);  
-					confirm.getOKButton().setEnabled(true);
-					removeAllCollectDetail();
-					setIsCreditOrder(fIsCreditOrder.isSelected());
-					calculatePanelData();
-				}
-				else 
-					bPlus.setEnabled(true);
-			} else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
-				fIsCreditOrder.setSelected(false);
+//		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
+//				fIsPrePayOrder.setSelected(false);
+//				if(fIsCreditOrder.isSelected()) {				
+//					bPlus.setEnabled(false);  
+//					confirm.getOKButton().setEnabled(true);
+//					removeAllCollectDetail();
+//					setIsCreditOrder(fIsCreditOrder.isSelected());
+//					calculatePanelData();
+//				}
+//				else 
+//					bPlus.setEnabled(true);
+//			} 
+//		 
+		 else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
+//				fIsCreditOrder.setSelected(false);
 				//	Set to Controller
 				setIsPrePayOrder(fIsPrePayOrder.isSelected());
 				bPlus.setEnabled(true);   
@@ -525,24 +527,24 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		//	Is Standard Order
 		boolean isStandardOrder = v_POSPanel.isStandardOrder();
 		//	Set Credit Order
-		setIsCreditOrder(isCreditOrder() 
-				|| (isCreditOpen && !isStandardOrder));
+//		setIsCreditOrder(isCreditOrder() 
+//				|| (isCreditOpen && !isStandardOrder));
 		//	
 		setIsPrePayOrder(isPrePayOrder()
 				|| (isCreditOpen && isStandardOrder));
 		//	Set Credit and Pre-Pay Order
-		fIsCreditOrder.setSelected(isCreditOrder());
+//		fIsCreditOrder.setSelected(isCreditOrder());
 		fIsPrePayOrder.setSelected(isPrePayOrder());
 //			fPaymentTerm.setVisible(isCreditOrder());
 		//	Verify complete order
 		if(v_POSPanel.isCompleted()) {
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setEnabled(false);
 //				fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(isCreditOpen);
 			confirm.getOKButton().setEnabled(true);
 		} else if(v_POSPanel.isVoided()){
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setEnabled(false);
 //				fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(false);
@@ -550,15 +552,16 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		} else if(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder()) { 
 			// Standard Order or Warehouse Order: no Credit Order, no prepayment
 			fIsPrePayOrder.setEnabled(false);	
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			bPlus.setEnabled(false);
 		}
 		else {
-			fIsCreditOrder.setEnabled(true);
+//			fIsCreditOrder.setEnabled(true);
 			fIsPrePayOrder.setEnabled(true);
 //				fPaymentTerm.setEnabled(true);
-			bPlus.setEnabled(!isCreditOrder()
-					|| isCreditOpen);
+//			bPlus.setEnabled(!false
+//					!isCreditOrder()
+//					&& isCreditOpen);
 			confirm.getOKButton().setEnabled(true);
 		}
 	}

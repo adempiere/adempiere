@@ -91,7 +91,7 @@ public class Collect {
 	/**	Collects				*/
 	private List<CollectDetail> m_Collects;
 	/**	Credit Order			*/
-	private boolean				m_IsCreditOrder = false;
+//	private boolean				m_IsCreditOrder = false;
 	/**	Pre-Payment Order		*/
 	private boolean				m_IsPrePayOrder = false;
 	/**	Payment Term			*/
@@ -440,6 +440,13 @@ public class Collect {
 		if(m_C_Invoice_ID == 0)
 			return false;
 		MPayment payment = createPayment(MPayment.TENDERTYPE_Account);
+		if(payment.getC_Invoice_ID() > 0 )
+			payment.setC_Invoice_ID(0);
+		if(payment.getC_Order_ID() > 0 )
+			payment.setC_Order_ID(0);
+		if(payment.getC_Charge_ID() > 0 )
+			payment.setC_Charge_ID(0);
+		
 		payment.setAmount(m_Order.getC_Currency_ID(), Env.ZERO);
 		payment.setC_BankAccount_ID(m_POS.getC_BankAccount_ID());
 		payment.setDateTrx(getDateTrx());
@@ -449,6 +456,7 @@ public class Collect {
 		MPaymentAllocate pa = new MPaymentAllocate(Env.getCtx(), 0, trxName);
 		pa.setC_Payment_ID(payment.getC_Payment_ID());
 		pa.setC_Invoice_ID(m_C_Invoice_ID);
+		pa.setInvoiceAmt(amt);
 		pa.setAmount(amt);
 		pa.saveEx();
 		//CreditNote
@@ -456,6 +464,7 @@ public class Collect {
 		pa.setC_Payment_ID(payment.getC_Payment_ID());
 		pa.setC_Invoice_ID(creditNote.getC_Invoice_ID());
 		pa.setAmount(amt.negate());
+		pa.setInvoiceAmt(amt.negate());
 		pa.saveEx();
 		
 		payment.setDocAction(MPayment.DOCACTION_Complete);
@@ -555,8 +564,9 @@ public class Collect {
 		//	For Prepay order
 		if(isPrePayOrder()) {
 			return null;
-		} else if(!isCreditOrder()
-				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
+		} else if(
+//				!isCreditOrder()&& 
+				p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
 			addErrorMsg("@POS.OrderPayNotCompleted@");
 			
 		}
@@ -593,6 +603,11 @@ public class Collect {
 				if(processError != null && !processError.isEmpty()) {
 					addErrorMsg("@" + processError + "@");
 				}
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditMemo)) {
+				if(m_Collect.getC_Invoice_ID() == 0 )
+					addErrorMsg("@POS.CreditNoteNotSelected@");
+				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
+				
 			} else {
 				addErrorMsg("@POS.validatePayment.UnsupportedPaymentType@");
 			}
@@ -642,6 +657,9 @@ public class Collect {
 				//	Pay from Credit Card
 				payCreditCard(m_Collect.getPayAmt(), m_Collect.getA_Name(),
 						month, year, m_Collect.getCreditCardNumber(), m_Collect.getCreditCardVV(), m_Collect.getCreditCardType());
+			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditMemo)) {
+				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
+				payCreditNote(m_Collect.getM_InvCreditMemo(), m_Collect.getPayAmt());
 			}
 		}
 		//	Save Cash Payment
@@ -818,22 +836,22 @@ public class Collect {
 	 * @return
 	 * @return boolean
 	 */
-	public boolean isCreditOrder() {
-		return m_IsCreditOrder;
-	}
+//	public boolean isCreditOrder() {
+//		return m_IsCreditOrder;
+//	}
 	
 	/**
 	 * Set Is Credit Order
 	 * @param isCreditOrder
 	 * @return void
 	 */
-	public void setIsCreditOrder(boolean isCreditOrder) {
-		this.m_IsCreditOrder = isCreditOrder;
-		//	Negate Pre-Pay
-		if(isCreditOrder) {
-			m_IsPrePayOrder = !isCreditOrder;
-		}
-	}
+//	public void setIsCreditOrder(boolean isCreditOrder) {
+//		this.m_IsCreditOrder = isCreditOrder;
+//		//	Negate Pre-Pay
+//		if(isCreditOrder) {
+//			m_IsPrePayOrder = !isCreditOrder;
+//		}
+//	}
 	
 	/**
 	 * Is Pre-Payment Order
@@ -852,9 +870,9 @@ public class Collect {
 	public void setIsPrePayOrder(boolean isPrePayOrder) {
 		this.m_IsPrePayOrder = isPrePayOrder;
 		//	Negate Credit Order
-		if(isPrePayOrder) {
-			m_IsCreditOrder = !isPrePayOrder;
-		}
+//		if(isPrePayOrder) {
+//			m_IsCreditOrder = !isPrePayOrder;
+//		}
 	}
 	
 	/**
