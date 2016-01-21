@@ -1367,10 +1367,12 @@ public class CPOS {
 	
 	/**
 	 * 	Gets Amount Paid from Order
-	 * 
+	 * 	It takes the allocated amounts, including Credit Notes
 	 */
 	public BigDecimal getPaidAmt() {
-		String sql = "SELECT sum(PayAmt) FROM C_Payment WHERE (C_Invoice_ID = ? OR C_Order_ID = ?) AND DocStatus IN ('CO','CL')";
+		String sql = "SELECT sum(amount) FROM C_AllocationLine al " +
+				"INNER JOIN C_AllocationHdr alh on (al.C_AllocationHdr_ID=alh.C_AllocationHdr_ID) " +
+				"WHERE (al.C_Invoice_ID = ? OR al.C_Order_ID = ?) AND alh.DocStatus IN ('CO','CL')";
 		BigDecimal received = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID(), currentOrder.getC_Order_ID());
 		if ( received == null )
 			received = Env.ZERO;
