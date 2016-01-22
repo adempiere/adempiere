@@ -134,33 +134,38 @@ public class POSActionPanel extends POSSubPanel
 		// NEW
 		buttonNew = createButtonAction(ACTION_NEW, KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
 		buttonNew.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonNew.setToolTipText("F2-" + Msg.translate(ctx, "new.order"));
 		buttonPanel.add(buttonNew, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 		// DOCTYPE
 		buttonDocType = createButtonAction(ACTION_DOCTYPE,  KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0));
 		buttonDocType.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
-		buttonDocType.setToolTipText(Msg.translate(ctx, "C_DocType_ID"));
+		buttonDocType.setToolTipText("F10-" + Msg.translate(ctx, "C_DocType_ID"));
 		buttonPanel.add(buttonDocType, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 		// BPARTNER
 		buttonBPartner = createButtonAction (ACTION_BPARTNER, KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.CTRL_MASK+Event.ALT_MASK));
 		buttonBPartner.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonBPartner.setToolTipText("CTL+ALT+I-" + Msg.translate(ctx, "C_BPartner_ID"));
 		buttonPanel.add(buttonBPartner, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 		// PROCESS
-		buttonProcess = createButtonAction (ACTION_PROCESS, KeyStroke.getKeyStroke(KeyEvent.VK_P, Event.SHIFT_MASK+Event.ALT_MASK));
+		buttonProcess = createButtonAction (ACTION_PROCESS, KeyStroke.getKeyStroke(KeyEvent.VK_P, Event.ALT_MASK));
 		buttonProcess.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonProcess.setToolTipText("ALT+P-" + Msg.translate(ctx, "Process"));
 		buttonPanel.add(buttonProcess, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		// HISTORY
 		buttonHistory = createButtonAction(ACTION_HISTORY, KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
 		buttonHistory.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonHistory.setToolTipText("F9-" + Msg.translate(ctx, "smenu.order.history"));
 		buttonPanel.add(buttonHistory, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
  		// 	BACK
  		buttonBack = createButtonAction(ACTION_BACK, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, Event.ALT_MASK));
  		buttonBack.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+ 		buttonBack.setToolTipText("ALT-LEFT-" + Msg.translate(ctx, "prev"));
  		buttonPanel.add(buttonBack, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
  		buttonBack.setEnabled(true);
@@ -168,6 +173,7 @@ public class POSActionPanel extends POSSubPanel
  		//	NEXT
  		buttonNext = createButtonAction(ACTION_NEXT, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,Event.ALT_MASK));
  		buttonNext.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+ 		buttonNext.setToolTipText("ALT-RIGHT-" + Msg.translate(ctx, "next"));
  		buttonPanel.add(buttonNext, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 		buttonNext.setEnabled(true);
@@ -175,6 +181,7 @@ public class POSActionPanel extends POSSubPanel
  		// PAYMENT
  		buttonCollect = createButtonAction(ACTION_PAYMENT, KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0));
  		buttonCollect.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+ 		buttonCollect.setToolTipText("F4-" + Msg.translate(ctx, "Payment"));
  		buttonPanel.add(buttonCollect, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 		buttonCollect.setEnabled(false);
@@ -182,12 +189,14 @@ public class POSActionPanel extends POSSubPanel
  		// CANCEL
 		buttonCancel = createButtonAction(ACTION_CANCEL, KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 		buttonCancel.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonCancel.setToolTipText("F3-" + Msg.translate(ctx, "POS.IsCancel"));
 		buttonPanel.add(buttonCancel, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
  		
 		// Logout
 		buttonLogout = createButtonAction (ACTION_LOGOUT, KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.ALT_MASK));
 		buttonLogout.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
+		buttonLogout.setToolTipText("ALT+L-" + Msg.translate(ctx, "LogOut"));
 		buttonPanel.add(buttonLogout, new GridBagConstraints(9, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 		// BP
