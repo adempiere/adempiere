@@ -77,6 +77,7 @@ public class QueryTicket extends POSQuery {
 	
 	
 	static final private String DOCUMENTNO      = "DocumentNo";
+	static final private String TYPE		    = "C_DocType_ID";
 	static final private String BPARTNERID      = "C_BPartner_ID";
 	static final private String GRANDTOTAL      = "GrandTotal";
 	static final private String OPENAMT         = "OpenAmt";
@@ -91,6 +92,7 @@ public class QueryTicket extends POSQuery {
 	private static ColumnInfo[] columnInfos = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), TYPE), TYPE, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), BPARTNERID), BPARTNERID, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAMT), OPENAMT, BigDecimal.class),
@@ -183,7 +185,7 @@ public class QueryTicket extends POSQuery {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try  {
-			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, ")
+			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, dt.Name AS C_DocType_ID ,")
 				.append(" b.Name, o.GrandTotal, ")
 				.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal - SUM(p.PayAmt), o.GrandTotal) AS InvoiceOpen, ")
 			    .append(" COALESCE(i.IsPaid, CASE WHEN o.GrandTotal - SUM(p.PayAmt) = 0 THEN 'Y' ELSE 'N' END) IsPaid, ")
@@ -191,6 +193,7 @@ public class QueryTicket extends POSQuery {
 			    .append(" CASE WHEN COALESCE(COUNT(i.C_Invoice_ID), 0) > 0 THEN 'Y' ELSE 'N' END")
 				.append(" FROM C_Order o ")
 				.append(" INNER JOIN C_BPartner b ON (o.C_BPartner_ID = b.C_BPartner_ID)")
+				.append(" INNER JOIN C_DocType dt ON (o.C_DocType_ID = dt.C_DocType_ID)")
 				.append(" LEFT JOIN C_invoice   i ON (i.C_Order_ID = o.C_Order_ID)")
 				.append(" LEFT JOIN C_Payment   p ON (p.C_Order_ID = o.C_Order_ID)")
 				.append(" WHERE  o.DocStatus <> 'VO'")
@@ -205,7 +208,7 @@ public class QueryTicket extends POSQuery {
 					sql.append(" AND o.DateOrdered = ? ");	
 			}
 			//	Group By
-			sql.append(" GROUP BY o.C_Order_ID, o.DocumentNo, b.Name, o.GrandTotal, o.Processed, i.IsPaid ");
+			sql.append(" GROUP BY o.C_Order_ID, o.DocumentNo, dt.Name , b.Name, o.GrandTotal, o.Processed, i.IsPaid ");
 			sql.append(" ORDER BY o.Updated");
 			int i = 1;			
 			preparedStatement = DB.prepareStatement(sql.toString(), null);
