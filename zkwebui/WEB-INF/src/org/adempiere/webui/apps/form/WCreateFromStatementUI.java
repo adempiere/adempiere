@@ -78,7 +78,7 @@ public class WCreateFromStatementUI extends CreateFromStatement
 				private static final long serialVersionUID = -6022139819209111460L;
 
 				public void setProcessInfo(ProcessInfo pi) {
-					p_WindowNo = getWindowNo();
+					p_WindowNo = pi.getWindowNo();
 					try {
 						//	Valid for launched from a window
 						if(pi != null) {

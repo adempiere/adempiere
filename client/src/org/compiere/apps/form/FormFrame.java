@@ -100,13 +100,15 @@ public class FormFrame
 				}
 			});
 			m_MainContent = frame;
+			m_WindowNo = Env.createWindowNo (m_MainContent);
 		} else {
 			CDialog dialog = new CDialog(owner, true);
 			dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
 			m_MainContent = dialog;
+			m_WindowNo = p_ParentWindowNo;
 		}
 		
-		m_WindowNo = Env.createWindowNo (m_MainContent);
+
 		try
 		{
 			jbInit();
