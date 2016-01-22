@@ -2223,6 +2223,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (title == null || title.length() == 0)
 				title = wButton.getDisplay();
 			ProcessInfo pi = new ProcessInfo (title, wButton.getProcess_ID(), table_ID, record_ID);
+			pi.setWindowNo(curWindowNo);
 			pi.setAD_User_ID (Env.getAD_User_ID(ctx));
 			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
 			ADForm form = ADForm.openForm(adFormID);

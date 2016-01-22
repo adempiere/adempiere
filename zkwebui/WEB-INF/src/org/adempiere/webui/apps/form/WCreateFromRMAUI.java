@@ -65,7 +65,7 @@ public class WCreateFromRMAUI extends CreateFromRMA
 				private static final long serialVersionUID = -3454354880167040226L;
 
 				public void setProcessInfo(ProcessInfo pi) {
-					p_WindowNo = getWindowNo();
+					p_WindowNo = pi.getWindowNo();
 					try {
 						//	Valid for launched from a window
 						if(pi != null) {
