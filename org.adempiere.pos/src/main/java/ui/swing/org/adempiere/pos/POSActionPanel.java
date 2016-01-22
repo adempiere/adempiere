@@ -524,7 +524,8 @@ public class POSActionPanel extends POSSubPanel
 			//	For Collect
 			if(posPanel.hasLines()
 					&& !posPanel.isPaid()
-					&& !posPanel.isVoided()) {
+					&& !posPanel.isVoided()
+					&& !posPanel.isReturnMaterial()) {
 				//	For Credit Order
 				buttonCollect.setEnabled(true);
 			} else {
