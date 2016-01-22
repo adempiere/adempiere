@@ -148,7 +148,7 @@ public class ProcessBuilder {
     /**
      * Generate Process Info for this process
      */
-    private void generateProcessInfo()
+    private void generateProcessInfo(String trxName)
     {
         if(instance == null)
             generateProcessInstance();
@@ -160,6 +160,7 @@ public class ProcessBuilder {
         processInfo = new ProcessInfo(title, processId, tableId , recordId, managedTransaction);
         processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
         processInfo.setClassName(MProcess.get(context , processId).getClassname());
+        processInfo.setTransactionName(trxName);
         ProcessInfoUtil.setParameterFromDB(processInfo);
     }
 
@@ -222,7 +223,7 @@ public class ProcessBuilder {
     public ProcessInfo execute() {
         try {
             Trx.run(trxName -> {
-                generateProcessInfo();
+                generateProcessInfo(trxName);
                 processBuilder.run(trxName);
             });
         } catch (AdempiereException e) {
@@ -241,7 +242,7 @@ public class ProcessBuilder {
 
             Trx.run(trxName, new TrxRunnable() {
                 public void run(String trxName) {
-                    generateProcessInfo();
+                    generateProcessInfo(trxName);
                     processBuilder.run(trxName);
                 }
             });
