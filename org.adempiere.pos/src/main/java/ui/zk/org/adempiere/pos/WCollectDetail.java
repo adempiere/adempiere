@@ -101,9 +101,9 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	private WPOSTextField 	fCCardVC;
 	
 	/**	Credit Note			*/
-	private Grid			v_CreditNotePanel;
-	private Listbox 		fCreditNote;
-	private Label			lCreditNote;
+	private Grid			v_CreditMemoPanel;
+	private Listbox 		fCreditMemo;
+	private Label			lCreditMemo;
 	
 	/**	Debit Card			*/
 	private WPOSTextField 	fDebitRoutingNo;
@@ -331,32 +331,32 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	}
 
 	/**
-	 * Load for Credit Notes
+	 * Load for Credit Memo
 	 * @return void
 	 */
-	private void loadCreditNotePanel() {
-		v_CreditNotePanel = GridFactory.newGridLayout();
-		v_CreditNotePanel.setWidth("100%");
-		v_CreditNotePanel.setHeight("95px");
+	private void loadCreditMemoPanel() {
+		v_CreditMemoPanel = GridFactory.newGridLayout();
+		v_CreditMemoPanel.setWidth("100%");
+		v_CreditMemoPanel.setHeight("95px");
 		
-		Rows rows = v_CreditNotePanel.newRows();
+		Rows rows = v_CreditMemoPanel.newRows();
 		Row row = rows.newRow();
 
 		row.setSpans("1,2");
 		//	Add label credit note
-		lCreditNote = new Label(Msg.translate(Env.getCtx(), "CreditNote") + ":");
-		lCreditNote.setStyle(HEIGHT+WIDTH+FONT_SIZE);
-		row.appendChild(lCreditNote);
+		lCreditMemo = new Label(Msg.translate(Env.getCtx(), "CreditNote") + ":");
+		lCreditMemo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
+		row.appendChild(lCreditMemo);
 		
 		MLookup lookup = getCreditMemoLockup(v_Parent.getC_BPartner_ID());
 		ArrayList<Object> types = lookup.getData(false, false, true, true);
 		
 		row = rows.newRow();
-		fCreditNote = ListboxFactory.newDropdownListbox();
-		row.appendChild(fCreditNote);
-		fCreditNote.setStyle(HEIGHT+WIDTH+FONT_SIZE);
-		fCreditNote.setValue(Msg.translate(p_ctx, "CreditNoteType"));
-		fCreditNote.addActionListener(this);
+		fCreditMemo = ListboxFactory.newDropdownListbox();
+		row.appendChild(fCreditMemo);
+		fCreditMemo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
+		fCreditMemo.setValue(Msg.translate(p_ctx, "CreditNoteType"));
+		fCreditMemo.addActionListener(this);
 		
 		/**
 		 *	Load Credit Notes
@@ -364,7 +364,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		for (Object obj : types) {
 			if ( obj instanceof KeyNamePair )	{
 				KeyNamePair key = (KeyNamePair) obj;
-				fCreditNote.appendItem(key.getName(), key.getID());
+				fCreditMemo.appendItem(key.getName(), key.getID());
 			}
 		}
 		
@@ -443,10 +443,10 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 //			String hourString = dateFormat.format(fCheckdate.getValue());
 //			Timestamp dateTrx = Timestamp.valueOf(hourString);
 //			setDateTrx(dateTrx);
-		}else if(e.getTarget().equals(fCreditNote)) {
-			int m_C_Invoice_ID = Integer.valueOf(fCreditNote.getValue().toString());
+		}else if(e.getTarget().equals(fCreditMemo)) {
+			int m_C_Invoice_ID = Integer.valueOf(fCreditMemo.getValue().toString());
 			setC_Invoice_ID(m_C_Invoice_ID);
-			fPayAmt.setValue(getOpenAmtCreditNote());
+			fPayAmt.setValue(getOpenAmtCreditMemo());
 			
 			setPayAmt((BigDecimal) fPayAmt.getValue());
 			v_Parent.refreshPanel();
@@ -564,14 +564,14 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		//	Load Debit Panel
 		loadDebitPanel();
 		//	Load Credit Note Panel
-		loadCreditNotePanel();
+		loadCreditMemoPanel();
 			
 		//	Add to Main Panel
 		groupPanel.appendChild(v_StandarPanel);
 		groupPanel.appendChild(v_CheckPanel);
 		groupPanel.appendChild(v_CreditPanel);
 		groupPanel.appendChild(v_DebitPanel);
-		groupPanel.appendChild(v_CreditNotePanel);
+		groupPanel.appendChild(v_CreditMemoPanel);
 
 	//  Change View
 		changeViewPanel();
@@ -611,27 +611,27 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 			v_CheckPanel.setVisible(true);
 			v_DebitPanel.setVisible(false);
 			v_CreditPanel.setVisible(false);
-			v_CreditNotePanel.setVisible(false);
+			v_CreditMemoPanel.setVisible(false);
 		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_DirectDebit)){
 			v_CheckPanel.setVisible(false);
 			v_DebitPanel.setVisible(true);
 			v_CreditPanel.setVisible(false);
-			v_CreditNotePanel.setVisible(false);
+			v_CreditMemoPanel.setVisible(false);
 		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditCard)){
 			v_CheckPanel.setVisible(false);
 			v_DebitPanel.setVisible(false);
 			v_CreditPanel.setVisible(true);
-			v_CreditNotePanel.setVisible(false);
+			v_CreditMemoPanel.setVisible(false);
 		} else if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo)){
 			v_CheckPanel.setVisible(false);
 			v_DebitPanel.setVisible(false);
 			v_CreditPanel.setVisible(false);
-			v_CreditNotePanel.setVisible(true);
+			v_CreditMemoPanel.setVisible(true);
 		} else {
 			v_CheckPanel.setVisible(false);
 			v_DebitPanel.setVisible(false);
 			v_CreditPanel.setVisible(false);
-			v_CreditNotePanel.setVisible(false);
+			v_CreditMemoPanel.setVisible(false);
 		}
 	}
 
