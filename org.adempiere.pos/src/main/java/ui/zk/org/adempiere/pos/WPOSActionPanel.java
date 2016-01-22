@@ -130,25 +130,25 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		// DocType 
 		buttonDocType = createButtonAction(ACTION_DOCTYPE, "F10");
 		buttonDocType.addActionListener(this);
-		buttonDocType.setTooltiptext(Msg.translate(ctx, "C_DocType_ID"));
+		buttonDocType.setTooltiptext("F10-"+Msg.translate(ctx, "C_DocType_ID"));
 		
 		row.appendChild(buttonDocType);
 		// BPartner Search
 		buttonBPartner = createButtonAction(ACTION_BPARTNER, "Alt+B");
 		buttonBPartner.addActionListener(this);
-		buttonBPartner.setTooltiptext(Msg.translate(ctx, "IsCustomer"));
+		buttonBPartner.setTooltiptext("Alt+B-"+Msg.translate(ctx, "IsCustomer"));
 		row.appendChild(buttonBPartner);
 				
 		// HISTORY
 		buttonHistory = createButtonAction(ACTION_HISTORY, "F9");
 		buttonHistory.addActionListener(this);
 		row.appendChild(buttonHistory);
-
+		
 		buttonBack = createButtonAction(ACTION_BACK, "Alt+Left");
-		buttonBack.setTooltiptext(Msg.translate(ctx, "Previous"));
+		buttonBack.setTooltiptext("Alt+Left-"+Msg.translate(ctx, "Previous"));
 		row.appendChild (buttonBack);
 		buttonNext = createButtonAction(ACTION_NEXT, "Alt+Right");
-		buttonNext.setTooltiptext(Msg.translate(ctx, "Next"));
+		buttonNext.setTooltiptext("Alt+Right"+Msg.translate(ctx, "Next"));
 		row.appendChild (buttonNext);
 		
 		// PAYMENT
@@ -160,14 +160,14 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		// Cancel
 		buttonCancel = createButtonAction (ACTION_CANCEL, "F3");
 		buttonCancel.addActionListener(this);
-		buttonCancel.setTooltiptext(Msg.translate(ctx, "POS.IsCancel"));
+		buttonCancel.setTooltiptext("F3-"+Msg.translate(ctx, "POS.IsCancel"));
 		row.appendChild (buttonCancel);
 		buttonCancel.setEnabled(false);
 		
 		// LOGOUT
 		buttonLogout = createButtonAction (ACTION_LOGOUT, "Alt+L");
 		buttonLogout.addActionListener(this);
-		buttonLogout.setTooltiptext(Msg.translate(ctx, "End"));
+		buttonLogout.setTooltiptext("Alt+L-"+Msg.translate(ctx, "End"));
 		row.appendChild (buttonLogout);
 		row.appendChild(new Space());
 		
