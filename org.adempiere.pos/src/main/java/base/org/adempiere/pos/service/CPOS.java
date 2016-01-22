@@ -451,7 +451,8 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getC_Currency_ID() {
-		if (hasBPartner()) {
+		if (hasBPartner()
+				&& currentOrder != null) {
 			return currentOrder.getC_Currency_ID();
 		}
 		//	Default

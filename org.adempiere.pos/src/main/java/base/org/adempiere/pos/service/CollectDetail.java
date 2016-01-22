@@ -573,7 +573,7 @@ public class CollectDetail {
 		this.m_C_Invoice_ID = m_C_Invoice_ID;
 	}
 	
-	public BigDecimal getOpenAmtCreditNote() {
+	public BigDecimal getOpenAmtCreditMemo() {
 		BigDecimal m_PayAmt = Env.ZERO ;
 		if(m_C_Invoice_ID == 0)
 			return m_PayAmt;

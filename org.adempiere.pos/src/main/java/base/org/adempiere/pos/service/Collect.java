@@ -91,7 +91,7 @@ public class Collect {
 	/**	Collects				*/
 	private List<CollectDetail> m_Collects;
 	/**	Credit Order			*/
-//	private boolean				m_IsCreditOrder = false;
+	private boolean				m_IsCreditOrder = false;
 	/**	Pre-Payment Order		*/
 	private boolean				m_IsPrePayOrder = false;
 	/**	Payment Term			*/
@@ -564,9 +564,8 @@ public class Collect {
 		//	For Prepay order
 		if(isPrePayOrder()) {
 			return null;
-		} else if(
-//				!isCreditOrder()&& 
-				p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
+		} else if(!isCreditOrder()
+				&& p_OpenAmt.subtract(getPayAmt()).doubleValue() > 0) {
 			addErrorMsg("@POS.OrderPayNotCompleted@");
 			
 		}
@@ -605,7 +604,12 @@ public class Collect {
 				}
 			} else if(m_Collect.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditMemo)) {
 				if(m_Collect.getC_Invoice_ID() == 0 )
-					addErrorMsg("@POS.CreditNoteNotSelected@");
+					addErrorMsg("@POS.CreditMemoNotSelected@");
+				BigDecimal openAmt = m_Collect.getOpenAmtCreditMemo();
+				if(m_Collect.getPayAmt().compareTo(openAmt) > 0){
+					addErrorMsg("@POS.OpenAmountCreditMemo@ < @POS.PayAmt@ ");
+					m_Collect.setPayAmt(openAmt);
+				}
 				m_OtherPayment = m_OtherPayment.add(m_Collect.getPayAmt());
 				
 			} else {
@@ -836,22 +840,22 @@ public class Collect {
 	 * @return
 	 * @return boolean
 	 */
-//	public boolean isCreditOrder() {
-//		return m_IsCreditOrder;
-//	}
+	public boolean isCreditOrder() {
+		return m_IsCreditOrder;
+	}
 	
 	/**
 	 * Set Is Credit Order
 	 * @param isCreditOrder
 	 * @return void
 	 */
-//	public void setIsCreditOrder(boolean isCreditOrder) {
-//		this.m_IsCreditOrder = isCreditOrder;
-//		//	Negate Pre-Pay
-//		if(isCreditOrder) {
-//			m_IsPrePayOrder = !isCreditOrder;
-//		}
-//	}
+	public void setIsCreditOrder(boolean isCreditOrder) {
+		this.m_IsCreditOrder = isCreditOrder;
+		//	Negate Pre-Pay
+		if(isCreditOrder) {
+			m_IsPrePayOrder = !isCreditOrder;
+		}
+	}
 	
 	/**
 	 * Is Pre-Payment Order
@@ -870,9 +874,9 @@ public class Collect {
 	public void setIsPrePayOrder(boolean isPrePayOrder) {
 		this.m_IsPrePayOrder = isPrePayOrder;
 		//	Negate Credit Order
-//		if(isPrePayOrder) {
-//			m_IsCreditOrder = !isPrePayOrder;
-//		}
+		if(isPrePayOrder) {
+			m_IsCreditOrder = !isPrePayOrder;
+		}
 	}
 	
 	/**
