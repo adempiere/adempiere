@@ -85,7 +85,7 @@ public abstract class WPOSSubPanel extends Panel
 	{
 		Button button = new Button();
 		button.setImage("images/"+action+"24.png");
-		button.setTooltiptext(Msg.translate(ctx, action));
+		button.setTooltiptext(accelerator+"-"+Msg.translate(ctx, action));
 		button.setWidth(WIDTH+"px");
 		button.setHeight(HEIGHT+"px");
 		button.addActionListener(this);
