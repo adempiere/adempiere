@@ -14,6 +14,7 @@
 
 package org.adempiere.pos.search;
 
+import java.awt.Cursor;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -185,6 +186,7 @@ public class QueryTicket extends POSQuery {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try  {
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, dt.Name AS C_DocType_ID ,")
 				.append(" b.Name, o.GrandTotal, ")
 				.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal - SUM(p.PayAmt), o.GrandTotal) AS InvoiceOpen, ")
@@ -239,6 +241,7 @@ public class QueryTicket extends POSQuery {
 		} finally {
 			DB.close(resultSet);
 			DB.close(preparedStatement);
+			this.setCursor(Cursor.getDefaultCursor());
 		}
 	}	//	setResults
 
