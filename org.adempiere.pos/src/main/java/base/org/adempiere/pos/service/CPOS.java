@@ -152,8 +152,7 @@ public class CPOS {
 		}
 		//	
 		return currentOrder.isProcessed()
-				&& currentOrder.getDocStatus()
-				.equals(X_C_Order.DOCSTATUS_Completed);
+				&& X_C_Order.DOCSTATUS_Completed.equals(currentOrder.getDocStatus());
 	}
 	
 	/**
@@ -173,7 +172,21 @@ public class CPOS {
 	public int getAD_Org_ID() {
 		return entityPOS.getAD_Org_ID();
 	}
-	
+
+
+	/**
+	 * Validate if is voided
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isClosed() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//
+		return X_C_Order.DOCSTATUS_Closed.equals(currentOrder.getDocStatus());
+	}
+
 	/**
 	 * Validate if is voided
 	 * @return
@@ -184,8 +197,7 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return currentOrder.getDocStatus()
-				.equals(X_C_Order.DOCSTATUS_Voided);
+		return X_C_Order.DOCSTATUS_Voided.equals(currentOrder.getDocStatus());
 	}
 	
 	/**
@@ -200,8 +212,7 @@ public class CPOS {
 		//	
 		return !isCompleted() 
 				&& !isVoided() 
-				&& currentOrder.getDocStatus()
-				.equals(X_C_Order.DOCSTATUS_Drafted);
+				&& X_C_Order.DOCSTATUS_Drafted.equals(currentOrder.getDocStatus());
 	}
 	
 	/**
@@ -216,8 +227,7 @@ public class CPOS {
 		//	
 		return !isCompleted() 
 				&& !isVoided() 
-				&& currentOrder.getDocStatus()
-				.equals(X_C_Order.DOCSTATUS_InProgress);
+				&& X_C_Order.DOCSTATUS_InProgress.equals(currentOrder.getDocStatus());
 	}
 	
 	/**
@@ -243,8 +253,7 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return getDocSubTypeSO()
-				.equals(MOrder.DocSubTypeSO_POS);
+		return MOrder.DocSubTypeSO_POS.equals(getDocSubTypeSO());
 	}
 	
 	/**
@@ -257,8 +266,7 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return getDocSubTypeSO()
-				.equals(MOrder.DocSubTypeSO_OnCredit);
+		return MOrder.DocSubTypeSO_OnCredit.equals(getDocSubTypeSO());
 	}
 	
 	/**
@@ -271,8 +279,7 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return getDocSubTypeSO()
-				.equals(MOrder.DocSubTypeSO_Standard);
+		return MOrder.DocSubTypeSO_Standard.equals(getDocSubTypeSO());
 	}
 	
 	/**
@@ -285,8 +292,7 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return getDocSubTypeSO()
-				.equals(MOrder.DocSubTypeSO_Prepay);
+		return MOrder.DocSubTypeSO_Prepay.equals(getDocSubTypeSO());
 	}
 	
 	/**
@@ -299,8 +305,7 @@ public class CPOS {
 			return false;
 		}
 		//	
-		return getDocSubTypeSO()
-				.equals(MOrder.DocSubTypeSO_Warehouse);
+		return MOrder.DocSubTypeSO_Warehouse.equals(getDocSubTypeSO());
 	}
 
 	/**
@@ -313,8 +318,7 @@ public class CPOS {
 			return false;
 		}
 		//
-		return getDocSubTypeSO()
-				.equals(MOrder.DocSubTypeSO_RMA);
+		return MOrder.DocSubTypeSO_RMA.equals(getDocSubTypeSO());
 	}
 	
 	/**
@@ -1419,7 +1423,7 @@ public class CPOS {
 	 * @return
 	 * @return MPriceListVersion
 	 */
-	private MPriceListVersion loadPriceListVersion(int priceListId) {
+	protected MPriceListVersion loadPriceListVersion(int priceListId) {
 		priceListVersionId = 0;
 		MPriceList priceList = MPriceList.get(ctx, priceListId, null);
 		//
