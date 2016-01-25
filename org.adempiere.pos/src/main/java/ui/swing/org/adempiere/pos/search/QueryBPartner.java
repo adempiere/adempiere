@@ -207,7 +207,9 @@ public class QueryBPartner extends POSQuery {
 				|| !(results instanceof MBPartnerInfo[]))
 			return;
 		//	
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		setResultsFromArray((MBPartnerInfo[]) results);
+		this.setCursor(Cursor.getDefaultCursor());
 	}
 	
 	/**
