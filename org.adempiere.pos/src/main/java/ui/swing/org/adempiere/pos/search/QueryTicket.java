@@ -227,7 +227,7 @@ public class QueryTicket extends POSQuery {
 					sql.append(" AND o.DateOrdered = ? ");	
 			}
 			if (bPartner != null && !bPartner.equalsIgnoreCase(""))
-				sql.append(" AND (UPPER(b.name) LIKE '%" + bPartner + "%')");
+				sql.append(" AND (UPPER(b.name) LIKE '%" + bPartner + "%' OR UPPER(b.value) LIKE '%" + bPartner + "%' )");
 			//	Group By
 			sql.append(" GROUP BY o.C_Order_ID, o.DocumentNo, dt.Name , b.Name, o.GrandTotal, o.Processed, i.IsPaid ");
 			sql.append(" ORDER BY o.Updated");
