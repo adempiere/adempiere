@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -90,6 +91,7 @@ public class QueryTicket extends POSQuery {
 	static final private String INVOICED       	= "IsInvoiced";
 	static final private String DATEORDEREDFROM = "From";
 	static final private String DATEORDEREDTO   = "To";
+	static final private String DATEORDERED     = "DateOrdered";
 	static final private String QUERY           = "Query";
 
 	/**	Table Column Layout Info			*/
@@ -98,6 +100,7 @@ public class QueryTicket extends POSQuery {
 		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), TYPE), TYPE, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), BPARTNERID), BPARTNERID, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), DATEORDERED), DATEORDERED, Date.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAMT), OPENAMT, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), PAID), PAID, Boolean.class), 
@@ -205,7 +208,7 @@ public class QueryTicket extends POSQuery {
 		try  {
 			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, dt.Name AS C_DocType_ID ,")
-				.append(" b.Name, o.GrandTotal, ")
+				.append(" b.Name, TRUNC(o.dateordered,'DD') as dateordered, o.GrandTotal, ")
 				.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal - SUM(p.PayAmt), o.GrandTotal) AS InvoiceOpen, ")
 			    .append(" COALESCE(i.IsPaid, CASE WHEN o.GrandTotal - SUM(p.PayAmt) = 0 THEN 'Y' ELSE 'N' END) IsPaid, ")
 			    .append(" o.Processed, ")
