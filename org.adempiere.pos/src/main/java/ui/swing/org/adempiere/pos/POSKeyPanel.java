@@ -251,7 +251,7 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 		}
 		catch (Exception ex)
 		{
+			log.info( "Error : " + ex);
 		}
-		
 	}	//	actionPerformed
 }

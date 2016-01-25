@@ -89,7 +89,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
         MInvoice[] invoices = sourceOrder.getInvoices();
         if(invoices.length > 0)
         {
-            if (sourceOrder.getC_BPartner_ID() != billPartnerId)
+            if (sourceOrder.getC_BPartner_ID() != billPartnerId )
                 cancelInvoices(invoices);
         }
 
@@ -116,6 +116,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
             rma.setDocStatus(DocAction.STATUS_Drafted);
             rma.setDocAction(DocAction.ACTION_Complete);
             rma.saveEx();
+
 
             MInOut customerReturn = new MInOut(getCtx() , 0 , get_TrxName());
             PO.copyValues(sourceShipment, customerReturn);
@@ -172,6 +173,8 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
             customerReturn.processIt(DocAction.STATUS_Completed);
             customerReturn.saveEx();
+            addLog(rma.getDocumentInfo());
+            addLog(customerReturn.getDocumentInfo());
 
         }
     }
@@ -188,6 +191,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
             creditNote.setDocStatus(DocAction.STATUS_Drafted);
             creditNote.setDocAction(DocAction.ACTION_Complete);
             creditNote.saveEx();
+
             for (MInvoiceLine sourceInvoiceLine :  sourceInvoice.getLines())
             {
                 MInvoiceLine creditNoteLine = new MInvoiceLine(getCtx() , 0 , get_TrxName());
@@ -198,13 +202,14 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
             creditNote.processIt(DocAction.ACTION_Complete);
             creditNote.saveEx();
+            addLog(creditNote.getDocumentInfo());
         }
 
     }
 
     private void cancelPayments(MOrder sourceOrder)
     {
-        List<MPayment> payments = getPayment(sourceOrder.get_ID());
+        List<MPayment> payments = MPayment.getOfOrder(sourceOrder);
         for (MPayment sourcePayment : payments)
         {
             MPayment payment = new MPayment(getCtx() ,  0 , get_TrxName());
@@ -222,15 +227,8 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
             payment.processIt(DocAction.ACTION_Complete);
             payment.saveEx();
+            addLog(payment.getDocumentInfo());
         }
-    }
-
-    private List<MPayment> getPayment(int orderId)
-    {
-        return new Query(getCtx() , MPayment.Table_Name , MOrder.COLUMNNAME_C_Order_ID + "=?", get_TrxName())
-                .setClient_ID()
-                .setParameters(orderId)
-                .list();
     }
 
     public int getRMATypeId() {
