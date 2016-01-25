@@ -325,6 +325,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 		if (selection != null) {
 			setM_POS((MPOS)selection);
+			loadPriceListVersion(getM_POS().getM_PriceList_ID());
 			validLocator();
 		}
 	}
