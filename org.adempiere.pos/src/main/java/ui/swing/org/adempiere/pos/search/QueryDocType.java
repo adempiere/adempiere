@@ -14,6 +14,7 @@
 
 package org.adempiere.pos.search;
 
+import java.awt.Cursor;
 import java.awt.Frame;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -170,6 +171,7 @@ public class QueryDocType extends POSQuery {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try  {
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			sql.append(" SELECT dt.C_DocType_ID, dt.Name, sq.Name, (COALESCE(sq.Prefix, '') || sq.CurrentNext || COALESCE(sq.Suffix, '')) SeqNo")
 				.append(" FROM C_DocType dt")
 				.append(" LEFT JOIN AD_Sequence sq ON (sq.AD_Sequence_ID = dt.DocNoSequence_ID)")
@@ -201,6 +203,7 @@ public class QueryDocType extends POSQuery {
 		} finally {
 			DB.close(rs);
 			DB.close(pstm);
+			this.setCursor(Cursor.getDefaultCursor());
 		}
 
 	}

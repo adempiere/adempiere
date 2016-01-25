@@ -87,21 +87,27 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 
 
 		buttonDelete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.CTRL_MASK));
+		buttonDelete.setToolTipText("CTL+F3-" + Msg.translate(ctx, "DeleteLine"));
 		buttonPanel.add(buttonDelete, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		buttonPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_1, Event.CTRL_MASK));
+		buttonPlus.setToolTipText("CTL+1-" + Msg.translate(ctx, "add"));
 		buttonPanel.add(buttonPlus, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		buttonMinus = createButtonAction("Minus", KeyStroke.getKeyStroke(KeyEvent.VK_0,Event.CTRL_MASK));
+		buttonMinus.setToolTipText("CTL+0-" + Msg.translate(ctx, "decrement"));  // TODO: Create message for decrementing qty by 1
 		buttonPanel.add(buttonMinus, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		buttonUp = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.ALT_MASK));
+		buttonUp.setToolTipText("ALT+up-" + Msg.translate(ctx, "Previous"));
 		buttonPanel.add(buttonUp, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
+		
 		buttonDown = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.ALT_MASK));
+		buttonDown.setToolTipText("ALT+down-" + Msg.translate(ctx, "Next"));
 		buttonPanel.add(buttonDown, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 

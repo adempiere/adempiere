@@ -70,9 +70,11 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 
 	/** Fields 				*/
 	private WPOSTextField 	fieldDocumentNo;
+	private WPOSTextField 	fieldBPartner;
 	private Datebox 		fieldDateTo;
 	private Datebox 		fieldDateFrom;
 	private Checkbox 		fieldProcessed;
+	private Checkbox 		fieldAllowDate;
 
 	private Date 			dateTo;
 	private Date 			dateFrom;
@@ -80,21 +82,26 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	private boolean			isKeyboard;
 	
 	static final private String DOCUMENTNO      = "DocumentNo";
+	static final private String TYPE		    = "C_DocType_ID";
 	static final private String BPARTNERID      = "C_BPartner_ID";
 	static final private String GRANDTOTAL      = "GrandTotal";
 	static final private String OPENAMT         = "OpenAmt";
 	static final private String PAID            = "IsPaid";
 	static final private String PROCESSED       = "Processed";
 	static final private String INVOICED       	= "IsInvoiced";
+	static final private String DATE	        = "Date";
 	static final private String DATEORDEREDFROM = "From";
 	static final private String DATEORDEREDTO   = "To";
+	static final private String DATEORDERED     = "DateOrdered";
 	static final private String QUERY           = "Query";
 	
 	/**	Table Column Layout Info			*/
 	private static ColumnInfo[] columnInfos = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), TYPE), TYPE, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), BPARTNERID), BPARTNERID, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), DATEORDERED), DATEORDERED, Date.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), OPENAMT), OPENAMT, BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), PAID), PAID, Boolean.class), 
@@ -142,7 +149,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 		
 		Label labelDocumentNo = new Label(Msg.translate(ctx, DOCUMENTNO));
 		labelDocumentNo.setStyle(WPOS.FONTSIZESMALL);
-		row.setHeight("60px");
+		row.setHeight("20px");
 		row.appendChild(labelDocumentNo.rightAlign());
 		fieldDocumentNo = new WPOSTextField(null, posPanel.getKeyboard());
 		row.appendChild(fieldDocumentNo);
@@ -159,6 +166,25 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 		fieldDateFrom.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(fieldDateFrom);
 
+		fieldAllowDate = new Checkbox();
+		fieldAllowDate.setLabel(Msg.translate(ctx, DATE));
+		fieldAllowDate.setSelected(false);
+		row.appendChild(fieldAllowDate);
+		fieldAllowDate.addActionListener(this);
+		fieldAllowDate.setStyle(WPOS.FONTSIZESMALL);
+		
+		row = rows.newRow();
+		
+		Label labelBPartner = new Label(Msg.translate(ctx, BPARTNERID));
+		labelBPartner.setStyle(WPOS.FONTSIZESMALL);
+		row.setHeight("60px");
+		row.appendChild(labelBPartner.rightAlign());
+		fieldBPartner = new WPOSTextField(null, posPanel.getKeyboard());
+		row.appendChild(fieldBPartner);
+		fieldBPartner.addEventListener(this);
+		fieldBPartner.setWidth("120px");
+		fieldBPartner.setStyle(WPOS.FONTSIZESMALL);
+		
 		Label labelDateTo = new Label(Msg.translate(ctx, DATEORDEREDTO));
 		labelDateTo.setStyle(WPOS.FONTSIZESMALL);
 		row.appendChild(labelDateTo.rightAlign());
@@ -211,35 +237,38 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	 * 	Set/display Results
 	 *	@param results results
 	 */
-	public void setResults (Properties ctx, boolean processed, String doc, Date dateFrom, Date dateTo)
+	public void setResults (Properties ctx, boolean processed, String doc, Date dateFrom, Date dateTo, String bPartner, boolean aDate)
 	{
 		StringBuffer sql = new StringBuffer();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try  {
-			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, ")
-			.append(" b.Name, o.GrandTotal, ")
-			.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal - SUM(p.PayAmt), o.GrandTotal) AS InvoiceOpen, ")
-		    .append(" COALESCE(i.IsPaid, CASE WHEN o.GrandTotal - SUM(p.PayAmt) = 0 THEN 'Y' ELSE 'N' END) IsPaid, ")
-		    .append(" o.Processed, ")
-		    .append(" CASE WHEN COALESCE(COUNT(i.C_Invoice_ID), 0) > 0 THEN 'Y' ELSE 'N' END")
-			.append(" FROM C_Order o ")
-			.append(" INNER JOIN C_BPartner b ON (o.C_BPartner_ID = b.C_BPartner_ID)")
-			.append(" LEFT JOIN C_invoice   i ON (i.C_Order_ID = o.C_Order_ID)")
-			.append(" LEFT JOIN C_Payment   p ON (p.C_Order_ID = o.C_Order_ID)")
-			.append(" WHERE  o.DocStatus <> 'VO'")
-			.append(" AND o.C_POS_ID = ?")
-			.append(" AND o.Processed= ?");
+			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, dt.Name AS C_DocType_ID ,")
+				.append(" b.Name, TRUNC(o.dateordered,'DD') as dateordered, o.GrandTotal, ")
+				.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal - SUM(p.PayAmt), o.GrandTotal) AS InvoiceOpen, ")
+			    .append(" COALESCE(i.IsPaid, CASE WHEN o.GrandTotal - SUM(p.PayAmt) = 0 THEN 'Y' ELSE 'N' END) IsPaid, ")
+			    .append(" o.Processed, ")
+			    .append(" CASE WHEN COALESCE(COUNT(i.C_Invoice_ID), 0) > 0 THEN 'Y' ELSE 'N' END")
+				.append(" FROM C_Order o ")
+				.append(" INNER JOIN C_BPartner b ON (o.C_BPartner_ID = b.C_BPartner_ID)")
+				.append(" INNER JOIN C_DocType dt ON (o.C_DocType_ID = dt.C_DocType_ID)")
+				.append(" LEFT JOIN C_invoice   i ON (i.C_Order_ID = o.C_Order_ID)")
+				.append(" LEFT JOIN C_Payment   p ON (p.C_Order_ID = o.C_Order_ID)")
+				.append(" WHERE  o.DocStatus <> 'VO'")
+				.append(" AND o.C_POS_ID = ?")
+				.append(" AND o.Processed= ?");
 			if (doc != null && !doc.equalsIgnoreCase(""))
 				sql.append(" AND (o.DocumentNo LIKE '%" + doc + "%' OR  i.DocumentNo LIKE '%" + doc + "%')");
-			if ( dateFrom != null ) {
+			if ( dateFrom != null && aDate) {
 				if ( dateTo != null && !dateTo.equals(dateFrom))
 					sql.append(" AND o.DateOrdered >= ? AND o.DateOrdered <= ?");						
 				else
 					sql.append(" AND o.DateOrdered = ? ");	
 			}
+			if (bPartner != null && !bPartner.equalsIgnoreCase(""))
+				sql.append(" AND (UPPER(b.name) LIKE '%" + bPartner + "%' OR UPPER(b.value) LIKE '%" + bPartner + "%' )");
 			//	Group By
-			sql.append(" GROUP BY o.C_Order_ID, o.DocumentNo, b.Name, o.GrandTotal, o.Processed, i.IsPaid ");
+			sql.append(" GROUP BY o.C_Order_ID, o.DocumentNo, dt.Name , b.Name, o.GrandTotal, o.Processed, i.IsPaid ");
 			sql.append(" ORDER BY o.Updated");
 			int i = 1;			
 			preparedStatement = DB.prepareStatement(sql.toString(), null);
@@ -248,7 +277,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 			//	Processed
 			preparedStatement.setString(i++, processed? "Y": "N");
 			//	Date From and To
-			if (dateFrom != null) {				
+			if (dateFrom != null && aDate) {				
 				preparedStatement.setDate(i++, dateFrom);
 				if (dateTo != null 
 						&& !dateTo.equals(dateFrom)) {
@@ -319,10 +348,8 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 			if(keyboard != null) {
 				
 				//	Set Title
-				keyboard.setTitle(Msg.translate(Env.getCtx(), "M_Product_ID"));
+				keyboard.setTitle(Msg.translate(Env.getCtx(), DOCUMENTNO).substring(1));
 				keyboard.setPosTextField(fieldDocumentNo);
-				keyboard.setWidth("750px");
-				keyboard.setHeight("380px");
 				AEnv.showWindow(keyboard);
 				
 				fieldDocumentNo.setFocus(true);
@@ -331,11 +358,29 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 		}
 		else if(e.getTarget().equals(fieldDocumentNo.getComponent(WPOSTextField.PRIMARY))) {
 			 isKeyboard = false;
+		}else if(e.getTarget().equals(fieldBPartner.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			isKeyboard = true;
+			//	Get Keyboard Panel
+			WPOSKeyboard keyboard = fieldBPartner.getKeyboard();
+			
+			if(keyboard != null) {
+				
+				//	Set Title
+				keyboard.setTitle(Msg.translate(Env.getCtx(), BPARTNERID));
+				keyboard.setPosTextField(fieldBPartner);
+				AEnv.showWindow(keyboard);
+				
+				fieldBPartner.setFocus(true);
+			}
+			refresh();
+		}
+		else if(e.getTarget().equals(fieldBPartner.getComponent(WPOSTextField.PRIMARY))) {
+			 isKeyboard = false;
 		}
 		else if(e.getTarget().getId().equals("Refresh")) {
 			refresh();
 		}
-		if ( e.getTarget().equals(fieldProcessed)
+		if ( e.getTarget().equals(fieldProcessed) || e.getTarget().equals(fieldAllowDate)
 				|| e.getTarget().equals(fieldDateTo) || e.getTarget().equals(fieldDateFrom)) {
 				refresh();
 				return;
@@ -354,6 +399,8 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	@Override
 	public void refresh() {
 		lockUI();
+		fieldDateTo.setEnabled(fieldAllowDate.isSelected());
+		fieldDateFrom.setEnabled(fieldAllowDate.isSelected());
 		if(fieldDateTo.getValue()!=null) {
 			dateTo = new Date(fieldDateTo.getValue().getTime());
 		}	
@@ -366,7 +413,8 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 		else {
 			dateFrom = null;
 		}
-		setResults(ctx, fieldProcessed.isSelected(), fieldDocumentNo.getText(), dateFrom, dateTo);
+		setResults(ctx, fieldProcessed.isSelected(), fieldDocumentNo.getText(), dateFrom, dateTo, 
+					fieldBPartner.getText().toUpperCase(), fieldAllowDate.isSelected());
 		unlockUI();
 	}
 

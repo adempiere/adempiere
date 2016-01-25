@@ -14,6 +14,7 @@
 
 package org.adempiere.pos.search;
 
+import java.awt.Cursor;
 import java.awt.event.WindowFocusListener;
 import java.math.BigDecimal;
 
@@ -221,9 +222,11 @@ public class QueryProduct extends POSQuery {
 	@Override
 	public void refresh() {
 		cleanValues();
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		setResults(MWarehousePrice.find (ctx,
 				priceListVersionId, warehouseId,
 				fieldValue.getText(), fieldProductName.getText(), fieldUPC.getText(), fieldSKU.getText(), null));
+		this.setCursor(Cursor.getDefaultCursor());
 	}
 	
 	@Override

@@ -81,24 +81,24 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		LayoutButton.setStyle("border:none");
 		row = rows.newRow();
 		row.setHeight("55px");
-		
-		
     	
 		buttonDelete = createButtonAction("Cancel", "Ctrl+F3");
+		buttonDelete.setTooltiptext("Ctrl+F3-"+Msg.translate(ctx, "DeleteLine"));
 		row.appendChild (buttonDelete);
 		
 		buttonPlus = createButtonAction("Plus", "Ctrl+1");
+		buttonPlus.setTooltiptext("Ctrl+0-"+Msg.translate(ctx, "add"));
 		row.appendChild(buttonPlus);
 		
 		buttonMinus = createButtonAction("Minus", "Ctrl+0");
 		row.appendChild(buttonMinus);
 
 		buttonUp = createButtonAction(ACTION_UP, "Alt+Up");
-		buttonUp.setTooltiptext(Msg.translate(ctx, "Previous"));
+		buttonUp.setTooltiptext("Alt+Up-"+Msg.translate(ctx, "Previous"));
 		row.appendChild (buttonUp);
 		
 		buttonDown = createButtonAction(ACTION_DOWN, "Alt+Down");
-		buttonDown.setTooltiptext(Msg.translate(ctx, "Next"));
+		buttonDown.setTooltiptext("Alt+Down-"+Msg.translate(ctx, "Next"));
 		row.appendChild (buttonDown);
 		
 		Label qtyLabel = new Label(Msg.translate(Env.getCtx(), "QtyOrdered"));

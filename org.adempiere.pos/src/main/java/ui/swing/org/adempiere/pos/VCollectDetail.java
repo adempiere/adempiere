@@ -41,6 +41,7 @@ import javax.swing.border.TitledBorder;
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.pos.service.CollectDetail;
 import org.adempiere.pos.service.I_POSPanel;
+import org.compiere.apps.ADialog;
 import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
@@ -420,9 +421,16 @@ public class VCollectDetail extends CollectDetail
 			throws PropertyVetoException {
 		String name = e.getPropertyName();
 		Object value = e.getNewValue();
+		String p_TenderType = getTenderType();
 		log.config(name + " = " + value);
 		//	Verify Event
 		if(e.getSource().equals(fPayAmt)){
+			BigDecimal payAmt = (BigDecimal)fPayAmt.getValue();
+			if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) && 
+					payAmt.compareTo(getOpenAmtCreditMemo()) > 0) {
+				ADialog.warn(1, null,  Msg.parseTranslation(p_ctx, "POS.MaxAmountAllowed")+":"+getOpenAmtCreditMemo());
+				fPayAmt.setValue(getOpenAmtCreditMemo());
+			}
 			setPayAmt((BigDecimal) fPayAmt.getValue());
 			v_Parent.refreshPanel();
 		} else if(name.equals("TenderType")) {
