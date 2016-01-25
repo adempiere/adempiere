@@ -37,6 +37,7 @@ import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.X_C_Payment;
@@ -526,6 +527,13 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 			setCreditCardType((String) fCCardType.getValue());
 		}
 		else {
+			String p_TenderType = getTenderType();
+			BigDecimal payAmt = (BigDecimal)fPayAmt.getValue();
+			if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) && 
+					payAmt.compareTo(getOpenAmtCreditMemo()) > 0) {
+				FDialog.warn(0, Msg.parseTranslation(p_ctx, "POS.MaxAmountAllowed")+":"+getOpenAmtCreditMemo());
+				fPayAmt.setValue(getOpenAmtCreditMemo());
+			}
 			setPayAmt((BigDecimal) fPayAmt.getValue());
 			v_Parent.refreshPanel();
 		}

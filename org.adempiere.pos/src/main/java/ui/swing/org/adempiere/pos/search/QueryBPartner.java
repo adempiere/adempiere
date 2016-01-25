@@ -14,6 +14,7 @@
 
 package org.adempiere.pos.search;
 
+import java.awt.Cursor;
 import java.awt.Frame;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -206,7 +207,9 @@ public class QueryBPartner extends POSQuery {
 				|| !(results instanceof MBPartnerInfo[]))
 			return;
 		//	
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		setResultsFromArray((MBPartnerInfo[]) results);
+		this.setCursor(Cursor.getDefaultCursor());
 	}
 	
 	/**
@@ -219,6 +222,8 @@ public class QueryBPartner extends POSQuery {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try  {
+
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			sql.append(" SELECT b.C_BPartner_ID, b.Value, b.Name, u.Email, u.Phone, l.Postal, lb.name AS City")
 				.append(" FROM C_BPartner AS b")
 				.append(" INNER JOIN AD_User u ON (u.C_BPartner_ID = b.C_BPartner_ID)")
@@ -243,6 +248,7 @@ public class QueryBPartner extends POSQuery {
 		} finally {
 			DB.close(resultSet);
 			DB.close(preparedStatement);
+			this.setCursor(Cursor.getDefaultCursor());
 		}
 
 	}
