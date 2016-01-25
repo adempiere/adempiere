@@ -74,7 +74,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	/**	Left Panel					*/
 	private CPanel 							leftPanel;
 	/** Order Panel					*/
-	private POSActionPanel actionPanel;
+	private POSActionPanel 					actionPanel;
 	/** Quantity panel 				*/
 	private POSQuantityPanel 				quantityPanel;
 	/**	Info Product Panel			*/
@@ -312,6 +312,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		setPOS(salesRep_ID);
 
 		if(getM_POS() != null) {
+			loadPriceListVersion(getM_POS().getM_PriceList_ID());
 			validLocator();
 			return;
 		}

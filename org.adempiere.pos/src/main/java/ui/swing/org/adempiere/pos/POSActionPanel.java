@@ -24,8 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.search.POSQuery;
@@ -42,11 +41,7 @@ import org.compiere.model.MWarehousePrice;
 import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CPanel;
-import org.compiere.util.CLogger;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.Trx;
-import org.compiere.util.TrxRunnable;
+import org.compiere.util.*;
 
 
 /**
@@ -94,6 +89,9 @@ public class POSActionPanel extends POSSubPanel
 	private CPanel 				buttonPanel;
 	/**	For Show BPartner	*/
 	private	POSTextField 		fieldProductName;
+	/** Find Product Timer **/
+	private javax.swing.Timer   findProductTimer;
+
 	/**	Padding				*/
 	private int 				topPadding;
 	private int 				bottonPadding;
@@ -200,10 +198,22 @@ public class POSActionPanel extends POSSubPanel
 		fieldProductName.setMinimumSize(new Dimension(250, posPanel.getFieldLenght()));
 		fieldProductName.setFocusable(true);
 
+		JComboBox<KeyNamePair> fillingComponent = new JComboBox<KeyNamePair>();
+		POSLookupProduct finder = new POSLookupProduct(this, fieldProductName, 0);
+		fieldProductName.addKeyListener(finder);
+		findProductTimer = new javax.swing.Timer(500,finder);
+		finder.setTimer(findProductTimer);
+		finder.setFillingComponent(fillingComponent);
+		finder.setPriceList_ID(posPanel.getM_PriceList_Version_ID());
+		findProductTimer.start();
+
 		//	Add Button Panel
 		add(buttonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 		add(fieldProductName, new GridBagConstraints(0, 1, 1, 1, 1, 1
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
+
+		add(fillingComponent, new GridBagConstraints(0, 2, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 
 		actionProcessMenu = new POSActionMenu(posPanel);
@@ -299,7 +309,7 @@ public class POSActionPanel extends POSSubPanel
 	/**************************************************************************
 	 * 	Find/Set Product & Price
 	 */
-	private void findProduct() {
+	public void findProduct() {
 		String query = fieldProductName.getText();
 		if (query == null || query.length() == 0)
 			return;
