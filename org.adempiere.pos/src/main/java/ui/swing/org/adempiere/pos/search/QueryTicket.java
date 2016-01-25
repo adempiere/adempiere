@@ -72,7 +72,9 @@ public class QueryTicket extends POSQuery {
 	private POSTextField 	fieldDocumentNo;
 	private VDate 			fieldDateFrom;
 	private VDate 			fieldDateTo;
+	private POSTextField	fieldBPartner;
 	private CCheckBox 		fieldProcessed;
+	private CCheckBox 		fieldAllowDate;
 	/**	Internal Variables	*/
 	private int 			orderId;
 	
@@ -84,6 +86,7 @@ public class QueryTicket extends POSQuery {
 	static final private String OPENAMT         = "OpenAmt";
 	static final private String PAID            = "IsPaid";
 	static final private String PROCESSED       = "Processed";
+	static final private String DATE	        = "Date";
 	static final private String INVOICED       	= "IsInvoiced";
 	static final private String DATEORDEREDFROM = "From";
 	static final private String DATEORDEREDTO   = "To";
@@ -126,6 +129,25 @@ public class QueryTicket extends POSQuery {
 		labelDateFrom.setLabelFor(fieldDateFrom);
 		parameterPanel.add(fieldDateFrom, "h 30, w 200");
 		fieldDateFrom.addVetoableChangeListener(this);
+	
+		
+		fieldAllowDate = new CCheckBox(Msg.translate(ctx, DATE));
+		fieldAllowDate.setSelected(false);
+		fieldAllowDate.addActionListener(this);
+		parameterPanel.add(fieldAllowDate, "wrap");
+		//	
+		posTable.prepareTable (columnInfos, "C_Order",
+				"C_POS_ID = " + posPanel.getC_POS_ID()
+				, false, "C_Order");
+		posTable.growScrollbars();
+		
+		// BPartner
+		CLabel labelBPartner = new CLabel(Msg.translate(ctx, BPARTNERID));
+		parameterPanel.add (labelBPartner, "growy");
+		fieldBPartner = new POSTextField("", posPanel.getKeyboard());
+		labelBPartner.setLabelFor(fieldBPartner);
+		parameterPanel.add(fieldBPartner, "h 30, w 200");
+		fieldBPartner.addActionListener(this);
 		
 		// Date To
 		CLabel labelDateTo = new CLabel(Msg.translate(ctx, DATEORDEREDTO));
@@ -135,17 +157,12 @@ public class QueryTicket extends POSQuery {
 		labelDateTo.setLabelFor(fieldDateTo);
 		parameterPanel.add(fieldDateTo, "h 30, w 200");
 		fieldDateTo.addVetoableChangeListener(this);
-		
+				
 		fieldProcessed = new CCheckBox(Msg.translate(ctx, PROCESSED));
 		fieldProcessed.setSelected(false);
 		fieldProcessed.addActionListener(this);
 		parameterPanel.add(fieldProcessed, "");
-		//	
-		posTable.prepareTable (columnInfos, "C_Order",
-				"C_POS_ID = " + posPanel.getC_POS_ID()
-				, false, "C_Order");
-		posTable.growScrollbars();
-
+		
 		SwingUtilities.invokeLater(new Runnable()
 		{
 			public void run() {
@@ -181,7 +198,7 @@ public class QueryTicket extends POSQuery {
 	 * 	Set/display Results
 	 *	@param results results
 	 */
-	public void setResultsFromArray(Properties ctx, boolean processed, String doc, Timestamp dateFrom, Timestamp dateTo) {
+	public void setResultsFromArray(Properties ctx, boolean processed, String doc, Timestamp dateFrom, Timestamp dateTo, String bPartner, boolean aDate) {
 		StringBuffer sql = new StringBuffer();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -203,12 +220,14 @@ public class QueryTicket extends POSQuery {
 				.append(" AND o.Processed= ?");
 			if (doc != null && !doc.equalsIgnoreCase(""))
 				sql.append(" AND (o.DocumentNo LIKE '%" + doc + "%' OR  i.DocumentNo LIKE '%" + doc + "%')");
-			if ( dateFrom != null ) {
+			if ( dateFrom != null && aDate) {
 				if ( dateTo != null && !dateTo.equals(dateFrom))
 					sql.append(" AND o.DateOrdered >= ? AND o.DateOrdered <= ?");						
 				else
 					sql.append(" AND o.DateOrdered = ? ");	
 			}
+			if (bPartner != null && !bPartner.equalsIgnoreCase(""))
+				sql.append(" AND (UPPER(b.name) LIKE '%" + bPartner + "%')");
 			//	Group By
 			sql.append(" GROUP BY o.C_Order_ID, o.DocumentNo, dt.Name , b.Name, o.GrandTotal, o.Processed, i.IsPaid ");
 			sql.append(" ORDER BY o.Updated");
@@ -219,7 +238,7 @@ public class QueryTicket extends POSQuery {
 			//	Processed
 			preparedStatement.setString(i++, processed? "Y": "N");
 			//	Date From and To
-			if (dateFrom != null) {				
+			if (dateFrom != null && aDate) {				
 				preparedStatement.setTimestamp(i++, dateFrom);
 				if (dateTo != null 
 						&& !dateTo.equals(dateFrom)) {
@@ -276,8 +295,11 @@ public class QueryTicket extends POSQuery {
 	@Override
 	public void refresh() {
 		cleanValues();
+			fieldDateTo.setEnabled(fieldAllowDate.isSelected());
+			fieldDateFrom.setEnabled(fieldAllowDate.isSelected());
 		setResultsFromArray(ctx, fieldProcessed.isSelected(), fieldDocumentNo.getText(),
-				fieldDateFrom.getTimestamp(), fieldDateTo.getTimestamp());
+				fieldDateFrom.getTimestamp(), fieldDateTo.getTimestamp(), fieldBPartner.getText().toUpperCase(), fieldAllowDate.isSelected());
+		
 	}
 	
 	@Override
