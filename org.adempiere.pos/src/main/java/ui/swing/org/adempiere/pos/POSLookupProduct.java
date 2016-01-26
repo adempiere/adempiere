@@ -1,3 +1,19 @@
+/** ****************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
+ * Contributor(s): Victor Perez www.e-evolution.com                           *
+ * ****************************************************************************/
+
 package org.adempiere.pos;
 
 import org.adempiere.util.StringUtils;
@@ -16,7 +32,8 @@ import java.sql.ResultSet;
 import java.util.Arrays;
 
 /**
- * Created by e-Evolution on 24/01/16.
+ * Component allows to show product lookup search key , name , quantity available , price standard and price list
+ * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 24/01/16.
  */
 public class POSLookupProduct implements ActionListener, KeyListener {
 
@@ -30,12 +47,16 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     private Integer priceListVersionId = 0;
     private Integer warehouseId = 0;
     private String fill = StringUtils.repeat(" " , 400);
+    static private Integer PRODUCT_VALUE_LENGTH = 14;
+    static private Integer PRODUCT_NAME_LENGTH = 50;
+    static private Integer QUNATITY_LENGTH = 16;
+
     private String separator = "|";
-    private String productValueTitle   = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@ProductValue@") + fill , 14 );
-    private String productTitle        = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@M_Product_ID@") + fill , 40 );
-    private String onHandTitle         = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@QtyOnHand@")    + fill , 18 );
-    private String priceStdTitle       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceStd@")     + fill , 18 );
-    private String priceListTile       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceList@")    + fill , 18 );
+    private String productValueTitle   = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@ProductValue@") + fill , PRODUCT_VALUE_LENGTH );
+    private String productTitle        = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@M_Product_ID@") + fill , PRODUCT_NAME_LENGTH );
+    private String availableTitle      = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@QtyAvailable@") + fill , QUNATITY_LENGTH );
+    private String priceStdTitle       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceStd@")     + fill , QUNATITY_LENGTH );
+    private String priceListTile       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceList@")    + fill , QUNATITY_LENGTH );
     private String title = "";
 
 
@@ -68,7 +89,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         this.title = new StringBuffer()
                 .append(productValueTitle).append(separator)
                 .append(productTitle).append(separator)
-                .append(onHandTitle).append(separator)
+                .append(availableTitle).append(separator)
                 .append(priceStdTitle).append(separator)
                 .append(priceListTile).toString();
         component.addItem(new KeyNamePair(0, this.title));
@@ -145,7 +166,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     {
         component.hidePopup();
 
-        String sql = "SELECT p.M_Product_ID, p.Value, p.Name  , bomqtyonhand(p.M_Product_ID, ? , 0 ) AS QtyOnhand , pp.pricestd , pp.pricelist "
+        String sql = "SELECT p.M_Product_ID, p.Value, p.Name  , BomQtyAvailable(p.M_Product_ID, ? , 0 ) AS QtyAvailable , pp.pricestd , pp.pricelist "
                 + " FROM M_Product p "
                 + " INNER JOIN M_ProductPrice pp ON (p.M_Product_ID=pp.M_Product_ID)"
                 + " WHERE pp.M_Product_ID = p.M_Product_ID "
@@ -172,15 +193,15 @@ public class POSLookupProduct implements ActionListener, KeyListener {
                 Integer productId = rs.getInt(1);
                 String productValue = rs.getString(2).trim();
                 String productName = rs.getString(3).trim();
-                String qtyOnhand = rs.getBigDecimal(4).toString().trim();
+                String qtyAvailable = rs.getBigDecimal(4).toString().trim();
                 String priceStd = rs.getBigDecimal(5).toString().trim();
                 String priceList = rs.getBigDecimal(6).toString().trim();
                 String line = new StringBuilder()
-                        .append(StringUtils.trunc(productValue + fill , 14 )).append(separator)
-                        .append(StringUtils.trunc(productName + fill , 40 )).append(separator)
-                        .append(StringUtils.trunc(qtyOnhand + fill , 18)).append(separator)
-                        .append(StringUtils.trunc(priceStd + fill, 18 )).append(separator)
-                        .append(StringUtils.trunc(priceList + fill, 18 )).toString();
+                        .append(StringUtils.trunc(productValue + fill , PRODUCT_VALUE_LENGTH )).append(separator)
+                        .append(StringUtils.trunc(productName + fill , PRODUCT_NAME_LENGTH )).append(separator)
+                        .append(StringUtils.trunc(qtyAvailable + fill , QUNATITY_LENGTH)).append(separator)
+                        .append(StringUtils.trunc(priceStd + fill, QUNATITY_LENGTH )).append(separator)
+                        .append(StringUtils.trunc(priceList + fill, QUNATITY_LENGTH )).toString();
                 component.addItem(new KeyNamePair(productId, line));
             }
 

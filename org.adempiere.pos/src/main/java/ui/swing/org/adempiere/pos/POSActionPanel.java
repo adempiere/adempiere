@@ -94,7 +94,7 @@ public class POSActionPanel extends POSSubPanel
 	private	POSTextField 		fieldProductName;
 	/** Find Product Timer **/
 	private javax.swing.Timer   findProductTimer;
-	private POSLookupProduct 			finder;
+	private POSLookupProduct 	lookupProduct;
 
 	/**	Padding				*/
 	private int 				topPadding;
@@ -211,26 +211,28 @@ public class POSActionPanel extends POSSubPanel
 		fieldProductName.setMinimumSize(new Dimension(250, posPanel.getFieldLenght()));
 		fieldProductName.setFocusable(true);
 
-		JComboBox<KeyNamePair> fillingComponent = new JComboBox<KeyNamePair>();
-		Font font = new Font("monospaced", Font.PLAIN, 14);
-		fillingComponent.setFont(font);
-		finder = new POSLookupProduct(this, fieldProductName, 0);
-		fieldProductName.addKeyListener(finder);
-		findProductTimer = new javax.swing.Timer(500,finder);
-		finder.setTimer(findProductTimer);
-		finder.setFillingComponent(fillingComponent);
-		finder.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
-		finder.setWarehouseId(posPanel.getM_Warehouse_ID());
-		findProductTimer.start();
-
 		//	Add Button Panel
 		add(buttonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 		add(fieldProductName, new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 
-		add(fillingComponent, new GridBagConstraints(0, 2, 1, 1, 1, 1
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 20), 0, 0));
+		if (posPanel.isEnableProductLookup()) {
+			JComboBox<KeyNamePair> fillingComponent = new JComboBox<KeyNamePair>();
+			Font font = new Font("monospaced", Font.PLAIN, 14);
+			fillingComponent.setFont(font);
+			lookupProduct = new POSLookupProduct(this, fieldProductName, 0);
+			fieldProductName.addKeyListener(lookupProduct);
+			findProductTimer = new javax.swing.Timer(500, lookupProduct);
+			lookupProduct.setTimer(findProductTimer);
+			lookupProduct.setFillingComponent(fillingComponent);
+			lookupProduct.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
+			lookupProduct.setWarehouseId(posPanel.getM_Warehouse_ID());
+			findProductTimer.start();
+
+			add(fillingComponent, new GridBagConstraints(0, 2, 1, 1, 1, 1
+					, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 20), 0, 0));
+		}
 
 		actionProcessMenu = new POSActionMenu(posPanel);
 		posPanel.listOrder();
@@ -294,6 +296,7 @@ public class POSActionPanel extends POSSubPanel
 				} else if (e.getSource().equals(buttonCollect)) {
 					payOrder();
 				} else if (e.getSource().equals(buttonCancel)) {
+					posPanel.isRequiredUserPIN();
 					deleteOrder();
 				} else if (e.getSource().equals(buttonLogout)) {	//	Logout
 					posPanel.dispose();
@@ -543,8 +546,11 @@ public class POSActionPanel extends POSSubPanel
 	@Override
 	public void changeViewPanel() {
 		if(posPanel.hasOrder()) {
-			finder.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
-			finder.setWarehouseId(posPanel.getM_Warehouse_ID());
+			if (lookupProduct != null && posPanel.isEnableProductLookup()) {
+				lookupProduct.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
+				lookupProduct.setWarehouseId(posPanel.getM_Warehouse_ID());
+			}
+
 			//	For Next
 			buttonNext.setEnabled(!posPanel.isLastRecord() && posPanel.hasRecord());
 			//	For Back
@@ -588,31 +594,38 @@ public class POSActionPanel extends POSSubPanel
 
 	@Override
 	public void okAction(I_POSQuery query) {
-		if (query.getRecord_ID() <= 0)
-			return;
-		//	For Ticket
-		if(query instanceof QueryOrderHistory) {
-			posPanel.setOrder(query.getRecord_ID());
-			posPanel.reloadIndex(query.getRecord_ID());
-		} else if(query instanceof QueryBPartner) {
-			if(!posPanel.hasOrder()) {
-				posPanel.newOrder(query.getRecord_ID());
-			} else {
-				posPanel.setC_BPartner_ID(query.getRecord_ID());
+		try
+		{
+			if (query.getRecord_ID() <= 0)
+				return;
+			//	For Ticket
+			if(query instanceof QueryOrderHistory) {
+				posPanel.setOrder(query.getRecord_ID());
+				posPanel.reloadIndex(query.getRecord_ID());
+			} else if(query instanceof QueryBPartner) {
+				if(!posPanel.hasOrder()) {
+					posPanel.newOrder(query.getRecord_ID());
+				} else {
+					posPanel.setC_BPartner_ID(query.getRecord_ID());
+				}
+				//
+				logger.fine("C_BPartner_ID=" + query.getRecord_ID());
+			} else if(query instanceof QueryProduct) {
+				if (query.getRecord_ID() > 0) {
+					posPanel.addLine(query.getRecord_ID(), Env.ONE);
+				}
+			} else if(query instanceof QueryDocType) {
+				if (query.getRecord_ID() > 0) {
+					posPanel.setC_DocType_ID(query.getRecord_ID());
+				}
 			}
-			//	
-			logger.fine("C_BPartner_ID=" + query.getRecord_ID());
-		} else if(query instanceof QueryProduct) {
-			if (query.getRecord_ID() > 0) {
-				posPanel.addLine(query.getRecord_ID(), Env.ONE);
-			}
-		} else if(query instanceof QueryDocType) {
-			if (query.getRecord_ID() > 0) {
-				posPanel.setC_DocType_ID(query.getRecord_ID());
-			}
+			//	Refresh
+			posPanel.refreshPanel();
 		}
-		//	Refresh
-		posPanel.refreshPanel();
+		catch (AdempiereException exception) {
+			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
+		}
+
 	}
 
 	@Override

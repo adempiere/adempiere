@@ -38,6 +38,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.Timer;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.I_POSPanel;
@@ -197,23 +198,27 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 				long lastMouseMove  = System.currentTimeMillis();
 				long lastKeyboardEvent = System.currentTimeMillis();
 				public void actionPerformed(ActionEvent e) {
-					long now = e.getWhen();
-					PointerInfo newPi = MouseInfo.getPointerInfo();
-					// mouse moved
-					if ( newPi != null && pi != null 
-							&& !pi.getLocation().equals(newPi.getLocation())) {
-						lastMouseMove = now;
-					}
-					pi = newPi;
+					try {
+						long now = e.getWhen();
+						PointerInfo newPi = MouseInfo.getPointerInfo();
+						// mouse moved
+						if (newPi != null && pi != null
+								&& !pi.getLocation().equals(newPi.getLocation())) {
+							lastMouseMove = now;
+						}
+						pi = newPi;
 
-					if (isVirtualKeyboard())
-						lastKeyboardEvent = focusManager.getLastWhen();
-					else
-						lastKeyboardEvent = 0;
+						if (isVirtualKeyboard())
+							lastKeyboardEvent = focusManager.getLastWhen();
+						else
+							lastKeyboardEvent = 0;
 
-					if (getAutoLogoutDelay()*1000 
-							< now - Math.max(lastKeyboardEvent, lastMouseMove)) {
-					//	new PosLogin(this);
+						if (getAutoLogoutDelay() * 1000
+								< now - Math.max(lastKeyboardEvent, lastMouseMove)) {
+							//	new PosLogin(this);
+						}
+					} catch (AdempiereException exception) {
+							ADialog.error(getWindowNo(), getFrame() , exception.getLocalizedMessage());
 					}
 				}
 			});
@@ -312,7 +317,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		setPOS(salesRep_ID);
 
 		if(getM_POS() != null) {
-			loadPriceListVersion(getM_POS().getM_PriceList_ID());
 			validLocator();
 			return;
 		}
@@ -325,7 +329,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 		if (selection != null) {
 			setM_POS((MPOS)selection);
-			loadPriceListVersion(getM_POS().getM_PriceList_ID());
 			validLocator();
 		}
 	}
@@ -524,6 +527,15 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		orderLinePanel.changeViewPanel();
 		quantityPanel.changeViewPanel();
 		quantityPanel.refreshPanel();
+	}
+
+	public void isRequiredUserPIN()
+	{
+		if (isPOSRequiredPIN()) {
+			/** POS Required PIN			*/
+			POSPasswordPin posPasswordPin = new POSPasswordPin();
+			super.validateUserPin(posPasswordPin.getUserPin());
+		}
 	}
 
 	/**

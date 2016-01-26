@@ -29,7 +29,9 @@ import java.math.BigDecimal;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.service.I_POSPanel;
+import org.compiere.apps.ADialog;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.MOrder;
 import org.compiere.swing.CButton;
@@ -164,41 +166,42 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 	 *	@param e event
 	 */
 	public void actionPerformed (ActionEvent e) {
+		try {
+			if (e.getSource().equals(buttonUp)) {
+				posPanel.moveUp();
+				return;
+			} else if (e.getSource().equals(buttonDown)) {
+				posPanel.moveDown();
+				return;
+			}
+			if (e.getSource().equals(buttonMinus)) {
+				fieldQuantity.setValue(((BigDecimal) fieldQuantity.getValue()).subtract(Env.ONE));
+			} else if (e.getSource().equals(buttonPlus)) {
+				fieldQuantity.setValue(((BigDecimal) fieldQuantity.getValue()).add(Env.ONE));
+			} else if (e.getSource().equals(buttonDelete)) {
+				posPanel.isRequiredUserPIN();
+				posPanel.deleteLine(posPanel.getC_OrderLine_ID());
+				fieldQuantity.setValue(0.0);
+				fieldPrice.setValue(0.0);
+				fieldDiscountPercentage.setValue(0.0);
+			}
 
-		if (e.getSource().equals(buttonUp)){
-			posPanel.moveUp();
-			return;
-		}
-		else if (e.getSource().equals(buttonDown)){
-			posPanel.moveDown();
-			return;
-		}
-		if (e.getSource().equals(buttonMinus)){
-			fieldQuantity.setValue(((BigDecimal) fieldQuantity.getValue()).subtract(Env.ONE));
-		}
-		else if (e.getSource().equals(buttonPlus)){
-			fieldQuantity.setValue(((BigDecimal) fieldQuantity.getValue()).add(Env.ONE));
-		}
-		else if (e.getSource().equals(buttonDelete)) {
-			posPanel.deleteLine(posPanel.getC_OrderLine_ID());
-			fieldQuantity.setValue(0.0);
-			fieldPrice.setValue(0.0);
-			fieldDiscountPercentage.setValue(0.0);
-		}
+			BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
+			BigDecimal price = (BigDecimal) fieldPrice.getValue();
+			BigDecimal discountPercentage = (BigDecimal) fieldDiscountPercentage.getValue();
 
-		BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
-		BigDecimal price = (BigDecimal) fieldPrice.getValue();
-		BigDecimal discountPercentage = (BigDecimal) fieldDiscountPercentage.getValue();
-
-		if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged() 
-				&& (e.getSource().equals(fieldQuantity) || e.getSource().equals(buttonDelete) || e.getSource().equals(buttonPlus) || e.getSource().equals(buttonMinus)))
-		|| 	(posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getSource().equals(fieldPrice))
-		|| 	(posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getSource().equals(fieldDiscountPercentage))) {
-			posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
-			posPanel.setPrice((BigDecimal) fieldPrice.getValue());
-			posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
-			posPanel.changeViewQuantityPanel();
-			posPanel.updateLineTable();
+			if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged()
+					&& (e.getSource().equals(fieldQuantity) || e.getSource().equals(buttonDelete) || e.getSource().equals(buttonPlus) || e.getSource().equals(buttonMinus)))
+					|| (posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getSource().equals(fieldPrice))
+					|| (posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getSource().equals(fieldDiscountPercentage))) {
+				posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
+				posPanel.setPrice((BigDecimal) fieldPrice.getValue());
+				posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
+				posPanel.changeViewQuantityPanel();
+				posPanel.updateLineTable();
+			}
+		} catch (AdempiereException exception) {
+			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
 	}
 
@@ -214,9 +217,11 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 				buttonDelete.setEnabled(true);
 				buttonPlus.setEnabled(true);
 				buttonMinus.setEnabled(true);
-				fieldPrice.setEnabled(true);
 				fieldQuantity.setEnabled(true);
-				fieldDiscountPercentage.setEnabled(true);
+				if (posPanel.isModifyPrice()) {
+					fieldPrice.setEnabled(true);
+					fieldDiscountPercentage.setEnabled(true);
+				}
 			}else {
 				buttonDelete.setEnabled(false);
 				buttonPlus.setEnabled(false);
