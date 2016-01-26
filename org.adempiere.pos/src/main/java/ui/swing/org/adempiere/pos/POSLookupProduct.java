@@ -23,10 +23,12 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 
 import javax.swing.JComboBox;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Arrays;
@@ -194,8 +196,8 @@ public class POSLookupProduct implements ActionListener, KeyListener {
                 String productValue = rs.getString(2).trim();
                 String productName = rs.getString(3).trim();
                 String qtyAvailable = rs.getBigDecimal(4).toString().trim();
-                String priceStd = rs.getBigDecimal(5).toString().trim();
-                String priceList = rs.getBigDecimal(6).toString().trim();
+                String priceStd = rs.getBigDecimal(5).setScale(2, BigDecimal.ROUND_UP).toString().trim();
+                String priceList = rs.getBigDecimal(6).setScale(2, BigDecimal.ROUND_UP).toString().trim();
                 String line = new StringBuilder()
                         .append(StringUtils.trunc(productValue + fill , PRODUCT_VALUE_LENGTH )).append(separator)
                         .append(StringUtils.trunc(productName + fill , PRODUCT_NAME_LENGTH )).append(separator)
