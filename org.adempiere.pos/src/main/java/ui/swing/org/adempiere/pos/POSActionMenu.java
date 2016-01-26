@@ -17,6 +17,7 @@
 
 package org.adempiere.pos;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.command.CommandManager;
 import org.adempiere.pos.command.Command;
 import org.adempiere.pos.command.CommandReceiver;
@@ -74,9 +75,13 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        try {
         popupMenu.setVisible(false);
         Command command = commandManager.getCommand(actionEvent.getActionCommand());
         beforeExecutionProcess(command);
+        } catch (AdempiereException exception) {
+            ADialog.error(pos.getWindowNo(), pos.getFrame() , exception.getLocalizedMessage());
+        }
     }
 
     private void beforeExecutionProcess(Command commandAction) throws AdempierePOSException
