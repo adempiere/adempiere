@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_POS
  *  @author Adempiere (generated) 
- *  @version Release 3.7.0LTS
+ *  @version Release 3.8.0
  */
 public interface I_C_POS 
 {
@@ -62,8 +62,6 @@ public interface I_C_POS
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Sequence_ID */
-
     /** Column name AutoLogoutDelay */
     public static final String COLUMNNAME_AutoLogoutDelay = "AutoLogoutDelay";
 
@@ -76,19 +74,6 @@ public interface I_C_POS
 	  * Automatically logout if terminal inactive for this period
 	  */
 	public int getAutoLogoutDelay();
-    public static final String COLUMNNAME_AD_Sequence_ID = "AD_Sequence_ID";
-
-	/** Set Sequence.
-	  * Document Sequence
-	  */
-	public void setAD_Sequence_ID (int AD_Sequence_ID);
-
-	/** Get Sequence.
-	  * Document Sequence
-	  */
-	public int getAD_Sequence_ID();
-
-	public I_AD_Sequence getAD_Sequence() throws RuntimeException;
 
     /** Column name CashDrawer */
     public static final String COLUMNNAME_CashDrawer = "CashDrawer";
@@ -157,8 +142,8 @@ public interface I_C_POS
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
-	
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
+
     /** Column name C_POS_ID */
     public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
 
@@ -242,6 +227,19 @@ public interface I_C_POS
 	  */
 	public boolean isActive();
 
+    /** Column name IsEnableProductLookup */
+    public static final String COLUMNNAME_IsEnableProductLookup = "IsEnableProductLookup";
+
+	/** Set Enable POS Product Lookup.
+	  * Allows product lookup in order to show search key , name , quantity available , standard price and list price for selecting a product
+	  */
+	public void setIsEnableProductLookup (boolean IsEnableProductLookup);
+
+	/** Get Enable POS Product Lookup.
+	  * Allows product lookup in order to show search key , name , quantity available , standard price and list price for selecting a product
+	  */
+	public boolean isEnableProductLookup();
+
     /** Column name IsModifyPrice */
     public static final String COLUMNNAME_IsModifyPrice = "IsModifyPrice";
 
@@ -254,6 +252,19 @@ public interface I_C_POS
 	  * Allow modifying the price
 	  */
 	public boolean isModifyPrice();
+
+    /** Column name IsPOSRequiredPIN */
+    public static final String COLUMNNAME_IsPOSRequiredPIN = "IsPOSRequiredPIN";
+
+	/** Set POS Required PIN.
+	  * Indicates that a Supervisor Pin is mandatory to execute some tasks e.g. (Change Price , Offer Discount , Delete POS Line)
+	  */
+	public void setIsPOSRequiredPIN (boolean IsPOSRequiredPIN);
+
+	/** Get POS Required PIN.
+	  * Indicates that a Supervisor Pin is mandatory to execute some tasks e.g. (Change Price , Offer Discount , Delete POS Line)
+	  */
+	public boolean isPOSRequiredPIN();
 
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
@@ -268,18 +279,7 @@ public interface I_C_POS
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException;
-
-    /** Column name M_PriceListWholesale_ID */
-    public static final String COLUMNNAME_M_PriceListWholesale_ID = "M_PriceListWholesale_ID";
-
-	/** Set M_PriceListWholesale_ID	  */
-	public void setM_PriceListWholesale_ID (int M_PriceListWholesale_ID);
-
-	/** Get M_PriceListWholesale_ID	  */
-	public int getM_PriceListWholesale_ID();
-
-	public I_M_PriceList getM_PriceListWholesale() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -294,7 +294,7 @@ public interface I_C_POS
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
