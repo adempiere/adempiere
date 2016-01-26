@@ -54,7 +54,7 @@ import org.zkoss.zul.Groupbox;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WQueryTicket extends WPOSQuery implements I_POSQuery
+public class WQueryOrderHistory extends WPOSQuery implements I_POSQuery
 {
 	/**
 	 * 
@@ -63,7 +63,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryTicket (WPOS posPanel)
+	public WQueryOrderHistory (WPOS posPanel)
 	{
 		super(posPanel);
 	}	//	PosQueryProduct
