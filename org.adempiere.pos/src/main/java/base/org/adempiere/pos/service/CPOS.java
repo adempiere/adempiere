@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
 import org.adempiere.util.ProcessUtil;
+import org.compiere.model.I_AD_User;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
@@ -161,7 +162,10 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getAD_Sequence_ID() {
-		return entityPOS.getAD_Sequence_ID();
+		if (entityPOS.getC_DocType_ID() > 0)
+			return entityPOS.getC_DocType().getDocNoSequence_ID();
+		else
+			throw new AdempierePOSException("@C_POS_ID@ @C_DocType_ID @NotFound@");
 	}
 	
 	/**
@@ -482,7 +486,7 @@ public class CPOS {
 	 *	@return AD_User_ID
 	 */
 	public int getAD_User_ID () {
-		return 0;
+		return Env.getAD_User_ID(Env.getCtx());
 	}	//	getAD_User_ID
 	
 	/**
@@ -549,7 +553,24 @@ public class CPOS {
 	public int getC_POS_ID() {
 		return entityPOS.getC_POS_ID();
 	}
-	
+
+
+	/**
+	 * Is Enable Product Lookup
+	 * @return
+     */
+	public boolean isEnableProductLookup() {
+		return entityPOS.isEnableProductLookup();
+	}
+
+	/**
+	 * Is POS Required PIN
+	 * @return
+     */
+	public boolean isPOSRequiredPIN(){
+		return entityPOS.isPOSRequiredPIN();
+	}
+
 	/**
 	 * 	New Order
 	 *  @param partnerId
@@ -602,6 +623,7 @@ public class CPOS {
 		}
 		currentOrder.setAD_Org_ID(entityPOS.getAD_Org_ID());
 		currentOrder.setIsSOTrx(true);
+		currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
 		currentOrder.setC_POS_ID(entityPOS.getC_POS_ID());
 		currentOrder.setM_Warehouse_ID(entityPOS.getM_Warehouse_ID());
 		if (docTypeTargetId != 0) {
@@ -690,8 +712,6 @@ public class CPOS {
 			}
 			//	Validate Same BPartner
 			if(isSamePOSPartner) {
-				if(currentOrder.getM_PriceList_ID()==0)
-					currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
 				if(currentOrder.getPaymentRule()==null)
 					currentOrder.setPaymentRule(MOrder.PAYMENTRULE_Cash);
 			}
@@ -1128,7 +1148,7 @@ public class CPOS {
 	 * For status "Completed": do nothing as it can be pre payment or payment on credit
 	 * @param trxName
 	 * @param isPrepayment
-	 * @param p_IsPaid
+	 * @param isPaid
 	 * @return true if order processed or pre payment/on credit; otherwise false
 	 * 
 	 */
@@ -1698,7 +1718,7 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getSequenceDoc(String trxName){
-		documentSequence = new MSequence(Env.getCtx(), entityPOS.getAD_Sequence_ID(), trxName);
+		documentSequence = new MSequence(Env.getCtx(), getAD_Sequence_ID() , trxName);
 		return documentSequence.getPrefix() + documentSequence.getCurrentNext();
 	}
 	
@@ -1726,7 +1746,7 @@ public class CPOS {
 
 	/**
 	 * Set Quantity of Product
-	 * @param m_qty
+	 * @param qty
 	 */
 	public void setQuantity(BigDecimal qty) {
 		this.quantity = qty;
@@ -1852,5 +1872,22 @@ public class CPOS {
 				+ "FROM C_OrderLine ol "
 				+ "WHERE ol.C_OrderLine_ID = ?", orderLineId);
 
+	}
+
+	/**
+	 * Validate User PIN
+	 * @param userPin
+     */
+	public void validateUserPin(String userPin)
+	{
+		MUser user = MUser.get(getCtx() ,getAD_User_ID());
+		I_AD_User supervior = user.getSupervisor();
+		if (supervior == null || supervior.getAD_User_ID() <= 0)
+			throw new AdempierePOSException("@Supervisor@ @NotFound@");
+		if (supervior.getUserPIN() == null || supervior.getUserPIN().isEmpty())
+			throw new AdempierePOSException("@Supervisor@ " + supervior.getName() + " @NotFound@ @UserPIN@");
+		else if (supervior.getUserPIN().compareTo(userPin) != 0)
+			throw new AdempierePOSException("@UserPIN@ @NotFound@");
+		return;
 	}
 }
