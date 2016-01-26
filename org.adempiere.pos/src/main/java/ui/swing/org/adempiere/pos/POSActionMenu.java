@@ -96,9 +96,8 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 queryPartner.setModal(true);
                 queryPartner.addOptionListener(this);
                 queryPartner.showView();
+                return;
             }
-                executeProcess(commandAction);
-            return;
         }
 
         if (commandAction.getCommand() == CommandManager.GENERATE_RETURN)

@@ -17,6 +17,7 @@ package org.adempiere.pos;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Event;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -24,7 +25,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import javax.swing.*;
+import javax.swing.JComboBox;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.search.POSQuery;
@@ -91,6 +94,7 @@ public class POSActionPanel extends POSSubPanel
 	private	POSTextField 		fieldProductName;
 	/** Find Product Timer **/
 	private javax.swing.Timer   findProductTimer;
+	private POSLookupProduct 			finder;
 
 	/**	Padding				*/
 	private int 				topPadding;
@@ -208,12 +212,15 @@ public class POSActionPanel extends POSSubPanel
 		fieldProductName.setFocusable(true);
 
 		JComboBox<KeyNamePair> fillingComponent = new JComboBox<KeyNamePair>();
-		POSLookupProduct finder = new POSLookupProduct(this, fieldProductName, 0);
+		Font font = new Font("monospaced", Font.PLAIN, 14);
+		fillingComponent.setFont(font);
+		finder = new POSLookupProduct(this, fieldProductName, 0);
 		fieldProductName.addKeyListener(finder);
 		findProductTimer = new javax.swing.Timer(500,finder);
 		finder.setTimer(findProductTimer);
 		finder.setFillingComponent(fillingComponent);
-		finder.setPriceList_ID(posPanel.getM_PriceList_Version_ID());
+		finder.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
+		finder.setWarehouseId(posPanel.getM_Warehouse_ID());
 		findProductTimer.start();
 
 		//	Add Button Panel
@@ -223,7 +230,7 @@ public class POSActionPanel extends POSSubPanel
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 
 		add(fillingComponent, new GridBagConstraints(0, 2, 1, 1, 1, 1
-				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
+				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 20), 0, 0));
 
 		actionProcessMenu = new POSActionMenu(posPanel);
 		posPanel.listOrder();
@@ -536,6 +543,8 @@ public class POSActionPanel extends POSSubPanel
 	@Override
 	public void changeViewPanel() {
 		if(posPanel.hasOrder()) {
+			finder.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
+			finder.setWarehouseId(posPanel.getM_Warehouse_ID());
 			//	For Next
 			buttonNext.setEnabled(!posPanel.isLastRecord() && posPanel.hasRecord());
 			//	For Back
