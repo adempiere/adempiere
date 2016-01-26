@@ -22,7 +22,7 @@ import java.io.StringWriter;
 import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.search.WQueryDocType;
 import org.adempiere.pos.search.WQueryProduct;
-import org.adempiere.pos.search.WQueryTicket;
+import org.adempiere.pos.search.WQueryOrderHistory;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
@@ -355,7 +355,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	}
 	
 	private void openHistory() { 
-		WQueryTicket qt = new WQueryTicket(posPanel);
+		WQueryOrderHistory qt = new WQueryOrderHistory(posPanel);
 		qt.setVisible(true);
 		AEnv.showWindow(qt);
 		posPanel.reloadIndex(qt.getRecord_ID());
@@ -614,7 +614,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		if (query.getRecord_ID() <= 0)
 			return;
 		//	For Ticket
-		if(query instanceof WQueryTicket) {
+		if(query instanceof WQueryOrderHistory) {
 			posPanel.setOrder(query.getRecord_ID());
 			posPanel.reloadIndex(query.getRecord_ID());
 		} else if(query instanceof WQueryBPartner) {

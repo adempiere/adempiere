@@ -57,7 +57,7 @@ import org.compiere.util.Msg;
  * 
  */
 
-public class QueryTicket extends POSQuery {
+public class QueryOrderHistory extends POSQuery {
 	/**
 	 * 
 	 */
@@ -65,7 +65,7 @@ public class QueryTicket extends POSQuery {
 	/**
 	 * 	Constructor
 	 */
-	public QueryTicket (VPOS posPanel) {
+	public QueryOrderHistory (VPOS posPanel) {
 		super(posPanel);
 	}	//	PosQueryProduct
 
