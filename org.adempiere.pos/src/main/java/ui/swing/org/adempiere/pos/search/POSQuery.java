@@ -102,7 +102,7 @@ public abstract class POSQuery extends CDialog
 	private StatusBar statusBar;
 	
 	/**	Logger			*/
-	protected static CLogger logger = CLogger.getCLogger(QueryTicket.class);
+	protected static CLogger logger = CLogger.getCLogger(QueryOrderHistory.class);
 	/**	Listener		*/
 	private POSQueryListener listener;
 	/**	Default Width	*/

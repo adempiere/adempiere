@@ -54,7 +54,7 @@ import org.zkoss.zul.Groupbox;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WQueryTicket extends WPOSQuery implements I_POSQuery
+public class WQueryOrderHistory extends WPOSQuery implements I_POSQuery
 {
 	/**
 	 * 
@@ -63,7 +63,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	/**
 	 * 	Constructor
 	 */
-	public WQueryTicket (WPOS posPanel)
+	public WQueryOrderHistory (WPOS posPanel)
 	{
 		super(posPanel);
 	}	//	PosQueryProduct
@@ -82,7 +82,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	private boolean			isKeyboard;
 	
 	static final private String DOCUMENTNO      = "DocumentNo";
-	static final private String TYPE		    = "C_DocType_ID";
+	static final private String DOCTYPE         = "C_DocType_ID";  // Just display of column name. The actual doctype will be target doctype
 	static final private String BPARTNERID      = "C_BPartner_ID";
 	static final private String GRANDTOTAL      = "GrandTotal";
 	static final private String OPENAMT         = "OpenAmt";
@@ -99,7 +99,7 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 	private static ColumnInfo[] columnInfos = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_Order_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DOCUMENTNO), DOCUMENTNO, String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), TYPE), TYPE, String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), DOCTYPE), DOCTYPE, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), BPARTNERID), BPARTNERID, String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), DATEORDERED), DATEORDERED, Date.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), GRANDTOTAL), GRANDTOTAL, BigDecimal.class),
@@ -245,15 +245,21 @@ public class WQueryTicket extends WPOSQuery implements I_POSQuery
 		try  {
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, dt.Name AS C_DocType_ID ,")
 				.append(" b.Name, TRUNC(o.dateordered,'DD') as dateordered, o.GrandTotal, ")
-				.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), o.GrandTotal - SUM(p.PayAmt), o.GrandTotal) AS InvoiceOpen, ")
-			    .append(" COALESCE(i.IsPaid, CASE WHEN o.GrandTotal - SUM(p.PayAmt) = 0 THEN 'Y' ELSE 'N' END) IsPaid, ")
+				// priority for open amounts: invoices, allocations, order
+				.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), COALESCE(o.GrandTotal - SUM(al.amount),0)) AS InvoiceOpen, ")
+			    .append(" COALESCE(i.IsPaid, CASE WHEN o.GrandTotal - SUM(al.amount) = 0 THEN 'Y' ELSE 'N' END) IsPaid, ")
 			    .append(" o.Processed, ")
 			    .append(" CASE WHEN COALESCE(COUNT(i.C_Invoice_ID), 0) > 0 THEN 'Y' ELSE 'N' END")
 				.append(" FROM C_Order o ")
-				.append(" INNER JOIN C_BPartner b ON (o.C_BPartner_ID = b.C_BPartner_ID)")
-				.append(" INNER JOIN C_DocType dt ON (o.C_DocType_ID = dt.C_DocType_ID)")
-				.append(" LEFT JOIN C_invoice   i ON (i.C_Order_ID = o.C_Order_ID)")
-				.append(" LEFT JOIN C_Payment   p ON (p.C_Order_ID = o.C_Order_ID)")
+				.append(" INNER JOIN C_BPartner      b ON (o.C_BPartner_ID = b.C_BPartner_ID)");
+			
+			if (Env.isBaseLanguage(Env.getAD_Language(ctx), "C_DocType"))
+				sql.append(" INNER JOIN C_DocType      dt ON (o.C_DocTypeTarget_ID = dt.C_DocType_ID)");
+			else
+				sql.append(" INNER JOIN C_DocType_trl  dt ON (o.C_DocTypeTarget_ID = dt.C_DocType_ID AND dt.AD_LANGUAGE = '" + Env.getAD_Language(ctx) + "')");
+			
+			sql.append(" LEFT JOIN C_invoice        i ON (i.C_Order_ID = o.C_Order_ID)")
+				.append(" LEFT JOIN C_AllocationLine al ON (o.C_Order_ID = al.C_Order_ID)")
 				.append(" WHERE  o.DocStatus <> 'VO'")
 				.append(" AND o.C_POS_ID = ?")
 				.append(" AND o.Processed= ?");

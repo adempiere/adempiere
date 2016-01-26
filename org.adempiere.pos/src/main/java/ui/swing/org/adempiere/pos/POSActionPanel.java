@@ -34,7 +34,7 @@ import org.adempiere.pos.search.POSQuery;
 import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryDocType;
 import org.adempiere.pos.search.QueryProduct;
-import org.adempiere.pos.search.QueryTicket;
+import org.adempiere.pos.search.QueryOrderHistory;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
@@ -283,7 +283,7 @@ public class POSActionPanel extends POSSubPanel
 				}
 				else if (e.getSource().equals(buttonHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
-					POSQuery queryTicket = new QueryTicket(posPanel);
+					POSQuery queryTicket = new QueryOrderHistory(posPanel);
 					queryTicket.addOptionListener(this);
 					queryTicket.showView();
 					return;
@@ -591,7 +591,7 @@ public class POSActionPanel extends POSSubPanel
 		if (query.getRecord_ID() <= 0)
 			return;
 		//	For Ticket
-		if(query instanceof QueryTicket) {
+		if(query instanceof QueryOrderHistory) {
 			posPanel.setOrder(query.getRecord_ID());
 			posPanel.reloadIndex(query.getRecord_ID());
 		} else if(query instanceof QueryBPartner) {
