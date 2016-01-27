@@ -296,8 +296,8 @@ public class POSActionPanel extends POSSubPanel
 				} else if (e.getSource().equals(buttonCollect)) {
 					payOrder();
 				} else if (e.getSource().equals(buttonCancel)) {
-					posPanel.isRequiredUserPIN();
-					deleteOrder();
+					if (posPanel.validateUserPin())
+						deleteOrder();
 				} else if (e.getSource().equals(buttonLogout)) {	//	Logout
 					posPanel.dispose();
 					return;

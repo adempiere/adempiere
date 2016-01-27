@@ -88,6 +88,12 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private StatusBar 						statusBar;
 	/**	Timer for logout			*/
 	private Timer 							logoutTimer;
+	/**	Timer for User Pin			*/
+	private Timer 							userPinTimer;
+	/** Is Correct User Pin			*/
+	private boolean							isCorrectUserPin;
+	/** User Pin Listener 			*/
+	private POSUserPinListener 				userPinListener;
 	/** Keyoard Focus Manager		*/
 	private PosKeyboardFocusManager 		focusManager;
 	/**	Focus Management			*/
@@ -113,6 +119,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private int 							buttonSize;
 	/** Status bar info				*/
 	private String 							statusBarInfo;
+
 	
 	
 	/**
@@ -164,6 +171,11 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		frame.setJMenuBar(null);
 
 		loadPOS();
+
+		userPinListener = new POSUserPinListener(this);
+		//Delay 5 seconds by default
+		userPinTimer = new javax.swing.Timer((getAutoLogoutDelay() + 5)  * 1000, userPinListener);
+		userPinListener.setTimer(userPinTimer);
 
 		SettingKeyboardFocusManager();
 
@@ -529,14 +541,19 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		quantityPanel.refreshPanel();
 	}
 
-	public void isRequiredUserPIN()
+	/*public void isRequiredUserPIN()
 	{
+
 		if (isPOSRequiredPIN()) {
-			/** POS Required PIN			*/
-			POSPasswordPin posPasswordPin = new POSPasswordPin();
-			super.validateUserPin(posPasswordPin.getUserPin());
+			/** POS Required PIN
+			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					POSUserPinListener.createAndShowUI();
+				}
+			});
+
 		}
-	}
+	}*/
 
 	/**
 	 * Update Line Table
@@ -575,4 +592,54 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	{
 		return orderLinePanel.getC_OrderLine_ID();
 	}
+
+	/**
+	 * return User Pin Listener
+	 * @return
+     */
+	public ActionListener getUserPinListener()
+	{
+		return userPinListener;
+	}
+
+	/**
+	 * set the correct user pin
+	 * @param isCorrectUserPin
+     */
+	protected void setIsCorrectUserPin(boolean isCorrectUserPin)
+	{
+		this.isCorrectUserPin = isCorrectUserPin;
+	}
+
+	/**
+	 * Set current based on pin
+	 * @param userPin
+     */
+	protected void setIsCorrectUserPin(char[] userPin)
+	{
+		if (isCorrectUserPin)
+			return;
+		boolean isValidUserPin = isValidUserPin(userPin);
+		if (isValidUserPin)
+		{
+			userPinTimer.restart();
+			setIsCorrectUserPin(isValidUserPin);
+		}
+	}
+
+	/**
+	 * Is correct User Pin asynchronous validation
+	 * @return
+     */
+	public boolean validateUserPin()
+	{
+		if (!isRequiredPIN())
+			return true;
+
+		if (!isCorrectUserPin)
+			throw new AdempiereException("@UserPin@ @IsInvalid@");
+
+		return isCorrectUserPin;
+	}
+
 }
