@@ -75,14 +75,20 @@ public interface I_C_POS
 	  */
 	public int getAutoLogoutDelay();
 
-    /** Column name CashDrawer */
-    public static final String COLUMNNAME_CashDrawer = "CashDrawer";
+    /** Column name C_BPartnerCashTrx_ID */
+    public static final String COLUMNNAME_C_BPartnerCashTrx_ID = "C_BPartnerCashTrx_ID";
 
-	/** Set CashDrawer	  */
-	public void setCashDrawer (String CashDrawer);
+	/** Set Template B.Partner.
+	  * Business Partner used for creating new Business Partners on the fly
+	  */
+	public void setC_BPartnerCashTrx_ID (int C_BPartnerCashTrx_ID);
 
-	/** Get CashDrawer	  */
-	public String getCashDrawer();
+	/** Get Template B.Partner.
+	  * Business Partner used for creating new Business Partners on the fly
+	  */
+	public int getC_BPartnerCashTrx_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException;
 
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
@@ -98,21 +104,6 @@ public interface I_C_POS
 	public int getC_BankAccount_ID();
 
 	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
-
-    /** Column name C_BPartnerCashTrx_ID */
-    public static final String COLUMNNAME_C_BPartnerCashTrx_ID = "C_BPartnerCashTrx_ID";
-
-	/** Set Template B.Partner.
-	  * Business Partner used for creating new Business Partners on the fly
-	  */
-	public void setC_BPartnerCashTrx_ID (int C_BPartnerCashTrx_ID);
-
-	/** Get Template B.Partner.
-	  * Business Partner used for creating new Business Partners on the fly
-	  */
-	public int getC_BPartnerCashTrx_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException;
 
     /** Column name C_CashBook_ID */
     public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
@@ -144,19 +135,6 @@ public interface I_C_POS
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name C_POS_ID */
-    public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
-
-	/** Set POS Terminal.
-	  * Point of Sales Terminal
-	  */
-	public void setC_POS_ID (int C_POS_ID);
-
-	/** Get POS Terminal.
-	  * Point of Sales Terminal
-	  */
-	public int getC_POS_ID();
-
     /** Column name C_POSKeyLayout_ID */
     public static final String COLUMNNAME_C_POSKeyLayout_ID = "C_POSKeyLayout_ID";
 
@@ -171,6 +149,28 @@ public interface I_C_POS
 	public int getC_POSKeyLayout_ID();
 
 	public org.compiere.model.I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException;
+
+    /** Column name C_POS_ID */
+    public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
+
+	/** Set POS Terminal.
+	  * Point of Sales Terminal
+	  */
+	public void setC_POS_ID (int C_POS_ID);
+
+	/** Get POS Terminal.
+	  * Point of Sales Terminal
+	  */
+	public int getC_POS_ID();
+
+    /** Column name CashDrawer */
+    public static final String COLUMNNAME_CashDrawer = "CashDrawer";
+
+	/** Set Cash Drawer	  */
+	public void setCashDrawer (String CashDrawer);
+
+	/** Get Cash Drawer	  */
+	public String getCashDrawer();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -188,6 +188,19 @@ public interface I_C_POS
 	  */
 	public int getCreatedBy();
 
+    /** Column name DeliveryRule */
+    public static final String COLUMNNAME_DeliveryRule = "DeliveryRule";
+
+	/** Set Delivery Rule.
+	  * Defines the timing of Delivery
+	  */
+	public void setDeliveryRule (String DeliveryRule);
+
+	/** Get Delivery Rule.
+	  * Defines the timing of Delivery
+	  */
+	public String getDeliveryRule();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -201,6 +214,19 @@ public interface I_C_POS
 	  */
 	public String getDescription();
 
+    /** Column name ElectronicScales */
+    public static final String COLUMNNAME_ElectronicScales = "ElectronicScales";
+
+	/** Set Electronic Scales.
+	  * Allows to define path for Device Electronic Scales e.g. /dev/ttyS0/
+	  */
+	public void setElectronicScales (String ElectronicScales);
+
+	/** Get Electronic Scales.
+	  * Allows to define path for Device Electronic Scales e.g. /dev/ttyS0/
+	  */
+	public String getElectronicScales();
+
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
 
@@ -213,6 +239,19 @@ public interface I_C_POS
 	  * Comment or Hint
 	  */
 	public String getHelp();
+
+    /** Column name InvoiceRule */
+    public static final String COLUMNNAME_InvoiceRule = "InvoiceRule";
+
+	/** Set Invoice Rule.
+	  * Frequency and method of invoicing 
+	  */
+	public void setInvoiceRule (String InvoiceRule);
+
+	/** Get Invoice Rule.
+	  * Frequency and method of invoicing 
+	  */
+	public String getInvoiceRule();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -295,6 +334,19 @@ public interface I_C_POS
 	public int getM_Warehouse_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
+    /** Column name MeasureRequestCode */
+    public static final String COLUMNNAME_MeasureRequestCode = "MeasureRequestCode";
+
+	/** Set Measure Request Code.
+	  * String for  taking measurement from Device Electronic Scales
+	  */
+	public void setMeasureRequestCode (String MeasureRequestCode);
+
+	/** Get Measure Request Code.
+	  * String for  taking measurement from Device Electronic Scales
+	  */
+	public String getMeasureRequestCode();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
