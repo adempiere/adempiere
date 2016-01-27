@@ -33,12 +33,10 @@ import org.eevolution.service.dsl.ProcessBuilder;
  */
 public class CommandGenerateReturn extends CommandAbstract implements Command {
 
-
     public CommandGenerateReturn(String command, String event) {
         super.command = command;
         super.event = event;
     }
-
 
     @Override
     public void execute(CommandReceiver commandReceiver) {

@@ -34,7 +34,6 @@ public class CommandReverseSalesTransaction extends CommandAbstract implements C
         super.event = actionCommand;
     }
 
-
     @Override
     public void execute(CommandReceiver commandReceiver) {
         Trx.run(new TrxRunnable() {
