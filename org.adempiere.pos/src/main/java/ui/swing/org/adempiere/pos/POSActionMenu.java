@@ -59,8 +59,8 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         this.pos = pos;
         this.popupMenu =  new JPopupMenu();
         commandManager =  new CommandManager();
-        for (Map.Entry<String, CommandReceiver> reeceivers: commandManager.getCommandReceivers().entrySet()) {
-            CommandReceiver commandReceiver = reeceivers.getValue();
+        for (Map.Entry<String, CommandReceiver> receivers: commandManager.getCommandReceivers().entrySet()) {
+            CommandReceiver commandReceiver = receivers.getValue();
             addMenuItem(commandReceiver.getEvent());
         }
 
@@ -78,23 +78,25 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         try {
         popupMenu.setVisible(false);
         Command command = commandManager.getCommand(actionEvent.getActionCommand());
-        beforeExecutionProcess(command);
+        beforeExecutionCommand(command);
         } catch (AdempiereException exception) {
             ADialog.error(pos.getWindowNo(), pos.getFrame() , exception.getLocalizedMessage());
         }
     }
 
-    private void beforeExecutionProcess(Command commandAction) throws AdempierePOSException
+    private void beforeExecutionCommand(Command command) throws AdempierePOSException
     {
-        if (commandAction.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE)
+        if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE)
         {
-            queryPartner = new QueryBPartner(pos);
-            queryPartner.setModal(true);
-            queryPartner.addOptionListener(this);
-            queryPartner.showView();
-            return;
+            if (pos.isCompleted()) {
+                queryPartner = new QueryBPartner(pos);
+                queryPartner.setModal(true);
+                queryPartner.addOptionListener(this);
+                queryPartner.showView();
+                return;
+            }
         }
-        if (commandAction.getCommand() == CommandManager.GENERATE_REVERSE_SALES)
+        if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES)
         {
             if (pos.isCompleted()) {
                 queryPartner = new QueryBPartner(pos);
@@ -105,13 +107,13 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
             }
         }
 
-        if (commandAction.getCommand() == CommandManager.GENERATE_RETURN)
+        if (command.getCommand() == CommandManager.GENERATE_RETURN)
         {
-            executeProcess(commandAction);
+            executeCommand(command);
             return;
         }
 
-        if (commandAction.getCommand() == CommandManager.COMPLETE_DOCUMENT
+        if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT
                 && pos.isDrafted()) {
             if (!pos.isCompleted()) {
                 Trx.run(new TrxRunnable() {
@@ -120,22 +122,22 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                         pos.refreshHeader();
                     }
                 });
-                executeProcess(commandAction);
+                executeCommand(command);
             }
             else
                 ADialog.info(pos.getWindowNo(), popupMenu, "DocProcessed", pos.getDocumentNo());
         }
     }
 
-    private void afterExecutionProcess(Command command) throws AdempierePOSException
+    private void afterExecutionCommand(Command command) throws AdempierePOSException
     {
     }
 
-    private void executeProcess(Command commandAction) throws AdempierePOSException
+    private void executeCommand(Command command) throws AdempierePOSException
     {
-        CommandReceiver receiver = commandManager.getCommandReceivers(commandAction.getEvent());
+        CommandReceiver receiver = commandManager.getCommandReceivers(command.getEvent());
 
-        if (commandAction.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE
+        if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE
             &&  pos.getC_Order_ID() > 0
             &&  !pos.isVoided()) {
             receiver.setCtx(pos.getCtx());
@@ -150,15 +152,14 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
             if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
                         Waiting waiting = new Waiting(pos.getFrame(),"@Processing@",false, 120);
                         AEnv.showCenterScreen(waiting);
-                        commandAction.execute(receiver);
+                        command.execute(receiver);
                         ProcessInfo processInfo = receiver.getProcessInfo();
-
                         waiting.setVisible(false);
                         if (processInfo.isError()) {
                             String errorMessage = Msg.parseTranslation(pos.getCtx(), processInfo.getTitle() + " @ProcessRunError@ " + processInfo.getSummary());
                             throw new AdempierePOSException(errorMessage);
                         } else {
-                            afterExecutionProcess(commandAction);
+                            afterExecutionCommand(command);
                             showOkMessage(processInfo);
                             pos.setOrder(processInfo.getRecord_ID());
                             pos.refreshHeader();
@@ -167,7 +168,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
             }
         }
         //Reverse The Sales Transaction
-        if (commandAction.getCommand() == CommandManager.GENERATE_REVERSE_SALES
+        if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES
                 && pos.getC_Order_ID() > 0
                 && !pos.isReturnMaterial()
                 && !pos.isVoided()
@@ -183,7 +184,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
             if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
                 Waiting waiting = new Waiting(pos.getFrame(),"@Processing@",false, 120);
                 AEnv.showCenterScreen(waiting);
-                commandAction.execute(receiver);
+                command.execute(receiver);
                 ProcessInfo processInfo = receiver.getProcessInfo();
                 waiting.setVisible(false);
                 if (processInfo.isError()) {
@@ -191,14 +192,14 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 }
                 else
                 {
-                    afterExecutionProcess(commandAction);
+                    afterExecutionCommand(command);
                     showOkMessage(processInfo);
                 }
                 return;
             }
         }
         //Return product
-        if (commandAction.getCommand() == CommandManager.GENERATE_RETURN  &&  pos.getC_Order_ID() > 0 && !pos.isReturnMaterial())
+        if (command.getCommand() == CommandManager.GENERATE_RETURN  &&  pos.getC_Order_ID() > 0 && !pos.isReturnMaterial())
         {
             receiver.setCtx(pos.getCtx());
             receiver.setOrderId(pos.getC_Order_ID());
@@ -211,7 +212,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
 
                 Waiting waiting = new Waiting(pos.getFrame(),"@Processing@",false, 120);
                 AEnv.showCenterScreen(waiting);
-                commandAction.execute(receiver);
+                command.execute(receiver);
                 ProcessInfo processInfo = receiver.getProcessInfo();
                 waiting.setVisible(false);
                 if (processInfo.isError()) {
@@ -219,7 +220,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 }
                 else
                 {
-                    afterExecutionProcess(commandAction);
+                    afterExecutionCommand(command);
                     showOkMessage(processInfo);
                     //execute out transaction
                     if (processInfo.getRecord_ID() > 0) {
@@ -231,7 +232,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 return;
             }
         }
-        if (commandAction.getCommand() == CommandManager.COMPLETE_DOCUMENT  &&  pos.getC_Order_ID() > 0)
+        if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT  &&  pos.getC_Order_ID() > 0)
         {
             if (pos.isReturnMaterial() && pos.isCompleted())
             {
@@ -240,13 +241,13 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                     receiver.setWarehouseId(pos.getM_Warehouse_ID());
                     Waiting waiting = new Waiting(pos.getFrame(),"@Processing@",false, 120);
                     AEnv.showCenterScreen(waiting);
-                    commandAction.execute(receiver);
+                    command.execute(receiver);
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.setVisible(false);
                     if (processInfo.isError()) {
                        showError(processInfo);
                     }
-                    afterExecutionProcess(commandAction);
+                    afterExecutionCommand(command);
                     showOkMessage(processInfo);
                     pos.setOrder(processInfo.getRecord_ID());
                     pos.refreshHeader();

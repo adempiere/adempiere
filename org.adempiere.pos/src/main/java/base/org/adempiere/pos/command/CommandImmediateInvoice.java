@@ -41,8 +41,8 @@ public class CommandImmediateInvoice extends CommandAbstract implements Command 
             public void run(String trxName) {
                 ProcessInfo processInfo = new ProcessInfo(commandReceiver.getEvent(), commandReceiver.getProcessId());
                 processInfo = ProcessBuilder.
-                        create(commandReceiver.getCtx()).process(processInfo.getAD_Process_ID())
-                        .withTitle(processInfo.getTitle())
+                        create(commandReceiver.getCtx()).process(commandReceiver.getProcessId())
+                        .withTitle(commandReceiver.getEvent())
                         .withParameter("C_Order_ID",commandReceiver.getOrderId())
                         .withParameter("DocSubTypeSO", X_C_DocType.DOCSUBTYPESO_OnCreditOrder)
                         .withParameter("IsIncludePayments", true)
@@ -52,7 +52,6 @@ public class CommandImmediateInvoice extends CommandAbstract implements Command 
                         .withoutTransactionClose()
                         .execute(trxName);
                 commandReceiver.setProcessInfo(processInfo);
-
             }
         });
     }
