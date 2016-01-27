@@ -467,8 +467,9 @@ public class VCollect extends Collect
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
 		} else {
-			if(!(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder())) 
-				// No Check if Order is not Standard Order nor Warehouse Order
+			if(!(v_POSPanel.isStandardOrder() /*|| v_POSPanel.isWarehouseOrder()*/))
+				// No Check if Order is not Standard Order
+				// TODO: Review why nor Warehouse Order
 				errorMsg = validatePayment(v_POSPanel.getOpenAmt());
 		}
 		//	
