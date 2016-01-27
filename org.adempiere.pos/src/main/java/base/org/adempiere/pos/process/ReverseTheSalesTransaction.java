@@ -160,7 +160,6 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
                 customerReturn.processIt(DocAction.STATUS_InProgress);
                 customerReturn.saveEx();
 
-
                 for (MInOutConfirm confirm : customerReturn.getConfirmations(true)) {
                     for (MInOutLineConfirm confirmLine : confirm.getLines(true)) {
                         confirmLine.setConfirmedQty(confirmLine.getTargetQty());
