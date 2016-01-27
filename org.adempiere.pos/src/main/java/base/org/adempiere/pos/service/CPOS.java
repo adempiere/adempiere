@@ -567,7 +567,7 @@ public class CPOS {
 	 * Is POS Required PIN
 	 * @return
      */
-	public boolean isPOSRequiredPIN(){
+	public boolean isRequiredPIN(){
 		return entityPOS.isPOSRequiredPIN();
 	}
 
@@ -1878,7 +1878,7 @@ public class CPOS {
 	 * Validate User PIN
 	 * @param userPin
      */
-	public void validateUserPin(String userPin)
+	public boolean isValidUserPin(char[] userPin)
 	{
 		MUser user = MUser.get(getCtx() ,getAD_User_ID());
 		I_AD_User supervior = user.getSupervisor();
@@ -1886,8 +1886,23 @@ public class CPOS {
 			throw new AdempierePOSException("@Supervisor@ @NotFound@");
 		if (supervior.getUserPIN() == null || supervior.getUserPIN().isEmpty())
 			throw new AdempierePOSException("@Supervisor@ " + supervior.getName() + " @NotFound@ @UserPIN@");
-		else if (supervior.getUserPIN().compareTo(userPin) != 0)
-			throw new AdempierePOSException("@UserPIN@ @NotFound@");
-		return;
+
+		char[] correctPassword = supervior.getUserPIN().toCharArray();
+		boolean isCorrect = true;
+		if (userPin.length != correctPassword.length) {
+			isCorrect = false;
+		} else {
+			for (int i = 0; i < userPin.length; i++) {
+				if (userPin[i] != correctPassword[i]) {
+					isCorrect = false;
+				}
+			}
+		}
+		//Zero out the password.
+		for (int i = 0; i < correctPassword.length; i++) {
+			correctPassword[i] = 0;
+		}
+
+		return isCorrect;
 	}
 }

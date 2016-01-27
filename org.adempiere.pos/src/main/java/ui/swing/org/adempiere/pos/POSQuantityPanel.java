@@ -21,7 +21,6 @@ import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -90,6 +89,8 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 
 		buttonDelete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.CTRL_MASK));
 		buttonDelete.setToolTipText("CTL+F3-" + Msg.translate(ctx, "DeleteLine"));
+		buttonDelete.addActionListener(posPanel.getUserPinListener());
+
 		buttonPanel.add(buttonDelete, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
@@ -134,10 +135,14 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		//
 		fieldPrice = new VNumber();
 		fieldPrice.setValue(Env.ZERO);
-		fieldPrice.addActionListener(this);
 		fieldPrice.setFont(posPanel.getFont());
 		fieldPrice.setPreferredSize(new Dimension(100, 50));
 		fieldPrice.setMinimumSize(new Dimension(100, 50));
+		if (!posPanel.isModifyPrice())
+			fieldPrice.setReadWrite(false);
+		else
+			fieldPrice.addActionListener(posPanel.getUserPinListener());
+
 		buttonPanel.add(fieldPrice, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
@@ -147,10 +152,15 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 
 		fieldDiscountPercentage = new VNumber();
 		fieldDiscountPercentage.setValue(Env.ZERO);
-		fieldDiscountPercentage.addActionListener(this);
 		fieldDiscountPercentage.setFont(posPanel.getFont());
 		fieldDiscountPercentage.setPreferredSize(new Dimension(100, 50));
 		fieldDiscountPercentage.setMinimumSize(new Dimension(100, 50));
+		if (!posPanel.isModifyPrice())
+			fieldDiscountPercentage.setReadWrite(false);
+		else
+			fieldDiscountPercentage.addActionListener(posPanel.getUserPinListener());
+
+
 		buttonPanel.add(fieldDiscountPercentage, new GridBagConstraints(10, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
@@ -179,26 +189,31 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 			} else if (e.getSource().equals(buttonPlus)) {
 				fieldQuantity.setValue(((BigDecimal) fieldQuantity.getValue()).add(Env.ONE));
 			} else if (e.getSource().equals(buttonDelete)) {
-				posPanel.isRequiredUserPIN();
-				posPanel.deleteLine(posPanel.getC_OrderLine_ID());
-				fieldQuantity.setValue(0.0);
-				fieldPrice.setValue(0.0);
-				fieldDiscountPercentage.setValue(0.0);
+				if(posPanel.validateUserPin()) {
+					posPanel.deleteLine(posPanel.getC_OrderLine_ID());
+					fieldQuantity.setValue(0.0);
+					fieldPrice.setValue(0.0);
+					fieldDiscountPercentage.setValue(0.0);
+					posPanel.refreshPanel();
+				}
 			}
 
 			BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
-			BigDecimal price = (BigDecimal) fieldPrice.getValue();
-			BigDecimal discountPercentage = (BigDecimal) fieldDiscountPercentage.getValue();
-
-			if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged()
-					&& (e.getSource().equals(fieldQuantity) || e.getSource().equals(buttonDelete) || e.getSource().equals(buttonPlus) || e.getSource().equals(buttonMinus)))
-					|| (posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getSource().equals(fieldPrice))
-					|| (posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getSource().equals(fieldDiscountPercentage))) {
-				posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
-				posPanel.setPrice((BigDecimal) fieldPrice.getValue());
-				posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
-				posPanel.changeViewQuantityPanel();
-				posPanel.updateLineTable();
+			if (e.getSource().equals(fieldDiscountPercentage) || e.getSource().equals(fieldPrice)) {
+				posPanel.validateUserPin();
+				BigDecimal price = (BigDecimal) fieldPrice.getValue();
+				BigDecimal discountPercentage = (BigDecimal) fieldDiscountPercentage.getValue();
+				if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged()
+						&& (e.getSource().equals(fieldQuantity) || e.getSource().equals(buttonDelete) || e.getSource().equals(buttonPlus) || e.getSource().equals(buttonMinus)))
+						|| (posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getSource().equals(fieldPrice))
+						|| (posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getSource().equals(fieldDiscountPercentage))) {
+					posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
+					posPanel.setPrice((BigDecimal) fieldPrice.getValue());
+					posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
+					posPanel.changeViewQuantityPanel();
+					posPanel.updateLineTable();
+				}
+				return;
 			}
 		} catch (AdempiereException exception) {
 			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
@@ -218,10 +233,8 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 				buttonPlus.setEnabled(true);
 				buttonMinus.setEnabled(true);
 				fieldQuantity.setEnabled(true);
-				if (posPanel.isModifyPrice()) {
-					fieldPrice.setEnabled(true);
-					fieldDiscountPercentage.setEnabled(true);
-				}
+				fieldPrice.setEnabled(true);
+				fieldDiscountPercentage.setEnabled(true);
 			}else {
 				buttonDelete.setEnabled(false);
 				buttonPlus.setEnabled(false);
