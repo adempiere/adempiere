@@ -28,6 +28,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.adempiere.pos.WPOS;
+import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryListener;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
@@ -50,7 +52,7 @@ import org.zkoss.zkex.zul.South;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public abstract class WPOSQuery extends Window implements  MouseListener, ListSelectionListener, EventListener{
+public abstract class WPOSQuery extends Window implements  I_POSQuery, MouseListener, ListSelectionListener, EventListener{
 
 	/**
 	 * 
@@ -96,14 +98,22 @@ public abstract class WPOSQuery extends Window implements  MouseListener, ListSe
 	protected Panel 			northPanel;
 	/** Actions						*/
 	protected ConfirmPanel	 	confirmPanel;
+	/**	Refresh Action	*/
 	private Button 				buttonRefresh;
+	/**	Reset Action	*/
 	private Button 				buttonReset;
+	/**	Ok Action		*/
 	private Button 				buttonOk;
+	/**	Cancel Action	*/
 	private Button 				buttonCancel;
+	/**	New Action		*/
 	private Button 				buttonNew;
+	/**	Edit Action		*/
 	public 	Button 				buttonEdit;
 	public  Borderlayout 		mainLayout;
 	private BusyDialog 		progressWindow;
+	/**	Listener		*/
+	private POSQueryListener listener;
 	/**	Logger			*/
 	protected static CLogger logger = CLogger.getCLogger(WPOSQuery.class);
 	
@@ -292,4 +302,18 @@ public abstract class WPOSQuery extends Window implements  MouseListener, ListSe
 		}
 	}
 	
+	public void okAction() {
+		//	Fire
+		if(listener != null) {
+			listener.okAction(this);
+		}
+	}
+	/**
+	 * Add Listener
+	 * @param listener
+	 * @return void
+	 */
+	public void addOptionListener(POSQueryListener listener) {
+		this.listener = listener;
+	}
 }
