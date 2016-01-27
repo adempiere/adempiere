@@ -47,11 +47,11 @@ public class CommandReverseSalesTransaction extends CommandAbstract implements C
                         .withTitle(processInfo.getTitle())
                         .withParameter(I_C_Order.COLUMNNAME_C_Order_ID , commandReceiver.getOrderId())
                         .withParameter(I_C_Order.COLUMNNAME_Bill_BPartner_ID , commandReceiver.getPartnerId())
+                        .withParameter("IsCancelled", true)
                         .withParameter("IsShipConfirm", true)
                         .withoutTransactionClose()
                         .execute(trxName);
                 commandReceiver.setProcessInfo(processInfo);
-
             }
         });
     }
