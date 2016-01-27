@@ -20,6 +20,7 @@ import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
 import org.adempiere.pos.WPOSTextField;
 import org.adempiere.pos.grid.WPOSBPartner;
+import org.adempiere.pos.service.POSQueryListener;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -78,6 +79,9 @@ public class WQueryBPartner extends WPOSQuery {
 	private WPOSTextField 		fieldCity;
 	private int 				partnerId;
 	private boolean 			isKeyboard;
+	/**	Listener		*/
+	private POSQueryListener listener;
+
 	/**	Logger			*/
 	private static CLogger logger = CLogger.getCLogger(WQueryBPartner.class);
 	
@@ -437,6 +441,10 @@ public class WQueryBPartner extends WPOSQuery {
 			enableButtons();
 			if(e.getTarget().getId().equals("Ok")){
 				close();
+				//	Fire
+				if(listener != null) {
+					okAction();
+				}
 			}
 			if(e.getTarget().getId().equals("Cancel")){
 				reset();
@@ -479,7 +487,6 @@ public class WQueryBPartner extends WPOSQuery {
 
 	@Override
 	protected void cancel() {
-		// TODO Auto-generated method stub
 		dispose();
 	}
 	
@@ -499,5 +506,21 @@ public class WQueryBPartner extends WPOSQuery {
 	 */
 	public String getValue() {
 		return null;
+	}
+	/**
+	 * Add Listener
+	 * @param listener
+	 * @return void
+	 */
+	public void addOptionListener(POSQueryListener listener) {
+		this.listener = listener;
+	}
+
+
+
+	@Override
+	public void showView() {
+		// TODO Auto-generated method stub
+		
 	}
 }	//	PosQueryBPartner
