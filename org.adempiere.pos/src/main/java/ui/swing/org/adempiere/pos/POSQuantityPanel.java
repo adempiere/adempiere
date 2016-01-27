@@ -63,6 +63,7 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 	private CButton				buttonDown;
 	private CButton 			buttonPlus;
 	private CButton 			buttonMinus;
+	private CButton				buttonElectronicScales;
 	private VNumber 			fieldPrice;
 	private VNumber 			fieldDiscountPercentage;
 	private VNumber 			fieldQuantity;
@@ -85,7 +86,6 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		leftPadding = 1;
 		bottonPadding = 0;
 		rightPadding = 1;
-
 
 		buttonDelete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.CTRL_MASK));
 		buttonDelete.setToolTipText("CTL+F3-" + Msg.translate(ctx, "DeleteLine"));
@@ -114,8 +114,15 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		buttonPanel.add(buttonDown, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
-		CLabel qtyLabel = new CLabel(Msg.translate(Env.getCtx(), "QtyOrdered"));
-		buttonPanel.add(qtyLabel, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+		if (posPanel.isPresentElectronicScales()) {
+			buttonElectronicScales = createButtonAction("Calculator", KeyStroke.getKeyStroke(KeyEvent.VK_W, Event.ALT_MASK));
+			buttonElectronicScales.setToolTipText("ALT+down-" + Msg.translate(ctx, "Calculator"));
+			buttonPanel.add(buttonElectronicScales, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+					, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
+		}
+
+		CLabel qtyLabel = new CLabel(Msg.translate(Env.getCtx(), "Qty"));
+		buttonPanel.add(qtyLabel, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		//
@@ -125,11 +132,11 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		fieldQuantity.setPreferredSize(new Dimension(100, 50));
 		fieldQuantity.setMinimumSize(new Dimension(100, 50));
 		fieldQuantity.setValue(Env.ZERO);
-		buttonPanel.add(fieldQuantity, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
+		buttonPanel.add(fieldQuantity, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		CLabel priceLabel = new CLabel(Msg.translate(Env.getCtx(), "PriceActual"));
-		buttonPanel.add(priceLabel, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
+		buttonPanel.add(priceLabel, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		//
@@ -143,11 +150,11 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		else
 			fieldPrice.addActionListener(posPanel.getUserPinListener());
 
-		buttonPanel.add(fieldPrice, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
+		buttonPanel.add(fieldPrice, new GridBagConstraints(9, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		CLabel discountPerentageLabel = new CLabel(Msg.translate(Env.getCtx(), "Discount"));
-		buttonPanel.add(discountPerentageLabel, new GridBagConstraints(9, 0, 1, 1, 0.0, 0.0
+		buttonPanel.add(discountPerentageLabel, new GridBagConstraints(10, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		fieldDiscountPercentage = new VNumber();
@@ -161,7 +168,7 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 			fieldDiscountPercentage.addActionListener(posPanel.getUserPinListener());
 
 
-		buttonPanel.add(fieldDiscountPercentage, new GridBagConstraints(10, 0, 1, 1, 0.0, 0.0
+		buttonPanel.add(fieldDiscountPercentage, new GridBagConstraints(11, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		

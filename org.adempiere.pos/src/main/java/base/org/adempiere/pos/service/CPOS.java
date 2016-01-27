@@ -1807,6 +1807,24 @@ public class CPOS {
 		setPriceList(warehousePrice.getPriceList());
 	}
 
+	public String getElectronicScales()
+	{
+		return entityPOS.getElectronicScales();
+	}
+
+	public String getMeasureRequestCode()
+	{
+		return entityPOS.getMeasureRequestCode();
+	}
+
+	public boolean isPresentElectronicScales()
+	{
+		if (getElectronicScales() != null && getElectronicScales().length() > 0)
+			return true;
+		else
+			return false;
+	}
+
 	public boolean IsShowLineControl() {
 		return true;
 	}

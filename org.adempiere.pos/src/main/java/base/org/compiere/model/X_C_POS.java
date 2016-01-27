@@ -30,7 +30,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160126L;
+	private static final long serialVersionUID = 20160127L;
 
     /** Standard Constructor */
     public X_C_POS (Properties ctx, int C_POS_ID, String trxName)
@@ -97,18 +97,32 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set CashDrawer.
-		@param CashDrawer CashDrawer	  */
-	public void setCashDrawer (String CashDrawer)
+	public org.compiere.model.I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartnerCashTrx_ID(), get_TrxName());	}
+
+	/** Set Template B.Partner.
+		@param C_BPartnerCashTrx_ID 
+		Business Partner used for creating new Business Partners on the fly
+	  */
+	public void setC_BPartnerCashTrx_ID (int C_BPartnerCashTrx_ID)
 	{
-		set_Value (COLUMNNAME_CashDrawer, CashDrawer);
+		if (C_BPartnerCashTrx_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, Integer.valueOf(C_BPartnerCashTrx_ID));
 	}
 
-	/** Get CashDrawer.
-		@return CashDrawer	  */
-	public String getCashDrawer () 
+	/** Get Template B.Partner.
+		@return Business Partner used for creating new Business Partners on the fly
+	  */
+	public int getC_BPartnerCashTrx_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_CashDrawer);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerCashTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
@@ -134,34 +148,6 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	public int getC_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartnerCashTrx_ID(), get_TrxName());	}
-
-	/** Set Template B.Partner.
-		@param C_BPartnerCashTrx_ID 
-		Business Partner used for creating new Business Partners on the fly
-	  */
-	public void setC_BPartnerCashTrx_ID (int C_BPartnerCashTrx_ID)
-	{
-		if (C_BPartnerCashTrx_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, Integer.valueOf(C_BPartnerCashTrx_ID));
-	}
-
-	/** Get Template B.Partner.
-		@return Business Partner used for creating new Business Partners on the fly
-	  */
-	public int getC_BPartnerCashTrx_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerCashTrx_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -223,29 +209,6 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set POS Terminal.
-		@param C_POS_ID 
-		Point of Sales Terminal
-	  */
-	public void setC_POS_ID (int C_POS_ID)
-	{
-		if (C_POS_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_POS_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
-	}
-
-	/** Get POS Terminal.
-		@return Point of Sales Terminal
-	  */
-	public int getC_POS_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException
     {
 		return (org.compiere.model.I_C_POSKeyLayout)MTable.get(getCtx(), org.compiere.model.I_C_POSKeyLayout.Table_Name)
@@ -274,6 +237,75 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set POS Terminal.
+		@param C_POS_ID 
+		Point of Sales Terminal
+	  */
+	public void setC_POS_ID (int C_POS_ID)
+	{
+		if (C_POS_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_POS_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
+	}
+
+	/** Get POS Terminal.
+		@return Point of Sales Terminal
+	  */
+	public int getC_POS_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Cash Drawer.
+		@param CashDrawer Cash Drawer	  */
+	public void setCashDrawer (String CashDrawer)
+	{
+		set_Value (COLUMNNAME_CashDrawer, CashDrawer);
+	}
+
+	/** Get Cash Drawer.
+		@return Cash Drawer	  */
+	public String getCashDrawer () 
+	{
+		return (String)get_Value(COLUMNNAME_CashDrawer);
+	}
+
+	/** DeliveryRule AD_Reference_ID=151 */
+	public static final int DELIVERYRULE_AD_Reference_ID=151;
+	/** After Receipt = R */
+	public static final String DELIVERYRULE_AfterReceipt = "R";
+	/** Availability = A */
+	public static final String DELIVERYRULE_Availability = "A";
+	/** Complete Line = L */
+	public static final String DELIVERYRULE_CompleteLine = "L";
+	/** Complete Order = O */
+	public static final String DELIVERYRULE_CompleteOrder = "O";
+	/** Force = F */
+	public static final String DELIVERYRULE_Force = "F";
+	/** Manual = M */
+	public static final String DELIVERYRULE_Manual = "M";
+	/** Set Delivery Rule.
+		@param DeliveryRule 
+		Defines the timing of Delivery
+	  */
+	public void setDeliveryRule (String DeliveryRule)
+	{
+
+		set_Value (COLUMNNAME_DeliveryRule, DeliveryRule);
+	}
+
+	/** Get Delivery Rule.
+		@return Defines the timing of Delivery
+	  */
+	public String getDeliveryRule () 
+	{
+		return (String)get_Value(COLUMNNAME_DeliveryRule);
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -291,6 +323,23 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Electronic Scales.
+		@param ElectronicScales 
+		Allows to define path for Device Electronic Scales e.g. /dev/ttyS0/
+	  */
+	public void setElectronicScales (String ElectronicScales)
+	{
+		set_Value (COLUMNNAME_ElectronicScales, ElectronicScales);
+	}
+
+	/** Get Electronic Scales.
+		@return Allows to define path for Device Electronic Scales e.g. /dev/ttyS0/
+	  */
+	public String getElectronicScales () 
+	{
+		return (String)get_Value(COLUMNNAME_ElectronicScales);
+	}
+
 	/** Set Comment/Help.
 		@param Help 
 		Comment or Hint
@@ -306,6 +355,34 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** InvoiceRule AD_Reference_ID=150 */
+	public static final int INVOICERULE_AD_Reference_ID=150;
+	/** After Order delivered = O */
+	public static final String INVOICERULE_AfterOrderDelivered = "O";
+	/** After Delivery = D */
+	public static final String INVOICERULE_AfterDelivery = "D";
+	/** Customer Schedule after Delivery = S */
+	public static final String INVOICERULE_CustomerScheduleAfterDelivery = "S";
+	/** Immediate = I */
+	public static final String INVOICERULE_Immediate = "I";
+	/** Set Invoice Rule.
+		@param InvoiceRule 
+		Frequency and method of invoicing 
+	  */
+	public void setInvoiceRule (String InvoiceRule)
+	{
+
+		set_Value (COLUMNNAME_InvoiceRule, InvoiceRule);
+	}
+
+	/** Get Invoice Rule.
+		@return Frequency and method of invoicing 
+	  */
+	public String getInvoiceRule () 
+	{
+		return (String)get_Value(COLUMNNAME_InvoiceRule);
 	}
 
 	/** Set Enable POS Product Lookup.
@@ -434,6 +511,23 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Measure Request Code.
+		@param MeasureRequestCode 
+		String for  taking measurement from Device Electronic Scales
+	  */
+	public void setMeasureRequestCode (String MeasureRequestCode)
+	{
+		set_Value (COLUMNNAME_MeasureRequestCode, MeasureRequestCode);
+	}
+
+	/** Get Measure Request Code.
+		@return String for  taking measurement from Device Electronic Scales
+	  */
+	public String getMeasureRequestCode () 
+	{
+		return (String)get_Value(COLUMNNAME_MeasureRequestCode);
 	}
 
 	/** Set Name.
