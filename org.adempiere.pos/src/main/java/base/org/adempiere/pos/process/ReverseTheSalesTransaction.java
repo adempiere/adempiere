@@ -48,6 +48,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
     private int sourceOrderId;
     private int billPartnerId;
+    private boolean isCancelled = false;
     private Timestamp today;
     private boolean isShipConfirm = false;
 
@@ -61,6 +62,8 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
                 sourceOrderId = parameter.getParameterAsInt();
             if (I_C_Order.COLUMNNAME_Bill_BPartner_ID.equals(para))
                 billPartnerId =  parameter.getParameterAsInt();
+            if ("IsCancelled".equals(para))
+                isCancelled =  parameter.getParameterAsBoolean();
             if ("IsShipConfirm".equals(para))
                 isShipConfirm = parameter.getParameterAsBoolean();
 
@@ -73,7 +76,6 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
             throw new AdempiereException("@C_Order_ID@ @NotFound@");
 
         today = new Timestamp(System.currentTimeMillis());
-
         // Get Order
         MOrder sourceOrder = new MOrder(getCtx(), sourceOrderId, get_TrxName());
         // Get Invoices for ths order
@@ -81,15 +83,14 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
         // If not exist invoice then only is necessary reverse shipment
         if (shipments.length > 0) {
             // Validate if partner not is POS partner standard then reverse shipment
-            if (sourceOrder.getC_BPartner_ID() != billPartnerId) {
+            if (sourceOrder.getC_BPartner_ID() != billPartnerId || isCancelled) {
                 cancelShipments(shipments);
             }
-
         }
         MInvoice[] invoices = sourceOrder.getInvoices();
         if(invoices.length > 0)
         {
-            if (sourceOrder.getC_BPartner_ID() != billPartnerId )
+            if (sourceOrder.getC_BPartner_ID() != billPartnerId || isCancelled)
                 cancelInvoices(invoices);
         }
 
