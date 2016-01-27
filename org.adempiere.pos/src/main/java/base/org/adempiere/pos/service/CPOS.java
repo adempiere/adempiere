@@ -623,7 +623,12 @@ public class CPOS {
 		}
 		currentOrder.setAD_Org_ID(entityPOS.getAD_Org_ID());
 		currentOrder.setIsSOTrx(true);
-		currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
+		if (entityPOS.getM_PriceList_ID() > 0)
+			currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
+		if (entityPOS.getDeliveryRule() != null)
+			currentOrder.setDeliveryRule(entityPOS.getDeliveryRule());
+		if (entityPOS.getDeliveryRule() != null)
+			currentOrder.setInvoiceRule(entityPOS.getDeliveryRule());
 		currentOrder.setC_POS_ID(entityPOS.getC_POS_ID());
 		currentOrder.setM_Warehouse_ID(entityPOS.getM_Warehouse_ID());
 		if (docTypeTargetId != 0) {
@@ -1370,7 +1375,25 @@ public class CPOS {
 	public String getDocumentNo() {
 		return currentOrder.getDocumentNo();
 	}
-	
+
+	/**
+	 * get Default Delivery Rule from POS Terminal
+	 * @return
+     */
+	public String getDeliveryRule()
+	{
+		return entityPOS.getDeliveryRule();
+	}
+
+	/**
+	 * get default invoice rule from POS Terminal
+	 * @return
+     */
+	public String getInvoiceRule()
+	{
+		return entityPOS.getInvoiceRule();
+	}
+
 	/**
 	 * Get Open Amount
 	 * @return
