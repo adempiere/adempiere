@@ -188,6 +188,9 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
             payment.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_ARReceipt, sourceOrder.getAD_Org_ID()));
             payment.setIsPrepayment(true);
             payment.saveEx();
+
+            payment.processIt(docAction);
+            payment.saveEx();
         }
     }
 }

@@ -41,9 +41,15 @@ public class CommandReceiver {
     private Optional<String> event;
     private ProcessInfo processInfo;
 
+    /**
+     *
+     * @param processId
+     * @param value
+     * @param event
+     */
     public CommandReceiver(Integer processId, String value, String event) {
         this.setValue(value);
-        //Command Based on Procedure
+        //Command Based on Process
         if (processId != null && processId > 0) {
             this.setName(MProcess.get(Env.getCtx(), processId).getName());
             if (event != null)
@@ -98,7 +104,7 @@ public class CommandReceiver {
     }
 
     public String getEvent() {
-        return event.orElseThrow(() -> new AdempierePOSException("Action Name @NotFound@"));
+        return event.orElseThrow(() -> new AdempierePOSException("Event Name @NotFound@"));
     }
 
     public void setEvent(String event) {

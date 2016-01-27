@@ -26,16 +26,12 @@ import java.util.HashMap;
  */
 public class CommandManager {
 
-
     public static String GENERATE_IMMEDIATE_INVOICE =  "C_POS Generate Immediate Invoice";
     public static String GENERATE_REVERSE_SALES = "C_POS ReverseTheSalesTransaction";
     public static String GENERATE_RETURN = "C_POS CreateOrderBasedOnAnother";
     public static String COMPLETE_DOCUMENT = "Complete Document";
-    public HashMap<String , Command> commands = new HashMap<String , Command>();
 
-    public HashMap<String , CommandReceiver> getCommandReceivers() {
-        return receivers;
-    }
+    public HashMap<String , Command> commands = new HashMap<String , Command>();
 
     public HashMap<String , CommandReceiver> receivers = new HashMap<String , CommandReceiver>(){
         {
@@ -56,6 +52,11 @@ public class CommandManager {
             put(COMPLETE_DOCUMENT, commandReceiver);
         }
     };
+
+    public HashMap<String , CommandReceiver> getCommandReceivers() {
+        return receivers;
+    }
+
     public Command getCommand(String event)
     {
         return commands.values()
