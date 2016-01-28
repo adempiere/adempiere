@@ -167,7 +167,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 					orderLineId = key.getRecord_ID();
 					BigDecimal m_QtyOrdered       = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
 					BigDecimal m_Price            = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
-					BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+					BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
 					posPanel.setQuantity(m_QtyOrdered);
 					posPanel.setPrice(m_Price);
 					posPanel.setDiscountPercentage(discountPercentage);
