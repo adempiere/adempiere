@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -1353,7 +1354,9 @@ public class CPOS {
 	 * 
 	 */
 	public BigDecimal getTotalLines() {
+		if (currentOrder != null)
 		return currentOrder.getGrandTotal().subtract(getTaxAmt());
+		else return BigDecimal.ZERO;
 	}
 	
 	/**
@@ -1363,7 +1366,10 @@ public class CPOS {
 	 * @return BigDecimal
 	 */
 	public BigDecimal getGrandTotal() {
-		return currentOrder.getGrandTotal();
+		if (currentOrder != null)
+			return currentOrder.getGrandTotal();
+		else
+			return BigDecimal.ZERO;
 	}
 	
 	/**
@@ -1400,8 +1406,11 @@ public class CPOS {
 	 * @return BigDecimal
 	 */
 	public BigDecimal getOpenAmt() {
-		BigDecimal received = getPaidAmt();	
-		return currentOrder.getGrandTotal().subtract(received);
+		if (currentOrder != null) {
+			BigDecimal received = getPaidAmt();
+			return currentOrder.getGrandTotal().subtract(received);
+		}
+		return BigDecimal.ZERO;
 	}
 	
 	/**
@@ -1418,17 +1427,21 @@ public class CPOS {
 	 * 	It takes the allocated amounts, including Credit Notes
 	 */
 	public BigDecimal getPaidAmt() {
-		String sql = "SELECT sum(amount) FROM C_AllocationLine al " +
-				"INNER JOIN C_AllocationHdr alh on (al.C_AllocationHdr_ID=alh.C_AllocationHdr_ID) " +
-				"WHERE (al.C_Invoice_ID = ? OR al.C_Order_ID = ?) AND alh.DocStatus IN ('CO','CL')";
-		BigDecimal received = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID(), currentOrder.getC_Order_ID());
-		if ( received == null )
+		BigDecimal received = BigDecimal.ZERO;
+		if (currentOrder != null)
+		{
+			String sql = "SELECT sum(amount) FROM C_AllocationLine al " +
+					"INNER JOIN C_AllocationHdr alh on (al.C_AllocationHdr_ID=alh.C_AllocationHdr_ID) " +
+					"WHERE (al.C_Invoice_ID = ? OR al.C_Order_ID = ?) AND alh.DocStatus IN ('CO','CL')";
+		received = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID(), currentOrder.getC_Order_ID());
+		if (received == null)
 			received = Env.ZERO;
-		
+
 		sql = "SELECT sum(Amount) FROM C_CashLine WHERE C_Invoice_ID = ? ";
 		BigDecimal cashLineAmount = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID());
-		if ( cashLineAmount != null )
+		if (cashLineAmount != null)
 			received = received.add(cashLineAmount);
+		}
 		
 		return received;
 	}
@@ -1922,13 +1935,13 @@ public class CPOS {
 	public boolean isValidUserPin(char[] userPin)
 	{
 		MUser user = MUser.get(getCtx() ,getAD_User_ID());
-		I_AD_User supervior = user.getSupervisor();
-		if (supervior == null || supervior.getAD_User_ID() <= 0)
+		I_AD_User supervisor = user.getSupervisor();
+		if (supervisor == null || supervisor.getAD_User_ID() <= 0)
 			throw new AdempierePOSException("@Supervisor@ @NotFound@");
-		if (supervior.getUserPIN() == null || supervior.getUserPIN().isEmpty())
-			throw new AdempierePOSException("@Supervisor@ " + supervior.getName() + " @NotFound@ @UserPIN@");
+		if (supervisor.getUserPIN() == null || supervisor.getUserPIN().isEmpty())
+			throw new AdempierePOSException("@Supervisor@ " + supervisor.getName() + " @NotFound@ @UserPIN@");
 
-		char[] correctPassword = supervior.getUserPIN().toCharArray();
+		char[] correctPassword = supervisor.getUserPIN().toCharArray();
 		boolean isCorrect = true;
 		if (userPin.length != correctPassword.length) {
 			isCorrect = false;
@@ -1945,5 +1958,55 @@ public class CPOS {
 		}
 
 		return isCorrect;
+	}
+
+	public static List<Vector<Object>> getQueryProduct(String productCode, int warehouseId , int priceListVersionId)
+	{
+		ArrayList<Vector<Object>> rows = new ArrayList<>();
+		String sql = "SELECT p.M_Product_ID, p.Value, p.Name  , BomQtyAvailable(p.M_Product_ID, ? , 0 ) AS QtyAvailable , pp.pricestd , pp.pricelist "
+				+ " FROM M_Product p "
+				+ " INNER JOIN M_ProductPrice pp ON (p.M_Product_ID=pp.M_Product_ID)"
+				+ " WHERE pp.M_Product_ID = p.M_Product_ID "
+				+ " AND pp.M_PriceList_Version_ID = ? "
+				+ " AND pp.IsActive='Y' "
+				+ " AND (UPPER(p.Name) like UPPER('"+ "%" + productCode.replace(" ", "%") + "%" +"')"
+				+ " OR UPPER(p.Value) like UPPER('" + "%" + productCode.replace(" ", "%") + "%" +"') "
+				+ " OR UPPER(p.UPC) like UPPER('" + "%" + productCode.replace(" ", "%") + "%" + "') "
+				+ " OR UPPER(p.SKU) like UPPER('" + "%" + productCode.replace(" ", "%") + "%" + "')) "
+				+ " ORDER By 3";
+
+		PreparedStatement statement = null;
+		try{
+			statement = DB.prepareStatement(sql, null);
+			statement.setInt(1, warehouseId);
+			statement.setInt(2, priceListVersionId);
+
+			ResultSet resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				Vector<Object> columns = new Vector<>();
+				Integer productId = resultSet.getInt(1);
+				String  productValue = resultSet.getString(2).trim();
+				String  productName = resultSet.getString(3).trim();
+				String  qtyAvailable = resultSet.getBigDecimal(4).toString().trim();
+				String  priceStd = resultSet.getBigDecimal(5).setScale(2, BigDecimal.ROUND_UP).toString().trim();
+				String  priceList = resultSet.getBigDecimal(6).setScale(2, BigDecimal.ROUND_UP).toString().trim();
+				columns.add(productId);
+				columns.add(productValue);
+				columns.add(productName);
+				columns.add(qtyAvailable);
+				columns.add(priceStd);
+				columns.add(priceList);
+				rows.add(columns);
+			}
+
+			DB.close(resultSet,statement);
+			statement = null;
+		}
+		catch(Exception exception)
+		{
+			exception.printStackTrace();
+		}
+		return rows;
 	}
 }

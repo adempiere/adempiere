@@ -16,6 +16,7 @@
 
 package org.adempiere.pos;
 
+import org.adempiere.pos.service.CPOS;
 import org.adempiere.util.StringUtils;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -23,15 +24,12 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 
 import javax.swing.JComboBox;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Arrays;
+
 
 /**
  * Component allows to show product lookup search key , name , quantity available , price standard and price list
@@ -48,17 +46,17 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     private JComboBox<KeyNamePair> component = null;
     private Integer priceListVersionId = 0;
     private Integer warehouseId = 0;
-    private String fill = StringUtils.repeat(" " , 400);
+    private String fill = null;
     static private Integer PRODUCT_VALUE_LENGTH = 14;
     static private Integer PRODUCT_NAME_LENGTH = 50;
-    static private Integer QUNATITY_LENGTH = 16;
+    static private Integer QUANTITY_LENGTH = 16;
 
     private String separator = "|";
     private String productValueTitle   = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@ProductValue@") + fill , PRODUCT_VALUE_LENGTH );
     private String productTitle        = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@M_Product_ID@") + fill , PRODUCT_NAME_LENGTH );
-    private String availableTitle      = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@QtyAvailable@") + fill , QUNATITY_LENGTH );
-    private String priceStdTitle       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceStd@")     + fill , QUNATITY_LENGTH );
-    private String priceListTile       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceList@")    + fill , QUNATITY_LENGTH );
+    private String availableTitle      = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@QtyAvailable@") + fill , QUANTITY_LENGTH );
+    private String priceStdTitle       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceStd@")     + fill , QUANTITY_LENGTH );
+    private String priceListTile       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceList@")    + fill , QUANTITY_LENGTH );
     private String title = "";
 
 
@@ -115,9 +113,10 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         {
             long now = System.currentTimeMillis();
 
-            if( (now - lastKeyboardEvent) > 500 && !searched && fieldProductName.getText()!= null && fieldProductName.getText().length()>2)
+            if( (now - lastKeyboardEvent) > 500
+            && !searched && fieldProductName.getText() != null
+            && fieldProductName.getText().length() > 2)
             {
-                searched = true;
                 executeQuery();
             }
             else if(!searched && (fieldProductName.getText()== null ||  fieldProductName.getText().length() == 0))
@@ -129,18 +128,18 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode()==40 && e.getSource()== fieldProductName) // Key down on product text field
+    public void keyReleased(KeyEvent keyEvent) {
+        if(keyEvent.getKeyCode()==40 && keyEvent.getSource()== fieldProductName) // Key down on product text field
         {
             component.requestFocus();
         }
-        else if (e.getSource()== fieldProductName) //writing product name or value
+        else if (keyEvent.getSource()== fieldProductName) //writing product name or value
         {
             searched = false;
             this.lastKeyboardEvent = System.currentTimeMillis();
             timer.restart();
         }
-        else if(e.getKeyCode()==10 && e.getSource()==component) //Enter on component field
+        else if(keyEvent.getKeyCode()==10 && keyEvent.getSource()==component) //Enter on component field
         {
             KeyNamePair item = (KeyNamePair) component.getSelectedItem();
             if(item!=null && !selectLock)
@@ -166,54 +165,26 @@ public class POSLookupProduct implements ActionListener, KeyListener {
 
     private void executeQuery()
     {
-        component.hidePopup();
-
-        String sql = "SELECT p.M_Product_ID, p.Value, p.Name  , BomQtyAvailable(p.M_Product_ID, ? , 0 ) AS QtyAvailable , pp.pricestd , pp.pricelist "
-                + " FROM M_Product p "
-                + " INNER JOIN M_ProductPrice pp ON (p.M_Product_ID=pp.M_Product_ID)"
-                + " WHERE pp.M_Product_ID = p.M_Product_ID "
-                + " AND pp.M_PriceList_Version_ID = ? "
-                + " AND pp.IsActive='Y' "
-                + " AND (UPPER(p.Name) like UPPER('"+ "%" + fieldProductName.getText().replace(" ", "%") + "%" +"')"
-                + " OR UPPER(p.Value) like UPPER('" + "%" + fieldProductName.getText().replace(" ", "%") + "%" + "')) "
-                + " ORDER By 3";
-
-        PreparedStatement pstmt = null;
-        try{
-            pstmt = DB.prepareStatement(sql, null);
-            pstmt.setInt(1, warehouseId);
-            pstmt.setInt(2, priceListVersionId);
-
-            ResultSet rs = pstmt.executeQuery();
-
+            searched = true;
             component.removeAllItems();
             component.addItem(new KeyNamePair(0, title));
-
             selectLock = true;
-
-            while (rs.next()) {
-                Integer productId = rs.getInt(1);
-                String productValue = rs.getString(2).trim();
-                String productName = rs.getString(3).trim();
-                String qtyAvailable = rs.getBigDecimal(4).toString().trim();
-                String priceStd = rs.getBigDecimal(5).setScale(2, BigDecimal.ROUND_UP).toString().trim();
-                String priceList = rs.getBigDecimal(6).setScale(2, BigDecimal.ROUND_UP).toString().trim();
-                String line = new StringBuilder()
+            for (java.util.Vector<Object> columns : CPOS.getQueryProduct(fieldProductName.getText(), warehouseId, priceListVersionId))
+            {
+                Integer productId = (Integer) columns.elementAt(0);
+                String productValue = (String) columns.elementAt(1);
+                String productName = (String) columns.elementAt(2);
+                String qtyAvailable = (String) columns.elementAt(3);
+                String priceStd = (String) columns.elementAt(4);
+                String priceList = (String) columns.elementAt(5);
+                String  line = new StringBuilder()
                         .append(StringUtils.trunc(productValue + fill , PRODUCT_VALUE_LENGTH )).append(separator)
                         .append(StringUtils.trunc(productName + fill , PRODUCT_NAME_LENGTH )).append(separator)
-                        .append(StringUtils.trunc(qtyAvailable + fill , QUNATITY_LENGTH)).append(separator)
-                        .append(StringUtils.trunc(priceStd + fill, QUNATITY_LENGTH )).append(separator)
-                        .append(StringUtils.trunc(priceList + fill, QUNATITY_LENGTH )).toString();
+                        .append(StringUtils.trunc(qtyAvailable + fill , QUANTITY_LENGTH)).append(separator)
+                        .append(StringUtils.trunc(priceStd + fill, QUANTITY_LENGTH )).append(separator)
+                        .append(StringUtils.trunc(priceList + fill, QUANTITY_LENGTH )).toString();
                 component.addItem(new KeyNamePair(productId, line));
             }
-
-            DB.close(rs,pstmt);
-            pstmt = null;
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
 
         component.showPopup();
         selectLock = false;
