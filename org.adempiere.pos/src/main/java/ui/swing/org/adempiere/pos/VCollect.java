@@ -212,7 +212,7 @@ public class VCollect extends Collect
 		// Not completed Order 
 		else if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 				!v_POSPanel.isCompleted()) {	
-			if(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder()) {
+			if(v_POSPanel.isStandardOrder() /*|| v_POSPanel.isWarehouseOrder()*/) {
 				 // Standard Order or Warehouse Order: no Credit Order, no prepayment
 				fIsPrePayOrder.setEnabled(false);	
 				fIsPrePayOrder.setSelected(false);	
@@ -506,7 +506,7 @@ public class VCollect extends Collect
 //			fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(false);
 			bOk.setEnabled(false);
-		} else if(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder()) { 
+		} else if(v_POSPanel.isStandardOrder() /*|| v_POSPanel.isWarehouseOrder()*/) {
 			// Standard Order or Warehouse Order: no Credit Order, no prepayment
 			fIsPrePayOrder.setEnabled(false);	
 			fIsCreditOrder.setEnabled(false);
