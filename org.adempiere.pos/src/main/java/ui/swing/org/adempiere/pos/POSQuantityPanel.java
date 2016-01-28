@@ -147,8 +147,10 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		fieldPrice.setMinimumSize(new Dimension(100, 50));
 		if (!posPanel.isModifyPrice())
 			fieldPrice.setReadWrite(false);
-		else
+		else {
 			fieldPrice.addActionListener(posPanel.getUserPinListener());
+			fieldPrice.addActionListener(this);
+		}
 
 		buttonPanel.add(fieldPrice, new GridBagConstraints(9, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
@@ -164,8 +166,10 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		fieldDiscountPercentage.setMinimumSize(new Dimension(100, 50));
 		if (!posPanel.isModifyPrice())
 			fieldDiscountPercentage.setReadWrite(false);
-		else
+		else {
 			fieldDiscountPercentage.addActionListener(posPanel.getUserPinListener());
+			fieldDiscountPercentage.addActionListener(this);
+		}
 
 
 		buttonPanel.add(fieldDiscountPercentage, new GridBagConstraints(11, 0, 1, 1, 0.0, 0.0
@@ -206,7 +210,8 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 			}
 
 			BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
-			if (e.getSource().equals(fieldDiscountPercentage) || e.getSource().equals(fieldPrice)) {
+			if (e.getSource().equals(fieldDiscountPercentage) && e.getActionCommand().toString().equals("KeyEvent")
+			||  e.getSource().equals(fieldPrice) && e.getActionCommand().toString().equals("KeyEvent")) {
 				posPanel.validateUserPin();
 				BigDecimal price = (BigDecimal) fieldPrice.getValue();
 				BigDecimal discountPercentage = (BigDecimal) fieldDiscountPercentage.getValue();
