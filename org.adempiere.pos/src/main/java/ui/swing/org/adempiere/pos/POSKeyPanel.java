@@ -47,6 +47,7 @@ import org.compiere.util.Env;
  * Adaxa Pty Ltd
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * @author Victor Perez <victor.perez@e-evolution.com>,  eEvolution http://www.e-evolution.com
  * <li> Change Image Size
  *
  */
@@ -60,22 +61,22 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 	/**
 	 * 	Constructor
 	 */
-	public POSKeyPanel (int C_POSKeyLayout_ID, PosKeyListener caller)
+	public POSKeyPanel (int posKeyLayoutId, PosKeyListener caller)
 	{
-		if (C_POSKeyLayout_ID == 0)
+		if (posKeyLayoutId == 0)
 			return;
 		
 		setLayout(cardLayout);
-		add(createCard(C_POSKeyLayout_ID), Integer.toString(C_POSKeyLayout_ID));
-		currentLayout = C_POSKeyLayout_ID;
-		cardLayout.show(this, Integer.toString(C_POSKeyLayout_ID));
+		add(createCard(posKeyLayoutId), Integer.toString(posKeyLayoutId));
+		currentLayout = posKeyLayoutId;
+		cardLayout.show(this, Integer.toString(posKeyLayoutId));
 		this.caller = caller;
 	}	//	PosSubFunctionKeys
 	
 	/** layout			*/
 	private CardLayout cardLayout = new CardLayout();
 	/** Map of map of keys */
-	private HashMap<Integer, HashMap<Integer, MPOSKey>> keymap = new HashMap<Integer, HashMap<Integer,MPOSKey>>();
+	private HashMap<Integer, HashMap<Integer, MPOSKey>> keyMaps = new HashMap<Integer, HashMap<Integer,MPOSKey>>();
 	/** Currently displayed layout	*/
 	int currentLayout;
 	/**	Logger			*/
@@ -89,17 +90,17 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 	/**
 	 * @return
 	 */
-	private CPanel createCard(int C_POSKeyLayout_ID) {
+	private CPanel createCard(int posKeyLayoutId) {
 		
 		// already added
-		if ( keymap.containsKey(C_POSKeyLayout_ID) )
+		if ( keyMaps.containsKey(posKeyLayoutId) )
 		{
 			return null;
 		}
 		
 		CPanel card = new CPanel();
 		card.setLayout(new MigLayout("fill, ins 0"));
-		MPOSKeyLayout keyLayout = MPOSKeyLayout.get(Env.getCtx(), C_POSKeyLayout_ID);
+		MPOSKeyLayout keyLayout = MPOSKeyLayout.get(Env.getCtx(), posKeyLayoutId);
 
 		Color stdColor = Color.lightGray;
 		if (keyLayout.getAD_PrintColor_ID() != 0)
@@ -120,7 +121,7 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 		
 		HashMap<Integer, MPOSKey> map = new HashMap<Integer, MPOSKey>(keys.length);
 
-		keymap.put(C_POSKeyLayout_ID, map);
+		keyMaps.put(posKeyLayoutId, map);
 		
 		int COLUMNS = 3;	//	Min Columns
 		int ROWS = 3;		//	Min Rows
@@ -224,20 +225,20 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 
 	/**
 	 * 	Action Listener
-	 *	@param e event
+	 *	@param actionEvent event
 	 */
-	public void actionPerformed (ActionEvent e)
+	public void actionPerformed (ActionEvent actionEvent)
 	{
-		String action = e.getActionCommand();
-		if (action == null || action.length() == 0 || keymap == null)
+		String action = actionEvent.getActionCommand();
+		if (action == null || action.length() == 0 || keyMaps == null)
 			return;
 		log.info( "PosSubFunctionKeys - actionPerformed: " + action);
-		HashMap<Integer, MPOSKey> currentKeymap = keymap.get(currentLayout);
+		HashMap<Integer, MPOSKey> currentKeymap = keyMaps.get(currentLayout);
 		
 		try
 		{
-			int C_POSKey_ID = Integer.parseInt(action);
-			MPOSKey key = currentKeymap.get(C_POSKey_ID);
+			int posKeyId = Integer.parseInt(action);
+			MPOSKey key = currentKeymap.get(posKeyId);
 			// switch layout
 			if ( key.getSubKeyLayout_ID() > 0 )
 			{

@@ -52,6 +52,7 @@ import org.compiere.util.Msg;
  *         *Copyright (c) Jorg Janke
  *  @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  *  <li> Implement best practices
  *  @version $Id: SubFunctionKeys.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
@@ -111,6 +112,8 @@ public class POSDocumentPanel extends POSSubPanel
 	private POSTextField 	fieldPartnerName;
 	/**	Keyboard			*/
 	private POSKeyPanel 	keyboardPanel;
+	/** Collect 			*/
+	private VCollect 		collectPayment;
 	/**	Logger				*/
 	private static CLogger logger = CLogger.getCLogger(POSDocumentPanel.class);
 
@@ -295,6 +298,17 @@ public class POSDocumentPanel extends POSSubPanel
 		//	For Key Panel
 		keyboardPanel = new POSKeyPanel(posKeyLayoutId, this);
 		add(keyboardPanel, keyboardConstraint);
+
+		GridBagConstraints collectPaymentConstraint = new GridBagConstraints();
+		collectPaymentConstraint.fill = GridBagConstraints.BOTH;
+		collectPaymentConstraint.fill = GridBagConstraints.BOTH;
+		collectPaymentConstraint.weightx = 1;
+		collectPaymentConstraint.weighty = 1;
+		collectPaymentConstraint.gridy = 2;
+
+		collectPayment = new VCollect(posPanel);
+		collectPayment.hideCollect();
+		add(collectPayment.getPanel(), collectPaymentConstraint);
 		//	Refresh
 		refreshPanel();
 	}	//	init
@@ -457,5 +471,15 @@ public class POSDocumentPanel extends POSSubPanel
 
 	@Override
 	public void moveDown() {
+	}
+
+	public VCollect getCollectPayment()
+	{
+		return collectPayment.load(posPanel);
+	}
+
+	public POSKeyPanel getKeyboard()
+	{
+		return keyboardPanel;
 	}
 }	//	POSDocumentPanel

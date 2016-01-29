@@ -25,24 +25,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
-import org.adempiere.util.ProcessUtil;
 import org.compiere.model.I_AD_User;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrderTax;
-import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPayment;
@@ -58,13 +55,16 @@ import org.compiere.model.MWarehouse;
 import org.compiere.model.MWarehousePrice;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Order;
+import org.compiere.print.ReportCtl;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
@@ -1169,12 +1169,10 @@ public class CPOS {
 			} else {
 				currentOrder.set_TrxName(trxName);
 			}
-			isToPrint = true;
 			//	Get value for Standard Order
 			if(isPrepayment) {
 				//	Set Document Type
 				currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
-				isToPrint = false;
 			}
 			
 			//	Force Delivery for POS not for Standard Order
@@ -1217,42 +1215,17 @@ public class CPOS {
 	 * @return void
 	 */
 	private void generateShipment(String trxName) {
-		int processId = 199;  // HARDCODED    M_InOut_Generate - org.compiere.process.InOutGenerate
-		MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
-		if (!instance.save()) {
-			throw new AdempiereException("ProcessNoInstance");
-		}
-		//	Insert Values
-		DB.executeUpdateEx("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) Values(?, ?)", 
-				new Object[]{instance.getAD_PInstance_ID(), getC_Order_ID()}, trxName);
-		//	Add Lines
-		ProcessInfo processInfo = new ProcessInfo ("VInOutGen", processId);
-		processInfo.setAD_PInstance_ID (instance.getAD_PInstance_ID());
-		processInfo.setClassName("org.compiere.process.InOutGenerate");
+		ProcessInfo processInfo = ProcessBuilder.
+				create(getCtx()).process(199)
+				.withTitle(Msg.parseTranslation(getCtx(), "@InOutGenerateGen@"))
+				.withSelectedRecordsIds(new ArrayList<>(getC_Order_ID()))
+				.withParameter("Selection", "Y")
+				.withParameter(MInOut.COLUMNNAME_M_Warehouse_ID , getM_Warehouse_ID())
+				.withoutTransactionClose()
+				.execute(trxName);
 
-		//	Add Is Selection
-		MPInstancePara para = new MPInstancePara(instance, 10);
-		para.setParameter("Selection", "Y");
-		if (!para.save()) {
-			String msg = "No Selection Parameter added";  //  not translated
-			log.log(Level.SEVERE, msg);
-			throw new AdempiereException(msg);
-		}
-		//	Add Warehouse
-		para = new MPInstancePara(instance, 20);
-		para.setParameter("M_Warehouse_ID", getM_Warehouse_ID());
-		if (!para.save()) {
-			String msg = "No Selection Parameter added";  //  not translated
-			log.log(Level.SEVERE, msg);
-			throw new AdempiereException(msg);
-		}
-		//	Create Trx
-		Trx trx = Trx.get(trxName, false);
-		//	Start Process
-		ProcessUtil.startJavaProcess(Env.getCtx(), processInfo, trx, false);
-		if(processInfo.isError()) {
+		if(processInfo.isError())
 			throw new AdempiereException(processInfo.getSummary());
-		}
 	}
 	
 	/**
@@ -1261,43 +1234,18 @@ public class CPOS {
 	 * @return void
 	 */
 	private void generateInvoice(String trxName) {
-		int processId = 134;  // HARDCODED    C_InvoiceCreate - org.compiere.process.InvoiceGenerate
-		MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
-		if (!instance.save()) {
-			throw new AdempiereException("ProcessNoInstance");
-		}
-		//	Insert Values
-		DB.executeUpdateEx("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) Values(?, ?)", 
-				new Object[]{instance.getAD_PInstance_ID(), getC_Order_ID()}, trxName);
-		//	Add Lines
-		ProcessInfo processInfo = new ProcessInfo ("", processId);
-		processInfo.setAD_PInstance_ID (instance.getAD_PInstance_ID());
-		processInfo.setClassName("org.compiere.process.InvoiceGenerate");
 
-		//	Add Is Selection
-		MPInstancePara para = new MPInstancePara(instance, 10);
-		para.setParameter("Selection", "Y");
-		if (!para.save()) {
-			String msg = "No Selection Parameter added";  //  not translated
-			log.log(Level.SEVERE, msg);
-			throw new AdempiereException(msg);
-		}
-		//	For Document Action
-		para = new MPInstancePara(instance, 20);
-		para.setParameter("DocAction", "CO");
-		if (!para.save())
-		{
-			String msg = "No DocAction Parameter added";  //  not translated
-			log.log(Level.SEVERE, msg);
-			throw new AdempiereException(msg);
-		}
-		//	Create Trx
-		Trx trx = Trx.get(trxName, false);
-		//	Start Process
-		ProcessUtil.startJavaProcess(Env.getCtx(), processInfo, trx, false);
-		if(processInfo.isError()) {
+		ProcessInfo processInfo = ProcessBuilder.
+				create(getCtx()).process(134)
+				.withTitle(Msg.parseTranslation(getCtx(), "@InvGenerateGen@"))
+				.withSelectedRecordsIds(new ArrayList<>(getC_Order_ID()))
+				.withParameter("Selection", "Y")
+				.withParameter(MInvoice.COLUMNNAME_DocAction, DocAction.ACTION_Complete)
+				.withoutTransactionClose()
+				.execute(trxName);
+
+		if(processInfo.isError())
 			throw new AdempiereException(processInfo.getSummary());
-		}
 	}
 	
 	/**
@@ -2008,5 +1956,24 @@ public class CPOS {
 			exception.printStackTrace();
 		}
 		return rows;
+	}
+
+	/**
+	 * 	Print Ticket
+	 *
+	 */
+	public void printTicket() {
+		if (!hasOrder())
+			return;
+		try
+		{
+			//if (p_pos.getAD_PrintLabel_ID() != 0)
+			//		PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
+			//print standard document
+			ReportCtl.startDocumentPrint(0, getC_Order_ID(), false);
+		}
+		catch (Exception e) {
+			throw new AdempierePOSException("PrintTicket - Error Printing Ticket");
+		}
 	}
 }

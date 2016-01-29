@@ -217,7 +217,7 @@ public class POSActionPanel extends POSSubPanel
 		add(fieldProductName, new GridBagConstraints(0, 1, 1, 1, 1, 1
 				,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 0), 0, 0));
 
-		if (posPanel.isEnableProductLookup()) {
+		if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
 			JComboBox<KeyNamePair> fillingComponent = new JComboBox<KeyNamePair>();
 			Font font = new Font("monospaced", Font.PLAIN, 14);
 			fillingComponent.setFont(font);
@@ -229,7 +229,6 @@ public class POSActionPanel extends POSSubPanel
 			lookupProduct.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
 			lookupProduct.setWarehouseId(posPanel.getM_Warehouse_ID());
 			findProductTimer.start();
-
 			add(fillingComponent, new GridBagConstraints(0, 2, 1, 1, 1, 1
 					, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 20), 0, 0));
 		}
@@ -407,16 +406,24 @@ public class POSActionPanel extends POSSubPanel
 		if(!posPanel.hasOrder()) {
 			ADialog.warn(posPanel.getWindowNo(), this,  Msg.getMsg(ctx, "POS.MustCreateOrder"));
 		} else {
-			VCollect collect = new VCollect(posPanel);
-			if (collect.showCollect()) {
-				//	Print Ticket just when is completed and it is not a Standard Order nor a Warehouse Order
-				if(!posPanel.isStandardOrder() /*&& !posPanel.isWarehouseOrder()*/ && posPanel.isToPrint()) {
-					printTicket();
-				}
-				//	
-				posPanel.setOrder(0);
-				posPanel.refreshPanel();
-			}
+			posPanel.hideKeyboard();
+			posPanel.showCollectPayment();
+			//VCollect collect = posPanel.getCollectPayment();
+			//collect.showCollect();
+			//collect.load(posPanel.getCtx(), posPanel.getM_Order() , posPanel.getM_POS());
+			//new VCollect(posPanel);
+			//if (collect.showCollect()) {
+			//	Print Ticket just when is completed and it is not a Standard Order nor a Warehouse Order
+			//	if(!posPanel.isStandardOrder() /*&& !posPanel.isWarehouseOrder()*/ && posPanel.isToPrint()) {
+			//		printTicket();
+			//	}
+			//
+			//posPanel.setOrder(0);
+			//posPanel.refreshPanel();
+			//}
+			//posPanel.hideCollectPayment();
+			//posPanel.showKeyboard();
+
 		}	
 	}  // payOrder
 
@@ -448,48 +455,7 @@ public class POSActionPanel extends POSSubPanel
 		//	Update
 		posPanel.refreshPanel();
 	} // deleteOrder
-	
-	/**
-	 * 	Print Ticket
-	 * 
-	 */
-	public void printTicket() {
-		if (!posPanel.hasOrder())
-			return;
-		//	
-		
-		//int windowNo = p_posPanel.getWindowNo();
-		//Properties ctx = p_posPanel.getPropiedades();
-			try 
-			{
-				//TODO: to incorporate work from Posterita
-				/*
-				if (p_pos.getAD_PrintLabel_ID() != 0)
-					PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
-				*/ 
-				//print standard document
-//				Boolean print = true;
-				Trx.run(new TrxRunnable() {
-					public void run(String trxName) {
-						if (posPanel.getAD_Sequence_ID()!= 0) {
-							
-							String docno = posPanel.getSequenceDoc(trxName);
-							String q = "Confirmar el número consecutivo "  + docno;
-							if (ADialog.ask(posPanel.getWindowNo(), posPanel.getFrame(), q)) {
-								posPanel.setPOReference(docno);
-								posPanel.saveNextSeq(trxName);
-							}
-						}
-					}
-				});
-				ReportCtl.startDocumentPrint(0, posPanel.getC_Order_ID(), false);
-			}
-			catch (Exception e) {
-				logger.severe("PrintTicket - Error Printing Ticket");
-			}
-			
-			  
-	}
+
 	
 	/**
 	 * Is order fully pay ?
