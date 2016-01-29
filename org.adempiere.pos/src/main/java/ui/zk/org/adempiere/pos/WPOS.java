@@ -52,11 +52,13 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Iframe;
+import org.zkoss.zul.Timer;
 
 /**
  *	Point of Sales Main Window. 
@@ -99,7 +101,14 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public Panel 							v_Panel 	 = new Panel();
 	/** Keyoard Focus Manager				*/
 	private PosKeyboardFocusManager			m_focusMgr   = null;
-	
+	/**	Timer for logout					*/
+	private Timer							logoutTimer;
+	/**	Timer for User Pin					*/
+	private Timer 							userPinTimer;
+	/** Is Correct User Pin					*/
+	private boolean							isCorrectUserPin;
+	/** User Pin Listener 					*/
+	private WPOSUserPinListener 			userPinListener;
 	/** Order Panel							*/
 	private WPOSActionPanel 				v_ActionPanel;
 	private WPOSProductPanel 				f_ProductKeysPanel;
@@ -151,6 +160,11 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 			return;
 		}
 		
+		if (getAutoLogoutDelay() > 0 && logoutTimer == null) {
+			logoutTimer = new Timer(1000);
+			logoutTimer.start();
+		}
+		
 	}	//	init
 
 	/**************************************************************************
@@ -161,6 +175,12 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	private boolean dynInit()
 	{ 
 		setMPOS();
+		userPinListener = new WPOSUserPinListener(this);
+		//Delay 5 seconds by default
+		userPinTimer = new Timer((getAutoLogoutDelay() + 5)  * 1000);
+		userPinTimer.addEventListener(Events.ON_TIMER, userPinListener);
+		userPinListener.setTimer(userPinTimer);
+		userPinTimer.setRunning(false);
 		Borderlayout mainLayout = new Borderlayout();	
 		v_ActionPanel = new WPOSActionPanel(this);
 		f_ProductKeysPanel = new WPOSProductPanel(this);
@@ -174,6 +194,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		Center table = new Center();
 		Borderlayout fullPanel = new Borderlayout();
 		Borderlayout mediumPanel = new Borderlayout();
+		statusBar.appendChild(userPinTimer);
 		southPanel.appendChild(statusBar);
 		center.setStyle("border: none; width:40%");
 		center.appendChild(fullPanel);
@@ -329,6 +350,10 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		keyboards.clear();
 		keyboards = null;
 
+		if ( logoutTimer != null )
+			logoutTimer.stop();
+		logoutTimer = null;
+		
 		if (isVirtualKeyboard()) {
 			if (m_focusMgr != null)
 				m_focusMgr.stop();
@@ -509,4 +534,64 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		return f_OrderLinePanel.getC_OrderLine_ID();
 	}
 	
+	/**
+	 * return User Pin Listener
+	 * @return
+     */
+	public EventListener getUserPinListener()
+	{
+		return userPinListener;
+	}
+	
+	/**
+	 * return User Pin Listener
+	 * @return
+     */
+	public void setUserPinListener(Event e)
+	{
+		userPinListener.doPerformAction(e);
+	}
+	
+	/**
+	 * set the correct user pin
+	 * @param isCorrectUserPin
+     */
+	protected void setIsCorrectUserPin(boolean isCorrectUserPin)
+	{
+		this.isCorrectUserPin = isCorrectUserPin;
+	}
+
+	/**
+	 * Set current based on pin
+	 * @param userPin
+     */
+	protected void setIsCorrectUserPin(char[] userPin)
+	{
+		if (isCorrectUserPin)
+			return;
+		boolean isValidUserPin = isValidUserPin(userPin);
+		if (isValidUserPin)
+		{
+			System.out.println(userPinTimer.isRunning());
+			userPinTimer.start();
+			setIsCorrectUserPin(isValidUserPin);
+
+			System.out.println(userPinTimer.isRunning());
+		}
+	}
+
+	/**
+	 * Is correct User Pin asynchronous validation
+	 * @return
+     */
+	public boolean validateUserPin()
+	{
+		if (!isRequiredPIN())
+			return true;
+
+		if (!isCorrectUserPin)
+			FDialog.error(0,Msg.parseTranslation(getCtx(), ("@UserPin@ @IsInvalid@")));
+
+		return isCorrectUserPin;
+	}
 }	//	PosPanel
