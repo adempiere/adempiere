@@ -629,7 +629,7 @@ public class CPOS {
 		if (entityPOS.getDeliveryRule() != null)
 			currentOrder.setDeliveryRule(entityPOS.getDeliveryRule());
 		if (entityPOS.getDeliveryRule() != null)
-			currentOrder.setInvoiceRule(entityPOS.getDeliveryRule());
+			currentOrder.setInvoiceRule(entityPOS.getInvoiceRule());
 		currentOrder.setC_POS_ID(entityPOS.getC_POS_ID());
 		currentOrder.setM_Warehouse_ID(entityPOS.getM_Warehouse_ID());
 		if (docTypeTargetId != 0) {
