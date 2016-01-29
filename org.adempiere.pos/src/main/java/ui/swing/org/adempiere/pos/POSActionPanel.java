@@ -252,25 +252,25 @@ public class POSActionPanel extends POSSubPanel
 	
 	/**
 	 * 	Distribute actions
-	 *	@param e event
+	 *	@param actionEvent event
 	 */
-	public void actionPerformed (ActionEvent e) {
-		String action = e.getActionCommand();
+	public void actionPerformed (ActionEvent actionEvent) {
+		String action = actionEvent.getActionCommand();
 		if (action == null || action.length() == 0)
 			return;
 		logger.info( "PosSubCustomer - actionPerformed: " + action);
 		try {
 				//	New
-				if (e.getSource().equals(buttonNew)) {
+				if (actionEvent.getSource().equals(buttonNew)) {
 					posPanel.newOrder();
-				} if (e.getSource().equals(buttonDocType)) {
+				} if (actionEvent.getSource().equals(buttonDocType)) {
 					if (posPanel.validateUserPin()) {
 						QueryDocType queryDocType = new QueryDocType(posPanel);
 						queryDocType.addOptionListener(this);
 						queryDocType.loadData();
 						queryDocType.showView();
 					}
-				} else if (e.getSource().equals(buttonBPartner)) {
+				} else if (actionEvent.getSource().equals(buttonBPartner)) {
 					if(posPanel.isDrafted() || posPanel.isInProgress())  {
 						QueryBPartner queryBPartner = new QueryBPartner(posPanel);
 						queryBPartner.addOptionListener(this);
@@ -280,40 +280,40 @@ public class POSActionPanel extends POSSubPanel
 							queryBPartner.loadData();
 						queryBPartner.showView();
 					}
-				} else if (e.getSource().equals(buttonProcess)){
+				} else if (actionEvent.getSource().equals(buttonProcess)){
 						actionProcessMenu.show(this, 340 , 60);
 						return;
 				}
-				else if (e.getSource().equals(buttonHistory)) {
+				else if (actionEvent.getSource().equals(buttonHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
 					POSQuery queryTicket = new QueryOrderHistory(posPanel);
 					queryTicket.addOptionListener(this);
 					queryTicket.showView();
 					return;
-				} else if (e.getSource().equals(buttonBack)){
+				} else if (actionEvent.getSource().equals(buttonBack)){
 					previousRecord();
-				} else if (e.getSource().equals(buttonNext)){
+				} else if (actionEvent.getSource().equals(buttonNext)){
 					nextRecord();
-				} else if (e.getSource().equals(buttonCollect)) {
+				} else if (actionEvent.getSource().equals(buttonCollect)) {
 					payOrder();
-				} else if (e.getSource().equals(buttonCancel)) {
+				} else if (actionEvent.getSource().equals(buttonCancel)) {
 					if (posPanel.validateUserPin())
 						deleteOrder();
-				} else if (e.getSource().equals(buttonLogout)) {	//	Logout
+				} else if (actionEvent.getSource().equals(buttonLogout)) {	//	Logout
 					posPanel.dispose();
 					return;
-				} else if (e.getSource().equals(fieldProductName)) {
+				} else if (actionEvent.getSource().equals(fieldProductName)) {
 					if(posPanel.isDrafted() || posPanel.isInProgress())  {
 						// Allow to add product only when order is drafted or in process
 						findProduct();
-						getMainFocus();			
+						getMainFocus();
 					}
 					return;
 				}
 				getMainFocus();
 				//	Refresh
 				posPanel.refreshPanel();
-		} catch (AdempiereException exception) {
+		} catch (Exception exception) {
 			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
 	}	//	actionPerformed
@@ -329,7 +329,7 @@ public class POSActionPanel extends POSSubPanel
 	/**************************************************************************
 	 * 	Find/Set Product & Price
 	 */
-	public void findProduct() {
+	public void findProduct() throws Exception {
 		String query = fieldProductName.getText();
 		if (query == null || query.length() == 0)
 			return;
@@ -591,6 +591,8 @@ public class POSActionPanel extends POSSubPanel
 			posPanel.refreshPanel();
 		}
 		catch (AdempiereException exception) {
+			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
+		} catch (Exception exception) {
 			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
 
