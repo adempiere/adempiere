@@ -37,6 +37,7 @@ public class POSUserPinListener implements ActionListener {
 
     POSUserPinListener(VPOS pos)
     {
+
         this.pos = pos;
     }
 
@@ -52,7 +53,6 @@ public class POSUserPinListener implements ActionListener {
 
     protected void doPerformAction(ActionEvent e)
     {
-        //
         if(e.getSource()==userPinTimer) {
             pos.setIsCorrectUserPin(false);
             userPinTimer.stop();

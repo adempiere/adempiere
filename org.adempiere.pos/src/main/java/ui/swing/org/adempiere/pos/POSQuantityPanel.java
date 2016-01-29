@@ -227,6 +227,7 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 				}
 				return;
 			}
+
 		} catch (AdempiereException exception) {
 			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
