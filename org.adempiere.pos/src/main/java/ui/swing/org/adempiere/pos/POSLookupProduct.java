@@ -46,7 +46,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     private JComboBox<KeyNamePair> component = null;
     private Integer priceListVersionId = 0;
     private Integer warehouseId = 0;
-    private String fill = null;
+    private String fill = StringUtils.repeat(" " , 400);
     static private Integer PRODUCT_VALUE_LENGTH = 14;
     static private Integer PRODUCT_NAME_LENGTH = 50;
     static private Integer QUANTITY_LENGTH = 16;
