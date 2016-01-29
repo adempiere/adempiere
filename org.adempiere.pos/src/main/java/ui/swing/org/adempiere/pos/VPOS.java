@@ -210,9 +210,9 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 				PointerInfo pi = null;
 				long lastMouseMove  = System.currentTimeMillis();
 				long lastKeyboardEvent = System.currentTimeMillis();
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent actionEvent) {
 					try {
-						long now = e.getWhen();
+						long now = actionEvent.getWhen();
 						PointerInfo newPi = MouseInfo.getPointerInfo();
 						// mouse moved
 						if (newPi != null && pi != null
