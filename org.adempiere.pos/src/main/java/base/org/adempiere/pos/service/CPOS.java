@@ -1408,7 +1408,7 @@ public class CPOS {
 			return;
 		}
 		currentOrder.load(currentOrder.get_TrxName());
-		currentOrder.getLines(true, "");
+		currentOrder.getLines(true, "Line");
 		partner = MBPartner.get(getCtx(), currentOrder.getC_BPartner_ID());
 	}
 	

@@ -117,8 +117,8 @@ public class POSOrderLinePanel extends POSSubPanel
 	} //init
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
+	public void actionPerformed(ActionEvent actionEvent) {
+		String action = actionEvent.getActionCommand();
 		if (action == null || action.length() == 0)
 			return;
 		logger.info( "POSOrderLinePanel - actionPerformed: " + action);
@@ -280,6 +280,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		posPanel.autoSize();
 		//	Add Listener
 		posTable.getModel().addTableModelListener(this);
+		posTable.addRowSelectionInterval(0, 0);
 	}
 
 
@@ -346,9 +347,11 @@ public class POSOrderLinePanel extends POSSubPanel
 				break;
 			case KeyEvent.VK_UP:
 				showProductInfo(row);
+				posPanel.refreshPanel();
 				break;
 			case KeyEvent.VK_DOWN:
 				showProductInfo(row);
+				posPanel.refreshPanel();
 				break;
 			default:
 				break;
