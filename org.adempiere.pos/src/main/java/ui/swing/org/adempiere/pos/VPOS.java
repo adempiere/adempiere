@@ -83,7 +83,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	/** Current Line				*/
 	private POSOrderLinePanel 				orderLinePanel;
 	/** Function Keys				*/
-	private POSDocumentPanel 				productKeysPanel;
+	private POSDocumentPanel 				documentPanel;
 	/** Status Bar 					*/
 	private StatusBar 						statusBar;
 	/**	Timer for logout			*/
@@ -174,7 +174,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 		userPinListener = new POSUserPinListener(this);
 		//Delay 5 seconds by default
-		userPinTimer = new javax.swing.Timer((getAutoLogoutDelay() + 5)  * 1000, userPinListener);
+		userPinTimer = new javax.swing.Timer((getAutoLogoutDelay() + 10)  * 1000, userPinListener);
 		userPinListener.setTimer(userPinTimer);
 
 		SettingKeyboardFocusManager();
@@ -372,11 +372,11 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		orderLinePanel = new POSOrderLinePanel(this);
 		leftPanel.add(orderLinePanel, new GridBagConstraints(0, 4, 1, 1, 1, 1
 				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		productKeysPanel = new POSDocumentPanel(this);
-		productKeysPanel.setPreferredSize(new Dimension(500, 800));
-		productKeysPanel.setMinimumSize(new Dimension(500, 800));
+		documentPanel = new POSDocumentPanel(this);
+		documentPanel.setPreferredSize(new Dimension(500, 800));
+		documentPanel.setMinimumSize(new Dimension(500, 800));
 		dividerPane.add(leftPanel, JSplitPane.LEFT);
-		dividerPane.add(productKeysPanel, JSplitPane.RIGHT);
+		dividerPane.add(documentPanel, JSplitPane.RIGHT);
 
 		statusBar.setInfo("");
 		//	Seek to last
@@ -436,9 +436,9 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 			orderLinePanel.dispose();
 		}
 		orderLinePanel = null;
-		if (productKeysPanel != null)
-			productKeysPanel.dispose();
-		productKeysPanel = null;
+		if (documentPanel != null)
+			documentPanel.dispose();
+		documentPanel = null;
 		if (frame != null)
 			frame.dispose();
 		frame = null;
@@ -492,7 +492,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		reloadOrder();
 		actionPanel.refreshPanel();
 		actionPanel.changeViewPanel();
-		productKeysPanel.refreshPanel();
+		documentPanel.refreshPanel();
 		orderLinePanel.refreshPanel();
 		quantityPanel.refreshPanel();
 		if(!hasLines()) {
@@ -526,7 +526,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public void refreshHeader() {
 		reloadOrder();
 		actionPanel.changeViewPanel();
-		productKeysPanel.refreshPanel();
+		documentPanel.refreshPanel();
 	}
 
 	@Override
@@ -540,20 +540,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		quantityPanel.changeViewPanel();
 		quantityPanel.refreshPanel();
 	}
-
-	/*public void isRequiredUserPIN()
-	{
-
-		if (isPOSRequiredPIN()) {
-			/** POS Required PIN
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					POSUserPinListener.createAndShowUI();
-				}
-			});
-
-		}
-	}*/
 
 	/**
 	 * Update Line Table
@@ -640,6 +626,22 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 			throw new AdempiereException("@UserPin@ @IsInvalid@");
 
 		return isCorrectUserPin;
+	}
+
+	public void showCollectPayment()
+	{
+		documentPanel.getCollectPayment();
+		documentPanel.getCollectPayment().showCollect();
+	}
+
+	public void showKeyboard()
+	{
+		documentPanel.getKeyboard().setVisible(true);
+	}
+
+	public void hideKeyboard()
+	{
+		documentPanel.getKeyboard().setVisible(false);
 	}
 
 }
