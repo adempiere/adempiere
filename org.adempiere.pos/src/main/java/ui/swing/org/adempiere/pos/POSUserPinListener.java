@@ -18,11 +18,11 @@ package org.adempiere.pos;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.apps.ADialog;
-import org.compiere.swing.CPanel;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.swing.CButton;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,7 +37,6 @@ public class POSUserPinListener implements ActionListener {
 
     POSUserPinListener(VPOS pos)
     {
-
         this.pos = pos;
     }
 
@@ -51,45 +50,57 @@ public class POSUserPinListener implements ActionListener {
         this.userPinTimer = timer;
     }
 
-    protected void doPerformAction(ActionEvent e)
-    {
-        if(e.getSource()==userPinTimer) {
-            pos.setIsCorrectUserPin(false);
-            userPinTimer.stop();
-            return;
-        }
-
-        if (userPinTimer.isRunning())
+    protected void doPerformAction(ActionEvent actionEvent) {
+        if (!"KeyEvent".equals(actionEvent.getActionCommand().toString())
+        ||  !actionEvent.getActionCommand().toString().equals("Cancel"))
             return;
 
+        Object objectSource = actionEvent.getSource();
+        VNumber number = null;
+        CButton button = null;
+
+        if (objectSource instanceof VNumber)
+            number = (VNumber) objectSource;
+
+        if (objectSource instanceof CButton)
+            button = (CButton) objectSource;
 
         if (!pos.isRequiredPIN())
             return;
 
-        JPasswordField passwordField = new JPasswordField(20);
-        GridBagLayout grid = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets.top = 4;
-        constraints.insets.bottom = 4;
-        CPanel passwordPanel = new CPanel(grid);
-        passwordPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 5, 20));
-        constraints.anchor = GridBagConstraints.WEST;
-        String msg = Msg.parseTranslation(pos.getCtx() , "@UserPIN@");
-        passwordPanel.add(new JLabel(msg),constraints);
-        constraints.gridy=1;
-        passwordPanel.add(passwordField,constraints);
-        int result = JOptionPane.showConfirmDialog(null, passwordPanel,msg,JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION)
-            pos.setIsCorrectUserPin(passwordField.getPassword());
+        if (
+               //Number field validation
+               (
+                number != null && (Msg.translate(Env.getCtx(), "Discount").equals(number.getName()) || Msg.translate(Env.getCtx(), "PriceActual").equals(number.getName())
+               )
+           ||
+               //Button validation
+               (
+               button != null && ("Cancel".equals(button.getName()))
+               )
+           ))
+        {
+           POSUserPinDialog.show(pos);
+    }
 
     }
 
     @Override
-    public final void actionPerformed(ActionEvent event){
+    public final void actionPerformed(ActionEvent actionEvent){
 
         if(active){
             try {
-                doPerformAction(event);
+
+                if (actionEvent.getSource() == userPinTimer) {
+                    pos.invalidateUserPin();
+                    userPinTimer.stop();
+                    return;
+                }
+
+                if (userPinTimer.isRunning())
+                    return;
+
+                doPerformAction(actionEvent);
             }
             catch (AdempiereException exception) {
                 ADialog.error(pos.getWindowNo(), pos.getFrame(), exception.getLocalizedMessage());
