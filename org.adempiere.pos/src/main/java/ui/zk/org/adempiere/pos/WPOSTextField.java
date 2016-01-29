@@ -95,6 +95,19 @@ public class WPOSTextField extends Div {
 		setTitle(p_Title);
 	}
 	
+	/**
+	 * Set Type
+	 * @param type
+	 */
+	public void setType(String type) {
+		f_PlaceHolder.setType(type);
+		f_TextField.setType(type);
+	}
+	
+	public String getType() {
+		return f_PlaceHolder.getType();
+	}
+	
 	/** 
 	 * Set Title
 	 * @param p_Title

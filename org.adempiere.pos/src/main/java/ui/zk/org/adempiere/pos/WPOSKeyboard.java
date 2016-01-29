@@ -199,8 +199,10 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 	public void setPosTextField(Textbox posTextField) {
 		
 		tfield = posTextField;
+		tfield.setType(posTextField.getType());
 		txtCalc.setText(tfield.getText());
 		txtCalc.setValue(tfield.getValue());
+		txtCalc.setType(posTextField.getType());
 		
 	}
 	
@@ -210,10 +212,11 @@ public class WPOSKeyboard extends Window implements PosKeyListener, EventListene
 	 * @return void
 	 */
 	public void setPosTextField(WPOSTextField posTextField) {
-		
 		field = posTextField;
+		field.setType(posTextField.getType());
 		txtCalc.setText(field.getText());
 		txtCalc.setValue(field.getValue());
+		txtCalc.setType(posTextField.getType());
 		
 	}
 	/**
