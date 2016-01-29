@@ -264,10 +264,12 @@ public class POSActionPanel extends POSSubPanel
 				if (e.getSource().equals(buttonNew)) {
 					posPanel.newOrder();
 				} if (e.getSource().equals(buttonDocType)) {
-					QueryDocType queryDocType = new QueryDocType(posPanel);
-					queryDocType.addOptionListener(this);
-					queryDocType.loadData();
-					queryDocType.showView();
+					if (posPanel.validateUserPin()) {
+						QueryDocType queryDocType = new QueryDocType(posPanel);
+						queryDocType.addOptionListener(this);
+						queryDocType.loadData();
+						queryDocType.showView();
+					}
 				} else if (e.getSource().equals(buttonBPartner)) {
 					if(posPanel.isDrafted() || posPanel.isInProgress())  {
 						QueryBPartner queryBPartner = new QueryBPartner(posPanel);

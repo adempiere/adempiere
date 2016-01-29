@@ -91,7 +91,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	/**	Timer for User Pin			*/
 	private Timer 							userPinTimer;
 	/** Is Correct User Pin			*/
-	private boolean							isCorrectUserPin;
+	private Boolean							isCorrectUserPin;
 	/** User Pin Listener 			*/
 	private POSUserPinListener 				userPinListener;
 	/** Keyoard Focus Manager		*/
@@ -176,6 +176,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		//Delay 5 seconds by default
 		userPinTimer = new javax.swing.Timer((getAutoLogoutDelay() + 10)  * 1000, userPinListener);
 		userPinListener.setTimer(userPinTimer);
+		isCorrectUserPin = null;
 
 		SettingKeyboardFocusManager();
 
@@ -597,13 +598,22 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		this.isCorrectUserPin = isCorrectUserPin;
 	}
 
+
+	/**
+	 * set the correct user pin
+	 */
+	protected void invalidateUserPin()
+	{
+		this.isCorrectUserPin = null;
+	}
+
 	/**
 	 * Set current based on pin
 	 * @param userPin
      */
 	protected void setIsCorrectUserPin(char[] userPin)
 	{
-		if (isCorrectUserPin)
+		if (isCorrectUserPin != null && isCorrectUserPin)
 			return;
 		boolean isValidUserPin = isValidUserPin(userPin);
 		if (isValidUserPin)
@@ -622,8 +632,11 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		if (!isRequiredPIN())
 			return true;
 
+		if (isCorrectUserPin == null)
+			POSUserPinDialog.show(this);
+
 		if (!isCorrectUserPin)
-			throw new AdempiereException("@UserPin@ @IsInvalid@");
+			throw new AdempiereException("@UserPin@  @IsInvalid@ @To@ @Supervisor_ID@");
 
 		return isCorrectUserPin;
 	}
