@@ -18,6 +18,7 @@ package org.adempiere.pos;
 
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.util.StringUtils;
+import org.compiere.apps.ADialog;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -128,7 +129,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent keyEvent) {
+    public void keyReleased(KeyEvent keyEvent)  {
         if(keyEvent.getKeyCode()==40 && keyEvent.getSource()== fieldProductName) // Key down on product text field
         {
             component.requestFocus();
@@ -146,7 +147,11 @@ public class POSLookupProduct implements ActionListener, KeyListener {
             {
                 String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", item.getKey());
                 fieldProductName.setText(productValue);
-                actionPanel.findProduct();
+                try {
+                    actionPanel.findProduct();
+                } catch (Exception exception) {
+                    ADialog.error(0 , null , exception.getLocalizedMessage());
+                }
                 //form.updateInfo();
                 component.removeAllItems();
                 fieldProductName.requestFocus();

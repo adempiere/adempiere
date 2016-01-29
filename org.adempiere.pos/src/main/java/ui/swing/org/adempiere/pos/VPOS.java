@@ -393,7 +393,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @param qtyOrdered
 	 * @return void
 	 */
-	public void addLine(int productId, BigDecimal qtyOrdered) {
+	public void addLine(int productId, BigDecimal qtyOrdered) throws Exception{
 		//	Create Order if none exists
 		if (!hasOrder()) {
 			newOrder();
@@ -481,7 +481,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * New Order
 	 * @return void
 	 */
-	public void newOrder() {
+	public void newOrder() throws Exception{
 		newOrder(0);
 		infoProductPanel.resetValues();
 		quantityPanel.resetPanel();

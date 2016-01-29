@@ -30,6 +30,7 @@ import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
+import org.compiere.apps.ADialog;
 import org.compiere.model.I_C_BPartner;
 import org.compiere.model.I_C_Order;
 import org.compiere.model.I_C_OrderLine;
@@ -325,7 +326,11 @@ public class POSDocumentPanel extends POSSubPanel
 			return;
 		}
 		// Add line
-		posPanel.addLine(key.getM_Product_ID(), key.getQty());
+		try {
+			posPanel.addLine(key.getM_Product_ID(), key.getQty());
+		} catch (Exception exception) {
+			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
+		}
 		//	Show Product Info
 		posPanel.refreshProductInfo(key);
 	}
