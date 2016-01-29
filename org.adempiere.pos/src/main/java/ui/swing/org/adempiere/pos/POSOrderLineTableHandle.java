@@ -34,6 +34,7 @@ import org.compiere.util.Msg;
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 29/01/16.
  * <li> Define columns of order line table
  * <li> Handle the Load from DB
  */
@@ -45,7 +46,7 @@ public class POSOrderLineTableHandle {
 	 * @param p_OrderLineTable
 	 */
 	public POSOrderLineTableHandle (IMiniTable p_OrderLineTable) {
-		m_Table = p_OrderLineTable;
+		table = p_OrderLineTable;
 	}
 	
 	/**	Table Name			*/
@@ -74,7 +75,7 @@ public class POSOrderLineTableHandle {
 	public static final int	POSITION_GRANDTOTAL 	= 9;
 	
 	/**	Table Column Layout Info	*/
-	private ColumnInfo[] s_layout = new ColumnInfo[] {
+	private ColumnInfo[] columns = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class,0,false,true,null,false), 
 		new ColumnInfo("", "C_OrderLine_ID", DeleteColumn.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), PRODUCTNAME), PRODUCTNAME, String.class),
@@ -88,13 +89,13 @@ public class POSOrderLineTableHandle {
 	};
 	
 	/**	From Clause					*/
-	private String 			s_sqlFrom = "POS_OrderLine_v";
+	private final String sqlFrom = "POS_OrderLine_v";
 	/** Where Clause				*/
-	private String 			s_sqlWhere = "C_Order_ID=?";
+	private final String sqlWhere = "C_Order_ID=?";
 	/** The Query SQL				*/
-	private String			m_sql;
+	private String sqlStatement;
 	/**	Table						*/
-	private IMiniTable		m_Table;
+	private IMiniTable table;
 	/**	Logger						*/
 	private static CLogger 	log = CLogger.getCLogger(POSOrderLineTableHandle.class);
 	
@@ -103,46 +104,47 @@ public class POSOrderLineTableHandle {
 	 * @return boolean
 	 */
 	public boolean prepareTable() {
-		if(m_Table == null)
+		if(table == null)
 			return false;
 		//	Default Prepare
-		m_sql = m_Table.prepareTable (s_layout, s_sqlFrom, 
-				s_sqlWhere, false, TABLE_NAME);
+		sqlStatement = table.prepareTable (columns, sqlFrom,
+				sqlWhere, false, TABLE_NAME);
 		//	Default Return
 		return true;
 	}
 	
 	/**
 	 * Set Editable Quantity and Price
-	 * @param p_IsModifyPrice
-	 * @param p_IsDrafted
+	 * @param isModifyPrice
+	 * @param isDrafted
 	 * @return void
 	 */
-	public void setEditable(boolean p_IsModifyPrice, boolean p_IsDrafted) {
-		m_Table.setColumnClass(POSITION_QTYORDERED, BigDecimal.class, !p_IsDrafted);
-		m_Table.setColumnClass(POSITION_PRICE, BigDecimal.class, !(p_IsModifyPrice && p_IsDrafted));
+	public void setEditable(boolean isModifyPrice, boolean isDrafted) {
+		table.setColumnClass(POSITION_QTYORDERED, BigDecimal.class, !isDrafted);
+		table.setColumnClass(POSITION_PRICE, BigDecimal.class, !(isModifyPrice && isDrafted));
 	}
 	
 	/**
 	 * Load Table from SQL
-	 * @param p_C_Order_ID
+	 * @param orderId
 	 * @return boolean
 	 */
-	public boolean loadTable(int p_C_Order_ID) {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+	public boolean loadTable(int orderId) {
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		try {
-			pstmt = DB.prepareStatement (m_sql, null);
-			pstmt.setInt (1, p_C_Order_ID);
-			rs = pstmt.executeQuery ();
-			m_Table.loadTable(rs);
+			statement = DB.prepareStatement (sqlStatement, null);
+			statement.setInt (1, orderId);
+			resultSet = statement.executeQuery ();
+			if (resultSet != null)
+				table.loadTable(resultSet);
 			//	is Ok
 			return true;
 		} catch (Exception e) {
-			log.log(Level.SEVERE, m_sql, e);
+			log.log(Level.SEVERE, sqlStatement, e);
 		} finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
+			DB.close(resultSet, statement);
+			resultSet = null; statement = null;
 		}
 		//	Return
 		return false;
