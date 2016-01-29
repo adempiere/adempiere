@@ -194,7 +194,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		Center table = new Center();
 		Borderlayout fullPanel = new Borderlayout();
 		Borderlayout mediumPanel = new Borderlayout();
-		southPanel.appendChild(userPinTimer);
+		statusBar.appendChild(userPinTimer);
+		southPanel.appendChild(statusBar);
 		center.setStyle("border: none; width:40%");
 		center.appendChild(fullPanel);
 		mainLayout.appendChild(center);
