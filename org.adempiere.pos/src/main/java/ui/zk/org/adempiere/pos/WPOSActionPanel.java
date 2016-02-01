@@ -278,7 +278,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		}
 		WCollect collect = new WCollect(posPanel);
 		if (collect.showCollect()) {
-			if(posPanel.isToPrint()) {
+			if(!posPanel.isStandardOrder() /*&& !posPanel.isWarehouseOrder()*/ && posPanel.isToPrint()) {
 				printTicket();
 			}
 			//	
