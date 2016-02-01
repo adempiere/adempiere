@@ -268,7 +268,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		// Not completed Order 
 		else if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 				!v_POSPanel.isCompleted()) {		
-			if(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder()) {
+			if(v_POSPanel.isStandardOrder() /*|| pos.isWarehouseOrder()*/) {
 				 // Standard Order or Warehouse Order: no Credit Order, no prepayment
 				fIsPrePayOrder.setEnabled(false);	
 				fIsPrePayOrder.setSelected(false);	
@@ -547,7 +547,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 //				fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(false);
 			confirm.getOKButton().setEnabled(false);
-		} else if(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder()) { 
+		} else if(v_POSPanel.isStandardOrder() /*|| pos.isWarehouseOrder()*/) { 
 			// Standard Order or Warehouse Order: no Credit Order, no prepayment
 			fIsPrePayOrder.setEnabled(false);	
 			fIsCreditOrder.setEnabled(false);
