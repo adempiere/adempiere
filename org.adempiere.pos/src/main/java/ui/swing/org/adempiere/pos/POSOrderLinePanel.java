@@ -272,9 +272,7 @@ public class POSOrderLinePanel extends POSSubPanel
 			// Select first row, if end of table and no row has been selected
 			if(i==posTable.getRowCount()-1)	 {
 				if (posPanel.hasLines()) {
-					posTable.getSelectionModel().setSelectionInterval(0, 0);
-					posPanel.changeViewPanel();
-					showProductInfo(0);
+					moveTop();
 				}
 			}
 		}	
