@@ -1885,9 +1885,9 @@ public class CPOS {
 		MUser user = MUser.get(getCtx() ,getAD_User_ID());
 		I_AD_User supervisor = user.getSupervisor();
 		if (supervisor == null || supervisor.getAD_User_ID() <= 0)
-			throw new AdempierePOSException("@Supervisor@ @NotFound@");
+			throw new AdempierePOSException("@Supervisor@ \"" + supervisor.getName() + "\" @NotFound@");
 		if (supervisor.getUserPIN() == null || supervisor.getUserPIN().isEmpty())
-			throw new AdempierePOSException("@Supervisor@ " + supervisor.getName() + " @NotFound@ @UserPIN@");
+			throw new AdempierePOSException("@Supervisor@ \"" + supervisor.getName() + "\": @UserPIN@ @NotFound@");
 
 		char[] correctPassword = supervisor.getUserPIN().toCharArray();
 		boolean isCorrect = true;
