@@ -270,10 +270,9 @@ public class POSOrderLinePanel extends POSSubPanel
 				break;
 			}
 			// Select first row, if end of table and no row has been selected
-			if(i==posTable.getRowCount()-1)	 {
-				if (posPanel.hasLines()) {
+			if(i==posTable.getRowCount()-1) {
+				if (posPanel.hasLines())
 					moveTop();
-				}
 			}
 		}	
 		//	Auto Size

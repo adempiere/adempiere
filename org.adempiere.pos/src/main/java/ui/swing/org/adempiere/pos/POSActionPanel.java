@@ -310,7 +310,6 @@ public class POSActionPanel extends POSSubPanel
 					}
 					return;
 				}
-				getMainFocus();
 				//	Refresh if not Payment, because Payment has its own logic
 				if (!actionEvent.getSource().equals(buttonCollect))
 					posPanel.refreshPanel();
