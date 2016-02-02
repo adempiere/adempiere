@@ -324,7 +324,8 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		buttonDelete.setEnabled(false);
 		buttonPlus.setEnabled(false);
 		buttonMinus.setEnabled(false);
-		buttonElectronicScales.setEnabled(false);
+		if (posPanel.isPresentElectronicScales())
+			buttonElectronicScales.setEnabled(false);
 		fieldPrice.setEnabled(false);
 		fieldQuantity.setEnabled(false);
 		fieldDiscountPercentage.setEnabled(false);
