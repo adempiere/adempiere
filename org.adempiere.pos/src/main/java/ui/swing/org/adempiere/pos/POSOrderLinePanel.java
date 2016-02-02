@@ -280,7 +280,8 @@ public class POSOrderLinePanel extends POSSubPanel
 		posPanel.autoSize();
 		//	Add Listener
 		posTable.getModel().addTableModelListener(this);
-		posTable.addRowSelectionInterval(0, 0);
+		if (posPanel.getM_Order().getLines().length > 0)
+			posTable.addRowSelectionInterval(0, 0);
 	}
 
 
