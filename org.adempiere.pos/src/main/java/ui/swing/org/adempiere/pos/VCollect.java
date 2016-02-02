@@ -105,7 +105,6 @@ public class VCollect extends Collect
 
 	/**	View Panel			*/
 	private VPOS 			pos;
-	//private CDialog 		dialog;
 	private CPanel			dialog;
 	private BorderLayout 	mainLayout;
 	private GridBagLayout 	parameterLayout;
@@ -365,7 +364,8 @@ public class VCollect extends Collect
 					if(pos.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
 						processPayment(trxName, pos.getOpenAmt());
 					} else {
-						throw new POSaveFailedException(pos.getProcessMsg());
+						throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": "  +
+					                 "@ProcessRunError@" + " (" +  pos.getProcessMsg() + ")"));
 					}
 				}
 			});
