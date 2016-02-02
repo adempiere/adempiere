@@ -1180,7 +1180,11 @@ public class CPOS {
 				.equals(MOrder.DocSubTypeSO_Standard)) {				
 				currentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
 				currentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
-			}
+			}	
+			
+			// In case the Order is Invalid, set to In Progress; otherwise it will not be completed
+			if (currentOrder.getDocStatus().equalsIgnoreCase(MOrder.STATUS_Invalid) ) 
+				currentOrder.setDocStatus(MOrder.STATUS_InProgress);
 				
 			currentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (currentOrder.processIt(DocAction.ACTION_Complete) ) {
@@ -1188,8 +1192,9 @@ public class CPOS {
 				orderCompleted = true;
 			} else {
 				log.info( "Process Order FAILED " + currentOrder.getProcessMsg());
+				return orderCompleted;
 			}
-		} else {	//	Default nothing
+		} else {	//	Order not completed -> default nothing
 			orderCompleted = isCompleted();
 			isToPrint = false;
 		}
