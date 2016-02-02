@@ -643,7 +643,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 	public void showCollectPayment()
 	{
-		documentPanel.getCollectPayment();
 		documentPanel.getCollectPayment().showCollect();
 	}
 
@@ -655,6 +654,13 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public void hideKeyboard()
 	{
 		documentPanel.getKeyboard().setVisible(false);
+	}
+
+	public void disablePOSButtons()
+	{
+		infoProductPanel.resetValues();
+		quantityPanel.resetPanel();
+		actionPanel.resetPanel();
 	}
 
 }
