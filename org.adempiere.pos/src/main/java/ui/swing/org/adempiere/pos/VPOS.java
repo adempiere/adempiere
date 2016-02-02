@@ -635,8 +635,8 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		if (isCorrectUserPin == null)
 			POSUserPinDialog.show(this);
 
-		if (!isCorrectUserPin)
-			throw new AdempiereException("@UserPin@  @IsInvalid@ @To@ @Supervisor_ID@");
+		if (isCorrectUserPin == null || !isCorrectUserPin)
+			throw new AdempiereException("@Supervisor_ID@: @UserPin@ @IsInvalid@.");
 
 		return isCorrectUserPin;
 	}
