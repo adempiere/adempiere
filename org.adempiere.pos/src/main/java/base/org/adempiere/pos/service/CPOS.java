@@ -828,13 +828,13 @@ public class CPOS {
 		if(!isDrafted())
 			return null;
 		//	
-		MOrderLine[] mOrderLines = currentOrder.getLines("AND C_OrderLine_ID = " + orderLineId, "Line");
+		MOrderLine[] orderLines = currentOrder.getLines("AND C_OrderLine_ID = " + orderLineId, "Line");
 		BigDecimal lineNetAmt = Env.ZERO;
 		BigDecimal taxRate = Env.ZERO;
 		BigDecimal grandTotal = Env.ZERO;
 		
 		//	Search Line
-		for(MOrderLine orderLine : mOrderLines) {
+		for(MOrderLine orderLine : orderLines) {
 			//	Valid No changes
 			if(qtyOrdered.compareTo(orderLine.getQtyOrdered()) == 0
 			&& priceEntered.compareTo(orderLine.getPriceEntered()) == 0
