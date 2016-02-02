@@ -85,6 +85,7 @@ public class VCollect extends Collect
 		calculatePanelData();
 		refreshPanel();
 		addCollectType();
+		pos.disablePOSButtons();
 		return this;
 	}
 
@@ -243,7 +244,6 @@ public class VCollect extends Collect
 				//fieldIsCreditOrder.setSelected(true);
 			}
 		}
-//		int AD_Column_ID = 2187;        //  C_Order.C_PaymentTerm_ID
 //		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.TableDir);
 //		fPaymentTerm = new VLookup("C_PaymentTerm_ID", true, false, true, lookup);
 //		((VComboBox)fPaymentTerm.getCombo()).setRenderer(new POSLookupTableDirCellRenderer(posPanel.getFont()));
@@ -415,11 +415,13 @@ public class VCollect extends Collect
 			//dialog.dispose();
 			dialog.setVisible(false);
 			pos.showKeyboard();
+			pos.refreshPanel();
 			return;
 		} else if (actionEvent.getSource().equals(buttonCancel)) {	//	Nothing
 			//dialog.dispose();
 			dialog.setVisible(false);
 			pos.showKeyboard();
+			pos.refreshPanel();
 			return;
 		}
 		/*else if(actionEvent.getSource().equals(fieldIsCreditOrder)) {	//	For Credit Order Checked
@@ -578,7 +580,6 @@ public class VCollect extends Collect
 		//		+ pos.getNumberFormat().format(pos.getGrandTotal()));
 		fieldPayAmt.setText(currencyISOCode + " "
 				+ pos.getNumberFormat().format(payAmt.add(pos.getPaidAmt())));
-		//	BR https://github.com/erpcya/AD-POS-WebUI/issues/6
 		//	Show pretty Return Amount
 		BigDecimal returnAmt = Env.ZERO;
 		BigDecimal openAmt = Env.ZERO;
