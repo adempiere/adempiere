@@ -1215,12 +1215,17 @@ public class CPOS {
 	 * @return void
 	 */
 	private void generateShipment(String trxName) {
-		ProcessInfo processInfo = ProcessBuilder.
-				create(getCtx()).process(199)
+		List<Integer> selectionIds = new ArrayList<Integer>();
+		selectionIds.add(getC_Order_ID());
+
+		//Generate Return using InOutGenerate
+		ProcessInfo processInfo = ProcessBuilder
+				.create(getCtx())
+				.process(199)
 				.withTitle(Msg.parseTranslation(getCtx(), "@InOutGenerateGen@"))
-				.withSelectedRecordsIds(new ArrayList<>(getC_Order_ID()))
-				.withParameter("Selection", "Y")
-				.withParameter(MInOut.COLUMNNAME_M_Warehouse_ID , getM_Warehouse_ID())
+				.withParameter(MInOut.COLUMNNAME_M_Warehouse_ID, getM_Warehouse_ID())
+				.withParameter("Selection", true)
+				.withSelectedRecordsIds(selectionIds)
 				.withoutTransactionClose()
 				.execute(trxName);
 
@@ -1234,13 +1239,17 @@ public class CPOS {
 	 * @return void
 	 */
 	private void generateInvoice(String trxName) {
+		List<Integer> selectionIds = new ArrayList<Integer>();
+		selectionIds.add(getC_Order_ID());
 
-		ProcessInfo processInfo = ProcessBuilder.
-				create(getCtx()).process(134)
+		//Generate InvoiceGenerate
+		ProcessInfo processInfo = ProcessBuilder
+				.create(getCtx())
+				.process(134)
 				.withTitle(Msg.parseTranslation(getCtx(), "@InvGenerateGen@"))
-				.withSelectedRecordsIds(new ArrayList<>(getC_Order_ID()))
-				.withParameter("Selection", "Y")
+				.withParameter("Selection", true)
 				.withParameter(MInvoice.COLUMNNAME_DocAction, DocAction.ACTION_Complete)
+				.withSelectedRecordsIds(selectionIds)
 				.withoutTransactionClose()
 				.execute(trxName);
 
