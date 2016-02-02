@@ -282,8 +282,6 @@ public class POSOrderLinePanel extends POSSubPanel
 		posPanel.autoSize();
 		//	Add Listener
 		posTable.getModel().addTableModelListener(this);
-		if (posPanel.hasLines())
-			posTable.addRowSelectionInterval(0, 0);
 	}
 
 
@@ -449,6 +447,14 @@ public class POSOrderLinePanel extends POSSubPanel
 		posPanel.changeViewPanel();
 		 showProductInfo(row);
 		return;
+	}
+
+	public void moveTop()
+	{
+		int row = 0;
+		posTable.getSelectionModel().setSelectionInterval(row, row);
+		posPanel.changeViewPanel();
+		showProductInfo(row);
 	}
 
 	public int getC_OrderLine_ID()

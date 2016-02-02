@@ -407,8 +407,9 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 			ADialog.error(getWindowNo(),
 					mainPanel, Msg.parseTranslation(ctx, lineError));
 		}
-		//	Update Info
-		refreshPanel();
+
+		if (hasLines())
+			orderLinePanel.moveTop();
 	}
 
 	/**
