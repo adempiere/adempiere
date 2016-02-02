@@ -271,16 +271,18 @@ public class POSOrderLinePanel extends POSSubPanel
 			}
 			// Select first row, if end of table and no row has been selected
 			if(i==posTable.getRowCount()-1)	 {
-				posTable.getSelectionModel().setSelectionInterval(0, 0);
-				posPanel.changeViewPanel();
-				showProductInfo(0);
+				if (posPanel.hasLines()) {
+					posTable.getSelectionModel().setSelectionInterval(0, 0);
+					posPanel.changeViewPanel();
+					showProductInfo(0);
+				}
 			}
 		}	
 		//	Auto Size
 		posPanel.autoSize();
 		//	Add Listener
 		posTable.getModel().addTableModelListener(this);
-		if (posPanel.getM_Order().getLines().length > 0)
+		if (posPanel.hasLines())
 			posTable.addRowSelectionInterval(0, 0);
 	}
 
@@ -347,12 +349,10 @@ public class POSOrderLinePanel extends POSSubPanel
 				posTable.editCellAt(row, POSOrderLineTableHandle.POSITION_PRICE, e);
 				break;
 			case KeyEvent.VK_UP:
-				showProductInfo(row);
-				posPanel.refreshPanel();
+				posPanel.moveUp();
 				break;
 			case KeyEvent.VK_DOWN:
-				showProductInfo(row);
-				posPanel.refreshPanel();
+				posPanel.moveDown();
 				break;
 			default:
 				break;
