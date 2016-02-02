@@ -53,6 +53,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
     private POSQuery queryPartner;
     private JPopupMenu popupMenu;
     private CommandManager commandManager;
+    private Command currentCommand;
 
     public POSActionMenu(VPOS pos)
     {
@@ -77,8 +78,8 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
     public void actionPerformed(ActionEvent actionEvent) {
         try {
         popupMenu.setVisible(false);
-        Command command = commandManager.getCommand(actionEvent.getActionCommand());
-        beforeExecutionCommand(command);
+        currentCommand = commandManager.getCommand(actionEvent.getActionCommand());
+        beforeExecutionCommand(currentCommand);
         } catch (AdempiereException exception) {
             ADialog.error(pos.getWindowNo(), pos.getFrame() , exception.getLocalizedMessage());
         }
@@ -266,7 +267,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
             return;
         //	For Ticket
         if(query instanceof QueryBPartner) {
-          partnerId = query.getRecord_ID();
+            executeCommand(currentCommand);
         }
     }
 
