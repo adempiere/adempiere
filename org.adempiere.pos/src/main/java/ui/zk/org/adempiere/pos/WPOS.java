@@ -590,7 +590,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 			return true;
 
 		if (!isCorrectUserPin)
-			FDialog.error(0,Msg.parseTranslation(getCtx(), ("@UserPin@ @IsInvalid@")));
+			FDialog.error(0,Msg.parseTranslation(getCtx(), ("@Supervisor_ID@: @UserPin@ @IsInvalid@.")));
 
 		return isCorrectUserPin;
 	}
