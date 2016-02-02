@@ -311,8 +311,9 @@ public class POSActionPanel extends POSSubPanel
 					return;
 				}
 				getMainFocus();
-				//	Refresh
-				posPanel.refreshPanel();
+				//	Refresh if not Payment, because Payment has its own logic
+				if (!actionEvent.getSource().equals(buttonCollect))
+					posPanel.refreshPanel();
 		} catch (Exception exception) {
 			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
@@ -558,6 +559,9 @@ public class POSActionPanel extends POSSubPanel
 			buttonBPartner.setEnabled(false);
 		}
 		posPanel.changeViewQuantityPanel();
+		buttonNew.setEnabled(true);
+		buttonHistory.setEnabled(true);
+		buttonProcess.setEnabled(true);
 	}
 
 	@Override
@@ -610,4 +614,17 @@ public class POSActionPanel extends POSSubPanel
 	@Override
 	public void moveDown() {
 	}	
+
+	public void resetPanel() {
+		buttonNew.setEnabled(false);
+		buttonHistory.setEnabled(false);
+		buttonNext.setEnabled(false);
+		buttonBack.setEnabled(false);
+		buttonCollect.setEnabled(false);
+		buttonCancel.setEnabled(false);
+		buttonDocType.setEnabled(false);
+		buttonBPartner.setEnabled(false);	
+		buttonProcess.setEnabled(false);
+	}
+	
 }//	POSActionPanel

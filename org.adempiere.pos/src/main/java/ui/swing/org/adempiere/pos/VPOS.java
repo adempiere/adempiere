@@ -635,15 +635,14 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		if (isCorrectUserPin == null)
 			POSUserPinDialog.show(this);
 
-		if (!isCorrectUserPin)
-			throw new AdempiereException("@UserPin@  @IsInvalid@ @To@ @Supervisor_ID@");
+		if (isCorrectUserPin == null || !isCorrectUserPin)
+			throw new AdempiereException("@Supervisor_ID@: @UserPin@ @IsInvalid@.");
 
 		return isCorrectUserPin;
 	}
 
 	public void showCollectPayment()
 	{
-		documentPanel.getCollectPayment();
 		documentPanel.getCollectPayment().showCollect();
 	}
 
@@ -655,6 +654,13 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public void hideKeyboard()
 	{
 		documentPanel.getKeyboard().setVisible(false);
+	}
+
+	public void disablePOSButtons()
+	{
+		infoProductPanel.resetValues();
+		quantityPanel.resetPanel();
+		actionPanel.resetPanel();
 	}
 
 }
