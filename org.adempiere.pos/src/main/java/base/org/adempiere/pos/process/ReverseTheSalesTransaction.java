@@ -129,6 +129,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
                 if (documentType.isSOTrx())
                     customerReturn.setC_DocType_ID();
 
+            customerReturn.setMovementType(MInOut.MOVEMENTTYPE_CustomerReturns);
             customerReturn.setDocStatus(DocAction.STATUS_Drafted);
             customerReturn.setDocAction(DocAction.ACTION_Complete);
             customerReturn.setProcessed(false);
