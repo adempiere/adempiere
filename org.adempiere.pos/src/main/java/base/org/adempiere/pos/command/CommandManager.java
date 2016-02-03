@@ -31,9 +31,9 @@ public class CommandManager {
     public static String GENERATE_RETURN = "C_POS CreateOrderBasedOnAnother";
     public static String COMPLETE_DOCUMENT = "Complete Document";
 
-    public HashMap<String , Command> commands = new HashMap<String , Command>();
+    private HashMap<String , Command> commands = new HashMap<String , Command>();
 
-    public HashMap<String , CommandReceiver> receivers = new HashMap<String , CommandReceiver>(){
+    private HashMap<String , CommandReceiver> receivers = new HashMap<String , CommandReceiver>(){
         {
             CommandReceiver   commandReceiver = new CommandReceiver(null, GENERATE_IMMEDIATE_INVOICE, null);
             commands.put(GENERATE_IMMEDIATE_INVOICE, new CommandImmediateInvoice(GENERATE_IMMEDIATE_INVOICE ,commandReceiver.getEvent()));
