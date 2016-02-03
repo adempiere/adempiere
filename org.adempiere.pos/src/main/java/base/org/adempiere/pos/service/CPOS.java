@@ -232,6 +232,21 @@ public class CPOS {
 	}
 	
 	/**
+	 * Validate if is "Invalid"}
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isInvalid() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return !isCompleted() 
+				&& !isVoided() 
+				&& X_C_Order.DOCSTATUS_Invalid.equals(currentOrder.getDocStatus());
+	}
+	
+	/**
 	 * Validate if has lines
 	 * @return
 	 * @return boolean
