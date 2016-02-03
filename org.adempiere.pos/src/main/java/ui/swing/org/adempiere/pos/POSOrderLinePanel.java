@@ -451,7 +451,6 @@ public class POSOrderLinePanel extends POSSubPanel
 		int row = 0;
 		posTable.getSelectionModel().setSelectionInterval(row, row);
 		posPanel.changeViewPanel();
-		showProductInfo(row);
 	}
 
 	public int getC_OrderLine_ID()
