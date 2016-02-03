@@ -20,11 +20,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
@@ -1897,13 +1893,13 @@ public class CPOS {
 	public boolean isValidUserPin(char[] userPin)
 	{
 		MUser user = MUser.get(getCtx() ,getAD_User_ID());
-		I_AD_User supervisor = user.getSupervisor();
-		if (supervisor == null || supervisor.getAD_User_ID() <= 0)
-			throw new AdempierePOSException("@Supervisor@ \"" + supervisor.getName() + "\" @NotFound@");
-		if (supervisor.getUserPIN() == null || supervisor.getUserPIN().isEmpty())
-			throw new AdempierePOSException("@Supervisor@ \"" + supervisor.getName() + "\": @UserPIN@ @NotFound@");
+		Optional<I_AD_User> optionalSuperVisor = Optional.of(user.getSupervisor());
+		I_AD_User superVisor = optionalSuperVisor.orElseThrow(() -> new AdempierePOSException("@Supervisor@ @NotFound@"));
+		Optional<String> superVisorName = Optional.ofNullable(superVisor.getName());
+		if (superVisor.getUserPIN() == null || superVisor.getUserPIN().isEmpty())
+			throw new AdempierePOSException("@Supervisor@ :" + superVisorName.orElse("") + " @UserPIN@ @NotFound@");
 
-		char[] correctPassword = supervisor.getUserPIN().toCharArray();
+		char[] correctPassword = superVisor.getUserPIN().toCharArray();
 		boolean isCorrect = true;
 		if (userPin.length != correctPassword.length) {
 			isCorrect = false;
