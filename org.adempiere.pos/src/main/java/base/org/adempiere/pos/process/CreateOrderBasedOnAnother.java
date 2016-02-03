@@ -106,6 +106,7 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
         //Complete new Order
         targetOrder.processIt(docAction);
         targetOrder.saveEx();
+        addLog(targetOrder.getDocumentInfo());
 
         if(isIncludePayments)
             createPayments(sourceOrder, targetOrder);
@@ -147,6 +148,7 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
             allocation.setDocStatus(DocAction.STATUS_Drafted);
             allocation.setDocAction(DocAction.ACTION_Complete);
             allocation.saveEx();
+            addLog(allocation.getDocumentInfo());
             for (MInvoice invoice : invoices)
             {
                 MAllocationLine allocationLine =  new MAllocationLine(allocation);
@@ -191,6 +193,7 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
 
             payment.processIt(docAction);
             payment.saveEx();
+            addLog(payment.getDocumentInfo());
         }
     }
 }

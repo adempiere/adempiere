@@ -85,7 +85,7 @@ public class CommandCompleteReturnMaterial extends CommandAbstract implements Co
                 processInfo = ProcessBuilder
                         .create(commandReceiver.getCtx())
                         .process(134)
-                        .withTitle(commandReceiver.getName())
+                        .withTitle(processInfo.getTitle())
                         .withParameter("Selection", true)
                         .withSelectedRecordsIds(selectionIds)
                         .withoutTransactionClose()

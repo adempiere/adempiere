@@ -90,6 +90,8 @@ public class GenerateImmediateInvoice extends SvrProcess implements ASyncProcess
         if (processInfo.isError())
             throw new AdempiereException(processInfo.getTitle()  +  " @ProcessRunError@ " + processInfo.getSummary());
 
+        addLog(processInfo.getLogInfo());
+
         int newOrderId = processInfo.getRecord_ID();
         //Reverse The Sales Transaction for Source Order
         processInfo = ProcessBuilder
@@ -106,6 +108,7 @@ public class GenerateImmediateInvoice extends SvrProcess implements ASyncProcess
         if (processInfo.isError())
             throw new AdempiereException(processInfo.getTitle()  +  " @ProcessRunError@ " + processInfo.getSummary());
 
+        addLog(processInfo.getLogInfo());
         getProcessInfo().setRecord_ID(newOrderId);
         return "@Ok@";
     }
