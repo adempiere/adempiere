@@ -17,14 +17,16 @@
 package org.adempiere.pos.process;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.pos.AdempierePOSException;
+import org.compiere.model.I_C_Invoice;
 import org.compiere.model.I_C_Order;
+import org.compiere.model.I_M_RMA;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutConfirm;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInOutLineConfirm;
 import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
 import org.compiere.model.MRMA;
@@ -33,10 +35,14 @@ import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_RMAType;
 import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.Msg;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,6 +57,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
     private boolean isCancelled = false;
     private Timestamp today;
     private boolean isShipConfirm = false;
+    private List<MInOut> customerReturns = new ArrayList<MInOut>();
 
 
     @Override
@@ -91,7 +98,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
         if(invoices.length > 0)
         {
             if (sourceOrder.getC_BPartner_ID() != billPartnerId || isCancelled)
-                cancelInvoices(invoices);
+                cancelInvoices();
         }
 
         //Cancel original payment
@@ -121,6 +128,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
             MInOut customerReturn = new MInOut(getCtx() , 0 , get_TrxName());
             PO.copyValues(sourceShipment, customerReturn);
+            customerReturn.setDocumentNo(null);
             customerReturn.setM_RMA_ID(rma.getM_RMA_ID());
             customerReturn.setIsSOTrx(true);
             customerReturn.setC_BPartner_ID(sourceShipment.getC_BPartner_ID());
@@ -174,38 +182,42 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
             customerReturn.processIt(DocAction.STATUS_Completed);
             customerReturn.saveEx();
+
+            customerReturns.add(customerReturn);
+
             addLog(rma.getDocumentInfo());
             addLog(customerReturn.getDocumentInfo());
 
         }
     }
 
-    private void cancelInvoices( MInvoice[] sourceInvoices )
-    {;
-        for (MInvoice sourceInvoice : sourceInvoices)
-        {
-            MInvoice creditNote =  new MInvoice(getCtx() , 0 , get_TrxName());
-            PO.copyValues(sourceInvoice , creditNote);
-            creditNote.setC_DocTypeTarget_ID(MDocType.getDocType(MDocType.DOCBASETYPE_ARCreditMemo, sourceInvoice.getAD_Org_ID()));
-            creditNote.setDateInvoiced(today);
-            creditNote.setDateAcct(today);
-            creditNote.setDocStatus(DocAction.STATUS_Drafted);
-            creditNote.setDocAction(DocAction.ACTION_Complete);
-            creditNote.saveEx();
+    private void cancelInvoices()
+    {
+        for (MInOut customerReturn : customerReturns) {
+            ProcessInfo processInfo = ProcessBuilder
+                    .create(getCtx())
+                    .process("M_InOut_CreateInvoice")
+                    .withTitle("Generate Invoice from Receipt")
+                    .withRecordId(MInOut.Table_ID , customerReturn.getM_InOut_ID())
+                    .withoutTransactionClose()
+                    .execute(get_TrxName());
 
-            for (MInvoiceLine sourceInvoiceLine :  sourceInvoice.getLines())
-            {
-                MInvoiceLine creditNoteLine = new MInvoiceLine(getCtx() , 0 , get_TrxName());
-                PO.copyValues(sourceInvoiceLine, creditNoteLine);
-                creditNoteLine.setProcessed(false);
-                creditNoteLine.saveEx();
+            if (processInfo.isError()) {
+                String errorMessage = Msg.parseTranslation(getCtx(), processInfo.getTitle() + " @ProcessRunError@ " + processInfo.getSummary() + " " + processInfo.getLogInfo());
+                throw new AdempierePOSException(errorMessage);
             }
 
-            creditNote.processIt(DocAction.ACTION_Complete);
-            creditNote.saveEx();
-            addLog(creditNote.getDocumentInfo());
-        }
 
+            for (MInvoice creditNote :  getCreditNotes(customerReturn.getM_RMA_ID())) {
+                if (creditNote != null && creditNote.getC_Invoice_ID() > 0) {
+                    creditNote.setDateInvoiced(today);
+                    creditNote.setDateAcct(today);
+                    creditNote.processIt(DocAction.ACTION_Complete);
+                    creditNote.saveEx();
+                    addLog(creditNote.getDocumentInfo());
+                }
+            }
+        }
     }
 
     private void cancelPayments(MOrder sourceOrder)
@@ -234,5 +246,16 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
     public int getRMATypeId() {
         return new Query(getCtx(), X_M_RMAType.Table_Name , null , get_TrxName()).setClient_ID().firstIdOnly();
+    }
+
+    public List<MInvoice> getCreditNotes(int Id)
+    {
+        StringBuilder where = new StringBuilder();
+        where.append(I_M_RMA.COLUMNNAME_M_RMA_ID).append("=?");
+        return new Query(getCtx() , I_C_Invoice.Table_Name , where.toString() , get_TrxName())
+                .setClient_ID()
+                .setParameters(Id)
+                .list();
+
     }
 }
