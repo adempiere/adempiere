@@ -99,13 +99,8 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         }
         if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES)
         {
-            if (pos.isCompleted()) {
-                queryPartner = new QueryBPartner(pos);
-                queryPartner.setModal(true);
-                queryPartner.addOptionListener(this);
-                queryPartner.showView();
-                return;
-            }
+            if (pos.isCompleted())
+               executeCommand(command);
         }
 
         if (command.getCommand() == CommandManager.GENERATE_RETURN)
@@ -176,7 +171,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                     && !pos.isClosed()) {
                 receiver.setCtx(pos.getCtx());
                 receiver.setOrderId(pos.getC_Order_ID());
-                receiver.setPartnerId(partnerId > 0 ? pos.getC_BPartner_ID() : pos.getC_BPartner_ID());
+                receiver.setPartnerId(pos.getC_BPartner_ID());
                 String processMessage = receiver.getName()
                         + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
                         + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
