@@ -125,7 +125,6 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
             rma.setDocAction(DocAction.ACTION_Complete);
             rma.saveEx();
 
-
             MInOut customerReturn = new MInOut(getCtx() , 0 , get_TrxName());
             PO.copyValues(sourceShipment, customerReturn);
             customerReturn.setDocumentNo(null);
@@ -163,6 +162,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
             rma.processIt(DocAction.ACTION_Complete);
             rma.saveEx();
+            addLog(rma.getDocumentInfo());
 
             if (customerReturn.getC_DocType().isShipConfirm() && isShipConfirm)
             {
@@ -177,17 +177,15 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
                     confirm.processIt(DocAction.ACTION_Complete);
                     confirm.saveEx();
+                    addLog(confirm.getDocumentInfo());
                 }
             }
 
             customerReturn.processIt(DocAction.STATUS_Completed);
             customerReturn.saveEx();
-
-            customerReturns.add(customerReturn);
-
-            addLog(rma.getDocumentInfo());
             addLog(customerReturn.getDocumentInfo());
 
+            customerReturns.add(customerReturn);
         }
     }
 
@@ -207,6 +205,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
                 throw new AdempierePOSException(errorMessage);
             }
 
+            addLog(processInfo.getLogInfo());
 
             for (MInvoice creditNote :  getCreditNotes(customerReturn.getM_RMA_ID())) {
                 if (creditNote != null && creditNote.getC_Invoice_ID() > 0) {

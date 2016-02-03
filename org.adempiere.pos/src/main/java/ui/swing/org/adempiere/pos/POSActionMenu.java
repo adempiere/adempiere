@@ -135,7 +135,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
             CommandReceiver receiver = commandManager.getCommandReceivers(command.getEvent());
             if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE
                     && pos.getC_Order_ID() > 0
-                    && !pos.isVoided()) {
+                    && pos.isCompleted()) {
                 receiver.setCtx(pos.getCtx());
                 receiver.setPartnerId(queryPartner.getRecord_ID());
                 receiver.setOrderId(pos.getC_Order_ID());
@@ -269,13 +269,18 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
 
     private void showError(ProcessInfo processInfo) throws AdempierePOSException
     {
-        String errorMessage = Msg.parseTranslation(pos.getCtx() , processInfo.getTitle() + " @ProcessRunError@ " + processInfo.getSummary() + " " + processInfo.getLogInfo());
+        Optional<String> summary = Optional.ofNullable(processInfo.getSummary());
+        Optional<String> logs = Optional.ofNullable(processInfo.getLogInfo());
+        String errorMessage = Msg.parseTranslation(pos.getCtx() , processInfo.getTitle() + " @ProcessRunError@ @Summary@ : " + summary.orElse("") + " @ProcessFailed@ : " + logs.orElse(""));
         throw new AdempierePOSException(errorMessage);
     }
 
     private void showOkMessage(ProcessInfo processInfo)
     {
         pos.refreshHeader();
-        ADialog.info(pos.getWindowNo(), popupMenu ,"ProcessOK", processInfo.getTitle() + " " + processInfo.getSummary() + " " + processInfo.getLogInfo());
+        Optional<String> summary = Optional.ofNullable(processInfo.getSummary());
+        Optional<String> logs = Optional.ofNullable(processInfo.getLogInfo());
+        String okMessage = Msg.parseTranslation(pos.getCtx() , " @AD_Process_ID@ "+ processInfo.getTitle() +" @Summary@ : " + summary.orElse("") + " @ProcessOK@ : " + logs.orElse(""));
+        ADialog.info(pos.getWindowNo(), popupMenu ,"ProcessOK",  okMessage );
     }
 }
