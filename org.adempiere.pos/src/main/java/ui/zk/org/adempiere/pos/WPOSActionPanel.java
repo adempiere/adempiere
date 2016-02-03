@@ -107,6 +107,8 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	private Panel 			parameterPanel;
 	/**	Process Action 						*/
 	private WPOSActionMenu actionProcessMenu;
+	/** Product Lookup		*/
+	private WPOSLookupProduct cmbSearch;
 	
 	@Override
 	public void init() {
@@ -190,7 +192,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		fieldProductName.setHeight("35px");
 		
 		Keylistener keyListener = new Keylistener();
-		fieldProductName.appendChild(keyListener);
+		
     	keyListener.setCtrlKeys("#f2#f3#f4#f9#f10@b@#left@#right^l@i@p");
     	keyListener.addEventListener(Events.ON_CTRL_KEY, posPanel);
     	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
@@ -199,15 +201,34 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		fieldProductName.setStyle("Font-size:medium; font-weight:bold");
 		fieldProductName.setValue(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		fieldProductName.addEventListener(this);
-		row.appendChild(new Space());
-		row.appendChild(fieldProductName);
+
+		row = rows.newRow();
+		row.setSpans("10");
+		if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
+			cmbSearch = new WPOSLookupProduct(this, fieldProductName, new Long("1"));
+			cmbSearch.setWidth("100%");
+			cmbSearch.setStyle(WPOS.FONTSTYLE+WPOS.FONTSIZELARGE);
+			fieldProductName.appendChild(keyListener);
+			fieldProductName.setVisible(false);
+			fieldProductName.setWidth("0%");
+			cmbSearch.addEventListener(Events.ON_CHANGING, this);
+			cmbSearch.addEventListener(Events.ON_SELECT, this);
+	        row.appendChild(cmbSearch);
+			row.appendChild(fieldProductName);
+		} else {
+			row.appendChild(fieldProductName);
+			fieldProductName.appendChild(keyListener);
+			fieldProductName.setWidth("98%");
+		}
+			
+		
 		enableButton();
 		
 		infoProductPanel = new WPOSInfoProduct(posPanel);
 		row = rows.newRow();
-		row.setSpans("1,9");
-		row.appendChild(new Space());
+		row.setSpans("10");
 		row.appendChild(infoProductPanel.getPanel());
+		
 		//	List Orders
 		posPanel.listOrder();
 	}
@@ -388,6 +409,9 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	}
 	@Override
 	public void onEvent(Event e) throws Exception {
+		if(e.getName().equals(Events.ON_SELECT)){
+			posPanel.addLine(cmbSearch.getSelectedRecord(), Env.ONE);
+		}
 		if (Events.ON_CTRL_KEY.equals(e.getName())) {
     		KeyEvent keyEvent = (KeyEvent) e;
     		//F2 == 113
@@ -553,6 +577,10 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	@Override
 	public void changeViewPanel() {
 		if(posPanel.hasOrder()) {
+			if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
+				cmbSearch.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
+				cmbSearch.setWarehouseId(posPanel.getM_Warehouse_ID());
+			}
 			//	For Next
 			buttonNext.setEnabled(!posPanel.isLastRecord() && posPanel.hasRecord());
 			//	For Back
@@ -666,11 +694,22 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	public void moveDown() {
 	}	
 	
-	/**s
+	/**
 	 * Reset Product Info 
 	 * @return void
 	 */
 	public void resetProductInfo() {
 		infoProductPanel.resetValues();
+	}
+	public void resetPanel() {
+		buttonNew.setEnabled(false);
+		buttonHistory.setEnabled(false);
+		buttonNext.setEnabled(false);
+		buttonBack.setEnabled(false);
+		buttonCollect.setEnabled(false);
+		buttonCancel.setEnabled(false);
+		buttonDocType.setEnabled(false);
+		buttonBPartner.setEnabled(false);	
+		buttonProcess.setEnabled(false);
 	}
 }
