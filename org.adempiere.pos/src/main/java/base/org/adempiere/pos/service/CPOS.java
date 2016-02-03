@@ -232,6 +232,21 @@ public class CPOS {
 	}
 	
 	/**
+	 * Validate if is "Invalid"}
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isInvalid() {
+		if(!hasOrder()) {
+			return false;
+		}
+		//	
+		return !isCompleted() 
+				&& !isVoided() 
+				&& X_C_Order.DOCSTATUS_Invalid.equals(currentOrder.getDocStatus());
+	}
+	
+	/**
 	 * Validate if has lines
 	 * @return
 	 * @return boolean
@@ -1897,7 +1912,7 @@ public class CPOS {
 		I_AD_User superVisor = optionalSuperVisor.orElseThrow(() -> new AdempierePOSException("@Supervisor@ @NotFound@"));
 		Optional<String> superVisorName = Optional.ofNullable(superVisor.getName());
 		if (superVisor.getUserPIN() == null || superVisor.getUserPIN().isEmpty())
-			throw new AdempierePOSException("@Supervisor@ :" + superVisorName.orElse("") + " @UserPIN@ @NotFound@");
+			throw new AdempierePOSException("@Supervisor@ \"" + superVisorName.orElse("") + "\": @UserPIN@ @NotFound@");
 
 		char[] correctPassword = superVisor.getUserPIN().toCharArray();
 		boolean isCorrect = true;

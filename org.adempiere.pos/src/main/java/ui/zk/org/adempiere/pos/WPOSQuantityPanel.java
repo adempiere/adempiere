@@ -201,23 +201,31 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		
 		if(Events.ON_CTRL_KEY.equals(e.getName()) 
 		|| (posPanel.getQty().compareTo(quantity) != 0 
+		||  e.getTarget().equals(buttonPlus) 
+		|| e.getTarget().equals(buttonMinus)
 		&& fieldQuantity.hasChanged() 
-		&& (e.getTarget().equals(fieldQuantity.getDecimalbox())))) { 
+		&& (e.getTarget().equals(fieldQuantity.getDecimalbox())))) {
+			if(quantity.compareTo(Env.ZERO) == 0) {
+				posPanel.setUserPinListener(e);
+				if(posPanel.validateUserPin()) {
+					posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
+				}
+			} else {
 				posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
-				posPanel.changeViewQuantityPanel();
-				posPanel.updateLineTable();
-				
+			}
+			posPanel.changeViewQuantityPanel();
+			posPanel.updateLineTable();
 		} 
 		else if (Events.ON_CTRL_KEY.equals(e.getName()) 
-		|| (e.getTarget().equals(buttonDelete) || e.getTarget().equals(buttonPlus) || e.getTarget().equals(buttonMinus))
+		|| (e.getTarget().equals(buttonDelete))
 		|| 	(posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getTarget().equals(fieldPrice.getDecimalbox()))
 		|| 	(posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getTarget().equals(fieldDiscountPercentage.getDecimalbox()))) 
 		{
-
 			posPanel.setUserPinListener(e);
-			posPanel.validateUserPin();
-			posPanel.setPrice((BigDecimal) fieldPrice.getValue());
-			posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
+			if(posPanel.validateUserPin()) {
+				posPanel.setPrice((BigDecimal) fieldPrice.getValue());
+				posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
+			}
 			posPanel.changeViewQuantityPanel();
 			posPanel.updateLineTable();
 		}

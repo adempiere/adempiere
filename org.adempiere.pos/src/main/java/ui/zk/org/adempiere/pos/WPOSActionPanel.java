@@ -83,6 +83,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	private Button 			buttonCollect;
 	private Button 			buttonCancel;
 	private Button 			buttonLogout;
+	private Button 			buttonProcess;
 	/**	Is Keyboard			*/
 	private boolean			isKeyboard;
 	/**	For Show BPartner	*/
@@ -93,6 +94,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	private final String ACTION_NEW         = "New";
 	private final String ACTION_DOCTYPE     = "DocType";
 	private final String ACTION_BPARTNER    = "BPartner";
+	private final String ACTION_PROCESS     = "Process";
 	private final String ACTION_HISTORY     = "History";
 	private final String ACTION_BACK       	= "Parent";
 	private final String ACTION_NEXT  		= "Detail";
@@ -103,6 +105,10 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	private WPOSInfoProduct infoProductPanel;
 	/**	Paramenter Panel	*/
 	private Panel 			parameterPanel;
+	/**	Process Action 						*/
+	private WPOSActionMenu actionProcessMenu;
+	/** Product Lookup		*/
+	private WPOSLookupProduct cmbSearch;
 	
 	@Override
 	public void init() {
@@ -112,7 +118,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		Rows rows = null;
 		Row row = null;	
 		isKeyboard = false;
-
+		actionProcessMenu = new WPOSActionMenu(posPanel);
 		LayoutButton.setStyle("border: none; width:400px; height:100%;");
 		
 		appendChild(LayoutButton);
@@ -121,7 +127,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		row = rows.newRow();
 		row.setHeight("55px");
 
-		row.appendChild(new Space());
+	
 		// NEW
 		buttonNew = createButtonAction(ACTION_NEW, "F2");
 		buttonNew.addActionListener(this);
@@ -138,7 +144,13 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		buttonBPartner.addActionListener(this);
 		buttonBPartner.setTooltiptext("Alt+B-"+Msg.translate(ctx, "IsCustomer"));
 		row.appendChild(buttonBPartner);
-				
+		
+		buttonProcess = createButtonAction(ACTION_PROCESS, "Alt+P");
+		buttonProcess.addActionListener(this);
+		buttonProcess.setTooltiptext("ALT+P-"+Msg.translate(ctx, "Process"));
+		
+		row.appendChild(buttonProcess);
+		
 		// HISTORY
 		buttonHistory = createButtonAction(ACTION_HISTORY, "F9");
 		buttonHistory.addActionListener(this);
@@ -171,8 +183,8 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		row.appendChild (buttonLogout);
 		row.appendChild(new Space());
 		
-		row = rows.newRow();
-		row.setSpans("1, 9");
+//		row = rows.newRow();
+//		row.setSpans("1,9");
 		row.setHeight("55px");
 
 		fieldProductName = new WPOSTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), posPanel.getKeyboard());
@@ -180,8 +192,8 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		fieldProductName.setHeight("35px");
 		
 		Keylistener keyListener = new Keylistener();
-		fieldProductName.appendChild(keyListener);
-    	keyListener.setCtrlKeys("#f2#f3#f4#f9#f10@b@#left@#right^l@i");
+		
+    	keyListener.setCtrlKeys("#f2#f3#f4#f9#f10@b@#left@#right^l@i@p");
     	keyListener.addEventListener(Events.ON_CTRL_KEY, posPanel);
     	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
     	keyListener.setAutoBlur(false);
@@ -189,15 +201,34 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		fieldProductName.setStyle("Font-size:medium; font-weight:bold");
 		fieldProductName.setValue(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		fieldProductName.addEventListener(this);
-		row.appendChild(new Space());
-		row.appendChild(fieldProductName);
+
+		row = rows.newRow();
+		row.setSpans("10");
+		if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
+			cmbSearch = new WPOSLookupProduct(this, fieldProductName, new Long("1"));
+			cmbSearch.setWidth("100%");
+			cmbSearch.setStyle(WPOS.FONTSTYLE+WPOS.FONTSIZELARGE);
+			fieldProductName.appendChild(keyListener);
+			fieldProductName.setVisible(false);
+			fieldProductName.setWidth("0%");
+			cmbSearch.addEventListener(Events.ON_CHANGING, this);
+			cmbSearch.addEventListener(Events.ON_SELECT, this);
+	        row.appendChild(cmbSearch);
+			row.appendChild(fieldProductName);
+		} else {
+			row.appendChild(fieldProductName);
+			fieldProductName.appendChild(keyListener);
+			fieldProductName.setWidth("98%");
+		}
+			
+		
 		enableButton();
 		
 		infoProductPanel = new WPOSInfoProduct(posPanel);
 		row = rows.newRow();
-		row.setSpans("1,9");
-		row.appendChild(new Space());
+		row.setSpans("10");
 		row.appendChild(infoProductPanel.getPanel());
+		
 		//	List Orders
 		posPanel.listOrder();
 	}
@@ -378,6 +409,9 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	}
 	@Override
 	public void onEvent(Event e) throws Exception {
+		if(e.getName().equals(Events.ON_SELECT)){
+			posPanel.addLine(cmbSearch.getSelectedRecord(), Env.ONE);
+		}
 		if (Events.ON_CTRL_KEY.equals(e.getName())) {
     		KeyEvent keyEvent = (KeyEvent) e;
     		//F2 == 113
@@ -428,6 +462,12 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
     			showWindowProduct(null);
     			return;
     		}
+    		//Alt+P == 80
+    		else if (keyEvent.getKeyCode() == 80 ) {
+    			actionProcessMenu.getPopUp().setPage(buttonProcess.getPage());
+    			actionProcessMenu.getPopUp().open(150, 150);
+    			return;
+    		}
 		}
 		if(e.getTarget().equals(fieldProductName.getComponent(WPOSTextField.SECONDARY))
 					&& e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
@@ -452,6 +492,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		else if(e.getTarget().equals(buttonCollect)){
 			payOrder();
 			return;
+		}
+		else if(e.getTarget().equals(buttonProcess)){
+			actionProcessMenu.getPopUp().setPage(this.getPage());
+			actionProcessMenu.getPopUp().open(buttonProcess);
+		return;
 		}
 		else if (e.getTarget().equals(buttonBack)){
 			previousRecord();
@@ -532,6 +577,10 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	@Override
 	public void changeViewPanel() {
 		if(posPanel.hasOrder()) {
+			if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
+				cmbSearch.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
+				cmbSearch.setWarehouseId(posPanel.getM_Warehouse_ID());
+			}
 			//	For Next
 			buttonNext.setEnabled(!posPanel.isLastRecord() && posPanel.hasRecord());
 			//	For Back
@@ -651,5 +700,16 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	 */
 	public void resetProductInfo() {
 		infoProductPanel.resetValues();
+	}
+	public void resetPanel() {
+		buttonNew.setEnabled(false);
+		buttonHistory.setEnabled(false);
+		buttonNext.setEnabled(false);
+		buttonBack.setEnabled(false);
+		buttonCollect.setEnabled(false);
+		buttonCancel.setEnabled(false);
+		buttonDocType.setEnabled(false);
+		buttonBPartner.setEnabled(false);	
+		buttonProcess.setEnabled(false);
 	}
 }
