@@ -1385,7 +1385,9 @@ public class CPOS {
 	 * 	It takes the allocated amounts, including Credit Notes
 	 */
 	public BigDecimal getPaidAmt() {
-		BigDecimal received = BigDecimal.ZERO;
+
+		return new Query(getCtx() , MPayment.Table_Name , "C_Order_ID = ?", null).setParameters(getC_Order_ID()).sum("PayAmt");
+		/*BigDecimal received = BigDecimal.ZERO;
 		if (currentOrder != null)
 		{
 			String sql = "SELECT sum(amount) FROM C_AllocationLine al " +
@@ -1399,9 +1401,7 @@ public class CPOS {
 		BigDecimal cashLineAmount = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID());
 		if (cashLineAmount != null)
 			received = received.add(cashLineAmount);
-		}
-		
-		return received;
+		}*/
 	}
 	
 	/**
