@@ -199,7 +199,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 receiver.setOrderId(pos.getC_Order_ID());
                 receiver.setPartnerId(pos.getC_BPartner_ID());
                 String processMessage = receiver.getName()
-                        + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
+                        + " @order.no@ : " + pos.getDocumentNo()
                         + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
 
                 if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
