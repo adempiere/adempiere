@@ -217,7 +217,10 @@ public class POSOrderLinePanel extends POSSubPanel
 		//	Remove line
 		if(posPanel.getQty() != null && posPanel.getQty().signum() <= 0) {
 			if (orderLineId > 0)
-				posPanel.deleteLine(orderLineId);
+				if (posPanel.isRequiredPIN()) {
+					posPanel.validateUserPin();
+					posPanel.deleteLine(orderLineId);
+				}
 			if (row >= 0) {
 				((DefaultTableModel) posTable.getModel()).removeRow(row);
 				posTable.getModel().addTableModelListener(this);
@@ -269,7 +272,6 @@ public class POSOrderLinePanel extends POSSubPanel
 				showProductInfo(i);
 				break;
 			}
-			// Select first row, if end of table and no row has been selected
 			if(i==posTable.getRowCount()-1)	 {
 				if (posPanel.hasLines()) {
 					posTable.getSelectionModel().setSelectionInterval(0, 0);
@@ -422,8 +424,10 @@ public class POSOrderLinePanel extends POSSubPanel
 		 return;
 		 int row = posTable.getSelectedRow();
 		 row--;
+
 		 if (row < 0)
-		 row = 0;
+			 row = rows - 1;
+
 		 posTable.getSelectionModel().setSelectionInterval(row, row);
 		 posPanel.changeViewPanel();
 		 showProductInfo(row);
@@ -437,24 +441,19 @@ public class POSOrderLinePanel extends POSSubPanel
 			 return;
 		 int row = posTable.getSelectedRow();
 		 row++;
-		 if (rows == row) {
-			 row--;
-		 }
-
-		 if (row < 0)
+		 if (rows == row)
 			 row = 0;
+
 		posTable.getSelectionModel().setSelectionInterval(row, row);
 		posPanel.changeViewPanel();
-		 showProductInfo(row);
+		showProductInfo(row);
 		return;
 	}
 
 	public void moveTop()
 	{
-		int row = 0;
-		posTable.getSelectionModel().setSelectionInterval(row, row);
-		posPanel.changeViewPanel();
-		showProductInfo(row);
+		if (posPanel.hasLines())
+			posTable.getSelectionModel().setSelectionInterval(0,0);
 	}
 
 	public int getC_OrderLine_ID()

@@ -28,6 +28,7 @@ import java.awt.*;
 public class POSUserPinDialog {
     public static void show(VPOS pos) {
         JPasswordField passwordField = new JPasswordField(20);
+
         GridBagLayout grid = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets.top = 4;
@@ -39,7 +40,20 @@ public class POSUserPinDialog {
         passwordPanel.add(new JLabel(msg), constraints);
         constraints.gridy = 1;
         passwordPanel.add(passwordField, constraints);
-        int result = JOptionPane.showConfirmDialog(null, passwordPanel, msg, JOptionPane.OK_CANCEL_OPTION);
+        JOptionPane optionPane = new JOptionPane(passwordPanel, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+        JDialog dialog = optionPane.createDialog(msg);
+        dialog.addComponentListener(new java.awt.event.ComponentListener(){
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent e) {
+                passwordField.requestFocusInWindow();
+            }
+            @Override public void componentHidden(java.awt.event.ComponentEvent e) {}
+            @Override public void componentResized(java.awt.event.ComponentEvent e) {}
+            @Override public void componentMoved(java.awt.event.ComponentEvent e) {}
+        });
+        dialog.setVisible(true);
+
+        int result = (Integer)optionPane.getValue();
         if (result == JOptionPane.OK_OPTION)
             pos.setIsCorrectUserPin(passwordField.getPassword());
     }
