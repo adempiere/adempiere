@@ -53,6 +53,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
     private POSQuery queryPartner;
     private JPopupMenu popupMenu;
     private CommandManager commandManager;
+    private Command currentCommand;
 
     public POSActionMenu(VPOS pos)
     {
@@ -77,14 +78,14 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
     public void actionPerformed(ActionEvent actionEvent) {
         try {
         popupMenu.setVisible(false);
-        Command command = commandManager.getCommand(actionEvent.getActionCommand());
-        beforeExecutionCommand(command);
+        currentCommand = commandManager.getCommand(actionEvent.getActionCommand());
+        beforeExecutionCommand(currentCommand);
         } catch (AdempiereException exception) {
             ADialog.error(pos.getWindowNo(), pos.getFrame() , exception.getLocalizedMessage());
         }
     }
 
-    private void beforeExecutionCommand(Command command) throws AdempierePOSException
+    private void beforeExecutionCommand(Command command)
     {
         if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE)
         {
@@ -98,13 +99,8 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         }
         if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES)
         {
-            if (pos.isCompleted()) {
-                queryPartner = new QueryBPartner(pos);
-                queryPartner.setModal(true);
-                queryPartner.addOptionListener(this);
-                queryPartner.showView();
-                return;
-            }
+            if (pos.isCompleted())
+               executeCommand(command);
         }
 
         if (command.getCommand() == CommandManager.GENERATE_RETURN)
@@ -129,129 +125,126 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         }
     }
 
-    private void afterExecutionCommand(Command command) throws AdempierePOSException
+    private void afterExecutionCommand(Command command)
     {
     }
 
-    private void executeCommand(Command command) throws AdempierePOSException
+    private void executeCommand(Command command)
     {
-        CommandReceiver receiver = commandManager.getCommandReceivers(command.getEvent());
-
-        if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE
-            &&  pos.getC_Order_ID() > 0
-            &&  !pos.isVoided()) {
-            receiver.setCtx(pos.getCtx());
-            receiver.setPartnerId(queryPartner.getRecord_ID());
-            receiver.setOrderId(pos.getC_Order_ID());
-            MBPartner partner = MBPartner.get(pos.getCtx(), receiver.getPartnerId());
-            Optional<String> taxId = Optional.ofNullable(partner.getTaxID());
-            String processMessage = receiver.getName()
-                    + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
-                    + " @To@ @C_BPartner_ID@ : " + partner.getName()
-                    + " @TaxID@ : " + taxId.orElse("");
-            if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
-                        Waiting waiting = new Waiting(pos.getFrame(),"@Processing@",false, 120);
-                        AEnv.showCenterScreen(waiting);
-                        command.execute(receiver);
-                        ProcessInfo processInfo = receiver.getProcessInfo();
-                        waiting.setVisible(false);
-                        if (processInfo.isError()) {
-                            String errorMessage = Msg.parseTranslation(pos.getCtx(), processInfo.getTitle() + " @ProcessRunError@ " + processInfo.getSummary());
-                            throw new AdempierePOSException(errorMessage);
-                        } else {
-                            afterExecutionCommand(command);
-                            showOkMessage(processInfo);
-                            pos.setOrder(processInfo.getRecord_ID());
-                            pos.refreshHeader();
-                        }
-                return;
-            }
-        }
-        //Reverse The Sales Transaction
-        if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES
-                && pos.getC_Order_ID() > 0
-                && !pos.isReturnMaterial()
-                && !pos.isVoided()
-                && !pos.isClosed())
-        {
-            receiver.setCtx(pos.getCtx());
-            receiver.setOrderId(pos.getC_Order_ID());
-            receiver.setPartnerId(partnerId > 0 ? pos.getC_BPartner_ID() : pos.getC_BPartner_ID());
-            String processMessage = receiver.getName()
-                    + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
-                    + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
-
-            if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
-                Waiting waiting = new Waiting(pos.getFrame(),"@Processing@",false, 120);
-                AEnv.showCenterScreen(waiting);
-                command.execute(receiver);
-                ProcessInfo processInfo = receiver.getProcessInfo();
-                waiting.setVisible(false);
-                if (processInfo.isError()) {
-                    showError(processInfo);
-                }
-                else
-                {
-                    afterExecutionCommand(command);
-                    showOkMessage(processInfo);
-                }
-                return;
-            }
-        }
-        //Return product
-        if (command.getCommand() == CommandManager.GENERATE_RETURN  &&  pos.getC_Order_ID() > 0 && !pos.isReturnMaterial())
-        {
-            receiver.setCtx(pos.getCtx());
-            receiver.setOrderId(pos.getC_Order_ID());
-            receiver.setPartnerId(pos.getC_BPartner_ID());
-            String processMessage = receiver.getName()
-                    + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
-                    + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
-
-            if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
-
-                Waiting waiting = new Waiting(pos.getFrame(),"@Processing@",false, 120);
-                AEnv.showCenterScreen(waiting);
-                command.execute(receiver);
-                ProcessInfo processInfo = receiver.getProcessInfo();
-                waiting.setVisible(false);
-                if (processInfo.isError()) {
-                    showError(processInfo);
-                }
-                else
-                {
-                    afterExecutionCommand(command);
-                    showOkMessage(processInfo);
-                    //execute out transaction
-                    if (processInfo.getRecord_ID() > 0) {
-                        pos.setOrder(processInfo.getRecord_ID());
-                        pos.refreshHeader();
-                    }
-                }
-
-                return;
-            }
-        }
-        if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT  &&  pos.getC_Order_ID() > 0)
-        {
-            if (pos.isReturnMaterial() && pos.isCompleted())
-            {
-                    receiver.setCtx(pos.getCtx());
-                    receiver.setOrderId(pos.getC_Order_ID());
-                    receiver.setWarehouseId(pos.getM_Warehouse_ID());
-                    Waiting waiting = new Waiting(pos.getFrame(),"@Processing@",false, 120);
+        try {
+            CommandReceiver receiver = commandManager.getCommandReceivers(command.getEvent());
+            if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE
+                    && pos.getC_Order_ID() > 0
+                    && !pos.isVoided()) {
+                receiver.setCtx(pos.getCtx());
+                receiver.setPartnerId(queryPartner.getRecord_ID());
+                receiver.setOrderId(pos.getC_Order_ID());
+                MBPartner partner = MBPartner.get(pos.getCtx(), receiver.getPartnerId());
+                Optional<String> taxId = Optional.ofNullable(partner.getTaxID());
+                String processMessage = receiver.getName()
+                        + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
+                        + " @To@ @C_BPartner_ID@ : " + partner.getName()
+                        + " @TaxID@ : " + taxId.orElse("");
+                if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
+                    Waiting waiting = new Waiting(pos.getFrame(), "@Processing@", false, 120);
                     AEnv.showCenterScreen(waiting);
                     command.execute(receiver);
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.setVisible(false);
                     if (processInfo.isError()) {
-                       showError(processInfo);
+                        String errorMessage = Msg.parseTranslation(pos.getCtx(), processInfo.getTitle() + " @ProcessRunError@ " + processInfo.getSummary());
+                        throw new AdempierePOSException(errorMessage);
+                    } else {
+                        afterExecutionCommand(command);
+                        showOkMessage(processInfo);
+                        pos.setOrder(processInfo.getRecord_ID());
+                        pos.refreshHeader();
+                    }
+                    return;
+                }
+            }
+            //Reverse The Sales Transaction
+            if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES
+                    && pos.getC_Order_ID() > 0
+                    && !pos.isReturnMaterial()
+                    && !pos.isVoided()
+                    && !pos.isClosed()) {
+                receiver.setCtx(pos.getCtx());
+                receiver.setOrderId(pos.getC_Order_ID());
+                receiver.setPartnerId(pos.getC_BPartner_ID());
+                String processMessage = receiver.getName()
+                        + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
+                        + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
+
+                if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
+                    Waiting waiting = new Waiting(pos.getFrame(), "@Processing@", false, 120);
+                    AEnv.showCenterScreen(waiting);
+                    command.execute(receiver);
+                    ProcessInfo processInfo = receiver.getProcessInfo();
+                    waiting.setVisible(false);
+                    if (processInfo.isError()) {
+                        showError(processInfo);
+                    } else {
+                        afterExecutionCommand(command);
+                        showOkMessage(processInfo);
+                    }
+                    return;
+                }
+            }
+            //Return product
+            if (command.getCommand() == CommandManager.GENERATE_RETURN && pos.getC_Order_ID() > 0 && !pos.isReturnMaterial()) {
+                receiver.setCtx(pos.getCtx());
+                receiver.setOrderId(pos.getC_Order_ID());
+                receiver.setPartnerId(pos.getC_BPartner_ID());
+                String processMessage = receiver.getName()
+                        + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
+                        + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
+
+                if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
+
+                    Waiting waiting = new Waiting(pos.getFrame(), "@Processing@", false, 120);
+                    AEnv.showCenterScreen(waiting);
+                    command.execute(receiver);
+                    ProcessInfo processInfo = receiver.getProcessInfo();
+                    waiting.setVisible(false);
+                    if (processInfo.isError()) {
+                        showError(processInfo);
+                    } else {
+                        afterExecutionCommand(command);
+                        showOkMessage(processInfo);
+                        //execute out transaction
+                        if (processInfo.getRecord_ID() > 0) {
+                            pos.setOrder(processInfo.getRecord_ID());
+                            pos.refreshHeader();
+                        }
+                    }
+
+                    return;
+                }
+            }
+            if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT && pos.getC_Order_ID() > 0) {
+                if (pos.isReturnMaterial() && pos.isCompleted()) {
+                    receiver.setCtx(pos.getCtx());
+                    receiver.setOrderId(pos.getC_Order_ID());
+                    receiver.setWarehouseId(pos.getM_Warehouse_ID());
+                    Waiting waiting = new Waiting(pos.getFrame(), "@Processing@", false, 120);
+                    AEnv.showCenterScreen(waiting);
+                    command.execute(receiver);
+                    ProcessInfo processInfo = receiver.getProcessInfo();
+                    waiting.setVisible(false);
+                    if (processInfo.isError()) {
+                        showError(processInfo);
                     }
                     afterExecutionCommand(command);
                     showOkMessage(processInfo);
                     pos.setOrder(processInfo.getRecord_ID());
                     pos.refreshHeader();
+                }
             }
+        }
+        catch (AdempierePOSException exception)
+        {
+            ADialog.error(pos.getWindowNo(), pos.getFrame() , exception.getLocalizedMessage());
         }
     }
 
@@ -266,7 +259,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
             return;
         //	For Ticket
         if(query instanceof QueryBPartner) {
-          partnerId = query.getRecord_ID();
+            executeCommand(currentCommand);
         }
     }
 
