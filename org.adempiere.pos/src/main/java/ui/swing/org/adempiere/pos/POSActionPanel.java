@@ -33,18 +33,20 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.search.POSQuery;
 import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryDocType;
-import org.adempiere.pos.search.QueryProduct;
 import org.adempiere.pos.search.QueryOrderHistory;
+import org.adempiere.pos.search.QueryProduct;
 import org.adempiere.pos.service.I_POSPanel;
 import org.adempiere.pos.service.I_POSQuery;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
 import org.compiere.model.I_M_Product;
 import org.compiere.model.MWarehousePrice;
-import org.compiere.print.ReportCtl;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CPanel;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 
 /**
