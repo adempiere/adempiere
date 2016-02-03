@@ -110,19 +110,21 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         }
 
         if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT
-                && pos.isDrafted()) {
-            if (!pos.isCompleted()) {
-                Trx.run(new TrxRunnable() {
-                    public void run(String trxName) {
-                        pos.processOrder(trxName, false, false);
-                        pos.refreshHeader();
-                    }
-                });
-                executeCommand(command);
-            }
-            else
-                ADialog.info(pos.getWindowNo(), popupMenu, "DocProcessed", pos.getDocumentNo());
-        }
+        		&& (pos.isDrafted() || pos.isInProgress() || pos.isInvalid())) {
+        	Trx.run(new TrxRunnable() {
+        		public void run(String trxName) {
+        			if (!pos.processOrder(trxName, false, false)) {
+        				String errorMessage = Msg.parseTranslation(pos.getCtx(), " @ProcessRunError@. " 
+        						+ "@order.no@: " + pos.getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
+        				throw new AdempierePOSException(errorMessage);
+        			}
+        			pos.refreshHeader();
+        		}
+        	});
+        	executeCommand(command);
+        }            
+        else
+        	ADialog.info(pos.getWindowNo(), popupMenu, "DocProcessed", pos.getDocumentNo());
     }
 
     private void afterExecutionCommand(Command command)
@@ -173,7 +175,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 receiver.setOrderId(pos.getC_Order_ID());
                 receiver.setPartnerId(pos.getC_BPartner_ID());
                 String processMessage = receiver.getName()
-                        + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
+                        + " @order.no@ : " + pos.getDocumentNo()
                         + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
 
                 if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
