@@ -358,9 +358,9 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		
 		else if ( action.equals(ConfirmPanel.A_OK)) {
 			//	Validate before process
-			String validResult = validatePanel();
+			String validResult = validatePayment();
 			if(validResult == null) {
-				validResult = executePayments();
+				validResult = executePayment();
 			}
 			//	Show Dialog
 			if(validResult != null) {
@@ -419,13 +419,13 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return
 	 * @return String
 	 */
-	public String executePayments() {
+	public String executePayment() {
 		String errorMsg = null;
 		try {
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					if(v_POSPanel.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
-						processPayment(trxName, v_POSPanel.getOpenAmt());
+						processTenderTypes(trxName, v_POSPanel.getOpenAmt());
 					} else {
 						throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + v_POSPanel.getDocumentNo() + ": "  +
 				                 "@ProcessRunError@" + " (" +  v_POSPanel.getProcessMsg() + ")"));
@@ -489,14 +489,14 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		String errorMsg = null;
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
 		} else {
 			if(!(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder())) 
 				// No Check if Order is not Standard Order nor Warehouse Order
-				errorMsg = validatePayment(v_POSPanel.getOpenAmt());
+				errorMsg = validateTenderTypes(v_POSPanel.getOpenAmt());
 		}
 		//	
 		return errorMsg;
