@@ -437,7 +437,7 @@ public class POSDocumentPanel extends POSSubPanel
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		return null;
 	}
 

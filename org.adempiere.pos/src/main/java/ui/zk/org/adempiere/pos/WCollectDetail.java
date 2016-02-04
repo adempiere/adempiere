@@ -601,7 +601,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		return null;
 	}
 

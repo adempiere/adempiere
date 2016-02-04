@@ -532,7 +532,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		return null;
 	}
 
