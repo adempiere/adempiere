@@ -32,7 +32,9 @@ import org.adempiere.pos.service.POSQueryListener;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MOrder;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
@@ -119,7 +121,19 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
         			pos.refreshHeader();
         		}
         	});
-        	executeCommand(commandAction);
+        	
+        	// For certain documents, there is no further processing
+        	String docSubTypeSO = pos.getM_Order().getC_DocTypeTarget().getDocSubTypeSO();
+        	if((docSubTypeSO.equals(MOrder.DocSubTypeSO_Standard) ||
+        		docSubTypeSO.equals(MOrder.DocSubTypeSO_OnCredit) ||
+        		docSubTypeSO.equals(MOrder.DocSubTypeSO_Warehouse)) 
+        		&& pos.getM_Order().getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {        		
+        		String message = Msg.parseTranslation(pos.getCtx(), " @DocProcessed@. " 
+        				+ "@order.no@: " + pos.getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
+        		FDialog.info(pos.getWindowNo(), popupMenu ,"DocProcessed",  message );
+        	}
+        	else
+        		executeCommand(commandAction);
         }
             else
                 FDialog.info(pos.getWindowNo(), popupMenu, "DocProcessed", pos.getDocumentNo());
