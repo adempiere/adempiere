@@ -512,6 +512,10 @@ public class ProcessCtl implements Runnable
 		{
 			if (m_parent instanceof Container)
 			{
+				//	Remove Waiting/Processing Indicator
+				if (m_waiting != null)
+					m_waiting.dispose();
+				m_waiting = null;
 				//swing client
 				SwingUtilities.invokeLater(new Runnable()
 				{
@@ -524,10 +528,6 @@ public class ProcessCtl implements Runnable
 						m_parent.unlockUI(m_pi);
 					}
 				});
-				//	Remove Waiting/Processing Indicator
-				if (m_waiting != null)
-					m_waiting.dispose();
-				m_waiting = null;
 			}
 			else
 			{
