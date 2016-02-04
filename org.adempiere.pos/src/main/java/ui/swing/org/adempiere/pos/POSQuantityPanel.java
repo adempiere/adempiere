@@ -287,7 +287,7 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		return null;
 	}
 

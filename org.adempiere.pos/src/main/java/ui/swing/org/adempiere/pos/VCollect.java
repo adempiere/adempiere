@@ -355,14 +355,14 @@ public class VCollect extends Collect
 	 * @return
 	 * @return String
 	 */
-	public String saveData() {
+	public String executePayment() {
 		String errorMsg = null;
 		try {
 			dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					if(pos.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
-						processPayment(trxName, pos.getOpenAmt());
+						processTenderTypes(trxName, pos.getOpenAmt());
 					} else {
 						throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": "  +
 					                 "@ProcessRunError@" + " (" +  pos.getProcessMsg() + ")"));
@@ -386,9 +386,9 @@ public class VCollect extends Collect
 			addCollectType();
 		} else if (actionEvent.getSource().equals(buttonOk)) {	//	Process if is ok validation
 			//	Validate before process
-			String validResult = validatePanel();
+			String validResult = validatePayment();
 			if(validResult == null) {
-				validResult = saveData();
+				validResult = executePayment();
 			}
 			//	Show Dialog
 			if(validResult != null) {
@@ -496,7 +496,7 @@ public class VCollect extends Collect
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		String errorMsg = null;
 		if(!pos.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
@@ -504,7 +504,7 @@ public class VCollect extends Collect
 			if(!(pos.isStandardOrder() /*|| pos.isWarehouseOrder()*/))
 				// No Check if Order is not Standard Order
 				// TODO: Review why nor Warehouse Order
-				errorMsg = validatePayment(pos.getOpenAmt());
+				errorMsg = validateTenderTypes(pos.getOpenAmt());
 		}
 		//	
 		return errorMsg;

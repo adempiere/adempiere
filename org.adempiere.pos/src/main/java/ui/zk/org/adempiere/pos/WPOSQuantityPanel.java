@@ -284,7 +284,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		return null;
 	}
 

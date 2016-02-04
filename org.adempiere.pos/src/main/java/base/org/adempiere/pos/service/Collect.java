@@ -562,7 +562,7 @@ public class Collect {
 	 * @return
 	 * @return String
 	 */
-	protected String validatePayment(BigDecimal openAmt) {
+	protected String validateTenderTypes(BigDecimal openAmt) {
 		cleanErrorMsg();
 		if(openAmt.doubleValue() <= 0) {
 			addErrorMsg("@POS.validatePayment.NoOpenAmt@");
@@ -640,7 +640,7 @@ public class Collect {
 	 * @param trxName
 	 * @param openAmt
 	 */
-	public void processPayment(String trxName, BigDecimal openAmt) {
+	public void processTenderTypes(String trxName, BigDecimal openAmt) {
 		this.trxName = trxName;
 		//	
 		BigDecimal cashPayment = Env.ZERO;

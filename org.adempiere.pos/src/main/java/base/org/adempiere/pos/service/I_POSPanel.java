@@ -44,7 +44,7 @@ public interface I_POSPanel {
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 	 * @return String
 	 */
-	public String validatePanel();
+	public String validatePayment();
 	
 	/**
 	 * Change view from other action

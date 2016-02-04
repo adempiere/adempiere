@@ -265,7 +265,7 @@ public class POSActionPanel extends POSSubPanel
 				//	New
 				if (actionEvent.getSource().equals(buttonNew)) {
 					posPanel.newOrder();
-				} if (actionEvent.getSource().equals(buttonDocType)) {
+				} else if (actionEvent.getSource().equals(buttonDocType)) {
 					if (posPanel.validateUserPin()) {
 						QueryDocType queryDocType = new QueryDocType(posPanel);
 						queryDocType.addOptionListener(this);
@@ -283,14 +283,16 @@ public class POSActionPanel extends POSSubPanel
 						queryBPartner.showView();
 					}
 				} else if (actionEvent.getSource().equals(buttonProcess)){
+					if (posPanel.validateUserPin()) {
 						actionProcessMenu.show(this, 340 , 60);
-						return;
+					}
+					return;
 				}
 				else if (actionEvent.getSource().equals(buttonHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
-					POSQuery queryTicket = new QueryOrderHistory(posPanel);
-					queryTicket.addOptionListener(this);
-					queryTicket.showView();
+					POSQuery orderHistory = new QueryOrderHistory(posPanel);
+					orderHistory.addOptionListener(this);
+					orderHistory.showView();
 					return;
 				} else if (actionEvent.getSource().equals(buttonBack)){
 					previousRecord();
@@ -509,7 +511,7 @@ public class POSActionPanel extends POSSubPanel
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		return null;
 	}
 

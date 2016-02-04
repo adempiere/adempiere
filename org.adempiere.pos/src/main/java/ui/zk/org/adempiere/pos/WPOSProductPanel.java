@@ -283,7 +283,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		return null;
 	}
 

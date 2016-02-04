@@ -487,16 +487,22 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			newOrder();
 		} 
 		else if (e.getTarget().equals(buttonDocType)){
-			openDocType();
+			posPanel.setUserPinListener(e);
+			if(posPanel.validateUserPin()) {
+				openDocType();
+			}
 		}
 		else if(e.getTarget().equals(buttonCollect)){
 			payOrder();
 			return;
 		}
 		else if(e.getTarget().equals(buttonProcess)){
-			actionProcessMenu.getPopUp().setPage(this.getPage());
-			actionProcessMenu.getPopUp().open(buttonProcess);
-		return;
+			posPanel.setUserPinListener(e);
+			if(posPanel.validateUserPin()) {
+				actionProcessMenu.getPopUp().setPage(this.getPage());
+				actionProcessMenu.getPopUp().open(buttonProcess);	
+			}
+			return;
 		}
 		else if (e.getTarget().equals(buttonBack)){
 			previousRecord();
@@ -517,8 +523,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		}
 		// Cancel
 		else if (e.getTarget().equals(buttonCancel)){
-			deleteOrder();
-			refreshProductInfo(null);
+			posPanel.setUserPinListener(e);
+			if(posPanel.validateUserPin()) {
+				deleteOrder();
+				refreshProductInfo(null);
+			}
 		}
 		//	History
 		if (e.getTarget().equals(buttonHistory)) {
@@ -552,7 +561,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		return null;
 	}
 

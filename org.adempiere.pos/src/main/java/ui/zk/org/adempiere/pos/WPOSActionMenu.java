@@ -32,7 +32,9 @@ import org.adempiere.pos.service.POSQueryListener;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MOrder;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
@@ -80,7 +82,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
 
 
 
-    private void beforeExecutionProcess(Command commandAction) throws AdempierePOSException
+    private void beforeExecutionCommand(Command commandAction) throws AdempierePOSException
     {
         if (commandAction.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE)
         {
@@ -103,31 +105,45 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
 
         if (commandAction.getCommand() == CommandManager.GENERATE_RETURN)
         {
-            executeProcess(commandAction);
+            executeCommand(commandAction);
             return;
         }
 
         if (commandAction.getCommand() == CommandManager.COMPLETE_DOCUMENT
-                && pos.isDrafted()) {
-            if (!pos.isCompleted()) {
-                Trx.run(new TrxRunnable() {
-                    public void run(String trxName) {
-                        pos.processOrder(trxName, false, false);
-                        pos.refreshHeader();
-                    }
-                });
-                executeProcess(commandAction);
-            }
+        		&& (pos.isDrafted() || pos.isInProgress() || pos.isInvalid())) {
+        	Trx.run(new TrxRunnable() {
+        		public void run(String trxName) {
+        			if (!pos.processOrder(trxName, false, false)) {
+        				String errorMessage = Msg.parseTranslation(pos.getCtx(), " @ProcessRunError@. " 
+        						+ "@order.no@: " + pos.getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
+        				throw new AdempierePOSException(errorMessage);
+        			}
+        			pos.refreshHeader();
+        		}
+        	});
+        	
+        	// For certain documents, there is no further processing
+        	String docSubTypeSO = pos.getM_Order().getC_DocTypeTarget().getDocSubTypeSO();
+        	if((docSubTypeSO.equals(MOrder.DocSubTypeSO_Standard) ||
+        		docSubTypeSO.equals(MOrder.DocSubTypeSO_OnCredit) ||
+        		docSubTypeSO.equals(MOrder.DocSubTypeSO_Warehouse)) 
+        		&& pos.getM_Order().getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {        		
+        		String message = Msg.parseTranslation(pos.getCtx(), " @DocProcessed@. " 
+        				+ "@order.no@: " + pos.getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
+        		FDialog.info(pos.getWindowNo(), popupMenu ,"DocProcessed",  message );
+        	}
+        	else
+        		executeCommand(commandAction);
+        }
             else
                 FDialog.info(pos.getWindowNo(), popupMenu, "DocProcessed", pos.getDocumentNo());
-        }
     }
 
-    private void afterExecutionProcess(Command command) throws AdempierePOSException
+    private void afterExecutionCommand(Command command) throws AdempierePOSException
     {
     }
 
-    private void executeProcess(Command commandAction) throws AdempierePOSException
+    private void executeCommand(Command commandAction) throws AdempierePOSException
     {
         CommandReceiver receiver = commandManager.getCommandReceivers(commandAction.getEvent());
 
@@ -140,7 +156,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
             MBPartner partner = MBPartner.get(pos.getCtx(), receiver.getPartnerId());
             Optional<String> taxId = Optional.ofNullable(partner.getTaxID());
             String processMessage = receiver.getName()
-                    + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
+                    + " @order.no@ : " + pos.getDocumentNo()
                     + " @To@ @C_BPartner_ID@ : " + partner.getName()
                     + " @TaxID@ : " + taxId.orElse("");
             if (FDialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
@@ -157,7 +173,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                             String errorMessage = Msg.parseTranslation(pos.getCtx(), processInfo.getTitle() + " @ProcessRunError@ " + processInfo.getSummary());
                             throw new AdempierePOSException(errorMessage);
                         } else {
-                            afterExecutionProcess(commandAction);
+                            afterExecutionCommand(commandAction);
                             showOkMessage(processInfo);
                             pos.setOrder(processInfo.getRecord_ID());
                             pos.refreshHeader();
@@ -176,7 +192,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
             receiver.setOrderId(pos.getC_Order_ID());
             receiver.setPartnerId(partnerId > 0 ? pos.getC_BPartner_ID() : pos.getC_BPartner_ID());
             String processMessage = receiver.getName()
-                    + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
+                    + " @order.no@ : " + pos.getDocumentNo()
                     + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
 
             if (FDialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
@@ -192,7 +208,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                 }
                 else
                 {
-                    afterExecutionProcess(commandAction);
+                    afterExecutionCommand(commandAction);
                     showOkMessage(processInfo);
                 }
                 return;
@@ -222,7 +238,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                 }
                 else
                 {
-                    afterExecutionProcess(commandAction);
+                    afterExecutionCommand(commandAction);
                     showOkMessage(processInfo);
                     //execute out transaction
                     if (processInfo.getRecord_ID() > 0) {
@@ -251,7 +267,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                     if (processInfo.isError()) {
                        showError(processInfo);
                     }
-                    afterExecutionProcess(commandAction);
+                    afterExecutionCommand(commandAction);
                     showOkMessage(processInfo);
                     pos.setOrder(processInfo.getRecord_ID());
                     pos.refreshHeader();
@@ -295,7 +311,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
 		 try {
 //		        popupMenu.setVisible(false);
 		        Command command = commandManager.getCommand((String)actionEvent.getTarget().getAttribute(EVENT_ATTRIBUTE));
-		        beforeExecutionProcess(command);
+		        beforeExecutionCommand(command);
 		        } catch (AdempiereException exception) {
 		            FDialog.error(pos.getWindowNo(), pos.getForm() , exception.getLocalizedMessage());
 		        }

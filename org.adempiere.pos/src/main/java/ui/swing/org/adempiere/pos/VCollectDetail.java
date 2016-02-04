@@ -528,7 +528,7 @@ public class VCollectDetail extends CollectDetail
 	}
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		
 		return null;
 	}
