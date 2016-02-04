@@ -146,7 +146,7 @@ public class MField extends X_AD_Field
 		//	BR [ 9223372036854775807 ]
 		//	Valid Lookup
 		if(getAD_Reference_ID() != 0
-				&& getAD_Column_ID() != 0) {
+				&& getAD_Column_ID() != 0 && !isDirectLoad()) {
 			String columnName = MColumn.getColumnName(getCtx(), getAD_Column_ID());
 			MColumn.validLookup(columnName, getAD_Reference_ID(), getAD_Reference_Value_ID());
 		}
