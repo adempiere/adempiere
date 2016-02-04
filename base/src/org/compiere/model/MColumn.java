@@ -324,7 +324,10 @@ public class MColumn extends X_AD_Column
 		}
 		
 		//	BR [ 9223372036854775807 ]
-		validLookup(getColumnName(), getAD_Reference_ID(), getAD_Reference_Value_ID());
+		//  Skip the validation if this is a Direct Load (from a migration) or the Element is changing.
+		if (!isDirectLoad() 
+		    && (this.get_Value(MColumn.COLUMNNAME_AD_Element_ID).equals(get_ValueOld(MColumn.COLUMNNAME_AD_Element_ID))))
+			validLookup(getColumnName(), getAD_Reference_ID(), getAD_Reference_Value_ID());
 		
 		/** Views are not updateable
 		UPDATE AD_Column c
@@ -398,10 +401,6 @@ public class MColumn extends X_AD_Column
 	 * @return
 	 */
 	public static void validLookup(String p_ColumnName, int p_AD_Reference_ID, int p_AD_Reference_Value_ID) {
-		// For backwards compatibility with older XML, skip the validation of the lookup 
-		// if a migration script is running
-		if (Env.getContext(Env.getCtx(), "MigrationStepApplyInProgress").equals("Y") )
-			return;
 
 		//	Valid 
 		if(p_ColumnName == null
