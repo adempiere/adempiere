@@ -17,6 +17,7 @@
 package org.adempiere.pos.command;
 
 import org.adempiere.pos.AdempierePOSException;
+import org.adempiere.pos.process.ReverseTheSalesTransaction;
 import org.compiere.model.*;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
@@ -26,6 +27,7 @@ import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.eevolution.service.dsl.ProcessBuilder;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,18 +83,31 @@ public class CommandCompleteReturnMaterial extends CommandAbstract implements Co
                     }
                 }
 
-                //Generate Credit note InvoiceGenerate
-                processInfo = ProcessBuilder
-                        .create(commandReceiver.getCtx())
-                        .process(134)
-                        .withTitle(processInfo.getTitle())
-                        .withParameter("Selection", true)
-                        .withSelectedRecordsIds(selectionIds)
-                        .withoutTransactionClose()
-                        .execute(trxName);
+                MOrder sourceOrder = (MOrder) returnOrder.getRef_Order();
+                if (sourceOrder != null && returnOrder.getC_Order_ID() > 0)
+                {
+                   if (sourceOrder.getInvoices().length > 0) {
+                       //Generate Credit note InvoiceGenerate
+                       processInfo = ProcessBuilder
+                               .create(commandReceiver.getCtx())
+                               .process(134)
+                               .withTitle(processInfo.getTitle())
+                               .withParameter("Selection", true)
+                               .withSelectedRecordsIds(selectionIds)
+                               .withoutTransactionClose()
+                               .execute(trxName);
 
-                ReportCtl.startDocumentPrint(ReportEngine.ORDER, commandReceiver.getOrderId(), false);
-                commandReceiver.setProcessInfo(processInfo);
+                       ReportCtl.startDocumentPrint(ReportEngine.ORDER, commandReceiver.getOrderId(), false);
+                       commandReceiver.setProcessInfo(processInfo);
+                   }
+                   else // if not exist invoice then return of payment
+                   {
+                       Timestamp today = new Timestamp(System.currentTimeMillis());
+                       for (MPayment payment : ReverseTheSalesTransaction.cancelPayments(sourceOrder, today))
+                           processInfo.addLog(0,null,null,payment.getDocumentInfo());
+
+                   }
+                }
             }
         });
     }

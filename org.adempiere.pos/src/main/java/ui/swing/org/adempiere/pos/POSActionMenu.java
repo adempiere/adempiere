@@ -154,8 +154,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.setVisible(false);
                     if (processInfo.isError()) {
-                        String errorMessage = Msg.parseTranslation(pos.getCtx(), processInfo.getTitle() + " @ProcessRunError@ " + processInfo.getSummary());
-                        throw new AdempierePOSException(errorMessage);
+                        showError(processInfo);
                     } else {
                         afterExecutionCommand(command);
                         showOkMessage(processInfo);
@@ -239,7 +238,6 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                     }
                     afterExecutionCommand(command);
                     showOkMessage(processInfo);
-                    pos.setOrder(processInfo.getRecord_ID());
                     pos.refreshHeader();
                 }
             }
