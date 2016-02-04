@@ -1203,6 +1203,7 @@ public class CPOS {
 				orderCompleted = true;
 			} else {
 				log.info( "Process Order FAILED " + currentOrder.getProcessMsg());
+				currentOrder.saveEx();
 				return orderCompleted;
 			}
 		} else {	//	Order not completed -> default nothing

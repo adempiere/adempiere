@@ -393,7 +393,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		return getKeyboard(getOSKeyLayout_ID());
 	}
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		return null;
 	}
 

@@ -279,7 +279,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 	}	//	focusLost
 
 	@Override
-	public String validatePanel() {
+	public String validatePayment() {
 		return null;
 	}
 
