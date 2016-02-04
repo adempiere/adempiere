@@ -360,7 +360,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			//	Validate before process
 			String validResult = validatePanel();
 			if(validResult == null) {
-				validResult = saveData();
+				validResult = executePayments();
 			}
 			//	Show Dialog
 			if(validResult != null) {
@@ -419,7 +419,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return
 	 * @return String
 	 */
-	public String saveData() {
+	public String executePayments() {
 		String errorMsg = null;
 		try {
 			Trx.run(new TrxRunnable() {
