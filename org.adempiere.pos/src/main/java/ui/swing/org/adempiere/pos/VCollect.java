@@ -355,7 +355,7 @@ public class VCollect extends Collect
 	 * @return
 	 * @return String
 	 */
-	public String saveData() {
+	public String executePayments() {
 		String errorMsg = null;
 		try {
 			dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -388,7 +388,7 @@ public class VCollect extends Collect
 			//	Validate before process
 			String validResult = validatePanel();
 			if(validResult == null) {
-				validResult = saveData();
+				validResult = executePayments();
 			}
 			//	Show Dialog
 			if(validResult != null) {
