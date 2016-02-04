@@ -102,7 +102,8 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
         }
 
         //Cancel original payment
-        cancelPayments(sourceOrder);
+        for (MPayment payment :cancelPayments(sourceOrder, today))
+             addLog(payment.getDocumentInfo());
 
         sourceOrder.processIt(DocAction.ACTION_Close);
         sourceOrder.saveEx();
@@ -194,7 +195,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
         for (MInOut customerReturn : customerReturns) {
             ProcessInfo processInfo = ProcessBuilder
                     .create(getCtx())
-                    .process("M_InOut_CreateInvoice")
+                    .process("M_InOut_CreateInvoice") // AD_Process_ID = 154
                     .withTitle("Generate Invoice from Receipt")
                     .withRecordId(MInOut.Table_ID , customerReturn.getM_InOut_ID())
                     .withoutTransactionClose()
@@ -219,12 +220,13 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
         }
     }
 
-    private void cancelPayments(MOrder sourceOrder)
+    static public List<MPayment> cancelPayments(MOrder sourceOrder, Timestamp today)
     {
-        List<MPayment> payments = MPayment.getOfOrder(sourceOrder);
-        for (MPayment sourcePayment : payments)
+        List<MPayment> payments = new ArrayList<>();
+        List<MPayment> sourcePayments = MPayment.getOfOrder(sourceOrder);
+        for (MPayment sourcePayment : sourcePayments)
         {
-            MPayment payment = new MPayment(getCtx() ,  0 , get_TrxName());
+            MPayment payment = new MPayment(sourceOrder.getCtx() ,  0 , sourceOrder.get_TrxName());
             PO.copyValues(sourcePayment, payment);
             payment.setDateTrx(today);
             payment.setC_Order_ID(sourceOrder.getC_Order_ID());
@@ -239,8 +241,9 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
 
             payment.processIt(DocAction.ACTION_Complete);
             payment.saveEx();
-            addLog(payment.getDocumentInfo());
+            payments.add(payment);
         }
+        return payments;
     }
 
     public int getRMATypeId() {

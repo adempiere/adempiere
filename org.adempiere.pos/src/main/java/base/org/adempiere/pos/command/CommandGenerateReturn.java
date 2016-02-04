@@ -52,7 +52,7 @@ public class CommandGenerateReturn extends CommandAbstract implements Command {
                         .withParameter(I_C_Order.COLUMNNAME_Bill_BPartner_ID , commandReceiver.getPartnerId())
                         .withParameter(I_C_DocType.COLUMNNAME_DocSubTypeSO , MDocType.DOCSUBTYPESO_ReturnMaterial)
                         .withParameter(I_C_Order.COLUMNNAME_DocAction, DocAction.ACTION_None)
-                        .withParameter("IsIncludePayments", true)
+                        .withParameter("IsIncludePayments", false)
                         .withParameter(I_C_Payment.COLUMNNAME_IsAllocated, false)
                         .withoutTransactionClose()
                         .execute(trxName)
