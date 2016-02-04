@@ -441,8 +441,13 @@ public class MQuery implements Serializable
 	};
 	/**	Operators for IDs					*/
 	public static final ValueNamePair[]	OPERATORS_ID = new ValueNamePair[] {
-		new ValueNamePair (EQUAL,			" = "),		//	0
-		new ValueNamePair (NOT_EQUAL,		" != ")
+		new ValueNamePair (EQUAL,			" = "),		
+		new ValueNamePair (NOT_EQUAL,		" != "),
+		new ValueNamePair (GREATER,			" > "),
+		new ValueNamePair (GREATER_EQUAL,	" >= "),		
+		new ValueNamePair (LESS,			" < "),
+		new ValueNamePair (LESS_EQUAL,		" <= "),
+		new ValueNamePair (BETWEEN,			" >-< ")	
 	};
 	/**	Operators for Boolean					*/
 	public static final ValueNamePair[]	OPERATORS_YN = new ValueNamePair[] {
