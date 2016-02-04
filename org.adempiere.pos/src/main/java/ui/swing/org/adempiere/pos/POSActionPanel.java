@@ -288,9 +288,9 @@ public class POSActionPanel extends POSSubPanel
 				}
 				else if (actionEvent.getSource().equals(buttonHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
-					POSQuery queryTicket = new QueryOrderHistory(posPanel);
-					queryTicket.addOptionListener(this);
-					queryTicket.showView();
+					POSQuery orderHistory = new QueryOrderHistory(posPanel);
+					orderHistory.addOptionListener(this);
+					orderHistory.showView();
 					return;
 				} else if (actionEvent.getSource().equals(buttonBack)){
 					previousRecord();
