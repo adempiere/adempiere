@@ -106,7 +106,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	/**	Timer for User Pin					*/
 	private Timer 							userPinTimer;
 	/** Is Correct User Pin					*/
-	private boolean							isCorrectUserPin;
+	private Boolean							isCorrectUserPin;
 	/** User Pin Listener 					*/
 	private WPOSUserPinListener 			userPinListener;
 	/** Order Panel							*/
@@ -147,6 +147,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	{
 		log.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
 		windowNo = form.getWindowNo();
+		isCorrectUserPin = null;
 		//
 		try
 		{
@@ -562,12 +563,12 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	}
 
 	/**
-	 * Set current based on pin
+	 * Set user PIN based on pin validation
 	 * @param userPin
      */
-	protected void setIsCorrectUserPin(char[] userPin)
+	protected void validateAndSetUserPin(char[] userPin)
 	{
-		if (isCorrectUserPin)
+		if (isCorrectUserPin != null && isCorrectUserPin)
 			return;
 		boolean isValidUserPin = isValidUserPin(userPin);
 		if (isValidUserPin)
@@ -581,17 +582,37 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	}
 
 	/**
+	 * invalidate user pin
+	 */
+	protected void invalidateUserPin()
+	{
+		this.isCorrectUserPin = null;
+	}
+
+	/**
 	 * Is correct User Pin asynchronous validation
 	 * @return
      */
-	public boolean validateUserPin()
+	public boolean isUserPinValid()
 	{
 		if (!isRequiredPIN())
 			return true;
 
-		if (!isCorrectUserPin)
-			FDialog.error(0,Msg.parseTranslation(getCtx(), ("@Supervisor_ID@: @UserPin@ @IsInvalid@.")));
+		/*System.out.println("Testpunkt 01"); // TODO: delete when test over
+		if (isCorrectUserPin == null && userPinListener!=null) {
+			System.out.println("Testpunkt 02");
+			userPinListener.doPerformAction();
+			System.out.println("Testpunkt 03");
+		}*/
 
-		return isCorrectUserPin;
+		// System.out.println("Testpunkt 04"); // TODO: delete when test over
+		if (isCorrectUserPin == null || !isCorrectUserPin) {
+			//System.out.println("Testpunkt 05");   // TODO: delete when test over
+			FDialog.error(0,Msg.parseTranslation(getCtx(), ("@Supervisor_ID@: @UserPin@ @IsInvalid@.")));
+			//System.out.println("Testpunkt 06"); // TODO: delete when test over
+		}
+
+		//System.out.println("Testpunkt 07"); // TODO: delete when test over
+		return isCorrectUserPin == null?false:isCorrectUserPin;
 	}
 }	//	PosPanel

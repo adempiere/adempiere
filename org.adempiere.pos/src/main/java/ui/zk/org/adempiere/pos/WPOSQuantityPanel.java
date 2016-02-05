@@ -187,7 +187,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		}
 		else if (e.getTarget().equals(buttonDelete)){
 			posPanel.setUserPinListener(e);
-			if(posPanel.validateUserPin()) {
+			if(posPanel.isUserPinValid()) {
 				posPanel.deleteLine(posPanel.getC_OrderLine_ID());
 				fieldQuantity.setValue(0.0);
 				fieldPrice.setValue(0.0);
@@ -207,7 +207,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		&& (e.getTarget().equals(fieldQuantity.getDecimalbox())))) {
 			if(quantity.compareTo(Env.ZERO) == 0) {
 				posPanel.setUserPinListener(e);
-				if(posPanel.validateUserPin()) {
+				if(posPanel.isUserPinValid()) {
 					posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
 				}
 			} else {
@@ -222,7 +222,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		|| 	(posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getTarget().equals(fieldDiscountPercentage.getDecimalbox()))) 
 		{
 			posPanel.setUserPinListener(e);
-			if(posPanel.validateUserPin()) {
+			if(posPanel.isUserPinValid()) {
 				posPanel.setPrice((BigDecimal) fieldPrice.getValue());
 				posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
 			}

@@ -488,7 +488,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		} 
 		else if (e.getTarget().equals(buttonDocType)){
 			posPanel.setUserPinListener(e);
-			if(posPanel.validateUserPin()) {
+			if(posPanel.isUserPinValid()) {
 				openDocType();
 			}
 		}
@@ -498,7 +498,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		}
 		else if(e.getTarget().equals(buttonProcess)){
 			posPanel.setUserPinListener(e);
-			if(posPanel.validateUserPin()) {
+			if(posPanel.isUserPinValid()) {
 				actionProcessMenu.getPopUp().setPage(this.getPage());
 				actionProcessMenu.getPopUp().open(buttonProcess);	
 			}
@@ -524,7 +524,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 		// Cancel
 		else if (e.getTarget().equals(buttonCancel)){
 			posPanel.setUserPinListener(e);
-			if(posPanel.validateUserPin()) {
+			if(posPanel.isUserPinValid()) {
 				deleteOrder();
 				refreshProductInfo(null);
 			}
