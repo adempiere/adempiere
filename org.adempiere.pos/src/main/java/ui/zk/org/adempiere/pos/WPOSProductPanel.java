@@ -84,7 +84,10 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 	private Grid 			v_TotalsPanel;
 	private Grid 			v_OrderPanel;
 	private Grid 			v_GroupPanel;
-
+	/** Collect 			*/
+	private WCollect 		collectPayment;
+	private WPOSKeyPanel 	panelProduct;
+	private Row 			row; 
 	
 	@Override
 	public void init(){
@@ -106,7 +109,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		//  Define the criteria rows and grid  
 		Rows rows = new Rows();
 		//
-		Row row = new Row();
+		row = new Row();
 		rows.appendChild(row);
 		rows.setHeight("100%");
 		rows.setWidth("100%");
@@ -265,11 +268,13 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		rows = layout.newRows();
 		
 	
-		WPOSKeyPanel panel = new WPOSKeyPanel(C_POSKeyLayout_ID, this);
+		panelProduct = new WPOSKeyPanel(C_POSKeyLayout_ID, this);
 		row = rows.newRow();
 		row.setHeight("50%");
 		row.setSpans("4");
-		row.appendChild(panel);
+		row.appendChild(panelProduct);
+		
+		collectPayment = new WCollect(posPanel);
 		
 		//	Refresh
 		f_TotalLines.setText(m_Format.format(Env.ZERO));
@@ -430,6 +435,31 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		return false;
 	}
 
+	/**
+	 * Get Collect Payment Panel
+	 * @return WCollect
+	 */
+	public WCollect getCollectPayment()
+	{
+		row.removeChild(panelProduct);
+		row.setHeight("50%");
+		row.setSpans("4");
+		row.appendChild(collectPayment.getPanel());
+		return collectPayment.load(posPanel);
+	}
+	
+	/**
+	 * Close Collect Payment Panel
+	 * @return void
+	 */
+	public void closeCollectPayment()
+	{
+		row.removeChild(collectPayment.getPanel());
+		row.setHeight("50%");
+		row.setSpans("4");
+		row.appendChild(panelProduct);
+	}
+	
 	@Override
 	public void moveUp() {
 	}

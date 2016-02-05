@@ -503,7 +503,30 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void updateLineTable() {
 		f_OrderLinePanel.updateLine();
 	}
+	/**
+	 * Show Collect Payment Panel
+	 * @return void
+	 */
+	public void showCollectPayment()
+	{
+		f_ProductKeysPanel.getCollectPayment().showCollect();
+	}
 	
+	/**
+	 * Close Collect Payment Panel
+	 * @return void
+	 */
+	public void closeCollectPayment()
+	{
+		f_ProductKeysPanel.closeCollectPayment();
+	}
+	
+	public void disablePOSButtons()
+	{
+
+		v_QuantityPanel.resetPanel();
+		v_ActionPanel.resetPanel();
+	}
 	@Override
 	public void moveUp() {
 		f_OrderLinePanel.moveUp();

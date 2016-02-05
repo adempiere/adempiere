@@ -19,6 +19,7 @@ package org.adempiere.pos;
 
 import java.awt.Event;
 import java.awt.event.KeyEvent;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Properties;
@@ -29,7 +30,7 @@ import javax.swing.KeyStroke;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.pos.service.Collect;
 import org.adempiere.pos.service.I_POSPanel;
-import org.adempiere.webui.apps.AEnv;
+import org.adempiere.pos.test.SideServer;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -40,21 +41,22 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.X_C_Payment;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Space;
 
 /**
@@ -78,6 +80,23 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 
 		init();
+			
+	}
+	/** 
+	 * Load Collect
+	 * @return WCollect 
+	 */
+	public WCollect load (WPOS posPanel)
+	{
+		//	Instance Collects
+		load(posPanel.getCtx() , posPanel.getM_Order() , posPanel.getM_POS());
+		removeAllCollectDetail();
+		collectRowNo = 0;
+		calculatePanelData();
+		refreshPanel();
+		addCollectType();
+		v_POSPanel.disablePOSButtons();
+		return this;
 	}
 
 	/**	Panels					*/
@@ -90,16 +109,16 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	private Panel 				centerPanel;
 	
 	/** Window					 */
-	private Window 				v_Window;
+//	private Window 				v_Window;
 	private Properties 			p_ctx;
 	private WPOS 				v_POSPanel;
 	
 	/**	Fields Summary			*/
-	private Label 				fGrandTotal;
+//	private Label 				fGrandTotal;
 	private Label 				fPayAmt;
 	private BigDecimal 			m_Balance = Env.ZERO;
 	private Checkbox 			fIsPrePayOrder;
-	private Checkbox 			fIsCreditOrder;
+//	private Checkbox 			fIsCreditOrder;
 	private Label 				fReturnAmt;
 	private Label 				lReturnAmt;
 	private Label 				fOpenAmt;
@@ -140,23 +159,23 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return void
 	 */
 	private void zkInit(){
-		Panel panel = new Panel();
+//		Panel panel = new Panel();
 		//	Content
-		v_Window = new Window();
-		v_Window.setTitle(Msg.translate(p_ctx, "Payment"));
-		v_Window.setClosable(true);
+//		v_Window = new Window();
+//		v_Window.setTitle(Msg.translate(p_ctx, "Payment"));
+//		v_Window.setClosable(true);
 		
 		mainPanel = new Panel();
 		Borderlayout mainLayout = new Borderlayout();
 		layout = GridFactory.newGridLayout();
-		v_Window.appendChild(panel);
+//		v_Window.appendChild(panel);
 		eastlayout = GridFactory.newGridLayout();
 		
 		//	Panels
 		centerPanel = new Panel();
 		Panel eastPanel = new Panel();
 		mainPanel.appendChild(mainLayout);
-		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0;");
+//		mainPanel.setStyle("width: 510px; height: 500px; padding: 0; margin: 0;");
 		mainLayout.setHeight("100%");
 		mainLayout.setWidth("100%");
 
@@ -166,20 +185,20 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		mainLayout.appendChild(north);
 		north.appendChild(eastPanel);
 		eastPanel.appendChild(eastlayout);
-		eastlayout.setWidth("445px");
+		eastlayout.setWidth("100%");
 		eastlayout.setHeight("100%");
 		
 		rows = eastlayout.newRows();
 		row = rows.newRow();
 		row.appendChild(new Space());
 		
-		Label gtLabel = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
-		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
-		row.appendChild(gtLabel.rightAlign());
+//		Label gtLabel = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
+//		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
+//		row.appendChild(gtLabel.rightAlign());
 		
-		fGrandTotal =  new Label();
-		row.appendChild(fGrandTotal.rightAlign());
-		fGrandTotal.setStyle(FONT_SIZE+FONT_BOLD);
+//		fGrandTotal =  new Label();
+//		row.appendChild(fGrandTotal.rightAlign());
+//		fGrandTotal.setStyle(FONT_SIZE+FONT_BOLD);
 		
 		row = rows.newRow();
 
@@ -187,7 +206,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		Label fsLabel = new Label(Msg.translate(p_ctx, "PayAmt")+":");
 		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		fPayAmt = new Label();
-		fPayAmt.setText(getPrePayAmt().toString());
+//		fPayAmt.setText(getPrePayAmt().toString());
 		row.appendChild(fsLabel.rightAlign());
 		row.appendChild(fPayAmt.rightAlign());
 		fPayAmt.setStyle(FONT_SIZE);
@@ -227,14 +246,23 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		fIsPrePayOrder.setClass("fontLarge");
 		row.appendChild(fIsPrePayOrder);
 		
-		fIsCreditOrder = new Checkbox();
-		fIsCreditOrder.setText(Msg.translate(p_ctx, "CreditSale"));
-		fIsCreditOrder.setClass("fontLarge");
-		fIsCreditOrder.setStyle(FONT_SIZE);
-		fIsCreditOrder.setHeight("30px");
-		fIsCreditOrder.addActionListener(this);
-		row.appendChild(fIsCreditOrder);
+//		fIsCreditOrder = new Checkbox();
+//		fIsCreditOrder.setText(Msg.translate(p_ctx, "CreditSale"));
+//		fIsCreditOrder.setClass("fontLarge");
+//		fIsCreditOrder.setStyle(FONT_SIZE);
+//		fIsCreditOrder.setHeight("30px");
+//		fIsCreditOrder.addActionListener(this);
+//		row.appendChild(fIsCreditOrder);
 		row.appendChild(bPlus);
+		confirm = new ConfirmPanel(true);
+		confirm.addActionListener(this);
+		confirm.getOKButton().setWidth("55px");
+		confirm.getOKButton().setHeight("55px");
+		confirm.getButton(ConfirmPanel.A_CANCEL).setWidth("55px");
+		confirm.getButton(ConfirmPanel.A_CANCEL).setHeight("55px");
+		
+		row.appendChild(confirm);
+
 		row.setHeight("60px");
 		Center center = new Center();
 		center.setStyle("border: none; overflow-y:auto;overflow-x:hidden;");
@@ -244,25 +272,19 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		layout.setWidth("100%");
 		layout.setHeight("100%");
 		layout.setStyle("overflow:auto;");
-		v_Window.appendChild(mainPanel);
+//		v_Window.appendChild(mainPanel);
 		
 		rows = layout.newRows();
 		row = rows.newRow();
 		row.setWidth("100%");
 
-		South south = new South();
-		confirm = new ConfirmPanel(true);
-		confirm.addActionListener(this);
-
-		mainLayout.appendChild(south);
-		south.appendChild(confirm);
 
 		// Completed Standard Order: only prepayment possible 
 		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
 		   v_POSPanel.isCompleted() &&
 		   v_POSPanel.isStandardOrder()) {	
 			fIsPrePayOrder.setEnabled(false);	
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setSelected(true);
 		}
 		// Not completed Order 
@@ -272,22 +294,22 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 				 // Standard Order or Warehouse Order: no Credit Order, no prepayment
 				fIsPrePayOrder.setEnabled(false);	
 				fIsPrePayOrder.setSelected(false);	
-				fIsCreditOrder.setEnabled(false);
-				fIsCreditOrder.setSelected(false);
+//				fIsCreditOrder.setEnabled(false);
+//				fIsCreditOrder.setSelected(false);
 			}
 			else {		
 				fIsPrePayOrder.setEnabled(true);	
-				fIsCreditOrder.setEnabled(true);
+//				fIsCreditOrder.setEnabled(true);
 			}
 		}
 		else {
 			fIsPrePayOrder.setEnabled(false);	
-			fIsCreditOrder.setEnabled(false);
-			if(v_POSPanel.isCompleted() && 
-				v_POSPanel.getM_Order().isInvoiced()  && 
-				v_POSPanel.getOpenAmt().compareTo(Env.ZERO)==1) {
-				fIsCreditOrder.setSelected(true);
-			}
+//			fIsCreditOrder.setEnabled(false);
+//			if(v_POSPanel.isCompleted() && 
+//				v_POSPanel.getM_Order().isInvoiced()  && 
+//				v_POSPanel.getOpenAmt().compareTo(Env.ZERO)==1) {
+//				fIsCreditOrder.setSelected(true);
+//			}
 		}
 	}
 	
@@ -369,27 +391,36 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			}
 			
 			isProcessed = true;
-			v_Window.dispose();
+//			v_Window.dispose();
+			printTicket();
+			v_POSPanel.closeCollectPayment();
+
+			v_POSPanel.setOrder(0);
+			v_POSPanel.refreshPanel();
+			v_POSPanel.refreshProductInfo(null);
 			return;
 		}
 
 		else if ( action.equals(ConfirmPanel.A_CANCEL)) {
-			v_Window.dispose();
+//			v_Window.dispose();
+			v_POSPanel.closeCollectPayment();
+			v_POSPanel.refreshPanel();
 			return;
 		}
-		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
-				fIsPrePayOrder.setSelected(false);
-				if(fIsCreditOrder.isSelected()) {				
-					bPlus.setEnabled(false);  
-					confirm.getOKButton().setEnabled(true);
-					removeAllCollectDetail();
-					setIsCreditOrder(fIsCreditOrder.isSelected());
-					calculatePanelData();
-				}
-				else 
-					bPlus.setEnabled(true);
-			} else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
-				fIsCreditOrder.setSelected(false);
+//		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
+//				fIsPrePayOrder.setSelected(false);
+//				if(fIsCreditOrder.isSelected()) {				
+//					bPlus.setEnabled(false);  
+//					confirm.getOKButton().setEnabled(true);
+//					removeAllCollectDetail();
+//					setIsCreditOrder(fIsCreditOrder.isSelected());
+//					calculatePanelData();
+//				}
+//				else 
+//					bPlus.setEnabled(true);
+//			} 
+		else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
+//				fIsCreditOrder.setSelected(false);
 				//	Set to Controller
 				setIsPrePayOrder(fIsPrePayOrder.isSelected());
 				bPlus.setEnabled(true);   
@@ -445,11 +476,16 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return boolean
 	 */
 	public boolean showCollect() {
-		v_Window.setWidth("445px");
-		v_Window.setHeight(SessionManager.getAppDesktop().getClientInfo().desktopHeight + "px"); 
-		v_Window.setClosable(true);
-		AEnv.showWindow(v_Window);
+		mainPanel.setWidth("555px");
+		mainPanel.setHeight(SessionManager.getAppDesktop().getClientInfo().desktopHeight/1.9 + "px"); 
+//		v_Window.setClosable(true);
+//		v_Window.setVisible(true);
+//		AEnv.showWindow(v_Window);
 		return isProcessed();
+	}
+	
+	public Panel getPanel() {
+		return mainPanel;
 	}
 
 	/**
@@ -460,13 +496,14 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		//	Get from controller
 		BigDecimal m_PayAmt = getPayAmt();
 		//
-		m_PayAmt= m_PayAmt.add(getPrePayAmt());
+		//m_PayAmt= m_PayAmt.add(getPrePayAmt());
 		m_Balance = v_POSPanel.getGrandTotal().subtract(m_PayAmt);
 		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
 		String currencyISO_Code = v_POSPanel.getCurSymbol();
 		//	Change View
-		fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(v_POSPanel.getGrandTotal()));
-		fPayAmt.setText(currencyISO_Code +" "+ m_Format.format(m_PayAmt));
+		//fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(v_POSPanel.getGrandTotal()));
+		fPayAmt.setText(currencyISO_Code +" "+ v_POSPanel.getNumberFormat().format(
+				m_PayAmt.add(v_POSPanel.getPaidAmt())));
 		
 		BigDecimal m_ReturnAmt = Env.ZERO;
 		BigDecimal m_OpenAmt = Env.ZERO;
@@ -506,9 +543,9 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		return isProcessed ;
 	}
 
-	public String getGranTotal(){
-		return fGrandTotal.getValue();
-	}
+//	public String getGranTotal(){
+//		return fGrandTotal.getValue();
+//	}
 
 	/**
 	 * Get Keyboard
@@ -532,18 +569,18 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		setIsPrePayOrder(isPrePayOrder()
 				|| (isCreditOpen && isStandardOrder));
 		//	Set Credit and Pre-Pay Order
-		fIsCreditOrder.setSelected(isCreditOrder());
+//		fIsCreditOrder.setSelected(isCreditOrder());
 		fIsPrePayOrder.setSelected(isPrePayOrder());
 //			fPaymentTerm.setVisible(isCreditOrder());
 		//	Verify complete order
 		if(v_POSPanel.isCompleted()) {
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setEnabled(false);
 //				fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(isCreditOpen);
 			confirm.getOKButton().setEnabled(true);
 		} else if(v_POSPanel.isVoided()){
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			fIsPrePayOrder.setEnabled(false);
 //				fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(false);
@@ -551,11 +588,11 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		} else if(v_POSPanel.isStandardOrder() /*|| pos.isWarehouseOrder()*/) { 
 			// Standard Order or Warehouse Order: no Credit Order, no prepayment
 			fIsPrePayOrder.setEnabled(false);	
-			fIsCreditOrder.setEnabled(false);
+//			fIsCreditOrder.setEnabled(false);
 			bPlus.setEnabled(false);
 		}
 		else {
-			fIsCreditOrder.setEnabled(true);
+//			fIsCreditOrder.setEnabled(true);
 			fIsPrePayOrder.setEnabled(true);
 //				fPaymentTerm.setEnabled(true);
 			bPlus.setEnabled(!isCreditOrder()
@@ -590,8 +627,48 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 
 	@Override
 	public void keyReturned(MPOSKey key) {
-		// TODO Auto-generated method stub
 		
 	}
 	
+	/**
+	 * 	Print Ticket
+	 *  @return void
+	 */
+	public void printTicket() {
+		if (!v_POSPanel.hasOrder())
+			return;
+		
+		try {
+			//print standard document
+				Trx.run(new TrxRunnable() {
+					public void run(String trxName) {
+						if (v_POSPanel.getAD_Sequence_ID()!= 0) {
+						
+							String docno = v_POSPanel.getSequenceDoc(trxName);
+							String q = "Confirmar el número consecutivo "  + docno;
+							if (FDialog.ask(0, null, "", q)) {
+								v_POSPanel.setPOReference(docno);
+								v_POSPanel.saveNextSeq(trxName);
+							}
+						}
+					}
+				});
+			
+				ReportCtl.startDocumentPrint(0, v_POSPanel.getC_Order_ID(), false);
+				ReportEngine m_reportEngine = ReportEngine.get(p_ctx, ReportEngine.ORDER, v_POSPanel.getC_Order_ID());
+				StringWriter sw = new StringWriter();							
+				m_reportEngine.createCSV(sw, '\t', m_reportEngine.getPrintFormat().getLanguage());
+				byte[] data = sw.getBuffer().toString().getBytes();	
+				
+				AMedia media = new AMedia(m_reportEngine.getPrintFormat().getName() + ".txt", null, "application/octet-stream", data);
+				
+				SideServer.printFile(media.getByteData());	
+			}
+			catch (Exception e) 
+			{
+				log.severe("PrintTicket - Error Printing Ticket");
+			}
+			  
+	}
+
 }
