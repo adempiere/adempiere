@@ -138,6 +138,14 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	private final String 		FONT_SIZE = "Font-size:medium;";
 	/**	Default	Font Weight		*/
 	private final String 		FONT_BOLD = "font-weight:700";
+	/**	Default	Screen Small	*/
+	private final int 			SCREEN_SMALL = 609;
+	/**	Default	Screen Small	*/
+	private final int 			SCREEN_MEDIUM = 756;
+	/**	Default	Screen Medium	*/
+	private final int 			SCREEN_NORMAL = 907;
+	/**	Default	Screen Large	*/
+	private final int 			SCREEN_LARGE = 1022;
 	
 
 	/**
@@ -476,8 +484,24 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return boolean
 	 */
 	public boolean showCollect() {
-		mainPanel.setWidth("555px");
-		mainPanel.setHeight(SessionManager.getAppDesktop().getClientInfo().desktopHeight/1.9 + "px"); 
+		mainPanel.setWidth("99%");
+		int p_height = SessionManager.getAppDesktop().getClientInfo().desktopHeight;
+		if(p_height < SCREEN_SMALL) {
+			mainPanel.setHeight(p_height/2.5+"px");
+		}
+		if(p_height < SCREEN_MEDIUM) {
+			mainPanel.setHeight(p_height/2+"px");
+		}
+		else if(p_height < SCREEN_NORMAL) {
+			mainPanel.setHeight(p_height/1.7+"px");
+		}
+		else if(p_height < SCREEN_LARGE) {
+			mainPanel.setHeight(p_height/1.6+"px");
+		}
+		else {
+			mainPanel.setHeight(p_height/2 + "px");	
+		}
+			
 //		v_Window.setClosable(true);
 //		v_Window.setVisible(true);
 //		AEnv.showWindow(v_Window);
