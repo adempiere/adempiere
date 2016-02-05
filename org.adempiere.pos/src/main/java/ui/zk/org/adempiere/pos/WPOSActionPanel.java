@@ -203,8 +203,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			fieldProductName.appendChild(keyListener);
 			fieldProductName.setVisible(false);
 			fieldProductName.setWidth("0%");
-			cmbSearch.addEventListener(Events.ON_CHANGING, this);
-			cmbSearch.addEventListener(Events.ON_SELECT, this);
+			cmbSearch.addEventListener(Events.ON_CHANGE, this);
 	        row.appendChild(cmbSearch);
 			row.appendChild(fieldProductName);
 		} else {
@@ -359,11 +358,16 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			logger.fine("C_BPartner_ID=" + qt.getRecord_ID());
 		}
 	}
+
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if(e.getName().equals(Events.ON_SELECT)){
-			posPanel.addLine(cmbSearch.getSelectedRecord(), Env.ONE);
-		}
+		if(e.getName().equals(Events.ON_CHANGE)){
+			if(cmbSearch.getSelectedRecord() >= 0) {
+				posPanel.addLine(cmbSearch.getSelectedRecord(), Env.ONE);
+				cmbSearch.setText("");
+			}
+        }
+
 		if (Events.ON_CTRL_KEY.equals(e.getName())) {
     		KeyEvent keyEvent = (KeyEvent) e;
     		//F2 == 113
@@ -565,6 +569,9 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			} 
 			//	For Cancel Action
 			buttonCancel.setEnabled(!posPanel.isVoided());
+			buttonNew.setEnabled(true);
+			buttonHistory.setEnabled(true);
+			buttonProcess.setEnabled(true);
 		} else {
 			buttonNew.setEnabled(true);
 			buttonHistory.setEnabled(true);

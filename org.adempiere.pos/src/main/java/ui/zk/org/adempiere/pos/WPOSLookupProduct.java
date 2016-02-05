@@ -24,7 +24,6 @@ import org.adempiere.pos.service.CPOS;
 import org.adempiere.util.StringUtils;
 import org.adempiere.webui.component.AutoComplete;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -61,20 +60,24 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
     private String title = "";
     
     private ArrayList<Integer> recordId;  
-    private int index;
+    private int index = -1;
 
-    public WPOSLookupProduct (WPOSActionPanel actionPanel, WPOSTextField fieldProductName, long lastKeyboardEvent)
-    {
+    public WPOSLookupProduct (WPOSActionPanel actionPanel, WPOSTextField fieldProductName, long lastKeyboardEvent) {
     	super();
     	component = new AutoComplete();
         this.setClass("input-search");
         this.setButtonVisible(false);
-        this.addEventListener(Events.ON_SELECT, this);
+        this.addEventListener(Events.ON_FOCUS, this);
+        this.addEventListener(Events.ON_BLUR, this);
+        setFillingComponent();
+        component.setStyle("Font-size:medium; font-weight:bold");
     }
-
-
-    public void setFillingComponent()
-    {
+    
+    /**
+     * Set Filling Component
+     * @param void
+     */
+    public void setFillingComponent() {
         char[] charArray = new char[200];
         Arrays.fill(charArray,' ');
         this.fill = new String(charArray);
@@ -84,79 +87,106 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
                 .append(availableTitle).append(separator)
                 .append(priceStdTitle).append(separator)
                 .append(priceListTile).toString();
-        this.setValue(new KeyNamePair(0, this.title));
+        this.setText(this.title);
     }
-
-    public void setPriceListVersionId(int priceListVersionId)
-    {
+    
+    /**
+     * Set Price List Version ID
+     * @param priceListVersionId
+     */
+    public void setPriceListVersionId(int priceListVersionId) {
         this.priceListVersionId = priceListVersionId;
     }
-
-    public void setWarehouseId(int warehouseId)
-    {
+    
+    /**
+     * Set Warehouse ID
+     * @param warehouseId
+     */
+    public void setWarehouseId(int warehouseId) {
         this.warehouseId = warehouseId;
     }
-
-    private void executeQuery(String value)
-    {
+    
+    /**
+     * Execute Query
+     * @param value
+     */
+    private void executeQuery(String value) {
+    	
     	this.setOpen(false);
+    	if(value.trim().length() < 3) {
+			return;
+		}
     	if(value.length() <= 0) {
+            this.setText(title);    		
     		this.removeAllItems();
     		return;
     	}
+
+    	component.removeAllItems();
+
+        ArrayList<String> line = new ArrayList<String>();
+        recordId = new ArrayList<Integer>();
+        for (java.util.Vector<Object> columns : CPOS.getQueryProduct(value, warehouseId, priceListVersionId))
+        {
+            recordId.add((Integer) columns.elementAt(0));
+            String productValue = (String)columns.elementAt(1);
+            String productName = (String)columns.elementAt(2);
+            String qtyAvailable = (String)columns.elementAt(3);
+            String priceStd =  (String)columns.elementAt(4);
+            String priceList = (String)columns.elementAt(5);
+            line.add(new StringBuilder()
+                    .append(StringUtils.trunc(productValue + fill , PRODUCT_VALUE_LENGTH )).append(separator)
+                    .append(StringUtils.trunc(productName + fill , PRODUCT_NAME_LENGTH )).append(separator)
+                    .append(StringUtils.trunc(qtyAvailable + fill , QUNATITY_LENGTH)).append(separator)
+                    .append(StringUtils.trunc(priceStd + fill, QUNATITY_LENGTH )).append(separator)
+                    .append(StringUtils.trunc(priceList + fill, QUNATITY_LENGTH )).toString());
+        }
+
+    	String[] searchValues = new String[line.size()];
+    	String[] searchDescription = new String[line.size()];
+    	for(int i = 0; i < line.size(); i++) {
+    		searchValues[i] = line.get(i);
+    		searchDescription[i] = " ";
+    	}
+    	this.removeAllItems();
+        this.setDict(searchValues);   
+        this.setDescription(searchDescription);
+        this.setOpen(true);
         
-            component.removeAllItems();
-            this.setText(title);
-
-            ArrayList<String> line = new ArrayList<String>();
-            recordId = new ArrayList<Integer>();
-            for (java.util.Vector<Object> columns : CPOS.getQueryProduct(value, warehouseId, priceListVersionId))
-            {
-                recordId.add((Integer) columns.elementAt(0));
-                String productValue = (String)columns.elementAt(1);
-                String productName = (String)columns.elementAt(2);
-                String qtyAvailable = (String)columns.elementAt(3);
-                String priceStd =  (String)columns.elementAt(4);
-                String priceList = (String)columns.elementAt(5);
-                line.add(new StringBuilder()
-                        .append(StringUtils.trunc(productValue + fill , PRODUCT_VALUE_LENGTH )).append(separator)
-                        .append(StringUtils.trunc(productName + fill , PRODUCT_NAME_LENGTH )).append(separator)
-                        .append(StringUtils.trunc(qtyAvailable + fill , QUNATITY_LENGTH)).append(separator)
-                        .append(StringUtils.trunc(priceStd + fill, QUNATITY_LENGTH )).append(separator)
-                        .append(StringUtils.trunc(priceList + fill, QUNATITY_LENGTH )).toString());
-                 
-            }
-
-        	String[] searchValues = new String[line.size()];
-        	String[] searchDescription = new String[line.size()];
-        	for(int i = 0; i < line.size(); i++) {
-        		searchValues[i] = line.get(i);
-        		searchDescription[i] = " ";
-        	}
-        	this.removeAllItems();
-            this.setDict(searchValues);   
-            this.setDescription(searchDescription);
-            this.setOpen(true);
     }
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		index = this.getSelectedIndex();
+    	
+		if(e.getName().equals(Events.ON_FOCUS))
+			setText("");
+		else if(e.getName().equals(Events.ON_BLUR))
+			this.setText(this.title);
 	}
 	
 	/**
 	 * Get Selected Record
-	 * Return int ID
+	 * @return int ID
 	 */
 	public int getSelectedRecord(){
-		return recordId.get(index);
+		if(recordId.size() > 1 ){
+			return recordId.get(index);
+		}
+		else if(recordId.size() == 1){
+			return recordId.get(0);
+		}
+		return -1;
 	}
+	
 	/**
 	 * @param event
 	 * @see TreeDataListener#onChange(TreeDataEvent)
 	 */
 	public void onChanging(InputEvent evt) {
-        executeQuery(evt.getValue());
+		index = this.getSelectedIndex();
+        if(!evt.isChangingBySelectBack()){
+        	executeQuery(evt.getValue());
+        }
         super.onChanging(evt);
 	}
 	
