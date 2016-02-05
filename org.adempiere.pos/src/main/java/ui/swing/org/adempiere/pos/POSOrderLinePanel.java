@@ -218,7 +218,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		if(posPanel.getQty() != null && posPanel.getQty().signum() <= 0) {
 			if (orderLineId > 0)
 				if (posPanel.isRequiredPIN()) {
-					posPanel.validateUserPin();
+					posPanel.isUserPinValid();
 					posPanel.deleteLine(orderLineId);
 				}
 			if (row >= 0) {

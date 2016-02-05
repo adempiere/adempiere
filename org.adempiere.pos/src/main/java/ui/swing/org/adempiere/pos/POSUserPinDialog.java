@@ -55,6 +55,6 @@ public class POSUserPinDialog {
 
         int result = (Integer)optionPane.getValue();
         if (result == JOptionPane.OK_OPTION)
-            pos.setIsCorrectUserPin(passwordField.getPassword());
+            pos.validateAndSetUserPin(passwordField.getPassword());
     }
 }

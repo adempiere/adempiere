@@ -202,12 +202,13 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 			} else if (actionEvent.getSource().equals(buttonPlus)) {
 				fieldQuantity.setValue(((BigDecimal) fieldQuantity.getValue()).add(Env.ONE));
 			} else if (actionEvent.getSource().equals(buttonDelete)) {
-				posPanel.validateUserPin();
-				posPanel.deleteLine(posPanel.getC_OrderLine_ID());
-				fieldQuantity.setValue(0.0);
-				fieldPrice.setValue(0.0);
-				fieldDiscountPercentage.setValue(0.0);
-				posPanel.refreshPanel();
+				if (posPanel.isUserPinValid()) {
+					posPanel.deleteLine(posPanel.getC_OrderLine_ID());
+					fieldQuantity.setValue(0.0);
+					fieldPrice.setValue(0.0);
+					fieldDiscountPercentage.setValue(0.0);
+					posPanel.refreshPanel();
+				}
 			}
 
 			BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
@@ -230,16 +231,17 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 				if (price.signum() < 0)
 					throw new AdempierePOSException("@Price@ @Error@");
 
-				posPanel.validateUserPin();
-				if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged()
-						&& (actionEvent.getSource().equals(fieldQuantity) || actionEvent.getSource().equals(buttonPlus) || actionEvent.getSource().equals(buttonMinus)))
-						|| (posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && actionEvent.getSource().equals(fieldPrice))
-						|| (posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && actionEvent.getSource().equals(fieldDiscountPercentage))) {
-					posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
-					posPanel.setPrice((BigDecimal) fieldPrice.getValue());
-					posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
-					posPanel.changeViewQuantityPanel();
-					posPanel.updateLineTable();
+				if (posPanel.isUserPinValid()) {
+					if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged()
+							&& (actionEvent.getSource().equals(fieldQuantity) || actionEvent.getSource().equals(buttonPlus) || actionEvent.getSource().equals(buttonMinus)))
+							|| (posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && actionEvent.getSource().equals(fieldPrice))
+							|| (posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && actionEvent.getSource().equals(fieldDiscountPercentage))) {
+						posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
+						posPanel.setPrice((BigDecimal) fieldPrice.getValue());
+						posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
+						posPanel.changeViewQuantityPanel();
+						posPanel.updateLineTable();
+					}
 				}
 				return;
 			}

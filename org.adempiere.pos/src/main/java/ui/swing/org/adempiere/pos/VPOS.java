@@ -599,20 +599,11 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		this.isCorrectUserPin = isCorrectUserPin;
 	}
 
-
 	/**
-	 * set the correct user pin
-	 */
-	protected void invalidateUserPin()
-	{
-		this.isCorrectUserPin = null;
-	}
-
-	/**
-	 * Set current based on pin
+	 * Set user PIN based on pin validation
 	 * @param userPin
      */
-	protected void setIsCorrectUserPin(char[] userPin)
+	protected void validateAndSetUserPin(char[] userPin)
 	{
 		if (isCorrectUserPin != null && isCorrectUserPin)
 			return;
@@ -625,10 +616,18 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	}
 
 	/**
+	 * invalidate user pin
+	 */
+	protected void invalidateUserPin()
+	{
+		this.isCorrectUserPin = null;
+	}
+
+	/**
 	 * Is correct User Pin asynchronous validation
 	 * @return
      */
-	public boolean validateUserPin()
+	public boolean isUserPinValid()
 	{
 		if (!isRequiredPIN())
 			return true;

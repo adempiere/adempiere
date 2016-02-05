@@ -266,7 +266,7 @@ public class POSActionPanel extends POSSubPanel
 				if (actionEvent.getSource().equals(buttonNew)) {
 					posPanel.newOrder();
 				} else if (actionEvent.getSource().equals(buttonDocType)) {
-					if (posPanel.validateUserPin()) {
+					if (posPanel.isUserPinValid()) {
 						QueryDocType queryDocType = new QueryDocType(posPanel);
 						queryDocType.addOptionListener(this);
 						queryDocType.loadData();
@@ -283,7 +283,7 @@ public class POSActionPanel extends POSSubPanel
 						queryBPartner.showView();
 					}
 				} else if (actionEvent.getSource().equals(buttonProcess)){
-					if (posPanel.validateUserPin()) {
+					if (posPanel.isUserPinValid()) {
 						actionProcessMenu.show(this, 340 , 60);
 					}
 					return;
@@ -301,7 +301,7 @@ public class POSActionPanel extends POSSubPanel
 				} else if (actionEvent.getSource().equals(buttonCollect)) {
 					payOrder();
 				} else if (actionEvent.getSource().equals(buttonCancel)) {
-					if (posPanel.validateUserPin())
+					if (posPanel.isUserPinValid())
 						deleteOrder();
 				} else if (actionEvent.getSource().equals(buttonLogout)) {	//	Logout
 					posPanel.dispose();
