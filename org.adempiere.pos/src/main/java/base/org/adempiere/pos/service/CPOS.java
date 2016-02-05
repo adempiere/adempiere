@@ -1908,6 +1908,8 @@ public class CPOS {
      */
 	public boolean isValidUserPin(char[] userPin)
 	{
+		if(userPin==null || userPin.length==0)
+			return false;
 		MUser user = MUser.get(getCtx() ,getAD_User_ID());
 		Optional<I_AD_User> optionalSuperVisor = Optional.of(user.getSupervisor());
 		I_AD_User superVisor = optionalSuperVisor.orElseThrow(() -> new AdempierePOSException("@Supervisor@ @NotFound@"));

@@ -67,6 +67,10 @@ public class WPOSUserPinListener implements EventListener {
     public static void setActive(boolean active){
         WPOSUserPinListener.active = active;
     }
+    
+	public Timer getUserPinTimer() {
+		return userPinTimer;
+	}
 
     public void setTimer(Timer timer)
     {
@@ -84,6 +88,12 @@ public class WPOSUserPinListener implements EventListener {
         if (userPinTimer.isRunning())
             return;
 
+        doPerformAction();
+        return;
+    }
+
+    protected void doPerformAction()
+    {
         if (!pos.isRequiredPIN())
             return;
 
@@ -133,6 +143,7 @@ public class WPOSUserPinListener implements EventListener {
 		b_cancel.addEventListener("onClick", this);
         
 		AEnv.showWindow(w_alert);
+        return;
     }
 
 	@Override
@@ -150,7 +161,7 @@ public class WPOSUserPinListener implements EventListener {
 			return;
 		}
 		if(e.getTarget().equals(b_ok)){
-			pos.setIsCorrectUserPin(passwordField.getText().toCharArray());
+			pos.validateAndSetUserPin(passwordField.getText().toCharArray());
 			w_alert.dispose();
 		} else if(e.getTarget().equals(b_cancel)){
 			pos.setIsCorrectUserPin(false);
