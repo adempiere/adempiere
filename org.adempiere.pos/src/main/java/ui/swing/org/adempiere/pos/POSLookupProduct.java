@@ -146,7 +146,8 @@ public class POSLookupProduct implements ActionListener, KeyListener {
             if(item!=null && !selectLock)
             {
                 String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", item.getKey());
-                fieldProductName.setText(productValue);
+                fieldProductName.setText("");
+                fieldProductName.setPlaceholder(productValue);
                 try {
                     actionPanel.findProduct();
                 } catch (Exception exception) {
