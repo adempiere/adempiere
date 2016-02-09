@@ -348,12 +348,12 @@ public class POSOrderLinePanel extends POSSubPanel
 			case KeyEvent.VK_P:
 				posTable.editCellAt(row, POSOrderLineTableHandle.POSITION_PRICE, e);
 				break;
-			case KeyEvent.VK_UP:
-				posPanel.moveUp();
-				break;
-			case KeyEvent.VK_DOWN:
-				posPanel.moveDown();
-				break;
+			//case KeyEvent.VK_UP:
+			//	posPanel.moveUp();
+			//	break;
+			//case KeyEvent.VK_DOWN:
+			//posPanel.moveDown();
+			//	break;
 			default:
 				break;
 		}		
