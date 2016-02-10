@@ -69,6 +69,7 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
         this.setButtonVisible(false);
         this.addEventListener(Events.ON_FOCUS, this);
         this.addEventListener(Events.ON_BLUR, this);
+        this.addEventListener(Events.ON_SELECT, this);
         setFillingComponent();
         component.setStyle("Font-size:medium; font-weight:bold");
     }
@@ -162,6 +163,8 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 			setText("");
 		else if(e.getName().equals(Events.ON_BLUR))
 			this.setText(this.title);
+		else if(e.getName().equals(Events.ON_SELECT))
+			index = this.getSelectedIndex();
 	}
 	
 	/**

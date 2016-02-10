@@ -529,8 +529,9 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		else {
 			String p_TenderType = getTenderType();
 			BigDecimal payAmt = (BigDecimal)fPayAmt.getValue();
-			if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) && 
-					payAmt.compareTo(getOpenAmtCreditMemo()) > 0) {
+			if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) 
+					&& payAmt.compareTo(getOpenAmtCreditMemo()) > 0 
+					&& fCreditMemo.getSelectedIndex() > 0) {
 				FDialog.warn(0, Msg.parseTranslation(p_ctx, "POS.MaxAmountAllowed")+":"+getOpenAmtCreditMemo());
 				fPayAmt.setValue(getOpenAmtCreditMemo());
 			}
