@@ -44,6 +44,7 @@ import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
+import org.compiere.model.MOrder;
 import org.compiere.model.X_C_Payment;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
@@ -425,6 +426,9 @@ public class VCollect extends Collect
 			dialog.setVisible(false);
 			pos.showKeyboard();
 			pos.refreshPanel();
+			if(pos.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) || 
+					pos.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Invalid))
+				setIsPrePayOrder(false);
 			return;
 		}
 		/*else if(actionEvent.getSource().equals(fieldIsCreditOrder)) {	//	For Credit Order Checked
