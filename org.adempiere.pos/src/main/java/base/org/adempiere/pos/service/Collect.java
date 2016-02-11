@@ -441,7 +441,7 @@ public class Collect {
 	 * @return true if payment processed correctly; otherwise false
 	 * 
 	 */
-	public boolean payCreditNote(MInvoice creditNote, BigDecimal amount) {
+	public boolean payCreditMemo(MInvoice creditNote, BigDecimal amount) {
 		int invoiceId = order.getC_Invoice_ID();
 		if(invoiceId == 0)
 			return false;
@@ -573,7 +573,6 @@ public class Collect {
 		} else if(!isCreditOrder()
 				&& openAmt.subtract(getPayAmt()).doubleValue() > 0) {
 			addErrorMsg("@POS.OrderPayNotCompleted@");
-			
 		}
 		//	Local variables for not iterate again
 		BigDecimal cashPayment = Env.ZERO;
@@ -595,8 +594,7 @@ public class Collect {
 				otherPayment = otherPayment.add(collectDetail.getPayAmt());
 				//	Valid Expedition
 				String mmyy = collectDetail.getCreditCardExpMM() + collectDetail.getCreditCardExpYY();
-				String processError = MPaymentValidate
-						.validateCreditCardExp(mmyy);
+				String processError = MPaymentValidate.validateCreditCardExp(mmyy);
 				//	Validate Month and Year
 				if(processError != null && !processError.isEmpty()) {
 					addErrorMsg("@" + processError + "@");
@@ -641,7 +639,9 @@ public class Collect {
 	 * @param openAmt
 	 */
 	public void processTenderTypes(String trxName, BigDecimal openAmt) {
+		cleanErrorMsg();
 		this.trxName = trxName;
+		boolean result;
 		//	
 		BigDecimal cashPayment = Env.ZERO;
 		BigDecimal otherPayment = Env.ZERO;
@@ -652,11 +652,19 @@ public class Collect {
 				cashPayment = cashPayment.add(collectDetail.getPayAmt());
 			} else if(collectDetail.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDebit)) {	//	For Direct Debit
 				otherPayment = otherPayment.add(collectDetail.getPayAmt());
-				payDirectDebit(collectDetail.getPayAmt(), collectDetail.getRoutingNo(),
+				result= payDirectDebit(collectDetail.getPayAmt(), collectDetail.getRoutingNo(),
 						collectDetail.getA_Country(), collectDetail.getCreditCardVV());
+				if (!result) {					
+					addErrorMsg("@POS.ErrorPaymentDirectDebit@");
+					return;
+				}
 			} else if(collectDetail.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
 				otherPayment = otherPayment.add(collectDetail.getPayAmt());
-				payCheck(collectDetail.getPayAmt(), null, collectDetail.getRoutingNo(), collectDetail.getReferenceNo());
+				result= payCheck(collectDetail.getPayAmt(), null, collectDetail.getRoutingNo(), collectDetail.getReferenceNo());
+				if (!result) {					
+					addErrorMsg("@POS.ErrorPaymentCheck@");
+					return;
+				}
 			} else if(collectDetail.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
 				otherPayment = otherPayment.add(collectDetail.getPayAmt());
 				//	Valid Expedition
@@ -665,11 +673,23 @@ public class Collect {
 				int month = MPaymentValidate.getCreditCardExpMM(mmyy);
 				int year = MPaymentValidate.getCreditCardExpYY(mmyy);
 				//	Pay from Credit Card
-				payCreditCard(collectDetail.getPayAmt(), collectDetail.getA_Name(),
+				result= payCreditCard(collectDetail.getPayAmt(), collectDetail.getA_Name(),
 						month, year, collectDetail.getCreditCardNumber(), collectDetail.getCreditCardVV(), collectDetail.getCreditCardType());
+				if (!result) {					
+					addErrorMsg("@POS.ErrorPaymentCreditCard@");
+					return;
+				}
 			} else if(collectDetail.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditMemo)) {
+				if(isPrePayOrder()) {
+					addErrorMsg("@POS.PrePayment.NoCreditMemoAllowed@");
+					return;
+				}
 				otherPayment = otherPayment.add(collectDetail.getPayAmt());
-				payCreditNote(collectDetail.getM_InvCreditMemo(), collectDetail.getPayAmt());
+				result= payCreditMemo(collectDetail.getM_InvCreditMemo(), collectDetail.getPayAmt());
+				if (!result) {					
+					addErrorMsg("@POS.ErrorPaymentCreditMEmo@");
+					return;
+				}
 			}
 		}
 		//	Save Cash Payment
@@ -680,10 +700,18 @@ public class Collect {
 			if(m_ReturnAmt.abs().doubleValue() > cashPayment.doubleValue()) {
 				addErrorMsg("@POS.validatePayment.PaymentBustBeExact@");
 			} else {
-				payCash(cashPayment.add(m_ReturnAmt));
+				result= payCash(cashPayment.add(m_ReturnAmt));
+				if (!result) {					
+					addErrorMsg("@POS.ErrorPaymentCash@");
+					return;
+				}
 			}
 		} else if(cashPayment.doubleValue() > 0) {
-			payCash(cashPayment);
+			result= payCash(cashPayment);
+			if (!result) {					
+				addErrorMsg("@POS.ErrorPaymentCash@");
+				return;
+			}
 		}
 		
 	}  // processPayment
