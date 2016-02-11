@@ -334,7 +334,7 @@ public class POSActionPanel extends POSSubPanel
 	 * 	Find/Set Product & Price
 	 */
 	public void findProduct() throws Exception {
-		String query = fieldProductName.getText();
+		String query = fieldProductName.getPlaceholder();
 		if (query == null || query.length() == 0)
 			return;
 		query = query.toUpperCase();
@@ -357,7 +357,8 @@ public class POSActionPanel extends POSSubPanel
 		//	Set Result
 		if (results.length == 1) {	//	one
 			posPanel.addLine(results[0].getM_Product_ID(), Env.ONE);
-			fieldProductName.setText(results[0].getName());
+			//fieldProductName.setText(results[0].getName());
+			fieldProductName.setPlaceholder(results[0].getName());
 		} else {	//	more than one
 			posPanel.getFrame().getContentPane().invalidate();
 			QueryProduct qt = new QueryProduct(posPanel);
@@ -367,6 +368,7 @@ public class POSActionPanel extends POSSubPanel
 			qt.showView();
 			fieldProductName.setValue(null);
 			fieldProductName.setText("");
+			fieldProductName.setPlaceholder("");
 		}
 	}	//	findProduct
 

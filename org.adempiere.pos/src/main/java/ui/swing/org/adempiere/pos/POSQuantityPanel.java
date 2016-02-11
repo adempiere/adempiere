@@ -115,13 +115,14 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		if (posPanel.isPresentElectronicScales()) {
-			buttonElectronicScales = createButtonAction("Calculator", KeyStroke.getKeyStroke(KeyEvent.VK_W, Event.ALT_MASK));
+			buttonElectronicScales = createButtonAction("Calculator", KeyStroke.getKeyStroke(KeyEvent.VK_W, Event.CTRL_MASK));
 			buttonElectronicScales.setToolTipText("ALT+down-" + Msg.translate(ctx, "Calculator"));
 			buttonPanel.add(buttonElectronicScales, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 					, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 		}
 
 		CLabel qtyLabel = new CLabel(Msg.translate(Env.getCtx(), "Qty"));
+		qtyLabel.setDisplayedMnemonic(KeyEvent.VK_Q);
 		buttonPanel.add(qtyLabel, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
@@ -132,12 +133,15 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		fieldQuantity.setPreferredSize(new Dimension(100, 50));
 		fieldQuantity.setMinimumSize(new Dimension(100, 50));
 		fieldQuantity.setValue(Env.ZERO);
+		qtyLabel.setLabelFor(fieldQuantity);
 		buttonPanel.add(fieldQuantity, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		CLabel priceLabel = new CLabel(Msg.translate(Env.getCtx(), "PriceActual"));
+		priceLabel.setDisplayedMnemonic(KeyEvent.VK_P);
 		buttonPanel.add(priceLabel, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
+
 
 		//
 		fieldPrice = new VNumber();
@@ -146,22 +150,26 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		fieldPrice.setName(priceLabel.getName());
 		fieldPrice.setPreferredSize(new Dimension(100, 50));
 		fieldPrice.setMinimumSize(new Dimension(100, 50));
+		fieldPrice.addActionListener(this);
 		if (!posPanel.isModifyPrice())
 			fieldPrice.setReadWrite(false);
 		else {
 			fieldPrice.addActionListener(posPanel.getUserPinListener());
 			fieldPrice.addActionListener(this);
 		}
+		priceLabel.setLabelFor(fieldPrice);
 
 		buttonPanel.add(fieldPrice, new GridBagConstraints(9, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		CLabel discountPercentageLabel = new CLabel(Msg.translate(Env.getCtx(), "Discount"));
+		discountPercentageLabel.setDisplayedMnemonic(KeyEvent.VK_T);
 		buttonPanel.add(discountPercentageLabel, new GridBagConstraints(10, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		fieldDiscountPercentage = new VNumber();
 		fieldDiscountPercentage.setValue(Env.ZERO);
+		fieldDiscountPercentage.addActionListener(this);
 		fieldDiscountPercentage.setName(discountPercentageLabel.getName());
 		fieldDiscountPercentage.setFont(posPanel.getFont());
 		fieldDiscountPercentage.setPreferredSize(new Dimension(100, 50));
@@ -172,6 +180,7 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 			fieldDiscountPercentage.addActionListener(posPanel.getUserPinListener());
 			fieldDiscountPercentage.addActionListener(this);
 		}
+		discountPercentageLabel.setLabelFor(fieldDiscountPercentage);
 
 
 		buttonPanel.add(fieldDiscountPercentage, new GridBagConstraints(11, 0, 1, 1, 0.0, 0.0
