@@ -471,7 +471,7 @@ public class VCollect extends Collect
 	 * Show Collect
 	 * @return boolean
 	 */
-	public boolean showCollect() {
+	public boolean showPanel() {
 		//	Resize to Heigth
 		Dimension screenSize = Env.getWindow(pos.getWindowNo()).getSize();
 		//	Set static width
@@ -622,7 +622,7 @@ public class VCollect extends Collect
 	public void moveDown() {
 	}
 
-	public void hideCollect()
+	public void hidePanel()
 	{
 		dialog.setVisible(false);
 	}

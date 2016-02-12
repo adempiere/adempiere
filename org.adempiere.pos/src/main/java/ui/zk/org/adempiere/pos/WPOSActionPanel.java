@@ -258,7 +258,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 				FDialog.warn(0, Msg.getMsg(ctx, "POS.MustCreateOrder"));
 				return;
 		}
-//		if (collect.showCollect()) {
+//		if (collect.show()) {
 		posPanel.showCollectPayment();
 //			if(posPanel.isToPrint()) {
 //				printTicket();

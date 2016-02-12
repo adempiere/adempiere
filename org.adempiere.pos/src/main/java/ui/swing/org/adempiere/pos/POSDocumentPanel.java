@@ -115,6 +115,9 @@ public class POSDocumentPanel extends POSSubPanel
 	private POSKeyPanel 	keyboardPanel;
 	/** Collect 			*/
 	private VCollect 		collectPayment;
+
+	/** Scala Dialog 		*/
+	private POSScalesPanel 	scalesPanel;
 	/**	Logger				*/
 	private static CLogger logger = CLogger.getCLogger(POSDocumentPanel.class);
 
@@ -308,8 +311,20 @@ public class POSDocumentPanel extends POSSubPanel
 		collectPaymentConstraint.gridy = 2;
 
 		collectPayment = new VCollect(posPanel);
-		collectPayment.hideCollect();
+		collectPayment.hidePanel();
 		add(collectPayment.getPanel(), collectPaymentConstraint);
+
+		GridBagConstraints scalesConstraint = new GridBagConstraints();
+		scalesConstraint.fill = GridBagConstraints.BOTH;
+		scalesConstraint.fill = GridBagConstraints.BOTH;
+		scalesConstraint.weightx = 1;
+		scalesConstraint.weighty = 1;
+		scalesConstraint.gridy = 2;
+
+		scalesPanel = new POSScalesPanel(posPanel);
+		scalesPanel.hidePanel();
+		add(scalesPanel.getPanel(), scalesConstraint);
+
 		//	Refresh
 		refreshPanel();
 	}	//	init
@@ -481,6 +496,11 @@ public class POSDocumentPanel extends POSSubPanel
 	public VCollect getCollectPayment()
 	{
 		return collectPayment.load(posPanel);
+	}
+
+	public POSScalesPanel getScalesPanel()
+	{
+		return scalesPanel;
 	}
 
 	public POSKeyPanel getKeyboard()

@@ -90,10 +90,14 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	private Timer 							logoutTimer;
 	/**	Timer for User Pin			*/
 	private Timer 							userPinTimer;
+	/** Find Product Timer 			*/
+	private Timer scalasTimer;
 	/** Is Correct User Pin			*/
 	private Boolean							isCorrectUserPin;
 	/** User Pin Listener 			*/
 	private POSUserPinListener 				userPinListener;
+	/** Electronic Scales			*/
+	private POSScalesListener scalesListener;
 	/** Keyoard Focus Manager		*/
 	private PosKeyboardFocusManager 		focusManager;
 	/**	Focus Management			*/
@@ -175,7 +179,8 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		userPinListener = new POSUserPinListener(this);
 		//Delay 5 seconds by default
 		userPinTimer = new javax.swing.Timer((getAutoLogoutDelay() + 10)  * 1000, userPinListener);
-		userPinListener.setTimer(userPinTimer);
+		scalesListener =  new POSScalesListener(this);
+		scalasTimer =  new javax.swing.Timer(3 + 1000, scalesListener);
 		isCorrectUserPin = null;
 
 		SettingKeyboardFocusManager();
@@ -591,6 +596,15 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	}
 
 	/**
+	 * return Electronic Scales Listener
+	 * @return
+	 */
+	public ActionListener getScalesListener()
+	{
+		return scalesListener;
+	}
+
+	/**
 	 * set the correct user pin
 	 * @param isCorrectUserPin
      */
@@ -643,17 +657,27 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 	public void showCollectPayment()
 	{
-		documentPanel.getCollectPayment().showCollect();
+		documentPanel.getCollectPayment().showPanel();
+	}
+
+	public void showScales()
+	{
+		documentPanel.getScalesPanel().showPanel();
+	}
+
+	public void hideScales()
+	{
+		documentPanel.getScalesPanel().hidePanel();
 	}
 
 	public void showKeyboard()
 	{
-		documentPanel.getKeyboard().setVisible(true);
+		documentPanel.getKeyboard().showPanel();
 	}
 
 	public void hideKeyboard()
 	{
-		documentPanel.getKeyboard().setVisible(false);
+		documentPanel.getKeyboard().hidePanel();
 	}
 
 	public void disablePOSButtons()
@@ -663,4 +687,13 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		actionPanel.resetPanel();
 	}
 
+	public Timer getUserPinTimer()
+	{
+		return userPinTimer;
+	}
+
+	public Timer getScalesTimer()
+	{
+		return scalasTimer;
+	}
 }

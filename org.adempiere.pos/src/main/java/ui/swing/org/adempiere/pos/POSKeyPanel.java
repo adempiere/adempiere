@@ -255,4 +255,14 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 			log.info( "Error : " + ex);
 		}
 	}	//	actionPerformed
+
+	public void showPanel()
+	{
+		setVisible(true);
+	}
+
+	public void hidePanel()
+	{
+		setVisible(false);
+	}
 }
