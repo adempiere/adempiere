@@ -353,7 +353,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 				posPanel.newOrder(qt.getRecord_ID());
 				posPanel.refreshPanel();
 			} else {
-				posPanel.setC_BPartner_ID(qt.getRecord_ID());
+				posPanel.configureBPartner(qt.getRecord_ID());
 			}
 			logger.fine("C_BPartner_ID=" + qt.getRecord_ID());
 		}
@@ -638,7 +638,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 			if(!posPanel.hasOrder()) {
 				posPanel.newOrder(query.getRecord_ID());
 			} else {
-				posPanel.setC_BPartner_ID(query.getRecord_ID());
+				posPanel.configureBPartner(query.getRecord_ID());
 			}
 			//	
 			logger.fine("C_BPartner_ID=" + query.getRecord_ID());

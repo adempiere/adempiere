@@ -469,7 +469,8 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 				public void run(String trxName) {
 					if(v_POSPanel.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
 						processTenderTypes(trxName, v_POSPanel.getOpenAmt());
-						if(getErrorMsg().length() > 0)
+						String error = getErrorMsg();
+						if(error != null && error.length() > 0)
 							throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + v_POSPanel.getDocumentNo() + ": "  +
 								getErrorMsg()));
 					} else {
