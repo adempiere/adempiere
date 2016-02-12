@@ -91,7 +91,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	/**	Timer for User Pin			*/
 	private Timer 							userPinTimer;
 	/** Find Product Timer 			*/
-	private Timer scalasTimer;
+	private Timer scalesTimer;
 	/** Is Correct User Pin			*/
 	private Boolean							isCorrectUserPin;
 	/** User Pin Listener 			*/
@@ -180,7 +180,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		//Delay 5 seconds by default
 		userPinTimer = new javax.swing.Timer((getAutoLogoutDelay() + 10)  * 1000, userPinListener);
 		scalesListener =  new POSScalesListener(this);
-		scalasTimer =  new javax.swing.Timer(3 + 1000, scalesListener);
+		scalesTimer =  new javax.swing.Timer(3 * 1000, scalesListener);
 		isCorrectUserPin = null;
 
 		SettingKeyboardFocusManager();
@@ -694,6 +694,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 	public Timer getScalesTimer()
 	{
-		return scalasTimer;
+		return scalesTimer;
 	}
 }
