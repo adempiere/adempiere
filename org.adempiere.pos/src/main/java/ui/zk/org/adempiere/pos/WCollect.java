@@ -43,6 +43,7 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.model.MOrder;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.X_C_Payment;
 import org.compiere.print.ReportCtl;
@@ -413,6 +414,9 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 //			v_Window.dispose();
 			v_POSPanel.closeCollectPayment();
 			v_POSPanel.refreshPanel();
+			if(v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) || 
+					v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Invalid))
+				setIsPrePayOrder(false);
 			return;
 		}
 //		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
