@@ -413,6 +413,15 @@ public class CPOS {
 	public boolean isToPrint() {
 		return isToPrint;
 	}
+
+	/**
+	 * Validate if is to print invoice
+	 * @return
+	 * @return boolean
+	 */
+	public void setIsToPrint(boolean isToPrint) {
+		this.isToPrint= isToPrint;
+	}
 	
 	/**
 	 * Get Current Order
@@ -638,9 +647,9 @@ public class CPOS {
 		if (entityPOS.getM_PriceList_ID() > 0)
 			currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
 		if (entityPOS.getDeliveryRule() != null)
-			currentOrder.setDeliveryRule(entityPOS.getDeliveryRule());
+			currentOrder.setDeliveryRule(getDeliveryRule());
 		if (entityPOS.getDeliveryRule() != null)
-			currentOrder.setInvoiceRule(entityPOS.getInvoiceRule());
+			currentOrder.setInvoiceRule(getInvoiceRule());
 		currentOrder.setC_POS_ID(entityPOS.getC_POS_ID());
 		currentOrder.setM_Warehouse_ID(entityPOS.getM_Warehouse_ID());
 		if (docTypeTargetId != 0) {
@@ -1185,14 +1194,7 @@ public class CPOS {
 				//	Set Document Type
 				currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
 			}
-			
-			//	Force Delivery for POS not for Standard Order
-			if(!currentOrder.getC_DocTypeTarget().getDocSubTypeSO()
-				.equals(MOrder.DocSubTypeSO_Standard)) {				
-				currentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
-				currentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
-			}	
-			
+
 			// In case the Order is Invalid, set to In Progress; otherwise it will not be completed
 			if (currentOrder.getDocStatus().equalsIgnoreCase(MOrder.STATUS_Invalid) ) 
 				currentOrder.setDocStatus(MOrder.STATUS_InProgress);
@@ -1201,6 +1203,7 @@ public class CPOS {
 			if (currentOrder.processIt(DocAction.ACTION_Complete) ) {
 				currentOrder.saveEx();
 				orderCompleted = true;
+				setIsToPrint(true);
 			} else {
 				log.info( "Process Order FAILED " + currentOrder.getProcessMsg());
 				currentOrder.saveEx();
@@ -1208,19 +1211,16 @@ public class CPOS {
 			}
 		} else {	//	Order not completed -> default nothing
 			orderCompleted = isCompleted();
-			isToPrint = false;
 		}
 		
 		//	Validate for Invoice and Shipment generation (not for Standard Orders)
-		if(isPaid && !getDocSubTypeSO().equals(MOrder.DocSubTypeSO_Standard)) {	
-			if(!isDelivered())
+		if(isPaid) {
+			if(!isDelivered()) // Based on Delivery Rule of POS Terminal or partner
 				generateShipment(trxName);
 
-			if(!isInvoiced() && !getDocSubTypeSO().equals(MOrder.DocSubTypeSO_Warehouse)) {
-				generateInvoice(trxName);
-				isToPrint = true;				
+			if(!isInvoiced()) {
+				generateInvoice(trxName); // Based on Invoice rule of POS Terminal or partner
 			}
-			//	
 			orderCompleted = true;
 		}
 		return orderCompleted;

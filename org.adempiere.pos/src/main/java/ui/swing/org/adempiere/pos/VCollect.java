@@ -365,8 +365,7 @@ public class VCollect extends Collect
 					if(pos.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
 						processTenderTypes(trxName, pos.getOpenAmt());
 						if(getErrorMsg().length() > 0)
-							throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": "  +
-								getErrorMsg()));
+							throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": " + getErrorMsg()));
 					} else {
 						throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": "  +
 					                 "@ProcessRunError@" + " (" +  pos.getProcessMsg() + ")"));
@@ -401,7 +400,7 @@ public class VCollect extends Collect
 			}
 			//	Set Processed
 			isProcessed = true;
-			if(!pos.isStandardOrder() /*&& !posPanel.isWarehouseOrder()*/ && pos.isToPrint()) {
+			if(!pos.isStandardOrder() && !pos.isWarehouseOrder() && pos.isToPrint()) {
 				Trx.run(new TrxRunnable() {
 					public void run(String trxName) {
 						if (pos.getAD_Sequence_ID()!= 0) {
@@ -414,9 +413,10 @@ public class VCollect extends Collect
 						}
 					}
 				});
-				pos.printTicket();
 			}
-			//dialog.dispose();
+			if (pos.isToPrint())
+				pos.printTicket();
+
 			dialog.setVisible(false);
 			pos.showKeyboard();
 			pos.refreshPanel();
@@ -508,7 +508,7 @@ public class VCollect extends Collect
 		if(!pos.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
 		} else {
-			if(!(pos.isStandardOrder() /*|| pos.isWarehouseOrder()*/))
+			if(!(pos.isStandardOrder()))
 				// No Check if Order is not Standard Order
 				// TODO: Review why nor Warehouse Order
 				errorMsg = validateTenderTypes(pos.getOpenAmt());
