@@ -534,7 +534,10 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 			BigDecimal payAmt = (BigDecimal)fPayAmt.getValue();
 			
 			if(Events.ON_CHANGE.equals(e.getName()) || e.getName().equals(Events.ON_CHANGING)) {
-				payAmt = new BigDecimal(((InputEvent)e).getValue());
+				if(((InputEvent)e).getValue().length() > 0)
+					payAmt = new BigDecimal(((InputEvent)e).getValue());
+				else 
+					payAmt = Env.ZERO;
 			
 			if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) 
 					&& payAmt.compareTo(getOpenAmtCreditMemo()) > 0 
