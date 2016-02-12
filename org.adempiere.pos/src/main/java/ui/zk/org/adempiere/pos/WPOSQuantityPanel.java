@@ -205,20 +205,25 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 			}
 		}
 		
-		if(Events.ON_CHANGE.equals(e.getName()) || Events.ON_CHANGING.equals(e.getName())) {
+		if(Events.ON_CHANGE.equals(e.getName()) || Events.ON_CHANGING.equals(e.getName()) 
+				&& ((InputEvent)e).getValue() != null) {
+			BigDecimal value = Env.ZERO;
+			if(((InputEvent)e).getValue().length() > 0)
+				value = new BigDecimal(((InputEvent)e).getValue());
+			
 			if(e.getTarget().equals(fieldQuantity.getDecimalbox())) {
-				posPanel.setQuantity(new BigDecimal(((InputEvent)e).getValue()));
+				posPanel.setQuantity(value);
 			} 
 			else if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
 				posPanel.setUserPinListener(e);
 				if(posPanel.isUserPinValid()) {
-					posPanel.setPrice(new BigDecimal(((InputEvent)e).getValue()));
+					posPanel.setPrice(value);
 				}	
 			}
 			else if ( e.getTarget().equals(fieldDiscountPercentage.getDecimalbox())) {
 				posPanel.setUserPinListener(e);
 				if(posPanel.isUserPinValid()) {
-					posPanel.setDiscountPercentage(new BigDecimal(((InputEvent)e).getValue()));
+					posPanel.setDiscountPercentage(value);
 				}
 			}
 		}
