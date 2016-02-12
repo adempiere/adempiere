@@ -1173,7 +1173,10 @@ public class CPOS {
 		//Returning orderCompleted to check for order completeness
 		boolean orderCompleted = false;
 		// check if order completed OK
-		if (!isCompleted()) {	//	Complete Order
+		if (isCompleted()) {	//	Order already completed -> default nothing
+			orderCompleted = isCompleted();
+			isToPrint = false;
+		} else {	//	Complete Order
 			//	Replace
 			if(trxName == null) {
 				trxName = currentOrder.get_TrxName();
@@ -1206,10 +1209,7 @@ public class CPOS {
 				currentOrder.saveEx();
 				return orderCompleted;
 			}
-		} else {	//	Order not completed -> default nothing
-			orderCompleted = isCompleted();
-			isToPrint = false;
-		}
+		} 
 		
 		//	Validate for Invoice and Shipment generation (not for Standard Orders)
 		if(isPaid && !getDocSubTypeSO().equals(MOrder.DocSubTypeSO_Standard)) {	
