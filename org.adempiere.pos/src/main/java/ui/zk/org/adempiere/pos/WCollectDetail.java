@@ -48,6 +48,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Panel;
@@ -182,6 +183,8 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		fPayAmt.setValue(new BigDecimal("0.0"));
 		fPayAmt.setStyle("text-align:right;"+HEIGHT+WIDTH+FONT_SIZE);
 		fPayAmt.addEventListener("onBlur",this);
+		fPayAmt.addEventListener(Events.ON_CHANGING,this);
+		fPayAmt.addEventListener(Events.ON_CHANGE,this);
 	}
 	
 	/**
@@ -529,13 +532,21 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		else {
 			String p_TenderType = getTenderType();
 			BigDecimal payAmt = (BigDecimal)fPayAmt.getValue();
+			
+			if(Events.ON_CHANGE.equals(e.getName()) || e.getName().equals(Events.ON_CHANGING)) {
+				if(((InputEvent)e).getValue().length() > 0)
+					payAmt = new BigDecimal(((InputEvent)e).getValue());
+				else 
+					payAmt = Env.ZERO;
+			
 			if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) 
 					&& payAmt.compareTo(getOpenAmtCreditMemo()) > 0 
 					&& fCreditMemo.getSelectedIndex() > 0) {
 				FDialog.warn(0, Msg.parseTranslation(p_ctx, "POS.MaxAmountAllowed")+":"+getOpenAmtCreditMemo());
 				fPayAmt.setValue(getOpenAmtCreditMemo());
 			}
-			setPayAmt((BigDecimal) fPayAmt.getValue());
+			setPayAmt(payAmt);
+			}
 			v_Parent.refreshPanel();
 		}
 
