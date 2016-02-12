@@ -649,7 +649,7 @@ public class CPOS {
 			currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_OnCredit);
 		}
 		//	Set BPartner
-		setC_BPartner_ID(partnerId);
+		configureBPartner(partnerId);
 		//	Add if is new
 		if(orderId < 0) {
 			//	Add To List
@@ -698,7 +698,7 @@ public class CPOS {
 	/**
 	 * set BPartner and save
 	 */
-	public void setC_BPartner_ID(int partnerId) {
+	public void configureBPartner(int partnerId) {
 		//	Valid if has a Order
 		if(isCompleted()
 				|| isVoided())
@@ -1402,8 +1402,8 @@ public class CPOS {
 	 */
 	public BigDecimal getPaidAmt() {
 
-		return new Query(getCtx() , MPayment.Table_Name , "C_Order_ID = ?", null).setParameters(getC_Order_ID()).sum("PayAmt");
-		/*BigDecimal received = BigDecimal.ZERO;
+		/*return new Query(getCtx() , MPayment.Table_Name , "C_Order_ID = ?", null).setParameters(getC_Order_ID()).sum("PayAmt");*/
+		BigDecimal received = BigDecimal.ZERO;
 		if (currentOrder != null)
 		{
 			String sql = "SELECT sum(amount) FROM C_AllocationLine al " +
@@ -1417,7 +1417,8 @@ public class CPOS {
 		BigDecimal cashLineAmount = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID());
 		if (cashLineAmount != null)
 			received = received.add(cashLineAmount);
-		}*/
+		}
+		return received;
 	}
 	
 	/**

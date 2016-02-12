@@ -275,10 +275,10 @@ public class WQueryBPartner extends WPOSQuery {
 			partnerId = ID.intValue();
 	
 		if (partnerId > 0) {
-			posPanel.setC_BPartner_ID(partnerId);
+			posPanel.configureBPartner(partnerId);
 			logger.fine("C_BPartner_ID=" + partnerId);
 		} else {
-			posPanel.setC_BPartner_ID(0);
+			posPanel.configureBPartner(0);
 		}
 		dispose();
 	}	//	close

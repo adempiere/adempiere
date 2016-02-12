@@ -567,7 +567,7 @@ public class POSActionPanel extends POSSubPanel
 				if(!posPanel.hasOrder()) {
 					posPanel.newOrder(query.getRecord_ID());
 				} else {
-					posPanel.setC_BPartner_ID(query.getRecord_ID());
+					posPanel.configureBPartner(query.getRecord_ID());
 				}
 				//
 				logger.fine("C_BPartner_ID=" + query.getRecord_ID());
