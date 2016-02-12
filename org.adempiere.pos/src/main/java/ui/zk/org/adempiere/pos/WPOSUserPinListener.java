@@ -79,7 +79,7 @@ public class WPOSUserPinListener implements EventListener {
 
     protected void doPerformAction(Event e)
     {
-        if(e.getTarget()==userPinTimer) {
+        if(e != null && e.getTarget()==userPinTimer) {
             pos.setIsCorrectUserPin(false);
             userPinTimer.stop();
             return;
