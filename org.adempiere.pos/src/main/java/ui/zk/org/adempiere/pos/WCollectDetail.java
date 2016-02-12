@@ -450,6 +450,8 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		}else if(e.getTarget().equals(fCreditMemo)) {
 			int m_C_Invoice_ID = Integer.valueOf(fCreditMemo.getValue().toString());
 			setC_Invoice_ID(m_C_Invoice_ID);
+			setPayAmt(getInitPayAmt());
+			v_Parent.refreshPanel();
 			fPayAmt.setValue(getOpenAmtCreditMemo());
 			
 			setPayAmt((BigDecimal) fPayAmt.getValue());
@@ -545,11 +547,10 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 				FDialog.warn(0, Msg.parseTranslation(p_ctx, "POS.MaxAmountAllowed")+":"+getOpenAmtCreditMemo());
 				fPayAmt.setValue(getOpenAmtCreditMemo());
 			}
-			setPayAmt(payAmt);
+			
 			}
-			v_Parent.refreshPanel();
 		}
-
+		v_Parent.refreshPanel();
 		setCreditCardExpMM((String)fCreditCardExpMM.getValue());
 		setCreditCardExpYY((String)fCreditCardExpYY.getValue());
 		
