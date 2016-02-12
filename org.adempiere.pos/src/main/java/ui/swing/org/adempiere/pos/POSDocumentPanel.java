@@ -402,7 +402,7 @@ public class POSDocumentPanel extends POSSubPanel
 		//	Set Result
 		if (results.length == 1) {
 			MBPartner bp = MBPartner.get(ctx, results[0].getC_BPartner_ID());
-			posPanel.setC_BPartner_ID(bp.getC_BPartner_ID());
+			posPanel.configureBPartner(bp.getC_BPartner_ID());
 			fieldPartnerName.setText(bp.getName());
 		} else {	//	more than one
 			QueryBPartner qt = new QueryBPartner(posPanel);
@@ -473,7 +473,7 @@ public class POSDocumentPanel extends POSSubPanel
 			if(!posPanel.hasOrder()) {
 				posPanel.newOrder(query.getRecord_ID());
 			} else {
-				posPanel.setC_BPartner_ID(query.getRecord_ID());
+				posPanel.configureBPartner(query.getRecord_ID());
 			}
 			//	
 			logger.fine("C_BPartner_ID=" + query.getRecord_ID());
