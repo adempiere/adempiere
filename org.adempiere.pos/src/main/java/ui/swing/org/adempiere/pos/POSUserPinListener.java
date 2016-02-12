@@ -33,7 +33,6 @@ import java.awt.event.ActionListener;
 public class POSUserPinListener implements ActionListener {
 
     private VPOS pos;
-    private javax.swing.Timer userPinTimer = null;
 
     POSUserPinListener(VPOS pos)
     {
@@ -41,13 +40,9 @@ public class POSUserPinListener implements ActionListener {
     }
 
     private static boolean active = true;
+
     public static void setActive(boolean active){
         POSUserPinListener.active = active;
-    }
-
-    public void setTimer(javax.swing.Timer timer)
-    {
-        this.userPinTimer = timer;
     }
 
     protected void doPerformAction(ActionEvent actionEvent) {
@@ -89,23 +84,23 @@ public class POSUserPinListener implements ActionListener {
     public final void actionPerformed(ActionEvent actionEvent){
 
         if(active){
-            try {
+                try {
 
-                if (actionEvent.getSource() == userPinTimer) {
-                    pos.invalidateUserPin();
-                    userPinTimer.stop();
-                    return;
+                    if (actionEvent.getSource() == pos.getUserPinTimer()) {
+                        pos.invalidateUserPin();
+                        pos.getUserPinTimer().stop();
+                        return;
+                    }
+
+                    if (pos.getUserPinTimer().isRunning())
+                        return;
+
+                    doPerformAction(actionEvent);
                 }
-
-                if (userPinTimer.isRunning())
-                    return;
-
-                doPerformAction(actionEvent);
-            }
-            catch (AdempiereException exception) {
-                ADialog.error(pos.getWindowNo(), pos.getFrame(), exception.getLocalizedMessage());
-                throw new AdempiereException(exception.getMessage());
-            }
+                catch (AdempiereException exception) {
+                    ADialog.error(pos.getWindowNo(), pos.getFrame(), exception.getLocalizedMessage());
+                    throw new AdempiereException(exception.getMessage());
+                }
         }
     }
 }

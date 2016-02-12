@@ -63,10 +63,11 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 	private CButton				buttonDown;
 	private CButton 			buttonPlus;
 	private CButton 			buttonMinus;
-	private CButton				buttonElectronicScales;
+	private CButton 			buttonScales;
 	private VNumber 			fieldPrice;
 	private VNumber 			fieldDiscountPercentage;
 	private VNumber 			fieldQuantity;
+
 	/**	Button Panel			*/
 	private CPanel 				buttonPanel;
 	/**	Padding					*/
@@ -115,10 +116,11 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		if (posPanel.isPresentElectronicScales()) {
-			buttonElectronicScales = createButtonAction("Calculator", KeyStroke.getKeyStroke(KeyEvent.VK_W, Event.CTRL_MASK));
-			buttonElectronicScales.setToolTipText("ALT+down-" + Msg.translate(ctx, "Calculator"));
-			buttonPanel.add(buttonElectronicScales, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+			buttonScales = createButtonAction("Calculator", KeyStroke.getKeyStroke(KeyEvent.VK_W, Event.CTRL_MASK));
+			buttonScales.setToolTipText("ALT+down-" + Msg.translate(ctx, "Calculator"));
+			buttonPanel.add(buttonScales, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 					, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
+			buttonScales.addActionListener(posPanel.getScalesListener());
 		}
 
 		CLabel qtyLabel = new CLabel(Msg.translate(Env.getCtx(), "Qty"));
@@ -219,7 +221,12 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 					posPanel.refreshPanel();
 				}
 			}
-
+			if (actionEvent.getSource().equals(buttonScales))
+			{
+				posPanel.hideKeyboard();
+				posPanel.getScalesTimer().start();
+				posPanel.showScales();
+			}
 			BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
 			if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged()
 			&& (actionEvent.getSource().equals(fieldQuantity) || actionEvent.getSource().equals(buttonPlus) || actionEvent.getSource().equals(buttonMinus))))
@@ -336,9 +343,14 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 		buttonPlus.setEnabled(false);
 		buttonMinus.setEnabled(false);
 		if (posPanel.isPresentElectronicScales())
-			buttonElectronicScales.setEnabled(false);
+			buttonScales.setEnabled(false);
 		fieldPrice.setEnabled(false);
 		fieldQuantity.setEnabled(false);
 		fieldDiscountPercentage.setEnabled(false);
+	}
+
+	public void setQuantity(Object value) {
+		fieldQuantity.setValue((BigDecimal) value);
+		fieldQuantity.requestFocus();
 	}
 }

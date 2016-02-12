@@ -416,22 +416,6 @@ public class POSActionPanel extends POSSubPanel
 		} else {
 			posPanel.hideKeyboard();
 			posPanel.showCollectPayment();
-			//VCollect collect = posPanel.getCollectPayment();
-			//collect.showCollect();
-			//collect.load(posPanel.getCtx(), posPanel.getM_Order() , posPanel.getM_POS());
-			//new VCollect(posPanel);
-			//if (collect.showCollect()) {
-			//	Print Ticket just when is completed and it is not a Standard Order nor a Warehouse Order
-			//	if(!posPanel.isStandardOrder() /*&& !posPanel.isWarehouseOrder()*/ && posPanel.isToPrint()) {
-			//		printTicket();
-			//	}
-			//
-			//posPanel.setOrder(0);
-			//posPanel.refreshPanel();
-			//}
-			//posPanel.hideCollectPayment();
-			//posPanel.showKeyboard();
-
 		}	
 	}  // payOrder
 
