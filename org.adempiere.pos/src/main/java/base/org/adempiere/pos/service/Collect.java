@@ -541,7 +541,7 @@ public class Collect {
 	 * @return String
 	 */
 	public String getErrorMsg() {
-		if(errorMsg.length() > 0) {
+		if(errorMsg != null && errorMsg.length() > 0) {
 			return errorMsg.toString();
 		}
 		//	Default Return

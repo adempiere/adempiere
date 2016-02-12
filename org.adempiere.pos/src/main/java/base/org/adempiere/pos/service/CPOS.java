@@ -413,6 +413,15 @@ public class CPOS {
 	public boolean isToPrint() {
 		return isToPrint;
 	}
+
+	/**
+	 * Validate if is to print invoice
+	 * @return
+	 * @return boolean
+	 */
+	public void setIsToPrint(boolean isToPrint) {
+		this.isToPrint= isToPrint;
+	}
 	
 	/**
 	 * Get Current Order
@@ -638,9 +647,9 @@ public class CPOS {
 		if (entityPOS.getM_PriceList_ID() > 0)
 			currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
 		if (entityPOS.getDeliveryRule() != null)
-			currentOrder.setDeliveryRule(entityPOS.getDeliveryRule());
+			currentOrder.setDeliveryRule(getDeliveryRule());
 		if (entityPOS.getDeliveryRule() != null)
-			currentOrder.setInvoiceRule(entityPOS.getInvoiceRule());
+			currentOrder.setInvoiceRule(getInvoiceRule());
 		currentOrder.setC_POS_ID(entityPOS.getC_POS_ID());
 		currentOrder.setM_Warehouse_ID(entityPOS.getM_Warehouse_ID());
 		if (docTypeTargetId != 0) {
@@ -649,7 +658,7 @@ public class CPOS {
 			currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_OnCredit);
 		}
 		//	Set BPartner
-		setC_BPartner_ID(partnerId);
+		configureBPartner(partnerId);
 		//	Add if is new
 		if(orderId < 0) {
 			//	Add To List
@@ -698,7 +707,7 @@ public class CPOS {
 	/**
 	 * set BPartner and save
 	 */
-	public void setC_BPartner_ID(int partnerId) {
+	public void configureBPartner(int partnerId) {
 		//	Valid if has a Order
 		if(isCompleted()
 				|| isVoided())
@@ -1173,7 +1182,10 @@ public class CPOS {
 		//Returning orderCompleted to check for order completeness
 		boolean orderCompleted = false;
 		// check if order completed OK
-		if (!isCompleted()) {	//	Complete Order
+		if (isCompleted()) {	//	Order already completed -> default nothing
+			orderCompleted = isCompleted();
+			isToPrint = false;
+		} else {	//	Complete Order
 			//	Replace
 			if(trxName == null) {
 				trxName = currentOrder.get_TrxName();
@@ -1185,14 +1197,7 @@ public class CPOS {
 				//	Set Document Type
 				currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
 			}
-			
-			//	Force Delivery for POS not for Standard Order
-			if(!currentOrder.getC_DocTypeTarget().getDocSubTypeSO()
-				.equals(MOrder.DocSubTypeSO_Standard)) {				
-				currentOrder.setDeliveryRule(X_C_Order.DELIVERYRULE_Force);
-				currentOrder.setInvoiceRule(X_C_Order.INVOICERULE_AfterDelivery);
-			}	
-			
+
 			// In case the Order is Invalid, set to In Progress; otherwise it will not be completed
 			if (currentOrder.getDocStatus().equalsIgnoreCase(MOrder.STATUS_Invalid) ) 
 				currentOrder.setDocStatus(MOrder.STATUS_InProgress);
@@ -1201,26 +1206,22 @@ public class CPOS {
 			if (currentOrder.processIt(DocAction.ACTION_Complete) ) {
 				currentOrder.saveEx();
 				orderCompleted = true;
+				setIsToPrint(true);
 			} else {
 				log.info( "Process Order FAILED " + currentOrder.getProcessMsg());
 				currentOrder.saveEx();
 				return orderCompleted;
 			}
-		} else {	//	Order not completed -> default nothing
-			orderCompleted = isCompleted();
-			isToPrint = false;
 		}
 		
 		//	Validate for Invoice and Shipment generation (not for Standard Orders)
-		if(isPaid && !getDocSubTypeSO().equals(MOrder.DocSubTypeSO_Standard)) {	
-			if(!isDelivered())
+		if(isPaid) {
+			if(!isDelivered()) // Based on Delivery Rule of POS Terminal or partner
 				generateShipment(trxName);
 
-			if(!isInvoiced() && !getDocSubTypeSO().equals(MOrder.DocSubTypeSO_Warehouse)) {
-				generateInvoice(trxName);
-				isToPrint = true;				
+			if(!isInvoiced()) {
+				generateInvoice(trxName); // Based on Invoice rule of POS Terminal or partner
 			}
-			//	
 			orderCompleted = true;
 		}
 		return orderCompleted;
@@ -1402,8 +1403,8 @@ public class CPOS {
 	 */
 	public BigDecimal getPaidAmt() {
 
-		return new Query(getCtx() , MPayment.Table_Name , "C_Order_ID = ?", null).setParameters(getC_Order_ID()).sum("PayAmt");
-		/*BigDecimal received = BigDecimal.ZERO;
+		/*return new Query(getCtx() , MPayment.Table_Name , "C_Order_ID = ?", null).setParameters(getC_Order_ID()).sum("PayAmt");*/
+		BigDecimal received = BigDecimal.ZERO;
 		if (currentOrder != null)
 		{
 			String sql = "SELECT sum(amount) FROM C_AllocationLine al " +
@@ -1417,7 +1418,8 @@ public class CPOS {
 		BigDecimal cashLineAmount = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID());
 		if (cashLineAmount != null)
 			received = received.add(cashLineAmount);
-		}*/
+		}
+		return received;
 	}
 	
 	/**
