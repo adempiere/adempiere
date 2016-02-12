@@ -393,15 +393,16 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			if(validResult == null) {
 				validResult = executePayment();
 			}
-			//	Show Dialog
+			//	Show error dialog
 			if(validResult != null) {
 				FDialog.warn(0, Msg.parseTranslation(p_ctx, validResult));
 				return;
 			}
 			
+			// Process printing
 			isProcessed = true;
-//			v_Window.dispose();
-			printTicket();
+			if(!v_POSPanel.isStandardOrder() && !v_POSPanel.isWarehouseOrder() && v_POSPanel.isToPrint())
+				printTicketWeb();			
 			v_POSPanel.closeCollectPayment();
 
 			v_POSPanel.setOrder(0);
@@ -471,8 +472,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 						processTenderTypes(trxName, v_POSPanel.getOpenAmt());
 						String error = getErrorMsg();
 						if(error != null && error.length() > 0)
-							throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + v_POSPanel.getDocumentNo() + ": "  +
-								getErrorMsg()));
+							throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + v_POSPanel.getDocumentNo() + ": "  + getErrorMsg()));
 					} else {
 						throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + v_POSPanel.getDocumentNo() + ": "  +
 				                 "@ProcessRunError@" + " (" +  v_POSPanel.getProcessMsg() + ")"));
@@ -563,8 +563,9 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
 		} else {
-			if(!(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder())) 
-				// No Check if Order is not Standard Order nor Warehouse Order
+			if(!(v_POSPanel.isStandardOrder()))
+				// No Check if Order is not Standard Order
+				// TODO: Review why nor Warehouse Order
 				errorMsg = validateTenderTypes(v_POSPanel.getOpenAmt());
 		}
 		//	
@@ -663,44 +664,43 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	}
 	
 	/**
-	 * 	Print Ticket
+	 * 	Print Ticket for Web
 	 *  @return void
 	 */
-	public void printTicket() {
-		if (!v_POSPanel.hasOrder())
-			return;
+	public void printTicketWeb() {	
 		
 		try {
 			//print standard document
-				Trx.run(new TrxRunnable() {
-					public void run(String trxName) {
-						if (v_POSPanel.getAD_Sequence_ID()!= 0) {
-						
-							String docno = v_POSPanel.getSequenceDoc(trxName);
-							String q = "Confirmar el número consecutivo "  + docno;
-							if (FDialog.ask(0, null, "", q)) {
-								v_POSPanel.setPOReference(docno);
-								v_POSPanel.saveNextSeq(trxName);
-							}
+			Trx.run(new TrxRunnable() {
+				public void run(String trxName) {
+					if (v_POSPanel.getAD_Sequence_ID()!= 0) {
+
+						String docno = v_POSPanel.getSequenceDoc(trxName);
+						String q = "Confirmar el número consecutivo "  + docno;
+						if (FDialog.ask(0, null, "", q)) {
+							v_POSPanel.setPOReference(docno);
+							v_POSPanel.saveNextSeq(trxName);
 						}
 					}
-				});
-			
+				}
+			});
+
+			if (v_POSPanel.isToPrint() && v_POSPanel.hasOrder()) {
 				ReportCtl.startDocumentPrint(0, v_POSPanel.getC_Order_ID(), false);
 				ReportEngine m_reportEngine = ReportEngine.get(p_ctx, ReportEngine.ORDER, v_POSPanel.getC_Order_ID());
 				StringWriter sw = new StringWriter();							
 				m_reportEngine.createCSV(sw, '\t', m_reportEngine.getPrintFormat().getLanguage());
 				byte[] data = sw.getBuffer().toString().getBytes();	
-				
+
 				AMedia media = new AMedia(m_reportEngine.getPrintFormat().getName() + ".txt", null, "application/octet-stream", data);
-				
-				SideServer.printFile(media.getByteData());	
+
+				SideServer.printFile(media.getByteData());						
 			}
+		}
 			catch (Exception e) 
 			{
 				log.severe("PrintTicket - Error Printing Ticket");
-			}
-			  
+			}			  
 	}
 
 }
