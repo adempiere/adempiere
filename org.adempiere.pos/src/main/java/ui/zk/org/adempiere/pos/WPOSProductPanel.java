@@ -403,7 +403,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 		//	Set Result
 		if (results.length == 1) {
 			MBPartner bp = MBPartner.get(ctx, results[0].getC_BPartner_ID());
-			posPanel.setC_BPartner_ID(results[0].getC_BPartner_ID());
+			posPanel.configureBPartner(results[0].getC_BPartner_ID());
 			f_BPartnerName.setText(bp.getName()+"");
 		} else {	//	more than one
 			changeBusinessPartner(results);
@@ -427,7 +427,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_
 				posPanel.newOrder(qt.getRecord_ID());
 				posPanel.refreshPanel();
 			} else {
-				posPanel.setC_BPartner_ID(qt.getRecord_ID());
+				posPanel.configureBPartner(qt.getRecord_ID());
 			}
 			log.fine("C_BPartner_ID=" + qt.getRecord_ID());
 			return true;
