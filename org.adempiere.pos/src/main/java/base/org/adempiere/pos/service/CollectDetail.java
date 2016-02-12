@@ -577,8 +577,8 @@ public class CollectDetail {
 		BigDecimal m_PayAmt = Env.ZERO ;
 		if(m_C_Invoice_ID == 0)
 			return m_PayAmt;
-		if(m_CreditMemo == null)
-			m_CreditMemo = MInvoice.get(Env.getCtx(), m_C_Invoice_ID);
+		
+		m_CreditMemo = MInvoice.get(Env.getCtx(), m_C_Invoice_ID);
 		MDocType dt = MDocType.get(m_CreditMemo.getCtx(), m_CreditMemo.getC_DocType_ID());
 		
 		m_PayAmt = m_CreditMemo.getOpenAmt();
@@ -624,9 +624,9 @@ public class CollectDetail {
 		//
 		int AD_Column_ID = 12349; //	RV_OpenItem C_Invoice_ID
 		//	Where Clause
-		String whereClause = "IsPaid='N' AND Processed='Y' AND C_BPartner_ID= " + p_C_BPartner_ID 
-				+ " AND EXISTS ( SELECT 1 FROM C_DocType C_DocType WHERE C_DocType.DocBaseType ='ARC' "
-				+ "	AND C_Invoice.C_DocTypeTarget_ID = C_DocType.C_DocType_ID)";
+		String whereClause = "IsPaid='N' and Processed='Y' and C_BPartner_ID= " + p_C_BPartner_ID 
+				+ " and exists ( select 1 from C_DocType C_DocType where C_DocType.DocBaseType ='ARC' "
+				+ "	and C_Invoice.C_DocTypeTarget_ID = C_DocType.C_DocType_ID)";
 		try {
 			lookup = MLookupFactory.get(Env.getCtx(), 0, AD_Column_ID, DisplayType.TableDir, Env.getLanguage(Env.getCtx()), 
 					MInvoice.COLUMNNAME_C_Invoice_ID, 0, false, whereClause);

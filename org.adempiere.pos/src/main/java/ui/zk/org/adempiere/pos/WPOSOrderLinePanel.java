@@ -185,8 +185,10 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			//	Remove line
 			if(posPanel.getQty().signum() <= 0) {
 				if (orderLineId > 0)
-					// TODO: check if supervisor PIN is required and if it, validate it
+					posPanel.setUserPinListener(null);
+				if(posPanel.isUserPinValid()) {
 					posPanel.deleteLine(orderLineId);
+				}
 				if (row >= 0) {
 					((ListModelTable) posTable.getModel()).remove(row);
 					posTable.getModel().addTableModelListener(this);

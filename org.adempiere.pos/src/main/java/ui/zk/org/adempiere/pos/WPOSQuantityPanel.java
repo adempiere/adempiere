@@ -32,6 +32,7 @@ import org.compiere.util.Msg;
 import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zk.ui.event.KeyEvent;
 
 
@@ -107,6 +108,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 
 		fieldQuantity = new POSNumberBox(false);
 		row.appendChild(fieldQuantity);
+		fieldQuantity.addEventListener(Events.ON_CHANGING, this);
 		fieldQuantity.addEventListener(Events.ON_CHANGE, this);
 		fieldQuantity.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
 		
@@ -118,7 +120,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		if (!posPanel.isModifyPrice())
 			fieldPrice.setEnabled(false);
 		else
-			fieldPrice.addEventListener(Events.ON_CHANGE,this);
+			fieldPrice.addEventListener(Events.ON_CHANGING,this);
 		fieldPrice.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
 		
 		Label priceDiscount = new Label(Msg.translate(Env.getCtx(), "Discount"));
@@ -129,7 +131,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 		if (!posPanel.isModifyPrice())
 			fieldDiscountPercentage.setEnabled(false);
 		else
-			fieldDiscountPercentage.addEventListener(Events.ON_CHANGE, this);
+			fieldDiscountPercentage.addEventListener(Events.ON_CHANGING, this);
 
 		fieldDiscountPercentage.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
 		
@@ -180,10 +182,18 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 			return;
 		}
 		if (e.getTarget().equals(buttonMinus)){
-			fieldQuantity.setValue(fieldQuantity.getValue().subtract(CurrentQuantity));
+			BigDecimal quantity = fieldQuantity.getValue().subtract(CurrentQuantity);
+			if(quantity.compareTo(Env.ZERO) == 0) {
+				posPanel.setUserPinListener(e);
+				if(posPanel.isUserPinValid()) {
+					posPanel.setQuantity(quantity);
+				}
+			} else {
+				posPanel.setQuantity(quantity);
+			}
 		}
 		else if (e.getTarget().equals(buttonPlus)){
-			fieldQuantity.setValue(fieldQuantity.getValue().add(CurrentQuantity));
+			posPanel.setQuantity(fieldQuantity.getValue().add(CurrentQuantity));
 		}
 		else if (e.getTarget().equals(buttonDelete)){
 			posPanel.setUserPinListener(e);
@@ -194,43 +204,28 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 				fieldDiscountPercentage.setValue(0.0);
 			}
 		}
-
-		BigDecimal quantity           = (BigDecimal) fieldQuantity.getValue();
-		BigDecimal price              = (BigDecimal) fieldPrice.getValue();
-		BigDecimal discountPercentage =  (BigDecimal) fieldDiscountPercentage.getValue();
 		
-		if(Events.ON_CTRL_KEY.equals(e.getName()) 
-		|| (posPanel.getQty().compareTo(quantity) != 0 
-		||  e.getTarget().equals(buttonPlus) 
-		|| e.getTarget().equals(buttonMinus)
-		&& fieldQuantity.hasChanged() 
-		&& (e.getTarget().equals(fieldQuantity.getDecimalbox())))) {
-			if(quantity.compareTo(Env.ZERO) == 0) {
+		if(Events.ON_CHANGE.equals(e.getName()) || Events.ON_CHANGING.equals(e.getName())) {
+			if(e.getTarget().equals(fieldQuantity.getDecimalbox())) {
+				posPanel.setQuantity(new BigDecimal(((InputEvent)e).getValue()));
+			} 
+			else if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
 				posPanel.setUserPinListener(e);
 				if(posPanel.isUserPinValid()) {
-					posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
+					posPanel.setPrice(new BigDecimal(((InputEvent)e).getValue()));
+				}	
+			}
+			else if ( e.getTarget().equals(fieldDiscountPercentage.getDecimalbox())) {
+				posPanel.setUserPinListener(e);
+				if(posPanel.isUserPinValid()) {
+					posPanel.setDiscountPercentage(new BigDecimal(((InputEvent)e).getValue()));
 				}
-			} else {
-				posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
 			}
-			posPanel.changeViewQuantityPanel();
-			posPanel.updateLineTable();
-		} 
-		else if (Events.ON_CTRL_KEY.equals(e.getName()) 
-		|| (e.getTarget().equals(buttonDelete))
-		|| 	(posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && e.getTarget().equals(fieldPrice.getDecimalbox()))
-		|| 	(posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && e.getTarget().equals(fieldDiscountPercentage.getDecimalbox()))) 
-		{
-			posPanel.setUserPinListener(e);
-			if(posPanel.isUserPinValid()) {
-				posPanel.setPrice((BigDecimal) fieldPrice.getValue());
-				posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
-			}
-			posPanel.changeViewQuantityPanel();
-			posPanel.updateLineTable();
 		}
+		posPanel.changeViewQuantityPanel();
+		posPanel.updateLineTable();
 	}
-
+	
 	/**
 	 * Change Status 
 	 * @param p_Status
