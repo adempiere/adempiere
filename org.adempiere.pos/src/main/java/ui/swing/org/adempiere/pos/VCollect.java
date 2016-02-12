@@ -394,12 +394,12 @@ public class VCollect extends Collect
 			if(validResult == null) {
 				validResult = executePayment();
 			}
-			//	Show Dialog
+			//	Show error dialog
 			if(validResult != null) {
 				ADialog.warn(pos.getWindowNo(), dialog, Msg.parseTranslation(ctx, validResult));
 				return;
 			}
-			//	Set Processed
+			//	Process printing
 			isProcessed = true;
 			if(!pos.isStandardOrder() && !pos.isWarehouseOrder() && pos.isToPrint()) {
 				Trx.run(new TrxRunnable() {
