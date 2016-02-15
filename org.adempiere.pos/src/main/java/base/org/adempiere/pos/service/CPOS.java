@@ -20,14 +20,22 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.Vector;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
 import org.compiere.model.I_AD_User;
 import org.compiere.model.I_C_OrderLine;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MAllocationLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MCashLine;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
@@ -1394,7 +1402,7 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isPaid() {
-		return getOpenAmt().doubleValue() == 0;
+		return getOpenAmt().signum() == 0;
 	}
 	
 	/**
@@ -1407,30 +1415,55 @@ public class CPOS {
 		BigDecimal receivedPrePayments = BigDecimal.ZERO;
 		BigDecimal receivedCash        = BigDecimal.ZERO;
 		BigDecimal receivedTotal       = BigDecimal.ZERO;
-		int invoiceID = 0;
+		// entities
+		final String 		payment = MPayment.Table_Name;
+		final String 	 allocation = MAllocationHdr.Table_Name;
+		final String allocationLine = MAllocationLine.Table_Name;
+		final String 	   cashLine = MCashLine.Table_Name;
+		// Column ids
+		final String 		orderId = MPayment.COLUMNNAME_C_Order_ID;
+		final String 	  invoiceId = MAllocationLine.COLUMNNAME_C_Invoice_ID;
+		final String   allocationId = MAllocationHdr.COLUMNNAME_C_AllocationHdr_ID;
+		// Columns
+		final String 		 payAmt = MPayment.COLUMNNAME_PayAmt;
+		final String documentStatus = MAllocationHdr.COLUMNNAME_DocStatus;
+		final String 		 amount = MAllocationLine.COLUMNNAME_Amount;
+
 		String sql = "";
 		if (currentOrder != null) {
 			// Prepayments
-			sql = "SELECT sum(p.PayAmt) FROM C_Payment p " +
-				  "INNER JOIN C_Order o on (o.C_Order_ID=p.C_Order_ID) " +
-				  "WHERE o.C_Order_ID = ? AND p.DocStatus IN ('CO','CL')";
-			receivedPrePayments = DB.getSQLValueBD(null, sql, currentOrder.getC_Order_ID());
+			StringBuilder whereClause =  new StringBuilder();
+			whereClause.append( orderId ).append("=?").append(" AND ")
+					.append( documentStatus ).append(" IN ('CO','CL') ");
+			receivedPrePayments = new Query(getCtx(), payment , whereClause.toString(), null)
+					.setClient_ID()
+					.setParameters(currentOrder.getC_Order_ID())
+					.sum( payAmt );
 			if (receivedPrePayments == null)
 				receivedPrePayments = Env.ZERO;
-			
 			// Invoices
-			invoiceID = currentOrder.getC_Invoice_ID();
-			if(invoiceID>0) {
-				sql = "SELECT sum(al.amount) FROM C_AllocationLine al " +
-						"INNER JOIN C_AllocationHdr alh on (al.C_AllocationHdr_ID=alh.C_AllocationHdr_ID) " +
-						"WHERE al.C_Invoice_ID = ? AND alh.DocStatus IN ('CO','CL')";
-				receivedInvoices = DB.getSQLValueBD(null, sql, invoiceID);
+			if(currentOrder.getC_Invoice_ID() > 1) {
+				whereClause = new StringBuilder();
+				whereClause
+						.append("EXISTS (SELECT 1 FROM ")
+						.append(	  allocation ).append(" WHERE ")
+						.append(      allocation ).append(".").append( allocationId ).append("=")
+						.append(  allocationLine ).append(".").append( allocationId ).append(" AND ")
+						.append(      allocation ).append(".").append( documentStatus ).append(" IN ('CO','CL') AND ")
+						.append(  allocationLine ).append(".").append( invoiceId ).append("=?)");
+				receivedInvoices = new Query(getCtx() , allocationLine , whereClause.toString() , null)
+						.setClient_ID()
+						.setParameters(currentOrder.getC_Invoice_ID())
+						.sum( amount );
 				if (receivedInvoices == null)
 					receivedInvoices = Env.ZERO;
-
 				// Cash
-				sql = "SELECT sum(Amount) FROM C_CashLine WHERE C_Invoice_ID = ? ";
-				receivedCash = DB.getSQLValueBD(null, sql, invoiceID);
+				whereClause = new StringBuilder();
+				whereClause.append( invoiceId ).append("=?");
+				receivedCash =  new Query(getCtx() , cashLine , whereClause.toString() , null)
+						.setClient_ID()
+						.setParameters(currentOrder.getC_Invoice_ID())
+						.sum( amount );
 				if (receivedCash == null)
 					receivedCash = Env.ZERO;			
 			}
