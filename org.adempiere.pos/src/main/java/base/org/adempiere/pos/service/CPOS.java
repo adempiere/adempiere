@@ -20,14 +20,22 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.Vector;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
 import org.compiere.model.I_AD_User;
 import org.compiere.model.I_C_OrderLine;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MAllocationLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MCashLine;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
@@ -1180,11 +1188,11 @@ public class CPOS {
 	 */
 	public boolean processOrder(String trxName, boolean isPrepayment, boolean isPaid) {
 		//Returning orderCompleted to check for order completeness
-		boolean orderCompleted = false;
+		boolean orderCompleted = isCompleted();
 		// check if order completed OK
 		if (isCompleted()) {	//	Order already completed -> default nothing
 			orderCompleted = isCompleted();
-			isToPrint = false;
+			setIsToPrint(false);
 		} else {	//	Complete Order
 			//	Replace
 			if(trxName == null) {
@@ -1213,9 +1221,9 @@ public class CPOS {
 				return orderCompleted;
 			}
 		}
-		
+
 		//	Validate for Invoice and Shipment generation (not for Standard Orders)
-		if(isPaid) {
+		if(isPaid && !isStandardOrder()) {
 			if(!isDelivered()) // Based on Delivery Rule of POS Terminal or partner
 				generateShipment(trxName);
 
@@ -1394,32 +1402,74 @@ public class CPOS {
 	 * @return boolean
 	 */
 	public boolean isPaid() {
-		return getOpenAmt().doubleValue() == 0;
+		return getOpenAmt().signum() == 0;
 	}
 	
 	/**
-	 * 	Gets Amount Paid from Order
-	 * 	It takes the allocated amounts, including Credit Notes
+	 * 	Gets Amount Paid for an Order
+	 * 	It considers the allocated amounts via invoices and credit memos 
+	 * and also prepayments
 	 */
 	public BigDecimal getPaidAmt() {
+		BigDecimal receivedInvoices    = BigDecimal.ZERO;
+		BigDecimal receivedPrePayments = BigDecimal.ZERO;
+		BigDecimal receivedCash        = BigDecimal.ZERO;
+		BigDecimal receivedTotal       = BigDecimal.ZERO;
+		// entities
+		final String 		payment = MPayment.Table_Name;
+		final String 	 allocation = MAllocationHdr.Table_Name;
+		final String allocationLine = MAllocationLine.Table_Name;
+		final String 	   cashLine = MCashLine.Table_Name;
+		// Column ids
+		final String 		orderId = MPayment.COLUMNNAME_C_Order_ID;
+		final String 	  invoiceId = MAllocationLine.COLUMNNAME_C_Invoice_ID;
+		final String   allocationId = MAllocationHdr.COLUMNNAME_C_AllocationHdr_ID;
+		// Columns
+		final String 		 payAmt = MPayment.COLUMNNAME_PayAmt;
+		final String documentStatus = MAllocationHdr.COLUMNNAME_DocStatus;
+		final String 		 amount = MAllocationLine.COLUMNNAME_Amount;
 
-		/*return new Query(getCtx() , MPayment.Table_Name , "C_Order_ID = ?", null).setParameters(getC_Order_ID()).sum("PayAmt");*/
-		BigDecimal received = BigDecimal.ZERO;
-		if (currentOrder != null)
-		{
-			String sql = "SELECT sum(amount) FROM C_AllocationLine al " +
-					"INNER JOIN C_AllocationHdr alh on (al.C_AllocationHdr_ID=alh.C_AllocationHdr_ID) " +
-					"WHERE (al.C_Invoice_ID = ? OR al.C_Order_ID = ?) AND alh.DocStatus IN ('CO','CL')";
-		received = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID(), currentOrder.getC_Order_ID());
-		if (received == null)
-			received = Env.ZERO;
-
-		sql = "SELECT sum(Amount) FROM C_CashLine WHERE C_Invoice_ID = ? ";
-		BigDecimal cashLineAmount = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID());
-		if (cashLineAmount != null)
-			received = received.add(cashLineAmount);
+		String sql = "";
+		if (currentOrder != null) {
+			// Prepayments
+			StringBuilder whereClause =  new StringBuilder();
+			whereClause.append( orderId ).append("=?").append(" AND ")
+					.append( documentStatus ).append(" IN ('CO','CL') ");
+			receivedPrePayments = new Query(getCtx(), payment , whereClause.toString(), null)
+					.setClient_ID()
+					.setParameters(currentOrder.getC_Order_ID())
+					.sum( payAmt );
+			if (receivedPrePayments == null)
+				receivedPrePayments = Env.ZERO;
+			// Invoices
+			if(currentOrder.getC_Invoice_ID() > 1) {
+				whereClause = new StringBuilder();
+				whereClause
+						.append("EXISTS (SELECT 1 FROM ")
+						.append(	  allocation ).append(" WHERE ")
+						.append(      allocation ).append(".").append( allocationId ).append("=")
+						.append(  allocationLine ).append(".").append( allocationId ).append(" AND ")
+						.append(      allocation ).append(".").append( documentStatus ).append(" IN ('CO','CL') AND ")
+						.append(  allocationLine ).append(".").append( invoiceId ).append("=?)");
+				receivedInvoices = new Query(getCtx() , allocationLine , whereClause.toString() , null)
+						.setClient_ID()
+						.setParameters(currentOrder.getC_Invoice_ID())
+						.sum( amount );
+				if (receivedInvoices == null)
+					receivedInvoices = Env.ZERO;
+				// Cash
+				whereClause = new StringBuilder();
+				whereClause.append( invoiceId ).append("=?");
+				receivedCash =  new Query(getCtx() , cashLine , whereClause.toString() , null)
+						.setClient_ID()
+						.setParameters(currentOrder.getC_Invoice_ID())
+						.sum( amount );
+				if (receivedCash == null)
+					receivedCash = Env.ZERO;			
+			}
 		}
-		return received;
+		receivedTotal = receivedInvoices.add(receivedPrePayments).add(receivedCash);
+		return receivedTotal;
 	}
 	
 	/**

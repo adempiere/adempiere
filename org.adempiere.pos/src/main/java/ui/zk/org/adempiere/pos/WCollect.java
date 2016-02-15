@@ -328,7 +328,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return BigDecimal
 	 */
 	private BigDecimal getBalance() {
-		BigDecimal m_PayAmt = getPayAmt();
+		BigDecimal m_PayAmt = getCollectDetailAmt();
 		return v_POSPanel.getOpenAmt().subtract(m_PayAmt);
 	}
 	
@@ -347,7 +347,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		if(m_Balance.doubleValue() < 0)
 			m_Balance = Env.ZERO;
 		
-		WCollectDetail collectDetail = new WCollectDetail(this, tenderType, getBalance());
+		WCollectDetail collectDetail = new WCollectDetail(this, tenderType, m_Balance);
 
 		//	Add Collect controller
 		addCollect(collectDetail);
@@ -393,15 +393,16 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			if(validResult == null) {
 				validResult = executePayment();
 			}
-			//	Show Dialog
+			//	Show error dialog
 			if(validResult != null) {
 				FDialog.warn(0, Msg.parseTranslation(p_ctx, validResult));
 				return;
 			}
 			
+			// Process printing
 			isProcessed = true;
-//			v_Window.dispose();
-			printTicket();
+			if(!v_POSPanel.isStandardOrder() && !v_POSPanel.isWarehouseOrder() && v_POSPanel.isToPrint())
+				printTicketWeb();			
 			v_POSPanel.closeCollectPayment();
 
 			v_POSPanel.setOrder(0);
@@ -471,8 +472,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 						processTenderTypes(trxName, v_POSPanel.getOpenAmt());
 						String error = getErrorMsg();
 						if(error != null && error.length() > 0)
-							throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + v_POSPanel.getDocumentNo() + ": "  +
-								getErrorMsg()));
+							throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + v_POSPanel.getDocumentNo() + ": "  + getErrorMsg()));
 					} else {
 						throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + v_POSPanel.getDocumentNo() + ": "  +
 				                 "@ProcessRunError@" + " (" +  v_POSPanel.getProcessMsg() + ")"));
@@ -526,16 +526,15 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 */
 	public void calculatePanelData(){
 		//	Get from controller
-		BigDecimal m_PayAmt = getPayAmt();
+		BigDecimal collectDetail = getCollectDetailAmt();
 		//
 		//m_PayAmt= m_PayAmt.add(getPrePayAmt());
-		m_Balance = v_POSPanel.getGrandTotal().subtract(m_PayAmt);
+		m_Balance = getBalance();
 		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
 		String currencyISO_Code = v_POSPanel.getCurSymbol();
 		//	Change View
 		//fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(v_POSPanel.getGrandTotal()));
-		fPayAmt.setText(currencyISO_Code +" "+ v_POSPanel.getNumberFormat().format(
-				m_PayAmt.add(v_POSPanel.getPaidAmt())));
+		fPayAmt.setText(currencyISO_Code +" "+ v_POSPanel.getNumberFormat().format(collectDetail));
 		
 		BigDecimal m_ReturnAmt = Env.ZERO;
 		BigDecimal m_OpenAmt = Env.ZERO;
@@ -563,8 +562,9 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		if(!v_POSPanel.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
 		} else {
-			if(!(v_POSPanel.isStandardOrder() || v_POSPanel.isWarehouseOrder())) 
-				// No Check if Order is not Standard Order nor Warehouse Order
+			if(!(v_POSPanel.isStandardOrder()))
+				// No Check if Order is not Standard Order
+				// TODO: Review why nor Warehouse Order
 				errorMsg = validateTenderTypes(v_POSPanel.getOpenAmt());
 		}
 		//	
@@ -663,44 +663,43 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	}
 	
 	/**
-	 * 	Print Ticket
+	 * 	Print Ticket for Web
 	 *  @return void
 	 */
-	public void printTicket() {
-		if (!v_POSPanel.hasOrder())
-			return;
+	public void printTicketWeb() {	
 		
 		try {
 			//print standard document
-				Trx.run(new TrxRunnable() {
-					public void run(String trxName) {
-						if (v_POSPanel.getAD_Sequence_ID()!= 0) {
-						
-							String docno = v_POSPanel.getSequenceDoc(trxName);
-							String q = "Confirmar el número consecutivo "  + docno;
-							if (FDialog.ask(0, null, "", q)) {
-								v_POSPanel.setPOReference(docno);
-								v_POSPanel.saveNextSeq(trxName);
-							}
+			Trx.run(new TrxRunnable() {
+				public void run(String trxName) {
+					if (v_POSPanel.getAD_Sequence_ID()!= 0) {
+
+						String docno = v_POSPanel.getSequenceDoc(trxName);
+						String q = "Confirmar el número consecutivo "  + docno;
+						if (FDialog.ask(0, null, "", q)) {
+							v_POSPanel.setPOReference(docno);
+							v_POSPanel.saveNextSeq(trxName);
 						}
 					}
-				});
-			
+				}
+			});
+
+			if (v_POSPanel.isToPrint() && v_POSPanel.hasOrder()) {
 				ReportCtl.startDocumentPrint(0, v_POSPanel.getC_Order_ID(), false);
 				ReportEngine m_reportEngine = ReportEngine.get(p_ctx, ReportEngine.ORDER, v_POSPanel.getC_Order_ID());
 				StringWriter sw = new StringWriter();							
 				m_reportEngine.createCSV(sw, '\t', m_reportEngine.getPrintFormat().getLanguage());
 				byte[] data = sw.getBuffer().toString().getBytes();	
-				
+
 				AMedia media = new AMedia(m_reportEngine.getPrintFormat().getName() + ".txt", null, "application/octet-stream", data);
-				
-				SideServer.printFile(media.getByteData());	
+
+				SideServer.printFile(media.getByteData());						
 			}
+		}
 			catch (Exception e) 
 			{
 				log.severe("PrintTicket - Error Printing Ticket");
-			}
-			  
+			}			  
 	}
 
 }

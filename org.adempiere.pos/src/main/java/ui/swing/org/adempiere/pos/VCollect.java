@@ -334,7 +334,7 @@ public class VCollect extends Collect
 		if(balance.doubleValue() < 0)
 			balance = Env.ZERO;
 		//	
-		VCollectDetail collectDetail = new VCollectDetail(this, tenderType, getBalance());
+		VCollectDetail collectDetail = new VCollectDetail(this, tenderType, balance);
 		//	Add Collect controller
 		addCollect(collectDetail);
 		// add parameter panel
@@ -394,12 +394,12 @@ public class VCollect extends Collect
 			if(validResult == null) {
 				validResult = executePayment();
 			}
-			//	Show Dialog
+			//	Show error dialog
 			if(validResult != null) {
 				ADialog.warn(pos.getWindowNo(), dialog, Msg.parseTranslation(ctx, validResult));
 				return;
 			}
-			//	Set Processed
+			//	Process printing
 			isProcessed = true;
 			if(!pos.isStandardOrder() && !pos.isWarehouseOrder() && pos.isToPrint()) {
 				Trx.run(new TrxRunnable() {
@@ -570,7 +570,7 @@ public class VCollect extends Collect
 	 * @return BigDecimal
 	 */
 	private BigDecimal getBalance() {
-		BigDecimal m_PayAmt = getPayAmt();
+		BigDecimal m_PayAmt = getCollectDetailAmt();
 		return pos.getOpenAmt().subtract(m_PayAmt);
 	}
 	
@@ -580,14 +580,14 @@ public class VCollect extends Collect
 	 */
 	private void calculatePanelData() {
 		//	Get from controller
-		BigDecimal payAmt = getPayAmt();
+		BigDecimal collectDetail  = getCollectDetailAmt();
 		BigDecimal balance = getBalance();
 		//	Change View
 		String currencyISOCode = pos.getCurSymbol();
 		//fieldGrandTotal.setText(currencyISOCode + " "
 		//		+ pos.getNumberFormat().format(pos.getGrandTotal()));
 		fieldPayAmt.setText(currencyISOCode + " "
-				+ pos.getNumberFormat().format(payAmt.add(pos.getPaidAmt())));
+				+ pos.getNumberFormat().format(collectDetail));
 		//	Show pretty Return Amount
 		BigDecimal returnAmt = Env.ZERO;
 		BigDecimal openAmt = Env.ZERO;

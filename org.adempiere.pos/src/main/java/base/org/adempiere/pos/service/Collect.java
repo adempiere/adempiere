@@ -143,11 +143,11 @@ public class Collect {
 	}
 	
 	/**
-	 * Get Payment Amount
+	 * Get Payment Amount from Collect Details
 	 * @return
 	 * @return BigDecimal
 	 */
-	public BigDecimal getPayAmt() {
+	public BigDecimal getCollectDetailAmt() {
 		BigDecimal payAmt = Env.ZERO;
 		//	Get from List
 		for(CollectDetail detail : collectDetails) {
@@ -571,7 +571,7 @@ public class Collect {
 		if(isPrePayOrder()) {
 			return null;
 		} else if(!isCreditOrder()
-				&& openAmt.subtract(getPayAmt()).doubleValue() > 0) {
+				&& openAmt.subtract(getCollectDetailAmt()).doubleValue() > 0) {
 			addErrorMsg("@POS.OrderPayNotCompleted@");
 		}
 		//	Local variables for not iterate again

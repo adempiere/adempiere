@@ -289,4 +289,9 @@ public class POSInfoProduct extends POSSubPanel {
 		labelDescription.setText(NO_TEXT);
 		buttonImage.setIcon(null);
 	}
+
+	public String getUOMSymbol()
+	{
+		return  labelUOMSymbol.getText();
+	}
 }

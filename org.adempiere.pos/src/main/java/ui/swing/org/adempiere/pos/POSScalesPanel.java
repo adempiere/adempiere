@@ -51,24 +51,15 @@ public class POSScalesPanel {
 	private GridBagLayout 	parameterLayout;
 	private JScrollPane 	scrollPane;
 
-
-
-
 	public POSScalesPanel(VPOS pos) {
 		this.pos = pos;
 		init();
-	}
-
-	private static boolean active = true;
-	public static void setActive(boolean active){
-		POSScalesPanel.active = active;
 	}
 
 	public void init()
 	{
 		dialog = new CPanel();
 		dialog.setName(Msg.translate(pos.getCtx(), "@ElectronicScales@"));
-		//
 		mainLayout = new BorderLayout();
 		parameterLayout = new GridBagLayout();
 		mainPanel = new CPanel();
@@ -97,13 +88,12 @@ public class POSScalesPanel {
 		centerPanel.setLayout(parameterLayout);
 		centerPanel.add(labelWeight);
 
-		AppsAction action = new AppsAction("Calculator", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),false);
+		AppsAction action = new AppsAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),false);
 		action.setDelegate(pos.getScalesListener());
 		buttonCaptureWeight = (CButton)action.getButton();
 		buttonCaptureWeight.setPreferredSize(new Dimension(pos.getButtonSize(), pos.getButtonSize()));
-		buttonCaptureWeight.setFocusable(false);
-		buttonCaptureWeight.addActionListener(pos.getScalesListener());
-
+		buttonCaptureWeight.setFocusable(true);
+		buttonCaptureWeight.addKeyListener(pos.getScalesListener());
 		parameterPanel.add(buttonCaptureWeight, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
@@ -119,6 +109,12 @@ public class POSScalesPanel {
 	public void showPanel()
 	{
 		dialog.setVisible(true);
+		buttonCaptureWeight.requestFocus();
+	}
+
+	public void setMeasure(String measure)
+	{
+		labelWeight.setText(measure);
 	}
 
 	public CPanel getPanel()
