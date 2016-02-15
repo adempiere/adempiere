@@ -1814,7 +1814,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					MOrder.DELIVERYRULE_AfterReceipt.equals(oline.getParent().getDeliveryRule()) ||
 					MOrder.DELIVERYRULE_Manual.equals(oline.getParent().getDeliveryRule()))
 			{
-				throw new AdempiereException("@ActionNotSupported@");
+				throw new AdempiereException("@DeliveryRule@ " + oline.getParent().getDeliveryRule() + "@ActionNotSupported@");
 			}
 			else if(MOrder.DELIVERYRULE_Force.equals(oline.getParent().getDeliveryRule()))
 			{
