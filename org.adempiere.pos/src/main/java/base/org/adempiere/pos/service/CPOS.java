@@ -1180,7 +1180,7 @@ public class CPOS {
 	 */
 	public boolean processOrder(String trxName, boolean isPrepayment, boolean isPaid) {
 		//Returning orderCompleted to check for order completeness
-		boolean orderCompleted = false;
+		boolean orderCompleted = isCompleted();
 		// check if order completed OK
 		if (isCompleted()) {	//	Order already completed -> default nothing
 			orderCompleted = isCompleted();
@@ -1215,7 +1215,7 @@ public class CPOS {
 		}
 
 		//	Validate for Invoice and Shipment generation (not for Standard Orders)
-		if(isPaid) {
+		if(isPaid && !isStandardOrder()) {
 			if(!isDelivered()) // Based on Delivery Rule of POS Terminal or partner
 				generateShipment(trxName);
 
@@ -1398,28 +1398,45 @@ public class CPOS {
 	}
 	
 	/**
-	 * 	Gets Amount Paid from Order
-	 * 	It takes the allocated amounts, including Credit Notes
+	 * 	Gets Amount Paid for an Order
+	 * 	It considers the allocated amounts via invoices and credit memos 
+	 * and also prepayments
 	 */
 	public BigDecimal getPaidAmt() {
+		BigDecimal receivedInvoices    = BigDecimal.ZERO;
+		BigDecimal receivedPrePayments = BigDecimal.ZERO;
+		BigDecimal receivedCash        = BigDecimal.ZERO;
+		BigDecimal receivedTotal       = BigDecimal.ZERO;
+		int invoiceID = 0;
+		String sql = "";
+		if (currentOrder != null) {
+			// Prepayments
+			sql = "SELECT sum(p.PayAmt) FROM C_Payment p " +
+				  "INNER JOIN C_Order o on (o.C_Order_ID=p.C_Order_ID) " +
+				  "WHERE o.C_Order_ID = ? AND p.DocStatus IN ('CO','CL')";
+			receivedPrePayments = DB.getSQLValueBD(null, sql, currentOrder.getC_Order_ID());
+			if (receivedPrePayments == null)
+				receivedPrePayments = Env.ZERO;
+			
+			// Invoices
+			invoiceID = currentOrder.getC_Invoice_ID();
+			if(invoiceID>0) {
+				sql = "SELECT sum(al.amount) FROM C_AllocationLine al " +
+						"INNER JOIN C_AllocationHdr alh on (al.C_AllocationHdr_ID=alh.C_AllocationHdr_ID) " +
+						"WHERE al.C_Invoice_ID = ? AND alh.DocStatus IN ('CO','CL')";
+				receivedInvoices = DB.getSQLValueBD(null, sql, invoiceID);
+				if (receivedInvoices == null)
+					receivedInvoices = Env.ZERO;
 
-		/*return new Query(getCtx() , MPayment.Table_Name , "C_Order_ID = ?", null).setParameters(getC_Order_ID()).sum("PayAmt");*/
-		BigDecimal received = BigDecimal.ZERO;
-		if (currentOrder != null)
-		{
-			String sql = "SELECT sum(amount) FROM C_AllocationLine al " +
-					"INNER JOIN C_AllocationHdr alh on (al.C_AllocationHdr_ID=alh.C_AllocationHdr_ID) " +
-					"WHERE (al.C_Invoice_ID = ? OR al.C_Order_ID = ?) AND alh.DocStatus IN ('CO','CL')";
-		received = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID(), currentOrder.getC_Order_ID());
-		if (received == null)
-			received = Env.ZERO;
-
-		sql = "SELECT sum(Amount) FROM C_CashLine WHERE C_Invoice_ID = ? ";
-		BigDecimal cashLineAmount = DB.getSQLValueBD(null, sql, currentOrder.getC_Invoice_ID());
-		if (cashLineAmount != null)
-			received = received.add(cashLineAmount);
+				// Cash
+				sql = "SELECT sum(Amount) FROM C_CashLine WHERE C_Invoice_ID = ? ";
+				receivedCash = DB.getSQLValueBD(null, sql, invoiceID);
+				if (receivedCash == null)
+					receivedCash = Env.ZERO;			
+			}
 		}
-		return received;
+		receivedTotal = receivedInvoices.add(receivedPrePayments).add(receivedCash);
+		return receivedTotal;
 	}
 	
 	/**
