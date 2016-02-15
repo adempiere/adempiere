@@ -81,6 +81,12 @@ public class MPPMRP extends X_PP_MRP
 		MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.getC_OrderLine_ID(), ol.getM_Product_ID(), ol.get_TrxName());
 		if (order == null)
 		{
+			//Search Plant for this Warehouse
+			int plant_id = 0;
+			plant_id = MPPProductPlanning.getPlantForWarehouse(ol.getM_Warehouse_ID());
+			if(plant_id <= 0)
+				throw new NoPlantForWarehouseException(ol.getM_Warehouse_ID());
+
 			final MProduct product = MProduct.get(ol.getCtx(), ol.getM_Product_ID());
 			
 			final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+" IN (?,?)"
@@ -103,25 +109,16 @@ public class MPPMRP extends X_PP_MRP
 			int workflow_id =  MWorkflow.getWorkflowSearchKey(product);
 			if(workflow_id > 0)
 				workflow = MWorkflow.get(ol.getCtx(), workflow_id);
-			
-			//Search Plant for this Warehouse
-			int plant_id = 0;
-			
+
 			MPPProductPlanning pp = null;
 			//Search planning data if no exist BOM or Workflow Standard
 			if(bom == null || workflow == null)
 			{
-				plant_id = MPPProductPlanning.getPlantForWarehouse(ol.getM_Warehouse_ID());
-
-				if(plant_id <= 0)
-				{
-					throw new NoPlantForWarehouseException(ol.getM_Warehouse_ID());
-				}
-				
 				pp = MPPProductPlanning.find(ol.getCtx(), ol.getAD_Org_ID(), ol.getM_Warehouse_ID() , plant_id , ol.getM_Product_ID(), ol.get_TrxName()); 	
 				if(pp == null)
 					throw new AdempiereException("@NotFound@ @PP_Product_Planning_ID@");
 			}
+
 			
 			//Validate BOM
 			if(bom == null && pp != null)
@@ -711,7 +708,11 @@ public class MPPMRP extends X_PP_MRP
 	{
 		MDocType dt = MDocType.get(o.getCtx(), o.getC_DocTypeTarget_ID());
 		String DocSubTypeSO = dt.getDocSubTypeSO();
-		if(MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO) || !o.isSOTrx())
+		if(MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO)
+		|| MDocType.DOCSUBTYPESO_WarehouseOrder.equals(DocSubTypeSO)
+		|| MDocType.DOCSUBTYPESO_OnCreditOrder.equals(DocSubTypeSO)
+		|| MDocType.DOCSUBTYPESO_POSOrder.equals(DocSubTypeSO)
+		|| !o.isSOTrx())
 		{		
 			if((o.getDocStatus().equals(MOrder.DOCSTATUS_InProgress)
 					|| o.getDocStatus().equals(MOrder.DOCSTATUS_Completed))
@@ -769,7 +770,10 @@ public class MPPMRP extends X_PP_MRP
 		MDocType dt = MDocType.get(o.getCtx(), o.getC_DocTypeTarget_ID());
 		String DocSubTypeSO = dt.getDocSubTypeSO();
 		MProduct product = (MProduct) ol.getM_Product();
-		if (MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO)
+		if ((MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO)
+		|| 	 MDocType.DOCSUBTYPESO_WarehouseOrder.equals(DocSubTypeSO)
+		||   MDocType.DOCSUBTYPESO_OnCreditOrder.equals(DocSubTypeSO)
+		||	 MDocType.DOCSUBTYPESO_POSOrder.equals(DocSubTypeSO))
 				&& product.isBOM()
 				&& !product.isPurchased()
 				&& IsProductMakeToOrder(ol.getCtx(), ol.getM_Product_ID(),
