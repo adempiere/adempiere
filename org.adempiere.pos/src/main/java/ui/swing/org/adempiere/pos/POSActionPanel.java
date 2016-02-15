@@ -226,7 +226,6 @@ public class POSActionPanel extends POSSubPanel
 			lookupProduct = new POSLookupProduct(this, fieldProductName, 0);
 			fieldProductName.addKeyListener(lookupProduct);
 			findProductTimer = new javax.swing.Timer(500, lookupProduct);
-			lookupProduct.setTimer(findProductTimer);
 			lookupProduct.setFillingComponent(fillingComponent);
 			lookupProduct.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
 			lookupProduct.setWarehouseId(posPanel.getM_Warehouse_ID());
@@ -372,20 +371,6 @@ public class POSActionPanel extends POSSubPanel
 		}
 	}	//	findProduct
 
-	/**
-	 * 	Execute printing an order
-	 */
-//	private void printOrder() {
-//		{
-//			if (isOrderFullyPaid())
-//			{
-//				changeViewPanel();
-//				printTicket();
-//				openCashDrawer();
-//			}
-//		}
-//	}
-	
 	/**
 	 * Previous Record Order
 	 */
@@ -614,6 +599,11 @@ public class POSActionPanel extends POSSubPanel
 		buttonDocType.setEnabled(false);
 		buttonBPartner.setEnabled(false);	
 		buttonProcess.setEnabled(false);
+	}
+
+	public javax.swing.Timer getProductTimer()
+	{
+		return  findProductTimer;
 	}
 	
 }//	POSActionPanel

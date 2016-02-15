@@ -43,7 +43,6 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     private long lastKeyboardEvent = 0;
     private boolean searched = false;
     private boolean selectLock = false;
-    private javax.swing.Timer timer = null;
     private JComboBox<KeyNamePair> component = null;
     private Integer priceListVersionId = 0;
     private Integer warehouseId = 0;
@@ -72,11 +71,6 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     public void setLastKeyboardEvent(long lastKeyboardEvent)
     {
         this.lastKeyboardEvent = lastKeyboardEvent;
-    }
-
-    public void setTimer(javax.swing.Timer timer)
-    {
-        this.timer = timer;
     }
 
     public void setFillingComponent(JComboBox<KeyNamePair> component)
@@ -108,9 +102,14 @@ public class POSLookupProduct implements ActionListener, KeyListener {
 
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent actionEvent) {
 
-        if(e.getSource()==timer)
+        if (actionEvent.getSource()==component
+        && actionEvent.getModifiers() == 16
+        && actionEvent.getSource() != actionPanel.getProductTimer())
+            captureProduct();
+
+        if(actionEvent.getSource()==actionPanel.getProductTimer())
         {
             long now = System.currentTimeMillis();
 
@@ -138,28 +137,31 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         {
             searched = false;
             this.lastKeyboardEvent = System.currentTimeMillis();
-            timer.restart();
+            actionPanel.getProductTimer().restart();
         }
         else if(keyEvent.getKeyCode()==10 && keyEvent.getSource()==component) //Enter on component field
-        {
-            KeyNamePair item = (KeyNamePair) component.getSelectedItem();
-            if(item!=null && !selectLock)
-            {
-                String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", item.getKey());
-                fieldProductName.setText("");
-                fieldProductName.setPlaceholder(productValue);
-                try {
-                    actionPanel.findProduct();
-                } catch (Exception exception) {
-                    ADialog.error(0 , null , exception.getLocalizedMessage());
-                }
-                //form.updateInfo();
-                component.removeAllItems();
-                fieldProductName.requestFocus();
-            }
-        }
+            captureProduct();
+
     }
 
+    public void captureProduct()
+    {
+        KeyNamePair item = (KeyNamePair) component.getSelectedItem();
+        if(item!=null && !selectLock)
+        {
+            String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", item.getKey());
+            fieldProductName.setText("");
+            fieldProductName.setPlaceholder(productValue);
+            try {
+                actionPanel.findProduct();
+            } catch (Exception exception) {
+                ADialog.error(0 , null , exception.getLocalizedMessage());
+            }
+            //form.updateInfo();
+            component.removeAllItems();
+            fieldProductName.requestFocus();
+        }
+    }
     @Override
     public void keyTyped(KeyEvent e) {
     }
