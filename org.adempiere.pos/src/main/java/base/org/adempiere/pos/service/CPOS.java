@@ -1184,7 +1184,7 @@ public class CPOS {
 		// check if order completed OK
 		if (isCompleted()) {	//	Order already completed -> default nothing
 			orderCompleted = isCompleted();
-			isToPrint = false;
+			setIsToPrint(false);
 		} else {	//	Complete Order
 			//	Replace
 			if(trxName == null) {
@@ -1213,7 +1213,7 @@ public class CPOS {
 				return orderCompleted;
 			}
 		}
-		
+
 		//	Validate for Invoice and Shipment generation (not for Standard Orders)
 		if(isPaid) {
 			if(!isDelivered()) // Based on Delivery Rule of POS Terminal or partner

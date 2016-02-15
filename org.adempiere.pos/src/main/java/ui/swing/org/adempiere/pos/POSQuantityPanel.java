@@ -224,8 +224,8 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 			if (actionEvent.getSource().equals(buttonScales))
 			{
 				posPanel.hideKeyboard();
-				posPanel.getScalesTimer().start();
 				posPanel.showScales();
+				posPanel.getScalesTimer().restart();
 			}
 			BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
 			if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged()
@@ -279,6 +279,12 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 				buttonDelete.setEnabled(true);
 				buttonPlus.setEnabled(true);
 				buttonMinus.setEnabled(true);
+
+				if (posPanel.isPresentElectronicScales())
+					buttonScales.setEnabled(true);
+				else
+					buttonScales.setVisible(false);
+
 				fieldQuantity.setEnabled(true);
 				fieldPrice.setEnabled(true);
 				fieldDiscountPercentage.setEnabled(true);
@@ -286,6 +292,12 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 				buttonDelete.setEnabled(false);
 				buttonPlus.setEnabled(false);
 				buttonMinus.setEnabled(false);
+
+				if (posPanel.isPresentElectronicScales())
+					buttonScales.setEnabled(false);
+				else
+					buttonScales.setVisible(false);
+
 				fieldPrice.setEnabled(false);
 				fieldQuantity.setEnabled(false);
 				fieldDiscountPercentage.setEnabled(false);

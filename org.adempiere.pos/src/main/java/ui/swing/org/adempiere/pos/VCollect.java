@@ -364,7 +364,7 @@ public class VCollect extends Collect
 				public void run(String trxName) {
 					if(pos.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
 						processTenderTypes(trxName, pos.getOpenAmt());
-						if(getErrorMsg().length() > 0)
+						if(getErrorMsg() != null && getErrorMsg().length() > 0)
 							throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": " + getErrorMsg()));
 					} else {
 						throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": "  +
