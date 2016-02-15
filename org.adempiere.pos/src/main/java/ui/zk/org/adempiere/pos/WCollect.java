@@ -328,7 +328,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return BigDecimal
 	 */
 	private BigDecimal getBalance() {
-		BigDecimal m_PayAmt = getPayAmt();
+		BigDecimal m_PayAmt = getCollectDetailAmt();
 		return v_POSPanel.getOpenAmt().subtract(m_PayAmt);
 	}
 	
@@ -347,7 +347,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		if(m_Balance.doubleValue() < 0)
 			m_Balance = Env.ZERO;
 		
-		WCollectDetail collectDetail = new WCollectDetail(this, tenderType, getBalance());
+		WCollectDetail collectDetail = new WCollectDetail(this, tenderType, m_Balance);
 
 		//	Add Collect controller
 		addCollect(collectDetail);
@@ -526,16 +526,15 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 */
 	public void calculatePanelData(){
 		//	Get from controller
-		BigDecimal m_PayAmt = getPayAmt();
+		BigDecimal collectDetail = getCollectDetailAmt();
 		//
 		//m_PayAmt= m_PayAmt.add(getPrePayAmt());
-		m_Balance = v_POSPanel.getGrandTotal().subtract(m_PayAmt);
+		m_Balance = getBalance();
 		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
 		String currencyISO_Code = v_POSPanel.getCurSymbol();
 		//	Change View
 		//fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(v_POSPanel.getGrandTotal()));
-		fPayAmt.setText(currencyISO_Code +" "+ v_POSPanel.getNumberFormat().format(
-				m_PayAmt.add(v_POSPanel.getPaidAmt())));
+		fPayAmt.setText(currencyISO_Code +" "+ v_POSPanel.getNumberFormat().format(collectDetail));
 		
 		BigDecimal m_ReturnAmt = Env.ZERO;
 		BigDecimal m_OpenAmt = Env.ZERO;
