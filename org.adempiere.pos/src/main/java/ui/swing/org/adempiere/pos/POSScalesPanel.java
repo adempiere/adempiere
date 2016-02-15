@@ -92,7 +92,7 @@ public class POSScalesPanel {
 		action.setDelegate(pos.getScalesListener());
 		buttonCaptureWeight = (CButton)action.getButton();
 		buttonCaptureWeight.setPreferredSize(new Dimension(pos.getButtonSize(), pos.getButtonSize()));
-		buttonCaptureWeight.setFocusable(false);
+		buttonCaptureWeight.setFocusable(true);
 		buttonCaptureWeight.addKeyListener(pos.getScalesListener());
 		parameterPanel.add(buttonCaptureWeight, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
@@ -109,6 +109,7 @@ public class POSScalesPanel {
 	public void showPanel()
 	{
 		dialog.setVisible(true);
+		buttonCaptureWeight.requestFocus();
 	}
 
 	public void setMeasure(String measure)

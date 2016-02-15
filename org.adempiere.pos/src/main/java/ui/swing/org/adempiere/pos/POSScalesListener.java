@@ -53,10 +53,8 @@ public class POSScalesListener implements ActionListener , KeyListener {
 			if (actionEvent.getSource()  instanceof CButton) {
 				CButton source = (CButton)  actionEvent.getSource();
 				if(source.getName().equals("Ok")) {
-					captureWeight();
-					pos.hideScales();
-					pos.showKeyboard();
-					pos.getScalesTimer().stop();
+					readMeasure();
+					captureMeasure();
 					return;
 				}
 			}
@@ -64,7 +62,7 @@ public class POSScalesListener implements ActionListener , KeyListener {
 		}
 
 		if (actionEvent.getSource() == pos.getScalesTimer()) {
-			captureWeight();
+			readMeasure();
 			return;
 		}
 	}
@@ -88,13 +86,8 @@ public class POSScalesListener implements ActionListener , KeyListener {
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
 		if(keyEvent.getComponent().toString().equals("Ok")) {
-			captureWeight();
-			pos.setQuantity(getMeasure());
-			pos.changeViewQuantityPanel();
-			pos.updateLineTable();
-			pos.hideScales();
-			pos.showKeyboard();
-			pos.getScalesTimer().stop();
+			readMeasure();
+			captureMeasure();
 			return;
 		}
 	}
@@ -109,8 +102,18 @@ public class POSScalesListener implements ActionListener , KeyListener {
 		return driver.getMeasure();
 	}
 
-	public void captureWeight()
+	public void readMeasure()
 	{
 		pos.setScalesMeasure(getMeasure().toString() + " " + pos.getProductUOMSymbol());
+	}
+
+	public void captureMeasure()
+	{
+		pos.setQuantity(getMeasure());
+		pos.changeViewQuantityPanel();
+		pos.updateLineTable();
+		pos.hideScales();
+		pos.showKeyboard();
+		pos.getScalesTimer().stop();
 	}
 }

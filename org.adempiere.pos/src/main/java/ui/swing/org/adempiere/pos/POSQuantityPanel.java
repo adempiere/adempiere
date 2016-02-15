@@ -224,8 +224,8 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 			if (actionEvent.getSource().equals(buttonScales))
 			{
 				posPanel.hideKeyboard();
-				posPanel.showScales();
 				posPanel.getScalesTimer().restart();
+				posPanel.showScales();
 			}
 			BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
 			if ((posPanel.getQty().compareTo(quantity) != 0 && fieldQuantity.hasChanged()
