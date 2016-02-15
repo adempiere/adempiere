@@ -119,6 +119,8 @@ public class WQueryProduct extends WPOSQuery
 		
 		//	Set title window
 		this.setClosable(true);
+		// add listener on 'ENTER' key 
+        addEventListener(Events.ON_OK,this);
 		
 		appendChild(panel);
 		//	North
@@ -198,6 +200,7 @@ public class WQueryProduct extends WPOSQuery
 		posTable.loadTable(new PO[0]);
 		posTable.setClass("Table-OrderLine");
 		posTable.setMultiSelection(true);
+		posTable.addEventListener(Events.ON_DOUBLE_CLICK, this);
 	}	//	init
 
 	
@@ -317,6 +320,12 @@ public class WQueryProduct extends WPOSQuery
 					|| event.getTarget().equals(fieldSKU.getComponent(WPOSTextField.PRIMARY))) {
 			 	 refresh();
 				 isKeyboard = false;
+			}
+			else if (Events.ON_OK.equals(event.getName()) 
+					|| event.getTarget().equals(posTable) 
+					&& event.getName().equals(Events.ON_DOUBLE_CLICK)) {
+				saveSelection();
+				close();
 			}
 		enableButtons();
 		if(event.getTarget().getId().equals("Ok")){

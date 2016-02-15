@@ -114,7 +114,9 @@ public class WQueryBPartner extends WPOSQuery {
 		
 		//	Set title window
 		this.setClosable(true);
-		
+		// add listener on 'ENTER' key 
+        addEventListener(Events.ON_OK,this);
+        
 		appendChild(panel);
 		//	North
 		northPanel = new Panel();
@@ -207,6 +209,7 @@ public class WQueryBPartner extends WPOSQuery {
 		mainLayout.appendChild(center);
 		posTable.setClass("Table-OrderLine");
 		posTable.autoSize();
+		posTable.addEventListener(Events.ON_DOUBLE_CLICK, this);
 		addNewAction();
 	}	//	init
 	
@@ -433,9 +436,18 @@ public class WQueryBPartner extends WPOSQuery {
 			 	 refresh();
 				 isKeyboard = false;
 		}
+        else if (Events.ON_OK.equals(e.getName()) 
+        		|| e.getTarget().equals(posTable) 
+        		&& e.getName().equals(Events.ON_DOUBLE_CLICK)) {
+        	close();
+			//	Fire
+			if(listener != null) {
+				okAction();
+			}
+        }
 		if (e.getTarget().getId().equals("Refresh")) {
-						refresh();
-						return;
+			refresh();
+			return;
 		}
 
 			enableButtons();

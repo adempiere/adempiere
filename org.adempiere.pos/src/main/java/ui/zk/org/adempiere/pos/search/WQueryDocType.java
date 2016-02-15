@@ -38,6 +38,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Caption;
@@ -104,7 +105,9 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 		
 		//	Set title window
 		this.setClosable(true);
-		
+		// add listener on 'ENTER' key 
+        addEventListener(Events.ON_OK,this);
+        
 		appendChild(panel);
 		northPanel = new Panel();
 		mainPanel.appendChild(mainLayout);
@@ -160,6 +163,7 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 		mainLayout.appendChild(center);
 		posTable.setClass("Table-OrderLine");
 		posTable.autoSize();
+		posTable.addEventListener(Events.ON_DOUBLE_CLICK, this);
 		refresh();
 	}	//	init
 	
@@ -276,6 +280,11 @@ public class WQueryDocType extends WPOSQuery implements I_POSQuery
 		}
 		else if(e.getTarget().getId().equals("Refresh")) {
 			refresh();
+		}
+		else if (Events.ON_OK.equals(e.getName()) 
+				|| e.getTarget().equals(posTable) 
+				&& e.getName().equals(Events.ON_DOUBLE_CLICK)) {
+			close();	
 		}
 		else if(e.getTarget().getId().equals("Ok")){
 			close();
