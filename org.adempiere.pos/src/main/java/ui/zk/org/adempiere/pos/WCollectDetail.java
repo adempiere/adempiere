@@ -428,28 +428,26 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 		
 	@Override
 	public void onEvent(org.zkoss.zk.ui.event.Event e) throws Exception {
-
-		 
 		if(e.getTarget().equals(bMinus)){
 			v_Parent.removeCollectDetail(this);
-		}
-		if(e.getTarget().equals(fTenderType)) {
+		} else if(e.getTarget().equals(fTenderType)) {
 			String m_TenderType =  ((ValueNamePair) fTenderType.getValue()).getID();
 			setTenderType(m_TenderType);
 			changeViewPanel();
 			fPayAmt.setValue(getInitPayAmt());
 			setPayAmt((BigDecimal) fPayAmt.getValue());
 			v_Parent.refreshPanel();
-			
-		}else if(e.getTarget().equals(fCheckdate)){
+		} else if(e.getTarget().equals(fCheckdate)){
 			//	TODO add support to controller to be define
 //			dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //			String hourString = dateFormat.format(fCheckdate.getValue());
 //			Timestamp dateTrx = Timestamp.valueOf(hourString);
 //			setDateTrx(dateTrx);
-		}else if(e.getTarget().equals(fCreditMemo)) {
+		} else if(e.getTarget().equals(fCreditMemo)) {
 			int m_C_Invoice_ID = Integer.valueOf(fCreditMemo.getValue().toString());
 			setC_Invoice_ID(m_C_Invoice_ID);
+			setPayAmt(getInitPayAmt());
+			v_Parent.refreshPanel();
 			fPayAmt.setValue(getOpenAmtCreditMemo());
 			
 			setPayAmt((BigDecimal) fPayAmt.getValue());
@@ -460,73 +458,58 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 				fCheckNo.showKeyboard();
 				setReferenceNo(fCheckNo.getText());
 				fCheckNo.setFocus(true);
-			}
-			else if(e.getTarget().equals(fCheckNo.getComponent(WPOSTextField.PRIMARY))){
+			} else if(e.getTarget().equals(fCheckNo.getComponent(WPOSTextField.PRIMARY))) {
 				isKeyboard = false;
-			}
-			else if(e.getTarget().equals(fCheckRouteNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			} else if(e.getTarget().equals(fCheckRouteNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				isKeyboard = true;
 				fCheckRouteNo.showKeyboard();
 				setRoutingNo(fCheckRouteNo.getText());
 				fCheckRouteNo.setFocus(true);
-			}
-			else if(e.getTarget().equals(fCheckRouteNo.getComponent(WPOSTextField.PRIMARY))){
+			} else if(e.getTarget().equals(fCheckRouteNo.getComponent(WPOSTextField.PRIMARY))){
 				isKeyboard = false;
-			}
-			else if(e.getTarget().equals(fDebitRoutingNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			} else if(e.getTarget().equals(fDebitRoutingNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				isKeyboard = true;
 				fDebitRoutingNo.showKeyboard();
 				setRoutingNo(fDebitRoutingNo.getText());
 				fDebitRoutingNo.setFocus(true);
-			}
-			else if(e.getTarget().equals(fDebitRoutingNo.getComponent(WPOSTextField.PRIMARY))){
+			} else if(e.getTarget().equals(fDebitRoutingNo.getComponent(WPOSTextField.PRIMARY))) {
 				isKeyboard = false;
-			}
-			else if(e.getTarget().equals(fDebitCVC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			} else if(e.getTarget().equals(fDebitCVC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				isKeyboard = true;
 				fDebitCVC.showKeyboard();
 				fDebitCVC.setFocus(true);
-			}
-			else if(e.getTarget().equals(fDebitCVC.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			} else if(e.getTarget().equals(fDebitCVC.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)) {
 				isKeyboard = false;
-			}
-			else if(e.getTarget().equals(fDebitCountry.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			} else if(e.getTarget().equals(fDebitCountry.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				isKeyboard = true;
 				fDebitCountry.showKeyboard();
 				setA_Country(fDebitCountry.getText());
 				fDebitCountry.setFocus(true);
-			}
-			else if(e.getTarget().equals(fDebitCountry.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			} else if(e.getTarget().equals(fDebitCountry.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)) {
 				isKeyboard = false;
-			}
-			else if(e.getTarget().equals(fCCardNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			} else if(e.getTarget().equals(fCCardNo.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				isKeyboard = true;
 				fCCardNo.showKeyboard();
 				setCreditCardNumber(fCCardNo.getText());
 				fCCardNo.setFocus(true);
-			}
-			else if(e.getTarget().equals(fCCardNo.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			} else if(e.getTarget().equals(fCCardNo.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)) {
 				isKeyboard = false;
-			}
-			else if(e.getTarget().equals(fCCardName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			} else if(e.getTarget().equals(fCCardName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				isKeyboard = true;
 				fCCardName.showKeyboard();
 				setA_Name(fCCardName.getText());
 				fCCardName.setFocus(true);
-			}
-			else if(e.getTarget().equals(fCCardName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			} else if(e.getTarget().equals(fCCardName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)) {
 				isKeyboard = false;
-			}
-			else if(e.getTarget().equals(fCCardVC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			} else if(e.getTarget().equals(fCCardVC.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 				isKeyboard = true;
 				fCCardVC.showKeyboard();
 				setCreditCardVV(fCCardVC.getText());
 				fCCardVC.setFocus(true);
-			}
-			else if(e.getTarget().equals(fCCardVC.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+			} else if(e.getTarget().equals(fCCardVC.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)) {
 				isKeyboard = false;
 			}
-		}else if(e.getTarget().equals(fCCardType)) {
+		} else if(e.getTarget().equals(fCCardType)) {
 			setCreditCardType((String) fCCardType.getValue());
 		}
 		else {
@@ -538,18 +521,17 @@ public class WCollectDetail extends CollectDetail implements EventListener, I_PO
 					payAmt = new BigDecimal(((InputEvent)e).getValue());
 				else 
 					payAmt = Env.ZERO;
-			
-			if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) 
-					&& payAmt.compareTo(getOpenAmtCreditMemo()) > 0 
-					&& fCreditMemo.getSelectedIndex() > 0) {
-				FDialog.warn(0, Msg.parseTranslation(p_ctx, "POS.MaxAmountAllowed")+":"+getOpenAmtCreditMemo());
-				fPayAmt.setValue(getOpenAmtCreditMemo());
-			}
-			setPayAmt(payAmt);
-			}
-			v_Parent.refreshPanel();
-		}
 
+				if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) 
+						&& payAmt.compareTo(getOpenAmtCreditMemo()) > 0 
+						&& fCreditMemo.getSelectedIndex() > 0) {
+					FDialog.warn(0, Msg.parseTranslation(p_ctx, "POS.MaxAmountAllowed")+":"+getOpenAmtCreditMemo());
+					fPayAmt.setValue(getOpenAmtCreditMemo());
+				}
+				setPayAmt(payAmt);
+			}
+		}
+		v_Parent.refreshPanel();
 		setCreditCardExpMM((String)fCreditCardExpMM.getValue());
 		setCreditCardExpYY((String)fCreditCardExpYY.getValue());
 		

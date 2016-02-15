@@ -426,8 +426,9 @@ public class VCollectDetail extends CollectDetail
 		//	Verify Event
 		if(e.getSource().equals(fieldPayAmt)){
 			BigDecimal payAmt = (BigDecimal) fieldPayAmt.getValue();
-			if(tenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) &&
-					payAmt.compareTo(getOpenAmtCreditMemo()) > 0) {
+			if(tenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) 
+					&& payAmt.compareTo(getOpenAmtCreditMemo()) > 0
+					&& fieldCreditMemo.getValue() != null) {
 				ADialog.warn(1, null,  Msg.parseTranslation(ctx, "POS.MaxAmountAllowed")+":"+getOpenAmtCreditMemo());
 				fieldPayAmt.setValue(getOpenAmtCreditMemo());
 			}
@@ -445,6 +446,8 @@ public class VCollectDetail extends CollectDetail
 		} else if(name.equals("CreditMemo")) {
 			int invoiceId = ((Integer)(value != null? value: 0)).intValue();
 			setC_Invoice_ID(invoiceId);
+			setPayAmt(getInitPayAmt());
+			parentCollect.refreshPanel();
 			fieldPayAmt.setValue(getOpenAmtCreditMemo());
 			
 			setPayAmt((BigDecimal) fieldPayAmt.getValue());
