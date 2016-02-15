@@ -84,7 +84,8 @@ public class POSScalesDriver implements POSScalesDriverInterface {
 
         try {
             System.loadLibrary("scale");
-            return true;
+            loadLibrary = true;
+            return loadLibrary;
         } catch (java.lang.UnsatisfiedLinkError exception) {
            return false;
         }
@@ -95,7 +96,7 @@ public class POSScalesDriver implements POSScalesDriverInterface {
             if (!openPort(getElectronicScales()))
                 throw new AdempierePOSException("@NotFound@ @Port@ @ElectronicScales@");
 
-            String measure = this.getMeasureMessage();
+            String measure = this.getMeasureMessage().trim();
             String[] tokens;
             if (measure != null && !measure.equals("NEG")) {
                 tokens = measure.split(" ");
