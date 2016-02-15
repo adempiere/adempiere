@@ -20,6 +20,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.service.driver.POSScalesDriverInterface;
 import org.adempiere.pos.service.driver.POSScalesDriver;
 import org.compiere.apps.ADialog;
+import org.compiere.swing.CButton;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,7 +37,7 @@ public class POSScalesListener implements ActionListener , KeyListener {
 	private VPOS pos;
 	private POSScalesDriverInterface driver;
 
-	POSScalesListener(VPOS pos)
+	public POSScalesListener(VPOS pos)
 	{
 		this.pos = pos;
 		this.driver = new POSScalesDriver(pos.getElectronicScales() , pos.getMeasureRequestCode());
@@ -47,21 +48,30 @@ public class POSScalesListener implements ActionListener , KeyListener {
 	}
 
 	protected void doPerformAction(ActionEvent actionEvent) {
-		if(actionEvent.getActionCommand().toString().equals("Calculator"))
+		if (pos.getScalesTimer().isRunning() && pos.getScalesTimer() != actionEvent.getSource())
+		{
+			if (actionEvent.getSource()  instanceof CButton) {
+				CButton source = (CButton)  actionEvent.getSource();
+				if(source.getName().equals("Ok")) {
+					captureWeight();
+					pos.hideScales();
+					pos.showKeyboard();
+					pos.getScalesTimer().stop();
+					return;
+				}
+			}
+			return;
+		}
+
+		if (actionEvent.getSource() == pos.getScalesTimer()) {
 			captureWeight();
+			return;
+		}
 	}
 
 	public void actionPerformed(ActionEvent actionEvent) {
 		if(active){
 			try {
-					if (actionEvent.getSource() == pos.getScalesTimer()) {
-						pos.getScalesTimer().stop();
-						return;
-					}
-
-					if (pos.getScalesTimer().isRunning())
-						return;
-
 					doPerformAction(actionEvent);
 			}
 			catch (AdempiereException exception) {
@@ -77,8 +87,16 @@ public class POSScalesListener implements ActionListener , KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
-		if(keyEvent.getComponent().toString().equals("Calculator"))
+		if(keyEvent.getComponent().toString().equals("Ok")) {
 			captureWeight();
+			pos.setQuantity(getMeasure());
+			pos.changeViewQuantityPanel();
+			pos.updateLineTable();
+			pos.hideScales();
+			pos.showKeyboard();
+			pos.getScalesTimer().stop();
+			return;
+		}
 	}
 
 	@Override
@@ -93,10 +111,6 @@ public class POSScalesListener implements ActionListener , KeyListener {
 
 	public void captureWeight()
 	{
-		pos.setQuantity(getMeasure());
-		pos.refreshPanel();
-		pos.hideScales();
-		pos.showKeyboard();
-		pos.getScalesTimer().stop();
+		pos.setScalesMeasure(getMeasure().toString() + " " + pos.getProductUOMSymbol());
 	}
 }

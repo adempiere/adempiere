@@ -92,7 +92,7 @@ public class POSScalesDriver implements POSScalesDriverInterface {
 
     public BigDecimal getMeasure() {
         if(loadLibrary()) {
-            if (openPort(getElectronicScales()))
+            if (!openPort(getElectronicScales()))
                 throw new AdempierePOSException("@NotFound@ @Port@ @ElectronicScales@");
 
             String measure = this.getMeasureMessage();
