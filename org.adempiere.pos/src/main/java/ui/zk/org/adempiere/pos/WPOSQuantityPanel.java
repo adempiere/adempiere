@@ -256,9 +256,14 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
 				buttonDelete.setEnabled(true);
 				buttonPlus.setEnabled(true);
 				buttonMinus.setEnabled(true);
-				fieldPrice.setEnabled(true);
 				fieldQuantity.setEnabled(true);
-				fieldDiscountPercentage.setEnabled(true);
+				if(posPanel.isReturnMaterial() ){
+					fieldPrice.setEnabled(false);
+					fieldDiscountPercentage.setEnabled(false);					
+				} else {
+					fieldPrice.setEnabled(true);
+					fieldDiscountPercentage.setEnabled(true);					
+				}
 			}else {
 				buttonDelete.setEnabled(false);
 				buttonPlus.setEnabled(false);

@@ -286,8 +286,13 @@ public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionL
 					buttonScales.setVisible(false);
 
 				fieldQuantity.setEnabled(true);
-				fieldPrice.setEnabled(true);
-				fieldDiscountPercentage.setEnabled(true);
+				if(posPanel.isReturnMaterial() ){
+					fieldPrice.setEnabled(false);
+					fieldDiscountPercentage.setEnabled(false);					
+				} else {
+					fieldPrice.setEnabled(true);
+					fieldDiscountPercentage.setEnabled(true);					
+				}
 			}else {
 				buttonDelete.setEnabled(false);
 				buttonPlus.setEnabled(false);
