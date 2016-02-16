@@ -575,8 +575,8 @@ public class Collect {
 			addErrorMsg("@POS.OrderPayNotCompleted@");
 		}
 		//	Local variables for not iterate again
-		BigDecimal cashPayment = Env.ZERO;
-		BigDecimal otherPayment = Env.ZERO;
+		BigDecimal cashPayment   = Env.ZERO;
+		BigDecimal otherPayments = Env.ZERO;
 		//	Iterate Payments methods
 		for(CollectDetail collectDetail : collectDetails) {
 			if(collectDetail.getPayAmt() == null
@@ -585,13 +585,13 @@ public class Collect {
 			else if(collectDetail.getTenderType().equals(X_C_Payment.TENDERTYPE_Cash)) {	//	For Cash
 				cashPayment = cashPayment.add(collectDetail.getPayAmt());
 			} else if(collectDetail.getTenderType().equals(X_C_Payment.TENDERTYPE_Account)) {
-				otherPayment = otherPayment.add(collectDetail.getPayAmt());
+				otherPayments = otherPayments.add(collectDetail.getPayAmt());
 			} else if(collectDetail.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDebit)) {	//	For Direct Debit
-				otherPayment = otherPayment.add(collectDetail.getPayAmt());
+				otherPayments = otherPayments.add(collectDetail.getPayAmt());
 			} else if(collectDetail.getTenderType().equals(X_C_Payment.TENDERTYPE_Check)) {	//	For Check
-				otherPayment = otherPayment.add(collectDetail.getPayAmt());
+				otherPayments = otherPayments.add(collectDetail.getPayAmt());
 			} else if(collectDetail.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditCard)) {	//	For Credit
-				otherPayment = otherPayment.add(collectDetail.getPayAmt());
+				otherPayments = otherPayments.add(collectDetail.getPayAmt());
 				//	Valid Expedition
 				String mmyy = collectDetail.getCreditCardExpMM() + collectDetail.getCreditCardExpYY();
 				String processError = MPaymentValidate.validateCreditCardExp(mmyy);
@@ -614,19 +614,26 @@ public class Collect {
 					addErrorMsg("@POS.OpenAmountCreditMemo@ < @POS.PayAmt@ ");
 					collectDetail.setPayAmt(amtCreditMemo);
 				}
-				otherPayment = otherPayment.add(collectDetail.getPayAmt());
+				otherPayments = otherPayments.add(collectDetail.getPayAmt());
 				
 			} else {
 				addErrorMsg("@POS.validatePayment.UnsupportedPaymentType@");
 			}
 		}
-		//	Validate if payment consists credit card or cash -> payment amount must be exact
-		BigDecimal returnAmt = openAmt.subtract(otherPayment.add(cashPayment));
-		if(returnAmt.signum() == -1) {
-			if(returnAmt.abs().doubleValue() > cashPayment.doubleValue()) {
-				addErrorMsg("@POS.validatePayment.PaymentBustBeExact@");
-			}
-		}
+
+		// Validate that non-cash payments are less than the amount to be paid.
+		if(otherPayments.subtract(openAmt).signum() == 1)
+			addErrorMsg("@POS.validatePayment.NonCashPaymentIncorrect@");
+		
+		// Validate that cash is necessary
+		if(otherPayments.subtract(openAmt).signum()== 0 && cashPayment.signum()==1)
+			addErrorMsg("@POS.validatePayment.CashPaymentNotNeeded@");
+		
+		// Validate that there is enough cash for giving a return amount
+		BigDecimal returnAmt = cashPayment.add(otherPayments.subtract(openAmt));
+		if(returnAmt.subtract(cashPayment).signum() == 1) 			
+				addErrorMsg("@POS.validatePayment.ChangeIncorrect@");
+
 		//	Default
 		return getErrorMsg();
 	}  // processPayment
