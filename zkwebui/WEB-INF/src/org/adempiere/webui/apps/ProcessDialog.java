@@ -618,7 +618,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		{
 			int M_InOut_ID = m_ids[i];
 			ReportEngine re = ReportEngine.get (Env.getCtx(), ReportEngine.SHIPMENT, M_InOut_ID);
-			pdfList.add(re.getPDF());				
+			if (re != null)
+				pdfList.add(re.getPDF());
 		}
 		
 		if (pdfList.size() > 1) {
@@ -688,7 +689,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		{
 			int C_Invoice_ID = m_ids[i];
 			ReportEngine re = ReportEngine.get (Env.getCtx(), ReportEngine.INVOICE, C_Invoice_ID);
-			pdfList.add(re.getPDF());				
+			if (re != null)
+				pdfList.add(re.getPDF());
 		}
 		
 		if (pdfList.size() > 1) {
