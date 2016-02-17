@@ -416,6 +416,10 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		}
 	}
 
+	@Override
+	public void getMainFocus() {
+	}
+
 	/**
 	 * Add or replace order line
 	 * @param p_M_Product_ID

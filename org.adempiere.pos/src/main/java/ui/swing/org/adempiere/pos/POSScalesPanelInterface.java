@@ -43,4 +43,8 @@ public interface POSScalesPanelInterface {
     public void hideScales();
 
     public void showKeyboard();
+
+    public void refreshPanel();
+
+    public void getMainFocus();
 }

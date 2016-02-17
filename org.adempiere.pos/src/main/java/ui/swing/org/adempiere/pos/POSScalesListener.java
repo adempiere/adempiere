@@ -110,10 +110,12 @@ public class POSScalesListener implements ActionListener , KeyListener {
 	public void captureMeasure()
 	{
 		pos.setQuantity(getMeasure());
-		pos.changeViewPanel();
 		pos.updateLineTable();
+		pos.refreshPanel();
+		pos.changeViewPanel();
 		pos.hideScales();
 		pos.showKeyboard();
+		pos.getMainFocus();
 		((javax.swing.Timer)pos.getScalesTimer()).stop();
 	}
 }
