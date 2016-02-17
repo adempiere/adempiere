@@ -136,10 +136,10 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	public static final String 	FONTSIZELARGE 	= "Font-size:x-large;";
 	/** Default Font Weight	 					*/
 	public static final String 	FONTSTYLE 		= "font-weight:bold;";
-	/** Status bar info				*/
+	/** Status bar info							*/
 	private String 							statusBarInfo = "";	
-	/** Side Server for Printer */
-	private SideServer 						m_SideServer;
+	/** Side Server for Printer 				*/
+	private static SideServer 				m_SideServer;
 
 	/**
 	 *	zk Initialize Panel
@@ -168,6 +168,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 			logoutTimer = new Timer(1000);
 			logoutTimer.start();
 		}
+		
 		startServerSocket();
 	}	//	init
 

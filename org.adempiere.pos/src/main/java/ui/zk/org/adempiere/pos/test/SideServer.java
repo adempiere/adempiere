@@ -119,9 +119,10 @@ public class SideServer implements Runnable {
         }
     }
 	
-	private void openServerSocket() {
+	private static void openServerSocket() {
         try {
-            serverSocket = new ServerSocket(PORT);
+        	if(serverSocket == null)
+        		serverSocket = new ServerSocket(PORT);
             
         } catch (IOException e) {
             throw new RuntimeException("Cannot open port "+PORT, e);
