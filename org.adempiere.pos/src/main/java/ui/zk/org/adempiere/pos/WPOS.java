@@ -168,7 +168,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 			logoutTimer = new Timer(1000);
 			logoutTimer.start();
 		}
-		
+		startServerSocket();
 	}	//	init
 
 	/**************************************************************************
