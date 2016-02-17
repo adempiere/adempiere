@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 /**
  * Interface for Scales Panel , allows the implement Scales Panel out of POS
- * Created by e-Evolution on 17/02/16.
+ * eEvolution author Victor Perez <victor.perez@e-evolution.com> , Created by e-Evolution on 17/02/16.
  */
 public interface POSScalesPanelInterface {
     public String getElectronicScales();

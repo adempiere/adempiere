@@ -27,8 +27,8 @@ import javax.swing.border.TitledBorder;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.pos.search.QueryBPartner;
-import org.adempiere.pos.service.I_POSPanel;
-import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
 import org.compiere.model.I_C_BPartner;
@@ -58,7 +58,7 @@ import org.compiere.util.Msg;
  *  @version $Id: SubFunctionKeys.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
 public class POSDocumentPanel extends POSSubPanel
-	implements PosKeyListener, ActionListener, I_POSPanel, POSQueryListener {
+	implements PosKeyListener, ActionListener, POSPanelInterface, POSQueryListener {
 	/**
 	 * 
 	 */
@@ -467,7 +467,7 @@ public class POSDocumentPanel extends POSSubPanel
 	}
 
 	@Override
-	public void okAction(I_POSQuery query) {
+	public void okAction(POSQueryInterface query) {
 		if (query.getRecord_ID() > 0) {
 			fieldPartnerName.setText(query.getValue());
 			if(!posPanel.hasOrder()) {
@@ -481,7 +481,7 @@ public class POSDocumentPanel extends POSSubPanel
 	}
 
 	@Override
-	public void cancelAction(I_POSQuery query) {
+	public void cancelAction(POSQueryInterface query) {
 		//	Nothing
 	}
 

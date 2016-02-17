@@ -28,7 +28,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.adempiere.pos.WPOS;
-import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.Borderlayout;
@@ -52,7 +52,7 @@ import org.zkoss.zkex.zul.South;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public abstract class WPOSQuery extends Window implements  I_POSQuery, MouseListener, ListSelectionListener, EventListener{
+public abstract class WPOSQuery extends Window implements POSQueryInterface, MouseListener, ListSelectionListener, EventListener{
 
 	/**
 	 * 

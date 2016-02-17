@@ -33,7 +33,7 @@ import javax.swing.SwingUtilities;
 
 import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
-import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
@@ -64,7 +64,7 @@ import org.compiere.util.Env;
  */
 public abstract class POSQuery extends CDialog
 	implements MouseListener, ActionListener, KeyListener ,
-		VetoableChangeListener, I_POSQuery {
+		VetoableChangeListener, POSQueryInterface {
 
 	/**
 	 * 

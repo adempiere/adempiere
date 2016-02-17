@@ -23,7 +23,7 @@ import java.util.Properties;
 
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSTextField;
-import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
@@ -54,7 +54,7 @@ import org.zkoss.zul.Groupbox;
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 
-public class WQueryDocType extends WPOSQuery implements I_POSQuery
+public class WQueryDocType extends WPOSQuery implements POSQueryInterface
 {
 	/**
 	 * 

@@ -21,8 +21,8 @@ import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.search.WQueryDocType;
 import org.adempiere.pos.search.WQueryProduct;
 import org.adempiere.pos.search.WQueryOrderHistory;
-import org.adempiere.pos.service.I_POSPanel;
-import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
@@ -50,7 +50,7 @@ import org.zkoss.zul.Space;
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_POSPanel, POSQueryListener{
+public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POSPanelInterface, POSQueryListener{
 
 	/**
 	 * 
@@ -627,7 +627,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	}
 	
 	@Override
-	public void okAction(I_POSQuery query) {
+	public void okAction(POSQueryInterface query) {
 		if (query.getRecord_ID() <= 0)
 			return;
 		//	For Ticket
@@ -652,7 +652,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, I_P
 	}
 	
 	@Override
-	public void cancelAction(I_POSQuery query) {
+	public void cancelAction(POSQueryInterface query) {
 		
 	}
 	@Override

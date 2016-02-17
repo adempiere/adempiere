@@ -26,7 +26,7 @@ import java.util.Properties;
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
 import org.adempiere.pos.WPOSTextField;
-import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
@@ -55,7 +55,7 @@ import org.zkoss.zul.Groupbox;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WQueryOrderHistory extends WPOSQuery implements I_POSQuery
+public class WQueryOrderHistory extends WPOSQuery implements POSQueryInterface
 {
 	/**
 	 * 

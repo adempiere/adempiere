@@ -18,7 +18,7 @@ package org.adempiere.pos;
 
 /**
  * Interface for POS Lookup Product, allows the implement Lookup Product out of POS
- * Created by e-Evolution on 17/02/16.
+ * eEvolution author Victor Perez <victor.perez@e-evolution.com> , Created by e-Evolution on 17/02/16.
  */
 public interface POSLookupProductInterface {
 

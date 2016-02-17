@@ -26,7 +26,7 @@ import java.util.Properties;
 import javax.swing.KeyStroke;
 
 import org.adempiere.pos.service.CollectDetail;
-import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Datebox;
@@ -61,7 +61,7 @@ import org.zkoss.zul.Style;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  <li>Change Name, Best practices
  */
-public class WCollectDetail extends CollectDetail implements EventListener, I_POSPanel {
+public class WCollectDetail extends CollectDetail implements EventListener, POSPanelInterface {
 	
 	/**
 	 * Standard Constructor

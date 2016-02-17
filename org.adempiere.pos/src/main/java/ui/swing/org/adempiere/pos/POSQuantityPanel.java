@@ -29,7 +29,7 @@ import java.math.BigDecimal;
 import javax.swing.KeyStroke;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.POSPanelInterface;
 import org.compiere.apps.ADialog;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.MOrder;
@@ -47,7 +47,7 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author Victor Perez , victor.perez@e-evolution.com , e-Evolution http//www.e-evolution.com
  */
-public class POSQuantityPanel extends POSSubPanel implements I_POSPanel, ActionListener {
+public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, ActionListener {
 
 	public POSQuantityPanel(VPOS posPanel) {
 		super(posPanel);

@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import org.adempiere.pos.search.WQueryBPartner;
-import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -45,7 +45,7 @@ import org.zkoss.zul.Style;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, I_POSPanel{
+public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, POSPanelInterface {
 
 	/**
 	 * 

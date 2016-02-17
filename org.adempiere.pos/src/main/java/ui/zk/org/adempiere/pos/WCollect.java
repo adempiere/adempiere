@@ -29,8 +29,7 @@ import javax.swing.KeyStroke;
 
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.pos.service.Collect;
-import org.adempiere.pos.service.I_POSPanel;
-import org.adempiere.pos.test.SideServer;
+import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -66,7 +65,7 @@ import org.zkoss.zul.Space;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  <li>Change Name
  */
-public class WCollect extends Collect implements WPOSKeyListener, EventListener,I_POSPanel {
+public class WCollect extends Collect implements WPOSKeyListener, EventListener,POSPanelInterface {
 	
 	/**
 	 * 

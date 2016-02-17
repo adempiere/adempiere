@@ -27,12 +27,11 @@ import org.adempiere.pos.command.CommandReceiver;
 import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.WPOSQuery;
 import org.adempiere.pos.search.WQueryBPartner;
-import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
 import org.compiere.process.ProcessInfo;
@@ -281,7 +280,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
     }
 
     @Override
-    public void okAction(I_POSQuery query) {
+    public void okAction(POSQueryInterface query) {
         if (query.getRecord_ID() <= 0)
             return;
         //	For Ticket
@@ -291,7 +290,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
     }
 
     @Override
-    public void cancelAction(I_POSQuery query) {
+    public void cancelAction(POSQueryInterface query) {
     }
 
     private void showError(ProcessInfo processInfo) throws AdempierePOSException

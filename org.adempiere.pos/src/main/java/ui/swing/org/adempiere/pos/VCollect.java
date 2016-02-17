@@ -40,7 +40,7 @@ import javax.swing.KeyStroke;
 
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.pos.service.Collect;
-import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.POSPanelInterface;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
@@ -62,7 +62,7 @@ import org.compiere.util.TrxRunnable;
  * @author Victor Perez <victor.perez@e-evolution.com>,  eEvolution http://www.e-evolution.com
  */
 public class VCollect extends Collect
-		implements ActionListener, I_POSPanel, VetoableChangeListener {
+		implements ActionListener, POSPanelInterface, VetoableChangeListener {
 	
 	/**
 	 * From POS
