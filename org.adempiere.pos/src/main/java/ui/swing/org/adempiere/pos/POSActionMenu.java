@@ -51,7 +51,6 @@ import java.util.Optional;
 public class POSActionMenu implements  ActionListener , POSQueryListener{
 
     private VPOS pos;
-    private Integer partnerId;
     private POSQuery queryPartner;
     private JPopupMenu popupMenu;
     private CommandManager commandManager;
