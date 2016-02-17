@@ -27,6 +27,7 @@ import java.util.Properties;
 
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.test.SideServer;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
@@ -136,7 +137,9 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	/** Default Font Weight	 					*/
 	public static final String 	FONTSTYLE 		= "font-weight:bold;";
 	/** Status bar info				*/
-	private String 							statusBarInfo = "";
+	private String 							statusBarInfo = "";	
+	/** Side Server for Printer */
+	private SideServer 						m_SideServer;
 
 	/**
 	 *	zk Initialize Panel
@@ -637,5 +640,22 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 
 		//System.out.println("Testpunkt 07"); // TODO: delete when test over
 		return isCorrectUserPin == null?false:isCorrectUserPin;
+	}
+	
+	/**
+	 * Start Server Socket
+	 * @return void
+	 */
+	private void startServerSocket(){
+		m_SideServer = new SideServer();
+		new Thread(m_SideServer).start();
+	}
+	
+	/**
+	 * Print File
+	 * @param data
+	 */
+	public void printFile(byte[] data){
+		m_SideServer.printFile(data);
 	}
 }	//	PosPanel

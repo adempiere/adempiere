@@ -41,9 +41,7 @@ public class POSClientSide extends Thread {
 		m_Host = p_Host;
 		m_Print = p_Print;
 		fTerminal = m_Terminal;
-
-		if(connect())		
-			this.start();
+		this.start();
 	}
 	
 	/** Socket Client 			*/
@@ -65,7 +63,8 @@ public class POSClientSide extends Thread {
 	 * @return boolean
 	 */
 	private boolean connect() {
-		try {
+			try {
+				
 			socketClient = new Socket(m_Host, 5444);
 			socketClient.setKeepAlive(true);
 			isStopped = false;
