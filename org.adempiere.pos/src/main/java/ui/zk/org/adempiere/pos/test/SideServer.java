@@ -62,7 +62,7 @@ public class SideServer implements Runnable {
 	public void conectClient(){
 		
 	}
-	public static boolean printFile(byte[] p_file) {
+	public boolean printFile(byte[] p_file) {
 			if(!isStopped()) {
 			    String m_file = System.getProperty("user.home")+"/test.txt";
 			    
