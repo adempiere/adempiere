@@ -362,7 +362,7 @@ public class VCollect extends Collect
 			dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if(pos.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
+					if(pos.processOrder(trxName, isPrePayOrder(), getBalance().signum() <= 0)) {
 						processTenderTypes(trxName, pos.getOpenAmt());
 						String error = getErrorMsg();
 						if(error != null && error.length() > 0)

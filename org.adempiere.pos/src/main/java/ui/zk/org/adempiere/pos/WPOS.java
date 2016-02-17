@@ -67,7 +67,7 @@ import org.zkoss.zul.Timer;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WPOS extends CPOS implements IFormController, EventListener, I_POSPanel {
+public class WPOS extends CPOS implements IFormController, EventListener, I_POSPanel , POSScalesPanelInterface {
 	/**
 	 * 	Constructor - see init 
 	 */
@@ -427,7 +427,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		//	Show Product Info
 		refreshProductInfo(p_M_Product_ID);
 		//	
-		String lineError = add(p_M_Product_ID, m_QtyOrdered);
+		String lineError = addOrUpdate(p_M_Product_ID, m_QtyOrdered);
 		if (lineError != null) {
 			log.warning("POS Error " + lineError);
 			FDialog.error(0, 
@@ -454,12 +454,27 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 		v_ActionPanel.resetProductInfo();
 		v_QuantityPanel.resetPanel();
 	}
-	
+
+	@Override
+	public javax.swing.Timer getScalesTimer() {
+		return null;
+	}
+
 	public int getWindowNo()
 	{
 		return windowNo;
 	}
-	
+
+	@Override
+	public String getProductUOMSymbol() {
+		return null;
+	}
+
+	@Override
+	public void setScalesMeasure(String measure) {
+
+	}
+
 	/**
 	 * Get number format
 	 * @return
@@ -503,6 +518,17 @@ public class WPOS extends CPOS implements IFormController, EventListener, I_POSP
 	public void updateLineTable() {
 		f_OrderLinePanel.updateLine();
 	}
+
+	@Override
+	public void hideScales() {
+
+	}
+
+	@Override
+	public void showKeyboard() {
+
+	}
+
 	/**
 	 * Show Collect Payment Panel
 	 * @return void

@@ -34,10 +34,10 @@ import java.math.BigDecimal;
  */
 public class POSScalesListener implements ActionListener , KeyListener {
 	private static boolean active = true;
-	private VPOS pos;
+	private POSScalesPanelInterface pos;
 	private POSScalesDriverInterface driver;
 
-	public POSScalesListener(VPOS pos)
+	public POSScalesListener(POSScalesPanelInterface pos)
 	{
 		this.pos = pos;
 		this.driver = new POSScalesDriver(pos.getElectronicScales() , pos.getMeasureRequestCode());
@@ -48,7 +48,7 @@ public class POSScalesListener implements ActionListener , KeyListener {
 	}
 
 	protected void doPerformAction(ActionEvent actionEvent) {
-		if (pos.getScalesTimer().isRunning() && pos.getScalesTimer() != actionEvent.getSource())
+		if (((javax.swing.Timer)pos.getScalesTimer()).isRunning() && pos.getScalesTimer() != actionEvent.getSource())
 		{
 			if (actionEvent.getSource()  instanceof CButton) {
 				CButton source = (CButton)  actionEvent.getSource();
@@ -73,7 +73,7 @@ public class POSScalesListener implements ActionListener , KeyListener {
 					doPerformAction(actionEvent);
 			}
 			catch (AdempiereException exception) {
-				ADialog.error(pos.getWindowNo(), pos.getFrame(), exception.getLocalizedMessage());
+				ADialog.error(pos.getWindowNo(), null , exception.getLocalizedMessage());
 				throw new AdempiereException(exception.getMessage());
 			}
 		}
@@ -110,10 +110,10 @@ public class POSScalesListener implements ActionListener , KeyListener {
 	public void captureMeasure()
 	{
 		pos.setQuantity(getMeasure());
-		pos.changeViewQuantityPanel();
+		pos.changeViewPanel();
 		pos.updateLineTable();
 		pos.hideScales();
 		pos.showKeyboard();
-		pos.getScalesTimer().stop();
+		((javax.swing.Timer)pos.getScalesTimer()).stop();
 	}
 }

@@ -38,7 +38,7 @@ import java.util.Arrays;
  */
 public class POSLookupProduct implements ActionListener, KeyListener {
 
-    private POSActionPanel actionPanel = null;
+    private POSLookupProductInterface lookupProductInterface = null;
     private POSTextField fieldProductName = null;
     private long lastKeyboardEvent = 0;
     private boolean searched = false;
@@ -61,9 +61,9 @@ public class POSLookupProduct implements ActionListener, KeyListener {
 
 
 
-    public POSLookupProduct (POSActionPanel actionPanel, POSTextField fieldProductName, long lastKeyboardEvent)
+    public POSLookupProduct (POSLookupProductInterface lookupProductInterface, POSTextField fieldProductName, long lastKeyboardEvent)
     {
-        this.actionPanel = actionPanel;
+        this.lookupProductInterface = lookupProductInterface;
         this.fieldProductName = fieldProductName;
         this.lastKeyboardEvent = lastKeyboardEvent;
     }
@@ -106,10 +106,10 @@ public class POSLookupProduct implements ActionListener, KeyListener {
 
         if (actionEvent.getSource()==component
         && actionEvent.getModifiers() == 16
-        && actionEvent.getSource() != actionPanel.getProductTimer())
+        && actionEvent.getSource() != lookupProductInterface.getProductTimer())
             captureProduct();
 
-        if(actionEvent.getSource()==actionPanel.getProductTimer())
+        if(actionEvent.getSource()== lookupProductInterface.getProductTimer())
         {
             long now = System.currentTimeMillis();
 
@@ -137,11 +137,22 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         {
             searched = false;
             this.lastKeyboardEvent = System.currentTimeMillis();
-            actionPanel.getProductTimer().restart();
+            ((javax.swing.Timer)lookupProductInterface.getProductTimer()).restart();
         }
         else if(keyEvent.getKeyCode()==10 && keyEvent.getSource()==component) //Enter on component field
             captureProduct();
+        if (KeyEvent.VK_TAB == keyEvent.getKeyCode()) {
+            fieldProductName.setPlaceholder(fieldProductName.getText());
 
+            try {
+                lookupProductInterface.findProduct(false);
+            } catch (Exception exception) {
+                ADialog.error(0 , null , exception.getLocalizedMessage());
+            }
+            lookupProductInterface.quantityRequestFocus();
+            fieldProductName.setText("");
+            return;
+        }
     }
 
     public void captureProduct()
@@ -150,24 +161,23 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         if(item!=null && !selectLock)
         {
             String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", item.getKey());
-            fieldProductName.setText("");
             fieldProductName.setPlaceholder(productValue);
             try {
-                actionPanel.findProduct();
+                lookupProductInterface.findProduct(true);
             } catch (Exception exception) {
                 ADialog.error(0 , null , exception.getLocalizedMessage());
             }
-            //form.updateInfo();
             component.removeAllItems();
-            fieldProductName.requestFocus();
+            fieldProductName.setText("");
         }
+
     }
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(KeyEvent keyEvent) {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent keyEvent) {
     }
 
 
