@@ -693,7 +693,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 
 				AMedia media = new AMedia(m_reportEngine.getPrintFormat().getName() + ".txt", null, "application/octet-stream", data);
 
-				SideServer.printFile(media.getByteData());						
+				v_POSPanel.printFile(media.getByteData());						
 			}
 		}
 			catch (Exception e) 
