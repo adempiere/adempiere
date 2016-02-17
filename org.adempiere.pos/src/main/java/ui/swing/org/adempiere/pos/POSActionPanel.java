@@ -24,6 +24,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
 
 import javax.swing.JComboBox;
 import javax.swing.KeyStroke;
@@ -64,7 +65,7 @@ import org.compiere.util.Msg;
  *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class POSActionPanel extends POSSubPanel 
-	implements ActionListener, I_POSPanel, POSQueryListener {
+	implements ActionListener, I_POSPanel, POSQueryListener , POSLookupProductInterface {
 	/**
 	 * 
 	 */
@@ -223,8 +224,10 @@ public class POSActionPanel extends POSSubPanel
 			JComboBox<KeyNamePair> fillingComponent = new JComboBox<KeyNamePair>();
 			Font font = new Font("monospaced", Font.PLAIN, 14);
 			fillingComponent.setFont(font);
+
 			lookupProduct = new POSLookupProduct(this, fieldProductName, 0);
 			fieldProductName.addKeyListener(lookupProduct);
+			fieldProductName.setFocusTraversalKeysEnabled(false);
 			findProductTimer = new javax.swing.Timer(500, lookupProduct);
 			lookupProduct.setFillingComponent(fillingComponent);
 			lookupProduct.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
@@ -261,6 +264,8 @@ public class POSActionPanel extends POSSubPanel
 			return;
 		logger.info( "PosSubCustomer - actionPerformed: " + action);
 		try {
+				if (actionEvent.getSource().equals(fieldProductName))
+					return;
 				//	New
 				if (actionEvent.getSource().equals(buttonNew)) {
 					posPanel.newOrder();
@@ -305,14 +310,7 @@ public class POSActionPanel extends POSSubPanel
 				} else if (actionEvent.getSource().equals(buttonLogout)) {	//	Logout
 					posPanel.dispose();
 					return;
-				} else if (actionEvent.getSource().equals(fieldProductName)) {
-					if(posPanel.isDrafted() || posPanel.isInProgress())  {
-						// Allow to add product only when order is drafted or in process
-						findProduct();
-						getMainFocus();
-					}
-					return;
-				}
+				} 
 				//	Refresh if not Payment, because Payment has its own logic
 				if (!actionEvent.getSource().equals(buttonCollect))
 					posPanel.refreshPanel();
@@ -321,9 +319,10 @@ public class POSActionPanel extends POSSubPanel
 		}
 	}	//	actionPerformed
 
-	private void getMainFocus() {
+	public void getMainFocus() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+				getProductTimer().restart();
 				fieldProductName.requestFocusInWindow();
 			}
 		});
@@ -332,7 +331,8 @@ public class POSActionPanel extends POSSubPanel
 	/**************************************************************************
 	 * 	Find/Set Product & Price
 	 */
-	public void findProduct() throws Exception {
+	public void findProduct(boolean isNewLine) throws Exception {
+		getProductTimer().stop();
 		String query = fieldProductName.getPlaceholder();
 		if (query == null || query.length() == 0)
 			return;
@@ -355,8 +355,7 @@ public class POSActionPanel extends POSSubPanel
 		
 		//	Set Result
 		if (results.length == 1) {	//	one
-			posPanel.addLine(results[0].getM_Product_ID(), Env.ONE);
-			//fieldProductName.setText(results[0].getName());
+			posPanel.addOrUpdateLine(results[0].getM_Product_ID(), Env.ONE);
 			fieldProductName.setPlaceholder(results[0].getName());
 		} else {	//	more than one
 			posPanel.getFrame().getContentPane().invalidate();
@@ -369,7 +368,23 @@ public class POSActionPanel extends POSSubPanel
 			fieldProductName.setText("");
 			fieldProductName.setPlaceholder("");
 		}
+		if (isNewLine) {
+			posPanel.updateLineTable();
+			if (posPanel.isNewLine())
+				posPanel.setQuantity(BigDecimal.ONE);
+			else
+				posPanel.setQuantity(posPanel.getQty().add(BigDecimal.ONE));
+			posPanel.updateLineTable();
+			posPanel.refreshPanel();
+			posPanel.changeViewPanel();
+			posPanel.getMainFocus();
+		}
 	}	//	findProduct
+
+	@Override
+	public void quantityRequestFocus() {
+		posPanel.quantityRequestFocus();
+	}
 
 	/**
 	 * Previous Record Order
@@ -477,17 +492,21 @@ public class POSActionPanel extends POSSubPanel
 //	}
 
 	@Override
-	public void refreshPanel() {
+	/*public void refreshPanel() {
 		//	
-	}
+	}*/
 
-	@Override
 	public String validatePayment() {
 		return null;
 	}
 
 	@Override
 	public void changeViewPanel() {
+
+	}
+
+	@Override
+	public void refreshPanel() {
 		if(posPanel.hasOrder()) {
 			if (lookupProduct != null && posPanel.isEnableProductLookup()) {
 				lookupProduct.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
@@ -532,7 +551,7 @@ public class POSActionPanel extends POSSubPanel
 			buttonDocType.setEnabled(false);
 			buttonBPartner.setEnabled(false);
 		}
-		posPanel.changeViewQuantityPanel();
+		//posPanel.changeViewPanel();
 		buttonNew.setEnabled(true);
 		buttonHistory.setEnabled(true);
 		buttonProcess.setEnabled(true);
@@ -551,6 +570,7 @@ public class POSActionPanel extends POSSubPanel
 			} else if(query instanceof QueryBPartner) {
 				if(!posPanel.hasOrder()) {
 					posPanel.newOrder(query.getRecord_ID());
+					posPanel.getMainFocus();
 				} else {
 					posPanel.configureBPartner(query.getRecord_ID());
 				}
@@ -558,7 +578,7 @@ public class POSActionPanel extends POSSubPanel
 				logger.fine("C_BPartner_ID=" + query.getRecord_ID());
 			} else if(query instanceof QueryProduct) {
 				if (query.getRecord_ID() > 0) {
-					posPanel.addLine(query.getRecord_ID(), Env.ONE);
+					posPanel.addOrUpdateLine(query.getRecord_ID(), Env.ONE);
 				}
 			} else if(query instanceof QueryDocType) {
 				if (query.getRecord_ID() > 0) {

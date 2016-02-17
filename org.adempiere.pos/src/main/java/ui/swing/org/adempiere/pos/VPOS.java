@@ -62,7 +62,7 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class VPOS extends CPOS implements FormPanel, I_POSPanel {
+public class VPOS extends CPOS implements FormPanel, I_POSPanel , POSScalesPanelInterface {
 	
 	/**	Window No					*/
 	private int 							windowNo;
@@ -398,7 +398,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 * @param qtyOrdered
 	 * @return void
 	 */
-	public void addLine(int productId, BigDecimal qtyOrdered) throws Exception{
+	public void addOrUpdateLine(int productId, BigDecimal qtyOrdered) throws Exception{
 		//	Create Order if none exists
 		if (!hasOrder()) {
 			newOrder();
@@ -406,15 +406,13 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		//	Show Product Info
 		refreshProductInfo(productId);
 		//	
-		String lineError = add(productId, qtyOrdered);
+		String lineError = addOrUpdate(productId, qtyOrdered);
 		if (lineError != null) {
 			logger.warning("POS Error " + lineError);
 			ADialog.error(getWindowNo(),
 					mainPanel, Msg.parseTranslation(ctx, lineError));
 		}
-
 		refreshPanel();
-		orderLinePanel.moveTop();
 	}
 
 	/**
@@ -491,17 +489,16 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		newOrder(0);
 		infoProductPanel.resetValues();
 		quantityPanel.resetPanel();
+		getMainFocus();
 	}
 
 	@Override
 	public void refreshPanel() {
 		//	Reload from DB
 		reloadOrder();
-		actionPanel.refreshPanel();
-		actionPanel.changeViewPanel();
-		documentPanel.refreshPanel();
 		orderLinePanel.refreshPanel();
-		quantityPanel.refreshPanel();
+		actionPanel.refreshPanel();
+		documentPanel.refreshPanel();
 		if(!hasLines()) {
 			infoProductPanel.resetValues();
 			quantityPanel.resetPanel();
@@ -532,7 +529,7 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	 */
 	public void refreshHeader() {
 		reloadOrder();
-		actionPanel.changeViewPanel();
+		actionPanel.refreshPanel();
 		documentPanel.refreshPanel();
 	}
 
@@ -543,9 +540,8 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 
 	@Override
 	public void changeViewPanel() {
-		orderLinePanel.changeViewPanel();
 		quantityPanel.changeViewPanel();
-		quantityPanel.refreshPanel();
+		orderLinePanel.changeViewPanel();
 	}
 
 	/**
@@ -565,11 +561,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 		orderLinePanel.moveDown();
 	}
 
-	public void changeViewQuantityPanel()
-	{
-		quantityPanel.changeViewPanel();
-	}
-
 	public StatusBar getStatusBar()
 	{
 		return statusBar;
@@ -579,11 +570,6 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	{
 		statusBarInfo = statusBarInfo + " " + info + " ";
 		getStatusBar().setStatusLine(statusBarInfo);
-	}
-
-	public int getC_OrderLine_ID()
-	{
-		return orderLinePanel.getC_OrderLine_ID();
 	}
 
 	/**
@@ -705,5 +691,24 @@ public class VPOS extends CPOS implements FormPanel, I_POSPanel {
 	public Timer getScalesTimer()
 	{
 		return scalesTimer;
+	}
+
+	public void quantityRequestFocus()
+	{
+		quantityPanel.requestFocus();
+	}
+
+	public void getMainFocus()
+	{
+		actionPanel.getMainFocus();
+	}
+
+	/**
+	 * Set Quantity of Product
+	 * @param qty
+	 */
+	public void setQuantity(BigDecimal qty) {
+		quantityPanel.setQuantity(qty);
+		super.setQuantity(qty);
 	}
 }

@@ -34,11 +34,9 @@ import javax.swing.table.DefaultTableModel;
 
 import org.adempiere.pos.service.I_POSPanel;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.PO;
 import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -74,9 +72,6 @@ public class POSOrderLinePanel extends POSSubPanel
 	public POSOrderLinePanel(VPOS posPanel) {
 		super(posPanel);
 	}
-
-	/**	Current Order Line	*/
-	private int orderLineId = 0;
 	
 	/**	Logger				*/
 	private static CLogger logger = CLogger.getCLogger(POSOrderLinePanel.class);
@@ -150,7 +145,7 @@ public class POSOrderLinePanel extends POSSubPanel
 			Object data = posTable.getModel().getValueAt(row, POSOrderLineTableHandle.POSITION_C_ORDERLINE_ID);
 			if ( data != null )	{
 				Integer id = (Integer) ((IDColumn)data).getRecord_ID();
-				orderLineId = id;
+				posPanel.setOrderLineId(id);
 			}
 		}
 		//	Refresh
@@ -171,8 +166,8 @@ public class POSOrderLinePanel extends POSSubPanel
     		posTable.getModel().removeTableModelListener(this);
 
 			IDColumn key = (IDColumn) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_C_ORDERLINE_ID);
-			orderLineId = key.getRecord_ID();
-			posPanel.deleteLine(orderLineId);
+			posPanel.setOrderLineId(key.getRecord_ID());
+			posPanel.deleteLine(posPanel.getOrderLineId());
 			
 			((DefaultTableModel) posTable.getModel()).removeRow(row);
 			posTable.getModel().addTableModelListener(this);
@@ -196,7 +191,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		//	Validate Key
 		if (key != null) {
 			//	Set Current Order Line
-			orderLineId = key.getRecord_ID();
+			posPanel.setOrderLineId(key.getRecord_ID());
     		//	Get Values
     		BigDecimal qtyOrdered = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
     		BigDecimal price = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
@@ -215,10 +210,10 @@ public class POSOrderLinePanel extends POSSubPanel
 		//	Remove Listener
 		posTable.getModel().removeTableModelListener(this);
 		//	Remove line
-		if(posPanel.getQty() != null && posPanel.getQty().signum() <= 0) {
-			if (orderLineId > 0)
+		if(posPanel.getQty() != null && posPanel.getQty().signum() < 0) {
+			if (posPanel.getOrderLineId() > 0)
 				if (posPanel.isRequiredPIN() && posPanel.isUserPinValid()) {					;
-					posPanel.deleteLine(orderLineId);
+					posPanel.deleteLine(posPanel.getOrderLineId());
 				}
 			if (row >= 0) {
 				((DefaultTableModel) posTable.getModel()).removeRow(row);
@@ -230,8 +225,8 @@ public class POSOrderLinePanel extends POSSubPanel
 		}
 		
 		//	Get Order Line
-		BigDecimal[] summary = posPanel.updateLine(
-				orderLineId,
+ 		BigDecimal[] summary = posPanel.updateLine(
+				posPanel.getOrderLineId(),
 				posPanel.getQty(),
 				posPanel.getPriceLimit(),
 				posPanel.getPrice(),
@@ -243,9 +238,6 @@ public class POSOrderLinePanel extends POSSubPanel
 			posTable.setValueAt(summary[2], row, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
 		}
 		posTable.getModel().addTableModelListener(this);
-		//	Only Refresh Header
-		posPanel.refreshHeader();
-		posPanel.refreshPanel();
 		//	Request Focus
 		posTable.requestFocusInWindow();
 		return;
@@ -265,16 +257,14 @@ public class POSOrderLinePanel extends POSSubPanel
 		//	
 		for (int i = 0; i < posTable.getRowCount(); i ++ ) {
 			IDColumn key = (IDColumn) posTable.getModel().getValueAt(i, POSOrderLineTableHandle.POSITION_C_ORDERLINE_ID);
-			if ( key != null && orderLineId > 0 && key.getRecord_ID() == orderLineId) {
+			if ( key != null && posPanel.getOrderLineId() > 0 && key.getRecord_ID() == posPanel.getOrderLineId()) {
 				posTable.getSelectionModel().setSelectionInterval(i, i);
-				posPanel.changeViewPanel();
 				showProductInfo(i);
 				break;
 			}
 			if(i==posTable.getRowCount()-1)	 {
 				if (posPanel.hasLines()) {
 					posTable.getSelectionModel().setSelectionInterval(0, 0);
-					posPanel.changeViewPanel();
 					showProductInfo(0);
 				}
 			}
@@ -304,7 +294,6 @@ public class POSOrderLinePanel extends POSSubPanel
 			posPanel.setQuantity(qtyOrdered);
 			posPanel.setPrice(price);
 			posPanel.setDiscountPercentage(discountPercentage);
-			posPanel.changeViewQuantityPanel();
 		}
 		else {
 			posPanel.setQuantity(Env.ZERO);
@@ -371,8 +360,8 @@ public class POSOrderLinePanel extends POSSubPanel
 		if(column == POSOrderLineTableHandle.POSITION_DELETE) {
 			posTable.getModel().removeTableModelListener(this);
 			IDColumn key = (IDColumn) c_table.getValueAt(row, 0);
-			orderLineId = key.getRecord_ID();
-			posPanel.deleteLine(orderLineId);
+			posPanel.setOrderLineId(key.getRecord_ID());
+			posPanel.deleteLine(posPanel.getOrderLineId());
 
 			((DefaultTableModel) posTable.getModel()).removeRow(row);
 			posTable.getModel().addTableModelListener(this);
@@ -380,7 +369,6 @@ public class POSOrderLinePanel extends POSSubPanel
 			return;
 		}
 		if (row != -1)	{
-			posPanel.changeViewPanel();
 			showProductInfo(row);
 		}
 	}
@@ -410,9 +398,16 @@ public class POSOrderLinePanel extends POSSubPanel
 		Object data = posTable.getModel().getValueAt(row, 0);
 		if ( data != null )	{
 			Integer id = (Integer) ((IDColumn)data).getRecord_ID();
-			orderLineId = id;
+			posPanel.setOrderLineId(id);
+			BigDecimal quantity = (BigDecimal) posTable.getModel().getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
+			BigDecimal price = (BigDecimal) posTable.getModel().getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+			BigDecimal discount = (BigDecimal) posTable.getModel().getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
 			//	Refresh
-			posPanel.refreshProductInfo(posPanel.getM_Product_ID(orderLineId));
+			posPanel.setQuantity(quantity);
+			posPanel.setPrice(price);
+			posPanel.setDiscountPercentage(discount);
+			posPanel.changeViewPanel();
+			posPanel.refreshProductInfo(posPanel.getM_Product_ID(posPanel.getOrderLineId()));
 		}
 	}
 
@@ -428,7 +423,6 @@ public class POSOrderLinePanel extends POSSubPanel
 			 row = rows - 1;
 
 		 posTable.getSelectionModel().setSelectionInterval(row, row);
-		 posPanel.changeViewPanel();
 		 showProductInfo(row);
 		return;
 	}
@@ -444,19 +438,15 @@ public class POSOrderLinePanel extends POSSubPanel
 			 row = 0;
 
 		posTable.getSelectionModel().setSelectionInterval(row, row);
-		posPanel.changeViewPanel();
 		showProductInfo(row);
 		return;
 	}
 
 	public void moveTop()
 	{
-		if (posPanel.hasLines())
-			posTable.getSelectionModel().setSelectionInterval(0,0);
-	}
-
-	public int getC_OrderLine_ID()
-	{
-		return orderLineId;
+		if (posPanel.hasLines()) {
+			posTable.getSelectionModel().setSelectionInterval(0, 0);
+			showProductInfo(0);
+		}
 	}
 } //	POSOrderLinePanel
