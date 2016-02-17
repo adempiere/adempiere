@@ -20,7 +20,7 @@ package org.adempiere.pos.service;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Sep 26, 2015, 10:50:44 PM
  *
  */
-public interface I_POSQuery {
+public interface POSQueryInterface {
 	
 	/**
 	 * Get Record Identifier after select

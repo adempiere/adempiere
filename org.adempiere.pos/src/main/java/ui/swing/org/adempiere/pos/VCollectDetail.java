@@ -39,7 +39,7 @@ import javax.swing.border.TitledBorder;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.pos.service.CollectDetail;
-import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.POSPanelInterface;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VComboBox;
@@ -65,7 +65,7 @@ import org.compiere.util.Msg;
  *
  */
 public class VCollectDetail extends CollectDetail
-	implements VetoableChangeListener, ActionListener, KeyListener, I_POSPanel {
+	implements VetoableChangeListener, ActionListener, KeyListener, POSPanelInterface {
 	
 	/**
 	 * Standard Constructor

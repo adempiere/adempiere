@@ -36,8 +36,8 @@ import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryDocType;
 import org.adempiere.pos.search.QueryOrderHistory;
 import org.adempiere.pos.search.QueryProduct;
-import org.adempiere.pos.service.I_POSPanel;
-import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
 import org.compiere.model.I_M_Product;
@@ -65,7 +65,7 @@ import org.compiere.util.Msg;
  *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class POSActionPanel extends POSSubPanel 
-	implements ActionListener, I_POSPanel, POSQueryListener , POSLookupProductInterface {
+	implements ActionListener, POSPanelInterface, POSQueryListener , POSLookupProductInterface {
 	/**
 	 * 
 	 */
@@ -558,7 +558,7 @@ public class POSActionPanel extends POSSubPanel
 	}
 
 	@Override
-	public void okAction(I_POSQuery query) {
+	public void okAction(POSQueryInterface query) {
 		try
 		{
 			if (query.getRecord_ID() <= 0)
@@ -597,7 +597,7 @@ public class POSActionPanel extends POSSubPanel
 	}
 
 	@Override
-	public void cancelAction(I_POSQuery query) {
+	public void cancelAction(POSQueryInterface query) {
 		//	Nothing
 	}
 

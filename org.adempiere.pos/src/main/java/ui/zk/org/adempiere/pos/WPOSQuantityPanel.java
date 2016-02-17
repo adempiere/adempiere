@@ -19,7 +19,7 @@ package org.adempiere.pos;
 
 import java.math.BigDecimal;
 
-import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -43,7 +43,7 @@ import org.zkoss.zk.ui.event.KeyEvent;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WPOSQuantityPanel extends WPOSSubPanel implements I_POSPanel {
+public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface {
 
 	/**
 	 * 

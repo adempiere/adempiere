@@ -41,7 +41,7 @@ import javax.swing.Timer;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.pos.service.CPOS;
-import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.POSPanelInterface;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.form.FormFrame;
@@ -62,7 +62,7 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class VPOS extends CPOS implements FormPanel, I_POSPanel , POSScalesPanelInterface {
+public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScalesPanelInterface {
 	
 	/**	Window No					*/
 	private int 							windowNo;

@@ -32,7 +32,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.POSPanelInterface;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.PO;
 import org.compiere.swing.CScrollPane;
@@ -58,7 +58,7 @@ import org.compiere.util.Env;
  */
 public class POSOrderLinePanel extends POSSubPanel 
 	implements ActionListener, FocusListener, 
-		ListSelectionListener, TableModelListener, I_POSPanel, KeyListener, MouseListener {
+		ListSelectionListener, TableModelListener, POSPanelInterface, KeyListener, MouseListener {
 	/**
 	 * 
 	 */

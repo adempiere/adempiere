@@ -28,12 +28,12 @@ public interface POSQueryListener {
 	 * @param query
 	 * @return void
 	 */
-	public void okAction(I_POSQuery query);
+	public void okAction(POSQueryInterface query);
 	
 	/**
 	 * When press cancel button
 	 * @param query
 	 * @return void
 	 */
-	public void cancelAction(I_POSQuery query);
+	public void cancelAction(POSQueryInterface query);
 }

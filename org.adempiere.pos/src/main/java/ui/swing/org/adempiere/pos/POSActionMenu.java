@@ -23,7 +23,7 @@ import org.adempiere.pos.command.Command;
 import org.adempiere.pos.command.CommandReceiver;
 import org.adempiere.pos.search.POSQuery;
 import org.adempiere.pos.search.QueryBPartner;
-import org.adempiere.pos.service.I_POSQuery;
+import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -267,7 +267,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
     }
 
     @Override
-    public void okAction(I_POSQuery query) {
+    public void okAction(POSQueryInterface query) {
         if (query.getRecord_ID() <= 0)
             return;
         //	For Ticket
@@ -277,7 +277,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
     }
 
     @Override
-    public void cancelAction(I_POSQuery query) {
+    public void cancelAction(POSQueryInterface query) {
     }
 
     private void showError(ProcessInfo processInfo) throws AdempierePOSException

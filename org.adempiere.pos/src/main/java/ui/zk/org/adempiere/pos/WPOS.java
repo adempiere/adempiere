@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.pos.service.CPOS;
-import org.adempiere.pos.service.I_POSPanel;
+import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.pos.test.SideServer;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
@@ -68,7 +68,7 @@ import org.zkoss.zul.Timer;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WPOS extends CPOS implements IFormController, EventListener, I_POSPanel , POSScalesPanelInterface {
+public class WPOS extends CPOS implements IFormController, EventListener, POSPanelInterface, POSScalesPanelInterface {
 	/**
 	 * 	Constructor - see init 
 	 */

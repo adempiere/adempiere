@@ -17,7 +17,7 @@ package org.adempiere.pos.service;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com Sep 22, 2015, 11:52:44 PM
  * <li> Interface for implement refresh and validate methods in POS Panel
  */
-public interface I_POSPanel {
+public interface POSPanelInterface {
 	
 	/**
 	 * Refresh Panel for changes
