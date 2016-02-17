@@ -118,6 +118,10 @@ public class CPOS {
 	private BigDecimal 			priceList = BigDecimal.ZERO;
 	/**	% Discount		    	*/
 	private BigDecimal 			discountPercentage = BigDecimal.ZERO;
+	/** is new line **/
+	private boolean				isNewLine = true;
+	/** OrderLine id **/
+	private int 				orderLineId = 0;
 	
 	
 	/**
@@ -904,7 +908,7 @@ public class CPOS {
 	 * @param warehousePrice
      * @return
      */
-	public MOrderLine createLine(MProduct product, BigDecimal qtyOrdered, MWarehousePrice warehousePrice) {
+	public MOrderLine addOrUpdateLine(MProduct product, BigDecimal qtyOrdered, MWarehousePrice warehousePrice) {
 		//	Valid Complete
 		if (!isDrafted())
 			return null;
@@ -913,10 +917,12 @@ public class CPOS {
 		for (MOrderLine line : lines) {
 			if (line.getM_Product_ID() == product.getM_Product_ID()) {
 				//increase qty
-				BigDecimal currentQty = line.getQtyEntered();
+				setIsNewLine(false);
+				setOrderLineId(line.getC_OrderLine_ID());
 				BigDecimal currentPrice = line.getPriceEntered();
+				/*BigDecimal currentQty = line.getQtyEntered();
 				BigDecimal totalQty = currentQty.add(qtyOrdered);
-				line.setQty(totalQty);
+				line.setQty(totalQty);*/
 				line.setPrice(currentPrice); //	sets List/limit
 				line.saveEx();
 				return line;
@@ -925,7 +931,7 @@ public class CPOS {
         //create new line
 		MOrderLine line = new MOrderLine(currentOrder);
 		line.setProduct(product);
-		line.setQty(qtyOrdered);
+		line.setQty(BigDecimal.ZERO);
 		//	
 		line.setPrice(); //	sets List/limit
 		if ( warehousePrice.getPriceStd().signum() > 0 ) {
@@ -939,10 +945,12 @@ public class CPOS {
 			setDiscountPercentage(percentageDiscount);
 		}
 		//	Save Line
+		setIsNewLine(true);
+		setOrderLineId(line.getC_OrderLine_ID());
 		line.saveEx();
 		return line;
 			
-	} //	createLine
+	} //	addOrUpdateLine
 
 	/**
 	 *  Save Line
@@ -950,7 +958,7 @@ public class CPOS {
 	 * @param qtyOrdered
      * @return
      */
-	public String add(int productId, BigDecimal qtyOrdered) {
+	public String addOrUpdate(int productId, BigDecimal qtyOrdered) {
 		String errorMessage = null;
 		try {
 			MProduct product = MProduct.get(ctx, productId);
@@ -963,7 +971,7 @@ public class CPOS {
 
 			//	Validate if exists a order
 			if (hasOrder()) {
-				createLine(product, qtyOrdered, warehousePrice);
+				addOrUpdateLine(product, qtyOrdered, warehousePrice);
 			} else {
 				return "@POS.MustCreateOrder@";
 			}
@@ -2055,5 +2063,23 @@ public class CPOS {
 		catch (Exception e) {
 			throw new AdempierePOSException("PrintTicket - Error Printing Ticket");
 		}
+	}
+
+	public void setIsNewLine(boolean isNewLine)
+	{
+		this.isNewLine = isNewLine;
+	}
+
+	public boolean isNewLine()
+	{
+		return isNewLine;
+	}
+
+	public int getOrderLineId() {
+		return orderLineId;
+	}
+
+	public void setOrderLineId(int orderLineId) {
+		this.orderLineId = orderLineId;
 	}
 }

@@ -342,7 +342,7 @@ public class POSDocumentPanel extends POSSubPanel
 		}
 		// Add line
 		try {
-			posPanel.addLine(key.getM_Product_ID(), key.getQty());
+			posPanel.addOrUpdateLine(key.getM_Product_ID(), key.getQty());
 		} catch (Exception exception) {
 			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
