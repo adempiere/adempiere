@@ -310,7 +310,7 @@ public class POSActionPanel extends POSSubPanel
 				} else if (actionEvent.getSource().equals(buttonLogout)) {	//	Logout
 					posPanel.dispose();
 					return;
-				} 
+				}
 				//	Refresh if not Payment, because Payment has its own logic
 				if (!actionEvent.getSource().equals(buttonCollect))
 					posPanel.refreshPanel();
