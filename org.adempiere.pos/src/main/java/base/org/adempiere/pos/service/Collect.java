@@ -497,6 +497,8 @@ public class Collect {
 		payment.setAD_Org_ID(entityPOS.getAD_Org_ID());
 		payment.setTenderType(tenderType);
 		payment.setIsReceipt(true);
+		payment.setC_Order_ID(order.getC_Order_ID());
+		payment.setIsPrepayment(true);
 		payment.setC_BPartner_ID(getC_BPartner_ID());
 		payment.setDateTrx(getDateTrx());
 		payment.setDateAcct(getDateTrx());
