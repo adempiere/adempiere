@@ -1236,7 +1236,9 @@ public class CPOS {
 				generateShipment(trxName);
 
 			if(!isInvoiced()) {
-				generateInvoice(trxName); // Based on Invoice rule of POS Terminal or partner
+				if (MOrder.INVOICERULE_Immediate.equals(currentOrder.getInvoiceRule())
+				|| (MOrder.INVOICERULE_AfterDelivery.equals(currentOrder.getInvoiceRule()) && isDelivered()))
+					generateInvoice(trxName); // Based on Invoice rule of POS Terminal or partner
 			}
 			orderCompleted = true;
 		}
