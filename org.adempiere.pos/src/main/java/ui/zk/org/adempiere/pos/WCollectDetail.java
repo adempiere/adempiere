@@ -348,7 +348,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, POSP
 
 		row.setSpans("1,2");
 		//	Add label credit note
-		lCreditMemo = new Label(Msg.translate(Env.getCtx(), "CreditNote") + ":");
+		lCreditMemo = new Label(Msg.translate(Env.getCtx(), "CreditMemo") + ":");
 		lCreditMemo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
 		row.appendChild(lCreditMemo);
 		
@@ -359,7 +359,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, POSP
 		fCreditMemo = ListboxFactory.newDropdownListbox();
 		row.appendChild(fCreditMemo);
 		fCreditMemo.setStyle(HEIGHT+WIDTH+FONT_SIZE);
-		fCreditMemo.setValue(Msg.translate(p_ctx, "CreditNoteType"));
+		fCreditMemo.setValue(Msg.translate(p_ctx, "CreditMemoType"));
 		fCreditMemo.addActionListener(this);
 		
 		/**
