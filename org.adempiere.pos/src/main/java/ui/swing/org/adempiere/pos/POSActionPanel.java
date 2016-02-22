@@ -213,6 +213,9 @@ public class POSActionPanel extends POSSubPanel
 		fieldProductName.setPreferredSize(new Dimension(250, posPanel.getFieldLenght()));
 		fieldProductName.setMinimumSize(new Dimension(250, posPanel.getFieldLenght()));
 		fieldProductName.setFocusable(true);
+		fieldProductName.setFocusTraversalKeysEnabled(false);
+		lookupProduct = new POSLookupProduct(this, fieldProductName, 0);
+		fieldProductName.addKeyListener(lookupProduct);
 
 		//	Add Button Panel
 		add(buttonPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
@@ -224,10 +227,6 @@ public class POSActionPanel extends POSSubPanel
 			JComboBox<KeyNamePair> fillingComponent = new JComboBox<KeyNamePair>();
 			Font font = new Font("monospaced", Font.PLAIN, 14);
 			fillingComponent.setFont(font);
-
-			lookupProduct = new POSLookupProduct(this, fieldProductName, 0);
-			fieldProductName.addKeyListener(lookupProduct);
-			fieldProductName.setFocusTraversalKeysEnabled(false);
 			findProductTimer = new javax.swing.Timer(500, lookupProduct);
 			lookupProduct.setFillingComponent(fillingComponent);
 			lookupProduct.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
@@ -264,8 +263,9 @@ public class POSActionPanel extends POSSubPanel
 			return;
 		logger.info( "PosSubCustomer - actionPerformed: " + action);
 		try {
-				if (actionEvent.getSource().equals(fieldProductName))
+				if (actionEvent.getSource().equals(fieldProductName)) {
 					return;
+				}
 				//	New
 				if (actionEvent.getSource().equals(buttonNew)) {
 					posPanel.newOrder();
@@ -322,7 +322,8 @@ public class POSActionPanel extends POSSubPanel
 	public void getMainFocus() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				getProductTimer().restart();
+				if (getProductTimer() != null)
+					getProductTimer().restart();
 				fieldProductName.requestFocusInWindow();
 			}
 		});
@@ -332,7 +333,8 @@ public class POSActionPanel extends POSSubPanel
 	 * 	Find/Set Product & Price
 	 */
 	public void findProduct(boolean isNewLine) throws Exception {
-		getProductTimer().stop();
+		if (getProductTimer() != null)
+			getProductTimer().stop();
 		String query = fieldProductName.getPlaceholder();
 		if (query == null || query.length() == 0)
 			return;

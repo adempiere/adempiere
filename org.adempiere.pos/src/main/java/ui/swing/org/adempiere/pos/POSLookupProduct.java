@@ -137,15 +137,26 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         {
             searched = false;
             this.lastKeyboardEvent = System.currentTimeMillis();
-            ((javax.swing.Timer)lookupProductInterface.getProductTimer()).restart();
+            if (lookupProductInterface.getProductTimer() != null)
+                ((javax.swing.Timer)lookupProductInterface.getProductTimer()).restart();
         }
         else if(keyEvent.getKeyCode()==10 && keyEvent.getSource()==component) //Enter on component field
             captureProduct();
         if (KeyEvent.VK_TAB == keyEvent.getKeyCode()) {
             fieldProductName.setPlaceholder(fieldProductName.getText());
-
             try {
                 lookupProductInterface.findProduct(false);
+            } catch (Exception exception) {
+                ADialog.error(0 , null , exception.getLocalizedMessage());
+            }
+            lookupProductInterface.quantityRequestFocus();
+            fieldProductName.setText("");
+            return;
+        }
+        if (KeyEvent.VK_ENTER == keyEvent.getKeyCode()) {
+            fieldProductName.setPlaceholder(fieldProductName.getText());
+            try {
+                lookupProductInterface.findProduct(true);
             } catch (Exception exception) {
                 ADialog.error(0 , null , exception.getLocalizedMessage());
             }
