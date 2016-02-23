@@ -134,7 +134,7 @@ public class MCost extends X_M_Cost
 
 			if (AD_Org_ID > 0 )
 			{
-				whereClause.append(" AND (").append(I_M_Cost.COLUMNNAME_AD_Org_ID).append("=? ");
+				whereClause.append(" AND ").append(I_M_Cost.COLUMNNAME_AD_Org_ID).append("=? ");
 				parameters.add(AD_Org_ID);
 			}
 			if (M_Warehouse_ID > 0 )
