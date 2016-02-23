@@ -55,6 +55,7 @@
  bs.StatementDate,
  bs.EftStatementDate,
  bs.EftStatementReference,
+ ba.C_Bank_ID,
  p.DateTrx,
  p.C_DocType_ID,
  p.TenderType,
@@ -71,6 +72,7 @@
  i.GrandTotal AS InvoiceAmt
  FROM C_BANKSTATEMENTLINE bsl
  INNER JOIN C_BANKSTATEMENT bs ON bsl.C_BANKSTATEMENT_ID = bs.C_BANKSTATEMENT_ID
+ LEFT JOIN C_BankAccount ba ON bs.C_BankAccount_ID = ba.C_BankAccount_ID
  LEFT JOIN C_Payment p ON bsl.C_Payment_ID=p.C_Payment_ID
  LEFT JOIN C_Order o ON p.C_Order_ID=o.C_Order_ID
  LEFT JOIN C_Invoice i ON bsl.C_Invoice_ID = i.C_Invoice_ID;</SQLStatement>
@@ -4142,5 +4144,128 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
       </PO>
     </Step>
+    <Step SeqNo="1280" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="78494" Table="AD_Column">
+          <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+          <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+          <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+          <Data AD_Column_ID="112" Column="Description">Bank</Data>
+          <Data AD_Column_ID="109" Column="AD_Column_ID">78494</Data>
+          <Data AD_Column_ID="110" Column="Version">0</Data>
+          <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+          <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+          <Data AD_Column_ID="548" Column="IsActive">true</Data>
+          <Data AD_Column_ID="114" Column="AD_Table_ID">54058</Data>
+          <Data AD_Column_ID="111" Column="Name">Bank</Data>
+          <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+          <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+          <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+          <Data AD_Column_ID="116" Column="ColumnName">C_Bank_ID</Data>
+          <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+          <Data AD_Column_ID="549" Column="Created">2016-02-22 20:28:03.56</Data>
+          <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+          <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+          <Data AD_Column_ID="120" Column="IsParent">false</Data>
+          <Data AD_Column_ID="113" Column="Help">The Bank is a unique identifier of a Bank for this Organization or for a Business Partner with whom this Organization transacts.</Data>
+          <Data AD_Column_ID="551" Column="Updated">2016-02-22 20:28:03.56</Data>
+          <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+          <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+          <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+          <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+          <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+          <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+          <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+          <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+          <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+          <Data AD_Column_ID="119" Column="IsKey">false</Data>
+          <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+          <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+          <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+          <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+          <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+          <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+          <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+          <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+          <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+          <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+          <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+          <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+          <Data AD_Column_ID="2608" Column="AD_Element_ID">835</Data>
+          <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+          </PO>
+      </Step>
+      <Step SeqNo="1290" StepType="AD">
+          <PO AD_Table_ID="285" Action="I" Record_ID="55406" Table="AD_Process_Para">
+              <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+              <Data AD_Column_ID="7729" Column="AD_Element_ID">835</Data>
+              <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+              <Data AD_Column_ID="2825" Column="AD_Process_ID">53829</Data>
+              <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55406</Data>
+              <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+              <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+              <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+              <Data AD_Column_ID="4017" Column="ColumnName">C_Bank_ID</Data>
+              <Data AD_Column_ID="2818" Column="Created">2016-02-22 20:30:18.959</Data>
+              <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+              <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+              <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+              <Data AD_Column_ID="2823" Column="Description">Bank</Data>
+              <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+              <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+              <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+              <Data AD_Column_ID="2824" Column="Help">The Bank is a unique identifier of a Bank for this Organization or for a Business Partner with whom this Organization transacts.</Data>
+              <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+              <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+              <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+              <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+              <Data AD_Column_ID="2822" Column="Name">Bank</Data>
+              <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+              <Data AD_Column_ID="2826" Column="SeqNo">5</Data>
+              <Data AD_Column_ID="2820" Column="Updated">2016-02-22 20:30:18.959</Data>
+              <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+              <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+              <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+              <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+          </PO>
+      </Step>
+      <Step SeqNo="1300" StepType="AD">
+          <PO AD_Table_ID="285" Action="I" Record_ID="55407" Table="AD_Process_Para">
+              <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+              <Data AD_Column_ID="7729" Column="AD_Element_ID">1381</Data>
+              <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+              <Data AD_Column_ID="2825" Column="AD_Process_ID">53829</Data>
+              <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55407</Data>
+              <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+              <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+              <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+              <Data AD_Column_ID="4017" Column="ColumnName">C_BankStatement_ID</Data>
+              <Data AD_Column_ID="2818" Column="Created">2016-02-22 20:30:57.219</Data>
+              <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+              <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+              <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+              <Data AD_Column_ID="2823" Column="Description">Bank Statement of account</Data>
+              <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+              <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+              <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+              <Data AD_Column_ID="2824" Column="Help">The Bank Statement identifies a unique Bank Statement for a defined time period.  The statement defines all transactions that occurred</Data>
+              <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+              <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+              <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+              <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+              <Data AD_Column_ID="2822" Column="Name">Bank Statement</Data>
+              <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+              <Data AD_Column_ID="2826" Column="SeqNo">7</Data>
+              <Data AD_Column_ID="2820" Column="Updated">2016-02-22 20:30:57.219</Data>
+              <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+              <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+              <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+              <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+          </PO>
+      </Step>
+      <Step SeqNo="1310" StepType="AD">
+          <PO AD_Table_ID="285" Action="U" Record_ID="55407" Table="AD_Process_Para">
+              <Data AD_Column_ID="2826" Column="SeqNo" oldValue="7">15</Data>
+          </PO>
+      </Step>
   </Migration>
 </Migrations>
