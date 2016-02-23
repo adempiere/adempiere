@@ -52,10 +52,12 @@ CREATE OR REPLACE  VIEW RV_C_BankStatement AS
  bs.StatementDate,
  bs.EftStatementDate,
  bs.EftStatementReference,
+ ba.C_Bank_ID,
  p.DateTrx,
  p.C_DocType_ID,
  p.TenderType,
  p.Payamt,
+ o.C_Order_ID,
  o.DateOrdered,
  o.Grandtotal,
  o.C_POS_ID,
@@ -67,6 +69,7 @@ CREATE OR REPLACE  VIEW RV_C_BankStatement AS
  i.GrandTotal AS InvoiceAmt
  FROM C_BANKSTATEMENTLINE bsl
  INNER JOIN C_BANKSTATEMENT bs ON bsl.C_BANKSTATEMENT_ID = bs.C_BANKSTATEMENT_ID
+ LEFT JOIN C_BankAccount ba ON bs.C_BankAccount_ID = ba.C_BankAccount_ID
  LEFT JOIN C_Payment p ON bsl.C_Payment_ID=p.C_Payment_ID
  LEFT JOIN C_Order o ON p.C_Order_ID=o.C_Order_ID
  LEFT JOIN C_Invoice i ON bsl.C_Invoice_ID = i.C_Invoice_ID;
