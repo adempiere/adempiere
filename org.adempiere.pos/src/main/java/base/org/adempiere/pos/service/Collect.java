@@ -651,7 +651,8 @@ public class Collect {
 		cleanErrorMsg();
 		this.trxName = trxName;
 		boolean result;
-		//	
+		//
+		BigDecimal totalPaid = Env.ZERO;
 		BigDecimal cashPayment = Env.ZERO;
 		BigDecimal otherPayment = Env.ZERO;
 		//	Iterate Payments methods
@@ -700,29 +701,33 @@ public class Collect {
 					return;
 				}
 			}
+			totalPaid = totalPaid.add(collectDetail.getPayAmt());
 		}
+
 		//	Save Cash Payment
 		//	Validate if payment consists credit card or cash -> payment amount must be exact
-		BigDecimal m_ReturnAmt = openAmt.subtract(otherPayment.add(cashPayment));
-		if(m_ReturnAmt.signum() == -1
+		BigDecimal amountRefunded = openAmt.subtract(otherPayment.add(cashPayment));
+		if(amountRefunded.signum() == -1
 				&& cashPayment.doubleValue() > 0) {
-			if(m_ReturnAmt.abs().doubleValue() > cashPayment.doubleValue()) {
+			if(amountRefunded.abs().doubleValue() > cashPayment.doubleValue()) {
 				addErrorMsg("@POS.validatePayment.PaymentBustBeExact@");
 			} else {
-				result= payCash(cashPayment.add(m_ReturnAmt));
+				result= payCash(cashPayment.add(amountRefunded));
 				if (!result) {					
 					addErrorMsg("@POS.ErrorPaymentCash@");
 					return;
 				}
 			}
-		} else if(cashPayment.doubleValue() > 0) {
+		} else if(cashPayment.signum() > 0) {
 			result= payCash(cashPayment);
 			if (!result) {					
 				addErrorMsg("@POS.ErrorPaymentCash@");
 				return;
 			}
 		}
-		
+		order.setAmountTendered(totalPaid);
+		order.setAmountRefunded(amountRefunded);
+		order.saveEx();
 	}  // processPayment
 	/**
 	* Get PayAmt 
