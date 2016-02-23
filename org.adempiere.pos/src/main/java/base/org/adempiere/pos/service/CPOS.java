@@ -1400,12 +1400,23 @@ public class CPOS {
 	 */
 	public BigDecimal getOpenAmt() {
 		if (currentOrder != null) {
-			BigDecimal received = getPaidAmt();
-			return currentOrder.getGrandTotal().subtract(received);
+			return currentOrder.getGrandTotal().subtract(getAmountReceived());
 		}
 		return BigDecimal.ZERO;
 	}
-	
+
+	/**
+	 * Amount Received
+	 * @return BigDecimal
+     */
+	public BigDecimal getAmountReceived()
+	{
+		if (currentOrder.getAmountTendered().signum() == 0)
+			return Env.ZERO;
+
+		return currentOrder.getAmountTendered().add(currentOrder.getAmountRefunded());
+	}
+
 	/**
 	 * Verify if is Paid
 	 * @return
