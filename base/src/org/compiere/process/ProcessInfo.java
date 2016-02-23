@@ -137,7 +137,7 @@ public class ProcessInfo implements Serializable
 	//FR 1906632
 	private File 			    m_pdf_report = null;
 
-	private boolean managedTransaction = false;
+	private boolean managedTransaction = true;
 	
 	/**
 	 * If the process fails with an Throwable, the Throwable is caught and stored here
