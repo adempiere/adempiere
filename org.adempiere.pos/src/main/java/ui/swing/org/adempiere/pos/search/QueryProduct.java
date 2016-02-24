@@ -99,7 +99,7 @@ public class QueryProduct extends POSQuery {
 	 * 	Set up Panel
 	 */
 	protected void init() {
-		setTitle("M_Product_ID");
+		setTitle(Msg.parseTranslation(posPanel.getCtx() , "@M_Product_ID@"));
 		parameterPanel.setLayout(new MigLayout("fill", "", "[50][50][]"));
 		parameterPanel.setBorder(new TitledBorder(Msg.getMsg(ctx, "Query")));
 		//
@@ -206,7 +206,6 @@ public class QueryProduct extends POSQuery {
 	 * 	Set Values on other panels and close
 	 */
 	protected void close() {
-		select();
 		dispose();
 	}	//	close
 
