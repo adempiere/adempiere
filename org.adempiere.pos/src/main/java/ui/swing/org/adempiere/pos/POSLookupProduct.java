@@ -43,7 +43,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     private long lastKeyboardEvent = 0;
     private boolean searched = false;
     private boolean selectLock = false;
-    private JComboBox<KeyNamePair> component = null;
+    private JComboBox<KeyNamePair> productLookupComboBox = null;
     private Integer priceListVersionId = 0;
     private Integer warehouseId = 0;
     private String fill = StringUtils.repeat(" " , 400);
@@ -73,11 +73,11 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         this.lastKeyboardEvent = lastKeyboardEvent;
     }
 
-    public void setFillingComponent(JComboBox<KeyNamePair> component)
+    public void setFillingComponent(JComboBox<KeyNamePair> productLookupComboBox)
     {
-        this.component = component;
-        component.addActionListener(this);
-        component.addKeyListener(this);
+        this.productLookupComboBox = productLookupComboBox;
+        productLookupComboBox.addActionListener(this);
+        productLookupComboBox.addKeyListener(this);
         char[] charArray = new char[200];
         Arrays.fill(charArray,' ');
         this.fill = new String(charArray);
@@ -87,7 +87,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
                 .append(availableTitle).append(separator)
                 .append(priceStdTitle).append(separator)
                 .append(priceListTile).toString();
-        component.addItem(new KeyNamePair(0, this.title));
+        productLookupComboBox.addItem(new KeyNamePair(0, this.title));
     }
 
     public void setPriceListVersionId(int priceListVersionId)
@@ -104,7 +104,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
-        if (actionEvent.getSource()==component
+        if (actionEvent.getSource()== productLookupComboBox
         && actionEvent.getModifiers() == 16
         && actionEvent.getSource() != lookupProductInterface.getProductTimer())
             captureProduct();
@@ -121,8 +121,8 @@ public class POSLookupProduct implements ActionListener, KeyListener {
             }
             else if(!searched && (fieldProductName.getText()== null ||  fieldProductName.getText().length() == 0))
             {
-                component.hidePopup();
-                component.removeAllItems();
+                productLookupComboBox.hidePopup();
+                productLookupComboBox.removeAllItems();
             }
         }
     }
@@ -131,7 +131,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent keyEvent)  {
         if(keyEvent.getKeyCode()==40 && keyEvent.getSource()== fieldProductName) // Key down on product text field
         {
-            component.requestFocus();
+            productLookupComboBox.requestFocus();
         }
         else if (keyEvent.getSource()== fieldProductName) //writing product name or value
         {
@@ -140,8 +140,11 @@ public class POSLookupProduct implements ActionListener, KeyListener {
             if (lookupProductInterface.getProductTimer() != null)
                 ((javax.swing.Timer)lookupProductInterface.getProductTimer()).restart();
         }
-        else if(keyEvent.getKeyCode()==10 && keyEvent.getSource()==component) //Enter on component field
+        else if(keyEvent.getKeyCode()==10 && keyEvent.getSource()== productLookupComboBox)
+        {
             captureProduct();
+            return;
+        }
         if (KeyEvent.VK_TAB == keyEvent.getKeyCode()) {
             fieldProductName.setPlaceholder(fieldProductName.getText());
             try {
@@ -156,7 +159,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         if (KeyEvent.VK_ENTER == keyEvent.getKeyCode()) {
             fieldProductName.setPlaceholder(fieldProductName.getText());
             try {
-                lookupProductInterface.findProduct(true);
+                lookupProductInterface.findProduct(false);
             } catch (Exception exception) {
                 ADialog.error(0 , null , exception.getLocalizedMessage());
             }
@@ -168,7 +171,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
 
     public void captureProduct()
     {
-        KeyNamePair item = (KeyNamePair) component.getSelectedItem();
+        KeyNamePair item = (KeyNamePair) productLookupComboBox.getSelectedItem();
         if(item!=null && !selectLock)
         {
             String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", item.getKey());
@@ -178,7 +181,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
             } catch (Exception exception) {
                 ADialog.error(0 , null , exception.getLocalizedMessage());
             }
-            component.removeAllItems();
+            productLookupComboBox.removeAllItems();
             fieldProductName.setText("");
         }
 
@@ -195,8 +198,8 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     private void executeQuery()
     {
             searched = true;
-            component.removeAllItems();
-            component.addItem(new KeyNamePair(0, title));
+            productLookupComboBox.removeAllItems();
+            productLookupComboBox.addItem(new KeyNamePair(0, title));
             selectLock = true;
             for (java.util.Vector<Object> columns : CPOS.getQueryProduct(fieldProductName.getText(), warehouseId, priceListVersionId))
             {
@@ -212,10 +215,10 @@ public class POSLookupProduct implements ActionListener, KeyListener {
                         .append(StringUtils.trunc(qtyAvailable + fill , QUANTITY_LENGTH)).append(separator)
                         .append(StringUtils.trunc(priceStd + fill, QUANTITY_LENGTH )).append(separator)
                         .append(StringUtils.trunc(priceList + fill, QUANTITY_LENGTH )).toString();
-                component.addItem(new KeyNamePair(productId, line));
+                productLookupComboBox.addItem(new KeyNamePair(productId, line));
             }
 
-        component.showPopup();
+        productLookupComboBox.showPopup();
         selectLock = false;
     }
 }
