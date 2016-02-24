@@ -35,6 +35,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.compiere.grid.ed.VNumber;
+
 
 /**
  *	Point of Sales Main Client. 
@@ -45,17 +47,18 @@ import javax.swing.JTextField;
 public class POSClientWindow extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = -8800776062735213378L;
- 
+	
 	public POSClientWindow(){
-		init();
+				init();
 		setTitle("Print POS");
-		setSize(300,280);
+		setSize(350,300);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");
             return;
         }
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -81,46 +84,47 @@ public class POSClientWindow extends JFrame implements ActionListener {
     /** POS Client Side		*/
 	private POSClientSide	p_Client;
 	
+	
+	
 	private void init() {
 		  container = getContentPane();
 		  container.setLayout(null);
 		  
 		  btnConnect = new JButton();
 		  btnConnect.setText("Connect");
-		  btnConnect.setBounds(60, 100, 100, 23);
+		  btnConnect.setBounds(70, 123, 100, 23);
 		  btnConnect.addActionListener(this);
 		  
 		  btnDisconnect = new JButton();
 		  btnDisconnect.setText("Disconnect");
-		  btnDisconnect.setBounds(160, 100, 120, 23);
+		  btnDisconnect.setBounds(170, 123, 120, 23);
 		  btnDisconnect.addActionListener(this);
 		  btnDisconnect.setEnabled(false);
 		  
 		  lblTitle = new JLabel();
 		  lblTitle.setText("Print POS");
-		  lblTitle.setBounds(80, 23, 180, 23);
+		  lblTitle.setBounds(120, 13, 180, 23);
 		  
 		  lblHost = new JLabel();
 		  lblHost.setText("Host Server");
-		  lblHost.setBounds(15, 46, 190, 23);
+		  lblHost.setBounds(55, 40, 190, 23);
+		  
+		  fHost = new JTextField();
+		  fHost.setText("localhost");
+		  fHost.setBounds(140, 40, 180, 23);
 		  
 		  lblPrint= new JLabel();
 		  lblPrint.setText("Printer");
-		  lblPrint.setBounds(45, 69, 190, 23);
-		  
-		  fHost = new JTextField();
-		  fHost.setText("Host Server");
-		  fHost.setBounds(100, 46, 180, 23);
+		  lblPrint.setBounds(85, 67, 190, 23);
 		  
 		  PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
 		  cPrint = new JComboBox();
 		  for(PrintService s: services){
 			  cPrint.addItem(s.getName());
 		  }
+		  cPrint.setBounds(140, 67, 180, 23);
 		  
-		  cPrint.setBounds(100, 69, 180, 23);
-	
-		  fTerminal.setBounds(0,150,300,300);
+		  fTerminal.setBounds(0,190,300,300);
 	        fTerminal.setBackground(Color.black);
 	        fTerminal.setForeground(Color.green);
 	        fTerminal.setSelectionColor(Color.red);
@@ -136,14 +140,17 @@ public class POSClientWindow extends JFrame implements ActionListener {
 		  container.add(cPrint);
 		  container.add(btnConnect);
 		  container.add(btnDisconnect);
-
+		  
 	       JScrollPane scroll = new JScrollPane(fTerminal);
 
-	        scroll.setBounds(new Rectangle(25,130,255,120));
+	        scroll.setBounds(new Rectangle(25,150,300,120));
 		  getContentPane().add(scroll);
 	 }
 	
-	
+
+	public void setHostName(String p_HostName) {
+		fHost.setText(p_HostName);
+	}
   @Override
   public void actionPerformed(ActionEvent e)  {
 	  boolean status;

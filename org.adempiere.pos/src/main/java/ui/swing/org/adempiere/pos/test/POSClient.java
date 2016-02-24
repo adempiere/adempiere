@@ -17,6 +17,21 @@
 
 package org.adempiere.pos.test;
 
+import java.awt.KeyboardFocusManager;
+import java.util.Properties;
+
+import org.compiere.Adempiere;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AKeyboardFocusManager;
+import org.compiere.apps.ALogin;
+import org.compiere.apps.form.FormFrame;
+import org.compiere.model.MSession;
+import org.compiere.swing.CFrame;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Splash;
+
 /**
  *	Point of Sales Main Client. 
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
@@ -26,7 +41,48 @@ package org.adempiere.pos.test;
 public class POSClient {
 		 
 		public static void main(String[] args) {
+
+			/**	Properties		*/
+			Properties m_ctx = null;
+			Adempiere.startup(true);	//	needs to be here for UI
+			Splash splash = new  Splash("POS Client");
+			final FormFrame frame = new FormFrame(new CFrame("POS Client"));
+			//  Focus Traversal
+			KeyboardFocusManager.setCurrentKeyboardFocusManager(AKeyboardFocusManager.get());
+			
+			ALogin login = new ALogin(splash);
+			if (!login.initLogin())		//	no automatic login
+			{
+				//	Center the window
+				try {
+					AEnv.showCenterScreen(login);	//	HTML load errors
+				} catch (Exception ex) {
+					
+				}
+				if (!login.isConnected() || !login.isOKpressed())
+					AEnv.exit(1);
+			}
+
+			//  Check Build
+			if (!DB.isBuildOK(m_ctx))
+				AEnv.exit(1);
+
+			//  Check DB	(AppsServer Version checked in Login)
+			DB.isDatabaseOK(m_ctx);
 		
+			splash.setText(Msg.getMsg(m_ctx, "Loading"));
+			splash.toFront();
+		
+			//
+			if (!Adempiere.startupEnvironment(true)) // Load Environment
+				System.exit(1);		
+			MSession.get (Env.getCtx(), true);		//	Start Session
+			
+			//  Default Image
+			frame.setIconImage(Adempiere.getImage16());
+
+			splash.dispose();
+			splash = null;	
 			POSClientWindow m_window;
 			m_window= new POSClientWindow();
 			m_window.setVisible(true);
