@@ -366,7 +366,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
     	if (trx != null) {
     		Connection resultConn = null;
     		try {
-    			resultConn = trx.getConnection();
+    			resultConn = trx.getConnection(false);
     		} catch (Exception ex) {
     			resultConn = DB.getConnectionRW();
     		}
@@ -637,10 +637,11 @@ public class ReportStarter implements ProcessCall, ClientProcess
             } catch (JRException e) {
                 log.severe("ReportStarter.startProcess: Can not run report - "+ e.getMessage());
             } finally {
-            	if (conn != null)
+            	if (conn != null && trx == null)
 					try {
 						conn.close();
 					} catch (SQLException e) {
+						throw new AdempiereException("@Error@ " + e);
 					}
             }
         }
