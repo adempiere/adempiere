@@ -336,6 +336,7 @@ public class POSActionPanel extends POSSubPanel
 		if (getProductTimer() != null)
 			getProductTimer().stop();
 		String query = fieldProductName.getPlaceholder();
+		fieldProductName.setPlaceholder("");
 		if (query == null || query.length() == 0)
 			return;
 		query = query.toUpperCase();
@@ -368,7 +369,6 @@ public class POSActionPanel extends POSSubPanel
 			qt.showView();
 			fieldProductName.setValue(null);
 			fieldProductName.setText("");
-			fieldProductName.setPlaceholder("");
 		}
 		if (isNewLine) {
 			posPanel.updateLineTable();
@@ -579,8 +579,18 @@ public class POSActionPanel extends POSSubPanel
 				//
 				logger.fine("C_BPartner_ID=" + query.getRecord_ID());
 			} else if(query instanceof QueryProduct) {
-				if (query.getRecord_ID() > 0) {
-					posPanel.addOrUpdateLine(query.getRecord_ID(), Env.ONE);
+				QueryProduct queryProduct = (QueryProduct) query;
+				if (queryProduct.getRecord_ID() > 0) {
+					fieldProductName.setPlaceholder(queryProduct.getValue());
+					try {
+						posPanel.setIsNewLine(true);
+						findProduct(true);
+					} catch (Exception exception) {
+						ADialog.error(0 , null , exception.getLocalizedMessage());
+					}
+					fieldProductName.setText("");
+					fieldProductName.repaint();
+					return;
 				}
 			} else if(query instanceof QueryDocType) {
 				if (query.getRecord_ID() > 0) {
