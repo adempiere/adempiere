@@ -89,7 +89,11 @@ public class ServerReportCtl {
 		MPrintFormat format = re.getPrintFormat();
 		ProcessInfo pi = new ProcessInfo ("", format.getJasperProcess_ID());
 		pi.setPrintPreview( !IsDirectPrint );
-		pi.setRecord_ID ( Record_ID );
+		MQuery query = re.getQuery();
+		if (query != null )
+			Record_ID = (Integer) query.getCode(0);
+
+		pi.setRecord_ID(Record_ID);
 		Vector<ProcessInfoParameter> jasperPrintParams = new Vector<ProcessInfoParameter>();
 		ProcessInfoParameter pip;
 		if (printerName!=null && printerName.trim().length()>0) {
