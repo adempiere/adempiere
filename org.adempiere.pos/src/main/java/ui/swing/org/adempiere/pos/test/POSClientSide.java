@@ -27,6 +27,8 @@ import java.net.Socket;
 
 import javax.swing.JTextArea;
 
+import org.compiere.model.MSysConfig;
+
 
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
@@ -41,9 +43,12 @@ public class POSClientSide extends Thread {
 		m_Host = p_Host;
 		m_Print = p_Print;
 		fTerminal = m_Terminal;
-		this.start();
+		m_port = MSysConfig.getIntValue("ZK_PORT_SERVER_PRINT", PORT);
+		if(!connect())
+			this.start();
 	}
-	
+	/**  Port	Default			*/
+	public 	static final int 	PORT = 5400;
 	/** Socket Client 			*/
 	private Socket 				socketClient = null;
 	/** Host Name 				*/
@@ -51,39 +56,45 @@ public class POSClientSide extends Thread {
 	/** Print Name 				*/
 	private String 				m_Print = null;
 	/** Is Stop 				*/
-	private boolean 			isStopped;
+	private boolean 			isStopped = true;
 	/** Data Input Stream 		*/
 	private DataInputStream 	dis = null;
 	/** Field Terminal    		*/
 	private JTextArea 			fTerminal = null;
-	
+	private int m_port;
 	/**
 	 * Connect with Server
 	 * @return
 	 * @return boolean
 	 */
 	private boolean connect() {
+		if(isStopped()){
+			
 			try {
-				
-			socketClient = new Socket(m_Host, 5444);
-			socketClient.setKeepAlive(true);
-			isStopped = false;
-	    	setText("Connected");
+				socketClient = new Socket(m_Host, m_port);
+				socketClient.setKeepAlive(true);
+				isStopped = false;
+		    	setText("Connected");
+				return isStopped;
+			} catch (IOException e) {
+		    	setText("Error Connecting: "+e.getMessage());
+		    	return isStopped;
+			}
+		}
+		else {
 			return isStopped;
-		} catch (IOException e) {
-	    	setText("Error Connecting: "+e.getMessage());
-	    	return isStopped = true;
 		}
 	}
 		
 	public void run(){
 		
 	    try {
-	    	 
-	      while(!isStopped) {
+	
+	      while(!isStopped || !isInterrupted()) {
 			 connect();
 	    	 dis = new DataInputStream(socketClient.getInputStream());
-	    	 // Name File
+	    	 	    	 
+	    		 // Name File
              String name = "zk"+dis.readUTF().toString(); 
 
               // Size File
@@ -104,6 +115,7 @@ public class POSClientSide extends Thread {
               
               out.flush(); 
     		  out.close();
+    		  
     		  try{
     			  String[] cmd = new String[] { "lp" , "-d", m_Print, path};
     			  Runtime.getRuntime().exec(cmd);
@@ -111,12 +123,12 @@ public class POSClientSide extends Thread {
     		  }catch(Exception a){
     			  setText("Error Printing: "+a.getMessage());
     		  }
-
-	       }     
-	      	
+	    	 }
+  			
 	    } catch (IOException e) {
 	    	isStopped=true;
 	    	setText(e.getLocalizedMessage());
+	    	connect();
 	    }
 	}
 	
@@ -150,13 +162,11 @@ public class POSClientSide extends Thread {
 	 * @return void
 	 */
 	public void closeConnect(){
-		try {
+		
 			isStopped = true;
-			socketClient.close();
 			this.interrupt();
 			setText("Disconnected");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 	}
+
 }
