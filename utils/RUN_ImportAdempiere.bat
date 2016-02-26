@@ -1,14 +1,14 @@
 @ECHO OFF
 REM
-REM Name:		RUN_ImportAdempiere.bat
+REM Name:       RUN_ImportAdempiere.bat
 REM Description:script to import Adempiere database
-REM Created:	2010-05-11
-REM Vendor:		K.K. Alice
-REM Author:		Stefan Christians
+REM Created:    2010-05-11
+REM Vendor:     K.K. Alice
+REM Author:     Stefan Christians
 REM
-REM FileTarget:	~/development/sandbox/adempiere/utils/RUN_ImportAdempiere.bat
-REM FileOwner:	spc.dvp
-REM FilePerms:	0644
+REM FileTarget: ~/development/sandbox/adempiere/utils/RUN_ImportAdempiere.bat
+REM FileOwner:  spc.dvp
+REM FilePerms:  0644
 REM
 
 REM database binaries are expected to be in the PATH
@@ -42,11 +42,19 @@ SET errorImportSqlj=61
 
 
 
-REM if called with any argument, import the reference database
+REM If called with argument "silent", run without pause
+REM if called with any other argument, import the reference database
 REM otherwise import the seed database
+SET silentMode=Pause
 SET importMode=Seed
 SET argCount=0
-FOR %%a IN (%*) DO SET /A argCount+=1
+FOR %%a IN (%*) DO (
+    IF %%a==silent (
+        SET silentMode=silent
+    ) ELSE (
+        SET /A argCount+=1
+    )
+)
 IF NOT %argCount%==0 SET importMode=Reference
 
 REM identify this script
@@ -105,7 +113,7 @@ SET dbSeedFile=%ADEMPIERE_HOME%\data\Adempiere.dmp
 SET sysUser=system
 GOTO :VENDORSET
 :NOXE
-SET unSupportedVendor=1	
+SET unSupportedVendor=1 
 :VENDORSET
 
 REM variables depending on import mode
@@ -140,14 +148,14 @@ IF "%ADEMPIERE_DB_PASSWORD%"=="" GOTO :ENVNOK
 GOTO :ENVOK
 :ENVNOK
 ECHO Please make sure that the environment variables are set correctly:
-ECHO ADEMPIERE_HOME	e.g. "C:\Adempiere"
-ECHO ADEMPIERE_DB_PATH	e.g. "postgresql" or "oracle"
-ECHO ADEMPIERE_DB_NAME	e.g. "adempiere" or "xe"
-ECHO ADEMPIERE_DB_SERVER	e.g. "dbserver.adempiere.org"
-ECHO ADEMPIERE_DB_PORT	e.g. "5432" or "1521"
-ECHO ADEMPIERE_DB_SYSTEM	system user password, e.g. "postgres" or "manager"
-ECHO ADEMPIERE_DB_USER	e.g. "adempiere"
-ECHO ADEMPIERE_DB_PASSWORD	e.g. "adempiere"
+ECHO ADEMPIERE_HOME e.g. "C:\Adempiere"
+ECHO ADEMPIERE_DB_PATH  e.g. "postgresql" or "oracle"
+ECHO ADEMPIERE_DB_NAME  e.g. "adempiere" or "xe"
+ECHO ADEMPIERE_DB_SERVER    e.g. "dbserver.adempiere.org"
+ECHO ADEMPIERE_DB_PORT  e.g. "5432" or "1521"
+ECHO ADEMPIERE_DB_SYSTEM    system user password, e.g. "postgres" or "manager"
+ECHO ADEMPIERE_DB_USER  e.g. "adempiere"
+ECHO ADEMPIERE_DB_PASSWORD  e.g. "adempiere"
 ECHO When in doubt, please run RUN_Setup.bat
 SET sanityCheck=%errorNoEnvironment%
 :ENVOK
@@ -162,7 +170,7 @@ REM make sure the database seed file exists
 IF EXIST "%dbSeedFile%" GOTO :SEEDOK
 ECHO The seed file %dbSeedFile% could not be loaded.
 ECHO Please make sure it exists and you have read permissions.
-SET sanityCheck=%errorNoSeedFile%	
+SET sanityCheck=%errorNoSeedFile%   
 :SEEDOK
 
 REM make sure the database dependent import script can be executed
@@ -186,8 +194,8 @@ ECHO Re-create user %dbUser%
 ECHO and import %dbSeedFile%
 ECHO.
 ECHO == The import will show warnings. This is OK ==
-PAUSE
-	
+IF NOT "%silentMode%"=="silent" PAUSE 
+    
 CALL "%dbImportScript%" "%dbVendor%" "%dbHost%" "%dbPort%" "%dbUser%" "%dbPwd%" "%sysUser%" "%sysPwd%" "%dbName%" "%dbCatalog%" "%dbSchema%" "%dbSeedFile%" "%dbSqljFile%"
 SET result=%ERRORLEVEL% 
 

@@ -7,6 +7,17 @@
 @Rem
 @Rem SET ADEMPIERE_HOME=C:\R251\Adempiere
 @Rem SET JAVA_HOME=C:\j2sdk1.4.2_06
+@Echo.
+@Echo RUN_Adempiere.bat  
+@Echo.
+@Echo USAGE: 
+@Echo.
+@Echo    RUN_Adempiere propertyfile
+@Echo.
+@Echo    Where propertyfile is the path to the property file to use.  Default is the 
+@Echo    "adempiere.properties" file in the users home directory.  If no property
+@Echo    file is found there, the ADEMPIERE_HOME location will be used.
+@Echo.
 
 :CHECK_JAVA:
 @if not "%JAVA_HOME%" == "" goto JAVA_HOME_OK
@@ -39,8 +50,24 @@ set ADEMPIERE_HOME=%~dp0..
 @SET PROP=
 @Rem  SET PROP=-DPropertyFile=C:\test.properties
 @REM  Alternatively use parameter
-@if "%1" == "" goto ENCRYPTION
+@if "%1" == "" goto FINDPROPERTIES
 @SET PROP=-DPropertyFile=%1
+@goto ENCRYPTION
+
+:FINDPROPERTIES
+@Rem  Check if a property file exists in the user directory.  If not, check if the property file exists
+@Rem  in the user home directory.  If found, copy to the user directory.  This is required as the client
+@Rem  will only look in the user directory for the property file.
+@if not exist "%userprofile%\Adempiere.properties" (
+	Echo %userprofile%\Adempiere.properties not found.
+	if exist %ADEMPIERE_HOME%\Adempiere.properties (
+		Echo Copying properties from %ADEMPIERE_HOME%\Adempiere.properties.
+		copy %ADEMPIERE_HOME%\Adempiere.properties %userprofile%\Adempiere.properties
+	) else (
+		Echo No properties file was found.  Default properties will be used.  The client software may not 
+		Echo function without defined properties.
+	)
+)
 
 :ENCRYPTION
 @Rem  To use your own Encryption class (implementing org.compiere.util.SecureInterface),

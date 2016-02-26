@@ -50,7 +50,7 @@
   <!-- ======================================================= -->
   <!-- Init                                                    -->
   <!-- ======================================================= -->
-  <target name="installInit" description="initialization target">
+  <target name="installInit" description="initialization target" depends="clean">
 	<echo message="=========== Build Install - ${env.ENCODING}"/>
 	<!-- create the time stamp -->
 	<tstamp/>
@@ -190,8 +190,13 @@
 
 	<!-- Lib Directory			-->
 	<mkdir dir="${build.dir}/Adempiere/lib"/>
-	<copy file="${launch.dir}/Adempiere.ico" tofile="${build.dir}/Adempiere/lib/Adempiere.ico"/>
+	<!-- copy file="${launch.dir}/Adempiere.ico" tofile="${build.dir}/Adempiere/lib/Adempiere.ico"/-->
 	<!-- copy file="${launch.dir}/jlaunchs.ico" tofile="${build.dir}/Adempiere/lib/Adempieres.ico"/-->
+    <copy todir="${build.dir}/Adempiere/lib">
+        <fileset dir="${launch.dir}">
+          <include name="*.ico"/>
+        </fileset>    	
+	</copy>
 	<copy todir="${build.dir}/Adempiere/lib">
 	  <fileset dir="${lib.dir}">
 	  	<include name="**/*ar"/>
