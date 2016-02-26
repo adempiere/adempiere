@@ -446,13 +446,30 @@ public class MColumn extends X_AD_Column
 				|| is_ValueChanged(MColumn.COLUMNNAME_Description)
 				|| is_ValueChanged(MColumn.COLUMNNAME_Help)
 				) {
-				StringBuffer sql = new StringBuffer("UPDATE AD_Field SET Name=")
-					.append(DB.TO_STRING(getName()))
-					.append(", Description=").append(DB.TO_STRING(getDescription()))
-					.append(", Help=").append(DB.TO_STRING(getHelp()))
-					.append(" WHERE AD_Column_ID=").append(get_ID())
-					.append(" AND IsCentrallyMaintained='Y'");
-				int no = DB.executeUpdate(sql.toString(), get_TrxName());
+				StringBuffer whereClause = new StringBuffer("AD_Column_ID =?")
+												.append(" AND IsCentrallyMaintained='Y'"); 
+				List<Object> parameters = new ArrayList<Object>();
+				parameters.add(this.getAD_Column_ID());
+				List<MField> fields = new Query(getCtx(), MField.Table_Name, whereClause.toString(), get_TrxName())
+						.setParameters(parameters)
+						.list();
+				int no = 0;
+				for (MField field: fields)
+				{
+					field.setName(getName());
+					field.setDescription(getDescription());
+					field.setHelp(getHelp());
+					field.saveEx();
+					no++;
+				}
+
+//				StringBuffer sql = new StringBuffer("UPDATE AD_Field SET Name=")
+//					.append(DB.TO_STRING(getName()))
+//					.append(", Description=").append(DB.TO_STRING(getDescription()))
+//					.append(", Help=").append(DB.TO_STRING(getHelp()))
+//					.append(" WHERE AD_Column_ID=").append(get_ID())
+//					.append(" AND IsCentrallyMaintained='Y'");
+//				int no = DB.executeUpdate(sql.toString(), get_TrxName());
 				log.fine("afterSave - Fields updated #" + no);
 			}
 		}
