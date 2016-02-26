@@ -427,6 +427,10 @@ public class ReportStarter implements ProcessCall, ClientProcess
 		if (reportFile != null)
 		{
 			data = processReport(reportFile);
+			if(data.getJasperReport()==null) {				
+                log.severe("Could not load Jasper Report " + reportPath);
+				return false;
+			}
 			fileExtension = reportFile.getName().substring(reportFile.getName().lastIndexOf("."),
 					reportFile.getName().length());
 		}
