@@ -38,6 +38,7 @@ import org.compiere.util.Msg;
  *		<li> Lookup for search view not show button
  *  	<li> Add default Tables lookup
  *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
+ * eEvolution @author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 26/02/16.
  */
 public class M_Element extends X_AD_Element
 {
@@ -108,18 +109,18 @@ public class M_Element extends X_AD_Element
 	/**
 	 * 	Get Element
 	 * 	@param ctx context
-	 *	@param columnName case insensitive column name
+	 *	@param columnId case insensitive column name
  	 *	@param trxName trx
 	 *	@return case sensitive column name
 	 */
-	public static M_Element getOfColumn (Properties ctx, int AD_Column_ID, String trxName)
+	public static M_Element getOfColumn (Properties ctx, int columnId, String trxName)
 	{
-		if (AD_Column_ID ==0)
+		if (columnId ==0)
 			return null;
 		final String whereClause = "EXISTS (SELECT 1 FROM AD_Column c "
 				+ "WHERE c.AD_Element_ID=AD_Element.AD_Element_ID AND c.AD_Column_ID=?)";
 		M_Element retValue = new Query(ctx, Table_Name, whereClause, trxName)
-		.setParameters(AD_Column_ID)
+		.setParameters(columnId)
 		.firstOnly();
 		return retValue;
 	}	//	get
@@ -127,12 +128,12 @@ public class M_Element extends X_AD_Element
 	/**
 	 * 	Get Element
 	 * 	@param ctx context
-	 *	@param columnName case insentitive column name
+	 *	@param columnId case sensitive column name
 	 *	@return case sensitive column name
 	 */
-	public static M_Element getOfColumn (Properties ctx, int AD_Column_ID)
+	public static M_Element getOfColumn (Properties ctx, int columnId)
 	{
-		return getOfColumn(ctx, AD_Column_ID, null);
+		return getOfColumn(ctx, columnId, null);
 	}	//	get
 	
 	/**************************************************************************
@@ -237,9 +238,10 @@ public class M_Element extends X_AD_Element
 //				no = DB.executeUpdate(sql.toString(), get_TrxName());
 				
 				// Use the Column model to trigger the after save and sync of the database.
-				whereClause = new StringBuffer(" AD_Element_ID=").append(get_ID()); 
+				whereClause = new StringBuffer(" AD_Element_ID=?");
 				List<MColumn> columns = new Query(getCtx(), MColumn.Table_Name, whereClause.toString(), get_TrxName())
-											.list();
+						.setParameters(get_ID())
+						.list();
 				
 				for (MColumn column: columns)
 				{
@@ -264,10 +266,11 @@ public class M_Element extends X_AD_Element
 //					.append(" AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL");
 //				no = DB.executeUpdate(sql.toString(), get_TrxName());
 
-				whereClause = new StringBuffer("UPPER(ColumnName)=").append(DB.TO_STRING(getColumnName().toUpperCase()))
-									.append(" AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL"); 
+				whereClause = new StringBuffer("UPPER(ColumnName)=?")
+									.append(" AND IsCentrallyMaintained=? AND AD_Element_ID IS NULL");
 				List<MProcessPara> processParas = new Query(getCtx(), MProcessPara.Table_Name, whereClause.toString(), get_TrxName())
-											.list();
+						.setParameters(DB.TO_STRING(getColumnName().toUpperCase()), true)
+						.list();
 				no = 0;
 				for (MProcessPara para: processParas)
 				{
@@ -289,10 +292,11 @@ public class M_Element extends X_AD_Element
 //					.append(" AND IsCentrallyMaintained='Y'");
 //				no += DB.executeUpdate(sql.toString(), get_TrxName());
 
-				whereClause = new StringBuffer("AD_Element_ID=").append(get_ID())
-						.append(" AND IsCentrallyMaintained='Y'"); 
+				whereClause = new StringBuffer("AD_Element_ID=?")
+						.append(" AND IsCentrallyMaintained=?");
 				processParas = new Query(getCtx(), MProcessPara.Table_Name, whereClause.toString(), get_TrxName())
-								.list();				
+						.setParameters(get_ID(), true)
+						.list();
 				for (MProcessPara para: processParas)
 				{
 					para.setColumnName(getColumnName());
@@ -319,9 +323,10 @@ public class M_Element extends X_AD_Element
 //					.append(") AND IsCentrallyMaintained='Y'");
 //				no = DB.executeUpdate(sql.toString(), get_TrxName());
 
-				whereClause = new StringBuffer("AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=")
-						.append(get_ID()).append(") AND IsCentrallyMaintained='Y'"); 
+				whereClause = new StringBuffer("AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=?")
+						.append(") AND IsCentrallyMaintained=?");
 				List<MField> fields = new Query(getCtx(), MField.Table_Name, whereClause.toString(), get_TrxName())
+						.setParameters(get_ID(), true)
 								.list();
 				no = 0;
 				for (MField field: fields)
@@ -352,9 +357,10 @@ public class M_Element extends X_AD_Element
 //						.append(get_ID()).append(")");
 //				no = DB.executeUpdate(sql.toString(), get_TrxName());
 
-				whereClause = new StringBuffer("AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=")
-					.append(get_ID()).append(") AND IsCentrallyMaintained='Y'"); 
+				whereClause = new StringBuffer("AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=?")
+					.append(") AND IsCentrallyMaintained=?");
 				List<MPrintFormatItem> items = new Query(getCtx(), MPrintFormatItem.Table_Name, whereClause.toString(), get_TrxName())
+						.setParameters(get_ID(), true)
 								.list();
 				no=0;
 				for (MPrintFormatItem item: items)
