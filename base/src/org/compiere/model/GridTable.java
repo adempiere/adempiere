@@ -3614,7 +3614,7 @@ public class GridTable extends AbstractTableModel
 					memProcessed = (Boolean) getValueAt(row, colProcessed);
 		    	
 				Boolean dbProcessed = Boolean.TRUE;
-				if (! dbProcessedS.equals("Y"))
+				if (dbProcessedS == null || dbProcessedS.isEmpty() || ! dbProcessedS.equals("Y"))
 					dbProcessed = Boolean.FALSE;
 				if (memProcessed != null && ! memProcessed.equals(dbProcessed))
 					return true;
