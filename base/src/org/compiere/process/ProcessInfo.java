@@ -686,16 +686,15 @@ public class ProcessInfo implements Serializable
 	//FR 1906632
 	/**
 	 * Set PDF file generate to Jasper Report
-	 * @param PDF File 
+	 * @param pdfFile
 	 */
-	public void setPDFReport(File f)
+	public void setPDFReport(File pdfFile)
 	{
-		m_pdf_report = f;
+		m_pdf_report = pdfFile;
 	}	
 	
 	/**
 	 * Get PDF file generate to Jasper Report
-	 * @param f
 	 */
 	public File getPDFReport()
 	{
