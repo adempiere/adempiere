@@ -1612,8 +1612,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  Update Date Printed
 	 * 	@param type document type
 	 * 	@param Record_ID record id
+	 * 	@param trxName
 	 */
-	public static void printConfirm (int type, int Record_ID)
+	public static void printConfirm (int type, int Record_ID, String trxName)
 	{
 		StringBuffer sql = new StringBuffer();
 		if (type == ORDER || type == SHIPMENT || type == INVOICE)
@@ -1623,7 +1624,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		//
 		if (sql.length() > 0)
 		{
-			int no = DB.executeUpdate(sql.toString(), null);
+			int no = DB.executeUpdate(sql.toString(), trxName);
 			if (no != 1)
 				log.log(Level.SEVERE, "Updated records=" + no + " - should be just one");
 		}
