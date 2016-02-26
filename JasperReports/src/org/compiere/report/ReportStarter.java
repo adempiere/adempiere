@@ -361,22 +361,9 @@ public class ReportStarter implements ProcessCall, ClientProcess
      * @author Ashley Ramdass
      * @return Connection DB Connection
      */
-    protected Connection getConnection(Trx trx)
+    protected Connection getConnection()
     {
-    	if (trx != null) {
-    		Connection resultConn = null;
-    		try {
-    			resultConn = trx.getConnection(false);
-    		} catch (Exception ex) {
-    			resultConn = DB.getConnectionRW();
-    		}
-    		if (resultConn == null) {
-    			resultConn = DB.getConnectionRW();
-    		}
-    		return resultConn;
-    	} else {
-    		return DB.getConnectionRW();
-    	}
+    	return DB.getConnectionRW();
     }
 
     /**
@@ -576,7 +563,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 
             Connection conn = null;
             try {
-            	conn = getConnection( trx );
+            	conn = trx != null ? trx.getConnection() : getConnection();
                 jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
                 if (reportData.isDirectPrint() && !processInfo.isPrintPreview())
                 {

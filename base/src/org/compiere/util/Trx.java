@@ -146,7 +146,22 @@ public class Trx implements VetoableChangeListener
 	 */
 	public Connection getConnection()
 	{
-		return getConnection(true);
+		log.log(Level.ALL, "Active=" + isActive() + ", Connection=" + m_connection);
+		if (s_cache == null || !s_cache.containsKey(m_trxName))
+		{
+			new Exception("Illegal to getConnection for Trx that is not register.").printStackTrace();
+			return null;
+		}
+
+		if (m_connection != null) {
+			if (!isActive())
+				start();
+			return m_connection;
+		}
+		else if (m_connection == null)
+			return getConnection(true);
+
+		return null;
 	}
 
 	/**
@@ -157,21 +172,8 @@ public class Trx implements VetoableChangeListener
 	public Connection getConnection(boolean createNew)
 	{
 		log.log(Level.ALL, "Active=" + isActive() + ", Connection=" + m_connection);
-		
-		if (m_connection == null)	//	get new Connection
-		{
-			if (createNew)
-			{
-				if (s_cache == null || !s_cache.containsKey(m_trxName))
-				{
-					new Exception("Illegal to getConnection for Trx that is not register.").printStackTrace();
-					return null;
-				}
-				setConnection(DB.createConnection(false, Connection.TRANSACTION_READ_COMMITTED));
-			}
-			else
-				return null;
-		}
+		if (createNew && m_connection == null)
+			setConnection(DB.createConnection(false, Connection.TRANSACTION_READ_COMMITTED));
 		if (!isActive())
 			start();
 		return m_connection;
