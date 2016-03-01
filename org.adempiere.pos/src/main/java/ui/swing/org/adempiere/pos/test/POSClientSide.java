@@ -28,6 +28,7 @@ import java.net.Socket;
 import javax.swing.JTextArea;
 
 import org.compiere.model.MSysConfig;
+import org.compiere.util.CLogger;
 
 
 /**
@@ -62,6 +63,8 @@ public class POSClientSide extends Thread {
 	/** Field Terminal    		*/
 	private JTextArea 			fTerminal = null;
 	private int m_port;
+    /**	 log							*/
+    private static CLogger 			log = CLogger.getCLogger (SideServer.class);
 	/**
 	 * Connect with Server
 	 * @return
@@ -74,7 +77,7 @@ public class POSClientSide extends Thread {
 				socketClient = new Socket(m_Host, m_port);
 				socketClient.setKeepAlive(true);
 				isStopped = false;
-		    	setText("Connected");
+		    	setText("Connected to host:" + m_Host + " and to port " + m_port);
 				return isStopped;
 			} catch (IOException e) {
 		    	setText("Error Connecting: "+e.getMessage());
@@ -101,6 +104,8 @@ public class POSClientSide extends Thread {
               int tam = dis.readInt(); 
 
               String path = System.getProperty("user.home")+File.separator+name ;
+			  setText("File path: " + path);
+			  log.severe("path== " + path);
               FileOutputStream fos = new FileOutputStream(path);
               BufferedOutputStream out = new BufferedOutputStream( fos );
               BufferedInputStream in = new BufferedInputStream( socketClient.getInputStream() );
@@ -109,7 +114,7 @@ public class POSClientSide extends Thread {
               for( int i = 0; i < buffer.length; i++ ) {
                  buffer[ i ] = ( byte )in.read( ); 
               }
-              
+
               out.write( buffer );
 			  setText("File Received");
               
@@ -117,19 +122,29 @@ public class POSClientSide extends Thread {
     		  out.close();
     		  
     		  try{
-    			  String[] cmd = new String[] { "lp" , "-d", m_Print, path};
+    			  //String[] cmd = new String[] { "lp" , "-d", m_Print, path};
+    			  //setText("command: " + toString(cmd));
+    			  String cmd = "print /d: " + m_Print + " " + path;
+    			  setText("command: " + cmd);
     			  Runtime.getRuntime().exec(cmd);
     			  setText("Printing File");
     		  }catch(Exception a){
-    			  setText("Error Printing: "+a.getMessage());
+    			  setText("Error while executing printing: "+a.getMessage());
+    		  }
+    		  finally {
+    			  setText("Printing finished");
     		  }
 	    	 }
   			
 	    } catch (IOException e) {
 	    	isStopped=true;
+			setText("Error while printing process");
 	    	setText(e.getLocalizedMessage());
 	    	connect();
 	    }
+		  finally {
+			  setText("Printing process finished");
+		  }
 	}
 	
 	/**
@@ -167,6 +182,16 @@ public class POSClientSide extends Thread {
 			this.interrupt();
 			setText("Disconnected");
 		
-	}
+	} 
+	
+	public String toString(String[] s)
+    {
+		String res= "";
+        for (String temp: s)
+        {
+          res = res + temp + " ";
+        }
+        return res;
+    }
 
 }

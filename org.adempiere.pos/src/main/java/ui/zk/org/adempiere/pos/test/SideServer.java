@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 
 
@@ -65,23 +66,50 @@ public class SideServer implements Runnable {
 	public boolean printFile(byte[] p_file) {
 			if(!isStopped()) {
 			    String m_file = System.getProperty("user.home")+"/test.txt";
+			    log.severe("POS temporary print file: m_file== " + m_file);
 			    
 			    try{
-			    	OutputStream out = new FileOutputStream(m_file); 
+			    	OutputStream out = null;
+			    	out= new FileOutputStream(m_file); 
+			    	if(out==null) {			    		
+					    log.severe("SiderServer: variable out==null");
+					    return false;
+			    	}
 			    	out.write(p_file); 
 			    	out.close();         
 
 				    File file = new File(m_file);
+			    	if(file==null) {			    		
+					    log.severe("SiderServer: variable file==null");
+					    return false;
+			    	}
+			    	
 				    int sizeFile = ( int )file.length();
 				    DataOutputStream dos = new DataOutputStream( clientSocket.getOutputStream() );
+			    	if(dos==null) {			    		
+					    log.severe("SiderServer: variable dos==null");
+					    return false;
+			    	}
 				 
 				    dos.writeUTF(file.getName());
 				    dos.writeInt(sizeFile);
 				 
 				    FileInputStream fis = new FileInputStream( System.getProperty("user.home")+"/test.txt" );
-				    BufferedInputStream bis = new BufferedInputStream( fis );
+			    	if(fis==null) {			    		
+					    log.severe("SiderServer: variable fis==null");
+					    return false;
+			    	}
+				    BufferedInputStream bis = new BufferedInputStream( fis ); 
+			    	if(bis==null) { 		
+					    log.severe("SiderServer: variable bis==null");
+					    return false;
+			    	}
 				 
 				    BufferedOutputStream bos = new BufferedOutputStream( clientSocket.getOutputStream());
+			    	if(bos==null) {			    		
+					    log.severe("SiderServer: variable bos==null");
+					    return false;
+			    	}
 				 
 				    byte[] buffer = new byte[sizeFile];
 				 
@@ -120,12 +148,13 @@ public class SideServer implements Runnable {
     }
 	
 	private static void openServerSocket() {
+		int port = MSysConfig.getIntValue("ZK_PORT_SERVER_PRINT", PORT);
         try {
         	if(serverSocket == null)
-        		serverSocket = new ServerSocket(PORT);
+        		serverSocket = new ServerSocket(port);
             
         } catch (IOException e) {
-            throw new RuntimeException("Cannot open port "+PORT, e);
+            throw new RuntimeException("Cannot open port "+port, e);
         }
         try {
         	while(true){
