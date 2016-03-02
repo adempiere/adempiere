@@ -31,6 +31,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.compiere.model.MSysConfig;
+import org.compiere.print.ReportCtl;
 import org.compiere.util.CLogger;
 
 
@@ -63,7 +64,23 @@ public class SideServer implements Runnable {
 	public void conectClient(){
 		
 	}
-	public boolean printFile(byte[] p_file) {
+	
+	public void reportPrint(int record_ID) {
+		if(!isStopped()) {
+		  DataOutputStream dos;
+		try {
+			dos = new DataOutputStream( clientSocket.getOutputStream() );
+			dos.writeInt(record_ID);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 
+		}
+
+	}
+	
+	public boolean printFile(byte[] p_file, int p_record_ID) {
 			if(!isStopped()) {
 			    String m_file = System.getProperty("user.home")+"/test.txt";
 			    log.severe("POS temporary print file: m_file== " + m_file);
@@ -90,7 +107,7 @@ public class SideServer implements Runnable {
 					    log.severe("SiderServer: variable dos==null");
 					    return false;
 			    	}
-				 
+			    	dos.writeInt(p_record_ID);
 				    dos.writeUTF(file.getName());
 				    dos.writeInt(sizeFile);
 				 

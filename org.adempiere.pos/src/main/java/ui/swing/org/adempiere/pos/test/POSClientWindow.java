@@ -24,6 +24,7 @@ import java.awt.Rectangle;
 import java.awt.SystemTray;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Properties;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -36,6 +37,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.compiere.grid.ed.VNumber;
+import org.compiere.util.Env;
 
 
 /**
@@ -48,12 +50,14 @@ public class POSClientWindow extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = -8800776062735213378L;
 	
-	public POSClientWindow(){
-				init();
+	public POSClientWindow(Properties p_ctx){
+		m_ctx=p_ctx;
+		init();
 		setTitle("Print POS");
 		setSize(350,300);
 		setLocationRelativeTo(null);
 		setResizable(false);
+		
 		if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");
             return;
@@ -62,6 +66,8 @@ public class POSClientWindow extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	/**	Properties		*/
+	Properties m_ctx = null;
 	final SystemTray tray = SystemTray.getSystemTray();
 	/**	Container			*/
 	private Container 	container;
@@ -156,7 +162,8 @@ public class POSClientWindow extends JFrame implements ActionListener {
 	  boolean status;
       if (e.getSource()==btnConnect) {
     	  String m_print = (String)cPrint.getSelectedItem();
-    	  p_Client = new POSClientSide(fHost.getText(), m_print, fTerminal);
+    	  Env.setContext(m_ctx, "#Printer", m_print);
+    	  p_Client = new POSClientSide(m_ctx, fHost.getText(), m_print, fTerminal);
     	  status = p_Client.isStopped();
     	  
 			btnConnect.setEnabled(status);
