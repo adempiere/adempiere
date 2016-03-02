@@ -30,6 +30,7 @@ import javax.swing.KeyStroke;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.pos.service.Collect;
 import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -689,10 +690,10 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 				StringWriter sw = new StringWriter();							
 				m_reportEngine.createCSV(sw, '\t', m_reportEngine.getPrintFormat().getLanguage());
 				byte[] data = sw.getBuffer().toString().getBytes();	
-
+				
 				AMedia media = new AMedia(m_reportEngine.getPrintFormat().getName() + ".txt", null, "application/octet-stream", data);
 
-				v_POSPanel.printFile(media.getByteData());						
+				v_POSPanel.printFile(media.getByteData(), v_POSPanel.getC_Order_ID());	
 			}
 		}
 			catch (Exception e) 

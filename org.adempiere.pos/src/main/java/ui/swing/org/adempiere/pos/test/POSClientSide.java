@@ -24,7 +24,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.Socket;
+import java.util.Properties;
 
 import javax.print.Doc;
 import javax.print.DocFlavor;
@@ -37,7 +39,10 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JTextArea;
 
 import org.compiere.model.MSysConfig;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
+import org.zkoss.util.media.AMedia;
 
 
 /**
@@ -49,7 +54,8 @@ import org.compiere.util.CLogger;
 
 public class POSClientSide extends Thread {  
 
-	public POSClientSide(String p_Host, String p_Print, JTextArea m_Terminal) {
+	public POSClientSide(Properties p_ctx, String p_Host, String p_Print, JTextArea m_Terminal) {
+		m_ctx = p_ctx;
 		m_Host = p_Host;
 		m_Print = p_Print;
 		fTerminal = m_Terminal;
@@ -57,6 +63,8 @@ public class POSClientSide extends Thread {
 		if(!connect())
 			this.start();
 	}
+	/**	Properties		*/
+	Properties m_ctx = null;
 	/**  Port	Default			*/
 	public 	static final int 	PORT = 5400;
 	/** S.O Default				*/
@@ -109,7 +117,11 @@ public class POSClientSide extends Thread {
 	      while(!isStopped || !isInterrupted()) {
 			 connect();
 	    	 dis = new DataInputStream(socketClient.getInputStream());
-	    	 	    	 
+             int record_ID = dis.readInt(); 
+              
+	 	
+
+						
 	    		 // Name File
              String name = "zk"+dis.readUTF().toString(); 
 
@@ -137,7 +149,8 @@ public class POSClientSide extends Thread {
     		  try{
     			  
     			  if(!System.getProperty("os.name").equalsIgnoreCase(LINUXSO)){
-    				  printOtherOS(fis);
+    				  ReportCtl.startDocumentPrint(0, record_ID, true);
+//    				  printOtherOS(fis);
     			  }
     			  else {
     				String[] cmd = new String[] { "lp" , "-d", m_Print, path};

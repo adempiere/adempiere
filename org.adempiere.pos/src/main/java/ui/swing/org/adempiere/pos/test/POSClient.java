@@ -84,7 +84,7 @@ public class POSClient {
 			splash.dispose();
 			splash = null;	
 			POSClientWindow m_window;
-			m_window= new POSClientWindow();
+			m_window= new POSClientWindow(m_ctx);
 			m_window.setVisible(true);
 		 
 		}
