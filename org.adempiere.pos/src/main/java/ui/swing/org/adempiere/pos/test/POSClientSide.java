@@ -21,10 +21,19 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JTextArea;
 
 import org.compiere.model.MSysConfig;
@@ -50,6 +59,8 @@ public class POSClientSide extends Thread {
 	}
 	/**  Port	Default			*/
 	public 	static final int 	PORT = 5400;
+	/** S.O Default				*/
+	private static final String LINUXSO = "LINUX";
 	/** Socket Client 			*/
 	private Socket 				socketClient = null;
 	/** Host Name 				*/
@@ -78,6 +89,7 @@ public class POSClientSide extends Thread {
 				socketClient.setKeepAlive(true);
 				isStopped = false;
 		    	setText("Connected to host:" + m_Host + " and to port " + m_port);
+				
 				return isStopped;
 			} catch (IOException e) {
 		    	setText("Error Connecting: "+e.getMessage());
@@ -92,7 +104,8 @@ public class POSClientSide extends Thread {
 	public void run(){
 		
 	    try {
-	
+	    	FileOutputStream fos = null;
+	    	BufferedOutputStream out = null; 
 	      while(!isStopped || !isInterrupted()) {
 			 connect();
 	    	 dis = new DataInputStream(socketClient.getInputStream());
@@ -106,10 +119,11 @@ public class POSClientSide extends Thread {
               String path = System.getProperty("user.home")+File.separator+name ;
 			  setText("File path: " + path);
 			  log.severe("path== " + path);
-              FileOutputStream fos = new FileOutputStream(path);
-              BufferedOutputStream out = new BufferedOutputStream( fos );
+              fos = new FileOutputStream(path);
+              out = new BufferedOutputStream( fos );
               BufferedInputStream in = new BufferedInputStream( socketClient.getInputStream() );
 
+              FileInputStream fis = new FileInputStream(path);
               byte[] buffer = new byte[tam];
               for( int i = 0; i < buffer.length; i++ ) {
                  buffer[ i ] = ( byte )in.read( ); 
@@ -117,36 +131,68 @@ public class POSClientSide extends Thread {
 
               out.write( buffer );
 			  setText("File Received");
-              
-              out.flush(); 
-    		  out.close();
-    		  
+
+		      out.flush(); 
+			  out.close(); 
     		  try{
-    			  //String[] cmd = new String[] { "lp" , "-d", m_Print, path};
-    			  //setText("command: " + toString(cmd));
-    			  String cmd = "print /d: " + m_Print + " " + path;
-    			  setText("command: " + cmd);
-    			  Runtime.getRuntime().exec(cmd);
-    			  setText("Printing File");
+    			  
+    			  if(!System.getProperty("os.name").equalsIgnoreCase(LINUXSO)){
+    				  printOtherOS(fis);
+    			  }
+    			  else {
+    				String[] cmd = new String[] { "lp" , "-d", m_Print, path};
+        			  Runtime.getRuntime().exec(cmd);
+        			  setText("Printing File");
+    			  }
+    	            
     		  }catch(Exception a){
     			  setText("Error while executing printing: "+a.getMessage());
     		  }
     		  finally {
+    			  isStopped = true;
     			  setText("Printing finished");
+    			  connect();
     		  }
-	    	 }
-  			
+	    	}
+		  
+	  
 	    } catch (IOException e) {
-	    	isStopped=true;
-			setText("Error while printing process");
-	    	setText(e.getLocalizedMessage());
-	    	connect();
+			  setText("Error while executing printing");
 	    }
-		  finally {
-			  setText("Printing process finished");
-		  }
+	    finally {
+	    	isStopped=true;
+	    	setText("Printing process finished");
+	    }
 	}
 	
+	/**
+	 * Print Other S.O
+	 * @param fis
+	 * @return void
+	 */
+	private void printOtherOS(FileInputStream fis){
+        DocFlavor docFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
+        Doc document = new SimpleDoc(fis, docFormat, null);
+ 
+        PrintRequestAttributeSet attributeSet = new HashPrintRequestAttributeSet();
+ 
+        PrintService[] listsPrintService = PrintServiceLookup.lookupPrintServices(docFormat, attributeSet);
+ 
+        	 try {
+        		 DocPrintJob printJob=null;
+        	for (int x=0; x<listsPrintService.length;x++){
+        		
+        		if(listsPrintService[x].getName().equals(m_Print)){
+        			printJob = listsPrintService[x].createPrintJob();
+        		}
+        	
+        	}
+                printJob.print(document, attributeSet);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+	 
+	}
 	/**
 	 * Set Text
 	 * @param m_Text
