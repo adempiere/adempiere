@@ -18,7 +18,7 @@ package org.eevolution.test
 
 import org.compiere.model._
 import org.compiere.util.Trx
-import org.eevolution.service.ProductService
+import org.eevolution.services.ProductService
 import org.scalatest.{FeatureSpec, GivenWhenThen}
 
 import scala.util.{Failure, Success, Try}

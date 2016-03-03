@@ -17,7 +17,7 @@
 package org.eevolution.test
 
 import org.compiere.model._
-import org.eevolution.service.ProductService
+import org.eevolution.services.ProductService
 import org.scalatest.{GivenWhenThen, FeatureSpec}
 
 /**
