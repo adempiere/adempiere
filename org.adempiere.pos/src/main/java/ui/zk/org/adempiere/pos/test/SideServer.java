@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
 
 import org.compiere.model.MSysConfig;
 import org.compiere.print.ReportCtl;
@@ -82,51 +83,30 @@ public class SideServer implements Runnable {
 	
 	public boolean printFile(byte[] p_file, int p_record_ID) {
 			if(!isStopped()) {
-			    String m_file = System.getProperty("user.home")+"/test.txt";
+	              Random rnd = new Random();
+			    String m_file = System.getProperty("user.home")+"/test"+rnd.nextInt(10000)+".txt";
 			    log.severe("POS temporary print file: m_file== " + m_file);
 			    
 			    try{
 			    	OutputStream out = null;
 			    	out= new FileOutputStream(m_file); 
-			    	if(out==null) {			    		
-					    log.severe("SiderServer: variable out==null");
-					    return false;
-			    	}
+			    	
 			    	out.write(p_file); 
 			    	out.close();         
 
 				    File file = new File(m_file);
-			    	if(file==null) {			    		
-					    log.severe("SiderServer: variable file==null");
-					    return false;
-			    	}
 			    	
 				    int sizeFile = ( int )file.length();
 				    DataOutputStream dos = new DataOutputStream( clientSocket.getOutputStream() );
-			    	if(dos==null) {			    		
-					    log.severe("SiderServer: variable dos==null");
-					    return false;
-			    	}
+			    	
 			    	dos.writeInt(p_record_ID);
 				    dos.writeUTF(file.getName());
 				    dos.writeInt(sizeFile);
 				 
-				    FileInputStream fis = new FileInputStream( System.getProperty("user.home")+"/test.txt" );
-			    	if(fis==null) {			    		
-					    log.severe("SiderServer: variable fis==null");
-					    return false;
-			    	}
+				    FileInputStream fis = new FileInputStream( m_file );
 				    BufferedInputStream bis = new BufferedInputStream( fis ); 
-			    	if(bis==null) { 		
-					    log.severe("SiderServer: variable bis==null");
-					    return false;
-			    	}
 				 
 				    BufferedOutputStream bos = new BufferedOutputStream( clientSocket.getOutputStream());
-			    	if(bos==null) {			    		
-					    log.severe("SiderServer: variable bos==null");
-					    return false;
-			    	}
 				 
 				    byte[] buffer = new byte[sizeFile];
 				 
@@ -140,6 +120,8 @@ public class SideServer implements Runnable {
 				        bos.write( buffer[ i ] ); 
 				    } 
 				    bos.close();
+				    if(file.delete())
+				    	log.severe("POS file Temp Deleted" + m_file);
 			  }
 			  catch( Exception e )
 			  {
