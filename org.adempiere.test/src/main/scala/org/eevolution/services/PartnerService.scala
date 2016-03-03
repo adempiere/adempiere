@@ -14,37 +14,31 @@
   * Contributor(s): Victor Perez www.e-evolution.com                           *
   * ****************************************************************************/
 
-package org.eevolution.test
+package org.eevolution.services
 
-import org.compiere.model.{MOrg, MWarehouse}
-import org.compiere.util.{Env, Trx}
+import java.util.{ArrayList, List}
 
-import org.scalatest.{BeforeAndAfterAll, Suite}
+import org.compiere.model._
+import org.eevolution.dsl._
 
 /**
-  * Define a trait to create an ADempiere test
-  * eEvolution author Victor Perez <victor.perez@e-evolution.com> ,Created by e-Evolution on 07/01/16.
-  */
-trait AdempiereTestCase extends AdempiereStartup with Suite with BeforeAndAfterAll {
+  * Business Partner Service
+ *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 02/03/13.
+ */
+trait PartnerService {
 
-  var trxName = Trx.createTrxName(getClass.getName + "_")
+   def getPartnerByValue (value : String) (implicit context : Context, transaction : Transaction) : Partner = {
+     val whereClause: StringBuilder = new StringBuilder()
+     val parameters:  List[Object] with Object = new ArrayList[Object]()
 
-  override def beforeAll() {
-    startup
-  }
+     if (value != null) {
+       whereClause.append(I_C_BPartner.COLUMNNAME_Value).append("=?")
+       parameters.add(value)
+     }
 
-  override def afterAll() {
-    // Rollback the transaction, if any
-    val trx: Trx = Trx.get(trxName, false)
-    if (trx != null && trx.isActive) {
-      trx.rollback
-      trx.close
-    }
-  }
-  import org.eevolution.dsl._
-  def Organization : Organization = MOrg.get(Env.getCtx , Env.getAD_Org_ID(Env.getCtx))
-  def Warehouse : Warehouse = MWarehouse.get(Env.getCtx, Env.getContextAsInt(Env.getCtx(), "#M_Warehouse_ID"))
-  implicit def Context : Context = Env.getCtx
-  implicit def Transaction : Transaction = Trx.get(trxName, false)
-  def Today : Date = Env.getContextAsDate(Context, "#Date")
+     val partner : Partner =  new Query(context, I_C_BPartner.Table_Name, whereClause.toString(), transaction.getTrxName)
+       .setClient_ID()
+       .setParameters(parameters).first()
+     partner
+   }
 }

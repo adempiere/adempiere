@@ -20,6 +20,7 @@ import java.sql.Timestamp
 
 import org.compiere.model._
 import org.compiere.util.Trx
+import org.eevolution.model.{MDDOrderLine, MPPOrder, MDDOrder}
 
 /*
 * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 06/01/16.
@@ -28,28 +29,42 @@ package object dsl {
   type Organization =  MOrg
   type Partner = MBPartner
   type Product = MProduct
+  type ProductCategory = MProductCategory
+  type ProductPrice = MProductPrice
+  type ProductPriceBreak = X_M_ProductPriceVendorBreak
+  type ProductPricing = MProductPricing
+  type UOM = MUOM
   type PriceList = MPriceList
+  type PriceListVersion  = MPriceListVersion
+  type DiscountSchema = MDiscountSchema
+  type DiscountSchemaBreak = MDiscountSchemaBreak
   type Currency = MCurrency
   type Order = MOrder
   type OrderLine = MOrderLine
+  type DistributionOrder= MDDOrder
+  type DistributionOrderLine = MDDOrderLine
+  type MfgOrder = MPPOrder
   type Shipment = MInOut
   type ShipmentLine = MInOutLine
   type Invoice = MInvoice
   type InvoiceLine = MInvoiceLine
+  type InventoryMovement = MMovement
+  type InventoryMovementLine = MMovementLine
   type Warehouse = MWarehouse
   type Payment = MPayment
   type BankAccount = MBankAccount
   type Context = java.util.Properties
   type DocumentType = MDocType
+  type Tax = MTax
+  type TaxCategory = MTaxCategory
   type Transaction = Trx
   type Quantity = BigDecimal
   type Amount = BigDecimal
   type YesNo = Boolean
   type Date = Timestamp
-  type SysConfig = MSysConfig
+  type SystemConfig = MSysConfig
 
   sealed trait Optional
   sealed trait Mandatory extends Optional
   sealed trait Once extends Optional
-
 }
