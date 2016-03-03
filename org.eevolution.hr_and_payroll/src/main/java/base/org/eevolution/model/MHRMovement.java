@@ -200,6 +200,7 @@ public class MHRMovement extends X_HR_Movement
 			setAD_Org_ID(employee.getAD_Org_ID());
 		}
 		setC_BP_Group_ID(getC_BPartner().getC_BP_Group_ID());
+		setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
 		// BankAccount
 		int C_BP_BankAccount_ID = new Query(getCtx(), I_C_BP_BankAccount.Table_Name, COLUMNNAME_C_BPartner_ID+"=?", get_TrxName())
 			.setOnlyActiveRecords(true)
