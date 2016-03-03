@@ -24,10 +24,10 @@ version := "0.1.0-SNAPSHOT"
 scalaVersion := "2.11.7"
 
 fork := true
-val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/Adempiere.properties"
-
+val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/AdempiereTest.properties"
 //scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-encoding" , "utf8")
 javaOptions in Test := Seq (adempiereProperties)
+
 
 libraryDependencies += "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided"
 libraryDependencies ++= Seq(
