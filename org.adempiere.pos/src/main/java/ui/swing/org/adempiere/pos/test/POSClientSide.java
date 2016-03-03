@@ -119,10 +119,7 @@ public class POSClientSide extends Thread {
 	    	 dis = new DataInputStream(socketClient.getInputStream());
              int record_ID = dis.readInt(); 
               
-	 	
-
-						
-	    		 // Name File
+	    	 // Name File
              String name = "zk"+dis.readUTF().toString(); 
 
               // Size File
@@ -147,7 +144,7 @@ public class POSClientSide extends Thread {
 		      out.flush(); 
 			  out.close(); 
     		  try{
-    			  
+        		  setText("Operating system: " + System.getProperty("os.name"));
     			  if(!System.getProperty("os.name").equalsIgnoreCase(LINUXSO)){
     				  ReportCtl.startDocumentPrint(0, record_ID, true);
 //    				  printOtherOS(fis);
@@ -170,7 +167,7 @@ public class POSClientSide extends Thread {
 		  
 	  
 	    } catch (IOException e) {
-			  setText("Error while executing printing");
+			  setText("Error in printing process");
 	    }
 	    finally {
 	    	isStopped=true;
