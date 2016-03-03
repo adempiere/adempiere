@@ -19,17 +19,19 @@ package org.eevolution.services
 import java.util.Properties
 
 import org.compiere.model._
+import org.eevolution.dsl._
 
 /**
+ * SysConfigService
  *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 15/01/16
  */
-trait SysConfigService {
-  def getSysConfig(context: Properties , name : String ,  trxName : String ) : MSysConfig = {
+trait SystemConfigService {
+  def getSystemConfig(context: Properties, name : String, trxName : String ) : SystemConfig = {
     val whereClause = new StringBuilder()
     whereClause.append(I_AD_SysConfig.COLUMNNAME_Name).append("=?")
-    val sysConfig:MSysConfig = new Query(context, I_AD_SysConfig.Table_Name, whereClause.toString(), trxName)
+    val systemConfig = new Query(context, I_AD_SysConfig.Table_Name, whereClause.toString(), trxName)
       .setParameters(name)
       .first()
-    sysConfig
+    systemConfig
   }
 }

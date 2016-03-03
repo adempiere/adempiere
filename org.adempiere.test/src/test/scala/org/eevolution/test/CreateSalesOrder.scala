@@ -39,10 +39,10 @@ class CreateSalesOrder extends FeatureSpec  with AdempiereTestCase with GivenWhe
       val HQ = { Organization }
       val HQWarehouse = { Warehouse }
       val QtyOak = { BigDecimal(1) }
-      val Oak = { getProduct("Oak", trxName) }
+      val Oak = { getProductByValue("Oak") }
       val OakPrice  = { 61.75 }
       val QtyAzalea =  { 2 }
-      val Azalea  = { getProduct("Azalea Bush",trxName) }
+      val Azalea  = { getProductByValue("Azalea Bush") }
       val AzaleaPrice = { 23.75}
       val TotalSales = { (OakPrice * 1)+(AzaleaPrice * 2) }
 

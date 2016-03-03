@@ -14,37 +14,35 @@
   * Contributor(s): Victor Perez www.e-evolution.com                           *
   * ****************************************************************************/
 
-package org.eevolution.test
+package org.eevolution.services
 
-import org.compiere.model.{MOrg, MWarehouse}
-import org.compiere.util.{Env, Trx}
+import org.compiere.model._
 
-import org.scalatest.{BeforeAndAfterAll, Suite}
+import org.eevolution.dsl
+import org.eevolution.dsl._
 
-/**
-  * Define a trait to create an ADempiere test
-  * eEvolution author Victor Perez <victor.perez@e-evolution.com> ,Created by e-Evolution on 07/01/16.
-  */
-trait AdempiereTestCase extends AdempiereStartup with Suite with BeforeAndAfterAll {
-
-  var trxName = Trx.createTrxName(getClass.getName + "_")
-
-  override def beforeAll() {
-    startup
+/***
+ * Tax Service
+ *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 01/03/16
+ */
+trait TaxService {
+  def getTaxByName (name : String) (implicit context : Context, transaction : Transaction) : dsl.Tax = {
+    val whereClause = new StringBuilder()
+    whereClause.append(I_C_Tax.COLUMNNAME_Name).append("=?")
+    val tax : dsl.Tax= new Query(context, I_C_Tax.Table_Name, whereClause.toString(), transaction.getTrxName)
+        .setClient_ID()
+      .setParameters(name)
+      .first()
+    tax
   }
 
-  override def afterAll() {
-    // Rollback the transaction, if any
-    val trx: Trx = Trx.get(trxName, false)
-    if (trx != null && trx.isActive) {
-      trx.rollback
-      trx.close
-    }
+  def getTaxCategoryByName (name : String) (implicit context : Context, transaction : Transaction) : dsl.TaxCategory = {
+    val whereClause = new StringBuilder()
+    whereClause.append(I_C_TaxCategory.COLUMNNAME_Name).append("=?")
+    val taxCategory : dsl.TaxCategory = new Query(context, I_C_TaxCategory.Table_Name, whereClause.toString(), transaction.getTrxName)
+        .setClient_ID()
+      .setParameters(name)
+      .first()
+    taxCategory
   }
-  import org.eevolution.dsl._
-  def Organization : Organization = MOrg.get(Env.getCtx , Env.getAD_Org_ID(Env.getCtx))
-  def Warehouse : Warehouse = MWarehouse.get(Env.getCtx, Env.getContextAsInt(Env.getCtx(), "#M_Warehouse_ID"))
-  implicit def Context : Context = Env.getCtx
-  implicit def Transaction : Transaction = Trx.get(trxName, false)
-  def Today : Date = Env.getContextAsDate(Context, "#Date")
 }
