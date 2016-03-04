@@ -681,12 +681,14 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		m_SideServer = new SideServer();
 		new Thread(m_SideServer).start();
 	}
-	
+
 	/**
 	 * Print File
 	 * @param data
 	 */
-	public void printFile(byte[] data){
-		m_SideServer.printFile(data);
+	public void printFile(byte[] data, int record_ID){
+		m_SideServer.printFile(data, record_ID);
 	}
+	
+	
 }	//	PosPanel

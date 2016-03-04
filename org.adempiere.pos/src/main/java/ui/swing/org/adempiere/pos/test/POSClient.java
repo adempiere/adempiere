@@ -43,13 +43,13 @@ public class POSClient {
 		public static void main(String[] args) {
 
 			/**	Properties		*/
-			Properties m_ctx = null;
+			Properties m_ctx = new Properties();
 			Adempiere.startup(true);	//	needs to be here for UI
 			Splash splash = new  Splash("POS Client");
 			final FormFrame frame = new FormFrame(new CFrame("POS Client"));
 			//  Focus Traversal
 			KeyboardFocusManager.setCurrentKeyboardFocusManager(AKeyboardFocusManager.get());
-			
+
 			ALogin login = new ALogin(splash);
 			if (!login.initLogin())		//	no automatic login
 			{
@@ -84,7 +84,7 @@ public class POSClient {
 			splash.dispose();
 			splash = null;	
 			POSClientWindow m_window;
-			m_window= new POSClientWindow();
+			m_window= new POSClientWindow(m_ctx);
 			m_window.setVisible(true);
 		 
 		}
