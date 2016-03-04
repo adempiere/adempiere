@@ -17,8 +17,10 @@
 
 package org.adempiere.pos;
 
+import java.awt.*;
 import java.math.BigDecimal;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
@@ -26,6 +28,7 @@ import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MOrder;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -34,6 +37,8 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zk.ui.event.KeyEvent;
+
+import javax.swing.*;
 
 
 /**
@@ -58,8 +63,9 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 	private Button 			buttonUp;
 	private Button 			buttonDown;
 	private Button 			buttonDelete;
-	private Button 			buttonMinus;
 	private Button 			buttonPlus;
+	private Button 			buttonMinus;
+	private Button 			buttonScales;
 	private POSNumberBox 	fieldQuantity;
 	private POSNumberBox 	fieldPrice;
 	private POSNumberBox	fieldDiscountPercentage;
@@ -102,6 +108,13 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		buttonDown = createButtonAction(ACTION_DOWN, "Alt+Down");
 		buttonDown.setTooltiptext("Alt+Down-"+Msg.translate(ctx, "Next"));
 		row.appendChild (buttonDown);
+
+		if (posPanel.isPresentElectronicScales()) {
+			buttonScales = createButtonAction("Calculator", "Ctrl+W");
+			buttonScales.setTooltiptext("ALT+down-" + Msg.translate(ctx, "Calculator"));
+			row.appendChild(buttonScales);
+			buttonScales.addActionListener(posPanel.getScalesListener());
+		}
 		
 		Label qtyLabel = new Label(Msg.translate(Env.getCtx(), "QtyOrdered"));
 		row.appendChild(qtyLabel);
@@ -147,101 +160,99 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 	
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if (Events.ON_CTRL_KEY.equals(e.getName())) {
-    		KeyEvent keyEvent = (KeyEvent) e;
-    		//Alt+up == 38
-    		if (keyEvent.getKeyCode() == 38 ) {
-    			posPanel.moveUp();
-    		}
-    		//Alt+down == 40
-    		if (keyEvent.getKeyCode() == 40 ) {
-    			posPanel.moveDown();
-    		}
-    		//ctrl+f3 == 114
-    		if (keyEvent.getKeyCode() == 114 ) {
-				posPanel.deleteLine(posPanel.getC_OrderLine_ID());
-				fieldQuantity.setValue(0.0);
-				fieldPrice.setValue(0.0);
-				fieldDiscountPercentage.setValue(0.0);
-    		}
-    		//ctrl+1 == 49
-    		if (keyEvent.getKeyCode() == 49 ) {
-    			fieldQuantity.setValue(fieldQuantity.getValue().add(CurrentQuantity));
-    		}
-    		//ctrl+0 == 48
-    		if (keyEvent.getKeyCode() == 48 ) {
-    			fieldQuantity.setValue(fieldQuantity.getValue().subtract(CurrentQuantity));
-    		}
-		}
-		if (e.getTarget().equals(buttonUp)){
-			posPanel.moveUp();
-			return;
-		}
-		else if (e.getTarget().equals(buttonDown)){
-			posPanel.moveDown();
-			return;
-		}
-		if (e.getTarget().equals(buttonMinus)){
-			BigDecimal quantity = fieldQuantity.getValue().subtract(CurrentQuantity);
-			if(quantity.compareTo(Env.ZERO) == 0) {
-				posPanel.setUserPinListener(e);
-				if(posPanel.isUserPinValid()) {
+		try {
+			if (Events.ON_CTRL_KEY.equals(e.getName())) {
+				KeyEvent keyEvent = (KeyEvent) e;
+				//Alt+up == 38
+				if (keyEvent.getKeyCode() == 38 ) {
+					posPanel.moveUp();
+				}
+				//Alt+down == 40
+				if (keyEvent.getKeyCode() == 40 ) {
+					posPanel.moveDown();
+				}
+				//ctrl+f3 == 114
+				if (keyEvent.getKeyCode() == 114 ) {
+					posPanel.deleteLine(posPanel.getC_OrderLine_ID());
+					fieldQuantity.setValue(0.0);
+					fieldPrice.setValue(0.0);
+					fieldDiscountPercentage.setValue(0.0);
+				}
+				//ctrl+1 == 49
+				if (keyEvent.getKeyCode() == 49 ) {
+					fieldQuantity.setValue(fieldQuantity.getValue().add(CurrentQuantity));
+				}
+				//ctrl+0 == 48
+				if (keyEvent.getKeyCode() == 48 ) {
+					fieldQuantity.setValue(fieldQuantity.getValue().subtract(CurrentQuantity));
+				}
+			}
+			if (e.getTarget().equals(buttonUp)){
+				posPanel.moveUp();
+				return;
+			}
+			else if (e.getTarget().equals(buttonDown)){
+				posPanel.moveDown();
+				return;
+			}
+			if (e.getTarget().equals(buttonMinus)){
+				BigDecimal quantity = fieldQuantity.getValue().subtract(CurrentQuantity);
+				if(quantity.compareTo(Env.ZERO) == 0) {
+					if(posPanel.isUserPinValid()) {
+						posPanel.setQuantity(quantity);
+					}
+				} else {
 					posPanel.setQuantity(quantity);
 				}
-			} else {
-				posPanel.setQuantity(quantity);
 			}
-		}
-		else if (e.getTarget().equals(buttonPlus)){
-			posPanel.setQuantity(fieldQuantity.getValue().add(CurrentQuantity));
-		}
-		else if (e.getTarget().equals(buttonDelete)){
-			posPanel.setUserPinListener(e);
-			if(posPanel.isUserPinValid()) {
-				posPanel.deleteLine(posPanel.getC_OrderLine_ID());
-				fieldQuantity.setValue(0.0);
-				fieldPrice.setValue(0.0);
-				fieldDiscountPercentage.setValue(0.0);
+			else if (e.getTarget().equals(buttonPlus)){
+				posPanel.setQuantity(fieldQuantity.getValue().add(CurrentQuantity));
 			}
-		}
-		
-		if(Events.ON_CHANGE.equals(e.getName()) || Events.ON_CHANGING.equals(e.getName()) 
-				&& ((InputEvent)e).getValue() != null) {
-			BigDecimal value = Env.ZERO;
-			if(((InputEvent)e).getValue().length() > 0)
-				value = new BigDecimal(((InputEvent)e).getValue());
-			
-			if(e.getTarget().equals(fieldQuantity.getDecimalbox())) {
-				posPanel.setQuantity(value);
-			} 
-			else if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
-				posPanel.setUserPinListener(e);
+			else if (e.getTarget().equals(buttonDelete)){
 				if(posPanel.isUserPinValid()) {
-					posPanel.setPrice(value);
-				}	
-			}
-			else if ( e.getTarget().equals(fieldDiscountPercentage.getDecimalbox())) {
-				posPanel.setUserPinListener(e);
-				if(posPanel.isUserPinValid()) {
-					posPanel.setDiscountPercentage(value);
+					posPanel.deleteLine(posPanel.getC_OrderLine_ID());
+					fieldQuantity.setValue(0.0);
+					fieldPrice.setValue(0.0);
+					fieldDiscountPercentage.setValue(0.0);
 				}
 			}
+
+			if(Events.ON_CHANGE.equals(e.getName()) || Events.ON_CHANGING.equals(e.getName())
+					&& ((InputEvent)e).getValue() != null) {
+				BigDecimal value = Env.ZERO;
+				if(((InputEvent)e).getValue().length() > 0)
+					value = new BigDecimal(((InputEvent)e).getValue());
+
+				if(e.getTarget().equals(fieldQuantity.getDecimalbox())) {
+					posPanel.setQuantity(value);
+				}
+				else if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
+					if(posPanel.isUserPinValid()) {
+						posPanel.setPrice(value);
+					}
+				}
+				else if ( e.getTarget().equals(fieldDiscountPercentage.getDecimalbox())) {
+					if(posPanel.isUserPinValid()) {
+						posPanel.setDiscountPercentage(value);
+					}
+				}
+			}
+		} catch (AdempiereException exception) {
+			FDialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
-		posPanel.changeViewQuantityPanel();
-		posPanel.updateLineTable();
 	}
 	
 	/**
 	 * Change Status 
-	 * @param p_Status
+	 * @param status
 	 */
-	public void changeStatus(boolean p_Status) {
-		fieldQuantity.setEnabled(p_Status);
-		fieldPrice.setEnabled(p_Status);
-		fieldDiscountPercentage.setEnabled(p_Status);
-		buttonDelete.setEnabled(p_Status);
-		buttonPlus.setEnabled(p_Status);
-		buttonMinus.setEnabled(p_Status);
+	public void changeStatus(boolean status) {
+		fieldQuantity.setEnabled(status);
+		fieldPrice.setEnabled(status);
+		fieldDiscountPercentage.setEnabled(status);
+		buttonDelete.setEnabled(status);
+		buttonPlus.setEnabled(status);
+		buttonMinus.setEnabled(status);
 	}
 	
 	@Override
@@ -256,6 +267,12 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 				buttonDelete.setEnabled(true);
 				buttonPlus.setEnabled(true);
 				buttonMinus.setEnabled(true);
+
+				if (posPanel.isPresentElectronicScales())
+					buttonScales.setEnabled(true);
+				else
+					buttonScales.setVisible(false);
+
 				fieldQuantity.setEnabled(true);
 				if(posPanel.isReturnMaterial() ){
 					fieldPrice.setEnabled(false);
@@ -268,6 +285,12 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 				buttonDelete.setEnabled(false);
 				buttonPlus.setEnabled(false);
 				buttonMinus.setEnabled(false);
+
+				if (posPanel.isPresentElectronicScales())
+					buttonScales.setEnabled(false);
+				else
+					buttonScales.setVisible(false);
+
 				fieldPrice.setEnabled(false);
 				fieldQuantity.setEnabled(false);
 				fieldDiscountPercentage.setEnabled(false);
@@ -276,6 +299,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 			buttonDown.setEnabled(false);
 			buttonUp.setEnabled(false);
 		}
+		changeViewPanel();
 	}
 
 	@Override
@@ -285,7 +309,6 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 
 	@Override
 	public void moveDown() {
-		
 	}
 
 	@Override
@@ -299,9 +322,9 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 			changeStatus(false);
 		else
 			changeStatus(true);
-		fieldQuantity.setValue(posPanel.getQty().doubleValue());
-		fieldPrice.setValue(posPanel.getPrice().doubleValue());
-		fieldDiscountPercentage.setValue(posPanel.getDiscountPercentage().doubleValue());
+		fieldQuantity.setValue(posPanel.getQty());
+		fieldPrice.setValue(posPanel.getPrice());
+		fieldDiscountPercentage.setValue(posPanel.getDiscountPercentage());
 	}
 
 	public void resetPanel() {
@@ -313,9 +336,19 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		buttonDelete.setEnabled(false);
 		buttonPlus.setEnabled(false);
 		buttonMinus.setEnabled(false);
+		if (posPanel.isPresentElectronicScales())
+			buttonScales.setEnabled(false);
 		fieldPrice.setEnabled(false);
 		fieldQuantity.setEnabled(false);
 		fieldDiscountPercentage.setEnabled(false);
 	}
 
+	public void setQuantity(BigDecimal value) {
+		fieldQuantity.setValue(value);
+		fieldQuantity.focus();
+	}
+
+	public void requestFocus() {
+		fieldQuantity.focus();
+	}
 }

@@ -70,6 +70,69 @@ import org.zkoss.zul.Timer;
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class WPOS extends CPOS implements IFormController, EventListener, POSPanelInterface, POSScalesPanelInterface {
+
+	/** Window No 							*/
+	private int 							windowNo 	 = 0 ;
+	private CustomForm 						form 		 = new CustomForm();
+	/**	FormFrame							*/
+	private Iframe 							frame;
+	/**	Logger								*/
+	private CLogger							log 		 = CLogger.getCLogger(getClass());
+	private DecimalFormat					m_Format;
+	/** Window								*/
+	private Window 							selection;
+	/** Panel								*/
+	public Panel 							v_Panel 	 = new Panel();
+	/**	Timer for logout					*/
+	private Timer							logoutTimer;
+	/**	Timer for User Pin					*/
+	private Timer 							userPinTimer;
+	/** Find scales Timer 					*/
+	private Timer 							scalesTimer;
+	/** Is Correct User Pin			*/
+	private Boolean							isCorrectUserPin;
+	/** User Pin Listener 			*/
+	private WPOSUserPinListener 			userPinListener;
+	/** Electronic Scales			*/
+	private WPOSScalesListener 				scalesListener;
+	/** Keyoard Focus Manager				*/
+	private PosKeyboardFocusManager 		focusManager = null;
+	/**	Key Boards							*/
+	private HashMap<Integer, WPOSKeyboard> 	keyboards 	 = new HashMap<Integer, WPOSKeyboard>();
+	/** Order Panel							*/
+	private WPOSActionPanel 				actionPanel;
+	/** Quantity panel **/
+	private WPOSQuantityPanel 				quantityPanel;
+	/**	Info Product Panel	*/
+	private WPOSInfoProduct 				infoProductPanel;
+	/** Current Line		*/
+	private WPOSOrderLinePanel 				orderLinePanel;
+	/** Function Keys		*/
+	private WPOSDocumentPanel 				documentPanel;
+	/** Status Bar 							*/
+	private StatusBarPanel 					statusBar = new StatusBarPanel();
+
+	/** Actions 							*/
+	private Button 							okButton = new Button("Ok");
+	private Button 							cancelButton = new Button("Cancel");
+
+	/**	Today's (login) date				*/
+	private Timestamp						m_today 	 = Env.getContextAsDate(ctx, "#Date");
+	private Listbox 						listTerminal = ListboxFactory.newDropdownListbox();
+	private List<MPOS> poss;
+
+	/** Default Font Size Medium 				*/
+	public static final String 	FONTSIZEMEDIUM	= "Font-size:medium;";
+	/** Default Font Size Small 				*/
+	public static final String 	FONTSIZESMALL 	= "Font-size:small;";
+	/** Default Font Size Large 				*/
+	public static final String 	FONTSIZELARGE 	= "Font-size:x-large;";
+	/** Default Font Weight	 					*/
+	public static final String 	FONTSTYLE 		= "font-weight:bold;";
+	/** Status bar info							*/
+	private String 							statusBarInfo = "";
+	/** Side Server for Printer 				*/
+	private static SideServer 				sideServer;
 	/**
 	 * 	Constructor - see init 
 	 */
@@ -84,67 +147,12 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	private void SettingKeyboardFocusManager()
 	{
 		if (isVirtualKeyboard()) {
-			m_focusMgr = new PosKeyboardFocusManager();
-			KeyboardFocusManager.setCurrentKeyboardFocusManager(m_focusMgr);
+			focusManager = new PosKeyboardFocusManager();
+			KeyboardFocusManager.setCurrentKeyboardFocusManager(focusManager);
 		}
 	}
 
-	private CustomForm 						form 		 = new CustomForm();
-	/**	FormFrame							*/
-	private Iframe 							m_frame;
-	/**	Logger								*/
-	private CLogger							log 		 = CLogger.getCLogger(getClass());
-	private DecimalFormat					m_Format;
-	/** Window								*/
-	private Window 							selection;
-	/** Window No 							*/
-	private int 							windowNo 	 = 0 ;
-	/** Panel								*/
-	public Panel 							v_Panel 	 = new Panel();
-	/** Keyoard Focus Manager				*/
-	private PosKeyboardFocusManager			m_focusMgr   = null;
-	/**	Timer for logout					*/
-	private Timer							logoutTimer;
-	/**	Timer for User Pin					*/
-	private Timer 							userPinTimer;
-	/** Is Correct User Pin					*/
-	private Boolean							isCorrectUserPin;
-	/** User Pin Listener 					*/
-	private WPOSUserPinListener 			userPinListener;
-	/** Order Panel							*/
-	private WPOSActionPanel 				v_ActionPanel;
-	private WPOSProductPanel 				f_ProductKeysPanel;
-	private WPOSOrderLinePanel 				f_OrderLinePanel;
-	/** Quantity panel **/
-	private WPOSQuantityPanel 				v_QuantityPanel;
-	/**	Info Product Panel	*/
-	private WPOSInfoProduct 				infoProductPanel;
 
-	/** Status Bar 							*/
-	private StatusBarPanel 					statusBar = new StatusBarPanel();
-	
-	/** Actions 							*/
-	private Button 							b_ok 		 = new Button("Ok");
-	private Button 							b_cancel	 = new Button("Cancel");
-	
-	/**	Today's (login) date				*/
-	private Timestamp						m_today 	 = Env.getContextAsDate(ctx, "#Date");
-	private HashMap<Integer, WPOSKeyboard> 	keyboards 	 = new HashMap<Integer, WPOSKeyboard>();
-	private Listbox 						listTerminal = ListboxFactory.newDropdownListbox();
-	private List<MPOS> poss;
-	
-	/** Default Font Size Medium 				*/
-	public static final String 	FONTSIZEMEDIUM	= "Font-size:medium;";
-	/** Default Font Size Small 				*/
-	public static final String 	FONTSIZESMALL 	= "Font-size:small;";
-	/** Default Font Size Large 				*/
-	public static final String 	FONTSIZELARGE 	= "Font-size:x-large;";
-	/** Default Font Weight	 					*/
-	public static final String 	FONTSTYLE 		= "font-weight:bold;";
-	/** Status bar info							*/
-	private String 							statusBarInfo = "";	
-	/** Side Server for Printer 				*/
-	private static SideServer 				m_SideServer;
 
 	/**
 	 *	zk Initialize Panel
@@ -164,7 +172,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		}
 		catch (AdempierePOSException exception)
 		{
-			FDialog.error( getWindowNo() , m_frame , exception.getLocalizedMessage());
+			FDialog.error( getWindowNo() , frame, exception.getLocalizedMessage());
 			dispose();
 			return;
 		}
@@ -192,11 +200,11 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		userPinListener.setTimer(userPinTimer);
 		userPinTimer.setRunning(false);
 		Borderlayout mainLayout = new Borderlayout();	
-		v_ActionPanel = new WPOSActionPanel(this);
-		f_ProductKeysPanel = new WPOSProductPanel(this);
-		f_OrderLinePanel = new WPOSOrderLinePanel(this);
+		actionPanel = new WPOSActionPanel(this);
+		documentPanel = new WPOSDocumentPanel(this);
+		orderLinePanel = new WPOSOrderLinePanel(this);
 		infoProductPanel = new WPOSInfoProduct(this);
-		v_QuantityPanel = new WPOSQuantityPanel(this);
+		quantityPanel = new WPOSQuantityPanel(this);
 		East east = new East();
 		Center center = new Center();
 		North actionPanel = new North();
@@ -214,15 +222,15 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		fullPanel.setWidth("100%");
 		fullPanel.setHeight("100%");
 		
-		table.appendChild(f_OrderLinePanel);
-		actionPanel.appendChild(v_ActionPanel);
-		east.appendChild(f_ProductKeysPanel);
+		table.appendChild(orderLinePanel);
+		actionPanel.appendChild(this.actionPanel);
+		east.appendChild(documentPanel);
 		east.appendChild(infoProductPanel);
 		east.setSplittable(true);
 		east.setStyle("border: none; min-width:44%; width:44%");
 		actionPanel.setStyle("border: none; height:auto; position:relative;float:left;overflow:auto; ");
 
-		qtyPanel.appendChild(v_QuantityPanel);
+		qtyPanel.appendChild(quantityPanel);
 		
 		fullPanel.appendChild(actionPanel);
 
@@ -297,13 +305,13 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		for(MPOS pos : poss){
 			listTerminal.addItem(pos.getKeyNamePair());
 		}
-		b_ok.addActionListener(this);
-		b_cancel.addEventListener("onClick", this);
+		okButton.addActionListener(this);
+		cancelButton.addEventListener("onClick", this);
 		row.setSpans("2");
 		row.appendChild(listTerminal);
 		row = rows.newRow();
-		row.appendChild(b_ok);
-		row.appendChild(b_cancel);
+		row.appendChild(okButton);
+		row.appendChild(cancelButton);
 		AEnv.showWindow(selection);
 			
 	}	//	setMPOS
@@ -367,25 +375,25 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		logoutTimer = null;
 		
 		if (isVirtualKeyboard()) {
-			if (m_focusMgr != null)
-				m_focusMgr.stop();
-			m_focusMgr = null;
+			if (focusManager != null)
+				focusManager.stop();
+			focusManager = null;
 		}
 		//
-		if (m_frame != null)
-			m_frame.detach();
+		if (frame != null)
+			frame.detach();
 		
-		m_frame = null;
+		frame = null;
 		ctx = null;
 	}	//	dispose
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if(e.getTarget().equals(b_ok)){
+		if(e.getTarget().equals(okButton)){
 			setM_POS(poss.get(listTerminal.getSelectedIndex()));
 			selection.dispose();
 		}
-		if(e.getTarget().equals(b_cancel)){
+		if(e.getTarget().equals(cancelButton)){
 			selection.dispose();
 		}
 	}
@@ -414,12 +422,12 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	public void refreshPanel() {
 		//	Reload from DB
 		reloadOrder();
-		f_OrderLinePanel.refreshPanel();
-		v_ActionPanel.refreshPanel();
-		f_ProductKeysPanel.refreshPanel();
+		orderLinePanel.refreshPanel();
+		actionPanel.refreshPanel();
+		documentPanel.refreshPanel();
 		if(!hasLines()) {
 			infoProductPanel.resetValues();
-			v_QuantityPanel.resetPanel();
+			quantityPanel.resetPanel();
 		}
 	}
 
@@ -443,10 +451,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		//parameterPanel.invalidate();
 	}
 
-	@Override
-	public void getMainFocus() {
-	}
-
 	/**
 	 * Add or replace order line
 	 * @param p_M_Product_ID
@@ -464,19 +468,19 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		String lineError = addOrUpdate(p_M_Product_ID, m_QtyOrdered);
 		if (lineError != null) {
 			log.warning("POS Error " + lineError);
-			FDialog.error(0, 
-					m_frame, Msg.parseTranslation(ctx, lineError));
+			FDialog.error(0,
+					frame, Msg.parseTranslation(ctx, lineError));
 		}
 		//	Update Info
 		refreshPanel();
-		f_OrderLinePanel.seekFromProduct(p_M_Product_ID);
+		orderLinePanel.seekFromProduct(p_M_Product_ID);
 	}
 	
 	@Override
 	public void changeViewPanel() {
-		f_OrderLinePanel.changeViewPanel();
-		v_QuantityPanel.changeViewPanel();
-		v_QuantityPanel.refreshPanel();
+		orderLinePanel.changeViewPanel();
+		quantityPanel.changeViewPanel();
+		quantityPanel.refreshPanel();
 	}
 	
 	/**
@@ -486,23 +490,13 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	public void newOrder() {
 		newOrder(0);
 		infoProductPanel.resetValues();
-		v_QuantityPanel.resetPanel();
+		quantityPanel.resetPanel();
 		getMainFocus();
-	}
-
-	@Override
-	public javax.swing.Timer getScalesTimer() {
-		return null;
 	}
 
 	public int getWindowNo()
 	{
 		return windowNo;
-	}
-
-	@Override
-	public String getProductUOMSymbol() {
-		return null;
 	}
 
 	@Override
@@ -525,8 +519,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 */
 	public void refreshHeader() {
 		reloadOrder();
-		v_ActionPanel.changeViewPanel();
-		f_ProductKeysPanel.refreshPanel();
+		actionPanel.changeViewPanel();
+		documentPanel.refreshPanel();
 	}
 	
 	/**
@@ -534,16 +528,11 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 * @param p_M_Product_ID
 	 */
 	public void updateLineTable() {
-		f_OrderLinePanel.updateLine();
+		orderLinePanel.updateLine();
 	}
 
 	@Override
 	public void hideScales() {
-
-	}
-
-	@Override
-	public void showKeyboard() {
 
 	}
 
@@ -553,37 +542,26 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 */
 	public void showCollectPayment()
 	{
-		f_ProductKeysPanel.getCollectPayment().showCollect();
+		documentPanel.getCollectPayment().showCollect();
 	}
 	
 	/**
 	 * Close Collect Payment Panel
 	 * @return void
 	 */
-	public void closeCollectPayment()
+	/*public void closeCollectPayment()
 	{
-		f_ProductKeysPanel.closeCollectPayment();
-	}
-	
-	public void disablePOSButtons()
-	{
+		documentPanel.closeCollectPayment();
+	}*/
 
-		v_QuantityPanel.resetPanel();
-		v_ActionPanel.resetPanel();
-	}
 	@Override
 	public void moveUp() {
-		f_OrderLinePanel.moveUp();
+		orderLinePanel.moveUp();
 	}
 
 	@Override
 	public void moveDown() {
-		f_OrderLinePanel.moveDown();
-	}
-
-	public void changeViewQuantityPanel()
-	{
-		v_QuantityPanel.changeViewPanel();
+		orderLinePanel.moveDown();
 	}
 
 	public StatusBarPanel getStatusBar()
@@ -599,7 +577,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 
 	public int getC_OrderLine_ID()
 	{
-		return f_OrderLinePanel.getC_OrderLine_ID();
+		return orderLinePanel.getC_OrderLine_ID();
 	}
 	
 	/**
@@ -610,16 +588,16 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	{
 		return userPinListener;
 	}
-	
+
 	/**
-	 * return User Pin Listener
+	 * return Electronic Scales Listener
 	 * @return
-     */
-	public void setUserPinListener(Event e)
+	 */
+	public WPOSScalesListener getScalesListener()
 	{
-		userPinListener.doPerformAction(e);
+		return scalesListener;
 	}
-	
+
 	/**
 	 * set the correct user pin
 	 * @param isCorrectUserPin
@@ -640,11 +618,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		boolean isValidUserPin = isValidUserPin(userPin);
 		if (isValidUserPin)
 		{
-			System.out.println(userPinTimer.isRunning());
 			userPinTimer.start();
 			setIsCorrectUserPin(isValidUserPin);
-
-			System.out.println(userPinTimer.isRunning());
 		}
 	}
 
@@ -665,12 +640,84 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		if (!isRequiredPIN())
 			return true;
 
-		if (isCorrectUserPin == null || !isCorrectUserPin) {
-			//FDialog.error(0,Msg.parseTranslation(getCtx(), ("@Supervisor_ID@: @UserPin@ @IsInvalid@.")));
+		if (isCorrectUserPin == null)
+			WPOSUserPinDialog.show(this);
+
+		if (isCorrectUserPin == null || !isCorrectUserPin)
 			throw new AdempiereException("@Supervisor_ID@: @UserPin@ @IsInvalid@.");
-		}
 
 		return isCorrectUserPin;
+	}
+
+	/*/public void showCollectPayment()
+	{
+		documentPanel.getCollectPayment().showPanel();
+	}
+
+	public void showScales()
+	{
+		documentPanel.getScalesPanel().showPanel();
+	}
+
+	public void hideScales()
+	{
+		documentPanel.getScalesPanel().hidePanel();
+	}
+
+	public void setScalesMeasure(String measure)
+	{
+		documentPanel.getScalesPanel().setMeasure(measure);
+	}*/
+
+	public void showKeyboard()
+	{
+		documentPanel.getKeyboard().showPanel();
+	}
+
+	public void hideKeyboard()
+	{
+		documentPanel.getKeyboard().hidePanel();
+	}
+
+	public void disablePOSButtons()
+	{
+		infoProductPanel.resetValues();
+		quantityPanel.resetPanel();
+		actionPanel.resetPanel();
+	}
+
+	public String getProductUOMSymbol()
+	{
+		return infoProductPanel.getUOMSymbol();
+	}
+
+	public Timer getUserPinTimer()
+	{
+		return userPinTimer;
+	}
+
+	public Timer getScalesTimer()
+	{
+		return scalesTimer;
+	}
+
+	public void quantityRequestFocus()
+	{
+		quantityPanel.requestFocus();
+	}
+
+	public void getMainFocus()
+	{
+		actionPanel.getMainFocus();
+	}
+
+	/**
+	 * Set Quantity of Product
+	 * @param qty
+	 */
+	public void setQuantity(BigDecimal qty) {
+		quantityPanel.setQuantity(qty);
+		super.setQuantity(qty);
 	}
 	
 	/**
@@ -678,8 +725,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 * @return void
 	 */
 	private void startServerSocket(){
-		m_SideServer = new SideServer();
-		new Thread(m_SideServer).start();
+		sideServer = new SideServer();
+		new Thread(sideServer).start();
 	}
 
 	/**
@@ -687,7 +734,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 * @param data
 	 */
 	public void printFile(byte[] data, int record_ID){
-		m_SideServer.printFile(data, record_ID);
+		sideServer.printFile(data, record_ID);
 	}
 	
 	

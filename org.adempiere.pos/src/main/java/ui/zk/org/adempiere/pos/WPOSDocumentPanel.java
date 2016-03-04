@@ -25,6 +25,7 @@ import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.model.I_C_Order;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
@@ -45,7 +46,7 @@ import org.zkoss.zul.Style;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, POSPanelInterface {
+public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, POSPanelInterface {
 
 	/**
 	 * 
@@ -56,7 +57,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, PO
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public WPOSProductPanel (WPOS posPanel) {
+	public WPOSDocumentPanel(WPOS posPanel) {
 		super (posPanel);
 	}	//	PosSubFunctionKeys
 	
@@ -75,7 +76,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, PO
 	/**	Format				*/
 	private DecimalFormat	m_Format;
 	/**	Logger				*/
-	private static CLogger 	log = CLogger.getCLogger(WPOSProductPanel.class);
+	private static CLogger 	log = CLogger.getCLogger(WPOSDocumentPanel.class);
 	/**	Panels				*/
 	private Caption 		v_TitleBorder;
 	private Caption 		v_TitleInfo;
@@ -86,7 +87,9 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, PO
 	private Grid 			v_GroupPanel;
 	/** Collect 			*/
 	private WCollect 		collectPayment;
-	private WPOSKeyPanel 	panelProduct;
+	/** Scala Dialog 		*/
+	private WPOSScalesPanel 	scalesPanel;
+	private WPOSKeyPanel 	keyboardPanel;
 	private Row 			row; 
 	
 	@Override
@@ -268,76 +271,44 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, PO
 		rows = layout.newRows();
 		
 	
-		panelProduct = new WPOSKeyPanel(C_POSKeyLayout_ID, this);
+		keyboardPanel = new WPOSKeyPanel(C_POSKeyLayout_ID, this);
 		row = rows.newRow();
 		row.setHeight("50%");
 		row.setSpans("4");
-		row.appendChild(panelProduct);
+		row.appendChild(keyboardPanel);
 		
 		collectPayment = new WCollect(posPanel);
+
+		scalesPanel = new WPOSScalesPanel(posPanel);
+		scalesPanel.hidePanel();
+		//add(scalesPanel.getPanel(), scalesConstraint);
 		
 		//	Refresh
 		f_TotalLines.setText(m_Format.format(Env.ZERO));
 		f_GrandTotal.setText(m_Format.format(Env.ZERO));
 		f_TaxAmount.setText(m_Format.format(Env.ZERO));
+		//	Refresh
+		refreshPanel();
+	}	//	init
 
-
-	}
-	
-	@Override
-	public void refreshPanel() {
-		if (!posPanel.hasOrder()) {
-			f_SalesRep.setText(posPanel.getSalesRepName());
-			f_DocumentType.setText(Msg.getMsg(posPanel.getCtx(), "Order"));
-			f_DocumentNo.setText(Msg.getMsg(posPanel.getCtx(), "New"));
-			f_TotalLines.setText(posPanel.getNumberFormat().format(Env.ZERO));
-			f_GrandTotal.setText(posPanel.getNumberFormat().format(Env.ZERO));
-			f_TaxAmount.setText(posPanel.getNumberFormat().format(Env.ZERO));
-			f_BPartnerName.setText(null);
-			f_DocumentStatus.setText("");
-			f_DocumentDate.setText("");
-		} else {
-			BigDecimal m_TotalLines = posPanel.getTotalLines();
-			BigDecimal m_GrandTotal = posPanel.getGrandTotal();
-			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
-			String currencyISO_Code = posPanel.getCurSymbol();
-			//	Set Values
-			f_SalesRep.setText(posPanel.getSalesRepName());
-			f_DocumentType.setText(posPanel.getDocumentTypeName());
-			f_DocumentNo.setText(posPanel.getDocumentNo());
-			f_TotalLines.setText(currencyISO_Code + "" + posPanel.getNumberFormat().format(m_TotalLines));
-			f_GrandTotal.setText(currencyISO_Code + "" + posPanel.getNumberFormat().format(m_GrandTotal));
-			f_TaxAmount.setText(currencyISO_Code + "" + posPanel.getNumberFormat().format(m_TaxAmt));
-			f_BPartnerName.setText(posPanel.getBPName());
-			f_DocumentStatus.setText(posPanel.getM_Order().getDocStatusName());
-			f_DocumentDate.setText(posPanel.getM_Order().getDateOrdered().toString().substring(0,10));
-		}
-		v_TotalsPanel.invalidate();
-		v_OrderPanel.invalidate();
-		v_GroupPanel.invalidate();
-	}
-
-	@Override
-	public String validatePayment() {
-		return null;
-	}
-
-	@Override
-	public void changeViewPanel() {
-		
-	}
-
+	/**
+	 * Call back from key panel
+	 */
 	@Override
 	public void keyReturned(MPOSKey key) {
 		// processed order
 		if (posPanel.hasOrder()
-				&& posPanel.isCompleted()){
-					//	Show Product Info
+				&& posPanel.isCompleted()) {
+			//	Show Product Info
 			posPanel.refreshProductInfo(key);
-		return;
+			return;
 		}
 		// Add line
-		posPanel.addOrUpdateLine(key.getM_Product_ID(), key.getQty());
+		try{
+			posPanel.addOrUpdateLine(key.getM_Product_ID(), key.getQty());
+		} catch (Exception exception) {
+			FDialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
+		}
 		//	Show Product Info
 		posPanel.refreshProductInfo(key);
 		return;
@@ -403,13 +374,53 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, PO
 		//	Set Result
 		if (results.length == 1) {
 			MBPartner bp = MBPartner.get(ctx, results[0].getC_BPartner_ID());
-			posPanel.configureBPartner(results[0].getC_BPartner_ID());
+			posPanel.configureBPartner(bp.getC_BPartner_ID());
 			f_BPartnerName.setText(bp.getName()+"");
 		} else {	//	more than one
 			changeBusinessPartner(results);
 		}
-
+		//	Default return
+		posPanel.refreshPanel();
+		return;
 	}	//	findBPartner
+
+	@Override
+	public void refreshPanel() {
+		log.fine("RefreshPanel");
+		if (!posPanel.hasOrder()) {
+			//	Document Info
+			f_SalesRep.setText(posPanel.getSalesRepName());
+			f_DocumentType.setText(Msg.getMsg(posPanel.getCtx(), "Order"));
+			f_DocumentNo.setText(Msg.getMsg(posPanel.getCtx(), "New"));
+			f_DocumentStatus.setText("");
+			f_DocumentDate.setText("");
+			f_TotalLines.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			f_GrandTotal.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			f_TaxAmount.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			f_BPartnerName.setText(null);
+		} else {
+			String currencyISOCode = posPanel.getCurSymbol();
+			BigDecimal m_TotalLines = posPanel.getTotalLines();
+			BigDecimal m_GrandTotal = posPanel.getGrandTotal();
+			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
+			//	Set Values
+			//	Document Info
+			f_SalesRep.setText(posPanel.getSalesRepName());
+			f_DocumentType.setText(posPanel.getDocumentTypeName());
+			f_DocumentNo.setText(posPanel.getDocumentNo());
+			f_DocumentStatus.setText(posPanel.getM_Order().getDocStatusName());
+			f_DocumentDate.setText(posPanel.getM_Order().getDateOrdered().toString().substring(0,10));
+			f_TotalLines.setText(currencyISOCode + "" + posPanel.getNumberFormat().format(m_TotalLines));
+			f_GrandTotal.setText(currencyISOCode + "" + posPanel.getNumberFormat().format(m_GrandTotal));
+			f_TaxAmount.setText(currencyISOCode + "" + posPanel.getNumberFormat().format(m_TaxAmt));
+			f_BPartnerName.setText(posPanel.getBPName());
+		}
+		//	Repaint
+		v_TotalsPanel.invalidate();
+		v_OrderPanel.invalidate();
+		v_GroupPanel.invalidate();
+	}
+
 
 	/**
 	 * 	Change in Order the Business Partner, including Price list and location
@@ -419,6 +430,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, PO
 	public boolean changeBusinessPartner(MBPartnerInfo[] results) {
 		// Change to another BPartner
 		WQueryBPartner qt = new WQueryBPartner(posPanel);
+
 		qt.setResults(results);
 		AEnv.showWindow(qt);
 		if (qt.getRecord_ID() > 0) {
@@ -435,31 +447,21 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, PO
 		return false;
 	}
 
-	/**
-	 * Get Collect Payment Panel
-	 * @return WCollect
-	 */
-	public WCollect getCollectPayment()
-	{
-		row.removeChild(panelProduct);
-		row.setHeight("50%");
-		row.setSpans("4");
-		row.appendChild(collectPayment.getPanel());
-		return collectPayment.load(posPanel);
+	@Override
+	public String validatePayment() {
+		return null;
 	}
-	
-	/**
-	 * Close Collect Payment Panel
-	 * @return void
-	 */
-	public void closeCollectPayment()
-	{
-		row.removeChild(collectPayment.getPanel());
-		row.setHeight("50%");
-		row.setSpans("4");
-		row.appendChild(panelProduct);
+
+	@Override
+	public void changeViewPanel() {
+		if(posPanel.hasOrder()) {
+			//	When order is not completed, you can change BP
+			f_BPartnerName.setReadonly(posPanel.isCompleted());
+		} else {
+			f_BPartnerName.setReadonly(false);
+		}
 	}
-	
+
 	@Override
 	public void moveUp() {
 	}
@@ -467,4 +469,28 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, PO
 	@Override
 	public void moveDown() {
 	}
+
+	/**
+	 * Get Collect Payment Panel
+	 * @return WCollect
+	 */
+	public WCollect getCollectPayment()
+	{
+		row.removeChild(keyboardPanel);
+		row.setHeight("50%");
+		row.setSpans("4");
+		row.appendChild(collectPayment.getPanel());
+		return collectPayment.load(posPanel);
+	}
+
+	public WPOSScalesPanel getScalesPanel()
+	{
+		return scalesPanel;
+	}
+
+	public WPOSKeyPanel getKeyboard()
+	{
+		return keyboardPanel;
+	}
+
 }

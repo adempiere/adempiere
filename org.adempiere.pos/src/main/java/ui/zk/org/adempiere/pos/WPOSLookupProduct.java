@@ -22,6 +22,7 @@ import java.util.Arrays;
 
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.util.StringUtils;
+
 import org.adempiere.webui.component.AutoComplete;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -39,46 +40,60 @@ import org.zkoss.zul.event.TreeDataListener;
  */
 public class WPOSLookupProduct extends AutoComplete implements EventListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2303830709901143774L;
-    private AutoComplete component = null;
+    private POSLookupProductInterface lookupProductInterface = null;
+    //private POSTextField fieldProductName = null;
+    private long lastKeyboardEvent = 0;
+    private boolean searched = false;
+    private boolean selectLock = false;
+    private AutoComplete productLookupComboBox = null;
     private Integer priceListVersionId = 0;
     private Integer warehouseId = 0;
     private String fill = StringUtils.repeat(" " , 400);
     static private Integer PRODUCT_VALUE_LENGTH = 14;
     static private Integer PRODUCT_NAME_LENGTH = 50;
-    static private Integer QUNATITY_LENGTH = 16;
+    static private Integer QUANTITY_LENGTH = 16;
 
     private String separator = "|";
     private String productValueTitle   = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@ProductValue@") + fill , PRODUCT_VALUE_LENGTH );
     private String productTitle        = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@M_Product_ID@") + fill , PRODUCT_NAME_LENGTH );
-    private String availableTitle      = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@QtyAvailable@") + fill , QUNATITY_LENGTH );
-    private String priceStdTitle       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceStd@")     + fill , QUNATITY_LENGTH );
-    private String priceListTile       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceList@")    + fill , QUNATITY_LENGTH );
+    private String availableTitle      = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@QtyAvailable@") + fill , QUANTITY_LENGTH );
+    private String priceStdTitle       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceStd@")     + fill , QUANTITY_LENGTH );
+    private String priceListTile       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceList@")    + fill , QUANTITY_LENGTH );
     private String title = "";
-    
-    private ArrayList<Integer> recordId;  
+
+    private ArrayList<Integer> recordId;
     private int index = -1;
 
-    public WPOSLookupProduct (WPOSActionPanel actionPanel, WPOSTextField fieldProductName, long lastKeyboardEvent) {
-    	super();
-    	component = new AutoComplete();
+    public WPOSLookupProduct (POSLookupProductInterface lookupProductInterface, WPOSTextField fieldProductName, long lastKeyboardEvent)
+    {
+        super();
+        this.lookupProductInterface = lookupProductInterface;
+        //this.fieldProductName = fieldProductName;
+        this.lastKeyboardEvent = lastKeyboardEvent;
+
+        productLookupComboBox = new AutoComplete();
         this.setClass("input-search");
         this.setButtonVisible(false);
         this.addEventListener(Events.ON_FOCUS, this);
         this.addEventListener(Events.ON_BLUR, this);
         this.addEventListener(Events.ON_SELECT, this);
-        setFillingComponent();
-        component.setStyle("Font-size:medium; font-weight:bold");
+        setFillingComponent(productLookupComboBox);
+        productLookupComboBox.setStyle("Font-size:medium; font-weight:bold");
     }
-    
+
+    public void setLastKeyboardEvent(long lastKeyboardEvent)
+    {
+        this.lastKeyboardEvent = lastKeyboardEvent;
+    }
+
     /**
      * Set Filling Component
-     * @param void
      */
-    public void setFillingComponent() {
+    public void setFillingComponent(AutoComplete productLookupComboBox) {
+        this.productLookupComboBox = productLookupComboBox;
+        //productLookupComboBox.addActionListener(this);
+        //productLookupComboBox.addKeyListener(this);
         char[] charArray = new char[200];
         Arrays.fill(charArray,' ');
         this.fill = new String(charArray);
@@ -90,7 +105,7 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
                 .append(priceListTile).toString();
         this.setText(this.title);
     }
-    
+
     /**
      * Set Price List Version ID
      * @param priceListVersionId
@@ -98,7 +113,7 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
     public void setPriceListVersionId(int priceListVersionId) {
         this.priceListVersionId = priceListVersionId;
     }
-    
+
     /**
      * Set Warehouse ID
      * @param warehouseId
@@ -106,55 +121,7 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
     public void setWarehouseId(int warehouseId) {
         this.warehouseId = warehouseId;
     }
-    
-    /**
-     * Execute Query
-     * @param value
-     */
-    private void executeQuery(String value) {
-    	
-    	this.setOpen(false);
-    	if(value.trim().length() < 3) {
-			return;
-		}
-    	if(value.length() <= 0) {
-            this.setText(title);    		
-    		this.removeAllItems();
-    		return;
-    	}
 
-    	component.removeAllItems();
-
-        ArrayList<String> line = new ArrayList<String>();
-        recordId = new ArrayList<Integer>();
-        for (java.util.Vector<Object> columns : CPOS.getQueryProduct(value, warehouseId, priceListVersionId))
-        {
-            recordId.add((Integer) columns.elementAt(0));
-            String productValue = (String)columns.elementAt(1);
-            String productName = (String)columns.elementAt(2);
-            String qtyAvailable = (String)columns.elementAt(3);
-            String priceStd =  (String)columns.elementAt(4);
-            String priceList = (String)columns.elementAt(5);
-            line.add(new StringBuilder()
-                    .append(StringUtils.trunc(productValue + fill , PRODUCT_VALUE_LENGTH )).append(separator)
-                    .append(StringUtils.trunc(productName + fill , PRODUCT_NAME_LENGTH )).append(separator)
-                    .append(StringUtils.trunc(qtyAvailable + fill , QUNATITY_LENGTH)).append(separator)
-                    .append(StringUtils.trunc(priceStd + fill, QUNATITY_LENGTH )).append(separator)
-                    .append(StringUtils.trunc(priceList + fill, QUNATITY_LENGTH )).toString());
-        }
-
-    	String[] searchValues = new String[line.size()];
-    	String[] searchDescription = new String[line.size()];
-    	for(int i = 0; i < line.size(); i++) {
-    		searchValues[i] = line.get(i);
-    		searchDescription[i] = " ";
-    	}
-    	this.removeAllItems();
-        this.setDict(searchValues);   
-        this.setDescription(searchDescription);
-        this.setOpen(true);
-        
-    }
 
 	@Override
 	public void onEvent(Event e) throws Exception {
@@ -185,12 +152,79 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 	 * @param event
 	 * @see TreeDataListener#onChange(TreeDataEvent)
 	 */
-	public void onChanging(InputEvent evt) {
+	public void onChanging(InputEvent event) {
 		index = this.getSelectedIndex();
-        if(!evt.isChangingBySelectBack()){
-        	executeQuery(evt.getValue());
+        if(!event.isChangingBySelectBack()){
+        	executeQuery(event.getValue());
         }
-        super.onChanging(evt);
+        super.onChanging(event);
 	}
-	
+
+
+    /*public void captureProduct()
+    {
+        KeyNamePair item = (KeyNamePair) this.getSelectedItem();
+        if(item!=null && !selectLock)
+        {
+            String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", item.getKey());
+            fieldProductName.setPlaceholder(productValue);
+            try {
+                lookupProductInterface.findProduct(true);
+            } catch (Exception exception) {
+                ADialog.error(0 , null , exception.getLocalizedMessage());
+            }
+            productLookupComboBox.removeAllItems();
+            fieldProductName.setText("");
+        }
+
+    }*/
+
+    /**
+     * Execute Query
+     * @param value
+     */
+    private void executeQuery(String value) {
+
+        this.setOpen(false);
+        if(value.trim().length() < 3) {
+            return;
+        }
+        if(value.length() <= 0) {
+            this.setText(title);
+            this.removeAllItems();
+            return;
+        }
+
+        productLookupComboBox.removeAllItems();
+
+        ArrayList<String> line = new ArrayList<String>();
+        recordId = new ArrayList<Integer>();
+        for (java.util.Vector<Object> columns : CPOS.getQueryProduct(value, warehouseId, priceListVersionId))
+        {
+            recordId.add((Integer) columns.elementAt(0));
+            String productValue = (String)columns.elementAt(1);
+            String productName = (String)columns.elementAt(2);
+            String qtyAvailable = (String)columns.elementAt(3);
+            String priceStd =  (String)columns.elementAt(4);
+            String priceList = (String)columns.elementAt(5);
+            line.add(new StringBuilder()
+                    .append(StringUtils.trunc(productValue + fill , PRODUCT_VALUE_LENGTH )).append(separator)
+                    .append(StringUtils.trunc(productName + fill , PRODUCT_NAME_LENGTH )).append(separator)
+                    .append(StringUtils.trunc(qtyAvailable + fill , QUANTITY_LENGTH)).append(separator)
+                    .append(StringUtils.trunc(priceStd + fill, QUANTITY_LENGTH )).append(separator)
+                    .append(StringUtils.trunc(priceList + fill, QUANTITY_LENGTH )).toString());
+        }
+
+        String[] searchValues = new String[line.size()];
+        String[] searchDescription = new String[line.size()];
+        for(int i = 0; i < line.size(); i++) {
+            searchValues[i] = line.get(i);
+            searchDescription[i] = " ";
+        }
+        this.removeAllItems();
+        this.setDict(searchValues);
+        this.setDescription(searchDescription);
+        this.setOpen(true);
+
+    }
 }

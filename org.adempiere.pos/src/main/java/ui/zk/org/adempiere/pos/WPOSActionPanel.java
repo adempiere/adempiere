@@ -17,11 +17,10 @@
 
 package org.adempiere.pos;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.search.WQueryDocType;
-import org.adempiere.pos.search.WQueryProduct;
 import org.adempiere.pos.search.WQueryOrderHistory;
-import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
@@ -43,9 +42,10 @@ import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.KeyEvent;
+import org.zkoss.zul.Timer;
 import org.zkoss.zul.Space;
 
-import javax.swing.*;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
@@ -56,7 +56,8 @@ import java.util.Vector;
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POSPanelInterface, POSQueryListener{
+public class WPOSActionPanel extends WPOSSubPanel
+		implements PosKeyListener, POSPanelInterface, POSQueryListener ,  POSLookupProductInterface{
 
 	/**
 	 * 
@@ -69,28 +70,43 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 	 */
 	public WPOSActionPanel (WPOS posPanel) {
 		super (posPanel);
-	}	//	WPOSActionPanel
-		
+	}	//	WPosSubCustomer
+
+
 	/**	Buttons Command		*/
 	private Button 			buttonNew;
 	private Button 			buttonDocType;
 	private Button 			buttonBPartner;
+	private Button 			buttonProcess;
 	private Button 			buttonHistory;
 	private Button 			buttonBack;
 	private Button 			buttonNext;
 	private Button 			buttonCollect;
 	private Button 			buttonCancel;
 	private Button 			buttonLogout;
-	private Button 			buttonProcess;
+
 	/**	Is Keyboard			*/
 	private boolean			isKeyboard;
-	/**	For Show BPartner	*/
+	/**	For Show Product	*/
 	private	WPOSTextField 	fieldProductName;
+	/** Find Product Timer **/
+	private Timer findProductTimer;
+	private WPOSLookupProduct lookupProduct;
+	/**	Process Action 						*/
+	private WPOSActionMenu actionProcessMenu;
+
+
+
+
+
+
+
+
 	/**	Logger			*/
 	private static CLogger logger = CLogger.getCLogger(WPOSActionPanel.class);
 
 	private final String ACTION_NEW         = "New";
-	private final String ACTION_DOCTYPE     = "DocType";
+	private final String ACTION_DOCTYPE     = "Assignment";
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_PROCESS     = "Process";
 	private final String ACTION_HISTORY     = "History";
@@ -102,10 +118,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 
 	/**	Paramenter Panel	*/
 	private Panel 			parameterPanel;
-	/**	Process Action 						*/
-	private WPOSActionMenu actionProcessMenu;
-	/** Product Lookup		*/
-	private WPOSLookupProduct cmbSearch;
+
 	
 	@Override
 	public void init() {
@@ -115,7 +128,6 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 		Rows rows = null;
 		Row row = null;	
 		isKeyboard = false;
-		actionProcessMenu = new WPOSActionMenu(posPanel);
 		LayoutButton.setStyle("border: none; width:400px; height:100%;");
 		
 		appendChild(LayoutButton);
@@ -179,9 +191,6 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 		buttonLogout.setTooltiptext("Alt+L-"+Msg.translate(ctx, "End"));
 		row.appendChild (buttonLogout);
 		row.appendChild(new Space());
-		
-//		row = rows.newRow();
-//		row.setSpans("1,9");
 		row.setHeight("55px");
 
 		fieldProductName = new WPOSTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), posPanel.getKeyboard());
@@ -202,25 +211,27 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 		row = rows.newRow();
 		row.setSpans("10");
 		if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
-			cmbSearch = new WPOSLookupProduct(this, fieldProductName, new Long("1"));
-			cmbSearch.setWidth("100%");
-			cmbSearch.setStyle(WPOS.FONTSTYLE+WPOS.FONTSIZELARGE);
+			lookupProduct = new WPOSLookupProduct(this, fieldProductName, new Long("1"));
+			findProductTimer = new Timer(500); // , lookupProduct);
+			lookupProduct.setWidth("100%");
+			lookupProduct.setStyle(WPOS.FONTSTYLE+WPOS.FONTSIZELARGE);
 			fieldProductName.appendChild(keyListener);
 			fieldProductName.setVisible(false);
 			fieldProductName.setWidth("0%");
-			cmbSearch.addEventListener(Events.ON_CHANGE, this);
-	        row.appendChild(cmbSearch);
+			findProductTimer.start();
+			lookupProduct.addEventListener(Events.ON_CHANGE, this);
+	        row.appendChild(lookupProduct);
 			row.appendChild(fieldProductName);
 		} else {
 			row.appendChild(fieldProductName);
 			fieldProductName.appendChild(keyListener);
 			fieldProductName.setWidth("98%");
 		}
-			
-		
 		enableButton();
+		actionProcessMenu = new WPOSActionMenu(posPanel);
 		//	List Orders
 		posPanel.listOrder();
+		getMainFocus();
 	}
 
 	/** 
@@ -257,189 +268,187 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if(e.getName().equals(Events.ON_CHANGE)){
-			if(cmbSearch.getSelectedRecord() >= 0) {
-				posPanel.addOrUpdateLine(cmbSearch.getSelectedRecord(), Env.ONE);
-				cmbSearch.setText("");
-			}
+		try {
+            if(e.getName().equals(Events.ON_CHANGE)){
+                if(lookupProduct.getSelectedRecord() >= 0) {
+                    posPanel.addOrUpdateLine(lookupProduct.getSelectedRecord(), Env.ONE);
+                    lookupProduct.setText("");
+                }
+            }
+
+            if (Events.ON_CTRL_KEY.equals(e.getName())) {
+                KeyEvent keyEvent = (KeyEvent) e;
+                //F2 == 113
+                if (keyEvent.getKeyCode() == 113 ) {
+                    posPanel.newOrder();
+                }
+                //F3 == 114
+                else if (keyEvent.getKeyCode() == 114 ) {
+                    if (posPanel.isUserPinValid())
+                        deleteOrder();
+                }
+                //F4 == 115
+                else if (keyEvent.getKeyCode() == 115 ) {
+                    payOrder();
+                    return;
+                }
+                //F9 == 120
+                else if (keyEvent.getKeyCode() == 120 ) {
+                    openHistory();
+                }
+                //F10 == 121
+                else if (keyEvent.getKeyCode() == 121 ) {
+                    openDocType();
+                }
+                //Alt+b == 66
+                else if (keyEvent.getKeyCode() == 66 ) {
+                    openBPartner();
+                }
+                //Alt+left == 37
+                else if (keyEvent.getKeyCode() == 37 ) {
+                    previousRecord();
+                }
+                //Alt+right == 39
+                else if (keyEvent.getKeyCode() == 39 ) {
+                    nextRecord();
+                }
+                //CTL+L == 76
+                else if (keyEvent.getKeyCode() == 76 ) {
+                    dispose();
+                    return;
+                }
+                //Alt+I == 73
+                else if (keyEvent.getKeyCode() == 73 ) {
+                    showWindowProduct(null);
+                    return;
+                }
+                //Alt+P == 80
+                else if (keyEvent.getKeyCode() == 80 ) {
+                    actionProcessMenu.getPopUp().setPage(buttonProcess.getPage());
+                    actionProcessMenu.getPopUp().open(150, 150);
+                    return;
+                }
+            }
+            if(e.getTarget().equals(fieldProductName.getComponent(WPOSTextField.SECONDARY))
+                        && e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
+                    if(posPanel.isDrafted() || posPanel.isInProgress())  {
+                        isKeyboard = true;
+                        if(!fieldProductName.showKeyboard()){
+                            findProduct(true);
+                        }
+                        fieldProductName.setFocus(true);
+                    }
+                }
+                if(e.getTarget().equals(fieldProductName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+                    isKeyboard = false;
+                }
+
+            if (e.getTarget().equals(buttonNew)){
+                posPanel.newOrder();
+            }
+            else if (e.getTarget().equals(buttonDocType)){
+                if(posPanel.isUserPinValid()) {
+                    openDocType();
+                }
+            }
+            else if(e.getTarget().equals(buttonCollect)){
+                payOrder();
+                return;
+            }
+            else if(e.getTarget().equals(buttonProcess)){
+                if(posPanel.isUserPinValid()) {
+                    actionProcessMenu.getPopUp().setPage(this.getPage());
+                    actionProcessMenu.getPopUp().open(buttonProcess);
+                }
+                return;
+            }
+            else if (e.getTarget().equals(buttonBack)){
+                previousRecord();
+            }
+            else if (e.getTarget().equals(buttonNext)){
+                nextRecord();
+            }
+            else if(e.getTarget().equals(buttonLogout)){
+                dispose();
+                return;
+            }
+            else if (e.getTarget().equals(buttonBPartner)) {
+                openBPartner();
+            }
+            // Cancel
+            else if (e.getTarget().equals(buttonCancel)){
+                if(posPanel.isUserPinValid()) {
+                    deleteOrder();
+                }
+            }
+            //	History
+            if (e.getTarget().equals(buttonHistory)) {
+                openHistory();
+            }
+            posPanel.refreshPanel();
+        } catch (Exception exception) {
+            FDialog.error(posPanel.getWindowNo(), exception.getLocalizedMessage());
         }
-
-		if (Events.ON_CTRL_KEY.equals(e.getName())) {
-    		KeyEvent keyEvent = (KeyEvent) e;
-    		//F2 == 113
-    		if (keyEvent.getKeyCode() == 113 ) {
-    			posPanel.newOrder();
-    		}
-    		//F3 == 114
-    		else if (keyEvent.getKeyCode() == 114 ) {
-				posPanel.setUserPinListener(e);
-				if (posPanel.isUserPinValid())
-					deleteOrder();
-    		}
-    		//F4 == 115
-    		else if (keyEvent.getKeyCode() == 115 ) {
-    			payOrder();
-    			return;
-    		}
-    		//F9 == 120
-    		else if (keyEvent.getKeyCode() == 120 ) {
-    			openHistory();
-    		}
-    		//F10 == 121
-    		else if (keyEvent.getKeyCode() == 121 ) {
-    			openDocType();
-    		}
-    		//Alt+b == 66
-    		else if (keyEvent.getKeyCode() == 66 ) {
-    			openBPartner();
-    		}
-    		//Alt+left == 37
-    		else if (keyEvent.getKeyCode() == 37 ) {
-    			previousRecord();
-    		}
-    		//Alt+right == 39
-    		else if (keyEvent.getKeyCode() == 39 ) {
-    			nextRecord();
-    		}
-    		//CTL+L == 76
-    		else if (keyEvent.getKeyCode() == 76 ) {
-    			dispose();
-    			return;
-    		}
-    		//Alt+I == 73
-    		else if (keyEvent.getKeyCode() == 73 ) {
-    			showWindowProduct();
-    			return;
-    		}
-    		//Alt+P == 80
-    		else if (keyEvent.getKeyCode() == 80 ) {
-    			actionProcessMenu.getPopUp().setPage(buttonProcess.getPage());
-    			actionProcessMenu.getPopUp().open(150, 150);
-    			return;
-    		}
-		}
-		if(e.getTarget().equals(fieldProductName.getComponent(WPOSTextField.SECONDARY))
-					&& e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
-				if(posPanel.isDrafted() || posPanel.isInProgress())  {
-					isKeyboard = true;
-					if(!fieldProductName.showKeyboard()){
-						findProduct(); 
-					}		
-					fieldProductName.setFocus(true);	
-				}
-			}
-			if(e.getTarget().equals(fieldProductName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
-				isKeyboard = false;
-			}
-		
-		if (e.getTarget().equals(buttonNew)){
-			posPanel.newOrder();
-		} 
-		else if (e.getTarget().equals(buttonDocType)){
-			posPanel.setUserPinListener(e);
-			if(posPanel.isUserPinValid()) {
-				openDocType();
-			}
-		}
-		else if(e.getTarget().equals(buttonCollect)){
-			payOrder();
-			return;
-		}
-		else if(e.getTarget().equals(buttonProcess)){
-			posPanel.setUserPinListener(e);
-			if(posPanel.isUserPinValid()) {
-				actionProcessMenu.getPopUp().setPage(this.getPage());
-				actionProcessMenu.getPopUp().open(buttonProcess);	
-			}
-			return;
-		}
-		else if (e.getTarget().equals(buttonBack)){
-			previousRecord();
-		}
-		else if (e.getTarget().equals(buttonNext)){
-			nextRecord();
-		}
-		else if(e.getTarget().equals(buttonLogout)){
-			dispose();
-			return;
-		}
-		else if (e.getTarget().equals(buttonBPartner)) {
-			openBPartner();
-		}
-		// Cancel
-		else if (e.getTarget().equals(buttonCancel)){
-			posPanel.setUserPinListener(e);
-			if(posPanel.isUserPinValid()) {
-				deleteOrder();
-			}
-		}
-		//	History
-		if (e.getTarget().equals(buttonHistory)) {
-			openHistory();
-		}
-		posPanel.refreshPanel();
-
 	}
 	
 	/**
 	 * Show Window Product
 	 */
-	private void showWindowProduct() {
-
-		/*WQueryProduct qt = new WQueryProduct(posPanel);
-		if(p_results != null)
-			qt.setResults(p_results);
-		qt.setQueryData(posPanel.getM_PriceList_Version_ID(), posPanel.getM_Warehouse_ID());
-		AEnv.showWindow(qt);
-		Object[] result = qt.getSelectedKeys();
-		if(result == null) 
-			return;
-		
-		for(Object item : result) {
-			fieldProductName.setText(fieldProductName.getTitle());
-			posPanel.addOrUpdateLine((Integer)item, Env.ONE);
-		}*/
+	private void showWindowProduct(String query) {
 		//	Show Info
-		InfoProductPanel infoPanel = new InfoProductPanel(
+		//posPanel.getFrame().getContentPane().invalidate();
+		InfoProductPanel infoProduct = new InfoProductPanel(
 				posPanel.getWindowNo(),
 				true,
 				posPanel.getM_Warehouse_ID(),
-				posPanel.getM_PriceList_ID(),
-				0 ,
-				null ,
-				true ,
-				true ,
+				posPanel.getM_PriceList_ID() ,
+				0,
+				query,
+				true,
+				true,
 				null);
-
-		Object[] result = infoPanel.getSelectedKeys();
+		infoProduct.setVisible(true);
+		Object[] result = infoProduct.getSelectedKeys();
 		if(result == null)
 			return;
-
+		if (infoProduct.isCancelled())
+			return;
 		for (Object item : result)
 		{
-			int productId = (Integer)item;
-			//String productValue = posPanel.getProductValue(productId);
-			fieldProductName.setText(fieldProductName.getTitle());
-			posPanel.addOrUpdateLine(productId, Env.ONE);
+			int productId = (Integer) item;
+			if (productId > 0) {
+				String value = posPanel.getProductValue(productId);
+				fieldProductName.setText(value);
+				try {
+					posPanel.setIsNewLine(true);
+					findProduct(true);
+				} catch (Exception exception) {
+					FDialog.error(0, this, exception.getLocalizedMessage());
+				}
+				fieldProductName.setText("");
+				//fieldProductName.repaint();
+			}
 		}
 	}
 
 	public void getMainFocus() {
-		/*SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				if (getProductTimer() != null)
-					getProductTimer().restart();
-				fieldProductName.requestFocusInWindow();
-			}
-		});*/
+
+				fieldProductName.focus();
+
+
+
+
+
 	}
 
-	/**
+	/**************************************************************************
 	 * 	Find/Set Product & Price
 	 */
-	private void findProduct() throws Exception
-	{
+	public void findProduct(boolean isNewLine) throws Exception {
+		if (getProductTimer() != null)
+			getProductTimer().stop();
 		String query = fieldProductName.getText();
+		fieldProductName.setText("");
 		if (query == null || query.length() == 0)
 			return;
 		query = query.toUpperCase();
@@ -450,11 +459,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 		} catch (Exception e) {
 			allNumber = false;
 		}
-		/*String Value = query;
-		String Name = query;
-		String UPC = (allNumber ? query : null);
-		String SKU = (allNumber ? query : null);*/
-		List<Vector<Object>> results = CPOS.getQueryProduct(query, posPanel.getM_Warehouse_ID() , posPanel.getM_PriceList_Version_ID());
+		/*String value = query;
+		String name = query;
+		String upc = (allNumber ? query : null);
+		String sku = (allNumber ? query : null);*/
+		List<Vector<Object>> results = posPanel.getQueryProduct(query, posPanel.getM_Warehouse_ID() , posPanel.getM_PriceList_Version_ID());
 		//	Set Result
 		if (results.size() == 1) {
 			Optional<Vector<Object>> columns = results.stream().findFirst();
@@ -465,36 +474,26 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 				fieldProductName.setText(productName);
 			}
 		} else {	//	more than one
-
-			InfoProductPanel infoPanel = new InfoProductPanel(
-					posPanel.getWindowNo(),
-					true,
-					posPanel.getM_Warehouse_ID(),
-					posPanel.getM_PriceList_ID(),
-					0 ,
-					query ,
-					true ,
-					true ,
-					null);
-
-			Object[] result = infoPanel.getSelectedKeys();
-			if(result == null)
-				return;
-
-			for (Object item : result)
-			{
-				int productId = (Integer)item;
-				//String productValue = posPanel.getProductValue(productId);
-				fieldProductName.setText(fieldProductName.getTitle());
-				posPanel.addOrUpdateLine(productId, Env.ONE);
-			}
+            showWindowProduct(query);
+		}
+		if (isNewLine) {
+			posPanel.updateLineTable();
+			if (posPanel.isNewLine())
+				posPanel.setQuantity(BigDecimal.ONE);
+			else
+				posPanel.setQuantity(posPanel.getQty().add(BigDecimal.ONE));
+			posPanel.updateLineTable();
+			posPanel.refreshPanel();
+			posPanel.changeViewPanel();
+			posPanel.getMainFocus();
 		}
 	}	//	findProduct
 
-	//@Override
-	//public void quantityRequestFocus() {
-	//	posPanel.quantityRequestFocus();
-	//}
+
+	public void quantityRequestFocus() {
+		posPanel.quantityRequestFocus();
+	}
+
 	/**
 	 * Previous Record Order
 	 */
@@ -512,26 +511,19 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 	}
 
 	/**
-	 *
+	 * Execute order payment
+	 * If order is not processed, process it first.
+	 * If it is successful, proceed to pay and print ticket
 	 */
 	private void payOrder() {
-
 		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( posPanel.getM_Order() == null ) {
-			FDialog.warn(0, Msg.getMsg(ctx, "POS.MustCreateOrder"));
-			return;
+		if(!posPanel.hasOrder()) {
+			FDialog.warn(posPanel.getWindowNo(), Msg.getMsg(ctx, "POS.MustCreateOrder"));
+		} else {
+			posPanel.hideKeyboard();
+			posPanel.showCollectPayment();
 		}
-//		if (collect.show()) {
-		posPanel.showCollectPayment();
-//			if(posPanel.isToPrint()) {
-//				printTicket();
-//			}
-		//
-//			posPanel.setOrder(0);
-//			posPanel.refreshPanel();
-//			refreshProductInfo(null);
-//		}
-	}
+	}  // payOrder
 
 	/**
 	 * Execute deleting an order
@@ -546,13 +538,16 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 			askMsg = "POS.OrderIsAlreadyCompleted";
 		}
 		//	Show Ask
-		if (FDialog.ask(0, this, Msg.getMsg(ctx, askMsg))) {
+		if (FDialog.ask(0, this , Msg.getMsg(ctx, Msg.getMsg(ctx, askMsg)))) {
+			//posPanel.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			//	Cancel Order
 			errorMsg = posPanel.cancelOrder();
+			//	Set Cursor to default
+			//posPanel.getFrame().setCursor(Cursor.getDefaultCursor());
 		}
-		if(errorMsg != null){
-			FDialog.error(0,  Msg.parseTranslation(ctx, errorMsg));
-			return;
-		}
+		//	show if exists error
+		if(errorMsg != null)
+			FDialog.error(posPanel.getWindowNo(), Msg.parseTranslation(ctx, errorMsg));
 		//	Update
 		posPanel.refreshPanel();
 	} // deleteOrder
@@ -566,13 +561,15 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 	public void changeViewPanel() {
 
 	}
+
 	@Override
 	public void refreshPanel() {
 		if(posPanel.hasOrder()) {
-			if (cmbSearch != null && posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
-				cmbSearch.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
-				cmbSearch.setWarehouseId(posPanel.getM_Warehouse_ID());
+			if (lookupProduct != null && posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
+				lookupProduct.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
+				lookupProduct.setWarehouseId(posPanel.getM_Warehouse_ID());
 			}
+
 			//	For Next
 			buttonNext.setEnabled(!posPanel.isLastRecord() && posPanel.hasRecord());
 			//	For Back
@@ -614,9 +611,11 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 			buttonDocType.setEnabled(false);
 			buttonBPartner.setEnabled(false);
 		}
-		posPanel.changeViewQuantityPanel();
+		buttonNew.setEnabled(true);
+		buttonHistory.setEnabled(true);
+		buttonProcess.setEnabled(true);
 	}
-	
+
 	/**
 	 * Enable Bttons
 	 * @return void
@@ -628,44 +627,52 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 		buttonHistory.setEnabled(true);
 		buttonCollect.setEnabled(false);
 	}
-	
-	@Override
-	public void keyReturned(MPOSKey key) {
 
-	}
-	
+
 	@Override
 	public void okAction(POSQueryInterface query) {
-		if (query.getRecord_ID() <= 0)
-			return;
-		//	For Ticket
-		if(query instanceof WQueryOrderHistory) {
-			posPanel.setOrder(query.getRecord_ID());
-			posPanel.reloadIndex(query.getRecord_ID());
-		} else if(query instanceof WQueryBPartner) {
-			if(!posPanel.hasOrder()) {
-				posPanel.newOrder(query.getRecord_ID());
-			} else {
-				posPanel.configureBPartner(query.getRecord_ID());
+		try
+		{
+			if (query.getRecord_ID() <= 0)
+				return;
+			//	For Ticket
+			if(query instanceof WQueryOrderHistory) {
+				posPanel.setOrder(query.getRecord_ID());
+				posPanel.reloadIndex(query.getRecord_ID());
+			} else if(query instanceof WQueryBPartner) {
+				if(!posPanel.hasOrder()) {
+					posPanel.newOrder(query.getRecord_ID());
+					posPanel.getMainFocus();
+				} else {
+					posPanel.configureBPartner(query.getRecord_ID());
+				}
+				//
+				logger.fine("C_BPartner_ID=" + query.getRecord_ID());
+			} else if(query instanceof WQueryDocType) {
+				if (query.getRecord_ID() > 0) {
+					posPanel.setC_DocType_ID(query.getRecord_ID());
+				}
 			}
-			//	
-			logger.fine("C_BPartner_ID=" + query.getRecord_ID());
-		} else if(query instanceof WQueryProduct) {
-			if (query.getRecord_ID() > 0) {
-				posPanel.addOrUpdateLine(query.getRecord_ID(), Env.ONE);
-			}
+			//	Refresh
+			posPanel.refreshPanel();
 		}
-		//	Refresh
-		posPanel.refreshPanel();
+		catch (AdempiereException exception) {
+			FDialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
+		} catch (Exception exception) {
+			FDialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
+		}
+
 	}
-	
+
 	@Override
 	public void cancelAction(POSQueryInterface query) {
-		
+		//	Nothing
 	}
+
 	@Override
 	public void moveUp() {
 	}
+
 	@Override
 	public void moveDown() {
 	}	
@@ -681,4 +688,14 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 		buttonBPartner.setEnabled(false);	
 		buttonProcess.setEnabled(false);
 	}
-}
+
+	public Timer getProductTimer()
+	{
+		return  findProductTimer;
+	}
+
+	@Override
+	public void keyReturned(MPOSKey key) {
+
+	}
+}//	WPOSActionPanel
