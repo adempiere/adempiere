@@ -21,13 +21,28 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.Socket;
+import java.util.Properties;
 
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JTextArea;
 
 import org.compiere.model.MSysConfig;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
+import org.compiere.util.CLogger;
+import org.zkoss.util.media.AMedia;
 
 
 /**
@@ -39,7 +54,8 @@ import org.compiere.model.MSysConfig;
 
 public class POSClientSide extends Thread {  
 
-	public POSClientSide(String p_Host, String p_Print, JTextArea m_Terminal) {
+	public POSClientSide(Properties p_ctx, String p_Host, String p_Print, JTextArea m_Terminal) {
+		m_ctx = p_ctx;
 		m_Host = p_Host;
 		m_Print = p_Print;
 		fTerminal = m_Terminal;
@@ -47,8 +63,12 @@ public class POSClientSide extends Thread {
 		if(!connect())
 			this.start();
 	}
+	/**	Properties		*/
+	Properties m_ctx = null;
 	/**  Port	Default			*/
 	public 	static final int 	PORT = 5400;
+	/** S.O Default				*/
+	private static final String LINUXSO = "LINUX";
 	/** Socket Client 			*/
 	private Socket 				socketClient = null;
 	/** Host Name 				*/
@@ -62,6 +82,8 @@ public class POSClientSide extends Thread {
 	/** Field Terminal    		*/
 	private JTextArea 			fTerminal = null;
 	private int m_port;
+    /**	 log							*/
+    private static CLogger 			log = CLogger.getCLogger (SideServer.class);
 	/**
 	 * Connect with Server
 	 * @return
@@ -74,7 +96,8 @@ public class POSClientSide extends Thread {
 				socketClient = new Socket(m_Host, m_port);
 				socketClient.setKeepAlive(true);
 				isStopped = false;
-		    	setText("Connected");
+		    	setText("Connected to host:" + m_Host + " and to port " + m_port);
+				
 				return isStopped;
 			} catch (IOException e) {
 		    	setText("Error Connecting: "+e.getMessage());
@@ -89,49 +112,97 @@ public class POSClientSide extends Thread {
 	public void run(){
 		
 	    try {
-	
+	    	FileOutputStream fos = null;
+	    	BufferedOutputStream out = null; 
 	      while(!isStopped || !isInterrupted()) {
 			 connect();
 	    	 dis = new DataInputStream(socketClient.getInputStream());
-	    	 	    	 
-	    		 // Name File
+             int record_ID = dis.readInt(); 
+              
+	    	 // Name File
              String name = "zk"+dis.readUTF().toString(); 
 
               // Size File
               int tam = dis.readInt(); 
 
               String path = System.getProperty("user.home")+File.separator+name ;
-              FileOutputStream fos = new FileOutputStream(path);
-              BufferedOutputStream out = new BufferedOutputStream( fos );
+			  setText("File path: " + path);
+			  log.severe("path== " + path);
+              fos = new FileOutputStream(path);
+              out = new BufferedOutputStream( fos );
               BufferedInputStream in = new BufferedInputStream( socketClient.getInputStream() );
 
+              FileInputStream fis = new FileInputStream(path);
               byte[] buffer = new byte[tam];
               for( int i = 0; i < buffer.length; i++ ) {
                  buffer[ i ] = ( byte )in.read( ); 
               }
-              
+
               out.write( buffer );
 			  setText("File Received");
-              
-              out.flush(); 
-    		  out.close();
-    		  
+
+		      out.flush(); 
+			  out.close(); 
     		  try{
-    			  String[] cmd = new String[] { "lp" , "-d", m_Print, path};
-    			  Runtime.getRuntime().exec(cmd);
-    			  setText("Printing File");
+        		  setText("Operating system: " + System.getProperty("os.name"));
+    			  if(!System.getProperty("os.name").equalsIgnoreCase(LINUXSO)){
+    				  ReportCtl.startDocumentPrint(0, record_ID, true);
+//    				  printOtherOS(fis);
+    			  }
+    			  else {
+    				String[] cmd = new String[] { "lp" , "-d", m_Print, path};
+        			  Runtime.getRuntime().exec(cmd);
+        			  setText("Printing File");
+    			  }
+    	            
     		  }catch(Exception a){
-    			  setText("Error Printing: "+a.getMessage());
+    			  setText("Error while executing printing: "+a.getMessage());
     		  }
-	    	 }
-  			
+    		  finally {
+    			  isStopped = true;
+    			  setText("Printing finished");
+    			  connect();
+    		  }
+	    	}
+		  
+	  
 	    } catch (IOException e) {
+			  setText("Error in printing process");
+	    }
+	    finally {
 	    	isStopped=true;
-	    	setText(e.getLocalizedMessage());
-	    	connect();
+	    	setText("Printing process finished");
 	    }
 	}
 	
+	/**
+	 * Print Other S.O
+	 * @param fis
+	 * @return void
+	 */
+	private void printOtherOS(FileInputStream fis){
+        DocFlavor docFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
+        Doc document = new SimpleDoc(fis, docFormat, null);
+ 
+        PrintRequestAttributeSet attributeSet = new HashPrintRequestAttributeSet();
+ 
+        PrintService[] listsPrintService = PrintServiceLookup.lookupPrintServices(docFormat, attributeSet);
+ 
+        	 try {
+        		 DocPrintJob printJob=null;
+        	for (int x=0; x<listsPrintService.length;x++){
+        		
+        		if(listsPrintService[x].getName().equals(m_Print)){
+        			printJob = listsPrintService[x].createPrintJob();
+        		}
+        	
+        	}
+                printJob.print(document, attributeSet);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+	 
+	}
 	/**
 	 * Set Text
 	 * @param m_Text
@@ -167,6 +238,16 @@ public class POSClientSide extends Thread {
 			this.interrupt();
 			setText("Disconnected");
 		
-	}
+	} 
+	
+	public String toString(String[] s)
+    {
+		String res= "";
+        for (String temp: s)
+        {
+          res = res + temp + " ";
+        }
+        return res;
+    }
 
 }
