@@ -418,12 +418,12 @@ public class VCollect extends Collect
 			if (pos.isToPrint())
 				pos.printTicket();
 
-			dialog.setVisible(false);
+			hidePanel();
 			pos.showKeyboard();
 			pos.refreshPanel();
 			return;
 		} else if (actionEvent.getSource().equals(buttonCancel)) {	//	Nothing
-			dialog.setVisible(false);
+			hidePanel();
 			pos.showKeyboard();
 			pos.refreshPanel();
 			if(pos.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) || 
