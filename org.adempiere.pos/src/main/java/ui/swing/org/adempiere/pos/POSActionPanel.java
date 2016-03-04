@@ -631,7 +631,7 @@ public class POSActionPanel extends POSSubPanel
 
 	public void updateProductPlaceholder(String name)
 	{
-		fieldProductName.setPlaceholder(name);
+			fieldProductName.setPlaceholder(name);
 		fieldProductName.repaint();
 	}
 	
