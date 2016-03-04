@@ -48,6 +48,7 @@ import org.compiere.model.MPOSKey;
 import org.compiere.model.X_C_Payment;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
+import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -402,9 +403,9 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			// Process printing
 			isProcessed = true;
 			if(!v_POSPanel.isStandardOrder() && !v_POSPanel.isWarehouseOrder() && v_POSPanel.isToPrint())
-				printTicketWeb();			
-			v_POSPanel.closeCollectPayment();
-
+				printTicketWeb();
+			hidePanel();
+			v_POSPanel.showKeyboard();
 			v_POSPanel.setOrder(0);
 			v_POSPanel.refreshPanel();
 			v_POSPanel.refreshProductInfo(null);
@@ -412,8 +413,8 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		}
 
 		else if ( action.equals(ConfirmPanel.A_CANCEL)) {
-//			v_Window.dispose();
-			v_POSPanel.closeCollectPayment();
+			hidePanel();
+			v_POSPanel.showKeyboard();
 			v_POSPanel.refreshPanel();
 			if(v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) || 
 					v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Invalid))
@@ -514,10 +515,6 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 //		v_Window.setVisible(true);
 //		AEnv.showWindow(v_Window);
 		return isProcessed();
-	}
-	
-	public Panel getPanel() {
-		return mainPanel;
 	}
 
 	/**
@@ -700,6 +697,30 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			{
 				log.severe("PrintTicket - Error Printing Ticket");
 			}			  
+	}
+
+	/**
+	 * Close Collect Payment Panel
+	 * @return void
+	 */
+	/*public void closeCollectPayment()
+	{
+		row.removeChild(collectPayment.getPanel());
+		row.setHeight("50%");
+		row.setSpans("4");
+		row.appendChild(keyboardPanel);
+	}*/
+
+	public void hidePanel()
+	{
+		row.removeChild(getPanel());
+		row.setHeight("50%");
+		row.setSpans("4");
+		//row.appendChild(keyboardPanel);
+	}
+
+	public Panel getPanel() {
+		return mainPanel;
 	}
 
 }

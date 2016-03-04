@@ -446,5 +446,14 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 		}
 	}
 
+	public void showPanel()
+	{
+		setVisible(true);
+	}
+
+	public void hidePanel()
+	{
+		setVisible(false);
+	}
 	
 }

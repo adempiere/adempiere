@@ -185,7 +185,6 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			//	Remove line
 			if(posPanel.getQty().signum() <= 0) {
 				if (orderLineId > 0)
-					posPanel.setUserPinListener(null);
 				if(posPanel.isUserPinValid()) {
 					posPanel.deleteLine(orderLineId);
 				}
@@ -291,18 +290,19 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 		int row = posTable.getSelectedRow();
 		if (row != -1 &&  row < posTable.getRowCount()) {
 			//	Set Current Order Line
-			BigDecimal m_QtyOrdered = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
-			BigDecimal m_Price = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+			BigDecimal qtyOrdered = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
+			BigDecimal price = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
 			BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
 			
-			posPanel.setQuantity(m_QtyOrdered);
-			posPanel.setPrice(m_Price);
+			posPanel.setQuantity(qtyOrdered);
+			posPanel.setPrice(price);
 			posPanel.setDiscountPercentage(discountPercentage);
-			posPanel.changeViewQuantityPanel();
 		}
 		else {
 			posPanel.setQuantity(Env.ZERO);
 			posPanel.setPrice(Env.ZERO);
+			posPanel.setPriceLimit(Env.ZERO);
+			posPanel.setPriceList(Env.ZERO);
 			posPanel.setDiscountPercentage(Env.ZERO);
 		}
 	}

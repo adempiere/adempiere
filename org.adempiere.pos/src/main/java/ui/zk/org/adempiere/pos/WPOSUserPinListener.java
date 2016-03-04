@@ -29,7 +29,6 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -54,9 +53,7 @@ public class WPOSUserPinListener implements EventListener {
 	
     private WPOS 			pos;
     private Timer 			userPinTimer = null;
-	/** Actions 						*/
-	private Button 			b_ok 		 = new Button("Ok");
-	private Button 			b_cancel	 = new Button("Cancel");
+
 	/** Window	 						*/
 	private Window 			w_alert;
 	/** Field Password					*/
@@ -97,52 +94,7 @@ public class WPOSUserPinListener implements EventListener {
         if (!pos.isRequiredPIN())
             return;
 
-        passwordField = new WPOSTextField("", pos.getKeyboard());
 
-        passwordField.setStyle("Font-size:medium; font-weight:bold");
-        passwordField.addEventListener(this);
-        passwordField.setType("password");
-        w_alert = new Window();
-		Panel mainPanel = new Panel();
-		w_alert.setWidth("200px");
-		w_alert.setHeight("100px");
-		
-		Borderlayout mainLayout = new Borderlayout();
-		Grid layout = GridFactory.newGridLayout();
-		mainPanel.appendChild(mainLayout);
-		mainPanel.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
-		mainLayout.setHeight("100%");
-		mainLayout.setWidth("100%");
-
-		Panel centerPanel = new Panel();
-		Center center = new Center();
-		center.setStyle("border: none");
-		mainLayout.appendChild(center);
-		center.appendChild(centerPanel);
-		centerPanel.appendChild(layout);
-		layout.setWidth("100%");
-		layout.setHeight("100%");
-		w_alert.appendChild(mainPanel);
-		Rows rows = null;
-		Row row = null;
-		rows = layout.newRows();
-		row = rows.newRow();
-
-        Label msg = new Label(Msg.parseTranslation(pos.getCtx() , "@UserPIN@"));
-        row.appendChild(msg);
-        
-        row = rows.newRow();
-		row.appendChild(passwordField);
-
-		row.setSpans("2");
-		row = rows.newRow();
-		row.appendChild(b_ok);
-		row.appendChild(b_cancel);
-
-		b_ok.addActionListener(this);
-		b_cancel.addEventListener("onClick", this);
-        
-		AEnv.showWindow(w_alert);
         return;
     }
 
@@ -160,13 +112,13 @@ public class WPOSUserPinListener implements EventListener {
 			isKeyboard = false;
 			return;
 		}
-		if(e.getTarget().equals(b_ok)){
+		/*if(e.getTarget().equals(b_ok)){
 			pos.validateAndSetUserPin(passwordField.getText().toCharArray());
 			w_alert.dispose();
 		} else if(e.getTarget().equals(b_cancel)){
 			pos.setIsCorrectUserPin(false);
 			w_alert.dispose();
-		}
+		}*/
 		else if(active){
             try {
                 doPerformAction(e);
