@@ -21,6 +21,7 @@ import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.search.WQueryDocType;
 import org.adempiere.pos.search.WQueryProduct;
 import org.adempiere.pos.search.WQueryOrderHistory;
+import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
@@ -31,9 +32,9 @@ import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.panel.InfoProductPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.MWarehousePrice;
 import org.compiere.pos.PosKeyListener;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -43,6 +44,11 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zul.Space;
+
+import javax.swing.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Vector;
 
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
@@ -93,8 +99,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 	private final String ACTION_PAYMENT     = "Payment";
 	private final String ACTION_CANCEL      = "Cancel";
 	private final String ACTION_LOGOUT      = "End";
-	/**	Info Product Panel	*/
-	private WPOSInfoProduct infoProductPanel;
+
 	/**	Paramenter Panel	*/
 	private Panel 			parameterPanel;
 	/**	Process Action 						*/
@@ -214,119 +219,10 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 			
 		
 		enableButton();
-		
-		infoProductPanel = new WPOSInfoProduct(posPanel);
-		row = rows.newRow();
-		row.setSpans("10");
-		row.appendChild(infoProductPanel.getPanel());
-		
 		//	List Orders
 		posPanel.listOrder();
 	}
-	
-	/**
-	 * Execute deleting an order
-	 * If the order is in drafted status -> ask to delete it
-	 * If the order is in completed status -> ask to void it it
-	 * Otherwise, it must be done outside this class.
-	 */
-	private void deleteOrder() {
-		String errorMsg = null;
-		String askMsg = "POS.DeleteOrder";
-		if (posPanel.isCompleted()) {
-			askMsg = "POS.OrderIsAlreadyCompleted";
-		}
-		//	Show Ask
-		if (FDialog.ask(0, this, Msg.getMsg(ctx, askMsg))) {
-			errorMsg = posPanel.cancelOrder();
-		} 
-		if(errorMsg != null){
-			FDialog.error(0,  Msg.parseTranslation(ctx, errorMsg));
-			return;
-		}
-		//	Update
-		posPanel.refreshPanel();
-	} // deleteOrder
-	
-	/**
-	 * 
-	 */
-	private void payOrder() {
 
-		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-		if( posPanel.getM_Order() == null ) {
-				FDialog.warn(0, Msg.getMsg(ctx, "POS.MustCreateOrder"));
-				return;
-		}
-//		if (collect.show()) {
-		posPanel.showCollectPayment();
-//			if(posPanel.isToPrint()) {
-//				printTicket();
-//			}
-			//	
-//			posPanel.setOrder(0);
-//			posPanel.refreshPanel();
-//			refreshProductInfo(null);
-//		}
-	}
-	
-	/**
-	 * 	Find/Set Product & Price
-	 */
-	private void findProduct()
-	{
-		String query = fieldProductName.getText();
-		if (query == null || query.length() == 0)
-			return;
-		query = query.toUpperCase();
-		//	Test Number
-		boolean allNumber = true;
-		try
-		{
-			Integer.getInteger(query);
-		}
-		catch (Exception e)
-		{
-			allNumber = false;
-		}
-		String Value = query;
-		String Name = query;
-		String UPC = (allNumber ? query : null);
-		String SKU = (allNumber ? query : null);
-		
-		MWarehousePrice[] results = null;
-
-		//
-		results = MWarehousePrice.find  (ctx,
-				posPanel.getM_PriceList_Version_ID(), posPanel.getM_Warehouse_ID(),
-				Value, Name, UPC, SKU, null);
-		
-		//	Set Result
-//		if (results.length == 0)
-//		{
-//			String message = Msg.getMsg(p_ctx,  "POS.SearchProductNF");
-//			FDialog.warn(0, null, message +" "+ query,"");
-//		}
-		if (results.length == 1)
-		{
-			posPanel.addLine(results[0].getM_Product_ID(), Env.ONE);
-			fieldProductName.setValue(results[0].getName());
-			
-		}
-		else	//	more than one
-		{
-			showWindowProduct(results);
-		}
-	}	//	findProduct
-
-	/**
-	 * New Order
-	 */
-	private void newOrder(){
-		posPanel.newOrder();
-		refreshProductInfo(null);
-	}
-	
 	/** 
 	 * Open window Doctype 
 	 */
@@ -363,7 +259,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 	public void onEvent(Event e) throws Exception {
 		if(e.getName().equals(Events.ON_CHANGE)){
 			if(cmbSearch.getSelectedRecord() >= 0) {
-				posPanel.addLine(cmbSearch.getSelectedRecord(), Env.ONE);
+				posPanel.addOrUpdateLine(cmbSearch.getSelectedRecord(), Env.ONE);
 				cmbSearch.setText("");
 			}
         }
@@ -372,12 +268,13 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
     		KeyEvent keyEvent = (KeyEvent) e;
     		//F2 == 113
     		if (keyEvent.getKeyCode() == 113 ) {
-    			newOrder();
+    			posPanel.newOrder();
     		}
     		//F3 == 114
     		else if (keyEvent.getKeyCode() == 114 ) {
-    			deleteOrder();
-    			refreshProductInfo(null);
+				posPanel.setUserPinListener(e);
+				if (posPanel.isUserPinValid())
+					deleteOrder();
     		}
     		//F4 == 115
     		else if (keyEvent.getKeyCode() == 115 ) {
@@ -399,14 +296,10 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
     		//Alt+left == 37
     		else if (keyEvent.getKeyCode() == 37 ) {
     			previousRecord();
-    			refreshProductInfo(null);
-    			posPanel.changeViewPanel();
     		}
     		//Alt+right == 39
     		else if (keyEvent.getKeyCode() == 39 ) {
     			nextRecord();
-    			refreshProductInfo(null);
-    			posPanel.changeViewPanel();
     		}
     		//CTL+L == 76
     		else if (keyEvent.getKeyCode() == 76 ) {
@@ -415,7 +308,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
     		}
     		//Alt+I == 73
     		else if (keyEvent.getKeyCode() == 73 ) {
-    			showWindowProduct(null);
+    			showWindowProduct();
     			return;
     		}
     		//Alt+P == 80
@@ -440,7 +333,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 			}
 		
 		if (e.getTarget().equals(buttonNew)){
-			newOrder();
+			posPanel.newOrder();
 		} 
 		else if (e.getTarget().equals(buttonDocType)){
 			posPanel.setUserPinListener(e);
@@ -462,13 +355,9 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 		}
 		else if (e.getTarget().equals(buttonBack)){
 			previousRecord();
-			refreshProductInfo(null);
-			posPanel.changeViewPanel();
 		}
 		else if (e.getTarget().equals(buttonNext)){
 			nextRecord();
-			refreshProductInfo(null);
-			posPanel.changeViewPanel();
 		}
 		else if(e.getTarget().equals(buttonLogout)){
 			dispose();
@@ -482,7 +371,6 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 			posPanel.setUserPinListener(e);
 			if(posPanel.isUserPinValid()) {
 				deleteOrder();
-				refreshProductInfo(null);
 			}
 		}
 		//	History
@@ -496,8 +384,9 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 	/**
 	 * Show Window Product
 	 */
-	private void showWindowProduct(MWarehousePrice[] p_results) {
-		WQueryProduct qt = new WQueryProduct(posPanel);
+	private void showWindowProduct() {
+
+		/*WQueryProduct qt = new WQueryProduct(posPanel);
 		if(p_results != null)
 			qt.setResults(p_results);
 		qt.setQueryData(posPanel.getM_PriceList_Version_ID(), posPanel.getM_Warehouse_ID());
@@ -508,25 +397,109 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 		
 		for(Object item : result) {
 			fieldProductName.setText(fieldProductName.getTitle());
-			posPanel.addLine((Integer)item, Env.ONE);
+			posPanel.addOrUpdateLine((Integer)item, Env.ONE);
+		}*/
+		//	Show Info
+		InfoProductPanel infoPanel = new InfoProductPanel(
+				posPanel.getWindowNo(),
+				true,
+				posPanel.getM_Warehouse_ID(),
+				posPanel.getM_PriceList_ID(),
+				0 ,
+				null ,
+				true ,
+				true ,
+				null);
+
+		Object[] result = infoPanel.getSelectedKeys();
+		if(result == null)
+			return;
+
+		for (Object item : result)
+		{
+			int productId = (Integer)item;
+			//String productValue = posPanel.getProductValue(productId);
+			fieldProductName.setText(fieldProductName.getTitle());
+			posPanel.addOrUpdateLine(productId, Env.ONE);
 		}
 	}
-	@Override
-	public void refreshPanel() {
-		
+
+	public void getMainFocus() {
+		/*SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				if (getProductTimer() != null)
+					getProductTimer().restart();
+				fieldProductName.requestFocusInWindow();
+			}
+		});*/
 	}
 
-	@Override
-	public String validatePayment() {
-		return null;
-	}
+	/**
+	 * 	Find/Set Product & Price
+	 */
+	private void findProduct() throws Exception
+	{
+		String query = fieldProductName.getText();
+		if (query == null || query.length() == 0)
+			return;
+		query = query.toUpperCase();
+		//	Test Number
+		boolean allNumber = true;
+		try {
+			Integer.getInteger(query);
+		} catch (Exception e) {
+			allNumber = false;
+		}
+		/*String Value = query;
+		String Name = query;
+		String UPC = (allNumber ? query : null);
+		String SKU = (allNumber ? query : null);*/
+		List<Vector<Object>> results = CPOS.getQueryProduct(query, posPanel.getM_Warehouse_ID() , posPanel.getM_PriceList_Version_ID());
+		//	Set Result
+		if (results.size() == 1) {
+			Optional<Vector<Object>> columns = results.stream().findFirst();
+			if (columns.isPresent()) {
+				Integer productId = (Integer) columns.get().elementAt(0);
+				String productName = (String) columns.get().elementAt(2);
+				posPanel.addOrUpdateLine(productId, Env.ONE);
+				fieldProductName.setText(productName);
+			}
+		} else {	//	more than one
 
+			InfoProductPanel infoPanel = new InfoProductPanel(
+					posPanel.getWindowNo(),
+					true,
+					posPanel.getM_Warehouse_ID(),
+					posPanel.getM_PriceList_ID(),
+					0 ,
+					query ,
+					true ,
+					true ,
+					null);
+
+			Object[] result = infoPanel.getSelectedKeys();
+			if(result == null)
+				return;
+
+			for (Object item : result)
+			{
+				int productId = (Integer)item;
+				//String productValue = posPanel.getProductValue(productId);
+				fieldProductName.setText(fieldProductName.getTitle());
+				posPanel.addOrUpdateLine(productId, Env.ONE);
+			}
+		}
+	}	//	findProduct
+
+	//@Override
+	//public void quantityRequestFocus() {
+	//	posPanel.quantityRequestFocus();
+	//}
 	/**
 	 * Previous Record Order
 	 */
 	public void previousRecord() {
 		posPanel.previousRecord();
-		//	Refresh
 		posPanel.refreshPanel();
 	}
 
@@ -535,14 +508,68 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 	 */
 	public void nextRecord() {
 		posPanel.nextRecord();
-		//	Refresh
 		posPanel.refreshPanel();
 	}
-	
+
+	/**
+	 *
+	 */
+	private void payOrder() {
+
+		//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
+		if( posPanel.getM_Order() == null ) {
+			FDialog.warn(0, Msg.getMsg(ctx, "POS.MustCreateOrder"));
+			return;
+		}
+//		if (collect.show()) {
+		posPanel.showCollectPayment();
+//			if(posPanel.isToPrint()) {
+//				printTicket();
+//			}
+		//
+//			posPanel.setOrder(0);
+//			posPanel.refreshPanel();
+//			refreshProductInfo(null);
+//		}
+	}
+
+	/**
+	 * Execute deleting an order
+	 * If the order is in drafted status -> ask to delete it
+	 * If the order is in completed status -> ask to void it it
+	 * Otherwise, it must be done outside this class.
+	 */
+	private void deleteOrder() {
+		String errorMsg = null;
+		String askMsg = "POS.DeleteOrder";
+		if (posPanel.isCompleted()) {
+			askMsg = "POS.OrderIsAlreadyCompleted";
+		}
+		//	Show Ask
+		if (FDialog.ask(0, this, Msg.getMsg(ctx, askMsg))) {
+			errorMsg = posPanel.cancelOrder();
+		}
+		if(errorMsg != null){
+			FDialog.error(0,  Msg.parseTranslation(ctx, errorMsg));
+			return;
+		}
+		//	Update
+		posPanel.refreshPanel();
+	} // deleteOrder
+
+	@Override
+	public String validatePayment() {
+		return null;
+	}
+
 	@Override
 	public void changeViewPanel() {
+
+	}
+	@Override
+	public void refreshPanel() {
 		if(posPanel.hasOrder()) {
-			if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
+			if (cmbSearch != null && posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
 				cmbSearch.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
 				cmbSearch.setWarehouseId(posPanel.getM_Warehouse_ID());
 			}
@@ -553,7 +580,8 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 			//	For Collect
 			if(posPanel.hasLines()
 					&& !posPanel.isPaid()
-					&& !posPanel.isVoided()) {
+					&& !posPanel.isVoided()
+					&& !posPanel.isReturnMaterial()) {
 				//	For Credit Order
 				buttonCollect.setEnabled(true);
 			} else {
@@ -606,26 +634,6 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 
 	}
 	
-	/**
-	 * Refresh Product Info from Key
-	 * @param key
-	 * @return void
-	 */
-	public void refreshProductInfo(MPOSKey key) {
-		infoProductPanel.refreshProduct(key);
-		parameterPanel.invalidate();
-	}
-	
-	/**
-	 * Refresh Product Info from Product
-	 * @param p_M_Product_ID
-	 * @return void
-	 */
-	public void refreshProductInfo(int p_M_Product_ID) {
-		infoProductPanel.refreshProduct(p_M_Product_ID);
-		parameterPanel.invalidate();
-	}
-	
 	@Override
 	public void okAction(POSQueryInterface query) {
 		if (query.getRecord_ID() <= 0)
@@ -644,7 +652,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 			logger.fine("C_BPartner_ID=" + query.getRecord_ID());
 		} else if(query instanceof WQueryProduct) {
 			if (query.getRecord_ID() > 0) {
-				posPanel.addLine(query.getRecord_ID(), Env.ONE);
+				posPanel.addOrUpdateLine(query.getRecord_ID(), Env.ONE);
 			}
 		}
 		//	Refresh
@@ -661,14 +669,7 @@ public class WPOSActionPanel extends WPOSSubPanel implements PosKeyListener, POS
 	@Override
 	public void moveDown() {
 	}	
-	
-	/**
-	 * Reset Product Info 
-	 * @return void
-	 */
-	public void resetProductInfo() {
-		infoProductPanel.resetValues();
-	}
+
 	public void resetPanel() {
 		buttonNew.setEnabled(false);
 		buttonHistory.setEnabled(false);

@@ -52,11 +52,11 @@ import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPrice;
+import org.compiere.model.MProductPricing;
 import org.compiere.model.MSequence;
 import org.compiere.model.MTax;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
-import org.compiere.model.MWarehousePrice;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Order;
 import org.compiere.print.ReportCtl;
@@ -96,6 +96,8 @@ public class CPOS {
 	private MBPartner 			partner;
 	/**	Price List Version		*/
 	private int 				priceListVersionId;
+	/**	Price List Id		*/
+	private int 				priceListId;
 	/** Context					*/
 	protected Properties 		ctx = Env.getCtx();
 	/**	Today's (login) date	*/
@@ -905,10 +907,10 @@ public class CPOS {
 	 * Create new Line
 	 * @param product
 	 * @param qtyOrdered
-	 * @param warehousePrice
+	 * @param productPricing
      * @return
      */
-	public MOrderLine addOrUpdateLine(MProduct product, BigDecimal qtyOrdered, MWarehousePrice warehousePrice) {
+	public MOrderLine addOrUpdateLine(MProduct product, BigDecimal qtyOrdered, MProductPricing productPricing) {
 		//	Valid Complete
 		if (!isDrafted())
 			return null;
@@ -934,13 +936,13 @@ public class CPOS {
 		line.setQty(BigDecimal.ZERO);
 		//	
 		line.setPrice(); //	sets List/limit
-		if ( warehousePrice.getPriceStd().signum() > 0 ) {
-			line.setPriceLimit(warehousePrice.getPriceLimit());
-			line.setPrice(warehousePrice.getPriceStd());
-			line.setPriceList(warehousePrice.getPriceList());
-			setPriceLimit(warehousePrice.getPriceLimit());
-			//setPrice(warehousePrice.getPriceStd());
-			setPriceList(warehousePrice.getPriceList());
+		if ( productPricing.getPriceStd().signum() > 0 ) {
+			line.setPriceLimit(productPricing.getPriceLimit());
+			line.setPrice(productPricing.getPriceStd());
+			line.setPriceList(productPricing.getPriceList());
+			setPriceLimit(productPricing.getPriceLimit());
+			//setPrice(productPricing.getPriceStd());
+			setPriceList(productPricing.getPriceList());
 			BigDecimal percentageDiscount = line.getDiscount();
 			setDiscountPercentage(percentageDiscount);
 		}
@@ -965,13 +967,16 @@ public class CPOS {
 			if (product == null)
 				return "@No@ @InfoProduct@";
 
-			MWarehousePrice warehousePrice = MWarehousePrice.get(product,getM_PriceList_Version_ID(),getM_Warehouse_ID(),null);
-			if (warehousePrice == null)
+			MProductPricing productPricing = new MProductPricing(productId, getC_BPartner_ID() , qtyOrdered , true , null);
+			productPricing.setM_PriceList_ID(getM_PriceList_ID());
+			productPricing.calculatePrice();
+
+			if (productPricing == null)
 					throw new AdempiereException("@Price@ @NotFound@");
 
 			//	Validate if exists a order
 			if (hasOrder()) {
-				addOrUpdateLine(product, qtyOrdered, warehousePrice);
+				addOrUpdateLine(product, qtyOrdered, productPricing);
 			} else {
 				return "@POS.MustCreateOrder@";
 			}
@@ -1519,7 +1524,16 @@ public class CPOS {
 	public int getM_PriceList_Version_ID() {
 		return priceListVersionId;
 	}	//	getM_PriceList_Version_ID
-	
+
+	/**
+	 * 	Get M_PriceList_Version_ID.
+	 * 	Set Currency
+	 *	@return plv
+	 */
+	public int getM_PriceList_ID() {
+		return priceListId;
+	}	//	getM_PriceList_ID
+
 	/**
 	 * Load Price List Version from Price List
 	 * @param priceListId
@@ -1528,6 +1542,7 @@ public class CPOS {
 	 */
 	protected MPriceListVersion loadPriceListVersion(int priceListId) {
 		priceListVersionId = 0;
+		this.priceListId = priceListId;
 		MPriceList priceList = MPriceList.get(ctx, priceListId, null);
 		//
 		MPriceListVersion priceListVersion = priceList.getPriceListVersion (getToday());
@@ -1883,11 +1898,11 @@ public class CPOS {
 		this.price = price;
 	}
 
-	public void setPrice (MWarehousePrice warehousePrice)
+	public void setPrice (MProductPricing productPricing)
 	{
-		setPriceLimit(warehousePrice.getPriceLimit());
-		setPrice(warehousePrice.getPriceStd());
-		setPriceList(warehousePrice.getPriceList());
+		setPriceLimit(productPricing.getPriceLimit());
+		setPrice(productPricing.getPriceStd());
+		setPriceList(productPricing.getPriceList());
 	}
 
 	public String getElectronicScales()
@@ -2007,6 +2022,11 @@ public class CPOS {
 		}
 
 		return isCorrect;
+	}
+
+	public String getProductValue(int productId)
+	{
+		return DB.getSQLValueString(null, "SELECT Value FROM M_Product WHERE M_Product_ID = ? " , productId);
 	}
 
 	public static List<Vector<Object>> getQueryProduct(String productCode, int warehouseId , int priceListVersionId)

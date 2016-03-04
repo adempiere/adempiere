@@ -511,7 +511,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	 * @return void
 	 */
 	public void refreshProductInfo(MPOSKey key) {
-		infoProductPanel.refreshProduct(key , getM_PriceList_Version_ID() , getM_Warehouse_ID());
+		infoProductPanel.refreshProduct(key , getQty() , getM_PriceList_ID() , getC_BPartner_ID());
 	}
 	
 	/**
@@ -520,7 +520,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	 * @return void
 	 */
 	public void refreshProductInfo(int productId) {
-		infoProductPanel.refreshProduct( productId , getM_PriceList_Version_ID() , getM_Warehouse_ID());
+		infoProductPanel.refreshProduct( productId , getQty() , getM_PriceList_ID() , getC_BPartner_ID());
 	}
 	
 	/**

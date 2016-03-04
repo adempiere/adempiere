@@ -1,12 +1,26 @@
+/** ****************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
+ * Contributor(s): Victor Perez www.e-evolution.com                           *
+ * ****************************************************************************/
+
 package org.adempiere.pos.service;
 
 import org.compiere.model.MImage;
 import org.compiere.model.MProduct;
-import org.compiere.model.MWarehousePrice;
+import org.compiere.model.MProductPricing;
 import org.compiere.util.Env;
 
-import javax.swing.*;
-import java.awt.*;
 import java.math.BigDecimal;
 
 /**
@@ -25,19 +39,22 @@ public class ProductInfo {
     public BigDecimal priceLimit;
     public byte[] imageData;
 
-    public ProductInfo (int productId , int imageId , int priceListVersionId , int warehouseId)
+    public  ProductInfo (int productId , BigDecimal quantity , int imageId , int priceListId , int partnerId )
     {
         MProduct product = MProduct.get(Env.getCtx() , productId);
-        MWarehousePrice warehousePrice = getPrice (product, priceListVersionId , warehouseId);
+        MProductPricing productPricing = new MProductPricing(productId, partnerId , quantity , true , null);
+        productPricing.setM_PriceList_ID(priceListId);
+        productPricing.calculatePrice();
+
         value = product.getValue();
         name = product.getName();
         description = product.getDescription();
         uomSymbol = product.getC_UOM().getUOMSymbol();
         productCategoryName = product.getM_Product_Category().getName();
         productTaxCategory = product.getC_TaxCategory().getName();
-        priceStd = warehousePrice.getPriceStd();
-        priceList = warehousePrice.getPriceList();
-        priceLimit = warehousePrice.getPriceLimit();
+        priceStd = productPricing.getPriceStd();
+        priceList = productPricing.getPriceList();
+        priceLimit = productPricing.getPriceLimit();
         MImage image = getImage(imageId);
         imageData = image != null ? image.getData() : null;
     }
@@ -50,7 +67,7 @@ public class ProductInfo {
      * @return
      * @return BigDecimal
      */
-    public MWarehousePrice getPrice(MProduct product, int priceListVersionId , int warehouseId) {
+    /*public MWarehousePrice getPrice(MProduct product, int priceListVersionId , int warehouseId) {
         if (product == null)
             return null;
         //
@@ -61,7 +78,7 @@ public class ProductInfo {
         }
         //	Default to return
         return null;
-    }	//	setPrice
+    }	//	setPrice*/
 
     public MImage getImage(int imageId)
     {
