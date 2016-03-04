@@ -36,6 +36,8 @@ import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Image;
 
+import java.math.BigDecimal;
+
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
@@ -217,14 +219,14 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 	 * @param productId
 	 * @param imageId
      */
-	public void setValuesFromProduct(int productId, int imageId) {
+	public void setValuesFromProduct(int productId, BigDecimal quantity , int imageId, int priceListId , int partnerId) {
 		if(productId <= 0){
 			initialValue();
 			return;
 		}
 		
 		//	Refresh Values
-		ProductInfo productInfo = new ProductInfo(productId, imageId , posPanel.getM_PriceList_Version_ID() , posPanel.getM_Warehouse_ID());
+		ProductInfo productInfo = new ProductInfo(productId, quantity ,  imageId , priceListId , partnerId);
 		lPriceList.setText(Msg.parseTranslation(ctx , "@PriceStd@ , @PriceList@ ") + posPanel.getCurSymbol());
 		fValue.setText(productInfo.value);
 		fPrice.setText(posPanel.getNumberFormat().format(productInfo.priceStd));
@@ -267,52 +269,28 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 			bImage.invalidate();
 		}
 	}
-	
+
 	/**
 	 * Refresh Product from Key
 	 * @param key
 	 * @return void
 	 */
-	public void refreshProduct(MPOSKey key) {
-		if(key == null){
+	public void refreshProduct(MPOSKey key ,BigDecimal quantity ,  int priceListId , int partnerId) {
+		if(key == null) {
 			initialValue();
 			return;
 		}
-			
-		setValuesFromProduct(key.getM_Product_ID(), key.getAD_Image_ID());
+		setValuesFromProduct(key.getM_Product_ID() , quantity , key.getAD_Image_ID() , priceListId , partnerId);
 	}
-	
+
 	/**
 	 * Refresh from product
-	 * @param p_M_Product_ID
+	 * @param productId
 	 * @return void
 	 */
-	public void refreshProduct(int p_M_Product_ID) {
-		//	Valid Product
-		if(p_M_Product_ID == 0){
-			initialValue();
-			return;
-		}
-		//	Get POS Key
-		int m_C_POSKey_ID = DB.getSQLValue(null, "SELECT pk.C_POSKey_ID "
-				+ "FROM C_POSKey pk "
-				+ "WHERE pk.C_POSKeyLayout_ID = ? "
-				+ "AND pk.M_Product_ID = ? "
-				+ "AND pk.IsActive = 'Y'", posPanel.getC_POSKeyLayout_ID(), p_M_Product_ID);
-		if(m_C_POSKey_ID <= 0) {
-			//	No record has been found for a product in the current Key Layout. Try it in the Subkey Layout.
-			m_C_POSKey_ID = DB.getSQLValue(null, "SELECT pk2.C_POSKey_ID "
-					+ "FROM C_POSKey pk1 "
-					+ "INNER JOIN C_POSKey pk2 ON pk1.subkeylayout_id=pk2.c_poskeylayout_id AND pk1.subkeylayout_id IS NOT NULL "
-					+ "WHERE pk2.M_Product_ID = ? "
-					+ "AND pk1.IsActive = 'Y' AND pk2.IsActive = 'Y'", p_M_Product_ID);
-			
-			if(m_C_POSKey_ID <= 0)
-				return;
-		}
-		MPOSKey key =  new MPOSKey(ctx, m_C_POSKey_ID, null);
-		//	
-		setValuesFromProduct(p_M_Product_ID, key.getAD_Image_ID());
+	public void refreshProduct(int productId , BigDecimal quantity , int priceListId , int partnerId) {
+		int imageId = posPanel.getProductImageId(productId, posPanel.getC_POSKeyLayout_ID());
+		setValuesFromProduct(productId, quantity , imageId , priceListId , partnerId);
 	}
 	
 	/**

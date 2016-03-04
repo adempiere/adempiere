@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.pos.test.SideServer;
@@ -114,7 +115,11 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	private WPOSActionPanel 				v_ActionPanel;
 	private WPOSProductPanel 				f_ProductKeysPanel;
 	private WPOSOrderLinePanel 				f_OrderLinePanel;
+	/** Quantity panel **/
 	private WPOSQuantityPanel 				v_QuantityPanel;
+	/**	Info Product Panel	*/
+	private WPOSInfoProduct 				infoProductPanel;
+
 	/** Status Bar 							*/
 	private StatusBarPanel 					statusBar = new StatusBarPanel();
 	
@@ -190,6 +195,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		v_ActionPanel = new WPOSActionPanel(this);
 		f_ProductKeysPanel = new WPOSProductPanel(this);
 		f_OrderLinePanel = new WPOSOrderLinePanel(this);
+		infoProductPanel = new WPOSInfoProduct(this);
 		v_QuantityPanel = new WPOSQuantityPanel(this);
 		East east = new East();
 		Center center = new Center();
@@ -211,6 +217,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		table.appendChild(f_OrderLinePanel);
 		actionPanel.appendChild(v_ActionPanel);
 		east.appendChild(f_ProductKeysPanel);
+		east.appendChild(infoProductPanel);
 		east.setSplittable(true);
 		east.setStyle("border: none; min-width:44%; width:44%");
 		actionPanel.setStyle("border: none; height:auto; position:relative;float:left;overflow:auto; ");
@@ -397,6 +404,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	public WPOSKeyboard getKeyboard() {
 		return getKeyboard(getOSKeyLayout_ID());
 	}
+
 	@Override
 	public String validatePayment() {
 		return null;
@@ -406,15 +414,33 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	public void refreshPanel() {
 		//	Reload from DB
 		reloadOrder();
-		v_ActionPanel.refreshPanel();
-		v_ActionPanel.changeViewPanel();
-		f_ProductKeysPanel.refreshPanel();
 		f_OrderLinePanel.refreshPanel();
-		v_QuantityPanel.refreshPanel();
+		v_ActionPanel.refreshPanel();
+		f_ProductKeysPanel.refreshPanel();
 		if(!hasLines()) {
-			v_ActionPanel.resetProductInfo();
+			infoProductPanel.resetValues();
 			v_QuantityPanel.resetPanel();
 		}
+	}
+
+	/**
+	 * Refresh Product Info from Key
+	 * @param key
+	 * @return void
+	 */
+	public void refreshProductInfo(MPOSKey key) {
+		infoProductPanel.refreshProduct(key , getQty() , getM_PriceList_ID() , getC_BPartner_ID());
+		//parameterPanel.invalidate();
+	}
+
+	/**
+	 * Refresh Product Info from Product
+	 * @param p_M_Product_ID
+	 * @return void
+	 */
+	public void refreshProductInfo(int p_M_Product_ID) {
+		infoProductPanel.refreshProduct(p_M_Product_ID , getQty() , getM_PriceList_ID() , getC_BPartner_ID());
+		//parameterPanel.invalidate();
 	}
 
 	@Override
@@ -427,7 +453,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 * @param m_QtyOrdered
 	 * @return void
 	 */
-	public void addLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
+	public void addOrUpdateLine(int p_M_Product_ID, BigDecimal m_QtyOrdered) {
 		//	Create Order if not exists
 		if (!hasOrder()) {
 			newOrder();
@@ -459,8 +485,9 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 */
 	public void newOrder() {
 		newOrder(0);
-		v_ActionPanel.resetProductInfo();
+		infoProductPanel.resetValues();
 		v_QuantityPanel.resetPanel();
+		getMainFocus();
 	}
 
 	@Override
@@ -491,14 +518,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	public DecimalFormat getNumberFormat() {
 		return m_Format;
 	}
-	/**
-	 * Refresh Product Info
-	 * @param key
-	 * @return void
-	 */
-	public void refreshProductInfo(MPOSKey key) {
-		v_ActionPanel.refreshProductInfo(key);
-	}
 	
 	/**
 	 * Refresh Header
@@ -508,15 +527,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		reloadOrder();
 		v_ActionPanel.changeViewPanel();
 		f_ProductKeysPanel.refreshPanel();
-	}
-	
-	/**
-	 * Refresh Product Info
-	 * @param p_M_Product_ID
-	 * @return void
-	 */
-	public void refreshProductInfo(int p_M_Product_ID) {
-		v_ActionPanel.refreshProductInfo(p_M_Product_ID);
 	}
 	
 	/**
@@ -655,22 +665,12 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		if (!isRequiredPIN())
 			return true;
 
-		/*System.out.println("Testpunkt 01"); // TODO: delete when test over
-		if (isCorrectUserPin == null && userPinListener!=null) {
-			System.out.println("Testpunkt 02");
-			userPinListener.doPerformAction();
-			System.out.println("Testpunkt 03");
-		}*/
-
-		// System.out.println("Testpunkt 04"); // TODO: delete when test over
 		if (isCorrectUserPin == null || !isCorrectUserPin) {
-			//System.out.println("Testpunkt 05");   // TODO: delete when test over
-			FDialog.error(0,Msg.parseTranslation(getCtx(), ("@Supervisor_ID@: @UserPin@ @IsInvalid@.")));
-			//System.out.println("Testpunkt 06"); // TODO: delete when test over
+			//FDialog.error(0,Msg.parseTranslation(getCtx(), ("@Supervisor_ID@: @UserPin@ @IsInvalid@.")));
+			throw new AdempiereException("@Supervisor_ID@: @UserPin@ @IsInvalid@.");
 		}
 
-		//System.out.println("Testpunkt 07"); // TODO: delete when test over
-		return isCorrectUserPin == null?false:isCorrectUserPin;
+		return isCorrectUserPin;
 	}
 	
 	/**

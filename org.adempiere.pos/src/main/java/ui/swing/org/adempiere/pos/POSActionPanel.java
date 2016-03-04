@@ -25,6 +25,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.KeyStroke;
@@ -35,13 +38,12 @@ import org.adempiere.pos.search.POSQuery;
 import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryDocType;
 import org.adempiere.pos.search.QueryOrderHistory;
-import org.adempiere.pos.search.QueryProduct;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
+import org.compiere.apps.search.InfoProduct;
 import org.compiere.model.I_M_Product;
-import org.compiere.model.MWarehousePrice;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
@@ -319,6 +321,41 @@ public class POSActionPanel extends POSSubPanel
 		}
 	}	//	actionPerformed
 
+	/**
+	 * Show Window Product
+	 */
+	private void showWindowProduct(String query) {
+		posPanel.getFrame().getContentPane().invalidate();
+		InfoProduct infoProduct = new InfoProduct (
+				posPanel.getFrame(),
+				true, posPanel.getWindowNo() ,
+				posPanel.getM_Warehouse_ID(),
+				posPanel.getM_PriceList_ID() ,
+				0 ,
+				query ,
+				false ,
+				true,
+				null);
+		infoProduct.setVisible(true);
+		if (infoProduct.isCancelled())
+			return;
+		int productId = (Integer) infoProduct.getSelectedKeys()[0];
+		if (productId > 0)
+		{
+			String value = posPanel.getProductValue(productId);
+			fieldProductName.setPlaceholder(value);
+			try {
+				posPanel.setIsNewLine(true);
+				findProduct(true);
+			} catch (Exception exception) {
+				ADialog.error(0 , null , exception.getLocalizedMessage());
+			}
+			fieldProductName.setText("");
+			fieldProductName.repaint();
+			return;
+		}
+	}
+
 	public void getMainFocus() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -347,28 +384,22 @@ public class POSActionPanel extends POSSubPanel
 		} catch (Exception e) {
 			allNumber = false;
 		}
-		String value = query;
+		/*String value = query;
 		String name = query;
 		String upc = (allNumber ? query : null);
-		String sku = (allNumber ? query : null);
-		//	
-		MWarehousePrice[] results = MWarehousePrice.find (ctx,
-				posPanel.getM_PriceList_Version_ID(), posPanel.getM_Warehouse_ID(),
-				value, name, upc, sku, null);
-		
+		String sku = (allNumber ? query : null);*/
+		List<Vector<Object>> results = posPanel.getQueryProduct(query, posPanel.getM_Warehouse_ID() , posPanel.getM_PriceList_Version_ID());
 		//	Set Result
-		if (results.length == 1) {	//	one
-			posPanel.addOrUpdateLine(results[0].getM_Product_ID(), Env.ONE);
-			fieldProductName.setPlaceholder(results[0].getName());
+		if (results.size() == 1) {
+			Optional<Vector<Object>> columns = results.stream().findFirst();
+			if (columns.isPresent()) {
+				Integer productId = (Integer) columns.get().elementAt(0);
+				String productName = (String) columns.get().elementAt(2);
+				posPanel.addOrUpdateLine(productId, Env.ONE);
+				fieldProductName.setPlaceholder(productName);
+			}
 		} else {	//	more than one
-			posPanel.getFrame().getContentPane().invalidate();
-			QueryProduct qt = new QueryProduct(posPanel);
-			qt.addOptionListener(this);
-			qt.setResults(results);
-			qt.setQueryData(posPanel.getM_PriceList_Version_ID(), posPanel.getM_Warehouse_ID());
-			qt.showView();
-			fieldProductName.setValue(null);
-			fieldProductName.setText("");
+			showWindowProduct(query);
 		}
 		if (isNewLine) {
 			posPanel.updateLineTable();
@@ -393,8 +424,6 @@ public class POSActionPanel extends POSSubPanel
 	 */
 	public void previousRecord() {
 		posPanel.previousRecord();
-		//quantityPanel.changeViewPanel();
-		//	Refresh
 		posPanel.refreshPanel();
 	}
 
@@ -449,54 +478,6 @@ public class POSActionPanel extends POSSubPanel
 		//	Update
 		posPanel.refreshPanel();
 	} // deleteOrder
-
-	
-	/**
-	 * Is order fully pay ?
-	 * Calculates if the given money is sufficient to pay the order
-	 * 
-	 */
-	public boolean isOrderFullyPaid()
-	{
-		/*TODO
-		BigDecimal given = new BigDecimal(f_cashGiven.getValue().toString());
-		boolean paid = false;
-		if (p_posPanel != null && p_posPanel.f_curLine != null)
-		{
-			MOrder order = p_posPanel.f_curLine.getOrder();
-			BigDecimal total = new BigDecimal(0);
-			if (order != null)
-				total = order.getGrandTotal();
-			paid = given.doubleValue() >= total.doubleValue();
-		}
-		return paid;
-		*/
-		return true;
-	}	
-
-	/**
-	 * 	Open cash drawer
-	 * 
-	 */
-//	public void openCashDrawer()
-//	{
-//		String port = "/dev/lp";
-//		
-//		byte data[] = new byte[] {0x1B, 0x40, 0x1C};
-//		try {  
-//            FileOutputStream m_out = null;
-//			if (m_out == null) {
-//                m_out = new FileOutputStream(port);  // No poner append = true.
-//            }
-//            m_out.write(data);
-//        } catch (IOException e) {
-//        }  
-//	}
-
-	@Override
-	/*public void refreshPanel() {
-		//	
-	}*/
 
 	public String validatePayment() {
 		return null;
@@ -578,20 +559,6 @@ public class POSActionPanel extends POSSubPanel
 				}
 				//
 				logger.fine("C_BPartner_ID=" + query.getRecord_ID());
-			} else if(query instanceof QueryProduct) {
-				QueryProduct queryProduct = (QueryProduct) query;
-				if (queryProduct.getRecord_ID() > 0) {
-					fieldProductName.setPlaceholder(queryProduct.getValue());
-					try {
-						posPanel.setIsNewLine(true);
-						findProduct(true);
-					} catch (Exception exception) {
-						ADialog.error(0 , null , exception.getLocalizedMessage());
-					}
-					fieldProductName.setText("");
-					fieldProductName.repaint();
-					return;
-				}
 			} else if(query instanceof QueryDocType) {
 				if (query.getRecord_ID() > 0) {
 					posPanel.setC_DocType_ID(query.getRecord_ID());

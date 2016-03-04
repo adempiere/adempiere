@@ -26,6 +26,7 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -217,12 +218,12 @@ public class POSInfoProduct extends POSSubPanel {
 	 * @param imageId
 	 * @return void
 	 */
-	private void setValuesFromProduct(int productId, int imageId, int priceListVersionId , int warehouseId) {
+	private void setValuesFromProduct(int productId, BigDecimal quantity ,  int imageId, int priceListId , int partnerId) {
 		if(productId <= 0)
 			return;
 		//	Refresh Values
 		labelPriceName.setText(Msg.parseTranslation(ctx , "@PriceStd@ , @PriceList@ ") + posPanel.getCurSymbol());
-		ProductInfo productInfo = new ProductInfo(productId , imageId , priceListVersionId , warehouseId );
+		ProductInfo productInfo = new ProductInfo(productId ,quantity , imageId , priceListId , partnerId );
 		labelValue.setText(productInfo.value);
 		//labelPriceLimit.setText(posPanel.getNumberFormat().format(warehousePrice.getPriceLimit()));
 		labelPrice.setText(posPanel.getNumberFormat().format(productInfo.priceStd));
@@ -255,11 +256,10 @@ public class POSInfoProduct extends POSSubPanel {
 	 * @param key
 	 * @return void
 	 */
-	public void refreshProduct(MPOSKey key , int priceListVersionId , int warehouseId) {
+	public void refreshProduct(MPOSKey key ,BigDecimal quantity ,  int priceListId , int partnerId) {
 		if(key == null)
 			return;
-		setValuesFromProduct(key.getM_Product_ID(), key.getAD_Image_ID() , priceListVersionId , warehouseId);
-		setValuesFromProduct(key.getM_Product_ID(), key.getAD_Image_ID() , priceListVersionId , warehouseId);
+		setValuesFromProduct(key.getM_Product_ID() , quantity , key.getAD_Image_ID() , priceListId , partnerId);
 	}
 
 	/**
@@ -267,9 +267,9 @@ public class POSInfoProduct extends POSSubPanel {
 	 * @param productId
 	 * @return void
 	 */
-	public void refreshProduct(int productId , int priceListVersionId , int warehouseId) {
+	public void refreshProduct(int productId , BigDecimal quantity , int priceListId , int partnerId) {
 		int imageId = posPanel.getProductImageId(productId, posPanel.getC_POSKeyLayout_ID());
-		setValuesFromProduct(productId, imageId , priceListVersionId , warehouseId);
+		setValuesFromProduct(productId, quantity , imageId , priceListId , partnerId);
 	}
 	
 	/**

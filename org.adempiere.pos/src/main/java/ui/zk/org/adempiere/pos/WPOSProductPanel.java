@@ -337,7 +337,7 @@ public class WPOSProductPanel extends WPOSSubPanel implements PosKeyListener, PO
 		return;
 		}
 		// Add line
-		posPanel.addLine(key.getM_Product_ID(), key.getQty());
+		posPanel.addOrUpdateLine(key.getM_Product_ID(), key.getQty());
 		//	Show Product Info
 		posPanel.refreshProductInfo(key);
 		return;
