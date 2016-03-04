@@ -232,6 +232,7 @@ public class POSInfoProduct extends POSSubPanel {
 		labelUOMSymbol.setText(productInfo.uomSymbol);
 		labelProductCategory.setText(productInfo.productCategoryName);
 		labelProductTax.setText(productInfo.productTaxCategory);
+		posPanel.updateProductPlaceholder(productInfo.name);
 		String description = productInfo.description;
 		if(description == null)
 			description = "-";
@@ -248,17 +249,20 @@ public class POSInfoProduct extends POSSubPanel {
 			}
 		} else {
 			buttonImage.setIcon(null);
+			buttonImage.invalidate();
 		}
 	}
-	
+
 	/**
 	 * Refresh Product from Key
 	 * @param key
 	 * @return void
 	 */
 	public void refreshProduct(MPOSKey key ,BigDecimal quantity ,  int priceListId , int partnerId) {
-		if(key == null)
+		if(key == null) {
+			//initialValue();
 			return;
+		}
 		setValuesFromProduct(key.getM_Product_ID() , quantity , key.getAD_Image_ID() , priceListId , partnerId);
 	}
 
@@ -278,8 +282,8 @@ public class POSInfoProduct extends POSSubPanel {
 	 */
 	public void resetValues() {
 		final String NO_TEXT = "--";
-		labelPriceName.setText(NO_TEXT);
 		labelValue.setText(NO_TEXT);
+		labelPriceName.setText(NO_TEXT);
 		labelPrice.setText(NO_TEXT);
 		labelPriceList.setText(NO_TEXT);
 		labelName.setText(NO_TEXT);
@@ -288,6 +292,7 @@ public class POSInfoProduct extends POSSubPanel {
 		labelProductTax.setText(NO_TEXT);
 		labelDescription.setText(NO_TEXT);
 		buttonImage.setIcon(null);
+		buttonImage.invalidate();
 	}
 
 	public String getUOMSymbol()

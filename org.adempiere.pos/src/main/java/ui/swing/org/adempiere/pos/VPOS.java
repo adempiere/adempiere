@@ -404,7 +404,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 			newOrder();
 		}
 		//	Show Product Info
-		refreshProductInfo(productId);
+		//refreshProductInfo(productId);
 		//	
 		String lineError = addOrUpdate(productId, qtyOrdered);
 		if (lineError != null) {
@@ -710,5 +710,10 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	public void setQuantity(BigDecimal qty) {
 		quantityPanel.setQuantity(qty);
 		super.setQuantity(qty);
+	}
+
+	public void updateProductPlaceholder(String name)
+	{
+		actionPanel.updateProductPlaceholder(name);
 	}
 }

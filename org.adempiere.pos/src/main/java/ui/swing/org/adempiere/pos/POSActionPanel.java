@@ -95,20 +95,20 @@ public class POSActionPanel extends POSSubPanel
 	private CButton 			buttonLogout;
 	/**	Button Panel		*/
 	private CPanel 				buttonPanel;
-	/**	For Show BPartner	*/
+	/**	For Show Product	*/
 	private	POSTextField 		fieldProductName;
 	/** Find Product Timer **/
 	private javax.swing.Timer   findProductTimer;
 	private POSLookupProduct 	lookupProduct;
-
+	/**	Process Action 						*/
+	private POSActionMenu actionProcessMenu;
 	/**	Padding				*/
 	private int 				topPadding;
 	private int 				bottonPadding;
 	private int 				rightPadding;
 	private int 				leftPadding;
 
-	/**	Process Action 						*/
-	private POSActionMenu actionProcessMenu;
+
 
 
 	/**	Logger			*/
@@ -128,6 +128,7 @@ public class POSActionPanel extends POSSubPanel
 	/**
 	 * 	Initialize
 	 */
+	@Override
 	public void init() {
 		//	Content
 		setLayout(new GridBagLayout());
@@ -237,8 +238,9 @@ public class POSActionPanel extends POSSubPanel
 			add(fillingComponent, new GridBagConstraints(0, 2, 1, 1, 1, 1
 					, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 0, 0, 20), 0, 0));
 		}
-
+		enableButton();
 		actionProcessMenu = new POSActionMenu(posPanel);
+		//	List Orders
 		posPanel.listOrder();
 		getMainFocus();
 	}	//	init
@@ -325,34 +327,40 @@ public class POSActionPanel extends POSSubPanel
 	 * Show Window Product
 	 */
 	private void showWindowProduct(String query) {
+		//	Show Info
 		posPanel.getFrame().getContentPane().invalidate();
 		InfoProduct infoProduct = new InfoProduct (
 				posPanel.getFrame(),
 				true, posPanel.getWindowNo() ,
 				posPanel.getM_Warehouse_ID(),
 				posPanel.getM_PriceList_ID() ,
-				0 ,
-				query ,
-				false ,
+				0,
+				query,
+				true,
 				true,
 				null);
 		infoProduct.setVisible(true);
+		Object[] result = infoProduct.getSelectedKeys();
+		if(result == null)
+			return;
 		if (infoProduct.isCancelled())
 			return;
-		int productId = (Integer) infoProduct.getSelectedKeys()[0];
-		if (productId > 0)
+		for (Object item : result)
 		{
-			String value = posPanel.getProductValue(productId);
-			fieldProductName.setPlaceholder(value);
-			try {
-				posPanel.setIsNewLine(true);
-				findProduct(true);
-			} catch (Exception exception) {
-				ADialog.error(0 , null , exception.getLocalizedMessage());
+			int productId = (Integer) item;
+			if (productId > 0) {
+				String value = posPanel.getProductValue(productId);
+				//fieldProductName.setPlaceholder(value);
+				posPanel.updateProductPlaceholder(value);
+				try {
+					posPanel.setIsNewLine(true);
+					findProduct(true);
+				} catch (Exception exception) {
+					ADialog.error(0, null, exception.getLocalizedMessage());
+				}
+				fieldProductName.setText("");
+				fieldProductName.repaint();
 			}
-			fieldProductName.setText("");
-			fieldProductName.repaint();
-			return;
 		}
 	}
 
@@ -373,7 +381,8 @@ public class POSActionPanel extends POSSubPanel
 		if (getProductTimer() != null)
 			getProductTimer().stop();
 		String query = fieldProductName.getPlaceholder();
-		fieldProductName.setPlaceholder("");
+		//fieldProductName.setPlaceholder("");
+		posPanel.updateProductPlaceholder("");
 		if (query == null || query.length() == 0)
 			return;
 		query = query.toUpperCase();
@@ -396,7 +405,8 @@ public class POSActionPanel extends POSSubPanel
 				Integer productId = (Integer) columns.get().elementAt(0);
 				String productName = (String) columns.get().elementAt(2);
 				posPanel.addOrUpdateLine(productId, Env.ONE);
-				fieldProductName.setPlaceholder(productName);
+				//fieldProductName.setPlaceholder(productName);
+				//posPanel.updateProductPlaceholder(productName);
 			}
 		} else {	//	more than one
 			showWindowProduct(query);
@@ -471,14 +481,13 @@ public class POSActionPanel extends POSSubPanel
 			posPanel.getFrame().setCursor(Cursor.getDefaultCursor());
 		}
 		//	show if exists error
-		if(errorMsg != null) {
-			ADialog.error(posPanel.getWindowNo(),
-					this, Msg.parseTranslation(ctx, errorMsg));
-		}
+		if(errorMsg != null)
+			ADialog.error(posPanel.getWindowNo(), this, Msg.parseTranslation(ctx, errorMsg));
 		//	Update
 		posPanel.refreshPanel();
 	} // deleteOrder
 
+	@Override
 	public String validatePayment() {
 		return null;
 	}
@@ -520,6 +529,9 @@ public class POSActionPanel extends POSSubPanel
 			} 
 			//	For Cancel Action
 			buttonCancel.setEnabled(!posPanel.isVoided());
+			buttonNew.setEnabled(true);
+			buttonHistory.setEnabled(true);
+			buttonProcess.setEnabled(true);
 		} else {
 			buttonNew.setEnabled(true);
 			buttonHistory.setEnabled(true);
@@ -534,11 +546,23 @@ public class POSActionPanel extends POSSubPanel
 			buttonDocType.setEnabled(false);
 			buttonBPartner.setEnabled(false);
 		}
-		//posPanel.changeViewPanel();
 		buttonNew.setEnabled(true);
 		buttonHistory.setEnabled(true);
 		buttonProcess.setEnabled(true);
 	}
+
+	/**
+	 * Enable Bttons
+	 * @return void
+	 */
+	public void enableButton(){
+		//fieldProductName.setText(fieldProductName.getTitle());
+		buttonNew.setEnabled(true);
+		buttonCancel.setEnabled(false);
+		buttonHistory.setEnabled(true);
+		buttonCollect.setEnabled(false);
+	}
+
 
 	@Override
 	public void okAction(POSQueryInterface query) {
@@ -603,6 +627,12 @@ public class POSActionPanel extends POSSubPanel
 	public javax.swing.Timer getProductTimer()
 	{
 		return  findProductTimer;
+	}
+
+	public void updateProductPlaceholder(String name)
+	{
+		fieldProductName.setPlaceholder(name);
+		fieldProductName.repaint();
 	}
 	
 }//	POSActionPanel
