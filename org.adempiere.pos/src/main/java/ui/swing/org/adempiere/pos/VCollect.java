@@ -423,7 +423,6 @@ public class VCollect extends Collect
 			pos.refreshPanel();
 			return;
 		} else if (actionEvent.getSource().equals(buttonCancel)) {	//	Nothing
-			//dialog.dispose();
 			dialog.setVisible(false);
 			pos.showKeyboard();
 			pos.refreshPanel();
