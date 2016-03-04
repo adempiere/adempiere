@@ -294,6 +294,19 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 		}
 	}
 
+	/**
+	 * Change Status
+	 * @param status
+	 */
+	public void changeStatus(boolean status) {
+		fieldQuantity.setEnabled(status);
+		fieldPrice.setEnabled(status);
+		fieldDiscountPercentage.setEnabled(status);
+		buttonDelete.setEnabled(status);
+		buttonPlus.setEnabled(status);
+		buttonMinus.setEnabled(status);
+	}
+
 	@Override
 	public void refreshPanel() {
 		if(posPanel.hasLines()){
@@ -343,6 +356,7 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 
 	@Override
 	public void moveUp() {
+
 	}
 
 	@Override
@@ -354,19 +368,6 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 		return null;
 	}
 
-	/**
-	 * Change Status 
-	 * @param status
-	 */
-	public void changeStatus(boolean status) {
-		fieldQuantity.setEnabled(status);
-		fieldPrice.setEnabled(status);
-		fieldDiscountPercentage.setEnabled(status);
-		buttonDelete.setEnabled(status);
-		buttonPlus.setEnabled(status);
-		buttonMinus.setEnabled(status);
-	}
-	
 	@Override
 	public void changeViewPanel() {
 		if(posPanel.getQty().compareTo(Env.ZERO) == 0)

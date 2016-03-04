@@ -41,6 +41,7 @@ import org.compiere.pos.PosKeyListener;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -287,12 +288,12 @@ public class POSDocumentPanel extends POSSubPanel
 		headerConstraint.gridy = 0;
 		add(headerPanel, headerConstraint);
 		//	Add Product Name
-		GridBagConstraints productConstraint = new GridBagConstraints();
-		productConstraint.fill = GridBagConstraints.HORIZONTAL;
-		productConstraint.weightx = 0;
-		productConstraint.gridy = 1;
-		productConstraint.gridwidth = 2;
-		headerPanel.add(fieldPartnerName, productConstraint);
+		GridBagConstraints partnerConstraint = new GridBagConstraints();
+		partnerConstraint.fill = GridBagConstraints.HORIZONTAL;
+		partnerConstraint.weightx = 0;
+		partnerConstraint.gridy = 1;
+		partnerConstraint.gridwidth = 2;
+		headerPanel.add(fieldPartnerName, partnerConstraint);
 		//	Add Keyboard
 		GridBagConstraints keyboardConstraint = new GridBagConstraints();
 		keyboardConstraint.fill = GridBagConstraints.BOTH;
@@ -332,6 +333,7 @@ public class POSDocumentPanel extends POSSubPanel
 	/**
 	 * Call back from key panel
 	 */
+	@Override
 	public void keyReturned(MPOSKey key) {
 		// processed order
 		if (posPanel.hasOrder()
@@ -341,13 +343,27 @@ public class POSDocumentPanel extends POSSubPanel
 			return;
 		}
 		// Add line
-		try {
+		try{
+			//fieldPartnerName.setPlaceholder(posPanel.getProductName(key.getM_Product_ID()));
 			posPanel.addOrUpdateLine(key.getM_Product_ID(), key.getQty());
+			posPanel.updateLineTable();
+			if (posPanel.isNewLine())
+				posPanel.setQuantity(BigDecimal.ONE);
+			else
+				posPanel.setQuantity(posPanel.getQty().add(BigDecimal.ONE));
+
+			posPanel.updateLineTable();
+			posPanel.refreshPanel();
+			posPanel.changeViewPanel();
+			posPanel.getMainFocus();
+
+
 		} catch (Exception exception) {
 			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
 		//	Show Product Info
 		posPanel.refreshProductInfo(key);
+		return;
 	}
 	
 	@Override
@@ -360,7 +376,26 @@ public class POSDocumentPanel extends POSSubPanel
 			}
 		}
 	}
-	
+
+	@Override
+	public void okAction(POSQueryInterface query) {
+		if (query.getRecord_ID() > 0) {
+			fieldPartnerName.setText(query.getValue());
+			if(!posPanel.hasOrder()) {
+				posPanel.newOrder(query.getRecord_ID());
+			} else {
+				posPanel.configureBPartner(query.getRecord_ID());
+			}
+			//
+			logger.fine("C_BPartner_ID=" + query.getRecord_ID());
+		}
+	}
+
+	@Override
+	public void cancelAction(POSQueryInterface query) {
+		//	Nothing
+	}
+
 	/**
 	 * 	Find/Set BPartner
 	 */
@@ -405,10 +440,7 @@ public class POSDocumentPanel extends POSSubPanel
 			posPanel.configureBPartner(bp.getC_BPartner_ID());
 			fieldPartnerName.setText(bp.getName());
 		} else {	//	more than one
-			QueryBPartner qt = new QueryBPartner(posPanel);
-			qt.addOptionListener(this);
-			qt.setResults(results);
-			qt.showView();
+			changeBusinessPartner(results);
 		}
 		//	Default return
 		posPanel.refreshPanel();
@@ -447,8 +479,33 @@ public class POSDocumentPanel extends POSSubPanel
 			fieldPartnerName.setText(posPanel.getBPName());
 		}
 		//	Repaint
-		totalPanel.validate();
+		totalPanel.invalidate();
 		totalPanel.repaint();
+	}
+
+	/**
+	 * 	Change in Order the Business Partner, including Price list and location
+	 *  In Order and POS
+	 *  @param results
+	 */
+	public boolean changeBusinessPartner(MBPartnerInfo[] results) {
+		// Change to another BPartner
+		QueryBPartner qt = new QueryBPartner(posPanel);
+		qt.addOptionListener(this);
+		qt.setResults(results);
+		qt.showView();
+		if (qt.getRecord_ID() > 0) {
+			fieldPartnerName.setText(posPanel.getBPName());
+			if(!posPanel.hasOrder()) {
+				posPanel.newOrder(qt.getRecord_ID());
+				posPanel.refreshPanel();
+			} else {
+				posPanel.configureBPartner(qt.getRecord_ID());
+			}
+			logger.fine("C_BPartner_ID=" + qt.getRecord_ID());
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -467,25 +524,6 @@ public class POSDocumentPanel extends POSSubPanel
 	}
 
 	@Override
-	public void okAction(POSQueryInterface query) {
-		if (query.getRecord_ID() > 0) {
-			fieldPartnerName.setText(query.getValue());
-			if(!posPanel.hasOrder()) {
-				posPanel.newOrder(query.getRecord_ID());
-			} else {
-				posPanel.configureBPartner(query.getRecord_ID());
-			}
-			//	
-			logger.fine("C_BPartner_ID=" + query.getRecord_ID());
-		}
-	}
-
-	@Override
-	public void cancelAction(POSQueryInterface query) {
-		//	Nothing
-	}
-
-	@Override
 	public void moveUp() {
 	}
 
@@ -493,8 +531,16 @@ public class POSDocumentPanel extends POSSubPanel
 	public void moveDown() {
 	}
 
+	/**
+	 * Get Collect Payment Panel
+	 * @return VCollect
+	 */
 	public VCollect getCollectPayment()
 	{
+
+
+
+
 		return collectPayment.load(posPanel);
 	}
 
@@ -507,4 +553,5 @@ public class POSDocumentPanel extends POSSubPanel
 	{
 		return keyboardPanel;
 	}
-}	//	POSDocumentPanel
+
+}

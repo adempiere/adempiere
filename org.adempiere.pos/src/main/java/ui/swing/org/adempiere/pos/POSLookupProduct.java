@@ -38,6 +38,7 @@ import java.util.Arrays;
  */
 public class POSLookupProduct implements ActionListener, KeyListener {
 
+    private static final long serialVersionUID = -2303830709901143774L;
     private POSLookupProductInterface lookupProductInterface = null;
     private POSTextField fieldProductName = null;
     private long lastKeyboardEvent = 0;
@@ -73,6 +74,9 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         this.lastKeyboardEvent = lastKeyboardEvent;
     }
 
+    /**
+     * Set Filling Component
+     */
     public void setFillingComponent(JComboBox<KeyNamePair> productLookupComboBox)
     {
         this.productLookupComboBox = productLookupComboBox;
@@ -90,13 +94,19 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         productLookupComboBox.addItem(new KeyNamePair(0, this.title));
     }
 
-    public void setPriceListVersionId(int priceListVersionId)
-    {
+    /**
+     * Set Price List Version ID
+     * @param priceListVersionId
+     */
+    public void setPriceListVersionId(int priceListVersionId) {
         this.priceListVersionId = priceListVersionId;
     }
 
-    public void setWarehouseId(int warehouseId)
-    {
+    /**
+     * Set Warehouse ID
+     * @param warehouseId
+     */
+    public void setWarehouseId(int warehouseId) {
         this.warehouseId = warehouseId;
     }
 

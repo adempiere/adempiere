@@ -2029,6 +2029,11 @@ public class CPOS {
 		return DB.getSQLValueString(null, "SELECT Value FROM M_Product WHERE M_Product_ID = ? " , productId);
 	}
 
+	public String getProductName(int productId)
+	{
+		return DB.getSQLValueString(null, "SELECT name FROM M_Product WHERE M_Product_ID = ? " , productId);
+	}
+
 	public static List<Vector<Object>> getQueryProduct(String productCode, int warehouseId , int priceListVersionId)
 	{
 		ArrayList<Vector<Object>> rows = new ArrayList<>();
