@@ -34,7 +34,7 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20160304L;
 
     /** Standard Constructor */
     public X_I_HR_Movement (Properties ctx, int I_HR_Movement_ID, String trxName)
