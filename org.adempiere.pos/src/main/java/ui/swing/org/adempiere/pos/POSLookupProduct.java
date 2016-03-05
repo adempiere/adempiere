@@ -45,15 +45,16 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     private boolean searched = false;
     private boolean selectLock = false;
     private JComboBox<KeyNamePair> productLookupComboBox = null;
-    private Integer priceListVersionId = 0;
+    private Integer priceListId = 0;
     private Integer warehouseId = 0;
+    private Integer partnerId = 0;
     private String fill = StringUtils.repeat(" " , 400);
     static private Integer PRODUCT_VALUE_LENGTH = 14;
-    static private Integer PRODUCT_NAME_LENGTH = 50;
-    static private Integer QUANTITY_LENGTH = 16;
+    static private Integer PRODUCT_NAME_LENGTH = 40;
+    static private Integer QUANTITY_LENGTH = 15;
 
     private String separator = "|";
-    private String productValueTitle   = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@ProductValue@") + fill , PRODUCT_VALUE_LENGTH );
+    private String productValueTitle   = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@Value@")        + fill , PRODUCT_VALUE_LENGTH );
     private String productTitle        = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@M_Product_ID@") + fill , PRODUCT_NAME_LENGTH );
     private String availableTitle      = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@QtyAvailable@") + fill , QUANTITY_LENGTH );
     private String priceStdTitle       = StringUtils.trunc(Msg.parseTranslation(Env.getCtx() , "@PriceStd@")     + fill , QUANTITY_LENGTH );
@@ -98,8 +99,12 @@ public class POSLookupProduct implements ActionListener, KeyListener {
      * Set Price List Version ID
      * @param priceListVersionId
      */
-    public void setPriceListVersionId(int priceListVersionId) {
-        this.priceListVersionId = priceListVersionId;
+    public void setPriceListId(int priceListId) {
+        this.priceListId = priceListId;
+    }
+
+    public void setPartnerId(int partnerId) {
+        this.partnerId = partnerId;
     }
 
     /**
@@ -211,7 +216,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
             productLookupComboBox.removeAllItems();
             productLookupComboBox.addItem(new KeyNamePair(0, title));
             selectLock = true;
-            for (java.util.Vector<Object> columns : CPOS.getQueryProduct(fieldProductName.getText(), warehouseId, priceListVersionId))
+            for (java.util.Vector<Object> columns : CPOS.getQueryProduct(fieldProductName.getText(), warehouseId, priceListId , partnerId))
             {
                 Integer productId = (Integer) columns.elementAt(0);
                 String productValue = (String) columns.elementAt(1);
@@ -220,11 +225,11 @@ public class POSLookupProduct implements ActionListener, KeyListener {
                 String priceStd = (String) columns.elementAt(4);
                 String priceList = (String) columns.elementAt(5);
                 String  line = new StringBuilder()
-                        .append(StringUtils.trunc(productValue + fill , PRODUCT_VALUE_LENGTH )).append(separator)
-                        .append(StringUtils.trunc(productName + fill , PRODUCT_NAME_LENGTH )).append(separator)
-                        .append(StringUtils.trunc(qtyAvailable + fill , QUANTITY_LENGTH)).append(separator)
-                        .append(StringUtils.trunc(priceStd + fill, QUANTITY_LENGTH )).append(separator)
-                        .append(StringUtils.trunc(priceList + fill, QUANTITY_LENGTH )).toString();
+                        .append(StringUtils.trunc(productValue  + fill , PRODUCT_VALUE_LENGTH )).append(separator)
+                        .append(StringUtils.trunc(productName   + fill , PRODUCT_NAME_LENGTH )).append(separator)
+                        .append(StringUtils.trunc(qtyAvailable  + fill , QUANTITY_LENGTH )).append(separator)
+                        .append(StringUtils.trunc(priceStd      + fill , QUANTITY_LENGTH )).append(separator)
+                        .append(StringUtils.trunc(priceList     + fill , QUANTITY_LENGTH )).toString();
                 productLookupComboBox.addItem(new KeyNamePair(productId, line));
             }
 

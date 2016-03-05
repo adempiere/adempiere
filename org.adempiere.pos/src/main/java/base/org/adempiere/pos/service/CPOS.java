@@ -2034,26 +2034,62 @@ public class CPOS {
 		return DB.getSQLValueString(null, "SELECT name FROM M_Product WHERE M_Product_ID = ? " , productId);
 	}
 
-	public static List<Vector<Object>> getQueryProduct(String productCode, int warehouseId , int priceListVersionId)
+	public static List<Vector<Object>> getQueryProduct(String productCode, int warehouseId , int priceListId , int partnerId)
 	{
 		ArrayList<Vector<Object>> rows = new ArrayList<>();
-		String sql = "SELECT p.M_Product_ID, p.Value, p.Name  , BomQtyAvailable(p.M_Product_ID, ? , 0 ) AS QtyAvailable , pp.pricestd , pp.pricelist "
-				+ " FROM M_Product p "
-				+ " INNER JOIN M_ProductPrice pp ON (p.M_Product_ID=pp.M_Product_ID)"
-				+ " WHERE pp.M_Product_ID = p.M_Product_ID "
-				+ " AND pp.M_PriceList_Version_ID = ? "
-				+ " AND pp.IsActive='Y' "
-				+ " AND (UPPER(p.Name) like UPPER('"+ "%" + productCode.replace(" ", "%") + "%" +"')"
-				+ " OR UPPER(p.Value) like UPPER('" + "%" + productCode.replace(" ", "%") + "%" +"') "
-				+ " OR UPPER(p.UPC) like UPPER('" + "%" + productCode.replace(" ", "%") + "%" + "') "
-				+ " OR UPPER(p.SKU) like UPPER('" + "%" + productCode.replace(" ", "%") + "%" + "')) "
-				+ " ORDER By 3";
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT DISTINCT ON ( ProductPricing.M_Product_ID , p.Value, p.Name ) ProductPricing.M_Product_ID , p.Value, p.Name,")
+				.append("   BomQtyAvailable(ProductPricing.M_Product_ID, ? , 0 ) AS QtyAvailable , PriceStd , PriceList FROM (")
+					.append("	SELECT pl.M_PriceList_ID , ValidFrom , 0 AS BreakValue , null AS C_BPartner_ID,")
+					.append("   p.M_Product_ID,")
+					.append("	bomPriceStd(p.M_Product_ID,plv.M_PriceList_Version_ID) AS PriceStd,")
+					.append("	bomPriceList(p.M_Product_ID,plv.M_PriceList_Version_ID) AS PriceList,")
+					.append("	bomPriceLimit(p.M_Product_ID,plv.M_PriceList_Version_ID) AS PriceLimit")
+					.append("	FROM M_Product p")
+					.append("	INNER JOIN M_ProductPrice pp ON (p.M_Product_ID=pp.M_Product_ID)")
+					.append("	INNER JOIN M_PriceList_Version plv ON (pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID)")
+					.append("	INNER JOIN M_PriceList pl ON (plv.M_PriceList_ID=pl.M_PriceList_ID)")
+					.append("	WHERE  plv.IsActive='Y'AND pp.IsActive='Y'")
+				.append("	UNION	")
+					.append("	SELECT pl.M_PriceList_ID , plv.ValidFrom , pp.BreakValue , pp.C_BPartner_ID,")
+					.append("   p.M_Product_ID,")
+					.append("   pp.PriceStd, pp.PriceList, pp.PriceLimit")
+					.append("	FROM M_Product p")
+					.append("	INNER JOIN M_ProductPriceVendorBreak pp ON (p.M_Product_ID=pp.M_Product_ID)")
+					.append("	INNER JOIN M_PriceList_Version plv ON (pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID)")
+					.append("	INNER JOIN M_PriceList pl ON (plv.M_PriceList_ID=pl.M_PriceList_ID)")
+					.append("	WHERE plv.IsActive='Y' AND pp.IsActive='Y'AND pp.BreakValue IN (0,1)")
+					.append("  ORDER BY ValidFrom DESC, BreakValue DESC , C_BPartner_ID ASC")
+					.append(") ProductPricing ")
+				.append(" INNER JOIN M_Product p  ON (ProductPricing.M_Product_ID=p.M_Product_ID) ")
+				.append(" WHERE M_PriceList_ID=? AND ValidFrom <= getdate() ");
+				if (partnerId > 0 )
+					sql.append("AND C_BPartner_ID =? ");
+				else
+					sql.append( "AND C_BPartner_ID IS NULL ");
 
+				sql.append("AND p.AD_Client_ID=? AND p.IsSold=? AND p.Discontinued=? ")
+				.append("AND UPPER(p.Name)  LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
+				.append(" OR UPPER(p.Value) LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
+				.append(" OR UPPER(p.UPC)   LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
+				.append(" OR UPPER(p.SKU)   LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')");
 		PreparedStatement statement = null;
 		try{
-			statement = DB.prepareStatement(sql, null);
-			statement.setInt(1, warehouseId);
-			statement.setInt(2, priceListVersionId);
+			statement = DB.prepareStatement(sql.toString(), null);
+			int count = 1;
+			statement.setInt(count, warehouseId);
+			count ++;
+			statement.setInt(count, priceListId);
+			count ++;
+			if (partnerId > 0) {
+				statement.setInt(count, partnerId);
+				count++;
+			}
+			statement.setInt(count, Env.getAD_Client_ID(Env.getCtx()));
+			count++;
+			statement.setString(count, "Y");
+			count++;
+			statement.setString(count, "N");
 
 			ResultSet resultSet = statement.executeQuery();
 
@@ -2062,9 +2098,9 @@ public class CPOS {
 				Integer productId = resultSet.getInt(1);
 				String  productValue = resultSet.getString(2).trim();
 				String  productName = resultSet.getString(3).trim();
-				String  qtyAvailable = resultSet.getBigDecimal(4).toString().trim();
-				String  priceStd = resultSet.getBigDecimal(5).setScale(2, BigDecimal.ROUND_UP).toString().trim();
-				String  priceList = resultSet.getBigDecimal(6).setScale(2, BigDecimal.ROUND_UP).toString().trim();
+				String  qtyAvailable = resultSet.getBigDecimal(4) != null ? resultSet.getBigDecimal(4).toString().trim() : "0";
+				String  priceStd = resultSet.getBigDecimal(5) != null ? resultSet.getBigDecimal(5).setScale(2, BigDecimal.ROUND_UP).toString().trim() :  "0";
+				String  priceList = resultSet.getBigDecimal(6) != null ? resultSet.getBigDecimal(6).setScale(2, BigDecimal.ROUND_UP).toString().trim() : "0 ";
 				columns.add(productId);
 				columns.add(productValue);
 				columns.add(productName);
