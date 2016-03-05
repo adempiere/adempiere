@@ -18,7 +18,7 @@
 package org.adempiere.pos;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,6 +28,7 @@ import java.awt.MouseInfo;
 import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -177,7 +178,19 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		windowNo = WindowNo;
 		frame.setJMenuBar(null);
 
-		loadPOS();
+		if (!loadPOS())
+		{
+
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					CFrame closeFrame = frame.getCFrame();
+					closeFrame.dispatchEvent(new WindowEvent(closeFrame, WindowEvent.WINDOW_CLOSING));
+					dispose();
+				}
+			});
+			return;
+		}
+
 
 		userPinListener = new POSUserPinListener(this);
 		//Delay 5 seconds by default
@@ -333,13 +346,13 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	 * Load POS
 	 * @return String
 	 */
-	private void loadPOS() {
+	private boolean loadPOS() {
 		int salesRep_ID = Env.getAD_User_ID(getCtx());
 		setPOS(salesRep_ID);
 
 		if(getM_POS() != null) {
 			validLocator();
-			return;
+			return true;
 		}
 		//	Select POS
 		int orgId = Env.getAD_Org_ID(getCtx());
@@ -351,7 +364,10 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		if (selection != null) {
 			setM_POS((MPOS)selection);
 			validLocator();
-		}
+		} else if (selection == null)
+			return false;
+
+		return true;
 	}
 	
 	/**************************************************************************
@@ -427,6 +443,14 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		if ( logoutTimer != null )
 			logoutTimer.stop();
 		logoutTimer = null;
+
+		if ( userPinTimer != null )
+			userPinTimer.stop();
+		userPinTimer = null;
+
+		if ( scalesTimer != null )
+			scalesTimer.stop();
+		scalesTimer = null;
 
 		if (isVirtualKeyboard()) {
 			if (focusManager != null)

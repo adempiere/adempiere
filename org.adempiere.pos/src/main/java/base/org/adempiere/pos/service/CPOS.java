@@ -531,7 +531,9 @@ public class CPOS {
 	 * @return int
 	 */
 	public int getAutoLogoutDelay() {
-		return entityPOS.getAutoLogoutDelay();
+		if (entityPOS != null)
+			return entityPOS.getAutoLogoutDelay();
+		return 0;
 	}
 	
 	/**
@@ -1907,12 +1909,16 @@ public class CPOS {
 
 	public String getElectronicScales()
 	{
-		return entityPOS.getElectronicScales();
+		if (entityPOS != null)
+			return entityPOS.getElectronicScales();
+		return null;
 	}
 
 	public String getMeasureRequestCode()
 	{
-		return entityPOS.getMeasureRequestCode();
+		if (entityPOS != null)
+			return entityPOS.getMeasureRequestCode();
+		return null;
 	}
 
 	public boolean isPresentElectronicScales()
