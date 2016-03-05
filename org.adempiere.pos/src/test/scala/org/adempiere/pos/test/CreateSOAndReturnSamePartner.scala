@@ -20,9 +20,8 @@ import org.compiere.model._
 import org.compiere.process.DocAction
 import org.eevolution.dsl.builder.PaymentBuilder
 import org.eevolution.dsl.{Order, Payment}
-import org.eevolution.service.ProductService
 import org.eevolution.service.dsl.ProcessBuilder
-import org.eevolution.services.{PaymentService, SysConfigService}
+import org.eevolution.services.{ProductService, PaymentService, SystemConfigService}
 import org.eevolution.test._
 import org.scalatest.{FeatureSpec, GivenWhenThen}
 
@@ -37,7 +36,7 @@ with AdempiereTestCase
 with GivenWhenThen
 with ProductService
 with PaymentService
-with SysConfigService{
+with SystemConfigService{
   feature("Create a sales ticket using final consumer") {
     info("The customer Joe Block buy one Oak Trees and two Azalea Bush")
     info("The customer not ask for an invoice so that the delivery is made using final consumer")
@@ -54,13 +53,13 @@ with SysConfigService{
     scenario("Creating the sales order") {
       val HQ = { Organization }
       val JoeBlock = { MBPartner.get(Context , "JoeBlock") }
-      val Azalea = { getProduct("Azalea Bush",trxName) }
+      val Azalea = { getProductByValue("Azalea Bush") }
       val SalePriceList = { MPriceList.getDefault(Context, true) }
       import X_C_DocType._
       val AsWarehouseOrder = { DOCSUBTYPESO_WarehouseOrder }
       val HQWarehouse = { Warehouse }
       val QtyOak = { BigDecimal(1) }
-      val Oak = { getProduct("Oak", trxName) }
+      val Oak = { getProductByValue("Oak") }
 
       import org.eevolution.dsl.builder._
       order = OrderBuilder(Context , trxName)
@@ -154,7 +153,7 @@ with SysConfigService{
       Given("that the Credit Card Payment is generated ")
       Then(s"a cash payment for $CashPayAmount is created")
       And("is register without Cash Book")
-      val SysConfig = {getSysConfig(Context , "CASH_AS_PAYMENT" ,  trxName)}
+      val SysConfig = {getSystemConfig(Context , "CASH_AS_PAYMENT" ,  trxName)}
       assert(SysConfig.get_ID() > 0)
       SysConfig.setValue("Y")
       SysConfig.saveEx()
