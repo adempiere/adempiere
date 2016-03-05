@@ -233,6 +233,7 @@ public class POSActionPanel extends POSSubPanel
 			findProductTimer = new javax.swing.Timer(500, lookupProduct);
 			lookupProduct.setFillingComponent(fillingComponent);
 			lookupProduct.setPriceListId(posPanel.getM_PriceList_ID());
+			lookupProduct.setPartnerId(posPanel.getC_BPartner_ID());
 			lookupProduct.setWarehouseId(posPanel.getM_Warehouse_ID());
 			findProductTimer.start();
 			add(fillingComponent, new GridBagConstraints(0, 2, 1, 1, 1, 1
@@ -502,6 +503,7 @@ public class POSActionPanel extends POSSubPanel
 		if(posPanel.hasOrder()) {
 			if (lookupProduct != null && posPanel.isEnableProductLookup()) {
 				lookupProduct.setPriceListId(posPanel.getM_PriceList_ID());
+				lookupProduct.setPartnerId(posPanel.getC_BPartner_ID());
 				lookupProduct.setWarehouseId(posPanel.getM_Warehouse_ID());
 			}
 

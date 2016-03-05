@@ -97,12 +97,16 @@ public class POSLookupProduct implements ActionListener, KeyListener {
 
     /**
      * Set Price List Version ID
-     * @param priceListVersionId
+     * @param priceListId
      */
     public void setPriceListId(int priceListId) {
         this.priceListId = priceListId;
     }
 
+    /**
+     * Set Price List Version ID
+     * @param partnerId
+     */
     public void setPartnerId(int partnerId) {
         this.partnerId = partnerId;
     }

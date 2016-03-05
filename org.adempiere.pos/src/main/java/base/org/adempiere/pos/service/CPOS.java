@@ -2039,7 +2039,7 @@ public class CPOS {
 		ArrayList<Vector<Object>> rows = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT DISTINCT ON ( ProductPricing.M_Product_ID , p.Value, p.Name ) ProductPricing.M_Product_ID , p.Value, p.Name,")
-				.append("   BomQtyAvailable(ProductPricing.M_Product_ID, ? , 0 ) AS QtyAvailable , PriceStd , PriceList FROM (")
+				.append("   BomQtyAvailable(ProductPricing.M_Product_ID, ? , 0 ) AS QtyAvailable , PriceStd , PriceList FROM M_Product p INNER JOIN (")
 					.append("	SELECT pl.M_PriceList_ID , ValidFrom , 0 AS BreakValue , null AS C_BPartner_ID,")
 					.append("   p.M_Product_ID,")
 					.append("	bomPriceStd(p.M_Product_ID,plv.M_PriceList_Version_ID) AS PriceStd,")
@@ -2049,7 +2049,7 @@ public class CPOS {
 					.append("	INNER JOIN M_ProductPrice pp ON (p.M_Product_ID=pp.M_Product_ID)")
 					.append("	INNER JOIN M_PriceList_Version plv ON (pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID)")
 					.append("	INNER JOIN M_PriceList pl ON (plv.M_PriceList_ID=pl.M_PriceList_ID)")
-					.append("	WHERE  plv.IsActive='Y'AND pp.IsActive='Y'")
+					.append("	WHERE pl.M_PriceList_ID=? AND plv.IsActive='Y'AND pp.IsActive='Y'")
 				.append("	UNION	")
 					.append("	SELECT pl.M_PriceList_ID , plv.ValidFrom , pp.BreakValue , pp.C_BPartner_ID,")
 					.append("   p.M_Product_ID,")
@@ -2058,13 +2058,12 @@ public class CPOS {
 					.append("	INNER JOIN M_ProductPriceVendorBreak pp ON (p.M_Product_ID=pp.M_Product_ID)")
 					.append("	INNER JOIN M_PriceList_Version plv ON (pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID)")
 					.append("	INNER JOIN M_PriceList pl ON (plv.M_PriceList_ID=pl.M_PriceList_ID)")
-					.append("	WHERE plv.IsActive='Y' AND pp.IsActive='Y'AND pp.BreakValue IN (0,1)")
+					.append("	WHERE pl.M_PriceList_ID=? AND plv.IsActive='Y' AND pp.IsActive='Y'AND pp.BreakValue IN (0,1)")
 					.append("  ORDER BY ValidFrom DESC, BreakValue DESC , C_BPartner_ID ASC")
-					.append(") ProductPricing ")
-				.append(" INNER JOIN M_Product p  ON (ProductPricing.M_Product_ID=p.M_Product_ID) ")
-				.append(" WHERE M_PriceList_ID=? AND ValidFrom <= getdate() ");
+					.append(") ProductPricing  ON (p.M_Product_ID=ProductPricing.M_Product_ID)")
+				.append(" WHERE M_PriceList_ID=? AND ValidFrom <= getDate() ");
 				if (partnerId > 0 )
-					sql.append("AND C_BPartner_ID =? ");
+					sql.append("AND (C_BPartner_ID IS NULL OR C_BPartner_ID =?) ");
 				else
 					sql.append( "AND C_BPartner_ID IS NULL ");
 
@@ -2078,6 +2077,10 @@ public class CPOS {
 			statement = DB.prepareStatement(sql.toString(), null);
 			int count = 1;
 			statement.setInt(count, warehouseId);
+			count ++;
+			statement.setInt(count, priceListId);
+			count ++;
+			statement.setInt(count, priceListId);
 			count ++;
 			statement.setInt(count, priceListId);
 			count ++;
