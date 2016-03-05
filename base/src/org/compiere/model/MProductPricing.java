@@ -407,7 +407,7 @@ public class MProductPricing
 			sql.append(" AND pp.C_BPartner_ID=?");
 					//	#3
 		sql.append(" AND ?>=pp.BreakValue")				//  #4
-		.append(" ORDER BY BreakValue DESC");
+		.append(" ORDER BY pp.BreakValue DESC, pp.C_BPartner_ID ASC");
 		calculated = false;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -497,7 +497,7 @@ public class MProductPricing
 			sql.append(" AND pp.C_BPartner_ID=?");				//	#3
 
 		sql.append(" AND ?>=pp.BreakValue")				//  #4
-		.append(" ORDER BY pv.ValidFrom DESC, BreakValue DESC");
+		.append(" ORDER BY pv.ValidFrom DESC, pp.BreakValue DESC, pp.C_BPartner_ID ASC");
 		calculated = false;
 		if (priceDate == null)
 			priceDate = new Timestamp (System.currentTimeMillis());
