@@ -463,7 +463,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 		String name = query;
 		String upc = (allNumber ? query : null);
 		String sku = (allNumber ? query : null);*/
-		List<Vector<Object>> results = posPanel.getQueryProduct(query, posPanel.getM_Warehouse_ID() , posPanel.getM_PriceList_Version_ID());
+		List<Vector<Object>> results = posPanel.getQueryProduct(query, posPanel.getM_Warehouse_ID() , posPanel.getM_PriceList_ID() , posPanel.getC_BPartner_ID());
 		//	Set Result
 		if (results.size() == 1) {
 			Optional<Vector<Object>> columns = results.stream().findFirst();
@@ -566,7 +566,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 	public void refreshPanel() {
 		if(posPanel.hasOrder()) {
 			if (lookupProduct != null && posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
-				lookupProduct.setPriceListVersionId(posPanel.getM_PriceList_Version_ID());
+				lookupProduct.setPriceListId(posPanel.getM_PriceList_ID());
 				lookupProduct.setWarehouseId(posPanel.getM_Warehouse_ID());
 			}
 

@@ -47,8 +47,9 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
     private boolean searched = false;
     private boolean selectLock = false;
     private AutoComplete productLookupComboBox = null;
-    private Integer priceListVersionId = 0;
+    private Integer priceListId = 0;
     private Integer warehouseId = 0;
+    private Integer partnerId = 0;
     private String fill = StringUtils.repeat(" " , 400);
     static private Integer PRODUCT_VALUE_LENGTH = 14;
     static private Integer PRODUCT_NAME_LENGTH = 50;
@@ -108,10 +109,10 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 
     /**
      * Set Price List Version ID
-     * @param priceListVersionId
+     * @param priceListId
      */
-    public void setPriceListVersionId(int priceListVersionId) {
-        this.priceListVersionId = priceListVersionId;
+    public void setPriceListId(int priceListId) {
+        this.priceListId = priceListId;
     }
 
     /**
@@ -120,6 +121,14 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
      */
     public void setWarehouseId(int warehouseId) {
         this.warehouseId = warehouseId;
+    }
+
+    /**
+     * Set Warehouse ID
+     * @param warehouseId
+     */
+    public void setPartnerId(int partnerId) {
+        this.partnerId = partnerId;
     }
 
 
@@ -199,7 +208,7 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 
         ArrayList<String> line = new ArrayList<String>();
         recordId = new ArrayList<Integer>();
-        for (java.util.Vector<Object> columns : CPOS.getQueryProduct(value, warehouseId, priceListVersionId))
+        for (java.util.Vector<Object> columns : CPOS.getQueryProduct(value, warehouseId, priceListId, partnerId))
         {
             recordId.add((Integer) columns.elementAt(0));
             String productValue = (String)columns.elementAt(1);
