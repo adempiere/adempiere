@@ -212,6 +212,9 @@ public class WPOSActionPanel extends WPOSSubPanel
 		row.setSpans("10");
 		if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
 			lookupProduct = new WPOSLookupProduct(this, fieldProductName, new Long("1"));
+			lookupProduct.setPriceListId(posPanel.getM_PriceList_ID());
+			lookupProduct.setPartnerId(posPanel.getC_BPartner_ID());
+			lookupProduct.setWarehouseId(posPanel.getM_Warehouse_ID());
 			findProductTimer = new Timer(500); // , lookupProduct);
 			lookupProduct.setWidth("100%");
 			lookupProduct.setStyle(WPOS.FONTSTYLE+WPOS.FONTSIZELARGE);
@@ -567,6 +570,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 		if(posPanel.hasOrder()) {
 			if (lookupProduct != null && posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
 				lookupProduct.setPriceListId(posPanel.getM_PriceList_ID());
+				lookupProduct.setPartnerId(posPanel.getC_BPartner_ID());
 				lookupProduct.setWarehouseId(posPanel.getM_Warehouse_ID());
 			}
 
