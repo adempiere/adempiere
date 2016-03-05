@@ -138,7 +138,10 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		dividerPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		dividerPane.setBorder(BorderFactory.createEtchedBorder());
 		dividerPane.setContinuousLayout(true);
-		dividerPane.setDividerLocation(650);
+		dividerPane.setDividerLocation(dividerPane.getSize().width
+				- dividerPane.getInsets().right
+				- dividerPane.getDividerSize()
+				- 100);
 		mainPanel.add(dividerPane, BorderLayout.CENTER);
 		statusBar = new StatusBar();
 		statusBarInfo = "";
@@ -323,7 +326,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	 * @return void
 	 */
 	public void autoSize() {
-		dividerPane.setResizeWeight(.5d);
+		dividerPane.setResizeWeight(.6d);
 	}
 	
 	/**
@@ -372,15 +375,15 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0 , 10 , 0), 0, 0));
 
 
-		leftPanel.setPreferredSize(new Dimension(500, 800));
-		leftPanel.setMinimumSize(new Dimension(500, 800));
+		//leftPanel.setPreferredSize(new Dimension(500, 800));
+		//leftPanel.setMinimumSize(new Dimension(500, 800));
 		//
 		orderLinePanel = new POSOrderLinePanel(this);
 		leftPanel.add(orderLinePanel, new GridBagConstraints(0, 4, 1, 1, 1, 1
 				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		documentPanel = new POSDocumentPanel(this);
-		documentPanel.setPreferredSize(new Dimension(500, 800));
-		documentPanel.setMinimumSize(new Dimension(500, 800));
+		//documentPanel.setPreferredSize(new Dimension(500, 700));
+		//documentPanel.setMinimumSize(new Dimension(500, 700));
 		dividerPane.add(leftPanel, JSplitPane.LEFT);
 		dividerPane.add(documentPanel, JSplitPane.RIGHT);
 
