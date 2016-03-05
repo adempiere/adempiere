@@ -29,8 +29,6 @@ import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MClient;
-import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MPeriod;
@@ -818,7 +816,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			movement.setIsManual(true);
 			movement.setColumnValue(result);
 			movement.setProcessed(true);
-			int bpGroupId = DB.getSQLValue(null, "SELECT BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
+			int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
 			movement.setC_BP_Group_ID(bpGroupId);
 			movement.setHR_Employee_ID(employee.getHR_Employee_ID());
 			movement.setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
@@ -1028,7 +1026,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		movement.setIsPrinted(printed);
 		movement.setIsManual(concept.isManual());
 		movement.setC_Activity_ID(m_employee.getC_Activity_ID());
-		int bpGroupId = DB.getSQLValue(null, "SELECT BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
+		int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
 		movement.setC_BP_Group_ID(bpGroupId);
 		movement.setHR_Employee_ID(m_employee.getHR_Employee_ID());
 		movement.setHR_EmployeeType_ID(m_employee.getHR_EmployeeType_ID());
@@ -1209,7 +1207,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			movement.setHR_Job_ID(employee.getHR_Job_ID());
 			movement.setIsManual(c.isManual());
 			movement.setC_Activity_ID(employee.getC_Activity_ID() > 0 ?  employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());
-			int bpGroupId = DB.getSQLValue(null, "SELECT BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
+			int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
 			movement.setC_BP_Group_ID(bpGroupId);
 			movement.setHR_Employee_ID(employee.getHR_Employee_ID());
 			movement.setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
@@ -1263,7 +1261,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			movement.setHR_Job_ID(employee.getHR_Job_ID());
 			movement.setIsManual(c.isManual());
 			movement.setC_Activity_ID(employee.getC_Activity_ID() > 0 ? employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());
-			int bpGroupId = DB.getSQLValue(null, "SELECT BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
+			int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
 			movement.setC_BP_Group_ID(bpGroupId);
 			movement.setHR_Employee_ID(employee.getHR_Employee_ID());
 			movement.setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
