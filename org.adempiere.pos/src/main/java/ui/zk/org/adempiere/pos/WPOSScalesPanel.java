@@ -94,7 +94,7 @@ public class WPOSScalesPanel {
 
 	public void hidePanel()
 	{
-		dialog.setVisible(false);
+//		dialog.setVisible(false);
 	}
 
 	public void showPanel()

@@ -30,7 +30,6 @@ import javax.swing.KeyStroke;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.pos.service.Collect;
 import org.adempiere.pos.service.POSPanelInterface;
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -48,7 +47,6 @@ import org.compiere.model.MPOSKey;
 import org.compiere.model.X_C_Payment;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
-import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -409,6 +407,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			v_POSPanel.setOrder(0);
 			v_POSPanel.refreshPanel();
 			v_POSPanel.refreshProductInfo(null);
+			v_POSPanel.restoreTable();
 			return;
 		}
 
@@ -416,6 +415,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			hidePanel();
 			v_POSPanel.showKeyboard();
 			v_POSPanel.refreshPanel();
+			v_POSPanel.restoreTable();
 			if(v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) || 
 					v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Invalid))
 				setIsPrePayOrder(false);
@@ -493,6 +493,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return boolean
 	 */
 	public boolean showCollect() {
+		showPanel();
 		mainPanel.setWidth("99%");
 		int p_height = SessionManager.getAppDesktop().getClientInfo().desktopHeight;
 		if(p_height < SCREEN_SMALL) {
@@ -713,10 +714,12 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 
 	public void hidePanel()
 	{
-		row.removeChild(getPanel());
-		row.setHeight("50%");
-		row.setSpans("4");
-		//row.appendChild(keyboardPanel);
+		mainPanel.setVisible(false);
+		v_POSPanel.closeCollectPayment();
+	}
+	public void showPanel()
+	{
+		mainPanel.setVisible(true);
 	}
 
 	public Panel getPanel() {

@@ -18,21 +18,13 @@
 package org.adempiere.pos;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
-import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.component.Row;
-import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Center;
 import org.zkoss.zul.Timer;
 
 
@@ -53,13 +45,7 @@ public class WPOSUserPinListener implements EventListener {
 	
     private WPOS 			pos;
     private Timer 			userPinTimer = null;
-
-	/** Window	 						*/
-	private Window 			w_alert;
-	/** Field Password					*/
-	private WPOSTextField	passwordField;
     private static boolean active = true;
-    private boolean isKeyboard = false;
     
     public static void setActive(boolean active){
         WPOSUserPinListener.active = active;
@@ -77,49 +63,42 @@ public class WPOSUserPinListener implements EventListener {
     protected void doPerformAction(Event e)
     {
         if(e != null && e.getTarget()==userPinTimer) {
-            pos.setIsCorrectUserPin(false);
+            pos.invalidateUserPin();
             userPinTimer.stop();
             return;
         }
-        
         if (userPinTimer.isRunning())
             return;
+        Component objectSource = e.getTarget();
+        POSNumberBox number = null;
+        Button button = null;
 
-        doPerformAction();
-        return;
-    }
+        if (objectSource instanceof POSNumberBox)
+            number = (POSNumberBox) objectSource;
 
-    protected void doPerformAction()
-    {
+        if (objectSource instanceof Button)
+            button = (Button) objectSource;
+
         if (!pos.isRequiredPIN())
             return;
 
+        if (
+               //Number field validation
+               (number != null && (Msg.translate(Env.getCtx(), "Discount").equals(number.getTooltiptext()) 
+            		   || Msg.translate(Env.getCtx(), "PriceActual").equals(number.getTooltiptext()))
+           ||  //Button validation
+               (button != null && ("Cancel".equals(button.getName())))
+           ))
+        	WPOSUserPinDialog.show(pos);
 
         return;
     }
 
+
+
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if(e.getTarget().equals(passwordField.getComponent(WPOSTextField.SECONDARY))
-			&& e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
-				isKeyboard = true;
-				passwordField.showKeyboard();
-				passwordField.setFocus(true);
-				return;
-		}
-		if(e.getTarget().equals(passwordField.getComponent(WPOSTextField.PRIMARY)) 
-		   && e.getName().equals(Events.ON_FOCUS)){
-			isKeyboard = false;
-			return;
-		}
-		/*if(e.getTarget().equals(b_ok)){
-			pos.validateAndSetUserPin(passwordField.getText().toCharArray());
-			w_alert.dispose();
-		} else if(e.getTarget().equals(b_cancel)){
-			pos.setIsCorrectUserPin(false);
-			w_alert.dispose();
-		}*/
-		else if(active){
+		 if(active){
             try {
                 doPerformAction(e);
             }

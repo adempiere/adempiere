@@ -32,6 +32,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.event.ListDataEvent;
 
 /**
  * Button panel supporting multiple linked layouts
@@ -111,6 +112,26 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 		return;
 	}
 	
+	/**
+	 * Disable Table 
+	 */
+	public void disableTable() {
+		posTable.setEnabled(false);
+		lineTableHandle.setEditable(false, false);
+		posTable.removeActionListener(this);
+		posTable.removeEventListener(Events.ON_CLICK, this);
+	}
+	
+	/**
+	 * Enable Table
+	 */
+	public void enableTable() {
+		posTable.setEnabled(true);
+		lineTableHandle.setEditable(posPanel.isModifyPrice(), posPanel.isDrafted());
+		posTable.addActionListener(this);
+		posTable.addEventListener(Events.ON_CLICK, this);
+	}
+	
 	@Override
 	public void onEvent(Event arg0) throws Exception {
 		String action = arg0.getTarget().getId();
@@ -137,6 +158,8 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 	}
 	@Override
 	public void tableChanged(WTableModelEvent event) {
+		boolean isUpdate = (event.getType() == ListDataEvent.CONTENTS_CHANGED);
+		int col = event.getColumn();
 		int row = posTable.getSelectedRow();
 		if(event.getColumn() == POSOrderLineTableHandle.POSITION_DELETE){
 			posTable.getModel().removeTableModelListener(this);
@@ -153,6 +176,11 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 
 			posTable.getModel().addTableModelListener(this);
 			posPanel.refreshHeader();
+			return;
+		}
+		if (!isUpdate
+				|| (col != POSOrderLineTableHandle.POSITION_QTYORDERED
+						&& col != POSOrderLineTableHandle.POSITION_PRICE)) {
 			return;
 		}
 		if (event.getModel().equals(posTable.getModel())){ //Add Minitable Source Condition
@@ -184,8 +212,8 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			posTable.getModel().removeTableModelListener(this);
 			//	Remove line
 			if(posPanel.getQty().signum() <= 0) {
-				if (orderLineId > 0)
-				if(posPanel.isUserPinValid()) {
+				if (orderLineId > 0 && !posPanel.isNewLine())
+				if(posPanel.isRequiredPIN() && posPanel.isUserPinValid()) {
 					posPanel.deleteLine(orderLineId);
 				}
 				if (row >= 0) {

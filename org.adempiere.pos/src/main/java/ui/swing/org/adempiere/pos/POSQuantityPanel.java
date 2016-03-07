@@ -305,6 +305,9 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 		buttonDelete.setEnabled(status);
 		buttonPlus.setEnabled(status);
 		buttonMinus.setEnabled(status);
+		fieldQuantity.setReadWrite(true);
+		fieldPrice.setReadWrite(true);
+		fieldDiscountPercentage.setReadWrite(true);
 	}
 
 	@Override
@@ -316,9 +319,9 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 			// Only enable buttons if status==(drafted or in progress)
 			if(posPanel.getM_Order().getDocStatus().compareToIgnoreCase(MOrder.STATUS_Drafted)==0 || 
 			   posPanel.getM_Order().getDocStatus().compareToIgnoreCase(MOrder.STATUS_InProgress)==0 ){
-				buttonDelete.setEnabled(true);
-				buttonPlus.setEnabled(true);
-				buttonMinus.setEnabled(true);
+				fieldQuantity.setReadWrite(true);
+				fieldPrice.setReadWrite(true);
+				fieldDiscountPercentage.setReadWrite(true);
 
 				if (posPanel.isPresentElectronicScales())
 					buttonScales.setEnabled(true);
@@ -334,9 +337,9 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 					fieldDiscountPercentage.setEnabled(true);					
 				}
 			}else {
-				buttonDelete.setEnabled(false);
-				buttonPlus.setEnabled(false);
-				buttonMinus.setEnabled(false);
+				fieldQuantity.setReadWrite(false);
+				fieldPrice.setReadWrite(false);
+				fieldDiscountPercentage.setReadWrite(false);
 
 				if (posPanel.isPresentElectronicScales())
 					buttonScales.setEnabled(false);
@@ -390,9 +393,9 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 		buttonMinus.setEnabled(false);
 		if (posPanel.isPresentElectronicScales())
 			buttonScales.setEnabled(false);
-		fieldPrice.setEnabled(false);
-		fieldQuantity.setEnabled(false);
-		fieldDiscountPercentage.setEnabled(false);
+		fieldPrice.setReadWrite(false);
+		fieldQuantity.setReadWrite(false);
+		fieldDiscountPercentage.setReadWrite(false);
 	}
 
 	public void setQuantity(BigDecimal value) {
