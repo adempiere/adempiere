@@ -83,7 +83,7 @@ public class POSClientSide extends Thread {
 	private JTextArea 			fTerminal = null;
 	private int m_port;
     /**	 log							*/
-    private static CLogger 			log = CLogger.getCLogger (SideServer.class);
+    private static CLogger 			log = CLogger.getCLogger (POSClientSide.class);
 	/**
 	 * Connect with Server
 	 * @return
@@ -172,6 +172,7 @@ public class POSClientSide extends Thread {
 	    finally {
 	    	isStopped=true;
 	    	setText("Printing process finished");
+			  connect();
 	    }
 	}
 	
