@@ -111,6 +111,8 @@ public class POSOrderLinePanel extends POSSubPanel
 		addKeyListener(this);
 	} //init
 
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		String action = actionEvent.getActionCommand();
@@ -274,8 +276,26 @@ public class POSOrderLinePanel extends POSSubPanel
 		//	Add Listener
 		posTable.getModel().addTableModelListener(this);
 	}
-
-
+	
+	/**
+	 * Disable Table 
+	 */
+	public void disableTable() {
+		posTable.setEnabled(false);
+		orderLineTableHandle.setEditable(false, false);
+		posTable.removeKeyListener(this);
+		posTable.removeMouseListener(this);
+	}
+	
+	/**
+	 * Enable Table
+	 */
+	public void enableTable() {
+		posTable.setEnabled(true);
+		orderLineTableHandle.setEditable(posPanel.isModifyPrice(), posPanel.isDrafted());
+		posTable.addKeyListener(this);
+		posTable.addMouseListener(this);
+	}
 	@Override
 	public String validatePayment() {
 		return null;

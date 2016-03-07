@@ -20,22 +20,21 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.service.driver.POSScalesDriver;
 import org.adempiere.pos.service.driver.POSScalesDriverInterface;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.swing.CButton;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 
-import java.awt.event.ActionEvent;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
 import java.math.BigDecimal;
+
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Timer;
 
 /**
  * POS Scales Listener implement controller for POSScalesPanel
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 08/02/16.
  */
-public class WPOSScalesListener implements EventListener, KeyListener {
+public class WPOSScalesListener implements EventListener {
 	private static boolean active = true;
 	private POSScalesPanelInterface pos;
 	private POSScalesDriverInterface driver;
@@ -50,12 +49,12 @@ public class WPOSScalesListener implements EventListener, KeyListener {
 		WPOSScalesListener.active = active;
 	}
 
-	protected void doPerformAction(ActionEvent actionEvent) {
-		if (((Timer)pos.getScalesTimer()).isRunning() && pos.getScalesTimer() != actionEvent.getSource())
+	protected void doPerformAction(Event actionEvent) {
+		if (((Timer)pos.getScalesTimer()).isRunning() && pos.getScalesTimer() != actionEvent.getTarget())
 		{
-			if (actionEvent.getSource()  instanceof CButton) {
-				CButton source = (CButton)  actionEvent.getSource();
-				if(source.getName().equals("Ok")) {
+			if (actionEvent.getTarget()  instanceof Button) {
+				Button source = (Button)  actionEvent.getTarget();
+				if(source.getLabel().equals("Ok")) {
 					readMeasure();
 					captureMeasure();
 					return;
@@ -64,41 +63,24 @@ public class WPOSScalesListener implements EventListener, KeyListener {
 			return;
 		}
 
-		if (actionEvent.getSource() == pos.getScalesTimer()) {
+		if (actionEvent.getTarget() == pos.getScalesTimer()) {
 			readMeasure();
 			return;
 		}
 	}
 
-	public void actionPerformed(ActionEvent actionEvent) {
-		if(active){
-			try {
-					doPerformAction(actionEvent);
-			}
-			catch (AdempiereException exception) {
-				FDialog.error(pos.getWindowNo() , exception.getLocalizedMessage());
-				throw new AdempiereException(exception.getMessage());
-			}
-		}
-	}
+	
 
-	@Override
-	public void keyTyped(KeyEvent keyEvent) {
-	}
 
-	@Override
-	public void keyPressed(KeyEvent keyEvent) {
-		if(keyEvent.getComponent().toString().equals("Ok")) {
-			readMeasure();
-			captureMeasure();
-			return;
-		}
-	}
+//	@Override
+//	public void keyPressed(KeyEvent keyEvent) {
+//		if(keyEvent.getComponent().toString().equals("Ok")) {
+//			readMeasure();
+//			captureMeasure();
+//			return;
+//		}
+//	}
 
-	@Override
-	public void keyReleased(KeyEvent keyEvent) {
-
-	}
 
 	private BigDecimal getMeasure()
 	{
@@ -124,6 +106,14 @@ public class WPOSScalesListener implements EventListener, KeyListener {
 
 	@Override
 	public void onEvent(Event event) throws Exception {
-
+		if(active){
+			try {
+					doPerformAction(event);
+			}
+			catch (AdempiereException exception) {
+				FDialog.error(pos.getWindowNo() , exception.getLocalizedMessage());
+				throw new AdempiereException(exception.getMessage());
+			}
+		}
 	}
 }

@@ -225,7 +225,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		table.appendChild(orderLinePanel);
 		actionPanel.appendChild(this.actionPanel);
 		east.appendChild(documentPanel);
-		east.appendChild(infoProductPanel);
+		this.actionPanel.appendChild(infoProductPanel.getPanel());
 		east.setSplittable(true);
 		east.setStyle("border: none; min-width:44%; width:44%");
 		actionPanel.setStyle("border: none; height:auto; position:relative;float:left;overflow:auto; ");
@@ -448,7 +448,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 */
 	public void refreshProductInfo(int p_M_Product_ID) {
 		infoProductPanel.refreshProduct(p_M_Product_ID , getQty() , getM_PriceList_ID() , getC_BPartner_ID());
-		//parameterPanel.invalidate();
+		infoProductPanel.invalidate();
 	}
 
 	/**
@@ -478,9 +478,9 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	
 	@Override
 	public void changeViewPanel() {
-		orderLinePanel.changeViewPanel();
 		quantityPanel.changeViewPanel();
-		quantityPanel.refreshPanel();
+		orderLinePanel.changeViewPanel();
+//		quantityPanel.refreshPanel();
 	}
 	
 	/**
@@ -549,10 +549,10 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 * Close Collect Payment Panel
 	 * @return void
 	 */
-	/*public void closeCollectPayment()
+	public void closeCollectPayment()
 	{
 		documentPanel.closeCollectPayment();
-	}*/
+	}
 
 	@Override
 	public void moveUp() {
@@ -684,8 +684,13 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		infoProductPanel.resetValues();
 		quantityPanel.resetPanel();
 		actionPanel.resetPanel();
+		orderLinePanel.disableTable();
 	}
-
+	
+	public void restoreTable(){
+		orderLinePanel.enableTable();
+	}
+	
 	public String getProductUOMSymbol()
 	{
 		return infoProductPanel.getUOMSymbol();
@@ -737,5 +742,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		sideServer.printFile(data, record_ID);
 	}
 	
-	
+	public void updateProductPlaceholder(String name)
+	{
+		actionPanel.updateProductPlaceholder(name);
+	}
 }	//	PosPanel
