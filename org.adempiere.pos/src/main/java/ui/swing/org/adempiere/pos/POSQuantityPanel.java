@@ -262,7 +262,6 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 				posPanel.refreshPanel();
 				return;
 			}
-
 			if (actionEvent.getSource().equals(fieldDiscountPercentage) && actionEvent.getActionCommand().toString().equals("KeyEvent")
 			||  actionEvent.getSource().equals(fieldPrice) && actionEvent.getActionCommand().toString().equals("KeyEvent")) {
 				BigDecimal discountPercentage = (BigDecimal) fieldDiscountPercentage.getValue();
@@ -373,7 +372,7 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 
 	@Override
 	public void changeViewPanel() {
-		if(posPanel.getQty().compareTo(Env.ZERO) == 0)
+		if(posPanel.getQty().compareTo(Env.ZERO) < 0)
 			changeStatus(false);
 		else
 			changeStatus(true);
