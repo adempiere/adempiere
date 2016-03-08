@@ -27,6 +27,7 @@ import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentAllocate;
 import org.compiere.model.MPaymentProcessor;
 import org.compiere.model.MPaymentValidate;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.X_C_Payment;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -86,6 +87,7 @@ public class Collect {
 			this.bankAccountId = entityPOS.getC_BankAccount_ID();
 			this.dateTrx = order.getDateOrdered();
 			this.trxName = order.get_TrxName();
+			this.isPrePayOrder = null;
 		}
 	}
 
@@ -106,7 +108,7 @@ public class Collect {
 	/**	Credit Order			*/
 	private boolean 			isCreditOrder = false;
 	/**	Pre-Payment Order		*/
-	private boolean 			isPrePayOrder = false;
+	private Boolean 			isPrePayOrder = null;
 	/**	Payment Term			*/
 	private int 				paymentTermId = 0;
 	/**	Error Message			*/
@@ -155,6 +157,18 @@ public class Collect {
 		}
 		//	Default Return
 		return payAmt;
+	}
+
+	/**
+	 * Get Balance
+	 * @return
+	 * @return BigDecimal
+	 */
+	protected BigDecimal getBalance(BigDecimal openAmt) {
+		BigDecimal totalPayAmt = getCollectDetailAmt();
+		if (order != null)
+			return openAmt.subtract(totalPayAmt);
+		return Env.ZERO;
 	}
 	
 	/**
@@ -328,15 +342,23 @@ public class Collect {
 	 * @param amount
 	 * @return true if payment processed correctly; otherwise false
 	 */
-	public boolean payCash(BigDecimal amount) {
+	public boolean payCash(BigDecimal amount, BigDecimal overUnderAmt) {
 
 		MPayment payment = createPayment(MPayment.TENDERTYPE_Cash);
-		payment.setC_CashBook_ID(entityPOS.getC_CashBook_ID());
+		if (payment.isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true , payment.getAD_Client_ID()))
+			payment.setC_CashBook_ID(entityPOS.getC_CashBook_ID());
+		else
+			payment.setC_BankAccount_ID(entityPOS.getC_BankAccount_ID());
+
 		payment.setAmount(order.getC_Currency_ID(), amount);
 		payment.setC_BankAccount_ID(entityPOS.getC_BankAccount_ID());
 		payment.setDateTrx(getDateTrx());
 		payment.setDateAcct(getDateTrx());
 		payment.saveEx();
+
+		payment.setOverUnderAmt(overUnderAmt);
+		payment.saveEx();
+
 		payment.setDocAction(MPayment.DOCACTION_Complete);
 		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
 		if (payment.processIt(MPayment.DOCACTION_Complete)){
@@ -508,7 +530,6 @@ public class Collect {
 			MInvoice invoice = new MInvoice(Env.getCtx(), payment.getC_Invoice_ID(), trxName);
 			payment.setDescription(Msg.getMsg(Env.getCtx(), "Invoice No ") + invoice.getDocumentNo());
 		} else {
-			payment.setC_Order_ID(order.getC_Order_ID());
 			payment.setDescription(Msg.getMsg(Env.getCtx(), "Order No ") + order.getDocumentNo());
 		}
 			
@@ -712,21 +733,19 @@ public class Collect {
 			if(amountRefunded.abs().doubleValue() > cashPayment.doubleValue()) {
 				addErrorMsg("@POS.validatePayment.PaymentBustBeExact@");
 			} else {
-				result= payCash(cashPayment.add(amountRefunded));
+				result= payCash(cashPayment.add(amountRefunded), amountRefunded.negate());
 				if (!result) {					
 					addErrorMsg("@POS.ErrorPaymentCash@");
 					return;
 				}
 			}
 		} else if(cashPayment.signum() > 0) {
-			result= payCash(cashPayment);
+			result = payCash(cashPayment, amountRefunded.negate());
 			if (!result) {					
 				addErrorMsg("@POS.ErrorPaymentCash@");
 				return;
 			}
 		}
-		order.setAmountTendered(totalPaid);
-		order.setAmountRefunded(amountRefunded);
 		order.saveEx();
 	}  // processPayment
 	/**
@@ -899,10 +918,6 @@ public class Collect {
 	 */
 	public void setIsCreditOrder(boolean isCreditOrder) {
 		this.isCreditOrder = isCreditOrder;
-		//	Negate Pre-Pay
-		if(isCreditOrder) {
-			isPrePayOrder = !isCreditOrder;
-		}
 	}
 	
 	/**
@@ -911,20 +926,13 @@ public class Collect {
 	 * @return boolean
 	 */
 	public boolean isPrePayOrder() {
+		if (isPrePayOrder != null)
+			return isPrePayOrder;
+		else if (isPrePayOrder == null && order != null)
+			isPrePayOrder = MOrder.DocSubTypeSO_Prepay.equals(order.getC_DocTypeTarget().getDocSubTypeSO());
+		else
+			isPrePayOrder = false;
 		return isPrePayOrder;
-	}
-	
-	/**
-	 * Set Is Pre-Payment Order
-	 * @param isPrePayOrder
-	 * @return void
-	 */
-	public void setIsPrePayOrder(boolean isPrePayOrder) {
-		this.isPrePayOrder = isPrePayOrder;
-		//	Negate Credit Order
-		if(isPrePayOrder) {
-			this.isCreditOrder = !isPrePayOrder;
-		}
 	}
 	
 	/**

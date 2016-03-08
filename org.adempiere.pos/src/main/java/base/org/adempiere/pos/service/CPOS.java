@@ -1215,12 +1215,6 @@ public class CPOS {
 			} else {
 				currentOrder.set_TrxName(trxName);
 			}
-			//	Get value for Standard Order
-			if(isPrepayment) {
-				//	Set Document Type
-				currentOrder.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
-			}
-
 			// In case the Order is Invalid, set to In Progress; otherwise it will not be completed
 			if (currentOrder.getDocStatus().equalsIgnoreCase(MOrder.STATUS_Invalid) ) 
 				currentOrder.setDocStatus(MOrder.STATUS_InProgress);
@@ -1418,10 +1412,11 @@ public class CPOS {
      */
 	public BigDecimal getAmountReceived()
 	{
-		if (currentOrder.getAmountTendered().signum() == 0)
-			return Env.ZERO;
+		BigDecimal totalPayAmt = Env.ZERO;
+		for (MPayment payment : MPayment.getOfOrder(getM_Order()))
+			totalPayAmt = totalPayAmt.add(payment.getPayAmt());
 
-		return currentOrder.getAmountTendered().add(currentOrder.getAmountRefunded());
+		return totalPayAmt;
 	}
 
 	/**

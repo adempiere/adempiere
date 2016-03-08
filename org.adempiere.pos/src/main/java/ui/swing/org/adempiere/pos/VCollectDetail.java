@@ -580,7 +580,6 @@ public class VCollectDetail extends CollectDetail
 			creditPanel.setVisible(false);
 			creditMemoPanel.setVisible(false);
 		}
-		parentCollect.refreshPanel();
 	}
 	
 	@Override

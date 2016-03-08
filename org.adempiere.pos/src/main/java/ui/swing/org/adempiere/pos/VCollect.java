@@ -90,20 +90,6 @@ public class VCollect extends Collect
 		return this;
 	}
 
-	/**
-	 * Init Dialog
-	 * @return void
-	 */
-	public void init() {
-		log.info("");
-		try {
-			jbInit();
-			refreshPanel();
-		} catch (Exception e) {
-			log.log(Level.SEVERE, "", e);
-		}
-	} // init
-
 	/**	View Panel			*/
 	private VPOS 			pos;
 	private CPanel			dialog;
@@ -115,17 +101,14 @@ public class VCollect extends Collect
 	private CPanel 			centerPanel;
 	
 	/**	Fields Summary		*/
-	//private CLabel 			labelGrandTotal;
-	//private CLabel 			fieldGrandTotal;
+	private CLabel 			labelPaidAmt;
+	private CLabel 			fieldPaidAmt;
 	private CLabel 			labelPayAmt;
 	private CLabel 			fieldPayAmt;
 	private CLabel 			labelOpenAmt;
 	private CLabel 			fieldOpenAmt;
 	private CLabel 			labelReturnAmt;
 	private CLabel 			fieldReturnAmt;
-	private CCheckBox 		fieldIsPrePayOrder;
-	//private CCheckBox 		fieldIsCreditOrder;
-	//private VLookup 		fPaymentTerm;
 	
 	/**	Action				*/
 	private CButton 		buttonPlus;
@@ -144,6 +127,19 @@ public class VCollect extends Collect
 	/**	Default Height		*/
 	private final int		SUMMARY_FIELD_HEIGHT 	= 30;
 
+	/**
+	 * Init Dialog
+	 * @return void
+	 */
+	public void init() {
+		log.info("");
+		try {
+			jbInit();
+			refreshPanel();
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "", e);
+		}
+	} // init
 	/**
 	 * Instance Frame and fill fields
 	 * @throws Exception
@@ -171,16 +167,7 @@ public class VCollect extends Collect
 		centerPanel.setLayout(parameterLayout);
 		mainPanel.add(scrollPane);
 		scrollPane.getViewport().add(centerPanel);
-		
-		// Add Grand Total
-		//labelGrandTotal = new CLabel(Msg.translate(ctx, "GrandTotal") + ":");
-		//labelGrandTotal.setFont(pos.getPlainFont());
-		//	
-		//fieldGrandTotal = new CLabel();
-		//fieldGrandTotal.setFont(pos.getBigFont());
-		//	
-		//fieldGrandTotal.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
-		
+
 		//	Add Payment Amount
 		labelPayAmt = new CLabel(Msg.translate(ctx, "PayAmt") + ":");
 		labelPayAmt.setFont(pos.getPlainFont());
@@ -204,52 +191,15 @@ public class VCollect extends Collect
 		fieldReturnAmt = new CLabel();
 		fieldReturnAmt.setFont(pos.getFont());
 		fieldReturnAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
-		
-		//	Add Is Pre-Payment
-		fieldIsPrePayOrder = new CCheckBox(Msg.translate(ctx, "IsPrePayment"));
-		fieldIsPrePayOrder.setFont(pos.getPlainFont());
-		
-		//	Add Is Credit Order
-		//fieldIsCreditOrder = new CCheckBox(Msg.translate(ctx, "IsCreditSale"));
-		//fieldIsCreditOrder.setFont(pos.getPlainFont());
-		
-		// Completed Standard Order: only prepayment possible 
-		if(pos.getTotalLines().compareTo(Env.ZERO)==1 &&
-		   pos.isCompleted() &&
-		   pos.isStandardOrder()) {
-			fieldIsPrePayOrder.setEnabled(false);
-			//fieldIsCreditOrder.setEnabled(false);
-			fieldIsPrePayOrder.setSelected(true);
-		}
-		// Not completed Order 
-		else if(pos.getTotalLines().compareTo(Env.ZERO)==1 &&
-				!pos.isCompleted()) {
-			if(pos.isStandardOrder() /*|| pos.isWarehouseOrder()*/) {
-				 // Standard Order or Warehouse Order: no Credit Order, no prepayment
-				fieldIsPrePayOrder.setEnabled(false);
-				fieldIsPrePayOrder.setSelected(false);
-				//fieldIsCreditOrder.setEnabled(false);
-			}
-			else {		
-				fieldIsPrePayOrder.setEnabled(true);
-				//fieldIsCreditOrder.setEnabled(true);
-			}
-		}
-		else {
-			fieldIsPrePayOrder.setEnabled(false);
-			//fieldIsCreditOrder.setEnabled(false);
-			if(pos.isCompleted() &&
-				pos.getM_Order().isInvoiced()  &&
-				pos.getOpenAmt().compareTo(Env.ZERO)==1) {
-				//fieldIsCreditOrder.setSelected(true);
-			}
-		}
-//		MLookup lookup = MLookupFactory.get(Env.getCtx(), 0, 0, AD_Column_ID, DisplayType.TableDir);
-//		fPaymentTerm = new VLookup("C_PaymentTerm_ID", true, false, true, lookup);
-//		((VComboBox)fPaymentTerm.getCombo()).setRenderer(new POSLookupTableDirCellRenderer(posPanel.getFont()));
-//		fPaymentTerm.setPreferredSize(new Dimension(200, posPanel.getFieldLenght()));
-//		((VComboBox)fPaymentTerm.getCombo()).setFont(posPanel.getFont());
-//		fPaymentTerm.addVetoableChangeListener(this);
+
+		labelPaidAmt = new CLabel(Msg.translate(ctx, "PaidAmt") + ":");
+		labelPaidAmt.setFont(pos.getPlainFont());
+		labelPaidAmt.setVisible(false);
+		fieldPaidAmt = new CLabel();
+		fieldPaidAmt.setFont(pos.getFont());
+		fieldPaidAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
+		fieldPaidAmt.setVisible(false);
+
 		//	Add Plus Button
 		AppsAction action = new AppsAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.F2), false);
 		action.setDelegate(this);
@@ -262,12 +212,6 @@ public class VCollect extends Collect
 		buttonOk = ConfirmPanel.createOKButton(true);
 		buttonOk.setPreferredSize(new Dimension(pos.getButtonSize(), pos.getButtonSize()));
 
-		//parameterPanel.add(labelGrandTotal, new GridBagConstraints(1, 0, 1, 1, 0.0,0.0,
-		//		GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		
-		//parameterPanel.add(fieldGrandTotal, new GridBagConstraints(2, 0, 1, 1, 0.0,0.0,
-		//		GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
-		
 		parameterPanel.add(labelPayAmt, new GridBagConstraints(1, 0, 1, 1, 0.0,	0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 		
@@ -286,36 +230,28 @@ public class VCollect extends Collect
 		parameterPanel.add(fieldReturnAmt, new GridBagConstraints(2, 2, 1, 1, 0.0,0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
 
-		parameterPanel.add(fieldIsPrePayOrder, new GridBagConstraints(1, 3, 1, 1, 0.0,0.0,
+		parameterPanel.add(labelPaidAmt, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		
-		//parameterPanel.add(fieldIsCreditOrder, new GridBagConstraints(2, 4, 1, 1, 0.0,0.0,
-		//		GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		
-		parameterPanel.add(buttonPlus, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
+
+		parameterPanel.add(fieldPaidAmt, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+
+		parameterPanel.add(buttonPlus, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
 							GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 
-		parameterPanel.add(buttonCancel, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0,
+		parameterPanel.add(buttonCancel, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 
-		parameterPanel.add(buttonOk, new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0,
+		parameterPanel.add(buttonOk, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
-		
-//		parameterPanel.add(fPaymentTerm, new GridBagConstraints(2, 5, 1, 1, 0.0,0.0,
-//				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		
+
 		//	Add Fields to Main Panel
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
 
-		//	Add Listeners
-		fieldIsPrePayOrder.addActionListener(this);
-		//fieldIsCreditOrder.addActionListener(this);
 		buttonOk.addActionListener(this);
 		buttonCancel.addActionListener(this);
 		
 		//	Add to Dialog
-		//dialog.getContentPane().add(commandPanel, BorderLayout.SOUTH);
-		//dialog.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		dialog.add(mainPanel, BorderLayout.CENTER);
 	}
 
@@ -330,7 +266,7 @@ public class VCollect extends Collect
 			tenderType = X_C_Payment.TENDERTYPE_CreditCard;
 		}
 		//	FR https://github.com/erpcya/AD-POS-WebUI/issues/7
-		BigDecimal balance = getBalance();
+		BigDecimal balance = getBalance(pos.getOpenAmt());
 		if(balance.doubleValue() < 0)
 			balance = Env.ZERO;
 		//	
@@ -362,7 +298,7 @@ public class VCollect extends Collect
 			dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if(pos.processOrder(trxName, isPrePayOrder(), getBalance().signum() <= 0)) {
+					if(pos.processOrder(trxName, isPrePayOrder(), getBalance(pos.getOpenAmt()).signum() <= 0)) {
 						processTenderTypes(trxName, pos.getOpenAmt());
 						String error = getErrorMsg();
 						if(error != null && error.length() > 0)
@@ -426,21 +362,10 @@ public class VCollect extends Collect
 			hidePanel();
 			pos.showKeyboard();
 			pos.refreshPanel();
-			if(pos.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) || 
-					pos.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Invalid))
-				setIsPrePayOrder(false);
+			//if(pos.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) ||
+			//		pos.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Invalid))
+			//	setIsPrePayOrder(false);
 			return;
-		}
-		/*else if(actionEvent.getSource().equals(fieldIsCreditOrder)) {	//	For Credit Order Checked
-			//	Set to Controller
-			setIsCreditOrder(fieldIsCreditOrder.isSelected());
-			if(fieldIsCreditOrder.isSelected()) {
-				removeAllCollectDetail();
-			}
-		}*/
-		else if(actionEvent.getSource().equals(fieldIsPrePayOrder)) {	//	For Pre-Payment Order Checked
-			//	Set to Controller
-			setIsPrePayOrder(fieldIsPrePayOrder.isSelected());
 		}
 		//	Valid Panel
 		changeViewPanel();
@@ -481,9 +406,6 @@ public class VCollect extends Collect
 		//	Set static width
 		screenSize.width = 500;
 		dialog.setMinimumSize(screenSize);
-		//dialog.pack();
-		//	
-		//AEnv.positionCenterScreen(dialog);
 		dialog.setVisible(true);
 		return isProcessed;
 	}
@@ -527,51 +449,25 @@ public class VCollect extends Collect
 		//	Set Credit Order
 		setIsCreditOrder(isCreditOrder() 
 				|| (isCreditOpen && !isStandardOrder));
-		//	
-		setIsPrePayOrder(isPrePayOrder()
-				|| (isCreditOpen && isStandardOrder));
-		//	Set Credit and Pre-Pay Order
-		//fieldIsCreditOrder.setSelected(isCreditOrder());
-		fieldIsPrePayOrder.setSelected(isPrePayOrder());
-//		fPaymentTerm.setVisible(isCreditOrder());
 		//	Verify complete order
 		if(pos.isCompleted()) {
-			//fieldIsCreditOrder.setEnabled(false);
-			fieldIsPrePayOrder.setEnabled(false);
-//			fPaymentTerm.setEnabled(false);
 			buttonPlus.setEnabled(isCreditOpen);
 			buttonOk.setEnabled(true);
 		} else if(pos.isVoided()){
-			//fieldIsCreditOrder.setEnabled(false);
-			fieldIsPrePayOrder.setEnabled(false);
-//			fPaymentTerm.setEnabled(false);
 			buttonPlus.setEnabled(false);
 			buttonOk.setEnabled(false);
 		} else if(pos.isStandardOrder() /*|| pos.isWarehouseOrder()*/) {
 			// Standard Order or Warehouse Order: no Credit Order, no prepayment
-			fieldIsPrePayOrder.setEnabled(false);
-			//fieldIsCreditOrder.setEnabled(false);
 			buttonPlus.setEnabled(false);
 		}
 		else {
-			//fieldIsCreditOrder.setEnabled(true);
-			fieldIsPrePayOrder.setEnabled(true);
-//			fPaymentTerm.setEnabled(true);
 			buttonPlus.setEnabled(!isCreditOrder()
 					|| isCreditOpen);
 			buttonOk.setEnabled(true);
 		}
 	}
 	
-	/**
-	 * Get Balance
-	 * @return
-	 * @return BigDecimal
-	 */
-	private BigDecimal getBalance() {
-		BigDecimal m_PayAmt = getCollectDetailAmt();
-		return pos.getOpenAmt().subtract(m_PayAmt);
-	}
+
 	
 	/**
 	 * Calculate and change data in panel
@@ -580,11 +476,23 @@ public class VCollect extends Collect
 	private void calculatePanelData() {
 		//	Get from controller
 		BigDecimal collectDetail  = getCollectDetailAmt();
-		BigDecimal balance = getBalance();
+		BigDecimal balance = getBalance(pos.getOpenAmt());
 		//	Change View
 		String currencyISOCode = pos.getCurSymbol();
 		//fieldGrandTotal.setText(currencyISOCode + " "
 		//		+ pos.getNumberFormat().format(pos.getGrandTotal()));
+		if(isPrePayOrder()) {
+			labelPaidAmt.setVisible(true);
+			fieldPaidAmt.setVisible(true);
+			fieldPaidAmt.setText(currencyISOCode + " "
+					+ pos.getNumberFormat().format(pos.getPaidAmt()));
+		}
+		else
+		{
+			labelPaidAmt.setVisible(false);
+			fieldPaidAmt.setVisible(false);
+		}
+
 		fieldPayAmt.setText(currencyISOCode + " "
 				+ pos.getNumberFormat().format(collectDetail));
 		//	Show pretty Return Amount
@@ -611,11 +519,6 @@ public class VCollect extends Collect
 		String name = e.getPropertyName();
 		Object value = e.getNewValue();
 		log.config(name + " = " + value);
-		//	Verify Event
-//		if(name.equals("C_PaymentTerm_ID")) {
-//			int m_C_PaymentTerm_ID = ((Integer)(value != null? value: 0)).intValue();
-//			setC_PaymentTerm_ID(m_C_PaymentTerm_ID);
-//		}
 	}
 
 	@Override

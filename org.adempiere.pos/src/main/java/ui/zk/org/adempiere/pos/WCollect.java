@@ -30,7 +30,6 @@ import javax.swing.KeyStroke;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.pos.service.Collect;
 import org.adempiere.pos.service.POSPanelInterface;
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -48,7 +47,6 @@ import org.compiere.model.MPOSKey;
 import org.compiere.model.X_C_Payment;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
-import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -76,11 +74,9 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 */
 	public WCollect(WPOS posPanel) {
 		super(posPanel.getCtx(), posPanel.getM_Order(), posPanel.getM_POS());
-		
-		v_POSPanel = posPanel;
+		this.posPanel = posPanel;
 		p_ctx = posPanel.getCtx();
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
-
 		init();
 			
 	}
@@ -97,11 +93,12 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		calculatePanelData();
 		refreshPanel();
 		addCollectType();
-		v_POSPanel.disablePOSButtons();
+		this.posPanel.disablePOSButtons();
 		return this;
 	}
 
 	/**	Panels					*/
+	private WPOS 				posPanel;
 	private Panel 				mainPanel; 
 	private Grid 				eastlayout;
 	private Rows 				rows;
@@ -113,18 +110,18 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	/** Window					 */
 //	private Window 				v_Window;
 	private Properties 			p_ctx;
-	private WPOS 				v_POSPanel;
 	
 	/**	Fields Summary			*/
 //	private Label 				fGrandTotal;
+	private Label 				fPaidAmt;
 	private Label 				fPayAmt;
-	private BigDecimal 			m_Balance = Env.ZERO;
-	private Checkbox 			fIsPrePayOrder;
-//	private Checkbox 			fIsCreditOrder;
+	private BigDecimal balance = Env.ZERO;
 	private Label 				fReturnAmt;
 	private Label 				lReturnAmt;
 	private Label 				fOpenAmt;
 	private DecimalFormat 		m_Format;
+	//	private Checkbox 			fIsPrePayOrder;
+    //	private Checkbox 			fIsCreditOrder;
 	
 	/**	Action					*/
 	private Button 				bPlus;
@@ -163,7 +160,6 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			log.log(Level.SEVERE, "", e);
 		}
 	}
-	
 	/**
 	 * Instance Window and fill fields
 	 * @return void
@@ -239,9 +235,18 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		fReturnAmt.setStyle(FONT_SIZE);
 		row = rows.newRow();
 
+		row = rows.newRow();
 		row.appendChild(new Space());
-		row.appendChild(lReturnAmt.rightAlign());
-		row.appendChild(fReturnAmt.rightAlign());
+		Label fsPaidAmtLabel = new Label(Msg.translate(p_ctx, "PaidAmt")+":");
+		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
+		fPaidAmt = new Label();
+		row.appendChild(fsPaidAmtLabel.rightAlign());
+		row.appendChild(fPaidAmt.rightAlign());
+		fPaidAmt.setStyle(FONT_SIZE);
+
+		row.appendChild(new Space());
+		row.appendChild(fsPaidAmtLabel.rightAlign());
+		row.appendChild(fPaidAmt.rightAlign());
 		fReturnAmt.addEventListener("onFocus", this);
 		
 		// Button Plus
@@ -249,12 +254,12 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		row = rows.newRow();
 
 		row.appendChild(new Space());
-		fIsPrePayOrder = new Checkbox();
-		fIsPrePayOrder.addActionListener(this);
-		fIsPrePayOrder.setText(Msg.translate(p_ctx, "isPrePayment"));
-		fIsPrePayOrder.setStyle(FONT_SIZE+ "; Text-Align:right");
-		fIsPrePayOrder.setClass("fontLarge");
-		row.appendChild(fIsPrePayOrder);
+		//fIsPrePayOrder = new Checkbox();
+		//fIsPrePayOrder.addActionListener(this);
+		//fIsPrePayOrder.setText(Msg.translate(p_ctx, "isPrePayment"));
+		//fIsPrePayOrder.setStyle(FONT_SIZE+ "; Text-Align:right");
+		//fIsPrePayOrder.setClass("fontLarge");
+		//row.appendChild(fIsPrePayOrder);
 		
 //		fIsCreditOrder = new Checkbox();
 //		fIsCreditOrder.setText(Msg.translate(p_ctx, "CreditSale"));
@@ -290,47 +295,37 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 
 
 		// Completed Standard Order: only prepayment possible 
-		if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
-		   v_POSPanel.isCompleted() &&
-		   v_POSPanel.isStandardOrder()) {	
-			fIsPrePayOrder.setEnabled(false);	
+		if(posPanel.getTotalLines().compareTo(Env.ZERO)==1 &&
+		   posPanel.isCompleted() &&
+		   posPanel.isStandardOrder()) {
+			//fIsPrePayOrder.setEnabled(false);
 //			fIsCreditOrder.setEnabled(false);
-			fIsPrePayOrder.setSelected(true);
+			//fIsPrePayOrder.setSelected(true);
 		}
 		// Not completed Order 
-		else if(v_POSPanel.getTotalLines().compareTo(Env.ZERO)==1 && 
-				!v_POSPanel.isCompleted()) {		
-			if(v_POSPanel.isStandardOrder() /*|| pos.isWarehouseOrder()*/) {
+		else if(posPanel.getTotalLines().compareTo(Env.ZERO)==1 &&
+				!posPanel.isCompleted()) {
+			if(posPanel.isStandardOrder() /*|| pos.isWarehouseOrder()*/) {
 				 // Standard Order or Warehouse Order: no Credit Order, no prepayment
-				fIsPrePayOrder.setEnabled(false);	
-				fIsPrePayOrder.setSelected(false);	
+				//fIsPrePayOrder.setEnabled(false);
+				//fIsPrePayOrder.setSelected(false);
 //				fIsCreditOrder.setEnabled(false);
 //				fIsCreditOrder.setSelected(false);
 			}
 			else {		
-				fIsPrePayOrder.setEnabled(true);	
+				//fIsPrePayOrder.setEnabled(true);
 //				fIsCreditOrder.setEnabled(true);
 			}
 		}
 		else {
-			fIsPrePayOrder.setEnabled(false);	
+			//fIsPrePayOrder.setEnabled(false);
 //			fIsCreditOrder.setEnabled(false);
-//			if(v_POSPanel.isCompleted() && 
-//				v_POSPanel.getM_Order().isInvoiced()  && 
-//				v_POSPanel.getOpenAmt().compareTo(Env.ZERO)==1) {
+//			if(posPanel.isCompleted() &&
+//				posPanel.getM_Order().isInvoiced()  &&
+//				posPanel.getOpenAmt().compareTo(Env.ZERO)==1) {
 //				fIsCreditOrder.setSelected(true);
 //			}
 		}
-	}
-	
-	/**
-	 * Get Balance
-	 * @return
-	 * @return BigDecimal
-	 */
-	private BigDecimal getBalance() {
-		BigDecimal m_PayAmt = getCollectDetailAmt();
-		return v_POSPanel.getOpenAmt().subtract(m_PayAmt);
 	}
 	
 	/**
@@ -344,11 +339,11 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		if(collectRowNo > 0) {
 			tenderType = X_C_Payment.TENDERTYPE_Check;
 		}
-		BigDecimal m_Balance = getBalance();
-		if(m_Balance.doubleValue() < 0)
-			m_Balance = Env.ZERO;
+		BigDecimal balance = getBalance(posPanel.getOpenAmt());
+		if(balance.doubleValue() < 0)
+			balance = Env.ZERO;
 		
-		WCollectDetail collectDetail = new WCollectDetail(this, tenderType, m_Balance);
+		WCollectDetail collectDetail = new WCollectDetail(this, tenderType, balance);
 
 		//	Add Collect controller
 		addCollect(collectDetail);
@@ -402,23 +397,23 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			
 			// Process printing
 			isProcessed = true;
-			if(!v_POSPanel.isStandardOrder() && !v_POSPanel.isWarehouseOrder() && v_POSPanel.isToPrint())
+			if(!posPanel.isStandardOrder() && !posPanel.isWarehouseOrder() && posPanel.isToPrint())
 				printTicketWeb();
 			hidePanel();
-			v_POSPanel.showKeyboard();
-			v_POSPanel.setOrder(0);
-			v_POSPanel.refreshPanel();
-			v_POSPanel.refreshProductInfo(null);
+			posPanel.showKeyboard();
+			posPanel.setOrder(0);
+			posPanel.refreshPanel();
+			posPanel.refreshProductInfo(null);
 			return;
 		}
 
 		else if ( action.equals(ConfirmPanel.A_CANCEL)) {
 			hidePanel();
-			v_POSPanel.showKeyboard();
-			v_POSPanel.refreshPanel();
-			if(v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) || 
-					v_POSPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Invalid))
-				setIsPrePayOrder(false);
+			posPanel.showKeyboard();
+			posPanel.refreshPanel();
+			if(posPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) ||
+					posPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Invalid))
+				//setIsPrePayOrder(false);
 			return;
 		}
 //		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
@@ -433,17 +428,17 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 //				else 
 //					bPlus.setEnabled(true);
 //			} 
-		else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
+		/*else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
 //				fIsCreditOrder.setSelected(false);
 				//	Set to Controller
-				setIsPrePayOrder(fIsPrePayOrder.isSelected());
+				//setIsPrePayOrder(fIsPrePayOrder.isSelected());
 				bPlus.setEnabled(true);   
 				return;
 			}
 		else {
 					layout.invalidate();
 			return;
-		}
+		}*/
 	}
 	
 	/**
@@ -469,14 +464,14 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		try {
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if(v_POSPanel.processOrder(trxName, isPrePayOrder(), getBalance().doubleValue() <= 0)) {
-						processTenderTypes(trxName, v_POSPanel.getOpenAmt());
+					if(posPanel.processOrder(trxName, isPrePayOrder(), getBalance(posPanel.getOpenAmt()).doubleValue() <= 0)) {
+						processTenderTypes(trxName, posPanel.getOpenAmt());
 						String error = getErrorMsg();
 						if(error != null && error.length() > 0)
-							throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + v_POSPanel.getDocumentNo() + ": "  + getErrorMsg()));
+							throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + posPanel.getDocumentNo() + ": "  + getErrorMsg()));
 					} else {
-						throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + v_POSPanel.getDocumentNo() + ": "  +
-				                 "@ProcessRunError@" + " (" +  v_POSPanel.getProcessMsg() + ")"));
+						throw new POSaveFailedException(Msg.parseTranslation(p_ctx, "@order.no@ " + posPanel.getDocumentNo() + ": "  +
+				                 "@ProcessRunError@" + " (" +  posPanel.getProcessMsg() + ")"));
 					}
 				}
 			});
@@ -526,25 +521,25 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		BigDecimal collectDetail = getCollectDetailAmt();
 		//
 		//m_PayAmt= m_PayAmt.add(getPrePayAmt());
-		m_Balance = getBalance();
-		m_Balance = m_Balance.setScale(2, BigDecimal.ROUND_HALF_UP);
-		String currencyISO_Code = v_POSPanel.getCurSymbol();
+		balance = getBalance(posPanel.getOpenAmt());
+		balance = balance.setScale(2, BigDecimal.ROUND_HALF_UP);
+		String currencyISO_Code = posPanel.getCurSymbol();
 		//	Change View
-		//fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(v_POSPanel.getGrandTotal()));
-		fPayAmt.setText(currencyISO_Code +" "+ v_POSPanel.getNumberFormat().format(collectDetail));
+		//fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(posPanel.getGrandTotal()));
+		fPayAmt.setText(currencyISO_Code +" "+ posPanel.getNumberFormat().format(collectDetail));
 		
 		BigDecimal m_ReturnAmt = Env.ZERO;
 		BigDecimal m_OpenAmt = Env.ZERO;
-		if(m_Balance.doubleValue() < 0) {
-			m_ReturnAmt = m_Balance.abs();
-		} else if(m_Balance.doubleValue() > 0){
-			m_OpenAmt = m_Balance;
+		if(balance.doubleValue() < 0) {
+			m_ReturnAmt = balance.abs();
+		} else if(balance.doubleValue() > 0){
+			m_OpenAmt = balance;
 		}
 		//	Set Return Amount
 		fReturnAmt.setText(currencyISO_Code +" "+ m_Format.format(m_ReturnAmt));
 		//	Set Open Amount
 		fOpenAmt.setText(currencyISO_Code + " " 
-				+ v_POSPanel.getNumberFormat().format(m_OpenAmt));
+				+ posPanel.getNumberFormat().format(m_OpenAmt));
 	}
 	@Override
 	public void refreshPanel() {
@@ -556,13 +551,13 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	@Override
 	public String validatePayment() {
 		String errorMsg = null;
-		if(!v_POSPanel.hasOrder()) {	//	When is not created order
+		if(!posPanel.hasOrder()) {	//	When is not created order
 			errorMsg = "@POS.MustCreateOrder@";
 		} else {
-			if(!(v_POSPanel.isStandardOrder()))
+			if(!(posPanel.isStandardOrder()))
 				// No Check if Order is not Standard Order
 				// TODO: Review why nor Warehouse Order
-				errorMsg = validateTenderTypes(v_POSPanel.getOpenAmt());
+				errorMsg = validateTenderTypes(posPanel.getOpenAmt());
 		}
 		//	
 		return errorMsg;
@@ -581,48 +576,48 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return POSKeyboard
 	 */
 	public WPOSKeyboard getKeyboard() {
-		return v_POSPanel.getKeyboard();
+		return posPanel.getKeyboard();
 	}
 
 	@Override
 	public void changeViewPanel() {
 //		Set Credit for Complete Documents
-		boolean isCreditOpen = (v_POSPanel.isCompleted() 
-				&& v_POSPanel.getOpenAmt().doubleValue() > 0);
+		boolean isCreditOpen = (posPanel.isCompleted()
+				&& posPanel.getOpenAmt().doubleValue() > 0);
 		//	Is Standard Order
-		boolean isStandardOrder = v_POSPanel.isStandardOrder();
+		boolean isStandardOrder = posPanel.isStandardOrder();
 		//	Set Credit Order
 		setIsCreditOrder(isCreditOrder() 
 				|| (isCreditOpen && !isStandardOrder));
 		//	
-		setIsPrePayOrder(isPrePayOrder()
-				|| (isCreditOpen && isStandardOrder));
+		//setIsPrePayOrder(isPrePayOrder()
+		//		|| (isCreditOpen && isStandardOrder));
 		//	Set Credit and Pre-Pay Order
 //		fIsCreditOrder.setSelected(isCreditOrder());
-		fIsPrePayOrder.setSelected(isPrePayOrder());
+		//fIsPrePayOrder.setSelected(isPrePayOrder());
 //			fPaymentTerm.setVisible(isCreditOrder());
 		//	Verify complete order
-		if(v_POSPanel.isCompleted()) {
+		if(posPanel.isCompleted()) {
 //			fIsCreditOrder.setEnabled(false);
-			fIsPrePayOrder.setEnabled(false);
+			//fIsPrePayOrder.setEnabled(false);
 //				fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(isCreditOpen);
 			confirm.getOKButton().setEnabled(true);
-		} else if(v_POSPanel.isVoided()){
+		} else if(posPanel.isVoided()){
 //			fIsCreditOrder.setEnabled(false);
-			fIsPrePayOrder.setEnabled(false);
+			//fIsPrePayOrder.setEnabled(false);
 //				fPaymentTerm.setEnabled(false);
 			bPlus.setEnabled(false);
 			confirm.getOKButton().setEnabled(false);
-		} else if(v_POSPanel.isStandardOrder() /*|| pos.isWarehouseOrder()*/) { 
+		} else if(posPanel.isStandardOrder() /*|| pos.isWarehouseOrder()*/) {
 			// Standard Order or Warehouse Order: no Credit Order, no prepayment
-			fIsPrePayOrder.setEnabled(false);	
+			//fIsPrePayOrder.setEnabled(false);
 //			fIsCreditOrder.setEnabled(false);
 			bPlus.setEnabled(false);
 		}
 		else {
 //			fIsCreditOrder.setEnabled(true);
-			fIsPrePayOrder.setEnabled(true);
+			//fIsPrePayOrder.setEnabled(true);
 //				fPaymentTerm.setEnabled(true);
 			bPlus.setEnabled(!isCreditOrder()
 					|| isCreditOpen);
@@ -669,28 +664,28 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			//print standard document
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if (v_POSPanel.getAD_Sequence_ID()!= 0) {
+					if (posPanel.getAD_Sequence_ID()!= 0) {
 
-						String docno = v_POSPanel.getSequenceDoc(trxName);
+						String docno = posPanel.getSequenceDoc(trxName);
 						String q = "Confirmar el número consecutivo "  + docno;
 						if (FDialog.ask(0, null, "", q)) {
-							v_POSPanel.setPOReference(docno);
-							v_POSPanel.saveNextSeq(trxName);
+							posPanel.setPOReference(docno);
+							posPanel.saveNextSeq(trxName);
 						}
 					}
 				}
 			});
 
-			if (v_POSPanel.isToPrint() && v_POSPanel.hasOrder()) {
-				ReportCtl.startDocumentPrint(0, v_POSPanel.getC_Order_ID(), false);
-				ReportEngine m_reportEngine = ReportEngine.get(p_ctx, ReportEngine.ORDER, v_POSPanel.getC_Order_ID());
+			if (posPanel.isToPrint() && posPanel.hasOrder()) {
+				ReportCtl.startDocumentPrint(0, posPanel.getC_Order_ID(), false);
+				ReportEngine m_reportEngine = ReportEngine.get(p_ctx, ReportEngine.ORDER, posPanel.getC_Order_ID());
 				StringWriter sw = new StringWriter();							
 				m_reportEngine.createCSV(sw, '\t', m_reportEngine.getPrintFormat().getLanguage());
 				byte[] data = sw.getBuffer().toString().getBytes();	
 				
 				AMedia media = new AMedia(m_reportEngine.getPrintFormat().getName() + ".txt", null, "application/octet-stream", data);
 
-				v_POSPanel.printFile(media.getByteData(), v_POSPanel.getC_Order_ID());	
+				posPanel.printFile(media.getByteData(), posPanel.getC_Order_ID());
 			}
 		}
 			catch (Exception e) 
