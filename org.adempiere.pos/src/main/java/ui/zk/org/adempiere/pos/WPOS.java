@@ -228,7 +228,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		this.actionPanel.appendChild(infoProductPanel.getPanel());
 		east.setSplittable(true);
 		east.setStyle("border: none; min-width:44%; width:44%");
-		actionPanel.setStyle("border: none; height:auto; position:relative;float:left;overflow:auto; ");
 
 		qtyPanel.appendChild(quantityPanel);
 		
@@ -242,7 +241,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		
 		mediumPanel.appendChild(table);
 		//	FR [ 44 ] Change Button location
-		actionPanel.setStyle("border: none; width:42%; height:auto;position:relative;float:left;overflow:auto;");
+		actionPanel.setStyle("border: none; width:42%; height:auto;position:relative;float:left;overflow:hidden;");
 		qtyPanel.setStyle("border: none; width:60%; height:auto;");
 		table.setStyle("border: none; width:30%; height:auto;");
 		

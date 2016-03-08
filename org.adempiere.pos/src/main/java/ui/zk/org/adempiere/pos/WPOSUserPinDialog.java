@@ -47,12 +47,14 @@ public class WPOSUserPinDialog extends Window implements EventListener{
 		passwordField = new WPOSTextField("", pos.getKeyboard());
         passwordField.setStyle("Font-size:medium; font-weight:bold");
         passwordField.addEventListener(this);
+        passwordField.addEventListener(Events.ON_OK,this);
         passwordField.setType("password");
         
         Panel mainPanel = new Panel();
         this.setWidth("200px");
         this.setHeight("100px");
         b_ok.addActionListener(pos);
+        b_ok.addEventListener(Events.ON_OK,pos);
         b_cancel.addActionListener(pos);
 
         Borderlayout mainLayout = new Borderlayout();
@@ -100,7 +102,7 @@ public class WPOSUserPinDialog extends Window implements EventListener{
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if (e.getTarget().equals(b_ok)) {
+		if (e.getTarget().equals(b_ok) || e.getName().equals(Events.ON_OK)) {
 			returnValue = passwordField.getText().toCharArray();
 		}
 		else if(e.getTarget().equals(passwordField.getComponent(WPOSTextField.SECONDARY))
