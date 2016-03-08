@@ -154,7 +154,7 @@ public class WQueryOrderHistory extends WPOSQuery implements POSQueryInterface
 		labelDocumentNo.setStyle(WPOS.FONTSIZESMALL);
 		row.setHeight("20px");
 		row.appendChild(labelDocumentNo.rightAlign());
-		fieldDocumentNo = new WPOSTextField(null, posPanel.getKeyboard());
+		fieldDocumentNo = new WPOSTextField("", posPanel.getKeyboard());
 		row.appendChild(fieldDocumentNo);
 		fieldDocumentNo.addEventListener(this);
 		fieldDocumentNo.setWidth("120px");
@@ -182,7 +182,7 @@ public class WQueryOrderHistory extends WPOSQuery implements POSQueryInterface
 		labelBPartner.setStyle(WPOS.FONTSIZESMALL);
 		row.setHeight("60px");
 		row.appendChild(labelBPartner.rightAlign());
-		fieldBPartner = new WPOSTextField(null, posPanel.getKeyboard());
+		fieldBPartner = new WPOSTextField("", posPanel.getKeyboard());
 		row.appendChild(fieldBPartner);
 		fieldBPartner.addEventListener(this);
 		fieldBPartner.setWidth("120px");
@@ -362,8 +362,9 @@ public class WQueryOrderHistory extends WPOSQuery implements POSQueryInterface
 				keyboard.setPosTextField(fieldDocumentNo);
 				AEnv.showWindow(keyboard);
 				
-				fieldDocumentNo.setFocus(true);
 			}
+
+			fieldDocumentNo.setFocus(true);
 			refresh();
 		}
 		else if(e.getTarget().equals(fieldDocumentNo.getComponent(WPOSTextField.PRIMARY))) {
@@ -380,8 +381,8 @@ public class WQueryOrderHistory extends WPOSQuery implements POSQueryInterface
 				keyboard.setPosTextField(fieldBPartner);
 				AEnv.showWindow(keyboard);
 				
-				fieldBPartner.setFocus(true);
 			}
+			fieldBPartner.setFocus(true);
 			refresh();
 		}
 		else if(e.getTarget().equals(fieldBPartner.getComponent(WPOSTextField.PRIMARY))) {

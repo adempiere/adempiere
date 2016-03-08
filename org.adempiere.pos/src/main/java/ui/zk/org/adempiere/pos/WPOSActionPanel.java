@@ -263,7 +263,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 		try {
             if(e.getName().equals(Events.ON_CHANGE)){
                 if(lookupProduct.getSelectedRecord() >= 0) {
-                    posPanel.addOrUpdateLine(lookupProduct.getSelectedRecord(), Env.ONE);
+                    posPanel.addOrUpdateLine(lookupProduct.getSelectedRecord(), Env.ZERO);
                     fieldProductName.setValue(String.valueOf(lookupProduct.getSelectedRecord()));
                     lookupProduct.captureProduct();
                 }
@@ -470,7 +470,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 		if (isNewLine) {
 			posPanel.updateLineTable();
 			if (posPanel.isNewLine())
-				posPanel.setQuantity(BigDecimal.ONE);
+				posPanel.setQuantity(BigDecimal.ZERO);
 			else
 				posPanel.setQuantity(posPanel.getQty().add(BigDecimal.ONE));
 			posPanel.updateLineTable();
