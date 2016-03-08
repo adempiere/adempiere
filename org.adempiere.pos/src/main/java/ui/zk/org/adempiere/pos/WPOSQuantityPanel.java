@@ -69,6 +69,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 	private POSNumberBox 	fieldQuantity;
 	private POSNumberBox 	fieldPrice;
 	private POSNumberBox	fieldDiscountPercentage;
+	private BigDecimal		m_Quantity;
 
 	private final String ACTION_UP       	= "Previous";
 	private final String ACTION_DOWN  		= "Next";
@@ -123,6 +124,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		
 		row.appendChild(fieldQuantity);
 		fieldQuantity.addEventListener(Events.ON_OK, this);
+		fieldQuantity.addEventListener(Events.ON_CHANGE, this);
 		fieldQuantity.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
 		
 		Label priceLabel = new Label(Msg.translate(Env.getCtx(), "PriceActual"));
@@ -219,25 +221,29 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 					posPanel.refreshPanel();
 				}
 			}
-
-			if(Events.ON_OK.equals(e.getName())) {
-				BigDecimal value =  fieldQuantity.getValue();
+			BigDecimal value = Env.ZERO;
+			if(Events.ON_OK.equals(e.getName()) || Events.ON_CHANGE.equals(e.getName())) {
 				
+				value = fieldQuantity.getValue();
 				if(e.getTarget().equals(fieldQuantity.getDecimalbox())) {
-					if (posPanel.isNewLine()) {
+					if(Events.ON_OK.equals(e.getName())){
+						posPanel.setQuantity(m_Quantity);
+					}
+					else if(posPanel.isNewLine() 
+							|| Events.ON_CHANGE.equals(e.getName())){
+						m_Quantity = Env.ZERO;
+						m_Quantity = posPanel.getQty().add(value);
 						posPanel.setQuantity(value);
 					}
-					else {
-						posPanel.updateLineTable();
-						value = posPanel.getQty().add(value);
-						posPanel.setQuantity(value);
-					}
+					
 					posPanel.updateLineTable();
 					posPanel.refreshPanel();
 					posPanel.changeViewPanel();
 					posPanel.getMainFocus();
 				}
-				else if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
+			}
+			if(Events.ON_CHANGING.equals(e.getName())) {
+				if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
 					value = fieldPrice.getValue();
 					if(posPanel.isUserPinValid()) {
 						posPanel.setPrice(value);

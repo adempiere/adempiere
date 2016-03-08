@@ -214,6 +214,8 @@ public class WPOSTextField extends Div {
 
 		f_TextField.addEventListener(Events.ON_FOCUS, listener);
 		f_PlaceHolder.addEventListener(Events.ON_FOCUS, listener);
+		f_TextField.addEventListener(Events.ON_OK, listener);
+		f_PlaceHolder.addEventListener(Events.ON_OK, listener);
 	     
 	}
 	
