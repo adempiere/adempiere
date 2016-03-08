@@ -32,7 +32,6 @@ import org.adempiere.pos.service.Collect;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
-import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -42,7 +41,6 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.MOrder;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.X_C_Payment;
 import org.compiere.print.ReportCtl;
@@ -108,11 +106,9 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	private Panel 				centerPanel;
 	
 	/** Window					 */
-//	private Window 				v_Window;
 	private Properties 			p_ctx;
 	
 	/**	Fields Summary			*/
-//	private Label 				fGrandTotal;
 	private Label 				fPaidAmt;
 	private Label 				fPayAmt;
 	private BigDecimal balance = Env.ZERO;
@@ -120,8 +116,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	private Label 				lReturnAmt;
 	private Label 				fOpenAmt;
 	private DecimalFormat 		m_Format;
-	//	private Checkbox 			fIsPrePayOrder;
-    //	private Checkbox 			fIsCreditOrder;
+	private Label				fsPaidAmtLabel;
 	
 	/**	Action					*/
 	private Button 				bPlus;
@@ -165,23 +160,16 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return void
 	 */
 	private void zkInit(){
-//		Panel panel = new Panel();
-		//	Content
-//		v_Window = new Window();
-//		v_Window.setTitle(Msg.translate(p_ctx, "Payment"));
-//		v_Window.setClosable(true);
-		
+//		
 		mainPanel = new Panel();
 		Borderlayout mainLayout = new Borderlayout();
 		layout = GridFactory.newGridLayout();
-//		v_Window.appendChild(panel);
 		eastlayout = GridFactory.newGridLayout();
 		
 		//	Panels
 		centerPanel = new Panel();
 		Panel eastPanel = new Panel();
 		mainPanel.appendChild(mainLayout);
-//		mainPanel.setStyle("width: 510px; height: 500px; padding: 0; margin: 0;");
 		mainLayout.setHeight("100%");
 		mainLayout.setWidth("100%");
 
@@ -195,16 +183,6 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		eastlayout.setHeight("100%");
 		
 		rows = eastlayout.newRows();
-		row = rows.newRow();
-		row.appendChild(new Space());
-		
-//		Label gtLabel = new Label(Msg.translate(p_ctx, "GrandTotal")+":");
-//		gtLabel.setStyle(FONT_SIZE+FONT_BOLD);
-//		row.appendChild(gtLabel.rightAlign());
-		
-//		fGrandTotal =  new Label();
-//		row.appendChild(fGrandTotal.rightAlign());
-//		fGrandTotal.setStyle(FONT_SIZE+FONT_BOLD);
 		
 		row = rows.newRow();
 
@@ -233,41 +211,33 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		lReturnAmt = new Label(Msg.translate(p_ctx, "AmountReturned")+":");
 		lReturnAmt.setStyle(FONT_SIZE+FONT_BOLD);
 		fReturnAmt.setStyle(FONT_SIZE);
-		row = rows.newRow();
 
 		row = rows.newRow();
 		row.appendChild(new Space());
-		Label fsPaidAmtLabel = new Label(Msg.translate(p_ctx, "PaidAmt")+":");
-		fsLabel.setStyle(FONT_SIZE+FONT_BOLD);
+		fReturnAmt = new Label();
+		lReturnAmt = new Label(Msg.translate(p_ctx, "AmountReturned")+":");
+		lReturnAmt.setStyle(FONT_SIZE+FONT_BOLD);
+		fReturnAmt.setStyle(FONT_SIZE);
+		row.appendChild(lReturnAmt.rightAlign());
+		row.appendChild(fReturnAmt.rightAlign());
+		fReturnAmt.addEventListener("onFocus", this);
+		
+		row = rows.newRow();
+		row.appendChild(new Space());
+		fsPaidAmtLabel = new Label(Msg.translate(p_ctx, "PaidAmt")+":");
+		fsPaidAmtLabel.setStyle(FONT_SIZE+FONT_BOLD);
 		fPaidAmt = new Label();
 		row.appendChild(fsPaidAmtLabel.rightAlign());
 		row.appendChild(fPaidAmt.rightAlign());
 		fPaidAmt.setStyle(FONT_SIZE);
 
-		row.appendChild(new Space());
-		row.appendChild(fsPaidAmtLabel.rightAlign());
-		row.appendChild(fPaidAmt.rightAlign());
-		fReturnAmt.addEventListener("onFocus", this);
-		
 		// Button Plus
 		bPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.F3));
 		row = rows.newRow();
 
 		row.appendChild(new Space());
-		//fIsPrePayOrder = new Checkbox();
-		//fIsPrePayOrder.addActionListener(this);
-		//fIsPrePayOrder.setText(Msg.translate(p_ctx, "isPrePayment"));
-		//fIsPrePayOrder.setStyle(FONT_SIZE+ "; Text-Align:right");
-		//fIsPrePayOrder.setClass("fontLarge");
-		//row.appendChild(fIsPrePayOrder);
-		
-//		fIsCreditOrder = new Checkbox();
-//		fIsCreditOrder.setText(Msg.translate(p_ctx, "CreditSale"));
-//		fIsCreditOrder.setClass("fontLarge");
-//		fIsCreditOrder.setStyle(FONT_SIZE);
-//		fIsCreditOrder.setHeight("30px");
-//		fIsCreditOrder.addActionListener(this);
-//		row.appendChild(fIsCreditOrder);
+		row.appendChild(new Space());
+
 		row.appendChild(bPlus);
 		confirm = new ConfirmPanel(true);
 		confirm.addActionListener(this);
@@ -287,7 +257,6 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		layout.setWidth("100%");
 		layout.setHeight("100%");
 		layout.setStyle("overflow:auto;");
-//		v_Window.appendChild(mainPanel);
 		
 		rows = layout.newRows();
 		row = rows.newRow();
@@ -483,9 +452,6 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			mainPanel.setHeight(p_height/2 + "px");	
 		}
 			
-//		v_Window.setClosable(true);
-//		v_Window.setVisible(true);
-//		AEnv.showWindow(v_Window);
 		return isProcessed();
 	}
 
@@ -504,7 +470,17 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		//	Change View
 		//fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(posPanel.getGrandTotal()));
 		fPayAmt.setText(currencyISO_Code +" "+ posPanel.getNumberFormat().format(collectDetail));
-		
+		if(isPrePayOrder()) {
+			fsPaidAmtLabel.setVisible(true);
+			fPaidAmt.setVisible(true);
+			fPaidAmt.setText(currencyISO_Code + " "
+					+ posPanel.getNumberFormat().format(posPanel.getPaidAmt()));
+		}
+		else
+		{
+			fsPaidAmtLabel.setVisible(false);
+			fPaidAmt.setVisible(false);
+		}
 		BigDecimal m_ReturnAmt = Env.ZERO;
 		BigDecimal m_OpenAmt = Env.ZERO;
 		if(balance.doubleValue() < 0) {

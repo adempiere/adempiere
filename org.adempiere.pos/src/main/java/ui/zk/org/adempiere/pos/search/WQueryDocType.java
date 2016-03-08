@@ -273,7 +273,7 @@ public class WQueryDocType extends WPOSQuery implements POSQueryInterface
 			//	Get Keyboard Panel
 			fieldDescription.showKeyboard();
 			refresh();
-
+			fieldDescription.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldDescription.getComponent(WPOSTextField.PRIMARY))) {
 			 isKeyboard = false;
