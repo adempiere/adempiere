@@ -448,7 +448,7 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 
 	public void showPanel()
 	{
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void hidePanel()

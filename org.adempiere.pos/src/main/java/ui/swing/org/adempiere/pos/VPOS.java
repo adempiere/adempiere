@@ -703,6 +703,11 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		infoProductPanel.resetValues();
 		quantityPanel.resetPanel();
 		actionPanel.resetPanel();
+		orderLinePanel.disableTable();
+	}
+	
+	public void restoreTable() {
+		orderLinePanel.enableTable();
 	}
 
 	public String getProductUOMSymbol()

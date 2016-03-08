@@ -235,6 +235,7 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		labelProductCategory.setText(productInfo.productCategoryName);
 		labelProductTax.setText(productInfo.productTaxCategory);
 		labelDescription.setText(productInfo.description);
+		posPanel.updateProductPlaceholder(productInfo.name);
 		if(productInfo.imageData != null) {
 			North nt = new North();
 			Borderlayout mainLayout = new Borderlayout();

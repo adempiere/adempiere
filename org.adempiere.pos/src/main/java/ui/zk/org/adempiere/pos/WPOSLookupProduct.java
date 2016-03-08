@@ -22,8 +22,9 @@ import java.util.Arrays;
 
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.util.StringUtils;
-
 import org.adempiere.webui.component.AutoComplete;
+import org.adempiere.webui.window.FDialog;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -44,7 +45,7 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
     private POSLookupProductInterface lookupProductInterface = null;
     //private POSTextField fieldProductName = null;
     private long lastKeyboardEvent = 0;
-    private boolean searched = false;
+    //private boolean searched = false;
     private boolean selectLock = false;
     private AutoComplete productLookupComboBox = null;
     private Integer priceListId = 0;
@@ -136,11 +137,15 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 	public void onEvent(Event e) throws Exception {
     	
 		if(e.getName().equals(Events.ON_FOCUS))
-			setText("");
-		else if(e.getName().equals(Events.ON_BLUR))
-			this.setText(this.title);
-		else if(e.getName().equals(Events.ON_SELECT))
+			setSelectionRange(0, getText().length());
+		else if(e.getName().equals(Events.ON_BLUR)){
+            lookupProductInterface.quantityRequestFocus();
+		}
+		else if(e.getName().equals(Events.ON_SELECT)){
 			index = this.getSelectedIndex();
+            lookupProductInterface.findProduct(true);
+           
+		}
 	}
 	
 	/**
@@ -170,23 +175,21 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 	}
 
 
-    /*public void captureProduct()
+    public void captureProduct()
     {
-        KeyNamePair item = (KeyNamePair) this.getSelectedItem();
-        if(item!=null && !selectLock)
+    	int product_ID = getSelectedRecord();
+        if(product_ID > 0 && !selectLock)
         {
-            String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", item.getKey());
-            fieldProductName.setPlaceholder(productValue);
+            String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", product_ID);
             try {
                 lookupProductInterface.findProduct(true);
             } catch (Exception exception) {
-                ADialog.error(0 , null , exception.getLocalizedMessage());
+                FDialog.error(0 ,exception.getLocalizedMessage());
             }
-            productLookupComboBox.removeAllItems();
-            fieldProductName.setText("");
+            this.setText(productValue);
         }
 
-    }*/
+    }
 
     /**
      * Execute Query
@@ -234,6 +237,6 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
         this.setDict(searchValues);
         this.setDescription(searchDescription);
         this.setOpen(true);
-
+        
     }
 }

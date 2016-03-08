@@ -357,11 +357,13 @@ public class VCollect extends Collect
 			hidePanel();
 			pos.showKeyboard();
 			pos.refreshPanel();
+			pos.restoreTable();
 			return;
 		} else if (actionEvent.getSource().equals(buttonCancel)) {	//	Nothing
 			hidePanel();
 			pos.showKeyboard();
 			pos.refreshPanel();
+			pos.restoreTable();
 			//if(pos.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) ||
 			//		pos.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Invalid))
 			//	setIsPrePayOrder(false);
