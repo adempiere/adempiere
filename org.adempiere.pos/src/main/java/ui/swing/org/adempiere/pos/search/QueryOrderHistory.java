@@ -210,8 +210,9 @@ public class QueryOrderHistory extends POSQuery {
 			sql.append(" SELECT o.C_Order_ID, o.DocumentNo, dt.Name AS C_DocType_ID ,")
 				.append(" b.Name, TRUNC(o.dateordered,'DD') as dateordered, o.GrandTotal, ")
 				// priority for open amounts: invoices, allocations, order
-				.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), COALESCE(o.GrandTotal - SUM(al.amount),0)) AS InvoiceOpen, ")
-			    .append(" (CASE WHEN o.GrandTotal - (o.AmountTendered + o.AmountRefunded) = 0 THEN 'Y' ELSE 'N' END) IsPaid, ")
+				//.append(" COALESCE(SUM(invoiceopen(i.C_Invoice_ID, 0)), COALESCE(o.GrandTotal - SUM(al.amount),0)) AS InvoiceOpen, ")
+				.append("COALESCE(o.GrandTotal - (SELECT SUM(PayAmt) FROM C_Payment p WHERE p.C_Order_ID=o.C_Order_ID))  AS OpenAmt,")
+			    .append(" (CASE WHEN o.GrandTotal - (SELECT SUM(PayAmt) FROM C_Payment p WHERE p.C_Order_ID=o.C_Order_ID) = 0 THEN 'Y' ELSE 'N' END) IsPaid, ")
 			    .append(" o.Processed, ")
 			    .append(" CASE WHEN COALESCE(COUNT(i.C_Invoice_ID), 0) > 0 THEN 'Y' ELSE 'N' END")
 				.append(" FROM C_Order o ")
