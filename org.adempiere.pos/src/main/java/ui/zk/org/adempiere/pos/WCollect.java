@@ -404,6 +404,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			posPanel.setOrder(0);
 			posPanel.refreshPanel();
 			posPanel.refreshProductInfo(null);
+            posPanel.restoreTable();
 			return;
 		}
 
@@ -411,34 +412,9 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 			hidePanel();
 			posPanel.showKeyboard();
 			posPanel.refreshPanel();
-			if(posPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Drafted) ||
-					posPanel.getM_Order().getDocStatus().equalsIgnoreCase(MOrder.DOCSTATUS_Invalid))
-				//setIsPrePayOrder(false);
-			return;
+            posPanel.restoreTable();
+            return;
 		}
-//		 else if(event.getTarget().equals(fIsCreditOrder)) {	//	For Credit Order Checked
-//				fIsPrePayOrder.setSelected(false);
-//				if(fIsCreditOrder.isSelected()) {				
-//					bPlus.setEnabled(false);  
-//					confirm.getOKButton().setEnabled(true);
-//					removeAllCollectDetail();
-//					setIsCreditOrder(fIsCreditOrder.isSelected());
-//					calculatePanelData();
-//				}
-//				else 
-//					bPlus.setEnabled(true);
-//			} 
-		/*else if(event.getTarget().equals(fIsPrePayOrder)) {	//	For Pre-Payment Order Checked
-//				fIsCreditOrder.setSelected(false);
-				//	Set to Controller
-				//setIsPrePayOrder(fIsPrePayOrder.isSelected());
-				bPlus.setEnabled(true);   
-				return;
-			}
-		else {
-					layout.invalidate();
-			return;
-		}*/
 	}
 	
 	/**
@@ -488,6 +464,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @return boolean
 	 */
 	public boolean showCollect() {
+		showPanel();
 		mainPanel.setWidth("99%");
 		int p_height = SessionManager.getAppDesktop().getClientInfo().desktopHeight;
 		if(p_height < SCREEN_SMALL) {
@@ -708,10 +685,12 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 
 	public void hidePanel()
 	{
-		row.removeChild(getPanel());
-		row.setHeight("50%");
-		row.setSpans("4");
-		//row.appendChild(keyboardPanel);
+		mainPanel.setVisible(false);
+		posPanel.closeCollectPayment();
+	}
+	public void showPanel()
+	{
+		mainPanel.setVisible(true);
 	}
 
 	public Panel getPanel() {

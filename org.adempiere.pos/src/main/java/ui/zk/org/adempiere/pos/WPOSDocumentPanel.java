@@ -483,6 +483,12 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, P
 		return collectPayment.load(posPanel);
 	}
 
+	public void closeCollectPayment(){
+		row.removeChild(collectPayment.getPanel());
+		row.setHeight("50%");
+		row.setSpans("4");
+		row.appendChild(keyboardPanel);
+	}
 	public WPOSScalesPanel getScalesPanel()
 	{
 		return scalesPanel;

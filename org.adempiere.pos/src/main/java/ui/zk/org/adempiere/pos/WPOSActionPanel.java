@@ -95,13 +95,6 @@ public class WPOSActionPanel extends WPOSSubPanel
 	/**	Process Action 						*/
 	private WPOSActionMenu actionProcessMenu;
 
-
-
-
-
-
-
-
 	/**	Logger			*/
 	private static CLogger logger = CLogger.getCLogger(WPOSActionPanel.class);
 
@@ -115,18 +108,14 @@ public class WPOSActionPanel extends WPOSSubPanel
 	private final String ACTION_PAYMENT     = "Payment";
 	private final String ACTION_CANCEL      = "Cancel";
 	private final String ACTION_LOGOUT      = "End";
-
-	/**	Paramenter Panel	*/
-	private Panel 			parameterPanel;
-
 	
 	@Override
 	public void init() {
 
-		parameterPanel = new Panel();
 		Grid LayoutButton = GridFactory.newGridLayout();
-		Rows rows = null;
 		Row row = null;	
+		Rows rows = null;
+			
 		isKeyboard = false;
 		LayoutButton.setStyle("border: none; width:400px; height:100%;");
 		
@@ -135,7 +124,6 @@ public class WPOSActionPanel extends WPOSSubPanel
 		LayoutButton.setStyle("border:none");
 		row = rows.newRow();
 		row.setHeight("55px");
-
 	
 		// NEW
 		buttonNew = createButtonAction(ACTION_NEW, "F2");
@@ -232,6 +220,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 		}
 		enableButton();
 		actionProcessMenu = new WPOSActionMenu(posPanel);
+		
 		//	List Orders
 		posPanel.listOrder();
 		getMainFocus();
@@ -275,7 +264,8 @@ public class WPOSActionPanel extends WPOSSubPanel
             if(e.getName().equals(Events.ON_CHANGE)){
                 if(lookupProduct.getSelectedRecord() >= 0) {
                     posPanel.addOrUpdateLine(lookupProduct.getSelectedRecord(), Env.ONE);
-                    lookupProduct.setText("");
+                    fieldProductName.setValue(String.valueOf(lookupProduct.getSelectedRecord()));
+                    lookupProduct.captureProduct();
                 }
             }
 
@@ -436,12 +426,10 @@ public class WPOSActionPanel extends WPOSSubPanel
 
 	public void getMainFocus() {
 
-				fieldProductName.focus();
-
-
-
-
-
+		if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) 
+			lookupProduct.focus();
+			else
+			fieldProductName.focus();
 	}
 
 	/**************************************************************************
@@ -701,5 +689,13 @@ public class WPOSActionPanel extends WPOSSubPanel
 	@Override
 	public void keyReturned(MPOSKey key) {
 
+	}
+	
+	public void updateProductPlaceholder(String name)
+	{
+		if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) 
+			lookupProduct.setText(name);
+		else
+			fieldProductName.setText(name);
 	}
 }//	WPOSActionPanel
