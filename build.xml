@@ -1,60 +1,216 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="create_run_jar" name="Create Runnable Jar for Project adempierePOS">
-    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
-    <!--ANT 1.7 is required                                        -->
-    <!--define folder properties-->
-    <property name="dir.buildfile" value="."/>
-    <property name="dir.workspace" value="/opt/Development/workspace"/>
-    <property name="dir.jarfile" value="${dir.buildfile}"/>
-    <target name="create_run_jar">
-        <jar destfile="${dir.jarfile}/POSClient.jar" filesetmanifest="mergewithoutmain">
-            <manifest>
-                <attribute name="Main-Class" value="org.adempiere.pos.test.POSClient"/>
-                <attribute name="Class-Path" value="."/>
-            </manifest>
-            <fileset dir="${dir.workspace}/adempierePOS/bin"/>
-            <fileset dir="${dir.workspace}/adempiere_380/bin">
-                <include name="**/MSession.class"/>
-            	 <include name="**/AKeyboardFocusManager.class"/>
-            	<include name="**/CFrame.class"/>
-            	<include name="**/swing/*.class"/>
-            	<include name="**/ALogin*.class"/>
-            	<include name="**/AGlassPane.class"/>
-            	<include name="**/WindowMenu.class"/>
-            	<include name="**/org/compiere/images/*.*"/>
-            	<include name="**/plaf/*.class"/>
-            	<include name="**/ConfirmPanel.class"/>
-            	<include name="**/CPrinter.class"/>
-            	<include name="**/ed/*.class"/>
-            	<include name="**/CImage.class"/>
-            	<include name="**/GridField.class"/>
-            	<include name="**/org/compiere/db/*.*"/>
-            	<include name="**/org/adempiere/as/*.class"/>
-            	<include name="**/CConnection.class"/>
-            	<include name="**/AdempiereException.class"/>
-            	<include name="**/*StatusBar.class"/>
-            	<include name="**/org/compiere/util/*.class"/>
-            	<include name="**/Language.class"/>
-            	<include name="**/dbPort/*.class"/>
-            	<include name="**/dbPort/*.class"/>
-            	<include name="**/DBException.class"/>
-            	<include name="**/MSysConfig.class"/>
-            	<include name="**/Adempiere.class"/>
-            	<include name="**/AFocusTraversalPolicy.class"/>
-            	<include name="**/CDialog*.*"/>
-            	<include name="**/FormFrame*.*"/>
-            	</fileset>
-        	    
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/mail.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/log4j.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/ojdbc6.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/jnlp.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/commons-collections-3.1.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/postgresql.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/c3p0-0.9.1.2.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/looks-2.0.4.jar"/>
-        	
-        	
-        </jar>
-    </target>
+<project name="ADempierePOS" default="compileall" basedir=".">
+    <description>
+        Building ADempierePOS ADempierePOS.jar
+        raulmunozn@gmail.com
+        @raulmunozn
+        @Carlos Parada 
+        @Mario Calderon
+        victor.perez@e-evolution.com
+    </description>
+  <!-- set global properties for this build -->
+  <property file="build.properties"/>
+  <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
+  <property name="dist" value="${basedir}/dist"/>
+  <property name="domain_model_classes" value="${dist}/domain/class"/>
+  <property name="zk_classes" value="${dist}/zk/WEB-INF/classes"/>
+  <property name="swing_classes" value="${dist}/swing/class"/>
+  <property name="zkjar" value="${dist}/zk"/>
+  <property name="domain_model" value="${basedir}/org.adempiere.pos/src/main/java/base"/>
+  <property name="swing_view" value="${basedir}/org.adempiere.pos/src/main/java/ui/swing"/>
+  <property name="zk_view" value="${basedir}/org.adempiere.pos/src/main/java/ui/zk"/>
+  <property name="patches" value="${basedir}/patches"/>
+  
+  <path id="compile.classpath">
+      
+    <!--fileset dir="${project.trunk}/packages/ADempierePOS/lib">
+      <include name="*.jar"/>
+    </fileset-->
+    
+    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+   
+    <fileset dir="${adempiere.trunk}/lib">
+      <include name="*.jar"/>
+    </fileset>
+    
+    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+      <include name="*.jar"/>
+    </fileset>
+    
+    <fileset dir="${adempiere.trunk}/zkwebui/dist">
+      <include name="*.war"/>
+    </fileset>
+  </path>
+
+
+  <path id="compile.domain.classpath">
+    <pathelement location="${domain_model_classes}"/>
+  </path>
+
+  <path id="compilezk.classpath">
+	
+	
+    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+    
+    <fileset dir="${project.trunk}/packages/ADempierePOS/lib">
+      <include name="*.jar"/>
+    </fileset>
+    
+    <fileset dir="${adempiere.trunk}/lib">
+      <include name="*.jar"/>
+    </fileset>
+    
+    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+      <include name="*.jar"/>
+    </fileset>
+
+    <fileset dir="${adempiere.trunk}/zkwebui/dist">
+      <include name="*.war"/>
+    </fileset>
+      	
+  </path>
+	
+  	
+	
+  <!-- Compile ZK Directory --> 
+  <target name="compileZkView" depends="init_zk, compileDomainModel"
+        description="compile the source zk" >
+    <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+    
+    <echo message="Compile ZK Classes "/>
+    <javac srcdir="${zk_view}" destdir="${zk_classes}" includeantruntime="false" >
+      <classpath refid="compile.domain.classpath"/>
+      <classpath refid="compilezk.classpath"/>
+    </javac>
+    
+    <echo message="Create jar file "/>
+    <jar jarfile="${project.trunk}/zkpackages/${project.name}/lib/${project.name}zk.jar" basedir="${zkjar}"/>
+  </target>
+
+
+  <!-- Compile Class Directory -->
+  <target name="compileDomainModel" depends="init_class"
+          description="compile the source " >
+    <echo message="Compile Domain Classes "/>
+    <javac srcdir="${domain_model}" destdir="${domain_model_classes}" includeantruntime="false" >
+      <classpath refid="compile.classpath"/>
+    </javac>
+    <echo message="Create jar file "/>
+    <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${domain_model_classes}"/>
+  </target>
+
+  
+  <!-- Compile Class Directory --> 	
+  <target name="compileSwingView" depends="init_class , compileDomainModel"
+        description="compile the source " >
+    <echo message="Compile Swing Classes "/>
+    <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+    <javac srcdir="${domain_model}:${swing_view}" destdir="${swing_classes}" includeantruntime="false" >
+      <classpath refid="compile.domain.classpath"/>
+      <classpath refid="compile.classpath"/>
+    </javac>
+    <echo message="Create jar file "/>
+    <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${swing_classes}"/>
+  </target>
+    
+	
+  <!-- Compile All Class Directory --> 
+  <target name="compileall" depends="compileSwingView,compileZkView" >
+    <echo message="Compile All Project"/>
+  	<echo message="Compile All Project"/>
+  </target>
+	
+  <!-- Remove All Class Directory --> 
+  <target name="clean" depends="clean_class,clean_zk"
+        description="clean up" >
+  	<echo message="Remove Classes Directory"/>
+    <delete dir="${domain_model_classes}"/>
+  </target>
+	
+  <!-- Remove Class Directory -->
+  <target name="clean_class" description="clean up class" >
+	<echo message="Remove Class Directory"/>
+  	<delete dir="${swing_classes}"/>
+  </target>
+	
+  <!-- Remove Class ZK Directory -->
+  <target name="clean_zk" description="clean up class" >
+	<echo message="Remove Class ZK Directory"/>
+    <delete dir="${zk_classes}"/>
+  	<delete dir="${zkjar}"/>
+  </target>
+	
+  <!-- Create Class Directory -->
+  <target name="init_class" depends="clean_class" description="clean up class" >
+	<echo message="Create Class Directory"/>
+  	<!-- Create the classes directory structure used by compile -->
+	<mkdir dir="${dist}"/>
+    <mkdir dir="${domain_model_classes}"/>
+	<mkdir dir="${swing_classes}"/>
+  </target>
+	
+  <!-- Create ZK Directory -->
+  <target name="init_zk" depends="clean_zk" description="clean up class" >
+	<echo message="Create Class ZK Directory"/>
+  	<!-- Create the classes directory structure used by compile -->
+	<mkdir dir="${dist}"/>
+	<mkdir dir="${zkjar}"/>
+  	<mkdir dir="${zkjar}/WEB-INF"/>
+  	<mkdir dir="${zk_classes}"/>
+  </target>	
+  
+  <!-- Create Class And ZK Directory -->
+  <target name="init" depends="clean,init_class,init_zk">
+	<echo message="Initialize Folders "/>
+  </target>
+  
+
+    <!-- Copy necessary files to Adempiere trunk BEFORE build of Adempiere -->
+	<target name="package_dist(BEFORE Adempiere build)" depends="" description="Copies file(s) to Adempiere trunk BEFORE build of Adempiere">
+		<echo message="=============== Deploy files BEGIN"/>
+  		<delete file="${adempiere.trunk}/zkwebui/js/text_action.js"/>
+		<copy todir="${adempiere.trunk}/zkwebui/js">
+			<fileset dir="/org.adempiere.pos/src/main/js" includes="text_action.js"/>
+		</copy>
+		
+  		<delete file="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk/lang-addon.xml"/>
+		<copy todir="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk">
+			<fileset dir="${zk_view}" includes="lang-addon.xml"/>
+		</copy>
+		
+		<echo message="=========== Deploy files END"/>
+	</target>  
+	
+   
+    <!-- Deploys WebUI package, model package and webui.jar to Adempiere installation  AFTER build of ADempierePOS -->
+	<target name="package_dist(AFTER Adempiere build)" depends="" description="Deploy files to Adempiere installation AFTER build of Adempiere">
+		<echo message="=========== Copying WebUI package to Adempiere installation-START"/>
+		<echo message="=============== Delete ${adempiere.installation}/zkpackages/${project.name}"/>
+  		<delete dir="${adempiere.installation}/zkpackages/${project.name}"/>
+		<echo message="=============== Create ${adempiere.installation}/zkpackages/${project.name}"/>
+		<mkdir dir="${adempiere.installation}/zkpackages/${project.name}"/>
+		<echo message="=============== Create ${adempiere.installation}/zkpackages/${project.name}/lib"/>
+		<mkdir dir="${adempiere.installation}/zkpackages/${project.name}/lib"/>
+		<copy todir="${adempiere.installation}/zkpackages/${project.name}/lib">
+			<fileset dir="${basedir}/zkpackages/${project.name}/lib" includes="*.jar"/>
+		</copy>	
+				
+		<echo message="=============== Delete ${adempiere.installation}/packages/${project.name}"/>
+  		<delete dir="${adempiere.installation}/packages/${project.name}"/>
+		<echo message="=============== Create ${adempiere.installation}/packages/${project.name}"/>
+		<mkdir dir="${adempiere.installation}/packages/${project.name}"/>
+		<echo message="=============== Create ${adempiere.installation}/packages/${project.name}/lib"/>
+		<mkdir dir="${adempiere.installation}/packages/${project.name}/lib"/>
+		<copy todir="${adempiere.installation}/packages/${project.name}/lib">
+			<fileset dir="${basedir}/packages/${project.name}/lib" includes="*.jar"/>
+		</copy>		
+
+		<echo message="=============== Deploy webuiOriginal.war BEGIN"/>
+  		<delete file="${adempiere.installation}/lib/webuiOriginal.war"/>
+		<copy tofile="${adempiere.installation}/lib/webuiOriginal.war">
+			<fileset dir="${adempiere.trunk}/lib" includes="webui.war"/>
+		</copy>
+		<echo message="=========== Deploy webui.war END"/>
+				
+		<echo message="=========== Copying WebUI package to Adempiere installation-END"/>
+	</target>
 </project>
