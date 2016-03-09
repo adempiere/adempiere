@@ -74,9 +74,9 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 
 		posTable.setColumnClass(4, BigDecimal.class, true);
 		appendChild(posTable);
-		posTable.setWidth("100%");
-		posTable.setHeight("100%");		
-
+		posTable.repaint();
+		posTable.setWidth("99%");
+		posTable.setHeight("47%");
 		posTable.addActionListener(this);
 		posTable.addEventListener(Events.ON_CLICK, this);
 		posTable.getModel().addTableModelListener(this);

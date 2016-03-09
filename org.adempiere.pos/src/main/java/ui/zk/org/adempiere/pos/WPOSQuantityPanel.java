@@ -17,7 +17,6 @@
 
 package org.adempiere.pos;
 
-import java.awt.*;
 import java.math.BigDecimal;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -26,6 +25,7 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.window.FDialog;
@@ -35,10 +35,7 @@ import org.compiere.util.Msg;
 import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zk.ui.event.KeyEvent;
-
-import javax.swing.*;
 
 
 /**
@@ -75,21 +72,23 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 	private final String ACTION_DOWN  		= "Next";
 	private final BigDecimal CurrentQuantity =  Env.ONE;
 
+	private Panel 		parameterPanel;
 	@Override
 	protected void init() {
 
 		Grid LayoutButton = GridFactory.newGridLayout();
+
 		Rows rows = null;
 		Row row = null;	
 
-		appendChild(LayoutButton);
+		parameterPanel = new Panel();
+		parameterPanel.appendChild(LayoutButton);
 		LayoutButton.setWidth("100%");
 		LayoutButton.setHeight("100%");
+
 		rows = LayoutButton.newRows();
-		LayoutButton.setStyle("border:none");
 		row = rows.newRow();
 		row.setHeight("55px");
-    	
 		buttonDelete = createButtonAction("Cancel", "Ctrl+F3");
 		buttonDelete.setTooltiptext("Ctrl+F3-"+Msg.translate(ctx, "DeleteLine"));
 		buttonDelete.addActionListener(this);
@@ -125,8 +124,8 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		row.appendChild(fieldQuantity);
 		fieldQuantity.addEventListener(Events.ON_OK, this);
 		fieldQuantity.addEventListener(Events.ON_CHANGE, this);
-		fieldQuantity.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
-		
+		fieldQuantity.setStyle("display: inline;width:90px;height:30px;Font-size:medium;");
+
 		Label priceLabel = new Label(Msg.translate(Env.getCtx(), "PriceActual"));
 		row.appendChild(priceLabel);
 		
@@ -137,11 +136,11 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 			fieldPrice.setEnabled(false);
 		else
 			fieldPrice.addEventListener(Events.ON_CHANGING,this);
-		fieldPrice.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
+		fieldPrice.setStyle("display: inline;width:90px;height:30px;Font-size:medium;");
 		
 		Label priceDiscount = new Label(Msg.translate(Env.getCtx(), "Discount"));
 		row.appendChild(priceDiscount);
-		
+
 		fieldDiscountPercentage = new POSNumberBox(false);
 		row.appendChild(fieldDiscountPercentage);
 		fieldDiscountPercentage.setTooltiptext(Msg.translate(Env.getCtx(), "Discount"));
@@ -150,7 +149,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		else
 			fieldDiscountPercentage.addEventListener(Events.ON_CHANGING, this);
 
-		fieldDiscountPercentage.setStyle("display: inline;width:100px;height:30px;Font-size:medium;");
+		fieldDiscountPercentage.setStyle("display: inline;width:90px;height:30px;Font-size:medium;");
 		
 		Keylistener keyListener = new Keylistener();
 		fieldPrice.appendChild(keyListener);
@@ -370,4 +369,13 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 	public void requestFocus() {
 		fieldQuantity.focus();
 	}
+
+	/**
+	 * Get Panel 
+	 * @return Panel
+	 */
+	public Panel getPanel(){
+		return parameterPanel;
+	}
+
 }
