@@ -87,7 +87,6 @@ public class Collect {
 			this.bankAccountId = entityPOS.getC_BankAccount_ID();
 			this.dateTrx = order.getDateOrdered();
 			this.trxName = order.get_TrxName();
-			this.isPrePayOrder = null;
 		}
 	}
 
@@ -107,8 +106,6 @@ public class Collect {
 	private List<CollectDetail> collectDetails;
 	/**	Credit Order			*/
 	private boolean 			isCreditOrder = false;
-	/**	Pre-Payment Order		*/
-	private Boolean 			isPrePayOrder = null;
 	/**	Payment Term			*/
 	private int 				paymentTermId = 0;
 	/**	Error Message			*/
@@ -591,7 +588,7 @@ public class Collect {
 			addErrorMsg("@POS.validatePayment.NoOpenAmt@");
 		}
 		//	For Prepay order
-		if(isPrePayOrder()) {
+		if(isAllowsPartialPayment()) {
 			return null;
 		} else if(!isCreditOrder()
 				&& openAmt.subtract(getCollectDetailAmt()).doubleValue() > 0) {
@@ -711,7 +708,7 @@ public class Collect {
 					return;
 				}
 			} else if(collectDetail.getTenderType().equals(X_C_Payment.TENDERTYPE_CreditMemo)) {
-				if(isPrePayOrder()) {
+				if(isAllowsPartialPayment()) {
 					addErrorMsg("@POS.PrePayment.NoCreditMemoAllowed@");
 					return;
 				}
@@ -921,18 +918,17 @@ public class Collect {
 	}
 	
 	/**
-	 * Is Pre-Payment Order
-	 * @return
-	 * @return boolean
+	 * isAllowsPartialPayment
+	 * @return boolean when is Allows Partial Payment
 	 */
-	public boolean isPrePayOrder() {
-		if (isPrePayOrder != null)
-			return isPrePayOrder;
-		else if (isPrePayOrder == null && order != null)
-			isPrePayOrder = MOrder.DocSubTypeSO_Prepay.equals(order.getC_DocTypeTarget().getDocSubTypeSO());
-		else
-			isPrePayOrder = false;
-		return isPrePayOrder;
+	public boolean isAllowsPartialPayment() {
+		if (order != null) {
+			if (MOrder.DocSubTypeSO_POS.equals(order.getC_DocTypeTarget().getDocSubTypeSO())
+					&& MOrder.DOCSTATUS_Completed.equals(order.getDocStatus()))
+				return true;
+		}
+
+		return false;
 	}
 	
 	/**

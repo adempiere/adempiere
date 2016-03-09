@@ -409,7 +409,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		try {
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if(posPanel.processOrder(trxName, isPrePayOrder(), getBalance(posPanel.getOpenAmt()).doubleValue() <= 0)) {
+					if(posPanel.processOrder(trxName, isAllowsPartialPayment(), getBalance(posPanel.getOpenAmt()).doubleValue() <= 0)) {
 						processTenderTypes(trxName, posPanel.getOpenAmt());
 						String error = getErrorMsg();
 						if(error != null && error.length() > 0)
@@ -470,7 +470,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		//	Change View
 		//fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(posPanel.getGrandTotal()));
 		fPayAmt.setText(currencyISO_Code +" "+ posPanel.getNumberFormat().format(collectDetail));
-		if(isPrePayOrder()) {
+		if(isAllowsPartialPayment()) {
 			fsPaidAmtLabel.setVisible(true);
 			fPaidAmt.setVisible(true);
 			fPaidAmt.setText(currencyISO_Code + " "
@@ -543,11 +543,11 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		setIsCreditOrder(isCreditOrder() 
 				|| (isCreditOpen && !isStandardOrder));
 		//	
-		//setIsPrePayOrder(isPrePayOrder()
+		//setIsPrePayOrder(isAllowsPartialPayment()
 		//		|| (isCreditOpen && isStandardOrder));
 		//	Set Credit and Pre-Pay Order
 //		fIsCreditOrder.setSelected(isCreditOrder());
-		//fIsPrePayOrder.setSelected(isPrePayOrder());
+		//fIsPrePayOrder.setSelected(isAllowsPartialPayment());
 //			fPaymentTerm.setVisible(isCreditOrder());
 		//	Verify complete order
 		if(posPanel.isCompleted()) {
