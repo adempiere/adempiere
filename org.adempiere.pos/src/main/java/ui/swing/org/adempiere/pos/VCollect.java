@@ -44,10 +44,8 @@ import org.adempiere.pos.service.POSPanelInterface;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
-import org.compiere.model.MOrder;
 import org.compiere.model.X_C_Payment;
 import org.compiere.swing.CButton;
-import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
@@ -298,7 +296,7 @@ public class VCollect extends Collect
 			dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
-					if(pos.processOrder(trxName, isPrePayOrder(), getBalance(pos.getOpenAmt()).signum() <= 0)) {
+					if(pos.processOrder(trxName, isAllowsPartialPayment(), getBalance(pos.getOpenAmt()).signum() <= 0)) {
 						processTenderTypes(trxName, pos.getOpenAmt());
 						String error = getErrorMsg();
 						if(error != null && error.length() > 0)
@@ -483,7 +481,7 @@ public class VCollect extends Collect
 		String currencyISOCode = pos.getCurSymbol();
 		//fieldGrandTotal.setText(currencyISOCode + " "
 		//		+ pos.getNumberFormat().format(pos.getGrandTotal()));
-		if(isPrePayOrder()) {
+		if(isAllowsPartialPayment()) {
 			labelPaidAmt.setVisible(true);
 			fieldPaidAmt.setVisible(true);
 			fieldPaidAmt.setText(currencyISOCode + " "
