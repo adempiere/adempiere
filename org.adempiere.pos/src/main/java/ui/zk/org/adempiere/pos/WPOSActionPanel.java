@@ -75,7 +75,9 @@ public class WPOSActionPanel extends WPOSSubPanel
 
 	/**	Buttons Command		*/
 	private Button 			buttonNew;
+	private Button 			buttonPrint;
 	private Button 			buttonDocType;
+	private Button 			buttonProduct;
 	private Button 			buttonBPartner;
 	private Button 			buttonProcess;
 	private Button 			buttonHistory;
@@ -99,7 +101,9 @@ public class WPOSActionPanel extends WPOSSubPanel
 	private static CLogger logger = CLogger.getCLogger(WPOSActionPanel.class);
 
 	private final String ACTION_NEW         = "New";
+	private final String ACTION_PRINT       = "Print";
 	private final String ACTION_DOCTYPE     = "Assignment";
+	private final String ACTION_PRODUCT     = "InfoProduct";
 	private final String ACTION_BPARTNER    = "BPartner";
 	private final String ACTION_PROCESS     = "Process";
 	private final String ACTION_HISTORY     = "History";
@@ -130,12 +134,22 @@ public class WPOSActionPanel extends WPOSSubPanel
 		buttonNew.addActionListener(this);
 		row.appendChild(buttonNew);
 
+		// PRINT
+		buttonPrint = createButtonAction(ACTION_PRINT, "F12");
+		buttonPrint.addActionListener(this);
+		row.appendChild(buttonPrint);
+
 		// DocType 
 		buttonDocType = createButtonAction(ACTION_DOCTYPE, "F10");
 		buttonDocType.addActionListener(this);
 		buttonDocType.setTooltiptext("F10-"+Msg.translate(ctx, "C_DocType_ID"));
 		
 		row.appendChild(buttonDocType);
+		// PRODUCT
+		buttonProduct = createButtonAction(ACTION_PRODUCT, "Alt+I");
+		buttonProduct.addActionListener(this);
+		buttonProduct.setTooltiptext("Alt+I-"+Msg.translate(ctx, "InfoProduct"));
+		row.appendChild(buttonProduct);
 		// BPartner Search
 		buttonBPartner = createButtonAction(ACTION_BPARTNER, "Alt+B");
 		buttonBPartner.addActionListener(this);
@@ -339,11 +353,20 @@ public class WPOSActionPanel extends WPOSSubPanel
             if (e.getTarget().equals(buttonNew)){
                 posPanel.newOrder();
             }
+			if (e.getTarget().equals(buttonPrint)){
+				posPanel.printTicket();
+			}
             else if (e.getTarget().equals(buttonDocType)){
                 if(posPanel.isUserPinValid()) {
                     openDocType();
                 }
             }
+			else if (e.getTarget().equals(buttonProduct)) {
+				showWindowProduct("");
+			}
+			else if (e.getTarget().equals(buttonBPartner)) {
+				openBPartner();
+			}
             else if(e.getTarget().equals(buttonCollect)){
                 payOrder();
                 return;
@@ -364,9 +387,6 @@ public class WPOSActionPanel extends WPOSSubPanel
             else if(e.getTarget().equals(buttonLogout)){
                 dispose();
                 return;
-            }
-            else if (e.getTarget().equals(buttonBPartner)) {
-                openBPartner();
             }
             // Cancel
             else if (e.getTarget().equals(buttonCancel)){
