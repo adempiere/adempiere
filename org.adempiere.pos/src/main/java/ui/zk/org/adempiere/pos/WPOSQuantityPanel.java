@@ -81,6 +81,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		Rows rows = null;
 		Row row = null;	
 
+		parameterPanel = new Panel();
 		parameterPanel.appendChild(LayoutButton);
 		LayoutButton.setWidth("100%");
 		LayoutButton.setHeight("100%");
