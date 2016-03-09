@@ -3,7 +3,8 @@
 	<classpathentry kind="src" path="org.adempiere.pos/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.adempiere.pos/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.adempiere.pos/src/main/java/base"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Get-Weight"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/adempiere_380"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk8_32"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -57,8 +57,8 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
-import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
+import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Timer;
 
@@ -207,10 +207,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		quantityPanel = new WPOSQuantityPanel(this);
 		East east = new East();
 		Center center = new Center();
-		North actionPanel = new North();
-		North qtyPanel = new North();
+		West westPanel = new West();
 		South southPanel = new South();
-		Center table = new Center();
 		Borderlayout fullPanel = new Borderlayout();
 		Borderlayout mediumPanel = new Borderlayout();
 		statusBar.appendChild(userPinTimer);
@@ -218,32 +216,29 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		center.setStyle("border: none; width:40%");
 		center.appendChild(fullPanel);
 		mainLayout.appendChild(center);
-		center.setStyle("border: none; height:100%");
+		center.setStyle("border: none; height:auto%;");
 		fullPanel.setWidth("100%");
-		fullPanel.setHeight("100%");
-		
-		table.appendChild(orderLinePanel);
-		actionPanel.appendChild(this.actionPanel);
+		fullPanel.setHeight("auto");
+		fullPanel.setStyle("overflow:hidden;height:auto;");
+
+		westPanel.appendChild(this.actionPanel);
 		east.appendChild(documentPanel);
 		this.actionPanel.appendChild(infoProductPanel.getPanel());
+		if(IsShowLineControl())
+			this.actionPanel.appendChild(quantityPanel.getPanel());
+		this.actionPanel.appendChild(orderLinePanel);
+		
 		east.setSplittable(true);
 		east.setStyle("border: none; min-width:44%; width:44%");
 
-		qtyPanel.appendChild(quantityPanel);
-		
-		fullPanel.appendChild(actionPanel);
+		fullPanel.appendChild(westPanel);
 
 		Center centerPanel = new Center();
 		fullPanel.appendChild(centerPanel);
 		centerPanel.appendChild(mediumPanel);
-		if(IsShowLineControl())
-			mediumPanel.appendChild(qtyPanel);
-		
-		mediumPanel.appendChild(table);
+
 		//	FR [ 44 ] Change Button location
-		actionPanel.setStyle("border: none; width:42%; height:auto;position:relative;float:left;overflow:hidden;");
-		qtyPanel.setStyle("border: none; width:60%; height:auto;");
-		table.setStyle("border: none; width:30%; height:auto;");
+		westPanel.setStyle("display:inline-block;border: none; width:100%; height:auto;float:left;overflow:hidden;");
 		
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");

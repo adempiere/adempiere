@@ -89,7 +89,7 @@ public class POSNumberBox extends Div
 	/** Default Font Height 				*/
 	private final String 	HEIGHT 		= "height:30px;";
 	/** Default Font Width					*/
-	private final String 	WIDTH 		= "width:139px;";
+	private final String 	WIDTH 		= "width:auto;";
     
     private void init()
     {
@@ -110,10 +110,10 @@ public class POSNumberBox extends Div
 		decimalBox = new Decimalbox();
     	if (integral) {
     		decimalBox.setScale(0);
-        	decimalBox.setStyle("display: inline;width:120px;"+HEIGHT+FONT_SIZE);
+        	decimalBox.setStyle("display: inline;width:85x;"+HEIGHT+FONT_SIZE);
     	}
     	else
-        	decimalBox.setStyle("display: inline;text-align:right;width:115px;"+HEIGHT+FONT_SIZE);
+        	decimalBox.setStyle("display: inline;text-align:right;width:80px;"+HEIGHT+FONT_SIZE);
     	
 		td.appendChild(decimalBox);
 		

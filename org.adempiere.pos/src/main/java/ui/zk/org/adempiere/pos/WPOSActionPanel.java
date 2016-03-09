@@ -17,6 +17,11 @@
 
 package org.adempiere.pos;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import java.util.Vector;
+
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.search.WQueryDocType;
@@ -28,7 +33,6 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
-import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.panel.InfoProductPanel;
@@ -43,12 +47,6 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zul.Timer;
-import org.zkoss.zul.Space;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-import java.util.Vector;
 
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
@@ -117,7 +115,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 		Rows rows = null;
 			
 		isKeyboard = false;
-		LayoutButton.setStyle("border: none; width:400px; height:100%;");
+		LayoutButton.setStyle("border: none; width:400px; height:95%;");
 		
 		appendChild(LayoutButton);
 		rows = LayoutButton.newRows();
@@ -178,7 +176,6 @@ public class WPOSActionPanel extends WPOSSubPanel
 		buttonLogout.addActionListener(this);
 		buttonLogout.setTooltiptext("Alt+L-"+Msg.translate(ctx, "End"));
 		row.appendChild (buttonLogout);
-		row.appendChild(new Space());
 		row.setHeight("55px");
 
 		fieldProductName = new WPOSTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), posPanel.getKeyboard());
@@ -216,7 +213,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 		} else {
 			row.appendChild(fieldProductName);
 			fieldProductName.appendChild(keyListener);
-			fieldProductName.setWidth("98%");
+			fieldProductName.setWidth("100%");
 		}
 		enableButton();
 		actionProcessMenu = new WPOSActionMenu(posPanel);
