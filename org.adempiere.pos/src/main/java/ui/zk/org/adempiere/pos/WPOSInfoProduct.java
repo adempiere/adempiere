@@ -109,7 +109,7 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		buttonPanel.setStyle("border: none; width:99%;moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
 		labelLayout.setStyle("border: none; width:100%;moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
 		infoProductLayout.setStyle("border: none; width:100%; moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;");
-		
+		parameterPanel.setStyle("border: none; width:99%;");
 		Rows rows = null;
 		Row  row = null;
 		rows = infoProductLayout.newRows();
