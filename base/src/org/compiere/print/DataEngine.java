@@ -62,6 +62,9 @@ import org.compiere.util.ValueNamePair;
  * @author Paul Bowden (phib)
  * 				<li> BF 2908435 Virtual columns with lookup reference types can't be printed
  *                   https://sourceforge.net/tracker/?func=detail&aid=2908435&group_id=176962&atid=879332
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
+ * 			@see https://github.com/adempiere/adempiere/issues/236
  */
 public class DataEngine
 {
@@ -141,7 +144,9 @@ public class DataEngine
 			throw new IllegalStateException ("No print format");
 		String tableName = null;
 		String reportName = format.getName();
-		//
+		//	Yamel Senih BR [ 236 ] Clear Query before add new restrictions
+		query.clear();
+		//	End Yamel Senih
 		if (format.getAD_ReportView_ID() != 0)
 		{
 			String sql = "SELECT t.AD_Table_ID, t.TableName, rv.Name, rv.WhereClause "

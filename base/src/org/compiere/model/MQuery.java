@@ -46,6 +46,9 @@ import org.compiere.util.ValueNamePair;
  * @author  Tony Snook tspc@users.sourceforge.net
  * 		<li>BF [2945715] Improve Advanced Search
  * 			https://sourceforge.net/tracker/index.php?func=detail&aid=2945715&group_id=176962&atid=879335
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
+ * 			@see https://github.com/adempiere/adempiere/issues/236
  */
 public class MQuery implements Serializable
 {
@@ -230,6 +233,21 @@ public class MQuery implements Serializable
 		return query;
 	}	//	get
 	
+	
+	/**
+	 * Clear all where clause added after instance
+	 * BR [ 236 ]
+	 */
+	public void clear() {
+		if(getAD_PInstance_ID() != 0) {
+			for (int i = 0; i < m_list.size(); i++) {
+				Restriction restriction = m_list.get(i);
+				if(restriction.DirectWhereClause != null) {
+					m_list.remove(i);
+				}
+			}
+		}
+	}
 	
 	/**
 	 * 	Get Zoom Column Name.
