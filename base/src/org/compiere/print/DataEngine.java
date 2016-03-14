@@ -65,6 +65,8 @@ import org.compiere.util.ValueNamePair;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
  * 			@see https://github.com/adempiere/adempiere/issues/236
+ * 		<li>BR [ 237 ] Same Print format but distinct report view
+ * 			@see https://github.com/adempiere/adempiere/issues/237
  */
 public class DataEngine
 {
@@ -122,7 +124,7 @@ public class DataEngine
 	 */
 	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query)
 	{
-		return getPrintData(ctx, format, query, false);
+		return getPrintData(ctx, format, query, false, 0);
 	}
 	
 	/**************************************************************************
@@ -132,9 +134,10 @@ public class DataEngine
 	 * 	@param query query
 	 * 	@param ctx context
 	 *  @param summary
+	 *  @param p_AD_ReportView_ID
 	 * 	@return PrintData or null
 	 */
-	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query, boolean summary)
+	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query, boolean summary, int p_AD_ReportView_ID)
 	{
 
 		/** Report Summary FR [ 2011569 ]**/ 
@@ -147,7 +150,12 @@ public class DataEngine
 		//	Yamel Senih BR [ 236 ] Clear Query before add new restrictions
 		query.clear();
 		//	End Yamel Senih
-		if (format.getAD_ReportView_ID() != 0)
+		//	FR [ 237 ]
+		if(p_AD_ReportView_ID == 0) {
+			p_AD_ReportView_ID = format.getAD_ReportView_ID();
+		}
+		//	
+		if (p_AD_ReportView_ID != 0)
 		{
 			String sql = "SELECT t.AD_Table_ID, t.TableName, rv.Name, rv.WhereClause "
 				+ "FROM AD_Table t"
@@ -158,7 +166,7 @@ public class DataEngine
 			try
 			{				
 				pstmt = DB.prepareStatement(sql, m_trxName);
-				pstmt.setInt(1, format.getAD_ReportView_ID());
+				pstmt.setInt(1, p_AD_ReportView_ID);
 				rs = pstmt.executeQuery();
 				if (rs.next())
 				{

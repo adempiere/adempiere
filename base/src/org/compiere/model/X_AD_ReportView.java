@@ -30,7 +30,7 @@ public class X_AD_ReportView extends PO implements I_AD_ReportView, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20160314L;
 
     /** Standard Constructor */
     public X_AD_ReportView (Properties ctx, int AD_ReportView_ID, String trxName)
@@ -202,6 +202,23 @@ public class X_AD_ReportView extends PO implements I_AD_ReportView, I_Persistent
 	public String getOrderByClause () 
 	{
 		return (String)get_Value(COLUMNNAME_OrderByClause);
+	}
+
+	/** Set Print Text.
+		@param PrintName 
+		The label text to be printed on a document or correspondence.
+	  */
+	public void setPrintName (String PrintName)
+	{
+		set_Value (COLUMNNAME_PrintName, PrintName);
+	}
+
+	/** Get Print Text.
+		@return The label text to be printed on a document or correspondence.
+	  */
+	public String getPrintName () 
+	{
+		return (String)get_Value(COLUMNNAME_PrintName);
 	}
 
 	/** Set Sql WHERE.

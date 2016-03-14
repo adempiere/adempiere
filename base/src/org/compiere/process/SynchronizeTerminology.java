@@ -29,6 +29,9 @@ import org.compiere.util.Trx;
  *	Synchronize Column with Database
  *	
  *  @author Marek Mosiewicz http://www.jotel.com.pl
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 237 ] Same Print format but distinct report view
+ * 			@see https://github.com/adempiere/adempiere/issues/237
  */
 public class SynchronizeTerminology extends SvrProcess
 {
@@ -863,6 +866,35 @@ public class SynchronizeTerminology extends SvrProcess
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  trl rows updated: "+no);
 			trx.commit(true);
+			
+			//	FR [ 237 ]
+			//	Add support to report view translation
+			log.info("Synchronizing Report View with Table");
+			sql=" UPDATE AD_ReportView_Trl rvt "
+					+"SET Name = (SELECT tt.Name "
+					+"				FROM AD_Table_Trl tt "
+					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID) "
+					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID "
+					+"				AND tt.AD_Language = rvt.AD_Language"
+					+"), "
+					+"PrintName = (SELECT COALESCE(et.PrintName, tt.Name) "
+					+"				FROM AD_Table t"
+					+"				INNER JOIN AD_Table_Trl tt ON(tt.AD_Table_ID = t.AD_Table_ID)"
+					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID)"
+					+"				LEFT JOIN AD_Element e ON(SUBSTR(t.TableName, 1, LENGTH(t.TableName) - 4) || '_ID' = e.ColumnName)"
+					+"				LEFT JOIN AD_Element_Trl et ON(et.AD_Element_ID = e.AD_Element_ID AND et.AD_Language = rvt.AD_Language)"
+					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID"
+					+"				AND tt.AD_Language = rvt.AD_Language"
+					+")"
+					+"WHERE EXISTS (SELECT 1 "
+					+" 				FROM AD_Table_Trl tt "
+					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID) "
+					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID AND tt.AD_Language = rvt.AD_Language "
+					+" 				AND tt.Name<>rvt.Name"
+					+"				AND rv.IsCentrallyMaintained = 'Y') ";
+				no = DB.executeUpdate(sql, false, get_TrxName());	  	
+				log.info("  trl rows updated: "+no);
+				trx.commit(true);
 			
 		} catch (Exception e) {
 			log.log (Level.SEVERE, "@Failed@: "+e.getLocalizedMessage(), e);
