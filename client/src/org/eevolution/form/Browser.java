@@ -17,20 +17,6 @@
  *****************************************************************************/
 package org.eevolution.form;
 
-import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.exceptions.DBException;
-import org.adempiere.impexp.ArrayExcelExporter;
-import org.adempiere.model.I_AD_View_Column;
-import org.adempiere.model.MBrowse;
-import org.adempiere.model.MBrowseField;
-import org.adempiere.model.MView;
-import org.adempiere.model.MViewColumn;
-import org.adempiere.model.MViewDefinition;
-import org.compiere.apps.search.Info_Column;
-import org.compiere.minigrid.IDColumn;
-import org.compiere.model.*;
-import org.compiere.process.ProcessInfo;
-
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -44,11 +30,32 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Level;
+
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
+import org.adempiere.impexp.ArrayExcelExporter;
+import org.adempiere.model.I_AD_View_Column;
+import org.adempiere.model.MBrowse;
+import org.adempiere.model.MBrowseField;
+import org.adempiere.model.MView;
+import org.adempiere.model.MViewColumn;
+import org.adempiere.model.MViewDefinition;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.model.GridFieldVO;
+import org.compiere.model.I_AD_Column;
+import org.compiere.model.MColumn;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MProcess;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.Query;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 
@@ -56,6 +63,9 @@ import org.compiere.util.Msg;
  * Abstract Smart Browser <li>FR [ 3426137 ] Smart Browser
  * https://sourceforge.net
  * /tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
+ * 		@see https://github.com/adempiere/adempiere/issues/242
  * 
  */
 public abstract class Browser {
@@ -181,6 +191,8 @@ public abstract class Browser {
 	private Language m_language = null;
 	/** Export rows **/
 	protected ArrayList<ArrayList<Object>> m_rows = new ArrayList<ArrayList<Object>>();
+	//	BR [ 242 ]
+	private int parentWindowNo;
 	
 	protected boolean isCollapsibleByDefault = true;
 	protected boolean isSelectedByDefault = false;
@@ -207,6 +219,8 @@ public abstract class Browser {
 		isShowTotal = browse.isShowTotal();
 		
 		AD_Window_ID = browse.getAD_Window_ID();
+		//	
+		parentWindowNo = WindowNo;
 		
 		log.info(m_Browse.getName() + " - " + keyColumn + " - " + p_whereClause);
 	}
@@ -221,11 +235,12 @@ public abstract class Browser {
 			   whereClause = whereClause + browse.getWhereClause();
 		else
 				whereClause = " 1=1 ";
-		if (whereClause == null || whereClause.indexOf('@') == -1)
+		if (whereClause.indexOf('@') == -1)
 			p_whereClause = whereClause;
 		else {
-			p_whereClause = Env.parseContext(Env.getCtx(), getWindowNo(),
-					whereClause, true, true);
+			//	BR [ 242 ]
+			p_whereClause = Env.parseContext(Env.getCtx(), getParentWindowNo(),
+					whereClause, false, false);
 			if (p_whereClause.length() == 0)
 				log.log(Level.SEVERE, "Cannot parse context= " + whereClause);
 		}
@@ -469,9 +484,9 @@ public abstract class Browser {
 				MColumn parentColumn = getParentColumn(parentTable.getAD_Table_ID());
 				if (parentColumn == null)
 					throw new AdempiereException("@NotFound@ @IsParent@");
-
+				//	BR [ 242 ]
 				if(field.getAD_Val_Rule_ID() > 0)
-					whereClause = Env.parseContext(Env.getCtx(), getWindowNo() , field.getAD_Val_Rule().getCode(), false);
+					whereClause = Env.parseContext(Env.getCtx(), getParentWindowNo() , field.getAD_Val_Rule().getCode(), false);
 
 			}
 
@@ -1000,5 +1015,14 @@ public abstract class Browser {
 	public int getWindowNo()
 	{
 		return windowNo;
+	}
+	
+	/**
+	 * BR [242 ]
+	 * Get Window Number from parent window
+	 * @return
+	 */
+	public int getParentWindowNo() {
+		return parentWindowNo;
 	}
 }
