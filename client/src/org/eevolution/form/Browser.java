@@ -41,6 +41,7 @@ import org.adempiere.model.MView;
 import org.adempiere.model.MViewColumn;
 import org.adempiere.model.MViewDefinition;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.MColumn;
@@ -58,14 +59,18 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
+import org.eevolution.grid.IBrowseTable;
+import org.eevolution.grid.IBrowserRows;
 
 /**
  * Abstract Smart Browser <li>FR [ 3426137 ] Smart Browser
  * https://sourceforge.net
  * /tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
+ * 		<li>BR [ 242 ] Parent Window Number, is not put in Browse constructor
  * 		@see https://github.com/adempiere/adempiere/issues/242
+ * 		<li>FR [ 245 ] Change Smart Browse to MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/245
  * 
  */
 public abstract class Browser {
@@ -194,6 +199,7 @@ public abstract class Browser {
 	//	BR [ 242 ]
 	private int parentWindowNo;
 	
+	
 	protected boolean isCollapsibleByDefault = true;
 	protected boolean isSelectedByDefault = false;
 	protected boolean isExecuteQueryByDefault = false;
@@ -225,14 +231,17 @@ public abstract class Browser {
 		log.info(m_Browse.getName() + " - " + keyColumn + " - " + p_whereClause);
 	}
 	
-	public void setContextWhere(MBrowse browse, String where)
-	{
+	/**
+	 * Parse context in where clause
+	 * @param where
+	 */
+	public void setContextWhere(String where) {
 		p_whereClause = null;
 		
 		String whereClause = where != null ? where : "";
 
-		if(browse.getWhereClause() != null )
-			   whereClause = whereClause + browse.getWhereClause();
+		if(m_Browse.getWhereClause() != null )
+			   whereClause = whereClause + m_Browse.getWhereClause();
 		else
 				whereClause = " 1=1 ";
 		if (whereClause.indexOf('@') == -1)
@@ -245,15 +254,19 @@ public abstract class Browser {
 				log.log(Level.SEVERE, "Cannot parse context= " + whereClause);
 		}
 
-		log.info(browse.getName() + " - " + p_whereClause);
+		log.info(m_Browse.getName() + " - " + p_whereClause);
 	}
+	
+	/**
+	 * Initialize data of browser
+	 * @return
+	 */
+	public void initBrowserData() {
 
-	public List<MBrowseField> initBrowserData() {
-
-		List<MBrowseField> list = new ArrayList<MBrowseField>();
+		browserFields = new ArrayList<MBrowseField>();
 		MBrowseField fieldKey =  m_Browse.getFieldKey();
 		if(fieldKey != null)
-			list.add(fieldKey);
+			browserFields.add(fieldKey);
 		else
 		{
 			MViewColumn column = new MViewColumn(m_Browse.getCtx() , 0 , m_Browse.get_TrxName());
@@ -282,13 +295,12 @@ public abstract class Browser {
 			if(field.getAxis_Column_ID() > 0)
 			{
 				for (MBrowseField fieldAxis : getInfoColumnForAxisField(field)){
-					list.add(fieldAxis);
+					browserFields.add(fieldAxis);
 				}
 				continue;
 			}
-			list.add(field);
+			browserFields.add(field);
 		}
-		return list;
 	}
 
 	public ArrayList<Object> getParameters() {
@@ -314,6 +326,28 @@ public abstract class Browser {
 		}
 	}
 
+	/**
+	 * Test Row Count
+	 * 
+	 * @return > 0 if display
+	 */
+	public int testCount() {
+		int no = -1;
+
+		no = getCount();
+		// log.fine("#" + no + " - " + (System.currentTimeMillis()-start) +
+		// "ms");
+		MRole role = MRole.getDefault();
+		if (role.isQueryMax(no))
+			return no;
+		//	Default
+		return -1;
+	} // testCount
+	
+	/**
+	 * Get row Quantity
+	 * @return
+	 */
 	public int getCount() {
 		long start = System.currentTimeMillis();
 		String dynWhere = getSQLWhere(true);
@@ -347,8 +381,458 @@ public abstract class Browser {
 
 		return no;
 	}
+	
+	/**
+	 * FR [ 245 ]
+	 * Initialize process info
+	 */
+	public void initProcessInfo() {
+		m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
+		m_browse_pi = new ProcessInfo(m_process.getName(), m_Browse.getAD_Process_ID());
+		m_browse_pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
+		m_browse_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		m_browse_pi.setWindowNo(getWindowNo());
+	}
+	
+	/**
+	 * FR [ 245 ]
+	 * Get Where Clause
+	 * @param refresh
+	 * @return
+	 */
+	public String getSQLWhere(boolean refresh) {
+		
+		if(!refresh)
+			return m_whereClause;
+		
+		//	Valid null
+		LinkedHashMap<Object, GridField> panelParameters = getPanelParameters();
+		if(panelParameters == null)
+			return m_whereClause;
+		//	
+		m_parameters_values = new ArrayList<Object>();
+		m_parameters = new ArrayList<Object>();
 
-	public abstract ArrayList<Integer> getSelectedRowKeys();
+		boolean onRange = false;
+		StringBuilder sql = new StringBuilder(p_whereClause);
+
+		for (Entry<Object, GridField> entry : panelParameters.entrySet()) {
+			GridField editor = (GridField) entry.getValue();
+			GridFieldVO field = editor.getVO();
+			if (!onRange) {
+
+				if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& !field.isRange) {
+					sql.append(" AND ");
+					if(DisplayType.String == field.displayType)
+					{
+						if (field.ColumnName.equals("Value")
+								|| field.ColumnName.equals("DocumentNo"))
+						{
+							String value = (String)editor.getValue();
+							if (value.contains(","))
+							{
+								value = value.replace(" ", "");
+								String token;
+								String inStr = new String(value);
+								StringBuffer outStr = new StringBuffer("(");
+								int i = inStr.indexOf(',');
+								while (i != -1)
+								{
+									outStr.append("'" + inStr.substring(0, i) + "',");	
+									inStr = inStr.substring(i+1, inStr.length());
+									i = inStr.indexOf(',');
+
+								}
+								outStr.append("'" + inStr + "')");
+								sql.append(field.Help).append(" IN ")
+								.append(outStr);
+							}						
+						}
+						else
+						{
+							sql.append(field.Help).append(" LIKE ? ");
+							m_parameters.add(field.Help);
+							m_parameters_values.add("%" + editor.getValue() + "%");								
+						}		
+					}
+					else
+					{
+						sql.append(field.Help).append("=? ");
+						m_parameters.add(field.Help);
+						m_parameters_values.add(editor.getValue());
+					}
+				} 
+				else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange) {
+					sql.append(" AND ");
+					//sql.append(field.Help).append(" BETWEEN ?");
+					sql.append(field.Help).append(" >= ? ");
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					onRange = true;
+				}
+				else if (editor.getValue() == null
+						&& field.isRange) {
+					onRange = true;
+				} else
+					continue;
+			} else if (editor.getValue() != null
+					&& !editor.getValue().toString().isEmpty()) {
+				//sql.append(" AND ? ");
+				sql.append(" AND ").append(field.Help).append(" <= ? ");
+				m_parameters.add(field.Help);
+				m_parameters_values.add(editor.getValue());
+				onRange = false;
+			}
+			else
+				onRange = false;
+		}
+		m_whereClause = sql.toString();
+		return sql.toString();
+	}
+	
+	/**
+	 * FR [ 245 ]
+	 * Set Parameters
+	 */
+	public void setParameters() {
+		m_parameters_values = new ArrayList<Object>();
+		m_parameters = new ArrayList<Object>();
+		m_parameters_field = new ArrayList<GridFieldVO>();
+		boolean onRange = false;
+		
+		for (Entry<Object, GridField> entry : getPanelParameters().entrySet()) {
+			GridField editor = (GridField) entry.getValue();
+			GridFieldVO field = editor.getVO();
+			if (!onRange) {
+
+				if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& !field.isRange) {
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					m_parameters_field.add(field);
+				} else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange) {
+					m_parameters.add(field.Help);
+					m_parameters_values.add(editor.getValue());
+					m_parameters_field.add(field);
+					onRange = true;
+				} else
+					continue;
+			} else if (editor.getValue() != null
+					&& !editor.getValue().toString().isEmpty()) {
+				m_parameters.add(field.Help);
+				m_parameters_values.add(editor.getValue());
+				m_parameters_field.add(field);
+				onRange = false;
+			}
+		}
+	}
+
+	/**
+	 * FR [ 245 ]
+	 * Get a Parameter value from a key
+	 * @param key
+	 * @return
+	 */
+	public Object getParameterValue(Object key) {
+		GridField field = getPanelParameters().get(key);
+		//	
+		if(field != null)
+			return field.getValue();
+		else
+			return null;
+	}
+	
+	/**
+	 * FR [ 245 ]
+	 * Evaluate Mandatory Filter
+	 * @return String
+	 */
+	public String evaluateMandatoryFilter() {
+		Object value_from=null;
+		boolean onRange = false;
+		StringBuffer mandatorytoFill = new StringBuffer();
+		for (Entry<Object, GridField> entry : getPanelParameters().entrySet()) {
+			GridField editor = (GridField) entry.getValue();
+			GridFieldVO field = editor.getVO();
+			if (!onRange) {
+
+				if ((editor.getValue() == null
+						|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
+						&& !field.isRange
+						&& editor.isMandatory(true)) {
+					if(mandatorytoFill.length() > 0) {
+						mandatorytoFill.append(", ");
+					}
+					//	You must Fill
+					mandatorytoFill.append("@").append(field.ColumnName).append("@");
+				} else if (editor.getValue() != null
+						&& !editor.getValue().toString().isEmpty()
+						&& field.isRange
+						&& editor.isMandatory(true)) {
+					onRange = true;
+					value_from =editor.getValue();
+				}else if (editor.getValue() == null
+						&& field.isRange
+						&& editor.isMandatory(true)) {
+					onRange = true;
+					value_from = null;
+				}
+				else
+					continue;
+			} else if ((editor.getValue() == null
+					|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
+					&& editor.isMandatory(true)) {
+				if (value_from!=null){
+					value_from=null;
+					onRange = false;
+				}
+				else
+				{
+					if(mandatorytoFill.length() > 0) {
+						mandatorytoFill.append(", ");
+					}
+					//	You must Fill
+					mandatorytoFill.append("@").append(field.ColumnName).append("@");
+				}
+			}
+			else{
+				onRange = false;
+				value_from=null;
+			}
+
+		}
+		//	Valid null
+		if(mandatorytoFill.length() > 0) {
+			return mandatorytoFill.toString();
+		}
+		//	Default
+		return null;
+	}
+	
+	/**
+	 * FR [ 245 ]
+	 * save result values
+	 * @param browserTable
+	 */
+	protected void saveResultSelection(IBrowseTable browserTable) {
+		if (m_keyColumnIndex == -1) {
+			return;
+		}
+		//	Verify if is Multi-Selection
+		if (p_multiSelection) {
+			int rows = browserTable.getRowCount();
+			IBrowserRows browserRows = browserTable.getData();
+			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
+			for (int row = 0; row < rows; row++) {
+				//Find the IDColumn Key
+				Object data = browserRows.getValue(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					if (dataColumn.isSelected()) {
+						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
+						for(int col = 0 ; col < browserRows.getColumnCount(); col++)
+						{
+							MBrowseField field = browserRows.getBrowserField(col);
+							if (!field.isReadOnly() || field.isIdentifier() )
+							{
+								GridField gridField = (GridField) browserRows.getValue(row, col);
+								Object value = gridField.getValue();
+								values.put(field.getAD_View_Column().getColumnName(), value);
+							}
+						}
+						if(values.size() > 0)
+							m_values.put(dataColumn.getRecord_ID(), values);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * FR [ 245 ]
+	 * Get Data of rows
+	 * @param browserTable
+	 * @return
+	 */
+	public  ArrayList<ArrayList<Object>> getDataRows(IBrowseTable browserTable) {
+		ArrayList<ArrayList<Object>> rows = m_rows;
+		if (isShowTotal()) {
+			ArrayList<Object> row = new ArrayList<Object>();
+			int lastRow = browserTable.getRowCount() - 1;
+			for (int column = 0; column <= browserTable.getColumnCount() - 1 ; column++) {
+				Object data = browserTable.getValueAt(lastRow , column);
+				if (data == null)
+					row.add(null);
+				else
+					row.add(data);
+			}
+			rows.add(row);
+		}
+		return rows;
+	}
+	
+	/**
+	 * FR [ 245 ]
+	 * Save Selection - Called by dispose
+	 * @param browserTable
+	 */
+	protected void saveSelection(IBrowseTable browserTable) {
+		// Already disposed
+		if (browserTable == null)
+			return;
+
+		log.config("OK=" + m_ok);
+		if (!m_ok) // did not press OK
+		{
+			m_results.clear();
+//			browserTable.removeAll();
+//			browserTable = null;
+			return;
+		}
+
+		// Multi Selection
+		if (p_multiSelection) {
+			m_results.clear();
+			m_results.addAll(getSelectedRowKeys(browserTable));
+		} else // singleSelection
+		{
+			Integer data = getSelectedRowKey(browserTable);
+			if (data != null)
+				m_results.add(data);
+		}
+
+		// Save Settings of detail info screens
+		// saveSelectionDetail();
+		// Clean-up
+//		browserTable.removeAll();
+//		browserTable = null;
+	} // saveSelection
+	
+	/**
+	 * FR [ 245 ]
+	 */
+	public void selectedRows(IBrowseTable browserTable) {
+		int topIndex = browserTable.isShowTotals() ? 2 : 1;
+		int rows = browserTable.getRowCount();
+
+		if (isAllSelected) {
+			for (int row = 0; row <= rows - topIndex; row++) {
+				Object data = browserTable.getValueAt(row, m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					dataColumn.setSelected(true);
+					browserTable.setValueAt(dataColumn, row, m_keyColumnIndex);
+				}
+			}
+
+		} else {
+			for (int row = 0; row <= rows - topIndex; row++) {
+				Object data = browserTable.getValueAt(row, m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					dataColumn.setSelected(false);
+					browserTable.setValueAt(dataColumn, row, m_keyColumnIndex);
+				}
+			}
+		}
+		isAllSelected = !isAllSelected;
+	}
+	
+	/**
+	 * Get the keys of selected row/s based on layout defined in prepareTable
+	 * @param browseTable
+	 * @return IDs if selection present
+	 */
+	public ArrayList<Integer> getSelectedRowKeys(IBrowseTable browseTable) {
+		ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
+
+		if (m_keyColumnIndex == -1) {
+			return selectedDataList;
+		}
+
+		if (p_multiSelection) {
+			int rows = browseTable.getRowCount();
+			for (int row = 0; row < rows; row++) {
+				Object data = browseTable.getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					if (dataColumn.isSelected()) {
+						selectedDataList.add(dataColumn.getRecord_ID());
+					}
+				}
+			}
+		}
+
+		if (selectedDataList.size() == 0) {
+			int row = browseTable.getSelectedRow();
+			if (row != -1 && m_keyColumnIndex != -1) {
+				Object data = browseTable.getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn)
+					selectedDataList.add(((IDColumn) data).getRecord_ID());
+				if (data instanceof Integer)
+					selectedDataList.add((Integer) data);
+			}
+		}
+
+		return selectedDataList;
+	}
+	
+	/**
+	 * Init info with Table. - find QueryColumns (Value, Name, ..) - build
+	 * gridController & column
+	 * @param table table to initialize
+	 * @return void
+	 */
+	public void initBrowserTable(IBrowseTable table) {
+		if(browserFields != null)
+			return;
+		//	
+		initBrowserData();
+		
+		log.finest("Browse Fields #" + browserFields.size());
+		//	
+		prepareTable(table);
+	} // initInfoTable
+	
+	/**************************************************************************
+	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
+	 * @param table table to prepare
+	 * @param fields list
+	 * @param from from clause
+	 * @param staticWhere where clause
+	 * @param orderBy order by clause
+	 */
+	private void prepareTable(IBrowseTable table) {
+		//	Get values
+		setContextWhere(null);
+		String from = m_View.getFromClause();
+		//	
+		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
+		sql.append(table.prepareTable(browserFields, p_multiSelection));
+		// Table Selection (Invoked before setting column class so that row
+		// selection is enabled)
+		table.setMultiSelection(p_multiSelection);
+		table.setShowTotals(m_Browse.isShowTotal());
+		//	
+		sql.append(" FROM ").append(from);
+		sql.append(" WHERE ");
+		m_sqlMain = sql.toString();
+		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
+		m_sqlOrderBy = getSQLOrderBy();
+
+		if (m_keyColumnIndex == -1)
+			log.log(Level.WARNING, "No KeyColumn - " + sql);
+	} // prepareTable
 	
 	public void setProcessInfo(ProcessInfo pi) {
 		m_pi = pi;
@@ -376,8 +860,13 @@ public abstract class Browser {
 		return p_keyColumn;
 	}
 
-	public Integer getSelectedRowKey() {
-		ArrayList<Integer> selectedDataList = getSelectedRowKeys();
+	/**
+	 * Get a Selected key from row
+	 * @param browseTable
+	 * @return
+	 */
+	public Integer getSelectedRowKey(IBrowseTable browseTable) {
+		ArrayList<Integer> selectedDataList = getSelectedRowKeys(browseTable);
 		if (selectedDataList.size() == 0) {
 			return null;
 		} else {
@@ -397,7 +886,12 @@ public abstract class Browser {
 		return m_results.get(0);
 	}
 
-    protected int deleteSelection() {
+	/**
+	 * Delete a Selection
+	 * @param browseTable
+	 * @return
+	 */
+    protected int deleteSelection(IBrowseTable browseTable) {
         MTable table = null;
         MBrowseField fieldKey  = m_Browse.getFieldKey();
         if (fieldKey != null)
@@ -405,7 +899,7 @@ public abstract class Browser {
                 table = (MTable) fieldKey.getAD_View_Column().getAD_Column().getAD_Table();
 
         int records = 0 ;
-        for (int id : getSelectedRowKeys())
+        for (int id : getSelectedRowKeys(browseTable))
         {
             if (table != null)
             {
@@ -607,8 +1101,8 @@ public abstract class Browser {
 	
 	public MBrowseField getFieldKey()
 	{
-	MBrowseField fieldKey = m_Browse.getFieldKey();
-	return fieldKey;
+		MBrowseField fieldKey = m_Browse.getFieldKey();
+		return fieldKey;
 	}
 	
 	public boolean IsIdentifierSelection(String columnName)
@@ -620,9 +1114,13 @@ public abstract class Browser {
 		return false;
 	}
 	
-	public MQuery getMQuery()
+	/**
+	 * Get Query from Record Identifier
+	 * @return
+	 */
+	public MQuery getMQuery(IBrowseTable browseTable)
 	{
-		Integer record_ID = getSelectedRowKey();
+		Integer record_ID = getSelectedRowKey(browseTable);
 
 		if (record_ID == null)
 			return null;
@@ -645,14 +1143,26 @@ public abstract class Browser {
 	 * @param key
 	 * @return Object Value
 	 */
-	 public abstract Object getParameterValue(Object key);
+//	 public abstract Object getParameterValue(Object key);
 	 
-	 public abstract void setParameters();
+	 //	FR [ 245 ]
+//	 public abstract void setParameters();
 	 
-	 abstract public String  getSQLWhere(boolean refresh);
+//	 abstract public String  getSQLWhere(boolean refresh);
 	 
-	 public String getAxisSQLWhere(I_AD_View_Column viewColumn)
-	 {
+	/**
+	 * Get parameter
+	 * @return
+	 */
+	public abstract LinkedHashMap<Object, GridField> getPanelParameters();
+	
+	/**
+	 * Initialize Smart Browse
+	 */
+	public abstract void init();
+	 
+	public String getAxisSQLWhere(I_AD_View_Column viewColumn)
+	{
 		 MViewDefinition viewDefinition = (MViewDefinition) viewColumn.getAD_View_Definition();
 		 MTable tableBaseName = (MTable) viewDefinition.getAD_Table();
 		 StringBuilder whereAxis = new StringBuilder();
@@ -793,9 +1303,12 @@ public abstract class Browser {
 		return stmt;
 	}
 	
-	public abstract  ArrayList<ArrayList<Object>> getDataRows();
-	
-	protected File exportXLS() {
+	/**
+	 * Export from Table
+	 * @param browserTable
+	 * @return
+	 */
+	protected File exportXLS(IBrowseTable browserTable) {
 		File file = null;
 		try {
 			if (m_exporter != null && m_exporter.isAlive())
@@ -806,7 +1319,7 @@ public abstract class Browser {
 			while (m_exporter.isAlive())
 				;
 			
-			ArrayList<ArrayList<Object>> rows = getDataRows();
+			ArrayList<ArrayList<Object>> rows = getDataRows(browserTable);
 			
 			if (rows.size() > 1) {
 

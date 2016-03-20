@@ -18,11 +18,17 @@
 
 package org.eevolution.grid;
 
+import java.util.List;
+
+import org.adempiere.model.MBrowseField;
 import org.compiere.model.GridField;
 
 /**
  * Created by e-Evolution on 13/12/14.
  * @author victor.perez@www.e-evolution.com, e-Evolution
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 245 ] Change Smart Browse to MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/245
  */
 public interface IBrowseTable 
 {
@@ -30,7 +36,12 @@ public interface IBrowseTable
 	
 	public Object getValueAt(int row, int column);
 	
-
+	//	FR [ 245 ]
+	public IBrowserRows getData();
+	
+	public void setValueAt(Object value, int row, int column);
+	
+	public String prepareTable(List<MBrowseField> fields, boolean multiSelection);
 	
 	public int convertColumnIndexToModel(int viewColumnIndex);
 	
