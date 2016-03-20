@@ -89,6 +89,8 @@ import org.zkoss.zul.Vbox;
  * 		@see https://github.com/adempiere/adempiere/issues/245
  * 		<li>FR [ 246 ] Smart Browse validate parameters when is auto-query
  * 		@see https://github.com/adempiere/adempiere/issues/246
+ * 		<li>FR [ 247 ] Smart Browse don't have the standard buttons
+ * 		@see https://github.com/adempiere/adempiere/issues/247
  *
  */
 public class WBrowser extends Browser implements IFormController,
@@ -572,7 +574,7 @@ public class WBrowser extends Browser implements IFormController,
 
 		Hbox hbox = new Hbox();
 
-		bCancel.setLabel(Msg.getMsg(Env.getCtx(), "Cancel").replaceAll("[&]",""));
+//		bCancel.setLabel(Msg.getMsg(Env.getCtx(), "Cancel").replaceAll("[&]",""));
 
 		bCancel.addActionListener(new EventListener() {
 			public void onEvent(Event evt) {
@@ -580,7 +582,7 @@ public class WBrowser extends Browser implements IFormController,
 			}
 		});
 
-		bOk.setLabel(Msg.getMsg(Env.getCtx(), "Ok").replaceAll("[&]",""));
+//		bOk.setLabel(Msg.getMsg(Env.getCtx(), "Ok").replaceAll("[&]",""));
 		bOk.addActionListener(new EventListener() {
 			public void onEvent(Event evt) {
 				bOkActionPerformed(evt);
@@ -588,7 +590,7 @@ public class WBrowser extends Browser implements IFormController,
 		});
 		
 		Div confirmDiv = new Div();
-		confirmDiv.setAlign("center");
+		confirmDiv.setAlign("right");
 		hbox.appendChild(bCancel);
 		hbox.appendChild(bOk);
 		hbox.setAlign("center");
