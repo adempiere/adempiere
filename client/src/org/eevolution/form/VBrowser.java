@@ -21,6 +21,7 @@ package org.eevolution.form;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -88,6 +89,8 @@ import org.eevolution.grid.BrowseTable;
  * 		@see https://github.com/adempiere/adempiere/issues/245
  * 		<li>FR [ 246 ] Smart Browse validate parameters when is auto-query
  * 		@see https://github.com/adempiere/adempiere/issues/246
+ * 		<li>FR [ 247 ] Smart Browse don't have the standard buttons
+ * 		@see https://github.com/adempiere/adempiere/issues/247
  */
 public class VBrowser extends Browser implements ActionListener,
 		VetoableChangeListener, ChangeListener, ListSelectionListener,
@@ -390,28 +393,22 @@ public class VBrowser extends Browser implements ActionListener,
 	 * Instance tool bar
 	 */
 	private void setupToolBar() {
-		AppsAction a = new AppsAction(ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
-		a.setDelegate(this);
-		bOk = new CButton(a);
-		a = new AppsAction(ConfirmPanel.A_REFRESH, null, ConfirmPanel.A_REFRESH);
-		a.setDelegate(this);
-		bSearch = new CButton(a);
-		a = new AppsAction(ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
-		a.setDelegate(this);
-		bCancel = new CButton(a);
+		bOk = ConfirmPanel.createOKButton(false);
+		bOk.addActionListener(this);
+		bSearch = ConfirmPanel.createRefreshButton(true);
+		bSearch.addActionListener(this);
+		bCancel = ConfirmPanel.createCancelButton(false);
+		bCancel.addActionListener(this);
+		bZoom = ConfirmPanel.createZoomButton(true);
+		bZoom.addActionListener(this);
+		bExport = ConfirmPanel.createExportButton(true);
+		bExport.addActionListener(this);
+		bDelete = ConfirmPanel.createDeleteButton(true);
+		bDelete.addActionListener(this);
+		AppsAction selectAllAction = new AppsAction("SelectAll", null, Msg.getMsg(Env.getCtx(),"SelectAll"));
+		selectAllAction.setDelegate(this);
+		bSelectAll = (CButton) selectAllAction.getButton();
 		toolsBar = new javax.swing.JToolBar();
-		a = new AppsAction(ConfirmPanel.A_ZOOM, null, ConfirmPanel.A_ZOOM, true);
-		a.setDelegate(this);
-		bZoom = new CButton(a);
-		a = new AppsAction(ConfirmPanel.A_EXPORT, null, ConfirmPanel.A_EXPORT);
-		a.setDelegate(this);
-		bExport = new CButton(a);
-		a = new AppsAction(ConfirmPanel.A_DELETE, null, ConfirmPanel.A_DELETE);
-		a.setDelegate(this);
-		bDelete = new CButton(a);
-		a = new AppsAction("SelectAll", null, Msg.getMsg(Env.getCtx(),"SelectAll"));
-		a.setDelegate(this);
-		bSelectAll = new CButton(a);
 	}
 
 	/**
@@ -429,7 +426,7 @@ public class VBrowser extends Browser implements ActionListener,
 		detail = new BrowseTable(this);
 		detail.setRowSelectionAllowed(true);
 		footPanel = new CPanel();
-		footButtonPanel = new CPanel();
+		footButtonPanel = new CPanel(new FlowLayout(FlowLayout.RIGHT));
 		processPanel = new CPanel();
 		graphPanel = new CPanel();
 
@@ -437,6 +434,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		toolsBar.setRollover(true);
 		
+		bSelectAll.setText(Msg.getMsg(Env.getCtx(),"SelectAll").replaceAll("[&]",""));
 		bSelectAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		bSelectAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		bSelectAll.setEnabled(false);
@@ -482,7 +480,7 @@ public class VBrowser extends Browser implements ActionListener,
 		collapsibleSearch.add(searchPanel);
 		topPanel.add(collapsibleSearch, java.awt.BorderLayout.NORTH);
 
-//		bSearch.setText(Msg.getMsg(Env.getCtx(), "StartSearch"));
+		bSearch.setText(Msg.getMsg(Env.getCtx(), "StartSearch"));
 
 		buttonSearchPanel.add(bSearch);
 		collapsibleSearch.add(buttonSearchPanel);
@@ -495,11 +493,11 @@ public class VBrowser extends Browser implements ActionListener,
 
 		footPanel.setLayout(new java.awt.BorderLayout());
 
-		bCancel.setText(Msg.getMsg(Env.getCtx(), "Cancel").replaceAll("[&]",""));
+//		bCancel.setText(Msg.getMsg(Env.getCtx(), "Cancel").replaceAll("[&]",""));
 		
 		footButtonPanel.add(bCancel);
 
-		bOk.setText(Msg.getMsg(Env.getCtx(), "Ok").replaceAll("[&]",""));
+//		bOk.setText(Msg.getMsg(Env.getCtx(), "Ok").replaceAll("[&]",""));
 		
 		footButtonPanel.add(bOk);
 
