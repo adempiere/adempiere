@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -56,6 +57,7 @@ import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.Waiting;
+import org.compiere.apps.form.FormFrame;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
@@ -91,11 +93,12 @@ import org.eevolution.grid.BrowseTable;
  * 		@see https://github.com/adempiere/adempiere/issues/246
  * 		<li>FR [ 247 ] Smart Browse don't have the standard buttons
  * 		@see https://github.com/adempiere/adempiere/issues/247
+ * 		<li>FR [ 248 ] Smart Browse not open on modal inside a window
+ * 		@see https://github.com/adempiere/adempiere/issues/248
  */
 public class VBrowser extends Browser implements ActionListener,
 		VetoableChangeListener, ChangeListener, ListSelectionListener,
 		TableModelListener, ASyncProcess {
-	CFrame m_frame = new CFrame();
 	/**
 	 * get Browse
 	 * @param browse_ID
@@ -108,7 +111,7 @@ public class VBrowser extends Browser implements ActionListener,
 		String keyColumn = "";
 		boolean multiSelection = true;
 		String whereClause = null;
-		CFrame ff = new CFrame();
+		FormFrame ff = new FormFrame(WindowNo);
 		return new VBrowser(ff, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause)
 		.getFrame();
 		
@@ -134,7 +137,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 * @param whereClause
 	 *            where clause
 	 */
-	public VBrowser(CFrame frame, boolean modal, int WindowNo, String value,
+	public VBrowser(FormFrame frame, boolean modal, int WindowNo, String value,
 			MBrowse browse, String keyColumn, boolean multiSelection,
 			String whereClause) {
 		super(modal, WindowNo, value, browse, keyColumn, multiSelection,
@@ -142,7 +145,8 @@ public class VBrowser extends Browser implements ActionListener,
 		m_frame = frame;
 		m_frame.setTitle(browse.getTitle());
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
-		windowNo = Env.createWindowNo(m_frame);
+		windowNo = Env.createWindowNo(m_frame.getContainer());
+		setProcessInfo(frame.getProcessInfo());
 		setContextWhere(whereClause);		
 		//	Init Smart Browse
 		init();
@@ -178,6 +182,8 @@ public class VBrowser extends Browser implements ActionListener,
 	private BrowseTable detail;
 	private CollapsiblePanel collapsibleSearch;
 	private VBrowserSearch  searchPanel;
+	/**	Form Frame				*/
+	private FormFrame m_frame;
 
 	
 	@Override
@@ -284,7 +290,7 @@ public class VBrowser extends Browser implements ActionListener,
 			//	
 			int no = testCount();
 			if (no > 0) {
-				if(!ADialog.ask(getWindowNo(), m_frame, "InfoHighRecordCount",
+				if(!ADialog.ask(getWindowNo(), m_frame.getContainer(), "InfoHighRecordCount",
 						String.valueOf(no))) {
 					return;
 				}
@@ -309,7 +315,7 @@ public class VBrowser extends Browser implements ActionListener,
 		initBrowserTable(detail);
 		//	
 		if (browserFields.size() == 0) {
-			ADialog.error(getWindowNo(), m_frame, "Error", "No Browse Fields");
+			ADialog.error(getWindowNo(), m_frame.getContainer(), "Error", "No Browse Fields");
 			log.log(Level.SEVERE, "No Browser for view=" + m_View.getName());
 			return false;
 		}
@@ -325,7 +331,7 @@ public class VBrowser extends Browser implements ActionListener,
 		
 		MQuery query = getMQuery(detail);
 		if(query != null)
-			AEnv.zoom(m_frame , getAD_Window_ID() , query);
+			AEnv.zoom(m_frame.getContainer(), getAD_Window_ID() , query);
 		
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		bZoom.setSelected(false);
@@ -336,7 +342,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 */
 	private void cmd_deleteSelection(){
 		m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		if (ADialog.ask(getWindowNo(), m_frame, "DeleteSelection"))
+		if (ADialog.ask(getWindowNo(), m_frame.getContainer(), "DeleteSelection"))
 		{	
 			int records = deleteSelection(detail);
 			setStatusLine(Msg.getMsg(Env.getCtx(), "Deleted") + records, false);
@@ -363,7 +369,7 @@ public class VBrowser extends Browser implements ActionListener,
 		saveResultSelection(detail);
 		saveSelection(detail);
 
-		m_frame.removeAll();
+		//m_frame.removeAll();
 		m_frame.dispose();
 		if (m_Browse.getAD_Process_ID() <= 0)
 			return;
@@ -558,7 +564,7 @@ public class VBrowser extends Browser implements ActionListener,
 			createT_Selection_Browse(instance.getAD_PInstance_ID());
 			// Execute Process
 			ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
-			m_waiting = new Waiting (m_frame, Msg.getMsg(Env.getCtx(), "Processing"), false, getBrowseProcessInfo().getEstSeconds());
+			m_waiting = new Waiting ((Frame) m_frame.getContainer(), Msg.getMsg(Env.getCtx(), "Processing"), false, getBrowseProcessInfo().getEstSeconds());
 			worker.run(); // complete tasks in unlockUI /
 			m_waiting.doNotWait();
 			setStatusLine(pi.getSummary(), pi.isError());
@@ -581,7 +587,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 */
 	public void dispose() {
 		searchPanel.dispose();
-		m_frame.removeAll();
+//		m_frame.removeAll();
 		m_frame.dispose();
 	}   //  dis
 
@@ -621,7 +627,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 * @return
 	 */
 	public CFrame getForm() {
-		return m_frame;
+		return m_frame.getCFrame();
 	}
 	
 	/**
@@ -759,7 +765,7 @@ public class VBrowser extends Browser implements ActionListener,
 
 		Properties m_ctx = Env.getCtx();
 		MBrowse browse = new MBrowse(m_ctx, 50025, null);
-		CFrame frame = new CFrame();
+		FormFrame frame = new FormFrame(0);
 		boolean modal = true;
 		int WindowNo = 0;
 		String value = "";
@@ -774,7 +780,7 @@ public class VBrowser extends Browser implements ActionListener,
 	}
 
 	public CFrame getFrame() {
-		return m_frame;
+		return m_frame.getCFrame();
 	}
 
 	/**
