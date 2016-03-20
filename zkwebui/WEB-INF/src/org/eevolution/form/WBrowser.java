@@ -17,6 +17,15 @@
  *****************************************************************************/
 package org.eevolution.form;
 
+import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
@@ -33,9 +42,7 @@ import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.ToolBar;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.WAppsAction;
-import org.eevolution.grid.WBrowseListbox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -49,18 +56,15 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
-import org.compiere.model.GridFieldVO;
 import org.compiere.model.MPInstance;
-import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
-import org.compiere.model.MRole;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.grid.WBrowseListbox;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -72,17 +76,6 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Row;
-
-import java.io.File;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.logging.Level;
-
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
@@ -91,9 +84,12 @@ import org.zkoss.zul.Vbox;
  * @author victor.perez@e-evoluton.com, www.e-evolution.com 
  * 	<li>FR [ 3426137 ] Smart Browser
  *  https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 245 ] Change Smart Browse to MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/245
  *
  */
-public class WBrowser extends Browser implements IBrowser ,IFormController,
+public class WBrowser extends Browser implements IFormController,
 		EventListener, WTableModelListener, ValueChangeListener, ASyncProcess {
 
 	private CustomForm m_frame = new CustomForm();
@@ -103,15 +99,15 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 	private Button bCancel;
 	private Button bDelete;
 	private Button bExport;
-	private Button bFind;
+//	private Button bFind;
 	private Button bOk;
-	private Button bPrint;
+//	private Button bPrint;
 	private Button bSearch;
 	private Button bZoom;
 	private Button bSelectAll;
 
 	private WBrowseListbox detail;
-	private Borderlayout graphPanel;
+//	private Borderlayout graphPanel;
 	private WBrowserSearch searchGrid;
 	private Borderlayout searchTab;
 	private North collapsibleSeach;
@@ -120,7 +116,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 	private ToolBar toolsBar;
 	private Hbox topPanel;
 	private BusyDialog m_waiting;
-	private VerticalBox dialogBody;
+//	private VerticalBox dialogBody;
 
 	public static CustomForm openBrowse(int AD_Browse_ID) {
 		MBrowse browse = new MBrowse(Env.getCtx(), AD_Browse_ID , null);
@@ -141,7 +137,13 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		
 		m_frame = new CustomForm();
 		windowNo = SessionManager.getAppDesktop().registerWindow(this);
-		setContextWhere(browse, whereClause);
+		setContextWhere(whereClause);
+		//	Init Smart Browse
+		init();
+	}
+
+	@Override
+	public void init() {
 		initComponents();
 		statInit();
 		detail.setMultiSelection(true);
@@ -155,7 +157,10 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		if(isExecuteQueryByDefault())
 			executeQuery();
 	}
-
+	
+	/**
+	 * Static Setup - add fields to parameterPanel (GridLayout)
+	 */
 	private void statInit() {
 
 		Rows rows = new Rows();
@@ -183,15 +188,9 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		searchGrid.dynamicDisplay();
 		
 		if (m_Browse.getAD_Process_ID() > 0) {
-			
-			m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
-			ProcessInfo pi = new ProcessInfo(m_process.getName(),
-					m_Browse.getAD_Process_ID());
-			pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
-			pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-			pi.setWindowNo(getWindowNo());
-			setBrowseProcessInfo(pi);
-			parameterPanel = new ProcessParameterPanel(pi.getWindowNo(), pi , "100%");
+			//	FR [ 245 ]
+			initProcessInfo();
+			parameterPanel = new ProcessParameterPanel(getWindowNo(), getBrowseProcessInfo() , "100%");
 			parameterPanel.setMode(ProcessParameterPanel.BROWSER_MODE);
 			parameterPanel.init();
 			
@@ -215,38 +214,16 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 	 * @return true, if success
 	 */
 	private boolean initBrowser() {
-		List<MBrowseField> fields = initBrowserTable();
-		if (fields == null)
-			return false;
-
-		StringBuilder where = new StringBuilder("");
-		setContextWhere(m_Browse, null);
-		if (p_whereClause.length() > 0) {
-			where.append(p_whereClause);
-		}
-
-		prepareTable(fields, m_View.getFromClause(), where.toString(),"2");
-		return true;
-	} // initInfo
-	/**
-	 * Init info with Table. - find QueryColumns (Value, Name, ..) - build
-	 * gridController & column
-	 *
-	 * @return BrowseFields
-	 */
-	private List<MBrowseField> initBrowserTable() {
-
-		List<MBrowseField> list = initBrowserData();
-		if (list.size() == 0) {
+		//	
+		initBrowserTable(detail);
+		//	
+		if (browserFields.size() == 0) {
 			FDialog.error(getWindowNo(), m_frame, "Error", "No Browse Fields");
 			log.log(Level.SEVERE, "No Browser for view=" + m_View.getName());
-			return null;
+			return false;
 		}
-		log.finest("Browse Fields #" + list.size());
-		//centerPanel.setViewportView(detail);
-
-		return list;
-	} // initInfoTable
+		return true;
+	} // initInfo
 
 	public void setStatusLine(String text, boolean error) {
 		statusBar.setStatusLine(text, error);
@@ -257,7 +234,9 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 	}
 
 	protected void executeQuery() {
-		if (evaluateMandatoryFilter()) {
+		//	FR [ 245 ]
+		String errorMsg = evaluateMandatoryFilter();
+		if (errorMsg == null) {
 			if (getAD_Window_ID() > 1)
 				bZoom.setEnabled(true);
 
@@ -275,8 +254,13 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 			if (parameterPanel != null)
 				parameterPanel.refreshContext();
 
-			if (!testCount())
-				return;
+			int no = testCount();
+			if (no > 0) {
+				if(!FDialog.ask(getWindowNo(), m_frame, "InfoHighRecordCount",
+						String.valueOf(no))) {
+					return;
+				}
+			}
 
 			setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
 
@@ -284,13 +268,16 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 
 			isAllSelected = isSelectedByDefault();
 			selectedRows();
+		} else {
+			FDialog.error(getWindowNo(), m_frame, 
+					"FillMandatory", Msg.parseTranslation(Env.getCtx(), errorMsg));
 		}
 	}
 
 	private void cmd_zoom() {
 		showBusyDialog();
 		
-		MQuery query = getMQuery();
+		MQuery query = getMQuery(detail);
 		if(query != null)
 			AEnv.zoom(getAD_Window_ID() , query);
 		
@@ -300,163 +287,10 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 	private void cmd_deleteSelection() {
 		if (FDialog.ask(getWindowNo(), m_frame, "DeleteSelection"))
 		{	
-			int records = deleteSelection();
+			int records = deleteSelection(detail);
 			setStatusLine(Msg.getMsg(Env.getCtx(), "Deleted") + records, false);
 		}	
 		 executeQuery();
-	}
-
-	/**************************************************************************
-	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
-	 * @param fields layout array
-	 * @param from from clause
-	 * @param staticWhere where clause
-	 * @param orderBy order by clause
-	 */
-	protected void prepareTable(List<MBrowseField> fields,String from,
-								String staticWhere, String orderBy) {
-		browserFields = fields;
-		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
-		sql.append(detail.prepareTable(fields, p_multiSelection));
-		detail.setMultiSelection(p_multiSelection);
-		detail.setShowTotals(m_Browse.isShowTotal());
-
-		sql.append(" FROM ").append(from);
-		sql.append(" WHERE ");
-		m_sqlMain = sql.toString();
-		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
-		m_sqlOrderBy = getSQLOrderBy();
-
-		if (m_keyColumnIndex == -1)
-			log.log(Level.WARNING, "No KeyColumn - " + sql);
-	} // prepareTable
-
-	/*protected void prepareTable(Info_Column[] layout, String from,
-			String staticWhere, String orderBy) {
-		p_layout = layout;
-		detail.prepareTable(layout, "" , "" , true, "");
-		StringBuffer sql = new StringBuffer("SELECT DISTINCT ");
-		for (int i = 0; i < layout.length; i++) {
-			if (i > 0 && layout[i].getColSQL().length() > 0)
-				sql.append(", ");
-			sql.append(layout[i].getColSQL());
-			// adding ID column
-			if (layout[i].isIDcol())
-				sql.append(",").append(layout[i].getIDcolSQL());			
-			if (layout[i].isColorColumn())
-				detail.setColorColumn(i);
-			if (layout[i].getColClass() == IDColumn.class)
-				m_keyColumnIndex = i;
-		}
-
-		sql.append(" FROM ").append(from);
-		sql.append(" WHERE ");
-		m_sqlMain = sql.toString();
-		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE ";
-		m_sqlOrderBy = getSQLOrderBy();
-		
-		if (m_keyColumnIndex == -1)
-			log.log(Level.WARNING, "No KeyColumn - " + sql);
-	}*/
-
-	private boolean testCount() {
-		int no = -1;
-		no = getCount();
-
-		MRole role = MRole.getDefault();
-		if (role.isQueryMax(no))
-			return true;
-
-		return true;
-	}
-
-	/**
-	 * Save Selection - Called by dispose
-	 */
-	protected void saveSelection() {
-		// Already disposed
-		if (detail == null)
-			return;
-
-		log.config("OK=" + m_ok);
-		if (!m_ok) // did not press OK
-		{
-			m_results.clear();
-			return;
-		}
-
-		// Multi Selection
-		if (p_multiSelection) {
-			m_results.clear();
-			m_results.addAll(getSelectedRowKeys());
-		} else // singleSelection
-		{
-			Integer data = getSelectedRowKey();
-			if (data != null)
-				m_results.add(data);
-		}
-
-		// Save Settings of detail info screens
-		// saveSelectionDetail();
-		// Clean-up
-		detail.clearTable();
-	}
-	
-	/**
-	 * save result values
-	 */
-	protected void saveResultSelection() {
-		if (m_keyColumnIndex == -1) {
-			return;
-		}
-
-		if (p_multiSelection) {
-			int rows = detail.getRowCount();
-			WBrowserRows browserRows =detail.getData();
-			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
-			for (int row = 0; row < rows; row++) {
-				//Find the IDColumn Key
-				Object data = detail.getModel().getValueAt(row,
-						m_keyColumnIndex);
-				if (data instanceof IDColumn) {
-					IDColumn dataColumn = (IDColumn) data;
-					if (dataColumn.isSelected()) {
-						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
-						for(int col  = 0 ; col < browserRows.getColumnCount(); col ++)
-						{
-							MBrowseField bField =browserRows.getBrowserField(col);
-							if (!bField.isReadOnly() || bField.isIdentifier() )
-							{
-								GridField gField = (GridField)detail.getData().getValue( row, col );
-								Object value = gField.getValue();
-								values.put(bField.getAD_View_Column().getColumnName(), value);
-							}
-
-						}
-						/*for (Info_Column column : m_generalLayout)
-						{	
-							String columnName = column.getColSQL().substring(
-									column.getColSQL().indexOf("AS ") + 3);
-							if (!column.isReadOnly()
-									|| IsIdentifierSelection(columnName)) {
-								if (!column.isKeyPairCol()) {
-									Object value = detail.getModel()
-											.getValueAt(row, col);
-									values.put(columnName, value);
-								} else {
-									KeyNamePair value = (KeyNamePair) detail
-											.getModel().getValueAt(row, col);
-									values.put(columnName, value.getKey());
-								}
-							}
-							col++;
-						}*/
-						if(values.size() > 0)
-							m_values.put(dataColumn.getRecord_ID(), values);
-					}
-				}
-			}
-		}
 	}
 
 	/**
@@ -500,13 +334,17 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		return selectedDataList;
 	}
 
+	/**
+	 * When is closed
+	 * @param ok
+	 */
 	public void dispose(boolean ok) {
 		log.config("OK=" + ok);
 		searchGrid.dispose();
 		m_ok = ok;
 		
-		saveResultSelection();
-		saveSelection();
+		saveResultSelection(detail);
+		saveSelection(detail);
 		
 		if (m_Browse.getAD_Process_ID() <= 0)
 			return;
@@ -532,6 +370,9 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		SessionManager.getAppDesktop().closeActiveWindow();
 	}
 
+	/**
+	 * Add Components to tool bar
+	 */
 	private void setupToolBar() {
 
 		try{
@@ -540,16 +381,16 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 			bOk = selectAllAction.getButton();
 			selectAllAction = new WAppsAction (ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
 			bCancel = selectAllAction.getButton();
-			selectAllAction = new WAppsAction (ConfirmPanel.A_PRINT, null, ConfirmPanel.A_PRINT);
-			bPrint = selectAllAction.getButton();
+//			selectAllAction = new WAppsAction (ConfirmPanel.A_PRINT, null, ConfirmPanel.A_PRINT);
+//			bPrint = selectAllAction.getButton();
 			selectAllAction = new WAppsAction (ConfirmPanel.A_ZOOM, null, ConfirmPanel.A_ZOOM);
 			bZoom = selectAllAction.getButton();
 			selectAllAction = new WAppsAction (ConfirmPanel.A_EXPORT, null, ConfirmPanel.A_EXPORT);
 			bExport =  selectAllAction.getButton();
 			selectAllAction = new WAppsAction (ConfirmPanel.A_DELETE, null, ConfirmPanel.A_DELETE);
 			bDelete = selectAllAction.getButton();
-			selectAllAction = new WAppsAction ("Find", null, "Find");
-			bFind = selectAllAction.getButton();
+//			selectAllAction = new WAppsAction ("Find", null, "Find");
+//			bFind = selectAllAction.getButton();
 			selectAllAction = new WAppsAction ("SelectAll", null, Msg.getMsg(Env.getCtx(),"SelectAll"));
 			bSelectAll = selectAllAction.getButton();
 		}
@@ -559,14 +400,17 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		}
 	}
 
+	/**
+	 * Initialize View Components
+	 */
 	private void initComponents() {
 
 		toolsBar = new ToolBar();
-		bPrint = new Button();
+//		bPrint = new Button();
 		bZoom = new Button();
 		bExport = new Button();
 		bDelete = new Button();
-		bFind = new Button();
+//		bFind = new Button();
 		tabsPanel = new Tabbox();
 		searchTab = new Borderlayout();
 		collapsibleSeach = new North();
@@ -576,7 +420,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		detail = new WBrowseListbox(this);
 		bCancel = new Button();
 		bOk = new Button();
-		graphPanel = new Borderlayout();
+//		graphPanel = new Borderlayout();
 		detailPanel= new Borderlayout();
 
 		Borderlayout mainLayout = new Borderlayout();
@@ -632,7 +476,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		bDelete.setEnabled(false);
 		bDelete.addActionListener(new EventListener() {
 			public void onEvent(Event evt) {
-				bDeleteActionPerformed(evt);
+				cmd_deleteSelection();
 			}
 		});
 		
@@ -716,7 +560,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		detailPanel.setWidth("100%");
 		detailPanel.appendCenter(detail);
 		
-		Div dv = new Div();
+//		Div dv = new Div();
 		div.appendChild(detailPanel);
 		div.setHeight("100%");
 		div.setWidth("100%");
@@ -791,39 +635,6 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 
 		mainLayout.appendCenter(tabsPanel);
 	}
-	
-	private void selectedRows()
-	{
-		int topIndex = detail.isShowTotals() ? 2 : 1;
-		int rows = detail.getRowCount();
-		int selectedList[] = new int[rows];
-		if(isAllSelected)
-		{
-			for (int row = 0; row <= rows - topIndex; row++) {
-				Object data = detail.getModel().getValueAt(row,
-						m_keyColumnIndex);
-				if (data instanceof IDColumn) {
-					IDColumn dataColumn = (IDColumn) data;
-					dataColumn.setSelected(true);
-					detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
-				}
-				selectedList[row] = row;
-			}
-			detail.setSelectedIndices(selectedList);
-		} else {
-			for (int row = 0; row <= rows - topIndex; row++) {
-				Object data = detail.getModel().getValueAt(row,
-						m_keyColumnIndex);
-				if (data instanceof IDColumn) {
-					IDColumn dataColumn = (IDColumn) data;
-					dataColumn.setSelected(false);
-					detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
-				}
-			}
-			detail.clearSelection();
-		}
-			isAllSelected = !isAllSelected;
-	}
 
 	private void bZoomActionPerformed(Event evt) {// GEN-FIRST:event_bZoomActionPerformed
 		// TODO add your handling code here:
@@ -834,8 +645,8 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		log.config("OK=" + true);
 		m_ok = true;
 		
-		saveResultSelection();
-		saveSelection();
+		saveResultSelection(detail);
+		saveSelection(detail);
 		
 		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
 		{
@@ -897,15 +708,11 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		executeQuery();
 	}
 
-	private void bFindActionPerformed(Event evt) {
-		// TODO add your handling code here:
-	}
-
 	private void bExportActionPerformed(Event evt) {
 		bExport.setEnabled(false);
 		try 
 		{	AMedia media = null;
-			File file = exportXLS();
+			File file = exportXLS(detail);
 			media = new AMedia(m_Browse.getName(), "xls",
 					"application/vnd.ms-excel", file, true);
 			Filedownload.save(media);
@@ -915,36 +722,9 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		bExport.setEnabled(true);
 	}
 
-	
-	public  ArrayList<ArrayList<Object>> getDataRows()
-	{
-		ArrayList<ArrayList<Object>> rows = m_rows;
-		if (isShowTotal())
-		{	
-			ArrayList<Object> row = new ArrayList<Object>();
-			int lastRow = detail.getRowCount() - 1;
-			for (int column = 0; column <= detail.getColumnCount() - 1 ; column++) {
-				Object data = detail.getValueAt(lastRow , column); 
-				if (data == null)
-					row.add(null);
-				else
-					row.add(data);
-			}
-			rows.add(row);
-		}				
-		return rows;
-	}
-
-	
-	private void bDeleteActionPerformed(Event evt) {
-		cmd_deleteSelection();
-	}
-
-
-	private void bPrintActionPerformed(Event evt) {
-		// TODO add your handling code here:
-	}
-
+	/**
+	 * Work Task
+	 */
 	public void work() {
 		PreparedStatement m_pstmt = null;
 		ResultSet m_rs = null;
@@ -985,7 +765,7 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 		if(isSelectedByDefault())
 		{	
 			isAllSelected = false;
-			selectedRows();			
+			selectedRows(detail);			
 		}	
 		
 
@@ -1028,221 +808,70 @@ public class WBrowser extends Browser implements IBrowser ,IFormController,
 
 	@Override
 	public void lockUI(ProcessInfo pi) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void unlockUI(ProcessInfo pi) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public boolean isUILocked() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void executeASync(ProcessInfo pi) {
-		// TODO Auto-generated method stub
-
-	}
-	/**
-	 * get Parameter Value
-	 * @param key
-	 * @return Object Value
-	 */
-	@Override
-	public Object getParameterValue(Object key)
-	{       WEditor editor = (WEditor)  searchGrid.getParameters().get(key);
-			if(editor != null)
-				return editor.getValue();
-			else
-				return null;
+		
 	}
 	
-	public String getSQLWhere(boolean refresh) {
-		
-		if(!refresh)
-			return m_whereClause;
-		
-		m_parameters_values = new ArrayList<Object>();
-		m_parameters = new ArrayList<Object>();
-
-		boolean onRange = false;
-		StringBuilder sql = new StringBuilder(p_whereClause);
-
+	@Override
+	public LinkedHashMap<Object, GridField> getPanelParameters() {
+		LinkedHashMap<Object, GridField> m_List = new LinkedHashMap<Object, GridField>();
 		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
-			GridFieldVO field = editor.getGridField().getVO();
-			if (!onRange) {
-
-				if (editor.getValue() != null
-						&& !editor.getValue().toString().isEmpty()
-						&& !field.isRange) {
-					sql.append(" AND ");
-                    if(DisplayType.String == field.displayType)
-                    {
-						if (field.ColumnName.equals("Value")
-								|| field.ColumnName.equals("DocumentNo"))
-						{
-							String value = (String)editor.getValue();
-							if (value.contains(","))
-							{
-								value = value.replace(" ", "");
-								String token;
-								String inStr = new String(value);
-								StringBuffer outStr = new StringBuffer("(");
-								int i = inStr.indexOf(',');
-								while (i != -1)
-								{
-									outStr.append("'" + inStr.substring(0, i) + "',");	
-									inStr = inStr.substring(i+1, inStr.length());
-									i = inStr.indexOf(',');
-
-								}
-								outStr.append("'" + inStr + "')");
-								sql.append(field.Help).append(" IN ")
-								.append(outStr);
-							}						
-						}
-						else
-                    	{
-                    		sql.append(field.Help).append(" LIKE ? ");
-                    		m_parameters.add(field.Help);
-                    		m_parameters_values.add("%" + editor.getValue() + "%");
-                    	}      	
-                    }
-                    else
-                    {
-                        sql.append(field.Help).append("=? ");
-                        m_parameters.add(field.Help);
-                        m_parameters_values.add(editor.getValue());
-                    }
-				} else if (editor.getValue() != null
-						&& !editor.getValue().toString().isEmpty()
-						&& field.isRange) {
-					sql.append(" AND ");
-					//sql.append(field.Help).append(" BETWEEN ?");
-					sql.append(field.Help).append(" >= ? ");
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
-					onRange = true;
-				}
-				else if (editor.getValue() == null
-						&& field.isRange) {
-					onRange = true;
-				} else
-					continue;
-			} else if (editor.getValue() != null
-					&& !editor.getValue().toString().isEmpty()) {
-				//sql.append(" AND ? ");
-				sql.append(" AND ").append(field.Help).append(" <= ? ");
-				m_parameters.add(field.Help);
-				m_parameters_values.add(editor.getValue());
-				onRange = false;
-			}
-			else
-				onRange = false;
+			GridField field = editor.getGridField();
+			field.setValue(editor.getValue(), true);
+			m_List.put(entry.getKey(), field);
 		}
-		m_whereClause = sql.toString();
-		return sql.toString();
+		//	Default Return
+		return m_List;
 	}
-
-	public void setParameters() {
-		
-		m_parameters_values = new ArrayList<Object>();
-		m_parameters = new ArrayList<Object>();
-		m_parameters_field = new ArrayList<GridFieldVO>();
-		boolean onRange = false;
-		
-		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
-			WEditor editor = (WEditor) entry.getValue();
-			GridFieldVO field = editor.getGridField().getVO();
-			if (!onRange) {
-
-				if (editor.getValue() != null
-						&& !editor.getValue().toString().isEmpty()
-						&& !field.isRange) {
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
-					m_parameters_field.add(field);
-				} else if (editor.getValue() != null
-						&& !editor.getValue().toString().isEmpty()
-						&& field.isRange) {
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
-					m_parameters_field.add(field);
-					onRange = true;
-				} else
-					continue;
-			} else if (editor.getValue() != null
-					&& !editor.getValue().toString().isEmpty()) {
-				m_parameters.add(field.Help);
-				m_parameters_values.add(editor.getValue());
-				m_parameters_field.add(field);
-				onRange = false;
-			}
-		}
-	}
-
+	
 	/**
-	 * Evaluate Mandatory Filter
-	 * @return
+	 * Selected Rows
 	 */
-	public boolean evaluateMandatoryFilter()
+	private void selectedRows()
 	{
-		Object value_from=null;
-		boolean onRange = false;
-		boolean result =true;
-
-		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
-			WEditor editor = (WEditor) entry.getValue();
-			GridFieldVO field = editor.getGridField().getVO();
-			if (!onRange) {
-
-				if ((editor.getValue() == null
-						|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
-						&& !field.isRange
-						&& editor.isMandatory()) {
-					FDialog.error(getWindowNo(), getForm(), "FillMandatory", Msg.translate(Env.getCtx(), field.ColumnName));
-					return false;
-				} else if (editor.getValue() != null
-						&& !editor.getValue().toString().isEmpty()
-						&& field.isRange
-						&& editor.isMandatory()) {
-					onRange = true;
-					value_from =editor.getValue();
-				}else if (editor.getValue() == null
-						&& field.isRange
-						&& editor.isMandatory()) {
-					onRange = true;
-					value_from = null;
+		int topIndex = detail.isShowTotals() ? 2 : 1;
+		int rows = detail.getRowCount();
+		int selectedList[] = new int[rows];
+		if(isAllSelected)
+		{
+			for (int row = 0; row <= rows - topIndex; row++) {
+				Object data = detail.getModel().getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					dataColumn.setSelected(true);
+					detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
 				}
-				else
-					continue;
-			} else if ((editor.getValue() == null
-					|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
-					&& editor.isMandatory()) {
-				if (value_from!=null){
-					value_from=null;
-					onRange = false;
-				}
-				else
-				{
-					FDialog.error(getWindowNo(), getForm(), "FillMandatory", Msg.translate(Env.getCtx(),field.ColumnName));
-					return false;
+				selectedList[row] = row;
+			}
+			detail.setSelectedIndices(selectedList);
+		} else {
+			for (int row = 0; row <= rows - topIndex; row++) {
+				Object data = detail.getModel().getValueAt(row,
+						m_keyColumnIndex);
+				if (data instanceof IDColumn) {
+					IDColumn dataColumn = (IDColumn) data;
+					dataColumn.setSelected(false);
+					detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
 				}
 			}
-			else{
-				onRange = false;
-				value_from=null;
-			}
-
+			detail.clearSelection();
 		}
-
-		return result;
+			isAllSelected = !isAllSelected;
 	}
 }
