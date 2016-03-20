@@ -71,6 +71,8 @@ import org.eevolution.grid.IBrowserRows;
  * 		@see https://github.com/adempiere/adempiere/issues/242
  * 		<li>FR [ 245 ] Change Smart Browse to MVC
  * 		@see https://github.com/adempiere/adempiere/issues/245
+ * 		<li>FR [ 246 ] Smart Browse validate parameters when is auto-query
+ * 		@see https://github.com/adempiere/adempiere/issues/246
  * 
  */
 public abstract class Browser {
@@ -383,6 +385,21 @@ public abstract class Browser {
 	}
 	
 	/**
+	 * BR [ 246 ]
+	 * Validate if has mandatory parameters
+	 * @return
+	 */
+	public boolean hasMandatoryParams() {
+		for (Entry<Object, GridField> entry : getPanelParameters().entrySet()) {
+			GridField editor = (GridField) entry.getValue();
+			if(editor.isMandatory(true))
+				return true;
+		}
+		//	Default
+		return false;
+	}
+	
+	/**
 	 * FR [ 245 ]
 	 * Initialize process info
 	 */
@@ -407,7 +424,8 @@ public abstract class Browser {
 		
 		//	Valid null
 		LinkedHashMap<Object, GridField> panelParameters = getPanelParameters();
-		if(panelParameters == null)
+		if(panelParameters == null
+				|| panelParameters.size() == 0)
 			return m_whereClause;
 		//	
 		m_parameters_values = new ArrayList<Object>();

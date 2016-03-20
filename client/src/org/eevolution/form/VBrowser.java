@@ -86,6 +86,8 @@ import org.eevolution.grid.BrowseTable;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>FR [ 245 ] Change Smart Browse to MVC
  * 		@see https://github.com/adempiere/adempiere/issues/245
+ * 		<li>FR [ 246 ] Smart Browse validate parameters when is auto-query
+ * 		@see https://github.com/adempiere/adempiere/issues/246
  */
 public class VBrowser extends Browser implements ActionListener,
 		VetoableChangeListener, ChangeListener, ListSelectionListener,
@@ -187,8 +189,9 @@ public class VBrowser extends Browser implements ActionListener,
 						+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"),
 				false);
 		setStatusDB(Integer.toString(no));
-		
-		if (isExecuteQueryByDefault())
+		//	
+		if (isExecuteQueryByDefault()
+				&& !hasMandatoryParams())
 			executeQuery();
 	}
 	
