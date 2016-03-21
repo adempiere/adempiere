@@ -91,7 +91,8 @@ import org.zkoss.zul.Vbox;
  * 		@see https://github.com/adempiere/adempiere/issues/246
  * 		<li>FR [ 247 ] Smart Browse don't have the standard buttons
  * 		@see https://github.com/adempiere/adempiere/issues/247
- *
+ * 		<li>FR [ 249 ] Smart Browse not validate process parameter when its are mandatory
+ * 		@see https://github.com/adempiere/adempiere/issues/249
  */
 public class WBrowser extends Browser implements IFormController,
 		EventListener, WTableModelListener, ValueChangeListener, ASyncProcess {
@@ -238,6 +239,9 @@ public class WBrowser extends Browser implements IFormController,
 		statusBar.setStatusDB(text);
 	}
 
+	/**
+	 * Execute Query
+	 */
 	protected void executeQuery() {
 		//	FR [ 245 ]
 		String errorMsg = evaluateMandatoryFilter();
@@ -279,6 +283,9 @@ public class WBrowser extends Browser implements IFormController,
 		}
 	}
 
+	/**
+	 * Zoom
+	 */
 	private void cmd_zoom() {
 		showBusyDialog();
 		
@@ -289,6 +296,9 @@ public class WBrowser extends Browser implements IFormController,
 		hideBusyDialog();
 	}
 	
+	/**
+	 * For Delete Selection
+	 */
 	private void cmd_deleteSelection() {
 		if (FDialog.ask(getWindowNo(), m_frame, "DeleteSelection"))
 		{	
@@ -382,22 +392,24 @@ public class WBrowser extends Browser implements IFormController,
 
 		try{
 			toolsBar = new ToolBar();
-			WAppsAction selectAllAction = new WAppsAction (ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
-			bOk = selectAllAction.getButton();
-			selectAllAction = new WAppsAction (ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
-			bCancel = selectAllAction.getButton();
+			WAppsAction action = new WAppsAction (ConfirmPanel.A_REFRESH, null, ConfirmPanel.A_REFRESH);
+			bSearch = action.getButton();
+			action = new WAppsAction (ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
+			bOk = action.getButton();
+			action = new WAppsAction (ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+			bCancel = action.getButton();
 //			selectAllAction = new WAppsAction (ConfirmPanel.A_PRINT, null, ConfirmPanel.A_PRINT);
 //			bPrint = selectAllAction.getButton();
-			selectAllAction = new WAppsAction (ConfirmPanel.A_ZOOM, null, ConfirmPanel.A_ZOOM);
-			bZoom = selectAllAction.getButton();
-			selectAllAction = new WAppsAction (ConfirmPanel.A_EXPORT, null, ConfirmPanel.A_EXPORT);
-			bExport =  selectAllAction.getButton();
-			selectAllAction = new WAppsAction (ConfirmPanel.A_DELETE, null, ConfirmPanel.A_DELETE);
-			bDelete = selectAllAction.getButton();
+			action = new WAppsAction (ConfirmPanel.A_ZOOM, null, ConfirmPanel.A_ZOOM);
+			bZoom = action.getButton();
+			action = new WAppsAction (ConfirmPanel.A_EXPORT, null, ConfirmPanel.A_EXPORT);
+			bExport =  action.getButton();
+			action = new WAppsAction (ConfirmPanel.A_DELETE, null, ConfirmPanel.A_DELETE);
+			bDelete = action.getButton();
 //			selectAllAction = new WAppsAction ("Find", null, "Find");
 //			bFind = selectAllAction.getButton();
-			selectAllAction = new WAppsAction ("SelectAll", null, Msg.getMsg(Env.getCtx(),"SelectAll"));
-			bSelectAll = selectAllAction.getButton();
+			action = new WAppsAction ("SelectAll", null, Msg.getMsg(Env.getCtx(),"SelectAll"));
+			bSelectAll = action.getButton();
 		}
 		catch(Exception e)
 		{
@@ -421,7 +433,6 @@ public class WBrowser extends Browser implements IFormController,
 		collapsibleSeach = new North();
 		topPanel = new Hbox();
 		searchGrid = new WBrowserSearch(getWindowNo());
-		bSearch = new Button();
 		detail = new WBrowseListbox(this);
 		bCancel = new Button();
 		bOk = new Button();
@@ -652,35 +663,42 @@ public class WBrowser extends Browser implements IFormController,
 		
 		saveResultSelection(detail);
 		saveSelection(detail);
-		
+		//	Is Process ok
+		boolean isOk = false;
+		//	Valid Process, Selected Keys and process parameters
 		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
 		{
-
 			MPInstance instance = new MPInstance(Env.getCtx(),
 					m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
 			instance.saveEx();
-	
-			DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
-					null);
-
 			ProcessInfo pi = getBrowseProcessInfo();
 			pi.setWindowNo(getWindowNo());
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-			//Save Values Browse Field Update
-			createT_Selection_Browse(instance.getAD_PInstance_ID());
-			parameterPanel.saveParameters();
-			ProcessInfoUtil.setParameterFromDB(pi);
-			setBrowseProcessInfo(pi);
-						
-			// Execute Process
-			ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo(), pi , null);
-			showBusyDialog();
-			worker.run();
-			hideBusyDialog();
-			setStatusLine(pi.getSummary(), pi.isError());
-		}	
-		p_loadedOK = initBrowser();
-		collapsibleSeach.setOpen(true);
+			pi.setIsSelection(p_multiSelection);
+			// BR [ 249 ]
+			if(parameterPanel.saveParameters()) {
+				DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
+						null);
+				//Save Values Browse Field Update
+				createT_Selection_Browse(instance.getAD_PInstance_ID());
+				ProcessInfoUtil.setParameterFromDB(pi);
+				setBrowseProcessInfo(pi);
+							
+				// Execute Process
+				ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo(), pi , null);
+				showBusyDialog();
+				worker.run();
+				hideBusyDialog();
+				setStatusLine(pi.getSummary(), pi.isError());
+				//	For Valid Ok
+				isOk = pi.isError();
+			}
+		}
+		//	For when is ok the process
+		if(isOk) {
+			p_loadedOK = initBrowser();
+			collapsibleSeach.setOpen(true);
+		}
 	}
 	
 	private void showBusyDialog() {

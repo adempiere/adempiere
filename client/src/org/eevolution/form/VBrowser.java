@@ -22,7 +22,6 @@ import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -95,6 +94,8 @@ import org.eevolution.grid.BrowseTable;
  * 		@see https://github.com/adempiere/adempiere/issues/247
  * 		<li>FR [ 248 ] Smart Browse not open on modal inside a window
  * 		@see https://github.com/adempiere/adempiere/issues/248
+ * 		<li>FR [ 249 ] Smart Browse not validate process parameter when its are mandatory
+ * 		@see https://github.com/adempiere/adempiere/issues/249
  */
 public class VBrowser extends Browser implements ActionListener,
 		VetoableChangeListener, ChangeListener, ListSelectionListener,
@@ -539,40 +540,53 @@ public class VBrowser extends Browser implements ActionListener,
 			log.config("Worker alive=" + m_worker.isAlive());
 		}
 		m_worker = null;
-		
 		saveResultSelection(detail);
 		saveSelection(detail);
-		
+		//	Is Process ok
+		boolean isOk = false;
+		//	Valid Process, Selected Keys and process parameters
 		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
 		{
-
+			//	
 			MPInstance instance = new MPInstance(Env.getCtx(),
 					m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
 			instance.saveEx();
-	
-			DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
-					null);
-			
 			ProcessInfo pi = getBrowseProcessInfo();
 			pi.setWindowNo(getWindowNo());
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-			// call process 
-			parameterPanel.saveParameters();
-			ProcessInfoUtil.setParameterFromDB(pi);
-			setBrowseProcessInfo(pi);
-			//Save Values Browse Field Update
-			createT_Selection_Browse(instance.getAD_PInstance_ID());
-			// Execute Process
-			ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
-			m_waiting = new Waiting ((Frame) m_frame.getContainer(), Msg.getMsg(Env.getCtx(), "Processing"), false, getBrowseProcessInfo().getEstSeconds());
-			worker.run(); // complete tasks in unlockUI /
-			m_waiting.doNotWait();
-			setStatusLine(pi.getSummary(), pi.isError());
-			
+			pi.setIsSelection(p_multiSelection);
+			// BR [ 249 ]
+			if(parameterPanel.saveParameters()) {
+				DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
+						null);
+				//	Call Process
+				ProcessInfoUtil.setParameterFromDB(pi);
+				setBrowseProcessInfo(pi);
+				//Save Values Browse Field Update
+				createT_Selection_Browse(instance.getAD_PInstance_ID());
+				// Execute Process
+				ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
+				//	
+				String msg = Msg.getMsg(Env.getCtx(), "Processing");
+				//	For Dialog
+				if(m_frame.isDialog()) {
+					m_waiting = new Waiting (m_frame.getCDialog(), msg, false, getBrowseProcessInfo().getEstSeconds());
+				} else {
+					m_waiting = new Waiting (m_frame.getCFrame(), msg, false, getBrowseProcessInfo().getEstSeconds());
+				}
+				worker.run(); // complete tasks in unlockUI /
+				m_waiting.doNotWait();
+				setStatusLine(pi.getSummary(), pi.isError());
+				//	For Valid Ok
+				isOk = pi.isError();
+			}
 		}
 		m_frame.setCursor(Cursor.getDefaultCursor());
-		p_loadedOK = initBrowser();
-		collapsibleSearch.setCollapsed(false);
+		//	For when is ok the process
+		if(isOk) {
+			p_loadedOK = initBrowser();
+			collapsibleSearch.setCollapsed(false);
+		}
 	}
 
 	/**
