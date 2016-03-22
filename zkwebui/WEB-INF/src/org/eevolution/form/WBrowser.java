@@ -142,6 +142,7 @@ public class WBrowser extends Browser implements IFormController,
 		
 		m_frame = new CustomForm();
 		windowNo = SessionManager.getAppDesktop().registerWindow(this);
+		copyWinContext();
 		setContextWhere(whereClause);
 		//	Init Smart Browse
 		init();

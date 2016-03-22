@@ -148,7 +148,8 @@ public class VBrowser extends Browser implements ActionListener,
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 		windowNo = Env.createWindowNo(m_frame.getContainer());
 		setProcessInfo(frame.getProcessInfo());
-		setContextWhere(whereClause);		
+		copyWinContext();
+		setContextWhere(whereClause);
 		//	Init Smart Browse
 		init();
 	} // InfoGeneral
