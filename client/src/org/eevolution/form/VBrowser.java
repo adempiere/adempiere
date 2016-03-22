@@ -19,6 +19,7 @@
 package org.eevolution.form;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -96,6 +97,8 @@ import org.eevolution.grid.BrowseTable;
  * 		@see https://github.com/adempiere/adempiere/issues/248
  * 		<li>FR [ 249 ] Smart Browse not validate process parameter when its are mandatory
  * 		@see https://github.com/adempiere/adempiere/issues/249
+ * 		<li>BR [ 251 ] Smart Browse get the hidden parameters
+ * 		@see https://github.com/adempiere/adempiere/issues/251
  */
 public class VBrowser extends Browser implements ActionListener,
 		VetoableChangeListener, ChangeListener, ListSelectionListener,
@@ -873,6 +876,10 @@ public class VBrowser extends Browser implements ActionListener,
 		LinkedHashMap<Object, GridField> m_List = new LinkedHashMap<Object, GridField>();
 		for (Entry<Object, Object> entry : searchPanel.getParameters().entrySet()) {
 			VEditor editor = (VEditor) entry.getValue();
+			//	BR [ 251 ]
+			if(!((Component)editor).isVisible())
+				continue;
+			//	
 			GridField field = editor.getField();
 			field.setValue(editor.getValue(), true);
 			m_List.put(entry.getKey(), field);
