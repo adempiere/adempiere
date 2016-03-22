@@ -17,6 +17,7 @@
  *****************************************************************************/
 package org.eevolution.form;
 
+import java.awt.Component;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -93,6 +94,8 @@ import org.zkoss.zul.Vbox;
  * 		@see https://github.com/adempiere/adempiere/issues/247
  * 		<li>FR [ 249 ] Smart Browse not validate process parameter when its are mandatory
  * 		@see https://github.com/adempiere/adempiere/issues/249
+ * 		<li>BR [ 251 ] Smart Browse get the hidden parameters
+ * 		@see https://github.com/adempiere/adempiere/issues/251
  */
 public class WBrowser extends Browser implements IFormController,
 		EventListener, WTableModelListener, ValueChangeListener, ASyncProcess {
@@ -855,6 +858,10 @@ public class WBrowser extends Browser implements IFormController,
 		LinkedHashMap<Object, GridField> m_List = new LinkedHashMap<Object, GridField>();
 		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
+			//	BR [ 251 ]
+			if(!editor.isVisible())
+				continue;
+			//
 			GridField field = editor.getGridField();
 			field.setValue(editor.getValue(), true);
 			m_List.put(entry.getKey(), field);
