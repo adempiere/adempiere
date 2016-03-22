@@ -209,7 +209,16 @@ public abstract class Browser {
 	protected boolean isShowTotal = false;
 	protected int     AD_Window_ID = 0;
 
-
+	/**
+	 * Standard Contructor
+	 * @param modal
+	 * @param WindowNo
+	 * @param value
+	 * @param browse
+	 * @param keyColumn
+	 * @param multiSelection
+	 * @param where
+	 */
 	public Browser(boolean modal, int WindowNo, String value, MBrowse browse,
                    String keyColumn, boolean multiSelection, String where) {
 		m_Browse = browse;
@@ -250,7 +259,7 @@ public abstract class Browser {
 			p_whereClause = whereClause;
 		else {
 			//	BR [ 242 ]
-			p_whereClause = Env.parseContext(Env.getCtx(), getParentWindowNo(),
+			p_whereClause = Env.parseContext(Env.getCtx(), getWindowNo(),
 					whereClause, false, false);
 			if (p_whereClause.length() == 0)
 				log.log(Level.SEVERE, "Cannot parse context= " + whereClause);
@@ -258,6 +267,24 @@ public abstract class Browser {
 
 		log.info(m_Browse.getName() + " - " + p_whereClause);
 	}
+	
+	/**
+	 * Copy Context from parent window
+	 * @param fromWindowNo
+	 * @param toWindowNo
+	 */
+	public void copyWinContext() {
+		//
+		Object[] keys = Env.getCtx().keySet().toArray();
+		for (int i = 0; i < keys.length; i++) {
+			String tag = keys[i].toString();
+			if (tag.startsWith(getParentWindowNo()+"|")) {
+				String context = tag.substring(tag.lastIndexOf("|") + 1);
+				String value = Env.getContext(Env.getCtx(), getParentWindowNo(), context);
+				Env.setContext(Env.getCtx(), getWindowNo(), context, value);
+			}
+		}
+	}	//	copyWinContext
 	
 	/**
 	 * Initialize data of browser
@@ -998,7 +1025,7 @@ public abstract class Browser {
 					throw new AdempiereException("@NotFound@ @IsParent@");
 				//	BR [ 242 ]
 				if(field.getAD_Val_Rule_ID() > 0)
-					whereClause = Env.parseContext(Env.getCtx(), getParentWindowNo() , field.getAD_Val_Rule().getCode(), false);
+					whereClause = Env.parseContext(Env.getCtx(), getWindowNo() , field.getAD_Val_Rule().getCode(), false);
 
 			}
 
@@ -1553,7 +1580,7 @@ public abstract class Browser {
 	 * Get Window Number from parent window
 	 * @return
 	 */
-	public int getParentWindowNo() {
+	private int getParentWindowNo() {
 		return parentWindowNo;
 	}
 }
