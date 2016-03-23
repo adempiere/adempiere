@@ -99,6 +99,8 @@ import org.eevolution.grid.BrowseTable;
  * 		@see https://github.com/adempiere/adempiere/issues/249
  * 		<li>BR [ 251 ] Smart Browse get the hidden parameters
  * 		@see https://github.com/adempiere/adempiere/issues/251
+ * 		<li>FR [ 252 ] Smart Browse is Collapsible when query don't have result
+ * 		@see https://github.com/adempiere/adempiere/issues/252
  */
 public class VBrowser extends Browser implements ActionListener,
 		VetoableChangeListener, ChangeListener, ListSelectionListener,
@@ -660,14 +662,14 @@ public class VBrowser extends Browser implements ActionListener,
 		 * Do Work (load data)
 		 */
 		public void run() {
-			//	Set Collapsed
-			collapsibleSearch.setCollapsed(!isCollapsibleByDefault());
 			//	
 			long start = System.currentTimeMillis();
 			int no = 0;
 			dataSql = getSQL();
 			//	Row
 			int row = 0;
+			//	Delete Row
+			detail.setRowCount(row);
 			try {
 				m_pstmt = getStatement(dataSql);
 				log.fine("Start query - "
@@ -675,55 +677,58 @@ public class VBrowser extends Browser implements ActionListener,
 				m_rs = m_pstmt.executeQuery();
 				log.fine("End query - " + (System.currentTimeMillis() - start)
 						+ "ms");
-				//	Loop
-				while (m_rs.next()) {
-					if (this.isInterrupted()) {
-						log.finer("Interrupted");
-						close();
-						return;
-					}
-					no++;
-//					int row = detail.getRowCount();
-					detail.setRowCount(row + 1);
-					int colOffset = 1; // columns start with 1
-					int columnDisplayIndex =0;
-					int column = 0;
-					for (MBrowseField field : browserFields) {
-						Object value = null;
-						if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
-							value = new IDColumn(m_rs.getInt(column + colOffset));
-						else if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
-							value  = new IDColumn(no);
-						else if (DisplayType.TableDir == field.getAD_Reference_ID()
-							  || DisplayType.Table == field.getAD_Reference_ID()
-							  || DisplayType.Integer == field.getAD_Reference_ID()
-							  || DisplayType.PAttribute == field.getAD_Reference_ID()
-							  || DisplayType.Account == field.getAD_Reference_ID()) {
-							Integer id = m_rs.getInt(column + colOffset);
-							value = id != 0 ? id : null;
+				if(m_rs.next()) {
+					//	Set Collapsed FR [ 252 ]
+					collapsibleSearch.setCollapsed(!isCollapsibleByDefault());
+					//	Loop
+					do {
+						if (this.isInterrupted()) {
+							log.finer("Interrupted");
+							close();
+							return;
 						}
-						else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
-							value = m_rs.getBigDecimal(column + colOffset);
-						else if (DisplayType.isDate(field.getAD_Reference_ID()))
-							value = m_rs.getTimestamp(column + colOffset);
-						else if (DisplayType.YesNo == field.getAD_Reference_ID()){
-							value = m_rs.getString(column + colOffset);
-							if (value != null)
-								value= value.equals("Y");
+						no++;
+						detail.setRowCount(row + 1);
+						int colOffset = 1; // columns start with 1
+						int columnDisplayIndex = 0;
+						int column = 0;
+						for (MBrowseField field : browserFields) {
+							Object value = null;
+							if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+								value = new IDColumn(m_rs.getInt(column + colOffset));
+							else if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+								value  = new IDColumn(no);
+							else if (DisplayType.TableDir == field.getAD_Reference_ID()
+								  || DisplayType.Table == field.getAD_Reference_ID()
+								  || DisplayType.Integer == field.getAD_Reference_ID()
+								  || DisplayType.PAttribute == field.getAD_Reference_ID()
+								  || DisplayType.Account == field.getAD_Reference_ID()) {
+								Integer id = m_rs.getInt(column + colOffset);
+								value = id != 0 ? id : null;
+							}
+							else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
+								value = m_rs.getBigDecimal(column + colOffset);
+							else if (DisplayType.isDate(field.getAD_Reference_ID()))
+								value = m_rs.getTimestamp(column + colOffset);
+							else if (DisplayType.YesNo == field.getAD_Reference_ID()){
+								value = m_rs.getString(column + colOffset);
+								if (value != null)
+									value= value.equals("Y");
+							}
+							else
+								value = m_rs.getObject(column + colOffset);
+
+							GridField gridField = MBrowseField.createGridFieldVO(field , getWindowNo());
+							gridField.setValue(value, true);
+							detail.setValueAt(row, columnDisplayIndex, gridField);
+							if (field.isDisplayed())
+								columnDisplayIndex++;
+
+							column ++;
 						}
-						else
-							value = m_rs.getObject(column + colOffset);
-
-						GridField gridField = MBrowseField.createGridFieldVO(field , getWindowNo());
-						gridField.setValue(value, true);
-						detail.setValueAt(row, columnDisplayIndex, gridField);
-						if (field.isDisplayed())
-							columnDisplayIndex++;
-
-						column ++;
-					}
-					//	Increment Row
-					row++;
+						//	Increment Row
+						row++;
+					} while (m_rs.next());
 				}
 			} catch (SQLException e) {
 				log.log(Level.SEVERE, dataSql, e);
@@ -752,7 +757,8 @@ public class VBrowser extends Browser implements ActionListener,
 			isAllSelected = isSelectedByDefault();
 			selectedRows(detail);
 			//	Set Collapsed
-			collapsibleSearch.setCollapsed(isCollapsibleByDefault());
+			if(row > 0)
+				collapsibleSearch.setCollapsed(isCollapsibleByDefault());
 		} // run
 
 		/**
