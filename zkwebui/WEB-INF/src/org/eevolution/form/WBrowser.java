@@ -164,7 +164,7 @@ public class WBrowser extends Browser implements IFormController,
 		setStatusDB(Integer.toString(no));
 		//	
 		if(isExecuteQueryByDefault()
-				&& !hasMandatoryParams())
+				&& evaluateMandatoryFilter() == null)
 			executeQuery();
 	}
 	

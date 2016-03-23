@@ -205,7 +205,7 @@ public class VBrowser extends Browser implements ActionListener,
 		setStatusDB(Integer.toString(no));
 		//	
 		if (isExecuteQueryByDefault()
-				&& !hasMandatoryParams())
+				&& evaluateMandatoryFilter() == null)
 			executeQuery();
 	}
 	
