@@ -664,7 +664,7 @@ public class CPOS {
 			currentOrder.setM_PriceList_ID(entityPOS.getM_PriceList_ID());
 		if (entityPOS.getDeliveryRule() != null)
 			currentOrder.setDeliveryRule(getDeliveryRule());
-		if (entityPOS.getDeliveryRule() != null)
+		if (entityPOS.getInvoiceRule() != null)
 			currentOrder.setInvoiceRule(getInvoiceRule());
 		currentOrder.setC_POS_ID(entityPOS.getC_POS_ID());
 		currentOrder.setM_Warehouse_ID(entityPOS.getM_Warehouse_ID());
@@ -1218,7 +1218,7 @@ public class CPOS {
 			// In case the Order is Invalid, set to In Progress; otherwise it will not be completed
 			if (currentOrder.getDocStatus().equalsIgnoreCase(MOrder.STATUS_Invalid) ) 
 				currentOrder.setDocStatus(MOrder.STATUS_InProgress);
-				
+
 			currentOrder.setDocAction(DocAction.ACTION_Complete);
 			if (currentOrder.processIt(DocAction.ACTION_Complete) ) {
 				currentOrder.saveEx();
