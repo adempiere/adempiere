@@ -120,10 +120,10 @@ public class VCollect extends Collect
 	
 	/**	Log					*/
 	private CLogger 		log = CLogger.getCLogger(VCollect.class);
-	/**	Default Width		*/
-	private final int		SUMMARY_FIELD_WIDTH 	= 200;
-	/**	Default Height		*/
-	private final int		SUMMARY_FIELD_HEIGHT 	= 30;
+
+	private Dimension screenSize;
+	private int widthSize;
+	private int heightSize;
 
 	/**
 	 * Init Dialog
@@ -144,6 +144,10 @@ public class VCollect extends Collect
 	 * @return void
 	 */
 	private void jbInit() throws Exception {
+		screenSize = pos.getSize();
+		widthSize = (screenSize.width * 40) / 100 ;
+		heightSize = (screenSize.height * 50) / 100 ;
+
 		//	Instance Dialog
 		//dialog = new CDialog(Env.getWindow(pos.getWindowNo()), Msg.translate(ctx, "Payment"), true);
 		dialog = new CPanel();
@@ -155,10 +159,8 @@ public class VCollect extends Collect
 		parameterPanel = new CPanel();
 
 		centerPanel = new CPanel();
-		//centerPanel.setMinimumSize(new Dimension(200, 300));
-		//centerPanel.setSize(new Dimension(200, 300));
 		scrollPane = new JScrollPane();
-		scrollPane.setPreferredSize(new Dimension(700, 700));
+		scrollPane.setPreferredSize(new Dimension(widthSize, heightSize));
 
 		mainPanel.setLayout(mainLayout);
 		parameterPanel.setLayout(parameterLayout);
@@ -168,34 +170,30 @@ public class VCollect extends Collect
 
 		//	Add Payment Amount
 		labelPayAmt = new CLabel(Msg.translate(ctx, "PayAmt") + ":");
-		labelPayAmt.setFont(pos.getPlainFont());
+		labelPayAmt.setFont(pos.getBigFont());
 		//
 		fieldPayAmt = new CLabel();
-		fieldPayAmt.setFont(pos.getFont());
-		fieldPayAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
+		fieldPayAmt.setFont(pos.getBigFont()	);
 		
 		//	Add Payment Amount
 		labelOpenAmt = new CLabel(Msg.translate(ctx, "OpenAmt") + ":");
-		labelOpenAmt.setFont(pos.getPlainFont());
+		labelOpenAmt.setFont(pos.getBigFont());
 		//	
 		fieldOpenAmt = new CLabel();
-		fieldOpenAmt.setFont(pos.getFont());
-		fieldOpenAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
+		fieldOpenAmt.setFont(pos.getBigFont());
 		
 		//	For Returned Amount
 		labelReturnAmt = new CLabel(Msg.translate(ctx, "AmountReturned") + ":");
-		labelReturnAmt.setFont(pos.getPlainFont());
+		labelReturnAmt.setFont(pos.getBigFont());
 		//	
 		fieldReturnAmt = new CLabel();
-		fieldReturnAmt.setFont(pos.getFont());
-		fieldReturnAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
+		fieldReturnAmt.setFont(pos.getBigFont());
 
 		labelPaidAmt = new CLabel(Msg.translate(ctx, "PaidAmt") + ":");
-		labelPaidAmt.setFont(pos.getPlainFont());
+		labelPaidAmt.setFont(pos.getBigFont());
 		labelPaidAmt.setVisible(false);
 		fieldPaidAmt = new CLabel();
-		fieldPaidAmt.setFont(pos.getFont());
-		fieldPaidAmt.setPreferredSize(new Dimension(SUMMARY_FIELD_WIDTH, SUMMARY_FIELD_HEIGHT));
+		fieldPaidAmt.setFont(pos.getBigFont());
 		fieldPaidAmt.setVisible(false);
 
 		//	Add Plus Button
@@ -211,37 +209,37 @@ public class VCollect extends Collect
 		buttonOk.setPreferredSize(new Dimension(pos.getButtonSize(), pos.getButtonSize()));
 
 		parameterPanel.add(labelPayAmt, new GridBagConstraints(1, 0, 1, 1, 0.0,	0.0,
-				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(2, 2, 2, 0), 0, 0));
 		
 		parameterPanel.add(fieldPayAmt, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(2, 2, 2, 0), 0, 0));
 		
 		parameterPanel.add(labelOpenAmt, new GridBagConstraints(1, 1, 1, 1, 0.0,	0.0,
-				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(2, 2, 2, 0), 0, 0));
 		
 		parameterPanel.add(fieldOpenAmt, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(2, 2, 2, 0), 0, 0));
 		
 		parameterPanel.add(labelReturnAmt, new GridBagConstraints(1, 2, 1, 1, 0.0,0.0,
-				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(2, 2, 2, 0), 0, 0));
 		
 		parameterPanel.add(fieldReturnAmt, new GridBagConstraints(2, 2, 1, 1, 0.0,0.0,
-				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.EAST, GridBagConstraints.NONE,new Insets(2, 2, 2, 0), 0, 0));
 
 		parameterPanel.add(labelPaidAmt, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
 
 		parameterPanel.add(fieldPaidAmt, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
 
 		parameterPanel.add(buttonPlus, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
-							GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
+							GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
 
 		parameterPanel.add(buttonCancel, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
 
 		parameterPanel.add(buttonOk, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0,
-				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
+				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 2, 2, 0), 0, 0));
 
 		//	Add Fields to Main Panel
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
@@ -273,7 +271,7 @@ public class VCollect extends Collect
 		addCollect(collectDetail);
 		// add parameter panel
 		centerPanel.add(collectDetail.getPanel(), new GridBagConstraints(0, collectRowNo, 1, 1, 0.0, 0.0,
-						GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 5, 5, 5), 0, 0));
+						GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(1, 1, 1, 1), 0, 0));
 		//	Repaint
 		scrollPane.validate();
 		scrollPane.repaint();
@@ -401,11 +399,9 @@ public class VCollect extends Collect
 	 * @return boolean
 	 */
 	public boolean showPanel() {
-		//	Resize to Heigth
-		Dimension screenSize = Env.getWindow(pos.getWindowNo()).getSize();
+		//	Resize to Height
 		//	Set static width
-		screenSize.width = 500;
-		dialog.setMinimumSize(screenSize);
+		dialog.setMinimumSize(new Dimension(widthSize , heightSize));
 		dialog.setVisible(true);
 		return isProcessed;
 	}
@@ -537,6 +533,11 @@ public class VCollect extends Collect
 	public CPanel getPanel()
 	{
 		return dialog;
+	}
+
+	public VPOS getPOS()
+	{
+		return pos;
 	}
 
 } // VCollect

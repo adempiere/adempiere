@@ -114,7 +114,7 @@ public class POSInfoProduct extends POSSubPanel {
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 0), 0, 0));
 
 		labelPriceName = new CLabel (Msg.parseTranslation(ctx , "@PriceStd@ , @PriceList@ ") + posPanel.getCurSymbol());
-		labelPriceName.setFont(posPanel.getPlainFont());
+		labelPriceName.setFont(posPanel.getBigFont());
 		labelPriceName.setHorizontalAlignment(CLabel.LEFT);
 		labelPriceName.setHorizontalTextPosition(CLabel.LEFT);
 		//	Add

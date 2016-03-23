@@ -163,7 +163,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		int col = e.getColumn();
 		//  Not a table update
 
-		if(col == POSOrderLineTableHandle.POSITION_DELETE) {
+		/*if(col == POSOrderLineTableHandle.POSITION_DELETE) {
 			//	Remove Listener
     		posTable.getModel().removeTableModelListener(this);
 
@@ -181,7 +181,7 @@ public class POSOrderLinePanel extends POSSubPanel
 			posTable.requestFocusInWindow();
 			//	Exit
 			return;
-		}
+		}*/
 		if (!isUpdate
 				|| (col != POSOrderLineTableHandle.POSITION_QTYORDERED
 						&& col != POSOrderLineTableHandle.POSITION_PRICE)) {
@@ -377,7 +377,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		POSTable c_table = (POSTable)e.getSource();
 		int row = c_table.getSelectedRow();
 		int column = c_table.getSelectedColumn();
-		if(column == POSOrderLineTableHandle.POSITION_DELETE) {
+		/*if(column == POSOrderLineTableHandle.POSITION_DELETE) {
 			posTable.getModel().removeTableModelListener(this);
 			IDColumn key = (IDColumn) c_table.getValueAt(row, 0);
 			posPanel.setOrderLineId(key.getRecord_ID());
@@ -387,7 +387,7 @@ public class POSOrderLinePanel extends POSSubPanel
 			posTable.getModel().addTableModelListener(this);
 			posPanel.refreshHeader();
 			return;
-		}
+		}*/
 		if (row != -1)	{
 			showProductInfo(row);
 		}
@@ -426,7 +426,7 @@ public class POSOrderLinePanel extends POSSubPanel
 			posPanel.setQuantity(quantity);
 			posPanel.setPrice(price);
 			posPanel.setDiscountPercentage(discount);
-			posPanel.changeViewPanel();
+ 			posPanel.changeViewPanel();
 			posPanel.refreshProductInfo(posPanel.getM_Product_ID(posPanel.getOrderLineId()));
 		}
 	}

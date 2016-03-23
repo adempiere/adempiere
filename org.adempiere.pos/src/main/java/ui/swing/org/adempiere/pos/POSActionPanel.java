@@ -229,8 +229,8 @@ public class POSActionPanel extends POSSubPanel
 		fieldProductName.setPlaceholder(labelName);
 		fieldProductName.addActionListener(this);
 		fieldProductName.setFont(posPanel.getFont());
-		fieldProductName.setPreferredSize(new Dimension(250, posPanel.getFieldLenght()));
-		fieldProductName.setMinimumSize(new Dimension(250, posPanel.getFieldLenght()));
+		fieldProductName.setPreferredSize(new Dimension(250, posPanel.getFieldHeight()));
+		fieldProductName.setMinimumSize(new Dimension(250, posPanel.getFieldHeight()));
 		fieldProductName.setFocusable(true);
 		fieldProductName.setFocusTraversalKeysEnabled(false);
 		lookupProduct = new POSLookupProduct(this, fieldProductName, 0);

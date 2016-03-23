@@ -91,6 +91,7 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 
 		buttonDelete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_F3, Event.CTRL_MASK));
 		buttonDelete.setToolTipText("CTL+F3-" + Msg.translate(ctx, "DeleteLine"));
+		buttonDelete.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
 		buttonDelete.addActionListener(posPanel.getUserPinListener());
 
 		buttonPanel.add(buttonDelete, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
@@ -98,20 +99,24 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 
 		buttonPlus = createButtonAction("Plus", KeyStroke.getKeyStroke(KeyEvent.VK_1, Event.CTRL_MASK));
 		buttonPlus.setToolTipText("CTL+1-" + Msg.translate(ctx, "add"));
+		buttonPlus.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
 		buttonPanel.add(buttonPlus, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		buttonMinus = createButtonAction("Minus", KeyStroke.getKeyStroke(KeyEvent.VK_0,Event.CTRL_MASK));
 		buttonMinus.setToolTipText("CTL+0-" + Msg.translate(ctx, "decrement"));  // TODO: Create message for decrementing qty by 1
+		buttonMinus.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
 		buttonPanel.add(buttonMinus, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
 		buttonUp = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.ALT_MASK));
+		buttonUp.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
 		buttonUp.setToolTipText("ALT+up-" + Msg.translate(ctx, "Previous"));
 		buttonPanel.add(buttonUp, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 		
 		buttonDown = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.ALT_MASK));
+		buttonDown.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
 		buttonDown.setToolTipText("ALT+down-" + Msg.translate(ctx, "Next"));
 		buttonPanel.add(buttonDown, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
@@ -119,6 +124,7 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 		if (posPanel.isPresentElectronicScales()) {
 			buttonScales = createButtonAction("Calculator", KeyStroke.getKeyStroke(KeyEvent.VK_W, Event.CTRL_MASK));
 			buttonScales.setToolTipText("ALT+down-" + Msg.translate(ctx, "Calculator"));
+			buttonScales.setPreferredSize(new Dimension(posPanel.getButtonSize(), posPanel.getButtonSize()));
 			buttonPanel.add(buttonScales, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 					, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 			buttonScales.addActionListener(posPanel.getScalesListener());
@@ -129,19 +135,21 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 		buttonPanel.add(qtyLabel, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
+		Dimension preferredSize = new Dimension(70, posPanel.getButtonSize());
+		Dimension minimumSize = new Dimension(70, posPanel.getButtonSize());
 		//
 		fieldQuantity = new VNumber();
 		fieldQuantity.addActionListener(this);
 		fieldQuantity.setFont(posPanel.getFont());
-		fieldQuantity.setPreferredSize(new Dimension(100, 50));
-		fieldQuantity.setMinimumSize(new Dimension(100, 50));
+		fieldQuantity.setPreferredSize(preferredSize);
+		fieldQuantity.setMinimumSize(minimumSize);
 		fieldQuantity.setDisplayType(DisplayType.Quantity);
 		fieldQuantity.setValue(Env.ZERO);
 		qtyLabel.setLabelFor(fieldQuantity);
 		buttonPanel.add(fieldQuantity, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
 
-		CLabel priceLabel = new CLabel(Msg.translate(Env.getCtx(), "PriceActual"));
+		CLabel priceLabel = new CLabel(Msg.translate(Env.getCtx(), "Price"));
 		priceLabel.setDisplayedMnemonic(KeyEvent.VK_P);
 		buttonPanel.add(priceLabel, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(topPadding, leftPadding, bottonPadding, rightPadding), 0, 0));
@@ -152,8 +160,8 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 		fieldPrice.setValue(Env.ZERO);
 		fieldPrice.setFont(posPanel.getFont());
 		fieldPrice.setName(priceLabel.getName());
-		fieldPrice.setPreferredSize(new Dimension(100, 50));
-		fieldPrice.setMinimumSize(new Dimension(100, 50));
+		fieldPrice.setPreferredSize(preferredSize);
+		fieldPrice.setMinimumSize(minimumSize);
 		fieldPrice.addActionListener(this);
 		if (!posPanel.isModifyPrice())
 			fieldPrice.setReadWrite(false);
@@ -176,8 +184,8 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 		fieldDiscountPercentage.addActionListener(this);
 		fieldDiscountPercentage.setName(discountPercentageLabel.getName());
 		fieldDiscountPercentage.setFont(posPanel.getFont());
-		fieldDiscountPercentage.setPreferredSize(new Dimension(100, 50));
-		fieldDiscountPercentage.setMinimumSize(new Dimension(100, 50));
+		fieldDiscountPercentage.setPreferredSize(preferredSize);
+		fieldDiscountPercentage.setMinimumSize(minimumSize);
 		if (!posPanel.isModifyPrice())
 			fieldDiscountPercentage.setReadWrite(false);
 		else {
