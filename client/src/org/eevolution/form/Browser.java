@@ -73,6 +73,8 @@ import org.eevolution.grid.IBrowserRows;
  * 		@see https://github.com/adempiere/adempiere/issues/245
  * 		<li>FR [ 246 ] Smart Browse validate parameters when is auto-query
  * 		@see https://github.com/adempiere/adempiere/issues/246
+ * 		<li>BR [ 253 ] Selection fields is not saved in T_Selection_Browse
+ * 		@see https://github.com/adempiere/adempiere/issues/253
  * 
  */
 public abstract class Browser {
@@ -677,8 +679,11 @@ public abstract class Browser {
 			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
 			for (int row = 0; row < rows; row++) {
 				//Find the IDColumn Key
-				Object data = browserRows.getValue(row,
+				GridField selectedGridField = (GridField)browserRows.getValue(row,
 						m_keyColumnIndex);
+				//	Get Value
+				Object data = selectedGridField.getValue();
+				//	
 				if (data instanceof IDColumn) {
 					IDColumn dataColumn = (IDColumn) data;
 					if (dataColumn.isSelected()) {
@@ -686,7 +691,7 @@ public abstract class Browser {
 						for(int col = 0 ; col < browserRows.getColumnCount(); col++)
 						{
 							MBrowseField field = browserRows.getBrowserField(col);
-							if (!field.isReadOnly() || field.isIdentifier() )
+							if (!field.isReadOnly() || field.isIdentifier())
 							{
 								GridField gridField = (GridField) browserRows.getValue(row, col);
 								Object value = gridField.getValue();
