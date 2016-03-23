@@ -17,7 +17,6 @@
  *****************************************************************************/
 package org.eevolution.form;
 
-import java.awt.Component;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -96,6 +95,8 @@ import org.zkoss.zul.Vbox;
  * 		@see https://github.com/adempiere/adempiere/issues/249
  * 		<li>BR [ 251 ] Smart Browse get the hidden parameters
  * 		@see https://github.com/adempiere/adempiere/issues/251
+ * 		<li>FR [ 252 ] Smart Browse is Collapsible when query don't have result
+ * 		@see https://github.com/adempiere/adempiere/issues/252
  */
 public class WBrowser extends Browser implements IFormController,
 		EventListener, WTableModelListener, ValueChangeListener, ASyncProcess {
@@ -258,8 +259,6 @@ public class WBrowser extends Browser implements IFormController,
 
 			if (isDeleteable())
 				bDelete.setEnabled(true);
-
-			collapsibleSeach.setOpen(!isCollapsibleByDefault());
 
 			p_loadedOK = initBrowser();
 
@@ -725,12 +724,11 @@ public class WBrowser extends Browser implements IFormController,
 		bSelectAll.setEnabled(true);
 		bExport.setEnabled(true);
 		bDelete.setEnabled(true);
-		collapsibleSeach.setOpen(!isCollapsibleByDefault());
-		p_loadedOK = initBrowser();
-		Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
+//		p_loadedOK = initBrowser();
+//		Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
 		
-		if (m_Browse.getAD_Process_ID() > 0)
-			parameterPanel.refreshContext();
+//		if (m_Browse.getAD_Process_ID() > 0)
+//			parameterPanel.refreshContext();
 		
 		executeQuery();
 	}
@@ -783,9 +781,17 @@ public class WBrowser extends Browser implements IFormController,
 						+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"),
 				false);
 		setStatusDB(Integer.toString(no));
-		if (no == 0)
+		if (no == 0) {
+			//	FR [ 252 ]
+			if(!collapsibleSeach.isOpen()) {
+				collapsibleSeach.setOpen(!isCollapsibleByDefault());
+			}
+			collapsibleSeach.setOpen(false);
 			log.fine(dataSql);
-		else {
+		} else {
+			if(collapsibleSeach.isOpen()) {
+				collapsibleSeach.setOpen(false);
+			}
 			detail.setFocus(true);
 		}
 		
