@@ -208,7 +208,7 @@ public class POSDocumentPanel extends POSSubPanel
 		//	For Grand Total
 				//	For Totals
 				//	For Total Lines
-				labelDocumentDate = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DateOrdered) + ":");
+				labelDocumentDate = new CLabel (Msg.translate(Env.getCtx(), "Date") + ":");
 				labelDocumentDate.setFont(posPanel.getPlainFont());
 				//	Add
 				totalPanel.add(labelDocumentDate, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0

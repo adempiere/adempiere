@@ -67,7 +67,11 @@ public class POSScalesPanel {
 
 		centerPanel = new CPanel();
 		scrollPane = new JScrollPane();
-		scrollPane.setPreferredSize(new Dimension(700, 700));
+		Dimension screenSize = pos.getSize();
+		int widthSize = (screenSize.width * 40) / 100;
+		int heightSize = (screenSize.height * 70) / 100;
+
+		scrollPane.setPreferredSize(new Dimension(widthSize, heightSize));
 
 		mainPanel.setLayout(mainLayout);
 		parameterPanel.setLayout(parameterLayout);

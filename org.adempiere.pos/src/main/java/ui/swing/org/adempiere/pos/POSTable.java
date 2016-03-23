@@ -158,7 +158,7 @@ public class POSTable extends MiniTable {
 			minWidth.add(new Integer(30));
 			
 		}
-		else if (c == DeleteColumn.class)
+		/*else if (c == DeleteColumn.class)
 		{
 			ButtonRenderer buttonRenderer = new ButtonRenderer();
 			
@@ -170,7 +170,7 @@ public class POSTable extends MiniTable {
 			}
 			minWidth.add(new Integer(30));
 			
-		}
+		}*/
 		//  Date
 		else if (DisplayType.Date == displayType || DisplayType.DateTime == displayType ||  c == Timestamp.class )
 		{

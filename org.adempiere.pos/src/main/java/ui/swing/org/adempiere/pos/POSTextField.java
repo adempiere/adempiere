@@ -75,7 +75,7 @@ public class POSTextField extends JFormattedTextField
 	/**	Place Holder			*/
 	private String 			placeHolder;
 	/**	Default Font			*/
-	private Font 			defaultFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 18);
+	private Font 			defaultFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 16);
 	
 	public void mouseReleased(MouseEvent mouseEvent) {
 		//	Not yet implemented

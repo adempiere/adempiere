@@ -18,6 +18,7 @@
 package org.adempiere.pos;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -149,13 +150,22 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		mainPanel.add(statusBar , BorderLayout.SOUTH);
 
 		//	Set Border
+		/*
 		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 16);
 		plainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 16);
 		bigFont = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 20);
 		bigPlainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 20);
+		decimalFormat = DisplayType.getNumberFormat(DisplayType.Amount);*/
+
+		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 12);
+		plainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 12);
+		bigFont = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 14);
+		bigPlainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 14);
 		decimalFormat = DisplayType.getNumberFormat(DisplayType.Amount);
-		fieldHeight = 50;
-		buttonSize = 50;
+
+
+		fieldHeight = 45;
+		buttonSize = 45;
 		
 	}
 
@@ -321,7 +331,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	 * @return
 	 * @return int
 	 */
-	public int getFieldLenght() {
+	public int getFieldHeight() {
 		return fieldHeight;
 	}
 	
@@ -341,7 +351,15 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	public void autoSize() {
 		dividerPane.setResizeWeight(.6d);
 	}
-	
+
+	/**
+	 *
+	 * @return
+     */
+	public Dimension getSize() {
+		return java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+	}
+
 	/**
 	 * Load POS
 	 * @return String
@@ -390,16 +408,11 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		leftPanel.add(quantityPanel, new GridBagConstraints(0, 2, 1, 1, 1, 0
 				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0 , 10 , 0), 0, 0));
 
-
-		//leftPanel.setPreferredSize(new Dimension(500, 800));
-		//leftPanel.setMinimumSize(new Dimension(500, 800));
 		//
 		orderLinePanel = new POSOrderLinePanel(this);
 		leftPanel.add(orderLinePanel, new GridBagConstraints(0, 4, 1, 1, 1, 1
 				,GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		documentPanel = new POSDocumentPanel(this);
-		//documentPanel.setPreferredSize(new Dimension(500, 700));
-		//documentPanel.setMinimumSize(new Dimension(500, 700));
 		dividerPane.add(leftPanel, JSplitPane.LEFT);
 		dividerPane.add(documentPanel, JSplitPane.RIGHT);
 
@@ -530,6 +543,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 			infoProductPanel.resetValues();
 			quantityPanel.resetPanel();
 		}
+		quantityPanel.refreshPanel();
 	}
 	
 	/**

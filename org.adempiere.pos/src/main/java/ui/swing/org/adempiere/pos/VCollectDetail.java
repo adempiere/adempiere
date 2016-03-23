@@ -37,7 +37,6 @@ import java.util.Properties;
 import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
-import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.pos.service.CollectDetail;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.compiere.apps.ADialog;
@@ -69,14 +68,14 @@ public class VCollectDetail extends CollectDetail
 	
 	/**
 	 * Standard Constructor
-	 * @param p_VCollect
-	 * @param p_TenderType
+	 * @param collect
+	 * @param tenderType
 	 * @param m_PayAmt
 	 */
-	public VCollectDetail(VCollect p_VCollect, String p_TenderType, BigDecimal m_PayAmt) {
-		super(p_TenderType, m_PayAmt);
+	public VCollectDetail(VCollect parentCollect, String tenderType, BigDecimal payAmt) {
+		super(tenderType, payAmt);
 		ctx = Env.getCtx();
-		parentCollect = p_VCollect;
+		this.parentCollect = parentCollect;
 		keyboard = parentCollect.getKeyboard();
 		init();
 	}
@@ -123,13 +122,13 @@ public class VCollectDetail extends CollectDetail
 	/**	Keyboard to use		*/
 	private POSKeyboard 	keyboard;
 	/**	Default Font		*/
-	private Font 			font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 18);
+	private Font 			font; //= AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 12);
 	/**	Log					*/
 	private CLogger 		log = CLogger.getCLogger(VCollect.class);
 	/**	Default Width		*/
 	private final int		FIELD_WIDTH 	= 200;
 	/**	Default Height		*/
-	private final int		FIELD_HEIGHT 	= 50;
+	private final int		FIELD_HEIGHT 	= 25;
 	
 	/**
 	 * Get Main Panel
@@ -168,9 +167,9 @@ public class VCollectDetail extends CollectDetail
 		buttonMinus.setFocusable(false);
 		//	Add Tender Type
 		standardPanel.add(fieldTenderType,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		standardPanel.add(fieldPayAmt,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 	}
 	
 	/**
@@ -210,11 +209,11 @@ public class VCollectDetail extends CollectDetail
 		fieldCheckDate.addActionListener(this);
 		//	Add To Panel
 		checkPanel.add(fieldCheckRoutingNo,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		checkPanel.add(fieldCheckNo,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		checkPanel.add(fieldCheckDate,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		//	Default visible false
 		checkPanel.setVisible(false);
 	}
@@ -251,11 +250,11 @@ public class VCollectDetail extends CollectDetail
 		fieldDebitCountry.addActionListener(this);
 		//	Add to Panel
 		debitPanel.add(fieldDebitRoutingNo,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		debitPanel.add(fieldDebitCountry,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));		
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		debitPanel.add(fieldDebitCVC,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		//	Default visible false
 		debitPanel.setVisible(false);
 	}
@@ -322,17 +321,17 @@ public class VCollectDetail extends CollectDetail
 		fieldCreditCardVV.addActionListener(this);
 		//	Add to Panel
 		creditPanel.add(fieldCreditCardType,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		creditPanel.add(fieldName,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		creditPanel.add(fieldCreditCardNumber,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));	
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		creditPanel.add(fieldCreditCardVV,  new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));	
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		creditPanel.add(fieldCreditCardExpMM,  new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NORTH, new Insets(1, 0, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		creditPanel.add(fieldCreditCardExpYY,  new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(1, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		//	Default visible false
 		creditPanel.setVisible(false);
 	}
@@ -358,10 +357,10 @@ public class VCollectDetail extends CollectDetail
 		
 		//	Add to Panel
 		creditMemoPanel.add(labelCreditMemo,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		
 		creditMemoPanel.add(fieldCreditMemo,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		
 		//	Default visible false
 		creditMemoPanel.setVisible(false);
@@ -372,6 +371,7 @@ public class VCollectDetail extends CollectDetail
 	 * @return void
 	 */
 	private void init() {
+		font = parentCollect.getPOS().getFont();
 		layout = new GridBagLayout();
 		mainPanel = new CPanel(layout);
 		//	Set Border
@@ -392,22 +392,22 @@ public class VCollectDetail extends CollectDetail
 		
 		//	Add to Main Panel
 		mainPanel.add(standardPanel,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		
 		mainPanel.add(buttonMinus,  new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		
 		mainPanel.add(checkPanel,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		
 		mainPanel.add(debitPanel,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		
 		mainPanel.add(creditPanel,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
-		
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
+
 		mainPanel.add(creditMemoPanel,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(5, 0, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NORTH, new Insets(2, 0, 2, 2), 0, 0));
 		
 		//	Change View
 		fieldTenderType.setValue(getTenderType());
