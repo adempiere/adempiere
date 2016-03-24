@@ -65,6 +65,9 @@ import org.zkoss.zul.ListModel;
  * @author Sendy Yagambrum
  * @author carlosaparada@gmail.com Carlos Parada, ERP Consultores y asociados
  * @author victor.perez@www.e-evolution.com, e-Evolution
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 245 ] Change Smart Browse to MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/245
  */
 public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueChangeListener, WTableModelListener
 {	
@@ -304,7 +307,7 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
      * @param row    	the index of the row whose value is to be set
      * @param column	the index of the column whose value is to be set
 	 */
-	protected void setValueAt(Object value, int row, int column)
+	public void setValueAt(Object value, int row, int column)
 	{
 		getModel().setDataAt(value, row, convertColumnIndexToModel(column));
 		if(value instanceof IDColumn)
@@ -1216,7 +1219,7 @@ public boolean isRowChecked(int row)
 	 * @return
 	 * @return BrowserRows
 	 */
-	public WBrowserRows getData() {
+	public IBrowserRows getData() {
 		return browserRows;
 	}
 	

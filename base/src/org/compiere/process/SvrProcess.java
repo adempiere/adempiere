@@ -48,6 +48,9 @@ import org.compiere.util.Trx;
  *			<li>BF [ 1935093 ] SvrProcess.unlock() is setting invalid result
  *			<li>FR [ 2788006 ] SvrProcess: change access to some methods
  *				https://sourceforge.net/tracker/?func=detail&aid=2788006&group_id=176962&atid=879335
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 244 ] Is Selection flag
+ *		@see https://github.com/adempiere/adempiere/issues/244
  */
 public abstract class SvrProcess implements ProcessCall
 {
@@ -393,6 +396,15 @@ public abstract class SvrProcess implements ProcessCall
 		}
 		return m_pi.getAD_Client_ID().intValue();
 	}	//	getAD_Client_ID
+	
+	/**
+	 * FR [ 244 ]
+	 * Is Selection or is standard process
+	 * @return
+	 */
+	protected boolean isSelection() {
+		return m_pi.isSelection();
+	}
 
 	
 	/**************************************************************************

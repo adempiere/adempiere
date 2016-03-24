@@ -93,6 +93,11 @@ import org.zkoss.zul.Vbox;
  * 				<li>FR [ 1894640 ] Report Engine: Excel Export support
  * 
  * @author Low Heng Sin
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
+ * 			@see https://github.com/adempiere/adempiere/issues/236
+ * 		<li>BR [ 237 ] Same Print format but distinct report view
+ * 			@see https://github.com/adempiere/adempiere/issues/237
  */
 public class ZkReportViewer extends Window implements EventListener {
 	
@@ -137,6 +142,8 @@ public class ZkReportViewer extends Window implements EventListener {
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private Listbox cboType = new Listbox();
 	private Checkbox summary = new Checkbox();
+	//	FR [ 237 ]
+	private Listbox comboReportView = new Listbox();
 	
 	/**
 	 * 	Static Layout
@@ -216,6 +223,11 @@ public class ZkReportViewer extends Window implements EventListener {
 		comboReport.setMold("select");
 		comboReport.setTooltiptext(Msg.translate(Env.getCtx(), "AD_PrintFormat_ID"));
 		toolBar.appendChild(comboReport);
+		//	FR [ 237 ]
+//		toolBar.appendChild(new Separator("vertical"));
+		comboReportView.setMold("select");
+		comboReportView.setTooltiptext(Msg.translate(Env.getCtx(), "AD_ReportView_ID"));
+		toolBar.appendChild(comboReportView);
 		
 		summary.setText(Msg.getMsg(Env.getCtx(), "Summary"));
 		toolBar.appendChild(summary);
@@ -453,7 +465,7 @@ public class ZkReportViewer extends Window implements EventListener {
 	{
 		comboReport.removeEventListener(Events.ON_SELECT, this);
 		comboReport.getItems().clear();
-		KeyNamePair selectValue = null;
+		Listitem selectValue = null;
 		//	fill Report Options
 		String sql = MRole.getDefault().addAccessSQL(
 			"SELECT AD_PrintFormat_ID, Name, Description "
@@ -476,11 +488,14 @@ public class ZkReportViewer extends Window implements EventListener {
 				Listitem li = comboReport.appendItem(pp.getName(), pp.getKey());
 				if (rs.getInt(1) == AD_PrintFormat_ID)
 				{
-					selectValue = pp;
-					if(selectValue != null)
-						comboReport.setSelectedItem(li);
+					selectValue = li;
+					comboReport.setSelectedItem(li);
 				}
 			}
+			//	Select Default
+		    if (selectValue != null) {
+		    	comboReport.setSelectedItem(selectValue);
+		    }
 			rs.close();
 			pstmt.close();
 		}
@@ -497,8 +512,83 @@ public class ZkReportViewer extends Window implements EventListener {
 	    comboReport.addItem(pp);
 	    
 		comboReport.addEventListener(Events.ON_SELECT, this);
+		//	FR [ 237 ]
+		fillComboReportView();
 	}	//	fillComboReport
 
+	/**
+	 * 	Fill ComboBox comboReportView (report view options)
+	 */
+	private void fillComboReportView() {
+		comboReportView.removeEventListener(Events.ON_SELECT, this);
+		comboReportView.getItems().clear();
+		Listitem selectValue = null;
+		//	fill Report View Options
+		String sql = "";
+		//	For base language
+		if (Env.isBaseLanguage(Env.getCtx(), "AD_ReportView")) {
+			sql = MRole.getDefault().addAccessSQL(
+					"SELECT AD_ReportView_ID, COALESCE(PrintName, Name) AS Name "
+						+ "FROM AD_ReportView "
+						+ "WHERE AD_Table_ID = ? "
+						+ "AND IsActive='Y' "
+						+ "ORDER BY Name",
+					"AD_ReportView", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		} else {
+			sql = MRole.getDefault().addAccessSQL(
+					"SELECT rv.AD_ReportView_ID, COALESCE(rvt.PrintName, rv.PrintName, rvt.Name, rv.Name) AS Name "
+						+ "FROM AD_ReportView rv "
+						+ "LEFT JOIN AD_ReportView_Trl rvt ON(rvt.AD_ReportView_ID = rv.AD_ReportView_ID "
+						+ "										AND rvt.AD_Language = '" + Env.getAD_Language(Env.getCtx()) + "') "
+						+ "WHERE rv.AD_Table_ID = ? "
+						+ "AND rv.IsActive='Y' "
+						+ "ORDER BY rvt.Name",
+					"rv", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+		}
+		//	Get Table
+		int AD_Table_ID = m_reportEngine.getPrintFormat().getAD_Table_ID();
+		//	Get Default Report View
+		int AD_ReportView_ID = m_reportEngine.getPrintFormat().getAD_ReportView_ID();
+		//	Get from DB
+		KeyNamePair [] pairs = DB.getKeyNamePairs(sql, true, AD_Table_ID);
+		//	fill combo
+		for(KeyNamePair view : pairs) {
+			Listitem li = comboReportView.appendItem(view.getName(), view.getKey());
+			if (view.getKey() == AD_ReportView_ID) {
+				selectValue = li;
+			}
+		}
+		//	Select Default
+	    if (selectValue != null) {
+	    	comboReportView.setSelectedItem(selectValue);
+	    }
+	    //	Add Listener
+	    comboReportView.addEventListener(Events.ON_SELECT, this);
+	}	//	fillComboReport
+	
+	/**
+	 * Select a Report view from print format
+	 * @param p_AD_ReportView_ID
+	 */
+	private void selectReportView(int p_AD_ReportView_ID) {
+		comboReportView.removeEventListener(Events.ON_SELECT, this);
+		//	Select
+		Listitem selectValue = null;
+		for(int i = 0; i < comboReportView.getItemCount(); i++) {
+			Listitem pp = (Listitem) comboReportView.getItemAtIndex(i);
+			if ((int)pp.getValue() == p_AD_ReportView_ID) {
+				selectValue = pp;
+				break;
+			}
+		}
+		//	Select Default
+	    if (selectValue != null) {
+	    	comboReportView.setSelectedItem(selectValue);
+	    }
+	    //	Add Listener
+	    comboReportView.addEventListener(Events.ON_SELECT, this);
+	}
+	
 	/**
 	 * 	Revalidate settings after change of environment
 	 */
@@ -536,8 +626,9 @@ public class ZkReportViewer extends Window implements EventListener {
 			actionPerformed(event);
 		else if (event.getTarget() == summary) 
 		{
-			m_reportEngine.setSummary(summary.isSelected());
-			cmd_report();
+			//	FR [ 238 ]
+			//m_reportEngine.setSummary(summary.isSelected());
+			cmd_isSummary();
 		}
 	}
 
@@ -551,6 +642,8 @@ public class ZkReportViewer extends Window implements EventListener {
 			return;
 		if (e.getTarget() == comboReport)
 			cmd_report();
+		else if(e.getTarget() == comboReportView)
+			cmd_reportView();
 		else if (e.getTarget() == bFind)
 			cmd_find();
 		else if (e.getTarget() == bExport)
@@ -787,7 +880,39 @@ public class ZkReportViewer extends Window implements EventListener {
 	/**
 	 * 	Report Combo - Start other Report or create new one
 	 */
-	private void cmd_report()
+	private void cmd_report() {
+		Listitem pp = (Listitem) comboReport.getSelectedItem();
+		if (pp != null
+				&& (int) pp.getValue() >= 0) {
+			//	Set Default Report View
+			MPrintFormat pf = MPrintFormat.get (Env.getCtx(), (int) pp.getValue(), true);
+			selectReportView(pf.getAD_ReportView_ID());
+		}
+		//	Call Report
+		cmd_report(false);
+	}
+	
+	/**
+	 * Call report with change in property is Summary
+	 */
+	private void cmd_isSummary() {
+		//	FR [ 238 ]
+		cmd_report(true);
+	}
+	
+	/**
+	 * Report View Combo - Start the same report with other where clause
+	 */
+	private void cmd_reportView() {
+		//	FR [ 237 ]
+		cmd_report(false);
+	}
+	
+	/**
+	 * 	Report Combo - Start other Report or create new one
+	 * 	@param isSummaryChanged for when the check Is Summary is changed
+	 */
+	private void cmd_report(boolean isSummaryChanged)
 	{
 		ListItem li = comboReport.getSelectedItem();
 		if(li == null || li.getValue() == null) return;
@@ -821,7 +946,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			else
 				return;
 		}
-		if (AD_PrintFormat_ID == -2) {
+		else if (AD_PrintFormat_ID == -2) {
 			MPrintFormat current = m_reportEngine.getPrintFormat();
 			if (current != null) {
 				pf = MPrintFormat.copyToClient(m_ctx,
@@ -837,15 +962,28 @@ public class ZkReportViewer extends Window implements EventListener {
 		}		
 		else
 			pf = MPrintFormat.get (Env.getCtx(), AD_PrintFormat_ID, true);
-		
+		//	FR [ 238 ]
+		if(pf == null)
+			return;
+		//	
+		if(!isSummaryChanged) {
+			summary.setSelected(pf.isSummary());
+		}
+		// Set Summary for report
+		m_reportEngine.setSummary(summary.isSelected());
 		//	Get Language from previous - thanks Gunther Hoppe 
 		if (m_reportEngine.getPrintFormat() != null)
 		{
 			pf.setLanguage(m_reportEngine.getPrintFormat().getLanguage());		//	needs to be re-set - otherwise viewer will be blank
 			pf.setTranslationLanguage(m_reportEngine.getPrintFormat().getLanguage());
 		}
+		//	FR [ 237 ]
+		Listitem reportView = (Listitem)comboReportView.getSelectedItem();
+		if (reportView != null) {
+			m_reportEngine.setAD_ReportView_ID((int) reportView.getValue());
+		}
 		m_reportEngine.setPrintFormat(pf);
-		
+		//	
 		try {
 			renderReport();
 		} catch (Exception e) {

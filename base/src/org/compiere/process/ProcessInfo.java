@@ -37,6 +37,9 @@ import org.compiere.util.Util;
  *  @version    $Id: ProcessInfo.java,v 1.2 2006/07/30 00:54:44 jjanke Exp $
  *  @author victor.perez@e-evolution.com 
  *  @see FR 1906632 http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1906632&group_id=176962
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 244 ] Is Selection flag
+ *		@see https://github.com/adempiere/adempiere/issues/244
  */
 public class ProcessInfo implements Serializable
 {
@@ -139,6 +142,9 @@ public class ProcessInfo implements Serializable
 
 	private boolean managedTransaction = true;
 	
+	//	FR [ 244 ]
+	private boolean 			m_IsSelection = false;
+	
 	/**
 	 * If the process fails with an Throwable, the Throwable is caught and stored here
 	 */
@@ -172,6 +178,25 @@ public class ProcessInfo implements Serializable
 		return sb.toString();
 	}   //  toString
 
+	
+	/**
+	 * FR [ 244 ]
+	 * Set the flag for know if is from SB or not
+	 * @param p_IsSelection
+	 */
+	public void setIsSelection(boolean p_IsSelection) {
+		m_IsSelection = p_IsSelection;
+	}
+	
+	/**
+	 * FR [ 244 ]
+	 * Return flag is selection
+	 * @return
+	 */
+	public boolean isSelection() {
+		return m_IsSelection;
+	}
+	
 	
 	/**************************************************************************
 	 * 	Set Summary

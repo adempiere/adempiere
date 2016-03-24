@@ -30,7 +30,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20160314L;
 
     /** Standard Constructor */
     public X_AD_PrintFormat (Properties ctx, int AD_PrintFormat_ID, String trxName)
@@ -231,9 +231,9 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	public void setAD_ReportView_ID (int AD_ReportView_ID)
 	{
 		if (AD_ReportView_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, null);
+			set_Value (COLUMNNAME_AD_ReportView_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
+			set_Value (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
 	}
 
 	/** Get Report View.
@@ -440,6 +440,30 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	public boolean isStandardHeaderFooter () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsStandardHeaderFooter);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Summary Level.
+		@param IsSummary 
+		This is a summary entity
+	  */
+	public void setIsSummary (boolean IsSummary)
+	{
+		set_Value (COLUMNNAME_IsSummary, Boolean.valueOf(IsSummary));
+	}
+
+	/** Get Summary Level.
+		@return This is a summary entity
+	  */
+	public boolean isSummary () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSummary);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
