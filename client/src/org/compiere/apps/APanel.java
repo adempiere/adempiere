@@ -147,6 +147,8 @@ import org.eevolution.form.VBrowser;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
  *		@see https://github.com/adempiere/adempiere/issues/114
+ *		<li>FR [ 248 ] Smart Browse not open on modal inside a window
+ * 		@see https://github.com/adempiere/adempiere/issues/248
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -2681,14 +2683,15 @@ public final class APanel extends CPanel
 			ProcessInfo pi = new ProcessInfo (title, vButton.getProcess_ID(), table_ID, record_ID);
 			pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
 			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
-			CFrame ff = new CFrame();
+			FormFrame ff = new FormFrame(getWindowNo());
+			ff.setProcessInfo(pi);
 			MBrowse browse = new MBrowse(Env.getCtx(), browse_ID , null);
-			VBrowser browser = new VBrowser(ff, true , m_curWindowNo, "" , browse , "" , true, "");
-			browser.setProcessInfo(pi);
-			ff = browser.getFrame();
-			ff.setVisible(true);
+			new VBrowser(ff, true , getWindowNo(), "" , browse , "" , true, "");
 			ff.pack();
 			AEnv.showCenterScreen(ff);
+			//	Yamel Senih
+			//	Refresh
+			m_curTab.dataRefresh();
 			return;
 		}
 		else {

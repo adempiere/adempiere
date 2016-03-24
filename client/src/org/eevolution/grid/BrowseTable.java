@@ -57,6 +57,9 @@ import java.util.logging.Level;
  * @author victor.perez@www.e-evolution.com, e-Evolution
  *         Browse Table
  *         Extends CTable, Methods Copy from Minitable implements VLookup Objects for grid
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 245 ] Change Smart Browse to MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/245
  */
 public class BrowseTable extends CTable implements IBrowseTable {
     /**
@@ -587,7 +590,7 @@ public class BrowseTable extends CTable implements IBrowseTable {
      * @return BrowserRows
      * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 15/10/2013, 10:01:47
      */
-    public BrowserRows getData() {
+    public IBrowserRows getData() {
         return browserRows;
     }
 
@@ -606,6 +609,15 @@ public class BrowseTable extends CTable implements IBrowseTable {
 
         if (gridField.isDisplayed())
             super.setValueAt(gridField.getValue(), row, column);
+    }//setValueAt
+    
+    //	FR [ 245 ]
+    @Override
+    public void setValueAt(Object value, int row, int column) {
+    	GridField gridField = browserRows.getValue(row, column);
+    	gridField.setValue(value, true);
+    	//	Set standard method
+    	setValueAt(row, column, gridField);
     }//setValueAt
 
     /**

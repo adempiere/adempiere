@@ -42,6 +42,9 @@ import java.util.Properties;
  * This class is based on builder pattern https://en.wikipedia.org/wiki/Builder_pattern
  * This class is based on https://en.wikipedia.org/wiki/Fluent_interface
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 28/12/15.
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 244 ] Is Selection flag
+ *		@see https://github.com/adempiere/adempiere/issues/244
  */
 public class ProcessBuilder {
 
@@ -153,7 +156,9 @@ public class ProcessBuilder {
         if(instance == null)
             generateProcessInstance();
 
-        if (selectedRecordsIds.size() > 0)
+        //	FR [ 244 ]
+        boolean isSelection = selectedRecordsIds.size() > 0;
+        if (isSelection)
             DB.createT_Selection(instance.getAD_PInstance_ID(), selectedRecordsIds, null);
 
 
@@ -161,6 +166,7 @@ public class ProcessBuilder {
         processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
         processInfo.setClassName(MProcess.get(context , processId).getClassname());
         processInfo.setTransactionName(trxName);
+        processInfo.setIsSelection(isSelection);
         ProcessInfoUtil.setParameterFromDB(processInfo);
     }
 
