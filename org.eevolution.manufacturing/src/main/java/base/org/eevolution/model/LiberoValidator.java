@@ -39,7 +39,6 @@ import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_Forecast;
 import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -78,6 +77,7 @@ public class LiberoValidator implements ModelValidator
 			engine.addModelChange(mrpTableName, this);
 		}
 		//
+		engine.addDocValidate(MOrder.Table_Name, this);
 		engine.addDocValidate(MInOut.Table_Name, this);
 		engine.addDocValidate(MMovement.Table_Name, this);
 		
@@ -234,7 +234,13 @@ public class LiberoValidator implements ModelValidator
 	public String docValidate (PO po, int timing)
 	{
 		log.info(po.get_TableName() + " Timing: "+timing);
-		
+
+		if (po instanceof MOrder && timing == TIMING_BEFORE_COMPLETE)
+		{
+			MOrder order = (MOrder) po;
+			MPPMRP.C_Order(order);
+		}
+
 		if (po instanceof MInOut && timing == TIMING_AFTER_COMPLETE)
 		{
 			MInOut inout = (MInOut)po;
@@ -355,17 +361,17 @@ public class LiberoValidator implements ModelValidator
 		BigDecimal qtyShipment = Env.ZERO;
 		MInOut inout =  outline.getParent();
 		String movementType = inout.getMovementType();
-		int C_OrderLine_ID = 0;
+		int orderLineId = 0;
 		if(MInOut.MOVEMENTTYPE_CustomerShipment.equals(movementType))
 		{
-		   C_OrderLine_ID = outline.getC_OrderLine_ID();
+		   orderLineId = outline.getC_OrderLine_ID();
 		   qtyShipment = outline.getMovementQty();
 		}
 		else if (MInOut.MOVEMENTTYPE_CustomerReturns.equals(movementType)) 
 		{
 				MRMALine rmaline = new MRMALine(outline.getCtx(),outline.getM_RMALine_ID(), null); 
 				MInOutLine line = (MInOutLine) rmaline.getM_InOutLine();
-				C_OrderLine_ID = line.getC_OrderLine_ID();
+				orderLineId = line.getC_OrderLine_ID();
 				qtyShipment = outline.getMovementQty().negate();
 		}
 		
@@ -374,16 +380,16 @@ public class LiberoValidator implements ModelValidator
 				+ " AND EXISTS (SELECT 1 FROM  PP_Order_BOM "
 				+ " WHERE PP_Order_BOM.PP_Order_ID=PP_Order.PP_Order_ID AND PP_Order_BOM.BOMType =? )"; 
 	
-		order = new Query(outline.getCtx(), I_PP_Order.Table_Name, whereClause, outline.get_TrxName())
-			 .setParameters(new Object[]{C_OrderLine_ID,
-				 					 MPPOrder.DOCSTATUS_InProgress,
-				 					 MPPOrder.DOCSTATUS_Completed,
-				 					 MPPOrderBOM.BOMTYPE_Make_To_Kit
-				 					}).firstOnly();
-		if (order == null)
-		{	
-			return;
-		}
+		order = new Query(outline.getCtx(), MPPOrder.Table_Name, whereClause, outline.get_TrxName())
+				.setParameters(orderLineId,
+				 			MPPOrder.DOCSTATUS_InProgress,
+				 			MPPOrder.DOCSTATUS_Completed,
+					 		MPPOrderBOM.BOMTYPE_Make_To_Kit)
+			 	.firstOnly();
+
+		if (order == null || order.get_ID() <= 0)
+				return;
+
 		
 		if(MPPOrder.DOCSTATUS_InProgress.equals(order.getDocStatus()))
 		{
@@ -403,7 +409,7 @@ public class LiberoValidator implements ModelValidator
 			order.saveEx();
 		}
 		
-		if(order.getQtyToDeliver().compareTo(Env.ZERO)==0)
+		if(order.getQtyToDeliver().signum() == 0)
 		{
 			order.closeIt();
 			order.setDocStatus(MPPOrder.DOCACTION_Close);
