@@ -16,6 +16,25 @@
  *****************************************************************************/
 package org.eevolution.grid;
 
+import java.awt.Component;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+
+import javax.script.ScriptEngine;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+
 import org.adempiere.model.I_AD_Browse_Field;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MViewColumn;
@@ -36,22 +55,6 @@ import org.eevolution.form.BrowserCallOut;
 import org.eevolution.form.BrowserRows;
 import org.eevolution.form.VBrowser;
 
-import javax.script.ScriptEngine;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-import java.awt.Component;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
-
 /**
  * @author carlosaparada@gmail.com Carlos Parada, ERP Consultores y asociados
  * @author victor.perez@www.e-evolution.com, e-Evolution
@@ -60,6 +63,8 @@ import java.util.logging.Level;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>FR [ 245 ] Change Smart Browse to MVC
  * 		@see https://github.com/adempiere/adempiere/issues/245
+ * 		<li>BR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
+ * 		@see https://github.com/adempiere/adempiere/issues/257
  */
 public class BrowseTable extends CTable implements IBrowseTable {
     /**
@@ -110,6 +115,9 @@ public class BrowseTable extends CTable implements IBrowseTable {
      * Context *
      */
     private Properties ctx = Env.getCtx();
+    
+    /** Layout set in prepareTable and used in loadTable.    */
+	private List<MBrowseField> browserFields = null;
 
     /**
      * Default Constructor
@@ -248,11 +256,12 @@ public class BrowseTable extends CTable implements IBrowseTable {
         else if (!readOnly)
             m_readWriteColumn.add(new Integer(column));
     }   //  setColumnReadOnly
-
-
+    
+    @Override
     public String prepareTable(List<MBrowseField> fields, boolean multiSelection) {
         StringBuffer sql = new StringBuffer("");
         m_multiSelection = multiSelection;
+        browserFields = fields;
         int col = 0;
         //  Add columns & sql
         for (MBrowseField field : fields) {
@@ -276,8 +285,9 @@ public class BrowseTable extends CTable implements IBrowseTable {
             browserRows.addBrowserField(field, col);
             if (field.isDisplayed()) {
                 addColumn(field.get_ValueAsString(I_AD_Browse_Field.COLUMNNAME_Name));
-                col++;
             }
+            //	BR [ 257 ]
+            col++;
         }
 
         col = 0;
@@ -620,6 +630,18 @@ public class BrowseTable extends CTable implements IBrowseTable {
     	setValueAt(row, column, gridField);
     }//setValueAt
 
+    @Override
+    public void setValue(int row, int column, GridField gridField) {
+    	if (gridField == null)
+			throw new UnsupportedOperationException("No GridField");
+    	
+    	browserRows.setValue(row, column, gridField);
+    	//	For display
+    	if (gridField.isDisplayed())
+            super.setValueAt(gridField.getValue(), row, browserRows.getDisplayIndex(column));
+    }
+    
+    
     /**
      * @param col
      */
@@ -765,5 +787,92 @@ public class BrowseTable extends CTable implements IBrowseTable {
     protected void sort(final int modelColumnIndex) {
         sorting = false;
     }   //  sort
+
+    /**
+     * Get Fields
+     * @return
+     */
+    public List<MBrowseField> getFields() {
+    	return browserFields;
+    }
+    
+    @Override
+	public int loadTable(ResultSet rs) {
+		long start = System.currentTimeMillis();
+		//	Row
+		int row = 0;
+		int no = 0;
+		//	Delete Row
+		setRowCount(row);
+		try {
+			log.fine("Start load - "
+					+ (System.currentTimeMillis() - start) + "ms");
+			while (rs.next()) {
+//				if (this.isInterrupted()) {
+//					log.finer("Interrupted");
+//					close();
+//					return;
+//				}
+				no++;
+				setRowCount(row + 1);
+				int colOffset = 1; // columns start with 1
+				int columnDisplayIndex = 0;
+				int column = 0;
+				for (MBrowseField field : getFields()) {
+					Object value = null;
+					if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+						value = new IDColumn(rs.getInt(column + colOffset));
+					else if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+						value  = new IDColumn(no);
+					else if (DisplayType.TableDir == field.getAD_Reference_ID()
+						  || DisplayType.Table == field.getAD_Reference_ID()
+						  || DisplayType.Integer == field.getAD_Reference_ID()
+						  || DisplayType.PAttribute == field.getAD_Reference_ID()
+						  || DisplayType.Account == field.getAD_Reference_ID()) {
+						Integer id = rs.getInt(column + colOffset);
+						value = id != 0 ? id : null;
+					}
+					else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
+						value = rs.getBigDecimal(column + colOffset);
+					else if (DisplayType.isDate(field.getAD_Reference_ID()))
+						value = rs.getTimestamp(column + colOffset);
+					else if (DisplayType.YesNo == field.getAD_Reference_ID()){
+						value = rs.getString(column + colOffset);
+						if (value != null)
+							value= value.equals("Y");
+					}
+					else
+						value = rs.getObject(column + colOffset);
+
+					GridField gridField = MBrowseField.createGridFieldVO(field , browser.getWindowNo());
+					gridField.setValue(value, true);
+					//	Set Value
+					setValue(row, column, gridField);
+					//	For Display
+					if (field.isDisplayed()) {
+						columnDisplayIndex++;
+					}
+					column ++;
+				}
+				//	Increment Row
+				row++;
+			}
+			
+			
+			log.fine("End load - " + (System.currentTimeMillis() - start)
+					+ "ms");
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, "", e);
+		}
+		//no = detail.getRowCount();
+		log.fine("#" + no + " - " + (System.currentTimeMillis() - start)
+				+ "ms");
+		if (isShowTotals())
+			addTotals();
+		//	
+		autoSize();
+		//
+		return no;
+	}
 
 }   //  BrowseTable

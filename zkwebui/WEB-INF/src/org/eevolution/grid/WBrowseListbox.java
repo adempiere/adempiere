@@ -66,8 +66,10 @@ import org.zkoss.zul.ListModel;
  * @author carlosaparada@gmail.com Carlos Parada, ERP Consultores y asociados
  * @author victor.perez@www.e-evolution.com, e-Evolution
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- * 		<li>FR [ 245 ] Change Smart Browse to MVC
+ * 		<li>BR [ 245 ] Change Smart Browse to MVC
  * 		@see https://github.com/adempiere/adempiere/issues/245
+ * 		<li>BR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
+ * 		@see https://github.com/adempiere/adempiere/issues/257
  */
 public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueChangeListener, WTableModelListener
 {	
@@ -368,7 +370,7 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	}   //  setColumnReadOnly
 
 	/**
-	 * Get Value At
+	 * Set Value At
 	 * @param row
 	 * @param column
 	 * @param gridField
@@ -384,6 +386,18 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 			setValueAt(gridField.getValue(), row, column);
 
 	}
+	
+	@Override
+	public void setValue(int row, int column, GridField gridField) {
+
+		if (gridField == null)
+			throw new UnsupportedOperationException("No GridField");
+
+		browserRows.setValue(row, column, gridField);
+
+		if (gridField.isDisplayed())
+			setValueAt(gridField.getValue(), row, browserRows.getDisplayIndex(column));
+	}
 
 	/**
 	 * preparate Table
@@ -396,8 +410,8 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 		browserRows = new WBrowserRows(this);
 		StringBuffer sql = new StringBuffer("");
 		m_multiSelection = multiSelection;
+		browserFields = fields;
 		clearColumns();
-		setLayout(fields);
 		int col = 0;
 		//  Add columns & sql
 		for (MBrowseField field : fields)
@@ -422,10 +436,10 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 			if (field.isDisplayed()){
 				// Use get value get from memory entity because field can be calculated
 				addColumn(field.get_ValueAsString(I_AD_Browse_Field.COLUMNNAME_Name));
-				col++;
 			}
+			//	BR [ 257 ]
+			col++;
 		}
-
 		col = 0;
 		for (MBrowseField field : fields)
 		{
@@ -516,11 +530,20 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 		m_colorColumnIndex = modelIndex;
 	}   //  setColorColumn
 
-	public void loadTable(ResultSet rs)
-	{
+	/**
+	 * Get All Fields
+	 * @return
+	 */
+	public List<MBrowseField> getFields() {
+    	return browserFields;
+    }
+	
+	@Override
+	public int loadTable(ResultSet rs) {
 		int no = 0;
-		if (getLayout() == null)
-			throw new UnsupportedOperationException("Layout not defined");
+		int row = 0;
+//		if (getLayout() == null)
+//			throw new UnsupportedOperationException("Layout not defined");
 
 		clearTable();
 		try
@@ -528,12 +551,11 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 			while (rs.next())
 			{
 				no++;
-				int row = getRowCount();
 				setRowCount(row + 1);
 				int colOffset = 1;
-				int colIndex =0;
 				int col = 0;
-				for (MBrowseField field : getLayout()) {
+				//	BR [ 257 ]
+				for (MBrowseField field : getFields()) {
 					Object value = null;
 					if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
 						value = new IDColumn(rs.getInt(col + colOffset));
@@ -561,19 +583,17 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 
 					GridField gridField = MBrowseField.createGridFieldVO(field , browser.getWindowNo());
 					gridField.setValue(value, true);
-					setValueAt(row, colIndex , gridField);
-					if (field.isDisplayed())
-						colIndex++;
-
+					//	Set Value
+					setValue(row, col , gridField);
 					col ++;
 				}
-
+				row++;
 			}
 		}
 		catch (SQLException exception) {
 			logger.log(Level.SEVERE, "", exception);
 		}
-
+		
 		autoSize();
 		if(isShowTotals())
 			addTotals();
@@ -582,6 +602,8 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 		this.repaint();
 
 		logger.config("Row(rs)=" + getRowCount());
+		//	Return Row No
+		return no;
 	}
 
 	/**
@@ -955,10 +977,11 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
      * @return the layout of the table
      * @see #setLayout(List<MBrowseField>)
      */
-	public List<MBrowseField> getLayout()
-	{
-		return browserFields;
-	}
+	//	BR [ 257 ]
+//	public List<MBrowseField> getLayout()
+//	{
+//		return browserFields;
+//	}
 
 	/**
 	 * Set the column information for the table.
@@ -966,13 +989,14 @@ public class WBrowseListbox extends Listbox implements IBrowseTable, TableValueC
 	 * @param layout	The new layout to set for the table
 	 * @see #getLayout()
 	 */
-	private void setLayout(List<MBrowseField> layout)
-	{
-		this.browserFields = layout;
-		getModel().setNoColumns(browserFields.size());
-
-		return;
-	}
+//	private void setLayout(List<MBrowseField> layout)
+//	{
+//		//	BR [ 257 ]
+////		this.browserFields = layout;
+//		getModel().setNoColumns(layout.size());
+//
+//		return;
+//	}
 
     /**
      * Respond to a change in the table's model.
