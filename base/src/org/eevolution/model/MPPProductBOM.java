@@ -46,7 +46,28 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	private static CCache<Integer,MPPProductBOM> s_cache = new CCache<Integer,MPPProductBOM>(Table_Name, 40, 5);
 	/** BOM Lines					*/
 	private List<MPPProductBOMLine> m_lines = null;
-	
+
+	/**
+	 * Is Product Make to Order
+	 * @param ctx
+	 * @param productId
+	 * @param trxName
+     * @return
+     */
+	public static boolean isProductMakeToOrder(Properties ctx,int productId , String trxName) {
+		final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+" IN (?,?)"
+				+" AND "+MPPProductBOM.COLUMNNAME_BOMUse+"=?"
+				+" AND "+MPPProductBOM.COLUMNNAME_M_Product_ID+"=?";
+		return new Query(ctx, MPPProductBOM.Table_Name, whereClause,trxName)
+				.setClient_ID()
+				.setParameters(
+						MPPProductBOM.BOMTYPE_Make_To_Order,
+						MPPProductBOM.BOMTYPE_Make_To_Kit,
+						MPPProductBOM.BOMUSE_Manufacturing,
+						productId)
+				.match();
+	}
+
 	/**
 	 * get the Product BOM for a product
 	 * @param product
