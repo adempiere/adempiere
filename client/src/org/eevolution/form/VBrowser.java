@@ -437,7 +437,7 @@ public class VBrowser extends Browser implements ActionListener,
 		detail = new BrowseTable(this);
 		detail.setRowSelectionAllowed(true);
 		footPanel = new CPanel();
-		footButtonPanel = new CPanel(new FlowLayout(FlowLayout.RIGHT));
+		footButtonPanel = new CPanel(new FlowLayout(FlowLayout.CENTER));
 		processPanel = new CPanel();
 		graphPanel = new CPanel();
 
