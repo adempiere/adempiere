@@ -75,6 +75,8 @@ import org.eevolution.grid.IBrowserRows;
  * 		@see https://github.com/adempiere/adempiere/issues/246
  * 		<li>BR [ 253 ] Selection fields is not saved in T_Selection_Browse
  * 		@see https://github.com/adempiere/adempiere/issues/253
+ * 		<li> BR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
+ * 		@see https://github.com/adempiere/adempiere/issues/257
  * 
  */
 public abstract class Browser {
@@ -310,9 +312,8 @@ public abstract class Browser {
 			browseField.setIsKey(true);
 			browseField.setIsReadOnly(false);
 		}
-
-
-		for (MBrowseField field : m_Browse.getDisplayFields()) {
+		
+		for (MBrowseField field : m_Browse.getFields()) {
 
 			if (field.isQueryCriteria()) {
 				m_queryColumns.add(field.getName());
@@ -438,6 +439,11 @@ public abstract class Browser {
 		m_browse_pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 		m_browse_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		m_browse_pi.setWindowNo(getWindowNo());
+		//	Copy Values
+		if(m_pi != null) {
+			m_browse_pi.setTable_ID(m_pi.getTable_ID());
+			m_browse_pi.setRecord_ID(m_pi.getRecord_ID());
+		}
 	}
 	
 	/**
@@ -677,6 +683,8 @@ public abstract class Browser {
 			int rows = browserTable.getRowCount();
 			IBrowserRows browserRows = browserTable.getData();
 			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
+			//	BR [ 257 ]
+			List <MBrowseField> fields = m_Browse.getFields();
 			for (int row = 0; row < rows; row++) {
 				//Find the IDColumn Key
 				GridField selectedGridField = (GridField)browserRows.getValue(row,
@@ -688,12 +696,11 @@ public abstract class Browser {
 					IDColumn dataColumn = (IDColumn) data;
 					if (dataColumn.isSelected()) {
 						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
-						for(int col = 0 ; col < browserRows.getColumnCount(); col++)
+						for(MBrowseField field : fields)
 						{
-							MBrowseField field = browserRows.getBrowserField(col);
 							if (!field.isReadOnly() || field.isIdentifier())
 							{
-								GridField gridField = (GridField) browserRows.getValue(row, col);
+								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getAD_Column().getColumnName());//(GridField) browserRows.getValue(row, col);
 								Object value = gridField.getValue();
 								values.put(field.getAD_View_Column().getColumnName(), value);
 							}
@@ -844,6 +851,9 @@ public abstract class Browser {
 	 * @return void
 	 */
 	public void initBrowserTable(IBrowseTable table) {
+		// Clear Table
+		table.setRowCount(0);
+		//	
 		if(browserFields != null)
 			return;
 		//	
@@ -1585,7 +1595,7 @@ public abstract class Browser {
 	 * Get Window Number from parent window
 	 * @return
 	 */
-	private int getParentWindowNo() {
+	public int getParentWindowNo() {
 		return parentWindowNo;
 	}
 }

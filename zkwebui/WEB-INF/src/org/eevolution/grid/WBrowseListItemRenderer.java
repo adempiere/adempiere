@@ -74,6 +74,9 @@ import org.zkoss.zul.ListitemRendererExt;
  * for the {@link org.adempiere.webui.component.Listbox}.
  *
  * @author Andrew Kimball
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
+ * 		@see https://github.com/adempiere/adempiere/issues/257
  *
  */
 public class WBrowseListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt , ValueChangeListener
@@ -328,11 +331,12 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 									  int rowIndex, int columnIndex)
 	{
 		ListCell listcell = new ListCell();
-		MBrowseField browseField = table.browserRows.getBrowserField(columnIndex);
+		//	BR [ 257 ]
+		MBrowseField browseField = table.browserRows.getBrowserField(table.browserRows.getTableIndex(columnIndex));
 		if (browseField == null)
 			return listcell;
 
-		GridField gridField  = table.browserRows.getValue(rowIndex,columnIndex);
+		GridField gridField  = table.browserRows.getValue(rowIndex,table.browserRows.getTableIndex(columnIndex));
 		boolean isColumnVisible = Boolean.TRUE;
 
 		if ( !m_tableColumns.isEmpty() )

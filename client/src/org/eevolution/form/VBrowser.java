@@ -59,7 +59,6 @@ import org.compiere.apps.StatusBar;
 import org.compiere.apps.Waiting;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.grid.ed.VEditor;
-import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MQuery;
@@ -71,7 +70,6 @@ import org.compiere.swing.CPanel;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Login;
@@ -584,12 +582,18 @@ public class VBrowser extends Browser implements ActionListener,
 				m_waiting.doNotWait();
 				setStatusLine(pi.getSummary(), pi.isError());
 				//	For Valid Ok
-				isOk = pi.isError();
+				isOk = !pi.isError();
 			}
 		}
 		m_frame.setCursor(Cursor.getDefaultCursor());
 		//	For when is ok the process
 		if(isOk) {
+			//	Close
+			if(getParentWindowNo() > 0) {
+				dispose();
+				return;
+			}
+			//	Else Reset
 			p_loadedOK = initBrowser();
 			collapsibleSearch.setCollapsed(false);
 		}
@@ -677,59 +681,9 @@ public class VBrowser extends Browser implements ActionListener,
 				m_rs = m_pstmt.executeQuery();
 				log.fine("End query - " + (System.currentTimeMillis() - start)
 						+ "ms");
-				if(m_rs.next()) {
-					//	Set Collapsed FR [ 252 ]
-					collapsibleSearch.setCollapsed(!isCollapsibleByDefault());
-					//	Loop
-					do {
-						if (this.isInterrupted()) {
-							log.finer("Interrupted");
-							close();
-							return;
-						}
-						no++;
-						detail.setRowCount(row + 1);
-						int colOffset = 1; // columns start with 1
-						int columnDisplayIndex = 0;
-						int column = 0;
-						for (MBrowseField field : browserFields) {
-							Object value = null;
-							if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
-								value = new IDColumn(m_rs.getInt(column + colOffset));
-							else if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
-								value  = new IDColumn(no);
-							else if (DisplayType.TableDir == field.getAD_Reference_ID()
-								  || DisplayType.Table == field.getAD_Reference_ID()
-								  || DisplayType.Integer == field.getAD_Reference_ID()
-								  || DisplayType.PAttribute == field.getAD_Reference_ID()
-								  || DisplayType.Account == field.getAD_Reference_ID()) {
-								Integer id = m_rs.getInt(column + colOffset);
-								value = id != 0 ? id : null;
-							}
-							else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
-								value = m_rs.getBigDecimal(column + colOffset);
-							else if (DisplayType.isDate(field.getAD_Reference_ID()))
-								value = m_rs.getTimestamp(column + colOffset);
-							else if (DisplayType.YesNo == field.getAD_Reference_ID()){
-								value = m_rs.getString(column + colOffset);
-								if (value != null)
-									value= value.equals("Y");
-							}
-							else
-								value = m_rs.getObject(column + colOffset);
-
-							GridField gridField = MBrowseField.createGridFieldVO(field , getWindowNo());
-							gridField.setValue(value, true);
-							detail.setValueAt(row, columnDisplayIndex, gridField);
-							if (field.isDisplayed())
-								columnDisplayIndex++;
-
-							column ++;
-						}
-						//	Increment Row
-						row++;
-					} while (m_rs.next());
-				}
+				//	Load Table
+				row = detail.loadTable(m_rs);
+				
 			} catch (SQLException e) {
 				log.log(Level.SEVERE, dataSql, e);
 			}

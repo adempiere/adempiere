@@ -277,9 +277,7 @@ public class WBrowser extends Browser implements IFormController,
 			setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
 
 			work();
-
-			isAllSelected = isSelectedByDefault();
-			selectedRows();
+			
 		} else {
 			FDialog.error(getWindowNo(), m_frame, 
 					"FillMandatory", Msg.parseTranslation(Env.getCtx(), errorMsg));
@@ -474,7 +472,7 @@ public class WBrowser extends Browser implements IFormController,
 		bZoom.setEnabled(false);
 		bZoom.addActionListener(new EventListener() {
 			public void onEvent(Event evt) {
-				bZoomActionPerformed(evt);
+				cmd_Zoom();
 			}
 		});
 		
@@ -486,7 +484,7 @@ public class WBrowser extends Browser implements IFormController,
 		bExport.setEnabled(false);
 		bExport.addActionListener(new EventListener() {
 			public void onEvent(Event evt) {
-				bExportActionPerformed(evt);
+				cmd_Export();
 			}
 		});
 		toolsBar.appendChild(bExport);
@@ -541,7 +539,7 @@ public class WBrowser extends Browser implements IFormController,
 
 		bSearch.addActionListener(new EventListener() {
 			public void onEvent(Event evt) {
-				bSearchActionPerformed(evt);
+				cmd_Search();
 			}
 		});
 		
@@ -592,14 +590,14 @@ public class WBrowser extends Browser implements IFormController,
 
 		bCancel.addActionListener(new EventListener() {
 			public void onEvent(Event evt) {
-				bCancelActionPerformed(evt);
+				cmd_Cancel();
 			}
 		});
 
 //		bOk.setLabel(Msg.getMsg(Env.getCtx(), "Ok").replaceAll("[&]",""));
 		bOk.addActionListener(new EventListener() {
 			public void onEvent(Event evt) {
-				bOkActionPerformed(evt);
+				cmd_Ok();
 			}
 		});
 		
@@ -655,12 +653,14 @@ public class WBrowser extends Browser implements IFormController,
 		mainLayout.appendCenter(tabsPanel);
 	}
 
-	private void bZoomActionPerformed(Event evt) {// GEN-FIRST:event_bZoomActionPerformed
-		// TODO add your handling code here:
+	/**
+	 * Zoom a Record
+	 */
+	private void cmd_Zoom() {
 		cmd_zoom();
-	}// GEN-LAST:event_bZoomActionPerformed
+	}
 
-	private void bOkActionPerformed(Event evt) {
+	private void cmd_Ok() {
 		log.config("OK=" + true);
 		m_ok = true;
 		
@@ -694,11 +694,17 @@ public class WBrowser extends Browser implements IFormController,
 				hideBusyDialog();
 				setStatusLine(pi.getSummary(), pi.isError());
 				//	For Valid Ok
-				isOk = pi.isError();
+				isOk = !pi.isError();
 			}
 		}
 		//	For when is ok the process
 		if(isOk) {
+			//	Close
+			if(getParentWindowNo() > 0) {
+				SessionManager.getAppDesktop().closeActiveWindow();
+				return;
+			}
+			//	Else Reset
 			p_loadedOK = initBrowser();
 			collapsibleSeach.setOpen(true);
 		}
@@ -715,25 +721,29 @@ public class WBrowser extends Browser implements IFormController,
 		m_waiting = null;
 	}
 
-	private void bCancelActionPerformed(Event evt) {
+	/**
+	 * Cancel and Dispose
+	 */
+	private void cmd_Cancel() {
 		  SessionManager.getAppDesktop().closeActiveWindow();
 	}
 
-	private void bSearchActionPerformed(Event evt) {
+	/**
+	 * Search
+	 */
+	private void cmd_Search() {
 		bZoom.setEnabled(true);
 		bSelectAll.setEnabled(true);
 		bExport.setEnabled(true);
 		bDelete.setEnabled(true);
-//		p_loadedOK = initBrowser();
-//		Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
-		
-//		if (m_Browse.getAD_Process_ID() > 0)
-//			parameterPanel.refreshContext();
-		
+		//	
 		executeQuery();
 	}
 
-	private void bExportActionPerformed(Event evt) {
+	/**
+	 * Export Data
+	 */
+	private void cmd_Export() {
 		bExport.setEnabled(false);
 		try 
 		{	AMedia media = null;
@@ -784,9 +794,8 @@ public class WBrowser extends Browser implements IFormController,
 		if (no == 0) {
 			//	FR [ 252 ]
 			if(!collapsibleSeach.isOpen()) {
-				collapsibleSeach.setOpen(!isCollapsibleByDefault());
+				collapsibleSeach.setOpen(true);
 			}
-			collapsibleSeach.setOpen(false);
 			log.fine(dataSql);
 		} else {
 			if(collapsibleSeach.isOpen()) {
@@ -798,25 +807,8 @@ public class WBrowser extends Browser implements IFormController,
 		if(isSelectedByDefault())
 		{	
 			isAllSelected = false;
-			selectedRows(detail);			
-		}	
-		
-
-		int topIndex = detail.isShowTotals() ? 2 : 1;		//int topIndex = 1 ;
-		int rows = detail.getRowCount();
-		int selectedList[] = new int[rows];
-
-			for (int row = 0; row <= rows - topIndex; row++) {
-				Object data = detail.getModel().getValueAt(row,
-						m_keyColumnIndex);
-				if (data instanceof IDColumn) {
-					IDColumn dataColumn = (IDColumn) data;
-					dataColumn.setSelected(isSelectedByDefault());
-					detail.getModel().setValueAt(dataColumn, row,m_keyColumnIndex);
-				}
-				selectedList[row] = row;
-			}
-			detail.setSelectedIndices(selectedList);
+			selectedRows();			
+		}
 	} // run
 
 	@Override

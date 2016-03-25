@@ -154,7 +154,6 @@ public class WBrowserRows implements IBrowserRows {
 
 
     public int getDisplayIndex(int index) {
-
         return indexesDisplay.get(index);
     }
 
@@ -197,7 +196,7 @@ public class WBrowserRows implements IBrowserRows {
     public void setValueOfSelectedCell(GridField gridField) {
 
         if (table != null) {
-            //GridField gridField = (GridField) getValue(getSelectedRow(), getTableIndex(getSelectedColumn()));
+//            GridField gridField = (GridField) getValue(getSelectedRow(), getTableIndex(getSelectedColumn()));
             if (gridField != null) {
                 table.setValueAt(getSelectedRow(), getSelectedColumn(), gridField);
             }

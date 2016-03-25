@@ -18,6 +18,7 @@
 
 package org.eevolution.grid;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import org.adempiere.model.MBrowseField;
@@ -42,6 +43,12 @@ public interface IBrowseTable
 	public void setValueAt(Object value, int row, int column);
 	
 	public String prepareTable(List<MBrowseField> fields, boolean multiSelection);
+	
+	//	BR [ 257 ]
+	
+	public int loadTable(ResultSet rs);
+	//	Used for set a value to any column
+	public void setValue(int row, int column, GridField value);
 	
 	public int convertColumnIndexToModel(int viewColumnIndex);
 	

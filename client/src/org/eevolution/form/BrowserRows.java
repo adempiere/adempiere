@@ -224,7 +224,7 @@ public class BrowserRows implements IBrowserRows {
 
 	/**
 	 * set Table
-	 * @param table
+	 * @param table 
 	 * @return void
 	 */
 	public void setTable(BrowseTable table) {
