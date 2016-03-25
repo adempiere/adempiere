@@ -1764,10 +1764,10 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 */
 	public void updateMakeToKit(BigDecimal qtyShipment)
 	{
-		MPPOrderBOM obom = (MPPOrderBOM)getMPPOrderBOM();
+		MPPOrderBOM orderBOM = (MPPOrderBOM)getMPPOrderBOM();
 		getLines(true);
 		// Auto receipt and issue for kit
-		if (MPPOrderBOM.BOMTYPE_Make_To_Kit.equals(obom.getBOMType()) && MPPOrderBOM.BOMUSE_Manufacturing.equals(obom.getBOMUse()))
+		if (MPPOrderBOM.BOMTYPE_Make_To_Kit.equals(orderBOM.getBOMType()) && MPPOrderBOM.BOMUSE_Manufacturing.equals(orderBOM.getBOMUse()))
 		{				
 			Timestamp today = new Timestamp(System.currentTimeMillis());
 			ArrayList[][] issue = new ArrayList[m_lines.length][1];
@@ -1800,9 +1800,9 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			}
 			
 			boolean forceIssue = false;
-			MOrderLine oline = oline = (MOrderLine)getC_OrderLine();				
-			if(MOrder.DELIVERYRULE_CompleteLine.equals(oline.getParent().getDeliveryRule()) ||
-			   MOrder.DELIVERYRULE_CompleteOrder.equals(oline.getParent().getDeliveryRule()))
+			MOrderLine orderLine = (MOrderLine)getC_OrderLine();
+			if(MOrder.DELIVERYRULE_CompleteLine.equals(orderLine.getParent().getDeliveryRule()) ||
+			   MOrder.DELIVERYRULE_CompleteOrder.equals(orderLine.getParent().getDeliveryRule()))
 			{	
 				boolean isCompleteQtyDeliver = MPPOrder.isQtyAvailable(this, issue ,today);	
 				if (!isCompleteQtyDeliver)
@@ -1810,13 +1810,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 						throw new AdempiereException("@NoQtyAvailable@");
 				}
 			}
-			else if(MOrder.DELIVERYRULE_Availability.equals(oline.getParent().getDeliveryRule()) ||
-					MOrder.DELIVERYRULE_AfterReceipt.equals(oline.getParent().getDeliveryRule()) ||
-					MOrder.DELIVERYRULE_Manual.equals(oline.getParent().getDeliveryRule()))
+			else if(MOrder.DELIVERYRULE_Availability.equals(orderLine.getParent().getDeliveryRule()) ||
+					MOrder.DELIVERYRULE_AfterReceipt.equals(orderLine.getParent().getDeliveryRule()) ||
+					MOrder.DELIVERYRULE_Manual.equals(orderLine.getParent().getDeliveryRule()))
 			{
-				throw new AdempiereException("@DeliveryRule@ " + oline.getParent().getDeliveryRule() + "@ActionNotSupported@");
+				throw new AdempiereException("@DeliveryRule@ " + orderLine.getParent().getDeliveryRule() + "@ActionNotSupported@");
 			}
-			else if(MOrder.DELIVERYRULE_Force.equals(oline.getParent().getDeliveryRule()))
+			else if(MOrder.DELIVERYRULE_Force.equals(orderLine.getParent().getDeliveryRule()))
 			{
 				forceIssue = true;
 			}
@@ -1824,13 +1824,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			
 			for(int i = 0; i < issue.length; i++ )
 			{
-				int M_AttributeSetInstance_ID = 0;
+				int attributeSetInstanceId = 0;
 				KeyNamePair key = (KeyNamePair) issue[i][0].get(0);
 				Boolean isCritical = (Boolean) issue[i][0].get(1);
 				String value = (String)issue[i][0].get(2);
 				KeyNamePair productkey = (KeyNamePair) issue[i][0].get(3);			
-				int M_Product_ID = productkey.getKey();
-				MProduct product = MProduct.get(getCtx(),  M_Product_ID);
+				int productId = productkey.getKey();
+				MProduct product = MProduct.get(getCtx(),  productId);
 				BigDecimal qtyToDeliver = (BigDecimal)issue[i][0].get(4);	
 				BigDecimal qtyScrapComponent = (BigDecimal) issue[i][0].get(5);
 				MPPOrderBOMLine  orderBOMLine = null;
@@ -1839,13 +1839,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				{
 					orderBOMLine = new MPPOrderBOMLine(getCtx(), orderBOMLineId, get_TrxName());
 					//Validate if AttributeSet generate instance
-					M_AttributeSetInstance_ID = orderBOMLine.getM_AttributeSetInstance_ID();
+					attributeSetInstanceId = orderBOMLine.getM_AttributeSetInstance_ID();
 				}
 				
 				MStorage[] storages = MPPOrder.getStorages(getCtx(),
-						M_Product_ID,
+						productId,
 						getM_Warehouse_ID(),
-						M_AttributeSetInstance_ID
+						attributeSetInstanceId
 						, today, get_TrxName());
 				
 				MPPOrder.createIssue(
@@ -1865,8 +1865,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					getQtyReject(), 
 					getM_Locator_ID(), 
 					getM_AttributeSetInstance_ID());
-			//setQtyDelivered(getQtyOpen());
-			//return DOCSTATUS_Closed;
 		}
 	}
 } // MPPOrder

@@ -244,7 +244,7 @@ public class TableCreateColumns extends SvrProcess
 					element.setName(table.getName());
 					element.setPrintName(table.getName());
 				}
-				element.save ();
+				element.saveEx ();
 			}
 			column.setColumnName (element.getColumnName ());
 			column.setName (element.getName ());
