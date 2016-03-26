@@ -32,7 +32,9 @@ import org.compiere.util.Env;
  *  @author Robert Klein
  *  @ author Paul Bowden
  *  @version $Id: CopyRole.java,v 1.0$
- *  
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 264 ] Bad index for Process SeqNo
+ *		@see https://github.com/adempiere/adempiere/issues/264
  */
 
 public class CopyRole extends SvrProcess
@@ -54,9 +56,10 @@ public class CopyRole extends SvrProcess
 			String name = para[i].getParameterName();
 			if (para[i].getParameter() == null)
 				;
-			else if (name.equals("AD_Role_ID") && i == 0)
+			//	BR [ 264 ] Parameter Name Changed
+			else if (name.equals("AD_Role_ID"))
 				m_AD_Role_ID_From = para[i].getParameterAsInt();
-			else if (name.equals("AD_Role_ID")&& i == 1)
+			else if (name.equals("AD_Role_To_ID"))
 				m_AD_Role_ID_To = para[i].getParameterAsInt();
 			else if (name.equals("AD_Client_ID"))
 				m_AD_Client_ID = para[i].getParameterAsInt();
