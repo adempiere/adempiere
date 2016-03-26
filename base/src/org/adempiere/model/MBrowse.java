@@ -32,7 +32,9 @@ import org.compiere.util.Env;
  * @author victor.perez@e-evoluton.com, www.e-evolution.com
  *  <li>FR [ 3426137 ] Smart Browser
  * 	https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
- * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 267 ] Smart Browse don't have a Sequence Tab for Search Criteria Fields
+ * 		@see https://github.com/adempiere/adempiere/issues/267
  */
 public class MBrowse extends X_AD_Browse {
 
@@ -121,7 +123,8 @@ public class MBrowse extends X_AD_Browse {
 			return new Query(getCtx(), MBrowseField.Table_Name,
 					whereClause.toString(), get_TrxName())
 					.setParameters(get_ID(), "Y").setOnlyActiveRecords(true)
-					.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
+					//	FR [ 267 ] Add SeqNoGrid
+					.setOrderBy(MBrowseField.COLUMNNAME_SeqNoGrid).list();
 		}
 		return m_CriterialFields;
 	}
