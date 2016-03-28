@@ -64,7 +64,8 @@ import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.grid.WBrowseListbox;
+import org.eevolution.grid.Browser;
+import org.eevolution.grid.WBrowserListbox;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -115,7 +116,7 @@ public class WBrowser extends Browser implements IFormController,
 	private Button bZoom;
 	private Button bSelectAll;
 
-	private WBrowseListbox detail;
+	private WBrowserListbox detail;
 //	private Borderlayout graphPanel;
 	private WBrowserSearch searchGrid;
 	private Borderlayout searchTab;
@@ -434,7 +435,7 @@ public class WBrowser extends Browser implements IFormController,
 		collapsibleSeach = new North();
 		topPanel = new Hbox();
 		searchGrid = new WBrowserSearch(getWindowNo());
-		detail = new WBrowseListbox(this);
+		detail = new WBrowserListbox(this);
 		bCancel = new Button();
 		bOk = new Button();
 //		graphPanel = new Borderlayout();
