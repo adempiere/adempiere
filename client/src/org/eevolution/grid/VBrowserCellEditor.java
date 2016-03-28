@@ -41,8 +41,11 @@ import java.util.EventObject;
 /**
  * @author carlosaparada@gmail.com Carlos Parada, ERP Consultores y asociados
  * @author victor.perez@www.e-evolution.com, e-Evolution
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 268 ] Smart Browse Table don't have a MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/268
  */
-public final class VBrowseCellEditor extends AbstractCellEditor
+public final class VBrowserCellEditor extends AbstractCellEditor
         implements TableCellEditor, VetoableChangeListener, ActionListener {
 
     /**
@@ -56,7 +59,7 @@ public final class VBrowseCellEditor extends AbstractCellEditor
     /**
      * Logger
      */
-    private static CLogger log = CLogger.getCLogger(VBrowseCellEditor.class);
+    private static CLogger log = CLogger.getCLogger(VBrowserCellEditor.class);
     int row = -1;
     int col = -1;
     /**
@@ -70,8 +73,7 @@ public final class VBrowseCellEditor extends AbstractCellEditor
     /**
      * Table
      */
-    private BrowseTable table = null;
-    private ActionListener buttonListener;
+    private BrowserTable table = null;
     private ActionListener actionListener;
 
     /**
@@ -79,7 +81,7 @@ public final class VBrowseCellEditor extends AbstractCellEditor
      *
      * @param mField
      */
-    public VBrowseCellEditor(GridField mField) {
+    public VBrowserCellEditor(GridField mField) {
         super();
         m_mField = mField;
         //  Click
@@ -149,7 +151,7 @@ public final class VBrowseCellEditor extends AbstractCellEditor
         this.col = col;
         m_editor.setReadWrite(m_mField.isEditable(false));
 
-        this.table = (BrowseTable) table;
+        this.table = (BrowserTable) table;
 
         //	Set Value
         m_editor.setValue(value);
@@ -207,7 +209,8 @@ public final class VBrowseCellEditor extends AbstractCellEditor
             return;
         log.fine(e.getPropertyName() + "=" + e.getNewValue());
         if (e.getOldValue() != e.getNewValue()) {
-            GridField gridField = table.browserRows.getValue(row, col);
+        	//	BR [ 268 ]
+            GridField gridField = table.getGridFieldAt(row, col);
             gridField.setValue(e.getNewValue(), true);
 
             if (gridField.getCallout() != null) {
