@@ -77,7 +77,8 @@ import org.zkoss.zul.ListitemRendererExt;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>FR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
  * 		@see https://github.com/adempiere/adempiere/issues/257
- *
+ * 		<li>BR [ 269 ] Smart Browse don't allow edit Text fields
+ *		@see https://github.com/adempiere/adempiere/issues/269
  */
 public class WBrowserListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt , ValueChangeListener
 {
@@ -415,7 +416,12 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 					}
 				}
 			}
-			else if (DisplayType.String == browseField.getAD_Reference_ID())
+			//	BR [ 269 ]
+			//	Add support to other String
+			else if (browseField.getAD_Reference_ID() == DisplayType.String
+		            || browseField.getAD_Reference_ID() == DisplayType.PrinterName 
+		            || browseField.getAD_Reference_ID() == DisplayType.Text 
+		            || browseField.getAD_Reference_ID() == DisplayType.TextLong)
 			{
 				listcell.setValue((field == null ? "" : field.toString()));
 				if (isCellEditable)
