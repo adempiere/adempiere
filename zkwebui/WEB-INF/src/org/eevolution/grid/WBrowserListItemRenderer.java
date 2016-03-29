@@ -23,6 +23,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -79,6 +80,8 @@ import org.zkoss.zul.ListitemRendererExt;
  * 		@see https://github.com/adempiere/adempiere/issues/257
  * 		<li>BR [ 269 ] Smart Browse don't allow edit Text fields
  *		@see https://github.com/adempiere/adempiere/issues/269
+ *		<li>BR [ 270 ] Smart Browse cast error in ZK Table
+ *		@see https://github.com/adempiere/adempiere/issues/270
  */
 public class WBrowserListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt , ValueChangeListener
 {
@@ -404,15 +407,17 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 				if (field != null) {
 
 					SimpleDateFormat dateFormat = DisplayType.getDateFormat(browseField.getAD_Reference_ID(), AEnv.getLanguage(Env.getCtx()));
-					listcell.setValue(dateFormat.format((Timestamp) field)); //listcell.setValue(dateFormat.format(field));
+					//	BR [ 270 ]
+					listcell.setValue(dateFormat.format(field));
 					if (isCellEditable) {
 						Datebox datebox = new Datebox();
 						datebox.setFormat(dateFormat.toPattern());
-						datebox.setValue(((Timestamp) field)); //datebox.setValue((Date) field);
+						//	
+						datebox.setValue((Date) field);
 						datebox.addEventListener(Events.ON_CHANGE, this);
 						listcell.appendChild(datebox);
 					} else {
-						listcell.setLabel(dateFormat.format((Timestamp) field)); //listcell.setLabel(dateFormat.format(field));
+						listcell.setLabel(dateFormat.format(field));
 					}
 				}
 			}
