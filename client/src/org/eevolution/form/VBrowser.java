@@ -75,7 +75,8 @@ import org.compiere.util.Ini;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
-import org.eevolution.grid.BrowseTable;
+import org.eevolution.grid.BrowserTable;
+import org.eevolution.grid.Browser;
 
 /**
  * UI Browser
@@ -184,7 +185,7 @@ public class VBrowser extends Browser implements ActionListener,
 	private javax.swing.JToolBar toolsBar;
 	private CPanel topPanel;
 	/**	Table						*/
-	private BrowseTable detail;
+	private BrowserTable detail;
 	private CollapsiblePanel collapsibleSearch;
 	private VBrowserSearch  searchPanel;
 	/**	Form Frame				*/
@@ -434,7 +435,7 @@ public class VBrowser extends Browser implements ActionListener,
 		searchPanel = new VBrowserSearch(getWindowNo());
 		buttonSearchPanel = new CPanel();
 		centerPanel = new javax.swing.JScrollPane();
-		detail = new BrowseTable(this);
+		detail = new BrowserTable(this);
 		detail.setRowSelectionAllowed(true);
 		footPanel = new CPanel();
 		footButtonPanel = new CPanel(new FlowLayout(FlowLayout.CENTER));
@@ -524,8 +525,8 @@ public class VBrowser extends Browser implements ActionListener,
 		graphPanel.setLayout(new java.awt.BorderLayout());
 		
 		//	Instance Table
-		detail = new BrowseTable(this);
-		centerPanel.setViewportView(detail);
+//		detail = new BrowseTable(this);
+//		centerPanel.setViewportView(detail);
 		
 		m_frame.getContentPane().add(tabsPanel, java.awt.BorderLayout.CENTER);
 	}

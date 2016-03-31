@@ -14,7 +14,7 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Carlos Parada www.erpconsultoresyasociados.com             *
  *****************************************************************************/
-package org.eevolution.form;
+package org.eevolution.grid;
 
 import java.math.BigDecimal;
 import java.util.Properties;
@@ -30,7 +30,7 @@ import org.compiere.util.CLogger;
 public class BrowserCallOutExample extends BrowserCallOutEngine {
 
 	
-	public String methodExample(Properties ctx,  int WindowNo,BrowserRows row, GridField field, Object value, Object oldValue,int currentRow, int currentColumn)
+	public String methodExample(Properties ctx,  int WindowNo,BrowserRow row, GridField field, Object value, Object oldValue,int currentRow, int currentColumn)
 	{
 		System.out.println("Hi! this is a example of implementation callouts");
 		
@@ -38,8 +38,10 @@ public class BrowserCallOutExample extends BrowserCallOutEngine {
 		System.out.println("This is a Old Value :"+oldValue);
 		System.out.println("This is a Value for GridField:" + field.getValue());
 		System.out.println("This is a Old Value for GridField:" + field.getOldValue());
-		field.setValue(new BigDecimal(9999.33), true);
-		row.setValueOfColumn(currentRow, "SO_CreditUsed", field);
+//		field.setValue(new BigDecimal(9999.33), true);
+//		row.setValueOfColumn(currentRow, "SO_CreditUsed", field);
+		//	BR [ 268 ]
+		row.setValue("SO_CreditUsed", new BigDecimal(9999.33));
 		return "";
 	}
 	
