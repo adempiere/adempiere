@@ -30,25 +30,31 @@ import org.compiere.model.GridField;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>FR [ 245 ] Change Smart Browse to MVC
  * 		@see https://github.com/adempiere/adempiere/issues/245
+ * 		<li>BR [ 268 ] Smart Browse Table don't have a MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/268
  */
-public interface IBrowseTable 
+public interface IBrowserTable 
 {
 	public boolean isCellEditable(int row, int column);
 	
 	public Object getValueAt(int row, int column);
 	
 	//	FR [ 245 ]
-	public IBrowserRows getData();
+	public IBrowserRow getData();
 	
 	public void setValueAt(Object value, int row, int column);
 	
 	public String prepareTable(List<MBrowseField> fields, boolean multiSelection);
 	
-	//	BR [ 257 ]
+	public int getSelectedColumn();
 	
+	//	BR [ 257 ]
 	public int loadTable(ResultSet rs);
-	//	Used for set a value to any column
-	public void setValue(int row, int column, GridField value);
+	
+	//	BR [ 268 ]
+	public String processCallOut(GridField field, Object value, Object oldValue, int currentRow, int currentColumn);
+	
+	public GridField getGridFieldAt(int row, int column);
 	
 	public int convertColumnIndexToModel(int viewColumnIndex);
 	

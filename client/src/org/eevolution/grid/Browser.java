@@ -15,7 +15,7 @@
  * Contributor(s): Victor Pérez Juárez  (victor.perez@e-evolution.com)		  *
  * Sponsors: e-Evolution Consultants (http://www.e-evolution.com/)            *
  *****************************************************************************/
-package org.eevolution.form;
+package org.eevolution.grid;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,8 +59,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
-import org.eevolution.grid.IBrowseTable;
-import org.eevolution.grid.IBrowserRows;
 
 /**
  * Abstract Smart Browser <li>FR [ 3426137 ] Smart Browser
@@ -674,14 +672,14 @@ public abstract class Browser {
 	 * save result values
 	 * @param browserTable
 	 */
-	protected void saveResultSelection(IBrowseTable browserTable) {
+	protected void saveResultSelection(IBrowserTable browserTable) {
 		if (m_keyColumnIndex == -1) {
 			return;
 		}
 		//	Verify if is Multi-Selection
 		if (p_multiSelection) {
 			int rows = browserTable.getRowCount();
-			IBrowserRows browserRows = browserTable.getData();
+			IBrowserRow browserRows = browserTable.getData();
 			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
 			//	BR [ 257 ]
 			List <MBrowseField> fields = m_Browse.getFields();
@@ -719,7 +717,7 @@ public abstract class Browser {
 	 * @param browserTable
 	 * @return
 	 */
-	public  ArrayList<ArrayList<Object>> getDataRows(IBrowseTable browserTable) {
+	public  ArrayList<ArrayList<Object>> getDataRows(IBrowserTable browserTable) {
 		ArrayList<ArrayList<Object>> rows = m_rows;
 		if (isShowTotal()) {
 			ArrayList<Object> row = new ArrayList<Object>();
@@ -741,7 +739,7 @@ public abstract class Browser {
 	 * Save Selection - Called by dispose
 	 * @param browserTable
 	 */
-	protected void saveSelection(IBrowseTable browserTable) {
+	protected void saveSelection(IBrowserTable browserTable) {
 		// Already disposed
 		if (browserTable == null)
 			return;
@@ -776,7 +774,7 @@ public abstract class Browser {
 	/**
 	 * FR [ 245 ]
 	 */
-	public void selectedRows(IBrowseTable browserTable) {
+	public void selectedRows(IBrowserTable browserTable) {
 		int topIndex = browserTable.isShowTotals() ? 2 : 1;
 		int rows = browserTable.getRowCount();
 
@@ -808,7 +806,7 @@ public abstract class Browser {
 	 * @param browseTable
 	 * @return IDs if selection present
 	 */
-	public ArrayList<Integer> getSelectedRowKeys(IBrowseTable browseTable) {
+	public ArrayList<Integer> getSelectedRowKeys(IBrowserTable browseTable) {
 		ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
 
 		if (m_keyColumnIndex == -1) {
@@ -850,7 +848,7 @@ public abstract class Browser {
 	 * @param table table to initialize
 	 * @return void
 	 */
-	public void initBrowserTable(IBrowseTable table) {
+	public void initBrowserTable(IBrowserTable table) {
 		// Clear Table
 		table.setRowCount(0);
 		//	
@@ -872,7 +870,7 @@ public abstract class Browser {
 	 * @param staticWhere where clause
 	 * @param orderBy order by clause
 	 */
-	private void prepareTable(IBrowseTable table) {
+	private void prepareTable(IBrowserTable table) {
 		//	Get values
 		setContextWhere(null);
 		String from = m_View.getFromClause();
@@ -925,7 +923,7 @@ public abstract class Browser {
 	 * @param browseTable
 	 * @return
 	 */
-	public Integer getSelectedRowKey(IBrowseTable browseTable) {
+	public Integer getSelectedRowKey(IBrowserTable browseTable) {
 		ArrayList<Integer> selectedDataList = getSelectedRowKeys(browseTable);
 		if (selectedDataList.size() == 0) {
 			return null;
@@ -951,7 +949,7 @@ public abstract class Browser {
 	 * @param browseTable
 	 * @return
 	 */
-    protected int deleteSelection(IBrowseTable browseTable) {
+    protected int deleteSelection(IBrowserTable browseTable) {
         MTable table = null;
         MBrowseField fieldKey  = m_Browse.getFieldKey();
         if (fieldKey != null)
@@ -1178,7 +1176,7 @@ public abstract class Browser {
 	 * Get Query from Record Identifier
 	 * @return
 	 */
-	public MQuery getMQuery(IBrowseTable browseTable)
+	public MQuery getMQuery(IBrowserTable browseTable)
 	{
 		Integer record_ID = getSelectedRowKey(browseTable);
 
@@ -1368,7 +1366,7 @@ public abstract class Browser {
 	 * @param browserTable
 	 * @return
 	 */
-	protected File exportXLS(IBrowseTable browserTable) {
+	protected File exportXLS(IBrowserTable browserTable) {
 		File file = null;
 		try {
 			if (m_exporter != null && m_exporter.isAlive())
