@@ -396,7 +396,7 @@ public abstract class Browser {
 		int no = -1;
 		try {
 			pstmt = DB.prepareStatement(countSql, null);
-			if (getParametersValues().size() > 0)
+			if (getParametersValues() != null && getParametersValues().size() > 0)
 				DB.setParameters(pstmt, getParametersValues());
 			rs = pstmt.executeQuery();
 			if (rs.next())
@@ -1354,7 +1354,7 @@ public abstract class Browser {
 		PreparedStatement stmt = null;
 		try {
 			stmt = DB.prepareStatement(sql, null);
-			if (getParametersValues().size() > 0)
+			if (getParametersValues() != null && getParametersValues().size() > 0)
 				DB.setParameters(stmt, getParametersValues());
 			return stmt;
 		} catch (SQLException e) {
