@@ -454,18 +454,21 @@ public abstract class Browser {
 		
 		if(!refresh)
 			return m_whereClause;
-		
+
+		StringBuilder sql = new StringBuilder(p_whereClause);
+
 		//	Valid null
 		LinkedHashMap<Object, GridField> panelParameters = getPanelParameters();
 		if(panelParameters == null
-				|| panelParameters.size() == 0)
+		|| panelParameters.size() == 0) {
+			m_whereClause = sql.toString();
 			return m_whereClause;
-		//	
+		}
+		//
 		m_parameters_values = new ArrayList<Object>();
 		m_parameters = new ArrayList<Object>();
 
 		boolean onRange = false;
-		StringBuilder sql = new StringBuilder(p_whereClause);
 
 		for (Entry<Object, GridField> entry : panelParameters.entrySet()) {
 			GridField editor = (GridField) entry.getValue();
