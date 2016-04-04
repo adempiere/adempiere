@@ -177,19 +177,23 @@ public class MBrowseField extends X_AD_Browse_Field {
 	 * @return
 	 */
 	public MBrowseField(MBrowse browse, MViewColumn column) {
-		super(column.getCtx(), 0, column.get_TrxName());
+		super(browse.getCtx(), 0, browse.get_TrxName());
 		setAD_Browse_ID(browse.getAD_Browse_ID());
-		setAD_Element_ID(column.getAD_Element_ID());
+		if (column.get_ID() > 0 )
+			setAD_View_Column_ID(column.getAD_View_Column_ID());
+		if (column.getAD_Element_ID() > 0 )
+			setAD_Element_ID(column.getAD_Element_ID());
 		setName(column.getName());
 		setDescription(column.getDescription());
 		setHelp(column.getHelp());
-		setAD_View_Column_ID(column.getAD_View_Column_ID());
 		setIsActive(true);
 		setIsIdentifier(column.isIdentifier());
 		setIsRange(false);
 		setIsQueryCriteria(false);
-		setAD_Reference_ID(column.getAD_Reference_ID());
-		setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
+		if (column.get_ID() > 0)
+			setAD_Reference_ID(column.getAD_Reference_ID());
+		if (column.get_ID() > 0)
+			setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
 		setIsKey(false);
 		setIsDisplayed(true);
 		m_view_column = column;
