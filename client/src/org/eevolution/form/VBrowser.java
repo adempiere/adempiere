@@ -54,6 +54,7 @@ import org.compiere.apps.ALayout;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.ProcessCtl;
+import org.compiere.apps.ProcessParameter;
 import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.Waiting;
@@ -67,6 +68,7 @@ import org.compiere.process.ProcessInfoUtil;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
@@ -240,9 +242,14 @@ public class VBrowser extends Browser implements ActionListener,
 			//	FR [ 245 ]
 			initProcessInfo();
 			parameterPanel = new ProcessParameterPanel(getWindowNo() , getBrowseProcessInfo());
-			parameterPanel.setMode(ProcessParameterPanel.MODE_HORIZONTAL);
+			parameterPanel.setColumns(ProcessParameter.COLUMNS_2);
 			parameterPanel.init();
-			processPanel.add(parameterPanel, BorderLayout.CENTER);
+			//	Add Scroll FR [ 265 ]
+			CScrollPane scrollPane = new CScrollPane(parameterPanel.getPanel());
+			scrollPane.setAutoscrolls(true);
+			scrollPane.createVerticalScrollBar();
+			scrollPane.createHorizontalScrollBar();
+			processPanel.add(scrollPane, BorderLayout.CENTER);
 		}
 	}
 
@@ -561,7 +568,7 @@ public class VBrowser extends Browser implements ActionListener,
 			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 			pi.setIsSelection(p_multiSelection);
 			// BR [ 249 ]
-			if(parameterPanel.saveParameters()) {
+			if(parameterPanel.saveParameters() == null) {
 				DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
 						null);
 				//	Call Process

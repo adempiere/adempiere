@@ -32,7 +32,6 @@ import javax.swing.JLabel;
 
 import org.adempiere.model.MBrowseField;
 import org.compiere.apps.ALayoutConstraint;
-import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
@@ -62,7 +61,7 @@ public class VBrowserSearch extends CPanel implements
 	private ArrayList<GridField>	m_mFields = new ArrayList<GridField>();
 	private ArrayList<GridField>	m_mFields2 = new ArrayList<GridField>();
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(ProcessParameterPanel.class);
+	private static CLogger log = CLogger.getCLogger(VBrowserSearch.class);
 	
 	/** Parameters */
 	protected LinkedHashMap<Object, Object> m_search = new LinkedHashMap<Object, Object>();
