@@ -17,8 +17,8 @@
 package org.adempiere.webui.apps;
 
 import org.adempiere.webui.component.Window;
-import org.compiere.apps.IProcessParameter;
 import org.compiere.apps.ProcessCtl;
+import org.compiere.apps.ProcessParameter;
 import org.compiere.model.MPInstance;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
@@ -52,6 +52,9 @@ public class WProcessCtl {
 	 *  @param WindowNo window no
 	 *  @param pi ProcessInfo process info
 	 *  @param trx Transaction
+	 *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
+	 *		@see https://github.com/adempiere/adempiere/issues/265
 	 */
 	public static void process (ASyncProcess aProcess, int WindowNo, ProcessInfo pi, Trx trx)
 	{
@@ -111,7 +114,7 @@ public class WProcessCtl {
 	 *  @param pi ProcessInfo process info
 	 *  @param trx Transaction
 	 */
-	public static void process(ASyncProcess parent, int WindowNo, IProcessParameter parameter, ProcessInfo pi, Trx trx)
+	public static void process(ASyncProcess parent, int WindowNo, ProcessParameter parameter, ProcessInfo pi, Trx trx)
 	{
 		ProcessCtl.process(parent, WindowNo, parameter, pi, trx);
 	}

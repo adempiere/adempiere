@@ -55,6 +55,9 @@ import org.zkoss.zul.Html;
  *  @author 	Low Heng Sin
  *  @author     arboleda - globalqss
  *  - Implement ShowHelp option on processes and reports
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *		@see https://github.com/adempiere/adempiere/issues/265
  */
 public class ProcessModalDialog extends Window implements EventListener
 {
@@ -272,8 +275,9 @@ public class ProcessModalDialog extends Window implements EventListener
 		m_pi.setTitle(m_Name);
 		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
 		centerPanel.getChildren().clear();
-		if ( parameterPanel.init() ) {
-			centerPanel.appendChild(parameterPanel);
+		//	FR [ 265 ]
+		if (parameterPanel.init()) {
+			centerPanel.appendChild(parameterPanel.getPanel());
 		} else {
 			if (m_ShowHelp != null && m_ShowHelp.equals("N")) {
 				m_autoStart = true;
