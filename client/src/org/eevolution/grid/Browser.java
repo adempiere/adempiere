@@ -394,7 +394,7 @@ public abstract class Browser {
 		int no = -1;
 		try {
 			pstmt = DB.prepareStatement(countSql, null);
-			if (getParametersValues().size() > 0)
+			if (getParametersValues() != null && getParametersValues().size() > 0)
 				DB.setParameters(pstmt, getParametersValues());
 			rs = pstmt.executeQuery();
 			if (rs.next())
@@ -454,18 +454,21 @@ public abstract class Browser {
 		
 		if(!refresh)
 			return m_whereClause;
-		
+
+		StringBuilder sql = new StringBuilder(p_whereClause);
+
 		//	Valid null
 		LinkedHashMap<Object, GridField> panelParameters = getPanelParameters();
 		if(panelParameters == null
-				|| panelParameters.size() == 0)
+		|| panelParameters.size() == 0) {
+			m_whereClause = sql.toString();
 			return m_whereClause;
-		//	
+		}
+		//
 		m_parameters_values = new ArrayList<Object>();
 		m_parameters = new ArrayList<Object>();
 
 		boolean onRange = false;
-		StringBuilder sql = new StringBuilder(p_whereClause);
 
 		for (Entry<Object, GridField> entry : panelParameters.entrySet()) {
 			GridField editor = (GridField) entry.getValue();
@@ -1352,7 +1355,7 @@ public abstract class Browser {
 		PreparedStatement stmt = null;
 		try {
 			stmt = DB.prepareStatement(sql, null);
-			if (getParametersValues().size() > 0)
+			if (getParametersValues() != null && getParametersValues().size() > 0)
 				DB.setParameters(stmt, getParametersValues());
 			return stmt;
 		} catch (SQLException e) {
