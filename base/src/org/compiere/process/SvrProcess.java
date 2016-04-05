@@ -51,6 +51,9 @@ import org.compiere.util.Trx;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 244 ] Is Selection flag
  *		@see https://github.com/adempiere/adempiere/issues/244
+ *
+ * @author mckayERP www.mckayERP.com
+ * 			<li> #285 Message in SvrProcess can cause null pointer exception. 
  */
 public abstract class SvrProcess implements ProcessCall
 {
@@ -142,7 +145,7 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	private boolean process()
 	{
-		String msg = null;
+		String msg = "";  //#285
 		boolean success = true;
 		try
 		{
@@ -163,7 +166,7 @@ public abstract class SvrProcess implements ProcessCall
 		}
 		
 		//transaction should rollback if there are error in process
-		if (msg.contains("@Error@"))
+		if (msg != null && msg.contains("@Error@")) // #285 msg could be null
 			success = false;
 		
 		//	Parse Variables
