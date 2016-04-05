@@ -134,7 +134,7 @@ public abstract class ProcessPopupAction extends PopupAction {
 		ProcessModalDialog para = new ProcessModalDialog(
 				Env.getFrame((Container)window), Env.getWindowNo(window), pib.getProcessInfo());
 		
-		if (para.init()) {
+		if (para.isValidDialog()) {
 			
 			para.validate();
 			para.pack();

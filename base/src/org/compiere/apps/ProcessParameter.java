@@ -41,6 +41,8 @@ import org.compiere.util.Env;
  *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
  *		@see https://github.com/adempiere/adempiere/issues/265
+ *		<li>FR [ 295 ] Report viewer re-query
+ *		@see https://github.com/adempiere/adempiere/issues/295
  */
 public abstract class ProcessParameter {
 	
@@ -497,6 +499,24 @@ public abstract class ProcessParameter {
 		if(validError != null)
 			return validError;
 
+		//	Save Process instance if it is not saved
+		//	FR [ 295 ]
+		if(m_processInfo.getAD_PInstance_ID() == 0) {
+			MPInstance instance = null; 
+			try { 
+				instance = new MPInstance(Env.getCtx(), 
+						m_processInfo.getAD_Process_ID(), m_processInfo.getRecord_ID());
+				instance.saveEx();
+				//	Set Instance
+				m_processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+			} catch (Exception e) { 
+				m_processInfo.setSummary (e.getLocalizedMessage()); 
+				m_processInfo.setError (true); 
+				log.warning(m_processInfo.toString()); 
+				return m_processInfo.getSummary(); 
+			}
+		}
+		
 		/**********************************************************************
 		 *	Save Now
 		 */

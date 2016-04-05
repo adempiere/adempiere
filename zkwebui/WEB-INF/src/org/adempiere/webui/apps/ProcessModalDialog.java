@@ -110,6 +110,18 @@ public class ProcessModalDialog extends Window implements EventListener
 	}
 	
 	/**
+	 * Optional constructor, for launch from ProcessCtl
+	 * @param frame
+	 * @param WindowNo
+	 * @param pi
+	 */
+	public ProcessModalDialog (ASyncProcess aProcess, int WindowNo, ProcessInfo pi) {
+		this(aProcess, WindowNo, pi, false);
+		//	Set Process instance and flag
+		m_OnlyPanel = true;
+	}
+	
+	/**
 	 * Dialog to start a process/report
 	 * @param ctx
 	 * @param parent not used
@@ -166,7 +178,9 @@ public class ProcessModalDialog extends Window implements EventListener
 	private String		    m_Name = null;
 	private StringBuffer	m_messageText = new StringBuffer();
 	private String          m_ShowHelp = null; // Determine if a Help Process Window is shown
-	private boolean m_valid = true;
+	private boolean 		m_valid = true;
+	private boolean 		m_OnlyPanel = false;
+	private boolean 		m_isOK = false;
 	
 	private Panel centerPanel = null;
 	private Html message = null;
@@ -212,7 +226,7 @@ public class ProcessModalDialog extends Window implements EventListener
 	 *	Dynamic Init
 	 *  @return true, if there is something to process (start from menu)
 	 */
-	public boolean init()
+	private boolean init()
 	{
 		log.config("");
 		//
@@ -351,15 +365,33 @@ public class ProcessModalDialog extends Window implements EventListener
 	 * handle events
 	 */
 	public void onEvent(Event event) {
+		m_isOK = false;
 		Component component = event.getTarget(); 
 		if (component instanceof Button) {
 			Button element = (Button)component;
 			if ("Ok".equalsIgnoreCase(element.getId())) {
-				this.startProcess();
+				if(!m_OnlyPanel) {
+					this.startProcess();
+				} else {
+					//	check if saving parameters is complete
+					if (parameterPanel.validateParameters() == null) {
+						//	Save Parameters
+						parameterPanel.saveParameters();
+						m_isOK = true;
+						dispose();
+					}
+				}
 			} else if ("Cancel".equalsIgnoreCase(element.getId())) {
 				this.dispose();
 			}
 		}		
 	}
 	
+	/**
+	 *	Is everything OK?
+	 *  @return true if parameters saved correctly
+	 */
+	public boolean isOK() {
+		return m_isOK;
+	}	//	isOK
 }	//	ProcessDialog
