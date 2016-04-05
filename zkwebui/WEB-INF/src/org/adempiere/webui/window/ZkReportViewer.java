@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pdf.Document;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.apps.ProcessModalDialog;
 import org.adempiere.webui.apps.WReport;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -40,6 +41,7 @@ import org.adempiere.webui.event.ZoomEvent;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.report.HTMLExtension;
 import org.adempiere.webui.session.SessionManager;
+import org.compiere.apps.ProcessCtl;
 import org.compiere.model.GridField;
 import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
@@ -51,6 +53,7 @@ import org.compiere.print.AReport;
 import org.compiere.print.ArchiveEngine;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -96,6 +99,8 @@ import org.zkoss.zul.Vbox;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
  * 			@see https://github.com/adempiere/adempiere/issues/236
+ * 		<li>BR [ 237 ] Same Print format but distinct report view
+ * 			@see https://github.com/adempiere/adempiere/issues/237
  * 		<li>BR [ 237 ] Same Print format but distinct report view
  * 			@see https://github.com/adempiere/adempiere/issues/237
  */
@@ -1079,10 +1084,19 @@ public class ZkReportViewer extends Window implements EventListener {
 		if (tableName != null)
 			findFields = GridField.createFields(m_ctx, m_WindowNo, 0, AD_Tab_ID);
 		
-		if (findFields == null)		//	No Tab for Table exists
-			bFind.setVisible(false);
-		else
-		{
+		//	FR [ 295 ]
+		if (findFields == null)	{	//	No Tab for Table exists
+			if(launchProcessPara()) {
+				try {
+					renderReport();
+				} catch (Exception e) {
+					throw new AdempiereException("Failed to render report", e);
+				}
+				revalidate();
+			} else {
+				return;
+			}
+		} else {
             FindWindow find = new FindWindow(m_WindowNo, title, AD_Table_ID, tableName,"", findFields, 1, AD_Tab_ID);
             if (!find.isCancel())
             {
@@ -1097,6 +1111,46 @@ public class ZkReportViewer extends Window implements EventListener {
             find = null;
 		}
 	}	//	cmd_find
+	
+	/**
+	 * FR [ 295 ]
+	 * Launch Parameters for re-query
+	 * @return isOk
+	 */
+	private boolean launchProcessPara() {
+		//	Create new Instance
+		ProcessInfo pi = new ProcessInfo(m_reportEngine.getProcessInfo().getTitle(), 
+				m_reportEngine.getProcessInfo().getAD_Process_ID(), 
+				m_reportEngine.getProcessInfo().getTable_ID(), 
+				m_reportEngine.getProcessInfo().getRecord_ID());
+		//	Launch dialog
+		ProcessModalDialog dialog = new ProcessModalDialog(null, m_WindowNo, pi);
+		if (dialog.isValid()) {
+			dialog.setPosition("center");
+			dialog.setSizable(true);
+			try {
+				dialog.setPage(this.getPage());
+				dialog.doModal();
+				//	Valid
+				if(dialog.isOK()) {
+					//	execute
+					ProcessCtl worker = new ProcessCtl(null, m_WindowNo, pi, true, null);
+					//synchrous
+					worker.run();
+					//	
+					ReportEngine re = ReportEngine.get(Env.getCtx(), pi);
+					//	
+					m_reportEngine.setQuery(re.getQuery());
+					//	
+					return true;
+				}
+			}
+			catch (InterruptedException e) {
+			}
+		}
+		//	Default
+		return false;
+	}
 
 	/**
 	 * 	Call Customize

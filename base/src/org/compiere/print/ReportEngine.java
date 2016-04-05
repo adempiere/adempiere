@@ -106,7 +106,9 @@ import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
  *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>BR [ 237 ] Same Print format but distinct report view
- * 			@see https://github.com/adempiere/adempiere/issues/237
+ * 		@see https://github.com/adempiere/adempiere/issues/237
+ * 		<li>FR [ 295 ] Report viewer re-query
+ * 		@see https://github.com/adempiere/adempiere/issues/295
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -1229,7 +1231,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
 
-		return new ReportEngine(ctx, format, query, info, pi.getTransactionName());
+		//	FR [ 295 ]
+		ReportEngine re = new ReportEngine(ctx, format, query, info, pi.getTransactionName());
+		//	Set Process Information
+		re.setProcessInfo(pi);
+		return re;
 	}	//	get
 
 	/*************************************************************************/

@@ -274,7 +274,7 @@ public class ProcessModalDialog extends CDialog
 	 *	Dynamic Init
 	 *  @return true, if there is something to process (start from menu)
 	 */
-	public boolean init()
+	private boolean init()
 	{
 		log.config("");
 		//
