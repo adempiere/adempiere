@@ -175,11 +175,16 @@ public class MBrowse extends X_AD_Browse {
 		if (m_DisplayFields == null) {
 			final StringBuilder whereClause = new StringBuilder(
 					MBrowseField.COLUMNNAME_AD_Browse_ID);
-			whereClause.append("=? AND ")
-					.append(MBrowseField.COLUMNNAME_IsDisplayed).append("=? ");
+			whereClause.append(" = ? AND ")
+					.append("(")
+					.append(MBrowseField.COLUMNNAME_IsDisplayed).append(" = ? ")
+					.append("OR ")
+					.append(MBrowseField.COLUMNNAME_IsIdentifier).append(" = ?")
+					.append(")");
 			m_DisplayFields = new Query(getCtx(), MBrowseField.Table_Name,
 					whereClause.toString(), get_TrxName())
-					.setParameters(get_ID(), "Y").setOnlyActiveRecords(true)
+					.setParameters(get_ID(), "Y", "Y")
+					.setOnlyActiveRecords(true)
 					.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
 		}
 		return m_DisplayFields;

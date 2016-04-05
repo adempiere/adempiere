@@ -311,7 +311,7 @@ public abstract class Browser {
 			browseField.setIsReadOnly(false);
 		}
 		
-		for (MBrowseField field : m_Browse.getFields()) {
+		for (MBrowseField field : m_Browse.getDisplayFields()) {
 
 			if (field.isQueryCriteria()) {
 				m_queryColumns.add(field.getName());
@@ -488,7 +488,6 @@ public abstract class Browser {
 							if (value.contains(","))
 							{
 								value = value.replace(" ", "");
-								String token;
 								String inStr = new String(value);
 								StringBuffer outStr = new StringBuffer("(");
 								int i = inStr.indexOf(',');
@@ -701,7 +700,7 @@ public abstract class Browser {
 						{
 							if (!field.isReadOnly() || field.isIdentifier())
 							{
-								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getAD_Column().getColumnName());//(GridField) browserRows.getValue(row, col);
+								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getColumnName());//(GridField) browserRows.getValue(row, col);
 								Object value = gridField.getValue();
 								values.put(field.getAD_View_Column().getColumnName(), value);
 							}
@@ -916,7 +915,7 @@ public abstract class Browser {
 	
 	public String getKeyColumn() {
 		if(p_keyColumn == null || p_keyColumn.isEmpty())
-			p_keyColumn = m_Browse.getFieldKey().getAD_View_Column().getAD_Column().getColumnName();
+			p_keyColumn = m_Browse.getFieldKey().getAD_View_Column().getColumnName();
 		
 		return p_keyColumn;
 	}
