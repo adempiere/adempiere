@@ -91,7 +91,7 @@ public class BrowserRow implements IBrowserRow {
 			fieldIndexes.put(noViewColumns, column);
 			noViewColumns++;
 		}
-		columnNamesIndex.put(field.getAD_View_Column().getAD_Column().getColumnName(), column);
+		columnNamesIndex.put(field.getAD_View_Column().getColumnName(), column);
 		browserFields.put(column, field);
 	}
 
