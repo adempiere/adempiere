@@ -86,7 +86,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 		valueObject.ValidationCode = field.getAD_Val_Rule().getCode();
 		valueObject.isRange = field.isRange();
 		valueObject.Description = field.getDescription();
-		if (field.getAD_View_Column().getAD_Column_ID() <= 0)
+		if (field.getAD_View_Column().getAD_Column_ID() <= 0 && field.isReadOnly())
 			valueObject.ColumnSQL = uniqueName;
 		valueObject.Help = uniqueName;
 		valueObject.Header = field.getName();
