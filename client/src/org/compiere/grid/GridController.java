@@ -157,6 +157,9 @@ import org.compiere.util.Util;
  * @author Teo Sarca - BF [ 1742159 ], BF [ 1707876 ]
  * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  * @contributor fer_luck @ centuryon  FR [ 1757088 ]
+ * 
+ * @author mckayERP www.mckayERP.com
+ * 				<li> #283 GridController in swing will not set value to null in vetoableChange 
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -1252,7 +1255,11 @@ public class GridController extends CPanel
 		//
 		if (e.getNewValue() == null && e.getOldValue() != null
 			&& e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
+		{
+			//  #283 Set value to null 
+			mTable.setValueAt (null, row, col);	//	-> dataStatusChanged -> dynamicDisplay
 			mTable.setChanged (true);
+		}	
 		else
 		{
 		//	mTable.setValueAt (e.getNewValue(), row, col, true);
