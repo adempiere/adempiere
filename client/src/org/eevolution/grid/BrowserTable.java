@@ -683,7 +683,7 @@ public class BrowserTable extends CTable implements IBrowserTable {
 				for (MBrowseField field : getFields()) {
 					Object value = null;
 					if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
-						value = new IDColumn(rs.getInt(column + colOffset));
+						value = new IDColumn(no);
 					else if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
 						value  = new IDColumn(no);
 					else if (DisplayType.TableDir == field.getAD_Reference_ID()
