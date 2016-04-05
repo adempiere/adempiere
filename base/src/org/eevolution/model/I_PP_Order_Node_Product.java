@@ -209,17 +209,4 @@ public interface I_PP_Order_Node_Product
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name Yield */
-    public static final String COLUMNNAME_Yield = "Yield";
-
-	/** Set Yield %.
-	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
-	  */
-	public void setYield (int Yield);
-
-	/** Get Yield %.
-	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
-	  */
-	public int getYield();
 }

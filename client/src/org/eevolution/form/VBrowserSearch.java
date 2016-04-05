@@ -32,7 +32,6 @@ import javax.swing.JLabel;
 
 import org.adempiere.model.MBrowseField;
 import org.compiere.apps.ALayoutConstraint;
-import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
@@ -62,7 +61,7 @@ public class VBrowserSearch extends CPanel implements
 	private ArrayList<GridField>	m_mFields = new ArrayList<GridField>();
 	private ArrayList<GridField>	m_mFields2 = new ArrayList<GridField>();
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(ProcessParameterPanel.class);
+	private static CLogger log = CLogger.getCLogger(VBrowserSearch.class);
 	
 	/** Parameters */
 	protected LinkedHashMap<Object, Object> m_search = new LinkedHashMap<Object, Object>();
@@ -112,15 +111,15 @@ public class VBrowserSearch extends CPanel implements
 	public void addField(MBrowseField field, int row, int col, String name, String title) {
 		GridFieldVO voBase = GridFieldVO.createStdField(field.getCtx(),
 				p_WindowNo, 0, 0, 0, false, false, false);
-		
-		String uniqueName =  field.getAD_View_Column().getColumnSQL();
+
+		String uniqueName = field.getAD_View_Column().getColumnSQL();
 
 		voBase.isProcess = true;
 		voBase.IsDisplayed = true;
 		voBase.IsReadOnly = true;
 		voBase.IsUpdateable = true;
 		voBase.WindowNo = p_WindowNo;
-		
+
 		voBase.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
 		voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column()
 				.getAD_Table_ID();
@@ -137,7 +136,7 @@ public class VBrowserSearch extends CPanel implements
 		voBase.InfoFactoryClass = field.getInfoFactoryClass();
 		voBase.FieldLength = field.getFieldLength();
 		voBase.ReadOnlyLogic = field.getReadOnlyLogic();
-		voBase.DisplayLogic =  field.getDisplayLogic();
+		voBase.DisplayLogic = field.getDisplayLogic();
 		voBase.VFormat = field.getVFormat();
 		voBase.ValueMin = field.getValueMin();
 		voBase.ValueMax = field.getValueMax();
@@ -147,20 +146,29 @@ public class VBrowserSearch extends CPanel implements
 		voBase.Description = field.getDescription();
 		voBase.Help = uniqueName;
 		voBase.Header = title;
-		
-		GridField gField = new GridField(GridFieldVO.createParameter(voBase));
-		//  Set Default
-		Object defaultObject = gField.getDefault();
-		gField.setValue (defaultObject, true);
-		if (defaultObject != null)
-			processNewValue(defaultObject, gField.getVO().Help);
 
-		gField.lookupLoadComplete();
-		m_mFields.add(gField);
+		GridField gField = new GridField(GridFieldVO.createParameter(voBase));
+		GridField gField2 = null;
 
 		VEditor editor = VEditorFactory.getEditor(gField, false);
 		editor.setReadWrite(true);
 		editor.addVetoableChangeListener(this);
+
+		Object defaultObject = null;
+		Object defaultObject2 = null;
+
+		//  Set Default
+		if (field.getAD_View_Column().getAD_Column_ID() > 0)
+		{
+			defaultObject = gField.getDefault();
+			if (defaultObject != null && field.getDefaultValue() != null) {
+				gField.setValue(defaultObject, true);
+				editor.setValue(defaultObject);
+			}
+		}
+
+		gField.lookupLoadComplete();
+		m_mFields.add(gField);
 		m_vEditors.add (editor); //  add to Editors
 		
 		if (DisplayType.YesNo != field.getAD_Reference_ID()) {
@@ -178,16 +186,23 @@ public class VBrowserSearch extends CPanel implements
 			name = name + "_To";
 			voBase.Header = title;
 			voBase.DefaultValue = field.getDefaultValue2();
-			GridField gField2 = new GridField(GridFieldVO.createParameter(voBase));
-			//  Set Default
-			Object defaultObject2 = gField2.getDefault();
-			gField2.setValue (defaultObject2, true);
+			gField2 = new GridField(GridFieldVO.createParameter(voBase));
 			gField2.lookupLoadComplete();
-			m_mFields2.add(gField2);
-			
+
 			VEditor editor2 = VEditorFactory.getEditor(gField2, false);
 			editor2.setReadWrite(true);
 			editor2.addVetoableChangeListener(this);
+
+			//  Set Default
+			if (field.getAD_View_Column().getAD_Column_ID() > 0) {
+				defaultObject2 = gField2.getDefault();
+				if (defaultObject2 != null && field.getDefaultValue2() != null) {
+					gField2.setValue(defaultObject2, true);
+					editor2.setValue(defaultObject2);
+				}
+			}
+
+			m_mFields2.add(gField2);
 			m_vEditors2.add (editor2); //  add to Editors
 			
 			JLabel label = VEditorFactory.getLabel(gField2);
@@ -203,13 +218,18 @@ public class VBrowserSearch extends CPanel implements
 			m_mFields2.add (null);
 			m_vEditors2.add (null);
 		}
+
+		if (gField != null)
+			processNewValue(defaultObject, gField.getVO().Help);
+		if (gField2 != null)
+			processNewValue(defaultObject2, gField2.getVO().Help);
 	}
 
 
 	/**
 	 *	Editor Listener
 	 *	@param evt Event
-	 * 	@exception PropertyVetoException if the recipient wishes to roll back.
+	 * 	@exception PropertyChangeEvent if the recipient wishes to roll back.
 	 */
 	public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException{
 		if (evt.getSource() instanceof VEditor) {
@@ -252,8 +272,6 @@ public class VBrowserSearch extends CPanel implements
 			return null;
 	}
 
-	
-	
 	/**
 	 *  Evaluate Dependencies
 	 *  @param changedField changed field

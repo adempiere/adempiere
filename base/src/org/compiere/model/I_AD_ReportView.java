@@ -173,6 +173,19 @@ public interface I_AD_ReportView
 	  */
 	public String getOrderByClause();
 
+    /** Column name PrintName */
+    public static final String COLUMNNAME_PrintName = "PrintName";
+
+	/** Set Print Text.
+	  * The label text to be printed on a document or correspondence.
+	  */
+	public void setPrintName (String PrintName);
+
+	/** Get Print Text.
+	  * The label text to be printed on a document or correspondence.
+	  */
+	public String getPrintName();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

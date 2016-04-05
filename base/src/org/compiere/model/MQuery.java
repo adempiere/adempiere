@@ -46,6 +46,9 @@ import org.compiere.util.ValueNamePair;
  * @author  Tony Snook tspc@users.sourceforge.net
  * 		<li>BF [2945715] Improve Advanced Search
  * 			https://sourceforge.net/tracker/index.php?func=detail&aid=2945715&group_id=176962&atid=879335
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 236 ] Report View does not refresh when print format is changed
+ * 			@see https://github.com/adempiere/adempiere/issues/236
  */
 public class MQuery implements Serializable
 {
@@ -65,7 +68,8 @@ public class MQuery implements Serializable
 		MTable table = null;
 		if (TableName.startsWith("T_"))
 		{
-			query.addRestriction(TableName + ".AD_PInstance_ID=" + AD_PInstance_ID);
+			//	BR [ 236 ]
+			query.addRestriction(TableName + ".AD_PInstance_ID=" + AD_PInstance_ID, true);
 			isTemporaryTable = true;
 			table = MTable.get(ctx, TableName);
 		}
@@ -230,6 +234,21 @@ public class MQuery implements Serializable
 		return query;
 	}	//	get
 	
+	
+	/**
+	 * Clear all where clause added after instance
+	 * BR [ 236 ]
+	 */
+	public void clear() {
+		if(getAD_PInstance_ID() != 0) {
+			for (int i = 0; i < m_list.size(); i++) {
+				Restriction restriction = m_list.get(i);
+				if(!restriction.orignalClause) {
+					m_list.remove(i);
+				}
+			}
+		}
+	}
 	
 	/**
 	 * 	Get Zoom Column Name.
@@ -441,8 +460,13 @@ public class MQuery implements Serializable
 	};
 	/**	Operators for IDs					*/
 	public static final ValueNamePair[]	OPERATORS_ID = new ValueNamePair[] {
-		new ValueNamePair (EQUAL,			" = "),		//	0
-		new ValueNamePair (NOT_EQUAL,		" != ")
+		new ValueNamePair (EQUAL,			" = "),		
+		new ValueNamePair (NOT_EQUAL,		" != "),
+		new ValueNamePair (GREATER,			" > "),
+		new ValueNamePair (GREATER_EQUAL,	" >= "),		
+		new ValueNamePair (LESS,			" < "),
+		new ValueNamePair (LESS_EQUAL,		" <= "),
+		new ValueNamePair (BETWEEN,			" >-< ")	
 	};
 	/**	Operators for Boolean					*/
 	public static final ValueNamePair[]	OPERATORS_YN = new ValueNamePair[] {
@@ -584,15 +608,26 @@ public class MQuery implements Serializable
 		m_list.add(r);
 		m_newRecord = whereClause.equals(NEWRECORD);
 	}	//	addRestriction
+	
 	/**
 	 * 	Add Restriction
 	 * 	@param whereClause SQL WHERE clause
 	 */
 	public void addRestriction (String whereClause)
 	{
+		addRestriction(whereClause, false);
+	}	//	addRestriction
+	
+	/**
+	 * BR [ 236 ]
+	 * Set Original clause
+	 * @param whereClause
+	 * @param p_OrignalClause
+	 */
+	public void addRestriction (String whereClause, boolean p_OrignalClause) {
 		if (whereClause == null || whereClause.trim().length() == 0)
 			return;
-		Restriction r = new Restriction (whereClause, true, 0);
+		Restriction r = new Restriction (whereClause, true, 0, p_OrignalClause);
 		m_list.add(r);
 		m_newRecord = whereClause.equals(NEWRECORD);
 	}	//	addRestriction
@@ -1022,6 +1057,8 @@ class Restriction  implements Serializable
 			InfoDisplay = infoDisplay.trim();
 		else if (code != null)
 			InfoDisplay = code.toString();
+		//	Set Default original 
+		orignalClause = true;
 	}	//	Restriction
 
 	/**
@@ -1053,17 +1090,33 @@ class Restriction  implements Serializable
 			InfoDisplay_to = infoDisplay_to.trim();
 		else if (Code_to != null)
 			InfoDisplay_to = Code_to.toString();
+		//	Set Default original 
+		orignalClause = true;
 	}	//	Restriction
 
 	/**
 	 * 	Create Restriction with direct WHERE clause
 	 * 	@param whereClause SQL WHERE Clause
+	 * 	@param p_OrignalClause Original Clause
 	 */
-	Restriction (String whereClause, boolean andCondition, int depth)
+	Restriction (String whereClause, boolean andCondition, int depth, boolean p_OrignalClause)
 	{
 		DirectWhereClause = whereClause;
 		this.andCondition = andCondition;
 		this.joinDepth = depth;
+		//	Set Default original 
+		orignalClause = p_OrignalClause;
+	}	//	Restriction
+	
+	/**
+	 * BR [ 236 ]
+	 * Standard constructor
+	 * @param whereClause
+	 * @param andCondition
+	 * @param depth
+	 */
+	Restriction (String whereClause, boolean andCondition, int depth) {
+		this(whereClause, andCondition, depth, false);
 	}	//	Restriction
 
 	/**	Direct Where Clause	*/
@@ -1086,6 +1139,9 @@ class Restriction  implements Serializable
 	protected boolean	andCondition = true;
 	/** And/Or condition nesting depth ( = number of open brackets at and/or) */
 	protected int		joinDepth = 0;
+	//	BR [ 237 ]
+	/**	Original Parameter	*/
+	protected boolean	orignalClause = false;
 
 	/**
 	 * 	Return SQL construct for this restriction

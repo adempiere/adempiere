@@ -26,6 +26,7 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
 import org.eevolution.model.I_HR_Movement;
+import org.eevolution.model.MHREmployee;
 import org.eevolution.model.MHRMovement;
 import org.eevolution.model.MHRPaySelection;
 import org.eevolution.model.MHRPaySelectionLine;
@@ -41,55 +42,58 @@ public class HRPaySelectionCreateFrom extends SvrProcess
 {
 
 	/**	Payroll Process				*/
-	private int 	p_HR_Process_ID = 0;
+	private int processId = 0;
 	/** Payroll						*/
-	private int		p_HR_Payroll_ID = 0;
+	private int payrollId = 0;
 	/** BPartner 					*/
-	private int		p_C_BPartner_ID = 0;
+	private int partnerId = 0;
 	/** BPartner Group				*/
-	private int		p_C_BP_Group_ID = 0;
+	private int	employeeTypeId = 0;
+	/** Employee Type			*/
+	private int partnerGroupId = 0;
 	/** Payment Rule				*/
-	private String  p_PaymentRule = null;
+	private String paymentRule = null;
 	/** Payroll Concept				*/
-	private int		p_HR_Concept_ID = 0;
+	private int payrollConceptId = 0;
 	/** Payroll Department			*/
-	private int		p_HR_Department_ID = 0;
+	private int departmentId = 0;
 	/** Payroll Job					*/
-	private int		p_HR_Job_ID = 0;
+	private int jobId = 0;
 	/**	Payroll Payment Selection	*/
-	private int		p_HR_PaySelection_ID = 0;
+	private int paySelectionId = 0;
 
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
+		for (ProcessInfoParameter para : getParameter())
 		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
+			String name = para.getParameterName();
+			if (para.getParameter() == null)
 				;
-			else if (name.equals("HR_Process_ID"))
-				p_HR_Process_ID = para[i].getParameterAsInt();
-			else if (name.equals("HR_Payroll_ID"))
-				p_HR_Payroll_ID = para[i].getParameterAsInt();
-			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = para[i].getParameterAsInt();
-			else if (name.equals("C_BP_Group_ID"))
-				p_C_BP_Group_ID = para[i].getParameterAsInt();
-			else if (name.equals("PaymentRule"))
-				p_PaymentRule = (String)para[i].getParameter();			
-			else if (name.equals("HR_Concept_ID"))
-				p_HR_Concept_ID = para[i].getParameterAsInt();
-			else if (name.equals("HR_Department_ID"))
-				p_HR_Department_ID = para[i].getParameterAsInt();
-			else if (name.equals("HR_Job_ID"))
-				p_HR_Job_ID = para[i].getParameterAsInt();
+			else if (I_HR_Movement.COLUMNNAME_HR_Process_ID.equals(name))
+				processId = para.getParameterAsInt();
+			else if (I_HR_Movement.COLUMNNAME_HR_Payroll_ID.equals(name))
+				payrollId = para.getParameterAsInt();
+			else if (I_HR_Movement.COLUMNNAME_C_BPartner_ID.equals(name))
+				partnerId = para.getParameterAsInt();
+			else if (I_HR_Movement.COLUMNNAME_C_BP_Group_ID.equals(name))
+				partnerGroupId = para.getParameterAsInt();
+			else if (I_HR_Movement.COLUMNNAME_HR_EmployeeType_ID.equals(name))
+				employeeTypeId = para.getParameterAsInt();
+			else if (I_HR_Movement.COLUMNNAME_PaymentRule.equals(name))
+				paymentRule = (String)para.getParameter();
+			else if (I_HR_Movement.COLUMNNAME_HR_Concept_ID.equals(name))
+				payrollConceptId = para.getParameterAsInt();
+			else if (I_HR_Movement.COLUMNNAME_HR_Department_ID.equals(name))
+				departmentId = para.getParameterAsInt();
+			else if (I_HR_Movement.COLUMNNAME_HR_Job_ID.equals(name))
+				jobId = para.getParameterAsInt();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
-		p_HR_PaySelection_ID = getRecord_ID();
+		paySelectionId = getRecord_ID();
 	}	//	prepare
 
 	/**
@@ -99,68 +103,73 @@ public class HRPaySelectionCreateFrom extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		log.info ("C_PaySelection_ID=" + p_HR_PaySelection_ID
-			+ ", Process=" + p_HR_Process_ID
-			+ ", Payroll=" + p_HR_Payroll_ID
-			+ ", BP Group=" + p_C_BP_Group_ID
-			+ ", PaymentRule=" + p_PaymentRule
-			+ ", Concept=" + p_HR_Concept_ID
-			+ ", Depatment="+ p_HR_Department_ID
-			+ ", Job=" + p_HR_Job_ID);
+		log.info ("C_PaySelection_ID=" + paySelectionId
+			+ ", Process=" + processId
+			+ ", Payroll=" + payrollId
+			+ ", BP Group=" + partnerGroupId
+			+ ", PaymentRule=" + paymentRule
+			+ ", Concept=" + payrollConceptId
+			+ ", Depatment="+ departmentId
+			+ ", Job=" + jobId);
 		
-		MHRPaySelection psel = new MHRPaySelection (getCtx(), p_HR_PaySelection_ID, get_TrxName());
-		psel.setHR_Process_ID(p_HR_Process_ID);
+		MHRPaySelection psel = new MHRPaySelection (getCtx(), paySelectionId, get_TrxName());
+		psel.setHR_Process_ID(processId);
 		psel.saveEx();
 		
-		MHRProcess process = new MHRProcess(getCtx(),p_HR_Process_ID,get_TrxName());
+		MHRProcess process = new MHRProcess(getCtx(), processId,get_TrxName());
 		MHRPayroll payroll = new MHRPayroll(getCtx(),process.getHR_Payroll_ID(),get_TrxName()); 
 		
 		ArrayList<Object> parameters = new ArrayList<Object>();
 
 		if (psel.get_ID() == 0)
-			throw new IllegalArgumentException("Not found HR_PaySelection_ID=" + p_HR_PaySelection_ID);
+			throw new IllegalArgumentException("Not found HR_PaySelection_ID=" + paySelectionId);
 		if (psel.isProcessed())
 			throw new IllegalArgumentException("@Processed@");
 
-		parameters.add(p_HR_Process_ID);
+		parameters.add(processId);
 		parameters.add(true);
-		parameters.add(p_HR_PaySelection_ID);
-		
+		parameters.add(paySelectionId);
+
 		StringBuffer where = new StringBuffer("HR_Process_ID=?");
 			where.append(" AND HR_Concept_ID IN(SELECT HR_Concept_ID FROM HR_Concept WHERE IsPaid=?)"); 	// Only Concept isPaid
 			where.append(" AND HR_Movement_ID NOT IN(SELECT HR_Movement_ID " + // Not Exist in PaySelection Process or PaySelection Actual
 								" FROM HR_PaySelectionLine " + 	
 								" WHERE HR_PaySelectionCheck_ID > 0 OR HR_PaySelection_ID=?)");
-		if(p_C_BP_Group_ID > 0)
+		if(partnerGroupId > 0)
 		{	
-			where.append(" AND C_BPartner_ID IN(SELECT C_BPartner_ID FROM C_BPartner WHERE C_BP_Group_ID=? )");
-			parameters.add(p_C_BP_Group_ID);
-		}	
-		if(p_C_BPartner_ID > 0)
+			where.append(" AND C_BP_Group_ID=?");
+			parameters.add(partnerGroupId);
+		}
+		if(employeeTypeId > 0)
+		{
+			where.append(" AND HR_EmployeeType_ID=?");
+			parameters.add(employeeTypeId);
+		}
+		if(partnerId > 0)
 		{	
 			where.append(" AND C_BPartner_ID=?");
-			parameters.add(p_C_BPartner_ID);
+			parameters.add(partnerId);
 		}	
 		
-		if(p_PaymentRule != null)
+		if(paymentRule != null)
 		{	
-			where.append(" AND C_BPartner_ID IN(SELECT C_BPartner_ID FROM C_BPartner WHERE PaymentRulePO=? )");
-			parameters.add(p_PaymentRule);
-		}	
-		if(p_HR_Concept_ID > 0)
+			where.append(" AND PaymentRule=?");
+			parameters.add(paymentRule);
+		}
+		if(payrollConceptId > 0)
 		{	
-			where.append(" AND HR_Concept_ID=? ");
-			parameters.add(p_HR_Concept_ID);
+			where.append(" AND HR_Concept_ID=?");
+			parameters.add(payrollConceptId);
 		}	
-		if(p_HR_Department_ID > 0)
+		if(departmentId > 0)
 		{	
 			where.append(" AND HR_Department_ID=?");
-			parameters.add(p_HR_Department_ID);
+			parameters.add(departmentId);
 		}	
-		if(p_HR_Job_ID > 0)
+		if(jobId > 0)
 		{	
 			where.append(" AND HR_Job_ID=?");
-			parameters.add(p_HR_Job_ID);
+			parameters.add(jobId);
 		}	
 				
 		int lines = 0;
@@ -169,36 +178,40 @@ public class HRPaySelectionCreateFrom extends SvrProcess
 		.setParameters(parameters)
 		.list();
 		
-		for(MHRMovement m : movements)
+		for(MHRMovement movement : movements)
 		{
-			MBPartner bp = new MBPartner(getCtx(),m.getC_BPartner_ID(),get_TrxName());
-			String PaymentRule = "";
-			if(bp.getPaymentRulePO() != null)
-			{
-				PaymentRule = bp.getPaymentRule();
-			}
-			else
-			{
-				PaymentRule = payroll.getPaymentRule();
-			}
-			if(PaymentRule == null)
-				PaymentRule = "D";
-			
-			MHRPaySelectionLine psl = new MHRPaySelectionLine(getCtx(),0,get_TrxName());
-			psl.setHR_PaySelection_ID(p_HR_PaySelection_ID);
-			psl.setHR_Movement_ID(m.getHR_Movement_ID());
-			psl.setPaymentRule(PaymentRule);
-			psl.setAD_Org_ID(psel.getAD_Org_ID());
-			psl.setLine((lines+1)*10);
-			psl.setOpenAmt(m.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
-			psl.setPayAmt(m.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
-			psl.setDescription(bp.getName() +" "+ bp.getName2());
-			psl.setDifferenceAmt(Env.ZERO);
-			psl.setDiscountAmt(Env.ZERO);
-			psl.setIsManual(false);
-			psl.setIsSOTrx(false);
-			psl.setIsActive(true);
-			psl.saveEx();
+			MBPartner partner = new MBPartner(getCtx(),movement.getC_BPartner_ID(),get_TrxName());
+			String paymentRule = null;
+            MHREmployee employee = MHREmployee.getActiveEmployee(partner.getCtx(), partner.getC_BPartner_ID(), movement.get_TrxName());
+
+			if (employee != null)
+				paymentRule = employee.getPaymentRule();
+
+            if (paymentRule == null) {
+                if (partner.getPaymentRule() != null)
+                    paymentRule = partner.getPaymentRule();
+                else
+                    paymentRule = payroll.getPaymentRule();
+            }
+
+			if(paymentRule == null)
+				paymentRule = "T";
+
+			MHRPaySelectionLine paySelectionLine = new MHRPaySelectionLine(getCtx(),0,get_TrxName());
+			paySelectionLine.setHR_PaySelection_ID(paySelectionId);
+			paySelectionLine.setHR_Movement_ID(movement.getHR_Movement_ID());
+			paySelectionLine.setPaymentRule(paymentRule);
+			paySelectionLine.setAD_Org_ID(psel.getAD_Org_ID());
+			paySelectionLine.setLine((lines + 1) * 10);
+			paySelectionLine.setOpenAmt(movement.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+			paySelectionLine.setPayAmt(movement.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+			paySelectionLine.setDescription(partner.getName() + " " + partner.getName2());
+			paySelectionLine.setDifferenceAmt(Env.ZERO);
+			paySelectionLine.setDiscountAmt(Env.ZERO);
+			paySelectionLine.setIsManual(false);
+			paySelectionLine.setIsSOTrx(false);
+			paySelectionLine.setIsActive(true);
+			paySelectionLine.saveEx();
 			lines++;
 		}
 		return "@C_PaySelectionLine_ID@  - #" + lines;

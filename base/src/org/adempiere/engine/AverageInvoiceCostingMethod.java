@@ -205,6 +205,9 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
             // If period is not open then an adjustment cost is create based on quantity on hand of attribute instance
             // the amount difference is apply to adjustment cost account, the reason is because is import distribute
             // proportionally
+			// If period is not open then an adjustment cost is create based on quantity on hand of attribute instance
+			// the amount difference is apply to adjustment cost account, the reason is because is import distribute
+			// proportionally
 			if (model instanceof MLandedCostAllocation || model instanceof MMatchInv)
 			{
                 if (!isOpenPeriod) {
@@ -314,7 +317,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 				&& costDetail == null) {
 			// set Movement Qty in Zero because is a adjustment
 			// if exist adjustment cost for Landed Cost Allocation or Match Inv then set the movement qty to zero
-			if (adjustCost.add(adjustCostLowerLevel).signum() != 0
+			if ((adjustCost.add(adjustCostLowerLevel).signum() != 0 && costDetail != null)
 			|| (model instanceof MLandedCostAllocation || model instanceof MMatchInv))
 				movementQuantity = Env.ZERO;
 
@@ -426,9 +429,9 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		}
 	}
 
-	@Override
+	/*@Override
 	public void processCostDetail(MCostDetail costDetail) {
-	}
+	}*/
 
 	@Override
 	protected List<CostComponent> getCalculatedCosts() {

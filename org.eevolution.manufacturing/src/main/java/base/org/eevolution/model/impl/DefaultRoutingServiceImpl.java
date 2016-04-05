@@ -48,9 +48,9 @@ public class DefaultRoutingServiceImpl implements RoutingService
 	}
 	public BigDecimal estimateWorkingTime(I_PP_Order_Node node, BigDecimal qty)
 	{
-		double unitDuration = node.getDuration();
-		double cycles = calculateCycles(node.getUnitsCycles(), qty);
-		BigDecimal duration = BigDecimal.valueOf(unitDuration * cycles);
+		BigDecimal unitDuration = BigDecimal.valueOf(node.getDuration());
+		BigDecimal cycles = calculateCycles(node.getUnitsCycles(), qty);
+		BigDecimal duration = unitDuration.multiply(cycles);
 		return duration;
 	}
 	
@@ -69,22 +69,21 @@ public class DefaultRoutingServiceImpl implements RoutingService
 	 * @param qty
 	 * @return number of cycles
 	 */
-	protected int calculateCycles(int unitsCycle, BigDecimal qty)
+	protected BigDecimal calculateCycles(int unitsCycle, BigDecimal qty)
 	{
 		BigDecimal cycles = qty;
 		BigDecimal unitsCycleBD = BigDecimal.valueOf(unitsCycle);
 		if (unitsCycleBD.signum() > 0)
 		{
-			cycles = qty.divide(unitsCycleBD, 0, RoundingMode.UP);
+			cycles = qty.divide(unitsCycleBD);
 		}
-		return cycles.intValue();
+		return cycles;
 	}
 	
 	/**
 	 * Calculate node duration in DurationUnit UOM (see AD_Workflow.DurationUnit)
 	 * @param node
-	 * @param setupTime setup time (workflow duration unit)
-	 * @param durationTotal (workflow duration unit)
+	 * @param cc
 	 * @reeturn duration
 	 */
 	protected BigDecimal calculateDuration(I_AD_WF_Node node, I_PP_Cost_Collector cc)

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="adempiere" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/../../target/scala-2.11/classes" />
+    <output-test url="file://$MODULE_DIR$/../../target/scala-2.11/test-classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/scala-2.11" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../target/scala-2.11/src_managed/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/test/scala" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/test/scala-2.11" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../target/scala-2.11/src_managed/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../target/scala-2.11/resource_managed/main" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/test/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../target/scala-2.11/resource_managed/test" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/../../target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library name="SBT: javax.servlet:javax.servlet-api:3.0.1:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/javax.servlet-api/jars/javax.servlet-api-3.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.scala-lang:scala-library:2.11.7:jar" type="Scala">
+        <properties>
+          <compiler-classpath>
+            <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.7.jar" />
+            <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.7.jar" />
+            <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.7.jar" />
+          </compiler-classpath>
+        </properties>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: unmanaged-jars">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/glassfish.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/customization.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/CSTools.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/migrate.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/oracle.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/mysql-connector-java-5.1.13-bin.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/CCTools.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/LMXzk.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/zkpatches.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/posterita.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/zkcustomization.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/patches.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/posteritaPatches.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/jboss.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/postgresql.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/adempiereApps.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/Adempiere.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/CompiereJasperReqs.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/LMX.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/adempiereRoot.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>

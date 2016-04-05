@@ -331,7 +331,8 @@ public class InvoicePrint extends SvrProcess
 				}
 				else
 				{
-					pdfList.add(re.getPDF());
+					if (re != null)
+						pdfList.add(re.getPDF());
 					count++;
 					printed = true;
 				}

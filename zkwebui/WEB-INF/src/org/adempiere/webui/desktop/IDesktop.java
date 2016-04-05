@@ -22,7 +22,6 @@ import org.adempiere.webui.util.ServerPushTemplate;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MQuery;
 import org.compiere.util.WebDoc;
-import org.eevolution.form.Browser;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Page;
 

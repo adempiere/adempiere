@@ -43,6 +43,7 @@ import org.compiere.process.ProcessInfoUtil;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -65,6 +66,9 @@ import org.compiere.util.Msg;
  *  @author		Teo Sarca, SC ARHIPAC SERVICE SRL
  *  				<li>BF [ 1893525 ] ProcessDialog: Cannot select the text from text field
  *  				<li>BF [ 1963128 ] Running a process w/o trl should display an error
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *					<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *					@see https://github.com/adempiere/adempiere/issues/265
  */
 public class ProcessDialog extends CFrame
 	implements ActionListener, ASyncProcess
@@ -316,12 +320,19 @@ public class ProcessDialog extends CFrame
 		m_pi = new ProcessInfo(m_Name, m_AD_Process_ID);
 		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
+		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi, ProcessParameterPanel.COLUMNS_1);
 		centerPanel.removeAll();
+		//	BR [ 265 ]
 		if (parameterPanel.init()) {
 			// hasfields
 			centerPanel.add(separator, BorderLayout.NORTH);
-			centerPanel.add(parameterPanel, BorderLayout.CENTER);
+			//	Add Scroll FR [ 265 ]
+			CScrollPane scrollPane = new CScrollPane(parameterPanel.getPanel());
+			scrollPane.setAutoscrolls(true);
+			scrollPane.createVerticalScrollBar();
+			scrollPane.createHorizontalScrollBar();
+			//	
+			centerPanel.add(scrollPane, BorderLayout.CENTER);
 		} else {
 			if (m_ShowHelp != null && m_ShowHelp.equals("N")) {
 				bOK.doClick();    // don't ask first click
@@ -350,6 +361,7 @@ public class ProcessDialog extends CFrame
 			else
 			{
 			//	Trx trx = Trx.get(Trx.createTrxName("ProcessDialog"), true);
+				//	BR [ 265 ]
 				ProcessCtl.process(this, m_WindowNo, parameterPanel, m_pi, null);
 			}
 		}

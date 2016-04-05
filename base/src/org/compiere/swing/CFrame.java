@@ -28,6 +28,9 @@ import javax.swing.JPanel;
  *	
  *  @author Jorg Janke
  *  @version $Id: CFrame.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
 public class CFrame extends JFrame
 {
@@ -76,6 +79,9 @@ public class CFrame extends JFrame
 
 	/** Window ID			*/
 	private int		p_AD_Window_ID = 0;
+	//	Yamel Senih FR [ 114 ]
+	/**	Form ID				*/
+	private int		p_AD_Form_ID = 0;
 	
 	/**
 	 * 	Frame Init.
@@ -139,5 +145,21 @@ public class CFrame extends JFrame
 	{
 		p_AD_Window_ID = window_ID;
 	}	//	getAD_Window_ID
+	
+	/**
+	 * Get Form ID
+	 * @return
+	 */
+	public int getAD_Form_ID() {
+		return p_AD_Form_ID;
+	}
+	
+	/**
+	 * Set Form ID
+	 * @param p_AD_Form_ID
+	 */
+	public void setAD_Form_ID(int p_AD_Form_ID) {
+		this.p_AD_Form_ID = p_AD_Form_ID;
+	}
 
 }	//	CFrame

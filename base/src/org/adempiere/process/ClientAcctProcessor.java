@@ -109,7 +109,6 @@ public class ClientAcctProcessor extends SvrProcess
 			m_ass = new MAcctSchema[] {new MAcctSchema (getCtx(), p_C_AcctSchema_ID, get_TrxName())};
 		
 		postSession();
-		MCost.create(m_client);
 
 		addLog(m_summary.toString());
 
@@ -122,7 +121,7 @@ public class ClientAcctProcessor extends SvrProcess
 	private void postSession()
 	{
 		List<BigDecimal> listProcessedOn = new ArrayList<BigDecimal>();
-		for (Timestamp dateacct:getListDateacct())
+		for (Timestamp dateacct: getListDateAcct())
 		{
 			listProcessedOn.clear();
 			listProcessedOn.add(Env.ZERO); // to include potential null values
@@ -149,7 +148,7 @@ public class ClientAcctProcessor extends SvrProcess
 
 				StringBuffer sql = new StringBuffer ("SELECT DISTINCT ProcessedOn FROM ").append(TableName)
 						.append(" WHERE AD_Client_ID=? AND ProcessedOn<?")
-						.append(" AND Processed='Y' AND Posted='N' AND IsActive='Y' and " + getColumnnameDateacct(AD_Table_ID) + "  = ? ");
+						.append(" AND Processed='Y' AND Posted='N' AND IsActive='Y' and " + getColumnNameDateAcct(AD_Table_ID) + "  = ? ");
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
 				try
@@ -296,7 +295,7 @@ public class ClientAcctProcessor extends SvrProcess
 
 	}	//	postSession
 	
-	private List<Timestamp> getListDateacct()
+	private List<Timestamp> getListDateAcct()
 	{
 		//get current time from db
 		Timestamp ts = DB.getSQLValueTS(get_TrxName(), "SELECT CURRENT_TIMESTAMP FROM DUAL");
@@ -322,17 +321,15 @@ public class ClientAcctProcessor extends SvrProcess
 				&& p_AD_Table_ID != AD_Table_ID)
 				continue;
 			
-			StringBuffer sql = new StringBuffer ("SELECT DISTINCT " + getColumnnameDateacct(AD_Table_ID) +" FROM ").append(TableName)
+			StringBuffer sql = new StringBuffer ("SELECT DISTINCT " + getColumnNameDateAcct(AD_Table_ID) +" FROM ").append(TableName)
 				.append(" WHERE AD_Client_ID=? ")
 				.append(" AND Processed='Y' AND Posted='N' AND IsActive='Y'");
-				//.append(" and " + getColumnnameDateacct(AD_Table_ID)+ " < to_date('31/01/2012','dd/mm/yyyy')");
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 				pstmt.setInt(1, getAD_Client_ID());
-				//pstmt.setBigDecimal(2, value);
 				rs = pstmt.executeQuery();
 				while (rs.next())
 				{
@@ -355,7 +352,7 @@ public class ClientAcctProcessor extends SvrProcess
 		  return listDateAcct;
 	}
 
-	private String getColumnnameDateacct(int AD_Table_ID)
+	private String getColumnNameDateAcct(int AD_Table_ID)
 	{
 		if (AD_Table_ID == 392)
 			return MBankStatement.COLUMNNAME_StatementDate;

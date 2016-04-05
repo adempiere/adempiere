@@ -48,6 +48,12 @@ import org.compiere.util.Trx;
  *			<li>BF [ 1935093 ] SvrProcess.unlock() is setting invalid result
  *			<li>FR [ 2788006 ] SvrProcess: change access to some methods
  *				https://sourceforge.net/tracker/?func=detail&aid=2788006&group_id=176962&atid=879335
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 244 ] Is Selection flag
+ *		@see https://github.com/adempiere/adempiere/issues/244
+ *
+ * @author mckayERP www.mckayERP.com
+ * 			<li> #285 Message in SvrProcess can cause null pointer exception. 
  */
 public abstract class SvrProcess implements ProcessCall
 {
@@ -139,7 +145,7 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	private boolean process()
 	{
-		String msg = null;
+		String msg = "";  //#285
 		boolean success = true;
 		try
 		{
@@ -160,7 +166,7 @@ public abstract class SvrProcess implements ProcessCall
 		}
 		
 		//transaction should rollback if there are error in process
-		if ("@Error@".equals(msg))
+		if (msg != null && msg.contains("@Error@")) // #285 msg could be null
 			success = false;
 		
 		//	Parse Variables
@@ -393,6 +399,15 @@ public abstract class SvrProcess implements ProcessCall
 		}
 		return m_pi.getAD_Client_ID().intValue();
 	}	//	getAD_Client_ID
+	
+	/**
+	 * FR [ 244 ]
+	 * Is Selection or is standard process
+	 * @return
+	 */
+	protected boolean isSelection() {
+		return m_pi.isSelection();
+	}
 
 	
 	/**************************************************************************

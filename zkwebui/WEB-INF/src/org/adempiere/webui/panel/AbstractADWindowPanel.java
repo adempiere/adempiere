@@ -56,6 +56,7 @@ import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.FindWindow;
 import org.adempiere.webui.window.WChat;
 import org.adempiere.webui.window.WRecordAccessDialog;
+import org.compiere.apps.ADialog;
 import org.compiere.grid.ICreateFrom;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
@@ -122,6 +123,13 @@ import org.zkoss.zul.Menupopup;
  * @author e-Evolution , victor.perez@e-evolution.com
  *      <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
  *      <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 127 ] ZK Open Form return "Process Error
+ *		@see https://github.com/adempiere/adempiere/issues/127
+ *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ *		<li> BR [ 147 ] Form called from window must has access to process
+ *		@see https://github.com/adempiere/adempiere/issues/147
  *
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
@@ -2194,24 +2202,43 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		// call form
 		MProcess pr = new MProcess(ctx, wButton.getProcess_ID(), null);
+		//	Validate Access
+		//	BR [ 147 ]
+		MRole role = MRole.getDefault(ctx, false);
+		Boolean accessRW = role.checkProcessAccess(pr.getAD_Process_ID());
+		if(accessRW == null
+				|| !accessRW.booleanValue()) {
+			FDialog.error(curWindowNo, parent, "AccessCannotProcess");
+			return;
+		}
 		int adFormID = pr.getAD_Form_ID();
+		//	Yamel Senih BR[ 127 ], 2015-11-25
+		//	Bug with launch form
+		int adBrowseID = pr.getAD_Browse_ID();
 		if (adFormID != 0 )
 		{
 			String title = wButton.getDescription();
 			if (title == null || title.length() == 0)
 				title = wButton.getDisplay();
 			ProcessInfo pi = new ProcessInfo (title, wButton.getProcess_ID(), table_ID, record_ID);
+			pi.setWindowNo(curWindowNo);
 			pi.setAD_User_ID (Env.getAD_User_ID(ctx));
 			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
 			ADForm form = ADForm.openForm(adFormID);
 			form.setProcessInfo(pi);
-			form.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+			//	Yamel Senih FR [ 114 ], 2015-11-25
+			form.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
 			form.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
-			SessionManager.getAppDesktop().showWindow(form);
-			onRefresh(false);
-		}
-		int adBrowseID = pr.getAD_Browse_ID();
-		if (adBrowseID != 0 )
+			form.setClosable(true);
+			form.setMaximizable(true);
+			form.setSizable(true);
+			form.setHeight("90%");
+			form.setWidth("80%");
+			form.setContentStyle("overflow: auto");
+			AEnv.showWindow(form);
+			//	End Yamel Senih
+			currentTab.dataRefreshAll();
+		} else if (adBrowseID != 0 )
 		{
 			String title = wButton.getDescription();
 			if (title == null || title.length() == 0)
@@ -2241,7 +2268,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				dialog.setPosition("center");
 				AEnv.showWindow(dialog);
 			}
-			onRefresh(true); // Need to fire events to activate subordinate tabs.
+			//onRefresh(true); // Need to fire events to activate subordinate tabs.
 		}
 	} // actionButton
 
@@ -2342,6 +2369,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		boolean notPrint = pi != null
 		&& pi.getAD_Process_ID() != curTab.getAD_Process_ID()
 		&& pi.isReportingProcess() == false;
+		curTab.dataRefresh();
 		//
 		//  Process Result
 

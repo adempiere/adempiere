@@ -73,6 +73,8 @@ public class MCost extends X_M_Cost
 
 		public static MCost getDimension(MProduct product , int C_AcctSchema_ID , int  AD_Org_ID , int  M_Warehouse_ID , int M_AttributeSetInstance_ID, int M_CostType_ID , int M_CostElement_ID)
 		{
+			MAcctSchema acctSchema = new  MAcctSchema(product.getCtx(), C_AcctSchema_ID , product.get_TrxName());
+
 			ArrayList<Object> parameters = new ArrayList<Object>();
 			StringBuilder whereClause = new StringBuilder();
 			
@@ -85,7 +87,51 @@ public class MCost extends X_M_Cost
 			parameters.add(product.getM_Product_ID());
 			parameters.add(M_CostType_ID);
 			parameters.add(M_CostElement_ID);
-			
+
+			if (M_CostElement_ID == 0)
+				throw new IllegalArgumentException(
+						"No Costing Element Material Type");
+
+			if (M_CostType_ID == 0)
+				throw new AdempiereException(
+						"Error do not exist material cost element for method cost "
+								+ acctSchema.getCostingMethod());
+
+			String CostingLevel = product.getCostingLevel(acctSchema, AD_Org_ID);
+			MCostType costType =  new MCostType(product.getCtx() , M_CostType_ID , product.get_TrxName());
+			String costingMethod = costType.getCostingMethod();
+
+			if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel)) {
+				//Ignore organization, warehouse , asi
+				AD_Org_ID = 0;
+				M_Warehouse_ID = 0;
+				M_AttributeSetInstance_ID = 0;
+			}
+			else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+			{
+				//Ignore  warehouse , asi
+				M_Warehouse_ID = 0;
+				M_AttributeSetInstance_ID = 0;
+			}
+			else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
+			{
+				//Ignore organization asi
+				M_AttributeSetInstance_ID = 0;
+			}
+			else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+			{
+				//Ignore organization, warehouse
+				AD_Org_ID = 0;
+				M_Warehouse_ID = 0;
+			}
+			// Costing Method
+			if (costingMethod == null) {
+				costingMethod = product.getCostingMethod(acctSchema, AD_Org_ID);
+				if (costingMethod == null) {
+					throw new IllegalArgumentException("No Costing Method");
+				}
+			}
+
 			if (AD_Org_ID > 0 )
 			{
 				whereClause.append(" AND ").append(I_M_Cost.COLUMNNAME_AD_Org_ID).append("=? ");
@@ -402,7 +448,7 @@ public class MCost extends X_M_Cost
 	 *	@return current cost price or null
 	 *	@deprecated
 	 */
-	public static BigDecimal getCurrentCost (MProduct product,
+	/*public static BigDecimal getCurrentCost (MProduct product,
 		int M_AttributeSetInstance_ID,
 		MAcctSchema as, int AD_Org_ID, int M_Warehouse_ID, String costingMethod,
 		BigDecimal qty, int C_OrderLine_ID,
@@ -436,6 +482,7 @@ public class MCost extends X_M_Cost
 			as, AD_Org_ID, M_Warehouse_ID, as.getM_CostType_ID(), costingMethod, qty,
 			C_OrderLine_ID, zeroCostsOK, trxName);
 	}	//	getCurrentCost
+	*/
 
 	/**
 	 * 	Get Current Cost Price for Costing Level
@@ -955,7 +1002,7 @@ public class MCost extends X_M_Cost
 	 *	@param client client
 	 */
 	@Deprecated
-	public static void create (MClient client)
+	/*public static void create (MClient client)
 	{
 		MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(client.getCtx(), client.getAD_Client_ID());
 		String trxName = client.get_TrxName();
@@ -1017,6 +1064,7 @@ public class MCost extends X_M_Cost
 			trx.close();
 		}
 	}	//	create
+	*/
 
 
 	/**
@@ -1980,7 +2028,7 @@ public class MCost extends X_M_Cost
 
 		Adempiere.startup(true);
 		MClient client = MClient.get(Env.getCtx(), 11);	//	GardenWorld
-		create(client);
+		//create(client);
 
 	}	//	main
 

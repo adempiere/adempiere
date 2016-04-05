@@ -61,11 +61,14 @@ public class MBrowseField extends X_AD_Browse_Field {
 		valueObject.IsReadOnly = field.isReadOnly();
 		valueObject.IsUpdateable = true;
 		valueObject.WindowNo = windowNo;
-		valueObject.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
-		valueObject.AD_Table_ID = field.getAD_View_Column().getAD_Column()
-				.getAD_Table_ID();
-		valueObject.ColumnName = field.getAD_View_Column().getAD_Column()
-				.getColumnName();
+		if (field.getAD_View_Column().getAD_Column_ID() > 0) {
+			valueObject.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
+			valueObject.AD_Table_ID = field.getAD_View_Column().getAD_Column()
+					.getAD_Table_ID();
+			valueObject.ColumnName = field.getAD_View_Column().getAD_Column()
+					.getColumnName();
+		}
+
 		valueObject.displayType = field.getAD_Reference_ID();
 		valueObject.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
 		valueObject.IsMandatory = field.isMandatory();
@@ -83,7 +86,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 		valueObject.ValidationCode = field.getAD_Val_Rule().getCode();
 		valueObject.isRange = field.isRange();
 		valueObject.Description = field.getDescription();
-		if (field.getAD_View_Column().getAD_Column_ID() < 0)
+		if (field.getAD_View_Column().getAD_Column_ID() <= 0 && field.isReadOnly())
 			valueObject.ColumnSQL = uniqueName;
 		valueObject.Help = uniqueName;
 		valueObject.Header = field.getName();
@@ -174,19 +177,23 @@ public class MBrowseField extends X_AD_Browse_Field {
 	 * @return
 	 */
 	public MBrowseField(MBrowse browse, MViewColumn column) {
-		super(column.getCtx(), 0, column.get_TrxName());
+		super(browse.getCtx(), 0, browse.get_TrxName());
 		setAD_Browse_ID(browse.getAD_Browse_ID());
-		setAD_Element_ID(column.getAD_Element_ID());
+		if (column.get_ID() > 0 )
+			setAD_View_Column_ID(column.getAD_View_Column_ID());
+		if (column.getAD_Element_ID() > 0 )
+			setAD_Element_ID(column.getAD_Element_ID());
 		setName(column.getName());
 		setDescription(column.getDescription());
 		setHelp(column.getHelp());
-		setAD_View_Column_ID(column.getAD_View_Column_ID());
 		setIsActive(true);
 		setIsIdentifier(column.isIdentifier());
 		setIsRange(false);
 		setIsQueryCriteria(false);
-		setAD_Reference_ID(column.getAD_Reference_ID());
-		setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
+		if (column.get_ID() > 0)
+			setAD_Reference_ID(column.getAD_Reference_ID());
+		if (column.get_ID() > 0)
+			setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
 		setIsKey(false);
 		setIsDisplayed(true);
 		m_view_column = column;

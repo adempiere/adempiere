@@ -32,7 +32,7 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20150928L;
 
     /** Standard Constructor */
     public X_PP_Order_Node_Product (Properties ctx, int PP_Order_Node_Product_ID, String trxName)
@@ -261,26 +261,6 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Yield %.
-		@param Yield 
-		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
-	  */
-	public void setYield (int Yield)
-	{
-		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
-	}
-
-	/** Get Yield %.
-		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
-	  */
-	public int getYield () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

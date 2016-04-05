@@ -104,6 +104,11 @@ import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
  * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2828886&group_id=176962
  * 
  *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 237 ] Same Print format but distinct report view
+ * 		@see https://github.com/adempiere/adempiere/issues/237
+ * 		<li>FR [ 295 ] Report viewer re-query
+ * 		@see https://github.com/adempiere/adempiere/issues/295
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -187,6 +192,24 @@ public class ReportEngine implements PrintServiceAttributeListener
 	private ProcessInfo processInfo = null ;
 
 	private boolean m_summary = false;
+	//	FR [ 237 ]
+	private int 			m_AD_ReportView_ID = 0;
+	
+	/**
+	 * Set Optional Report View
+	 * @param p_AD_ReportView_ID
+	 */
+	public void setAD_ReportView_ID(int p_AD_ReportView_ID) {
+		m_AD_ReportView_ID = p_AD_ReportView_ID;
+	}
+	
+	/**
+	 * Get Optional Report View
+	 * @return
+	 */
+	public int getAD_ReportView_ID() {
+		return m_AD_ReportView_ID;
+	}
 
 	/**
 	 * 	Set PrintFormat.
@@ -244,7 +267,8 @@ public class ReportEngine implements PrintServiceAttributeListener
 			return;
 
 		DataEngine de = new DataEngine(m_printFormat.getLanguage(),m_trxName);
-		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query, m_summary));
+		//	FR [ 237 ]
+		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query, m_summary, getAD_ReportView_ID()));
 		//	m_printData.dump();
 	}	//	setPrintData
 
@@ -1207,7 +1231,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
 
-		return new ReportEngine(ctx, format, query, info, pi.getTransactionName());
+		//	FR [ 295 ]
+		ReportEngine re = new ReportEngine(ctx, format, query, info, pi.getTransactionName());
+		//	Set Process Information
+		re.setProcessInfo(pi);
+		return re;
 	}	//	get
 
 	/*************************************************************************/
@@ -1612,8 +1640,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  Update Date Printed
 	 * 	@param type document type
 	 * 	@param Record_ID record id
+	 * 	@param trxName
 	 */
-	public static void printConfirm (int type, int Record_ID)
+	public static void printConfirm (int type, int Record_ID, String trxName)
 	{
 		StringBuffer sql = new StringBuffer();
 		if (type == ORDER || type == SHIPMENT || type == INVOICE)
@@ -1623,7 +1652,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		//
 		if (sql.length() > 0)
 		{
-			int no = DB.executeUpdate(sql.toString(), null);
+			int no = DB.executeUpdate(sql.toString(), trxName);
 			if (no != 1)
 				log.log(Level.SEVERE, "Updated records=" + no + " - should be just one");
 		}

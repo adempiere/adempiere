@@ -180,7 +180,6 @@ public class ProcessInfoUtil
 			//
 			DB.executeUpdate(sql.toString(), null);
 		}
-		pi.setLogList(null);	//	otherwise log entries are twice
 	}   //  saveLogToDB
 
 	/**

@@ -6816,7 +6816,7 @@ public class Migrate {
 								parameterIndex, 1000000);
 					} else if (columnName.equalsIgnoreCase("isTableId")) {
 						m_target.setPreparedStatementString(stmtInsertSequence,
-								parameterIndex, "Y");
+								parameterIndex, "N");
 					}
 				}
 

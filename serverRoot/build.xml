@@ -64,7 +64,7 @@
 
     <!--	Compile all -->
     <javac
-      target="1.7" encoding="UTF-8"
+      target="1.8" encoding="UTF-8"
 	  destdir="${build.classes.dir}"
 	  debug="on"
 	  deprecation="off"

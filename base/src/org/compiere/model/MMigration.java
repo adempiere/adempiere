@@ -29,7 +29,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
-import org.compiere.util.TrxRunnable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -64,70 +63,169 @@ public class MMigration extends X_AD_Migration {
 		super(ctx, rs, trxName);
 	}
 	
-	public void apply() throws AdempiereException {
+	/**
+	 * Apply or rollback a migration.
+	 * @return A string indicating the result
+	 */
+	public String apply() {
+
+		// TODO Translate the return values
+		
+		Boolean apply = false;
+		
+		// The state of the migration is determined by the status code and the apply action.
+		// These values should have been set by default or by previous actions.  Valid
+		// values are (status/action):
+		//    STATUSCODE_APPLIED/APPLY_Rollback
+		//    STATUSCODE_PartiallyApplied/APPLY_Rollback
+		//    STATUSCODE_Unapplied/APPLY_Apply
+		
+		// The status code may have been changed by the user.  Check/reset it:
+		updateStatus();
+		
+		// If status code is null for some reason
+		if (getStatusCode() == null || getStatusCode().length() == 0)
+			setStatusCode(X_AD_Migration.STATUSCODE_Unapplied);
+
+		// If action code is null for some reason
+		if (getApply() == null || getApply().length() == 0)
+			setApply(X_AD_Migration.APPLY_Apply);
+
+		// Fix improperly set status and actions based on the status code
+		if ((getStatusCode().equals(X_AD_Migration.STATUSCODE_Applied)
+			 || getStatusCode().equals(X_AD_Migration.STATUSCODE_PartiallyApplied)) 
+			&& !getApply().equals(X_AD_Migration.APPLY_Rollback))
+		{
+			setApply(X_AD_Migration.APPLY_Rollback);
+		}
+		else if (getStatusCode().equals(X_AD_Migration.STATUSCODE_Unapplied) 
+				&& !getApply().equals(X_AD_Migration.APPLY_Apply))
+		{
+			setApply(X_AD_Migration.APPLY_Apply);
+		}
+		
+		// Determine whether to apply or rollback the migration
+		if (getStatusCode().equals(X_AD_Migration.STATUSCODE_Unapplied))
+			apply = true;
+
+		String retVal = toString();
+
+		try{
+			//  Apply the Migration Steps
+			//  Set a flag to prevent migration status updates
+			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "Y");
+			
+			// Get the set of active steps and apply each in order
+			for ( int stepId : getStepIds(!apply) )
+			{
+				MMigrationStep step = new MMigrationStep(getCtx(), stepId, get_TrxName());
 				
-		for ( MMigrationStep step : getSteps(false) )
-		{
-			// Reload the step in case the underlying table/columns have changed.
-			step.load(get_TrxName()); //= new MMigrationStep(Env.getCtx(),step.get_ID(), get_TrxName());
-			
-			if (!step.isActive())
-				continue;
-			
-			try {
-				Trx.run(new StepRunner(step, false));
-			}
-			catch (Exception e) {
-				if ( isFailOnError  )	// abort on first error
-					throw new AdempiereException(e);
-				// else continue processing
-			}
-		}
-		Trx trx = Trx.get(Trx.createTrxName("Migration_"), true);
-		this.set_TrxName(trx.getTrxName());
-		updateStatus(this.get_TrxName());
-		trx.commit();
-		trx.close();
-	}
-	
-	public void rollback() throws SQLException {
-		for ( MMigrationStep step : getSteps(true) )
-		{
-			// Reload the step in case the underlying table/columns have changed.
-			step.load(get_TrxName()); //= new MMigrationStep(Env.getCtx(),step.get_ID(), get_TrxName());
+				// The migration will only be applied if all steps are unapplied.  Any partially
+				// applied migration will need to be rolled back first.
+				/*
+				if (apply && MMigrationStep.STATUSCODE_Applied.equals(step.getStatusCode())) 
+				{
+					log.log(Level.CONFIG, step.toString() + " ---> Migration Step already applied - skipping.");
+					continue;
+				}
+				else
+				*/ 
+				if (!apply && MMigrationStep.STATUSCODE_Unapplied.equals(step.getStatusCode())) 
+				{
+						log.log(Level.CONFIG, step.toString() + " ---> Migration Step unapplied - skipping.");
+						continue;
+				}
 
-			if (!step.isActive())
-				continue;
-
-			try {
-				Trx.run(new StepRunner(step, true));
-			} catch (Exception e) {
-				if ( isFailOnError )
-					throw new AdempiereException(e);
-				// else continue
+				step.apply();
 			}
 		}
-
-		Trx trx = Trx.get("Migration", true);
-		this.set_TrxName(trx.getTrxName());
-		updateStatus(this.get_TrxName());
-		trx.commit();
-		trx.close();
+		catch (Exception e)
+		{
+			log.warning(e.getMessage());
+			if (isFailOnError)    // abort on first error
+			{			
+				if (apply) // Try to rollback the transaction
+				{
+					// Set the status code to trigger a rollback
+					setStatusCode(X_AD_Migration.STATUSCODE_Failed);
+					apply();  // Apply/rollback
+				}
+				throw new AdempiereException(e.getMessage() , e);
+			}
+		}
+		finally
+		{			
+			// Unset a flag to prevent migration status updates
+			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "");
+			// Update the status of the migration
+			updateStatus();
+			
+			// Determine the return value
+			if (apply)
+			{
+				if ( getStatusCode().equals(STATUSCODE_Applied))
+					retVal += "Migration successful";
+				else if ( getStatusCode().equals(STATUSCODE_PartiallyApplied))
+					retVal += "Migration partially applied. Please review migration steps for errors.";
+				else if ( getStatusCode().equals(STATUSCODE_Failed) )
+					retVal += "Migration failed. Please review migration steps for errors.";
+				else if ( getStatusCode().equals(STATUSCODE_Unapplied) )
+					retVal += "Migration not applied. Please review migration steps for errors.";
+				else
+					retVal += "Migration status unknown. Please review migration steps for errors.";
+			}
+			else 
+			{
+				if ( getStatusCode().equals(STATUSCODE_Unapplied))
+					retVal += "Migration rollback successful.";
+				else if ( getStatusCode().equals(STATUSCODE_PartiallyApplied) 
+						|| getStatusCode().equals(STATUSCODE_Failed)
+						|| getStatusCode().equals(STATUSCODE_Applied) )
+					retVal += "Migration rollback failed. Please review migration steps for errors.";
+				else 
+					retVal += "Migration status unknown. Please review migration steps for errors.";				
+			}
+		}
+		return retVal;
 	}
 	
-	public void updateStatus(String trxName) {
-		
-		String base = "SELECT count(1) " +
-		" FROM AD_MigrationStep " +
-		" WHERE AD_Migration_ID = " + getAD_Migration_ID() +
-		" AND IsActive = 'Y'";
-		int total = DB.getSQLValue(trxName, base);
+	@Deprecated // Since 3.8.0#002.  Use apply() instead.
+	private String rollback() {
 
-		String sql = base + " AND StatusCode = '" + MMigration.STATUSCODE_Applied + "'";
-		int applied = DB.getSQLValue(trxName, sql);
-		
-		sql = base + " AND StatusCode IN ('" + MMigration.STATUSCODE_Failed + "','" + MMigration.STATUSCODE_Unapplied + "')";  //  Failed or Unapplied
-		int unapplied = DB.getSQLValue(trxName, sql);
+		return apply();
+	}
+
+	/**
+	 * Update the status of a Migration to reflect the status of its steps.
+	 * The status will be Applied, Partially Applied or Unapplied.
+	 */
+	public void updateStatus() {
+		// Don't update in the middle of a batch
+		if (Env.getContext(getCtx(), "MigrationScriptBatchInProgress").equals("Y") )
+			return;
+
+		StringBuilder whereBase = new StringBuilder();
+		whereBase.append(MMigration.COLUMNNAME_AD_Migration_ID).append("=?");
+
+		int total = new Query(getCtx() , MMigrationStep.Table_Name , whereBase.toString() , get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Migration_ID())
+				.count();
+
+		StringBuilder where = new StringBuilder(whereBase);
+		where.append(" AND ").append(MMigrationStep.COLUMNNAME_StatusCode).append("=?");
+		int applied = new Query(getCtx() , I_AD_MigrationStep.Table_Name , where.toString() , get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Migration_ID() , MMigration.STATUSCODE_Applied)
+				.count();
+
+		where = new StringBuilder(whereBase);
+		where.append(" AND ").append(MMigrationStep.COLUMNNAME_StatusCode).append(" IN( ? , ? )");
+		int unapplied  = new Query(getCtx() , I_AD_MigrationStep.Table_Name , where.toString() , get_TrxName())
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Migration_ID() , MMigration.STATUSCODE_Failed ,  MMigration.STATUSCODE_Unapplied )
+				.count();
+
 		String status = "";
 		
 		if ( applied == total && applied > 0 )
@@ -148,40 +246,31 @@ public class MMigration extends X_AD_Migration {
 			setApply(MMigration.APPLY_Rollback);
 			status = "Partially Applied";
 		}
-		// overlaps with unapplied
-		//else if ( applied <= 0 )
-		//	setStatusCode(MMigration.STATUSCODE_Failed);
+
 		saveEx();
 		log.log(Level.CONFIG, this.toString() + " ---> " + status + " (" + getStatusCode() + ")");
 	}
 	
-	private List<MMigrationStep> getSteps(boolean rollback) {
+	private int[] getStepIds(boolean rollback) {
 		String where = "AD_Migration_ID = " + getAD_Migration_ID();
 		String order = rollback ? "SeqNo DESC" : "SeqNo ASC";
 		return MTable.get(getCtx(), MMigrationStep.Table_ID)
-		//.createQuery(where, get_TrxName())  // locks the table
-		.createQuery(where, null)  // won't lock the table
+		.createQuery(where, null)  // Use a null Trx to generate a readonly query
 		.setOnlyActiveRecords(true)
 		.setOrderBy(order)
-		.list();
+		.getIDs();
 	}
-	
+
 	public static List<MMigration> getMigrations(Properties ctx, Boolean processed, String trxName) {
 		String where = "Processed = " + (processed ? "'Y'" : "'N'");
 		return MTable.get(ctx, MMigration.Table_ID)
-		.createQuery(where, trxName)  // locks the table
+		.createQuery(where, trxName)
 		.setOnlyActiveRecords(true)
 		.list();
 	}
 
-	public static boolean updated = false;
-	
 	public static MMigration fromXmlNode(Properties ctx, Element element, String trxName) throws SQLException
-	{
-		
-		if ( !updated )
-			update();
-		
+	{		
 		if ( !"Migration".equals(element.getLocalName() ) )
 				return null;
 		
@@ -191,24 +280,24 @@ public class MMigration extends X_AD_Migration {
 		String name = element.getAttribute("Name");
 		if (name.length() > length)
 			name = name.substring(0,length);
+		name = name.trim();
 		
-		String seqNo = element.getAttribute("SeqNo");
-		String entityType = element.getAttribute("EntityType");
-		String releaseNo = element.getAttribute("ReleaseNo");
+		String seqNo = element.getAttribute("SeqNo").trim();
+		String entityType = element.getAttribute("EntityType").trim();
+		String releaseNo = element.getAttribute("ReleaseNo").trim();
 		
 		
-		String where = "Name = ?"
+		String where = "TRIM(both from Name) = ?"
 			+ " AND SeqNo = ?"
-			+ " AND EntityType = ?"
-			+ " AND ReleaseNo = ?";
-		Object[] params = new Object[] {name, Integer.parseInt(seqNo), entityType, releaseNo};
-		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, trxName)
-		.setParameters(params).firstOnly();
+			+ " AND TRIM(both from EntityType) = ?"
+			+ " AND TRIM(both from ReleaseNo) = ?";
+//		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, trxName) // Locks migrationtable
+		MMigration mmigration = new Query(ctx, MMigration.Table_Name, where, null)
+		.setParameters(name, Integer.parseInt(seqNo), entityType, releaseNo).firstOnly();
 		if ( mmigration != null ) {
 			return mmigration;  // already exists (TODO: update?)
 		}
 		mmigration = new MMigration(ctx, 0, trxName);
-		
 		mmigration.setName(name);
 		mmigration.setSeqNo(Integer.parseInt(seqNo));
 		mmigration.setEntityType(entityType);
@@ -220,38 +309,17 @@ public class MMigration extends X_AD_Migration {
 
 		mmigration.saveEx();
 
+		
 		NodeList children = element.getElementsByTagName("Step");
 		for ( int i = 0; i < children.getLength(); i++ )
 		{
 			Element step = (Element) children.item(i);
 			if ( "Step".equals(step.getTagName()))
 				MMigrationStep.fromXmlNode(mmigration, step);
-				//Trx.get(trxName, false).commit(true);
+				Trx.get(trxName, false).commit(true);
 		}
-		
-		mmigration.saveEx(trxName);
 		
 		return mmigration;
-	}
-	
-	private static void update() {
-		
-		String sql = "UPDATE AD_Column SET FieldLength = 999999999 WHERE AD_Column_ID IN (57874, 57873) " +
-				"AND FieldLength = 2000";
-		int count = DB.executeUpdateEx(sql, null);
-		
-		if ( count > 0 )
-		{
-			MColumn col = new MColumn(Env.getCtx(), 57874, null);
-			col.syncDatabase();
-
-			col = new MColumn(Env.getCtx(), 57873, null);
-			col.syncDatabase();
-			
-		}
-
-		updated = true;
-		
 	}
 
 	public Node toXmlNode(Document document) throws ParserConfigurationException, SAXException {
@@ -271,8 +339,9 @@ public class MMigration extends X_AD_Migration {
 		} 
 		
 		
-		for (MMigrationStep step : getSteps(false) )
+		for ( int stepId : getStepIds(false) )
 		{
+			MMigrationStep step = new MMigrationStep(getCtx(), stepId, get_TrxName());
 			log.log(Level.FINE, "Exporting step: " + step);
 			migration.appendChild(step.toXmlNode(document));
 		}
@@ -298,32 +367,16 @@ public class MMigration extends X_AD_Migration {
 		
 	}
 	
-	class StepRunner implements TrxRunnable {
-		MMigrationStep step;
-		boolean rollback;
-			
-		public StepRunner(MMigrationStep step, boolean rollback) {
-			this.step = step;
-			this.rollback = rollback;
-		}
-		public void run(String trxName) {
-						
-			step.set_TrxName(trxName);
-			if ( rollback )
-				step.rollback();
-			else
-				step.apply();			
-		}
-	}
-	
 	/**
 	 * 	Before Delete
 	 *	@return true if it can be deleted
 	 */
 	protected boolean beforeDelete ()
 	{
-		for (MMigrationStep step : getSteps(false)) {
-			step.deleteEx(true, get_TrxName());
+		for ( int stepID : getStepIds(false) )
+		{
+			MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
+			step.deleteEx(true);
 		}
 		return true;
 	}	//	beforeDelete
@@ -344,7 +397,7 @@ public class MMigration extends X_AD_Migration {
 	
 	// String representation of the Migration
 	public String toString() {
-		return "Migration " + getSeqNo() + " - " + getName() + " - " + this.getReleaseNo() + " (" + this.getEntityType() + ")";
+		return "Migration " + getSeqNo() + " - " + getName() + " - " + this.getReleaseNo() + " (" + this.getEntityType() + ") ";
 	}
 
 	/**
@@ -360,13 +413,13 @@ public class MMigration extends X_AD_Migration {
 
 			this.setProcessed(true);
 			
-			for (MMigrationStep step : getSteps(false)) {
+			for ( int stepId : getStepIds(false) )
+			{
+				MMigrationStep step = new MMigrationStep(getCtx(), stepId, get_TrxName());
 				log.log(Level.CONFIG, "   Deleting step: " + step.toString());
 				step.deleteEx(true);
 			}
 			this.saveEx();
 		}
 	}
-
-
 }

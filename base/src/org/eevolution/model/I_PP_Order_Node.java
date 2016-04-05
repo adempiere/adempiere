@@ -404,19 +404,19 @@ public interface I_PP_Order_Node
     public static final String COLUMNNAME_DurationReal = "DurationReal";
 
 	/** Set Duration Real	  */
-	public void setDurationReal (int DurationReal);
+	public void setDurationReal (BigDecimal DurationReal);
 
 	/** Get Duration Real	  */
-	public int getDurationReal();
+	public BigDecimal getDurationReal();
 
     /** Column name DurationRequired */
     public static final String COLUMNNAME_DurationRequired = "DurationRequired";
 
 	/** Set Duration Required	  */
-	public void setDurationRequired (int DurationRequired);
+	public void setDurationRequired (BigDecimal DurationRequired);
 
 	/** Get Duration Required	  */
-	public int getDurationRequired();
+	public BigDecimal getDurationRequired();
 
     /** Column name EntityType */
     public static final String COLUMNNAME_EntityType = "EntityType";
@@ -705,19 +705,19 @@ public interface I_PP_Order_Node
     public static final String COLUMNNAME_SetupTimeReal = "SetupTimeReal";
 
 	/** Set Setup Time Real	  */
-	public void setSetupTimeReal (int SetupTimeReal);
+	public void setSetupTimeReal (BigDecimal SetupTimeReal);
 
 	/** Get Setup Time Real	  */
-	public int getSetupTimeReal();
+	public BigDecimal getSetupTimeReal();
 
     /** Column name SetupTimeRequired */
     public static final String COLUMNNAME_SetupTimeRequired = "SetupTimeRequired";
 
 	/** Set Setup Time Required	  */
-	public void setSetupTimeRequired (int SetupTimeRequired);
+	public void setSetupTimeRequired (BigDecimal SetupTimeRequired);
 
 	/** Get Setup Time Required	  */
-	public int getSetupTimeRequired();
+	public BigDecimal getSetupTimeRequired();
 
     /** Column name SplitElement */
     public static final String COLUMNNAME_SplitElement = "SplitElement";

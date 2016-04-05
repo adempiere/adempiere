@@ -1391,4 +1391,20 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
     }
 
+    /**
+     * Recreate the list header, especially after column classes have been changed. 
+     */
+    public void recreateListHead() {
+    	
+    	WListItemRenderer rowRenderer = null;
+    	
+    	rowRenderer = (WListItemRenderer) this.getItemRenderer();
+    	
+	    ListHead head = super.getListHead();
+	    if (head != null && rowRenderer != null)
+	    {
+	    	head.getChildren().clear();
+	    	rowRenderer.renderListHead(head);
+    	}
+    }
 }

@@ -29,8 +29,6 @@ import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MClient;
-import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MPeriod;
@@ -806,20 +804,30 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), C_BPartner_ID, get_TrxName());
 
 			//create movement
-			MHRMovement mv = new MHRMovement(this, concept);
-			mv.setC_BPartner_ID(C_BPartner_ID);
-			mv.setAD_Rule_ID(att.getAD_Rule_ID());
-			mv.setHR_Job_ID(employee.getHR_Job_ID());
-			mv.setHR_Department_ID(employee.getHR_Department_ID());
-			mv.setC_Activity_ID(employee.getC_Activity_ID());
-			mv.setValidFrom(m_dateFrom);
-			mv.setValidTo(m_dateTo); 
-			mv.setPP_Cost_Collector_ID(cc.getPP_Cost_Collector_ID());	
-			mv.setIsManual(true);
-			mv.setColumnValue(result);
-			mv.setProcessed(true);
-			mv.saveEx();
-			return mv;
+			MHRMovement movement = new MHRMovement(this, concept);
+			movement.setC_BPartner_ID(C_BPartner_ID);
+			movement.setAD_Rule_ID(att.getAD_Rule_ID());
+			movement.setHR_Job_ID(employee.getHR_Job_ID());
+			movement.setHR_Department_ID(employee.getHR_Department_ID());
+			movement.setC_Activity_ID(employee.getC_Activity_ID());
+			movement.setValidFrom(m_dateFrom);
+			movement.setValidTo(m_dateTo);
+			movement.setPP_Cost_Collector_ID(cc.getPP_Cost_Collector_ID());
+			movement.setIsManual(true);
+			movement.setColumnValue(result);
+			movement.setProcessed(true);
+			int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
+			movement.setC_BP_Group_ID(bpGroupId);
+			movement.setHR_Employee_ID(employee.getHR_Employee_ID());
+			movement.setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
+			movement.setHR_SkillType_ID(employee.getHR_SkillType_ID());
+			movement.setPaymentRule(employee.getPaymentRule());
+			movement.setHR_Payroll_ID(employee.getHR_Payroll_ID());
+			if (employee.getHR_Payroll_ID() > 0)
+				movement.setHR_Contract_ID(employee.getHR_Payroll().getHR_Contract_ID());
+
+			movement.saveEx();
+			return movement;
 		}
 		else
 		{
@@ -985,6 +993,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			params.add(m_employee.get_ID());
 		}
 
+		whereClause.append(" AND (HR_Payroll_ID = ? OR HR_Payroll_ID IS NULL)");
+		params.add(this.getHR_Payroll_ID());
+
 		MHRAttribute att = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
 		.setParameters(params)
 		.setOnlyActiveRecords(true)
@@ -1015,6 +1026,16 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		movement.setIsPrinted(printed);
 		movement.setIsManual(concept.isManual());
 		movement.setC_Activity_ID(m_employee.getC_Activity_ID());
+		int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
+		movement.setC_BP_Group_ID(bpGroupId);
+		movement.setHR_Employee_ID(m_employee.getHR_Employee_ID());
+		movement.setHR_EmployeeType_ID(m_employee.getHR_EmployeeType_ID());
+		movement.setHR_SkillType_ID(m_employee.getHR_SkillType_ID());
+		movement.setPaymentRule(m_employee.getPaymentRule());
+		movement.setHR_Payroll_ID(m_employee.getHR_Payroll_ID());
+		if (m_employee.getHR_Payroll_ID() > 0)
+			movement.setHR_Contract_ID(m_employee.getHR_Payroll().getHR_Contract_ID());
+
 		if (MHRConcept.TYPE_RuleEngine.equals(concept.getType()))
 		{
 			log.info("Executing rule for concept " + concept.getValue());
@@ -1168,26 +1189,35 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			{
 				return; // TODO throw exception
 			}
-			MHRMovement m = new MHRMovement(getCtx(), 0, get_TrxName());
+			MHRMovement movement = new MHRMovement(getCtx(), 0, get_TrxName());
 			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), m_C_BPartner_ID, get_TrxName());
-			m.setAD_Org_ID(employee.getAD_Org_ID());
-			m.setColumnType(c.getColumnType());
-			m.setColumnValue(BigDecimal.valueOf(value));
+			movement.setAD_Org_ID(employee.getAD_Org_ID());
+			movement.setColumnType(c.getColumnType());
+			movement.setColumnValue(BigDecimal.valueOf(value));
 
-			m.setHR_Process_ID(getHR_Process_ID());
-			m.setHR_Concept_ID(m_HR_Concept_ID);
-			m.setC_BPartner_ID(m_C_BPartner_ID);
-			m.setDescription("Added From Rule"); // TODO: translate
-			m.setValidFrom(m_dateTo);
-			m.setValidTo(m_dateTo);
+			movement.setHR_Process_ID(getHR_Process_ID());
+			movement.setHR_Concept_ID(m_HR_Concept_ID);
+			movement.setC_BPartner_ID(m_C_BPartner_ID);
+			movement.setDescription("Added From Rule"); // TODO: translate
+			movement.setValidFrom(m_dateTo);
+			movement.setValidTo(m_dateTo);
 
-			m.setHR_Concept_Category_ID(c.getHR_Concept_Category_ID());
-			m.setHR_Department_ID(employee.getHR_Department_ID());
-			m.setHR_Job_ID(employee.getHR_Job_ID());
-			m.setIsManual(c.isManual());
-			m.setC_Activity_ID(employee.getC_Activity_ID() > 0 ?  employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());		
+			movement.setHR_Concept_Category_ID(c.getHR_Concept_Category_ID());
+			movement.setHR_Department_ID(employee.getHR_Department_ID());
+			movement.setHR_Job_ID(employee.getHR_Job_ID());
+			movement.setIsManual(c.isManual());
+			movement.setC_Activity_ID(employee.getC_Activity_ID() > 0 ?  employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());
+			int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
+			movement.setC_BP_Group_ID(bpGroupId);
+			movement.setHR_Employee_ID(employee.getHR_Employee_ID());
+			movement.setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
+			movement.setHR_SkillType_ID(employee.getHR_SkillType_ID());
+			movement.setPaymentRule(employee.getPaymentRule());
+			movement.setHR_Payroll_ID(employee.getHR_Payroll_ID());
+			if (employee.getHR_Payroll_ID() > 0)
+				movement.setHR_Contract_ID(employee.getHR_Payroll().getHR_Contract_ID());
 			
-			m.saveEx();
+			movement.saveEx();
 		} 
 		catch(Exception e)
 		{
@@ -1209,30 +1239,38 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			{
 				return; // TODO throw exception
 			}
-			MHRMovement m = new MHRMovement(Env.getCtx(),0,get_TrxName());
+			MHRMovement movement = new MHRMovement(Env.getCtx(),0,get_TrxName());
 			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), m_C_BPartner_ID, get_TrxName());
-			m.setColumnType(c.getColumnType());
+			movement.setColumnType(c.getColumnType());
 			if (c.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
-				m.setAmount(BigDecimal.valueOf(value));
+				movement.setAmount(BigDecimal.valueOf(value));
 			else if (c.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity))
-				m.setQty(BigDecimal.valueOf(value));
+				movement.setQty(BigDecimal.valueOf(value));
 			else
 				return;
-			m.setHR_Process_ID(getHR_Process_ID());
-			m.setHR_Concept_ID(c.getHR_Concept_ID());
-			m.setC_BPartner_ID(m_C_BPartner_ID);
-			m.setDescription("Added From Rule"); // TODO: translate
-			m.setValidFrom(m_dateTo);
-			m.setValidTo(m_dateTo);
-			m.setIsManual(isManual);
+			movement.setHR_Process_ID(getHR_Process_ID());
+			movement.setHR_Concept_ID(c.getHR_Concept_ID());
+			movement.setC_BPartner_ID(m_C_BPartner_ID);
+			movement.setDescription("Added From Rule"); // TODO: translate
+			movement.setValidFrom(m_dateTo);
+			movement.setValidTo(m_dateTo);
+			movement.setIsManual(isManual);
 			
-			m.setHR_Concept_Category_ID(c.getHR_Concept_Category_ID());
-			m.setHR_Department_ID(employee.getHR_Department_ID());
-			m.setHR_Job_ID(employee.getHR_Job_ID());
-			m.setIsManual(c.isManual());
-			m.setC_Activity_ID(employee.getC_Activity_ID() > 0 ? employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());	
-			
-			m.saveEx();
+			movement.setHR_Concept_Category_ID(c.getHR_Concept_Category_ID());
+			movement.setHR_Department_ID(employee.getHR_Department_ID());
+			movement.setHR_Job_ID(employee.getHR_Job_ID());
+			movement.setIsManual(c.isManual());
+			movement.setC_Activity_ID(employee.getC_Activity_ID() > 0 ? employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());
+			int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
+			movement.setC_BP_Group_ID(bpGroupId);
+			movement.setHR_Employee_ID(employee.getHR_Employee_ID());
+			movement.setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
+			movement.setHR_SkillType_ID(employee.getHR_SkillType_ID());
+			movement.setPaymentRule(employee.getPaymentRule());
+			movement.setHR_Payroll_ID(employee.getHR_Payroll_ID());
+			if (employee.getHR_Payroll_ID() > 0)
+				movement.setHR_Contract_ID(employee.getHR_Payroll().getHR_Contract_ID());
+			movement.saveEx();
 		} 
 		catch(Exception e)
 		{
@@ -1981,6 +2019,14 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			toMovement.setUser1_ID(fromMovement.getUser1_ID());
 			toMovement.setUser2_ID(fromMovement.getUser2_ID());
 			toMovement.setProcessed(false);
+			toMovement.setC_BP_Group_ID(fromMovement.getC_BP_Group_ID());
+			toMovement.setHR_Employee_ID(fromMovement.getHR_Employee_ID());
+			toMovement.setHR_EmployeeType_ID(fromMovement.getHR_EmployeeType_ID());
+			toMovement.setHR_SkillType_ID(fromMovement.getHR_SkillType_ID());
+			toMovement.setPaymentRule(fromMovement.getPaymentRule());
+			toMovement.setHR_Payroll_ID(fromMovement.getHR_Payroll_ID());
+			toMovement.setHR_Contract_ID(fromMovement.getHR_Payroll().getHR_Contract_ID());
+
 			toMovement.saveEx();		
 		}		
 		return fromLines.size();

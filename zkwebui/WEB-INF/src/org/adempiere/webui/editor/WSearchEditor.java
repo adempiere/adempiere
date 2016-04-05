@@ -36,8 +36,7 @@ import org.adempiere.webui.panel.InfoBPartnerPanel;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.panel.InfoPanelFactory;
 import org.adempiere.webui.panel.InfoProductPanel;
-import org.adempiere.webui.theme.ThemeUtils;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MBPartner;
@@ -56,7 +55,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.eevolution.model.I_PP_Product_BOMLine;
-import org.zkoss.web.fn.ServletFns;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -70,6 +68,9 @@ import org.zkoss.zk.ui.event.Events;
  * @author	Michael McKay
  * 				<li>release/380 - change order of value change and value change event to allow event
  * 					handlers to see the changed value in the same thread. Also added old value comparison
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 
 public class WSearchEditor extends WEditor implements ContextMenuListener, ValueChangeListener, IZoomableEditor
@@ -190,30 +191,28 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	private void init()
 	{
 
-		ThemeUtils.addSclass("ad-search-editor", getComponent());
-
 		m_columnName = this.getColumnName();
                 
 		if (m_columnName.equals("C_BPartner_ID"))
 		{
 			popupMenu = new WEditorPopupMenu(true, true, true, true, true);
-			getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/BPartner10.png"));
+			getComponent().setButtonImage("/images/BPartner10.png");
 		}
 		else if (m_columnName.equals("M_Product_ID"))
 		{
 			popupMenu = new WEditorPopupMenu(true, true, true, false, false);
-			getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/Product10.png"));
+			getComponent().setButtonImage("/images/Product10.png");
 		}
 		else
 		{
 			popupMenu = new WEditorPopupMenu(true, true, true, false, false);
-			getComponent().setButtonImage(ServletFns.resolveThemeURL("~./images/PickOpen10.png"));
+			getComponent().setButtonImage("/images/PickOpen10.png");
 		}
 		
 		getComponent().getTextbox().setContext(popupMenu.getId());
 		if (gridField != null && gridField.getGridTab() != null)
 		{
-			WFieldRecordInfo.addMenu(popupMenu);
+			WRecordInfo.addMenu(popupMenu);
 		}
 		
 		return;
@@ -362,7 +361,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 		//
 	}
@@ -498,22 +497,27 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 				
 		//  is the value updated ?
 		boolean updated = false;
-		if (value instanceof Object[] && ((Object[])value).length > 0)
+		
+		Object updatedValue = value;
+
+		if (updatedValue != null && updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
 		{
-			value = ((Object[])value)[0];
+			updatedValue = ((Object[])updatedValue)[0];
 		}
 		
-		if (value == null && getValue() == null)
+		// Avoid events if the value hasn't changed.
+		if (updatedValue == null && getValue() == null)
 			updated = true;
-		else if (value != null && value.equals(getValue()) && !m_needsUpdate)
+		else if (updatedValue != null && updatedValue.equals(getValue()) && !m_needsUpdate)
 			updated = true;
 		if (!updated)
 		{
-			setValue(value);
+			setValue(updatedValue);
 		}
 		
 		// Fire the change event after the change so listeners can react in the same thread.
-		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), oldValue, getValue());
+		// Pass value as it may be an array for multiple selection.  updatedValue will be a single value.
+		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), oldValue, value);
 		// -> ADTabpanel - valuechange
 		fireValueChange(evt);
 

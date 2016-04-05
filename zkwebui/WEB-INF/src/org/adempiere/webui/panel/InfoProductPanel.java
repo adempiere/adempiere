@@ -297,22 +297,22 @@ public class InfoProductPanel extends InfoPanel implements ValueChangeListener
 		m_InfoPAttributeButton.addEventListener(Events.ON_CLICK,this);
 
 		fieldValue = new Textbox();
-		fieldValue.setMaxlength(40);
+		//fieldValue.setMaxlength(40);
 		fieldValue.setAttribute("zk_component_ID", "Lookup_Criteria_fieldValue");
 		fieldValue.addEventListener(Events.ON_CHANGE, this);
 		//
 		fieldName = new Textbox();
-		fieldName.setMaxlength(40);
+		//fieldName.setMaxlength(40);
 		fieldName.setAttribute("zk_component_ID", "Lookup_Criteria_fieldName");
 		fieldName.addEventListener(Events.ON_CHANGE, this);
 		//
 		fieldUPC = new Textbox();
-		fieldUPC.setMaxlength(40);
+		//fieldUPC.setMaxlength(40);
 		fieldUPC.setAttribute("zk_component_ID", "Lookup_Criteria_fieldUPC");
 		fieldUPC.addEventListener(Events.ON_CHANGE, this);
 		//
 		fieldSKU = new Textbox();
-		fieldSKU.setMaxlength(40);
+		//fieldSKU.setMaxlength(40);
 		fieldSKU.setAttribute("zk_component_ID", "Lookup_Criteria_fieldSKU");
 		fieldSKU.addEventListener(Events.ON_CHANGE, this);
 		//
@@ -374,7 +374,7 @@ public class InfoProductPanel extends InfoPanel implements ValueChangeListener
 		fWarehouse_ID.getComponent().setAttribute("fieldName", "fWarehouse_ID");
 
 		
-		fVendor_ID.getComponent().getTextbox().setMaxlength(30);
+		//fVendor_ID.getComponent().getTextbox().setMaxlength(30);
 		fVendor_ID.setIsSOTrx(true, false); // Override the isSOTrx context, Vendors only
 		fVendor_ID.addValueChangeListener(this);
 		fVendor_ID.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_C_BPartner_ID");

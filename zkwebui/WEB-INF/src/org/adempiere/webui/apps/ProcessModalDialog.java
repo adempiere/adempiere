@@ -55,6 +55,9 @@ import org.zkoss.zul.Html;
  *  @author 	Low Heng Sin
  *  @author     arboleda - globalqss
  *  - Implement ShowHelp option on processes and reports
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *		@see https://github.com/adempiere/adempiere/issues/265
  */
 public class ProcessModalDialog extends Window implements EventListener
 {
@@ -104,6 +107,18 @@ public class ProcessModalDialog extends Window implements EventListener
 	public ProcessModalDialog (  ASyncProcess aProcess, int WindowNo, int AD_Process_ID, int tableId, int recordId, boolean autoStart)
 	{						
 		this(aProcess, WindowNo, new ProcessInfo("", AD_Process_ID, tableId, recordId), autoStart);		
+	}
+	
+	/**
+	 * Optional constructor, for launch from ProcessCtl
+	 * @param frame
+	 * @param WindowNo
+	 * @param pi
+	 */
+	public ProcessModalDialog (ASyncProcess aProcess, int WindowNo, ProcessInfo pi) {
+		this(aProcess, WindowNo, pi, false);
+		//	Set Process instance and flag
+		m_OnlyPanel = true;
 	}
 	
 	/**
@@ -163,7 +178,9 @@ public class ProcessModalDialog extends Window implements EventListener
 	private String		    m_Name = null;
 	private StringBuffer	m_messageText = new StringBuffer();
 	private String          m_ShowHelp = null; // Determine if a Help Process Window is shown
-	private boolean m_valid = true;
+	private boolean 		m_valid = true;
+	private boolean 		m_OnlyPanel = false;
+	private boolean 		m_isOK = false;
 	
 	private Panel centerPanel = null;
 	private Html message = null;
@@ -209,7 +226,7 @@ public class ProcessModalDialog extends Window implements EventListener
 	 *	Dynamic Init
 	 *  @return true, if there is something to process (start from menu)
 	 */
-	public boolean init()
+	private boolean init()
 	{
 		log.config("");
 		//
@@ -272,8 +289,9 @@ public class ProcessModalDialog extends Window implements EventListener
 		m_pi.setTitle(m_Name);
 		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
 		centerPanel.getChildren().clear();
-		if ( parameterPanel.init() ) {
-			centerPanel.appendChild(parameterPanel);
+		//	FR [ 265 ]
+		if (parameterPanel.init()) {
+			centerPanel.appendChild(parameterPanel.getPanel());
 		} else {
 			if (m_ShowHelp != null && m_ShowHelp.equals("N")) {
 				m_autoStart = true;
@@ -347,15 +365,33 @@ public class ProcessModalDialog extends Window implements EventListener
 	 * handle events
 	 */
 	public void onEvent(Event event) {
+		m_isOK = false;
 		Component component = event.getTarget(); 
 		if (component instanceof Button) {
 			Button element = (Button)component;
 			if ("Ok".equalsIgnoreCase(element.getId())) {
-				this.startProcess();
+				if(!m_OnlyPanel) {
+					this.startProcess();
+				} else {
+					//	check if saving parameters is complete
+					if (parameterPanel.validateParameters() == null) {
+						//	Save Parameters
+						parameterPanel.saveParameters();
+						m_isOK = true;
+						dispose();
+					}
+				}
 			} else if ("Cancel".equalsIgnoreCase(element.getId())) {
 				this.dispose();
 			}
 		}		
 	}
 	
+	/**
+	 *	Is everything OK?
+	 *  @return true if parameters saved correctly
+	 */
+	public boolean isOK() {
+		return m_isOK;
+	}	//	isOK
 }	//	ProcessDialog

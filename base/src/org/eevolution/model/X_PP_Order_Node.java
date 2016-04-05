@@ -34,7 +34,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20150928L;
 
     /** Standard Constructor */
     public X_PP_Order_Node (Properties ctx, int PP_Order_Node_ID, String trxName)
@@ -705,36 +705,36 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 
 	/** Set Duration Real.
 		@param DurationReal Duration Real	  */
-	public void setDurationReal (int DurationReal)
+	public void setDurationReal (BigDecimal DurationReal)
 	{
-		set_Value (COLUMNNAME_DurationReal, Integer.valueOf(DurationReal));
+		set_Value (COLUMNNAME_DurationReal, DurationReal);
 	}
 
 	/** Get Duration Real.
 		@return Duration Real	  */
-	public int getDurationReal () 
+	public BigDecimal getDurationReal () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DurationReal);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DurationReal);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Duration Required.
 		@param DurationRequired Duration Required	  */
-	public void setDurationRequired (int DurationRequired)
+	public void setDurationRequired (BigDecimal DurationRequired)
 	{
-		set_Value (COLUMNNAME_DurationRequired, Integer.valueOf(DurationRequired));
+		set_Value (COLUMNNAME_DurationRequired, DurationRequired);
 	}
 
 	/** Get Duration Required.
 		@return Duration Required	  */
-	public int getDurationRequired () 
+	public BigDecimal getDurationRequired () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DurationRequired);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DurationRequired);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** EntityType AD_Reference_ID=389 */
@@ -1210,36 +1210,36 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 
 	/** Set Setup Time Real.
 		@param SetupTimeReal Setup Time Real	  */
-	public void setSetupTimeReal (int SetupTimeReal)
+	public void setSetupTimeReal (BigDecimal SetupTimeReal)
 	{
-		set_Value (COLUMNNAME_SetupTimeReal, Integer.valueOf(SetupTimeReal));
+		set_Value (COLUMNNAME_SetupTimeReal, SetupTimeReal);
 	}
 
 	/** Get Setup Time Real.
 		@return Setup Time Real	  */
-	public int getSetupTimeReal () 
+	public BigDecimal getSetupTimeReal () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTimeReal);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SetupTimeReal);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Setup Time Required.
 		@param SetupTimeRequired Setup Time Required	  */
-	public void setSetupTimeRequired (int SetupTimeRequired)
+	public void setSetupTimeRequired (BigDecimal SetupTimeRequired)
 	{
-		set_Value (COLUMNNAME_SetupTimeRequired, Integer.valueOf(SetupTimeRequired));
+		set_Value (COLUMNNAME_SetupTimeRequired, SetupTimeRequired);
 	}
 
 	/** Get Setup Time Required.
 		@return Setup Time Required	  */
-	public int getSetupTimeRequired () 
+	public BigDecimal getSetupTimeRequired () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTimeRequired);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SetupTimeRequired);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** SplitElement AD_Reference_ID=301 */

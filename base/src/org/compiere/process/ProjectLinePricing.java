@@ -72,7 +72,7 @@ public class ProjectLinePricing extends SvrProcess
 		//
 		boolean isSOTrx = true;
 		MProductPricing pp = new MProductPricing (projectLine.getM_Product_ID(), 
-			project.getC_BPartner_ID(), projectLine.getPlannedQty(), isSOTrx);
+			project.getC_BPartner_ID(), projectLine.getPlannedQty(), isSOTrx, null);
 		pp.setM_PriceList_ID(project.getM_PriceList_ID());
 		pp.setPriceDate(project.getDateContract());
 		//

@@ -26,8 +26,7 @@ import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.theme.ThemeUtils;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
@@ -45,6 +44,9 @@ import org.zkoss.zk.ui.event.Events;
  * @author Cristina Ghita, www.arhipac.ro
  *  	   <li> BF [3058780] WNumberEditor allow only BigDecimal
  *  	   @see https://sourceforge.net/tracker/?func=detail&aid=3058780&group_id=176962&atid=955896
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class WNumberEditor extends WEditor implements ContextMenuListener
 {
@@ -108,8 +110,6 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 
 	private void init()
     {
-		ThemeUtils.addSclass("ad-number-editor", getComponent());
-
 		if (gridField != null)
 		{
 			getComponent().setTooltiptext(gridField.getDescription());
@@ -129,7 +129,7 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 		popupMenu = new WEditorPopupMenu(true, true, false);
     	if (gridField != null && gridField.getGridTab() != null)
 		{
-			WFieldRecordInfo.addMenu(popupMenu);
+			WRecordInfo.addMenu(popupMenu);
 		}
     	getComponent().setContext(popupMenu.getId());
     }
@@ -228,7 +228,7 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 		}
 	 	else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 	}
 }

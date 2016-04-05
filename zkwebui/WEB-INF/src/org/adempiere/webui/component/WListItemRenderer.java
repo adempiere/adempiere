@@ -33,7 +33,6 @@ import java.util.Set;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
-import org.adempiere.webui.theme.ThemeUtils;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.util.DisplayType;
@@ -145,16 +144,11 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	/* (non-Javadoc)
 	 * @see org.zkoss.zul.ListitemRenderer#render(org.zkoss.zul.Listitem, java.lang.Object)
 	 */
-//	public void render(Listitem item, Object data) throws Exception
-//	{
-//		render((Listitem)item, data, 0);
-//	}
-	@Override
-	public void render(Listitem arg0, Object arg1, int arg2) throws Exception {
-		render(arg0, arg1);		
+	public void render(Listitem item, Object data) throws Exception
+	{
+		render((ListItem)item, data);
 	}
-	
-	
+
 	/**
 	 * Renders the <code>data</code> to the specified <code>Listitem</code>.
 	 *
@@ -165,7 +159,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 * @throws Exception
 	 * @see {@link #render(Listitem, Object)}
 	 */
-	private void render(Listitem item, Object data)
+	private void render(ListItem item, Object data)
 	{
 		Listcell listcell = null;
 		int colIndex = 0;
@@ -185,17 +179,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			if (colorCode < 0)
 			{
 				//  Color the row.
-				ThemeUtils.addSclass("color-row-low", item);
-			}
-			if (colorCode == 0)
-			{
-				//  Color the row.
-				ThemeUtils.addSclass("color-row-normal", item);
-			}
-			if (colorCode > 0)
-			{
-				//  Color the row.
-				ThemeUtils.addSclass("color-row-high", item);
+				//  TODO: do this with a class and CSS
+				item.setStyle("color: #FF0000; " + item.getStyle());
 			}
 		}
 
@@ -488,75 +473,62 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         ListHeader header = null;
 
         String headerText = headerValue.toString();
+        
+        // If the header doesn't exist, add it to the end of the list
         if (m_headers.size() <= headerIndex || m_headers.get(headerIndex) == null)
         {
-        	if (!isColumnVisible(getColumn(headerIndex)))
-        	{
-        		header = new ListHeader("");
-        		header.setWidth("0px");
-        		header.setStyle("width: 0px");
-        	}
-        	else if (classType != null && classType.isAssignableFrom(IDColumn.class))
-        	{
-        		header = new ListHeader("");
-        		header.setWidth("35px");
-        	}
-        	else
-        	{
-	            Comparator<Object> ascComparator =  getColumnComparator(true, headerIndex);
-	            Comparator<Object> dscComparator =  getColumnComparator(false, headerIndex);
-	
-	            header = new ListHeader(headerText);
-	
-	            header.setSort("auto");
-	            header.setSortAscending(ascComparator);
-	            header.setSortDescending(dscComparator);
-	            
-	            /*  After ZK 5+ use hflex to set column size.
-	
-	            int width = headerText.trim().length() * 9;
-	            if (width > 300)
-	            	width = 300;
-	            else if (classType != null)
-	            {
-	            	if (classType.equals(String.class))
-	            	{
-	            		if (width > 0 && width < 180)
-	            			width = 180;
-	            	}
-	            	else if (classType.equals(IDColumn.class))
-	            	{
-	            		header.setSort("none");
-	            		if (width == 0)
-	            			width = 30;
-	            	}
-		            else if (width > 0 && width < 100 && (classType == null || !classType.isAssignableFrom(Boolean.class)))
-	            		width = 100;
-	            }
-	            else if (width > 0 && width < 100)
-	            	width = 100;
-	
-	            header.setWidth(width + "px");
-	            */
-	            header.setHflex("min");
-        	}
-            m_headers.add(header);
+        	header = new ListHeader("");
+        	m_headers.add(headerIndex, header);
         }
-        else
-        {
-            header = m_headers.get(headerIndex);
+        
+        header = m_headers.get(headerIndex);
+        
+    	if (!isColumnVisible(getColumn(headerIndex)))
+    	{
+    		header.setLabel("");
+    		header.setWidth("0px");
+    		header.setStyle("width: 0px");
+    	}
+    	else if (classType != null && classType.isAssignableFrom(IDColumn.class))
+    	{
+    		header.setLabel("");
+    		header.setWidth("35px");
+    	}
+    	else
+    	{
+            Comparator<Object> ascComparator =  getColumnComparator(true, headerIndex);
+            Comparator<Object> dscComparator =  getColumnComparator(false, headerIndex);
 
-            if (!isColumnVisible(getColumn(headerIndex)))
-        	{
-        		header.setLabel("");
-        		header.setWidth("0px");
-        		header.setStyle("width: 0px");
-        	}
-        	else if (!header.getLabel().equals(headerText))
+            header.setLabel(headerText);
+
+            header.setSort("auto");
+            header.setSortAscending(ascComparator);
+            header.setSortDescending(dscComparator);
+
+            int width = headerText.trim().length() * 9;
+            if (width > 300)
+            	width = 300;
+            else if (classType != null)
             {
-                header.setLabel(headerText);
+            	if (classType.equals(String.class))
+            	{
+            		if (width > 0 && width < 180)
+            			width = 180;
+            	}
+            	else if (classType.equals(IDColumn.class))
+            	{
+            		header.setSort("none");
+            		if (width == 0)
+            			width = 30;
+            	}
+	            else if (width > 0 && width < 100 && (classType == null || !classType.isAssignableFrom(Boolean.class)))
+            		width = 100;
             }
-        }
+            else if (width > 0 && width < 100)
+            	width = 100;
+
+            header.setWidth(width + "px");
+    	}
 
         header.setAttribute("zk_component_ID", "ListItem_Header_C" + headerIndex);
 
@@ -971,7 +943,6 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		}
 
 	}
-
 }
 
 

@@ -303,6 +303,19 @@ public interface I_AD_PrintFormat
 	  */
 	public boolean isStandardHeaderFooter();
 
+    /** Column name IsSummary */
+    public static final String COLUMNNAME_IsSummary = "IsSummary";
+
+	/** Set Summary Level.
+	  * This is a summary entity
+	  */
+	public void setIsSummary (boolean IsSummary);
+
+	/** Get Summary Level.
+	  * This is a summary entity
+	  */
+	public boolean isSummary();
+
     /** Column name IsTableBased */
     public static final String COLUMNNAME_IsTableBased = "IsTableBased";
 

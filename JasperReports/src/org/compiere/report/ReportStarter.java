@@ -361,22 +361,9 @@ public class ReportStarter implements ProcessCall, ClientProcess
      * @author Ashley Ramdass
      * @return Connection DB Connection
      */
-    protected Connection getConnection(Trx trx)
+    protected Connection getConnection()
     {
-    	if (trx != null) {
-    		Connection resultConn = null;
-    		try {
-    			resultConn = trx.getConnection();
-    		} catch (Exception ex) {
-    			resultConn = DB.getConnectionRW();
-    		}
-    		if (resultConn == null) {
-    			resultConn = DB.getConnectionRW();
-    		}
-    		return resultConn;
-    	} else {
-    		return DB.getConnectionRW();
-    	}
+    	return DB.getConnectionRW();
     }
 
     /**
@@ -440,6 +427,10 @@ public class ReportStarter implements ProcessCall, ClientProcess
 		if (reportFile != null)
 		{
 			data = processReport(reportFile);
+			if(data.getJasperReport()==null) {				
+                log.severe("Could not load Jasper Report " + reportPath);
+				return false;
+			}
 			fileExtension = reportFile.getName().substring(reportFile.getName().lastIndexOf("."),
 					reportFile.getName().length());
 		}
@@ -576,7 +567,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 
             Connection conn = null;
             try {
-            	conn = getConnection( trx );
+            	conn = trx != null ? trx.getConnection() : getConnection();
                 jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
                 if (reportData.isDirectPrint() && !processInfo.isPrintPreview())
                 {
@@ -637,10 +628,11 @@ public class ReportStarter implements ProcessCall, ClientProcess
             } catch (JRException e) {
                 log.severe("ReportStarter.startProcess: Can not run report - "+ e.getMessage());
             } finally {
-            	if (conn != null)
+            	if (conn != null && trx == null)
 					try {
 						conn.close();
 					} catch (SQLException e) {
+						throw new AdempiereException("@Error@ " + e);
 					}
             }
         }

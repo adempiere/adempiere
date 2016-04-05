@@ -28,7 +28,7 @@ import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.eevolution.form.Browser;
+import org.eevolution.grid.Browser;
 import org.eevolution.model.I_PP_MRP;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;

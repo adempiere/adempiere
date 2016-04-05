@@ -25,17 +25,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
-import org.compiere.model.MPeriod;
 import org.compiere.model.MTable;
-import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 
@@ -99,6 +94,12 @@ public class CleanUpGW extends SvrProcess
 		// Determine the time offset
 		determineOffset();
 		
+		if ( m_Offset == 0)
+		{
+			log.config("The GardenWorld data is sufficiently up to date.  No changes were requried.");
+			return "The GardenWorld data is sufficiently up to date.  No changes were requried.";
+		}
+		
 		// Adjust the calendars first
 		adjustCalendarAndPeriods();
 		
@@ -111,6 +112,7 @@ public class CleanUpGW extends SvrProcess
 		// Cleanup
 		cleanUp();
 
+		log.config("Successfully updated Garden World data.");
 		return "Successfully updated Garden World data.";
 	}
 	
@@ -125,7 +127,6 @@ public class CleanUpGW extends SvrProcess
 			 rs = pstm.executeQuery();
 			 String tableName=null;
 			 String columnName=null;
-			 ArrayList<String> columnList=new ArrayList<String>();
 			 while(rs.next())
 			 {	
 				 tableName=rs.getString(1);
@@ -311,9 +312,9 @@ public class CleanUpGW extends SvrProcess
 					 log.fine("Setting min date to " + m_minDate.toString() + "(" + tableName + "/" + columnName + ")");
 				 }
 				 
-				 if (rs.getTimestamp(2) == null || rs.getTimestamp(2).after(m_currentTime))
+				 if (rs.getTimestamp(2) == null || rs.getTimestamp(1).getTime() == 0L || rs.getTimestamp(2).after(m_currentTime))
 				 {
-					 // Null or in the future. Ignore it.
+					 // Null, zero or in the future. Ignore it.
 					 continue;
 				 }
 				 else if (m_maxDate.before(rs.getTimestamp(2)))
@@ -327,7 +328,7 @@ public class CleanUpGW extends SvrProcess
 		 catch (SQLException e)
 		 {
 			 log.log(Level.SEVERE, e.getLocalizedMessage());
-			 throw new AdempiereException("Problem finding the current earliest date", e);
+			 throw new AdempiereException("Problem finding the date limits", e);
 		 }
 		 finally {
 			 DB.close(pstm);
@@ -388,7 +389,7 @@ public class CleanUpGW extends SvrProcess
 		 		findDateLimits(tableName, columnName);
 			 }
 		 }
-		 catch (SQLException e)
+		 catch (Exception e)
 		 {
 			 log.log(Level.SEVERE, e.getLocalizedMessage());
 			 throw new AdempiereException("", e);	 
@@ -433,12 +434,7 @@ public class CleanUpGW extends SvrProcess
 	
 	private void adjustCalendarAndPeriods()
 	{
-		if ( m_Offset == 0)
-		{
-			return; // nothing to do
-		}
-		
-		 // Move the calendars by a year offset in milliseconds
+		// Move the calendars by a year offset in milliseconds
 		 long yearOffset = m_Offset/(1000L*60L*60L*24L*365L);  // round to years.
 		 long monthOffset = yearOffset*12L;
 
@@ -452,17 +448,58 @@ public class CleanUpGW extends SvrProcess
 				 			+  "   EndDate = add_months(Enddate, " + monthOffset + "), "
 				 			+  "   Name = to_char(add_months(Enddate, " + monthOffset + "),'YYYY-MM') "
 				 			+  " WHERE ad_client_id=" + gw_client_id;
-		 DB.executeUpdate(updatePeriod, get_TrxName());
+		PreparedStatement pstm = null;
+		try
+		 {
+			 pstm = DB.prepareStatement(updatePeriod, get_TrxName());
+			 pstm.executeUpdate();
+		 }
+		 catch (SQLException e)
+		 {
+			 log.log(Level.SEVERE, e.getLocalizedMessage());
+			 throw new AdempiereException("Problem Offsetting the periods", e);
+		 }
+		 finally {
+			 DB.close(pstm);
+			 pstm = null;
+		 }
 		 
 		 // Offset the year - have to do this twice to avoid a constraint.
 		 String updateYear = "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY-MM')) "
 				 +  " from c_period p where p.c_year_id=c_year.c_year_id) "
 		 			+  " WHERE ad_client_id=" + gw_client_id;
-		 DB.executeUpdate(updateYear, get_TrxName());
-		 updateYear = "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY')) "
+			try
+			 {
+				 pstm = DB.prepareStatement(updateYear, get_TrxName());
+				 pstm.executeUpdate();
+			 }
+			 catch (SQLException e)
+			 {
+				 log.log(Level.SEVERE, e.getLocalizedMessage());
+				 throw new AdempiereException("Problem offsetting the year - 1st query to YYYY-MM", e);
+			 }
+			 finally {
+				 DB.close(pstm);
+				 pstm = null;
+			 }
+
+			updateYear = "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY')) "
 				 +  " from c_period p where p.c_year_id=c_year.c_year_id) "
 		 			+  " WHERE ad_client_id=" + gw_client_id;
-		 DB.executeUpdate(updateYear, get_TrxName());
+			try
+			 {
+				 pstm = DB.prepareStatement(updateYear, get_TrxName());
+				 pstm.executeUpdate();
+			 }
+			 catch (SQLException e)
+			 {
+				 log.log(Level.SEVERE, e.getLocalizedMessage());
+				 throw new AdempiereException("Problem offsetting the year to form YYYY", e);
+			 }
+			 finally {
+				 DB.close(pstm);
+				 pstm = null;
+			 }
 		 
 //		 String updatem_Forcast="UPDATE m_forecast as y3 set c_year_id= "
 //				 +  "  (select y1.c_year_id from c_year y1 join c_year y2 on "

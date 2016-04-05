@@ -73,6 +73,9 @@ import org.zkoss.zul.Html;
  *  @author 	Low Heng Sin
  *  @author     arboleda - globalqss
  *  - Implement ShowHelp option on processes and reports
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *		@see https://github.com/adempiere/adempiere/issues/265
  */
 public class ProcessDialog extends Window implements EventListener//, ASyncProcess
 {
@@ -307,8 +310,9 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi, "70%");
 		centerPanel.getChildren().clear();
-		if ( parameterPanel.init() ) {
-			centerPanel.appendChild(parameterPanel);
+		//	BR[ 265 ]
+		if (parameterPanel.init()) {
+			centerPanel.appendChild(parameterPanel.getPanel());
 		} else {
 			if (m_ShowHelp != null && m_ShowHelp.equals("N")) {
 				startProcess();
@@ -383,7 +387,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		if (event.getTarget().equals(bOK))
 		{
 			Button element = (Button)component;
-				if (!parameterPanel.validateParameters())
+				//	BR [ 265 ]
+				if (parameterPanel.validateParameters() != null)
 					return;
 				if (element.getLabel().length() > 0)
 					this.startProcess();
@@ -427,9 +432,11 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 					//				Get Parameters
 					if (parameterPanel != null)
 					{
-						if (!parameterPanel.saveParameters())
+						//	BR [ 265 ]
+						String validError = parameterPanel.saveParameters();
+						if (validError != null)
 						{
-							throw new AdempiereSystemError(Msg.getMsg(Env.getCtx(), "SaveParameterError"));
+							throw new AdempiereSystemError(Msg.parseTranslation(Env.getCtx(), validError));
 						}
 					}
 				}
@@ -615,7 +622,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		{
 			int M_InOut_ID = m_ids[i];
 			ReportEngine re = ReportEngine.get (Env.getCtx(), ReportEngine.SHIPMENT, M_InOut_ID);
-			pdfList.add(re.getPDF());				
+			if (re != null)
+				pdfList.add(re.getPDF());
 		}
 		
 		if (pdfList.size() > 1) {
@@ -685,7 +693,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		{
 			int C_Invoice_ID = m_ids[i];
 			ReportEngine re = ReportEngine.get (Env.getCtx(), ReportEngine.INVOICE, C_Invoice_ID);
-			pdfList.add(re.getPDF());				
+			if (re != null)
+				pdfList.add(re.getPDF());
 		}
 		
 		if (pdfList.size() > 1) {

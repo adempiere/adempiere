@@ -64,10 +64,9 @@ public class MWMInOutBoundLineMA extends X_WM_InOutBoundLineMA
 	}
 
 	/**
-	 * 	Discontinued Asset Constructor - DO NOT USE (but don't delete either)
-	 *	@param ctx context
-	 *	@param M_InOutBoundLine_ID  In Out Bound Line ID
-	 */
+	 * @param ctx
+	 * @param M_InOutBoundLineMA_ID
+     */
 	public MWMInOutBoundLineMA (Properties ctx, int M_InOutBoundLineMA_ID)
 	{
 		this (ctx, M_InOutBoundLineMA_ID, null);

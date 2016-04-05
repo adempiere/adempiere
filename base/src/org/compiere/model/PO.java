@@ -1646,35 +1646,45 @@ public abstract class PO
 				m_newValues[i] = new Boolean(false);
 			else if (colName.equals("Posted"))
 				m_newValues[i] = new Boolean(false);
-			else {
-				String defaultValue =  Env.parseContext(Env.getCtx(), 0, p_info.getDefaultLogic(i) , true , false);
-				if (defaultValue != null && defaultValue.length() > 0) {
-					POInfoColumn infoColumn = p_info.getColumn(i);
-					GridFieldVO valueObject = GridFieldVO.createStdField(Env.getCtx(), 0, 0, 0, 0, false, false, false);
-					valueObject.isProcess = true;
-					valueObject.IsUpdateable = infoColumn.IsUpdateable;
-					valueObject.AD_Column_ID = infoColumn.AD_Column_ID;
-					valueObject.AD_Table_ID = p_info.getAD_Table_ID();
-					valueObject.ColumnName = infoColumn.ColumnName;
-					valueObject.displayType = infoColumn.DisplayType;
-					valueObject.AD_Reference_Value_ID = infoColumn.AD_Reference_Value_ID;
-					valueObject.IsMandatory = infoColumn.IsMandatory;
-					valueObject.IsKey = infoColumn.IsKey;
-					valueObject.DefaultValue = defaultValue;
-					valueObject.ValueMin = infoColumn.ValueMin;
-					valueObject.ValueMax = infoColumn.ValueMin;
-					valueObject.ValidationCode = infoColumn.ValidationCode;
-					valueObject.Description = infoColumn.ColumnDescription;
-					valueObject.ColumnSQL = infoColumn.ColumnSQL;
-					valueObject.Header = infoColumn.ColumnLabel;
-					valueObject.initFinish();
-
-					GridField field = new GridField(valueObject);
-					m_newValues[i] = field.getDefault();
-				}
-			}
+			else
+				m_newValues[i] = getDefaultValue(get_ColumnName(i));
 		}
 	}   //  setDefaults
+
+	public Object getDefaultValue(String columnName)
+	{
+		int columnIndex = get_ColumnIndex(columnName);
+		return getDefaultValue(columnIndex);
+	}
+
+	public Object getDefaultValue(int columnIndex)
+	{
+		String defaultValue =  Env.parseContext(Env.getCtx(), 0, p_info.getDefaultLogic(columnIndex) , true , false);
+		if (defaultValue != null && defaultValue.length() > 0) {
+			POInfoColumn infoColumn = p_info.getColumn(columnIndex);
+			GridFieldVO valueObject = GridFieldVO.createStdField(Env.getCtx(), 0, 0, 0, 0, false, false, false);
+			valueObject.isProcess = true;
+			valueObject.IsUpdateable = infoColumn.IsUpdateable;
+			valueObject.AD_Column_ID = infoColumn.AD_Column_ID;
+			valueObject.AD_Table_ID = p_info.getAD_Table_ID();
+			valueObject.ColumnName = infoColumn.ColumnName;
+			valueObject.displayType = infoColumn.DisplayType;
+			valueObject.AD_Reference_Value_ID = infoColumn.AD_Reference_Value_ID;
+			valueObject.IsMandatory = infoColumn.IsMandatory;
+			valueObject.IsKey = infoColumn.IsKey;
+			valueObject.DefaultValue = defaultValue;
+			valueObject.ValueMin = infoColumn.ValueMin;
+			valueObject.ValueMax = infoColumn.ValueMin;
+			valueObject.ValidationCode = infoColumn.ValidationCode;
+			valueObject.Description = infoColumn.ColumnDescription;
+			valueObject.ColumnSQL = infoColumn.ColumnSQL;
+			valueObject.Header = infoColumn.ColumnLabel;
+			valueObject.initFinish();
+			GridField field = new GridField(valueObject);
+			return field.getDefault();
+		}
+		return null;
+	}
 
 	/**
 	 * 	Set Key Info (IDs and KeyColumns).
@@ -1958,7 +1968,6 @@ public abstract class PO
 
 	/**
 	 * Get Translation of column
-	 * @param ctx context
 	 * @param columnName
 	 * @return translation
 	 */
