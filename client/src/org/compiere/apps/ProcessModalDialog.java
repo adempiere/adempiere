@@ -55,8 +55,10 @@ import org.compiere.util.Msg;
  *  @author     arboleda - globalqss
  *  - Implement ShowHelp option on processes and reports
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *			<li>FR [ 265 ] ProcessParameterPanel is not MVC
- *			@see https://github.com/adempiere/adempiere/issues/265
+ *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *		@see https://github.com/adempiere/adempiere/issues/265
+ *		<li>BR [ 300 ] ZK Process action buttons don't have standard size and position
+ *		@see https://github.com/adempiere/adempiere/issues/300
  */
 public class ProcessModalDialog extends CDialog
 	implements ActionListener
@@ -81,17 +83,47 @@ public class ProcessModalDialog extends CDialog
 	 */
 	public ProcessModalDialog (Properties ctx, Frame parent, String title, 
 			ASyncProcess aProcess, int WindowNo, int AD_Process_ID,
-			int tableId, int recordId, boolean autoStart)
+			int tableId, int recordId, boolean autoStart) {
+		this(ctx, parent, title, aProcess, WindowNo, 
+				AD_Process_ID, tableId, recordId, autoStart, null);
+	}
+	
+	
+	/**
+	 * Private Constructor
+	 * @param ctx
+	 * @param parent
+	 * @param title
+	 * @param aProcess
+	 * @param WindowNo
+	 * @param AD_Process_ID
+	 * @param tableId
+	 * @param recordId
+	 * @param autoStart
+	 * @param pi
+	 */
+	private ProcessModalDialog (Properties ctx, Frame parent, String title, 
+			ASyncProcess aProcess, int WindowNo, int AD_Process_ID,
+			int tableId, int recordId, boolean autoStart, ProcessInfo pi)
 	{
 		super(parent, title, true);
 		log.info("Process=" + AD_Process_ID );
-		m_ctx = ctx;
-		m_ASyncProcess = aProcess;
+		if(pi == null) {
+			m_ctx = ctx;
+			m_ASyncProcess = aProcess;
+			m_AD_Process_ID = AD_Process_ID;
+			m_tableId = tableId;
+			m_recordId = recordId;
+			m_autoStart = autoStart;
+		} else {
+			m_pi = pi;
+			m_AD_Process_ID = pi.getAD_Process_ID();
+			m_tableId = pi.getTable_ID();
+			m_recordId = pi.getRecord_ID();
+		}
+		//	
 		m_WindowNo = WindowNo;
-		m_AD_Process_ID = AD_Process_ID;
-		m_tableId = tableId;
-		m_recordId = recordId;
-		m_autoStart = autoStart;
+		//	
 		try
 		{
 			jbInit();
@@ -112,7 +144,7 @@ public class ProcessModalDialog extends CDialog
 	public ProcessModalDialog (Frame frame, int WindowNo, ProcessInfo pi) {
 		this(Env.getCtx(), frame, pi.getTitle(), 
 				null, WindowNo, pi.getAD_Process_ID(), 
-				pi.getTable_ID(), pi.getRecord_ID(), false);
+				pi.getTable_ID(), pi.getRecord_ID(), false, pi);
 		//	Set Process instance and flag
 		m_pi = pi;
 		m_OnlyPanel = true;

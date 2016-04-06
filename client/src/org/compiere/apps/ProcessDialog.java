@@ -124,6 +124,8 @@ public class ProcessDialog extends CFrame
 	private boolean	        m_isLocked = false;
 	private StringBuffer	m_messageText = new StringBuffer();
 	private String          m_ShowHelp = null; // Determine if a Help Process Window is shown
+	//	BR [ 300 ]
+	private boolean 		m_IsProcessed = false;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessDialog.class);
 	//
@@ -314,8 +316,6 @@ public class ProcessDialog extends CFrame
 		//
 		this.setTitle(m_Name);
 		message.setText(m_messageText.toString());
-		bOK.setText(Msg.getMsg(Env.getCtx(), "Start"));
-
 		//	Similar to APanel.actionButton
 		m_pi = new ProcessInfo(m_Name, m_AD_Process_ID);
 		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
@@ -356,12 +356,12 @@ public class ProcessDialog extends CFrame
 	{
 		if (e.getSource() == bOK)
 		{
-			if (bOK.getText().length() == 0)
+			if (m_IsProcessed) {
 				dispose();
-			else
-			{
+			} else {
 			//	Trx trx = Trx.get(Trx.createTrxName("ProcessDialog"), true);
 				//	BR [ 265 ]
+				m_IsProcessed = true;
 				ProcessCtl.process(this, m_WindowNo, parameterPanel, m_pi, null);
 			}
 		}

@@ -22,10 +22,11 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.VerticalBox;
+import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.Window;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.ProcessDialog;
@@ -67,6 +68,8 @@ public class ProcessModalDialog extends Window implements EventListener
 	private static final long serialVersionUID = -7109707014309321369L;
 	private boolean m_autoStart;
 	private VerticalBox dialogBody;
+	private Button bOK = null;
+	private Button bCancel = null;
 
 	/**
 	 * @param aProcess
@@ -154,18 +157,24 @@ public class ProcessModalDialog extends Window implements EventListener
 		div = new Div();
 		div.setAlign("right");
 		Hbox hbox = new Hbox();
-		Button btn = new Button("Ok");
-		LayoutUtils.addSclass("action-text-button", btn);
-		btn.setId("Ok");
-		btn.addEventListener(Events.ON_CLICK, this);
-		hbox.appendChild(btn);
-		
-		btn = new Button("Cancel");
-		btn.setId("Cancel");
-		LayoutUtils.addSclass("action-text-button", btn);
-		btn.addEventListener(Events.ON_CLICK, this);
-		
-		hbox.appendChild(btn);
+		//	BR [ 300 ]
+		try{
+			//	Set Ok
+			WAppsAction action = new WAppsAction(ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
+			bOK = action.getButton();
+			//	Set to Cancel
+			action = new WAppsAction(ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+			bCancel = action.getButton();
+			//	Add Listener
+			bOK.addEventListener(Events.ON_CLICK, this);
+			bCancel.addEventListener(Events.ON_CLICK, this);
+			//	Add to Panel
+			hbox.appendChild(bCancel);
+			hbox.appendChild(bOK);
+		} catch(Exception e) {
+			log.severe("Error loading Buttons " + e.getLocalizedMessage());
+		}
+		//	
 		div.appendChild(hbox);
 		dialogBody.appendChild(div);
 		this.appendChild(dialogBody);
@@ -368,8 +377,7 @@ public class ProcessModalDialog extends Window implements EventListener
 		m_isOK = false;
 		Component component = event.getTarget(); 
 		if (component instanceof Button) {
-			Button element = (Button)component;
-			if ("Ok".equalsIgnoreCase(element.getId())) {
+			if (event.getTarget().equals(bOK)) {
 				if(!m_OnlyPanel) {
 					this.startProcess();
 				} else {
@@ -381,7 +389,7 @@ public class ProcessModalDialog extends Window implements EventListener
 						dispose();
 					}
 				}
-			} else if ("Cancel".equalsIgnoreCase(element.getId())) {
+			} else if (event.getTarget().equals(bCancel)) {
 				this.dispose();
 			}
 		}		
