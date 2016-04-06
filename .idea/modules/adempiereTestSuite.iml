@@ -54,6 +54,7 @@
           <root url="jar://$MODULE_DIR$/../../zkwebui/WEB-INF/lib/zkmax.jar!/" />
           <root url="jar://$MODULE_DIR$/../../zkwebui/WEB-INF/lib/zweb-sources.jar!/" />
           <root url="jar://$MODULE_DIR$/../../lib/oracle.jar!/" />
+          <root url="file://$MODULE_DIR$/../../target/scala-2.11/classes" />
           <root url="jar://$MODULE_DIR$/../../tools/lib/jfreechart-1.0.15.jar!/" />
           <root url="jar://$MODULE_DIR$/../../tools/lib/activemq-core-5.7.0.jar!/" />
           <root url="jar://$MODULE_DIR$/../../lib/adempiereApps.jar!/" />
@@ -69,6 +70,7 @@
           <root url="jar://$MODULE_DIR$/../../tools/lib/c3p0-0.9.1.2.jar!/" />
           <root url="jar://$MODULE_DIR$/../../zkwebui/WEB-INF/lib/asm.jar!/" />
           <root url="jar://$MODULE_DIR$/../../zkwebui/WEB-INF/lib/keylistener.jar!/" />
+          <root url="file://$MODULE_DIR$/../../zkwebui/WEB-INF/classes" />
           <root url="jar://$MODULE_DIR$/../../tools/lib/groovy-all-2.0.1.jar!/" />
           <root url="jar://$MODULE_DIR$/../../tools/lib/xml-apis.jar!/" />
           <root url="jar://$MODULE_DIR$/../../tools/lib/bsh-2.0b5.jar!/" />
@@ -82,6 +84,7 @@
           <root url="jar://$MODULE_DIR$/../../tools/lib/ant.jar!/" />
           <root url="jar://$MODULE_DIR$/../../zkwebui/WEB-INF/lib/zkex.jar!/" />
           <root url="jar://$MODULE_DIR$/../../lib/LMXzk.jar!/" />
+          <root url="file://$MODULE_DIR$/../../bin" />
           <root url="jar://$MODULE_DIR$/../../tools/lib/ojdbc6.jar!/" />
           <root url="jar://$MODULE_DIR$/../../zkwebui/WEB-INF/lib/commons-io.jar!/" />
           <root url="jar://$MODULE_DIR$/../../tools/lib/standard.jar!/" />
@@ -132,6 +135,7 @@
           <root url="jar://$MODULE_DIR$/../../lib/Adempiere.jar!/" />
           <root url="jar://$MODULE_DIR$/../../zkwebui/WEB-INF/lib/commons-fileupload.jar!/" />
           <root url="jar://$MODULE_DIR$/../../packages/FixedAsset.jar!/" />
+          <root url="file://$MODULE_DIR$/../../target/scala-2.11/test-classes" />
           <root url="jar://$MODULE_DIR$/../../tools/lib/groovy-engine.jar!/" />
           <root url="jar://$MODULE_DIR$/../../zkwebui/WEB-INF/lib/bsh.jar!/" />
           <root url="jar://$MODULE_DIR$/../../tools/lib/jstl.jar!/" />
