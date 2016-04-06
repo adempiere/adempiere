@@ -230,8 +230,19 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 						}
 						boolean rw = field.isEditablePara(true); // r/w - check if field is Editable
 						m_vEditors.get(index).setReadWrite(rw);
-						if (field.isRange())
+						Object value = field.getValue();
+						Object defaultValue = field.getDefault();
+						if (value == null && defaultValue != null)
+							field.setValue(defaultValue, true);
+
+						if (field.isRange()) {
 							m_vEditors_To.get(index).setReadWrite(rw);
+							GridField gridFieldTo = m_vEditors_To.get(index).getField();
+							Object valueTo = gridFieldTo.getValue();
+							Object defaultValueTo = gridFieldTo.getDefault();
+							if (valueTo == null && defaultValueTo != null)
+								gridFieldTo.setValue(defaultValueTo, true);
+						}
 					} else {
 						if (comp.isVisible()) {
 							comp.setVisible(false);

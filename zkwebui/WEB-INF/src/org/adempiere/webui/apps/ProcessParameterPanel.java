@@ -306,9 +306,20 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
 					}
 				}
 				boolean rw = mField.isEditablePara(true); // r/w - check if field is Editable
+				Object value = mField.getValue();
+				Object defaultValue = mField.getDefault();
+				if (value == null && defaultValue != null)
+					mField.setValue(defaultValue, true);
+
 				editor.setReadWrite(rw);
 				editor.dynamicDisplay();
 				if (mField.getVO().isRange) {
+					GridField gridFieldTo = m_wEditors_To.get(i).getGridField();
+					Object valueTo = gridFieldTo.getValue();
+					Object defaultValueTo = gridFieldTo.getDefault();
+					if (valueTo == null && defaultValueTo != null)
+						gridFieldTo.setValue(defaultValueTo, true);
+
 					m_wEditors_To.get(i).setReadWrite(rw);
 					m_wEditors_To.get(i).dynamicDisplay();
 				}
