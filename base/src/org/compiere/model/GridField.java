@@ -70,6 +70,9 @@ import org.compiere.util.Evaluator;
  *  			https://sourceforge.net/tracker/?func=detail&aid=2910368&group_id=176962&atid=879332
  *  		<li>BF [ 3007342 ] Included tab context conflict issue
  *  			https://sourceforge.net/tracker/?func=detail&aid=3007342&group_id=176962&atid=879332
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 305 ] Allows evaluate of default value based on the other parameter context
+ *  	@see https://github.com/adempiere/adempiere/issues/305
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -272,6 +275,9 @@ public class GridField
 		Evaluator.parseDepends(list, m_vo.DisplayLogic);
 		Evaluator.parseDepends(list, m_vo.ReadOnlyLogic);
 		Evaluator.parseDepends(list, m_vo.MandatoryLogic);
+		//	FR [ 305 ]
+		Evaluator.parseDepends(list, m_vo.DefaultValue);
+		Evaluator.parseDepends(list, m_vo.DefaultValue2);
 		//  Lookup
 		if (m_lookup != null)
 			Evaluator.parseDepends(list, m_lookup.getValidation());
