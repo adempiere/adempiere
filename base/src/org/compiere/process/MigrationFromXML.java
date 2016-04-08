@@ -27,6 +27,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.eevolution.service.dsl.ProcessBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -195,24 +196,17 @@ public class MigrationFromXML extends SvrProcess {
 		}
 	}
 
-	private void applyMigration(Properties ctx  , int migrationId, String trx) throws AdempiereException {
-		Trx.run(trx, trxName -> {
-			int processId = 53173; // Apply migration
-			MPInstance instance = new MPInstance(ctx, processId, migrationId);
-			instance.saveEx();
-			MPInstancePara parameter = new MPInstancePara(instance,10);
-			parameter.setParameter("FailOnError",true);
-			parameter.saveEx();
+	private void applyMigration(Properties ctx  , int migrationId, String trxName) throws AdempiereException {
+		ProcessInfo processInfo = ProcessBuilder.create(ctx)
+				.process(53173)
+				.withTitle("Apply migration")
+				.withRecordId(MMigration.Table_ID , migrationId)
+				.withParameter("FailOnError",true)
+				.execute(trxName);
 
-			ProcessInfo pi = new ProcessInfo("Apply migration", processId);
-			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-			pi.setRecord_ID(migrationId);
-			ServerProcessCtl migrationProcess = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
-			migrationProcess.run();
-			log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-			if (pi.isError()) 
-				throw new AdempiereException(pi.getSummary());
-		});
+		log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
+		if (processInfo.isError())
+			throw new AdempiereException(processInfo.getSummary());
 	}
 
 	private void clean() {

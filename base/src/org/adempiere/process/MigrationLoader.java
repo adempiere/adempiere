@@ -6,16 +6,13 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
-import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.ServerProcessCtl;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
-import org.compiere.util.Trx;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 public class MigrationLoader {
 	
@@ -51,91 +48,45 @@ public class MigrationLoader {
 		boolean failOnError = true;
 		boolean clean = clean_arg;
 
-		Properties ctx = Env.getCtx();
+		Properties context = Env.getCtx();
 
 		try {
-			Trx.run(trxName -> {
-				int processId = 53175; // Import Migration from XML
-				MPInstance instance = new MPInstance(ctx, processId, 0);
-				instance.saveEx();
-				// FailOnError
-				MPInstancePara parameter = new MPInstancePara(instance,10);
-				parameter.setParameter("FailOnError",failOnError);
-				parameter.saveEx();
-				// FileName
-				parameter = new MPInstancePara(instance,20);
-				parameter.setParameter("FileName", fileName);
-				parameter.saveEx();
-				// Apply
-				parameter = new MPInstancePara(instance,30);
-				parameter.setParameter("Apply", apply);
-				parameter.saveEx();
-				// Clean
-				parameter = new MPInstancePara(instance,40);
-				parameter.setParameter("Clean", clean);
-				parameter.saveEx();
-	
-				ProcessInfo pi = new ProcessInfo("Import Migration from XML", processId);
-				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-				pi.setRecord_ID(0);
-				ServerProcessCtl migrationProcess = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
-				migrationProcess.run();
-				log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-				//if (failOnError && pi.isError())
-				//	throw new AdempiereException(pi.getSummary());
-			});
-			
-			// Run the post processes.
-			Trx.run(trxName -> {
-				// Run the post processes
-				int processId = 258; // Sequence Check"
-				MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
-				instance.saveEx();
-				ProcessInfo pi = new ProcessInfo("Sequence Check", processId);
-				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+			//Import Migration from XML
+			ProcessInfo processInfo = ProcessBuilder.create(context).process(53175)
+			.withTitle("Import Migration from XML")
+			.withParameter("FailOnError",failOnError)
+			.withParameter("FileName", fileName)
+			.withParameter("Apply", apply)
+			.withParameter("Clean", clean)
+			.execute();
 
-				ServerProcessCtl sequenceCheck = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
-                sequenceCheck.run();
-				log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-            });
+			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
+			if (failOnError && processInfo.isError())
+				throw new AdempiereException(processInfo.getSummary());
 
-			Trx.run(trxName -> {
-				int processId = 172; // Synchronize Terminology
-				MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
-				instance.saveEx();
-				ProcessInfo pi = new ProcessInfo("Synchronize Terminology", processId);
-				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-				ServerProcessCtl synchronizeTerminology = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
-				synchronizeTerminology.run();
-				log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-			});
+			processInfo = ProcessBuilder.create(context)
+					.process(258)
+					.withTitle("Sequence Check")
+					.execute();
+			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 
-			Trx.run(trxName -> {
-				int processId = 295; // Role Access Update
-				MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
-				ProcessInfo pi = new ProcessInfo("Role Access Update", processId);
-				instance.saveEx();
-				pi.setAD_Client_ID(0);
-				pi.setAD_User_ID(100);
-				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-				ServerProcessCtl roleAccessUpdate = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
-				roleAccessUpdate.run();
-				log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-			});
+			processInfo = ProcessBuilder.create(context)
+					.process(172)
+					.withTitle("Synchronize Terminology")
+					.execute();
+			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 
-			Trx.run(trxName -> {
-				int processId = 53733; // UpdateGW
-				MPInstance instance = new MPInstance(Env.getCtx(), processId, 0);
-				instance.saveEx();
-				ProcessInfo pi = new ProcessInfo("Updating Garden World", processId);
-				pi.setAD_Client_ID(0);
-				pi.setAD_User_ID(100);
-				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+			processInfo = ProcessBuilder.create(context)
+					.process(295)
+					.withTitle("Role Access Update")
+					.executeUsingSystemRole();
+			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 
-				ServerProcessCtl updateGW = new ServerProcessCtl(null, pi, Trx.get(trxName, false));
-				updateGW.start();
-				log.log(Level.CONFIG, "Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
-			});
+			processInfo = ProcessBuilder.create(context)
+					.process(53733)
+					.withTitle("Updating Garden World")
+					.executeUsingSystemRole();
+			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 		} catch (AdempiereException e) {
 			e.printStackTrace();
 		}
