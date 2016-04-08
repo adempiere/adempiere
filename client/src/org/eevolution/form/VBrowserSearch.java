@@ -222,7 +222,7 @@ public class VBrowserSearch extends CPanel implements
 		if (gField != null)
 			processNewValue(defaultObject, gField.getVO().Help);
 		if (gField2 != null)
-			processNewValue(defaultObject2, gField2.getVO().Help);
+			processNewValue(defaultObject2, gField2.getVO().Help + "_To");
 	}
 
 
@@ -361,8 +361,26 @@ public class VBrowserSearch extends CPanel implements
 						}
 						boolean rw = m_mFields.get(index).isEditablePara(true); // r/w - check if field is Editable
 						m_vEditors.get(index).setReadWrite(rw);
-						if (m_mFields.get(index).getVO().isRange)
+						GridField field = m_vEditors.get(index).getField();
+						Object value = field.getValue();
+						Object defaultValue = field.getDefault();
+						if ((value == null || value.toString().length() == 0)
+								&& defaultValue != null)
+							field.setValue(defaultValue, true);
+
+
+
+							m_vEditors.get(index).setReadWrite(rw);
+						if (m_mFields.get(index).getVO().isRange) {
 							m_vEditors2.get(index).setReadWrite(rw);
+							GridField gridFieldTo = m_vEditors2.get(index).getField();
+							Object valueTo = gridFieldTo.getValue();
+							Object defaultValueTo = gridFieldTo.getDefault();
+							if ((valueTo == null || valueTo.toString().length() == 0)
+									&& defaultValueTo != null)
+								gridFieldTo.setValue(defaultValueTo, true);
+						}
+
 					} else {
 						if (comp.isVisible()) {
 							comp.setVisible(false);
