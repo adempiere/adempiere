@@ -108,20 +108,21 @@ public class VBrowser extends Browser implements ActionListener,
 		TableModelListener, ASyncProcess {
 	/**
 	 * get Browse
-	 * @param browse_ID
+	 * @param windowNo
+	 * @param browserId
+	 * @param whereClause
 	 */
-	public static CFrame openBrowse(int browse_ID) {
-		MBrowse browse = new MBrowse(Env.getCtx(), browse_ID , null);
-		boolean modal = true;
-		int WindowNo = 0;
+	public static CFrame openBrowse(int windowNo , int browserId, String whereClause) {
+		MBrowse browse = new MBrowse(Env.getCtx(), browserId , null);
+		boolean modal = false;
+		if (windowNo > 0 )
+			modal = true;
 		String value = "";
 		String keyColumn = "";
 		boolean multiSelection = true;
-		String whereClause = null;
-		FormFrame ff = new FormFrame(WindowNo);
-		return new VBrowser(ff, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause)
+		FormFrame ff = new FormFrame(windowNo);
+		return new VBrowser(ff, modal , windowNo, value, browse, keyColumn,multiSelection, whereClause)
 		.getFrame();
-		
 	}
 
 	/**
@@ -700,8 +701,6 @@ public class VBrowser extends Browser implements ActionListener,
 			//no = detail.getRowCount();
 			log.fine("#" + no + " - " + (System.currentTimeMillis() - start)
 					+ "ms");
-			if (detail.isShowTotals())
-				detail.addTotals();
 			detail.autoSize();
 			//
 			m_frame.setCursor(Cursor.getDefaultCursor());

@@ -131,15 +131,15 @@ public class WBrowser extends Browser implements IFormController,
 	private BusyDialog m_waiting;
 //	private VerticalBox dialogBody;
 
-	public static CustomForm openBrowse(int AD_Browse_ID) {
-		MBrowse browse = new MBrowse(Env.getCtx(), AD_Browse_ID , null);
-		boolean modal = true;
-		int WindowNo = 0;
+	public static CustomForm openBrowse(int windowNo , int browserId , String whereClause) {
+		MBrowse browse = new MBrowse(Env.getCtx(), browserId , null);
+		boolean modal = false;
+		if (windowNo > 0)
+			modal = true;
 		String value = "";
 		String keyColumn = "";
 		boolean multiSelection = true;
-		String whereClause = "";
-		return new WBrowser(modal, WindowNo, value, browse, keyColumn, multiSelection, whereClause).getForm();
+		return new WBrowser(modal, windowNo, value, browse, keyColumn, multiSelection, whereClause).getForm();
 	}
 	
 	public WBrowser(boolean modal, int WindowNo, String value, MBrowse browse,
