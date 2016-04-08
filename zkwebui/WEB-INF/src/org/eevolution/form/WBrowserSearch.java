@@ -198,7 +198,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		if (gField != null)
 			processNewValue(defaultObject, gField.getVO().Help);
 		if (gField2 != null)
-			processNewValue(defaultObject2, gField2.getVO().Help);
+			processNewValue(defaultObject2, gField2.getVO().Help + "_To");
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 	/**
 	 * get Parameter Value
 	 * 
-	 * @param id
+	 * @param key
 	 * @return Object Value
 	 */
 	public Object getParamenterValue(Object key) {
@@ -321,11 +321,24 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 				}
 				boolean rw = mField.isEditablePara(true); // r/w - check if
 															// field is Editable
+				Object value = mField.getValue();
+				Object defaultValue = mField.getDefault();
+				if ((value == null || value.toString().length() == 0)
+						&& defaultValue != null)
+					mField.setValue(defaultValue, true);
+
+
 				editor.setReadWrite(rw);
 				editor.dynamicDisplay();
 				if (mField.getVO().isRange) {
 					WEditor editorRange = m_wEditors2.get(i);
 					if (editorRange != null) {
+						GridField gridFieldTo = m_wEditors2.get(i).getGridField();
+						Object valueTo = gridFieldTo.getValue();
+						Object defaultValueTo = gridFieldTo.getDefault();
+						if ((valueTo == null || valueTo.toString().length() == 0)
+								&& defaultValueTo != null)
+							gridFieldTo.setValue(defaultValueTo, true);
 						editorRange.setReadWrite(rw);
 						editorRange.dynamicDisplay();
 					}
