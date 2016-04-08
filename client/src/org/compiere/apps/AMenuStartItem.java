@@ -383,7 +383,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 		}
 		//ff = new FormFrame();
 		SwingUtilities.invokeLater(m_updatePB);			//	1
-		ff 	= VBrowser.openBrowse(AD_Browse_ID);
+		ff 	= VBrowser.openBrowse(0 , AD_Browse_ID , "");
 		ff.setVisible(true);
 		ff.pack();
 		m_menu.getWindowManager().add(ff);
