@@ -697,7 +697,7 @@ public class WFActivity extends CPanel
 		}
 		else if (MWFNode.ACTION_SmartBrowse.equals(node.getAction()))
 		{
-			CFrame ff =  VBrowser.openBrowse(node.getAD_Browse_ID());
+			CFrame ff =  VBrowser.openBrowse(0 , node.getAD_Browse_ID() , "");
 			ff.pack();
 			AEnv.addToWindowManager(ff);
 			AEnv.showCenterScreen(ff);
