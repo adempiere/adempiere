@@ -232,7 +232,8 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 						m_vEditors.get(index).setReadWrite(rw);
 						Object value = field.getValue();
 						Object defaultValue = field.getDefault();
-						if (value == null && defaultValue != null)
+						if ((value == null || value.toString().length() == 0)
+								&& defaultValue != null)
 							field.setValue(defaultValue, true);
 
 						if (field.isRange()) {
@@ -240,7 +241,8 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 							GridField gridFieldTo = m_vEditors_To.get(index).getField();
 							Object valueTo = gridFieldTo.getValue();
 							Object defaultValueTo = gridFieldTo.getDefault();
-							if (valueTo == null && defaultValueTo != null)
+							if ((valueTo == null || valueTo.toString().length() == 0)
+									&& defaultValueTo != null)
 								gridFieldTo.setValue(defaultValueTo, true);
 						}
 					} else {
