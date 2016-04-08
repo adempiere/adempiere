@@ -28,7 +28,9 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
- 
+import org.compiere.util.TimeUtil;
+
+
 /**
 *	Bank Statement Model
 *
@@ -48,6 +50,37 @@ import org.compiere.util.Msg;
 */
 public class MBankStatement extends X_C_BankStatement implements DocAction
 {
+
+	/**
+	 * Add payment to bank statement
+	 * @param payment
+	 */
+	static public MBankStatementLine addPayment(MPayment payment)
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MBankStatement.COLUMNNAME_C_BankAccount_ID).append("=? AND ")
+				.append("TRUNC(").append(MBankStatement.COLUMNNAME_StatementDate).append(",'DD')=? AND ")
+				.append(MBankStatement.COLUMNNAME_Processed).append("=?");
+		MBankStatement bankStatement = new Query(payment.getCtx() , MBankStatement.Table_Name , whereClause.toString(), payment.get_TrxName())
+				.setClient_ID()
+				.setParameters(payment.getC_BankAccount_ID(), TimeUtil.getDay(payment.getDateTrx()) , false)
+				.first();
+		if (bankStatement == null || bankStatement.get_ID() <= 0)
+		{
+			bankStatement =  new MBankStatement(payment.getCtx() , 0 , payment.get_TrxName());
+			bankStatement.setC_BankAccount_ID(payment.getC_BankAccount_ID());
+			bankStatement.setStatementDate(payment.getDateAcct());
+			bankStatement.setName(payment.getDescription());
+			bankStatement.saveEx();
+		}
+
+		MBankStatementLine bankStatementLine = new MBankStatementLine(bankStatement);
+		bankStatementLine.setPayment(payment);
+		bankStatementLine.setStatementLineDate(payment.getDateAcct());
+		bankStatementLine.setDateAcct(payment.getDateAcct());
+		bankStatementLine.saveEx();
+		return bankStatementLine;
+	}
 	/**
 	 * 
 	 */
