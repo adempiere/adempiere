@@ -874,10 +874,11 @@ public class GridField
 	{
 		if (m_vo.ColumnSQL != null && m_vo.ColumnSQL.length() > 0)
 		{
+			String retValue = Env.parseContext(Env.getCtx(), m_vo.WindowNo, m_vo.ColumnSQL, false);
 			if (withAS)
-				return m_vo.ColumnSQL + " AS " + m_vo.ColumnName;
+				return retValue + " AS " + m_vo.ColumnName;
 			else
-				return m_vo.ColumnSQL;
+				return retValue;
 		}
 		return m_vo.ColumnName;
 	}	//	getColumnSQL
