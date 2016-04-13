@@ -44,7 +44,6 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.model.X_I_Movement;
-import scala.collection.mutable.StringBuilder;
 
 
 /**
