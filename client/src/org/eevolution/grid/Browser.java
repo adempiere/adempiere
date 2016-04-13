@@ -143,9 +143,13 @@ public abstract class Browser {
 	public ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
 	
 	/** Parameters */
-	protected ArrayList<Object> m_parameters;
+	protected ArrayList<Object> parameters;
 	/** Parameters */
-	protected ArrayList<Object> m_parameters_values;
+	protected ArrayList<Object> parametersValues;
+	/** Parameters */
+	protected ArrayList<Object> axisParameters;
+	/** Parameters */
+	protected ArrayList<Object> axisParametersValues;
 	/** Parameters */
 	protected ArrayList<GridFieldVO> m_parameters_field;
 	/** Cache m_whereClause **/
@@ -333,12 +337,21 @@ public abstract class Browser {
 		}
 	}
 
+	public ArrayList<Object> getAxisParameters() {
+
+		return axisParameters;
+	}
+
+	public ArrayList<Object> getAxisParametersValues() {
+		return axisParametersValues;
+	}
+
 	public ArrayList<Object> getParameters() {
-		return m_parameters;
+		return parameters;
 	}
 	
 	public ArrayList<Object> getParametersValues() {
-		return m_parameters_values;
+		return parametersValues;
 	}
 	
 	public void addSQLWhere(StringBuffer sql, int index, String value) {
@@ -465,8 +478,8 @@ public abstract class Browser {
 			return m_whereClause;
 		}
 		//
-		m_parameters_values = new ArrayList<Object>();
-		m_parameters = new ArrayList<Object>();
+		parametersValues = new ArrayList<Object>();
+		parameters = new ArrayList<Object>();
 
 		boolean onRange = false;
 
@@ -499,22 +512,22 @@ public abstract class Browser {
 
 								}
 								outStr.append("'" + inStr + "')");
-								sql.append(field.Help).append(" IN ")
+								sql.append(field.ColumnNameAlias).append(" IN ")
 								.append(outStr);
 							}						
 						}
 						else
 						{
-							sql.append(field.Help).append(" LIKE ? ");
-							m_parameters.add(field.Help);
-							m_parameters_values.add("%" + editor.getValue() + "%");								
+							sql.append(field.ColumnNameAlias).append(" LIKE ? ");
+							parameters.add(field.ColumnNameAlias);
+							parametersValues.add("%" + editor.getValue() + "%");
 						}		
 					}
 					else
 					{
-						sql.append(field.Help).append("=? ");
-						m_parameters.add(field.Help);
-						m_parameters_values.add(editor.getValue());
+						sql.append(field.ColumnNameAlias).append("=? ");
+						parameters.add(field.ColumnNameAlias);
+						parametersValues.add(editor.getValue());
 					}
 				} 
 				else if (editor.getValue() != null
@@ -522,9 +535,9 @@ public abstract class Browser {
 						&& field.isRange) {
 					sql.append(" AND ");
 					//sql.append(field.Help).append(" BETWEEN ?");
-					sql.append(field.Help).append(" >= ? ");
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
+					sql.append(field.ColumnNameAlias).append(" >= ? ");
+					parameters.add(field.ColumnNameAlias);
+					parametersValues.add(editor.getValue());
 					onRange = true;
 				}
 				else if (editor.getValue() == null
@@ -535,9 +548,9 @@ public abstract class Browser {
 			} else if (editor.getValue() != null
 					&& !editor.getValue().toString().isEmpty()) {
 				//sql.append(" AND ? ");
-				sql.append(" AND ").append(field.Help).append(" <= ? ");
-				m_parameters.add(field.Help);
-				m_parameters_values.add(editor.getValue());
+				sql.append(" AND ").append(field.ColumnNameAlias).append(" <= ? ");
+				parameters.add(field.ColumnNameAlias);
+				parametersValues.add(editor.getValue());
 				onRange = false;
 			}
 			else
@@ -552,8 +565,8 @@ public abstract class Browser {
 	 * Set Parameters
 	 */
 	public void setParameters() {
-		m_parameters_values = new ArrayList<Object>();
-		m_parameters = new ArrayList<Object>();
+		parametersValues = new ArrayList<Object>();
+		parameters = new ArrayList<Object>();
 		m_parameters_field = new ArrayList<GridFieldVO>();
 		boolean onRange = false;
 		
@@ -565,22 +578,22 @@ public abstract class Browser {
 				if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
+					parameters.add(field.ColumnNameAlias);
+					parametersValues.add(editor.getValue());
 					m_parameters_field.add(field);
 				} else if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
 						&& field.isRange) {
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
+					parameters.add(field.ColumnNameAlias);
+					parametersValues.add(editor.getValue());
 					m_parameters_field.add(field);
 					onRange = true;
 				} else
 					continue;
 			} else if (editor.getValue() != null
 					&& !editor.getValue().toString().isEmpty()) {
-				m_parameters.add(field.Help);
-				m_parameters_values.add(editor.getValue());
+				parameters.add(field.ColumnNameAlias);
+				parametersValues.add(editor.getValue());
 				m_parameters_field.add(field);
 				onRange = false;
 			}
@@ -867,10 +880,6 @@ public abstract class Browser {
 	/**************************************************************************
 	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
 	 * @param table table to prepare
-	 * @param fields list
-	 * @param from from clause
-	 * @param staticWhere where clause
-	 * @param orderBy order by clause
 	 */
 	private void prepareTable(IBrowserTable table) {
 		//	Get values
@@ -1011,6 +1020,8 @@ public abstract class Browser {
 	public List<MBrowseField> getInfoColumnForAxisField(MBrowseField field)
 	{
 		List<MBrowseField> list = new ArrayList<MBrowseField>();
+		axisParameters = new ArrayList<>();
+		axisParametersValues = new ArrayList<>();
 
 		try {
 			I_AD_View_Column xcol, pcol, ycol;
@@ -1062,11 +1073,7 @@ public abstract class Browser {
 					.append(".")
 					.append(fieldKey.getAD_View_Column().getAD_Column()
 							.getColumnName()).append("=")
-					.append(fieldKey.getAD_View_Column().getColumnSQL())
-					.append(getAxisSQLWhere(ycol))
-					.append(" AND ")
-					.append(xTableName).append(".")
-					.append(xcol.getAD_Column().getColumnName());
+					.append(fieldKey.getAD_View_Column().getColumnSQL());
 
 			for (int id :  getAxisRecordIds(tableName, whereClause)) {
 				cols ++;
@@ -1079,7 +1086,14 @@ public abstract class Browser {
 				String colName = lookup.getDisplay(id).trim() + "/" + Msg.translate(m_language, ycol.getAD_Column()
 						.getColumnName());
 
-				StringBuffer select = new StringBuffer(axisSql);
+				StringBuilder axisWhere = new StringBuilder(" ");
+						axisWhere.append(getAxisSQLWhere(ycol))
+						.append(" AND ")
+						.append(xcol.getAD_View_Definition().getTableAlias()).append(".")
+						.append(xcol.getAD_Column().getColumnName());
+
+				StringBuffer select = new StringBuffer();
+				select.append(axisSql).append(axisWhere);
 				select.append("=").append(id).append(")");
 
 				MViewColumn viewColumn = new MViewColumn(field.getCtx() , 0 , field.get_TrxName());
@@ -1196,19 +1210,6 @@ public abstract class Browser {
 		query.addRestriction(keyColumn, MQuery.EQUAL, record_ID);
 		return query;
 	}
-	
-	
-	/**
-	 * get Parameter Value
-	 * @param key
-	 * @return Object Value
-	 */
-//	 public abstract Object getParameterValue(Object key);
-	 
-	 //	FR [ 245 ]
-//	 public abstract void setParameters();
-	 
-//	 abstract public String  getSQLWhere(boolean refresh);
 	 
 	/**
 	 * Get parameter
@@ -1239,22 +1240,28 @@ public abstract class Browser {
 
 				if (!onRange) {
 
-					if (m_parameters_values.get(i) != null
-							&& !m_parameters_values.get(i).toString().isEmpty()
+					if (parametersValues.get(i) != null
+							&& !parametersValues.get(i).toString().isEmpty()
 							&& !m_parameters_field.get(i).isRange) {
 						whereAxis.append(" AND ");
-						whereAxis.append(fieldName).append("=").append(m_parameters_values.get(i).toString());
-					} else if (m_parameters_values.get(i) != null
-							&& !m_parameters_values.get(i).toString().isEmpty()
+						whereAxis.append(fieldName).append("=").append(parametersValues.get(i).toString());
+					}
+					else if (parametersValues.get(i) != null
+							&& !parametersValues.get(i).toString().isEmpty()
 							&& m_parameters_field.get(i).isRange) {
 						whereAxis.append(" AND ");
-						whereAxis.append(fieldName).append(" BETWEEN ").append(m_parameters_values.get(i).toString());
+						whereAxis.append(fieldName).append(" >= ? ");
+						axisParameters.add(m_parameters_field.get(i));
+						axisParametersValues.add(parametersValues.get(i));
 						onRange = true;
 					} else
 						continue;
-				} else if (m_parameters_values.get(i) != null
-						&& !m_parameters_values.get(i).toString().isEmpty()) {
-					whereAxis.append(" AND ").append(m_parameters_values.get(i).toString());
+				} else if (parametersValues.get(i) != null
+						&& !parametersValues.get(i).toString().isEmpty()) {
+					whereAxis.append(" AND ");
+					whereAxis.append(fieldName).append(" <= ? ");
+					axisParameters.add(m_parameters_field.get(i));
+					axisParametersValues.add(parametersValues.get(i));
 					onRange = false;
 				}
 			}
@@ -1352,10 +1359,16 @@ public abstract class Browser {
 	
 	protected PreparedStatement getStatement(String sql) {
 		PreparedStatement stmt = null;
+		ArrayList<Object> parametersValue = new ArrayList<Object>();
+		if (getAxisParametersValues() != null && getAxisParametersValues().size() > 0)
+			parametersValue.addAll(getAxisParametersValues());
+		if (getParametersValues() != null && getParametersValues().size() > 0)
+			parametersValue.addAll(getParametersValues());
+
 		try {
 			stmt = DB.prepareStatement(sql, null);
-			if (getParametersValues() != null && getParametersValues().size() > 0)
-				DB.setParameters(stmt, getParametersValues());
+			if (parametersValue != null && parametersValue.size() > 0)
+				DB.setParameters(stmt, parametersValue);
 			return stmt;
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql, e);
