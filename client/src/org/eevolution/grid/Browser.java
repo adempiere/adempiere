@@ -399,7 +399,10 @@ public abstract class Browser {
 		StringBuffer sql = new StringBuffer(m_sqlCount);
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere); // includes first AND
-		String countSql = Msg.parseTranslation(Env.getCtx(), sql.toString()); // Variables
+
+		//	BR [ 318 ]
+		String countSql = Env.parseContext(Env.getCtx(), getWindowNo(), sql.toString(), true, true); // Variables
+		//	
 		countSql = MRole.getDefault().addAccessSQL(countSql,
 				m_View.getParentEntityAliasName(), MRole.SQL_FULLYQUALIFIED,
 				MRole.SQL_RO);
@@ -1375,7 +1378,7 @@ public abstract class Browser {
 
 		try {
 			stmt = DB.prepareStatement(sql, null);
-			if (parametersValue != null && parametersValue.size() > 0)
+			if (parametersValue.size() > 0)
 				DB.setParameters(stmt, parametersValue);
 			return stmt;
 		} catch (SQLException e) {
