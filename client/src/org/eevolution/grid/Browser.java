@@ -73,8 +73,10 @@ import org.compiere.util.Msg;
  * 		@see https://github.com/adempiere/adempiere/issues/246
  * 		<li>BR [ 253 ] Selection fields is not saved in T_Selection_Browse
  * 		@see https://github.com/adempiere/adempiere/issues/253
- * 		<li> BR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
+ * 		<li>BR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
  * 		@see https://github.com/adempiere/adempiere/issues/257
+ * 		<li>BR [ 318 ] Problem with context parameters filter in smart browser #318
+ * 		@see https://github.com/adempiere/adempiere/issues/318
  * 
  */
 public abstract class Browser {
@@ -1269,13 +1271,19 @@ public abstract class Browser {
 			return whereAxis.toString();
 	 }
 	
+	/**
+	 * get main SQL
+	 * @return SQL parsed
+	 */
 	protected String getSQL() {
 		String dynWhere = getSQLWhere(false);
 		StringBuilder sql = new StringBuilder(m_sqlMain);
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere); // includes first AND
 
-		String dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString()); // Variables
+		//	BR [ 318 ]
+		String dataSql = Env.parseContext(Env.getCtx(), getWindowNo(), sql.toString(), true, true); // Variables
+		//	
 		dataSql = MRole.getDefault().addAccessSQL(dataSql,
 				m_View.getParentEntityAliasName(), MRole.SQL_FULLYQUALIFIED,
 				MRole.SQL_RO);
