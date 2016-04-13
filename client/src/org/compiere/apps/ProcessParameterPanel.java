@@ -228,13 +228,15 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 							if (field.isRange())
 								m_separators.get(index).setText(" - ");
 						}
-						boolean rw = field.isEditablePara(true); // r/w - check if field is Editable
-						m_vEditors.get(index).setReadWrite(rw);
 						Object value = field.getValue();
 						Object defaultValue = field.getDefault();
 						if ((value == null || value.toString().length() == 0)
-								&& defaultValue != null)
+								&& defaultValue != null) {
 							field.setValue(defaultValue, true);
+							m_vEditors.get(index).setValue(defaultValue);
+						}
+						boolean rw = field.isEditablePara(true); // r/w - check if field is Editable
+						m_vEditors.get(index).setReadWrite(rw);
 
 						if (field.isRange()) {
 							m_vEditors_To.get(index).setReadWrite(rw);
@@ -242,8 +244,12 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 							Object valueTo = gridFieldTo.getValue();
 							Object defaultValueTo = gridFieldTo.getDefault();
 							if ((valueTo == null || valueTo.toString().length() == 0)
-									&& defaultValueTo != null)
+									&& defaultValueTo != null) {
 								gridFieldTo.setValue(defaultValueTo, true);
+								m_vEditors_To.get(index).setValue(defaultValue);
+							}
+							rw = gridFieldTo.isEditablePara(true);
+							m_vEditors_To.get(index).setReadWrite(rw);
 						}
 					} else {
 						if (comp.isVisible()) {
@@ -261,8 +267,16 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 	public void refreshContext() {
 		for(int i = 0; i < m_vEditors.size(); i++) {
 			VEditor editor = m_vEditors.get(i);
-			GridField mField = editor.getField();
-			editor.setValue(mField.getDefault());
+			GridField field = editor.getField();
+			Object value = field.getValue();
+			Object defaultValue = field.getDefault();
+			if ((value == null || value.toString().length() == 0)
+					&& defaultValue != null) {
+				m_vEditors.get(i).setValue(defaultValue);
+				field.setValue(defaultValue, true);
+			}
+			boolean rw = field.isEditablePara(true); // r/w - check if field is Editable
+			m_vEditors.get(i).setReadWrite(rw);
 		}
  	}
 	

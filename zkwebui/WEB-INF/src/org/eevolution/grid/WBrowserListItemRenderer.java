@@ -1113,7 +1113,7 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 		if(evt.getSource() instanceof WEditor)
 		{
 			WEditor wEditor = (WEditor)evt.getSource();
-			columnName = wEditor.getGridField().getVO().Help;
+			columnName = wEditor.getGridField().getVO().ColumnNameAlias;
 		}
 		//processNewValue(evt.getNewValue(), columnName);
 	} // valueChange

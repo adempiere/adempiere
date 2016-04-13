@@ -111,7 +111,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 
 		voBase.isRange = field.isRange();
 		voBase.Description = field.getDescription();
-		voBase.Help = uniqueName;
+		voBase.Help = field.getHelp();
 		voBase.Header = title;
 
 		GridField gField = new GridField(GridFieldVO.createParameter(voBase));
@@ -196,9 +196,9 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		}
 
 		if (gField != null)
-			processNewValue(defaultObject, gField.getVO().Help);
+			processNewValue(defaultObject, gField.getVO().ColumnNameAlias);
 		if (gField2 != null)
-			processNewValue(defaultObject2, gField2.getVO().Help + "_To");
+			processNewValue(defaultObject2, gField2.getVO().ColumnNameAlias + "_To");
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		if(evt.getSource() instanceof WEditor)
 		{
 			WEditor wEditor = (WEditor)evt.getSource();
-			columnName = wEditor.getGridField().getVO().Help;
+			columnName = wEditor.getGridField().getVO().ColumnNameAlias;
 		}
 		processNewValue(evt.getNewValue(), columnName);
 	} // valueChange
@@ -253,7 +253,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 	 */
 	private void processDependencies(GridField changedField) 
 	{
-		String columnName = changedField.getVO().Help;;
+		String columnName = changedField.getVO().ColumnNameAlias;;
 
 		for (GridField field : m_mFields) {
 			if (field == null || field == changedField)
@@ -375,14 +375,14 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 			if (f != null)
 			{	
 				f.restoreValue();
-				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().Help, "");
+				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().ColumnNameAlias, "");
 			}	
 		}
 		for (GridField f : m_mFields2) {
 			if (f != null)
 			{				
 				f.restoreValue();
-				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().Help, "");
+				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().ColumnNameAlias, "");
 			}	
 		}
 	}
