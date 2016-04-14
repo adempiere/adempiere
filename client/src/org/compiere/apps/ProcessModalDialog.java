@@ -59,6 +59,8 @@ import org.compiere.util.Msg;
  *		@see https://github.com/adempiere/adempiere/issues/265
  *		<li>BR [ 300 ] ZK Process action buttons don't have standard size and position
  *		@see https://github.com/adempiere/adempiere/issues/300
+ *		<li>BR[ 323 ] Process parameter panel is showed without parameter
+ *		@see https://github.com/adempiere/adempiere/issues/323
  */
 public class ProcessModalDialog extends CDialog
 	implements ActionListener
@@ -372,7 +374,8 @@ public class ProcessModalDialog extends CDialog
 		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
 		centerPanel.removeAll();
 		//	BR [ 265 ]
-		if (parameterPanel.init()) {
+		m_valid = parameterPanel.init();
+		if (m_valid) {
 			// hasfields
 			centerPanel.add(separator, BorderLayout.NORTH);
 			//	Add Scroll FR [ 265 ]
