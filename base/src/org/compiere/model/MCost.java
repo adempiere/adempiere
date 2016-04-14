@@ -109,12 +109,16 @@ public class MCost extends X_M_Cost
 			}
 			else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
 			{
+				if (AD_Org_ID <= 0)
+					throw new AdempiereException("@AD_Org_ID@ @NotFound@");
 				//Ignore  warehouse , asi
 				M_Warehouse_ID = 0;
 				M_AttributeSetInstance_ID = 0;
 			}
 			else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
 			{
+				if (M_Warehouse_ID <= 0)
+					throw new AdempiereException("@M_Warehouse_ID@ @NotFound@");
 				//Ignore organization asi
 				M_AttributeSetInstance_ID = 0;
 			}
@@ -180,7 +184,9 @@ public class MCost extends X_M_Cost
 				M_AttributeSetInstance_ID = 0;
 			} 
 			else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
-			{	
+			{
+				if (AD_Org_ID <= 0)
+					throw new AdempiereException("@AD_Org_ID@ @NotFound@");
 				//Ignore  warehouse , asi
 				M_Warehouse_ID = 0;
 				M_AttributeSetInstance_ID = 0;
@@ -188,6 +194,8 @@ public class MCost extends X_M_Cost
 			else if (MAcctSchema.COSTINGLEVEL_Warehouse.equals(CostingLevel))
 			{	
 				//Ignore organization asi
+				if (M_Warehouse_ID <= 0)
+					throw new AdempiereException("@M_Warehouse_ID@ @NotFound@");
 				M_AttributeSetInstance_ID = 0;
 			}	
 			else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
@@ -1710,7 +1718,7 @@ public class MCost extends X_M_Cost
 	{
 		MCost cost = MCost.getDimension(product, as.getC_AcctSchema_ID(), AD_Org_ID, M_Warehouse_ID, M_AttributeSetInstance_ID, M_CostType_ID, M_CostElement_ID);
 		if (cost == null)
-		{	
+		{
 			cost = new MCost (product, M_AttributeSetInstance_ID,
 					as.getC_AcctSchema_ID(), AD_Org_ID, M_Warehouse_ID, M_CostType_ID, M_CostElement_ID,  product.get_TrxName());
 			cost.saveEx();

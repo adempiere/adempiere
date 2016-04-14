@@ -284,9 +284,6 @@ public class GenerateCostDetail extends SvrProcess {
 
                     //Create new transaction for this product
                     dbTransaction = Trx.get(productId.toString(), true);
-
-                    MProduct product = new MProduct(Env.getCtx(), productId , dbTransaction.getTrxName());
-                    //System.out.println("Product : " + product.getValue() + " Name :" + product.getName());
                 }
 
 
@@ -388,6 +385,7 @@ public class GenerateCostDetail extends SvrProcess {
                 dbTransaction.close();
                 dbTransaction = null;
                 e.printStackTrace();
+                addLog(e.getMessage());
             }
         } finally {
             if (dbTransaction != null) {
