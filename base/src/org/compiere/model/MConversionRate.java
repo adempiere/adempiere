@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -40,6 +41,9 @@ import org.compiere.util.Trx;
  *	
  *  @author Jorg Janke
  *  @version $Id: MConversionRate.java,v 1.2 2006/07/30 00:58:18 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
+ *		@see https://github.com/adempiere/adempiere/issues/297
  */
 public class MConversionRate extends X_C_Conversion_Rate
 {
@@ -50,6 +54,9 @@ public class MConversionRate extends X_C_Conversion_Rate
 	
 	/**	Logger						*/
 	private static CLogger		s_log = CLogger.getCLogger (MConversionRate.class);
+	
+	/**	Cache						*/
+	private static CCache<Integer, MConversionRate> s_cache	= new CCache<Integer, MConversionRate>(Table_Name, 40, 5);	//	5 minutes
 
 	/**
 	 *	Convert an amount to base Currency
@@ -265,7 +272,43 @@ public class MConversionRate extends X_C_Conversion_Rate
 			  + ", Org=" + AD_Org_ID);
 		return retValue;
 	}	//	getRate
+	
+	/**
+	 * Get Rate from Conversion ID
+	 * @param ctx
+	 * @param C_Conversion_Rate_ID
+	 * @return
+	 */
+	public static BigDecimal getRate(Properties ctx, int C_Conversion_Rate_ID) {
+		MConversionRate conversion = get(ctx, C_Conversion_Rate_ID);
+		//	Valid conversion
+		if(conversion == null)
+			return null;
+		// Default Return
+		return conversion.getMultiplyRate();
+	}
 
+	/**
+	 * 	Get MConversionRate from Cache
+	 *	@param ctx context
+	 *	@param C_Conversion_Rate_ID id
+	 *	@return MConversionRate or null
+	 */
+	public static MConversionRate get (Properties ctx, int C_Conversion_Rate_ID) {
+		if (C_Conversion_Rate_ID <= 0) {
+			return null;
+		}
+		Integer key = new Integer (C_Conversion_Rate_ID);
+		MConversionRate retValue = (MConversionRate) s_cache.get (key);
+		if (retValue != null) {
+			return retValue;
+		}
+		retValue = new MConversionRate (ctx, C_Conversion_Rate_ID, null);
+		if (retValue.get_ID () != 0) {
+			s_cache.put (key, retValue);
+		}
+		return retValue;
+	}	//	get
 	
 	/**************************************************************************
 	 * 	Standard Constructor
