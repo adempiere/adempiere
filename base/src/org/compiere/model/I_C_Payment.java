@@ -385,6 +385,21 @@ public interface I_C_Payment
 
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
+    /** Column name C_POS_ID */
+    public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
+
+	/** Set POS Terminal.
+	  * Point of Sales Terminal
+	  */
+	public void setC_POS_ID (int C_POS_ID);
+
+	/** Get POS Terminal.
+	  * Point of Sales Terminal
+	  */
+	public int getC_POS_ID();
+
+	public org.compiere.model.I_C_POS getC_POS() throws RuntimeException;
+
     /** Column name C_PaymentBatch_ID */
     public static final String COLUMNNAME_C_PaymentBatch_ID = "C_PaymentBatch_ID";
 
@@ -453,6 +468,15 @@ public interface I_C_Payment
 	  * Check Number
 	  */
 	public String getCheckNo();
+
+    /** Column name CreatePayment */
+    public static final String COLUMNNAME_CreatePayment = "CreatePayment";
+
+	/** Set Create Payment	  */
+	public void setCreatePayment (String CreatePayment);
+
+	/** Get Create Payment	  */
+	public String getCreatePayment();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -1089,6 +1113,19 @@ public interface I_C_Payment
 	  * Method of Payment
 	  */
 	public String getTenderType();
+
+    /** Column name TotalLines */
+    public static final String COLUMNNAME_TotalLines = "TotalLines";
+
+	/** Set Total Lines.
+	  * Total of all document lines
+	  */
+	public void setTotalLines (BigDecimal TotalLines);
+
+	/** Get Total Lines.
+	  * Total of all document lines
+	  */
+	public BigDecimal getTotalLines();
 
     /** Column name TrxType */
     public static final String COLUMNNAME_TrxType = "TrxType";
