@@ -521,8 +521,9 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 			return;
 		}
 
+		//	FR [ 297 ]
 		//  Ask to Post it
-		if (!ADialog.ask(m_WindowNo, panel, "VPaySelectGenerate?", "(" + m_ps.getName() + ")"))
+		if (!ADialog.ask(m_WindowNo, panel, "VPaySelectGenerate?", "(" + m_ps.getDocumentNo() + ")"))
 			return;
 		
 		//  Prepare Process

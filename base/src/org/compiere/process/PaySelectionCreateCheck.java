@@ -32,7 +32,12 @@ import org.compiere.util.AdempiereUserError;
  *	
  *  @author Jorg Janke
  *  @version $Id: PaySelectionCreateCheck.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document, this process is changed to 
+ *			document workflow of Payment Selection
+ *		@see https://github.com/adempiere/adempiere/issues/297
  */
+@Deprecated
 public class PaySelectionCreateCheck extends SvrProcess
 {
 	/**	Target Payment Rule			*/

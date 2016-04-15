@@ -71,7 +71,12 @@ import org.zkoss.zul.Filedownload;
  * 
  *  Contributors:
  *    Carlos Ruiz - GlobalQSS - FR 3132033 - Make payment export class configurable per bank
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document, this process is changed to 
+ *			document workflow of Payment Selection
+ *		@see https://github.com/adempiere/adempiere/issues/297
  */
+@Deprecated
 public class WPayPrint extends PayPrint implements IFormController, EventListener, ValueChangeListener
 {
 	private CustomForm form = new CustomForm();

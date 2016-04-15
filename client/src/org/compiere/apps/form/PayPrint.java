@@ -34,7 +34,13 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.ValueNamePair;
-
+/**
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document, this process is changed to 
+ *			document workflow of Payment Selection
+ *		@see https://github.com/adempiere/adempiere/issues/297
+ */
+@Deprecated
 public class PayPrint {
 
 	/**	Window No			*/
@@ -53,6 +59,8 @@ public class PayPrint {
 	/**	Logger			*/
 	public static CLogger log = CLogger.getCLogger(PayPrint.class);
 	
+	//	FR [ 297 ]
+	@Deprecated
 	public ArrayList<KeyNamePair> getPaySelectionData()
 	{
 		ArrayList<KeyNamePair> data = new ArrayList<KeyNamePair>();
@@ -92,6 +100,7 @@ public class PayPrint {
 	
 	/**
 	 *  PaySelect changed - load Bank
+	 *  FR [ 297 ] Change by Document Type
 	 */
 	public void loadPaySelectInfo(int C_PaySelection_ID)
 	{
@@ -103,7 +112,9 @@ public class PayPrint {
 			+ " INNER JOIN C_BankAccount ba ON (ps.C_BankAccount_ID=ba.C_BankAccount_ID)"
 			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID)"
 			+ " INNER JOIN C_Currency c ON (ba.C_Currency_ID=c.C_Currency_ID) "
-			+ "WHERE ps.C_PaySelection_ID=? AND ps.Processed='Y' AND ba.IsActive='Y'";
+			+ "WHERE ps.C_PaySelection_ID=? "
+			+ "AND ps.DocStatus IN('CO', 'CL') "
+			+ "AND ba.IsActive='Y'";
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);

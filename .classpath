@@ -10,7 +10,6 @@
 	<classpathentry kind="src" path="serverRoot/src/main/ejb"/>
 	<classpathentry kind="src" path="serverRoot/src/main/server"/>
 	<classpathentry kind="src" path="serverRoot/src/main/servlet"/>
-	<classpathentry kind="src" path="interfaces/src"/>
 	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
 	<classpathentry kind="src" path="zkwebui/WEB-INF/src"/>
 	<classpathentry excluding="org/compiere/interfaces/" kind="src" path="JasperReports/src"/>
@@ -20,9 +19,6 @@
 	<classpathentry kind="src" path="migration/src"/>
 	<classpathentry kind="src" path="posterita/posterita/src/main"/>
 	<classpathentry kind="src" path="org.eevolution.cashflow/src/main/java"/>
-	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/base"/>
-	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/swing"/>
-	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/test"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/swing"/>
