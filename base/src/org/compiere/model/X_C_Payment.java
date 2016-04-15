@@ -33,7 +33,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20160415L;
 
     /** Standard Constructor */
     public X_C_Payment (Properties ctx, int C_Payment_ID, String trxName)
@@ -634,6 +634,34 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_POS getC_POS() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_POS)MTable.get(getCtx(), org.compiere.model.I_C_POS.Table_Name)
+			.getPO(getC_POS_ID(), get_TrxName());	}
+
+	/** Set POS Terminal.
+		@param C_POS_ID 
+		Point of Sales Terminal
+	  */
+	public void setC_POS_ID (int C_POS_ID)
+	{
+		if (C_POS_ID < 1) 
+			set_Value (COLUMNNAME_C_POS_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
+	}
+
+	/** Get POS Terminal.
+		@return Point of Sales Terminal
+	  */
+	public int getC_POS_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_PaymentBatch getC_PaymentBatch() throws RuntimeException
     {
 		return (org.compiere.model.I_C_PaymentBatch)MTable.get(getCtx(), org.compiere.model.I_C_PaymentBatch.Table_Name)
@@ -748,6 +776,20 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public String getCheckNo () 
 	{
 		return (String)get_Value(COLUMNNAME_CheckNo);
+	}
+
+	/** Set Create Payment.
+		@param CreatePayment Create Payment	  */
+	public void setCreatePayment (String CreatePayment)
+	{
+		set_Value (COLUMNNAME_CreatePayment, CreatePayment);
+	}
+
+	/** Get Create Payment.
+		@return Create Payment	  */
+	public String getCreatePayment () 
+	{
+		return (String)get_Value(COLUMNNAME_CreatePayment);
 	}
 
 	/** Set Exp. Month.
@@ -1775,6 +1817,8 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public static final String TENDERTYPE_Account = "T";
 	/** Cash = X */
 	public static final String TENDERTYPE_Cash = "X";
+	/** Credit Memo = M */
+	public static final String TENDERTYPE_CreditMemo = "M";
 	/** Set Tender type.
 		@param TenderType 
 		Method of Payment
@@ -1791,6 +1835,25 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public String getTenderType () 
 	{
 		return (String)get_Value(COLUMNNAME_TenderType);
+	}
+
+	/** Set Total Lines.
+		@param TotalLines 
+		Total of all document lines
+	  */
+	public void setTotalLines (BigDecimal TotalLines)
+	{
+		throw new IllegalArgumentException ("TotalLines is virtual column");	}
+
+	/** Get Total Lines.
+		@return Total of all document lines
+	  */
+	public BigDecimal getTotalLines () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TotalLines);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** TrxType AD_Reference_ID=215 */
