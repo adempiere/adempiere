@@ -964,7 +964,7 @@ public class ProcessInfo implements Serializable
 	 * @return Object with parameter value
 	 * FR [ 325 ]
 	 */
-	public Object getParameter_To(String parameterName) {
+	public Object getParameterTo(String parameterName) {
 		ProcessInfoParameter parameter = getInfoParameter(parameterName);
 		//	For null
 		if(parameter == null)
@@ -979,7 +979,7 @@ public class ProcessInfo implements Serializable
 	 * @return BigDecimal with value
 	 * FR [ 325 ]
 	 */
-	public BigDecimal getParameter_ToAsBigDecimal(String parameterName) {
+	public BigDecimal getParameterToAsBigDecimal(String parameterName) {
 		ProcessInfoParameter parameter = getInfoParameter(parameterName);
 		//	For null
 		if(parameter == null)
@@ -994,7 +994,7 @@ public class ProcessInfo implements Serializable
 	 * @return boolean with value
 	 * FR [ 325 ]
 	 */
-	public boolean getParameter_ToAsBoolean(String parameterName) {
+	public boolean getParameterToAsBoolean(String parameterName) {
 		ProcessInfoParameter parameter = getInfoParameter(parameterName);
 		//	For null
 		if(parameter == null)
@@ -1009,7 +1009,7 @@ public class ProcessInfo implements Serializable
 	 * @return int with value
 	 * FR [ 325 ]
 	 */
-	public int getParameter_ToAsInt(String parameterName) {
+	public int getParameterToAsInt(String parameterName) {
 		ProcessInfoParameter parameter = getInfoParameter(parameterName);
 		//	For null
 		if(parameter == null)
@@ -1024,7 +1024,7 @@ public class ProcessInfo implements Serializable
 	 * @return String with value
 	 * FR [ 325 ]
 	 */
-	public String getParameter_ToAsString(String parameterName) {
+	public String getParameterToAsString(String parameterName) {
 		ProcessInfoParameter parameter = getInfoParameter(parameterName);
 		//	For null
 		if(parameter == null)
@@ -1039,7 +1039,7 @@ public class ProcessInfo implements Serializable
 	 * @return Timestamp with value
 	 * FR [ 325 ]
 	 */
-	public Timestamp getParameter_ToAsTimestamp(String parameterName) {
+	public Timestamp getParameterToAsTimestamp(String parameterName) {
 		ProcessInfoParameter parameter = getInfoParameter(parameterName);
 		//	For null
 		if(parameter == null)
