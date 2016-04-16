@@ -51,6 +51,8 @@ import org.compiere.util.Trx;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 244 ] Is Selection flag
  *		@see https://github.com/adempiere/adempiere/issues/244
+ *		<li> FR [ 325 ] SvrProcess must handle mandatory error on Process Parameters
+ *		@see https://github.com/adempiere/adempiere/issues/325
  *
  * @author mckayERP www.mckayERP.com
  * 			<li> #285 Message in SvrProcess can cause null pointer exception. 
@@ -137,7 +139,6 @@ public abstract class SvrProcess implements ProcessCall
 		
 		return !m_pi.isError();
 	}   //  startProcess
-
 	
 	/**************************************************************************
 	 *  Process
@@ -149,6 +150,10 @@ public abstract class SvrProcess implements ProcessCall
 		boolean success = true;
 		try
 		{
+			//	FR [ 325 ]
+			//	Load Parameters
+			getParameter();
+			//	Prepare
 			prepare();
 			msg = doIt();
 		}
@@ -178,7 +183,24 @@ public abstract class SvrProcess implements ProcessCall
 
 	/**
 	 *  Prepare - e.g., get Parameters.
-	 *  <code>
+	 *  FR [ 325 ]
+	 *  Use custom method like
+	 *  <pre>
+	 *  getParameter(String parameterName);
+	 *  getParameterAsBigDecimal(String parameterName);
+	 *  getParameterAsBoolean(String parameterName);
+	 *  getParameterAsInt(String parameterName);
+	 *  getParameterAsString(String parameterName);
+	 *  getParameterAsTimestamp(String parameterName);
+	 *  getParameter_To(String parameterName);
+	 *  getParameter_ToAsBigDecimal(String parameterName);
+	 *  getParameter_ToAsBoolean(String parameterName);
+	 *  getParameter_ToAsInt(String parameterName);
+	 *  getParameter_ToAsString(String parameterName);
+	 *  getParameter_ToAsTimestamp(String parameterName);
+	 *  </pre>
+	 *  The old implementation
+	 *  <pre>
 		ProcessInfoParameter[] para = getParameter();
 		for (int i = 0; i < para.length; i++)
 		{
@@ -194,7 +216,7 @@ public abstract class SvrProcess implements ProcessCall
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
-	 *  </code>
+	 *  </pre>
 	 */
 	abstract protected void prepare();
 
@@ -413,6 +435,7 @@ public abstract class SvrProcess implements ProcessCall
 	/**************************************************************************
 	 * 	Get Parameter
 	 *	@return parameter
+	 *	FR [ 325 ] Is preferable use any of getParameter(String) method
 	 */
 	protected ProcessInfoParameter[] getParameter()
 	{
@@ -424,6 +447,136 @@ public abstract class SvrProcess implements ProcessCall
 		}
 		return retValue;
 	}	//	getParameter
+	
+	/**
+	 * Get Parameter from Name
+	 * @param parameterName
+	 * @return ProcessInfoParameter
+	 * FR [ 325 ]
+	 */
+	public ProcessInfoParameter getInfoParameter(String parameterName) {
+		return m_pi.getInfoParameter(parameterName);
+	}
+	
+	/**
+	 * Get a Parameter from Name
+	 * @param parameterName
+	 * @return Object with parameter value
+	 * FR [ 325 ]
+	 */
+	public Object getParameter(String parameterName) {
+		return m_pi.getParameter(parameterName);
+	}
+	
+	/**
+	 * Get a parameter like BigDecimal from Name
+	 * @param parameterName
+	 * @return BigDecimal with value
+	 * FR [ 325 ]
+	 */
+	public BigDecimal getParameterAsBigDecimal(String parameterName) {
+		return m_pi.getParameterAsBigDecimal(parameterName);
+	}
+	
+	/**
+	 * Get a parameter like boolean from Name
+	 * @param parameterName
+	 * @return boolean with value
+	 * FR [ 325 ]
+	 */
+	public boolean getParameterAsBoolean(String parameterName) {
+		return m_pi.getParameterAsBoolean(parameterName);
+	}
+	
+	/**
+	 * Get a parameter like int from Name
+	 * @param parameterName
+	 * @return int with value
+	 * FR [ 325 ]
+	 */
+	public int getParameterAsInt(String parameterName) {
+		return m_pi.getParameterAsInt(parameterName);
+	}
+	
+	/**
+	 * Get a parameter like String from Name
+	 * @param parameterName
+	 * @return String with value
+	 * FR [ 325 ]
+	 */
+	public String getParameterAsString(String parameterName) {
+		return m_pi.getParameterAsString(parameterName);
+	}
+	
+	/**
+	 * Get a parameter like Timestamp from Name
+	 * @param parameterName
+	 * @return Timestamp with value
+	 * FR [ 325 ]
+	 */
+	public Timestamp getParameterAsTimestamp(String parameterName) {
+		return m_pi.getParameterAsTimestamp(parameterName);
+	}
+	
+	/**
+	 * Get a Parameter To from Name
+	 * @param parameterName
+	 * @return Object with parameter value
+	 * FR [ 325 ]
+	 */
+	public Object getParameter_To(String parameterName) {
+		return m_pi.getParameter_To(parameterName);
+	}
+	
+	/**
+	 * Get a parameter to like BigDecimal from Name
+	 * @param parameterName
+	 * @return BigDecimal with value
+	 * FR [ 325 ]
+	 */
+	public BigDecimal getParameter_ToAsBigDecimal(String parameterName) {
+		return m_pi.getParameter_ToAsBigDecimal(parameterName);
+	}
+	
+	/**
+	 * Get a parameter to like boolean from Name
+	 * @param parameterName
+	 * @return boolean with value
+	 * FR [ 325 ]
+	 */
+	public boolean getParameter_ToAsBoolean(String parameterName) {
+		return m_pi.getParameter_ToAsBoolean(parameterName);
+	}
+	
+	/**
+	 * Get a parameter to like int from Name
+	 * @param parameterName
+	 * @return int with value
+	 * FR [ 325 ]
+	 */
+	public int getParameter_ToAsInt(String parameterName) {
+		return m_pi.getParameter_ToAsInt(parameterName);
+	}
+	
+	/**
+	 * Get a parameter to like String from Name
+	 * @param parameterName
+	 * @return String with value
+	 * FR [ 325 ]
+	 */
+	public String getParameter_ToAsString(String parameterName) {
+		return m_pi.getParameter_ToAsString(parameterName);
+	}
+	
+	/**
+	 * Get a parameter like Timestamp from Name
+	 * @param parameterName
+	 * @return Timestamp with value
+	 * FR [ 325 ]
+	 */
+	public Timestamp getParameter_ToAsTimestamp(String parameterName) {
+		return m_pi.getParameter_ToAsTimestamp(parameterName);
+	}
 
 
 	/**************************************************************************
