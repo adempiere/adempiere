@@ -192,12 +192,12 @@ public abstract class SvrProcess implements ProcessCall
 	 *  getParameterAsInt(String parameterName);
 	 *  getParameterAsString(String parameterName);
 	 *  getParameterAsTimestamp(String parameterName);
-	 *  getParameter_To(String parameterName);
-	 *  getParameter_ToAsBigDecimal(String parameterName);
-	 *  getParameter_ToAsBoolean(String parameterName);
-	 *  getParameter_ToAsInt(String parameterName);
-	 *  getParameter_ToAsString(String parameterName);
-	 *  getParameter_ToAsTimestamp(String parameterName);
+	 *  getParameterTo(String parameterName);
+	 *  getParameterToAsBigDecimal(String parameterName);
+	 *  getParameterToAsBoolean(String parameterName);
+	 *  getParameterToAsInt(String parameterName);
+	 *  getParameterToAsString(String parameterName);
+	 *  getParameterToAsTimestamp(String parameterName);
 	 *  </pre>
 	 *  The old implementation
 	 *  <pre>
@@ -524,8 +524,8 @@ public abstract class SvrProcess implements ProcessCall
 	 * @return Object with parameter value
 	 * FR [ 325 ]
 	 */
-	public Object getParameter_To(String parameterName) {
-		return m_pi.getParameter_To(parameterName);
+	public Object getParameterTo(String parameterName) {
+		return m_pi.getParameterTo(parameterName);
 	}
 	
 	/**
@@ -534,8 +534,8 @@ public abstract class SvrProcess implements ProcessCall
 	 * @return BigDecimal with value
 	 * FR [ 325 ]
 	 */
-	public BigDecimal getParameter_ToAsBigDecimal(String parameterName) {
-		return m_pi.getParameter_ToAsBigDecimal(parameterName);
+	public BigDecimal getParameterToAsBigDecimal(String parameterName) {
+		return m_pi.getParameterToAsBigDecimal(parameterName);
 	}
 	
 	/**
@@ -544,8 +544,8 @@ public abstract class SvrProcess implements ProcessCall
 	 * @return boolean with value
 	 * FR [ 325 ]
 	 */
-	public boolean getParameter_ToAsBoolean(String parameterName) {
-		return m_pi.getParameter_ToAsBoolean(parameterName);
+	public boolean getParameterToAsBoolean(String parameterName) {
+		return m_pi.getParameterToAsBoolean(parameterName);
 	}
 	
 	/**
@@ -554,8 +554,8 @@ public abstract class SvrProcess implements ProcessCall
 	 * @return int with value
 	 * FR [ 325 ]
 	 */
-	public int getParameter_ToAsInt(String parameterName) {
-		return m_pi.getParameter_ToAsInt(parameterName);
+	public int getParameterToAsInt(String parameterName) {
+		return m_pi.getParameterToAsInt(parameterName);
 	}
 	
 	/**
@@ -564,8 +564,8 @@ public abstract class SvrProcess implements ProcessCall
 	 * @return String with value
 	 * FR [ 325 ]
 	 */
-	public String getParameter_ToAsString(String parameterName) {
-		return m_pi.getParameter_ToAsString(parameterName);
+	public String getParameterToAsString(String parameterName) {
+		return m_pi.getParameterToAsString(parameterName);
 	}
 	
 	/**
@@ -574,8 +574,8 @@ public abstract class SvrProcess implements ProcessCall
 	 * @return Timestamp with value
 	 * FR [ 325 ]
 	 */
-	public Timestamp getParameter_ToAsTimestamp(String parameterName) {
-		return m_pi.getParameter_ToAsTimestamp(parameterName);
+	public Timestamp getParameterToAsTimestamp(String parameterName) {
+		return m_pi.getParameterToAsTimestamp(parameterName);
 	}
 
 
