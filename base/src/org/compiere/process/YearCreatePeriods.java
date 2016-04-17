@@ -32,6 +32,11 @@ import org.compiere.util.AdempiereUserError;
  */
 public class YearCreatePeriods extends SvrProcess
 {
+	/**	Parameter Name StartDate	*/
+	private final String	PARAMETERNAME_StartDate = "StartDate";
+	/**	Parameter Name DateFormat	*/
+	private final String	PARAMETERNAME_DateFormat = "DateFormat";
+	/**	Internal Variables			*/
 	private int	p_C_Year_ID = 0;
 	private Timestamp p_StartDate;
 	private String p_DateFormat;
@@ -41,26 +46,8 @@ public class YearCreatePeriods extends SvrProcess
 	 */
 	protected void prepare ()
 	{
-		//	FR [ 325 ]
-		//	The old method
-		/**
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("StartDate"))
-				p_StartDate = (Timestamp) para[i].getParameter();
-			else if (name.equals("DateFormat"))
-				p_DateFormat = (String) para[i].getParameter();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		*/
-		//	is change by it
-		p_StartDate = getParameterAsTimestamp("StartDate");
-		p_DateFormat = getParameterAsString("DateFormat");
+		p_StartDate = getParameterAsTimestamp(PARAMETERNAME_StartDate);
+		p_DateFormat = getParameterAsString(PARAMETERNAME_DateFormat);
 		p_C_Year_ID = getRecord_ID();
 	}	//	prepare
 
