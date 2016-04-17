@@ -868,7 +868,25 @@ public class SynchronizeTerminology extends SvrProcess
 			trx.commit(true);
 			
 			//	FR [ 237 ]
-			//	Add support to report view translation
+			//	Copy parent Print Name
+			log.info("Synchronizing Report View with Table");
+			sql=" UPDATE AD_ReportView rvt "
+					+"SET PrintName = COALESCE(rvt.Description, (SELECT COALESCE(e.PrintName, t.Name) "
+					+"				FROM AD_Table t"
+					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = t.AD_Table_ID)"
+					+"				LEFT JOIN AD_Element e ON(SUBSTR(t.TableName, 1, LENGTH(t.TableName) - 4) || '_ID' = e.ColumnName)"
+					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID"
+					+"))"
+					+"WHERE EXISTS (SELECT 1 "
+					+" 				FROM AD_Table tt "
+					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID) "
+					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID "
+					+" 				AND tt.Name <> COALESCE(rvt.PrintName, '')"
+					+"				AND rv.IsCentrallyMaintained = 'Y') ";
+			no = DB.executeUpdate(sql, false, get_TrxName());	  	
+			log.info("  trl rows updated: "+no);
+			trx.commit(true);
+			//	For Translation
 			log.info("Synchronizing Report View with Table");
 			sql=" UPDATE AD_ReportView_Trl rvt "
 					+"SET Name = (SELECT tt.Name "
@@ -877,7 +895,16 @@ public class SynchronizeTerminology extends SvrProcess
 					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID "
 					+"				AND tt.AD_Language = rvt.AD_Language"
 					+"), "
-					+"PrintName = (SELECT COALESCE(et.PrintName, tt.Name) "
+					+"PrintName = (SELECT COALESCE(et.PrintName, et.Name, tt.Name) "
+					+"				FROM AD_Table t"
+					+"				INNER JOIN AD_Table_Trl tt ON(tt.AD_Table_ID = t.AD_Table_ID)"
+					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID)"
+					+"				LEFT JOIN AD_Element e ON(SUBSTR(t.TableName, 1, LENGTH(t.TableName) - 4) || '_ID' = e.ColumnName)"
+					+"				LEFT JOIN AD_Element_Trl et ON(et.AD_Element_ID = e.AD_Element_ID AND et.AD_Language = rvt.AD_Language)"
+					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID"
+					+"				AND tt.AD_Language = rvt.AD_Language"
+					+"), "
+					+"Description = (SELECT COALESCE(et.Name, tt.Name) "
 					+"				FROM AD_Table t"
 					+"				INNER JOIN AD_Table_Trl tt ON(tt.AD_Table_ID = t.AD_Table_ID)"
 					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID)"
@@ -892,9 +919,9 @@ public class SynchronizeTerminology extends SvrProcess
 					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID AND tt.AD_Language = rvt.AD_Language "
 					+" 				AND tt.Name<>rvt.Name"
 					+"				AND rv.IsCentrallyMaintained = 'Y') ";
-				no = DB.executeUpdate(sql, false, get_TrxName());	  	
-				log.info("  trl rows updated: "+no);
-				trx.commit(true);
+			no = DB.executeUpdate(sql, false, get_TrxName());	  	
+			log.info("  trl rows updated: "+no);
+			trx.commit(true);
 			
 		} catch (Exception e) {
 			log.log (Level.SEVERE, "@Failed@: "+e.getLocalizedMessage(), e);
