@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Process source code generated automatically #326" ReleaseNo="3.8.0#002" SeqNo="134">
+  <Migration EntityType="D" Name="Process source code generated automatically #326" ReleaseNo="3.8.0#002" SeqNo="188">
     <Comments>See: https://github.com/adempiere/adempiere/issues/326</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="53842" Table="AD_Process">
-        <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="5790" Column="AccessLevel">4</Data>
         <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
         <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
