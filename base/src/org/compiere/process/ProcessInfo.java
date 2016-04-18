@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Hashtable;
 
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -40,6 +40,8 @@ import org.compiere.util.Util;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 244 ] Is Selection flag
  *		@see https://github.com/adempiere/adempiere/issues/244
+ *		<li> FR [ 325 ] SvrProcess must handle mandatory error on Process Parameters
+ *		@see https://github.com/adempiere/adempiere/issues/325
  */
 public class ProcessInfo implements Serializable
 {
@@ -129,7 +131,7 @@ public class ProcessInfo implements Serializable
 	private ArrayList<ProcessInfoLog> m_logs = null;
 
 	/**	Log Info					*/
-	private ArrayList<ProcessInfoParameter>	m_parameter = null;
+	private Hashtable<String, ProcessInfoParameter> m_parameter = null;
 	
 	/** Transaction Name 			*/
 	private String				m_transactionName = null;
@@ -548,6 +550,7 @@ public class ProcessInfo implements Serializable
 	
 	/**************************************************************************
 	 * 	Get Parameter
+	 *  FR [ 325 ] Is preferable use any of getParameter(String) method
 	 *	@return Parameter Array
 	 */
 	public ProcessInfoParameter[] getParameter()
@@ -556,7 +559,8 @@ public class ProcessInfo implements Serializable
 			return null;
 		
 		ProcessInfoParameter[] ret = new ProcessInfoParameter[m_parameter.size()];
-		m_parameter.toArray(ret);
+		//	FR [ 325 ] add support to get parameter like array
+		m_parameter.values().toArray(ret);
 		return ret;
 
 	}	//	getParameter
@@ -567,7 +571,14 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setParameter (ProcessInfoParameter[] parameter)
 	{
-		m_parameter =  new ArrayList<ProcessInfoParameter>(Arrays.asList(parameter));
+		m_parameter = new Hashtable<String, ProcessInfoParameter>();
+		//	FR [ 325 ] Populate Hash
+		for(ProcessInfoParameter para : parameter) {
+			if(para.getParameterName() == null)
+				continue;
+			//	
+			m_parameter.put(para.getParameterName(), para);
+		}
 	}	//	setParameter
 
 	
@@ -726,17 +737,23 @@ public class ProcessInfo implements Serializable
 		return m_pdf_report;
 	}	
 	
+	/**
+	 * Add parameter
+	 * @param name
+	 * @param value
+	 * @param info
+	 */
 	public void addParameter(String name, Object value, String info)
 	{
 		if (value == null)
 			return;
 		if (value instanceof String && Util.isEmpty((String) value))
 			return;
+		//	FR [ 325 ] Add support to HashMap
 		if (m_parameter == null)
-			m_parameter = new ArrayList<ProcessInfoParameter>();
+			m_parameter = new Hashtable<String, ProcessInfoParameter>();
 		ProcessInfoParameter para = new ProcessInfoParameter(name, value, null, info, null);
-		m_parameter.add(para);
-		return;
+		m_parameter.put(name, para);
 	}
 
 	// metas: begin
@@ -836,4 +853,199 @@ public class ProcessInfo implements Serializable
 	{
 		return managedTransaction;
 	}
+	
+	/**
+	 * Get Parameter from Name
+	 * @param parameterName
+	 * @return ProcessInfoParameter
+	 * FR [ 325 ]
+	 */
+	public ProcessInfoParameter getInfoParameter(String parameterName) {
+		//	Valid null
+		if(m_parameter == null)
+			return null;
+		//	Default
+		return m_parameter.get(parameterName);
+	}
+	
+	/**
+	 * Get a Parameter from Name
+	 * @param parameterName
+	 * @return Object with parameter value
+	 * FR [ 325 ]
+	 */
+	public Object getParameter(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return null;
+		//	Default
+		return parameter.getParameter();
+	}
+	
+	/**
+	 * Get a parameter like BigDecimal from Name
+	 * @param parameterName
+	 * @return BigDecimal with value
+	 * FR [ 325 ]
+	 */
+	public BigDecimal getParameterAsBigDecimal(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return null;
+		//	Default
+		return parameter.getParameterAsBigDecimal();
+	}
+	
+	/**
+	 * Get a parameter like boolean from Name
+	 * @param parameterName
+	 * @return boolean with value
+	 * FR [ 325 ]
+	 */
+	public boolean getParameterAsBoolean(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return false;
+		//	Default
+		return parameter.getParameterAsBoolean();
+	}
+	
+	/**
+	 * Get a parameter like int from Name
+	 * @param parameterName
+	 * @return int with value
+	 * FR [ 325 ]
+	 */
+	public int getParameterAsInt(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return 0;
+		//	Default
+		return parameter.getParameterAsInt();
+	}
+	
+	/**
+	 * Get a parameter like String from Name
+	 * @param parameterName
+	 * @return String with value
+	 * FR [ 325 ]
+	 */
+	public String getParameterAsString(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return null;
+		//	Default
+		return parameter.getParameterAsString();
+	}
+	
+	/**
+	 * Get a parameter like Timestamp from Name
+	 * @param parameterName
+	 * @return Timestamp with value
+	 * FR [ 325 ]
+	 */
+	public Timestamp getParameterAsTimestamp(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return null;
+		//	Default
+		return parameter.getParameterAsTimestamp();
+	}
+	
+	/**
+	 * Get a Parameter To from Name
+	 * @param parameterName
+	 * @return Object with parameter value
+	 * FR [ 325 ]
+	 */
+	public Object getParameterTo(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return null;
+		//	Default
+		return parameter.getParameter_To();
+	}
+	
+	/**
+	 * Get a parameter to like BigDecimal from Name
+	 * @param parameterName
+	 * @return BigDecimal with value
+	 * FR [ 325 ]
+	 */
+	public BigDecimal getParameterToAsBigDecimal(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return null;
+		//	Default
+		return parameter.getParameterToAsBigDecimal();
+	}
+	
+	/**
+	 * Get a parameter to like boolean from Name
+	 * @param parameterName
+	 * @return boolean with value
+	 * FR [ 325 ]
+	 */
+	public boolean getParameterToAsBoolean(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return false;
+		//	Default
+		return parameter.getParameter_ToAsBoolean();
+	}
+	
+	/**
+	 * Get a parameter to like int from Name
+	 * @param parameterName
+	 * @return int with value
+	 * FR [ 325 ]
+	 */
+	public int getParameterToAsInt(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return 0;
+		//	Default
+		return parameter.getParameter_ToAsInt();
+	}
+	
+	/**
+	 * Get a parameter to like String from Name
+	 * @param parameterName
+	 * @return String with value
+	 * FR [ 325 ]
+	 */
+	public String getParameterToAsString(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return null;
+		//	Default
+		return parameter.getParameterToAsString();
+	}
+	
+	/**
+	 * Get a parameter like Timestamp from Name
+	 * @param parameterName
+	 * @return Timestamp with value
+	 * FR [ 325 ]
+	 */
+	public Timestamp getParameterToAsTimestamp(String parameterName) {
+		ProcessInfoParameter parameter = getInfoParameter(parameterName);
+		//	For null
+		if(parameter == null)
+			return null;
+		//	Default
+		return parameter.getParameterToAsTimestamp();
+	}
+	
 }   //  ProcessInfo
