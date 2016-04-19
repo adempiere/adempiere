@@ -36,6 +36,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -53,6 +54,13 @@ import org.compiere.util.Msg;
  *  @author 	Low Heng Sin
  *  @author     arboleda - globalqss
  *  - Implement ShowHelp option on processes and reports
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *		@see https://github.com/adempiere/adempiere/issues/265
+ *		<li>BR [ 300 ] ZK Process action buttons don't have standard size and position
+ *		@see https://github.com/adempiere/adempiere/issues/300
+ *		<li>BR[ 323 ] Process parameter panel is showed without parameter
+ *		@see https://github.com/adempiere/adempiere/issues/323
  */
 public class ProcessModalDialog extends CDialog
 	implements ActionListener
@@ -77,17 +85,47 @@ public class ProcessModalDialog extends CDialog
 	 */
 	public ProcessModalDialog (Properties ctx, Frame parent, String title, 
 			ASyncProcess aProcess, int WindowNo, int AD_Process_ID,
-			int tableId, int recordId, boolean autoStart)
+			int tableId, int recordId, boolean autoStart) {
+		this(ctx, parent, title, aProcess, WindowNo, 
+				AD_Process_ID, tableId, recordId, autoStart, null);
+	}
+	
+	
+	/**
+	 * Private Constructor
+	 * @param ctx
+	 * @param parent
+	 * @param title
+	 * @param aProcess
+	 * @param WindowNo
+	 * @param AD_Process_ID
+	 * @param tableId
+	 * @param recordId
+	 * @param autoStart
+	 * @param pi
+	 */
+	private ProcessModalDialog (Properties ctx, Frame parent, String title, 
+			ASyncProcess aProcess, int WindowNo, int AD_Process_ID,
+			int tableId, int recordId, boolean autoStart, ProcessInfo pi)
 	{
 		super(parent, title, true);
 		log.info("Process=" + AD_Process_ID );
-		m_ctx = ctx;
-		m_ASyncProcess = aProcess;
+		if(pi == null) {
+			m_ctx = ctx;
+			m_ASyncProcess = aProcess;
+			m_AD_Process_ID = AD_Process_ID;
+			m_tableId = tableId;
+			m_recordId = recordId;
+			m_autoStart = autoStart;
+		} else {
+			m_pi = pi;
+			m_AD_Process_ID = pi.getAD_Process_ID();
+			m_tableId = pi.getTable_ID();
+			m_recordId = pi.getRecord_ID();
+		}
+		//	
 		m_WindowNo = WindowNo;
-		m_AD_Process_ID = AD_Process_ID;
-		m_tableId = tableId;
-		m_recordId = recordId;
-		m_autoStart = autoStart;
+		//	
 		try
 		{
 			jbInit();
@@ -98,6 +136,21 @@ public class ProcessModalDialog extends CDialog
 			log.log(Level.SEVERE, "", ex);
 		}
 	}	//	ProcessDialog
+	
+	/**
+	 * Optional constructor, for launch from ProcessCtl
+	 * @param frame
+	 * @param WindowNo
+	 * @param pi
+	 */
+	public ProcessModalDialog (Frame frame, int WindowNo, ProcessInfo pi) {
+		this(Env.getCtx(), frame, pi.getTitle(), 
+				null, WindowNo, pi.getAD_Process_ID(), 
+				pi.getTable_ID(), pi.getRecord_ID(), false, pi);
+		//	Set Process instance and flag
+		m_pi = pi;
+		m_OnlyPanel = true;
+	}
 
 	private ASyncProcess m_ASyncProcess;
 	private int m_WindowNo;
@@ -109,7 +162,9 @@ public class ProcessModalDialog extends CDialog
 	private String		    m_Name = null;
 	private StringBuffer	m_messageText = new StringBuffer();
 	private String          m_ShowHelp = null; // Determine if a Help Process Window is shown
-	private boolean m_valid = true;
+	private boolean 		m_valid = true;
+	private boolean 		m_OnlyPanel = false;
+	private boolean 		m_isOK = false;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessDialog.class);
@@ -179,7 +234,7 @@ public class ProcessModalDialog extends CDialog
 	private CPanel centerPanel = null;
 	private ProcessParameterPanel parameterPanel = null;
 	private JSeparator separator = new JSeparator();
-	private ProcessInfo m_pi = null;
+	private ProcessInfo m_pi;
 
 	/**
 	 *	Static Layout
@@ -214,13 +269,25 @@ public class ProcessModalDialog extends CDialog
 	 * 	(set focus to OK if visible)
 	 * 	@param visible true if visible
 	 */
-	public void setVisible (boolean visible)
-	{
-		super.setVisible(visible);
-		if (visible) {
-			bOK.requestFocus();
+	public void setVisible(boolean visible) {
+		if(m_OnlyPanel) {
+			if(m_ShowHelp != null && m_ShowHelp.equals("N")) {
+				// It is defined as a silent process
+				if(parameterPanel.saveParameters() == null) {
+					m_isOK = true;
+					dispose();
+				}
+			} else {
+				// Not a silent process
+				super.setVisible(visible);
+			}
+		} else {
+			super.setVisible(visible);
+			if (visible) {
+				bOK.requestFocus();
+			}
 		}
-	}	//	setVisible
+	}
 
 	/**
 	 *	Dispose
@@ -241,7 +308,7 @@ public class ProcessModalDialog extends CDialog
 	 *	Dynamic Init
 	 *  @return true, if there is something to process (start from menu)
 	 */
-	public boolean init()
+	private boolean init()
 	{
 		log.config("");
 		//
@@ -299,15 +366,25 @@ public class ProcessModalDialog extends CDialog
 		message.setText(m_messageText.toString());
 
 		//	Move from APanel.actionButton
-		m_pi = new ProcessInfo(m_Name, m_AD_Process_ID, m_tableId, m_recordId);
+		if(m_pi == null) {
+			m_pi = new ProcessInfo(m_Name, m_AD_Process_ID, m_tableId, m_recordId);
+		}
 		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
 		centerPanel.removeAll();
-		if (parameterPanel.init()) {
+		//	BR [ 265 ]
+		m_valid = parameterPanel.init();
+		if (m_valid) {
 			// hasfields
 			centerPanel.add(separator, BorderLayout.NORTH);
-			centerPanel.add(parameterPanel, BorderLayout.CENTER);
+			//	Add Scroll FR [ 265 ]
+			CScrollPane scrollPane = new CScrollPane(parameterPanel.getPanel());
+			scrollPane.setAutoscrolls(true);
+			scrollPane.createVerticalScrollBar();
+			scrollPane.createHorizontalScrollBar();
+			//	
+			centerPanel.add(scrollPane, BorderLayout.CENTER);
 		} else {
 			if (m_ShowHelp != null && m_ShowHelp.equals("N")) {
 				m_autoStart = true;
@@ -328,16 +405,31 @@ public class ProcessModalDialog extends CDialog
 	 *	ActionListener (Start)
 	 *  @param e ActionEvent
 	 */
-	public void actionPerformed (ActionEvent e)
-	{
-		if (e.getSource() == bOK)
-		{
-			ProcessCtl.process(m_ASyncProcess, m_WindowNo, parameterPanel, m_pi, null);
+	public void actionPerformed (ActionEvent e) {
+		m_isOK = false;
+		if (e.getSource() == bOK) {
+			if(!m_OnlyPanel) {
+				ProcessCtl.process(m_ASyncProcess, m_WindowNo, parameterPanel, m_pi, null);
+				dispose();
+			} else {
+				//	check if saving parameters is complete
+				if (parameterPanel.validateParameters() == null) {
+					//	Save Parameters
+					parameterPanel.saveParameters();
+					m_isOK = true;
+					dispose();
+				}
+			}
+		} else if (e.getSource() == southPanel.getCancelButton()) {
 			dispose();
 		}
-
-		else if (e.getSource() == southPanel.getCancelButton())
-			dispose();
 	}	//	actionPerformed
-
+	
+	/**
+	 *	Is everything OK?
+	 *  @return true if parameters saved correctly
+	 */
+	public boolean isOK() {
+		return m_isOK;
+	}	//	isOK
 }	//	ProcessDialog

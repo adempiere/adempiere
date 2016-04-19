@@ -65,6 +65,10 @@ import org.compiere.util.Msg;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
+ * 	@author Carlos Parada, cparada@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 317 ] Fix bug stack overflow on set value, add condition for launch trigger 
+ *		@see https://github.com/adempiere/adempiere/issues/317
+
  */
 public class VLocator extends JComponent
 	implements VEditor, ActionListener
@@ -313,12 +317,15 @@ public class VLocator extends JComponent
 		m_text.setText(m_mLocator.getDisplay(value));	//	loads value
 
 		//	Data Binding
-		try
-		{
-			fireVetoableChange(m_columnName, null, value);
-		}
-		catch (PropertyVetoException pve)
-		{
+		// BR [ 317 ]
+		if (fire){
+			try
+			{
+				fireVetoableChange(m_columnName, null, value);
+			}
+			catch (PropertyVetoException pve)
+			{
+			}
 		}
 	}	//	setValue
 

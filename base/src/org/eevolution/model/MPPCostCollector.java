@@ -78,24 +78,35 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 
 	/**
 	 * get Cost Collector That not was generate by inventory transaction
-	 * @param product
-	 * @param AD_Client_ID
-	 * @param dateAcct
+	 * @param productId
+	 * @param dateAccount
+	 * @param dateAccountTo
+	 * @param trxName
 	 * @return Collection the Cost Collector
 	 */
-	public static List<MPPCostCollector> getCostCollectorNotTransaction(Properties ctx, int M_Product_ID,int AD_Client_ID, Timestamp dateAcct, String trxName)
+	public static List<MPPCostCollector> getCostCollectorNotTransaction(
+			Properties ctx,
+			int productId,
+			Timestamp dateAccount,
+			Timestamp dateAccountTo,
+			String trxName)
 	{
 		List<Object> params = new ArrayList();
 		final StringBuffer whereClause = new StringBuffer();
 		whereClause.append(MPPCostCollector.COLUMNNAME_CostCollectorType +" NOT IN ('100','110') AND ");
-		if(M_Product_ID > 0)
+		if(productId > 0)
 		{	
 		  whereClause.append(MPPCostCollector.COLUMNNAME_M_Product_ID + "=? AND ");
-		  params.add(M_Product_ID);
+		  params.add(productId);
 		}	 
-			 
-		  whereClause.append(MPPCostCollector.COLUMNNAME_DateAcct + ">=?");
-		  params.add(dateAcct);
+		if (dateAccount == null || dateAccountTo == null)
+			throw new AdempiereException("@DateAcct@ @NotFound@");
+
+		whereClause.append(MPPCostCollector.COLUMNNAME_DateAcct + ">=? AND ");
+		params.add(dateAccount);
+
+		whereClause.append(MPPCostCollector.COLUMNNAME_DateAcct + "<=?");
+		params.add(dateAccountTo);
 		 
 		return new Query(ctx, I_PP_Cost_Collector.Table_Name, whereClause.toString() , trxName)
 					.setClient_ID()

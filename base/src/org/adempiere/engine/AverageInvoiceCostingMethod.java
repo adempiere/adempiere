@@ -66,10 +66,10 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
         //Setting Date Accounting based on Open Period
         if (this.isOpenPeriod)
             this.dateAccounting = model.getDateAcct();
-        else if (model instanceof MLandedCostAllocation )
+        /*else if (model instanceof MLandedCostAllocation )
                 this.dateAccounting = ((MLandedCostAllocation) model).getC_InvoiceLine().getC_Invoice().getDateAcct();
-        else if (model instanceof MMatchInv)
-			this.dateAccounting = ((MMatchInv) model).getC_InvoiceLine().getC_Invoice().getDateAcct();
+        //else if (model instanceof MMatchInv)
+		//	this.dateAccounting = ((MMatchInv) model).getC_InvoiceLine().getC_Invoice().getDateAcct();*/
         else
             this.dateAccounting = null; // Is Necessary define that happen in this case when period is close
 
@@ -205,9 +205,6 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
             // If period is not open then an adjustment cost is create based on quantity on hand of attribute instance
             // the amount difference is apply to adjustment cost account, the reason is because is import distribute
             // proportionally
-			// If period is not open then an adjustment cost is create based on quantity on hand of attribute instance
-			// the amount difference is apply to adjustment cost account, the reason is because is import distribute
-			// proportionally
 			if (model instanceof MLandedCostAllocation || model instanceof MMatchInv)
 			{
                 if (!isOpenPeriod) {

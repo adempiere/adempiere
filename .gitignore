@@ -39,3 +39,4 @@ migration/postgresql.properties
 .DS_Store?
 ._*
 install/patch/
+/test.properties

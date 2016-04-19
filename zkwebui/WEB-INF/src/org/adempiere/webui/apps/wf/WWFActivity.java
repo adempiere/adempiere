@@ -589,7 +589,7 @@ public class WWFActivity extends ADForm implements EventListener
 		{
 			int AD_Browse_ID = node.getAD_Browse_ID();
 
-			Window browse = WBrowser.openBrowse(AD_Browse_ID);
+			Window browse = WBrowser.openBrowse(0 , AD_Browse_ID, "");
 			AEnv.showWindow(browse);
 		}
 		else

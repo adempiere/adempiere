@@ -15,7 +15,7 @@
  * Contributor(s): Victor Pérez Juárez  (victor.perez@e-evolution.com)		  *
  * Sponsors: e-Evolution Consultants (http://www.e-evolution.com/)            *
  *****************************************************************************/
-package org.eevolution.form;
+package org.eevolution.grid;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,8 +59,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
-import org.eevolution.grid.IBrowseTable;
-import org.eevolution.grid.IBrowserRows;
 
 /**
  * Abstract Smart Browser <li>FR [ 3426137 ] Smart Browser
@@ -75,8 +73,10 @@ import org.eevolution.grid.IBrowserRows;
  * 		@see https://github.com/adempiere/adempiere/issues/246
  * 		<li>BR [ 253 ] Selection fields is not saved in T_Selection_Browse
  * 		@see https://github.com/adempiere/adempiere/issues/253
- * 		<li> BR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
+ * 		<li>BR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
  * 		@see https://github.com/adempiere/adempiere/issues/257
+ * 		<li>BR [ 318 ] Problem with context parameters filter in smart browser #318
+ * 		@see https://github.com/adempiere/adempiere/issues/318
  * 
  */
 public abstract class Browser {
@@ -145,9 +145,13 @@ public abstract class Browser {
 	public ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
 	
 	/** Parameters */
-	protected ArrayList<Object> m_parameters;
+	protected ArrayList<Object> parameters;
 	/** Parameters */
-	protected ArrayList<Object> m_parameters_values;
+	protected ArrayList<Object> parametersValues;
+	/** Parameters */
+	protected ArrayList<Object> axisParameters;
+	/** Parameters */
+	protected ArrayList<Object> axisParametersValues;
 	/** Parameters */
 	protected ArrayList<GridFieldVO> m_parameters_field;
 	/** Cache m_whereClause **/
@@ -313,7 +317,7 @@ public abstract class Browser {
 			browseField.setIsReadOnly(false);
 		}
 		
-		for (MBrowseField field : m_Browse.getFields()) {
+		for (MBrowseField field : m_Browse.getDisplayFields()) {
 
 			if (field.isQueryCriteria()) {
 				m_queryColumns.add(field.getName());
@@ -335,12 +339,21 @@ public abstract class Browser {
 		}
 	}
 
+	public ArrayList<Object> getAxisParameters() {
+
+		return axisParameters;
+	}
+
+	public ArrayList<Object> getAxisParametersValues() {
+		return axisParametersValues;
+	}
+
 	public ArrayList<Object> getParameters() {
-		return m_parameters;
+		return parameters;
 	}
 	
 	public ArrayList<Object> getParametersValues() {
-		return m_parameters_values;
+		return parametersValues;
 	}
 	
 	public void addSQLWhere(StringBuffer sql, int index, String value) {
@@ -386,7 +399,10 @@ public abstract class Browser {
 		StringBuffer sql = new StringBuffer(m_sqlCount);
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere); // includes first AND
-		String countSql = Msg.parseTranslation(Env.getCtx(), sql.toString()); // Variables
+
+		//	BR [ 318 ]
+		String countSql = Env.parseContext(Env.getCtx(), getWindowNo(), sql.toString(), true, true); // Variables
+		//	
 		countSql = MRole.getDefault().addAccessSQL(countSql,
 				m_View.getParentEntityAliasName(), MRole.SQL_FULLYQUALIFIED,
 				MRole.SQL_RO);
@@ -396,7 +412,7 @@ public abstract class Browser {
 		int no = -1;
 		try {
 			pstmt = DB.prepareStatement(countSql, null);
-			if (getParametersValues().size() > 0)
+			if (getParametersValues() != null && getParametersValues().size() > 0)
 				DB.setParameters(pstmt, getParametersValues());
 			rs = pstmt.executeQuery();
 			if (rs.next())
@@ -456,18 +472,21 @@ public abstract class Browser {
 		
 		if(!refresh)
 			return m_whereClause;
-		
+
+		StringBuilder sql = new StringBuilder(p_whereClause);
+
 		//	Valid null
 		LinkedHashMap<Object, GridField> panelParameters = getPanelParameters();
 		if(panelParameters == null
-				|| panelParameters.size() == 0)
+		|| panelParameters.size() == 0) {
+			m_whereClause = sql.toString();
 			return m_whereClause;
-		//	
-		m_parameters_values = new ArrayList<Object>();
-		m_parameters = new ArrayList<Object>();
+		}
+		//
+		parametersValues = new ArrayList<Object>();
+		parameters = new ArrayList<Object>();
 
 		boolean onRange = false;
-		StringBuilder sql = new StringBuilder(p_whereClause);
 
 		for (Entry<Object, GridField> entry : panelParameters.entrySet()) {
 			GridField editor = (GridField) entry.getValue();
@@ -487,7 +506,6 @@ public abstract class Browser {
 							if (value.contains(","))
 							{
 								value = value.replace(" ", "");
-								String token;
 								String inStr = new String(value);
 								StringBuffer outStr = new StringBuffer("(");
 								int i = inStr.indexOf(',');
@@ -499,22 +517,22 @@ public abstract class Browser {
 
 								}
 								outStr.append("'" + inStr + "')");
-								sql.append(field.Help).append(" IN ")
+								sql.append(field.ColumnNameAlias).append(" IN ")
 								.append(outStr);
 							}						
 						}
 						else
 						{
-							sql.append(field.Help).append(" LIKE ? ");
-							m_parameters.add(field.Help);
-							m_parameters_values.add("%" + editor.getValue() + "%");								
+							sql.append(field.ColumnNameAlias).append(" LIKE ? ");
+							parameters.add(field.ColumnNameAlias);
+							parametersValues.add("%" + editor.getValue() + "%");
 						}		
 					}
 					else
 					{
-						sql.append(field.Help).append("=? ");
-						m_parameters.add(field.Help);
-						m_parameters_values.add(editor.getValue());
+						sql.append(field.ColumnNameAlias).append("=? ");
+						parameters.add(field.ColumnNameAlias);
+						parametersValues.add(editor.getValue());
 					}
 				} 
 				else if (editor.getValue() != null
@@ -522,9 +540,9 @@ public abstract class Browser {
 						&& field.isRange) {
 					sql.append(" AND ");
 					//sql.append(field.Help).append(" BETWEEN ?");
-					sql.append(field.Help).append(" >= ? ");
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
+					sql.append(field.ColumnNameAlias).append(" >= ? ");
+					parameters.add(field.ColumnNameAlias);
+					parametersValues.add(editor.getValue());
 					onRange = true;
 				}
 				else if (editor.getValue() == null
@@ -535,9 +553,9 @@ public abstract class Browser {
 			} else if (editor.getValue() != null
 					&& !editor.getValue().toString().isEmpty()) {
 				//sql.append(" AND ? ");
-				sql.append(" AND ").append(field.Help).append(" <= ? ");
-				m_parameters.add(field.Help);
-				m_parameters_values.add(editor.getValue());
+				sql.append(" AND ").append(field.ColumnNameAlias).append(" <= ? ");
+				parameters.add(field.ColumnNameAlias);
+				parametersValues.add(editor.getValue());
 				onRange = false;
 			}
 			else
@@ -552,8 +570,8 @@ public abstract class Browser {
 	 * Set Parameters
 	 */
 	public void setParameters() {
-		m_parameters_values = new ArrayList<Object>();
-		m_parameters = new ArrayList<Object>();
+		parametersValues = new ArrayList<Object>();
+		parameters = new ArrayList<Object>();
 		m_parameters_field = new ArrayList<GridFieldVO>();
 		boolean onRange = false;
 		
@@ -565,22 +583,22 @@ public abstract class Browser {
 				if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
 						&& !field.isRange) {
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
+					parameters.add(field.ColumnNameAlias);
+					parametersValues.add(editor.getValue());
 					m_parameters_field.add(field);
 				} else if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
 						&& field.isRange) {
-					m_parameters.add(field.Help);
-					m_parameters_values.add(editor.getValue());
+					parameters.add(field.ColumnNameAlias);
+					parametersValues.add(editor.getValue());
 					m_parameters_field.add(field);
 					onRange = true;
 				} else
 					continue;
 			} else if (editor.getValue() != null
 					&& !editor.getValue().toString().isEmpty()) {
-				m_parameters.add(field.Help);
-				m_parameters_values.add(editor.getValue());
+				parameters.add(field.ColumnNameAlias);
+				parametersValues.add(editor.getValue());
 				m_parameters_field.add(field);
 				onRange = false;
 			}
@@ -674,14 +692,14 @@ public abstract class Browser {
 	 * save result values
 	 * @param browserTable
 	 */
-	protected void saveResultSelection(IBrowseTable browserTable) {
+	protected void saveResultSelection(IBrowserTable browserTable) {
 		if (m_keyColumnIndex == -1) {
 			return;
 		}
 		//	Verify if is Multi-Selection
 		if (p_multiSelection) {
 			int rows = browserTable.getRowCount();
-			IBrowserRows browserRows = browserTable.getData();
+			IBrowserRow browserRows = browserTable.getData();
 			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
 			//	BR [ 257 ]
 			List <MBrowseField> fields = m_Browse.getFields();
@@ -700,7 +718,7 @@ public abstract class Browser {
 						{
 							if (!field.isReadOnly() || field.isIdentifier())
 							{
-								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getAD_Column().getColumnName());//(GridField) browserRows.getValue(row, col);
+								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getColumnName());//(GridField) browserRows.getValue(row, col);
 								Object value = gridField.getValue();
 								values.put(field.getAD_View_Column().getColumnName(), value);
 							}
@@ -719,7 +737,7 @@ public abstract class Browser {
 	 * @param browserTable
 	 * @return
 	 */
-	public  ArrayList<ArrayList<Object>> getDataRows(IBrowseTable browserTable) {
+	public  ArrayList<ArrayList<Object>> getDataRows(IBrowserTable browserTable) {
 		ArrayList<ArrayList<Object>> rows = m_rows;
 		if (isShowTotal()) {
 			ArrayList<Object> row = new ArrayList<Object>();
@@ -741,7 +759,7 @@ public abstract class Browser {
 	 * Save Selection - Called by dispose
 	 * @param browserTable
 	 */
-	protected void saveSelection(IBrowseTable browserTable) {
+	protected void saveSelection(IBrowserTable browserTable) {
 		// Already disposed
 		if (browserTable == null)
 			return;
@@ -776,7 +794,7 @@ public abstract class Browser {
 	/**
 	 * FR [ 245 ]
 	 */
-	public void selectedRows(IBrowseTable browserTable) {
+	public void selectedRows(IBrowserTable browserTable) {
 		int topIndex = browserTable.isShowTotals() ? 2 : 1;
 		int rows = browserTable.getRowCount();
 
@@ -808,7 +826,7 @@ public abstract class Browser {
 	 * @param browseTable
 	 * @return IDs if selection present
 	 */
-	public ArrayList<Integer> getSelectedRowKeys(IBrowseTable browseTable) {
+	public ArrayList<Integer> getSelectedRowKeys(IBrowserTable browseTable) {
 		ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
 
 		if (m_keyColumnIndex == -1) {
@@ -850,7 +868,7 @@ public abstract class Browser {
 	 * @param table table to initialize
 	 * @return void
 	 */
-	public void initBrowserTable(IBrowseTable table) {
+	public void initBrowserTable(IBrowserTable table) {
 		// Clear Table
 		table.setRowCount(0);
 		//	
@@ -867,12 +885,8 @@ public abstract class Browser {
 	/**************************************************************************
 	 * Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd) and size Window
 	 * @param table table to prepare
-	 * @param fields list
-	 * @param from from clause
-	 * @param staticWhere where clause
-	 * @param orderBy order by clause
 	 */
-	private void prepareTable(IBrowseTable table) {
+	private void prepareTable(IBrowserTable table) {
 		//	Get values
 		setContextWhere(null);
 		String from = m_View.getFromClause();
@@ -915,7 +929,7 @@ public abstract class Browser {
 	
 	public String getKeyColumn() {
 		if(p_keyColumn == null || p_keyColumn.isEmpty())
-			p_keyColumn = m_Browse.getFieldKey().getAD_View_Column().getAD_Column().getColumnName();
+			p_keyColumn = m_Browse.getFieldKey().getAD_View_Column().getColumnName();
 		
 		return p_keyColumn;
 	}
@@ -925,7 +939,7 @@ public abstract class Browser {
 	 * @param browseTable
 	 * @return
 	 */
-	public Integer getSelectedRowKey(IBrowseTable browseTable) {
+	public Integer getSelectedRowKey(IBrowserTable browseTable) {
 		ArrayList<Integer> selectedDataList = getSelectedRowKeys(browseTable);
 		if (selectedDataList.size() == 0) {
 			return null;
@@ -951,7 +965,7 @@ public abstract class Browser {
 	 * @param browseTable
 	 * @return
 	 */
-    protected int deleteSelection(IBrowseTable browseTable) {
+    protected int deleteSelection(IBrowserTable browseTable) {
         MTable table = null;
         MBrowseField fieldKey  = m_Browse.getFieldKey();
         if (fieldKey != null)
@@ -1011,6 +1025,8 @@ public abstract class Browser {
 	public List<MBrowseField> getInfoColumnForAxisField(MBrowseField field)
 	{
 		List<MBrowseField> list = new ArrayList<MBrowseField>();
+		axisParameters = new ArrayList<>();
+		axisParametersValues = new ArrayList<>();
 
 		try {
 			I_AD_View_Column xcol, pcol, ycol;
@@ -1062,11 +1078,7 @@ public abstract class Browser {
 					.append(".")
 					.append(fieldKey.getAD_View_Column().getAD_Column()
 							.getColumnName()).append("=")
-					.append(fieldKey.getAD_View_Column().getColumnSQL())
-					.append(getAxisSQLWhere(ycol))
-					.append(" AND ")
-					.append(xTableName).append(".")
-					.append(xcol.getAD_Column().getColumnName());
+					.append(fieldKey.getAD_View_Column().getColumnSQL());
 
 			for (int id :  getAxisRecordIds(tableName, whereClause)) {
 				cols ++;
@@ -1079,7 +1091,14 @@ public abstract class Browser {
 				String colName = lookup.getDisplay(id).trim() + "/" + Msg.translate(m_language, ycol.getAD_Column()
 						.getColumnName());
 
-				StringBuffer select = new StringBuffer(axisSql);
+				StringBuilder axisWhere = new StringBuilder(" ");
+						axisWhere.append(getAxisSQLWhere(ycol))
+						.append(" AND ")
+						.append(xcol.getAD_View_Definition().getTableAlias()).append(".")
+						.append(xcol.getAD_Column().getColumnName());
+
+				StringBuffer select = new StringBuffer();
+				select.append(axisSql).append(axisWhere);
 				select.append("=").append(id).append(")");
 
 				MViewColumn viewColumn = new MViewColumn(field.getCtx() , 0 , field.get_TrxName());
@@ -1178,7 +1197,7 @@ public abstract class Browser {
 	 * Get Query from Record Identifier
 	 * @return
 	 */
-	public MQuery getMQuery(IBrowseTable browseTable)
+	public MQuery getMQuery(IBrowserTable browseTable)
 	{
 		Integer record_ID = getSelectedRowKey(browseTable);
 
@@ -1196,19 +1215,6 @@ public abstract class Browser {
 		query.addRestriction(keyColumn, MQuery.EQUAL, record_ID);
 		return query;
 	}
-	
-	
-	/**
-	 * get Parameter Value
-	 * @param key
-	 * @return Object Value
-	 */
-//	 public abstract Object getParameterValue(Object key);
-	 
-	 //	FR [ 245 ]
-//	 public abstract void setParameters();
-	 
-//	 abstract public String  getSQLWhere(boolean refresh);
 	 
 	/**
 	 * Get parameter
@@ -1239,22 +1245,28 @@ public abstract class Browser {
 
 				if (!onRange) {
 
-					if (m_parameters_values.get(i) != null
-							&& !m_parameters_values.get(i).toString().isEmpty()
+					if (parametersValues.get(i) != null
+							&& !parametersValues.get(i).toString().isEmpty()
 							&& !m_parameters_field.get(i).isRange) {
 						whereAxis.append(" AND ");
-						whereAxis.append(fieldName).append("=").append(m_parameters_values.get(i).toString());
-					} else if (m_parameters_values.get(i) != null
-							&& !m_parameters_values.get(i).toString().isEmpty()
+						whereAxis.append(fieldName).append("=").append(parametersValues.get(i).toString());
+					}
+					else if (parametersValues.get(i) != null
+							&& !parametersValues.get(i).toString().isEmpty()
 							&& m_parameters_field.get(i).isRange) {
 						whereAxis.append(" AND ");
-						whereAxis.append(fieldName).append(" BETWEEN ").append(m_parameters_values.get(i).toString());
+						whereAxis.append(fieldName).append(" >= ? ");
+						axisParameters.add(m_parameters_field.get(i));
+						axisParametersValues.add(parametersValues.get(i));
 						onRange = true;
 					} else
 						continue;
-				} else if (m_parameters_values.get(i) != null
-						&& !m_parameters_values.get(i).toString().isEmpty()) {
-					whereAxis.append(" AND ").append(m_parameters_values.get(i).toString());
+				} else if (parametersValues.get(i) != null
+						&& !parametersValues.get(i).toString().isEmpty()) {
+					whereAxis.append(" AND ");
+					whereAxis.append(fieldName).append(" <= ? ");
+					axisParameters.add(m_parameters_field.get(i));
+					axisParametersValues.add(parametersValues.get(i));
 					onRange = false;
 				}
 			}
@@ -1262,13 +1274,19 @@ public abstract class Browser {
 			return whereAxis.toString();
 	 }
 	
+	/**
+	 * get main SQL
+	 * @return SQL parsed
+	 */
 	protected String getSQL() {
 		String dynWhere = getSQLWhere(false);
 		StringBuilder sql = new StringBuilder(m_sqlMain);
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere); // includes first AND
 
-		String dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString()); // Variables
+		//	BR [ 318 ]
+		String dataSql = Env.parseContext(Env.getCtx(), getWindowNo(), sql.toString(), true, true); // Variables
+		//	
 		dataSql = MRole.getDefault().addAccessSQL(dataSql,
 				m_View.getParentEntityAliasName(), MRole.SQL_FULLYQUALIFIED,
 				MRole.SQL_RO);
@@ -1352,10 +1370,16 @@ public abstract class Browser {
 	
 	protected PreparedStatement getStatement(String sql) {
 		PreparedStatement stmt = null;
+		ArrayList<Object> parametersValue = new ArrayList<Object>();
+		if (getAxisParametersValues() != null && getAxisParametersValues().size() > 0)
+			parametersValue.addAll(getAxisParametersValues());
+		if (getParametersValues() != null && getParametersValues().size() > 0)
+			parametersValue.addAll(getParametersValues());
+
 		try {
 			stmt = DB.prepareStatement(sql, null);
-			if (getParametersValues().size() > 0)
-				DB.setParameters(stmt, getParametersValues());
+			if (parametersValue.size() > 0)
+				DB.setParameters(stmt, parametersValue);
 			return stmt;
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql, e);
@@ -1368,7 +1392,7 @@ public abstract class Browser {
 	 * @param browserTable
 	 * @return
 	 */
-	protected File exportXLS(IBrowseTable browserTable) {
+	protected File exportXLS(IBrowserTable browserTable) {
 		File file = null;
 		try {
 			if (m_exporter != null && m_exporter.isAlive())

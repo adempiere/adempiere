@@ -32,7 +32,9 @@ import org.compiere.util.Env;
  * @author victor.perez@e-evoluton.com, www.e-evolution.com
  *  <li>FR [ 3426137 ] Smart Browser
  * 	https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
- * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 267 ] Smart Browse don't have a Sequence Tab for Search Criteria Fields
+ * 		@see https://github.com/adempiere/adempiere/issues/267
  */
 public class MBrowse extends X_AD_Browse {
 
@@ -121,7 +123,8 @@ public class MBrowse extends X_AD_Browse {
 			return new Query(getCtx(), MBrowseField.Table_Name,
 					whereClause.toString(), get_TrxName())
 					.setParameters(get_ID(), "Y").setOnlyActiveRecords(true)
-					.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
+					//	FR [ 267 ] Add SeqNoGrid
+					.setOrderBy(MBrowseField.COLUMNNAME_SeqNoGrid).list();
 		}
 		return m_CriterialFields;
 	}
@@ -172,11 +175,16 @@ public class MBrowse extends X_AD_Browse {
 		if (m_DisplayFields == null) {
 			final StringBuilder whereClause = new StringBuilder(
 					MBrowseField.COLUMNNAME_AD_Browse_ID);
-			whereClause.append("=? AND ")
-					.append(MBrowseField.COLUMNNAME_IsDisplayed).append("=? ");
+			whereClause.append(" = ? AND ")
+					.append("(")
+					.append(MBrowseField.COLUMNNAME_IsDisplayed).append(" = ? ")
+					.append("OR ")
+					.append(MBrowseField.COLUMNNAME_IsIdentifier).append(" = ?")
+					.append(")");
 			m_DisplayFields = new Query(getCtx(), MBrowseField.Table_Name,
 					whereClause.toString(), get_TrxName())
-					.setParameters(get_ID(), "Y").setOnlyActiveRecords(true)
+					.setParameters(get_ID(), "Y", "Y")
+					.setOnlyActiveRecords(true)
 					.setOrderBy(MBrowseField.COLUMNNAME_SeqNo).list();
 		}
 		return m_DisplayFields;

@@ -307,6 +307,7 @@ public class GridFieldVO implements Serializable
 		voT.ReadOnlyLogic = voF.ReadOnlyLogic;
 		voT.ValidationCode = voF.ValidationCode;
 		voT.InfoFactoryClass = voF.InfoFactoryClass;
+		voT.ColumnNameAlias = voF.ColumnNameAlias;
 		
 		//
 		// Genied: For a range parameter the second field 
@@ -499,6 +500,8 @@ public class GridFieldVO implements Serializable
 	public boolean IsCollapsedByDefault = false;
 	/**  Autocompletion for textfields - Feature Request FR [ 1757088 ] */
 	public boolean IsAutocomplete = false;
+	/** Define alias by smart browser */
+	public String ColumnNameAlias = "";
 	
 	/**
 	 *  Set Context including contained elements
@@ -535,6 +538,8 @@ public class GridFieldVO implements Serializable
 			ReadOnlyLogic = "";
 		if (MandatoryLogic == null)
 			MandatoryLogic = "";
+		if (ColumnNameAlias == null)
+			ColumnNameAlias = "";
 
 
 		//  Create Lookup, if not ID
@@ -624,6 +629,7 @@ public class GridFieldVO implements Serializable
 		clone.isRange = isRange;
 		clone.isEmbedded = isEmbedded;
 		clone.DefaultValue2 = DefaultValue2;
+		clone.ColumnNameAlias = ColumnNameAlias;
 
 		return clone;
 	}	//	clone

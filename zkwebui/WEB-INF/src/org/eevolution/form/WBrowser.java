@@ -64,7 +64,8 @@ import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.grid.WBrowseListbox;
+import org.eevolution.grid.Browser;
+import org.eevolution.grid.WBrowserListbox;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -97,6 +98,9 @@ import org.zkoss.zul.Vbox;
  * 		@see https://github.com/adempiere/adempiere/issues/251
  * 		<li>FR [ 252 ] Smart Browse is Collapsible when query don't have result
  * 		@see https://github.com/adempiere/adempiere/issues/252
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *		@see https://github.com/adempiere/adempiere/issues/265
  */
 public class WBrowser extends Browser implements IFormController,
 		EventListener, WTableModelListener, ValueChangeListener, ASyncProcess {
@@ -115,7 +119,7 @@ public class WBrowser extends Browser implements IFormController,
 	private Button bZoom;
 	private Button bSelectAll;
 
-	private WBrowseListbox detail;
+	private WBrowserListbox detail;
 //	private Borderlayout graphPanel;
 	private WBrowserSearch searchGrid;
 	private Borderlayout searchTab;
@@ -127,15 +131,15 @@ public class WBrowser extends Browser implements IFormController,
 	private BusyDialog m_waiting;
 //	private VerticalBox dialogBody;
 
-	public static CustomForm openBrowse(int AD_Browse_ID) {
-		MBrowse browse = new MBrowse(Env.getCtx(), AD_Browse_ID , null);
-		boolean modal = true;
-		int WindowNo = 0;
+	public static CustomForm openBrowse(int windowNo , int browserId , String whereClause) {
+		MBrowse browse = new MBrowse(Env.getCtx(), browserId , null);
+		boolean modal = false;
+		if (windowNo > 0)
+			modal = true;
 		String value = "";
 		String keyColumn = "";
 		boolean multiSelection = true;
-		String whereClause = "";
-		return new WBrowser(modal, WindowNo, value, browse, keyColumn, multiSelection, whereClause).getForm();
+		return new WBrowser(modal, windowNo, value, browse, keyColumn, multiSelection, whereClause).getForm();
 	}
 	
 	public WBrowser(boolean modal, int WindowNo, String value, MBrowse browse,
@@ -201,18 +205,19 @@ public class WBrowser extends Browser implements IFormController,
 		if (m_Browse.getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
 			initProcessInfo();
-			parameterPanel = new ProcessParameterPanel(getWindowNo(), getBrowseProcessInfo() , "100%");
-			parameterPanel.setMode(ProcessParameterPanel.BROWSER_MODE);
-			parameterPanel.init();
-			
+			//	FR [ 265 ]
+			parameterPanel = new ProcessParameterPanel(getWindowNo(), getBrowseProcessInfo() , "100%", ProcessParameterPanel.COLUMNS_2);
+			//
 			South south = new South();
 			south.setAutoscroll(true);
 			south.setSplittable(true);
 			south.setCollapsible(false);
-			
+			//	
+			parameterPanel.init();
+			//	
 			Div div = new Div();
 			div.setWidth("100%");
-			div.appendChild(parameterPanel);
+			div.appendChild(parameterPanel.getPanel());
 			south.appendChild(div);	
 			detailPanel.appendChild(south);
 		}		
@@ -434,7 +439,7 @@ public class WBrowser extends Browser implements IFormController,
 		collapsibleSeach = new North();
 		topPanel = new Hbox();
 		searchGrid = new WBrowserSearch(getWindowNo());
-		detail = new WBrowseListbox(this);
+		detail = new WBrowserListbox(this);
 		bCancel = new Button();
 		bOk = new Button();
 //		graphPanel = new Borderlayout();
@@ -671,30 +676,34 @@ public class WBrowser extends Browser implements IFormController,
 		//	Valid Process, Selected Keys and process parameters
 		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
 		{
-			MPInstance instance = new MPInstance(Env.getCtx(),
-					m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
-			instance.saveEx();
-			ProcessInfo pi = getBrowseProcessInfo();
-			pi.setWindowNo(getWindowNo());
-			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-			pi.setIsSelection(p_multiSelection);
-			// BR [ 249 ]
-			if(parameterPanel.saveParameters()) {
-				DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
-						null);
-				//Save Values Browse Field Update
-				createT_Selection_Browse(instance.getAD_PInstance_ID());
-				ProcessInfoUtil.setParameterFromDB(pi);
-				setBrowseProcessInfo(pi);
-							
-				// Execute Process
-				ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo(), pi , null);
-				showBusyDialog();
-				worker.run();
-				hideBusyDialog();
-				setStatusLine(pi.getSummary(), pi.isError());
-				//	For Valid Ok
-				isOk = !pi.isError();
+			// FR [ 265 ]
+			if(parameterPanel.validateParameters() == null) {
+				MPInstance instance = new MPInstance(Env.getCtx(),
+						m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
+				instance.saveEx();
+				ProcessInfo pi = getBrowseProcessInfo();
+				pi.setWindowNo(getWindowNo());
+				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
+				pi.setIsSelection(p_multiSelection);
+				// BR [ 249 ]
+				if(parameterPanel.saveParameters() == null) {
+					
+					DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
+							null);
+					//Save Values Browse Field Update
+					createT_Selection_Browse(instance.getAD_PInstance_ID());
+					ProcessInfoUtil.setParameterFromDB(pi);
+					setBrowseProcessInfo(pi);
+								
+					// Execute Process
+					ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo(), pi , null);
+					showBusyDialog();
+					worker.run();
+					hideBusyDialog();
+					setStatusLine(pi.getSummary(), pi.isError());
+					//	For Valid Ok
+					isOk = !pi.isError();
+				}
 			}
 		}
 		//	For when is ok the process
