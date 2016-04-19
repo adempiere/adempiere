@@ -23,6 +23,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -77,9 +78,12 @@ import org.zkoss.zul.ListitemRendererExt;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>FR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
  * 		@see https://github.com/adempiere/adempiere/issues/257
- *
+ * 		<li>BR [ 269 ] Smart Browse don't allow edit Text fields
+ *		@see https://github.com/adempiere/adempiere/issues/269
+ *		<li>BR [ 270 ] Smart Browse cast error in ZK Table
+ *		@see https://github.com/adempiere/adempiere/issues/270
  */
-public class WBrowseListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt , ValueChangeListener
+public class WBrowserListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt , ValueChangeListener
 {
 	/** Array of listeners for changes in the table components. */
 	protected ArrayList<TableValueChangeListener> m_listeners =
@@ -96,7 +100,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 
 	private EventListener cellListener;
 
-	private WBrowseListbox table;
+	private WBrowserListbox table;
 
 	private Object[] currentValues;
 
@@ -124,7 +128,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 	 * Default constructor.
 	 *
 	 */
-	public WBrowseListItemRenderer(WBrowseListbox table)
+	public WBrowserListItemRenderer(WBrowserListbox table)
 	{
 		super();
 		this.table = table;
@@ -135,7 +139,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 	 * @param columnNames
 	 * @param table
 	 */
-	public WBrowseListItemRenderer(List< ? extends String> columnNames,WBrowseListbox table)
+	public WBrowserListItemRenderer(List< ? extends String> columnNames,WBrowserListbox table)
 	{
 		super();
 		table = table;
@@ -286,11 +290,11 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 		Listcell listcell = null;
 		int colIndex = 0;
 		int rowIndex = item.getIndex();
-		WBrowseListbox table = null;
+		WBrowserListbox table = null;
 
-		if (item.getListbox() instanceof WBrowseListbox)
+		if (item.getListbox() instanceof WBrowserListbox)
 		{
-			table = (WBrowseListbox)item.getListbox();
+			table = (WBrowserListbox)item.getListbox();
 		}
 
 		if (!(data instanceof List))
@@ -327,16 +331,19 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 	 * @param columnIndex	The column in which the cell is to be placed.
 	 * @return	The list cell component.
 	 */
-	private Listcell getCellComponent(WBrowseListbox table, Object field,
+	private Listcell getCellComponent(WBrowserListbox table, Object field,
 									  int rowIndex, int columnIndex)
 	{
 		ListCell listcell = new ListCell();
+		if(table == null)
+			return listcell;
+		IBrowserRow browserRows = table.getData();
 		//	BR [ 257 ]
-		MBrowseField browseField = table.browserRows.getBrowserField(table.browserRows.getTableIndex(columnIndex));
+		MBrowseField browseField = browserRows.getBrowserField(browserRows.getTableIndex(columnIndex));
 		if (browseField == null)
 			return listcell;
-
-		GridField gridField  = table.browserRows.getValue(rowIndex,table.browserRows.getTableIndex(columnIndex));
+		//	
+		GridField gridField  = table.getGridFieldAt(rowIndex, columnIndex);
 		boolean isColumnVisible = Boolean.TRUE;
 
 		if ( !m_tableColumns.isEmpty() )
@@ -350,7 +357,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 			{
 				listcell.setValue(Boolean.valueOf(field.toString()));
 
-				if (table != null && columnIndex == 0)
+				if (columnIndex == 0)
 					table.setCheckmark(false);
 				Checkbox checkbox = new Checkbox();
 				checkbox.setChecked(Boolean.valueOf(field.toString()));
@@ -400,19 +407,26 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 				if (field != null) {
 
 					SimpleDateFormat dateFormat = DisplayType.getDateFormat(browseField.getAD_Reference_ID(), AEnv.getLanguage(Env.getCtx()));
-					listcell.setValue(dateFormat.format((Timestamp) field)); //listcell.setValue(dateFormat.format(field));
+					//	BR [ 270 ]
+					listcell.setValue(dateFormat.format(field));
 					if (isCellEditable) {
 						Datebox datebox = new Datebox();
 						datebox.setFormat(dateFormat.toPattern());
-						datebox.setValue(((Timestamp) field)); //datebox.setValue((Date) field);
+						//	
+						datebox.setValue((Date) field);
 						datebox.addEventListener(Events.ON_CHANGE, this);
 						listcell.appendChild(datebox);
 					} else {
-						listcell.setLabel(dateFormat.format((Timestamp) field)); //listcell.setLabel(dateFormat.format(field));
+						listcell.setLabel(dateFormat.format(field));
 					}
 				}
 			}
-			else if (DisplayType.String == browseField.getAD_Reference_ID())
+			//	BR [ 269 ]
+			//	Add support to other String
+			else if (browseField.getAD_Reference_ID() == DisplayType.String
+		            || browseField.getAD_Reference_ID() == DisplayType.PrinterName 
+		            || browseField.getAD_Reference_ID() == DisplayType.Text 
+		            || browseField.getAD_Reference_ID() == DisplayType.TextLong)
 			{
 				listcell.setValue((field == null ? "" : field.toString()));
 				if (isCellEditable)
@@ -816,9 +830,9 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 				fireTableValueChange(vcEvent);
 			}
 		}
-		else if (event.getTarget() instanceof WBrowseListbox && Events.ON_SELECT.equals(event.getName()))
+		else if (event.getTarget() instanceof WBrowserListbox && Events.ON_SELECT.equals(event.getName()))
 		{
-			WBrowseListbox table = (WBrowseListbox) event.getTarget();
+			WBrowserListbox table = (WBrowserListbox) event.getTarget();
 			if (table.isCheckmark()) {
 				int cnt = table.getRowCount();
 				if (cnt == 0 || !(table.getValueAt(0, 0) instanceof IDColumn))
@@ -1099,7 +1113,7 @@ public class WBrowseListItemRenderer implements ListitemRenderer, EventListener,
 		if(evt.getSource() instanceof WEditor)
 		{
 			WEditor wEditor = (WEditor)evt.getSource();
-			columnName = wEditor.getGridField().getVO().Help;
+			columnName = wEditor.getGridField().getVO().ColumnNameAlias;
 		}
 		//processNewValue(evt.getNewValue(), columnName);
 	} // valueChange

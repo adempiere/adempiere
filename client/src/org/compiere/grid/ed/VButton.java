@@ -49,7 +49,7 @@ import org.compiere.util.NamePair;
  *  see org.compiere.apps.APanel#actionButton(VButton)
  *
  * 	@author 	Jorg Janke
- * 	@version 	$Id: VButton.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 	@author		Trifon Trifonov
  */
 public final class VButton extends CButton
 	implements VEditor
@@ -370,7 +370,7 @@ public final class VButton extends CButton
 	public char getSavedMnemonic ()
 	{
 		return m_savedMnemonic;
-	}	//	getSavedMnemonic
+	}
 	
 	/**
 	 * @param savedMnemonic The savedMnemonic to set.
@@ -378,6 +378,5 @@ public final class VButton extends CButton
 	public void setSavedMnemonic (char savedMnemonic)
 	{
 		m_savedMnemonic = savedMnemonic;
-	}	//	getSavedMnemonic
-
+	}
 }	//	VButton

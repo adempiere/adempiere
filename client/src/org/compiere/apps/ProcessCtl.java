@@ -57,6 +57,11 @@ import org.compiere.wf.MWFProcess;
  * 				<li>BF [ 1757523 ] Server Processes are using Server's context
  * 				<li>FR [ 1807922 ] Pocess threads should have a better name
  * 				<li>BF [ 1960523 ] Server Process functionality not working
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *				<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *				@see https://github.com/adempiere/adempiere/issues/265
+ *				<li>FR [ 295 ] Report viewer re-query
+ *				@see https://github.com/adempiere/adempiere/issues/295
  */
 public class ProcessCtl implements Runnable
 {
@@ -113,14 +118,14 @@ public class ProcessCtl implements Runnable
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
 		//	Get Parameters (Dialog)
-		ProcessParameter para = new ProcessParameter (Env.getFrame((Container)parent), WindowNo, pi);
-		if (para.initDialog())
-		{
-			para.setVisible(true);
-			if (!para.isOK())
-			{
-				pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessCancelled"));
-				pi.setError (true);
+		//	FR [ 265 ]
+		//	Change to Standard Process Modal Dialog
+		ProcessModalDialog para = new ProcessModalDialog(Env.getFrame((Container)parent), WindowNo, pi);
+		if (para.isValidDialog()) {
+			para.validate();
+			para.pack();
+			AEnv.showCenterWindow(Env.getWindow(WindowNo), para);
+			if (!para.isOK()) {
 				return null;
 			}
 		}
@@ -159,7 +164,7 @@ public class ProcessCtl implements Runnable
 	 *  @param trx Transaction
 	 *  @return worker started ProcessCtl instance or null for workflow
 	 */
-	public static ProcessCtl process(ASyncProcess parent, int WindowNo, IProcessParameter parameter, ProcessInfo pi, Trx trx)
+	public static ProcessCtl process(ASyncProcess parent, int WindowNo, ProcessParameter parameter, ProcessInfo pi, Trx trx)
 	{
 		log.fine("WindowNo=" + WindowNo + " - " + pi);
 
@@ -191,11 +196,9 @@ public class ProcessCtl implements Runnable
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
 		//	Get Parameters
+		//	BR [ 265 ]
 		if (parameter != null) {
-			if (!parameter.saveParameters())
-			{
-				pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessCancelled"));
-				pi.setError (true);
+			if (parameter.saveParameters() != null) {
 				return null;
 			}
 		}
@@ -214,20 +217,35 @@ public class ProcessCtl implements Runnable
 		return worker;
 	}	//	execute
 	
+	/**
+	 * Used for re-query report
+	 * @param parent
+	 * @param WindowNo
+	 * @param pi
+	 * @param isOnlyProcess
+	 * @param trx
+	 */
+	public ProcessCtl (ASyncProcess parent, int WindowNo, ProcessInfo pi, boolean isOnlyProcess, Trx trx)
+	{
+		windowno = WindowNo;
+		m_parent = parent;
+		m_pi = pi;
+		m_trx = trx;	//	handeled correctly
+		m_IsOnlyProcess = isOnlyProcess;
+	}   //  ProcessCtl
+	
 	/**************************************************************************
 	 *  Constructor
 	 *  @param parent Container & ASyncProcess
 	 *  @param pi Process info
 	 *  @param trx Transaction
 	 *  Created in process(), VInvoiceGen.generateInvoices
+	 *  FR [ 295 ]
+	 *  Add parameter for run only process, not run report
 	 */
-	public ProcessCtl (ASyncProcess parent, int WindowNo, ProcessInfo pi, Trx trx)
-	{
-		windowno = WindowNo;
-		m_parent = parent;
-		m_pi = pi;
-		m_trx = trx;	//	handeled correctly
-	}   //  ProcessCtl
+	public ProcessCtl (ASyncProcess parent, int WindowNo, ProcessInfo pi, Trx trx) {
+		this(parent, WindowNo, pi, false, trx);
+	}
 
 	/** Windowno */
 	int windowno;
@@ -238,6 +256,8 @@ public class ProcessCtl implements Runnable
 	private Trx				m_trx;
 	private Waiting         m_waiting;
 	private boolean 		m_IsServerProcess = false;
+	//	FR [ 295 ]
+	private boolean			m_IsOnlyProcess = false;
 	
 	/**	Static Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (ProcessCtl.class);
@@ -437,9 +457,12 @@ public class ProcessCtl implements Runnable
 		if (IsReport)
 		{
 			m_pi.setReportingProcess(true);
-			//	Start Report	-----------------------------------------------
-			boolean ok = ReportCtl.start(m_parent, windowno, m_pi, IsDirectPrint);
-			m_pi.setSummary("Report", !ok);
+			if(!m_IsOnlyProcess) {
+				//	Start Report	-----------------------------------------------
+				boolean ok = ReportCtl.start(m_parent, windowno, m_pi, IsDirectPrint);
+				m_pi.setSummary("Report", !ok);
+			}
+			//	
 			unlock ();
 		}
 		/**********************************************************************

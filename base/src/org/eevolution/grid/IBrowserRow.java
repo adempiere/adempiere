@@ -26,7 +26,7 @@ import java.util.LinkedHashMap;
  * Created by e-Evolution on 13/12/14.
  * @author victor.perez@www.e-evolution.com, e-Evolution
  */
-public interface IBrowserRows {
+public interface IBrowserRow {
 
     public void addBrowserField(MBrowseField field, int column);
 

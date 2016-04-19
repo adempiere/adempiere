@@ -15,24 +15,23 @@
  * Contributor(s): Victor Pérez Juárez  (victor.perez@e-evolution.com)		  *
  * Sponsors: e-Evolution Consultants (http://www.e-evolution.com/)            *
  *****************************************************************************/
-package org.eevolution.form;
+package org.eevolution.grid;
 
 import java.util.Properties;
 
 import org.compiere.model.GridField;
 
 /**
- *  BrowserCallout Interface for BrowserCallout.
+ *  Browser CallOut Interface for Browser CallOut.
  *  Used in Browser
  *  @author   eEvolution author Victor Perez<victor.perez@e-evolution.com>
  */ 
-public interface WBrowserCallout
+public interface BrowserCallOut
 {
-
 	/**
-	 *	Start BrowserCallout.
+	 *	Start BrowserCallOut.
 	 *  <p>
-	 *	Callout's are used for cross field validation and setting values in other fields
+	 *	CallOut's are used for cross field validation and setting values in other fields
 	 *	when returning a non empty (error message) string, an exception is raised
 	 *  <p>
 	 *	When invoked, the Tab model has the new value!
@@ -47,8 +46,8 @@ public interface WBrowserCallout
 	 *  @return Error message or ""
 	 */
 	public String start (Properties ctx, String method, int WindowNo,
-		WBrowserRows mRow, GridField mField, Object value, Object oldValue, int currentRow, int currentColumn);
-
+		BrowserRow mRow, GridField mField, Object value, Object oldValue, int currentRow, int currentColumn);
+	
 	/**
 	 *	Conversion Rules.
 	 *	Convert a String

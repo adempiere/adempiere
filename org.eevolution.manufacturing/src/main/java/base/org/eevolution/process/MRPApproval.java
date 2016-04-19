@@ -37,7 +37,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.wf.MWorkflow;
-import org.eevolution.form.Browser;
+import org.eevolution.grid.Browser;
 import org.eevolution.model.I_PP_MRP;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;

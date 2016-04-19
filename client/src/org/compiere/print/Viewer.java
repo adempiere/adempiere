@@ -20,6 +20,7 @@ package org.compiere.print;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Event;
@@ -71,6 +72,8 @@ import org.compiere.apps.AWindow;
 import org.compiere.apps.AWindowListener;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.EMailDialog;
+import org.compiere.apps.ProcessCtl;
+import org.compiere.apps.ProcessModalDialog;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.WindowMenu;
 import org.compiere.model.GridField;
@@ -81,6 +84,7 @@ import org.compiere.model.MRole;
 import org.compiere.model.MUser;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_Invoice;
+import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CComboBox;
@@ -1317,17 +1321,54 @@ public class Viewer extends CFrame
 		GridField[] findFields = null;
 		if (tableName != null)
 			findFields = GridField.createFields(m_ctx, m_WindowNo, 0, AD_Tab_ID);
-		
-		if (findFields == null)		//	No Tab for Table exists
-			bFind.setEnabled(false);
-		else
-		{
+		//	FR [ 295 ]
+		if (findFields == null)	{	//	No Tab for Table exists
+			if(launchProcessPara()) {
+				revalidate();
+			} else {
+				return;
+			}
+		} else {
 			ASearch search = new ASearch (bFind,this, title,AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine ,findFields, 1);
 			search = null;
 			revalidate();
 		}
 		cmd_drill();	//	setCursor
 	}	//	cmd_find
+	
+	/**
+	 * FR [ 295 ]
+	 * Launch Parameters for re-query
+	 * @return isOk
+	 */
+	private boolean launchProcessPara() {
+		//	Create new Instance
+		ProcessInfo pi = new ProcessInfo(m_reportEngine.getProcessInfo().getTitle(), 
+				m_reportEngine.getProcessInfo().getAD_Process_ID(), 
+				m_reportEngine.getProcessInfo().getTable_ID(), 
+				m_reportEngine.getProcessInfo().getRecord_ID());
+		//	Launch dialog
+		ProcessModalDialog para = new ProcessModalDialog(Env.getFrame((Container)this), m_WindowNo, pi);
+		if (para.isValidDialog()) {
+			para.validate();
+			para.pack();
+			AEnv.showCenterWindow(Env.getWindow(m_WindowNo), para);
+			if (para.isOK()) {
+				//	execute
+				ProcessCtl worker = new ProcessCtl(null, m_WindowNo, pi, true, null);
+				//synchrous
+				worker.run();
+				//	
+				ReportEngine re = ReportEngine.get(Env.getCtx(), pi);
+				//	
+				m_reportEngine.setQuery(re.getQuery());
+				//	
+				return true;
+			}
+		}
+		//	Default
+		return false;
+	}
 
 	/**
 	 * 	Call Customize

@@ -100,6 +100,9 @@ import org.compiere.util.ValueNamePair;
  *  @see https://sourceforge.net/tracker/?func=detail&aid=2900767&group_id=176962&atid=879332
  *  @author Michael McKay  ADEMPIERE-55 Query not reset when moving to sub tab
  *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-55
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 305 ] Allows evaluate of default value based on the other parameter context
+ *  	@see https://github.com/adempiere/adempiere/issues/305
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
@@ -2695,9 +2698,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		for (int i = 0; i < list.size(); i++)
 		{
 			GridField dependentField = (GridField)list.get(i);
+			//	FR [ 305 ]
+			if(dependentField == null)
+				continue;
 		//	log.trace(log.l5_DData, "Dependent Field", dependentField==null ? "null" : dependentField.getColumnName());
 			//  if the field has a lookup
-			if (dependentField != null && dependentField.getLookup() instanceof MLookup)
+			if (dependentField.getLookup() instanceof MLookup)
 			{
 				MLookup mLookup = (MLookup)dependentField.getLookup();
 			//	log.trace(log.l6_Database, "Lookup Validation", mLookup.getValidation());
@@ -2710,6 +2716,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					setValue(dependentField, null);
 				}
 			}
+			//	FR [ 305 ]
+			Object value = getValue(dependentField);
+			Object defaultValue = dependentField.getDefault();
+			if ((value == null || value.toString().length() == 0)
+					&& defaultValue != null)
+				setValue(dependentField, defaultValue);
 		}   //  for all dependent fields
 	}   //  processDependencies
 

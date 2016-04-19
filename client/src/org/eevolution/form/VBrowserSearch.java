@@ -32,7 +32,6 @@ import javax.swing.JLabel;
 
 import org.adempiere.model.MBrowseField;
 import org.compiere.apps.ALayoutConstraint;
-import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
@@ -62,7 +61,7 @@ public class VBrowserSearch extends CPanel implements
 	private ArrayList<GridField>	m_mFields = new ArrayList<GridField>();
 	private ArrayList<GridField>	m_mFields2 = new ArrayList<GridField>();
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(ProcessParameterPanel.class);
+	private static CLogger log = CLogger.getCLogger(VBrowserSearch.class);
 	
 	/** Parameters */
 	protected LinkedHashMap<Object, Object> m_search = new LinkedHashMap<Object, Object>();
@@ -124,8 +123,8 @@ public class VBrowserSearch extends CPanel implements
 		voBase.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
 		voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column()
 				.getAD_Table_ID();
-		voBase.ColumnName = field.getAD_View_Column().getAD_Column()
-				.getColumnName();
+		voBase.ColumnName = field.getAD_View_Column().getAD_Column().getColumnName();
+		voBase.ColumnNameAlias = uniqueName;
 		voBase.displayType = field.getAD_Reference_ID();
 		voBase.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
 		voBase.IsMandatory = field.isMandatory();
@@ -145,7 +144,7 @@ public class VBrowserSearch extends CPanel implements
 
 		voBase.isRange = field.isRange();
 		voBase.Description = field.getDescription();
-		voBase.Help = uniqueName;
+		voBase.Help = field.getHelp();
 		voBase.Header = title;
 
 		GridField gField = new GridField(GridFieldVO.createParameter(voBase));
@@ -221,9 +220,9 @@ public class VBrowserSearch extends CPanel implements
 		}
 
 		if (gField != null)
-			processNewValue(defaultObject, gField.getVO().Help);
+			processNewValue(defaultObject, gField.getVO().ColumnNameAlias);
 		if (gField2 != null)
-			processNewValue(defaultObject2, gField2.getVO().Help);
+			processNewValue(defaultObject2, gField2.getVO().ColumnNameAlias + "_To");
 	}
 
 
@@ -233,18 +232,15 @@ public class VBrowserSearch extends CPanel implements
 	 * 	@exception PropertyChangeEvent if the recipient wishes to roll back.
 	 */
 	public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException{
+		String columnName = "";
 		if (evt.getSource() instanceof VEditor) {
+			VEditor vEditor = (VEditor)evt.getSource();
 			GridField changedField = ((VEditor) evt.getSource()).getField();
 			if (changedField != null) {
+				columnName = changedField.getVO().ColumnNameAlias;
 				processDependencies (changedField);
-				// future processCallout (changedField);
+				// future process Callout (changedField);
 			}
-		}
-		String columnName = "";
-		if(evt.getSource() instanceof VEditor)
-		{
-			VEditor vEditor = (VEditor)evt.getSource();
-			columnName = vEditor.getField().getVO().Help;
 		}
 		processNewValue(evt.getNewValue(), columnName);
 	}	//	vetoableChange
@@ -279,8 +275,7 @@ public class VBrowserSearch extends CPanel implements
 	 */
 	private void processDependencies (GridField changedField)
 	{
-		String columnName = changedField.getVO().Help;
-
+		String columnName = changedField.getVO().ColumnNameAlias;
 		for (GridField field : m_mFields) {
 			if (field == null || field == changedField)
 				continue;
@@ -345,7 +340,7 @@ public class VBrowserSearch extends CPanel implements
 			if(comp instanceof VEditor)
 			{			
 				VEditor vEditor = (VEditor) comp;
-				columnName = vEditor.getField().getVO().Help;
+				columnName = vEditor.getField().getVO().ColumnNameAlias;
 				//columnName = comp.getName();
 			}
 			else columnName =  comp.getName();
@@ -360,10 +355,31 @@ public class VBrowserSearch extends CPanel implements
 							//if (m_mFields.get(index).getVO().isRange)
 								//m_separators.get(index).setText(" - ");
 						}
+						GridField field = m_vEditors.get(index).getField();
+						Object value = field.getValue();
+						Object defaultValue = field.getDefault();
+						if ((value == null || value.toString().length() == 0)
+								&& defaultValue != null) {
+							m_vEditors.get(index).setValue(defaultValue);
+							field.setValue(defaultValue, true);
+						}
 						boolean rw = m_mFields.get(index).isEditablePara(true); // r/w - check if field is Editable
 						m_vEditors.get(index).setReadWrite(rw);
-						if (m_mFields.get(index).getVO().isRange)
+
+						if (m_mFields.get(index).getVO().isRange) {
 							m_vEditors2.get(index).setReadWrite(rw);
+							GridField gridFieldTo = m_vEditors2.get(index).getField();
+							Object valueTo = gridFieldTo.getValue();
+							Object defaultValueTo = gridFieldTo.getDefault();
+							if ((valueTo == null || valueTo.toString().length() == 0)
+									&& defaultValueTo != null) {
+								m_vEditors2.get(index).setValue(defaultValueTo);
+								gridFieldTo.setValue(defaultValueTo, true);
+							}
+							rw = m_mFields2.get(index).isEditablePara(true);
+							m_vEditors2.get(index).setReadWrite(rw);
+						}
+
 					} else {
 						if (comp.isVisible()) {
 							comp.setVisible(false);
@@ -385,7 +401,7 @@ public class VBrowserSearch extends CPanel implements
 	private int getIndex(String columnName) {
 
 		for (int i = 0; i < m_mFields.size(); i++) {
-			if (m_mFields.get(i).getVO().Help.equals(columnName)) {
+			if (m_mFields.get(i).getVO().ColumnNameAlias.equals(columnName)) {
 				return i;
 			}
 		}
@@ -416,14 +432,14 @@ public class VBrowserSearch extends CPanel implements
 			if (f != null)
 			{	
 				f.restoreValue();
-				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().Help, "");
+				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().ColumnNameAlias, "");
 			}	
 		}
 		for (GridField f : m_mFields2) {
 			if (f != null)
 			{				
 				f.restoreValue();
-				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().Help, "");
+				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().ColumnNameAlias, "");
 			}	
 		}
 	}

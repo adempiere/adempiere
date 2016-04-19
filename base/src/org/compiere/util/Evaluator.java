@@ -255,7 +255,8 @@ public class Evaluator
 		if (parseString == null || parseString.length() == 0)
 			return;
 	//	log.fine( "MField.parseDepends", parseString);
-		String s = parseString;
+		//	FR [ 305 ]
+		String s = parseString.replaceFirst("@SQL=", "");
 		//  while we have variables
 		while (s.indexOf('@') != -1)
 		{

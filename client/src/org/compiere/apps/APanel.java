@@ -2698,12 +2698,11 @@ public final class APanel extends CPanel
 			ProcessModalDialog dialog = new ProcessModalDialog(m_ctx, Env.getWindow(m_curWindowNo), Env.getHeader(m_ctx, m_curWindowNo),
 					this, m_curWindowNo, vButton.getProcess_ID(), table_ID,
 					record_ID, startWOasking);
-			if (dialog.isValidDialog())
-			{
-				dialog.validate();
-				dialog.pack();
-				AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
-			}
+			//	FR [ 265 ]
+			//	BR [ 323 ]
+			dialog.validate();
+			dialog.pack();
+			AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
 		}
 	}	//	actionButton
 

@@ -17,7 +17,6 @@
 package org.compiere.process;
 
 import java.sql.Timestamp;
-import java.util.logging.Level;
 
 import org.compiere.model.MYear;
 import org.compiere.util.AdempiereUserError;
@@ -27,9 +26,17 @@ import org.compiere.util.AdempiereUserError;
  *	
  *  @author Jorg Janke
  *  @version $Id: YearCreatePeriods.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 325 ] SvrProcess must handle mandatory error on Process Parameters
+ *		@see https://github.com/adempiere/adempiere/issues/325
  */
 public class YearCreatePeriods extends SvrProcess
 {
+	/**	Parameter Name StartDate	*/
+	private final String	PARAMETERNAME_StartDate = "StartDate";
+	/**	Parameter Name DateFormat	*/
+	private final String	PARAMETERNAME_DateFormat = "DateFormat";
+	/**	Internal Variables			*/
 	private int	p_C_Year_ID = 0;
 	private Timestamp p_StartDate;
 	private String p_DateFormat;
@@ -39,20 +46,8 @@ public class YearCreatePeriods extends SvrProcess
 	 */
 	protected void prepare ()
 	{
-		
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("StartDate"))
-				p_StartDate = (Timestamp) para[i].getParameter();
-			else if (name.equals("DateFormat"))
-				p_DateFormat = (String) para[i].getParameter();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}			
+		p_StartDate = getParameterAsTimestamp(PARAMETERNAME_StartDate);
+		p_DateFormat = getParameterAsString(PARAMETERNAME_DateFormat);
 		p_C_Year_ID = getRecord_ID();
 	}	//	prepare
 

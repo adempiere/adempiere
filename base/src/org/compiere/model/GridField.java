@@ -70,6 +70,9 @@ import org.compiere.util.Evaluator;
  *  			https://sourceforge.net/tracker/?func=detail&aid=2910368&group_id=176962&atid=879332
  *  		<li>BF [ 3007342 ] Included tab context conflict issue
  *  			https://sourceforge.net/tracker/?func=detail&aid=3007342&group_id=176962&atid=879332
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 305 ] Allows evaluate of default value based on the other parameter context
+ *  	@see https://github.com/adempiere/adempiere/issues/305
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -272,6 +275,9 @@ public class GridField
 		Evaluator.parseDepends(list, m_vo.DisplayLogic);
 		Evaluator.parseDepends(list, m_vo.ReadOnlyLogic);
 		Evaluator.parseDepends(list, m_vo.MandatoryLogic);
+		//	FR [ 305 ]
+		Evaluator.parseDepends(list, m_vo.DefaultValue);
+		Evaluator.parseDepends(list, m_vo.DefaultValue2);
 		//  Lookup
 		if (m_lookup != null)
 			Evaluator.parseDepends(list, m_lookup.getValidation());
@@ -496,7 +502,8 @@ public class GridField
 		if (isParentValue()
 			&& (m_vo.DefaultValue == null || m_vo.DefaultValue.length() == 0))
 		{
-			String parent = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName);
+			String columnName = m_vo.ColumnNameAlias.isEmpty() ? m_vo.ColumnName : m_vo.ColumnNameAlias;
+			String parent = Env.getContext(m_vo.ctx, m_vo.WindowNo, columnName);
 			log.fine("[Parent] " + m_vo.ColumnName + "=" + parent);
 			return createDefault(parent);
 		}
@@ -868,10 +875,11 @@ public class GridField
 	{
 		if (m_vo.ColumnSQL != null && m_vo.ColumnSQL.length() > 0)
 		{
+			String retValue = Env.parseContext(Env.getCtx(), m_vo.WindowNo, m_vo.ColumnSQL, false);
 			if (withAS)
-				return m_vo.ColumnSQL + " AS " + m_vo.ColumnName;
+				return retValue + " AS " + m_vo.ColumnName;
 			else
-				return m_vo.ColumnSQL;
+				return retValue;
 		}
 		return m_vo.ColumnName;
 	}	//	getColumnSQL
@@ -1302,7 +1310,8 @@ public class GridField
 		m_error = false;        //  reset error
 
 		// [ 1881480 ] Navigation problem between tabs
-		Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (String) m_value);
+		String columnName = m_vo.ColumnNameAlias.isEmpty() ? m_vo.ColumnName : m_vo.ColumnNameAlias;
+		Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName, (String) m_value);
 
 		//  Does not fire, if same value
 		m_propertyChangeListeners.firePropertyChange(PROPERTY, m_oldValue, m_value);
@@ -1339,6 +1348,7 @@ public class GridField
 	 * Update env. context with current value
 	 */
 	public void updateContext() {
+		String columnName = m_vo.ColumnNameAlias.isEmpty() ? m_vo.ColumnName : m_vo.ColumnNameAlias;
 		//	Set Context
 		if (m_vo.displayType == DisplayType.Text 
 			|| m_vo.displayType == DisplayType.Memo
@@ -1352,10 +1362,10 @@ public class GridField
 			backupValue(); // teo_sarca [ 1699826 ]
 			if (!isParentTabField())
 			{
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName,
 					((Boolean)m_value).booleanValue());
 			}
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, columnName,
 					m_value==null ? null : (((Boolean)m_value) ? "Y" : "N"));
 		}
 		else if (m_value instanceof Timestamp)
@@ -1363,7 +1373,7 @@ public class GridField
 			backupValue(); // teo_sarca [ 1699826 ]
 			if (!isParentTabField())
 			{
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (Timestamp)m_value);
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName , (Timestamp)m_value);
 			}
 			// BUG:3075946 KTU - Fix Thai Date
 			//Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
@@ -1375,7 +1385,7 @@ public class GridField
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				stringValue = sdf.format(c1.getTime());
 			}
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, stringValue);
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, columnName, stringValue);
 			// KTU - Fix Thai Date		
 		}
 		else
@@ -1383,10 +1393,10 @@ public class GridField
 			backupValue(); // teo_sarca [ 1699826 ]
 			if (!isParentTabField())
 			{
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName,
 					m_value==null ? null : m_value.toString());
 			}
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, columnName,
 				m_value==null ? null : m_value.toString());
 		}		
 	}
@@ -1733,9 +1743,10 @@ public class GridField
 	 */
 	private final void backupValue() {
 		if (!m_isBackupValue) {
-			m_backupValue = get_ValueAsString(m_vo.ColumnName);
+			String columnName = m_vo.ColumnNameAlias.isEmpty() ? m_vo.ColumnName : m_vo.ColumnNameAlias;
+			m_backupValue = get_ValueAsString(columnName);
 			if (CLogMgt.isLevelFinest())
-				log.finest("Backup " + m_vo.WindowNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
+				log.finest("Backup " + m_vo.WindowNo + "|" + columnName + "=" + m_backupValue);
 			m_isBackupValue = true;
 		}
 	}
@@ -1746,17 +1757,18 @@ public class GridField
 	 */
 	public void restoreValue() {
 		if (m_isBackupValue) {
+			String columnName = m_vo.ColumnNameAlias.isEmpty() ? m_vo.ColumnName : m_vo.ColumnNameAlias;
 			if (isParentTabField())
 			{
 				if (CLogMgt.isLevelFinest())
-					log.finest("Restore " + m_vo.WindowNo + "|" + m_vo.TabNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, m_backupValue);
+					log.finest("Restore " + m_vo.WindowNo + "|" + m_vo.TabNo + "|" + columnName + "=" + m_backupValue);
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, columnName, m_backupValue);
 			}
 			else
 			{
 				if (CLogMgt.isLevelFinest())
 					log.finest("Restore " + m_vo.WindowNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, m_backupValue);
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName, m_backupValue);
 			}
 		}
 	}

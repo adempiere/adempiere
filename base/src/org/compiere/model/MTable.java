@@ -60,6 +60,8 @@ import org.compiere.wf.MWorkflow;
  *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 94 ] "IsDocument" flag in table for create default columns
  *			@see https://github.com/adempiere/adempiere/issues/94
+ *			<li> BR [ 304 ] Is Document Attriute in table create columns with bad size
+ *			@see https://github.com/adempiere/adempiere/issues/304
  *  @version $Id: MTable.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class MTable extends X_AD_Table
@@ -954,7 +956,7 @@ public class MTable extends X_AD_Table
 			//	Processed
 			columnName = "Processed";
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
-				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "");
+				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "N");
 				column.setIsMandatory(true);
 				column.setUpdateable(false);
 				column.saveEx();
@@ -962,7 +964,7 @@ public class MTable extends X_AD_Table
 			//	Approved
 			columnName = "IsApproved";
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
-				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "");
+				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "N");
 				column.setIsMandatory(true);
 				column.setUpdateable(false);
 				column.saveEx();
@@ -979,7 +981,7 @@ public class MTable extends X_AD_Table
 			//	Document Status
 			columnName = "DocStatus";
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
-				column = new MColumn(this, columnName, 1, DisplayType.List, "DR");
+				column = new MColumn(this, columnName, 2, DisplayType.List, "DR");
 				column.setIsMandatory(true);
 				column.setUpdateable(false);
 				column.setAD_Reference_Value_ID(131);
@@ -988,7 +990,7 @@ public class MTable extends X_AD_Table
 			//	Document Action
 			columnName = "DocAction";
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
-				column = new MColumn(this, columnName, 1, DisplayType.Button, "CO");
+				column = new MColumn(this, columnName, 2, DisplayType.Button, "CO");
 				column.setIsMandatory(true);
 				column.setUpdateable(false);
 				column.setAD_Reference_Value_ID(135);

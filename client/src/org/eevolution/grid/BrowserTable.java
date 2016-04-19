@@ -25,10 +25,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.logging.Level;
 
-import javax.script.ScriptEngine;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -45,14 +43,11 @@ import org.compiere.minigrid.IDColumnEditor;
 import org.compiere.minigrid.IDColumnRenderer;
 import org.compiere.minigrid.ROCellEditor;
 import org.compiere.model.GridField;
-import org.compiere.model.MRule;
 import org.compiere.swing.CTable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.eevolution.form.BrowserCallOut;
-import org.eevolution.form.BrowserRows;
 import org.eevolution.form.VBrowser;
 
 /**
@@ -66,7 +61,7 @@ import org.eevolution.form.VBrowser;
  * 		<li>BR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
  * 		@see https://github.com/adempiere/adempiere/issues/257
  */
-public class BrowseTable extends CTable implements IBrowseTable {
+public class BrowserTable extends CTable implements IBrowserTable {
     /**
      *
      */
@@ -75,9 +70,11 @@ public class BrowseTable extends CTable implements IBrowseTable {
     /**
      * Logger.
      */
-    private static CLogger log = CLogger.getCLogger(BrowseTable.class);
-    protected BrowserRows browserRows = null;
-    protected VBrowser browser;
+    private static CLogger log = CLogger.getCLogger(BrowserTable.class);
+    /**	Rows				*/
+    private BrowserRow browserRows = null;
+    /**	Current Row			*/
+    private VBrowser browser;
     /**
      * List of R/W columns
      */
@@ -102,15 +99,8 @@ public class BrowseTable extends CTable implements IBrowseTable {
      * Is Total Show
      */
     private boolean showTotals = false;
+    /**	Auto-Size				*/
     private boolean autoResize = true;
-    /**
-     * Active BrowseCallOuts *
-     */
-    private List<String> activeCallOuts = new ArrayList<String>();
-    /**
-     * Active BrowseCallOutsInstances *
-     */
-    private List<BrowserCallOut> activeCallOutInstance = new ArrayList<BrowserCallOut>();
     /**
      * Context *
      */
@@ -122,9 +112,9 @@ public class BrowseTable extends CTable implements IBrowseTable {
     /**
      * Default Constructor
      */
-    public BrowseTable(VBrowser browser) {
+    public BrowserTable(VBrowser browser) {
         super();
-        browserRows = new BrowserRows(this);
+        browserRows = new BrowserRow(this);
         setCellSelectionEnabled(false);
         setRowSelectionAllowed(false);
         //  Default Editor
@@ -289,7 +279,7 @@ public class BrowseTable extends CTable implements IBrowseTable {
             //	BR [ 257 ]
             col++;
         }
-
+        //	Set Column Class
         col = 0;
         for (MBrowseField field : fields) {
             if (field.isDisplayed()) {
@@ -301,7 +291,7 @@ public class BrowseTable extends CTable implements IBrowseTable {
                 col++;
             }
         }
-
+        //	
         return sql.toString();
     }   //  prepareTable
 
@@ -361,7 +351,7 @@ public class BrowseTable extends CTable implements IBrowseTable {
             tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
         } else {
             tc.setCellRenderer(new VCellRenderer(gridField));
-            tc.setCellEditor(new VBrowseCellEditor(gridField));
+            tc.setCellEditor(new VBrowserCellEditor(gridField));
             m_minWidth.add(new Integer(30));
             tc.setHeaderRenderer(new VHeaderRenderer(displayType));
         }
@@ -600,7 +590,7 @@ public class BrowseTable extends CTable implements IBrowseTable {
      * @return BrowserRows
      * @author <a href="mailto:carlosaparadam@gmail.com">Carlos Parada</a> 15/10/2013, 10:01:47
      */
-    public IBrowserRows getData() {
+    public IBrowserRow getData() {
         return browserRows;
     }
 
@@ -624,14 +614,19 @@ public class BrowseTable extends CTable implements IBrowseTable {
     //	FR [ 245 ]
     @Override
     public void setValueAt(Object value, int row, int column) {
-    	GridField gridField = browserRows.getValue(row, column);
+    	GridField gridField = browserRows.getValue(row, browserRows.getTableIndex(column));
     	gridField.setValue(value, true);
     	//	Set standard method
     	setValueAt(row, column, gridField);
     }//setValueAt
 
-    @Override
-    public void setValue(int row, int column, GridField gridField) {
+    /**
+     * Set Value to any column
+     * @param row
+     * @param column
+     * @param gridField
+     */
+    private void setValueAnyColumn(int row, int column, GridField gridField) {
     	if (gridField == null)
 			throw new UnsupportedOperationException("No GridField");
     	
@@ -649,133 +644,6 @@ public class BrowseTable extends CTable implements IBrowseTable {
         p_keyColumnIndex = col;
         browser.m_keyColumnIndex = col;
     }//setKey
-
-    /**
-     * ***********************************************************************
-     * Adapted for Browse CallOuts
-     * Process Callout(s) Adapted.
-     * <p/>
-     * The Callout is in the string of
-     * "class.method;class.method;"
-     * If there is no class name, i.e. only a method name, the class is regarded
-     * as CalloutSystem.
-     * The class needs to comply with the Interface Callout.
-     * <p/>
-     * For a limited time, the old notation of Sx_matheod / Ux_menthod is maintained.
-     *
-     * @param field field
-     * @return error message or ""
-     * @see org.compiere.model.Callout
-     */
-    public String processCallOut(GridField field, Object value, Object oldValue, int currentRow, int currentColumn) {
-        String callout = field.getCallout();
-        if (callout.length() == 0)
-            return "";
-
-
-        //Object value = field.getValue();
-        //Object oldValue = field.getOldValue();
-        log.fine(field.getColumnName() + "=" + value
-                + " (" + callout + ") - old=" + oldValue);
-
-        StringTokenizer st = new StringTokenizer(callout, ";,", false);
-        while (st.hasMoreTokens())      //  for each callout
-        {
-            String cmd = st.nextToken().trim();
-
-            //detect infinite loop
-            if (activeCallOuts.contains(cmd)) continue;
-
-            String retValue = "";
-            // FR [1877902]
-            // CarlosRuiz - globalqss - implement beanshell callout
-            // Victor Perez  - vpj-cd implement JSR 223 Scripting
-            if (cmd.toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
-
-                MRule rule = MRule.get(ctx, cmd.substring(MRule.SCRIPT_PREFIX.length()));
-                if (rule == null) {
-                    retValue = "Callout " + cmd + " not found";
-                    log.log(Level.SEVERE, retValue);
-                    return retValue;
-                }
-                if (!(rule.getEventType().equals(MRule.EVENTTYPE_Callout)
-                        && rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs))) {
-                    retValue = "Callout " + cmd
-                            + " must be of type JSR 223 and event Callout";
-                    log.log(Level.SEVERE, retValue);
-                    return retValue;
-                }
-
-                ScriptEngine engine = rule.getScriptEngine();
-
-                // Window context are    W_
-                // Login context  are    G_
-                MRule.setContext(engine, ctx, browser.getWindowNo());
-                // now add the callout parameters windowNo, tab, field, value, oldValue to the engine
-                // Method arguments context are A_
-                engine.put(MRule.ARGUMENTS_PREFIX + "WindowNo", browser.getWindowNo());
-                engine.put(MRule.ARGUMENTS_PREFIX + "Tab", this);
-                engine.put(MRule.ARGUMENTS_PREFIX + "Field", field);
-                engine.put(MRule.ARGUMENTS_PREFIX + "Value", value);
-                engine.put(MRule.ARGUMENTS_PREFIX + "OldValue", oldValue);
-                engine.put(MRule.ARGUMENTS_PREFIX + "currentRow", currentRow);
-                engine.put(MRule.ARGUMENTS_PREFIX + "currentColumn", currentColumn);
-                engine.put(MRule.ARGUMENTS_PREFIX + "Ctx", ctx);
-
-                try {
-                    activeCallOuts.add(cmd);
-                    retValue = engine.eval(rule.getScript()).toString();
-                } catch (Exception e) {
-                    log.log(Level.SEVERE, "", e);
-                    retValue = "Callout Invalid: " + e.toString();
-                    return retValue;
-                } finally {
-                    activeCallOuts.remove(cmd);
-                }
-
-            } else {
-
-                BrowserCallOut call = null;
-                String method = null;
-                int methodStart = cmd.lastIndexOf('.');
-                try {
-                    if (methodStart != -1)      //  no class
-                    {
-                        Class<?> cClass = Class.forName(cmd.substring(0, methodStart));
-                        call = (BrowserCallOut) cClass.newInstance();
-                        method = cmd.substring(methodStart + 1);
-                    }
-                } catch (Exception e) {
-                    log.log(Level.SEVERE, "class", e);
-                    return "Callout Invalid: " + cmd + " (" + e.toString() + ")";
-                }
-
-                if (call == null || method == null || method.length() == 0)
-                    return "Callout Invalid: " + method;
-
-                try {
-                    activeCallOuts.add(cmd);
-                    activeCallOutInstance.add(call);
-                    retValue = call.start(ctx, method, browser.getWindowNo(), browserRows, field, value, oldValue, currentRow, currentColumn);
-                } catch (Exception e) {
-                    log.log(Level.SEVERE, "start", e);
-                    retValue = "Callout Invalid: " + e.toString();
-                    return retValue;
-                } finally {
-                    activeCallOuts.remove(cmd);
-                    activeCallOutInstance.remove(call);
-                }
-
-            }
-
-            if (!Util.isEmpty(retValue))        //	interrupt on first error
-            {
-                log.severe(retValue);
-                return retValue;
-            }
-        }   //  for each callout
-        return "";
-    }    //	processCallOut
 
     /**
      * Stop Sort will write After
@@ -808,21 +676,19 @@ public class BrowseTable extends CTable implements IBrowseTable {
 			log.fine("Start load - "
 					+ (System.currentTimeMillis() - start) + "ms");
 			while (rs.next()) {
-//				if (this.isInterrupted()) {
-//					log.finer("Interrupted");
-//					close();
-//					return;
-//				}
 				no++;
 				setRowCount(row + 1);
 				int colOffset = 1; // columns start with 1
-				int columnDisplayIndex = 0;
 				int column = 0;
 				for (MBrowseField field : getFields()) {
 					Object value = null;
-					if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
-						value = new IDColumn(rs.getInt(column + colOffset));
-					else if (field.isKey() && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+					if (field.isKey()
+                    && DisplayType.isID(field.getAD_Reference_ID())
+                    && !field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
+                        value = new IDColumn(rs.getInt(column + colOffset));
+					else if (field.isKey()
+                    &&  DisplayType.isNumeric(field.getAD_Reference_ID())
+                    && field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
 						value  = new IDColumn(no);
 					else if (DisplayType.TableDir == field.getAD_Reference_ID()
 						  || DisplayType.Table == field.getAD_Reference_ID()
@@ -847,11 +713,7 @@ public class BrowseTable extends CTable implements IBrowseTable {
 					GridField gridField = MBrowseField.createGridFieldVO(field , browser.getWindowNo());
 					gridField.setValue(value, true);
 					//	Set Value
-					setValue(row, column, gridField);
-					//	For Display
-					if (field.isDisplayed()) {
-						columnDisplayIndex++;
-					}
+					setValueAnyColumn(row, column, gridField);
 					column ++;
 				}
 				//	Increment Row
@@ -873,6 +735,19 @@ public class BrowseTable extends CTable implements IBrowseTable {
 		autoSize();
 		//
 		return no;
+	}
+
+	@Override
+	public String processCallOut(GridField field, Object value,
+			Object oldValue, int currentRow, int currentColumn) {
+		return browserRows.processCallOut(ctx, browser.getWindowNo(), 
+				field, value, oldValue, 
+				currentRow, currentColumn);
+	}
+
+	@Override
+	public GridField getGridFieldAt(int row, int column) {
+		return browserRows.getValue(row, browserRows.getTableIndex(column));
 	}
 
 }   //  BrowseTable
