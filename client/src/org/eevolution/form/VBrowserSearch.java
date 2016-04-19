@@ -119,11 +119,16 @@ public class VBrowserSearch extends CPanel implements
 		voBase.IsReadOnly = true;
 		voBase.IsUpdateable = true;
 		voBase.WindowNo = p_WindowNo;
-
-		voBase.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
-		voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column()
-				.getAD_Table_ID();
-		voBase.ColumnName = field.getAD_View_Column().getAD_Column().getColumnName();
+		//	BR [ 318 ]
+		if(field.getAD_View_Column().getAD_Column_ID() > 0) {
+			voBase.ColumnName = field.getAD_View_Column().getAD_Column().getColumnName();
+			voBase.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
+			voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column()
+					.getAD_Table_ID();
+		} else {
+			voBase.ColumnName = field.getAD_View_Column().getColumnName();
+		}
+		//	Set unique alias
 		voBase.ColumnNameAlias = uniqueName;
 		voBase.displayType = field.getAD_Reference_ID();
 		voBase.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
