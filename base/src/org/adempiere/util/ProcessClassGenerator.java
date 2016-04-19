@@ -30,6 +30,7 @@ import org.compiere.util.Env;
  *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 326 ] Process source code generated automatically
  *		@see https://github.com/adempiere/adempiere/issues/326
+ *	@author Victor Perez, victor.perez@e-evolution.com, http://e-evolution.com
  */
 public class ProcessClassGenerator {
 
@@ -40,14 +41,14 @@ public class ProcessClassGenerator {
 	 */
 	public ProcessClassGenerator(MProcess process, String directory) {
 		//	Get Values
-		AD_Process_ID = process.getAD_Process_ID();
+		processId = process.getAD_Process_ID();
 		className = process.getClassname();
 		processName = process.getName();
 		directoryName = directory;
 	}
 	
 	/**	Process ID		*/
-	private int AD_Process_ID = 0;
+	private int processId = 0;
 	/**	Process Name	*/
 	private String processName = null;
 	/**	Class Name		*/
@@ -65,9 +66,9 @@ public class ProcessClassGenerator {
 			throw new AdempiereException("@Classname@ @NotFound@");
 		//	
 		String packageName = className.substring(0, index);
-		String fileName = className.substring(index + 1);
+		String fileName = className.substring(index + 1) + "Abstract";
 		
-		StringBuffer header = createHeader(AD_Process_ID, packageName, fileName);
+		StringBuffer header = createHeader(processId, packageName, fileName);
 		// Save
 		if (!directoryName.endsWith(File.separator) )
 			directoryName += File.separator;
@@ -78,7 +79,7 @@ public class ProcessClassGenerator {
 	}
 	
 	/** Import classes 		*/
-	private Collection<String> s_importClasses = new TreeSet<String>();
+	private Collection<String> importClasses = new TreeSet<String>();
 	/**	Logger			*/
 	private static CLogger	log	= CLogger.getCLogger (ProcessClassGenerator.class);
 	/** Parameters Name	*/
@@ -90,37 +91,37 @@ public class ProcessClassGenerator {
 	
 	/**
 	 * Create Parameters for header
-	 * @param AD_Process_ID
+	 * @param processId
 	 * @return
 	 */
-	private void createParameters(int AD_Process_ID) {
+	private void createParameters(int processId) {
 		List <MProcessPara> parameters = new Query(Env.getCtx(), 
 				I_AD_Process_Para.Table_Name, I_AD_Process_Para.COLUMNNAME_AD_Process_ID + " = ?", null)
-			.setParameters(AD_Process_ID)
+			.setParameters(processId)
 			.setOrderBy(I_AD_Process_Para.COLUMNNAME_SeqNo)
 			.list();
 		//	Create Name and Values
-		for(MProcessPara para : parameters) {
-			createParameterName(para.getColumnName());
-			createParameterValue(para.getColumnName(), para.getAD_Reference_ID(), false);
-			createParameterFill(para.getColumnName(), para.getAD_Reference_ID(), false);
+		for(MProcessPara parameter : parameters) {
+			createParameterName(parameter);
+			createParameterValue(parameter, false);
+			createParameterFill(parameter, false);
 			//	For Range
-			if(para.isRange()) {
-				createParameterValue(para.getColumnName(), para.getAD_Reference_ID(), true);
-				createParameterFill(para.getColumnName(), para.getAD_Reference_ID(), true);
+			if(parameter.isRange()) {
+				createParameterValue(parameter, true);
+				createParameterFill(parameter, true);
 			}
 		}
 	}
 	
 	/**
 	 * Create Header class
-	 * @param AD_Process_ID
+	 * @param processId
 	 * @param packageName
 	 * @return
 	 */
-	private StringBuffer createHeader(int AD_Process_ID, String packageName, String className) {
+	private StringBuffer createHeader(int processId, String packageName, String className) {
 		StringBuffer header = new StringBuffer();
-		createParameters(AD_Process_ID);
+		createParameters(processId);
 		//	Add SvrProcess
 		if(!packageName.equals("org.compiere.process"))
 			addImportClass(SvrProcess.class);
@@ -139,22 +140,30 @@ public class ProcessClassGenerator {
 		//	New line
 		header.append(ModelInterfaceGenerator.NL);
 		//	Add comments
-		header.append("\n/** Generated Process (").append(processName).append(")\n")
+		header.append("\n/** Generated Process for (").append(processName).append(")\n")
 		 	.append(" *  @author Adempiere (generated) \n")
 		 	.append(" *  @version ").append(Adempiere.MAIN_VERSION).append("\n")
 		 	.append(" */\n");
 		//	Add Class Name
 		header
-			.append("public class ").append(className).append(" extends ").append("SvrProcess")
+			.append("public abstract class ").append(className).append(" extends ").append("SvrProcess")
 			.append("\n{");
+
+		header.append("\n\t/** Process Name \t*/");
+		header.append("\n\tpublic static final String ProcessName = ").append("\"").append(processName.trim()).append("\";");
+		header.append("\n\t/** Process Id \t*/");
+		header.append("\n\tpublic static final int ProcessId = ").append(processId).append(";");
+		header.append("\n ");
+
 		//	Add Parameters Name
 		header.append(parametersName);
 		//	New line
 		header.append(ModelInterfaceGenerator.NL);
 		//	Add Parameters Value
 		header.append(parametersValue);
+
 		//	Add Prepare method
-		header
+		header.append("\n ")
 			.append("\n\n\t@Override")
 			.append("\n\tprotected void prepare()")
 			.append("\n\t{");
@@ -163,77 +172,83 @@ public class ProcessClassGenerator {
 		//	End Prepare
 		header.append("\n\t}");
 		//	Add do it
-		header
-			.append("\n\n\t@Override")
-			.append("\n\tprotected String doIt() throws Exception")
-			.append("\n\t{")
-			.append("\n\t\treturn \"\";")
-			.append("\n\t}");
+		//header
+		//	.append("\n\n\t@Override")
+		//	.append("\n\tprotected abstract String doIt() throws Exception;");
+			//.append("\n\t{")
+			//.append("\n\t\treturn \"\";")
+			//.append("\n\t}");
 		//	End class
 		header.append("\n}");
 		//	Return
 		return header;
 	}
-	
+
 	/**
-	 * Create Comment and parameter Name
-	 * @param parameterName
-	 */
-	private void createParameterName(String parameterName) {
+	 * create Parameter Name
+	 * @param parameter
+     */
+	private void createParameterName(MProcessPara parameter) {
 		//	Add new Line
 		parametersName.append(ModelInterfaceGenerator.NL);
 		//	Add Comment
 		parametersName
-			.append("\t/**\tParameter Name for ").append(parameterName).append("\t*/")
+			.append("\t/**\tParameter Name for ").append(parameter.getColumnName()).append("\t*/")
 			.append(ModelInterfaceGenerator.NL)
-			.append("\tprivate final String PARAMETERNAME_").append(parameterName)
-			.append(" = ").append("\"").append(parameterName)
+			.append("\tpublic static final String ").append(parameter.getColumnName())
+			.append(" = ").append("\"").append(parameter.getColumnName())
 			.append("\";");
 	}
 	
 	/**
 	 * Create Comment and parameter Value
 	 * @param parameterName
-	 * @param DisplayType
+	 * @param referenceId
 	 * @param isTo
 	 */
-	private void createParameterValue(String parameterName, int AD_Reference_ID, boolean isTo) {
+	private void createParameterValue(MProcessPara parameter, boolean isTo) {
 		//	Add new Line
 		parametersValue.append(ModelInterfaceGenerator.NL);
+		String parameterName = getParameterName(parameter);
 		//	Add Comment
 		parametersValue
-			.append("\t/**\tParameter Value for ").append(parameterName).append(isTo? "_To": "").append("\t*/")
+			.append("\t/**\tParameter Value for ").append(parameterName).append(isTo ? "To": "").append("\t*/")
 			.append(ModelInterfaceGenerator.NL)
-			.append("\tprivate ").append(getType(AD_Reference_ID)).append(" ")
-			.append("p_").append(parameterName)
-			.append(isTo? "_To": "")
+			.append("\tprotected ").append(getType(parameter.getAD_Reference_ID())).append(" ")
+			//.append("p_").append(parameterName)
+			.append(parameterName.substring(0 ,1).toLowerCase()).append(parameterName.substring(1,getParameterName(parameter).length()))
+			.append(DisplayType.isLookup(parameter.getAD_Reference_ID()) ? "Id" : "")
+			.append(isTo ? "To": "")
 			.append(";");
 	}
 	
 	/**
 	 * Create Fill Source
 	 * @param parameterName
-	 * @param AD_Reference_ID
+	 * @param referenceId
 	 * @param isTo
 	 */
-	private void createParameterFill(String parameterName, int AD_Reference_ID, boolean isTo) {
+	private void createParameterFill(MProcessPara parameter, Boolean isTo) {
 		//	Add new Line
 		parametersFill.append(ModelInterfaceGenerator.NL);
+		String parameterName = getParameterName(parameter);
 		//	Add Comment
 		parametersFill
-			.append("\t\tp_").append(parameterName).append(isTo? "_To": "")
-			.append(" = ").append(getProcessMethod(AD_Reference_ID, isTo))
-			.append("(PARAMETERNAME_").append(parameterName).append(")")
+			.append("\t\t").append(parameterName.substring(0,1).toLowerCase()).append(parameterName.substring(1,parameterName.length()))
+			.append(DisplayType.isLookup(parameter.getAD_Reference_ID()) ? "Id" : "")
+			.append(isTo ? "To": "")
+			.append(" = ").append(getProcessMethod(parameter.getAD_Reference_ID(), isTo))
+			.append("(").append(parameter.getColumnName()).append(")")
 			.append(";");
 	}
 	
 	/**
 	 * Get Type for declaration
-	 * @param AD_Reference_ID
+	 * @param referenceId
 	 * @return
 	 */
-	private String getType(int AD_Reference_ID) {
-		Class clazz = DisplayType.getClass(AD_Reference_ID, true);
+	private String getType(int referenceId) {
+		Class clazz = DisplayType.getClass(referenceId, true);
 		//	Verify Type
 		if (clazz == String.class) {
 			return "String";
@@ -254,11 +269,11 @@ public class ProcessClassGenerator {
 	
 	/**
 	 * Get Type for declaration
-	 * @param AD_Reference_ID
+	 * @param referenceId
 	 * @return
 	 */
-	private String getProcessMethod(int AD_Reference_ID, boolean isTo) {
-		String type = getType(AD_Reference_ID);
+	private String getProcessMethod(int referenceId, boolean isTo) {
+		String type = getType(referenceId);
 		//	
 		String typeForMethod = type.substring(0, 1);
 		//	Change first
@@ -281,11 +296,11 @@ public class ProcessClassGenerator {
 		if (className == null
 				|| (className.startsWith("java.lang.") && !className.startsWith("java.lang.reflect.")))
 			return;
-		for(String name : s_importClasses) {
+		for(String name : importClasses) {
 			if (className.equals(name))
 				return;
 		}
-		s_importClasses.add(className);
+		importClasses.add(className);
 	}
 	
 	/**
@@ -307,7 +322,7 @@ public class ProcessClassGenerator {
 	 */
 	private StringBuffer getImportClass() {
 		StringBuffer importClass = new StringBuffer();
-		for(String imp :s_importClasses) {
+		for(String imp : importClasses) {
 			//	For new line
 			if(importClass.length() > 0)
 				importClass.append(ModelInterfaceGenerator.NL);
@@ -356,5 +371,11 @@ public class ProcessClassGenerator {
 			log.log(Level.SEVERE, fileName, ex);
 			throw new RuntimeException(ex);
 		}
+	}
+
+	private String  getParameterName(MProcessPara processParameter)
+	{
+		String parameterName = processParameter.getName().replaceAll("\\s", "").replaceAll("_", "").replaceAll("/","");
+		return parameterName;
 	}
 }
