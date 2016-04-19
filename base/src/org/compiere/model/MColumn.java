@@ -423,7 +423,7 @@ public class MColumn extends X_AD_Column
 			} else if(p_AD_Reference_ID == DisplayType.Table
 					|| p_AD_Reference_ID == DisplayType.Search) {
 				if(p_AD_Reference_Value_ID == 0
-						&& !M_Element.isLookupColumnName(p_ColumnName))
+						&& !M_Element.isLookupColumnName(p_ColumnName, p_AD_Reference_ID))
 					throw new AdempiereException("@AD_Reference_Value_ID@ @IsMandatory@");
 			} else if(p_AD_Reference_ID == DisplayType.List) {
 				if(p_AD_Reference_Value_ID == 0) {

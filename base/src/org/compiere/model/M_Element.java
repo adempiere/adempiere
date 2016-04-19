@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import org.compiere.print.MPrintFormatItem;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -39,6 +40,8 @@ import org.compiere.util.Msg;
  *  	<li> Add default Tables lookup
  *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
  * eEvolution @author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 26/02/16.
+ * 		<li>The current isLookupColumnName logic not should be hard code should be solve using column name and name convention #328
+ * 		@see http://github.com/adempiere/adempiere/issues/328
  */
 public class M_Element extends X_AD_Element
 {
@@ -411,23 +414,22 @@ public class M_Element extends X_AD_Element
 	 * @param columnName
 	 * @return
 	 */
-	public static boolean isLookupColumnName(String columnName) {
+	public static boolean isLookupColumnName(String columnName, int referenceKeyId) {
 		//	Valid Null
 		if(columnName == null
 				|| columnName.trim().length() == 0)
-			return false;
-		//	Validation hard code, for support to old implementations
-		//	its must be change for dynamic dictionary query
-		return columnName.equals("C_BPartner_ID")
-				|| columnName.equals("M_Product_ID")
-				|| columnName.equals("C_Invoice_ID")
-				|| columnName.equals("A_Asset_ID")
-				|| columnName.equals("C_Order_ID")
-				|| columnName.equals("M_InOut_ID")
-				|| columnName.equals("C_Payment_ID")
-				|| columnName.equals("C_CashLine_ID")
-				|| columnName.equals("S_ResourceAssignment_ID");
 
+		if (!columnName.endsWith("_ID") && referenceKeyId <= 0)
+			return false;
+
+		String tableName =  columnName.substring(0, columnName.length() -3);
+		Integer tableId = DB.getSQLValue(null, "SELECT AD_Table_ID FROM AD_Table t WHERE t.TableName=?", tableName.trim());
+		if (tableId <= 0)
+			return false;
+		else if (DisplayType.isLookup(referenceKeyId))
+			return true;
+		else
+			return false;
 	}
 	
 	/**
