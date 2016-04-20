@@ -150,9 +150,9 @@ public class ProcessClassGenerator {
 			.append("\n{");
 
 		header.append("\n\t/** Process Name \t*/");
-		header.append("\n\tpublic static final String ProcessName = ").append("\"").append(processName.trim()).append("\";");
+		header.append("\n\tpublic static final String NAME = ").append("\"").append(processName.trim()).append("\";");
 		header.append("\n\t/** Process Id \t*/");
-		header.append("\n\tpublic static final int ProcessId = ").append(processId).append(";");
+		header.append("\n\tpublic static final int ID = ").append(processId).append(";");
 		header.append("\n ");
 
 		//	Add Parameters Name
