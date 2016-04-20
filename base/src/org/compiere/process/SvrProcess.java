@@ -53,6 +53,7 @@ import org.compiere.util.Trx;
  *		@see https://github.com/adempiere/adempiere/issues/244
  *		<li> FR [ 325 ] SvrProcess must handle mandatory error on Process Parameters
  *		@see https://github.com/adempiere/adempiere/issues/325
+ * @author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  *
  * @author mckayERP www.mckayERP.com
  * 			<li> #285 Message in SvrProcess can cause null pointer exception. 
@@ -68,22 +69,22 @@ public abstract class SvrProcess implements ProcessCall
 	//	Env.ZERO.divide(Env.ZERO);
 	}   //  SvrProcess
 
-	private Properties  		m_ctx;
-	private ProcessInfo			m_pi;
+	private Properties 			ctx;
+	private ProcessInfo 		processInfo;
 
 	/**	Logger							*/
 	protected CLogger			log = CLogger.getCLogger (getClass());
 
 	/**	Is the Object locked			*/
-	private boolean				m_locked = false;
+	private boolean 			locked = false;
 	/**	Loacked Object					*/
-	private PO					m_lockedObject = null;
+	private PO 					lockedObject = null;
 	/** Process Main transaction 		*/
-	private Trx 				m_trx;
+	private Trx 				transaction;
 
 	/**	Common Error Message			*/
-	protected static String 	MSG_SaveErrorRowNotFound = "@SaveErrorRowNotFound@";
-	protected static String		MSG_InvalidArguments = "@InvalidArguments@";
+	protected static String 	MESSAGE_SaveErrorRowNotFound = "@SaveErrorRowNotFound@";
+	protected static String 	MESSAGE_InvalidArguments = "@InvalidArguments@";
 
 
 	/**
@@ -100,13 +101,13 @@ public abstract class SvrProcess implements ProcessCall
 	public final boolean startProcess (Properties ctx, ProcessInfo pi, Trx trx)
 	{
 		//  Preparation
-		m_ctx = ctx == null ? Env.getCtx() : ctx;
-		m_pi = pi;
-		m_trx = trx;
+		this.ctx = ctx == null ? Env.getCtx() : ctx;
+		processInfo = pi;
+		transaction = trx;
 		//***	Trx
-		boolean localTrx = m_trx == null;
+		boolean localTrx = transaction == null;
 		if (localTrx)
-			m_trx = Trx.get(Trx.createTrxName("SvrProcess"), true);
+			transaction = Trx.get(Trx.createTrxName("SvrProcess"), true);
 		//
 		lock();
 		
@@ -118,26 +119,26 @@ public abstract class SvrProcess implements ProcessCall
 			{
 				try 
 				{
-					m_trx.commit(true);
+					transaction.commit(true);
 				} catch (Exception e)
 				{
 					log.log(Level.SEVERE, "Commit failed.", e);
-					m_pi.addSummary("Commit Failed.");
-					m_pi.setError(true);
+					processInfo.addSummary("Commit Failed.");
+					processInfo.setError(true);
 				}
 			}
 			else
-				m_trx.rollback();
-			m_trx.close();
-			m_trx = null;
+				transaction.rollback();
+			transaction.close();
+			transaction = null;
 		}
 		
 		unlock();
 		
 		// outside transaction processing [ teo_sarca, 1646891 ]
-		postProcess(!m_pi.isError());
+		postProcess(!processInfo.isError());
 		
-		return !m_pi.isError();
+		return !processInfo.isError();
 	}   //  startProcess
 	
 	/**************************************************************************
@@ -175,8 +176,8 @@ public abstract class SvrProcess implements ProcessCall
 			success = false;
 		
 		//	Parse Variables
-		msg = Msg.parseTranslation(m_ctx, msg);
-		m_pi.setSummary (msg, !success);
+		msg = Msg.parseTranslation(ctx, msg);
+		processInfo.setSummary (msg, !success);
 		
 		return success;
 	}   //  process
@@ -247,8 +248,8 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected void commit()
 	{
-		if (m_trx != null)
-			m_trx.commit();
+		if (transaction != null)
+			transaction.commit();
 	}	//	commit
 	
 	/**
@@ -257,8 +258,8 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected void commitEx() throws SQLException
 	{
-		if (m_trx != null)
-			m_trx.commit(true);
+		if (transaction != null)
+			transaction.commit(true);
 	}
 	
 	/**
@@ -266,8 +267,8 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected void rollback()
 	{
-		if (m_trx != null)
-			m_trx.rollback();
+		if (transaction != null)
+			transaction.rollback();
 	}	//	rollback
 	
 	
@@ -280,14 +281,14 @@ public abstract class SvrProcess implements ProcessCall
 	protected boolean lockObject (PO po)
 	{
 		//	Unlock existing
-		if (m_locked || m_lockedObject != null)
+		if (locked || lockedObject != null)
 			unlockObject();
 		//	Nothing to lock			
 		if (po == null)
 			return false;
-		m_lockedObject = po;
-		m_locked = m_lockedObject.lock();
-		return m_locked;
+		lockedObject = po;
+		locked = lockedObject.lock();
+		return locked;
 	}	//	lockObject
 
 	/**
@@ -296,7 +297,7 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected boolean isLocked()
 	{
-		return m_locked;
+		return locked;
 	}	//	isLocked
 
 	/**
@@ -307,12 +308,12 @@ public abstract class SvrProcess implements ProcessCall
 	protected boolean unlockObject()
 	{
 		boolean success = true;
-		if (m_locked || m_lockedObject != null)
+		if (locked || lockedObject != null)
 		{
-			success = m_lockedObject.unlock(null);
+			success = lockedObject.unlock(null);
 		}
-		m_locked = false;
-		m_lockedObject = null;
+		locked = false;
+		lockedObject = null;
 		return success;
 	}	//	unlock
 
@@ -323,7 +324,7 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	public ProcessInfo getProcessInfo()
 	{
-		return m_pi;
+		return processInfo;
 	}   //  getProcessInfo
 
 	/**
@@ -332,7 +333,7 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	public Properties getCtx()
 	{
-		return m_ctx;
+		return ctx;
 	}   //  getCtx
 
 	/**
@@ -341,7 +342,7 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected String getName()
 	{
-		return m_pi.getTitle();
+		return processInfo.getTitle();
 	}   //  getName
 
 	/**
@@ -350,7 +351,7 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected int getAD_PInstance_ID()
 	{
-		return m_pi.getAD_PInstance_ID();
+		return processInfo.getAD_PInstance_ID();
 	}   //  getAD_PInstance_ID
 
 	/**
@@ -359,7 +360,7 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected int getTable_ID()
 	{
-		return m_pi.getTable_ID();
+		return processInfo.getTable_ID();
 	}   //  getRecord_ID
 
 	/**
@@ -368,7 +369,7 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected int getRecord_ID()
 	{
-		return m_pi.getRecord_ID();
+		return processInfo.getRecord_ID();
 	}   //  getRecord_ID
 
 	/**
@@ -377,20 +378,20 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected int getAD_User_ID()
 	{
-		if (m_pi.getAD_User_ID() == null || m_pi.getAD_Client_ID() == null)
+		if (processInfo.getAD_User_ID() == null || processInfo.getAD_Client_ID() == null)
 		{
 			String sql = "SELECT AD_User_ID, AD_Client_ID FROM AD_PInstance WHERE AD_PInstance_ID=?";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
 			try
 			{
-				pstmt = DB.prepareStatement(sql, get_TrxName());
-				pstmt.setInt(1, m_pi.getAD_PInstance_ID());
-				rs = pstmt.executeQuery();
-				if (rs.next())
+				preparedStatement = DB.prepareStatement(sql, get_TrxName());
+				preparedStatement.setInt(1, processInfo.getAD_PInstance_ID());
+				resultSet = preparedStatement.executeQuery();
+				if (resultSet.next())
 				{
-					m_pi.setAD_User_ID (rs.getInt (1));
-					m_pi.setAD_Client_ID (rs.getInt(2));
+					processInfo.setAD_User_ID (resultSet.getInt (1));
+					processInfo.setAD_Client_ID (resultSet.getInt(2));
 				}
 			}
 			catch (SQLException e)
@@ -398,13 +399,13 @@ public abstract class SvrProcess implements ProcessCall
 				log.log(Level.SEVERE, sql, e);
 			}
 			finally {
-				DB.close(rs, pstmt);
-				rs = null; pstmt = null;
+				DB.close(resultSet, preparedStatement);
+				resultSet = null; preparedStatement = null;
 			}
 		}
-		if (m_pi.getAD_User_ID() == null)
+		if (processInfo.getAD_User_ID() == null)
 			return -1;
-		return m_pi.getAD_User_ID().intValue();
+		return processInfo.getAD_User_ID().intValue();
 	}   //  getAD_User_ID
 
 	/**
@@ -413,13 +414,13 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected int getAD_Client_ID()
 	{
-		if (m_pi.getAD_Client_ID() == null)
+		if (processInfo.getAD_Client_ID() == null)
 		{
 			getAD_User_ID();	//	sets also Client
-			if (m_pi.getAD_Client_ID() == null)
+			if (processInfo.getAD_Client_ID() == null)
 				return 0;
 		}
-		return m_pi.getAD_Client_ID().intValue();
+		return processInfo.getAD_Client_ID().intValue();
 	}	//	getAD_Client_ID
 	
 	/**
@@ -428,7 +429,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * @return
 	 */
 	protected boolean isSelection() {
-		return m_pi.isSelection();
+		return processInfo.isSelection();
 	}
 
 	
@@ -439,13 +440,13 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	protected ProcessInfoParameter[] getParameter()
 	{
-		ProcessInfoParameter[] retValue = m_pi.getParameter();
-		if (retValue == null)
+		ProcessInfoParameter[] parameter = processInfo.getParameter();
+		if (parameter == null)
 		{
-			ProcessInfoUtil.setParameterFromDB(m_pi);
-			retValue = m_pi.getParameter();
+			ProcessInfoUtil.setParameterFromDB(processInfo);
+			parameter = processInfo.getParameter();
 		}
-		return retValue;
+		return parameter;
 	}	//	getParameter
 	
 	/**
@@ -455,7 +456,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public ProcessInfoParameter getInfoParameter(String parameterName) {
-		return m_pi.getInfoParameter(parameterName);
+		return processInfo.getInfoParameter(parameterName);
 	}
 	
 	/**
@@ -465,7 +466,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public Object getParameter(String parameterName) {
-		return m_pi.getParameter(parameterName);
+		return processInfo.getParameter(parameterName);
 	}
 	
 	/**
@@ -475,7 +476,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public BigDecimal getParameterAsBigDecimal(String parameterName) {
-		return m_pi.getParameterAsBigDecimal(parameterName);
+		return processInfo.getParameterAsBigDecimal(parameterName);
 	}
 	
 	/**
@@ -485,7 +486,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public boolean getParameterAsBoolean(String parameterName) {
-		return m_pi.getParameterAsBoolean(parameterName);
+		return processInfo.getParameterAsBoolean(parameterName);
 	}
 	
 	/**
@@ -495,7 +496,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public int getParameterAsInt(String parameterName) {
-		return m_pi.getParameterAsInt(parameterName);
+		return processInfo.getParameterAsInt(parameterName);
 	}
 	
 	/**
@@ -505,7 +506,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public String getParameterAsString(String parameterName) {
-		return m_pi.getParameterAsString(parameterName);
+		return processInfo.getParameterAsString(parameterName);
 	}
 	
 	/**
@@ -515,7 +516,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public Timestamp getParameterAsTimestamp(String parameterName) {
-		return m_pi.getParameterAsTimestamp(parameterName);
+		return processInfo.getParameterAsTimestamp(parameterName);
 	}
 	
 	/**
@@ -525,7 +526,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public Object getParameterTo(String parameterName) {
-		return m_pi.getParameterTo(parameterName);
+		return processInfo.getParameterTo(parameterName);
 	}
 	
 	/**
@@ -535,7 +536,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public BigDecimal getParameterToAsBigDecimal(String parameterName) {
-		return m_pi.getParameterToAsBigDecimal(parameterName);
+		return processInfo.getParameterToAsBigDecimal(parameterName);
 	}
 	
 	/**
@@ -545,7 +546,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public boolean getParameterToAsBoolean(String parameterName) {
-		return m_pi.getParameterToAsBoolean(parameterName);
+		return processInfo.getParameterToAsBoolean(parameterName);
 	}
 	
 	/**
@@ -555,7 +556,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public int getParameterToAsInt(String parameterName) {
-		return m_pi.getParameterToAsInt(parameterName);
+		return processInfo.getParameterToAsInt(parameterName);
 	}
 	
 	/**
@@ -565,7 +566,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public String getParameterToAsString(String parameterName) {
-		return m_pi.getParameterToAsString(parameterName);
+		return processInfo.getParameterToAsString(parameterName);
 	}
 	
 	/**
@@ -575,7 +576,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * FR [ 325 ]
 	 */
 	public Timestamp getParameterToAsTimestamp(String parameterName) {
-		return m_pi.getParameterToAsTimestamp(parameterName);
+		return processInfo.getParameterToAsTimestamp(parameterName);
 	}
 
 
@@ -588,8 +589,8 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	public void addLog (int id, Timestamp date, BigDecimal number, String msg)
 	{
-		if (m_pi != null)
-			m_pi.addLog(id, date, number, msg);
+		if (processInfo != null)
+			processInfo.addLog(id, date, number, msg);
 		log.info(id + " - " + date + " - " + number + " - " + msg);
 	}	//	addLog
 
@@ -637,11 +638,11 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	private void lock()
 	{
-		log.fine("AD_PInstance_ID=" + m_pi.getAD_PInstance_ID());
+		log.fine("AD_PInstance_ID=" + processInfo.getAD_PInstance_ID());
 		try 
 		{
 			DB.executeUpdate("UPDATE AD_PInstance SET IsProcessing='Y' WHERE AD_PInstance_ID=" 
-				+ m_pi.getAD_PInstance_ID(), null);		//	outside trx
+				+ processInfo.getAD_PInstance_ID(), null);		//	outside trx
 		} catch (Exception e)
 		{
 			log.severe("lock() - " + e.getLocalizedMessage());
@@ -656,19 +657,19 @@ public abstract class SvrProcess implements ProcessCall
 	{
 		try 
 		{
-			MPInstance mpi = new MPInstance (getCtx(), m_pi.getAD_PInstance_ID(), null);
-			if (mpi.get_ID() == 0)
+			MPInstance instance = new MPInstance (getCtx(), processInfo.getAD_PInstance_ID(), null);
+			if (instance.get_ID() == 0)
 			{
-				log.log(Level.SEVERE, "Did not find PInstance " + m_pi.getAD_PInstance_ID());
+				log.log(Level.SEVERE, "Did not find PInstance " + processInfo.getAD_PInstance_ID());
 				return;
 			}
-			mpi.setIsProcessing(false);
-			mpi.setResult(!m_pi.isError());
-			mpi.setErrorMsg(m_pi.getSummary());
-			mpi.saveEx();
-			log.fine(mpi.toString());
+			instance.setIsProcessing(false);
+			instance.setResult(!processInfo.isError());
+			instance.setErrorMsg(processInfo.getSummary());
+			instance.saveEx();
+			log.fine(instance.toString());
 			
-			ProcessInfoUtil.saveLogToDB(m_pi);
+			ProcessInfoUtil.saveLogToDB(processInfo);
 		} 
 		catch (Exception e)
 		{
@@ -682,8 +683,8 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	public String get_TrxName()
 	{
-		if (m_trx != null)
-			return m_trx.getTrxName();
+		if (transaction != null)
+			return transaction.getTrxName();
 		return null;
 	}	//	get_TrxName
 	
