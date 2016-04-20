@@ -202,55 +202,65 @@ public class ProcessClassGenerator {
 	
 	/**
 	 * Create Comment and parameter Value
-	 * @param parameterName
-	 * @param referenceId
+	 * @param parameter
+	 * @param isTo
 	 * @param isTo
 	 */
 	private void createParameterValue(MProcessPara parameter, boolean isTo) {
 		//	Add new Line
 		parametersValue.append(ModelInterfaceGenerator.NL);
-		String parameterName = getParameterName(parameter);
+		String variableName = getVariableName(parameter);
 		//	Add Comment
 		parametersValue
-			.append("\t/**\tParameter Value for ").append(parameterName).append(isTo ? "To": "").append("\t*/")
+			.append("\t/**\tParameter Value for ").append(variableName).append(isTo ? "To": "").append("\t*/")
 			.append(ModelInterfaceGenerator.NL)
-			.append("\tprotected ").append(getType(parameter.getAD_Reference_ID())).append(" ")
-			//.append("p_").append(parameterName)
-			.append(parameterName.substring(0 ,1).toLowerCase()).append(parameterName.substring(1,getParameterName(parameter).length()))
-			.append(DisplayType.isLookup(parameter.getAD_Reference_ID()) ? "Id" : "")
+			.append("\tprotected ").append(getType(parameter)).append(" ")
+			.append(variableName)
 			.append(isTo ? "To": "")
 			.append(";");
 	}
 	
 	/**
 	 * Create Fill Source
-	 * @param parameterName
-	 * @param referenceId
+	 * @param parameter
 	 * @param isTo
 	 */
 	private void createParameterFill(MProcessPara parameter, Boolean isTo) {
 		//	Add new Line
 		parametersFill.append(ModelInterfaceGenerator.NL);
-		String parameterName = getParameterName(parameter);
+		String variableName = getVariableName(parameter);
 		//	Add Comment
 		parametersFill
-			.append("\t\t").append(parameterName.substring(0,1).toLowerCase()).append(parameterName.substring(1,parameterName.length()))
-			.append(DisplayType.isLookup(parameter.getAD_Reference_ID()) ? "Id" : "")
+			.append("\t\t").append(variableName)
 			.append(isTo ? "To": "")
-			.append(" = ").append(getProcessMethod(parameter.getAD_Reference_ID(), isTo))
+			.append(" = ").append(getProcessMethod(parameter, isTo))
 			.append("(").append(parameter.getColumnName()).append(")")
 			.append(";");
+	}
+
+	private String getVariableName(MProcessPara parameter)
+	{
+		String parameterName = getParameterName(parameter);
+		StringBuilder variableName = new StringBuilder();
+		if ((DisplayType.List == parameter.getAD_Reference_ID() && 319 == parameter.getAD_Reference_Value_ID()) || DisplayType.YesNo == parameter.getAD_Reference_ID())
+			variableName.append("is").append(parameterName);
+		else
+			variableName.append(parameterName.substring(0 ,1).toLowerCase()).append(parameterName.substring(1,getParameterName(parameter).length()));
+		if (DisplayType.isLookup(parameter.getAD_Reference_ID()) && DisplayType.List != parameter.getAD_Reference_ID())
+			variableName.append("Id");
+
+		return variableName.toString();
 	}
 	
 	/**
 	 * Get Type for declaration
-	 * @param referenceId
+	 * @param parameter
 	 * @return
 	 */
-	private String getType(int referenceId) {
-		Class clazz = DisplayType.getClass(referenceId, true);
+	private String getType(MProcessPara parameter) {
+		Class clazz = DisplayType.getClass(parameter.getAD_Reference_ID(), true);
 		//	Verify Type
-		if (clazz == String.class) {
+		if (clazz == String.class && DisplayType.isText(parameter.getAD_Reference_ID())) {
 			return "String";
 		} else if (clazz == Integer.class) {
 			return "int";
@@ -260,20 +270,21 @@ public class ProcessClassGenerator {
 		} else if (clazz == Timestamp.class) {
 			addImportClass(Timestamp.class);
 			return "Timestamp";
-		} else if (clazz == Boolean.class) {
+		} else if (clazz == Boolean.class || parameter.getAD_Reference_Value_ID() == 319 || DisplayType.YesNo == parameter.getAD_Reference_ID()) {
 			return "boolean";
-		}
+		} else if (DisplayType.List == parameter.getAD_Reference_ID())
+			return "String";
 		//
 		return "Object";
 	}
 	
 	/**
 	 * Get Type for declaration
-	 * @param referenceId
+	 * @param parameter
 	 * @return
 	 */
-	private String getProcessMethod(int referenceId, boolean isTo) {
-		String type = getType(referenceId);
+	private String getProcessMethod(MProcessPara parameter, boolean isTo) {
+		String type = getType(parameter);
 		//	
 		String typeForMethod = type.substring(0, 1);
 		//	Change first
