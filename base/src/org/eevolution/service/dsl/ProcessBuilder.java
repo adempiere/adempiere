@@ -61,7 +61,8 @@ public class ProcessBuilder {
     private MProcess process;
     private ASyncProcess parent;
     private List<Integer> selectedRecordsIds;
-    private Boolean managedTransaction = true;
+    private Boolean isManagedTransaction = true;
+    private Boolean isExecuteUsingSystemRole =  false;
 
     /**
      * Private constructor is called when an instance is created
@@ -162,11 +163,15 @@ public class ProcessBuilder {
             DB.createT_Selection(instance.getAD_PInstance_ID(), selectedRecordsIds, null);
 
 
-        processInfo = new ProcessInfo(title, processId, tableId , recordId, managedTransaction);
+        processInfo = new ProcessInfo(title, processId, tableId , recordId, isManagedTransaction);
         processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
         processInfo.setClassName(MProcess.get(context , processId).getClassname());
         processInfo.setTransactionName(trxName);
         processInfo.setIsSelection(isSelection);
+        if (isExecuteUsingSystemRole) {
+            processInfo.setAD_Client_ID(0);
+            processInfo.setAD_User_ID(100);
+        }
         ProcessInfoUtil.setParameterFromDB(processInfo);
     }
 
@@ -217,8 +222,7 @@ public class ProcessBuilder {
 
     public ProcessInfo executeUsingSystemRole()
     {
-        processInfo.setAD_Client_ID(0);
-        processInfo.setAD_User_ID(100);
+        isExecuteUsingSystemRole = true;
         return execute();
     }
 
@@ -300,7 +304,7 @@ public class ProcessBuilder {
 
    public ProcessBuilder withoutTransactionClose()
    {
-       this.managedTransaction = false;
+       this.isManagedTransaction = false;
        return this;
    }
 

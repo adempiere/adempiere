@@ -2700,9 +2700,11 @@ public final class APanel extends CPanel
 					record_ID, startWOasking);
 			//	FR [ 265 ]
 			//	BR [ 323 ]
-			dialog.validate();
-			dialog.pack();
-			AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
+			if(!startWOasking) {
+				dialog.validate();
+				dialog.pack();
+				AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
+			}
 		}
 	}	//	actionButton
 
