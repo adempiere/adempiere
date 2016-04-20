@@ -69,7 +69,7 @@ public class ReportColumnSet_Copy extends SvrProcess
 		int to_ID = super.getRecord_ID();
 		log.info("From PA_ReportColumnSet_ID=" + m_PA_ReportColumnSet_ID + ", To=" + to_ID);
 		if (to_ID < 1)
-			throw new Exception(MSG_SaveErrorRowNotFound);
+			throw new Exception(MESSAGE_SaveErrorRowNotFound);
 		//
 		MReportColumnSet to = new MReportColumnSet(getCtx(), to_ID, get_TrxName());
 		MReportColumnSet rcSet = new MReportColumnSet(getCtx(), m_PA_ReportColumnSet_ID, get_TrxName());

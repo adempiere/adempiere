@@ -1256,8 +1256,10 @@ public class GridController extends CPanel
 		if (e.getNewValue() == null && e.getOldValue() != null
 			&& e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
 		{
-			//  #283 Set value to null 
-			mTable.setValueAt (null, row, col);	//	-> dataStatusChanged -> dynamicDisplay
+			//  #283 Set value to null
+			GridField gridField = m_mTab.getField(col);
+			if (!gridField.getVO().IsMandatory)
+				mTable.setValueAt (null, row, col);	//	-> dataStatusChanged -> dynamicDisplay
 			mTable.setChanged (true);
 		}	
 		else
