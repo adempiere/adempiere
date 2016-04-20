@@ -29,26 +29,20 @@ import org.compiere.util.AdempiereUserError;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 325 ] SvrProcess must handle mandatory error on Process Parameters
  *		@see https://github.com/adempiere/adempiere/issues/325
+ *	@author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  */
-public class YearCreatePeriods extends SvrProcess
+public class YearCreatePeriods extends YearCreatePeriodsAbstract
 {
-	/**	Parameter Name StartDate	*/
-	private final String	PARAMETERNAME_StartDate = "StartDate";
-	/**	Parameter Name DateFormat	*/
-	private final String	PARAMETERNAME_DateFormat = "DateFormat";
 	/**	Internal Variables			*/
-	private int	p_C_Year_ID = 0;
-	private Timestamp p_StartDate;
-	private String p_DateFormat;
-	
+	private int yearId = 0;
+
 	/**
 	 * 	Prepare
 	 */
 	protected void prepare ()
 	{
-		p_StartDate = getParameterAsTimestamp(PARAMETERNAME_StartDate);
-		p_DateFormat = getParameterAsString(PARAMETERNAME_DateFormat);
-		p_C_Year_ID = getRecord_ID();
+		super.prepare();
+		yearId = getRecord_ID();
 	}	//	prepare
 
 	/**
@@ -59,12 +53,12 @@ public class YearCreatePeriods extends SvrProcess
 	protected String doIt ()
 		throws Exception
 	{
-		MYear year = new MYear (getCtx(), p_C_Year_ID, get_TrxName());
-		if (p_C_Year_ID == 0 || year.get_ID() != p_C_Year_ID)
-			throw new AdempiereUserError ("@NotFound@: @C_Year_ID@ - " + p_C_Year_ID);
+		MYear year = new MYear (getCtx(), yearId, get_TrxName());
+		if (yearId == 0 || year.get_ID() != yearId)
+			throw new AdempiereUserError ("@NotFound@: @C_Year_ID@ - " + yearId);
 		log.info(year.toString());
 		//
-		if (year.createStdPeriods(null, p_StartDate, p_DateFormat))
+		if (year.createStdPeriods(null, startDate, dateFormat))
 			return "@OK@";
 		return "@Error@";
 	}	//	doIt

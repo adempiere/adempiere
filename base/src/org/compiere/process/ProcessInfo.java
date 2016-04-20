@@ -42,26 +42,27 @@ import org.compiere.util.Util;
  *		@see https://github.com/adempiere/adempiere/issues/244
  *		<li> FR [ 325 ] SvrProcess must handle mandatory error on Process Parameters
  *		@see https://github.com/adempiere/adempiere/issues/325
+ *	@author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  */
 public class ProcessInfo implements Serializable
 {
 	/**
 	 *  Constructor
-	 *  @param Title Title
-	 *  @param AD_Process_ID AD_Process_ID
-	 *  @param Table_ID AD_Table_ID
-	 *  @param Record_ID Record_ID
+	 *  @param title Title
+	 *  @param processId Process Id
+	 *  @param tableId Table Id
+	 *  @param recordId Record Id
 	 */
-	public ProcessInfo (String Title, int AD_Process_ID, int Table_ID, int Record_ID)
+	public ProcessInfo (String title, int processId, int tableId, int recordId)
 	{
-		setTitle (Title);
-		setAD_Process_ID(AD_Process_ID);
-		setTable_ID (Table_ID);
-		setRecord_ID (Record_ID);
+		setTitle (title);
+		setAD_Process_ID(processId);
+		setTable_ID (tableId);
+		setRecord_ID (recordId);
 		if (Ini.isPropertyBool(Ini.P_PRINTPREVIEW))
-			m_printPreview = true;
+			printPreview = true;
 		else
-			m_printPreview = false;
+			printPreview = false;
 	}   //  ProcessInfo
 
 	public ProcessInfo (String title, int processId, int tableId, int recordId, boolean managedTransaction)
@@ -72,12 +73,12 @@ public class ProcessInfo implements Serializable
 
 	/**
 	 *  Constructor
-	 *  @param Title Title
-	 *  @param AD_Process_ID AD_Process_ID
+	 *  @param title Title
+	 *  @param processId Process Id
 	 *   */
-	public ProcessInfo (String Title, int AD_Process_ID)
+	public ProcessInfo (String title, int processId)
 	{
-		this (Title, AD_Process_ID, 0, 0);
+		this (title, processId, 0, 0);
 	}   //  ProcessInfo
 
 	public ProcessInfo (String title, int processId, boolean managedTransaction)
@@ -91,67 +92,67 @@ public class ProcessInfo implements Serializable
 	
 
 	/** Title of the Process/Report */
-	private String				m_Title;
+	private String 				title;
 	/** Process ID                  */
-	private int					m_AD_Process_ID;
+	private int 				processId;
 	/** Table ID if the Process	    */
-	private int					m_Table_ID;
+	private int 				tableId;
 	/** Record ID if the Process    */
-	private int					m_Record_ID;
+	private int 				recordId;
 	/** User_ID        					*/
-	private Integer	 			m_AD_User_ID;
+	private Integer 			userId;
 	/** Client_ID        				*/
-	private Integer 			m_AD_Client_ID;
+	private Integer 			clientId;
 	/** Class Name 						*/
-	private String				m_ClassName = null;
+	private String 				className = null;
 
 	//  -- Optional --
 
 	/** Process Instance ID         */
-	private int					m_AD_PInstance_ID = 0;
+	private int 				instanceId = 0;
 
 	/** Summary of Execution        */
-	private String    			m_Summary = "";
+	private String 				summary = "";
 	/** Execution had an error      */
-	private boolean     		m_Error = false;
+	private boolean 			hadError = false;
 
 
 	/*	General Data Object			*/
-	private Serializable		m_SerializableObject = null;
+	private Serializable 		serializableObject = null;
 	/*	General Data Object			*/
-	private transient Object	m_TransientObject = null;
+	private transient Object 	transientObject = null;
 	/** Estimated Runtime           */
-	private int          		m_EstSeconds = 5;
+	private int 				estimatedSeconds = 5;
 	/** Batch						*/
-	private boolean				m_batch = false;
+	private boolean 			batch = false;
 	/** Process timed out				*/
-	private boolean				m_timeout = false;
+	private boolean 			timeout = false;
 
 	/**	Log Info					*/
-	private ArrayList<ProcessInfoLog> m_logs = null;
+	private ArrayList<ProcessInfoLog> logs = null;
 
 	/**	Log Info					*/
-	private Hashtable<String, ProcessInfoParameter> m_parameter = null;
+	private Hashtable<String, ProcessInfoParameter> parameters = null;
 	
 	/** Transaction Name 			*/
-	private String				m_transactionName = null;
+	private String 				transactionName = null;
 	
-	private boolean				m_printPreview = false;
+	private boolean 			printPreview = false;
 
-	private boolean				m_reportingProcess = false;
+	private boolean 			reportingProcess = false;
 	//FR 1906632
-	private File 			    m_pdf_report = null;
+	private File 				pdfReportFile = null;
 
-	private boolean managedTransaction = true;
+	private boolean 			managedTransaction = true;
 	
 	//	FR [ 244 ]
-	private boolean 			m_IsSelection = false;
+	private boolean 			isSelection = false;
 	
 	/**
 	 * If the process fails with an Throwable, the Throwable is caught and stored here
 	 */
 	// 03152: motivation to add this is that now in ait we can assert that a certain exception was thrown.
-	private Throwable			m_throwable = null;
+	private Throwable 			throwable = null;
 	
 	/**
 	 *  String representation
@@ -159,35 +160,35 @@ public class ProcessInfo implements Serializable
 	 */
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer("ProcessInfo[");
-		sb.append(m_Title)
-			.append(",Process_ID=").append(m_AD_Process_ID);
-		if (m_AD_PInstance_ID != 0)
-			sb.append(",AD_PInstance_ID=").append(m_AD_PInstance_ID);
-		if (m_Record_ID != 0)
-			sb.append(",Record_ID=").append(m_Record_ID);
-		if (m_ClassName != null)
-			sb.append(",ClassName=").append(m_ClassName);
-		sb.append(",Error=").append(isError());
-		if (m_TransientObject != null)
-			sb.append(",Transient=").append(m_TransientObject);
-		if (m_SerializableObject != null)
-			sb.append(",Serializable=").append(m_SerializableObject);
-		sb.append(",Summary=").append(getSummary())
-			.append(",Log=").append(m_logs == null ? 0 : m_logs.size());
+		StringBuffer stringBuffer = new StringBuffer("ProcessInfo[");
+		stringBuffer.append(title)
+			.append(",Process_ID=").append(processId);
+		if (instanceId != 0)
+			stringBuffer.append(",AD_PInstance_ID=").append(instanceId);
+		if (recordId != 0)
+			stringBuffer.append(",Record_ID=").append(recordId);
+		if (className != null)
+			stringBuffer.append(",ClassName=").append(className);
+		stringBuffer.append(",Error=").append(isError());
+		if (transientObject != null)
+			stringBuffer.append(",Transient=").append(transientObject);
+		if (serializableObject != null)
+			stringBuffer.append(",Serializable=").append(serializableObject);
+		stringBuffer.append(",Summary=").append(getSummary())
+			.append(",Log=").append(logs == null ? 0 : logs.size());
 		//	.append(getLogInfo(false));
-		sb.append("]");
-		return sb.toString();
+		stringBuffer.append("]");
+		return stringBuffer.toString();
 	}   //  toString
 
 	
 	/**
 	 * FR [ 244 ]
 	 * Set the flag for know if is from SB or not
-	 * @param p_IsSelection
+	 * @param isSelection
 	 */
-	public void setIsSelection(boolean p_IsSelection) {
-		m_IsSelection = p_IsSelection;
+	public void setIsSelection(boolean isSelection) {
+		this.isSelection = isSelection;
 	}
 	
 	/**
@@ -196,7 +197,7 @@ public class ProcessInfo implements Serializable
 	 * @return
 	 */
 	public boolean isSelection() {
-		return m_IsSelection;
+		return isSelection;
 	}
 	
 	
@@ -206,7 +207,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setSummary (String summary)
 	{
-		m_Summary = summary;
+		this.summary = summary;
 	}	//	setSummary
 	/**
 	 * Method getSummary
@@ -214,7 +215,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public String getSummary ()
 	{
-		return Util.cleanAmp(m_Summary);
+		return Util.cleanAmp(summary);
 	}	//	getSummary
 
 	/**
@@ -233,7 +234,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public void addSummary (String additionalSummary)
 	{
-		m_Summary += additionalSummary;
+		summary += additionalSummary;
 	}	//	addSummary
 
 	/**
@@ -242,7 +243,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setError (boolean error)
 	{
-		m_Error = error;
+		hadError = error;
 	}	//	setError
 	/**
 	 * Method isError
@@ -250,7 +251,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public boolean isError ()
 	{
-		return m_Error;
+		return hadError;
 	}	//	isError
 
 	/**
@@ -259,7 +260,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setIsBatch (boolean batch)
 	{
-		m_batch = batch;
+		this.batch = batch;
 	}	//	setTimeout
 	
 	/**
@@ -268,7 +269,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public boolean isBatch()
 	{
-		return m_batch;
+		return batch;
 	}	//	isBatch
 
 	/**
@@ -277,7 +278,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setIsTimeout (boolean timeout)
 	{
-		m_timeout = timeout;
+		this.timeout = timeout;
 	}	//	setTimeout
 	
 	/**
@@ -286,7 +287,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public boolean isTimeout()
 	{
-		return m_timeout;
+		return timeout;
 	}	//	isTimeout
 
 	/**
@@ -301,22 +302,22 @@ public class ProcessInfo implements Serializable
 	 */
 	public String getLogInfo (boolean html)
 	{
-		if (m_logs == null)
+		if (logs == null)
 			return "";
 		//
-		StringBuffer sb = new StringBuffer ();
+		StringBuffer stringBuffer = new StringBuffer ();
 		SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.DateTime);
 		if (html)
-			sb.append("<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"2\">");
+			stringBuffer.append("<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"2\">");
 		//
-		for (int i = 0; i < m_logs.size(); i++)
+		for (int i = 0; i < logs.size(); i++)
 		{
 			if (html)
-				sb.append("<tr>");
+				stringBuffer.append("<tr>");
 			else if (i > 0)
-				sb.append("\n");
+				stringBuffer.append("\n");
 			//
-			ProcessInfoLog log = m_logs.get(i);
+			ProcessInfoLog log = logs.get(i);
 			/**
 			if (log.getP_ID() != 0)
 				sb.append(html ? "<td>" : "")
@@ -324,26 +325,26 @@ public class ProcessInfo implements Serializable
 					.append(html ? "</td>" : " \t");	**/
 			//
 			if (log.getP_Date() != null)
-				sb.append(html ? "<td>" : "")
+				stringBuffer.append(html ? "<td>" : "")
 					.append(dateFormat.format(log.getP_Date()))
 					.append(html ? "</td>" : " \t");
 			//
 			if (log.getP_Number() != null)
-				sb.append(html ? "<td>" : "")
+				stringBuffer.append(html ? "<td>" : "")
 					.append(log.getP_Number())
 					.append(html ? "</td>" : " \t");
 			//
 			if (log.getP_Msg() != null)
-				sb.append(html ? "<td>" : "")
+				stringBuffer.append(html ? "<td>" : "")
 					.append(Msg.parseTranslation(Env.getCtx(), log.getP_Msg()))
 					.append(html ? "</td>" : "");
 			//
 			if (html)
-				sb.append("</tr>");
+				stringBuffer.append("</tr>");
 		}
 		if (html)
-			sb.append("</table>");
-		return sb.toString();
+			stringBuffer.append("</table>");
+		return stringBuffer.toString();
 	 }	//	getLogInfo
 
 	/**
@@ -361,15 +362,15 @@ public class ProcessInfo implements Serializable
 	 */
 	public int getAD_PInstance_ID()
 	{
-		return m_AD_PInstance_ID;
+		return instanceId;
 	}
 	/**
 	 * Method setAD_PInstance_ID
-	 * @param AD_PInstance_ID int
+	 * @param instanceId int
 	 */
-	public void setAD_PInstance_ID(int AD_PInstance_ID)
+	public void setAD_PInstance_ID(int instanceId)
 	{
-		m_AD_PInstance_ID = AD_PInstance_ID;
+		this.instanceId = instanceId;
 	}
 
 	/**
@@ -378,15 +379,15 @@ public class ProcessInfo implements Serializable
 	 */
 	public int getAD_Process_ID()
 	{
-		return m_AD_Process_ID;
+		return processId;
 	}
 	/**
 	 * Method setAD_Process_ID
-	 * @param AD_Process_ID int
+	 * @param processId int
 	 */
-	public void setAD_Process_ID(int AD_Process_ID)
+	public void setAD_Process_ID(int processId)
 	{
-		m_AD_Process_ID = AD_Process_ID;
+		this.processId = processId;
 	}
 
 	/**
@@ -395,7 +396,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public String getClassName()
 	{
-		return m_ClassName;
+		return className;
 	}
 	
 	/**
@@ -404,9 +405,9 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setClassName(String ClassName)
 	{
-		m_ClassName = ClassName;
-		if (m_ClassName != null && m_ClassName.length() == 0)
-			m_ClassName = null;
+		className = ClassName;
+		if (className != null && className.length() == 0)
+			className = null;
 	}	//	setClassName
 
 	/**
@@ -415,15 +416,15 @@ public class ProcessInfo implements Serializable
 	 */
 	public Object getTransientObject()
 	{
-		return m_TransientObject;
+		return transientObject;
 	}
 	/**
 	 * Method setTransientObject
-	 * @param TransientObject Object
+	 * @param transientObject Object
 	 */
-	public void setTransientObject (Object TransientObject)
+	public void setTransientObject (Object transientObject)
 	{
-		m_TransientObject = TransientObject;
+		this.transientObject = transientObject;
 	}
 
 	/**
@@ -432,15 +433,15 @@ public class ProcessInfo implements Serializable
 	 */
 	public Serializable getSerializableObject()
 	{
-		return m_SerializableObject;
+		return serializableObject;
 	}
 	/**
 	 * Method setSerializableObject
-	 * @param SerializableObject Serializable
+	 * @param serializableObject Serializable
 	 */
-	public void setSerializableObject (Serializable SerializableObject)
+	public void setSerializableObject (Serializable serializableObject)
 	{
-		m_SerializableObject = SerializableObject;
+		this.serializableObject = serializableObject;
 	}
 
 	/**
@@ -449,15 +450,15 @@ public class ProcessInfo implements Serializable
 	 */
 	public int getEstSeconds()
 	{
-		return m_EstSeconds;
+		return estimatedSeconds;
 	}
 	/**
 	 * Method setEstSeconds
-	 * @param EstSeconds int
+	 * @param estimatedSeconds int
 	 */
-	public void setEstSeconds (int EstSeconds)
+	public void setEstSeconds (int estimatedSeconds)
 	{
-		m_EstSeconds = EstSeconds;
+		this.estimatedSeconds = estimatedSeconds;
 	}
 
 
@@ -467,15 +468,15 @@ public class ProcessInfo implements Serializable
 	 */
 	public int getTable_ID()
 	{
-		return m_Table_ID;
+		return tableId;
 	}
 	/**
 	 * Method setTable_ID
-	 * @param AD_Table_ID int
+	 * @param tableId int
 	 */
-	public void setTable_ID(int AD_Table_ID)
+	public void setTable_ID(int tableId)
 	{
-		m_Table_ID = AD_Table_ID;
+		this.tableId = tableId;
 	}
 
 	/**
@@ -484,15 +485,15 @@ public class ProcessInfo implements Serializable
 	 */
 	public int getRecord_ID()
 	{
-		return m_Record_ID;
+		return recordId;
 	}
 	/**
 	 * Method setRecord_ID
-	 * @param Record_ID int
+	 * @param recordId int
 	 */
-	public void setRecord_ID(int Record_ID)
+	public void setRecord_ID(int recordId)
 	{
-		m_Record_ID = Record_ID;
+		this.recordId = recordId;
 	}
 
 	/**
@@ -501,25 +502,25 @@ public class ProcessInfo implements Serializable
 	 */
 	public String getTitle()
 	{
-		return m_Title;
+		return title;
 	}
 	/**
 	 * Method setTitle
-	 * @param Title String
+	 * @param title String
 	 */
-	public void setTitle (String Title)
+	public void setTitle (String title)
 	{
-		m_Title = Title;
+		this.title = title;
 	}	//	setTitle
 
 
 	/**
 	 * Method setAD_Client_ID
-	 * @param AD_Client_ID int
+	 * @param clientId int
 	 */
-	public void setAD_Client_ID (int AD_Client_ID)
+	public void setAD_Client_ID (int clientId)
 	{
-		m_AD_Client_ID = new Integer (AD_Client_ID);
+		this.clientId = new Integer (clientId);
 	}
 	/**
 	 * Method getAD_Client_ID
@@ -527,16 +528,16 @@ public class ProcessInfo implements Serializable
 	 */
 	public Integer getAD_Client_ID()
 	{
-		return m_AD_Client_ID;
+		return clientId;
 	}
 
 	/**
 	 * Method setAD_User_ID
-	 * @param AD_User_ID int
+	 * @param userId int
 	 */
-	public void setAD_User_ID (int AD_User_ID)
+	public void setAD_User_ID (int userId)
 	{
-		m_AD_User_ID = new Integer (AD_User_ID);
+		this.userId = new Integer (userId);
 	}
 	/**
 	 * Method getAD_User_ID
@@ -544,7 +545,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public Integer getAD_User_ID()
 	{
-		return m_AD_User_ID;
+		return userId;
 	}
 
 	
@@ -555,13 +556,13 @@ public class ProcessInfo implements Serializable
 	 */
 	public ProcessInfoParameter[] getParameter()
 	{
-		if (m_parameter == null)
+		if (parameters == null)
 			return null;
 		
-		ProcessInfoParameter[] ret = new ProcessInfoParameter[m_parameter.size()];
+		ProcessInfoParameter[] processInfoParameters = new ProcessInfoParameter[parameters.size()];
 		//	FR [ 325 ] add support to get parameter like array
-		m_parameter.values().toArray(ret);
-		return ret;
+		parameters.values().toArray(processInfoParameters);
+		return processInfoParameters;
 
 	}	//	getParameter
 
@@ -569,15 +570,15 @@ public class ProcessInfo implements Serializable
 	 * 	Set Parameter
 	 *	@param parameter Parameter Array
 	 */
-	public void setParameter (ProcessInfoParameter[] parameter)
+	public void setParameter (ProcessInfoParameter[] parameters)
 	{
-		m_parameter = new Hashtable<String, ProcessInfoParameter>();
+		this.parameters = new Hashtable<String, ProcessInfoParameter>();
 		//	FR [ 325 ] Populate Hash
-		for(ProcessInfoParameter para : parameter) {
-			if(para.getParameterName() == null)
+		for(ProcessInfoParameter parameter : parameters) {
+			if(parameter.getParameterName() == null)
 				continue;
 			//	
-			m_parameter.put(para.getParameterName(), para);
+			this.parameters.put(parameter.getParameterName(), parameter);
 		}
 	}	//	setParameter
 
@@ -615,9 +616,9 @@ public class ProcessInfo implements Serializable
 	{
 		if (logEntry == null)
 			return;
-		if (m_logs == null)
-			m_logs = new ArrayList<ProcessInfoLog>();
-		m_logs.add (logEntry);
+		if (logs == null)
+			logs = new ArrayList<ProcessInfoLog>();
+		logs.add (logEntry);
 	}	//	addLog
 
 
@@ -627,11 +628,11 @@ public class ProcessInfo implements Serializable
 	 */
 	public ProcessInfoLog[] getLogs()
 	{
-		if (m_logs == null)
+		if (logs == null)
 			return null;
-		ProcessInfoLog[] logs = new ProcessInfoLog[m_logs.size()];
-		m_logs.toArray (logs);
-		return logs;
+		ProcessInfoLog[] processInfoLogs = new ProcessInfoLog[this.logs.size()];
+		this.logs.toArray (processInfoLogs);
+		return processInfoLogs;
 	}	//	getLogs
 
 	/**
@@ -640,11 +641,11 @@ public class ProcessInfo implements Serializable
 	 */
 	public int[] getIDs()
 	{
-		if (m_logs == null)
+		if (logs == null)
 			return null;
-		int[] ids = new int[m_logs.size()];
-		for (int i = 0; i < m_logs.size(); i++)
-			ids[i] = m_logs.get(i).getP_ID();
+		int[] ids = new int[logs.size()];
+		for (int i = 0; i < logs.size(); i++)
+			ids[i] = logs.get(i).getP_ID();
 		return ids;
 	}	//	getIDs
 
@@ -654,7 +655,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public ArrayList<ProcessInfoLog> getLogList()
 	{
-		return m_logs;
+		return logs;
 	}
 	/**
 	 * Method setLogList
@@ -662,7 +663,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setLogList (ArrayList<ProcessInfoLog> logs)
 	{
-		m_logs = logs;
+		this.logs = logs;
 	}
 	
 	/**
@@ -671,7 +672,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public String getTransactionName()
 	{
-		return m_transactionName;
+		return transactionName;
 	}
 
 	/**
@@ -680,16 +681,16 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setTransactionName(String trxName)
 	{
-		m_transactionName = trxName;
+		transactionName = trxName;
 	}
 	
 	/**
 	 * Set print preview flag, only relevant if this is a reporting process
-	 * @param b
+	 * @param printPreview
 	 */
-	public void setPrintPreview(boolean b)
+	public void setPrintPreview(boolean printPreview)
 	{
-		m_printPreview = b;
+		this.printPreview = printPreview;
 	}
 	
 	/**
@@ -698,7 +699,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public boolean isPrintPreview()
 	{
-		return m_printPreview;
+		return printPreview;
 	}
 	
 	/**
@@ -707,16 +708,16 @@ public class ProcessInfo implements Serializable
 	 */
 	public boolean isReportingProcess() 
 	{
-		return m_reportingProcess;
+		return reportingProcess;
 	}
 	
 	/**
 	 * Set is this a reporting process
-	 * @param f
+	 * @param reportingProcess
 	 */
-	public void setReportingProcess(boolean f)
+	public void setReportingProcess(boolean reportingProcess)
 	{
-		m_reportingProcess = f;
+		this.reportingProcess = reportingProcess;
 	}
 	
 	//FR 1906632
@@ -726,7 +727,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setPDFReport(File pdfFile)
 	{
-		m_pdf_report = pdfFile;
+		pdfReportFile = pdfFile;
 	}	
 	
 	/**
@@ -734,7 +735,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public File getPDFReport()
 	{
-		return m_pdf_report;
+		return pdfReportFile;
 	}	
 	
 	/**
@@ -750,15 +751,15 @@ public class ProcessInfo implements Serializable
 		if (value instanceof String && Util.isEmpty((String) value))
 			return;
 		//	FR [ 325 ] Add support to HashMap
-		if (m_parameter == null)
-			m_parameter = new Hashtable<String, ProcessInfoParameter>();
-		ProcessInfoParameter para = new ProcessInfoParameter(name, value, null, info, null);
-		m_parameter.put(name, para);
+		if (parameters == null)
+			parameters = new Hashtable<String, ProcessInfoParameter>();
+		ProcessInfoParameter parameter = new ProcessInfoParameter(name, value, null, info, null);
+		parameters.put(name, parameter);
 	}
 
 	// metas: begin
 	/** Org_ID        				*/
-	private Integer 			m_AD_Org_ID = -1; //metas: c.ghita@metas.ro
+	private Integer 		orgId = -1; //metas: c.ghita@metas.ro
 	/**
 	 * Method getAD_Org_ID
 	 * @return Integer
@@ -766,19 +767,19 @@ public class ProcessInfo implements Serializable
 	//metas: c.ghita@metas.ro
 	public Integer getAD_Org_ID()
 	{
-		if (m_AD_Org_ID == -1)
+		if (orgId == -1)
 			return Env.getAD_Org_ID(Env.getCtx());
-		return m_AD_Org_ID;
+		return orgId;
 	}
 
 	/**
 	 * Method setAD_Org_ID
-	 * @param AD_Org_ID int
+	 * @param orgId int
 	 */
 	//metas: c.ghita@metas.ro
-	public void setAD_Org_ID (int AD_Org_ID)
+	public void setAD_Org_ID (int orgId)
 	{
-		m_AD_Org_ID = new Integer (AD_Org_ID);
+		this.orgId = new Integer (orgId);
 	}
 // metas: end
 
@@ -791,34 +792,34 @@ public class ProcessInfo implements Serializable
 	 */
 	public Throwable getThrowable()
 	{
-		return m_throwable;
+		return throwable;
 	}
 
 	public void setThrowable(Throwable t)
 	{
-		this.m_throwable = t;
+		this.throwable = t;
 	}
 	// metas: end
 	
 	//metas: cg
 	//03040
 	/**
-	 * @return the m_windowNo
+	 * @return the window No
 	 */
 	public int getWindowNo()
 	{
-		return m_windowNo;
+		return windowNo;
 	}
 
 	/**
-	 * @param m_windowNo the m_windowNo to set
+	 * @param window No the window No to set
 	 */
-	public void setWindowNo(int m_windowNo)
+	public void setWindowNo(int windowNo)
 	{
-		this.m_windowNo = m_windowNo;
+		this.windowNo = windowNo;
 	}
 
-	private int          		m_windowNo = 0;
+	private int          		windowNo = 0;
 	// metas end
 	
 	
@@ -829,19 +830,19 @@ public class ProcessInfo implements Serializable
 	 */
 	public String getWhereClause()
 	{
-		return m_whereClause;
+		return whereClause;
 	}
 
 	/**
-	 * @param m_whereClause
-	 *            the m_whereClause to set
+	 * @param whereClause
+	 *            the whereClause to set
 	 */
-	public void setWhereClause(String m_whereClause)
+	public void setWhereClause(String whereClause)
 	{
-		this.m_whereClause = m_whereClause;
+		this.whereClause = whereClause;
 	}
 
-	private String m_whereClause = "";
+	private String whereClause = "";
 	// metas end
 
 	public void setManagedTransaction(boolean managedTransaction)
@@ -862,10 +863,10 @@ public class ProcessInfo implements Serializable
 	 */
 	public ProcessInfoParameter getInfoParameter(String parameterName) {
 		//	Valid null
-		if(m_parameter == null)
+		if(parameters == null)
 			return null;
 		//	Default
-		return m_parameter.get(parameterName);
+		return parameters.get(parameterName);
 	}
 	
 	/**

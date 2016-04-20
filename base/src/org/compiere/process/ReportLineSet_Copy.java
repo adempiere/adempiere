@@ -70,7 +70,7 @@ public class ReportLineSet_Copy extends SvrProcess
 		int to_ID = super.getRecord_ID();
 		log.info("From PA_ReportLineSet_ID=" + m_PA_ReportLineSet_ID + ", To=" + to_ID);
 		if (to_ID < 1)
-			throw new Exception(MSG_SaveErrorRowNotFound);
+			throw new Exception(MESSAGE_SaveErrorRowNotFound);
 		//
 		MReportLineSet to = new MReportLineSet(getCtx(), to_ID, get_TrxName());
 		MReportLineSet rlSet = new MReportLineSet(getCtx(), m_PA_ReportLineSet_ID, get_TrxName());
