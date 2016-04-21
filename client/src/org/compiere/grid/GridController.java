@@ -1068,7 +1068,8 @@ public class GridController extends CPanel
 							//	log.log(Level.FINEST, "RW=" + rw + " " + mField);
 								boolean manMissing = false;
 							//  least expensive operations first        //  missing mandatory
-								if (rw && mField.getValue() == null && mField.isMandatory(true))    //  check context
+								if (rw && (mField.getValue() == null || mField.getValue().toString().isEmpty()) 
+										&& mField.isMandatory(true))    //  check context. Some fields can return "" instead of null
 									manMissing = true;
 								ve.setBackground(manMissing || mField.isError());
 							}
