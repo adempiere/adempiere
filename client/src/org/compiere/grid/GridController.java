@@ -1254,8 +1254,8 @@ public class GridController extends CPanel
 		int row = m_mTab.getCurrentRow();
 		int col = mTable.findColumn(e.getPropertyName());
 		//
-		if (e.getNewValue() == null && e.getOldValue() != null
-			&& e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
+		if ((e.getNewValue() == null || e.getNewValue().toString().isEmpty()) 
+			&& e.getOldValue() != null && e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
 		{
 			//  #283 Set value to null 
 			mTable.setValueAt (null, row, col);	//	-> dataStatusChanged -> dynamicDisplay
