@@ -517,21 +517,22 @@ public abstract class Browser {
 
 								}
 								outStr.append("'" + inStr + "')");
-								sql.append(field.ColumnNameAlias).append(" IN ")
+								//	BR [ 342 ]
+								sql.append(field.ColumnName).append(" IN ")
 								.append(outStr);
 							}						
 						}
 						else
 						{
-							sql.append(field.ColumnNameAlias).append(" LIKE ? ");
-							parameters.add(field.ColumnNameAlias);
+							sql.append(field.ColumnName).append(" LIKE ? ");
+							parameters.add(field.ColumnName);
 							parametersValues.add("%" + editor.getValue() + "%");
 						}		
 					}
 					else
 					{
-						sql.append(field.ColumnNameAlias).append("=? ");
-						parameters.add(field.ColumnNameAlias);
+						sql.append(field.ColumnName).append("=? ");
+						parameters.add(field.ColumnName);
 						parametersValues.add(editor.getValue());
 					}
 				} 
@@ -540,8 +541,8 @@ public abstract class Browser {
 						&& field.isRange) {
 					sql.append(" AND ");
 					//sql.append(field.Help).append(" BETWEEN ?");
-					sql.append(field.ColumnNameAlias).append(" >= ? ");
-					parameters.add(field.ColumnNameAlias);
+					sql.append(field.ColumnName).append(" >= ? ");
+					parameters.add(field.ColumnName);
 					parametersValues.add(editor.getValue());
 					onRange = true;
 				}
@@ -553,8 +554,8 @@ public abstract class Browser {
 			} else if (editor.getValue() != null
 					&& !editor.getValue().toString().isEmpty()) {
 				//sql.append(" AND ? ");
-				sql.append(" AND ").append(field.ColumnNameAlias).append(" <= ? ");
-				parameters.add(field.ColumnNameAlias);
+				sql.append(" AND ").append(field.ColumnName).append(" <= ? ");
+				parameters.add(field.ColumnName);
 				parametersValues.add(editor.getValue());
 				onRange = false;
 			}
