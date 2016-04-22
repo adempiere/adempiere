@@ -306,20 +306,21 @@ private class CInputVerifier extends InputVerifier {
 	 public boolean verify(JComponent input) {
 
 
-		//NOTE: We return true no matter what since the InputVerifier is only introduced to fireVetoableChange in due time
-		if (getText() == null && m_oldText == null)
-			return true;
-		else if (getText().equals(m_oldText))
-			return true;
-		//
-		try
-		{
-			String text = getText();
-			fireVetoableChange(m_columnName, null, text);
-			m_oldText = text;
-			return true;
-		}
-		catch (PropertyVetoException pve)	{}
+//		NOTE: We return true no matter what since the InputVerifier is only introduced to fireVetoableChange in due time
+//		in which case, this code serves no purpose.  Code moved to focusLost where the binding should take place. 
+//		if (getText() == null && m_oldText == null)
+//			return true;
+//		else if (getText().equals(m_oldText))
+//			return true;
+//		//
+//		try
+//		{
+//			String text = getText();
+//			fireVetoableChange(m_columnName, m_oldText, text);
+//			//m_oldText = text;  set by setValue();
+//			return true;
+//		}
+//		catch (PropertyVetoException pve)	{}
 		return true;
 
 	 } // verify
