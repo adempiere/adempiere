@@ -88,23 +88,23 @@ public class ProcessClassGenerator {
 	private StringBuffer parametersValue = new StringBuffer();
 	/** Parameters Fill	*/
 	private StringBuffer parametersFill = new StringBuffer();
+	/** Parameters Getters */
+	private StringBuffer parametersGetter = new StringBuffer();
+	/** Parameters **/
+	private MProcessPara[] parameters;
 	
 	/**
 	 * Create Parameters for header
-	 * @param processId
 	 * @return
 	 */
-	private void createParameters(int processId) {
-		List <MProcessPara> parameters = new Query(Env.getCtx(), 
-				I_AD_Process_Para.Table_Name, I_AD_Process_Para.COLUMNNAME_AD_Process_ID + " = ?", null)
-			.setParameters(processId)
-			.setOrderBy(I_AD_Process_Para.COLUMNNAME_SeqNo)
-			.list();
+	private void createParameters() {
+
 		//	Create Name and Values
-		for(MProcessPara parameter : parameters) {
+		for(MProcessPara parameter : getParameters()) {
 			createParameterName(parameter);
 			createParameterValue(parameter, false);
 			createParameterFill(parameter, false);
+
 			//	For Range
 			if(parameter.isRange()) {
 				createParameterValue(parameter, true);
@@ -112,7 +112,32 @@ public class ProcessClassGenerator {
 			}
 		}
 	}
-	
+
+	/**
+	 * Create Parameters for header
+	 * @return
+	 */
+	private void createParameterGetter() {
+
+		//	Create Name and Values
+		for(MProcessPara parameter : getParameters()) {
+			createGetterParameter(parameter , false);
+			//	For Range
+			if(parameter.isRange()) {
+				createGetterParameter(parameter, true);
+			}
+		}
+	}
+
+	private MProcessPara[] getParameters()
+	{
+		if (parameters != null && parameters.length > 0)
+			return parameters;
+
+		MProcess process = new MProcess(Env.getCtx() , processId, null);
+		parameters = process.getParameters();
+		return  parameters;
+	}
 	/**
 	 * Create Header class
 	 * @param processId
@@ -121,7 +146,7 @@ public class ProcessClassGenerator {
 	 */
 	private StringBuffer createHeader(int processId, String packageName, String className) {
 		StringBuffer header = new StringBuffer();
-		createParameters(processId);
+		createParameters();
 		//	Add SvrProcess
 		if(!packageName.equals("org.compiere.process"))
 			addImportClass(SvrProcess.class);
@@ -178,6 +203,9 @@ public class ProcessClassGenerator {
 			//.append("\n\t{")
 			//.append("\n\t\treturn \"\";")
 			//.append("\n\t}");
+		createParameterGetter();
+		header.append(parametersGetter);
+
 		//	End class
 		header.append("\n}");
 		//	Return
@@ -214,12 +242,32 @@ public class ProcessClassGenerator {
 		parametersValue
 			.append("\t/**\tParameter Value for ").append(variableName).append(isTo ? "To": "").append("\t*/")
 			.append(ModelInterfaceGenerator.NL)
-			.append("\tprotected ").append(getType(parameter)).append(" ")
+			.append("\tprivate ").append(getType(parameter)).append(" ")
 			.append(variableName)
 			.append(isTo ? "To": "")
 			.append(";");
 	}
-	
+
+	/**
+	 * Create Comment and parameter Value
+	 * @param parameter
+	 * @param isTo
+	 * @param isTo
+	 */
+	private void createGetterParameter(MProcessPara parameter, boolean isTo) {
+		//	Add new Line
+		parametersGetter.append(ModelInterfaceGenerator.NL);
+		String variableName = getVariableName(parameter);
+		//	Add Comment
+		parametersGetter
+				.append("\t/**\t Getter Parameter Value for ").append(variableName).append(isTo ? "To": "").append("\t*/")
+				.append(ModelInterfaceGenerator.NL)
+				.append("\tprotected ").append(getType(parameter)).append(" ").append(getMethodName(parameter)).append(" ")
+				.append(isTo ? "To": "")
+				.append("() {")
+				.append("\n\t\treturn ").append(variableName).append(";\n")
+				.append("\t}");
+	}
 	/**
 	 * Create Fill Source
 	 * @param parameter
@@ -246,6 +294,20 @@ public class ProcessClassGenerator {
 			variableName.append("is").append(parameterName);
 		else
 			variableName.append(parameterName.substring(0 ,1).toLowerCase()).append(parameterName.substring(1,getParameterName(parameter).length()));
+		if (DisplayType.isLookup(parameter.getAD_Reference_ID()) && DisplayType.List != parameter.getAD_Reference_ID())
+			variableName.append("Id");
+
+		return variableName.toString();
+	}
+
+	private String getMethodName(MProcessPara parameter)
+	{
+		String parameterName = getParameterName(parameter);
+		StringBuilder variableName = new StringBuilder();
+		if ((DisplayType.List == parameter.getAD_Reference_ID() && 319 == parameter.getAD_Reference_Value_ID()) || DisplayType.YesNo == parameter.getAD_Reference_ID())
+			variableName.append("is").append(parameterName);
+		else
+			variableName.append("get").append(parameterName);
 		if (DisplayType.isLookup(parameter.getAD_Reference_ID()) && DisplayType.List != parameter.getAD_Reference_ID())
 			variableName.append("Id");
 
