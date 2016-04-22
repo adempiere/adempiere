@@ -252,10 +252,10 @@ public class VMemo extends CTextArea
 	public void focusGained (FocusEvent e)
 	{
 		log.config(e.paramString());
-		if (e.getSource() instanceof VMemo)
-			requestFocus();
-		else
-			m_oldText = getText();
+		//if (e.getSource() instanceof VMemo)
+		//	requestFocus();
+		//else
+		//	m_oldText = getText();
 	}	//	focusGained
 
 	/**
