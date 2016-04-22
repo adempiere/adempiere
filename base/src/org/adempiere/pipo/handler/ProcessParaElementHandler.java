@@ -174,7 +174,9 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 					.setIsActive(atts.getValue("isActive") != null ? Boolean
 							.valueOf(atts.getValue("isActive")).booleanValue()
 							: true);
-			
+
+			m_Process_para.setReadOnlyLogic(getStringValue(atts,"ReadOnlyLogic"));
+			m_Process_para.setDisplayLogic(getStringValue(atts,"DisplayLogic"));
 			m_Process_para.setVFormat(getStringValue(atts,"VFormat"));
 			m_Process_para.setValueMax(getStringValue(atts,"ValueMax"));
 			m_Process_para.setValueMin(getStringValue(atts,"ValueMin"));
@@ -279,6 +281,10 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "DefaultValue2", "CDATA", (m_Processpara
 				.getDefaultValue2() != null ? m_Processpara.getDefaultValue2()
 				: ""));
+		atts.addAttribute("", "" , "ReadOnlyLogic" ,"CDATA" ,
+				m_Processpara.getReadOnlyLogic() != null ? m_Processpara.getReadOnlyLogic() : "");
+		atts.addAttribute("", "" , "DisplayLogic" ,"CDATA" ,
+				m_Processpara.getDisplayLogic() != null ? m_Processpara.getDisplayLogic() : "");
 		atts.addAttribute("", "", "Description", "CDATA",
 				(m_Processpara.getDescription() != null ? m_Processpara
 						.getDescription() : ""));
