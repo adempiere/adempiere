@@ -266,10 +266,18 @@ public class VMemo extends CTextArea
 	{
 		//  Indicate Change
 		log.fine( "focusLost");
+		
+		if (getText() == null && m_oldText == null)
+			return;
+		else if (getText().equals(m_oldText))
+			return;
+		//
 		try
 		{
 			String text = getText();
-			fireVetoableChange(m_columnName, text, null);   //  No data committed - done when focus lost !!!
+			fireVetoableChange(m_columnName, m_oldText, text);
+			//m_oldText = text;  set by setValue();
+			return;
 		}
 		catch (PropertyVetoException pve)	{}
 	}	//	focusLost
