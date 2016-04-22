@@ -201,11 +201,9 @@ public class VMemo extends CTextArea
 				s = Editor.startEditor (this, Msg.translate(Env.getCtx(), m_columnName), 
 					getText(), isEditable(), m_fieldLength);
 			menuEditor.setEnabled(true);
-			setValue(s);
 			try
 			{
-				fireVetoableChange(m_columnName, null, getText());
-				m_oldText = getText();
+				fireVetoableChange(m_columnName, m_oldText, s);
 			}
 			catch (PropertyVetoException pve)	{}
 		}
