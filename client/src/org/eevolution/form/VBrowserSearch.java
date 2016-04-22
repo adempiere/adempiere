@@ -46,6 +46,9 @@ import org.compiere.util.Msg;
 
 /**
  * @author victor.perez@e-evolution.com , eEvolution Consultants
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 340 ] Smart Browse context is changed from table
+ * 		@see https://github.com/adempiere/adempiere/issues/340
  * 
  */
 public class VBrowserSearch extends CPanel implements 
@@ -96,12 +99,6 @@ public class VBrowserSearch extends CPanel implements
 	}
 
 	/**
-	 * 
-	 */
-	public VBrowserSearch() {
-	}
-
-	/**
 	 * @param bc
 	 */
 	public VBrowserSearch(CompiereColor bc) {
@@ -112,7 +109,7 @@ public class VBrowserSearch extends CPanel implements
 		GridFieldVO voBase = GridFieldVO.createStdField(field.getCtx(),
 				p_WindowNo, 0, 0, 0, false, false, false);
 
-		String uniqueName = field.getAD_View_Column().getColumnSQL();
+		String uniqueName = field.getAD_View_Column().getColumnName();
 
 		voBase.isProcess = true;
 		voBase.IsDisplayed = true;
@@ -126,7 +123,7 @@ public class VBrowserSearch extends CPanel implements
 			voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column()
 					.getAD_Table_ID();
 		} else {
-			voBase.ColumnName = field.getAD_View_Column().getColumnName();
+			voBase.ColumnName = field.getAD_View_Column().getColumnSQL();
 		}
 		//	Set unique alias
 		voBase.ColumnNameAlias = uniqueName;

@@ -58,6 +58,7 @@ public class ViewColumnElementHandler extends AbstractElementHandler {
 			String name = atts.getValue("Name");
 			String viewdenitionname = atts.getValue("ADViewDefinitionNameID");
 			String colname = atts.getValue("ADColumnNameID");
+			String viewColumnName = atts.getValue("ADViewColumnNameID");
 			String tableName = atts.getValue("ADTableNameID");
 			int tableid = packIn.getTableId(tableName);
 			if (tableid <= 0) {
@@ -66,7 +67,7 @@ public class ViewColumnElementHandler extends AbstractElementHandler {
 				if (tableid > 0)
 					packIn.addTable(tableName, tableid);
 			}
-			if (tableid <= 0) {
+			if (tableid <= 0  && tableName.length() > 0) {
 				element.defer = true;
 				return;
 			}
@@ -82,7 +83,7 @@ public class ViewColumnElementHandler extends AbstractElementHandler {
 				if (columnid > 0)
 					packIn.addColumn(tableName, colname, columnid);
 			}
-			if (columnid <= 0) {
+			if (columnid <= 0 && colname.length() > 0 ) {
 				element.defer = true;
 				return;
 			}
@@ -107,11 +108,11 @@ public class ViewColumnElementHandler extends AbstractElementHandler {
 				}
 			}
 			if (viewdefinitionid > 0) {
-				StringBuffer sqlB = new StringBuffer(
-						"select AD_View_Column_ID from AD_View_Column where AD_Column_ID =? ")
-						.append(" and AD_View_Definition_ID = ?");
+				StringBuilder sqlB = new StringBuilder(
+						"SELECT AD_View_Column_ID from AD_View_Column WHERE ColumnName=?")
+						.append(" AND AD_View_Definition_ID=?");
 				int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(),
-						columnid, viewdefinitionid);
+						viewColumnName, viewdefinitionid);
 				final MViewColumn m_ColumnView = new MViewColumn(ctx, id,
 						getTrxName(ctx));
 				if (id <= 0
@@ -132,11 +133,12 @@ public class ViewColumnElementHandler extends AbstractElementHandler {
 
 				m_ColumnView.setName(atts.getValue("Name"));
 				m_ColumnView.setAD_View_ID(viewid);
-				m_ColumnView.setAD_Column_ID(columnid);
+				if (columnid > 0)
+					m_ColumnView.setAD_Column_ID(columnid);
 				m_ColumnView.setAD_View_Definition_ID(viewdefinitionid);
 				m_ColumnView.setEntityType(atts.getValue("EntityType"));
 				m_ColumnView.setColumnSQL(atts.getValue("ColumnSQL"));
-				m_ColumnView.setColumnName(atts.getValue("ColumnName"));
+				m_ColumnView.setColumnName(viewColumnName);
 
 				// m_ColumnView.setIsReadOnly(Boolean.valueOf(
 				// atts.getValue("isReadOnly")).booleanValue());
