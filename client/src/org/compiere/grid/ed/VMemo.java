@@ -166,6 +166,7 @@ public class VMemo extends CTextArea
 	public void setValue(Object value)
 	{
 		super.setValue(value);
+		m_oldText = getText();
 		m_firstChange = true;
 		//	Always position Top 
 		setCaretPosition(0);
