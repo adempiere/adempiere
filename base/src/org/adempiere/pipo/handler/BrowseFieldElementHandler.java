@@ -398,7 +398,7 @@ public class BrowseFieldElementHandler extends AbstractElementHandler {
 				"" + (m_BrowseField.getSeqNo()));
 		atts.addAttribute("", "", "SortNo", "CDATA",
 				"" + (m_BrowseField.getSortNo()));
-		atts.addAttribute("", "", "isOrderBy", "CDATA",
+		atts.addAttribute("", "", "IsOrderBy", "CDATA",
 				(m_BrowseField.isOrderBy() == true ? "true" : "false"));
 		
 		atts.addAttribute("", "", "DisplayLogic", "CDATA", (m_BrowseField.
