@@ -32,7 +32,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20151117L;
 
     /** Standard Constructor */
     public X_HR_Concept (Properties ctx, int HR_Concept_ID, String trxName)
@@ -75,6 +75,32 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
       return sb.toString();
     }
 
+	/** AccountSign AD_Reference_ID=118 */
+	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
+	/** Natural = N */
+	public static final String ACCOUNTSIGN_Natural = "N";
+	/** Debit = D */
+	public static final String ACCOUNTSIGN_Debit = "D";
+	/** Credit = C */
+	public static final String ACCOUNTSIGN_Credit = "C";
+	/** Set Account Sign.
+		@param AccountSign 
+		Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public void setAccountSign (String AccountSign)
+	{
+
+		set_Value (COLUMNNAME_AccountSign, AccountSign);
+	}
+
+	/** Get Account Sign.
+		@return Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public String getAccountSign () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountSign);
+	}
+
 	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
@@ -101,32 +127,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** AccountSign AD_Reference_ID=118 */
-	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
-	/** Natural = N */
-	public static final String ACCOUNTSIGN_Natural = "N";
-	/** Debit = D */
-	public static final String ACCOUNTSIGN_Debit = "D";
-	/** Credit = C */
-	public static final String ACCOUNTSIGN_Credit = "C";
-	/** Set Account Sign.
-		@param AccountSign 
-		Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign)
-	{
-
-		set_Value (COLUMNNAME_AccountSign, AccountSign);
-	}
-
-	/** Get Account Sign.
-		@return Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountSign);
 	}
 
 	/** ColumnType AD_Reference_ID=53243 */
@@ -217,6 +217,34 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Concept_Type)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Type.Table_Name)
+			.getPO(getHR_Concept_Type_ID(), get_TrxName());	}
+
+	/** Set Global Payroll Concept Type.
+		@param HR_Concept_Type_ID 
+		Allows define types for concepts
+	  */
+	public void setHR_Concept_Type_ID (int HR_Concept_Type_ID)
+	{
+		if (HR_Concept_Type_ID < 1) 
+			set_Value (COLUMNNAME_HR_Concept_Type_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Concept_Type_ID, Integer.valueOf(HR_Concept_Type_ID));
+	}
+
+	/** Get Global Payroll Concept Type.
+		@return Allows define types for concepts
+	  */
+	public int getHR_Concept_Type_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_Type_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -423,6 +451,30 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return false;
 	}
 
+	/** Set Prepayment.
+		@param IsPrepayment 
+		The Payment/Receipt is a Prepayment
+	  */
+	public void setIsPrepayment (boolean IsPrepayment)
+	{
+		set_Value (COLUMNNAME_IsPrepayment, Boolean.valueOf(IsPrepayment));
+	}
+
+	/** Get Prepayment.
+		@return The Payment/Receipt is a Prepayment
+	  */
+	public boolean isPrepayment () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrepayment);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Printed.
 		@param IsPrinted 
 		Indicates if this document / line is printed
@@ -483,6 +535,30 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public boolean isSaveInHistoric () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSaveInHistoric);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set SO Tax exempt.
+		@param IsTaxExempt 
+		Business partner is exempt from tax on sales
+	  */
+	public void setIsTaxExempt (boolean IsTaxExempt)
+	{
+		set_Value (COLUMNNAME_IsTaxExempt, Boolean.valueOf(IsTaxExempt));
+	}
+
+	/** Get SO Tax exempt.
+		@return Business partner is exempt from tax on sales
+	  */
+	public boolean isTaxExempt () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsTaxExempt);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

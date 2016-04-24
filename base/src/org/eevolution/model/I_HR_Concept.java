@@ -42,6 +42,19 @@ public interface I_HR_Concept
 
     /** Load Meta Data */
 
+    /** Column name AccountSign */
+    public static final String COLUMNNAME_AccountSign = "AccountSign";
+
+	/** Set Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public void setAccountSign (String AccountSign);
+
+	/** Get Account Sign.
+	  * Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public String getAccountSign();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -77,19 +90,6 @@ public interface I_HR_Concept
 	public int getAD_Reference_ID();
 
 	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
-
-    /** Column name AccountSign */
-    public static final String COLUMNNAME_AccountSign = "AccountSign";
-
-	/** Set Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign);
-
-	/** Get Account Sign.
-	  * Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign();
 
     /** Column name ColumnType */
     public static final String COLUMNNAME_ColumnType = "ColumnType";
@@ -156,6 +156,21 @@ public interface I_HR_Concept
 	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public int getHR_Concept_ID();
+
+    /** Column name HR_Concept_Type_ID */
+    public static final String COLUMNNAME_HR_Concept_Type_ID = "HR_Concept_Type_ID";
+
+	/** Set Global Payroll Concept Type.
+	  * Allows define types for concepts
+	  */
+	public void setHR_Concept_Type_ID (int HR_Concept_Type_ID);
+
+	/** Get Global Payroll Concept Type.
+	  * Allows define types for concepts
+	  */
+	public int getHR_Concept_Type_ID();
+
+	public org.eevolution.model.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException;
 
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
@@ -276,6 +291,19 @@ public interface I_HR_Concept
 	  */
 	public boolean isPaid();
 
+    /** Column name IsPrepayment */
+    public static final String COLUMNNAME_IsPrepayment = "IsPrepayment";
+
+	/** Set Prepayment.
+	  * The Payment/Receipt is a Prepayment
+	  */
+	public void setIsPrepayment (boolean IsPrepayment);
+
+	/** Get Prepayment.
+	  * The Payment/Receipt is a Prepayment
+	  */
+	public boolean isPrepayment();
+
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
 
@@ -310,6 +338,19 @@ public interface I_HR_Concept
 
 	/** Get Save In Historic	  */
 	public boolean isSaveInHistoric();
+
+    /** Column name IsTaxExempt */
+    public static final String COLUMNNAME_IsTaxExempt = "IsTaxExempt";
+
+	/** Set SO Tax exempt.
+	  * Business partner is exempt from tax on sales
+	  */
+	public void setIsTaxExempt (boolean IsTaxExempt);
+
+	/** Get SO Tax exempt.
+	  * Business partner is exempt from tax on sales
+	  */
+	public boolean isTaxExempt();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

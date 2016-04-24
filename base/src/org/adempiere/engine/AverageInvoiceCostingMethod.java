@@ -66,10 +66,10 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
         //Setting Date Accounting based on Open Period
         if (this.isOpenPeriod)
             this.dateAccounting = model.getDateAcct();
-        else if (model instanceof MLandedCostAllocation )
+        /*else if (model instanceof MLandedCostAllocation )
                 this.dateAccounting = ((MLandedCostAllocation) model).getC_InvoiceLine().getC_Invoice().getDateAcct();
-        else if (model instanceof MMatchInv)
-			this.dateAccounting = ((MMatchInv) model).getC_InvoiceLine().getC_Invoice().getDateAcct();
+        //else if (model instanceof MMatchInv)
+		//	this.dateAccounting = ((MMatchInv) model).getC_InvoiceLine().getC_Invoice().getDateAcct();*/
         else
             this.dateAccounting = null; // Is Necessary define that happen in this case when period is close
 
@@ -314,7 +314,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 				&& costDetail == null) {
 			// set Movement Qty in Zero because is a adjustment
 			// if exist adjustment cost for Landed Cost Allocation or Match Inv then set the movement qty to zero
-			if (adjustCost.add(adjustCostLowerLevel).signum() != 0
+			if ((adjustCost.add(adjustCostLowerLevel).signum() != 0 && costDetail != null)
 			|| (model instanceof MLandedCostAllocation || model instanceof MMatchInv))
 				movementQuantity = Env.ZERO;
 
@@ -426,9 +426,9 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		}
 	}
 
-	@Override
+	/*@Override
 	public void processCostDetail(MCostDetail costDetail) {
-	}
+	}*/
 
 	@Override
 	protected List<CostComponent> getCalculatedCosts() {

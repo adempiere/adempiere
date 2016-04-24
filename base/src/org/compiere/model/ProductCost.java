@@ -382,7 +382,7 @@ public class ProductCost
 	 *  @return cost or null, if qty or costs cannot be determined
 	 *  @deprecated
 	 */
-	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, int M_Warehouse_ID,
+	/*public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, int M_Warehouse_ID,
 		String costingMethod, int C_OrderLine_ID, boolean zeroCostsOK)
 	{
 		if (m_qty == null)
@@ -390,7 +390,7 @@ public class ProductCost
 			log.fine("No Qty");
 			return null;
 		}
-		/**	Old Costing
+		*//**	Old Costing
 		MClient client = MClient.get(as.getCtx(), as.getAD_Client_ID());
 		if (!client.isUseBetaFunctions())
 		{
@@ -400,7 +400,7 @@ public class ProductCost
 			log.fine("Qty(" + m_qty + ") * Cost(" + itemCost + ") = " + cost);
 			return cost;
 		}
-		**/
+		**//*
 		
 		//	No Product
 		if (m_product == null)
@@ -417,7 +417,8 @@ public class ProductCost
 			return null;
 		}
 		return cost;
-	}   //  getProductCosts
+	}   //  getProductCosts*/
+
 
 
 	/**

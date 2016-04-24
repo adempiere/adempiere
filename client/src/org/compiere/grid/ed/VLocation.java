@@ -37,7 +37,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.FieldRecordInfo;
+import org.compiere.apps.RecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MLocation;
@@ -56,6 +56,9 @@ import org.compiere.util.Msg;
  *  @author victor.perez@e-evolution.com, www.e-evolution.com
  *  		<li>BF [ 3294610] The location should allow open a google map
  *  			https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class VLocation extends JComponent
 	implements VEditor, ActionListener
@@ -371,9 +374,9 @@ public class VLocation extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
 		{
-			FieldRecordInfo.start(m_GridField);
+			RecordInfo.start(m_GridField);
 			return;
 		}
 		
@@ -441,7 +444,7 @@ public class VLocation extends JComponent
 	{
 		m_GridField = mField;
 		if (m_GridField != null)
-			FieldRecordInfo.addMenu(this, popupMenu);
+			RecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 	@Override

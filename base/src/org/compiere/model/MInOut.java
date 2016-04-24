@@ -57,6 +57,9 @@ import org.compiere.util.Msg;
  *  @author Teo Sarca, teo.sarca@gmail.com
  * 			<li>BF [ 2993853 ] Voiding/Reversing Receipt should void confirmations
  * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2993853&group_id=176962
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-05-25, 18:20
+ * 			<li>BF [ 9223372036854775807 ] Transaction is generate when shipment is invalid in InOut generate
+ * 	@see https://adempiere.atlassian.net/browse/ADEMPIERE-418
  */
 public class MInOut extends X_M_InOut implements DocAction
 {
@@ -1471,12 +1474,15 @@ public class MInOut extends X_M_InOut implements DocAction
 				
 				oLine.setDateDelivered(getMovementDate());	//	overwrite=last
 				
-				if (!oLine.save())
-				{
-					m_processMsg = "Could not update Order Line";
-					return DocAction.STATUS_Invalid;
-				}
-				else
+				//	Yamel Senih BF [ 9223372036854775807 ]
+//				if (!oLine.save())
+//				{
+//					m_processMsg = "Could not update Order Line";
+//					return DocAction.STATUS_Invalid;
+//				}
+//				else
+				oLine.saveEx();
+				//	End Yamel Senih
 					log.fine("OrderLine -> Reserved=" + oLine.getQtyReserved()
 						+ ", Delivered=" + oLine.getQtyDelivered());
 			}

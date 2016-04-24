@@ -188,6 +188,21 @@ public interface I_HR_Movement
 
 	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
+    /** Column name C_Payment_ID */
+    public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
+
+	/** Set Payment.
+	  * Payment identifier
+	  */
+	public void setC_Payment_ID (int C_Payment_ID);
+
+	/** Get Payment.
+	  * Payment identifier
+	  */
+	public int getC_Payment_ID();
+
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
+
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 
@@ -399,6 +414,17 @@ public interface I_HR_Movement
 	public int getHR_EmployeeType_ID();
 
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
+
+    /** Column name HR_Employee_ID */
+    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
+
+	/** Set Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID);
+
+	/** Get Payroll Employee	  */
+	public int getHR_Employee_ID();
+
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_JobType_ID */
     public static final String COLUMNNAME_HR_JobType_ID = "HR_JobType_ID";

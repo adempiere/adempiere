@@ -30,7 +30,7 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.Query;
@@ -43,34 +43,56 @@ import org.compiere.util.CLogger;
  */
 public class MWMSection extends X_WM_Section
 {
-	
-	public static Collection <MWMSection> getByOutboundType(Properties ctx, int WM_Area_ID, String trxName)
+
+	/**
+	 * Get Section by warehouse id for Out Boud Type
+	 * @param ctx
+	 * @param warehouseAreaId
+	 * @param trxName
+     * @return
+     */
+	public static List<MWMSection> getByOutBoundType(Properties ctx, int warehouseAreaId, String trxName)
 	{
 		ArrayList <MWMSection> sections = new ArrayList();
-		for (MWMSectionType sectionType: MWMSectionType.getTypeByOutbound(ctx, trxName))
+		for (MWMSectionType sectionType: MWMSectionType.getByOutBoundType(ctx, trxName))
 		{
-			sections.addAll(MWMSection.getMWMSection(ctx, WM_Area_ID, sectionType.getWM_Section_Type_ID(), trxName));	
+			sections.addAll(MWMSection.getByAreaAndSectionType(ctx, warehouseAreaId, sectionType.getWM_Section_Type_ID(), trxName));
 		}
 		return sections;
 	}
-	
-	public static Collection <MWMSection> getByInboundType(Properties ctx, int WM_Area_ID, String trxName)
+
+	/**
+	 * Get Stection by warehouse id for In Bound Type
+	 * @param ctx
+	 * @param warehouseAreaID
+	 * @param trxName
+     * @return
+     */
+	public static List <MWMSection> getByInBoundType(Properties ctx, int warehouseAreaID, String trxName)
 	{
 		ArrayList <MWMSection> sections = new ArrayList();
-		for (MWMSectionType sectionType: MWMSectionType.getTypeByInbound(ctx, trxName))
+		for (MWMSectionType sectionType: MWMSectionType.getByInBoundType(ctx, trxName))
 		{
-			sections.addAll(MWMSection.getMWMSection(ctx, WM_Area_ID, sectionType.getWM_Section_Type_ID(), trxName));			
+			sections.addAll(MWMSection.getByAreaAndSectionType(ctx, warehouseAreaID, sectionType.getWM_Section_Type_ID(), trxName));
 		}
 		return sections;
 	}
-	
-	public static Collection <MWMSection> getMWMSection(Properties ctx, int WM_Area_ID, int WM_Section_Type_ID, String trxName)
+
+	/**
+	 * Get Section by Area Id and section type id
+	 * @param ctx
+	 * @param areaId
+	 * @param warehouseSectionTypeId
+	 * @param trxName
+     * @return
+     */
+	public static List <MWMSection> getByAreaAndSectionType(Properties ctx, int areaId, int warehouseSectionTypeId, String trxName)
 	{
 		final String whereClause = 	MWMSection.COLUMNNAME_WM_Area_ID + "=? AND"
 								 +	MWMSection.COLUMNNAME_WM_Section_Type_ID + "=?";
 		return new Query(ctx, MWMSection.Table_Name, whereClause, trxName)
 			.setClient_ID()
-			.setParameters(new Object[]{WM_Area_ID, WM_Section_Type_ID})
+			.setParameters(areaId, warehouseSectionTypeId)
 			.list(); 
 	}
 	

@@ -22,7 +22,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import org.compiere.apps.ADialog;
@@ -44,8 +43,11 @@ import org.compiere.util.TrxRunnable;
  *  @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 				<li>release/380 - fix row selection event handling to fire single event per row selection
- *
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Deprecated (Change "Create From" UI for Form like Dialog in window without "hardcode")
+ *		@see https://github.com/adempiere/adempiere/issues/114
  */
+@Deprecated
 public class VCreateFromDialog extends CDialog implements ActionListener, MiniTableSelectionListener
 {
 	private static final long serialVersionUID = 1L;

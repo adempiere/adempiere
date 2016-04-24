@@ -56,7 +56,11 @@ import org.zkoss.zul.Menuitem;
 /**
  * Change History for field
  * @author Low Heng Sin
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
+@Deprecated
 public class WFieldRecordInfo extends Window implements EventListener
 {
  	private static final long serialVersionUID = 3859352394520596098L;

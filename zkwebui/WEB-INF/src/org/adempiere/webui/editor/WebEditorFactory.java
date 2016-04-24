@@ -188,7 +188,7 @@ public class WebEditorFactory
         }
         
         // Change the label from the column to a user defined value for specific fields.
-        if (gridField.getColumnName().equals("User1_ID") || gridField.getColumnName().equals("User2_ID")) {
+        if (gridField.getColumnName() != null && gridField.getColumnName().equals("User1_ID") || gridField.getColumnName() != null && gridField.getColumnName().equals("User2_ID")) {
         	int accountSchemaId = Env.getContextAsInt(Env.getCtx(), "$C_AcctSchema_ID");
         	if (accountSchemaId > 0) {
             	MAcctSchema accountSchema = MAcctSchema.get(Env.getCtx(),	accountSchemaId);

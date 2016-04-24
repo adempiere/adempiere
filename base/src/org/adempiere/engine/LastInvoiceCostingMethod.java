@@ -85,11 +85,11 @@ public class LastInvoiceCostingMethod extends AbstractCostingMethod implements I
 		return costDetail;
 	}
 
-	@Override
+	/*@Override
 	public void processCostDetail(MCostDetail mCostdetail) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 
 	@Override
 	protected List<CostComponent> getCalculatedCosts() {

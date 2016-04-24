@@ -105,8 +105,9 @@ public class MTransaction extends X_M_Transaction
 		}
 		for(MInOutLineMA ma : lines)
 		{	
-			MTransaction trx = get(line, ma.getM_AttributeSetInstance_ID());
-			transactions.add(trx);
+			MTransaction transaction = get(line, ma.getM_AttributeSetInstance_ID());
+			if (transaction != null && transaction.get_ID() > 0)
+				transactions.add(transaction);
 		}		
 		return transactions;
 	}

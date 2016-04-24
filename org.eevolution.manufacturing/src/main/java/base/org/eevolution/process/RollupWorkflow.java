@@ -31,6 +31,8 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MProduct;
+import org.compiere.model.MResource;
+import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -54,19 +56,23 @@ public class RollupWorkflow extends SvrProcess
 {
 
 	/* Organization     */
-	private int		 		p_AD_Org_ID = 0;
+	private int orgId = 0;
 	/* Account Schema   */
-	private int             p_C_AcctSchema_ID = 0;
+	private int acctSchemaId = 0;
+	/* Resource plant */
+	private int resourceId = 0;
+	/* Warehouse */
+	private int warehouseId = 0;
 	/* Cost Type 		*/
-	private int             p_M_CostType_ID = 0;    
+	private int costTypeId = 0;
 	/* Product 			*/
-	private int             p_M_Product_ID = 0;   
+	private int productId = 0;
 	/* Product Category */
-	private int 			p_M_Product_Category_ID = 0;
+	private int productCategoryId = 0;
 	/* Costing Method 	*/
-	private String 			p_ConstingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
+	private String constingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
 
-	private MAcctSchema m_as = null;
+	private MAcctSchema accountSchema = null;
 	
 	private RoutingService m_routingService = null;
 
@@ -79,21 +85,25 @@ public class RollupWorkflow extends SvrProcess
 
 			if (para.getParameter() == null)
 				;
-			else if (name.equals(MCost.COLUMNNAME_AD_Org_ID))  
-				p_AD_Org_ID = para.getParameterAsInt();       
-			else if (name.equals(MCost.COLUMNNAME_C_AcctSchema_ID))
+			else if (MCost.COLUMNNAME_AD_Org_ID.equals(name))
+				orgId = para.getParameterAsInt();
+			else if (MCost.COLUMNNAME_C_AcctSchema_ID.equals(name))
 			{	
-				p_C_AcctSchema_ID = para.getParameterAsInt();  
-				m_as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
-			}	
-			else if (name.equals(MCost.COLUMNNAME_M_CostType_ID))
-				p_M_CostType_ID = para.getParameterAsInt();  
-			else if (name.equals(MCostElement.COLUMNNAME_CostingMethod))
-				p_ConstingMethod=(String)para.getParameter();
-			else if (name.equals(MProduct.COLUMNNAME_M_Product_ID)) 
-				p_M_Product_ID = para.getParameterAsInt();  
-			else if (name.equals(MProduct.COLUMNNAME_M_Product_Category_ID)) 
-				p_M_Product_Category_ID = para.getParameterAsInt();  
+				acctSchemaId = para.getParameterAsInt();
+				accountSchema = MAcctSchema.get(getCtx(), acctSchemaId);
+			}
+			else if (MResource.COLUMNNAME_S_Resource_ID.equals(name))
+				resourceId = para.getParameterAsInt();
+			else if (MWarehouse.COLUMNNAME_M_Warehouse_ID.equals(name))
+				warehouseId = para.getParameterAsInt();
+			else if (MCost.COLUMNNAME_M_CostType_ID.equals(name))
+				costTypeId = para.getParameterAsInt();
+			else if (MCostElement.COLUMNNAME_CostingMethod.equals(name))
+				constingMethod =(String)para.getParameter();
+			else if (MProduct.COLUMNNAME_M_Product_ID.equals(name))
+				productId = para.getParameterAsInt();
+			else if (MProduct.COLUMNNAME_M_Product_Category_ID.equals(name))
+				productCategoryId = para.getParameterAsInt();
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
@@ -114,7 +124,7 @@ public class RollupWorkflow extends SvrProcess
 			}
 			if(AD_Workflow_ID <= 0)
 			{	
-				pp = MPPProductPlanning.find(getCtx(), p_AD_Org_ID, 0, 0, product.get_ID(), get_TrxName());                 
+				pp = MPPProductPlanning.find(getCtx(), orgId, warehouseId , resourceId , product.get_ID(), get_TrxName());
 			
 				if (pp != null)
 				{
@@ -161,18 +171,18 @@ public class RollupWorkflow extends SvrProcess
 		whereClause.append(") AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
 		params.add(true);
 
-		if (p_M_Product_ID > 0)
+		if (productId > 0)
 		{  
 			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_ID).append("=?");
-			params.add(p_M_Product_ID);
+			params.add(productId);
 		}	
-		else if (p_M_Product_Category_ID > 0)
+		else if (productCategoryId > 0)
 		{
 			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_Category_ID).append("=?");
-			params.add(p_M_Product_Category_ID);
+			params.add(productCategoryId);
 		}	
 
-		Collection<MProduct> products = new Query(getCtx(),MProduct.Table_Name, whereClause.toString(), get_TrxName())
+		List<MProduct> products = new Query(getCtx(),MProduct.Table_Name, whereClause.toString(), get_TrxName())
 											.setOrderBy(MProduct.COLUMNNAME_LowLevel)
 											.setParameters(params)
 											.list();    
@@ -227,7 +237,7 @@ public class RollupWorkflow extends SvrProcess
 			{
 				continue;
 			}
-			final CostDimension d = new CostDimension(product, m_as, p_M_CostType_ID, p_AD_Org_ID, 0, 0, element.get_ID());
+			final CostDimension d = new CostDimension(product, accountSchema, costTypeId, orgId, warehouseId, 0, element.get_ID());
 			final List<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
 			{

@@ -947,9 +947,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         //  Editor
         WEditor editor = null;
 		Label label 	= null;
-		Row panel 		= new Row ();
 
-		contentSimpleRows.appendChild(panel);
 
 		if ( mField.isRange() ) {
 			Hbox box = new Hbox();
@@ -986,6 +984,9 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 
         panel.appendChild(LayoutUtils.makeRightAlign(label));
         panel.appendChild(box);
+
+        contentSimpleRows.appendChild(panel);
+
         fieldLabel.addEventListener(Events.ON_OK,this);
         fieldLabel1.addEventListener(Events.ON_OK,this);
         }
@@ -997,12 +998,21 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             editor.dynamicDisplay();
             Component fieldLabel = editor.getComponent();
 
-			//
-			if (displayLength > 0)      //  set it back
-				mField.setDisplayLength(displayLength);
-			//
+            if (displayLength > 0)      //  set it back
+                mField.setDisplayLength(displayLength);
+            //
+            if(isTwoColumns)
+            {
+                if(!isPair)
+                    panel = new Row();
+            }
+            else
+                panel = new Row();
+
             panel.appendChild(LayoutUtils.makeRightAlign(label));
             panel.appendChild(fieldLabel);
+            contentSimpleRows.appendChild(panel);
+
 			fieldLabel.addEventListener(Events.ON_OK,this);
 
 			m_sEditors2.add (null);

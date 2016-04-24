@@ -157,6 +157,9 @@ import org.compiere.util.Util;
  * @author Teo Sarca - BF [ 1742159 ], BF [ 1707876 ]
  * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  * @contributor fer_luck @ centuryon  FR [ 1757088 ]
+ * 
+ * @author mckayERP www.mckayERP.com
+ * 				<li> #283 GridController in swing will not set value to null in vetoableChange 
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -1065,7 +1068,8 @@ public class GridController extends CPanel
 							//	log.log(Level.FINEST, "RW=" + rw + " " + mField);
 								boolean manMissing = false;
 							//  least expensive operations first        //  missing mandatory
-								if (rw && mField.getValue() == null && mField.isMandatory(true))    //  check context
+								if (rw && (mField.getValue() == null || mField.getValue().toString().isEmpty()) 
+										&& mField.isMandatory(true))    //  check context. Some fields can return "" instead of null
 									manMissing = true;
 								ve.setBackground(manMissing || mField.isError());
 							}
@@ -1250,9 +1254,15 @@ public class GridController extends CPanel
 		int row = m_mTab.getCurrentRow();
 		int col = mTable.findColumn(e.getPropertyName());
 		//
-		if (e.getNewValue() == null && e.getOldValue() != null
-			&& e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
+		if ((e.getNewValue() == null || e.getNewValue().toString().isEmpty()) 
+			&& e.getOldValue() != null && e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
+		{
+			//  #283 Set value to null
+			GridField gridField = m_mTab.getField(col);
+			if (!gridField.getVO().IsMandatory)
+				mTable.setValueAt (null, row, col);	//	-> dataStatusChanged -> dynamicDisplay
 			mTable.setChanged (true);
+		}	
 		else
 		{
 		//	mTable.setValueAt (e.getNewValue(), row, col, true);

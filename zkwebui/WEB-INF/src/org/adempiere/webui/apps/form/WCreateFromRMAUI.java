@@ -13,10 +13,10 @@
  *****************************************************************************/
 package org.adempiere.webui.apps.form;
 
+import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
@@ -28,10 +28,14 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.compiere.grid.CreateFromRMA;
-import org.compiere.model.GridTab;
+import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.IFormController;
+import org.compiere.apps.form.CreateFromRMA;
+import org.compiere.apps.form.ICreateFrom;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -39,36 +43,55 @@ import org.compiere.util.Msg;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 
-public class WCreateFromRMAUI extends CreateFromRMA implements ValueChangeListener
+/**
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 114 ] Deprecated (Change "Create From" UI for Form like Dialog in window without "hardcode")
+ *		@see https://github.com/adempiere/adempiere/issues/114
+ */
+public class WCreateFromRMAUI extends CreateFromRMA 
+	implements IFormController, ICreateFrom, ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
-	private WCreateFromWindow window;
-	
-	public WCreateFromRMAUI(GridTab tab) 
-	{
-		super(tab);
-		log.info(getGridTab().toString());
-		
-		window = new WCreateFromWindow(this, getGridTab().getWindowNo());
-		
-		p_WindowNo = getGridTab().getWindowNo();
+	/**
+	 * Standard Constructor
+	 */
+	public WCreateFromRMAUI() {
+		try {
+			v_CreateFromPanel = new WCreateFromPanel(this);
+			v_Container = new CustomForm() {
 
-		try
-		{
-			if (!dynInit())
-				return;
-			zkInit();
-			setInitOK(true);
-		}
-		catch(Exception e)
-		{
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -3454354880167040226L;
+
+				public void setProcessInfo(ProcessInfo pi) {
+					p_WindowNo = pi.getWindowNo();
+					try {
+						//	Valid for launched from a window
+						if(pi != null) {
+							//	Valid Table and Record
+							validTable(pi.getTable_ID(), 
+									pi.getRecord_ID());
+						}
+						//	Init
+						if (!dynInit())
+							return;
+						zkInit();
+					} catch(Exception e) {
+						log.log(Level.SEVERE, "", e);
+					}
+				}
+			};
+		} catch (IOException e) {
 			log.log(Level.SEVERE, "", e);
-			setInitOK(false);
 		}
-		AEnv.showWindow(window);
 	}
 	
+	//	Yamel Senih FR [ 114 ], 2015-11-26
+	//	Change to form
+	private CustomForm v_Container = null;
+	/**	Main Panel for Create From	*/
+	private WCreateFromPanel v_CreateFromPanel;
 	/** Window No               */
 	private int p_WindowNo;
 
@@ -86,27 +109,27 @@ public class WCreateFromRMAUI extends CreateFromRMA implements ValueChangeListen
 	public boolean dynInit() throws Exception
 	{
 		log.config("");
-		
-		super.dynInit();
-		
-		window.setTitle(getTitle());
-		
+		//	Init BPartner
 		initBPartner(true);
 		bPartnerField.addValueChangeListener(this);
-		
+		//	Load RMA
 		loadRMA();
-		
+		//	Return
 		return true;
 	}   //  dynInit
 	
+	/**
+	 * Init ZK
+	 * @throws Exception
+	 */
 	protected void zkInit() throws Exception
 	{
 		bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
         
 		Borderlayout parameterLayout = new Borderlayout();
-		parameterLayout.setHeight("110px");
+		parameterLayout.setHeight("120px");
 		parameterLayout.setWidth("100%");
-    	Panel parameterPanel = window.getParameterPanel();
+    	Panel parameterPanel = v_CreateFromPanel.getParameterPanel();
 		parameterPanel.appendChild(parameterLayout);
 		
 		Grid parameterStdLayout = GridFactory.newGridLayout();
@@ -122,6 +145,10 @@ public class WCreateFromRMAUI extends CreateFromRMA implements ValueChangeListen
 		row.appendChild(bPartnerLabel.rightAlign());
 		if (bPartnerField != null)
 			row.appendChild(bPartnerField.getComponent());
+    	//	Add to Main
+    	v_CreateFromPanel.setWidth("100%");
+    	v_CreateFromPanel.setHeight("100%");
+    	v_Container.appendChild(v_CreateFromPanel);
 	}
 	
 	/**
@@ -137,7 +164,7 @@ public class WCreateFromRMAUI extends CreateFromRMA implements ValueChangeListen
 		{
 			loadRMA();
 		}
-		window.tableChanged(null);
+		v_CreateFromPanel.tableChanged(null);
 	}   //  vetoableChange
 	
 	/**************************************************************************
@@ -167,26 +194,38 @@ public class WCreateFromRMAUI extends CreateFromRMA implements ValueChangeListen
 	 */
 	protected void loadTableOIS (Vector<?> data)
 	{
-		window.getWListbox().clear();
+		v_CreateFromPanel.getWListbox().clear();
 		
 		//  Remove previous listeners
-		window.getWListbox().getModel().removeTableModelListener(window);
+		v_CreateFromPanel.getWListbox().getModel().removeTableModelListener(v_CreateFromPanel);
 		//  Set Model
 		ListModelTable model = new ListModelTable(data);
-		model.addTableModelListener(window);
-		window.getWListbox().setData(model, getOISColumnNames());
+		model.addTableModelListener(v_CreateFromPanel);
+		v_CreateFromPanel.getWListbox().setData(model, getOISColumnNames());
 		//
 		
-		configureMiniTable(window.getWListbox());
+		configureMiniTable(v_CreateFromPanel.getWListbox());
 	}   //  loadOrder
 	
-	public void showWindow()
-	{
-		window.setVisible(true);
-	}
+	/**
+	 *  List total amount
+	 */
+	public boolean info() {
+		return false;
+	}   //  infoStatement
 	
-	public void closeWindow()
-	{
-		window.dispose();
+	@Override
+	public int getWindowNo() {
+		return v_Container.getWindowNo();
+	}
+
+	@Override
+	public void dispose() {
+		v_Container.dispose();
+	}
+
+	@Override
+	public ADForm getForm() {
+		return v_Container;
 	}
 }

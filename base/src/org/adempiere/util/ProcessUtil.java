@@ -173,7 +173,8 @@ public final class ProcessUtil {
 		{
 			if (trx != null && managedTrx)
 			{
-				trx.rollback();
+				if (!success) trx.rollback();
+				
 				trx.close();
 				trx = null;
 			}

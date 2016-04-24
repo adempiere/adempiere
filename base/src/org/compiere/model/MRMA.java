@@ -116,6 +116,17 @@ public class MRMA extends X_M_RMA implements DocAction
 		return m_inout;
 	}	//	getShipment
 
+	/**
+	 * 	Get Return for this RMA
+	 *	@return shipment
+	 */
+	public List<MInOut> getReturns()
+	{
+		return new Query(getCtx(), I_M_InOut.Table_Name, "M_RMA_ID=?", get_TrxName())
+				.setParameters(getM_RMA_ID())
+				.list();
+	}	//	getShipment
+
     /**
      * Get the original order on which the shipment/receipt defined is based upon.
      * @return order

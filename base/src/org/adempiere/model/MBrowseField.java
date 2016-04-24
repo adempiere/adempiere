@@ -34,6 +34,9 @@ import org.compiere.util.Env;
  * @author victor.perez@e-evoluton.com, www.e-evolution.com
  *  <li>FR [ 3426137 ] Smart Browser
  * 	https://sourceforge.net/tracker/?func=detail&aid=3426137&group_id=176962&atid=879335
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 340 ] Smart Browse context is changed from table
+ * 		@see https://github.com/adempiere/adempiere/issues/340
  *  
  */
 public class MBrowseField extends X_AD_Browse_Field {
@@ -45,7 +48,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 
 	private GridField gridField;
 
-
+	private static final String CONTEXT_TABLE_PREFIX = "Table_";
 	/**
 	 *
 	 * @param field
@@ -54,18 +57,26 @@ public class MBrowseField extends X_AD_Browse_Field {
 	static public GridField createGridFieldVO(MBrowseField field , int windowNo)
 	{
 		GridFieldVO valueObject = GridFieldVO.createStdField(field.getCtx(), windowNo, 0, 0, 0, false, false, false);
-
-		String uniqueName =  field.getAD_View_Column().getColumnSQL();
+		//	
+		String uniqueName =  field.getAD_View_Column().getColumnName();
 		valueObject.isProcess = true;
 		valueObject.IsDisplayed = field.isDisplayed();
 		valueObject.IsReadOnly = field.isReadOnly();
 		valueObject.IsUpdateable = true;
 		valueObject.WindowNo = windowNo;
-		valueObject.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
-		valueObject.AD_Table_ID = field.getAD_View_Column().getAD_Column()
-				.getAD_Table_ID();
-		valueObject.ColumnName = field.getAD_View_Column().getAD_Column()
-				.getColumnName();
+		//	BR [ 318 ]
+		if(field.getAD_View_Column().getAD_Column_ID() > 0) {
+			valueObject.ColumnName = field.getAD_View_Column().getAD_Column().getColumnName();
+			valueObject.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
+			valueObject.AD_Table_ID = field.getAD_View_Column().getAD_Column()
+					.getAD_Table_ID();
+		} else {
+			valueObject.ColumnName = field.getAD_View_Column().getColumnSQL();
+		}
+		//	Add Alias
+		//	BR [ 340 ]
+		valueObject.ColumnNameAlias = CONTEXT_TABLE_PREFIX + uniqueName;
+		//	
 		valueObject.displayType = field.getAD_Reference_ID();
 		valueObject.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
 		valueObject.IsMandatory = field.isMandatory();
@@ -83,7 +94,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 		valueObject.ValidationCode = field.getAD_Val_Rule().getCode();
 		valueObject.isRange = field.isRange();
 		valueObject.Description = field.getDescription();
-		if (field.getAD_View_Column().getAD_Column_ID() < 0)
+		if (field.getAD_View_Column().getAD_Column_ID() <= 0 && field.isReadOnly())
 			valueObject.ColumnSQL = uniqueName;
 		valueObject.Help = uniqueName;
 		valueObject.Header = field.getName();
@@ -174,19 +185,23 @@ public class MBrowseField extends X_AD_Browse_Field {
 	 * @return
 	 */
 	public MBrowseField(MBrowse browse, MViewColumn column) {
-		super(column.getCtx(), 0, column.get_TrxName());
+		super(browse.getCtx(), 0, browse.get_TrxName());
 		setAD_Browse_ID(browse.getAD_Browse_ID());
-		setAD_Element_ID(column.getAD_Element_ID());
+		if (column.get_ID() > 0 )
+			setAD_View_Column_ID(column.getAD_View_Column_ID());
+		if (column.getAD_Element_ID() > 0 )
+			setAD_Element_ID(column.getAD_Element_ID());
 		setName(column.getName());
 		setDescription(column.getDescription());
 		setHelp(column.getHelp());
-		setAD_View_Column_ID(column.getAD_View_Column_ID());
 		setIsActive(true);
 		setIsIdentifier(column.isIdentifier());
 		setIsRange(false);
 		setIsQueryCriteria(false);
-		setAD_Reference_ID(column.getAD_Reference_ID());
-		setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
+		if (column.get_ID() > 0)
+			setAD_Reference_ID(column.getAD_Reference_ID());
+		if (column.get_ID() > 0)
+			setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
 		setIsKey(false);
 		setIsDisplayed(true);
 		m_view_column = column;

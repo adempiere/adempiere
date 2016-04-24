@@ -1,10 +1,5 @@
 package org.adempiere.webui.apps;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,7 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.adempiere.webui.component.*;
+
+import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Combobox;
+import org.adempiere.webui.component.ConfirmPanel;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
+import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.WAppsAction;
+import org.adempiere.webui.component.Window;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.IFormLauncher;
@@ -29,9 +35,13 @@ import org.compiere.model.MPInstancePara;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
-import org.compiere.util.*;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuEcho;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -44,6 +54,12 @@ import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Html;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfWriter;
 
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
@@ -71,6 +87,11 @@ import org.zkoss.zul.Html;
  *  @author 	Low Heng Sin
  *  @author     arboleda - globalqss
  *  - Implement ShowHelp option on processes and reports
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
+ *		@see https://github.com/adempiere/adempiere/issues/265
+ *		<li>BR [ 300 ] ZK Process action buttons don't have standard size and position
+ *		@see https://github.com/adempiere/adempiere/issues/300
  */
 public class ProcessDialog extends Window implements EventListener//, ASyncProcess
 {
@@ -84,6 +105,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	private Center center;
 	private North north;
 	private Grid southRowPanel = GridFactory.newGridLayout();
+	//	BR [ 300 ]
+	private boolean 		m_IsProcessed = false;
 
     /**
      * Dialog to start a process/report
@@ -162,21 +185,24 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 
 		Panel confParaPanel =new Panel();
 		confParaPanel.setAlign("right");
-
-		String label = Msg.getMsg(Env.getCtx(), "Start");
-		bOK = new Button(label.replaceAll("&", ""));
-		bOK.setImage("/images/Ok16.png");
-		bOK.setId("Ok");
-		bOK.addEventListener(Events.ON_CLICK, this);
-		bOK.setSclass("action-button");
-		confParaPanel.appendChild(bOK);
-		
-		label = Msg.getMsg(Env.getCtx(), "Cancel");
-		bCancle = new Button(label.replaceAll("&", ""));
-		bCancle.setImage("/images/Cancel16.png");
-		bCancle.addEventListener(Events.ON_CLICK, this);
-		bCancle.setSclass("action-button");
-		confParaPanel.appendChild(bCancle);
+		//	BR [ 300 ]
+		try{
+			//	Set Ok
+			WAppsAction action = new WAppsAction(ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
+			bOK = action.getButton();
+			//	Set to Cancel
+			action = new WAppsAction(ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+			bCancel = action.getButton();
+			//	Add Listener
+			bOK.addEventListener(Events.ON_CLICK, this);
+			bCancel.addEventListener(Events.ON_CLICK, this);
+			//	Add to Panel
+			confParaPanel.appendChild(bCancel);
+			confParaPanel.appendChild(bOK);
+		} catch(Exception e) {
+			log.severe("Error loading Buttons " + e.getLocalizedMessage());
+		}
+		//	
 		row.appendChild(confParaPanel);
 		
 		South south = new South();
@@ -198,7 +224,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	private Panel centerPanel = null;
 	private Html message = null;
 	private Button bOK = null;
-	private Button bCancle = null;
+	private Button bCancel = null;
 
 	private boolean valid = true;
 	
@@ -302,7 +328,6 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		this.setTitle(m_Name);
 		initialMessage = m_messageText.toString();
 		message.setContent(initialMessage);
-		bOK.setLabel(Msg.getMsg(Env.getCtx(), "Start"));
 
 		//	Move from APanel.actionButton
 		m_pi = new WProcessInfo(m_Name, m_AD_Process_ID);
@@ -310,8 +335,9 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi, "70%");
 		centerPanel.getChildren().clear();
-		if ( parameterPanel.init() ) {
-			centerPanel.appendChild(parameterPanel);
+		//	BR[ 265 ]
+		if (parameterPanel.init()) {
+			centerPanel.appendChild(parameterPanel.getPanel());
 		} else {
 			if (m_ShowHelp != null && m_ShowHelp.equals("N")) {
 				startProcess();
@@ -343,14 +369,21 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		fSavedName.setValue("");
 	}
 
+	/**
+	 * Start Process
+	 */
 	public void startProcess()
 	{
+		m_IsProcessed = true;
 		m_pi.setPrintPreview(true);
 
 		this.lockUI(m_pi);
 		Clients.response(new AuEcho(this, "runProcess", null));
 	}
 
+	/**
+	 * Run the process
+	 */
 	public void runProcess() {
 		try {
 			ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);
@@ -368,9 +401,10 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 				form.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 				SessionManager.getAppDesktop().showWindow(form);
 			}
-			
 		} finally {
 			unlockUI(m_pi);
+			//	Dispose
+//			this.dispose();
 		}
 	}
 	
@@ -382,21 +416,20 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 			saveName = fSavedName.getRawText();
 			lastRun = ("** " + Msg.getMsg(Env.getCtx(), "LastRun") + " **").equals(saveName);
 		}
-		Component component = event.getTarget();
-		if (event.getTarget().equals(bOK))
-		{
-			Button element = (Button)component;
-				if (!parameterPanel.validateParameters())
-					return;
-				if (element.getLabel().length() > 0)
-					this.startProcess();
-				else
-					this.dispose();
-		}
-		else if (event.getTarget().equals(bCancle))
-		{
+		if (event.getTarget().equals(bOK)) {
+			//	BR [ 265 ]
+			if (parameterPanel.validateParameters() != null)
+				return;
+			//	BR [ 300 ]
+			if(m_IsProcessed) {
 				this.dispose();
+			} else {
+				//	Start
+				this.startProcess();
 			}
+		} else if (event.getTarget().equals(bCancel)) {
+			this.dispose();
+		}
 
 		//saved paramater
 		else if(event.getTarget().equals(bSave) && fSavedName != null && !lastRun)
@@ -412,7 +445,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 						for (MPInstancePara para : savedParams.get(i).getParameters())
 						{
 							para.deleteEx(true);
-		}
+						}
 						parameterPanel.saveParameters();
 					}
 				}
@@ -430,9 +463,11 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 					//				Get Parameters
 					if (parameterPanel != null)
 					{
-						if (!parameterPanel.saveParameters())
+						//	BR [ 265 ]
+						String validError = parameterPanel.saveParameters();
+						if (validError != null)
 						{
-							throw new AdempiereSystemError(Msg.getMsg(Env.getCtx(), "SaveParameterError"));
+							throw new AdempiereSystemError(Msg.parseTranslation(Env.getCtx(), validError));
 						}
 					}
 				}
@@ -542,7 +577,6 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 			m_messageText.append(pi.getLogInfo(true));
 			message.setContent(m_messageText.toString());
 			
-			bOK.setLabel("");		
 			m_ids = pi.getIDs();
 			
 			//move message div to center to give more space to display potentially very long log info
@@ -569,11 +603,13 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 			m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 			m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 			parameterPanel.setProcessInfo(m_pi);
+			//	BR [ 300 ]
+			this.dispose();
 		}
 
 		// If the process is a silent one and no errors occured, close the dialog
 		if(m_ShowHelp != null && m_ShowHelp.equals("S"))
-			this.dispose();	
+			this.dispose();
 	}
 	
 	/**************************************************************************
@@ -618,7 +654,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		{
 			int M_InOut_ID = m_ids[i];
 			ReportEngine re = ReportEngine.get (Env.getCtx(), ReportEngine.SHIPMENT, M_InOut_ID);
-			pdfList.add(re.getPDF());				
+			if (re != null)
+				pdfList.add(re.getPDF());
 		}
 		
 		if (pdfList.size() > 1) {
@@ -688,7 +725,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		{
 			int C_Invoice_ID = m_ids[i];
 			ReportEngine re = ReportEngine.get (Env.getCtx(), ReportEngine.INVOICE, C_Invoice_ID);
-			pdfList.add(re.getPDF());				
+			if (re != null)
+				pdfList.add(re.getPDF());
 		}
 		
 		if (pdfList.size() > 1) {

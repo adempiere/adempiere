@@ -26,7 +26,7 @@ import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MRole;
@@ -40,6 +40,9 @@ import org.zkoss.zul.Comboitem;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 12, 2007
  * @version $Revision: 0.10 $
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class WTableDirEditor extends WEditor implements ListDataListener, 
 ContextMenuListener, IZoomableEditor
@@ -141,7 +144,7 @@ ContextMenuListener, IZoomableEditor
         	popupMenu = new WEditorPopupMenu(zoom, true, true);
         	if (gridField != null &&  gridField.getGridTab() != null)
     		{
-    			WFieldRecordInfo.addMenu(popupMenu);
+    			WRecordInfo.addMenu(popupMenu);
     		}
         	getComponent().setContext(popupMenu.getId());
         }
@@ -402,7 +405,7 @@ ContextMenuListener, IZoomableEditor
 		}
 		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 	}
 	

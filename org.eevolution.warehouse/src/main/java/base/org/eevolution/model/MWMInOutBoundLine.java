@@ -200,7 +200,7 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	 * get MLocator based in Distribution Order Line
 	 * @return MLocator or null
 	 */
-	public MLocator getMLocator()
+	public MLocator getLocator()
 	{
 		String whereClause =  MWMInOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID + "=?";
 		MDDOrderLine line = new Query(getCtx(),I_DD_OrderLine.Table_Name,whereClause, get_TrxName())

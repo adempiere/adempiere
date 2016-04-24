@@ -30,6 +30,7 @@ import org.compiere.apps.form.GenForm;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MAttributeSetInstance;
+import org.compiere.model.MOrder;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.util.CLogger;
@@ -272,6 +273,7 @@ public class OrderReceiptIssue extends GenForm {
 			int PP_Order_BOMLine_ID = 0;
 			int M_AttributeSetInstance_ID = 0;
 
+
 			BigDecimal qtyToDeliver = (BigDecimal) m_issue[i][0].get(4);
 			BigDecimal qtyScrapComponent = (BigDecimal) m_issue[i][0].get(5);
 
@@ -301,9 +303,19 @@ public class OrderReceiptIssue extends GenForm {
 						M_AttributeSetInstance_ID, minGuaranteeDate,
 						order.get_TrxName());
 
-				MPPOrder.createIssue(order, PP_Order_BOMLine_ID, movementDate,
+				boolean forceIssue = false;
+				BigDecimal toIssue = qtyToDeliver.add(qtyScrapComponent);
+
+				//allow return quantity order line
+				if (storages == null || storages.length == 0 ) {
+					if (toIssue.signum() < 0 && toIssue.add(orderbomLine.getQtyDelivered()).signum() >= 0)
+						forceIssue = true;
+				}
+
+
+				MPPOrder.createIssue(order, orderbomLine , movementDate,
 						qtyToDeliver, qtyScrapComponent, Env.ZERO, storages,
-						false);
+						forceIssue);
 			}
 		}
 	}
@@ -541,7 +553,7 @@ public class OrderReceiptIssue extends GenForm {
 		StringBuffer iText = new StringBuffer();
 
 		iText.append("<b>");
-		iText.append(Msg.translate(Env.getCtx(), "IsShipConfirm"));
+		iText.append(Msg.parseTranslation(Env.getCtx(), "@IsShipConfirm@"));
 		iText.append("</b>");
 		iText.append("<br />");
 
@@ -594,9 +606,35 @@ public class OrderReceiptIssue extends GenForm {
 										.getM_Warehouse_ID(), 0,
 								minGuaranteeDate, null);
 
-						BigDecimal todelivery = getValueBigDecimal(issue, i, 8); // QtyOpen
+
+						BigDecimal qtyDelivered = getValueBigDecimal(issue, i, 7); // Qty Delivered
+						BigDecimal toDelivery = getValueBigDecimal(issue, i, 8); // QtyOpen
 						BigDecimal scrap = getValueBigDecimal(issue, i, 9); // QtyScrap
-						BigDecimal toIssue = todelivery.add(scrap);
+						BigDecimal toIssue = toDelivery.add(scrap);
+
+						//allow return quantity order line
+						if (storages == null || storages.length == 0)
+						{
+							if (toIssue.signum() < 0 && qtyDelivered.signum() > 0 && qtyDelivered.add(toIssue).signum() >= 0) {
+								String[] row = {"", "", "", "", "0.00", "0.00",
+										"0.00"};
+								row[0] = issue.getValueAt(i, 2) != null ? issue
+										.getValueAt(i, 2).toString() : "";
+								row[1] = m_productkey.toString();
+								row[2] = m_uomkey != null ? m_uomkey.toString()
+										: "";
+								String desc = null;
+								row[3] = desc != null ? desc : "";
+								row[4] = toIssue.setScale(2,
+										BigDecimal.ROUND_HALF_UP).toString();
+								row[5] = getValueBigDecimal(issue, i, 7).setScale(
+										2, BigDecimal.ROUND_HALF_UP).toString();
+								row[6] = getValueBigDecimal(issue, i, 9).toString();
+								table.add(row);
+							}
+							continue;
+						}
+
 						for (MStorage storage : storages) {
 							// TODO Selection of ASI
 

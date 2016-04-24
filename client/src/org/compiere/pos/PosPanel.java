@@ -2,7 +2,7 @@ package org.compiere.pos;
 
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
-
+@Deprecated
 public class PosPanel implements FormPanel {
 	private PosBasePanel panel;
 
@@ -12,7 +12,7 @@ public class PosPanel implements FormPanel {
 
 	public void init(int WindowNo, FormFrame frame) {
 		panel = new PosBasePanel();
-		panel.init(0, frame);
+		panel.init(0, frame.getCFrame());
 	}
 
 }

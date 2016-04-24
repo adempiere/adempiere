@@ -27,9 +27,9 @@ public class ServerProcessCtl implements Runnable {
 	/** Parent */
 	ASyncProcess m_parent;
 	/** Process Info */
-	ProcessInfo m_pi;
-	private Trx				m_trx;
-	private boolean 		m_IsServerProcess = false;
+	ProcessInfo processInfo;
+	private Trx trx;
+	private boolean isServerProcess = false;
 	
 	/**************************************************************************
 	 *  Constructor
@@ -40,10 +40,10 @@ public class ServerProcessCtl implements Runnable {
 	public ServerProcessCtl (ASyncProcess parent, ProcessInfo pi, Trx trx)
 	{
 		m_parent = parent;
-		m_pi = pi;
-		m_trx = trx;	//	handled correctly
+		processInfo = pi;
+		this.trx = trx;	//	handled correctly
 	}   //  ProcessCtl
-	
+
 	/**
 	 *	Process Control
 	 *  <code>
@@ -107,7 +107,7 @@ public class ServerProcessCtl implements Runnable {
 		}
 		return worker;
 	}	//	execute
-	
+
 	/**
 	 * Run this process in a new thread
 	 */
@@ -115,8 +115,8 @@ public class ServerProcessCtl implements Runnable {
 	{
 		Thread thread = new Thread(this);
 		// Set thread name
-		if (m_pi != null)
-			thread.setName(m_pi.getTitle()+"-"+m_pi.getAD_PInstance_ID());
+		if (processInfo != null)
+			thread.setName(processInfo.getTitle()+"-"+ processInfo.getAD_PInstance_ID());
 		thread.start();
 	}
 
@@ -132,8 +132,8 @@ public class ServerProcessCtl implements Runnable {
 	 */
 	public void run ()
 	{
-		log.fine("AD_PInstance_ID=" + m_pi.getAD_PInstance_ID()
-			+ ", Record_ID=" + m_pi.getRecord_ID());
+		log.fine("AD_PInstance_ID=" + processInfo.getAD_PInstance_ID()
+			+ ", Record_ID=" + processInfo.getRecord_ID());
 
 		//	Get Process Information: Name, Procedure Name, ClassName, IsReport, IsDirectPrint
 		String 	ProcedureName = "";
@@ -141,7 +141,7 @@ public class ServerProcessCtl implements Runnable {
 		int     AD_ReportView_ID = 0;
 		int		AD_Workflow_ID = 0;
 		boolean IsReport = false;
-		boolean isPrintPreview = m_pi.isPrintPreview();
+		boolean isPrintPreview = processInfo.isPrintPreview();
 
 		//
 		String sql = "SELECT p.Name, p.ProcedureName,p.ClassName, p.AD_Process_ID,"		//	1..4
@@ -170,14 +170,14 @@ public class ServerProcessCtl implements Runnable {
 		{
 			pstmt = DB.prepareStatement(sql, 
 				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, null);
-			pstmt.setInt(1, m_pi.getAD_PInstance_ID());
+			pstmt.setInt(1, processInfo.getAD_PInstance_ID());
 			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
-				m_pi.setTitle (rs.getString(1));
+				processInfo.setTitle (rs.getString(1));
 				ProcedureName = rs.getString(2);
-				m_pi.setClassName (rs.getString(3));
-				m_pi.setAD_Process_ID (rs.getInt(4));
+				processInfo.setClassName (rs.getString(3));
+				processInfo.setAD_Process_ID (rs.getInt(4));
 				//	Report
 				if ("Y".equals(rs.getString(5)))
 				{
@@ -189,17 +189,17 @@ public class ServerProcessCtl implements Runnable {
 				int estimate = rs.getInt(9);
 				if (estimate != 0)
 				{
-					m_pi.setEstSeconds (estimate + 1);     //  admin overhead
+					processInfo.setEstSeconds (estimate + 1);     //  admin overhead
 				}
-				m_IsServerProcess = "Y".equals(rs.getString(10));
+				isServerProcess = "Y".equals(rs.getString(10));
 				JasperReport = rs.getString(11);
 			}
 			else
-				log.log(Level.SEVERE, "No AD_PInstance_ID=" + m_pi.getAD_PInstance_ID());
+				log.log(Level.SEVERE, "No AD_PInstance_ID=" + processInfo.getAD_PInstance_ID());
 		}
 		catch (Throwable e)
 		{
-			m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoProcedure") + " " + e.getLocalizedMessage(), true);
+			processInfo.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoProcedure") + " " + e.getLocalizedMessage(), true);
 			log.log(Level.SEVERE, "run", e);
 			return;
 		}
@@ -227,19 +227,19 @@ public class ServerProcessCtl implements Runnable {
 		boolean isJasper = false;
 		if (JasperReport != null && JasperReport.trim().length() > 0) {
 			isJasper = true;
-			if (ProcessUtil.JASPER_STARTER_CLASS.equals(m_pi.getClassName())) {
-				m_pi.setClassName(null);
+			if (ProcessUtil.JASPER_STARTER_CLASS.equals(processInfo.getClassName())) {
+				processInfo.setClassName(null);
 			}
 		}
 		
 		/**********************************************************************
 		 *	Start Optional Class
 		 */
-		if (m_pi.getClassName() != null)
+		if (processInfo.getClassName() != null)
 		{
 			if (isJasper)
 			{
-				m_pi.setReportingProcess(true);
+				processInfo.setReportingProcess(true);
 			}
 			
 			//	Run Class
@@ -266,7 +266,7 @@ public class ServerProcessCtl implements Runnable {
 		//	Optional Pre-Report Process
 		if (IsReport && ProcedureName.length() > 0)
 		{
-			m_pi.setReportingProcess(true);
+			processInfo.setReportingProcess(true);
 			if (!startDBProcess(ProcedureName))
 			{
 				return;
@@ -275,18 +275,18 @@ public class ServerProcessCtl implements Runnable {
 
 		if (isJasper)
 		{
-			m_pi.setReportingProcess(true);
-			m_pi.setClassName(ProcessUtil.JASPER_STARTER_CLASS);
+			processInfo.setReportingProcess(true);
+			processInfo.setClassName(ProcessUtil.JASPER_STARTER_CLASS);
 			startProcess();
 			return;
 		}
 		
 		if (IsReport)
 		{
-			m_pi.setReportingProcess(true);
+			processInfo.setReportingProcess(true);
 			//	Start Report	-----------------------------------------------
-			boolean ok = ServerReportCtl.start(m_parent, m_pi);
-			m_pi.setSummary("Report", !ok);
+			boolean ok = ServerReportCtl.start(m_parent, processInfo);
+			processInfo.setSummary("Report", !ok);
 		}
 		/**********************************************************************
 		 * 	Process submission
@@ -298,7 +298,7 @@ public class ServerProcessCtl implements Runnable {
 				return;
 			}
 			//	Success - getResult
-			ProcessInfoUtil.setSummaryFromDB(m_pi);
+			ProcessInfoUtil.setSummaryFromDB(processInfo);
 		}			//	*** Process submission ***
 	//	log.fine(Log.l3_Util, "ProcessCtl.run - done");
 	}   //  run
@@ -311,17 +311,17 @@ public class ServerProcessCtl implements Runnable {
 	 */
 	protected boolean startWorkflow (int AD_Workflow_ID)
 	{
-		log.fine(AD_Workflow_ID + " - " + m_pi);
+		log.fine(AD_Workflow_ID + " - " + processInfo);
 		boolean started = false;
-		if (m_IsServerProcess)
+		if (isServerProcess)
 		{
 			Server server = CConnection.get().getServer();
 			try
 			{
 				if (server != null)
 				{	//	See ServerBean
-					m_pi = server.workflow (Env.getRemoteCallCtx(Env.getCtx()), m_pi, AD_Workflow_ID);
-					log.finest("server => " + m_pi);
+					processInfo = server.workflow (Env.getRemoteCallCtx(Env.getCtx()), processInfo, AD_Workflow_ID);
+					log.finest("server => " + processInfo);
 					started = true;
 				}
 			}
@@ -332,11 +332,11 @@ public class ServerProcessCtl implements Runnable {
 			}
 		}
 		//	Run locally
-		if (!started && !m_IsServerProcess)
+		if (!started && !isServerProcess)
 		{
-			if (m_trx != null)
-				m_pi.setTransactionName(m_trx.getTrxName());
-			MWFProcess wfProcess = ProcessUtil.startWorkFlow(Env.getCtx(), m_pi, AD_Workflow_ID);
+			if (trx != null)
+				processInfo.setTransactionName(trx.getTrxName());
+			MWFProcess wfProcess = ProcessUtil.startWorkFlow(Env.getCtx(), processInfo, AD_Workflow_ID);
 			started = wfProcess != null;
 		}
 		return started;
@@ -353,20 +353,20 @@ public class ServerProcessCtl implements Runnable {
 	 */
 	protected boolean startProcess ()
 	{
-		log.fine(m_pi.toString());
+		log.fine(processInfo.toString());
 		boolean started = false;
 		
 		//hengsin, bug [ 1633995 ]
 		boolean clientOnly = false;
-		if (! m_pi.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
+		if (! processInfo.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
 			try {
-				Class<?> processClass = Class.forName(m_pi.getClassName());
+				Class<?> processClass = Class.forName(processInfo.getClassName());
 				if (ClientProcess.class.isAssignableFrom(processClass))
 					clientOnly = true;
 			} catch (Exception e) {}
 		}
 		
-		if (m_IsServerProcess && !clientOnly)
+		if (isServerProcess && !clientOnly)
 		{
 			Server server = CConnection.get().getServer();
 			try
@@ -374,8 +374,8 @@ public class ServerProcessCtl implements Runnable {
 				if (server != null)
 				{	
 					//	See ServerBean
-					m_pi = server.process (Env.getRemoteCallCtx(Env.getCtx()), m_pi);
-					log.finest("server => " + m_pi);
+					processInfo = server.process (Env.getRemoteCallCtx(Env.getCtx()), processInfo);
+					log.finest("server => " + processInfo);
 					started = true;		
 				}
 			}
@@ -386,14 +386,14 @@ public class ServerProcessCtl implements Runnable {
 				{
 					if (cause instanceof InvalidClassException)
 						log.log(Level.SEVERE, "Version Server <> Client: " 
-							+  cause.toString() + " - " + m_pi, ex);
+							+  cause.toString() + " - " + processInfo, ex);
 					else
 						log.log(Level.SEVERE, "AppsServer error(1b): " 
-							+ cause.toString() + " - " + m_pi, ex);
+							+ cause.toString() + " - " + processInfo, ex);
 				}
 				else
 					log.log(Level.SEVERE, " AppsServer error(1) - " 
-						+ m_pi, ex);
+						+ processInfo, ex);
 				started = false;
 			}
 			catch (Exception ex)
@@ -401,20 +401,23 @@ public class ServerProcessCtl implements Runnable {
 				Throwable cause = ex.getCause();
 				if (cause == null)
 					cause = ex;
-				log.log(Level.SEVERE, "AppsServer error - " + m_pi, cause);
+				log.log(Level.SEVERE, "AppsServer error - " + processInfo, cause);
 				started = false;
 			}
 		}
 		//	Run locally
-		if (!started && (!m_IsServerProcess || clientOnly ))
+		if (!started && (!isServerProcess || clientOnly ))
 		{
-			if (m_pi.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
-				return ProcessUtil.startScriptProcess(Env.getCtx(), m_pi, m_trx);
+			if (processInfo.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
+				return ProcessUtil.startScriptProcess(Env.getCtx(), processInfo, trx);
 			} else {
-				return ProcessUtil.startJavaProcess(Env.getCtx(), m_pi, m_trx);
+				if (processInfo.isManagedTransaction())
+					return ProcessUtil.startJavaProcess(Env.getCtx(), processInfo, trx);
+				else
+					return ProcessUtil.startJavaProcess(Env.getCtx(), processInfo, trx, processInfo.isManagedTransaction());
 			}
 		}
-		return !m_pi.isError();
+		return !processInfo.isError();
 	}   //  startProcess
 
 
@@ -426,18 +429,18 @@ public class ServerProcessCtl implements Runnable {
 	protected boolean startDBProcess (String ProcedureName)
 	{
 		//  execute on this thread/connection
-		log.fine(ProcedureName + "(" + m_pi.getAD_PInstance_ID() + ")");
+		log.fine(ProcedureName + "(" + processInfo.getAD_PInstance_ID() + ")");
 		boolean started = false;
-		String trxName = m_trx != null ? m_trx.getTrxName() : null;
-		if (m_IsServerProcess)
+		String trxName = trx != null ? trx.getTrxName() : null;
+		if (isServerProcess)
 		{
 			Server server = CConnection.get().getServer();
 			try
 			{
 				if (server != null)
 				{	//	See ServerBean
-					m_pi = server.dbProcess(m_pi, ProcedureName);
-					log.finest("server => " + m_pi);
+					processInfo = server.dbProcess(processInfo, ProcedureName);
+					log.finest("server => " + processInfo);
 					started = true;		
 				}
 			}
@@ -448,19 +451,19 @@ public class ServerProcessCtl implements Runnable {
 				{
 					if (cause instanceof InvalidClassException)
 						log.log(Level.SEVERE, "Version Server <> Client: " 
-							+  cause.toString() + " - " + m_pi, ex);
+							+  cause.toString() + " - " + processInfo, ex);
 					else
 						log.log(Level.SEVERE, "AppsServer error(1b): " 
-							+ cause.toString() + " - " + m_pi, ex);
+							+ cause.toString() + " - " + processInfo, ex);
 				}
 				else
 				{
 					log.log(Level.SEVERE, " AppsServer error(1) - " 
-						+ m_pi, ex);
+						+ processInfo, ex);
 					cause = ex;
 				}
-				m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + cause.getLocalizedMessage());
-				m_pi.setError (true);
+				processInfo.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + cause.getLocalizedMessage());
+				processInfo.setError (true);
 				return false;
 			}
 			catch (Exception ex)
@@ -468,9 +471,9 @@ public class ServerProcessCtl implements Runnable {
 				Throwable cause = ex.getCause();
 				if (cause == null)
 					cause = ex;
-				log.log(Level.SEVERE, "AppsServer error - " + m_pi, cause);
-				m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + cause.getLocalizedMessage());
-				m_pi.setError (true);
+				log.log(Level.SEVERE, "AppsServer error - " + processInfo, cause);
+				processInfo.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + cause.getLocalizedMessage());
+				processInfo.setError (true);
 				return false;
 			}
 		}
@@ -478,7 +481,11 @@ public class ServerProcessCtl implements Runnable {
 		//try locally
 		if (!started)
 		{
-			return ProcessUtil.startDatabaseProcedure(m_pi, ProcedureName, m_trx);
+			if (processInfo.isManagedTransaction())
+				return ProcessUtil.startDatabaseProcedure(processInfo, ProcedureName, trx);
+			else
+				return ProcessUtil.startDatabaseProcedure(processInfo, ProcedureName, trx, processInfo.isManagedTransaction());
+
 		}
 		return true;
 	}   //  startDBProcess

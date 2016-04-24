@@ -255,8 +255,11 @@ public class Doc_InOut extends Doc
 				for (int i = 0; i < p_lines.length; i++)
 				{
 					DocLine line = p_lines[i];
+					BigDecimal multiplier = Env.ONE;
+					if (m_Reversal_ID != 0 && m_Reversal_ID < get_ID())
+						multiplier = multiplier.negate();
 					Fact factcomm = Doc_Order.getCommitmentSalesRelease(as, this, 
-						line.getQty(), line.get_ID(), Env.ONE);
+						line.getQty(), line.get_ID(), multiplier);
 					if (factcomm != null)
 						facts.add(factcomm);
 				}
@@ -369,7 +372,7 @@ public class Doc_InOut extends Doc
 				MProduct product = line.getProduct();
 				for (MCostDetail cost : line.getCostDetail(as, true))
 				{	
-						if (!MCostDetail.existsCost(cost) || cost.getQty().signum() == 0)
+						if (!MCostDetail.existsCost(cost))
 							continue;
 						
 						costs = MCostDetail.getTotalCost(cost, as);
@@ -467,7 +470,7 @@ public class Doc_InOut extends Doc
 				MProduct product = line.getProduct();
 				for(MCostDetail cost : line.getCostDetail(as,true))
 				{	
-					if (!MCostDetail.existsCost(cost) || cost.getQty().signum() == 0)
+					if (!MCostDetail.existsCost(cost))
 						continue;
 					
 					costs = MCostDetail.getTotalCost(cost, as);

@@ -80,7 +80,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 				p_WindowNo, 0, 0, 0, false, false, false);
 
 		String uniqueName =  field.getAD_View_Column().getColumnSQL();
-		
+
 		voBase.isProcess = true;
 		voBase.IsDisplayed = true;
 		voBase.IsReadOnly = false;
@@ -99,7 +99,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		voBase.IsKey = field.isKey();
 
 		voBase.DefaultValue = field.getDefaultValue();
-		voBase.DefaultValue2 = field.getDefaultValue();
+		voBase.DefaultValue2 = field.getDefaultValue2();
 		voBase.InfoFactoryClass = field.getInfoFactoryClass();
 		voBase.FieldLength = field.getFieldLength();
 		voBase.ReadOnlyLogic = field.getReadOnlyLogic();
@@ -111,28 +111,33 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 
 		voBase.isRange = field.isRange();
 		voBase.Description = field.getDescription();
-		voBase.Help = uniqueName;
+		voBase.Help = field.getHelp();
 		voBase.Header = title;
 
 		GridField gField = new GridField(GridFieldVO.createParameter(voBase));
-		
-		
+		GridField gField2 = null;
+
 		WEditor editor = WebEditorFactory.getEditor(gField, false);
+		editor.setReadWrite(true);
 		editor.addValueChangeListener(this);
 		editor.dynamicDisplay();
-		editor.setReadWrite(true);
-
 		gField.addPropertyChangeListener(editor);
-		
+
+		Object defaultObject = null;
+		Object defaultObject2 = null;
+
 		//  Set Default
-		Object defaultObject = gField.getDefault();
-		gField.setValue (defaultObject, true);
-		if (defaultObject != null)
-			processNewValue(defaultObject, gField.getVO().Help);
+		if (field.getAD_View_Column().getAD_Column_ID() > 0)
+		{
+			defaultObject = gField.getDefault();
+			if (defaultObject != null && field.getDefaultValue() != null) {
+				gField.setValue(defaultObject, true);
+				editor.setValue(defaultObject);
+			}
+		}
+
 		gField.lookupLoadComplete();
 		m_mFields.add(gField);
-		
-		
 		m_wEditors.add (editor);
 		
 		if (DisplayType.YesNo != field.getAD_Reference_ID()) {
@@ -154,19 +159,24 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 			name = name + "_To";
 			voBase.Header = title;
 			voBase.DefaultValue = field.getDefaultValue2();
-			GridField gField2 = new GridField(GridFieldVO.createParameter(voBase));
-			//  Set Default
-			Object defaultObject2 = gField2.getDefault();
-			gField2.setValue (defaultObject2, true);
+			gField2 = new GridField(GridFieldVO.createParameter(voBase));
 			gField2.lookupLoadComplete();
-			m_mFields2.add(gField2);
 
 			WEditor editor2 = WebEditorFactory.getEditor(gField2, false);
-			editor.setReadWrite(true);
-			editor.addValueChangeListener(this);
-			editor.dynamicDisplay();
+			editor2.setReadWrite(true);
+			editor2.addValueChangeListener(this);
+			editor2.dynamicDisplay();
+			//  Set Default
+			if (field.getAD_View_Column().getAD_Column_ID() > 0) {
+				defaultObject2 = gField2.getDefault();
+				if (defaultObject2 != null && field.getDefaultValue2() != null) {
+					gField2.setValue(defaultObject2, true);
+					editor2.setValue(defaultObject2);
+				}
+			}
+			m_mFields2.add(gField2);
 			m_wEditors2.add (editor2);
-			
+
 			Div div = new Div();
 			div.setAlign("right");
 			org.adempiere.webui.component.Label label = editor2.getLabel();
@@ -175,7 +185,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 			if (label.getDecorator() != null)
 				div.appendChild(label.getDecorator());
 			row.appendChild(div);
-			
+
 			row.appendChild(editor2.getComponent());
 			setParameter(name, editor2);
 		}
@@ -184,12 +194,17 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 			m_mFields2.add(null);
 			m_wEditors2.add (null);
 		}
+
+		if (gField != null)
+			processNewValue(defaultObject, gField.getVO().ColumnNameAlias);
+		if (gField2 != null)
+			processNewValue(defaultObject2, gField2.getVO().ColumnNameAlias + "_To");
 	}
 
 	/**
 	 *	Editor Listener
 	 *	@param evt Event
-	 * 	@exception valueChangeException if the recipient wishes to roll back.
+	 * 	@exception ValueChangeEvent if the recipient wishes to roll back.
 	 */
 	public void valueChange(ValueChangeEvent evt) {
 		if (evt.getSource() instanceof WEditor) {
@@ -203,7 +218,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		if(evt.getSource() instanceof WEditor)
 		{
 			WEditor wEditor = (WEditor)evt.getSource();
-			columnName = wEditor.getGridField().getVO().Help;
+			columnName = wEditor.getGridField().getVO().ColumnNameAlias;
 		}
 		processNewValue(evt.getNewValue(), columnName);
 	} // valueChange
@@ -221,7 +236,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 	/**
 	 * get Parameter Value
 	 * 
-	 * @param id
+	 * @param key
 	 * @return Object Value
 	 */
 	public Object getParamenterValue(Object key) {
@@ -238,8 +253,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 	 */
 	private void processDependencies(GridField changedField) 
 	{
-		
-		String columnName = changedField.getVO().Help;;
+		String columnName = changedField.getVO().ColumnNameAlias;;
 
 		for (GridField field : m_mFields) {
 			if (field == null || field == changedField)
@@ -307,11 +321,27 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 				}
 				boolean rw = mField.isEditablePara(true); // r/w - check if
 															// field is Editable
+				Object value = mField.getValue();
+				Object defaultValue = mField.getDefault();
+				if ((value == null || value.toString().length() == 0)
+						&& defaultValue != null)
+					mField.setValue(defaultValue, true);
+
+
 				editor.setReadWrite(rw);
 				editor.dynamicDisplay();
 				if (mField.getVO().isRange) {
-					m_wEditors2.get(i).setReadWrite(rw);
-					m_wEditors2.get(i).dynamicDisplay();
+					WEditor editorRange = m_wEditors2.get(i);
+					if (editorRange != null) {
+						GridField gridFieldTo = m_wEditors2.get(i).getGridField();
+						Object valueTo = gridFieldTo.getValue();
+						Object defaultValueTo = gridFieldTo.getDefault();
+						if ((valueTo == null || valueTo.toString().length() == 0)
+								&& defaultValueTo != null)
+							gridFieldTo.setValue(defaultValueTo, true);
+						editorRange.setReadWrite(rw);
+						editorRange.dynamicDisplay();
+					}
 				}
 			} else if (editor.isVisible()) {
 				editor.setVisible(false);
@@ -332,7 +362,7 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 		m_wEditors.clear();
 		m_wEditors2.clear();
 		m_mFields.clear();
-		m_mFields2.clear();		
+		m_mFields2.clear();
 	}   //  dispose
 	
 	/**
@@ -345,14 +375,14 @@ public class WBrowserSearch extends  Grid implements ValueChangeListener {
 			if (f != null)
 			{	
 				f.restoreValue();
-				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().Help, "");
+				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().ColumnNameAlias, "");
 			}	
 		}
 		for (GridField f : m_mFields2) {
 			if (f != null)
 			{				
 				f.restoreValue();
-				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().Help, "");
+				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().ColumnNameAlias, "");
 			}	
 		}
 	}

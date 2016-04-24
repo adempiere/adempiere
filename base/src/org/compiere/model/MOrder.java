@@ -101,6 +101,7 @@ public class MOrder extends X_C_Order implements DocAction
 		to.setC_DocType_ID(0);
 		to.setC_DocTypeTarget_ID (C_DocTypeTarget_ID);
 		to.setIsSOTrx(isSOTrx);
+		to.setC_Opportunity_ID(from.getC_Opportunity_ID());
 		//
 		to.setIsSelected (false);
 		to.setDateOrdered (dateDoc);
@@ -795,6 +796,21 @@ public class MOrder extends X_C_Order implements DocAction
 	}	//	getShipments
 
 	/**
+	 * 	Get RMA of Order
+	 * 	@return RMAs
+	 */
+	public List<MRMA> getRMA()
+	{
+		final String whereClause = "EXISTS (SELECT 1 FROM M_InOut io "
+				+" WHERE io.M_InOut_ID=M_RMA.InOut_ID AND io.C_Order_ID = ?)";
+		return new Query(getCtx(), I_M_RMA.Table_Name , whereClause, get_TrxName())
+				.setParameters(get_ID())
+				.setOrderBy("M_RMA_ID DESC")
+				.list();
+	}	//	get RMAs
+
+
+	/**
 	 *	Get ISO Code of Currency
 	 *	@return Currency ISO
 	 */
@@ -1239,6 +1255,9 @@ public class MOrder extends X_C_Order implements DocAction
 			} else if (MDocType.DOCSUBTYPESO_PrepayOrder.equals(dt.getDocSubTypeSO())
 					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PREPAY_ORDER", true, getAD_Client_ID(), getAD_Org_ID())) {
 				// ignore -- don't validate Prepay Orders depending on sysconfig parameter
+			} else if (MDocType.DOCSUBTYPESO_Proposal.equals(dt.getDocSubTypeSO())
+					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PROPOSAL", true, getAD_Client_ID(), getAD_Org_ID())) {
+						// ignore -- don't validate Prepay Orders depending on sysconfig parameter
 			} else {
 				MBPartner bp = new MBPartner (getCtx(), getBill_BPartner_ID(), get_TrxName()); // bill bp is guaranteed on beforeSave
 
@@ -2457,7 +2476,7 @@ public class MOrder extends X_C_Order implements DocAction
 			MProduct product = new MProduct(getCtx(), ol.getM_Product_ID(), get_TrxName());
 			if(product.getM_AttributeSet_ID() > 0)
 			{
-				if(product.isASIMandatory(isSOTrx(),getAD_Org_ID()))
+				if(product.isASIMandatory(isSOTrx(), ol.getAD_Org_ID()))
 				{
 					MAttributeSet mas = MAttributeSet.get(getCtx(), product.getM_AttributeSet_ID());
 					if(!mas.excludeEntry(MColumn.getColumn_ID(MOrderLine.Table_Name, MOrderLine.COLUMNNAME_C_OrderLine_ID), isSOTrx())

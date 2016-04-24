@@ -123,7 +123,8 @@ import org.compiere.util.ValueNamePair;
  * @Author Michael McKay (mjmckay)                                            
  * @date	December 21, 2011                                            
  *		<li>BF3431195 Advanced Lookup not working in ZK                       
- *      See https://sourceforge.net/tracker/?func=detail&aid=3431195&group_id=176962&atid=955896                  
+ *      See https://sourceforge.net/tracker/?func=detail&aid=3431195&group_id=176962&atid=955896
+ *      <li>#221 Find fails with index out of range if a VLookup field used as a selection column ahead of a range.                    
  */
 public final class Find extends CDialog
 		implements ActionListener, ChangeListener, DataStatusListener
@@ -504,6 +505,8 @@ public final class Find extends CDialog
 		
 	}	//	jbInit
 
+	boolean isPair = false;
+	boolean isTwoColumns = false;
 	/**
 	 *	Dynamic Init.6
 	 *  Set up GridController
@@ -511,6 +514,18 @@ public final class Find extends CDialog
 	private void initFind()
 	{
 		log.config("");
+
+		//  Get Info from target Tab
+		int parameterNo = 0;
+		for (int i = 0; i < m_findFields.length; i++)
+		{
+			GridField mField = m_findFields[i];
+			if(mField.isSelectionColumn())
+				parameterNo++;
+		}
+
+		if(parameterNo>=7)
+			isTwoColumns=true;
 
 		//	Get Info from target Tab
 		for (int i = 0; i < m_findFields.length; i++)
@@ -573,7 +588,10 @@ public final class Find extends CDialog
 			else
 			/**/
 			if (mField.isSelectionColumn())
+			{
 				addSelectionColumn (mField);
+				isPair = !isPair;
+			}
 			/** metas: teo_sarca: Specify exactly which are the search fields - http://sourceforge.net/projects/adempiere/forums/forum/610548/topic/3736214
 			else if (columnName.indexOf("Name") != -1)
 				addSelectionColumn (mField);
@@ -630,6 +648,7 @@ public final class Find extends CDialog
 		
 		//	Editor
 		VEditor editor = null;
+		VEditor editor2 = null; //#221
 		CLabel label = null;
 		if (mField.isLookup())
 		{
@@ -646,11 +665,36 @@ public final class Find extends CDialog
 				mField.setDisplayLength(displayLength);
 			//
 			label = VEditorFactory.getLabel(mField);
-			m_sLine++;
-			//if (label != null)	//	may be null for Y/N
-				scontentPanel.add(label,   new GridBagConstraints(1, m_sLine, 1, 1, 0.0, 0.0
+			//m_sLine++;
+			int lpos = 1;
+			int fpos = 2;
+
+			if(isTwoColumns)
+			{
+				if(!isPair)
+				{
+					lpos = 1;
+					fpos = 2;
+					m_sLine++;
+				}
+				else
+				{
+					lpos = 3;
+					fpos = 4;
+
+				}
+			}
+			else
+			{
+				lpos = 1;
+				fpos = 2;
+				m_sLine++;
+			}
+
+			if (label != null)	//	may be null for Y/N
+				scontentPanel.add(label,   new GridBagConstraints(lpos, m_sLine, 1, 1, 0.0, 0.0
 					,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(7, 5, 5, 5), 0, 0));
-			scontentPanel.add((Component)editor,   new GridBagConstraints(2, m_sLine, 1, 1, 0.0, 0.0
+			scontentPanel.add((Component)editor,   new GridBagConstraints(fpos, m_sLine, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
 		}
 		else 
@@ -666,27 +710,49 @@ public final class Find extends CDialog
 					
 					box.add((Component) editor);
 					
-					VEditor editor2 = VEditorFactory.getEditor(mField, false);
+					editor2 = VEditorFactory.getEditor(mField, false); //#221
 					editor2.setMandatory(false);
 		            editor2.setReadWrite(true);
-		            m_sEditors2.add (editor2);
 		            if (editor2 instanceof CTextField) {
 						((CTextField)editor2).addActionListener(this);
 		            }
 		            CLabel separator = new CLabel(" - ");
 		            box.add(separator);
 		            box.add((Component) editor2);
-		            m_sLine++;
-		            scontentPanel.add(label,   new GridBagConstraints(1, m_sLine, 1, 1, 0.0, 0.0
-		    				,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(7, 5, 5, 5), 0, 0));
-		            
-		            scontentPanel.add((Component)box,   new GridBagConstraints(2, m_sLine, 1, 1, 0.0, 0.0
-			    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		            
+		            //m_sLine++;
 		            
 		            if (displayLength > 0)		//	set it back
 		    			mField.setDisplayLength(displayLength);
-					
+
+
+					int lpos = 1;
+					int fpos = 2;
+					if(isTwoColumns)
+					{
+						if(!isPair) {
+							lpos = 1;
+							fpos = 2;
+							m_sLine++;
+						}
+						else
+						{
+							lpos = 3;
+							fpos = 4;
+						}
+					}
+					else
+					{
+						lpos = 1;
+						fpos = 2;
+						m_sLine++;
+					}
+					if (label != null)	//	may be null for Y/N
+					    scontentPanel.add(label,   new GridBagConstraints(lpos, m_sLine, 1, 1, 0.0, 0.0
+							,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(7, 5, 5, 5), 0, 0));
+
+					scontentPanel.add((Component)box,   new GridBagConstraints(fpos, m_sLine, 1, 1, 0.0, 0.0
+							,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+
 				}
 				else {
 					editor = VEditorFactory.getEditor(mField, false);
@@ -696,17 +762,38 @@ public final class Find extends CDialog
 					//
 					if (displayLength > 0)		//	set it back
 						mField.setDisplayLength(displayLength);
+
+					int lpos = 1;
+					int fpos = 2;
+					if(isTwoColumns)
+					{
+						if(!isPair) {
+							lpos = 1;
+							fpos = 2;
+							m_sLine++;
+						}
+						else
+						{
+							lpos = 3;
+							fpos = 4;
+						}
+					}
+					else
+					{
+						lpos = 1;
+						fpos = 2;
+						m_sLine++;
+					}
+
 					//
 					label = VEditorFactory.getLabel(mField);
 					
-					m_sLine++;
-				//	if (label != null)	//	may be null for Y/N
-						scontentPanel.add(label,   new GridBagConstraints(1, m_sLine, 1, 1, 0.0, 0.0
+					//m_sLine++;
+					if (label != null)	//	may be null for Y/N
+						scontentPanel.add(label,   new GridBagConstraints(lpos, m_sLine, 1, 1, 0.0, 0.0
 							,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(7, 5, 5, 5), 0, 0));
-					scontentPanel.add((Component)editor,   new GridBagConstraints(2, m_sLine, 1, 1, 0.0, 0.0
-						,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-					
-					m_sEditors2.add (null);
+					scontentPanel.add((Component)editor,   new GridBagConstraints(fpos, m_sLine, 1, 1, 0.0, 0.0
+						,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));					
 				}
 		}
 		
@@ -716,6 +803,7 @@ public final class Find extends CDialog
 		}
 		
 		m_sEditors.add(editor);
+		m_sEditors2.add(editor2); // #221
 	}	//	addSelectionColumn
 
 

@@ -84,6 +84,7 @@ public class MHRMovement extends X_HR_Movement
 		setC_BPartner_ID(impHRm.getC_BPartner_ID());
 		setHR_Concept_ID(impHRm.getHR_Concept_ID());
 
+
 		setHR_Concept_Category_ID(hrconcept.getHR_Concept_Category_ID());
 		setDescription(impHRm.getDescription());
 		
@@ -199,7 +200,6 @@ public class MHRMovement extends X_HR_Movement
 		if (employee != null) {
 			setAD_Org_ID(employee.getAD_Org_ID());
 		}
-		setC_BP_Group_ID(getC_BPartner().getC_BP_Group_ID());
 		// BankAccount
 		int C_BP_BankAccount_ID = new Query(getCtx(), I_C_BP_BankAccount.Table_Name, COLUMNNAME_C_BPartner_ID+"=?", get_TrxName())
 			.setOnlyActiveRecords(true)

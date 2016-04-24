@@ -126,6 +126,7 @@ public class HRPaySelectionCreateCheck extends SvrProcess
 				PaymentRule = p_PaymentRule;
 		}
 		MHRPaySelectionCheck check = new MHRPaySelectionCheck(line, PaymentRule);
+		check.setAD_Org_ID(line.getHR_PaySelection().getAD_Org_ID());
 		/*
 		if (!check.isValid())
 		{

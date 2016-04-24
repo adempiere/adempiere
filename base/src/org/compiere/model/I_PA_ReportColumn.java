@@ -461,6 +461,32 @@ public interface I_PA_ReportColumn
 	  */
 	public boolean isIncludeNullsSalesRegion();
 
+    /** Column name IsIncludeNullsUser1 */
+    public static final String COLUMNNAME_IsIncludeNullsUser1 = "IsIncludeNullsUser1";
+
+	/** Set Include Nulls in User 1.
+	  * Include nulls in the selection of the user 1
+	  */
+	public void setIsIncludeNullsUser1 (boolean IsIncludeNullsUser1);
+
+	/** Get Include Nulls in User 1.
+	  * Include nulls in the selection of the user 1
+	  */
+	public boolean isIncludeNullsUser1();
+
+    /** Column name IsIncludeNullsUser2 */
+    public static final String COLUMNNAME_IsIncludeNullsUser2 = "IsIncludeNullsUser2";
+
+	/** Set Include Nulls in User 2.
+	  * Include nulls in the selection of the user 2
+	  */
+	public void setIsIncludeNullsUser2 (boolean IsIncludeNullsUser2);
+
+	/** Get Include Nulls in User 2.
+	  * Include nulls in the selection of the user 2
+	  */
+	public boolean isIncludeNullsUser2();
+
     /** Column name IsIncludeNullsUserElement1 */
     public static final String COLUMNNAME_IsIncludeNullsUserElement1 = "IsIncludeNullsUserElement1";
 
@@ -681,6 +707,36 @@ public interface I_PA_ReportColumn
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name User1_ID */
+    public static final String COLUMNNAME_User1_ID = "User1_ID";
+
+	/** Set User List 1.
+	  * User defined list element #1
+	  */
+	public void setUser1_ID (int User1_ID);
+
+	/** Get User List 1.
+	  * User defined list element #1
+	  */
+	public int getUser1_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
+
+    /** Column name User2_ID */
+    public static final String COLUMNNAME_User2_ID = "User2_ID";
+
+	/** Set User List 2.
+	  * User defined list element #2
+	  */
+	public void setUser2_ID (int User2_ID);
+
+	/** Get User List 2.
+	  * User defined list element #2
+	  */
+	public int getUser2_ID();
+
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
 
     /** Column name UserElement1_ID */
     public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";

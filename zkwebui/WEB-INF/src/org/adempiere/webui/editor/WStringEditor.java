@@ -27,7 +27,7 @@ import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.window.WFieldRecordInfo;
+import org.adempiere.webui.window.WRecordInfo;
 import org.adempiere.webui.window.WTextEditorDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
@@ -44,6 +44,9 @@ import org.zkoss.zul.Menuitem;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
+ *		@see https://github.com/adempiere/adempiere/issues/146
  */
 public class WStringEditor extends WEditor implements ContextMenuListener
 {
@@ -152,7 +155,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        
 	        if (gridField != null && gridField.getGridTab() != null)
 			{
-				WFieldRecordInfo.addMenu(popupMenu);
+				WRecordInfo.addMenu(popupMenu);
 			}
 
 	        getComponent().setContext(popupMenu.getId());
@@ -262,7 +265,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 		}
 		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WFieldRecordInfo.start(gridField);
+			WRecordInfo.start(gridField);
 		}
 	}
 

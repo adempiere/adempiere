@@ -31,7 +31,7 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20160326L;
 
     /** Standard Constructor */
     public X_AD_Browse_Field (Properties ctx, int AD_Browse_Field_ID, String trxName)
@@ -755,6 +755,26 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Grid Sequence.
+		@param SeqNoGrid 
+		Method of ordering records; lowest number comes first
+	  */
+	public void setSeqNoGrid (int SeqNoGrid)
+	{
+		set_Value (COLUMNNAME_SeqNoGrid, Integer.valueOf(SeqNoGrid));
+	}
+
+	/** Get Grid Sequence.
+		@return Method of ordering records; lowest number comes first
+	  */
+	public int getSeqNoGrid () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNoGrid);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Record Sort No.
 		@param SortNo 
 		Determines in what order the records are displayed
@@ -773,23 +793,6 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 
 	/** Set Max. Value.
@@ -824,5 +827,22 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	public String getValueMin () 
 	{
 		return (String)get_Value(COLUMNNAME_ValueMin);
+	}
+
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }

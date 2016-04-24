@@ -605,7 +605,7 @@ public class MDDOrderLine extends X_DD_OrderLine
 		//	Get Line No
 		if (getLine() == 0)
 		{
-			String sql = "SELECT COALESCE(MAX(Line),0)+10 FROM C_OrderLine WHERE C_Order_ID=?";
+			String sql = "SELECT COALESCE(MAX(Line),0)+10 FROM DD_OrderLine WHERE DD_Order_ID=?";
 			int ii = DB.getSQLValue (get_TrxName(), sql, getDD_Order_ID());
 			setLine (ii);
 		}

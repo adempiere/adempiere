@@ -21,6 +21,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -42,6 +44,12 @@ import org.compiere.util.Util;
  * 		https://sourceforge.net/tracker/?func=detail&aid=3426134&group_id=176962&atid=879335
  * 		<li> Add method that valid if a column is encrypted
  *  @version $Id: MColumn.java,v 1.6 2006/08/09 05:23:49 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<li> BR [ 9223372036854775807 ] Lookup for search view not show button
+ *  	<li> Add default length to Yes No Display Type
+ *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
+ *  	<li> BR [ 185 ] Fixed error with validation in beforeSave method for MColumn 
+ *  	@see https://github.com/adempiere/adempiere/issues/185
  */
 public class MColumn extends X_AD_Column
 {
@@ -76,8 +84,8 @@ public class MColumn extends X_AD_Column
 		M_Element element =  new M_Element(ctx, column.getAD_Element_ID() , trxName);
 		if(element.getAD_Reference_ID() == DisplayType.ID)
 		{
-			String columnName = table.get_TableName()+"_ID";
-            String tableDir = column.getColumnName().replace("_ID", "");
+			String columnName = table.getTableName()+"_ID";
+            String tableDir = element.getColumnName().replace("_ID", "");
 			if(!columnName.equals(element.getColumnName()) && MTable.getTable_ID(tableDir) > 0)
 			{
 				column.setAD_Reference_ID(DisplayType.TableDir);
@@ -85,6 +93,9 @@ public class MColumn extends X_AD_Column
 		}
 
 		String entityType = column.getAD_Table().getEntityType();
+		if (entityType == null)
+			throw  new AdempiereException("@EntityType@ @@AD_Table_ID@ @NotFound@");
+
 		if(!MTable.ENTITYTYPE_Dictionary.equals(entityType))
 			column.setEntityType(entityType);
 		
@@ -306,12 +317,19 @@ public class MColumn extends X_AD_Column
 				setFieldLength(14);
 			else if (DisplayType.isDate (displayType))
 				setFieldLength(7);
-			else
-		{
-			log.saveError("FillMandatory", Msg.getElement(getCtx(), "FieldLength"));
-			return false;
+			else if(displayType == DisplayType.YesNo)
+				setFieldLength(1);
+			else {
+				log.saveError("FillMandatory", Msg.getElement(getCtx(), "FieldLength"));
+				return false;
+			}
 		}
-		}
+		
+		//	BR [ 9223372036854775807 ]
+		//  Skip the validation if this is a Direct Load (from a migration) or the Element is changing.
+		if (!isDirectLoad() 
+		    && (this.get_Value(MColumn.COLUMNNAME_AD_Element_ID).equals(get_ValueOld(MColumn.COLUMNNAME_AD_Element_ID))))
+			validLookup(getColumnName(), getAD_Reference_ID(), getAD_Reference_Value_ID());
 		
 		/** Views are not updateable
 		UPDATE AD_Column c
@@ -376,8 +394,44 @@ public class MColumn extends X_AD_Column
 		}
 		return true;
 	}	//	beforeSave
-
 	
+	/**
+	 * Verify if is a lookup valid
+	 * @param p_ColumnName
+	 * @param p_AD_Reference_ID
+	 * @param p_AD_Reference_Value_ID
+	 * @return
+	 */
+	public static void validLookup(String p_ColumnName, int p_AD_Reference_ID, int p_AD_Reference_Value_ID) {
+
+		//	Valid 
+		if(p_ColumnName == null
+				||p_ColumnName.trim().length() == 0
+				|| !DisplayType.isLookup(p_AD_Reference_ID)) {
+			return;
+		} else {
+			String m_TableName = p_ColumnName.replace("_ID", "");
+			//	BR [ 185 ]
+			if(p_AD_Reference_ID == DisplayType.TableDir) {
+				if(!p_ColumnName.endsWith("_ID"))
+					throw new AdempiereException("@Reference@ @of@ @ColumnName@ @NotValid@");
+				//	Valid Table
+				MTable table = MTable.get(Env.getCtx(), m_TableName);
+				//	Valid Exists table
+				if(table == null)
+					throw new AdempiereException("@AD_Table_ID@ @NotFound@");
+			} else if(p_AD_Reference_ID == DisplayType.Table
+					|| p_AD_Reference_ID == DisplayType.Search) {
+				if(p_AD_Reference_Value_ID == 0
+						&& !M_Element.isLookupColumnName(p_ColumnName, p_AD_Reference_ID))
+					throw new AdempiereException("@AD_Reference_Value_ID@ @IsMandatory@");
+			} else if(p_AD_Reference_ID == DisplayType.List) {
+				if(p_AD_Reference_Value_ID == 0) {
+					throw new AdempiereException("@AD_Reference_Value_ID@ @IsMandatory@");
+				}
+			}
+		}
+	}
 	
 	/**
 	 * 	After Save
@@ -394,13 +448,31 @@ public class MColumn extends X_AD_Column
 				|| is_ValueChanged(MColumn.COLUMNNAME_Description)
 				|| is_ValueChanged(MColumn.COLUMNNAME_Help)
 				) {
-				StringBuffer sql = new StringBuffer("UPDATE AD_Field SET Name=")
-					.append(DB.TO_STRING(getName()))
-					.append(", Description=").append(DB.TO_STRING(getDescription()))
-					.append(", Help=").append(DB.TO_STRING(getHelp()))
-					.append(" WHERE AD_Column_ID=").append(get_ID())
-					.append(" AND IsCentrallyMaintained='Y'");
-				int no = DB.executeUpdate(sql.toString(), get_TrxName());
+				StringBuffer whereClause = new StringBuffer("AD_Column_ID=? ")
+												.append(" AND IsCentrallyMaintained=? ");
+				List<Object> parameters = new ArrayList<>();
+				parameters.add(this.getAD_Column_ID());
+				parameters.add(true);
+				List<MField> fields = new Query(getCtx(), MField.Table_Name, whereClause.toString(), get_TrxName())
+						.setParameters(parameters)
+						.list();
+				int no = 0;
+				for (MField field: fields)
+				{
+					field.setName(getName());
+					field.setDescription(getDescription());
+					field.setHelp(getHelp());
+					field.saveEx();
+					no++;
+				}
+
+//				StringBuffer sql = new StringBuffer("UPDATE AD_Field SET Name=")
+//					.append(DB.TO_STRING(getName()))
+//					.append(", Description=").append(DB.TO_STRING(getDescription()))
+//					.append(", Help=").append(DB.TO_STRING(getHelp()))
+//					.append(" WHERE AD_Column_ID=").append(get_ID())
+//					.append(" AND IsCentrallyMaintained='Y'");
+//				int no = DB.executeUpdate(sql.toString(), get_TrxName());
 				log.fine("afterSave - Fields updated #" + no);
 			}
 		}
@@ -627,16 +699,15 @@ public class MColumn extends X_AD_Column
 		sb.append (get_ID()).append ("-").append (getColumnName()).append ("]");
 		return sb.toString ();
 	}	//	toString
-	
-	//begin vpj-cd e-evolution
+
 	/**
 	 * 	get Column ID
-	 *  @param String windowName
-	 *	@param String columnName
-	 *	@return int retValue
-	 */
-	public static int getColumn_ID(String TableName,String columnName) {
-		int m_table_id = MTable.getTable_ID(TableName);
+	 * @param tableName
+	 * @param columnName
+     * @return
+     */
+	public static int getColumn_ID(String tableName,String columnName) {
+		int m_table_id = MTable.getTable_ID(tableName);
 		if (m_table_id == 0)
 			return 0;
 			

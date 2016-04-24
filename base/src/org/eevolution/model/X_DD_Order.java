@@ -34,7 +34,7 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20151112L;
 
     /** Standard Constructor */
     public X_DD_Order (Properties ctx, int DD_Order_ID, String trxName)
@@ -45,11 +45,11 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
 			setC_DocType_ID (0);
-			setDD_Order_ID (0);
 			setDateOrdered (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setDatePromised (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
+			setDD_Order_ID (0);
 			setDeliveryRule (null);
 // A
 			setDeliveryViaRule (null);
@@ -62,9 +62,13 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 			setFreightCostRule (null);
 // I
 			setIsApproved (false);
+// N
 			setIsInDispute (false);
+// N
 			setIsInTransit (false);
+// N
 			setIsPrinted (false);
+// N
 			setIsSOTrx (false);
 // @IsSOTrx@
 			setM_Warehouse_ID (0);
@@ -72,6 +76,7 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 			setPriorityRule (null);
 // 5
 			setProcessed (false);
+// N
 			setSendEMail (false);
         } */
     }
@@ -323,6 +328,26 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
@@ -407,26 +432,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Create Confirm.
 		@param CreateConfirm Create Confirm	  */
 	public void setCreateConfirm (String CreateConfirm)
@@ -470,26 +475,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	public String getCreatePackage () 
 	{
 		return (String)get_Value(COLUMNNAME_CreatePackage);
-	}
-
-	/** Set Distribution Order.
-		@param DD_Order_ID Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID)
-	{
-		if (DD_Order_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
-	}
-
-	/** Get Distribution Order.
-		@return Distribution Order	  */
-	public int getDD_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Date Ordered.
@@ -558,6 +543,26 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	public Timestamp getDateReceived () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateReceived);
+	}
+
+	/** Set Distribution Order.
+		@param DD_Order_ID Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID)
+	{
+		if (DD_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
+	}
+
+	/** Get Distribution Order.
+		@return Distribution Order	  */
+	public int getDD_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** DeliveryRule AD_Reference_ID=151 */
@@ -958,6 +963,27 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 		return false;
 	}
 
+	/** Set Selected.
+		@param IsSelected Selected	  */
+	public void setIsSelected (boolean IsSelected)
+	{
+		set_Value (COLUMNNAME_IsSelected, Boolean.valueOf(IsSelected));
+	}
+
+	/** Get Selected.
+		@return Selected	  */
+	public boolean isSelected () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSelected);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Sales Transaction.
 		@param IsSOTrx 
 		This is a Sales Transaction
@@ -973,27 +999,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	public boolean isSOTrx () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSOTrx);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Selected.
-		@param IsSelected Selected	  */
-	public void setIsSelected (boolean IsSelected)
-	{
-		set_Value (COLUMNNAME_IsSelected, Boolean.valueOf(IsSelected));
-	}
-
-	/** Get Selected.
-		@return Selected	  */
-	public boolean isSelected () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSelected);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1079,23 +1084,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Order Reference.
-		@param POReference 
-		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference)
-	{
-		set_Value (COLUMNNAME_POReference, POReference);
-	}
-
-	/** Get Order Reference.
-		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference () 
-	{
-		return (String)get_Value(COLUMNNAME_POReference);
-	}
-
 	/** Set Pick Date.
 		@param PickDate 
 		Date/Time when picked for Shipment
@@ -1111,6 +1099,23 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	public Timestamp getPickDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_PickDate);
+	}
+
+	/** Set Order Reference.
+		@param POReference 
+		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference)
+	{
+		set_Value (COLUMNNAME_POReference, POReference);
+	}
+
+	/** Get Order Reference.
+		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference () 
+	{
+		return (String)get_Value(COLUMNNAME_POReference);
 	}
 
 	/** Set Posted.

@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -62,7 +61,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 	/**	Logger							*/
 	private static CLogger	s_log = CLogger.getCLogger (MWMInOutBound.class);
 	/**	Order Lines					*/
-	private MWMInOutBoundLine[]	m_lines = null;
+	private List<MWMInOutBoundLine> inOutBoundLines = null;
 	
 	/**************************************************************************
 	 * 	Asset Constructor
@@ -214,8 +213,8 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		}*/
 		
 		//	Lines
-		MWMInOutBoundLine[] lines = getLines(true, MWMInOutBoundLine.COLUMNNAME_Line);
-		if (lines.length == 0)
+		List<MWMInOutBoundLine> lines = getLines(true, MWMInOutBoundLine.COLUMNNAME_Line);
+		if (lines.size() == 0)
 		{
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
@@ -324,8 +323,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		}
 		
 		setProcessed(true);
-		MWMInOutBoundLine[] lines = getLines(true, MWMInOutBoundLine.COLUMNNAME_Line);
-		for (MWMInOutBoundLine line : lines)
+		for (MWMInOutBoundLine line : getLines(true, MWMInOutBoundLine.COLUMNNAME_Line))
 		{
 			line.setProcessed(true);
 			line.saveEx();
@@ -406,20 +404,15 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 	 * @param orderBy
 	 * @return Array with MWMInOutBoundLine
 	 */
-	public MWMInOutBoundLine[] getLines (boolean requery, String orderBy)
+	public List<MWMInOutBoundLine> getLines (boolean requery, String orderBy)
 	{
-		if (m_lines != null && !requery) {
-			set_TrxName(m_lines, get_TrxName());
-			return m_lines;
-		}
-		//
 		String orderClause = "";
 		if (orderBy != null && orderBy.length() > 0)
 			orderClause += orderBy;
 		else
 			orderClause += "Line";
-		m_lines = getLines(null, orderClause);
-		return m_lines;
+		inOutBoundLines = getLines(null, orderClause);
+		return inOutBoundLines;
 	}	//	getLines
 	
 	/**
@@ -428,7 +421,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 	 * @param orderClause
 	 * @return Array with MWMInOutBoundLine
 	 */
-	public MWMInOutBoundLine[] getLines (String where, String orderClause)
+	public List<MWMInOutBoundLine> getLines (String where, String orderClause)
 	{
 		StringBuffer whereClause = new StringBuffer(MWMInOutBoundLine.COLUMNNAME_WM_InOutBound_ID+"=?");
 		if (!Util.isEmpty(where, true))
@@ -436,10 +429,9 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		if (orderClause.length() == 0)
 			orderClause = MWMInOutBoundLine.COLUMNNAME_Line;
 		//
-		List<MWMInOutBoundLine> list = new Query(getCtx(), MWMInOutBoundLine.Table_Name, whereClause.toString(), get_TrxName())
+		return new Query(getCtx(), MWMInOutBoundLine.Table_Name, whereClause.toString(), get_TrxName())
 										.setParameters(new Object[]{get_ID()})
 										.setOrderBy(orderClause)
-										.list();	
-		return list.toArray(new MWMInOutBoundLine[list.size()]);		
+										.list();
 	}	//	getLines
 }	
