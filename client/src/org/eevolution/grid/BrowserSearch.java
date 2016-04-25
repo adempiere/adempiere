@@ -75,6 +75,7 @@ public abstract class BrowserSearch {
 	private boolean 	m_IsError;
 	private boolean 	m_HasParameters;
 	private int 		m_Columns;
+	private boolean		m_IsLoaded = false;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(BrowserSearch.class);
 	//
@@ -227,12 +228,21 @@ public abstract class BrowserSearch {
 			}
 			//	
 			dynamicDisplay();
+			m_IsLoaded = true;
 			return true;
 		}
 		//	
 		dispose();
 		//	Default
 		return false;
+	}
+	
+	/**
+	 * Verify if the components is loaded
+	 * @return
+	 */
+	public boolean isLoaded() {
+		return m_IsLoaded;
 	}
 	
 	/**
@@ -548,4 +558,4 @@ public abstract class BrowserSearch {
 		return m_HasParameters;
 	}
 		
-}	//	ProcessParameterPanel
+}	//	BrowserSearch
