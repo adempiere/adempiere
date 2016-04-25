@@ -388,9 +388,9 @@ public class MCostDetail extends X_M_CostDetail
 		if(model instanceof MMatchPO)
 		{
 			MMatchPO matchInv = (MMatchPO) model;
-			whereClause.append(" AND ").append(MCostDetail.COLUMNNAME_C_OrderLine_ID).append( "=? AND ");
+			whereClause.append(" AND ").append(MCostDetail.COLUMNNAME_C_OrderLine_ID).append( "=? ");
 			params.add(matchInv.getC_OrderLine_ID());
-			whereClause.append(MCostDetail.COLUMNNAME_Qty).append("=0 ");
+			//whereClause.append(MCostDetail.COLUMNNAME_Qty).append("=0 ");
 		}
 		else if(model instanceof MMatchInv)
 		{	
@@ -441,7 +441,6 @@ public class MCostDetail extends X_M_CostDetail
 				docLine.getAD_Client_ID(),
                 accountSchemaId,
 				docLine.getM_Product_ID(),
-				//docLine.getM_AttributeSetInstance_ID(),
                 costTypeId,
 				docLine.get_ID())
 		.list();
