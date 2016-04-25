@@ -1068,7 +1068,8 @@ public class GridController extends CPanel
 							//	log.log(Level.FINEST, "RW=" + rw + " " + mField);
 								boolean manMissing = false;
 							//  least expensive operations first        //  missing mandatory
-								if (rw && mField.getValue() == null && mField.isMandatory(true))    //  check context
+								if (rw && (mField.getValue() == null || mField.getValue().toString().isEmpty()) 
+										&& mField.isMandatory(true))    //  check context. Some fields can return "" instead of null
 									manMissing = true;
 								ve.setBackground(manMissing || mField.isError());
 							}
@@ -1253,8 +1254,8 @@ public class GridController extends CPanel
 		int row = m_mTab.getCurrentRow();
 		int col = mTable.findColumn(e.getPropertyName());
 		//
-		if (e.getNewValue() == null && e.getOldValue() != null
-			&& e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
+		if ((e.getNewValue() == null || e.getNewValue().toString().isEmpty()) 
+			&& e.getOldValue() != null && e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
 		{
 			//  #283 Set value to null
 			GridField gridField = m_mTab.getField(col);
