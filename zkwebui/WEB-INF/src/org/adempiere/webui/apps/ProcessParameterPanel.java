@@ -308,7 +308,7 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
 			if (mField.isDisplayed(true)) {
 				if (!editor.isVisible()) {
 					editor.setVisible(true);
-					if (mField.getVO().isRange) {
+					if (mField.getVO().IsRange) {
 						m_separators.get(i).setVisible(true);
 						m_wEditors_To.get(i).setVisible(true);
 					}
@@ -325,7 +325,7 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
 				m_wEditors.get(i).setReadWrite(rw);
 				editor.setReadWrite(rw);
 				editor.dynamicDisplay();
-				if (mField.getVO().isRange) {
+				if (mField.getVO().IsRange) {
 					GridField gridFieldTo = m_wEditors_To.get(i).getGridField();
 					Object valueTo = gridFieldTo.getValue();
 					Object defaultValueTo = gridFieldTo.getDefault();
@@ -340,7 +340,7 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
 				}
 			} else if (editor.isVisible()) {
 				editor.setVisible(false);
-				if (mField.getVO().isRange) {
+				if (mField.getVO().IsRange) {
 					m_separators.get(i).setVisible(false);
 					m_wEditors_To.get(i).setVisible(false);
 				}

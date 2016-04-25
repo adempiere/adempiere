@@ -524,7 +524,8 @@ public class ModelClassGenerator
 				if (columnName.equals("AD_Client_ID") || columnName.equals("AD_Org_ID")
 					|| columnName.equals("Record_ID") || columnName.equals("C_DocType_ID")
 					|| columnName.equals("Node_ID") || columnName.equals("AD_Role_ID")
-					|| columnName.equals("M_AttributeSet_ID") || columnName.equals("M_AttributeSetInstance_ID"))
+					|| columnName.equals("M_AttributeSet_ID") || columnName.equals("M_AttributeSetInstance_ID")
+					|| columnName.equals("M_Warehouse_ID"))
 					firstOK = 0;
 				//	set _ID to null if < 0 for special column or < 1 for others
 				sb.append("\t\tif (").append (columnName).append (" < ").append(firstOK).append(") ").append(NL)
