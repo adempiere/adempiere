@@ -65,6 +65,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.grid.Browser;
+import org.eevolution.grid.BrowserSearch;
 import org.eevolution.grid.WBrowserListbox;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
@@ -98,9 +99,10 @@ import org.zkoss.zul.Vbox;
  * 		@see https://github.com/adempiere/adempiere/issues/251
  * 		<li>FR [ 252 ] Smart Browse is Collapsible when query don't have result
  * 		@see https://github.com/adempiere/adempiere/issues/252
- * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
  *		@see https://github.com/adempiere/adempiere/issues/265
+ *		<li>BR [ 340 ] Smart Browse context is changed from table
+ * 		@see https://github.com/adempiere/adempiere/issues/340
  */
 public class WBrowser extends Browser implements IFormController,
 		EventListener, WTableModelListener, ValueChangeListener, ASyncProcess {
@@ -112,15 +114,12 @@ public class WBrowser extends Browser implements IFormController,
 	private Button bCancel;
 	private Button bDelete;
 	private Button bExport;
-//	private Button bFind;
 	private Button bOk;
-//	private Button bPrint;
 	private Button bSearch;
 	private Button bZoom;
 	private Button bSelectAll;
 
 	private WBrowserListbox detail;
-//	private Borderlayout graphPanel;
 	private WBrowserSearch searchGrid;
 	private Borderlayout searchTab;
 	private North collapsibleSeach;
@@ -129,7 +128,6 @@ public class WBrowser extends Browser implements IFormController,
 	private ToolBar toolsBar;
 	private Hbox topPanel;
 	private BusyDialog m_waiting;
-//	private VerticalBox dialogBody;
 
 	public static CustomForm openBrowse(int windowNo , int browserId , String whereClause) {
 		MBrowse browse = new MBrowse(Env.getCtx(), browserId , null);
@@ -169,7 +167,7 @@ public class WBrowser extends Browser implements IFormController,
 		setStatusDB(Integer.toString(no));
 		//	
 		if(isExecuteQueryByDefault()
-				&& evaluateMandatoryFilter() == null)
+				&& searchGrid.validateParameters() == null)
 			executeQuery();
 	}
 	
@@ -177,31 +175,8 @@ public class WBrowser extends Browser implements IFormController,
 	 * Static Setup - add fields to parameterPanel (GridLayout)
 	 */
 	private void statInit() {
-
-		Rows rows = new Rows();
-		rows.setParent(searchGrid);
-
-		int cols = 0;
-		Row row = rows.newRow();
-
-		for (MBrowseField field : m_Browse.getCriteriaFields()) {
-			String title = field.getName();
-			String name = field.getAD_View_Column().getColumnName();
-			searchGrid.addField(field, row, name, title);
-
-			cols++;
-
-			if (field.isRange())
-				cols++;
-
-			if (cols >= 2) {
-				cols = 0;
-				row = rows.newRow();
-			}
-		}
-		
-		searchGrid.dynamicDisplay();
-		
+		searchGrid.init();
+		//	
 		if (m_Browse.getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
 			initProcessInfo();
@@ -254,7 +229,7 @@ public class WBrowser extends Browser implements IFormController,
 	 */
 	protected void executeQuery() {
 		//	FR [ 245 ]
-		String errorMsg = evaluateMandatoryFilter();
+		String errorMsg = searchGrid.validateParameters();
 		if (errorMsg == null) {
 			if (getAD_Window_ID() > 1)
 				bZoom.setEnabled(true);
@@ -429,20 +404,17 @@ public class WBrowser extends Browser implements IFormController,
 	private void initComponents() {
 
 		toolsBar = new ToolBar();
-//		bPrint = new Button();
 		bZoom = new Button();
 		bExport = new Button();
 		bDelete = new Button();
-//		bFind = new Button();
 		tabsPanel = new Tabbox();
 		searchTab = new Borderlayout();
 		collapsibleSeach = new North();
 		topPanel = new Hbox();
-		searchGrid = new WBrowserSearch(getWindowNo());
+		searchGrid = new WBrowserSearch(getWindowNo(), getAD_Browse_ID(), BrowserSearch.COLUMNS_2);
 		detail = new WBrowserListbox(this);
 		bCancel = new Button();
 		bOk = new Button();
-//		graphPanel = new Borderlayout();
 		detailPanel= new Borderlayout();
 
 		Borderlayout mainLayout = new Borderlayout();
@@ -537,8 +509,8 @@ public class WBrowser extends Browser implements IFormController,
 		//topPanel.setStyle("position: absolute");
 		topPanel.setStyle("background-color: transparent");
 
-		searchGrid.setStyle("background-color: transparent");
-		topPanel.appendChild(searchGrid);
+		searchGrid.getPanel().setStyle("background-color: transparent");
+		topPanel.appendChild(searchGrid.getPanel());
 		
 		bSearch.setLabel(Msg.getMsg(Env.getCtx(), "StartSearch"));
 

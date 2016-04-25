@@ -46,7 +46,6 @@ import javax.swing.event.TableModelListener;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
-import org.adempiere.model.MBrowseField;
 import org.compiere.Adempiere;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -77,8 +76,9 @@ import org.compiere.util.Ini;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
-import org.eevolution.grid.BrowserTable;
 import org.eevolution.grid.Browser;
+import org.eevolution.grid.BrowserSearch;
+import org.eevolution.grid.BrowserTable;
 
 /**
  * UI Browser
@@ -209,7 +209,7 @@ public class VBrowser extends Browser implements ActionListener,
 		setStatusDB(Integer.toString(no));
 		//	
 		if (isExecuteQueryByDefault()
-				&& evaluateMandatoryFilter() == null)
+				&& searchPanel.validateParameters() == null)
 			executeQuery();
 	}
 	
@@ -218,27 +218,9 @@ public class VBrowser extends Browser implements ActionListener,
 	 * Static Setup - add fields to parameterPanel (GridLayout)
 	 */
 	private void statInit() {
-		searchPanel.setLayout(new ALayout());
-		int cols = 0;
-		int col = 2;
-		int row = 0;
-		for (MBrowseField field : m_Browse.getCriteriaFields()) {
-			String title = field.getName();
-			String name = field.getAD_View_Column().getColumnName();
-			searchPanel.addField(field, row, cols, name, title);
-			cols = cols + col;
-
-			if (field.isRange())
-				cols = cols + col;
-
-			if (cols >= 4) {
-				cols = 0;
-				row++;
-			}
-		}
-		
-		searchPanel.dynamicDisplay();
-		
+		searchPanel.getPanel().setLayout(new ALayout());
+		searchPanel.init();
+		//	
 		if (m_Browse.getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
 			initProcessInfo();
@@ -282,7 +264,7 @@ public class VBrowser extends Browser implements ActionListener,
 	 */
 	protected void executeQuery() {
 		//	FR [ 245 ]
-		String errorMsg = evaluateMandatoryFilter();
+		String errorMsg = searchPanel.validateParameters();
 		if (errorMsg == null) {
 			if (getAD_Window_ID() > 1)
 				bZoom.setEnabled(true);
@@ -315,7 +297,7 @@ public class VBrowser extends Browser implements ActionListener,
 			m_worker = new Worker();
 			m_worker.start();
 		} else {
-			ADialog.error(windowNo, getForm().getContentPane(), 
+			ADialog.error(windowNo, m_frame.getContentPane(), 
 					"FillMandatory", Msg.parseTranslation(Env.getCtx(), errorMsg));
 		}
 	} // executeQuery
@@ -440,7 +422,9 @@ public class VBrowser extends Browser implements ActionListener,
 		tabsPanel = new javax.swing.JTabbedPane();
 		searchTab = new CPanel();
 		topPanel = new CPanel();
-		searchPanel = new VBrowserSearch(getWindowNo());
+		//	FR [ 344 ]
+		searchPanel = new VBrowserSearch(getWindowNo(), getAD_Browse_ID(), BrowserSearch.COLUMNS_2);
+		//	
 		buttonSearchPanel = new CPanel();
 		centerPanel = new javax.swing.JScrollPane();
 		detail = new BrowserTable(this);
@@ -494,10 +478,10 @@ public class VBrowser extends Browser implements ActionListener,
 
 		topPanel.setLayout(new java.awt.BorderLayout());
 
-		searchPanel.setLayout(new java.awt.GridBagLayout());
+		searchPanel.getPanel().setLayout(new java.awt.GridBagLayout());
 		
 		collapsibleSearch = new CollapsiblePanel(Msg.getMsg(Env.getCtx(),("SearchCriteria")));
-		collapsibleSearch.add(searchPanel);
+		collapsibleSearch.add(searchPanel.getPanel());
 		topPanel.add(collapsibleSearch, java.awt.BorderLayout.NORTH);
 
 		bSearch.setText(Msg.getMsg(Env.getCtx(), "StartSearch"));
