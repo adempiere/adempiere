@@ -262,7 +262,7 @@ public abstract class BrowserSearch {
 		GridField gField = new GridField(voBase);
 		m_mFields.add(gField);
 		//
-		if (voBase.isRange) {
+		if (voBase.IsRange) {
 			GridFieldVO voBase_To = createVO(field, true);
 			GridField gField_To = new GridField(voBase_To);
 			//	
@@ -318,9 +318,7 @@ public abstract class BrowserSearch {
 		voBase.ValueMin = field.getValueMin();
 		voBase.ValueMax = field.getValueMax();
 		voBase.ValidationCode = field.getAD_Val_Rule().getCode();
-
-		voBase.isRange = field.isRange();
-		//	It is rounded?
+		//	FR [ 349 ]
 		voBase.IsRange = field.isRange();
 		voBase.Description = field.getDescription();
 		voBase.Help = field.getHelp();

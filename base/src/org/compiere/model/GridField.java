@@ -75,6 +75,8 @@ import org.compiere.util.Evaluator;
  *  	@see https://github.com/adempiere/adempiere/issues/305
  *  	<li>BR [ 344 ] Smart Browse Search View is not MVC
  * 		@see https://github.com/adempiere/adempiere/issues/344
+ * 		<li>FR [ 349 ] GridFieldVO attribute is ambiguous
+ * 		@see https://github.com/adempiere/adempiere/issues/349
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -1922,8 +1924,18 @@ public class GridField
 	}
 
 	/**           Selection column in range based or not        */
-	public boolean isRange()
+	//	FR [ 349 ]
+	public boolean isRangeLookup()
 	{
+		return m_vo.IsRangeLookup;
+	}
+	
+	/**
+	 * Is Range, temporally used for process
+	 * FR [ 349 ]
+	 * @return
+	 */
+	public boolean isRange() {
 		return m_vo.IsRange;
 	}
 

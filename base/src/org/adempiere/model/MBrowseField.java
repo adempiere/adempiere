@@ -92,7 +92,7 @@ public class MBrowseField extends X_AD_Browse_Field {
 		valueObject.ValueMin = field.getValueMin();
 		valueObject.ValueMax = field.getValueMax();
 		valueObject.ValidationCode = field.getAD_Val_Rule().getCode();
-		valueObject.isRange = field.isRange();
+		valueObject.IsRange = field.isRange();
 		valueObject.Description = field.getDescription();
 		if (field.getAD_View_Column().getAD_Column_ID() <= 0 && field.isReadOnly())
 			valueObject.ColumnSQL = uniqueName;

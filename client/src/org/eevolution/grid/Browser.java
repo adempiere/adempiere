@@ -513,7 +513,7 @@ public abstract class Browser {
 
 				if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
-						&& !field.isRange) {
+						&& !field.IsRange) {
 					sql.append(" AND ");
 					if(DisplayType.String == field.displayType)
 					{
@@ -556,7 +556,7 @@ public abstract class Browser {
 				} 
 				else if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
-						&& field.isRange) {
+						&& field.IsRange) {
 					sql.append(" AND ");
 					//sql.append(field.Help).append(" BETWEEN ?");
 					sql.append(field.ColumnSQL).append(" >= ? ");
@@ -565,7 +565,7 @@ public abstract class Browser {
 					onRange = true;
 				}
 				else if (editor.getValue() == null
-						&& field.isRange) {
+						&& field.IsRange) {
 					onRange = true;
 				} else
 					continue;
@@ -601,13 +601,13 @@ public abstract class Browser {
 
 				if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
-						&& !field.isRange) {
+						&& !field.IsRange) {
 					parameters.add(field.ColumnNameAlias);
 					parametersValues.add(editor.getValue());
 					m_parameters_field.add(field);
 				} else if (editor.getValue() != null
 						&& !editor.getValue().toString().isEmpty()
-						&& field.isRange) {
+						&& field.IsRange) {
 					parameters.add(field.ColumnNameAlias);
 					parametersValues.add(editor.getValue());
 					m_parameters_field.add(field);
@@ -1334,13 +1334,13 @@ public abstract class Browser {
 
 					if (parametersValues.get(i) != null
 							&& !parametersValues.get(i).toString().isEmpty()
-							&& !m_parameters_field.get(i).isRange) {
+							&& !m_parameters_field.get(i).IsRange) {
 						whereAxis.append(" AND ");
 						whereAxis.append(fieldName).append("=").append(parametersValues.get(i).toString());
 					}
 					else if (parametersValues.get(i) != null
 							&& !parametersValues.get(i).toString().isEmpty()
-							&& m_parameters_field.get(i).isRange) {
+							&& m_parameters_field.get(i).IsRange) {
 						whereAxis.append(" AND ");
 						whereAxis.append(fieldName).append(" >= ? ");
 						axisParameters.add(m_parameters_field.get(i));
