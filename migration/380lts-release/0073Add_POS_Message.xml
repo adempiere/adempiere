@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Changes and translation ADempiere POS" ReleaseNo="3.9.0" SeqNo="73">
+  <Migration EntityType="D" Name="Add Changes and translation ADempiere POS" ReleaseNo="3.8.0#002" SeqNo="73">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="376" Action="U" Record_ID="113" Table="AD_Form">
         <Data AD_Column_ID="4607" Column="Classname" oldValue="org.adempiere.pos.VPOSasdas">org.adempiere.pos.VPOS</Data>
