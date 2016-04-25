@@ -23,6 +23,7 @@ import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.eevolution.service.dsl.ProcessBuilder;
@@ -103,8 +104,28 @@ public class CommandCompleteReturnMaterial extends CommandAbstract implements Co
                    else // if not exist invoice then return of payment
                    {
                        Timestamp today = new Timestamp(System.currentTimeMillis());
-                       for (MPayment payment : ReverseTheSalesTransaction.cancelPayments(sourceOrder, today))
-                           processInfo.addLog(0,null,null,payment.getDocumentInfo());
+                       // Create return payment
+                       MPayment payment = new MPayment(returnOrder.getCtx() ,  0 , returnOrder.get_TrxName());
+                       payment.setDateTrx(today);
+                       payment.setC_BankAccount_ID(commandReceiver.getBankAccountId());
+                       payment.setC_Order_ID(returnOrder.getC_Order_ID());
+                       payment.setDateAcct(today);
+                       payment.addDescription(Msg.parseTranslation(returnOrder.getCtx(), " @C_Order_ID@ " + returnOrder.getDocumentNo()));
+                       payment.setIsReceipt(false);
+                       payment.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_APPayment));
+                       payment.setPayAmt(returnOrder.getGrandTotal());
+                       payment.setDocAction(DocAction.ACTION_Complete);
+                       payment.setDocStatus(DocAction.STATUS_Drafted);
+                       payment.setIsPrepayment(true);
+                       payment.saveEx();
+
+                       payment.processIt(DocAction.ACTION_Complete);
+                       payment.saveEx();
+
+                       returnOrder.setC_POS_ID(commandReceiver.getPOSId());
+                       returnOrder.saveEx();
+
+                       processInfo.addLog(0,null,null,payment.getDocumentInfo());
 
                    }
                 }
