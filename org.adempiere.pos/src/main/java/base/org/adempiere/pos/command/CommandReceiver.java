@@ -33,6 +33,8 @@ public class CommandReceiver {
 
     private Properties ctx;
     private Optional<Integer> processId;
+    private Optional<Integer> bankAccountId;
+    private Optional<Integer> posId;
     private Optional<String> value;
     private Optional<String> name;
     private Optional<Integer> orderId;
@@ -133,6 +135,22 @@ public class CommandReceiver {
 
     public Integer getWarehouseId() {
         return warehouseId.orElseThrow(() -> new AdempierePOSException("@M_Warehouse_ID@ @NotFound@"));
+    }
+
+    public void setBankAccountId(Integer bankAccountId) {
+        this.bankAccountId = Optional.ofNullable(bankAccountId);
+    }
+
+    public Integer getBankAccountId() {
+        return bankAccountId.orElseThrow(() -> new AdempierePOSException("@C_BankAccount_ID@ @NotFound@"));
+    }
+
+    public void setPOSId(Integer posId) {
+        this.posId = Optional.ofNullable(posId);
+    }
+
+    public Integer getPOSId() {
+        return posId.orElseThrow(() -> new AdempierePOSException("@C_POS_ID@ @NotFound@"));
     }
 
     public void setProcessInfo(ProcessInfo processInfo) { this.processInfo = processInfo;}
