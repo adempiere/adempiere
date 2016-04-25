@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -30,7 +29,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160127L;
+	private static final long serialVersionUID = 20160422L;
 
     /** Standard Constructor */
     public X_C_POS (Properties ctx, int C_POS_ID, String trxName)
@@ -260,18 +259,46 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Cash Drawer.
-		@param CashDrawer Cash Drawer	  */
+	/** Set CashDrawer.
+		@param CashDrawer CashDrawer	  */
 	public void setCashDrawer (String CashDrawer)
 	{
 		set_Value (COLUMNNAME_CashDrawer, CashDrawer);
 	}
 
-	/** Get Cash Drawer.
-		@return Cash Drawer	  */
+	/** Get CashDrawer.
+		@return CashDrawer	  */
 	public String getCashDrawer () 
 	{
 		return (String)get_Value(COLUMNNAME_CashDrawer);
+	}
+
+	public org.compiere.model.I_C_BankAccount getCashTransferBankAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
+			.getPO(getCashTransferBankAccount_ID(), get_TrxName());	}
+
+	/** Set Transfer Cash trx to.
+		@param CashTransferBankAccount_ID 
+		Bank Account on which to transfer all Cash transactions
+	  */
+	public void setCashTransferBankAccount_ID (int CashTransferBankAccount_ID)
+	{
+		if (CashTransferBankAccount_ID < 1) 
+			set_Value (COLUMNNAME_CashTransferBankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_CashTransferBankAccount_ID, Integer.valueOf(CashTransferBankAccount_ID));
+	}
+
+	/** Get Transfer Cash trx to.
+		@return Bank Account on which to transfer all Cash transactions
+	  */
+	public int getCashTransferBankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CashTransferBankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** DeliveryRule AD_Reference_ID=151 */
@@ -606,6 +633,26 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	public int getOSNP_KeyLayout_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_OSNP_KeyLayout_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set PIN Entry Timeout.
+		@param PINEntryTimeout 
+		PIN Entry Timeout - the amount of time from initial display until the PIN entry dialog times out, in milliseconds.
+	  */
+	public void setPINEntryTimeout (int PINEntryTimeout)
+	{
+		set_Value (COLUMNNAME_PINEntryTimeout, Integer.valueOf(PINEntryTimeout));
+	}
+
+	/** Get PIN Entry Timeout.
+		@return PIN Entry Timeout - the amount of time from initial display until the PIN entry dialog times out, in milliseconds.
+	  */
+	public int getPINEntryTimeout () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PINEntryTimeout);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -166,11 +165,26 @@ public interface I_C_POS
     /** Column name CashDrawer */
     public static final String COLUMNNAME_CashDrawer = "CashDrawer";
 
-	/** Set Cash Drawer	  */
+	/** Set CashDrawer	  */
 	public void setCashDrawer (String CashDrawer);
 
-	/** Get Cash Drawer	  */
+	/** Get CashDrawer	  */
 	public String getCashDrawer();
+
+    /** Column name CashTransferBankAccount_ID */
+    public static final String COLUMNNAME_CashTransferBankAccount_ID = "CashTransferBankAccount_ID";
+
+	/** Set Transfer Cash trx to.
+	  * Bank Account on which to transfer all Cash transactions
+	  */
+	public void setCashTransferBankAccount_ID (int CashTransferBankAccount_ID);
+
+	/** Get Transfer Cash trx to.
+	  * Bank Account on which to transfer all Cash transactions
+	  */
+	public int getCashTransferBankAccount_ID();
+
+	public org.compiere.model.I_C_BankAccount getCashTransferBankAccount() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -390,6 +404,19 @@ public interface I_C_POS
 	public int getOSNP_KeyLayout_ID();
 
 	public org.compiere.model.I_C_POSKeyLayout getOSNP_KeyLayout() throws RuntimeException;
+
+    /** Column name PINEntryTimeout */
+    public static final String COLUMNNAME_PINEntryTimeout = "PINEntryTimeout";
+
+	/** Set PIN Entry Timeout.
+	  * PIN Entry Timeout - the amount of time from initial display until the PIN entry dialog times out, in milliseconds.
+	  */
+	public void setPINEntryTimeout (int PINEntryTimeout);
+
+	/** Get PIN Entry Timeout.
+	  * PIN Entry Timeout - the amount of time from initial display until the PIN entry dialog times out, in milliseconds.
+	  */
+	public int getPINEntryTimeout();
 
     /** Column name PrinterName */
     public static final String COLUMNNAME_PrinterName = "PrinterName";

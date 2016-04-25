@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.compiere.model.MBankStatement;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPOS;
@@ -33,6 +34,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
+
 
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
@@ -360,6 +362,7 @@ public class Collect {
 		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
 		if (payment.processIt(MPayment.DOCACTION_Complete)){
 			payment.saveEx();
+			MBankStatement.addPayment(payment);
 			return true;
 		}
 		else return false;
@@ -390,6 +393,7 @@ public class Collect {
 		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
 		if(payment.processIt(MPayment.DOCACTION_Complete)) {
 			payment.saveEx();
+			MBankStatement.addPayment(payment);
 			return true;
 		} else { 
 			return false;
@@ -419,6 +423,7 @@ public class Collect {
 		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
 		if(payment.processIt(MPayment.DOCACTION_Complete)) {
 			payment.saveEx();
+			MBankStatement.addPayment(payment);
 			return true;
 		} else { 
 			return false;
@@ -447,6 +452,7 @@ public class Collect {
 		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
 		if (payment.processIt(MPayment.DOCACTION_Complete)) {
 			payment.saveEx();
+			MBankStatement.addPayment(payment);
 			return true;
 		} else {
 			return false;
@@ -496,6 +502,7 @@ public class Collect {
 		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
 		if(payment.processIt(MPayment.DOCACTION_Complete)) {
 			payment.saveEx();
+			MBankStatement.addPayment(payment);
 			return true;
 		} else {
 			return false;
@@ -514,6 +521,7 @@ public class Collect {
 	private MPayment createPayment(String tenderType) {
 		MPayment payment = new MPayment(Env.getCtx(), 0, trxName);
 		payment.setAD_Org_ID(entityPOS.getAD_Org_ID());
+		payment.setC_POS_ID(entityPOS.getC_POS_ID());
 		payment.setTenderType(tenderType);
 		payment.setIsReceipt(true);
 		payment.setC_Order_ID(order.getC_Order_ID());
@@ -529,10 +537,11 @@ public class Collect {
 		} else {
 			payment.setDescription(Msg.getMsg(Env.getCtx(), "Order No ") + order.getDocumentNo());
 		}
-			
+		order.setC_POS_ID(entityPOS.getC_POS_ID());
+		order.saveEx();
 		return payment;
 	}
-	
+
 	/**
 	 * Add Error to Message
 	 * @param error
