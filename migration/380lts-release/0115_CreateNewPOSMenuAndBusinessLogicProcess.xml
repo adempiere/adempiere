@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Create new menu for POS and new business logic process" ReleaseNo="" SeqNo="115">
+  <Migration EntityType="D" Name="Create new menu for POS and new business logic process" ReleaseNo="3.8.0#002" SeqNo="115">
     <Comments>Create new POS menu and business logic process for  Create an Order based on other, and Immediate invoice and reverse sales trandaction </Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="53822" Table="AD_Process">

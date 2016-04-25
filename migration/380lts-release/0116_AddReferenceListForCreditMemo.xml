@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="POS Contribution" ReleaseNo="3.8.0" SeqNo="116">
+  <Migration EntityType="D" Name="POS Contribution" ReleaseNo="3.8.0#002" SeqNo="116">
     <Comments>Add reference list for credit memo.</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="54626" Table="AD_Ref_List">
