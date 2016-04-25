@@ -17,9 +17,6 @@
 package org.adempiere.pos.process;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_C_DocType;
-import org.compiere.model.I_C_Order;
-import org.compiere.model.I_C_Payment;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MDocType;
@@ -27,9 +24,7 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
 import org.compiere.model.PO;
-import org.compiere.process.DocAction;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
+import org.compiere.util.Msg;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -41,48 +36,26 @@ import java.util.List;
  * all payments and allocations can be replicated for new order with new business partner
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 23/12/15.
  */
-public class CreateOrderBasedOnAnother extends SvrProcess {
+public class CreateOrderBasedOnAnother extends CreateOrderBasedOnAnotherAbstract {
 
-    private Integer billPartnerId;
-    private int sourceOrderId;
-    private String docSubTypeSO;
-    private String docAction;
-    private boolean isIncludePayments;
-    private boolean isAllocated;
     private MOrder targetOrder;
     private Timestamp today;
 
 
     @Override
     protected void prepare() {
-        ProcessInfoParameter[] params = getParameter();
-        for (ProcessInfoParameter parameter : params) {
-            String para = parameter.getParameterName();
-            if (para.equals(I_C_Order.COLUMNNAME_C_Order_ID))
-                sourceOrderId = parameter.getParameterAsInt();
-            if (para.equals(I_C_Order.COLUMNNAME_Bill_BPartner_ID))
-                billPartnerId = parameter.getParameterAsInt();
-            if (para.equals(I_C_Order.COLUMNNAME_DocAction))
-                docAction = parameter.getParameterAsString();
-            if (para.equals(I_C_DocType.COLUMNNAME_DocSubTypeSO))
-                docSubTypeSO = parameter.getParameterAsString();
-            if (para.equals("IsIncludePayments"))
-                isIncludePayments = parameter.getParameterAsBoolean();
-            if (para.equals(I_C_Payment.COLUMNNAME_IsAllocated))
-                isAllocated = parameter.getParameterAsBoolean();
-        }
-
+        super.prepare();
     }
 
     @Override
     protected String doIt() throws Exception {
-        if (sourceOrderId <= 0)
+        if (getOrderSourceId() <= 0)
             throw new AdempiereException("@C_Order_ID@ @NotFound@");
 
         today = new Timestamp(System.currentTimeMillis());
-        MOrder sourceOrder = new MOrder(getCtx(),  sourceOrderId , get_TrxName());
-        if(billPartnerId == 0)
-            billPartnerId = sourceOrder.getC_BPartner_ID();
+        MOrder sourceOrder = new MOrder(getCtx(),  getOrderSourceId() , get_TrxName());
+        //if(getInvoicePartnerId() == 0)
+        //    invoicePartnerId = sourceOrder.getC_BPartner_ID();
 
         //Create new Order based on source order
         targetOrder = MOrder.copyFrom(
@@ -93,24 +66,24 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
                 false ,
                 true ,
                 get_TrxName());
-        if (docSubTypeSO != null)
-            targetOrder.setC_DocTypeTarget_ID(MDocType.getDocTypeBaseOnSubType(sourceOrder.getAD_Org_ID() , MDocType.DOCBASETYPE_SalesOrder , docSubTypeSO));
+        if (getSOSubType() != null)
+            targetOrder.setC_DocTypeTarget_ID(MDocType.getDocTypeBaseOnSubType(sourceOrder.getAD_Org_ID() , MDocType.DOCBASETYPE_SalesOrder , getSOSubType()));
 
-        targetOrder.setC_BPartner_ID(billPartnerId);
+        targetOrder.setC_BPartner_ID(getInvoicePartnerId());
         targetOrder.setRef_Order_ID(sourceOrder.get_ID());
-        targetOrder.setDocAction(docAction);
-        targetOrder.setDocStatus(DocAction.STATUS_Drafted);
+        targetOrder.setDocAction(getDocumentAction());
+        targetOrder.setDocStatus(org.compiere.process.DocAction.STATUS_Drafted);
         targetOrder.setProcessed(false);
         targetOrder.saveEx();
 
         //Complete new Order
-        targetOrder.processIt(docAction);
+        targetOrder.processIt(getDocumentAction());
         targetOrder.saveEx();
         addLog(targetOrder.getDocumentInfo());
 
-        if(isIncludePayments)
+        if(isIncludePayments())
             createPayments(sourceOrder, targetOrder);
-        if (isAllocated)
+        if (isAllocated())
             createAllocations(targetOrder);
 
         getProcessInfo().setRecord_ID(targetOrder.get_ID());
@@ -145,8 +118,8 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
                     targetOrder.getC_Currency_ID() ,
                     targetOrder.getDescription() ,
                     get_TrxName());
-            allocation.setDocStatus(DocAction.STATUS_Drafted);
-            allocation.setDocAction(DocAction.ACTION_Complete);
+            allocation.setDocStatus(org.compiere.process.DocAction.STATUS_Drafted);
+            allocation.setDocAction(org.compiere.process.DocAction.ACTION_Complete);
             allocation.saveEx();
             addLog(allocation.getDocumentInfo());
             for (MInvoice invoice : invoices)
@@ -165,7 +138,7 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
                 allocationLine.saveEx();
             }
 
-            allocation.processIt(DocAction.ACTION_Complete);
+            allocation.processIt(org.compiere.process.DocAction.ACTION_Complete);
             allocation.saveEx();
         }
     }
@@ -185,13 +158,13 @@ public class CreateOrderBasedOnAnother extends SvrProcess {
             payment.setDateAcct(today);
             payment.setC_Order_ID(targetOrder.getC_Order_ID());
             payment.setC_BPartner_ID(targetOrder.getC_BPartner_ID());
-            payment.addDescription(" @From@ " + sourcePayment.getDocumentNo());
+            payment.addDescription(Msg.parseTranslation(sourceOrder.getCtx() , " @From@ ") + sourcePayment.getDocumentNo());
             payment.setIsReceipt(true);
             payment.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_ARReceipt, sourceOrder.getAD_Org_ID()));
             payment.setIsPrepayment(true);
             payment.saveEx();
 
-            payment.processIt(docAction);
+            payment.processIt(getDocumentAction());
             payment.saveEx();
             addLog(payment.getDocumentInfo());
         }

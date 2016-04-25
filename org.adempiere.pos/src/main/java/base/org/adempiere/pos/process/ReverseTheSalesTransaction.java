@@ -19,7 +19,6 @@ package org.adempiere.pos.process;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
 import org.compiere.model.I_C_Invoice;
-import org.compiere.model.I_C_Order;
 import org.compiere.model.I_M_RMA;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
@@ -36,8 +35,6 @@ import org.compiere.model.Query;
 import org.compiere.model.X_M_RMAType;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.Msg;
 import org.eevolution.service.dsl.ProcessBuilder;
 
@@ -50,54 +47,39 @@ import java.util.List;
  * Process allows reverse the sales order using new documents with new dates and cancel of original effects
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 23/12/15.
  */
-public class ReverseTheSalesTransaction extends SvrProcess  {
+public class ReverseTheSalesTransaction extends ReverseTheSalesTransactionAbstract  {
 
-    private int sourceOrderId;
-    private int billPartnerId;
     private boolean isCancelled = false;
     private Timestamp today;
-    private boolean isShipConfirm = false;
     private List<MInOut> customerReturns = new ArrayList<MInOut>();
 
 
     @Override
     protected void prepare() {
-        ProcessInfoParameter[] params = getParameter();
-        for (ProcessInfoParameter parameter : params) {
-            String para = parameter.getParameterName();
-            if (I_C_Order.COLUMNNAME_C_Order_ID.equals(para))
-                sourceOrderId = parameter.getParameterAsInt();
-            if (I_C_Order.COLUMNNAME_Bill_BPartner_ID.equals(para))
-                billPartnerId =  parameter.getParameterAsInt();
-            if ("IsCancelled".equals(para))
-                isCancelled =  parameter.getParameterAsBoolean();
-            if ("IsShipConfirm".equals(para))
-                isShipConfirm = parameter.getParameterAsBoolean();
-
-        }
+        super.prepare();
     }
 
     @Override
     protected String doIt() throws Exception {
-        if (sourceOrderId <= 0)
+        if (getOrderId() <= 0)
             throw new AdempiereException("@C_Order_ID@ @NotFound@");
 
         today = new Timestamp(System.currentTimeMillis());
         // Get Order
-        MOrder sourceOrder = new MOrder(getCtx(), sourceOrderId, get_TrxName());
+        MOrder sourceOrder = new MOrder(getCtx(), getOrderId(), get_TrxName());
         // Get Invoices for ths order
         MInOut[] shipments = sourceOrder.getShipments();
         // If not exist invoice then only is necessary reverse shipment
         if (shipments.length > 0) {
             // Validate if partner not is POS partner standard then reverse shipment
-            if (sourceOrder.getC_BPartner_ID() != billPartnerId || isCancelled) {
+            if (sourceOrder.getC_BPartner_ID() != getInvoicePartnerId() || isCancelled) {
                 cancelShipments(shipments);
             }
         }
         MInvoice[] invoices = sourceOrder.getInvoices();
         if(invoices.length > 0)
         {
-            if (sourceOrder.getC_BPartner_ID() != billPartnerId || isCancelled)
+            if (sourceOrder.getC_BPartner_ID() != getInvoicePartnerId() || isCancelled())
                 cancelInvoices();
         }
 
@@ -165,7 +147,7 @@ public class ReverseTheSalesTransaction extends SvrProcess  {
             rma.saveEx();
             addLog(rma.getDocumentInfo());
 
-            if (customerReturn.getC_DocType().isShipConfirm() && isShipConfirm)
+            if (customerReturn.getC_DocType().isShipConfirm() && isShipReceiptConfirmation())
             {
                 customerReturn.processIt(DocAction.STATUS_InProgress);
                 customerReturn.saveEx();
