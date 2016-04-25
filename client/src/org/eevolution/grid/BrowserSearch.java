@@ -75,6 +75,7 @@ public abstract class BrowserSearch {
 	private boolean 	m_IsError;
 	private boolean 	m_HasParameters;
 	private int 		m_Columns;
+	private boolean		m_IsLoaded = false;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(BrowserSearch.class);
 	//
@@ -227,12 +228,21 @@ public abstract class BrowserSearch {
 			}
 			//	
 			dynamicDisplay();
+			m_IsLoaded = true;
 			return true;
 		}
 		//	
 		dispose();
 		//	Default
 		return false;
+	}
+	
+	/**
+	 * Verify if the components is loaded
+	 * @return
+	 */
+	public boolean isLoaded() {
+		return m_IsLoaded;
 	}
 	
 	/**
@@ -252,7 +262,7 @@ public abstract class BrowserSearch {
 		GridField gField = new GridField(voBase);
 		m_mFields.add(gField);
 		//
-		if (voBase.isRange) {
+		if (voBase.IsRange) {
 			GridFieldVO voBase_To = createVO(field, true);
 			GridField gField_To = new GridField(voBase_To);
 			//	
@@ -308,9 +318,7 @@ public abstract class BrowserSearch {
 		voBase.ValueMin = field.getValueMin();
 		voBase.ValueMax = field.getValueMax();
 		voBase.ValidationCode = field.getAD_Val_Rule().getCode();
-
-		voBase.isRange = field.isRange();
-		//	It is rounded?
+		//	FR [ 349 ]
 		voBase.IsRange = field.isRange();
 		voBase.Description = field.getDescription();
 		voBase.Help = field.getHelp();
@@ -548,4 +556,4 @@ public abstract class BrowserSearch {
 		return m_HasParameters;
 	}
 		
-}	//	ProcessParameterPanel
+}	//	BrowserSearch

@@ -20,7 +20,6 @@ package org.eevolution.form;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
@@ -55,7 +54,6 @@ public class VBrowserSearch extends BrowserSearch implements
 	 */
 	public VBrowserSearch(int WindowNo, int p_AD_Browse_ID) {
 		super(WindowNo, p_AD_Browse_ID);
-		initComponents();
 	}	//	VBrowserSearch
 
 	/**
@@ -66,7 +64,6 @@ public class VBrowserSearch extends BrowserSearch implements
 	 */
 	public VBrowserSearch(int WindowNo, int p_AD_Browse_ID, int column) {
 		super(WindowNo, p_AD_Browse_ID, column);
-		initComponents();
 	}	//	VBrowserSearch
 	
 	//Layout Mode
@@ -78,6 +75,7 @@ public class VBrowserSearch extends BrowserSearch implements
 	private ArrayList<JLabel> 	m_separators;
 	//
 	private BorderLayout 	mainLayout;
+	private ALayout			centerLayout;
 	private CPanel 			centerPanel;
 	//	Main Panel
 	private CPanel			mainPanel;
@@ -100,7 +98,8 @@ public class VBrowserSearch extends BrowserSearch implements
 		mainPanel.setLayout(mainLayout);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		//	
-		centerPanel.setLayout(new ALayout());
+		centerLayout 	= new ALayout();
+		centerPanel.setLayout(centerLayout);
 	}
 
 	/**
@@ -217,7 +216,6 @@ public class VBrowserSearch extends BrowserSearch implements
 	@Override
 	public void dynamicDisplay() {
 		//	
-		centerPanel.setPreferredSize(new Dimension(400, (row + 1) * 25)); // Row height
 		Component[] comps = centerPanel.getComponents();
 		for (int i = 0; i < comps.length; i++) {
 			Component comp = comps[i];

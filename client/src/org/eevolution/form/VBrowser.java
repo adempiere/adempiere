@@ -49,7 +49,6 @@ import org.adempiere.model.MBrowse;
 import org.compiere.Adempiere;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
-import org.compiere.apps.ALayout;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.ProcessCtl;
@@ -218,8 +217,6 @@ public class VBrowser extends Browser implements ActionListener,
 	 * Static Setup - add fields to parameterPanel (GridLayout)
 	 */
 	private void statInit() {
-		searchPanel.getPanel().setLayout(new ALayout());
-		searchPanel.init();
 		//	
 		if (m_Browse.getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
@@ -424,6 +421,7 @@ public class VBrowser extends Browser implements ActionListener,
 		topPanel = new CPanel();
 		//	FR [ 344 ]
 		searchPanel = new VBrowserSearch(getWindowNo(), getAD_Browse_ID(), BrowserSearch.COLUMNS_2);
+		searchPanel.init();
 		//	
 		buttonSearchPanel = new CPanel();
 		centerPanel = new javax.swing.JScrollPane();
@@ -477,11 +475,9 @@ public class VBrowser extends Browser implements ActionListener,
 		searchTab.setLayout(new java.awt.BorderLayout());
 
 		topPanel.setLayout(new java.awt.BorderLayout());
-
-		searchPanel.getPanel().setLayout(new java.awt.GridBagLayout());
 		
 		collapsibleSearch = new CollapsiblePanel(Msg.getMsg(Env.getCtx(),("SearchCriteria")));
-		collapsibleSearch.add(searchPanel.getPanel());
+		collapsibleSearch.add(searchPanel.getPanel());		
 		topPanel.add(collapsibleSearch, java.awt.BorderLayout.NORTH);
 
 		bSearch.setText(Msg.getMsg(Env.getCtx(), "StartSearch"));
@@ -496,12 +492,8 @@ public class VBrowser extends Browser implements ActionListener,
 		searchTab.add(centerPanel, java.awt.BorderLayout.CENTER);
 
 		footPanel.setLayout(new java.awt.BorderLayout());
-
-//		bCancel.setText(Msg.getMsg(Env.getCtx(), "Cancel").replaceAll("[&]",""));
 		
 		footButtonPanel.add(bCancel);
-
-//		bOk.setText(Msg.getMsg(Env.getCtx(), "Ok").replaceAll("[&]",""));
 		
 		footButtonPanel.add(bOk);
 
@@ -515,10 +507,6 @@ public class VBrowser extends Browser implements ActionListener,
 		tabsPanel.addTab(Msg.getMsg(Env.getCtx(), "Search"), searchTab);
 
 		graphPanel.setLayout(new java.awt.BorderLayout());
-		
-		//	Instance Table
-//		detail = new BrowseTable(this);
-//		centerPanel.setViewportView(detail);
 		
 		m_frame.getContentPane().add(tabsPanel, java.awt.BorderLayout.CENTER);
 	}

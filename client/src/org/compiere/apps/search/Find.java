@@ -699,7 +699,7 @@ public final class Find extends CDialog
 		}
 		else 
 		{
-				if (mField.isRange()) {
+				if (mField.isRangeLookup()) {
 					
 					new Box(BoxLayout.X_AXIS);
 					Box box = Box.createHorizontalBox();
@@ -1394,11 +1394,11 @@ public final class Find extends CDialog
                 else
                 	modifiedvalue = value;
                 //
-				if (modifiedvalue.toString().indexOf('%') != -1  && !field.isRange() )
+				if (modifiedvalue.toString().indexOf('%') != -1  && !field.isRangeLookup() )
 					m_query.addRestriction(ColumnSQL, MQuery.LIKE, modifiedvalue, ColumnName, ved.getDisplay());
 				else if (isProductCategoryField && value instanceof Integer) 
 					m_query.addRestriction(getSubCategoryWhereClause(((Integer) value).intValue()));
-				else if ( ! field.isRange()  )
+				else if ( ! field.isRangeLookup()  )
 					m_query.addRestriction(ColumnSQL, MQuery.EQUAL, value, ColumnName, ved.getDisplay());
 				/*
 				if (value.toString().indexOf('%') != -1)
@@ -1409,7 +1409,7 @@ public final class Find extends CDialog
 				// end globalqss patch
 			}
 			
-			 if (field.isRange() ){
+			 if (field.isRangeLookup() ){
 	            	
 	            	 VEditor editor2 = (VEditor)m_sEditors2.get(i);
 		           	 Object value2 = null;
