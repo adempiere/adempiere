@@ -166,7 +166,7 @@ public class ProcessClassGenerator {
 		header.append(ModelInterfaceGenerator.NL);
 		//	Add comments
 		header.append("\n/** Generated Process for (").append(processName).append(")\n")
-		 	.append(" *  @author Adempiere (generated) \n")
+		 	.append(" *  @author ADempiere (generated) \n")
 		 	.append(" *  @version ").append(Adempiere.MAIN_VERSION).append("\n")
 		 	.append(" */\n");
 		//	Add Class Name
@@ -243,7 +243,7 @@ public class ProcessClassGenerator {
 			.append("\t/**\tParameter Value for ").append(variableName).append(isTo ? "To": "").append("\t*/")
 			.append(ModelInterfaceGenerator.NL)
 			.append("\tprivate ").append(getType(parameter)).append(" ")
-			.append(variableName)
+			.append(variableName.trim())
 			.append(isTo ? "To": "")
 			.append(";");
 	}
@@ -262,10 +262,12 @@ public class ProcessClassGenerator {
 		parametersGetter
 				.append("\t/**\t Getter Parameter Value for ").append(variableName).append(isTo ? "To": "").append("\t*/")
 				.append(ModelInterfaceGenerator.NL)
-				.append("\tprotected ").append(getType(parameter)).append(" ").append(getMethodName(parameter)).append(" ")
+				.append("\tprotected ").append(getType(parameter)).append(" ").append(getMethodName(parameter))
 				.append(isTo ? "To": "")
 				.append("() {")
-				.append("\n\t\treturn ").append(variableName).append(";\n")
+				.append("\n\t\treturn ").append(variableName.trim())
+				.append(isTo ? "To": "")
+				.append(";\n")
 				.append("\t}");
 	}
 	/**
