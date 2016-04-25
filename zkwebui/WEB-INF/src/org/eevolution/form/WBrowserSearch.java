@@ -18,373 +18,377 @@
 
 package org.eevolution.form;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import org.adempiere.model.MBrowseField;
-import org.adempiere.webui.apps.ProcessParameterPanel;
+import org.adempiere.webui.component.Column;
+import org.adempiere.webui.component.Columns;
 import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
+import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.editor.WEditor;
+import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.compiere.model.GridField;
-import org.compiere.model.GridFieldVO;
-import org.compiere.model.MLookup;
-import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
+import org.eevolution.grid.BrowserSearch;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Row;
 
 /**
  * @author victor.perez@e-evolution.com , eEvolution Consultants
- * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>BR [ 340 ] Smart Browse context is changed from table
+ * 		@see https://github.com/adempiere/adempiere/issues/340
  */
-public class WBrowserSearch extends  Grid implements ValueChangeListener {
-
+public class WBrowserSearch extends BrowserSearch implements ValueChangeListener {
+	
 	/**
-	 * 
+	 *	Dynamic generated Parameter panel.
+	 *  @param WindowNo window
+	 *  @param p_AD_Browse_ID Smart Browse ID
 	 */
-	private static final long serialVersionUID = 7952373172724992710L;
-	private int p_WindowNo;
-	private ArrayList<WEditor> m_wEditors = new ArrayList<WEditor>();
-	private ArrayList<WEditor> m_wEditors2 = new ArrayList<WEditor>(); // for ranges
-	private ArrayList<GridField> m_mFields = new ArrayList<GridField>();
-	private ArrayList<GridField> m_mFields2 = new ArrayList<GridField>();
-	/** Logger */
-	private static CLogger log = CLogger.getCLogger(ProcessParameterPanel.class);
-
+	public WBrowserSearch(int WindowNo, int p_AD_Browse_ID) {
+		this(WindowNo, p_AD_Browse_ID, COLUMNS_1);
+		initComponents();
+	}	//	WBrowserSearch
+	
+	/**
+	 * With Columns
+	 * @param WindowNo
+	 * @param p_AD_Browse_ID
+	 * @param columns
+	 */
+	public WBrowserSearch(int WindowNo, int p_AD_Browse_ID, int columns) {
+		super(WindowNo, p_AD_Browse_ID, columns);
+		initComponents();
+	}
+	
 	/** Parameters */
-	protected LinkedHashMap<Object, Object> m_search = new LinkedHashMap<Object, Object>();
+	private LinkedHashMap<Object, Object> m_search = new LinkedHashMap<Object, Object>();
+	private String width;
 
 	/**
-	 * 
+	 * Initialize components
 	 */
-	public WBrowserSearch() {
-		// TODO Auto-generated constructor stub
+	@Override
+	public void initComponents() {
+		if(mainPanel != null)
+			return;
+		//	
+		m_wEditors = new ArrayList<WEditor>();
+		m_wEditors_To = new ArrayList<WEditor>();
+		m_separators = new ArrayList<Label>();
+		rows = new Rows();
+		//
+		mainPanel = new Panel();
+		centerPanel = GridFactory.newGridLayout();
+		centerPanel.setInnerWidth(width);
+		mainPanel.appendChild(centerPanel);
+		
+		//setup columns
+    	Columns columns = new Columns();
+    	centerPanel.appendChild(columns);
+    	int colN = getColumns() * 2;
+    	if(colN != 0) {
+    		int percent = 100 / colN;
+    		for(int i = 0; i < colN; i++) {
+    			Column col = new Column();
+	        	col.setWidth((i == 0
+	        			? ((int) percent / 2)
+	        			: percent) + "%");
+	        	columns.appendChild(col);
+	    	}
+    	}
+    	//	Add Rows
+    	centerPanel.appendChild(rows);
 	}
 	
 	/**
-	 * 
+	 * Get Main Panel
+	 * @return
 	 */
-	public WBrowserSearch(int windowNo) {
-		p_WindowNo = windowNo;
-    	makeNoStrip();
+	public Panel getPanel() {
+		return mainPanel;
 	}
 
-	public void addField(MBrowseField field, Row row, String name, String title) {
-		GridFieldVO voBase = GridFieldVO.createStdField(field.getCtx(),
-				p_WindowNo, 0, 0, 0, false, false, false);
+	//Layout Mode
+	private int cols = 0;
+	//
+	private ArrayList<WEditor>	m_wEditors;
+	private ArrayList<WEditor>	m_wEditors_To;		//	for ranges
+	private ArrayList<Label> 	m_separators;
+	/**	Rows for Parameters	*/
+	private Rows 	rows;
+	private Row		currentRow;
+	//
+	private Grid 	centerPanel;
+	private Panel	mainPanel;
 
-		String uniqueName =  field.getAD_View_Column().getColumnSQL();
-
-		voBase.isProcess = true;
-		voBase.IsDisplayed = true;
-		voBase.IsReadOnly = false;
-		voBase.IsUpdateable = true;
-		voBase.WindowNo = p_WindowNo;
-		
-		voBase.AD_Column_ID = field.getAD_View_Column().getAD_Column_ID();
-		voBase.AD_Table_ID = field.getAD_View_Column().getAD_Column()
-				.getAD_Table_ID();
-		voBase.ColumnName = field.getAD_View_Column().getAD_Column()
-				.getColumnName();
-		voBase.displayType = field.getAD_Reference_ID();
-		voBase.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
-		voBase.IsMandatory = field.isMandatory();
-		voBase.IsAlwaysUpdateable = false;
-		voBase.IsKey = field.isKey();
-
-		voBase.DefaultValue = field.getDefaultValue();
-		voBase.DefaultValue2 = field.getDefaultValue2();
-		voBase.InfoFactoryClass = field.getInfoFactoryClass();
-		voBase.FieldLength = field.getFieldLength();
-		voBase.ReadOnlyLogic = field.getReadOnlyLogic();
-		voBase.DisplayLogic = field.getDisplayLogic();
-		voBase.VFormat = field.getVFormat();
-		voBase.ValueMin = field.getValueMin();
-		voBase.ValueMax = field.getValueMax();
-		voBase.ValidationCode = field.getAD_Val_Rule().getCode();
-
-		voBase.isRange = field.isRange();
-		voBase.Description = field.getDescription();
-		voBase.Help = field.getHelp();
-		voBase.Header = title;
-
-		GridField gField = new GridField(GridFieldVO.createParameter(voBase));
-		GridField gField2 = null;
-
-		WEditor editor = WebEditorFactory.getEditor(gField, false);
-		editor.setReadWrite(true);
+	/**
+	 *  Dispose
+	 */
+	public void dispose() {
+		super.dispose();
+		m_wEditors.clear();
+		m_wEditors_To.clear();
+	}   //  dispose
+	
+	@Override
+	public void createViewField(GridField field, GridField field_To) {
+		//	
+		configColumns(field, field_To);
+		WEditorPopupMenu popupMenu;
+		//	
+		if(field == null) {
+			m_wEditors.add (null);
+			return;
+		}
+		//	The Editor
+		WEditor editor = WebEditorFactory.getEditor(field, false);
 		editor.addValueChangeListener(this);
 		editor.dynamicDisplay();
-		gField.addPropertyChangeListener(editor);
-
-		Object defaultObject = null;
-		Object defaultObject2 = null;
-
-		//  Set Default
-		if (field.getAD_View_Column().getAD_Column_ID() > 0)
-		{
-			defaultObject = gField.getDefault();
-			if (defaultObject != null && field.getDefaultValue() != null) {
-				gField.setValue(defaultObject, true);
-				editor.setValue(defaultObject);
-			}
-		}
-
-		gField.lookupLoadComplete();
-		m_mFields.add(gField);
-		m_wEditors.add (editor);
+		//  MField => VEditor - New Field value to be updated to editor
+		field.addPropertyChangeListener(editor);
+		//	Set Default Value
+		Object defaultObject = field.getDefault();
+		editor.setValue(defaultObject);
+		//streach component to fill grid cell
+		editor.fillHorizontal();
+        //setup editor context menu
+        popupMenu = editor.getPopupMenu();                    
+        if (popupMenu != null) {
+        	popupMenu.addMenuListener((ContextMenuListener)editor);
+            mainPanel.appendChild(popupMenu);
+        }
+        setParameter(field.getColumnNameAlias(), editor);
+		//
+        m_wEditors.add (editor);                   //  add to Editors
 		
-		if (DisplayType.YesNo != field.getAD_Reference_ID()) {
-			Div div = new Div();
-			div.setAlign("right");
-			org.adempiere.webui.component.Label label = editor.getLabel();
-			label.setValue(title);
-			div.appendChild(label);
-			if (label.getDecorator() != null)
-				div.appendChild(label.getDecorator());
-			row.appendChild(div);
+    	Div div = new Div();
+        div.setAlign("right");
+        
+        Label label = editor.getLabel();
+        div.appendChild(label);
+        if (label.getDecorator() != null)
+        	div.appendChild(label.getDecorator());
+        //	
+        currentRow.appendChild(div);
+        //	Add Child
+        cols += 2;
+		//	
+        Hbox box;
+        if(field_To != null) {
+        	box = new Hbox();
+        	box.appendChild(editor.getComponent());
+        } else {
+            currentRow.appendChild(editor.getComponent());
+        	m_separators.add(null);
+        	m_wEditors_To.add(null);
+        	return;
+        }
+		//	The Editor
+		WEditor editor2 = WebEditorFactory.getEditor(field_To, false);
+		//  New Field value to be updated to editor
+		field_To.addPropertyChangeListener(editor2);
+		editor2.dynamicDisplay();
+		//	
+		Object defaultObject2 = field_To.getDefault();
+		editor2.setValue(defaultObject2);
+		//	
+		editor2.fillHorizontal();
+		//setup editor context menu
+        popupMenu = editor2.getPopupMenu();                    
+        if (popupMenu != null) {
+        	popupMenu.addMenuListener((ContextMenuListener)editor2);
+            mainPanel.appendChild(popupMenu);
+        }
+        //
+		m_wEditors_To.add (editor2);
+		Label separator = new Label(" - ");
+		m_separators.add(separator);
+		box.appendChild(separator);
+		box.appendChild(editor2.getComponent());
+		setParameter(field_To.getColumnNameAlias(), editor2);
+        //	Add
+        currentRow.appendChild(box);
+	}
+	
+	/**
+	 * Congure columns
+	 * @param field
+	 * @param field_To
+	 */
+	private void configColumns(GridField field, GridField field_To) {
+		int maxToAdd = getColumns() * 2;
+		int columnsToAdd = getColumns();
+		//	for To field
+		if(field_To != null) {
+			columnsToAdd += 2;
 		}
-		row.appendChild(editor.getComponent());
-		setParameter(name, editor);
-		
-		if (field.isRange())
-		{		
-			title = Msg.getMsg(Env.getCtx(), "To");
-			name = name + "_To";
-			voBase.Header = title;
-			voBase.DefaultValue = field.getDefaultValue2();
-			gField2 = new GridField(GridFieldVO.createParameter(voBase));
-			gField2.lookupLoadComplete();
+		//	Verify if is new row or not
+		if((cols + columnsToAdd) > maxToAdd
+				|| currentRow == null) {
+			cols = 0;
+			currentRow = new Row();
+			rows.appendChild(currentRow);
+		}
+	}
 
-			WEditor editor2 = WebEditorFactory.getEditor(gField2, false);
-			editor2.setReadWrite(true);
-			editor2.addValueChangeListener(this);
-			editor2.dynamicDisplay();
-			//  Set Default
-			if (field.getAD_View_Column().getAD_Column_ID() > 0) {
-				defaultObject2 = gField2.getDefault();
-				if (defaultObject2 != null && field.getDefaultValue2() != null) {
-					gField2.setValue(defaultObject2, true);
-					editor2.setValue(defaultObject2);
-				}
+	@Override
+	public void refreshContext() {
+		for(int i = 0; i < m_wEditors.size(); i++) {
+			WEditor editor = m_wEditors.get(i);
+			GridField field = editor.getGridField();
+			Object value = field.getValue();
+			Object defaultValue = field.getDefault();
+			if ((value == null || value.toString().length() == 0)
+					&& defaultValue != null) {
+				m_wEditors.get(i).setValue(defaultValue);
+				field.setValue(defaultValue, true);
 			}
-			m_mFields2.add(gField2);
-			m_wEditors2.add (editor2);
-
-			Div div = new Div();
-			div.setAlign("right");
-			org.adempiere.webui.component.Label label = editor2.getLabel();
-			label.setValue(title);
-			div.appendChild(label);
-			if (label.getDecorator() != null)
-				div.appendChild(label.getDecorator());
-			row.appendChild(div);
-
-			row.appendChild(editor2.getComponent());
-			setParameter(name, editor2);
+			boolean rw = field.isEditablePara(true); // r/w - check if field is Editable
+			m_wEditors.get(i).setReadWrite(rw);
 		}
-		else
-		{
-			m_mFields2.add(null);
-			m_wEditors2.add (null);
-		}
+ 	}
 
-		if (gField != null)
-			processNewValue(defaultObject, gField.getVO().ColumnNameAlias);
-		if (gField2 != null)
-			processNewValue(defaultObject2, gField2.getVO().ColumnNameAlias + "_To");
+	@Override
+	public String getDisplay(int index) {
+		WEditor editor = m_wEditors.get(index);
+		if(editor != null)
+			return editor.getDisplay();
+		//	Default
+		return null;
+	}
+	
+	@Override
+	public String getDisplay_To(int index) {
+		WEditor editor = m_wEditors_To.get(index);
+		if(editor != null)
+			return editor.getDisplay();
+		//	Default
+		return null;
 	}
 
 	/**
 	 *	Editor Listener
-	 *	@param evt Event
-	 * 	@exception ValueChangeEvent if the recipient wishes to roll back.
+	 *	@param evt ValueChangeEvent	 
 	 */
 	public void valueChange(ValueChangeEvent evt) {
+		GridField changedField = null;
+		String propertyName = evt.getPropertyName();
+		//	Set GridField
 		if (evt.getSource() instanceof WEditor) {
-			GridField changedField = ((WEditor) evt.getSource()).getGridField();
-			if (changedField != null) {
-				processDependencies(changedField);
-				// future processCallout (changedField);
-			}
+			changedField = ((WEditor) evt.getSource()).getGridField();
+			propertyName = changedField.getColumnNameAlias();
 		}
-		String columnName = "";
-		if(evt.getSource() instanceof WEditor)
-		{
-			WEditor wEditor = (WEditor)evt.getSource();
-			columnName = wEditor.getGridField().getVO().ColumnNameAlias;
-		}
-		processNewValue(evt.getNewValue(), columnName);
-	} // valueChange
-
-	public void setParameter(Object name, Object value) {
-		if (value != null) {
-			m_search.put(name, value);
-		}
-	}
-
-	public LinkedHashMap<Object, Object> getParameters() {
-		return m_search;
-	}
-
-	/**
-	 * get Parameter Value
-	 * 
-	 * @param key
-	 * @return Object Value
-	 */
-	public Object getParamenterValue(Object key) {
-		WEditor editor = (WEditor) m_search.get(key);
-		if (editor != null)
-			return editor.getValue();
-		else
-			return null;
+		//	Change Dependents
+		fieldChange(changedField, evt.getNewValue(), propertyName);
 	}
 	
 	/**
-	 * Evaluate Dependencies
-	 * @param changedField changed field
+	 * Dynamic Display
 	 */
-	private void processDependencies(GridField changedField) 
-	{
-		String columnName = changedField.getVO().ColumnNameAlias;;
-
-		for (GridField field : m_mFields) {
-			if (field == null || field == changedField)
-				continue;
-			verifyChangedField(field, columnName);
-		}
-		for (GridField field : m_mFields2) {
-			if (field == null || field == changedField)
-				continue;
-			verifyChangedField(field, columnName);
-		}
-	} // processDependencies
-
-	private void verifyChangedField(GridField field, String columnName) {
-		ArrayList<String> list = field.getDependentOn();
-		if (list.contains(columnName)) {
-			if (field.getLookup() instanceof MLookup) {
-				MLookup mLookup = (MLookup) field.getLookup();
-				// if the lookup is dynamic (i.e. contains this columnName as variable)
-				if (mLookup.getValidation().indexOf("@" + columnName + "@") != -1) {
-					log.fine(columnName + " changed - " + field.getColumnName()
-							+ " set to null");
-					// invalidate current selection
-					field.setValue(null, true);
-				}
-			}
-		}
-	}
-
-	private void processNewValue(Object value, String name) {
-		if (value == null)
-			value = new String("");
-
-		if (value instanceof String)
-			Env.setContext(Env.getCtx(), p_WindowNo, name, (String) value);
-		else if (value instanceof Integer)
-			Env.setContext(Env.getCtx(), p_WindowNo, name,
-					((Integer) value).intValue());
-		else if (value instanceof Boolean)
-			Env.setContext(Env.getCtx(), p_WindowNo, name,
-					((Boolean) value).booleanValue());
-		else if (value instanceof Timestamp)
-			Env.setContext(Env.getCtx(), p_WindowNo, name, (Timestamp) value);
-		else
-			Env.setContext(Env.getCtx(), p_WindowNo, name, value.toString());
-
-		dynamicDisplay();
-	}
-
-	/**
-	 * Dynamic Display.
-	 * 
-	 **/
 	public void dynamicDisplay() {
-		for (int i = 0; i < m_wEditors.size(); i++) {
+		for(int i = 0; i < m_wEditors.size(); i++) {
 			WEditor editor = m_wEditors.get(i);
 			GridField mField = editor.getGridField();
 			if (mField.isDisplayed(true)) {
 				if (!editor.isVisible()) {
 					editor.setVisible(true);
 					if (mField.getVO().isRange) {
-					// m_separators.get(i).setVisible(true);
-					 m_wEditors2.get(i).setVisible(true);
+						m_separators.get(i).setVisible(true);
+						m_wEditors_To.get(i).setVisible(true);
 					}
 				}
-				boolean rw = mField.isEditablePara(true); // r/w - check if
-															// field is Editable
+
 				Object value = mField.getValue();
 				Object defaultValue = mField.getDefault();
 				if ((value == null || value.toString().length() == 0)
-						&& defaultValue != null)
+						&& defaultValue != null) {
 					mField.setValue(defaultValue, true);
-
-
+					m_wEditors.get(i).setValue(defaultValue);
+				}
+				boolean rw = mField.isEditablePara(true); // r/w - check if field is Editable
+				m_wEditors.get(i).setReadWrite(rw);
 				editor.setReadWrite(rw);
 				editor.dynamicDisplay();
-				if (mField.getVO().isRange) {
-					WEditor editorRange = m_wEditors2.get(i);
-					if (editorRange != null) {
-						GridField gridFieldTo = m_wEditors2.get(i).getGridField();
-						Object valueTo = gridFieldTo.getValue();
-						Object defaultValueTo = gridFieldTo.getDefault();
-						if ((valueTo == null || valueTo.toString().length() == 0)
-								&& defaultValueTo != null)
-							gridFieldTo.setValue(defaultValueTo, true);
-						editorRange.setReadWrite(rw);
-						editorRange.dynamicDisplay();
+				if (mField.isRange()) {
+					GridField gridFieldTo = m_wEditors_To.get(i).getGridField();
+					Object valueTo = gridFieldTo.getValue();
+					Object defaultValueTo = gridFieldTo.getDefault();
+					if ((valueTo == null || valueTo.toString().length() == 0)
+							&& defaultValueTo != null) {
+						gridFieldTo.setValue(defaultValueTo, true);
+						m_wEditors_To.get(i).setValue(defaultValueTo);
 					}
+					rw = gridFieldTo.isEditablePara(true); // r/w - check if field is Editable
+					m_wEditors_To.get(i).setReadWrite(rw);
+					m_wEditors_To.get(i).dynamicDisplay();
 				}
 			} else if (editor.isVisible()) {
 				editor.setVisible(false);
-				 if (mField.getVO().isRange) {
-				// m_separators.get(i).setVisible(false);
-				 m_wEditors2.get(i).setVisible(false);
+				if (mField.isRange()) {
+					m_separators.get(i).setVisible(false);
+					m_wEditors_To.get(i).setVisible(false);
 				}
 			}
-		}
+		}			
+	}
+	
+	@Override
+	public Object getValue(int index) {
+		WEditor editor = m_wEditors.get(index);
+		if(editor != null)
+			return editor.getValue();
+		//	Default
+		return null;
+	}
+
+	@Override
+	public Object getValue_To(int index) {
+		WEditor editor = m_wEditors_To.get(index);
+		if(editor != null)
+			return editor.getValue();
+		//	Default
+		return null;
+	}
+
+	@Override
+	public void setValue(int index, Object value) {
+		WEditor editor = m_wEditors.get(index);
+		if(editor != null)
+			editor.setValue(value);
+	}
+
+	@Override
+	public void setValue_To(int index, Object value) {
+		WEditor editor = m_wEditors_To.get(index);
+		if(editor != null)
+			editor.setValue(value);
 	}
 	
 	/**
-	 *  Dispose
+	 * Set Parameter
+	 * @param name
+	 * @param value
 	 */
-	public void dispose()
-	{
-		cleanContext();
-		m_wEditors.clear();
-		m_wEditors2.clear();
-		m_mFields.clear();
-		m_mFields2.clear();
-	}   //  dispose
-	
-	/**
-	 * Restore window context.
-	 * @author teo_sarca [ 1699826 ]
-	 * @see org.compiere.model.GridField#restoreValue()
-	 */
-	protected void cleanContext() {
-		for (GridField f : m_mFields) {
-			if (f != null)
-			{	
-				f.restoreValue();
-				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().ColumnNameAlias, "");
-			}	
-		}
-		for (GridField f : m_mFields2) {
-			if (f != null)
-			{				
-				f.restoreValue();
-				Env.setContext(f.getVO().ctx, p_WindowNo, f.getVO().ColumnNameAlias, "");
-			}	
+	public void setParameter(Object name, Object value) {
+		if (value != null) {
+			m_search.put(name, value);
 		}
 	}
 
+	/**
+	 * Get Parameters of Search Panel
+	 * @return
+	 */
+	public LinkedHashMap<Object, Object> getParameters() {
+		return m_search;
+	}
 }
