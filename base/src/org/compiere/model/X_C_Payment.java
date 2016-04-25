@@ -33,7 +33,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160415L;
+	private static final long serialVersionUID = 20160422L;
 
     /** Standard Constructor */
     public X_C_Payment (Properties ctx, int C_Payment_ID, String trxName)
@@ -776,20 +776,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public String getCheckNo () 
 	{
 		return (String)get_Value(COLUMNNAME_CheckNo);
-	}
-
-	/** Set Create Payment.
-		@param CreatePayment Create Payment	  */
-	public void setCreatePayment (String CreatePayment)
-	{
-		set_Value (COLUMNNAME_CreatePayment, CreatePayment);
-	}
-
-	/** Get Create Payment.
-		@return Create Payment	  */
-	public String getCreatePayment () 
-	{
-		return (String)get_Value(COLUMNNAME_CreatePayment);
 	}
 
 	/** Set Exp. Month.
@@ -1835,25 +1821,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public String getTenderType () 
 	{
 		return (String)get_Value(COLUMNNAME_TenderType);
-	}
-
-	/** Set Total Lines.
-		@param TotalLines 
-		Total of all document lines
-	  */
-	public void setTotalLines (BigDecimal TotalLines)
-	{
-		throw new IllegalArgumentException ("TotalLines is virtual column");	}
-
-	/** Get Total Lines.
-		@return Total of all document lines
-	  */
-	public BigDecimal getTotalLines () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TotalLines);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** TrxType AD_Reference_ID=215 */

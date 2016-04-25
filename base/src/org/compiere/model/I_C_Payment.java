@@ -469,15 +469,6 @@ public interface I_C_Payment
 	  */
 	public String getCheckNo();
 
-    /** Column name CreatePayment */
-    public static final String COLUMNNAME_CreatePayment = "CreatePayment";
-
-	/** Set Create Payment	  */
-	public void setCreatePayment (String CreatePayment);
-
-	/** Get Create Payment	  */
-	public String getCreatePayment();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -1113,19 +1104,6 @@ public interface I_C_Payment
 	  * Method of Payment
 	  */
 	public String getTenderType();
-
-    /** Column name TotalLines */
-    public static final String COLUMNNAME_TotalLines = "TotalLines";
-
-	/** Set Total Lines.
-	  * Total of all document lines
-	  */
-	public void setTotalLines (BigDecimal TotalLines);
-
-	/** Get Total Lines.
-	  * Total of all document lines
-	  */
-	public BigDecimal getTotalLines();
 
     /** Column name TrxType */
     public static final String COLUMNNAME_TrxType = "TrxType";

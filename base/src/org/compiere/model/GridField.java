@@ -73,6 +73,8 @@ import org.compiere.util.Evaluator;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 305 ] Allows evaluate of default value based on the other parameter context
  *  	@see https://github.com/adempiere/adempiere/issues/305
+ *  	<li>BR [ 344 ] Smart Browse Search View is not MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/344
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -867,6 +869,15 @@ public class GridField
 	}	//	getColumnName
 	
 	/**
+	 * FR [ 344 ]
+	 * Get Column Name Alias
+	 * @return
+	 */
+	public String getColumnNameAlias() {
+		return m_vo.ColumnNameAlias;
+	}	//	getColumnNameAlias
+	
+	/**
 	 *  Get Column Name or SQL .. with/without AS
 	 *  @param withAS include AS ColumnName for virtual columns in select statements
 	 *  @return column name
@@ -890,7 +901,9 @@ public class GridField
 	 */
 	public boolean isVirtualColumn()
 	{
-		if (m_vo.ColumnSQL != null && m_vo.ColumnSQL.length() > 0)
+		if (m_vo.ColumnSQL != null && m_vo.ColumnSQL.length() > 0
+				//	FR [ 344 ]
+				&& !m_vo.IsColumnSQLReference)
 			return true; 
 		return false;
 	}	//	isColumnVirtual
