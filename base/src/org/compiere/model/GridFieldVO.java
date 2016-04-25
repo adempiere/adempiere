@@ -38,6 +38,9 @@ import org.compiere.util.Env;
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @author Juan David Arboleda (arboleda), GlobalQSS, [ 1795398 ] Process Parameter: add display and readonly logic
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li>BR [ 344 ] Smart Browse Search View is not MVC
+ * 		@see https://github.com/adempiere/adempiere/issues/344
  *  @version  $Id: GridFieldVO.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class GridFieldVO implements Serializable
@@ -502,6 +505,9 @@ public class GridFieldVO implements Serializable
 	public boolean IsAutocomplete = false;
 	/** Define alias by smart browser */
 	public String ColumnNameAlias = "";
+	//	FR [ 344 ]
+	/**	Is ColumnSQL like reference	*/
+	public boolean IsColumnSQLReference = false;
 	
 	/**
 	 *  Set Context including contained elements
