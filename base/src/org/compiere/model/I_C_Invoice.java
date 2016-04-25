@@ -279,6 +279,21 @@ public interface I_C_Invoice
 
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
+    /** Column name C_POS_ID */
+    public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
+
+	/** Set POS Terminal.
+	  * Point of Sales Terminal
+	  */
+	public void setC_POS_ID (int C_POS_ID);
+
+	/** Get POS Terminal.
+	  * Point of Sales Terminal
+	  */
+	public int getC_POS_ID();
+
+	public org.compiere.model.I_C_POS getC_POS() throws RuntimeException;
+
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 
