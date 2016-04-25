@@ -195,7 +195,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		setMPOS();
 		userPinListener = new WPOSUserPinListener(this);
 		//Delay 5 seconds by default
-		userPinTimer = new Timer((getAutoLogoutDelay() + 5)  * 1000);
+		userPinTimer = new Timer((getPINEntryTimeout() + 5)  * 1000);
 		userPinTimer.addEventListener(Events.ON_TIMER, userPinListener);
 		userPinListener.setTimer(userPinTimer);
 		userPinTimer.setRunning(false);

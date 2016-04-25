@@ -522,7 +522,7 @@ public class WCollectDetail extends CollectDetail implements EventListener, POSP
 				else 
 					payAmt = Env.ZERO;
 
-				if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo) 
+				if(p_TenderType.equals(X_C_Payment.TENDERTYPE_CreditMemo)
 						&& payAmt.compareTo(getOpenAmtCreditMemo()) > 0 
 						&& fCreditMemo.getSelectedIndex() > 0) {
 					FDialog.warn(0, Msg.parseTranslation(p_ctx, "POS.MaxAmountAllowed")+":"+getOpenAmtCreditMemo());
