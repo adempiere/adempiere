@@ -150,7 +150,7 @@ public class ADServiceImpl implements ADService {
     	f.setIsMandatory( fo.IsMandatory );
     	f.setIsParent( fo.IsParent );
     	f.setIsProcess( fo.isProcess );
-    	f.setIsRange( fo.isRange );
+    	f.setIsRange( fo.IsRange );
     	f.setIsReadOnly( fo.IsReadOnly );
     	f.setIsSameLine( fo.IsSameLine );
     	f.setIsSelectionColumn( fo.IsSelectionColumn );

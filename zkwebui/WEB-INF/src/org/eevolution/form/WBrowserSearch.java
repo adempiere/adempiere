@@ -301,7 +301,7 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 			if (mField.isDisplayed(true)) {
 				if (!editor.isVisible()) {
 					editor.setVisible(true);
-					if (mField.getVO().isRange) {
+					if (mField.getVO().IsRange) {
 						m_separators.get(i).setVisible(true);
 						m_wEditors_To.get(i).setVisible(true);
 					}
@@ -318,6 +318,7 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 				m_wEditors.get(i).setReadWrite(rw);
 				editor.setReadWrite(rw);
 				editor.dynamicDisplay();
+				//	FR [ 349 ]
 				if (mField.isRange()) {
 					GridField gridFieldTo = m_wEditors_To.get(i).getGridField();
 					Object valueTo = gridFieldTo.getValue();

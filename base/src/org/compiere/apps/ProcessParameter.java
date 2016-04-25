@@ -332,7 +332,7 @@ public abstract class ProcessParameter {
 		GridField field_To = null;
 		m_mFields.add(field);                      //  add to Fields
 		//
-		if (voF.isRange) {
+		if (voF.IsRange) {
 			//
 			GridFieldVO voF2 = GridFieldVO.createParameter(voF);
 			//	Change Name

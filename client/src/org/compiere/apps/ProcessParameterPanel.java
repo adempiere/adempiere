@@ -51,6 +51,8 @@ import org.compiere.swing.CPanel;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li>FR [ 265 ] ProcessParameterPanel is not MVC
  *			@see https://github.com/adempiere/adempiere/issues/265
+ *			<li>FR [ 349 ] GridFieldVO attribute is ambiguous
+ * 			@see https://github.com/adempiere/adempiere/issues/349
  */
 public class ProcessParameterPanel extends ProcessParameter implements VetoableChangeListener {
 
@@ -159,9 +161,9 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 		centerPanel.add (dash, new ALayoutConstraint(row, cols++));
 		m_separators.add(dash);
 		//	The Editor
-		VEditor vEditor2 = VEditorFactory.getEditor(field, false);
+		VEditor vEditor2 = VEditorFactory.getEditor(field_To, false);
 		//  New Field value to be updated to editor
-		field.addPropertyChangeListener(vEditor2);
+		field_To.addPropertyChangeListener(vEditor2);
 		//	Set Default Value
 		Object defaultObject2 = field_To.getDefault();
 		vEditor2.setValue(defaultObject2);
@@ -225,6 +227,7 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 						// context
 						if (!comp.isVisible()) {
 							comp.setVisible(true); // visibility
+							//	FR [ 349 ]
 							if (field.isRange())
 								m_separators.get(index).setText(" - ");
 						}
