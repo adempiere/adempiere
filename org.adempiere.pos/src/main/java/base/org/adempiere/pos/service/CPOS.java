@@ -488,6 +488,15 @@ public class CPOS {
 			return partner.getC_BPartner_ID();
 		return 0;
 	}	//	getC_BPartner_ID
+
+	/**
+	 * Get Bank Account Id
+	 * @return
+     */
+	public int getC_BankAccount_ID()
+	{
+		return entityPOS.getC_BankAccount_ID();
+	}
 	
 	
 	/**
@@ -535,7 +544,18 @@ public class CPOS {
 			return entityPOS.getAutoLogoutDelay();
 		return 0;
 	}
-	
+
+	/**
+	 * Get PIN Entry Timeout
+	 * @return
+	 * @return int
+	 */
+	public int getPINEntryTimeout() {
+		if (entityPOS != null)
+			return entityPOS.getPINEntryTimeout();
+		return 0;
+	}
+
 	/**
 	 * Get Sales Rep. Name
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
