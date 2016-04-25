@@ -120,7 +120,7 @@ public class CollectDetail {
 			String m_A_State, String m_A_Street, String m_A_Zip,
 			String m_A_Country, String m_A_EMail, String m_A_Ident_DL,
 			String m_A_Ident_SSN, String m_RoutingNo) {
-		return new CollectDetail(X_C_Payment.TENDERTYPE_CreditCard, m_PayAmt, null, 0, null, 
+		return new CollectDetail(X_C_Payment.TENDERTYPE_CreditCard, m_PayAmt, null, 0, null,
 				m_CreditCardExpMM, m_CreditCardExpYY, m_CreditCardNumber, m_CreditCardType, 
 				m_CreditCardVV, m_A_Name, m_A_City, m_A_State, m_A_Street, m_A_Zip, m_A_Country, 
 				m_A_EMail, m_A_Ident_DL, m_A_Ident_SSN, m_RoutingNo);
