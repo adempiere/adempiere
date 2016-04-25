@@ -103,6 +103,8 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	private MInvoice 		m_invoice = null;
 	/**	Order					*/
 	private MOrder			m_order = null;
+	/**	HR Movement				*/
+	private MHRMovement		m_movement = null;
 	/**	Parent					*/
 	private MPaySelection	m_parent = null;
 	
@@ -294,7 +296,18 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		if (m_order == null)
 			m_order = new MOrder (getCtx(), getC_Order_ID(), get_TrxName());
 		return m_order;
-	}	//	getInvoice
+	}	//	getOrder
+	
+	/**
+	 * Get Movement of payroll
+	 * FR [ 297 ]
+	 * @return
+	 */
+	public MHRMovement getHRMovement() {
+		if (m_movement == null)
+			m_movement = new MHRMovement(getCtx(), getHR_Movement_ID(), get_TrxName());
+		return m_movement;
+	}	//	getHRMovement
 	
 	/**
 	 * Get Parent
@@ -313,6 +326,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		validateBPartner();
 		//	FR [ 297 ]
 		if(getC_BPartner_ID() == 0)
 			throw new AdempiereException("@C_BPartner_ID@ @NotFound@");
@@ -386,6 +400,34 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 				//	Set
 				setPaymentRule(PAYMENTRULE_Check);
 			}
+		}
+	}
+	
+	/**
+	 * Validate if the BP is the same for Documet and record
+	 */
+	private void validateBPartner() {
+		//	Validate when BP is changed
+		if(is_ValueChanged("C_BPartner_ID")) {
+			int m_C_BPartner_ID = getC_BPartner_ID();
+			//	For invoice
+			if(getC_Invoice_ID() != 0) {
+				m_C_BPartner_ID = getInvoice().getC_BPartner_ID();
+			} else if(getC_Order_ID() != 0) {
+				m_C_BPartner_ID = getC_Order().getC_BPartner_ID();
+			} else if(getHR_Movement_ID() != 0) {
+				m_C_BPartner_ID = getHRMovement().getC_BPartner_ID();
+			}
+			//	Validate BP
+			if(m_C_BPartner_ID != getC_BPartner_ID()) {
+				throw new AdempiereException("@BPDiff@");	//	TODO translate it "business partner different"
+			}
+		} else if(getC_Invoice_ID() != 0) {	//	else then set from document
+			setC_BPartner_ID(getInvoice().getC_BPartner_ID());
+		} else if(getC_Order_ID() != 0) {
+			setC_BPartner_ID(getOrder().getC_BPartner_ID());
+		} else if(getHR_Movement_ID() != 0) {
+			setC_BPartner_ID(getHRMovement().getC_BPartner_ID());
 		}
 	}
 	
