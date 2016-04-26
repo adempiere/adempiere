@@ -39,6 +39,7 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MLookupInfo;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPaymentBatch;
 import org.compiere.plaf.CompiereColor;
@@ -203,7 +204,11 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener, Ve
 		
 		//  C_PaySelection_ID
 		int AD_Column_ID = 7670;        //  C_PaySelectionCheck.C_PaySelection_ID
-		MLookup lookupPS = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
+		//	FR [ 297 ]
+		//	Add DocStatus for validation
+		MLookupInfo info = MLookupFactory.getLookupInfo(Env.getCtx(), m_WindowNo, AD_Column_ID, DisplayType.Search);
+		info.ValidationCode = "C_PaySelection.DocStatus IN('CO', 'CL')";
+		MLookup lookupPS = new MLookup(info, 0);
 		paySelectSearch = new VLookup("C_PaySelection_ID", true, false, true, lookupPS);
 		paySelectSearch.addVetoableChangeListener(this);
 		

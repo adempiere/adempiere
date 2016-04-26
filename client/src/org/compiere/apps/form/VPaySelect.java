@@ -84,6 +84,7 @@ import org.compiere.util.ValueNamePair;
  *				<li>FR [ 265 ] ProcessParameterPanel is not MVC
  *				@see https://github.com/adempiere/adempiere/issues/265
  */
+@Deprecated
 public class VPaySelect extends PaySelect implements FormPanel, ActionListener, ASyncProcess, PropertyChangeListener, MiniTableSelectionListener
 {
 	/** @todo withholding */
