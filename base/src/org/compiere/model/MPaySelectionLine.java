@@ -420,7 +420,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 			}
 			//	Validate BP
 			if(m_C_BPartner_ID != getC_BPartner_ID()) {
-				throw new AdempiereException("@BPDiff@");	//	TODO translate it "business partner different"
+				throw new AdempiereException("@BPartnerDiff@");	//	TODO translate it "business partner different"
 			}
 		} else if(getC_Invoice_ID() != 0) {	//	else then set from document
 			setC_BPartner_ID(getInvoice().getC_BPartner_ID());

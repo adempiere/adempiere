@@ -381,6 +381,26 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 		}
 	}
 
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		if(is_ValueChanged("C_Currency_ID")) {
+			int retValue = DB.getSQLValue(get_TrxName(), "SELECT 1 "
+					+ "FROM C_PaySelection s "
+					+ "INNER JOIN C_PaySelectionLine l ON(l.C_PaySelection_ID = s.C_PaySelection_ID) "
+					+ "WHERE s.C_PaySelection_ID = ? "
+					+ "AND ("
+					+ "		(l.C_Order_ID IS NOT NULL AND EXISTS(SELECT 1 FROM C_Order o WHERE o.C_Order_ID = l.C_Order_ID AND o.C_Currency_ID <> s.C_Currency_ID)) "
+					+ "		OR "
+					+ "		(l.C_Invoice_ID IS NOT NULL AND EXISTS(SELECT 1 FROM C_Invoice i WHERE i.C_Invoice_ID = l.C_Invoice_ID AND i.C_Currency_ID <> s.C_Currency_ID))"
+					+ ")", getC_PaySelection_ID());
+			//	Validate if exists documents in other currency
+			if(retValue > 0) {
+				throw new AdempiereException("@PSDocConverted@ (@C_Currency_ID@)");
+			}
+		}
+		return super.beforeSave(newRecord);
+	}
+	
 	/**
 	 * 	Void Document.
 	 * 	Same as Close.

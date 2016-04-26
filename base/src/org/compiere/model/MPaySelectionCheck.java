@@ -556,8 +556,9 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 	 */
 	public void addLine (MPaySelectionLine line)
 	{
+		//	FR [ 297 ] Change to Message
 		if (getC_BPartner_ID() != line.getC_BPartner_ID())
-			throw new IllegalArgumentException("Line for fifferent BPartner");
+			throw new IllegalArgumentException("@BPartnerDiff@");
 		//
 		if (isReceipt() == line.isSOTrx())
 		{
