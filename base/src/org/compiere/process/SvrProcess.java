@@ -25,11 +25,15 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPInstance;
+import org.compiere.model.MProcess;
+import org.compiere.model.MProcessPara;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
@@ -53,6 +57,8 @@ import org.compiere.util.Trx;
  *		@see https://github.com/adempiere/adempiere/issues/244
  *		<li> FR [ 325 ] SvrProcess must handle mandatory error on Process Parameters
  *		@see https://github.com/adempiere/adempiere/issues/325
+ *		<li> FR [ 326 ] Process source code generated automatically (Add validation of mandatory parameter)
+ *		@see https://github.com/adempiere/adempiere/issues/326
  * @author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  *
  * @author mckayERP www.mckayERP.com
@@ -85,6 +91,7 @@ public abstract class SvrProcess implements ProcessCall
 	/**	Common Error Message			*/
 	protected static String 	MESSAGE_SaveErrorRowNotFound = "@SaveErrorRowNotFound@";
 	protected static String 	MESSAGE_InvalidArguments = "@InvalidArguments@";
+	protected static String 	MESSAGE_FillMandatory = "@FillMandatory@";
 
 
 	/**
@@ -154,6 +161,8 @@ public abstract class SvrProcess implements ProcessCall
 			//	FR [ 325 ]
 			//	Load Parameters
 			getParameter();
+			//	FR [ 326 ]
+			validateParameter();
 			//	Prepare
 			prepare();
 			msg = doIt();
@@ -181,6 +190,43 @@ public abstract class SvrProcess implements ProcessCall
 		
 		return success;
 	}   //  process
+	
+	/**
+	 * Validate Parameters
+	 */
+	private void validateParameter() {
+		MProcess process = MProcess.get(getCtx(), processInfo.getAD_Process_ID());
+		//	No have parameter
+		if(process == null)
+			return;
+		//	
+		MProcessPara [] parameters = process.getParameters();
+		StringBuffer errorMsg = new StringBuffer();
+		//	Loop over parameter, find a mandatory parameter
+		for(MProcessPara parameter : parameters) {
+			if(parameter.isMandatory()) {
+				ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
+				if(infoParameter == null
+						|| infoParameter.getParameter() == null
+						|| (DisplayType.isLookup(parameter.getAD_Reference_ID()) 
+								&& infoParameter.getParameterAsInt() <= 0)
+						|| (DisplayType.isText(parameter.getAD_Reference_ID()) 
+								&& (infoParameter.getParameterAsString() == null 
+										|| infoParameter.getParameterAsString().length() == 0))
+				) {
+					if(errorMsg.length() > 0) {
+						errorMsg.append(", ");
+					}
+					//	
+					errorMsg.append("@").append(parameter.getColumnName()).append("@");
+				}
+			}
+		}
+		//	throw exception
+		if(errorMsg.length() > 0) {
+			throw new AdempiereException(MESSAGE_FillMandatory + errorMsg.toString());
+		}
+	}
 
 	/**
 	 *  Prepare - e.g., get Parameters.
