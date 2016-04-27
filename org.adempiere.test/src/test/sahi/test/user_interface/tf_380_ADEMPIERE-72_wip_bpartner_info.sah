@@ -1,0 +1,196 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * Test Flow WebUI test of Business Partner Info panel.
+ * 
+ * This test flow exercises the various features of the BPartner search field 
+ * and the BPartner Info panel.
+ * 
+ **/
+
+ // Need to determine what test functions are required.
+ 
+/**
+ * Test the BPartner info window.
+ */
+ function test_wip_bpartner_info()
+{
+	 
+	 //  Open the Product Info panel
+	info_viewInfo("BPartner");
+
+	 //  From the main menu, the criteria fields should be empty
+	_assertEqual("", info_getCriteriaFieldText("fieldValue"),"Error: tf_wip_BPartner_info: Value not set as expected.");
+	_assertEqual("", info_getCriteriaFieldText("fieldName"),"Error: tf_wip_BPartner_info: Name not set as expected.");
+	_assertEqual("", info_getCriteriaFieldText("fieldContact"),"Error: tf_wip_BPartner_info: Contact not set as expected.");
+	_assertEqual("", info_getCriteriaFieldText("fieldEMail"),"Error: tf_wip_BPartner_info: EMail not set as expected.");
+	_assertEqual("", info_getCriteriaFieldText("fieldPhone"),"Error: tf_wip_BPartner_info: Phone not set as expected.");
+	_assertEqual("", info_getCriteriaFieldText("fieldPostal"),"Error: tf_wip_BPartner_info: Postal not set as expected.");
+
+	//  The context should default to isSOTrx = Y
+	_assertEqual("Customers only", _getText(_label("Customers only")),"Error: tf_wip_BPartner_info: Customer Only lable not set as expected.");
+	
+	//  Default should be to auto query
+	//  Check that all records are returned - expecting 17 (based on default database)
+	_assertEqual("21",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: initial auto query not returning what was expected");
+
+	//  Check that the Contact and Location tabs work
+	//  The first row - C&W Construction - should be selected.
+	info_clickListRow("7", "SearchResults");  // This will trigger a refresh of the other data tables
+	_assertEqual("Carl Boss",info_getDataFieldText("0", "2", "Contact"),"Error: tf_wip_bpartner_info: First row of Contact tab not set as expected.");
+
+	info_clickTab("Location/Address");
+	_assertEqual("100 Elm St, Stamford, CT 03323",info_getDataFieldText("0", "5", "Address"),"Error: tf_wip_bpartner_info: First row of Location tab not set as expected.");
+
+	//  Check that the Warehouse tab responds to clicks in the main table
+	info_clickTab("Contact");
+	info_clickListRow("12", "SearchResults");  // This will trigger a refresh of the other data tables
+
+	_assertEqual("Henry Seed",info_getDataFieldText("0", "2", "Contact"),"Error: tf_wip_bpartner_info: First row of Contact tab not set as expected.");
+
+	info_clickTab("Location/Address");
+	_assertEqual("Mud Rd, Small Village, CT 06455",info_getDataFieldText("0", "5", "Address"),"Error: tf_wip_bpartner_info: First row of Location tab not set as expected.");
+	
+	// Key field
+	info_setCriteriaText("fieldValue","C");
+	_assertEqual("7 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for value 'C' not returning what was expected");
+	info_setCriteriaText("fieldValue","Co");
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for value 'Co' not returning what was expected");
+	info_setCriteriaText("fieldValue","Joe");
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for value 'Joe' not returning what was expected");
+
+	info_resetCriteria();
+	_assertEqual("21",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for all not returning what was expected");
+
+	// Name field
+	info_setCriteriaText("fieldName","C");
+	_assertEqual("10",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for name 'C' not returning what was expected");
+	info_setCriteriaText("fieldName","Co");
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for name 'Co' not returning what was expected");
+	
+	info_resetCriteria();
+	_assertEqual("21",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for all not returning what was expected");
+
+	// Contact
+	info_setCriteriaText("fieldContact","henry");
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for contact 'henry' not returning what was expected");
+	info_clickTab("Contact");
+	_assertEqual("Henry Seed",info_getDataFieldText("0", "2", "Contact"),"Error: tf_wip_bpartner_info: First row of Contact tab not set as expected.");
+
+	info_resetCriteria();
+	_assertEqual("21",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for all not returning what was expected");
+
+	// Email
+	info_setCriteriaText("fieldEMail","candw");
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for email 'candw' not returning what was expected");
+	info_clickTab("Contact");
+	_assertEqual("Carl Boss",info_getDataFieldText("0", "2", "Contact"),"Error: tf_wip_bpartner_info: First row of Contact tab not set as expected.");
+
+	info_resetCriteria();
+	_assertEqual("21",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for all not returning what was expected");
+
+	// Phone
+	info_setCriteriaText("fieldPhone","555-0134");
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for phone '555-0134' not returning what was expected");
+	info_clickTab("Contact");
+	_assertEqual("Henry Seed",info_getDataFieldText("0", "2", "Contact"),"Error: tf_wip_bpartner_info: First row of Contact tab not set as expected.");
+
+	info_resetCriteria();
+	_assertEqual("21",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for all not returning what was expected");
+
+	// ZIP
+	info_setCriteriaText("fieldPostal","04460");
+	_assertEqual("1 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for postal '04460' not returning what was expected");
+	_assertEqual("JoeBlock",info_getDataFieldText("0", "1", "SearchResults"),"Error: tf_wip_bpartner_info: First row of Search Results not set as expected.");
+	info_clickTab("Location/Address");
+	_assertEqual("Hartford",info_getDataFieldText("0", "1", "Address"),"Error: tf_wip_bpartner_info: First row of location tab not set as expected.");
+
+	// Multiple criteria with AND
+	info_setCriteriaText("fieldPhone","555-0134");
+	_assertEqual("0 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for phone '555-0134' not returning what was expected");
+	
+	info_setCheckbox("checkAND","N");
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for AND/OR=OR not returning what was expected");
+
+	info_resetCriteria();
+	_assertEqual("21",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for all not returning what was expected");
+	
+	info_setCheckbox("checkCustomer","Y");
+	_assertEqual("6 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for 'Customers Only' not returning what was expected");
+
+	//  Main functional tests of the panel are completed.  Test the search field.
+	
+	iCancel();
+	
+	//Create a sales order
+	wOpenWindow("Sales Order");
+	iFormView();
+	iNewRecord();	
+	fSetSearch("C_BPartner_ID", "Joe Block");  // Should find it with no problems.
+	_assertEqual("Joe Block", fGetSearch("C_BPartner_ID"),"Error: tf_wip_bpartner_info: BPartner query for 'Joe Block' did not find the right BPartner");
+	fClickSearchButton("C_BPartner_ID"); // Opens the BPartner info window
+	// We should only have one product listed
+	_assertEqual("1 ", String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: BPInfo window not displaying the single record expected");
+	
+	iCancel();  // Clears the field
+	_assertEqual("", fGetSearch("C_BPartner_ID"),"Error: tf_wip_bpartner_info: BPartner field not cleared when Info window cancelled.");
+	
+
+	fClickSearchButton("C_BPartner_ID"); // Opens the BPartner info window
+
+	//  The context should have isSOTrx = Y
+	_assertEqual("Customers only", _getText(_label("Customers only")),"Error: tf_wip_BPartner_info: Customer Only lable not set as expected.");
+	_assertEqual("Y", info_getCheckboxValue("checkCustomer"),"Error: tf_wip_BPartner_info: Customer Only not selected where isSOTrx = Y.");
+	iCancel();  // Clears the field
+
+	// Check that an unknown entry with non-digit characters is searched in Name field
+	fSetSearch("C_BPartner_ID", "xyz123");  // Should trigger the BPartner Info window.
+	_assertEqual("", info_getCriteriaFieldText("fieldValue"),"Error: tf_wip_BPartner_info: Value not set as expected.");
+	_assertEqual("xyz123", info_getCriteriaFieldText("fieldName"),"Error: tf_wip_BPartner_info: Name not set as expected.");
+	iCancel();  // Clears the field
+
+	// Check that an unknown entry with only digit characters is searched in Value field
+	fSetSearch("C_BPartner_ID", "456");  // Should trigger the BPartner Info window.
+	_assertEqual("456", info_getCriteriaFieldText("fieldValue"),"Error: tf_wip_BPartner_info: Value not set as expected.");
+	_assertEqual("", info_getCriteriaFieldText("fieldName"),"Error: tf_wip_BPartner_info: Name not set as expected.");
+	iCancel();  // Clears the field
+	
+	// Check with a partially unknown entry 
+	fSetSearch("C_BPartner_ID", "c");  // Should trigger the BPartner Info window.
+	_assertEqual("", info_getCriteriaFieldText("fieldValue"),"Error: tf_wip_BPartner_info: Value not set as expected.");
+	_assertEqual("c", info_getCriteriaFieldText("fieldName"),"Error: tf_wip_BPartner_info: Name not set as expected.");
+	_assertEqual("4 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_bpartner_info: query for 'c' not returning what was expected");
+	
+	info_clickListRow("1", "SearchResults"); // Select Joe Block 
+	iConfirm();
+	_assertEqual("Joe Block", fGetSearch("C_BPartner_ID"),"Error: tf_wip_bpartner_info: BPartner query for 'Joe Block' did not find the right BPartner");
+
+	iUndo();  //  Done with the Sales Order
+	wCloseWindow("Sales Order");
+
+	wOpenWindow("Purchase Order");
+	iFormView();
+	iNewRecord();	
+
+	fClickSearchButton("C_BPartner_ID"); // Opens the BPartner info window
+
+	//  The context should have isSOTrx = N
+	_assertEqual("Only Vendors", _getText(_label("Only Vendors")),"Error: tf_wip_BPartner_info: Customer Only lable not set as expected.");
+	_assertEqual("Y", info_getCheckboxValue("checkCustomer"),"Error: tf_wip_BPartner_info: Customer Only not selected where isSOTrx = Y.");
+
+	iCancel();  // Clears the field
+	iUndo();
+	wCloseWindow("Purchase Order");
+
+}

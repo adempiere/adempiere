@@ -1,0 +1,55 @@
+Color Family,The color family of the part,List,Y,Black,Black,Black
+Color Family,The color family of the part,List,Y,Blue,Blue,Blue
+Color Family,The color family of the part,List,Y,Green,Green,Green
+Color Family,The color family of the part,List,Y,Gray,Gray,Gray
+Color Family,The color family of the part,List,Y,Orange-Brown,Orange-Brown,Orange-Brown
+Color Family,The color family of the part,List,Y,Purple,Purple,Purple
+Color Family,The color family of the part,List,Y,Red,Red,Red
+Color Family,The color family of the part,List,Y,White,White,White
+Color Family,The color family of the part,List,Y,Yellow,Yellow,Yellow
+Exact Color,The exact color of the part,List,Y,Black,Black,Black
+Exact Color,The exact color of the part,List,Y,Bright Blue,Bright Blue,Bright Blue
+Exact Color,The exact color of the part,List,Y,Earth Blue,Earth Blue,Earth Blue
+Exact Color,The exact color of the part,List,Y,Medium Blue,Medium Blue,Medium Blue
+Exact Color,The exact color of the part,List,Y,Tr. Blue,Tr. Blue,Tr. Blue
+Exact Color,The exact color of the part,List,Y,Tr. Light Blue,Tr. Light Blue,Tr. Light Blue
+Exact Color,The exact color of the part,List,Y,Bright Green,Bright Green,Bright Green
+Exact Color,The exact color of the part,List,Y,Bright Yellowish Green,Bright Yellowish Green,Bright Yellowish Green
+Exact Color,The exact color of the part,List,Y,Dark Green,Dark Green,Dark Green
+Exact Color,The exact color of the part,List,Y,Tr. Fluore. Green,Tr. Fluore. Green,Tr. Fluore. Green
+Exact Color,The exact color of the part,List,Y,Tr. Green,Tr. Green,Tr. Green
+Exact Color,The exact color of the part,List,Y,Dark Stone Grey,Dark Stone Grey,Dark Stone Grey
+Exact Color,The exact color of the part,List,Y,Medium Stone Grey,Medium Stone Grey,Medium Stone Grey
+Exact Color,The exact color of the part,List,Y,Bright Orange,Bright Orange,Bright Orange
+Exact Color,The exact color of the part,List,Y,Dark Orange,Dark Orange,Dark Orange
+Exact Color,The exact color of the part,List,Y,Flame Yellowish Orange,Flame Yellowish Orange,Flame Yellowish Orange
+Exact Color,The exact color of the part,List,Y,Redish Brown,Redish Brown,Redish Brown
+Exact Color,The exact color of the part,List,Y,Tr. Brown,Tr. Brown,Tr. Brown
+Exact Color,The exact color of the part,List,Y,Bright Purple,Bright Purple,Bright Purple
+Exact Color,The exact color of the part,List,Y,Medium Lilac,Medium Lilac,Medium Lilac
+Exact Color,The exact color of the part,List,Y,Bright Red,Bright Red,Bright Red
+Exact Color,The exact color of the part,List,Y,New Dark Red,New Dark Red,New Dark Red
+Exact Color,The exact color of the part,List,Y,Tr. Fluore. Reddish Orange,Tr. Fluore. Reddish Orange,Tr. Fluore. Reddish Orange
+Exact Color,The exact color of the part,List,Y,Tr. Red,Tr. Red,Tr. Red
+Exact Color,The exact color of the part,List,Y,White,White,White
+Exact Color,The exact color of the part,List,Y,Brick Yellow,Brick Yellow,Brick Yellow
+Exact Color,The exact color of the part,List,Y,Bright Yellow,Bright Yellow,Bright Yellow
+Exact Color,The exact color of the part,List,Y,Sand Yellow,Sand Yellow,Sand Yellow
+Exact Color,The exact color of the part,List,Y,Tr. Yellow,Tr. Yellow,Tr. Yellow
+R_Type,Type,List,Y,0363,Carbon Film,Carbon Film
+R_Type,Type,List,Y,1614,Metal Alloy,Metal Alloy
+R_Type,Type,List,Y,2912,Thick Film,Thick Film
+R_Type,Type,List,Y,2915,Thin Film,Thin Film
+R_PowerRating,Power Rating,List,Y,0015,1/10W,1/10W
+R_PowerRating,Power Rating,List,Y,0026,1/4W,1/4W
+R_PowerRating,Power Rating,List,Y,0037,1/2W,1/2W
+R_Resistance,Resistance (ohms),Number,Y,,,
+R_Package,Package,List,Y,0201,0201,0201
+R_Package,Package,List,Y,0207,0207,0207
+R_Package,Package,List,Y,0402,0402,0402
+R_Package,Package,List,Y,0502,0502,0502
+R_Package,Package,List,Y,0504,0504,0504
+R_Package,Package,List,Y,0603,0603,0603
+R_Packaging,Packaging,List,Y,Tray,Tray,Tray
+R_Packaging,Packaging,List,Y,Tube,Tube,Tube
+R_Packaging,Packaging,List,Y,Tape & Reel,Tape & Reel,Tape & Reel
