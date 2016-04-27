@@ -1,0 +1,15 @@
+Parts,Parts,Parts,,FiFo,N,N,0,,Orange
+Bricks,Bricks,"Bricks, Standard height",Parts-Parts,FiFo,Y,N,50,,Orange
+Plates,Plates,"Plates, minimal height",Parts-Parts,FiFo,N,N,50,,Orange
+Figure,Figure Parts,Complex parts,Parts-Parts,FiFo,N,N,50,,Orange
+Kits,Kits,Kits ,,FiFo,N,N,50,,Blue
+Passives,Passives,Passive Parts,,FiFo,N,N,80,,Green
+Batteries,Batteries,,Passives-Passives,FiFo,N,N,80,,Green
+Capacitors,Capacitors,,Passives-Passives,FiFo,N,N,80,,Green
+Circuit Protection,Circuit Protection,,Passives-Passives,FiFo,N,N,80,,Green
+Frequency Controls,Frequency Controls,,Passives-Passives,FiFo,N,N,80,,Green
+Magnetics,Magnetics,,Passives-Passives,FiFo,N,N,80,,Green
+Magnetics - Inductors,Magnetics - Inductors,,Passives-Passives,FiFo,N,N,80,,Green
+Magnetics - Transformers,Magnetics - Transformers,,Passives-Passives,FiFo,N,N,80,,Green
+Resistors,Resistors,,Passives-Passives,FiFo,N,N,80,,Green
+Widgets,Widgets,,,FiFo,N,N,80,,Black
