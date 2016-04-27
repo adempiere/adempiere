@@ -45,7 +45,9 @@ import org.compiere.util.Env;
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 9223372036854775807 ] Add Dynamic-Tree Functionality
  *		@see https://adempiere.atlassian.net/browse/ADEMPIERE-442
- *  @version    $Id: MTree.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *	@author Trifon Trifonov
+ *		<li> FR [ #351 ] Add Account number to Account Tree view
+ *		@see https://github.com/adempiere/adempiere/issues/351
  */
 public class MTree extends MTree_Base
 {
@@ -202,7 +204,7 @@ public class MTree extends MTree_Base
 	{
 		//  SQL for TreeNodes
 		StringBuffer sql = new StringBuffer("SELECT "
-			+ "tn.Node_ID,tn.Parent_ID,tn.SeqNo,tb.IsActive "
+			+ "tn.Node_ID, tn.Parent_ID, tn.SeqNo, tb.IsActive " // @Trifon
 			+ "FROM ").append(getNodeTableName()).append(" tn"
 			+ " LEFT OUTER JOIN AD_TreeBar tb ON (tn.AD_Tree_ID=tb.AD_Tree_ID"
 			+ " AND tn.Node_ID=tb.Node_ID "
@@ -437,7 +439,7 @@ public class MTree extends MTree_Base
 			if (columnNameX == null)
 				throw new IllegalArgumentException("Unknown TreeType=" + getTreeType());
 			sqlNode.append("SELECT t.").append(columnNameX)
-				.append("_ID,t.Name,t.Description,t.IsSummary,").append(color)
+				.append("_ID, t.Name, t.Description, t.IsSummary, ").append(color).append(", t.Value") //@Trifon
 				.append(" FROM ").append(fromClause);
 			if (!m_editable)
 				sqlNode.append(" WHERE t.IsActive='Y'");
@@ -499,7 +501,7 @@ public class MTree extends MTree_Base
 				int node = m_nodeRowSet.getInt(1);				
 				if (node_ID != node)	//	search for correct one
 					continue;
-				//	ID,Name,Description,IsSummary,Action/Color
+				//	ID, Name, Description, IsSummary, Action/Color, Value // @Trifon
 				int index = 2;				
 				String name = m_nodeRowSet.getString(index++); 
 				String description = m_nodeRowSet.getString(index++);
@@ -552,6 +554,11 @@ public class MTree extends MTree_Base
 						if (printColor != null)
 							color = printColor.getColor();
 					}
+					// @Trifon-begin
+					if ( getTreeType().equals(TREETYPE_ElementValue) ) {
+						String value = m_nodeRowSet.getString(index++);
+						name = value + " - " + name;
+					}// @Trifon-end
 					//
 					retValue = new MTreeNode (node_ID, seqNo,
 						name, description, parent_ID, isSummary,
