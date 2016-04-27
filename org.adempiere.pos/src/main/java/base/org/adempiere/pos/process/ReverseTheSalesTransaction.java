@@ -61,9 +61,6 @@ public class ReverseTheSalesTransaction extends ReverseTheSalesTransactionAbstra
 
     @Override
     protected String doIt() throws Exception {
-        if (getOrderId() <= 0)
-            throw new AdempiereException("@C_Order_ID@ @NotFound@");
-
         today = new Timestamp(System.currentTimeMillis());
         // Get Order
         MOrder sourceOrder = new MOrder(getCtx(), getOrderId(), get_TrxName());

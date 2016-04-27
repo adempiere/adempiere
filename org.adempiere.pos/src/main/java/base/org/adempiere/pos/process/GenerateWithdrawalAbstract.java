@@ -26,10 +26,12 @@ import org.compiere.process.SvrProcess;
  */
 public abstract class GenerateWithdrawalAbstract extends SvrProcess
 {
+	/** Process Value 	*/
+	private static final String VALUE = "C_POS Withdrawal";
 	/** Process Name 	*/
-	public static final String NAME = "POS Withdrawal";
+	private static final String NAME = "POS Withdrawal";
 	/** Process Id 	*/
-	public static final int ID = 53846;
+	private static final int ID = 53846;
  
 	/**	Parameter Name for C_POS_ID	*/
 	public static final String C_POS_ID = "C_POS_ID";
@@ -103,56 +105,84 @@ public abstract class GenerateWithdrawalAbstract extends SvrProcess
 		currencyTypeId = getParameterAsInt(C_ConversionType_ID);
 		currencyId = getParameterAsInt(C_Currency_ID);
 	}
+
 	/**	 Getter Parameter Value for pOSTerminalId	*/
 	protected int getPOSTerminalId() {
 		return pOSTerminalId;
 	}
+
 	/**	 Getter Parameter Value for businessPartnerId	*/
 	protected int getBusinessPartnerId() {
 		return businessPartnerId;
 	}
+
 	/**	 Getter Parameter Value for documentNo	*/
 	protected String getDocumentNo() {
 		return documentNo;
 	}
+
 	/**	 Getter Parameter Value for description	*/
 	protected String getDescription() {
 		return description;
 	}
+
 	/**	 Getter Parameter Value for transactionDate	*/
 	protected Timestamp getTransactionDate() {
 		return transactionDate;
 	}
+
 	/**	 Getter Parameter Value for accountDate	*/
 	protected Timestamp getAccountDate() {
 		return accountDate;
 	}
+
 	/**	 Getter Parameter Value for bankAccountId	*/
 	protected int getBankAccountId() {
 		return bankAccountId;
 	}
+
 	/**	 Getter Parameter Value for transferCashtrxtoId	*/
 	protected int getTransferCashtrxtoId() {
 		return transferCashtrxtoId;
 	}
+
 	/**	 Getter Parameter Value for documentTypeId	*/
 	protected int getDocumentTypeId() {
 		return documentTypeId;
 	}
+
 	/**	 Getter Parameter Value for counterDocumentTypeId	*/
 	protected int getCounterDocumentTypeId() {
 		return counterDocumentTypeId;
 	}
+
 	/**	 Getter Parameter Value for chargeId	*/
 	protected int getChargeId() {
 		return chargeId;
 	}
+
 	/**	 Getter Parameter Value for currencyTypeId	*/
 	protected int getCurrencyTypeId() {
 		return currencyTypeId;
 	}
+
 	/**	 Getter Parameter Value for currencyId	*/
 	protected int getCurrencyId() {
 		return currencyId;
+	}
+
+	/**	 Getter Parameter Value for Process ID	*/
+	public static final int getProcessId() {
+		return ID;
+	}
+
+	/**	 Getter Parameter Value for Process Value	*/
+	public static final String getProcessValue() {
+		return VALUE;
+	}
+
+	/**	 Getter Parameter Value for Process Name	*/
+	public static final String getProcessName() {
+		return NAME;
 	}
 }

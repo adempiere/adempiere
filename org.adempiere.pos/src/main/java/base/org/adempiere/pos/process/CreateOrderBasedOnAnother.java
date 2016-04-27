@@ -49,9 +49,6 @@ public class CreateOrderBasedOnAnother extends CreateOrderBasedOnAnotherAbstract
 
     @Override
     protected String doIt() throws Exception {
-        if (getOrderSourceId() <= 0)
-            throw new AdempiereException("@C_Order_ID@ @NotFound@");
-
         today = new Timestamp(System.currentTimeMillis());
         MOrder sourceOrder = new MOrder(getCtx(),  getOrderSourceId() , get_TrxName());
         //if(getInvoicePartnerId() == 0)

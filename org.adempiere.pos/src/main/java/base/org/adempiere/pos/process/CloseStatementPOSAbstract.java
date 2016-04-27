@@ -27,10 +27,12 @@ import org.compiere.process.SvrProcess;
  */
 public abstract class CloseStatementPOSAbstract extends SvrProcess
 {
+	/** Process Value 	*/
+	private static final String VALUE = "C_POS Bank Statement Close";
 	/** Process Name 	*/
-	public static final String NAME = "POS Bank Statement Close";
+	private static final String NAME = "POS Bank Statement Close";
 	/** Process Id 	*/
-	public static final int ID = 53847;
+	private static final int ID = 53847;
  
 	/**	Parameter Name for C_POS_ID	*/
 	public static final String C_POS_ID = "C_POS_ID";
@@ -61,8 +63,8 @@ public abstract class CloseStatementPOSAbstract extends SvrProcess
 	private Timestamp transactionDateTo;
 	/**	Parameter Value for lineTotal	*/
 	private BigDecimal lineTotal;
-	/**	Parameter Value for paidAmt	*/
-	private BigDecimal paidAmt;
+	/**	Parameter Value for paidAmount	*/
+	private BigDecimal paidAmount;
 	/**	Parameter Value for openAmount	*/
 	private BigDecimal openAmount;
 	/**	Parameter Value for difference	*/
@@ -81,50 +83,75 @@ public abstract class CloseStatementPOSAbstract extends SvrProcess
 		transactionDate = getParameterAsTimestamp(DateTrx);
 		transactionDateTo = getParameterToAsTimestamp(DateTrx);
 		lineTotal = getParameterAsBigDecimal(LineTotalAmt);
-		paidAmt = getParameterAsBigDecimal(PaidAmt);
+		paidAmount = getParameterAsBigDecimal(PaidAmt);
 		openAmount = getParameterAsBigDecimal(OpenAmt);
 		difference = getParameterAsBigDecimal(DifferenceAmt);
 		isOverUnderPayment = getParameterAsBoolean(IsOverUnderPayment);
 		chargeId = getParameterAsInt(C_Charge_ID);
 	}
+
 	/**	 Getter Parameter Value for pOSTerminalId	*/
 	protected int getPOSTerminalId() {
 		return pOSTerminalId;
 	}
+
 	/**	 Getter Parameter Value for bankAccountId	*/
 	protected int getBankAccountId() {
 		return bankAccountId;
 	}
+
 	/**	 Getter Parameter Value for transactionDate	*/
 	protected Timestamp getTransactionDate() {
 		return transactionDate;
 	}
+
 	/**	 Getter Parameter Value for transactionDateTo	*/
 	protected Timestamp getTransactionDateTo() {
 		return transactionDateTo;
 	}
+
 	/**	 Getter Parameter Value for lineTotal	*/
 	protected BigDecimal getLineTotal() {
 		return lineTotal;
 	}
-	/**	 Getter Parameter Value for paidAmt	*/
-	protected BigDecimal getPaidAmt() {
-		return paidAmt;
+
+	/**	 Getter Parameter Value for paidAmount	*/
+	protected BigDecimal getPaidAmount() {
+		return paidAmount;
 	}
+
 	/**	 Getter Parameter Value for openAmount	*/
 	protected BigDecimal getOpenAmount() {
 		return openAmount;
 	}
+
 	/**	 Getter Parameter Value for difference	*/
 	protected BigDecimal getDifference() {
 		return difference;
 	}
+
 	/**	 Getter Parameter Value for isOverUnderPayment	*/
 	protected boolean isOverUnderPayment() {
 		return isOverUnderPayment;
 	}
+
 	/**	 Getter Parameter Value for chargeId	*/
 	protected int getChargeId() {
 		return chargeId;
+	}
+
+	/**	 Getter Parameter Value for Process ID	*/
+	public static final int getProcessId() {
+		return ID;
+	}
+
+	/**	 Getter Parameter Value for Process Value	*/
+	public static final String getProcessValue() {
+		return VALUE;
+	}
+
+	/**	 Getter Parameter Value for Process Name	*/
+	public static final String getProcessName() {
+		return NAME;
 	}
 }
