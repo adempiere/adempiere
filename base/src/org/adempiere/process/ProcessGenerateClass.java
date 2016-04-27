@@ -4,6 +4,7 @@
 package org.adempiere.process;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.util.ProcessAbstractClassGenerator;
 import org.adempiere.util.ProcessClassGenerator;
 import org.compiere.model.MProcess;
 import org.compiere.process.SvrProcess;
@@ -45,8 +46,13 @@ public class ProcessGenerateClass extends SvrProcess {
 
 	@Override
 	protected String doIt() throws Exception {
-		//	Call generator
+		//	Call generator for parent
+		ProcessAbstractClassGenerator parentGenerator = new ProcessAbstractClassGenerator(process, fileDirectory);
+		String msg = parentGenerator.createFile();
+		//	Call generator for standard process
 		ProcessClassGenerator generator = new ProcessClassGenerator(process, fileDirectory);
-		return generator.createFile();
+		generator.createFile();
+		//	Return
+		return msg;
 	}
 }
