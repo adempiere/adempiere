@@ -26,11 +26,71 @@ $BODY$
   COST 100</SQLStatement>
       <RollbackStatement>DROP FUNCTION changeSBContextValue(NUMERIC, CHARACTER VARYING, CHARACTER VARYING)</RollbackStatement>
     </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="10" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE FUNCTION changeSBContextValue
+(    
+    p_AD_Browse_ID          IN NUMBER, 
+    p_CurrentValue          IN NVARCHAR2, 
+    p_ChangeToColumnName    IN NVARCHAR2
+)
+
+RETURN NVARCHAR2
+AS
+     v_Value          NVARCHAR2(1000); 
+    --
+    CURSOR CUR_Fields IS
+        SELECT vc.ColumnSQL, vc.ColumnName, f.AD_Browse_ID
+	FROM AD_Browse_Field f
+	INNER JOIN AD_View_Column vc ON(vc.AD_View_Column_ID = f.AD_View_Column_ID)
+	WHERE f.AD_Browse_ID = p_AD_Browse_ID
+	AND (p_CurrentValue LIKE '%@' || vc.ColumnSQL || '@%' OR p_CurrentValue LIKE '%@' || vc.ColumnName || '@%');
+
+BEGIN
+    v_Value := p_CurrentValue;
+    FOR v_Fields IN CUR_Fields LOOP
+        v_Value := replace(v_Value, '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnSQL ELSE v_Fields.ColumnName END  || '@', '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnName ELSE v_Fields.ColumnSQL END || '@');
+    END LOOP;
+    RETURN TRIM(v_Value);
+END changeSBContextValue;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION changeSBContextValue</RollbackStatement>
+    </Step>
     <Step DBType="ALL" Parse="N" SeqNo="20" StepType="SQL">
       <SQLStatement>UPDATE AD_Browse_Field SET DisplayLogic = changeSBContextValue(AD_Browse_ID, DisplayLogic, 'Y'), ReadOnlyLogic = changeSBContextValue(AD_Browse_ID, ReadOnlyLogic, 'Y'), DefaultValue = changeSBContextValue(AD_Browse_ID, DefaultValue, 'Y'), DefaultValue2 = changeSBContextValue(AD_Browse_ID, DefaultValue2, 'Y')</SQLStatement>
       <RollbackStatement>UPDATE AD_Browse_Field SET DisplayLogic = changeSBContextValue(AD_Browse_ID, DisplayLogic, 'N'), ReadOnlyLogic = changeSBContextValue(AD_Browse_ID, ReadOnlyLogic, 'N'), DefaultValue = changeSBContextValue(AD_Browse_ID, DefaultValue, 'N'), DefaultValue2 = changeSBContextValue(AD_Browse_ID, DefaultValue2, 'N')</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="30" StepType="SQL">
+    <Step DBType="ALL" Parse="N" SeqNo="30" StepType="SQL">
+      <SQLStatement>UPDATE AD_Process_Para SET DisplayLogic = changeSBContextValue((SELECT MAX(sb.AD_Browse_ID) FROM AD_Browse sb WHERE sb.AD_Process_ID = AD_Process_Para.AD_Process_ID), DisplayLogic, 'Y'), ReadOnlyLogic = changeSBContextValue((SELECT MAX(sb.AD_Browse_ID) FROM AD_Browse sb WHERE sb.AD_Process_ID = AD_Process_Para.AD_Process_ID), ReadOnlyLogic, 'Y'), DefaultValue = changeSBContextValue((SELECT MAX(sb.AD_Browse_ID) FROM AD_Browse sb WHERE sb.AD_Process_ID = AD_Process_Para.AD_Process_ID), DefaultValue, 'Y'), DefaultValue2 = changeSBContextValue((SELECT MAX(sb.AD_Browse_ID) FROM AD_Browse sb WHERE sb.AD_Process_ID = AD_Process_Para.AD_Process_ID), DefaultValue2, 'Y') WHERE EXISTS(SELECT 1 FROM AD_Browse sb WHERE sb.AD_Process_ID = AD_Process_Para.AD_Process_ID)</SQLStatement>
+      <RollbackStatement>UPDATE AD_Process_Para SET DisplayLogic = changeSBContextValue((SELECT MAX(sb.AD_Browse_ID) FROM AD_Browse sb WHERE sb.AD_Process_ID = AD_Process_Para.AD_Process_ID), DisplayLogic, 'N'), ReadOnlyLogic = changeSBContextValue((SELECT MAX(sb.AD_Browse_ID) FROM AD_Browse sb WHERE sb.AD_Process_ID = AD_Process_Para.AD_Process_ID), ReadOnlyLogic, 'N'), DefaultValue = changeSBContextValue((SELECT MAX(sb.AD_Browse_ID) FROM AD_Browse sb WHERE sb.AD_Process_ID = AD_Process_Para.AD_Process_ID), DefaultValue, 'N'), DefaultValue2 = changeSBContextValue((SELECT MAX(sb.AD_Browse_ID) FROM AD_Browse sb WHERE sb.AD_Process_ID = AD_Process_Para.AD_Process_ID), DefaultValue2, 'N') WHERE EXISTS(SELECT 1 FROM AD_Browse sb WHERE sb.AD_Process_ID = AD_Process_Para.AD_Process_ID)</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="40" StepType="SQL">
+      <SQLStatement>DROP FUNCTION changeSBContextValue</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE FUNCTION changeSBContextValue
+(    
+    p_AD_Browse_ID          IN NUMBER, 
+    p_CurrentValue          IN NVARCHAR2, 
+    p_ChangeToColumnName    IN NVARCHAR2
+)
+
+RETURN NVARCHAR2
+AS
+     v_Value          NVARCHAR2(1000); 
+    --
+    CURSOR CUR_Fields IS
+        SELECT vc.ColumnSQL, vc.ColumnName, f.AD_Browse_ID
+	FROM AD_Browse_Field f
+	INNER JOIN AD_View_Column vc ON(vc.AD_View_Column_ID = f.AD_View_Column_ID)
+	WHERE f.AD_Browse_ID = p_AD_Browse_ID
+	AND (p_CurrentValue LIKE '%@' || vc.ColumnSQL || '@%' OR p_CurrentValue LIKE '%@' || vc.ColumnName || '@%');
+
+BEGIN
+    v_Value := p_CurrentValue;
+    FOR v_Fields IN CUR_Fields LOOP
+        v_Value := replace(v_Value, '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnSQL ELSE v_Fields.ColumnName END  || '@', '@' || CASE WHEN p_ChangeToColumnName = 'Y' THEN v_Fields.ColumnName ELSE v_Fields.ColumnSQL END || '@');
+    END LOOP;
+    RETURN TRIM(v_Value);
+END changeSBContextValue;</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="40" StepType="SQL">
       <SQLStatement>DROP FUNCTION changeSBContextValue(NUMERIC, CHARACTER VARYING, CHARACTER VARYING)</SQLStatement>
       <RollbackStatement>CREATE OR REPLACE FUNCTION changeSBContextValue(p_AD_Browse_ID NUMERIC, p_CurrentValue CHARACTER VARYING, p_ChangeToColumnName CHARACTER VARYING)
   RETURNS CHARACTER VARYING AS
