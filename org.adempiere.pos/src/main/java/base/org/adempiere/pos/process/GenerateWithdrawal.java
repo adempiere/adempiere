@@ -50,20 +50,7 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
 
     @Override
     protected String doIt() throws Exception {
-        if (getBankAccountId() <= 0 )
-            throw new AdempiereException("@From_C_BankAccount_ID@ @NotFound@");
-        if (getTransferCashtrxtoId() <= 0)
-            throw new AdempiereException("@To_C_BankAccount_ID@ @NotFound@");
-        if (getDocumentTypeId() <= 0)
-            throw  new AdempiereException("@C_DocType_ID@ @NotFound@");
-        if (getCounterDocumentTypeId() <= 0)
-            throw new  AdempiereException("@Counter_C_DocType_ID@ @NotFound@");
-        if (getTransactionDate() == null)
-            throw new AdempiereException("@DateTrx@ @NotFound@");
-        if (getAccountDate() == null)
-            throw new AdempiereException("@AcctDate@ @NotFound@");
-        if (getChargeId() <= 0)
-            throw new AdempiereException("@C_Charge_ID@ @NotFound@");
+
         MBankAccount bankAccount = new MBankAccount(getCtx() , getBankAccountId(), get_TrxName());
         MPaymentBatch paymentBatchFrom = new MPaymentBatch(getCtx() , 0 , get_TrxName());
         paymentBatchFrom.setName(getDescription());

@@ -25,10 +25,12 @@ import org.compiere.process.SvrProcess;
  */
 public abstract class ReverseTheSalesTransactionAbstract extends SvrProcess
 {
+	/** Process Value 	*/
+	private static final String VALUE = "C_POS ReverseTheSalesTransaction";
 	/** Process Name 	*/
-	public static final String NAME = "Reverse The Sales Transaction";
+	private static final String NAME = "Reverse The Sales Transaction";
 	/** Process Id 	*/
-	public static final int ID = 53824;
+	private static final int ID = 53824;
  
 	/**	Parameter Name for C_Order_ID	*/
 	public static final String C_Order_ID = "C_Order_ID";
@@ -57,20 +59,39 @@ public abstract class ReverseTheSalesTransactionAbstract extends SvrProcess
 		isCancelled = getParameterAsBoolean(IsCancelled);
 		isShipReceiptConfirmation = getParameterAsBoolean(IsShipConfirm);
 	}
+
 	/**	 Getter Parameter Value for orderId	*/
 	protected int getOrderId() {
 		return orderId;
 	}
+
 	/**	 Getter Parameter Value for invoicePartnerId	*/
 	protected int getInvoicePartnerId() {
 		return invoicePartnerId;
 	}
+
 	/**	 Getter Parameter Value for isCancelled	*/
 	protected boolean isCancelled() {
 		return isCancelled;
 	}
+
 	/**	 Getter Parameter Value for isShipReceiptConfirmation	*/
 	protected boolean isShipReceiptConfirmation() {
 		return isShipReceiptConfirmation;
+	}
+
+	/**	 Getter Parameter Value for Process ID	*/
+	public static final int getProcessId() {
+		return ID;
+	}
+
+	/**	 Getter Parameter Value for Process Value	*/
+	public static final String getProcessValue() {
+		return VALUE;
+	}
+
+	/**	 Getter Parameter Value for Process Name	*/
+	public static final String getProcessName() {
+		return NAME;
 	}
 }

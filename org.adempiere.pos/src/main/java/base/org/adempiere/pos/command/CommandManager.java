@@ -32,8 +32,8 @@ public class CommandManager {
     public static String GENERATE_REVERSE_SALES = "C_POS ReverseTheSalesTransaction";
     public static String GENERATE_RETURN = "C_POS CreateOrderBasedOnAnother";
     public static String COMPLETE_DOCUMENT = "Complete Document";
-    public static String GENERATE_WITHDRAWAL = GenerateWithdrawal.NAME;
-    public static String CLOSE_STATEMENT = CloseStatementPOS.NAME;
+    public static String GENERATE_WITHDRAWAL = GenerateWithdrawal.getProcessName();
+    public static String CLOSE_STATEMENT = CloseStatementPOS.getProcessName();
 
     private HashMap<String , Command> commands = new HashMap<String , Command>();
 

@@ -25,10 +25,12 @@ import org.compiere.process.SvrProcess;
  */
 public abstract class CreateOrderBasedOnAnotherAbstract extends SvrProcess
 {
+	/** Process Value 	*/
+	private static final String VALUE = "C_POS CreateOrderBasedOnAnother";
 	/** Process Name 	*/
-	public static final String NAME = "Create Order based on another";
+	private static final String NAME = "Create Order based on another";
 	/** Process Id 	*/
-	public static final int ID = 53822;
+	private static final int ID = 53822;
  
 	/**	Parameter Name for C_OrderSource_ID	*/
 	public static final String C_OrderSource_ID = "C_OrderSource_ID";
@@ -67,28 +69,49 @@ public abstract class CreateOrderBasedOnAnotherAbstract extends SvrProcess
 		isIncludePayments = getParameterAsBoolean(IsIncludePayments);
 		isAllocated = getParameterAsBoolean(IsAllocated);
 	}
+
 	/**	 Getter Parameter Value for orderSourceId	*/
 	protected int getOrderSourceId() {
 		return orderSourceId;
 	}
+
 	/**	 Getter Parameter Value for invoicePartnerId	*/
 	protected int getInvoicePartnerId() {
 		return invoicePartnerId;
 	}
+
 	/**	 Getter Parameter Value for sOSubType	*/
 	protected String getSOSubType() {
 		return sOSubType;
 	}
+
 	/**	 Getter Parameter Value for documentAction	*/
 	protected String getDocumentAction() {
 		return documentAction;
 	}
+
 	/**	 Getter Parameter Value for isIncludePayments	*/
 	protected boolean isIncludePayments() {
 		return isIncludePayments;
 	}
+
 	/**	 Getter Parameter Value for isAllocated	*/
 	protected boolean isAllocated() {
 		return isAllocated;
+	}
+
+	/**	 Getter Parameter Value for Process ID	*/
+	public static final int getProcessId() {
+		return ID;
+	}
+
+	/**	 Getter Parameter Value for Process Value	*/
+	public static final String getProcessValue() {
+		return VALUE;
+	}
+
+	/**	 Getter Parameter Value for Process Name	*/
+	public static final String getProcessName() {
+		return NAME;
 	}
 }

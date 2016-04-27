@@ -25,10 +25,12 @@ import org.compiere.process.SvrProcess;
  */
 public abstract class GenerateImmediateInvoiceAbstract extends SvrProcess
 {
+	/** Process Value 	*/
+	private static final String VALUE = "C_POS Generate Immediate Invoice";
 	/** Process Name 	*/
-	public static final String NAME = "Generate Immediate Invoice";
+	private static final String NAME = "Generate Immediate Invoice";
 	/** Process Id 	*/
-	public static final int ID = 53823;
+	private static final int ID = 53823;
  
 	/**	Parameter Name for C_Order_ID	*/
 	public static final String C_Order_ID = "C_Order_ID";
@@ -67,28 +69,49 @@ public abstract class GenerateImmediateInvoiceAbstract extends SvrProcess
 		isAllocated = getParameterAsBoolean(IsAllocated);
 		isShipReceiptConfirmation = getParameterAsBoolean(IsShipConfirm);
 	}
+
 	/**	 Getter Parameter Value for orderId	*/
 	protected int getOrderId() {
 		return orderId;
 	}
+
 	/**	 Getter Parameter Value for invoicePartnerId	*/
 	protected int getInvoicePartnerId() {
 		return invoicePartnerId;
 	}
+
 	/**	 Getter Parameter Value for documentBaseType	*/
 	protected String getDocumentBaseType() {
 		return documentBaseType;
 	}
+
 	/**	 Getter Parameter Value for isIncludePayments	*/
 	protected boolean isIncludePayments() {
 		return isIncludePayments;
 	}
+
 	/**	 Getter Parameter Value for isAllocated	*/
 	protected boolean isAllocated() {
 		return isAllocated;
 	}
+
 	/**	 Getter Parameter Value for isShipReceiptConfirmation	*/
 	protected boolean isShipReceiptConfirmation() {
 		return isShipReceiptConfirmation;
+	}
+
+	/**	 Getter Parameter Value for Process ID	*/
+	public static final int getProcessId() {
+		return ID;
+	}
+
+	/**	 Getter Parameter Value for Process Value	*/
+	public static final String getProcessValue() {
+		return VALUE;
+	}
+
+	/**	 Getter Parameter Value for Process Name	*/
+	public static final String getProcessName() {
+		return NAME;
 	}
 }
