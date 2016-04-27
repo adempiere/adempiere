@@ -39,4 +39,4 @@ public interface DocOptions
 	public int customizeValidActions (String docStatus, Object processing, 
 			String orderType, String isSOTrx, int AD_Table_ID, String[] docAction, String[] options, int index);
 
-}	//	DocAction
+}
