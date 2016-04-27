@@ -1,0 +1,55 @@
+ var $orderno = null;
+ 
+ function openOrderWindow($orderno) { 
+ 	_click(_div("Sales Order"));
+ 	_click(_image("Find24.png"));
+ 	if($orderno != null) {
+ 		_assertExists(_textbox(/Field_DocumentNo/));
+		_setValue(_textbox(/Field_DocumentNo/), $orderno);
+ 	}
+	_click(_image("Ok24.png"));
+ }
+ 
+ function addChatMsg($msg) {
+ 	_assertExists(_image("Chat24.png"));
+ 	_click(_image("Chat24.png"));
+ 	_assertExists(_textarea(1));
+ 	_setValue(_textarea(1), $msg);
+ 	_assertExists(_image("Ok24.png"));
+ 	_click(_image("Ok24.png"));
+ 
+ }
+ 
+ function checkChatEntryExists($entry) {
+ 	_assertExists(_image("Chat24.png"));
+ 	_click(_image("Chat24.png"));
+ 	_assertExists(_div(/Chat/));	
+ 	var $expression = "/.*";
+ 	$expression = $expression.concat($entry);
+ 	$expression = $expression.concat("/");
+	_assertExists(_div($expression), _in(_div(/Chat/)));
+ 	
+ 	_assertExists(_image("Cancel24.png"));
+ 	_click(_image("Cancel24.png"));
+ }
+ 
+ function test_rev6418() {
+	 openOrderWindow($orderno);
+	  _set($orderno, _textbox("/Field_DocumentNo/").value);
+	 
+	 addChatMsg("TEST");
+	 checkChatEntryExists("TEST");
+	 logout();
+	 
+	 loginDefault("GardenUser", "GardenUser");
+	 openOrderWindow($orderno);
+	 checkChatEntryExists("TEST");
+	 addChatMsg("OK");
+
+	 logout();
+	 
+	 loginDefault("GardenAdmin", "GardenAdmin");
+	 openOrderWindow($orderno);
+	 checkChatEntryExists("OK");
+	 
+} 

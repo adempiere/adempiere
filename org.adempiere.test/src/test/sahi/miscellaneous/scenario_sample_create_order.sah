@@ -1,0 +1,32 @@
+// Variable declarations
+
+var $server = "http://asds1.adempiere.de/webui/";
+var $release = "Release 3.6.0LTS";
+var $usr = "GardenAdmin";
+var $pwd = "GardenAdmin";
+var $client = "GardenWorld";
+var $org = "*";
+var $rememberMe = "No";
+
+// Setup	
+function setup(){
+_navigateTo($server);
+testVersion($release);
+login($usr, $pwd);
+}
+
+// Tear down
+function tearDown() {
+_click(_link("Log Out"));
+}
+
+// Includes
+_include("miscellaneous/common_functions.sah");
+_include("miscellaneous/tf_sample_create_order.sah");
+
+// Run the tests
+_runUnitTests();
+
+_log("Test Completed", "info"); // Test Completed.
+
+// End of test

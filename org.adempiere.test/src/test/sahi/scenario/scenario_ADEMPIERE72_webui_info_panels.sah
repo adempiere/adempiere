@@ -1,0 +1,51 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2012, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * Scenario Web User Interface Info Panel tests
+ * 
+ * This scenario verifies the functionality of the info panels in the web 
+ * interface.  It also checks the functionality of the Search fields in the 
+ * main interface and the multi-selection functions on documents.
+ * 
+ **/
+
+ // Variable declarations
+var $usr = "GardenAdmin";
+var $pwd = "GardenAdmin";
+
+// Includes - common functions
+_include("../lib/common_functions.sah");
+
+// Includes - test flows
+_include("../test/user_interface/tf_wip_product_info.sah");
+_include("../test/user_interface/tf_wip_bpartner_info.sah");
+_include("../test/user_interface/tf_wip_assignment_info.sah");
+_include("../test/user_interface/tf_wip_cashline_info.sah");
+
+// Setup	
+function setUp(){
+}
+
+// Tear down
+function tearDown() {
+}
+
+//login($usr, $pwd, "", "", "", "", "HQ", "HQ Warehouse");
+// Run the tests
+_runUnitTests();
+//logout();
+
+_log("Basic tests of webui info panels completed.", "info"); // Test Completed.
+
+// End of test

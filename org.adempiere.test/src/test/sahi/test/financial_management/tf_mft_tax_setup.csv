@@ -1,0 +1,7 @@
+﻿ON-HST,Y,Test Tax Category,11/27/2011,N,N,N,Y,Y,,Both,HST,13,Canada,Canada,Ontario,Ontario
+ON-HSTc,N,Test Tax Category,11/27/2011,N,N,N,Y,N,ON-HST,Both,ON-HST,13,Canada,Canada,Ontario,Ontario
+PQ-Tax,N,Test Tax Category,11/27/2011,N,N,N,Y,Y,,Both,PQ,13.5,Canada,Canada,Québec,Québec
+PQ-PST,N,Test Tax Category,11/27/2011,N,N,N,Y,N,PQ-Tax,Both,PQ-PST,8.5,Canada,Canada,Québec,Québec
+PQ-GST,N,Test Tax Category,11/27/2011,N,N,N,Y,N,PQ-Tax,Both,PQ-GST,5,Canada,Canada, , 
+No Tax,N,Test Tax Category,11/27/2011,N,N,N,Y,Y,,Both,No Tax,0, , , , 
+No Tax Charged,N,Test Tax Category,11/27/2011,N,N,N,Y,N,No Tax,Both,No Tax ,0, , , , 

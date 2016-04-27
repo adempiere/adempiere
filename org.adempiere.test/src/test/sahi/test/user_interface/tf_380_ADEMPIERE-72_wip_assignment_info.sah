@@ -1,0 +1,74 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * Test Flow WebUI test of Assignment Info panel.
+ * 
+ * This test flow exercises the various features of the Assignment info panel 
+ * 
+ **/
+
+ // Need to determine what test functions are required.
+ 
+/**
+ * Test the Assignment info window.
+ */
+ function test_wip_assignment_info()
+{
+
+	 _log("tf_wip_assignment_info starting.","custom");
+	 
+	//  Open the Assignment Info panel
+	info_viewInfo("Assignment");
+
+	//  Default should be to auto query
+	//  Check that all records are returned - expecting 2 (based on default database)
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_assignment_info: initial auto query not returning what was expected");
+
+	info_setCriteriaText("S_ResourceType_ID","Consultant");
+	//  Check that all records are returned - expecting 2 (based on default database)
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_assignment_info: Resource Type not returning what was expected");
+
+	info_setCriteriaText("S_ResourceType_ID","Plants");
+	//  Check that all records are returned - expecting 0 (based on default database)
+	_assertEqual("0 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_assignment_info: Resource Type not returning what was expected");
+
+	info_setCriteriaText("S_ResourceType_ID"," ");
+	//  Check that all records are returned - expecting 2 (based on default database)
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_assignment_info: Resource Type not returning what was expected");
+
+	info_setCriteriaText("S_Resource_ID","Mary Consultant");
+	//  Check that all records are returned - expecting 2 (based on default database)
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_assignment_info: Resource not returning what was expected");
+
+	//  Check the dates - format needs to match the system or these will fail.
+	info_setCriteriaText("fieldFrom","03/06/2004");
+	//  Check that all records are returned - expecting 0 (based on default database)
+	_assertEqual("0 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_assignment_info: dateFrom not returning what was expected");
+
+	info_setCriteriaText("fieldFrom","03/06/2002");
+	//  Check that all records are returned - expecting 2 (based on default database)
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_assignment_info: dateFrom not returning what was expected");
+
+	info_setCriteriaText("fieldTo","03/06/2004");
+	//  Check that all records are returned - expecting 2 (based on default database)
+	_assertEqual("2 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_assignment_info: dateTo not returning what was expected");
+
+	info_setCriteriaText("fieldTo","04/06/2002");
+	//  Check that all records are returned - expecting 0 (based on default database)
+	_assertEqual("0 ",String(info_getStatus()).substring(0, 2),"Error: tf_wip_assignment_info: dateTo not returning what was expected");
+
+	iCancel();
+	
+	_log("tf_wip_assignment_info completed.","custom");
+}
