@@ -1,0 +1,28 @@
+function test_rev6418() {
+ logout();  // Need to login as GardenUser
+ 
+ loginDefault("GardenUser","GardenUser");
+ 
+ _assertExists(_div("System Admin"));
+ _click(_div("System Admin"));
+ 
+ _assertExists(_div("Organization Rules"));
+ _click(_div("Organization Rules"));
+ 
+ _assertExists(_div("Organization"));
+ _click(_div("Organization"));
+ _wait(1000);
+ _assertExists(_span("Organization Info"));
+ _click(_span("Organization Info"));
+ _wait(1000);
+ _assertExists(_span("CashBook for transfers"));
+ _assert(_isVisible(_span("CashBook for transfers")));
+ 
+ _assertExists(_span("Bank for transfers"));
+ _assert(_isVisible(_span("Bank for transfers")));
+ 
+ _assertExists(_span("Receipt Footer Msg"));
+ _assert(_isVisible(_span("Receipt Footer Msg")));
+ 
+ }
+ 

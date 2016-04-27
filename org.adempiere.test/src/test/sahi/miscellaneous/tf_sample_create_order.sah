@@ -1,0 +1,37 @@
+// tf_sample_create_order.sah
+//
+// Tests that an order can be created, a line item added and the order saved.
+// Verifies that the grand total is correct.	
+//
+
+
+function test_create_order(){
+	// Run from the main menu
+	//_click(_div("Quote-to-Invoice")); //Quote to invoice
+	//_click(_div("Sales Orders")); //Sales Orders
+	_click(_div("Sales Order"));
+	_click(_link("New Record"));
+	_setValue(_textbox(/^Field_AD_Org_ID/), "Fertilizer");
+	_setValue(_textbox(/^Field_C_DocTypeTarget/), "POS Order");
+	_setValue(_textbox(/^zk/,_in(_div(/^Field_C_BPartner_ID/))), "Joe Block");
+	_setValue(_textbox(/^Field_M_Warehouse_ID/), "Fertilizer");
+	_setValue(_textbox(/^Field_M_PriceList_ID/), "Standard");
+	_setValue(_textbox(/^Field_SalesRep_ID/), "GardenAdmin");
+	_click(_div("Save Changes"));
+
+	_click(_submit("Order Line"));  //Open the order line tab
+	_click(_image(/^Product/, _in(_div(/^Field_M_Product_ID/))));  //Open the product window
+	_click(_image("Refresh24.png[1]"));  //Refresh the list of products
+	_wait(1000); //Wait for the page to load
+	_click(_div("Mary Consultant"));  //Select Mary
+	_click(_image("Ok24.png")); // Confirm
+	_setValue(_textbox(/^Field_C_Tax_ID/), "Standard");
+	_click(_link("Save changes"));  // Save
+
+	_click(_submit("Order"));
+	_assertEqual("90.00", _getValue(_textbox(/^z-decimalbox/, _in(_div(/^Field_GrandTotal/)))));
+	_click(_link(/close$/, _in(_div("z_tabs_header"))));  // Close the window
+
+	_log("Test Completed", "info"); // Test Completed.
+}
+// End of test_create_order
