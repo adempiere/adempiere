@@ -12,7 +12,7 @@
         <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
         <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
         <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
-        <Data AD_Column_ID="4656" Column="Classname">org.eevolution.process.CloseStatementPOS</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.pos.process.CloseStatementPOS</Data>
         <Data AD_Column_ID="57920" Column="CopyFromProcess" isNewNull="true"/>
         <Data AD_Column_ID="2805" Column="Created">2016-04-22 16:40:44.18</Data>
         <Data AD_Column_ID="2806" Column="CreatedBy">100</Data>
