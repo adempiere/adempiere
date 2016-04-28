@@ -204,7 +204,7 @@ public abstract class SvrProcess implements ProcessCall
 		StringBuffer errorMsg = new StringBuffer();
 		//	Loop over parameter, find a mandatory parameter
 		for(MProcessPara parameter : parameters) {
-			if(parameter.isMandatory()) {
+			if(parameter.isMandatory() && parameter.isActive()) {
 				ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
 				if(infoParameter == null
 						|| infoParameter.getParameter() == null
