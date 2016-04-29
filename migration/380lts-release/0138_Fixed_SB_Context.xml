@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Smart Browse context is changed from table #340" ReleaseNo="3.8.0#002" SeqNo="198">
+  <Migration EntityType="D" Name="Smart Browse context is changed from table #340" ReleaseNo="3.8.0#002" SeqNo="138">
     <Comments>https://github.com/adempiere/adempiere/issues/340</Comments>
     <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE FUNCTION changeSBContextValue(p_AD_Browse_ID NUMERIC, p_CurrentValue CHARACTER VARYING, p_ChangeToColumnName CHARACTER VARYING)
