@@ -402,6 +402,8 @@ public class ZkReportViewer extends Window implements EventListener {
 	 */
 	private void dynInit()
 	{
+		//	Default summary from print format
+		summary.setSelected(m_reportEngine.getPrintFormat().isSummary());
 		summary.addActionListener(this);
 		
 		fillComboReport(m_reportEngine.getPrintFormat().get_ID());

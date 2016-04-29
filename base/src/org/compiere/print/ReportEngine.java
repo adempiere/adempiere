@@ -109,6 +109,8 @@ import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
  * 		@see https://github.com/adempiere/adempiere/issues/237
  * 		<li>FR [ 295 ] Report viewer re-query
  * 		@see https://github.com/adempiere/adempiere/issues/295
+ * 		<li>FR [ 238 ] Is Summary property by default in Print Format (Set default summary property from print format)
+ * 		@see https://github.com/adempiere/adempiere/issues/238
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -135,8 +137,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 */
 	public ReportEngine ( Properties ctx,MPrintFormat pf,MQuery query,ProcessInfo pInfo, PrintInfo info ){
 		this(ctx, pf, query, info, null);
-		this.setProcessInfo(pInfo) ;
-
+		this.setProcessInfo(pInfo);
 	}
 
 
@@ -158,8 +159,9 @@ public class ReportEngine implements PrintServiceAttributeListener
 		m_printFormat = pf;
 		m_info = info;
 		m_trxName = trxName;
+		//	FR [ 238 ] Set default summary from print format
+		setSummary(m_printFormat.isSummary());
 		setQuery(query);		//	loads Data
-
 	}	//	ReportEngine
 
 	/**	Static Logger	*/
