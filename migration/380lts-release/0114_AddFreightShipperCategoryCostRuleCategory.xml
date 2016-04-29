@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Shipper , Freight Category ,  Freight Cost Rule" ReleaseNo="3.8.0#002" SeqNo="113">
+  <Migration EntityType="D" Name="Add Shipper , Freight Category ,  Freight Cost Rule" ReleaseNo="3.8.0#002" SeqNo="114">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="55340" Table="AD_Process_Para">
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
