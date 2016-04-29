@@ -59,10 +59,8 @@ import org.compiere.apps.Waiting;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.model.GridField;
-import org.compiere.model.MPInstance;
 import org.compiere.model.MQuery;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.ProcessInfoUtil;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
@@ -101,6 +99,8 @@ import org.eevolution.grid.BrowserTable;
  * 		@see https://github.com/adempiere/adempiere/issues/251
  * 		<li>FR [ 252 ] Smart Browse is Collapsible when query don't have result
  * 		@see https://github.com/adempiere/adempiere/issues/252
+ * 		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
+ *		@see https://github.com/adempiere/adempiere/issues/352
  */
 public class VBrowser extends Browser implements ActionListener,
 		VetoableChangeListener, ChangeListener, ListSelectionListener,
@@ -161,7 +161,7 @@ public class VBrowser extends Browser implements ActionListener,
 	} // InfoGeneral
 
 	/** Process Parameters Panel */
-	private ProcessParameterPanel parameterPanel;
+	private ProcessParameterPanel processParameterPanel;
 	/** StatusBar **/
 	protected StatusBar statusBar = new StatusBar();
 	/** Worker */
@@ -221,11 +221,11 @@ public class VBrowser extends Browser implements ActionListener,
 		if (m_Browse.getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
 			initProcessInfo();
-			parameterPanel = new ProcessParameterPanel(getWindowNo() , getBrowseProcessInfo());
-			parameterPanel.setColumns(ProcessParameter.COLUMNS_2);
-			parameterPanel.init();
+			processParameterPanel = new ProcessParameterPanel(getWindowNo(), getBrowseProcessInfo());
+			processParameterPanel.setColumns(ProcessParameter.COLUMNS_2);
+			processParameterPanel.init();
 			//	Add Scroll FR [ 265 ]
-			CScrollPane scrollPane = new CScrollPane(parameterPanel.getPanel());
+			CScrollPane scrollPane = new CScrollPane(processParameterPanel.getPanel());
 			scrollPane.setAutoscrolls(true);
 			scrollPane.createVerticalScrollBar();
 			scrollPane.createHorizontalScrollBar();
@@ -275,8 +275,8 @@ public class VBrowser extends Browser implements ActionListener,
 			p_loadedOK = initBrowser();
 
 			Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
-			if (parameterPanel != null)
-				parameterPanel.refreshContext();
+			if (processParameterPanel != null)
+				processParameterPanel.refreshContext();
 
 			if (m_worker != null && m_worker.isAlive())
 				return;
@@ -345,48 +345,6 @@ public class VBrowser extends Browser implements ActionListener,
 		executeQuery();
 		
 	}//cmd_deleteSelection
-
-	public void dispose(boolean ok) {
-		log.config("OK=" + ok);
-		m_ok = ok;
-
-		// End Worker
-		if (m_worker != null) {
-			// worker continues, but it does not block UI
-			if (m_worker.isAlive())
-				m_worker.interrupt();
-			log.config("Worker alive=" + m_worker.isAlive());
-		}
-		m_worker = null;
-		//	
-		saveResultSelection(detail);
-		saveSelection(detail);
-
-		//m_frame.removeAll();
-		m_frame.dispose();
-		if (m_Browse.getAD_Process_ID() <= 0)
-			return;
-
-		MPInstance instance = new MPInstance(Env.getCtx(),
-				m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
-		instance.saveEx();
-
-		DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
-				null);
-		
-		ProcessInfo pi = getBrowseProcessInfo();
-		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-		pi.setWindowNo(getWindowNo());
-		parameterPanel.saveParameters();
-		ProcessInfoUtil.setParameterFromDB(pi);
-		setBrowseProcessInfo(pi);
-		//Save Values Browse Field Update
-		createT_Selection_Browse(instance.getAD_PInstance_ID());
-		// Execute Process
-		ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
-		worker.start(); // complete tasks in unlockUI /
-        Env.clearWinContext(getWindowNo());
-	} // dispose
 
 	/**
 	 * Instance tool bar
@@ -532,38 +490,32 @@ public class VBrowser extends Browser implements ActionListener,
 		//	Valid Process, Selected Keys and process parameters
 		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
 		{
-			//	
-			MPInstance instance = new MPInstance(Env.getCtx(),
-					m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
-			instance.saveEx();
-			ProcessInfo pi = getBrowseProcessInfo();
-			pi.setWindowNo(getWindowNo());
-			pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-			pi.setIsSelection(p_multiSelection);
 			// BR [ 249 ]
-			if(parameterPanel.saveParameters() == null) {
-				DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
-						null);
-				//	Call Process
-				ProcessInfoUtil.setParameterFromDB(pi);
-				setBrowseProcessInfo(pi);
-				//Save Values Browse Field Update
-				createT_Selection_Browse(instance.getAD_PInstance_ID());
-				// Execute Process
-				ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
-				//	
-				String msg = Msg.getMsg(Env.getCtx(), "Processing");
-				//	For Dialog
-				if(m_frame.isDialog()) {
-					m_waiting = new Waiting (m_frame.getCDialog(), msg, false, getBrowseProcessInfo().getEstSeconds());
-				} else {
-					m_waiting = new Waiting (m_frame.getCFrame(), msg, false, getBrowseProcessInfo().getEstSeconds());
+			if(processParameterPanel.validateParameters() == null) {
+				//	Save Parameters
+				if(processParameterPanel.saveParameters() == null) {
+					//	Get Process Info
+					ProcessInfo pi = processParameterPanel.getProcessInfo();
+					//	Set Selected Values
+					pi.setSelectionValues(getSelectedValues());
+					//	
+					setBrowseProcessInfo(pi);
+					// Execute Process
+					ProcessCtl worker = new ProcessCtl(this, getWindowNo() , pi , null);
+					//	
+					String msg = Msg.getMsg(Env.getCtx(), "Processing");
+					//	For Dialog
+					if(m_frame.isDialog()) {
+						m_waiting = new Waiting (m_frame.getCDialog(), msg, false, getBrowseProcessInfo().getEstSeconds());
+					} else {
+						m_waiting = new Waiting (m_frame.getCFrame(), msg, false, getBrowseProcessInfo().getEstSeconds());
+					}
+					worker.run(); // complete tasks in unlockUI /
+					m_waiting.doNotWait();
+					setStatusLine(pi.getSummary(), pi.isError());
+					//	For Valid Ok
+					isOk = !pi.isError();
 				}
-				worker.run(); // complete tasks in unlockUI /
-				m_waiting.doNotWait();
-				setStatusLine(pi.getSummary(), pi.isError());
-				//	For Valid Ok
-				isOk = !pi.isError();
 			}
 		}
 		m_frame.setCursor(Cursor.getDefaultCursor());
@@ -607,7 +559,7 @@ public class VBrowser extends Browser implements ActionListener,
 		Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
 
 		if (m_Browse.getAD_Process_ID() > 0)
-			parameterPanel.refreshContext();
+			processParameterPanel.refreshContext();
 
 		executeQuery();
 	}

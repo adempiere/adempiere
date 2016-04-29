@@ -62,6 +62,8 @@ import org.compiere.wf.MWFProcess;
  *				@see https://github.com/adempiere/adempiere/issues/265
  *				<li>FR [ 295 ] Report viewer re-query
  *				@see https://github.com/adempiere/adempiere/issues/295
+ *				<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
+ *				@see https://github.com/adempiere/adempiere/issues/352
  */
 public class ProcessCtl implements Runnable
 {
@@ -399,6 +401,10 @@ public class ProcessCtl implements Runnable
 				m_pi.setClassName(null);
 			}
 		}
+		//	Save selection
+		//	FR [ 352 ]
+		//	if is from a selection then save all record in DB
+		saveSelection();
 		
 		/**********************************************************************
 		 *	Start Optional Class
@@ -436,7 +442,7 @@ public class ProcessCtl implements Runnable
 		 */
 		//	Optional Pre-Report Process
 		if (IsReport && ProcedureName.length() > 0)
-		{
+		{	
 			m_pi.setReportingProcess(true);
 			if (!startDBProcess(ProcedureName))
 			{
@@ -748,5 +754,20 @@ public class ProcessCtl implements Runnable
 		return true;
 	}   //  startDBProcess
 
+	/**
+	 * Save selection when process is called with selection
+	 */
+	private void saveSelection() {
+		if(m_pi.isSelection()) {
+			if(m_pi.getSelectionKeys() != null) {
+				//	Create Selection
+				DB.createT_Selection(m_pi.getAD_PInstance_ID(), m_pi.getSelectionKeys(), m_pi.getTransactionName());
+				if(m_pi.getSelectionValues() != null) {
+					//	Create Selection for SB
+					DB.createT_Selection_Browse(m_pi.getAD_PInstance_ID(), m_pi.getSelectionValues(), m_pi.getTransactionName());
+				}
+			} 
+		}
+	}
 	
 }	//	ProcessCtl

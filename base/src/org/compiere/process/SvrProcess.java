@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -59,6 +60,8 @@ import org.compiere.util.Trx;
  *		@see https://github.com/adempiere/adempiere/issues/325
  *		<li> FR [ 326 ] Process source code generated automatically (Add validation of mandatory parameter)
  *		@see https://github.com/adempiere/adempiere/issues/326
+ *		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
+ *		@see https://github.com/adempiere/adempiere/issues/352
  * @author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  *
  * @author mckayERP www.mckayERP.com
@@ -208,7 +211,7 @@ public abstract class SvrProcess implements ProcessCall
 				ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
 				if(infoParameter == null
 						|| infoParameter.getParameter() == null
-						|| (DisplayType.isLookup(parameter.getAD_Reference_ID()) 
+						|| (DisplayType.isID(parameter.getAD_Reference_ID()) 
 								&& infoParameter.getParameterAsInt() <= 0)
 						|| (DisplayType.isText(parameter.getAD_Reference_ID()) 
 								&& (infoParameter.getParameterAsString() == null 
@@ -478,6 +481,13 @@ public abstract class SvrProcess implements ProcessCall
 		return processInfo.isSelection();
 	}
 
+	/**
+	 * Get Selection keys (used just for key without values)
+	 * @return
+	 */
+	public List<Integer> getSelectionKeys() {
+		return processInfo.getSelectionKeys();
+	}
 	
 	/**************************************************************************
 	 * 	Get Parameter
@@ -623,6 +633,76 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	public Timestamp getParameterToAsTimestamp(String parameterName) {
 		return processInfo.getParameterToAsTimestamp(parameterName);
+	}
+	
+	/***************************************************
+	 * Get Selection Values                            *                            
+	 * FR [ 352 ]                                      *
+	 ***************************************************/
+	
+	/**
+	 * Get a value of selection from a key
+	 * @param key
+	 * @param columnName
+	 * @return
+	 */
+	public Object getSelection(int key, String columnName) {
+		return processInfo.getSelection(key, columnName);
+	}
+	
+	/**
+	 * Get a selection value like BigDecimal from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return BigDecimal with value
+	 * FR [ 352 ]
+	 */
+	public BigDecimal getSelectionAsBigDecimal(int key, String columnName) {
+		return processInfo.getSelectionAsBigDecimal(key, columnName);
+	}
+	
+	/**
+	 * Get a selection value like boolean from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return boolean with value
+	 * FR [ 352 ]
+	 */
+	public boolean getSelectionAsBoolean(int key, String columnName) {
+		return processInfo.getSelectionAsBoolean(key, columnName);
+	}
+	
+	/**
+	 * Get a selection value like int from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return int with value
+	 * FR [ 352 ]
+	 */
+	public int getSelectionAsInt(int key, String columnName) {
+		return processInfo.getSelectionAsInt(key, columnName);
+	}
+	
+	/**
+	 * Get a selection value like String from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return String with value
+	 * FR [ 352 ]
+	 */
+	public String getSelectionAsString(int key, String columnName) {
+		return processInfo.getSelectionAsString(key, columnName);
+	}
+	
+	/**
+	 * Get a selection value like Timestamp from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return Timestamp with value
+	 * FR [ 352 ]
+	 */
+	public Timestamp getSelectionAsTimestamp(int key, String columnName) {
+		return processInfo.getSelectionAsTimestamp(key, columnName);
 	}
 
 
