@@ -26,7 +26,6 @@ import org.compiere.util.CCache;
  *	(see also MTree in project base)
  *	
  *  @author Jorg Janke
- *  @version $Id: MTree_Base.java,v 1.2 2006/07/30 00:58:37 jjanke Exp $
  */
 public class MTree_Base extends X_AD_Tree
 {
@@ -39,7 +38,7 @@ public class MTree_Base extends X_AD_Tree
 
 	/**
 	 * 	Add Node to correct tree
-	 *	@param ctx cpntext
+	 *	@param ctx context
 	 *	@param treeType tree type
 	 *	@param Record_ID id
 	 *	@param trxName transaction
@@ -144,7 +143,7 @@ public class MTree_Base extends X_AD_Tree
 
 	/**
 	 * 	Get Source TableName
-	 *	@param treeType tree typw
+	 *	@param treeType tree type
 	 *	@return source table name, e.g. AD_Org or null 
 	 */
 	public static String getSourceTableName(String treeType)
