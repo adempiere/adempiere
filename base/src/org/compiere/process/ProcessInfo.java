@@ -22,13 +22,11 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.compiere.minigrid.IDColumn;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
@@ -635,27 +633,6 @@ public class ProcessInfo implements Serializable
 		return selection;
 	}
 	
-	/**
-	 * Parse data of Selection to standard values of ADempiere
-	 * @param data
-	 * @return
-	 */
-	private Object parseValue(Object data) {
-		Object retValue = data;
-		if(data == null) {
-			return null;
-		} else if(data instanceof IDColumn) {
-			IDColumn id = (IDColumn) data;
-			retValue = id.getRecord_ID();
-		} else if(data instanceof Double) {
-			retValue = BigDecimal.valueOf((Double)data);
-		} else if (data instanceof Date) {
-			retValue = new Timestamp(((Date)data).getTime());
-		}
-		//	Default Return
-		return retValue;
-	}
-	
 	/**************************************************************************
 	 * 	Add to Log
 	 *	@param Log_ID Log ID
@@ -1137,7 +1114,7 @@ public class ProcessInfo implements Serializable
 		if(selection != null) {
 			LinkedHashMap<String, Object> record = selection.get(key);
 			if(record != null) {
-				return parseValue(record.get(columnName));
+				return record.get(columnName);
 			}
 		}
 		//	Default

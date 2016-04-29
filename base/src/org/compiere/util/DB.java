@@ -50,7 +50,6 @@ import org.compiere.db.AdempiereDatabase;
 import org.compiere.db.CConnection;
 import org.compiere.db.Database;
 import org.compiere.db.ProxyFactory;
-import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MLanguage;
 import org.compiere.model.MRole;
@@ -2287,14 +2286,7 @@ public final class DB
 				
 				Object data = field.getValue();
 				// set Values					
-				if (data instanceof IDColumn)
-				{
-					IDColumn id = (IDColumn) data;
-					parameters.add(null);
-					parameters.add(id.getRecord_ID());
-					parameters.add(null);
-				}
-				else if (data instanceof String)
+				if (data instanceof String)
 				{
 					parameters.add(data);
 					parameters.add(null);
