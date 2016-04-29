@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Bad index for Process SeqNo #264" ReleaseNo="3.8.0#002" SeqNo="178">
+  <Migration EntityType="D" Name="Bad index for Process SeqNo #264" ReleaseNo="3.8.0#002" SeqNo="133">
     <Comments>See: https://github.com/adempiere/adempiere/issues/264</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="U" Record_ID="50001" Table="AD_Process_Para">

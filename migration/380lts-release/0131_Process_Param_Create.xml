@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Create Process parameter from Report View #243" ReleaseNo="3.8.0#002" SeqNo="158">
+  <Migration EntityType="D" Name="Create Process parameter from Report View #243" ReleaseNo="3.8.0#002" SeqNo="131">
     <Comments>See: https://github.com/adempiere/adempiere/issues/243</Comments>
     <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_CopyProcess_Para AS
