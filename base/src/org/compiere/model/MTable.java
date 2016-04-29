@@ -65,8 +65,8 @@ import org.compiere.wf.MWorkflow;
  *			@see https://github.com/adempiere/adempiere/issues/304
  *
  *	@author Trifon Trifon
- *			<li> FR [  ] Add helper method which check if table contains column
- *			@see https://github.com/adempiere/adempiere/issues/
+ *			<li> FR [ 356 ] Decrease verbosity of SQL statement closing lines.
+ *			@see https://github.com/adempiere/adempiere/issues/356
  */
 public class MTable extends X_AD_Table
 {
