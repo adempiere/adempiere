@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Is Summary property by default in Print Format #238" ReleaseNo="3.8.0#002" SeqNo="138">
+  <Migration EntityType="D" Name="Is Summary property by default in Print Format #238" ReleaseNo="3.8.0#002" SeqNo="129">
     <Comments>See: https://github.com/adempiere/adempiere/issues/238</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="78516" Table="AD_Column">
