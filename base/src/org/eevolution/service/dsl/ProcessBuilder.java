@@ -25,7 +25,6 @@ import org.compiere.model.MProcess;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
@@ -45,6 +44,8 @@ import java.util.Properties;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 244 ] Is Selection flag
  *		@see https://github.com/adempiere/adempiere/issues/244
+ *		<li> FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
+ *		@see https://github.com/adempiere/adempiere/issues/352
  */
 public class ProcessBuilder {
 
@@ -159,9 +160,10 @@ public class ProcessBuilder {
 
         //	FR [ 244 ]
         boolean isSelection = selectedRecordsIds.size() > 0;
-        if (isSelection)
-            DB.createT_Selection(instance.getAD_PInstance_ID(), selectedRecordsIds, null);
-
+        //	FR [ 352 ]
+        if (isSelection) {
+        	processInfo.setSelectionKeys(selectedRecordsIds);
+        }
 
         processInfo = new ProcessInfo(title, processId, tableId , recordId, isManagedTransaction);
         processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
