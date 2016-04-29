@@ -346,6 +346,8 @@ public class Viewer extends CFrame
 		//pb comment this out so that scrolling works normally
 		//centerScrollPane.getViewport().addChangeListener(this);
 		// end pb
+		//	Default summary from print format
+		summary.setSelected(m_reportEngine.getPrintFormat().isSummary());
 		//FR 201156
 		summary.addActionListener(this);
 		//	Max Page
