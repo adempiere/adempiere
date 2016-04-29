@@ -25,6 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -670,11 +671,22 @@ public abstract class Browser {
 						{
 							if (!field.isReadOnly() || field.isIdentifier())
 							{
-								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getColumnName());//(GridField) browserRows.getValue(row, col);
+								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getColumnName());
 								Object value = gridField.getValue();
+								//	Parse value to standard values
+								if(value instanceof IDColumn) {
+									IDColumn id = (IDColumn) value;
+									value = id.getRecord_ID();
+								} else if(value instanceof Double) {
+									value = BigDecimal.valueOf((Double)value);
+								} else if (value instanceof Date) {
+									value = new Timestamp(((Date)value).getTime());
+								}
+								//	Set
 								values.put(field.getAD_View_Column().getColumnName(), value);
 							}
 						}
+						//	
 						if(values.size() > 0)
 							m_values.put(dataColumn.getRecord_ID(), values);
 					}
