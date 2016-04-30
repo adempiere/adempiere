@@ -45,6 +45,8 @@ import org.compiere.util.Env;
  *		@see https://github.com/adempiere/adempiere/issues/295
  *		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
  *		@see https://github.com/adempiere/adempiere/issues/352
+ *		<li>FR [ 298 ] Process Parameter Panel not set default value correctly into parameters
+ *		@see https://github.com/adempiere/adempiere/issues/298
  */
 public abstract class ProcessParameter {
 	
@@ -337,6 +339,8 @@ public abstract class ProcessParameter {
 		if (voF.IsRange) {
 			//
 			GridFieldVO voF2 = GridFieldVO.createParameter(voF);
+			//	BR [ 298 ]
+			voF2.DefaultValue = voF2.DefaultValue2;
 			//	Change Name
 			voF2.ColumnName = voF2.ColumnName + "_To";
 			//	

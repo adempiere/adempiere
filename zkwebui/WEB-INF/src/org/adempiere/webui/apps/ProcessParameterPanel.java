@@ -50,6 +50,8 @@ import org.zkoss.zul.Hbox;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li>FR [ 265 ] ProcessParameterPanel is not MVC
  *		@see https://github.com/adempiere/adempiere/issues/265
+ *		<li>FR [ 298 ] Process Parameter Panel not set default value correctly into parameters
+ *		@see https://github.com/adempiere/adempiere/issues/298
  * 	@version 	2006-12-01
  */
 public class ProcessParameterPanel extends ProcessParameter implements ValueChangeListener 
@@ -205,7 +207,7 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
 		//	The Editor
 		WEditor editor2 = WebEditorFactory.getEditor(field_To, false);
 		//  New Field value to be updated to editor
-		field.addPropertyChangeListener(editor2);
+		field_To.addPropertyChangeListener(editor2);
 		editor2.dynamicDisplay();
 		//	
 		Object defaultObject2 = field_To.getDefault();
