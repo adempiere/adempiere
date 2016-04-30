@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Smart Browse don't have a Sequence Tab for Search Criteria F" ReleaseNo="3.8.0#002" SeqNo="168">
+  <Migration EntityType="D" Name="Smart Browse don't have a Sequence Tab for Search Criteria F" ReleaseNo="3.8.0#002" SeqNo="132">
     <Comments>See: https://github.com/adempiere/adempiere/issues/267</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="78559" Table="AD_Column">

@@ -15,16 +15,14 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MColumn;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessPara;
 import org.compiere.model.PO;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 
 /**
@@ -46,17 +44,12 @@ public class CopyReportProcess extends SvrProcess {
 	
 	@Override
 	protected String doIt() throws Exception {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
 		//	Instance current process
 		MProcess process = MProcess.get(getCtx(), getRecord_ID());
 		//	
-		ps = DB.prepareStatement(sql.toString(), get_TrxName());
-		ps.setInt(1, getAD_PInstance_ID());
-		rs = ps.executeQuery();
-		//	
-		while(rs.next()) {
-			copyFrom(process, rs);
+		List<Integer> keys = getSelectionKeys();
+		for(Integer key : keys) {
+			copyFrom(process, key);
 		}
 		//	Default Ok
 		return "@OK@";
@@ -65,18 +58,18 @@ public class CopyReportProcess extends SvrProcess {
 	/**
 	 * Copy parameters to process
 	 * @param process
-	 * @param rs
+	 * @param record
 	 * @throws SQLException 
 	 */
-	private void copyFrom(MProcess process, ResultSet rs) throws SQLException {
+	private void copyFrom(MProcess process, int key) throws SQLException {
 		//	Get Values
-		int m_AD_Column_ID = rs.getInt("AD_Column_ID");
-		int m_AD_ReportView_ID = rs.getInt("AD_ReportView_ID");
-		int m_AD_Process_Para_ID = rs.getInt("AD_Process_Para_ID");
-		boolean m_IsMandatory = rs.getString("IsMandatory").equals("Y");
-		boolean m_IsRange = rs.getString("IsRange").equals("Y");
-		String m_DefaultValue = rs.getString("DefaultValue");
-		String m_DefaultValue2 = rs.getString("DefaultValue2");
+		int m_AD_Column_ID = getSelectionAsInt(key, "PARAMETER_AD_Column_ID");
+		int m_AD_ReportView_ID = getSelectionAsInt(key, "PARAMETER_AD_ReportView_ID");
+		int m_AD_Process_Para_ID = getSelectionAsInt(key, "PARAMETER_AD_Process_Para_ID");
+		boolean m_IsMandatory = getSelectionAsBoolean(key, "PARAMETER_IsMandatory");
+		boolean m_IsRange = getSelectionAsBoolean(key, "PARAMETER_IsRange");
+		String m_DefaultValue = getSelectionAsString(key, "PARAMETER_DefaultValue");
+		String m_DefaultValue2 = getSelectionAsString(key, "PARAMETER_DefaultValue2");
 		//	Do it
 		MProcessPara newParameter = new MProcessPara(process);
 		if(m_AD_ReportView_ID != 0) {	//	For Create from View
@@ -126,30 +119,6 @@ public class CopyReportProcess extends SvrProcess {
 		//	Valid Record Identifier
 		if(getRecord_ID() <= 0)
 			throw new AdempiereException("@AD_Process_ID@ @NotFound@");
-		//	Make Query
-		sql.append("SELECT "
-				+ "	ts.AD_PInstance_ID, "
-				+ " tsb.AD_Column_ID, "
-				+ " COALESCE(tsb.IsMandatory, 'N') IsMandatory, "
-				+ " COALESCE(tsb.IsRange, 'N') IsRange, "
-				+ " tsb.DefaultValue, "
-				+ " tsb.DefaultValue2,"
-				+ " tsb.AD_ReportView_ID,"
-				+ " tsb.AD_Process_Para_ID"
-				+ " FROM T_Selection ts "
-				+ " INNER JOIN ( "
-				+ " SELECT tsb.AD_PInstance_ID, tsb.T_Selection_ID,"
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'PARAMETER_AD_Column_ID' THEN tsb.Value_Number ELSE NULL END) AS AD_Column_ID,"
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'PARAMETER_IsMandatory' THEN tsb.Value_String ELSE NULL END) AS IsMandatory,"
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'PARAMETER_IsRange' THEN tsb.Value_String ELSE NULL END) AS IsRange,"
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'PARAMETER_DefaultValue' THEN tsb.Value_String ELSE NULL END) AS DefaultValue,"
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'PARAMETER_DefaultValue2' THEN tsb.Value_String ELSE NULL END) AS DefaultValue2,"
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'PARAMETER_AD_ReportView_ID' THEN tsb.Value_Number ELSE NULL END) AS AD_ReportView_ID,"
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'PARAMETER_AD_Process_Para_ID' THEN tsb.Value_Number ELSE NULL END) AS AD_Process_Para_ID"
-				+ " FROM T_Selection_Browse tsb "
-				+ " GROUP BY tsb.AD_PInstance_ID, tsb.T_Selection_ID"
-				+ ") tsb ON(ts.AD_PInstance_ID = tsb.AD_PInstance_ID AND ts.T_Selection_ID = tsb.T_Selection_ID) "
-				+ " WHERE ts.AD_PInstance_ID = ?");
 		//	Log
 		log.fine(sql.toString());
 	}

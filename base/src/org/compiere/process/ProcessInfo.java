@@ -23,6 +23,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
 
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -42,6 +45,8 @@ import org.compiere.util.Util;
  *		@see https://github.com/adempiere/adempiere/issues/244
  *		<li> FR [ 325 ] SvrProcess must handle mandatory error on Process Parameters
  *		@see https://github.com/adempiere/adempiere/issues/325
+ *		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
+ *		@see https://github.com/adempiere/adempiere/issues/352
  *	@author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  */
 public class ProcessInfo implements Serializable
@@ -133,6 +138,11 @@ public class ProcessInfo implements Serializable
 
 	/**	Log Info					*/
 	private Hashtable<String, ProcessInfoParameter> parameters = null;
+	//	FR [ 352 ]
+	/**	Multi-Selection Parameters	*/
+	private LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection = null;
+	/**	Multi-Selection Keys		*/
+	private List<Integer>		keySelection = null;
 	
 	/** Transaction Name 			*/
 	private String 				transactionName = null;
@@ -582,6 +592,46 @@ public class ProcessInfo implements Serializable
 		}
 	}	//	setParameter
 
+	/**
+	 * Set Selection keys
+	 * @param selection
+	 */
+	public void setSelectionKeys(List<Integer> selection) {
+		keySelection = selection;
+		setIsSelection(selection != null && selection.size() > 0);
+	}
+	
+	/**
+	 * Get Selection keys (used just for key without values)
+	 * @return
+	 */
+	public List<Integer> getSelectionKeys() {
+		return keySelection;
+	}
+	
+	/**
+	 * Set Selection Parameters
+	 * @param selection
+	 */
+	public void setSelectionValues(LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection) {
+		this.selection = selection;
+		setIsSelection(selection != null && selection.size() > 0);
+		//	fill key
+		if(selection != null) {
+			keySelection = new ArrayList<Integer>();
+			for(Entry<Integer,LinkedHashMap<String, Object>> records : selection.entrySet()) {
+				keySelection.add(records.getKey());
+			}
+		}
+	}
+	
+	/**
+	 * Get Selection
+	 * @return
+	 */
+	public LinkedHashMap<Integer, LinkedHashMap<String, Object>> getSelectionValues() {
+		return selection;
+	}
 	
 	/**************************************************************************
 	 * 	Add to Log
@@ -1047,6 +1097,118 @@ public class ProcessInfo implements Serializable
 			return null;
 		//	Default
 		return parameter.getParameterToAsTimestamp();
+	}
+	
+	/***************************************************
+	 * Get Selection Values                            *                            
+	 * FR [ 352 ]                                      *
+	 ***************************************************/
+	
+	/**
+	 * Get a value of selection from a key
+	 * @param key
+	 * @param columnName
+	 * @return
+	 */
+	public Object getSelection(int key, String columnName) {
+		if(selection != null) {
+			LinkedHashMap<String, Object> record = selection.get(key);
+			if(record != null) {
+				return record.get(columnName);
+			}
+		}
+		//	Default
+		return null;
+	}
+	
+	/**
+	 * Get a selection value like BigDecimal from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return BigDecimal with value
+	 * FR [ 352 ]
+	 */
+	public BigDecimal getSelectionAsBigDecimal(int key, String columnName) {
+		Object retValue = getSelection(key, columnName);
+		//	For null
+		if(retValue == null)
+			return null;
+		if(retValue instanceof BigDecimal)
+			return (BigDecimal) retValue;
+		//	Default
+		return null;
+	}
+	
+	/**
+	 * Get a selection value like boolean from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return boolean with value
+	 * FR [ 352 ]
+	 */
+	public boolean getSelectionAsBoolean(int key, String columnName) {
+		Object retValue = getSelection(key, columnName);
+		//	For null
+		if(retValue == null)
+			return false;
+		if(retValue instanceof Boolean)
+			return (Boolean) retValue;
+		//	Default
+		return false;
+	}
+	
+	/**
+	 * Get a selection value like int from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return int with value
+	 * FR [ 352 ]
+	 */
+	public int getSelectionAsInt(int key, String columnName) {
+		Object retValue = getSelection(key, columnName);
+		//	For null
+		if(retValue == null)
+			return 0;
+		if(retValue instanceof Number)
+			return ((Number) retValue).intValue();
+		//	Default
+		return 0;
+	}
+	
+	/**
+	 * Get a selection value like String from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return String with value
+	 * FR [ 352 ]
+	 */
+	public String getSelectionAsString(int key, String columnName) {
+		Object retValue = getSelection(key, columnName);
+		//	For null
+		if(retValue == null)
+			return null;
+		if(retValue instanceof String)
+			return (String) retValue;
+		//	Default
+		return null;
+	}
+	
+	/**
+	 * Get a selection value like Timestamp from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return Timestamp with value
+	 * FR [ 352 ]
+	 */
+	public Timestamp getSelectionAsTimestamp(int key, String columnName) {
+		Object retValue = getSelection(key, columnName);
+		//	For null
+		if(retValue == null)
+			return null;
+		if(retValue instanceof Timestamp)
+			return (Timestamp) retValue;
+		//	Default
+		return null;
 	}
 	
 }   //  ProcessInfo

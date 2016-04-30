@@ -1,0 +1,6 @@
+
+//  ADempiere test suite - bugs and features specific tests
+
+//  ADEMPIERE-72
+../scenario/scenario_ADEMPIERE72_webui_info_panels.sah
+
