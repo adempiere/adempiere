@@ -1,0 +1,26 @@
+// Variable declarations
+var $usr = "GardenAdmin";
+var $pwd = "GardenAdmin";
+
+// Includes - common functions
+_include("../lib/common_functions.sah");
+
+// Includes - test flows
+_include("../test/material_management/tf_fr3028588_rounding.sah");
+
+// Setup	
+function setUp(){
+	login($usr, $pwd, "", "", "", "", "HQ", "HQ Warehouse");
+}
+
+// Tear down
+function tearDown() {
+//	logout();
+}
+
+// Run the tests
+_runUnitTests();
+
+_log("Scenario products and prices Completed", "info"); // Test Completed.
+
+// End of test

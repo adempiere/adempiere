@@ -28,14 +28,12 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
-import org.adempiere.model.MBrowseField;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.apps.ProcessParameterPanel;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
@@ -56,10 +54,8 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
-import org.compiere.model.MPInstance;
 import org.compiere.model.MQuery;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -77,7 +73,6 @@ import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Row;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
@@ -331,42 +326,6 @@ public class WBrowser extends Browser implements IFormController,
 	}
 
 	/**
-	 * When is closed
-	 * @param ok
-	 */
-	public void dispose(boolean ok) {
-		log.config("OK=" + ok);
-		searchGrid.dispose();
-		m_ok = ok;
-		
-		saveResultSelection(detail);
-		saveSelection(detail);
-		
-		if (m_Browse.getAD_Process_ID() <= 0)
-			return;
-
-		MPInstance instance = new MPInstance(Env.getCtx(),
-				m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
-		instance.saveEx();
-
-		DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
-				null);
-		ProcessInfo pi = getBrowseProcessInfo();
-		pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-		pi.setWindowNo(getWindowNo());
-		parameterPanel.saveParameters();
-		ProcessInfoUtil.setParameterFromDB(pi);
-		setBrowseProcessInfo(pi);
-		//Save Values Browse Field Update
-		createT_Selection_Browse(instance.getAD_PInstance_ID());
-		// Execute Process
-		ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo() , pi , null);
-		worker.start();
-        Env.clearWinContext(getWindowNo());
-		SessionManager.getAppDesktop().closeActiveWindow();
-	}
-
-	/**
 	 * Add Components to tool bar
 	 */
 	private void setupToolBar() {
@@ -379,16 +338,12 @@ public class WBrowser extends Browser implements IFormController,
 			bOk = action.getButton();
 			action = new WAppsAction (ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
 			bCancel = action.getButton();
-//			selectAllAction = new WAppsAction (ConfirmPanel.A_PRINT, null, ConfirmPanel.A_PRINT);
-//			bPrint = selectAllAction.getButton();
 			action = new WAppsAction (ConfirmPanel.A_ZOOM, null, ConfirmPanel.A_ZOOM);
 			bZoom = action.getButton();
 			action = new WAppsAction (ConfirmPanel.A_EXPORT, null, ConfirmPanel.A_EXPORT);
 			bExport =  action.getButton();
 			action = new WAppsAction (ConfirmPanel.A_DELETE, null, ConfirmPanel.A_DELETE);
 			bDelete = action.getButton();
-//			selectAllAction = new WAppsAction ("Find", null, "Find");
-//			bFind = selectAllAction.getButton();
 			action = new WAppsAction ("SelectAll", null, Msg.getMsg(Env.getCtx(),"SelectAll"));
 			bSelectAll = action.getButton();
 		}
@@ -650,23 +605,14 @@ public class WBrowser extends Browser implements IFormController,
 		{
 			// FR [ 265 ]
 			if(parameterPanel.validateParameters() == null) {
-				MPInstance instance = new MPInstance(Env.getCtx(),
-						m_Browse.getAD_Process_ID(), getBrowseProcessInfo().getRecord_ID());
-				instance.saveEx();
-				ProcessInfo pi = getBrowseProcessInfo();
-				pi.setWindowNo(getWindowNo());
-				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-				pi.setIsSelection(p_multiSelection);
-				// BR [ 249 ]
+				//	Save Parameters
 				if(parameterPanel.saveParameters() == null) {
-					
-					DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(),
-							null);
-					//Save Values Browse Field Update
-					createT_Selection_Browse(instance.getAD_PInstance_ID());
-					ProcessInfoUtil.setParameterFromDB(pi);
-					setBrowseProcessInfo(pi);
-								
+					//	Get Process Info
+					ProcessInfo pi = parameterPanel.getProcessInfo();
+					//	Set Selected Values
+					pi.setSelectionValues(getSelectedValues());
+					//	
+					setBrowseProcessInfo(pi);	
 					// Execute Process
 					ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo(), pi , null);
 					showBusyDialog();

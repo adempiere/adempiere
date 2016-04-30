@@ -22,14 +22,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPInstance;
+import org.compiere.model.MProcess;
+import org.compiere.model.MProcessPara;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
@@ -53,6 +58,10 @@ import org.compiere.util.Trx;
  *		@see https://github.com/adempiere/adempiere/issues/244
  *		<li> FR [ 325 ] SvrProcess must handle mandatory error on Process Parameters
  *		@see https://github.com/adempiere/adempiere/issues/325
+ *		<li> FR [ 326 ] Process source code generated automatically (Add validation of mandatory parameter)
+ *		@see https://github.com/adempiere/adempiere/issues/326
+ *		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
+ *		@see https://github.com/adempiere/adempiere/issues/352
  * @author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  *
  * @author mckayERP www.mckayERP.com
@@ -85,6 +94,7 @@ public abstract class SvrProcess implements ProcessCall
 	/**	Common Error Message			*/
 	protected static String 	MESSAGE_SaveErrorRowNotFound = "@SaveErrorRowNotFound@";
 	protected static String 	MESSAGE_InvalidArguments = "@InvalidArguments@";
+	protected static String 	MESSAGE_FillMandatory = "@FillMandatory@";
 
 
 	/**
@@ -154,6 +164,8 @@ public abstract class SvrProcess implements ProcessCall
 			//	FR [ 325 ]
 			//	Load Parameters
 			getParameter();
+			//	FR [ 326 ]
+			validateParameter();
 			//	Prepare
 			prepare();
 			msg = doIt();
@@ -181,6 +193,43 @@ public abstract class SvrProcess implements ProcessCall
 		
 		return success;
 	}   //  process
+	
+	/**
+	 * Validate Parameters
+	 */
+	private void validateParameter() {
+		MProcess process = MProcess.get(getCtx(), processInfo.getAD_Process_ID());
+		//	No have parameter
+		if(process == null)
+			return;
+		//	
+		MProcessPara [] parameters = process.getParameters();
+		StringBuffer errorMsg = new StringBuffer();
+		//	Loop over parameter, find a mandatory parameter
+		for(MProcessPara parameter : parameters) {
+			if(parameter.isMandatory() && parameter.isActive()) {
+				ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
+				if(infoParameter == null
+						|| infoParameter.getParameter() == null
+						|| (DisplayType.isID(parameter.getAD_Reference_ID()) 
+								&& infoParameter.getParameterAsInt() < 0)
+						|| (DisplayType.isText(parameter.getAD_Reference_ID()) 
+								&& (infoParameter.getParameterAsString() == null 
+										|| infoParameter.getParameterAsString().length() == 0))
+				) {
+					if(errorMsg.length() > 0) {
+						errorMsg.append(", ");
+					}
+					//	
+					errorMsg.append("@").append(parameter.getColumnName()).append("@");
+				}
+			}
+		}
+		//	throw exception
+		if(errorMsg.length() > 0) {
+			throw new AdempiereException(MESSAGE_FillMandatory + errorMsg.toString());
+		}
+	}
 
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -432,6 +481,13 @@ public abstract class SvrProcess implements ProcessCall
 		return processInfo.isSelection();
 	}
 
+	/**
+	 * Get Selection keys (used just for key without values)
+	 * @return
+	 */
+	public List<Integer> getSelectionKeys() {
+		return processInfo.getSelectionKeys();
+	}
 	
 	/**************************************************************************
 	 * 	Get Parameter
@@ -577,6 +633,76 @@ public abstract class SvrProcess implements ProcessCall
 	 */
 	public Timestamp getParameterToAsTimestamp(String parameterName) {
 		return processInfo.getParameterToAsTimestamp(parameterName);
+	}
+	
+	/***************************************************
+	 * Get Selection Values                            *                            
+	 * FR [ 352 ]                                      *
+	 ***************************************************/
+	
+	/**
+	 * Get a value of selection from a key
+	 * @param key
+	 * @param columnName
+	 * @return
+	 */
+	public Object getSelection(int key, String columnName) {
+		return processInfo.getSelection(key, columnName);
+	}
+	
+	/**
+	 * Get a selection value like BigDecimal from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return BigDecimal with value
+	 * FR [ 352 ]
+	 */
+	public BigDecimal getSelectionAsBigDecimal(int key, String columnName) {
+		return processInfo.getSelectionAsBigDecimal(key, columnName);
+	}
+	
+	/**
+	 * Get a selection value like boolean from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return boolean with value
+	 * FR [ 352 ]
+	 */
+	public boolean getSelectionAsBoolean(int key, String columnName) {
+		return processInfo.getSelectionAsBoolean(key, columnName);
+	}
+	
+	/**
+	 * Get a selection value like int from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return int with value
+	 * FR [ 352 ]
+	 */
+	public int getSelectionAsInt(int key, String columnName) {
+		return processInfo.getSelectionAsInt(key, columnName);
+	}
+	
+	/**
+	 * Get a selection value like String from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return String with value
+	 * FR [ 352 ]
+	 */
+	public String getSelectionAsString(int key, String columnName) {
+		return processInfo.getSelectionAsString(key, columnName);
+	}
+	
+	/**
+	 * Get a selection value like Timestamp from key and column name
+	 * @param key
+	 * @param columnName
+	 * @return Timestamp with value
+	 * FR [ 352 ]
+	 */
+	public Timestamp getSelectionAsTimestamp(int key, String columnName) {
+		return processInfo.getSelectionAsTimestamp(key, columnName);
 	}
 
 

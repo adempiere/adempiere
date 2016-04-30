@@ -1,0 +1,12 @@
+No Hold,Null,Manual,50,60,10,30,60,60,60,10,10,30
+Strict Order,Null,Manual,50,60,10,30,50,50,60,0,10,30
+No Hold,No Hold,Manual,50,60,10,30,60,60,60,10,10,30
+Strict Order,No Hold,Manual,50,60,10,30,60,60,60,10,10,30
+No Hold,Strict Order,Manual,50,60,10,30,50,50,60,0,10,30
+Strict Order,Strict Order,Manual,50,60,10,30,50,50,60,0,10,30
+No Hold,Null,Automatic,50,60,10,30,60,60,60,10,10,30
+Strict Order,Null,Automatic,50,60,10,30,50,50,60,0,10,30
+No Hold,No Hold,Automatic,50,60,10,30,60,60,60,10,10,30
+Strict Order,No Hold,Automatic,50,60,10,30,60,60,60,10,10,30
+No Hold,Strict Order,Automatic,50,60,10,30,50,50,60,0,10,30
+Strict Order,Strict Order,Automatic,50,60,10,30,50,50,60,0,10,30

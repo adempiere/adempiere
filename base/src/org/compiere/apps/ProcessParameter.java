@@ -43,6 +43,8 @@ import org.compiere.util.Env;
  *		@see https://github.com/adempiere/adempiere/issues/265
  *		<li>FR [ 295 ] Report viewer re-query
  *		@see https://github.com/adempiere/adempiere/issues/295
+ *		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
+ *		@see https://github.com/adempiere/adempiere/issues/352
  */
 public abstract class ProcessParameter {
 	
@@ -721,6 +723,15 @@ public abstract class ProcessParameter {
 	 */
 	public void setProcessInfo(ProcessInfo processInfo) {
 		m_processInfo = processInfo;
+	}
+	
+	/**
+	 * Get Process Info
+	 * FR [ 352 ]
+	 * @return
+	 */
+	public ProcessInfo getProcessInfo() {
+		return m_processInfo;
 	}
 		
 }	//	ProcessParameterPanel

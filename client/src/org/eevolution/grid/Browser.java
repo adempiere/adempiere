@@ -79,7 +79,8 @@ import org.compiere.util.Msg;
  * 		@see https://github.com/adempiere/adempiere/issues/318
  * 		<li>BR [ 344 ] Smart Browse Search View is not MVC
  * 		@see https://github.com/adempiere/adempiere/issues/344
- * 
+ * 		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
+ *		@see https://github.com/adempiere/adempiere/issues/352 * 
  */
 public abstract class Browser {
 	static public LinkedHashMap<String, Object> getBrowseValues(
@@ -147,24 +148,24 @@ public abstract class Browser {
 	public ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
 	
 	/** Parameters */
-	protected ArrayList<Object> parameters;
+	private ArrayList<Object> parameters;
 	/** Parameters */
-	protected ArrayList<Object> parametersValues;
+	private ArrayList<Object> parametersValues;
 	/** Parameters */
-	protected ArrayList<Object> axisParameters;
+	private ArrayList<Object> axisParameters;
 	/** Parameters */
-	protected ArrayList<Object> axisParametersValues;
+	private ArrayList<Object> axisParametersValues;
 	/** Parameters */
-	protected ArrayList<GridFieldVO> m_parameters_field;
+	private ArrayList<GridFieldVO> m_parameters_field;
 	/** Cache m_whereClause **/
-	protected String m_whereClause = ""; 
+	private String m_whereClause = ""; 
 	
 	/** MProcess process */
-	public MProcess m_process = null;
+	private MProcess m_process = null;
 	/** ProcessInfo */
-	public ProcessInfo m_pi = null;
+	private ProcessInfo m_pi = null;
 	/** Browse Process Info */
-	public ProcessInfo m_browse_pi = null;
+	private ProcessInfo browsePI = null;
 
 	/** Loading success indicator */
 	public boolean p_loadedOK = false;
@@ -172,12 +173,10 @@ public abstract class Browser {
 	public int m_keyColumnIndex = -1;
 	/** OK pressed */
 	public boolean m_ok = false;
-	/** Cancel pressed - need to differentiate between OK - Cancel - Exit */
-	public boolean m_cancel = false;
 	/** Result IDs */
-	public ArrayList<Integer> m_results = new ArrayList<Integer>(3);
+	private ArrayList<Integer> m_results = new ArrayList<Integer>(3);
 	/** Result Values */
-	public LinkedHashMap<Integer,LinkedHashMap<String, Object>> m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
+	private LinkedHashMap<Integer, LinkedHashMap<String, Object>> m_values = new LinkedHashMap<Integer, LinkedHashMap<String, Object>>();
 	/** Logger */
 	public CLogger log = CLogger.getCLogger(getClass());
 
@@ -468,14 +467,15 @@ public abstract class Browser {
 	 */
 	public void initProcessInfo() {
 		m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
-		m_browse_pi = new ProcessInfo(m_process.getName(), m_Browse.getAD_Process_ID());
-		m_browse_pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
-		m_browse_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-		m_browse_pi.setWindowNo(getWindowNo());
+		browsePI = new ProcessInfo(m_process.getName(), m_Browse.getAD_Process_ID());
+		browsePI.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
+		browsePI.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		browsePI.setWindowNo(getWindowNo());
+		browsePI.setIsSelection(true);
 		//	Copy Values
 		if(m_pi != null) {
-			m_browse_pi.setTable_ID(m_pi.getTable_ID());
-			m_browse_pi.setRecord_ID(m_pi.getRecord_ID());
+			browsePI.setTable_ID(m_pi.getTable_ID());
+			browsePI.setRecord_ID(m_pi.getRecord_ID());
 		}
 	}
 	
@@ -638,73 +638,7 @@ public abstract class Browser {
 		else
 			return null;
 	}
-	
-//	/**
-//	 * FR [ 245 ]
-//	 * Evaluate Mandatory Filter
-//	 * @return String
-//	 */
-//	public String evaluateMandatoryFilter() {
-//		Object value_from=null;
-//		boolean onRange = false;
-//		StringBuffer mandatorytoFill = new StringBuffer();
-//		for (Entry<Object, GridField> entry : getPanelParameters().entrySet()) {
-//			GridField editor = (GridField) entry.getValue();
-//			GridFieldVO field = editor.getVO();
-//			if (!onRange) {
-//
-//				if ((editor.getValue() == null
-//						|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
-//						&& !field.isRange
-//						&& editor.isMandatory(true)) {
-//					if(mandatorytoFill.length() > 0) {
-//						mandatorytoFill.append(", ");
-//					}
-//					//	You must Fill
-//					mandatorytoFill.append("@").append(field.ColumnName).append("@");
-//				} else if (editor.getValue() != null
-//						&& !editor.getValue().toString().isEmpty()
-//						&& field.isRange
-//						&& editor.isMandatory(true)) {
-//					onRange = true;
-//					value_from =editor.getValue();
-//				}else if (editor.getValue() == null
-//						&& field.isRange
-//						&& editor.isMandatory(true)) {
-//					onRange = true;
-//					value_from = null;
-//				}
-//				else
-//					continue;
-//			} else if ((editor.getValue() == null
-//					|| (editor.getValue() != null && editor.getValue().toString().isEmpty()))
-//					&& editor.isMandatory(true)) {
-//				if (value_from!=null){
-//					value_from=null;
-//					onRange = false;
-//				}
-//				else
-//				{
-//					if(mandatorytoFill.length() > 0) {
-//						mandatorytoFill.append(", ");
-//					}
-//					//	You must Fill
-//					mandatorytoFill.append("@").append(field.ColumnName).append("@");
-//				}
-//			}
-//			else{
-//				onRange = false;
-//				value_from=null;
-//			}
-//
-//		}
-//		//	Valid null
-//		if(mandatorytoFill.length() > 0) {
-//			return mandatorytoFill.toString();
-//		}
-//		//	Default
-//		return null;
-//	}
+
 	
 	/**
 	 * FR [ 245 ]
@@ -737,11 +671,22 @@ public abstract class Browser {
 						{
 							if (!field.isReadOnly() || field.isIdentifier())
 							{
-								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getColumnName());//(GridField) browserRows.getValue(row, col);
+								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getColumnName());
 								Object value = gridField.getValue();
+								//	Parse value to standard values
+								if(value instanceof IDColumn) {
+									IDColumn id = (IDColumn) value;
+									value = id.getRecord_ID();
+								} else if(value instanceof Double) {
+									value = BigDecimal.valueOf((Double)value);
+								} else if (value instanceof Date) {
+									value = new Timestamp(((Date)value).getTime());
+								}
+								//	Set
 								values.put(field.getAD_View_Column().getColumnName(), value);
 							}
 						}
+						//	
 						if(values.size() > 0)
 							m_values.put(dataColumn.getRecord_ID(), values);
 					}
@@ -787,8 +732,6 @@ public abstract class Browser {
 		if (!m_ok) // did not press OK
 		{
 			m_results.clear();
-//			browserTable.removeAll();
-//			browserTable = null;
 			return;
 		}
 
@@ -802,12 +745,6 @@ public abstract class Browser {
 			if (data != null)
 				m_results.add(data);
 		}
-
-		// Save Settings of detail info screens
-		// saveSelectionDetail();
-		// Clean-up
-//		browserTable.removeAll();
-//		browserTable = null;
 	} // saveSelection
 	
 	/**
@@ -934,8 +871,8 @@ public abstract class Browser {
 	public void setProcessInfo(ProcessInfo pi) {
 		m_pi = pi;
 		if(m_pi != null)
-			if(	m_browse_pi !=null)
-				m_browse_pi.setRecord_ID(m_pi.getRecord_ID());
+			if(	browsePI !=null)
+				browsePI.setRecord_ID(m_pi.getRecord_ID());
 	}
 
 	/**
@@ -951,7 +888,7 @@ public abstract class Browser {
 	 * @param pi
 	 */
 	public void setBrowseProcessInfo(ProcessInfo pi) {
-		m_browse_pi = pi;
+		browsePI = pi;
 	}
 
 	/**
@@ -959,7 +896,7 @@ public abstract class Browser {
 	 * @return
 	 */
 	public ProcessInfo getBrowseProcessInfo() {
-		return m_browse_pi;
+		return browsePI;
 	}
 	
 	public String getKeyColumn() {
@@ -1313,7 +1250,12 @@ public abstract class Browser {
 	 * Initialize Smart Browse
 	 */
 	public abstract void init();
-	 
+	
+	/**
+	 * Get SQL where for axis
+	 * @param viewColumn
+	 * @return
+	 */
 	public String getAxisSQLWhere(I_AD_View_Column viewColumn)
 	{
 		 MViewDefinition viewDefinition = (MViewDefinition) viewColumn.getAD_View_Definition();
@@ -1436,7 +1378,11 @@ public abstract class Browser {
 				: "";
 	}
 
-
+	/**
+	 * Get Order By Postirion for SB
+	 * @param BrowserField
+	 * @return
+	 */
 	private int getOrderByPosition(MBrowseField BrowserField)
 	{
 		int colOffset = 1; // columns start with 1
@@ -1517,6 +1463,11 @@ public abstract class Browser {
 		return file;
 	}
 
+	/**
+	 * Make a prefix
+	 * @param name
+	 * @return
+	 */
 	private String makePrefix(String name) {
 		StringBuffer prefix = new StringBuffer();
 		char[] nameArray = name.toCharArray();
@@ -1528,82 +1479,6 @@ public abstract class Browser {
 			}
 		}
 		return prefix.toString();
-	}
-	
-	/**
-	 * Insert result values
-	 * @param AD_PInstance_ID
-	 */
-	public void createT_Selection_Browse(int AD_PInstance_ID)
-	{
-		StringBuilder insert = new StringBuilder();
-		insert.append("INSERT INTO T_SELECTION_BROWSE (AD_PINSTANCE_ID, T_SELECTION_ID, COLUMNNAME , VALUE_STRING, VALUE_NUMBER , VALUE_DATE ) VALUES(?,?,?,?,?,?) ");
-		for (Entry<Integer,LinkedHashMap<String, Object>> records : m_values.entrySet()) {
-			//set Record ID
-			
-				LinkedHashMap<String, Object> fields = records.getValue();
-				for(Entry<String, Object> field : fields.entrySet())
-				{
-					List<Object> parameters = new ArrayList<Object>();
-					parameters.add(AD_PInstance_ID);
-					parameters.add(records.getKey());
-					parameters.add(field.getKey());
-					
-					Object data = field.getValue();
-					// set Values					
-					if (data instanceof IDColumn)
-					{
-						IDColumn id = (IDColumn) data;
-						parameters.add(null);
-						parameters.add(id.getRecord_ID());
-						parameters.add(null);
-					}
-					else if (data instanceof String)
-					{
-						parameters.add(data);
-						parameters.add(null);
-						parameters.add(null);
-					}
-					else if (data instanceof BigDecimal || data instanceof Integer || data instanceof Double)
-					{
-						parameters.add(null);
-						if(data instanceof Double)
-						{	
-							BigDecimal value = BigDecimal.valueOf((Double)data);
-							parameters.add(value);
-						}	
-						else	
-							parameters.add(data);
-						parameters.add(null);
-					}
-					else if (data instanceof Integer)
-					{
-						parameters.add(null);
-						parameters.add((Integer)data);
-						parameters.add(null);
-					}
-					else if (data instanceof Timestamp || data instanceof Date)
-					{
-						parameters.add(null);
-						parameters.add(null);
-						if(data instanceof Date)
-						{
-							Timestamp value = new Timestamp(((Date)data).getTime());
-							parameters.add(value);
-						}
-						else 
-						parameters.add(data);
-					}
-					else
-					{
-						parameters.add(data);
-						parameters.add(null);
-						parameters.add(null);
-					}
-					DB.executeUpdateEx(insert.toString(),parameters.toArray() , null);		
-						
-				}
-		}
 	}
 
 	/**
@@ -1700,7 +1575,11 @@ public abstract class Browser {
 			m_pstmt = null;
 		}
 	} // Exporter
-
+	
+	/**
+	 * Get Window No
+	 * @return
+	 */
 	public int getWindowNo()
 	{
 		return windowNo;
@@ -1713,5 +1592,13 @@ public abstract class Browser {
 	 */
 	public int getParentWindowNo() {
 		return parentWindowNo;
+	}
+	
+	/**
+	 * get Selected values in Smart Browse
+	 * @return selected values
+	 */
+	public LinkedHashMap<Integer, LinkedHashMap<String, Object>> getSelectedValues() {
+		return m_values;
 	}
 }

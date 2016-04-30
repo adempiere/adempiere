@@ -1,0 +1,8 @@
+﻿Purchase-Arrow,Purchases from Arrow,N,USD,4,N,N,N,Pur_Arrow_Old,Old Price List,Purchase-Arrow,,12/16/2011
+Purchase-Arrow,,,,,,,,Pur_Arrow_New,New Price List,Purchase-Arrow,,01/15/2012
+Purchase-Digi-Key,Purchases from Digi-Key,N,USD,4,N,N,N,Pur_Digi_New,New Price List,Purchase-Digi-Key,,01/15/2012
+Purchase-Lego,Purchases from Lego,N,USD,2,N,N,N,Pur_Lego,Lego Purchase PL,Purchase-Lego,,01/15/2012
+Purchase-Widgets,Purchase-Widgets,N,USD,2,N,N,N,Purchase-Widgets,Purchase-Widgets,Purchase-Widgets,,01/15/2012
+Sales-Lego-Cnd,Sales-Lego-Cnd,N,CAD,2,N,N,N,Sales-Lego-Cnd,Sales-Lego-Cnd,Sales-Lego,Pur_Lego,01/15/2012
+Sales-Lego-USD,Sales-Lego-USD,N,USD,2,N,N,N,Sales-Lego-USD,Sales-Lego-USD,Sales-Lego,Pur_Lego,01/15/2012
+Sales-Widgets,Sales-Widgets,N,USD,2,N,N,N,Sales-Widgets,Sales-Widgets,Sales-Widgets,Purchase-Widgets,01/15/2012

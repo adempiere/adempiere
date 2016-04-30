@@ -45,14 +45,33 @@ import org.compiere.util.Env;
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 9223372036854775807 ] Add Dynamic-Tree Functionality
  *		@see https://adempiere.atlassian.net/browse/ADEMPIERE-442
- *  @version    $Id: MTree.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *	@author Trifon Trifonov
+ *		<li> FR [ #351 ] Add Account number to Account Tree view
+ *		@see https://github.com/adempiere/adempiere/issues/351
  */
 public class MTree extends MTree_Base
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6412057411585787707L;
+
+	/** Is Tree editable    	*/
+	private boolean     		m_editable = false;
+
+	/** Root Node                   */
+	private MTreeNode           m_root = null;
+
+	/** Buffer while loading tree   */
+	private ArrayList<MTreeNode> m_buffer = new ArrayList<MTreeNode>();
+
+	/** Prepared Statement for Node Details */
+	private RowSet			   	m_nodeRowSet;
+
+	/** The tree is displayed on the Java Client (i.e. not web)	*/
+	private boolean				m_clientTree = true;
+	
+	private HashMap<Integer, ArrayList<Integer>> m_nodeIdMap;
+
+	/**	Logger			*/
+	private static CLogger s_log = CLogger.getCLogger(MTree.class);
 
 
 	/**
@@ -101,23 +120,6 @@ public class MTree extends MTree_Base
 		loadNodes(AD_User_ID);
 	}   //  MTree
 
-	/** Is Tree editable    	*/
-	private boolean     		m_editable = false;
-	/** Root Node                   */
-	private MTreeNode           m_root = null;
-	/** Buffer while loading tree   */
-	private ArrayList<MTreeNode> m_buffer = new ArrayList<MTreeNode>();
-	/** Prepared Statement for Node Details */
-	private RowSet			   	m_nodeRowSet;
-	/** The tree is displayed on the Java Client (i.e. not web)	*/
-	private boolean				m_clientTree = true;
-	
-	private HashMap<Integer, ArrayList<Integer>> m_nodeIdMap;
-
-	/**	Logger			*/
-	private static CLogger s_log = CLogger.getCLogger(MTree.class);
-	
-	
 	/**************************************************************************
 	 *  Get default (oldest) complete AD_Tree_ID for KeyColumn.
 	 *  Called from GridController
@@ -163,8 +165,7 @@ public class MTree extends MTree_Base
 			TreeType = TREETYPE_CMMedia;
 		else if (keyColumnName.equals("CM_Template_ID"))
 			TreeType = TREETYPE_CMTemplate;
-		else
-		{
+		else {
 			s_log.log(Level.SEVERE, "Could not map " + keyColumnName);
 			return 0;
 		}
@@ -173,20 +174,19 @@ public class MTree extends MTree_Base
 		String sql = "SELECT AD_Tree_ID, Name FROM AD_Tree "
 			+ "WHERE AD_Client_ID=? AND TreeType=? AND IsActive='Y' AND IsAllNodes='Y' "
 			+ "ORDER BY IsDefault DESC, AD_Tree_ID";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Client_ID);
 			pstmt.setString(2, TreeType);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				AD_Tree_ID = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			s_log.log(Level.SEVERE, sql, e);
+		} finally {
+			DB.close(rs, pstmt);
 		}
 
 		return AD_Tree_ID;
@@ -202,7 +202,7 @@ public class MTree extends MTree_Base
 	{
 		//  SQL for TreeNodes
 		StringBuffer sql = new StringBuffer("SELECT "
-			+ "tn.Node_ID,tn.Parent_ID,tn.SeqNo,tb.IsActive "
+			+ "tn.Node_ID, tn.Parent_ID, tn.SeqNo, tb.IsActive " // @Trifon
 			+ "FROM ").append(getNodeTableName()).append(" tn"
 			+ " LEFT OUTER JOIN AD_TreeBar tb ON (tn.AD_Tree_ID=tb.AD_Tree_ID"
 			+ " AND tn.Node_ID=tb.Node_ID "
@@ -391,12 +391,12 @@ public class MTree extends MTree_Base
 			boolean base = Env.isBaseLanguage(p_ctx, "AD_Menu");
 			sourceTable = "m";
 			if (base)
-				sqlNode.append("SELECT m.AD_Menu_ID, m.Name,m.Description,m.IsSummary,m.Action, "
+				sqlNode.append("SELECT m.AD_Menu_ID, m.Name, m.Description, m.IsSummary, m.Action, "
 					+ "m.AD_Window_ID, m.AD_Process_ID, m.AD_Form_ID, m.AD_Workflow_ID, m.AD_Task_ID, m.AD_Workbench_ID "
 					+ ", m.AD_Browse_ID "
 					+ "FROM AD_Menu m");
 			else
-				sqlNode.append("SELECT m.AD_Menu_ID,  t.Name,t.Description,m.IsSummary,m.Action, "
+				sqlNode.append("SELECT m.AD_Menu_ID, t.Name, t.Description, m.IsSummary, m.Action, "
 					+ "m.AD_Window_ID, m.AD_Process_ID, m.AD_Form_ID, m.AD_Workflow_ID, m.AD_Task_ID, m.AD_Workbench_ID "
 					+ ", m.AD_Browse_ID "
 					+ "FROM AD_Menu m, AD_Menu_Trl t");
@@ -436,9 +436,14 @@ public class MTree extends MTree_Base
 		{
 			if (columnNameX == null)
 				throw new IllegalArgumentException("Unknown TreeType=" + getTreeType());
-			sqlNode.append("SELECT t.").append(columnNameX)
-				.append("_ID,t.Name,t.Description,t.IsSummary,").append(color)
-				.append(" FROM ").append(fromClause);
+
+			sqlNode.append("SELECT t.").append(columnNameX).append("_ID")
+				.append(", t.Name, t.Description, t.IsSummary, ").append(color)
+			;
+			if ( containsValueColumn( columnNameX ) ) {
+				sqlNode.append(", t.Value"); //@Trifon
+			}
+			sqlNode.append(" FROM ").append(fromClause);
 			if (!m_editable)
 				sqlNode.append(" WHERE t.IsActive='Y'");
 		}
@@ -449,28 +454,35 @@ public class MTree extends MTree_Base
 		log.fine(sql);
 		m_nodeRowSet = DB.getRowSet (sql);
 		m_nodeIdMap = new HashMap<Integer, ArrayList<Integer>>(50);
-		try 
-		{
+		try {
 			m_nodeRowSet.beforeFirst();
 			int i = 0;
-			while (m_nodeRowSet.next())
-			{
+			while (m_nodeRowSet.next()) {
 				i++;
 				int node = m_nodeRowSet.getInt(1);
 				Integer nodeId = Integer.valueOf(node);
 				ArrayList<Integer> list = m_nodeIdMap.get(nodeId);
-				if (list == null)
-				{
+				if (list == null) {
 					list = new ArrayList<Integer>(5);
 					m_nodeIdMap.put(nodeId, list);
 				}
 				list.add(Integer.valueOf(i));
 			}
-		} catch (SQLException e) 
-		{
+		} catch (SQLException e) {
 			log.log(Level.SEVERE, "", e);
 		}
-	}   //  getNodeDetails
+	}
+	// @Trifon
+	public boolean containsValueColumn(String sourceTableName) {
+		boolean result = false;
+
+		MTable treeTable = MTable.get(getCtx(), sourceTableName);
+		MColumn valueColumn = treeTable.getColumn("Value");
+		if (valueColumn != null && valueColumn.getAD_Column_ID() > 0) {
+			result = true;
+		}
+		return result;
+	}
 
 	/**
 	 *  Get Menu Node Details.
@@ -499,7 +511,7 @@ public class MTree extends MTree_Base
 				int node = m_nodeRowSet.getInt(1);				
 				if (node_ID != node)	//	search for correct one
 					continue;
-				//	ID,Name,Description,IsSummary,Action/Color
+				//	ID, Name, Description, IsSummary, Action/Color, Value // @Trifon
 				int index = 2;				
 				String name = m_nodeRowSet.getString(index++); 
 				String description = m_nodeRowSet.getString(index++);
@@ -552,6 +564,13 @@ public class MTree extends MTree_Base
 						if (printColor != null)
 							color = printColor.getColor();
 					}
+					// @Trifon-begin
+					if ( getTreeType().equals(TREETYPE_ElementValue) ) {
+//					String sourceTableName = getSourceTableName(true); // Uncomment it if you want to see Value for all Tree types
+//					if ( containsValueColumn( sourceTableName ) ) { // Uncomment it if you want to see Value for all Tree types
+						String value = m_nodeRowSet.getString(index++);
+						name = value + " - " + name;
+					}// @Trifon-end
 					//
 					retValue = new MTreeNode (node_ID, seqNo,
 						name, description, parent_ID, isSummary,
@@ -576,7 +595,7 @@ public class MTree extends MTree_Base
 		while (needsTrim)
 		{
 			needsTrim = false;
-			Enumeration en = m_root.preorderEnumeration();
+			Enumeration<MTreeNode> en = m_root.preorderEnumeration();
 			while (m_root.getChildCount() > 0 && en.hasMoreElements())
 			{
 				MTreeNode nd = (MTreeNode)en.nextElement();

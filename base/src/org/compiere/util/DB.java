@@ -32,8 +32,11 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import javax.sql.RowSet;
@@ -90,6 +93,9 @@ import org.compiere.process.SequenceCheck;
  * 			https://sourceforge.net/tracker/?func=detail&aid=2873891&group_id=176962&atid=879335
  *  @author Paul Bowden, phib BF 2900767 Zoom to child tab - inefficient queries
  *  @see https://sourceforge.net/tracker/?func=detail&aid=2900767&group_id=176962&atid=879332
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
+ *		@see https://github.com/adempiere/adempiere/issues/352
  */
 public final class DB
 {
@@ -2252,6 +2258,78 @@ public final class DB
 		if (counter > 0)
 		{
 			DB.executeUpdateEx(insert.toString(), trxName);
+		}
+	}
+	
+	/**
+	 * Insert result values
+	 * FR [ 352 ]
+	 * @param AD_PInstance_ID
+	 * @param selection
+	 * @param trxName
+	 */
+	public static void createT_Selection_Browse(int AD_PInstance_ID, LinkedHashMap<Integer, 
+			LinkedHashMap<String, Object>> selection, String trxName) {
+		StringBuilder insert = new StringBuilder();
+		insert.append("INSERT INTO "
+				+ "T_Selection_Browse (AD_PInstance_ID, T_Selection_ID, ColumnName , Value_String, Value_Number , Value_Date) "
+				+ "VALUES(?,?,?,?,?,?) ");
+		for (Entry<Integer,LinkedHashMap<String, Object>> records : selection.entrySet()) {
+			//set Record ID
+			LinkedHashMap<String, Object> fields = records.getValue();
+			for(Entry<String, Object> field : fields.entrySet())
+			{
+				List<Object> parameters = new ArrayList<Object>();
+				parameters.add(AD_PInstance_ID);
+				parameters.add(records.getKey());
+				parameters.add(field.getKey());
+				
+				Object data = field.getValue();
+				// set Values					
+				if (data instanceof String)
+				{
+					parameters.add(data);
+					parameters.add(null);
+					parameters.add(null);
+				}
+				else if (data instanceof BigDecimal || data instanceof Integer || data instanceof Double)
+				{
+					parameters.add(null);
+					if(data instanceof Double)
+					{	
+						BigDecimal value = BigDecimal.valueOf((Double)data);
+						parameters.add(value);
+					}	
+					else	
+						parameters.add(data);
+					parameters.add(null);
+				}
+				else if (data instanceof Integer)
+				{
+					parameters.add(null);
+					parameters.add((Integer)data);
+					parameters.add(null);
+				}
+				else if (data instanceof Timestamp || data instanceof Date)
+				{
+					parameters.add(null);
+					parameters.add(null);
+					if(data instanceof Date)
+					{
+						Timestamp value = new Timestamp(((Date)data).getTime());
+						parameters.add(value);
+					}
+					else 
+					parameters.add(data);
+				}
+				else
+				{
+					parameters.add(data);
+					parameters.add(null);
+					parameters.add(null);
+				}
+				DB.executeUpdateEx(insert.toString(),parameters.toArray() , null);	
+			}
 		}
 	}
 	
