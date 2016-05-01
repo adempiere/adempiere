@@ -82,6 +82,8 @@ import org.zkoss.zul.ListitemRendererExt;
  *		@see https://github.com/adempiere/adempiere/issues/269
  *		<li>BR [ 270 ] Smart Browse cast error in ZK Table
  *		@see https://github.com/adempiere/adempiere/issues/270
+ *		<li>BR [ 347 ] ZK Smart Browse Error cast from Integer to BigDecimal loading table
+ * 		@see https://github.com/adempiere/adempiere/issues/347
  */
 public class WBrowserListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt , ValueChangeListener
 {
@@ -352,15 +354,20 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
         // are assigned to Table Columns
 		if (isColumnVisible && gridField != null)
 		{
-			boolean isCellEditable = !gridField.isReadOnly();
+			boolean isCellEditable = !gridField.isReadOnly() && field != null;
 			if ( DisplayType.YesNo == browseField.getAD_Reference_ID())
 			{
-				listcell.setValue(Boolean.valueOf(field.toString()));
+				//	BR [ 347 ]
+				boolean selected = false;
+				if(field != null) {
+					selected = Boolean.valueOf(field.toString());
+				}
+				listcell.setValue(selected);
 
 				if (columnIndex == 0)
 					table.setCheckmark(false);
 				Checkbox checkbox = new Checkbox();
-				checkbox.setChecked(Boolean.valueOf(field.toString()));
+				checkbox.setChecked(selected);
 
 				if (isCellEditable)
 				{

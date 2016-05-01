@@ -53,6 +53,8 @@ import org.compiere.swing.CPanel;
  *			@see https://github.com/adempiere/adempiere/issues/265
  *			<li>FR [ 349 ] GridFieldVO attribute is ambiguous
  * 			@see https://github.com/adempiere/adempiere/issues/349
+ * 			<li>FR [ 298 ] Process Parameter Panel not set default value correctly into parameters
+ *			@see https://github.com/adempiere/adempiere/issues/298
  */
 public class ProcessParameterPanel extends ProcessParameter implements VetoableChangeListener {
 
@@ -248,8 +250,9 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 							Object defaultValueTo = gridFieldTo.getDefault();
 							if ((valueTo == null || valueTo.toString().length() == 0)
 									&& defaultValueTo != null) {
+								//	BR [ 298 ]
 								gridFieldTo.setValue(defaultValueTo, true);
-								m_vEditors_To.get(index).setValue(defaultValue);
+								m_vEditors_To.get(index).setValue(defaultValueTo);
 							}
 							rw = gridFieldTo.isEditablePara(true);
 							m_vEditors_To.get(index).setReadWrite(rw);
