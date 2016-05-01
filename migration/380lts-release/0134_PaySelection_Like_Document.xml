@@ -24751,5 +24751,1128 @@ AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID 
         <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="CASE WHEN '@INV_MatchRequirement@' = 'N' THEN 'N' ELSE  CASE WHEN (CASE             WHEN (EXISTS ( SELECT 1                FROM C_InvoiceLine il                  JOIN M_MatchPO m ON il.C_InvoiceLine_ID = m.C_InvoiceLine_ID               WHERE inv.C_Invoice_ID = il.C_Invoice_ID               GROUP BY il.C_Invoice_ID              HAVING sum(il.QtyInvoiced) = sum(m.Qty))) THEN 'Y'             ELSE 'N'         END) = 'Y'          AND (CASE             WHEN (EXISTS ( SELECT 1                FROM C_InvoiceLine il                  JOIN M_MatchInv m ON il.C_InvoiceLine_ID = m.C_InvoiceLine_ID               WHERE inv.C_Invoice_ID = il.C_Invoice_ID               GROUP BY il.C_Invoice_ID              HAVING sum(il.QtyInvoiced) = sum(m.Qty))) THEN 'Y'             ELSE 'N'         END) = 'Y' THEN 'B'  ELSE  CASE WHEN (CASE             WHEN (EXISTS ( SELECT 1                FROM C_InvoiceLine il                  JOIN M_MatchPO m ON il.C_InvoiceLine_ID = m.C_InvoiceLine_ID               WHERE inv.C_Invoice_ID = il.C_Invoice_ID               GROUP BY il.C_Invoice_ID              HAVING sum(il.QtyInvoiced) = sum(m.Qty))) THEN 'Y'             ELSE 'N'         END) = 'Y'          THEN 'P'          ELSE  CASE WHEN (CASE             WHEN (EXISTS ( SELECT 1                FROM C_InvoiceLine il                  JOIN M_MatchInv m ON il.C_InvoiceLine_ID = m.C_InvoiceLine_ID               WHERE inv.C_Invoice_ID = il.C_Invoice_ID               GROUP BY il.C_Invoice_ID              HAVING sum(il.QtyInvoiced) = sum(m.Qty))) THEN 'Y'             ELSE 'N'         END) = 'Y'          THEN 'R'  ELSE 'N' END END END END">CASE WHEN '@INV_MatchRequirement@' = 'N' THEN 'N' ELSE  CASE WHEN (CASE WHEN (EXISTS(SELECT 1 FROM C_InvoiceLine il INNER JOIN M_MatchPO m ON(il.C_InvoiceLine_ID = m.C_InvoiceLine_ID) WHERE inv.C_Invoice_ID = il.C_Invoice_ID GROUP BY il.C_Invoice_ID HAVING sum(il.QtyInvoiced) = sum(m.Qty))) THEN 'Y' ELSE 'N' END) = 'Y' AND (CASE WHEN (EXISTS(SELECT 1 FROM C_InvoiceLine il INNER JOIN M_MatchInv m ON(il.C_InvoiceLine_ID = m.C_InvoiceLine_ID) WHERE inv.C_Invoice_ID = il.C_Invoice_ID GROUP BY il.C_Invoice_ID HAVING sum(il.QtyInvoiced) = sum(m.Qty))) THEN 'Y' ELSE 'N' END) = 'Y' THEN 'B'  ELSE  CASE WHEN (CASE WHEN (EXISTS(SELECT 1 FROM C_InvoiceLine il INNER JOIN M_MatchPO m ON(il.C_InvoiceLine_ID = m.C_InvoiceLine_ID) WHERE inv.C_Invoice_ID = il.C_Invoice_ID GROUP BY il.C_Invoice_ID HAVING sum(il.QtyInvoiced) = sum(m.Qty))) THEN 'Y' ELSE 'N' END) = 'Y' THEN 'P' ELSE  CASE WHEN (CASE WHEN (EXISTS(SELECT 1 FROM C_InvoiceLine il INNER JOIN M_MatchInv m ON(il.C_InvoiceLine_ID = m.C_InvoiceLine_ID) WHERE inv.C_Invoice_ID = il.C_Invoice_ID GROUP BY il.C_Invoice_ID HAVING sum(il.QtyInvoiced) = sum(m.Qty))) THEN 'Y' ELSE 'N' END) = 'Y' THEN 'R'  ELSE 'N' END END END END</Data>
       </PO>
     </Step>
+    <Step SeqNo="12280" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="54005" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="paymentTermDueDays(inv.C_PaymentTerm_ID, inv.DateInvoiced, Current_Date)">daysBetween(getDate(), inv.DueDate)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12290" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="53960" Table="AD_View_Column">
+        <Data AD_Column_ID="58107" Column="ColumnName" oldValue="INV_IsSOTrx">IsSOTrx</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12300" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="53887" Table="AD_View_Column">
+        <Data AD_Column_ID="58107" Column="ColumnName" oldValue="ORD_IsSOTrx">IsSOTrx</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12310" StepType="AD">
+      <PO AD_Table_ID="106" Action="I" Record_ID="54183" Table="AD_Tab">
+        <Data AD_Column_ID="379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2740" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7029" Column="AD_ColumnSortOrder_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7028" Column="AD_ColumnSortYesNo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6313" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3374" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="160" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="251" Column="AD_Table_ID">551</Data>
+        <Data AD_Column_ID="164" Column="AD_Window_ID">183</Data>
+        <Data AD_Column_ID="2744" Column="CommitWarning" isNewNull="true"/>
+        <Data AD_Column_ID="574" Column="Created">2016-04-30 21:48:11.918</Data>
+        <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="162" Column="Description">Invoice Payment Schedule</Data>
+        <Data AD_Column_ID="13450" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7713" Column="EntityType">D</Data>
+        <Data AD_Column_ID="1183" Column="HasTree">false</Data>
+        <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="6487" Column="ImportFields">N</Data>
+        <Data AD_Column_ID="8547" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="573" Column="IsActive">true</Data>
+        <Data AD_Column_ID="13995" Column="IsAdvancedTab">false</Data>
+        <Data AD_Column_ID="2042" Column="IsInfoTab">false</Data>
+        <Data AD_Column_ID="13994" Column="IsInsertRecord">true</Data>
+        <Data AD_Column_ID="2044" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="166" Column="IsSingleRow">true</Data>
+        <Data AD_Column_ID="7027" Column="IsSortTab">false</Data>
+        <Data AD_Column_ID="2043" Column="IsTranslationTab">false</Data>
+        <Data AD_Column_ID="161" Column="Name">Payment Schedule</Data>
+        <Data AD_Column_ID="2742" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="57842" Column="Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4207" Column="Processing">false</Data>
+        <Data AD_Column_ID="13449" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="165" Column="SeqNo">90</Data>
+        <Data AD_Column_ID="6654" Column="TabLevel">1</Data>
+        <Data AD_Column_ID="576" Column="Updated">2016-04-30 21:48:11.918</Data>
+        <Data AD_Column_ID="577" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2741" Column="WhereClause" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="12320" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78684" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8314</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78684</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:49:50.596</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Invoice Payment Schedule</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">The Invoice Payment Schedule determines when partial payments are due.</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Invoice Payment Schedule</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:49:50.597</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12330" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78685" Table="AD_Field">
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:49:51.958</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">10570</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78685</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:49:51.957</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">The document has been processed</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">The Processed checkbox indicates that a document has been processed.</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Processed</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12340" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78686" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8309</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78686</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:49:53.046</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Client/Tenant for this installation.</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Client</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">30</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:49:53.047</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12350" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78687" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8303</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78687</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:49:54.221</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Organizational entity within client</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">true</Data>
+        <Data AD_Column_ID="168" Column="Name">Organization</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">40</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:49:54.221</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12360" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78688" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8312</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78688</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:49:55.327</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Invoice Identifier</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">The Invoice Document.</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Invoice</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">50</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:49:55.327</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12370" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78689" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8315</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78689</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:49:56.477</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Payment Schedule Template</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">Information when parts of the payment are due</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Payment Schedule</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">60</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:49:56.477</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12380" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78690" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8313</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78690</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:49:57.576</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Active</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">70</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:49:57.576</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12390" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78691" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8306</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78691</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:49:58.936</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Date when the payment is due</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">Date when the payment is due without deductions or discount</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Due Date</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">80</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo">1</Data>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:49:58.936</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12400" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78692" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8305</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78692</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:50:00.081</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Amount of the payment due</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">Full amount of the payment due</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">true</Data>
+        <Data AD_Column_ID="168" Column="Name">Amount due</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">90</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:50:00.081</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12410" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78693" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8310</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78693</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:50:01.194</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Last Date for payments with discount</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">14</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">Last Date where a deduction of the payment discount is allowed</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Discount Date</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">100</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:50:01.194</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12420" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78694" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8308</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78694</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:50:02.275</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Calculated amount of discount</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">26</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">The Discount Amount indicates the discount amount for a document or line.</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">true</Data>
+        <Data AD_Column_ID="168" Column="Name">Discount Amount</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">110</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:50:02.275</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12430" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78695" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">10324</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78695</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:50:03.289</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="180" Column="DisplayLength">23</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Process Now</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">120</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:50:03.289</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12440" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78696" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">8304</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78696</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54183</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2016-04-30 21:50:04.388</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Element is valid</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">The element passed the validation check</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">true</Data>
+        <Data AD_Column_ID="168" Column="Name">Valid</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth" isNewNull="true"/>
+        <Data AD_Column_ID="181" Column="SeqNo">130</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid" isNewNull="true"/>
+        <Data AD_Column_ID="182" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2016-04-30 21:50:04.388</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12450" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78689" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12460" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54183" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="90">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12470" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="685" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="80">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12480" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52462" Table="AD_Val_Rule">
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52462</Data>
+        <Data AD_Column_ID="193" Column="Code">C_InvoicePaySchedule.C_Invoice_ID = @C_Invoice_ID@</Data>
+        <Data AD_Column_ID="584" Column="Created">2016-04-30 22:10:18.046</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="188" Column="Name">C_InvoicePaySchedule of Invoice</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="586" Column="Updated">2016-04-30 22:10:18.046</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12490" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="75868" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isOldNull="true">52462</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12500" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50054" Table="AD_Browse">
+        <Data AD_Column_ID="72125" Column="IsCollapsibleByDefault" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12510" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50053" Table="AD_Browse">
+        <Data AD_Column_ID="72125" Column="IsCollapsibleByDefault" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12520" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50052" Table="AD_Browse">
+        <Data AD_Column_ID="72125" Column="IsCollapsibleByDefault" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12530" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50051" Table="AD_Browse">
+        <Data AD_Column_ID="72125" Column="IsCollapsibleByDefault" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12540" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50053" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="ord.DocStatus IN('CO') &#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.C_Order_ID = ord.C_Order_ID)">ord.DocStatus IN('CO') 
+AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.C_Order_ID = ord.C_Order_ID)
+AND NOT EXISTS(SELECT 1 FROM C_Invoice i 
+		INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = i.C_Invoice_ID) 
+		INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = il.C_OrderLine_ID) 
+		WHERE i.DocStatus IN('CO', 'CL')
+		AND ol.C_Order_ID = ord.C_Order_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12550" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50053" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="ord.DocStatus IN('CO') &#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.C_Order_ID = ord.C_Order_ID)&#10;AND NOT EXISTS(SELECT 1 FROM C_Invoice i &#10;&#9;&#9;INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = i.C_Invoice_ID) &#10;&#9;&#9;INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = il.C_OrderLine_ID) &#10;&#9;&#9;WHERE i.DocStatus IN('CO', 'CL')&#10;&#9;&#9;AND ol.C_Order_ID = ord.C_Order_ID)">ord.DocStatus IN('CO') 
+AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.C_Order_ID = ord.C_Order_ID)
+AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) 
+		WHERE ps.DocStatus IN('CO', 'CL') AND psl.C_Order_ID = ord.C_Order_ID)
+AND NOT EXISTS(SELECT 1 FROM C_Invoice i 
+		INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = i.C_Invoice_ID) 
+		INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = il.C_OrderLine_ID) 
+		WHERE i.DocStatus IN('CO', 'CL')
+		AND ol.C_Order_ID = ord.C_Order_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12560" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50054" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="inv.DocStatus IN('CO', 'CL') AND inv.IsPaid = 'N' &#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.C_Invoice_ID = inv.C_Invoice_ID)">inv.DocStatus IN('CO', 'CL') AND inv.IsPaid = 'N' 
+AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.C_Invoice_ID = inv.C_Invoice_ID)
+AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) 
+		WHERE ps.DocStatus IN('CO', 'CL') AND psl.C_Invoice_ID = inv.C_Invoice_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12570" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50052" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="NOT EXISTS(SELECT 1 FROM C_PaySelection sps &#10;&#9;&#9;INNER JOIN C_PaySelectionLine spsl ON(spsl.C_PaySelection_ID = sps.C_PaySelection_ID) &#10;&#9;&#9;WHERE spsl.HR_Movement_ID = hrm.HR_Movement_ID&#10;&#9;&#9;AND sps.DocStatus NOT IN('VO', 'RE'))&#10;AND EXISTS(SELECT 1 FROM HR_Process p WHERE p.HR_PRocess_ID = hrm.HR_Process_ID AND p.DocStatus IN('CO', 'CL'))&#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.HR_Movement_ID = hrm.HR_Movement_ID)">NOT EXISTS(SELECT 1 FROM C_PaySelection sps 
+		INNER JOIN C_PaySelectionLine spsl ON(spsl.C_PaySelection_ID = sps.C_PaySelection_ID) 
+		WHERE spsl.HR_Movement_ID = hrm.HR_Movement_ID
+		AND sps.DocStatus IN('CO', 'CL'))
+AND EXISTS(SELECT 1 FROM HR_Process p WHERE p.HR_PRocess_ID = hrm.HR_Process_ID AND p.DocStatus IN('CO', 'CL'))
+AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.HR_Movement_ID = hrm.HR_Movement_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12580" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50051" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="NOT EXISTS(SELECT 1 FROM C_PaySelection sps &#10;&#9;&#9;INNER JOIN C_PaySelectionLine spsl ON(spsl.C_PaySelection_ID = sps.C_PaySelection_ID) &#10;&#9;&#9;WHERE spsl.C_PaySelectionLine_Parent_ID = psl.C_PaySelectionLine_ID&#10;&#9;&#9;AND sps.DocStatus NOT IN('VO', 'RE'))&#10;AND EXISTS(SELECT 1 FROM C_PaySelection sps &#10;&#9;WHERE sps.C_PaySelection_ID = psl.C_PaySelection_ID &#10;&#9;AND sps.DocStatus IN('CO', 'CL') &#10;&#9;AND sps.C_BankAccount_ID IS NULL)&#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine rpsl WHERE rpsl.C_PaySelection_ID = @C_PaySelection_ID@ AND rpsl.C_PaySelectionLine_Parent_ID = psl.C_PaySelectionLine_ID)">NOT EXISTS(SELECT 1 FROM C_PaySelection sps 
+		INNER JOIN C_PaySelectionLine spsl ON(spsl.C_PaySelection_ID = sps.C_PaySelection_ID) 
+		WHERE spsl.C_PaySelectionLine_Parent_ID = psl.C_PaySelectionLine_ID
+		AND sps.DocStatus IN('CO', 'CL'))
+AND EXISTS(SELECT 1 FROM C_PaySelection sps 
+	WHERE sps.C_PaySelection_ID = psl.C_PaySelection_ID 
+	AND sps.DocStatus IN('CO', 'CL') 
+	AND sps.C_BankAccount_ID IS NULL)
+AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine rpsl WHERE rpsl.C_PaySelection_ID = @C_PaySelection_ID@ AND rpsl.C_PaySelectionLine_Parent_ID = psl.C_PaySelectionLine_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12590" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50053" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="ord.DocStatus IN('CO') &#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.C_Order_ID = ord.C_Order_ID)&#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) &#10;&#9;&#9;WHERE ps.DocStatus IN('CO', 'CL') AND psl.C_Order_ID = ord.C_Order_ID)&#10;AND NOT EXISTS(SELECT 1 FROM C_Invoice i &#10;&#9;&#9;INNER JOIN C_InvoiceLine il ON(il.C_Invoice_ID = i.C_Invoice_ID) &#10;&#9;&#9;INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = il.C_OrderLine_ID) &#10;&#9;&#9;WHERE i.DocStatus IN('CO', 'CL')&#10;&#9;&#9;AND ol.C_Order_ID = ord.C_Order_ID)"> (ord.DocStatus = 'WP' OR (ord.DocStatus = 'CO' 
+	AND EXISTS(SELECT 1 FROM C_DocType dt WHERE ord.C_DocType_ID =  dt.C_DocType_ID 
+		AND (dt.DocSubTypeSO = 'SO' OR dt.DocBaseType = 'POO')
+	) 
+	AND EXISTS(SELECT 1 FROM C_OrderLine ol WHERE ord.C_Order_ID = ol.C_Order_ID AND ol.QtyInvoiced &lt;&gt; ol.QtyOrdered))
+)
+AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.C_Order_ID = ord.C_Order_ID)
+AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) 
+		WHERE ps.DocStatus IN('CO', 'CL') 
+		AND psl.C_Order_ID = ord.C_Order_ID)
+AND NOT EXISTS(SELECT 1 FROM C_Payment p 
+		WHERE p.C_Order_ID = ord.C_Order_ID 
+		AND p.DocStatus IN('CO', 'CL') 
+		HAVING (SUM(p.PayAmt) &gt;= ord.GrandTotal)
+)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12600" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50053" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue=" (ord.DocStatus = 'WP' OR (ord.DocStatus = 'CO' &#10;&#9;AND EXISTS(SELECT 1 FROM C_DocType dt WHERE ord.C_DocType_ID =  dt.C_DocType_ID &#10;&#9;&#9;AND (dt.DocSubTypeSO = 'SO' OR dt.DocBaseType = 'POO')&#10;&#9;) &#10;&#9;AND EXISTS(SELECT 1 FROM C_OrderLine ol WHERE ord.C_Order_ID = ol.C_Order_ID AND ol.QtyInvoiced &lt;&gt; ol.QtyOrdered))&#10;)&#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.C_Order_ID = ord.C_Order_ID)&#10;AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) &#10;&#9;&#9;WHERE ps.DocStatus IN('CO', 'CL') &#10;&#9;&#9;AND psl.C_Order_ID = ord.C_Order_ID)&#10;AND NOT EXISTS(SELECT 1 FROM C_Payment p &#10;&#9;&#9;WHERE p.C_Order_ID = ord.C_Order_ID &#10;&#9;&#9;AND p.DocStatus IN('CO', 'CL') &#10;&#9;&#9;HAVING (SUM(p.PayAmt) &gt;= ord.GrandTotal)&#10;)">(ord.DocStatus = 'WP' OR (ord.DocStatus = 'CO' 
+	AND EXISTS(SELECT 1 FROM C_DocType dt WHERE ord.C_DocType_ID =  dt.C_DocType_ID 
+		AND (dt.DocSubTypeSO = 'SO' OR dt.DocBaseType = 'POO')
+	) 
+	AND EXISTS(SELECT 1 FROM C_OrderLine ol WHERE ord.C_Order_ID = ol.C_Order_ID AND ol.QtyInvoiced &lt;&gt; ol.QtyOrdered))
+)
+AND NOT EXISTS(SELECT 1 FROM C_PaySelectionLine psl WHERE psl.C_PaySelection_ID = @C_PaySelection_ID@ AND psl.C_Order_ID = ord.C_Order_ID)
+AND NOT EXISTS(SELECT 1 FROM C_PaySelection ps INNER JOIN C_PaySelectionLine psl ON(psl.C_PaySelection_ID = ps.C_PaySelection_ID) 
+		WHERE ps.DocStatus IN('CO', 'CL') 
+		AND psl.C_Order_ID = ord.C_Order_ID)
+AND NOT EXISTS(SELECT 1 FROM C_Payment p 
+		WHERE p.C_Order_ID = ord.C_Order_ID 
+		AND p.DocStatus IN('CO', 'CL') 
+		HAVING (SUM(p.PayAmt) &gt;= ord.GrandTotal)
+)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12610" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50051" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">206</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12620" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50053" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" isOldNull="true">181</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12630" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55330" Table="AD_Browse_Field">
+        <Data AD_Column_ID="63579" Column="IsReadOnly" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12640" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55275" Table="AD_Browse_Field">
+        <Data AD_Column_ID="63579" Column="IsReadOnly" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12650" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55131" Table="AD_Browse_Field">
+        <Data AD_Column_ID="63579" Column="IsReadOnly" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12660" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55330" Table="AD_Browse_Field">
+        <Data AD_Column_ID="63579" Column="IsReadOnly" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12670" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55275" Table="AD_Browse_Field">
+        <Data AD_Column_ID="63579" Column="IsReadOnly" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12680" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="54228" Table="AD_View_Column">
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">54228</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50101</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50045</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">ORD_PayAmt</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">currencyConvert(ord.GrandTotal, ord.C_Currency_ID, @C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), ord.C_ConversionType_ID,ord.AD_Client_ID, ord.AD_Org_ID)</Data>
+        <Data AD_Column_ID="58096" Column="Created">2016-05-01 02:51:41.195</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58105" Column="Name">Pay Amt</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2016-05-01 02:51:41.195</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12690" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="54229" Table="AD_View_Column">
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">54229</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50102</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50046</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">INV_PayAmt</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">currencyConvert(invoiceOpen(inv.C_Invoice_ID, inv.C_InvoicePaySchedule_ID), inv.C_Currency_ID, @C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID)</Data>
+        <Data AD_Column_ID="58096" Column="Created">2016-05-01 02:52:23.773</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58102" Column="Description">Pay Amt</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58105" Column="Name">Pay Amt</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2016-05-01 02:52:23.773</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12700" StepType="AD">
+      <PO AD_Table_ID="53223" Action="I" Record_ID="55584" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
+        <Data AD_Column_ID="64357" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="57974" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">true</Data>
+        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">55584</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50053</Data>
+        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">1477</Data>
+        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">12</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">54228</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="57964" Column="Created">2016-05-01 02:53:07.172</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Pay Amt</Data>
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="57982" Column="SeqNo">500</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="64221" Column="SortNo">0</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2016-05-01 02:53:07.172</Data>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="12710" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55584" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="500">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12720" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55196" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="120">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12730" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55243" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="130">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12740" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55204" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="140">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12750" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55222" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="150">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12760" StepType="AD">
+      <PO AD_Table_ID="53223" Action="I" Record_ID="55585" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">55585</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50054</Data>
+        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">1477</Data>
+        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">12</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">54229</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="57964" Column="Created">2016-05-01 02:54:00.343</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
+        <Data AD_Column_ID="64357" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="57974" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">true</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Pay Amt</Data>
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="57982" Column="SeqNo">140</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="64221" Column="SortNo">0</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2016-05-01 02:54:00.344</Data>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="12770" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55585" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="140">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12780" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55292" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="160">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12790" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55290" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="170">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12800" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55316" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="180">190</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12810" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55300" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="190">200</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12820" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55362" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="200">210</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12830" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55360" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="210">220</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12840" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55359" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="220">230</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12850" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55585" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="160">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12860" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55312" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="150">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12870" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55297" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="40">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12880" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55305" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="50">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12890" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55361" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="60">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12900" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55304" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="70">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12910" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55321" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="80">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12920" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55285" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="90">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12930" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55307" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="110">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12940" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55329" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="120">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12950" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55331" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="130">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12960" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55330" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="140">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12970" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55585" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="150">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12980" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55284" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="100">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12990" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55286" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="30">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13000" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55107" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="120">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13010" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55130" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="150">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13020" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55131" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="160">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13030" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55123" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="170">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13040" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55122" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="180">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13050" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55132" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="100">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13060" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55127" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="110">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13070" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55112" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="130">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13080" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55111" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="140">180</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>

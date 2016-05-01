@@ -321,6 +321,12 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 		if (!isApproved())
 			approveIt();
 		log.info(toString());
+		//	Validate Amount
+		if(getTotalAmt() == null
+				|| getTotalAmt().equals(Env.ZERO)) {
+			m_processMsg = "@TotalAmt@ = @0@";
+			return DocAction.STATUS_Invalid;
+		}
 		//	Validate conversion
 		String erroMsg = validateConversion();
 		if(erroMsg != null) {

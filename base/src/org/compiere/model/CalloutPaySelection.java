@@ -261,6 +261,7 @@ public class CalloutPaySelection extends CalloutEngine
 		int C_Currency_ID = Env.getContextAsInt(ctx, WindowNo, "C_Currency_ID");
 		Timestamp PayDate = Env.getContextAsDate(ctx, WindowNo, "PayDate");
 		int C_ConversionType_ID = 0;
+		int C_BPartner_ID = 0;
 		/* ARHIPAC: TEO: BEGIN: END ------------------------------------------------------------------------------------------ */
 		if (PayDate == null)
 			PayDate = new Timestamp(System.currentTimeMillis());
@@ -275,7 +276,8 @@ public class CalloutPaySelection extends CalloutEngine
 				+ "?, i.DateInvoiced, i.C_ConversionType_ID, i.AD_Client_ID, i.AD_Org_ID),"
 			+ " paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?), i.IsSOTrx, "
 			//	Currency Type
-			+ "i.C_ConversionType_ID "
+			+ "i.C_ConversionType_ID, "
+			+ "i.C_BPartner_ID "
 			+ "FROM C_Invoice_v i "
 			+ "WHERE i.C_Invoice_ID=?";	//	#1..2
 		ResultSet rs = null;
@@ -294,6 +296,7 @@ public class CalloutPaySelection extends CalloutEngine
 				DiscountAmt = rs.getBigDecimal(3);
 				IsSOTrx = new Boolean ("Y".equals(rs.getString(4)));
 				C_ConversionType_ID = rs.getInt(5);
+				C_BPartner_ID = rs.getInt(6);
 			}
 		}
 		catch (SQLException e)
@@ -314,6 +317,8 @@ public class CalloutPaySelection extends CalloutEngine
 		mTab.setValue("IsSOTrx", IsSOTrx);
 		//	Set Currency Type from invoice
 		mTab.setValue("C_ConversionType_ID", C_ConversionType_ID);
+		//	Set BP from Document
+		mTab.setValue("C_BPartner_ID", C_BPartner_ID);
 		return "";
 	}	//	PaySel_Invoice
 	
@@ -341,6 +346,7 @@ public class CalloutPaySelection extends CalloutEngine
 		int C_Currency_ID = Env.getContextAsInt(ctx, WindowNo, "C_Currency_ID");
 		Timestamp PayDate = Env.getContextAsDate(ctx, WindowNo, "PayDate");
 		int C_ConversionType_ID = 0;
+		int C_BPartner_ID = 0;
 		/* ARHIPAC: TEO: BEGIN: END ------------------------------------------------------------------------------------------ */
 		if (PayDate == null)
 			PayDate = new Timestamp(System.currentTimeMillis());
@@ -352,7 +358,8 @@ public class CalloutPaySelection extends CalloutEngine
 		String sql = "SELECT o.GrandTotal, currencyConvert(o.GrandTotal, o.C_Currency_ID,"
 				+ "?, o.DateOrdered, o.C_ConversionType_ID, o.AD_Client_ID, o.AD_Org_ID), o.IsSOTrx, "
 			//	Currency Type
-			+ "o.C_ConversionType_ID "
+			+ "o.C_ConversionType_ID, "
+			+ "o.C_BPartner_ID "
 			+ "FROM C_Order o "
 			+ "WHERE o.C_Order_ID = ?";	//	#1..2
 		ResultSet rs = null;
@@ -367,6 +374,7 @@ public class CalloutPaySelection extends CalloutEngine
 				OpenAmt = rs.getBigDecimal(2);
 				IsSOTrx = new Boolean ("Y".equals(rs.getString(3)));
 				C_ConversionType_ID = rs.getInt(4);
+				C_BPartner_ID = rs.getInt(5);
 			}
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql, e);
@@ -382,7 +390,9 @@ public class CalloutPaySelection extends CalloutEngine
 		mTab.setValue("DifferenceAmt", Env.ZERO);
 		mTab.setValue("IsSOTrx", IsSOTrx);
 		//	Set Currency Type from invoice
-		mTab.setValue("C_ConversionType_ID", C_ConversionType_ID);
+		mTab.setValue("C_ConversionType_ID", C_ConversionType_ID);		
+		//	Set BP from Document
+		mTab.setValue("C_BPartner_ID", C_BPartner_ID);
 		return "";
 	}	//	PaySel_Order
 	
@@ -414,6 +424,8 @@ public class CalloutPaySelection extends CalloutEngine
 		//	Get Amount
 		mTab.setValue("PayAmt", movement.getAmount());
 		mTab.setValue("C_Charge_ID", payroll.getC_Charge_ID());
+		//	Set BP from Document
+		mTab.setValue("C_BPartner_ID", movement.getC_BPartner_ID());
 		return "";
 	}
 	
