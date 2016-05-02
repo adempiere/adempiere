@@ -17,13 +17,10 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
-import org.compiere.util.DB;
 
 /**
  * 	Payment Selection Create From Invoice, used for Smart Browse (Create From Payroll Movement)
@@ -33,8 +30,6 @@ import org.compiere.util.DB;
  */
 public class PSCreateFromHRMovement extends SvrProcess {
 
-	/**	SQL					*/
-	private StringBuffer	sql = new StringBuffer();
 	/**	Sequence			*/
 	private int				m_SeqNo = 10;
 	
@@ -43,42 +38,19 @@ public class PSCreateFromHRMovement extends SvrProcess {
 		//	Valid Record Identifier
 		if(getRecord_ID() <= 0)
 			throw new AdempiereException("@C_PaySelection_ID@ @NotFound@");
-		//	Make Query
-		sql.append("SELECT "
-				+ "ts.AD_PInstance_ID, "
-				+ "tsb.T_Selection_ID HR_Movement_ID, "
-				+ "tsb.PaymentRule, "
-				+ "tsb.Amount "
-				+ "FROM T_Selection ts "
-				+ "INNER JOIN ( "
-				+ "SELECT tsb.AD_PInstance_ID, tsb.T_Selection_ID,"
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'HRM_PaymentRule' THEN tsb.Value_String ELSE NULL END) AS PaymentRule, "
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'HRM_Amount' THEN tsb.Value_Number ELSE NULL END) AS Amount "
-				+ "FROM T_Selection_Browse tsb "
-				+ "GROUP BY tsb.AD_PInstance_ID, tsb.T_Selection_ID"
-				+ ") tsb ON(ts.AD_PInstance_ID = tsb.AD_PInstance_ID AND ts.T_Selection_ID = tsb.T_Selection_ID) "
-				+ "WHERE ts.AD_PInstance_ID = ?");
-		//	Log
-		log.fine(sql.toString());
 	}
 
 	@Override
 	protected String doIt() throws Exception {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
 		//	Instance current Payment Selection
 		MPaySelection paySelection = new MPaySelection(getCtx(), getRecord_ID(), get_TrxName());
 		m_SeqNo = paySelection.getLastLineNo();
-		//	
-		ps = DB.prepareStatement(sql.toString(), get_TrxName());
-		ps.setInt(1, getAD_PInstance_ID());
-		rs = ps.executeQuery();
-		//	
-		while(rs.next()) {
+		//	Loop for keys
+		for(Integer key : getSelectionKeys()) {
 			//	get values from result set
-			int HR_Movement_ID = rs.getInt("HR_Movement_ID");
-			String PaymentRule = rs.getString("PaymentRule");
-			BigDecimal Amount = rs.getBigDecimal("Amount");
+			int HR_Movement_ID = key;
+			String PaymentRule = getSelectionAsString(key, "HRM_PaymentRule");
+			BigDecimal Amount = getSelectionAsBigDecimal(key, "HRM_Amount");
 			m_SeqNo += 10;
 			MPaySelectionLine line = new MPaySelectionLine(paySelection, m_SeqNo, PaymentRule);
 			//	Add Order
