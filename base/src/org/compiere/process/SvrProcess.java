@@ -249,6 +249,19 @@ public abstract class SvrProcess implements ProcessCall
 	 *  getParameterToAsString(String parameterName);
 	 *  getParameterToAsTimestamp(String parameterName);
 	 *  </pre>
+	 *  For a simple Selection based in keys
+	 *  <pre>
+	 *  getSelectionKeys();
+	 *  </pre>
+	 *  For Smart Browser
+	 *  <pre>
+	 *  getSelection(int key, String columnName);
+	 *  getSelectionAsBigDecimal(int key, String columnName);
+	 *  getSelectionAsBoolean(int key, String columnName);
+	 *  getSelectionAsInt(int key, String columnName);
+	 *  getSelectionAsString(int key, String columnName);
+	 *  getSelectionAsTimestamp(int key, String columnName);
+	 *  </pre>
 	 *  The old implementation
 	 *  <pre>
 		ProcessInfoParameter[] para = getParameter();
