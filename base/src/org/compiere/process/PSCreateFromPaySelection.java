@@ -17,13 +17,10 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
-import org.compiere.util.DB;
 
 /**
  * 	Payment Selection Create From Invoice, used for Smart Browse (Create From Payment Request)
@@ -33,8 +30,6 @@ import org.compiere.util.DB;
  */
 public class PSCreateFromPaySelection extends SvrProcess {
 
-	/**	SQL					*/
-	private StringBuffer	sql = new StringBuffer();
 	/**	Sequence			*/
 	private int				m_SeqNo = 10;
 	
@@ -43,45 +38,20 @@ public class PSCreateFromPaySelection extends SvrProcess {
 		//	Valid Record Identifier
 		if(getRecord_ID() <= 0)
 			throw new AdempiereException("@C_PaySelection_ID@ @NotFound@");
-		//	Make Query
-		sql.append("SELECT "
-				+ "ts.AD_PInstance_ID, "
-				+ "tsb.T_Selection_ID C_PaySelectionLine_ID, "
-				+ "tsb.PaymentRule, "
-				+ "tsb.PayAmt, "
-				+ "tsb.DiscountAmt "
-				+ "FROM T_Selection ts "
-				+ "INNER JOIN ( "
-				+ "SELECT tsb.AD_PInstance_ID, tsb.T_Selection_ID,"
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'PSL_PaymentRule' THEN tsb.Value_String ELSE NULL END) AS PaymentRule, "
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'PSL_PayAmt' THEN tsb.Value_Number ELSE NULL END) AS PayAmt, "
-				+ " 	MAX(CASE WHEN tsb.ColumnName = 'PSL_DiscountAmt' THEN tsb.Value_Number ELSE NULL END) AS DiscountAmt "
-				+ "FROM T_Selection_Browse tsb "
-				+ "GROUP BY tsb.AD_PInstance_ID, tsb.T_Selection_ID"
-				+ ") tsb ON(ts.AD_PInstance_ID = tsb.AD_PInstance_ID AND ts.T_Selection_ID = tsb.T_Selection_ID) "
-				+ "WHERE ts.AD_PInstance_ID = ?");
-		//	Log
-		log.fine(sql.toString());
 	}
 
 	@Override
 	protected String doIt() throws Exception {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
 		//	Instance current Payment Selection
 		MPaySelection paySelection = new MPaySelection(getCtx(), getRecord_ID(), get_TrxName());
 		m_SeqNo = paySelection.getLastLineNo();
-		//	
-		ps = DB.prepareStatement(sql.toString(), get_TrxName());
-		ps.setInt(1, getAD_PInstance_ID());
-		rs = ps.executeQuery();
-		//	
-		while(rs.next()) {
+		//	Loop for keys
+		for(Integer key : getSelectionKeys()) {
 			//	get values from result set
-			int C_PaySelectionLine_ID = rs.getInt("C_PaySelectionLine_ID");
-			String PaymentRule = rs.getString("PaymentRule");
-			BigDecimal PayAmt = rs.getBigDecimal("PayAmt");
-			BigDecimal DiscountAmt = rs.getBigDecimal("DiscountAmt");
+			int C_PaySelectionLine_ID = key;
+			String PaymentRule = getSelectionAsString(key, "PSL_PaymentRule");
+			BigDecimal PayAmt = getSelectionAsBigDecimal(key, "PSL_PayAmt");
+			BigDecimal DiscountAmt = getSelectionAsBigDecimal(key, "PSL_DiscountAmt");
 			m_SeqNo += 10;
 			MPaySelectionLine line = new MPaySelectionLine(paySelection, m_SeqNo, PaymentRule);
 			//	Add Order
