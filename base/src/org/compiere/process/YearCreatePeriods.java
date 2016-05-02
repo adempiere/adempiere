@@ -16,8 +16,6 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.Timestamp;
-
 import org.compiere.model.MYear;
 import org.compiere.util.AdempiereUserError;
 
@@ -58,7 +56,7 @@ public class YearCreatePeriods extends YearCreatePeriodsAbstract
 			throw new AdempiereUserError ("@NotFound@: @C_Year_ID@ - " + yearId);
 		log.info(year.toString());
 		//
-		if (year.createStdPeriods(null, startDate, dateFormat))
+		if (year.createStdPeriods(null, getStartDate(), getDateFormat()))
 			return "@OK@";
 		return "@Error@";
 	}	//	doIt
