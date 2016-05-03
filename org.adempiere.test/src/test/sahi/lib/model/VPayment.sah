@@ -1,0 +1,133 @@
+ /********************************************************************
+ *
+ * VPayment($PaymentRule,$PaymentData)
+ * 
+ * Sets the fields in the payment dialog according to the
+ * PaymentData array.  The PaymentData array is a field array of the 
+ * form [field/label name, value]. 
+ *
+ *
+ *******************************************************************/
+function VPayment($PaymentRule, $PaymentData){
+	_assertExists(_option($PaymentRule,_in(_select(/^zk/,_near(_span("Payment Rule"))))),"Error: m_paymentDialog can't find the option " + $PaymentRule + " in the Payment Rule select list.");
+	_setSelected(_select(/^zk/,_near(_span("Payment Rule"))),$PaymentRule);
+
+	var $Term = "";
+
+/* On Credit */	
+	if($PaymentRule == "On Credit"){
+		_log("Payment Rule: On Credit!", "info");
+		if($PaymentData[0][0] != ""){
+			var $i = 0;
+			while($PaymentData[$i][0] != "" && $i < 10){
+				if($PaymentData[$i][0]=="Payment Term"){
+					_assertExists(_span($PaymentData[$i][0]), "Error: m_paymentDialog can't find the label " + $PaymentData[$i][0]);
+					$Term = $PaymentData[$i][1];
+					_setSelected(_select("z-listbox"),$PaymentData[$i][1]);
+				}
+				$i++;
+			}				
+		}
+		iConfirm();
+		if($Term != ""){
+			_assertEqual($Term, fGetList("C_PaymentTerm_ID"));
+		}
+	} else {
+/* Direct Debit */		
+		if($PaymentRule == "Direct Debit"){
+			if($PaymentData[0][0] != ""){
+				var $i = 0;
+				while($PaymentData[$i][0] != "" && $i < 10){
+					_assertExists(_span($PaymentData[$i][0]), "Error: m_paymentDialog can't find the label " + $PaymentData[$i][0]);
+					if($PaymentData[$i][0]=="Partner Bank Account"){
+						_setSelected(_select("z-listbox"),$PaymentData[$i][1]);
+					} else {
+						if ($PaymentData[$i][0]=="Routing No" || $PaymentData[$i][0]=="Account No"){
+							_setValue(_textbox(/^zk/,_near(_span($PaymentData[$i][0]))),$PaymentData[$i][1]);
+						}
+					}
+					$i++;
+				}
+			}
+			iConfirm();
+		} else {
+/* Check */	
+			if($PaymentRule == "Check"){
+				if($PaymentData[0][0] != ""){
+					var $i = 0;
+					while($PaymentData[$i][0] != "" && $i < 10){
+						_assertExists(_span($PaymentData[$i][0]), "Error: m_paymentDialog can't find the label " + $PaymentData[$i][0]);
+						if($PaymentData[$i][0]=="Bank Account"){
+							_setSelected(_select("z-listbox"),$PaymentData[$i][1]);
+						} else {
+							if ($PaymentData[$i][0]=="Amount" ||
+								$PaymentData[$i][0]=="Routing No" || 
+								$PaymentData[$i][0]=="Account No" ||
+								$PaymentData[$i][0]=="Check No"){
+								_setValue(_textbox(/^zk/,_near(_span($PaymentData[$i][0]))),$PaymentData[$i][1]);
+							}
+						}
+						$i++;
+					}
+				}
+				iConfirm();
+				if(_condition(_exists(_span(/^Created Payment/)))){
+					_log("Info: m_paymentDialog result: " + _getText(_span(/^Created Payment/)),"info");
+					iOk();
+				}					
+			} else {
+/* Cash */		
+				if($PaymentRule == "Cash"){
+					if($PaymentData[0][0] != ""){
+						var $i = 0;
+						while($PaymentData[$i][0] != "" && $i < 10){
+							_assertExists(_span($PaymentData[$i][0]), "Error: m_paymentDialog can't find the label " + $PaymentData[$i][0]);
+							if($PaymentData[$i][0]=="Bank Account"){
+								_setSelected(_select("z-listbox"),$PaymentData[$i][1]);
+							} else {
+								if ($PaymentData[$i][0]=="Account Date" ||
+									$PaymentData[$i][0]=="Amount"){
+									_setValue(_textbox(/^zk/,_near(_span($PaymentData[$i][0]))),$PaymentData[$i][1]);
+								}
+							}
+							$i++;
+						}
+					}
+					iConfirm();		
+				} else {
+/* Mixed */		
+					if($PaymentRule == "Mixed"){
+						/* Nothing to do */
+						iConfirm();
+					} else {
+/* Credit Card */		
+						if($PaymentRule == "Credit Card"){
+							if($PaymentData[0][0] != ""){
+								var $i = 0;
+								while($PaymentData[$i][0] != "" && $i < 10){
+									_assertExists(_span($PaymentData[$i][0]), "Error: m_paymentDialog can't find the label " + $PaymentData[$i][0]);
+									if($PaymentData[$i][0]=="Credit Card"){
+										_setSelected(_select("z-listbox"),$PaymentData[$i][1]);
+									} else {
+										if ($PaymentData[$i][0]=="Number" ||
+											$PaymentData[$i][0]=="Expires (MMYY)" ||
+											$PaymentData[$i][0]=="Amount" ||
+											$PaymentData[$i][0]=="Voice authorization code"){
+											_setValue(_textbox(/^zk/,_near(_span($PaymentData[$i][0]))),$PaymentData[$i][1]);
+										}
+									}
+									$i++;
+								}
+							}
+							iConfirm();		
+							if(_condition(_exists(_span(/^Created Payment/)))){
+								_log("Info: m_paymentDialog result: " + _getText(_span(/^Created Payment/)),"info");
+								iOk();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

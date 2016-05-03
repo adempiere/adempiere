@@ -1,0 +1,65 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * vLocation.sah
+ * 
+ * Functions to set and test the values in a location dialog.
+ * 
+ *
+ **/
+
+/********************************************************************
+ *
+ * VLocationDialog($LocationData)
+ * 
+ * Sets the fields in the location dialog according to the
+ * $LocationData array.  The $LocationData array is a field array of the 
+ * form [field/label name, value]. 
+ *
+ *
+ *******************************************************************/
+function VLocationDialog($LocationData){
+	if($LocationData[0][0] != ""){
+		var $i = 0;
+		// Set the country first - it determines the regions
+		while($LocationData[$i][0] != "" && $i < 10){
+			if($LocationData[$i][0]=="Country"){
+				_setSelected(_select("z-listbox",_near(_span($LocationData[$i][0]))),$LocationData[$i][1]);
+			}
+			$i++;
+		}
+		$i = 0;
+		while($LocationData[$i][0] != "" && $i < 10){
+			if($LocationData[$i][0]=="State" ||
+			   $LocationData[$i][0]=="Province"){
+				if(_condition(_exists(_span($LocationData[$i][0])))){
+					_setSelected(_select("z-listbox",_near(_span($LocationData[$i][0]))),$LocationData[$i][1]);
+				}
+			} else {
+				_assertExists(_span($LocationData[$i][0]), "Error:VLocationDialog can't find the label " + $LocationData[$i][0]);
+				if ($LocationData[$i][0]=="Address 1" ||
+					$LocationData[$i][0]=="Address 2" || 
+					$LocationData[$i][0]=="Address 3" ||
+					$LocationData[$i][0]=="City" ||
+					$LocationData[$i][0]=="ZIP"){
+					_setValue(_textbox(/^zk/,_near(_span($LocationData[$i][0]))),$LocationData[$i][1]);
+					_removeFocus(_textbox(/^zk/,_near(_span($LocationData[$i][0]))));
+
+				}
+			}
+			$i++;
+		}
+	}
+	iConfirm();
+}
