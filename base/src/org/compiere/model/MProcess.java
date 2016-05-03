@@ -57,7 +57,9 @@ public class MProcess extends X_AD_Process
 		if (className == null)
 			return null;
 
-		return new Query(Env.getCtx() , MProcess.Table_Name , MProcess.COLUMNNAME_Classname + "=?" , null).first();
+		return new Query(Env.getCtx() , MProcess.Table_Name , MProcess.COLUMNNAME_Classname + "=?" , null)
+						.setParameters(className)
+						.first();
 	}
 
 	/**
