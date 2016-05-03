@@ -6,6 +6,7 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
+import org.compiere.process.*;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -52,7 +53,8 @@ public class MigrationLoader {
 
 		try {
 			//Import Migration from XML
-			ProcessInfo processInfo = ProcessBuilder.create(context).process(53175)
+			ProcessInfo processInfo = ProcessBuilder.create(context)
+			.process(org.compiere.process.MigrationFromXML.class)
 			.withTitle("Import Migration from XML")
 			.withParameter("FailOnError",failOnError)
 			.withParameter("FileName", fileName)
@@ -65,25 +67,26 @@ public class MigrationLoader {
 				throw new AdempiereException(processInfo.getSummary());
 
 			processInfo = ProcessBuilder.create(context)
-					.process(258)
+					.process(org.compiere.process.SequenceCheck.class)
 					.withTitle("Sequence Check")
 					.execute();
 			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 
 			processInfo = ProcessBuilder.create(context)
-					.process(172)
+					.process(org.compiere.process.SynchronizeTerminology.class)
 					.withTitle("Synchronize Terminology")
 					.execute();
 			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 
 			processInfo = ProcessBuilder.create(context)
-					.process(295)
+					.process(org.compiere.process.RoleAccessUpdate.class)
 					.withTitle("Role Access Update")
+					.withParameter("AD_Client_ID", 0)
 					.executeUsingSystemRole();
 			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
 
 			processInfo = ProcessBuilder.create(context)
-					.process(53733)
+					.process(org.compiere.process.CleanUpGW.class)
 					.withTitle("Updating Garden World")
 					.executeUsingSystemRole();
 			log.log(Level.CONFIG, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
