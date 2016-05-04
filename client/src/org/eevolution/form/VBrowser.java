@@ -490,6 +490,7 @@ public class VBrowser extends Browser implements ActionListener,
 		//	Valid Process, Selected Keys and process parameters
 		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
 		{
+			processParameterPanel.getProcessInfo().setAD_PInstance_ID(-1);
 			// BR [ 249 ]
 			if(processParameterPanel.validateParameters() == null) {
 				//	Save Parameters

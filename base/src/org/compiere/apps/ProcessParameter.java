@@ -507,7 +507,7 @@ public abstract class ProcessParameter {
 
 		//	Save Process instance if it is not saved
 		//	FR [ 295 ]
-		if(m_processInfo.getAD_PInstance_ID() == 0) {
+		if(m_processInfo.getAD_PInstance_ID() <= 0) {
 			MPInstance instance = null; 
 			try { 
 				instance = new MPInstance(Env.getCtx(), 
