@@ -986,8 +986,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		Timestamp today = new Timestamp(date.getTime());
 		List<Integer> recordIds = new ArrayList<>();
 		recordIds.add(getDD_Order_ID());
-		ProcessInfo processInfo = ProcessBuilder.create(getCtx()).process(MovementGenerate.getProcessId())
-				.withTitle(GenerateMovement.getProcessName())
+		ProcessInfo processInfo = ProcessBuilder.create(getCtx()).process(53046)
 				.withRecordId(MDDOrder.Table_ID, 0)
 				.withSelectedRecordsIds(recordIds)
 				.withParameter(MMovement.COLUMNNAME_MovementDate , today)
@@ -1008,8 +1007,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			selection.put(orderLine.get_ID(), values);
 		});
 
-		processInfo = ProcessBuilder.create(getCtx()).process(GenerateMovementMaterial.getProcessId())
-				.withTitle(GenerateMovementMaterial.getProcessName())
+		processInfo = ProcessBuilder.create(getCtx()).process(53736)
 				.withRecordId(MDDOrderLine.Table_ID, 0)
 				.withSelectedRecordsIds(orderLinesIds , selection)
 				.withParameter(MMovement.COLUMNNAME_MovementDate , today)
