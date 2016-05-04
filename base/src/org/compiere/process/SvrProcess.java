@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -488,7 +489,37 @@ public abstract class SvrProcess implements ProcessCall
 	public List<Integer> getSelectionKeys() {
 		return processInfo.getSelectionKeys();
 	}
-	
+
+	/**
+	 * Get Selection values from process info
+	 * @return
+	 */
+	public LinkedHashMap<Integer, LinkedHashMap<String, Object>> getSelectionValues() {
+		return processInfo.getSelectionValues();
+	}
+
+	/**
+	 * get instances from table id of process info
+	 * @param trxName
+	 * @return
+	 * @throws AdempiereException
+	 */
+	public List<?> getInstances(String trxName) throws AdempiereException
+	{
+		return processInfo.getInstances(trxName);
+	}
+
+	/**
+	 * get intance from table id of process info
+	 * @param trxName
+	 * @return
+	 * @throws AdempiereException
+	 */
+	public PO getInstance(String trxName) throws AdempiereException
+	{
+		return  processInfo.getInstance(trxName);
+	}
+
 	/**************************************************************************
 	 * 	Get Parameter
 	 *	@return parameter
@@ -817,7 +848,7 @@ public abstract class SvrProcess implements ProcessCall
 	// metas: begin
 	public String getTableName()
 	{
-		return MTable.getTableName(getCtx(), getTable_ID());
+		return processInfo.getTableName();
 	}
 	// metas: end
 	

@@ -27,11 +27,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+
 
 /**
  *  Process Information (Value Object)
@@ -578,7 +582,7 @@ public class ProcessInfo implements Serializable
 
 	/**
 	 * 	Set Parameter
-	 *	@param parameter Parameter Array
+	 *	@param parameters Parameter Array
 	 */
 	public void setParameter (ProcessInfoParameter[] parameters)
 	{
@@ -624,7 +628,35 @@ public class ProcessInfo implements Serializable
 			}
 		}
 	}
-	
+
+	/**
+	 * get instances from table id of process info
+	 * @param trxName
+	 * @return
+	 * @throws AdempiereException
+     */
+	public List<?> getInstances(String trxName) throws AdempiereException
+	{
+		return PO.getInstances( getTable_ID() , getSelectionKeys(), trxName);
+	}
+
+	/**
+	 * get intance from table id of process info
+	 * @param trxName
+	 * @return
+	 * @throws AdempiereException
+	 */
+	public PO getInstance(String trxName) throws AdempiereException
+	{
+		if (tableId <= 0)
+			throw new AdempiereException("@AD_Table_ID@  @NotFound@");
+		if (getRecord_ID() <= 0)
+			throw new AdempiereException("@NoRecordID@");
+
+		MTable table =  MTable.get(Env.getCtx() , tableId);
+		return table.getPO(getRecord_ID(), trxName);
+	}
+
 	/**
 	 * Get Selection
 	 * @return
@@ -698,6 +730,7 @@ public class ProcessInfo implements Serializable
 			ids[i] = logs.get(i).getP_ID();
 		return ids;
 	}	//	getIDs
+
 
 	/**
 	 * Method getLogList
@@ -1210,5 +1243,12 @@ public class ProcessInfo implements Serializable
 		//	Default
 		return null;
 	}
+
+	// metas: begin
+	public String getTableName()
+	{
+		return MTable.getTableName(Env.getCtx(), getTable_ID());
+	}
+	// metas: end
 	
 }   //  ProcessInfo
