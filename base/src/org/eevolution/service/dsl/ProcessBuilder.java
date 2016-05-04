@@ -160,11 +160,6 @@ public class ProcessBuilder {
 
         //	FR [ 244 ]
         boolean isSelection = selectedRecordsIds.size() > 0;
-        //	FR [ 352 ]
-        if (isSelection) {
-        	processInfo.setSelectionKeys(selectedRecordsIds);
-        }
-
         processInfo = new ProcessInfo(title, processId, tableId , recordId, isManagedTransaction);
         processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
         processInfo.setClassName(MProcess.get(context , processId).getClassname());
@@ -175,6 +170,10 @@ public class ProcessBuilder {
             processInfo.setAD_User_ID(100);
         }
         ProcessInfoUtil.setParameterFromDB(processInfo);
+
+        //	FR [ 352 ]
+        if (isSelection)
+            processInfo.setSelectionKeys(selectedRecordsIds);
     }
 
     /**
@@ -232,14 +231,21 @@ public class ProcessBuilder {
      * Execute ths process with new transaction
      * @return
      */
-    public ProcessInfo execute() {
+    public ProcessInfo execute() throws AdempiereException {
         try {
             Trx.run(trxName -> {
                 generateProcessInfo(trxName);
                 processBuilder.run(trxName);
+                if (processInfo.isError())
+                    throw new AdempiereException("@ProcessRunError@ @Error@ " + processInfo.getSummary());
             });
         } catch (AdempiereException e) {
-            throw new AdempiereException(e.getMessage());
+            if (processInfo.isError())
+                throw new AdempiereException(e.getMessage());
+            else {
+                processInfo.setError(true);
+                throw new AdempiereException("@ProcessRunError@ @Error@ " + e.getMessage());
+            }
         }
         return processInfo;
     }
@@ -249,18 +255,25 @@ public class ProcessBuilder {
      * @param trxName
      * @return
      */
-    public ProcessInfo execute(String trxName) {
+    public ProcessInfo execute(String trxName) throws AdempiereException {
         try {
 
             Trx.run(trxName, new TrxRunnable() {
                 public void run(String trxName) {
                     generateProcessInfo(trxName);
                     processBuilder.run(trxName);
+                    if (processInfo.isError())
+                        throw new AdempiereException("@ProcessRunError@ @Error@ "  + processInfo.getSummary());
                 }
             });
 
         } catch (AdempiereException e) {
-            e.printStackTrace();
+            if (processInfo.isError())
+                throw new AdempiereException(e.getMessage());
+            else {
+                processInfo.setError(true);
+                throw new AdempiereException("@ProcessRunError@ @Error@ " + e.getMessage());
+            }
         }
         return processInfo;
     }
