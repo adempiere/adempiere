@@ -16,39 +16,28 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
+import java.util.Optional;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MClient;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
-import org.compiere.model.MMessage;
 import org.compiere.model.MMovement;
 import org.compiere.model.MMovementLine;
-import org.compiere.model.MNote;
-import org.compiere.model.MOrg;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductCategory;
 import org.compiere.model.MStorage;
 import org.compiere.model.Query;
-import org.compiere.process.DocAction;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
-import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
-import org.eevolution.model.MPPMRP;
-
 
 
 /**
@@ -56,89 +45,31 @@ import org.eevolution.model.MPPMRP;
  *	Manual or Automatic
  *	
  *  @author Victor Perez www.e-evolution.com
- *  @version $Id: MovementGenerate.java,v 1.0 
  */
-public class MovementGenerate extends SvrProcess
+public class MovementGenerate extends MovementGenerateAbstract
 {
-	/**	Manual Selection		*/
-	private boolean 	p_Selection = false;
-	/** Warehouse				*/
-	private int			p_M_Warehouse_ID = 0;
-	/** BPartner				*/
-	private int			p_C_BPartner_ID = 0;
-	/** Promise Date			*/
-	private Timestamp	p_DatePromised = null;
-	/** Include Orders w. unconfirmed Shipments	*/
-	private boolean		p_IsUnconfirmedInOut = false;
-	/** DocAction				*/
-	private String		p_docAction = DocAction.ACTION_Complete;
-	/** Consolidate				*/
-	private boolean		p_ConsolidateDocument = true;
-    /** Shipment Date                       */
-	private Timestamp       p_DateShipped = null;
-	
 	/**	The current Shipment	*/
-	private MMovement		m_movement = null;
+	private MMovement movement = null;
 	/** Numner of Shipments		*/
-	private int			m_created = 0;
+	private int createdCount = 0;
 	/**	Line Number				*/
-	private int			m_line = 0;
-	/** Movement Date			*/
-	private Timestamp	m_movementDate = null;
+	private int lineNo = 0;
 	/**	Last BP Location		*/
-	private int			m_lastC_BPartner_Location_ID = -1;
+	private int lastPartnerLocationId = -1;
 
-	/** The Query sql			*/
-	private String 		m_sql = null;
-
-	
 	/** Storages temp space				*/
-	private HashMap<SParameter,MStorage[]> m_map = new HashMap<SParameter,MStorage[]>();
+	private HashMap<SParameter,MStorage[]> storage = new HashMap<SParameter,MStorage[]>();
 	/** Last Parameter					*/
-	private SParameter		m_lastPP = null;
+	private SParameter lastParameter = null;
 	/** Last Storage					*/
-	private MStorage[]		m_lastStorages = null;
+	private MStorage[] lastStorage = null;
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		for (ProcessInfoParameter para: getParameter())
-		{
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if (name.equals("M_Warehouse_ID"))
-				p_M_Warehouse_ID = para.getParameterAsInt();
-			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = para.getParameterAsInt();
-			else if (name.equals("DatePromised"))
-				p_DatePromised = (Timestamp)para.getParameter();
-			else if (name.equals("Selection"))
-				p_Selection = "Y".equals(para.getParameter());
-			else if (name.equals("IsUnconfirmedInOut"))
-				p_IsUnconfirmedInOut = "Y".equals(para.getParameter());
-			else if (name.equals("ConsolidateDocument"))
-				p_ConsolidateDocument = "Y".equals(para.getParameter());
-			else if (name.equals("DocAction"))
-				p_docAction = (String)para.getParameter();
-			else if (name.equals("MovementDate"))
-                p_DateShipped = (Timestamp)para.getParameter();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-			
-			//  juddm - added ability to specify a shipment date from Generate Shipments
-			if (p_DateShipped == null) {
-				m_movementDate = Env.getContextAsDate(getCtx(), "#Date");
-				if (m_movementDate == null)
-					m_movementDate = new Timestamp(System.currentTimeMillis());
-			} else
-				m_movementDate = p_DateShipped;
-			//	DocAction check
-			if (!DocAction.ACTION_Complete.equals(p_docAction))
-				p_docAction = DocAction.ACTION_Prepare;
-		}
+		super.prepare();
 	}	//	prepare
 
 	/**
@@ -148,149 +79,132 @@ public class MovementGenerate extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		log.info("Selection=" + p_Selection
-			+ ", M_Warehouse_ID=" + p_M_Warehouse_ID 
-			+ ", C_BPartner_ID=" + p_C_BPartner_ID 
-			+ ", Consolidate=" + p_ConsolidateDocument
-			+ ", IsUnconfirmed=" + p_IsUnconfirmedInOut
-			+ ", Movement=" + m_movementDate);
-		
-		if (p_M_Warehouse_ID == 0)
-			throw new AdempiereUserError("@NotFound@ @M_Warehouse_ID@");
-		
-		if (p_Selection)	
-		{
-			m_sql = "SELECT DD_Order.* FROM DD_Order, T_Selection "
-				+ "WHERE DD_Order.DocStatus='CO' AND DD_Order.AD_Client_ID=? "
-				+ "AND DD_Order.DD_Order_ID = T_Selection.T_Selection_ID " 
-				+ "AND T_Selection.AD_PInstance_ID=? ";
-		}
-		else
-		{
-			m_sql = "SELECT * FROM DD_Order o "
-				+ "WHERE DocStatus='CO' "
-				//	No Offer,POS
-				+ " AND o.C_DocType_ID IN (SELECT C_DocType_ID FROM C_DocType "
-					+ "WHERE DocBaseType='DOO')"
-				+ "	AND o.IsDropShip='N'"
-				//	No Manual
-				+ " AND o.DeliveryRule<>'M'"
-				//	Open Order Lines with Warehouse
-				+ " AND EXISTS (SELECT 1 FROM DD_OrderLine ol "
-				+ " WHERE ? IN (SELECT l.M_Warehouse_ID FROM M_Locator l WHERE l.M_Locator_ID=ol.M_Locator_ID) ";
-			if (p_DatePromised != null)
-				m_sql += " AND TRUNC(ol.DatePromised)<=?";		//	#2
-			m_sql += " AND o.DD_Order_ID=ol.DD_Order_ID AND ol.QtyOrdered<>ol.QtyIntransit)";
-			//
-			if (p_C_BPartner_ID != 0)
-				m_sql += " AND o.C_BPartner_ID=?";					//	#3
-			
-			m_sql += " ORDER BY M_Warehouse_ID, PriorityRule, M_Shipper_ID, C_BPartner_ID, C_BPartner_Location_ID, DD_Order_ID";
-		}
-		
-	//	m_sql += " FOR UPDATE";
+		log.info("Selection=" + isSelection()
+			+ ", M_Warehouse_ID=" + getWarehouseId()
+			+ ", C_BPartner_ID=" + getBusinessPartnerId()
+			+ ", Consolidate=" + isConsolidatetooneDocument()
+			+ ", IsUnconfirmed=" + isOrderswithunconfirmedShipments()
+			+ ", Movement=" + getMovementDate());
+		List<MDDOrder> distributionOrders;
+        if (isSelection())
+        {
+			distributionOrders = (List<MDDOrder>) getInstances(get_TrxName());
+        }
+        else
+        {
+			if (getWarehouseId() <= 0)
+				throw new AdempiereException("@M_Warehouse_ID@ @NotFound@");
 
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (m_sql, get_TrxName());
-			int index = 1;
-			if (p_Selection)
-			{
-				pstmt.setInt(index++, Env.getAD_Client_ID(getCtx()));
-				pstmt.setInt(index++, getAD_PInstance_ID());
-			}
-			else	
-			{
-				pstmt.setInt(index++, p_M_Warehouse_ID);
-				if (p_DatePromised != null)
-					pstmt.setTimestamp(index++, p_DatePromised);
-				if (p_C_BPartner_ID != 0)
-					pstmt.setInt(index++, p_C_BPartner_ID);
-			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, m_sql, e);
-		}
-		return generate(pstmt);
+			StringBuilder whereClause = new StringBuilder();
+			StringBuilder orderByClause =  new StringBuilder();
+			List<Object> parameters = new ArrayList<>();
+            whereClause
+                    .append(MDDOrder.COLUMNNAME_DocStatus).append("=? AND ")
+                    .append(MDDOrder.COLUMNNAME_IsDropShip).append("=? AND ")
+                    .append(MDDOrder.COLUMNNAME_DeliveryViaRule).append("<>? AND ")
+                    .append("EXISTS (SELECT 1 FROM DD_OrderLine ol WHERE ")
+                    .append("EXISTS (SELECT 1 FROM M_Locator l WHERE l.M_Locator_ID=ol.M_Locator_ID AND l.M_Warehouse_ID=?) ");
+
+            parameters.add(org.compiere.process.DocAction.STATUS_Completed);
+            parameters.add(false);
+            parameters.add(MDDOrder.DELIVERYRULE_Manual);
+            parameters.add(getWarehouseId());
+
+            Optional.ofNullable(getDatePromised()).ifPresent(datePromised -> {
+                whereClause.append("AND TRUNC(ol.DatePromised) <= TRUNC(?) ");
+                parameters.add(datePromised);
+            });
+
+            if (getBusinessPartnerId() > 0) {
+                whereClause.append(" AND ").append(MDDOrder.COLUMNNAME_C_BPartner_ID).append("=? ");
+                parameters.add(getBusinessPartnerId());
+            }
+
+            whereClause.append("AND ol.DD_Order_ID=DD_Order.DD_Order_ID AND ol.QtyOrdered <> ol.QtyInTransit )");
+            orderByClause.append("M_Warehouse_ID, PriorityRule, M_Shipper_ID, C_BPartner_ID, C_BPartner_Location_ID, DD_Order_ID");
+			distributionOrders = new Query(getCtx() , MDDOrder.Table_Name , whereClause.toString(), get_TrxName())
+					.setClient_ID()
+					.setParameters(parameters)
+					.setOrderBy(orderByClause.toString())
+					.list();
+
+        }
+        return generate(distributionOrders);
 	}	//	doIt
-	
+
+	private MClient getClient()
+	{
+		return MClient.get(getCtx());
+	}
 	/**
 	 * 	Generate Shipments
-	 * 	@param pstmt Order Query
+	 * 	@param distributionOrders Orders
 	 *	@return info
 	 */
-	private String generate (PreparedStatement pstmt)
-	{
-		MClient client = MClient.get(getCtx());
-		try
-		{
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())		//	Order
-			{
-				MDDOrder order = new MDDOrder (getCtx(), rs, get_TrxName());
+	private String generate (List<MDDOrder> distributionOrders) {
+
+		distributionOrders.stream().filter(order -> order != null).forEach( order -> {
 				//	New Header different Shipper, Shipment Location
-				if (!p_ConsolidateDocument 
-					|| (m_movement != null 
-					&& (m_movement.getC_BPartner_Location_ID() != order.getC_BPartner_Location_ID()
-					|| m_movement.getM_Shipper_ID() != order.getM_Shipper_ID() )))
-				{
-					completeMovement();
-				}
+
+				getCurrentMovement()
+						.filter(movement -> movement != null
+							 || !isConsolidatetooneDocument())
+						.filter(movement -> movement.getC_BPartner_Location_ID() != order.getC_BPartner_Location_ID()
+							 || movement.getM_Shipper_ID() != order.getM_Shipper_ID())
+						.ifPresent(movement -> completeMovement());
+
 				log.fine("check: " + order + " - DeliveryRule=" + order.getDeliveryRule());
 				//
-				Timestamp minGuaranteeDate = m_movementDate;
-				boolean completeOrder = MDDOrder.DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule());
+				Timestamp minGuaranteeDate = getMovementDate();
+				StringBuilder where = new StringBuilder(" 1=1 ");
 				//	OrderLine WHERE
-				String where = " " + p_M_Warehouse_ID + " IN (SELECT l.M_Warehouse_ID FROM M_Locator l WHERE l.M_Locator_ID=M_Locator_ID) ";
-				if (p_DatePromised != null)
-					where += " AND (TRUNC(DatePromised)<=" + DB.TO_DATE(p_DatePromised, true)
-						+ " OR DatePromised IS NULL)";		
+				if (getWarehouseId() > 0)
+				 	where.append(" AND ").append(getWarehouseId()).append(" IN (SELECT l.M_Warehouse_ID FROM M_Locator l WHERE l.M_Locator_ID=M_Locator_ID) ");
+				if (getDatePromised() != null)
+					where.append(" AND (TRUNC(DatePromised)<=").append(DB.TO_DATE(getDatePromised(), true)).append(" OR DatePromised IS NULL)");
 				//	Exclude Auto Delivery if not Force
 				if (!MDDOrder.DELIVERYRULE_Force.equals(order.getDeliveryRule()))
-					where += " AND (DD_OrderLine.M_Product_ID IS NULL"
-						+ " OR EXISTS (SELECT * FROM M_Product p "
-						+ "WHERE DD_OrderLine.M_Product_ID=p.M_Product_ID"
-						+ " AND IsExcludeAutoDelivery='N'))";
+					where.append(" AND (DD_OrderLine.M_Product_ID IS NULL")
+						.append(" OR EXISTS (SELECT * FROM M_Product p ")
+						.append("WHERE DD_OrderLine.M_Product_ID=p.M_Product_ID")
+						.append(" AND IsExcludeAutoDelivery='N'))");
 				//	Exclude Unconfirmed
-				if (!p_IsUnconfirmedInOut)
-					where += " AND NOT EXISTS (SELECT * FROM M_MovementLine iol"
-							+ " INNER JOIN M_Movement io ON (iol.M_Movement_ID=io.M_Movement_ID) "
-								+ "WHERE iol.DD_OrderLine_ID=DD_OrderLine.DD_OrderLine_ID AND io.DocStatus IN ('IP','WC'))";
+				if (!isOrderswithunconfirmedShipments())
+					where.append(" AND NOT EXISTS (SELECT * FROM M_MovementLine iol")
+							.append(" INNER JOIN M_Movement io ON (iol.M_Movement_ID=io.M_Movement_ID) ")
+							.append("WHERE iol.DD_OrderLine_ID=DD_OrderLine.DD_OrderLine_ID AND io.DocStatus IN ('IP','WC'))");
 				//	Deadlock Prevention - Order by M_Product_ID
-				MDDOrderLine[] lines = order.getLines (where, "M_Product_ID");
-				for (int i = 0; i < lines.length; i++)
-				{
-					MDDOrderLine line = lines[i];
-					MLocator l = new MLocator(getCtx(),line.getM_Locator_ID(), get_TrxName());
-					if (l.getM_Warehouse_ID() != p_M_Warehouse_ID)
-						continue;
-					log.fine("check: " + line);
+				List<MDDOrderLine> orderLines = order.getLines (where.toString(), "M_Product_ID");
+				orderLines
+						.stream()
+						.filter(orderLine -> orderLine.getM_Product_ID() > 0 || orderLine.getC_Charge_ID() > 0)
+						.filter(orderLine -> orderLine.getConfirmedQty().signum() != 0)
+						.forEach(orderLine -> {
+
+					MLocator l = new MLocator(getCtx(),orderLine.getM_Locator_ID(), get_TrxName());
+					if (getWarehouseId() > 0 && l.getM_Warehouse_ID() != getWarehouseId())
+						return;
+
+					log.fine("check: " + orderLine);
 					BigDecimal onHand = Env.ZERO;
-					//BigDecimal toDeliver = line.getQtyOrdered()
-					BigDecimal toDeliver = line.getConfirmedQty(); //.subtract(line.getQtyDelivered());
-					MProduct product = line.getProduct();
-					//	Nothing to Deliver
-					if (product != null && toDeliver.signum() == 0)
-						continue;
-					
-					// or it's a charge - Bug#: 1603966 
-					if (line.getC_Charge_ID()!=0 && toDeliver.signum() == 0)
-						continue;
+					BigDecimal toDeliver = orderLine.getConfirmedQty();
+					MProduct product = orderLine.getProduct();
 					
 					//	Check / adjust for confirmations
 					BigDecimal unconfirmedShippedQty = Env.ZERO;
-					if (p_IsUnconfirmedInOut && product != null && toDeliver.signum() != 0)
+					if (isOrderswithunconfirmedShipments() && product != null && toDeliver.signum() != 0)
 					{
-						String where2 = "EXISTS (SELECT * FROM M_Movement io WHERE io.M_Movement_ID=M_MovementLine.M_Movement_ID AND io.DocStatus IN ('IP','WC'))";
-						MMovementLine[] iols = MMovementLine.getOfOrderLine(getCtx(), 
-							line.getDD_OrderLine_ID(), where2, null);
-						for (int j = 0; j < iols.length; j++) 
-							unconfirmedShippedQty = unconfirmedShippedQty.add(iols[j].getMovementQty());
+						String whereLine = "EXISTS (SELECT * FROM M_Movement io WHERE io.M_Movement_ID=M_MovementLine.M_Movement_ID AND io.DocStatus IN ('IP','WC'))";
+						MMovementLine[] movementLines = MMovementLine.getOfOrderLine(getCtx(), orderLine.getDD_OrderLine_ID(), whereLine, null);
+                        unconfirmedShippedQty = Arrays.asList(movementLines)
+                                .stream()
+                                .map(MMovementLine::getMovementQty)
+                                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
 						String logInfo = "Unconfirmed Qty=" + unconfirmedShippedQty 
-							+ " - ToDeliver=" + toDeliver + "->";					
-						toDeliver = toDeliver.subtract(unconfirmedShippedQty);
+							+ " - ToDeliver=" + orderLine.getConfirmedQty() + "->";
+
+						toDeliver = orderLine.getConfirmedQty().subtract(unconfirmedShippedQty);
 						logInfo += toDeliver;
 						if (toDeliver.signum() < 0)
 						{
@@ -299,105 +213,95 @@ public class MovementGenerate extends SvrProcess
 						}
 						//	Adjust On Hand
 						onHand = onHand.subtract(unconfirmedShippedQty);
-						log.fine(logInfo);					
+						log.fine(logInfo);
 					}
 					
 					//	Comments & lines w/o product & services
 					if ((product == null || !product.isStocked())
-						&& (line.getQtyOrdered().signum() == 0 	//	comments
+						&& (orderLine.getQtyOrdered().signum() == 0 	//	comments
 							|| toDeliver.signum() != 0))		//	lines w/o product
 					{
 						if (!MDDOrder.DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule()))	//	printed later
-							createLine (order, line, toDeliver, null, false);
-						continue;
+							createLine (order, orderLine, toDeliver, null, false);
+						return;
 					}
 
 					//	Stored Product
-					MProductCategory pc = MProductCategory.get(order.getCtx(), product.getM_Product_Category_ID());
-					String MMPolicy = pc.getMMPolicy();
-					if (MMPolicy == null || MMPolicy.length() == 0)
-						MMPolicy = client.getMMPolicy();
+					String policyMaterialIssue = getPolicyIssue(product);
+
 					//
-					MStorage[] storages = getStorages(l.getM_Warehouse_ID(), 
-						line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
+					MStorage[] storages = getStorages(l.getM_Warehouse_ID(),
+							orderLine.getM_Product_ID(), orderLine.getM_AttributeSetInstance_ID(),
 						product.getM_AttributeSet_ID(),
-						line.getM_AttributeSetInstance_ID()==0, minGuaranteeDate, 
-						MClient.MMPOLICY_FiFo.equals(MMPolicy)); 
-					
-					for (int j = 0; j < storages.length; j++)
-					{
-						MStorage storage = storages[j];
-						onHand = onHand.add(storage.getQtyOnHand());
-					}
-					boolean fullLine = onHand.compareTo(toDeliver) >= 0
-						|| toDeliver.signum() < 0;
-					
+							orderLine.getM_AttributeSetInstance_ID()==0, minGuaranteeDate,
+						MClient.MMPOLICY_FiFo.equals(policyMaterialIssue));
+
+					onHand = Arrays.asList(storages).stream().map(MStorage::getQtyOnHand).reduce(BigDecimal.ZERO, BigDecimal::add);
+					boolean fullLine = onHand.compareTo(toDeliver) >= 0 || toDeliver.signum() < 0;
+					boolean completeOrder = MDDOrder.DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule());
 					//	Complete Order
 					if (completeOrder && !fullLine)
 					{
 						log.fine("Failed CompleteOrder - OnHand=" + onHand 
 							+ " (Unconfirmed=" + unconfirmedShippedQty
-							+ "), ToDeliver=" + toDeliver + " - " + line);
-						completeOrder = false;
-						break;
+							+ "), ToDeliver=" + toDeliver + " - " + orderLine);
+						return;
 					}
 					//	Complete Line
 					else if (fullLine && MDDOrder.DELIVERYRULE_CompleteLine.equals(order.getDeliveryRule()))
 					{
-						log.fine("CompleteLine - OnHand=" + onHand 
-							+ " (Unconfirmed=" + unconfirmedShippedQty
-							+ ", ToDeliver=" + toDeliver + " - " + line);
-						//	
-						createLine (order, line, toDeliver, storages, false);
+						log.fine("CompleteLine - OnHand=" + onHand
+								+ " (Unconfirmed=" + unconfirmedShippedQty
+								+ ", ToDeliver=" + toDeliver + " - " + orderLine);
+						//
+						createLine (order, orderLine, toDeliver, storages, false);
 					}
 					//	Availability
 					else if (MDDOrder.DELIVERYRULE_Availability.equals(order.getDeliveryRule())
 						&& (onHand.signum() > 0
-							|| toDeliver.signum() < 0))
+							|| orderLine.getConfirmedQty().signum() < 0))
 					{
-						BigDecimal deliver = toDeliver;
+						BigDecimal deliver = orderLine.getConfirmedQty();
+						log.fine("Available - OnHand=" + onHand
+								+ " (Unconfirmed=" + unconfirmedShippedQty
+								+ "), ToDeliver=" + toDeliver
+								+ ", Delivering=" + deliver + " - " + orderLine);
+
 						if (deliver.compareTo(onHand) > 0)
 							deliver = onHand;
-						log.fine("Available - OnHand=" + onHand 
-							+ " (Unconfirmed=" + unconfirmedShippedQty
-							+ "), ToDeliver=" + toDeliver 
-							+ ", Delivering=" + deliver + " - " + line);
-						//	
-						createLine (order, line, deliver, storages, false);
+						createLine (order, orderLine, deliver, storages, false);
 					}
 					//	Force
-					else if (MDDOrder.DELIVERYRULE_Force.equals(order.getDeliveryRule()))
-					{
+					else if (MDDOrder.DELIVERYRULE_Force.equals(order.getDeliveryRule())) {
 						BigDecimal deliver = toDeliver;
-						log.fine("Force - OnHand=" + onHand 
-							+ " (Unconfirmed=" + unconfirmedShippedQty
-							+ "), ToDeliver=" + toDeliver 
-							+ ", Delivering=" + deliver + " - " + line);
-						//	
-						createLine (order, line, deliver, storages, true);
+						log.fine("Force - OnHand=" + onHand
+								+ " (Unconfirmed=" + unconfirmedShippedQty
+								+ "), ToDeliver=" + toDeliver
+								+ ", Delivering=" + deliver + " - " + orderLine);
+						createLine (order, orderLine, deliver , storages, true);
 					}
 					//	Manual
 					else if (MDDOrder.DELIVERYRULE_Manual.equals(order.getDeliveryRule()))
 						log.fine("Manual - OnHand=" + onHand 
 							+ " (Unconfirmed=" + unconfirmedShippedQty
-							+ ") - " + line);
+							+ ") - " + orderLine);
 					else
 						log.fine("Failed: " + order.getDeliveryRule() + " - OnHand=" + onHand 
 							+ " (Unconfirmed=" + unconfirmedShippedQty
-							+ "), ToDeliver=" + toDeliver + " - " + line);
-				}	//	for all order lines
-				
+							+ "), ToDeliver=" + toDeliver + " - " + orderLine);
+				});	//	for all order lines
+
+				boolean completeOrder = MDDOrder.DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule());
 				//	Complete Order successful
-				if (completeOrder && MDDOrder.DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule()))
-				{
-					for (int i = 0; i < lines.length; i++)
+				if (completeOrder && MDDOrder.DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule())) {
+					for (MDDOrderLine orderLine : orderLines)
 					{
-						MDDOrderLine line = lines[i];
-						MLocator l = new MLocator(getCtx(),line.getM_Locator_ID(), get_TrxName());
-						if (l.getM_Warehouse_ID() != p_M_Warehouse_ID)
+						MLocator l = new MLocator(getCtx(),orderLine.getM_Locator_ID(), get_TrxName());
+						if ( getWarehouseId()> 0 && l.getM_Warehouse_ID() != getWarehouseId())
 							continue;
-						MProduct product = line.getProduct();
-						BigDecimal toDeliver = line.getQtyOrdered().subtract(line.getQtyDelivered());
+
+						MProduct product = orderLine.getProduct();
+						BigDecimal toDeliver = orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered());
 						//
 						MStorage[] storages = null;
 						if (product != null && product.isStocked())
@@ -405,47 +309,43 @@ public class MovementGenerate extends SvrProcess
 							MProductCategory pc = MProductCategory.get(order.getCtx(), product.getM_Product_Category_ID());
 							String MMPolicy = pc.getMMPolicy();
 							if (MMPolicy == null || MMPolicy.length() == 0)
-								MMPolicy = client.getMMPolicy();
+								MMPolicy = getClient().getMMPolicy();
 							//
-							storages = getStorages(l.getM_Warehouse_ID(), 
-								line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
-								product.getM_AttributeSet_ID(),
-								line.getM_AttributeSetInstance_ID()==0, minGuaranteeDate, 
-								MClient.MMPOLICY_FiFo.equals(MMPolicy));
+							storages = getStorages(l.getM_Warehouse_ID(),
+									orderLine.getM_Product_ID(), orderLine.getM_AttributeSetInstance_ID(),
+									product.getM_AttributeSet_ID(),
+									orderLine.getM_AttributeSetInstance_ID()==0, minGuaranteeDate,
+									MClient.MMPOLICY_FiFo.equals(MMPolicy));
 						}
-						//	
-						createLine (order, line, toDeliver, storages, false);
+						//
+						createLine (order, orderLine, toDeliver, storages, false);
 					}
 				}
-				m_line += 1000;
-			}	//	while order
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, m_sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		completeMovement();
-		return "@Created@ = " + m_created;
+
+
+				lineNo += 1000;
+				completeMovement();
+			});
+
+		return "@Created@ = " + createdCount;
 	}	//	generate
-	
-	
+
+
+	private String getPolicyIssue(MProduct product)
+	{
+		//	Stored Product
+		MProductCategory pc = MProductCategory.get(product.getCtx(), product.getM_Product_Category_ID());
+		String policyIssue = pc.getMMPolicy();
+		if (policyIssue == null || policyIssue.length() == 0)
+			policyIssue = getClient().getMMPolicy();
+
+		return policyIssue;
+
+	}
 	
 	/**************************************************************************
 	 * 	Create Line
-	 *	@param Distribution order order
+	 *	@param order Distribution Order
 	 *	@param orderLine line
 	 *	@param qty qty
 	 *	@param storages storage info
@@ -454,49 +354,48 @@ public class MovementGenerate extends SvrProcess
 	private void createLine (MDDOrder order, MDDOrderLine orderLine, BigDecimal qty, 
 		MStorage[] storages, boolean force)
 	{
-		//	Complete last Shipment - can have multiple shipments
-		if (m_lastC_BPartner_Location_ID != order.getC_BPartner_Location_ID() )
-			completeMovement();
-		m_lastC_BPartner_Location_ID = order.getC_BPartner_Location_ID();
-		//	Create New Shipment
-		if (m_movement == null)
-		{
-			MLocator locator = MLocator.get(getCtx(),orderLine.getM_Locator_ID());
-			m_movement = createMovement(order, m_movementDate);
-			m_movement.setAD_Org_ID(locator.getAD_Org_ID());
-			//m_movement.setM_Warehouse_ID(orderLine.getM_Warehouse_ID());	//	sets Org too
-			m_movement.setIsInTransit(true);
-			m_movement.setDD_Order_ID(order.getDD_Order_ID());
+        //	Complete last Shipment - can have multiple shipments
+        if (lastPartnerLocationId != order.getC_BPartner_Location_ID())
+            completeMovement();
+        lastPartnerLocationId = order.getC_BPartner_Location_ID();
+		MMovement currentMovement  = getCurrentMovement().orElseGet(() -> {
+			MLocator locator = MLocator.get(getCtx(), orderLine.getM_Locator_ID());
+			movement = new MMovement(order, getMovementDate());
+			movement.setAD_Org_ID(locator.getAD_Org_ID());
+			movement.setIsInTransit(true);
 			if (order.getC_BPartner_ID() != order.getC_BPartner_ID())
-				m_movement.setC_BPartner_ID(order.getC_BPartner_ID());
+				movement.setC_BPartner_ID(order.getC_BPartner_ID());
 			if (order.getC_BPartner_Location_ID() != order.getC_BPartner_Location_ID())
-				m_movement.setC_BPartner_Location_ID(order.getC_BPartner_Location_ID());
-			
+				movement.setC_BPartner_Location_ID(order.getC_BPartner_Location_ID());
+
 			//Look the document type based on organization
-				int docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_MaterialMovement, m_movement.getAD_Org_ID());
-				
-				if(docTypeDO_ID>0)
-					m_movement.setC_DocType_ID(docTypeDO_ID);			
-			if (!m_movement.save())
-				throw new IllegalStateException("Could not create Movement");
-		}
+			int docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialMovement, movement.getAD_Org_ID());
+
+			if (docTypeId > 0)
+				movement.setC_DocType_ID(docTypeId);
+
+			movement.saveEx();
+			addLog(movement.get_ID(), movement.getMovementDate(),BigDecimal.ZERO , movement.getDocumentInfo());
+			setCurrentMovement(movement);
+			return movement;
+		});
+
 		//	Non Inventory Lines
-		if (storages == null)
-		{
-			MMovementLine line = new MMovementLine (m_movement);
+		if (storages == null) {
+			MMovementLine line = new MMovementLine(currentMovement);
 			line.setOrderLine(orderLine, Env.ZERO, false);
-			line.setMovementQty(qty);	//	Correct UOM
+			line.setMovementQty(qty);    //	Correct UOM
 			if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
 				line.setMovementQty(qty
-					.multiply(orderLine.getQtyEntered())
-					.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
-			line.setLine(m_line + orderLine.getLine());
+						.multiply(orderLine.getQtyEntered())
+						.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
+			line.setLine(lineNo + orderLine.getLine());
 			if (!line.save())
 				throw new IllegalStateException("Could not create Shipment Line");
 			log.fine(line.toString());
 			return;
 		}
-		
+        
 		//	Product
 		MProduct product = orderLine.getProduct();
 		boolean linePerASI = false;
@@ -540,7 +439,7 @@ public class MovementGenerate extends SvrProcess
 			}
 			if (line == null)	//	new line
 			{
-				line = new MMovementLine (m_movement);
+				line = new MMovementLine (currentMovement);
 				line.setOrderLine(orderLine,  deliver , false);
 				line.setMovementQty(deliver);
 				list.add(line);
@@ -550,11 +449,10 @@ public class MovementGenerate extends SvrProcess
 			if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
 				line.setMovementQty(line.getMovementQty().multiply(orderLine.getQtyEntered())
 					.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
-			line.setLine(m_line + orderLine.getLine());
+			line.setLine(lineNo + orderLine.getLine());
 			if (linePerASI)
 				line.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
-			if (!line.save())
-				throw new IllegalStateException("Could not create Shipment Line");
+			line.saveEx();
 			log.fine("ToDeliver=" + qty + "/" + deliver + " - " + line);
 			toDeliver = toDeliver.subtract(deliver);
 			//	Temp adjustment
@@ -566,72 +464,6 @@ public class MovementGenerate extends SvrProcess
 		if (toDeliver.signum() != 0)
 			throw new IllegalStateException("Not All Delivered - Remainder=" + toDeliver);
 	}	//	createLine
-	
-	private static MMovement createMovement(MDDOrder order, Timestamp movementDate)
-	{
-		MMovement move = new MMovement(order.getCtx(), 0, order.get_TrxName());
-		move.setC_BPartner_ID (order.getC_BPartner_ID());
-		move.setC_BPartner_Location_ID (order.getC_BPartner_Location_ID());	//	shipment address
-		move.setAD_User_ID(order.getAD_User_ID());
-		
-		//	Default - Today
-		if (movementDate != null)
-			move.setMovementDate (movementDate);
-			
-		//	Copy from Order
-		move.setDD_Order_ID(order.getC_Order_ID());
-		move.setDeliveryRule (order.getDeliveryRule());
-		move.setDeliveryViaRule (order.getDeliveryViaRule());
-		move.setM_Shipper_ID(order.getM_Shipper_ID());
-		move.setFreightCostRule (order.getFreightCostRule());
-		move.setFreightAmt(order.getFreightAmt());
-		move.setSalesRep_ID(order.getSalesRep_ID());
-		//
-		move.setC_Activity_ID(order.getC_Activity_ID());
-		move.setC_Campaign_ID(order.getC_Campaign_ID());
-		move.setC_Charge_ID(order.getC_Charge_ID());
-		move.setChargeAmt(order.getChargeAmt());
-		//
-		move.setC_Project_ID(order.getC_Project_ID());
-		//move.setDateOrdered(order.getDateOrdered());
-		move.setDescription(order.getDescription());
-		//setPOReference(order.getPOReference());		
-		move.setSalesRep_ID(order.getSalesRep_ID());
-		move.setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
-		move.setUser1_ID(order.getUser1_ID());
-		move.setUser2_ID(order.getUser2_ID());
-		move.setPriorityRule(order.getPriorityRule());		
-		return move;
-	}
-
-	/**
-	 * Get C_DocType_ID based on organization
-	 * @param docBaseType Document Base Type
-	 * @param AD_Org_ID Organization ID
-	 * @return
-	 */
-	private int getDocType(String docBaseType, int AD_Org_ID)
-	{
-		MDocType[] docs = MDocType.getOfDocBaseType(getCtx(), docBaseType);
-
-		if (docs == null || docs.length == 0) 
-		{
-			String textMsg = "Not found default document type for docbasetype "+ docBaseType;
-			throw new AdempiereException(textMsg);
-		} 
-		else
-		{
-			for(MDocType doc:docs)
-			{
-				if(doc.getAD_Org_ID()==AD_Org_ID)
-				{
-					return doc.getC_DocType_ID();
-				}
-			}
-			log.info("Doc Type for "+docBaseType+": "+ docs[0].getC_DocType_ID());
-			return docs[0].getC_DocType_ID();
-		}
-	}
 	
 	/**
 	 * 	Get Storages
@@ -649,46 +481,53 @@ public class MovementGenerate extends SvrProcess
 		boolean allAttributeInstances, Timestamp minGuaranteeDate,
 		boolean FiFo)
 	{
-		m_lastPP = new SParameter(M_Warehouse_ID, 
+		lastParameter = new SParameter(M_Warehouse_ID,
 			M_Product_ID, M_AttributeSetInstance_ID, M_AttributeSet_ID,
 			allAttributeInstances, minGuaranteeDate, FiFo);
 		//
-		m_lastStorages = m_map.get(m_lastPP); 
+		lastStorage = storage.get(lastParameter);
 		
-		if (m_lastStorages == null)
+		if (lastStorage == null)
 		{
-			m_lastStorages = MStorage.getWarehouse(getCtx(), 
+			lastStorage = MStorage.getWarehouse(getCtx(),
 				M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID,
 				M_AttributeSet_ID, allAttributeInstances, minGuaranteeDate, 
 				FiFo, get_TrxName());
-			m_map.put(m_lastPP, m_lastStorages);
+			storage.put(lastParameter, lastStorage);
 		}
-		return m_lastStorages;
-	}	//	getStorages
-	
-	
-	/**
-	 * 	Complete Shipment
-	 */
-	private void completeMovement()
-	{
-		if (m_movement != null)
-		{
-			getProcessInfo().setRecord_ID(m_movement.get_ID());
-			//	Fails if there is a confirmation
-			if (!m_movement.processIt(p_docAction))
-				log.warning("Failed: " + m_movement);
-			m_movement.saveEx();
-			//
-			addLog(m_movement.getM_Movement_ID(), m_movement.getMovementDate(), null, m_movement.getDocumentNo());
-			m_created++;
-			m_map = new HashMap<SParameter,MStorage[]>();
-			if (m_lastPP != null && m_lastStorages != null)
-				m_map.put(m_lastPP, m_lastStorages);
-		}
-		m_movement = null;
-		m_line = 0;
-	}	//	completeOrder
+		return lastStorage;
+	}
+
+    private Optional<MMovement> getCurrentMovement()
+    {
+        return Optional.ofNullable(movement);
+    }
+
+    private void setCurrentMovement(MMovement movement)
+    {
+        this.movement = movement;
+    }
+
+    /**
+     * 	Complete Shipment
+     */
+    private void completeMovement()
+    {
+            //if the location or shipper is differrent complete of order
+            getCurrentMovement().ifPresent(movement -> {
+				//	Fails if there is a confirmation
+				if (!movement.processIt(getDocumentAction()))
+					log.warning("Failed: " + this.movement);
+				movement.saveEx();
+                addLog(movement.getM_Movement_ID() , movement.getMovementDate() , null , movement.getDocumentInfo());
+                createdCount++;
+                storage = new HashMap<SParameter,MStorage[]>();
+                lastParameter = null;
+				lastStorage = null;
+            });
+		setCurrentMovement(null);
+		lineNo = 0;
+    }	//	completeOrder
 	
 	/**
 	 * 	MovementGenerate Parameter
