@@ -54,12 +54,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.eevolution.process.GenerateMovement;
-import org.eevolution.process.GenerateMovementMaterial;
-import org.eevolution.process.MovementGenerate;
 import org.eevolution.service.dsl.ProcessBuilder;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  *  Order Distribution Model.
