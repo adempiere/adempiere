@@ -32,6 +32,7 @@ import org.compiere.util.TrxRunnable;
 import java.lang.reflect.Constructor;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -64,6 +65,8 @@ public class ProcessBuilder {
     private List<Integer> selectedRecordsIds;
     private Boolean isManagedTransaction = true;
     private Boolean isExecuteUsingSystemRole =  false;
+    /**	Multi-Selection Parameters	*/
+    private LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection = null;
 
     /**
      * Private constructor is called when an instance is created
@@ -172,8 +175,11 @@ public class ProcessBuilder {
         ProcessInfoUtil.setParameterFromDB(processInfo);
 
         //	FR [ 352 ]
-        if (isSelection)
+        if (isSelection) {
             processInfo.setSelectionKeys(selectedRecordsIds);
+            if (selection != null && selection.size() > 0)
+                processInfo.setSelectionValues(selection);
+        }
     }
 
     /**
@@ -316,6 +322,19 @@ public class ProcessBuilder {
         return this;
     }
 
+    /**
+     * Define select record ids and values
+     * @param selectedRecordsIds
+     * @param selection
+     * @return
+     */
+    public ProcessBuilder withSelectedRecordsIds(List<Integer> selectedRecordsIds, LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection)
+    {
+        this.selectedRecordsIds = selectedRecordsIds;
+        this.selection = selection;
+        return this;
+    }
+
 
    public ProcessBuilder withoutTransactionClose()
    {
@@ -324,7 +343,7 @@ public class ProcessBuilder {
    }
 
     /**
-     * Define paramenter with automatic sequence
+     * Define parameter with automatic sequence
      * @param name
      * @param value
      * @return
@@ -336,7 +355,7 @@ public class ProcessBuilder {
     }
 
     /**
-     * Define paramenter and sequence
+     * Define parameter and sequence
      * @param name
      * @param value
      * @param sequence
