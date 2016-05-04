@@ -74,8 +74,6 @@ import org.compiere.model.GridWindow;
 import org.compiere.model.Lookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MMemo;
-import org.compiere.model.MQuery;
-import org.compiere.model.MTable;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.swing.CPanel;
