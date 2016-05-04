@@ -69,6 +69,8 @@ import org.zkoss.zul.ListModel;
  * 		@see https://github.com/adempiere/adempiere/issues/257
  * 		<li>BR [ 268 ] Smart Browse Table don't have a MVC
  * 		@see https://github.com/adempiere/adempiere/issues/268
+ * 		<li>BR [ 347 ] ZK Smart Browse Error cast from Integer to BigDecimal loading table
+ * 		@see https://github.com/adempiere/adempiere/issues/347
  */
 public class WBrowserListbox extends Listbox implements IBrowserTable, TableValueChangeListener, WTableModelListener
 {	
@@ -861,15 +863,25 @@ public class WBrowserListbox extends Listbox implements IBrowserTable, TableValu
 				//if (c == BigDecimal.class)
 				if (DisplayType.isNumeric(ReferenceType)) {
 					BigDecimal subtotal = Env.ZERO;
-					if (total[col] != null)
-						subtotal = (BigDecimal) (total[col]);
+                    if (total[col] != null) {
+                        if (total[col] instanceof BigDecimal)
+                            subtotal = (BigDecimal) (total[col]);
+                        if (total[col] instanceof Integer)
+                            subtotal = new BigDecimal((Integer)total[col]);
 
-					BigDecimal amt = (BigDecimal) data;
-					if (subtotal == null)
-						subtotal = Env.ZERO;
-					if (amt == null)
-						amt = Env.ZERO;
-					total[col] = subtotal.add(amt);
+                    }
+
+                    BigDecimal amt = Env.ZERO;
+                    if (data == null)
+                        amt = Env.ZERO;
+                    if (data instanceof BigDecimal)
+                        amt = (BigDecimal) data;
+                    if (data instanceof Integer)
+                        amt = new BigDecimal((Integer) data);
+                    if (subtotal == null)
+                        subtotal = Env.ZERO;
+
+                    total[col] = subtotal.add(amt);
 				}
 			}
 		}

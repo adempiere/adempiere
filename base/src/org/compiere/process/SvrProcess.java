@@ -212,7 +212,14 @@ public abstract class SvrProcess implements ProcessCall
 				if(infoParameter == null
 						|| infoParameter.getParameter() == null
 						|| (DisplayType.isID(parameter.getAD_Reference_ID()) 
-								&& infoParameter.getParameterAsInt() < 0)
+								&& (
+									(infoParameter.getParameter() instanceof String 
+											&& infoParameter.getParameterAsString() == null)
+									||
+									(infoParameter.getParameter() instanceof Number 
+											&& infoParameter.getParameterAsInt() < 0)
+								)
+							)
 						|| (DisplayType.isText(parameter.getAD_Reference_ID()) 
 								&& (infoParameter.getParameterAsString() == null 
 										|| infoParameter.getParameterAsString().length() == 0))
@@ -248,6 +255,19 @@ public abstract class SvrProcess implements ProcessCall
 	 *  getParameterToAsInt(String parameterName);
 	 *  getParameterToAsString(String parameterName);
 	 *  getParameterToAsTimestamp(String parameterName);
+	 *  </pre>
+	 *  For a simple Selection based in keys
+	 *  <pre>
+	 *  getSelectionKeys();
+	 *  </pre>
+	 *  For Smart Browser
+	 *  <pre>
+	 *  getSelection(int key, String columnName);
+	 *  getSelectionAsBigDecimal(int key, String columnName);
+	 *  getSelectionAsBoolean(int key, String columnName);
+	 *  getSelectionAsInt(int key, String columnName);
+	 *  getSelectionAsString(int key, String columnName);
+	 *  getSelectionAsTimestamp(int key, String columnName);
 	 *  </pre>
 	 *  The old implementation
 	 *  <pre>
