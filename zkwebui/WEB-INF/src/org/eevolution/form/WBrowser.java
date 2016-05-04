@@ -603,6 +603,7 @@ public class WBrowser extends Browser implements IFormController,
 		//	Valid Process, Selected Keys and process parameters
 		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
 		{
+			parameterPanel.getProcessInfo().setAD_PInstance_ID(-1);
 			// FR [ 265 ]
 			if(parameterPanel.validateParameters() == null) {
 				//	Save Parameters
