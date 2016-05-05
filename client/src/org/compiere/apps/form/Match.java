@@ -288,14 +288,15 @@ public class Match
 				+ " INNER JOIN C_BPartner bp ON (hdr.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN C_InvoiceLine lin ON (hdr.C_Invoice_ID=lin.C_Invoice_ID)"
 				+ " INNER JOIN M_Product p ON (lin.M_Product_ID=p.M_Product_ID)"
+				+ " INNER JOIN C_UOM uom ON (p.C_UOM_ID = uom.C_UOM_ID)"
 				+ " INNER JOIN C_DocType dt ON (hdr.C_DocType_ID=dt.C_DocType_ID AND dt.DocBaseType IN ('API','APC'))"
 				+ " FULL JOIN M_MatchInv mi ON (lin.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) "
 				+ "WHERE hdr.DocStatus IN ('CO','CL')");
 			m_groupBy = " GROUP BY hdr.C_Invoice_ID,hdr.DocumentNo,hdr.DateInvoiced,bp.Name,hdr.C_BPartner_ID,"
-				+ " lin.Line,lin.C_InvoiceLine_ID,p.Name,lin.M_Product_ID,lin.QtyInvoiced, org.Name, hdr.AD_Org_ID " //JAVIER
-				+ "HAVING "
-				+ (matched ? "0" : "lin.QtyInvoiced")
-				+ "<>SUM(NVL(mi.Qty,0))";
+				+ " lin.Line,lin.C_InvoiceLine_ID,p.Name,uom.stdprecision,lin.M_Product_ID,lin.QtyInvoiced, org.Name, hdr.AD_Org_ID " //JAVIER
+				// Very small values are equivalent to zero.  Round to the product standard precision.
+				+ "HAVING round(lin.QtyInvoiced-SUM(NVL(mi.Qty,0)),uom.stdprecision)"
+				+ (matched ? "=0" : "<>0");
 		}
 		else if (display == MATCH_ORDER)
 		{
@@ -309,6 +310,7 @@ public class Match
 				+ " INNER JOIN C_BPartner bp ON (hdr.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN C_OrderLine lin ON (hdr.C_Order_ID=lin.C_Order_ID)"
 				+ " INNER JOIN M_Product p ON (lin.M_Product_ID=p.M_Product_ID)"
+				+ " INNER JOIN C_UOM uom ON (p.C_UOM_ID = uom.C_UOM_ID)"
 				+ " INNER JOIN C_DocType dt ON (hdr.C_DocType_ID=dt.C_DocType_ID AND dt.DocBaseType='POO')"
 				+ " FULL JOIN M_MatchPO mo ON (lin.C_OrderLine_ID=mo.C_OrderLine_ID) "
 				+ " WHERE " ) ; //[ 1876972 ] Can't match partially matched PO with an unmatched receipt SOLVED BY BOJANA, AGENDA_GM
@@ -327,10 +329,10 @@ public class Match
 			}
 			m_sql.append( " AND hdr.DocStatus IN ('CO','CL')" );
 			m_groupBy = " GROUP BY hdr.C_Order_ID,hdr.DocumentNo,hdr.DateOrdered,bp.Name,hdr.C_BPartner_ID,"
-				+ " lin.Line,lin.C_OrderLine_ID,p.Name,lin.M_Product_ID,lin.QtyOrdered, org.Name, hdr.AD_Org_ID " //JAVIER
-				+ "HAVING "
-				+ (matched ? "0" : "lin.QtyOrdered")
-				+ "<>SUM(COALESCE(mo.Qty,0))";
+				+ " lin.Line,lin.C_OrderLine_ID,p.Name, uom.stdprecision,lin.M_Product_ID,lin.QtyOrdered, org.Name, hdr.AD_Org_ID " //JAVIER
+				// Very small values are equivalent to zero.  Round to the product standard precision.
+				+ "HAVING round(lin.QtyOrdered-SUM(NVL(mo.Qty,0)),uom.stdprecision)"
+				+ (matched ? "=0" : "<>0");
 		}
 		else    //  Shipment
 		{
@@ -344,16 +346,17 @@ public class Match
 				+ " INNER JOIN C_BPartner bp ON (hdr.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN M_InOutLine lin ON (hdr.M_InOut_ID=lin.M_InOut_ID)"
 				+ " INNER JOIN M_Product p ON (lin.M_Product_ID=p.M_Product_ID)"
+				+ " INNER JOIN C_UOM uom ON (p.C_UOM_ID = uom.C_UOM_ID)"
 				+ " INNER JOIN C_DocType dt ON (hdr.C_DocType_ID = dt.C_DocType_ID AND dt.DocBaseType='MMR')"
 				+ " FULL JOIN ")
 				.append(matchToType == MATCH_ORDER ? "M_MatchPO" : "M_MatchInv")
 				.append(" m ON (lin.M_InOutLine_ID=m.M_InOutLine_ID) "
 				+ "WHERE hdr.DocStatus IN ('CO','CL')");
 			m_groupBy = " GROUP BY hdr.M_InOut_ID,hdr.DocumentNo,hdr.MovementDate,bp.Name,hdr.C_BPartner_ID,"
-				+ " lin.Line,lin.M_InOutLine_ID,p.Name,lin.M_Product_ID,lin.MovementQty, org.Name, hdr.AD_Org_ID " //JAVIER
-				+ "HAVING "
-				+ (matched ? "0" : "lin.MovementQty")
-				+ "<>SUM(NVL(m.Qty,0))";
+				+ " lin.Line,lin.M_InOutLine_ID,p.Name,p.stdprecision,lin.M_Product_ID,lin.MovementQty, org.Name, hdr.AD_Org_ID " //JAVIER
+				// Very small values are equivalent to zero.  Round to the product standard precision.
+				+ "HAVING round(lin.MovementQty-SUM(NVL(m.Qty,0)),uom.stdprecision)"
+				+ (matched ? "=0" : "<>0");
 		}
 	//	Log.trace(7, "VMatch.tableInit", m_sql + "\n" + m_groupBy);
 	}   //  tableInit
