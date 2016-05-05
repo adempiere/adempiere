@@ -156,6 +156,17 @@ public class FactAcctReset extends SvrProcess
 		MAcctSchema as = MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema();
 		boolean autoPeriod = as != null && as.isAutoPeriodControl();
 		String docBaseType = getDocumentBaseType(AD_Table_ID, TableName);
+		if (docBaseType == null)
+		{
+			String s = TableName + ": Unknown DocBaseType";
+			log.severe(s);
+			addLog(s);
+			docBaseType = "";
+			return;
+		}
+		else
+			docBaseType = " AND pc.DocBaseType " + docBaseType;
+
 		StringBuilder resetUpdate = new StringBuilder();
 		resetUpdate.append("UPDATE ").append(TableName).append(" SET Processing='N' WHERE AD_Client_ID=")
 				 .append(p_AD_Client_ID).append(" AND (Processing<>'N' OR Processing IS NULL)");
@@ -173,7 +184,7 @@ public class FactAcctReset extends SvrProcess
 				 .append(TableName).append("_ID ");
 
 		if ( !autoPeriod )
-			resetUpdate.append("  AND pc.PeriodStatus = 'O' AND pc.DocBaseType").append(docBaseType).append(" AND fa.C_Period_ID=pc.C_Period_ID))");
+			resetUpdate.append("  AND pc.PeriodStatus = 'O' ").append(docBaseType).append(" AND fa.C_Period_ID=pc.C_Period_ID))");
 		else
 			resetUpdate.append(" AND fa.C_Period_ID=pc.C_Period_ID))");
 
