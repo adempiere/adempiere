@@ -57,50 +57,13 @@ import org.eevolution.model.MWMInOutBoundLine;
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * @version $Id: $
  */
-public class GenerateInOutBound extends SvrProcess {
-
-    /** Record ID */
-    protected int recordId = 0;
-    /** Locator ID */
-    protected int locatorId = 0;
-    /** Doc Action */
-    protected String docAction = null;
-    /** Ship Date */
-    protected Timestamp shipDate = null;
-    /**  Pick Date */
-    protected Timestamp pickDate = null;
-    /** Doc Type ID */
-    protected int docTypeId = 0;
-    /** Delivery Rule */
-    protected String deliveryRule = null;
-    /** Reference */
-    protected String reference = null;
+public class GenerateInOutBound extends GenerateInOutBoundAbstract {
 
     /**
      * Get Parameters
      */
     protected void prepare() {
-        for (ProcessInfoParameter para : getParameter()) {
-            String name = para.getParameterName();
-            if (para.getParameter() == null)
-                ;
-            else if (I_DD_Order.COLUMNNAME_ShipDate.equals(name)) {
-                shipDate = (Timestamp) para.getParameter();
-            } else if (I_DD_Order.COLUMNNAME_PickDate.equals(name)) {
-                pickDate = (Timestamp) para.getParameter();
-            } else if (I_DD_Order.COLUMNNAME_POReference.equals(name)) {
-                reference = (String) para.getParameter();
-            } else if (I_DD_OrderLine.COLUMNNAME_M_Locator_ID.equals(name)) {
-                locatorId = para.getParameterAsInt();
-            } else if (I_DD_Order.COLUMNNAME_DeliveryViaRule.equals(name)) {
-                deliveryRule = (String) para.getParameter();
-            } else if (I_DD_Order.COLUMNNAME_C_DocType_ID.equals(name)) {
-                docTypeId = para.getParameterAsInt();
-            } else if (I_DD_Order.COLUMNNAME_DocAction.equals(name)) {
-                docAction = (String) para.getParameter();
-            } else
-                log.log(Level.SEVERE, "Unknown Parameter: " + name);
-        }
+       super.prepare();
     }
 
     /**
@@ -110,37 +73,41 @@ public class GenerateInOutBound extends SvrProcess {
     protected String doIt() throws Exception {
         // Create Outbound Order
         MWMInOutBound outBoundOrder = createOutBoundOrder();
-        // Based on Sales Order
-        createBasedOnSalesOrders(outBoundOrder);
+        // Based on Sales Order Line
+        if (MOrderLine.Table_ID == getTable_ID())
+            createBasedOnSalesOrders(outBoundOrder);
         // Based on MRP
-        createBasedOnDemand(outBoundOrder);
+        if (MPPMRP.Table_ID == getTable_ID())
+            createBasedOnDemand(outBoundOrder);
         return "@DocumentNo@ " + outBoundOrder.getDocumentNo();
     }
 
     private MWMInOutBound createOutBoundOrder() {
 
-        MLocator locator = MLocator.get(getCtx(), locatorId);
+        MLocator locator = MLocator.get(getCtx(), getLocatorId());
         MWMInOutBound outBoundOrder = new MWMInOutBound(getCtx(), 0, get_TrxName());
-        outBoundOrder.setShipDate(shipDate);
-        outBoundOrder.setPickDate(pickDate);
-        if (reference != null)
-            outBoundOrder.setPOReference(reference);
+        outBoundOrder.setShipDate(getShipDate());
+        outBoundOrder.setPickDate(getPickDate());
+        if (getOrderReference() != null)
+            outBoundOrder.setPOReference(getOrderReference());
 
-        if (deliveryRule != null)
-            outBoundOrder.setDeliveryRule(deliveryRule);
+        if (getDeliveryRule() != null)
+            outBoundOrder.setDeliveryRule(getDeliveryRule());
+        if (getDeliveryVia() != null)
+            outBoundOrder.setDeliveryViaRule(getDeliveryVia());
 
-        if (docTypeId > 0)
-            outBoundOrder.setC_DocType_ID(docTypeId);
+        if (getDocumentTypeId() > 0)
+            outBoundOrder.setC_DocType_ID(getDocumentTypeId());
         else {
-            docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_WarehouseManagementOrder);
+            int docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_WarehouseManagementOrder);
             if (docTypeId <= 0)
                 throw new DocTypeNotFoundException(MDocType.DOCBASETYPE_WarehouseManagementOrder, "");
             else
                 outBoundOrder.setC_DocType_ID(docTypeId);
         }
 
-        if (docAction != null)
-            outBoundOrder.setDocAction(docAction);
+        if (getDocumentAction() != null)
+            outBoundOrder.setDocAction(getDocumentAction());
         else
             outBoundOrder.setDocAction(MWMInOutBound.ACTION_Prepare);
 
@@ -152,13 +119,8 @@ public class GenerateInOutBound extends SvrProcess {
     }
 
     private void createBasedOnSalesOrders(MWMInOutBound outBoundOrder) {
-        String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=C_OrderLine.C_OrderLine_ID)";
-        List<MOrderLine> orderLines = new Query(getCtx(), I_C_OrderLine.Table_Name, whereClause, get_TrxName())
-                .setClient_ID()
-                .setParameters(getAD_PInstance_ID())
-                .list();
-
-        for (MOrderLine orderLine : orderLines) {
+        List<MOrderLine> orderLines = (List<MOrderLine>) getInstances(get_TrxName());
+        orderLines.stream().forEach(orderLine -> {
             MWMInOutBoundLine outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
             outBoundOrderLine.setLine(getLineNo(outBoundOrder));
             outBoundOrderLine.setM_Product_ID(orderLine.getM_Product_ID());
@@ -171,17 +133,13 @@ public class GenerateInOutBound extends SvrProcess {
             outBoundOrderLine.setPickDate(outBoundOrder.getPickDate());
             outBoundOrderLine.setShipDate(outBoundOrder.getShipDate());
             outBoundOrderLine.saveEx();
-        }
+        });
     }
 
     private void createBasedOnDemand(MWMInOutBound outBoundOrder) {
-        String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=PP_MRP.PP_MRP_ID)";
-        List<MPPMRP> demands = new Query(getCtx(), I_PP_MRP.Table_Name, whereClause, get_TrxName())
-                .setClient_ID()
-                .setParameters(getAD_PInstance_ID())
-                .list();
 
-        for (MPPMRP demand : demands) {
+        List<MPPMRP> demands = (List<MPPMRP>) getInstances(get_TrxName());
+        demands.stream().forEach( demand -> {
             MWMInOutBoundLine outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
             outBoundOrderLine.setLine(getLineNo(outBoundOrder));
             outBoundOrderLine.setMovementQty(demand.getQty());
@@ -212,7 +170,7 @@ public class GenerateInOutBound extends SvrProcess {
             outBoundOrderLine.setPickDate(outBoundOrder.getPickDate());
             outBoundOrderLine.setShipDate(outBoundOrder.getShipDate());
             outBoundOrderLine.saveEx();
-        }
+        });
     }
 
     private int getLineNo(MWMInOutBound outbound) {
