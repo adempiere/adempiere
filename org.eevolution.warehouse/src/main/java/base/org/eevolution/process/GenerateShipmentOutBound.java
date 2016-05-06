@@ -32,6 +32,7 @@ package org.eevolution.process;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map.Entry;
@@ -60,26 +61,16 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.eevolution.model.I_DD_Order;
-import org.eevolution.model.I_WM_InOutBoundLine;
-import org.eevolution.model.MDDOrderLine;
-import org.eevolution.model.MPPCostCollector;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPOrderBOMLine;
-import org.eevolution.model.MWMInOutBoundLine;
+import org.eevolution.model.*;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
  *	
  *  @author victor.perez@e-evolution.com, www.e-evolution.com
  *  @version $Id: $
  */
-public class GenerateShipmentOutBound extends SvrProcess
-{	
-	/** Record ID */
-	protected int recordId;
-	protected String docAction;
-	protected Boolean isIncludeNotAvailable;
-	protected Timestamp movementDate;
+public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
+{
 	protected Hashtable<Integer, MInOut> shipments;
 	protected Hashtable<Integer, I_DD_Order>  distributionOrders;
 	protected Hashtable<Integer, MPPCostCollector> manufacturingIssues;
@@ -89,22 +80,7 @@ public class GenerateShipmentOutBound extends SvrProcess
 	 */
 	protected void prepare ()
 	{
-		
-		recordId = getRecord_ID();
-		for (ProcessInfoParameter para:getParameter())
-		{
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if (I_M_Movement.COLUMNNAME_DocAction.equals(name))
-				docAction = (String)para.getParameter();
-			else if (name.equals("IsIncludeNotAvailable"))
-				isIncludeNotAvailable = "Y".equals(para.getParameter());
-			else if (I_M_Movement.COLUMNNAME_MovementDate.equals(name))
-				movementDate = (Timestamp)para.getParameter();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
+		super.prepare();
 	}
 
 	/**
@@ -116,10 +92,10 @@ public class GenerateShipmentOutBound extends SvrProcess
 		distributionOrders = new Hashtable<Integer, I_DD_Order>();
 		shipments  = new Hashtable<Integer, MInOut>();
 
-		for (MWMInOutBoundLine outBoundLine : getOutBoundLines()) {
-			if (outBoundLine.getQtyToDeliver().signum() > 0 || isIncludeNotAvailable)
-				createShipment(outBoundLine);
-		}
+		List<MWMInOutBoundLine> outBoundLines = (List<MWMInOutBoundLine>) getInstances(get_TrxName());
+		outBoundLines.stream()
+				.filter(outBoundLine -> outBoundLine.getQtyToDeliver().signum() > 0 || isIncludeNotAvailable())
+				.forEach(outBoundLine -> createShipment(outBoundLine));
 
 		//Processing Shipments
 		processingShipments();
@@ -134,20 +110,6 @@ public class GenerateShipmentOutBound extends SvrProcess
 	}
 
 	/**
-	 * Get OutBound Lines
-	 * @return
-     */
-	private List<MWMInOutBoundLine> getOutBoundLines()
-	{
-		String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=WM_InOutBoundLine.WM_InOutboundLine_ID)";
-		return new Query(getCtx(), I_WM_InOutBoundLine.Table_Name, whereClause, get_TrxName())
-				.setClient_ID()
-				.setParameters(getAD_PInstance_ID())
-				.list();
-	}
-
-
-	/**
 	 * Create Shipment to Out Bound Order
 	 * @param outBoundLine
 	 */
@@ -156,7 +118,7 @@ public class GenerateShipmentOutBound extends SvrProcess
 		// Generate Shipment based on Outbound Order
 		if (outBoundLine.getC_OrderLine_ID() > 0) {
 			MOrderLine orderLine = outBoundLine.getMOrderLine();
-			if (outBoundLine.getPickedQty().subtract(orderLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable)
+			if (outBoundLine.getPickedQty().subtract(orderLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable())
 				return;
 
 			MLocator standing = getStandingLocator(outBoundLine);
@@ -187,7 +149,7 @@ public class GenerateShipmentOutBound extends SvrProcess
 		// Generate Delivery Manufacturing Order
 		if (outBoundLine.getPP_Order_BOMLine_ID() > 0) {
 			MPPOrderBOMLine orderBOMLine = (MPPOrderBOMLine) outBoundLine.getPP_Order_BOMLine();
-			if (outBoundLine.getPickedQty().subtract(orderBOMLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable)
+			if (outBoundLine.getPickedQty().subtract(orderBOMLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable())
 				return;
 
 			MLocator standing = getStandingLocator(outBoundLine);
@@ -195,18 +157,20 @@ public class GenerateShipmentOutBound extends SvrProcess
 			MStorage[] storage = MStorage.getAll(getCtx(), orderBOMLine.getM_Product_ID() , standing.getM_Locator_ID() , get_TrxName());
 
 			BigDecimal qtyDelivered = getQtyDelivered(outBoundLine , orderBOMLine.getQtyDelivered());
-			for (MPPCostCollector costCollector : MPPOrder.createIssue(
+			List<MPPCostCollector> issues = MPPOrder.createIssue(
 					orderBOMLine.getParent(),
 					orderBOMLine ,
-					movementDate ,
+					getMovementDate() ,
 					qtyDelivered  ,
 					BigDecimal.ZERO ,
 					BigDecimal.ZERO ,
 					storage ,
-					true)) {
+					true);
+
+			issues.stream().forEach(costCollector ->  {
 				if (manufacturingIssues.get(costCollector.getPP_Cost_Collector_ID()) == null)
 					manufacturingIssues.put(costCollector.getPP_Cost_Collector_ID(), costCollector);
-			}
+			});
 		}
 	}
 
@@ -214,7 +178,7 @@ public class GenerateShipmentOutBound extends SvrProcess
 	{
 		MLocator standing;
 
-		if(isIncludeNotAvailable)
+		if(isIncludeNotAvailable())
 			standing =  MLocator.getDefault((MWarehouse)outBoundLine.getParent().getM_Warehouse());
 		else
 			standing = outBoundLine.getLocator();
@@ -226,7 +190,7 @@ public class GenerateShipmentOutBound extends SvrProcess
 	{
 		BigDecimal qtyDelivered;
 
-		if(isIncludeNotAvailable)
+		if(isIncludeNotAvailable())
 			qtyDelivered  = outBoundLine.getQtyToPick().subtract(qtyDemandDelivered);
 		else
 			qtyDelivered  = outBoundLine.getPickedQty().subtract(qtyDemandDelivered);
@@ -236,85 +200,60 @@ public class GenerateShipmentOutBound extends SvrProcess
 
 	public void processingIssues()
 	{
-		for (Entry<Integer, MPPCostCollector> entry  :  manufacturingIssues.entrySet())
-		{
+		manufacturingIssues.entrySet().stream().forEach(entry  -> {
 			MPPCostCollector issue = entry.getValue();
-			issue.setDocAction(docAction);
-			issue.processIt(docAction);
-			if (!issue.processIt(docAction)) {
+			issue.setDocAction(getDocumentAction());
+			issue.processIt(getDocumentAction());
+			if (!issue.processIt(getDocumentAction())) {
 				addLog("@ProcessFailed@ : " + issue.getDocumentInfo());
 				log.warning("@ProcessFailed@ :" + issue.getDocumentInfo());
 			}
 			issue.saveEx();
-		}
+		});
 	}
 
 	public void processingShipments()
 	{
-		for (Entry<Integer, MInOut> entry  :  shipments.entrySet())
-		{
+		shipments.entrySet().stream().forEach(entry -> {
 			MInOut shipment = entry.getValue();
-			shipment.setDocAction(docAction);
-			shipment.processIt(docAction);
-			if (!shipment.processIt(docAction)) {
+			shipment.setDocAction(getDocumentAction());
+			shipment.processIt(getDocumentAction());
+			if (!shipment.processIt(getDocumentAction())) {
 				addLog("@ProcessFailed@ : " + shipment.getDocumentInfo());
 				log.warning("@ProcessFailed@ :" + shipment.getDocumentInfo());
 			}
 			shipment.saveEx();
-		}
+		});
 	}
 
 
 
 	public void processingMovements()
 	{
-			for (Entry<Integer, I_DD_Order> entry  :  distributionOrders.entrySet())
-			{
-				I_DD_Order distributionOrder = entry.getValue();
-				String trxName = Trx.createTrxName("IMG");
-				Trx trx = Trx.get(trxName, true);
-				//	Prepare Process
-				int AD_Process_ID = MProcess.getProcess_ID("M_Generate Movement", null);
+		distributionOrders.entrySet().stream().forEach(entry -> {
+			I_DD_Order distributionOrder = entry.getValue();
+			List<Integer> orderIds = new ArrayList<Integer>();
+			orderIds.add(distributionOrder.getDD_Order_ID());
 
-				MPInstance instance = new MPInstance(getCtx(), AD_Process_ID, 0);
-				if (!instance.save()) {
-					addLog(Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
-				}
+			ProcessInfo processInfo = ProcessBuilder.create(getCtx())
+					.process(MovementGenerate.getProcessId())
+					.withSelectedRecordsIds(orderIds)
+					.withParameter(MWMInOutBound.COLUMNNAME_M_Warehouse_ID, distributionOrder.getM_Warehouse_ID())
+					.withParameter(MMovement.COLUMNNAME_MovementDate, getMovementDate())
+					.withoutTransactionClose()
+					.execute(get_TrxName());
+			if (processInfo.isError())
+				throw new AdempiereException(processInfo.getSummary());
 
-				List<Integer> ordersId = new ArrayList<Integer>();
-				ordersId.add(distributionOrder.getDD_Order_ID());
-
-				DB.createT_Selection(instance.getAD_PInstance_ID(), ordersId, null);
-
-				//call process
-				ProcessInfo pi = new ProcessInfo("Generate Movement", AD_Process_ID);
-				pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
-
-				//	Add Parameter - Selection=Y
-				MPInstancePara ip = new MPInstancePara(instance, 10);
-				ip.setParameter("Selection", "Y");
-				ip.saveEx();
-
-				//	Add Parameter - M_Warehouse_ID=x
-				ip = new MPInstancePara(instance, 20);
-				ip.setParameter("M_Warehouse_ID", distributionOrder.getM_Warehouse_ID());
-				ip.saveEx();
-
-				ip = new MPInstancePara(instance, 30);
-				ip.setParameter("MovementDate", movementDate);
-				ip.saveEx();
-
-				ServerProcessCtl worker = new ServerProcessCtl(null, pi, trx);
-				worker.run();
-
-				addLog(pi.getSummary());
-
-				MMovement movement = new MMovement(getCtx(), pi.getRecord_ID(), trxName);
+			addLog(processInfo.getSummary());
+			Arrays.stream(processInfo.getIDs()).forEach(recordId -> {
+				MMovement movement = new MMovement(getCtx(), recordId, get_TrxName());
 				if (movement != null && movement.get_ID() > 0)
-					GenerateMovement.printDocument(movement, "Inventory Move Hdr (Example)", pi.getWindowNo());
+					GenerateMovement.printDocument(movement, "Inventory Move Hdr (Example)", processInfo.getWindowNo());
 				else
 					throw new AdempiereException("@M_Movement_ID@ @NotFound@");
-			}
+			});
+		});
 	}
 
 	/**
@@ -324,14 +263,13 @@ public class GenerateShipmentOutBound extends SvrProcess
 	 */
 	private MInOut getShipment(MOrderLine orderLine)
 	{
-
 		MInOut shipment = shipments.get(orderLine.getC_Order_ID());
 		if(shipment != null)
 			return shipment;
 
 		MOrder order = orderLine.getParent();
 		int docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialDelivery , orderLine.getAD_Org_ID());
-		shipment = new MInOut(order,docTypeId, movementDate);
+		shipment = new MInOut(order,docTypeId, getMovementDate());
 		shipment.setIsSOTrx(true);
 		shipment.saveEx();
 
