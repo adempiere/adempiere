@@ -54,6 +54,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.eevolution.process.GenerateMovement;
+import org.eevolution.process.GenerateMovementMaterial;
 import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
@@ -981,7 +983,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		Timestamp today = new Timestamp(date.getTime());
 		List<Integer> recordIds = new ArrayList<>();
 		recordIds.add(getDD_Order_ID());
-		ProcessInfo processInfo = ProcessBuilder.create(getCtx()).process(53046)
+		ProcessInfo processInfo = ProcessBuilder.create(getCtx()).process(GenerateMovement.getProcessId())
+				.withTitle(GenerateMovement.getProcessName())
 				.withRecordId(MDDOrder.Table_ID, 0)
 				.withSelectedRecordsIds(recordIds)
 				.withParameter(MMovement.COLUMNNAME_MovementDate , today)
@@ -1002,7 +1005,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			selection.put(orderLine.get_ID(), values);
 		});
 
-		processInfo = ProcessBuilder.create(getCtx()).process(53736)
+		processInfo = ProcessBuilder.create(getCtx()).process(GenerateMovementMaterial.getProcessId())
+				.withTitle(GenerateMovementMaterial.getProcessName())
 				.withRecordId(MDDOrderLine.Table_ID, 0)
 				.withSelectedRecordsIds(orderLinesIds , selection)
 				.withParameter(MMovement.COLUMNNAME_MovementDate , today)
