@@ -89,18 +89,18 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	
 	/**
 	 * Get Landed Cost Allocation
-	 * @param MInOutLine ioLine
-	 * @param M_CostElement_ID
+	 * @param ioLine InOutLine
+	 * @param costElementId
 	 * @return List MLandedCostAllocation
 	 */
-	public static List<MLandedCostAllocation> getOfInOuline (MInOutLine ioLine, int M_CostElement_ID)
+	public static List<MLandedCostAllocation> getOfInOutline(MInOutLine ioLine, int costElementId)
 	{
 		StringBuilder whereClause = new StringBuilder();
 		whereClause.append(I_C_LandedCostAllocation.COLUMNNAME_M_InOutLine_ID).append("=? AND ");
 		whereClause.append(I_C_LandedCostAllocation.COLUMNNAME_M_CostElement_ID).append("=? ");
-		return new Query(ioLine.getCtx(),I_C_LandedCostAllocation.Table_Name, whereClause.toString() , ioLine.get_TrxName())
+		return new Query(ioLine.getCtx(),MLandedCostAllocation.Table_Name, whereClause.toString() , ioLine.get_TrxName())
 		.setClient_ID()
-		.setParameters(ioLine.getM_InOutLine_ID(), M_CostElement_ID)
+		.setParameters(ioLine.getM_InOutLine_ID(), costElementId)
 		.list();
 	}	//	getOfInvliceLine
 	/**	Logger	*/
@@ -212,7 +212,6 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 
 	@Override
 	public boolean isSOTrx() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
