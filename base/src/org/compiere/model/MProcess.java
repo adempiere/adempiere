@@ -53,11 +53,13 @@ public class MProcess extends X_AD_Process
      */
 	public static MProcess getUsingJavaClass(final Class<?> processClass)
 	{
-		String className = processClass.getClass().getCanonicalName();
+		String className = processClass.getCanonicalName();
 		if (className == null)
 			return null;
 
-		return new Query(Env.getCtx() , MProcess.Table_Name , MProcess.COLUMNNAME_Classname + "=?" , null).first();
+		return new Query(Env.getCtx() , MProcess.Table_Name , MProcess.COLUMNNAME_Classname + "=?" , null)
+						.setParameters(className)
+						.first();
 	}
 
 	/**
