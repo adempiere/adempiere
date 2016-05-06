@@ -31,6 +31,7 @@ package org.eevolution.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -85,20 +86,9 @@ import org.eevolution.model.X_DD_Order;
  *  @author victor.perez@e-evolution.com, www.e-evolution.com
  *  @version $Id: $
  */
-public class ReleaseInOutBound extends SvrProcess
-{	
-	/** Record ID */
-	protected int recordId;
-	protected String docAction;
-	protected String deliveryRule;
-	protected int docTypeId;
-	protected int areaTypeId;
-	protected int sectionTypeId;
-	protected boolean isPrintPickList;
-	protected boolean isCreateSupply;
-	
+public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
+{
 	private MLocator outBoundLocator ;
-	private int userId ;
 	private Timestamp today = new Timestamp (System.currentTimeMillis());
 	private MDDOrder orderDistribution;
 	
@@ -108,32 +98,7 @@ public class ReleaseInOutBound extends SvrProcess
 	@Override
 	protected void prepare ()
 	{
-		userId = Env.getAD_User_ID(getCtx());
-		recordId = getRecord_ID();
-		for (ProcessInfoParameter para:getParameter())
-		{
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if (MWMAreaType.COLUMNNAME_WM_Area_Type_ID.equals(name))
-				areaTypeId = para.getParameterAsInt();
-			else if (MWMSectionType.COLUMNNAME_WM_Section_Type_ID.equals(name))
-				sectionTypeId = para.getParameterAsInt();
-			else if (MDDOrder.COLUMNNAME_DeliveryRule.equals(name))
-				deliveryRule = (String)para.getParameter();
-			else if (MDDOrder.COLUMNNAME_DocAction.equals(name))
-				docAction = (String)para.getParameter();
-			else if (MDDOrder.COLUMNNAME_C_DocType_ID.equals(name))
-				docTypeId = para.getParameterAsInt();
-			else if (MLocator.COLUMNNAME_M_Locator_ID.equals(name))
-				outBoundLocator = new MLocator(getCtx(), para.getParameterAsInt() , get_TrxName());
-			else if (name.equals("IsPrintPickList"))
-				isPrintPickList = "Y".equals(para.getParameter());
-			else if (name.equals("IsCreateSupply"))
-				isCreateSupply = "Y".equals(para.getParameter());
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
+		super.prepare();
 	}
 
 	/**
@@ -143,11 +108,11 @@ public class ReleaseInOutBound extends SvrProcess
 	@Override
 	protected String doIt () throws Exception
 	{
-		for (MWMInOutBoundLine outBoundOrderLine : getOutBoundOrderLine())
-		{
+		List<MWMInOutBoundLine> outBoundLines = (List<MWMInOutBoundLine>) getInstances(get_TrxName());
+		outBoundLines.stream().forEach(outBoundLine -> {
 			// if the locator is same to pick then the storage are in outbound locator not is necessary create other distribution order
-			if (outBoundOrderLine.getDD_OrderLine_ID() > 0) {
-				MDDOrderLine orderDistributionLine = (MDDOrderLine) outBoundOrderLine.getDD_OrderLine();
+			if (outBoundLine.getDD_OrderLine_ID() > 0) {
+				MDDOrderLine orderDistributionLine = (MDDOrderLine) outBoundLine.getDD_OrderLine();
 
 				if (orderDistributionLine.getWM_InOutBoundLine_ID() <= 0) {
 					orderDistributionLine.setWM_InOutBoundLine_ID(orderDistributionLine.getWM_InOutBoundLine_ID());
@@ -155,26 +120,26 @@ public class ReleaseInOutBound extends SvrProcess
 				}
 
 				if (orderDistributionLine.getM_LocatorTo_ID() == outBoundLocator.getM_Locator_ID())
-					continue;
+					return;
 			}
 
-			BigDecimal qtySupply = createDistributionOrder(outBoundOrderLine);
-			if(isCreateSupply && qtySupply.signum() > 0)
+			BigDecimal qtySupply = createDistributionOrder(outBoundLine);
+			if(isCreateSupply() && qtySupply.signum() > 0)
 			{
-				Env.setContext(outBoundOrderLine.getCtx(),"IsCreateSupply", "Y");
-				createSupply(outBoundOrderLine, qtySupply);
+				Env.setContext(outBoundLine.getCtx(),IsCreateSupply, "Y");
+				createSupply(outBoundLine, qtySupply);
 			}
-		}
+		});
 		
-		if(orderDistribution != null && docAction != null)
+		if(orderDistribution != null && getDocumentAction() != null)
 		{
-			orderDistribution.setDocAction(docAction);
-			orderDistribution.setDocStatus(DocAction.STATUS_InProgress);
+			orderDistribution.setDocAction(getDocumentAction());
+			orderDistribution.setDocStatus(org.compiere.process.DocAction.STATUS_InProgress);
 			orderDistribution.completeIt();
 			orderDistribution.save();
 		}	
 		
-		if(isPrintPickList && orderDistribution != null)
+		if(isPrintPickList() && orderDistribution != null)
 		{
 			// Get Format & Data
 			ReportEngine reportEngine = getReportEngine("DistributionOrder_Header  ** TEMPLATE **","DD_Order_Header_v", orderDistribution.getDD_Order_ID());
@@ -192,7 +157,7 @@ public class ReleaseInOutBound extends SvrProcess
 	 * get Out Bound Order Lines from Smart Browser
 	 * @return
      */
-	private List <MWMInOutBoundLine> getOutBoundOrderLine()
+	/*private List <MWMInOutBoundLine> getOutBoundOrderLine()
 	{
 		StringBuilder whereClause = new StringBuilder();
 		whereClause.append("EXISTS (SELECT 1 FROM WM_InOutBound o WHERE o.WM_InOutBound_ID=WM_InOutBoundLine.WM_InOutBound_ID AND o.Processed='N' AND o.DocAction NOT IN ('CO','CL','VO')) AND ");
@@ -201,7 +166,7 @@ public class ReleaseInOutBound extends SvrProcess
 				.setClient_ID()
 				.setParameters(getAD_PInstance_ID())
 				.list();
-	}
+	}*/
 	
 	/**
 	 * create Distribution Order to performance a Pick List
@@ -211,11 +176,11 @@ public class ReleaseInOutBound extends SvrProcess
 	protected BigDecimal createDistributionOrder(MWMInOutBoundLine outBoundOrderLine)
 	{				
 		WMRuleEngine engineRule = WMRuleEngine.get();
-		List<MStorage> storages = engineRule.getStorage(outBoundOrderLine, areaTypeId, sectionTypeId);
+		List<MStorage> storageList = engineRule.getStorage(outBoundOrderLine, getWarehouseAreaTypeId(), getWarehouseSectionTypeId());
 
 		int shipperId = 0;
 		BigDecimal qtySupply = BigDecimal.ZERO;
-		if(storages != null && storages.size() > 0)
+		if(storageList != null && storageList.size() > 0)
 		{	
 			//get the warehouse in transit
 			MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), outBoundLocator.getAD_Org_ID());
@@ -235,9 +200,9 @@ public class ReleaseInOutBound extends SvrProcess
 				orderDistribution = new MDDOrder(getCtx() , 0 , get_TrxName());
 				orderDistribution.setAD_Org_ID(outBoundLocator.getAD_Org_ID());
 				orderDistribution.setC_BPartner_ID(partnerId);
-				if(docTypeId > 0)
+				if(getDocumentTypeId() > 0)
 				{
-					orderDistribution.setC_DocType_ID(docTypeId);
+					orderDistribution.setC_DocType_ID(getDocumentTypeId());
 				}	
 				else
 				{
@@ -245,8 +210,8 @@ public class ReleaseInOutBound extends SvrProcess
 				}
 
 				orderDistribution.setM_Warehouse_ID(wsts[0].get_ID());
-				if(docAction != null)
-					orderDistribution.setDocAction(docAction);
+				if(getDocumentAction() != null)
+					orderDistribution.setDocAction(getDocumentAction());
 				else
 					orderDistribution.setDocAction(X_DD_Order.DOCACTION_Prepare);
 				
@@ -264,8 +229,7 @@ public class ReleaseInOutBound extends SvrProcess
 				orderDistribution.saveEx();
 			}
 
-			for (MStorage storage: storages)
-			{			
+			storageList.stream().forEach(storage -> {
 				MDDOrderLine orderLine = new MDDOrderLine(orderDistribution);
 				orderLine.setM_Locator_ID(storage.getM_Locator_ID());
 				orderLine.setM_LocatorTo_ID(outBoundLocator.getM_Locator_ID());
@@ -276,13 +240,13 @@ public class ReleaseInOutBound extends SvrProcess
 				orderLine.setWM_InOutBoundLine_ID(outBoundOrderLine.getWM_InOutBoundLine_ID());
 				orderLine.setIsInvoiced(false);
 				
-				if (outBoundOrderLine.getQtyToPick().subtract(qtySupply).compareTo(storage.getQtyOnHand()) < 0)
+				/*if (outBoundOrderLine.getQtyToPick().subtract(qtySupply).compareTo(storage.getQtyOnHand()) < 0)
 				{
 					orderLine.setConfirmedQty(outBoundOrderLine.getQtyToPick());
 					orderLine.setQtyEntered(outBoundOrderLine.getQtyToPick());
 					orderLine.setQtyOrdered(outBoundOrderLine.getQtyToPick());
 					orderLine.setTargetQty(outBoundOrderLine.getQtyToPick());
-					qtySupply = qtySupply.add(outBoundOrderLine.getQtyToPick());
+					//this.qtySupply = this.qtySupply.add(outBoundOrderLine.getQtyToPick());
 				}
 				else
 				{
@@ -290,11 +254,11 @@ public class ReleaseInOutBound extends SvrProcess
 					orderLine.setQtyEntered(storage.getQtyOnHand());
 					orderLine.setQtyOrdered(storage.getQtyOnHand());
 					orderLine.setTargetQty(storage.getQtyOnHand());
-					qtySupply = qtySupply.add(storage.getQtyOnHand());				
-				}				
+					//this.qtySupply = this.qtySupply.add(storage.getQtyOnHand());
+				}*/
 				
 				orderLine.saveEx();
-			}
+			});
 		}
 		else
 		{
@@ -311,14 +275,10 @@ public class ReleaseInOutBound extends SvrProcess
 	public void createSupply(MWMInOutBoundLine outBoundOrderLine, BigDecimal qtySupply)
 	{
 		MProduct product = MProduct.get(outBoundOrderLine.getCtx(), outBoundOrderLine.getM_Product_ID());
-		if (product.isBOM())
-		{			
+		if (product != null && product.isBOM())
 			createManufacturingOrder(outBoundOrderLine, product , qtySupply);
-		}
 		else if(product.isPurchased())
-		{
 			createRequisition(outBoundOrderLine, product, qtySupply);
-		}
 	}
 	
 	/**
@@ -334,15 +294,14 @@ public class ReleaseInOutBound extends SvrProcess
 		int priceListId = 0;
 		MProductPO productPOLast;
 		MProductPO[] productPOs = MProductPO.getOfProduct(getCtx(), product.getM_Product_ID(), null);
-		for (MProductPO productPO : productPOs)
-		{
+		Arrays.stream(productPOs).forEach(productPO -> {
 			if (productPO.isCurrentVendor() && productPO.getC_BPartner_ID() != 0)
 			{
-				partnerId = productPO.getC_BPartner_ID();
-				productPOLast = productPO;
-				break;
+				//partnerId = productPO.getC_BPartner_ID();
+				//productPOLast = productPO;
+				//break;
 			}
-		}
+		});
 		
 		if (partnerId == 0 && productPOs.length > 0)
 		{
@@ -362,7 +321,7 @@ public class ReleaseInOutBound extends SvrProcess
 
 		MRequisition requisition = new  MRequisition(getCtx(),0, get_TrxName());
 		requisition.setAD_Org_ID(outBoundLocator.getAD_Org_ID());
-		requisition.setAD_User_ID(userId);
+		requisition.setAD_User_ID(getAD_User_ID());
 		requisition.setDateRequired(outBoundOrderLine.getPickDate());
 		requisition.setDescription("Generate from Outbound Order"); // TODO: add translation
 		requisition.setM_Warehouse_ID(outBoundLocator.getM_Warehouse_ID());
@@ -410,14 +369,14 @@ public class ReleaseInOutBound extends SvrProcess
 			MPPProductBOM bom = MPPProductBOM.getDefault(product, get_TrxName());
 			if (bom != null) 
 			{		
-				MPPProductPlanning pp = null;
+				MPPProductPlanning productPlanning = null;
 				//Validate the BOM based in planning data 
 				if(bom == null)
 				{
-					pp = MPPProductPlanning.find(getCtx(), outBoundOrderLine.getAD_Org_ID(), 0, 0, product.getM_Product_ID(), null);
-					if(pp != null)
+					productPlanning = MPPProductPlanning.find(getCtx(), outBoundOrderLine.getAD_Org_ID(), 0, 0, product.getM_Product_ID(), null);
+					if(productPlanning != null)
 					{	
-						bom = (MPPProductBOM) pp.getPP_Product_BOM();
+						bom = (MPPProductBOM) productPlanning.getPP_Product_BOM();
 					}
 				}
 				if (bom != null) 
@@ -429,9 +388,9 @@ public class ReleaseInOutBound extends SvrProcess
 					}
 					MWorkflow workflow = MWorkflow.get(getCtx(), MWorkflow.getWorkflowSearchKey(product));
 					//Validate the workflow based in planning data 						
-					if(workflow == null && pp != null)
+					if(workflow == null && productPlanning != null)
 					{
-						workflow = pp.getAD_Workflow();
+						workflow = productPlanning.getAD_Workflow();
 					}
 					
 					if (plant_id > 0 && workflow != null)
@@ -441,16 +400,16 @@ public class ReleaseInOutBound extends SvrProcess
 						+ outBoundOrderLine.getParent().getDocumentNo();
 						
 						//Create temporary Product Planning to Create Manufacturing Order 
-						pp = new MPPProductPlanning(getCtx(), 0 , get_TrxName());
-						pp.setAD_Org_ID(outBoundOrderLine.getAD_Org_ID());
-						pp.setM_Product_ID(product.getM_Product_ID());
-						pp.setPlanner_ID(outBoundOrderLine.getParent().getSalesRep_ID());
-						pp.setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID());
-						pp.setAD_Workflow_ID(workflow.getAD_Workflow_ID());
-						pp.setM_Warehouse_ID(outBoundOrderLine.getM_Warehouse_ID());
-						pp.setS_Resource_ID(plant_id);
+						productPlanning = new MPPProductPlanning(getCtx(), 0 , get_TrxName());
+						productPlanning.setAD_Org_ID(outBoundOrderLine.getAD_Org_ID());
+						productPlanning.setM_Product_ID(product.getM_Product_ID());
+						productPlanning.setPlanner_ID(outBoundOrderLine.getParent().getSalesRep_ID());
+						productPlanning.setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID());
+						productPlanning.setAD_Workflow_ID(workflow.getAD_Workflow_ID());
+						productPlanning.setM_Warehouse_ID(outBoundOrderLine.getM_Warehouse_ID());
+						productPlanning.setS_Resource_ID(plant_id);
 						
-						order = MPPMRP.createMO( pp, 
+						order = MPPMRP.createMO( productPlanning,
 										outBoundOrderLine.getC_OrderLine_ID(),
 										outBoundOrderLine.getM_AttributeSetInstance_ID(),
 										qtySupply, 
@@ -500,8 +459,8 @@ public class ReleaseInOutBound extends SvrProcess
 	private ReportEngine getReportEngine(String formatName, String tableName,int recordId)
 	{
 		// Get Format & Data
-		int format_id= MPrintFormat.getPrintFormat_ID(formatName, MTable.getTable_ID(tableName), getAD_Client_ID());
-		MPrintFormat format = MPrintFormat.get(getCtx(), format_id, true);
+		int formatId= MPrintFormat.getPrintFormat_ID(formatName, MTable.getTable_ID(tableName), getAD_Client_ID());
+		MPrintFormat format = MPrintFormat.get(getCtx(), formatId, true);
 		if (format == null)
 		{
 			addLog("@NotFound@ @AD_PrintFormat_ID@");
