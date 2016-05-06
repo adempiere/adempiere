@@ -41,7 +41,6 @@ import org.compiere.pos.PosKeyListener;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -426,13 +425,16 @@ public class POSDocumentPanel extends POSSubPanel
 			allNumber = false;
 		}
 		String value = query;
+		String taxId = query;
 		String name = (allNumber ? null : query);
+		String name2 = (allNumber ? null : query);
+		String contact = (allNumber ? null : query);
 		String eMail = (query.indexOf('@') != -1 ? query : null);
 		String phone = (noNumber ? null : query);
 		String city = null;
 		//
-		MBPartnerInfo[] results = MBPartnerInfo.find(ctx, value, name,
-			/*Contact, */null, eMail, phone, city);
+		MBPartnerInfo[] results = MBPartnerInfo.find(ctx, value, taxId,
+			name, name2, contact , eMail, phone, city);
 		
 		//	Set Result
 		if (results.length == 1) {
