@@ -56,7 +56,7 @@ import org.compiere.util.Msg;
  *	Get result: getC_BPartner_ID
  *
  *  @author 	Jorg Janke
- *  @version 	$Id: VBPartner.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public final class VPOSBPartner extends CDialog implements ActionListener
 {
@@ -72,15 +72,15 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 	 * 	@param frame	parent
 	 * 	@param WindowNo	Window No
 	 */
-	public VPOSBPartner(Frame frame, int WindowNo, VPOS p_POSPanel)
+	public VPOSBPartner(Frame frame, int WindowNo, VPOS pos)
 	{
 		super(frame, Msg.translate(Env.getCtx(), "C_BPartner_ID"), true);
-		v_POSPanel = p_POSPanel;
-		m_WindowNo = WindowNo;
-		m_readOnly = !MRole.getDefault().canUpdate(
-			Env.getAD_Client_ID(Env.getCtx()), Env.getAD_Org_ID(Env.getCtx()), 
+		this.pos = pos;
+		windowNo = WindowNo;
+		isReadOnly = !MRole.getDefault().canUpdate(
+			Env.getAD_Client_ID(Env.getCtx()), Env.getAD_Org_ID(Env.getCtx()),
 			MBPartner.Table_ID, 0, false);
-		log.info("R/O=" + m_readOnly);
+		log.info("R/O=" + isReadOnly);
 		try
 		{
 			jbInit();
@@ -94,20 +94,20 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 		AEnv.positionCenterWindow(frame, this);
 	}	//	VBPartner
 
-	private VPOS 			v_POSPanel; 
-	private int 			m_WindowNo;
+	private VPOS 			pos;
+	private int 			windowNo;
 	/** The Partner				*/
-	private MBPartner		m_partner = null;
+	private MBPartner 		partner = null;
 	/** The Location			*/
-	private MBPartnerLocation	m_pLocation = null;
+	private MBPartnerLocation partnerLocation = null;
 	/** The User				*/
-	private MUser			m_user = null;
+	private MUser 			contact = null;
 	/** Read Only				*/
-	private boolean			m_readOnly = false;
+	private boolean 		isReadOnly = false;
 
 	
-	private Insets			m_labelInsets = new Insets(2,15,2,0);		// 	top,left,bottom,right
-	private Insets			m_fieldInsets = new Insets(2,5,2,10);		// 	top,left,bottom,right
+	private Insets 			labelInsets = new Insets(2,15,2,0);		// 	top,left,bottom,right
+	private Insets 			fieldInsets = new Insets(2,5,2,10);		// 	top,left,bottom,right
 	private GridBagConstraints m_gbc = new GridBagConstraints();
 	private int				m_line;
 	/**	Logger			*/
@@ -163,27 +163,27 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 		m_line = 0;
 
 		//	Value
-		fValue = new POSTextField("Value", v_POSPanel.getKeyboard());
+		fValue = new POSTextField("Value", pos.getKeyboard());
 		fValue.addActionListener(this);
 		fValue.setPreferredSize(new Dimension(300, 25));
 		createLine (fValue, "Value", true);
 		//	Name
-		fName = new POSTextField("Name", v_POSPanel.getKeyboard());
+		fName = new POSTextField("Name", pos.getKeyboard());
 		fName.addActionListener(this);
 		createLine (fName, "Name", false).setFontBold(true);
 		//	Name2
-		fName2 = new POSTextField("Name2", v_POSPanel.getKeyboard());
+		fName2 = new POSTextField("Name2", pos.getKeyboard());
 		createLine (fName2, "Name2", false);
 		
 		//	Contact
-		fContact = new POSTextField("Contact", v_POSPanel.getKeyboard());
+		fContact = new POSTextField("Contact", pos.getKeyboard());
 		createLine (fContact, "Contact", true).setFontBold(true);
 		//	Email
-		fEMail = new POSTextField("EMail", v_POSPanel.getKeyboard());
+		fEMail = new POSTextField("EMail", pos.getKeyboard());
 		createLine (fEMail, "EMail", false);
 		
 		//	Location
-		boolean ro = m_readOnly;
+		boolean ro = isReadOnly;
 		if (!ro)
 			ro = !MRole.getDefault().canUpdate(
 				Env.getAD_Client_ID(Env.getCtx()), Env.getAD_Org_ID(Env.getCtx()), 
@@ -192,14 +192,14 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 			ro = !MRole.getDefault().canUpdate(
 				Env.getAD_Client_ID(Env.getCtx()), Env.getAD_Org_ID(Env.getCtx()), 
 				MLocation.Table_ID, 0, false);
-		fAddress = new VLocation ("C_Location_ID", false, ro, true, new MLocationLookup (Env.getCtx(), m_WindowNo));
+		fAddress = new VLocation ("C_Location_ID", false, ro, true, new MLocationLookup (Env.getCtx(), windowNo));
 		fAddress.setValue (null);
 		createLine (fAddress, "C_Location_ID", true).setFontBold(true);
 		//	Phone
-		fPhone = new POSTextField("Phone", v_POSPanel.getKeyboard());
+		fPhone = new POSTextField("Phone", pos.getKeyboard());
 		createLine (fPhone, "Phone", true);
 		//	Phone2
-		fPhone2 = new POSTextField("Phone2", v_POSPanel.getKeyboard());
+		fPhone2 = new POSTextField("Phone2", pos.getKeyboard());
 		createLine (fPhone2, "Phone2", false);
 		//
 		fName.setBackground(AdempierePLAF.getFieldBackground_Mandatory());
@@ -220,7 +220,7 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 		{
 			m_gbc.gridy = m_line++;
 			m_gbc.gridx = 1;
-			m_gbc.insets = m_fieldInsets;
+			m_gbc.insets = fieldInsets;
 			centerPanel.add (Box.createHorizontalStrut(6), m_gbc);
 		}
 
@@ -229,17 +229,17 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 
 		//	Label
 		m_gbc.gridx = 0;
-		m_gbc.insets = m_labelInsets;
+		m_gbc.insets = labelInsets;
 		m_gbc.fill = GridBagConstraints.HORIZONTAL;
 		CLabel label = new CLabel(Msg.translate(Env.getCtx(), title));
 		centerPanel.add(label, m_gbc);
 
 		//	Field
 		m_gbc.gridx = 1;
-		m_gbc.insets = m_fieldInsets;
+		m_gbc.insets = fieldInsets;
 		m_gbc.fill = GridBagConstraints.HORIZONTAL;
 		centerPanel.add(field, m_gbc);
-		if (m_readOnly)
+		if (isReadOnly)
 			field.setEnabled(false);
 		return label;
 	}	//	createLine
@@ -255,45 +255,45 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 		//  New bpartner
 		if (C_BPartner_ID == 0)
 		{
-			m_partner = null;
-			m_pLocation = null;
-			m_user = null;
+			partner = null;
+			partnerLocation = null;
+			contact = null;
 			return true;
 		}
 
-		m_partner = new MBPartner (Env.getCtx(), C_BPartner_ID, null);
-		if (m_partner.get_ID() == 0)
+		partner = new MBPartner (Env.getCtx(), C_BPartner_ID, null);
+		if (partner.get_ID() == 0)
 		{
-			ADialog.error(m_WindowNo, this, "BPartnerNotFound");
+			ADialog.error(windowNo, this, "BPartnerNotFound");
 			return false;
 		}
 
 		//	BPartner - Load values
-		fValue.setText(m_partner.getValue());
-		fName.setText(m_partner.getName());
-		fName2.setText(m_partner.getName2());
+		fValue.setText(partner.getValue());
+		fName.setText(partner.getName());
+		fName2.setText(partner.getName2());
 
 		//	Contact - Load values
-		m_pLocation = m_partner.getLocation(
-			Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_BPartner_Location_ID"));
-		if (m_pLocation != null)
+		partnerLocation = partner.getLocation(
+			Env.getContextAsInt(Env.getCtx(), windowNo, "C_BPartner_Location_ID"));
+		if (partnerLocation != null)
 		{
-			int location = m_pLocation.getC_Location_ID();
+			int location = partnerLocation.getC_Location_ID();
 			fAddress.setValue (new Integer(location));
 			//
-			fPhone.setText(m_pLocation.getPhone());
-			fPhone2.setText(m_pLocation.getPhone2());
+			fPhone.setText(partnerLocation.getPhone());
+			fPhone2.setText(partnerLocation.getPhone2());
 		}
 		//	User - Load values
-		m_user = m_partner.getContact(
-			Env.getContextAsInt(Env.getCtx(), m_WindowNo, "AD_User_ID"));
-		if (m_user != null)
+		contact = partner.getContact(
+			Env.getContextAsInt(Env.getCtx(), windowNo, "AD_User_ID"));
+		if (contact != null)
 		{
-			fContact.setText(m_user.getName());
-			fEMail.setText(m_user.getEMail());
+			fContact.setText(contact.getName());
+			fEMail.setText(contact.getEMail());
 			//
-			fPhone.setText(m_user.getPhone());
-			fPhone2.setText(m_user.getPhone2());
+			fPhone.setText(contact.getPhone());
+			fPhone2.setText(contact.getPhone2());
 		}
 		return true;
 	}	//	loadBPartner
@@ -305,7 +305,7 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if (m_readOnly)
+		if (isReadOnly)
 			dispose();
 		//	copy value
 		else if (e.getSource() == fValue)
@@ -362,63 +362,63 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 			fAddress.setBackground(AdempierePLAF.getFieldBackground_Mandatory());
 
 		//	***** Business Partner *****
-		if (m_partner == null)
+		if (partner == null)
 		{
 			int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-			m_partner = MBPartner.getTemplate(Env.getCtx(), AD_Client_ID);
-			m_partner.setAD_Org_ID(Env.getAD_Org_ID(Env.getCtx())); // Elaine 2009/07/03
-			boolean isSOTrx = !"N".equals(Env.getContext(Env.getCtx(), m_WindowNo, "IsSOTrx"));
-			m_partner.setIsCustomer (isSOTrx);
-			m_partner.setIsVendor (!isSOTrx);
+			partner = MBPartner.getTemplate(Env.getCtx(), AD_Client_ID);
+			partner.setAD_Org_ID(Env.getAD_Org_ID(Env.getCtx())); // Elaine 2009/07/03
+			boolean isSOTrx = !"N".equals(Env.getContext(Env.getCtx(), windowNo, "IsSOTrx"));
+			partner.setIsCustomer (isSOTrx);
+			partner.setIsVendor (!isSOTrx);
 		}
 		//	Check Value
 		String value = fValue.getText();
 		if (value == null || value.length() == 0)
 		{
 			//	get Table Documet No
-			value = DB.getDocumentNo (Env.getAD_Client_ID(Env.getCtx()), "C_BPartner", null, m_partner);
+			value = DB.getDocumentNo (Env.getAD_Client_ID(Env.getCtx()), "C_BPartner", null, partner);
 			fValue.setText(value);
 		}
-		m_partner.setValue(fValue.getText());
+		partner.setValue(fValue.getText());
 		//
-		m_partner.setName(fName.getText());
-		m_partner.setName2(fName2.getText());
+		partner.setName(fName.getText());
+		partner.setName2(fName2.getText());
 
-		if (m_partner.save())
-			log.fine("C_BPartner_ID=" + m_partner.getC_BPartner_ID());
+		if (partner.save())
+			log.fine("C_BPartner_ID=" + partner.getC_BPartner_ID());
 		else
-			ADialog.error(m_WindowNo, this, "BPartnerNotSaved");
+			ADialog.error(windowNo, this, "BPartnerNotSaved");
 		
 		//	***** Business Partner - Location *****
-		if (m_pLocation == null)
-			m_pLocation = new MBPartnerLocation(m_partner);
-		m_pLocation.setC_Location_ID(fAddress.getC_Location_ID());
+		if (partnerLocation == null)
+			partnerLocation = new MBPartnerLocation(partner);
+		partnerLocation.setC_Location_ID(fAddress.getC_Location_ID());
 		//
-		m_pLocation.setPhone(fPhone.getText());
-		m_pLocation.setPhone2(fPhone2.getText());
-		if (m_pLocation.save())
-			log.fine("C_BPartner_Location_ID=" + m_pLocation.getC_BPartner_Location_ID());
+		partnerLocation.setPhone(fPhone.getText());
+		partnerLocation.setPhone2(fPhone2.getText());
+		if (partnerLocation.save())
+			log.fine("C_BPartner_Location_ID=" + partnerLocation.getC_BPartner_Location_ID());
 		else
-			ADialog.error(m_WindowNo, this, "BPartnerNotSaved", Msg.translate(Env.getCtx(), "C_BPartner_Location_ID"));
+			ADialog.error(windowNo, this, "BPartnerNotSaved", Msg.translate(Env.getCtx(), "C_BPartner_Location_ID"));
 			
 		//	***** Business Partner - User *****
 		String contact = fContact.getText();
 		String email = fEMail.getText();
-		if (m_user == null && (contact.length() > 0 || email.length() > 0))
-			m_user = new MUser (m_partner);
-		if (m_user != null)
+		if (this.contact == null && (contact.length() > 0 || email.length() > 0))
+			this.contact = new MUser (partner);
+		if (this.contact != null)
 		{
 			if (contact.length() == 0)
 				contact = fName.getText();
-			m_user.setName(contact);
-			m_user.setEMail(email);
+			this.contact.setName(contact);
+			this.contact.setEMail(email);
 			//
-			m_user.setPhone(fPhone.getText());
-			m_user.setPhone2(fPhone2.getText());
-			if (m_user.save())
-				log.fine("AD_User_ID=" + m_user.getAD_User_ID());
+			this.contact.setPhone(fPhone.getText());
+			this.contact.setPhone2(fPhone2.getText());
+			if (this.contact.save())
+				log.fine("AD_User_ID=" + this.contact.getAD_User_ID());
 			else
-				ADialog.error(m_WindowNo, this, "BPartnerNotSaved", Msg.translate(Env.getCtx(), "AD_User_ID"));
+				ADialog.error(windowNo, this, "BPartnerNotSaved", Msg.translate(Env.getCtx(), "AD_User_ID"));
 		}
 		return true;
 	}	//	actionSave
@@ -430,9 +430,9 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 	 */
 	public int getC_BPartner_ID()
 	{
-		if (m_partner == null)
+		if (partner == null)
 			return 0;
-		return m_partner.getC_BPartner_ID();
+		return partner.getC_BPartner_ID();
 	}	//	getBPartner_ID
 
 }	//	VPOSBPartner

@@ -362,14 +362,17 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, P
 		} catch (Exception e) {
 			allNumber = false;
 		}
-		String Value = query;
-		String Name = (allNumber ? null : query);
-		String EMail = (query.indexOf('@') != -1 ? query : null); 
-		String Phone = (noNumber ? null : query);
-		String City = null;
+		String value = query;
+		String taxId = query;
+		String name = (allNumber ? null : query);
+		String name2 = (allNumber ? null : query);
+		String contact = (allNumber ? null : query);
+		String eMail = (query.indexOf('@') != -1 ? query : null);
+		String phone = (noNumber ? null : query);
+		String city = null;
 		//
-		MBPartnerInfo[] results = MBPartnerInfo.find(ctx, Value, Name,
-			/*Contact, */null, EMail, Phone, City);
+		MBPartnerInfo[] results = MBPartnerInfo.find(ctx, value, taxId,
+			contact, name, name2 , eMail, phone, city);
 
 		//	Set Result
 		if (results.length == 1) {

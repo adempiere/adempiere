@@ -67,7 +67,9 @@ public class QueryBPartner extends POSQuery {
 	
 	/**	Search Fields		*/
 	private POSTextField fieldValue;
+	private POSTextField fieldTaxID;
 	private POSTextField fieldName;
+	private POSTextField fieldName2;
 	private POSTextField fieldContact;
 	private POSTextField fieldEmail;
 	private POSTextField fieldPhone;
@@ -83,7 +85,9 @@ public class QueryBPartner extends POSQuery {
 	private static ColumnInfo[] s_layout = new ColumnInfo[] {
 		new ColumnInfo(" ", "C_BPartner_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "Value", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "TaxID"), "TaxID", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Name2"), "Name2", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Email"), "Email", String.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Phone"), "Phone", String.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Postal"), "Postal", String.class), 
@@ -103,48 +107,63 @@ public class QueryBPartner extends POSQuery {
 		parameterPanel.setLayout(new MigLayout("fill","", "[50][50][]"));
 		parameterPanel.setBorder(new TitledBorder(Msg.getMsg(ctx, "Query")));
 		
-		CLabel lvalue = new CLabel(Msg.translate(ctx, "Value"));
-		parameterPanel.add (lvalue, " growy");
+		CLabel labelValue = new CLabel(Msg.translate(ctx, "Value"));
+		parameterPanel.add (labelValue, " growy");
 		fieldValue = new POSTextField("", posPanel.getKeyboard());
-		lvalue.setLabelFor(fieldValue);
+		labelValue.setLabelFor(fieldValue);
 		parameterPanel.add(fieldValue, "h 30, w 200");
 		fieldValue.addActionListener(this);
+
+		CLabel labelTaxID = new CLabel(Msg.translate(ctx, "TaxID"));
+		parameterPanel.add (labelTaxID, " growy");
+		fieldTaxID = new POSTextField("", posPanel.getKeyboard());
+		labelTaxID.setLabelFor(fieldTaxID);
+		parameterPanel.add(labelTaxID, "h 30, w 200");
+		fieldTaxID.addActionListener(this);
 		
 		//
-		CLabel lcontact = new CLabel(Msg.translate(ctx, "Contact"));
-		parameterPanel.add (lcontact, " growy");
+		CLabel labelContact = new CLabel(Msg.translate(ctx, "Contact"));
+		parameterPanel.add (labelContact, " growy");
 		fieldContact = new POSTextField("", posPanel.getKeyboard());
-		lcontact.setLabelFor(fieldContact);
+		labelContact.setLabelFor(fieldContact);
 		parameterPanel.add(fieldContact, "h 30, w 200");
 		fieldContact.addActionListener(this);
 		
 		//
-		CLabel lphone = new CLabel(Msg.translate(ctx, "Phone"));
-		parameterPanel.add (lphone, " growy");
+		CLabel labelPhone = new CLabel(Msg.translate(ctx, "Phone"));
+		parameterPanel.add (labelPhone, " growy");
 		fieldPhone = new POSTextField("", posPanel.getKeyboard());
-		lphone.setLabelFor(fieldPhone);
+		labelPhone.setLabelFor(fieldPhone);
 		parameterPanel.add(fieldPhone, "h 30, w 200, wrap");
 		fieldPhone.addActionListener(this);
 		
 		//
-		CLabel lname = new CLabel(Msg.translate(ctx, "Name"));
-		parameterPanel.add (lname, " growy");
+		CLabel labelName = new CLabel(Msg.translate(ctx, "Name"));
+		parameterPanel.add (labelName, " growy");
 		fieldName = new POSTextField("", posPanel.getKeyboard());
-		lname.setLabelFor(fieldName);
+		labelName.setLabelFor(fieldName);
 		parameterPanel.add(fieldName, "h 30, w 200");
 		fieldName.addActionListener(this);
+
+		CLabel labelName2 = new CLabel(Msg.translate(ctx, "Name2"));
+		parameterPanel.add (labelName2, " growy");
+		fieldName2 = new POSTextField("", posPanel.getKeyboard());
+		labelName2.setLabelFor(fieldName2);
+		parameterPanel.add(fieldName2, "h 30, w 200");
+		fieldName2.addActionListener(this);
+
 		//
-		CLabel lemail = new CLabel(Msg.translate(ctx, "Email"));
-		parameterPanel.add (lemail, " growy");
+		CLabel labelEmail = new CLabel(Msg.translate(ctx, "Email"));
+		parameterPanel.add (labelEmail, " growy");
 		fieldEmail = new POSTextField("", posPanel.getKeyboard());
-		lemail.setLabelFor(fieldEmail);
+		labelEmail.setLabelFor(fieldEmail);
 		parameterPanel.add(fieldEmail, "h 30, w 200");
 		fieldEmail.addActionListener(this);
 		//
-		CLabel lcity = new CLabel(Msg.translate(ctx, "City"));
-		parameterPanel.add (lcity, " growy");
+		CLabel labelCity = new CLabel(Msg.translate(ctx, "City"));
+		parameterPanel.add (labelCity, " growy");
 		fieldCity = new POSTextField("", posPanel.getKeyboard());
-		lcity.setLabelFor(fieldCity);
+		labelCity.setLabelFor(fieldCity);
 		parameterPanel.add(fieldCity, "h 30, w 200");
 		fieldCity.addActionListener(this);
 		
@@ -224,7 +243,7 @@ public class QueryBPartner extends POSQuery {
 		try  {
 
 			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			sql.append(" SELECT b.C_BPartner_ID, b.Value, b.Name, u.Email, u.Phone, l.Postal, lb.name AS City")
+			sql.append(" SELECT b.C_BPartner_ID, b.Value, b.TaxID , b.Name , b.Name2 , u.Email, u.Phone, l.Postal, lb.name AS City")
 				.append(" FROM C_BPartner AS b")
 				.append(" INNER JOIN AD_User u ON (u.C_BPartner_ID = b.C_BPartner_ID)")
 				.append(" INNER JOIN C_BPartner_Location lb ON (lb.C_BPartner_ID = b.C_BPartner_ID)")
@@ -261,9 +280,9 @@ public class QueryBPartner extends POSQuery {
 		int row = posTable.getSelectedRow();
 		boolean enabled = row != -1;
 		if (enabled) {
-			Integer ID = posTable.getSelectedRowKey();
-			if (ID != null) {
-				partnerId = ID.intValue();
+			Integer id = posTable.getSelectedRowKey();
+			if (id != null) {
+				partnerId = id.intValue();
 				partnerName = (String) posTable.getValueAt(row, 2);
 			}
 		}
@@ -281,7 +300,9 @@ public class QueryBPartner extends POSQuery {
 	@Override
 	public void reset() {
 		fieldValue.setText(null);
+		fieldTaxID.setText(null);
 		fieldName.setText(null);
+		fieldName2.setText(null);
 		fieldContact.setText(null);
 		fieldEmail.setText(null);
 		fieldPhone.setText(null);
@@ -294,9 +315,9 @@ public class QueryBPartner extends POSQuery {
 	public void refresh() {
 		cleanValues();
 		setResults(MBPartnerInfo.find (ctx,
-				fieldValue.getText(), fieldName.getText(),
-				null, fieldEmail.getText(),
-				fieldPhone.getText(), fieldCity.getText()));
+				fieldValue.getText(), fieldTaxID.getText(),
+				fieldName.getText(), fieldName2.getText(),
+				fieldContact.getText(), fieldEmail.getText(), fieldPhone.getText(), fieldCity.getText()));
 	}
 	
 	/**

@@ -72,7 +72,9 @@ public class WQueryBPartner extends WPOSQuery {
 	}	//	PosQueryBPartner
 	
 	private WPOSTextField 		fieldValue;
+	private WPOSTextField 		fieldTaxID;
 	private WPOSTextField 		fieldName;
+	private WPOSTextField 		fieldName2;
 	private WPOSTextField 		fieldContact;
 	private WPOSTextField 		fieldEmail;
 	private WPOSTextField 		fieldPhone;
@@ -91,7 +93,9 @@ public class WQueryBPartner extends WPOSQuery {
 	{
 		new ColumnInfo(" ", "C_BPartner_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "Value", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "TaxID"), "TaxID", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Name2"), "Name2", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Email"), "Email", String.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Phone"), "Phone", String.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Postal"), "Postal", String.class), 
@@ -139,27 +143,37 @@ public class WQueryBPartner extends WPOSQuery {
 		rows = bPartnerLayout.newRows();
 		row = rows.newRow();
 		
-		Label lValue = new Label(Msg.translate(ctx, "Value"));
-		row.appendChild(lValue.rightAlign());
-		lValue.setStyle(WPOS.FONTSIZESMALL);
+		Label labelValue = new Label(Msg.translate(ctx, "Value"));
+		row.appendChild(labelValue.rightAlign());
+		labelValue.setStyle(WPOS.FONTSIZESMALL);
 		fieldValue = new WPOSTextField(null, posPanel.getKeyboard());
 		row.appendChild(fieldValue);
 		fieldValue.setWidth("120px");
 		fieldValue.addEventListener(this);
 		fieldValue.setStyle(WPOS.FONTSIZESMALL);
+
+		Label labelTaxID = new Label(Msg.translate(ctx, "TaxID"));
+		row.appendChild(labelTaxID.rightAlign());
+		labelValue.setStyle(WPOS.FONTSIZESMALL);
+		fieldTaxID = new WPOSTextField(null, posPanel.getKeyboard());
+		row.appendChild(fieldTaxID);
+		fieldTaxID.setWidth("120px");
+		fieldTaxID.addEventListener(this);
+		fieldTaxID.setStyle(WPOS.FONTSIZESMALL);
+
 		
-		Label lContact = new Label(Msg.translate(ctx, "Contact"));
-		row.appendChild(lContact.rightAlign());
-		lContact.setStyle(WPOS.FONTSIZESMALL);
+		Label labelContact = new Label(Msg.translate(ctx, "Contact"));
+		row.appendChild(labelContact.rightAlign());
+		labelContact.setStyle(WPOS.FONTSIZESMALL);
 		fieldContact = new WPOSTextField(null, posPanel.getKeyboard());
 		row.appendChild(fieldContact);
 		fieldContact.setWidth("120px");
 		fieldContact.addEventListener(this);
 		fieldContact.setStyle(WPOS.FONTSIZESMALL);
 		
-		Label lPhone = new Label(Msg.translate(ctx, "Phone"));
-		row.appendChild(lPhone.rightAlign());
-		lPhone.setStyle(WPOS.FONTSIZESMALL);
+		Label labelPhone = new Label(Msg.translate(ctx, "Phone"));
+		row.appendChild(labelPhone.rightAlign());
+		labelPhone.setStyle(WPOS.FONTSIZESMALL);
 		fieldPhone = new WPOSTextField(null, posPanel.getKeyboard());
 		row.appendChild(fieldPhone);
 		fieldPhone.setWidth("120px");
@@ -168,27 +182,38 @@ public class WQueryBPartner extends WPOSQuery {
 		
 		// New Line
 		row = rows.newRow();
-		Label lName = new Label(Msg.translate(ctx, "Name"));
-		row.appendChild(lName.rightAlign());
-		lName.setStyle(WPOS.FONTSIZESMALL);
+		Label labelName = new Label(Msg.translate(ctx, "Name"));
+		row.appendChild(labelName.rightAlign());
+		labelName.setStyle(WPOS.FONTSIZESMALL);
 		fieldName = new WPOSTextField(null, posPanel.getKeyboard());
 		row.appendChild(fieldName);
 		fieldName.addEventListener(this);
 		fieldName.setWidth("120px");
 		fieldName.setStyle(WPOS.FONTSIZESMALL);
+
+		// New Line
+		row = rows.newRow();
+		Label labelName2 = new Label(Msg.translate(ctx, "Name2"));
+		row.appendChild(labelName.rightAlign());
+		labelName2.setStyle(WPOS.FONTSIZESMALL);
+		fieldName2 = new WPOSTextField(null, posPanel.getKeyboard());
+		row.appendChild(fieldName2);
+		fieldName2.addEventListener(this);
+		fieldName2.setWidth("120px");
+		fieldName2.setStyle(WPOS.FONTSIZESMALL);
 		//
-		Label lEmail = new Label(Msg.translate(ctx, "Email"));
-		row.appendChild(lEmail.rightAlign());
-		lEmail.setStyle(WPOS.FONTSIZESMALL);
+		Label labelEmail = new Label(Msg.translate(ctx, "Email"));
+		row.appendChild(labelEmail.rightAlign());
+		labelEmail.setStyle(WPOS.FONTSIZESMALL);
 		fieldEmail = new WPOSTextField(null, posPanel.getKeyboard());
 		row.appendChild(fieldEmail);
 		fieldEmail.addEventListener(this);
 		fieldEmail.setWidth("120px");
 		fieldEmail.setStyle(WPOS.FONTSIZESMALL);
 		//
-		Label lCity = new Label(Msg.translate(ctx, "City"));
-		row.appendChild(lCity.rightAlign());
-		lCity.setStyle(WPOS.FONTSIZESMALL);
+		Label labelCity = new Label(Msg.translate(ctx, "City"));
+		row.appendChild(labelCity.rightAlign());
+		labelCity.setStyle(WPOS.FONTSIZESMALL);
 		fieldCity = new WPOSTextField(null, posPanel.getKeyboard());
 		fieldCity.setWidth("120px");
 		row.appendChild(fieldCity);
@@ -290,7 +315,9 @@ public class WQueryBPartner extends WPOSQuery {
 	@Override
 	public void reset() {
 		fieldValue.setText(null);
+		fieldTaxID.setText(null);
 		fieldName.setText(null);
+		fieldName2.setText(null);
 		fieldContact.setText(null);
 		fieldEmail.setText(null);
 		fieldPhone.setText(null);
@@ -395,6 +422,12 @@ public class WQueryBPartner extends WPOSQuery {
 				fieldName.setValue(m_Text);
 			fieldName.setFocus(true);
 		}
+		else if(e.getTarget().equals(fieldName2.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			m_Text = showKeyboard(e);
+			if(showKeyboard(e).length() > 0)
+				fieldName2.setValue(m_Text);
+			fieldName2.setFocus(true);
+		}
 		else if(e.getTarget().equals(fieldContact.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			m_Text = showKeyboard(e);
 			if(showKeyboard(e).length() > 0)
@@ -406,6 +439,12 @@ public class WQueryBPartner extends WPOSQuery {
 			if(showKeyboard(e).length() > 0)
 				fieldValue.setValue(m_Text);
 			fieldValue.setFocus(true);
+		}
+		else if(e.getTarget().equals(fieldTaxID.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			m_Text = showKeyboard(e);
+			if(showKeyboard(e).length() > 0)
+				fieldTaxID.setValue(m_Text);
+			fieldTaxID.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldEmail.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			m_Text = showKeyboard(e);
@@ -428,8 +467,10 @@ public class WQueryBPartner extends WPOSQuery {
 			fieldPhone.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldName.getComponent(WPOSTextField.PRIMARY))
+					|| e.getTarget().equals(fieldName2.getComponent(WPOSTextField.PRIMARY))
 					|| e.getTarget().equals(fieldContact.getComponent(WPOSTextField.PRIMARY))
 					|| e.getTarget().equals(fieldValue.getComponent(WPOSTextField.PRIMARY))
+					|| e.getTarget().equals(fieldTaxID.getComponent(WPOSTextField.PRIMARY))
 					|| e.getTarget().equals(fieldEmail.getComponent(WPOSTextField.PRIMARY))
 					|| e.getTarget().equals(fieldCity.getComponent(WPOSTextField.PRIMARY))
 					|| e.getTarget().equals(fieldPhone.getComponent(WPOSTextField.PRIMARY))) {
@@ -471,9 +512,9 @@ public class WQueryBPartner extends WPOSQuery {
 	public void refresh() {
 		lockUI();
 		setResults(MBPartnerInfo.find (ctx,
-				fieldValue.getText(), fieldName.getText(),
-				null, fieldEmail.getText(),
-				fieldPhone.getText(), fieldCity.getText()));
+				fieldValue.getText(), fieldTaxID.getText(),
+				fieldName.getText(), fieldName2.getText() ,
+				null, fieldEmail.getText(), fieldPhone.getText(), fieldCity.getText()));
 		unlockUI();
 	}
 
