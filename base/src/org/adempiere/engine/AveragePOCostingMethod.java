@@ -348,7 +348,7 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 				if (adjustCost.signum() != 0) {
 					costDetail.setCostAdjustmentDate(model.getDateAcct());
 					costDetail.setCostAdjustment(adjustCost);
-					//costDetail.setCostAmt(BigDecimal.ZERO);
+					costDetail.setCostAmt(BigDecimal.ZERO);
 					costDetail.setAmt(costDetail.getAmt().add(
 							costDetail.getCostAdjustment()));
 					costDetail.setDescription(description + " Adjust Cost:"
@@ -360,7 +360,7 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 							.getDescription() : "";
 					costDetail.setCostAdjustmentDateLL(model.getDateAcct());
 					costDetail.setCostAdjustmentLL(adjustCostLowerLevel);
-					//costDetail.setCostAmtLL(BigDecimal.ZERO);
+					costDetail.setCostAmtLL(BigDecimal.ZERO);
 					costDetail.setAmt(costDetail.getCostAmtLL().add(
 							costDetail.getCostAdjustmentLL()));
 					costDetail.setDescription(description
@@ -653,7 +653,7 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 
 			//get landed allocation cost
 			for (MLandedCostAllocation allocation : 
-				MLandedCostAllocation.getOfInOuline(line,
+				MLandedCostAllocation.getOfInOutline(line,
 							costElement.getM_CostElement_ID()))
 			{
 				//System.out.println("Allocation : " + allocation.getC_LandedCostAllocation_ID() +  " Amount:" +  allocation.getAmt());
