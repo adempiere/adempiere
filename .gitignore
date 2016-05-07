@@ -3,6 +3,7 @@ lib/
 out/
 posterita/posterita/dist/
 posterita/posterita/web/WEB-INF/classes/
+install/build/
 install/lib/
 install/CInstall.jar
 zkwebui/WEB-INF/classes/metainfo/zk/lang-addon.xml

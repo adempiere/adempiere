@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import javax.swing.Box;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+
 import org.adempiere.exceptions.DBException;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
@@ -125,7 +127,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			setMode(MODE_VERTICAL);
 			this.setLayout(mainLayout);
 			centerPanel.setLayout(centerLayout);
-			this.add(centerPanel, BorderLayout.CENTER);
+			this.add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 		}	//	jbInit
 
 		/**
