@@ -92,7 +92,7 @@ public class ProcessClassGenerator {
 		 	.append(" */\n");
 		//	Add Class Name
 		header
-			.append("public abstract class ").append(className).append(" extends ").append(parentClassName)
+			.append("public class ").append(className).append(" extends ").append(parentClassName)
 			.append("\n{");
 		
 		//	Add Prepare method
