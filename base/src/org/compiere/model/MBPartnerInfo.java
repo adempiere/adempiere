@@ -41,52 +41,67 @@ public class MBPartnerInfo extends X_RV_BPartner
 	/**
 	 * 	Find BPartners
 	 *	@param ctx context
-	 *	@param Value Business Partner Value
-	 *	@param Name Business Partner Name
-	 *	@param Contact Contact/User Name
-	 *	@param EMail Contact/User EMail
-	 *	@param Phone phone
-	 *	@param City city
-	 *	@return array if of info
+	 *	@param value Business Partner Value
+	 *	@param taxId Business Partner TaxID
+	 *	@param name Business Partner Name
+	 * @param name2 Business Partner Name2
+	 * @param contact Contact/User Name
+	 * @param eMail Contact/User EMail
+	 * @param phone phone
+	 * @param city city      @return array if of info
 	 */
-	public static MBPartnerInfo[] find (Properties ctx, 
-		String Value, String Name, String Contact, String EMail, String Phone, String City)
+	public static MBPartnerInfo[] find(Properties ctx,
+									   String value, String taxId, String name, String name2, String contact, String eMail, String phone, String city)
 	{
 		StringBuffer sql = new StringBuffer ("SELECT * FROM RV_BPartner WHERE IsActive='Y'");
 		StringBuffer sb = new StringBuffer();
-		Value = getFindParameter (Value);
-		if (Value != null)
+		value = getFindParameter (value);
+		if (value != null)
 			sb.append("UPPER(Value) LIKE ?");
-		Name = getFindParameter (Name);
-		if (Name != null)
+
+		taxId = getFindParameter (taxId);
+		if (taxId != null)
+			sb.append("UPPER(TaxID) LIKE ?");
+
+		name = getFindParameter (name);
+		if (name != null)
 		{
 			if (sb.length() > 0)
 				sb.append(" OR ");
 			sb.append("UPPER(Name) LIKE ?");
 		}
-		Contact = getFindParameter (Contact);
-		if (Contact != null)
+
+		name2 = getFindParameter (name2);
+		if (name2 != null)
+		{
+			if (sb.length() > 0)
+				sb.append(" OR ");
+			sb.append("UPPER(Name2) LIKE ?");
+		}
+
+		contact = getFindParameter (contact);
+		if (contact != null)
 		{
 			if (sb.length() > 0)
 				sb.append(" OR ");
 			sb.append("UPPER(ContactName) LIKE ?");
 		}
-		EMail = getFindParameter (EMail);
-		if (EMail != null)
+		eMail = getFindParameter (eMail);
+		if (eMail != null)
 		{
 			if (sb.length() > 0)
 				sb.append(" OR ");
 			sb.append("UPPER(EMail) LIKE ?");
 		}
-		Phone = getFindParameter (Phone);
-		if (Phone != null)
+		phone = getFindParameter (phone);
+		if (phone != null)
 		{
 			if (sb.length() > 0)
 				sb.append(" OR ");
 			sb.append("UPPER(Phone) LIKE ?");
 		}
-		City = getFindParameter (City);
-		if (City != null)
+		city = getFindParameter (city);
+		if (city != null)
 		{
 			if (sb.length() > 0)
 				sb.append(" OR ");
@@ -104,18 +119,22 @@ public class MBPartnerInfo extends X_RV_BPartner
 		{
 			pstmt = DB.prepareStatement(finalSQL, null);
 			int index = 1;
-			if (Value != null)
-				pstmt.setString(index++, Value);
-			if (Name != null)
-				pstmt.setString(index++, Name);
-			if (Contact != null)
-				pstmt.setString(index++, Contact);
-			if (EMail != null)
-				pstmt.setString(index++, EMail);
-			if (Phone != null)
-				pstmt.setString(index++, Phone);
-			if (City != null)
-				pstmt.setString(index++, City);
+			if (value != null)
+				pstmt.setString(index++, value);
+			if (taxId != null)
+				pstmt.setString(index++, taxId);
+			if (name != null)
+				pstmt.setString(index++, name);
+			if (name2 != null)
+				pstmt.setString(index++, name2);
+			if (contact != null)
+				pstmt.setString(index++, contact);
+			if (eMail != null)
+				pstmt.setString(index++, eMail);
+			if (phone != null)
+				pstmt.setString(index++, phone);
+			if (city != null)
+				pstmt.setString(index++, city);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MBPartnerInfo (ctx, rs, null));

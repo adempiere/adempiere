@@ -193,8 +193,8 @@ public class QueryBPartner extends PosQuery
 			)
 		{
 			setResults(MBPartnerInfo.find (p_ctx,
-				f_value.getText(), f_name.getText(), 
-				null, f_email.getText(),
+				f_value.getText(), null , f_name.getText(),
+				null, null, f_email.getText(),
 				f_phone.getText(), f_city.getText()));
 			return;
 		}

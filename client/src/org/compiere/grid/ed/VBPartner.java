@@ -110,7 +110,7 @@ public final class VBPartner extends CDialog implements ActionListener
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VBPartner.class);
 	//
-	private VString	fValue, fName, fName2, fContact, fTitle, fPhone, fFax, fPhone2, fEMail;
+	private VString	fValue, fName, fName2, fTaxId , fContact, fTitle, fPhone, fFax, fPhone2, fEMail;
 	private VLocation 		fAddress;
 	private JComboBox 		fGreetingBP, fGreetingC;
 	//
@@ -175,6 +175,10 @@ public final class VBPartner extends CDialog implements ActionListener
 		//	Name2
 		fName2 = new VString("Name2", false, false, true, 30, 60, "", null);
 		createLine (fName2, "Name2", false);
+
+		//	TaxId
+		fTaxId = new VString("TaxID", false, false, true, 30, 60, "", null);
+		createLine (fTaxId, "TaxID", false);
 		
 		//	Contact
 		fContact = new VString("Contact", false, false, true, 30, 60, "", null);
@@ -309,6 +313,7 @@ public final class VBPartner extends CDialog implements ActionListener
 		fGreetingBP.setSelectedItem(getGreeting(m_partner.getC_Greeting_ID()));
 		fName.setText(m_partner.getName());
 		fName2.setText(m_partner.getName2());
+		fTaxId.setText(m_partner.getTaxID());
 
 		//	Contact - Load values
 		m_pLocation = m_partner.getLocation(
@@ -415,6 +420,7 @@ public final class VBPartner extends CDialog implements ActionListener
 		//
 		m_partner.setName(fName.getText());
 		m_partner.setName2(fName2.getText());
+		m_partner.setTaxID(fTaxId.getText());
 		KeyNamePair p = (KeyNamePair)fGreetingBP.getSelectedItem();
 		if (p != null && p.getKey() > 0)
 			m_partner.setC_Greeting_ID(p.getKey());
@@ -429,7 +435,7 @@ public final class VBPartner extends CDialog implements ActionListener
 		if (m_pLocation == null)
 			m_pLocation = new MBPartnerLocation(m_partner);
 		m_pLocation.setC_Location_ID(fAddress.getC_Location_ID());
-		//
+		m_pLocation.setEMail(fEMail.getText());
 		m_pLocation.setPhone(fPhone.getText());
 		m_pLocation.setPhone2(fPhone2.getText());
 		m_pLocation.setFax(fFax.getText());
