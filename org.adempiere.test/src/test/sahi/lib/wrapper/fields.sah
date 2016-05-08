@@ -1,0 +1,524 @@
+/* *****************************************************************************
+ *
+ *    fields.sah
+ *
+ *  Functions related to fields in ADempiere and operations related to set, get
+ *  and asserting of the fields. The following field types are addressed:
+ *    
+ *    - text fields  (Name, Name2, POReference, etc...)
+ *    - testarea fields (Description, etc...)
+ *    - list fields
+ *    - search fields
+ *    - number fields
+ *    - date fields
+ *    - date & time fields
+ *    - checkbox
+ *    - button
+ *
+ *  Operations on fields include
+ *
+ *    set - set the value of the field
+ *    get - get the value of the field
+ *    check - check the check box
+ *    uncheck - uncheck the check box
+ *    toggle - toggle the check box
+ * 
+ *    Functions names follow this format:
+ *    fOperationFieldtype($FieldName, [parameter1,] [parame ...)
+ *
+ *    $FieldName is the ADempiere column name ie "C_BPartner_ID"
+ * 
+ *    Set functions on list and search fields will perform a requery on the 
+ *    field prior to setting the data.
+ *
+ *    
+ ******************************************************************************/
+  
+//<browser>
+/*******************************************************************
+ *
+ * fText($FieldName)
+ * 
+ * Returns the element for the specified field
+ *
+ *******************************************************************/
+function fText($FieldName){
+	/* Double underscores required to prevent scheduling */
+	__assertExists(__textbox("/^Field_"+ $FieldName + "_/"), "Error: fText() can't find field " + $FieldName);
+	return __textbox("/^Field_"+ $FieldName + "_/");
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+*
+* fTextModal($FieldName)
+* 
+* Returns the element for the specified field in a modal window
+*
+*******************************************************************/
+function fTextModal($FieldName){
+	/* Double underscores required to prevent scheduling */
+	__assertExists(__textbox("/^Field_"+ $FieldName + "_/", __in(__div("z-window-modal"))), "Error: fTextModal() can't find field " + $FieldName);
+	return __textbox("/^Field_"+ $FieldName + "_/", __in(__div("z-window-modal")));
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+ *
+ * fGetText($FieldName)
+ * 
+ * Get the value/contents of a simple text field.
+ *
+ *******************************************************************/
+function fGetText($FieldName) {
+	return __getText(fText($FieldName));
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+ *
+ * fGetTextModal($FieldName)
+ * 
+ * Get the value/contents of a simple text field in a modal window.
+ *
+ *******************************************************************/
+function fGetTextModal($FieldName) {
+	return __getText(fTextModal($FieldName));
+}
+//</browser>
+
+/*******************************************************************
+ *
+ * fSetText($FieldName, $Value)
+ * 
+ * Set a simple text field to a value.
+ *
+ *******************************************************************/
+function fSetText($FieldName, $Value){
+	_setValue(fText($FieldName), $Value);
+	_removeFocus(fText($FieldName));
+	_assertEqual($Value, fGetText($FieldName), "Error: fSetText() failed to set field " + $FieldName + " to value = " + $Value);
+}
+
+/*******************************************************************
+*
+* fSetTextModal($FieldName, $Value)
+* 
+* Set a simple text field to a value in a modal window.
+*
+*******************************************************************/
+function fSetTextModal($FieldName, $Value){
+	_setValue(fTextModal($FieldName), $Value);
+	_removeFocus(fTextModal($FieldName));
+	_assertEqual($Value, fGetTextModal($FieldName), "Error: fSetTextModal() failed to set field " + $FieldName + " to value = " + $Value);
+}
+
+//<browser>
+/*******************************************************************
+ *
+ * fTextArea($FieldName)
+ * 
+ * Returns the element for the specified field
+ *
+ *******************************************************************/
+function fTextArea($FieldName){
+
+	/* Double underscores required to prevent scheduling */
+	__assertExists(__textarea("/^Field_"+ $FieldName + "_/"), "Error: fTextArea() can't find field " + $FieldName);
+	return __textarea("/^Field_"+ $FieldName + "_/");
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+ *
+ * fGetTextArea($FieldName)
+ * 
+ * Get the value/contents of a text area field.
+ *
+ *******************************************************************/
+function fGetTextArea($FieldName) {
+	return __getText(fTextArea($FieldName));
+}
+//</browser>
+
+/*******************************************************************
+ *
+ * fSetTextArea($FieldName, $Value)
+ * 
+ * Set a text area field to a value.
+ *
+ *******************************************************************/
+function fSetTextArea($FieldName, $Value){
+	_setValue(fTextArea($FieldName), $Value);
+	_removeFocus(fTextArea($FieldName));
+	_assertEqual($Value, fGetTextArea($FieldName), "Error: fSetTextArea() failed to set field " + $FieldName + " to value = " + $Value);
+}
+
+//<browser>
+/*******************************************************************
+ *
+ * fList($FieldName)
+ * 
+ * Returns the element for the specified field
+ *
+ *******************************************************************/
+function fList($FieldName){
+
+	return fText($FieldName); /* Uses the same id as the text field */
+}
+//</browser>
+
+//<browser>
+/********************************************************************
+ *
+ * fGetList($FieldName)
+ * 
+ * Get the value/contents of a list field.
+ *
+ *******************************************************************/
+function fGetList($FieldName) {
+	return __getText(fList($FieldName));
+}
+//</browser>
+
+/*******************************************************************
+ *
+ * fSetList($FieldName, $Value)
+ * 
+ * Set a list field to a value. No Requery.
+ *
+ *******************************************************************/
+function fSetList($FieldName, $Value){
+	
+	fSetListRq($FieldName, $Value, "N");
+}
+
+/******************************************************************** 
+ * fSetListRq($FieldName, $Value, $Requery)
+ * 
+ * Set a list field to a value. Option to Requery if $Requery = "Y"
+ *
+ *******************************************************************/
+function fSetListRq($FieldName, $Value, $Requery){
+	
+	if($Requery == "Y") {
+		fRequeryList($FieldName);
+	}
+	_setValue(fList($FieldName), $Value);
+	_keyPress(fList($FieldName), [13,13]);
+	//_removeFocus(fList($FieldName));
+	_assertEqual($Value, fGetList($FieldName), "Error: fSetList() failed to set field " + $FieldName + " to value = " + $Value);
+}
+ 
+/****************************************************************** *
+ * fRequeryList($FieldName)
+ * 
+ * Requery a record
+ *
+ *******************************************************************/
+function fRequeryList($FieldName){
+	_rightClick(fList($FieldName));
+	_click(_link("Re&Query")); //Requery
+}
+
+//<browser>
+/*******************************************************************
+ *
+ * fSearch($FieldName)
+ * 
+ * Returns the element for the specified field
+ *
+ *******************************************************************/
+function fSearch($FieldName){
+	/* Double underscores required to prevent scheduling */
+	//__assertExists(__textbox(/^zk/, __in(__div("/^Field_" + $FieldName + "_/"))), "Error: fSearch() can't find field " + $FieldName);
+	return __textbox(/^zk/, __in(__div("/^Field_" + $FieldName + "_/")));
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+ *
+ * fGetSearch($FieldName)
+ * 
+ * Get the value/contents of a search field.
+ *
+ *******************************************************************/
+function fGetSearch($FieldName) {
+	return __getText(fSearch($FieldName));
+}
+//</browser>
+
+/*******************************************************************
+ *
+ * fGetSearchNotBrowser($FieldName)
+ * 
+ * Get the value/contents of a search field.
+ *
+ *******************************************************************/
+function fGetSearchNotBrowser($FieldName) {
+	return _getText(_textbox(/^zk/, _in(_div("/^Field_" + $FieldName + "_/"))));
+}
+
+/*******************************************************************
+ *
+ * fClickSearchButton($FieldName)
+ * 
+ * Returns the element for the specified field
+ *
+ *******************************************************************/
+function fClickSearchButton($FieldName){
+	var $imageName = "Search10.png";
+	
+	if ($FieldName == "M_Product_ID")
+		$imageName = "Product10.png";
+	else if ($FieldName == "M_PAttributeSetInstance_ID")
+		$imageName = "PAttribute10.png";
+	else if ($FieldName == "C_BPartner_ID")
+		$imageName = "BPartner10.png";
+
+	_assertExists(_image("/" + $imageName + "/", _in(_div("/^Field_" + $FieldName + "_/"))), "Error: fClickSearch() can't find field " + $FieldName);
+	_click(_image("/" + $imageName + "/", _in(_div("/^Field_" + $FieldName + "_/"))));
+	
+}
+
+/********************************************************************
+*
+* fRequerySearch($FieldName)
+* 
+* Requery a record
+*
+*******************************************************************/
+function fRequerySearch($FieldName){
+	_rightClick(fSearch($FieldName));
+	_click(_link("Re&Query")); //Requery
+}
+
+/********************************************************************
+ *
+ * fSetSearchRq($FieldName, $Value, $Requery)
+ * 
+ * Set a search field to a value.  Optionally, requery the field
+ * if $Requery = true
+ *
+ *******************************************************************/
+function fSetSearchRq($FieldName, $Value, $Requery){
+	
+	if ($Requery == "Y") {
+		fRequerySearch($FieldName);
+	}
+	if ($Value == "") {
+		if (_condition(String(_getValue(fSearch($FieldName))) == "")) {
+			//  Avoid triggering the lookup window
+			return;
+		}
+	}
+	_setValue(fSearch($FieldName), $Value);
+	_keyPress(fSearch($FieldName), [13,13]);
+	//_removeFocus(fSearch($FieldName));
+	//  The following assert will fail if the search has a modified display other than value.
+	//_assertEqual($Value, fGetSearch($FieldName), "Error: fSetSearch() failed to set field " + $FieldName + " to value = " + $Value);
+}
+
+/********************************************************************
+ *
+ * fSetSearch($FieldName, $Value)
+ * 
+ * Set a search field to a value.  No requery.
+ *
+ *******************************************************************/
+function fSetSearch($FieldName, $Value){
+	
+	fSetSearchRq($FieldName, $Value, "N");
+}
+ 
+//<browser>
+/********************************************************************
+ *
+ * fAmount($FieldName)
+ * 
+ * Returns the element for the specified field
+ *
+ *******************************************************************/
+function fAmount($FieldName){
+	/* Double underscores required to prevent scheduling */
+	//__assertExists(__textbox(/^zk/, __in(__div("/^Field_" + $FieldName + "_/"))), "Error: fAmount() can't find field " + $FieldName);
+	return __textbox(/^zk/, __in(__div("/^Field_" + $FieldName + "_/")));
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+ *
+ * fGetAmount($FieldName)
+ * 
+ * Get the value/contents of an amount field.
+ *
+ *******************************************************************/
+function fGetAmount($FieldName) {
+	return __getText(fAmount($FieldName));
+}
+//</browser>
+
+/* *******************************************************************
+ *
+ * fSetAmount($FieldName, $Value)
+ * 
+ * Set a amount field to a value.
+ *
+ *******************************************************************/
+function fSetAmount($FieldName, $Value){
+	
+	_setValue(fAmount($FieldName), $Value);
+//	_removeFocus(fAmount($FieldName));
+//	_assertEqual($Value, fGetAmount($FieldName), "Error: fSetAmount() failed to set field " + $FieldName + " to value = " + $Value);
+}
+
+//<browser>
+/* *******************************************************************
+*
+* fCheckbox($FieldName)
+* 
+* Returns the element for the specified field
+*
+*******************************************************************/
+function fCheckbox($FieldName){
+	/* Double underscores required to prevent scheduling */
+	__assertExists(__checkbox("/^Field_" + $FieldName + "_/", __in(__span("/^Field_" + $FieldName + "_/"))), "Error: fCheckbox() can't find field " + $FieldName);
+	return __checkbox("/^Field_" + $FieldName + "_/", __in(__span("/^Field_" + $FieldName + "_/")));
+}
+//</browser>
+
+/* ******************************************************************
+*
+* fSetCheckbox($FieldName,$YorN)
+* 
+* Checks the checkbox if $YorN is "Y". Otherwise, unchecks. 
+*
+*******************************************************************/
+function fSetCheckbox($FieldName,$YorN){
+	if($YorN == "Y"){
+		_check(fCheckbox($FieldName));
+	}
+	else {
+		_uncheck(fCheckbox($FieldName));
+	}
+}
+
+//<browser>
+/* ******************************************************************
+*
+* fGetCheckbox($FieldName)
+* 
+* Returns the value of the checkbox as "Y" or "N". 
+*
+*******************************************************************/
+function fGetCheckbox($FieldName){
+	var $value = String(__getValue(fCheckbox($FieldName)));
+	if("on" == $value){
+		return "Y";
+	}
+	else {
+		return "N";
+	}
+}
+//</browser>
+
+//<browser>
+/* ******************************************************************
+ *
+ * fButton($FieldName)
+ * 
+ * Returns the element for the specified field
+ *
+ *******************************************************************/
+function fButton($FieldName){
+	/* Double underscores required to prevent scheduling */
+	__assertExists(__cell("form-button z-button-cm", __in(__table("/^Field_" + $FieldName + "_/"))), "Error: fButton() can't find field " + $FieldName);
+	return __parentTable(__cell("form-button z-button-cm", __in(__table("/^Field_" + $FieldName + "_/"))));
+}
+//</browser>
+
+//<browser>
+/* *******************************************************************
+*
+* fGetTextButton($FieldName)
+* 
+* Clicks the identified button
+*
+*******************************************************************/
+function fGetTextButton($FieldName){
+	return __getText(fButton($FieldName));
+}
+
+//</browser>
+/* *******************************************************************
+ *
+ * fClickButton($FieldName)
+ * 
+ * Clicks the identified button
+ *
+ *******************************************************************/
+
+function fClickButton($FieldName){
+	_click(fButton($FieldName));
+}
+/********************************************************************
+*
+* fDocActionCheck($Action,$ExpectedStatus)
+* 
+* Clicks the DocAction button and performs the action.  If there is
+* only one option, that option will be selected regardless of the 
+* input.
+*
+* The DocStatus field will be checked against $ExpectedStatus and
+* any differences will cause an assert exception. Use a null string
+* for don't care.
+*
+*******************************************************************/
+function fDocActionCheck($Action,$ExpectedStatus){
+	fClickButton("DocAction");
+	_assertExists(_option($Action,_in(_select(/^zk/,_near(_span("Document Action"))))),"Error: fDocAction can't find the option " + $Action + " in the Document Action select list.");
+	_setSelected(_select(/^zk/,_near(_span("Document Action"))),$Action);
+	iConfirm();
+	_wait(1000);
+	_wait(6000,_span(/^Processing ... Please wait .../) == null); // Wait for the process to complete.
+	if($ExpectedStatus != ""){
+		_assertEqual(fGetList("DocStatus"),$ExpectedStatus, "Error: fDocAction - Expected status " + $ExpectedStatus + " but found status " + fGetList("DocStatus"));
+	}
+}
+
+/********************************************************************
+*
+* fDocAction($Action)
+* 
+* Clicks the DocAction button and performs the action.  If there is
+* only one option, that option will be selected regardless of the 
+* input.  Does not check the result.
+*
+*
+*******************************************************************/
+function fDocAction($Action){
+	fDocActionCheck($Action,"");
+}
+
+ /********************************************************************
+ *
+ * fPaymentRule($PaymentRule,$PaymentData)
+ * 
+ * Clicks the payment rule button and sets the fields according to the
+ * PaymentData array.  The PaymentData array is a field array of the 
+ * form [field type, field/label name, value]. 
+ *
+ *
+ *******************************************************************/
+function fPaymentRule($PaymentRule,$PaymentData){
+		fClickButton("PaymentRule");
+		VPayment($PaymentRule,$PaymentData);
+		_log("PaymentRule button is now labled " + fGetTextButton("PaymentRule"));
+		_assertEqual($PaymentRule,fGetTextButton("PaymentRule"));
+ } 

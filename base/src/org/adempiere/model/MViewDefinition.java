@@ -176,7 +176,7 @@ public class MViewDefinition extends X_AD_View_Definition {
 	 * 
 	 * @return
 	 */
-	public List<MViewColumn> getADViewColunms() {
+	public List<MViewColumn> getADViewColumns() {
 		final String whereClause = MViewColumn.COLUMNNAME_AD_View_Definition_ID
 				+ "=?";
 

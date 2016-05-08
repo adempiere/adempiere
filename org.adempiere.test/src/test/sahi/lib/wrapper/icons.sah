@@ -1,0 +1,408 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2011, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ *    icons.sah
+ *
+ *  Functions related to menu icons and common buttons in ADempiere 
+ *   
+ *    Functions names follow this format:
+ *    iOperation([parameter1,] [parame ...)
+ *    
+ *    Functions are listed in the order they appear in the icon bar.
+ *    
+ *    These are low level functions that only click the correct icon. No 
+ *    checking is performed and pop-up windows are not dealt with here.
+ *    
+ *    Additional icons, OK/Confirm, Cancel etc.. are at the end.
+ *    
+ ******************************************************************************/
+
+/********************************************************************
+ *
+ * iUndo()
+ * 
+ * Ignores or Undoes changes to a  record
+ *
+ *******************************************************************/
+function iUndo(){
+	_click(_image(/Ignore24.png/));
+}
+
+/********************************************************************
+*
+* iHelp()
+* 
+* Get the help file for the current tab
+*
+*******************************************************************/
+function iHelp(){
+	_click(_image(/Help24.png/));
+}
+
+/********************************************************************
+*
+* iNewRecord()
+* 
+* Creates a new record
+*
+*******************************************************************/
+function iNewRecord(){
+	_click(_image(/New24.png/));
+	_wait(2000); // Let messages clear
+}
+
+/********************************************************************
+*
+* iCopyRecord()
+* 
+* Copies the current record
+*
+*******************************************************************/
+function iCopyRecord(){
+	_click(_image(/Copy24.png/));
+}
+
+/********************************************************************
+*
+* iDeleteRecord()
+* 
+* Deletes the current record
+*
+*******************************************************************/
+function iDeleteRecord(){
+	_click(_image(/Delete24.png/));
+}
+
+/********************************************************************
+*
+* iDeleteSelection()
+* 
+* Deletes selected records.  A popup performs the selection.
+*
+*******************************************************************/
+function iDeleteSelection(){
+	_click(_image(/DeleteSelection24.png/));
+}
+
+/********************************************************************
+ *
+ * iSaveRecord()
+ * 
+ * Saves any changes to the current record
+ *
+ *******************************************************************/
+function iSaveRecord(){
+	_click(_image(/Save24.png/));
+	_wait(2000); // Let messages clear
+}
+
+/********************************************************************
+ *
+ * iRefresh()
+ * 
+ * Refresh the current window/tab.  Reloads the Lookup.
+ *
+ *******************************************************************/
+function iRefresh(){
+	_click(_image(/Refresh24.png/));
+}
+
+/********************************************************************
+ *
+ * iLookup()
+ * 
+ * Open the Lookup window. See wLookup and related functions.
+ *
+ *******************************************************************/
+function iLookup(){
+	_click(_image(/Find24.png/));
+}
+
+/********************************************************************
+ *
+ * iAttachment()
+ * 
+ * Open the Attachment window.
+ *
+ *******************************************************************/
+function iAttachment(){
+	_click(_image(/Attachment24.png/));
+}
+
+/********************************************************************
+*
+* iChat()
+* 
+* Open the Chat window. 
+*
+*******************************************************************/
+function iChat(){
+	_click(_image(/Chat24.png/));
+}
+
+/********************************************************************
+ *
+ * iFormView()
+ * 
+ * Changes a window to the form view if it is in spreadsheet view
+ * Strict visibility must be true.
+ *
+ *******************************************************************/
+function iFormView(){
+	if (_condition(_isVisible(_div("z-paging"))) || 
+			_condition(_isVisible(_button("z-paging-first"))) ||
+			_condition(_isVisible(_button("Z-paging-last")))){
+		_click(_image("Multi24.png"));
+	}
+}
+
+/********************************************************************
+ *
+ * iSpreadsheetView()
+ * 
+ * Changes a window to the spreadsheet view if it is in form view
+ * Strict visibility must be true.
+ *
+ *******************************************************************/
+function iSpreadsheetView(){
+	if (!(_condition(_isVisible(_div("z-paging"))))){
+		_click(_image("Multi24.png"));
+	}
+}
+
+/********************************************************************
+ *
+ * iHistory()
+ * 
+ * Open the History window. 
+ *
+ *******************************************************************/
+function iHistory(){
+ 	_click(_image(/HistoryX24.png/));
+}
+
+/********************************************************************
+ *
+ * iParent()
+ * 
+ * Open the Parent tab. 
+ *
+ *******************************************************************/
+function iParent(){
+	_click(_image(/Parent24.png/));
+}
+
+/********************************************************************
+ *
+ * iDetail()
+ * 
+ * Open the next Detail tab. 
+ *
+ *******************************************************************/
+function iDetail(){
+	_click(_image(/Detail24.png/));
+}
+
+/********************************************************************
+*
+* iFirst()
+* 
+* Move to the First record. 
+*
+*******************************************************************/
+function iFirst(){
+	_click(_image(/First24.png/));
+}
+
+/********************************************************************
+*
+* iPrevious()
+* 
+* Move to the previous record. 
+*
+*******************************************************************/
+function iPrevious(){
+	_click(_image(/Previous24.png/));
+}
+
+/********************************************************************
+*
+* iNext()
+* 
+* Move to the next record. 
+*
+*******************************************************************/
+function iNext(){
+	_click(_image(/Next24.png/));
+}
+
+/********************************************************************
+*
+* iLast()
+* 
+* Move to the last record. 
+*
+*******************************************************************/
+function iLast(){
+	_click(_image(/Last24.png/));
+}
+
+/********************************************************************
+*
+* iReport()
+* 
+* Open the report associated with the open tab. 
+*
+*******************************************************************/
+function iReport(){
+	_click(_image(/Report24.png/));
+}
+
+/********************************************************************
+*
+* iArchive()
+* 
+* Open the document archive for this record/tab. 
+*
+*******************************************************************/
+function iArchive(){
+	_click(_image(/Archive24.png/));
+}
+
+/********************************************************************
+*
+* iPrint()
+* 
+* Print the document associated with the open tab. 
+*
+*******************************************************************/
+function iPrint(){
+	_click(_image(/Print24.png/));
+}
+
+/********************************************************************
+*
+* iZoomAcross()
+* 
+* Click the Zoom Across icon. 
+*
+*******************************************************************/
+function iZoomAcross(){
+	_click(_image(/ZoomAcross24.png/));
+}
+
+/********************************************************************
+*
+* iWorkflow()
+* 
+* Open the active workflow window. 
+*
+*******************************************************************/
+function iWorkflow(){
+	_click(_image(/WorkFlow24.png/));
+}
+
+/********************************************************************
+*
+* iRequest()
+* 
+* Open the request window. 
+*
+*******************************************************************/
+function iRequest(){
+	_click(_image(/Request24.png/));
+}
+
+/********************************************************************
+*
+* iProduct()
+* 
+* Open the product info window. 
+*
+*******************************************************************/
+function iProduct(){
+	_click(_image(/Product24.png/));
+}
+
+/********************************************************************
+*
+* iConfirm()
+* 
+* Clicks the Confirm button 
+*
+*******************************************************************/
+function iConfirm(){
+	_setStrictVisibilityCheck("true");
+	if(_condition(_exists(_image(/Ok24.png/)))){
+		_click(_image(/Ok24.png/));
+	} else {
+		if(_condition(_exists(_image(/Ok16.png/)))){
+			_click(_image(/Ok16.png/));
+		} else {
+			_log("Error: iConfirm can't find the confirm button.","error");
+		}
+	}
+}
+
+/********************************************************************
+*
+* iStart()
+* 
+* Clicks the Start button 
+*
+*******************************************************************/
+function iStart(){
+	_click(_cell("Start"));
+}
+
+/********************************************************************
+*
+* iCancel()
+* 
+* Clicks the Cancel button 
+*
+*******************************************************************/
+function iCancel(){
+	_click(_image(/Cancel24.png/));
+}
+
+/********************************************************************
+*
+* iOk()
+* 
+* Clicks the OK button 
+*
+*******************************************************************/
+function iOk(){
+	_setStrictVisibilityCheck(true);
+	if(_condition(_exists(_cell("Ok")))){
+		_click(_cell("Ok"));
+	} else {
+		if(_condition(_exists(_cell("OK")))){
+			_click(_cell("OK"));
+		} else {
+			if(_condition(_exists(_image("Ok16.png",_in(_cell("z-button-cm")))))){
+				_click(_image("Ok16.png",_in(_cell("z-button-cm"))));
+			} else {
+				if(_condition(_exists(_image("Ok24.png",_in(_cell("z-button-cm")))))){
+					_click(_image("Ok24.png",_in(_cell("z-button-cm"))));
+				} else {
+					if(_condition(_exists(_image("Ok24.png")))){
+						_click(_image("Ok24.png"));
+					}
+				}
+			}
+		}
+	}
+}

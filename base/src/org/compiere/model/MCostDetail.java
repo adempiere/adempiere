@@ -1122,6 +1122,8 @@ public class MCostDetail extends X_M_CostDetail
 		setAmt(amt);
 		setAmtLL(amtLL);
 		setQty(qty);
+		setCostAmt(BigDecimal.ZERO);
+		setCostAmtLL(BigDecimal.ZERO);
 		setCostAdjustment(Env.ZERO);
 		setCostAdjustmentLL(Env.ZERO);
 		setCumulatedQty(Env.ZERO);
@@ -1594,12 +1596,14 @@ public class MCostDetail extends X_M_CostDetail
 	{
 		StringBuffer whereClause = new StringBuffer();
 		whereClause.append(COLUMNNAME_AD_Client_ID).append("=? AND ")
-				   .append(COLUMNNAME_C_AcctSchema_ID).append("=? AND ")
-				   .append(COLUMNNAME_M_Product_ID).append("=? AND ")
-				   .append(COLUMNNAME_M_AttributeSetInstance_ID).append("=? AND ")
-				   .append(COLUMNNAME_M_CostType_ID).append("=? AND ")
-				   .append(COLUMNNAME_C_InvoiceLine_ID).append("=? AND ")
-				   .append(COLUMNNAME_M_InOutLine_ID).append("=? ");
+				   	.append(COLUMNNAME_C_AcctSchema_ID).append("=? AND ")
+				   	.append(COLUMNNAME_M_Product_ID).append("=? AND ")
+				   	.append(COLUMNNAME_M_AttributeSetInstance_ID).append("=? AND ")
+				   	.append(COLUMNNAME_M_CostType_ID).append("=? AND ")
+				   	.append(COLUMNNAME_M_CostElement_ID).append("=? AND ")
+				   	.append(COLUMNNAME_C_InvoiceLine_ID).append("=? AND ")
+					.append(COLUMNNAME_M_InOutLine_ID).append("=? AND ")
+				   	.append(COLUMNNAME_C_LandedCostAllocation_ID).append("=? ");
 		return new Query (landedCostAllocation.getCtx(), Table_Name, whereClause.toString() , landedCostAllocation.get_TrxName())
 		.setParameters(
 				landedCostAllocation.getAD_Client_ID(),
@@ -1607,9 +1611,10 @@ public class MCostDetail extends X_M_CostDetail
 				landedCostAllocation.getM_Product_ID(),
 				landedCostAllocation.getM_AttributeSetInstance_ID(),
 				costTypeId,
+				landedCostAllocation.getM_CostElement_ID(),
 				landedCostAllocation.getC_InvoiceLine_ID(),
-				landedCostAllocation.getM_InOutLine_ID())
-		
+				landedCostAllocation.getM_InOutLine_ID(),
+				landedCostAllocation.getC_LandedCostAllocation_ID())
 		.aggregate(COLUMNNAME_CostAmt + " + " +
 				COLUMNNAME_CostAdjustment + " + " +
 				COLUMNNAME_CostAmtLL + " + " +

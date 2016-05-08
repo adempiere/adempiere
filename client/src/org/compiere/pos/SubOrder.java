@@ -406,15 +406,18 @@ public class SubOrder extends PosSubPanel
 		{
 			allNumber = false;
 		}
-		String Value = query;
-		String Name = (allNumber ? null : query);
-		String EMail = (query.indexOf('@') != -1 ? query : null); 
-		String Phone = (noNumber ? null : query);
-		String City = null;
+		String value = query;
+		String taxId = query;
+		String name = (allNumber ? null : query);
+		String name2 = (allNumber ? null : query);
+		String contact = (allNumber ? null : query);
+		String eMail = (query.indexOf('@') != -1 ? query : null);
+		String phone = (noNumber ? null : query);
+		String city = null;
 		//
 		//TODO: contact have been remove from rv_bpartner
-		MBPartnerInfo[] results = MBPartnerInfo.find(p_ctx, Value, Name, 
-			/*Contact, */null, EMail, Phone, City);
+		MBPartnerInfo[] results = MBPartnerInfo.find(p_ctx, value, taxId , name,
+			name2 , contact , eMail, phone, city);
 		
 		//	Set Result
 		if (results.length == 0)

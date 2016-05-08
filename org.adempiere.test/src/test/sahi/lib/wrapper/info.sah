@@ -1,0 +1,463 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2012, Michael McKay, All Rights Reserved.                    *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ ****************************************************************************** 
+ *
+ * info.sah
+ * 
+ * Functions related to the info panels.
+ *
+ **/
+
+/** 
+ *  info_viewProductInfo()
+ *  
+ *  @param $panel - the name of the panel to open.
+ */
+function info_viewInfo($panel){
+	if ($panel == "Product")
+	{
+		_click(_link("Product Info"));
+	} 
+	else if ($panel == "BPartner")
+	{
+		_click(_link("Business Partner Info"));
+	}
+	else if ($panel == "Assignment")
+	{
+		_click(_link("Resource Info"));
+	}
+	else if ($panel == "Assignment")
+	{
+		_click(_link("Resource Info"));
+	}
+	else if ($panel == "Cashline")
+	{
+		_click(_link("Cash Journal Info"));
+	}
+}
+
+/**
+ * info_reset()
+ * 
+ * Reset the criteria fields to the defaults
+ * 
+ */
+function info_resetCriteria() {
+	_click(_image("Reset24.png"));
+	_wait(1000);
+	_wait(6000,_span(/^Processing ... Please wait .../) == null); // Wait for the process to complete.
+}
+
+//<browser>
+/** 
+ *  info_statusBar()
+ *  @return Returns the element for the info panel status bar
+ */
+function info_statusBar(){
+	/* Double underscores required to prevent scheduling */
+	__assertExists(__span("/^zk/", __in(__div("info_statusBar"))), "Error: info.sah info_statusBar() can't find the status bar component.");
+	return __span("/^zk/", __in(__div("info_statusBar")));
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+ *
+ * info_getStatus()
+ * 
+ * Get the info panel status bar text.
+ * 
+ * @return String text of the status bar.
+ *
+ *******************************************************************/
+function info_getStatus() {
+	return __getText(info_statusBar());
+}
+//</browser>
+
+/*******************************************************************
+*
+* info_clickTab($tab)
+* 
+* Get the info panel status bar text.
+*
+*******************************************************************/
+function info_clickTab($tab) {
+	_click(_span($tab, _in(_list("/^Subordinate_Tabs/"))));
+}
+
+/*******************************************************************
+*
+* info_ClickListRow($Row, $Table)
+* 
+* @param $Row - the number of the row to click.  First row is 0.
+* @param $Table - the name of the table to click in.
+*
+*******************************************************************/
+function info_clickListRow($Row, $Table) {
+	_click(_div("/^ListItem_Cell_" + $Row + "_3/", _in(_table("/^Lookup_Data_" + $Table + "/"))));
+}
+
+//<browser>
+/** 
+ *  info_dataField($Row, $Column, $Table)
+ *  @param $Row - the row, first row is 0
+ *  @param $Column - the column, first column is 0
+ *  @param $Table - the name of the table
+ *  @return Returns the element for the requested field
+ */
+function info_dataField($Row, $Column, $Table){
+	/* Double underscores required to prevent scheduling */
+	__assertExists(__div("/^ListItem_Cell_" + $Row + "_" + $Column + "/", __in(__table("/^Lookup_Data_" + $Table + "/"))), "Error: info.sah info_dataField() can't find the table or field component.");
+	return __div("/^ListItem_Cell_" + $Row + "_" + $Column + "/", __in(__table("/^Lookup_Data_" + $Table + "/")));
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+ *
+ * info_getDataFieldText($Row, $Column, $Table)
+ *  @param $Row - the row, first row is 0
+ *  @param $Column - the column, first column is 0
+ *  @param $Table - the name of the table
+ *  @return Returns the contents of the requested field
+ *
+ *******************************************************************/
+function info_getDataFieldText($Row, $Column, $Table) {
+	return __getText(info_dataField($Row, $Column, $Table));
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+*
+* info_getCriteriaField($name)
+* 
+* @return Returns the element for criteria field
+*
+*******************************************************************/
+function info_getCriteriaField($FieldName) {
+	/* Double underscores required to prevent scheduling */
+	__assertExists(__textbox("/^Lookup_Criteria_"+ $FieldName + "/"), "Error: info_getCriteriaField() can't find field " + $FieldName);
+	return __textbox("/^Lookup_Criteria_"+ $FieldName + "/");
+}
+//</browser>
+
+/*******************************************************************
+*
+* info_setCriteriaText($FieldName, $Value)
+* 
+* Set a simple text field to a value.
+*
+*******************************************************************/
+function info_setCriteriaText($FieldName, $Value){
+	_setValue(info_getCriteriaField($FieldName), $Value);
+	_keyPress(info_getCriteriaField($FieldName), [13,13]);
+	//_removeFocus(info_getCriteriaField($FieldName));
+	_assertEqual($Value, info_getCriteriaFieldText($FieldName), "Error: info.sah info_getCriteriaField($FieldName) failed to set field " + $FieldName + " to value = " + $Value);
+}
+
+//<browser>
+/*******************************************************************
+ *
+ * info_getCriteriaFieldText($FieldName)
+ * 
+ * @param 	$fieldName - the name of the criteria field
+ * @return 	String content of the field.
+ *
+ *******************************************************************/
+function info_getCriteriaFieldText($FieldName) {
+	return __getText(info_getCriteriaField($FieldName));
+}
+//</browser>
+
+//<browser>
+/* ******************************************************************
+ *
+ * info_textArea($FieldName)
+ * @param $FieldName the name of the field less the suffix "Lookup_Field_"
+ * @return Returns the element for the specified field
+ *
+ *******************************************************************/
+function info_textArea($FieldName){
+
+	/* Double underscores required to prevent scheduling */
+	__assertExists(__textarea("/^Lookup_Field_"+ $FieldName + "/"), "Error: info.sah info_TextArea() can't find field " + $FieldName);
+	return __textarea("/^Lookup_Field_"+ $FieldName + "/");
+}
+//</browser>
+
+//<browser>
+/* ******************************************************************
+ *
+ * info_GetTextArea($FieldName)
+ * 
+ * Get the value/contents of a text area field.
+ *
+ *******************************************************************/
+function info_getTextArea($FieldName) {
+	return __getText(info_textArea($FieldName));
+}
+//</browser>
+
+//<browser>
+/* ******************************************************************
+ *
+ * info_Search($FieldName)
+ * @param $FieldName - the name of the field preceded by Lookup_Criteria_
+ * @return The element for the specified field
+ * 
+ * $FieldName should be unique in the criteria as a substring. 
+ * I.e. "Resource" would also match "ResourceType".  Better to use
+ * column names such as "S_Resource_ID" 
+ *
+ *******************************************************************/
+function info_getSearch($FieldName){
+	/* Double underscores required to prevent scheduling */
+	__assertExists(__textbox(/^zk/, __in(__div("/^Lookup_Criteria_" + $FieldName + "/"))), "Error: info.sah info_Search() can't find field " + $FieldName);
+	return __textbox(/^zk/, __in(__div("/^Lookup_Criteria_" + $FieldName + "/")));
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+ *
+ * info_GetSearch($FieldName)
+ * @param $FieldName - the name of the field preceded by Lookup_Criteria_
+ * @return The value/contents of a search field.
+ *
+ *******************************************************************/
+function info_getSearchText($FieldName) {
+	return __getText(info_getSearch($FieldName));
+}
+//</browser>
+
+/********************************************************************
+ *
+ * info_SetSearchRq($FieldName, $Value, $Requery)
+ * Set a search field to a value.  Optionally, requery the field
+ * if $Requery = "Y"
+ * @param $FieldName - the name of the field preceded by Lookup_Criteria_
+ * @param $Value - the value to set
+ * @param $Requery - "Y" to requery
+ * 	
+*******************************************************************/
+function info_setSearchRq($FieldName, $Value, $Requery){
+	
+	//if($Requery == "Y") {
+	//	info_RequerySearch($FieldName);
+	//}
+	_setValue(info_getSearch($FieldName), $Value);
+	_keyPress(info_getSearch($FieldName), [13,13]); 
+	//_blur(info_Search($FieldName));
+	//_assertEqual($Value, info_GetSearch($FieldName), "Error: info.sah info_SetSearch() failed to set field " + $FieldName + " to value = " + $Value);
+}
+
+/********************************************************************
+ *
+ * info_SetSearch($FieldName, $Value)
+ * Set a search field to a value.  No requery.
+ * @param $FieldName - the name of the field preceded by Lookup_Criteria_
+ * @param $Value - the value to set
+ * 
+ *******************************************************************/
+function info_setSearchText($FieldName, $Value){
+	
+	info_setSearchRq($FieldName, $Value, "N");
+}
+ 
+//<browser>
+ /********************************************************************
+ *
+ * info_Checkbox($FieldName)
+ * @param $FieldName as in Lookup_Criteria_FieldName
+ * @return the element for the specified field.
+ *
+ *******************************************************************/
+ function info_getCheckbox($FieldName){
+ 	/* Double underscores required to prevent scheduling */
+ 	__assertExists(__checkbox("/^Lookup_Criteria_" + $FieldName + "/"), "Error: info.sah info_Checkbox() can't find field " + $FieldName);
+ 	return __checkbox("/^Lookup_Criteria_" + $FieldName + "/");
+ }
+ //</browser>
+
+/*******************************************************************
+ *
+ * info_SetCheckbox($FieldName,$YorN)
+ * 
+ * Checks the checkbox if $YorN is "Y". Otherwise, unchecks. 
+ * 
+ * @param $FieldName 	as in Lookup_Criteria_FieldName
+ * @param $YorN 		only tests for "Y"
+ *
+ *******************************************************************/
+ function info_setCheckbox($FieldName,$YorN){
+ 	if($YorN == "Y"){
+ 		_log("info_SetCheckbox(" + $FieldName + ", " + $YorN +")", "info");
+ 		_check(_checkbox("/^Lookup_Criteria_" + $FieldName + "/"));
+ 	}
+ 	else {
+ 		_uncheck(_checkbox("/^Lookup_Criteria_" + $FieldName + "/"));
+ 	}
+ }
+
+//<browser>
+ /* ******************************************************************
+ *
+ * info_getCheckboxValue($FieldName)
+ * 
+ * Returns the value of the checkbox as "Y" or "N". 
+ *
+ *******************************************************************/
+ function info_getCheckboxValue($FieldName){
+ 	var $value = __getValue(info_getCheckbox($FieldName));
+ 	if("on" == $value){
+ 		return "Y";
+ 	}
+ 	else {
+ 		return "N";
+ 	}
+ }
+ //</browser>
+/*******************************************************************
+ *
+ * info_OpenPASI($FieldName)
+ * 
+ * Opens the Product Attribute Set Instance panel by clicking the 
+ * icon button in the ASI field
+ * 
+ * @param $FieldName 	as in Lookup_Criteria_FieldName
+ *
+ *******************************************************************/
+ function info_openPASI($FieldName){
+ 	_assertExists(_image("/PAttribute10.png/", _in(_div("/^Lookup_Criteria_" + $FieldName + "/"))), "Error: info.sah info_OpenPASI() can't find field " + $FieldName);
+ 	_click(_image("/PAttribute10.png/", _in(_div("/^Lookup_Criteria_" + $FieldName + "/"))));
+ }
+
+ /*******************************************************************
+ *
+ * info_CheckAutoQuery()
+ * 
+ * Sets the auto query checkbox 
+ *
+ *******************************************************************/
+ function info_checkAutoQuery(){
+	 _check(_checkbox("AutoQuery"), "true");
+ }
+
+ /*******************************************************************
+ *
+ * info_UncheckAutoQuery()
+ * 
+ * Deselects the auto query checkbox 
+ *
+ *******************************************************************/
+ function info_uncheckAutoQuery(){
+	 _uncheck(_checkbox("AutoQuery"), "false");
+ }
+ 
+ /*******************************************************************
+ *
+ * info_ClickSearchButton($FieldName)
+ *
+ * Clicks the search button in a criteria search field 
+ *
+ *******************************************************************/
+function info_clickSearchButton($FieldName){
+	var $imageName = "Search10.png";
+	
+	if ($FieldName == "M_Product_ID")
+		$imageName = "Product10.png";
+	else if ($FieldName == "M_PAttributeSetInstance_ID")
+		$imageName = "PAttribute10.png";
+	else if ($FieldName == "C_BPartner_ID")
+		$imageName = "BPartner10.png";
+
+	_assertExists(_image("/" + $imageName + "/", _in(_div("/^Lookup_Criteria_" + $FieldName + "/"))), "Error: info_ClickSearchButton() can't find field " + $FieldName);
+	_click(_image("/" + $imageName + "/", _in(_div("/^Lookup_Criteria_" + $FieldName + "/"))));
+	
+}
+
+//<browser>
+ /*******************************************************************
+ *
+ * info_IsButtonEnabled($ButtonName)
+ * 
+ * Returns "Y" or "N"
+ *
+ *******************************************************************/
+function info_isButtonEnabled($ButtonName){
+	
+	__assertExists(__table("/^ConfirmPanel_btn" + $ButtonName + "/"), "Error: info_IsButtonEnabled() can't find button " + $ButtonName);
+	$opacity = __table("/^ConfirmPanel_btn" + $ButtonName + "/").getOpacity();
+	if ($opacity == 1)
+	{
+		return "Y";
+	}
+	else
+	{
+		return "N";
+	}
+}
+//</browser>
+
+/*******************************************************************
+*
+* info_ClickButton($ButtonName)
+* 
+*******************************************************************/
+function info_clickButton($ButtonName){
+	_assertExists(_table("/^ConfirmPanel_btn" + $ButtonName + "/"), "Error: info_IsButtonEnabled() can't find button " + $ButtonName);
+	_click(_table("/^ConfirmPanel_btn" + $ButtonName + "/"));
+}
+
+//<browser>
+/********************************************************************
+ *
+ * info_getAmount($FieldName)
+ * 
+ * Returns the element for the specified field
+ *
+ *******************************************************************/
+function info_getAmount($FieldName){
+	/* Double underscores required to prevent scheduling */
+	return __textbox(/^zk/, __in(__div("/^Lookup_Criteria_" + $FieldName + "/")));
+}
+//</browser>
+
+//<browser>
+/*******************************************************************
+ *
+ * info_getAmountValue($FieldName)
+ * 
+ * Get the value/contents of an amount field.
+ *
+ *******************************************************************/
+function info_getAmountValue($FieldName) {
+	return __getText(info_getAmount($FieldName));
+}
+//</browser>
+
+/* *******************************************************************
+ *
+ * info_setAmountValue($FieldName, $Value)
+ * 
+ * Set a amount field to a value.
+ *
+ *******************************************************************/
+function info_setAmountValue($FieldName, $Value){
+	
+	_setValue(info_getAmount($FieldName), $Value);
+	_keyPress(info_getAmount($FieldName), [13,13]); 
+
+}

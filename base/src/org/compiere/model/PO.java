@@ -30,8 +30,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -103,6 +106,25 @@ public abstract class PO
 	private static final String USE_TIMEOUT_FOR_UPDATE = "org.adempiere.po.useTimeoutForUpdate";
 
 	private static final int QUERY_TIME_OUT = 10;
+
+	/**
+	 * get instance based on table id , record id and trxName
+	 * @param tableId
+	 * @param recordIds
+	 * @param trxName
+     * @return
+	 * @throws AdempiereException
+     */
+	static public List<?> getInstances(Integer tableId, List<Integer> recordIds, String trxName) throws AdempiereException
+	{
+		if (tableId <= 0)
+			throw new AdempiereException("@AD_Table_ID@  @NotFound@");
+		if (recordIds == null || recordIds.size() <= 0)
+			throw new AdempiereException("@NoRecordID@");
+
+		MTable table =  MTable.get(Env.getCtx() , tableId);
+		return recordIds.stream().filter(recordId -> recordId > 0).map(recordId -> table.getPO(recordId, trxName)).collect(Collectors.toList());
+	}
 
 	/**
 	 * 	Set Document Value Workflow Manager
