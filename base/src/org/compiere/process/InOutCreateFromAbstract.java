@@ -16,9 +16,6 @@
 
 package org.compiere.process;
 
-
-
-
 /** Generated Process for (In Out Create From)
  *  @author ADempiere (generated) 
  *  @version Release 3.8.0

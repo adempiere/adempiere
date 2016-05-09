@@ -32,7 +32,8 @@ import org.compiere.model.MWarehouse;
 /** Generated Process for (In Out Create From)
  *  @author ADempiere (generated) 
  *  @version Release 3.8.0
- *  
+ *  <li> FR [ 327 ] Create From in M_InOut change to Smart Browse
+ *  @see https://github.com/adempiere/adempiere/issues/327
  */
 public class InOutCreateFrom extends InOutCreateFromAbstract {
 
@@ -72,9 +73,9 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 			
 			int m_M_Product_ID = getSelectionAsInt(key, "CF_M_Product_ID");
 			int m_C_Charge_ID = getSelectionAsInt(key, "CF_C_Charge_ID");
-			BigDecimal m_QtyEntered = getSelectionAsBigDecimal(key, "CF_QtyEntered"); // Qty
 			int m_C_UOM_ID = getSelectionAsInt(key, "CF_C_UOM_ID");
 			int m_M_Locator_ID = getSelectionAsInt(key, "CF_M_Locator_ID");
+			BigDecimal m_QtyEntered = getSelectionAsBigDecimal(key, "CF_QtyEntered"); // Qty
 			// If a locator is specified on the product, choose that otherwise default locator
 			if(m_M_Locator_ID == 0)
 				m_M_Locator_ID = getLocator();

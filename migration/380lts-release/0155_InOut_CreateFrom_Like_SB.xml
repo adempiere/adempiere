@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Create From in M_InOut change to Smart Browse #327" ReleaseNo="/feature/ADEMPIERE-296-Create-From-Like-SB" SeqNo="155">
+    <Step DBType="Postgres" Parse="N" SeqNo="5" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom AS
+--  From Order
+SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_OrderLine_ID AS RV_InOut_CreateFrom_ID, l.Line, 
+((CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) * (l.QtyOrdered - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
+l.C_UOM_ID, (l.QtyOrdered - SUM(COALESCE(m.Qty, 0))) MovementQty,
+(CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) Multiplier, p.M_Locator_ID, 
+COALESCE(p.Name, c.Name) AS Name, l.M_Product_ID, l.M_AttributeSetInstance_ID, l.C_Charge_ID, l.Description, po.VendorProductNo,
+-- Reference
+o.C_Order_ID, 0 AS C_Invoice_ID, 0 AS M_RMA_ID, o.DateOrdered AS DateDoc, o.C_BPartner_ID, o.DocStatus, 'O' AS CreateFromType  
+FROM C_Order o
+INNER JOIN C_OrderLine l ON(l.C_Order_ID = o.C_Order_ID)
+LEFT JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND l.C_BPartner_ID = po.C_BPartner_ID)  
+LEFT JOIN M_MatchPO m ON (l.C_OrderLine_ID = m.C_OrderLine_ID AND m.M_InOutLine_ID IS NOT NULL) 
+LEFT JOIN M_Product p ON (l.M_Product_ID = p.M_Product_ID) 
+LEFT JOIN C_Charge c ON (l.C_Charge_ID = c.C_Charge_ID)  
+WHERE l.QtyOrdered &lt;&gt; 0 
+GROUP BY o.C_Order_ID, o.C_BPartner_ID, o.DocStatus, l.QtyOrdered, l.C_UOM_ID, p.M_Locator_ID, p.M_Locator_ID, po.VendorProductNo, l.M_Product_ID,
+COALESCE(p.Name, c.Name), l.Line, l.C_OrderLine_ID
+HAVING(l.QtyOrdered - SUM(COALESCE(m.Qty, 0)) &lt;&gt; 0) 
+
+UNION ALL
+
+--  From Invoice
+SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_InvoiceLine_ID AS RV_InOut_CreateFrom_ID, l.Line, 
+((CASE WHEN l.QtyInvoiced = 0 THEN 0 ELSE l.QtyEntered / l.QtyInvoiced END) * (l.QtyInvoiced - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
+l.C_UOM_ID, (l.QtyInvoiced - SUM(COALESCE(m.Qty, 0))) MovementQty,
+(CASE WHEN l.QtyInvoiced = 0 THEN 0 ELSE l.QtyEntered / l.QtyInvoiced END) Multiplier, p.M_Locator_ID, 
+COALESCE(p.Name, c.Name) AS Name, l.M_Product_ID, l.M_AttributeSetInstance_ID, l.C_Charge_ID, l.Description, po.VendorProductNo,
+-- Reference
+inv.C_Order_ID, inv.C_Invoice_ID, 0 AS M_RMA_ID, inv.DateInvoiced AS DateDoc, inv.C_BPartner_ID, inv.DocStatus, 'I' AS CreateFromType
+FROM C_Invoice inv 
+INNER JOIN C_InvoiceLine l ON (l.C_Invoice_ID = inv.C_Invoice_ID)
+LEFT JOIN M_Product p ON (l.M_Product_ID = p.M_Product_ID) 
+LEFT JOIN C_Charge c ON (l.C_Charge_ID = c.C_Charge_ID)  
+LEFT JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND inv.C_BPartner_ID = po.C_BPartner_ID) 
+LEFT JOIN M_MatchInv m ON (l.C_InvoiceLine_ID = m.C_InvoiceLine_ID) 
+AND l.QtyInvoiced &lt;&gt; 0 
+GROUP BY inv.C_Order_ID, inv.C_Invoice_ID, inv.DateInvoiced, l.QtyInvoiced,l.QtyEntered, l.QtyInvoiced,l.C_UOM_ID,p.M_Locator_ID, 
+l.M_Product_ID,p.Name, po.VendorProductNo, l.C_InvoiceLine_ID,l.Line,l.C_OrderLine_ID, c.Name
+HAVING(l.QtyInvoiced - SUM(COALESCE(m.Qty, 0)) &lt;&gt; 0)
+
+UNION ALL
+
+-- From RMA
+SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.M_RMALine_ID AS RV_InOut_CreateFrom_ID, l.line, 
+(l.Qty - COALESCE(iolp.MovementQty, 0)) QtyEntered, 
+COALESCE(iol.C_UOM_ID, 100) C_UOM_ID, (l.Qty - COALESCE(iolp.MovementQty, 0)) MovementQty, 
+1 Multiplier, p.M_Locator_ID, 
+COALESCE(p.Name, c.Name) AS Name, iol.M_Product_ID, iol.M_AttributeSetInstance_ID, NULL C_Charge_ID, l.Description, NULL VendorProductNo,
+-- Reference
+NULL C_Order_ID, NULL C_Invoice_ID, r.M_RMA_ID, r.Created AS DateDoc, io.C_BPartner_ID, r.DocStatus, 'A' AS CreateFromType
+FROM M_RMA r
+INNER JOIN M_RMALine l ON(l.M_RMA_ID = r.M_RMA_ID)
+INNER JOIN M_InOut io ON(io.M_InOut_ID = r.InOut_ID)
+LEFT JOIN M_InOutLine iol ON(iol.M_InOutLine_ID = l.M_InOutLine_ID) 
+LEFT JOIN (SELECT iolr.M_RMALine_ID, SUM(iolr.MovementQty) MovementQty 						
+		FROM M_InOut ior 						
+		INNER JOIN M_InOutLine iolr ON(iolr.M_InOut_ID = ior.M_InOut_ID) 						
+		WHERE ior.DocStatus IN('CO', 'CL') 					
+		GROUP BY iolr.M_RMALine_ID) iolp ON(iolp.M_RMALine_ID = l.M_RMALine_ID) 
+LEFT JOIN M_Product p ON p.M_Product_ID=iol.M_Product_ID 
+LEFT JOIN C_Charge c ON (l.C_Charge_ID = c.C_Charge_ID)  
+WHERE l.Qty &lt;&gt; 0 
+AND (l.M_InOutLine_ID IS NOT NULL OR l.C_Charge_ID IS NOT NULL)</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_InOut_CreateFrom</RollbackStatement>
+    </Step>
     <Step DBType="Oracle" Parse="N" SeqNo="5" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom 
 (AD_Client_ID, AD_Org_ID, CreatedBy, Created, UpdatedBy, 
@@ -57,74 +124,7 @@ COALESCE(iol.C_UOM_ID, 100) C_UOM_ID, (l.Qty - COALESCE(iolp.MovementQty, 0)) Mo
 1 Multiplier, p.M_Locator_ID, 
 COALESCE(p.Name, c.Name) AS Name, iol.M_Product_ID, iol.M_AttributeSetInstance_ID, NULL C_Charge_ID, l.Description, NULL VendorProductNo,
 -- Reference
-NULL C_Order_ID, NULL C_Invoice_ID, r.M_RMA_ID, r.Created AS DateDoc, io.C_BPartner_ID, r.DocStatus, 'R' AS CreateFromType
-FROM M_RMA r
-INNER JOIN M_RMALine l ON(l.M_RMA_ID = r.M_RMA_ID)
-INNER JOIN M_InOut io ON(io.M_InOut_ID = r.InOut_ID)
-LEFT JOIN M_InOutLine iol ON(iol.M_InOutLine_ID = l.M_InOutLine_ID) 
-LEFT JOIN (SELECT iolr.M_RMALine_ID, SUM(iolr.MovementQty) MovementQty 						
-		FROM M_InOut ior 						
-		INNER JOIN M_InOutLine iolr ON(iolr.M_InOut_ID = ior.M_InOut_ID) 						
-		WHERE ior.DocStatus IN('CO', 'CL') 					
-		GROUP BY iolr.M_RMALine_ID) iolp ON(iolp.M_RMALine_ID = l.M_RMALine_ID) 
-LEFT JOIN M_Product p ON p.M_Product_ID=iol.M_Product_ID 
-LEFT JOIN C_Charge c ON (l.C_Charge_ID = c.C_Charge_ID)  
-WHERE l.Qty &lt;&gt; 0 
-AND (l.M_InOutLine_ID IS NOT NULL OR l.C_Charge_ID IS NOT NULL)</SQLStatement>
-      <RollbackStatement>DROP VIEW RV_InOut_CreateFrom</RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="5" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom AS
---  From Order
-SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_OrderLine_ID AS RV_InOut_CreateFrom_ID, l.Line, 
-((CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) * (l.QtyOrdered - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
-l.C_UOM_ID, (l.QtyOrdered - SUM(COALESCE(m.Qty, 0))) MovementQty,
-(CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) Multiplier, p.M_Locator_ID, 
-COALESCE(p.Name, c.Name) AS Name, l.M_Product_ID, l.M_AttributeSetInstance_ID, l.C_Charge_ID, l.Description, po.VendorProductNo,
--- Reference
-o.C_Order_ID, 0 AS C_Invoice_ID, 0 AS M_RMA_ID, o.DateOrdered AS DateDoc, o.C_BPartner_ID, o.DocStatus, 'O' AS CreateFromType  
-FROM C_Order o
-INNER JOIN C_OrderLine l ON(l.C_Order_ID = o.C_Order_ID)
-LEFT JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND l.C_BPartner_ID = po.C_BPartner_ID)  
-LEFT JOIN M_MatchPO m ON (l.C_OrderLine_ID = m.C_OrderLine_ID AND m.M_InOutLine_ID IS NOT NULL) 
-LEFT JOIN M_Product p ON (l.M_Product_ID = p.M_Product_ID) 
-LEFT JOIN C_Charge c ON (l.C_Charge_ID = c.C_Charge_ID)  
-WHERE l.QtyOrdered &lt;&gt; 0 
-GROUP BY o.C_Order_ID, o.C_BPartner_ID, o.DocStatus, l.QtyOrdered, l.C_UOM_ID, p.M_Locator_ID, p.M_Locator_ID, po.VendorProductNo, l.M_Product_ID,
-COALESCE(p.Name, c.Name), l.Line, l.C_OrderLine_ID
-HAVING(l.QtyOrdered - SUM(COALESCE(m.Qty, 0)) &lt;&gt; 0) 
-
-UNION ALL
-
---  From Invoice
-SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_InvoiceLine_ID AS RV_InOut_CreateFrom_ID, l.Line, 
-((CASE WHEN l.QtyInvoiced = 0 THEN 0 ELSE l.QtyEntered / l.QtyInvoiced END) * (l.QtyInvoiced - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
-l.C_UOM_ID, (l.QtyInvoiced - SUM(COALESCE(m.Qty, 0))) MovementQty,
-(CASE WHEN l.QtyInvoiced = 0 THEN 0 ELSE l.QtyEntered / l.QtyInvoiced END) Multiplier, p.M_Locator_ID, 
-COALESCE(p.Name, c.Name) AS Name, l.M_Product_ID, l.M_AttributeSetInstance_ID, l.C_Charge_ID, l.Description, po.VendorProductNo,
--- Reference
-inv.C_Order_ID, inv.C_Invoice_ID, 0 AS M_RMA_ID, inv.DateInvoiced AS DateDoc, inv.C_BPartner_ID, inv.DocStatus, 'I' AS CreateFromType
-FROM C_Invoice inv 
-INNER JOIN C_InvoiceLine l ON (l.C_Invoice_ID = inv.C_Invoice_ID)
-LEFT JOIN M_Product p ON (l.M_Product_ID = p.M_Product_ID) 
-LEFT JOIN C_Charge c ON (l.C_Charge_ID = c.C_Charge_ID)  
-LEFT JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND inv.C_BPartner_ID = po.C_BPartner_ID) 
-LEFT JOIN M_MatchInv m ON (l.C_InvoiceLine_ID = m.C_InvoiceLine_ID) 
-AND l.QtyInvoiced &lt;&gt; 0 
-GROUP BY inv.C_Order_ID, inv.C_Invoice_ID, inv.DateInvoiced, l.QtyInvoiced,l.QtyEntered, l.QtyInvoiced,l.C_UOM_ID,p.M_Locator_ID, 
-l.M_Product_ID,p.Name, po.VendorProductNo, l.C_InvoiceLine_ID,l.Line,l.C_OrderLine_ID, c.Name
-HAVING(l.QtyInvoiced - SUM(COALESCE(m.Qty, 0)) &lt;&gt; 0)
-
-UNION ALL
-
--- From RMA
-SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.M_RMALine_ID AS RV_InOut_CreateFrom_ID, l.line, 
-(l.Qty - COALESCE(iolp.MovementQty, 0)) QtyEntered, 
-COALESCE(iol.C_UOM_ID, 100) C_UOM_ID, (l.Qty - COALESCE(iolp.MovementQty, 0)) MovementQty, 
-1 Multiplier, p.M_Locator_ID, 
-COALESCE(p.Name, c.Name) AS Name, iol.M_Product_ID, iol.M_AttributeSetInstance_ID, NULL C_Charge_ID, l.Description, NULL VendorProductNo,
--- Reference
-NULL C_Order_ID, NULL C_Invoice_ID, r.M_RMA_ID, r.Created AS DateDoc, io.C_BPartner_ID, r.DocStatus, 'R' AS CreateFromType
+NULL C_Order_ID, NULL C_Invoice_ID, r.M_RMA_ID, r.Created AS DateDoc, io.C_BPartner_ID, r.DocStatus, 'A' AS CreateFromType
 FROM M_RMA r
 INNER JOIN M_RMALine l ON(l.M_RMA_ID = r.M_RMA_ID)
 INNER JOIN M_InOut io ON(io.M_InOut_ID = r.InOut_ID)
@@ -3812,8 +3812,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1350" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55592" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">30</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="1360" StepType="AD">
@@ -4039,8 +4039,8 @@ AND EXISTS(SELECT 1
     </Step>
     <Step SeqNo="1560" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55596" Table="AD_Browse_Field">
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isOldNull="true">52465</Data>
         <Data AD_Column_ID="57985" Column="IsMandatory" oldValue="false">true</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isOldNull="true">52465</Data>
       </PO>
     </Step>
     <Step SeqNo="1570" StepType="AD">
@@ -4197,6 +4197,72 @@ AND EXISTS(SELECT 1
       <PO AD_Table_ID="53223" Action="U" Record_ID="55606" Table="AD_Browse_Field">
         <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="true">false</Data>
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="120">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1750" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="57870" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" oldValue="@MovementType@='C+'">@MovementType@='V-'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1760" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55592" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="30">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1770" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55586" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="30">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1780" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55593" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="30">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1790" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52466" Table="AD_Val_Rule">
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52466</Data>
+        <Data AD_Column_ID="193" Column="Code">M_RMA.C_BPartner_ID = @C_BPartner_ID@ 
+M_RMA.IsSOTrx = '@IsSOTrx@' 
+AND M_RMA.DocStatus IN('CO', 'CL')
+AND EXISTS(SELECT 1 
+		FROM M_RMALine rl 
+		WHERE rl.M_RMA_ID = M_RMA.M_RMA_ID 
+		AND rl.QtyDelivered &lt; rl.Qty 
+		AND rl.M_InOutLine_ID IS NOT NULL)</Data>
+        <Data AD_Column_ID="584" Column="Created">2016-05-08 20:18:58.379</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="188" Column="Name">M_RMA CreateFrom InOut</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="586" Column="Updated">2016-05-08 20:18:58.379</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1800" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55586" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isOldNull="true">52466</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1810" StepType="AD">
+      <PO AD_Table_ID="108" Action="U" Record_ID="52466" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code" oldValue="M_RMA.C_BPartner_ID = @C_BPartner_ID@ &#10;M_RMA.IsSOTrx = '@IsSOTrx@' &#10;AND M_RMA.DocStatus IN('CO', 'CL')&#10;AND EXISTS(SELECT 1 &#10;&#9;&#9;FROM M_RMALine rl &#10;&#9;&#9;WHERE rl.M_RMA_ID = M_RMA.M_RMA_ID &#10;&#9;&#9;AND rl.QtyDelivered &lt; rl.Qty &#10;&#9;&#9;AND rl.M_InOutLine_ID IS NOT NULL)">M_RMA.C_BPartner_ID = @C_BPartner_ID@ 
+AND M_RMA.IsSOTrx = '@IsSOTrx@' 
+AND M_RMA.DocStatus IN('CO', 'CL')
+AND EXISTS(SELECT 1 
+		FROM M_RMALine rl 
+		WHERE rl.M_RMA_ID = M_RMA.M_RMA_ID 
+		AND rl.QtyDelivered &lt; rl.Qty 
+		AND rl.M_InOutLine_ID IS NOT NULL)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1820" StepType="AD">
+      <PO AD_Table_ID="108" Action="U" Record_ID="52465" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code" oldValue="((AD_Ref_List.Value IN('O', 'I') AND '@MovementType@' = 'V+') OR (AD_Ref_List.Value = 'A' AND '@MovementType@' = 'V-'))">((AD_Ref_List.Value IN('O', 'I') AND '@MovementType@' = 'V+') OR (AD_Ref_List.Value = 'A' AND ('@MovementType@' = 'V-' OR '@MovementType@' = 'C+')))</Data>
       </PO>
     </Step>
   </Migration>
