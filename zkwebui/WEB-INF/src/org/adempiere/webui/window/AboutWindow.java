@@ -53,6 +53,9 @@ import org.zkoss.zul.Vbox;
 /**
  *
  * @author Low Heng Sin
+ * @athor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 379 ] Change URL in About
+ *		@see https://github.com/adempiere/adempiere/issues/379
  *
  */
 public class AboutWindow extends Window implements EventListener {
@@ -276,6 +279,12 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://www.idalica.com/");
 		link.setTarget("_blank");
 		link.setParent(content);
+		
+		link = new ToolBarButton();
+		link.setLabel("ERPCyA");
+		link.setHref("http://www.erpcya.com/");
+		link.setTarget("_blank");
+		link.setParent(content);
 
 		separator = new Separator();
 		separator.setParent(vbox);
@@ -295,57 +304,63 @@ public class AboutWindow extends Window implements EventListener {
 
 		link = new ToolBarButton();
 		link.setLabel("Victor Pérez");
-		link.setHref("http://www.adempiere.com/wiki/index.php/User:vpj-cd");
+		link.setHref("http://wiki.adempiere.net/User:vpj-cd");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 		link = new ToolBarButton();
 		link.setLabel("Paul Bowden");
-		link.setHref("http://www.adempiere.com/wiki/index.php/User:Phib");
+		link.setHref("http://wiki.adempiere.net/User:Phib");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 
 		link = new ToolBarButton();
 		link.setLabel("Michael McKay");
-		link.setHref("http://www.adempiere.com/index.php/User:MJMcKay");
+		link.setHref("http://wiki.adempiere.net/User:MJMcKay");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 
 		link = new ToolBarButton();
 		link.setLabel("Mario Calderon");
-		link.setHref("http://www.adempiere.com/wiki/index.php/User:mar_cal_westf");
+		link.setHref("http://wiki.adempiere.net/User:mar_cal_westf");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 		link = new ToolBarButton();
 		link.setLabel("Ashley G Ramdass");
-		link.setHref("http://www.adempiere.com/wiki/index.php/User:Agramdass");
+		link.setHref("http://wiki.adempiere.net/User:Agramdass");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 		link = new ToolBarButton();
 		link.setLabel("Low Heng Sin");
-		link.setHref("http://www.adempiere.com/wiki/index.php/User:Hengsin");
+		link.setHref("http://wiki.adempiere.net/User:Hengsin");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 		link = new ToolBarButton();
 		link.setLabel("Carlos Ruiz");
-		link.setHref("http://www.adempiere.com/wiki/index.php/User:CarlosRuiz");
+		link.setHref("http://wiki.adempiere.net/User:CarlosRuiz");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 		link = new ToolBarButton();
 		link.setLabel("Teo Sarca");
-		link.setHref("http://www.adempiere.com/wiki/index.php/User:Teo_sarca");
+		link.setHref("http://wiki.adempiere.net/User:Teo_sarca");
 		link.setTarget("_blank");
 		link.setParent(content);
 
 		link = new ToolBarButton();
 		link.setLabel("Trifon Trifonov");
-		link.setHref("http://www.adempiere.com/wiki/index.php/User:Trifonnt");
+		link.setHref("http://wiki.adempiere.net/User:Trifonnt");
+		link.setTarget("_blank");
+		link.setParent(content);
+		
+		link = new ToolBarButton();
+		link.setLabel("Yamel Senih");
+		link.setHref("http://wiki.adempiere.net/User:Yamel_Senih");
 		link.setTarget("_blank");
 		link.setParent(content);
 
@@ -389,16 +404,6 @@ public class AboutWindow extends Window implements EventListener {
 		link.setTarget("_blank");
 		link.setParent(vbox);
 
-
-		separator = new Separator();
-		separator.setParent(vbox);
-		link = new ToolBarButton();
-		link.setLabel("ADempiere.com");
-		link.setHref("http://www.adempiere.com");
-		link.setTarget("_blank");
-		link.setParent(vbox);
-
-
 		separator = new Separator();
 		separator.setParent(vbox);
 		link = new ToolBarButton();
@@ -411,7 +416,7 @@ public class AboutWindow extends Window implements EventListener {
 		separator.setParent(vbox);
 		link = new ToolBarButton();
 		link.setLabel("ADempiere Wiki");
-		link.setHref("http://www.adempiere.com/wiki/index.php");
+		link.setHref("http://wiki.adempiere.net");
 		link.setTarget("_blank");
 		link.setParent(vbox);
 

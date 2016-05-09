@@ -51,6 +51,9 @@ import org.compiere.util.Util;
  *
  *  @author Jorg Janke
  *  @version $Id: Adempiere.java,v 1.8 2006/08/11 02:58:14 jjanke Exp $
+ *  @athor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 379 ] Change URL in About
+ *		@see https://github.com/adempiere/adempiere/issues/379
  *  
  */
 public final class Adempiere
@@ -69,7 +72,7 @@ public final class Adempiere
 	/** Product Name            */
 	static public final String	NAME 			= "ADempiere\u00AE";
 	/** URL of Product          */
-	static public final String	URL				= "www.adempiere.org";
+	static public final String	URL				= "www.adempiere.net";
 	/** 16*16 Product Image. **/
 	static private final String	s_File16x16		= "images/AD16.png";
 	/** 32*32 Product Image.   	*/
@@ -97,7 +100,7 @@ public final class Adempiere
 	static private ImageIcon 	s_imageIcon32;
 	static private ImageIcon 	s_imageIconLogo;
 	
-	static private final String ONLINE_HELP_URL = "http://www.adempiere.com/wiki/index.php/Manual";
+	static private final String ONLINE_HELP_URL = "http://wiki.adempiere.net/Manual";
 
 	/**	Logging								*/
 	private static CLogger		log = null;
