@@ -4265,5 +4265,69 @@ AND EXISTS(SELECT 1
         <Data AD_Column_ID="193" Column="Code" oldValue="((AD_Ref_List.Value IN('O', 'I') AND '@MovementType@' = 'V+') OR (AD_Ref_List.Value = 'A' AND '@MovementType@' = 'V-'))">((AD_Ref_List.Value IN('O', 'I') AND '@MovementType@' = 'V+') OR (AD_Ref_List.Value = 'A' AND ('@MovementType@' = 'V-' OR '@MovementType@' = 'C+')))</Data>
       </PO>
     </Step>
+    <Step SeqNo="1830" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55613" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="60">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1840" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55593" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="20">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1850" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55586" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="30">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1860" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55592" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1870" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55598" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="50">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1880" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55605" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57977" Column="IsIdentifier" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1890" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55608" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57977" Column="IsIdentifier" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1900" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55606" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="0">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1910" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55591" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="0">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1920" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55591" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="130">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1930" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55606" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="true">false</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="120">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1940" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55597" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57977" Column="IsIdentifier" oldValue="false">true</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
