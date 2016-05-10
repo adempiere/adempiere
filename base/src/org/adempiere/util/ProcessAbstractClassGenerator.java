@@ -161,10 +161,6 @@ public class ProcessAbstractClassGenerator {
 		header.append(ModelInterfaceGenerator.NL);
 		//	Import Class
 		header.append(getImportClass());
-		//	New line
-		header.append(ModelInterfaceGenerator.NL);
-		//	New line
-		header.append(ModelInterfaceGenerator.NL);
 		//	Add comments
 		header.append("\n/** Generated Process for (").append(processName).append(")\n")
 		 	.append(" *  @author ADempiere (generated) \n")
