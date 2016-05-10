@@ -508,8 +508,11 @@ public abstract class ProcessParameter {
 		//	Save Process instance if it is not saved
 		//	FR [ 295 ]
 		if(m_processInfo.getAD_PInstance_ID() <= 0) {
-			MPInstance instance = null; 
-			try { 
+			MPInstance instance = null;
+			//	Set to null for reload
+			//	BR [ 380 ]
+			m_processInfo.setParameter(null);
+			try {
 				instance = new MPInstance(Env.getCtx(), 
 						m_processInfo.getAD_Process_ID(), m_processInfo.getRecord_ID());
 				instance.saveEx();
