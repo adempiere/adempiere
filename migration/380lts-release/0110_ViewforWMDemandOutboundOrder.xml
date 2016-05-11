@@ -74,7 +74,7 @@ INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
 INNER JOIN C_OrderLine ol ON (ol.C_OrderLine_ID= iobl.C_OrderLine_ID)
 INNER JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID) 
 INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=ol.C_BPartner_ID)
-WHERE NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty &gt;= M_InOutLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='N' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered
+WHERE NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty &gt;= M_InOutLine.MovementQty)  AND iob.IsSOTrx='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered
 UNION
 SELECT 
   iob.ad_client_id ,
@@ -147,7 +147,7 @@ INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
 INNER JOIN DD_OrderLine ol ON (ol.DD_OrderLine_ID= iobl.DD_OrderLine_ID)
 INNER JOIN DD_Order o ON (o.DD_Order_ID = ol.DD_Order_ID) 
 INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=o.C_BPartner_ID)
-WHERE NOT EXISTS (SELECT 1 FROM M_MovementLine WHERE M_MovementLine.DD_OrderLine_ID = iobl.DD_OrderLine_ID AND iobl.PickedQty &gt;= M_MovementLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='N' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered
+WHERE NOT EXISTS (SELECT 1 FROM M_MovementLine WHERE M_MovementLine.DD_OrderLine_ID = iobl.DD_OrderLine_ID AND iobl.PickedQty &gt;= M_MovementLine.MovementQty)  AND iob.IsSOTrx='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered
 UNION 
 SELECT  
     iob.ad_client_id ,
@@ -220,7 +220,7 @@ INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
 INNER JOIN pp_order_bomline ol ON (ol.pp_order_bomline_id= iobl.pp_order_bomline_id) 
 INNER JOIN PP_Order o ON (o.PP_Order_ID = ol.PP_Order_ID) 
 LEFT JOIN C_BPartner bp ON (o.AD_Org_ID = AD_OrgBP_ID)
-WHERE NOT EXISTS (SELECT 1 FROM PP_Cost_Collector cc WHERE cc.pp_order_bomline_ID = iobl.pp_order_bomline_id AND iobl.PickedQty &gt;= cc.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='N' AND ol.QtyRequired &lt;&gt; ol.QtyDelivered
+WHERE NOT EXISTS (SELECT 1 FROM PP_Cost_Collector cc WHERE cc.pp_order_bomline_ID = iobl.pp_order_bomline_id AND iobl.PickedQty &gt;= cc.MovementQty)  AND iob.IsSOTrx='Y' AND ol.QtyRequired &lt;&gt; ol.QtyDelivered
 </SQLStatement>
       <RollbackStatement>DROP VIEW RV_WM_InOutBoundLine;</RollbackStatement>
     </Step>
@@ -4702,7 +4702,7 @@ The transaction is completed, if confirmed.</Data>
         <Data AD_Column_ID="57990" Column="Updated">2015-11-30 10:55:42.253</Data>
         <Data AD_Column_ID="57992" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="57998" Column="Value">OutboundOrderDemandToDelivery</Data>
-        <Data AD_Column_ID="58000" Column="WhereClause">iobl.QtyOrdered &lt;&gt; iobl.QtyDelivered</Data>
+        <Data AD_Column_ID="58000" Column="WhereClause">iobl.processed='Y' AND iobl.QtyOrdered &lt;&gt; iobl.QtyDelivered</Data>
       </PO>
     </Step>
     <Step SeqNo="1510" StepType="AD">
