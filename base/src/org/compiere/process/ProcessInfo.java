@@ -586,6 +586,13 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setParameter (ProcessInfoParameter[] parameters)
 	{
+		//	Set to null if parameter is null
+		//	BR [ 380 ]
+		if(parameters == null) {
+			this.parameters = null;
+			return;
+		}
+		//	
 		this.parameters = new Hashtable<String, ProcessInfoParameter>();
 		//	FR [ 325 ] Populate Hash
 		for(ProcessInfoParameter parameter : parameters) {
