@@ -43,7 +43,7 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 	private static final long serialVersionUID = -4078367839033015886L;
 
 	/**
-	 * 	Standard Cosntructor
+	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_MovementLine_ID id
 	 *	@param trxName transaction
