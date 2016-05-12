@@ -32,6 +32,7 @@ import org.compiere.util.TrxRunnable;
 import java.lang.reflect.Constructor;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -64,6 +65,8 @@ public class ProcessBuilder {
     private List<Integer> selectedRecordsIds;
     private Boolean isManagedTransaction = true;
     private Boolean isExecuteUsingSystemRole =  false;
+    /**	Multi-Selection Parameters	*/
+    private LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection = null;
 
     /**
      * Private constructor is called when an instance is created
@@ -160,11 +163,6 @@ public class ProcessBuilder {
 
         //	FR [ 244 ]
         boolean isSelection = selectedRecordsIds.size() > 0;
-        //	FR [ 352 ]
-        if (isSelection) {
-        	processInfo.setSelectionKeys(selectedRecordsIds);
-        }
-
         processInfo = new ProcessInfo(title, processId, tableId , recordId, isManagedTransaction);
         processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
         processInfo.setClassName(MProcess.get(context , processId).getClassname());
@@ -175,6 +173,13 @@ public class ProcessBuilder {
             processInfo.setAD_User_ID(100);
         }
         ProcessInfoUtil.setParameterFromDB(processInfo);
+
+        //	FR [ 352 ]
+        if (isSelection) {
+            processInfo.setSelectionKeys(selectedRecordsIds);
+            if (selection != null && selection.size() > 0)
+                processInfo.setSelectionValues(selection);
+        }
     }
 
     /**
@@ -232,14 +237,21 @@ public class ProcessBuilder {
      * Execute ths process with new transaction
      * @return
      */
-    public ProcessInfo execute() {
+    public ProcessInfo execute() throws AdempiereException {
         try {
             Trx.run(trxName -> {
                 generateProcessInfo(trxName);
                 processBuilder.run(trxName);
+                if (processInfo.isError())
+                    throw new AdempiereException("@ProcessRunError@ @Error@ " + processInfo.getSummary());
             });
         } catch (AdempiereException e) {
-            throw new AdempiereException(e.getMessage());
+            if (processInfo.isError())
+                throw new AdempiereException(e.getMessage());
+            else {
+                processInfo.setError(true);
+                throw new AdempiereException("@ProcessRunError@ @Error@ " + e.getMessage());
+            }
         }
         return processInfo;
     }
@@ -249,18 +261,25 @@ public class ProcessBuilder {
      * @param trxName
      * @return
      */
-    public ProcessInfo execute(String trxName) {
+    public ProcessInfo execute(String trxName) throws AdempiereException {
         try {
 
             Trx.run(trxName, new TrxRunnable() {
                 public void run(String trxName) {
                     generateProcessInfo(trxName);
                     processBuilder.run(trxName);
+                    if (processInfo.isError())
+                        throw new AdempiereException("@ProcessRunError@ @Error@ "  + processInfo.getSummary());
                 }
             });
 
         } catch (AdempiereException e) {
-            e.printStackTrace();
+            if (processInfo.isError())
+                throw new AdempiereException(e.getMessage());
+            else {
+                processInfo.setError(true);
+                throw new AdempiereException("@ProcessRunError@ @Error@ " + e.getMessage());
+            }
         }
         return processInfo;
     }
@@ -303,6 +322,19 @@ public class ProcessBuilder {
         return this;
     }
 
+    /**
+     * Define select record ids and values
+     * @param selectedRecordsIds
+     * @param selection
+     * @return
+     */
+    public ProcessBuilder withSelectedRecordsIds(List<Integer> selectedRecordsIds, LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection)
+    {
+        this.selectedRecordsIds = selectedRecordsIds;
+        this.selection = selection;
+        return this;
+    }
+
 
    public ProcessBuilder withoutTransactionClose()
    {
@@ -311,7 +343,7 @@ public class ProcessBuilder {
    }
 
     /**
-     * Define paramenter with automatic sequence
+     * Define parameter with automatic sequence
      * @param name
      * @param value
      * @return
@@ -323,7 +355,7 @@ public class ProcessBuilder {
     }
 
     /**
-     * Define paramenter and sequence
+     * Define parameter and sequence
      * @param name
      * @param value
      * @param sequence

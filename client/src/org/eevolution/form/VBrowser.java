@@ -490,6 +490,7 @@ public class VBrowser extends Browser implements ActionListener,
 		//	Valid Process, Selected Keys and process parameters
 		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
 		{
+			processParameterPanel.getProcessInfo().setAD_PInstance_ID(-1);
 			// BR [ 249 ]
 			if(processParameterPanel.validateParameters() == null) {
 				//	Save Parameters
@@ -497,6 +498,8 @@ public class VBrowser extends Browser implements ActionListener,
 					//	Get Process Info
 					ProcessInfo pi = processParameterPanel.getProcessInfo();
 					//	Set Selected Values
+					if (getFieldKey() != null && getFieldKey().get_ID() > 0)
+						pi.setTable_ID(getFieldKey().getAD_View_Column().getAD_View_Definition().getAD_Table_ID());
 					pi.setSelectionValues(getSelectedValues());
 					//	
 					setBrowseProcessInfo(pi);
