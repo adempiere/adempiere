@@ -926,18 +926,17 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			m_movement.clear();
 			loadMovements(m_movement, m_C_BPartner_ID);
 			//
-			for(MHRPayrollConcept pc : linesConcept) // ==================================================== Concept
+			for(MHRPayrollConcept payrollConcept : linesConcept) // ==================================================== Concept
 			{
-				m_HR_Concept_ID      = pc.getHR_Concept_ID();
+				m_HR_Concept_ID      = payrollConcept.getHR_Concept_ID();
 				MHRConcept concept = MHRConcept.get(getCtx(), m_HR_Concept_ID);
-				boolean printed = pc.isPrinted() || concept.isPrinted();
+				boolean printed = payrollConcept.isPrinted() || concept.isPrinted();
 				MHRMovement movement = m_movement.get(concept.get_ID()); // as it's now recursive, it can happen that the concept is already generated
 				if (movement == null) {
-					movement = createMovementFromConcept(concept, printed);
-                    movement.setHR_Payroll_ID(pc.getHR_Payroll_ID());
-                    movement.setHR_PayrollConcept_ID(pc.getHR_PayrollConcept_ID());
-
-					movement = m_movement.get(concept.get_ID());
+					createMovementFromConcept(concept, printed);
+                    movement = m_movement.get(concept.get_ID());
+					movement.setHR_Payroll_ID(payrollConcept.getHR_Payroll_ID());
+					movement.setHR_PayrollConcept_ID(payrollConcept.getHR_PayrollConcept_ID());
 				}
 				if (movement == null)
 				{
@@ -946,19 +945,18 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			} // concept
 
 			// Save movements:
-			for (MHRMovement m: m_movement.values())
+			for (MHRMovement movement: m_movement.values())
 			{
-				MHRConcept c = (MHRConcept) m.getHR_Concept();
-				if (c.isManual() || m.isEmpty())
-				{	
-					log.fine("Skip saving "+m);
-				}
-				else
-				{
-					boolean saveThisRecord =
-						m.isPrinted() || c.isPaid() || c.isPrinted();
-					if (saveThisRecord)
-						m.saveEx();
+				MHRConcept concept = (MHRConcept) movement.getHR_Concept();
+				if (concept != null && concept.get_ID() > 0) {
+					if (concept.isManual()) {
+						log.fine("Skip saving " + movement);
+					} else {
+						boolean saveThisRecord = concept.isSaveInHistoric() ||
+								movement.isPrinted() || concept.isPaid() || concept.isPrinted();
+						if (saveThisRecord)
+							movement.saveEx();
+					}
 				}
 			}
 		} // for each employee
@@ -996,18 +994,18 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		whereClause.append(" AND (HR_Payroll_ID = ? OR HR_Payroll_ID IS NULL)");
 		params.add(this.getHR_Payroll_ID());
 
-		MHRAttribute att = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
+		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
 		.setParameters(params)
 		.setOnlyActiveRecords(true)
 		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
 		.first();
-		if (att == null || concept.isManual())
+		if (attribute == null || concept.isManual())
 		{
 			log.info("Skip concept "+concept+" - attribute not found");
-			MHRMovement dummymov = new MHRMovement (getCtx(), 0, get_TrxName());
-			dummymov.setIsManual(true); // to avoid landing on movement table
-			m_movement.put(concept.getHR_Concept_ID(), dummymov);
-			return dummymov;
+			MHRMovement dummyMovement = new MHRMovement (getCtx(), 0, get_TrxName());
+			dummyMovement.setIsManual(true); // to avoid landing on movement table
+			m_movement.put(concept.getHR_Concept_ID(), dummyMovement);
+			return dummyMovement;
 		}
 
 		log.info("Concept - " + concept.getName());
@@ -1020,7 +1018,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		movement.setHR_Department_ID(m_employee.getHR_Department_ID());
 		movement.setHR_Job_ID(m_employee.getHR_Job_ID());
 		movement.setColumnType(m_columnType);
-		movement.setAD_Rule_ID(att.getAD_Rule_ID());
+		movement.setAD_Rule_ID(attribute.getAD_Rule_ID());
 		movement.setValidFrom(m_dateFrom);
 		movement.setValidTo(m_dateTo);
 		movement.setIsPrinted(printed);
@@ -1033,6 +1031,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		movement.setHR_SkillType_ID(m_employee.getHR_SkillType_ID());
 		movement.setPaymentRule(m_employee.getPaymentRule());
 		movement.setHR_Payroll_ID(m_employee.getHR_Payroll_ID());
+
 		if (m_employee.getHR_Payroll_ID() > 0)
 			movement.setHR_Contract_ID(m_employee.getHR_Payroll().getHR_Contract_ID());
 
@@ -1043,7 +1042,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				throw new AdempiereException("Recursion loop detected in concept " + concept.getValue());
 			}
 			activeConceptRule.add(concept);
-			Object result = executeScript(att.getAD_Rule_ID(), att.getColumnType());
+			Object result = executeScript(attribute.getAD_Rule_ID(), attribute.getColumnType());
 			activeConceptRule.remove(concept);
 			if (result == null)
 			{
@@ -1057,10 +1056,10 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		else
 		{
-			movement.setQty(att.getQty()); 
-			movement.setAmount(att.getAmount());
-			movement.setTextMsg(att.getTextMsg());						
-			movement.setServiceDate(att.getServiceDate());
+			movement.setQty(attribute.getQty());
+			movement.setAmount(attribute.getAmount());
+			movement.setTextMsg(attribute.getTextMsg());
+			movement.setServiceDate(attribute.getServiceDate());
 		}
 		movement.setProcessed(true);
 		m_movement.put(concept.getHR_Concept_ID(), movement);
