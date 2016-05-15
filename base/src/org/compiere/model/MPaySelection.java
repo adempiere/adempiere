@@ -324,7 +324,7 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 		//	Validate Amount
 		if(getTotalAmt() == null
 				|| getTotalAmt().equals(Env.ZERO)) {
-			m_processMsg = "@TotalAmt@ = @0@";
+			m_processMsg = "@TotalAmt@ = 0";
 			return DocAction.STATUS_Invalid;
 		}
 		//	Validate conversion
@@ -389,7 +389,8 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
-		if(is_ValueChanged("C_Currency_ID")) {
+		if(is_ValueChanged("C_Currency_ID")
+				|| is_ValueChanged("PayDate")) {
 			int retValue = DB.getSQLValue(get_TrxName(), "SELECT 1 "
 					+ "FROM C_PaySelection s "
 					+ "INNER JOIN C_PaySelectionLine l ON(l.C_PaySelection_ID = s.C_PaySelection_ID) "
