@@ -649,6 +649,9 @@ public class GridField
 		//  actual Numbers default to zero
 		if (DisplayType.isNumeric(m_vo.displayType))
 		{
+			if (m_vo.IsRange)
+				return null;
+
 			log.fine("[Number=0] " + m_vo.ColumnName);
 			return createDefault("0");
 		}

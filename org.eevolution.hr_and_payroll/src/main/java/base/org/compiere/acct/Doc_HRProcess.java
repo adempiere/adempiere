@@ -44,7 +44,7 @@ import org.eevolution.model.X_HR_Concept_Acct;
  *  @version  $Id: Doc_Payroll.java,v 1.1 2007/01/20 00:40:02 ogomezi Exp $
  *  @author Cristina Ghita, www.arhipac.ro
  */
-public class Doc_HRProcess extends Doc
+public class   Doc_HRProcess extends Doc
 {
 	public MHRProcess process = null;
 	
@@ -138,6 +138,16 @@ public class Doc_HRProcess extends Doc
 				int AD_OrgTrx_ID=rs.getInt("AD_Org_ID");
 				int C_Activity_ID=rs.getInt("C_Activity_ID");
 				int C_BPartner_ID=rs.getInt("C_BPartner_ID");
+				MHRMovement movement =  new MHRMovement(getCtx() , 0 , getTrxName());
+				movement.setC_BPartner_ID(C_BPartner_ID);
+				movement.setHR_Concept_ID(HR_Concept_ID);
+				movement.setAccountSign(AccountSign);
+				movement.setAD_OrgTrx_ID(AD_OrgTrx_ID);
+				movement.setC_Activity_ID(C_Activity_ID);
+				movement.setAmount(sumAmount);
+				//movement.setUser1_ID();
+				//movement.setUser2_ID();
+				DocLine_Payroll docLine = new DocLine_Payroll(movement, this);
 				//
 				if (AccountSign != null && AccountSign.length() > 0 
 				&& (MHRConcept.ACCOUNTSIGN_Debit.equals(AccountSign) 
@@ -146,16 +156,10 @@ public class Doc_HRProcess extends Doc
 					if (isBalancing)
 					{
 						MAccount accountBPD = MAccount.get (getCtx(), getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID,MHRConcept.ACCOUNTSIGN_Debit));
-						FactLine debit=fact.createLine(null, accountBPD,as.getC_Currency_ID(),sumAmount, null);
-						debit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
-						debit.setC_Activity_ID(C_Activity_ID);
-						debit.setC_BPartner_ID(C_BPartner_ID);
+						FactLine debit=fact.createLine(docLine, accountBPD,as.getC_Currency_ID(),sumAmount, null);
 						debit.saveEx();
 						MAccount accountBPC = MAccount.get (getCtx(),this.getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID, MHRConcept.ACCOUNTSIGN_Credit));
-						FactLine credit = fact.createLine(null,accountBPC ,as.getC_Currency_ID(),null,sumAmount);
-						credit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
-						credit.setC_Activity_ID(C_Activity_ID);
-						credit.setC_BPartner_ID(C_BPartner_ID);
+						FactLine credit = fact.createLine(docLine,accountBPC ,as.getC_Currency_ID(),null,sumAmount);
 						credit.saveEx();
 					}
 					else
@@ -163,25 +167,20 @@ public class Doc_HRProcess extends Doc
 						if (MHRConcept.ACCOUNTSIGN_Debit.equals(AccountSign))
 						{
 							MAccount accountBPD = MAccount.get (getCtx(), getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID,MHRConcept.ACCOUNTSIGN_Debit));
-							FactLine debit=fact.createLine(null, accountBPD,as.getC_Currency_ID(),sumAmount, null);
-							debit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
-							debit.setC_Activity_ID(C_Activity_ID);
-							debit.setC_BPartner_ID(C_BPartner_ID);
+							FactLine debit=fact.createLine(docLine, accountBPD,as.getC_Currency_ID(),sumAmount, null);
 							debit.saveEx();
 							totalDebit = totalDebit.add(sumAmount);
 						}
 						else if (MHRConcept.ACCOUNTSIGN_Credit.equals(AccountSign))
 						{
 							MAccount accountBPC = MAccount.get (getCtx(),this.getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID,MHRConcept.ACCOUNTSIGN_Credit));
-							FactLine credit = fact.createLine(null,accountBPC ,as.getC_Currency_ID(),null,sumAmount);
-							credit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
-							credit.setC_Activity_ID(C_Activity_ID);
-							credit.setC_BPartner_ID(C_BPartner_ID);
+							FactLine credit = fact.createLine(docLine,accountBPC ,as.getC_Currency_ID(),null,sumAmount);
 							credit.saveEx();
 							totalCredit = totalCredit.add(sumAmount);
 						}
 					}
 				}
+				movement = null;
 			}
 			if(totalDebit.signum() != 0 
 			|| totalCredit.signum() != 0)
