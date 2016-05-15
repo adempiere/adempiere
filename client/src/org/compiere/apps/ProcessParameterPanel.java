@@ -22,12 +22,12 @@ import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
-import javax.swing.JLabel;
 
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
 import org.compiere.process.ProcessInfo;
+import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 
 /**
@@ -83,12 +83,15 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 	//
 	private ArrayList<VEditor>	m_vEditors;
 	private ArrayList<VEditor>	m_vEditors_To;		//	for ranges
-	private ArrayList<JLabel> 	m_separators;
+	private ArrayList<CLabel> 	m_separators;
 	//
 	private BorderLayout 	mainLayout;
 	private CPanel 			centerPanel;
 	//	Main Panel
 	private CPanel			mainPanel;
+	private int 			labelMinWidth = 0;
+	private int 			fieldMinWidth = 0;
+	private final int		SEPARATOR = 25;
 
 	@Override
 	public void initComponents() {
@@ -98,7 +101,7 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 		//	Editors
 		m_vEditors 		= new ArrayList<VEditor>();
 		m_vEditors_To 	= new ArrayList<VEditor>();
-		m_separators 	= new ArrayList<JLabel>();
+		m_separators 	= new ArrayList<CLabel>();
 		//	
 		mainPanel.setLayout(mainLayout);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
@@ -134,10 +137,15 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 			return;
 		}
 		//  Create Field
-		JLabel label = VEditorFactory.getLabel(field);
+		CLabel label = VEditorFactory.getLabel(field);
 		if (label == null) {
 			centerPanel.add(Box.createHorizontalStrut(12), new ALayoutConstraint(row, cols++));   	//	left gap
 		} else {
+			int currentWidth = label.getPreferredSize().width;
+			labelMinWidth = currentWidth > labelMinWidth ? currentWidth : labelMinWidth;
+//			label.setSize(label.getPreferredSize());
+//			label.setMinimumSize(label.getPreferredSize());
+//			label.putClientProperty("LabelUI.truncationString", ">");
 			centerPanel.add(label, new ALayoutConstraint(row, cols++));
 		}
 		//	The Editor
@@ -149,7 +157,10 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 		vEditor.addVetoableChangeListener(this);
 		//  MField => VEditor - New Field value to be updated to editor
 		field.addPropertyChangeListener(vEditor);
-		//
+		//	
+		Component component = (Component) vEditor;
+		fieldMinWidth = component.getPreferredSize().width > fieldMinWidth 
+				? component.getPreferredSize().width : fieldMinWidth;
 		centerPanel.add ((Component)vEditor, new ALayoutConstraint(row, cols++));
 		m_vEditors.add (vEditor);                   //  add to Editors
 		//	To
@@ -159,7 +170,7 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 			return;
 		}
 		//	Add
-		JLabel dash = new JLabel(" - ");
+		CLabel dash = new CLabel(" - ");
 		centerPanel.add (dash, new ALayoutConstraint(row, cols++));
 		m_separators.add(dash);
 		//	The Editor
@@ -212,7 +223,7 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 	@Override
 	public void dynamicDisplay() {
 		//	
-		centerPanel.setPreferredSize(new Dimension(400, (row + 1) * 25)); // Row height
+		centerPanel.setPreferredSize(new Dimension(labelMinWidth + fieldMinWidth + SEPARATOR, (row + 1) * SEPARATOR)); // Row height
 		Component[] comps = centerPanel.getComponents();
 		for (int i = 0; i < comps.length; i++) {
 			Component comp = comps[i];
