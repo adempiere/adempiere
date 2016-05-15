@@ -327,11 +327,11 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	protected boolean beforeSave (boolean newRecord)
 	{
 		validateBPartner();
+		//	Set values from type
+		setDocumentValues();
 		//	FR [ 297 ]
 		if(getC_BPartner_ID() == 0)
 			throw new AdempiereException("@C_BPartner_ID@ @NotFound@");
-		//	set values from type
-		setDocumentValues();
 		return true;
 	}	//	beforeSave
 	
@@ -354,12 +354,14 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 			difference = openAmt.subtract(getPayAmt()).subtract(discountAmt);
 			//	Set pre-payment
 			setIsPrepayment(getC_Order_ID() != 0);
-			resetConversion = getHR_Movement_ID() == 0;
+			resetConversion = getHR_Movement_ID() != 0;
 			//	For same currency
 			if(getC_Order_ID() != 0) {
 				resetConversion = getOrder().getC_Currency_ID() == getParent().getC_Currency_ID();
+				setC_BPartner_ID(getOrder().getC_BPartner_ID());
 			} else if(getC_Invoice_ID() != 0) {
 				resetConversion = getInvoice().getC_Currency_ID() == getParent().getC_Currency_ID();
+				setC_BPartner_ID(getInvoice().getC_BPartner_ID());
 			} else if(getHR_Movement_ID() != 0
 					&& getC_Charge_ID() == 0) {
 				MHRMovement movement = new MHRMovement(getCtx(), getHR_Movement_ID(), get_TrxName());
@@ -370,6 +372,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 					throw new AdempiereException("@C_Charge_ID@ @NotFound@");
 				//	Set charge
 				setC_Charge_ID(payroll.getC_Charge_ID());
+				setC_BPartner_ID(movement.getC_BPartner_ID());
 			}
 		} else if(is_ValueChanged("C_Charge_ID") 
 				&& getC_Charge_ID() != 0){
@@ -386,7 +389,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setDifferenceAmt(difference);
 		setOpenAmt(openAmt);
 		//	Set null when is not from document
-		if(!resetConversion) {
+		if(resetConversion) {
 			setC_ConversionType_ID(0);
 			setC_Conversion_Rate_ID(0);
 		}
@@ -573,6 +576,22 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 */
 	private Timestamp getPayDate() {
 		return getParent().getPayDate();
+	}
+	
+	@Override
+	public void setPaymentRule(String PaymentRule) {
+		if (PaymentRule == null
+				||(
+						!getPaymentRule().equals(PAYMENTRULE_Check) 
+						&& !getPaymentRule().equals(PAYMENTRULE_CreditCard) 
+						&& !getPaymentRule().equals(PAYMENTRULE_DirectDeposit) 
+						&& !getPaymentRule().equals(PAYMENTRULE_DirectDebit)
+				)) {
+			//	Set from Standard
+			PaymentRule = PAYMENTRULE_Check;
+		}
+		//	Set
+		super.setPaymentRule(PaymentRule);
 	}
 
 }	//	MPaySelectionLine
