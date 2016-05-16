@@ -301,7 +301,7 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 			if (mField.isDisplayed(true)) {
 				if (!editor.isVisible()) {
 					editor.setVisible(true);
-					if (mField.getVO().IsRange) {
+					if (mField.isRange()) {
 						m_separators.get(i).setVisible(true);
 						m_wEditors_To.get(i).setVisible(true);
 					}
@@ -312,25 +312,25 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 				if ((value == null || value.toString().length() == 0)
 						&& defaultValue != null) {
 					mField.setValue(defaultValue, true);
-					m_wEditors.get(i).setValue(defaultValue);
+					editor.setValue(defaultValue);
 				}
 				boolean rw = mField.isEditablePara(true); // r/w - check if field is Editable
-				m_wEditors.get(i).setReadWrite(rw);
 				editor.setReadWrite(rw);
 				editor.dynamicDisplay();
 				//	FR [ 349 ]
 				if (mField.isRange()) {
-					GridField gridFieldTo = m_wEditors_To.get(i).getGridField();
+					WEditor editorTo = m_wEditors_To.get(i);
+					GridField gridFieldTo = editorTo.getGridField();
 					Object valueTo = gridFieldTo.getValue();
 					Object defaultValueTo = gridFieldTo.getDefault();
 					if ((valueTo == null || valueTo.toString().length() == 0)
 							&& defaultValueTo != null) {
 						gridFieldTo.setValue(defaultValueTo, true);
-						m_wEditors_To.get(i).setValue(defaultValueTo);
+						editorTo.setValue(defaultValueTo);
 					}
 					rw = gridFieldTo.isEditablePara(true); // r/w - check if field is Editable
-					m_wEditors_To.get(i).setReadWrite(rw);
-					m_wEditors_To.get(i).dynamicDisplay();
+					editorTo.setReadWrite(rw);
+					editorTo.dynamicDisplay();
 				}
 			} else if (editor.isVisible()) {
 				editor.setVisible(false);
