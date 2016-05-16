@@ -31,7 +31,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -45,6 +44,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
+import org.adempiere.model.GenericPO;
 import org.compiere.Adempiere;
 import org.compiere.acct.Doc;
 import org.compiere.util.CLogMgt;
@@ -94,6 +94,9 @@ import org.w3c.dom.Element;
  *			<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
  *			<li>Error when try load a PO Entity with virtual columns
  *			<li>http://adempiere.atlassian.net/browse/ADEMPIERE-100
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 392 ] Translation method does not use PO class
+ *			@see https://github.com/adempiere/adempiere/issues/392
  */
 public abstract class PO
 	implements Serializable, Comparator, Evaluatee, Cloneable
@@ -3220,8 +3223,7 @@ public abstract class PO
 	 * 	Insert (missing) Translation Records
 	 * 	@return false if error (true if no translation or success)
 	 */
-	public boolean insertTranslations()
-	{
+	public boolean insertTranslations() {
 		//	Not a translation table
 		if (m_IDs.length > 1
 			|| m_IDs[0].equals(I_ZERO)
@@ -3229,50 +3231,53 @@ public abstract class PO
 			|| !(m_IDs[0] instanceof Integer))
 			return true;
 		//
-		StringBuffer iColumns = new StringBuffer();
-		StringBuffer sColumns = new StringBuffer();
-		for (int i = 0; i < p_info.getColumnCount(); i++)
-		{
-			if (p_info.isColumnTranslated(i))
-			{
-				iColumns.append(p_info.getColumnName(i))
-					.append(",");
-				sColumns.append("t.")
-					.append(p_info.getColumnName(i))
-					.append(",");
+		ArrayList<String> tColumns = new ArrayList<String>();
+		for (int i = 0; i < p_info.getColumnCount(); i++) {
+			if (p_info.isColumnTranslated(i)) {
+				tColumns.add(p_info.getColumnName(i));
 			}
 		}
-		if (iColumns.length() == 0)
+		//	Valid translation Columns
+		if (tColumns.size() == 0)
 			return true;
-
-		String tableName = p_info.getTableName();
+		//	Get Available languages
+		MLanguage [] langs = MLanguage.getMaintainLanguage(getCtx());
+		//	Valid Languages
+		if(langs.length == 0)
+			return true;
+		//	Get Keys
+		String tableName = p_info.getTableName() + "_Trl";
 		String keyColumn = m_KeyColumns[0];
-		StringBuffer sql = new StringBuffer ("INSERT INTO ")
-			.append(tableName).append("_Trl (AD_Language,")
-			.append(keyColumn).append(", ")
-			.append(iColumns)
-			.append(" IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) ")
-			.append("SELECT l.AD_Language,t.")
-			.append(keyColumn).append(", ")
-			.append(sColumns)
-			.append(" 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy ")
-			.append("FROM AD_Language l, ").append(tableName).append(" t ")
-			.append("WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.")
-			.append(keyColumn).append("=").append(get_ID())
-			.append(" AND NOT EXISTS (SELECT * FROM ").append(tableName)
-			.append("_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.")
-			.append(keyColumn).append("=t.").append(keyColumn).append(")");
-		int no = DB.executeUpdate(sql.toString(), m_trxName);
+		//	Save by Language
+		int no = 0;
+		for(MLanguage language : langs) {
+			GenericPO po = new GenericPO(tableName, getCtx(), -1);
+			//	Set Values
+			po.set_Value(keyColumn, get_ID());
+			po.set_Value("IsTranslated", false);
+			po.set_Value("AD_Language", language.getAD_Language());
+			po.setAD_Client_ID(0);
+			po.setAD_Org_ID(0);
+			//	Add Translation Column
+			for(String translationColumn : tColumns) {
+				Object value = get_Value(translationColumn);
+				po.set_Value(translationColumn, value);
+			}
+			//	Save
+			po.saveEx(m_trxName);
+			//	Increment
+			no ++;
+		}
+		//	Log
 		log.fine("#" + no);
-		return no > 0;
+		return no >= 0;
 	}	//	insertTranslations
 
 	/**
 	 * 	Update Translations.
 	 * 	@return false if error (true if no translation or success)
 	 */
-	private boolean updateTranslations()
-	{
+	private boolean updateTranslations() {
 		//	Not a translation table
 		if (m_IDs.length > 1
 			|| m_IDs[0].equals(I_ZERO)
@@ -3295,41 +3300,37 @@ public abstract class PO
 		//
 		MClient client = MClient.get(getCtx());
 		//
-		String tableName = p_info.getTableName();
+		String tableName = p_info.getTableName() + "_Trl";
 		String keyColumn = m_KeyColumns[0];
-		StringBuffer sql = new StringBuffer ("UPDATE ")
-			.append(tableName).append("_Trl SET ");
-		//
-		if (client.isAutoUpdateTrl(tableName))
-		{
-			for (int i = 0; i < p_info.getColumnCount(); i++)
-			{
-				if (p_info.isColumnTranslated(i))
-				{
-					String columnName = p_info.getColumnName(i);
-					sql.append(columnName).append("=");
-					Object value = get_Value(columnName);
-					if (value == null)
-						sql.append("NULL");
-					else if (value instanceof String)
-						sql.append(DB.TO_STRING((String)value));
-					else if (value instanceof Boolean)
-						sql.append(((Boolean)value).booleanValue() ? "'Y'" : "'N'");
-					else if (value instanceof Timestamp)
-						sql.append(DB.TO_DATE((Timestamp)value));
-					else
-						sql.append(value.toString());
-					sql.append(",");
+		List<PO> trlList = new Query(getCtx(), tableName, 
+				keyColumn + " = ?", get_TrxName())
+			.setParameters(get_ID())
+			.<PO>list();
+		
+		if(trlList == null
+				|| trlList.size() == 0)
+			return true;
+		//	Set Values
+		int no = 0;
+		for(PO trl : trlList) {
+			boolean isTranslated = false;
+			if (client.isAutoUpdateTrl(tableName)) {
+				for (int i = 0; i < p_info.getColumnCount(); i++) {
+					if (p_info.isColumnTranslated(i)) {
+						String columnName = p_info.getColumnName(i);
+						Object value = get_Value(columnName);
+						trl.set_Value(columnName, value);
+					}
 				}
+				//	Set flag
+				isTranslated = true;
 			}
-			sql.append("IsTranslated='Y'");
+			//	Set Value
+			trl.set_Value("IsTranslated", isTranslated);
+			trl.saveEx(m_trxName);
+			//	Increment
+			no ++;
 		}
-		else
-			sql.append("IsTranslated='N'");
-		//
-		sql.append(" WHERE ")
-			.append(keyColumn).append("=").append(get_ID());
-		int no = DB.executeUpdate(sql.toString(), m_trxName);
 		log.fine("#" + no);
 		return no >= 0;
 	}	//	updateTranslations
@@ -3339,8 +3340,7 @@ public abstract class PO
 	 * 	@param trxName transaction
 	 * 	@return false if error (true if no translation or success)
 	 */
-	private boolean deleteTranslations(String trxName)
-	{
+	private boolean deleteTranslations(String trxName) {
 		//	Not a translation table
 		if (m_IDs.length > 1
 			|| m_IDs[0].equals(I_ZERO)
@@ -3348,12 +3348,22 @@ public abstract class PO
 			|| !(m_IDs[0] instanceof Integer))
 			return true;
 		//
-		String tableName = p_info.getTableName();
+		String tableName = p_info.getTableName() + "_Trl";
 		String keyColumn = m_KeyColumns[0];
-		StringBuffer sql = new StringBuffer ("DELETE  FROM  ")
-			.append(tableName).append("_Trl WHERE ")
-			.append(keyColumn).append("=").append(get_ID());
-		int no = DB.executeUpdate(sql.toString(), trxName);
+		List<PO> trlList = new Query(getCtx(), tableName, 
+				keyColumn + " = ?", get_TrxName())
+			.setParameters(get_ID())
+			.<PO>list();
+		
+		if(trlList == null
+				|| trlList.size() == 0)
+			return true;
+		//	Set Values
+		int no = 0;
+		for(PO trl : trlList) {
+			trl.deleteEx(true, m_trxName);
+			no ++;
+		}
 		log.fine("#" + no);
 		return no >= 0;
 	}	//	deleteTranslations
