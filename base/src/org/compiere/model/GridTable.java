@@ -88,6 +88,8 @@ import org.compiere.util.ValueNamePair;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 9223372036854775807 ] Add default values for Name, Description, Entity Type...
  *			@see https://adempiere.atlassian.net/browse/ADEMPIERE-449
+ *			<li> FR [ 392 ] Translation method does not use PO class
+ *			@see https://github.com/adempiere/adempiere/issues/392
  */
 public class GridTable extends AbstractTableModel
 	implements Serializable
@@ -1467,7 +1469,8 @@ public class GridTable extends AbstractTableModel
 			Record_ID = getKeyID(m_rowChanged);
 		try
 		{
-			if (!m_tableName.endsWith("_Trl") && !specialZeroUpdate)	//	translation tables have no model
+			//	FR [ 392 ]
+			if (!specialZeroUpdate)	//	translation tables have no model
 				return dataSavePO (Record_ID);
 		}
 		catch (Throwable e)
