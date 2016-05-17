@@ -348,8 +348,6 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 
 				if (posPanel.isPresentElectronicScales())
 					buttonScales.setEnabled(false);
-				else
-					buttonScales.setVisible(false);
 
 				fieldPrice.setEnabled(false);
 				fieldQuantity.setEnabled(false);
