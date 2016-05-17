@@ -20,9 +20,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.compiere.util.CCache;
@@ -40,6 +43,9 @@ import org.compiere.util.Env;
  *  @author Victor Perez, e-Evolution SC
  *			<li>[ 2195894 ] Improve performance in PO engine
  *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 390 ] Special Tables are with hardcode instead use attribute
+ *			@see https://github.com/adempiere/adempiere/issues/390
  */
 public class POInfo implements Serializable
 {
@@ -128,7 +134,8 @@ public class POInfo implements Serializable
 	private boolean		m_hasKeyColumn = false;
 	/**	Table needs keep log*/
 	private boolean 	m_IsChangeLog = false;
-	
+	/**	Ignore Migration Log*/
+	private boolean 	m_IsIgnoreMigration = false;
 
 	/**
 	 *  Load Table/Column Info
@@ -139,15 +146,35 @@ public class POInfo implements Serializable
 	{
 		ArrayList<POInfoColumn> list = new ArrayList<POInfoColumn>(15);
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT t.TableName, c.ColumnName,c.AD_Reference_ID,"    //  1..3
-			+ "c.IsMandatory,c.IsUpdateable,c.DefaultValue,"                //  4..6
-			+ "e.Name,e.Description, c.AD_Column_ID, "						//  7..9
-			+ "c.IsKey,c.IsParent, "										//	10..11
-			+ "c.AD_Reference_Value_ID, vr.Code, "							//	12..13
-			+ "c.FieldLength, c.ValueMin, c.ValueMax, c.IsTranslated, "		//	14..17
-			+ "t.AccessLevel, c.ColumnSQL, c.IsEncrypted, "					// 18..20
-			+ "c.IsAllowLogging,t.IsChangeLog "								// 21,22
-			+ ",t.AD_Table_ID "												// 26 // metas
+		//	FR [ 390 ] Get Native Columns
+		
+		sql.append("SELECT "
+				+ "t.TableName, "
+				+ "c.ColumnName, "
+				+ "c.AD_Reference_ID,"
+				+ "c.IsMandatory, "
+				+ "c.IsUpdateable, "
+				+ "c.DefaultValue,"
+				+ "e.Name, "
+				+ "e.Description, "
+				+ "c.AD_Column_ID, "
+				+ "c.IsKey, "
+				+ "c.IsParent, "
+				+ "c.AD_Reference_Value_ID, "
+				+ "vr.Code, "
+				+ "c.FieldLength, "
+				+ "c.ValueMin, "
+				+ "c.ValueMax, "
+				+ "c.IsTranslated, "
+				+ "t.AccessLevel, "
+				+ "c.ColumnSQL, "
+				+ "c.IsEncrypted, "
+				+ "c.IsAllowLogging, "
+				+ "t.IsChangeLog, "
+				+ "t.AD_Table_ID, "
+				//	FR [ 390 ]
+				//	Additional columns
+				+ "t.*, c.* "
 		);
 		sql.append(" FROM AD_Table t"
 			+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
@@ -172,62 +199,67 @@ public class POInfo implements Serializable
 			else
 				pstmt.setInt(1, m_AD_Table_ID);
 			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
+			if(rs.next()) {
+				//	Get Table
 				if (m_TableName == null)
 					m_TableName = rs.getString(1);
 				if (m_AD_Table_ID <= 0)
 					m_AD_Table_ID = rs.getInt("AD_Table_ID");
-				String ColumnName = rs.getString(2);
-				int AD_Reference_ID = rs.getInt(3);
-				boolean IsMandatory = "Y".equals(rs.getString(4));
-				boolean IsUpdateable = "Y".equals(rs.getString(5));
-				String DefaultLogic = rs.getString(6);
-				String Name = rs.getString(7);
-				String Description = rs.getString(8);
-				int AD_Column_ID = rs.getInt(9);
-				boolean IsKey = "Y".equals(rs.getString(10));
-				// metas: begin
-				if (IsKey)
-				{
-					if (m_hasKeyColumn)
+				//	Load additional attributes
+				loadAdditionalAttributes(rs);
+				//	Get Standard Columns
+				do {
+					String ColumnName = rs.getString(2);
+					int AD_Reference_ID = rs.getInt(3);
+					boolean IsMandatory = "Y".equals(rs.getString(4));
+					boolean IsUpdateable = "Y".equals(rs.getString(5));
+					String DefaultLogic = rs.getString(6);
+					String Name = rs.getString(7);
+					String Description = rs.getString(8);
+					int AD_Column_ID = rs.getInt(9);
+					boolean IsKey = "Y".equals(rs.getString(10));
+					// metas: begin
+					if (IsKey)
 					{
-						// it already has a key column, which means that this table has multi-primary key
-						// so we don't have a single key column
-						m_keyColumnName = null;
+						if (m_hasKeyColumn)
+						{
+							// it already has a key column, which means that this table has multi-primary key
+							// so we don't have a single key column
+							m_keyColumnName = null;
+						}
+						else
+						{
+							m_keyColumnName = ColumnName;
+						}
 					}
-					else
-					{
-						m_keyColumnName = ColumnName;
-					}
-				}
-				// metas: end
-				if (IsKey)
-					m_hasKeyColumn = true;
-				boolean IsParent = "Y".equals(rs.getString(11));
-				int AD_Reference_Value_ID = rs.getInt(12);
-				String ValidationCode = rs.getString(13);
-				int FieldLength = rs.getInt(14);
-				String ValueMin = rs.getString(15);
-				String ValueMax = rs.getString(16);
-				boolean IsTranslated = "Y".equals(rs.getString(17));
-				//
-				m_AccessLevel = rs.getString(18);
-				String ColumnSQL = rs.getString(19);
-				boolean IsEncrypted = "Y".equals(rs.getString(20));
-				boolean IsAllowLogging = "Y".equals(rs.getString(21));
-				m_IsChangeLog="Y".equals(rs.getString(22));
+					// metas: end
+					if (IsKey)
+						m_hasKeyColumn = true;
+					boolean IsParent = "Y".equals(rs.getString(11));
+					int AD_Reference_Value_ID = rs.getInt(12);
+					String ValidationCode = rs.getString(13);
+					int FieldLength = rs.getInt(14);
+					String ValueMin = rs.getString(15);
+					String ValueMax = rs.getString(16);
+					boolean IsTranslated = "Y".equals(rs.getString(17));
+					//
+					m_AccessLevel = rs.getString(18);
+					String ColumnSQL = rs.getString(19);
+					boolean IsEncrypted = "Y".equals(rs.getString(20));
+					boolean IsAllowLogging = "Y".equals(rs.getString(21));
+					m_IsChangeLog="Y".equals(rs.getString(22));
 
-				POInfoColumn col = new POInfoColumn (
-					AD_Column_ID, ColumnName, ColumnSQL, AD_Reference_ID,
-					IsMandatory, IsUpdateable,
-					DefaultLogic, Name, Description,
-					IsKey, IsParent,
-					AD_Reference_Value_ID, ValidationCode,
-					FieldLength, ValueMin, ValueMax,
-					IsTranslated, IsEncrypted,
-					IsAllowLogging);
-				list.add(col);
+					POInfoColumn col = new POInfoColumn (
+						AD_Column_ID, ColumnName, ColumnSQL, AD_Reference_ID,
+						IsMandatory, IsUpdateable,
+						DefaultLogic, Name, Description,
+						IsKey, IsParent,
+						AD_Reference_Value_ID, ValidationCode,
+						FieldLength, ValueMin, ValueMax,
+						IsTranslated, IsEncrypted,
+						IsAllowLogging);
+					list.add(col);
+				} while(rs.next());
 			}
 		}
 		catch (SQLException e)
@@ -242,6 +274,38 @@ public class POInfo implements Serializable
 		m_columns = new POInfoColumn[list.size()];
 		list.toArray(m_columns);
 	}   //  loadInfo
+	
+	/**
+	 * Get Additional attributes
+	 * @param rs
+	 * @throws SQLException 
+	 */
+	private void loadAdditionalAttributes(ResultSet rs) throws SQLException {
+		//	Get Meta-Data
+		ResultSetMetaData rsmd = rs.getMetaData();
+		//	FR [ 390 ]
+		//	Additional columns
+		//	First verify if exists
+		HashMap<String, Boolean> existColumn = new HashMap<String, Boolean>();
+		//	Add new attributes here
+		existColumn.put("IsIgnoreMigration", false);
+		//	
+		for(int i = 1; i < rsmd.getColumnCount(); i++) {
+			String columnName = rsmd.getColumnName(i);
+			if (columnName.equalsIgnoreCase("IsIgnoreMigration")) {
+				existColumn.put("IsIgnoreMigration", true);
+				String value = rs.getString(i);
+				m_IsIgnoreMigration = (value != null && value.equals("Y"));
+			}
+		}
+		//	Valid Additional Columns
+		for(Entry<String, Boolean> entry : existColumn.entrySet()) {
+			//	Validate for warning
+			if(!entry.getValue()) {
+				CLogger.get().log(Level.WARNING, "Table [" + m_TableName + "] - Attribute [" + entry.getKey() + "] Not found");
+			}
+		}
+	}
 
 	/**
 	 *  String representation
@@ -282,6 +346,14 @@ public class POInfo implements Serializable
 	{
 		return m_AD_Table_ID;
 	}   //  getAD_Table_ID
+	
+	/**
+	 * Get Ignore Migration Attribute
+	 * @return
+	 */
+	public boolean isIgnoreMigration() {
+		return m_IsIgnoreMigration;
+	}
 
 	/**
 	 * 	Table has a Key Column
