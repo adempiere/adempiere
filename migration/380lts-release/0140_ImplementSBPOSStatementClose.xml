@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="#117 Implement Smart Browser for POS Statement Close and pro" ReleaseNo="3.8.0#002" SeqNo="198">
+  <Migration EntityType="D" Name="#117 Implement Smart Browser for POS Statement Close and pro" ReleaseNo="3.8.0#002" SeqNo="140">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="53847" Table="AD_Process">
         <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
