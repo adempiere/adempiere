@@ -205,8 +205,10 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		userPinListener = new POSUserPinListener(this);
 		//Delay 5 seconds by default
 		userPinTimer = new javax.swing.Timer((getPINEntryTimeout() + 10)  * 1000, userPinListener);
-		scalesListener =  new POSScalesListener(this);
-		scalesTimer =  new javax.swing.Timer(400,  scalesListener);
+		if (isPresentElectronicScales()) {
+			scalesListener = new POSScalesListener(this);
+			scalesTimer = new javax.swing.Timer(400, scalesListener);
+		}
 		isCorrectUserPin = null;
 
 		SettingKeyboardFocusManager();

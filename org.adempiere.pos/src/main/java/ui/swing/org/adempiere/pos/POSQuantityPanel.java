@@ -332,8 +332,6 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 
 				if (posPanel.isPresentElectronicScales())
 					buttonScales.setEnabled(true);
-				else
-					buttonScales.setVisible(false);
 
 				fieldQuantity.setEnabled(true);
 				if(posPanel.isReturnMaterial() ){
@@ -343,7 +341,7 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 					fieldPrice.setEnabled(true);
 					fieldDiscountPercentage.setEnabled(true);					
 				}
-			}else {
+			}	else {
 				fieldQuantity.setReadWrite(false);
 				fieldPrice.setReadWrite(false);
 				fieldDiscountPercentage.setReadWrite(false);

@@ -1938,8 +1938,11 @@ public class CPOS {
 
 	public boolean isPresentElectronicScales()
 	{
-		if (getElectronicScales() != null && getElectronicScales().length() > 0)
-			return true;
+		if (getElectronicScales() != null)
+			if (getElectronicScales().length() > 0)
+				return true;
+			else
+				return false;
 		else
 			return false;
 	}
