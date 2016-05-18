@@ -191,8 +191,10 @@ public class WQueryDocType extends WPOSQuery implements POSQueryInterface
 			.append(" FROM C_DocType dt")
 			.append(" LEFT JOIN AD_Sequence sq ON (sq.AD_Sequence_ID = dt.DocNoSequence_ID)")
 			.append(" WHERE dt.AD_Client_ID = ? AND dt.AD_Org_ID IN (0, ?)")
+			.append(" AND dt.isActive='Y'")
 			.append(" AND dt.DocBaseType='SOO'")
-			.append(" AND dt.DocSubTypeSO IN(?, ?, ?, ?, ?)");
+			.append(" AND dt.DocSubTypeSO IN(?, ?, ?, ?, ?)")
+		    .append(" ORDER BY dt.Name");
 			int i = 1;			
 			preparedStatement = DB.prepareStatement(sql.toString(), null);
 			//	POS
