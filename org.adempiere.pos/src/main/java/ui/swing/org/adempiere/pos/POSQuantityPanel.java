@@ -264,7 +264,10 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 			{
 				posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
 				posPanel.setPrice((BigDecimal) fieldPrice.getValue());
-				posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
+				BigDecimal discountPercentage = (BigDecimal) fieldDiscountPercentage.getValue();
+				if(discountPercentage==null)
+					discountPercentage = Env.ZERO;
+				posPanel.setDiscountPercentage(discountPercentage);
 				posPanel.updateLineTable();
 				posPanel.changeViewPanel();
 				posPanel.refreshPanel();
