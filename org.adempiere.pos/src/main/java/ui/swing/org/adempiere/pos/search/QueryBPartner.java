@@ -118,7 +118,7 @@ public class QueryBPartner extends POSQuery {
 		parameterPanel.add (labelTaxID, " growy");
 		fieldTaxID = new POSTextField("", posPanel.getKeyboard());
 		labelTaxID.setLabelFor(fieldTaxID);
-		parameterPanel.add(labelTaxID, "h 30, w 200");
+		parameterPanel.add(fieldTaxID, "h 30, w 200");
 		fieldTaxID.addActionListener(this);
 		
 		//
