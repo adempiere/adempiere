@@ -208,7 +208,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 		fieldProductName.addEventListener(this);
 
 		row = rows.newRow();
-		row.setSpans("10");
+		row.setSpans("12");
 		if (posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard()) {
 			lookupProduct = new WPOSLookupProduct(this, fieldProductName, new Long("1"));
 			lookupProduct.setPriceListId(posPanel.getM_PriceList_ID());
@@ -417,7 +417,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 				true,
 				true,
 				null);
-		infoProduct.setVisible(true);
+		AEnv.showWindow(infoProduct);
 		Object[] result = infoProduct.getSelectedKeys();
 		if(result == null)
 			return;
