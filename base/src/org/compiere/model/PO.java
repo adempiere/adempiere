@@ -3248,6 +3248,12 @@ public abstract class PO
 		//	Get Keys
 		String tableName = p_info.getTableName() + "_Trl";
 		String keyColumn = m_KeyColumns[0];
+		//	Verify if Table Exist
+		MTable table = MTable.get(getCtx(), tableName);
+		if(table == null) {
+			log.warning("Table [" + tableName + "] Not found");
+			return false;
+		}
 		//	Save by Language
 		int no = 0;
 		for(MLanguage language : langs) {
@@ -3286,11 +3292,9 @@ public abstract class PO
 			return true;
 		//
 		boolean trlColumnChanged = false;
-		for (int i = 0; i < p_info.getColumnCount(); i++)
-		{
+		for (int i = 0; i < p_info.getColumnCount(); i++) {
 			if (p_info.isColumnTranslated(i)
-				&& is_ValueChanged(p_info.getColumnName(i)))
-			{
+				&& is_ValueChanged(p_info.getColumnName(i))) {
 				trlColumnChanged = true;
 				break;
 			}
@@ -3298,10 +3302,17 @@ public abstract class PO
 		if (!trlColumnChanged)
 			return true;
 		//
-		MClient client = MClient.get(getCtx());
-		//
 		String tableName = p_info.getTableName() + "_Trl";
 		String keyColumn = m_KeyColumns[0];
+		//	Verify if Table Exist
+		MTable table = MTable.get(getCtx(), tableName);
+		if(table == null) {
+			log.warning("Table [" + tableName + "] Not found");
+			return false;
+		}
+		//
+		MClient client = MClient.get(getCtx());
+		//	
 		List<PO> trlList = new Query(getCtx(), tableName, 
 				keyColumn + " = ?", get_TrxName())
 			.setParameters(get_ID())
