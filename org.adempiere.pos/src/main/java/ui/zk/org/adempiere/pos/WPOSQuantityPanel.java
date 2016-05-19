@@ -124,7 +124,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		row.appendChild(fieldQuantity);
 		fieldQuantity.addEventListener(Events.ON_OK, this);
 		fieldQuantity.addEventListener(Events.ON_CHANGE, this);
-		fieldQuantity.setStyle("display: inline;width:90px;height:30px;Font-size:medium;");
+		fieldQuantity.setStyle("display: inline;width:65px;height:30px;Font-size:medium;");
 
 		Label priceLabel = new Label(Msg.translate(Env.getCtx(), "PriceActual"));
 		row.appendChild(priceLabel);
@@ -136,7 +136,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 			fieldPrice.setEnabled(false);
 		else
 			fieldPrice.addEventListener(Events.ON_CHANGING,this);
-		fieldPrice.setStyle("display: inline;width:90px;height:30px;Font-size:medium;");
+		fieldPrice.setStyle("display: inline;width:70px;height:30px;Font-size:medium;");
 		
 		Label priceDiscount = new Label(Msg.translate(Env.getCtx(), "Discount"));
 		row.appendChild(priceDiscount);
@@ -149,7 +149,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		else
 			fieldDiscountPercentage.addEventListener(Events.ON_CHANGING, this);
 
-		fieldDiscountPercentage.setStyle("display: inline;width:90px;height:30px;Font-size:medium;");
+		fieldDiscountPercentage.setStyle("display: inline;width:70px;height:30px;Font-size:medium;");
 		
 		Keylistener keyListener = new Keylistener();
 		fieldPrice.appendChild(keyListener);

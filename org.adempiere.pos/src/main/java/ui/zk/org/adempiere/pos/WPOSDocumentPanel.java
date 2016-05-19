@@ -125,7 +125,7 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, P
 		// BP
 		f_BPartnerName = new WPOSTextField(Msg.translate(Env.getCtx(), "IsCustomer"), posPanel.getKeyboard());
 		f_BPartnerName.setHeight("35px");
-		f_BPartnerName.setStyle("Font-size:1.4em; font-weight:bold");
+		f_BPartnerName.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
 		f_BPartnerName.setWidth("97%");
 		f_BPartnerName.addEventListener(this);
 		
@@ -145,10 +145,10 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, P
 		Style style = new Style();
 		style.setContent(".z-fieldset { margin-left:-5px }"
 				+ ".z-fieldset legend {font-size: medium; font-weight:bold; width:100%;} "
-				+ ".input-search table tr td input{font-size: medium; font-weight:bold; width:100%; height:30px;}"
+				+ ".input-search table tr td input{font-size: medium; font-weight:bold; width:100%; height:20px;}"
 				+ ".Table-OrderLine tr th div{font-size: 13px; padding:5px} "
 				+ ".Table-OrderLine tr td div, .Table-OrderLine tr td div input{font-size: 13; height:auto}"
-				+ ".label-description {font-size: medium; display:block; height:15px; font-weight:bold; width: 415px; overflow:hidden;}"
+				+ ".label-description {"+WPOS.FONTSIZEMEDIUM+" display:block; height:15px; font-weight:bold; width: 415px; overflow:hidden;}"
 				+ ".fontLarge label  {font-size: medium;}"
 				+ "div.z-grid-body {-moz-box-shadow: 0 0 0px #888;-webkit-box-shadow: 0 0 0px #888;box-shadow: 0 0 0px #888;}");
 		style.setParent(v_TitleBorder);
@@ -169,44 +169,44 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, P
 		row.setHeight("10px");
 		
 		Label f_lb_DocumentNo = new Label (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo) + ":");
-		f_lb_DocumentNo.setStyle("Font-size:1.4em;");
+		f_lb_DocumentNo.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(f_lb_DocumentNo.rightAlign());
 		
 		f_DocumentNo = new Label();
-		f_DocumentNo.setStyle("Font-size:1.4em; font-weight:bold");
+		f_DocumentNo.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
 		row.appendChild(f_DocumentNo.rightAlign());
 		
 		row = rows.newRow();
-		row.setHeight("30px");
+		row.setHeight("20px");
 		row.setWidth("100%");
 		Label f_lb_DocumentType = new Label (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_C_DocType_ID) + ":");
-		f_lb_DocumentType.setStyle("Font-size:1.4em;");
+		f_lb_DocumentType.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(f_lb_DocumentType.rightAlign());
 		
 		f_DocumentType = new Label();
 		f_DocumentType.setClass("label-description");
-		f_DocumentType.setStyle("Font-size:1.4em; font-weight:bold; width:auto !important;max-width:225px !important; white-space:pre;");
+		f_DocumentType.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold; width:auto !important;max-width:225px !important; white-space:pre;");
 		row.appendChild(f_DocumentType.rightAlign());
 		
 		row = rows.newRow();
-		row.setHeight("30px");
+		row.setHeight("20px");
 		
 		Label f_lb_DocumentStatus = new Label (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocStatus) + ":");
-		f_lb_DocumentStatus.setStyle("Font-size:1.4em;");
+		f_lb_DocumentStatus.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(f_lb_DocumentStatus.rightAlign());
 		f_DocumentStatus= new Label();
-		f_DocumentStatus.setStyle("Font-size:1.4em; font-weight:bold");
+		f_DocumentStatus.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
 		row.appendChild(f_DocumentStatus.rightAlign());
 		
 		row = rows.newRow();
-		row.setHeight("30px");
+		row.setHeight("20px");
 		
 		Label f_lb_SalesRep = new Label (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_SalesRep_ID) + ":");
-		f_lb_SalesRep.setStyle("Font-size:1.4em;");
+		f_lb_SalesRep.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(f_lb_SalesRep.rightAlign());
 		
 		f_SalesRep = new Label(posPanel.getSalesRepName());
-		f_SalesRep.setStyle("Font-size:1.4em; font-weight:bold");
+		f_SalesRep.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
 		row.appendChild(f_SalesRep.rightAlign());
 		
 		
@@ -218,40 +218,40 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, P
 		row.setHeight("10px");
 
 		Label lDocumentDate = new Label (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DateOrdered) + ":");
-		lDocumentDate.setStyle("Font-size:1.4em;");
+		lDocumentDate.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(lDocumentDate);
 		
 		f_DocumentDate = new Label();
-		f_DocumentDate.setStyle("Font-size:1.4em; font-weight:bold");
+		f_DocumentDate.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
 		row.appendChild(f_DocumentDate.rightAlign());
 		
 		row = rows.newRow();
 		row.setHeight("10px");
 		
 		Label lNet = new Label (Msg.translate(Env.getCtx(), "SubTotal")+":");
-		lNet.setStyle("Font-size:1.4em;");
+		lNet.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(lNet);
 		
 		f_TotalLines = new Label(String.valueOf(DisplayType.Amount));
-		f_TotalLines.setStyle("Font-size:1.4em;");
+		f_TotalLines.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(f_TotalLines.rightAlign());
 		
 		f_TotalLines.setText("0.00");
 		
 		row = rows.newRow();
-		row.setHeight("30px");
+		row.setHeight("20px");
 		
 		Label lTax = new Label (Msg.translate(Env.getCtx(), "C_Tax_ID")+":");
-		lTax.setStyle("Font-size:1.4em;");
+		lTax.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(lTax);
 		f_TaxAmount = new Label(String.valueOf(DisplayType.Amount));
-		f_TaxAmount.setStyle("Font-size:1.4em");
+		f_TaxAmount.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(f_TaxAmount.rightAlign());
 		f_TaxAmount.setText(Env.ZERO.toString());
 		
 		row = rows.newRow();
 		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
-		lTotal.setStyle("Font-size:1.4em;");
+		lTotal.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(lTotal);
 		f_GrandTotal = new Label(String.valueOf(DisplayType.Amount));
 		row.appendChild(f_GrandTotal.rightAlign());

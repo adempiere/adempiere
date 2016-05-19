@@ -126,14 +126,14 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		row = rows.newRow();
 		//	For Value
 		labelValue = new Label ();
-		labelValue.setStyle("Font-size:medium; font-weight:bold");
+		labelValue.setStyle(WPOS.FONTSIZEMEDIUM+" font-weight:bold");
 		//	Add
 		row.appendChild(labelValue);
 		
 		row = rows.newRow();
 		//  For Price List
 		labelPriceName = new Label ();
-		labelPriceName.setStyle("Font-size:medium; font-weight:bold");
+		labelPriceName.setStyle(WPOS.FONTSIZEMEDIUM+" font-weight:bold");
 		//	Add
 		row.appendChild(labelPriceName);
 		
@@ -151,28 +151,28 @@ public class WPOSInfoProduct extends WPOSSubPanel {
 		row = rows.newRow();
 		//	For Name
 		labelName = new Label ();
-		labelName.setStyle("Font-size:medium; font-weight:bold");
+		labelName.setStyle(WPOS.FONTSIZEMEDIUM+" font-weight:bold");
 		//	Add
 		row.appendChild(labelName);
 		
 		row = rows.newRow();
 		//  For UOM
 		labelUOMSymbol = new Label (Msg.getElement(Env.getCtx(), "C_UOM_ID"));
-		labelUOMSymbol.setStyle("Font-size:medium; font-weight:bold");
+		labelUOMSymbol.setStyle(WPOS.FONTSIZEMEDIUM+" font-weight:bold");
 		//	Add
 		row.appendChild(labelUOMSymbol);
 		
 		row = rows.newRow();
 		//	For Category
 		labelProductCategory = new Label(Msg.getElement(Env.getCtx(), "M_Product_Category_ID"));
-		labelProductCategory.setStyle("Font-size:medium; font-weight:bold");
+		labelProductCategory.setStyle(WPOS.FONTSIZEMEDIUM+" font-weight:bold");
 		//	Add
 		row.appendChild(labelProductCategory);
 		
 		row = rows.newRow();
 		//	For Category
 		labelProductTax = new Label(Msg.getElement(Env.getCtx(), "C_TaxCategory_ID"));
-		labelProductTax.setStyle("Font-size:medium; font-weight:bold");
+		labelProductTax.setStyle(WPOS.FONTSIZEMEDIUM+" font-weight:bold");
 		
 		//	Add
 		row.appendChild(labelProductTax);
