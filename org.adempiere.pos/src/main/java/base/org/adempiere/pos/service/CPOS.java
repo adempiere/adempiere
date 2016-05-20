@@ -821,21 +821,6 @@ public class CPOS {
 		//	Default Return
 		return false;
 	}
-	
-	/**
-	 * 	Get POSs for specific Sales Rep or all
-	 *	@return array of POS
-	 */
-	public List<MPOS> getPOSs (int salesRepId) {
-		String searchBy = MPOS.COLUMNNAME_SalesRep_ID;
-		int id = salesRepId;
-		if (salesRepId == 100) {
-			searchBy = MPOS.COLUMNNAME_AD_Client_ID;
-			id = Env.getAD_Client_ID(ctx);
-		}
-		return MPOS.getAll(ctx, searchBy, id , null);
-	}	//	getPOSs
-
 
 	/**
 	 * 	Get POSs for specific Sales Rep or all
