@@ -266,7 +266,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 			validLocator();
 			return;
 		}
-		poss = getPOSs(salesRep_ID);
+		int orgId = Env.getAD_Org_ID(getCtx());
+		poss = getPOSByOrganization(orgId);
 		//	Select POS
 		String msg = Msg.getMsg(ctx, "SelectPOS");
 		selection = new Window();
