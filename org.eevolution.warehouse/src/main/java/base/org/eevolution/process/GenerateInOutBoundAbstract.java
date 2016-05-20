@@ -18,8 +18,6 @@ package org.eevolution.process;
 
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
-
-
 /** Generated Process for (Generare Outbound Order)
  *  @author ADempiere (generated) 
  *  @version Release 3.8.0

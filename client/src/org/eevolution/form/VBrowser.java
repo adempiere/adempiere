@@ -101,6 +101,8 @@ import org.eevolution.grid.BrowserTable;
  * 		@see https://github.com/adempiere/adempiere/issues/252
  * 		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
  *		@see https://github.com/adempiere/adempiere/issues/352
+ *		<li>BR [ 394 ] Smart browse does not reset context when windows is closed
+ *		@see https://github.com/adempiere/adempiere/issues/394
  */
 public class VBrowser extends Browser implements ActionListener,
 		VetoableChangeListener, ChangeListener, ListSelectionListener,
@@ -546,8 +548,9 @@ public class VBrowser extends Browser implements ActionListener,
 	 *  Dispose
 	 */
 	public void dispose() {
+		//	BR [ 394 ]
+		Env.clearWinContext(getWindowNo());
 		searchPanel.dispose();
-//		m_frame.removeAll();
 		m_frame.dispose();
 	}   //  dis
 
