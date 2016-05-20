@@ -98,6 +98,8 @@ import org.zkoss.zul.Vbox;
  *		@see https://github.com/adempiere/adempiere/issues/265
  *		<li>BR [ 340 ] Smart Browse context is changed from table
  * 		@see https://github.com/adempiere/adempiere/issues/340
+ * 		<li>BR [ 394 ] Smart browse does not reset context when windows is closed
+ *		@see https://github.com/adempiere/adempiere/issues/394
  */
 public class WBrowser extends Browser implements IFormController,
 		EventListener, WTableModelListener, ValueChangeListener, ASyncProcess {
@@ -124,6 +126,13 @@ public class WBrowser extends Browser implements IFormController,
 	private Hbox topPanel;
 	private BusyDialog m_waiting;
 
+	/**
+	 * Open Browser
+	 * @param windowNo
+	 * @param browserId
+	 * @param whereClause
+	 * @return
+	 */
 	public static CustomForm openBrowse(int windowNo , int browserId , String whereClause) {
 		MBrowse browse = new MBrowse(Env.getCtx(), browserId , null);
 		boolean modal = false;
@@ -135,13 +144,32 @@ public class WBrowser extends Browser implements IFormController,
 		return new WBrowser(modal, windowNo, value, browse, keyColumn, multiSelection, whereClause).getForm();
 	}
 	
+	/**
+	 * Standard constructor
+	 * @param modal
+	 * @param WindowNo
+	 * @param value
+	 * @param browse
+	 * @param keyColumn
+	 * @param multiSelection
+	 * @param whereClause
+	 */
 	public WBrowser(boolean modal, int WindowNo, String value, MBrowse browse,
 			String keyColumn, boolean multiSelection, String whereClause) {
 		
 		super(modal, WindowNo, value, browse, keyColumn, multiSelection,
 				whereClause);
-		
-		m_frame = new CustomForm();
+		//	Clear Context
+		//	BR [ 394 ]
+		m_frame = new CustomForm() {
+			private static final long serialVersionUID = 2887836301614655646L;
+			//	
+			@Override
+			public void onClose() {
+				Env.clearWinContext(getWindowNo());
+				super.onClose();
+			}
+		};
 		windowNo = SessionManager.getAppDesktop().registerWindow(this);
 		copyWinContext();
 		setContextWhere(whereClause);
@@ -592,6 +620,9 @@ public class WBrowser extends Browser implements IFormController,
 		cmd_zoom();
 	}
 
+	/**
+	 * Ok Action
+	 */
 	private void cmd_Ok() {
 		log.config("OK=" + true);
 		m_ok = true;
@@ -631,6 +662,8 @@ public class WBrowser extends Browser implements IFormController,
 		if(isOk) {
 			//	Close
 			if(getParentWindowNo() > 0) {
+				//	BR [ 394 ]
+				Env.clearWinContext(getWindowNo());
 				SessionManager.getAppDesktop().closeActiveWindow();
 				return;
 			}
@@ -640,6 +673,9 @@ public class WBrowser extends Browser implements IFormController,
 		}
 	}
 	
+	/**
+	 * Show dialog for busy window
+	 */
 	private void showBusyDialog() {
 		m_waiting = new BusyDialog();
 		m_waiting.setPage(m_frame.getPage());
@@ -655,7 +691,9 @@ public class WBrowser extends Browser implements IFormController,
 	 * Cancel and Dispose
 	 */
 	private void cmd_Cancel() {
-		  SessionManager.getAppDesktop().closeActiveWindow();
+		//	BR [ 394 ]
+		Env.clearWinContext(getWindowNo());
+		SessionManager.getAppDesktop().closeActiveWindow();
 	}
 
 	/**
