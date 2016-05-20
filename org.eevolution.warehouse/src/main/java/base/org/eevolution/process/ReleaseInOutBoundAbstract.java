@@ -17,8 +17,6 @@
 package org.eevolution.process;
 
 import org.compiere.process.SvrProcess;
-
-
 /** Generated Process for (Release & Print Outbound Order)
  *  @author ADempiere (generated) 
  *  @version Release 3.8.0
