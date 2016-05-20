@@ -142,7 +142,7 @@ public class WAttachment extends Window implements EventListener
 		{
 			setAttribute(Window.MODE_KEY, Window.MODE_HIGHLIGHTED);			
 			AEnv.showWindow(this);
-			displayData(0, true);
+			displayData(0, false);
 			String script = "setTimeout(\"$e('"+ preview.getUuid() + "').src = $e('" +
 			preview.getUuid() + "').src\", 1000)";
 			Clients.response(new AuScript(null, script));
