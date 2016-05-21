@@ -266,22 +266,20 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 			// 
 			if (product.isItem()) 
 			{ 
-				MWarehouse w = MWarehouse.get(getCtx(), oLine.getParent().getM_Warehouse_ID());
-				MLocator locator_inTransit = MLocator.getDefault(w);
-				if(locator_inTransit == null)
-				{
-					throw new AdempiereException("Do not exist Locator for the  Warehouse in transit");
-				}
+				MWarehouse warehouse = MWarehouse.get(getCtx(), oLine.getParent().getM_Warehouse_ID());
+				MLocator locator = MLocator.getDefault(warehouse);
+				if(locator == null)
+					throw new AdempiereException("@M_Warehouse_ID@ " + warehouse.getName() + " @M_Locator_ID@ @IsDefault@ @NotFound@");
 				
 				if (isReceipt)
 				{
-					setM_Locator_ID(locator_inTransit.getM_Locator_ID()); 
+					setM_Locator_ID(locator.getM_Locator_ID());
 					setM_LocatorTo_ID(oLine.getM_LocatorTo_ID()); 
 				}
 				else 
 				{
 					setM_Locator_ID(oLine.getM_Locator_ID()); 
-					setM_LocatorTo_ID(locator_inTransit.getM_Locator_ID()); 
+					setM_LocatorTo_ID(locator.getM_Locator_ID());
 				}
 			} 
 			else 
