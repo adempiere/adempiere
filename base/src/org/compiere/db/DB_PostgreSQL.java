@@ -49,7 +49,10 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
  *  Modifications: removed static references to database connection and instead always
  *  get a new connection from database pool manager which manages all connections
  *                 set rw/ro properties for the connection accordingly.
- *  @author Ashley Ramdass (Posterita) 
+ *  @author Ashley Ramdass (Posterita)
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 391 ] getSchema method in DB_PostgreSQL.java is better use the adempiere user
+ *			@see https://github.com/adempiere/adempiere/issues/391
  */
 public class DB_PostgreSQL implements AdempiereDatabase
 {
@@ -215,9 +218,12 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 */
 	public String getSchema()
 	{
-		//begin vpj-cd e-evolution 03/04/2005
-		return "adempiere";
-		//end vpj-cd e-evolution 03/04/2005
+		//	vpj-cd e-evolution 03/04/2005
+		//	BR [ 391 ]
+		if (m_userName != null)
+            return m_userName;
+        log.severe("User Name not set (yet) - call getConnectionURL first");
+        return null;
 	}	//	getSchema
 
 	/**
