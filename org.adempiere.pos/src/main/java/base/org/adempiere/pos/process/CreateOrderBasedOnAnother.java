@@ -16,7 +16,6 @@
 
 package org.adempiere.pos.process;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MDocType;
@@ -51,9 +50,6 @@ public class CreateOrderBasedOnAnother extends CreateOrderBasedOnAnotherAbstract
     protected String doIt() throws Exception {
         today = new Timestamp(System.currentTimeMillis());
         MOrder sourceOrder = new MOrder(getCtx(),  getOrderSourceId() , get_TrxName());
-        //if(getInvoicePartnerId() == 0)
-        //    invoicePartnerId = sourceOrder.getC_BPartner_ID();
-
         //Create new Order based on source order
         targetOrder = MOrder.copyFrom(
                 sourceOrder,
@@ -155,6 +151,7 @@ public class CreateOrderBasedOnAnother extends CreateOrderBasedOnAnotherAbstract
             payment.setDateAcct(today);
             payment.setC_Order_ID(targetOrder.getC_Order_ID());
             payment.setC_BPartner_ID(targetOrder.getC_BPartner_ID());
+            payment.setC_Invoice_ID(-1);
             payment.addDescription(Msg.parseTranslation(sourceOrder.getCtx() , " @From@ ") + sourcePayment.getDocumentNo());
             payment.setIsReceipt(true);
             payment.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_ARReceipt, sourceOrder.getAD_Org_ID()));

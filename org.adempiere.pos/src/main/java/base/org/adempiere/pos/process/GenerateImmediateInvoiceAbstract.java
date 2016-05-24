@@ -17,8 +17,6 @@
 package org.adempiere.pos.process;
 
 import org.compiere.process.SvrProcess;
-
-
 /** Generated Process for (Generate Immediate Invoice)
  *  @author ADempiere (generated) 
  *  @version Release 3.8.0
@@ -36,8 +34,8 @@ public abstract class GenerateImmediateInvoiceAbstract extends SvrProcess
 	public static final String C_Order_ID = "C_Order_ID";
 	/**	Parameter Name for Bill_BPartner_ID	*/
 	public static final String Bill_BPartner_ID = "Bill_BPartner_ID";
-	/**	Parameter Name for DocBaseType	*/
-	public static final String DocBaseType = "DocBaseType";
+	/**	Parameter Name for DocSubTypeSO	*/
+	public static final String DocSubTypeSO = "DocSubTypeSO";
 	/**	Parameter Name for IsIncludePayments	*/
 	public static final String IsIncludePayments = "IsIncludePayments";
 	/**	Parameter Name for IsAllocated	*/
@@ -49,14 +47,14 @@ public abstract class GenerateImmediateInvoiceAbstract extends SvrProcess
 	private int orderId;
 	/**	Parameter Value for invoicePartnerId	*/
 	private int invoicePartnerId;
-	/**	Parameter Value for documentBaseType	*/
-	private String documentBaseType;
+	/**	Parameter Value for sOSubType	*/
+	private String sOSubType;
 	/**	Parameter Value for isIncludePayments	*/
 	private boolean isIncludePayments;
 	/**	Parameter Value for isAllocated	*/
 	private boolean isAllocated;
-	/**	Parameter Value for isShipReceiptConfirmation	*/
-	private boolean isShipReceiptConfirmation;
+	/**	Parameter Value for isipReceiptConfirmation	*/
+	private boolean isipReceiptConfirmation;
  
 
 	@Override
@@ -64,10 +62,10 @@ public abstract class GenerateImmediateInvoiceAbstract extends SvrProcess
 	{
 		orderId = getParameterAsInt(C_Order_ID);
 		invoicePartnerId = getParameterAsInt(Bill_BPartner_ID);
-		documentBaseType = getParameterAsString(DocBaseType);
+		sOSubType = getParameterAsString(DocSubTypeSO);
 		isIncludePayments = getParameterAsBoolean(IsIncludePayments);
 		isAllocated = getParameterAsBoolean(IsAllocated);
-		isShipReceiptConfirmation = getParameterAsBoolean(IsShipConfirm);
+		isipReceiptConfirmation = getParameterAsBoolean(IsShipConfirm);
 	}
 
 	/**	 Getter Parameter Value for orderId	*/
@@ -80,9 +78,9 @@ public abstract class GenerateImmediateInvoiceAbstract extends SvrProcess
 		return invoicePartnerId;
 	}
 
-	/**	 Getter Parameter Value for documentBaseType	*/
-	protected String getDocumentBaseType() {
-		return documentBaseType;
+	/**	 Getter Parameter Value for sOSubType	*/
+	protected String getSOSubType() {
+		return sOSubType;
 	}
 
 	/**	 Getter Parameter Value for isIncludePayments	*/
@@ -95,9 +93,9 @@ public abstract class GenerateImmediateInvoiceAbstract extends SvrProcess
 		return isAllocated;
 	}
 
-	/**	 Getter Parameter Value for isShipReceiptConfirmation	*/
-	protected boolean isShipReceiptConfirmation() {
-		return isShipReceiptConfirmation;
+	/**	 Getter Parameter Value for isipReceiptConfirmation	*/
+	protected boolean isipReceiptConfirmation() {
+		return isipReceiptConfirmation;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

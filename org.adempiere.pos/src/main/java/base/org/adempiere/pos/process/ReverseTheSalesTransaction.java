@@ -16,10 +16,7 @@
 
 package org.adempiere.pos.process;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
-import org.compiere.model.I_C_Invoice;
-import org.compiere.model.I_M_RMA;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutConfirm;
@@ -48,8 +45,6 @@ import java.util.List;
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 23/12/15.
  */
 public class ReverseTheSalesTransaction extends ReverseTheSalesTransactionAbstract  {
-
-    private boolean isCancelled = false;
     private Timestamp today;
     private List<MInOut> customerReturns = new ArrayList<MInOut>();
 
@@ -69,7 +64,7 @@ public class ReverseTheSalesTransaction extends ReverseTheSalesTransactionAbstra
         // If not exist invoice then only is necessary reverse shipment
         if (shipments.length > 0) {
             // Validate if partner not is POS partner standard then reverse shipment
-            if (sourceOrder.getC_BPartner_ID() != getInvoicePartnerId() || isCancelled) {
+            if (sourceOrder.getC_BPartner_ID() != getInvoicePartnerId() || isCancelled()) {
                 cancelShipments(shipments);
             }
         }
@@ -232,8 +227,8 @@ public class ReverseTheSalesTransaction extends ReverseTheSalesTransactionAbstra
     public List<MInvoice> getCreditNotes(int Id)
     {
         StringBuilder where = new StringBuilder();
-        where.append(I_M_RMA.COLUMNNAME_M_RMA_ID).append("=?");
-        return new Query(getCtx() , I_C_Invoice.Table_Name , where.toString() , get_TrxName())
+        where.append(MRMA.COLUMNNAME_M_RMA_ID).append("=?");
+        return new Query(getCtx() , MInvoice.Table_Name , where.toString() , get_TrxName())
                 .setClient_ID()
                 .setParameters(Id)
                 .list();

@@ -16,7 +16,7 @@
 
 package org.adempiere.pos.command;
 
-import org.compiere.model.I_C_Order;
+import org.adempiere.pos.process.ReverseTheSalesTransaction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
@@ -44,10 +44,10 @@ public class CommandReverseSalesTransaction extends CommandAbstract implements C
                         .create(commandReceiver.getCtx())
                         .process(processInfo.getAD_Process_ID())
                         .withTitle(processInfo.getTitle())
-                        .withParameter(I_C_Order.COLUMNNAME_C_Order_ID , commandReceiver.getOrderId())
-                        .withParameter(I_C_Order.COLUMNNAME_Bill_BPartner_ID , commandReceiver.getPartnerId())
-                        .withParameter("IsCancelled", true)
-                        .withParameter("IsShipConfirm", true)
+                        .withParameter(ReverseTheSalesTransaction.C_Order_ID, commandReceiver.getOrderId())
+                        .withParameter(ReverseTheSalesTransaction.Bill_BPartner_ID, commandReceiver.getPartnerId())
+                        .withParameter(ReverseTheSalesTransaction.IsCancelled, true)
+                        .withParameter(ReverseTheSalesTransaction.IsShipConfirm, true)
                         .withoutTransactionClose()
                         .execute(trxName);
                 commandReceiver.setProcessInfo(processInfo);

@@ -17,8 +17,12 @@
 package org.adempiere.pos.command;
 
 import org.adempiere.pos.AdempierePOSException;
-import org.adempiere.pos.process.ReverseTheSalesTransaction;
-import org.compiere.model.*;
+import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutConfirm;
+import org.compiere.model.MInOutLineConfirm;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPayment;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
@@ -60,7 +64,7 @@ public class CommandCompleteReturnMaterial extends CommandAbstract implements Co
                         .create(commandReceiver.getCtx())
                         .process(199)
                         .withTitle(processInfo.getTitle())
-                        .withParameter(I_C_Order.COLUMNNAME_M_Warehouse_ID, commandReceiver.getWarehouseId())
+                        .withParameter(MOrder.COLUMNNAME_M_Warehouse_ID, commandReceiver.getWarehouseId())
                         .withParameter("Selection", true)
                         .withSelectedRecordsIds(selectionIds)
                         .withoutTransactionClose()

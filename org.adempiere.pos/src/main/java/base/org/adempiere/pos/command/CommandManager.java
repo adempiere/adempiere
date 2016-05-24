@@ -18,7 +18,10 @@ package org.adempiere.pos.command;
 
 import org.adempiere.pos.AdempierePOSException;
 import org.adempiere.pos.process.CloseStatementPOS;
+import org.adempiere.pos.process.CreateOrderBasedOnAnother;
+import org.adempiere.pos.process.GenerateImmediateInvoice;
 import org.adempiere.pos.process.GenerateWithdrawal;
+import org.adempiere.pos.process.ReverseTheSalesTransaction;
 
 import java.util.HashMap;
 
@@ -28,12 +31,12 @@ import java.util.HashMap;
  */
 public class CommandManager {
 
-    public static String GENERATE_IMMEDIATE_INVOICE =  "C_POS Generate Immediate Invoice";
-    public static String GENERATE_REVERSE_SALES = "C_POS ReverseTheSalesTransaction";
-    public static String GENERATE_RETURN = "C_POS CreateOrderBasedOnAnother";
+    public static String GENERATE_IMMEDIATE_INVOICE = GenerateImmediateInvoice.getProcessValue();
+    public static String GENERATE_REVERSE_SALES = ReverseTheSalesTransaction.getProcessValue();
+    public static String GENERATE_RETURN = CreateOrderBasedOnAnother.getProcessValue();
     public static String COMPLETE_DOCUMENT = "Complete Document";
-    public static String GENERATE_WITHDRAWAL = GenerateWithdrawal.getProcessName();
-    public static String CLOSE_STATEMENT = CloseStatementPOS.getProcessName();
+    public static String GENERATE_WITHDRAWAL = GenerateWithdrawal.getProcessValue();
+    public static String CLOSE_STATEMENT = CloseStatementPOS.getProcessValue();
 
     private HashMap<String , Command> commands = new HashMap<String , Command>();
 
