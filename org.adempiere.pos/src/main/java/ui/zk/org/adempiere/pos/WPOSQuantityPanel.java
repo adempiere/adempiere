@@ -124,7 +124,7 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		row.appendChild(fieldQuantity);
 		fieldQuantity.addEventListener(Events.ON_OK, this);
 		fieldQuantity.addEventListener(Events.ON_CHANGE, this);
-		fieldQuantity.setStyle("display: inline;width:90px;height:30px;Font-size:medium;");
+		fieldQuantity.setStyle("display: inline;width:65px;height:30px;Font-size:medium;");
 
 		Label priceLabel = new Label(Msg.translate(Env.getCtx(), "PriceActual"));
 		row.appendChild(priceLabel);
@@ -134,9 +134,11 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		row.appendChild(fieldPrice);
 		if (!posPanel.isModifyPrice())
 			fieldPrice.setEnabled(false);
-		else
-			fieldPrice.addEventListener(Events.ON_CHANGING,this);
-		fieldPrice.setStyle("display: inline;width:90px;height:30px;Font-size:medium;");
+		else {
+			fieldPrice.addEventListener(Events.ON_OK, this);
+			fieldPrice.addEventListener(Events.ON_CHANGE, this);
+		}
+		fieldPrice.setStyle("display: inline;width:70px;height:30px;Font-size:medium;");
 		
 		Label priceDiscount = new Label(Msg.translate(Env.getCtx(), "Discount"));
 		row.appendChild(priceDiscount);
@@ -146,10 +148,11 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		fieldDiscountPercentage.setTooltiptext(Msg.translate(Env.getCtx(), "Discount"));
 		if (!posPanel.isModifyPrice())
 			fieldDiscountPercentage.setEnabled(false);
-		else
-			fieldDiscountPercentage.addEventListener(Events.ON_CHANGING, this);
-
-		fieldDiscountPercentage.setStyle("display: inline;width:90px;height:30px;Font-size:medium;");
+		else{
+			fieldDiscountPercentage.addEventListener(Events.ON_OK, this);
+			fieldDiscountPercentage.addEventListener(Events.ON_CHANGE, this);
+		}
+		fieldDiscountPercentage.setStyle("display: inline;width:70px;height:30px;Font-size:medium;");
 		
 		Keylistener keyListener = new Keylistener();
 		fieldPrice.appendChild(keyListener);
@@ -235,13 +238,8 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 						posPanel.setQuantity(value);
 					}
 					
-					posPanel.updateLineTable();
-					posPanel.refreshPanel();
-					posPanel.changeViewPanel();
-					posPanel.getMainFocus();
 				}
-			}
-			if(Events.ON_CHANGING.equals(e.getName())) {
+			
 				if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
 					value = fieldPrice.getValue();
 					if(posPanel.isUserPinValid()) {
@@ -255,6 +253,11 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 					}
 				}
 			}
+
+			posPanel.updateLineTable();
+			posPanel.refreshPanel();
+			posPanel.changeViewPanel();
+			posPanel.getMainFocus();
 		} catch (AdempiereException exception) {
 			FDialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
@@ -271,6 +274,8 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		buttonDelete.setEnabled(status);
 		buttonPlus.setEnabled(status);
 		buttonMinus.setEnabled(status);
+		buttonDown.setEnabled(status);
+		buttonUp.setEnabled(status);
 	}
 	
 	@Override
