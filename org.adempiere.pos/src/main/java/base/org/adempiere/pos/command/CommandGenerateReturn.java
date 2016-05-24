@@ -16,9 +16,7 @@
 
 package org.adempiere.pos.command;
 
-import org.compiere.model.I_C_DocType;
-import org.compiere.model.I_C_Order;
-import org.compiere.model.I_C_Payment;
+import org.adempiere.pos.process.CreateOrderBasedOnAnother;
 import org.compiere.model.MDocType;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
@@ -48,12 +46,12 @@ public class CommandGenerateReturn extends CommandAbstract implements Command {
                         .create(commandReceiver.getCtx())
                         .process(commandReceiver.getProcessId())
                         .withTitle(commandReceiver.getName())
-                        .withParameter(I_C_Order.COLUMNNAME_C_Order_ID , commandReceiver.getOrderId())
-                        .withParameter(I_C_Order.COLUMNNAME_Bill_BPartner_ID , commandReceiver.getPartnerId())
-                        .withParameter(I_C_DocType.COLUMNNAME_DocSubTypeSO , MDocType.DOCSUBTYPESO_ReturnMaterial)
-                        .withParameter(I_C_Order.COLUMNNAME_DocAction, DocAction.ACTION_None)
-                        .withParameter("IsIncludePayments", false)
-                        .withParameter(I_C_Payment.COLUMNNAME_IsAllocated, false)
+                        .withParameter(CreateOrderBasedOnAnother.C_OrderSource_ID, commandReceiver.getOrderId())
+                        .withParameter(CreateOrderBasedOnAnother.Bill_BPartner_ID, commandReceiver.getPartnerId())
+                        .withParameter(CreateOrderBasedOnAnother.DocSubTypeSO , MDocType.DOCSUBTYPESO_ReturnMaterial)
+                        .withParameter(CreateOrderBasedOnAnother.DocAction, DocAction.ACTION_None)
+                        .withParameter(CreateOrderBasedOnAnother.IsIncludePayments, false)
+                        .withParameter(CreateOrderBasedOnAnother.IsAllocated, false)
                         .withoutTransactionClose()
                         .execute(trxName)
                 );

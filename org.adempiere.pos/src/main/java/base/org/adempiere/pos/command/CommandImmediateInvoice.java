@@ -16,7 +16,8 @@
 
 package org.adempiere.pos.command;
 
-import org.compiere.model.X_C_DocType;
+import org.adempiere.pos.process.GenerateImmediateInvoice;
+import org.compiere.model.MDocType;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
@@ -36,19 +37,18 @@ public class CommandImmediateInvoice extends CommandAbstract implements Command 
     }
 
     @Override
-    public void execute(CommandReceiver commandReceiver) {
+    public void execute(CommandReceiver commandReceiver) throws Exception {
         Trx.run(new TrxRunnable() {
             public void run(String trxName) {
-                ProcessInfo processInfo = new ProcessInfo(commandReceiver.getEvent(), commandReceiver.getProcessId());
-                processInfo = ProcessBuilder.
+                ProcessInfo processInfo = ProcessBuilder.
                         create(commandReceiver.getCtx()).process(commandReceiver.getProcessId())
                         .withTitle(commandReceiver.getEvent())
-                        .withParameter("C_Order_ID",commandReceiver.getOrderId())
-                        .withParameter("DocSubTypeSO", X_C_DocType.DOCSUBTYPESO_OnCreditOrder)
-                        .withParameter("IsIncludePayments", true)
-                        .withParameter("IsAllocated", true)
-                        .withParameter("IsShipConfirm", true)
-                        .withParameter("Bill_BPartner_ID", commandReceiver.getPartnerId())
+                        .withParameter(GenerateImmediateInvoice.C_Order_ID,commandReceiver.getOrderId())
+                        .withParameter(GenerateImmediateInvoice.DocSubTypeSO, MDocType.DOCSUBTYPESO_OnCreditOrder)
+                        .withParameter(GenerateImmediateInvoice.IsIncludePayments, true)
+                        .withParameter(GenerateImmediateInvoice.IsAllocated, true)
+                        .withParameter(GenerateImmediateInvoice.IsShipConfirm, true)
+                        .withParameter(GenerateImmediateInvoice.Bill_BPartner_ID, commandReceiver.getPartnerId())
                         .withoutTransactionClose()
                         .execute(trxName);
                 commandReceiver.setProcessInfo(processInfo);

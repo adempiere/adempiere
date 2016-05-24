@@ -17,10 +17,6 @@
 package org.adempiere.pos.process;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_C_DocType;
-import org.compiere.model.I_C_Order;
-import org.compiere.model.I_C_Payment;
-import org.compiere.model.MDocType;
 import org.compiere.model.MOrder;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
@@ -34,31 +30,28 @@ import org.eevolution.service.dsl.ProcessBuilder;
  */
 public class GenerateImmediateInvoice extends GenerateImmediateInvoiceAbstract implements ASyncProcess {
 
-    private MOrder sourceOrder;
+    private MOrder order;
     @Override
     protected void prepare() {
         super.prepare();
-        sourceOrder = new MOrder(getCtx() , getOrderId() , get_TrxName());
+        order = new MOrder(getCtx() , getOrderId() , get_TrxName());
     }
 
     @Override
     protected String doIt() throws Exception {
-        if (sourceOrder == null || sourceOrder.get_ID() <= 0)
-            throw new AdempiereException("@C_Order_ID@ @NotFound@");
-
 
         //Create new Order for current date and Bill Partner
         ProcessInfo processInfo = ProcessBuilder
                 .create(getCtx())
-                .process("C_POS CreateOrderBasedOnAnother")
-                .withTitle("Create Order based on another")
+                .process(CreateOrderBasedOnAnother.getProcessId())
+                .withTitle(CreateOrderBasedOnAnother.getProcessName())
                 .withParentProcess(this)
-                .withParameter(I_C_Order.COLUMNNAME_C_Order_ID , sourceOrder.get_ID())
-                .withParameter(I_C_Order.COLUMNNAME_Bill_BPartner_ID , getInvoicePartnerId())
-                .withParameter(I_C_DocType.COLUMNNAME_DocSubTypeSO , MDocType.DOCSUBTYPESO_OnCreditOrder)
-                .withParameter(I_C_Order.COLUMNNAME_DocAction, DocAction.ACTION_Complete)
-                .withParameter("IsIncludePayments", true)
-                .withParameter(I_C_Payment.COLUMNNAME_IsAllocated, true)
+                .withParameter(CreateOrderBasedOnAnother.C_OrderSource_ID, order.get_ID())
+                .withParameter(CreateOrderBasedOnAnother.Bill_BPartner_ID , getInvoicePartnerId())
+                .withParameter(CreateOrderBasedOnAnother.DocSubTypeSO , getSOSubType())
+                .withParameter(CreateOrderBasedOnAnother.DocAction, DocAction.ACTION_Complete)
+                .withParameter(CreateOrderBasedOnAnother.IsIncludePayments, isIncludePayments())
+                .withParameter(CreateOrderBasedOnAnother.IsAllocated, isAllocated())
                 .withoutTransactionClose()
                 .execute(get_TrxName());
 
@@ -71,12 +64,12 @@ public class GenerateImmediateInvoice extends GenerateImmediateInvoiceAbstract i
         //Reverse The Sales Transaction for Source Order
         processInfo = ProcessBuilder
                 .create(getCtx())
-                .process("C_POS ReverseTheSalesTransaction")
-                .withTitle("Reverse The Sales Transaction")
+                .process(ReverseTheSalesTransaction.getProcessId())
+                .withTitle(ReverseTheSalesTransaction.getProcessName())
                 .withParentProcess(this)
-                .withParameter(I_C_Order.COLUMNNAME_C_Order_ID , sourceOrder.get_ID())
-                .withParameter(I_C_Order.COLUMNNAME_Bill_BPartner_ID , getInvoicePartnerId())
-                .withParameter("IsShipConfirm", isShipReceiptConfirmation())
+                .withParameter(ReverseTheSalesTransaction.C_Order_ID , order.get_ID())
+                .withParameter(ReverseTheSalesTransaction.Bill_BPartner_ID , getInvoicePartnerId())
+                .withParameter(ReverseTheSalesTransaction.IsShipConfirm, isipReceiptConfirmation())
                 .withoutTransactionClose()
                 .execute(get_TrxName());
 
