@@ -300,7 +300,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 AEnv.showCenterScreen(ff);
             }
         }
-        catch (AdempierePOSException exception)
+        catch (Exception exception)
         {
             ADialog.error(pos.getWindowNo(), pos.getFrame() , exception.getLocalizedMessage());
         }

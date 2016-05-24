@@ -312,7 +312,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                 SessionManager.getAppDesktop().showWindow(ff);
             }
         }
-        catch (AdempierePOSException exception)
+        catch (Exception exception)
         {
             FDialog.error(pos.getWindowNo(), pos.getForm(), exception.getLocalizedMessage());
         }
