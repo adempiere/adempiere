@@ -21,7 +21,7 @@ package org.adempiere.pos.command;
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 23/01/16.
  */
 public interface Command {
-    void execute(CommandReceiver commandReceiver);
+    void execute(CommandReceiver commandReceiver) throws Exception;
     String getCommand();
     String getEvent();
 }
