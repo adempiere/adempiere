@@ -821,21 +821,6 @@ public class CPOS {
 		//	Default Return
 		return false;
 	}
-	
-	/**
-	 * 	Get POSs for specific Sales Rep or all
-	 *	@return array of POS
-	 */
-	public List<MPOS> getPOSs (int salesRepId) {
-		String searchBy = MPOS.COLUMNNAME_SalesRep_ID;
-		int id = salesRepId;
-		if (salesRepId == 100) {
-			searchBy = MPOS.COLUMNNAME_AD_Client_ID;
-			id = Env.getAD_Client_ID(ctx);
-		}
-		return MPOS.getAll(ctx, searchBy, id , null);
-	}	//	getPOSs
-
 
 	/**
 	 * 	Get POSs for specific Sales Rep or all
@@ -944,9 +929,9 @@ public class CPOS {
 				setIsNewLine(false);
 				setOrderLineId(line.getC_OrderLine_ID());
 				BigDecimal currentPrice = line.getPriceEntered();
-				/*BigDecimal currentQty = line.getQtyEntered();
+				BigDecimal currentQty = line.getQtyEntered();
 				BigDecimal totalQty = currentQty.add(qtyOrdered);
-				line.setQty(totalQty);*/
+				line.setQty(totalQty);
 				line.setPrice(currentPrice); //	sets List/limit
 				line.saveEx();
 				return line;
@@ -955,7 +940,7 @@ public class CPOS {
         //create new line
 		MOrderLine line = new MOrderLine(currentOrder);
 		line.setProduct(product);
-		line.setQty(BigDecimal.ZERO);
+		line.setQty(qtyOrdered);
 		//	
 		line.setPrice(); //	sets List/limit
 		if ( productPricing.getPriceStd().signum() > 0 ) {

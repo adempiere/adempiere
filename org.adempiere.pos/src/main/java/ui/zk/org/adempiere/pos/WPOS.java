@@ -32,6 +32,7 @@ import org.adempiere.pos.test.SideServer;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Listbox;
@@ -115,18 +116,18 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	/** Actions 							*/
 	private Button 							okButton = new Button("Ok");
 	private Button 							cancelButton = new Button("Cancel");
-
+	private ConfirmPanel 					confirm;
 	/**	Today's (login) date				*/
 	private Timestamp						m_today 	 = Env.getContextAsDate(ctx, "#Date");
 	private Listbox 						listTerminal = ListboxFactory.newDropdownListbox();
 	private List<MPOS> poss;
 
 	/** Default Font Size Medium 				*/
-	public static final String 	FONTSIZEMEDIUM	= "Font-size:medium;";
+	public static final String 	FONTSIZEMEDIUM	= "Font-size:1.3em;";
 	/** Default Font Size Small 				*/
 	public static final String 	FONTSIZESMALL 	= "Font-size:small;";
 	/** Default Font Size Large 				*/
-	public static final String 	FONTSIZELARGE 	= "Font-size:x-large;";
+	public static final String 	FONTSIZELARGE 	= "Font-size:large;";
 	/** Default Font Weight	 					*/
 	public static final String 	FONTSTYLE 		= "font-weight:bold;";
 	/** Status bar info							*/
@@ -265,7 +266,8 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 			validLocator();
 			return;
 		}
-		poss = getPOSs(salesRep_ID);
+		int orgId = Env.getAD_Org_ID(getCtx());
+		poss = getPOSByOrganization(orgId);
 		//	Select POS
 		String msg = Msg.getMsg(ctx, "SelectPOS");
 		selection = new Window();
@@ -276,7 +278,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		Grid layout = GridFactory.newGridLayout();
 		selection.appendChild(panel);
 		selection.setWidth("200px");
-		selection.setHeight("100px");
+		selection.setHeight("140px");
 		//	North
 		Panel centerPanel = new Panel();
 		mainPanel.appendChild(mainLayout);
@@ -301,11 +303,25 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		}
 		okButton.addActionListener(this);
 		cancelButton.addEventListener("onClick", this);
+		okButton.setWidth("45px");
+		okButton.setHeight("45px");
+		cancelButton.setWidth("45px");
+		cancelButton.setHeight("45px");
+		listTerminal.setHeight("45px");
+		listTerminal.setStyle("height:45px;"+WPOS.FONTSIZEMEDIUM);
 		row.setSpans("2");
 		row.appendChild(listTerminal);
+		row.setHeight("45px");
 		row = rows.newRow();
-		row.appendChild(okButton);
-		row.appendChild(cancelButton);
+		confirm = new ConfirmPanel(true);
+		confirm.addActionListener(this);
+		confirm.getOKButton().setWidth("55px");
+		confirm.getOKButton().setHeight("55px");
+		confirm.getButton(ConfirmPanel.A_CANCEL).setWidth("55px");
+		confirm.getButton(ConfirmPanel.A_CANCEL).setHeight("55px");
+		
+		row.appendChild(confirm);
+		row.setHeight("55px");
 		AEnv.showWindow(selection);
 			
 	}	//	setMPOS
@@ -383,11 +399,12 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 
 	@Override
 	public void onEvent(Event e) throws Exception {
-		if(e.getTarget().equals(okButton)){
+		String action = e.getTarget().getId();
+		if(action.equals(ConfirmPanel.A_OK)){
 			setM_POS(poss.get(listTerminal.getSelectedIndex()));
 			selection.dispose();
 		}
-		if(e.getTarget().equals(cancelButton)){
+		if(action.equals(ConfirmPanel.A_CANCEL)){
 			selection.dispose();
 		}
 	}
