@@ -65,8 +65,8 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
 
         for (MRefList refList :  getRecords())
         {
-            BigDecimal amount = (BigDecimal) getBrowseRowValue("tt", "Amount" , refList.get_ID());
-            String referenceNo = (String) getBrowseRowValue("tt", "ReferenceNo" , refList.get_ID());
+            BigDecimal amount = (BigDecimal) getBrowseRowValue("TT", "Amount" , refList.get_ID());
+            String referenceNo = (String) getBrowseRowValue("TT", "ReferenceNo" , refList.get_ID());
             if (amount.signum() > 0)
             {
                 // Create payment withdrawal from form account bank to account bank
@@ -149,12 +149,12 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
     }
 
     private List<MRefList> getRecords() {
-        if (records != null)
+        if (records != null && !records.isEmpty())
             return records;
 
-        String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=AD_RefList.AD_RefList_ID)";
+        String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=AD_Ref_List.AD_Ref_List_ID)";
         records = new Query(getCtx(), MRefList.Table_Name, whereClause,
-                get_TrxName()).setClient_ID()
+                get_TrxName())
                 .setParameters(getAD_PInstance_ID()).list();
         return records;
     }
