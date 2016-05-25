@@ -67,7 +67,7 @@
         <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="2830" Column="IsRange">false</Data>
         <Data AD_Column_ID="2822" Column="Name">POS Terminal</Data>
-        <Data AD_Column_ID="56299" Column="ReadOnlyLogic">@C_POS_ID@!0</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic">@C_POS_ID@&gt;0</Data>
         <Data AD_Column_ID="2826" Column="SeqNo">10</Data>
         <Data AD_Column_ID="2820" Column="Updated">2016-04-22 16:40:46.967</Data>
         <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
