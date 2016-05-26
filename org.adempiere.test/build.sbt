@@ -57,15 +57,15 @@ lazy val commonSettings = Seq(
 
 
 val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "./"
+val sourceAdempiere = "../"
 
 //System.setProperty("PropertyFile", adempiereProperties)
 
-javaSource in Compile := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "java"
-javaSource in Test := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "java"
+//javaSource in Compile := baseDirectory.value  / sourceDirectoryTest / "src" / "main" / "java"
+//javaSource in Test := baseDirectory.value  / sourceDirectoryTest / "src" / "test" / "java"
 
-scalaSource in Compile := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
-scalaSource in Test := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
+//scalaSource in Compile := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
+//scalaSource in Test := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
 
 unmanagedClasspath in Compile += file(sourceAdempiere + "/bin")
 unmanagedClasspath in Compile += file(sourceAdempiere + "/zkwebui/WEB-INF/classes")
@@ -95,13 +95,14 @@ containerForkOptions := new ForkOptions(runJVMOptions = Seq("-Dh2g2=42"))
 containerPort := 9090
 containerShutdownOnExit := true
 
-sourceDirectory in webappPrepare := (sourceDirectory in Compile).value / "../../zkwebui"
+sourceDirectory in webappPrepare := (sourceDirectory in Compile).value / "zkwebui"
 
 webappPostProcess := {
   webappDir: File =>
-    IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
-    IO.copyDirectory(baseDirectory.value / "packages", webappDir / "WEB-INF" / "lib")
-    IO.copyDirectory(baseDirectory.value / "zkwebui/WEB-INF/classes", webappDir / "WEB-INF" / "classes")
+    IO.copyDirectory(baseDirectory.value / ".." / "zkwebui", webappDir)
+    IO.copyDirectory(baseDirectory.value / ".." / "lib", webappDir / "WEB-INF" / "lib")
+    IO.copyDirectory(baseDirectory.value / ".." / "packages", webappDir / "WEB-INF" / "lib")
+    IO.copyDirectory(baseDirectory.value / ".." / "zkwebui/WEB-INF/classes", webappDir / "WEB-INF" / "classes")
 }
 
 
