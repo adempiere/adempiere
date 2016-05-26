@@ -32,6 +32,8 @@ libraryDependencies += "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provid
 libraryDependencies ++= Seq(
   "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided",
   "com.typesafe" % "config" % "1.2.0",
+  "org.scala-lang" % "scala-reflect" % "2.11.8",
+  "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.4",
   "org.scalatest" %% "scalatest" % "2.2.6" % "provided"
 )
 //Documentation here ~compilehttps://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.0.md
@@ -56,7 +58,7 @@ lazy val commonSettings = Seq(
 )
 
 
-val sourceDirectoryTest = "org.adempiere.test"
+//val sourceDirectoryTest = "org.adempiere.test"
 val sourceAdempiere = "../"
 
 //System.setProperty("PropertyFile", adempiereProperties)
