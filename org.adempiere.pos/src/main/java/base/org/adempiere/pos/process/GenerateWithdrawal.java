@@ -16,20 +16,16 @@
 
 package org.adempiere.pos.process;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentBatch;
 import org.compiere.model.MRefList;
-import org.compiere.model.Query;
 import org.compiere.process.DocAction;
-import org.eevolution.grid.Browser;
+
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -38,20 +34,10 @@ import java.util.Map;
  */
 public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
 
-
-    protected LinkedHashMap<Integer, LinkedHashMap<String, Object>> values = null;
-    protected List<MRefList> records = null;
-
-    protected void prepare()
-    {
-        super.prepare();
-        setColumnsValues();
-    }
+    protected void prepare() {super.prepare();}
 
     @Override
     protected String doIt() throws Exception {
-
-        MBankAccount bankAccount = new MBankAccount(getCtx() , getBankAccountId(), get_TrxName());
         MPaymentBatch paymentBatchFrom = new MPaymentBatch(getCtx() , 0 , get_TrxName());
         paymentBatchFrom.setName(getDescription());
         paymentBatchFrom.setProcessingDate(getTransactionDate());
@@ -62,11 +48,10 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
         paymentBatchTo.setProcessingDate(getTransactionDate());
         paymentBatchTo.saveEx();
 
-
-        for (MRefList refList :  getRecords())
-        {
-            BigDecimal amount = (BigDecimal) getBrowseRowValue("TT", "Amount" , refList.get_ID());
-            String referenceNo = (String) getBrowseRowValue("TT", "ReferenceNo" , refList.get_ID());
+        List<MRefList> refLists = (List<MRefList>) getInstances(get_TrxName());
+        refLists.stream().forEach( refList -> {
+            BigDecimal amount = getSelectionAsBigDecimal(refList.get_ID() , "TT_Amount");
+            String referenceNo = getSelectionAsString (refList.get_ID() , "TT_ReferenceNo");
             if (amount.signum() > 0)
             {
                 // Create payment withdrawal from form account bank to account bank
@@ -102,7 +87,7 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
                         getAccountDate(),
                         true, paymentBatchTo.get_ID());
                 }
-        }
+        });
         return "@Ok@";
     }
 
@@ -146,42 +131,5 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
             payment.processIt(DocAction.STATUS_Completed);
             payment.saveEx();
             addLog(payment.getDocumentInfo());
-    }
-
-    private List<MRefList> getRecords() {
-        if (records != null && !records.isEmpty())
-            return records;
-
-        String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=AD_Ref_List.AD_Ref_List_ID)";
-        records = new Query(getCtx(), MRefList.Table_Name, whereClause,
-                get_TrxName())
-                .setParameters(getAD_PInstance_ID()).list();
-        return records;
-    }
-
-    private Object getBrowseRowValue(String alias, String columnName,
-                                     int recordId) {
-
-        LinkedHashMap<String, Object> valuesSave = values.get(recordId);
-
-        for (Map.Entry<String, Object> entry : valuesSave.entrySet()) {
-            if (entry.getKey().contains(alias.toUpperCase() + "_" + columnName))
-                return entry.getValue();
-        }
-        return null;
-    }
-    private LinkedHashMap<Integer, LinkedHashMap<String, Object>> setColumnsValues() {
-        if (values != null)
-            return values;
-
-        values = new LinkedHashMap<Integer, LinkedHashMap<String, Object>>();
-
-        for (MRefList record : getRecords()) {
-            values.put(
-                    record.get_ID(),
-                    Browser.getBrowseValues(getAD_PInstance_ID(), null,
-                            record.get_ID(), null));
-        }
-        return values;
     }
 }
