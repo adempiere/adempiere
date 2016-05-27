@@ -20,16 +20,11 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MPayment;
-import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.util.Msg;
-import org.eevolution.grid.Browser;
 
-
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -38,18 +33,11 @@ import java.util.Map;
  */
 public class CloseStatementPOS extends CloseStatementPOSAbstract {
 
-    private BigDecimal lineTotalAmt = BigDecimal.ZERO;
-    private BigDecimal paidAmt = BigDecimal.ZERO;
-    private BigDecimal openAmt = BigDecimal.ZERO;
-    private BigDecimal differenceAmt = BigDecimal.ZERO;
-
-    protected LinkedHashMap<Integer, LinkedHashMap<String, Object>> values = null;
     protected LinkedHashMap<Integer, MBankStatement> baskStatements = null;
-    protected List<MPayment> records = null;
 
     @Override
     protected void prepare() {
-        setColumnsValues();
+        super.prepare();
     }
 
     protected String doIt() throws Exception {
@@ -58,7 +46,7 @@ public class CloseStatementPOS extends CloseStatementPOSAbstract {
         if (getTransactionDate() == null || getTransactionDateTo() == null )
             throw new AdempiereException("@DateTrx@ @NotFound@");
 
-        if (differenceAmt.signum() != 0 && !isOverUnderPayment())
+        if (getDifference().signum() != 0 && !isOverUnderPayment())
            return Msg.parseTranslation(getCtx() , "@C_BankStatement_ID@ @NotApproved@ @NotMatch@");
         else if (isOverUnderPayment())
         {
@@ -74,23 +62,21 @@ public class CloseStatementPOS extends CloseStatementPOSAbstract {
     }
 
     private void closeBankStatements() {
-        for (Map.Entry <Integer , MBankStatement> entry: getBankStatements().entrySet())
-        {
+        getBankStatements().entrySet().stream().forEach( entry -> {
             MBankStatement bankStatement =  entry.getValue();
             bankStatement.processIt(DocAction.ACTION_Complete);
             bankStatement.saveEx();
-        }
+        });
     }
 
     private void generateLostOrProfit() {
-
         MBankStatement bankStatement = (MBankStatement) getBankStatements().entrySet().iterator().next();
         MBankStatementLine bankStatementLine = new MBankStatementLine(bankStatement);
         bankStatementLine.setDateAcct(getTransactionDate());
         bankStatementLine.setStatementLineDate(getTransactionDateTo());
-        bankStatementLine.setStmtAmt(differenceAmt);
+        bankStatementLine.setStmtAmt(getDifference());
         bankStatementLine.setC_Charge_ID(getChargeId());
-        bankStatementLine.setChargeAmt(differenceAmt);
+        bankStatementLine.setChargeAmt(getDifference());
         bankStatementLine.saveEx();
     }
 
@@ -100,54 +86,17 @@ public class CloseStatementPOS extends CloseStatementPOSAbstract {
             return baskStatements;
 
         baskStatements = new LinkedHashMap<Integer, MBankStatement>();
-        for (MPayment payment : getRecords()) {
-            Integer bankStatementId = (Integer) getBrowseRowValue("bsl", "C_BankStatementLine_ID", payment.get_ID());
-            if (bankStatementId != null && bankStatementId > 0)
+        List<MPayment> payments = (List<MPayment>) getInstances(get_TrxName());
+        payments.stream().forEach( payment -> {
+            Integer bankStatementLineId = getSelectionAsInt(payment.get_ID() , "BSL_C_BankStatementLine_ID");
+            if (bankStatementLineId != null && bankStatementLineId > 0)
             {
-                MBankStatement bankStatement = new MBankStatement(getCtx(),bankStatementId , get_TrxName());
-                if (!baskStatements.containsKey(bankStatementId))
-                    baskStatements.put(bankStatementId , bankStatement);
+                MBankStatementLine bankStatementLine = new MBankStatementLine(getCtx() , bankStatementLineId ,  get_TrxName());
+                MBankStatement bankStatement = bankStatementLine.getParent();
+                if (!baskStatements.containsKey(bankStatement.get_ID()))
+                    baskStatements.put(bankStatement.get_ID() , bankStatement);
             }
-        }
+        });
         return baskStatements;
-    }
-
-    private List<MPayment> getRecords() {
-        if (records != null)
-            return records;
-
-        String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=C_BankStatementLine.C_BankStatementLine_ID)";
-        records = new Query(getCtx(), MBankStatementLine.Table_Name, whereClause,
-                get_TrxName()).setClient_ID()
-                .setParameters(getAD_PInstance_ID())
-                .list();
-        return records;
-    }
-
-    private Object getBrowseRowValue(String alias, String columnName,
-                                     int recordId) {
-
-        LinkedHashMap<String, Object> valuesSave = values.get(recordId);
-
-        for (Map.Entry<String, Object> entry : valuesSave.entrySet()) {
-            if (entry.getKey().contains(alias.toUpperCase() + "_" + columnName))
-                return entry.getValue();
-        }
-        return null;
-    }
-
-    private LinkedHashMap<Integer, LinkedHashMap<String, Object>> setColumnsValues() {
-        if (values != null)
-            return values;
-
-        values = new LinkedHashMap<Integer, LinkedHashMap<String, Object>>();
-
-        for (MPayment record : getRecords()) {
-            values.put(
-                    record.get_ID(),
-                    Browser.getBrowseValues(getAD_PInstance_ID(), null,
-                            record.get_ID(), null));
-        }
-        return values;
     }
 }
