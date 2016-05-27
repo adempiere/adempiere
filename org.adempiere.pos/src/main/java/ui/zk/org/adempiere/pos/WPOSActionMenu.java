@@ -19,6 +19,7 @@ package org.adempiere.pos;
 
 import java.util.Map;
 import java.util.Optional;
+
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
 import org.adempiere.pos.command.Command;
@@ -37,7 +38,11 @@ import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
+import org.compiere.model.Query;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -160,6 +165,15 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
 
     private void afterExecutionCommand(Command command)
     {
+    	if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT && pos.getC_Order_ID() > 0) {
+    		if (pos.isReturnMaterial() && pos.isCompleted()) {
+    			 MInvoice materialReturnInvoice = new Query(pos.getCtx(), MInvoice.Table_Name, MOrder.COLUMNNAME_C_Order_ID + "=?", pos.getM_POS().get_TrxName())
+            		.setParameters(pos.getC_Order_ID())
+            		.first();
+            // Printing of Material Return here, because object in DB not before
+            ReportCtl.startDocumentPrint(ReportEngine.INVOICE, materialReturnInvoice.getC_Invoice_ID(), false);
+    		}
+    	}   
     }
 
     private void executeCommand(Command command)
