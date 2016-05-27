@@ -25,6 +25,7 @@ import org.compiere.model.MProcess;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
@@ -177,8 +178,17 @@ public class ProcessBuilder {
         //	FR [ 352 ]
         if (isSelection) {
             processInfo.setSelectionKeys(selectedRecordsIds);
-            if (selection != null && selection.size() > 0)
+            if (selection != null && selection.size() > 0) {
                 processInfo.setSelectionValues(selection);
+                //TODO : Need Remove duplicate functionality ProcessCtl , WProcessCtl , ServerProcessCtl
+                //TODO : The WProcessCtl and ServerProcessCtl not save selection and smart browser selection
+                if (windowNo == 0)
+                        DB.createT_Selection_Browse(processInfo.getAD_PInstance_ID(), processInfo.getSelectionValues(), processInfo.getTransactionName());
+            }
+            //TODO : Need Remove duplicate functionality ProcessCtl , WProcessCtl , ServerProcessCtl
+            //TODO : The WProcessCtl and ServerProcessCtl not save selection and smart browser selection
+            if (windowNo == 0) // force the save selction the issue that not implement save selection
+                DB.createT_Selection(processInfo.getAD_PInstance_ID(), processInfo.getSelectionKeys(), processInfo.getTransactionName());
         }
     }
 
