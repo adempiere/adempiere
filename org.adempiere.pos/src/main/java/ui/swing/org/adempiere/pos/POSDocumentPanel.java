@@ -346,10 +346,10 @@ public class POSDocumentPanel extends POSSubPanel
 			//fieldPartnerName.setPlaceholder(posPanel.getProductName(key.getM_Product_ID()));
 			posPanel.addOrUpdateLine(key.getM_Product_ID(), key.getQty());
 			posPanel.updateLineTable();
-//			if (posPanel.isNewLine())
-//				posPanel.setQuantity(BigDecimal.ONE);
-//			else
-//				posPanel.setQuantity(posPanel.getQty().add(BigDecimal.ONE));
+			if (posPanel.isNewLine())
+				posPanel.setQuantity(key.getQty());
+			else
+				posPanel.setQuantity(posPanel.getQty().add(key.getQty()));
 
 			posPanel.updateLineTable();
 			posPanel.refreshPanel();
