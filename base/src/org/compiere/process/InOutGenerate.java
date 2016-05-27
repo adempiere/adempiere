@@ -60,8 +60,6 @@ public class InOutGenerate extends SvrProcess
 	private boolean		p_ConsolidateDocument = true;
     /** Shipment Date                       */
 	private Timestamp       p_DateShipped = null;
-	/** Order					*/
-	private int			p_C_Order_ID = 0;
 	
 	/**	The current Shipment	*/
 	private MInOut 		m_shipment = null;
@@ -113,8 +111,6 @@ public class InOutGenerate extends SvrProcess
 				p_docAction = (String)para[i].getParameter();
 			else if (name.equals("MovementDate"))
                 p_DateShipped = (Timestamp)para[i].getParameter();
-			else if (name.equals("C_Order_ID"))
-				p_C_Order_ID = para[i].getParameterAsInt();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 			
@@ -174,9 +170,6 @@ public class InOutGenerate extends SvrProcess
 			//
 			if (p_C_BPartner_ID != 0)
 				m_sql += " AND o.C_BPartner_ID=?";					//	#3
-			
-			if (p_C_Order_ID != 0)
-				m_sql += " AND o.C_Order_ID=?";						//	#4
 		}
 		m_sql += " ORDER BY M_Warehouse_ID, PriorityRule, M_Shipper_ID, C_BPartner_ID, C_BPartner_Location_ID, C_Order_ID";
 	//	m_sql += " FOR UPDATE";
@@ -198,8 +191,6 @@ public class InOutGenerate extends SvrProcess
 					pstmt.setTimestamp(index++, p_DatePromised);
 				if (p_C_BPartner_ID != 0)
 					pstmt.setInt(index++, p_C_BPartner_ID);
-				if (p_C_Order_ID != 0)
-					pstmt.setInt(index++, p_C_Order_ID);
 			}
 		}
 		catch (Exception e)
