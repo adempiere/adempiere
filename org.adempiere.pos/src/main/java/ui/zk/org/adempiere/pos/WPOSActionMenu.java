@@ -165,15 +165,6 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
 
     private void afterExecutionCommand(Command command)
     {
-    	if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT && pos.getC_Order_ID() > 0) {
-    		if (pos.isReturnMaterial() && pos.isCompleted()) {
-    			 MInvoice materialReturnInvoice = new Query(pos.getCtx(), MInvoice.Table_Name, MOrder.COLUMNNAME_C_Order_ID + "=?", pos.getM_POS().get_TrxName())
-            		.setParameters(pos.getC_Order_ID())
-            		.first();
-            // Printing of Material Return here, because object in DB not before
-            ReportCtl.startDocumentPrint(ReportEngine.INVOICE, materialReturnInvoice.getC_Invoice_ID(), false);
-    		}
-    	}   
     }
 
     private void executeCommand(Command command)

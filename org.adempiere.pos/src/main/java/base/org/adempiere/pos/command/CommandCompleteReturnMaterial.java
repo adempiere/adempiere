@@ -59,13 +59,16 @@ public class CommandCompleteReturnMaterial extends CommandAbstract implements Co
                 returnOrder.setInvoiceRule(MOrder.INVOICERULE_Immediate);
                 returnOrder.setDeliveryRule(MOrder.DELIVERYRULE_Force);
                 returnOrder.saveEx();
+                List<Integer> selectionIds = new ArrayList<Integer>();
+                selectionIds.add(returnOrder.get_ID());
                 //Generate Return using InOutGenerate
                 processInfo = ProcessBuilder
                         .create(commandReceiver.getCtx())
                         .process(199)
                         .withTitle(processInfo.getTitle())
                         .withParameter(MOrder.COLUMNNAME_M_Warehouse_ID, commandReceiver.getWarehouseId())
-                        .withParameter(MOrder.COLUMNNAME_C_Order_ID, returnOrder.getC_Order_ID())
+                        .withParameter("Selection", true)
+                        .withSelectedRecordsIds(selectionIds)
                         .withoutTransactionClose()
                         .execute(trxName);
 
@@ -96,15 +99,37 @@ public class CommandCompleteReturnMaterial extends CommandAbstract implements Co
                                .create(commandReceiver.getCtx())
                                .process(134)
                                .withTitle(processInfo.getTitle())
-                               .withParameter(MOrder.COLUMNNAME_C_Order_ID, returnOrder.getC_Order_ID())
+                               .withParameter("Selection", true)
+                               .withSelectedRecordsIds(selectionIds)
+                               .withParameter(MInvoice.COLUMNNAME_DocAction, MInvoice.DOCACTION_Complete)
                                .withoutTransactionClose()
                                .execute(trxName);
 
-                       //Printing of Material Return: in after Execution of command, because Trx ongoing and object not in DB
+                       for (MInvoice invoice :  returnOrder.getInvoices()) {
+                           ReportCtl.startDocumentPrint(
+                                   ReportEngine.INVOICE,
+                                   null  /* custom Print Format */,
+                                   invoice.get_ID(),
+                                   null /* Parent */,
+                                   processInfo.getWindowNo(),
+                                   false /* Is print direct */,
+                                   null /* Printer Name */,
+                                   processInfo);
+                       }
                        commandReceiver.setProcessInfo(processInfo);
                    }
                    else // if not exist invoice then return of payment
                    {
+                       ReportCtl.startDocumentPrint(
+                               ReportEngine.ORDER,
+                               null  /* custom Print Format */,
+                               returnOrder.get_ID(),
+                               null /* Parent */,
+                               processInfo.getWindowNo(),
+                               false /* Is print direct */,
+                               null /* Printer Name */,
+                               processInfo);
+
                        Timestamp today = new Timestamp(System.currentTimeMillis());
                        // Create return payment
                        MPayment payment = new MPayment(returnOrder.getCtx() ,  0 , returnOrder.get_TrxName());
