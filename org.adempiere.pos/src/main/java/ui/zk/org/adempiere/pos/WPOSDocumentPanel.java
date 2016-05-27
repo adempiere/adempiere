@@ -305,7 +305,20 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, P
 		}
 		// Add line
 		try{
+			//fieldPartnerName.setPlaceholder(posPanel.getProductName(key.getM_Product_ID()));
 			posPanel.addOrUpdateLine(key.getM_Product_ID(), key.getQty());
+			posPanel.updateLineTable();
+			if (posPanel.isNewLine())
+				posPanel.setQuantity(key.getQty());
+			else
+				posPanel.setQuantity(posPanel.getQty().add(key.getQty()));
+
+			posPanel.updateLineTable();
+			posPanel.refreshPanel();
+			posPanel.changeViewPanel();
+			posPanel.getMainFocus();
+
+
 		} catch (Exception exception) {
 			FDialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());
 		}
