@@ -929,9 +929,9 @@ public class CPOS {
 				setIsNewLine(false);
 				setOrderLineId(line.getC_OrderLine_ID());
 				BigDecimal currentPrice = line.getPriceEntered();
-				BigDecimal currentQty = line.getQtyEntered();
+				/*BigDecimal currentQty = line.getQtyEntered();
 				BigDecimal totalQty = currentQty.add(qtyOrdered);
-				line.setQty(totalQty);
+				line.setQty(totalQty);*/
 				line.setPrice(currentPrice); //	sets List/limit
 				line.saveEx();
 				return line;
@@ -940,7 +940,7 @@ public class CPOS {
         //create new line
 		MOrderLine line = new MOrderLine(currentOrder);
 		line.setProduct(product);
-		line.setQty(qtyOrdered);
+		line.setQty(BigDecimal.ZERO); //line.setQty(qtyOrdered);
 		//	
 		line.setPrice(); //	sets List/limit
 		if ( productPricing.getPriceStd().signum() > 0 ) {
