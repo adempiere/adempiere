@@ -672,18 +672,20 @@ public abstract class Browser {
 							if (!field.isReadOnly() || field.isIdentifier())
 							{
 								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getColumnName());
-								Object value = gridField.getValue();
-								//	Parse value to standard values
-								if(value instanceof IDColumn) {
-									IDColumn id = (IDColumn) value;
-									value = id.getRecord_ID();
-								} else if(value instanceof Double) {
-									value = BigDecimal.valueOf((Double)value);
-								} else if (value instanceof Date) {
-									value = new Timestamp(((Date)value).getTime());
+								if (gridField != null) {
+									Object value = gridField.getValue();
+									//	Parse value to standard values
+									if (value instanceof IDColumn) {
+										IDColumn id = (IDColumn) value;
+										value = id.getRecord_ID();
+									} else if (value instanceof Double) {
+										value = BigDecimal.valueOf((Double) value);
+									} else if (value instanceof Date) {
+										value = new Timestamp(((Date) value).getTime());
+									}
+									//	Set
+									values.put(field.getAD_View_Column().getColumnName(), value);
 								}
-								//	Set
-								values.put(field.getAD_View_Column().getColumnName(), value);
 							}
 						}
 						//	
