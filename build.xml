@@ -77,7 +77,7 @@
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
     
     <echo message="Compile ZK Classes "/>
-    <javac srcdir="${zk_view}" destdir="${zk_classes}" includeantruntime="false" >
+    <javac encoding="UTF-8" srcdir="${zk_view}" destdir="${zk_classes}" includeantruntime="false" >
       <classpath refid="compile.domain.classpath"/>
       <classpath refid="compilezk.classpath"/>
     </javac>
@@ -91,7 +91,7 @@
   <target name="compileDomainModel" depends="init_class"
           description="compile the source " >
     <echo message="Compile Domain Classes "/>
-    <javac srcdir="${domain_model}" destdir="${domain_model_classes}" includeantruntime="false" >
+    <javac encoding="UTF-8" srcdir="${domain_model}" destdir="${domain_model_classes}" includeantruntime="false" >
       <classpath refid="compile.classpath"/>
     </javac>
     <echo message="Create jar file "/>
@@ -104,7 +104,7 @@
         description="compile the source " >
     <echo message="Compile Swing Classes "/>
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac srcdir="${domain_model}:${swing_view}" destdir="${swing_classes}" includeantruntime="false" >
+    <javac encoding="UTF-8" srcdir="${domain_model}:${swing_view}" destdir="${swing_classes}" includeantruntime="false" >
       <classpath refid="compile.domain.classpath"/>
       <classpath refid="compile.classpath"/>
     </javac>
