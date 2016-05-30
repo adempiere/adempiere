@@ -43,7 +43,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac debug="true" srcdir="${src}:${srcSwing}" destdir="${build}">
+    <javac encoding="UTF-8" debug="true" srcdir="${src}:${srcSwing}" destdir="${build}">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>
@@ -67,7 +67,7 @@
   <target name="zkcompile" depends="dist"
         description="compile the source " >
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
+    <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>
