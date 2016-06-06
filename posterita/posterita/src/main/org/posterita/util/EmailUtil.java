@@ -30,7 +30,11 @@ import org.compiere.model.MCountry;
 import org.compiere.util.EMail;
 import org.posterita.beans.UserBean;
 import org.posterita.exceptions.InvalidEmailException;
-
+/**
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
+ */
 public class EmailUtil
 {
 	public static final String DEFAULT_SMTP_SERVER = "mail.tamakict.com";
@@ -41,7 +45,9 @@ public class EmailUtil
 	public static boolean send(Properties ctx, String smtpHost, String from, String to, 
 			String subject, String message, String username, String password)
 	{
-		EMail email = new EMail(ctx, smtpHost, from, to, subject, message);
+		//	FR [ 402 ]
+		//	Add support to send
+		EMail email = new EMail(smtpHost, from, to, subject, message, false);
 		
 		email.createAuthenticator(username, password);
 		String retMsg = email.send();
