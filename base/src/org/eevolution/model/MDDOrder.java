@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -500,12 +501,11 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public void renumberLines (int step)
 	{
+		AtomicInteger number = new AtomicInteger(0);
 		orderLines =  getLines(true, null);
 		orderLines.stream().forEach( orderLine -> {
-			int number = step;
-			orderLine.setLine(number);
+			orderLine.setLine(  number.updateAndGet(lineNo -> lineNo + 10));
 			orderLine.save(get_TrxName());
-			number += step;
 		});
 
 		orderLines = null;
