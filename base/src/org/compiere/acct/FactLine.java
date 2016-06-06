@@ -1074,7 +1074,7 @@ public final class FactLine extends X_Fact_Acct
 			// MZ Goodwill
 			// for Inventory Move
 			if (MMovement.Table_ID == AD_Table_ID)
-				pstmt.setInt(6, getM_Locator_ID());
+				pstmt.setInt(7, getM_Locator_ID());
 			// end MZ
 			rs = pstmt.executeQuery();
 			if (rs.next())
