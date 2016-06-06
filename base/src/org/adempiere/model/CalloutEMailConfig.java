@@ -10,7 +10,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * Copyright (C) 2003-2016 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpcya.com                                 *
  *****************************************************************************/
@@ -21,29 +21,18 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.MColumn;
-import org.compiere.model.MField;
+import org.compiere.model.MEMailConfig;
 
 /**
- * @author OFB Consulting http://www.ofbconsulting.com
- * 	<li> Initial Contributor
- * @contributor Mario Calderon, Systemhaus Westfalia, http://www.westfalia-it.com
- * @contributor Adaxa http://www.adaxa.com
- * @contributor Deepak Pansheriya, Loglite Technologies, http://logilite.com
- * @contributor Victor Perez, victor.perez@e-evolution.com, eEvolution http://www.e-evolution.com
- * @contributor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- */
-
-/**
- * 	CalloutField Callout
+ * 	CalloutEMailConfig
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *		<li> FR [ 9223372036854775807 ] Add default values for Name, Description, Entity Type...
- *		@see https://adempiere.atlassian.net/browse/ADEMPIERE-449
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
  */
-public class CalloutField extends CalloutEngine {
+public class CalloutEMailConfig extends CalloutEngine {
 	
 	/**
-	 * Set field attributes from column
+	 * Set Default port
 	 * @param ctx
 	 * @param WindowNo
 	 * @param mTab
@@ -51,23 +40,37 @@ public class CalloutField extends CalloutEngine {
 	 * @param value
 	 * @return
 	 */
-	public String column(Properties ctx, int WindowNo, GridTab mTab,
+	public String port(Properties ctx, int WindowNo, GridTab mTab,
 			GridField mField, Object value) {
-		Integer m_AD_Column_ID = (Integer) value;
-		if (m_AD_Column_ID == null || m_AD_Column_ID <= 0)
+		//	Valid Value
+		if(value == null)
 			return "";
-		
-		MColumn column = MColumn.get(ctx, m_AD_Column_ID);
-		//	Set values from column
-		if(column != null) {
-			mTab.setValue("Name", column.getName());
-			mTab.setValue("Description", column.getDescription ());
-			mTab.setValue("Help", column.getHelp());
-			mTab.setValue("EntityType", column.getEntityType());
-			//	for Allow copy
-			mTab.setValue("IsAllowCopy", MField.isAllowCopy(ctx, m_AD_Column_ID));
+		//	Set Default
+		String encryptionType = (String) mTab.getValue("EncryptionType");
+		String protocol = (String) mTab.getValue("Protocol");
+		//	Valid null
+		if(encryptionType == null
+				|| protocol == null)
+			return "";
+		int port = 0;
+		if(protocol.equals(MEMailConfig.PROTOCOL_SMTP)) {
+			if(encryptionType.equals(MEMailConfig.ENCRYPTIONTYPE_None))
+				port = MEMailConfig.DEFAULT_SMTP_PORT;
+			else
+				port = MEMailConfig.DEFAULT_SMTP_SSL_PORT;
+		} else if(protocol.equals(MEMailConfig.PROTOCOL_POP3)) {
+			if(encryptionType.equals(MEMailConfig.ENCRYPTIONTYPE_None))
+				port = MEMailConfig.DEFAULT_POP3_PORT;
+			else
+				port = MEMailConfig.DEFAULT_POP3_SSL_PORT;
+		} else if(protocol.equals(MEMailConfig.PROTOCOL_IMAP)) {
+			if(encryptionType.equals(MEMailConfig.ENCRYPTIONTYPE_None))
+				port = MEMailConfig.DEFAULT_IMAP_PORT;
+			else
+				port = MEMailConfig.DEFAULT_IMAP_SSL_PORT;
 		}
-		//	
+		//	Set Port
+		mTab.setValue("Port", port);
 		return "";
 	}
 }

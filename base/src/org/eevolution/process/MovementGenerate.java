@@ -181,8 +181,8 @@ public class MovementGenerate extends MovementGenerateAbstract
 						.filter(orderLine -> orderLine.getConfirmedQty().signum() != 0)
 						.forEach(orderLine -> {
 
-					MLocator l = new MLocator(getCtx(),orderLine.getM_Locator_ID(), get_TrxName());
-					if (getWarehouseId() > 0 && l.getM_Warehouse_ID() != getWarehouseId())
+					MLocator locator = new MLocator(getCtx(),orderLine.getM_Locator_ID(), get_TrxName());
+					if (getWarehouseId() > 0 && locator.getM_Warehouse_ID() != getWarehouseId())
 						return;
 
 					log.fine("check: " + orderLine);
@@ -230,7 +230,7 @@ public class MovementGenerate extends MovementGenerateAbstract
 					String policyMaterialIssue = getPolicyIssue(product);
 
 					//
-					MStorage[] storages = getStorages(l.getM_Warehouse_ID(),
+					MStorage[] storages = getStorages(locator.getM_Warehouse_ID(),
 							orderLine.getM_Product_ID(), orderLine.getM_AttributeSetInstance_ID(),
 						product.getM_AttributeSet_ID(),
 							orderLine.getM_AttributeSetInstance_ID()==0, minGuaranteeDate,

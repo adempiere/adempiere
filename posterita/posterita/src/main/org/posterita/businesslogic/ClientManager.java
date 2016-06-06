@@ -33,6 +33,7 @@ import java.util.Properties;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
 import org.compiere.model.MCountry;
+import org.compiere.model.MEMailConfig;
 import org.compiere.model.MElement;
 import org.compiere.model.MLocation;
 import org.compiere.model.MOrg;
@@ -52,6 +53,13 @@ import org.posterita.lib.UdiConstants;
 import org.posterita.util.PathInfo;
 import org.posterita.util.PoManager;
 
+/**
+ * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
+ *
+ */
 public class ClientManager 
 {
 	public static final String ACCOUNTING_FILE_PATH = PathInfo.PROJECT_HOME
@@ -128,7 +136,11 @@ public class ClientManager
 			String postalAddress, String smtpHost, File file, String trxName)
 			throws OperationException {
 		// Set client smtp host for sending emails
-		client.setSMTPHost(smtpHost);
+		//	FR [ 402 ]
+		MEMailConfig eMailConfig = new MEMailConfig(ctx, 0, trxName);
+		eMailConfig.setName(client.getName() + " " + smtpHost);
+		eMailConfig.saveEx();
+		client.setAD_EMailConfig_ID(eMailConfig.getAD_EMailConfig_ID());
 		// client.setIsPostImmediate(true);
 		// client.setIsCostImmediate(true);
 		PoManager.save(client);
