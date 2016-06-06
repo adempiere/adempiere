@@ -23,6 +23,9 @@ import java.util.ListResourceBundle;
  *
  * 	@author 	Jordi Luna
  * 	@version 	$Id: SetupRes_es.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 402 ] Mail setup is hardcoded
+ *			@see https://github.com/adempiere/adempiere/issues/402
  */
 public class SetupRes_es extends ListResourceBundle
 {
@@ -72,6 +75,11 @@ public class SetupRes_es extends ListResourceBundle
 	{ "MailPassword", 			"Contrase\u00f1a Correo" },
 	{ "KeyStorePassword",		"Contrase\u00f1a Key Store" },
 	{ "KeyStorePasswordInfo",	"Contrase\u00f1a para SSL Key Store" },
+	//	
+	{ "MailProtocolInfo",		"Protocolo de Correo" },
+	{ "MailEncryptionTypeInfo",	"Tipo de Encriptación" },
+	{ "MailAuthMechanismInfo",	"Mecanismo de Autenticación" },
+	{ "MailPortInfo",			"Puerto de Correo" },
 	//
 	{ "JavaType",				"Java VM"},
 	{ "JavaTypeInfo",			"Proveedor Java VM"},
@@ -100,6 +108,11 @@ public class SetupRes_es extends ListResourceBundle
 	{ "ErrorMailServer", 		"Error Servidor Correo (no utilizar localhost)" },
 	{ "ErrorMail", 				"Error Correo" },
 	{ "ErrorSave", 				"Error Guardando Ficheros" },
+	//	
+	{ "MailProtocol",			"Protocolo" },
+	{ "MailEncryptionType",		"Tipo de Encriptación" },
+	{ "MailAuthMechanism",		"Mecanismo de Autenticación" },
+	{ "MailPort",				"Puerto" },
 
 	{ "EnvironmentSaved", 		"Archivo de Entorno guardado .... empezando Despliegue\n"
 		+ "Puede volver a arrancar el Servidor de la Aplicaci\u00f3n cuando el programa finalice.\n"

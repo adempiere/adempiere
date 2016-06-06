@@ -21,20 +21,23 @@ organization := "e-Evolution"
 
 version := "0.1.0-SNAPSHOT"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 fork := true
 val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/AdempiereTest.properties"
 //scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-encoding" , "utf8")
 javaOptions in Test := Seq (adempiereProperties)
 
-
 libraryDependencies += "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided"
 libraryDependencies ++= Seq(
   "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided",
   "com.typesafe" % "config" % "1.2.0",
-  "org.scalatest" % "scalatest_2.11" % "2.2.4" % "provided"
+  "org.scala-lang" % "scala-reflect" % "2.11.8",
+  "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.4",
+  "org.scalatest" %% "scalatest" % "2.2.6" % "provided"
 )
+//Documentation here ~compilehttps://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.0.md
+//execute with sbt ~jetty:start
 javaOptions in Jetty ++= Seq(
   adempiereProperties,
   "-Xdebug",
@@ -51,20 +54,20 @@ assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeSca
 lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
   organization := "org.eevolution",
-  scalaVersion := "2.11.7"
+  scalaVersion := "2.11.8"
 )
 
 
-val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "./"
+//val sourceDirectoryTest = "org.adempiere.test"
+val sourceAdempiere = "../"
 
 //System.setProperty("PropertyFile", adempiereProperties)
 
-javaSource in Compile := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "java"
-javaSource in Test := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "java"
+//javaSource in Compile := baseDirectory.value  / sourceDirectoryTest / "src" / "main" / "java"
+//javaSource in Test := baseDirectory.value  / sourceDirectoryTest / "src" / "test" / "java"
 
-scalaSource in Compile := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
-scalaSource in Test := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
+//scalaSource in Compile := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
+//scalaSource in Test := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
 
 unmanagedClasspath in Compile += file(sourceAdempiere + "/bin")
 unmanagedClasspath in Compile += file(sourceAdempiere + "/zkwebui/WEB-INF/classes")
@@ -85,34 +88,23 @@ lazy val adempiereTestSuite = (project in file(".")).
   settings(
   )
 
-
+// https://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.1.md
 enablePlugins(JettyPlugin)
 enablePlugins(WebappPlugin)
 containerLibs in Jetty := Seq("org.eclipse.jetty" % "jetty-runner" % "9.2.1.v20140609" intransitive())
-
 containerMain in Jetty := "org.eclipse.jetty.runner.Runner"
-
+containerForkOptions := new ForkOptions(runJVMOptions = Seq("-Dh2g2=42"))
 containerPort := 9090
 containerShutdownOnExit := true
 
-sourceDirectory in webappPrepare := (sourceDirectory in Compile).value / "../../zkwebui"
-
-
-webappPostProcess := {
-  webappDir =>
-    def listFiles(level: Int)(f: File): Unit = {
-      val indent = ((1 until level) map { _ => "  " }).mkString
-      if (f.isDirectory) {
-        streams.value.log.info(indent + f.getName + "/")
-        f.listFiles foreach { listFiles(level + 1) }
-      } else streams.value.log.info(indent + f.getName)
-    }
-    listFiles(1)(webappDir)
-}
+sourceDirectory in webappPrepare := (sourceDirectory in Compile).value / "zkwebui"
 
 webappPostProcess := {
   webappDir: File =>
-    IO.copyDirectory(baseDirectory.value / "packages", webappDir / "WEB-INF" / "lib")
+    IO.copyDirectory(baseDirectory.value / ".." / "zkwebui", webappDir)
+    IO.copyDirectory(baseDirectory.value / ".." / "lib", webappDir / "WEB-INF" / "lib")
+    IO.copyDirectory(baseDirectory.value / ".." / "packages", webappDir / "WEB-INF" / "lib")
+    IO.copyDirectory(baseDirectory.value / ".." / "zkwebui/WEB-INF/classes", webappDir / "WEB-INF" / "classes")
 }
 
 

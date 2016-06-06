@@ -52,6 +52,9 @@ import org.compiere.dbPort.Convert_MySQL;
  * 
  * @author praneet tiwari
  * @author Trifon Trifonov
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 391 ] getSchema method in DB_PostgreSQL.java is better use the adempiere user
+ *			@see https://github.com/adempiere/adempiere/issues/391
  * 
  */
 public class DB_MySQL implements AdempiereDatabase {
@@ -200,7 +203,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	public String getCatalog() {
 		if (m_dbName != null)
 			return m_dbName;
-		// log.severe("Database Name not set (yet) - call getConnectionURL first");
+		 log.severe("Database Name not set (yet) - call getConnectionURL first");
 		return null;
 	}
 
@@ -209,7 +212,11 @@ public class DB_MySQL implements AdempiereDatabase {
 	 * @return schema (dbo)
 	 */
 	public String getSchema() {
-		return "adempiere";
+		//	BR [ 391 ]
+		if (m_userName != null)
+            return m_userName;
+        log.severe("User Name not set (yet) - call getConnectionURL first");
+        return null;
 	}
 
 	/**

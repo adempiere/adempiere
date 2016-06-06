@@ -1328,13 +1328,12 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="scala-sdk-2.11.7" level="application" />
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-reflect:2.11.2:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scala-lang.modules:scala-xml_2.11:1.0.2:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.11.7:jar" level="project" />
+    <orderEntry type="library" name="scala-sdk-2.11.8" level="application" />
+    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.11.8:jar" level="project" />
     <orderEntry type="library" name="SBT: javax.servlet:javax.servlet-api:3.0.1:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scalatest:scalatest_2.11:2.2.4:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scalatest:scalatest_2.11:2.2.6:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scala-lang:scala-reflect:2.11.7:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe:config:1.2.0:jar" level="project" />
-    <orderEntry type="library" name="packages" level="project" />
+    <orderEntry type="library" name="SBT: org.scala-lang.modules:scala-xml_2.11:1.0.2:jar" level="project" />
   </component>
 </module>
