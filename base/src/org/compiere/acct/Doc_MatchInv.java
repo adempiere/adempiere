@@ -26,6 +26,7 @@ import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostType;
+import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
@@ -167,12 +168,13 @@ public class Doc_MatchInv extends Doc
 			return null;
 		}
         dr.setM_Product_ID(m_receiptLine.getM_Product_ID());
-		dr.setQty(getQty());
+		String documentBaseTypeReceipt = m_receiptLine.getParent().getC_DocType().getDocBaseType();
+		BigDecimal quantity = MDocType.DOCBASETYPE_MaterialReceipt == documentBaseTypeReceipt ? getQty() : getQty().negate();
+		dr.setQty(quantity);
 		BigDecimal temp = dr.getAcctBalance();
 		//	Set AmtAcctCr/Dr from Receipt (sets also Project)
 		if (!dr.updateReverseLine (MInOut.Table_ID, 		//	Amt updated
-			m_receiptLine.getM_InOut_ID(), m_receiptLine.getM_InOutLine_ID(),
-            getQty() , multiplier))
+			m_receiptLine.getM_InOut_ID(), m_receiptLine.getM_InOutLine_ID(), quantity , multiplier))
 		{
 			p_Error = "Mat.Receipt not posted yet";
 			return null;
@@ -249,12 +251,12 @@ public class Doc_MatchInv extends Doc
 				return facts;
 			}
             cr.setM_Product_ID(m_invoiceLine.getM_Product_ID());
-			cr.setQty(getQty().negate());
+			cr.setQty(quantity.negate());
 
 			temp = cr.getAcctBalance();
 			//	Set AmtAcctCr/Dr from Invoice (sets also Project)
 			if (as.isAccrual() && !cr.updateReverseLine (MInvoice.Table_ID, 		//	Amt updated
-				m_invoiceLine.getC_Invoice_ID(), m_invoiceLine.getC_InvoiceLine_ID(), getQty().negate() , multiplier))
+				m_invoiceLine.getC_Invoice_ID(), m_invoiceLine.getC_InvoiceLine_ID(), getQty(), multiplier))
 			{
 				p_Error = "Invoice not posted yet";
 				return null;
