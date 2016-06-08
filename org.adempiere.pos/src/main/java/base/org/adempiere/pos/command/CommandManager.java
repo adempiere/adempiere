@@ -42,15 +42,15 @@ public class CommandManager {
 
     private HashMap<String , CommandReceiver> receivers = new HashMap<String , CommandReceiver>(){
         {
-            CommandReceiver   commandReceiver = new CommandReceiver(null, GENERATE_IMMEDIATE_INVOICE, null);
+            CommandReceiver   commandReceiver = new CommandReceiver(null, GENERATE_IMMEDIATE_INVOICE, GenerateImmediateInvoice.getProcessName());
             commands.put(GENERATE_IMMEDIATE_INVOICE, new CommandImmediateInvoice(GENERATE_IMMEDIATE_INVOICE ,commandReceiver.getEvent()));
             put(GENERATE_IMMEDIATE_INVOICE, commandReceiver);
 
-            commandReceiver =  new CommandReceiver(null, GENERATE_REVERSE_SALES, null);
+            commandReceiver =  new CommandReceiver(null, GENERATE_REVERSE_SALES, ReverseTheSalesTransaction.getProcessName());
             commands.put(GENERATE_REVERSE_SALES, new CommandReverseSalesTransaction(GENERATE_REVERSE_SALES, commandReceiver.getEvent()));
             put(GENERATE_REVERSE_SALES,commandReceiver);
 
-            commandReceiver = new CommandReceiver(null, GENERATE_RETURN, "Crear Devolución Parcial sin @M_RMA_ID@");
+            commandReceiver = new CommandReceiver(null, GENERATE_RETURN, "@Create@ @new.customer.return.order@");
             commands.put(GENERATE_RETURN , new CommandGenerateReturn(GENERATE_RETURN, commandReceiver.getEvent()));
             put(GENERATE_RETURN, commandReceiver);
 
@@ -58,11 +58,11 @@ public class CommandManager {
             commands.put(COMPLETE_DOCUMENT , new CommandCompleteReturnMaterial(COMPLETE_DOCUMENT,commandReceiver.getEvent()));
             put(COMPLETE_DOCUMENT, commandReceiver);
 
-            commandReceiver = new CommandReceiver(null, GENERATE_WITHDRAWAL, GENERATE_WITHDRAWAL);
+            commandReceiver = new CommandReceiver(null, GENERATE_WITHDRAWAL, GenerateWithdrawal.getProcessName());
             commands.put(GENERATE_WITHDRAWAL, new CommandWithdrawal(GENERATE_WITHDRAWAL,commandReceiver.getEvent()));
             put(GENERATE_WITHDRAWAL, commandReceiver);
 
-            commandReceiver = new CommandReceiver(null, CLOSE_STATEMENT, CLOSE_STATEMENT);
+            commandReceiver = new CommandReceiver(null, CLOSE_STATEMENT, CloseStatementPOS.getProcessName());
             commands.put(CLOSE_STATEMENT, new CommandWithdrawal(CLOSE_STATEMENT,commandReceiver.getEvent()));
             put(CLOSE_STATEMENT, commandReceiver);
         }
