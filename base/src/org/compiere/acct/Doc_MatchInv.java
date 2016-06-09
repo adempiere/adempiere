@@ -33,6 +33,7 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MMatchInv;
 import org.compiere.model.ProductCost;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -168,13 +169,13 @@ public class Doc_MatchInv extends Doc
 			return null;
 		}
         dr.setM_Product_ID(m_receiptLine.getM_Product_ID());
-		String documentBaseTypeReceipt = m_receiptLine.getParent().getC_DocType().getDocBaseType();
-		BigDecimal quantity = MDocType.DOCBASETYPE_MaterialReceipt == documentBaseTypeReceipt ? getQty() : getQty().negate();
-		dr.setQty(quantity);
+		String documentBaseTypeReceipt = DB.getSQLValueString(m_receiptLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_receiptLine.getC_DocType_ID());
+		BigDecimal quantityReceipt = MDocType.DOCBASETYPE_MaterialReceipt.equals(documentBaseTypeReceipt) ? getQty() : getQty().negate();
+		dr.setQty(quantityReceipt);
 		BigDecimal temp = dr.getAcctBalance();
 		//	Set AmtAcctCr/Dr from Receipt (sets also Project)
 		if (!dr.updateReverseLine (MInOut.Table_ID, 		//	Amt updated
-			m_receiptLine.getM_InOut_ID(), m_receiptLine.getM_InOutLine_ID(), quantity , multiplier))
+			m_receiptLine.getM_InOut_ID(), m_receiptLine.getM_InOutLine_ID(), quantityReceipt , multiplier))
 		{
 			p_Error = "Mat.Receipt not posted yet";
 			return null;
@@ -251,12 +252,13 @@ public class Doc_MatchInv extends Doc
 				return facts;
 			}
             cr.setM_Product_ID(m_invoiceLine.getM_Product_ID());
-			cr.setQty(quantity.negate());
-
 			temp = cr.getAcctBalance();
+			String documentBaseTypeInvoice = DB.getSQLValueString(m_invoiceLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_invoiceLine.getParent().getC_DocType_ID());
+			BigDecimal quantityInvoice = MDocType.DOCBASETYPE_APInvoice.equals(documentBaseTypeInvoice) ?  getQty().negate() : getQty() ;
+			cr.setQty(quantityInvoice);
 			//	Set AmtAcctCr/Dr from Invoice (sets also Project)
 			if (as.isAccrual() && !cr.updateReverseLine (MInvoice.Table_ID, 		//	Amt updated
-				m_invoiceLine.getC_Invoice_ID(), m_invoiceLine.getC_InvoiceLine_ID(), getQty(), multiplier))
+				m_invoiceLine.getC_Invoice_ID(), m_invoiceLine.getC_InvoiceLine_ID(), quantityInvoice , multiplier))
 			{
 				p_Error = "Invoice not posted yet";
 				return null;
