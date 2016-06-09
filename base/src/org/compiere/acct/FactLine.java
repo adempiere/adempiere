@@ -1070,7 +1070,7 @@ public final class FactLine extends X_Fact_Acct
 			pstmt.setInt(3, Record_ID);
 			pstmt.setInt(4, Line_ID);
 			pstmt.setInt(5, m_acct.getAccount_ID());
-            pstmt.setBigDecimal(6, quantity.negate());
+            pstmt.setBigDecimal(6, quantity.negate()); // Negate quantity to get the credit account fact
 			// MZ Goodwill
 			// for Inventory Move
 			if (MMovement.Table_ID == AD_Table_ID)
