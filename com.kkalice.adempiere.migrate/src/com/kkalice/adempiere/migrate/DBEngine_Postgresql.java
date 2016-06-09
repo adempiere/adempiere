@@ -1729,7 +1729,9 @@ public class DBEngine_Postgresql implements DBEngineInterface {
 
 		sql.append("SELECT "
 				+ "trigger_name AS TRIG_NAME, "
-				+ "condition_timing AS TRIG_TYPE, "
+				// TODO: ask PG version for correct column name 
+				//+ "condition_timing AS TRIG_TYPE, "  // valid before PG 9.1
+				+ "action_timing AS TRIG_TYPE, "  // valid after PG 9.1
 				+ "event_manipulation AS TRIG_EVENT, "
 				+ "event_object_table AS TABLE_NAME, "
 				+ "'CALL' AS ACTION_TYPE, "
