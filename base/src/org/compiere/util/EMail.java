@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -43,11 +44,13 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.adempiere.util.EMailOAuth2Provider;
 import org.compiere.model.MClient;
 import org.compiere.model.MEMailConfig;
 import org.compiere.model.MSysConfig;
 
 import com.sun.mail.smtp.SMTPMessage;
+import com.sun.mail.smtp.SMTPTransport;
 
 /**
  *	EMail Object.
@@ -68,6 +71,8 @@ import com.sun.mail.smtp.SMTPMessage;
  *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 402 ] Mail setup is hardcoded
  *			@see https://github.com/adempiere/adempiere/issues/402
+ *			<li> FR [ 423 ] Add support to oAuth EMail
+ *			@see https://github.com/adempiere/adempiere/issues/423
  */
 public final class EMail implements Serializable
 {
@@ -232,6 +237,10 @@ public final class EMail implements Serializable
 	private EMailAuthenticator	m_auth = null;
 	/**	Message						*/
 	private SMTPMessage 		m_msg = null;
+	/**	User						*/
+	private String				m_user = null;
+	/**	Token						*/
+	private String				m_token = "";
 	/** Context - may be null		*/
 	private Properties			m_ctx;
 	/**	Is Manual					*/
@@ -254,10 +263,39 @@ public final class EMail implements Serializable
 	 */
 	public Session getSession() {
 		//	FR [ 402 ]
-		Session session = Session.getInstance(getEMailProperties(), m_auth);
+		Session session = null;
+		if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
+			//	Add initialization
+			Security.addProvider(new EMailOAuth2Provider());
+			session = Session.getInstance(getEMailProperties());
+		} else {
+			session = Session.getInstance(getEMailProperties(), m_auth);
+		}
 		session.setDebug(CLogMgt.isLevelFinest());
 		//	
 		return session;
+	}
+	
+	/**
+	 * Get Transport
+	 * @param session
+	 * @return
+	 * @throws MessagingException
+	 */
+	public Transport getTransport(Session session) throws MessagingException {
+		Transport transport = null;
+		if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
+			transport = new SMTPTransport(session, null);
+			transport.connect(getSmtpHost(), getPort(), m_user, "");
+		} else {
+			transport = session.getTransport("smtp");
+			transport.connect();
+		}
+		//	Log
+		log.fine("transport=" + transport);
+		log.fine("transport connected");
+		//	Default Return
+		return transport;
 	}
 	
 	/**
@@ -291,7 +329,6 @@ public final class EMail implements Serializable
 
 		try
 		{
-		//	m_msg = new MimeMessage(session);
 			m_msg = new SMTPMessage(session);
 			//	Addresses
 			m_msg.setFrom(m_from);
@@ -311,27 +348,18 @@ public final class EMail implements Serializable
 			//
 			m_msg.setSentDate(new java.util.Date());
 			m_msg.setHeader("Comments", "AdempiereMail");
-		//	m_msg.setDescription("Description");
 			//	SMTP specifics
 			m_msg.setAllow8bitMIME(true);
 			//	Send notification on Failure & Success - no way to set envid in Java yet
-		//	m_msg.setNotifyOptions (SMTPMessage.NOTIFY_FAILURE | SMTPMessage.NOTIFY_SUCCESS);
 			//	Bounce only header
 			m_msg.setReturnOption (SMTPMessage.RETURN_HDRS);
-		//	m_msg.setHeader("X-Mailer", "msgsend");
 			//
 			setContent();
 			m_msg.saveChanges();
-		//	log.fine("message =" + m_msg);
+			log.fine("message =" + m_msg);
 			//
-		//	Transport.send(msg);
-			Transport t = session.getTransport("smtp");
-		//	log.fine("transport=" + t);
-			t.connect();
-		//	t.connect(m_smtpHost, user, password);
-		//	log.fine("transport connected");
+			getTransport(session);
 			Transport.send(m_msg);
-		//	t.sendMessage(msg, msg.getAllRecipients());
 			log.fine("Success - MessageID=" + m_msg.getMessageID());
 		}
 		catch (MessagingException me)
@@ -439,34 +467,44 @@ public final class EMail implements Serializable
 		//	For Debug
 		if (CLogMgt.isLevelFinest())
 			props.put("mail.debug", "true");
-		//	Set Host
-		props.put("mail.host", m_Host);
-		//	Set Port
-		props.put("mail.smtp.port", String.valueOf(getPort()));
-		//	
 		//	Timeout
 		if(m_Timeout > 0)
 			props.put("mail.smtp.timeout", String.valueOf(m_Timeout));
 		//	Connection Timeout
 		if(m_Timeout > 0)
 			props.put("mail.smtp.connectiontimeout", String.valueOf(m_ConnectionTimeout));
-		if (m_IsSmtpAuthorization && m_auth != null)		//	createAuthenticator was called
-			props.put("mail.smtp.auth", "true");
 		//	Protocol
 		if(m_Protocol.equals(MEMailConfig.PROTOCOL_SMTP)) {
+			//	
+			if (m_IsSmtpAuthorization && m_auth != null)		//	createAuthenticator was called
+				props.put("mail.smtp.auth", "true");
 			props.put("mail.store.protocol", "smtp");
 			props.put("mail.transport.protocol", "smtp");
+			//	Encryption Type
+			if(!getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
+				if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_SSL))
+					props.put("mail.smtp.ssl.enable", "true");
+				else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS))
+					props.put("mail.smtp.starttls.enable", "true");
+			}
 		}
-		//	Encryption Type
-		if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_SSL))
-			props.put("mail.smtp.ssl.enable", "true");
-		else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS))
+		//	For oAuth2
+		if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
 			props.put("mail.smtp.starttls.enable", "true");
-		//	Add Authentication Mechanism
-		if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_NTLM)) {
-			props.put("mail.smtp.auth.mechanisms","NTLM");
-			if(m_Domain != null)
-				props.put("mail.smtp.auth.ntlm.domain", m_Domain);	
+		    props.put("mail.smtp.sasl.enable", "true");
+		    props.put("mail.smtp.sasl.mechanisms", "XOAUTH2");;
+		    props.put("mail.imaps.sasl.mechanisms.oauth2.oauthToken", m_token);
+		} else {
+			//	Set Host
+			props.put("mail.host", m_Host);
+			//	Set Port
+			props.put("mail.smtp.port", String.valueOf(getPort()));
+			//	Add Authentication Mechanism
+			if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_NTLM)) {
+				props.put("mail.smtp.auth.mechanisms","NTLM");
+				if(m_Domain != null)
+					props.put("mail.smtp.auth.ntlm.domain", m_Domain);	
+			}
 		}
 		//	Unsupported
 		//if(m_AuthMechanism == MEMailConfig.AUTHMECHANISM_Digest_MD5)
@@ -700,19 +738,23 @@ public final class EMail implements Serializable
 	 * 	Create Authenticator for User
 	 * 	@param username user name
 	 * 	@param password user password
-	 * 	@return Authenticator or null
 	 */
-	public EMailAuthenticator createAuthenticator (String username, String password) {
+	public void createAuthenticator (String username, String password) {
 		m_IsSmtpAuthorization = false;
-		if (username == null || password == null) {
-			log.warning("Ignored - " +  username + "/" + password);
-			m_auth = null;
-		} else {
-		//	log.fine("setEMailUser: " + username + "/" + password);
-			m_auth = new EMailAuthenticator (username, password);
+		if(getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
+			m_user = username;
+			m_token = password;
 			m_IsSmtpAuthorization = true;
+		} else {
+			if (username == null || password == null) {
+				log.warning("Ignored - " +  username + "/" + password);
+				m_auth = null;
+			} else {
+			//	log.fine("setEMailUser: " + username + "/" + password);
+				m_auth = new EMailAuthenticator (username, password);
+				m_IsSmtpAuthorization = true;
+			}
 		}
-		return m_auth;
 	}	//	createAuthenticator
 	
 	/**
