@@ -87,7 +87,7 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 			int m_M_Locator_ID = getSelectionAsInt(key, "CF_M_Locator_ID");
 			BigDecimal m_QtyEntered = getSelectionAsBigDecimal(key, "CF_QtyEntered"); // Qty
 			// If a locator is specified on the product, choose that otherwise default locator
-			if(m_M_Locator_ID == 0)
+			if(getLocator() != 0)
 				m_M_Locator_ID = getLocator();
 			//	Valid locator
 			if(m_M_Locator_ID == 0) {
@@ -185,9 +185,6 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 			if(m_C_Charge_ID != 0)
 				iol.setC_Charge_ID(m_C_Charge_ID);
 			// Set locator
-			if(m_M_Locator_ID == 0) {
-				
-			}
 			iol.setM_Locator_ID(m_M_Locator_ID);
 			iol.saveEx();
 			//	Create Invoice Line Link
