@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Create From in M_InOut change to Smart Browse #327" ReleaseNo="/feature/ADEMPIERE-296-Create-From-Like-SB" SeqNo="155">
-    <Step DBType="Postgres" Parse="N" SeqNo="5" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom AS
+    <Step DBType="Oracle" Parse="N" SeqNo="5" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom 
+(AD_Client_ID, AD_Org_ID, CreatedBy, Created, UpdatedBy, 
+Updated, IsActive, RV_InOut_CreateFrom_ID, Line, QtyEntered, C_UOM_ID, MovementQty, Multiplier, 
+M_Locator_ID, Name, M_Product_ID, M_AttributeSetInstance_ID, C_Charge_ID, Description, 
+VendorProductNo, C_Order_ID, C_Invoice_ID, M_RMA_ID, DateDoc, C_BPartner_ID, DocStatus, CreateFromType)
+AS
 --  From Order
 SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_OrderLine_ID AS RV_InOut_CreateFrom_ID, l.Line, 
 ((CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) * (l.QtyOrdered - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
@@ -68,13 +73,8 @@ WHERE l.Qty &lt;&gt; 0
 AND (l.M_InOutLine_ID IS NOT NULL OR l.C_Charge_ID IS NOT NULL)</SQLStatement>
       <RollbackStatement>DROP VIEW RV_InOut_CreateFrom</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="5" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom 
-(AD_Client_ID, AD_Org_ID, CreatedBy, Created, UpdatedBy, 
-Updated, IsActive, RV_InOut_CreateFrom_ID, Line, QtyEntered, C_UOM_ID, MovementQty, Multiplier, 
-M_Locator_ID, Name, M_Product_ID, M_AttributeSetInstance_ID, C_Charge_ID, Description, 
-VendorProductNo, C_Order_ID, C_Invoice_ID, M_RMA_ID, DateDoc, C_BPartner_ID, DocStatus, CreateFromType)
-AS
+    <Step DBType="Postgres" Parse="N" SeqNo="5" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom AS
 --  From Order
 SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_OrderLine_ID AS RV_InOut_CreateFrom_ID, l.Line, 
 ((CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) * (l.QtyOrdered - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
@@ -218,6 +218,8 @@ AND (l.M_InOutLine_ID IS NOT NULL OR l.C_Charge_ID IS NOT NULL)</SQLStatement>
     </Step>
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="54674" Table="AD_Ref_List">
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="149" Column="Name">Delivery / Receipt</Data>
         <Data AD_Column_ID="566" Column="Updated">2016-05-03 00:47:46.411</Data>
         <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
@@ -225,8 +227,6 @@ AND (l.M_InOutLine_ID IS NOT NULL OR l.C_Charge_ID IS NOT NULL)</SQLStatement>
         <Data AD_Column_ID="151" Column="AD_Reference_ID">53808</Data>
         <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54674</Data>
         <Data AD_Column_ID="564" Column="Created">2016-05-03 00:47:46.411</Data>
-        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="7712" Column="EntityType">D</Data>
         <Data AD_Column_ID="563" Column="IsActive">true</Data>
         <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
@@ -3770,8 +3770,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1280" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55608" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="32">70</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="32">70</Data>
       </PO>
     </Step>
     <Step SeqNo="1290" StepType="AD">
@@ -4327,6 +4327,11 @@ AND EXISTS(SELECT 1
     <Step SeqNo="1940" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55597" Table="AD_Browse_Field">
         <Data AD_Column_ID="57977" Column="IsIdentifier" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1950" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="54257" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="'Y'">'@CF_IsSameWarehouse@'</Data>
       </PO>
     </Step>
   </Migration>
