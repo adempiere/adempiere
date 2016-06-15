@@ -153,7 +153,8 @@ public class Doc_MatchInv extends Doc
 			return fact;
 		}
 		**/
-		
+		if (!m_receiptLine.getM_Product().isStocked())
+			return facts;
 		
 		//  NotInvoicedReceipt      DR
 		//  From Receipt
@@ -253,7 +254,7 @@ public class Doc_MatchInv extends Doc
 			}
             cr.setM_Product_ID(m_invoiceLine.getM_Product_ID());
 			temp = cr.getAcctBalance();
-			String documentBaseTypeInvoice = DB.getSQLValueString(m_invoiceLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_invoiceLine.getParent().getC_DocType_ID());
+			String documentBaseTypeInvoice = DB.getSQLValueString(m_invoiceLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_invoiceLine.getC_DocType_ID());
 			BigDecimal quantityInvoice = MDocType.DOCBASETYPE_APInvoice.equals(documentBaseTypeInvoice) ?  getQty().negate() : getQty() ;
 			cr.setQty(quantityInvoice);
 			//	Set AmtAcctCr/Dr from Invoice (sets also Project)
@@ -353,14 +354,16 @@ public class Doc_MatchInv extends Doc
 			FactLine pv = fact.createLine(null,
 				m_pc.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
 				as.getC_Currency_ID(), costs);
-			pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
-			pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
-			pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
-			pv.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
-			pv.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
-			pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
-			pv.setUser1_ID(m_invoiceLine.getUser1_ID());
-			pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+			if (pv != null) {
+				pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
+				pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
+				pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+				pv.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+				pv.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
+				pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
+				pv.setUser1_ID(m_invoiceLine.getUser1_ID());
+				pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+			}
 			
 			BigDecimal diff = ipv.subtract(costs);
 			MInvoice m_invoice = m_invoiceLine.getParent();
@@ -370,13 +373,15 @@ public class Doc_MatchInv extends Doc
 				FactLine diffline = fact.createLine(null,
 						m_pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
 						C_Currency_ID, diff);
-				diffline.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
-				diffline.setC_Project_ID(m_invoiceLine.getC_Project_ID());
-				diffline.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
-				diffline.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
-				diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
-				diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
-				diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
+				if (diffline != null) {
+					diffline.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
+					diffline.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+					diffline.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+					diffline.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
+					diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
+					diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
+					diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
+				}
 			}
 		}
 		log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());
