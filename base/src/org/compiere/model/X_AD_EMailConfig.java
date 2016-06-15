@@ -28,7 +28,7 @@ public class X_AD_EMailConfig extends PO implements I_AD_EMailConfig, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160601L;
+	private static final long serialVersionUID = 20160610L;
 
     /** Standard Constructor */
     public X_AD_EMailConfig (Properties ctx, int AD_EMailConfig_ID, String trxName)
@@ -106,6 +106,8 @@ public class X_AD_EMailConfig extends PO implements I_AD_EMailConfig, I_Persiste
 	public static final String AUTHMECHANISM_Digest_MD5 = "D";
 	/** NTLM = N */
 	public static final String AUTHMECHANISM_NTLM = "N";
+	/** oAuth = O */
+	public static final String AUTHMECHANISM_OAuth = "O";
 	/** Set Authentication Mechanism.
 		@param AuthMechanism Authentication Mechanism	  */
 	public void setAuthMechanism (String AuthMechanism)
