@@ -170,7 +170,7 @@ public class Doc_MatchInv extends Doc
 			return null;
 		}
         dr.setM_Product_ID(m_receiptLine.getM_Product_ID());
-		String documentBaseTypeReceipt = DB.getSQLValueString(m_receiptLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_receiptLine.getC_DocType_ID());
+		String documentBaseTypeReceipt = DB.getSQLValueString(m_receiptLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_receiptLine.getParent().getC_DocType_ID());
 		BigDecimal quantityReceipt = MDocType.DOCBASETYPE_MaterialReceipt.equals(documentBaseTypeReceipt) ? getQty() : getQty().negate();
 		dr.setQty(quantityReceipt);
 		BigDecimal temp = dr.getAcctBalance();
@@ -254,7 +254,7 @@ public class Doc_MatchInv extends Doc
 			}
             cr.setM_Product_ID(m_invoiceLine.getM_Product_ID());
 			temp = cr.getAcctBalance();
-			String documentBaseTypeInvoice = DB.getSQLValueString(m_invoiceLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_invoiceLine.getC_DocType_ID());
+			String documentBaseTypeInvoice = DB.getSQLValueString(m_invoiceLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_invoiceLine.getParent().getC_DocType_ID());
 			BigDecimal quantityInvoice = MDocType.DOCBASETYPE_APInvoice.equals(documentBaseTypeInvoice) ?  getQty().negate() : getQty() ;
 			cr.setQty(quantityInvoice);
 			//	Set AmtAcctCr/Dr from Invoice (sets also Project)
