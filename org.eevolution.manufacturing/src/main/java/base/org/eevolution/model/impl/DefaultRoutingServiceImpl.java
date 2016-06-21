@@ -48,7 +48,7 @@ public class DefaultRoutingServiceImpl implements RoutingService
 	}
 	public BigDecimal estimateWorkingTime(I_PP_Order_Node node, BigDecimal qty)
 	{
-		BigDecimal unitDuration = BigDecimal.valueOf(node.getDuration());
+		BigDecimal unitDuration = new BigDecimal(node.getDuration());
 		BigDecimal cycles = calculateCycles(node.getUnitsCycles(), qty);
 		BigDecimal duration = unitDuration.multiply(cycles);
 		return duration;
@@ -72,7 +72,7 @@ public class DefaultRoutingServiceImpl implements RoutingService
 	protected BigDecimal calculateCycles(int unitsCycle, BigDecimal qty)
 	{
 		BigDecimal cycles = qty;
-		BigDecimal unitsCycleBD = BigDecimal.valueOf(unitsCycle);
+		BigDecimal unitsCycleBD = new BigDecimal(unitsCycle);
 		if (unitsCycleBD.signum() > 0)
 		{
 			cycles = qty.divide(unitsCycleBD);
@@ -133,7 +133,7 @@ public class DefaultRoutingServiceImpl implements RoutingService
 		final Properties ctx = ((PO)wf).getCtx();
 		final MResourceType S_ResourceType = MResourceType.get(ctx, plant.getS_ResourceType_ID());  	
 
-		BigDecimal AvailableDayTime  = BigDecimal.valueOf(S_ResourceType.getTimeSlotHours());
+		BigDecimal AvailableDayTime  = new BigDecimal(S_ResourceType.getTimeSlotHours());
 		int AvailableDays = S_ResourceType.getAvailableDaysWeek();
 
 		double durationBaseSec = getDurationBaseSec(wf.getDurationUnit());
@@ -162,7 +162,7 @@ public class DefaultRoutingServiceImpl implements RoutingService
 		// TODO: implement here, Victor's suggestion - https://sourceforge.net/forum/message.php?msg_id=5179460
 
 		// Weekly Factor  	
-		BigDecimal WeeklyFactor = BigDecimal.valueOf(7).divide(BigDecimal.valueOf(AvailableDays), 8, RoundingMode.UP);
+		BigDecimal WeeklyFactor = new BigDecimal(7).divide(new BigDecimal(AvailableDays), 8, RoundingMode.UP);
 
 		return (requiredTime.multiply(WeeklyFactor)).divide(AvailableDayTime, 0, RoundingMode.UP);
 	}
