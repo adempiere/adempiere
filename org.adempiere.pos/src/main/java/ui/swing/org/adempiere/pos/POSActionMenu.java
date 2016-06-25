@@ -162,6 +162,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
 
     private void executeCommand(Command command)
     {
+        Waiting waiting = new Waiting(pos.getFrame(), Msg.parseTranslation(pos.getCtx(), "@Processing@"), false, 120);
         try {
             CommandReceiver receiver = commandManager.getCommandReceivers(command.getEvent());
             if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE
@@ -172,6 +173,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 receiver.setPartnerId(queryPartner.getRecord_ID());
                 receiver.setOrderId(pos.getC_Order_ID());
                 receiver.setPOSId(pos.getC_POS_ID());
+                receiver.setBankAccountId(pos.getC_BankAccount_ID());
                 MBPartner partner = MBPartner.get(pos.getCtx(), receiver.getPartnerId());
                 Optional<String> taxId = Optional.ofNullable(partner.getTaxID());
                 String processMessage = receiver.getName()
@@ -179,12 +181,11 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                         + " @To@ @C_BPartner_ID@ : " + partner.getName()
                         + " @TaxID@ : " + taxId.orElse("");
                 if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
-                    Waiting waiting = new Waiting(pos.getFrame(), Msg.parseTranslation(pos.getCtx(), "@Processing@"), false, 120);
                     AEnv.showCenterScreen(waiting);
                     command.execute(receiver);
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.setVisible(false);
-                    if (processInfo.isError()) {
+                    if (processInfo != null && processInfo.isError()) {
                         showError(processInfo);
                     } else {
                         afterExecutionCommand(command);
@@ -205,17 +206,17 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 receiver.setOrderId(pos.getC_Order_ID());
                 receiver.setPOSId(pos.getC_POS_ID());
                 receiver.setPartnerId(pos.getC_BPartner_ID());
+                receiver.setBankAccountId(pos.getC_BankAccount_ID());
                 String processMessage = receiver.getName()
                         + " @order.no@ : " + pos.getDocumentNo()
                         + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
 
                 if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
-                    Waiting waiting = new Waiting(pos.getFrame(), Msg.parseTranslation(pos.getCtx(), "@Processing@"), false, 120);
                     AEnv.showCenterScreen(waiting);
                     command.execute(receiver);
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.setVisible(false);
-                    if (processInfo.isError()) {
+                    if (processInfo != null && processInfo.isError()) {
                         showError(processInfo);
                     }
                     else
@@ -239,14 +240,11 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                         + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
 
                 if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
-
-                    Waiting waiting = new Waiting(pos.getFrame(), Msg.parseTranslation(pos.getCtx(), "@Processing@"), false, 120);
                     AEnv.showCenterScreen(waiting);
                     command.execute(receiver);
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.setVisible(false);
-                    waiting = null;
-                    if (processInfo.isError()) {
+                    if (processInfo != null && processInfo.isError()) {
                         showError(processInfo);
                     }
                     else
@@ -269,13 +267,12 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                     receiver.setOrderId(pos.getC_Order_ID());
                     receiver.setPOSId(pos.getC_POS_ID());
                     receiver.setWarehouseId(pos.getM_Warehouse_ID());
-                    Waiting waiting = new Waiting(pos.getFrame(),Msg.parseTranslation(pos.getCtx(), "@Processing@"), false, 120);
+                    receiver.setBankAccountId(pos.getC_BankAccount_ID());
                     AEnv.showCenterScreen(waiting);
                     command.execute(receiver);
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.setVisible(false);
-                    waiting = null;
-                    if (processInfo.isError()) {
+                    if (processInfo != null && processInfo.isError()) {
                         showError(processInfo);
                     }
                     afterExecutionCommand(command);
@@ -306,7 +303,12 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         }
         catch (Exception exception)
         {
+            waiting.setVisible(false);
             ADialog.error(pos.getWindowNo(), pos.getFrame() , exception.getLocalizedMessage());
+        }
+        finally {
+            waiting.setVisible(false);
+            waiting = null;
         }
     }
 
