@@ -38,7 +38,6 @@ import java.util.Arrays;
  */
 public class POSLookupProduct implements ActionListener, KeyListener {
 
-    private static final long serialVersionUID = -2303830709901143774L;
     private POSLookupProductInterface lookupProductInterface = null;
     private POSTextField fieldProductName = null;
     private long lastKeyboardEvent = 0;
@@ -62,16 +61,26 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     private String title = "";
 
 
-
-    public POSLookupProduct (POSLookupProductInterface lookupProductInterface, POSTextField fieldProductName, long lastKeyboardEvent)
-    {
+    /**
+     * Default constructor
+     * *** Constructor ***
+     * @param lookupProductInterface
+     * @param fieldProductName
+     * @param lastKeyboardEvent
+     */
+    public POSLookupProduct (POSLookupProductInterface lookupProductInterface, 
+    		POSTextField fieldProductName, long lastKeyboardEvent) {
         this.lookupProductInterface = lookupProductInterface;
         this.fieldProductName = fieldProductName;
         this.lastKeyboardEvent = lastKeyboardEvent;
     }
 
-    public void setLastKeyboardEvent(long lastKeyboardEvent)
-    {
+    /**
+     * Set a last keyboard
+     * @param lastKeyboardEvent
+     * @return void
+     */
+    public void setLastKeyboardEvent(long lastKeyboardEvent) {
         this.lastKeyboardEvent = lastKeyboardEvent;
     }
 
@@ -126,7 +135,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         if (actionEvent.getSource()== productLookupComboBox
         && actionEvent.getModifiers() == 16
         && actionEvent.getSource() != lookupProductInterface.getProductTimer())
-            captureProduct();
+            captureProductFromCombo();
 
         if(actionEvent.getSource()== lookupProductInterface.getProductTimer())
         {
@@ -148,48 +157,44 @@ public class POSLookupProduct implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent keyEvent)  {
-        if(keyEvent.getKeyCode()==40 && keyEvent.getSource()== fieldProductName) // Key down on product text field
-        {
-            productLookupComboBox.requestFocus();
-        }
-        else if (keyEvent.getSource()== fieldProductName) //writing product name or value
-        {
-            searched = false;
-            this.lastKeyboardEvent = System.currentTimeMillis();
-            if (lookupProductInterface.getProductTimer() != null)
-                ((javax.swing.Timer)lookupProductInterface.getProductTimer()).restart();
-        }
-        else if(keyEvent.getKeyCode()==10 && keyEvent.getSource()== productLookupComboBox)
-        {
-            captureProduct();
-            return;
-        }
-        if (KeyEvent.VK_TAB == keyEvent.getKeyCode()) {
-            fieldProductName.setPlaceholder(fieldProductName.getText());
-            try {
-                lookupProductInterface.findProduct(false);
-            } catch (Exception exception) {
-                ADialog.error(0 , null , exception.getLocalizedMessage());
-            }
-            lookupProductInterface.quantityRequestFocus();
-            fieldProductName.setText("");
-            return;
-        }
-        if (KeyEvent.VK_ENTER == keyEvent.getKeyCode()) {
-            fieldProductName.setPlaceholder(fieldProductName.getText());
-            try {
-                lookupProductInterface.findProduct(false);
-            } catch (Exception exception) {
-                ADialog.error(0 , null , exception.getLocalizedMessage());
-            }
-            lookupProductInterface.quantityRequestFocus();
-            fieldProductName.setText("");
-            return;
-        }
+    	if(keyEvent.getSource().equals(fieldProductName)) {
+    		if(keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
+    			if(productLookupComboBox != null) {
+    				productLookupComboBox.requestFocus();
+    			}
+    		} else if(KeyEvent.VK_TAB == keyEvent.getKeyCode()
+    				|| KeyEvent.VK_ENTER == keyEvent.getKeyCode()) {
+    			fieldProductName.setPlaceholder(fieldProductName.getText());
+                try {
+
+                    lookupProductInterface.findProduct(KeyEvent.VK_TAB == keyEvent.getKeyCode());
+                } catch (Exception exception) {
+                    ADialog.error(0 , null , exception.getLocalizedMessage());
+                }
+                //	
+//                lookupProductInterface.quantityRequestFocus();
+                fieldProductName.setText("");
+                return;
+    		} else {
+    			searched = false;
+                this.lastKeyboardEvent = System.currentTimeMillis();
+                if (lookupProductInterface.getProductTimer() != null)
+                    ((javax.swing.Timer)lookupProductInterface.getProductTimer()).restart();
+    		}
+    	} else if(keyEvent.getSource().equals(productLookupComboBox)) {
+    		if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+    			captureProductFromCombo();
+                return;
+    		}
+    	}
     }
 
-    public void captureProduct()
-    {
+    /**
+     * Capture Product from combo box
+     * 
+     * @return void
+     */
+    public void captureProductFromCombo() {
         KeyNamePair item = (KeyNamePair) productLookupComboBox.getSelectedItem();
         if(item!=null && !selectLock)
         {

@@ -243,16 +243,16 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 			BigDecimal quantity = (BigDecimal) fieldQuantity.getValue();
 			if (fieldQuantity.hasChanged()
 					&& actionEvent.getSource().equals(fieldQuantity)
-					&& actionEvent.getActionCommand().equals("KeyEvent"))
+					&& (
+							actionEvent.getActionCommand().equals("KeyEvent")
+							|| actionEvent.getActionCommand().equals("InvocationEvent"))
+						)
 			{
-				if (posPanel.isNewLine()) {
-					posPanel.setQuantity(quantity);
-				}
-				else
-				{
-					posPanel.updateLineTable();
-					quantity = posPanel.getQty().add(quantity);
-					posPanel.setQuantity(quantity);
+				//	Verify if it add or set
+				if(posPanel.isAddQty()) {
+					posPanel.setQtyAdded(quantity);
+				} else {
+					posPanel.setQty(quantity);
 				}
 				posPanel.updateLineTable();
 				posPanel.refreshPanel();
@@ -262,7 +262,7 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 			}
 			if ((actionEvent.getSource().equals(buttonPlus) || actionEvent.getSource().equals(buttonMinus)))
 			{
-				posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
+				posPanel.setQty((BigDecimal) fieldQuantity.getValue());
 				posPanel.setPrice((BigDecimal) fieldPrice.getValue());
 				BigDecimal discountPercentage = (BigDecimal) fieldDiscountPercentage.getValue();
 				if(discountPercentage==null)
@@ -287,13 +287,12 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 							&& (actionEvent.getSource().equals(fieldQuantity) || actionEvent.getSource().equals(buttonPlus) || actionEvent.getSource().equals(buttonMinus)))
 							|| (posPanel.getPrice().compareTo(price) != 0 && fieldPrice.hasChanged() && actionEvent.getSource().equals(fieldPrice))
 							|| (posPanel.getDiscountPercentage().compareTo(discountPercentage) != 0 && fieldDiscountPercentage.hasChanged() && actionEvent.getSource().equals(fieldDiscountPercentage))) {
-						posPanel.setQuantity((BigDecimal) fieldQuantity.getValue());
+						posPanel.setQty((BigDecimal) fieldQuantity.getValue());
 						posPanel.setPrice((BigDecimal) fieldPrice.getValue());
 						posPanel.setDiscountPercentage((BigDecimal) fieldDiscountPercentage.getValue());
 						posPanel.updateLineTable();
 						posPanel.changeViewPanel();
 						posPanel.refreshPanel();
-
 					}
 				}
 				return;
@@ -404,6 +403,11 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 		fieldDiscountPercentage.setReadWrite(false);
 	}
 
+	/**
+	 * Set Quantity
+	 * @param value
+	 * @return void
+	 */
 	public void setQuantity(BigDecimal value) {
 		fieldQuantity.setValue(value);
 		fieldQuantity.requestFocus();

@@ -162,26 +162,6 @@ public class POSOrderLinePanel extends POSSubPanel
         int row = e.getFirstRow();
 		int col = e.getColumn();
 		//  Not a table update
-
-		/*if(col == POSOrderLineTableHandle.POSITION_DELETE) {
-			//	Remove Listener
-    		posTable.getModel().removeTableModelListener(this);
-
-			IDColumn key = (IDColumn) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_C_ORDERLINE_ID);
-			posPanel.setOrderLineId(key.getRecord_ID());
-			posPanel.deleteLine(posPanel.getOrderLineId());
-			
-			((DefaultTableModel) posTable.getModel()).removeRow(row);
-			posTable.getModel().addTableModelListener(this);
-			posPanel.refreshHeader();
-			posTable.getModel().addTableModelListener(this);
-			//	Only Refresh Header
-			posPanel.refreshHeader();
-			//	Request Focus
-			posTable.requestFocusInWindow();
-			//	Exit
-			return;
-		}*/
 		if (!isUpdate
 				|| (col != POSOrderLineTableHandle.POSITION_QTYORDERED
 						&& col != POSOrderLineTableHandle.POSITION_PRICE)) {
@@ -198,15 +178,17 @@ public class POSOrderLinePanel extends POSSubPanel
     		BigDecimal qtyOrdered = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
     		BigDecimal price = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
 			BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
-    		
-    		posPanel.setQuantity(qtyOrdered);
+    		posPanel.setQty(qtyOrdered);
 			posPanel.setPrice(price);
 			posPanel.setDiscountPercentage(discountPercentage);
 			updateLine();
-    		
     	}
     }
 
+	/**
+	 * Update Order Line
+	 * @return void
+	 */
 	public void updateLine() {
 		int row = posTable.getSelectedRow();
 		//	Remove Listener
@@ -214,7 +196,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		//	Remove line
 		if(posPanel.getQty() != null && posPanel.getQty().signum() < 0) {
 			if (posPanel.getOrderLineId() > 0)
-				if (posPanel.isRequiredPIN() && posPanel.isUserPinValid()) {					;
+				if (posPanel.isRequiredPIN() && posPanel.isUserPinValid()) {
 					posPanel.deleteLine(posPanel.getOrderLineId());
 				}
 			if (row >= 0) {
@@ -229,7 +211,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		//	Get Order Line
  		BigDecimal[] summary = posPanel.updateLine(
 				posPanel.getOrderLineId(),
-				posPanel.getQty(),
+				posPanel.getQty().add(posPanel.getQtyAdded()),
 				posPanel.getPriceLimit(),
 				posPanel.getPrice(),
 				posPanel.getPriceList(),
@@ -311,12 +293,12 @@ public class POSOrderLinePanel extends POSSubPanel
 			BigDecimal price = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
 			BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
 
-			posPanel.setQuantity(qtyOrdered);
+			posPanel.setQty(qtyOrdered);
 			posPanel.setPrice(price);
 			posPanel.setDiscountPercentage(discountPercentage);
 		}
 		else {
-			posPanel.setQuantity(Env.ZERO);
+			posPanel.setQty(Env.ZERO);
 			posPanel.setPrice(Env.ZERO);
 			posPanel.setPriceLimit(Env.ZERO);
 			posPanel.setPriceList(Env.ZERO);
@@ -376,7 +358,7 @@ public class POSOrderLinePanel extends POSSubPanel
 	public void mousePressed(MouseEvent e) {
 		POSTable c_table = (POSTable)e.getSource();
 		int row = c_table.getSelectedRow();
-		int column = c_table.getSelectedColumn();
+//		int column = c_table.getSelectedColumn();
 		/*if(column == POSOrderLineTableHandle.POSITION_DELETE) {
 			posTable.getModel().removeTableModelListener(this);
 			IDColumn key = (IDColumn) c_table.getValueAt(row, 0);
@@ -390,6 +372,7 @@ public class POSOrderLinePanel extends POSSubPanel
 		}*/
 		if (row != -1)	{
 			showProductInfo(row);
+			posPanel.setAddQty(false);
 		}
 	}
 	
@@ -423,7 +406,7 @@ public class POSOrderLinePanel extends POSSubPanel
 			BigDecimal price = (BigDecimal) posTable.getModel().getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
 			BigDecimal discount = (BigDecimal) posTable.getModel().getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
 			//	Refresh
-			posPanel.setQuantity(quantity);
+			posPanel.setQty(quantity);
 			posPanel.setPrice(price);
 			posPanel.setDiscountPercentage(discount);
  			posPanel.changeViewPanel();

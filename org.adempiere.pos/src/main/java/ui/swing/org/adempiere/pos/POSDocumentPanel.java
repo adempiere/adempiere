@@ -146,121 +146,121 @@ public class POSDocumentPanel extends POSSubPanel
 		totalTitle.setTitleColor(AdempierePLAF.getTextColor_Label());
 		totalPanel.setBorder(totalTitle);
 		//	For Document Info
-				labelDocumentNo = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo) + ":");
-				labelDocumentNo.setFont(posPanel.getPlainFont());
-				//	Add
-				documentInfoPanel.add(labelDocumentNo, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-				//
-				fieldDocumentNo = new CLabel();
-				fieldDocumentNo.setFont(posPanel.getFont());
-				labelDocumentNo.setLabelFor(fieldDocumentNo);
-				//	Change Size
-				//	Add
-				documentInfoPanel.add(fieldDocumentNo,  new GridBagConstraints(3, 0, 1, 1, 1, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
+		labelDocumentNo = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocumentNo) + ":");
+		labelDocumentNo.setFont(posPanel.getPlainFont());
+		//	Add
+		documentInfoPanel.add(labelDocumentNo, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//
+		fieldDocumentNo = new CLabel();
+		fieldDocumentNo.setFont(posPanel.getFont());
+		labelDocumentNo.setLabelFor(fieldDocumentNo);
+		//	Change Size
+		//	Add
+		documentInfoPanel.add(fieldDocumentNo,  new GridBagConstraints(3, 0, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 
-				//	For Tax Amount
-				labelDocumentType = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_C_DocType_ID) + ":");
-				labelDocumentType.setFont(posPanel.getPlainFont());
-				//	Add
-				documentInfoPanel.add(labelDocumentType, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-				//
-				fieldDocumentType = new CLabel();
-				fieldDocumentType.setFont(posPanel.getFont());
-				labelDocumentType.setLabelFor(fieldDocumentType);
-				//	Add
-				documentInfoPanel.add(fieldDocumentType, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
+		//	For Tax Amount
+		labelDocumentType = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_C_DocType_ID) + ":");
+		labelDocumentType.setFont(posPanel.getPlainFont());
+		//	Add
+		documentInfoPanel.add(labelDocumentType, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//
+		fieldDocumentType = new CLabel();
+		fieldDocumentType.setFont(posPanel.getFont());
+		labelDocumentType.setLabelFor(fieldDocumentType);
+		//	Add
+		documentInfoPanel.add(fieldDocumentType, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 
-				//	Document status
-				labelDocumentStatus = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocStatus) + ":");
-				labelDocumentStatus.setFont(posPanel.getPlainFont());
-				//	Add
-				documentInfoPanel.add(labelDocumentStatus, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-				//
-				fieldDocumentStatus = new CLabel();
-				fieldDocumentStatus.setFont(posPanel.getFont());
-				labelDocumentStatus.setLabelFor(fieldDocumentStatus);
-				//	Add
-				documentInfoPanel.add(fieldDocumentStatus, new GridBagConstraints(3, 3, 1, 1, 1, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
+		//	Document status
+		labelDocumentStatus = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocStatus) + ":");
+		labelDocumentStatus.setFont(posPanel.getPlainFont());
+		//	Add
+		documentInfoPanel.add(labelDocumentStatus, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//
+		fieldDocumentStatus = new CLabel();
+		fieldDocumentStatus.setFont(posPanel.getFont());
+		labelDocumentStatus.setLabelFor(fieldDocumentStatus);
+		//	Add
+		documentInfoPanel.add(fieldDocumentStatus, new GridBagConstraints(3, 3, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 
 
-				//	For Sales Representative
-				labelSalesRep = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_SalesRep_ID) + ":");
-				labelSalesRep.setFont(posPanel.getPlainFont());
-				//	Add
-				documentInfoPanel.add(labelSalesRep, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-				//
-				fieldSalesRep = new CLabel();
-				fieldSalesRep.setFont(posPanel.getFont());
-				labelSalesRep.setLabelFor(fieldSalesRep);
-				//	Add
-				documentInfoPanel.add(fieldSalesRep, new GridBagConstraints(3, 4, 1, 1, 1, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
+		//	For Sales Representative
+		labelSalesRep = new CLabel (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_SalesRep_ID) + ":");
+		labelSalesRep.setFont(posPanel.getPlainFont());
+		//	Add
+		documentInfoPanel.add(labelSalesRep, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//
+		fieldSalesRep = new CLabel();
+		fieldSalesRep.setFont(posPanel.getFont());
+		labelSalesRep.setLabelFor(fieldSalesRep);
+		//	Add
+		documentInfoPanel.add(fieldSalesRep, new GridBagConstraints(3, 4, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 
 
 		//	For Grand Total
-				//	For Totals
-				//	For Total Lines
-				labelDocumentDate = new CLabel (Msg.translate(Env.getCtx(), "Date") + ":");
-				labelDocumentDate.setFont(posPanel.getPlainFont());
-				//	Add
-				totalPanel.add(labelDocumentDate, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-				//
-				fieldDocumentDate = new CLabel();
-				fieldDocumentDate.setFont(posPanel.getFont());
-				labelDocumentDate.setLabelFor(fieldDocumentDate);
+		//	For Totals
+		//	For Total Lines
+		labelDocumentDate = new CLabel (Msg.translate(Env.getCtx(), "Date") + ":");
+		labelDocumentDate.setFont(posPanel.getPlainFont());
+		//	Add
+		totalPanel.add(labelDocumentDate, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//
+		fieldDocumentDate = new CLabel();
+		fieldDocumentDate.setFont(posPanel.getFont());
+		labelDocumentDate.setLabelFor(fieldDocumentDate);
 
-				//	Add
-				totalPanel.add(fieldDocumentDate, new GridBagConstraints(3, 0, 1, 1, 1, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
+		//	Add
+		totalPanel.add(fieldDocumentDate, new GridBagConstraints(3, 0, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 
 
-				labelTotalLines = new CLabel (Msg.getMsg(Env.getCtx(), "SubTotal") + ":");
-				labelTotalLines.setFont(posPanel.getPlainFont());
-				//	Add
-				totalPanel.add(labelTotalLines, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-				//
-				fieldTotalLines = new CLabel();
-				fieldTotalLines.setFont(posPanel.getFont());
-				labelTotalLines.setLabelFor(fieldTotalLines);
-				//	Add
-				totalPanel.add(fieldTotalLines, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
-				//	For Tax Amount
-				labelTaxAmount = new CLabel (Msg.translate(Env.getCtx(), I_C_OrderLine.COLUMNNAME_C_Tax_ID) + ":");
-				labelTaxAmount.setFont(posPanel.getPlainFont());
-				//	Add
-				totalPanel.add(labelTaxAmount, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-				//
-				fieldTaxAmount = new CLabel();
-				fieldTaxAmount.setFont(posPanel.getFont());
-				labelTaxAmount.setLabelFor(fieldTaxAmount);
-				//	Add
-				totalPanel.add(fieldTaxAmount, new GridBagConstraints(3, 2, 1, 1, 1, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
-				//	For Grand Total
-				labelGrandTotal = new CLabel (Msg.getMsg(posPanel.getCtx(), "Total") + ":");
-				labelGrandTotal.setFont(posPanel.getFont());
-				//	Add
-				totalPanel.add(labelGrandTotal, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
-				//
-				fieldGrandTotal = new CLabel();
-				fieldGrandTotal.setFont(posPanel.getBigFont());
-				labelGrandTotal.setLabelFor(fieldGrandTotal);
-				//	Change Size
-				//	Add
-				totalPanel.add(fieldGrandTotal,  new GridBagConstraints(3, 4, 1, 1, 1, 0.0
-						,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
+		labelTotalLines = new CLabel (Msg.getMsg(Env.getCtx(), "SubTotal") + ":");
+		labelTotalLines.setFont(posPanel.getPlainFont());
+		//	Add
+		totalPanel.add(labelTotalLines, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//
+		fieldTotalLines = new CLabel();
+		fieldTotalLines.setFont(posPanel.getFont());
+		labelTotalLines.setLabelFor(fieldTotalLines);
+		//	Add
+		totalPanel.add(fieldTotalLines, new GridBagConstraints(3, 1, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
+		//	For Tax Amount
+		labelTaxAmount = new CLabel (Msg.translate(Env.getCtx(), I_C_OrderLine.COLUMNNAME_C_Tax_ID) + ":");
+		labelTaxAmount.setFont(posPanel.getPlainFont());
+		//	Add
+		totalPanel.add(labelTaxAmount, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//
+		fieldTaxAmount = new CLabel();
+		fieldTaxAmount.setFont(posPanel.getFont());
+		labelTaxAmount.setLabelFor(fieldTaxAmount);
+		//	Add
+		totalPanel.add(fieldTaxAmount, new GridBagConstraints(3, 2, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
+		//	For Grand Total
+		labelGrandTotal = new CLabel (Msg.getMsg(posPanel.getCtx(), "Total") + ":");
+		labelGrandTotal.setFont(posPanel.getFont());
+		//	Add
+		totalPanel.add(labelGrandTotal, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		//
+		fieldGrandTotal = new CLabel();
+		fieldGrandTotal.setFont(posPanel.getBigFont());
+		labelGrandTotal.setLabelFor(fieldGrandTotal);
+		//	Change Size
+		//	Add
+		totalPanel.add(fieldGrandTotal,  new GridBagConstraints(3, 4, 1, 1, 1, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, rightPadding), 0, 0));
 		
 		//	Add Doc Info
 		headerPanel.add(documentInfoPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1
@@ -343,19 +343,10 @@ public class POSDocumentPanel extends POSSubPanel
 		}
 		// Add line
 		try{
-			//fieldPartnerName.setPlaceholder(posPanel.getProductName(key.getM_Product_ID()));
 			posPanel.addOrUpdateLine(key.getM_Product_ID(), key.getQty());
-			posPanel.updateLineTable();
-			if (posPanel.isNewLine())
-				posPanel.setQuantity(key.getQty());
-			else
-				posPanel.setQuantity(posPanel.getQty().add(key.getQty()));
-
-			posPanel.updateLineTable();
 			posPanel.refreshPanel();
 			posPanel.changeViewPanel();
 			posPanel.getMainFocus();
-
 
 		} catch (Exception exception) {
 			ADialog.error(posPanel.getWindowNo(), this, exception.getLocalizedMessage());

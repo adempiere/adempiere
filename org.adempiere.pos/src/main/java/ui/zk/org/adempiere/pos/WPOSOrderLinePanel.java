@@ -196,7 +196,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 					BigDecimal m_QtyOrdered       = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
 					BigDecimal m_Price            = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
 					BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
-					posPanel.setQuantity(m_QtyOrdered);
+					posPanel.setQty(m_QtyOrdered);
 					posPanel.setPrice(m_Price);
 					posPanel.setDiscountPercentage(discountPercentage);
 					updateLine();
@@ -212,7 +212,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			posTable.getModel().removeTableModelListener(this);
 			//	Remove line
 			if(posPanel.getQty().signum() <= 0) {
-				if (orderLineId > 0 && !posPanel.isNewLine())
+				if (orderLineId > 0 && !posPanel.isAddQty())
 				if(posPanel.isRequiredPIN() && posPanel.isUserPinValid()) {
 					posPanel.deleteLine(orderLineId);
 				}
@@ -228,7 +228,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			//	Get Order Line
 			BigDecimal[] m_Summary = posPanel.updateLine(
 					orderLineId,
-					posPanel.getQty() ,
+					posPanel.getQty().add(posPanel.getQtyAdded()),
 					posPanel.getPriceLimit(),
 					posPanel.getPrice() ,
 					posPanel.getPriceList(),
@@ -322,12 +322,12 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			BigDecimal price = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
 			BigDecimal discountPercentage = (BigDecimal) posTable.getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
 			
-			posPanel.setQuantity(qtyOrdered);
+			posPanel.setQty(qtyOrdered);
 			posPanel.setPrice(price);
 			posPanel.setDiscountPercentage(discountPercentage);
 		}
 		else {
-			posPanel.setQuantity(Env.ZERO);
+			posPanel.setQty(Env.ZERO);
 			posPanel.setPrice(Env.ZERO);
 			posPanel.setPriceLimit(Env.ZERO);
 			posPanel.setPriceList(Env.ZERO);

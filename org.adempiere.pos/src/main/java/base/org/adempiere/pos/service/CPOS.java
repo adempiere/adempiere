@@ -112,6 +112,8 @@ public class CPOS {
 	private CLogger 			log = CLogger.getCLogger(getClass());
 	/**	Quantity Ordered		*/
 	private BigDecimal 			quantity = BigDecimal.ZERO;
+	/**	Quantity Ordered		*/
+	private BigDecimal 			quantityAdded = BigDecimal.ZERO;
 	/** Price Limit 			*/
 	private BigDecimal 			priceLimit = BigDecimal.ZERO;
 	/**	Price					*/
@@ -121,7 +123,7 @@ public class CPOS {
 	/**	% Discount		    	*/
 	private BigDecimal 			discountPercentage = BigDecimal.ZERO;
 	/** is new line **/
-	private boolean				isNewLine = true;
+	private boolean				isAddQty = false;
 	/** OrderLine id **/
 	private int 				orderLineId = 0;
 	
@@ -926,12 +928,12 @@ public class CPOS {
 		for (MOrderLine line : lines) {
 			if (line.getM_Product_ID() == product.getM_Product_ID()) {
 				//increase qty
-				setIsNewLine(false);
 				setOrderLineId(line.getC_OrderLine_ID());
 				BigDecimal currentPrice = line.getPriceEntered();
-				/*BigDecimal currentQty = line.getQtyEntered();
+				BigDecimal currentQty = line.getQtyEntered();
 				BigDecimal totalQty = currentQty.add(qtyOrdered);
-				line.setQty(totalQty);*/
+				//	Set or Add Qty
+				line.setQty(isAddQty()? totalQty: qtyOrdered);
 				line.setPrice(currentPrice); //	sets List/limit
 				line.saveEx();
 				return line;
@@ -940,7 +942,7 @@ public class CPOS {
         //create new line
 		MOrderLine line = new MOrderLine(currentOrder);
 		line.setProduct(product);
-		line.setQty(BigDecimal.ZERO); //line.setQty(qtyOrdered);
+		line.setQty(qtyOrdered);
 		//	
 		line.setPrice(); //	sets List/limit
 		if ( productPricing.getPriceStd().signum() > 0 ) {
@@ -954,7 +956,6 @@ public class CPOS {
 			setDiscountPercentage(percentageDiscount);
 		}
 		//	Save Line
-		setIsNewLine(true);
 		setOrderLineId(line.getC_OrderLine_ID());
 		line.saveEx();
 		return line;
@@ -977,10 +978,6 @@ public class CPOS {
 			MProductPricing productPricing = new MProductPricing(productId, getC_BPartner_ID() , qtyOrdered , true , null);
 			productPricing.setM_PriceList_ID(getM_PriceList_ID());
 			productPricing.calculatePrice();
-
-			if (productPricing == null)
-					throw new AdempiereException("@Price@ @NotFound@");
-
 			//	Validate if exists a order
 			if (hasOrder()) {
 				addOrUpdateLine(product, qtyOrdered, productPricing);
@@ -1456,8 +1453,7 @@ public class CPOS {
 		final String 		 payAmt = MPayment.COLUMNNAME_PayAmt;
 		final String documentStatus = MAllocationHdr.COLUMNNAME_DocStatus;
 		final String 		 amount = MAllocationLine.COLUMNNAME_Amount;
-
-		String sql = "";
+		//	
 		if (currentOrder != null) {
 			// Prepayments
 			StringBuilder whereClause =  new StringBuilder();
@@ -1848,10 +1844,29 @@ public class CPOS {
 	 * Set Quantity of Product
 	 * @param qty
 	 */
-	public void setQuantity(BigDecimal qty) {
+	public void setQty(BigDecimal qty) {
 		this.quantity = qty;
 	}
+	
+	/**
+	 * Get Quantity of Product
+	 * @return quantity
+	 */
+	public BigDecimal getQtyAdded() {
+		BigDecimal quantityAddedReturn = quantityAdded;
+		quantityAdded = Env.ZERO;
+		setAddQty(false);
+		return quantityAddedReturn;
+	}
 
+	/**
+	 * Set Quantity of Product
+	 * @param qtyAdded
+	 */
+	public void setQtyAdded(BigDecimal qtyAdded) {
+		this.quantityAdded = qtyAdded;
+	}
+	
 	/**
 	 * Get Price of Product
 	 * @return price
@@ -1900,6 +1915,11 @@ public class CPOS {
 		this.price = price;
 	}
 
+	/**
+	 * Set Price from Product Pricing
+	 * @param productPricing
+	 * @return void
+	 */
 	public void setPrice (MProductPricing productPricing)
 	{
 		setPriceLimit(productPricing.getPriceLimit());
@@ -1907,6 +1927,11 @@ public class CPOS {
 		setPriceList(productPricing.getPriceList());
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @return String
+	 */
 	public String getElectronicScales()
 	{
 		if (entityPOS != null)
@@ -1991,20 +2016,23 @@ public class CPOS {
 		return imageId;
 	}
 
-	public int getM_Product_ID(int orderLineId)
-	{
+	/**
+	 * Get Product ID from Order Line ID
+	 * @param orderLineId
+	 * @return
+	 * @return int
+	 */
+	public int getM_Product_ID(int orderLineId) {
 		return DB.getSQLValue(null, "SELECT ol.M_Product_ID "
 				+ "FROM C_OrderLine ol "
 				+ "WHERE ol.C_OrderLine_ID = ?", orderLineId);
-
 	}
 
 	/**
 	 * Validate User PIN
 	 * @param userPin
      */
-	public boolean isValidUserPin(char[] userPin)
-	{
+	public boolean isValidUserPin(char[] userPin) {
 		if(userPin==null || userPin.length==0)
 			return false;
 		MUser user = MUser.get(getCtx() ,getAD_User_ID());
@@ -2033,18 +2061,36 @@ public class CPOS {
 		return isCorrect;
 	}
 
-	public String getProductValue(int productId)
-	{
+	/**
+	 * Get Product Value from ID
+	 * @param productId
+	 * @return
+	 * @return String
+	 */
+	public String getProductValue(int productId) {
 		return DB.getSQLValueString(null, "SELECT Value FROM M_Product WHERE M_Product_ID = ? " , productId);
 	}
 
-	public String getProductName(int productId)
-	{
+	/**
+	 * Get Product Name from ID
+	 * @param productId
+	 * @return
+	 * @return String
+	 */
+	public String getProductName(int productId) {
 		return DB.getSQLValueString(null, "SELECT name FROM M_Product WHERE M_Product_ID = ? " , productId);
 	}
 
-	public static List<Vector<Object>> getQueryProduct(String productCode, int warehouseId , int priceListId , int partnerId)
-	{
+	/**
+	 * Get Query for Product
+	 * @param productCode
+	 * @param warehouseId
+	 * @param priceListId
+	 * @param partnerId
+	 * @return
+	 * @return List<Vector<Object>>
+	 */
+	public static List<Vector<Object>> getQueryProduct(String productCode, int warehouseId , int priceListId , int partnerId) {
 		ArrayList<Vector<Object>> rows = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT DISTINCT ON ( ProductPricing.M_Product_ID , p.Value, p.Name ) ProductPricing.M_Product_ID , p.Value, p.Name,")
@@ -2151,20 +2197,38 @@ public class CPOS {
 		}
 	}
 
-	public void setIsNewLine(boolean isNewLine)
-	{
-		this.isNewLine = isNewLine;
+	/**
+	 * Set if the quantity is set or add to it
+	 * @param isAddQty
+	 * @return void
+	 */
+	public void setAddQty(boolean isAddQty) {
+		this.isAddQty = isAddQty;
 	}
 
-	public boolean isNewLine()
-	{
-		return isNewLine;
+	/**
+	 * Verify if set Quatity or Add
+	 * @return
+	 * @return boolean
+	 */
+	public boolean isAddQty() {
+		return isAddQty;
 	}
 
+	/**
+	 * Get Order Line ID
+	 * @return
+	 * @return int
+	 */
 	public int getOrderLineId() {
 		return orderLineId;
 	}
 
+	/**
+	 * Set Order Line ID
+	 * @param orderLineId
+	 * @return void
+	 */
 	public void setOrderLineId(int orderLineId) {
 		this.orderLineId = orderLineId;
 	}
