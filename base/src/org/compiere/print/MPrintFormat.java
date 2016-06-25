@@ -27,9 +27,9 @@ import java.util.logging.Level;
 
 import javax.sql.RowSet;
 
+import org.compiere.model.MClient;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
-import org.compiere.model.PO;
 import org.compiere.model.X_AD_PrintFormat;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
@@ -425,8 +425,8 @@ public class MPrintFormat extends X_AD_PrintFormat
 	static public MPrintFormat createFromTable (Properties ctx, 
 		int AD_Table_ID, int AD_PrintFormat_ID)
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		s_log.info ("AD_Table_ID=" + AD_Table_ID + " - AD_Client_ID=" + AD_Client_ID);
+		MClient company = MClient.get(ctx);
+		s_log.info ("AD_Table_ID=" + AD_Table_ID + " - AD_Client_ID=" + company.get_ID());
 
 		MPrintFormat pf = new MPrintFormat(ctx, AD_PrintFormat_ID, null);
 		pf.setAD_Table_ID (AD_Table_ID);
@@ -451,7 +451,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
-			pstmt.setInt(2, AD_Client_ID);
+			pstmt.setInt(2, company.get_ID());
 			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
@@ -468,7 +468,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 				int count = rs.getInt(2);
 				if (count > 0)
 					s += "_" + (count+1);
-				pf.setName(s);
+				pf.setName(company.getValue() + " -> " + s);
 				//
 				pf.setAD_PrintColor_ID(rs.getInt(3));
 				pf.setAD_PrintFont_ID(rs.getInt(4));
@@ -508,8 +508,8 @@ public class MPrintFormat extends X_AD_PrintFormat
 	 */
 	static public MPrintFormat createFromReportView (Properties ctx, int AD_ReportView_ID, String ReportName)
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		s_log.info ("AD_ReportView_ID=" + AD_ReportView_ID + " - AD_Client_ID=" + AD_Client_ID + " - " + ReportName);
+		MClient company = MClient.get(ctx);
+		s_log.info ("AD_ReportView_ID=" + AD_ReportView_ID + " - AD_Client_ID=" + company.get_ID() + " - " + ReportName);
 
 		MPrintFormat pf = new MPrintFormat(ctx, 0, null);
 		pf.setAD_ReportView_ID (AD_ReportView_ID);
@@ -537,7 +537,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_ReportView_ID);
-			pstmt.setInt(2, AD_Client_ID);
+			pstmt.setInt(2,  company.get_ID());
 			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
@@ -548,7 +548,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 				int count = rs.getInt(2);
 				if (count > 0)
 					name += "_" + count;
-				pf.setName(name);
+				pf.setName(company.getValue() + " -> " + name);
 				//
 				pf.setAD_PrintColor_ID(rs.getInt(3));
 				pf.setAD_PrintFont_ID(rs.getInt(4));
@@ -769,6 +769,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 	private static MPrintFormat copy (Properties ctx, int from_AD_PrintFormat_ID,
 		int to_AD_PrintFormat_ID, int to_Client_ID)
 	{
+		MClient company = MClient.get(ctx);
 		s_log.info ("From AD_PrintFormat_ID=" + from_AD_PrintFormat_ID
 			+ ", To AD_PrintFormat_ID=" + to_AD_PrintFormat_ID 
 			+ ", To Client_ID=" + to_Client_ID);
@@ -786,7 +787,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 			to.setClientOrg (to_Client_ID, 0);
 		}
 		//Set Name - Remove TEMPLATE
-   		to.setName(Util.replace(to.getName(), "** TEMPLATE **", "").trim());
+   		to.setName(company.getValue() + " -> " + Util.replace(to.getName(), "** TEMPLATE **", "").trim());
     	String sql = "SELECT count(*) from AD_PrintFormat WHERE AD_Client_ID = ? AND AD_Table_ID = ? AND Name = ?";
   		
   		String suggestedName = to.getName();

@@ -16,10 +16,13 @@
 package org.eevolution.model;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.compiere.model.MCalendar;
 import org.compiere.model.Query;
+import org.compiere.model.X_C_Period;
+import org.compiere.model.X_C_Year;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
@@ -131,12 +134,67 @@ public class MHRPayroll extends X_HR_Payroll
 	
 	/**
 	 * 	Parent Constructor
-	 *	@param parent parent
+	 *	@param  calendar
 	 */
 	public MHRPayroll (MCalendar calendar)
 	{
 		this (calendar.getCtx(), 0, calendar.get_TrxName());
 		setClientOrg(calendar);
-		//setC_Calendar_ID(calendar.getC_Calendar_ID());
 	}	//	HRPayroll
+
+	/**
+	 * Get period count
+	 * @return period no
+     */
+	public int countPeriods()
+	{
+		StringBuilder where = new StringBuilder();
+		where.append(MHRPeriod.COLUMNNAME_HR_Payroll_ID).append("=?");
+		return new Query(getCtx() , MHRPeriod.Table_Name , where.toString() , get_TrxName())
+				.setClient_ID()
+				.setParameters(getHR_Payroll_ID())
+				.count();
+	}
+
+	/**
+	 * Get HR period based on a date
+	 * @param date
+	 * @return HR Period instance
+     */
+	public MHRPeriod getPeriodByDate(Timestamp date)
+	{
+		StringBuilder where = new StringBuilder();
+		where.append(COLUMNNAME_HR_Payroll_ID).append("=? AND ");
+		where.append("?").append(" BETWEEN ").append(MHRPeriod.COLUMNNAME_StartDate).append(" AND ").append(MHRPeriod.COLUMNNAME_EndDate);
+		return new Query(getCtx() , MHRPeriod.Table_Name , where.toString(), get_TrxName())
+				.setClient_ID()
+				.setParameters(getHR_Payroll_ID() , date)
+				.firstOnly();
+	}
+
+	/**
+	 * Get HR period based on year and period no
+	 * @param year
+	 * @param periodNo
+     * @return HR Period instance
+     */
+	public MHRPeriod getPeriodByPeriodNo(String year , int periodNo)
+	{
+		StringBuilder where = new StringBuilder();
+		// SELECT  * FROM HR_Period WHERE HR_Payroll_ID = ? AND PeriodNo=? AND
+		// EXISTS (SELECT 1 FROM C_Period period INNER JOIN C_Year year ON (period.C_Year_ID=year.C_Year_ID)
+		// WHERE period.C_Period_ID=HR_Period.C_Period_ID AND year.FiscalYear = ?)
+		where.append(COLUMNNAME_HR_Payroll_ID).append("=? AND ")
+			 .append(MHRPeriod.COLUMNNAME_PeriodNo).append("=? AND ")
+			  .append("EXISTS (SELECT 1 FROM ")
+				.append(X_C_Period.Table_Name).append(" period ")
+				.append(" INNER JOIN ").append(X_C_Year.Table_Name).append(" year ON (period.").append(X_C_Period.COLUMNNAME_C_Year_ID).append("=")
+				.append("year.").append(X_C_Year.COLUMNNAME_C_Year_ID).append(") WHERE period.").append(X_C_Period.COLUMNNAME_C_Period_ID).append("=")
+				.append(MHRPeriod.Table_Name).append(".").append(MHRPeriod.COLUMNNAME_C_Period_ID).append(" AND year.").append(X_C_Year.COLUMNNAME_FiscalYear).append("=?)");
+
+		return new Query(getCtx() , MHRPeriod.Table_Name , where.toString(), get_TrxName())
+				.setClient_ID()
+				.setParameters(getHR_Payroll_ID() , periodNo , year)
+				.firstOnly();
+	}
 }	//	MPayroll

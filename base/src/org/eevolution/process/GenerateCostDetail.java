@@ -52,6 +52,9 @@ import java.util.*;
  * period's end in order to fix the cost layers.
  *
  * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *			<li> FR [ 405 ] Wrong Syntax of Delete query in GenerateCostDetail.java
+ *			@see https://github.com/adempiere/adempiere/issues/405
  */
 public class GenerateCostDetail extends SvrProcess {
     /**
@@ -127,17 +130,21 @@ public class GenerateCostDetail extends SvrProcess {
      */
     private void deleteCostDetail(String trxName) throws SQLException {
         StringBuffer sqlDelete;
-
-        int record = 0;
-        sqlDelete = new StringBuffer("DELETE M_CostDetail WHERE ");
+        //	BR [ 405 ]
+        sqlDelete = new StringBuffer("DELETE FROM M_CostDetail WHERE ");
         sqlDelete.append(deleteCostDetailWhereClause);
-        record = DB.executeUpdateEx(sqlDelete.toString(),
+        DB.executeUpdateEx(sqlDelete.toString(),
                 deleteParameters.toArray(), trxName);
     }
 
+    /**
+     * Reset Cost Dimension
+     * @param costingMethod
+     * @param trxName
+     * @throws SQLException
+     */
     private void resetCostDimension(String costingMethod, String trxName) throws SQLException {
         StringBuffer sqlReset;
-        int record = 0;
         sqlReset = new StringBuffer("UPDATE M_Cost SET ");
 
         // Delete M_Cost not for others than average
@@ -151,9 +158,8 @@ public class GenerateCostDetail extends SvrProcess {
         sqlReset.append(I_M_Cost.COLUMNNAME_CumulatedAmtLL).append("= 0.0,");
         sqlReset.append(I_M_Cost.COLUMNNAME_CumulatedQty).append("= 0.0 ");
         sqlReset.append(" WHERE ").append(resetCostWhereClause);
-        record = DB.executeUpdateEx(sqlReset.toString(),
+        DB.executeUpdateEx(sqlReset.toString(),
                 resetCostParameters.toArray(), trxName);
-
     }
 
 

@@ -82,32 +82,43 @@ public class ExportHelper {
 	private Document outDocument = null; 
 	
 	/** Custom Date Format		*/
-	private SimpleDateFormat	m_customDateFormat = null;
+	private SimpleDateFormat	customDateFormat = null;
 	
 	/** Client					*/
-	private int		m_AD_Client_ID = -1;
+	private int clientId = -1;
 	
 	/** Replication Strategy	*/
-	MReplicationStrategy m_rplStrategy = null;
+	MReplicationStrategy replicationStrategy = null;
 	
 	
-	public ExportHelper(MClient client, MReplicationStrategy rplStrategy) {
-		m_AD_Client_ID = client.getAD_Client_ID();
-		m_rplStrategy = rplStrategy;
+	public ExportHelper(MClient client, MReplicationStrategy replicationStrategy) {
+		clientId = client.getAD_Client_ID();
+		this.replicationStrategy = replicationStrategy;
 	}
-	
-	public ExportHelper(Properties ctx , int AD_Client_ID) {
-		m_AD_Client_ID = AD_Client_ID;
+
+	/**
+	 * Export Helper constructor
+	 * @param ctx
+	 * @param clientId
+     */
+	public ExportHelper(Properties ctx , int clientId) {
+		this.clientId = clientId;
 	}
-	
-		/**
-	 * 	Process - Generate Export Format
-	 *	@return info
-	 */
-	@SuppressWarnings("unchecked")
-	public String exportRecord (PO po, Integer ReplicationMode , String ReplicationType, Integer ReplicationEvent) throws Exception
+
+
+	/**
+	 *
+	 * Process - Generate Export Format
+ 	 * @param po
+	 * @param replicationMode
+	 * @param replicationType
+	 * @param replicationEvent
+	 * @return info
+     * @throws Exception
+     */
+	public String exportRecord (PO po, Integer replicationMode , String replicationType, Integer replicationEvent) throws Exception
 	{
-		MClient client = MClient.get (po.getCtx(), m_AD_Client_ID);
+		MClient client = MClient.get (po.getCtx(), clientId);
 		log.info("Client = " + client.toString());
 		
 		log.info("po.getAD_Org_ID() = " + po.getAD_Org_ID());
@@ -117,18 +128,17 @@ public class ExportHelper {
 			po.set_TrxName("exportRecord");
 		}
 		
-		
 		log.info("Table = " + po.get_TableName());
 		
 		if (po.get_KeyColumns().length < 1) {
 			throw new Exception(Msg.getMsg (po.getCtx(), "ExportNoneColumnKeyNotSupported"));//TODO: Create Mesagge.
 		}
 		// TODO - get proper Export Format!
-		String version = "3.2.0";
+		String version = "3.8.2";
 		//int EXP_Format_ID = 1000006;
 		MEXPFormat exportFormat = null;
 		//exportFormat = new MFormat(po.getCtx(), EXP_Format_ID, po.get_TrxName());
-		exportFormat = MEXPFormat.getFormatByAD_Client_IDAD_Table_IDAndVersion(po.getCtx(), m_AD_Client_ID, po.get_Table_ID(), version, po.get_TrxName());
+		exportFormat = MEXPFormat.getFormatByAD_Client_IDAD_Table_IDAndVersion(po.getCtx(), clientId, po.get_Table_ID(), version, po.get_TrxName());
 		log.fine("exportFormat = " + exportFormat);
 		if (exportFormat == null || exportFormat.getEXP_Format_ID() == 0) {
 			// Fall back to System Client
@@ -142,7 +152,6 @@ public class ExportHelper {
 		}
 
 		outDocument = createNewDocument();
-
 		HashMap<String, Integer> variableMap = new HashMap<String, Integer>();
 
 		Element rootElement = outDocument.createElement(exportFormat.getValue());
@@ -152,14 +161,14 @@ public class ExportHelper {
 		}	
 		rootElement.setAttribute("AD_Client_Value", client.getValue());
 		rootElement.setAttribute("Version", exportFormat.getVersion());
-		rootElement.setAttribute("ReplicationMode", ReplicationMode.toString());
-		rootElement.setAttribute("ReplicationType", ReplicationType);
-		rootElement.setAttribute("ReplicationEvent", ReplicationEvent.toString());
+		rootElement.setAttribute("ReplicationMode", replicationMode.toString());
+		rootElement.setAttribute("ReplicationType", replicationType);
+		rootElement.setAttribute("ReplicationEvent", replicationEvent.toString());
 		outDocument.appendChild(rootElement);
 		generateExportFormat(rootElement, exportFormat, po, po.get_ID(), variableMap);
 		    		
 		MEXPProcessor mExportProcessor = null;
-		mExportProcessor = new MEXPProcessor (po.getCtx(), m_rplStrategy.getEXP_Processor_ID(), po.get_TrxName() );
+		mExportProcessor = new MEXPProcessor (po.getCtx(), replicationStrategy.getEXP_Processor_ID(), po.get_TrxName() );
 		log.fine("ExportProcessor = " + mExportProcessor);
 		int EXP_ProcessorType_ID = 0;
 		EXP_ProcessorType_ID = mExportProcessor.getEXP_Processor_Type_ID();
@@ -180,17 +189,20 @@ public class ExportHelper {
 
 		return outDocument.toString();
 	}
-	
-	
+
 	/**
-	 * 	Process - Generate Export Format
-	 *  @param 
-	 * 
-	 *	@return Document
-	 */
-	public Document exportRecord (MEXPFormat exportFormat, String where , Integer ReplicationMode , String ReplicationType, Integer ReplicationEvent) throws Exception
+	 * 	 * 	Process - Generate Export Format
+	 * @param exportFormat
+	 * @param where
+	 * @param replicationMode
+	 * @param replicationType
+	 * @param replicationEvent
+	 * @return
+     * @throws Exception
+     */
+	public Document exportRecord (MEXPFormat exportFormat, String where , Integer replicationMode , String replicationType, Integer replicationEvent) throws Exception
 	{
-		MClient client = MClient.get (exportFormat.getCtx(), m_AD_Client_ID);
+		MClient client = MClient.get (exportFormat.getCtx(), clientId);
 		MTable table = MTable.get(exportFormat.getCtx(), exportFormat.getAD_Table_ID());
 		log.info("Table = " + table);
 		
@@ -212,8 +224,6 @@ public class ExportHelper {
 				}
 				
 				outDocument = createNewDocument();
-		
-
 				HashMap<String, Integer> variableMap = new HashMap<String, Integer>();		
 				Element rootElement = outDocument.createElement(exportFormat.getValue());
 				if (exportFormat.getDescription() != null && !"".equals(exportFormat.getDescription())) 
@@ -222,28 +232,34 @@ public class ExportHelper {
 				}
 				rootElement.setAttribute("AD_Client_Value", client.getValue());
 				rootElement.setAttribute("Version", exportFormat.getVersion());
-				rootElement.setAttribute("ReplicationMode", ReplicationMode.toString());
-				rootElement.setAttribute("ReplicationType", ReplicationType);
-				rootElement.setAttribute("ReplicationEvent", ReplicationEvent.toString());						
+				rootElement.setAttribute("ReplicationMode", replicationMode.toString());
+				rootElement.setAttribute("ReplicationType", replicationType);
+				rootElement.setAttribute("ReplicationEvent", replicationEvent.toString());
 				outDocument.appendChild(rootElement);
 				generateExportFormat(rootElement, exportFormat, po, po.get_ID(), variableMap);			
 		}// finish record read
 		return outDocument;
-	}	
+	}
 
 
-	/*
-	 * Trifon Generate Export Format process; RESULT = 
+	/**
+	 * Trifon Generate Export Format process; result =
 	 * <C_Invoice>
 	 *   <DocumentNo>101</DocumentNo>
 	 * </C_Invoice>
-	 */
+	 * @param rootElement
+	 * @param exportFormat
+	 * @param masterPO
+	 * @param masterID
+	 * @param variableMap
+	 * @throws SQLException
+     * @throws Exception
+     */
 	private void generateExportFormat(Element rootElement, MEXPFormat exportFormat, PO masterPO, int masterID, HashMap<String, Integer> variableMap) throws SQLException, Exception 
 	{
 		Collection<MEXPFormatLine> formatLines = exportFormat.getFormatLines();
 		@SuppressWarnings("unused")
 		boolean elementHasValue = false;
-		
 		//for (int i = 0; i < formatLines.length; i++) {
 		for (MEXPFormatLine formatLine : formatLines)
 		{	
@@ -277,10 +293,10 @@ public class ExportHelper {
 				if (column.getAD_Reference_ID() == DisplayType.Date) {
 					if (valueString != null) {
 						if (formatLine.getDateFormat() != null && !"".equals(formatLine.getDateFormat())) {
-							m_customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
+							customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
 						
-							valueString = m_customDateFormat.format(Timestamp.valueOf (valueString));
-							newElement.setAttribute("DateFormat", m_customDateFormat.toPattern()); // Add "DateForamt attribute"
+							valueString = customDateFormat.format(Timestamp.valueOf (valueString));
+							newElement.setAttribute("DateFormat", customDateFormat.toPattern()); // Add "DateForamt attribute"
 						} else 
 						{
 								newElement.setAttribute("DateFormat", valueString);	
@@ -290,9 +306,9 @@ public class ExportHelper {
 				} else if (column.getAD_Reference_ID() == DisplayType.DateTime) {
 					if (valueString != null) {
 						if (formatLine.getDateFormat() != null && !"".equals(formatLine.getDateFormat())) {
-							m_customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
-							valueString = m_customDateFormat.format(Timestamp.valueOf (valueString));
-							newElement.setAttribute("DateFormat", m_customDateFormat.toPattern()); // Add "DateForamt attribute"
+							customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
+							valueString = customDateFormat.format(Timestamp.valueOf (valueString));
+							newElement.setAttribute("DateFormat", customDateFormat.toPattern()); // Add "DateForamt attribute"
 						} else {
 							newElement.setAttribute("DateFormat", valueString);	
 						}
@@ -386,8 +402,8 @@ public class ExportHelper {
 				}
 				Collection<PO> instances = new Query(masterPO.getCtx(),
 					tableEmbedded.getTableName(), whereClause.toString(),
-					masterPO.get_TrxName()).setApplyAccessFilter(true) //Adempiere-65 change
-					.setParameters(new Object[] { masterID }).list();
+					masterPO.get_TrxName()).setClient_ID().setParameters(
+					new Object[] { masterID }).list();
 
 				for (PO instance : instances) 
 				{		
@@ -400,8 +416,6 @@ public class ExportHelper {
         				generateExportFormat(embeddedElement, embeddedFormat, instance, instance.get_ID(), variableMap);
         				rootElement.appendChild(embeddedElement);
 				}
-
-
 			} 
 			else if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_ReferencedEXPFormat) ) 
 			{
@@ -438,7 +452,7 @@ public class ExportHelper {
 				}
 				
 				Collection<PO> instances = new Query(masterPO.getCtx(),tableEmbedded.getTableName(), whereClause.toString(),masterPO.get_TrxName())
-				                                .setApplyAccessFilter(true) //Adempiere-65 change
+                                				.setClient_ID()
                                 				.setParameters(value)
                                 				.list();
 
@@ -466,7 +480,6 @@ public class ExportHelper {
 	 * @param variableMap
 	 * @param variableName
 	 */
-	@SuppressWarnings("unused")
 	private void increaseVariable(HashMap<String, Integer> variableMap,	String variableName) {
 		if (variableName != null && !"".equals(variableName) ) {
 			Integer var = variableMap.get(variableName);
@@ -495,6 +508,4 @@ public class ExportHelper {
 		result = documentBuilder.newDocument();
 		return result;
 	}
-	
-
 }
