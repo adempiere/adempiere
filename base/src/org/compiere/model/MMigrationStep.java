@@ -40,7 +40,9 @@ import org.w3c.dom.NodeList;
 
 /**
  * @author paul
- *
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> BR [ 425 ] Table ad_reportview_trl with wrong primary key
+ *		@see https://github.com/adempiere/adempiere/issues/425
  */
 public class MMigrationStep extends X_AD_MigrationStep {
 
@@ -230,10 +232,19 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		return retval;
 	}
 
+	/**
+	 * Bailout
+	 * @param error
+	 */
 	private void bailout(String error) {
 		bailout(error, null);
 	}
 
+	/**
+	 * Bailout
+	 * @param error
+	 * @param e
+	 */
 	private void bailout(String error, Exception e) {
         setErrorMsg(error);
         setStatusCode(MMigrationStep.STATUSCODE_Failed);
@@ -255,6 +266,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			throw new AdempiereException(this.toString() + getErrorMsg());
 	}
 
+	/**
+	 * Rollback
+	 * @return
+	 */
 	public String rollback() {
 
 		String retCode = this.toString();
@@ -286,6 +301,11 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		return retCode;
 	}
 
+	/**
+	 * Apply SQL
+	 * @param rollback
+	 * @return
+	 */
 	private String applySQL(boolean rollback) {
 
 		String sqlStatements = rollback ? getRollbackStatement() : getSQLStatement();
@@ -307,6 +327,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		    || (DB.isOracle() && getDBType().equals(MMigrationStep.DBTYPE_Oracle))
 		    || (DB.isPostgreSQL() && getDBType().equals(MMigrationStep.DBTYPE_Postgres))) 
         {
+        	//	Synchronize column first
+        	getParent().syncColumn();
+        	//	
 		     Connection conn = DB.getConnectionRW();
 		     Statement stmt = null;
 		     try {
@@ -414,6 +437,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			return null;
 	}
 
+	/**
+	 * Apply Migration
+	 * @return
+	 */
 	private String applyPO() {
 
 		if ( getAD_Table_ID() == 0 )
@@ -526,8 +553,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				{
 					MColumn col = (MColumn) po;
 					if (!col.isVirtualColumn()) {
-						log.log(Level.CONFIG, "Synchronizing column: " + col.toString() + " in table: " + MTable.get(Env.getCtx(),col.getAD_Table_ID()));
-						col.syncDatabase();
+						//	BR [ 425 ]
+						getParent().addColumnToList(col.getAD_Column_ID());
 					}
 				}
 			}
@@ -612,17 +639,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			}
 
 			// If the record was inserted, delete it.
-			if ( getAction().equals(MMigrationStep.ACTION_Insert) && po != null) 
-			{
+			if ( getAction().equals(MMigrationStep.ACTION_Insert) && po != null)  {
 				// force delete to remove processed records.
 				po.deleteEx(true, get_TrxName());
 				//TODO column sync database?
 			}
 			// If the record was updated, set the values back to the old values.
-			else if ( getAction().equals(MMigrationStep.ACTION_Update) && po != null) 
-			{
-				for (MMigrationData data : m_migrationData )
-				{
+			else if ( getAction().equals(MMigrationStep.ACTION_Update) && po != null) {
+				for (MMigrationData data : m_migrationData ) {
 					String value = data.getOldValue();
 					if ( data.isOldNull() )
 						value = null;
@@ -636,17 +660,16 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				po.saveEx();
 				
 				//  Synchronize the AD_Column changes with the database.
-				if ( po instanceof MColumn )
-				{
+				if ( po instanceof MColumn ) {
 					MColumn col = (MColumn) po;
 					if (!col.isVirtualColumn()) {
-						log.log(Level.CONFIG, "Synchronizing column: " + col.toString() + " in table: " + MTable.get(Env.getCtx(),col.getAD_Table_ID()));
+						log.log(Level.CONFIG, "Synchronizing column: " + col.toString() 
+								+ " in table: " + MTable.get(Env.getCtx(), col.getAD_Table_ID()));
 						col.syncDatabase();
 					}
 				}
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			bailout("Rollback failed. " + e.toString(), e);
 		}
 		setStatusCode(MMigrationStep.STATUSCODE_Unapplied);
@@ -782,9 +805,22 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	public MMigration getParent() {
 		
 		if (parent == null)
-			parent =  (MMigration) getAD_Migration();
-		
+			parent = (MMigration) getAD_Migration();
+		//	
 		return parent;
+	}
+	
+	/**
+	 * Set Current Parent
+	 * @param parent
+	 */
+	public void setParent(MMigration parent) {
+		//	Validate Parent
+		if(parent == null
+				|| parent.getAD_Migration_ID() != getAD_Migration_ID())
+			return;
+		//	Set Parent
+		this.parent = parent;
 	}
 	
 	/**
