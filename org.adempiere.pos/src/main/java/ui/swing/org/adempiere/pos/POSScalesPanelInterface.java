@@ -34,7 +34,7 @@ public interface POSScalesPanelInterface {
 
     public void setScalesMeasure(String measure);
 
-    public void setQuantity(BigDecimal qty);
+    public void setQty(BigDecimal qty);
 
     public void changeViewPanel();
 

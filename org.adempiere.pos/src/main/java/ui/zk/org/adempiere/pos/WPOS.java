@@ -731,9 +731,9 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 * Set Quantity of Product
 	 * @param qty
 	 */
-	public void setQuantity(BigDecimal qty) {
+	public void setQty(BigDecimal qty) {
 		quantityPanel.setQuantity(qty);
-		super.setQuantity(qty);
+		super.setQty(qty);
 	}
 	
 	/**

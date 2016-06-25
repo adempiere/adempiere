@@ -22,8 +22,24 @@ package org.adempiere.pos;
  */
 public interface POSLookupProductInterface {
 
+	/**
+	 * Get Product Timer
+	 * @return
+	 * @return Object
+	 */
     public Object getProductTimer();
-    public void findProduct(boolean isNewLine) throws Exception;
+    
+    /**
+     * Find a Product, if it return a item then add 1 to order or 0
+     * @param editQty if is true then add 1 qty to order line else 0
+     * @throws Exception
+     * @return void
+     */
+    public void findProduct(boolean editQty) throws Exception;
+    
+    /**
+     * Move focust to Quantity
+     * @return void
+     */
     public void quantityRequestFocus();
-
 }

@@ -24,7 +24,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
@@ -38,6 +37,7 @@ import org.adempiere.pos.search.POSQuery;
 import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryDocType;
 import org.adempiere.pos.search.QueryOrderHistory;
+import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
@@ -316,8 +316,7 @@ public class POSActionPanel extends POSSubPanel
 						actionProcessMenu.show(this, 340 , 60);
 					}
 					return;
-				}
-				else if (actionEvent.getSource().equals(buttonHistory)) {
+				} else if (actionEvent.getSource().equals(buttonHistory)) {
 					// For already created, but either not completed or not yet paid POS Orders
 					POSQuery orderHistory = new QueryOrderHistory(posPanel);
 					orderHistory.addOptionListener(this);
@@ -374,7 +373,7 @@ public class POSActionPanel extends POSSubPanel
 				//fieldProductName.setPlaceholder(value);
 				posPanel.updateProductPlaceholder(value);
 				try {
-					posPanel.setIsNewLine(true);
+					posPanel.setAddQty(true);
 					findProduct(true);
 				} catch (Exception exception) {
 					ADialog.error(0, null, exception.getLocalizedMessage());
@@ -398,7 +397,7 @@ public class POSActionPanel extends POSSubPanel
 	/**************************************************************************
 	 * 	Find/Set Product & Price
 	 */
-	public void findProduct(boolean isNewLine) throws Exception {
+	public void findProduct(boolean editQty) throws Exception {
 		if (getProductTimer() != null)
 			getProductTimer().stop();
 		String query = fieldProductName.getPlaceholder();
@@ -408,41 +407,29 @@ public class POSActionPanel extends POSSubPanel
 			return;
 		query = query.toUpperCase();
 		//	Test Number
-		boolean allNumber = true;
 		try {
 			Integer.getInteger(query);
-		} catch (Exception e) {
-			allNumber = false;
-		}
-		/*String value = query;
-		String name = query;
-		String upc = (allNumber ? query : null);
-		String sku = (allNumber ? query : null);*/
-		List<Vector<Object>> results = posPanel.getQueryProduct(query, posPanel.getM_Warehouse_ID() , posPanel.getM_PriceList_ID() , posPanel.getC_BPartner_ID());
+		} catch (Exception e) {}
+		//	
+		List<Vector<Object>> results = CPOS.getQueryProduct(query, posPanel.getM_Warehouse_ID(), 
+				posPanel.getM_PriceList_ID(), posPanel.getC_BPartner_ID());
 		//	Set Result
 		if (results.size() == 1) {
 			Optional<Vector<Object>> columns = results.stream().findFirst();
 			if (columns.isPresent()) {
 				Integer productId = (Integer) columns.get().elementAt(0);
-				String productName = (String) columns.get().elementAt(2);
-				posPanel.addOrUpdateLine(productId, Env.ONE);
-				//fieldProductName.setPlaceholder(productName);
-				//posPanel.updateProductPlaceholder(productName);
+				posPanel.setAddQty(true);
+				posPanel.addOrUpdateLine(productId, editQty? Env.ZERO: Env.ONE);
 			}
 		} else {	//	more than one
 			showWindowProduct(query);
 		}
-		if (isNewLine) {
-			posPanel.updateLineTable();
-			if (posPanel.isNewLine())
-				posPanel.setQuantity(BigDecimal.ONE);
-			else
-				posPanel.setQuantity(posPanel.getQty().add(BigDecimal.ONE));
-			posPanel.updateLineTable();
-			posPanel.refreshPanel();
-			posPanel.changeViewPanel();
-			posPanel.getMainFocus();
-		}
+		//	Change focus
+		posPanel.refreshPanel();
+		posPanel.changeViewPanel();
+		//	
+		if(editQty)
+			quantityRequestFocus();
 	}	//	findProduct
 
 	@Override

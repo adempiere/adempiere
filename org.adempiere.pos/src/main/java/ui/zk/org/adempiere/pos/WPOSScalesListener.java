@@ -94,7 +94,7 @@ public class WPOSScalesListener implements EventListener {
 
 	public void captureMeasure()
 	{
-		pos.setQuantity(getMeasure());
+		pos.setQty(getMeasure());
 		pos.updateLineTable();
 		pos.refreshPanel();
 		pos.changeViewPanel();

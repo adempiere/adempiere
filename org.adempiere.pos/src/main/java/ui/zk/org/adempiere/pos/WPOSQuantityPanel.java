@@ -66,7 +66,6 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 	private POSNumberBox 	fieldQuantity;
 	private POSNumberBox 	fieldPrice;
 	private POSNumberBox	fieldDiscountPercentage;
-	private BigDecimal		m_Quantity;
 
 	private final String ACTION_UP       	= "Previous";
 	private final String ACTION_DOWN  		= "Next";
@@ -205,14 +204,14 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 				BigDecimal quantity = fieldQuantity.getValue().subtract(CurrentQuantity);
 				if(quantity.compareTo(Env.ZERO) == 0) {
 					if(posPanel.isUserPinValid()) {
-						posPanel.setQuantity(quantity);
+						posPanel.setQty(quantity);
 					}
 				} else {
-					posPanel.setQuantity(quantity);
+					posPanel.setQty(quantity);
 				}
 			}
 			else if (e.getTarget().equals(buttonPlus)){
-				posPanel.setQuantity(fieldQuantity.getValue().add(CurrentQuantity));
+				posPanel.setQty(fieldQuantity.getValue().add(CurrentQuantity));
 			}
 			else if (e.getTarget().equals(buttonDelete)){
 				if(posPanel.isUserPinValid()) {
@@ -229,13 +228,16 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 				value = fieldQuantity.getValue();
 				if(e.getTarget().equals(fieldQuantity.getDecimalbox())) {
 					if(Events.ON_OK.equals(e.getName())){
-						posPanel.setQuantity(m_Quantity);
+						posPanel.setQty(value);
 					}
-					else if(posPanel.isNewLine() 
+					else if(posPanel.isAddQty() 
 							|| Events.ON_CHANGE.equals(e.getName())){
-						m_Quantity = Env.ZERO;
-						m_Quantity = posPanel.getQty().add(value);
-						posPanel.setQuantity(value);
+						//	Verify if it add or set
+						if(posPanel.isAddQty()) {
+							posPanel.setQtyAdded(value);
+						} else {
+							posPanel.setQty(value);
+						}
 					}
 					
 				}

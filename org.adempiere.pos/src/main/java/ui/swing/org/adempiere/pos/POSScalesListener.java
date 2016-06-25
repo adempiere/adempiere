@@ -109,7 +109,7 @@ public class POSScalesListener implements ActionListener , KeyListener {
 
 	public void captureMeasure()
 	{
-		pos.setQuantity(getMeasure());
+		pos.setQty(getMeasure());
 		pos.updateLineTable();
 		pos.refreshPanel();
 		pos.changeViewPanel();
