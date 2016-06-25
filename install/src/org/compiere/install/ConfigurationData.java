@@ -272,6 +272,11 @@ public class ConfigurationData
 				p_panel.fMailUser.setText((String)p_properties.get(ADEMPIERE_MAIL_USER));
 				p_panel.fMailPassword.setText((String)p_properties.get(ADEMPIERE_MAIL_PASSWORD));
 				p_panel.fAdminEMail.setText((String)p_properties.get(ADEMPIERE_ADMIN_EMAIL));
+				//	Add new Values
+				p_panel.fMailPort.setText((String) p_properties.get(ADEMPIERE_MAIL_PORT));
+				setEncryptionType((String) p_properties.get(ADEMPIERE_MAIL_ET));
+				setAuthMechanism((String) p_properties.get(ADEMPIERE_MAIL_AM));
+				setProtocol((String) p_properties.get(ADEMPIERE_MAIL_PT));
 			}
 		}
 
@@ -527,7 +532,6 @@ public class ConfigurationData
 		String mailPassword = p_panel != null
 			? new String(p_panel.fMailPassword.getPassword())
 			: (String)p_properties.get(ADEMPIERE_MAIL_PASSWORD);
-	//	m_errorString = "ErrorMailUser";
 	//	log.config("Mail User = " + mailUser + "/" + mailPassword);
 
 		//	Mail Address
@@ -661,60 +665,7 @@ public class ConfigurationData
 		//
 		if (!imapOK)
 			return false;
-		
-		//	Test Read Mail Access
-//		EMail mail = new EMail(mailServer.getHostName(), mailUser, mailUser, subject, message, html)
-//		
-//		Properties props = new Properties();
-//		props.put("mail.store.protocol", "smtp");
-//		props.put("mail.transport.protocol", "smtp");
-//		props.put("mail.host", mailServer.getHostName());
-//		props.put("mail.user", mailUser);
-//		props.put("mail.smtp.auth", "true");
-//		if (isGmail) {
-//			props.put("impa.smtp.port", "993");
-//			props.put("mail.store.protocol", "imaps");
-//		}
-//
-//		log.config("Connecting to " + mailServer.getHostName());
-//		//
-//		Session session = null;
-//		Store store = null;
-//		try
-//		{
-//			EMailAuthenticator auth = new EMailAuthenticator (mailUser, mailPassword);
-//			session = Session.getDefaultInstance(props, auth);
-//			session.setDebug (CLogMgt.isLevelFinest());
-//			log.config("Session=" + session);
-//			//	Connect to Store
-//			store = session.getStore(isGmail ? "imaps" : "imap");
-//			log.config("Store=" + store);
-//		}
-//		catch (NoSuchProviderException nsp)
-//		{
-//			log.warning("Mail IMAP Provider - " + nsp.getMessage());
-//			return false;
-//		}
-//		catch (Exception e)
-//		{
-//			log.warning("Mail IMAP - " + e.getMessage());
-//			return false;
-//		}
-//		try
-//		{
-//			store.connect(mailServer.getHostName(), mailUser, mailPassword);
-//			log.config("Store - connected");
-//			Folder folder = store.getDefaultFolder();
-//			Folder inbox = folder.getFolder("INBOX");
-//			log.info("OK: Mail Connect to " + inbox.getFullName() + " #Msg=" + inbox.getMessageCount());
-//			//
-//			store.close();
-//		}
-//		catch (MessagingException mex)
-//		{
-//			log.severe("Mail Connect " + mex.getMessage());
-//			return false;
-//		}
+		//	
 		return true;
 	}	//	testMailServer
 	
@@ -1003,16 +954,18 @@ public class ConfigurationData
 		{ENCRYPTIONTYPE_None, ENCRYPTIONTYPE_SSL, ENCRYPTIONTYPE_TLS};
 	
 	/** Login = L */
-	private static final String AUTHMECHANISM_Login = "Login";
+	private static final String AUTHMECHANISM_LOGIN = "Login";
 	/** Plain = P */
-	private static final String AUTHMECHANISM_Plain = "Plain";
+	private static final String AUTHMECHANISM_PLAIN = "Plain";
 	/** Digest-MD5 = D */
-	private static final String AUTHMECHANISM_Digest_MD5 = "Digest-MD5";
+	private static final String AUTHMECHANISM_DIGEST_MD5 = "Digest-MD5";
 	/** NTLM = N */
 	private static final String AUTHMECHANISM_NTLM = "NTLM";
+	/** NTLM = N */
+	private static final String AUTHMECHANISM_OAUTH = "OAUTH2";
 	/** Authentication Mechanism		*/
 	static String[]	AUTHMECHANISMS = new String[]
-		{AUTHMECHANISM_Login, AUTHMECHANISM_Plain, AUTHMECHANISM_Digest_MD5, AUTHMECHANISM_NTLM};
+		{AUTHMECHANISM_LOGIN, AUTHMECHANISM_PLAIN, AUTHMECHANISM_DIGEST_MD5, AUTHMECHANISM_NTLM, AUTHMECHANISM_OAUTH};
 	
 	/** SMTP = S */
 	private static final String PROTOCOL_SMTP = "SMTP";

@@ -84,7 +84,7 @@ public class ImportHelper {
 	private static CLogger s_log = CLogger.getCLogger(ImportHelper.class);
 	
 	/** Custom Date Format			*/
-	private SimpleDateFormat	m_customDateFormat = null;
+	private SimpleDateFormat	customDateFormat = null;
 	/** Set change PO			*/
 	boolean isChanged= false;
 	
@@ -95,16 +95,16 @@ public class ImportHelper {
 	{
 		this.ctx = ctx;
 	}
-	
+
 	/**
-	 * @param ctx
+	 * Import XML Document
 	 * @param result
 	 * @param documentToBeImported
 	 * @param trxName
 	 * @throws Exception
 	 * @throws SQLException
 	 * @throws XPathExpressionException
-	 */
+     */
 	public void importXMLDocument(StringBuffer result, Document documentToBeImported, String trxName) 
 		throws Exception, SQLException,	XPathExpressionException 
 	{
@@ -165,7 +165,11 @@ public class ImportHelper {
 		log.info("expFormat = " + expFormat.toString());
 		isChanged = false;
 		PO po = importElement(ctx, result, rootElement, expFormat, ReplicationType, trxName);
-		if(!po.is_Changed() && !isChanged)
+		if (ModelValidator.TYPE_BEFORE_DELETE == ReplicationEvent
+				|| ModelValidator.TYPE_BEFORE_DELETE_REPLICATION == ReplicationEvent
+				|| ModelValidator.TYPE_DELETE == ReplicationEvent)
+		;
+		else if(!po.is_Changed() && !isChanged)
 		{
 		    log.info("Object not changed = " + po.toString());
 		    return;
@@ -256,14 +260,19 @@ public class ImportHelper {
 	}
 
 	/**
+	 *
+	 * @param ctx
 	 * @param result
 	 * @param rootElement
 	 * @param expFormat
+	 * @param replicationType
+	 * @param trxName
+	 * @return
 	 * @throws Exception
-	 * @throws XPathExpressionException
-	 */
+     * @throws XPathExpressionException
+     */
 	private PO importElement(Properties ctx, StringBuffer result, Element rootElement,
-			MEXPFormat expFormat, String ReplicationType, String trxName) throws Exception, XPathExpressionException 
+			MEXPFormat expFormat, String replicationType, String trxName) throws Exception, XPathExpressionException
 	{
 		//Getting the Object for the replicate
 		PO po = getObjectFromFormat(ctx, expFormat, rootElement, rootElement.getNodeName(), trxName);
@@ -273,7 +282,7 @@ public class ImportHelper {
 			throw new Exception(Msg.getMsg(ctx, "Can't Load PO Object"));
 		}
 		
-		if(X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(ReplicationType)) //If this is just for push and exists we do nothing
+		if(X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(replicationType)) //If this is just for push and exists we do nothing
 		{
 			if(po.get_ID() == 0)
 			{
@@ -301,7 +310,7 @@ public class ImportHelper {
 			log.info("=================== Beginnig of Format Line ===============================");
 			log.info("formatLine: [" + formatLine.toString() + "]");			
 			//Get the value
-			Object value = getValueFromFormat(formatLine,po,rootElement,result,ReplicationType);
+			Object value = getValueFromFormat(formatLine,po,rootElement,result,replicationType);
 			if (value == null || value.toString().equals(""))
 				continue;	
 			//Set the value
@@ -311,18 +320,16 @@ public class ImportHelper {
 	}
 
 	/**
-	 * Get the value from format 
+	 * Get the value from format
 	 * @param line
 	 * @param po
 	 * @param rootElement
 	 * @param result
-	 * @param ReplicationType
-	 * @param trxName
-	 * @return Object with the Value
-	 * @throws Exception
-	 */
-	private Object getValueFromFormat(MEXPFormatLine line,PO po,Element rootElement,
-					StringBuffer result, String ReplicationType) throws Exception
+	 * @param replicationType
+	 * @return
+     * @throws Exception
+     */
+	private Object getValueFromFormat(MEXPFormatLine line,PO po,Element rootElement, StringBuffer result, String replicationType) throws Exception
 	{
 		Object value = null;
 		
@@ -331,7 +338,6 @@ public class ImportHelper {
 			// XML Element
 			value = XMLHelper.getString(line.getValue(), rootElement);
 			log.info("value=[" + value + "]");
-			
 		} 
 		else if (MEXPFormatLine.TYPE_ReferencedEXPFormat.equals(line.getType())) 
 		{
@@ -389,7 +395,7 @@ public class ImportHelper {
 				PO embeddedPo = null;
 				// Import embedded PO
 				log.info("=== BEGIN RECURSION CALL ===");
-				embeddedPo = importElement(ctx, result, referencedElement, referencedExpFormat,ReplicationType, po.get_TrxName());
+				embeddedPo = importElement(ctx, result, referencedElement, referencedExpFormat,replicationType, po.get_TrxName());
 				log.info("embeddedPo = " + embeddedPo);
 				if(!embeddedPo.is_Changed())
 				{
@@ -402,7 +408,6 @@ public class ImportHelper {
 				isChanged = true;
 				}	
 				result.append(" Embedded Save Successful ; ");
-				
 			}
 
 		} 
@@ -417,7 +422,6 @@ public class ImportHelper {
 			// Export Format Line is not one of the possible values...ERROR
 			throw new Exception(Msg.getMsg(ctx, "EXPFormatLineNonValidType"));
 		}
-		
 		return value;
 	}
 	
@@ -438,7 +442,6 @@ public class ImportHelper {
 		{
 			if (!MEXPFormatLine.TYPE_EmbeddedEXPFormat.equals(line.getType()) ) 
 			{
-				
 				// Clazz
 				Class<?> clazz = DisplayType.getClass(column.getAD_Reference_ID(), true);
 				
@@ -460,7 +463,6 @@ public class ImportHelper {
 				
 				// Handle Date and Time
 				value = handleDateTime(value, column, line);
-				
 				log.info("formatLinesType = " + line.getType());
 				
 				if (MEXPFormatLine.TYPE_EmbeddedEXPFormat.equals( line.getType() ) )  
@@ -491,9 +493,7 @@ public class ImportHelper {
 						}
 						
 						log.info("About to set int value of column ["+column.getColumnName()+"]=["+value+"]");
-						
 						po.set_ValueOfColumn(line.getAD_Column_ID(), value);
-						
 						log.info("Set int value of column ["+column.getColumnName()+"]=["+value+"]");
 						
 					} 
@@ -512,9 +512,7 @@ public class ImportHelper {
 						//value = new Double( doubleValue );
 						
 						log.info("About to set BigDecimal value of column ["+column.getColumnName()+"]=["+value+"]");
-						
 						po.set_ValueOfColumn(line.getAD_Column_ID(), value);
-						
 						log.info("Set BigDecimal value of column ["+column.getColumnName()+"]=["+value+"]");
 					} 
 					else if(DisplayType.YesNo == column.getAD_Reference_ID())
@@ -570,7 +568,6 @@ public class ImportHelper {
 		{
 			s_log.info("AD_Client_ID = " + result.getAD_Client_ID());
 		}
-		
 		return result;
 	}
 	
@@ -757,7 +754,15 @@ public class ImportHelper {
 		
 		return record_id;
 	}
-	
+
+	/**
+	 * Handle Date Time
+	 * @param value
+	 * @param column
+	 * @param formatLine
+	 * @return
+	 * @throws ParseException
+     */
 	private Object handleDateTime(Object value, MColumn column, MEXPFormatLine formatLine) throws ParseException 
 	{
 		String valueString = null;
@@ -770,8 +775,8 @@ public class ImportHelper {
 			{
 				if (formatLine.getDateFormat() != null && !Util.isEmpty(formatLine.getDateFormat())) 
 				{
-					m_customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"; MM/dd/yyyy hh:mm:ss
-					result = new Timestamp(m_customDateFormat.parse(valueString).getTime());
+					customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"; MM/dd/yyyy hh:mm:ss
+					result = new Timestamp(customDateFormat.parse(valueString).getTime());
 					log.info("Custom Date Format; Parsed value = " + result.toString());
 				} 
 				else 
@@ -797,8 +802,8 @@ public class ImportHelper {
 			{
 				if (formatLine.getDateFormat() != null && !Util.isEmpty(formatLine.getDateFormat())) 
 				{
-					m_customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
-					result = new Timestamp(m_customDateFormat.parse(valueString).getTime());
+					customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
+					result = new Timestamp(customDateFormat.parse(valueString).getTime());
 					log.info("Custom Date Format; Parsed value = " + result.toString());
 				} 
 				else 

@@ -1318,19 +1318,45 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		return value;
 	} // getConceptGroup
 
-
 	/**
 	 * Helper Method : Get Concept [get concept to search key ]
-	 * @param pList Value List
+	 * @param listSearchKey Value List
 	 * @param amount Amount to search
 	 * @param columnParam Number of column to return (1.......8)
 	 * @return The amount corresponding to the designated column 'column'
 	 */
-	public double getList (String pList, double amount, String columnParam)
+	public double getList (String listSearchKey, double amount, String columnParam)
+	{
+		return getList (listSearchKey, m_dateFrom, amount, columnParam , m_columnType);
+	}
+
+	/**
+	 * Helper Method : Get Concept [get concept to search key ]
+	 * @param listSearchKey
+	 * @param from
+	 * @param amount
+	 * @param columnParam
+     * @return The amount corresponding to the designated column 'column'
+     */
+	public double getList (String listSearchKey, Timestamp from , double amount, String columnParam)
+	{
+		return getList (listSearchKey, from , amount, columnParam , null);
+	}
+
+	/**
+	 * Helper Method : Get Concept [get concept to search key ]
+	 * @param listSearchKey Value List
+	 * @from from date to valid list
+	 * @param amount Amount to search
+	 * @param columnParam Number of column to return (1.......8)
+	 * @param columnType can be Amount or null
+	 * @return The amount corresponding to the designated column 'column'
+	 */
+	public double getList (String listSearchKey,Timestamp from, double amount, String columnParam , String columnType)
 	{
 		BigDecimal value = Env.ZERO;
 		String column = columnParam;
-		if (m_columnType.equals(MHRConcept.COLUMNTYPE_Amount))
+		if (MHRConcept.COLUMNTYPE_Amount.equals(columnType) || columnType == null )
 		{
 			column = column.toString().length() == 1 ? "Col_"+column : "Amount"+column;
 			ArrayList<Object> params = new ArrayList<Object>();
@@ -1342,9 +1368,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				"l.AD_Client_ID = ? AND " +
 				"(? BETWEEN lv.ValidFrom AND lv.ValidTo ) AND " +
 				"(? BETWEEN ll.MinValue AND	ll.MaxValue)";
-			params.add(pList);
+			params.add(listSearchKey);
 			params.add(getAD_Client_ID());
-			params.add(m_dateFrom);
+			params.add(from);
 			params.add(BigDecimal.valueOf(amount));
 
 			value = DB.getSQLValueBDEx(get_TrxName(),sqlList,params);
@@ -2030,4 +2056,56 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}		
 		return fromLines.size();
 	}	//	copyLinesFrom
+
+	/**
+	 * Method use for testing setting the variables to execute rule
+	 * @param partnerValue
+	 * @param conceptValue
+     */
+	public void setEmployee(String partnerValue,String  conceptValue)
+	{
+
+		MBPartner partner = MBPartner.get(getCtx() , partnerValue);
+		if (partner == null)
+			throw new AdempiereException("@C_BPartner_ID@ @NotFound@ " + partnerValue);
+		m_C_BPartner_ID = partner.get_ID();
+
+		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		if (concept == null)
+			throw  new AdempiereException("@HR_Concept_ID@ @NotFound@ " +  conceptValue);
+		m_HR_Concept_ID = concept.get_ID();
+		m_columnType = concept.getColumnType();
+		MHRPeriod  hrPeriod = MHRPeriod.get(getCtx(),  getHR_Period_ID());
+		MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID());
+		m_employee = MHREmployee.getActiveEmployee(getCtx(), m_C_BPartner_ID, get_TrxName());
+
+		if(period != null)
+		{
+			hrPeriod.setStartDate(period.getStartDate());
+			hrPeriod.setEndDate(period.getEndDate());
+		}
+		else
+		{
+			hrPeriod.setStartDate(getDateAcct());
+			hrPeriod.setEndDate(getDateAcct());
+		}
+
+		m_dateFrom = hrPeriod.getStartDate();
+		m_dateTo   = hrPeriod.getEndDate();
+
+		if(getHR_Payroll_ID() > 0)
+		{
+			m_HR_Payroll_ID=getHR_Payroll_ID();
+		}
+		if(getHR_Department_ID() > 0)
+		{
+			m_HR_Department_ID=getHR_Department_ID();
+		}
+		if(getHR_Job_ID() > 0)
+		{
+			m_HR_Job_ID=getHR_Job_ID();
+		}
+		m_dateFrom = hrPeriod.getStartDate();
+		m_dateTo   = hrPeriod.getEndDate();
+	}
 }	//	MHRProcess
