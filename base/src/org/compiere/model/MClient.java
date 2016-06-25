@@ -907,7 +907,9 @@ public class MClient extends X_AD_Client
 			email = new EMail (this, from.getAD_EMailConfig_ID(), from.getEMail(), to, subject, message, html);
 		//	For Custom EMail Server
 		if(from.getAD_EMailConfig_ID() != 0) {
-			if(MEMailConfig.get(getCtx(), from.getAD_EMailConfig_ID()).isSmtpAuthorization())
+			MEMailConfig emailConfig = MEMailConfig.get(getCtx(), from.getAD_EMailConfig_ID());
+			if(emailConfig.isSmtpAuthorization()
+					|| emailConfig.getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth))
 				email.createAuthenticator (from.getEMailUser(), from.getEMailUserPW());
 		} else {
 			if (isSmtpAuthorization())
