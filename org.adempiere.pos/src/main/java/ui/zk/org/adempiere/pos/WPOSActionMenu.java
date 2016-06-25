@@ -169,6 +169,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
 
     private void executeCommand(Command command)
     {
+        BusyDialog waiting = new BusyDialog();
         try {
             CommandReceiver receiver = commandManager.getCommandReceivers(command.getEvent());
             if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE
@@ -179,6 +180,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                 receiver.setPartnerId(queryPartner.getRecord_ID());
                 receiver.setOrderId(pos.getC_Order_ID());
                 receiver.setPOSId(pos.getC_POS_ID());
+                receiver.setBankAccountId(pos.getC_BankAccount_ID());
                 MBPartner partner = MBPartner.get(pos.getCtx(), receiver.getPartnerId());
                 Optional<String> taxId = Optional.ofNullable(partner.getTaxID());
                 String processMessage = receiver.getName()
@@ -186,14 +188,12 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                         + " @To@ @C_BPartner_ID@ : " + partner.getName()
                         + " @TaxID@ : " + taxId.orElse("");
                 if (FDialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
-                    BusyDialog waiting = new BusyDialog();
                     waiting.setPage(pos.v_Panel.getPage());
                     waiting.doHighlighted();
                     command.execute(receiver);
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.dispose();
-                    waiting = null;
-                    if (processInfo.isError()) {
+                    if (processInfo!= null && processInfo.isError()) {
                         showError(processInfo);
                     } else {
                         afterExecutionCommand(command);
@@ -214,19 +214,18 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                 receiver.setOrderId(pos.getC_Order_ID());
                 receiver.setPOSId(pos.getC_POS_ID());
                 receiver.setPartnerId(pos.getC_BPartner_ID());
+                receiver.setBankAccountId(pos.getC_BankAccount_ID());
                 String processMessage = receiver.getName()
                         + " @order.no@ : " + pos.getDocumentNo()
                         + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
 
                 if (FDialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
-                    BusyDialog waiting = new BusyDialog();
                     waiting.setPage(pos.v_Panel.getPage());
                     waiting.doHighlighted();
                     command.execute(receiver);
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.dispose();
-                    waiting = null;
-                    if (processInfo.isError()) {
+                    if (processInfo != null && processInfo.isError()) {
                         showError(processInfo);
                     }
                     else
@@ -250,15 +249,12 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                         + " @To@ @C_BPartner_ID@ : " + pos.getBPName();
 
                 if (FDialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
-
-                    BusyDialog waiting = new BusyDialog();
                     waiting.setPage(pos.v_Panel.getPage());
                     waiting.doHighlighted();
                     command.execute(receiver);
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.dispose();
-                    waiting = null;
-                    if (processInfo.isError()) {
+                    if (processInfo != null && processInfo.isError()) {
                         showError(processInfo);
                     }
                     else
@@ -281,14 +277,13 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                     receiver.setOrderId(pos.getC_Order_ID());
                     receiver.setPOSId(pos.getC_POS_ID());
                     receiver.setWarehouseId(pos.getM_Warehouse_ID());
-                    BusyDialog waiting = new BusyDialog();
+                    receiver.setBankAccountId(pos.getC_BankAccount_ID());
                     waiting.setPage(pos.v_Panel.getPage());
                     waiting.doHighlighted();
                     command.execute(receiver);
                     ProcessInfo processInfo = receiver.getProcessInfo();
                     waiting.dispose();
-                    waiting = null;
-                    if (processInfo.isError()) {
+                    if (processInfo != null  && processInfo.isError()) {
                         showError(processInfo);
                     }
                     afterExecutionCommand(command);
@@ -319,7 +314,12 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
         }
         catch (Exception exception)
         {
+            waiting.dispose();
             FDialog.error(pos.getWindowNo(), pos.getForm(), exception.getLocalizedMessage());
+        }
+        finally {
+            waiting.dispose();
+            waiting = null;
         }
     }
 

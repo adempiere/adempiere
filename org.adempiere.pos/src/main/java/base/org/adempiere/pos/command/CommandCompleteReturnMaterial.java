@@ -120,27 +120,17 @@ public class CommandCompleteReturnMaterial extends CommandAbstract implements Co
                    }
                    else // if not exist invoice then return of payment
                    {
-                       ReportCtl.startDocumentPrint(
-                               ReportEngine.ORDER,
-                               null  /* custom Print Format */,
-                               returnOrder.get_ID(),
-                               null /* Parent */,
-                               processInfo.getWindowNo(),
-                               false /* Is print direct */,
-                               null /* Printer Name */,
-                               processInfo);
-
                        Timestamp today = new Timestamp(System.currentTimeMillis());
                        // Create return payment
                        MPayment payment = new MPayment(returnOrder.getCtx() ,  0 , returnOrder.get_TrxName());
                        payment.setDateTrx(today);
-                       payment.setC_BankAccount_ID(commandReceiver.getBankAccountId());
                        payment.setC_Order_ID(returnOrder.getC_Order_ID());
+                       payment.setC_BankAccount_ID(commandReceiver.getBankAccountId());
                        payment.setDateAcct(today);
                        payment.addDescription(Msg.parseTranslation(returnOrder.getCtx(), " @C_Order_ID@ " + returnOrder.getDocumentNo()));
                        payment.setIsReceipt(false);
                        payment.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_APPayment));
-                       payment.setPayAmt(returnOrder.getGrandTotal());
+                       payment.setAmount(returnOrder.getC_Currency_ID() , returnOrder.getGrandTotal());
                        payment.setDocAction(DocAction.ACTION_Complete);
                        payment.setDocStatus(DocAction.STATUS_Drafted);
                        payment.setIsPrepayment(true);
@@ -154,8 +144,19 @@ public class CommandCompleteReturnMaterial extends CommandAbstract implements Co
 
                        processInfo.addLog(0,null,null,payment.getDocumentInfo());
 
+                       ReportCtl.startDocumentPrint(
+                               ReportEngine.ORDER,
+                               null  /* custom Print Format */,
+                               returnOrder.get_ID(),
+                               null /* Parent */,
+                               processInfo.getWindowNo(),
+                               false /* Is print direct */,
+                               null /* Printer Name */,
+                               processInfo);
+
                    }
                 }
+                commandReceiver.setProcessInfo(processInfo);
             }
         });
     }
