@@ -43,6 +43,8 @@ import org.w3c.dom.NodeList;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> BR [ 425 ] Table ad_reportview_trl with wrong primary key
  *		@see https://github.com/adempiere/adempiere/issues/425
+ *		<li> BR [ 440 ] Translation tables does not support rollback in Migration
+ *		@see https://github.com/adempiere/adempiere/issues/440
  */
 public class MMigrationStep extends X_AD_MigrationStep {
 
@@ -436,6 +438,45 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		else 
 			return null;
 	}
+	
+	/**
+	 * Get PO from Keys
+	 * @param table
+	 * @return
+	 */
+	private PO getPO(MTable table) {
+		//	Get PO from key or keys
+		PO po = null;
+		if (table.isSingleKey() && getRecord_ID() > 0) {
+			po = table.getPO( getRecord_ID(), get_TrxName() );
+		} else {
+			String where = "";
+			ArrayList<Object> params = new ArrayList<Object>();
+			boolean first = true;
+			
+			List<MMigrationData> keys = getKeyData();
+			for (MMigrationData key : keys) { 
+				if ( first )
+					first = false;
+				else
+					where += " AND ";
+				
+				MColumn column = (MColumn) key.getAD_Column();
+                if(column == null)
+                    continue;
+
+				where += column.getColumnName() + " = ? ";
+				
+				params.add(stringToObject(column, key.getNewValue()));	
+			}
+			//	Get PO from Query
+			po = new Query(getCtx(), table, where, get_TrxName())
+			.setParameters(params)
+			.firstOnly();
+		}
+		//	Return PO
+		return po;
+	}
 
 	/**
 	 * Apply Migration
@@ -453,45 +494,22 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			PO po = null;
 			//reset cache of persistence object
 			POInfo.removeFromCache(getAD_Table_ID());
-			if ( table.isSingleKey() && getRecord_ID() > 0 ) {
-				po = table.getPO( getRecord_ID(), get_TrxName() );
-			}
-			else 
-			{
-				String where = "";
-				ArrayList<Object> params = new ArrayList<Object>();
-				boolean first = true;
-				
-				List<MMigrationData> keys = getKeyData();
-				for ( MMigrationData key : keys )
-				{ 
-					if ( first )
-						first = false;
-					else
-						where += " AND ";
-					
-					MColumn column = (MColumn) key.getAD_Column();
-                    if(column == null)
-                        continue;
-
-					where += column.getColumnName() + " = ? ";
-					
-					params.add(stringToObject(column, key.getNewValue()));
-					
-				}
-				
-				po = new Query(getCtx(), table, where, get_TrxName())
-				.setParameters(params)
-				.firstOnly();
-			}
-			
+			//	Get PO from table
+			po = getPO(table);
+			//	
 			if ( po == null && getAction().equals(MMigrationStep.ACTION_Insert) )
 			{
 				po = table.getPO(0, get_TrxName());
-				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
+				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID());
 				po.setIsDirectLoad(true);
-			}
-			else if (po == null) // Action other than insert
+			} else if(po == null 
+					&& table.getTableName().endsWith("_Trl")) {
+				setStatusCode(MMigrationStep.STATUSCODE_Applied);
+				setApply(MMigrationStep.APPLY_Rollback);
+				setErrorMsg(null);
+				saveEx();
+				return "successfully applied";
+			} else if (po == null) // Action other than insert
 			{
 				// The PO has not been set and we aren't inserting a new record - something is wrong.
 				bailout("Step " + getSeqNo() + ", Record " + getRecord_ID() + " was not found in table " + table.getName() + " (" + table.get_ID() + ").");
@@ -570,6 +588,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		return "successfully applied";
 	}
 	
+	/**
+	 * Rollback PO
+	 * @return
+	 */
 	private String rollbackPO() {
 		
 		if ( getAD_Table_ID() == 0 )
@@ -580,38 +602,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		{
 			MTable table = MTable.get( getCtx(), getAD_Table_ID() );
 			
-			PO po = null;
-			if ( table.isSingleKey() && getRecord_ID() > 0 )
-				po = table.getPO( getRecord_ID(), get_TrxName() );
-			else 
-			{
-				String where = "";
-				ArrayList<Object> params = new ArrayList<Object>();
-				boolean first = true;
-				
-				List<MMigrationData> keys = getKeyData();
-				for ( MMigrationData key : keys )
-				{ 
-					if ( first )
-						first = false;
-					else
-						where += " AND ";
-					
-					MColumn column = (MColumn) key.getAD_Column();
-                    if(column == null)
-                        continue;
-
-					where += column.getColumnName() + " = ? ";
-					
-					params.add(stringToObject(column, key.getNewValue()));
-					
-				}
-				
-				po = new Query(getCtx(), table, where, get_TrxName())
-				.setParameters(params)
-				.firstOnly();
-			}
-			
+			PO po = getPO(table);
 			//  If the record was deleted, po will be null.  Recreate the record.
 			if ( po == null && getAction().equals(MMigrationStep.ACTION_Delete) )
 			{
@@ -636,6 +627,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 					po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
 				}
+				//	Save PO BR [ 440 ]
+				po.saveEx();
 			}
 
 			// If the record was inserted, delete it.
