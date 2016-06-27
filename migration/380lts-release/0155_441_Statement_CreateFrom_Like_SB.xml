@@ -22,7 +22,6 @@
     </Step>
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="53229" Action="I" Record_ID="50053" Table="AD_View_Trl">
-        <Data AD_Column_ID="58061" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58054" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58060" Column="AD_View_ID">50053</Data>
         <Data AD_Column_ID="58056" Column="Created">2016-06-27 09:33:46.732</Data>
@@ -30,11 +29,12 @@
         <Data AD_Column_ID="58065" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58055" Column="IsActive">true</Data>
         <Data AD_Column_ID="58063" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58064" Column="Name">Bank Statement Create From View</Data>
         <Data AD_Column_ID="58057" Column="Updated">2016-06-27 09:33:46.732</Data>
         <Data AD_Column_ID="58059" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58053" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58062" Column="Description">View for Create From in Bank Statement</Data>
+        <Data AD_Column_ID="58061" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58064" Column="Name">Bank Statement Create From View</Data>
       </PO>
     </Step>
     <Step SeqNo="30" StepType="AD">
@@ -84,19 +84,19 @@
     </Step>
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54357</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Account No</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:22.458</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:22.458</Data>
         <Data AD_Column_ID="58049" Column="Description">Account Number</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:22.458</Data>
       </PO>
     </Step>
     <Step SeqNo="70" StepType="AD">
@@ -170,9 +170,9 @@
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Organization</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:24.655</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:24.655</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:24.655</Data>
       </PO>
     </Step>
     <Step SeqNo="110" StepType="AD">
@@ -198,12 +198,10 @@
     </Step>
     <Step SeqNo="120" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54360</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Bank Account Type</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -211,6 +209,8 @@
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:25.788</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:25.788</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58049" Column="Description">Bank Account Type</Data>
       </PO>
     </Step>
     <Step SeqNo="130" StepType="AD">
@@ -241,7 +241,6 @@
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54361</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Basic Bank Account Number</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -249,6 +248,7 @@
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:26.928</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:26.928</Data>
+        <Data AD_Column_ID="58049" Column="Description">Basic Bank Account Number</Data>
       </PO>
     </Step>
     <Step SeqNo="150" StepType="AD">
@@ -274,7 +274,6 @@
     </Step>
     <Step SeqNo="160" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54362</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:28.283</Data>
@@ -283,10 +282,11 @@
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">Bank Account</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:28.283</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58052" Column="Name">Bank Account</Data>
       </PO>
     </Step>
     <Step SeqNo="170" StepType="AD">
@@ -321,10 +321,10 @@
         <Data AD_Column_ID="58049" Column="Description">Bank</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Bank</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:30.382</Data>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
       </PO>
     </Step>
     <Step SeqNo="190" StepType="AD">
@@ -350,7 +350,6 @@
     </Step>
     <Step SeqNo="200" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54364</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
@@ -358,11 +357,12 @@
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">Currency</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:31.697</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:31.697</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58052" Column="Name">Currency</Data>
       </PO>
     </Step>
     <Step SeqNo="210" StepType="AD">
@@ -393,7 +393,6 @@
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54365</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -401,6 +400,7 @@
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:33.339</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:33.339</Data>
+        <Data AD_Column_ID="58049" Column="Description">Date this record was created</Data>
       </PO>
     </Step>
     <Step SeqNo="230" StepType="AD">
@@ -431,14 +431,14 @@
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54366</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">User who created this records</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">Created By</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:34.6</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:34.6</Data>
+        <Data AD_Column_ID="58049" Column="Description">User who created this records</Data>
+        <Data AD_Column_ID="58052" Column="Name">Created By</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:34.6</Data>
       </PO>
     </Step>
     <Step SeqNo="250" StepType="AD">
@@ -474,9 +474,9 @@
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">Credit limit</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:35.954</Data>
+        <Data AD_Column_ID="58052" Column="Name">Credit limit</Data>
       </PO>
     </Step>
     <Step SeqNo="270" StepType="AD">
@@ -508,13 +508,13 @@
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54368</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:37.013</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Current Balance</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Current balance</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:37.013</Data>
+        <Data AD_Column_ID="58049" Column="Description">Current Balance</Data>
       </PO>
     </Step>
     <Step SeqNo="290" StepType="AD">
@@ -540,9 +540,7 @@
     </Step>
     <Step SeqNo="300" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:38.12</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Optional short description of the record</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
@@ -552,6 +550,8 @@
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54369</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:38.12</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:38.12</Data>
       </PO>
     </Step>
@@ -620,7 +620,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="340" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54371</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:40.54</Data>
@@ -629,10 +628,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Active</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:40.54</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58049" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:40.54</Data>
       </PO>
     </Step>
     <Step SeqNo="350" StepType="AD">
@@ -668,9 +668,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:41.889</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58052" Column="Name">Default</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:41.889</Data>
       </PO>
     </Step>
     <Step SeqNo="370" StepType="AD">
@@ -696,7 +696,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="380" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54373</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
@@ -705,10 +704,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Payment Export Class</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:43.289</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:43.289</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:43.289</Data>
       </PO>
     </Step>
     <Step SeqNo="390" StepType="AD">
@@ -744,9 +744,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Updated</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:44.924</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Date this record was updated</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:44.924</Data>
       </PO>
     </Step>
     <Step SeqNo="410" StepType="AD">
@@ -779,11 +779,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:37:46.243</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Updated By</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:37:46.243</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58049" Column="Description">User who updated this records</Data>
       </PO>
     </Step>
@@ -866,9 +866,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="470" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54377</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:57:51.709</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Bank Account of the Business Partner</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
@@ -879,6 +877,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58052" Column="Name">Partner Bank Account</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:57:51.709</Data>
       </PO>
     </Step>
     <Step SeqNo="480" StepType="AD">
@@ -907,7 +907,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54378</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:57:52.723</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Check Number</Data>
@@ -917,6 +916,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:57:52.724</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58052" Column="Name">Check No</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54378</Data>
       </PO>
     </Step>
     <Step SeqNo="500" StepType="AD">
@@ -943,7 +943,6 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="510" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54379</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:57:54.004</Data>
@@ -952,8 +951,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58052" Column="Name">Reconciled</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Payment is reconciled with bank statement</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58049" Column="Description">Payment is reconciled with bank statement</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:57:54.004</Data>
       </PO>
     </Step>
@@ -1056,7 +1056,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="570" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54382</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:57:57.925</Data>
@@ -1065,10 +1064,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58052" Column="Name">Account No</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:57:57.925</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:57:57.925</Data>
       </PO>
     </Step>
     <Step SeqNo="580" StepType="AD">
@@ -1106,9 +1106,9 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Document No</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:57:58.957</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:57:58.957</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:57:58.957</Data>
       </PO>
     </Step>
     <Step SeqNo="600" StepType="AD">
@@ -1134,11 +1134,9 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="610" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54384</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Payment batch for EFT</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -1147,6 +1145,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:00.046</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58049" Column="Description">Payment batch for EFT</Data>
       </PO>
     </Step>
     <Step SeqNo="620" StepType="AD">
@@ -1175,7 +1175,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:01.332</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
@@ -1184,6 +1183,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:01.332</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54385</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:01.332</Data>
         <Data AD_Column_ID="58049" Column="Description">Zip Code of the Credit Card or Account Holder</Data>
       </PO>
     </Step>
@@ -1210,9 +1210,7 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="650" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54386</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:02.341</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Credit Card Number </Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
@@ -1223,6 +1221,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:02.341</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:02.341</Data>
       </PO>
     </Step>
     <Step SeqNo="660" StepType="AD">
@@ -1252,7 +1252,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54387</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:03.459</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">The targeted status of the document</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
@@ -1261,6 +1260,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:03.459</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58052" Column="Name">Document Action</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:03.459</Data>
       </PO>
     </Step>
     <Step SeqNo="680" StepType="AD">
@@ -1289,15 +1289,15 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54388</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:04.917</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Tax Amount for a document</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Tax Amount</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54388</Data>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:04.917</Data>
       </PO>
     </Step>
@@ -1400,11 +1400,9 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="750" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54391</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Payment Identification - Social Security No</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -1413,6 +1411,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:08.565</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58049" Column="Description">Payment Identification - Social Security No</Data>
       </PO>
     </Step>
     <Step SeqNo="760" StepType="AD">
@@ -1443,7 +1443,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54392</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">City or the Credit Card or Account Holder</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -1451,6 +1450,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:09.603</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:09.603</Data>
+        <Data AD_Column_ID="58049" Column="Description">City or the Credit Card or Account Holder</Data>
       </PO>
     </Step>
     <Step SeqNo="780" StepType="AD">
@@ -1476,7 +1476,6 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="790" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54393</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:10.871</Data>
@@ -1484,11 +1483,12 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58049" Column="Description">Expiry Year</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58052" Column="Name">Exp. Year</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:10.871</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58052" Column="Name">Exp. Year</Data>
       </PO>
     </Step>
     <Step SeqNo="800" StepType="AD">
@@ -1519,7 +1519,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54394</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">This is a sales transaction (receipt)</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -1527,6 +1526,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:12.203</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:12.203</Data>
+        <Data AD_Column_ID="58049" Column="Description">This is a sales transaction (receipt)</Data>
       </PO>
     </Step>
     <Step SeqNo="820" StepType="AD">
@@ -1556,8 +1556,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:13.562</Data>
-        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -1565,6 +1563,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54395</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:13.562</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58049" Column="Description">Date this record was created</Data>
       </PO>
     </Step>
     <Step SeqNo="840" StepType="AD">
@@ -1594,7 +1594,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54396</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:14.779</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
@@ -1603,6 +1602,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:14.779</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58052" Column="Name">Client</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:14.779</Data>
       </PO>
     </Step>
     <Step SeqNo="860" StepType="AD">
@@ -1632,15 +1632,15 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54397</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:15.964</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:15.964</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Credit Card Verification code on credit card</Data>
         <Data AD_Column_ID="58052" Column="Name">Verification Code</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:15.964</Data>
+        <Data AD_Column_ID="58049" Column="Description">Credit Card Verification code on credit card</Data>
       </PO>
     </Step>
     <Step SeqNo="880" StepType="AD">
@@ -1671,7 +1671,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54398</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Calculated amount of discount</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -1679,6 +1678,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:17.466</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:17.466</Data>
+        <Data AD_Column_ID="58049" Column="Description">Calculated amount of discount</Data>
       </PO>
     </Step>
     <Step SeqNo="900" StepType="AD">
@@ -1710,7 +1710,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54399</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Over-Payment (unallocated) or Under-Payment (partial payment) Amount</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -1718,15 +1717,16 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:18.837</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:18.837</Data>
+        <Data AD_Column_ID="58049" Column="Description">Over-Payment (unallocated) or Under-Payment (partial payment) Amount</Data>
       </PO>
     </Step>
     <Step SeqNo="920" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="54400" Table="AD_View_Column">
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50115</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">8405</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">54400</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50115</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50053</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">P_VoiceAuthCode</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">p.VoiceAuthCode</Data>
@@ -1743,11 +1743,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="930" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54400</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Voice Authorization Code from credit card company</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -1756,6 +1754,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:20.346</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58049" Column="Description">Voice Authorization Code from credit card company</Data>
       </PO>
     </Step>
     <Step SeqNo="940" StepType="AD">
@@ -1790,10 +1790,10 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">Original Transaction ID</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:21.899</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:21.899</Data>
+        <Data AD_Column_ID="58052" Column="Name">Original Transaction ID</Data>
       </PO>
     </Step>
     <Step SeqNo="960" StepType="AD">
@@ -1819,19 +1819,19 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="970" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54402</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:23.287</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Document type or rules</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:23.287</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58052" Column="Name">Document Type</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54402</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:23.287</Data>
       </PO>
     </Step>
     <Step SeqNo="980" StepType="AD">
@@ -1867,9 +1867,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:24.511</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58052" Column="Name">Tender type</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:24.511</Data>
       </PO>
     </Step>
     <Step SeqNo="1000" StepType="AD">
@@ -1899,7 +1899,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:25.71</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Identifies a Business Partner</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -1908,6 +1907,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54404</Data>
         <Data AD_Column_ID="58052" Column="Name">Business Partner </Data>
+        <Data AD_Column_ID="58049" Column="Description">Identifies a Business Partner</Data>
       </PO>
     </Step>
     <Step SeqNo="1020" StepType="AD">
@@ -1938,7 +1938,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54405</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:26.82</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
@@ -1946,6 +1945,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58052" Column="Name">Over/Under Payment</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:26.82</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:26.82</Data>
         <Data AD_Column_ID="58049" Column="Description">Over-Payment (unallocated) or Under-Payment (partial payment)</Data>
       </PO>
     </Step>
@@ -1981,10 +1981,10 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58049" Column="Description">Purchase Order Number</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58052" Column="Name">PO Number</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:27.989</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:27.989</Data>
       </PO>
     </Step>
     <Step SeqNo="1060" StepType="AD">
@@ -2011,7 +2011,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     <Step SeqNo="1070" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54407</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
@@ -2019,10 +2018,11 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">Driver License</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:29.232</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:29.232</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58052" Column="Name">Driver License</Data>
       </PO>
     </Step>
     <Step SeqNo="1080" StepType="AD">
@@ -2053,7 +2053,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54408</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">This payment can be processed online</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -2061,6 +2060,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:30.846</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:30.846</Data>
+        <Data AD_Column_ID="58049" Column="Description">This payment can be processed online</Data>
       </PO>
     </Step>
     <Step SeqNo="1100" StepType="AD">
@@ -2086,7 +2086,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="1110" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54409</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:32.388</Data>
@@ -2095,10 +2094,11 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Credit Card</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:32.388</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58049" Column="Description">Credit Card (Visa, MC, AmEx)</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:32.388</Data>
       </PO>
     </Step>
     <Step SeqNo="1120" StepType="AD">
@@ -2134,9 +2134,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Created By</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:33.513</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">User who created this records</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:33.513</Data>
       </PO>
     </Step>
     <Step SeqNo="1140" StepType="AD">
@@ -2162,11 +2162,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="1150" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54411</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -2175,6 +2173,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:34.599</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58049" Column="Description">Organizational entity within client</Data>
       </PO>
     </Step>
     <Step SeqNo="1160" StepType="AD">
@@ -2205,7 +2205,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54412</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Combination of routing no, account and check no</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -2213,6 +2212,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:35.708</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:35.708</Data>
+        <Data AD_Column_ID="58049" Column="Description">Combination of routing no, account and check no</Data>
       </PO>
     </Step>
     <Step SeqNo="1180" StepType="AD">
@@ -2238,10 +2238,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="1190" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54413</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54413</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:37.114</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
@@ -2250,6 +2249,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:37.114</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:37.114</Data>
         <Data AD_Column_ID="58049" Column="Description">This address has been verified</Data>
       </PO>
     </Step>
@@ -2315,7 +2315,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     <Step SeqNo="1230" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54415</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
@@ -2325,6 +2324,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:39.697</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58052" Column="Name">Response Message</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:39.697</Data>
       </PO>
@@ -2428,9 +2428,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="1290" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:42.912</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
@@ -2440,6 +2438,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54418</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:42.912</Data>
         <Data AD_Column_ID="58049" Column="Description">Street address of the Credit Card or Account holder</Data>
       </PO>
     </Step>
@@ -2504,11 +2504,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="1330" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54420</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Name on Credit Card or Account holder</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -2517,6 +2515,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:45.695</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58049" Column="Description">Name on Credit Card or Account holder</Data>
       </PO>
     </Step>
     <Step SeqNo="1340" StepType="AD">
@@ -2550,11 +2550,11 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58049" Column="Description">Payment identifier</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Payment</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54421</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:46.871</Data>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1360" StepType="AD">
@@ -2584,15 +2584,15 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54422</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:48.133</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58052" Column="Name">Process Now</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:48.133</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:48.133</Data>
+        <Data AD_Column_ID="58052" Column="Name">Process Now</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:48.133</Data>
       </PO>
     </Step>
     <Step SeqNo="1380" StepType="AD">
@@ -2628,9 +2628,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Info</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:49.551</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:49.551</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:49.551</Data>
       </PO>
     </Step>
     <Step SeqNo="1400" StepType="AD">
@@ -2666,9 +2666,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58052" Column="Name">Exp. Month</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:50.804</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:50.804</Data>
       </PO>
     </Step>
     <Step SeqNo="1420" StepType="AD">
@@ -2694,9 +2694,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="1430" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:52.208</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">The Zip Code has been verified</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
@@ -2707,6 +2705,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54425</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:52.208</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:52.208</Data>
       </PO>
     </Step>
     <Step SeqNo="1440" StepType="AD">
@@ -2735,7 +2735,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54426</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:53.525</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Amount being paid</Data>
@@ -2744,6 +2743,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Payment amount</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54426</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:53.525</Data>
       </PO>
     </Step>
@@ -2770,8 +2770,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="1470" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54427</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:54.721</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">The Currency for this record</Data>
@@ -2782,6 +2780,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54427</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:54.721</Data>
       </PO>
     </Step>
@@ -2818,9 +2818,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Allocated</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:55.957</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Indicates if the payment has been allocated</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:55.957</Data>
       </PO>
     </Step>
     <Step SeqNo="1500" StepType="AD">
@@ -2846,12 +2846,10 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="1510" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:57.443</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:57.443</Data>
-        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Payment reference</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -2859,6 +2857,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54429</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:57.443</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58049" Column="Description">Payment reference</Data>
       </PO>
     </Step>
     <Step SeqNo="1520" StepType="AD">
@@ -2891,7 +2891,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54430</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:58.813</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">The record is active in the system</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
@@ -2900,6 +2899,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58052" Column="Name">Active</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:58:58.813</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:58:58.813</Data>
       </PO>
     </Step>
     <Step SeqNo="1540" StepType="AD">
@@ -2929,14 +2929,14 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54431</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:59:00.161</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Date this record was updated</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">Updated</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:59:00.161</Data>
+        <Data AD_Column_ID="58052" Column="Name">Updated</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:00.161</Data>
       </PO>
     </Step>
@@ -3011,9 +3011,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:03.67</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58052" Column="Name">Bank Account</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:03.67</Data>
       </PO>
     </Step>
     <Step SeqNo="1600" StepType="AD">
@@ -3039,7 +3039,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1610" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:59:04.931</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
@@ -3051,6 +3050,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54434</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:04.931</Data>
       </PO>
     </Step>
@@ -3115,9 +3115,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1650" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54436</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:59:07.731</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
@@ -3127,6 +3125,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:07.731</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54436</Data>
         <Data AD_Column_ID="58049" Column="Description">Currency Conversion Rate Type</Data>
       </PO>
     </Step>
@@ -3194,8 +3194,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54438</Data>
-        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Amount to write-off</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -3203,6 +3201,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:11.181</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58049" Column="Description">Amount to write-off</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:59:11.181</Data>
       </PO>
     </Step>
@@ -3315,9 +3315,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Posted</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:16.366</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Posting status</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:16.366</Data>
       </PO>
     </Step>
     <Step SeqNo="1760" StepType="AD">
@@ -3353,9 +3353,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Multiplier AP</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:18.01</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58049" Column="Description">Payables Multiplier</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:18.01</Data>
       </PO>
     </Step>
     <Step SeqNo="1780" StepType="AD">
@@ -3381,7 +3381,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1790" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54443</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
@@ -3389,11 +3388,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">Charge</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:19.629</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:59:19.629</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58052" Column="Name">Charge</Data>
       </PO>
     </Step>
     <Step SeqNo="1800" StepType="AD">
@@ -3424,7 +3424,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54444</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Marketing Campaign</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -3432,6 +3431,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:21.28</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:59:21.28</Data>
+        <Data AD_Column_ID="58049" Column="Description">Marketing Campaign</Data>
       </PO>
     </Step>
     <Step SeqNo="1820" StepType="AD">
@@ -3457,7 +3457,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1830" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54445</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:59:22.876</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
@@ -3468,8 +3467,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58052" Column="Name">Activity</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:22.876</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
       </PO>
     </Step>
     <Step SeqNo="1840" StepType="AD">
@@ -3501,13 +3501,13 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54446</Data>
         <Data AD_Column_ID="58043" Column="Created">2016-06-27 09:59:24.306</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58049" Column="Description">Financial Project</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Project</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 09:59:24.306</Data>
+        <Data AD_Column_ID="58049" Column="Description">Financial Project</Data>
       </PO>
     </Step>
     <Step SeqNo="1860" StepType="AD">
@@ -3537,14 +3537,14 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54447</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-27 10:00:29.044</Data>
         <Data AD_Column_ID="58049" Column="Description">Converted Amount</Data>
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-27 10:00:29.044</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58043" Column="Created">2016-06-27 10:00:29.044</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58052" Column="Name">Converted Amount</Data>
       </PO>
     </Step>
@@ -3597,18 +3597,18 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58024" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58016" Column="IsActive">true</Data>
         <Data AD_Column_ID="58025" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58026" Column="Name">Bank Statement Create From</Data>
         <Data AD_Column_ID="58018" Column="Updated">2016-06-27 10:01:48.402</Data>
         <Data AD_Column_ID="58020" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58017" Column="Created">2016-06-27 10:01:48.402</Data>
+        <Data AD_Column_ID="58026" Column="Name">Bank Statement Create From</Data>
       </PO>
     </Step>
     <Step SeqNo="1910" StepType="AD">
       <PO AD_Table_ID="53226" Action="U" Record_ID="50060" Table="AD_Browse_Trl">
         <Data AD_Column_ID="58021" Column="AD_Browse_ID" oldValue="50060">50060</Data>
         <Data AD_Column_ID="58022" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="58026" Column="Name" oldValue="Bank Statement Create From">Crear Desde Estado de Cuenta</Data>
         <Data AD_Column_ID="58023" Column="Description" isOldNull="true">Smart Browser para Crear Desde Estado de Cuenta</Data>
+        <Data AD_Column_ID="58026" Column="Name" oldValue="Bank Statement Create From">Crear Desde Estado de Cuenta</Data>
       </PO>
     </Step>
     <Step SeqNo="1920" StepType="AD">
@@ -3664,11 +3664,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1940" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55614" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Account Number</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Account No</Data>
@@ -3676,6 +3674,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55614</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:21.435</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Account Number</Data>
         <Data AD_Column_ID="58037" Column="Help">The Account Number indicates the Number assigned to this bank account. </Data>
       </PO>
     </Step>
@@ -3727,8 +3727,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1960" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55615" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Client/Tenant for this installation.</Data>
@@ -3738,6 +3736,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:22.835</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55615</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:22.835</Data>
         <Data AD_Column_ID="58037" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
       </PO>
@@ -3792,16 +3792,16 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="53227" Action="I" Record_ID="55616" Table="AD_Browse_Field_Trl">
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55616</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:24.276</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Organization</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:24.276</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58036" Column="Description">Organizational entity within client</Data>
+        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:24.276</Data>
         <Data AD_Column_ID="58037" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
       </PO>
     </Step>
@@ -3916,11 +3916,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2020" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55618" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Basic Bank Account Number</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">BBAN</Data>
@@ -3928,6 +3926,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55618</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:27.556</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Basic Bank Account Number</Data>
         <Data AD_Column_ID="58037" Column="Help">The Basic (or Domestic) Bank Account Number is used in Bank transfers (see also IBAN). For details see ISO 13616 and http://www.ecbs.org/</Data>
       </PO>
     </Step>
@@ -3979,7 +3979,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2040" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55619" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:29.269</Data>
@@ -3988,10 +3987,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Bank Account</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:29.269</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55619</Data>
         <Data AD_Column_ID="58037" Column="Help">The Bank Account identifies an account at this Bank.</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:29.269</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
       </PO>
     </Step>
     <Step SeqNo="2050" StepType="AD">
@@ -4045,7 +4045,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55620</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:30.856</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Bank</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
@@ -4054,6 +4053,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:30.856</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:30.856</Data>
         <Data AD_Column_ID="58037" Column="Help">The Bank is a unique identifier of a Bank for this Organization or for a Business Partner with whom this Organization transacts.</Data>
       </PO>
     </Step>
@@ -4110,13 +4110,13 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">The Currency for this record</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Currency</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:32.481</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:32.481</Data>
+        <Data AD_Column_ID="58036" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:32.481</Data>
         <Data AD_Column_ID="58037" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
       </PO>
     </Step>
@@ -4231,12 +4231,10 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2120" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55623" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:36.148</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58037" Column="Help">The Created By field indicates the user who created this record.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Created By</Data>
@@ -4244,6 +4242,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55623</Data>
         <Data AD_Column_ID="58036" Column="Description">User who created this records</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58037" Column="Help">The Created By field indicates the user who created this record.</Data>
       </PO>
     </Step>
     <Step SeqNo="2130" StepType="AD">
@@ -4294,8 +4294,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2140" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55624" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Amount of Credit allowed</Data>
@@ -4305,8 +4303,10 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:37.821</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55624</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:37.821</Data>
         <Data AD_Column_ID="58037" Column="Help">The Credit Limit field indicates the credit limit for this account.</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:37.821</Data>
       </PO>
     </Step>
     <Step SeqNo="2150" StepType="AD">
@@ -4357,18 +4357,18 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2160" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55625" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:39.623</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58039" Column="Name">Current balance</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:39.623</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55625</Data>
         <Data AD_Column_ID="58036" Column="Description">Current Balance</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58039" Column="Name">Current balance</Data>
         <Data AD_Column_ID="58037" Column="Help">The Current Balance field indicates the current balance in this account.</Data>
       </PO>
     </Step>
@@ -4494,8 +4494,8 @@ Details ISO 13616 and http://www.ecbs.org. The account number has the maximum le
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">IBAN</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:43.286</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:43.286</Data>
         <Data AD_Column_ID="58037" Column="Help">If your bank provides an International Bank Account Number, enter it here
 Details ISO 13616 and http://www.ecbs.org. The account number has the maximum length of 22 characters (without spaces). The IBAN is often printed with a apace after 4 characters. Do not enter the spaces in Adempiere.</Data>
       </PO>
@@ -4552,7 +4552,6 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2220" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55628" Table="AD_Browse_Field_Trl">
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55628</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:44.735</Data>
@@ -4561,8 +4560,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Active</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:44.735</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55628</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:44.735</Data>
         <Data AD_Column_ID="58037" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
@@ -4617,11 +4617,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2240" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55629" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Default value</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Default</Data>
@@ -4629,6 +4627,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55629</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:46.303</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Default value</Data>
         <Data AD_Column_ID="58037" Column="Help">The Default Checkbox indicates if this record will be used as a default value.</Data>
       </PO>
     </Step>
@@ -4680,8 +4680,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2260" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55630" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:47.868</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
@@ -4692,6 +4690,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58039" Column="Name">Payment Export Class</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55630</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:47.868</Data>
       </PO>
     </Step>
@@ -4750,12 +4750,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:49.167</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Updated</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:49.167</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Date this record was updated</Data>
         <Data AD_Column_ID="58037" Column="Help">The Updated field indicates the date that this record was updated.</Data>
+        <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:49.167</Data>
       </PO>
     </Step>
     <Step SeqNo="2290" StepType="AD">
@@ -4810,7 +4810,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:50.796</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">User who updated this records</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
@@ -4818,6 +4817,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58039" Column="Name">Updated By</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:50.796</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:50.796</Data>
         <Data AD_Column_ID="58037" Column="Help">The Updated By field indicates the user who updated this record.</Data>
       </PO>
     </Step>
@@ -4869,18 +4869,18 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2320" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55633" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:52.571</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Check Number</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Check No</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:52.571</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55633</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58037" Column="Help">The Check Number indicates the number on the check.</Data>
       </PO>
     </Step>
@@ -4932,7 +4932,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2340" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55634" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55634</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:54.211</Data>
@@ -4941,9 +4940,10 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Account Date</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:54.211</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55634</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:54.211</Data>
         <Data AD_Column_ID="58037" Column="Help">The Accounting Date indicates the date to be used on the General Ledger account entries generated from this document. It is also used for any currency conversion.</Data>
       </PO>
     </Step>
@@ -4995,18 +4995,18 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2360" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55635" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:55.947</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Bank Account of the Business Partner</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58039" Column="Name">Partner Bank Account</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:55.947</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55635</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58039" Column="Name">Partner Bank Account</Data>
         <Data AD_Column_ID="58037" Column="Help">The Partner Bank Account identifies the bank account to be used for this Business Partner</Data>
       </PO>
     </Step>
@@ -5126,13 +5126,13 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">The current status of the document</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Document Status</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:03:59.266</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:03:59.266</Data>
+        <Data AD_Column_ID="58036" Column="Description">The current status of the document</Data>
         <Data AD_Column_ID="58037" Column="Help">The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field</Data>
       </PO>
     </Step>
@@ -5184,8 +5184,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2420" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55638" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:00.951</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
@@ -5193,9 +5191,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Routing No</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:00.951</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55638</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:00.951</Data>
         <Data AD_Column_ID="58037" Column="Help">The Bank Routing Number (ABA Number) identifies a legal Bank.  It is used in routing checks and electronic transactions.</Data>
       </PO>
     </Step>
@@ -5247,11 +5247,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2440" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55639" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Account Number</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Account No</Data>
@@ -5259,6 +5257,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55639</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:02.305</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Account Number</Data>
         <Data AD_Column_ID="58037" Column="Help">The Account Number indicates the Number assigned to this bank account. </Data>
       </PO>
     </Step>
@@ -5312,10 +5312,8 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2460" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55640" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:03.791</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
@@ -5323,6 +5321,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:03.791</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55640</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:03.791</Data>
         <Data AD_Column_ID="58036" Column="Description">Document sequence number of the document</Data>
         <Data AD_Column_ID="58037" Column="Help">The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "&lt;&gt;".
 
@@ -5383,12 +5383,12 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Payment batch for EFT</Data>
         <Data AD_Column_ID="58037" Column="Help">Electronic Fund Transfer Payment Batch.</Data>
-        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Payment Batch</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:05.485</Data>
+        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:05.485</Data>
       </PO>
     </Step>
@@ -5446,13 +5446,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:07.167</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Zip Code of the Credit Card or Account Holder</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Account Zip/Postal</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:07.167</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58037" Column="Help">The Zip Code of the Credit Card or Account Holder.</Data>
+        <Data AD_Column_ID="58036" Column="Description">Zip Code of the Credit Card or Account Holder</Data>
       </PO>
     </Step>
     <Step SeqNo="2510" StepType="AD">
@@ -5503,10 +5503,8 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2520" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55643" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:08.882</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Credit Card Number </Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
@@ -5515,6 +5513,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:08.882</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55643</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:08.882</Data>
         <Data AD_Column_ID="58037" Column="Help">The Credit Card number indicates the number on the credit card, without blanks or spaces.</Data>
       </PO>
     </Step>
@@ -5566,18 +5566,18 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2540" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55644" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">The targeted status of the document</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58039" Column="Name">Document Action</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:10.639</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55644</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:10.639</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58039" Column="Name">Document Action</Data>
         <Data AD_Column_ID="58037" Column="Help">You find the current status in the Document Status field. The options are listed in a popup</Data>
       </PO>
     </Step>
@@ -5629,11 +5629,9 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2560" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55645" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Tax Amount for a document</Data>
         <Data AD_Column_ID="58037" Column="Help">The Tax Amount displays the total tax amount for a document.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
@@ -5641,6 +5639,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:12.471</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55645</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Tax Amount for a document</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:12.471</Data>
       </PO>
     </Step>
@@ -5702,9 +5702,9 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:14.077</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58039" Column="Name">Processed</Data>
         <Data AD_Column_ID="58037" Column="Help">The Processed checkbox indicates that a document has been processed.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58039" Column="Name">Processed</Data>
       </PO>
     </Step>
     <Step SeqNo="2590" StepType="AD">
@@ -5757,17 +5757,17 @@ If the document type of your document has no automatic document sequence defined
       <PO AD_Table_ID="53227" Action="I" Record_ID="55647" Table="AD_Browse_Field_Trl">
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55647</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:16.89</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58037" Column="Help">The Updated By field indicates the user who updated this record.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Updated By</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:16.89</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">User who updated this records</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58037" Column="Help">The Updated By field indicates the user who updated this record.</Data>
       </PO>
     </Step>
     <Step SeqNo="2610" StepType="AD">
@@ -5818,11 +5818,9 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2620" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55648" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Payment Identification - Social Security No</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Social Security No</Data>
@@ -5830,6 +5828,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55648</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:18.417</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Payment Identification - Social Security No</Data>
         <Data AD_Column_ID="58037" Column="Help">The Social Security number being used as identification.</Data>
       </PO>
     </Step>
@@ -5881,11 +5881,9 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2640" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55649" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">City or the Credit Card or Account Holder</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Account City</Data>
@@ -5893,6 +5891,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55649</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:20.295</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">City or the Credit Card or Account Holder</Data>
         <Data AD_Column_ID="58037" Column="Help">The Account City indicates the City of the Credit Card or Account holder</Data>
       </PO>
     </Step>
@@ -5947,9 +5947,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Expiry Year</Data>
-        <Data AD_Column_ID="58037" Column="Help">The Expiry Year indicates the expiry year for this credit card.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Exp. Year</Data>
@@ -5957,6 +5955,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55650</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:21.733</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:21.733</Data>
+        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58037" Column="Help">The Expiry Year indicates the expiry year for this credit card.</Data>
       </PO>
     </Step>
     <Step SeqNo="2670" StepType="AD">
@@ -6013,13 +6013,13 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:23.379</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">This is a sales transaction (receipt)</Data>
         <Data AD_Column_ID="58037" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Receipt</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:23.379</Data>
+        <Data AD_Column_ID="58036" Column="Description">This is a sales transaction (receipt)</Data>
       </PO>
     </Step>
     <Step SeqNo="2690" StepType="AD">
@@ -6070,11 +6070,9 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2700" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55652" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Created</Data>
@@ -6082,6 +6080,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55652</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:25.263</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="58037" Column="Help">The Created field indicates the date that this record was created.</Data>
       </PO>
     </Step>
@@ -6133,9 +6133,7 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2720" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55653" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:27.315</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
@@ -6145,6 +6143,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55653</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:27.315</Data>
         <Data AD_Column_ID="58037" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
       </PO>
     </Step>
@@ -6196,18 +6196,18 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2740" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55654" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Credit Card Verification code on credit card</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Verification Code</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:29.148</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55654</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:29.148</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:29.148</Data>
         <Data AD_Column_ID="58037" Column="Help">The Credit Card Verification indicates the verification code on the credit card (AMEX 4 digits on front; MC,Visa 3 digits back)</Data>
       </PO>
     </Step>
@@ -6268,9 +6268,9 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Discount Amount</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:30.906</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Calculated amount of discount</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:30.906</Data>
         <Data AD_Column_ID="58037" Column="Help">The Discount Amount indicates the discount amount for a document or line.</Data>
       </PO>
     </Step>
@@ -6387,11 +6387,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="2800" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55657" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Voice Authorization Code from credit card company</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Voice authorization code</Data>
@@ -6399,6 +6397,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55657</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:34.456</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Voice Authorization Code from credit card company</Data>
         <Data AD_Column_ID="58037" Column="Help">The Voice Authorization Code indicates the code received from the Credit Card Company.</Data>
       </PO>
     </Step>
@@ -6450,11 +6450,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="2820" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55658" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Original Transaction ID</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Original Transaction ID</Data>
@@ -6462,6 +6460,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55658</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:36.529</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Original Transaction ID</Data>
         <Data AD_Column_ID="58037" Column="Help">The Original Transaction ID is used for reversing transactions and indicates the transaction that has been reversed.</Data>
       </PO>
     </Step>
@@ -6513,18 +6513,18 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="2840" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55659" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:38.498</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Document type or rules</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Document Type</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:38.498</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55659</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Document type or rules</Data>
         <Data AD_Column_ID="58037" Column="Help">The Document Type determines document sequence and processing rules</Data>
       </PO>
     </Step>
@@ -6585,9 +6585,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Tender type</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:40.25</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Method of Payment</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:40.25</Data>
         <Data AD_Column_ID="58037" Column="Help">The Tender Type indicates the method of payment (ACH or Direct Deposit, Credit Card, Check, Direct Debit)</Data>
       </PO>
     </Step>
@@ -6703,8 +6703,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="2900" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55662" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:43.643</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
@@ -6714,6 +6712,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:43.643</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55662</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58036" Column="Description">Over-Payment (unallocated) or Under-Payment (partial payment)</Data>
         <Data AD_Column_ID="58037" Column="Help">Overpayments (negative) are unallocated amounts and allow you to receive money for more than the particular invoice. 
 Underpayments (positive) is a partial payment for the invoice. You do not write off the unpaid amount.</Data>
@@ -6767,12 +6767,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="2920" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55663" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:45.519</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58037" Column="Help">The PO Number indicates the number assigned to a purchase order</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">PO Number</Data>
@@ -6780,6 +6777,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55663</Data>
         <Data AD_Column_ID="58036" Column="Description">Purchase Order Number</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58037" Column="Help">The PO Number indicates the number assigned to a purchase order</Data>
       </PO>
     </Step>
     <Step SeqNo="2930" StepType="AD">
@@ -6830,12 +6830,10 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="2940" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55664" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:47.375</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58037" Column="Help">The Driver's License being used as identification.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Driver License</Data>
@@ -6843,6 +6841,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55664</Data>
         <Data AD_Column_ID="58036" Column="Description">Payment Identification - Driver License</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58037" Column="Help">The Driver's License being used as identification.</Data>
       </PO>
     </Step>
     <Step SeqNo="2950" StepType="AD">
@@ -6898,14 +6898,14 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">This payment can be processed online</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Online Processing</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:49.094</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:49.094</Data>
         <Data AD_Column_ID="58037" Column="Help">The Online Processing indicates if the payment can be processed online.</Data>
+        <Data AD_Column_ID="58036" Column="Description">This payment can be processed online</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:49.094</Data>
       </PO>
     </Step>
     <Step SeqNo="2970" StepType="AD">
@@ -6960,7 +6960,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:50.953</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
@@ -6968,6 +6967,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:50.953</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Credit Card (Visa, MC, AmEx)</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:50.953</Data>
         <Data AD_Column_ID="58037" Column="Help">The Credit Card drop down list box is used for selecting the type of Credit Card presented for payment.</Data>
       </PO>
     </Step>
@@ -7019,11 +7019,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3000" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55667" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:52.845</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">User who created this records</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Created By</Data>
@@ -7031,6 +7029,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55667</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">User who created this records</Data>
         <Data AD_Column_ID="58037" Column="Help">The Created By field indicates the user who created this record.</Data>
       </PO>
     </Step>
@@ -7082,9 +7082,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3020" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55668" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:54.582</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
@@ -7094,6 +7092,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55668</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:54.582</Data>
         <Data AD_Column_ID="58037" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
       </PO>
     </Step>
@@ -7145,10 +7145,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3040" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55669" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:56.307</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
@@ -7156,8 +7154,10 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:56.307</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55669</Data>
-        <Data AD_Column_ID="58036" Column="Description">Combination of routing no, account and check no</Data>
         <Data AD_Column_ID="58037" Column="Help">The Micr number is the combination of the bank routing number, account number and check number</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:56.307</Data>
+        <Data AD_Column_ID="58036" Column="Description">Combination of routing no, account and check no</Data>
       </PO>
     </Step>
     <Step SeqNo="3050" StepType="AD">
@@ -7214,13 +7214,13 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:58.079</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">This address has been verified</Data>
         <Data AD_Column_ID="58037" Column="Help">The Address Verified indicates if the address has been verified by the Credit Card Company.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:58.079</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58039" Column="Name">Address verified</Data>
+        <Data AD_Column_ID="58036" Column="Description">This address has been verified</Data>
       </PO>
     </Step>
     <Step SeqNo="3070" StepType="AD">
@@ -7271,9 +7271,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3080" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55671" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55671</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:04:59.903</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
@@ -7282,6 +7280,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58039" Column="Name">Authorization Code</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:04:59.903</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55671</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58036" Column="Description">Authorization Code returned</Data>
         <Data AD_Column_ID="58037" Column="Help">The Authorization Code indicates the code returned from the electronic transmission.</Data>
       </PO>
@@ -7335,18 +7335,18 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     <Step SeqNo="3100" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55672" Table="AD_Browse_Field_Trl">
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:01.743</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Response message</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Response Message</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:01.743</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58037" Column="Help">The Response Message indicates the message returned from the Credit Card Company as the result of a transmission</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55672</Data>
+        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:01.743</Data>
+        <Data AD_Column_ID="58037" Column="Help">The Response Message indicates the message returned from the Credit Card Company as the result of a transmission</Data>
       </PO>
     </Step>
     <Step SeqNo="3110" StepType="AD">
@@ -7397,8 +7397,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3120" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55673" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:03.678</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
@@ -7406,10 +7404,12 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Transaction Date</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:03.678</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55673</Data>
         <Data AD_Column_ID="58037" Column="Help">The Transaction Date indicates the date of the transaction.</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:03.678</Data>
       </PO>
     </Step>
     <Step SeqNo="3130" StepType="AD">
@@ -7464,13 +7464,13 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Indicates if this document requires approval</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Approved</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:05.353</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55674</Data>
+        <Data AD_Column_ID="58036" Column="Description">Indicates if this document requires approval</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:05.353</Data>
         <Data AD_Column_ID="58037" Column="Help">The Approved checkbox indicates if this document requires approval before it can be processed.</Data>
       </PO>
@@ -7586,18 +7586,18 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3180" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55676" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:09.053</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Can be accessed online </Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Online Access</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:09.053</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55676</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Can be accessed online </Data>
         <Data AD_Column_ID="58037" Column="Help">The Online Access check box indicates if the application can be accessed via the web. </Data>
       </PO>
     </Step>
@@ -7649,19 +7649,19 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3200" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55677" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:10.797</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58037" Column="Help">The Name of the Credit Card or Account holder.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Account Name</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:10.797</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55677</Data>
         <Data AD_Column_ID="58036" Column="Description">Name on Credit Card or Account holder</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:10.797</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:10.797</Data>
       </PO>
     </Step>
     <Step SeqNo="3210" StepType="AD">
@@ -7712,11 +7712,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3220" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55678" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Payment identifier</Data>
         <Data AD_Column_ID="58037" Column="Help">The Payment is a unique identifier of this payment.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
@@ -7724,6 +7722,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:12.754</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55678</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Payment identifier</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:12.754</Data>
       </PO>
     </Step>
@@ -7901,7 +7901,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3280" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55681" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:18.126</Data>
@@ -7909,10 +7908,11 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58036" Column="Description">Expiry Month</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58039" Column="Name">Exp. Month</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:18.126</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55681</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58039" Column="Name">Exp. Month</Data>
         <Data AD_Column_ID="58037" Column="Help">The Expiry Month indicates the expiry month for this credit card.</Data>
       </PO>
     </Step>
@@ -7964,11 +7964,9 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3300" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55682" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">The Zip Code has been verified</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Zip verified</Data>
@@ -7976,6 +7974,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55682</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:19.751</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">The Zip Code has been verified</Data>
         <Data AD_Column_ID="58037" Column="Help">The Zip Verified indicates if the zip code has been verified by the Credit Card Company.</Data>
       </PO>
     </Step>
@@ -8029,8 +8029,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
       <PO AD_Table_ID="53227" Action="I" Record_ID="55683" Table="AD_Browse_Field_Trl">
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:21.473</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
@@ -8039,6 +8037,8 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55683</Data>
         <Data AD_Column_ID="58036" Column="Description">Amount being paid</Data>
+        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:21.473</Data>
         <Data AD_Column_ID="58037" Column="Help">Indicates the amount this payment is for.  The payment amount can be for single or multiple invoices or a partial payment for an invoice.</Data>
       </PO>
     </Step>
@@ -8153,18 +8153,18 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3360" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55685" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55685</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Indicates if the payment has been allocated</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Allocated</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:24.815</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:24.815</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55685</Data>
+        <Data AD_Column_ID="58036" Column="Description">Indicates if the payment has been allocated</Data>
         <Data AD_Column_ID="58037" Column="Help">The Allocated checkbox indicates if a payment has been allocated or associated with an invoice or invoices.</Data>
       </PO>
     </Step>
@@ -8216,18 +8216,18 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3380" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55686" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:27.805</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Payment reference</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Reference</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:27.806</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55686</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Payment reference</Data>
         <Data AD_Column_ID="58037" Column="Help">The Payment Reference indicates the reference returned from the Credit Card Company for a payment</Data>
       </PO>
     </Step>
@@ -8282,11 +8282,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3400" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55687" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">The record is active in the system</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Active</Data>
@@ -8294,6 +8292,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55687</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:29.65</Data>
+        <Data AD_Column_ID="58036" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58037" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
@@ -8348,10 +8348,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3420" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55688" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:31.388</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58037" Column="Help">The Updated field indicates the date that this record was updated.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
@@ -8360,6 +8358,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:31.388</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55688</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:31.388</Data>
         <Data AD_Column_ID="58036" Column="Description">Date this record was updated</Data>
       </PO>
     </Step>
@@ -8420,9 +8420,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Transaction Type</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:33.143</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:33.143</Data>
         <Data AD_Column_ID="58037" Column="Help">The Transaction Type indicates the type of transaction to be submitted to the Credit Card Company.</Data>
       </PO>
     </Step>
@@ -8483,9 +8483,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58036" Column="Description">Account at the Bank</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58039" Column="Name">Bank Account</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:34.85</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58039" Column="Name">Bank Account</Data>
         <Data AD_Column_ID="58037" Column="Help">The Bank Account identifies an account at this Bank.</Data>
       </PO>
     </Step>
@@ -8537,10 +8537,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3480" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55691" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:36.553</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58037" Column="Help">The Invoice Document.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
@@ -8550,6 +8548,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55691</Data>
         <Data AD_Column_ID="58036" Column="Description">Invoice Identifier</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:36.553</Data>
       </PO>
     </Step>
     <Step SeqNo="3490" StepType="AD">
@@ -8600,11 +8600,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3500" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55692" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">The Payment/Receipt is a Prepayment</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Prepayment</Data>
@@ -8612,6 +8610,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55692</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:38.494</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">The Payment/Receipt is a Prepayment</Data>
         <Data AD_Column_ID="58037" Column="Help">Payments not allocated to an invoice with a charge are posted to Unallocated Payments. When setting this flag, the payment is posted to the Customer or Vendor Prepayment account.</Data>
       </PO>
     </Step>
@@ -8665,8 +8665,6 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="53227" Action="I" Record_ID="55693" Table="AD_Browse_Field_Trl">
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:40.295</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
@@ -8676,6 +8674,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55693</Data>
         <Data AD_Column_ID="58036" Column="Description">Currency Conversion Rate Type</Data>
         <Data AD_Column_ID="58037" Column="Help">The Currency Conversion Rate Type lets you define different type of rates, e.g. Spot, Corporate and/or Sell/Buy rates.</Data>
+        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:40.295</Data>
       </PO>
     </Step>
     <Step SeqNo="3530" StepType="AD">
@@ -8733,12 +8733,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:43.233</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Result of transmission</Data>
-        <Data AD_Column_ID="58037" Column="Help">The Response Result indicates the result of the transmission to the Credit Card Company.</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Result</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:43.233</Data>
+        <Data AD_Column_ID="58037" Column="Help">The Response Result indicates the result of the transmission to the Credit Card Company.</Data>
       </PO>
     </Step>
     <Step SeqNo="3550" StepType="AD">
@@ -8789,9 +8789,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3560" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55695" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55695</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:45.109</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
@@ -8799,8 +8797,10 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Write-off Amount</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:45.109</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55695</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:45.109</Data>
         <Data AD_Column_ID="58037" Column="Help">The Write Off Amount indicates the amount to be written off as uncollectible.</Data>
       </PO>
     </Step>
@@ -8852,11 +8852,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3580" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55696" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">State of the Credit Card or Account holder</Data>
         <Data AD_Column_ID="58037" Column="Help">The State of the Credit Card or Account holder</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
@@ -8865,6 +8863,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55696</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:47.04</Data>
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:47.04</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">State of the Credit Card or Account holder</Data>
       </PO>
     </Step>
     <Step SeqNo="3590" StepType="AD">
@@ -8915,8 +8915,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3600" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55697" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:48.836</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
@@ -8924,9 +8922,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Account EMail</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:48.836</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55697</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:48.836</Data>
         <Data AD_Column_ID="58037" Column="Help">The EMail Address indicates the EMail address off the Credit Card or Account holder.</Data>
       </PO>
     </Step>
@@ -8986,10 +8986,10 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Posted</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:50.615</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55698</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:50.615</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:50.615</Data>
         <Data AD_Column_ID="58037" Column="Help">The Posted field indicates the status of the Generation of General Ledger Accounting Lines </Data>
       </PO>
     </Step>
@@ -9104,7 +9104,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3660" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55700" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
@@ -9112,10 +9111,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Charge</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:53.977</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55700</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:53.977</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:05:53.977</Data>
         <Data AD_Column_ID="58037" Column="Help">The Charge indicates a type of Charge (Handling, Shipping, Restocking)</Data>
       </PO>
     </Step>
@@ -9167,10 +9167,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3680" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55701" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:55.757</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Marketing Campaign</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
@@ -9180,6 +9178,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55701</Data>
         <Data AD_Column_ID="58037" Column="Help">The Campaign defines a unique marketing program.  Projects can be associated with a pre defined Marketing Campaign.  You can then report based on a specific Campaign.</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:55.757</Data>
       </PO>
     </Step>
     <Step SeqNo="3690" StepType="AD">
@@ -9230,11 +9230,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3700" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55702" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58036" Column="Description">Business Activity</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Activity</Data>
@@ -9242,6 +9240,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55702</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:05:57.436</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58036" Column="Description">Business Activity</Data>
         <Data AD_Column_ID="58037" Column="Help">Activities indicate tasks that are performed and used to utilize Activity based Costing</Data>
       </PO>
     </Step>
@@ -9730,8 +9730,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="4570" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55659" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="55">10</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="4580" StepType="AD">
@@ -9954,8 +9954,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="4910" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="55704" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58036" Column="Description">Amount being paid</Data>
@@ -9965,6 +9963,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58031" Column="Updated">2016-06-27 10:19:55.71</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">55704</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58030" Column="Created">2016-06-27 10:19:55.71</Data>
         <Data AD_Column_ID="58037" Column="Help">Indicates the amount this payment is for.  The payment amount can be for single or multiple invoices or a partial payment for an invoice.</Data>
       </PO>
@@ -10017,7 +10017,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="4980" StepType="AD">
       <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2846" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2848" Column="Created">2016-06-27 10:26:30.059</Data>
         <Data AD_Column_ID="2849" Column="CreatedBy">100</Data>
@@ -10025,19 +10024,20 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2847" Column="IsActive">true</Data>
         <Data AD_Column_ID="2855" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="2852" Column="Name">Create From Statement (Process)</Data>
-        <Data AD_Column_ID="2850" Column="Updated">2016-06-27 10:26:30.059</Data>
         <Data AD_Column_ID="2851" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="2845" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2843" Column="AD_Process_ID">53877</Data>
         <Data AD_Column_ID="2853" Column="Description">Process for create lines of Bank Statement from Payments</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2850" Column="Updated">2016-06-27 10:26:30.059</Data>
       </PO>
     </Step>
     <Step SeqNo="4990" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
         <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53877">53877</Data>
-        <Data AD_Column_ID="2852" Column="Name" oldValue="Create From Statement (Process)">Crear Desde Estado de Cuenta (Proceso)</Data>
         <Data AD_Column_ID="2853" Column="Description" oldValue="Process for create lines of Bank Statement from Payments">Proceso para Crear Lineas del Estado de Cuenta Desde los Pagos</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Create From Statement (Process)">Crear Desde Estado de Cuenta (Proceso)</Data>
       </PO>
     </Step>
     <Step SeqNo="5000" StepType="AD">
@@ -10174,6 +10174,11 @@ AND NOT EXISTS(SELECT 1 FROM C_BankStatementLine l WHERE p.C_Payment_ID = l.C_Pa
     <Step SeqNo="5250" StepType="AD">
       <PO AD_Table_ID="53232" Action="U" Record_ID="54447" Table="AD_View_Column">
         <Data AD_Column_ID="58107" Column="ColumnName" oldValue="ConvertedAmount">P_ConvertedAmount</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="5260" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55659" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isOldNull="true">149</Data>
       </PO>
     </Step>
   </Migration>
