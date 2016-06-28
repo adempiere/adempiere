@@ -69,7 +69,13 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	}	//	PP_Order_BOMLine_ID
 
 
-	public MPPOrderBOMLine(Properties ctx, ResultSet rs,String trxName)
+	/**
+	 * Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MPPOrderBOMLine(Properties ctx, ResultSet rs, String trxName)
 	{
 		super (ctx, rs,trxName);
 	}	//	MOrderLine

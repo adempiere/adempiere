@@ -68,9 +68,9 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 *	@param trxName Transaction Name
 	 *	@return MPPProductPlanning Data Product Planning 
 	 */
-	public MPPProductPlanning(Properties ctx, ResultSet rs, String trxname)
+	public MPPProductPlanning(Properties ctx, ResultSet rs, String trxName)
 	{
-		super(ctx, rs,trxname);
+		super(ctx, rs, trxName);
 	}
 
 	/**
