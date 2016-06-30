@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Create From in M_InOut change to Smart Browse #327" ReleaseNo="/feature/ADEMPIERE-296-Create-From-Like-SB" SeqNo="155">
-    <Step DBType="Oracle" Parse="N" SeqNo="5" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom 
-(AD_Client_ID, AD_Org_ID, CreatedBy, Created, UpdatedBy, 
-Updated, IsActive, RV_InOut_CreateFrom_ID, Line, QtyEntered, C_UOM_ID, MovementQty, Multiplier, 
-M_Locator_ID, Name, M_Product_ID, M_AttributeSetInstance_ID, C_Charge_ID, Description, 
-VendorProductNo, C_Order_ID, C_Invoice_ID, M_RMA_ID, DateDoc, C_BPartner_ID, DocStatus, CreateFromType)
-AS
+    <Comments>See: https://github.com/adempiere/adempiere/issues/327</Comments>
+    <Step DBType="Postgres" Parse="N" SeqNo="5" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom AS
 --  From Order
 SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_OrderLine_ID AS RV_InOut_CreateFrom_ID, l.Line, 
 ((CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) * (l.QtyOrdered - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
@@ -73,8 +69,13 @@ WHERE l.Qty &lt;&gt; 0
 AND (l.M_InOutLine_ID IS NOT NULL OR l.C_Charge_ID IS NOT NULL)</SQLStatement>
       <RollbackStatement>DROP VIEW RV_InOut_CreateFrom</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="5" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom AS
+    <Step DBType="Oracle" Parse="N" SeqNo="5" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom 
+(AD_Client_ID, AD_Org_ID, CreatedBy, Created, UpdatedBy, 
+Updated, IsActive, RV_InOut_CreateFrom_ID, Line, QtyEntered, C_UOM_ID, MovementQty, Multiplier, 
+M_Locator_ID, Name, M_Product_ID, M_AttributeSetInstance_ID, C_Charge_ID, Description, 
+VendorProductNo, C_Order_ID, C_Invoice_ID, M_RMA_ID, DateDoc, C_BPartner_ID, DocStatus, CreateFromType)
+AS
 --  From Order
 SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_OrderLine_ID AS RV_InOut_CreateFrom_ID, l.Line, 
 ((CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) * (l.QtyOrdered - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
@@ -218,6 +219,7 @@ AND (l.M_InOutLine_ID IS NOT NULL OR l.C_Charge_ID IS NOT NULL)</SQLStatement>
     </Step>
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="54674" Table="AD_Ref_List">
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54674</Data>
         <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="149" Column="Name">Delivery / Receipt</Data>
@@ -225,7 +227,6 @@ AND (l.M_InOutLine_ID IS NOT NULL OR l.C_Charge_ID IS NOT NULL)</SQLStatement>
         <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="151" Column="AD_Reference_ID">53808</Data>
-        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">54674</Data>
         <Data AD_Column_ID="564" Column="Created">2016-05-03 00:47:46.411</Data>
         <Data AD_Column_ID="7712" Column="EntityType">D</Data>
         <Data AD_Column_ID="563" Column="IsActive">true</Data>
@@ -1350,6 +1351,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="310" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="79276" Table="AD_Column">
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">558</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
@@ -1393,8 +1396,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
-        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="2608" Column="AD_Element_ID">558</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
       </PO>
     </Step>
@@ -2148,17 +2149,17 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="670" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="54247" Table="AD_View_Column">
+        <Data AD_Column_ID="58107" Column="ColumnName">CF_MovementQty</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">cf.MovementQty</Data>
+        <Data AD_Column_ID="58096" Column="Created">2016-05-03 01:56:05.08</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58102" Column="Description">Quantity of a product moved.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">79267</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">54247</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50111</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50051</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">CF_MovementQty</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">cf.MovementQty</Data>
-        <Data AD_Column_ID="58096" Column="Created">2016-05-03 01:56:05.08</Data>
-        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58102" Column="Description">Quantity of a product moved.</Data>
         <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Movement Quantity indicates the quantity of a product that has been moved.</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
@@ -3758,8 +3759,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1260" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55603" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="27">50</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="1270" StepType="AD">
@@ -3770,8 +3771,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1280" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55608" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="32">70</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="1290" StepType="AD">
@@ -3806,8 +3807,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1340" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55593" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">20</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="1350" StepType="AD">
@@ -4111,11 +4112,11 @@ AND EXISTS(SELECT 1
     </Step>
     <Step SeqNo="1640" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="55481" Table="AD_Process_Para">
-        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="7729" Column="AD_Element_ID">448</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2825" Column="AD_Process_ID">53851</Data>
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55481</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">448</Data>
         <Data AD_Column_ID="2827" Column="AD_Reference_ID">31</Data>
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID">127</Data>
@@ -4145,8 +4146,8 @@ AND EXISTS(SELECT 1
     </Step>
     <Step SeqNo="1650" StepType="AD">
       <PO AD_Table_ID="53224" Action="U" Record_ID="50058" Table="AD_Browse">
-        <Data AD_Column_ID="58002" Column="AD_Process_ID" isOldNull="true">53851</Data>
         <Data AD_Column_ID="57994" Column="Description" isOldNull="true">Create From Order / RMA / Invoice in a Receipt</Data>
+        <Data AD_Column_ID="58002" Column="AD_Process_ID" isOldNull="true">53851</Data>
       </PO>
     </Step>
     <Step SeqNo="1660" StepType="AD">
@@ -4332,6 +4333,12 @@ AND EXISTS(SELECT 1
     <Step SeqNo="1950" StepType="AD">
       <PO AD_Table_ID="53232" Action="U" Record_ID="54257" Table="AD_View_Column">
         <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="'Y'">'@CF_IsSameWarehouse@'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1960" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55598" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="true">false</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="60">0</Data>
       </PO>
     </Step>
   </Migration>
