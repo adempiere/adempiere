@@ -17,6 +17,7 @@
 
 package org.compiere.model;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
@@ -53,7 +54,18 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	public MReplicationStrategy(Properties ctx, int AD_ReplicationStrategy_ID, String trxName) {
 		super(ctx, AD_ReplicationStrategy_ID, trxName);
 	}
-	
+
+	/**
+	 * Load Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MReplicationStrategy (Properties ctx, ResultSet rs, String trxName)
+	{
+		super(ctx, rs, trxName);
+	}
+
 	/**
 	 * @return the list the X_AD_ReplicationTable
 	 */

@@ -190,14 +190,24 @@ public class MPPProductBOM extends X_PP_Product_BOM
 		return null;
 	}
 
-
+	/**
+	 * Constructor
+	 * @param ctx
+	 * @param PP_Product_BOM_ID
+	 * @param trxName
+     */
 	public MPPProductBOM(Properties ctx, int PP_Product_BOM_ID,String trxName)
 	{
 		super (ctx, PP_Product_BOM_ID, trxName);
 	}
 
-
-	public MPPProductBOM(Properties ctx, ResultSet rs,String trxName)
+	/**
+	 * Constructor
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MPPProductBOM(Properties ctx, ResultSet rs, String trxName)
 	{
 		super (ctx, rs,trxName);
 	}
