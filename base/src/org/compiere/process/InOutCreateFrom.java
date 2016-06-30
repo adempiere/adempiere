@@ -53,11 +53,41 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 	private MInOut 	inout = null;
 	/**	Reference Identifier		*/
 	private int 	reference_ID = 0;
+	/**	Default Locator				*/
+	private MLocator defaultLocator = null;
 	
 	
 	@Override
 	protected void prepare() {
 		super.prepare();
+	}
+	
+	/**
+	 * Get a valid locator
+	 * @param locatorId
+	 * @return
+	 */
+	private int getValidLocator(int locatorId) {
+		// If a locator is specified on the product, choose that otherwise default locator
+		if(getLocator() != 0)
+			locatorId = getLocator();
+		//	Validate Locator
+		if(locatorId != 0) {
+			MLocator locator = MLocator.get(getCtx(), locatorId);
+			//	Set from default if it is distinct
+			if(locator == null
+					|| locator.getM_Warehouse_ID() != defaultLocator.getM_Warehouse_ID())
+				locatorId = 0;
+		}
+		//	Valid locator
+		if(locatorId == 0) {
+			if(defaultLocator != null)
+				locatorId = defaultLocator.getM_Locator_ID();
+			else
+				throw new AdempiereException("@M_Locator_ID@ @NotFound@");
+		}
+		//	Return
+		return locatorId;
 	}
 	
 	@Override
@@ -69,7 +99,7 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 		inout = new MInOut(getCtx(), getRecord_ID(), get_TrxName());
 		log.config(inout + ", C_Locator_ID=" + getLocator());
 		//	Get Default Locator
-		MLocator locator = MLocator.getDefault((MWarehouse) inout.getM_Warehouse());
+		defaultLocator = MLocator.getDefault((MWarehouse) inout.getM_Warehouse());
 		//	Loop
 		for(Integer key : getSelectionKeys()) {
 			if(createFromType == null) {
@@ -87,15 +117,7 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 			int m_M_Locator_ID = getSelectionAsInt(key, "CF_M_Locator_ID");
 			BigDecimal m_QtyEntered = getSelectionAsBigDecimal(key, "CF_QtyEntered"); // Qty
 			// If a locator is specified on the product, choose that otherwise default locator
-			if(getLocator() != 0)
-				m_M_Locator_ID = getLocator();
-			//	Valid locator
-			if(m_M_Locator_ID == 0) {
-				if(locator != null)
-					m_M_Locator_ID = locator.getM_Locator_ID();
-				else
-					throw new AdempiereException("@M_Locator_ID@ @NotFound@");
-			}
+			m_M_Locator_ID = getValidLocator(m_M_Locator_ID);
 			MInvoiceLine il = null;
 			//	Precision of Qty UOM
 			int precision = 2;
