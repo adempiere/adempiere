@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Create From in C_BankStatement change to Smart Browse #441" ReleaseNo="/feature/ADEMPIERE-296-Create-From-Like-SB" SeqNo="155">
+  <Migration EntityType="D" Name="Create From in C_BankStatement change to Smart Browse #441" ReleaseNo="/feature/ADEMPIERE-296-Create-From-Like-SB" SeqNo="156">
     <Comments>See: https://github.com/adempiere/adempiere/issues/441</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53230" Action="I" Record_ID="50053" Table="AD_View">
