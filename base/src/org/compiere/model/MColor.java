@@ -53,6 +53,17 @@ public class MColor extends X_AD_Color
 	}   //  MColor
 
 	/**
+	 * Color Model
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+     */
+	public MColor(Properties ctx, ResultSet rs, String trxName)
+	{
+		super(ctx, rs, trxName);
+	}
+
+	/**
 	 *  String Representation
 	 *  @return string
 	 */
