@@ -669,7 +669,7 @@ public abstract class Browser {
 						LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
 						for(MBrowseField field : fields)
 						{
-							if (!field.isReadOnly() || field.isIdentifier())
+							if (!field.isReadOnly() || field.isIdentifier() || field.isKey())
 							{
 								GridField gridField = (GridField) browserRows.getValueOfColumn(row, field.getAD_View_Column().getColumnName());
 								if (gridField != null) {

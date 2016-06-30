@@ -59,6 +59,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			.getCLogger(MMigrationStep.class);
 
 	private boolean apply = true;
+	/**	Is All Migration for Apply	*/
+	private boolean isAllMigration = false;
 
 	/**
 	 * @param ctx
@@ -571,8 +573,15 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				{
 					MColumn col = (MColumn) po;
 					if (!col.isVirtualColumn()) {
-						//	BR [ 425 ]
-						getParent().addColumnToList(col.getAD_Column_ID());
+						if(col.getAD_Table_ID() == I_AD_Table.Table_ID
+								|| col.getAD_Table_ID() == I_AD_Column.Table_ID
+								|| !isAllMigration) {
+							log.log(Level.CONFIG, "Synchronizing column: " + col.toString() 
+									+ " in table: " + MTable.get(Env.getCtx(), col.getAD_Table_ID()));
+							col.syncDatabase();
+						} else {	//	BR [ 425 ]
+							getParent().addColumnToList(col.getAD_Column_ID());
+						}
 					}
 				}
 			}
@@ -814,6 +823,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			return;
 		//	Set Parent
 		this.parent = parent;
+		isAllMigration = true;
 	}
 	
 	/**

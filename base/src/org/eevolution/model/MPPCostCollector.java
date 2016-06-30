@@ -240,7 +240,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	 *	@param ctx context
 	 *	@param rs result set
 	 */
-	public MPPCostCollector(Properties ctx, ResultSet rs,String trxName)
+	public MPPCostCollector(Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
 	}	//	MPPCostCollector
