@@ -75,9 +75,12 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 		if(locatorId != 0) {
 			MLocator locator = MLocator.get(getCtx(), locatorId);
 			//	Set from default if it is distinct
-			if(locator == null
-					|| locator.getM_Warehouse_ID() != defaultLocator.getM_Warehouse_ID())
+			if(locator == null) {
 				locatorId = 0;
+			} else if(defaultLocator != null 
+					&& locator.getM_Warehouse_ID() != defaultLocator.getM_Warehouse_ID()) {
+				locatorId = 0;
+			}
 		}
 		//	Valid locator
 		if(locatorId == 0) {
