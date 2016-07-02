@@ -175,7 +175,7 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 					iol.setQty(m_QtyEntered);
 				}
 				if (il.getQtyEntered().compareTo(il.getQtyInvoiced()) != 0) {
-					iol.setQtyEntered(m_QtyEntered
+					iol.setMovementQty(m_QtyEntered
 							.multiply(il.getQtyInvoiced())
 							.divide(il.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
 					iol.setC_UOM_ID(il.getC_UOM_ID());
