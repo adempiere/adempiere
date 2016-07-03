@@ -104,7 +104,7 @@ public class MPInstanceLog
 	public boolean save ()
 	{
 		StringBuffer sql = new StringBuffer("INSERT INTO AD_PInstance_Log "
-			+ "(AD_PInstance_ID, Log_ID, P_Date, P_ID, P_Number, P_Msg)"
+			+ "(AD_PInstance_ID, AD_PInstance_Log_ID, P_Date, P_ID, P_Number, P_Msg)"
 			+ " VALUES (");
 		sql.append(m_AD_PInstance_ID).append(",")
 		  .append(m_Log_ID).append(",");
