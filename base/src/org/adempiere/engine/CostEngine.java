@@ -235,7 +235,7 @@ public class CostEngine {
 
 		MClient client = new MClient (transaction.getCtx() , transaction.getAD_Client_ID(), transaction.get_TrxName());
 		StringBuilder description = new StringBuilder();
-		if (!Util.isEmpty(model.getDescription(), true))
+		if (model != null && model.getDescription() != null && !Util.isEmpty(model.getDescription(), true))
 			description.append(model.getDescription());
 		if (model != null) {
 			description.append(model.isSOTrx() ? "(|->)" : "(|<-)");
