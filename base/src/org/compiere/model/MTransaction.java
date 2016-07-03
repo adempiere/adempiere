@@ -252,6 +252,8 @@ public class MTransaction extends X_M_Transaction
 		return (IDocumentLine) getM_ProductionLine();
 	    if(getPP_Cost_Collector_ID() > 0)
 		return (IDocumentLine) getPP_Cost_Collector();
+		if(getC_ProjectIssue_ID() > 0)
+		return (IDocumentLine) getC_ProjectIssue();
 	    
 	    return null;	
 	}
