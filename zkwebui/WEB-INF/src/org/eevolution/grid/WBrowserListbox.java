@@ -71,6 +71,8 @@ import org.zkoss.zul.ListModel;
  * 		@see https://github.com/adempiere/adempiere/issues/268
  * 		<li>BR [ 347 ] ZK Smart Browse Error cast from Integer to BigDecimal loading table
  * 		@see https://github.com/adempiere/adempiere/issues/347
+ * 		<li>BR [ 456 ] Smart Browser fill bad value for search
+ * 		@see https://github.com/adempiere/adempiere/issues/456
  */
 public class WBrowserListbox extends Listbox implements IBrowserTable, TableValueChangeListener, WTableModelListener
 {	
@@ -557,11 +559,8 @@ public class WBrowserListbox extends Listbox implements IBrowserTable, TableValu
 					&& DisplayType.isNumeric(field.getAD_Reference_ID())
 					&& field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
 						value  = new IDColumn(no);
-					else if (DisplayType.TableDir == field.getAD_Reference_ID()
-							|| DisplayType.Table == field.getAD_Reference_ID()
-							|| DisplayType.Integer == field.getAD_Reference_ID()
-							|| DisplayType.PAttribute == field.getAD_Reference_ID()
-							|| DisplayType.Account == field.getAD_Reference_ID()) {
+					else if (DisplayType.isID(field.getAD_Reference_ID())
+							|| field.getAD_Reference_ID() == DisplayType.Integer) {
 						Integer id = rs.getInt(col + colOffset);
 						value = id != 0  ? id : null ;
 					}

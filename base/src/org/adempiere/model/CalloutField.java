@@ -25,16 +25,6 @@ import org.compiere.model.MColumn;
 import org.compiere.model.MField;
 
 /**
- * @author OFB Consulting http://www.ofbconsulting.com
- * 	<li> Initial Contributor
- * @contributor Mario Calderon, Systemhaus Westfalia, http://www.westfalia-it.com
- * @contributor Adaxa http://www.adaxa.com
- * @contributor Deepak Pansheriya, Loglite Technologies, http://logilite.com
- * @contributor Victor Perez, victor.perez@e-evolution.com, eEvolution http://www.e-evolution.com
- * @contributor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- */
-
-/**
  * 	CalloutField Callout
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 9223372036854775807 ] Add default values for Name, Description, Entity Type...
