@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java/base"/>
+	<classpathentry kind="src" path="src/main/java/ui/zk"/>
+	<classpathentry kind="src" path="src/main/java/ui/swing"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/adempiereDevelop"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
