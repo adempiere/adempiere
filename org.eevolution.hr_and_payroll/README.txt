@@ -1,1 +1,0 @@
-The ADempiere Human Resource and Payroll was integrated into ADempiere Core and will be maintained as a Git Subrepository

@@ -246,6 +246,7 @@ ValueChangeListener,Serializable,WTableModelListener
 		GridField field = new GridField(vo);
 		// M_AttributeSetInstance_ID
 		attribute = new WPAttributeEditor(field.getGridTab(),field);
+		attribute.setReadWrite(true);
 		attribute.setValue(0);
 		// 4Layers - Further init
 		scrapQtyField.setValue(Env.ZERO);
