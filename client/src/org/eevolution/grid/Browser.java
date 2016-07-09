@@ -81,6 +81,8 @@ import org.compiere.util.Msg;
  * 		@see https://github.com/adempiere/adempiere/issues/344
  * 		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
  *		@see https://github.com/adempiere/adempiere/issues/352 * 
+ * 		<li>BR [ 456 ] Smart Browser fill bad value for search
+ * 		@see https://github.com/adempiere/adempiere/issues/456
  */
 public abstract class Browser {
 	static public LinkedHashMap<String, Object> getBrowseValues(
@@ -1537,10 +1539,11 @@ public abstract class Browser {
 									.getString(colIndex)));
 						else if (DisplayType.isDate(field.getAD_Reference_ID()))
 							data = m_rs.getTimestamp(colIndex);
+						else if(DisplayType.isID(field.getAD_Reference_ID())
+								|| DisplayType.Integer == field.getAD_Reference_ID())
+							data = new Integer(m_rs.getInt(colIndex));
 						else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
 							data = m_rs.getBigDecimal(colIndex);
-						else if (DisplayType.Integer == field.getAD_Reference_ID())
-							data = new Integer(m_rs.getInt(colIndex));
 						/*else if (c == KeyNamePair.class) {
 							String display = m_rs.getString(colIndex);
 							int key = m_rs.getInt(colIndex + 1);
