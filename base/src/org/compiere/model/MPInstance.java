@@ -152,7 +152,7 @@ public class MPInstance extends X_AD_PInstance
 	{
 		//	load it from DB
 		m_log.clear();
-		String sql = "SELECT * FROM AD_PInstance_Log WHERE AD_PInstance_ID=? ORDER BY Log_ID";
+		String sql = "SELECT * FROM AD_PInstance_Log WHERE AD_PInstance_ID=? ORDER BY AD_PInstance_Log_ID";
 		PreparedStatement pstmt = null;
 		try
 		{

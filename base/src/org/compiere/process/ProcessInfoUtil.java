@@ -115,10 +115,10 @@ public class ProcessInfoUtil
 	public static void setLogFromDB (ProcessInfo pi)
 	{
 	//	s_log.fine("setLogFromDB - AD_PInstance_ID=" + pi.getAD_PInstance_ID());
-		String sql = "SELECT Log_ID, P_ID, P_Date, P_Number, P_Msg "
+		String sql = "SELECT AD_PInstance_Log_ID, P_ID, P_Date, P_Number, P_Msg "
 			+ "FROM AD_PInstance_Log "
 			+ "WHERE AD_PInstance_ID=? "
-			+ "ORDER BY Log_ID";
+			+ "ORDER BY AD_PInstance_Log_ID";
 
 		try
 		{
@@ -157,7 +157,7 @@ public class ProcessInfoUtil
 		for (int i = 0; i < logs.length; i++)
 		{
 			StringBuffer sql = new StringBuffer ("INSERT INTO AD_PInstance_Log "
-				+ "(AD_PInstance_ID, Log_ID, P_Date, P_ID, P_Number, P_Msg)"
+				+ "(AD_PInstance_ID, AD_PInstance_Log_ID, P_Date, P_ID, P_Number, P_Msg)"
 				+ " VALUES (");
 			sql.append(pi.getAD_PInstance_ID()).append(",")
 				.append(logs[i].getLog_ID()).append(",");
