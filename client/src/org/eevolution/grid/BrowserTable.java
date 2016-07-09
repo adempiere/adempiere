@@ -60,6 +60,8 @@ import org.eevolution.form.VBrowser;
  * 		@see https://github.com/adempiere/adempiere/issues/245
  * 		<li>BR [ 257 ] Smart Browse does not get the hidden fields in Selection Browse
  * 		@see https://github.com/adempiere/adempiere/issues/257
+ * 		<li>BR [ 456 ] Smart Browser fill bad value for search
+ * 		@see https://github.com/adempiere/adempiere/issues/456
  */
 public class BrowserTable extends CTable implements IBrowserTable {
     /**
@@ -690,11 +692,8 @@ public class BrowserTable extends CTable implements IBrowserTable {
                     &&  DisplayType.isNumeric(field.getAD_Reference_ID())
                     && field.getAD_View_Column().getColumnSQL().equals("'Row' AS \"Row\""))
 						value  = new IDColumn(no);
-					else if (DisplayType.TableDir == field.getAD_Reference_ID()
-						  || DisplayType.Table == field.getAD_Reference_ID()
-						  || DisplayType.Integer == field.getAD_Reference_ID()
-						  || DisplayType.PAttribute == field.getAD_Reference_ID()
-						  || DisplayType.Account == field.getAD_Reference_ID()) {
+					else if (DisplayType.isID(field.getAD_Reference_ID())
+							|| field.getAD_Reference_ID() == DisplayType.Integer) {
 						Integer id = rs.getInt(column + colOffset);
 						value = id != 0 ? id : null;
 					}
