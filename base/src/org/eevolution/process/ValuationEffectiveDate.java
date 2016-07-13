@@ -179,13 +179,13 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 	 */
 	private void generateInventoryValue(
 			int productId ,
-			int accountShemaId ,
+			int accountSchemaId ,
 			int costTypeId,
 			int costElementId,
 			int warehouseId) throws SQLException {
 			
 			pstmt.setInt(1, productId);
-			pstmt.setInt(2, accountShemaId);
+			pstmt.setInt(2, accountSchemaId);
 			pstmt.setInt(3, costTypeId);
 			pstmt.setInt(4, costElementId);
 			pstmt.setInt(5, warehouseId);
