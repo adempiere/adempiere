@@ -275,7 +275,7 @@ public class WPOSActionPanel extends WPOSSubPanel
             if(e.getName().equals(Events.ON_CHANGE)){
                 if(lookupProduct.getSelectedRecord() >= 0) {
                     posPanel.addOrUpdateLine(lookupProduct.getSelectedRecord(), Env.ZERO);
-                    fieldProductName.setValue(String.valueOf(lookupProduct.getSelectedRecord()));
+                    fieldProductName.setText(String.valueOf(lookupProduct.getSelectedRecord()));
                     lookupProduct.captureProduct();
                 }
             }
@@ -460,8 +460,12 @@ public class WPOSActionPanel extends WPOSSubPanel
 	public void findProduct(boolean editQty) throws Exception {
 		if (getProductTimer() != null)
 			getProductTimer().stop();
-		String query = fieldProductName.getText();
-		fieldProductName.setText("");
+		String query;
+		if(posPanel.isEnableProductLookup() && !posPanel.isVirtualKeyboard())
+		  query = String.valueOf(lookupProduct.getText());
+		else
+		  query = fieldProductName.getText();
+		  fieldProductName.setText("");
 		if (query == null || query.length() == 0)
 			return;
 		query = query.toUpperCase();
