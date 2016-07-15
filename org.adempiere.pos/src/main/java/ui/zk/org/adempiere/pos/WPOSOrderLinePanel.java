@@ -211,7 +211,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			//	Remove Listener
 			posTable.getModel().removeTableModelListener(this);
 			//	Remove line
-			if(posPanel.getQty().signum() <= 0) {
+			if(posPanel.getQty() != null && posPanel.getQty().signum() < 0) {
 				if (orderLineId > 0 && !posPanel.isAddQty())
 				if(posPanel.isRequiredPIN() && posPanel.isUserPinValid()) {
 					posPanel.deleteLine(orderLineId);
