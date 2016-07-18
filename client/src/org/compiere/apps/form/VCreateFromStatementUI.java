@@ -55,7 +55,10 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
  *		@see https://github.com/adempiere/adempiere/issues/114
+ *		<li> FR [ 441 ] Create From in C_BankStatement change to Smart Browse
+ *		@see https://github.com/adempiere/adempiere/issues/441
  */
+@Deprecated
 public class VCreateFromStatementUI extends CreateFromStatement 
 	implements FormPanel, ICreateFrom, ActionListener {
 	
