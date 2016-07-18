@@ -144,6 +144,7 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, P
 		v_TitleBorder = new Caption(Msg.getMsg(Env.getCtx(), "Totals"));
 		Style style = new Style();
 		style.setContent(".z-fieldset { margin-left:-5px }"
+		    + ".z-combo-item-text { Font-family:Courier New}"
 				+ ".z-fieldset legend {font-size: medium; font-weight:bold; width:100%;} "
 				+ ".input-search table tr td input{font-size: medium; font-weight:bold; width:100%; height:20px;}"
 				+ ".Table-OrderLine tr th div{font-size: 13px; padding:5px} "
