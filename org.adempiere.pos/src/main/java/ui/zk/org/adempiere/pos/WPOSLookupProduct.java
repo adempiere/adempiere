@@ -19,6 +19,7 @@ package org.adempiere.pos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.util.StringUtils;
@@ -143,7 +144,8 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 		}
 		else if(e.getName().equals(Events.ON_SELECT)){
 			index = this.getSelectedIndex();
-            lookupProductInterface.findProduct(true);
+			// Issue  #137
+			// lookupProductInterface.findProduct(true);
            
 		}
 	}
@@ -233,6 +235,8 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
             searchValues[i] = line.get(i);
             searchDescription[i] = " ";
         }
+        // Issue  #137
+        Collections.sort(recordId, Collections.reverseOrder());
         this.removeAllItems();
         this.setDict(searchValues);
         this.setDescription(searchDescription);
