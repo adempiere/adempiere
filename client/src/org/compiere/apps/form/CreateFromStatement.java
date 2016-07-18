@@ -49,7 +49,10 @@ import org.compiere.util.Msg;
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
  *		@see https://github.com/adempiere/adempiere/issues/114
+ *		<li> FR [ 441 ] Create From in C_BankStatement change to Smart Browse
+ *		@see https://github.com/adempiere/adempiere/issues/441
  */
+@Deprecated
 public class CreateFromStatement {
 	/**	Logger				*/
 	protected CLogger 		log = CLogger.getCLogger(getClass());
@@ -306,7 +309,7 @@ public class CreateFromStatement {
 		//  fixed values
 		MBankStatement bs = new MBankStatement (Env.getCtx(), m_Record_ID, trxName);
 		log.config(bs.toString());
-
+		
 		//  Lines
 		for (int i = 0; i < miniTable.getRowCount(); i++) {
 			if (((Boolean)miniTable.getValueAt(i, 0)).booleanValue()) {
