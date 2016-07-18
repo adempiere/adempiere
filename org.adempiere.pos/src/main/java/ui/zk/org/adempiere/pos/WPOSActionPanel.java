@@ -274,8 +274,8 @@ public class WPOSActionPanel extends WPOSSubPanel
 		try {
             if(e.getName().equals(Events.ON_CHANGE)){
                 if(lookupProduct.getSelectedRecord() >= 0) {
-                    posPanel.addOrUpdateLine(lookupProduct.getSelectedRecord(), Env.ZERO);
-                    fieldProductName.setText(String.valueOf(lookupProduct.getSelectedRecord()));
+//                    posPanel.addOrUpdateLine(lookupProduct.getSelectedRecord(), Env.ZERO);
+                  lookupProduct.setText(String.valueOf(lookupProduct.getSelectedRecord()));
                     lookupProduct.captureProduct();
                 }
             }

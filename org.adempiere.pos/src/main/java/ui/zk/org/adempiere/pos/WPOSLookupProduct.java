@@ -183,14 +183,14 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
         if(product_ID > 0 && !selectLock)
         {
             String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", product_ID);
+            this.setText(productValue);
             try {
-                lookupProductInterface.findProduct(true);
+                lookupProductInterface.findProduct(false);
             } catch (Exception exception) {
                 FDialog.error(0 ,exception.getLocalizedMessage());
             }
-            this.setText(productValue);
         }
-
+        
     }
 
     /**
