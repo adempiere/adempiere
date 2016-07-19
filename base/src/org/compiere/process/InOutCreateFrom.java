@@ -104,7 +104,6 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 		if (createFromType == null || createFromType.length() == 0)
 				throw new AdempiereException("@CreateFromType@ @NotFound@");
 		//	Loop
-		//for(Integer key : recordIds) {
 		recordIds.stream().forEach( key -> {
 			// variable values
 			int productId = getSelectionAsInt(key, "CF_M_Product_ID");
