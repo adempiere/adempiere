@@ -17,6 +17,8 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInOut;
@@ -34,8 +36,10 @@ import org.compiere.model.MWarehouse;
 /** Generated Process for (In Out Create From)
  *  @author ADempiere (generated) 
  *  @version Release 3.8.0
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  <li> FR [ 327 ] Create From in M_InOut change to Smart Browse
  *  @see https://github.com/adempiere/adempiere/issues/327
+ *	@author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  */
 public class InOutCreateFrom extends InOutCreateFromAbstract {
 
@@ -45,18 +49,7 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 	private static final String ORDER = "O";
 	/**	Create From Type of Invoice	*/
 	private static final String INVOICE = "I";
-	/**	Create From Type			*/
-	private String 	createFromType = null;
-	/**	Created						*/
-	private int 	created = 0;
-	/**	In Out						*/
-	private MInOut 	inout = null;
-	/**	Reference Identifier		*/
-	private int 	reference_ID = 0;
-	/**	Default Locator				*/
-	private MLocator defaultLocator = null;
-	
-	
+
 	@Override
 	protected void prepare() {
 		super.prepare();
@@ -67,7 +60,7 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 	 * @param locatorId
 	 * @return
 	 */
-	private int getValidLocator(int locatorId) {
+	private int getValidLocator(int locatorId, MLocator defaultLocator) {
 		// If a locator is specified on the product, choose that otherwise default locator
 		if(getLocator() != 0)
 			locatorId = getLocator();
@@ -98,176 +91,176 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 		// Valid Record Identifier
 		if(getRecord_ID() == 0)
 			return "";
+		AtomicInteger referenceId = new AtomicInteger(0);
+		AtomicInteger 	created = new AtomicInteger(0);
 		//	Get Shipment
-		inout = new MInOut(getCtx(), getRecord_ID(), get_TrxName());
+		MInOut inout = new MInOut(getCtx(), getRecord_ID(), get_TrxName());
 		log.config(inout + ", C_Locator_ID=" + getLocator());
 		//	Get Default Locator
-		defaultLocator = MLocator.getDefault((MWarehouse) inout.getM_Warehouse());
+		MLocator defaultLocator = MLocator.getDefault((MWarehouse) inout.getM_Warehouse());
+		List<Integer> recordIds =  getSelectionKeys();
+		String createFromType = recordIds.size() > 0 ?  getSelectionAsString(recordIds.get(0), "CF_CreateFromType") : null;
+		log.fine("CreateFromType=" + createFromType);
+		if (createFromType == null || createFromType.length() == 0)
+				throw new AdempiereException("@CreateFromType@ @NotFound@");
 		//	Loop
-		for(Integer key : getSelectionKeys()) {
-			if(createFromType == null) {
-				createFromType = getSelectionAsString(key, "CF_CreateFromType");
-				//	Valid Mandatory Create From Type
-				if(createFromType == null
-						|| createFromType.length() == 0)
-					throw new AdempiereException("@CreateFromType@ @NotFound@");
-			}
+		//for(Integer key : recordIds) {
+		recordIds.stream().forEach( key -> {
 			// variable values
-			
-			int m_M_Product_ID = getSelectionAsInt(key, "CF_M_Product_ID");
-			int m_C_Charge_ID = getSelectionAsInt(key, "CF_C_Charge_ID");
-			int m_C_UOM_ID = getSelectionAsInt(key, "CF_C_UOM_ID");
-			int m_M_Locator_ID = getSelectionAsInt(key, "CF_M_Locator_ID");
-			BigDecimal m_QtyEntered = getSelectionAsBigDecimal(key, "CF_QtyEntered"); // Qty
+			int productId = getSelectionAsInt(key, "CF_M_Product_ID");
+			int chargeId = getSelectionAsInt(key, "CF_C_Charge_ID");
+			int uomId = getSelectionAsInt(key, "CF_C_UOM_ID");
+			int locatorId = getSelectionAsInt(key, "CF_M_Locator_ID");
+			BigDecimal qtyEntered = getSelectionAsBigDecimal(key, "CF_QtyEntered"); // Qty
 			// If a locator is specified on the product, choose that otherwise default locator
-			m_M_Locator_ID = getValidLocator(m_M_Locator_ID);
-			MInvoiceLine il = null;
+			locatorId = getValidLocator(locatorId, defaultLocator);
+			MInvoiceLine invoiceLine = null;
 			//	Precision of Qty UOM
 			int precision = 2;
-			if (m_M_Product_ID != 0) {
-				MProduct product = MProduct.get(getCtx(), m_M_Product_ID);
+			if (productId != 0) {
+				MProduct product = MProduct.get(getCtx(), productId);
 				precision = product.getUOMPrecision();
 			}
-			m_QtyEntered = m_QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
+			qtyEntered = qtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
 			//
-			log.fine("Line QtyEntered=" + m_QtyEntered
-					+ ", Product=" + m_M_Product_ID 
-					+ ", CreateFromType=" + createFromType + ", Key=" + key);
+			log.fine("Line QtyEntered=" + qtyEntered
+					+ ", Product=" + productId
+					+ ", Key=" + key);
 
 			//	Create new InOut Line
-			MInOutLine iol = new MInOutLine (inout);
-			iol.setM_Product_ID(m_M_Product_ID, m_C_UOM_ID);	//	Line UOM
-			iol.setQty(m_QtyEntered);							//	Movement/Entered
+			MInOutLine inOutLine = new MInOutLine (inout);
+			inOutLine.setM_Product_ID(productId, uomId);	//	Line UOM
+			inOutLine.setQty(qtyEntered);							//	Movement/Entered
 			//
 			if(createFromType.equals(ORDER)) {
-				MOrderLine ol = new MOrderLine (getCtx(), key, get_TrxName());
+				MOrderLine orderLine = new MOrderLine (getCtx(), key, get_TrxName());
 				//	Set reference
-				if(reference_ID == 0)
-					reference_ID = ol.getC_Order_ID();
+				referenceId.set(orderLine.getC_Order_ID());
 				//	
-				iol.setC_OrderLine_ID(key);
-				if (ol.getQtyEntered().compareTo(ol.getQtyOrdered()) != 0) {
-					iol.setMovementQty(m_QtyEntered
-							.multiply(ol.getQtyOrdered())
-							.divide(ol.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
-					iol.setC_UOM_ID(ol.getC_UOM_ID());
+				inOutLine.setC_OrderLine_ID(key);
+				if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0) {
+					inOutLine.setMovementQty(qtyEntered
+							.multiply(orderLine.getQtyOrdered())
+							.divide(orderLine.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
+					inOutLine.setC_UOM_ID(orderLine.getC_UOM_ID());
 				}
-				iol.setM_AttributeSetInstance_ID(ol.getM_AttributeSetInstance_ID());
-				iol.setDescription(ol.getDescription());
+				inOutLine.setM_AttributeSetInstance_ID(orderLine.getM_AttributeSetInstance_ID());
+				inOutLine.setDescription(orderLine.getDescription());
 				//
-				iol.setC_Project_ID(ol.getC_Project_ID());
-				iol.setC_ProjectPhase_ID(ol.getC_ProjectPhase_ID());
-				iol.setC_ProjectTask_ID(ol.getC_ProjectTask_ID());
-				iol.setC_Activity_ID(ol.getC_Activity_ID());
-				iol.setC_Campaign_ID(ol.getC_Campaign_ID());
-				iol.setAD_OrgTrx_ID(ol.getAD_OrgTrx_ID());
-				iol.setUser1_ID(ol.getUser1_ID());
-				iol.setUser2_ID(ol.getUser2_ID());
+				inOutLine.setC_Project_ID(orderLine.getC_Project_ID());
+				inOutLine.setC_ProjectPhase_ID(orderLine.getC_ProjectPhase_ID());
+				inOutLine.setC_ProjectTask_ID(orderLine.getC_ProjectTask_ID());
+				inOutLine.setC_Activity_ID(orderLine.getC_Activity_ID());
+				inOutLine.setC_Campaign_ID(orderLine.getC_Campaign_ID());
+				inOutLine.setAD_OrgTrx_ID(orderLine.getAD_OrgTrx_ID());
+				inOutLine.setUser1_ID(orderLine.getUser1_ID());
+				inOutLine.setUser2_ID(orderLine.getUser2_ID());
 			} else if(createFromType.equals(INVOICE)) {
-				il = new MInvoiceLine (getCtx(), key, get_TrxName());
-				MInvoice invoice = il.getParent();
+				invoiceLine = new MInvoiceLine (getCtx(), key, get_TrxName());
+				MInvoice invoice = invoiceLine.getParent();
 				//	Set reference
-				if(reference_ID == 0)
-					reference_ID = invoice.getC_Invoice_ID();
+					referenceId.getAndSet(invoice.getC_Invoice_ID());
 				//	Credit Memo - negative Qty
 				if (invoice.isCreditMemo()) {
-					m_QtyEntered = m_QtyEntered.negate();
-					iol.setQty(m_QtyEntered);
+					qtyEntered = qtyEntered.negate();
+					inOutLine.setQty(qtyEntered);
 				}
-				if (il.getQtyEntered().compareTo(il.getQtyInvoiced()) != 0) {
-					iol.setMovementQty(m_QtyEntered
-							.multiply(il.getQtyInvoiced())
-							.divide(il.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
-					iol.setC_UOM_ID(il.getC_UOM_ID());
+				if (invoiceLine.getQtyEntered().compareTo(invoiceLine.getQtyInvoiced()) != 0) {
+					inOutLine.setMovementQty(qtyEntered
+							.multiply(invoiceLine.getQtyInvoiced())
+							.divide(invoiceLine.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
+					inOutLine.setC_UOM_ID(invoiceLine.getC_UOM_ID());
 				}
-				iol.setDescription(il.getDescription());
-				iol.setC_Project_ID(il.getC_Project_ID());
-				iol.setC_ProjectPhase_ID(il.getC_ProjectPhase_ID());
-				iol.setC_ProjectTask_ID(il.getC_ProjectTask_ID());
-				iol.setC_Activity_ID(il.getC_Activity_ID());
-				iol.setC_Campaign_ID(il.getC_Campaign_ID());
-				iol.setAD_OrgTrx_ID(il.getAD_OrgTrx_ID());
-				iol.setUser1_ID(il.getUser1_ID());
-				iol.setUser2_ID(il.getUser2_ID());
+				inOutLine.setDescription(invoiceLine.getDescription());
+				inOutLine.setC_Project_ID(invoiceLine.getC_Project_ID());
+				inOutLine.setC_ProjectPhase_ID(invoiceLine.getC_ProjectPhase_ID());
+				inOutLine.setC_ProjectTask_ID(invoiceLine.getC_ProjectTask_ID());
+				inOutLine.setC_Activity_ID(invoiceLine.getC_Activity_ID());
+				inOutLine.setC_Campaign_ID(invoiceLine.getC_Campaign_ID());
+				inOutLine.setAD_OrgTrx_ID(invoiceLine.getAD_OrgTrx_ID());
+				inOutLine.setUser1_ID(invoiceLine.getUser1_ID());
+				inOutLine.setUser2_ID(invoiceLine.getUser2_ID());
 			} else if(createFromType.equals(RMA)) {
 				MRMALine rmal = new MRMALine(getCtx(), key, get_TrxName());
 				//	Set reference
-				if(reference_ID == 0)
-					reference_ID = rmal.getM_RMA_ID();
-				iol.setM_RMALine_ID(key);
-				iol.setQtyEntered(m_QtyEntered);
-				iol.setDescription(rmal.getDescription());
-				iol.setM_AttributeSetInstance_ID(rmal.getM_AttributeSetInstance_ID());
-				iol.setC_Project_ID(rmal.getC_Project_ID());
-				iol.setC_ProjectPhase_ID(rmal.getC_ProjectPhase_ID());
-				iol.setC_ProjectTask_ID(rmal.getC_ProjectTask_ID());
-				iol.setC_Activity_ID(rmal.getC_Activity_ID());
-				iol.setAD_OrgTrx_ID(rmal.getAD_OrgTrx_ID());
-				iol.setUser1_ID(rmal.getUser1_ID());
-				iol.setUser2_ID(rmal.getUser2_ID());
+				referenceId.set(rmal.getM_RMA_ID());
+				inOutLine.setM_RMALine_ID(key);
+				inOutLine.setQtyEntered(qtyEntered);
+				inOutLine.setDescription(rmal.getDescription());
+				inOutLine.setM_AttributeSetInstance_ID(rmal.getM_AttributeSetInstance_ID());
+				inOutLine.setC_Project_ID(rmal.getC_Project_ID());
+				inOutLine.setC_ProjectPhase_ID(rmal.getC_ProjectPhase_ID());
+				inOutLine.setC_ProjectTask_ID(rmal.getC_ProjectTask_ID());
+				inOutLine.setC_Activity_ID(rmal.getC_Activity_ID());
+				inOutLine.setAD_OrgTrx_ID(rmal.getAD_OrgTrx_ID());
+				inOutLine.setUser1_ID(rmal.getUser1_ID());
+				inOutLine.setUser2_ID(rmal.getUser2_ID());
 			}
 			//	Set Charge
-			if(m_C_Charge_ID != 0)
-				iol.setC_Charge_ID(m_C_Charge_ID);
+			if(chargeId != 0)
+				inOutLine.setC_Charge_ID(chargeId);
 			// Set locator
-			iol.setM_Locator_ID(m_M_Locator_ID);
-			iol.saveEx();
+			inOutLine.setM_Locator_ID(locatorId);
+			inOutLine.saveEx();
 			//	Create Invoice Line Link
-			if (il != null) {
-				il.setM_InOutLine_ID(iol.getM_InOutLine_ID());
-				il.saveEx();
+			if (invoiceLine != null) {
+				invoiceLine.setM_InOutLine_ID(inOutLine.getM_InOutLine_ID());
+				invoiceLine.saveEx();
 			}
 			//	Add to created
-			created ++;
-		}
+			created.updateAndGet(createNo -> createNo + 1);
+		});
 		//	Add reference to Order / Invoice / RMA
-		addReference();
+		addReference(inout, createFromType, referenceId.get());
 		//	
-		return "@Created@ " + created;
+		return "@Created@ " + created.get();
 	}
-	
+
 	/**
 	 * Add Reference to Order / Invoice / RMA
-	 */
-	private void addReference() {
+	 * @param inout
+	 * @param createFromType
+	 * @param referenceId
+     */
+	private void addReference(MInOut inout, String createFromType, int referenceId) {
 		//	Valid Reference
-		if(reference_ID == 0)
+		if(referenceId == 0)
 			return;
 		if(createFromType.equals(ORDER)) {
-			MOrder p_order = new MOrder(getCtx(), reference_ID, get_TrxName());
-			inout.setC_Order_ID (p_order.getC_Order_ID());
-			inout.setAD_OrgTrx_ID(p_order.getAD_OrgTrx_ID());
-			inout.setC_Project_ID(p_order.getC_Project_ID());
-			inout.setC_Campaign_ID(p_order.getC_Campaign_ID());
-			inout.setC_Activity_ID(p_order.getC_Activity_ID());
-			inout.setUser1_ID(p_order.getUser1_ID());
-			inout.setUser2_ID(p_order.getUser2_ID());
+			MOrder order = new MOrder(getCtx(), referenceId, get_TrxName());
+			inout.setC_Order_ID (order.getC_Order_ID());
+			inout.setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
+			inout.setC_Project_ID(order.getC_Project_ID());
+			inout.setC_Campaign_ID(order.getC_Campaign_ID());
+			inout.setC_Activity_ID(order.getC_Activity_ID());
+			inout.setUser1_ID(order.getUser1_ID());
+			inout.setUser2_ID(order.getUser2_ID());
 			//	For Drop Ship
-			if(p_order.isDropShip()) {
-				inout.setM_Warehouse_ID( p_order.getM_Warehouse_ID() );
-				inout.setIsDropShip(p_order.isDropShip());
-				inout.setDropShip_BPartner_ID(p_order.getDropShip_BPartner_ID());
-				inout.setDropShip_Location_ID(p_order.getDropShip_Location_ID());
-				inout.setDropShip_User_ID(p_order.getDropShip_User_ID());
+			if(order.isDropShip()) {
+				inout.setM_Warehouse_ID( order.getM_Warehouse_ID() );
+				inout.setIsDropShip(order.isDropShip());
+				inout.setDropShip_BPartner_ID(order.getDropShip_BPartner_ID());
+				inout.setDropShip_Location_ID(order.getDropShip_Location_ID());
+				inout.setDropShip_User_ID(order.getDropShip_User_ID());
 			}
 		} else if(createFromType.equals(INVOICE)) {
-			MInvoice m_invoice = new MInvoice(getCtx(), reference_ID, get_TrxName());
+			MInvoice invoice = new MInvoice(getCtx(), referenceId, get_TrxName());
 			if(inout.getC_Order_ID() == 0)
-				inout.setC_Order_ID (m_invoice.getC_Order_ID());
-			inout.setC_Invoice_ID (m_invoice.getC_Invoice_ID());
-			inout.setAD_OrgTrx_ID(m_invoice.getAD_OrgTrx_ID());
-			inout.setC_Project_ID(m_invoice.getC_Project_ID());
-			inout.setC_Campaign_ID(m_invoice.getC_Campaign_ID());
-			inout.setC_Activity_ID(m_invoice.getC_Activity_ID());
-			inout.setUser1_ID(m_invoice.getUser1_ID());
-			inout.setUser2_ID(m_invoice.getUser2_ID());
+				inout.setC_Order_ID (invoice.getC_Order_ID());
+			inout.setC_Invoice_ID (invoice.getC_Invoice_ID());
+			inout.setAD_OrgTrx_ID(invoice.getAD_OrgTrx_ID());
+			inout.setC_Project_ID(invoice.getC_Project_ID());
+			inout.setC_Campaign_ID(invoice.getC_Campaign_ID());
+			inout.setC_Activity_ID(invoice.getC_Activity_ID());
+			inout.setUser1_ID(invoice.getUser1_ID());
+			inout.setUser2_ID(invoice.getUser2_ID());
 		} else if(createFromType.equals(RMA)) {
-			MRMA m_rma = new MRMA(getCtx(), reference_ID, get_TrxName());
-			MInOut originalIO = m_rma.getShipment();
-			inout.setIsSOTrx(m_rma.isSOTrx());
+			MRMA rma = new MRMA(getCtx(), referenceId, get_TrxName());
+			MInOut originalIO = rma.getShipment();
+			inout.setIsSOTrx(rma.isSOTrx());
 			inout.setC_Order_ID(0);
 			inout.setC_Invoice_ID(0);
-			inout.setM_RMA_ID(m_rma.getM_RMA_ID());
+			inout.setM_RMA_ID(rma.getM_RMA_ID());
 			inout.setAD_OrgTrx_ID(originalIO.getAD_OrgTrx_ID());
 			inout.setC_Project_ID(originalIO.getC_Project_ID());
 			inout.setC_Campaign_ID(originalIO.getC_Campaign_ID());

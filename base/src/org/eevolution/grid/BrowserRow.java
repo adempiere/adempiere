@@ -390,6 +390,8 @@ public class BrowserRow implements IBrowserRow {
 			return null;
 		//	Get current Value
 		GridField gridField = getValue(p_Row, columnIndex);
+		if (gridField == null)
+			return null;
 		//	Return value of GridField
 		return gridField.getValue();
 	}
