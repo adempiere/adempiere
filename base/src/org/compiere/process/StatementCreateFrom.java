@@ -18,7 +18,10 @@ package org.compiere.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
@@ -26,8 +29,11 @@ import org.compiere.model.MPayment;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 
+
 /** Generated Process for (Create From Statement (Process))
- *  @author ADempiere (generated) 
+ *  @author ADempiere (generated)
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *	@author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  *  @version Release 3.8.0
  */
 public class StatementCreateFrom extends StatementCreateFromAbstract {
@@ -40,46 +46,45 @@ public class StatementCreateFrom extends StatementCreateFromAbstract {
 	protected String doIt() throws Exception {
 		//	Copied from CreateFromStatement old class
 		//  fixed values
-		MBankStatement bs = new MBankStatement (Env.getCtx(), getRecord_ID(), get_TrxName());
+		if (getRecord_ID() <= 0)
+			throw new AdempiereException("@C_BankStatement_ID@ @NotFound@");
+
+		MBankStatement bankStatement = new MBankStatement (Env.getCtx(), getRecord_ID(), get_TrxName());
 		//	Get Bank Account
-		MBankAccount bankAccount = bs.getBankAccount();
+		MBankAccount bankAccount = bankStatement.getBankAccount();
 		//	Created
-		int created = 0;
+		AtomicInteger created = new AtomicInteger(0);
 		//	Total Amount
-		BigDecimal totalAmt = Env.ZERO;
-		//	
-		log.config(bs.toString());
+		AtomicReference<BigDecimal> totalAmt = new AtomicReference<>(BigDecimal.ZERO);
+		log.config(bankStatement.toString());
 		//  Lines
-		for (Integer key : getSelectionKeys()) {
-			Timestamp trxDate 	= getSelectionAsTimestamp(key, "P_DateTrx");  			//  1-DateTrx
-			int C_Payment_ID 	= getSelectionAsInt(key, "P_C_Payment_ID");				//	2-Payment
-			int C_Currency_ID 	= getSelectionAsInt(key, "P_C_Currency_ID");			//  3-Currency
-			BigDecimal TrxAmt 	= getSelectionAsBigDecimal(key, "P_ConvertedAmount");	//  5- Converted Amount
+		getSelectionKeys().stream().forEach( key -> {
+			Timestamp dateTransaction 	= getSelectionAsTimestamp(key, "P_DateTrx");  			//  1-DateTrx
+			int paymentId 	= getSelectionAsInt(key, "P_C_Payment_ID");				//	2-Payment
+			int currencyId 	= getSelectionAsInt(key, "P_C_Currency_ID");			//  3-Currency
+			BigDecimal transactionAmount 	= getSelectionAsBigDecimal(key, "P_ConvertedAmount");	//  5- Converted Amount
 			//	Log
-			log.fine("Line Date=" + trxDate
-				+ ", Payment=" + C_Payment_ID + ", Currency=" + C_Currency_ID + ", Amt=" + TrxAmt);
-			//	
-			MBankStatementLine bsl = new MBankStatementLine (bs);
+			log.fine("Line Date=" + dateTransaction + ", Payment=" + paymentId + ", Currency=" + currencyId + ", Amt=" + transactionAmount);
+			MBankStatementLine bankStatementLine = new MBankStatementLine (bankStatement);
 			// BF3439695 - Create from for Statement Line picks wrong date
-			bsl.setDateAcct(bs.getStatementDate());
-			bsl.setStatementLineDate(bs.getStatementDate());
-			bsl.setValutaDate(trxDate);
-			MPayment payment = new MPayment(Env.getCtx(), C_Payment_ID, get_TrxName());
+			bankStatementLine.setDateAcct(bankStatement.getStatementDate());
+			bankStatementLine.setStatementLineDate(bankStatement.getStatementDate());
+			bankStatementLine.setValutaDate(dateTransaction);
+			MPayment payment = new MPayment(Env.getCtx(), paymentId, get_TrxName());
 			//	Set Payment
-			bsl.setPayment(payment);
+			bankStatementLine.setPayment(payment);
 			//	Set Reference
-			bsl.setTrxAmt(TrxAmt);
-			bsl.setStmtAmt(TrxAmt);
-			bsl.setC_Currency_ID(bankAccount.getC_Currency_ID()); 
+			bankStatementLine.setTrxAmt(transactionAmount);
+			bankStatementLine.setStmtAmt(transactionAmount);
+			bankStatementLine.setC_Currency_ID(bankAccount.getC_Currency_ID());
 			//	Save Line with exception
-			bsl.saveEx();
+			bankStatementLine.saveEx();
 			//	Add to created
-			created++;
+			created.updateAndGet(createNo -> createNo + 1);
 			//	Add Amount
-			totalAmt = totalAmt.add(payment.getPayAmt());
-		}   //  for all rows
+			totalAmt.updateAndGet(amt -> amt.add(payment.isReceipt() ? payment.getPayAmt() : payment.getPayAmt().negate()));
+		});   //  for all rows
 		//	Return Created
-		return "@Created@ = " + created 
-				+ " - @PayAmt@ = " + DisplayType.getNumberFormat(DisplayType.Amount).format(totalAmt);
+		return "@Created@ = " + created.get() + " - @PayAmt@ = " + DisplayType.getNumberFormat(DisplayType.Amount).format(totalAmt.get());
 	}
 }
