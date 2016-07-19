@@ -19,7 +19,9 @@ package org.adempiere.pos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.util.StringUtils;
@@ -211,32 +213,40 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 
         productLookupComboBox.removeAllItems();
 
-        ArrayList<String> line = new ArrayList<String>();
         recordId = new ArrayList<Integer>();
+        Map<String,Integer> line = new TreeMap<String,Integer>();
+
         for (java.util.Vector<Object> columns : CPOS.getQueryProduct(value, warehouseId, priceListId, partnerId))
         {
-            recordId.add((Integer) columns.elementAt(0));
+            
             String productValue = (String)columns.elementAt(1);
             String productName = (String)columns.elementAt(2);
             String qtyAvailable = (String)columns.elementAt(3);
             String priceStd =  (String)columns.elementAt(4);
             String priceList = (String)columns.elementAt(5);
-            line.add(new StringBuilder()
-                    .append(StringUtils.trunc(productValue + fill , PRODUCT_VALUE_LENGTH )).append(separator)
-                    .append(StringUtils.trunc(productName + fill , PRODUCT_NAME_LENGTH )).append(separator)
-                    .append(StringUtils.trunc(qtyAvailable + fill , QUANTITY_LENGTH)).append(separator)
-                    .append(StringUtils.trunc(priceStd + fill, QUANTITY_LENGTH )).append(separator)
-                    .append(StringUtils.trunc(priceList + fill, QUANTITY_LENGTH )).toString());
+            StringBuilder lineString = new StringBuilder();
+            lineString.append(StringUtils.trunc(productValue + fill , PRODUCT_VALUE_LENGTH )).append(separator)
+              .append(StringUtils.trunc(productName + fill , PRODUCT_NAME_LENGTH )).append(separator)
+              .append(StringUtils.trunc(qtyAvailable + fill , QUANTITY_LENGTH)).append(separator)
+              .append(StringUtils.trunc(priceStd + fill, QUANTITY_LENGTH )).append(separator)
+              .append(StringUtils.trunc(priceList + fill, QUANTITY_LENGTH ));
+
+            line.put(lineString.toString(), (Integer)columns.elementAt(0));
         }
 
         String[] searchValues = new String[line.size()];
         String[] searchDescription = new String[line.size()];
-        for(int i = 0; i < line.size(); i++) {
-            searchValues[i] = line.get(i);
-            searchDescription[i] = " ";
+        // Issue 137
+        Iterator it = line.keySet().iterator();
+        int i = 0;
+        while(it.hasNext()){
+          String key = (String)it.next();
+          recordId.add(line.get(key));
+          searchValues[i] = key;
+          searchDescription[i] = " ";
+          i++;
         }
-        // Issue  #137
-        Collections.sort(recordId, Collections.reverseOrder());
+        
         this.removeAllItems();
         this.setDict(searchValues);
         this.setDescription(searchDescription);
