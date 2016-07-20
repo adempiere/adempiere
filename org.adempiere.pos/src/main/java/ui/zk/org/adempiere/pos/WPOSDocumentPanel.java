@@ -306,6 +306,8 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, P
 		}
 		// Add line
 		try{
+      //  Issue 139
+		  posPanel.setAddQty(true);
 			posPanel.addOrUpdateLine(key.getM_Product_ID(), key.getQty());
 			posPanel.refreshPanel();
 			posPanel.changeViewPanel();
