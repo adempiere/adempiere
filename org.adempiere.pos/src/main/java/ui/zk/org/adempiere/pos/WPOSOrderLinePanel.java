@@ -234,7 +234,7 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 					posPanel.getPriceList(),
 					posPanel.getDiscountPercentage());
 			//	Set Totals
-			if(m_Summary != null) {
+			if(m_Summary != null && row >= 0) {
 				posTable.setValueAt(m_Summary[0], row, POSOrderLineTableHandle.POSITION_LINENETAMT);
 				posTable.setValueAt(m_Summary[2], row, POSOrderLineTableHandle.POSITION_GRANDTOTAL);
 			}
