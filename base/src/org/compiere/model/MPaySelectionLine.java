@@ -28,8 +28,8 @@ import java.util.Properties;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.model.MHRMovement;
-import org.eevolution.model.MHRPayroll;
+import org.eevolution.model.X_HR_Movement;
+import org.eevolution.model.X_HR_Payroll;
 
 /**
  *	Payment Selection Line Model
@@ -104,7 +104,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	/**	Order					*/
 	private MOrder			m_order = null;
 	/**	HR Movement				*/
-	private MHRMovement		m_movement = null;
+	private X_HR_Movement	m_movement = null;
 	/**	Parent					*/
 	private MPaySelection	m_parent = null;
 	
@@ -189,14 +189,15 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 */
 	public void setHRMovement(int HR_Movement_ID, BigDecimal PayAmt) {
 		setHR_Movement_ID(HR_Movement_ID);
-		MHRMovement movement = new MHRMovement(getCtx(), HR_Movement_ID, get_TrxName());
+		X_HR_Movement movement = new X_HR_Movement(getCtx(), HR_Movement_ID, get_TrxName());
 		setC_BPartner_ID(movement.getC_BPartner_ID());
 		//	Set Payment Rule
 		if(movement.getPaymentRule() != null)
 			setPaymentRule(movement.getPaymentRule());
 		//	From Payroll
 		if(getPaymentRule() == null) {
-			MHRPayroll payroll = MHRPayroll.get(getCtx(), movement.getHR_Payroll_ID());
+			X_HR_Payroll payroll = new X_HR_Payroll(getCtx(), movement.getHR_Payroll_ID(), get_TableName());
+//			X_HR_Payroll payroll = MHRPayroll.get(getCtx(), movement.getHR_Payroll_ID());
 			if(payroll.getPaymentRule() != null)
 				setPaymentRule(payroll.getPaymentRule());
 		}
@@ -303,9 +304,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 * FR [ 297 ]
 	 * @return
 	 */
-	public MHRMovement getHRMovement() {
+	public X_HR_Movement getHRMovement() {
 		if (m_movement == null)
-			m_movement = new MHRMovement(getCtx(), getHR_Movement_ID(), get_TrxName());
+			m_movement = new X_HR_Movement(getCtx(), getHR_Movement_ID(), get_TrxName());
 		return m_movement;
 	}	//	getHRMovement
 	
@@ -364,9 +365,10 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 				setC_BPartner_ID(getInvoice().getC_BPartner_ID());
 			} else if(getHR_Movement_ID() != 0
 					&& getC_Charge_ID() == 0) {
-				MHRMovement movement = new MHRMovement(getCtx(), getHR_Movement_ID(), get_TrxName());
-				MHRPayroll payroll = MHRPayroll.get(getCtx(), movement.getHR_Payroll_ID());
-				if(payroll == null)
+				X_HR_Movement movement = new X_HR_Movement(getCtx(), getHR_Movement_ID(), get_TrxName());
+				X_HR_Payroll payroll = new X_HR_Payroll(getCtx(), movement.getHR_Payroll_ID(), get_TrxName());
+				//	MHRPayroll payroll = MHRPayroll.get(getCtx(), movement.getHR_Payroll_ID());
+				if(payroll.getHR_Payroll_ID() == 0)
 					throw new AdempiereException("@HR_Payroll_ID@ @NotFound@");
 				if(payroll.getC_Charge_ID() == 0)
 					throw new AdempiereException("@C_Charge_ID@ @NotFound@");
