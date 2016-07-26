@@ -64,7 +64,10 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
  *		@see https://github.com/adempiere/adempiere/issues/114
+ * 		<li> FR [ 327 ] Create From in M_InOut change to Smart Browse
+ *  	@see https://github.com/adempiere/adempiere/issues/327
  */
+@Deprecated
 public class VCreateFromShipmentUI extends CreateFromShipment 
 		implements FormPanel, ICreateFrom, ActionListener, VetoableChangeListener {
 	

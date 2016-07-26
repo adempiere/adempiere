@@ -47,7 +47,10 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
  *		@see https://github.com/adempiere/adempiere/issues/114
+ *		<li> FR [ 442 ] Create From in C_Invoice change to Smart Browse
+ *		@see https://github.com/adempiere/adempiere/issues/442
  */
+@Deprecated
 public class VCreateFromInvoiceUI extends CreateFromInvoice 
 	implements FormPanel, ICreateFrom, ActionListener, VetoableChangeListener {
 	
