@@ -28,10 +28,9 @@ import java.util.logging.Level;
 
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.model.MHRConcept;
-import org.eevolution.model.MHRMovement;
-import org.eevolution.model.MHRPayroll;
 import org.eevolution.model.X_HR_Concept;
+import org.eevolution.model.X_HR_Movement;
+import org.eevolution.model.X_HR_Payroll;
 
 
 /**
@@ -413,12 +412,14 @@ public class CalloutPaySelection extends CalloutEngine
 		if (HR_Movement_ID == 0)
 			return "";
 		//	Get amount from movement
-		MHRMovement movement = new MHRMovement(ctx, HR_Movement_ID, null);
-		MHRConcept concept = MHRConcept.get(ctx, movement.getHR_Concept_ID());
+		X_HR_Movement movement = new X_HR_Movement(ctx, HR_Movement_ID, null);
+		X_HR_Concept concept = new X_HR_Concept(ctx, movement.getHR_Concept_ID(), null);
+		//	MHRConcept concept = MHRConcept.get(ctx, movement.getHR_Concept_ID());
 		if(!concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount))
 			return "@HR_Concept_ID@ <> @Amount@";
 		//	Valid payroll
-		MHRPayroll payroll = MHRPayroll.get(ctx, movement.getHR_Payroll_ID());
+		X_HR_Payroll payroll = new X_HR_Payroll(ctx, movement.getHR_Payroll_ID(), null);
+		//	MHRPayroll payroll = MHRPayroll.get(ctx, movement.getHR_Payroll_ID());
 		if(payroll.getC_Charge_ID() == 0)
 			return "@C_Charge_ID@ @NotFound@";
 		//	Get Amount
