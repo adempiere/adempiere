@@ -37,7 +37,7 @@ import javax.script.ScriptEngine;
  * 		<li>BR [ 268 ] Smart Browse Table don't have a MVC
  * 		@see https://github.com/adempiere/adempiere/issues/268
  */
-public class BrowserRow implements IBrowserRow {
+public class BrowserRow {
 
 	/**
      * Logger.
@@ -105,25 +105,7 @@ public class BrowserRow implements IBrowserRow {
 	{
 		return browserFields.get(col);
 	}
-
-	/**
-	 * Set Row
-	 * @param id
-	 * @param row
-	 * @return void
-	 */
-	/*public void setRow (int id  , ArrayList<Object> row)
-	{
-		LinkedHashMap<Integer, GridField> values = rows.get(id);
-		if (values == null)
-			values = new LinkedHashMap<Integer, GridField>();
-
-		for (Object o : row)
-			values.put(id, o);
-
-		rows.put(id, values);
-	}*/
-
+	
 	/**
 	 * Set Value to Browse Rows
 	 * @param row
@@ -298,7 +280,6 @@ public class BrowserRow implements IBrowserRow {
 	 */
 	public void setValueOfSelectedCell(GridField gridField)
 	{
-
 		if (m_Table != null){
 			//GridField gridField = getValue(getSelectedRow(), getTableIndex(getSelectedColumn()));
 			if (gridField != null){
@@ -565,15 +546,26 @@ public class BrowserRow implements IBrowserRow {
      * Set Current Row for Callout
      * @param p_CurrentRow
      */
-    private void setCurrentRow(int p_CurrentRow) {
+    public void setCurrentRow(int p_CurrentRow) {
     	m_CurrentRow = p_CurrentRow;
+    	log.fine("Row=" + m_CurrentRow);
+		if(m_CurrentRow < 0)
+			return;
+		//  Update Field Values
+		int size = getColumnCount();
+		for (int i = 0; i < size; i++) {
+			GridField mField = getValue(m_CurrentRow, i);
+			if(mField != null) {
+				mField.updateContext();
+			}
+		}
     }
     
     /**
      * Get Current Row
      * @return
      */
-    private int getCurrentRow() {
+    public int getCurrentRow() {
     	return m_CurrentRow;
     }
 }

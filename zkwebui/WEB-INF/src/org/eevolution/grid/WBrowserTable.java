@@ -40,7 +40,6 @@ import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.exception.ApplicationException;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
-import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -73,19 +72,16 @@ import org.zkoss.zul.ListModel;
  * 		@see https://github.com/adempiere/adempiere/issues/347
  * 		<li>BR [ 456 ] Smart Browser fill bad value for search
  * 		@see https://github.com/adempiere/adempiere/issues/456
+ *		<li>BR [ 460 ] Update context when you select a row in a SmartBrowser
+ *		@see https://github.com/adempiere/adempiere/issues/460
  */
-public class WBrowserListbox extends Listbox implements IBrowserTable, TableValueChangeListener, WTableModelListener
-{	
+public class WBrowserTable extends Listbox implements IBrowserTable, TableValueChangeListener, WTableModelListener {	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8717707799347994189L;
-
-	public static final String SYSCONFIG_INFO_DEFAULTSELECTED = "INFO_DEFAULTSELECTED";
-	public static final String SYSCONFIG_INFO_DOUBLECLICKTOGGLESSELECTION = "INFO_DOUBLECLICKTOGGLESSELECTION";
-
 	/**	Logger. */
-	private static CLogger logger = CLogger.getCLogger(WBrowserListbox.class);
+	private static CLogger logger = CLogger.getCLogger(WBrowserTable.class);
 
 	/** Model Index of Key Column.   */
 	protected int m_keyColumnIndex = -1;
@@ -101,15 +97,16 @@ public class WBrowserListbox extends Listbox implements IBrowserTable, TableValu
 	private int m_colorColumnIndex = -1;
 	/** Color Column compare data.       */
 	private Object m_colorDataCompare = Env.ZERO;
-
-	/** Specify if the records should be checked(selected) by default (multi selection mode only) */
-	private boolean				p_isDefaultSelected = MSysConfig.getBooleanValue(SYSCONFIG_INFO_DEFAULTSELECTED, false, Env.getAD_Client_ID(Env.getCtx()));
 	/** Is Total Show */
 	private boolean showTotals = false;
 	private boolean autoResize = true;
-
+	/**	Browser Rows		*/
 	private BrowserRow browserRows = null;
-
+	
+	/**
+	 * Is autosize
+	 * @return
+	 */
 	public boolean isAutoResize() {
 		return autoResize;
 	}
@@ -128,7 +125,7 @@ public class WBrowserListbox extends Listbox implements IBrowserTable, TableValu
 	 *
 	 * Sets a row renderer and an empty model
 	 */
-	public WBrowserListbox(WBrowser browser)
+	public WBrowserTable(WBrowser browser)
 	{
 		super();
 		WBrowserListItemRenderer rowRenderer = new WBrowserListItemRenderer(this);
@@ -236,23 +233,24 @@ public class WBrowserListbox extends Listbox implements IBrowserTable, TableValu
 	 *  @param column 	column index of cell
 	 *  @return true if cell is editable, false otherwise
 	 */
-	public boolean isCellEditable(int row, int column)
-	{
-		//  if the first column holds a boolean and it is false, it is not editable
-		if (column != 0
-			&& (getValueAt(row, 0) instanceof Boolean)
-			&& !((Boolean)getValueAt(row, 0)).booleanValue())
-		{
-			return false;
-		}
-
-		//  is the column read/write?
-		if (m_readWriteColumn.contains(new Integer(column)))
-		{
-			return true;
-		}
-		
-		return false;
+	public boolean isCellEditable(int row, int column) {
+        //  if the first column is a boolean and it is false, it is not editable
+    	//	Get Selected
+        boolean isSelected = false;
+        Object value = getValueAt(row, 0);
+        if(value instanceof Boolean) {
+        	isSelected = ((Boolean) getValueAt(row, 0)).booleanValue();
+        } else if(value instanceof IDColumn) {
+        	isSelected = ((IDColumn) value).isSelected();
+        }
+        //  is the column RW?
+        if (column == 0 
+        		|| (isSelected
+        				&& m_readWriteColumn.contains(new Integer(column)))) {
+        	return true;
+        }
+        //	Default
+        return false;
 	}   //  isCellEditable
 
     /**
@@ -733,15 +731,6 @@ public class WBrowserListbox extends Listbox implements IBrowserTable, TableValu
 	}   //  isMultiSelection
 
 	/**
-	 * (for multi-selection only)
-	 * @return true if records are selected by default
-	 */
-	public boolean isDefaultSelected()
-	{
-		return p_isDefaultSelected;
-	}
-
-	/**
 	 *  Set ColorColumn comparison criteria.
 	 *
 	 *  @param dataCompare object encapsualating comparison criteria
@@ -974,34 +963,7 @@ public class WBrowserListbox extends Listbox implements IBrowserTable, TableValu
 		else
 			return 0;
 	}   //  getLeadRowKey
-
-    /**
-     * Get the table layout.
-     *
-     * @return the layout of the table
-     * @see #setLayout(List<MBrowseField>)
-     */
-	//	BR [ 257 ]
-//	public List<MBrowseField> getLayout()
-//	{
-//		return browserFields;
-//	}
-
-	/**
-	 * Set the column information for the table.
-	 *
-	 * @param layout	The new layout to set for the table
-	 * @see #getLayout()
-	 */
-//	private void setLayout(List<MBrowseField> layout)
-//	{
-//		//	BR [ 257 ]
-////		this.browserFields = layout;
-//		getModel().setNoColumns(layout.size());
-//
-//		return;
-//	}
-
+	
     /**
      * Respond to a change in the table's model.
      *
@@ -1121,81 +1083,33 @@ public class WBrowserListbox extends Listbox implements IBrowserTable, TableValu
 	 *	Size Columns.
 	 *  Uses Mimimum Column Size
 	 */
-	public void autoSize()
-	{
-//  TODO finish port from SWING
+	public void autoSize() {
+		//  TODO finish port from SWING
 		if ( !autoResize  )
 			return;
-/*
-		long start = System.currentTimeMillis();
-		//
-		final int SLACK = 8;		//	making sure it fits in a column
-		final int MAXSIZE = 300;    //	max size of a column
-		//
-		ListModelTable model = this.getModel();
-		int size = model.getNoColumns();
-		//	for all columns
-		for (int col = 0; col < size; col++)
-		{
-			//  Column & minimum width
-			ListColumn tc = model.get.getColumn(col);
-			int width = 0;
-			if (m_minWidth.size() > col)
-				width = ((Integer)m_minWidth.get(col)).intValue();
-		//  log.config( "Column=" + col + " " + column.getHeaderValue());
-
-			//	Header
-			TableCellRenderer renderer = tc.getHeaderRenderer();
-			if (renderer == null)
-				renderer = new DefaultTableCellRenderer();
-			Component comp = renderer.getTableCellRendererComponent
-				(this, tc.getHeaderValue(), false, false, 0, 0);
-		//	log.fine( "Hdr - preferred=" + comp.getPreferredSize().width + ", width=" + comp.getWidth());
-			width = Math.max(width, comp.getPreferredSize().width + SLACK);
-
-			//	Cells
-			int maxRow = Math.min(30, getRowCount());       //  first 30 rows
-			for (int row = 0; row < maxRow; row++)
-			{
-				renderer = getCellRenderer(row, col);
-				comp = renderer.getTableCellRendererComponent
-					(this, getValueAt(row, col), false, false, row, col);
-				if (comp != null) {
-					int rowWidth = comp.getPreferredSize().width + SLACK;
-					width = Math.max(width, rowWidth);
-				}
-			}
-			//	Width not greater ..
-			width = Math.min(MAXSIZE, width);
-			tc.setPreferredWidth(width);
-		//	log.fine( "width=" + width);
-		}	//	for all columns
-		log.finer("Cols=" + size + " - " + (System.currentTimeMillis()-start) + "ms");
-*/
 	}	//	autoSize
 
-/**
- * Determines if the row is marked selected in the key column. The table
- * selection status (highlight) is not considered.
- * @param row
- * @return true if the row is marked selected in the key column
- */
-public boolean isRowChecked(int row)
-{
-	int keyColumn = this.getKeyColumnIndex();
+	/**
+	 * Determines if the row is marked selected in the key column. The table
+	 * selection status (highlight) is not considered.
+	 * @param row
+	 * @return true if the row is marked selected in the key column
+	 */
+	public boolean isRowChecked(int row) {
+		int keyColumn = this.getKeyColumnIndex();
 
-	if (keyColumn < 0)
-		return false;
+		if (keyColumn < 0)
+			return false;
 
-	//  The selection can be indicated by an IDColumn or Boolean in the keyColumn position
-	Object data = getValueAt(row, convertColumnIndexToView(keyColumn));
-	if (data instanceof IDColumn)
-		return ((IDColumn) data).isSelected();
-	else if (data instanceof Boolean)
-		return (Boolean) data;
+		//  The selection can be indicated by an IDColumn or Boolean in the keyColumn position
+		Object data = getValueAt(row, convertColumnIndexToView(keyColumn));
+		if (data instanceof IDColumn)
+			return ((IDColumn) data).isSelected();
+		else if (data instanceof Boolean)
+			return (Boolean) data;
 
-	return	false;
-}
+		return	false;
+	}
 
 
 	public void setKeyColumnIndex(int keyColumnIndex) {
@@ -1247,7 +1161,7 @@ public boolean isRowChecked(int row)
 	 * @return
 	 * @return BrowserRows
 	 */
-	public IBrowserRow getData() {
+	public BrowserRow getData() {
 		return browserRows;
 	}
 	
