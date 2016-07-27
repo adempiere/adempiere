@@ -39,6 +39,7 @@ import javax.sql.ConnectionPoolDataSource;
 import javax.sql.DataSource;
 import javax.sql.RowSet;
 
+import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -46,6 +47,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Ini;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 import org.compiere.dbPort.Convert_MySQL;
 
 /**
@@ -95,9 +97,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	
 	/** Connection String */
 	private String m_connectionURL;
-
-	private boolean m_supportAlias = false;
-
+	
 	/** Logger */
 	private static CLogger log = CLogger.getCLogger(DB_MySQL.class);
 
@@ -213,10 +213,16 @@ public class DB_MySQL implements AdempiereDatabase {
 	 */
 	public String getSchema() {
 		//	BR [ 391 ]
-		if (m_userName != null)
-            return m_userName;
-        log.severe("User Name not set (yet) - call getConnectionURL first");
-        return null;
+		if (m_userName == null) {
+	        CConnection cconn = CConnection.get(Adempiere.getCodeBaseHost());
+	        m_userName = cconn.getDbUid();
+	    }
+    	//	Validate
+        if (m_userName == null) {
+        	log.severe("User Name not set (yet) - call getConnectionURL first");
+        	return null;
+        }
+	    return m_userName;
 	}
 
 	/**
@@ -278,12 +284,8 @@ public class DB_MySQL implements AdempiereDatabase {
 	 */
 	public String convertStatement(String oraStatement) {
 		String retValue[] = m_convert.convert(oraStatement);
-
-		if (retValue.length == 0)
-			return oraStatement;
-
-		if (retValue == null)
-		{
+		//	Valid null
+		if (retValue == null) {
 			log.log(Level.SEVERE,
 					("DB_MySQL.convertStatement - Not Converted ("
 							+ oraStatement + ") - " + m_convert.getConversionError()));
@@ -292,6 +294,9 @@ public class DB_MySQL implements AdempiereDatabase {
 							+ oraStatement + ") - "
 							+ m_convert.getConversionError());
 		}
+		if (retValue.length == 0)
+			return oraStatement;
+		//	
 		if (retValue.length != 1)
 		{
 			log.log(Level.SEVERE,

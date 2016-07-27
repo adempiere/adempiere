@@ -102,10 +102,6 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 
 	private EventListener cellListener;
 
-	private WBrowserListbox table;
-
-	private Object[] currentValues;
-
 	private List<WTableColumn> hiddenColumns = new ArrayList<WTableColumn>();
 
 	private Map<WTableColumn, ColumnAttributes> columnAttributesMap
@@ -130,10 +126,8 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 	 * Default constructor.
 	 *
 	 */
-	public WBrowserListItemRenderer(WBrowserListbox table)
-	{
+	public WBrowserListItemRenderer(WBrowserTable table) {
 		super();
-		this.table = table;
 	}
 
 	/**
@@ -141,7 +135,7 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 	 * @param columnNames
 	 * @param table
 	 */
-	public WBrowserListItemRenderer(List< ? extends String> columnNames,WBrowserListbox table)
+	public WBrowserListItemRenderer(List< ? extends String> columnNames,WBrowserTable table)
 	{
 		super();
 		table = table;
@@ -292,11 +286,11 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 		Listcell listcell = null;
 		int colIndex = 0;
 		int rowIndex = item.getIndex();
-		WBrowserListbox table = null;
+		WBrowserTable table = null;
 
-		if (item.getListbox() instanceof WBrowserListbox)
+		if (item.getListbox() instanceof WBrowserTable)
 		{
-			table = (WBrowserListbox)item.getListbox();
+			table = (WBrowserTable)item.getListbox();
 		}
 
 		if (!(data instanceof List))
@@ -333,13 +327,13 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 	 * @param columnIndex	The column in which the cell is to be placed.
 	 * @return	The list cell component.
 	 */
-	private Listcell getCellComponent(WBrowserListbox table, Object field,
+	private Listcell getCellComponent(WBrowserTable table, Object field,
 									  int rowIndex, int columnIndex)
 	{
 		ListCell listcell = new ListCell();
 		if(table == null)
 			return listcell;
-		IBrowserRow browserRows = table.getData();
+		BrowserRow browserRows = table.getData();
 		//	BR [ 257 ]
 		MBrowseField browseField = browserRows.getBrowserField(browserRows.getTableIndex(columnIndex));
 		if (browseField == null)
@@ -837,9 +831,9 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 				fireTableValueChange(vcEvent);
 			}
 		}
-		else if (event.getTarget() instanceof WBrowserListbox && Events.ON_SELECT.equals(event.getName()))
+		else if (event.getTarget() instanceof WBrowserTable && Events.ON_SELECT.equals(event.getName()))
 		{
-			WBrowserListbox table = (WBrowserListbox) event.getTarget();
+			WBrowserTable table = (WBrowserTable) event.getTarget();
 			if (table.isCheckmark()) {
 				int cnt = table.getRowCount();
 				if (cnt == 0 || !(table.getValueAt(0, 0) instanceof IDColumn))
