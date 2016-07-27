@@ -33,14 +33,13 @@ import org.compiere.model.GridField;
  * 		<li>BR [ 268 ] Smart Browse Table don't have a MVC
  * 		@see https://github.com/adempiere/adempiere/issues/268
  */
-public interface IBrowserTable 
-{
+public interface IBrowserTable {
 	public boolean isCellEditable(int row, int column);
 	
 	public Object getValueAt(int row, int column);
 	
 	//	FR [ 245 ]
-	public IBrowserRow getData();
+	public BrowserRow getData();
 	
 	public void setValueAt(Object value, int row, int column);
 	

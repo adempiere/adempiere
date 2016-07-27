@@ -73,7 +73,7 @@ public final class VBrowserCellEditor extends AbstractCellEditor
     /**
      * Table
      */
-    private BrowserTable table = null;
+    private VBrowserTable table = null;
     private ActionListener actionListener;
 
     /**
@@ -151,7 +151,7 @@ public final class VBrowserCellEditor extends AbstractCellEditor
         this.col = col;
         m_editor.setReadWrite(m_mField.isEditable(false));
 
-        this.table = (BrowserTable) table;
+        this.table = (VBrowserTable) table;
 
         //	Set Value
         m_editor.setValue(value);

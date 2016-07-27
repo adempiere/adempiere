@@ -25,9 +25,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
-import java.beans.VetoableChangeListener;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,12 +34,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
@@ -75,7 +68,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Splash;
 import org.eevolution.grid.Browser;
 import org.eevolution.grid.BrowserSearch;
-import org.eevolution.grid.BrowserTable;
+import org.eevolution.grid.VBrowserTable;
 
 /**
  * UI Browser
@@ -103,10 +96,10 @@ import org.eevolution.grid.BrowserTable;
  *		@see https://github.com/adempiere/adempiere/issues/352
  *		<li>BR [ 394 ] Smart browse does not reset context when windows is closed
  *		@see https://github.com/adempiere/adempiere/issues/394
+ *		<li>BR [ 460 ] Update context when you select a row in a SmartBrowser
+ *		@see https://github.com/adempiere/adempiere/issues/460
  */
-public class VBrowser extends Browser implements ActionListener,
-		VetoableChangeListener, ChangeListener, ListSelectionListener,
-		TableModelListener, ASyncProcess {
+public class VBrowser extends Browser implements ActionListener, ListSelectionListener, ASyncProcess {
 	/**
 	 * get Browse
 	 * @param windowNo
@@ -189,7 +182,7 @@ public class VBrowser extends Browser implements ActionListener,
 	private javax.swing.JToolBar toolsBar;
 	private CPanel topPanel;
 	/**	Table						*/
-	private BrowserTable detail;
+	private VBrowserTable detail;
 	private CollapsiblePanel collapsibleSearch;
 	private VBrowserSearch  searchPanel;
 	/**	Form Frame				*/
@@ -385,8 +378,9 @@ public class VBrowser extends Browser implements ActionListener,
 		//	
 		buttonSearchPanel = new CPanel();
 		centerPanel = new javax.swing.JScrollPane();
-		detail = new BrowserTable(this);
+		detail = new VBrowserTable(this);
 		detail.setRowSelectionAllowed(true);
+		detail.getSelectionModel().addListSelectionListener(this);
 		footPanel = new CPanel();
 		footButtonPanel = new CPanel(new FlowLayout(FlowLayout.CENTER));
 		processPanel = new CPanel();
@@ -622,7 +616,6 @@ public class VBrowser extends Browser implements ActionListener,
 						+ "ms");
 				//	Load Table
 				row = detail.loadTable(m_rs);
-				
 			} catch (SQLException e) {
 				log.log(Level.SEVERE, dataSql, e);
 			}
@@ -734,36 +727,46 @@ public class VBrowser extends Browser implements ActionListener,
 			cmd_zoom();
 		}		
 	}
-
-	public void vetoableChange(PropertyChangeEvent evt)
-			throws PropertyVetoException {
-		
-	}
-
-	public void stateChanged(ChangeEvent e) {
-		
-	}
-
+	
+	@Override
 	public void valueChanged(ListSelectionEvent e) {
+		//  no rows
+		if (detail.getRowCount() == 0)
+			return;
 		
+		int rowTable = detail.getSelectedRow();
+		int rowCurrent = detail.getData().getCurrentRow();
+		log.config("(" + detail.toString() + ") Row in Table=" + rowTable + ", in Model=" + rowCurrent);
+		//  nothing selected
+		if (rowTable == -1) {
+			if (rowCurrent >= 0) {
+				detail.setRowSelectionInterval(rowCurrent, rowCurrent); //  causes this method to be called again
+				return;
+			}
+		} else {
+			if (rowTable != rowCurrent) {
+				//make sure table selection is consistent with model
+				detail.getData().setCurrentRow(rowTable);
+			}
+		}
 	}
-
-	public void tableChanged(TableModelEvent e) {
-		
-	}
-
+	
+	@Override
 	public void executeASync(ProcessInfo pi) {
 		
 	}
-
+	
+	@Override
 	public boolean isUILocked() {
 		return false;
 	}
 
+	@Override
 	public void lockUI(ProcessInfo pi) {
 		
 	}
 
+	@Override
 	public void unlockUI(ProcessInfo pi) {
 		
 	}
