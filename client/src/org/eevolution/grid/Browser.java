@@ -654,7 +654,7 @@ public abstract class Browser {
 		//	Verify if is Multi-Selection
 		if (p_multiSelection) {
 			int rows = browserTable.getRowCount();
-			IBrowserRow browserRows = browserTable.getData();
+			BrowserRow browserRows = browserTable.getData();
 			m_values = new LinkedHashMap<Integer,LinkedHashMap<String,Object>>();
 			//	BR [ 257 ]
 			List <MBrowseField> fields = m_Browse.getFields();
