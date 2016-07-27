@@ -314,8 +314,8 @@ public class VLocator extends JComponent
 		}
 		//
 		m_value = value;
+		m_mField.setValue(value, true);
 		m_text.setText(m_mLocator.getDisplay(value));	//	loads value
-
 		//	Data Binding
 		// BR [ 317 ]
 		if (fire){
