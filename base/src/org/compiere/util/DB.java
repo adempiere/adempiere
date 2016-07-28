@@ -96,6 +96,8 @@ import org.compiere.process.SequenceCheck;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>FR [ 352 ] T_Selection is better send to process like a HashMap instead read from disk
  *		@see https://github.com/adempiere/adempiere/issues/352
+ *		<li> FR [ 391 ] Add connection support to MariaDB
+ *		@see https://github.com/adempiere/adempiere/issues/464
  */
 public final class DB
 {
@@ -540,6 +542,17 @@ public final class DB
 		return false;
 	}
 
+	/**
+	 * Do we have a Maria DB ?
+	 *	@return true if connected to Maria DB
+	 */
+	public static boolean isMariaDB() {
+		if (s_cc != null)
+			return s_cc.isMariaDB();
+		log.severe("No Database Connection");
+		return false;
+	}
+	
 	/**
 	 * 	Get Database Info
 	 *	@return info
@@ -1912,8 +1925,6 @@ public final class DB
 		if (comment == null || warning == null || comment.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing");
 		log.warning(comment);
-		if (warning == null)
-			return;
 		//
 		SQLWarning warn = warning;
 		while (warn != null)

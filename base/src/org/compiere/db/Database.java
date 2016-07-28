@@ -23,6 +23,9 @@ import org.compiere.util.CLogger;
  *
  *  @author     Jorg Janke
  *  @version    $Id: Database.java,v 1.3 2006/07/30 00:55:13 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 391 ] Add connection support to MariaDB
+ *		@see https://github.com/adempiere/adempiere/issues/464
  */
 public class Database
 {
@@ -33,21 +36,25 @@ public class Database
 	public static String        DB_ORACLE   = "Oracle";               	
     /** PostgreSQL ID   */
 	public static String        DB_POSTGRESQL = "PostgreSQL";
-
+	/**	MySQL ID		*/
 	public static String        DB_MYSQL = "MySQL";
+	/**	MariaDB ID		*/
+	public static String        DB_MARIADB = "MariaDB";
 
 	/** Supported Databases     */
 	public static String[]      DB_NAMES = new String[] {
 		 DB_ORACLE
 		,DB_POSTGRESQL 
 		,DB_MYSQL
+		,DB_MARIADB
 	};
 
 	/** Database Classes        */
-	protected static Class[]    DB_CLASSES = new Class[] {
+	protected static Class<?>[]    DB_CLASSES = new Class[] {
 		 DB_Oracle.class
 		,DB_PostgreSQL.class
 		,DB_MySQL.class
+		,DB_MariaDB.class
 	};
 
 	/** Connection Timeout in seconds   */
@@ -92,6 +99,8 @@ public class Database
 			return new DB_PostgreSQL();
 		if (url.indexOf("mysql") != -1)
 			return new DB_MySQL();
+		if (url.indexOf("mariadb") != -1)
+			return new DB_MariaDB();
 
 		log.severe("No Database for " + url);
 		return null;

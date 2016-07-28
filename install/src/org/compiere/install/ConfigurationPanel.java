@@ -54,8 +54,10 @@ import org.compiere.util.CLogger;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ConfigurationPanel.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *			<li> FR [ 402 ] Mail setup is hardcoded
- *			@see https://github.com/adempiere/adempiere/issues/402
+ *		<li> FR [ 402 ] Mail setup is hardcoded
+ *		@see https://github.com/adempiere/adempiere/issues/402
+ *		<li> FR [ 391 ] Add connection support to MariaDB
+ *		@see https://github.com/adempiere/adempiere/issues/464
  */
 public class ConfigurationPanel extends CPanel implements ActionListener
 {
@@ -92,9 +94,6 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 
 	/** Translation				*/
 	static ResourceBundle 		res = ResourceBundle.getBundle("org.compiere.install.SetupRes");
-
-	/**	Setup Frame				*/
-	private Setup				m_setup = null;
 	/** Status Bar				*/
 	private JLabel 				m_statusBar;
 	/**	Configuration Data		*/

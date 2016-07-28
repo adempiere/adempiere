@@ -48,6 +48,9 @@ import org.compiere.util.ValueNamePair;
  *  @author     Jorg Janke
  *  @author     Marek Mosiewicz<marek.mosiewicz@jotel.com.pl> - support for RMI over HTTP
  *  @version    $Id: CConnection.java,v 1.5 2006/07/30 00:55:13 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 391 ] Add connection support to MariaDB
+ *		@see https://github.com/adempiere/adempiere/issues/464
  */
 public class CConnection implements Serializable, Cloneable
 {
@@ -220,10 +223,6 @@ public class CConnection implements Serializable, Cloneable
 	private int m_db_port = 0;
 	/** Database name       */
 	private String 		m_db_name = "MyDBName";
-
-	/** Connection Profile		*/
-	private String	 	m_connectionProfile = PROFILE_LAN;
-
 	/** In Memory connection    */
 	private boolean 	m_bequeath = false;
 
@@ -915,6 +914,14 @@ public class CConnection implements Serializable, Cloneable
 	public boolean isMySQL(){
 		return Database.DB_MYSQL.equals(m_type);
 	} //  added by dete
+	
+	/**
+	 * Verify if is Maria DB
+	 * @return
+	 */
+	public boolean isMariaDB(){
+		return Database.DB_MARIADB.equals(m_type);
+	}
 	
 	/**
 	 *  Is Database Connection OK

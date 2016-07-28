@@ -1,29 +1,18 @@
- /**********************************************************************
- * This file is part of ADempiere Business Suite                       *
- * http://www.adempiere.org                                            *
- *                                                                     *
- * Copyright (C) Trifon Trifonov.                                      *
- * Copyright (C) Contributors                                          *
- *                                                                     *
- * This program is free software; you can redistribute it and/or       *
- * modify it under the terms of the GNU General Public License         *
- * as published by the Free Software Foundation; either version 2      *
- * of the License, or (at your option) any later version.              *
- *                                                                     *
- * This program is distributed in the hope that it will be useful,     *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of      *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the        *
- * GNU General Public License for more details.                        *
- *                                                                     *
- * You should have received a copy of the GNU General Public License   *
- * along with this program; if not, write to the Free Software         *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,          *
- * MA 02110-1301, USA.                                                 *
- *                                                                     *
- * Contributors:                                                       *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                  *
- *                                                                     *
- ***********************************************************************/
+/******************************************************************************
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ *****************************************************************************/
 package org.compiere.db;
 
 import java.math.BigDecimal;
@@ -41,6 +30,7 @@ import javax.sql.RowSet;
 
 import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
+import org.compiere.dbPort.Convert_MariaDB;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -48,35 +38,30 @@ import org.compiere.util.Ini;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import org.compiere.dbPort.Convert_MySQL;
-
 /**
- * 
- * @author praneet tiwari
- * @author Trifon Trifonov
+ * Connection class for MariaDB Database
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *			<li> FR [ 391 ] getSchema method in DB_PostgreSQL.java is better use the adempiere user
- *			@see https://github.com/adempiere/adempiere/issues/391
- * 
+ *		<li> FR [ 391 ] Add connection support to MariaDB
+ *		@see https://github.com/adempiere/adempiere/issues/464
  */
-public class DB_MySQL implements AdempiereDatabase {
+public class DB_MariaDB implements AdempiereDatabase {
 
 	public Convert getConvert() {
 		return m_convert;
 	}
 
 	/**
-	 * PostgreSQL Database
+	 * MariaDB Database
 	 */
-	public DB_MySQL() {
+	public DB_MariaDB() {
 		super();
 	}
 
 	/** Driver */
-	private org.gjt.mm.mysql.Driver s_driver = null;
+	private org.mariadb.jdbc.Driver s_driver = null;
 
 	/** Driver class */
-	public static final String DRIVER = "org.gjt.mm.mysql.Driver";
+	public static final String DRIVER = "org.mariadb.jdbc.Driver";
 
 	/** Default Port */
 	public static final int DEFAULT_PORT = 3306;
@@ -85,7 +70,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	private ComboPooledDataSource m_ds = null;
 
 	/** Statement Converter */
-	private Convert_MySQL m_convert = new Convert_MySQL();
+	private Convert_MariaDB m_convert = new Convert_MariaDB();
 	
 	/** Connection String */
 	private String m_connection;
@@ -99,7 +84,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	private String m_connectionURL;
 	
 	/** Logger */
-	private static CLogger log = CLogger.getCLogger(DB_MySQL.class);
+	private static CLogger log = CLogger.getCLogger(DB_MariaDB.class);
 
 	private static int m_maxbusyconnections = 0;
 
@@ -109,7 +94,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	 * @return database short name
 	 */
 	public String getName() {
-		return Database.DB_MYSQL;
+		return Database.DB_MARIADB;
 	}
 
 	/**
@@ -125,7 +110,7 @@ public class DB_MySQL implements AdempiereDatabase {
 		}
 		if (s_driver != null)
 			return s_driver.toString();
-		return "No Driver for MySQL";
+		return "No Driver for MariaDB";
 	}
 
 	/**
@@ -144,7 +129,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	 */
 	public java.sql.Driver getDriver() throws SQLException {
 		if (s_driver == null) {
-			s_driver = new org.gjt.mm.mysql.Driver();
+			s_driver = new org.mariadb.jdbc.Driver();
 			DriverManager.registerDriver(s_driver);
 			DriverManager.setLoginTimeout(Database.CONNECTION_TIMEOUT);
 		}
@@ -160,8 +145,8 @@ public class DB_MySQL implements AdempiereDatabase {
 	 * @return connection String
 	 */
 	public String getConnectionURL(CConnection connection) {
-		// jdbc:mysql://hostname:portnumber/databasename?encoding=UNICODE
-		StringBuffer sb = new StringBuffer("jdbc:mysql:");
+		// jdbc:mariadb://localhost:3306/DB?user=root&password=myPassword
+		StringBuffer sb = new StringBuffer("jdbc:mariadb:");
 		sb.append("//").append(connection.getDbHost()).append(":").append(
 				connection.getDbPort()).append("/").append(
 				connection.getDbName()).append("?encoding=UNICODE");
@@ -171,7 +156,8 @@ public class DB_MySQL implements AdempiereDatabase {
 
 	/**
 	 * Get Connection URL
-	 * 
+	 * It can be jdbc:mariadb://localhost:3306/DB?user=root&password=myPassword
+	 * copied from https://mariadb.com/kb/en/mariadb/about-mariadb-connector-j/
 	 * @param dbHost db Host
 	 * @param dbPort db Port
 	 * @param dbName sb Name
@@ -180,7 +166,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	 */
 	public String getConnectionURL(String dbHost, int dbPort, String dbName,
 			String userName) {
-		return "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+		return "jdbc:mariadb://" + dbHost + ":" + dbPort + "/" + dbName;
 	}
 
 	/**
@@ -238,7 +224,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	 * @return info
 	 */
 	public String toString() {
-		StringBuffer sb = new StringBuffer("DB_MySQL[");
+		StringBuffer sb = new StringBuffer("DB_MariaDB[");
 		sb.append(m_connectionURL);
 		try {
 			StringBuffer logBuffer = new StringBuffer(50);
@@ -287,10 +273,10 @@ public class DB_MySQL implements AdempiereDatabase {
 		//	Valid null
 		if (retValue == null) {
 			log.log(Level.SEVERE,
-					("DB_MySQL.convertStatement - Not Converted ("
+					("DB_MariaDB.convertStatement - Not Converted ("
 							+ oraStatement + ") - " + m_convert.getConversionError()));
 			throw new IllegalArgumentException(
-					"DB_MySQL.convertStatement - Not Converted ("
+					"DB_MariaDB.convertStatement - Not Converted ("
 							+ oraStatement + ") - "
 							+ m_convert.getConversionError());
 		}
@@ -300,20 +286,20 @@ public class DB_MySQL implements AdempiereDatabase {
 		if (retValue.length != 1)
 		{
 			log.log(Level.SEVERE,
-						("DB_MySQL.convertStatement - Convert Command Number="
+						("DB_MariaDB.convertStatement - Convert Command Number="
 							+ retValue.length
 							+ " ("
 							+ oraStatement
 							+ ") - " + m_convert.getConversionError()));
 			throw new IllegalArgumentException(
-					"DB_MySQL.convertStatement - Convert Command Number="
+					"DB_MariaDB.convertStatement - Convert Command Number="
 							+ retValue.length + " (" + oraStatement + ") - "
 							+ m_convert.getConversionError());
 		}
 		// Diagnostics (show changed, but not if AD_Error
 		if (!oraStatement.equals(retValue[0]) && retValue[0].indexOf("AD_Error") == -1)
 			// System.out.println("PostgreSQL =>" + retValue[0] + "<= <" + oraStatement + ">");
-			log.log(Level.ALL, "MySQL =>" + retValue[0] + "<= <" + oraStatement	+ ">");
+			log.log(Level.ALL, "MariaDB =>" + retValue[0] + "<= <" + oraStatement	+ ">");
 		//
 		Convert.logMigrationScript(oraStatement, null, retValue[0]);
 		return retValue[0];
@@ -351,22 +337,22 @@ public class DB_MySQL implements AdempiereDatabase {
 				return "current_date()";
 			return "now()";
 		}
-/* MySQL has no to_date function.
+/* MaruaDB has no to_date function.
  * Trifon: created 'to_date' function in order to be able to create proper .sql migration files.
  *
  * select STR_TO_DATE('01,5,2013','%d,%m,%Y'); --> '2013-05-01'
  * select STR_TO_DATE('2010-07-30 19:38:51','%Y-%m-%d %H:%i:%s');  --> '2010-07-30 19:38:51'
  */
-		StringBuffer dateString = new StringBuffer("TO_DATE('"); // "STR_TO_DATE" -> MySQL function. But if we use MySQL function then Oracle and PostgreSQL migration files get wrong.
+		StringBuffer dateString = new StringBuffer("TO_DATE('"); // "STR_TO_DATE" -> MariaDB function. But if we use MariaDB function then Oracle and PostgreSQL migration files get wrong.
 		// YYYY-MM-DD HH24:MI:SS.mmmm JDBC Timestamp format
 		String myDate = time.toString();
 		if (dayOnly) {
 			dateString.append(myDate.substring(0, 10));
-			//dateString.append("','%Y-%m-%d')"); // MySQL
+			//dateString.append("','%Y-%m-%d')"); // MariaDB
 			dateString.append("','YYYY-MM-DD')"); // Oracle & PostgreSQL strings: 'YYYY-MM-DD'
 		} else {
 			dateString.append(myDate.substring(0, myDate.indexOf('.'))); // cut off milliseconds
-			//dateString.append("','%Y-%m-%d %H:%i:%s')");   // MySQL
+			//dateString.append("','%Y-%m-%d %H:%i:%s')");   // MariaDB
 			dateString.append("','YYYY-MM-DD HH24:MI:SS')"); //Oracle & PostgreSQL strings:  'YYYY-MM-DD HH24:MI:SS'
 		}
 		return dateString.toString();
@@ -391,26 +377,7 @@ public class DB_MySQL implements AdempiereDatabase {
 		StringBuffer retValue = new StringBuffer("CAST (");
 		retValue.append(columnName);
 		retValue.append(" AS Char)");
-
-		// Numbers
-		/*
-		if (DisplayType.isNumeric(displayType))
-		{
-			if (displayType == DisplayType.Amount)
-				retValue.append(" AS TEXT");
-			else
-				retValue.append(" AS TEXT");			
-			//if (!Language.isDecimalPoint(AD_Language))      //  reversed
-			//retValue.append(",'NLS_NUMERIC_CHARACTERS='',.'''");
-		}
-		else if (DisplayType.isDate(displayType))
-		{
-			retValue.append(",'")
-				.append(Language.getLanguage(AD_Language).getDBdatePattern())
-				.append("'");
-		}
-		retValue.append(")");
-		//*/
+		//	
 		return retValue.toString();
 	}
 
@@ -464,7 +431,7 @@ public class DB_MySQL implements AdempiereDatabase {
 	 * @throws SQLException
 	 */
 	public RowSet getRowSet(java.sql.ResultSet rs) throws SQLException {
-		throw new UnsupportedOperationException("MySQL does not support RowSets");
+		throw new UnsupportedOperationException("MariaDB does not support RowSets");
 	}
 
 	/**
@@ -693,26 +660,17 @@ public class DB_MySQL implements AdempiereDatabase {
 	 * @param args ignored
 	 */
 	public static void main(String[] args) {
-		DB_MySQL mysql = new DB_MySQL();
+		DB_MariaDB mariaDB = new DB_MariaDB();
 		//
 		String databaseName = "adempiere";
 		String uid = "adempiere";
 		String pwd = "adempiere";
-		String jdbcURL = mysql.getConnectionURL("localhost", DEFAULT_PORT, databaseName, uid);
+		String jdbcURL = mariaDB.getConnectionURL("localhost", DEFAULT_PORT, databaseName, uid);
 		System.out.println(jdbcURL);
 		try {
-			mysql.getDriver();
-			System.out.println(mysql.getDriver());
+			mariaDB.getDriver();
+			System.out.println(mariaDB.getDriver());
 			Connection conn = DriverManager.getConnection(jdbcURL, uid, pwd);
-
-			// CachedRowSetImpl crs = null;
-			// crs = new CachedRowSetImpl();
-			// crs.setSyncProvider("com.sun.rowset.providers.RIOptimisticProvider");
-			// crs.setConcurrency(ResultSet.CONCUR_READ_ONLY);
-			// crs.setType(ResultSet.TYPE_SCROLL_INSENSITIVE);
-			// crs.setCommand("SELECT * FROM AD_Client");
-			//
-			// crs.execute(conn);
 			//
 			conn.close();
 			conn = null;
