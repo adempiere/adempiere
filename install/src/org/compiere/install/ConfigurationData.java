@@ -50,8 +50,10 @@ import org.compiere.util.Ini;
  *  @author Jorg Janke
  *  @version $Id: ConfigurationData.java,v 1.4 2006/07/30 00:57:42 jjanke Exp $
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *			<li> FR [ 402 ] Mail setup is hardcoded
- *			@see https://github.com/adempiere/adempiere/issues/402
+ *		<li> FR [ 402 ] Mail setup is hardcoded
+ *		@see https://github.com/adempiere/adempiere/issues/402
+ *		<li> FR [ 391 ] Add connection support to MariaDB
+ *		@see https://github.com/adempiere/adempiere/issues/464
  */
 public class ConfigurationData
 {
@@ -834,37 +836,33 @@ public class ConfigurationData
 	 * 	Synchronize and save Connection Info in Ini
 	 * 	@return true 
 	 */
-	private boolean saveIni()
-	{
+	private boolean saveIni() {
 		Ini.setAdempiereHome(m_adempiereHome.getAbsolutePath());
-
 		//	Create Connection
-		String ccType = Database.DB_ORACLE;
-		if (getDatabaseType().equals(DBTYPE_POSTGRESQL))
-			ccType = Database.DB_POSTGRESQL;
-		else if(getDatabaseType().equals(DBTYPE_MYSQL))
-			ccType = Database.DB_MYSQL;
-		CConnection cc = null;
-		try
-		{
-			cc = CConnection.get (ccType,
+		String url = null;
+		try {
+			String ccType = Database.DB_ORACLE;
+			//	For others
+			if (!getDatabaseType().equals(Database.DB_ORACLE)) {
+				ccType = getDatabaseType();
+			}
+			//	
+			CConnection cc = CConnection.get (ccType,
 				getDatabaseServer(), getDatabasePort(), getDatabaseName(),
 				getDatabaseUser(), getDatabasePassword());
 			cc.setAppsHost(getAppsServer());
 			cc.setAppsPort(getAppsServerJNPPort());
 			cc.setConnectionProfile(CConnection.PROFILE_LAN);
-		}
-		catch(Exception e)
-		{
+			url = cc.toStringLong();
+		} catch(Exception e) {
 			log.log(Level.SEVERE, "connection", e);
 			return false;
 		}
-		if (cc == null)
-		{
+		if (url == null) {
 			log.warning("No Connection");
 			return false;
 		}
-		Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
+		Ini.setProperty(Ini.P_CONNECTION, url);
 		Ini.saveProperties(false);
 		return true;
 	}	//	saveIni
@@ -1341,27 +1339,16 @@ public class ConfigurationData
 	/**************************************************************************
 	 * 	Database Settings
 	 *************************************************************************/
-	
-	/** Oracle directory	*/
-	private static String	DBTYPE_ORACLE = "oracle";
-	/** Oracle XP	*/
-	private static String	DBTYPE_ORACLEXE = "oracleXE";
-        
-	/** PostgreSQL          */
-	private static String	DBTYPE_POSTGRESQL = "postgresql";
-	
-    /** MySQL          */
-	private static String	DBTYPE_MYSQL = "mysql";
-	
+	//	end e-evolution vpj-cd 02/07/2005 PostgreSQL
 	/** Database Types		*/
-	static String[]	DBTYPE = new String[]
-	{	DBTYPE_ORACLEXE,
-		DBTYPE_ORACLE, 
-        //begin e-evolution vpj-cd 02/07/2005 PostgreSQL
-        DBTYPE_POSTGRESQL,
-		DBTYPE_MYSQL
+	public static String[]	DBTYPE = new String[] {	
+		Database.DB_ORACLE,
+		Database.DB_ORACLE + "XE",
+		Database.DB_POSTGRESQL,
+		Database.DB_MYSQL,
+		Database.DB_MARIADB
     };
-	    //end e-evolution vpj-cd 02/07/2005 PostgreSQL
+	//	end e-evolution vpj-cd 02/07/2005 PostgreSQL
 		
 	/** Database Configs	*/
 	private Config[] m_databaseConfig = new Config[]
@@ -1369,7 +1356,8 @@ public class ConfigurationData
 		new ConfigOracle(this,true),
 		new ConfigOracle(this,false),
 		new ConfigPostgreSQL(this),
-        new ConfigMySQL(this)
+        new ConfigMySQL(this),
+		new ConfigMariaDB(this)
 		};
 
 	/**

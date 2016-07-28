@@ -18,35 +18,34 @@ package org.compiere.install;
 import java.net.InetAddress;
 import java.sql.Connection;
 
-import org.compiere.db.DB_MySQL;
+import org.compiere.db.DB_MariaDB;
 
 
 /**
- *
- * @author praneet tiwari
- * 
+ * Configuration class for MariaDB Database
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 391 ] Add connection support to MariaDB
+ *		@see https://github.com/adempiere/adempiere/issues/464
  */
-public class ConfigMySQL extends Config {
-/**
+public class ConfigMariaDB extends Config {
+	/**
 	 * 	ConfigPostgreSQL
 	 *	@param data
 	 */
-	public ConfigMySQL (ConfigurationData data)
-	{
+	public ConfigMariaDB (ConfigurationData data) {
 		super (data);
 	}	//	ConfigPostgreSQL
 
 	/** Discovered TNS			*/
 	private String[] 			p_discovered = null;
-	/**	PostgreSQL DB Info			*/
-	private DB_MySQL			p_db = new DB_MySQL();
+	/**	MariaDB DB Info			*/
+	private DB_MariaDB			p_db = new DB_MariaDB();
 	
 	/**
 	 * 	Init
 	 */
-	public void init()
-	{
-		p_data.setDatabasePort(String.valueOf(DB_MySQL.DEFAULT_PORT));
+	public void init() {
+		p_data.setDatabasePort(String.valueOf(DB_MariaDB.DEFAULT_PORT));
 	}	//	init
 
 	/**
@@ -55,8 +54,7 @@ public class ConfigMySQL extends Config {
 	 *	@param selected selected database
 	 *	@return array of databases
 	 */
-	public String[] discoverDatabases(String selected)
-	{
+	public String[] discoverDatabases(String selected) {
 		if (p_discovered != null)
 			return p_discovered;
 		p_discovered = new String[]{};
@@ -68,8 +66,7 @@ public class ConfigMySQL extends Config {
 	 * 	Test
 	 *	@return error message or null if OK
 	 */
-	public String test()
-	{
+	public String test() {
 		//	Database Server
 		String server = p_data.getDatabaseServer();
 		boolean pass = server != null && server.length() > 0;
@@ -166,15 +163,11 @@ public class ConfigMySQL extends Config {
 	 *  @param pwd password
 	 * 	@return true if OK
 	 */
-	private boolean testJDBC (String url, String uid, String pwd)
-	{
-		try
-		{
+	private boolean testJDBC (String url, String uid, String pwd) {
+		try {
 			@SuppressWarnings("unused")
 			Connection conn = p_db.getDriverConnection(url, uid, pwd);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			log.severe(e.toString());
 			return false;
 		}
