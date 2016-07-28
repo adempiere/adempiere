@@ -19,11 +19,18 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.util.Msg;
+
+import org.compiere.util.Msg;
+
 /**
  *	Payment Batch Model
  *	
  *  @author Jorg Janke
  *  @version $Id: MPaymentBatch.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
+ *		@see https://github.com/adempiere/adempiere/issues/297
  */
 public class MPaymentBatch extends X_C_PaymentBatch
 {
@@ -94,7 +101,9 @@ public class MPaymentBatch extends X_C_PaymentBatch
 	{
 		this (ps.getCtx(), 0, ps.get_TrxName());
 		setClientOrg(ps);
-		setName (ps.getName());
+		//	FR [ 297 ]
+		setName (Msg.parseTranslation(getCtx(), 
+				"@CreateFrom@ @C_PaySelection_ID@ " + ps.getDocumentNo()));
 	}	//	MPaymentBatch
 
 }	//	MPaymentBatch

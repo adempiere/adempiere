@@ -47,6 +47,7 @@ import org.adempiere.webui.window.SimplePDFViewer;
 import org.compiere.apps.form.PayPrint;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MLookupInfo;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPaymentBatch;
 import org.compiere.print.ReportEngine;
@@ -71,7 +72,12 @@ import org.zkoss.zul.Filedownload;
  * 
  *  Contributors:
  *    Carlos Ruiz - GlobalQSS - FR 3132033 - Make payment export class configurable per bank
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document, this process is changed to 
+ *			document workflow of Payment Selection
+ *		@see https://github.com/adempiere/adempiere/issues/297
  */
+@Deprecated
 public class WPayPrint extends PayPrint implements IFormController, EventListener, ValueChangeListener
 {
 	private CustomForm form = new CustomForm();
@@ -195,7 +201,11 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	{
 		//  C_PaySelection_ID
 		int AD_Column_ID = 7670;        //  C_PaySelectionCheck.C_PaySelection_ID
-		MLookup lookupPS = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
+		//	FR [ 297 ]
+		//	Add DocStatus for validation
+		MLookupInfo info = MLookupFactory.getLookupInfo(Env.getCtx(), m_WindowNo, AD_Column_ID, DisplayType.Search);
+		info.ValidationCode = "C_PaySelection.DocStatus IN('CO', 'CL') AND C_PaySelection.C_BankAccount_ID IS NOT NULL";
+		MLookup lookupPS = new MLookup(info, 0);
 		paySelectSearch = new WSearchEditor("C_PaySelection_ID", true, false, true, lookupPS);
 		paySelectSearch.addValueChangeListener(this);
 
