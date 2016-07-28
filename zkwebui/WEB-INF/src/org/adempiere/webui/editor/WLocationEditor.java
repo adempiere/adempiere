@@ -125,7 +125,6 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         else
         {
             m_value = m_Location.getLocation(value, null);
-            gridField.setValue(m_value, true);
             if (m_value == null)
                 getComponent().setText("<" + value + ">");
             else
