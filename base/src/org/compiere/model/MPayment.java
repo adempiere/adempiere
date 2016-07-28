@@ -72,6 +72,9 @@ import org.compiere.util.ValueNamePair;
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *
  *  @author Carlos Ruiz - globalqss [ 2141475 ] Payment <> allocations must not be completed - implement lots of validations on prepareIt
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
+ *		@see https://github.com/adempiere/adempiere/issues/297
  *  @version 	$Id: MPayment.java,v 1.4 2006/10/02 05:18:39 jjanke Exp $
  */
 public final class MPayment extends X_C_Payment 
@@ -285,7 +288,8 @@ public final class MPayment extends X_C_Payment
 		MBPBankAccount ba = new MBPBankAccount (preparedPayment.getCtx(), C_BP_BankAccount_ID, null);
 		setRoutingNo(ba.getRoutingNo());
 		setAccountNo(ba.getAccountNo());
-		setDescription(preparedPayment.getC_PaySelection().getName());
+		//	FR [ 297 ] Change to Description
+		setDescription(preparedPayment.getC_PaySelection().getDescription());
 		setIsReceipt (X_C_Order.PAYMENTRULE_DirectDebit.equals	//	AR only
 				(preparedPayment.getPaymentRule()));
 		if ( MPaySelectionCheck.PAYMENTRULE_DirectDebit.equals(preparedPayment.getPaymentRule()) )
@@ -2027,13 +2031,13 @@ public final class MPayment extends X_C_Payment
 		if (getC_Invoice_ID() != 0)
 		{	
 				return allocateInvoice();
-		}	
+		}
+		//	FR [ 297 ]
+		if (getC_Order_ID() != 0)
+			return false;
 		//	Invoices of a AP Payment Selection
 		if (allocatePaySelection())
 			return true;
-		
-		if (getC_Order_ID() != 0)
-			return false;
 			
 		//	Allocate to multiple Payments based on entry
 		MPaymentAllocate[] pAllocs = MPaymentAllocate.get(this);
@@ -2136,7 +2140,8 @@ public final class MPayment extends X_C_Payment
 			+ " psl.PayAmt, psl.DiscountAmt, psl.DifferenceAmt, psl.OpenAmt "
 			+ "FROM C_PaySelectionLine psl"
 			+ " INNER JOIN C_PaySelectionCheck psc ON (psl.C_PaySelectionCheck_ID=psc.C_PaySelectionCheck_ID) "
-			+ "WHERE psc.C_Payment_ID=?";
+			//	Validate if have invoice
+			+ "WHERE psc.C_Payment_ID=? AND psl.C_Invoice_ID IS NOT NULL";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try

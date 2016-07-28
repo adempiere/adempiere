@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -35,6 +36,9 @@ import org.compiere.util.Msg;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MPaySelectionCheck.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
+ *		@see https://github.com/adempiere/adempiere/issues/297
  */
 public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 {
@@ -118,9 +122,12 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		
 		//	Create new PaySelection
 		MPaySelection ps = new MPaySelection(ctx, 0, trxName);
+		ps.setC_DocType_ID();
 		ps.setAD_Org_ID(payment.getAD_Org_ID());
 		ps.setC_BankAccount_ID (payment.getC_BankAccount_ID());
-		ps.setName (Msg.translate(ctx, "C_Payment_ID") + ": " + payment.getDocumentNo());
+		//	FR [ 297 ]
+		ps.setDescription(Msg.parseTranslation(ctx, 
+				"@CreateFrom@ @C_Payment_ID@ " + payment.getDocumentNo()));
 		ps.setDescription(payment.getDescription());
 		ps.setPayDate (payment.getDateTrx());
 		ps.setTotalAmt (payment.getPayAmt());
@@ -147,8 +154,29 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		if (payment.getC_Invoice_ID() != 0)
 		{
 			psl = new MPaySelectionLine (ps, 10, PaymentRule);
-			psl.setC_Invoice_ID(payment.getC_Invoice_ID());
+			//	FR [ 297 ]
+			//	For Order
+			if(payment.getC_Order_ID() != 0) {
+				psl.setC_Order_ID (payment.getC_Order_ID());
+			}
+			//	For Charge
+			if(payment.getC_Charge_ID() != 0) {
+				psl.setC_Charge_ID (payment.getC_Charge_ID());
+			}
+			//	For Conversion Type
+			if(payment.getC_ConversionType_ID() != 0) {
+				psl.setC_ConversionType_ID(payment.getC_ConversionType_ID());
+			}
+			//	For Invoice
+			if(payment.getC_Invoice_ID() != 0) {
+				psl.setC_Invoice_ID (payment.getC_Invoice_ID());
+			}
+			//	For all
+			psl.setIsPrepayment(payment.isPrepayment());
+			//	
+			psl.setC_BPartner_ID(payment.getC_BPartner_ID());
 			psl.setIsSOTrx (payment.isReceipt());
+			psl.setAmtSource(payment.getPayAmt());
 			psl.setOpenAmt(payment.getPayAmt().add(payment.getDiscountAmt()));
 			psl.setPayAmt (payment.getPayAmt());
 			psl.setDiscountAmt(payment.getDiscountAmt());
@@ -169,7 +197,26 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 					{
 						MPaySelectionLine psla = null;
 						psla = new MPaySelectionLine (ps, 10 * (i+1), PaymentRule);
-						psla.setC_Invoice_ID(pAlloc.getC_Invoice_ID());
+						//	FR [ 297 ]
+						//	For Order
+						if(payment.getC_Order_ID() != 0) {
+							psla.setC_Order_ID (payment.getC_Order_ID());
+						}
+						//	For Charge
+						if(payment.getC_Charge_ID() != 0) {
+							psla.setC_Charge_ID (payment.getC_Charge_ID());
+						}
+						//	For Conversion Type
+						if(payment.getC_ConversionType_ID() != 0) {
+							psla.setC_ConversionType_ID(payment.getC_ConversionType_ID());
+						}
+						//	For Invoice
+						if(payment.getC_Invoice_ID() != 0) {
+							psla.setC_Invoice_ID (payment.getC_Invoice_ID());
+						}
+						//	For all
+						psla.setIsPrepayment(payment.isPrepayment());
+						//	
 						psla.setIsSOTrx (payment.isReceipt());
 						psla.setOpenAmt(pAlloc.getAmount().add(pAlloc.getDiscountAmt()));
 						psla.setPayAmt (pAlloc.getAmount());
@@ -189,7 +236,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		}
 		
 		//	Indicate Done
-		ps.setProcessed(true);
+		ps.processIt(DocAction.ACTION_Complete);
 		ps.saveEx();
 		return psc;
 	}	//	createForPayment
@@ -241,6 +288,28 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		list.toArray(retValue);
 		return retValue;
 	}   //  get
+	
+	/**************************************************************************
+	 *  Get all Checks of Payment Selection
+	 *  @param ctx context
+	 *  @param C_PaySelection_ID Payment Selection
+	 *	@param trxName transaction
+	 *  @return array of checks
+	 *  FR [ 297 ]
+	 */
+	public static MPaySelectionCheck[] get(Properties ctx, int C_PaySelection_ID, String trxName) {
+		s_log.fine("C_PaySelection_ID=" + C_PaySelection_ID);
+		
+		List <MPaySelectionCheck> list = new Query(ctx, 
+				I_C_PaySelectionCheck.Table_Name, 
+				I_C_PaySelectionCheck.COLUMNNAME_C_PaySelection_ID + " = ?", trxName)
+			.setParameters(C_PaySelection_ID)
+			.list();
+		//
+		MPaySelectionCheck [] lines = new MPaySelectionCheck[list.size ()];
+		list.toArray(lines);
+		return lines;
+	}   //  get
 
 	
 	/**************************************************************************
@@ -264,8 +333,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 				if (check.getPaymentRule().equals(PAYMENTRULE_Check))
 				{
 					payment.setCheckNo(check.getDocumentNo());
-					if (!payment.save())
-						s_log.log(Level.SEVERE, "Payment not saved: " + payment);
+					payment.saveEx();
 				}
 			}
 			else	//	New Payment
@@ -300,24 +368,42 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 				}
 				//	Link to Invoice
 				MPaySelectionLine[] psls = check.getPaySelectionLines(false);
-				s_log.fine("confirmPrint - " + check + " (#SelectionLines=" + psls.length + ")");
+				s_log.fine("confirmPrint - " + check + " (#SelectionLines=" + (psls != null? psls.length: 0) + ")");
 				if (check.getQty() == 1 && psls != null && psls.length == 1)
 				{
 					MPaySelectionLine psl = psls[0];
 					s_log.fine("Map to Invoice " + psl);
 					//
-					payment.setC_Invoice_ID (psl.getC_Invoice_ID());
+					//	FR [ 297 ]
+					//	For Order
+					if(psl.getC_Order_ID() != 0) {
+						payment.setC_Order_ID (psl.getC_Order_ID());
+					}
+					//	For Charge
+					if(psl.getC_Charge_ID() != 0) {
+						payment.setC_Charge_ID (psl.getC_Charge_ID());
+					}
+					//	For Conversion Type
+					if(psl.getC_ConversionType_ID() != 0) {
+						payment.setC_ConversionType_ID(psl.getC_ConversionType_ID());
+					}
+					//	For Invoice
+					if(psl.getC_Invoice_ID() != 0) {
+						payment.setC_Invoice_ID (psl.getC_Invoice_ID());
+					}
+					//	For all
+					payment.setIsPrepayment(psl.isPrepayment());
+					//	
 					payment.setDiscountAmt (psl.getDiscountAmt());
 					payment.setWriteOffAmt(psl.getDifferenceAmt());
 					BigDecimal overUnder = psl.getOpenAmt().subtract(psl.getPayAmt())
 						.subtract(psl.getDiscountAmt()).subtract(psl.getDifferenceAmt());
 					payment.setOverUnderAmt(overUnder);
-				}
-				else
+				} else {
 					payment.setDiscountAmt(Env.ZERO);
+				}
 				payment.setWriteOffAmt(Env.ZERO);
-				if (!payment.save())
-					s_log.log(Level.SEVERE, "Payment not saved: " + payment);
+				payment.saveEx();
 				//
 				int C_Payment_ID = payment.get_ID();
 				if (C_Payment_ID < 1)
@@ -328,8 +414,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 					check.saveEx();	//	Payment process needs it
 					//	Should start WF
 					payment.processIt(DocAction.ACTION_Complete);
-					if (!payment.save())
-						s_log.log(Level.SEVERE, "Payment not saved: " + payment);
+					payment.saveEx();
 				}
 			}	//	new Payment
 
@@ -346,8 +431,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			}
 			check.setIsPrinted(true);
 			check.setProcessed(true);
-			if (!check.save ())
-				s_log.log(Level.SEVERE, "Check not saved: " + check);
+			check.saveEx();
 		}	//	all checks
 
 		s_log.fine("Last Document No = " + lastDocumentNo);
@@ -378,7 +462,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			setQty (0);
 		}
 	}   //  MPaySelectionCheck
-
+	
 	/**
 	 *	Load Constructor
 	 *  @param ctx context
@@ -389,21 +473,30 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 	{
 		super(ctx, rs, trxName);
 	}   //  MPaySelectionCheck
-
+	
 	/**
 	 * 	Create from Line
 	 *	@param line payment selection
-	 *	@param PaymentRule payment rule
+	 *	@param PaymentRule tender type
+	 *	FR [ 297 ] Change by Tender Type
 	 */
 	public MPaySelectionCheck (MPaySelectionLine line, String PaymentRule)
 	{
 		this (line.getCtx(), 0, line.get_TrxName());
 		setClientOrg(line);
 		setC_PaySelection_ID (line.getC_PaySelection_ID());
-		int C_BPartner_ID = line.getInvoice().getC_BPartner_ID();
+		//	FR [ 297 ] BP is now in line
+		int C_BPartner_ID = line.getC_BPartner_ID();
 		setC_BPartner_ID (C_BPartner_ID);
-		//
-		if (X_C_Order.PAYMENTRULE_DirectDebit.equals(PaymentRule))
+		//	Valid Tender Type
+		if(PaymentRule == null) {
+			PaymentRule = line.getPaymentRule();
+		}
+		//	Add default account
+		if(line.getC_BP_BankAccount_ID() != 0) {
+			setC_BP_BankAccount_ID(line.getC_BP_BankAccount_ID());
+		} 
+		else if (X_C_Order.PAYMENTRULE_DirectDebit.equals(PaymentRule))
 		{
 			MBPBankAccount[] bas = MBPBankAccount.getOfBPartner (line.getCtx(), C_BPartner_ID); 
 			for (int i = 0; i < bas.length; i++) 
@@ -463,8 +556,9 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 	 */
 	public void addLine (MPaySelectionLine line)
 	{
-		if (getC_BPartner_ID() != line.getInvoice().getC_BPartner_ID())
-			throw new IllegalArgumentException("Line for fifferent BPartner");
+		//	FR [ 297 ] Change to Message
+		if (getC_BPartner_ID() != line.getC_BPartner_ID())
+			throw new IllegalArgumentException("@BPartnerDiff@");
 		//
 		if (isReceipt() == line.isSOTrx())
 		{

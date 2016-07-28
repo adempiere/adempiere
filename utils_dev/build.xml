@@ -36,7 +36,6 @@
 		<ant inheritAll="false" dir="migration"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing"/>
-		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll"/>
 		<ant inheritAll="false" dir="org.eevolution.warehouse"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate"/>
 	</target>
@@ -65,7 +64,6 @@
 		<ant inheritAll="false" dir="migration" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing" target="clean"/>
-		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.warehouse" target="clean"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate" target="migrate.clean"/>
 	</target>
