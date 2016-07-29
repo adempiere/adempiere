@@ -471,34 +471,23 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 		setClientOrg(line);
 		setHR_PaySelection_ID (line.getHR_PaySelection_ID());
 		setAD_Org_ID(line.getHR_Movement().getAD_Org_ID());
-		int C_BPartner_ID = line.getHR_Movement().getC_BPartner_ID();
-		setC_BPartner_ID (C_BPartner_ID);
+		int partnerId = line.getHR_Movement().getC_BPartner_ID();
+		setC_BPartner_ID (partnerId);
 		//
 		if (X_C_Order.PAYMENTRULE_DirectDebit.equals(PaymentRule))
 		{
-			MBPBankAccount[] bas = MBPBankAccount.getOfBPartner(line.getCtx(), C_BPartner_ID);
-			for (int i = 0; i < bas.length; i++) 
-			{
-				MBPBankAccount account = bas[i];
-				if (account.isDirectDebit())
-				{
-					setC_BP_BankAccount_ID(account.getC_BP_BankAccount_ID());
-					break;
-				}
-			}
+			List<MBPBankAccount>parterBankAccts = MBPBankAccount.getOfBPartner(line.getCtx(), partnerId);
+			parterBankAccts.stream().filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDebit())
+					.findFirst()
+					.ifPresent( partnerBankAccount -> setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID()));
 		}
 		else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(PaymentRule))
 		{
-			MBPBankAccount[] bas = MBPBankAccount.getOfBPartner(line.getCtx(), C_BPartner_ID);
-			for (int i = 0; i < bas.length; i++) 
-			{
-				MBPBankAccount account = bas[i];
-				if (account.isDirectDeposit())
-				{
-					setC_BP_BankAccount_ID(account.getC_BP_BankAccount_ID());
-					break;
-				}
-			}
+			List<MBPBankAccount>  parterBankAccts = MBPBankAccount.getOfBPartner(line.getCtx(), partnerId);
+			parterBankAccts.stream()
+					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDeposit())
+					.findFirst()
+					.ifPresent( partnerBankAccount -> setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID()));
 		}
 		setPaymentRule (PaymentRule);
 		//

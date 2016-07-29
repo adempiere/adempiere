@@ -26,6 +26,9 @@ import org.compiere.util.CLogger;
  *  BP Bank Account Model
  *
  *  @author Jorg Janke
+ *	@author  victor.perez , victor.perez@e-evolution.com http://www.e-evolution.com
+ * 		<li> FR [ 297 ] Apply ADempiere best Pratice
+ *		@see https://github.com/adempiere/adempiere/issues/297
  *  @version $Id: MBPBankAccount.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
 public class MBPBankAccount extends X_C_BP_BankAccount
@@ -38,20 +41,16 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 	/**
 	 * 	Get Accounts Of BPartner
 	 *	@param ctx context
-	 *	@param C_BPartner_ID bpartner
+	 *	@param partnerId bpartner
 	 *	@return
 	 */
-	public static MBPBankAccount[] getOfBPartner (Properties ctx, int C_BPartner_ID)
+	public static List<MBPBankAccount> getOfBPartner (Properties ctx, int partnerId)
 	{
 		final String whereClause = MBPBankAccount.COLUMNNAME_C_BPartner_ID+"=?";
-		List<MBPBankAccount>list = new Query(ctx,I_C_BP_BankAccount.Table_Name,whereClause,null)
-		.setParameters(C_BPartner_ID)
+		return new Query(ctx,I_C_BP_BankAccount.Table_Name,whereClause,null)
+		.setParameters(partnerId)
 		.setOnlyActiveRecords(true)
 		.list();
-		
-		MBPBankAccount[] retValue = new MBPBankAccount[list.size()];
-		list.toArray(retValue);
-		return retValue;
 	}	//	getOfBPartner
 
 	/**	Logger	*/
@@ -60,13 +59,13 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 	/**************************************************************************
 	 * 	Constructor
 	 *	@param ctx context
-	 *	@param C_BP_BankAccount_ID BP bank account
+	 *	@param bankAccountId BP bank account
 	 *	@param trxName transaction
 	 */
-	public MBPBankAccount (Properties ctx, int C_BP_BankAccount_ID, String trxName)
+	public MBPBankAccount (Properties ctx, int bankAccountId, String trxName)
 	{
-		super (ctx, C_BP_BankAccount_ID, trxName);
-		if (C_BP_BankAccount_ID == 0)
+		super (ctx, bankAccountId, trxName);
+		if (bankAccountId == 0)
 		{
 		//	setC_BPartner_ID (0);
 			setIsACH (false);

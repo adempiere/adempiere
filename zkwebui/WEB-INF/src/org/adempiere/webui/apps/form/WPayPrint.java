@@ -81,6 +81,7 @@ import org.zkoss.zul.Filedownload;
 public class WPayPrint extends PayPrint implements IFormController, EventListener, ValueChangeListener
 {
 	private CustomForm form = new CustomForm();
+	private List<File> pdfList = new ArrayList<>();
 
 	/**
 	 *	Initialize Panel
@@ -203,7 +204,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		int AD_Column_ID = 7670;        //  C_PaySelectionCheck.C_PaySelection_ID
 		//	FR [ 297 ]
 		//	Add DocStatus for validation
-		MLookupInfo info = MLookupFactory.getLookupInfo(Env.getCtx(), m_WindowNo, AD_Column_ID, DisplayType.Search);
+		MLookupInfo info = MLookupFactory.getLookupInfo(Env.getCtx(), windowNo, AD_Column_ID, DisplayType.Search);
 		info.ValidationCode = "C_PaySelection.DocStatus IN('CO', 'CL') AND C_PaySelection.C_BankAccount_ID IS NOT NULL";
 		MLookup lookupPS = new MLookup(info, 0);
 		paySelectSearch = new WSearchEditor("C_PaySelection_ID", true, false, true, lookupPS);
@@ -228,8 +229,8 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		if (C_PaySelection_ID == 0)
 			return;
 		//
-		m_C_PaySelection_ID = C_PaySelection_ID;
-		paySelectSearch.setValue(new Integer(m_C_PaySelection_ID));
+		paySelectionId = C_PaySelection_ID;
+		paySelectSearch.setValue(new Integer(paySelectionId));
 		loadPaySelectInfo();
 	}	//	setsetPaySelection
 
@@ -243,7 +244,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	//	log.config( "VPayPrint.actionPerformed" + e.toString());
 		if (e.getTarget() == bCancel)
 			dispose();
-		else if (m_C_PaySelection_ID <= 0)
+		else if (paySelectionId <= 0)
 			return;
 		else if (e.getTarget() == fPaymentRule)
 			loadPaymentRuleInfo();
@@ -262,11 +263,11 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	private void loadPaySelectInfo()
 	{
 		log.info( "VPayPrint.loadPaySelectInfo");
-		if (m_C_PaySelection_ID <= 0)
+		if (paySelectionId <= 0)
 			return;
 		
 		//  load Banks from PaySelectLine
-		loadPaySelectInfo(m_C_PaySelection_ID);
+		loadPaySelectInfo(paySelectionId);
 		
 		fBank.setText(bank);
 		fCurrency.setText(currency);
@@ -281,13 +282,13 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	private void loadPaymentRule()
 	{
 		log.info("");
-		if (m_C_BankAccount_ID == -1)
+		if (bankAccountId == -1)
 			return;
 		
 		fPaymentRule.removeAllItems();
 		
 		// load PaymentRule for Bank
-		ArrayList<ValueNamePair> data = loadPaymentRule(m_C_PaySelection_ID);
+		ArrayList<ValueNamePair> data = loadPaymentRule(paySelectionId);
 		for(ValueNamePair pp : data)
 			fPaymentRule.addItem(pp);
 		
@@ -313,7 +314,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		log.info("PaymentRule=" + PaymentRule);
 		fNoPayments.setText(" ");
 		
-		String msg = loadPaymentRuleInfo(m_C_PaySelection_ID, PaymentRule);
+		String msg = loadPaymentRuleInfo(paySelectionId, PaymentRule);
 		
 		if(noPayments != null)
 			fNoPayments.setText(noPayments);
@@ -324,7 +325,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 			fDocumentNo.setValue(documentNo);
 		
 		if(msg != null && msg.length() > 0)
-			FDialog.error(m_WindowNo, form, msg);
+			FDialog.error(windowNo, form, msg);
 	}   //  loadPaymentRuleInfo
 
 
@@ -335,9 +336,9 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	{
 		if (fPaymentRule.getSelectedItem() == null)
 			return;
-		String PaymentRule = fPaymentRule.getSelectedItem().toValueNamePair().getValue();
-		log.info(PaymentRule);
-		if (!getChecks(PaymentRule))
+		String paymentRule = fPaymentRule.getSelectedItem().toValueNamePair().getValue();
+		log.info(paymentRule);
+		if (!getChecks(paymentRule))
 			return;
 
 		try 
@@ -347,43 +348,43 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	
 			//  Create File
 			int no = 0;
-			StringBuffer err = new StringBuffer("");
-			if (m_PaymentExportClass == null || m_PaymentExportClass.trim().length() == 0) {
-				m_PaymentExportClass = "org.compiere.util.GenericPaymentExport";
+			StringBuffer error = new StringBuffer("");
+			if (paymentExportClass == null || paymentExportClass.trim().length() == 0) {
+				paymentExportClass = "org.compiere.util.GenericPaymentExport";
 			}
 			//	Get Payment Export Class
 			PaymentExport custom = null;
 			try
 			{
-				Class<?> clazz = Class.forName(m_PaymentExportClass);
+				Class<?> clazz = Class.forName(paymentExportClass);
 				custom = (PaymentExport)clazz.newInstance();
-				no = custom.exportToFile(m_checks, tempFile, err);
+				no = custom.exportToFile(paySelectionChecks, tempFile, error);
 			}
 			catch (ClassNotFoundException e)
 			{
 				no = -1;
-				err.append("No custom PaymentExport class " + m_PaymentExportClass + " - " + e.toString());
-				log.log(Level.SEVERE, err.toString(), e);
+				error.append("No custom PaymentExport class " + paymentExportClass + " - " + e.toString());
+				log.log(Level.SEVERE, error.toString(), e);
 			}
 			catch (Exception e)
 			{
 				no = -1;
-				err.append("Error in " + m_PaymentExportClass + " check log, " + e.toString());
-				log.log(Level.SEVERE, err.toString(), e);
+				error.append("Error in " + paymentExportClass + " check log, " + e.toString());
+				log.log(Level.SEVERE, error.toString(), e);
 			}
 			if (no >= 0) {
 				Filedownload.save(new FileInputStream(tempFile), "plain/text", "paymentExport.txt");
-				FDialog.info(m_WindowNo, form, "Saved",
+				FDialog.info(windowNo, form, "Saved",
 						Msg.getMsg(Env.getCtx(), "NoOfLines") + "=" + no);
 
-				if (FDialog.ask(m_WindowNo, form, "VPayPrintSuccess?"))
+				if (FDialog.ask(windowNo, form, "VPayPrintSuccess?"))
 				{
 					//	int lastDocumentNo = 
-					MPaySelectionCheck.confirmPrint (m_checks, m_batch);
+					MPaySelectionCheck.confirmPrint (paySelectionChecks, paymentBatch);
 					//	document No not updated
 				}
 			} else {
-				FDialog.error(m_WindowNo, form, "Error", err.toString());
+				FDialog.error(windowNo, form, "Error", error.toString());
 			}
 			dispose();
 		}
@@ -400,13 +401,17 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	{
 		if (fPaymentRule.getSelectedItem() == null)
 			return;
-		String PaymentRule = fPaymentRule.getSelectedItem().toValueNamePair().getValue();
-		log.info(PaymentRule);
-		if (!getChecks(PaymentRule))
+		String paymentRule = fPaymentRule.getSelectedItem().toValueNamePair().getValue();
+		log.info(paymentRule);
+		if (!getChecks(paymentRule))
 			return;
 		dispose();
 	}   //  cmd_EFT
 
+	private void addPDFFile(File file)
+	{
+		pdfList.add(file);
+	}
 	/**
 	 *  Print Checks and/or Remittance
 	 */
@@ -414,30 +419,28 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	{
 		if (fPaymentRule.getSelectedItem() == null)
 			return;
-		String PaymentRule = fPaymentRule.getSelectedItem().toValueNamePair().getValue();
-		log.info(PaymentRule);
-		if (!getChecks(PaymentRule))
+		String paymentRule = fPaymentRule.getSelectedItem().toValueNamePair().getValue();
+		log.info(paymentRule);
+		if (!getChecks(paymentRule))
 			return;
 
 		//	for all checks
-		List<File> pdfList = new ArrayList<File>();
-		for (int i = 0; i < m_checks.length; i++)
-		{
-			MPaySelectionCheck check = m_checks[i];
+		pdfList = new ArrayList<File>();
+		paySelectionChecks.stream().filter(paySelectionCheck -> paySelectionCheck != null).forEach(paySelectionCheck -> {
 			//	ReportCtrl will check BankAccountDoc for PrintFormat
-			ReportEngine re = ReportEngine.get(Env.getCtx(), ReportEngine.CHECK, check.get_ID());
+			ReportEngine re = ReportEngine.get(Env.getCtx(), ReportEngine.CHECK, paySelectionCheck.get_ID());
 			try 
 			{
 				File file = File.createTempFile("WPayPrint", null);
 				re.getPDF(file);
-				pdfList.add(file);
+				addPDFFile(file);
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 				return;
 			}
-		}
+		});
 		
 		SimplePDFViewer chequeViewer = null;
 		try 
@@ -455,35 +458,35 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		}
 
 		//	Update BankAccountDoc
-		int lastDocumentNo = MPaySelectionCheck.confirmPrint (m_checks, m_batch);
+		int lastDocumentNo = MPaySelectionCheck.confirmPrint (paySelectionChecks, paymentBatch);
 		if (lastDocumentNo != 0)
 		{
 			StringBuffer sb = new StringBuffer();
 			sb.append("UPDATE C_BankAccountDoc SET CurrentNext=").append(++lastDocumentNo)
-				.append(" WHERE C_BankAccount_ID=").append(m_C_BankAccount_ID)
-				.append(" AND PaymentRule='").append(PaymentRule).append("'");
+				.append(" WHERE C_BankAccount_ID=").append(bankAccountId)
+				.append(" AND PaymentRule='").append(paymentRule).append("'");
 			DB.executeUpdate(sb.toString(), null);
 		}
 
 		SimplePDFViewer remitViewer = null; 
-		if (FDialog.ask(m_WindowNo, form, "VPayPrintPrintRemittance"))
+		if (FDialog.ask(windowNo, form, "VPayPrintPrintRemittance"))
 		{
 			pdfList = new ArrayList<File>();
-			for (int i = 0; i < m_checks.length; i++)
-			{
-				MPaySelectionCheck check = m_checks[i];
-				ReportEngine re = ReportEngine.get(Env.getCtx(), ReportEngine.REMITTANCE, check.get_ID());
+			paySelectionChecks.stream()
+					.filter(paySelectionCheck -> paySelectionCheck != null)
+					.forEach(paySelectionCheck -> {
+				ReportEngine re = ReportEngine.get(Env.getCtx(), ReportEngine.REMITTANCE, paySelectionCheck.get_ID());
 				try 
 				{
 					File file = File.createTempFile("WPayPrint", null);
 					re.getPDF(file);
-					pdfList.add(file);
+					addPDFFile(file);
 				}
 				catch (Exception e)
 				{
 					log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 				}
-			}
+			});
 			
 			try
 			{
@@ -500,6 +503,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 			}
 		}	//	remittance
 
+		pdfList = new ArrayList<>();
 		dispose();
 		
 		if (chequeViewer != null)
@@ -512,16 +516,16 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	
 	/**************************************************************************
 	 *  Get Checks
-	 *  @param PaymentRule Payment Rule
+	 *  @param paymentRule Payment Rule
 	 *  @return true if payments were created
 	 */
-	private boolean getChecks(String PaymentRule)
+	private boolean getChecks(String paymentRule)
 	{
 		//  do we have values
-		if (m_C_PaySelection_ID <= 0 || m_C_BankAccount_ID == -1
+		if (paySelectionId <= 0 || bankAccountId == -1
 			|| fPaymentRule.getSelectedIndex() == -1 || fDocumentNo.getValue() == null)
 		{
-			FDialog.error(m_WindowNo, form, "VPayPrintNoRecords",
+			FDialog.error(windowNo, form, "VPayPrintNoRecords",
 				"(" + Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID") + "=0)");
 			return false;
 		}
@@ -529,19 +533,19 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		//  get data
 		int startDocumentNo = ((Number)fDocumentNo.getValue()).intValue();
 
-		log.config("C_PaySelection_ID=" + m_C_PaySelection_ID + ", PaymentRule=" +  PaymentRule + ", DocumentNo=" + startDocumentNo);
+		log.config("C_PaySelection_ID=" + paySelectionId + ", PaymentRule=" +  paymentRule + ", DocumentNo=" + startDocumentNo);
 		//
 		//	get Selections
-		m_checks = MPaySelectionCheck.get(m_C_PaySelection_ID, PaymentRule, startDocumentNo, null);
+		paySelectionChecks = MPaySelectionCheck.get(paySelectionId, paymentRule, startDocumentNo, null);
 
 		//
-		if (m_checks == null || m_checks.length == 0)
+		if (paySelectionChecks == null || paySelectionChecks.size() == 0)
 		{
-			FDialog.error(m_WindowNo, form, "VPayPrintNoRecords",
+			FDialog.error(windowNo, form, "VPayPrintNoRecords",
 				"(" + Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID") + " #0");
 			return false;
 		}
-		m_batch = MPaymentBatch.getForPaySelection (Env.getCtx(), m_C_PaySelection_ID, null);
+		paymentBatch = MPaymentBatch.getForPaySelection (Env.getCtx(), paySelectionId, null);
 		return true;
 	}   //  getChecks
 	
@@ -566,7 +570,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		if (name.equals("C_PaySelection_ID"))
 		{
 			paySelectSearch.setValue(value);
-			m_C_PaySelection_ID = ((Integer)value).intValue();
+			paySelectionId = ((Integer)value).intValue();
 			loadPaySelectInfo();
 		}
 	}

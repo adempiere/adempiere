@@ -39,6 +39,9 @@ import org.eevolution.model.X_HR_Payroll;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
  *		@see https://github.com/adempiere/adempiere/issues/297
+ *	@author  victor.perez , victor.perez@e-evolution.com http://www.e-evolution.com
+ * 		<li> FR [ 297 ] Apply ADempiere best Pratice
+ *		@see https://github.com/adempiere/adempiere/issues/297
  */
 public class MPaySelectionLine extends X_C_PaySelectionLine
 {
@@ -50,13 +53,13 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
-	 *	@param C_PaySelectionLine_ID id
+	 *	@param payselectionlineId id
 	 *	@param trxName transaction
 	 */
-	public MPaySelectionLine (Properties ctx, int C_PaySelectionLine_ID, String trxName)
+	public MPaySelectionLine (Properties ctx, int payselectionlineId, String trxName)
 	{
-		super(ctx, C_PaySelectionLine_ID, trxName);
-		if (C_PaySelectionLine_ID == 0)
+		super(ctx, payselectionlineId, trxName);
+		if (payselectionlineId == 0)
 		{
 		//	setC_PaySelection_ID (0);
 		//	setPaymentRule (null);	// S
@@ -84,89 +87,89 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 
 	/**
 	 * 	Parent Constructor
-	 *	@param ps parent
+	 *	@param paySelection parent
 	 *	@param Line line
-	 *	@param PaymentRule payment rule
+	 *	@param paymentRule payment rule
 	 */
-	public MPaySelectionLine (MPaySelection ps, int Line, String PaymentRule)
+	public MPaySelectionLine (MPaySelection paySelection, int Line, String paymentRule)
 	{
-		this (ps.getCtx(), 0, ps.get_TrxName());
-		setClientOrg(ps);
-		setC_PaySelection_ID(ps.getC_PaySelection_ID());
+		this (paySelection.getCtx(), 0, paySelection.get_TrxName());
+		setClientOrg(paySelection);
+		setC_PaySelection_ID(paySelection.getC_PaySelection_ID());
 		setLine(Line);
 		//	FR [ 297 ]
-		if(PaymentRule != null)
-			setPaymentRule(PaymentRule);
+		if(paymentRule != null)
+			setPaymentRule(paymentRule);
 	}	//	MPaySelectionLine
 
 	/**	Invoice					*/
-	private MInvoice 		m_invoice = null;
+	private MInvoice invoice = null;
 	/**	Order					*/
-	private MOrder			m_order = null;
+	private MOrder order = null;
 	/**	HR Movement				*/
-	private X_HR_Movement	m_movement = null;
+	private X_HR_Movement movement = null;
 	/**	Parent					*/
-	private MPaySelection	m_parent = null;
+	private MPaySelection parent = null;
 	
 	/**
 	 * 	Set Invoice Info
-	 *	@param C_Invoice_ID invoice
-	 *  @param C_InvoicePaySchedule_ID invoice pay schedule
+	 *	@param invoiceId invoice
+	 *  @param invoicepayscheduleId invoice pay schedule
 	 *	@param isSOTrx sales trx
-	 *	@param PayAmt payment
-	 *	@param OpenAmt open
-	 *	@param DiscountAmt discount
+	 *	@param payAmt payment
+	 *	@param openAmt open
+	 *	@param discountAmt discount
 	 */
-	public void setInvoice (int C_Invoice_ID, int C_InvoicePaySchedule_ID, boolean isSOTrx, 
-		BigDecimal OpenAmt, BigDecimal PayAmt, BigDecimal DiscountAmt)
+	public void setInvoice (int invoiceId, int invoicepayscheduleId, boolean isSOTrx,
+		BigDecimal openAmt, BigDecimal payAmt, BigDecimal discountAmt)
 	{
-		setC_Invoice_ID (C_Invoice_ID);
-		set_ValueOfColumn("C_InvoicePaySchedule_ID",C_InvoicePaySchedule_ID);
+		setC_Invoice_ID (invoiceId);
+		set_ValueOfColumn("C_InvoicePaySchedule_ID",invoicepayscheduleId);
 		setIsSOTrx(isSOTrx);
-		setOpenAmt(OpenAmt);
-		setPayAmt (PayAmt);
-		setDiscountAmt(DiscountAmt);
-		setDifferenceAmt(OpenAmt.subtract(PayAmt).subtract(DiscountAmt));
+		setOpenAmt(openAmt);
+		setPayAmt (payAmt);
+		setDiscountAmt(discountAmt);
+		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setInvoive
 	
 	/**
 	 * Set Invoice Info
-	 * @param C_Invoice_ID
-	 * @param C_InvoicePaySchedule_ID
-	 * @param AmtSource
-	 * @param OpenAmt
-	 * @param PayAmt
-	 * @param DiscountAmt
+	 * @param invoiceId
+	 * @param invoicePayScheduleId
+	 * @param amtSource
+	 * @param openAmt
+	 * @param payAmt
+	 * @param discountAmt
 	 */
-	public void setInvoice(int C_Invoice_ID, int C_InvoicePaySchedule_ID, BigDecimal AmtSource, 
-			BigDecimal OpenAmt, BigDecimal PayAmt, BigDecimal DiscountAmt) {
-		MInvoice invoice = new MInvoice(getCtx(), C_Invoice_ID, get_TrxName());
-		setC_Invoice_ID (C_Invoice_ID);
+	public void setInvoice(int invoiceId, int invoicePayScheduleId, BigDecimal amtSource,
+			BigDecimal openAmt, BigDecimal payAmt, BigDecimal discountAmt) {
+		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
+		setC_Invoice_ID (invoiceId);
 		setIsSOTrx(invoice.isSOTrx());
 		setC_BPartner_ID(invoice.getC_BPartner_ID());
 		//	Set Payment Rule
 		if(getPaymentRule() == null
 				&& invoice.getPaymentRule() != null)
 			setPaymentRule(invoice.getPaymentRule());
-		setAmtSource(AmtSource);
-		setOpenAmt(OpenAmt);
-		setPayAmt (PayAmt);
-		setDiscountAmt(DiscountAmt);
-		setDifferenceAmt(OpenAmt.subtract(PayAmt).subtract(DiscountAmt));
+		setAmtSource(amtSource);
+		setOpenAmt(openAmt);
+		setPayAmt (payAmt);
+		setDiscountAmt(discountAmt);
+		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setInvoice
 
 	/**
 	 * Set Order Info
-	 * @param C_Order_ID
-	 * @param AmtSource
-	 * @param OpenAmt
-	 * @param PayAmt
-	 * @param DiscountAmt
+	 * @param orderId
+	 * @param amtSource
+	 * @param openAmt
+	 * @param payAmt
+	 * @param discountAmt
 	 */
-	public void setOrder(int C_Order_ID, BigDecimal AmtSource, 
-			BigDecimal OpenAmt, BigDecimal PayAmt, BigDecimal DiscountAmt) {
-		setC_Order_ID(C_Order_ID);
-		MOrder order = new MOrder(getCtx(), C_Order_ID, get_TrxName());
+	public void setOrder(int orderId, BigDecimal amtSource,
+			BigDecimal openAmt, BigDecimal payAmt, BigDecimal discountAmt) {
+		setC_Order_ID(orderId);
+		MOrder order = new MOrder(getCtx(), orderId, get_TrxName());
 		setIsSOTrx(order.isSOTrx());
 		setC_BPartner_ID(order.getC_BPartner_ID());
 		setIsPrepayment(true);
@@ -175,21 +178,21 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 				&& order.getPaymentRule() != null)
 			setPaymentRule(order.getPaymentRule());
 		//	
-		setAmtSource(AmtSource);
-		setOpenAmt(OpenAmt);
-		setPayAmt (PayAmt);
-		setDiscountAmt(DiscountAmt);
-		setDifferenceAmt(OpenAmt.subtract(PayAmt).subtract(DiscountAmt));
+		setAmtSource(amtSource);
+		setOpenAmt(openAmt);
+		setPayAmt (payAmt);
+		setDiscountAmt(discountAmt);
+		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setOrder
 	
 	/**
 	 * Set Payroll Movement Info
-	 * @param HR_Movement_ID
-	 * @param PayAmt
+	 * @param movementId
+	 * @param payAmt
 	 */
-	public void setHRMovement(int HR_Movement_ID, BigDecimal PayAmt) {
-		setHR_Movement_ID(HR_Movement_ID);
-		X_HR_Movement movement = new X_HR_Movement(getCtx(), HR_Movement_ID, get_TrxName());
+	public void setHRMovement(int movementId, BigDecimal payAmt) {
+		setHR_Movement_ID(movementId);
+		X_HR_Movement movement = new X_HR_Movement(getCtx(), movementId, get_TrxName());
 		setC_BPartner_ID(movement.getC_BPartner_ID());
 		//	Set Payment Rule
 		if(movement.getPaymentRule() != null)
@@ -213,66 +216,66 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		}
 		//	
 		setIsSOTrx(false);
-		setAmtSource(PayAmt);
-		setOpenAmt(PayAmt);
-		setPayAmt (PayAmt);
+		setAmtSource(payAmt);
+		setOpenAmt(payAmt);
+		setPayAmt (payAmt);
 		setDiscountAmt(Env.ZERO);
 		setDifferenceAmt(Env.ZERO);
 	}	//	setHRMovement
 	
 	/**
 	 * Set Payment Selection Line from parent line
-	 * @param C_PaySelectionLine_ID
-	 * @param PayAmt
-	 * @param DiscountAmt
+	 * @param payselectionlineId
+	 * @param payAmt
+	 * @param discountAmt
 	 */
-	public void setPaySelectionLineParent(int C_PaySelectionLine_ID, BigDecimal PayAmt, BigDecimal DiscountAmt) {
-		setC_PaySelectionLine_Parent_ID(C_PaySelectionLine_ID);
+	public void setPaySelectionLineParent(int payselectionlineId, BigDecimal payAmt, BigDecimal discountAmt) {
+		setC_PaySelectionLine_Parent_ID(payselectionlineId);
 		//	Get values
-		MPaySelectionLine parentLine = new MPaySelectionLine(getCtx(), C_PaySelectionLine_ID, get_TrxName());
+		MPaySelectionLine paySelectionLine = new MPaySelectionLine(getCtx(), payselectionlineId, get_TrxName());
 		//	Set Reference
-		setC_BPartner_ID(parentLine.getC_BPartner_ID());
-		setC_BP_BankAccount_ID(parentLine.getC_BP_BankAccount_ID());
-		setC_Order_ID(parentLine.getC_Order_ID());
-		setC_Invoice_ID(parentLine.getC_Invoice_ID());
-		setC_InvoicePaySchedule_ID(parentLine.getC_InvoicePaySchedule_ID());
-		setHR_Movement_ID(parentLine.getHR_Movement_ID());
-		setC_Charge_ID(parentLine.getC_Charge_ID());
-		setC_ConversionType_ID(parentLine.getC_ConversionType_ID());
-		setC_Conversion_Rate_ID(parentLine.getC_Conversion_Rate_ID());
-		setIsPrepayment(parentLine.isPrepayment());
+		setC_BPartner_ID(paySelectionLine.getC_BPartner_ID());
+		setC_BP_BankAccount_ID(paySelectionLine.getC_BP_BankAccount_ID());
+		setC_Order_ID(paySelectionLine.getC_Order_ID());
+		setC_Invoice_ID(paySelectionLine.getC_Invoice_ID());
+		setC_InvoicePaySchedule_ID(paySelectionLine.getC_InvoicePaySchedule_ID());
+		setHR_Movement_ID(paySelectionLine.getHR_Movement_ID());
+		setC_Charge_ID(paySelectionLine.getC_Charge_ID());
+		setC_ConversionType_ID(paySelectionLine.getC_ConversionType_ID());
+		setC_Conversion_Rate_ID(paySelectionLine.getC_Conversion_Rate_ID());
+		setIsPrepayment(paySelectionLine.isPrepayment());
 		//	Set Payment Rule
-		setPaymentRule(parentLine.getPaymentRule());
-		setIsSOTrx(parentLine.isSOTrx());
-		setAmtSource(parentLine.getAmtSource());
-		setOpenAmt(parentLine.getOpenAmt());
-		setPayAmt(PayAmt);
-		setDiscountAmt(DiscountAmt);
-		setDifferenceAmt(parentLine.getOpenAmt().subtract(PayAmt).subtract(DiscountAmt));
+		setPaymentRule(paySelectionLine.getPaymentRule());
+		setIsSOTrx(paySelectionLine.isSOTrx());
+		setAmtSource(paySelectionLine.getAmtSource());
+		setOpenAmt(paySelectionLine.getOpenAmt());
+		setPayAmt(payAmt);
+		setDiscountAmt(discountAmt);
+		setDifferenceAmt(paySelectionLine.getOpenAmt().subtract(payAmt).subtract(discountAmt));
 	}	//	setPaySelectionLineParent
 	
 	/**
 	 * Set Charge Info
-	 * @param C_Charge_ID
-	 * @param C_BPartner_ID
-	 * @param PaymentRule
-	 * @param PayAmt
+	 * @param chargeId
+	 * @param partnerId
+	 * @param paymentRule
+	 * @param payAmt
 	 * @param isSOTrx
 	 */
-	public void setCharge(int C_Charge_ID, int C_BPartner_ID, 
-			String PaymentRule, BigDecimal PayAmt, boolean isSOTrx) {
-		setC_Charge_ID(C_Charge_ID);
-		MCharge charge = MCharge.get(getCtx(), C_Charge_ID);
+	public void setCharge(int chargeId, int partnerId,
+			String paymentRule, BigDecimal payAmt, boolean isSOTrx) {
+		setC_Charge_ID(chargeId);
+		MCharge charge = MCharge.get(getCtx(), chargeId);
 		//	Set BPartner
-		if(C_BPartner_ID == 0)
-			C_BPartner_ID = charge.getC_BPartner_ID();
+		if(partnerId == 0)
+			partnerId = charge.getC_BPartner_ID();
 		//	
-		setC_BPartner_ID(C_BPartner_ID);
-		setPaymentRule(PaymentRule);
+		setC_BPartner_ID(partnerId);
+		setPaymentRule(paymentRule);
 		setIsSOTrx(isSOTrx);
-		setAmtSource(PayAmt);
-		setOpenAmt(PayAmt);
-		setPayAmt (PayAmt);
+		setAmtSource(payAmt);
+		setOpenAmt(payAmt);
+		setPayAmt (payAmt);
 		setDiscountAmt(Env.ZERO);
 		setDifferenceAmt(Env.ZERO);
 	}	//	setCharge
@@ -283,9 +286,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 */
 	public MInvoice getInvoice()
 	{
-		if (m_invoice == null)
-			m_invoice = new MInvoice (getCtx(), getC_Invoice_ID(), get_TrxName());
-		return m_invoice;
+		if (invoice == null)
+			invoice = new MInvoice (getCtx(), getC_Invoice_ID(), get_TrxName());
+		return invoice;
 	}	//	getInvoice
 	
 	/**
@@ -294,9 +297,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 *	FR [ 297 ]
 	 */
 	public MOrder getOrder() {
-		if (m_order == null)
-			m_order = new MOrder (getCtx(), getC_Order_ID(), get_TrxName());
-		return m_order;
+		if (order == null)
+			order = new MOrder (getCtx(), getC_Order_ID(), get_TrxName());
+		return order;
 	}	//	getOrder
 	
 	/**
@@ -305,9 +308,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 * @return
 	 */
 	public X_HR_Movement getHRMovement() {
-		if (m_movement == null)
-			m_movement = new X_HR_Movement(getCtx(), getHR_Movement_ID(), get_TrxName());
-		return m_movement;
+		if (movement == null)
+			movement = new X_HR_Movement(getCtx(), getHR_Movement_ID(), get_TrxName());
+		return movement;
 	}	//	getHRMovement
 	
 	/**
@@ -315,9 +318,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 * @return
 	 */
 	public MPaySelection getParent() {
-		if(m_parent == null)
-			m_parent = new MPaySelection(getCtx(), getC_PaySelection_ID(), get_TrxName());
-		return m_parent;
+		if(parent == null)
+			parent = new MPaySelection(getCtx(), getC_PaySelection_ID(), get_TrxName());
+		return parent;
 	}
 
 	/**
@@ -414,17 +417,17 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	private void validateBPartner() {
 		//	Validate when BP is changed
 		if(is_ValueChanged("C_BPartner_ID")) {
-			int m_C_BPartner_ID = getC_BPartner_ID();
+			int partnerId = getC_BPartner_ID();
 			//	For invoice
 			if(getC_Invoice_ID() != 0) {
-				m_C_BPartner_ID = getInvoice().getC_BPartner_ID();
+				partnerId = getInvoice().getC_BPartner_ID();
 			} else if(getC_Order_ID() != 0) {
-				m_C_BPartner_ID = getC_Order().getC_BPartner_ID();
+				partnerId = getC_Order().getC_BPartner_ID();
 			} else if(getHR_Movement_ID() != 0) {
-				m_C_BPartner_ID = getHRMovement().getC_BPartner_ID();
+				partnerId = getHRMovement().getC_BPartner_ID();
 			}
 			//	Validate BP
-			if(m_C_BPartner_ID != getC_BPartner_ID()) {
+			if(partnerId != getC_BPartner_ID()) {
 				throw new AdempiereException("@BPartnerDiff@");	//	TODO translate it "business partner different"
 			}
 		} else if(getC_Invoice_ID() != 0) {	//	else then set from document
@@ -528,37 +531,37 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 				&& getC_Order_ID() == 0)
 			return true;
 		//	
-		int m_C_Currency_Document_ID = 0;
-		int m_C_Currency_ID = getC_Currency_ID();
+		int currencyDocumentId = 0;
+		int currencyId = getC_Currency_ID();
 		//	Valid currency
 		if(getC_Invoice_ID() != 0) {		//	For Invoice
-			m_C_Currency_Document_ID = DB.getSQLValue(get_TrxName(), 
+			currencyDocumentId = DB.getSQLValue(get_TrxName(),
 					"SELECT i.C_Currency_ID FROM C_Invoice i WHERE i.C_Invoice_ID = ?", 
 					getC_Invoice_ID());
 		} else if(getC_Order_ID() != 0) {	//	For Order
-			m_C_Currency_Document_ID = DB.getSQLValue(get_TrxName(), 
+			currencyDocumentId = DB.getSQLValue(get_TrxName(),
 					"SELECT o.C_Currency_ID FROM C_Order o WHERE o.C_Order_ID = ?", 
 					getC_Order_ID());
 		}
 		//	For same currency
-		if(m_C_Currency_Document_ID == m_C_Currency_ID)
+		if(currencyDocumentId == currencyId)
 			return true;
 		//	For custom rate
 		if(getC_Conversion_Rate_ID() != 0) {
-			MConversionRate rate = MConversionRate.get(getCtx(), getC_Conversion_Rate_ID());
+			MConversionRate conversionRate = MConversionRate.get(getCtx(), getC_Conversion_Rate_ID());
 			//	Valid
-			if(rate == null)
+			if(conversionRate == null)
 				return false;
 			//	For when no exists conversion
-			if(rate.getC_Currency_ID() == m_C_Currency_Document_ID
-					&& rate.getC_Currency_ID_To() == m_C_Currency_ID)
+			if(conversionRate.getC_Currency_ID() == currencyDocumentId
+					&& conversionRate.getC_Currency_ID_To() == currencyId)
 				return true;
 			else 
 				return false;
 		}
 		//	For all
-		BigDecimal CurrencyRate = MConversionRate.getRate (m_C_Currency_Document_ID,
-					m_C_Currency_ID, getPayDate(), getC_ConversionType_ID(), getAD_Client_ID(),
+		BigDecimal CurrencyRate = MConversionRate.getRate (currencyDocumentId,
+					currencyId, getPayDate(), getC_ConversionType_ID(), getAD_Client_ID(),
 					getAD_Org_ID());
 		//	Return
 		return CurrencyRate != null;
