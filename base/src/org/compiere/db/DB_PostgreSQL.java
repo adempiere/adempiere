@@ -372,8 +372,8 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		if (time == null)
 		{
 			if (dayOnly)
-				return "current_date()";
-			return "current_date()";
+				return "current_date";
+			return "current_date";
 		}
 
 		StringBuffer dateString = new StringBuffer("TO_DATE('");
