@@ -476,14 +476,14 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 		//
 		if (X_C_Order.PAYMENTRULE_DirectDebit.equals(PaymentRule))
 		{
-			List<MBPBankAccount>parterBankAccts = MBPBankAccount.getOfBPartner(line.getCtx(), partnerId);
+			List<MBPBankAccount>parterBankAccts = MBPBankAccount.getByPartner(line.getCtx(), partnerId);
 			parterBankAccts.stream().filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDebit())
 					.findFirst()
 					.ifPresent( partnerBankAccount -> setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID()));
 		}
 		else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(PaymentRule))
 		{
-			List<MBPBankAccount>  parterBankAccts = MBPBankAccount.getOfBPartner(line.getCtx(), partnerId);
+			List<MBPBankAccount>  parterBankAccts = MBPBankAccount.getByPartner(line.getCtx(), partnerId);
 			parterBankAccts.stream()
 					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDeposit())
 					.findFirst()
