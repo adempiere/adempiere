@@ -39,19 +39,26 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 	private static final long serialVersionUID = 2580706419593695062L;
 
 	/**
-	 * 	Get Accounts Of BPartner
+	 * 	Get Accounts by BPartner
 	 *	@param ctx context
 	 *	@param partnerId bpartner
 	 *	@return
 	 */
-	public static List<MBPBankAccount> getOfBPartner (Properties ctx, int partnerId)
+	public static List<MBPBankAccount> getByPartner(Properties ctx, int partnerId)
 	{
 		final String whereClause = MBPBankAccount.COLUMNNAME_C_BPartner_ID+"=?";
 		return new Query(ctx,I_C_BP_BankAccount.Table_Name,whereClause,null)
 		.setParameters(partnerId)
 		.setOnlyActiveRecords(true)
 		.list();
-	}	//	getOfBPartner
+	}	//	getByPartner
+
+    @Deprecated
+    /*Remplace by getByPartner  not should use this method more */
+    public static MBPBankAccount[] getOfBPartner(Properties ctx, int partnerId)
+    {
+        return getByPartner(ctx, partnerId).stream().toArray(MBPBankAccount[]::new);
+    }
 
 	/**	Logger	*/
 	private static CLogger s_log = CLogger.getCLogger(MBPBankAccount.class);
