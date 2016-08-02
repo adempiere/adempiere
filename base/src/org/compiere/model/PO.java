@@ -27,11 +27,13 @@ import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -94,6 +96,8 @@ import org.w3c.dom.Element;
  *			<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
  *			<li>Error when try load a PO Entity with virtual columns
  *			<li>http://adempiere.atlassian.net/browse/ADEMPIERE-100
+ *			<li>#439 The migration xml generation not persisted the insert the tables with suffix Acct</li>
+ *			<li>https://github.com/adempiere/adempiere/issues/439</>
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 392 ] Translation method does not use PO class
  *			@see https://github.com/adempiere/adempiere/issues/392
@@ -3421,37 +3425,47 @@ public abstract class PO
 			}
 		}
 
-		//	Create SQL Statement - INSERT
-		StringBuffer sb = new StringBuffer("INSERT INTO ")
-			.append(acctTable)
-			.append(" (").append(get_TableName())
-			.append("_ID, C_AcctSchema_ID, AD_Client_ID,AD_Org_ID,IsActive, Created,CreatedBy,Updated,UpdatedBy ");
-		for (int i = 0; i < s_acctColumns.size(); i++)
-			sb.append(",").append(s_acctColumns.get(i));
-		//	..	SELECT
-		sb.append(") SELECT ").append(get_ID())
-			.append(", p.C_AcctSchema_ID, p.AD_Client_ID,0,'Y', SysDate,")
-			.append(getUpdatedBy()).append(",SysDate,").append(getUpdatedBy());
-		for (int i = 0; i < s_acctColumns.size(); i++)
-			sb.append(",p.").append(s_acctColumns.get(i));
-		//	.. 	FROM
-		sb.append(" FROM ").append(acctBaseTable)
-			.append(" p WHERE p.AD_Client_ID=").append(getAD_Client_ID());
-		if (whereClause != null && whereClause.length() > 0)
-			sb.append (" AND ").append(whereClause);
-		sb.append(" AND NOT EXISTS (SELECT * FROM ").append(acctTable)
-			.append(" e WHERE e.C_AcctSchema_ID=p.C_AcctSchema_ID AND e.")
-			.append(get_TableName()).append("_ID=").append(get_ID()).append(")");
-		//
-		int no = DB.executeUpdate(sb.toString(), get_TrxName());
-		if (no > 0)
-			log.fine("#" + no);
-		else
-			log.warning("#" + no
-				+ " - Table=" + acctTable + " from " + acctBaseTable);
-		return no > 0;
+		AtomicBoolean inserted = new AtomicBoolean(false);
+		Arrays.stream(MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName()))
+				.filter(accountSchema -> accountSchema != null)
+				.forEach(accountSchema -> {
+			StringBuilder where = new StringBuilder();
+			List<Object> parameters = new ArrayList<Object>();
+			where.append(" EXISTS (SELECT 1 FROM ").append(acctBaseTable).append(" p WHERE p.")
+			.append(MAcctSchema.COLUMNNAME_AD_Client_ID).append("=").append(acctBaseTable).append(".").append(MAcctSchema.COLUMNNAME_AD_Client_ID)
+			.append(" AND p.").append(MAcctSchema.COLUMNNAME_C_AcctSchema_ID).append("=").append(acctBaseTable).append(".").append(MAcctSchema.COLUMNNAME_C_AcctSchema_ID);
+			if (whereClause != null && whereClause.length() > 0)
+				where.append (" AND ").append(whereClause);
+			where.append(") AND ");
+			where.append(acctBaseTable).append(".").append(MAcctSchema.COLUMNNAME_AD_Client_ID).append("=? AND ")
+				 .append(acctBaseTable).append(".").append(MAcctSchema.COLUMNNAME_C_AcctSchema_ID).append("=? ");
+			parameters.add(getAD_Client_ID());
+			parameters.add(accountSchema.getC_AcctSchema_ID());
+			PO accountSource = MTable.get(getCtx(), acctBaseTable).getPO(where.toString(), parameters.toArray() , get_TrxName());
+			if (accountSource != null) {
+				where = new StringBuilder();
+				where.append(MAcctSchema.COLUMNNAME_C_AcctSchema_ID).append("=? AND ").append(get_TableName()).append("_ID=?");
+				parameters = new ArrayList<Object>();
+				parameters.add(accountSchema.getC_AcctSchema_ID());
+				parameters.add(get_ID());
+				PO accountSetting = MTable.get(getCtx(), acctTable).getPO(where.toString(), parameters.toArray(), get_TrxName());
+				if (accountSetting == null) {
+					accountSetting = MTable.get(getCtx(), acctTable).getPO(0, get_TrxName());
+					accountSetting.setAD_Client_ID(getAD_Client_ID());
+					accountSetting.setAD_Org_ID(0);
+					accountSetting.set_Value(MAcctSchema.COLUMNNAME_C_AcctSchema_ID, accountSchema.getC_AcctSchema_ID());
+					accountSetting.set_Value(get_TableName() + "_ID", get_ID());
+					for (String columnName :s_acctColumns) {
+						accountSetting.set_Value(columnName, accountSource.get_Value(columnName));
+					}
+					accountSetting.saveEx();
+					inserted.set(true);
+				}
+			}
+		});
+		return inserted.get();
 	}	//	insert_Accounting
-
+;
 	/**
 	 * 	Delete Accounting records.
 	 * 	NOP - done by database constraints
