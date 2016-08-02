@@ -465,7 +465,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		} 
 		else if (X_C_Order.PAYMENTRULE_DirectDebit.equals(paymentRule))
 		{
-			List<MBPBankAccount> partnerBankAccounts = MBPBankAccount.getOfBPartner (paySelectionLine.getCtx(), partnerId);
+			List<MBPBankAccount> partnerBankAccounts = MBPBankAccount.getByPartner(paySelectionLine.getCtx(), partnerId);
 			partnerBankAccounts.stream()
 					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDebit())
 					.findFirst()
@@ -473,7 +473,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		}
 		else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(paymentRule))
 		{
-			List<MBPBankAccount> partnerBankAccounts = MBPBankAccount.getOfBPartner (paySelectionLine.getCtx(), partnerId);
+			List<MBPBankAccount> partnerBankAccounts = MBPBankAccount.getByPartner(paySelectionLine.getCtx(), partnerId);
 			partnerBankAccounts.stream()
 					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDeposit())
 					.findFirst()
