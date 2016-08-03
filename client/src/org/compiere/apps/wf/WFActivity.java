@@ -775,6 +775,8 @@ public class WFActivity extends CPanel
 			try
 			{
 				m_activity.setUserChoice(AD_User_ID, value, dt, textMsg);
+				ADialog.info(m_WindowNo, this, "WorkflowResult" ,
+						Msg.parseTranslation(Env.getCtx(), "@AD_WF_Node_ID@") + " : "  + m_activity.getNodeName() + " -> " +  m_activity.getTextMsg());
 			}
 			catch (Exception e)
 			{
@@ -793,6 +795,8 @@ public class WFActivity extends CPanel
 			{
 				// ensure activity is ran within a transaction
 				m_activity.setUserConfirmation(AD_User_ID, textMsg);
+				ADialog.info(m_WindowNo, this, "WorkflowResult" ,
+						Msg.parseTranslation(Env.getCtx(), "@AD_WF_Node_ID@") + " : "  + m_activity.getNodeName() + " -> " +  m_activity.getTextMsg());
 			}
 			catch (Exception e)
 			{
