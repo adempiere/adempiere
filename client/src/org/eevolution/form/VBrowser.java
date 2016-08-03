@@ -105,8 +105,9 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 	 * @param windowNo
 	 * @param browserId
 	 * @param whereClause
+	 * @param isSOTrx
 	 */
-	public static CFrame openBrowse(int windowNo , int browserId, String whereClause) {
+	public static CFrame openBrowse(int windowNo , int browserId, String whereClause, Boolean isSOTrx) {
 		MBrowse browse = new MBrowse(Env.getCtx(), browserId , null);
 		boolean modal = false;
 		if (windowNo > 0 )
@@ -115,39 +116,33 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		String keyColumn = "";
 		boolean multiSelection = true;
 		FormFrame ff = new FormFrame(windowNo);
-		return new VBrowser(ff, modal , windowNo, value, browse, keyColumn,multiSelection, whereClause)
+		return new VBrowser(ff, modal , windowNo, value, browse, keyColumn,multiSelection, whereClause, isSOTrx)
 		.getFrame();
 	}
 
 	/**
 	 * Detail Protected Constructor.
 	 * 
-	 * @param frame
-	 *            parent
-	 * @param modal
-	 *            modal
-	 * @param WindowNo
-	 *            window no
-	 * @param value
-	 *            QueryValue
-	 * @param browse
-	 *            table name
-	 * @param keyColumn
-	 *            key column (ignored)
-	 * @param multiSelection
-	 *            multiple selections
-	 * @param whereClause
-	 *            where clause
+	 * @param frame parent
+	 * @param modal modal
+	 * @param WindowNo window no
+	 * @param value QueryValue
+	 * @param browse table name
+	 * @param keyColumn key column (ignored)
+	 * @param multiSelection multiple selections
+	 * @param whereClause where clause
+	 * @param isSOTrx
 	 */
 	public VBrowser(FormFrame frame, boolean modal, int WindowNo, String value,
 			MBrowse browse, String keyColumn, boolean multiSelection,
-			String whereClause) {
+			String whereClause, Boolean isSOTrx) {
 		super(modal, WindowNo, value, browse, keyColumn, multiSelection,
 				whereClause);
 		m_frame = frame;
 		m_frame.setTitle(browse.getTitle());
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 		windowNo = Env.createWindowNo(m_frame.getContainer());
+		Env.setContext(Env.getCtx(), windowNo, "IsSOTrx", isSOTrx ? "Y" : "N");
 		setProcessInfo(frame.getProcessInfo());
 		copyWinContext();
 		setContextWhere(whereClause);
@@ -681,7 +676,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		boolean multiSelection = true;
 		String whereClause = "";
 		VBrowser browser = new VBrowser(frame, modal, WindowNo, value, browse,
-				keyColumn, multiSelection, whereClause);
+				keyColumn, multiSelection, whereClause, true);
 		// browser.setPreferredSize(getPreferredSize ());
 		browser.getFrame().setVisible(true);
 		browser.getFrame().pack();

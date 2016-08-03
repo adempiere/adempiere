@@ -2249,7 +2249,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			pi.setAD_User_ID (Env.getAD_User_ID(ctx));
 			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
 			MBrowse browse = new MBrowse(Env.getCtx(), adBrowseID , null);
-			WBrowser browser = new WBrowser(true, curWindowNo, "" , browse, "", true, "");
+			WBrowser browser = new WBrowser(true, curWindowNo, "" , browse, "", true, "", "Y".equals(Env.isSOTrx(Env.getCtx(), curWindowNo)));
 			browser.setProcessInfo(pi);
 			CustomForm ff =  browser.getForm();
 			ff.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
