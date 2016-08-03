@@ -665,6 +665,9 @@ public class WWFActivity extends ADForm implements EventListener
 				try
 				{
 					m_activity.setUserChoice(AD_User_ID, value, dt, textMsg);
+					FDialog.info(m_WindowNo, this , "WorkflowResult" ,
+							Msg.parseTranslation(Env.getCtx(), "@AD_WF_Node_ID@") + " : "  + m_activity.getNodeName() + " -> " +  m_activity.getTextMsg());
+					
 				}
 				catch (Exception e)
 				{
@@ -683,6 +686,8 @@ public class WWFActivity extends ADForm implements EventListener
 				{
 					// ensure activity is ran within a transaction
 					m_activity.setUserConfirmation(AD_User_ID, textMsg);
+					FDialog.info(m_WindowNo, this , "WorkflowResult" ,
+							Msg.parseTranslation(Env.getCtx(), "@AD_WF_Node_ID@") + " : "  + m_activity.getNodeName() + " -> " +  m_activity.getTextMsg());
 				}
 				catch (Exception e)
 				{
