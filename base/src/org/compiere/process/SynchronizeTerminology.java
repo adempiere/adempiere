@@ -32,6 +32,9 @@ import org.compiere.util.Trx;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>BR [ 237 ] Same Print format but distinct report view
  * 			@see https://github.com/adempiere/adempiere/issues/237
+ *  
+ *  @author mckayERP www.mckayERP.com
+ *  			<li>#288 SyncTerminology can create duplicate system elements causing an error 
  */
 public class SynchronizeTerminology extends SvrProcess
 {
@@ -62,11 +65,15 @@ public class SynchronizeTerminology extends SvrProcess
 				+"FROM	AD_COLUMN c WHERE NOT EXISTS "
 				+"(SELECT 1 FROM AD_ELEMENT e "
 				+" WHERE UPPER(c.ColumnName)=UPPER(e.ColumnName))"
-				+" AND c.isActive = 'Y'";
+				+" AND c.isActive = 'Y'"
+				+" ORDER BY ColumnName";
 			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
 			ResultSet rs = pstmt.executeQuery ();
+			String columnName = "";
 			while (rs.next()){
-				String columnName = rs.getString(1);
+				if (columnName.toUpperCase().equals(rs.getString(1).toUpperCase()))
+					continue;
+				columnName = rs.getString(1);
 				String name = rs.getString(2);
 				String desc = rs.getString(3);
 				String help =rs.getString(4);
@@ -87,11 +94,15 @@ public class SynchronizeTerminology extends SvrProcess
 				+" (SELECT 1 FROM AD_ELEMENT e "
 				+" WHERE UPPER(p.ColumnName)=UPPER(e.ColumnName))"
 				+" AND p.isCentrallyMaintained = 'Y'"
-				+" AND p.isActive = 'Y'";
+				+" AND p.isActive = 'Y'"
+				+" ORDER BY ColumnName";
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			rs = pstmt.executeQuery ();
+			columnName = "";
 			while (rs.next()){
-				String columnName = rs.getString(1);
+				if (columnName.toUpperCase().equals(rs.getString(1).toUpperCase()))
+					continue;
+				columnName = rs.getString(1);
 				String name = rs.getString(2);
 				String desc = rs.getString(3);
 				String help =rs.getString(4);
@@ -136,18 +147,18 @@ public class SynchronizeTerminology extends SvrProcess
 				+" 	WHERE	AD_Element_ID IN"
 				+" 	(SELECT AD_Element_ID FROM AD_ELEMENT e "
 				+" 	WHERE NOT EXISTS"
-				+" 	(SELECT 1 FROM AD_COLUMN c WHERE UPPER(e.ColumnName)=UPPER(c.ColumnName))"
+				+" 	(SELECT 1 FROM AD_COLUMN c WHERE c.AD_Element_ID = e.AD_Element_ID)"
 				+" 	AND NOT EXISTS"
-				+" 	(SELECT 1 FROM AD_PROCESS_PARA p WHERE UPPER(e.ColumnName)=UPPER(p.ColumnName)))";
+				+" 	(SELECT 1 FROM AD_PROCESS_PARA p WHERE p.AD_Element_ID = e.AD_Element_ID))";
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows deleted: "+no);
 			trx.commit(true);
 
 			sql="DELETE	AD_ELEMENT e"
 				+" 	WHERE AD_Element_ID >= 1000000 AND NOT EXISTS"
-				+" 	(SELECT 1 FROM AD_COLUMN c WHERE UPPER(e.ColumnName)=UPPER(c.ColumnName))"
+				+" 	(SELECT 1 FROM AD_COLUMN c WHERE c.AD_Element_ID = e.AD_Element_ID)"
 				+" 	AND NOT EXISTS"
-				+" 	(SELECT 1 FROM AD_PROCESS_PARA p WHERE UPPER(e.ColumnName)=UPPER(p.ColumnName))";
+				+" 	(SELECT 1 FROM AD_PROCESS_PARA p WHERE p.AD_Element_ID = e.AD_Element_ID)";
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows deleted: "+no);
 			trx.commit(true);
