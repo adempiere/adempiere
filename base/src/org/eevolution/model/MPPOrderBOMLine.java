@@ -556,6 +556,13 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	 */
 	protected void reserveStock()
 	{
+		if(!MPPOrder.DOCSTATUS_InProgress.equals(getParent().getDocStatus())
+				&& !MPPOrder.DOCSTATUS_Completed.equals(getParent().getDocStatus()))
+		{
+			// Stock reservation is done only for InProgress / Completed documents
+			return;
+		}
+
 		final int header_M_Warehouse_ID = getParent().getM_Warehouse_ID();
 
 		//	Check/set WH/Org
