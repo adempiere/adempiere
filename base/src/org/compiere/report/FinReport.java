@@ -49,7 +49,7 @@ import org.compiere.util.TimeUtil;
 public class FinReport extends SvrProcess
 {
 	/**	Period Parameter				*/
-	private int					p_C_Period_ID = 0;
+	protected int				p_C_Period_ID = 0;
 	/**	Org Parameter					*/
 	private int					p_Org_ID = 0;
 	/**	BPartner Parameter				*/
@@ -91,7 +91,7 @@ public class FinReport extends SvrProcess
 	/**	Parameter Where Clause			*/
 	private StringBuffer		m_parameterWhere = new StringBuffer();
 	/**	The Report Columns				*/
-	private MReportColumn[] 	m_columns;
+	protected MReportColumn[] 	m_columns;
 	/** The Report Lines				*/
 	private MReportLine[] 		m_lines;
 
@@ -320,11 +320,9 @@ public class FinReport extends SvrProcess
 		//	Create Report
 		if (Ini.isClient()) 
 			getProcessInfo().setTransientObject (getPrintFormat());
-		else 
-			getProcessInfo().setSerializableObject(getPrintFormat());
-
-		MPrintFormat pf = getPrintFormat();
-
+		//	Goodwill : displaced by FinReportWeb
+		//else 
+		//	getProcessInfo().setSerializableObject(getPrintFormat());
 
 		log.fine((System.currentTimeMillis() - m_start) + " ms");
 		return "";
@@ -1272,7 +1270,7 @@ public class FinReport extends SvrProcess
 	 *	Get/Create PrintFormat
 	 * 	@return print format
 	 */
-	private MPrintFormat getPrintFormat()
+	protected MPrintFormat getPrintFormat()
 	{
 		int AD_PrintFormat_ID = m_report.getAD_PrintFormat_ID();
 		log.info("AD_PrintFormat_ID=" + AD_PrintFormat_ID);
