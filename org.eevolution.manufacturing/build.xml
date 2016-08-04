@@ -1,4 +1,4 @@
-<project name="Libero" default="zkdist" basedir=".">
+<project name="LiberoMFG" default="zkdist" basedir=".">
     <description>
         Building Libero liberoMFG.jar
         by

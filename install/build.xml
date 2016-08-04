@@ -162,6 +162,10 @@
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoWM"/>
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoWM/lib"/>
   	<copy file="../packages/liberoWM.jar" tofile="${build.dir}/Adempiere/packages/liberoWM/lib/liberoWM.jar"/>
+
+    <mkdir dir="${build.dir}/Adempiere/zkpackages/liberoWM"/>
+    <mkdir dir="${build.dir}/Adempiere/zkpackages/liberoWM/lib"/>
+    <copy file="../zkpackages/liberozkWM.jar" tofile="${build.dir}/Adempiere/zkpackages/liberoWM/lib/liberozkWM.jar"/>
   	
 	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG"/>
 	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG/lib"/>
