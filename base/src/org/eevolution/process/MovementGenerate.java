@@ -88,7 +88,7 @@ public class MovementGenerate extends MovementGenerateAbstract
 		List<MDDOrder> distributionOrders;
         if (isSelection())
         {
-			distributionOrders = (List<MDDOrder>) getInstances(get_TrxName());
+			distributionOrders = (List<MDDOrder>) getInstancesForSelection(get_TrxName());
         }
         else
         {

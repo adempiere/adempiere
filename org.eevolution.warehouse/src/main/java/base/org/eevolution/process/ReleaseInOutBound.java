@@ -33,7 +33,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.NoVendorForProductException;
@@ -52,15 +51,11 @@ import org.compiere.model.MTable;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.PrintInfo;
-import org.compiere.model.Query;
 import org.compiere.model.X_C_BP_Group;
 import org.compiere.model.X_C_DocType;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
-import org.compiere.process.DocAction;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -68,17 +63,14 @@ import org.compiere.wf.MWorkflow;
 import org.eevolution.engine.warehouse.WMRuleEngine;
 import org.eevolution.exceptions.NoBPartnerLinkedforOrgException;
 import org.eevolution.exceptions.NoPlantForWarehouseException;
-import org.eevolution.model.I_WM_InOutBoundLine;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductPlanning;
-import org.eevolution.model.MWMAreaType;
 import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
-import org.eevolution.model.MWMSectionType;
 import org.eevolution.model.X_DD_Order;
 
 /**
@@ -108,7 +100,7 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract
 	@Override
 	protected String doIt () throws Exception
 	{
-		List<MWMInOutBoundLine> outBoundLines = (List<MWMInOutBoundLine>) getInstances(get_TrxName());
+		List<MWMInOutBoundLine> outBoundLines = (List<MWMInOutBoundLine>) getInstancesForSelection(get_TrxName());
 		outBoundLines.stream().forEach(outBoundLine -> {
 			// if the locator is same to pick then the storage are in outbound locator not is necessary create other distribution order
 			if (outBoundLine.getDD_OrderLine_ID() > 0) {

@@ -347,7 +347,7 @@ public final class WMRuleEngine {
 		whereClause.append(")");
 
 		MProduct product = inOutBoundLine.getMProduct();
-		MBPartner partner = inOutBoundLine.getMBPartner();
+		MBPartner partner = inOutBoundLine.getBPartner();
 
 		MWMDefinition definition = new Query(inOutBoundLine.getCtx(),
 				MWMDefinition.Table_Name, whereClause.toString(),

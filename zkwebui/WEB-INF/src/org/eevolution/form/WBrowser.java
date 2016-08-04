@@ -28,6 +28,7 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
+import org.adempiere.model.MViewDefinition;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.apps.ProcessParameterPanel;
@@ -641,8 +642,11 @@ public class WBrowser extends Browser implements IFormController,
 				if(parameterPanel.saveParameters() == null) {
 					//	Get Process Info
 					ProcessInfo pi = parameterPanel.getProcessInfo();
-					if (getFieldKey() != null && getFieldKey().get_ID() > 0)
-						pi.setTable_ID(getFieldKey().getAD_View_Column().getAD_View_Definition().getAD_Table_ID());
+					if (getFieldKey() != null && getFieldKey().get_ID() > 0) {
+						MViewDefinition viewDefinition = (MViewDefinition) getFieldKey().getAD_View_Column().getAD_View_Definition();
+						pi.setAliasForTableSelection(viewDefinition.getTableAlias());
+						pi.setTableSelectionId(viewDefinition.getAD_Table_ID());
+					}
 					//	Set Selected Values
 					pi.setSelectionValues(getSelectedValues());
 					//	

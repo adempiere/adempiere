@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
@@ -34,7 +33,7 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20151125L;
+	private static final long serialVersionUID = 20160803L;
 
     /** Standard Constructor */
     public X_WM_InOutBoundLine (Properties ctx, int WM_InOutBoundLine_ID, String trxName)
@@ -49,7 +48,7 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_InOutLine WHERE M_InOut_ID=@M_InOut_ID@
 			setMovementQty (Env.ZERO);
-// 1
+// 0
 			setProcessed (false);
 			setWM_InOutBoundLine_ID (0);
 			setWM_InOutBound_ID (0);
@@ -186,6 +185,62 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 	public int getC_Charge_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
+			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
+
+	/** Set Invoice Line.
+		@param C_InvoiceLine_ID 
+		Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
+	{
+		if (C_InvoiceLine_ID < 1) 
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+	}
+
+	/** Get Invoice Line.
+		@return Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
+			.getPO(getC_Invoice_ID(), get_TrxName());	}
+
+	/** Set Invoice.
+		@param C_Invoice_ID 
+		Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID)
+	{
+		if (C_Invoice_ID < 1) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+	}
+
+	/** Get Invoice.
+		@return Invoice Identifier
+	  */
+	public int getC_Invoice_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -426,6 +481,26 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Freight Amount.
+		@param FreightAmt 
+		Freight Amount 
+	  */
+	public void setFreightAmt (BigDecimal FreightAmt)
+	{
+		set_Value (COLUMNNAME_FreightAmt, FreightAmt);
+	}
+
+	/** Get Freight Amount.
+		@return Freight Amount 
+	  */
+	public BigDecimal getFreightAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FreightAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Description Only.
 		@param IsDescription 
 		if true, the line is just description and no transaction
@@ -501,6 +576,62 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 	public int getM_AttributeSetInstance_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_Locator getM_LocatorTo() throws RuntimeException
+    {
+		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+			.getPO(getM_LocatorTo_ID(), get_TrxName());	}
+
+	/** Set Locator To.
+		@param M_LocatorTo_ID 
+		Location inventory is moved to
+	  */
+	public void setM_LocatorTo_ID (int M_LocatorTo_ID)
+	{
+		if (M_LocatorTo_ID < 1) 
+			set_Value (COLUMNNAME_M_LocatorTo_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_LocatorTo_ID, Integer.valueOf(M_LocatorTo_ID));
+	}
+
+	/** Get Locator To.
+		@return Location inventory is moved to
+	  */
+	public int getM_LocatorTo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_LocatorTo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_Locator getM_Locator() throws RuntimeException
+    {
+		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+			.getPO(getM_Locator_ID(), get_TrxName());	}
+
+	/** Set Locator.
+		@param M_Locator_ID 
+		Warehouse Locator
+	  */
+	public void setM_Locator_ID (int M_Locator_ID)
+	{
+		if (M_Locator_ID < 1) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+	}
+
+	/** Get Locator.
+		@return Warehouse Locator
+	  */
+	public int getM_Locator_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Locator_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

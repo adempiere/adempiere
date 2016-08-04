@@ -108,6 +108,10 @@ public class ProcessInfo implements Serializable
 	private int 				tableId;
 	/** Record ID if the Process    */
 	private int 				recordId;
+	/* Table ID */
+	private int tableSelectionId;
+	/* Alias table selection */
+	private String aliasTableSelection;
 	/** User_ID        					*/
 	private Integer 			userId;
 	/** Client_ID        				*/
@@ -494,6 +498,51 @@ public class ProcessInfo implements Serializable
 	}
 
 	/**
+	 * set table alias for  selection
+	 * @param aliasTableSelection
+	 */
+	public void setAliasForTableSelection(String aliasTableSelection)
+	{
+		this.aliasTableSelection = aliasTableSelection;
+	}
+
+	/**
+	 * Get Selection Table Alias
+	 * @return
+	 */
+	public String getAliasForTableSelection()
+	{
+		return aliasTableSelection;
+	}
+
+	/**
+	 * get prefix alias for a table selection
+	 * @return
+	 */
+	public String getPrefixAliasForTableSelection()
+	{
+		return aliasTableSelection.toUpperCase() + "_";
+	}
+
+	/**
+	 * Method setTable_ID
+	 * @param tableSelectionId
+	 */
+	public void setTableSelectionId(int tableSelectionId)
+	{
+		this.tableSelectionId = tableSelectionId;
+	}
+
+	/**
+	 * Method tableSelectionId
+	 * @return int
+	 */
+	public int getTableSelectionId()
+	{
+		return tableSelectionId;
+	}
+
+	/**
 	 * Method getRecord_ID
 	 * @return int
 	 */
@@ -637,14 +686,14 @@ public class ProcessInfo implements Serializable
 	}
 
 	/**
-	 * get instances from table id of process info
+	 * get instances for selection
 	 * @param trxName
 	 * @return
 	 * @throws AdempiereException
      */
-	public List<?> getInstances(String trxName) throws AdempiereException
+	public List<?> getInstancesForSelection(String trxName) throws AdempiereException
 	{
-		return PO.getInstances( getTable_ID() , getSelectionKeys(), trxName);
+		return PO.getInstances( getTableSelectionId() , getSelectionKeys(), trxName);
 	}
 
 	/**

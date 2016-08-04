@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -120,6 +119,36 @@ public interface I_WM_InOutBoundLine
 	public int getC_Charge_ID();
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
+
+    /** Column name C_InvoiceLine_ID */
+    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
+
+	/** Set Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
+
+	/** Get Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID();
+
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+
+	/** Set Invoice.
+	  * Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID);
+
+	/** Get Invoice.
+	  * Invoice Identifier
+	  */
+	public int getC_Invoice_ID();
+
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -262,6 +291,19 @@ public interface I_WM_InOutBoundLine
 	  */
 	public String getDescription();
 
+    /** Column name FreightAmt */
+    public static final String COLUMNNAME_FreightAmt = "FreightAmt";
+
+	/** Set Freight Amount.
+	  * Freight Amount 
+	  */
+	public void setFreightAmt (BigDecimal FreightAmt);
+
+	/** Get Freight Amount.
+	  * Freight Amount 
+	  */
+	public BigDecimal getFreightAmt();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -315,6 +357,36 @@ public interface I_WM_InOutBoundLine
 	public int getM_AttributeSetInstance_ID();
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
+    /** Column name M_LocatorTo_ID */
+    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
+
+	/** Set Locator To.
+	  * Location inventory is moved to
+	  */
+	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
+
+	/** Get Locator To.
+	  * Location inventory is moved to
+	  */
+	public int getM_LocatorTo_ID();
+
+	public I_M_Locator getM_LocatorTo() throws RuntimeException;
+
+    /** Column name M_Locator_ID */
+    public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
+
+	/** Set Locator.
+	  * Warehouse Locator
+	  */
+	public void setM_Locator_ID (int M_Locator_ID);
+
+	/** Get Locator.
+	  * Warehouse Locator
+	  */
+	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";

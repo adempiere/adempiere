@@ -29,22 +29,15 @@
 
 package org.eevolution.process;
 
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.Query;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
-import org.eevolution.model.I_DD_Order;
 import org.eevolution.model.I_DD_OrderLine;
-import org.eevolution.model.I_PP_MRP;
 import org.eevolution.model.I_PP_Order_BOMLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MWMInOutBound;
@@ -119,7 +112,7 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
     }
 
     private void createBasedOnSalesOrders(MWMInOutBound outBoundOrder) {
-        List<MOrderLine> orderLines = (List<MOrderLine>) getInstances(get_TrxName());
+        List<MOrderLine> orderLines = (List<MOrderLine>) getInstancesForSelection(get_TrxName());
         orderLines.stream().forEach(orderLine -> {
             MWMInOutBoundLine outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
             outBoundOrderLine.setLine(getLineNo(outBoundOrder));
@@ -138,7 +131,7 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
 
     private void createBasedOnDemand(MWMInOutBound outBoundOrder) {
 
-        List<MPPMRP> demands = (List<MPPMRP>) getInstances(get_TrxName());
+        List<MPPMRP> demands = (List<MPPMRP>) getInstancesForSelection(get_TrxName());
         demands.stream().forEach( demand -> {
             MWMInOutBoundLine outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
             outBoundOrderLine.setLine(getLineNo(outBoundOrder));

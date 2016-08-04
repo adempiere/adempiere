@@ -30,16 +30,12 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_M_Movement;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
@@ -47,21 +43,16 @@ import org.compiere.model.MLocator;
 import org.compiere.model.MMovement;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
-import org.compiere.model.MProcess;
 import org.compiere.model.MStorage;
 import org.compiere.model.MWarehouse;
-import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.ServerProcessCtl;
-import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.Trx;
-import org.eevolution.model.*;
+import org.eevolution.model.I_DD_Order;
+import org.eevolution.model.MDDOrderLine;
+import org.eevolution.model.MPPCostCollector;
+import org.eevolution.model.MPPOrder;
+import org.eevolution.model.MPPOrderBOMLine;
+import org.eevolution.model.MWMInOutBound;
+import org.eevolution.model.MWMInOutBoundLine;
 import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
@@ -92,7 +83,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 		distributionOrders = new Hashtable<Integer, I_DD_Order>();
 		shipments  = new Hashtable<Integer, MInOut>();
 
-		List<MWMInOutBoundLine> outBoundLines = (List<MWMInOutBoundLine>) getInstances(get_TrxName());
+		List<MWMInOutBoundLine> outBoundLines = (List<MWMInOutBoundLine>) getInstancesForSelection(get_TrxName());
 		outBoundLines.stream()
 				.filter(outBoundLine -> outBoundLine.getQtyToDeliver().signum() > 0 || isIncludeNotAvailable())
 				.forEach(outBoundLine -> createShipment(outBoundLine));
@@ -117,7 +108,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 	{
 		// Generate Shipment based on Outbound Order
 		if (outBoundLine.getC_OrderLine_ID() > 0) {
-			MOrderLine orderLine = outBoundLine.getMOrderLine();
+			MOrderLine orderLine = outBoundLine.getOrderLine();
 			if (outBoundLine.getPickedQty().subtract(orderLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable())
 				return;
 

@@ -56,7 +56,7 @@ public class GenerateMovementMaterial extends GenerateMovementMaterialAbstract {
      */
     protected String doIt() throws Exception {
 
-        List<MDDOrderLine> orderLines = (List<MDDOrderLine>) getInstances(get_TrxName());
+        List<MDDOrderLine> orderLines = (List<MDDOrderLine>) getInstancesForSelection(get_TrxName());
         orderLines.stream().filter(orderLine -> orderLine != null).forEach( orderLine -> {
             createMovement(orderLine);
             MMovementLine line = new MMovementLine(movement);

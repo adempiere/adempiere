@@ -39,6 +39,7 @@ import javax.swing.event.ListSelectionListener;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
+import org.adempiere.model.MViewDefinition;
 import org.compiere.Adempiere;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -489,8 +490,11 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 					//	Get Process Info
 					ProcessInfo pi = processParameterPanel.getProcessInfo();
 					//	Set Selected Values
-					if (getFieldKey() != null && getFieldKey().get_ID() > 0)
-						pi.setTable_ID(getFieldKey().getAD_View_Column().getAD_View_Definition().getAD_Table_ID());
+					if (getFieldKey() != null && getFieldKey().get_ID() > 0) {
+						MViewDefinition viewDefinition = (MViewDefinition) getFieldKey().getAD_View_Column().getAD_View_Definition();
+						pi.setAliasForTableSelection(viewDefinition.getTableAlias());
+						pi.setTableSelectionId(viewDefinition.getAD_Table_ID());
+					}
 					pi.setSelectionValues(getSelectedValues());
 					//	
 					setBrowseProcessInfo(pi);

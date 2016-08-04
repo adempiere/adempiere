@@ -518,14 +518,14 @@ public abstract class SvrProcess implements ProcessCall
 	}
 
 	/**
-	 * get instances from table id of process info
+	 * get instances from selection
 	 * @param trxName
 	 * @return
 	 * @throws AdempiereException
 	 */
-	public List<?> getInstances(String trxName) throws AdempiereException
+	public List<?> getInstancesForSelection(String trxName) throws AdempiereException
 	{
-		return processInfo.getInstances(trxName);
+		return processInfo.getInstancesForSelection(trxName);
 	}
 
 	/**
@@ -863,12 +863,27 @@ public abstract class SvrProcess implements ProcessCall
 			return transaction.getTrxName();
 		return null;
 	}	//	get_TrxName
-	
-	// metas: begin
+
 	public String getTableName()
 	{
 		return processInfo.getTableName();
 	}
-	// metas: end
-	
+
+	/**
+	 * get Alias for Table Selection
+	 * @return
+	 */
+	public String getAliasForTableSelection()
+	{
+		return getAliasForTableSelection();
+	}
+	/**
+	 *
+	 * @return
+	 */
+	public String getPrefixAliasForTableSelection()
+	{
+		return processInfo.getPrefixAliasForTableSelection();
+	}
+
 }   //  SvrProcess
