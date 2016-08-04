@@ -297,7 +297,7 @@ public class DocumentEngine implements DocAction
 			if (m_document != null && ok)
 			{
 				// PostProcess documents when invoice or inout (this is to postprocess the generated MatchPO and MatchInv if any)
-				ArrayList<PO> docsPostProcess = new ArrayList<PO>();;
+				ArrayList<PO> docsPostProcess = new ArrayList<PO>();
 				if (m_document instanceof MInvoice || m_document instanceof MInOut) {
 					if (m_document instanceof MInvoice) {
 						docsPostProcess  = ((MInvoice) m_document).getDocsPostProcess();
