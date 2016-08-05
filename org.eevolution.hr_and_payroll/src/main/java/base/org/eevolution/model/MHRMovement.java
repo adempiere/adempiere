@@ -42,16 +42,36 @@ public class MHRMovement extends X_HR_Movement
 	 */
 	private static final long serialVersionUID = 9100478676337821603L;
 
+	 /***
+	 * get list HR movement by concept and PArtner
+	 * @param process
+	 * @param conceptId
+	 * @param partnerId
+	 * @return
+	*/
+	public static List<MHRMovement> getBy(MHRProcess process, int conceptId, int partnerId)
+	{
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MHRMovement.COLUMNNAME_HR_Process_ID).append("=? AND ");
+		whereClause.append(MHRMovement.COLUMNNAME_HR_Concept_ID).append("=? AND ");
+		whereClause.append(MHRMovement.COLUMNNAME_C_BPartner_ID).append("=?");
+		return new Query(process.getCtx(), MHRMovement.Table_Name , whereClause.toString(), process.get_TrxName())
+				.setClient_ID()
+				.setParameters(process.getHR_Process_ID(), conceptId , partnerId)
+				.list();
+
+	}
+
 
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
-	 *	@param HR_Concept_ID
+	 *	@param movementId
 	 *	@param trxName
 	 */
-	public MHRMovement (Properties ctx, int HR_Movement_ID, String trxName)
+	public MHRMovement (Properties ctx, int movementId, String trxName)
 	{
-		super (ctx, HR_Movement_ID, trxName);
+		super (ctx, movementId, trxName);
 	}
 
 	/**
@@ -113,11 +133,12 @@ public class MHRMovement extends X_HR_Movement
 		}
 	}	//	MHRMovement
 
-	public MHRMovement (MHRProcess proc, I_HR_Concept concept)
+	public MHRMovement (MHRProcess process, I_HR_Concept concept)
 	{
-		this(proc.getCtx(), 0, proc.get_TrxName());
+		this(process.getCtx(), 0, process.get_TrxName());
 		// Process
-		this.setHR_Process_ID(proc.getHR_Process_ID());
+		this.setHR_Process_ID(process.getHR_Process_ID());
+		this.setHR_Payroll_ID(process.getHR_Payroll_ID());
 		// Concept
 		this.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
 		this.setHR_Concept_ID(concept.getHR_Concept_ID());
@@ -229,4 +250,24 @@ public class MHRMovement extends X_HR_Movement
 		.setParameters(process.getHR_Process_ID())
 		.list();
 	}
+
+	/**
+	 * Set Employee info
+	 * @param employee
+	 */
+	public void setEmployee(MHREmployee employee)
+	{
+		setAD_Org_ID(employee.getAD_Org_ID());
+		setHR_Department_ID(employee.getHR_Department_ID());
+		setHR_Job_ID(employee.getHR_Job_ID());
+		setC_Activity_ID(employee.getC_Activity_ID() > 0 ?  employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());
+		setHR_Employee_ID(employee.getHR_Employee_ID());
+		setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
+		setHR_SkillType_ID(employee.getHR_SkillType_ID());
+		setPaymentRule(employee.getPaymentRule());
+		setHR_Payroll_ID(employee.getHR_Payroll_ID());
+		if (employee.getHR_Payroll_ID() > 0)
+			setHR_Contract_ID(employee.getHR_Payroll().getHR_Contract_ID());
+	}
+
 }	//	HRMovement
