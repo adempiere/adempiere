@@ -1,4 +1,4 @@
-<project name="Libero" default="zkdist" basedir=".">
+<project name="LiberoHR" default="zkdist" basedir=".">
     <description>
         Building Libero liberoHR.jar
 		Building Libero LiberozkHR.jar
@@ -99,7 +99,6 @@
     <copy file="${dist}/lib/liberozkHR.jar" todir="${adempiere.trunk}/zkpackages"/>
       
     <delete dir="${build}"/>
-    <delete dir="${buildPatches}"/>
   </target>
 	
   <target name="clean"
