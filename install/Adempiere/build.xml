@@ -148,10 +148,6 @@
 			<zipfileset src="lib/patches.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
-			<!-- posterita packages -->
-			<zipfileset src="lib/posterita.jar" >
-				<patternset refid="manifest.exclude"/>
-			</zipfileset>
 			<zipfileset src="lib/AdempiereOriginal.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
