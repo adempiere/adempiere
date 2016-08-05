@@ -61,7 +61,7 @@ public class ProcessingOrderSelection extends ProcessingOrderSelectionAbstract
 	private void updatingOrderProperties(List<MOrder> orders) {
 		orders.stream().filter(order -> order != null)
 				.forEach(order -> {
-					Optional.ofNullable(getSelectionAsTimestamp(order.get_ID(), getAliasForTableSelection() + MOrder.COLUMNNAME_DatePromised))
+					Optional.ofNullable(getSelectionAsTimestamp(order.get_ID(), getPrefixAliasForTableSelection() + MOrder.COLUMNNAME_DatePromised))
 							.ifPresent(datePromised -> order.setDatePromised(datePromised));
 					if (order.is_Changed())
 						order.saveEx();
