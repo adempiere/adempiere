@@ -17,6 +17,7 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MCalendar;
@@ -170,6 +171,39 @@ public class MHRPayroll extends X_HR_Payroll
 				.setClient_ID()
 				.setParameters(getHR_Payroll_ID() , date)
 				.firstOnly();
+	}
+
+	/**
+	 * get period list based on range dates
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public List<MHRPeriod> getPeriods(Timestamp from , Timestamp to)
+	{
+		StringBuilder where = new StringBuilder();
+		where.append(COLUMNNAME_HR_Payroll_ID).append("=? AND ");
+		where.append(MHRPeriod.COLUMNNAME_StartDate).append(">=?  AND  ");
+		where.append(MHRPeriod.COLUMNNAME_EndDate).append("<=?");
+		return new Query(getCtx() , MHRPeriod.Table_Name , where.toString(), get_TrxName())
+				.setClient_ID()
+				.setParameters(getHR_Payroll_ID() , from, to)
+				.list();
+	}
+
+	/**
+	 * get period list based on range dates
+	 * method created to compatibility with groovy not support list only array
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public MHRPeriod[] getPeriodsAsArray(Timestamp from , Timestamp to)
+	{
+		List<MHRPeriod> periods = getPeriods(from, to);
+		MHRPeriod[] arrayPeriods = new MHRPeriod[periods.size()];
+		periods.toArray(arrayPeriods);
+		return arrayPeriods;
 	}
 
 	/**
