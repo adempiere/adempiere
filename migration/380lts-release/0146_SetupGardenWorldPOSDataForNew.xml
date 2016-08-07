@@ -106,12 +106,12 @@
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="302" Action="I" Record_ID="0" Table="C_ElementValue_Trl">
         <Data AD_Column_ID="3156" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="3746" Column="Description">Cash for Store Central</Data>
         <Data AD_Column_ID="3155" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="3157" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="3154" Column="C_ElementValue_ID">50021</Data>
         <Data AD_Column_ID="3159" Column="Created">2016-05-30 14:46:54.671</Data>
         <Data AD_Column_ID="3160" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="3746" Column="Description">Cash for Store Central</Data>
         <Data AD_Column_ID="3158" Column="IsActive">true</Data>
         <Data AD_Column_ID="3164" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="3163" Column="Name">Cash for Store Central</Data>
@@ -136,9 +136,9 @@
     </Step>
     <Step SeqNo="80" StepType="AD">
       <PO AD_Table_ID="289" Action="U" Record_ID="101" Table="AD_TreeNode">
+        <Data AD_Column_ID="2877" Column="Parent_ID" oldValue="0">507</Data>
         <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="101">101</Data>
         <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50021">50021</Data>
-        <Data AD_Column_ID="2877" Column="Parent_ID" oldValue="0">507</Data>
         <Data AD_Column_ID="2879" Column="SeqNo" oldValue="999">109</Data>
       </PO>
     </Step>
@@ -195,11 +195,11 @@
     </Step>
     <Step SeqNo="130" StepType="AD">
       <PO AD_Table_ID="302" Action="I" Record_ID="0" Table="C_ElementValue_Trl">
+        <Data AD_Column_ID="3159" Column="Created">2016-05-30 16:08:07.454</Data>
         <Data AD_Column_ID="3156" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="3155" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="3157" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="3154" Column="C_ElementValue_ID">50023</Data>
-        <Data AD_Column_ID="3159" Column="Created">2016-05-30 16:08:07.454</Data>
         <Data AD_Column_ID="3160" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="3746" Column="Description">Cash for Store Central In-Transfer</Data>
         <Data AD_Column_ID="3158" Column="IsActive">true</Data>
@@ -233,8 +233,8 @@
     </Step>
     <Step SeqNo="160" StepType="AD">
       <PO AD_Table_ID="289" Action="U" Record_ID="101" Table="AD_TreeNode">
-        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="101">101</Data>
         <Data AD_Column_ID="2876" Column="Node_ID" oldValue="515">515</Data>
+        <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="101">101</Data>
         <Data AD_Column_ID="2879" Column="SeqNo" oldValue="111">112</Data>
       </PO>
     </Step>
@@ -247,9 +247,9 @@
     </Step>
     <Step SeqNo="180" StepType="AD">
       <PO AD_Table_ID="289" Action="U" Record_ID="101" Table="AD_TreeNode">
+        <Data AD_Column_ID="2877" Column="Parent_ID" oldValue="0">507</Data>
         <Data AD_Column_ID="2875" Column="AD_Tree_ID" oldValue="101">101</Data>
         <Data AD_Column_ID="2876" Column="Node_ID" oldValue="50023">50023</Data>
-        <Data AD_Column_ID="2877" Column="Parent_ID" oldValue="0">507</Data>
         <Data AD_Column_ID="2879" Column="SeqNo" oldValue="999">112</Data>
       </PO>
     </Step>
@@ -299,11 +299,11 @@
     </Step>
     <Step SeqNo="220" StepType="AD">
       <PO AD_Table_ID="302" Action="I" Record_ID="0" Table="C_ElementValue_Trl">
+        <Data AD_Column_ID="3159" Column="Created">2016-05-30 16:24:12.396</Data>
         <Data AD_Column_ID="3156" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="3155" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="3157" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="3154" Column="C_ElementValue_ID">50024</Data>
-        <Data AD_Column_ID="3159" Column="Created">2016-05-30 16:24:12.396</Data>
         <Data AD_Column_ID="3160" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="3746" Column="Description">Safe for Store Central</Data>
         <Data AD_Column_ID="3158" Column="IsActive">true</Data>
@@ -382,8 +382,9 @@
     </Step>
     <Step SeqNo="280" StepType="AD">
       <PO AD_Table_ID="302" Action="I" Record_ID="0" Table="C_ElementValue_Trl">
-        <Data AD_Column_ID="3156" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="3155" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="3163" Column="Name">Safe In-Transfer for Store Central</Data>
+        <Data AD_Column_ID="3156" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="3157" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="3154" Column="C_ElementValue_ID">50025</Data>
         <Data AD_Column_ID="3159" Column="Created">2016-05-30 16:39:23.977</Data>
@@ -391,7 +392,6 @@
         <Data AD_Column_ID="3746" Column="Description">Safe In-Transfer for Store Central</Data>
         <Data AD_Column_ID="3158" Column="IsActive">true</Data>
         <Data AD_Column_ID="3164" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="3163" Column="Name">Safe In-Transfer for Store Central</Data>
         <Data AD_Column_ID="3161" Column="Updated">2016-05-30 16:39:23.977</Data>
         <Data AD_Column_ID="3162" Column="UpdatedBy">100</Data>
       </PO>
@@ -502,14 +502,6 @@
         <Data AD_Column_ID="14597" Column="UserElement2_ID" isNewNull="true"/>
       </PO>
     </Step>
-    <Step SeqNo="360" StepType="AD">
-      <PO AD_Table_ID="391" Action="U" Record_ID="101" Table="C_BankAccount_Acct">
-        <Data AD_Column_ID="4900" Column="B_Asset_Acct" oldValue="258">50043</Data>
-        <Data AD_Column_ID="4899" Column="B_InTransit_Acct" oldValue="257">50044</Data>
-        <Data AD_Column_ID="4891" Column="C_AcctSchema_ID" oldValue="101">101</Data>
-        <Data AD_Column_ID="4890" Column="C_BankAccount_ID" oldValue="50000">50000</Data>
-      </PO>
-    </Step>
     <Step SeqNo="370" StepType="AD">
       <PO AD_Table_ID="176" Action="I" Record_ID="50045" Table="C_ValidCombination">
         <Data AD_Column_ID="1015" Column="AD_Client_ID">11</Data>
@@ -606,14 +598,6 @@
         <Data AD_Column_ID="14597" Column="UserElement2_ID" isNewNull="true"/>
       </PO>
     </Step>
-    <Step SeqNo="400" StepType="AD">
-      <PO AD_Table_ID="391" Action="U" Record_ID="101" Table="C_BankAccount_Acct">
-        <Data AD_Column_ID="4900" Column="B_Asset_Acct" oldValue="258">50045</Data>
-        <Data AD_Column_ID="4899" Column="B_InTransit_Acct" oldValue="257">50047</Data>
-        <Data AD_Column_ID="4891" Column="C_AcctSchema_ID" oldValue="101">101</Data>
-        <Data AD_Column_ID="4890" Column="C_BankAccount_ID" oldValue="50001">50001</Data>
-      </PO>
-    </Step>
     <Step SeqNo="410" StepType="AD">
       <PO AD_Table_ID="748" Action="U" Record_ID="100" Table="C_POS">
         <Data AD_Column_ID="54236" Column="C_BankAccount_ID" oldValue="100">50000</Data>
@@ -668,14 +652,6 @@
         <Data AD_Column_ID="57163" Column="Name">Cash for Store Central In-Transfer</Data>
         <Data AD_Column_ID="57165" Column="Updated">2016-05-30 21:53:40.161</Data>
         <Data AD_Column_ID="57166" Column="UpdatedBy">100</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="450" StepType="AD">
-      <PO AD_Table_ID="396" Action="U" Record_ID="101" Table="C_Charge_Acct">
-        <Data AD_Column_ID="5004" Column="C_AcctSchema_ID" oldValue="101">101</Data>
-        <Data AD_Column_ID="5003" Column="C_Charge_ID" oldValue="50007">50007</Data>
-        <Data AD_Column_ID="5012" Column="Ch_Expense_Acct" oldValue="267">50044</Data>
-        <Data AD_Column_ID="5013" Column="Ch_Revenue_Acct" oldValue="268">50044</Data>
       </PO>
     </Step>
   </Migration>
