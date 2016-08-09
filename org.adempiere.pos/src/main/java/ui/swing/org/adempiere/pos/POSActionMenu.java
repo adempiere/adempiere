@@ -286,7 +286,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 FormFrame ff = new FormFrame(pos.getWindowNo());
                 ff.setSize(size);
                 MBrowse browse = new MBrowse(Env.getCtx(), 50056 , null);
-                VBrowser browser = new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "");
+                VBrowser browser = new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "", true);
                 ff.pack();
                 AEnv.showCenterScreen(ff);
             }
@@ -296,7 +296,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 FormFrame ff = new FormFrame(pos.getWindowNo());
                 ff.setSize(size);
                 MBrowse browse = new MBrowse(Env.getCtx(), 50057 , null);
-                VBrowser browser = new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "");
+                VBrowser browser = new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "", true);
                 ff.pack();
                 AEnv.showCenterScreen(ff);
             }

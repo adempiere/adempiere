@@ -294,7 +294,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
             if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL) {
                 Env.setContext(pos.getCtx(), pos.getWindowNo(), "C_POS_ID", pos.getC_POS_ID());
                 MBrowse browse = new MBrowse(Env.getCtx(), 50056, null);
-                WBrowser browser = new WBrowser(true, pos.getWindowNo(), "", browse, "", true, "");
+                WBrowser browser = new WBrowser(true, pos.getWindowNo(), "", browse, "", true, "", true);
                 CustomForm ff = browser.getForm();
                 ff.setAttribute(org.adempiere.webui.component.Window.MODE_KEY, org.adempiere.webui.component.Window.MODE_EMBEDDED);
                 ff.setAttribute(org.adempiere.webui.component.Window.INSERT_POSITION_KEY, org.adempiere.webui.component.Window.INSERT_NEXT);
@@ -304,7 +304,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
             if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
                 Env.setContext(pos.getCtx(), pos.getWindowNo(), "C_POS_ID", pos.getC_POS_ID());
                 MBrowse browse = new MBrowse(Env.getCtx(), 50057, null);
-                WBrowser browser = new WBrowser(true, pos.getWindowNo(), "", browse, "", true, "");
+                WBrowser browser = new WBrowser(true, pos.getWindowNo(), "", browse, "", true, "" , true);
                 CustomForm ff = browser.getForm();
                 ff.setAttribute(org.adempiere.webui.component.Window.MODE_KEY, org.adempiere.webui.component.Window.MODE_EMBEDDED);
                 ff.setAttribute(org.adempiere.webui.component.Window.INSERT_POSITION_KEY, org.adempiere.webui.component.Window.INSERT_NEXT);
