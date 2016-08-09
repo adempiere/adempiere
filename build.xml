@@ -15,9 +15,9 @@
   <property name="zk_classes" value="${dist}/zk/WEB-INF/classes"/>
   <property name="swing_classes" value="${dist}/swing/class"/>
   <property name="zkjar" value="${dist}/zk"/>
-  <property name="domain_model" value="${basedir}/org.adempiere.pos/src/main/java/base"/>
-  <property name="swing_view" value="${basedir}/org.adempiere.pos/src/main/java/ui/swing"/>
-  <property name="zk_view" value="${basedir}/org.adempiere.pos/src/main/java/ui/zk"/>
+  <property name="domain_model" value="${basedir}/src/main/java/base"/>
+  <property name="swing_view" value="${basedir}/src/main/java/ui/swing"/>
+  <property name="zk_view" value="${basedir}/src/main/java/ui/zk"/>
   <property name="patches" value="${basedir}/patches"/>
   
   <path id="compile.classpath">
@@ -169,7 +169,7 @@
 		<echo message="=============== Deploy files BEGIN"/>
   		<delete file="${adempiere.trunk}/zkwebui/js/text_action.js"/>
 		<copy todir="${adempiere.trunk}/zkwebui/js">
-			<fileset dir="/org.adempiere.pos/src/main/js" includes="text_action.js"/>
+			<fileset dir="/src/main/js" includes="text_action.js"/>
 		</copy>
 		
   		<delete file="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk/lang-addon.xml"/>
