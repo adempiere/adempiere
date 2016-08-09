@@ -4,6 +4,8 @@
       <root url="jar://$USER_HOME$/.ivy2/cache/com.vaadin.external.streamhtmlparser/streamhtmlparser-jsilver/jars/streamhtmlparser-jsilver-0.0.10.vaadin1.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.vaadin.external.streamhtmlparser/streamhtmlparser-jsilver/srcs/streamhtmlparser-jsilver-0.0.10.vaadin1-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
