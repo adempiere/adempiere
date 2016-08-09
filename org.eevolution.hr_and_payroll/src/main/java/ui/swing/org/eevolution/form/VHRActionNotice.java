@@ -59,6 +59,7 @@ import org.eevolution.model.MHREmployee;
 import org.eevolution.model.MHRMovement;
 import org.eevolution.model.MHRPeriod;
 import org.eevolution.model.MHRProcess;
+import org.eevolution.service.HRActionNotice;
 
 /**
  *  @author Oscar Gomez
