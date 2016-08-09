@@ -57,6 +57,7 @@ import org.eevolution.model.MHREmployee;
 import org.eevolution.model.MHRMovement;
 import org.eevolution.model.MHRProcess;
 import org.eevolution.model.X_HR_Concept;
+import org.eevolution.service.HRActionNotice;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Borderlayout;
