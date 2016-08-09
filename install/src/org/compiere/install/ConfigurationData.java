@@ -1417,19 +1417,16 @@ public class ConfigurationData
 	 * 	Set Database Type
 	 *	@param databaseType The databaseType to set.
 	 */
-	public int setDatabaseType (String databaseType)
-	{
+	public int setDatabaseType (String databaseType) {
 		int index = -1;
-		for (int i = 0; i < DBTYPE.length; i++)
-		{
-			if (DBTYPE[i].equals(databaseType))
-			{
+		for (int i = 0; i < DBTYPE.length; i++) {
+			if (DBTYPE[i].equalsIgnoreCase(databaseType)) {
+				databaseType = DBTYPE[i];
 				index = i;
 				break;
 			}
 		}
-		if (index == -1)
-		{
+		if (index == -1) {
 			index = 0;
 			log.warning("Invalid DatabaseType=" + databaseType);
 		}
