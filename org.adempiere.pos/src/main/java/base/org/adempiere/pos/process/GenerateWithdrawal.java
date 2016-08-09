@@ -48,7 +48,7 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
         paymentBatchTo.setProcessingDate(getTransactionDate());
         paymentBatchTo.saveEx();
 
-        List<MRefList> refLists = (List<MRefList>) getInstances(get_TrxName());
+        List<MRefList> refLists = (List<MRefList>) getInstancesForSelection(get_TrxName());
         refLists.stream().forEach( refList -> {
             BigDecimal amount = getSelectionAsBigDecimal(refList.get_ID() , "TT_Amount");
             String referenceNo = getSelectionAsString (refList.get_ID() , "TT_ReferenceNo");
