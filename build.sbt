@@ -1,34 +1,13 @@
-/** ****************************************************************************
-  * Product: Adempiere ERP & CRM Smart Business Solution                       *
-  * This program is free software; you can redistribute it and/or modify it    *
-  * under the terms version 2 of the GNU General Public License as published   *
-  * by the Free Software Foundation. This program is distributed in the hope   *
-  * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
-  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
-  * See the GNU General Public License for more details.                       *
-  * You should have received a copy of the GNU General Public License along    *
-  * with this program; if not, write to the Free Software Foundation, Inc.,    *
-  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
-  * For the text or an alternative of this public license, you may reach us    *
-  * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
-  * Contributor(s): Victor Perez www.e-evolution.com                           *
-  * ****************************************************************************/
-
-/*
-* Builder Test infrastructure
-* eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 06/01/16.
-*/
-
 import _root_.sbtassembly.AssemblyPlugin.autoImport._
 
 name := "adempierePOS"
 version := "1.0.0"
 
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 fork := true
-val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/AdempiereTest.properties"
+val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/Desktop/Develop/Adempiere.properties"
 //scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-encoding" , "utf8")
 javaOptions in Test := Seq (adempiereProperties)
 
@@ -36,10 +15,10 @@ javaOptions in Test := Seq (adempiereProperties)
 lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
   organization := "org.adempiere.pos",
-  scalaVersion := "2.11.7"
+  scalaVersion := "2.11.8"
 )
 
-val sourceAdempiere = "/Users/e-Evolution/Documents/Develop/ADempiere/adempiere"
+val sourceAdempiere = "/Users/e-Evolution/Desktop/Develop/ADempiere/adempiere"
 
 unmanagedSourceDirectories in Compile <++= baseDirectory { base =>
   Seq(
@@ -87,5 +66,5 @@ libraryDependencies ++= Seq(
   "com.vaadin" % "vaadin-client-compiled" % "7.5.6",
   "com.vaadin" % "vaadin-themes" % "7.5.6",
   "vaadin.scala" %% "scaladin" % "3.1-SNAPSHOT",
-  "org.scalatest" % "scalatest_2.11" % "2.2.4"
+  "org.scalatest" % "scalatest_2.11" % "2.2.6"
 )

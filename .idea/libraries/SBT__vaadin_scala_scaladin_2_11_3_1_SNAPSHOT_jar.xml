@@ -4,6 +4,8 @@
       <root url="jar://$USER_HOME$/.ivy2/cache/vaadin.scala/scaladin_2.11/jars/scaladin_2.11-3.1-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/vaadin.scala/scaladin_2.11/srcs/scaladin_2.11-3.1-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
