@@ -86,7 +86,7 @@ public class CloseStatementPOS extends CloseStatementPOSAbstract {
             return baskStatements;
 
         baskStatements = new LinkedHashMap<Integer, MBankStatement>();
-        List<MPayment> payments = (List<MPayment>) getInstances(get_TrxName());
+        List<MPayment> payments = (List<MPayment>) getInstancesForSelection(get_TrxName());
         payments.stream().forEach( payment -> {
             Integer bankStatementLineId = getSelectionAsInt(payment.get_ID() , "BSL_C_BankStatementLine_ID");
             if (bankStatementLineId != null && bankStatementLineId > 0)
