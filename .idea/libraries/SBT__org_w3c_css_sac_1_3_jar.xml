@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="SBT: org.w3c.css:sac:1.3:jar">
-    <CLASSES>
-      <root url="jar:///Applications/activator-dist-1.3.6/repository/org.w3c.css/sac/1.3/jars/sac.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
