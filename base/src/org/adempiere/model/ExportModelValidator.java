@@ -30,7 +30,15 @@
 package org.adempiere.model;
 
 import org.adempiere.process.rpl.exp.ExportHelper;
-import org.compiere.model.*;
+import org.compiere.model.MClient;
+import org.compiere.model.MReplicationStrategy;
+import org.compiere.model.MReplicationTable;
+import org.compiere.model.MTable;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.ModelValidator;
+import org.compiere.model.PO;
+import org.compiere.model.X_AD_ReplicationDocument;
+import org.compiere.model.X_AD_ReplicationTable;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import java.util.Properties;
