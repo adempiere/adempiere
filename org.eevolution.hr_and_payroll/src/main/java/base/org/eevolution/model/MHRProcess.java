@@ -842,7 +842,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		m_scriptCtx.put("_Department", getHR_Department_ID());
 
 		log.info("info data - " +
-				Msg.translate(getCtx(), "@HR_Process_ID@ ") +getHR_Process_ID()+
+				Msg.parseTranslation(getCtx(), "@HR_Process_ID@ ") +getHR_Process_ID()+
 				Msg.parseTranslation(getCtx(), ", @HR_Period_ID@ :") +getHR_Period_ID()+
 				Msg.parseTranslation(getCtx(), ", @HR_Payroll_ID@ : ") +getHR_Payroll_ID()+
 				Msg.parseTranslation(getCtx(), ", @HR_Department_ID@ : ") + getHR_Department_ID());
@@ -2063,7 +2063,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param partnerValue
 	 * @param conceptValue
      */
-	public void setEmployee(String partnerValue,String  conceptValue)
+	public MHREmployee setEmployee(String partnerValue,String  conceptValue)
 	{
 
 		MBPartner partner = MBPartner.get(getCtx() , partnerValue);
@@ -2077,20 +2077,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		m_HR_Concept_ID = concept.get_ID();
 		m_columnType = concept.getColumnType();
 		MHRPeriod  hrPeriod = MHRPeriod.get(getCtx(),  getHR_Period_ID());
-		MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID());
 		m_employee = MHREmployee.getActiveEmployee(getCtx(), m_C_BPartner_ID, get_TrxName());
-
-		if(period != null)
-		{
-			hrPeriod.setStartDate(period.getStartDate());
-			hrPeriod.setEndDate(period.getEndDate());
-		}
-		else
-		{
-			hrPeriod.setStartDate(getDateAcct());
-			hrPeriod.setEndDate(getDateAcct());
-		}
-
 		m_dateFrom = hrPeriod.getStartDate();
 		m_dateTo   = hrPeriod.getEndDate();
 
@@ -2106,7 +2093,52 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		{
 			m_HR_Job_ID=getHR_Job_ID();
 		}
+
 		m_dateFrom = hrPeriod.getStartDate();
 		m_dateTo   = hrPeriod.getEndDate();
+
+		// Setting Script context for calcualte rule
+		m_scriptCtx.clear();
+		m_scriptCtx.put("process", this);
+		m_scriptCtx.put("_Process", getHR_Process_ID());
+		m_scriptCtx.put("_Period", getHR_Period_ID());
+		m_scriptCtx.put("_Payroll", getHR_Payroll_ID());
+		m_scriptCtx.put("_Department", getHR_Department_ID());
+
+		log.info("info data - " +
+				Msg.parseTranslation(getCtx(), "@HR_Process_ID@ ") +getHR_Process_ID()+
+				Msg.parseTranslation(getCtx(), ", @HR_Period_ID@ :") +getHR_Period_ID()+
+				Msg.parseTranslation(getCtx(), ", @HR_Payroll_ID@ : ") +getHR_Payroll_ID()+
+				Msg.parseTranslation(getCtx(), ", @HR_Department_ID@ : ") + getHR_Department_ID());
+
+		m_scriptCtx.put("_From", m_dateFrom);
+		m_scriptCtx.put("_To", m_dateTo);
+		m_scriptCtx.put("_Period", hrPeriod.getPeriodNo());
+
+		m_scriptCtx.remove("_DateStart");
+		m_scriptCtx.remove("_DateEnd");
+		m_scriptCtx.remove("_Days");
+		m_scriptCtx.remove("_C_BPartner_ID");
+		m_scriptCtx.remove("_HR_Employee_ID");
+
+		m_scriptCtx.put("_DateStart", m_employee.getStartDate());
+		m_scriptCtx.put("_DateEnd", m_employee.getEndDate() == null ? TimeUtil.getDay(2999, 12, 31) : m_employee.getEndDate());
+		m_scriptCtx.put("_Days", TimeUtil.getDaysBetween(hrPeriod.getStartDate(),hrPeriod.getEndDate()) + 1);
+		m_scriptCtx.put("_C_BPartner_ID", m_employee.getC_BPartner_ID());
+		m_scriptCtx.put("_HR_Employee_ID", m_employee.getHR_Employee_ID());
+
+		m_scriptCtx.remove("_HR_Concept_ID");
+		m_scriptCtx.put("_HR_Concept_ID", concept.getHR_Concept_ID());
+		m_scriptCtx.remove("_HR_PayrollConcept_ID");
+		//m_scriptCtx.put("_HR_PayrollConcept_ID", payrollConcept.getHR_PayrollConcept_ID());
+		//Define movement cache
+		m_movement = new Hashtable<Integer, MHRMovement>();
+		//Load the Manual movement
+		loadMovements(m_movement,m_employee.getC_BPartner_ID());
+		//Remove movement if this is calculated this way can be calculated again
+		if (!concept.isManual())
+			m_movement.remove(concept.get_ID());
+
+		return m_employee;
 	}
 }	//	MHRProcess
