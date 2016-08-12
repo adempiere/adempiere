@@ -2076,11 +2076,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			throw  new AdempiereException("@HR_Concept_ID@ @NotFound@ " +  conceptValue);
 		m_HR_Concept_ID = concept.get_ID();
 		m_columnType = concept.getColumnType();
-		MHRPeriod  hrPeriod = MHRPeriod.get(getCtx(),  getHR_Period_ID());
+		MHRPeriod  hrPeriod;
 		m_employee = MHREmployee.getActiveEmployee(getCtx(), m_C_BPartner_ID, get_TrxName());
-		m_dateFrom = hrPeriod.getStartDate();
-		m_dateTo   = hrPeriod.getEndDate();
-
 		if(getHR_Payroll_ID() > 0)
 		{
 			m_HR_Payroll_ID=getHR_Payroll_ID();
@@ -2094,14 +2091,30 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			m_HR_Job_ID=getHR_Job_ID();
 		}
 
+		if (getHR_Period_ID() > 0) {
+			hrPeriod = MHRPeriod.get(getCtx(),  getHR_Period_ID());
+		} else {
+			hrPeriod = new MHRPeriod(getCtx() , 0 , get_TrxName());
+			MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID());
+			if(period != null)
+			{
+				hrPeriod.setStartDate(period.getStartDate());
+				hrPeriod.setEndDate(period.getEndDate());
+			}
+			else
+			{
+				hrPeriod.setStartDate(getDateAcct());
+				hrPeriod.setEndDate(getDateAcct());
+			}
+		}
 		m_dateFrom = hrPeriod.getStartDate();
-		m_dateTo   = hrPeriod.getEndDate();
+		m_dateTo = hrPeriod.getEndDate();
 
 		// Setting Script context for calcualte rule
 		m_scriptCtx.clear();
 		m_scriptCtx.put("process", this);
 		m_scriptCtx.put("_Process", getHR_Process_ID());
-		m_scriptCtx.put("_Period", getHR_Period_ID());
+		m_scriptCtx.put("_Period", hrPeriod.getHR_Period_ID());
 		m_scriptCtx.put("_Payroll", getHR_Payroll_ID());
 		m_scriptCtx.put("_Department", getHR_Department_ID());
 
