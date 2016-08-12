@@ -49,7 +49,7 @@ fi
 
 # identify this script
 echo
-echo "Import Adempiere $importMode Database"
+echo "Import ADempiere $importMode Database"
 echo
 
 # change to directory in which this script resides
@@ -79,7 +79,7 @@ dbCatalog="(undefined)"
 dbSchema=$ADEMPIERE_DB_USER
 
 # variables depending on database vendor
-if [ "$dbVendor" == "postgresql" ]
+if [ "$dbVendor" == "PostgreSQL" ]
 then
 	dbSeedFile="$ADEMPIERE_HOME/data/Adempiere_pg.dmp"
 	sysUser="postgres"
@@ -101,7 +101,7 @@ then
 	dbUser="reference"
 	dbPwd="adempiere"
 	dbSchema="reference"
-	if [ "$dbVendor" == "postgresql" ]
+	if [ "$dbVendor" == "PostgreSQL" ]
 	then
 		dbName="reference"
 	elif [ "$dbVendor" == "oracle" ]
@@ -125,7 +125,7 @@ then
 	cat <<-EOF
 	Please make sure that the environment variables are set correctly:
 	  ADEMPIERE_HOME	e.g. "/Adempiere"
-	  ADEMPIERE_DB_PATH	e.g. "postgresql" or "oracle"
+	  ADEMPIERE_DB_PATH	e.g. "PostgreSQL" or "oracle"
 	  ADEMPIERE_DB_NAME	e.g. "adempiere" or "xe"
 	  ADEMPIERE_DB_SERVER	e.g. "dbserver.adempiere.org"
 	  ADEMPIERE_DB_PORT	e.g. "5432" or "1521"

@@ -21,10 +21,9 @@ then
 
 #!/bin/sh
 
-# $Id: ImportAdempiere.sh,v 1.10 2005/12/20 07:12:17 jjanke Exp $
-echo	Adempiere Database Import		$Revision: 1.10 $
+echo	ADempiere Database Import
 
-echo	Importing Adempiere DB from $ADEMPIERE_HOME/data/Adempiere_pg.dmp
+echo	Importing ADempiere DB from $ADEMPIERE_HOME/data/Adempiere_pg.dmp
 
 if [ $# -le 2 ]
 	then
@@ -116,7 +115,7 @@ dbSeedFile="${11}"
 dbSqljFile="${12}" # ignored for postgresql
 
 # make sure this script is called for the correct vendor
-if [ "$dbVendor" != "postgresql" ]
+if [ "$dbVendor" != "PostgreSQL" ]
 then
 	echo "wrong vendor"
 	exit $errorWrongVendor
