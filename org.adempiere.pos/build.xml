@@ -19,7 +19,7 @@
   <property name="swing_view" value="${basedir}/src/main/java/ui/swing"/>
   <property name="zk_view" value="${basedir}/src/main/java/ui/zk"/>
   <property name="patches" value="${basedir}/patches"/>
-  
+
   <path id="compile.classpath">
       
     <!--fileset dir="${project.trunk}/packages/ADempierePOS/lib">
@@ -169,7 +169,7 @@
 		<echo message="=============== Deploy files BEGIN"/>
   		<delete file="${adempiere.trunk}/zkwebui/js/text_action.js"/>
 		<copy todir="${adempiere.trunk}/zkwebui/js">
-			<fileset dir="/src/main/js" includes="text_action.js"/>
+			<fileset dir="src/main/js" includes="text_action.js"/>
 		</copy>
 		
   		<delete file="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk/lang-addon.xml"/>

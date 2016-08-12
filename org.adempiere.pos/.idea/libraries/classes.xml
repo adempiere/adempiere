@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="classes">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../adempiere/zkwebui/WEB-INF/classes" />
+      <root url="file://$PROJECT_DIR$/../../adempiere/zkwebui/WEB-INF/classes" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

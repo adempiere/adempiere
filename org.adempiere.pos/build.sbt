@@ -18,20 +18,20 @@ lazy val commonSettings = Seq(
   scalaVersion := "2.11.8"
 )
 
-val sourceAdempiere = "/Users/e-Evolution/Desktop/Develop/ADempiere/adempiere"
+val sourceAdempiere = "/Users/e-Evolution/Documents/Develop/ADempiere/adempiere"
 
 unmanagedSourceDirectories in Compile <++= baseDirectory { base =>
   Seq(
-    base / "org.adempiere.pos"  / "src" / "main" / "java" / "base",
-    base / "org.adempiere.pos"  / "src" / "main" / "java" / "ui" / "swing" ,
-    base / "org.adempiere.pos"  / "src" / "main" / "java" / "ui" / "zk"
+    base / "src" / "main" / "java" / "base",
+    base / "src" / "main" / "java" / "ui" / "swing" ,
+    base / "src" / "main" / "java" / "ui" / "zk"
   )
 }
 
 //javaSource in Test := baseDirectory.value / "org.adempiere.pos"  / "src" / "test" / "java"
 
-scalaSource in Compile := baseDirectory.value / "org.adempiere.pos" / "src" / "main" / "scala"
-scalaSource in Test := baseDirectory.value / "org.adempiere.pos" / "src" / "test" / "scala"
+scalaSource in Compile := baseDirectory.value / "src" / "main" / "scala"
+scalaSource in Test := baseDirectory.value / "src" / "test" / "scala"
 
 val additionalClasses = file(sourceAdempiere + "/zkwebui/WEB-INF/classes")
 
