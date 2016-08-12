@@ -15,16 +15,16 @@
   <property name="zk_classes" value="${dist}/zk/WEB-INF/classes"/>
   <property name="swing_classes" value="${dist}/swing/class"/>
   <property name="zkjar" value="${dist}/zk"/>
-  <property name="domain_model" value="${basedir}/org.adempiere.pos/src/main/java/base"/>
-  <property name="swing_view" value="${basedir}/org.adempiere.pos/src/main/java/ui/swing"/>
-  <property name="zk_view" value="${basedir}/org.adempiere.pos/src/main/java/ui/zk"/>
+  <property name="domain_model" value="${basedir}/src/main/java/base"/>
+  <property name="swing_view" value="${basedir}/src/main/java/ui/swing"/>
+  <property name="zk_view" value="${basedir}/src/main/java/ui/zk"/>
   <property name="patches" value="${basedir}/patches"/>
   
   <path id="compile.classpath">
       
-    <fileset dir="${project.trunk}/packages/ADempierePOS/lib">
+    <!--fileset dir="${project.trunk}/packages/ADempierePOS/lib">
       <include name="*.jar"/>
-    </fileset>
+    </fileset-->
     
     <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
    
@@ -77,7 +77,7 @@
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
     
     <echo message="Compile ZK Classes "/>
-    <javac srcdir="${zk_view}" destdir="${zk_classes}" includeantruntime="false" >
+    <javac encoding="UTF-8" srcdir="${zk_view}" destdir="${zk_classes}" includeantruntime="false" >
       <classpath refid="compile.domain.classpath"/>
       <classpath refid="compilezk.classpath"/>
     </javac>
@@ -91,7 +91,7 @@
   <target name="compileDomainModel" depends="init_class"
           description="compile the source " >
     <echo message="Compile Domain Classes "/>
-    <javac srcdir="${domain_model}" destdir="${domain_model_classes}" includeantruntime="false" >
+    <javac encoding="UTF-8" srcdir="${domain_model}" destdir="${domain_model_classes}" includeantruntime="false" >
       <classpath refid="compile.classpath"/>
     </javac>
     <echo message="Create jar file "/>
@@ -104,7 +104,7 @@
         description="compile the source " >
     <echo message="Compile Swing Classes "/>
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac srcdir="${domain_model}:${swing_view}" destdir="${swing_classes}" includeantruntime="false" >
+    <javac encoding="UTF-8" srcdir="${domain_model}:${swing_view}" destdir="${swing_classes}" includeantruntime="false" >
       <classpath refid="compile.domain.classpath"/>
       <classpath refid="compile.classpath"/>
     </javac>
@@ -169,7 +169,7 @@
 		<echo message="=============== Deploy files BEGIN"/>
   		<delete file="${adempiere.trunk}/zkwebui/js/text_action.js"/>
 		<copy todir="${adempiere.trunk}/zkwebui/js">
-			<fileset dir="/org.adempiere.pos/src/main/js" includes="text_action.js"/>
+			<fileset dir="/src/main/js" includes="text_action.js"/>
 		</copy>
 		
   		<delete file="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk/lang-addon.xml"/>
