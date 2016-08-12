@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="adempierePOS/zkprint/ADempierePOS/lib/adempierePOS.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/adempierePOS/ADempierePOSPrint.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=adempierePOS/org.adempiere.pos\/src\/main\/java\/ui\/swing&lt;org.adempiere.pos.test{POSClient.java[POSClient" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+        <javaElement handleIdentifier="=adempiere_380/base\/src&lt;org.compiere.model{MSession.java"/>
+        <javaElement handleIdentifier="=adempiere_380/client\/src&lt;org.compiere.apps{AKeyboardFocusManager.java"/>
+        <javaElement handleIdentifier="=adempiere_380/base\/src&lt;org.compiere.swing{CFrame.java"/>
+        <javaElement handleIdentifier="=adempiere_380/client\/src&lt;org.compiere.apps{ALogin.java"/>
+        <javaElement handleIdentifier="=adempiere_380/client\/src&lt;org.compiere.apps{AEnv.java"/>
+        <javaElement handleIdentifier="=adempiere_380/base\/src&lt;org.compiere.util{Splash.java"/>
+        <javaElement handleIdentifier="=adempiere_380/base\/src&lt;org.compiere.model{MSysConfig.java"/>
+        <javaElement handleIdentifier="=adempiere_380/base\/src&lt;org.compiere.util{Env.java"/>
+        <javaElement handleIdentifier="=adempiere_380/base\/src&lt;org.compiere.util{Msg.java"/>
+        <javaElement handleIdentifier="=adempiere_380/base\/src&lt;org.compiere{Adempiere.java"/>
+        <javaElement handleIdentifier="=adempiere_380/base\/src&lt;org.compiere.swing{CDialog.java"/>
+        <javaElement handleIdentifier="=adempiere_380/base\/src&lt;org.compiere.util{CLogFile.java"/>
+        <javaElement handleIdentifier="=adempierePOS/org.adempiere.pos\/src\/main\/java\/ui\/swing&lt;org.adempiere.pos.test"/>
+        <javaElement handleIdentifier="=adempiere_380/base\/src&lt;org.compiere.util{DB.java"/>
+        <javaElement handleIdentifier="=adempiere_380/client\/src&lt;org.compiere.apps.form{FormFrame.java"/>
+    </selectedElements>
+</jardesc>
