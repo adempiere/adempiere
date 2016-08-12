@@ -534,90 +534,6 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 				throw new AdempiereException(ccmv.getProcessMsg());
 		}
 	}
-	
-	/**
-	 * Create Cost Detail (Material Issue, Material Receipt)
-	 * 
-	 * @param model
-	 * @param mtrx
-	 *            Material Transaction
-	 */
-	/*public void createStandardCostDetail(IDocumentLine model, MTransaction mtrx) {
-		final MPPCostCollector cc = (model instanceof MPPCostCollector ? (MPPCostCollector) model
-				: null);
-		for (MAcctSchema as : CostEngine.getAcctSchema(mtrx)) {
-			// Cost Detail
-			final MProduct product = MProduct.get(mtrx.getCtx(),
-					mtrx.getM_Product_ID());
-			final String costingMethod = product.getCostingMethod(as,
-					mtrx.getAD_Org_ID());
-			// Check costing method
-			if (!getCostingMethod().equals(costingMethod)) {
-				throw new AdempiereException("Costing method not supported - "
-						+ costingMethod);
-			}
-			
-			//
-			for (MCostElement element : MCostElement.getCostElement(mtrx.getCtx(), mtrx.get_TrxName())) {
-				//
-				// Delete Unprocessed zero Differences
-				CostEngine.deleteCostDetail(model, as, element.get_ID(),
-						mtrx.getM_AttributeSetInstance_ID());
-				//
-				// Get Costs
-				final BigDecimal qty = mtrx.getMovementQty();
-				final BigDecimal price = getProductActualCostPrice(cc, product,
-						as, element, mtrx.get_TrxName());
-				final BigDecimal amt = CostEngine.roundCost(price.multiply(qty),
-						as.getC_AcctSchema_ID());
-				//
-				// Create / Update Cost Detail
-				MCostDetail cd = MCostDetail.getCostDetail(model, mtrx, as,
-						element.get_ID());
-				if (cd == null) // createNew
-				{
-					List<MCostType> costtypes = MCostType.get(as.getCtx(),
-							as.get_TrxName());
-					for (MCostType mc : costtypes) {
-						int M_CostType_ID = mc.get_ID();
-						cd = new MCostDetail(as, mtrx.getAD_Org_ID(),
-								mtrx.getM_Product_ID(),
-								mtrx.getM_AttributeSetInstance_ID(),
-								element.get_ID(), amt, qty,
-								model.getDescription(), mtrx.get_TrxName(),
-								M_CostType_ID);
-						// cd.setMovementDate(mtrx.getMovementDate());
-						// if (cost != null)
-						// {
-						// cd.setCurrentCostPrice(cost.getCurrentCostPrice());
-						// cd.setCurrentCostPriceLL(cost.getCurrentCostPriceLL());
-						// }
-						// else
-						// {
-						// cd.setCurrentCostPrice(Env.ZERO);
-						// cd.setCurrentCostPriceLL(Env.ZERO);
-						// }
-						// cd.setM_CostType_ID(as.getM_CostType_ID());
-						// //cd.setCostingMethod(element.getCostingMethod());
-						// cd.setM_Transaction_ID(mtrx.get_ID());
-						if (model instanceof MPPCostCollector)
-							cd.setPP_Cost_Collector_ID(model.get_ID());
-					}
-				} else {
-					cd.setDeltaAmt(amt.subtract(cd.getAmt()));
-					cd.setDeltaQty(mtrx.getMovementQty().subtract(cd.getQty()));
-					if (cd.isDelta()) {
-						cd.setProcessed(false);
-						cd.setAmt(amt);
-						cd.setQty(mtrx.getMovementQty());
-					}
-				}
-				cd.saveEx();
-				processCostDetail(cd);
-				log.config("" + cd);
-			} // for ELements
-		} // Account Schema
-	}*/
 
 	/**
 	 * Create Cost detail from cost collector
@@ -680,13 +596,14 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 				if (!CostEngine.isActivityControlElement(costElement)) {
 					continue;
 				}
-				final CostDimension dimension = new CostDimension(product, accountSchema,
-						accountSchema.getM_CostType_ID(), 0, // AD_Org_ID,
-						0,
-						0, // M_ASI_ID
+				final CostDimension dimension = new CostDimension(
+						product, accountSchema,
+						accountSchema.getM_CostType_ID(),
+						costCollector.getAD_Org_ID(),
+						costCollector.getM_Warehouse_ID(),
+						costCollector.getM_AttributeSetInstanceTo_ID(),
 						costElement.getM_CostElement_ID());
-				final BigDecimal price = getResourceActualCostRate(costCollector,
-						costCollector.getS_Resource_ID(), dimension, costCollector.get_TrxName());
+				final BigDecimal price = getResourceActualCostRate(costCollector.getS_Resource_ID(), dimension, costCollector.get_TrxName());
 				BigDecimal costs = price.multiply(quantity);
 				if (costs.scale() > accountSchema.getCostingPrecision())
 					costs = costs.setScale(accountSchema.getCostingPrecision(),
@@ -756,19 +673,28 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 			} // for Elments
 		} // Account Schema
 	}
-	
-	public static BigDecimal getResourceActualCostRate(MPPCostCollector cc,
-			int S_Resource_ID, CostDimension d, String trxName) {
-		if (S_Resource_ID <= 0)
+
+	/**
+	 * get Resource Actual Cost Rate
+	 * @param resourceId
+	 * @param costDimension
+	 * @param trxName
+	 * @return
+	 */
+	public static BigDecimal getResourceActualCostRate(int resourceId, CostDimension costDimension, String trxName) {
+		if (resourceId <= 0)
 			return Env.ZERO;
-		final MProduct resourceProduct = MProduct.forS_Resource_ID(
-				Env.getCtx(), S_Resource_ID, null);
-		return getProductActualCostPrice(cc, resourceProduct,
-				MAcctSchema.get(Env.getCtx(), d.getC_AcctSchema_ID()),
-				MCostElement.get(Env.getCtx(), d.getM_CostElement_ID()),
-				trxName);
+		final MProduct resourceProduct = MProduct.forS_Resource_ID(Env.getCtx(), resourceId, trxName);
+		CostDimension resourcecCostDimension = new CostDimension(costDimension.setM_Product(resourceProduct));
+		MCost cost = resourcecCostDimension.toQuery(MCost.class, trxName).firstOnly();
+		if (cost == null)
+			return Env.ZERO;
+		BigDecimal price = cost.getCurrentCostPrice().add(cost.getCurrentCostPriceLL());
+		return CostEngine.roundCost(price, resourcecCostDimension.getC_AcctSchema_ID());
 	}
-	
+
+
+
 	public static BigDecimal getProductActualCostPrice(MPPCostCollector costCollector,
 			MProduct product, MAcctSchema as, MCostElement element,
 			String trxName) {
@@ -807,7 +733,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 				AD_Org_ID, M_Warehouse_ID ,M_ASI_ID, // M_ASI_ID,
 				element.getM_CostElement_ID());
 		MCost cost = d.toQuery(MCost.class, trxName).firstOnly();
-		if (cost == null)
+ 		if (cost == null)
 			return Env.ZERO;
 		BigDecimal price = cost.getCurrentCostPrice().add(
 				cost.getCurrentCostPriceLL());

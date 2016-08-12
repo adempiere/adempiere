@@ -20,9 +20,10 @@ package org.eevolution.process;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.adempiere.engine.CostEngine;
 import org.adempiere.engine.CostDimension;
 import org.adempiere.engine.CostEngineFactory;
@@ -31,12 +32,11 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MProduct;
-import org.compiere.model.MResource;
-import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWorkflow;
 import org.eevolution.model.MPPProductPlanning;
@@ -44,247 +44,207 @@ import org.eevolution.model.RoutingService;
 import org.eevolution.model.RoutingServiceFactory;
 
 /**
- *	RollUp of Cost Manufacturing Workflow 
- *	This process calculate the Labor, Overhead, Burden Cost
- *  @author Victor Perez, e-Evolution, S.C.
- *  @version $Id: RollupWorkflow.java,v 1.1 2004/06/22 05:24:03 vpj-cd Exp $
- *  
- *  @author Bogdan Ioan, www.arhipac.ro
- *  		<li>BF [ 2093001 ] Error in Cost Workflow & Process Details
+ * RollUp of Cost Manufacturing Workflow
+ * This process calculate the Labor, Overhead, Burden Cost
+ *
+ * @author Victor Perez, e-Evolution, S.C.
+ * @author Bogdan Ioan, www.arhipac.ro
+ *         <li>BF [ 2093001 ] Error in Cost Workflow & Process Details
+ * @version $Id: RollupWorkflow.java,v 1.1 2004/06/22 05:24:03 vpj-cd Exp $
  */
-public class RollupWorkflow extends SvrProcess
-{
-
-	/* Organization     */
-	private int orgId = 0;
-	/* Account Schema   */
-	private int acctSchemaId = 0;
-	/* Resource plant */
-	private int resourceId = 0;
-	/* Warehouse */
-	private int warehouseId = 0;
-	/* Cost Type 		*/
-	private int costTypeId = 0;
-	/* Product 			*/
-	private int productId = 0;
-	/* Product Category */
-	private int productCategoryId = 0;
-	/* Costing Method 	*/
-	private String constingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
-
-	private MAcctSchema accountSchema = null;
-	
-	private RoutingService m_routingService = null;
+public class RollupWorkflow extends RollupWorkflowAbstract {
+    /* Costing Method 	*/
+    private RoutingService routingService;
 
 
-	protected void prepare()
-	{
-		for (ProcessInfoParameter para : getParameter())
-		{
-			String name = para.getParameterName();
+    protected void prepare() {
+        super.prepare();
+    }    //	prepare
 
-			if (para.getParameter() == null)
-				;
-			else if (MCost.COLUMNNAME_AD_Org_ID.equals(name))
-				orgId = para.getParameterAsInt();
-			else if (MCost.COLUMNNAME_C_AcctSchema_ID.equals(name))
-			{	
-				acctSchemaId = para.getParameterAsInt();
-				accountSchema = MAcctSchema.get(getCtx(), acctSchemaId);
-			}
-			else if (MResource.COLUMNNAME_S_Resource_ID.equals(name))
-				resourceId = para.getParameterAsInt();
-			else if (MWarehouse.COLUMNNAME_M_Warehouse_ID.equals(name))
-				warehouseId = para.getParameterAsInt();
-			else if (MCost.COLUMNNAME_M_CostType_ID.equals(name))
-				costTypeId = para.getParameterAsInt();
-			else if (MCostElement.COLUMNNAME_CostingMethod.equals(name))
-				constingMethod =(String)para.getParameter();
-			else if (MProduct.COLUMNNAME_M_Product_ID.equals(name))
-				productId = para.getParameterAsInt();
-			else if (MProduct.COLUMNNAME_M_Product_Category_ID.equals(name))
-				productCategoryId = para.getParameterAsInt();
-			else
-				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
-		}
-	}	//	prepare
+    protected String doIt() throws Exception {
+        MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAccountingSchemaId());
+        routingService = RoutingServiceFactory.get().getRoutingService(getAD_Client_ID());
+        getProducts().stream()
+                .filter(product -> product != null)
+                .forEach(product -> {
+                    log.info("Product: " + product);
+                    int workflowId = 0;
+                    MPPProductPlanning productPlanning = null;
+                    if (workflowId <= 0)
+                        workflowId = MWorkflow.getWorkflowSearchKey(product);
+                    if (workflowId <= 0) {
+                        productPlanning = MPPProductPlanning.find(getCtx(), getOrganizationId(), getWarehouseId(), getResourcePlantId(), product.get_ID(), get_TrxName());
 
-	protected String doIt() throws Exception                
-	{
-		m_routingService = RoutingServiceFactory.get().getRoutingService(getAD_Client_ID());
+                        if (productPlanning != null)
+                            workflowId = productPlanning.getAD_Workflow_ID();
+                        else
+                            createNotice(product, "@NotFound@ @PP_Product_Planning_ID@");
+                    }
 
-		for (MProduct product : getProducts())
-		{ 
-			log.info("Product: "+product);
-			int AD_Workflow_ID = 0;
-			MPPProductPlanning pp = null;
-			if (AD_Workflow_ID <= 0)
-			{
-				AD_Workflow_ID = MWorkflow.getWorkflowSearchKey(product);
-			}
-			if(AD_Workflow_ID <= 0)
-			{	
-				pp = MPPProductPlanning.find(getCtx(), orgId, warehouseId , resourceId , product.get_ID(), get_TrxName());
-			
-				if (pp != null)
-				{
-				AD_Workflow_ID = pp.getAD_Workflow_ID();
-				}
-				else
-				{
-				createNotice(product, "@NotFound@ @PP_Product_Planning_ID@");
-				}
-			}	
+                    if (workflowId <= 0)
+                        createNotice(product, "@NotFound@ @AD_Workflow_ID@");
+                    else {
+                        Trx.run(new TrxRunnable() {
 
-			if(AD_Workflow_ID <= 0)
-			{
-				createNotice(product, "@NotFound@ @AD_Workflow_ID@");
-				continue;
-			}
+                            MAcctSchema accountSchema;
+                            MProduct product;
+                            MPPProductPlanning productPlanning;
+                            int workflowId;
 
-			MWorkflow workflow = new MWorkflow(getCtx(), AD_Workflow_ID, get_TrxName());
-			rollup(product, workflow);
-			
-			// Update Product Data Planning 
-			if (pp != null)
-			{
-				pp.setYield(workflow.getYield());
-				pp.saveEx();
-			}
-		}                               
-		return "@OK@";
-	}
-	
+                            public TrxRunnable setParameters(MAcctSchema accountSchema , MProduct product, MPPProductPlanning productPlanning, int workflowId) {
+                                this.accountSchema = accountSchema;
+                                this.product = product;
+                                this.productPlanning = productPlanning;
+                                this.workflowId = workflowId;
+                                return this;
+                            }
 
-	private Collection<MProduct> getProducts()
-	{
-		List<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer("AD_Client_ID=?");
-		params.add(getAD_Client_ID());
+                            public void run(String trxName) {
+                                MWorkflow workflow = new MWorkflow(getCtx(), workflowId, trxName);
+                                rollup(accountSchema , product, workflow , trxName);
+                                if (productPlanning != null) {
+                                    productPlanning.load(trxName);
+                                    productPlanning.setYield(workflow.getYield());
+                                    productPlanning.saveEx();
+                                }
+                            }
+                        }.setParameters(accountSchema , product, productPlanning, workflowId));
+                    }
+                });
+        return "@OK@";
+    }
 
-		whereClause.append(" AND (").append(MProduct.COLUMNNAME_ProductType).append("=?");
-		params.add(MProduct.PRODUCTTYPE_Item);
-		
-		whereClause.append(" OR ").append(MProduct.COLUMNNAME_ProductType).append("=?");
-		params.add(MProduct.PRODUCTTYPE_Resource);
+    /**
+     * get products
+     * @return
+     */
+    private List<MProduct> getProducts() {
+        List<Object> params = new ArrayList<Object>();
+        StringBuffer whereClause = new StringBuffer("AD_Client_ID=?");
+        params.add(getAD_Client_ID());
 
-		whereClause.append(") AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
-		params.add(true);
+        whereClause.append(" AND (").append(MProduct.COLUMNNAME_ProductType).append("=?");
+        params.add(MProduct.PRODUCTTYPE_Item);
 
-		if (productId > 0)
-		{  
-			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_ID).append("=?");
-			params.add(productId);
-		}	
-		else if (productCategoryId > 0)
-		{
-			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_Category_ID).append("=?");
-			params.add(productCategoryId);
-		}	
+        whereClause.append(" OR ").append(MProduct.COLUMNNAME_ProductType).append("=?");
+        params.add(MProduct.PRODUCTTYPE_Resource);
 
-		List<MProduct> products = new Query(getCtx(),MProduct.Table_Name, whereClause.toString(), get_TrxName())
-											.setOrderBy(MProduct.COLUMNNAME_LowLevel)
-											.setParameters(params)
-											.list();    
-		return products;
-	}
+        whereClause.append(") AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
+        params.add(true);
 
-	
-	public void rollup(MProduct product, MWorkflow workflow)
-	{
-		log.info("Workflow: "+workflow);
-		workflow.setCost(Env.ZERO);
-		double Yield = 1;
-		int QueuingTime = 0;
-		int SetupTime = 0;
-		int Duration = 0;
-		int WaitingTime = 0;
-		int MovingTime = 0;
-		int WorkingTime = 0;
-		
-		MWFNode[] nodes = workflow.getNodes(false, getAD_Client_ID());
-		for (MWFNode node : nodes)
-		{
-			node.setCost(Env.ZERO);
-			if (node.getYield() != 0)
-			{	
-				Yield = Yield * ((double)node.getYield() / 100);
-			}
-			// We use node.getDuration() instead of m_routingService.estimateWorkingTime(node) because
-			// this will be the minimum duration of this node. So even if the node have defined units/cycle
-			// we consider entire duration of the node.
-			long nodeDuration = node.getDuration();
-			
-			QueuingTime += node.getQueuingTime();
-			SetupTime += node.getSetupTime();
-			Duration += nodeDuration;
-			WaitingTime += node.getWaitingTime();
-			MovingTime += node.getMovingTime();
-			WorkingTime += node.getWorkingTime();
-		}
-		workflow.setCost(Env.ZERO);
-		workflow.setYield((int)(Yield * 100));
-		workflow.setQueuingTime(QueuingTime);
-		workflow.setSetupTime(SetupTime);
-		workflow.setDuration(Duration);
-		workflow.setWaitingTime(WaitingTime);
-		workflow.setMovingTime(MovingTime);
-		workflow.setWorkingTime(WorkingTime);
+        if (getProductId() > 0) {
+            whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_ID).append("=?");
+            params.add(getProductId());
+        } else if (getProductCategoryId() > 0) {
+            whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_Category_ID).append("=?");
+            params.add(getProductCategoryId());
+        }
 
-		for (MCostElement element : MCostElement.getCostElement(getCtx(), get_TrxName()))
-		{
-			if (!CostEngine.isActivityControlElement(element))
-			{
-				continue;
-			}
-			final CostDimension d = new CostDimension(product, accountSchema, costTypeId, orgId, warehouseId, 0, element.get_ID());
-			final List<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
-			for (MCost cost : costs)
-			{
-				final int precision = MAcctSchema.get(Env.getCtx(), cost.getC_AcctSchema_ID()).getCostingPrecision();
-				BigDecimal segmentCost = Env.ZERO;
-				for (MWFNode node : nodes)
-				{
-					final CostEngine costEngine = CostEngineFactory.getCostEngine(node.getAD_Client_ID());
-					final BigDecimal rate = StandardCostingMethod.getResourceActualCostRate(null, node.getS_Resource_ID(), d, get_TrxName());
-					final BigDecimal baseValue = m_routingService.getResourceBaseValue(node.getS_Resource_ID(), node);
-					BigDecimal nodeCost = baseValue.multiply(rate);
-					if (nodeCost.scale() > precision)
-					{
-						nodeCost = nodeCost.setScale(precision, RoundingMode.HALF_UP);
-					}
-					segmentCost = segmentCost.add(nodeCost);
-					log.info("Element : "+element+", Node="+node
-							+", BaseValue="+baseValue+", rate="+rate
-							+", nodeCost="+nodeCost+" => Cost="+segmentCost);
-					// Update AD_WF_Node.Cost:
-					node.setCost(node.getCost().add(nodeCost));
-				}
-				//
-				cost.setCurrentCostPrice(segmentCost);
-				cost.saveEx();
-				// Update Workflow cost
-				workflow.setCost(workflow.getCost().add(segmentCost));
-			} // MCost
-		} // Cost Elements
-		//
-		// Save Workflow & Nodes
-		for (MWFNode node : nodes)
-		{
-			node.saveEx();
-		}
-		workflow.saveEx();
-		log.info("Product: "+product.getName()+" WFCost: " + workflow.getCost());                                
-	}
+        List<MProduct> products = new Query(getCtx(), MProduct.Table_Name, whereClause.toString(), get_TrxName())
+                .setOrderBy(MProduct.COLUMNNAME_LowLevel)
+                .setParameters(params)
+                .list();
+        return products;
+    }
 
-	/**
-	 * Create Cost Rollup Notice
-	 * @param product
-	 * @param msg
-	 */
-	private void createNotice(MProduct product, String msg)
-	{
-		String productValue = product != null ? product.getValue() : "-";
-		addLog("WARNING: Product "+productValue+": "+msg);
-	}
+    /**
+     * Execute rollup process
+     * @param product
+     * @param workflow
+     */
+    public void rollup(MAcctSchema accountSchema , MProduct product, MWorkflow workflow, String trxName) {
+        log.info("Workflow: " + workflow);
+        workflow.setCost(Env.ZERO);
+        double yield = 1;
+        int queuingTime = 0;
+        int setupTime = 0;
+        int duration = 0;
+        int waitingTime = 0;
+        int movingTime = 0;
+        int workingTime = 0;
+
+        MWFNode[] nodes = workflow.getNodes(false, getAD_Client_ID());
+        for (MWFNode node : nodes) {
+            node.setCost(Env.ZERO);
+            if (node.getYield() != 0) {
+                yield = yield * ((double) node.getYield() / 100);
+            }
+            // We use node.getDuration() instead of m_routingService.estimateWorkingTime(node) because
+            // this will be the minimum duration of this node. So even if the node have defined units/cycle
+            // we consider entire duration of the node.
+            long nodeDuration = node.getDuration();
+            queuingTime += node.getQueuingTime();
+            setupTime += node.getSetupTime();
+            duration += nodeDuration;
+            waitingTime += node.getWaitingTime();
+            movingTime += node.getMovingTime();
+            workingTime += node.getWorkingTime();
+        }
+        workflow.setCost(Env.ZERO);
+        workflow.setYield((int) (yield * 100));
+        workflow.setQueuingTime(queuingTime);
+        workflow.setSetupTime(setupTime);
+        workflow.setDuration(duration);
+        workflow.setWaitingTime(waitingTime);
+        workflow.setMovingTime(movingTime);
+        workflow.setWorkingTime(workingTime);
+
+        MCostElement.getCostElement(getCtx(), trxName)
+                .stream()
+                .filter(costElement -> costElement != null && CostEngine.isActivityControlElement(costElement))
+                .forEach(costElement -> {
+                    final CostDimension costDimension = new CostDimension(
+                            product,
+                            accountSchema,
+                            getCostTypeId(),
+                            getOrganizationId(),
+                            getWarehouseId(),
+                            0,
+                            costElement.get_ID());
+                    final List<MCost> costs = costDimension.toQuery(MCost.class,trxName).list();
+                    costs.stream()
+                            .filter(cost -> cost != null)
+                            .forEach(cost -> {
+                                AtomicReference<BigDecimal> segmentCost = new AtomicReference<>(Env.ZERO);
+                                Arrays.stream(nodes)
+                                        .filter(node -> node != null)
+                                        .forEach(node -> {
+                                            final CostEngine costEngine = CostEngineFactory.getCostEngine(node.getAD_Client_ID());
+                                            final BigDecimal rate = StandardCostingMethod.getResourceActualCostRate(node.getS_Resource_ID(), costDimension, trxName);
+                                            final BigDecimal baseValue = routingService.getResourceBaseValue(node.getS_Resource_ID(), node);
+                                            final int precision = accountSchema.getCostingPrecision();
+                                            BigDecimal nodeCostPrecision = baseValue.multiply(rate);
+                                            if (nodeCostPrecision.scale() > precision) {
+                                                final BigDecimal nodeCost = nodeCostPrecision.setScale(precision, RoundingMode.HALF_UP);
+                                                segmentCost.updateAndGet(costAmt -> costAmt.add(nodeCost));
+                                                log.info(Msg.parseTranslation(getCtx(), " @M_CostElement_ID@ : ") + costElement.getName() + ", Node=" + node
+                                                        + ", BaseValue=" + baseValue + ", rate=" + rate
+                                                        + ", nodeCost=" + nodeCost + " => Cost=" + segmentCost);
+                                                // Update AD_WF_Node.Cost:
+                                                node.setCost(node.getCost().add(nodeCost));
+                                            }
+                                        });
+                                cost.setCurrentCostPrice(segmentCost.get());
+                                cost.saveEx();
+                                // Update Workflow cost
+                                workflow.setCost(workflow.getCost().add(segmentCost.get()));
+                            }); // MCost
+                }); // Cost Elements
+        // Save Workflow & Nodes
+        Arrays.stream(nodes)
+                .filter(node -> node != null)
+                .forEach(node -> node.saveEx());
+        workflow.saveEx();
+        log.info("Product: " + product.getName() + " WFCost: " + workflow.getCost());
+    }
+
+    /**
+     * Create Cost Rollup Notice
+     * @param product
+     * @param msg
+     */
+    private void createNotice(MProduct product, String msg) {
+        String productValue = product != null ? product.getValue() : "-";
+        addLog("WARNING: Product " + productValue + ": " + msg);
+    }
 }
