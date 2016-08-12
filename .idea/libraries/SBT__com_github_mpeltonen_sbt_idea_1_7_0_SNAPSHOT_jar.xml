@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="SBT: com.github.mpeltonen:sbt-idea:1.7.0-SNAPSHOT:jar">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.10/sbt_0.13/com.github.mpeltonen/sbt-idea/jars/sbt-idea-1.7.0-SNAPSHOT.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
