@@ -50,8 +50,6 @@ import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
-import org.compiere.pos.AdempierePOSException;
-import org.compiere.pos.PosKeyboardFocusManager;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;

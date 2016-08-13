@@ -38,7 +38,6 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.panel.InfoProductPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOSKey;
-import org.compiere.pos.PosKeyListener;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

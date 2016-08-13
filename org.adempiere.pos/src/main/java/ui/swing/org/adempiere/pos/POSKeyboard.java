@@ -36,7 +36,6 @@ import net.miginfocom.swing.MigLayout;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
-import org.compiere.pos.PosKeyListener;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;

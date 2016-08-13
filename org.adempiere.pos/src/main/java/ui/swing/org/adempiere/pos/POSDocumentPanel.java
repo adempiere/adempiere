@@ -37,7 +37,6 @@ import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MPOSKey;
-import org.compiere.pos.PosKeyListener;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;

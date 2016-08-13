@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.adempiere.pos.minigrid.DeleteColumn;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
@@ -56,13 +57,42 @@ import org.zkoss.zul.ListitemRendererExt;
  * for the {@link org.adempiere.webui.component.Listbox}.
  *
  * @author Andrew Kimball
- *
  * @author	Michael McKay
- * 				<li>release/380 - enable red rows based on color row in miniTable. 
+ * 				<li>release/380 - enable red rows based on color row in miniTable.
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
 
 public class WListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt
 {
+	/**
+	 * Default constructor.
+	 *
+	 */
+	public WListItemRenderer()
+	{
+		super();
+	}
+
+	/**
+	 * Constructor specifying the column headers.
+	 *
+	 * @param columnNames	vector of column titles.
+	 */
+	public WListItemRenderer(List< ? extends String> columnNames)
+	{
+		super();
+		WTableColumn tableColumn;
+
+		for (String columnName : columnNames)
+		{
+			tableColumn = new WTableColumn();
+			tableColumn.setHeaderValue(Util.cleanAmp(columnName));
+			m_tableColumns.add(tableColumn);
+		}
+	}
+
 	/** Array of listeners for changes in the table components. */
 	protected ArrayList<TableValueChangeListener> m_listeners =
             new ArrayList<TableValueChangeListener>();
@@ -92,33 +122,6 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		protected int maxWidth;
 
 		protected int preferredWidth;
-	}
-
-	/**
-	 * Default constructor.
-	 *
-	 */
-	public WListItemRenderer()
-	{
-		super();
-	}
-
-	/**
-	 * Constructor specifying the column headers.
-	 *
-	 * @param columnNames	vector of column titles.
-	 */
-	public WListItemRenderer(List< ? extends String> columnNames)
-	{
-		super();
-		WTableColumn tableColumn;
-
-		for (String columnName : columnNames)
-		{
-			tableColumn = new WTableColumn();
-			tableColumn.setHeaderValue(Util.cleanAmp(columnName));
-			m_tableColumns.add(tableColumn);
-		}
 	}
 
 	/**
@@ -226,7 +229,6 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		ListCell listcell = new ListCell();
 		boolean isCellEditable = table != null ? table.isCellEditable(rowIndex, columnIndex) : false;
 		boolean isColumnVisible = Boolean.TRUE;
-		
 		if ( !m_tableColumns.isEmpty() )
 			isColumnVisible = isColumnVisible(getColumn(columnIndex));
 
@@ -256,6 +258,28 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 				listcell.appendChild(checkbox);
 				ZkCssHelper.appendStyle(listcell, "text-align:center");
 			}
+
+			else if (field instanceof DeleteColumn)
+			{
+				if (table != null && columnIndex == 0)
+					table.setCheckmark(false);
+				Button button = new Button();
+				
+				button.setImage("images/Delete24.png");
+
+				if (isCellEditable)
+				{
+					button.setEnabled(true);
+					button.addEventListener(Events.ON_CHECK, this);
+				}
+				else {
+					
+					button.setEnabled(true);
+				}
+				button.addEventListener(Events.ON_CLICK, this);
+				listcell.appendChild(button);
+				ZkCssHelper.appendStyle(listcell, "text-align:center");
+			}
 			else if (field instanceof Number)
 			{
 				DecimalFormat format = field instanceof BigDecimal
@@ -270,7 +294,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 					NumberBox numberbox = new NumberBox(false);
 					numberbox.setFormat(format);
 					numberbox.setValue(field);
-					numberbox.setWidth("100px");
+					numberbox.setWidth("50px");
 					numberbox.setEnabled(true);
 					numberbox.addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(numberbox);
@@ -473,62 +497,81 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         ListHeader header = null;
 
         String headerText = headerValue.toString();
-        
-        // If the header doesn't exist, add it to the end of the list
         if (m_headers.size() <= headerIndex || m_headers.get(headerIndex) == null)
         {
-        	header = new ListHeader("");
-        	m_headers.add(headerIndex, header);
+        	if (!isColumnVisible(getColumn(headerIndex)))
+        	{
+        		header = new ListHeader("");
+        		header.setWidth("0px");
+        		header.setStyle("width: 0px");
+        	}
+        	else if (classType != null && classType.isAssignableFrom(IDColumn.class))
+        	{
+        		header = new ListHeader("");
+        		header.setWidth("35px");
+        	}else if (classType != null && classType.isAssignableFrom(DeleteColumn.class))
+        	{
+        		header = new ListHeader("");
+        		header.setWidth("35px");
+        	}
+        	else
+        	{
+	            Comparator<Object> ascComparator =  getColumnComparator(true, headerIndex);
+	            Comparator<Object> dscComparator =  getColumnComparator(false, headerIndex);
+	
+	            header = new ListHeader(headerText);
+	
+	            header.setSort("auto");
+	            header.setSortAscending(ascComparator);
+	            header.setSortDescending(dscComparator);
+	            int qty = headerText.trim().length();
+	            int width = 0;
+	            if(qty >= 7)
+	            	width=(int)(qty * 7.5);
+	            else
+	            	width=(int)(qty * 15.5);
+	            
+	            if (width > 300)
+	            	width = 300;
+	            else if (classType != null)
+	            {
+//	            	if (classType.equals(String.class))
+//	            	{
+//	            		if (width > 0 && width < 180)
+//	            			width = 180;
+//	            	}
+//	            	else
+	            		if (classType.equals(IDColumn.class))
+	            	{
+	            		header.setSort("none");
+	            		if (width == 0)
+	            			width = 30;
+	            	}
+//		            else if (width > 0 && width < 100 && (classType == null || !classType.isAssignableFrom(Boolean.class)))
+//	            		width = 100;
+	            }
+//	            else if (width > 0 && width < 100)
+//	            	width = 100;
+//	
+	            header.setWidth(width + "px");
+        	}
+            m_headers.add(header);
         }
-        
-        header = m_headers.get(headerIndex);
-        
-    	if (!isColumnVisible(getColumn(headerIndex)))
-    	{
-    		header.setLabel("");
-    		header.setWidth("0px");
-    		header.setStyle("width: 0px");
-    	}
-    	else if (classType != null && classType.isAssignableFrom(IDColumn.class))
-    	{
-    		header.setLabel("");
-    		header.setWidth("35px");
-    	}
-    	else
-    	{
-            Comparator<Object> ascComparator =  getColumnComparator(true, headerIndex);
-            Comparator<Object> dscComparator =  getColumnComparator(false, headerIndex);
+        else
+        {
+            header = m_headers.get(headerIndex);
 
-            header.setLabel(headerText);
-
-            header.setSort("auto");
-            header.setSortAscending(ascComparator);
-            header.setSortDescending(dscComparator);
-
-            int width = headerText.trim().length() * 9;
-            if (width > 300)
-            	width = 300;
-            else if (classType != null)
+            if (!isColumnVisible(getColumn(headerIndex)))
+        	{
+        		header.setLabel("");
+        		header.setWidth("0px");
+        		header.setStyle("width: 0px");
+        	}
+        	else if (!header.getLabel().equals(headerText))
             {
-            	if (classType.equals(String.class))
-            	{
-            		if (width > 0 && width < 180)
-            			width = 180;
-            	}
-            	else if (classType.equals(IDColumn.class))
-            	{
-            		header.setSort("none");
-            		if (width == 0)
-            			width = 30;
-            	}
-	            else if (width > 0 && width < 100 && (classType == null || !classType.isAssignableFrom(Boolean.class)))
-            		width = 100;
+                header.setLabel(headerText);
             }
-            else if (width > 0 && width < 100)
-            	width = 100;
-
-            header.setWidth(width + "px");
-    	}
+        }
 
         header.setAttribute("zk_component_ID", "ListItem_Header_C" + headerIndex);
 
@@ -635,8 +678,11 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			col = getColumnPosition(source);
 
 			tableColumn = m_tableColumns.get(col);
-
-			if (source instanceof Checkbox)
+			if (source instanceof Button)
+			{
+				value = ((Button)source).getLabel();
+			}
+			else if (source instanceof Checkbox)
 			{
 				value = Boolean.valueOf(((Checkbox)source).isChecked());
 			}

@@ -32,7 +32,6 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
-import org.compiere.pos.PosKeyListener;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

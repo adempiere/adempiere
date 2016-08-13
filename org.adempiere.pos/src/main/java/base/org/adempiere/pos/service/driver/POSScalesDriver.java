@@ -16,7 +16,8 @@
 
 package org.adempiere.pos.service.driver;
 
-import org.compiere.pos.AdempierePOSException;
+
+import org.adempiere.pos.AdempierePOSException;
 
 import java.math.BigDecimal;
 
