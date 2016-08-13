@@ -32,7 +32,6 @@ import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.model.MImage;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
-import org.compiere.pos.PosKeyListener;
 import org.compiere.print.MPrintColor;
 import org.compiere.print.MPrintFont;
 import org.compiere.swing.CButton;

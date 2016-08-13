@@ -27,4 +27,5 @@ Copyright (C) 2007 Ashley G Ramdass (ADempiere WebUI).
 	<javascript src="/js/report.js" charset="UTF-8"/>	
 	<javascript src="/js/persist-min.js" charset="UTF-8"/>
 	<javascript src="/js/token.js" charset="UTF-8"/>
+	<javascript src="/js/text_action.js" charset="UTF-8"/>
 </language>

@@ -27,7 +27,6 @@ import org.adempiere.webui.component.Panel;
 import org.compiere.model.MImage;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
-import org.compiere.pos.PosKeyListener;
 import org.compiere.print.MPrintColor;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;

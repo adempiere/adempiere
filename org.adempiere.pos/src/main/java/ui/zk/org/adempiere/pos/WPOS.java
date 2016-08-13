@@ -48,7 +48,6 @@ import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
-import org.compiere.pos.PosKeyboardFocusManager;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
