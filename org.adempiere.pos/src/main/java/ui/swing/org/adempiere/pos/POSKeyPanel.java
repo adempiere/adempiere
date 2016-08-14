@@ -60,7 +60,7 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 	/**
 	 * 	Constructor
 	 */
-	public POSKeyPanel (int posKeyLayoutId, PosKeyListener caller)
+	public POSKeyPanel (int posKeyLayoutId, POSKeyListener caller)
 	{
 		if (posKeyLayoutId == 0)
 			return;
@@ -81,7 +81,7 @@ public class POSKeyPanel extends CPanel implements ActionListener {
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(POSKeyPanel.class);
 	/** Caller			*/
-	private PosKeyListener caller;
+	private POSKeyListener caller;
 	/**	Image Size		*/
 	private final int 	IMAGE_SIZE = 100;
 

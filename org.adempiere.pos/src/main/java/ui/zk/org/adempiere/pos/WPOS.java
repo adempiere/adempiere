@@ -96,7 +96,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	/** Electronic Scales			*/
 	private WPOSScalesListener 				scalesListener;
 	/** Keyoard Focus Manager				*/
-	private PosKeyboardFocusManager 		focusManager = null;
+	private POSKeyboardFocusManager 		focusManager = null;
 	/**	Key Boards							*/
 	private HashMap<Integer, WPOSKeyboard> 	keyboards 	 = new HashMap<Integer, WPOSKeyboard>();
 	/** Order Panel							*/
@@ -147,7 +147,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	private void SettingKeyboardFocusManager()
 	{
 		if (isVirtualKeyboard()) {
-			focusManager = new PosKeyboardFocusManager();
+			focusManager = new POSKeyboardFocusManager();
 			KeyboardFocusManager.setCurrentKeyboardFocusManager(focusManager);
 		}
 	}

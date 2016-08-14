@@ -49,7 +49,7 @@ import org.zkoss.zul.Doublebox;
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  */
-public class WPOSKeyboard extends Window implements PosKeyListener, EventListener
+public class WPOSKeyboard extends Window implements POSKeyListener, EventListener
 {
 	/**
 	 * 

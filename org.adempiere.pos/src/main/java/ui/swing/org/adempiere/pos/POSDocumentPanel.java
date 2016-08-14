@@ -57,7 +57,7 @@ import org.compiere.util.Msg;
  *  @version $Id: SubFunctionKeys.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
 public class POSDocumentPanel extends POSSubPanel
-	implements PosKeyListener, ActionListener, POSPanelInterface, POSQueryListener {
+	implements POSKeyListener, ActionListener, POSPanelInterface, POSQueryListener {
 	/**
 	 * 
 	 */

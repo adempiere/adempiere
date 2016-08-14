@@ -53,7 +53,7 @@ import org.compiere.util.Env;
  *	Adaxa Pty Ltd
  */
 public class POSKeyboard extends CDialog 
-	implements ActionListener, PosKeyListener, KeyListener, FocusListener, WindowFocusListener {
+	implements ActionListener, POSKeyListener, KeyListener, FocusListener, WindowFocusListener {
 	
 	/**
 	 * 

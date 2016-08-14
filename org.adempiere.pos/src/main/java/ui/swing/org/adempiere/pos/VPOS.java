@@ -99,7 +99,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	/** Electronic Scales			*/
 	private POSScalesListener 				scalesListener;
 	/** Keyoard Focus Manager		*/
-	private PosKeyboardFocusManager 		focusManager;
+	private POSKeyboardFocusManager 		focusManager;
 	/**	Focus Management			*/
 	private KeyboardFocusManager 			originalKeyboardFocusManager;
 	/**	Key Boards					*/
@@ -171,7 +171,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	{
 		if (isVirtualKeyboard()) {
 			originalKeyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-			focusManager = new PosKeyboardFocusManager();
+			focusManager = new POSKeyboardFocusManager();
 			KeyboardFocusManager.setCurrentKeyboardFocusManager(focusManager);
 		}
 	}
