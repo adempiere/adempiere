@@ -53,7 +53,7 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 	/**
 	 * 	Constructor
 	 */
-	public WPOSKeyPanel (int C_POSKeyLayout_ID, PosKeyListener caller, String m_txtCalc, boolean keyBoardType)
+	public WPOSKeyPanel (int C_POSKeyLayout_ID, POSKeyListener caller, String m_txtCalc, boolean keyBoardType)
 	{
 		if (C_POSKeyLayout_ID == 0)
 			return;
@@ -70,7 +70,7 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 	/**
 	 * 	Constructor
 	 */
-	public WPOSKeyPanel (int C_POSKeyLayout_ID, PosKeyListener caller)
+	public WPOSKeyPanel (int C_POSKeyLayout_ID, POSKeyListener caller)
 	{
 		if (C_POSKeyLayout_ID == 0)
 			return;
@@ -85,7 +85,7 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 	/** Currently displayed layout	*/
 	private int 				currentLayout;
 	/** Caller					*/
-	private PosKeyListener 		caller;
+	private POSKeyListener 		caller;
 	/** Status Panel			 */
 	private boolean 			status;
 	/** Panels					*/

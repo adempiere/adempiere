@@ -23,7 +23,7 @@ import org.compiere.model.MPOSKey;
  * Adaxa Pty Ltd
  *
  */
-public interface PosKeyListener {
+public interface POSKeyListener {
 	
 	void keyReturned( MPOSKey key );
 

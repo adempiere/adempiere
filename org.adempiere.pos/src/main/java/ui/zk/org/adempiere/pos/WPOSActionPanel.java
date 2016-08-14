@@ -54,7 +54,7 @@ import org.zkoss.zul.Timer;
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
 public class WPOSActionPanel extends WPOSSubPanel
-		implements PosKeyListener, POSPanelInterface, POSQueryListener ,  POSLookupProductInterface{
+		implements POSKeyListener, POSPanelInterface, POSQueryListener ,  POSLookupProductInterface{
 
 	/**
 	 * 

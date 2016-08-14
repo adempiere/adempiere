@@ -31,13 +31,13 @@ import org.compiere.util.CLogger;
  * @version $Id: PosKeyboardFocusManager.java,v 1.2 2004/07/11 19:50:12 jjanke
  *          Exp $
  */
-public class PosKeyboardFocusManager extends DefaultKeyboardFocusManager
+public class POSKeyboardFocusManager extends DefaultKeyboardFocusManager
 		implements ActionListener {
 
 	/**
 	 * PosKeyboardFocusManager
 	 */
-	public PosKeyboardFocusManager() {
+	public POSKeyboardFocusManager() {
 		super();
 	} //	PosKeyboardFocusManager
 
@@ -54,7 +54,7 @@ public class PosKeyboardFocusManager extends DefaultKeyboardFocusManager
 	/** Timer */
 	private javax.swing.Timer m_timer = null;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(PosKeyboardFocusManager.class);
+	private static CLogger log = CLogger.getCLogger(POSKeyboardFocusManager.class);
 
 	/**
 	 * Dispose

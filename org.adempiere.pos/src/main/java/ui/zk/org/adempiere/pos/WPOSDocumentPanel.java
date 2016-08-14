@@ -45,7 +45,7 @@ import org.zkoss.zul.Style;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
-public class WPOSDocumentPanel extends WPOSSubPanel implements PosKeyListener, POSPanelInterface {
+public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, POSPanelInterface {
 
 	/**
 	 * 
