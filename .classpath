@@ -32,6 +32,9 @@
 	<classpathentry kind="src" path="org.adempiere.test/src/test/scala"/>
 	<classpathentry kind="src" path="org.adempiere.test/src/main/scala"/>
 	<classpathentry kind="src" path="org.adempiere.test/src/test/sahi"/>
+	<classpathentry kind="src" path="org.adempiere.pos/src/main/java/base"/>
+	<classpathentry kind="src" path="org.adempiere.pos/src/main/java/ui/swing"/>
+	<classpathentry kind="src" path="org.adempiere.pos/src/main/java/ui/zk"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
