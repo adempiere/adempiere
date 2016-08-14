@@ -31,8 +31,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableColumn;
 
-import org.adempiere.pos.minigrid.ButtonRenderer;
-import org.adempiere.pos.minigrid.DeleteColumn;
 import org.compiere.grid.ed.VCellRenderer;
 import org.compiere.grid.ed.VHeaderRenderer;
 import org.compiere.minigrid.CheckRenderer;

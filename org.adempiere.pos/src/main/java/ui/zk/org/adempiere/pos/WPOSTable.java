@@ -24,7 +24,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.adempiere.pos.minigrid.DeleteColumn;
+import org.compiere.minigrid.DeleteColumn;
 import org.adempiere.webui.component.WListItemRenderer;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.exception.ApplicationException;

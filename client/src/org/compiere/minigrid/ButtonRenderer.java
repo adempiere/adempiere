@@ -15,7 +15,7 @@
  * Contributor(s): Raul Muñoz www.erpcya.com					              *
  *****************************************************************************/
 
-package org.adempiere.pos.minigrid;
+package org.compiere.minigrid;
 
 import java.awt.Color;
 import java.awt.Component;

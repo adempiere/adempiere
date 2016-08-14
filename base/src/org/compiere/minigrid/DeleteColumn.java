@@ -15,7 +15,7 @@
  * Contributor(s): Raul Muñoz www.erpcya.com					              *
  *****************************************************************************/
 
-package org.adempiere.pos.minigrid;
+package org.compiere.minigrid;
 
 /**
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
