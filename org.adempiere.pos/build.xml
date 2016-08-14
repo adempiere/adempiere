@@ -83,7 +83,7 @@
     </javac>
     
     <echo message="Create jar file "/>
-    <jar jarfile="${project.trunk}/zkpackages/${project.name}/lib/${project.name}zk.jar" basedir="${zkjar}"/>
+    <jar jarfile="${adempiere.trunk}/zkpackages/${project.name}zk.jar" basedir="${zkjar}"/>
   </target>
 
 
@@ -95,7 +95,7 @@
       <classpath refid="compile.classpath"/>
     </javac>
     <echo message="Create jar file "/>
-    <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${domain_model_classes}"/>
+    <jar jarfile="${adempiere.trunk}/packages/${project.name}.jar" basedir="${domain_model_classes}"/>
   </target>
 
   
@@ -109,7 +109,7 @@
       <classpath refid="compile.classpath"/>
     </javac>
     <echo message="Create jar file "/>
-    <jar jarfile="${project.trunk}/packages/${project.name}/lib/${project.name}.jar" basedir="${swing_classes}"/>
+    <jar jarfile="${adempiere.trunk}/packages/${project.name}.jar" basedir="${swing_classes}"/>
   </target>
     
 	
