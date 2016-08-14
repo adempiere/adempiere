@@ -38,6 +38,7 @@
 		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll"/>
 		<ant inheritAll="false" dir="org.eevolution.warehouse"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate"/>
+		<ant inheritAll="false" dir="org.adempiere.pos"/>
 	</target>
 	<target name="build" depends="jar">
 		<ant inheritAll="false" dir="install"/>		
@@ -66,6 +67,7 @@
 		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.warehouse" target="clean"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate" target="migrate.clean"/>
+		<ant inheritAll="false" dir="org.adempiere.pos" target="clean"/>
 	</target>
 
   <target name="clean-all" depends="clean">
