@@ -14,7 +14,7 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  * ****************************************************************************/
 
-package org.adempiere.pos;
+package org.adempiere.pos.service;
 import java.math.BigDecimal;
 
 /**

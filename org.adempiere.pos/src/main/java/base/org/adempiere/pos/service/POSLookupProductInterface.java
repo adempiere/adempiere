@@ -14,7 +14,7 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  * ****************************************************************************/
 
-package org.adempiere.pos;
+package org.adempiere.pos.service;
 
 /**
  * Interface for POS Lookup Product, allows the implement Lookup Product out of POS

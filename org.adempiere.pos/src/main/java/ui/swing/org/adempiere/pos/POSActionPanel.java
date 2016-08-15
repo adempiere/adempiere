@@ -38,6 +38,7 @@ import org.adempiere.pos.search.QueryBPartner;
 import org.adempiere.pos.search.QueryDocType;
 import org.adempiere.pos.search.QueryOrderHistory;
 import org.adempiere.pos.service.CPOS;
+import org.adempiere.pos.service.POSLookupProductInterface;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;

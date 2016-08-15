@@ -25,6 +25,7 @@ import java.util.List;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.service.POSScalesPanelInterface;
 import org.adempiere.pos.test.SideServer;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;

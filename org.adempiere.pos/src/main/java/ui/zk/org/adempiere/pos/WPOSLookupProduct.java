@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.adempiere.pos.service.CPOS;
+import org.adempiere.pos.service.POSLookupProductInterface;
 import org.adempiere.util.StringUtils;
 import org.adempiere.webui.component.AutoComplete;
 import org.adempiere.webui.window.FDialog;

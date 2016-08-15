@@ -15,7 +15,7 @@
  * Contributor: Yamel Senih www.erpcya.com                                    *
  * Contributor: Mario Calderon www.westfalia-it.com                           *
  *****************************************************************************/
-package org.adempiere.pos;
+package org.adempiere.pos.service;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;

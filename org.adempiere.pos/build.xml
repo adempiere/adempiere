@@ -9,7 +9,7 @@
     </description>
   <!-- set global properties for this build -->
   <property file="build.properties"/>
-  <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
+  <import file="../utils_dev/properties.xml"/>
   <property name="dist" value="${basedir}/dist"/>
   <property name="domain_model_classes" value="${dist}/domain/class"/>
   <property name="zk_classes" value="${dist}/zk/WEB-INF/classes"/>
@@ -26,17 +26,17 @@
       <include name="*.jar"/>
     </fileset-->
     
-    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+    <pathelement location="../zkwebui/WEB-INF/classes"/>
    
-    <fileset dir="${adempiere.trunk}/lib">
+    <fileset dir="../lib">
       <include name="*.jar"/>
     </fileset>
     
-    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+    <fileset dir="../zkwebui/WEB-INF/lib">
       <include name="*.jar"/>
     </fileset>
     
-    <fileset dir="${adempiere.trunk}/zkwebui/dist">
+    <fileset dir="../zkwebui/dist">
       <include name="*.war"/>
     </fileset>
   </path>
@@ -49,28 +49,24 @@
   <path id="compilezk.classpath">
 	
 	
-    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+    <pathelement location="../zkwebui/WEB-INF/classes"/>
     
     <fileset dir="${project.trunk}/packages/ADempierePOS/lib">
       <include name="*.jar"/>
     </fileset>
     
-    <fileset dir="${adempiere.trunk}/lib">
+    <fileset dir="../lib">
       <include name="*.jar"/>
     </fileset>
     
-    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+    <fileset dir="../zkwebui/WEB-INF/lib">
       <include name="*.jar"/>
     </fileset>
 
-    <fileset dir="${adempiere.trunk}/zkwebui/dist">
+    <fileset dir="../zkwebui/dist">
       <include name="*.war"/>
     </fileset>
-      	
   </path>
-	
-  	
-	
   <!-- Compile ZK Directory --> 
   <target name="compileZkView" depends="init_zk, compileDomainModel"
         description="compile the source zk" >
@@ -83,7 +79,7 @@
     </javac>
     
     <echo message="Create jar file "/>
-    <jar jarfile="${adempiere.trunk}/zkpackages/${project.name}zk.jar" basedir="${zkjar}"/>
+    <jar jarfile="../zkpackages/${project.name}zk.jar" basedir="${zkjar}"/>
   </target>
 
 
@@ -95,9 +91,8 @@
       <classpath refid="compile.classpath"/>
     </javac>
     <echo message="Create jar file "/>
-    <jar jarfile="${adempiere.trunk}/packages/${project.name}.jar" basedir="${domain_model_classes}"/>
+    <jar jarfile="../packages/${project.name}.jar" basedir="${domain_model_classes}"/>
   </target>
-
   
   <!-- Compile Class Directory --> 	
   <target name="compileSwingView" depends="init_class , compileDomainModel"
@@ -109,7 +104,7 @@
       <classpath refid="compile.classpath"/>
     </javac>
     <echo message="Create jar file "/>
-    <jar jarfile="${adempiere.trunk}/packages/${project.name}.jar" basedir="${swing_classes}"/>
+    <jar jarfile="../packages/${project.name}.jar" basedir="${swing_classes}"/>
   </target>
     
 	
@@ -167,13 +162,13 @@
     <!-- Copy necessary files to Adempiere trunk BEFORE build of Adempiere -->
 	<target name="package_dist(BEFORE Adempiere build)" depends="" description="Copies file(s) to Adempiere trunk BEFORE build of Adempiere">
 		<echo message="=============== Deploy files BEGIN"/>
-  		<delete file="${adempiere.trunk}/zkwebui/js/text_action.js"/>
-		<copy todir="${adempiere.trunk}/zkwebui/js">
+  		<delete file="../zkwebui/js/text_action.js"/>
+		<copy todir="../zkwebui/js">
 			<fileset dir="src/main/js" includes="text_action.js"/>
 		</copy>
 		
-  		<delete file="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk/lang-addon.xml"/>
-		<copy todir="${adempiere.trunk}/zkwebui/WEB-INF/src/metainfo/zk">
+  		<delete file="../zkwebui/WEB-INF/src/metainfo/zk/lang-addon.xml"/>
+		<copy todir="../zkwebui/WEB-INF/src/metainfo/zk">
 			<fileset dir="${zk_view}" includes="lang-addon.xml"/>
 		</copy>
 		
@@ -207,7 +202,7 @@
 		<echo message="=============== Deploy webuiOriginal.war BEGIN"/>
   		<delete file="${adempiere.installation}/lib/webuiOriginal.war"/>
 		<copy tofile="${adempiere.installation}/lib/webuiOriginal.war">
-			<fileset dir="${adempiere.trunk}/lib" includes="webui.war"/>
+			<fileset dir="../lib" includes="webui.war"/>
 		</copy>
 		<echo message="=========== Deploy webui.war END"/>
 				
