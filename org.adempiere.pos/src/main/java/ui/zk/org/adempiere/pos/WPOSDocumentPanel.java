@@ -14,7 +14,6 @@
 
 package org.adempiere.pos;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import org.adempiere.pos.search.WQueryBPartner;
@@ -61,15 +60,15 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 	}	//	PosSubFunctionKeys
 	
 	/** Fields               */
-	private WPOSTextField	f_BPartnerName;
-	private Label 			f_SalesRep;
-	private Label	 		f_TotalLines;
-	private Label	 		f_TaxAmount;
-	private Label	 		f_GrandTotal;
-	private Label	 		f_DocumentType;
-	private Label 			f_DocumentNo;
-	private Label 			f_DocumentStatus;
-	private Label 			f_DocumentDate;
+	private WPOSTextField	bPartnerName;
+	private Label 			salesRep;
+	private Label	 		totalLines;
+	private Label	 		taxAmount;
+	private Label	 		grandTotal;
+	private Label	 		documentType;
+	private Label 			documentNo;
+	private Label 			documentStatus;
+	private Label 			documentDate;
 	private boolean			isKeyboard;
 
 	/**	Format				*/
@@ -122,16 +121,16 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		row.appendChild(v_InfOrderGroup);
 		row.appendChild(v_TotalsGroup);
 		// BP
-		f_BPartnerName = new WPOSTextField(Msg.translate(Env.getCtx(), "IsCustomer"), posPanel.getKeyboard());
-		f_BPartnerName.setHeight("35px");
-		f_BPartnerName.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
-		f_BPartnerName.setWidth("97%");
-		f_BPartnerName.addEventListener(this);
+		bPartnerName = new WPOSTextField(Msg.translate(Env.getCtx(), "IsCustomer"), posPanel.getKeyboard());
+		bPartnerName.setHeight("35px");
+		bPartnerName.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
+		bPartnerName.setWidth("97%");
+		bPartnerName.addEventListener(this);
 		
 		row = rows.newRow();
 		row.setSpans("2");
 		row.setHeight("10px");
-		row.appendChild(f_BPartnerName);
+		row.appendChild(bPartnerName);
 		
 		
 		v_GroupPanel.appendChild(rows);
@@ -172,9 +171,9 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		f_lb_DocumentNo.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(f_lb_DocumentNo.rightAlign());
 		
-		f_DocumentNo = new Label();
-		f_DocumentNo.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
-		row.appendChild(f_DocumentNo.rightAlign());
+		documentNo = new Label();
+		documentNo.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
+		row.appendChild(documentNo.rightAlign());
 		
 		row = rows.newRow();
 		row.setHeight("20px");
@@ -183,10 +182,10 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		f_lb_DocumentType.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(f_lb_DocumentType.rightAlign());
 		
-		f_DocumentType = new Label();
-		f_DocumentType.setClass("label-description");
-		f_DocumentType.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold; width:auto !important;max-width:225px !important; white-space:pre;");
-		row.appendChild(f_DocumentType.rightAlign());
+		documentType = new Label();
+		documentType.setClass("label-description");
+		documentType.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold; width:auto !important;max-width:225px !important; white-space:pre;");
+		row.appendChild(documentType.rightAlign());
 		
 		row = rows.newRow();
 		row.setHeight("20px");
@@ -194,9 +193,9 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		Label f_lb_DocumentStatus = new Label (Msg.translate(Env.getCtx(), I_C_Order.COLUMNNAME_DocStatus) + ":");
 		f_lb_DocumentStatus.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(f_lb_DocumentStatus.rightAlign());
-		f_DocumentStatus= new Label();
-		f_DocumentStatus.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
-		row.appendChild(f_DocumentStatus.rightAlign());
+		documentStatus= new Label();
+		documentStatus.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
+		row.appendChild(documentStatus.rightAlign());
 		
 		row = rows.newRow();
 		row.setHeight("20px");
@@ -205,9 +204,9 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		f_lb_SalesRep.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(f_lb_SalesRep.rightAlign());
 		
-		f_SalesRep = new Label(posPanel.getSalesRepName());
-		f_SalesRep.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
-		row.appendChild(f_SalesRep.rightAlign());
+		salesRep = new Label(posPanel.getSalesRepName());
+		salesRep.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
+		row.appendChild(salesRep.rightAlign());
 		
 		
 		row = rows.newRow();
@@ -221,9 +220,9 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		lDocumentDate.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(lDocumentDate);
 		
-		f_DocumentDate = new Label();
-		f_DocumentDate.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
-		row.appendChild(f_DocumentDate.rightAlign());
+		documentDate = new Label();
+		documentDate.setStyle(WPOS.FONTSIZEMEDIUM+"; font-weight:bold");
+		row.appendChild(documentDate.rightAlign());
 		
 		row = rows.newRow();
 		row.setHeight("10px");
@@ -232,11 +231,11 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		lNet.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(lNet);
 		
-		f_TotalLines = new Label(String.valueOf(DisplayType.Amount));
-		f_TotalLines.setStyle(WPOS.FONTSIZEMEDIUM);
-		row.appendChild(f_TotalLines.rightAlign());
+		totalLines = new Label(String.valueOf(DisplayType.Amount));
+		totalLines.setStyle(WPOS.FONTSIZEMEDIUM);
+		row.appendChild(totalLines.rightAlign());
 		
-		f_TotalLines.setText("0.00");
+		totalLines.setText("0.00");
 		
 		row = rows.newRow();
 		row.setHeight("20px");
@@ -244,19 +243,19 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		Label lTax = new Label (Msg.translate(Env.getCtx(), "C_Tax_ID")+":");
 		lTax.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(lTax);
-		f_TaxAmount = new Label(String.valueOf(DisplayType.Amount));
-		f_TaxAmount.setStyle(WPOS.FONTSIZEMEDIUM);
-		row.appendChild(f_TaxAmount.rightAlign());
-		f_TaxAmount.setText(Env.ZERO.toString());
+		taxAmount = new Label(String.valueOf(DisplayType.Amount));
+		taxAmount.setStyle(WPOS.FONTSIZEMEDIUM);
+		row.appendChild(taxAmount.rightAlign());
+		taxAmount.setText(Env.ZERO.toString());
 		
 		row = rows.newRow();
 		Label lTotal = new Label (Msg.translate(Env.getCtx(), "GrandTotal")+":");
 		lTotal.setStyle(WPOS.FONTSIZEMEDIUM);
 		row.appendChild(lTotal);
-		f_GrandTotal = new Label(String.valueOf(DisplayType.Amount));
-		row.appendChild(f_GrandTotal.rightAlign());
-		f_GrandTotal.setText(Env.ZERO.toString());
-		f_GrandTotal.setStyle("Font-size:1.9em;font-weight:bold");
+		grandTotal = new Label(String.valueOf(DisplayType.Amount));
+		row.appendChild(grandTotal.rightAlign());
+		grandTotal.setText(Env.ZERO.toString());
+		grandTotal.setStyle("Font-size:1.9em;font-weight:bold");
 
 		// Center Panel
 		Grid layout = GridFactory.newGridLayout();
@@ -284,9 +283,9 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		//add(scalesPanel.getPanel(), scalesConstraint);
 		
 		//	Refresh
-		f_TotalLines.setText(m_Format.format(Env.ZERO));
-		f_GrandTotal.setText(m_Format.format(Env.ZERO));
-		f_TaxAmount.setText(m_Format.format(Env.ZERO));
+		totalLines.setText(m_Format.format(Env.ZERO));
+		grandTotal.setText(m_Format.format(Env.ZERO));
+		taxAmount.setText(m_Format.format(Env.ZERO));
 		//	Refresh
 		refreshPanel();
 	}	//	init
@@ -323,18 +322,18 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 	@Override
 	public void onEvent(Event e) throws Exception {
 		//	Name
-		if(e.getTarget().equals(f_BPartnerName.getComponent(WPOSTextField.SECONDARY)) && e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
+		if(e.getTarget().equals(bPartnerName.getComponent(WPOSTextField.SECONDARY)) && e.getName().equals(Events.ON_FOCUS) && !isKeyboard){
 			isKeyboard = true;
-			if(!f_BPartnerName.showKeyboard()){
+			if(!bPartnerName.showKeyboard()){
 				findBPartner();
 			}
 			if(posPanel.getKeyboard() == null){
-				f_BPartnerName.setValue(" ");
+				bPartnerName.setValue(" ");
 				findBPartner();
 			}
-			f_BPartnerName.setFocus(true);
+			bPartnerName.setFocus(true);
 		}
-		if(e.getTarget().equals(f_BPartnerName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
+		if(e.getTarget().equals(bPartnerName.getComponent(WPOSTextField.PRIMARY)) && e.getName().equals(Events.ON_FOCUS)){
 			isKeyboard = false;
 		}
 	}
@@ -343,7 +342,7 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 	 * 	Find/Set BPartner
 	 */
 	private void findBPartner() {
-		String query = f_BPartnerName.getText();
+		String query = bPartnerName.getText();
 		//	
 		if (query == null || query.length() == 0)
 			return;
@@ -384,7 +383,7 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		if (results.length == 1) {
 			MBPartner bp = MBPartner.get(ctx, results[0].getC_BPartner_ID());
 			posPanel.configureBPartner(bp.getC_BPartner_ID());
-			f_BPartnerName.setText(bp.getName()+"");
+			bPartnerName.setText(bp.getName()+"");
 		} else {	//	more than one
 			changeBusinessPartner(results);
 		}
@@ -398,31 +397,30 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		log.fine("RefreshPanel");
 		if (!posPanel.hasOrder()) {
 			//	Document Info
-			f_SalesRep.setText(posPanel.getSalesRepName());
-			f_DocumentType.setText(Msg.getMsg(posPanel.getCtx(), "Order"));
-			f_DocumentNo.setText(Msg.getMsg(posPanel.getCtx(), "New"));
-			f_DocumentStatus.setText("");
-			f_DocumentDate.setText("");
-			f_TotalLines.setText(posPanel.getNumberFormat().format(Env.ZERO));
-			f_GrandTotal.setText(posPanel.getNumberFormat().format(Env.ZERO));
-			f_TaxAmount.setText(posPanel.getNumberFormat().format(Env.ZERO));
-			f_BPartnerName.setText(null);
+			v_TitleBorder.setLabel(Msg.getMsg(Env.getCtx(), "Totals"));
+			salesRep.setText(posPanel.getSalesRepName());
+			documentType.setText(Msg.getMsg(posPanel.getCtx(), "Order"));
+			documentNo.setText(Msg.getMsg(posPanel.getCtx(), "New"));
+			documentStatus.setText("");
+			documentDate.setText("");
+			totalLines.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			grandTotal.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			taxAmount.setText(posPanel.getNumberFormat().format(Env.ZERO));
+			bPartnerName.setText(null);
 		} else {
-			String currencyISOCode = posPanel.getCurSymbol();
-			BigDecimal m_TotalLines = posPanel.getTotalLines();
-			BigDecimal m_GrandTotal = posPanel.getGrandTotal();
-			BigDecimal m_TaxAmt = m_GrandTotal.subtract(m_TotalLines);
 			//	Set Values
 			//	Document Info
-			f_SalesRep.setText(posPanel.getSalesRepName());
-			f_DocumentType.setText(posPanel.getDocumentTypeName());
-			f_DocumentNo.setText(posPanel.getDocumentNo());
-			f_DocumentStatus.setText(posPanel.getM_Order().getDocStatusName());
-			f_DocumentDate.setText(posPanel.getM_Order().getDateOrdered().toString().substring(0,10));
-			f_TotalLines.setText(currencyISOCode + "" + posPanel.getNumberFormat().format(m_TotalLines));
-			f_GrandTotal.setText(currencyISOCode + "" + posPanel.getNumberFormat().format(m_GrandTotal));
-			f_TaxAmount.setText(currencyISOCode + "" + posPanel.getNumberFormat().format(m_TaxAmt));
-			f_BPartnerName.setText(posPanel.getBPName());
+			String currencyISOCode = posPanel.getCurSymbol();
+			v_TitleBorder.setLabel(Msg.getMsg(Env.getCtx(), "Totals") + " (" +currencyISOCode + ")");
+			salesRep.setText(posPanel.getSalesRepName());
+			documentType.setText(posPanel.getDocumentTypeName());
+			documentNo.setText(posPanel.getDocumentNo());
+			documentStatus.setText(posPanel.getM_Order().getDocStatusName());
+			documentDate.setText(posPanel.getDateOrderedForView());
+			totalLines.setText(posPanel.getTotaLinesForView());
+			grandTotal.setText(posPanel.getGrandTotalForView());
+			taxAmount.setText(posPanel.getTaxAmtForView());
+			bPartnerName.setText(posPanel.getBPName());
 		}
 		//	Repaint
 		v_TotalsPanel.invalidate();
@@ -443,7 +441,7 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 		qt.setResults(results);
 		AEnv.showWindow(qt);
 		if (qt.getRecord_ID() > 0) {
-			f_BPartnerName.setText(posPanel.getBPName());
+			bPartnerName.setText(posPanel.getBPName());
 			if(!posPanel.hasOrder()) {
 				posPanel.newOrder(qt.getRecord_ID());
 				posPanel.refreshPanel();
@@ -465,9 +463,9 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 	public void changeViewPanel() {
 		if(posPanel.hasOrder()) {
 			//	When order is not completed, you can change BP
-			f_BPartnerName.setReadonly(posPanel.isCompleted());
+			bPartnerName.setReadonly(posPanel.isCompleted());
 		} else {
-			f_BPartnerName.setReadonly(false);
+			bPartnerName.setReadonly(false);
 		}
 	}
 

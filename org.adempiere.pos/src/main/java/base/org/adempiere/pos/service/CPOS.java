@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +66,7 @@ import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
@@ -84,6 +87,9 @@ public class CPOS {
 	 */
 	public CPOS() {
 		ctx = Env.getCtx();
+		decimalFormat = DisplayType.getNumberFormat(DisplayType.Amount);
+		dateFormat = DisplayType.getDateFormat(DisplayType.Date);
+		today = Env.getContextAsDate(ctx, "#Date");
 	}
 	
 	/**	POS Configuration		*/
@@ -99,9 +105,9 @@ public class CPOS {
 	/**	Price List Id		*/
 	private int 				priceListId;
 	/** Context					*/
-	protected Properties 		ctx = Env.getCtx();
+	protected Properties 		ctx;
 	/**	Today's (login) date	*/
-	private Timestamp 			today = Env.getContextAsDate(ctx, "#Date");
+	private Timestamp 			today;
 	/**	Order List				*/
 	private ArrayList<Integer>  orderList;
 	/**	Order List Position		*/
@@ -126,7 +132,10 @@ public class CPOS {
 	private boolean				isAddQty = false;
 	/** OrderLine id **/
 	private int 				orderLineId = 0;
-	
+	/**	Format					*/
+	private DecimalFormat 		decimalFormat;
+	/**	Date Format				*/
+	private SimpleDateFormat	dateFormat;
 	
 	/**
 	 * 	Set MPOS
@@ -152,6 +161,23 @@ public class CPOS {
 	 */
 	public void setM_POS(MPOS pos) {
 		entityPOS = pos;
+	}
+	
+	/**
+	 * Get number format
+	 * @return
+	 * @return DecimalFormat
+	 */
+	public DecimalFormat getNumberFormat() {
+		return decimalFormat;
+	}
+	
+	/**
+	 * Get Date Format
+	 * @return
+	 */
+	public SimpleDateFormat getDateFormat() {
+		return dateFormat;
 	}
 	
 	/**
@@ -1610,6 +1636,18 @@ public class CPOS {
 	}
 	
 	/**
+	 * Get Date ordered
+	 * @return
+	 */
+	public Timestamp getDateOrdered() {
+		if(hasOrder()) {
+			return currentOrder.getDateOrdered();
+		}
+		//	Default
+		return null;
+	}
+	
+	/**
 	 * Get Currency Symbol
 	 * @return
 	 * @return String
@@ -2231,5 +2269,37 @@ public class CPOS {
 	 */
 	public void setOrderLineId(int orderLineId) {
 		this.orderLineId = orderLineId;
+	}
+	
+	/**
+	 * Get Total Lines for view in POS with format
+	 * @return
+	 */
+	public String getTotaLinesForView() {
+		return getNumberFormat().format(getTotalLines());
+	}
+	
+	/**
+	 * Get Grand Total for view
+	 * @return
+	 */
+	public String getGrandTotalForView() {
+		return getNumberFormat().format(getGrandTotal());
+	}
+	
+	/**
+	 * Get Tax Amount for view
+	 * @return
+	 */
+	public String getTaxAmtForView() {
+		return getNumberFormat().format(getGrandTotal().subtract(getTotalLines()));
+	}
+	
+	/**
+	 * Get Date Ordered for view
+	 * @return
+	 */
+	public String getDateOrderedForView() {
+		return getDateFormat().format(getDateOrdered());
 	}
 }

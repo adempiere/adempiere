@@ -31,7 +31,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -53,7 +52,6 @@ import org.compiere.model.MPOSKey;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -107,8 +105,6 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	
 	/**	Logger						*/
 	private CLogger 						logger = CLogger.getCLogger(getClass());
-	/**	Format						*/
-	private DecimalFormat 					decimalFormat;
 	/**	Font						*/
 	private Font 							font;
 	/**	Plain Font					*/
@@ -123,8 +119,6 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	private int 							buttonSize;
 	/** Status bar info				*/
 	private String 							statusBarInfo;
-
-	
 	
 	/**
 	 * *** Constructor ***
@@ -146,29 +140,21 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		statusBar = new StatusBar();
 		statusBarInfo = "";
 		mainPanel.add(statusBar , BorderLayout.SOUTH);
-
-		//	Set Border
-		/*
-		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 16);
-		plainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 16);
-		bigFont = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 20);
-		bigPlainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 20);
-		decimalFormat = DisplayType.getNumberFormat(DisplayType.Amount);*/
-
+		//	
 		font = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 12);
 		plainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 12);
 		bigFont = AdempierePLAF.getFont_Field().deriveFont(Font.BOLD, 14);
 		bigPlainFont = AdempierePLAF.getFont_Field().deriveFont(Font.PLAIN, 14);
-		decimalFormat = DisplayType.getNumberFormat(DisplayType.Amount);
-
-
+		
 		fieldHeight = 45;
 		buttonSize = 45;
 		
 	}
-
-	private void SettingKeyboardFocusManager()
-	{
+	
+	/**
+	 * Load keyboard
+	 */
+	private void settingKeyboardFocusManager() {
 		if (isVirtualKeyboard()) {
 			originalKeyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 			focusManager = new POSKeyboardFocusManager();
@@ -209,7 +195,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		}
 		isCorrectUserPin = null;
 
-		SettingKeyboardFocusManager();
+		settingKeyboardFocusManager();
 
 		if (getM_POS() == null) {
 			if (this.frame != null)
@@ -318,15 +304,6 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	}
 	
 	/**
-	 * Get number format
-	 * @return
-	 * @return DecimalFormat
-	 */
-	public DecimalFormat getNumberFormat() {
-		return decimalFormat;
-	}
-	
-	/**
 	 * Get Field Lenght
 	 * @return
 	 * @return int
@@ -382,9 +359,10 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		if (selection != null) {
 			setM_POS((MPOS)selection);
 			validLocator();
-		} else if (selection == null)
+		} else {
 			return false;
-
+		}
+		//	
 		return true;
 	}
 	
