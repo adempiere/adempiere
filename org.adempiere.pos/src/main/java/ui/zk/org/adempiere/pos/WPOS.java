@@ -19,11 +19,8 @@ package org.adempiere.pos;
 
 import java.awt.KeyboardFocusManager;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.service.CPOS;
@@ -49,7 +46,6 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOS;
 import org.compiere.model.MPOSKey;
 import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -78,7 +74,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	private Iframe 							frame;
 	/**	Logger								*/
 	private CLogger							log 		 = CLogger.getCLogger(getClass());
-	private DecimalFormat					m_Format;
 	/** Window								*/
 	private Window 							selection;
 	/** Panel								*/
@@ -116,8 +111,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	private Button 							okButton = new Button("Ok");
 	private Button 							cancelButton = new Button("Cancel");
 	private ConfirmPanel 					confirm;
-	/**	Today's (login) date				*/
-	private Timestamp						m_today 	 = Env.getContextAsDate(ctx, "#Date");
 	private Listbox 						listTerminal = ListboxFactory.newDropdownListbox();
 	private List<MPOS> poss;
 
@@ -136,16 +129,16 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	/**
 	 * 	Constructor - see init 
 	 */
-	public WPOS()
-	{
+	public WPOS() {
 		//Setting Keyboard Manager
-		SettingKeyboardFocusManager();
-		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
+		settingKeyboardFocusManager();
 		init();
 	}	//	PosPanel
 
-	private void SettingKeyboardFocusManager()
-	{
+	/**
+	 * Load keyboard
+	 */
+	private void settingKeyboardFocusManager() {
 		if (isVirtualKeyboard()) {
 			focusManager = new POSKeyboardFocusManager();
 			KeyboardFocusManager.setCurrentKeyboardFocusManager(focusManager);
@@ -159,19 +152,14 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 *  @param WindowNo window
 	 *  @param frame parent frame
 	 */
-	public void init ()
-	{
+	public void init () {
 		log.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
 		windowNo = form.getWindowNo();
 		isCorrectUserPin = null;
 		//
-		try
-		{
-			dynInit();
-			
-		}
-		catch (AdempierePOSException exception)
-		{
+		try {
+			dynInit();	
+		} catch (AdempierePOSException exception) {
 			FDialog.error( getWindowNo() , frame, exception.getLocalizedMessage());
 			dispose();
 			return;
@@ -190,8 +178,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	 * 	PosPanel has a GridBagLayout.
 	 * 	The Sub Panels return their position
 	 */
-	private boolean dynInit()
-	{ 
+	private boolean dynInit() { 
 		setMPOS();
 		userPinListener = new WPOSUserPinListener(this);
 		//Delay 5 seconds by default
@@ -324,27 +311,12 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		AEnv.showWindow(selection);
 			
 	}	//	setMPOS
-	
-	
-	/**************************************************************************
-	 * 	Get Today's date
-	 *	@return date
-	 */
-	public Timestamp getToday()
-	{
-		return m_today;
-	}	//	getToday
 
-	/**
-	 * Get the properties for the process calls that it needs
-	 * 
-	 * @return getProperties ctx
+	/**	
+	 * Get Keyboard
+	 * @param keyLayoutId
+	 * @return
 	 */
-	public Properties getCtx()
-	{
-		return ctx;
-	}
-
 	public WPOSKeyboard getKeyboard(int keyLayoutId) {
 		if (keyLayoutId > 0 ){
 			WPOSKeyboard keyboard = new WPOSKeyboard(this, keyLayoutId);
@@ -356,6 +328,12 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		return null;
 	}
 	
+	/**
+	 * Get Keyboard with text field
+	 * @param keyLayoutId
+	 * @param field
+	 * @return
+	 */
 	public WPOSKeyboard getKeyboard(int keyLayoutId, WPOSTextField field) {
 		if (keyLayoutId > 0 ){
 			WPOSKeyboard keyboard = new WPOSKeyboard(this, keyLayoutId);
@@ -513,15 +491,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	public void setScalesMeasure(String measure) {
 
 	}
-
-	/**
-	 * Get number format
-	 * @return
-	 * @return DecimalFormat
-	 */
-	public DecimalFormat getNumberFormat() {
-		return m_Format;
-	}
 	
 	/**
 	 * Refresh Header
@@ -658,26 +627,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 
 		return isCorrectUserPin;
 	}
-
-	/*/public void showCollectPayment()
-	{
-		documentPanel.getCollectPayment().showPanel();
-	}
-
-	public void showScales()
-	{
-		documentPanel.getScalesPanel().showPanel();
-	}
-
-	public void hideScales()
-	{
-		documentPanel.getScalesPanel().hidePanel();
-	}
-
-	public void setScalesMeasure(String measure)
-	{
-		documentPanel.getScalesPanel().setMeasure(measure);
-	}*/
 
 	public void showKeyboard()
 	{
