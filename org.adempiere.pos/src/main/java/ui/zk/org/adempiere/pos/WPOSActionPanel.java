@@ -26,6 +26,7 @@ import org.adempiere.pos.search.WQueryBPartner;
 import org.adempiere.pos.search.WQueryDocType;
 import org.adempiere.pos.search.WQueryOrderHistory;
 import org.adempiere.pos.service.CPOS;
+import org.adempiere.pos.service.POSLookupProductInterface;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;

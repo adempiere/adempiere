@@ -17,6 +17,7 @@
 package org.adempiere.pos;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.pos.service.POSScalesPanelInterface;
 import org.adempiere.pos.service.driver.POSScalesDriverInterface;
 import org.adempiere.pos.service.driver.POSScalesDriver;
 import org.compiere.apps.ADialog;

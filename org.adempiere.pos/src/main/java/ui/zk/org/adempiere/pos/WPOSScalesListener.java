@@ -17,11 +17,13 @@
 package org.adempiere.pos;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.pos.service.POSScalesPanelInterface;
 import org.adempiere.pos.service.driver.POSScalesDriver;
 import org.adempiere.pos.service.driver.POSScalesDriverInterface;
 import org.adempiere.webui.window.FDialog;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+
 
 
 
