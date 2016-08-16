@@ -31,6 +31,7 @@ import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -389,6 +390,8 @@ public class ProcessBuilder {
             parameter.setParameter(name, (Timestamp) value);
         if (value instanceof Boolean)
             parameter.setParameter(name, (java.lang.Boolean) value);
+        if (value instanceof BigDecimal)
+            parameter.setParameter(name, (BigDecimal) value);
         parameter.saveEx();
         return this;
     }
