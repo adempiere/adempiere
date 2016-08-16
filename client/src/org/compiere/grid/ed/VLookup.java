@@ -915,6 +915,7 @@ public class VLookup extends JComponent
 		catch (PropertyVetoException pve)
 		{
 			log.log(Level.SEVERE, m_columnName, pve);
+			return;
 		}
 		//  is the value updated ?
 		boolean updated = false;

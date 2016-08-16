@@ -21,6 +21,7 @@ package org.eevolution.form;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ import org.eevolution.grid.BrowserSearch;
  * 
  */
 public class VBrowserSearch extends BrowserSearch implements 
-		VetoableChangeListener {
+		VetoableChangeListener, PropertyChangeListener {
 
 	/**
 	 *	Dynamic generated Parameter panel.
@@ -145,6 +146,7 @@ public class VBrowserSearch extends BrowserSearch implements
 		vEditor.addVetoableChangeListener(this);
 		//  MField => VEditor - New Field value to be updated to editor
 		field.addPropertyChangeListener(vEditor);
+		field.addPropertyChangeListener(this);
 		//
 		centerPanel.add ((Component)vEditor, new ALayoutConstraint(row, cols++));
 		m_vEditors.add (vEditor);                   //  add to Editors
@@ -201,16 +203,45 @@ public class VBrowserSearch extends BrowserSearch implements
 	 * 	@exception PropertyVetoException if the recipient wishes to roll back.
 	 */
 	public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
+//		GridField changedField = null;
+//		String propertyName = evt.getPropertyName();
+//		//	Set GridField
+//		if (evt.getSource() instanceof VEditor) {
+//			changedField = ((VEditor) evt.getSource()).getField();
+//			propertyName = changedField.getColumnNameAlias();
+//		}
+//		
+//		//	Change Dependents
+//		fieldChange(changedField, evt.getNewValue(), propertyName);
+
 		GridField changedField = null;
-		String propertyName = evt.getPropertyName();
 		//	Set GridField
 		if (evt.getSource() instanceof VEditor) {
 			changedField = ((VEditor) evt.getSource()).getField();
-			propertyName = changedField.getColumnNameAlias();
 		}
-		
-		//	Change Dependents
-		fieldChange(changedField, evt.getNewValue(), propertyName);
+		else
+			return;
+
+		//  Multiple selection should not be enabled for criteria fields
+
+		//  Sync the field with the editor
+		//  Deal with new null values. Some editors return "" instead of null
+		if ((evt.getNewValue() == null || evt.getNewValue().toString().isEmpty()) 
+			&& evt.getOldValue() != null && evt.getOldValue().toString().length() > 0)
+		{
+			//  #283 Set value to null - veto if the field is mandatory
+			if (!changedField.getVO().IsMandatory)
+				changedField.setValue(null,false); //	-> PropertyChanged -> dynamicDisplay
+			else
+				throw new PropertyVetoException("FillMandatory", evt);
+		}	
+		else
+		{
+			// The new value is not null or an empty string - save if it is different than the 
+			// old value or ignore the change
+			if (evt.getNewValue() != null && !evt.getNewValue().equals(evt.getOldValue()))
+				changedField.setValue(evt.getNewValue(),false);	//	-> PropertyChanged -> dynamicDisplay
+		}	
 	}	//	vetoableChange
 
 	@Override
@@ -359,5 +390,21 @@ public class VBrowserSearch extends BrowserSearch implements
 			return editor.getValue();
 		else
 			return null;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		GridField changedField = null;
+		//	Set GridField
+		String propertyName = evt.getPropertyName();
+		if (evt.getSource() instanceof GridField) {
+			changedField = ((GridField) evt.getSource());
+			propertyName = changedField.getColumnNameAlias();
+		}
+		else
+			return;
+		
+		//	Change Dependents
+		fieldChange(changedField, evt.getNewValue(), propertyName);
 	}
 }
