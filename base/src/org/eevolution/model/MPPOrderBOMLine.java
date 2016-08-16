@@ -334,10 +334,15 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 			setQtyRequired(qtyrequired);
 			setQtyEntered(qty);
 		}
-		else if (isComponentType(COMPONENTTYPE_Packing,COMPONENTTYPE_Tools))
+		else if (isComponentType(COMPONENTTYPE_Tools))
 		{
 			setQtyRequired(multiplier);
 			setQtyEntered(multiplier);
+		}
+		else if (isComponentType(COMPONENTTYPE_Packing))
+		{
+			setQtyRequired(multiplier.multiply(getParent().getQtyBatchs()));
+			setQtyEntered(multiplier.multiply(getParent().getQtyBatchs()));
 		}
 		else
 		{
