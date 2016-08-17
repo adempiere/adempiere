@@ -359,7 +359,6 @@ public abstract class ProcessParameter {
 	 * @param propertyName
 	 */
 	public void fieldChange(GridField field, Object newValue, String propertyName) {
-		//	set new value
 		if(field != null) {
 			//	Process dependences
 			processDependencies (field);
@@ -417,21 +416,23 @@ public abstract class ProcessParameter {
 	 * @param name
 	 */
 	private void processNewValue(Object value, String name) {
-		if (value == null)
-			value = new String("");
 
-		if (value instanceof String)
-			Env.setContext(Env.getCtx(), m_WindowNo, name, (String) value);
-		else if (value instanceof Integer)
-			Env.setContext(Env.getCtx(), m_WindowNo, name, ((Integer) value)
-					.intValue());
-		else if (value instanceof Boolean)
-			Env.setContext(Env.getCtx(), m_WindowNo, name, ((Boolean) value)
-					.booleanValue());
-		else if (value instanceof Timestamp)
-			Env.setContext(Env.getCtx(), m_WindowNo, name, (Timestamp) value);
-		else
-			Env.setContext(Env.getCtx(), m_WindowNo, name, value.toString());
+		// Not required.  Context is set by the girdField.
+//		if (value == null)
+//			value = new String("");
+//
+//		if (value instanceof String)
+//			Env.setContext(Env.getCtx(), m_WindowNo, name, (String) value);
+//		else if (value instanceof Integer)
+//			Env.setContext(Env.getCtx(), m_WindowNo, name, ((Integer) value)
+//					.intValue());
+//		else if (value instanceof Boolean)
+//			Env.setContext(Env.getCtx(), m_WindowNo, name, ((Boolean) value)
+//					.booleanValue());
+//		else if (value instanceof Timestamp)
+//			Env.setContext(Env.getCtx(), m_WindowNo, name, (Timestamp) value);
+//		else
+//			Env.setContext(Env.getCtx(), m_WindowNo, name, value.toString());
 
 		dynamicDisplay();
 	}
