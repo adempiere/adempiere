@@ -16,20 +16,13 @@
 package org.eevolution.process;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map.Entry;
-import java.util.logging.Level;
 
 import org.compiere.model.MForecastLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MRequisition;
 import org.compiere.model.PO;
-import org.compiere.model.Query;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
-import org.eevolution.grid.Browser;
-import org.eevolution.model.I_PP_MRP;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
 import org.eevolution.model.MPPMRP;
@@ -38,64 +31,42 @@ import org.eevolution.model.MPPOrder;
 /**
  * 
  * MRP Schedule
- * 
  * @author victor.perez@e-evolution.com , www.e-evolution.com
  */
-public class MRPSchedule extends SvrProcess {
+public class MRPSchedule extends MRPScheduleAbstract {
 
-	/**
-	 * Prepare - e.g., get Parameters.
-	 */
-	protected Integer p_Planner_ID = null;
-	protected String p_Priority = null;
-	protected Integer p_Line = null;
-	protected LinkedHashMap<Integer, LinkedHashMap<String, Object>> m_values = null;
-	protected List<MPPMRP> m_records = null;
+
+	protected Integer lineNo = null;
 	protected String DEMAND = "DEMAND";
 	protected String SUPPLY = "SUPPLY";
-	protected int processRecords = 0;
+	protected Integer processRecords = 0;
 
 	protected void prepare() {
-		for (ProcessInfoParameter para : getParameter()) {
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if (name.equals(MPPMRP.COLUMNNAME_Planner_ID))
-				p_Planner_ID = para.getParameterAsInt();
-			else if (name.equals(MPPMRP.COLUMNNAME_Priority))
-				p_Priority = (String) para.getParameter();
-			else if (name.equals(MPPOrder.COLUMNNAME_Line))
-				p_Line = para.getParameterAsInt();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		setColumnsValues();
+		super.prepare();
 	} // prepare
 
 	/**
 	 * Perform process.
-	 * 
 	 * @return Message (clear text)
-	 * @throws Exception
-	 *             if not successful
+	 * @throws Exception if not successful
 	 */
 	protected String doIt() throws Exception {
 
-		for (MPPMRP mrp : getRecords()) {
-
+		getSelectionKeys().stream().filter(mrpId -> mrpId > 0 ).forEach(mrpId -> {
+			MPPMRP mrp = new MPPMRP(getCtx() , mrpId , get_TrxName());
 			if (MPPMRP.TYPEMRP_Demand.equals(mrp.getTypeMRP()))
 				saveBrowseValues(mrp, DEMAND);
 			else if (MPPMRP.TYPEMRP_Supply.equals(mrp.getTypeMRP()))
 				saveBrowseValues(mrp, SUPPLY);
 
-			if (p_Priority != null)
-				mrp.setPriority(p_Priority);
+			if (getPriority() != null)
+				mrp.setPriority(getPriority());
 
-			if (p_Planner_ID != null)
-				mrp.setPlanner_ID(p_Planner_ID);
+			if (getPlannerId() > 0 )
+				mrp.setPlanner_ID(getPlannerId());
 
 			schedule(mrp);
-		}
+		});
 
 		return "@DocProcessed@ " + processRecords;
 	} // doIt
@@ -137,7 +108,7 @@ public class MRPSchedule extends SvrProcess {
 				if (mrp.getPriority() != null)
 					order.setPriorityRule(mrp.getPriority());
 
-				order.setLine(p_Line);
+				order.setLine(lineNo);
 				order.saveEx();
 			}
 		}
@@ -185,7 +156,7 @@ public class MRPSchedule extends SvrProcess {
 
 	private void saveBrowseValues(PO po, String alias) {
 
-		LinkedHashMap<String, Object> values = m_values.get(po.get_ID());
+		LinkedHashMap<String, Object> values = getSelectionValues().get(po.get_ID());
 
 		for (Entry<String, Object> entry : values.entrySet()) {
 			String columnName = entry.getKey();
@@ -195,31 +166,5 @@ public class MRPSchedule extends SvrProcess {
 			}
 		}
 
-	}
-
-	private List<MPPMRP> getRecords() {
-		if (m_records != null)
-			return m_records;
-
-		String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=PP_MRP.PP_MRP_ID)";
-		m_records = new Query(getCtx(), I_PP_MRP.Table_Name, whereClause,
-				get_TrxName()).setClient_ID()
-				.setParameters(getAD_PInstance_ID()).list();
-		return m_records;
-	}
-
-	private LinkedHashMap<Integer, LinkedHashMap<String, Object>> setColumnsValues() {
-		if (m_values != null)
-			return m_values;
-
-		m_values = new LinkedHashMap<Integer, LinkedHashMap<String, Object>>();
-
-		for (MPPMRP record : getRecords()) {
-			m_values.put(
-					record.get_ID(),
-					Browser.getBrowseValues(getAD_PInstance_ID(), null,
-							record.get_ID(), null));
-		}
-		return m_values;
 	}
 }
