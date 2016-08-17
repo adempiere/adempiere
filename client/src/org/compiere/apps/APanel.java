@@ -121,8 +121,8 @@ import org.eevolution.form.VBrowser;
  * 	@version 	$Id: APanel.java,v 1.4 2006/07/30 00:51:27 jjanke Exp $
  *
  *  Colin Rooney 2007/03/20 RFE#1670185 & related BUG#1684142 - Extend Sec to Info Queries
- *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
- *  @contributor fer_luck@centuryon.com , FR [ 1757088 ]
+ *  @author fer_luck@centuryon.com
+ *  			<li>FR [ 1757088 ]
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *				<li>BF [ 1824621 ] History button can't be canceled
  *				<li>BF [ 1941271 ] VTreePanel is modifying even if is save wasn't successfull
@@ -131,24 +131,30 @@ import org.eevolution.form.VBrowser;
  * 				<li>BF [ 1996056 ] Report error message is not displayed
  * 				<li>BF [ 1998575 ] Document Print is discarding any error
  *  @author Teo Sarca, teo.sarca@gmail.com
- *  			<li>BF [ 2876892 ] Save included tab before calling button action
- *  				https://sourceforge.net/tracker/?func=detail&aid=2876892&group_id=176962&atid=879332
+ *  			<li><a href="https://sourceforge.net/tracker/?func=detail&aid=2876892&group_id=176962&atid=879332">
+ *  				BF [ 2876892 ] Save included tab before calling button action</a>
  *  @author victor.perez@e-evolution.com
- *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
- * 			<li>RF [ 2853359 ] Popup Menu for Lookup Record
- * 			<li>http://sourceforge.net/tracker/?func=detail&aid=2853359&group_id=176962&atid=879335
- *  @autor tobi42, metas GmBH
+ *  			<li>FR [ 1757088 ]
+ *  			<li><a href="http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335">
+ *  				FR [ 1966328 ] New Window Info to MRP and CRP into View</a> 
+ * 				<li><a href="http://sourceforge.net/tracker/?func=detail&aid=2853359&group_id=176962&atid=879335">
+ * 					RF [ 2853359 ] Popup Menu for Lookup Record</a>
+ *  @author tobi42, metas GmBH
  *  			<li>BF [ 2799362 ] You can press New button a lot of times
  *  @author Cristina Ghita, www.arhipac.ro
- *  @see FR [ 2877111 ] See identifiers columns when delete records https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2877111&group_id=176962
- *
+ *  			<li><a href="https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2877111&group_id=176962">
+ *  				FR [ 2877111 ] See identifiers columns when delete records</a>
  * 	@author hengsin, hengsin.low@idalica.com
- *  @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
+ *  			<li><a href="https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962">
+ *  				FR [2887701]</a> 
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *		<li> FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"
- *		@see https://github.com/adempiere/adempiere/issues/114
- *		<li>FR [ 248 ] Smart Browse not open on modal inside a window
- * 		@see https://github.com/adempiere/adempiere/issues/248
+ *				<li><a href="@see https://github.com/adempiere/adempiere/issues/114">
+ *					FR [ 114 ] Change "Create From" UI for Form like Dialog in window without "hardcode"</a>
+ *				<li><a href="https://github.com/adempiere/adempiere/issues/248">
+ *					FR [ 248 ] Smart Browse not open on modal inside a window</a>
+ *  @author Michael McKay michael.mckay@mckayERP.com, http://www.mckayerp.com
+ * 				<li><a href="https://github.com/adempiere/adempiere/issues/508">
+ * 			 		BF [ #508 ] Initialize m_curTab before initial query</a>
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -708,6 +714,7 @@ public final class APanel extends CPanel
 			}
 			//  Window Init
 			window.addChangeListener(this);
+			m_curWinTab = window;
 
 			/**
 			 *  Init Model
@@ -741,6 +748,7 @@ public final class APanel extends CPanel
 				/**
 				 *  Window Tabs
 				 */
+				
 				int tabSize = mWindow.getTabCount();
 				boolean goSingleRow = query != null;	//	Zoom Query
 				for (int tab = 0; tab < tabSize; tab++)
@@ -753,7 +761,9 @@ public final class APanel extends CPanel
 					//  Query first tab
 					if (tab == 0)
 					{
-						//  initial user query for single workbench tab
+						m_curTab = gTab; // #508 m_curTab needs to be set or VLookup buttons in find window opened 
+										 // in the call initialQuery won't work and a NPE will be created in 
+										 // info.java.
 						if (m_mWorkbench.getWindowCount() == 1)
 						{
 							if (query != null && query.getZoomTableName() != null && query.getZoomColumnName() != null
