@@ -59,7 +59,6 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 			return;
 		setHeight("100%");
 		setWidth("100%");
-		status = false;
 		this.keyBoardType=keyBoardType;
 		appendChild(createPanel(C_POSKeyLayout_ID, m_txtCalc));
 		currentLayout = C_POSKeyLayout_ID;
@@ -86,11 +85,9 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 	private int 				currentLayout;
 	/** Caller					*/
 	private POSKeyListener 		caller;
-	/** Status Panel			 */
-	private boolean 			status;
 	/** Panels					*/
-	private Panel 				primaryPanel;
-	private Panel 				secondPanel;
+	// Change Panel Disposal key access keys
+	private HashMap <Integer, Panel> panelMap = new HashMap<Integer, Panel>();
 	/** KeyBoard Type			*/
 	private boolean 			keyBoardType; 
 	
@@ -232,11 +229,11 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 		card.setWidth("100%");
 		card.setStyle("overflow:AUTO");
 		MPOSKeyLayout keyLayout = MPOSKeyLayout.get(Env.getCtx(), C_POSKeyLayout_ID);
-		
-		if(secondPanel==null) {
-			secondPanel = createButton(C_POSKeyLayout_ID);
-			card.appendChild(secondPanel);
-		}
+	  
+		// Removal panel static
+		card = createButton(C_POSKeyLayout_ID);
+		panelMap.put(C_POSKeyLayout_ID, card);
+		  
 		if (keyLayout.get_ID() == 0)
 			return null;
 		MPOSKey[] keys = keyLayout.getKeys(false);
@@ -246,18 +243,11 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 		{
 			if ( key.getSubKeyLayout_ID() > 0 )
 			{
-				if(primaryPanel == null){
-					primaryPanel = createButton(key.getSubKeyLayout_ID());
-				}
-				if ( primaryPanel != null  ){
-					if(status==false) {
-						card.appendChild(primaryPanel);
-						primaryPanel.setVisible(status);
-						primaryPanel.setContext(""+key.getC_POSKey_ID());
-						status=true;
-					}
-				}
-					card.appendChild(primaryPanel);
+			  Panel subcard = new Panel();
+			  subcard = createButton(key.getSubKeyLayout_ID());
+			  panelMap.put(key.getSubKeyLayout_ID(), subcard);
+				appendChild(subcard);
+        subcard.setVisible(false);
 			}
 		}
 		return card;
@@ -273,11 +263,11 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 		Panel card = new Panel();
 		card.setWidth("100%");
 		MPOSKeyLayout keyLayout = MPOSKeyLayout.get(Env.getCtx(), C_POSKeyLayout_ID);
-		
-		if(secondPanel==null) {
-			secondPanel = createButton(C_POSKeyLayout_ID, m_txtCalc);
-			card.appendChild(secondPanel);
-		}
+    
+		// Removal panel static
+    card = createButton(C_POSKeyLayout_ID, m_txtCalc);
+    panelMap.put(C_POSKeyLayout_ID, card);
+
 		if (keyLayout.get_ID() == 0)
 			return null;
 		MPOSKey[] keys = keyLayout.getKeys(false);
@@ -287,18 +277,12 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 		{
 			if ( key.getSubKeyLayout_ID() > 0 )
 			{
-				if(primaryPanel == null){
-					primaryPanel = createButton(key.getSubKeyLayout_ID(), m_txtCalc);
-				}
-				if ( primaryPanel != null  ){
-					if(status==false) {
-						card.appendChild(primaryPanel);
-						primaryPanel.setVisible(status);
-						primaryPanel.setContext(""+key.getC_POSKey_ID());
-						status=true;
-					}
-				}
-					card.appendChild(primaryPanel);
+			  //  Add subCard Panel
+        Panel subCard = new Panel();
+        subCard = createButton(key.getSubKeyLayout_ID(), m_txtCalc);
+        panelMap.put(key.getSubKeyLayout_ID(), subCard);
+        appendChild(subCard);
+        subCard.setVisible(false);
 			}
 		}
 		return card;
@@ -425,15 +409,11 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 			MPOSKey key = currentKeymap.get(C_POSKey_ID);
 			if ( key.getSubKeyLayout_ID() > 0 )
 			{
-				currentLayout = key.getSubKeyLayout_ID();
-				if(primaryPanel.getContext().equals(event.getTarget().getId())){
-					primaryPanel.setVisible(true);
-					secondPanel.setVisible(false);
-				}
-				else {
-					primaryPanel.setVisible(false);
-					secondPanel.setVisible(true);
-				}
+	      //  Hidden current Panel
+			  panelMap.get(currentLayout).setVisible(false);
+			  currentLayout = key.getSubKeyLayout_ID();
+	      //  Show other Panel
+			  panelMap.get(currentLayout).setVisible(true);
 			}
 			else
 			{
