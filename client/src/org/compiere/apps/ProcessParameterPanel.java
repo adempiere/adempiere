@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
@@ -26,9 +27,13 @@ import javax.swing.Box;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
+import org.compiere.model.GridTable;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Trx;
 
 /**
  *	Process Parameter Panel, based on existing ProcessParameter dialog.
@@ -56,7 +61,7 @@ import org.compiere.swing.CPanel;
  * 			<li>FR [ 298 ] Process Parameter Panel not set default value correctly into parameters
  *			@see https://github.com/adempiere/adempiere/issues/298
  */
-public class ProcessParameterPanel extends ProcessParameter implements VetoableChangeListener {
+public class ProcessParameterPanel extends ProcessParameter implements VetoableChangeListener, PropertyChangeListener {
 
 	/**
 	 *	Dynamic generated Parameter panel.
@@ -92,6 +97,8 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 	private int 			labelMinWidth = 0;
 	private int 			fieldMinWidth = 0;
 	private final int		SEPARATOR = 25;
+	
+	private CLogger log	= CLogger.getCLogger(this.getClass());
 
 	@Override
 	public void initComponents() {
@@ -153,10 +160,13 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 		//	Set Default Value
 		Object defaultObject = field.getDefault();
 		vEditor.setValue(defaultObject);
-		//	Add Event
+		//	Add Event on the change of the field - sets the field value.
 		vEditor.addVetoableChangeListener(this);
 		//  MField => VEditor - New Field value to be updated to editor
 		field.addPropertyChangeListener(vEditor);
+		//  Listen to field property changes to allow sync of the other
+		//  fields
+		field.addPropertyChangeListener(this);
 		//	
 		Component component = (Component) vEditor;
 		fieldMinWidth = component.getPreferredSize().width > fieldMinWidth 
@@ -210,14 +220,39 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 	 * 	@exception PropertyVetoException if the recipient wishes to roll back.
 	 */
 	public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
+		
+		log.fine(evt.getPropertyName() + "=" + evt.getNewValue() + " (" + evt.getOldValue() + ") "
+			+ (evt.getOldValue() == null ? "" : evt.getOldValue().getClass().getName()));
+
 		GridField changedField = null;
 		//	Set GridField
 		if (evt.getSource() instanceof VEditor) {
 			changedField = ((VEditor) evt.getSource()).getField();
 		}
-		
-		//	Change Dependents
-		fieldChange(changedField, evt.getNewValue(), evt.getPropertyName());
+		else
+			return;
+
+		//  Multiple selection should not be enabled
+
+		//  Sync the field with the editor
+		//  Deal with new null values. Some editors return "" instead of null
+		if ((evt.getNewValue() == null || evt.getNewValue().toString().isEmpty()) 
+			&& evt.getOldValue() != null && evt.getOldValue().toString().length() > 0)
+		{
+			//  #283 Set value to null - veto if the field is mandatory
+			if (!changedField.getVO().IsMandatory)
+				changedField.setValue(null,false); //	-> PropertyChanged -> dynamicDisplay
+			else
+				throw new PropertyVetoException("FillMandatory", evt);
+		}	
+		else
+		{
+			// The new value is not null or an empty string - save if it is different than the 
+			// old value or ignore the change
+			if (evt.getNewValue() != null && !evt.getNewValue().equals(evt.getOldValue()))
+				changedField.setValue(evt.getNewValue(),false);	//	-> PropertyChanged -> dynamicDisplay
+		}
+
 	}	//	vetoableChange
 
 	@Override
@@ -244,27 +279,29 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 							if (field.isRange())
 								m_separators.get(index).setText(" - ");
 						}
-						Object value = field.getValue();
-						Object defaultValue = field.getDefault();
-						if ((value == null || value.toString().length() == 0)
-								&& defaultValue != null) {
-							field.setValue(defaultValue, true);
-							m_vEditors.get(index).setValue(defaultValue);
-						}
+						
+						// Don't deal with field values here - use the vetoable change listener
+//						Object value = field.getValue();
+//						Object defaultValue = field.getDefault();
+//						if ((value == null || value.toString().length() == 0)
+//								&& defaultValue != null) {
+//							field.setValue(defaultValue, false);  // Not inserting - overwriting the current value
+//							// m_vEditors.get(index).setValue(defaultValue); // Not required, happens through the property listener
+//						}
 						boolean rw = field.isEditablePara(true); // r/w - check if field is Editable
 						m_vEditors.get(index).setReadWrite(rw);
 
 						if (field.isRange()) {
 							m_vEditors_To.get(index).setReadWrite(rw);
 							GridField gridFieldTo = m_vEditors_To.get(index).getField();
-							Object valueTo = gridFieldTo.getValue();
-							Object defaultValueTo = gridFieldTo.getDefault();
-							if ((valueTo == null || valueTo.toString().length() == 0)
-									&& defaultValueTo != null) {
-								//	BR [ 298 ]
-								gridFieldTo.setValue(defaultValueTo, true);
-								m_vEditors_To.get(index).setValue(defaultValueTo);
-							}
+//							Object valueTo = gridFieldTo.getValue();
+//							Object defaultValueTo = gridFieldTo.getDefault();
+//							if ((valueTo == null || valueTo.toString().length() == 0)
+//									&& defaultValueTo != null) {
+//								//	BR [ 298 ]
+//								gridFieldTo.setValue(defaultValueTo, true);
+//								m_vEditors_To.get(index).setValue(defaultValueTo);
+//							}
 							rw = gridFieldTo.isEditablePara(true);
 							m_vEditors_To.get(index).setReadWrite(rw);
 						}
@@ -355,6 +392,21 @@ public class ProcessParameterPanel extends ProcessParameter implements VetoableC
 		VEditor editor = m_vEditors_To.get(index);
 		if(editor != null)
 			editor.setValue(value);
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		GridField changedField = null;
+		//	Set GridField
+		if (evt.getSource() instanceof GridField) {
+			changedField = ((GridField) evt.getSource());
+		}
+		else
+			return;
+		
+		//	Change Dependents
+		fieldChange(changedField, evt.getNewValue(), evt.getPropertyName());
+		
 	}
 		
 }	//	ProcessParameterPanel
