@@ -85,7 +85,6 @@ import org.zkoss.zul.Space;
  *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document (It is changed to Smart Browse)
  *		@see https://github.com/adempiere/adempiere/issues/297
  */
-@Deprecated
 public class WPaySelect extends PaySelect
 	implements IFormController, EventListener, ValueChangeListener, WTableModelListener, ASyncProcess
 {
