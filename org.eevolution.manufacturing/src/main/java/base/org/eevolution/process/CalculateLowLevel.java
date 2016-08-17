@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
-import org.compiere.util.DB;;
+import org.compiere.util.DB;
 import org.compiere.util.Trx;
 import org.eevolution.model.MPPProductBOMLine;
 
