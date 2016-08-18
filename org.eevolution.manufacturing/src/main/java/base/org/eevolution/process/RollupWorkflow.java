@@ -64,9 +64,10 @@ public class RollupWorkflow extends RollupWorkflowAbstract {
     protected String doIt() throws Exception {
         MAcctSchema accountSchema = MAcctSchema.get(getCtx(), getAccountingSchemaId());
         routingService = RoutingServiceFactory.get().getRoutingService(getAD_Client_ID());
-        getProducts().stream()
-                .filter(product -> product != null)
-                .forEach(product -> {
+        Arrays.stream(getProductIds())
+                .filter(productId -> productId > 0)
+                .forEach(productId -> {
+                    MProduct product = MProduct.get(getCtx() , productId);
                     log.info("Product: " + product);
                     int workflowId = 0;
                     MPPProductPlanning productPlanning = null;
@@ -118,7 +119,7 @@ public class RollupWorkflow extends RollupWorkflowAbstract {
      * get products
      * @return
      */
-    private List<MProduct> getProducts() {
+    private int[] getProductIds() {
         List<Object> params = new ArrayList<Object>();
         StringBuffer whereClause = new StringBuffer("AD_Client_ID=?");
         params.add(getAD_Client_ID());
@@ -140,11 +141,10 @@ public class RollupWorkflow extends RollupWorkflowAbstract {
             params.add(getProductCategoryId());
         }
 
-        List<MProduct> products = new Query(getCtx(), MProduct.Table_Name, whereClause.toString(), get_TrxName())
+        return new Query(getCtx(), MProduct.Table_Name, whereClause.toString(), get_TrxName())
                 .setOrderBy(MProduct.COLUMNNAME_LowLevel)
                 .setParameters(params)
-                .list();
-        return products;
+                .getIDs();
     }
 
     /**

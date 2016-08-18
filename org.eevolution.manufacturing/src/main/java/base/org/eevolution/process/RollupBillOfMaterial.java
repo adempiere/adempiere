@@ -70,10 +70,10 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 		// Cost Roll-up for all levels
 		for (int lowLevel = maxLowLevel; lowLevel >= 0; lowLevel--)
 		{
-			getProducts(lowLevel)
-				.stream()
-				.filter(product -> product != null)
-				.forEach(product -> {
+			Arrays.stream(getProductIds(lowLevel))
+				.filter(productId -> productId > 0)
+				.forEach(productId -> {
+				MProduct product = MProduct.get(getCtx() , productId);
 				I_PP_Product_Planning productPlanning = MPPProductPlanning.find(getCtx(), getOrganizationId(),
 						getWarehouseId(), // M_Warehouse_ID
 						getResourcePlantId(), // S_Resource_ID
@@ -143,18 +143,17 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 		//for (MPPProductBOMLine bomLine : bom.getLines())
 		//{
 		Arrays.stream(bom.getLines())
-			.filter(bomLine -> bomLine != null && !bomLine.isCoProduct())
+			.filter(bomLine -> bomLine != null && bomLine.isCoProduct())
 			.forEach(bomLine -> {
 			final BigDecimal costPrice = baseDimension.getCurrentCostPriceLL().multiply(bomLine.getCostAllocationPerc(true));
-			//
 			// Get/Create Cost
             MCost dimension = MCost.getDimension(
                     (MProduct)bomLine.getM_Product(),
-                    baseDimension.getC_AcctSchema_ID() ,
-                    baseDimension.getAD_Org_ID() ,
-                    baseDimension.getM_Warehouse_ID() ,
+                    baseDimension.getC_AcctSchema_ID(),
+                    baseDimension.getAD_Org_ID(),
+                    baseDimension.getM_Warehouse_ID(),
                     0 , // ASI
-                    baseDimension.getM_CostType_ID() ,
+                    baseDimension.getM_CostType_ID(),
                     baseDimension.getM_CostElement_ID());
 
 			if (dimension == null)
@@ -189,6 +188,7 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 		AtomicReference<BigDecimal> costPriceLowLevel =  new AtomicReference<>(Env.ZERO);
 		if(bom == null)
 			return costPriceLowLevel.get();
+
 		Arrays.stream(bom.getLines())
 			.filter(bomLine -> bomLine != null && !bomLine.isCoProduct())
 			.forEach(bomline -> {
@@ -233,11 +233,10 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 		return costDimension.toQuery(MCost.class, trxName).list();
 	}
 
-	private List<MProduct> getProducts(int lowLevel)
+	private int[] getProductIds(int lowLevel)
 	{
 		List<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer("AD_Client_ID=?")
-						.append(" AND ").append(MProduct.COLUMNNAME_LowLevel).append("=?");
+		StringBuffer whereClause = new StringBuffer("AD_Client_ID=?").append(" AND ").append(MProduct.COLUMNNAME_LowLevel).append("=?");
 		params.add(getAD_Client_ID());
 		params.add(lowLevel);
 		whereClause.append(" AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
@@ -261,7 +260,7 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 
 		return new Query(getCtx(),MProduct.Table_Name, whereClause.toString(), get_TrxName())
 		.setParameters(params)
-		.list();
+		.getIDs();
 	}
 	
 	/**
