@@ -23462,6 +23462,16 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="20">17</Data>
       </PO>
     </Step>
+    <Step SeqNo="10910" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="286" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="10940" StepType="AD">
+      <PO AD_Table_ID="376" Action="U" Record_ID="107" Table="AD_Form">
+        <Data AD_Column_ID="4599" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
     <Step SeqNo="10950" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53834" Table="AD_Process">
         <Data AD_Column_ID="63488" Column="AD_Browse_ID" isOldNull="true">50052</Data>
