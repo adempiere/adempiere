@@ -18,6 +18,7 @@
 
 package org.eevolution.form;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -33,9 +34,11 @@ import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
+import java.beans.PropertyChangeListener;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.compiere.model.GridField;
 import org.eevolution.grid.BrowserSearch;
+import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Row;
@@ -46,8 +49,8 @@ import org.zkoss.zul.Row;
  * 		<li>BR [ 340 ] Smart Browse context is changed from table
  * 		@see https://github.com/adempiere/adempiere/issues/340
  */
-public class WBrowserSearch extends BrowserSearch implements ValueChangeListener {
-	
+public class WBrowserSearch extends BrowserSearch implements ValueChangeListener , PropertyChangeListener {
+
 	/**
 	 *	Dynamic generated Parameter panel.
 	 *  @param WindowNo window
@@ -68,7 +71,18 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 		super(WindowNo, p_AD_Browse_ID, columns);
 		initComponents();
 	}
-	
+
+	//Layout Mode
+	private int cols = 0;
+	private ArrayList<WEditor>	m_wEditors;
+	private ArrayList<WEditor>	m_wEditors_To;		//	for ranges
+	private ArrayList<Label> 	m_separators;
+	/**	Rows for Parameters	*/
+	private Rows 	rows;
+	private Row		currentRow;
+	//
+	private Grid 	centerPanel;
+	private Panel	mainPanel;
 	/** Parameters */
 	private LinkedHashMap<Object, Object> m_search = new LinkedHashMap<Object, Object>();
 	private String width;
@@ -117,19 +131,6 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 		return mainPanel;
 	}
 
-	//Layout Mode
-	private int cols = 0;
-	//
-	private ArrayList<WEditor>	m_wEditors;
-	private ArrayList<WEditor>	m_wEditors_To;		//	for ranges
-	private ArrayList<Label> 	m_separators;
-	/**	Rows for Parameters	*/
-	private Rows 	rows;
-	private Row		currentRow;
-	//
-	private Grid 	centerPanel;
-	private Panel	mainPanel;
-
 	/**
 	 *  Dispose
 	 */
@@ -155,6 +156,8 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 		editor.dynamicDisplay();
 		//  MField => VEditor - New Field value to be updated to editor
 		field.addPropertyChangeListener(editor);
+		field.addPropertyChangeListener(this);
+
 		//	Set Default Value
 		Object defaultObject = field.getDefault();
 		editor.setValue(defaultObject);
@@ -196,6 +199,7 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 		WEditor editor2 = WebEditorFactory.getEditor(field_To, false);
 		//  New Field value to be updated to editor
 		field_To.addPropertyChangeListener(editor2);
+		field_To.addPropertyChangeListener(this);
 		editor2.dynamicDisplay();
 		//	
 		Object defaultObject2 = field_To.getDefault();
@@ -220,7 +224,7 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 	}
 	
 	/**
-	 * Congure columns
+	 * Configure columns
 	 * @param field
 	 * @param field_To
 	 */
@@ -237,6 +241,57 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 			cols = 0;
 			currentRow = new Row();
 			rows.appendChild(currentRow);
+		}
+	}
+
+	/**
+	 * Dynamic Display
+	 */
+	public void dynamicDisplay() {
+		for(int i = 0; i < m_wEditors.size(); i++) {
+			//WEditor editor = m_wEditors.get(i);
+			GridField mField = getField(i);
+			if (mField.isDisplayed(true)) {
+				if (!m_wEditors.get(i).isVisible()) {
+					m_wEditors.get(i).setVisible(true);
+					if (mField.isRange()) {
+						m_separators.get(i).setVisible(true);
+						m_wEditors_To.get(i).setVisible(true);
+					}
+				}
+
+				Object value = mField.getValue();
+				Object defaultValue = mField.getDefault();
+				if ((value == null || value.toString().length() == 0)
+						&& defaultValue != null) {
+					mField.setValue(defaultValue, true);
+					m_wEditors.get(i).setValue(defaultValue);
+				}
+				boolean rw = mField.isEditablePara(true); // r/w - check if field is Editable
+				m_wEditors.get(i).setReadWrite(rw);
+				m_wEditors.get(i).dynamicDisplay();
+				//	FR [ 349 ]
+				if (mField.isRange()) {
+					//WEditor editorTo = m_wEditors_To.get(i);
+					GridField gridFieldTo = getField_To(i);
+					Object valueTo = gridFieldTo.getValue();
+					Object defaultValueTo = gridFieldTo.getDefault();
+					if ((valueTo == null || valueTo.toString().length() == 0)
+							&& defaultValueTo != null) {
+						gridFieldTo.setValue(defaultValueTo, true);
+						m_wEditors_To.get(i).setValue(defaultValueTo);
+					}
+					rw = gridFieldTo.isEditablePara(true); // r/w - check if field is Editable
+					m_wEditors_To.get(i).setReadWrite(rw);
+					m_wEditors_To.get(i).dynamicDisplay();
+				}
+			} else if (m_wEditors.get(i).isVisible()) {
+				m_wEditors.get(i).setVisible(false);
+				if (mField.isRange()) {
+					m_separators.get(i).setVisible(false);
+					m_wEditors_To.get(i).setVisible(false);
+				}
+			}
 		}
 	}
 
@@ -281,67 +336,35 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 	 */
 	public void valueChange(ValueChangeEvent evt) {
 		GridField changedField = null;
-		String propertyName = evt.getPropertyName();
 		//	Set GridField
 		if (evt.getSource() instanceof WEditor) {
 			changedField = ((WEditor) evt.getSource()).getGridField();
-			propertyName = changedField.getColumnNameAlias();
 		}
-		//	Change Dependents
-		fieldChange(changedField, evt.getNewValue(), propertyName);
-	}
-	
-	/**
-	 * Dynamic Display
-	 */
-	public void dynamicDisplay() {
-		for(int i = 0; i < m_wEditors.size(); i++) {
-			WEditor editor = m_wEditors.get(i);
-			GridField mField = editor.getGridField();
-			if (mField.isDisplayed(true)) {
-				if (!editor.isVisible()) {
-					editor.setVisible(true);
-					if (mField.isRange()) {
-						m_separators.get(i).setVisible(true);
-						m_wEditors_To.get(i).setVisible(true);
-					}
-				}
+		else
+			return;
 
-				Object value = mField.getValue();
-				Object defaultValue = mField.getDefault();
-				if ((value == null || value.toString().length() == 0)
-						&& defaultValue != null) {
-					mField.setValue(defaultValue, true);
-					editor.setValue(defaultValue);
-				}
-				boolean rw = mField.isEditablePara(true); // r/w - check if field is Editable
-				editor.setReadWrite(rw);
-				editor.dynamicDisplay();
-				//	FR [ 349 ]
-				if (mField.isRange()) {
-					WEditor editorTo = m_wEditors_To.get(i);
-					GridField gridFieldTo = editorTo.getGridField();
-					Object valueTo = gridFieldTo.getValue();
-					Object defaultValueTo = gridFieldTo.getDefault();
-					if ((valueTo == null || valueTo.toString().length() == 0)
-							&& defaultValueTo != null) {
-						gridFieldTo.setValue(defaultValueTo, true);
-						editorTo.setValue(defaultValueTo);
-					}
-					rw = gridFieldTo.isEditablePara(true); // r/w - check if field is Editable
-					editorTo.setReadWrite(rw);
-					editorTo.dynamicDisplay();
-				}
-			} else if (editor.isVisible()) {
-				editor.setVisible(false);
-				if (mField.isRange()) {
-					m_separators.get(i).setVisible(false);
-					m_wEditors_To.get(i).setVisible(false);
-				}
-			}
-		}			
+		//  Multiple selection should not be enabled for criteria fields
+		//  Sync the field with the editor
+		//  Deal with new null values. Some editors return "" instead of null
+		if ((evt.getNewValue() == null || evt.getNewValue().toString().isEmpty())
+				&& evt.getOldValue() != null && evt.getOldValue().toString().length() > 0)
+		{
+			//  #283 Set value to null - veto if the field is mandatory
+			if (!changedField.getVO().IsMandatory)
+				changedField.setValue(null,false); //	-> PropertyChanged -> dynamicDisplay
+			else
+				throw new WrongValueException("FillMandatory");
+		}
+		else
+		{
+			// The new value is not null or an empty string - save if it is different than the
+			// old value or ignore the change
+			if (evt.getNewValue() != null && !evt.getNewValue().equals(evt.getOldValue()))
+				changedField.setValue(evt.getNewValue(),false);	//	-> PropertyChanged -> dynamicDisplay
+		}
 	}
-	
+
+
 	@Override
 	public Object getValue(int index) {
 		WEditor editor = m_wEditors.get(index);
@@ -391,5 +414,35 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 	 */
 	public LinkedHashMap<Object, Object> getParameters() {
 		return m_search;
+	}
+
+	/**
+	 * get Parameter Value
+	 *
+	 * @param id
+	 * @return Object Value
+	 */
+	public Object getParamenterValue(Object key) {
+		WEditor editor = (WEditor) m_search.get(key);
+		if (editor != null)
+			return editor.getValue();
+		else
+			return null;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		GridField changedField = null;
+		//	Set GridField
+		String propertyName = evt.getPropertyName();
+		if (evt.getSource() instanceof GridField) {
+			changedField = ((GridField) evt.getSource());
+			propertyName = changedField.getColumnNameAlias();
+		}
+		else
+			return;
+
+		//	Change Dependents
+		fieldChange(changedField, evt.getNewValue(), propertyName);
 	}
 }

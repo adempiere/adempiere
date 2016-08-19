@@ -404,7 +404,7 @@ public abstract class ProcessParameter {
 					log.fine(columnName + " changed - "
 						+ field.getColumnName() + " set to null");
 					//  invalidate current selection
-					field.setValue(null, true);
+					mLookup.refresh();
 				}
 			}
 		}

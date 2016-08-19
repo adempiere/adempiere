@@ -45,8 +45,7 @@ import org.eevolution.grid.BrowserSearch;
  * 		@see https://github.com/adempiere/adempiere/issues/340
  * 
  */
-public class VBrowserSearch extends BrowserSearch implements 
-		VetoableChangeListener, PropertyChangeListener {
+public class VBrowserSearch extends BrowserSearch implements VetoableChangeListener, PropertyChangeListener {
 
 	/**
 	 *	Dynamic generated Parameter panel.
@@ -78,11 +77,13 @@ public class VBrowserSearch extends BrowserSearch implements
 	private BorderLayout 	mainLayout;
 	private ALayout			centerLayout;
 	private CPanel 			centerPanel;
-	//	Main Panel
 	private CPanel			mainPanel;
 	/** Parameters */
 	private LinkedHashMap<Object, Object> m_search = new LinkedHashMap<Object, Object>();
 
+	/**
+	 * Initialize components
+	 */
 	@Override
 	public void initComponents() {
 		if(mainPanel != null)
@@ -167,6 +168,8 @@ public class VBrowserSearch extends BrowserSearch implements
 		VEditor vEditor2 = VEditorFactory.getEditor(field_To, false);
 		//  New Field value to be updated to editor
 		field_To.addPropertyChangeListener(vEditor2);
+		field_To.addPropertyChangeListener(this);
+
 		//	Set Default Value
 		Object defaultObject2 = field_To.getDefault();
 		vEditor2.setValue(defaultObject2);
@@ -191,7 +194,8 @@ public class VBrowserSearch extends BrowserSearch implements
 		if(field_To != null) {
 			columnsToAdd += 2;
 		}
-		if((cols + columnsToAdd) > maxToAdd) {
+		//	Verify if is new row or not
+		if((cols + columnsToAdd) > maxToAdd ) {
 			cols = 0;
 			row ++;
 		}
@@ -203,17 +207,6 @@ public class VBrowserSearch extends BrowserSearch implements
 	 * 	@exception PropertyVetoException if the recipient wishes to roll back.
 	 */
 	public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
-//		GridField changedField = null;
-//		String propertyName = evt.getPropertyName();
-//		//	Set GridField
-//		if (evt.getSource() instanceof VEditor) {
-//			changedField = ((VEditor) evt.getSource()).getField();
-//			propertyName = changedField.getColumnNameAlias();
-//		}
-//		
-//		//	Change Dependents
-//		fieldChange(changedField, evt.getNewValue(), propertyName);
-
 		GridField changedField = null;
 		//	Set GridField
 		if (evt.getSource() instanceof VEditor) {
@@ -223,7 +216,6 @@ public class VBrowserSearch extends BrowserSearch implements
 			return;
 
 		//  Multiple selection should not be enabled for criteria fields
-
 		//  Sync the field with the editor
 		//  Deal with new null values. Some editors return "" instead of null
 		if ((evt.getNewValue() == null || evt.getNewValue().toString().isEmpty()) 
@@ -246,7 +238,6 @@ public class VBrowserSearch extends BrowserSearch implements
 
 	@Override
 	public void dynamicDisplay() {
-		//	
 		Component[] comps = centerPanel.getComponents();
 		for (int i = 0; i < comps.length; i++) {
 			Component comp = comps[i];
@@ -265,6 +256,7 @@ public class VBrowserSearch extends BrowserSearch implements
 							comp.setVisible(true); // visibility
 							if (field.isRange())
 								m_separators.get(index).setText(" - ");
+								comp.setVisible(true);
 						}
 						Object value = field.getValue();
 						Object defaultValue = field.getDefault();
@@ -278,7 +270,7 @@ public class VBrowserSearch extends BrowserSearch implements
 
 						if (field.isRange()) {
 							m_vEditors_To.get(index).setReadWrite(rw);
-							GridField gridFieldTo = m_vEditors_To.get(index).getField();
+							GridField gridFieldTo = getField_To(index);
 							Object valueTo = gridFieldTo.getValue();
 							Object defaultValueTo = gridFieldTo.getDefault();
 							if ((valueTo == null || valueTo.toString().length() == 0)
@@ -292,8 +284,10 @@ public class VBrowserSearch extends BrowserSearch implements
 					} else {
 						if (comp.isVisible()) {
 							comp.setVisible(false);
-							if (field.isRange())
+							if (field.isRange()) {
 								m_separators.get(index).setText("");
+								m_vEditors_To.get(i).setVisible(false);
+							}
 						}
 					}
 				}					
@@ -368,12 +362,21 @@ public class VBrowserSearch extends BrowserSearch implements
 			editor.setValue(value);
 	}
 
+	/**
+	 * Set Parameter
+	 * @param name
+	 * @param value
+	 */
 	public void setParameter(Object name, Object value) {
 		if (value != null) {
 			m_search.put(name, value);
 		}
 	}
 
+	/**
+	 * Get Parameters of Search Panel
+	 * @return
+	 */
 	public LinkedHashMap<Object, Object> getParameters() {
 		return m_search;
 	}
