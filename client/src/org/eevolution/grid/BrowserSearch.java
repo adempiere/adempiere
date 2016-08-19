@@ -382,12 +382,12 @@ public abstract class BrowserSearch {
 					log.fine(columnName + " changed - "
 						+ field.getColumnName() + " set to null");
 					//  invalidate current selection
-					field.setValue(null, true);
+					mLookup.refresh();
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Set to context Value
 	 * @param value
@@ -539,7 +539,7 @@ public abstract class BrowserSearch {
 	 * @return
 	 */
 	public GridField getField_To(int index) {
-		return m_mFields.get(index);
+		return m_mFields_To.get(index);
 	}
 	
 	/**
