@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================= -->
-<!-- Adempiere Installer build file                 -->
+<!-- ADempiere Installer build file                -->
 <!-- ============================================= -->
-<!-- $Header: /cvs/adempiere/install/build.xml,v 1.7 2006/07/24 08:20:55 comdivision Exp $-->
 
 <project name="install" default="installDistribution" basedir=".">
 
   <description>
-	This buildfile is used to create the Adempiere installer.
+	This buildfile is used to create the ADempiere installer.
   </description>
 
   <!--<property environment="env"/>-->
@@ -219,8 +218,8 @@
 	  <fileset dir="${dbStartup.dir}/oracle" includes="*.sql"/>
 	  <fileset dir="../sqlj/oracle/"/>
 	</copy>
-	<copy todir="${build.dir}/Adempiere/utils/postgresql">
-	  <fileset dir="${dbStartup.dir}/postgresql" includes="*.sql"/>
+	<copy todir="${build.dir}/Adempiere/utils/PostgreSQL">
+	  <fileset dir="${dbStartup.dir}/PostgreSQL" includes="*.sql"/>
 	  <fileset dir="../sqlj/postgresql/"/>
 	</copy>
 	<copy todir="${build.dir}/Adempiere/utils/oracleXE">
@@ -296,21 +295,20 @@
   	<tar longfile="gnu" tarfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz"
 	  	compression="gzip" >
   		<tarfileset dir="${build.dir}" includes="Adempiere/**" excludes="Adempiere/**/*.sh" >
-  		    </tarfileset>
+  		</tarfileset>
   		<!-- <tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh" filemode="755"> -->
   		<tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh">
-  		   </tarfileset>
+  		</tarfileset>
 	</tar>  	
 
 	<!-- Create Checksums		-->
-  	
+
   	<checksum file="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz"/>
   	<sleep milliseconds="2000"/>
   	<loadfile property="myfile" srcFile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz.MD5">
   	     <filterchain>
   	        <striplinebreaks/>
   	      </filterchain>
-  	       
   	 </loadfile>  		
   	 <concat destfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz.MD5">${myfile} Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz</concat>
   		<!-- Test with md5sum -c Adempiere_251.zip.MD5	-->
@@ -322,7 +320,6 @@
   	  	   </filterchain>  	  	       
   	  	 </loadfile>  	
   		<concat destfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip.MD5">${myfile2} Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip</concat>
-
   </target>
 
   <target name="clean" description="deletes build">
