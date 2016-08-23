@@ -191,10 +191,8 @@ public class WQueryBPartner extends WPOSQuery {
 		fieldName.setWidth("120px");
 		fieldName.setStyle(WPOS.FONTSIZESMALL);
 
-		// New Line
-		row = rows.newRow();
 		Label labelName2 = new Label(Msg.translate(ctx, "Name2"));
-		row.appendChild(labelName.rightAlign());
+		row.appendChild(labelName2.rightAlign());
 		labelName2.setStyle(WPOS.FONTSIZESMALL);
 		fieldName2 = new WPOSTextField(null, posPanel.getKeyboard());
 		row.appendChild(fieldName2);
@@ -418,51 +416,51 @@ public class WQueryBPartner extends WPOSQuery {
 		}
 		else if(e.getTarget().equals(fieldName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 			m_Text = showKeyboard(e);
-			if(showKeyboard(e).length() > 0)
+			if(m_Text.length() > 0)
 				fieldName.setValue(m_Text);
 			fieldName.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldName2.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
 			m_Text = showKeyboard(e);
-			if(showKeyboard(e).length() > 0)
+			if(m_Text.length() > 0)
 				fieldName2.setValue(m_Text);
 			fieldName2.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldContact.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			m_Text = showKeyboard(e);
-			if(showKeyboard(e).length() > 0)
+			if(m_Text.length() > 0)
 				fieldContact.setValue(m_Text);
 			fieldContact.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldValue.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			m_Text = showKeyboard(e);
-			if(showKeyboard(e).length() > 0)
+			if(m_Text.length() > 0)
 				fieldValue.setValue(m_Text);
 			fieldValue.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldTaxID.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			m_Text = showKeyboard(e);
-			if(showKeyboard(e).length() > 0)
+			if(m_Text.length() > 0)
 				fieldTaxID.setValue(m_Text);
 			fieldTaxID.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldEmail.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			m_Text = showKeyboard(e);
-			if(showKeyboard(e).length() > 0)
+			if(m_Text.length() > 0)
 				fieldEmail.setValue(m_Text);
 			
 			fieldEmail.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldCity.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			m_Text = showKeyboard(e);
-			if(showKeyboard(e).length() > 0)
+			if(m_Text.length() > 0)
 				fieldCity.setValue(m_Text);
 			refresh();
 			fieldCity.setFocus(true);
 		}
 		else if(e.getTarget().equals(fieldPhone.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
 			m_Text = showKeyboard(e);
-			if(showKeyboard(e).length() > 0)
+			if(m_Text.length() > 0)
 				fieldPhone.setValue(m_Text);
 			fieldPhone.setFocus(true);
 		}
