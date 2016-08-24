@@ -33,7 +33,7 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160803L;
+	private static final long serialVersionUID = 20160824L;
 
     /** Standard Constructor */
     public X_WM_InOutBoundLine (Properties ctx, int WM_InOutBoundLine_ID, String trxName)
@@ -581,6 +581,34 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_FreightCategory)MTable.get(getCtx(), org.compiere.model.I_M_FreightCategory.Table_Name)
+			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
+
+	/** Set Freight Category.
+		@param M_FreightCategory_ID 
+		Category of the Freight
+	  */
+	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
+	{
+		if (M_FreightCategory_ID < 1) 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
+	}
+
+	/** Get Freight Category.
+		@return Category of the Freight
+	  */
+	public int getM_FreightCategory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_Locator getM_LocatorTo() throws RuntimeException
     {
 		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
@@ -660,6 +688,34 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Shipper)MTable.get(getCtx(), org.compiere.model.I_M_Shipper.Table_Name)
+			.getPO(getM_Shipper_ID(), get_TrxName());	}
+
+	/** Set Shipper.
+		@param M_Shipper_ID 
+		Method or manner of product delivery
+	  */
+	public void setM_Shipper_ID (int M_Shipper_ID)
+	{
+		if (M_Shipper_ID < 1) 
+			set_Value (COLUMNNAME_M_Shipper_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
+	}
+
+	/** Get Shipper.
+		@return Method or manner of product delivery
+	  */
+	public int getM_Shipper_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Shipper_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
@@ -34,7 +33,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20151112L;
+	private static final long serialVersionUID = 20160823L;
 
     /** Standard Constructor */
     public X_DD_OrderLine (Properties ctx, int DD_OrderLine_ID, String trxName)
@@ -44,17 +43,17 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
         {
 			setC_UOM_ID (0);
 // @#C_UOM_ID@
-			setDD_Order_ID (0);
 			setDD_OrderLine_ID (0);
+			setDD_Order_ID (0);
 			setIsDescription (false);
 // N
 			setIsInvoiced (false);
 // N
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM DD_OrderLine WHERE DD_Order_ID=@DD_Order_ID@
+			setM_LocatorTo_ID (0);
 			setM_Locator_ID (0);
 // @M_Locator_ID@
-			setM_LocatorTo_ID (0);
 			setProcessed (false);
 // N
 			setQtyEntered (Env.ZERO);
@@ -197,26 +196,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Confirmed Quantity.
-		@param ConfirmedQty 
-		Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty)
-	{
-		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
-	}
-
-	/** Get Confirmed Quantity.
-		@return Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -273,6 +252,71 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Confirmed Quantity.
+		@param ConfirmedQty 
+		Confirmation of a received quantity
+	  */
+	public void setConfirmedQty (BigDecimal ConfirmedQty)
+	{
+		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
+	}
+
+	/** Get Confirmed Quantity.
+		@return Confirmation of a received quantity
+	  */
+	public BigDecimal getConfirmedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Distribution Order Line.
+		@param DD_OrderLine_ID Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
+	{
+		if (DD_OrderLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
+	}
+
+	/** Get Distribution Order Line.
+		@return Distribution Order Line	  */
+	public int getDD_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException
+    {
+		return (org.eevolution.model.I_DD_Order)MTable.get(getCtx(), org.eevolution.model.I_DD_Order.Table_Name)
+			.getPO(getDD_Order_ID(), get_TrxName());	}
+
+	/** Set Distribution Order.
+		@param DD_Order_ID Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID)
+	{
+		if (DD_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
+	}
+
+	/** Get Distribution Order.
+		@return Distribution Order	  */
+	public int getDD_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Date Delivered.
 		@param DateDelivered 
 		Date when the product was delivered
@@ -322,51 +366,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	public Timestamp getDatePromised () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
-	}
-
-	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException
-    {
-		return (org.eevolution.model.I_DD_Order)MTable.get(getCtx(), org.eevolution.model.I_DD_Order.Table_Name)
-			.getPO(getDD_Order_ID(), get_TrxName());	}
-
-	/** Set Distribution Order.
-		@param DD_Order_ID Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID)
-	{
-		if (DD_Order_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
-	}
-
-	/** Get Distribution Order.
-		@return Distribution Order	  */
-	public int getDD_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Distribution Order Line.
-		@param DD_OrderLine_ID Distribution Order Line	  */
-	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
-	{
-		if (DD_OrderLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
-	}
-
-	/** Get Distribution Order Line.
-		@return Distribution Order Line	  */
-	public int getDD_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Description.
@@ -502,34 +501,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return bd;
 	}
 
-	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
-    {
-		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
-			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
-
-	/** Set Attribute Set Instance.
-		@param M_AttributeSetInstance_ID 
-		Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
-	{
-		if (M_AttributeSetInstance_ID < 0) 
-			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
-	}
-
-	/** Get Attribute Set Instance.
-		@return Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstance_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_AttributeSetInstance getM_AttributeSetInstanceTo() throws RuntimeException
     {
 		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
@@ -558,29 +529,57 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Locator)MTable.get(getCtx(), org.compiere.model.I_M_Locator.Table_Name)
-			.getPO(getM_Locator_ID(), get_TrxName());	}
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
 
-	/** Set Locator.
-		@param M_Locator_ID 
-		Warehouse Locator
+	/** Set Attribute Set Instance.
+		@param M_AttributeSetInstance_ID 
+		Product Attribute Set Instance
 	  */
-	public void setM_Locator_ID (int M_Locator_ID)
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_Locator_ID < 1) 
-			set_Value (COLUMNNAME_M_Locator_ID, null);
+		if (M_AttributeSetInstance_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
-	/** Get Locator.
-		@return Warehouse Locator
+	/** Get Attribute Set Instance.
+		@return Product Attribute Set Instance
 	  */
-	public int getM_Locator_ID () 
+	public int getM_AttributeSetInstance_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Locator_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_FreightCategory)MTable.get(getCtx(), org.compiere.model.I_M_FreightCategory.Table_Name)
+			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
+
+	/** Set Freight Category.
+		@param M_FreightCategory_ID 
+		Category of the Freight
+	  */
+	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
+	{
+		if (M_FreightCategory_ID < 1) 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
+	}
+
+	/** Get Freight Category.
+		@return Category of the Freight
+	  */
+	public int getM_FreightCategory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -609,6 +608,34 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	public int getM_LocatorTo_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_LocatorTo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Locator)MTable.get(getCtx(), org.compiere.model.I_M_Locator.Table_Name)
+			.getPO(getM_Locator_ID(), get_TrxName());	}
+
+	/** Set Locator.
+		@param M_Locator_ID 
+		Warehouse Locator
+	  */
+	public void setM_Locator_ID (int M_Locator_ID)
+	{
+		if (M_Locator_ID < 1) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+	}
+
+	/** Get Locator.
+		@return Warehouse Locator
+	  */
+	public int getM_Locator_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Locator_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
