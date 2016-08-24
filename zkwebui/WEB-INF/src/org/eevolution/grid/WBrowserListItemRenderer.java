@@ -84,6 +84,8 @@ import org.zkoss.zul.ListitemRendererExt;
  *		@see https://github.com/adempiere/adempiere/issues/270
  *		<li>BR [ 347 ] ZK Smart Browse Error cast from Integer to BigDecimal loading table
  * 		@see https://github.com/adempiere/adempiere/issues/347
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/560">
+ * 		FR [ 560 ] SB on ZK have always editable the columns</a>
  */
 public class WBrowserListItemRenderer implements ListitemRenderer, EventListener, ListitemRendererExt , ValueChangeListener
 {
@@ -138,7 +140,6 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 	public WBrowserListItemRenderer(List< ? extends String> columnNames,WBrowserTable table)
 	{
 		super();
-		table = table;
 		WTableColumn tableColumn;
 
 		for (String columnName : columnNames)
@@ -169,29 +170,16 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 	}
 
 
-	/* (non-Javadoc)
-	 * @see org.zkoss.zul.ListitemRenderer#render(org.zkoss.zul.Listitem, java.lang.Object)
-	 */
-	public void render(Listitem item, Object data) throws Exception
-	{
+	@Override
+	public void render(Listitem item, Object data) throws Exception {
 		render((ListItem)item, data);
 	}
 
-	private Component getDisplayComponent(Object value, GridField gridField) {
-		Component component;
-		if (gridField.getDisplayType() == DisplayType.YesNo) {
-			component = createReadonlyCheckbox(value);
-		} else {
-			String text = getDisplayText(value, gridField);
-
-			Label label = new Label();
-			setLabelText(text, label);
-
-			component = label;
-		}
-		return component;
-	}
-
+	/**
+	 * Create a Read Only CheckBox
+	 * @param value
+	 * @return
+	 */
 	private Component createReadonlyCheckbox(Object value) {
 		Checkbox checkBox = new Checkbox();
 		if (value != null && "true".equalsIgnoreCase(value.toString()))
@@ -202,6 +190,12 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 		return checkBox;
 	}
 	
+	/**
+	 * Get Text for display
+	 * @param value
+	 * @param gridField
+	 * @return
+	 */
 	private String getDisplayText(Object value, GridField gridField)
 	{
 		if (value == null)
@@ -259,7 +253,7 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
     	}
     	else if (DisplayType.Image == gridField.getDisplayType())
     	{
-    		if (value == null || (Integer)value <= 0)
+    		if ((Integer)value <= 0)
     			return "";
     		else
     			return "...";
@@ -268,6 +262,11 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
     		return value.toString();
 	}
 	
+	/**
+	 * Set the label text
+	 * @param text
+	 * @param label
+	 */
 	private void setLabelText(String text, Label label) {
 		String display = text;
 		if (text != null && text.length() > MAX_TEXT_LENGTH)
@@ -281,6 +280,11 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 			label.setDynamicProperty("title", "");
 	}
 	
+	/**
+	 * Render Item
+	 * @param item
+	 * @param data
+	 */
 	private void render(ListItem item, Object data)
 	{
 		Listcell listcell = null;
@@ -340,17 +344,17 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 			return listcell;
 		//	
 		GridField gridField  = table.getGridFieldAt(rowIndex, columnIndex);
-		boolean isColumnVisible = Boolean.TRUE;
-
+		boolean isColumnVisible = true;
+		
 		if ( !m_tableColumns.isEmpty() )
 			isColumnVisible = isColumnVisible(getColumn(columnIndex));
 
         // are assigned to Table Columns
-		if (isColumnVisible && gridField != null)
-		{
-			boolean isCellEditable = !gridField.isReadOnly() && field != null;
-			if ( DisplayType.YesNo == browseField.getAD_Reference_ID())
-			{
+		if (isColumnVisible && gridField != null) {
+	        //	Set Read Only
+	        boolean isCellEditable = table.isCellEditable(rowIndex, columnIndex);
+			//	
+			if ( DisplayType.YesNo == browseField.getAD_Reference_ID()) {
 				//	BR [ 347 ]
 				boolean selected = false;
 				if(field != null) {
@@ -385,19 +389,16 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 				// set cell value to allow sorting
 				listcell.setValue((field == null ? "0" : field.toString()));
 
-				if (isCellEditable)
-				{
+				if (isCellEditable) {
 					NumberBox numberbox = new NumberBox(false);
 					numberbox.setFormat(format);
 					numberbox.setValue(field);
 					numberbox.setWidth("100px");
-					numberbox.setEnabled(true);
 					numberbox.setStyle("text-align:right; " + listcell.getStyle());
 					numberbox.addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(numberbox);
-				}
-				else
-				{
+					numberbox.setEnabled(true);
+				} else{
 					listcell.setLabel(format.format(((Number)(field==null?Env.ZERO:field)).doubleValue()));
 					ZkCssHelper.appendStyle(listcell, "text-align:right");
 				}
@@ -430,15 +431,14 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 		            || browseField.getAD_Reference_ID() == DisplayType.TextLong)
 			{
 				listcell.setValue((field == null ? "" : field.toString()));
-				if (isCellEditable)
-				{
+				if (isCellEditable) {
 					Textbox textbox = new Textbox();
 					textbox.setValue((field == null ? "" : field.toString()));
 					textbox.addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(textbox);
-				}
-				else
+				} else {
 					listcell.setLabel((field == null ? "" : field.toString()));
+				}
 
 			}
             else if (field instanceof org.adempiere.webui.component.Combobox)
@@ -492,7 +492,9 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 					}
 				}
 			}
-			else if (DisplayType.isLookup(browseField.getAD_Reference_ID()) || DisplayType.ID == browseField.getAD_Reference_ID())
+			else if ((DisplayType.isLookup(browseField.getAD_Reference_ID()) 
+						|| DisplayType.ID == browseField.getAD_Reference_ID()) 
+					&& !browseField.isKey())
 			{
 				if (isCellEditable)
 				{
@@ -572,26 +574,6 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 
 		return;
 	}   //  addColumn
-
-	/**
-	 *  Add Table Column.
-	 *  after adding a column, you need to set the column classes again
-	 *  (DefaultTableModel fires TableStructureChanged, which calls
-	 *  JTable.tableChanged .. createDefaultColumnsFromModel
-	 *  @param ColumnInfo for the column
-	 */
-	/*public void addColumn(ColumnInfo info)
-	{
-		WTableColumn tableColumn;
-
-		tableColumn = new WTableColumn();
-		tableColumn.setHeaderValue(Util.cleanAmp(info.getColHeader()));
-		setColumnVisibility(tableColumn, info.getVisibility());
-		m_tableColumns.add(tableColumn);
-
-		return;
-	}   //  addColumn
-	*/
 
 	/**
 	 * Get the number of columns.
@@ -784,11 +766,8 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 		return;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zkoss.zk.ui.event.EventListener#onEvent(org.zkoss.zk.ui.event.Event)
-	 */
-	public void onEvent(Event event) throws Exception
-	{
+	@Override
+	public void onEvent(Event event) throws Exception {
 		int col = -1;
 		int row = -1;
 		Object value = null;
@@ -797,8 +776,7 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 
 		Component source = event.getTarget();
 
-		if (isWithinListCell(source))
-		{
+		if (isWithinListCell(source)) {
 			row = getRowPosition(source);
 			col = getColumnPosition(source);
 
