@@ -25,7 +25,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
@@ -43,6 +42,8 @@ import org.eevolution.grid.BrowserSearch;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>BR [ 340 ] Smart Browse context is changed from table
  * 		@see https://github.com/adempiere/adempiere/issues/340
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/556">
+ * 		FR [ 556 ] Criteria Search on SB don't have a parameter like only information</a>
  * 
  */
 public class VBrowserSearch extends BrowserSearch implements VetoableChangeListener, PropertyChangeListener {
@@ -78,8 +79,6 @@ public class VBrowserSearch extends BrowserSearch implements VetoableChangeListe
 	private ALayout			centerLayout;
 	private CPanel 			centerPanel;
 	private CPanel			mainPanel;
-	/** Parameters */
-	private LinkedHashMap<Object, Object> m_search = new LinkedHashMap<Object, Object>();
 
 	/**
 	 * Initialize components
@@ -361,25 +360,6 @@ public class VBrowserSearch extends BrowserSearch implements VetoableChangeListe
 		if(editor != null)
 			editor.setValue(value);
 	}
-
-	/**
-	 * Set Parameter
-	 * @param name
-	 * @param value
-	 */
-	public void setParameter(Object name, Object value) {
-		if (value != null) {
-			m_search.put(name, value);
-		}
-	}
-
-	/**
-	 * Get Parameters of Search Panel
-	 * @return
-	 */
-	public LinkedHashMap<Object, Object> getParameters() {
-		return m_search;
-	}
 	
 	/**
 	 * get Parameter Value
@@ -388,7 +368,7 @@ public class VBrowserSearch extends BrowserSearch implements VetoableChangeListe
 	 * @return Object Value
 	 */
 	public Object getParamenterValue(Object key) {
-		VEditor editor = (VEditor) m_search.get(key);
+		VEditor editor = (VEditor) getParameters().get(key);
 		if (editor != null)
 			return editor.getValue();
 		else

@@ -200,7 +200,7 @@ public class WBrowser extends Browser implements IFormController,
 	private void statInit() {
 		searchGrid.init();
 		//	
-		if (m_Browse.getAD_Process_ID() > 0) {
+		if (getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
 			initProcessInfo();
 			//	FR [ 265 ]
@@ -233,7 +233,7 @@ public class WBrowser extends Browser implements IFormController,
 		//	
 		if (browserFields.size() == 0) {
 			FDialog.error(getWindowNo(), m_frame, "Error", "No Browse Fields");
-			log.log(Level.SEVERE, "No Browser for view=" + m_View.getName());
+			log.log(Level.SEVERE, "No Browser for view=" + getViewName());
 			return false;
 		}
 		return true;
@@ -633,8 +633,7 @@ public class WBrowser extends Browser implements IFormController,
 		//	Is Process ok
 		boolean isOk = false;
 		//	Valid Process, Selected Keys and process parameters
-		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
-		{
+		if (getAD_Process_ID() > 0 && getSelectedKeys() != null) {
 			parameterPanel.getProcessInfo().setAD_PInstance_ID(-1);
 			// FR [ 265 ]
 			if(parameterPanel.validateParameters() == null) {
@@ -720,7 +719,7 @@ public class WBrowser extends Browser implements IFormController,
 		try 
 		{	AMedia media = null;
 			File file = exportXLS(detail);
-			media = new AMedia(m_Browse.getName(), "xls",
+			media = new AMedia(getBrowserName(), "xls",
 					"application/vnd.ms-excel", file, true);
 			Filedownload.save(media);
 		} catch (Exception e) {
@@ -825,9 +824,9 @@ public class WBrowser extends Browser implements IFormController,
 	}
 	
 	@Override
-	public LinkedHashMap<Object, GridField> getPanelParameters() {
-		LinkedHashMap<Object, GridField> m_List = new LinkedHashMap<Object, GridField>();
-		for (Entry<Object, Object> entry : searchGrid.getParameters().entrySet()) {
+	public LinkedHashMap<String, GridField> getPanelParameters() {
+		LinkedHashMap<String, GridField> m_List = new LinkedHashMap<String, GridField>();
+		for (Entry<String, Object> entry : searchGrid.getParameters().entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
 			//	BR [ 251 ]
 			if(!editor.isVisible())

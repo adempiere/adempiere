@@ -209,7 +209,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 	 */
 	private void statInit() {
 		//	
-		if (m_Browse.getAD_Process_ID() > 0) {
+		if (getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
 			initProcessInfo();
 			processParameterPanel = new ProcessParameterPanel(getWindowNo(), getBrowseProcessInfo());
@@ -300,7 +300,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		//	
 		if (browserFields.size() == 0) {
 			ADialog.error(getWindowNo(), m_frame.getContainer(), "Error", "No Browse Fields");
-			log.log(Level.SEVERE, "No Browser for view=" + m_View.getName());
+			log.log(Level.SEVERE, "No Browser for view=" + getViewName());
 			return false;
 		}
 		return true;
@@ -480,7 +480,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		//	Is Process ok
 		boolean isOk = false;
 		//	Valid Process, Selected Keys and process parameters
-		if (m_Browse.getAD_Process_ID() > 0 && getSelectedKeys() != null)
+		if (getAD_Process_ID() > 0 && getSelectedKeys() != null)
 		{
 			processParameterPanel.getProcessInfo().setAD_PInstance_ID(-1);
 			// BR [ 249 ]
@@ -557,7 +557,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		bDelete.setEnabled(true);
 		Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
 
-		if (m_Browse.getAD_Process_ID() > 0)
+		if (getAD_Process_ID() > 0)
 			processParameterPanel.refreshContext();
 
 		executeQuery();
@@ -771,12 +771,13 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 	}
 	
 	@Override
-	public LinkedHashMap<Object, GridField> getPanelParameters() {
-		LinkedHashMap<Object, GridField> m_List = new LinkedHashMap<Object, GridField>();
-		for (Entry<Object, Object> entry : searchPanel.getParameters().entrySet()) {
+	public LinkedHashMap<String, GridField> getPanelParameters() {
+		LinkedHashMap<String, GridField> m_List = new LinkedHashMap<String, GridField>();
+		for (Entry<String, Object> entry : searchPanel.getParameters().entrySet()) {
 			VEditor editor = (VEditor) entry.getValue();
 			//	BR [ 251 ]
-			if(!((Component)editor).isVisible())
+			if(!((Component)editor).isVisible()
+					|| searchPanel.isInfoOnly(editor.getField().getColumnNameAlias()))
 				continue;
 			//	
 			GridField field = editor.getField();

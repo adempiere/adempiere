@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.eevolution.grid;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -36,6 +37,8 @@ import org.compiere.util.Msg;
  *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>BR [ 344 ] Smart Browse Search View is not MVC
  * 		@see https://github.com/adempiere/adempiere/issues/344
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/556">
+ * 		FR [ 556 ] Criteria Search on SB don't have a parameter like only information</a>
  */
 public abstract class BrowserSearch {
 	
@@ -49,8 +52,10 @@ public abstract class BrowserSearch {
 		//	Get parameters
 		m_WindowNo = WindowNo;
 		m_AD_Browse_ID = p_AD_Browse_ID;
-		m_mFields = new ArrayList<GridField>();
-		m_mFields_To = new ArrayList<GridField>();
+		fields = new ArrayList<GridField>();
+		fieldsTo = new ArrayList<GridField>();
+		fieldsInfoOnly = new HashMap<String, Boolean>();
+		m_search = new LinkedHashMap<String, Object>();
 		m_Columns = columns;
 		try {
 			//	Start Init
@@ -79,8 +84,11 @@ public abstract class BrowserSearch {
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(BrowserSearch.class);
 	//
-	private ArrayList<GridField>	m_mFields;
-	private ArrayList<GridField>	m_mFields_To;
+	private ArrayList<GridField>			fields;
+	private ArrayList<GridField>			fieldsTo;
+	private HashMap<String, Boolean>		fieldsInfoOnly;
+	/** Parameters */
+	private LinkedHashMap<String, Object> 	m_search;
 	//	Constants
 	/**	For one Column		*/
 	public static final int COLUMNS_1 = 1;
@@ -155,6 +163,26 @@ public abstract class BrowserSearch {
 	public abstract void setValue_To(int index, Object value);
 	
 	/**
+	 * Set Parameter
+	 * @param name
+	 * @param value
+	 */
+	public void setParameter(String name, Object value) {
+		if (value != null
+				&& !isInfoOnly(name)) {
+			m_search.put(name, value);
+		}
+	}
+
+	/**
+	 * Get Parameters of Search Panel
+	 * @return
+	 */
+	public LinkedHashMap<String, Object> getParameters() {
+		return m_search;
+	}
+	
+	/**
 	 * Is error
 	 * @return
 	 */
@@ -166,8 +194,8 @@ public abstract class BrowserSearch {
 	 *  Dispose
 	 */
 	public void dispose() {
-		m_mFields.clear();
-		m_mFields_To.clear();
+		fields.clear();
+		fieldsTo.clear();
 	}   //  dispose
 	
 	/**
@@ -184,6 +212,16 @@ public abstract class BrowserSearch {
 	 */
 	public void setColumns(int columns) {
 		m_Columns = columns;
+	}
+	
+	/**
+	 * Is Information only
+	 * @param columnName
+	 * @return
+	 */
+	public boolean isInfoOnly(String columnName) {
+		Boolean isInfoOnly = fieldsInfoOnly.get(columnName);
+		return isInfoOnly != null && isInfoOnly;
 	}
 	
 	/**
@@ -219,10 +257,10 @@ public abstract class BrowserSearch {
 		initComponents();		
 		//	clean up
 		if (hasParameters()) {
-			for (int i = 0; i < m_mFields.size(); i++) {
+			for (int i = 0; i < fields.size(); i++) {
 				//	Get Values
-				GridField field = (GridField) m_mFields.get(i);
-				GridField field_To = (GridField) m_mFields_To.get(i);
+				GridField field = (GridField) fields.get(i);
+				GridField field_To = (GridField) fieldsTo.get(i);
 				//	Create Fields
 				createViewField(field, field_To);
 			}
@@ -258,17 +296,18 @@ public abstract class BrowserSearch {
 	 */
 	private void createField (MBrowseField field) {
 		GridFieldVO voBase = createVO(field, false);
-
 		GridField gField = new GridField(voBase);
-		m_mFields.add(gField);
+		fields.add(gField);
+		//	Field Info Only
+		fieldsInfoOnly.put(gField.getColumnNameAlias(), field.isInfoOnly());
 		//
 		if (voBase.IsRange) {
 			GridFieldVO voBase_To = createVO(field, true);
 			GridField gField_To = new GridField(voBase_To);
 			//	
-			m_mFields_To.add(gField_To);
+			fieldsTo.add(gField_To);
 		} else {
-			m_mFields_To.add (null);
+			fieldsTo.add (null);
 		}
 	}	//	createField
 	
@@ -353,12 +392,12 @@ public abstract class BrowserSearch {
 	private void processDependencies (GridField changedField) {
 		String columnName = changedField.getColumnNameAlias();
 
-		for (GridField field : m_mFields) {
+		for (GridField field : fields) {
 			if (field == null || field == changedField)
 				continue;
 			verifyChangedField(field, columnName);
 		}
-		for (GridField field : m_mFields_To) {
+		for (GridField field : fieldsTo) {
 			if (field == null || field == changedField)
 				continue;
 			verifyChangedField(field, columnName);
@@ -427,13 +466,14 @@ public abstract class BrowserSearch {
 		 *  see - MTable.getMandatory
 		 */
 		StringBuffer sb = new StringBuffer();
-		int size = m_mFields.size();
+		int size = fields.size();
 		for (int i = 0; i < size; i++) {
-			GridField mField = (GridField) m_mFields.get(i);
+			GridField mField = (GridField) fields.get(i);
 			//	Validate
 			mField.validateValue();
 			//	check context
-			if (mField.isMandatory(true)) {
+			if (mField.isMandatory(true)
+					&& !isInfoOnly(mField.getColumnName())) {
 				Object data = getValue(i);
 				if (data == null 
 						|| data.toString().length() == 0) {
@@ -446,7 +486,7 @@ public abstract class BrowserSearch {
 					mField.setError(false);
 				}
 				//  Check for Range
-				GridField mField_To = (GridField) m_mFields_To.get(i);
+				GridField mField_To = (GridField) fieldsTo.get(i);
 				//	Validate
 				if (mField_To != null) {
 					Object data_To = getValue_To(i);
@@ -477,10 +517,10 @@ public abstract class BrowserSearch {
 	 * @see org.compiere.model.GridField#restoreValue()
 	 */
 	public void restoreContext() {
-		for (int i = 0; i < m_mFields.size(); i++) {
+		for (int i = 0; i < fields.size(); i++) {
 			//	Get Values
-			GridField mField = (GridField) m_mFields.get(i);
-			GridField mField_To = (GridField) m_mFields_To.get(i);
+			GridField mField = (GridField) fields.get(i);
+			GridField mField_To = (GridField) fieldsTo.get(i);
 			//	Restore
 			if (mField != null) {
 				mField.restoreValue();
@@ -500,8 +540,8 @@ public abstract class BrowserSearch {
 	 **/
 	public int getIndex(String columnName) {
 
-		for (int i = 0; i < m_mFields.size(); i++) {
-			if (m_mFields.get(i).getColumnName().equals(columnName)) {
+		for (int i = 0; i < fields.size(); i++) {
+			if (fields.get(i).getColumnName().equals(columnName)) {
 				return i;
 			}
 		}
@@ -516,8 +556,8 @@ public abstract class BrowserSearch {
 	 **/
 	public int getIndex_To(String columnName) {
 
-		for (int i = 0; i < m_mFields_To.size(); i++) {
-			if (m_mFields_To.get(i).getColumnName().equals(columnName)) {
+		for (int i = 0; i < fieldsTo.size(); i++) {
+			if (fieldsTo.get(i).getColumnName().equals(columnName)) {
 				return i;
 			}
 		}
@@ -530,7 +570,7 @@ public abstract class BrowserSearch {
 	 * @return
 	 */
 	public GridField getField(int index) {
-		return m_mFields.get(index);
+		return fields.get(index);
 	}
 	
 	/**
@@ -539,7 +579,7 @@ public abstract class BrowserSearch {
 	 * @return
 	 */
 	public GridField getField_To(int index) {
-		return m_mFields_To.get(index);
+		return fieldsTo.get(index);
 	}
 	
 	/**
