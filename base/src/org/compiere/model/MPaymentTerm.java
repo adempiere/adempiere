@@ -43,6 +43,21 @@ public class MPaymentTerm extends X_C_PaymentTerm
 {
 
 	/**
+	 * get Payment Term by default
+	 * @return Payment Term
+	 */
+	public static MPaymentTerm getPaymentTermByDefault(Properties ctx , String trxName) {
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(I_C_PaymentTerm.COLUMNNAME_IsDefault).append("=?");
+
+		return new Query(ctx, I_C_PaymentTerm.Table_Name, whereClause.toString(), trxName)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setParameters(true)
+				.first();
+	}
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2494915482340569386L;

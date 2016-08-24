@@ -29,8 +29,30 @@ import org.compiere.util.Util;
 public class MHRAttribute extends X_HR_Attribute
 {
 	private static final long serialVersionUID = 3783311896401143394L;
-	
-	
+
+	/**
+	 * Get Attribute to Invoice
+	 * @param ctx
+	 * @param partnerId
+	 * @param conceptId
+	 * @param validFrom
+	 * @param trxName
+	 * @return
+	 */
+	public static MHRAttribute getAttributeToInvoice(Properties ctx,int partnerId, int conceptId , Timestamp validFrom,  String trxName) {
+		StringBuilder whereClause = new StringBuilder("(");
+		whereClause.append(I_HR_Attribute.COLUMNNAME_C_BPartner_ID).append("=? OR ")
+				.append(I_HR_Attribute.COLUMNNAME_C_BPartner_ID).append(" IS NULL) AND ");
+		whereClause.append(I_HR_Attribute.COLUMNNAME_ValidFrom).append("<=? AND ")
+				.append("EXISTS (SELECT 1 FROM HR_Concept c WHERE HR_Attribute.HR_Concept_ID = c.HR_Concept_ID AND c.HR_Concept_ID=?)");
+
+		return new Query(ctx, I_HR_Attribute.Table_Name, whereClause.toString(), trxName)
+				.setParameters(partnerId, validFrom, conceptId)
+				.setOnlyActiveRecords(true)
+				.setOrderBy(I_HR_Attribute.COLUMNNAME_ValidFrom + " DESC")
+				.first();
+	}
+
 	/**
 	 * @deprecated since 3.5.3a
 	 * Get Concept by Value
