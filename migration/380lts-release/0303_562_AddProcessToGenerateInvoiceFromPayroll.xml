@@ -508,5 +508,10 @@
         <Data AD_Column_ID="74868" Column="IsAllowCopy" oldValue="true">false</Data>
       </PO>
     </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="54764" Table="AD_Column">
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" oldValue="@IsEmployee@='Y' | @IsInvoiced@='Y'">@IsEmployee@='Y' </Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
