@@ -24,9 +24,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.M_Element;
 import org.compiere.model.Query;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  * Class Model for Browse Field
@@ -37,7 +35,8 @@ import org.compiere.util.Env;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>BR [ 340 ] Smart Browse context is changed from table
  * 		@see https://github.com/adempiere/adempiere/issues/340
- *  
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/560">
+ * 		FR [ 560 ] SB on ZK have always editable the columns</a>
  */
 public class MBrowseField extends X_AD_Browse_Field {
 
@@ -229,7 +228,6 @@ public class MBrowseField extends X_AD_Browse_Field {
 		if (!success) {
 			return false;
 		}
-
 		return success;
 	}
 	
@@ -279,34 +277,19 @@ public class MBrowseField extends X_AD_Browse_Field {
 		return sb.toString();
 	} // toString
 	
-	public String getName()
-	{
-		final boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(),
-				"AD_Browse");
-		final String sql = "SELECT Name FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? AND AD_LANGUAGE=?";
-		return  baseLanguage ? super.getName() : DB.getSQLValueString(get_TrxName(),
-				sql, getAD_Browse_Field_ID(),
-				Env.getAD_Language(Env.getCtx()));
+	@Override
+	public String getName() {
+		return get_Translation(COLUMNNAME_Name);
 	}
 	
-	public String getDescription()
-	{
-		final boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(),
-				"AD_Browse");
-		final String sql = "SELECT Description FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? AND AD_LANGUAGE=?";
-		return  baseLanguage ? super.getDescription() : DB.getSQLValueString(get_TrxName(),
-				sql, getAD_Browse_Field_ID(),
-				Env.getAD_Language(Env.getCtx()));
+	@Override
+	public String getDescription() {
+		return get_Translation(COLUMNNAME_Description);
 	}
 	
-	public String getHelp()
-	{
-		final boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(),
-				"AD_Browse");
-		final String sql = "SELECT Help FROM AD_Browse_Field_Trl WHERE AD_Browse_Field_ID=? AND AD_LANGUAGE=?";
-		return  baseLanguage ? super.getHelp() : DB.getSQLValueString(get_TrxName(),
-				sql, getAD_Browse_Field_ID(),
-				Env.getAD_Language(Env.getCtx()));
+	@Override
+	public String getHelp() {
+		return get_Translation(COLUMNNAME_Help);
 	}
 
 }
