@@ -19,8 +19,8 @@
 package org.eevolution.form;
 
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import org.adempiere.webui.component.Column;
 import org.adempiere.webui.component.Columns;
@@ -34,7 +34,6 @@ import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
-import java.beans.PropertyChangeListener;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.compiere.model.GridField;
 import org.eevolution.grid.BrowserSearch;
@@ -48,6 +47,8 @@ import org.zkoss.zul.Row;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>BR [ 340 ] Smart Browse context is changed from table
  * 		@see https://github.com/adempiere/adempiere/issues/340
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/556">
+ * 		FR [ 556 ] Criteria Search on SB don't have a parameter like only information</a>
  */
 public class WBrowserSearch extends BrowserSearch implements ValueChangeListener , PropertyChangeListener {
 
@@ -83,8 +84,6 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 	//
 	private Grid 	centerPanel;
 	private Panel	mainPanel;
-	/** Parameters */
-	private LinkedHashMap<Object, Object> m_search = new LinkedHashMap<Object, Object>();
 	private String width;
 
 	/**
@@ -396,25 +395,6 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 		if(editor != null)
 			editor.setValue(value);
 	}
-	
-	/**
-	 * Set Parameter
-	 * @param name
-	 * @param value
-	 */
-	public void setParameter(Object name, Object value) {
-		if (value != null) {
-			m_search.put(name, value);
-		}
-	}
-
-	/**
-	 * Get Parameters of Search Panel
-	 * @return
-	 */
-	public LinkedHashMap<Object, Object> getParameters() {
-		return m_search;
-	}
 
 	/**
 	 * get Parameter Value
@@ -423,7 +403,7 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 	 * @return Object Value
 	 */
 	public Object getParamenterValue(Object key) {
-		WEditor editor = (WEditor) m_search.get(key);
+		WEditor editor = (WEditor) getParameters().get(key);
 		if (editor != null)
 			return editor.getValue();
 		else

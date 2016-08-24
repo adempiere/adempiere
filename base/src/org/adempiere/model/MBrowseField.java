@@ -46,8 +46,6 @@ public class MBrowseField extends X_AD_Browse_Field {
 	 */
 	private static final long serialVersionUID = 3076943543303710639L;
 
-	private GridField gridField;
-
 	private static final String CONTEXT_TABLE_PREFIX = "Table_";
 	/**
 	 *
@@ -129,7 +127,12 @@ public class MBrowseField extends X_AD_Browse_Field {
 						column.getAD_View_Column_ID()).first();
 	}
 	
-
+	/**
+	 * Get ID by Column Name
+	 * @param browse
+	 * @param columnName
+	 * @return
+	 */
 	public static int getIdByColumnName(MBrowse browse, String columnName) {
 		String whereClause = MBrowseField.COLUMNNAME_AD_Browse_ID + "=? AND EXISTS (SELECT 1 FROM AD_View_Column vc WHERE vc.AD_View_Column_ID=AD_Browse_Field.AD_View_Column_ID AND vc.ColumnName=?)";
 		return new Query(browse.getCtx(), MBrowseField.Table_Name, whereClause,
@@ -138,8 +141,6 @@ public class MBrowseField extends X_AD_Browse_Field {
 				.firstIdOnly();
 	}
 
-	/** Logger */
-	private static CLogger s_log = CLogger.getCLogger(MBrowseField.class);
 	/** Element */
 	private M_Element m_element = null;
 	/** MViewColumn */

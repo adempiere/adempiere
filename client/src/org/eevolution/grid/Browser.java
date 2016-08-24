@@ -138,16 +138,16 @@ public abstract class Browser {
 	}
 	
 	/** Smart Browse */
-	public MBrowse m_Browse = null;
+	private MBrowse m_Browse = null;
 	/** Smart View */
-	public MView m_View = null;
+	private MView m_View = null;
 
 	public static final int WINDOW_WIDTH = 1024; // width of the window
 
 	/** list of query columns */
-	public ArrayList<String> m_queryColumns = new ArrayList<String>();
+	private ArrayList<String> m_queryColumns = new ArrayList<String>();
 	/** list of query columns (SQL) */
-	public ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
+	private ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
 	
 	/** Parameters */
 	private ArrayList<Object> parameters;
@@ -305,10 +305,9 @@ public abstract class Browser {
 
 		browserFields = new ArrayList<MBrowseField>();
 		MBrowseField fieldKey =  m_Browse.getFieldKey();
-		if(fieldKey != null)
+		if(fieldKey != null) {
 			browserFields.add(fieldKey);
-		else
-		{
+		} else {
 			MViewColumn column = new MViewColumn(m_Browse.getCtx() , 0 , m_Browse.get_TrxName());
 			column.setName("Row");
 			column.setColumnSQL("'Row' AS \"Row\"");
@@ -319,9 +318,9 @@ public abstract class Browser {
 			browseField.setIsKey(true);
 			browseField.setIsReadOnly(false);
 		}
-		
+		//	
 		for (MBrowseField field : m_Browse.getDisplayFields()) {
-
+			//	
 			if (field.isQueryCriteria()) {
 				m_queryColumns.add(field.getName());
 			}
@@ -454,7 +453,7 @@ public abstract class Browser {
 	 * @return
 	 */
 	public boolean hasMandatoryParams() {
-		for (Entry<Object, GridField> entry : getPanelParameters().entrySet()) {
+		for (Entry<String, GridField> entry : getPanelParameters().entrySet()) {
 			GridField editor = (GridField) entry.getValue();
 			if(editor.isMandatory(true))
 				return true;
@@ -482,6 +481,30 @@ public abstract class Browser {
 	}
 	
 	/**
+	 * Get Process ID
+	 * @return
+	 */
+	public int getAD_Process_ID() {
+		return m_Browse.getAD_Process_ID();
+	}
+	
+	/**
+	 * Get View Name
+	 * @return
+	 */
+	public String getViewName() {
+		return m_View.getName();
+	}
+	
+	/**
+	 * Get Browser Name
+	 * @return
+	 */
+	public String getBrowserName() {
+		return m_Browse.getName();
+	}
+	
+	/**
 	 * FR [ 245 ]
 	 * FR [ 344 ] Add ColumnSQL like columns
 	 * Get Where Clause
@@ -496,7 +519,7 @@ public abstract class Browser {
 		StringBuilder sql = new StringBuilder(p_whereClause);
 
 		//	Valid null
-		LinkedHashMap<Object, GridField> panelParameters = getPanelParameters();
+		LinkedHashMap<String, GridField> panelParameters = getPanelParameters();
 		if(panelParameters == null
 		|| panelParameters.size() == 0) {
 			m_whereClause = sql.toString();
@@ -508,7 +531,7 @@ public abstract class Browser {
 
 		boolean onRange = false;
 
-		for (Entry<Object, GridField> entry : panelParameters.entrySet()) {
+		for (Entry<String, GridField> entry : panelParameters.entrySet()) {
 			GridField editor = (GridField) entry.getValue();
 			GridFieldVO field = editor.getVO();
 			if (!onRange) {
@@ -596,7 +619,7 @@ public abstract class Browser {
 		m_parameters_field = new ArrayList<GridFieldVO>();
 		boolean onRange = false;
 		
-		for (Entry<Object, GridField> entry : getPanelParameters().entrySet()) {
+		for (Entry<String, GridField> entry : getPanelParameters().entrySet()) {
 			GridField editor = (GridField) entry.getValue();
 			GridFieldVO field = editor.getVO();
 			if (!onRange) {
@@ -1248,7 +1271,7 @@ public abstract class Browser {
 	 * Get parameter
 	 * @return
 	 */
-	public abstract LinkedHashMap<Object, GridField> getPanelParameters();
+	public abstract LinkedHashMap<String, GridField> getPanelParameters();
 	
 	/**
 	 * Initialize Smart Browse
