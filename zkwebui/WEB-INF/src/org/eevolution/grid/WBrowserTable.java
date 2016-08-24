@@ -74,6 +74,8 @@ import org.zkoss.zul.ListModel;
  * 		@see https://github.com/adempiere/adempiere/issues/456
  *		<li>BR [ 460 ] Update context when you select a row in a SmartBrowser
  *		@see https://github.com/adempiere/adempiere/issues/460
+ *		<li><a href="https://github.com/adempiere/adempiere/issues/560">
+ * 		FR [ 560 ] SB on ZK have always editable the columns</a>
  */
 public class WBrowserTable extends Listbox implements IBrowserTable, TableValueChangeListener, WTableModelListener {	
 	/**
@@ -145,7 +147,11 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 	public void setData(ListModelTable model, List< ? extends String> columnNames)
 	{
 		WBrowserListItemRenderer rowRenderer = null;
-		if (columnNames != null && columnNames.size() > 0)
+		int size = 0;
+		if(columnNames != null)
+			size = columnNames.size();
+		//	
+		if (size > 0)
 		{
 	    	//	 instantiate our custom row renderer
 		    rowRenderer = new WBrowserListItemRenderer(this);
@@ -157,7 +163,7 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 	    this.setModel(model);
 	    if (rowRenderer != null)
 	    {
-	    	getModel().setNoColumns(columnNames.size());
+	    	getModel().setNoColumns(size);
 	    	this.setItemRenderer(rowRenderer);
 
 	    	//recreate listhead if needed
@@ -534,9 +540,7 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 	public int loadTable(ResultSet rs) {
 		int no = 0;
 		int row = 0;
-//		if (getLayout() == null)
-//			throw new UnsupportedOperationException("Layout not defined");
-
+		//	
 		clearTable();
 		try
 		{
@@ -597,16 +601,6 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 		logger.config("Row(rs)=" + getRowCount());
 		//	Return Row No
 		return no;
-	}
-
-	/**
-	 * @param col
-	 * @param columnClass
-	 * @return
-	 */
-	private boolean isColumnClassMismatch(int col, Class columnClass)
-	{
-		return !columnClass.equals(m_modelHeaderClass.get(col));
 	}
 
 	/**
@@ -836,8 +830,7 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 	/**
 	 *  Adding a new row with the totals
 	 */
-	public void addTotals()
-	{
+	public void addTotals() {
 		if (getRowCount() == 0 || this.browserRows.getNoViewColumns() == 0)
 			return;
 

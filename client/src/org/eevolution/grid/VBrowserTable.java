@@ -62,6 +62,8 @@ import org.eevolution.form.VBrowser;
  * 		@see https://github.com/adempiere/adempiere/issues/257
  * 		<li>BR [ 456 ] Smart Browser fill bad value for search
  * 		@see https://github.com/adempiere/adempiere/issues/456
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/560">
+ * 		FR [ 560 ] SB on ZK have always editable the columns</a>
  */
 public class VBrowserTable extends CTable implements IBrowserTable {
     /**
@@ -217,7 +219,7 @@ public class VBrowserTable extends CTable implements IBrowserTable {
         boolean isSelected = false;
         Object value = getValueAt(row, 0);
         if(value instanceof Boolean) {
-        	isSelected = ((Boolean) getValueAt(row, 0)).booleanValue();
+        	isSelected = ((Boolean) value).booleanValue();
         } else if(value instanceof IDColumn) {
         	isSelected = ((IDColumn) value).isSelected();
         }
@@ -364,8 +366,6 @@ public class VBrowserTable extends CTable implements IBrowserTable {
             m_minWidth.add(new Integer(30));
             tc.setHeaderRenderer(new VHeaderRenderer(displayType));
         }
-
-        //	log.fine( "Renderer=" + tc.getCellRenderer().toString() + ", Editor=" + tc.getCellEditor().toString());
     }   //  setColumnClass
 
     /**
@@ -587,7 +587,6 @@ public class VBrowserTable extends CTable implements IBrowserTable {
                 } else {
                     gridField.setValue(null, true);
                     setValueAt(row - 1, col , gridField);
-                    //setValueAt(null, row - 1, col);
                 }
             }
         }
