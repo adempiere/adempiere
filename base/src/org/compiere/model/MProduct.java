@@ -792,7 +792,16 @@ public class MProduct extends X_M_Product
 		{	
 			download.deleteEx(true);
 		}
-		
+		// @Trifon Delete Product Memo
+		List<MMemo> memos = new Query(getCtx(), I_AD_Memo.Table_Name, whereClause, get_TrxName())
+			.setClient_ID()
+			.setParameters( get_ID() )
+			.setOnlyActiveRecords( false )
+			.list();
+		for(MMemo memo : memos)
+		{	
+			memo.deleteEx( true );
+		}		
 		//
 		return delete_Accounting("M_Product_Acct"); 
 	}	//	beforeDelete
