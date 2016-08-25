@@ -51,24 +51,50 @@ public class FreightService implements FreightServiceInterface {
         return freightValid;
     }
 
+    /**
+     * get Freight Rate
+     * @param ctx
+     * @param shipperId
+     * @param freightCategoryId
+     * @param currencyId
+     * @param countryFromOptionalId
+     * @param regionFromOptionalId
+     * @param countryToOptionalId
+     * @param regionToOptionalId
+     * @param date
+     * @param trxName
+     * @return
+     */
     public BigDecimal getFreightRate(
             Properties ctx,
             int shipperId,
             int freightCategoryId,
             int currencyId,
-            Optional<Integer> countryOptionalId,
-            Optional<Integer> regionOptionalId,
+            Optional<Integer> countryFromOptionalId,
+            Optional<Integer> regionFromOptionalId,
+            Optional<Integer> countryToOptionalId,
+            Optional<Integer> regionToOptionalId,
             Timestamp date, String trxName) {
 
         Optional<MFreight> freightOptioonal = getFreightValid(ctx, shipperId, freightCategoryId, currencyId, date, trxName)
                 .stream()
                 .filter(freight -> {
-                    if (freight.getC_Country_ID() == 0 || (countryOptionalId.isPresent() && countryOptionalId.get() == freight.getC_Country_ID()))
+                    if (freight.getC_Country_ID() == 0 && freight.getTo_Country_ID() == 0)
+                        return true;
+                    else if (freight.getC_Country_ID() == 0 &&  (countryToOptionalId.isPresent() && countryToOptionalId.get() == freight.getTo_Country_ID()))
+                        return true;
+                    else if ((countryFromOptionalId.isPresent() && countryFromOptionalId.get() == freight.getC_Country_ID())
+                         &&  (countryToOptionalId.isPresent() && countryToOptionalId.get() == freight.getTo_Country_ID()))
                         return true;
                     else
                         return false;
                 }).filter(freight -> {
-                    if (freight.getC_Region_ID() == 0 || (regionOptionalId.isPresent() && regionOptionalId.get() == freight.getC_Region_ID()))
+                    if (freight.getC_Region_ID() == 0 && freight.getTo_Region_ID() == 0)
+                        return true;
+                    else if (freight.getC_Region_ID() == 0 &&   (regionToOptionalId.isPresent() && regionToOptionalId.get() == freight.getTo_Region_ID()))
+                        return true;
+                    else if ((regionFromOptionalId.isPresent() && regionFromOptionalId.get() == freight.getC_Region_ID()) &&
+                            (regionToOptionalId.isPresent() && regionToOptionalId.get() == freight.getTo_Region_ID()))
                         return true;
                     else
                         return false;
