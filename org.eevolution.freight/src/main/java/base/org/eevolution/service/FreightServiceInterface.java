@@ -35,7 +35,9 @@ public interface FreightServiceInterface {
             int shipperId,
             int freightCategoryId,
             int currencyId,
-            Optional<Integer> countryOptionalId,
-            Optional<Integer> regionOptionalId,
+            Optional<Integer> countryFromOptionalId,
+            Optional<Integer> regionFromOptionalId,
+            Optional<Integer> countryToOptionalId,
+            Optional<Integer> regionToOptionalId,
             Timestamp date, String trxName);
 }
