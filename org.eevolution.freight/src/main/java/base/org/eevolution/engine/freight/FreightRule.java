@@ -35,22 +35,36 @@ public class FreightRule implements FreightRuleInterface {
             Properties ctx,
             int productId,
             int shipperId,
-            int locationId,
+            int locationFromId,
+            int locationToId,
             int freightCategoryId,
             int currencyId,
             Timestamp date,
             String trxName) {
         MProduct product = MProduct.get(ctx, productId);
-        MLocation location = MLocation.get(ctx, locationId, trxName);
-        Optional<Integer> countryOptionalId;
-        Optional<Integer> regionOptionalId;
-        if (location != null && location.get_ID() > 0) {
-            countryOptionalId = Optional.ofNullable(location.getC_Country_ID());
-            regionOptionalId = Optional.ofNullable(location.getC_Region_ID());
+        MLocation locationFrom = MLocation.get(ctx, locationFromId, trxName);
+        MLocation locationTo = MLocation.get(ctx, locationToId, trxName);
+        Optional<Integer> countryFromOptionalId;
+        Optional<Integer> regionFromOptionalId;
+        if (locationFrom != null && locationFrom.get_ID() > 0) {
+            countryFromOptionalId = Optional.ofNullable(locationFrom.getC_Country_ID());
+            regionFromOptionalId = Optional.ofNullable(locationFrom.getC_Region_ID());
         } else {
-            countryOptionalId = Optional.empty();
-            regionOptionalId = Optional.empty();
+            countryFromOptionalId = Optional.empty();
+            regionFromOptionalId = Optional.empty();
         }
+
+        Optional<Integer> countryToOptionalId;
+        Optional<Integer> regionToOptionalId;
+        if (locationTo != null && locationTo.get_ID() > 0) {
+            countryToOptionalId = Optional.ofNullable(locationTo.getC_Country_ID());
+            regionToOptionalId = Optional.ofNullable(locationTo.getC_Region_ID());
+        } else {
+            countryToOptionalId = Optional.empty();
+            regionToOptionalId = Optional.empty();
+        }
+
+
 
         BigDecimal freightRateAmount = BigDecimal.ZERO;
         FreightServiceInterface freightService = new FreightService();
@@ -59,8 +73,10 @@ public class FreightRule implements FreightRuleInterface {
                 shipperId,
                 freightCategoryId,
                 currencyId,
-                countryOptionalId,
-                regionOptionalId,
+                countryFromOptionalId,
+                regionFromOptionalId,
+                countryToOptionalId,
+                regionToOptionalId,
                 date,
                 trxName);
         if (freightRate.signum() != 0)
