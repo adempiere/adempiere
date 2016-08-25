@@ -20,6 +20,7 @@ import org.compiere.model.I_M_Shipper;
 import org.compiere.model.MClient;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
+import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
@@ -122,10 +123,13 @@ public class FreightModelValidator implements ModelValidator {
             if (po instanceof MOrderLine) {
                 MOrderLine orderLine = (MOrderLine) po;
                 if (MOrder.DELIVERYVIARULE_Shipper.equals(orderLine.getParent().getDeliveryViaRule())) {
-                    orderLine.setFreightAmt(getFreight(orderLine, null).multiply(orderLine.getQtyOrdered()));
-                    if (!MOrder.FREIGHTCOSTRULE_FreightIncluded.equals(orderLine.getParent().getFreightCostRule())) {
-                        orderLine.setPrice();
-                        orderLine.setPriceEntered(orderLine.getPriceActual().add(orderLine.getFreightAmt()));
+                    BigDecimal freightRate = getFreight(orderLine, null);
+                    orderLine.setFreightAmt(freightRate.multiply(orderLine.getQtyOrdered()));
+                    if (!MOrder.FREIGHTCOSTRULE_FreightIncluded.equals(orderLine.getParent().getFreightCostRule()) && freightRate.signum() != 0) {
+                        BigDecimal price = orderLine.getPriceActual().add(freightRate);
+                        orderLine.setPriceEntered(price);
+                        orderLine.setPriceActual(price);
+                        orderLine.setLineNetAmt();
                     }
                 }
             }
@@ -134,14 +138,12 @@ public class FreightModelValidator implements ModelValidator {
                 MDDOrderLine orderLine = (MDDOrderLine) po;
                 if (MDDOrder.DELIVERYVIARULE_Shipper.equals(orderLine.getParent().getDeliveryViaRule()))
                     orderLine.setFreightAmt(getFreight(orderLine, null).multiply(orderLine.getQtyOrdered()));
-                //orderLine.saveEx();
             }
             //Calcualte Freigh for InOutBound Order Line
             if (po instanceof MWMInOutBoundLine) {
                 MWMInOutBoundLine orderLine = (MWMInOutBoundLine) po;
                 if (MWMInOutBound.DELIVERYVIARULE_Shipper.equals(orderLine.getParent().getDeliveryViaRule()))
-                    orderLine.setFreightAmt(getFreight(orderLine).multiply(orderLine.getPickedQty()));
-                //orderLine.saveEx();
+                    orderLine.setFreightAmt(getFreight(orderLine).multiply(orderLine.getMovementQty()));
             }
         }
         return null;
@@ -156,6 +158,7 @@ public class FreightModelValidator implements ModelValidator {
      */
     private BigDecimal getFreight(MOrderLine orderLine, MWMInOutBound inOutBound) {
         MOrder order = orderLine.getParent();
+        MWarehouse warehouse = (MWarehouse) order.getM_Warehouse();
         I_M_Shipper shipper = MOrder.FREIGHTCOSTRULE_Line.equals(order.getFreightCostRule()) ? orderLine.getM_Shipper() : order.getM_Shipper();
         int freightCategoryId = inOutBound == null ? MOrder.FREIGHTCOSTRULE_Line.equals(order.getFreightCostRule()) ? orderLine.getM_FreightCategory_ID() : order.getM_FreightCategory_ID()
                 : inOutBound.getM_FreightCategory_ID();
@@ -165,6 +168,7 @@ public class FreightModelValidator implements ModelValidator {
                     .calculate(order.getCtx(),
                             orderLine.getM_Product_ID(),
                             shipper.getM_Shipper_ID(),
+                            warehouse.getC_Location_ID(),
                             order.getC_BPartner_Location().getC_Location_ID(),
                             freightCategoryId,
                             order.getC_Currency_ID(),
@@ -190,6 +194,7 @@ public class FreightModelValidator implements ModelValidator {
                     .calculate(order.getCtx(),
                             orderLine.getM_Product_ID(),
                             shipper.getM_Shipper_ID(),
+                            orderLine.getM_Locator().getM_Warehouse().getC_Location_ID(),
                             order.getC_BPartner_Location().getC_Location_ID(),
                             freightCategoryId,
                             order.getC_Currency_ID(),

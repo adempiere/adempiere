@@ -29,6 +29,7 @@ public interface FreightRuleInterface {
             int productId,
             int shipperId,
             int locationId,
+            int locationToId,
             int freightCategoryId,
             int currencyId,
             Timestamp date,

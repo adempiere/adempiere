@@ -73,6 +73,7 @@ import org.compiere.grid.VOnlyCurrentDays;
 import org.compiere.grid.VPayment;
 import org.compiere.grid.VSortTab;
 import org.compiere.grid.VTabbedPane;
+import org.compiere.grid.VTable;
 import org.compiere.grid.ed.VButton;
 import org.compiere.grid.ed.VDocAction;
 import org.compiere.model.DataStatusEvent;
@@ -1915,10 +1916,33 @@ public final class APanel extends CPanel
 	{
 		if (m_curTab.isReadOnly())
 			return;
-		int keyID = m_curTab.getRecord_ID();
-		if (ADialog.ask(m_curWindowNo, this, "DeleteRecord?"))
-			if (m_curTab.dataDelete())
-				m_curGC.rowChanged(false, keyID);
+		VTable table = m_curGC.getTable();
+
+		int[] selection = table.getSelectedRows();
+		Arrays.sort(selection);
+
+		if ( selection.length <= 1)
+		{
+			int keyID = m_curTab.getRecord_ID();
+			if (ADialog.ask(m_curWindowNo, this, "DeleteRecord?"))
+				if (m_curTab.dataDelete())
+					m_curGC.rowChanged(false, keyID);
+		}
+		else {
+			if (ADialog.ask(m_curWindowNo, this, "DeleteSelection"))
+			{
+				for (int i = selection.length -1; i >= 0; i--) {
+					int index = table.convertRowIndexToModel(selection[i]);
+
+					m_curTab.navigate(index);
+					int keyID = m_curTab.getRecord_ID();
+					if (m_curTab.dataDelete())
+					{
+						m_curGC.rowChanged(false, keyID);
+					}
+				}
+			}
+		}
 		m_curGC.dynamicDisplay(0);
 	}   //  cmd_delete
 
