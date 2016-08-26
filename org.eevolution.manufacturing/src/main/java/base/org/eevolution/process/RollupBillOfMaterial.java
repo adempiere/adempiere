@@ -18,9 +18,11 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.adempiere.engine.CostDimension;
@@ -35,6 +37,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
+import org.compiere.wf.MWorkflow;
 import org.eevolution.model.I_PP_Product_Planning;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPProductBOM;
@@ -213,6 +216,29 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 							else
 								costPrice = costPrice.multiply(rate);
 						}
+
+						if (bomline.isPacking()) {
+							MAcctSchema acctSchema = MAcctSchema.get(getCtx(), cost.getC_AcctSchema_ID());
+							int workflowId = 0;
+							MProduct product = MProduct.get(getCtx(), bom.getM_Product_ID());
+							MPPProductPlanning productPlanning = null;
+							if (workflowId <= 0)
+								workflowId = MWorkflow.getWorkflowSearchKey(product);
+							if (workflowId <= 0) {
+								productPlanning = MPPProductPlanning.find(getCtx(), getOrganizationId(), getWarehouseId(), getResourcePlantId(), product.get_ID(), get_TrxName());
+								if (productPlanning != null)
+									workflowId = productPlanning.getAD_Workflow_ID();
+								else
+									createNotice(product, "@NotFound@ @PP_Product_Planning_ID@");
+							}
+							if (workflowId <= 0)
+								createNotice(product, "@NotFound@ @AD_Workflow_ID@");
+
+							BigDecimal qtyBatchSize = DB.getSQLValueBD(trxName, "SELECT QtyBatchSize FROM AD_Workflow WHERE AD_Workflow_ID=?",workflowId);
+							if (qtyBatchSize.signum() != 0)
+								qty = qty.divide(qtyBatchSize , acctSchema.getCostingPrecision() , BigDecimal.ROUND_HALF_UP);
+						}
+
 						BigDecimal componentCost = costPrice.multiply(qty);
 						costPriceLowLevel.updateAndGet(costAmt -> costAmt.add(componentCost));
 						log.info("CostElement: "+costElement.getName()
