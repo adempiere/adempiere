@@ -220,7 +220,13 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		String componentType = getComponentType();
 		return COMPONENTTYPE_Co_Product.equals(componentType);
 	}
-	
+
+
+	public boolean isPacking()
+	{
+		String componentType = getComponentType();
+		return COMPONENTTYPE_Packing.equals(componentType);
+	}
 	/**
 	 * Return absolute (unified) quantity value.
 	 * If IsQtyPercentage then QtyBatch / 100 will be returned.
