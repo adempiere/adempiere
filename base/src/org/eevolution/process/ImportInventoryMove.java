@@ -41,6 +41,7 @@ import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.model.X_I_Movement;
@@ -260,12 +261,13 @@ public class ImportInventoryMove extends SvrProcess
 	private MMovement importInventoryMovement(X_I_Movement movementImport)
 	{
 		StringBuilder whereClause = new StringBuilder();
-			whereClause.append("TRUNC(").append(I_M_Movement.COLUMNNAME_MovementDate).append(",'DD') = TRUNC(?,'DD') AND ")
+			whereClause.append("TRUNC(").append(I_M_Movement.COLUMNNAME_MovementDate)
+						.append(",'DD') = " + DB.TO_DATE(movementImport.getMovementDate()) + " AND ")
 	    				.append(I_M_Movement.COLUMNNAME_DocumentNo).append("=? AND ")
 	    				.append(I_M_Movement.COLUMNNAME_C_DocType_ID).append("=?");
 		int movementId = new Query(Env.getCtx(), I_M_Movement.Table_Name, whereClause.toString(), get_TrxName())
 		.setClient_ID()
-		.setParameters(movementImport.getMovementDate(), movementImport.getDocumentNo(), movementImport.getC_DocType_ID())
+		.setParameters(movementImport.getDocumentNo(), movementImport.getC_DocType_ID())
 		.firstId();
 		
 		MMovement movement = null;
