@@ -829,7 +829,8 @@ public class WBrowser extends Browser implements IFormController,
 		for (Entry<String, Object> entry : searchGrid.getParameters().entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
 			//	BR [ 251 ]
-			if(!editor.isVisible())
+			if(!editor.isVisible()
+					|| editor.getGridField().isInfoOnly())
 				continue;
 			//
 			GridField field = editor.getGridField();

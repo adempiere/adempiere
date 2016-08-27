@@ -17,7 +17,6 @@
 package org.eevolution.grid;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -54,7 +53,6 @@ public abstract class BrowserSearch {
 		m_AD_Browse_ID = p_AD_Browse_ID;
 		fields = new ArrayList<GridField>();
 		fieldsTo = new ArrayList<GridField>();
-		fieldsInfoOnly = new HashMap<String, Boolean>();
 		m_search = new LinkedHashMap<String, Object>();
 		m_Columns = columns;
 		try {
@@ -86,7 +84,6 @@ public abstract class BrowserSearch {
 	//
 	private ArrayList<GridField>			fields;
 	private ArrayList<GridField>			fieldsTo;
-	private HashMap<String, Boolean>		fieldsInfoOnly;
 	/** Parameters */
 	private LinkedHashMap<String, Object> 	m_search;
 	//	Constants
@@ -168,10 +165,7 @@ public abstract class BrowserSearch {
 	 * @param value
 	 */
 	public void setParameter(String name, Object value) {
-		if (value != null
-				&& !isInfoOnly(name)) {
-			m_search.put(name, value);
-		}
+		m_search.put(name, value);
 	}
 
 	/**
@@ -212,16 +206,6 @@ public abstract class BrowserSearch {
 	 */
 	public void setColumns(int columns) {
 		m_Columns = columns;
-	}
-	
-	/**
-	 * Is Information only
-	 * @param columnName
-	 * @return
-	 */
-	public boolean isInfoOnly(String columnName) {
-		Boolean isInfoOnly = fieldsInfoOnly.get(columnName);
-		return isInfoOnly != null && isInfoOnly;
 	}
 	
 	/**
@@ -298,8 +282,6 @@ public abstract class BrowserSearch {
 		GridFieldVO voBase = createVO(field, false);
 		GridField gField = new GridField(voBase);
 		fields.add(gField);
-		//	Field Info Only
-		fieldsInfoOnly.put(gField.getColumnNameAlias(), field.isInfoOnly());
 		//
 		if (voBase.IsRange) {
 			GridFieldVO voBase_To = createVO(field, true);
@@ -363,6 +345,8 @@ public abstract class BrowserSearch {
 		voBase.Help = field.getHelp();
 		voBase.Header = isTo? Msg.getMsg(Env.getCtx(), "To"): field.getName();
 		voBase.IsColumnSQLReference = true;
+		//	Information Only
+		voBase.IsInfoOnly = field.isInfoOnly();
 		voBase.initFinish();
 		//	Return 
 		return voBase;
@@ -473,7 +457,7 @@ public abstract class BrowserSearch {
 			mField.validateValue();
 			//	check context
 			if (mField.isMandatory(true)
-					&& !isInfoOnly(mField.getColumnName())) {
+					&& !mField.isInfoOnly()) {
 				Object data = getValue(i);
 				if (data == null 
 						|| data.toString().length() == 0) {

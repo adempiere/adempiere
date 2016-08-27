@@ -777,7 +777,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 			VEditor editor = (VEditor) entry.getValue();
 			//	BR [ 251 ]
 			if(!((Component)editor).isVisible()
-					|| searchPanel.isInfoOnly(editor.getField().getColumnNameAlias()))
+					|| editor.getField().isInfoOnly())
 				continue;
 			//	
 			GridField field = editor.getField();

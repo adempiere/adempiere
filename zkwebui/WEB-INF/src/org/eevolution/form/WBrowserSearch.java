@@ -168,7 +168,10 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
         	popupMenu.addMenuListener((ContextMenuListener)editor);
             mainPanel.appendChild(popupMenu);
         }
-        setParameter(field.getColumnNameAlias(), editor);
+        //	
+        if(!field.isInfoOnly()) {
+        	setParameter(field.getColumnNameAlias(), editor);
+        }
 		//
         m_wEditors.add (editor);                   //  add to Editors
 		
@@ -217,7 +220,10 @@ public class WBrowserSearch extends BrowserSearch implements ValueChangeListener
 		m_separators.add(separator);
 		box.appendChild(separator);
 		box.appendChild(editor2.getComponent());
-		setParameter(field_To.getColumnNameAlias(), editor2);
+		//	
+		if(!field.isInfoOnly()) {
+			setParameter(field_To.getColumnNameAlias(), editor2);
+		}
         //	Add
         currentRow.appendChild(box);
 	}

@@ -17,23 +17,20 @@
 package org.compiere.apps;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.DBException;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
-import org.compiere.model.MClient;
 import org.compiere.model.MLookup;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
+import org.compiere.model.MProcess;
+import org.compiere.model.MProcessPara;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -47,6 +44,8 @@ import org.compiere.util.Env;
  *		@see https://github.com/adempiere/adempiere/issues/352
  *		<li>FR [ 298 ] Process Parameter Panel not set default value correctly into parameters
  *		@see https://github.com/adempiere/adempiere/issues/298
+ *		<a href="https://github.com/adempiere/adempiere/issues/566">
+ * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  */
 public abstract class ProcessParameter {
 	
@@ -60,8 +59,9 @@ public abstract class ProcessParameter {
 		//	Get parameters
 		m_WindowNo = WindowNo;
 		m_processInfo = pi;
-		m_mFields = new ArrayList<GridField>();
-		m_mFields_To = new ArrayList<GridField>();
+		fieldsInfoOnly = new HashMap<Integer, Boolean>();
+		fields = new ArrayList<GridField>();
+		fields_To = new ArrayList<GridField>();
 		m_Columns = columns;
 		try {
 			//	Start Init
@@ -86,11 +86,13 @@ public abstract class ProcessParameter {
 	private boolean 	m_IsError;
 	private boolean 	m_HasParameters;
 	private int 		m_Columns;
+	/**	Information Only	*/
+	private HashMap<Integer, Boolean>	fieldsInfoOnly;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessParameter.class);
 	//
-	private ArrayList<GridField>	m_mFields;
-	private ArrayList<GridField>	m_mFields_To;
+	private ArrayList<GridField>	fields;
+	private ArrayList<GridField>	fields_To;
 	//	Constants
 	/**	For one Column		*/
 	public static final int COLUMNS_1 = 1;
@@ -165,6 +167,16 @@ public abstract class ProcessParameter {
 	public abstract void setValue_To(int index, Object value);
 	
 	/**
+	 * Is Information only
+	 * @param processParaID
+	 * @return
+	 */
+	public boolean isInfoOnly(int processParaID) {
+		Boolean isInfoOnly = fieldsInfoOnly.get(processParaID);
+		return isInfoOnly != null && isInfoOnly;
+	}
+	
+	/**
 	 * Is error
 	 * @return
 	 */
@@ -176,8 +188,8 @@ public abstract class ProcessParameter {
 	 *  Dispose
 	 */
 	public void dispose() {
-		m_mFields.clear();
-		m_mFields_To.clear();
+		fields.clear();
+		fields_To.clear();
 	}   //  dispose
 	
 	/**
@@ -201,91 +213,14 @@ public abstract class ProcessParameter {
 	 *  @return true if loaded OK
 	 */
 	private boolean loadData() {
-		log.config("");		
-		// ASP
-		MClient client = MClient.get(Env.getCtx());
-		String ASPFilter = "";
-		if (client.isUseASP())
-			ASPFilter =
-				  "   AND (   p.AD_Process_Para_ID IN ( "
-				// Just ASP subscribed process parameters for client "
-				+ "              SELECT pp.AD_Process_Para_ID "
-				+ "                FROM ASP_Process_Para pp, ASP_Process p, ASP_Level l, ASP_ClientLevel cl "
-				+ "               WHERE p.ASP_Level_ID = l.ASP_Level_ID "
-				+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
-				+ "                 AND pp.ASP_Process_ID = p.ASP_Process_ID "
-				+ "                 AND pp.IsActive = 'Y' "
-				+ "                 AND p.IsActive = 'Y' "
-				+ "                 AND l.IsActive = 'Y' "
-				+ "                 AND cl.IsActive = 'Y' "
-				+ "                 AND pp.ASP_Status = 'S') " // Show
-				+ "        OR p.AD_Process_Para_ID IN ( "
-				// + show ASP exceptions for client
-				+ "              SELECT AD_Process_Para_ID "
-				+ "                FROM ASP_ClientException ce "
-				+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "                 AND ce.IsActive = 'Y' "
-				+ "                 AND ce.AD_Process_Para_ID IS NOT NULL "
-				+ "                 AND ce.AD_Tab_ID IS NULL "
-				+ "                 AND ce.AD_Field_ID IS NULL "
-				+ "                 AND ce.ASP_Status = 'S') " // Show
-				+ "       ) "
-				+ "   AND p.AD_Process_Para_ID NOT IN ( "
-				// minus hide ASP exceptions for client
-				+ "          SELECT AD_Process_Para_ID "
-				+ "            FROM ASP_ClientException ce "
-				+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "             AND ce.IsActive = 'Y' "
-				+ "             AND ce.AD_Process_Para_ID IS NOT NULL "
-				+ "             AND ce.AD_Tab_ID IS NULL "
-				+ "             AND ce.AD_Field_ID IS NULL "
-				+ "             AND ce.ASP_Status = 'H')"; // Hide
-		//
-		String sql = null;
-		if (Env.isBaseLanguage(Env.getCtx(), "AD_Process_Para"))
-			sql = "SELECT p.Name, p.Description, p.Help, "
-				+ "p.AD_Reference_ID, p.AD_Process_Para_ID, "
-				+ "p.FieldLength, p.IsMandatory, p.IsRange, p.ColumnName, "
-				+ "p.DefaultValue, p.DefaultValue2, p.VFormat, p.ValueMin, p.ValueMax, "
-				+ "p.SeqNo, p.AD_Reference_Value_ID, vr.Code AS ValidationCode, p.ReadOnlyLogic, p.DisplayLogic "
-				+ "FROM AD_Process_Para p"
-				+ " LEFT OUTER JOIN AD_Val_Rule vr ON (p.AD_Val_Rule_ID=vr.AD_Val_Rule_ID) "
-				+ "WHERE p.AD_Process_ID=?"		//	1
-				+ " AND p.IsActive='Y' "
-				+ ASPFilter + " ORDER BY SeqNo";
-		else
-			sql = "SELECT t.Name, t.Description, t.Help, "
-				+ "p.AD_Reference_ID, p.AD_Process_Para_ID, "
-				+ "p.FieldLength, p.IsMandatory, p.IsRange, p.ColumnName, "
-				+ "p.DefaultValue, p.DefaultValue2, p.VFormat, p.ValueMin, p.ValueMax, "
-				+ "p.SeqNo, p.AD_Reference_Value_ID, vr.Code AS ValidationCode, p.ReadOnlyLogic, p.DisplayLogic "
-				+ "FROM AD_Process_Para p"
-				+ " INNER JOIN AD_Process_Para_Trl t ON (p.AD_Process_Para_ID=t.AD_Process_Para_ID)"
-				+ " LEFT OUTER JOIN AD_Val_Rule vr ON (p.AD_Val_Rule_ID=vr.AD_Val_Rule_ID) "
-				+ "WHERE p.AD_Process_ID=?"		//	1
-				+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "'"
-				+ " AND p.IsActive='Y' "
-				+ ASPFilter + " ORDER BY SeqNo";
-		
+		log.config("");	
 		//	Create Fields
 		boolean hasFields = false;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_processInfo.getAD_Process_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				hasFields = true;
-				createField (rs);
-			}
-		} catch(SQLException e) {
-			throw new DBException(e, sql);
-		} finally {
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
+		MProcess process = MProcess.get(Env.getCtx(), m_processInfo.getAD_Process_ID());
+		//	Load Parameter
+		for(MProcessPara para : process.getASPParameters()) {
+			hasFields = true;
+			createField(para);
 		}
 		//	
 		return hasFields;
@@ -300,10 +235,10 @@ public abstract class ProcessParameter {
 		initComponents();		
 		//	clean up
 		if (hasParameters()) {
-			for (int i = 0; i < m_mFields.size(); i++) {
+			for (int i = 0; i < fields.size(); i++) {
 				//	Get Values
-				GridField field = (GridField) m_mFields.get(i);
-				GridField field_To = (GridField) m_mFields_To.get(i);
+				GridField field = (GridField) fields.get(i);
+				GridField field_To = (GridField) fields_To.get(i);
 				//	Create Fields
 				createViewField(field, field_To);
 			}
@@ -329,12 +264,12 @@ public abstract class ProcessParameter {
 	 *
 	 * @param rs result set
 	 */
-	private void createField (ResultSet rs) {
+	private void createField (MProcessPara processParameter) {
 		//  Create Field
-		GridFieldVO voF = GridFieldVO.createParameter(Env.getCtx(), m_WindowNo, rs);
+		GridFieldVO voF = GridFieldVO.createParameter(Env.getCtx(), m_WindowNo, processParameter);
 		GridField field = new GridField (voF);
 		GridField field_To = null;
-		m_mFields.add(field);                      //  add to Fields
+		fields.add(field);                      //  add to Fields
 		//
 		if (voF.IsRange) {
 			//
@@ -346,9 +281,9 @@ public abstract class ProcessParameter {
 			//	
 			field_To = new GridField (voF2);
 			//	
-			m_mFields_To.add (field_To);
+			fields_To.add (field_To);
 		} else {
-			m_mFields_To.add (null);
+			fields_To.add (null);
 		}
 	}	//	createField
 
@@ -375,12 +310,12 @@ public abstract class ProcessParameter {
 	private void processDependencies (GridField changedField) {
 		String columnName = changedField.getColumnName();
 
-		for (GridField field : m_mFields) {
+		for (GridField field : fields) {
 			if (field == null || field == changedField)
 				continue;
 			verifyChangedField(field, columnName);
 		}
-		for (GridField field : m_mFields_To) {
+		for (GridField field : fields_To) {
 			if (field == null || field == changedField)
 				continue;
 			verifyChangedField(field, columnName);
@@ -449,38 +384,41 @@ public abstract class ProcessParameter {
 		 *  see - MTable.getMandatory
 		 */
 		StringBuffer sb = new StringBuffer();
-		int size = m_mFields.size();
+		int size = fields.size();
 		for (int i = 0; i < size; i++) {
-			GridField mField = (GridField) m_mFields.get(i);
+			GridField field = (GridField) fields.get(i);
+			//	FR [ 566 ] Only Information
+			if(field.isInfoOnly())
+				continue;
 			//	Validate
-			mField.validateValue();
+			field.validateValue();
 			//	check context
-			if (mField.isMandatory(true)) {
+			if (field.isMandatory(true)) {
 				Object data = getValue(i);
 				if (data == null 
 						|| data.toString().length() == 0) {
-					mField.setInserting (true);  //  set editable (i.e. updateable) otherwise deadlock
-					mField.setError(true);
+					field.setInserting (true);  //  set editable (i.e. updateable) otherwise deadlock
+					field.setError(true);
 					if (sb.length() > 0)
 						sb.append(", ");
-					sb.append(mField.getHeader());
+					sb.append(field.getHeader());
 				} else {
-					mField.setError(false);
+					field.setError(false);
 				}
 				//  Check for Range
-				GridField mField_To = (GridField) m_mFields_To.get(i);
+				GridField field_To = (GridField) fields_To.get(i);
 				//	Validate
-				if (mField_To != null) {
+				if (field_To != null) {
 					Object data_To = getValue_To(i);
 					if (data_To == null 
 							|| data_To.toString().length() == 0) {
-						mField.setInserting (true);  //  set editable (i.e. updateable) otherwise deadlock
-						mField_To.setError(true);
+						field.setInserting (true);  //  set editable (i.e. updateable) otherwise deadlock
+						field_To.setError(true);
 						if (sb.length() > 0)
 							sb.append(", ");
-						sb.append(mField.getHeader());
+						sb.append(field.getHeader());
 					} else {
-						mField_To.setError(false);
+						field_To.setError(false);
 					}
 				}   //  range field
 			}   //  mandatory
@@ -530,37 +468,40 @@ public abstract class ProcessParameter {
 		/**********************************************************************
 		 *	Save Now
 		 */
-		for (int i = 0; i < m_mFields.size(); i++) {
+		for (int i = 0; i < fields.size(); i++) {
 			//	Get Values
-			GridField mField = (GridField) m_mFields.get(i);
-			GridField mField_To = (GridField) m_mFields_To.get(i);
+			GridField field = (GridField) fields.get(i);
+			GridField field_To = (GridField) fields_To.get(i);
+			//	FR [ 566 ] Only Information
+			if(field.isInfoOnly())
+				continue;
 			//	Validate
-			mField.validateValue();
+			field.validateValue();
 			Object result = getValue(i);
 			Object result2 = null;
-			if (mField_To != null) {
+			if (field_To != null) {
 				result2 = getValue_To(i);
 			}
 			
 			//	Create Parameter
 			MPInstancePara para = new MPInstancePara (Env.getCtx(), m_processInfo.getAD_PInstance_ID(), i);
-			para.setParameterName(mField.getColumnName());
+			para.setParameterName(field.getColumnName());
 			//	
 			if (result instanceof Timestamp || result2 instanceof Timestamp) {	//	Date
 				para.setP_Date((Timestamp)result);
-				if (mField_To != null && result2 != null)
+				if (field_To != null && result2 != null)
 					para.setP_Date_To((Timestamp)result2);
 			} else if (result instanceof Integer || result2 instanceof Integer) {	//	Integer
 				if (result != null) {
 					Integer ii = (Integer)result;
 					para.setP_Number(ii.intValue());
-				} if (mField_To != null && result2 != null) {
+				} if (field_To != null && result2 != null) {
 					Integer ii = (Integer)result2;
 					para.setP_Number_To(ii.intValue());
 				}
 			} else if (result instanceof BigDecimal || result2 instanceof BigDecimal) {	//	BigDecimal
 				para.setP_Number ((BigDecimal)result);
-				if (mField_To != null && result2 != null)
+				if (field_To != null && result2 != null)
 					para.setP_Number_To ((BigDecimal)result2);
 			} else if (result instanceof Boolean) {	//	Boolean
 				Boolean bb = (Boolean)result;
@@ -570,12 +511,12 @@ public abstract class ProcessParameter {
 			} else {	//	String
 				if (result != null)
 					para.setP_String (result.toString());
-				if (mField_To != null && result2 != null)
+				if (field_To != null && result2 != null)
 					para.setP_String_To (result2.toString());
 			}
 			//  Info
 			para.setInfo (getDisplay(i));
-			if (mField_To != null)
+			if (field_To != null)
 				para.setInfo_To (getDisplay_To(i));
 			//
 			para.saveEx();
@@ -594,14 +535,14 @@ public abstract class ProcessParameter {
 		log.config("");
 		//	
 		MPInstancePara[] params = instance.getParameters();
-		for (int j = 0; j < m_mFields.size(); j++)
+		for (int j = 0; j < fields.size(); j++)
 		{
 			//	Get Values
-			GridField mField = (GridField) m_mFields.get(j);
-			GridField mField_To = (GridField) m_mFields_To.get(j);
+			GridField field = (GridField) fields.get(j);
+			GridField field_To = (GridField) fields_To.get(j);
 			//	Set Values
 			setValue(j, null);
-			if (mField_To != null)
+			if (field_To != null)
 				setValue_To(j, null);
 
 			for ( int i = 0; i < params.length; i++)
@@ -609,12 +550,12 @@ public abstract class ProcessParameter {
 				MPInstancePara para = params[i];
 				para.getParameterName();
 
-				if ( mField.getColumnName().equals(para.getParameterName()) )
+				if ( field.getColumnName().equals(para.getParameterName()) )
 				{
 					if (para.getP_Date() != null || para.getP_Date_To() != null )
 					{
 						setValue(j, para.getP_Date());
-						if (mField_To != null)
+						if (field_To != null)
 							setValue_To(j, para.getP_Date_To());
 					}
 
@@ -622,13 +563,13 @@ public abstract class ProcessParameter {
 					else if ( para.getP_String() != null || para.getP_String_To() != null )
 					{
 						setValue(j, para.getP_String());
-						if (mField_To != null)
+						if (field_To != null)
 							setValue_To(j, para.getP_String_To());
 					}
 					else if ( !Env.ZERO.equals(para.getP_Number()) || !Env.ZERO.equals(para.getP_Number_To()) )
 					{
 						setValue(j, para.getP_Number());
-						if (mField_To != null)
+						if (field_To != null)
 							setValue_To(j, para.getP_Number_To());
 					}
 
@@ -646,10 +587,10 @@ public abstract class ProcessParameter {
 	 * @see org.compiere.model.GridField#restoreValue()
 	 */
 	public void restoreContext() {
-		for (int i = 0; i < m_mFields.size(); i++) {
+		for (int i = 0; i < fields.size(); i++) {
 			//	Get Values
-			GridField mField = (GridField) m_mFields.get(i);
-			GridField mField_To = (GridField) m_mFields_To.get(i);
+			GridField mField = (GridField) fields.get(i);
+			GridField mField_To = (GridField) fields_To.get(i);
 			//	Restore
 			if (mField != null)
 				mField.restoreValue();
@@ -667,8 +608,8 @@ public abstract class ProcessParameter {
 	 **/
 	public int getIndex(String columnName) {
 
-		for (int i = 0; i < m_mFields.size(); i++) {
-			if (m_mFields.get(i).getColumnName().equals(columnName)) {
+		for (int i = 0; i < fields.size(); i++) {
+			if (fields.get(i).getColumnName().equals(columnName)) {
 				return i;
 			}
 		}
@@ -682,9 +623,8 @@ public abstract class ProcessParameter {
 	 * @return int
 	 **/
 	public int getIndex_To(String columnName) {
-
-		for (int i = 0; i < m_mFields_To.size(); i++) {
-			if (m_mFields_To.get(i).getColumnName().equals(columnName)) {
+		for (int i = 0; i < fields_To.size(); i++) {
+			if (fields_To.get(i).getColumnName().equals(columnName)) {
 				return i;
 			}
 		}
@@ -697,7 +637,7 @@ public abstract class ProcessParameter {
 	 * @return
 	 */
 	public GridField getField(int index) {
-		return m_mFields.get(index);
+		return fields.get(index);
 	}
 	
 	/**
@@ -706,7 +646,7 @@ public abstract class ProcessParameter {
 	 * @return
 	 */
 	public GridField getField_To(int index) {
-		return m_mFields.get(index);
+		return fields.get(index);
 	}
 	
 	/**
