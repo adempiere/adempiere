@@ -149,8 +149,11 @@ public class VBrowserSearch extends BrowserSearch implements VetoableChangeListe
 		field.addPropertyChangeListener(this);
 		//
 		centerPanel.add ((Component)vEditor, new ALayoutConstraint(row, cols++));
-		m_vEditors.add (vEditor);                   //  add to Editors
-		setParameter(field.getColumnNameAlias(), vEditor);
+		m_vEditors.add (vEditor);                   
+		//  add to Editors
+		if(!field.isInfoOnly()) {
+			setParameter(field.getColumnNameAlias(), vEditor);
+		}
 		//	Process new Value
 		field.lookupLoadComplete();
 		//	To
@@ -176,7 +179,9 @@ public class VBrowserSearch extends BrowserSearch implements VetoableChangeListe
 		//
 		centerPanel.add ((Component)vEditor2, new ALayoutConstraint(row, cols++));
 		m_vEditors_To.add (vEditor2);
-		setParameter(field_To.getColumnNameAlias(), vEditor2);
+		if(!field.isInfoOnly()) {
+			setParameter(field_To.getColumnNameAlias(), vEditor2);
+		}
 		//	Process new Value
 		field_To.lookupLoadComplete();
 	}

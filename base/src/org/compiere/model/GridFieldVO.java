@@ -43,6 +43,8 @@ import org.compiere.util.Env;
  * 		@see https://github.com/adempiere/adempiere/issues/344
  * 		<li>FR [ 349 ] GridFieldVO attribute is ambiguous
  * 		@see https://github.com/adempiere/adempiere/issues/349
+ * 		<a href="https://github.com/adempiere/adempiere/issues/566">
+ * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *  @version  $Id: GridFieldVO.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class GridFieldVO implements Serializable
@@ -230,46 +232,43 @@ public class GridFieldVO implements Serializable
 	 *  Init Field for Process Parameter
 	 *  @param ctx context
 	 *  @param WindowNo window
-	 *  @param rs result set AD_Process_Para
+	 *  @param processParameter process parameter
 	 *  @return MFieldVO
 	 */
-	public static GridFieldVO createParameter (Properties ctx, int WindowNo, ResultSet rs)
-	{
+	public static GridFieldVO createParameter (Properties ctx, int WindowNo, MProcessPara processParameter) {
 		GridFieldVO vo = new GridFieldVO (ctx, WindowNo, 0, 0, 0, false);
 		vo.isProcess = true;
 		vo.IsDisplayed = true;
 		vo.IsReadOnly = false;
 		vo.IsUpdateable = true;
 
-		try
-		{
-			vo.AD_Table_ID = 0;
-			vo.AD_Column_ID = rs.getInt("AD_Process_Para_ID");	//	**
-			vo.ColumnName = rs.getString("ColumnName");
-			vo.Header = rs.getString("Name");
-			vo.Description = rs.getString("Description");
-			vo.Help = rs.getString("Help");
-			vo.displayType = rs.getInt("AD_Reference_ID");
-			vo.IsMandatory = rs.getString("IsMandatory").equals("Y");
-			vo.FieldLength = rs.getInt("FieldLength");
-			vo.DisplayLength = vo.FieldLength;
-			vo.DefaultValue = rs.getString("DefaultValue");
-			vo.DefaultValue2 = rs.getString("DefaultValue2");
-			vo.VFormat = rs.getString("VFormat");
-			vo.ValueMin = rs.getString("ValueMin");
-			vo.ValueMax = rs.getString("ValueMax");
-			vo.IsRange = rs.getString("IsRange").equals("Y");
-			//
-			vo.AD_Reference_Value_ID = rs.getInt("AD_Reference_Value_ID");
-			vo.ValidationCode = rs.getString("ValidationCode");
-			vo.ReadOnlyLogic = rs.getString("ReadOnlyLogic");
-			vo.DisplayLogic= rs.getString("DisplayLogic");
-			
+		vo.AD_Table_ID = 0;
+		vo.AD_Column_ID = processParameter.getAD_Process_Para_ID();	//	**
+		vo.ColumnName = processParameter.getColumnName();
+		vo.Header = processParameter.get_Translation(I_AD_Process_Para.COLUMNNAME_Name);
+		vo.Description = processParameter.get_Translation(I_AD_Process_Para.COLUMNNAME_Description);
+		vo.Help = processParameter.get_Translation(I_AD_Process_Para.COLUMNNAME_Help);
+		vo.displayType = processParameter.getAD_Reference_ID();
+		vo.IsMandatory = processParameter.isMandatory();
+		vo.FieldLength = processParameter.getFieldLength();
+		vo.DisplayLength = vo.FieldLength;
+		vo.DefaultValue = processParameter.getDefaultValue();
+		vo.DefaultValue2 = processParameter.getDefaultValue2();
+		vo.VFormat = processParameter.getVFormat();
+		vo.ValueMin = processParameter.getValueMin();
+		vo.ValueMax = processParameter.getValueMax();
+		vo.IsRange = processParameter.isRange();
+		//
+		vo.AD_Reference_Value_ID = processParameter.getAD_Reference_Value_ID();
+		if(vo.AD_Reference_Value_ID != 0) {
+			MValRule valRule = MValRule.get(ctx, vo.AD_Reference_Value_ID);
+			vo.ValidationCode = valRule.getCode();
 		}
-		catch (SQLException e)
-		{
-			CLogger.get().log(Level.SEVERE, "createParameter", e);
-		}
+		//	
+		vo.ReadOnlyLogic = processParameter.getReadOnlyLogic();
+		vo.DisplayLogic= processParameter.getDisplayLogic();
+		//	FR [ 566 ]
+		vo.IsInfoOnly = processParameter.isInfoOnly();
 		//
 		vo.initFinish();
 		if (vo.DefaultValue2 == null)
@@ -313,6 +312,8 @@ public class GridFieldVO implements Serializable
 		voT.ValidationCode = voF.ValidationCode;
 		voT.InfoFactoryClass = voF.InfoFactoryClass;
 		voT.ColumnNameAlias = voF.ColumnNameAlias;
+		//	FR [ 566 ]
+		voT.IsInfoOnly = voF.IsInfoOnly;
 		
 		//
 		// Genied: For a range parameter the second field 
@@ -482,9 +483,10 @@ public class GridFieldVO implements Serializable
 	public String       ReadOnlyLogic = "";
 	/**	Display Obscure	*/
 	public String		ObscureType = null;
-
-	public boolean IsAllowsCopy = false;
-
+	/**	Allow Copy		*/
+	public boolean 		IsAllowsCopy = false;
+	/**	Is information Only	*/
+	public boolean		IsInfoOnly = false;
 	/**	Lookup Validation code	*/
 	public String		ValidationCode = "";
 	/**	Reference Value			*/
@@ -640,7 +642,9 @@ public class GridFieldVO implements Serializable
 		clone.IsRangeLookup = IsRangeLookup;
 		clone.isEmbedded = isEmbedded;
 		clone.DefaultValue2 = DefaultValue2;
-		clone.ColumnNameAlias = ColumnNameAlias;
+		clone.ColumnNameAlias = ColumnNameAlias;		
+		//	FR [ 566 ]
+		clone.IsInfoOnly = IsInfoOnly;
 
 		return clone;
 	}	//	clone

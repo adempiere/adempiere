@@ -27,13 +27,10 @@ import javax.swing.Box;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
-import org.compiere.model.GridTable;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
-import org.compiere.util.Trx;
 
 /**
  *	Process Parameter Panel, based on existing ProcessParameter dialog.

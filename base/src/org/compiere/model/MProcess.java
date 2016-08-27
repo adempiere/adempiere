@@ -38,6 +38,9 @@ import org.compiere.wf.MWFNode;
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 1757523 ] Server Processes are using Server's context
  * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query
+ * @contributor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  	<a href="https://github.com/adempiere/adempiere/issues/566">
+ * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  */
 public class MProcess extends X_AD_Process
 {
@@ -103,6 +106,8 @@ public class MProcess extends X_AD_Process
 
 	/**	Cache						*/
 	private static CCache<Integer,MProcess>	s_cache	= new CCache<Integer,MProcess>(Table_Name, 20);
+	/**	Cache for parameters		*/
+	private static CCache<String, MProcessPara[]>	s_cacheASPParameters = new CCache<String, MProcessPara[]>(I_AD_Process_Para.Table_Name, 20);
 	
 	
 	/**************************************************************************
@@ -140,26 +145,99 @@ public class MProcess extends X_AD_Process
 
 	/**	Parameters					*/
 	private MProcessPara[]		m_parameters = null;
-
+	
 	/**
 	 * 	Get Parameters
 	 *	@return parameters
 	 */
-	public MProcessPara[] getParameters()
-	{
+	public MProcessPara[] getParameters() {
 		if (m_parameters != null)
 			return m_parameters;
 		//
-		final String whereClause = MProcessPara.COLUMNNAME_AD_Process_ID+"=?";
-		List<MProcessPara> list = new Query(getCtx(), I_AD_Process_Para.Table_Name, whereClause, get_TrxName())
+		m_parameters = getParameters(null);
+		//
+		return m_parameters;
+	}	//	getParameters
+	
+	/**
+	 * Get ASP Parameter (make a query if it is not exists in Cache)
+	 * @return
+	 */
+	public MProcessPara[] getASPParameters() {
+		MClient client = MClient.get(Env.getCtx());
+		String key = getAD_Process_ID() + "|" + client.getAD_Client_ID();
+		MProcessPara[] retValue = s_cacheASPParameters.get (key);
+		if (retValue != null)
+			return retValue;
+		//	Get where clause
+		String ASPFilter = null;
+		if (client.isUseASP()) {
+			ASPFilter = 
+				//	Just ASP subscribed process parameters for client "
+				"("
+				+ "	EXISTS(SELECT 1 FROM ASP_Process p "
+				+ "					INNER JOIN ASP_Process_Para pp ON(pp.ASP_Process_ID = p.ASP_Process_ID) "
+				+ "					INNER JOIN ASP_Level l ON(l.ASP_Level_ID = p.ASP_Level_ID) "
+				+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+				+ "				WHERE pp.AD_Process_Para_ID = AD_Process_Para.AD_Process_Para_ID "
+				+ "				AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+				+ "				AND pp.IsActive = 'Y' "
+				+ "				AND p.IsActive = 'Y' "
+				+ "				AND l.IsActive = 'Y' "
+				+ "				AND cl.IsActive = 'Y' "
+				+ "				AND pp.ASP_Status = 'S') "	//	Show
+				+ "OR "
+				//	+ show ASP exceptions for client
+				+ "	EXISTS(SELECT 1 FROM ASP_ClientException ce "
+				+ "				WHERE ce.AD_Process_Para_ID = AD_Process_Para.AD_Process_Para_ID "
+				+ "				AND ce.AD_Client_ID = " + client.getAD_Client_ID()
+				+ "				AND ce.IsActive = 'Y' "
+				+ "				AND ce.AD_Process_Para_ID IS NOT NULL "
+				+ "				AND ce.AD_Tab_ID IS NULL "
+				+ "				AND ce.AD_Field_ID IS NULL "
+				+ "				AND ce.ASP_Status = 'S')"	//	Show
+				+ ") "
+				//	minus hide ASP exceptions for client
+				+ "AND EXISTS(SELECT 1 FROM ASP_ClientException ce "
+				+ "				WHERE ce.AD_Process_Para_ID = AD_Process_Para.AD_Process_Para_ID "
+				+ "				AND ce.AD_Client_ID = " + client.getAD_Client_ID()
+				+ "				AND ce.IsActive = 'Y' "
+				+ "				AND ce.AD_Process_Para_ID IS NOT NULL "
+				+ "				AND ce.AD_Tab_ID IS NULL "
+				+ "				AND ce.AD_Field_ID IS NULL "
+				+ "				AND ce.ASP_Status = 'H')";	//	Hide
+		}
+		retValue = getParameters(ASPFilter);
+		if (retValue.length != 0)
+			s_cacheASPParameters.put(key, retValue);
+		//	Default Return
+		return retValue;
+	}
+	
+	/**
+	 * Get Parameter with optional where clause
+	 * @param optionalWhereClause
+	 * @return
+	 */
+	public MProcessPara[] getParameters(String optionalWhereClause) {
+		MProcessPara[] retValue = null;
+		StringBuffer whereClause = new StringBuffer(MProcessPara.COLUMNNAME_AD_Process_ID + "=?");
+		
+		//	Validate where
+		if(optionalWhereClause != null
+				&& optionalWhereClause.trim().length() > 0)
+			whereClause.append(" AND ").append(optionalWhereClause);
+		//	
+		List<MProcessPara> list = new Query(getCtx(), I_AD_Process_Para.Table_Name, whereClause.toString(), get_TrxName())
 			.setParameters(get_ID())
 			.setOrderBy(MProcessPara.COLUMNNAME_SeqNo)
 			.list();
 		//
-		m_parameters = new MProcessPara[list.size()];
-		list.toArray(m_parameters);
-		return m_parameters;
-	}	//	getParameters
+		retValue = new MProcessPara[list.size()];
+		list.toArray(retValue);
+		//	Default Return
+		return retValue;
+	}
 
 	/**
 	 * 	Get Parameter with ColumnName
