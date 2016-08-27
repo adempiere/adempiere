@@ -35,7 +35,7 @@ import org.compiere.util.DisplayType;
  *		<li> FR [ 243 ] Create Process parameter from Report View
  *		@see https://github.com/adempiere/adempiere/issues/243
  */
-public class CopyReportProcess extends SvrProcess {
+public class CopyReportProcess extends CopyReportProcessAbstract {
 
 	/**	SQL					*/
 	private StringBuffer	sql = new StringBuffer();
@@ -116,6 +116,7 @@ public class CopyReportProcess extends SvrProcess {
 	
 	@Override
 	protected void prepare() {
+		super.prepare();
 		//	Valid Record Identifier
 		if(getRecord_ID() <= 0)
 			throw new AdempiereException("@AD_Process_ID@ @NotFound@");
