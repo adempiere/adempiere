@@ -392,6 +392,16 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 
 	@Override
 	protected boolean beforeSave(boolean newRecord) {
+		//	Validate currency
+		if(getC_BankAccount_ID() == 0
+				&& getC_Currency_ID() == 0) {
+			throw new AdempiereException("@C_Currency_ID@ @NotFound@");
+		} else if(getC_BankAccount_ID() != 0
+				&& getC_Currency_ID() == 0) {
+			MBankAccount bankAccount = MBankAccount.get(getCtx(), getC_BankAccount_ID());
+			setC_Currency_ID(bankAccount.getC_Currency_ID());
+		}
+		//	Verify Conversion
 		if(is_ValueChanged("C_Currency_ID")
 				|| is_ValueChanged("PayDate")) {
 			int retValue = DB.getSQLValue(get_TrxName(), "SELECT 1 "
@@ -408,6 +418,9 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 				throw new AdempiereException("@PSDocConverted@ (@C_Currency_ID@)");
 			}
 		}
+		//	Set Document Type
+		if(getC_DocType_ID() == 0)
+			setC_DocType_ID();
 		return super.beforeSave(newRecord);
 	}
 	

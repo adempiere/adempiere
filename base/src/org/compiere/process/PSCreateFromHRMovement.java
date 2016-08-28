@@ -28,13 +28,14 @@ import org.compiere.model.MPaySelectionLine;
  *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
  *		@see https://github.com/adempiere/adempiere/issues/297
  */
-public class PSCreateFromHRMovement extends SvrProcess {
+public class PSCreateFromHRMovement extends PSCreateFromHRMovementAbstract {
 
 	/**	Sequence			*/
 	private int				m_SeqNo = 10;
 	
 	@Override
 	protected void prepare() {
+		super.prepare();
 		//	Valid Record Identifier
 		if(getRecord_ID() <= 0)
 			throw new AdempiereException("@C_PaySelection_ID@ @NotFound@");
