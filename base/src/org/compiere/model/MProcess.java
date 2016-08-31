@@ -39,8 +39,11 @@ import org.compiere.wf.MWFNode;
  * 			<li>BF [ 1757523 ] Server Processes are using Server's context
  * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  * @contributor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *  	<a href="https://github.com/adempiere/adempiere/issues/566">
- * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
+ *    <a href="https://github.com/adempiere/adempiere/issues/566">
+ *    @see FR [ 566 ] Process parameter don't have a parameter like only information</a>
+ *  @contributor Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *   <li> FR [ 566 ] Add validation parameter get Only Active Records
+ *    
  */
 public class MProcess extends X_AD_Process
 {
@@ -230,6 +233,7 @@ public class MProcess extends X_AD_Process
 		//	
 		List<MProcessPara> list = new Query(getCtx(), I_AD_Process_Para.Table_Name, whereClause.toString(), get_TrxName())
 			.setParameters(get_ID())
+			.setOnlyActiveRecords(true)
 			.setOrderBy(MProcessPara.COLUMNNAME_SeqNo)
 			.list();
 		//

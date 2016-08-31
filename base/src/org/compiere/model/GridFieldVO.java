@@ -45,6 +45,8 @@ import org.compiere.util.Env;
  * 		@see https://github.com/adempiere/adempiere/issues/349
  * 		<a href="https://github.com/adempiere/adempiere/issues/566">
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
+ *  @author Raul Munoz, rmunoz@erpcya.com, ERPCyA http://www.erpcya.com
+ *    <li>  FR [ 566 ] Get Correct Validation Code 
  *  @version  $Id: GridFieldVO.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class GridFieldVO implements Serializable
@@ -260,10 +262,11 @@ public class GridFieldVO implements Serializable
 		vo.IsRange = processParameter.isRange();
 		//
 		vo.AD_Reference_Value_ID = processParameter.getAD_Reference_Value_ID();
-		if(vo.AD_Reference_Value_ID != 0) {
-			MValRule valRule = MValRule.get(ctx, vo.AD_Reference_Value_ID);
-			vo.ValidationCode = valRule.getCode();
+    //  FR [ 566 ]
+		if(processParameter.getAD_Val_Rule_ID() != 0) {
+		  vo.ValidationCode=processParameter.getAD_Val_Rule().getCode();
 		}
+		
 		//	
 		vo.ReadOnlyLogic = processParameter.getReadOnlyLogic();
 		vo.DisplayLogic= processParameter.getDisplayLogic();
@@ -650,16 +653,29 @@ public class GridFieldVO implements Serializable
 	}	//	clone
 	
 	
-	/**
-	 * 	String Representation
-	 *	@return info
-	 */
-	public String toString ()
-	{
-		StringBuffer sb = new StringBuffer ("MFieldVO[");
-		sb.append(AD_Column_ID).append("-").append(ColumnName)
-			.append ("]");
-		return sb.toString ();
-	}	//	toString
+	@Override
+  public String toString() {
+    return "GridFieldVO [InfoFactoryClass=" + InfoFactoryClass + ", ctx=" + ctx + ", IsRangeLookup=" + IsRangeLookup
+        + ", isEmbedded=" + isEmbedded + ", WindowNo=" + WindowNo + ", TabNo=" + TabNo + ", AD_Window_ID="
+        + AD_Window_ID + ", AD_Tab_ID=" + AD_Tab_ID + ", tabReadOnly=" + tabReadOnly + ", isProcess=" + isProcess
+        + ", ColumnName=" + ColumnName + ", ColumnSQL=" + ColumnSQL + ", Header=" + Header + ", displayType="
+        + displayType + ", AD_Table_ID=" + AD_Table_ID + ", AD_Column_ID=" + AD_Column_ID + ", DisplayLength="
+        + DisplayLength + ", IsSameLine=" + IsSameLine + ", IsDisplayed=" + IsDisplayed + ", IsDisplayedGrid="
+        + IsDisplayedGrid + ", SeqNoGrid=" + SeqNoGrid + ", PreferredWidth=" + PreferredWidth + ", DisplayLogic="
+        + DisplayLogic + ", DefaultValue=" + DefaultValue + ", IsMandatory=" + IsMandatory + ", IsReadOnly="
+        + IsReadOnly + ", IsUpdateable=" + IsUpdateable + ", IsAlwaysUpdateable=" + IsAlwaysUpdateable + ", IsHeading="
+        + IsHeading + ", IsFieldOnly=" + IsFieldOnly + ", IsEncryptedField=" + IsEncryptedField
+        + ", IsEncryptedColumn=" + IsEncryptedColumn + ", IsSelectionColumn=" + IsSelectionColumn + ", SortNo="
+        + SortNo + ", FieldLength=" + FieldLength + ", VFormat=" + VFormat + ", ValueMin=" + ValueMin + ", ValueMax="
+        + ValueMax + ", FieldGroup=" + FieldGroup + ", FieldGroupType=" + FieldGroupType + ", IsKey=" + IsKey
+        + ", IsParent=" + IsParent + ", Callout=" + Callout + ", AD_Process_ID=" + AD_Process_ID + ", AD_Chart_ID="
+        + AD_Chart_ID + ", Description=" + Description + ", Help=" + Help + ", MandatoryLogic=" + MandatoryLogic
+        + ", ReadOnlyLogic=" + ReadOnlyLogic + ", ObscureType=" + ObscureType + ", IsAllowsCopy=" + IsAllowsCopy
+        + ", IsInfoOnly=" + IsInfoOnly + ", ValidationCode=" + ValidationCode + ", AD_Reference_Value_ID="
+        + AD_Reference_Value_ID + ", IsRange=" + IsRange + ", DefaultValue2=" + DefaultValue2 + ", lookupInfo="
+        + lookupInfo + ", Included_Tab_ID=" + Included_Tab_ID + ", IsCollapsedByDefault=" + IsCollapsedByDefault
+        + ", IsAutocomplete=" + IsAutocomplete + ", ColumnNameAlias=" + ColumnNameAlias + ", IsColumnSQLReference="
+        + IsColumnSQLReference + "]";
+  }
 	
 }   //  MFieldVO
