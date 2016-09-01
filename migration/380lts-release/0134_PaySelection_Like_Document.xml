@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Payment Selection must be like ADempiere Document #297" ReleaseNo="3.8.0#002" SeqNo="150">
+  <Migration EntityType="D" Name="Payment Selection must be like ADempiere Document #297" ReleaseNo="3.8.0#002" SeqNo="134">
     <Comments>See: https://github.com/adempiere/adempiere/issues/297 for detail of changes</Comments>
     <Step SeqNo="230" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="78630" Table="AD_Column">
