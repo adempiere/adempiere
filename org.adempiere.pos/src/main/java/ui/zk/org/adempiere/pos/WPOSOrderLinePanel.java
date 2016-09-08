@@ -39,6 +39,8 @@ import org.zkoss.zul.event.ListDataEvent;
  * Button panel supporting multiple linked layouts
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ *  <li><a href="https://github.com/adempiere/adempiere/issues/533">
+ *           BF/FR [ 533 ] Update Fields when selected line</a>
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  */
@@ -105,6 +107,8 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 			}
 			// Select first row, if end of table and no row has been selected
 			if(i==posTable.getRowCount()-1)	 {
+        //  Set Current Order Line
+        orderLineId = key.getRecord_ID();
 				posTable.setSelectedIndex(0);
 				posPanel.changeViewPanel();
 				showProductInfo(0);
@@ -345,12 +349,20 @@ public class WPOSOrderLinePanel extends WPOSSubPanel implements WTableModelListe
 		Object data = posTable.getModel().getValueAt(row, 0);
 		if ( data != null )	{
 			Integer id = (Integer) ((IDColumn)data).getRecord_ID();
-			orderLineId = id;
-			int m_M_Product_ID = DB.getSQLValue(null, "SELECT ol.M_Product_ID "
-					+ "FROM C_OrderLine ol "
-					+ "WHERE ol.C_OrderLine_ID = ?", orderLineId);
-			//	Refresh
-			posPanel.refreshProductInfo(m_M_Product_ID);
+			posPanel.setOrderLineId(id);
+      BigDecimal quantity = (BigDecimal) posTable.getModel().getValueAt(row, POSOrderLineTableHandle.POSITION_QTYORDERED);
+      BigDecimal price = (BigDecimal) posTable.getModel().getValueAt(row, POSOrderLineTableHandle.POSITION_PRICE);
+      BigDecimal discount = (BigDecimal) posTable.getModel().getValueAt(row, POSOrderLineTableHandle.POSITION_DISCOUNT);
+
+      //	Refresh
+      posPanel.setQty(quantity);
+      posPanel.setPrice(price);
+      posPanel.setDiscountPercentage(discount);
+      posPanel.changeViewPanel();
+      posPanel.refreshProductInfo(posPanel.getM_Product_ID(posPanel.getOrderLineId()));
+
+//			posPanel.refreshProductInfo(m_M_Product_ID);
+		
 		}
 	}
 
