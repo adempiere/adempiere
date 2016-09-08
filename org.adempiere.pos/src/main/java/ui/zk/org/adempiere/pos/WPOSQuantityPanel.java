@@ -48,7 +48,7 @@ import org.zkoss.zk.ui.event.KeyEvent;
  *  <li><a href="https://github.com/adempiere/adempiere/issues/533">
  *           BF/FR [ 533 ] Update Fields when selected line</a> 
  *  <li><a href="https://github.com/adempiere/adempiere/issues/530">
- *           BF/FR [ 530 ] Update Fields when selected line</a>
+ *           BF/FR [ 530 ] Added Validation in fields quantity, price and Discount</a>
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
  * 
@@ -235,36 +235,42 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 			}
 			BigDecimal value = Env.ZERO;
 			if(Events.ON_OK.equals(e.getName()) || Events.ON_CHANGE.equals(e.getName())) {
-				
-				value = fieldQuantity.getValue();
-				if(e.getTarget().equals(fieldQuantity.getDecimalbox())) {
-					if(Events.ON_OK.equals(e.getName())){
-						posPanel.setQty(value);
-					}
-					else if(posPanel.isAddQty() 
-							|| Events.ON_CHANGE.equals(e.getName())){
-						//	Verify if it add or set
-						if(posPanel.isAddQty()) {
-							posPanel.setQtyAdded(value);
-						} else {
-							posPanel.setQty(value);
-						}
-					}
-					
-				}
-			
-				if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
-					value = fieldPrice.getValue();
-					if(posPanel.isUserPinValid()) {
-						posPanel.setPrice(value);
-					}
-				}
-				else if ( e.getTarget().equals(fieldDiscountPercentage.getDecimalbox())) {
-					if(posPanel.isUserPinValid()) {
-						value = fieldDiscountPercentage.getValue();
-						posPanel.setDiscountPercentage(value);
-					}
-				}
+        
+			  value = fieldQuantity.getValue();
+        if(value == null)
+          return;
+        if(e.getTarget().equals(fieldQuantity.getDecimalbox())) {
+          if(Events.ON_OK.equals(e.getName())){
+            posPanel.setQty(value);
+          }
+          else if(posPanel.isAddQty() 
+              || Events.ON_CHANGE.equals(e.getName())){
+            //  Verify if it add or set
+            if(posPanel.isAddQty()) {
+              posPanel.setQtyAdded(value);
+            } else {
+              posPanel.setQty(value);
+            }
+          }
+          
+        }
+      
+        if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
+          value = fieldPrice.getValue();
+          if(value == null)
+            return;
+          if(posPanel.isUserPinValid()) {
+            posPanel.setPrice(value);
+          }
+        }
+        else if ( e.getTarget().equals(fieldDiscountPercentage.getDecimalbox())) {
+          if(posPanel.isUserPinValid()) {
+            value = fieldDiscountPercentage.getValue();
+            if(value == null)
+              return;
+            posPanel.setDiscountPercentage(value);
+          }
+        }
 			}
 
 			posPanel.updateLineTable();
