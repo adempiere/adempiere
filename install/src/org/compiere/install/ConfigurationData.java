@@ -42,6 +42,7 @@ import org.compiere.model.MEMailConfig;
 import org.compiere.util.CLogger;
 import org.compiere.util.EMail;
 import org.compiere.util.Ini;
+import org.compiere.util.SecureEngine;
 
 
 /**
@@ -788,6 +789,32 @@ public class ConfigurationData
 		p_properties.setProperty("ADEMPIERE_DATE_VERSION", Adempiere.DATE_VERSION);
 		p_properties.setProperty("ADEMPIERE_DB_VERSION", Adempiere.DB_VERSION);
 
+		//		Create Connection
+		String ccType = Database.DB_ORACLE;
+		for (String dbType : DBTYPE)
+		{
+			if (getDatabaseType().equals(DBTYPE))
+				ccType = dbType;
+		}
+		CConnection cc = null;
+		try
+		{
+			cc = CConnection.get (ccType,
+					getDatabaseServer(), getDatabasePort(), getDatabaseName(),
+					getDatabaseUser(), getDatabasePassword());
+			cc.setAppsHost(getAppsServer());
+			cc.setAppsPort(getAppsServerJNPPort());
+			cc.setConnectionProfile(CConnection.PROFILE_LAN);
+		}
+		catch(Exception e)
+		{
+			log.log(Level.SEVERE, "connection", e);
+			return false;
+		}
+
+		p_properties.setProperty(Ini.P_CONNECTION, SecureEngine.encrypt(cc.toStringLong()));
+
+
 		log.finest(p_properties.toString());
 		
 		//	Before we save, load Ini
@@ -1086,14 +1113,19 @@ public class ConfigurationData
 	protected static String	APPSTYPE_JBOSS = "jboss";
 	/** GlassFish            */
     protected static String APPSTYPE_GLASSFISH = "glassfish";
+	/** Tomcat            */
+	protected static String APPSTYPE_TOMCAT = "tomcat";
+
 	/** Application Server Type		*/
 	static String[]	APPSTYPE = new String[]
-		{ APPSTYPE_JBOSS
+		{ APPSTYPE_TOMCAT
+		, APPSTYPE_JBOSS
 		, APPSTYPE_GLASSFISH
 		};
 	/** Database Configs	*/
 	private Config[] m_appsConfig = new Config[]
-	    { new ConfigJBoss(this)
+	    { new ConfigTomcat( this )
+		, new ConfigJBoss(this)
 	    , new ConfigGlassfish( this )
 	    };
 

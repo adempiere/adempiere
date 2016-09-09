@@ -64,7 +64,7 @@
                 <fieldset>
                     <legend id="LoginOrNewLegend">Login Existing User</legend>
 
-            <input name="AD_Client_ID" type="hidden" value='<c:out value="${initParam.#AD_Client_ID}" default="0"/>'/>
+            <input name="AD_Client_ID" type="hidden" value='<c:out value="${initParam['#AD_Client_ID']}" default="0"/>'/>
             <input name="Source" type="hidden" value=""/>
             <input name="Info" type="hidden" value=""/>
             <input name="Mode" type="hidden" value=""/>

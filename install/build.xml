@@ -293,6 +293,12 @@
   		<fileset dir="../glassfishfacet/config"/>
   	</copy>
 
+    <!-- tomcat -->
+    <mkdir dir="${build.dir}/Adempiere/tomcat"/>
+    <copy todir="${build.dir}/Adempiere/tomcat">
+	  <fileset dir="../tomcat"/>
+    </copy>
+
   <chmod perm="755">
       <fileset dir="${build.dir}/Adempiere/">
           <include name="*.sh"/>
