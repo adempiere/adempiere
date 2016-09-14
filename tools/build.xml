@@ -126,7 +126,7 @@
 				<attribute name="Implementation-Title" value="GlassFish ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://wwww.adempiere.net" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 	</target>
