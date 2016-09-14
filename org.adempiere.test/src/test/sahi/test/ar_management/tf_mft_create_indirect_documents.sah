@@ -22,7 +22,7 @@
  * This test flow tests the creation of shipment and invoices from the 
  * Sales Order window
  * 
- * See http://www.adempiere.com/Functional_Tests
+ * See http://wiki.adempiere.net/Functional_Tests
  * 
  **/
 
