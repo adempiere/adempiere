@@ -2066,7 +2066,7 @@ for the databases to be used, for example:</para>
 						<para>This will also generate the API and user documentation, to be found in the <filename>migrate/apidoc</filename> and <filename>migrate/userdoc</filename> directories, respectively.</para>
 					</step>
 				</procedure>
-				<para>For details on how to work with <productname>Adempiere</productname> source code, consult the <productname>Adempiere</productname><link xlink:href="http://www.adempiere.com/index.php/Compile"> documentation</link>.</para>
+				<para>For details on how to work with <productname>Adempiere</productname> source code, consult the <productname>Adempiere</productname><link xlink:href="http://wiki.adempiere.net/Compile"> documentation</link>.</para>
 			</section>
 			<section>
 				<info>
@@ -2074,7 +2074,7 @@ for the databases to be used, for example:</para>
 						Building and Running <productname>Migrate</productname> in <productname>Eclipse</productname>
 					</title>
 				</info>
-				<para>Consult the <productname>Adempiere</productname><link xlink:href="http://www.adempiere.com/index.php/Create_your_ADempiere_development_environment"> documentation</link> on how to compile and run <productname>Adempiere</productname> from within <productname>ECLIPSE</productname>.</para>
+				<para>Consult the <productname>Adempiere</productname><link xlink:href="http://wiki.adempiere.net/Create_your_ADempiere_development_environment"> documentation</link> on how to compile and run <productname>Adempiere</productname> from within <productname>ECLIPSE</productname>.</para>
 				<para>Note that the <productname>JDBC</productname> drivers for installed databases must be in the classpath.</para>
 				<para>If you have installed <productname>Adempiere</productname>, they can be found in <filename>$ADEMPIERE_HOME/lib</filename>:
 					<itemizedlist spacing="compact">
