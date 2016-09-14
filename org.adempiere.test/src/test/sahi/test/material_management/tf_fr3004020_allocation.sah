@@ -2,7 +2,7 @@
  * tf_fr3028588_rounding.sah
  * 
  * FR 3004020
- * http://www.adempiere.com/Delivery_Policy
+ * http://wiki.adempiere.net/Delivery_Policy
  *
  * Tests that orders are allocated according to the delivery policy
  *
