@@ -491,7 +491,7 @@ public class PLAFEditor extends JDialog
 		}
 		else if (e.getSource() == bHelp)
 		{
-			new MiniBrowser("http://www.adempiere.com/wiki/index.php/LooksHelp");
+			new MiniBrowser("https://gitter.im/adempiere/adempiere");
 		}
 
 		//  Look & Feel changed

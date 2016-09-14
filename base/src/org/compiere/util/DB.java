@@ -613,7 +613,7 @@ public final class DB
         if (no == 1)
         {
             JOptionPane.showMessageDialog (null,
-                "Start RUN_Migrate (in utils)\nSee: http://www.adempiere.com/maintain",
+                "Start RUN_Migrate (in utils)\nSee: http://wiki.adempiere.net/maintain",
                 title, JOptionPane.INFORMATION_MESSAGE);
             Env.exitEnv(1);
         }

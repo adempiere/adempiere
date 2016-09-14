@@ -3,17 +3,17 @@
 <jnlp spec="1.0+" 
 	version="1.2.0"
 	codebase="http://osdn.dl.sourceforge.net/adempiere"
-	href="http://www.adempiere.org/looks/adempiereLooks.jnlp">
+	href="http://www.adempiere.net/looks/adempiereLooks.jnlp">
   <information>
     <title>Adempiere Looks</title>
     <vendor>ADempiere, Inc.</vendor>
-    <homepage href="http://www.adempiere.org/looks/" />
+    <homepage href="http://www.adempiere.net/looks/" />
     <offline-allowed />
     <description>Adempiere Looks - Pluggable Look and Feel for Java</description>
     <description kind="short">Adempiere Looks</description>
     <description kind="one-line">Adempiere Looks</description>
     <description kind="tooltip">Adempiere Looks (Current Release from SorceForge)</description>
-    <icon href="http://www.adempiere.org/looks/CL32.gif" />
+    <icon href="http://www.adempiere.net/looks/CL32.gif" />
   </information>
   <resources>
     <j2se version="1.4*" href="http://java.sun.com/products/autodl/j2se" initial-heap-size="8m" max-heap-size="128m" />
