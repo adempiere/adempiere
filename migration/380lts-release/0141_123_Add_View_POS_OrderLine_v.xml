@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="POS_OrderLine_v View don't have XML #123" ReleaseNo="3.8.0" SeqNo="141">
+  <Migration EntityType="D" Name="POS_OrderLine_v View don't have XML #123" ReleaseNo="3.8.0#002" SeqNo="141">
     <Comments>See: https://github.com/adempiere/adempierePOS/issues/123</Comments>
     <Step DBType="Oracle" Parse="Y" SeqNo="0" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW POS_OrderLine_v 
