@@ -36,6 +36,8 @@ import javax.print.attribute.standard.MediaSize;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  	<li> Add Support to Language Venezuela
  *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-397
+ *  	<a href="https://github.com/adempiere/adempiere/issues/580">
+ * 		@see FR [ 580 ] Bad language for es Venezuela</a>
  */
 public class Language implements Serializable
 {
@@ -67,7 +69,7 @@ public class Language implements Serializable
 	private static final String AD_Language_es_MX = "es_MX";
 	private static final String AD_Language_es_CO = "es_CO";
 	private static final String AD_Language_es_DO = "es_DO";
-	private static final String AD_Language_es_VE = "es_MX";
+	private static final String AD_Language_es_VE = "es_VE";
 	private static final String AD_Language_fr_FR = "fr_FR";
 	private static final String AD_Language_fr_CA = "fr_CA";
 	private static final String AD_Language_bg_BG = "bg_BG";
