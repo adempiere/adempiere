@@ -15,65 +15,15 @@
  * or via info@posterita.org or http://www.posterita.org/                     *
  *****************************************************************************/
 
-package org.adempiere.webui.event;
+package org.adempiere.exceptions;
 
 /**
- * Deprecated as of 3.8.2.  Use org.adempiere.exception.ValueChangeEvent
+ *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 10, 2007
  * @version $Revision: 0.10 $
- * 
  */
-@Deprecated
-public class ValueChangeEvent
+public interface ValueChangeListener
 {
-
-    /**
-     * The object on which the Event initially occurred.
-     */
-    protected Object source;
-
-    /**
-     * name of the property that changed. May be null, if not known.
-     */
-    private String   propertyName;
-
-    /**
-     * New value for property. May be null if not known.
-     */
-    private Object   newValue;
-
-    /**
-     * Previous value for property. May be null if not known.
-     */
-    private Object   oldValue;
-
-    public ValueChangeEvent(Object source, String propertyName,
-            Object oldValue, Object newValue)
-    {
-        this.source = source;
-        this.propertyName = propertyName;
-        this.newValue = newValue;
-        this.oldValue = oldValue;
-    }
-
-    public Object getNewValue()
-    {
-        return newValue;
-    }
-
-    public Object getOldValue()
-    {
-        return oldValue;
-    }
-
-    public String getPropertyName()
-    {
-        return propertyName;
-    }
-
-    public Object getSource()
-    {
-        return source;
-    }
+    public void valueChange(ValueChangeEvent evt);
 }
