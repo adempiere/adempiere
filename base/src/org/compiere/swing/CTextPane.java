@@ -23,13 +23,16 @@ import java.awt.event.InputMethodListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.im.InputMethodRequests;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.InputVerifier;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.StyledDocument;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.model.GridField;
 
 /**
  *	Adempiere TextPane - A ScrollPane with a JTextPane.
@@ -355,6 +358,24 @@ public class CTextPane extends JScrollPane
 	public void setInputVerifier (InputVerifier l)
 	{
 		m_textPane.setInputVerifier(l);
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public GridField getField() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }	//	CTextPane
