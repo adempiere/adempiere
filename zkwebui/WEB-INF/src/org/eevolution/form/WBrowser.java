@@ -97,6 +97,9 @@ import org.zkoss.zul.Vbox;
  * 		@see https://github.com/adempiere/adempiere/issues/340
  * 		<li>BR [ 394 ] Smart browse does not reset context when windows is closed
  *		@see https://github.com/adempiere/adempiere/issues/394
+ *	@author Michael Mckay michael.mckay@mckayerp.com
+ *		<li> BR [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] 
+ *			Parameter Panel & SmartBrowser criteria do not set gridField value
  */
 public class WBrowser extends Browser implements IFormController,
 		EventListener, ASyncProcess {
@@ -199,6 +202,9 @@ public class WBrowser extends Browser implements IFormController,
 	 */
 	private void statInit() {
 		searchGrid.init();
+		searchGrid.getPanel().setStyle("background-color: transparent");
+		topPanel.appendChild(searchGrid.getPanel());
+		
 		//	
 		if (getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
@@ -211,7 +217,7 @@ public class WBrowser extends Browser implements IFormController,
 			south.setSplittable(true);
 			south.setCollapsible(false);
 			//	
-			parameterPanel.init();
+			parameterPanel.createFieldsAndEditors();
 			//	
 			Div div = new Div();
 			div.setWidth("100%");
@@ -493,9 +499,6 @@ public class WBrowser extends Browser implements IFormController,
 		//topPanel.setStyle("position: absolute");
 		topPanel.setStyle("background-color: transparent");
 
-		searchGrid.getPanel().setStyle("background-color: transparent");
-		topPanel.appendChild(searchGrid.getPanel());
-		
 		bSearch.setLabel(Msg.getMsg(Env.getCtx(), "StartSearch"));
 
 		bSearch.addActionListener(new EventListener() {
@@ -829,7 +832,8 @@ public class WBrowser extends Browser implements IFormController,
 		for (Entry<String, Object> entry : searchGrid.getParameters().entrySet()) {
 			WEditor editor = (WEditor) entry.getValue();
 			//	BR [ 251 ]
-			if(!editor.isVisible())
+			if(!editor.isVisible()
+					|| searchGrid.isInfoOnly(editor.getField().getColumnNameAlias()))
 				continue;
 			//
 			GridField field = editor.getGridField();
