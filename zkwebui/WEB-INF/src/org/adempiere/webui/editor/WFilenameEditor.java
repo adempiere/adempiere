@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.FilenameBox;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 import org.zkoss.util.media.Media;

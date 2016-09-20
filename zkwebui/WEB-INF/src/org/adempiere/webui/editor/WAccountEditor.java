@@ -20,7 +20,7 @@ import java.util.logging.Level;
 import org.adempiere.webui.component.Combinationbox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.window.WAccountDialog;
 import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
