@@ -117,6 +117,7 @@ public class VBrowserSearch extends BrowserSearch implements SmallViewEditable {
 	 */
 	public void dispose() {
 		super.dispose();
+		mainPanel.removeAll();
 	}   //  dispose
 
 	public CEditor createEditor(GridField field) {
@@ -169,7 +170,8 @@ public class VBrowserSearch extends BrowserSearch implements SmallViewEditable {
 		if(editorTo != null) {
 			columnsToAdd += 2;
 		}
-		if((cols + columnsToAdd) > maxToAdd) {
+		//	Verify if is new row or not
+		if((cols + columnsToAdd) > maxToAdd ) {
 			cols = 0;
 			row ++;
 		}

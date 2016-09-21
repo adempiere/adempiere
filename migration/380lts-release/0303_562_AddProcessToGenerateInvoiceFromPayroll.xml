@@ -351,23 +351,6 @@
         <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
       </PO>
     </Step>
-    <Step SeqNo="360" StepType="AD">
-      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
-        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">55605</Data>
-        <Data AD_Column_ID="2836" Column="Created">2016-08-24 13:29:57.935</Data>
-        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="2841" Column="Description">Document type or rules</Data>
-        <Data AD_Column_ID="3743" Column="Help">The Document Type determines document sequence and processing rules</Data>
-        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="2840" Column="Name">Document Type</Data>
-        <Data AD_Column_ID="2838" Column="Updated">2016-08-24 13:29:57.935</Data>
-        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
-      </PO>
-    </Step>
     <Step SeqNo="390" StepType="AD">
       <PO AD_Table_ID="285" Action="U" Record_ID="55604" Table="AD_Process_Para">
         <Data AD_Column_ID="2826" Column="SeqNo" oldValue="20">30</Data>

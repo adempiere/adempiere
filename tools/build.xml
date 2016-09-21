@@ -108,7 +108,7 @@
 				<attribute name="Implementation-Title" value="jboss ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.com" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 
@@ -126,7 +126,7 @@
 				<attribute name="Implementation-Title" value="GlassFish ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.com" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 	</target>
@@ -149,7 +149,7 @@
 				<attribute name="Implementation-Title" value="oracle ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 
@@ -166,7 +166,7 @@
 				<attribute name="Implementation-Title" value="postgresql ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
 
@@ -183,7 +183,7 @@
 				<attribute name="Implementation-Title" value="MYSQL ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 		</jar>
         <!-- -->
@@ -318,7 +318,7 @@
 				<attribute name="Implementation-Title" value="CSTools ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
 			<zipfileset src="lib/commons-collections-3.1.jar">
@@ -485,7 +485,7 @@
 				<attribute name="Implementation-Title" value="CCTools ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
 			<zipfileset src="lib/commons-collections-3.1.jar">

@@ -1,30 +1,32 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<jnlp spec = "1.7+" version = "3.8.0LTS"
-	codebase = "http://@ADEMPIERE_APPS_SERVER@:@ADEMPIERE_WEB_PORT@/admin/adempiereHome" 
-	href = "http://@ADEMPIERE_APPS_SERVER@:@ADEMPIERE_WEB_PORT@/admin/adempiereHome/adempiereDirect.jnlp">  
+<jnlp spec = "1.7+" version = "3.9.0LTS"
+	codebase = "$$context/admin/adempiereHome"
+	href = "$$context/admin/adempiereHome/adempiereDirect.jnlp">
 	<information>
-		<title>Adempiere Client 3.8.0LTS @ADEMPIERE_APPS_SERVER@ Direct</title>
-		<vendor>ADempiere, Inc.</vendor>
-		<homepage href = "http://www.adempiere.org"/>
+		<title>Adempiere Client 3.9.0LTS @ADEMPIERE_APPS_SERVER@ Direct</title>
+		<vendor>ADempiere Foundation.</vendor>
+		<homepage href = "http://www.adempiere.net"/>
 		<description>Adempiere ERP+CRM (local) - Smart Business Solution for Distribution and Service - globally</description>
-		<description kind = "short">Adempiere ERP+CRM (local)</description>
+		<description>Adempiere ERP+CRM - Smart Business Solution</description>
+		<description kind = "short">Adempiere ERP+CRM</description>
 		<description kind = "one-line">Adempiere ERP+CRM</description>
-		<description kind = "tooltip">Adempiere ERP+CRM (Local Release)</description>
-		<icon href = "http://@ADEMPIERE_APPS_SERVER@:@ADEMPIERE_WEB_PORT@/admin/C32.gif"/>
+		<description kind = "tooltip">Adempiere ERP+CRM</description>
+		<icon href = "$$context/admin/C32.gif"/>
 		<shortcut online="true">
 			<desktop/>
-			<menu submenu="Adempiere 3.8.0LTS @ADEMPIERE_APPS_SERVER@ Direct"/>
+			<menu submenu="Adempiere 3.9.0LTS"/>
 		</shortcut>
 	</information>  
 	<security>
 		<all-permissions/>  
 	</security>
 	<resources>
-		<j2se version = "1.7+" href = "http://java.sun.com/products/autodl/j2se" initial-heap-size = "32m" max-heap-size = "512m"/>
+		<j2se version = "1.8+" href = "http://java.sun.com/products/autodl/j2se" initial-heap-size = "32m" max-heap-size = "512m"/>
 		<jar href = "Adempiere.jar" main = "true" download = "eager"/>
 		<jar href = "AdempiereCLib.jar" main = "false" download = "eager"/>
 		<jar href = "CompiereJasperReqs.jar" main = "false" download = "eager"/>
-		<property name="adempiereJNLP" value="@ADEMPIERE_APPS_SERVER@:@ADEMPIERE_WEB_PORT@"/> 
+		<property name="adempiereJNLP" value="$$context"/>
+		<property name="Connection" value="@Connection@"/>
 	</resources>  
 	<application-desc main-class = "org.compiere.Adempiere"/>  
 </jnlp>

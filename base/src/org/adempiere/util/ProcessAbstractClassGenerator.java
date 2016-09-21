@@ -27,6 +27,8 @@ import org.compiere.util.Env;
  *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 326 ] Process source code generated automatically
  *		@see https://github.com/adempiere/adempiere/issues/326
+ *		<a href="https://github.com/adempiere/adempiere/issues/566">
+ * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *	@author Victor Perez, victor.perez@e-evolution.com, http://e-evolution.com
  */
 public class ProcessAbstractClassGenerator {
@@ -101,6 +103,9 @@ public class ProcessAbstractClassGenerator {
 
 		//	Create Name and Values
 		for(MProcessPara parameter : getParameters()) {
+			//	The information only don't are parameters
+			if(parameter.isInfoOnly())
+				continue;
 			createParameterName(parameter);
 			createParameterValue(parameter, false);
 			createParameterFill(parameter, false);
@@ -121,6 +126,9 @@ public class ProcessAbstractClassGenerator {
 
 		//	Create Name and Values
 		for(MProcessPara parameter : getParameters()) {
+			//	The information only don't are parameters
+			if(parameter.isInfoOnly())
+				continue;
 			createGetterParameter(parameter , false);
 			//	For Range
 			if(parameter.isRange()) {

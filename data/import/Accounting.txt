@@ -7,7 +7,7 @@ Note that Adempiere only maintains and validates AccountingUS.xls/csv.
 The other examples are contributions may not be complete.
 
 For explanation, use and updates please check
-http://www.adempiere.com/wiki/index.php/COA
+http://wiki.adempiere.net/COA
 
 We suggest to maintain your info in xls, but save the 
 account structure in csv for import.

@@ -81,7 +81,7 @@
 	<attribute name="Implementation-Title" value="CLooks ${env.ADEMPIERE_VERSION}${version}"/>
 	<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION}${version} ${DSTAMP}-${TSTAMP}"/>
 	<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
-	<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
+	<attribute name="Implementation-URL" value="http://www.adempiere.net"/>
 	<attribute name="Main-Class" value="org.adempiere.plaf.AdempierePLAF"/>
       </manifest>
     </jar>

@@ -1,5 +1,5 @@
 refers to:
-http://www.adempiere.com/Bug_Month_May_2011#Bug_Trackings, Rev 6336
+http://wiki.adempiere.net/Bug_Month_May_2011#Bug_Trackings, Rev 6336
 
 Review for 361-LTS
 My understanding:

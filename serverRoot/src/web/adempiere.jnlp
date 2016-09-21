@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<jnlp spec = "1.7+" version = "3.8.0LTS"
+<jnlp spec = "1.8+" version = "3.9.0LTS"
 	codebase = "$$context/adempiereHome" 
 	href = "$$context/adempiere.jnlp">  
 	<information>
-		<title>Adempiere Client 3.8.0LTS $$context</title>
+		<title>Adempiere Client 3.9.0LTS $$context</title>
 		<vendor>ADempiere, Inc.</vendor>
 		<homepage href = "http://www.adempiere.org"/>
 		<offline-allowed/>
@@ -14,7 +14,7 @@
 		<icon href = "$$context/C32.gif"/>
 		<shortcut online="true">
 			<desktop/>
-			<menu submenu="Adempiere 3.8.0LTS $$context"/>
+			<menu submenu="Adempiere 3.9.0LTS $$context"/>
 		</shortcut>
 	</information>  
 	<security>

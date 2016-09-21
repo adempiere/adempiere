@@ -31,6 +31,7 @@ import org.adempiere.model.MBrowseField;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.MLookup;
+import org.compiere.model.MProcessPara;
 import org.compiere.model.M_Element;
 import org.compiere.swing.CEditor;
 import org.compiere.swing.CLabel;
@@ -356,46 +357,6 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		return editorsTo.get(index);
 	}
 
-	/**
-	 *	Creates model gridFields which will accessible via the {@link #fields fields} list.
-	 *  The {@link #fieldsTo fieldsTo} list will contain the matching "to" range or null.<br>
-	 *  <br>
-	 *  This function should be called by the view's {@link #loadData() loadData()} function. 
-	 *  @param rs result set which should have the column names 
-	 *  equivalent to AD_Process_Para
-	 *  @param windowNo the Window number where the field will appear. This 
-	 *  is required to ensure the context variables are set correctly for
-	 *  the created field.
-	 *  
-	 *   @see org.compiere.model.GridFieldVO#createParameter(java.util.Properties, int, ResultSet)
-	 *   
-	 */
-	protected void createField (ResultSet rs, int windowNo) {
-		//  Create Field
-		GridFieldVO voF = GridFieldVO.createParameter(Env.getCtx(), windowNo, rs);
-		GridField field = new GridField (voF);
-		GridField field_To = null;
-		
-		voF.ColumnNameAlias = field.getColumnName();
-
-		fields.add(field);                      //  add to Fields
-		//
-		if (voF.IsRange) {
-			//
-			GridFieldVO voF2 = GridFieldVO.createParameter(voF);
-			//	BR [ 298 ]
-			voF2.DefaultValue = voF2.DefaultValue2;
-			//	Change Name
-			voF2.ColumnName = voF2.ColumnName + "_To";
-			voF2.ColumnNameAlias = voF2.ColumnName;
-			//	
-			field_To = new GridField (voF2);
-			//	
-			fieldsTo.add (field_To);
-		} else {
-			fieldsTo.add (null);
-		}
-	}	//	createField
 	
 	/**
 	 *	Creates model gridFields which will accessible via the {@link #fields fields} list.
@@ -421,6 +382,42 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 			GridField gField_To = new GridField(voBase_To);
 			//	
 			fieldsTo.add(gField_To);
+		} else {
+			fieldsTo.add (null);
+		}
+	}	//	createField
+
+	/**
+	 *	Creates model gridFields which will accessible via the {@link #fields fields} list.
+	 *  The {@link #fieldsTo fieldsTo} list will contain the matching "to" range or null.<br>
+	 *  <br>
+	 *  This function should be called by the view's {@link #loadData() loadData()} function. 
+	 *  @param MProcessPara - the process parameter used to create the field
+	 *  @param windowNo the Window number where the field will appear. This 
+	 *  is required to ensure the context variables are set correctly for
+	 *  the created field.
+	 *  
+	 *   @see org.compiere.model.GridFieldVO#createParameter(java.util.Properties, int, ResultSet)
+	 *   
+	 */
+	protected void createField (MProcessPara processParameter, int windowNo) {
+		//  Create Field
+		GridFieldVO voF = GridFieldVO.createParameter(Env.getCtx(), windowNo, processParameter);
+		GridField field = new GridField (voF);
+		GridField fieldTo = null;
+		fields.add(field);                      //  add to Fields
+		//
+		if (voF.IsRange) {
+			//
+			GridFieldVO voF2 = GridFieldVO.createParameter(voF);
+			//	BR [ 298 ]
+			voF2.DefaultValue = voF2.DefaultValue2;
+			//	Change Name
+			voF2.ColumnName = voF2.ColumnName + "_To";
+			//	
+			fieldTo = new GridField (voF2);
+			//	
+			fieldsTo.add (fieldTo);
 		} else {
 			fieldsTo.add (null);
 		}
@@ -701,9 +698,12 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		int size = fields.size();
 		for (int i = 0; i < size; i++) {
 			GridField field = (GridField) fields.get(i);
+			//	FR [ 566 ] Only Information
+			if(field == null || field.isInfoOnly())
+				continue;
 			// field.validateValue tests for mandatory values and correct lookup selection
 			// if there is an error, the field's error flag will be set
-			if (field != null && !field.validateValue()) {
+			if (!field.validateValue()) {
 				if (sb.length() > 0)
 					sb.append(", ");
 				sb.append(field.getHeader());

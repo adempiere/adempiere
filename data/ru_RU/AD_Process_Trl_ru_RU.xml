@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070605-1226 - ${env.ADEMPIERE_VENDOR}-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">-->
 <!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
 <adempiereTrl language="ru_RU" table="AD_Process">
  <row id="100" trl="Y">
@@ -1215,7 +1215,7 @@
  <row id="342" trl="Y">
   <value column="Name" original="Validate Support">Утвердить поддержку</value>
   <value column="Description" original="Validate Support Contract">Утвердить контракт на поддержку</value>
-  <value column="Help" original="The process connects to the Adempiere Support Services server and validates the support contract.  To sign up for support, please go to http://www.adempiere.org">Обработка соединения к серверу службы поддержки Adempiere и утверждение контракта на поддержку. Для оформления подписки на поддержку посетите http://www.adempiere.org</value>
+  <value column="Help" original="The process connects to the Adempiere Support Services server and validates the support contract.  To sign up for support, please go to http://www.adempiere.net">Обработка соединения к серверу службы поддержки Adempiere и утверждение контракта на поддержку. Для оформления подписки на поддержку посетите http://www.adempiere.net</value>
  </row>
  <row id="343" trl="Y">
   <value column="Name" original="Import Payments">Импорт оплат</value>

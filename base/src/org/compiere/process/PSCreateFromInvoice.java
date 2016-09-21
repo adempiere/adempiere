@@ -21,6 +21,10 @@ import java.math.BigDecimal;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
+import org.compiere.model.MUser;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * 	Payment Selection Create From Invoice, used for Smart Browse (Create From Invoice)
@@ -28,23 +32,50 @@ import org.compiere.model.MPaySelectionLine;
  *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document
  *		@see https://github.com/adempiere/adempiere/issues/297
  */
-public class PSCreateFromInvoice extends SvrProcess {
+public class PSCreateFromInvoice extends PSCreateFromInvoiceAbstract {
 
 	/**	Sequence			*/
-	private int				m_SeqNo = 10;
+	private int				seqNo = 10;
+	/**	Is New				*/
+	private boolean			isNew = false;
+	/**	Payment Selection	*/
+	private MPaySelection	paymentSelection = null;
 	
 	@Override
 	protected void prepare() {
+		super.prepare();
 		//	Valid Record Identifier
-		if(getRecord_ID() <= 0)
+		if(getRecord_ID() <= 0
+				&& getBankAccountId() == 0
+				&& getPaymentdate() == null)
 			throw new AdempiereException("@C_PaySelection_ID@ @NotFound@");
 	}
 
 	@Override
 	protected String doIt() throws Exception {
 		//	Instance current Payment Selection
-		MPaySelection paySelection = new MPaySelection(getCtx(), getRecord_ID(), get_TrxName());
-		m_SeqNo = paySelection.getLastLineNo();
+		if(getRecord_ID() > 0) {	//	Already exists
+			paymentSelection = new MPaySelection(getCtx(), getRecord_ID(), get_TrxName());
+			seqNo = paymentSelection.getLastLineNo();
+		} else {	//	Is a new Payment Selection
+			paymentSelection = new MPaySelection(getCtx(), 0, get_TrxName());
+			paymentSelection.setC_BankAccount_ID(getBankAccountId());
+			paymentSelection.setDateDoc(getDocumentDate());
+			paymentSelection.setPayDate(getPaymentdate());
+			if(getTargetDocumentTypeId() > 0)
+				paymentSelection.setC_DocType_ID(getTargetDocumentTypeId());
+			MUser user = MUser.get(getCtx(), getAD_User_ID());
+			String userName = "";
+			if(user != null)
+				userName = user.getName();
+			//	Set description
+			paymentSelection.setDescription(Msg.getMsg(Env.getCtx(), "VPaySelect")
+					+ " - " + userName
+					+ " - " + DisplayType.getDateFormat(DisplayType.Date).format(getPaymentdate()));
+			//	Save
+			paymentSelection.saveEx();
+			isNew = true;
+		}
 		//	Loop for keys
 		for(Integer key : getSelectionKeys()) {
 			//	get values from result set
@@ -55,12 +86,25 @@ public class PSCreateFromInvoice extends SvrProcess {
 			BigDecimal OpenAmt = getSelectionAsBigDecimal(key, "INV_OpenAmt");
 			BigDecimal PayAmt = getSelectionAsBigDecimal(key, "INV_PayAmt");
 			BigDecimal DiscountAmt = getSelectionAsBigDecimal(key, "INV_DiscountAmt");
-			m_SeqNo += 10;
-			MPaySelectionLine line = new MPaySelectionLine(paySelection, m_SeqNo, PaymentRule);
+			seqNo += 10;
+			MPaySelectionLine line = new MPaySelectionLine(paymentSelection, seqNo, PaymentRule);
 			//	Add Order
 			line.setInvoice(C_Invoice_ID, C_InvoicePaySchedule_ID, AmtSource, OpenAmt, PayAmt, DiscountAmt);
 			//	Save
 			line.saveEx();
+		}
+		//	For new
+		if(isNew) {
+			//	Load Record
+			paymentSelection.load(get_TrxName());
+			//	Process Selection
+			if(!paymentSelection.processIt(MPaySelection.DOCACTION_Complete)) {
+				throw new AdempiereException("@Error@ " + paymentSelection.getProcessMsg());
+			}
+			//	
+			paymentSelection.saveEx();
+			//	Notify
+			return paymentSelection.getDescription();
 		}
 		//	Default Ok
 		return "@OK@";

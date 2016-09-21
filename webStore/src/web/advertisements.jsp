@@ -28,7 +28,7 @@
         <c:forEach items='${info.advertisements}' var='ad'> 
         <tr> 
           <td colspan="2">
-		    <a href="http://www.adempiere.com/wstore/click?<c:out value='${ad.clickTargetURL}'/>" target="_blank"> 
+		    <a href="http://www.adempiere.net/wstore/click?<c:out value='${ad.clickTargetURL}'/>" target="_blank">
             <img src="<c:out value='${ad.imageURL}'/>" alt="<c:out value='${ad.name}'/>" border="0" align="left"></a> 
             <img src="<c:out value='${ad.webParam2}'/>" alt="<c:out value='${ad.webParam1}'/>" border="0" align="right"> 
             &nbsp; <b><c:out value='${ad.description}'/></b>
