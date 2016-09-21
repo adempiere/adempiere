@@ -417,6 +417,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		if(!hasLines()) {
 			infoProductPanel.resetValues();
 			quantityPanel.resetPanel();
+			actionPanel.resetPanel();
 		}
 	}
 
@@ -643,7 +644,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	{
 		infoProductPanel.resetValues();
 		quantityPanel.resetPanel();
-		actionPanel.resetPanel();
+		actionPanel.disableButtons();
 		orderLinePanel.disableTable();
 	}
 	

@@ -2,7 +2,7 @@
  * tf_fr3028588_rounding.sah
  * 
  * FR 3028588
- * http://www.adempiere.com/Rounding
+ * http://wiki.adempiere.net/Rounding
  *
  * Tests that orders and invoices are rounded according to the rules 
  * on the price lists.	

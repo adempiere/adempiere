@@ -77,6 +77,8 @@ import org.compiere.util.Evaluator;
  * 		@see https://github.com/adempiere/adempiere/issues/344
  * 		<li>FR [ 349 ] GridFieldVO attribute is ambiguous
  * 		@see https://github.com/adempiere/adempiere/issues/349
+ * 		<a href="https://github.com/adempiere/adempiere/issues/566">
+ * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -1954,5 +1956,13 @@ public class GridField
     public boolean isEmbedded()
     {
     	return m_vo.isEmbedded;
+    }
+    
+    /**
+     * Is Information Only
+     * @return
+     */
+    public boolean isInfoOnly() {
+    	return m_vo.IsInfoOnly;
     }
 }   //  MField

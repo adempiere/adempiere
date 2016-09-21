@@ -1,7 +1,7 @@
 -- Sep 6, 2009 11:42:41 PM ECT
 -- Warehouse Management
 UPDATE AD_EntityType SET Classpath=NULL, Description='Libero Warehouse Management covers all Warehouse inbound and outbound operation', EntityType='EE03', Help='Project
-http://www.adempiere.com/index.php/Sponsored_Development:_Libero_Warehouse_Management
+http://wiki.adempiere.net/Sponsored_Development:_Libero_Warehouse_Management
 
 Sponsored Development www.e-evolution.com', IsActive='Y', ModelPackage='org.eevolution.model', Name='e-Evolution Libero Warehouse Management', Version='1.00',Updated=TO_TIMESTAMP('2009-09-06 23:42:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_EntityType_ID=50007
 ;

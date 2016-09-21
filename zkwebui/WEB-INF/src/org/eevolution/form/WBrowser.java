@@ -833,7 +833,7 @@ public class WBrowser extends Browser implements IFormController,
 			WEditor editor = (WEditor) entry.getValue();
 			//	BR [ 251 ]
 			if(!editor.isVisible()
-					|| searchGrid.isInfoOnly(editor.getField().getColumnNameAlias()))
+					|| editor.getGridField().isInfoOnly())
 				continue;
 			//
 			GridField field = editor.getGridField();

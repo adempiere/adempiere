@@ -1,6 +1,7 @@
 bin/
-lib/
 out/
+test/
+project/
 posterita/posterita/dist/
 posterita/posterita/web/WEB-INF/classes/
 install/lib/

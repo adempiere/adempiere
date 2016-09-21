@@ -10,6 +10,7 @@
 
 
 @IF '%ADEMPIERE_APPS_TYPE%' == 'jboss' GOTO JBOSS
+@IF '%ADEMPIERE_APPS_TYPE%' == 'tomcat' GOTO TOMCAT
 @GOTO UNSUPPORTED
 
 :JBOSS
@@ -18,6 +19,15 @@
 
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @Call %JBOSS_HOME%\bin\run -c adempiere -b %ADEMPIERE_APPS_SERVER%
+@Echo Done Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
+@GOTO END
+
+:TOMCAT
+@Set NOPAUSE=Yes
+@Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true
+
+@Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
+@Call ..\tomcat\bin\startup.bat
 @Echo Done Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @GOTO END
 

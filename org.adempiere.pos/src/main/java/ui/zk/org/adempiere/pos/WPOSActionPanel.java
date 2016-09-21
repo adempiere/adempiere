@@ -630,7 +630,6 @@ public class WPOSActionPanel extends WPOSSubPanel
 	 * @return void
 	 */
 	public void enableButton(){
-		fieldProductName.setText(fieldProductName.getTitle());
 		buttonNew.setEnabled(true);
 		buttonCancel.setEnabled(false);
 		buttonHistory.setEnabled(true);
@@ -686,17 +685,22 @@ public class WPOSActionPanel extends WPOSSubPanel
 	public void moveDown() {
 	}	
 
-	public void resetPanel() {
-		buttonNew.setEnabled(false);
-		buttonHistory.setEnabled(false);
-		buttonNext.setEnabled(false);
-		buttonBack.setEnabled(false);
-		buttonCollect.setEnabled(false);
-		buttonCancel.setEnabled(false);
-		buttonDocType.setEnabled(false);
-		buttonBPartner.setEnabled(false);	
-		buttonProcess.setEnabled(false);
-	}
+  public void disableButtons() {
+    buttonNew.setEnabled(false);
+    buttonHistory.setEnabled(false);
+    buttonNext.setEnabled(false);
+    buttonBack.setEnabled(false);
+    buttonCollect.setEnabled(false);
+    buttonCancel.setEnabled(false);
+    buttonDocType.setEnabled(false);
+    buttonBPartner.setEnabled(false); 
+    buttonProcess.setEnabled(false);
+  }
+
+
+  public void resetPanel() {
+    fieldProductName.setValue(Msg.translate(Env.getCtx(), "M_Product_ID"));
+  }
 
 	public Timer getProductTimer()
 	{

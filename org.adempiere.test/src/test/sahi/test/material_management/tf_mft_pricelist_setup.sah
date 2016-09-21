@@ -22,7 +22,7 @@
  * This test flow creates the price list used in the Main
  * Functional Tests
  * 
- * See http://www.adempiere.com/Functional_Tests
+ * See http://wiki.adempiere.net/Functional_Tests
  * 
  **/
 // Local test - un-comment next three lines if running just this file

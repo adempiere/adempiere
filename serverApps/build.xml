@@ -96,7 +96,7 @@
 		<attribute name="Implementation-Title" value="AdempiereApps ${env.ADEMPIERE_VERSION}"/>
 		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
 		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
-		<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.net"/>
 		<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar"/>
       </manifest>
     </jar>
@@ -121,7 +121,7 @@
   			<attribute name="Implementation-Title" value="AdempiereAppsWar ${env.ADEMPIERE_VERSION}"/>
   			<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
   			<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
-  			<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+  			<attribute name="Implementation-URL" value="http://www.adempiere.net"/>
   			<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar"/>
   	      </manifest>
   	    </war>

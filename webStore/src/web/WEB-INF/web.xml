@@ -13,6 +13,10 @@
 		<param-name>#W_Store_ID</param-name>
 		<param-value>0</param-value>
 	</context-param>
+	<context-param>
+		<param-name>#AD_Client_ID</param-name>
+		<param-value>0</param-value>
+	</context-param>
 	<filter>
 		<description>ADempiere Web Store Filter</description>
 		<display-name>Web Store Filter </display-name>

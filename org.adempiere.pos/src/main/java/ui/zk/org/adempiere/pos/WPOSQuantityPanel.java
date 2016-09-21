@@ -18,9 +18,11 @@
 package org.adempiere.pos;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -30,6 +32,7 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MOrder;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkforge.keylistener.Keylistener;
@@ -42,8 +45,13 @@ import org.zkoss.zk.ui.event.KeyEvent;
  * Button panel Up Down
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
  * @author Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ *  <li><a href="https://github.com/adempiere/adempiere/issues/533">
+ *           BF/FR [ 533 ] Update Fields when selected line</a> 
+ *  <li><a href="https://github.com/adempiere/adempiere/issues/530">
+ *           BF/FR [ 530 ] Added Validation in fields quantity, price and Discount</a>
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * @author victor.perez@e-evolution.com , http://www.e-evolution.com
+ * 
  */
 public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface {
 
@@ -129,6 +137,9 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 		row.appendChild(priceLabel);
 		
 		fieldPrice = new POSNumberBox(false);
+    DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Amount, AEnv.getLanguage(Env.getCtx()));
+    fieldPrice.getDecimalbox().setFormat(format.toPattern());
+    
 		fieldPrice.setTooltiptext(Msg.translate(Env.getCtx(), "PriceActual"));
 		row.appendChild(fieldPrice);
 		if (!posPanel.isModifyPrice())
@@ -216,44 +227,50 @@ public class WPOSQuantityPanel extends WPOSSubPanel implements POSPanelInterface
 			else if (e.getTarget().equals(buttonDelete)){
 				if(posPanel.isUserPinValid()) {
 					posPanel.deleteLine(posPanel.getC_OrderLine_ID());
-					fieldQuantity.setValue(0.0);
-					fieldPrice.setValue(0.0);
-					fieldDiscountPercentage.setValue(0.0);
+
+					posPanel.updateLineTable();
 					posPanel.refreshPanel();
+					return;
 				}
 			}
 			BigDecimal value = Env.ZERO;
 			if(Events.ON_OK.equals(e.getName()) || Events.ON_CHANGE.equals(e.getName())) {
-				
-				value = fieldQuantity.getValue();
-				if(e.getTarget().equals(fieldQuantity.getDecimalbox())) {
-					if(Events.ON_OK.equals(e.getName())){
-						posPanel.setQty(value);
-					}
-					else if(posPanel.isAddQty() 
-							|| Events.ON_CHANGE.equals(e.getName())){
-						//	Verify if it add or set
-						if(posPanel.isAddQty()) {
-							posPanel.setQtyAdded(value);
-						} else {
-							posPanel.setQty(value);
-						}
-					}
-					
-				}
-			
-				if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
-					value = fieldPrice.getValue();
-					if(posPanel.isUserPinValid()) {
-						posPanel.setPrice(value);
-					}
-				}
-				else if ( e.getTarget().equals(fieldDiscountPercentage.getDecimalbox())) {
-					if(posPanel.isUserPinValid()) {
-						value = fieldDiscountPercentage.getValue();
-						posPanel.setDiscountPercentage(value);
-					}
-				}
+        
+			  value = fieldQuantity.getValue();
+        if(value == null)
+          return;
+        if(e.getTarget().equals(fieldQuantity.getDecimalbox())) {
+          if(Events.ON_OK.equals(e.getName())){
+            posPanel.setQty(value);
+          }
+          else if(posPanel.isAddQty() 
+              || Events.ON_CHANGE.equals(e.getName())){
+            //  Verify if it add or set
+            if(posPanel.isAddQty()) {
+              posPanel.setQtyAdded(value);
+            } else {
+              posPanel.setQty(value);
+            }
+          }
+          
+        }
+      
+        if (e.getTarget().equals(fieldPrice.getDecimalbox())) {
+          value = fieldPrice.getValue();
+          if(value == null)
+            return;
+          if(posPanel.isUserPinValid()) {
+            posPanel.setPrice(value);
+          }
+        }
+        else if ( e.getTarget().equals(fieldDiscountPercentage.getDecimalbox())) {
+          if(posPanel.isUserPinValid()) {
+            value = fieldDiscountPercentage.getValue();
+            if(value == null)
+              return;
+            posPanel.setDiscountPercentage(value);
+          }
+        }
 			}
 
 			posPanel.updateLineTable();

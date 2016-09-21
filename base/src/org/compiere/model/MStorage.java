@@ -503,7 +503,7 @@ public class MStorage extends X_M_Storage
 		if (M_AttributeSetInstance_ID != reservationAttributeSetInstance_ID)
 		{
 			//consumed the reserved qty storage
-			if(diffQtyReserved.signum() != 0)
+			if(diffQtyReserved != null && diffQtyReserved.signum() != 0)
 				storage0 = getQtyReserved(ctx,
 				M_Product_ID, M_Warehouse_ID , reservationAttributeSetInstance_ID, trxName);
 			if(diffQtyOrdered.signum() != 0)

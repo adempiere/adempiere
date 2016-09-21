@@ -176,9 +176,26 @@
 
 	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoHR"/>
 	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoHR/lib"/>
-	<copy file="../zkpackages/liberozkHR.jar" tofile="${build.dir}/Adempiere/zkpackages/liberozkHR/lib/liberozkHR.jar"/>
+	<copy file="../zkpackages/liberozkHR.jar" tofile="${build.dir}/Adempiere/zkpackages/liberoHR/lib/liberozkHR.jar"/>
 
-  	<copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
+	<mkdir dir="${build.dir}/Adempiere/packages/ADempierePOS"/>
+	<mkdir dir="${build.dir}/Adempiere/packages/ADempierePOS/lib"/>
+	<copy file="../packages/ADempierePOS.jar" tofile="${build.dir}/Adempiere/packages/ADempierePOS/lib/ADempierePOS.jar"/>
+
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/ADempierePOS"/>
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/ADempierePOS/lib"/>
+	<copy file="../zkpackages/ADempierePOSzk.jar" tofile="${build.dir}/Adempiere/zkpackages/ADempierePOS/lib/ADempierePOSzk.jar"/>
+
+    <mkdir dir="${build.dir}/Adempiere/packages/liberoFreight"/>
+    <mkdir dir="${build.dir}/Adempiere/packages/liberoFreight/lib"/>
+    <copy file="../packages/liberoFreight.jar" tofile="${build.dir}/Adempiere/packages/liberoFreight/lib/liberoFreight.jar"/>
+
+    <mkdir dir="${build.dir}/Adempiere/zkpackages/liberoFreight"/>
+    <mkdir dir="${build.dir}/Adempiere/zkpackages/liberoFreight/lib"/>
+    <copy file="../zkpackages/liberozkFreight.jar" tofile="${build.dir}/Adempiere/zkpackages/liberoFreight/lib/liberozkFreight.jar"/>
+
+
+	  <copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
 
 	<!-- Base Directory			-->
 	<copy todir="${build.dir}/Adempiere">
@@ -275,6 +292,12 @@
   	<copy todir="${build.dir}/Adempiere/glassfish">
   		<fileset dir="../glassfishfacet/config"/>
   	</copy>
+
+    <!-- tomcat -->
+    <mkdir dir="${build.dir}/Adempiere/tomcat"/>
+    <copy todir="${build.dir}/Adempiere/tomcat">
+	  <fileset dir="../tomcat"/>
+    </copy>
 
   <chmod perm="755">
       <fileset dir="${build.dir}/Adempiere/">

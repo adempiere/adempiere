@@ -17,20 +17,16 @@
 package org.compiere.apps;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import org.adempiere.controller.SmallViewController;
-import org.adempiere.exceptions.DBException;
 import org.compiere.model.GridField;
-import org.compiere.model.MClient;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
+import org.compiere.model.MProcess;
+import org.compiere.model.MProcessPara;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -44,6 +40,8 @@ import org.compiere.util.Env;
  *		@see https://github.com/adempiere/adempiere/issues/352
  *		<li>FR [ 298 ] Process Parameter Panel not set default value correctly into parameters
  *		@see https://github.com/adempiere/adempiere/issues/298
+ *		<a href="https://github.com/adempiere/adempiere/issues/566">
+ * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *	@author Michael Mckay michael.mckay@mckayerp.com
  *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
  */
@@ -114,91 +112,14 @@ public abstract class ProcessParameter extends SmallViewController {
 	 *  @return true if loaded OK
 	 */
 	public boolean loadData() {
-		log.config("");		
-		// ASP
-		MClient client = MClient.get(Env.getCtx());
-		String ASPFilter = "";
-		if (client.isUseASP())
-			ASPFilter =
-				  "   AND (   p.AD_Process_Para_ID IN ( "
-				// Just ASP subscribed process parameters for client "
-				+ "              SELECT pp.AD_Process_Para_ID "
-				+ "                FROM ASP_Process_Para pp, ASP_Process p, ASP_Level l, ASP_ClientLevel cl "
-				+ "               WHERE p.ASP_Level_ID = l.ASP_Level_ID "
-				+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
-				+ "                 AND pp.ASP_Process_ID = p.ASP_Process_ID "
-				+ "                 AND pp.IsActive = 'Y' "
-				+ "                 AND p.IsActive = 'Y' "
-				+ "                 AND l.IsActive = 'Y' "
-				+ "                 AND cl.IsActive = 'Y' "
-				+ "                 AND pp.ASP_Status = 'S') " // Show
-				+ "        OR p.AD_Process_Para_ID IN ( "
-				// + show ASP exceptions for client
-				+ "              SELECT AD_Process_Para_ID "
-				+ "                FROM ASP_ClientException ce "
-				+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "                 AND ce.IsActive = 'Y' "
-				+ "                 AND ce.AD_Process_Para_ID IS NOT NULL "
-				+ "                 AND ce.AD_Tab_ID IS NULL "
-				+ "                 AND ce.AD_Field_ID IS NULL "
-				+ "                 AND ce.ASP_Status = 'S') " // Show
-				+ "       ) "
-				+ "   AND p.AD_Process_Para_ID NOT IN ( "
-				// minus hide ASP exceptions for client
-				+ "          SELECT AD_Process_Para_ID "
-				+ "            FROM ASP_ClientException ce "
-				+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "             AND ce.IsActive = 'Y' "
-				+ "             AND ce.AD_Process_Para_ID IS NOT NULL "
-				+ "             AND ce.AD_Tab_ID IS NULL "
-				+ "             AND ce.AD_Field_ID IS NULL "
-				+ "             AND ce.ASP_Status = 'H')"; // Hide
-		//
-		String sql = null;
-		if (Env.isBaseLanguage(Env.getCtx(), "AD_Process_Para"))
-			sql = "SELECT p.Name, p.Description, p.Help, "
-				+ "p.AD_Reference_ID, p.AD_Process_Para_ID, "
-				+ "p.FieldLength, p.IsMandatory, p.IsRange, p.ColumnName, "
-				+ "p.DefaultValue, p.DefaultValue2, p.VFormat, p.ValueMin, p.ValueMax, "
-				+ "p.SeqNo, p.AD_Reference_Value_ID, vr.Code AS ValidationCode, p.ReadOnlyLogic, p.DisplayLogic "
-				+ "FROM AD_Process_Para p"
-				+ " LEFT OUTER JOIN AD_Val_Rule vr ON (p.AD_Val_Rule_ID=vr.AD_Val_Rule_ID) "
-				+ "WHERE p.AD_Process_ID=?"		//	1
-				+ " AND p.IsActive='Y' "
-				+ ASPFilter + " ORDER BY SeqNo";
-		else
-			sql = "SELECT t.Name, t.Description, t.Help, "
-				+ "p.AD_Reference_ID, p.AD_Process_Para_ID, "
-				+ "p.FieldLength, p.IsMandatory, p.IsRange, p.ColumnName, "
-				+ "p.DefaultValue, p.DefaultValue2, p.VFormat, p.ValueMin, p.ValueMax, "
-				+ "p.SeqNo, p.AD_Reference_Value_ID, vr.Code AS ValidationCode, p.ReadOnlyLogic, p.DisplayLogic "
-				+ "FROM AD_Process_Para p"
-				+ " INNER JOIN AD_Process_Para_Trl t ON (p.AD_Process_Para_ID=t.AD_Process_Para_ID)"
-				+ " LEFT OUTER JOIN AD_Val_Rule vr ON (p.AD_Val_Rule_ID=vr.AD_Val_Rule_ID) "
-				+ "WHERE p.AD_Process_ID=?"		//	1
-				+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "'"
-				+ " AND p.IsActive='Y' "
-				+ ASPFilter + " ORDER BY SeqNo";
-		
+		log.config("");	
 		//	Create Fields
 		boolean hasFields = false;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_processInfo.getAD_Process_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				hasFields = true;
-				createField (rs, m_WindowNo);
-			}
-		} catch(SQLException e) {
-			throw new DBException(e, sql);
-		} finally {
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
+		MProcess process = MProcess.get(Env.getCtx(), m_processInfo.getAD_Process_ID());
+		//	Load Parameter
+		for(MProcessPara para : process.getASPParameters()) {
+			hasFields = true;
+			createField(para, m_WindowNo);
 		}
 		//	
 		return hasFields;
@@ -271,6 +192,9 @@ public abstract class ProcessParameter extends SmallViewController {
 			//	Get Values
 			GridField field = (GridField) getField(i);
 			GridField fieldTo = (GridField) getFieldTo(i);
+			//	FR [ 566 ] Only Information
+			if(field.isInfoOnly())
+				continue;
 			//	Validate
 			field.validateValue();
 			Object result = getValue(i);
