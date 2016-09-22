@@ -3099,7 +3099,7 @@
     <Step SeqNo="4640" StepType="AD">
       <PO AD_Table_ID="53232" Action="U" Record_ID="50068" Table="AD_View_Column">
         <Data AD_Column_ID="58107" Column="ColumnName" oldValue="C_Order_Volume">C_Order_Weight</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="o.Volume">COALESCE(ol.Qty * p.weight, 0.0)</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="o.Volume">COALESCE(ol.QtyOrdered * p.weight, 0.0)</Data>
       </PO>
     </Step>
     <Step SeqNo="4650" StepType="AD">
@@ -3110,7 +3110,7 @@
     <Step SeqNo="4660" StepType="AD">
       <PO AD_Table_ID="53232" Action="U" Record_ID="50068" Table="AD_View_Column">
         <Data AD_Column_ID="58107" Column="ColumnName" oldValue="C_Order_Weight">C_Order_Volume</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="COALESCE(ol.Qty * p.weight, 0.0)">COALESCE(ol.Qty * p.volume, 0.0)</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="COALESCE(ol.Qty * p.weight, 0.0)">COALESCE(ol.QtyOrdered * p.volume, 0.0)</Data>
       </PO>
     </Step>
     <Step SeqNo="4670" StepType="AD">
