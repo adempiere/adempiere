@@ -1300,11 +1300,14 @@ public class ProcessInfo implements Serializable
 		return null;
 	}
 
-	// metas: begin
 	public String getTableName()
 	{
 		return MTable.getTableName(Env.getCtx(), getTable_ID());
 	}
-	// metas: end
+
+	public String getTableNameSelection()
+	{
+		return MTable.getTableName(Env.getCtx(), getTableSelectionId());
+	}
 	
 }   //  ProcessInfo
