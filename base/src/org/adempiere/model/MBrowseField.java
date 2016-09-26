@@ -90,11 +90,21 @@ public class MBrowseField extends X_AD_Browse_Field {
 		valueObject.ValueMax = field.getValueMax();
 		valueObject.ValidationCode = field.getAD_Val_Rule().getCode();
 		valueObject.IsRange = field.isRange();
-		valueObject.Description = field.getDescription();
+		try {
+			valueObject.Description = field.getDescription();
+		}
+		catch (IllegalArgumentException e) {
+			valueObject.Description = (String) field.get_Value("Description");  
+		}
 		if (field.getAD_View_Column().getAD_Column_ID() <= 0 && field.isReadOnly())
 			valueObject.ColumnSQL = uniqueName;
 		valueObject.Help = uniqueName;
-		valueObject.Header = field.getName();
+		try {
+			valueObject.Header = field.getName();
+		}
+		catch (IllegalArgumentException e) {
+			valueObject.Header = (String) field.get_Value("Name");;
+		}		
 		valueObject.Callout = field.getCallout();
 		valueObject.initFinish();
 

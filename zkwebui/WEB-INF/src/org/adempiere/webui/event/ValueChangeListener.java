@@ -18,11 +18,12 @@
 package org.adempiere.webui.event;
 
 /**
- *
+ * Deprecated as of 3.8.2.  Use org.adempiere.exception.ValueChangeEvent
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 10, 2007
  * @version $Revision: 0.10 $
  */
+@Deprecated
 public interface ValueChangeListener
 {
     public void valueChange(ValueChangeEvent evt);

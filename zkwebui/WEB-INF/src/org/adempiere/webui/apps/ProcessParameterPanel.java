@@ -18,10 +18,12 @@ package org.adempiere.webui.apps;
 
 import java.util.ArrayList;
 
+import org.adempiere.controller.SmallViewEditable;
 import org.adempiere.webui.component.Column;
 import org.adempiere.webui.component.Columns;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
+import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -29,12 +31,10 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
 import org.compiere.apps.ProcessParameter;
 import org.compiere.model.GridField;
 import org.compiere.process.ProcessInfo;
-import org.adempiere.webui.component.Label;
+import org.compiere.swing.CEditor;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 
@@ -52,9 +52,11 @@ import org.zkoss.zul.Hbox;
  *		@see https://github.com/adempiere/adempiere/issues/265
  *		<li>FR [ 298 ] Process Parameter Panel not set default value correctly into parameters
  *		@see https://github.com/adempiere/adempiere/issues/298
+ *	@author Michael Mckay michael.mckay@mckayerp.com
+ *		<li>BF [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] Parameter Panel & SmartBrowser criteria do not set gridField value
  * 	@version 	2006-12-01
  */
-public class ProcessParameterPanel extends ProcessParameter implements ValueChangeListener 
+public class ProcessParameterPanel extends ProcessParameter implements SmallViewEditable
 {
 	private String width;
 
@@ -94,8 +96,6 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
 	 */
 	@Override
 	public void initComponents() {
-		m_wEditors = new ArrayList<WEditor>();
-		m_wEditors_To = new ArrayList<WEditor>();
 		m_separators = new ArrayList<Label>();
 		rows = new Rows();
 		//
@@ -133,8 +133,6 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
 	//Layout Mode
 	private int cols = 0;
 	//
-	private ArrayList<WEditor>	m_wEditors;
-	private ArrayList<WEditor>	m_wEditors_To;		//	for ranges
 	private ArrayList<Label> 	m_separators;
 	/**	Rows for Parameters	*/
 	private Rows 	rows;
@@ -148,40 +146,34 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
 	 */
 	public void dispose() {
 		super.dispose();
-		m_wEditors.clear();
-		m_wEditors_To.clear();
+		m_separators.clear();
+		mainPanel.detach();
 	}   //  dispose
 	
-	@Override
-	public void createViewField(GridField field, GridField field_To) {
+	public CEditor createEditor(GridField field) {
+		return(WebEditorFactory.getEditor(field, false));
+	}
+
+	public void formatEditor(CEditor editor1, CEditor editor2) {
+		//
+		WEditor editor = (WEditor) editor1;
+		WEditor editorTo = (WEditor) editor2;
+		
+		configColumns(editor, editorTo);
 		//	
-		configColumns(field, field_To);
-		WEditorPopupMenu popupMenu;
-		//	
-		if(field == null) {
-			m_wEditors.add (null);
+		if(editor == null) {
 			return;
 		}
-		//	The Editor
-		WEditor editor = WebEditorFactory.getEditor(field, false);
-		editor.addValueChangeListener(this);
-		editor.dynamicDisplay();
-		//  MField => VEditor - New Field value to be updated to editor
-		field.addPropertyChangeListener(editor);
-		//	Set Default Value
-		Object defaultObject = field.getDefault();
-		editor.setValue(defaultObject);
 		//streach component to fill grid cell
 		editor.fillHorizontal();
         //setup editor context menu
+		WEditorPopupMenu popupMenu;
         popupMenu = editor.getPopupMenu();                    
         if (popupMenu != null) {
         	popupMenu.addMenuListener((ContextMenuListener)editor);
             mainPanel.appendChild(popupMenu);
         }
-		//
-        m_wEditors.add (editor);                   //  add to Editors
-		
+		//	
     	Div div = new Div();
         div.setAlign("right");
         
@@ -195,37 +187,27 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
         cols += 2;
 		//	
         Hbox box;
-        if(field_To != null) {
+        if(editorTo != null) {
         	box = new Hbox();
         	box.appendChild(editor.getComponent());
         } else {
             currentRow.appendChild(editor.getComponent());
         	m_separators.add(null);
-        	m_wEditors_To.add(null);
         	return;
         }
-		//	The Editor
-		WEditor editor2 = WebEditorFactory.getEditor(field_To, false);
-		//  New Field value to be updated to editor
-		field_To.addPropertyChangeListener(editor2);
-		editor2.dynamicDisplay();
-		//	
-		Object defaultObject2 = field_To.getDefault();
-		editor2.setValue(defaultObject2);
-		//	
-		editor2.fillHorizontal();
+		//	The 2nd range editor
+		editorTo.fillHorizontal();
 		//setup editor context menu
-        popupMenu = editor2.getPopupMenu();                    
+        popupMenu = editorTo.getPopupMenu();                    
         if (popupMenu != null) {
-        	popupMenu.addMenuListener((ContextMenuListener)editor2);
+        	popupMenu.addMenuListener((ContextMenuListener)editorTo);
             mainPanel.appendChild(popupMenu);
         }
         //
-		m_wEditors_To.add (editor2);
 		Label separator = new Label(" - ");
 		m_separators.add(separator);
 		box.appendChild(separator);
-		box.appendChild(editor2.getComponent());
+		box.appendChild(editorTo.getComponent());
         //	Add
         currentRow.appendChild(box);
 	}
@@ -235,11 +217,11 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
 	 * @param field
 	 * @param field_To
 	 */
-	private void configColumns(GridField field, GridField field_To) {
+	private void configColumns(WEditor editor, WEditor editorTo) {
 		int maxToAdd = getColumns() * 2;
 		int columnsToAdd = getColumns();
 		//	for To field
-		if(field_To != null) {
+		if(editorTo != null) {
 			columnsToAdd += 2;
 		}
 		//	Verify if is new row or not
@@ -252,134 +234,25 @@ public class ProcessParameterPanel extends ProcessParameter implements ValueChan
 	}
 
 	@Override
-	public void refreshContext() {
-		for(int i = 0; i < m_wEditors.size(); i++) {
-			WEditor editor = m_wEditors.get(i);
-			GridField field = editor.getGridField();
-			Object value = field.getValue();
-			Object defaultValue = field.getDefault();
-			if ((value == null || value.toString().length() == 0)
-					&& defaultValue != null) {
-				m_wEditors.get(i).setValue(defaultValue);
-				field.setValue(defaultValue, true);
-			}
-			boolean rw = field.isEditablePara(true); // r/w - check if field is Editable
-			m_wEditors.get(i).setReadWrite(rw);
-		}
- 	}
-
-	@Override
-	public String getDisplay(int index) {
-		WEditor editor = m_wEditors.get(index);
-		if(editor != null)
-			return editor.getDisplay();
-		//	Default
-		return null;
-	}
-	
-	@Override
-	public String getDisplay_To(int index) {
-		WEditor editor = m_wEditors_To.get(index);
-		if(editor != null)
-			return editor.getDisplay();
-		//	Default
-		return null;
-	}
-
-	/**
-	 *	Editor Listener
-	 *	@param evt ValueChangeEvent	 
-	 */
-	public void valueChange(ValueChangeEvent evt) {
-		GridField changedField = null;
-		//	Set GridField
-		if (evt.getSource() instanceof WEditor) {
-			changedField = ((WEditor) evt.getSource()).getGridField();
-		}
-		//	Change Dependents
-		fieldChange(changedField, evt.getNewValue(), evt.getPropertyName());
-	}
-	
-	/**
-	 * Dynamic Display
-	 */
-	public void dynamicDisplay() {
-		for(int i = 0; i < m_wEditors.size(); i++) {
-			WEditor editor = m_wEditors.get(i);
-			GridField mField = editor.getGridField();
-			if (mField.isDisplayed(true)) {
-				if (!editor.isVisible()) {
-					editor.setVisible(true);
-					if (mField.getVO().IsRange) {
-						m_separators.get(i).setVisible(true);
-						m_wEditors_To.get(i).setVisible(true);
-					}
-				}
-
-				Object value = mField.getValue();
-				Object defaultValue = mField.getDefault();
-				if ((value == null || value.toString().length() == 0)
-						&& defaultValue != null) {
-					mField.setValue(defaultValue, true);
-					m_wEditors.get(i).setValue(defaultValue);
-				}
-				boolean rw = mField.isEditablePara(true); // r/w - check if field is Editable
-				m_wEditors.get(i).setReadWrite(rw);
-				editor.setReadWrite(rw);
-				editor.dynamicDisplay();
-				if (mField.getVO().IsRange) {
-					GridField gridFieldTo = m_wEditors_To.get(i).getGridField();
-					Object valueTo = gridFieldTo.getValue();
-					Object defaultValueTo = gridFieldTo.getDefault();
-					if ((valueTo == null || valueTo.toString().length() == 0)
-							&& defaultValueTo != null) {
-						gridFieldTo.setValue(defaultValueTo, true);
-						m_wEditors_To.get(i).setValue(defaultValueTo);
-					}
-					rw = gridFieldTo.isEditablePara(true); // r/w - check if field is Editable
-					m_wEditors_To.get(i).setReadWrite(rw);
-					m_wEditors_To.get(i).dynamicDisplay();
-				}
-			} else if (editor.isVisible()) {
-				editor.setVisible(false);
-				if (mField.getVO().IsRange) {
-					m_separators.get(i).setVisible(false);
-					m_wEditors_To.get(i).setVisible(false);
+	public void setComponentVisibility(int index, Boolean visible, Boolean isRange) {
+		WEditor editor = (WEditor) getEditor(index);
+		WEditor editorTo = (WEditor) getEditorTo(index);
+		if (visible) {
+			if (!editor.isVisible()) {
+				editor.setVisible(true);  // Also makes the label visible
+				if (isRange && editorTo != null) {
+					m_separators.get(index).setVisible(true);
+					editorTo.setVisible(true);
 				}
 			}
-		}			
-	}
-	
-	@Override
-	public Object getValue(int index) {
-		WEditor editor = m_wEditors.get(index);
-		if(editor != null)
-			return editor.getValue();
-		//	Default
-		return null;
-	}
-
-	@Override
-	public Object getValue_To(int index) {
-		WEditor editor = m_wEditors_To.get(index);
-		if(editor != null)
-			return editor.getValue();
-		//	Default
-		return null;
-	}
-
-	@Override
-	public void setValue(int index, Object value) {
-		WEditor editor = m_wEditors.get(index);
-		if(editor != null)
-			editor.setValue(value);
-	}
-
-	@Override
-	public void setValue_To(int index, Object value) {
-		WEditor editor = m_wEditors_To.get(index);
-		if(editor != null)
-			editor.setValue(value);
+		}
+		else if (editor.isVisible()) {
+			editor.setVisible(false);  // Also hides the label
+			if (isRange && editorTo != null) {
+				m_separators.get(index).setText("");
+				editorTo.setVisible(false);
+			}
+		}
 	}
 }	//	ProcessParameterPanel
 
