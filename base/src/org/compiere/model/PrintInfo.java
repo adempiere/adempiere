@@ -37,6 +37,8 @@ public class PrintInfo
 		setAD_Process_ID(pi.getAD_Process_ID());
 		setAD_Table_ID(pi.getTable_ID());
 		setRecord_ID(pi.getRecord_ID());
+		setAD_PInstance_ID(pi.getAD_PInstance_ID());
+		setDrillSource(pi.getDrillSource());
 	}	//	PrintInfo
 	
 	
@@ -69,6 +71,7 @@ public class PrintInfo
 	}	//	ArchiveInfo
 	
 	boolean m_withDialog = false;
+	boolean m_async = true;
 	private int m_copies = 1;
 	private boolean m_isDocumentCopy = false;
 	private String m_printerName = null;
@@ -80,6 +83,8 @@ public class PrintInfo
 	private int m_AD_Table_ID = 0;
 	private int m_Record_ID = 0;
 	private int m_C_BPartner_ID = 0;
+	private int m_AD_PInstance_ID = 0;
+	private String m_drillSource = null;
 	
 	
 	/**
@@ -144,6 +149,14 @@ public class PrintInfo
 	{
 		m_withDialog = withDialog;
 	}
+	public boolean isAsync() {
+		return m_async;
+	}
+
+	public void setAsync(boolean async) {
+		this.m_async = async;
+	}
+	
 	/**
 	 * @param isDocumentCopy The isDocument to set.
 	 */
@@ -280,5 +293,25 @@ public class PrintInfo
 		sb.append("]");
 		return sb.toString();
 	}	//	toString
+
+
+	public int getAD_PInstance_ID() {
+		return m_AD_PInstance_ID;
+	}
+
+
+	public void setAD_PInstance_ID(int m_AD_PInstance_ID) {
+		this.m_AD_PInstance_ID = m_AD_PInstance_ID;
+	}
+
+
+	public String getDrillSource() {
+		return m_drillSource;
+	}
+
+
+	public void setDrillSource(String m_drillSource) {
+		this.m_drillSource = m_drillSource;
+	}
 	
 }	//	ArchiveInfo

@@ -298,5 +298,68 @@ public class MReportSource extends X_PA_ReportSource
 		retValue.setPA_ReportLine_ID(PA_ReportLine_ID);
 		return retValue;
 	}	//	copy
+	
+	/**
+	 * @param source
+	 * @return
+	 */
+	public String getCombinationKey() {
+		
+		StringBuffer s = new StringBuffer("");
+		if(isIncludeNullsElementValue())
+			s.append("A");
+		if(getOrg_ID() != 0)
+			s.append("B");
+		if(isIncludeNullsOrg())
+			s.append("C");
+		if(getAD_OrgTrx_ID() != 0)
+			s.append("D");
+		if(isIncludeNullsOrgTrx())
+			s.append("E");
+		if(getC_BPartner_ID() != 0)
+			s.append("F");
+		if(isIncludeNullsBPartner())
+			s.append("G");
+		if(getM_Product_ID() != 0)
+			s.append("H");
+		if(isIncludeNullsProduct())
+			s.append("I");	
+		if(getC_Location_ID() != 0)
+			s.append("J");
+		if(isIncludeNullsLocation())
+			s.append("K");
+		if(getC_Project_ID() != 0)
+			s.append("L");
+		if(isIncludeNullsProject())
+			s.append("M");
+		if(getC_SalesRegion_ID() != 0)
+			s.append("N");
+		if(isIncludeNullsSalesRegion())
+			s.append("O");
+		if(getC_Activity_ID() != 0)
+			s.append("P");
+		if(isIncludeNullsActivity())
+			s.append("Q");	
+		if(getC_Campaign_ID() != 0)
+			s.append("R");
+		if(isIncludeNullsCampaign())
+			s.append("S");
+		if(getUserElement1_ID() != 0)
+			s.append("T");
+		if(isIncludeNullsUserElement1())
+			s.append("U");
+		if(get_ValueAsInt("User1_ID") != 0)
+			s.append("V");
+		if(get_ValueAsBoolean("IsIncludeNullsUserList1"))
+			s.append("W");
+		if(get_ValueAsInt("User2_ID") != 0)
+			s.append("X");
+		if(get_ValueAsBoolean("IsIncludeNullsUserList2"))
+			s.append("Y");
+		if(getC_ElementValue_ID() != 0)
+			s.append("Z");
+		
+		return s.toString();
+	} // getCombinationKey
 
 }	//	MReportSource

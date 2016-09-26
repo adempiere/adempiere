@@ -19,8 +19,13 @@ package org.adempiere.webui;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.adempiere.webui.apps.AEnv;
@@ -43,6 +48,7 @@ import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.zkoss.web.Attributes;
 import org.zkoss.zk.au.Command;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -96,7 +102,13 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	public static final String EXECUTION_CARRYOVER_SESSION_KEY = "execution.carryover";
 
 	public static final String ZK_DESKTOP_SESSION_KEY = "zk.desktop";
-
+	
+	public static final String ZK_CLIENT_CONTEXT = "zk_client_context";
+	
+	private static final String SAVED_CONTEXT = "saved.context";
+	
+	public static final String APPLICATION_DESKTOP_KEY = "application.desktop";
+	
     public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
@@ -367,5 +379,103 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		new DrillCommand("onDrillAcross", Command.IGNORE_OLD_EQUIV);
 		new DrillCommand("onDrillDown", Command.IGNORE_OLD_EQUIV);
 		new TokenCommand(TokenEvent.ON_USER_TOKEN, Command.IGNORE_OLD_EQUIV);
+	}
+
+	@Override
+	public void changeRole(MUser user)
+	{
+		// save context for re-login
+		Properties properties = new Properties();
+		Env.setContext(properties, Env.AD_CLIENT_ID, Env.getAD_Client_ID(Env.getCtx()));
+		Env.setContext(properties, Env.AD_ORG_ID, Env.getAD_Org_ID(Env.getCtx()));
+		Env.setContext(properties, Env.AD_USER_ID, user.getAD_User_ID());
+		Env.setContext(properties, Env.AD_ROLE_ID, Env.getAD_Role_ID(Env.getCtx()));
+		Env.setContext(properties, Env.AD_ORG_NAME, Env.getContext(Env.getCtx(), Env.AD_ORG_NAME));
+		Env.setContext(properties, Env.M_WAREHOUSE_ID, Env.getContext(Env.getCtx(), Env.M_WAREHOUSE_ID));
+		Env.setContext(properties, BrowserToken.REMEMBER_ME, Env.getContext(Env.getCtx(), BrowserToken.REMEMBER_ME));
+		Env.setContext(properties, UserPreference.LANGUAGE_NAME,
+				Env.getContext(Env.getCtx(), UserPreference.LANGUAGE_NAME));
+		Env.setContext(properties, Env.LANGUAGE, Env.getContext(Env.getCtx(), Env.LANGUAGE));
+		Env.setContext(properties, AEnv.LOCALE, Env.getContext(Env.getCtx(), AEnv.LOCALE));
+
+		Locale locale = (Locale) Executions.getCurrent().getDesktop().getSession().getAttribute(Attributes.PREFERRED_LOCALE);
+		HttpServletRequest httpRequest = (HttpServletRequest) Executions.getCurrent().getNativeRequest();		
+
+		Session session = Executions.getCurrent().getDesktop().getSession();
+
+		// stop background thread
+		IDesktop appDesktop = getAppDeskop();
+		if (appDesktop != null)
+			appDesktop.logout();
+
+		// clear remove all children and root component
+		getChildren().clear();
+		getPage().removeComponents();
+		
+		Env.getCtx().clear();
+
+		// clear session attributes
+		session.getAttributes().clear();
+
+		// put saved context into new session
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("context", properties);
+		map.put("locale", locale);
+
+		HttpSession newSession = httpRequest.getSession(false);
+		
+		newSession.setAttribute(SAVED_CONTEXT, map);
+		properties.setProperty(SessionContextListener.SERVLET_SESSION_ID, newSession.getId());
+		
+		Executions.sendRedirect("index.zul");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.adempiere.webui.IWebClient#logoutAfterTabDestroyed()
+	 */
+	@Override
+	public void logoutAfterTabDestroyed()
+	{
+		Session session = logout0();
+
+		// clear context, invalidate session
+		Env.getCtx().clear();
+		session.invalidate();
+	}
+
+	/**
+	 * @author Sachin Bhimani
+	 * @return Session
+	 */
+	protected Session logout0()
+	{
+		String clientValue = Env.getContext(Env.getCtx(), ZK_CLIENT_CONTEXT);
+		Session session = Executions.getCurrent().getDesktop().getSession();
+
+		// stop background thread
+		IDesktop appDesktop = getAppDeskop();
+		if (appDesktop != null)
+			appDesktop.logout();
+
+		// clear remove all children and root component
+//		getChildren().clear();
+//		getPage().removeComponents();
+
+		// clear session attributes
+		session.getAttributes().clear();
+
+		Env.logout();
+
+		if (clientValue != null && clientValue.length() > 0)
+		{
+			Executions.sendRedirect("?" + clientValue);
+		}
+		else
+		{
+			Executions.sendRedirect("index.zul");
+		}
+
+		return session;
 	}
 }

@@ -1,5 +1,4 @@
 /******************************************************************************
-
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
@@ -31,6 +30,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -66,12 +66,12 @@ public class MQuery implements Serializable
 		//	Temporary Tables - add qualifier (not displayed)
 		boolean isTemporaryTable = false;
 		MTable table = null;
+		table = MTable.get(ctx, TableName);
 		if (TableName.startsWith("T_"))
 		{
 			//	BR [ 236 ]
 			query.addRestriction(TableName + ".AD_PInstance_ID=" + AD_PInstance_ID, true);
 			isTemporaryTable = true;
-			table = MTable.get(ctx, TableName);
 		}
 		boolean isFinancialReport = ("T_Report".equals(TableName) || "T_ReportStatement".equals(TableName));
 		query.m_AD_PInstance_ID = AD_PInstance_ID;
@@ -157,6 +157,13 @@ public class MQuery implements Serializable
 				{
 					s_log.info("Skip parameter "+ParameterName+" because there is no column in table "+TableName);
 					continue;
+				}
+				
+				if (table != null && table.getColumn(ParameterName) != null)
+				{
+					MColumn column = table.getColumn(ParameterName);
+					if (column != null && !Util.isEmpty(column.getColumnSQL()))
+						ParameterName = column.getColumnSQL();
 				}
 
 				//-------------------------------------------------------------
@@ -387,6 +394,8 @@ public class MQuery implements Serializable
 	private String		m_TableName = "";
 	/** PInstance					*/
 	private int m_AD_PInstance_ID = 0;
+	/** WindowNo					*/
+	private int m_windowNo = 0;
 	/**	List of Restrictions		*/
 	private ArrayList<Restriction>	m_list = new ArrayList<Restriction>();
 	/**	Record Count				*/
@@ -445,6 +454,10 @@ public class MQuery implements Serializable
 	public static final String	BETWEEN = " BETWEEN ";
 	/** Between - 8		*/
 	public static final int		BETWEEN_INDEX = 8;
+	/** For 	*/
+	public static final String 	NOT_NULL = " IS NOT NULL ";
+	/** For 	*/
+	public static final String 	NULL = " IS NULL ";
 
 	/**	Operators for Strings				*/
 	public static final ValueNamePair[]	OPERATORS = new ValueNamePair[] {
@@ -456,7 +469,10 @@ public class MQuery implements Serializable
 		new ValueNamePair (GREATER_EQUAL,	" >= "),	//	5
 		new ValueNamePair (LESS,			" < "),
 		new ValueNamePair (LESS_EQUAL,		" <= "),
-		new ValueNamePair (BETWEEN,			" >-< ")	//	8
+		new ValueNamePair (BETWEEN,			" >-< "),	//	8
+		new ValueNamePair (NULL,			" NULL "),
+		new ValueNamePair (NOT_NULL,		" !NULL ")
+		
 	};
 	/**	Operators for IDs					*/
 	public static final ValueNamePair[]	OPERATORS_ID = new ValueNamePair[] {
@@ -802,6 +818,19 @@ public class MQuery implements Serializable
 		return r.ColumnName;
 	}	//	getColumnName
 
+	/*************************************************************************
+	 * 	Get Value of index
+	 * 	@param index index
+	 * 	@return ColumnName
+	 */
+	public Object getColumnCode(int index)
+	{
+		if (index < 0 || index >= m_list.size())
+			return null;
+		Restriction r = (Restriction)m_list.get(index);
+		return r.Code;
+	}	//	getColumnName
+	
 	/**
 	 * 	Set ColumnName of index
 	 * 	@param index index
@@ -1001,6 +1030,16 @@ public class MQuery implements Serializable
 	public Object getZoomValue() {
 		return m_zoomValue;
 	}
+
+
+	public int getWindowNo() {
+		return m_windowNo;
+	}
+
+
+	public void setWindowNo(int m_windowNo) {
+		this.m_windowNo = m_windowNo;
+	}
 }	//	MQuery
 
 /*****************************************************************************
@@ -1097,6 +1136,8 @@ class Restriction  implements Serializable
 	/**
 	 * 	Create Restriction with direct WHERE clause
 	 * 	@param whereClause SQL WHERE Clause
+	 * 	@param andCondition AND condition
+	 * 	@param depth Depth
 	 * 	@param p_OrignalClause Original Clause
 	 */
 	Restriction (String whereClause, boolean andCondition, int depth, boolean p_OrignalClause)
@@ -1159,8 +1200,11 @@ class Restriction  implements Serializable
 			//	Assumes - REPLACE(INITCAP(variable),'s','X') or UPPER(variable)
 			int pos = ColumnName.lastIndexOf('(')+1;	//	including (
 			int end = ColumnName.indexOf(')');
+			// Column name is already qualified
+			if (ColumnName.contains(tableName + "."))
+				sb.append(ColumnName);
 			//	We have a Function in the ColumnName
-			if (pos != -1 && end != -1)
+			else if (pos != -1 && end != -1)
 				sb.append(ColumnName.substring(0, pos))
 					.append(tableName).append(".").append(ColumnName.substring(pos, end))
 					.append(ColumnName.substring(end));
@@ -1182,27 +1226,29 @@ class Restriction  implements Serializable
 		}				
 		else
 		{
-		sb.append(Operator);
-			
-		if (Code instanceof String)
-			sb.append(DB.TO_STRING(Code.toString()));
-		else if (Code instanceof Timestamp)
-			sb.append(DB.TO_DATE((Timestamp)Code));
-		else
-			sb.append(Code);
-	
-		//	Between
-	//	if (Code_to != null && InfoDisplay_to != null)
-		if (MQuery.BETWEEN.equals(Operator))
-		{
-			sb.append(" AND ");
-			if (Code_to instanceof String)
-				sb.append(DB.TO_STRING(Code_to.toString()));
-			else if (Code_to instanceof Timestamp)
-				sb.append(DB.TO_DATE((Timestamp)Code_to));
-			else
-				sb.append(Code_to);
-		}
+			sb.append(Operator);
+			if ( ! (Operator.equals(MQuery.NULL) || Operator.equals(MQuery.NOT_NULL)))
+			{
+				if (Code instanceof String)
+					sb.append(DB.TO_STRING(Code.toString()));
+				else if (Code instanceof Timestamp)
+					sb.append(DB.TO_DATE((Timestamp)Code));
+				else
+					sb.append(Code);
+
+				//	Between
+				//	if (Code_to != null && InfoDisplay_to != null)
+				if (MQuery.BETWEEN.equals(Operator))
+				{
+					sb.append(" AND ");
+					if (Code_to instanceof String)
+						sb.append(DB.TO_STRING(Code_to.toString()));
+					else if (Code_to instanceof Timestamp)
+						sb.append(DB.TO_DATE((Timestamp)Code_to));
+					else
+						sb.append(Code_to);
+				}
+			}
 		}
 		return sb.toString();
 	}	//	getSQL

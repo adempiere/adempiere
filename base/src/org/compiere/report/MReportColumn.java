@@ -17,11 +17,15 @@
 package org.compiere.report;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.X_PA_ReportColumn;
+import org.compiere.util.DB;
 
 /**
  *  Report Column Model
@@ -50,7 +54,15 @@ public class MReportColumn extends X_PA_ReportColumn
 			setIsPrinted (true);
 			setSeqNo (0);
 		}
+		else
+			loadSources();
 	}	//	MReportColumn
+
+
+	/**	Contained Sources				*/
+	private MReportSource[]		m_sources = null;
+	/** Cache result					*/
+	private String				m_whereClause = null;
 
 	/**
 	 * 	Constructor
@@ -61,8 +73,112 @@ public class MReportColumn extends X_PA_ReportColumn
 	public MReportColumn (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
+		loadSources();
 	}	//	MReportColumn
 
+	/**
+	 * 	Load contained Sources
+	 */
+	private void loadSources()
+	{
+		ArrayList<MReportSource> list = new ArrayList<MReportSource>();
+		String sql = "SELECT * FROM PA_ReportSource WHERE PA_ReportColumn_ID=? AND IsActive='Y'";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, getPA_ReportColumn_ID());
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add(new MReportSource (getCtx(), rs, null));
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, null, e);
+		}
+		finally
+		{
+			try
+			{
+				if (pstmt != null)
+					pstmt.close ();
+			}
+			catch (Exception e)
+			{}
+			pstmt = null;
+		}
+		//
+		m_sources = new MReportSource[list.size()];
+		list.toArray(m_sources);
+		log.finest("ID=" + getPA_ReportColumn_ID()
+			+ " - Size=" + list.size());
+	}	//	loadSources
+	
+	/**
+	 * 	Get Sources
+	 * 	@return sources
+	 */
+	public MReportSource[] getSources()
+	{
+		return m_sources;
+	}	//	getSources
+	
+	/**
+	 * hasSources
+	 * @return true if has sources
+	 */
+	public boolean isWithSources()
+	{
+		return m_sources.length > 0;
+	}
+
+	/**
+	 * 	List Info
+	 */
+	public void list()
+	{
+		System.out.println("- " + toString());
+		if (m_sources == null)
+			return;
+		for (int i = 0; i < m_sources.length; i++)
+			System.out.println("  - " + m_sources[i].toString());
+	}	//	list
+	
+	/**
+	 * 	Get Source Column Name
+	 * 	@return Source ColumnName
+	 */
+	public String getSourceColumnName()
+	{
+		String ColumnName = null;
+		for (int i = 0; i < m_sources.length; i++)
+		{
+			String col = MAcctSchemaElement.getColumnName (m_sources[i].getElementType());
+			if (ColumnName == null || ColumnName.length() == 0)
+				ColumnName = col;
+			else if (!ColumnName.equals(col))
+			{
+				log.config("More than one: " + ColumnName + " - " + col);
+				return null;
+			}
+		}
+		return ColumnName;
+	}	//	getColumnName
+
+	/**
+	 *  Get Value Query for Segment Type
+	 * 	@return Query for first source element or null
+	 */
+	public String getSourceValueQuery()
+	{
+		if (m_sources != null && m_sources.length > 0)
+			return MAcctSchemaElement.getValueQuery(m_sources[0].getElementType());
+		return null;
+	}	//
+	
 	/**************************************************************************
 	 * 	Get Column SQL Select Clause.
 	 * 	@param withSum with SUM() function
@@ -152,9 +268,35 @@ public class MReportColumn extends X_PA_ReportColumn
 	 */
 	public String getWhereClause(int PA_Hierarchy_ID)
 	{
-		if (!isColumnTypeSegmentValue())
+		
+		if (m_sources == null && !isColumnTypeSegmentValue())
 			return "";
 		
+		if (m_whereClause == null)
+		{
+			//	Only one
+			if (m_sources.length == 0)
+				m_whereClause = "";
+			else if (m_sources.length == 1)
+				m_whereClause = " AND " + m_sources[0].getWhereClause(PA_Hierarchy_ID);
+			else
+			{
+				//	Multiple
+				StringBuffer sb = new StringBuffer (" AND (");
+				for (int i = 0; i < m_sources.length; i++)
+				{
+					if (i > 0)
+						sb.append (" OR ");
+					sb.append (m_sources[i].getWhereClause(PA_Hierarchy_ID));
+				}
+				sb.append (")");
+				m_whereClause = sb.toString ();
+			}
+		}
+
+
+		if (isColumnTypeSegmentValue())
+		{
 		String et = getElementType();
 		//	ID for Tree Leaf Value
 		int ID = 0;
@@ -198,11 +340,14 @@ public class MReportColumn extends X_PA_ReportColumn
 		if (ID == 0)
 		{
 			log.fine("No Restrictions - No ID for EntityType=" + et);
-			return "";
+				return m_whereClause;
+		}
+		
+			m_whereClause += " AND " + MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, et, ID);
 		}
 		
 		
-		return " AND " + MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, et, ID);
+		return m_whereClause;
 	}	//	getWhereClause
 	
 	/**
@@ -332,26 +477,6 @@ public class MReportColumn extends X_PA_ReportColumn
 		} else
 			if (isIncludeNullsUserElement2())
 				whcomb.append(" AND UserElement2_ID IS NULL");
-
-		if (getUser1_ID() > 0) {
-			String whtree = "User_ID=" + getUser1_ID(); // No Tree
-			if (isIncludeNullsUser1())
-				whcomb.append(" AND (User1_ID IS NULL OR ").append(whtree).append(")");
-			else
-				whcomb.append(" AND ").append(whtree);
-		} else
-		if (isIncludeNullsUser1())
-			whcomb.append(" AND User1_ID IS NULL");
-
-		if (getUser2_ID() > 0) {
-			String whtree = "User2_ID=" + getUser2_ID(); // No Tree
-			if (isIncludeNullsUser2())
-				whcomb.append(" AND (User2_ID IS NULL OR ").append(whtree).append(")");
-			else
-				whcomb.append(" AND ").append(whtree);
-		} else
-		if (isIncludeNullsUser2())
-			whcomb.append(" AND User2_ID IS NULL");
 
 		return whcomb.toString();
 	}

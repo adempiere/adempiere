@@ -98,8 +98,20 @@ public class GridTable extends AbstractTableModel
 	 * 
 	 */
 	private static final long serialVersionUID = 7799823493936826600L;
-	
-	public static final String DATA_REFRESH_MESSAGE = "Refreshed";
+
+	public static final String	DATA_REFRESH_MESSAGE	= "Refreshed";
+
+	public String				m_trxName				= null;
+
+	public String getTrxName()
+	{
+		return m_trxName;
+	}
+
+	public void setTrxName(String trxName)
+	{
+		this.m_trxName = trxName;
+	}
 
 	/**
 	 *	JDBC Based Buffered Table
@@ -228,6 +240,10 @@ public class GridTable extends AbstractTableModel
 	private final static Integer NEW_ROW_ID = Integer.valueOf(-1);
 	private static final int DEFAULT_FETCH_SIZE = 200;
 
+	public ArrayList<Integer> rowChanged=new ArrayList<Integer>();
+	private HashMap<Integer, Object[]> rowChangedData=new HashMap<Integer, Object[]>();
+
+	
 	/**
 	 *	Set Table Name
 	 *  @param newTableName table name
@@ -1103,7 +1119,7 @@ public class GridTable extends AbstractTableModel
 		ResultSet rs = null;
 		try
 		{
-			stmt = DB.prepareStatement(sql.toString(), null);
+			stmt = DB.prepareStatement(sql.toString(), m_trxName);
 			rs = stmt.executeQuery();
 			while(rs.next())
 			{
@@ -1348,6 +1364,27 @@ public class GridTable extends AbstractTableModel
 
 		return (dataSave(manualCmd) == SAVE_OK);
 	}   //  dataSave
+
+	public char saveDataAll(boolean manualCmd)
+	{
+		for(Integer i : rowChanged)
+		{
+			m_rowChanged=i;
+			m_rowData=rowChangedData.get(i);
+			
+			char saveStatus = dataSave (manualCmd);
+			if (saveStatus != SAVE_OK)
+				return saveStatus;
+		}
+		rowChangedData.clear();
+		rowChanged.clear();
+	/*	if(m_fields.get(0).getGridTab().isIncluded())
+		{
+			 GridTabRowRenderer renderer = new GridTabRowRenderer(m_fields.get(0).getGridTab(), m_WindowNo);
+			 renderer.setCurrentCell(0, 0, 0);
+		}*/
+		return SAVE_OK;
+	}
 
 	/**
 	 *	Save unconditional.
@@ -2175,7 +2212,7 @@ public class GridTable extends AbstractTableModel
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(refreshSQL.toString(), null);
+			pstmt = DB.prepareStatement(refreshSQL.toString(), m_trxName);
 			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
@@ -2624,7 +2661,7 @@ public class GridTable extends AbstractTableModel
 			try
 			{
 				pstmt = DB.prepareStatement (sql.toString(), 
-						ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, null);
+						ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, m_trxName);
 				no = pstmt.executeUpdate();
 			}
 			catch (SQLException e)
@@ -2671,6 +2708,20 @@ public class GridTable extends AbstractTableModel
 				MSort ptr = (MSort)m_sort.get(i);
 				if (ptr.index > sort.index)
 					ptr.index--;	//	move up
+			}
+		}
+
+		if(rowChanged.contains(row))
+		{
+			rowChangedData.remove(row);
+			//rowChanged.remove(row); jobriant - it passes the element index instead of the key
+			int i = 0;
+			for (int changed : rowChanged) {
+				if (changed == row) {
+					rowChanged.remove(i);
+					break;
+				}
+				i++;
 			}
 		}
 
@@ -2735,6 +2786,17 @@ public class GridTable extends AbstractTableModel
 			//	inform
 		//	fireTableRowsUpdated(m_rowChanged, m_rowChanged); >> messes up display?? (clearSelection)
 		}
+		
+		if(!m_inserting && rowChanged.size()> 0)
+		{
+			for(int i=0 ; i<rowChanged.size() ; i++)
+			{
+				setDataAtRow(rowChanged.get(i), rowChangedData.get(rowChanged.get(i)));
+			}
+		}
+		rowChangedData.clear();
+		rowChanged.clear();
+		m_inserting = false;
 		m_newRow = -1;
 		fireDataStatusIEvent("Ignored", "");
 	}	//	dataIgnore
@@ -2778,7 +2840,7 @@ public class GridTable extends AbstractTableModel
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, m_trxName);
 			rs = pstmt.executeQuery();
 			//	only one row
 			if (rs.next())
@@ -3328,7 +3390,7 @@ public class GridTable extends AbstractTableModel
 			ResultSet rs = null;			
 			try
 			{
-				pstmt = DB.prepareStatement(m_SQL_Count, null);
+				pstmt = DB.prepareStatement(m_SQL_Count, m_trxName);
 				setParameter (pstmt, true);
 				rs = pstmt.executeQuery();
 				if (rs.next())

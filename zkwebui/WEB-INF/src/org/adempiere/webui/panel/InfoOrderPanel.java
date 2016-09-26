@@ -36,6 +36,7 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.compiere.apps.search.Info_Column;
+import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
@@ -79,7 +80,8 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
     private Label lblDateOrdered;
     private Label lblOrderRef;
     private Label lblGrandTotal;
-    
+
+    private Textbox txtDocumentNo;
     private Textbox fDocumentNo;
     private Textbox fDescription;
     private Textbox fPOReference;
@@ -90,7 +92,8 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
     private NumberBox fAmtFrom;
     private NumberBox fAmtTo;
     
-    private WSearchEditor fBPartner_ID;
+    private WSearchEditor fBPartner_ID;    
+    private WSearchEditor editorBPartner;
     
     private Checkbox fIsSOTrx;
     private Checkbox fIsDelivered;
@@ -101,6 +104,20 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
 	private static String s_Order = "2,3,4";
 	/**  Array of Column Info    */
 	private static Info_Column[] s_Layout = null;
+   
+    /**  Array of Column Info    */
+    private static final ColumnInfo[] s_invoiceLayout = {
+        new ColumnInfo(" ", "o.C_Order_ID", IDColumn.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=o.C_BPartner_ID)", String.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "DateOrdered"), "o.DateOrdered", Timestamp.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"), "o.DocumentNo", String.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=o.C_Currency_ID)", String.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "o.GrandTotal",  BigDecimal.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "ConvertedAmount"), "currencyBase(o.GrandTotal,o.C_Currency_ID,o.DateAcct, o.AD_Client_ID,o.AD_Org_ID)", BigDecimal.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "IsSOTrx"), "o.IsSOTrx", Boolean.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "o.Description", String.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "POReference"), "o.POReference", String.class)
+    };
 
     
     protected InfoOrderPanel(int WindowNo, int record_id, String value,
@@ -135,6 +152,45 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         	prepareAndExecuteQuery();
 		
 		p_loadedOK = true;
+    }
+    
+    protected InfoOrderPanel(int WindowNo, String value,
+            boolean multiSelection, String whereClause)
+    {
+    	this(WindowNo, value, multiSelection, whereClause, true);
+    }
+
+    protected InfoOrderPanel(int WindowNo, String value,
+            boolean multiSelection, String whereClause, boolean lookup)
+    {
+        super ( WindowNo, "o", "C_Order_ID", multiSelection, whereClause, lookup);
+        log.info( "InfoOrder");
+        setTitle(Msg.getMsg(Env.getCtx(), "InfoOrder"));
+        //
+  
+		try
+		{
+	        initComponents();
+	        init();
+	        initInfo ();
+	        p_loadedOK = true;
+		}
+		catch (Exception e)
+		{
+			return;
+		}
+		
+        int no = contentPanel.getRowCount();
+        setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
+        setStatusDB(Integer.toString(no));
+        //
+        if (value != null && value.length() > 0)
+        {
+            String values[] = value.split("_");
+            txtDocumentNo.setText(values[0]);
+            executeQuery();
+            renderItems();
+        }
     }
 
     public void initComponents()
@@ -313,6 +369,28 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
 				}
 			}
 		}
+    }   //  initInfo
+
+    /**
+     *  General Init
+     *  @return true, if success
+     */
+    protected void initInfo ()
+    {
+        //  Set Defaults
+        String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
+        if (bp != null && bp.length() != 0)
+            editorBPartner.setValue(new Integer(bp));
+
+        //  prepare table
+        StringBuffer where = new StringBuffer("o.IsActive='Y'");
+        if (p_whereClause.length() > 0)
+            where.append(" AND ").append(Util.replace(p_whereClause, "C_Order.", "o."));
+       prepareTable(s_invoiceLayout,
+            " C_Order o",
+            where.toString(),"2,3 DESC,4");
+
+        return;
     }   //  initInfo
  
 	/**

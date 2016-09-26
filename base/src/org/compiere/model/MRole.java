@@ -645,7 +645,9 @@ public final class MRole extends X_AD_Role
 	private HashMap<Integer,Boolean>	m_formAccess = null;
 	/**	Smart Browse Access				*/
 	private HashMap<Integer,Boolean>	m_browseAccess = null;
-
+	/**	Info Windows			*/
+	private HashMap<Integer, Boolean>	m_infoAccess = null;
+	
 	/**
 	 * 	Set Logged in user
 	 *	@param AD_User_ID user requesting info
@@ -3059,4 +3061,69 @@ public final class MRole extends X_AD_Role
 		whereClause.insert(0, roleColumnSQL+" IN (").append(")");
 		return whereClause.toString();
 	}
+	
+	/**
+	 * Feature #1449
+	 * 
+	 * @author Sachin Bhimani
+	 * @param AD_InfoWindow_ID
+	 * @return true if access rights
+	 */
+	public Boolean getInfoAccess(int AD_InfoWindow_ID)
+	{
+		if (m_infoAccess == null)
+		{
+			m_infoAccess = new HashMap<Integer, Boolean>(20);
+			
+			// first get the info access from the included and substitute roles
+			mergeIncludedAccess("m_infoAccess");
+			
+			// get the info access directly from this role
+			HashMap<Integer, Boolean> directAccess = new HashMap<Integer, Boolean>(100);
+			String sql = "SELECT AD_InfoWindow_ID, IsActive FROM AD_InfoWindow_Access WHERE AD_Role_ID = ? ";
+			
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql, get_TrxName());
+				pstmt.setInt(1, getAD_Role_ID());
+				rs = pstmt.executeQuery();
+				while (rs.next())
+				{
+					Integer infoId = new Integer(rs.getInt(1));
+					if ("N".equals(rs.getString(2)))
+					{
+						// inactive info on direct access
+						if (m_infoAccess.containsKey(infoId))
+						{
+							m_infoAccess.remove(infoId);
+						}
+					}
+					else
+					{
+						directAccess.put(infoId, Boolean.TRUE);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				pstmt = null;
+				rs = null;
+			}
+
+			setAccessMap("m_infoAccess", mergeAccess(getAccessMap("m_infoAccess"), directAccess, true));
+
+		} // reload
+
+		Boolean retValue = m_infoAccess.get(AD_InfoWindow_ID);
+		
+		return retValue;
+		
+	} // getInfoAccess
 }	//	MRole

@@ -113,6 +113,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 	public static final String DEFAULT_STATUS_MESSAGE = "NavigateOrUpdate";
 	
+	private ArrayList<Integer> selection = new ArrayList<Integer>();
 	/**
 	 *	Create Tab (Model) from Value Object.
 	 *  <p>
@@ -199,6 +200,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/** Is Tab Included in other Tab  */
 	private boolean    			m_included = false;
 	private boolean    			m_includedAlreadyCalc = false;
+	private boolean				isGridView = false;
+	private boolean				isQuickEntry = false;
 
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
@@ -618,7 +621,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		
 		Env.clearTabContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo);
 		
-		//Env.clearTabContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo);
+		clearSelection();
 		
 		log.fine("#" + m_vo.TabNo
 			+ " - Only Current Rows=" + onlyCurrentRows
@@ -672,6 +675,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				}
 				if (refresh)
 					refresh = m_linkValue.equals(value);
+				if (! m_linkValue.equals(value))
+					setQuery(null);
 				m_linkValue = value;
 				//	Check validity
 				if (value.length() == 0)
@@ -688,7 +693,6 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				}
 				else
 				{
-					//if (!m_query.isActive()){ // create a where criteria - otherwise, use the query.
 					//	we have column and value
 					if (where.length() != 0)
 						where.append(" AND ");
@@ -697,7 +701,6 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 						where.append(DB.TO_NUMBER(new BigDecimal(value), DisplayType.ID));
 					else
 						where.append(DB.TO_STRING(value));
-					//}
 				}
 			}
 		}	//	isDetail
@@ -891,7 +894,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public void dataRefreshAll ()
 	{
-		dataRefreshAll(true ,false);
+		dataRefreshAll(true);
+	}
+
+	/**************************************************************************
+	 *  Refresh all data
+	 *  @param fireEvent
+	 */
+	public void dataRefreshAll (boolean fireEvent)
+	{
+		dataRefreshAll(fireEvent, false);
 	}
 
 	/**************************************************************************
@@ -901,6 +913,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	public void dataRefreshAll (boolean fireEvent,  boolean retainedCurrentRow)
 	{
 		log.fine("#" + m_vo.TabNo);
+		clearSelection();
 		/** @todo does not work with alpha key */
 		int keyNo = m_mTable.getKeyID(m_currentRow);
 		m_mTable.dataRefreshAll(fireEvent, retainedCurrentRow ? m_currentRow : -1);
@@ -982,8 +995,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				if (manualCmd || m_mTable.hasChanged(m_currentRow))
 					return false;
 			}
-			
-			boolean retValue = (m_mTable.dataSave(manualCmd) == GridTable.SAVE_OK);
+
+			boolean retValue = false;
+			if(m_included || isQuickEntry)
+				retValue= (m_mTable.saveDataAll(manualCmd) == GridTable.SAVE_OK);
+			else
+			  retValue = (m_mTable.dataSave(manualCmd) == GridTable.SAVE_OK);
 			if (manualCmd)
 			{
 				setCurrentRow(m_currentRow, false);
@@ -996,7 +1013,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			}
 			fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_SAVE));
 			
-			if (retValue) {
+			if (!m_included && !isQuickEntry && retValue) {
 				// refresh parent tabs
 				refreshParents();
 			}
@@ -1135,6 +1152,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			log.finest("Processed=" + processed);
 		}
 		
+		if (!selection.isEmpty())
+			clearSelection();
+		
 		//hengsin, don't create new when parent is empty
 		if (isDetail() && m_parentNeedSave)
 			return false;
@@ -1175,6 +1195,19 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		log.fine("#" + m_vo.TabNo + " - row=" + m_currentRow);
 		boolean retValue = m_mTable.dataDelete(m_currentRow);
 		setCurrentRow(m_currentRow, true);
+		if (!selection.isEmpty()) 
+		{
+			List<Integer> tmp = new ArrayList<Integer>();
+			for(Integer i : selection)
+			{
+				if (i.intValue() == m_currentRow)
+					continue;
+				else if (i.intValue() > m_currentRow)
+					tmp.add(i.intValue()-1);
+				else
+					tmp.add(i);
+			}
+		}
 		fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_DELETE));
 		return retValue;
 	}   //  dataDelete
@@ -2473,10 +2506,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		m_currentRow = verifyRow (newCurrentRow);
 		log.fine("Row=" + m_currentRow + " - fire=" + fireEvents);
 
+		if ((isIncluded()) && !fireEvents)
+			return m_currentRow;
+
 		//  Update Field Values
 		int size = m_mTable.getColumnCount();
 		for (int i = 0; i < size; i++)
 		{
+			if ((isIncluded()) && m_mTable.rowChanged.contains(newCurrentRow) && isGridView)
+				break;
+
 			GridField mField = m_mTable.getField(i);
 			//  get Value from Table
 			if (m_currentRow >= 0)
@@ -2545,6 +2584,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		return m_currentRow;
 	}   //  setCurrentRow
 
+
+	public boolean isQuickEntry()
+	{
+		return isQuickEntry;
+	}
+
+	public void setQuickEntry(boolean isQuickEntry)
+	{
+		this.isQuickEntry = isQuickEntry;
+	}
 
 	/**
 	 *  Set current row - used for deleteSelection
@@ -3181,5 +3230,61 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (parentTabNo < 0 || parentTabNo == m_vo.TabNo)
 			return null;
 		return m_window.getTab(parentTabNo);
+	}
+
+	public boolean isGridView()
+	{
+		return isGridView;
+	}
+
+	public void setIsGridView(boolean isGridView)
+	{
+		this.isGridView = isGridView;
+	}
+
+	public GridTabVO getM_vo() {
+		return m_vo;
+	}
+
+
+	public int getCurrentRowIndex() {
+		return m_currentRow;
+	}
+	
+	public void addToSelection(int rowIndex)
+	{
+		if (!selection.contains(rowIndex))
+			selection.add(rowIndex);
+	}
+
+	public boolean removeFromSelection(int rowIndex)
+	{
+		return selection.remove((Integer) rowIndex);
+	}
+
+	public int[] getSelection()
+	{
+		int[] selected = new int[selection.size()];
+		int i = 0;
+		for (Integer row : selection)
+		{
+			selected[i++] = row.intValue();
+		}
+		return selected;
+	}
+
+	public boolean isSelected(int rowIndex)
+	{
+		return selection.contains((Integer) rowIndex);
+	}
+
+	public void clearSelection()
+	{
+		selection.clear();
+	}
+	
+	public boolean isNew()
+	{
+		return isOpen() && getCurrentRow() >= 0 && getCurrentRow() == m_mTable.getNewRow();
 	}
 }	//	GridTab

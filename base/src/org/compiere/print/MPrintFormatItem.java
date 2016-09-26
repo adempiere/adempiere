@@ -20,9 +20,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.model.I_C_InvoiceLine;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MProcess;
+import org.compiere.model.MRole;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_PrintFormatItem;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
@@ -384,6 +390,8 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 	/**	Lookup Map of AD_Column_ID for ColumnName	*/
 	private static CCache<Integer,String>	s_columns = new CCache<Integer,String>("AD_PrintFormatItem", 200);
 
+	private static CCache<Integer,int[]>	s_processes = new CCache<Integer,int[]>("AD_PrintFormatItemProcess", 100);
+
 	/**
 	 * 	Get ColumnName from AD_Column_ID
 	 *  @return ColumnName
@@ -529,7 +537,7 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 		to.saveEx();
 		
 		if ( to.getAD_PrintFormatChild_ID() > 0 && to.getPrintFormatType().equals(MPrintFormatItem.PRINTFORMATTYPE_PrintFormat))
- 		{
+		{
 			MPrintFormat child = (MPrintFormat) to.getAD_PrintFormatChild();
 			if ( child != null )
 			{
@@ -611,4 +619,23 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 		return success;
 	}	//	afterSave
 	
+	public int[] getExecuteProcess ()
+	{
+		int[] p = s_processes.get(getAD_PrintFormatItem_ID());
+		
+		if (p == null) {
+			String sql = "SELECT DISTINCT(AD_Process_ID)  " +
+		             "FROM AD_ColumnProcess p " +
+		             "INNER JOIN AD_PrintFormatItem pfi on pfi.ad_column_id = p.ad_column_id " +
+		             "WHERE pfi.AD_PrintFormatItem_ID = ? " +
+		             "AND EXISTS (SELECT * FROM AD_Process_Access WHERE AD_Process_ID = p.AD_Process_ID AND AD_Role_ID = ?)";
+			p = DB.getIDsEx(get_TrxName(), sql  , getAD_PrintFormatItem_ID(), MRole.getDefault().getAD_Role_ID());
+			s_processes.put(getAD_PrintFormatItem_ID(), p);
+		}
+		if (p.length == 0) {
+			return null;
+		}
+		return p;
+		
+	}	//	getLines
 }	//	MPrintFormatItem

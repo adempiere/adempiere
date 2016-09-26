@@ -22,11 +22,16 @@ import org.adempiere.webui.component.DesktopTabpanel;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.info.InfoWindow;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.InfoGeneralPanel;
+import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.part.WindowContainer;
 import org.adempiere.webui.window.ADWindow;
+import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.WTask;
+import org.compiere.model.MInfoWindow;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTask;
 import org.compiere.util.Env;
@@ -103,6 +108,34 @@ public abstract class TabbedDesktop extends AbstractDesktop {
         preOpenNewTab();
         windowContainer.addWindow(tabPanel, browse.getTitle(), true);
 		return  ff;
+	}
+
+	/*
+	 * Feature #1449 Opening Info Window (non-Javadoc)
+	 * @see org.adempiere.webui.desktop.IDesktop#openInfo(int)
+	 */
+	public void openInfo(int infoId)
+	{
+		MInfoWindow infoWindow = new MInfoWindow(Env.getCtx(), infoId, (String) null);
+		String tableName = infoWindow.getAD_Table().getTableName();
+		String keyColumn = tableName + "_ID";
+
+		InfoPanel info = InfoPanel.create(-1, tableName, keyColumn, null, false, null, infoId, false);
+
+		if (info != null && (info instanceof InfoWindow || info instanceof InfoGeneralPanel))
+		{
+			DesktopTabpanel tabPanel = new DesktopTabpanel();
+			info.setParent(tabPanel);
+			String title = info.getTitle();
+			info.setTitle(null);
+			preOpenNewTab();
+			windowContainer.addWindow(tabPanel, title, true);
+			info.focus();
+		}
+		else
+		{
+			FDialog.error(0, "NotValid");
+		}
 	}
 
 	/**
