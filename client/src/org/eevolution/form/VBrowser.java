@@ -214,7 +214,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 			initProcessInfo();
 			processParameterPanel = new ProcessParameterPanel(getWindowNo(), getBrowseProcessInfo());
 			processParameterPanel.setColumns(ProcessParameter.COLUMNS_2);
-			processParameterPanel.init();
+			processParameterPanel.createFieldsAndEditors();
 			//	Add Scroll FR [ 265 ]
 			CScrollPane scrollPane = new CScrollPane(processParameterPanel.getPanel());
 			scrollPane.setAutoscrolls(true);

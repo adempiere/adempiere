@@ -47,6 +47,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AWindow;
@@ -1953,6 +1954,12 @@ public class VLookup extends JComponent
 				m_isSOTrx = false;
 			else
 				m_isSOTrx = true;
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }	//	VLookup

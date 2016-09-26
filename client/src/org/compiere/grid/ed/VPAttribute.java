@@ -38,6 +38,7 @@ import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.RecordInfo;
 import org.compiere.apps.search.InfoPAttribute;
@@ -647,6 +648,12 @@ public class VPAttribute extends JComponent
 		return false;
 
 	
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }	//	VPAttribute
