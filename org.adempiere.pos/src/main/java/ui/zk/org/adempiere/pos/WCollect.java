@@ -615,7 +615,8 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		
 		try {
 			//print standard document
-			Trx.run(new TrxRunnable() {
+			/* #587
+			 * Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
 					if (posPanel.getAD_Sequence_ID()!= 0) {
 
@@ -627,7 +628,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 						}
 					}
 				}
-			});
+			});*/
 
 			if (posPanel.isToPrint() && posPanel.hasOrder()) {
 				ReportCtl.startDocumentPrint(0, posPanel.getC_Order_ID(), false);
