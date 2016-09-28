@@ -333,7 +333,8 @@ public class VCollect extends Collect
 			}
 			//	Process printing
 			isProcessed = true;
-			if(!pos.isStandardOrder() && !pos.isWarehouseOrder() && pos.isToPrint()) {
+			/* #587
+			 * if(!pos.isStandardOrder() && !pos.isWarehouseOrder() && pos.isToPrint()) {
 				Trx.run(new TrxRunnable() {
 					public void run(String trxName) {
 						if (pos.getAD_Sequence_ID()!= 0) {
@@ -346,7 +347,7 @@ public class VCollect extends Collect
 						}
 					}
 				});
-			}
+			}*/
 			if (pos.isToPrint())
 				pos.printTicket();
 
