@@ -2018,28 +2018,11 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step DBType="Postgres" SeqNo="1350" StepType="SQL">
       <SQLStatement>
-      ALTER TABLE PA_ReportSource ADD COLUMN PA_ReportColumn_ID numeric(10,0) DEFAULT NULL::numeric;
   ALTER TABLE pa_reportsource
   ADD CONSTRAINT pa_reportcolumn_pareportsource FOREIGN KEY (pa_reportcolumn_id) REFERENCES pa_reportcolumn (pa_reportcolumn_id)
    ON UPDATE NO ACTION ON DELETE NO ACTION;
 CREATE INDEX fki_pa_reportcolumn_pareportsource
   ON pa_reportsource(pa_reportcolumn_id);
-</SQLStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="1360" StepType="SQL">
-      <SQLStatement>
-      ALTER TABLE PA_ReportSource ADD COLUMN isincludenullsuserlist1 character(1) NOT NULL DEFAULT 'N'::bpchar;
-
-ALTER TABLE PA_ReportSource 
-ADD  CONSTRAINT pa_reportsource_isincludenullsuserlist1_check CHECK (isincludenullsuserlist1 = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]));
-</SQLStatement>
-    </Step>
-    <Step DBType="Postgres" SeqNo="1370" StepType="SQL">
-      <SQLStatement>
-      ALTER TABLE PA_ReportSource ADD COLUMN isincludenullsuserlist2 character(1) NOT NULL DEFAULT 'N'::bpchar;
-
-ALTER TABLE PA_ReportSource 
-ADD CONSTRAINT pa_reportsource_isincludenullsuserlist2_check CHECK (isincludenullsuserlist2 = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]));
 </SQLStatement>
     </Step>
   </Migration>
