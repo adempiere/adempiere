@@ -657,10 +657,10 @@ public class CalloutInvoice extends CalloutEngine
 		log.info("amt = LineNetAmt=" + LineNetAmt);
 		mTab.setValue("LineNetAmt", LineNetAmt);
 
-		//	Calculate Tax Amount for PO
-		boolean IsSOTrx = "Y".equals(Env.getContext(Env.getCtx(), WindowNo, "IsSOTrx"));
-		if (!IsSOTrx)
-		{
+		//	Calculate Tax Amount for order
+		//boolean IsSOTrx = "Y".equals(Env.getContext(Env.getCtx(), WindowNo, "IsSOTrx"));
+		//if (!IsSOTrx)
+		//{
 			BigDecimal TaxAmt = Env.ZERO; // teo_sarca: [ 1656829 ] Problem when there is not tax selected in vendor invoice
 			if (mField.getColumnName().equals("TaxAmt"))
 			{
@@ -679,7 +679,7 @@ public class CalloutInvoice extends CalloutEngine
 			}
 			//	Add it up
 			mTab.setValue("LineTotalAmt", LineNetAmt.add(TaxAmt));
-		}
+		//}
 
 		return "";
 	}	//	amt
