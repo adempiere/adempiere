@@ -34,7 +34,6 @@ import org.compiere.model.MLookup;
 import org.compiere.model.MProcessPara;
 import org.compiere.model.M_Element;
 import org.compiere.swing.CEditor;
-import org.compiere.swing.CLabel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -107,7 +106,6 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 	private ArrayList<CEditor> 			editorsTo = new ArrayList<CEditor>();
 	
 	private LinkedHashMap<String, Object> m_search;
-	private boolean m_IsError = false;
 	protected boolean m_IsLoaded = false;
 	private boolean m_IsSwing = true;
 	private boolean m_HasParameters = false;
@@ -176,6 +174,8 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 			dynamicDisplay();  // Set the default values
 			setLoaded(true);
 			return hasParameters();
+		} else {
+			initComponents();
 		}
 		//	
 		dispose();
