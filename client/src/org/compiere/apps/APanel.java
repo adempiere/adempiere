@@ -150,6 +150,9 @@ import org.eevolution.form.VBrowser;
  *		@see https://github.com/adempiere/adempiere/issues/114
  *		<li>FR [ 248 ] Smart Browse not open on modal inside a window
  * 		@see https://github.com/adempiere/adempiere/issues/248
+ *  @author Michael McKay michael.mckay@mckayERP.com, http://www.mckayerp.com
+ *      <li><a href="https://github.com/adempiere/adempiere/issues/508">
+ *          BF [ #508 ] Initialize m_curTab before initial query</a>
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -709,6 +712,7 @@ public final class APanel extends CPanel
 			}
 			//  Window Init
 			window.addChangeListener(this);
+			m_curWinTab = window;
 
 			/**
 			 *  Init Model
@@ -742,6 +746,7 @@ public final class APanel extends CPanel
 				/**
 				 *  Window Tabs
 				 */
+				
 				int tabSize = mWindow.getTabCount();
 				boolean goSingleRow = query != null;	//	Zoom Query
 				for (int tab = 0; tab < tabSize; tab++)
@@ -754,7 +759,9 @@ public final class APanel extends CPanel
 					//  Query first tab
 					if (tab == 0)
 					{
-						//  initial user query for single workbench tab
+						m_curTab = gTab; // #508 m_curTab needs to be set or VLookup buttons in find window opened 
+										 // in the call initialQuery won't work and a NPE will be created in 
+										 // info.java.
 						if (m_mWorkbench.getWindowCount() == 1)
 						{
 							if (query != null && query.getZoomTableName() != null && query.getZoomColumnName() != null
