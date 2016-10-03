@@ -80,7 +80,6 @@ public class WBrowserSearch extends BrowserSearch implements SmallViewEditable {
 	//
 	private Grid 	centerPanel;
 	private Panel	mainPanel;
-	private String width;
 
 	/**
 	 * Initialize components
@@ -95,8 +94,6 @@ public class WBrowserSearch extends BrowserSearch implements SmallViewEditable {
 		//
 		mainPanel = new Panel();
 		centerPanel = GridFactory.newGridLayout();
-		centerPanel.setInnerWidth(width);
-		mainPanel.appendChild(centerPanel);
 		
 		//setup columns
     	Columns columns = new Columns();
@@ -114,6 +111,8 @@ public class WBrowserSearch extends BrowserSearch implements SmallViewEditable {
     	}
     	//	Add Rows
     	centerPanel.appendChild(rows);
+    	mainPanel.appendChild(centerPanel);
+		mainPanel.setStyle("overflow-y:auto");
 	}
 	
 	/**

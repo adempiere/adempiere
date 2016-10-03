@@ -42,7 +42,9 @@ import org.eevolution.grid.BrowserSearch;
  * 		<li>BR [ 340 ] Smart Browse context is changed from table
  * 		@see https://github.com/adempiere/adempiere/issues/340
  * 		<li><a href="https://github.com/adempiere/adempiere/issues/556">
- * 		FR [ 556 ] Criteria Search on SB don't have a parameter like only information</a>
+ * 		FR [ 590 ] NPE on Smart Browser when a field have display logic</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/590">
+ * 		@see FR [ 590 ] The ZK search window don't have standard position buttons</a>
  *	@author Michael Mckay michael.mckay@mckayerp.com
  *		<li> BR [ <a href="https://github.com/adempiere/adempiere/issues/495">495</a> ] 
  *			Parameter Panel & SmartBrowser criteria do not set gridField value
@@ -179,8 +181,9 @@ public class VBrowserSearch extends BrowserSearch implements SmallViewEditable {
 	
 	@Override
 	public void setComponentVisibility(int index, Boolean visible, Boolean isRange) {
-		
 		VEditor editor = (VEditor) getEditor(index);
+		VEditor editorTo = (VEditor) getEditorTo(index);
+		//	Validate null
 		if (editor == null)
 			return;
 		
@@ -191,15 +194,17 @@ public class VBrowserSearch extends BrowserSearch implements SmallViewEditable {
 					if (!comp.isVisible()) {
 						comp.setVisible(true); // visibility
 						//	FR [ 349 ]
-						if (isRange)
+						if (isRange && editorTo != null) {
+							editorTo.setVisible(true);
 							m_separators.get(index).setText(" - ");
-						else
-							m_separators.get(index).setText("");
+						}
 					}
 				}
 				else if (comp.isVisible()) {
 					comp.setVisible(false);
-					if (isRange) {
+					//	BR [ 590 ]
+					if (isRange && editorTo != null) {
+						editorTo.setVisible(false);
 						m_separators.get(index).setText("");
 					}
 				}

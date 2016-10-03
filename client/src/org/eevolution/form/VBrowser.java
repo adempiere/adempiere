@@ -216,10 +216,14 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 			processParameterPanel.setShowButtons(false);
 			processParameterPanel.setShowDescription(false);
 			processParameterPanel.createFieldsAndEditors();
-			//	Add collapsible panel for process pane;
-			CollapsiblePanel collapsibleProcess = new CollapsiblePanel(Msg.getMsg(Env.getCtx(),("Parameter")));
-			collapsibleProcess.add(processParameterPanel.getPanel());
-			processPanel.add(collapsibleProcess);
+			//	If don't have parameters then don'show collapsible panel
+			if(processParameterPanel.hasParameters()) {
+				//	Add collapsible panel for process pane;
+				CollapsiblePanel collapsibleProcess = new CollapsiblePanel(Msg.getMsg(Env.getCtx(),("Parameter")));
+				collapsibleProcess.add(processParameterPanel.getPanel());
+				collapsibleProcess.validate();
+				processPanel.add(collapsibleProcess);
+			}
 		}
 	}
 

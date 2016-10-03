@@ -203,9 +203,10 @@ public class WBrowser extends Browser implements IFormController,
 	 */
 	private void statInit() {
 		searchGrid.init();
-		searchGrid.getPanel().setStyle("background-color: transparent");
-		topPanel.appendChild(searchGrid.getPanel());
-		
+		Panel search = searchGrid.getPanel();
+		search.setStyle("background-color: transparent");
+		topPanel.appendChild(search);
+		topPanel.setStyle("overflow-y:auto");
 		//	
 		if (getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
@@ -216,28 +217,30 @@ public class WBrowser extends Browser implements IFormController,
 			parameterPanel.setShowButtons(false);
 			//	
 			parameterPanel.createFieldsAndEditors();
+			//	If don't have parameters then don'show collapsible panel
+			if(parameterPanel.hasParameters()) {
+				Panel panel = parameterPanel.getPanel();
+				panel.setWidth("100%");
+				panel.setHeight("100%");
+				panel.setStyle("overflow-y:auto");
+				
+				South south = new South();
+				south.setBorder("none");
+				
+				south.setAutoscroll(true);
+				south.setFlex(true);
+				south.setCollapsible(true);
+				south.setTitle(Msg.getMsg(Env.getCtx(),("Parameter")));
+				south.setCollapsible(true);
+				south.setAutoscroll(true);
+				south.appendChild(panel);
+				south.setStyle("background-color: transparent");
+				south.setStyle("border: none");
+				south.setHeight("40%");
+				//	
+				detailPanel.appendChild(south);
+			}
 			//	
-			//	
-			Panel panel = parameterPanel.getPanel();
-			panel.setWidth("100%");
-			panel.setHeight("100%");
-			panel.setStyle("overflow-y:auto");
-			
-			South south = new South();
-			south.setBorder("none");
-			
-			south.setAutoscroll(true);
-			south.setFlex(true);
-			south.setCollapsible(true);
-			south.setTitle(Msg.getMsg(Env.getCtx(),("Parameter")));
-			south.setCollapsible(true);
-			south.setAutoscroll(true);
-			south.appendChild(panel);
-			south.setStyle("background-color: transparent");
-			south.setStyle("border: none");
-			south.setHeight("40%");
-			//	
-			detailPanel.appendChild(south);
 			detailPanel.setStyle("overflow-y:auto");
 		}		
 	}
@@ -500,9 +503,6 @@ public class WBrowser extends Browser implements IFormController,
 		searchTab.setStyle("background-color: transparent");
 
 		topPanel = new Hbox();
-		topPanel.setHeight("90%");
-		topPanel.setWidth("100%");
-		//topPanel.setStyle("position: absolute");
 		topPanel.setStyle("background-color: transparent");
 
 		bSearch.setLabel(Msg.getMsg(Env.getCtx(), "StartSearch"));
@@ -529,6 +529,7 @@ public class WBrowser extends Browser implements IFormController,
 		collapsibleSeach.setCollapsible(true);
 		collapsibleSeach.setAutoscroll(true);
 		collapsibleSeach.appendChild(div);
+		collapsibleSeach.setStyle("overflow-y:auto");
 		collapsibleSeach.setStyle("background-color: transparent");
 		collapsibleSeach.setStyle("border: none");
 		searchTab.appendChild(collapsibleSeach);
