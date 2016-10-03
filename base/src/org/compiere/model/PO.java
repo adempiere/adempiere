@@ -3266,7 +3266,7 @@ public abstract class PO
 			po.set_Value(keyColumn, get_ID());
 			po.set_Value("IsTranslated", false);
 			po.set_Value("AD_Language", language.getAD_Language());
-			po.setAD_Client_ID(0);
+			po.setAD_Client_ID(getAD_Client_ID());
 			po.setAD_Org_ID(0);
 			//	Add Translation Column
 			for(String translationColumn : tColumns) {
