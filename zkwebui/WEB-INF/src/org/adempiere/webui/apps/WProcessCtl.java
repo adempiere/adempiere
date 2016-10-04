@@ -18,7 +18,7 @@ package org.adempiere.webui.apps;
 
 import org.adempiere.webui.component.Window;
 import org.compiere.apps.ProcessCtl;
-import org.compiere.apps.ProcessParameter;
+import org.compiere.apps.ProcessController;
 import org.compiere.model.MPInstance;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
@@ -30,6 +30,9 @@ import org.compiere.util.Trx;
 /**
  * Ported from org.compiere.apps.ProcessCtl
  * @author hengsin
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/571">
+ * 		@see FR [ 571 ] Process Dialog is not MVC</a>
  *
  */
 public class WProcessCtl {
@@ -77,6 +80,10 @@ public class WProcessCtl {
 			pi.setError (true); 
 			log.warning(pi.toString()); 
 		}
+		//	Valid null
+		if(instance == null)
+			return;
+		//	
 		if (!instance.save())
 		{
 			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
@@ -85,7 +92,7 @@ public class WProcessCtl {
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
 		//	Get Parameters (Dialog)
-		ProcessModalDialog para = new ProcessModalDialog(aProcess, WindowNo, pi, false);
+		ProcessModalDialog para = new ProcessModalDialog(aProcess, WindowNo, pi);
 		if (para.isValid())
 		{
 			para.setWidth("500px");
@@ -114,8 +121,7 @@ public class WProcessCtl {
 	 *  @param pi ProcessInfo process info
 	 *  @param trx Transaction
 	 */
-	public static void process(ASyncProcess parent, int WindowNo, ProcessParameter parameter, ProcessInfo pi, Trx trx)
-	{
+	public static void process(ASyncProcess parent, int WindowNo, ProcessController parameter, ProcessInfo pi, Trx trx) {
 		ProcessCtl.process(parent, WindowNo, parameter, pi, trx);
 	}
 }

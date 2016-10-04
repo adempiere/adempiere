@@ -2455,5 +2455,4 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	public Component getParent() {
 		return this.parent;
 	}
-
 }

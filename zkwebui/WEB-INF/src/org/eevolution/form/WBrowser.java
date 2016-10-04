@@ -31,10 +31,11 @@ import org.adempiere.model.MBrowse;
 import org.adempiere.model.MViewDefinition;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
-import org.adempiere.webui.apps.ProcessParameterPanel;
+import org.adempiere.webui.apps.ProcessPanel;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
+import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
@@ -105,7 +106,7 @@ public class WBrowser extends Browser implements IFormController,
 		EventListener, ASyncProcess {
 
 	private CustomForm m_frame = new CustomForm();
-	private ProcessParameterPanel parameterPanel;
+	private ProcessPanel parameterPanel;
 	protected StatusBarPanel statusBar = new StatusBarPanel();
 
 	private Button bCancel;
@@ -202,28 +203,45 @@ public class WBrowser extends Browser implements IFormController,
 	 */
 	private void statInit() {
 		searchGrid.init();
-		searchGrid.getPanel().setStyle("background-color: transparent");
-		topPanel.appendChild(searchGrid.getPanel());
-		
+		Panel search = searchGrid.getPanel();
+		search.setStyle("background-color: transparent");
+		topPanel.appendChild(search);
+		topPanel.setStyle("overflow-y:auto");
 		//	
 		if (getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
 			initProcessInfo();
 			//	FR [ 265 ]
-			parameterPanel = new ProcessParameterPanel(getWindowNo(), getBrowseProcessInfo() , "100%", ProcessParameterPanel.COLUMNS_2);
-			//
-			South south = new South();
-			south.setAutoscroll(true);
-			south.setSplittable(true);
-			south.setCollapsible(false);
+			parameterPanel = new ProcessPanel(getWindowNo(), getBrowseProcessInfo() , "100%", ProcessPanel.COLUMNS_2);
+			parameterPanel.setShowDescription(false);
+			parameterPanel.setShowButtons(false);
 			//	
 			parameterPanel.createFieldsAndEditors();
+			//	If don't have parameters then don'show collapsible panel
+			if(parameterPanel.hasParameters()) {
+				Panel panel = parameterPanel.getPanel();
+				panel.setWidth("100%");
+				panel.setHeight("100%");
+				panel.setStyle("overflow-y:auto");
+				
+				South south = new South();
+				south.setBorder("none");
+				
+				south.setAutoscroll(true);
+				south.setFlex(true);
+				south.setCollapsible(true);
+				south.setTitle(Msg.getMsg(Env.getCtx(),("Parameter")));
+				south.setCollapsible(true);
+				south.setAutoscroll(true);
+				south.appendChild(panel);
+				south.setStyle("background-color: transparent");
+				south.setStyle("border: none");
+				south.setHeight("40%");
+				//	
+				detailPanel.appendChild(south);
+			}
 			//	
-			Div div = new Div();
-			div.setWidth("100%");
-			div.appendChild(parameterPanel.getPanel());
-			south.appendChild(div);	
-			detailPanel.appendChild(south);
+			detailPanel.setStyle("overflow-y:auto");
 		}		
 	}
 
@@ -467,15 +485,6 @@ public class WBrowser extends Browser implements IFormController,
 		if(isDeleteable())
 			toolsBar.appendChild(bDelete);
 
-		//TODO: victor.perez@e-evolution.com pending find functionality
-		/*bFind.setLabel("Find");
-		bFind.addActionListener(new EventListener() {
-			public void onEvent(Event evt) {
-				bFindActionPerformed(evt);
-			}
-		});
-		toolsBar.appendChild(bFind);*/
-
 		m_frame.setWidth("100%");
 		m_frame.setHeight("100%");
 		m_frame.setStyle("position: absolute; padding: 0; margin: 0");
@@ -494,9 +503,6 @@ public class WBrowser extends Browser implements IFormController,
 		searchTab.setStyle("background-color: transparent");
 
 		topPanel = new Hbox();
-		topPanel.setHeight("90%");
-		topPanel.setWidth("100%");
-		//topPanel.setStyle("position: absolute");
 		topPanel.setStyle("background-color: transparent");
 
 		bSearch.setLabel(Msg.getMsg(Env.getCtx(), "StartSearch"));
@@ -523,6 +529,7 @@ public class WBrowser extends Browser implements IFormController,
 		collapsibleSeach.setCollapsible(true);
 		collapsibleSeach.setAutoscroll(true);
 		collapsibleSeach.appendChild(div);
+		collapsibleSeach.setStyle("overflow-y:auto");
 		collapsibleSeach.setStyle("background-color: transparent");
 		collapsibleSeach.setStyle("border: none");
 		searchTab.appendChild(collapsibleSeach);
@@ -877,6 +884,6 @@ public class WBrowser extends Browser implements IFormController,
 			}
 			detail.clearSelection();
 		}
-			isAllSelected = !isAllSelected;
+		isAllSelected = !isAllSelected;
 	}
 }
