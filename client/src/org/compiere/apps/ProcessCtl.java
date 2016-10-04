@@ -166,7 +166,7 @@ public class ProcessCtl implements Runnable
 	 *  @param trx Transaction
 	 *  @return worker started ProcessCtl instance or null for workflow
 	 */
-	public static ProcessCtl process(ASyncProcess parent, int WindowNo, ProcessParameter parameter, ProcessInfo pi, Trx trx)
+	public static ProcessCtl process(ASyncProcess parent, int WindowNo, ProcessController parameter, ProcessInfo pi, Trx trx)
 	{
 		log.fine("WindowNo=" + WindowNo + " - " + pi);
 
