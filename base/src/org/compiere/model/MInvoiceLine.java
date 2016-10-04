@@ -870,7 +870,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setLineNetAmt();
 		// TaxAmt recalculations should be done if the TaxAmt is zero
 		// or this is an Invoice(Customer) - teo_sarca, globalqss [ 1686773 ]
-		if (m_IsSOTrx || getTaxAmt().compareTo(Env.ZERO) == 0)
+		if (getTaxAmt().compareTo(Env.ZERO) == 0)
 			setTaxAmt();
 		//
 		return true;
