@@ -14,7 +14,7 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpcya.com                                 *
  *****************************************************************************/
-package org.compiere.apps;
+package org.adempiere.controller;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;

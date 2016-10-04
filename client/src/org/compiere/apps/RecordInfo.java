@@ -29,6 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
+import org.adempiere.controller.RecordInfoController;
 import org.compiere.grid.VTable;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridField;

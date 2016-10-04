@@ -30,32 +30,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
-import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -84,8 +75,6 @@ import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.GridWorkbench;
-import org.compiere.model.Lookup;
-import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
@@ -96,7 +85,6 @@ import org.compiere.print.AReport;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
-import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogMgt;
@@ -150,6 +138,9 @@ import org.eevolution.form.VBrowser;
  *		@see https://github.com/adempiere/adempiere/issues/114
  *		<li>FR [ 248 ] Smart Browse not open on modal inside a window
  * 		@see https://github.com/adempiere/adempiere/issues/248
+ * 		<a href="https://github.com/adempiere/adempiere/issues/592">
+ * 		@see FR [ 592 ] Delete Selection dialog is not MVC</a>
+ * 		
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -1949,86 +1940,18 @@ public final class APanel extends CPanel
 	/**
 	 * Show a list to select one or more items to delete.
 	 */
-	private void cmd_deleteSelection(){
+	private void cmd_deleteSelection() {
 		if (m_curTab.isReadOnly())
 			return;
-		//show table with deletion rows -> by identifiers columns
-		JPanel messagePanel = new JPanel();
-		JList list = new JList();
-		JScrollPane scrollPane = new JScrollPane(list);
-		Vector<String> data = new Vector<String>();
-		// FR [ 2877111 ]
-		final String keyColumnName = m_curTab.getKeyColumnName();
-		String sql = null;
-		if (! "".equals(keyColumnName)) {
-			sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(m_ctx), keyColumnName, "[?","?]")
-			   .replace("[?.?]", "?");
-		}
-		int noOfRows = m_curTab.getRowCount();
-		for(int i = 0; i < noOfRows; i++)
-		{
-			StringBuffer displayValue = new StringBuffer();
-			if ("".equals(keyColumnName))
-			{
-				ArrayList<String> parentColumnNames = m_curTab.getParentColumnNames();
-				for (Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();)
-				{
-					String columnName = iter.next();
-					GridField field = m_curTab.getField(columnName);
-					if(field.isLookup()){
-						Lookup lookup = field.getLookup();
-						if (lookup != null){
-							displayValue = displayValue.append(lookup.getDisplay(m_curTab.getValue(i,columnName))).append(" | ");
-						} else {
-							displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
-						}
-					} else {
-						displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
-					}
-				}
-			} else {
-				final int id = m_curTab.getKeyID(i);
-				String value = DB.getSQLValueStringEx(null, sql, id);
-				if (value != null)
-					value = value.replace(" - ", " | ");
-				displayValue.append(value);
-				// Append ID
-				if (displayValue.length() == 0 || CLogMgt.isLevelFine())
-				{
-					if (displayValue.length() > 0)
-						displayValue.append(" | ");
-					displayValue.append("<").append(id).append(">");
-				}
-			}
-			//
-			data.add(displayValue.toString());
-		}
-		// FR [ 2877111 ]
-		list.setListData(data);
-
-		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		messagePanel.add(scrollPane);
-
-		final JOptionPane pane = new JOptionPane(
-				messagePanel, // message
-				JOptionPane.QUESTION_MESSAGE, // messageType
-				JOptionPane.OK_CANCEL_OPTION); // optionType
-		final JDialog deleteDialog = pane.createDialog(this.getParent(), Msg.getMsg(m_ctx, "DeleteSelection"));
-		deleteDialog.setVisible(true);
-		Integer okCancel = (Integer) pane.getValue();
-		if(okCancel != null && okCancel == JOptionPane.OK_OPTION)
-		{
+		//	
+		DeleteSelection dSelection = new DeleteSelection(m_window, m_curTab);
+		dSelection.showDialog();
+		//	Verify Selection
+		if(dSelection.isOkPressed()) {
 			log.fine("ok");
-			Object[] selectedValues = list.getSelectedValues();
-			for (int i = 0; i < selectedValues.length; i++)
-			{
-				log.fine(selectedValues[i].toString());
-			}
-			int[] indices = list.getSelectedIndices();
-			Arrays.sort(indices);
+			int[] indices = dSelection.getSelection();
 			int offset = 0;
-			for (int i = 0; i < indices.length; i++)
-			{
+			for (int i = 0; i < indices.length; i++) {
 				//m_curTab.setCurrentRow(indices[i]-offset);
 				m_curTab.navigate(indices[i]-offset);
 				int keyID = m_curTab.getRecord_ID();
@@ -2038,10 +1961,9 @@ public final class APanel extends CPanel
 					offset++;
 				}
 			}
+			//	Refresh
 			m_curGC.dynamicDisplay(0);
-		}
-		else
-		{
+		} else {
 			log.fine("cancel");
 		}
 	}//cmd_deleteSelection

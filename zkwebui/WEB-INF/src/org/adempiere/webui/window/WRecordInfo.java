@@ -18,13 +18,13 @@ package org.adempiere.webui.window;
 
 import java.util.logging.Level;
 
+import org.adempiere.controller.RecordInfoController;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.SimpleListModel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditorPopupMenu;
-import org.compiere.apps.RecordInfoController;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
