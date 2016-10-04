@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -67,7 +68,18 @@ public class GenericPaymentExport implements PaymentExport
 	/** BPartner Info Index for Reference No    */
 	private static final int     BP_REFNO = 9;
 
-	
+	/**************************************************************************
+	 *  Export to File
+	 *  @param paySelectionChecks array of checks
+	 *  @param file file to export checks
+	 *  @return number of lines
+	 */
+	@Deprecated
+	public int exportToFile (MPaySelectionCheck[] paySelectionChecks, File file, StringBuffer error)
+	{
+		return exportToFile( Arrays.asList(paySelectionChecks) , file , error);
+	}
+
 	/**************************************************************************
 	 *  Export to File
 	 *  @param paySelectionChecks array of checks

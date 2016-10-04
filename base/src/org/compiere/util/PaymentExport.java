@@ -32,10 +32,18 @@ import org.compiere.model.MPaySelectionCheck;
  */
 public interface PaymentExport
 {
-
 	/**************************************************************************
 	 *  Export to File
 	 *  @param checks array of checks
+	 *  @param file file to export checks
+	 *  @return number of lines
+	 */
+	@Deprecated
+	public int exportToFile (MPaySelectionCheck[] checks, File file, StringBuffer error);
+
+	/**************************************************************************
+	 *  Export to File
+	 *  @param checks list of checks
 	 *  @param file file to export checks
 	 *  @return number of lines
 	 */
