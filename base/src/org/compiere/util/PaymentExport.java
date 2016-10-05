@@ -23,7 +23,7 @@ import org.compiere.model.MPaySelectionCheck;
 
 /**
  * 	Custom Payment Export Interface
- *	
+ *
  *  @author Carlos Ruiz - GlobalQSS
  *	@author  victor.perez , victor.perez@e-evolution.com http://www.e-evolution.com
  * 		<li> FR [ 297 ] Apply ADempiere best Pratice
@@ -40,13 +40,4 @@ public interface PaymentExport
 	 */
 	@Deprecated
 	public int exportToFile (MPaySelectionCheck[] checks, File file, StringBuffer error);
-
-	/**************************************************************************
-	 *  Export to File
-	 *  @param checks list of checks
-	 *  @param file file to export checks
-	 *  @return number of lines
-	 */
-	public int exportToFile (List<MPaySelectionCheck> checks, File file, StringBuffer error);
-
 }	//	PaymentExport
