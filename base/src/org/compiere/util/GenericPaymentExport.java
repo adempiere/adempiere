@@ -41,7 +41,7 @@ import org.compiere.model.MPaySelectionLine;
  * 		<li> FR [ 297 ] Apply ADempiere best Pratice
  *		@see https://github.com/adempiere/adempiere/issues/297
  */
-public class GenericPaymentExport implements PaymentExport
+public class GenericPaymentExport implements PaymentExportList
 {
 	/** Logger								*/
 	static private CLogger	s_log = CLogger.getCLogger (GenericPaymentExport.class);
