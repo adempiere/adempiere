@@ -41,10 +41,11 @@
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate"/>
 		<ant inheritAll="false" dir="org.adempiere.pos"/>
 	</target>
-	<target name="build" depends="jar">
+	<target name="build" depends="clean, jar">
 		<ant inheritAll="false" dir="install"/>		
 	</target>	
 	<target name="clean">
+		<echo message="=========== Cleaning Build"/>
 		<ant inheritAll="false" dir="tools" target="clean"/>
 		<ant inheritAll="false" dir="base" target="clean"/>
 		<ant inheritAll="false" dir="org.adempiere.asset" target="clean"/>
