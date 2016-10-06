@@ -16,6 +16,7 @@
 
 package org.eevolution.engine.freight;
 
+import org.compiere.model.MFreight;
 import org.compiere.model.MLocation;
 import org.compiere.model.MProduct;
 import org.eevolution.service.FreightService;
@@ -42,6 +43,44 @@ public class FreightRule implements FreightRuleInterface {
             Timestamp date,
             String trxName) {
         MProduct product = MProduct.get(ctx, productId);
+
+        BigDecimal freightRateAmount = BigDecimal.ZERO;
+        FreightServiceInterface freightService = new FreightService();
+        BigDecimal freightRate = getFreightRate(
+                ctx,
+                shipperId,
+                freightCategoryId,
+                currencyId,
+                locationFromId,
+                locationToId,
+                date,
+                trxName);
+        if (freightRate.signum() != 0)
+            freightRateAmount = product.getWeight().multiply(freightRate);
+        else
+            freightRateAmount = BigDecimal.ZERO;
+        return  freightRateAmount;
+    }
+
+    /**
+     * get Freight Rate
+     * @param ctx
+     * @param shipperId
+     * @param freightCategoryId
+     * @param currencyId
+     * @param date
+     * @param trxName
+     * @return
+     */
+    public BigDecimal getFreightRate(
+            Properties ctx,
+            int shipperId,
+            int freightCategoryId,
+            int currencyId,
+            int locationFromId,
+            int locationToId,
+            Timestamp date, String trxName) {
+
         MLocation locationFrom = MLocation.get(ctx, locationFromId, trxName);
         MLocation locationTo = MLocation.get(ctx, locationToId, trxName);
         Optional<Integer> countryFromOptionalId;
@@ -64,25 +103,37 @@ public class FreightRule implements FreightRuleInterface {
             regionToOptionalId = Optional.empty();
         }
 
-
-
-        BigDecimal freightRateAmount = BigDecimal.ZERO;
         FreightServiceInterface freightService = new FreightService();
-        BigDecimal freightRate = freightService.getFreightRate(
-                ctx,
-                shipperId,
-                freightCategoryId,
-                currencyId,
-                countryFromOptionalId,
-                regionFromOptionalId,
-                countryToOptionalId,
-                regionToOptionalId,
-                date,
-                trxName);
-        if (freightRate.signum() != 0)
-            freightRateAmount = product.getWeight().multiply(freightRate);
+        Optional<MFreight> freightOptioonal = freightService.getFreightValid(ctx, shipperId, freightCategoryId, currencyId, date, trxName)
+                .stream()
+                .filter(freight -> {
+                    if (freight.getC_Country_ID() == 0 && freight.getTo_Country_ID() == 0)
+                        return true;
+                    else if (freight.getC_Country_ID() == 0 &&  (countryToOptionalId.isPresent() && countryToOptionalId.get() == freight.getTo_Country_ID()))
+                        return true;
+                    else if ((countryFromOptionalId.isPresent() && countryFromOptionalId.get() == freight.getC_Country_ID())
+                            &&  (countryToOptionalId.isPresent() && countryToOptionalId.get() == freight.getTo_Country_ID()))
+                        return true;
+                    else
+                        return false;
+                }).filter(freight -> {
+                    if (freight.getC_Region_ID() == 0 && freight.getTo_Region_ID() == 0)
+                        return true;
+                    else if (freight.getC_Region_ID() == 0 &&   (regionToOptionalId.isPresent() && regionToOptionalId.get() == freight.getTo_Region_ID()))
+                        return true;
+                    else if ((regionFromOptionalId.isPresent() && regionFromOptionalId.get() == freight.getC_Region_ID()) &&
+                            (regionToOptionalId.isPresent() && regionToOptionalId.get() == freight.getTo_Region_ID()))
+                        return true;
+                    else
+                        return false;
+                }).findFirst();
+        if (freightOptioonal.isPresent())
+        {
+            return freightOptioonal.get().getFreightAmt();
+        }
         else
-            freightRateAmount = BigDecimal.ZERO;
-        return  freightRateAmount;
+        {
+            return BigDecimal.ZERO;
+        }
     }
 }
