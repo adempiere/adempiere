@@ -16,8 +16,12 @@
 
 package org.eevolution.engine.freight;
 
+import org.compiere.model.MFreight;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -34,4 +38,13 @@ public interface FreightRuleInterface {
             int currencyId,
             Timestamp date,
             String trxName);
+
+    public BigDecimal getFreightRate(
+            Properties ctx,
+            int shipperId,
+            int freightCategoryId,
+            int currencyId,
+            int locationFromId,
+            int locationToId,
+            Timestamp date, String trxName);
 }
