@@ -19,11 +19,16 @@ package org.compiere.util;
 import org.compiere.model.MPaySelectionCheck;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
-
-public interface PaymentExportList extends PaymentExport
-{
+/**
+ * 	Abstract class implementation for old compatibility
+ * 	@author  victor.perez , victor.perez@e-evolution.com http://www.e-evolution.com
+ * 		<li> FR [ 468 ] Bug with old compatibility
+ *		@see https://github.com/adempiere/adempiere/issues/468
+ */
+public abstract class PaymentExportList implements PaymentExport {
 	/**************************************************************************
 	 *  Export to File
 	 *  @param checks array of checks
@@ -31,7 +36,9 @@ public interface PaymentExportList extends PaymentExport
 	 *  @return number of lines
 	 */
 	@Deprecated
-	public int exportToFile(MPaySelectionCheck[] checks, File file, StringBuffer error);
+	public int exportToFile(MPaySelectionCheck[] checks, File file, StringBuffer error) {
+		return exportToFile( Arrays.asList(checks) , file , error);
+	}
 
 	/**************************************************************************
 	 *  Export to File
@@ -39,6 +46,6 @@ public interface PaymentExportList extends PaymentExport
 	 *  @param file file to export checks
 	 *  @return number of lines
 	 */
-	public int exportToFile(List<MPaySelectionCheck> checks, File file, StringBuffer error);
+	public abstract int exportToFile(List<MPaySelectionCheck> checks, File file, StringBuffer error);
 
 }	//	PaymentExport
