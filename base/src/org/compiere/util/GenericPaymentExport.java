@@ -21,7 +21,6 @@ import java.io.FileWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -41,8 +40,7 @@ import org.compiere.model.MPaySelectionLine;
  * 		<li> FR [ 297 ] Apply ADempiere best Pratice
  *		@see https://github.com/adempiere/adempiere/issues/297
  */
-public class GenericPaymentExport implements PaymentExportList
-{
+public class GenericPaymentExport extends PaymentExportList {
 	/** Logger								*/
 	static private CLogger	s_log = CLogger.getCLogger (GenericPaymentExport.class);
 
@@ -67,18 +65,6 @@ public class GenericPaymentExport implements PaymentExportList
 	private static final int     BP_COUNTRY = 8;
 	/** BPartner Info Index for Reference No    */
 	private static final int     BP_REFNO = 9;
-
-	/**************************************************************************
-	 *  Export to File
-	 *  @param paySelectionChecks array of checks
-	 *  @param file file to export checks
-	 *  @return number of lines
-	 */
-	@Deprecated
-	public int exportToFile (MPaySelectionCheck[] paySelectionChecks, File file, StringBuffer error)
-	{
-		return exportToFile( Arrays.asList(paySelectionChecks) , file , error);
-	}
 
 	/**************************************************************************
 	 *  Export to File
@@ -258,6 +244,4 @@ public class GenericPaymentExport implements PaymentExportList
 		}
 		return bp;
 	}   //  getBPartnerInfo
-
-	
 }	//	PaymentExport
