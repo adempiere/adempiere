@@ -17,7 +17,6 @@
 package org.compiere.util;
 
 import java.io.File;
-import java.util.List;
 
 import org.compiere.model.MPaySelectionCheck;
 
@@ -30,6 +29,7 @@ import org.compiere.model.MPaySelectionCheck;
  *		@see https://github.com/adempiere/adempiere/issues/297
  *  @version PaymentExport.java
  */
+@Deprecated
 public interface PaymentExport
 {
 	/**************************************************************************
