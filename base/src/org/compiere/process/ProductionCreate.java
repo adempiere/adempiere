@@ -1,13 +1,17 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostType;
+import org.compiere.model.MProduct;
 import org.compiere.model.MProduction;
+import org.compiere.model.MProductionBatch;
 import org.compiere.util.AdempiereUserError;
-import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 
 /**
@@ -19,34 +23,44 @@ import org.compiere.util.DB;
  */
 public class ProductionCreate extends SvrProcess {
 
-	private int p_M_Production_ID=0;
-	private MProduction m_production = null;
-	private boolean mustBeStocked = false;  //not used
-	private boolean recreate = false;
-	private BigDecimal newQty = null;
-	private int p_M_CostType_ID =0;
-	//private int p_M_Locator_ID=0;
-	
-	
-	protected void prepare() {for (ProcessInfoParameter para : getParameter())
-	{
-		String name = para.getParameterName();
-		if (para.getParameter() == null)
-			;
-			if ("Recreate".equals(name))
-				recreate = "Y".equals(para.getParameter());
-			else if ("ProductionQty".equals(name))
-				newQty  = (BigDecimal) para.getParameter();
-			else if (MCostType.COLUMNNAME_M_CostType_ID.equals(name))
-				p_M_CostType_ID = para.getParameterAsInt();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);		
-		}
-		
-		p_M_Production_ID = getRecord_ID();
-		m_production = new MProduction(getCtx(), p_M_Production_ID, get_TrxName());
+	private int p_M_Production_ID					=0;
+	private MProduction m_production 			= null;
+	private boolean mustBeStocked 				= false;  //not used
+	private boolean recreate 							= false;
+	private BigDecimal newQty 						= null;
+	private int S_Resource_ID 						= 0;
+	private Boolean recalculate 						= false;
+	private int C_AcctSchema_ID 					= 0;
+	private MProduct  finishedProduct				= null;
 
-	}	//prepare
+
+	/**
+	 *  Prepare - e.g., get Parameters.
+	 */
+	protected void prepare()
+	{
+		for (ProcessInfoParameter para : getParameter())
+		{
+			String name = para.getParameterName();
+			if (para.getParameter() == null)
+				;
+			if ("Recreate".equals(name))
+				recreate = para.getParameterAsBoolean();
+			else if ("ProductionQty".equals(name))
+				newQty = para.getParameterAsBigDecimal();
+			else if ("S_Resource_ID".equals(name))
+				S_Resource_ID = para.getParameterAsInt();
+			else if ("recalculate".equals(name))
+				recalculate = para.getParameterAsBoolean();
+			else if (MAcctSchema.COLUMNNAME_C_AcctSchema_ID.equals(name))
+				C_AcctSchema_ID = para.getParameterAsInt();
+			else
+				log.log(Level.SEVERE, "Unknown Parameter: " + name);	
+		}						
+	p_M_Production_ID = getRecord_ID();
+	m_production = new MProduction(getCtx(), p_M_Production_ID, get_TrxName());
+	finishedProduct = (MProduct)m_production.getM_Product();
+	}	//	prepare
 
 	@Override
 	protected String doIt() throws Exception {
@@ -56,80 +70,90 @@ public class ProductionCreate extends SvrProcess {
 
 		if ( m_production.isProcessed() )
 			return "Already processed";
-
+		if (recalculate)
+			recalculate();
 		return createLines();
 
 	}
 	
-	private boolean costsOK(int M_Product_ID) throws AdempiereUserError {
-		// Warning will not work if non-standard costing is used
-		// SHW Parameter p_M_Costtype 
-		MCostType ct = new MCostType(getCtx(), p_M_CostType_ID, get_TrxName());
-		if (!ct.getCostingMethod().equals(MCostType.COSTINGMETHOD_StandardCosting))
-			return true;
-		ArrayList<Object> params = new ArrayList<Object>();
-		params.add(M_Product_ID);
-		params.add(p_M_CostType_ID);
-		String sql = "SELECT ABS(((cc.currentcostprice-(SELECT SUM(c.currentcostprice*bom.qtybom)"
-			+ " FROM m_cost c"
-			+ " INNER JOIN pp_product_bomline bom ON (c.m_product_id=bom.m_product_id)"
-			+ " JOIN pp_product_bom b ON (b.pp_product_bom_id = bom.pp_product_bom_id)"
-			+ " WHERE b.m_product_id = pp.m_product_id)"
-			+ " )/cc.currentcostprice))"
-			+ " FROM m_product pp"
-			+ " INNER JOIN m_cost cc on (cc.m_product_id=pp.m_product_id)"
-			+ " WHERE cc.currentcostprice > 0 AND pp.M_Product_ID = ?"
-			+ " AND cc.m_costtype_ID=?";
-		
-		BigDecimal costPercentageDiff = DB.getSQLValueBD(get_TrxName(), sql, params);
-		
-		if (costPercentageDiff == null)
-		{
-			throw new AdempiereUserError("Could not retrieve costs");
-		}
-		
-		if ( (costPercentageDiff.compareTo(new BigDecimal("0.005")))< 0 )
-			return true;
-		
-		return false;
-	}
 
 	protected String createLines() throws Exception {
 		
 		int created = 0;
 		isBom(m_production.getM_Product_ID());
-		MCostType ct = new MCostType(getCtx(), p_M_CostType_ID, get_TrxName());
-		if (!costsOK(m_production.getM_Product_ID()) && ct.getCostingMethod().equals(MCostType.COSTINGMETHOD_StandardCosting))
-			throw new AdempiereUserError("Excessive difference in standard costs");
 		
 		if (!recreate && "true".equalsIgnoreCase(m_production.get_ValueAsString("IsCreated")))
 			throw new AdempiereUserError("Production already created.");
-		
+
+		// Check batch having production planned Qty.
+		BigDecimal cntQty = Env.ZERO;
+		MProductionBatch pBatch = (MProductionBatch) m_production.getM_Production_Batch();
+		for (MProduction p : pBatch.getHeaders(true))
+		{
+			if (p.getM_Production_ID() != m_production.getM_Production_ID())
+				cntQty = cntQty.add(p.getProductionQty());
+		}
+
+		BigDecimal maxPlanQty = pBatch.getTargetQty().subtract(cntQty);
+		if (newQty.compareTo(maxPlanQty) > 0)
+			throw new AdempiereUserError("Production batch target qty is: " + pBatch.getTargetQty()
+					+ " <BR/>Total production planned qty on current batch is: " + cntQty
+					+ " <BR/>Maximum plan qty should be: " + maxPlanQty);
+
 		if (newQty != null )
 			m_production.setProductionQty(newQty);
 		
 		m_production.deleteLines(get_TrxName());
-		created = m_production.createLines(mustBeStocked);
+		m_production.createLines(mustBeStocked);
+		created = m_production.getLines().length;
 		if ( created == 0 ) 
 		{return "Failed to create production lines"; }
 		
 		
-		m_production.setIsCreated("Y");
+		m_production.setIsCreated(true);
 		m_production.save(get_TrxName());
+		
+		//jobrian - update Production Batch
+		int M_Production_Batch_ID = m_production.get_ValueAsInt("M_Production_Batch_ID");
+		MProductionBatch batch = new MProductionBatch(getCtx(), M_Production_Batch_ID, get_TrxName());
+		batch.setQtyOrdered(m_production.getProductionQty());
+		batch.save();
+		
 		return created + " production lines were created";
 	}
 	
 	protected void isBom(int M_Product_ID) throws Exception
 	{
-		String bom = DB.getSQLValueString(get_TrxName(), "SELECT isbom FROM M_Product WHERE M_Product_ID = ?", M_Product_ID);
-		if ("N".compareTo(bom) == 0)
+		
+		if (!finishedProduct.isBOM())
 		{
 			throw new AdempiereUserError ("Attempt to create product line for Non Bill Of Materials");
 		}
-		int materials = DB.getSQLValue(get_TrxName(), "SELECT count(bl.PP_Product_BOMLine_ID) FROM PP_Product_BOMLine bl JOIN PP_Product_BOM b ON b.PP_Product_BOM_ID = bl.PP_Product_BOM_ID WHERE b.M_Product_ID = ?", M_Product_ID );
-		if (materials == 0)
-		{
-			throw new AdempiereUserError ("Attempt to create product line for Bill Of Materials with no BOM Products");
-		}
+	}
+	
+	private String recalculate ()
+	{
+		MAcctSchema as = MAcctSchema.get(getCtx(), C_AcctSchema_ID);
+		MCostType ct 			= MCostType.getByMethodCosting(as, as.getCostingMethod());
+		String costingLevel = finishedProduct.getCostingLevel(as);
+		int AD_Org_ID 		= 	costingLevel.equals(MAcctSchema.COSTINGLEVEL_Organization)?m_production.getAD_Org_ID():0;
+		int M_Warehouse_ID = costingLevel.equals(MAcctSchema.COSTINGLEVEL_Warehouse)?m_production.getM_Locator().getM_Warehouse_ID():0;
+		ProcessInfo processInfo = ProcessBuilder.create(getCtx())
+				.process(53062)
+				.withRecordId(MProduction.Table_ID, getRecord_ID())
+				.withParameter("C_AcctSchema_ID", C_AcctSchema_ID)
+				.withParameter("S_Resource_ID", C_AcctSchema_ID)
+				.withParameter("", as.getCostingMethod())
+				.withParameter("M_CostType_ID", ct.getM_CostType_ID())
+				.withParameter("ADOrg_ID", AD_Org_ID)
+				.withParameter("M_Warehouse_ID", M_Warehouse_ID)
+				.withParameter("CostingMethod", as.getCostingMethod())
+				.withoutTransactionClose()
+				.execute(get_TrxName());
+		if (processInfo.isError())
+			throw new AdempiereException(processInfo.getSummary());
+
+		addLog(processInfo.getSummary());
+		return "";
 	}
 }

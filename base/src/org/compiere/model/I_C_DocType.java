@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version 1.5.0
  */
 public interface I_C_DocType 
 {
@@ -52,13 +52,13 @@ public interface I_C_DocType
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organization.
-	  * Organizational entity within client
+	/** Set Organisation.
+	  * Organisational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organization.
-	  * Organizational entity within client
+	/** Get Organisation.
+	  * Organisational entity within client
 	  */
 	public int getAD_Org_ID();
 
@@ -75,7 +75,7 @@ public interface I_C_DocType
 	  */
 	public int getAD_PrintFormat_ID();
 
-	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
+	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
     /** Column name C_DocTypeDifference_ID */
     public static final String COLUMNNAME_C_DocTypeDifference_ID = "C_DocTypeDifference_ID";
@@ -90,7 +90,20 @@ public interface I_C_DocType
 	  */
 	public int getC_DocTypeDifference_ID();
 
-	public org.compiere.model.I_C_DocType getC_DocTypeDifference() throws RuntimeException;
+	public I_C_DocType getC_DocTypeDifference() throws RuntimeException;
+
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
 
     /** Column name C_DocTypeInvoice_ID */
     public static final String COLUMNNAME_C_DocTypeInvoice_ID = "C_DocTypeInvoice_ID";
@@ -105,7 +118,7 @@ public interface I_C_DocType
 	  */
 	public int getC_DocTypeInvoice_ID();
 
-	public org.compiere.model.I_C_DocType getC_DocTypeInvoice() throws RuntimeException;
+	public I_C_DocType getC_DocTypeInvoice() throws RuntimeException;
 
     /** Column name C_DocTypeProforma_ID */
     public static final String COLUMNNAME_C_DocTypeProforma_ID = "C_DocTypeProforma_ID";
@@ -120,7 +133,7 @@ public interface I_C_DocType
 	  */
 	public int getC_DocTypeProforma_ID();
 
-	public org.compiere.model.I_C_DocType getC_DocTypeProforma() throws RuntimeException;
+	public I_C_DocType getC_DocTypeProforma() throws RuntimeException;
 
     /** Column name C_DocTypeShipment_ID */
     public static final String COLUMNNAME_C_DocTypeShipment_ID = "C_DocTypeShipment_ID";
@@ -135,20 +148,7 @@ public interface I_C_DocType
 	  */
 	public int getC_DocTypeShipment_ID();
 
-	public org.compiere.model.I_C_DocType getC_DocTypeShipment() throws RuntimeException;
-
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
+	public I_C_DocType getC_DocTypeShipment() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -175,7 +175,7 @@ public interface I_C_DocType
 	/** Get Definite Sequence	  */
 	public int getDefiniteSequence_ID();
 
-	public org.compiere.model.I_AD_Sequence getDefiniteSequence() throws RuntimeException;
+	public I_AD_Sequence getDefiniteSequence() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -216,7 +216,7 @@ public interface I_C_DocType
 	  */
 	public int getDocNoSequence_ID();
 
-	public org.compiere.model.I_AD_Sequence getDocNoSequence() throws RuntimeException;
+	public I_AD_Sequence getDocNoSequence() throws RuntimeException;
 
     /** Column name DocSubTypeSO */
     public static final String COLUMNNAME_DocSubTypeSO = "DocSubTypeSO";
@@ -270,7 +270,7 @@ public interface I_C_DocType
 	  */
 	public int getGL_Category_ID();
 
-	public org.compiere.model.I_GL_Category getGL_Category() throws RuntimeException;
+	public I_GL_Category getGL_Category() throws RuntimeException;
 
     /** Column name HasCharges */
     public static final String COLUMNNAME_HasCharges = "HasCharges";
@@ -298,6 +298,15 @@ public interface I_C_DocType
 	  */
 	public boolean isHasProforma();
 
+    /** Column name IsAccrualExpenses */
+    public static final String COLUMNNAME_IsAccrualExpenses = "IsAccrualExpenses";
+
+	/** Set IsAccrualExpenses	  */
+	public void setIsAccrualExpenses (boolean IsAccrualExpenses);
+
+	/** Get IsAccrualExpenses	  */
+	public boolean isAccrualExpenses();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -311,6 +320,59 @@ public interface I_C_DocType
 	  */
 	public boolean isActive();
 
+    /** Column name IsAllowGenerateShipment */
+    public static final String COLUMNNAME_IsAllowGenerateShipment = "IsAllowGenerateShipment";
+
+	/** Set Allow Generate Shipment	  */
+	public void setIsAllowGenerateShipment (boolean IsAllowGenerateShipment);
+
+	/** Get Allow Generate Shipment	  */
+	public boolean isAllowGenerateShipment();
+
+    /** Column name IsAutoCloseBackOrder */
+    public static final String COLUMNNAME_IsAutoCloseBackOrder = "IsAutoCloseBackOrder";
+
+	/** Set Auto Close Back Order	  */
+	public void setIsAutoCloseBackOrder (boolean IsAutoCloseBackOrder);
+
+	/** Get Auto Close Back Order	  */
+	public boolean isAutoCloseBackOrder();
+
+    /** Column name IsChargeOrProductMandatory */
+    public static final String COLUMNNAME_IsChargeOrProductMandatory = "IsChargeOrProductMandatory";
+
+	/** Set Mandatory Charge or Product	  */
+	public void setIsChargeOrProductMandatory (boolean IsChargeOrProductMandatory);
+
+	/** Get Mandatory Charge or Product	  */
+	public boolean isChargeOrProductMandatory();
+
+    /** Column name IsCompleteInvoice */
+    public static final String COLUMNNAME_IsCompleteInvoice = "IsCompleteInvoice";
+
+	/** Set Complete Invoice.
+	  * Automatically complete invoice on document completion
+	  */
+	public void setIsCompleteInvoice (boolean IsCompleteInvoice);
+
+	/** Get Complete Invoice.
+	  * Automatically complete invoice on document completion
+	  */
+	public boolean isCompleteInvoice();
+
+    /** Column name IsCompleteShipment */
+    public static final String COLUMNNAME_IsCompleteShipment = "IsCompleteShipment";
+
+	/** Set Complete Shipment.
+	  * Automatically complete shipment
+	  */
+	public void setIsCompleteShipment (boolean IsCompleteShipment);
+
+	/** Get Complete Shipment.
+	  * Automatically complete shipment
+	  */
+	public boolean isCompleteShipment();
+
     /** Column name IsCreateCounter */
     public static final String COLUMNNAME_IsCreateCounter = "IsCreateCounter";
 
@@ -323,6 +385,32 @@ public interface I_C_DocType
 	  * Create Counter Document
 	  */
 	public boolean isCreateCounter();
+
+    /** Column name IsCreateInvoice */
+    public static final String COLUMNNAME_IsCreateInvoice = "IsCreateInvoice";
+
+	/** Set Create Invoice.
+	  * Automatically create invoice on document completion
+	  */
+	public void setIsCreateInvoice (boolean IsCreateInvoice);
+
+	/** Get Create Invoice.
+	  * Automatically create invoice on document completion
+	  */
+	public boolean isCreateInvoice();
+
+    /** Column name IsCreateShipment */
+    public static final String COLUMNNAME_IsCreateShipment = "IsCreateShipment";
+
+	/** Set Create Shipment.
+	  * Automatically create shipment on document completion
+	  */
+	public void setIsCreateShipment (boolean IsCreateShipment);
+
+	/** Get Create Shipment.
+	  * Automatically create shipment on document completion
+	  */
+	public boolean isCreateShipment();
 
     /** Column name IsDefault */
     public static final String COLUMNNAME_IsDefault = "IsDefault";
@@ -363,6 +451,19 @@ public interface I_C_DocType
 	  */
 	public boolean isDocNoControlled();
 
+    /** Column name IsIndexed */
+    public static final String COLUMNNAME_IsIndexed = "IsIndexed";
+
+	/** Set Indexed.
+	  * Index the document for the internal search engine
+	  */
+	public void setIsIndexed (boolean IsIndexed);
+
+	/** Get Indexed.
+	  * Index the document for the internal search engine
+	  */
+	public boolean isIndexed();
+
     /** Column name IsInTransit */
     public static final String COLUMNNAME_IsInTransit = "IsInTransit";
 
@@ -376,18 +477,18 @@ public interface I_C_DocType
 	  */
 	public boolean isInTransit();
 
-    /** Column name IsIndexed */
-    public static final String COLUMNNAME_IsIndexed = "IsIndexed";
+    /** Column name IsOverrideDocControl */
+    public static final String COLUMNNAME_IsOverrideDocControl = "IsOverrideDocControl";
 
-	/** Set Indexed.
-	  * Index the document for the internal search engine
+	/** Set Override Doc Control.
+	  * Allow posting to Document Controlled accounts from GL Journal
 	  */
-	public void setIsIndexed (boolean IsIndexed);
+	public void setIsOverrideDocControl (boolean IsOverrideDocControl);
 
-	/** Get Indexed.
-	  * Index the document for the internal search engine
+	/** Get Override Doc Control.
+	  * Allow posting to Document Controlled accounts from GL Journal
 	  */
-	public boolean isIndexed();
+	public boolean isOverrideDocControl();
 
     /** Column name IsOverwriteDateOnComplete */
     public static final String COLUMNNAME_IsOverwriteDateOnComplete = "IsOverwriteDateOnComplete";
@@ -433,19 +534,6 @@ public interface I_C_DocType
 	  */
 	public boolean isPrepareSplitDocument();
 
-    /** Column name IsSOTrx */
-    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
-
-	/** Set Sales Transaction.
-	  * This is a Sales Transaction
-	  */
-	public void setIsSOTrx (boolean IsSOTrx);
-
-	/** Get Sales Transaction.
-	  * This is a Sales Transaction
-	  */
-	public boolean isSOTrx();
-
     /** Column name IsShipConfirm */
     public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";
 
@@ -458,6 +546,19 @@ public interface I_C_DocType
 	  * Require Ship or Receipt Confirmation before processing
 	  */
 	public boolean isShipConfirm();
+
+    /** Column name IsSOTrx */
+    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
+
+	/** Set Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx);
+
+	/** Get Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public boolean isSOTrx();
 
     /** Column name IsSplitWhenDifference */
     public static final String COLUMNNAME_IsSplitWhenDifference = "IsSplitWhenDifference";
@@ -484,6 +585,19 @@ public interface I_C_DocType
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name PrintDocument */
+    public static final String COLUMNNAME_PrintDocument = "PrintDocument";
+
+	/** Set Print Document.
+	  * Document to print
+	  */
+	public void setPrintDocument (String PrintDocument);
+
+	/** Get Print Document.
+	  * Document to print
+	  */
+	public String getPrintDocument();
 
     /** Column name PrintName */
     public static final String COLUMNNAME_PrintName = "PrintName";
@@ -513,4 +627,15 @@ public interface I_C_DocType
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name X_AuthorityType_ID */
+    public static final String COLUMNNAME_X_AuthorityType_ID = "X_AuthorityType_ID";
+
+	/** Set AuthorityType	  */
+	public void setX_AuthorityType_ID (int X_AuthorityType_ID);
+
+	/** Get AuthorityType	  */
+	public int getX_AuthorityType_ID();
+
+	public I_X_AuthorityType getX_AuthorityType() throws RuntimeException;
 }

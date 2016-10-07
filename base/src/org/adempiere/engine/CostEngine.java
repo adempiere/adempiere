@@ -192,9 +192,20 @@ public class CostEngine {
 			if (X_M_Product.PRODUCTTYPE_Item.equals(productType)) {
 				cost = MCostDetail.getCostByModel(accountSchema.getC_AcctSchema_ID(), costType.getM_CostType_ID() , costElement.getM_CostElement_ID() , productionLine);
 			}
+			//SHW Resource ueber Resourcenkosten
 			else if(X_M_Product.PRODUCTTYPE_Resource.equals(productType))
 			{
-				MCost costDimension = MCost.validateCostForCostType(accountSchema, costType, costElement,
+				MCostElement ceresource = null;
+				List<MCostElement>ces = MCostElement.getCostElement(productionLine.getCtx(), null);
+				for (MCostElement ce:ces)
+				{
+					if (ce.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
+					{
+						ceresource = ce;
+						break;
+					}
+				}
+				MCost costDimension = MCost.validateCostForCostType(accountSchema, costType, ceresource,
 						productionLine.getM_Product_ID(), productionLine.getAD_Org_ID(), productionLine.getM_Locator().getM_Warehouse_ID(),
 						productionLine.getM_AttributeSetInstance_ID(), productionLine.get_TrxName());
 
@@ -271,7 +282,10 @@ public class CostEngine {
 
 		if (!force)
 			return;
-		
+		// For average invoice: all costs are summarized as material costs
+		if (costType.getCostingMethod().equals(MCostType.COSTINGMETHOD_AverageInvoice) 
+				&& !costElement.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Material))
+			return ;
 		BigDecimal costThisLevel = Env.ZERO;
 		BigDecimal costLowLevel = Env.ZERO;
 		String costingLevel = MProduct.get(transaction.getCtx(),
@@ -328,6 +342,8 @@ public class CostEngine {
 					
 					if(costThisLevel.signum() == 0)
 						costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
+					if (costLowLevel.signum() == 0)
+						costLowLevel = cost.getCurrentCostPriceLL();
 				}
 				//Get cost from movement from if it > that zero replace cost This Level
 				if (model instanceof MMovementLine) {
@@ -341,8 +357,7 @@ public class CostEngine {
 					.getCostElementType())) {
 				if (model.getPriceActual().signum() != 0)
 					costThisLevel = model.getPriceActual();
-				//else of cost should only be take from source document in this case purchase order
-                //    costThisLevel = cost.getCurrentCostPrice();
+				else costThisLevel = cost.getCurrentCostPrice();// para costear recibos de material al costo si no existe orden o factura
 			}
 		}
 
@@ -374,7 +389,7 @@ public class CostEngine {
                                 transaction.getM_Product_ID(),
                                 transaction.get_TrxName());
 						
-				// Material Receipt for Production light
+				/*// Material Receipt for Production light
 				if (productionLine.isParent()) {
 					// get Actual Cost for Cost Type and Cost Element
 					// if the product is purchase then no use low level 
@@ -384,7 +399,7 @@ public class CostEngine {
 						costThisLevel = Env.ZERO;
 					} 
 				} else if ( productionLine.getMovementQty().signum() < 0)
-					costLowLevel= Env.ZERO;
+					costLowLevel= Env.ZERO;*/
 			}
 		}
         else if (MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod())){
@@ -691,7 +706,7 @@ public class CostEngine {
 				MProductionLine line = (MProductionLine) transaction
 						.getM_ProductionLine();
 				MProduction production = (MProduction) line
-						.getM_ProductionPlan().getM_Production();
+						.getM_Production();
 				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , production,
                         production.getMovementDate()))
 					return;
@@ -751,6 +766,47 @@ public class CostEngine {
 		final String sqldelete = "DELETE FROM Fact_Acct WHERE Record_ID =? AND AD_Table_ID=?";		
 		DB.executeUpdate (sqldelete ,new Object[] { model.get_ID(),
 				model.get_Table_ID() }, false , model.get_TrxName());
+		return true;
+	}
+
+	public boolean CostDetailExists(MTransaction transaction, IDocumentLine line, MCostType costtype, MCostElement costelement) {
+		ArrayList<Object> params = new ArrayList<>();
+		StringBuffer whereClause =new StringBuffer(" 1=1 ") ;
+		if (costtype !=null)
+		{
+			whereClause.append(" And M_costtype_ID=?");
+			params.add(costtype.getM_CostType_ID());
+		}
+		if (costelement !=null)
+		{
+			whereClause.append(" And m_costelement_ID=?");
+			params.add(costelement.getM_CostElement_ID());
+		}
+		if (transaction !=null)
+		{
+			whereClause.append(" And m_transaction_ID=?");
+			params.add(transaction.getM_Transaction_ID());
+			whereClause.append(" AND M_PRODUCT_ID=?");
+			params.add(transaction.getM_Product_ID());
+		}
+		if (line instanceof MLandedCostAllocation)
+		{
+			whereClause.append(" and c_landedcostallocation_ID =?");
+			params.add(line.get_ID());
+		}
+		if (line instanceof MMatchInv)
+		{
+			whereClause.append(" and c_invoiceline_ID =?");
+			params.add(((MMatchInv) line).getC_InvoiceLine_ID());
+		}
+		MCostDetail cd = new Query(transaction.getCtx(), MCostDetail.Table_Name, whereClause.toString(), transaction.get_TrxName())
+		.setParameters(params)	
+		.setOrderBy("")
+		.first();
+		if (cd == null)
+			return false;
+			
+		
 		return true;
 	}
 }

@@ -120,6 +120,21 @@ public interface I_M_Production
 
 	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
+	public I_C_DocType getC_DocType() throws RuntimeException;
+
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 
@@ -205,6 +220,32 @@ public interface I_M_Production
 	  */
 	public String getDescription();
 
+    /** Column name DocAction */
+    public static final String COLUMNNAME_DocAction = "DocAction";
+
+	/** Set Document Action.
+	  * The targeted status of the document
+	  */
+	public void setDocAction (String DocAction);
+
+	/** Get Document Action.
+	  * The targeted status of the document
+	  */
+	public String getDocAction();
+
+    /** Column name DocStatus */
+    public static final String COLUMNNAME_DocStatus = "DocStatus";
+
+	/** Set Document Status.
+	  * The current status of the document
+	  */
+	public void setDocStatus (String DocStatus);
+
+	/** Get Document Status.
+	  * The current status of the document
+	  */
+	public String getDocStatus();
+
     /** Column name DocumentNo */
     public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 
@@ -248,10 +289,19 @@ public interface I_M_Production
     public static final String COLUMNNAME_IsCreated = "IsCreated";
 
 	/** Set Records created	  */
-	public void setIsCreated (String IsCreated);
+	public void setIsCreated (boolean IsCreated);
 
 	/** Get Records created	  */
-	public String getIsCreated();
+	public boolean isCreated();
+
+    /** Column name IsWIP */
+    public static final String COLUMNNAME_IsWIP = "IsWIP";
+
+	/** Set Work In Progress	  */
+	public void setIsWIP (boolean IsWIP);
+
+	/** Get Work In Progress	  */
+	public boolean isWIP();
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -282,6 +332,17 @@ public interface I_M_Production
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name M_Production_Batch_ID */
+    public static final String COLUMNNAME_M_Production_Batch_ID = "M_Production_Batch_ID";
+
+	/** Set Production Batch	  */
+	public void setM_Production_Batch_ID (int M_Production_Batch_ID);
+
+	/** Get Production Batch	  */
+	public int getM_Production_Batch_ID();
+
+	public I_M_Production_Batch getM_Production_Batch() throws RuntimeException;
 
     /** Column name M_Production_ID */
     public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
@@ -382,6 +443,21 @@ public interface I_M_Production
 	  * Quantity of products to produce
 	  */
 	public BigDecimal getProductionQty();
+
+    /** Column name Reversal_ID */
+    public static final String COLUMNNAME_Reversal_ID = "Reversal_ID";
+
+	/** Set Reversal ID.
+	  * ID of document reversal
+	  */
+	public void setReversal_ID (int Reversal_ID);
+
+	/** Get Reversal ID.
+	  * ID of document reversal
+	  */
+	public int getReversal_ID();
+
+	public I_M_Production getReversal() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
