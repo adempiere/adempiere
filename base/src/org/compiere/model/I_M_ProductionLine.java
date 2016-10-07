@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_ProductionLine
  *  @author Adempiere (generated) 
- *  @version 1.5.0
+ *  @version Release 3.8.0
  */
 public interface I_M_ProductionLine 
 {
