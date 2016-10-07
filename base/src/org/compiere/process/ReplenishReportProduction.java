@@ -805,7 +805,7 @@ public class ReplenishReportProduction extends SvrProcess
 
 				production.createLines(false);
 
-				production.setIsCreated("Y");
+				//production.setIsCreated("Y");
 				production.save(get_TrxName());
 				log.fine(production.toString());
 				noProds++;

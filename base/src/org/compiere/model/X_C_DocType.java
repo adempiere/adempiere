@@ -44,8 +44,16 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 // 1
 			setGL_Category_ID (0);
 			setHasCharges (false);
+			setIsCompleteInvoice (false);
+// N
+			setIsCompleteShipment (false);
+// N
 			setIsCreateCounter (true);
 // Y
+			setIsCreateInvoice (false);
+// N
+			setIsCreateShipment (false);
+// N
 			setIsDefault (false);
 			setIsDefaultCounterDoc (false);
 			setIsDocNoControlled (true);
@@ -359,12 +367,12 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public static final String DOCBASETYPE_ManufacturingCostCollector = "MCC";
 	/** Warehouse Management Order = WMO */
 	public static final String DOCBASETYPE_WarehouseManagementOrder = "WMO";
-	/** Fixed Assets Addition = FAA */
-	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
-	/** Fixed Assets Disposal = FAD */
-	public static final String DOCBASETYPE_FixedAssetsDisposal = "FAD";
-	/** Fixed Assets Depreciation = FDP */
-	public static final String DOCBASETYPE_FixedAssetsDepreciation = "FDP";
+	/** Timesheet Entry = STE */
+	public static final String DOCBASETYPE_TimesheetEntry = "STE";
+	/** Manufacturing Planned Order = MPO */
+	public static final String DOCBASETYPE_ManufacturingPlannedOrder = "MPO";
+	/** Manufacturing PO Requisition = MPR */
+	public static final String DOCBASETYPE_ManufacturingPORequisition = "MPR";
 	/** Set Document BaseType.
 		@param DocBaseType 
 		Logical type of document
@@ -560,6 +568,138 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
+	/** Set IsAccrualExpenses.
+		@param IsAccrualExpenses IsAccrualExpenses	  */
+	public void setIsAccrualExpenses (boolean IsAccrualExpenses)
+	{
+		set_Value (COLUMNNAME_IsAccrualExpenses, Boolean.valueOf(IsAccrualExpenses));
+	}
+
+	/** Get IsAccrualExpenses.
+		@return IsAccrualExpenses	  */
+	public boolean isAccrualExpenses () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAccrualExpenses);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Allow Generate Shipment.
+		@param IsAllowGenerateShipment Allow Generate Shipment	  */
+	public void setIsAllowGenerateShipment (boolean IsAllowGenerateShipment)
+	{
+		set_Value (COLUMNNAME_IsAllowGenerateShipment, Boolean.valueOf(IsAllowGenerateShipment));
+	}
+
+	/** Get Allow Generate Shipment.
+		@return Allow Generate Shipment	  */
+	public boolean isAllowGenerateShipment () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAllowGenerateShipment);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Auto Close Back Order.
+		@param IsAutoCloseBackOrder Auto Close Back Order	  */
+	public void setIsAutoCloseBackOrder (boolean IsAutoCloseBackOrder)
+	{
+		set_Value (COLUMNNAME_IsAutoCloseBackOrder, Boolean.valueOf(IsAutoCloseBackOrder));
+	}
+
+	/** Get Auto Close Back Order.
+		@return Auto Close Back Order	  */
+	public boolean isAutoCloseBackOrder () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAutoCloseBackOrder);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Mandatory Charge or Product.
+		@param IsChargeOrProductMandatory Mandatory Charge or Product	  */
+	public void setIsChargeOrProductMandatory (boolean IsChargeOrProductMandatory)
+	{
+		set_Value (COLUMNNAME_IsChargeOrProductMandatory, Boolean.valueOf(IsChargeOrProductMandatory));
+	}
+
+	/** Get Mandatory Charge or Product.
+		@return Mandatory Charge or Product	  */
+	public boolean isChargeOrProductMandatory () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsChargeOrProductMandatory);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Complete Invoice.
+		@param IsCompleteInvoice 
+		Automatically complete invoice on document completion
+	  */
+	public void setIsCompleteInvoice (boolean IsCompleteInvoice)
+	{
+		set_Value (COLUMNNAME_IsCompleteInvoice, Boolean.valueOf(IsCompleteInvoice));
+	}
+
+	/** Get Complete Invoice.
+		@return Automatically complete invoice on document completion
+	  */
+	public boolean isCompleteInvoice () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCompleteInvoice);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Complete Shipment.
+		@param IsCompleteShipment 
+		Automatically complete shipment
+	  */
+	public void setIsCompleteShipment (boolean IsCompleteShipment)
+	{
+		set_Value (COLUMNNAME_IsCompleteShipment, Boolean.valueOf(IsCompleteShipment));
+	}
+
+	/** Get Complete Shipment.
+		@return Automatically complete shipment
+	  */
+	public boolean isCompleteShipment () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCompleteShipment);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Create Counter Document.
 		@param IsCreateCounter 
 		Create Counter Document
@@ -575,6 +715,54 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isCreateCounter () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsCreateCounter);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Create Invoice.
+		@param IsCreateInvoice 
+		Automatically create invoice on document completion
+	  */
+	public void setIsCreateInvoice (boolean IsCreateInvoice)
+	{
+		set_Value (COLUMNNAME_IsCreateInvoice, Boolean.valueOf(IsCreateInvoice));
+	}
+
+	/** Get Create Invoice.
+		@return Automatically create invoice on document completion
+	  */
+	public boolean isCreateInvoice () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCreateInvoice);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Create Shipment.
+		@param IsCreateShipment 
+		Automatically create shipment on document completion
+	  */
+	public void setIsCreateShipment (boolean IsCreateShipment)
+	{
+		set_Value (COLUMNNAME_IsCreateShipment, Boolean.valueOf(IsCreateShipment));
+	}
+
+	/** Get Create Shipment.
+		@return Automatically create shipment on document completion
+	  */
+	public boolean isCreateShipment () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCreateShipment);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -703,6 +891,31 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		}
 		return false;
 	}
+
+	/** Set Override Doc Control.
+		@param IsOverrideDocControl 
+		Allow posting to Document Controlled accounts from GL Journal
+	  */
+	public void setIsOverrideDocControl (boolean IsOverrideDocControl)
+	{
+		set_Value (COLUMNNAME_IsOverrideDocControl, Boolean.valueOf(IsOverrideDocControl));
+	}
+
+	/** Get Override Doc Control.
+		@return Allow posting to Document Controlled accounts from GL Journal
+	  */
+	public boolean isOverrideDocControl () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsOverrideDocControl);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 
 	/** Set Overwrite Date on Complete.
 		@param IsOverwriteDateOnComplete Overwrite Date on Complete	  */
@@ -891,6 +1104,32 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** PrintDocument AD_Reference_ID=53425 */
+	public static final int PRINTDOCUMENT_AD_Reference_ID=53425;
+	/** Order = 0 */
+	public static final String PRINTDOCUMENT_Order = "0";
+	/** Shipment = 1 */
+	public static final String PRINTDOCUMENT_Shipment = "1";
+	/** Invoice = 2 */
+	public static final String PRINTDOCUMENT_Invoice = "2";
+	/** Set Print Document.
+		@param PrintDocument 
+		Document to print
+	  */
+	public void setPrintDocument (String PrintDocument)
+	{
+
+		set_Value (COLUMNNAME_PrintDocument, PrintDocument);
+	}
+
+	/** Get Print Document.
+		@return Document to print
+	  */
+	public String getPrintDocument () 
+	{
+		return (String)get_Value(COLUMNNAME_PrintDocument);
+	}
+
 	/** Set Print Text.
 		@param PrintName 
 		The label text to be printed on a document or correspondence.
@@ -906,5 +1145,30 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public String getPrintName () 
 	{
 		return (String)get_Value(COLUMNNAME_PrintName);
+	}
+
+	public I_X_AuthorityType getX_AuthorityType() throws RuntimeException
+    {
+		return (I_X_AuthorityType)MTable.get(getCtx(), I_X_AuthorityType.Table_Name)
+			.getPO(getX_AuthorityType_ID(), get_TrxName());	}
+
+	/** Set AuthorityType.
+		@param X_AuthorityType_ID AuthorityType	  */
+	public void setX_AuthorityType_ID (int X_AuthorityType_ID)
+	{
+		if (X_AuthorityType_ID < 1) 
+			set_Value (COLUMNNAME_X_AuthorityType_ID, null);
+		else 
+			set_Value (COLUMNNAME_X_AuthorityType_ID, Integer.valueOf(X_AuthorityType_ID));
+	}
+
+	/** Get AuthorityType.
+		@return AuthorityType	  */
+	public int getX_AuthorityType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_X_AuthorityType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

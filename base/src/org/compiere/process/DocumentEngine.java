@@ -43,6 +43,9 @@ import org.compiere.model.MJournalBatch;
 import org.compiere.model.MMovement;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
+import org.compiere.model.MProduction;
+import org.compiere.model.MProductionBatch;
+import org.compiere.model.MRMA;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
@@ -51,6 +54,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.model.I_DD_Order;
+import org.eevolution.model.I_HR_Process;
 import org.eevolution.model.I_PP_Cost_Collector;
 import org.eevolution.model.I_PP_Order;
 
@@ -910,7 +914,7 @@ public class DocumentEngine implements DocAction
 			|| docStatus.equals(DocumentEngine.STATUS_Invalid))
 		{
 			options[index++] = DocumentEngine.ACTION_Complete;
-		//	options[index++] = DocumentEngine.ACTION_Prepare;
+			options[index++] = DocumentEngine.ACTION_Prepare;
 			options[index++] = DocumentEngine.ACTION_Void;
 		}
 		//	In Process                  ..  IP
@@ -1072,6 +1076,39 @@ public class DocumentEngine implements DocAction
 				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
 			}
 		}
+		/********************
+		 *  Production
+		 */
+		else if (AD_Table_ID == MProduction.Table_ID)
+		{
+			//	Draft                       ..  DR/IP/IN
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+//					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+			{
+				options[index++] = DocumentEngine.ACTION_Prepare;
+			}
+			//	Complete                    ..  CO
+			else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Void;
+				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+			}
+
+		}
+		
+		/********************
+		 * Production Batch
+		 */
+		else if (AD_Table_ID == MProductionBatch.Table_ID)
+		{
+			// Complete .. CO
+			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Void;
+			}
+		}
+
 		/********************
 		 *  Manufacturing Order
 		 */

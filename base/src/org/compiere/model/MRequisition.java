@@ -20,10 +20,15 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.TreeMap;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.process.IDocAction;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
@@ -44,13 +49,15 @@ import org.compiere.util.Msg;
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>FR [ 2744682 ] Requisition: improve error reporting
  */
-public class MRequisition extends X_M_Requisition implements DocAction
+public class MRequisition extends X_M_Requisition implements IDocAction
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 898606565778668659L;
 
+	Map<Integer, RequisitionLineQueue> lineQueue = new TreeMap<Integer, RequisitionLineQueue>();
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -590,5 +597,96 @@ public class MRequisition extends X_M_Requisition implements DocAction
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
+
+	@Override
+	public HashMap<Integer, BigDecimal> getChargeLines()
+	{
+		HashMap<Integer, BigDecimal> mapChargeAuthority = new HashMap<Integer, BigDecimal>();
+		MRequisitionLine lines[] = getLines();
+		for (MRequisitionLine line : lines)
+		{
+			if (line.getC_Charge_ID() > 0)
+			{
+				MCharge charge = MCharge.get(getCtx(), line.getC_Charge_ID());
+				if (charge.get_ValueAsInt("X_AuthorityType_ID") > 0)
+				{
+					int key = charge.get_ValueAsInt("X_AuthorityType_ID");
+					if (mapChargeAuthority.get(key) != null)
+					{
+						mapChargeAuthority.put(key, mapChargeAuthority.get(key).add(line.getLineNetAmt()));
+					}
+					else
+					{
+						mapChargeAuthority.put(key, line.getLineNetAmt());
+					}
+				}
+			}
+		}
+		return mapChargeAuthority;
+	}
+
+	@Override
+	public String getLineTableName()
+	{
+		return MRequisitionLine.Table_Name;
+	}
+	@Override
+	public String getAmtColumnName()
+	{
+		return MRequisitionLine.COLUMNNAME_LineNetAmt;
+	}
 	
+	public void addLinetoQueue(int p_Product_ID, int p_BPartner_ID, BigDecimal qty, BigDecimal price)
+	{
+		if (lineQueue.containsKey(p_Product_ID)) {
+			RequisitionLineQueue line = lineQueue.get(p_Product_ID);
+			line.add(qty);
+		} else {
+			RequisitionLineQueue line = new RequisitionLineQueue(p_Product_ID, p_BPartner_ID, price, qty);
+			lineQueue.put(p_Product_ID, line);
+		}
+	}
+	
+	public void saveLineQueue()
+	{
+		int lineNo = 0;
+		for (int productID : lineQueue.keySet())
+		{
+			lineNo+=10;
+			RequisitionLineQueue line = lineQueue.get(productID);
+			MRequisitionLine rLine = new MRequisitionLine(this);
+			rLine.setLine(lineNo );
+			rLine.setM_Product_ID(line.M_Product_ID);
+			rLine.setC_BPartner_ID(line.C_BPartner_ID);
+			rLine.setPriceActual(line.priceActual);
+			rLine.setQty(line.qty);
+			rLine.saveEx();
+		}
+	}
+	
+	/**
+	 * Temporarily hold in memory, requisition lines created
+	 * @author jobriant
+	 *
+	 */
+	class RequisitionLineQueue
+	{
+		public RequisitionLineQueue(int p_M_Product_ID, int p_C_BPartner_ID,
+				BigDecimal p_priceActual, BigDecimal p_Qty) {
+			super();
+			this.M_Product_ID = p_M_Product_ID;
+			this.C_BPartner_ID = p_C_BPartner_ID;
+			this.priceActual = p_priceActual;
+			this.qty = p_Qty;
+		}
+
+		int M_Product_ID = 0;
+		int C_BPartner_ID = 0;
+		BigDecimal priceActual = Env.ZERO;
+		BigDecimal qty = Env.ZERO;
+		
+		void add(BigDecimal qtyToAdd) {
+			qty = qty.add(qtyToAdd);
+		}
+	}
 }	//	MRequisition
