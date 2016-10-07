@@ -25,7 +25,8 @@ import org.compiere.util.Env;
 
 /** Generated Model for MRP_RunLine
  *  @author Adempiere (generated) 
- *  @version 1.5.0 - $Id$ */
+ *  @version Release 3.8.0
+ */
 public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent 
 {
 

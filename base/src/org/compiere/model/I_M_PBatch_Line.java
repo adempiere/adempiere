@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PBatch_Line
  *  @author Adempiere (generated) 
- *  @version 1.04.3.01
+ *  @version Release 3.8.0
  */
 public interface I_M_PBatch_Line 
 {

@@ -24,7 +24,8 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for MRP_Run
  *  @author Adempiere (generated) 
- *  @version 1.03 - $Id$ */
+ *  @version Release 3.8.0
+ */
 public class X_MRP_Run extends PO implements I_MRP_Run, I_Persistent 
 {
 

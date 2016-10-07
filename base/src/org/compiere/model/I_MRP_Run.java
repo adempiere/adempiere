@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for MRP_Run
  *  @author Adempiere (generated) 
- *  @version 1.03
+ *  @version Release 3.8.0
  */
 public interface I_MRP_Run 
 {

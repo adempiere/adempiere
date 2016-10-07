@@ -192,7 +192,7 @@ public class CostEngine {
 			if (X_M_Product.PRODUCTTYPE_Item.equals(productType)) {
 				cost = MCostDetail.getCostByModel(accountSchema.getC_AcctSchema_ID(), costType.getM_CostType_ID() , costElement.getM_CostElement_ID() , productionLine);
 			}
-			//SHW Resource ueber Resourcenkosten
+			//Cost for producttype Resource from MCost
 			else if(X_M_Product.PRODUCTTYPE_Resource.equals(productType))
 			{
 				MCostElement ceresource = null;
