@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Manufacturing light fixes" ReleaseNo="" SeqNo="0370">
-    <Step DBType="Postgres" SeqNo="10" StepType="SQL">
+    <Step DBType="Postgres" SeqNo="10" Parse="N" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE FUNCTION prodqtyordered(p_product_id numeric, p_warehouse_id numeric)
   RETURNS numeric AS
 $BODY$
@@ -68,7 +68,7 @@ $BODY$
       <RollbackStatement>DROP FUNCTION prodqtyordered(numeric, numeric);
 </RollbackStatement>
     </Step>
-    <Step DBType="Postgres" SeqNo="20" StepType="SQL">
+    <Step DBType="Postgres" SeqNo="20" Parse="N" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE FUNCTION prodqtyreserved(p_product_id numeric, p_warehouse_id numeric)
   RETURNS numeric AS
 $BODY$

@@ -771,7 +771,7 @@
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">Create Purchase Order Document Type</Data>
         <Data AD_Column_ID="2822" Column="Name">Create Purchase Order Document Type</Data>
-        <Data AD_Column_ID="4017" Column="ColumnName">isCreateDocTypeMRPRequisition</Data>
+        <Data AD_Column_ID="4017" Column="ColumnName">isCreateDocTypePurchaseOrder</Data>
         <Data AD_Column_ID="2817" Column="IsActive">true</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
