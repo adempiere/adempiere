@@ -17,7 +17,9 @@ package org.adempiere.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import org.compiere.model.GridField;
@@ -42,9 +44,15 @@ public abstract class DeleteSelectionController {
 	 * Standard constructor with selection
 	 * @param defaultSelection
 	 */
-	public DeleteSelectionController(GridTab tab, int[] defaultSelection) {
+	public DeleteSelectionController(GridTab tab, List<Integer> defaultSelection) {
 		this.currentTab = tab;
 		this.defaultSelection = defaultSelection;
+		keyColumnName = currentTab.getKeyColumnName();
+		//	Reload
+		if (keyColumnName.trim().length() > 0) {
+			sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(Env.getCtx()), keyColumnName, "[?","?]")
+			   .replace("[?.?]", "?");
+		}
 	}
 
 	/**
@@ -56,13 +64,19 @@ public abstract class DeleteSelectionController {
 	}
 	
 	/**	Default Selection to show	*/
-	private int[] defaultSelection;
+	private List<Integer> defaultSelection;
+	/**	Convert Selection			*/
+	private HashMap<Integer, Integer> indexSelection;
 	/**	Current Tab					*/
 	private GridTab currentTab;
 	/**	Is OK pressed				*/
 	private boolean isOkPressed = false;
-	/**	Index			*/
+	/**	Index						*/
 	private int[] selection;
+	/**	Key Column Name				*/
+	private String keyColumnName;
+	/**	SQL							*/
+	private String sql;
 	
 	/**
 	 * Get Tab
@@ -76,7 +90,7 @@ public abstract class DeleteSelectionController {
 	 * Get Default Selection
 	 * @return
 	 */
-	public int[] getDefaultSelection() {
+	public List<Integer> getDefaultSelection() {
 		return defaultSelection;
 	}
 	
@@ -90,10 +104,17 @@ public abstract class DeleteSelectionController {
 	
 	/**
 	 * Set Selection
-	 * @param selection
+	 * @param userSelection
 	 */
-	public void setSelection(int[] selection) {
-		this.selection = selection;
+	public void setSelection(int[] userSelection) {
+		if(defaultSelection == null) {
+			selection = userSelection;
+		} else {
+			selection = new int[userSelection.length];
+			for(int i = 0; i < userSelection.length; i++) {
+				selection[i] = indexSelection.get(userSelection[i]);
+			}
+		}
 		Arrays.sort(selection);
 	}
 	
@@ -114,56 +135,83 @@ public abstract class DeleteSelectionController {
 	}
 	
 	/**
+	 * Default Selected
+	 * @return
+	 */
+	public boolean isDefaultSelected() {
+		return defaultSelection != null;
+	}
+	
+	/**
 	 * Get SQL for show view
 	 * @return
 	 */
 	public Vector<String> getData() {
-		String keyColumnName = currentTab.getKeyColumnName();
-		String sql = null;
 		Vector<String> data = new Vector<String>();
-		//	Reload
-		if (keyColumnName.trim().length() > 0) {
-			sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(Env.getCtx()), keyColumnName, "[?","?]")
-			   .replace("[?.?]", "?");
-		}
-		int noOfRows = currentTab.getRowCount();
-		for(int i = 0; i < noOfRows; i++) {
-			StringBuffer displayValue = new StringBuffer();
-			if (keyColumnName.trim().length() == 0) {
-				ArrayList<String> parentColumnNames = currentTab.getParentColumnNames();
-				for(Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();) {
-					String columnName = iter.next();
-					GridField field = currentTab.getField(columnName);
-					if(field.isLookup()) {
-						Lookup lookup = field.getLookup();
-						if (lookup != null) {
-							displayValue = displayValue.append(lookup.getDisplay(currentTab.getValue(i,columnName))).append(" | ");
-						} else {
-							displayValue = displayValue.append(currentTab.getValue(i,columnName)).append(" | ");
-						}
-					} else {
-						displayValue = displayValue.append(currentTab.getValue(i,columnName)).append(" | ");
-					}
-				}
-			} else {
-				final int id = currentTab.getKeyID(i);
-				String value = DB.getSQLValueStringEx(null, sql, id);
-				if (value != null)
-					value = value.replace(" - ", " | ");
-				displayValue.append(value);
-				// Append ID
-				if (displayValue.length() == 0 || CLogMgt.isLevelFine())
-				{
-					if (displayValue.length() > 0)
-						displayValue.append(" | ");
-					displayValue.append("<").append(id).append(">");
-				}
+		//	For standard delete selection
+		if(defaultSelection == null) {
+			int noOfRows = currentTab.getRowCount();
+			selection = new int[noOfRows];
+			for(int i = 0; i < noOfRows; i++) {
+				data.add(getValue(i));
+				//	Load default selection
+				selection[i] = i;
 			}
-			//
-			data.add(displayValue.toString());
+		} else {
+			indexSelection = new HashMap<Integer, Integer>();
+			selection = new int[defaultSelection.size()];
+			for(int i = 0; i < defaultSelection.size(); i++) {
+				//	Save selection
+				int currentIndex = defaultSelection.get(i);
+				indexSelection.put(i, currentIndex);
+				data.add(getValue(currentIndex));
+				//	Load default selection
+				selection[i] = i;
+			}
 		}
 		//	Return
 		return data;
+	}
+	
+	/**
+	 * Get value from index
+	 * @param index
+	 * @return
+	 */
+	private String getValue(int index) {
+		StringBuffer displayValue = new StringBuffer();
+		if (keyColumnName.trim().length() == 0) {
+			ArrayList<String> parentColumnNames = currentTab.getParentColumnNames();
+			for(Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();) {
+				String columnName = iter.next();
+				GridField field = currentTab.getField(columnName);
+				if(field.isLookup()) {
+					Lookup lookup = field.getLookup();
+					if (lookup != null) {
+						displayValue = displayValue.append(lookup.getDisplay(currentTab.getValue(index, columnName))).append(" | ");
+					} else {
+						displayValue = displayValue.append(currentTab.getValue(index, columnName)).append(" | ");
+					}
+				} else {
+					displayValue = displayValue.append(currentTab.getValue(index, columnName)).append(" | ");
+				}
+			}
+		} else {
+			final int id = currentTab.getKeyID(index);
+			String value = DB.getSQLValueStringEx(null, sql, id);
+			if (value != null)
+				value = value.replace(" - ", " | ");
+			displayValue.append(value);
+			// Append ID
+			if (displayValue.length() == 0 || CLogMgt.isLevelFine())
+			{
+				if (displayValue.length() > 0)
+					displayValue.append(" | ");
+				displayValue.append("<").append(id).append(">");
+			}
+		}
+		//	Return
+		return displayValue.toString();
 	}
 	
 	/**

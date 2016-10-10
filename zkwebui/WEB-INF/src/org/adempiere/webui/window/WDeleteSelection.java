@@ -113,6 +113,11 @@ public class WDeleteSelection extends DeleteSelectionController implements Event
 		south.appendChild(confirmPanel);
 		//	Add Listener
 		confirmPanel.addActionListener(Events.ON_CLICK, this);
+		//	Default Selected
+		if(isDefaultSelected()
+				&& getSelection() != null) {
+			listbox.setSelectedIndices(getSelection());
+		}
 	}
 
 	@Override
