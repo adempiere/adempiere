@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JEditorPane;
 import javax.swing.JList;
@@ -42,13 +43,23 @@ import org.compiere.util.Msg;
 public class DeleteSelection extends DeleteSelectionController implements ActionListener {
 
 	/**
-	 * Default Constructor
+	 * Default Constructor with selection
+	 * @param owner
+	 * @param tab
+	 * @param defaultSelection
+	 */
+	public DeleteSelection(Frame owner, GridTab tab, List<Integer> defaultSelection) {
+		super(tab, defaultSelection);
+		mainDialog = new CDialog(owner, Msg.getMsg(Env.getCtx(), "DeleteSelection"), true);
+	}
+	
+	/**
+	 * Default Constructor without selection
 	 * @param owner
 	 * @param tab
 	 */
 	public DeleteSelection(Frame owner, GridTab tab) {
-		super(tab);
-		mainDialog = new CDialog(owner, Msg.getMsg(Env.getCtx(), "DeleteSelection"), true);
+		this(owner, tab, null);
 	}
 	
 	/**	Main Dialog		*/
@@ -87,6 +98,11 @@ public class DeleteSelection extends DeleteSelectionController implements Action
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		mainPanel.add(confirmPanel, BorderLayout.SOUTH);
 		confirmPanel.addActionListener(this);
+		//	Default Selected
+		if(isDefaultSelected()
+				&& getSelection() != null) {
+			list.setSelectedIndices(getSelection());
+		}
 	}
 
 	@Override

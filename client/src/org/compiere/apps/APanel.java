@@ -30,8 +30,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
@@ -1903,8 +1905,7 @@ public final class APanel extends CPanel
 	/**
 	 *  Confirm & delete record
 	 */
-	private void cmd_delete()
-	{
+	private void cmd_delete() {
 		if (m_curTab.isReadOnly())
 			return;
 		VTable table = m_curGC.getTable();
@@ -1912,39 +1913,42 @@ public final class APanel extends CPanel
 		int[] selection = table.getSelectedRows();
 		Arrays.sort(selection);
 
-		if ( selection.length <= 1)
-		{
+		if (selection.length <= 1) {
 			int keyID = m_curTab.getRecord_ID();
-			if (ADialog.ask(m_curWindowNo, this, "DeleteRecord?"))
-				if (m_curTab.dataDelete())
+			if (ADialog.ask(m_curWindowNo, this, "DeleteRecord?")) {
+				if (m_curTab.dataDelete()) {
 					m_curGC.rowChanged(false, keyID);
-		}
-		else {
-			if (ADialog.ask(m_curWindowNo, this, "DeleteSelection"))
-			{
-				for (int i = selection.length -1; i >= 0; i--) {
-					int index = table.convertRowIndexToModel(selection[i]);
-
-					m_curTab.navigate(index);
-					int keyID = m_curTab.getRecord_ID();
-					if (m_curTab.dataDelete())
-					{
-						m_curGC.rowChanged(false, keyID);
-					}
+					m_curGC.dynamicDisplay(0);
 				}
 			}
+		} else {
+			//	FR [ 564 ]
+			ArrayList<Integer> selectionIndex = new ArrayList<>();
+			for(int i = 0; i < selection.length; i++) {
+				int index = table.convertRowIndexToModel(selection[i]);
+				selectionIndex.add(index);
+			}
+			//	Delete only selection
+			cmd_deleteSelection(selectionIndex);
 		}
-		m_curGC.dynamicDisplay(0);
 	}   //  cmd_delete
-
+	
 	/**
 	 * Show a list to select one or more items to delete.
 	 */
 	private void cmd_deleteSelection() {
+		cmd_deleteSelection(null);
+	}
+	
+	/**
+	 * Show a list to select one or more items to delete.
+	 * @param selectionIndex
+	 */
+	private void cmd_deleteSelection(List<Integer> selectionIndex) {
 		if (m_curTab.isReadOnly())
 			return;
 		//	
-		DeleteSelection dSelection = new DeleteSelection(m_window, m_curTab);
+		DeleteSelection dSelection = new DeleteSelection(m_window, m_curTab, selectionIndex);
 		dSelection.showDialog();
 		//	Verify Selection
 		if(dSelection.isOkPressed()) {
@@ -1955,8 +1959,7 @@ public final class APanel extends CPanel
 				//m_curTab.setCurrentRow(indices[i]-offset);
 				m_curTab.navigate(indices[i]-offset);
 				int keyID = m_curTab.getRecord_ID();
-				if (m_curTab.dataDelete())
-				{
+				if (m_curTab.dataDelete()) {
 					m_curGC.rowChanged(false, keyID);
 					offset++;
 				}
