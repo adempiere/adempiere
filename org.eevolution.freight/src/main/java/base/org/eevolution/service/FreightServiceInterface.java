@@ -30,14 +30,4 @@ import java.util.Properties;
 public interface FreightServiceInterface {
     public List<MFreight> getFreight(Properties ctx, int shipperId, int freightCategoryId, int currencyId, String trxName);
     public List<MFreight> getFreightValid(Properties ctx, int shipperId, int freightCategoryId, int currencyId, Timestamp date, String trxName);
-    public BigDecimal getFreightRate(
-            Properties ctx,
-            int shipperId,
-            int freightCategoryId,
-            int currencyId,
-            Optional<Integer> countryFromOptionalId,
-            Optional<Integer> regionFromOptionalId,
-            Optional<Integer> countryToOptionalId,
-            Optional<Integer> regionToOptionalId,
-            Timestamp date, String trxName);
 }
