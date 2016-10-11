@@ -61,6 +61,9 @@ import org.compiere.util.Trx;
  * @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/594">
+ * 		@see FR [ 594 ] Infinite loop in InfoBPartner when selecting a Contact or a Location/Address</a>
  */
 public class InfoBPartner extends Info implements PropertyChangeListener, ActionListener, ListSelectionListener
 {
@@ -266,7 +269,6 @@ public class InfoBPartner extends Info implements PropertyChangeListener, Action
 		contactTbl.setRowSelectionAllowed(true);
 		contactTbl.setMultiSelection(false);
 		contactTbl.addMouseListener(this);
-		contactTbl.getSelectionModel().addListSelectionListener(this);
 		contactTbl.setShowTotals(false);
 		contactTbl.autoSize();
         contactTbl.setBackground(new ColorUIResource(251,248,241));
@@ -295,7 +297,6 @@ public class InfoBPartner extends Info implements PropertyChangeListener, Action
 		addressTbl.setRowSelectionAllowed(true);
 		addressTbl.setMultiSelection(false);
 		addressTbl.addMouseListener(this);
-		addressTbl.getSelectionModel().addListSelectionListener(this);
 		addressTbl.setShowTotals(false);
 		addressTbl.autoSize();
 		addressTbl.setBackground(new ColorUIResource(251,248,241));
