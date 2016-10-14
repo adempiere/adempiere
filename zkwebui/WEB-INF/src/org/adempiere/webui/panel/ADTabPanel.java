@@ -588,7 +588,7 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
             ArrayList<?> dependants = gridTab.getDependantFields(columnName);
             logger.config("(" + gridTab.toString() + ") "
                 + columnName + " - Dependents=" + dependants.size());
-            if (dependants.size() == 0 && changedField.getCallout().length() > 0)
+            if (dependants.size() == 0 && changedField.getCallout().length() == 0)
             {
                 return;
             }
