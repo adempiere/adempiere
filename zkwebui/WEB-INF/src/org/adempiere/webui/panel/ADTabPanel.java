@@ -23,6 +23,7 @@ import java.beans.VetoableChangeListener;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
+
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.*;
 import org.adempiere.webui.component.Column;
@@ -75,9 +76,11 @@ import org.zkoss.zul.Row;
  * @author e-Evolution , victor.perez@e-evolution.com
  *      <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
  *      <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/610">
+ * 		@see FR [ 610 ] Incorrect Label Align on Window for ZK GUI</a>
  */
-public class ADTabPanel extends Div implements Evaluatee, EventListener,
-DataStatusListener, IADTabPanel, VetoableChangeListener
+public class ADTabPanel extends Div implements Evaluatee, EventListener, DataStatusListener, IADTabPanel, VetoableChangeListener
 {
 	/**
 	 * generated serial version ID
@@ -467,12 +470,10 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
                     {
                     	Div div = new Div();
                     	div.setSclass("field-label");
-                        //div.setAlign("left");
+                    	//	Ajust align
+                        div.setAlign("right");
                         Label label = editor.getLabel();
-                        
-                       // div.setStyle("border-bottom:1px solid #0099FF;");
-                        
-	                    div.appendChild(label);
+                        div.appendChild(label);
 	                    
 	                    
 	                    if (label.getDecorator() != null)
@@ -607,11 +608,9 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
                     {
                         comp.setVisible(true);      //  visibility
                     }
-                    boolean dis = false;
                     if (noData)
                     {
                         comp.setReadWrite(false);
-                        dis = true;
                     }
                     else
                     {
@@ -619,14 +618,9 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
                         comp.setReadWrite(rw);
                         comp.setMandatory(mField.isMandatory(true));    //  check context
                         comp.dynamicDisplay();
-                        dis = !rw;
-                        
                     }
-                    
-                    comp.repaintComponent();	
-                    	
-                    
-                    
+                    //	
+                    comp.repaintComponent();	   
                 }
                 else if (comp.isVisible())
                 {
@@ -1752,31 +1746,31 @@ DataStatusListener, IADTabPanel, VetoableChangeListener
         }*/
     }
 
-    private void activateTabPanel(HorizontalEmbeddedPanel panel) {
-
-        if( tabPanels != null )
-
-        panel.divComponent.setVisible(true);
-//			panel.divComponent.setStyle("position: relative; overflow:auto; ");
-
-
-        tabPanels.setVisible(true);
-        tabPanels.setStyle("margin:0; padding:0; border: none; position: relative; ");
-
-//			embeddTabPanel.get(panel.adTabId).setVisible(true);
-        //embeddedTabPanel.get(panel.adTabId).setStyle(" margin:0; padding:0; border: none; height: 600px; ");
-        embeddedTabPanel.get(panel.adTabId).setStyle(" margin:0; padding:0; border: none; position: relative; ");
-
-        panel.panelChildren.setVisible(true);
-        panel.panelChildren.setStyle(" margin:0; padding:0; border: none; position: relative;  ");
-        //panel.panelChildren.setStyle(" margin:0; padding:0; border: none; height: 600px; ");
-        
-
-        panel.embeddedGrid.setVisible(true);
-       // panel.embeddedGrid.setStyle("border: none; height: 600px;  ");
-        panel.embeddedGrid.setStyle("border: none; position: relative; ");
-
-    }
+//    private void activateTabPanel(HorizontalEmbeddedPanel panel) {
+//
+//        if( tabPanels != null )
+//
+//        panel.divComponent.setVisible(true);
+////			panel.divComponent.setStyle("position: relative; overflow:auto; ");
+//
+//
+//        tabPanels.setVisible(true);
+//        tabPanels.setStyle("margin:0; padding:0; border: none; position: relative; ");
+//
+////			embeddTabPanel.get(panel.adTabId).setVisible(true);
+//        //embeddedTabPanel.get(panel.adTabId).setStyle(" margin:0; padding:0; border: none; height: 600px; ");
+//        embeddedTabPanel.get(panel.adTabId).setStyle(" margin:0; padding:0; border: none; position: relative; ");
+//
+//        panel.panelChildren.setVisible(true);
+//        panel.panelChildren.setStyle(" margin:0; padding:0; border: none; position: relative;  ");
+//        //panel.panelChildren.setStyle(" margin:0; padding:0; border: none; height: 600px; ");
+//        
+//
+//        panel.embeddedGrid.setVisible(true);
+//       // panel.embeddedGrid.setStyle("border: none; height: 600px;  ");
+//        panel.embeddedGrid.setStyle("border: none; position: relative; ");
+//
+//    }
 
     private void createHorizontalEmbeddedPanelUI(HorizontalEmbeddedPanel ep) {
 
