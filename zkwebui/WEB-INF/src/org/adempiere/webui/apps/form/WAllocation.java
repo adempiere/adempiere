@@ -22,8 +22,8 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
-import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
@@ -43,6 +43,7 @@ import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.panel.StatusBarPanel;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.form.Allocation;
 import org.compiere.model.MLookup;
@@ -135,7 +136,6 @@ public class WAllocation extends Allocation
 	private Textbox differenceField = new Textbox();
 	private Label descriptionLabel = new Label();
 	private Textbox descriptionField = new Textbox();
-	private Button allocateButton = new Button();
 	private Label currencyLabel = new Label();
 	private WTableDirEditor currencyPick = null;
 	private Checkbox multiCurrency = new Checkbox();
@@ -148,7 +148,8 @@ public class WAllocation extends Allocation
 	private WTableDirEditor organizationPick;
 	private Label apartLabel = new Label();
 	private WTableDirEditor aparPick = null;
-	
+	/**	Confirm Panel		*/
+	private ConfirmPanel confirmPanel;
 	private Panel southPanel = new Panel();
 
 	private boolean m_isCalculating;
@@ -159,7 +160,8 @@ public class WAllocation extends Allocation
 	 */
 	private void zkInit() throws Exception
 	{
-		//
+		//	
+		confirmPanel = new ConfirmPanel(true);
 		form.appendChild(mainLayout);
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
@@ -182,8 +184,7 @@ public class WAllocation extends Allocation
 		differenceField.setText("0");
 		differenceField.setStyle("text-align: right");
 		descriptionLabel.setText(Msg.getMsg(Env.getCtx(), "Description"));
-		allocateButton.setLabel(Msg.getMsg(Env.getCtx(), "Process"));
-		allocateButton.addActionListener(this);
+		confirmPanel.addActionListener(this);
 		currencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
 		multiCurrency.setText(Msg.getMsg(Env.getCtx(), "MultiCurrency"));
 		multiCurrency.addActionListener(this);
@@ -250,7 +251,7 @@ public class WAllocation extends Allocation
 		row.appendChild(descriptionLabel.rightAlign());
 		row.appendChild(descriptionField);
 		row.appendChild(new Space());
-		row.appendChild(allocateButton);
+		row.appendChild(confirmPanel);
 		
 		paymentPanel.appendChild(paymentLayout);
 		paymentPanel.setWidth("100%");
@@ -374,21 +375,28 @@ public class WAllocation extends Allocation
 	 *  - Allocate
 	 *  @param e event
 	 */
-	public void onEvent(Event e)
-	{
+	public void onEvent(Event e) {
 		log.config("");
 		if (e.getTarget().equals(multiCurrency))
 			loadBPartner();
 		//	Allocate
-		else if (e.getTarget().equals(allocateButton))
-		{
-			allocateButton.setEnabled(false);
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL)) {
+			dispose();
+		} else if (e.getTarget().getId().equals(ConfirmPanel.A_OK)) {
+			confirmPanel.getOKButton().setEnabled(false);
 			m_description = descriptionField.getText();
 			saveData();
 			loadBPartner();
-			allocateButton.setEnabled(true);
+			confirmPanel.getOKButton().setEnabled(true);
 		}
 	}   //  actionPerformed
+	
+	/**
+	 * 	Dispose
+	 */
+	public void dispose() {
+		SessionManager.getAppDesktop().closeActiveWindow();
+	}	//	dispose
 
 	/**
 	 *  Table Model Listener.
@@ -509,13 +517,11 @@ public class WAllocation extends Allocation
 
 		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0 ^ m_C_Charge_ID > 0)
 		{
-			allocateButton.setEnabled(true);
-      	// chargePick.setValue(m_C_Charge_ID);
-
+			confirmPanel.getOKButton().setEnabled(true);
 		}
 		else
 		{
-			allocateButton.setEnabled(false);
+			confirmPanel.getOKButton().setEnabled(false);
 		}
 
 		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0)
