@@ -27,7 +27,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -39,6 +38,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
+import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
@@ -118,7 +118,6 @@ public class VAllocation extends Allocation
 	private GridBagLayout allocationLayout = new GridBagLayout();
 	private JLabel differenceLabel = new JLabel();
 	private CTextField differenceField = new CTextField();
-	private JButton allocateButton = new JButton();
 	private JLabel currencyLabel = new JLabel();
 	private VLookup currencyPick = null;
 	private JCheckBox multiCurrency = new JCheckBox();
@@ -135,6 +134,8 @@ public class VAllocation extends Allocation
 	private VLookup organizationPick = null;
 	private JLabel aparLabel = new JLabel();
 	private VLookup aparPick = null;
+	/**	Confirm Panel		*/
+	private ConfirmPanel confirmPanel;
 	
 	/**
 	 *  Static Init
@@ -143,6 +144,9 @@ public class VAllocation extends Allocation
 	private void jbInit() throws Exception
 	{
 		CompiereColor.setBackground(panel);
+		//	Add
+		confirmPanel = new ConfirmPanel(true);
+		confirmPanel.addActionListener(this);
 		//
 		paymentTable.setMultiSelection(true);  // Should be performed before the class is set.
 		invoiceTable.setMultiSelection(true);  // Should be performed before the class is set.
@@ -180,8 +184,6 @@ public class VAllocation extends Allocation
 		differenceField.setText("0");
 		differenceField.setColumns(8);
 		differenceField.setHorizontalAlignment(SwingConstants.RIGHT);
-		allocateButton.setText(Msg.getMsg(Env.getCtx(), "Process"));
-		allocateButton.addActionListener(this);
 		currencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
 		multiCurrency.setText(Msg.getMsg(Env.getCtx(), "MultiCurrency"));
 		multiCurrency.addActionListener(this);
@@ -235,8 +237,8 @@ public class VAllocation extends Allocation
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		allocationPanel.add(allocCurrencyLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		allocationPanel.add(allocateButton, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));     
+		allocationPanel.add(confirmPanel, new GridBagConstraints(10, 0, 1, 1, 1, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));     
 		paymentPanel.add(paymentLabel, BorderLayout.NORTH);
 		paymentPanel.add(paymentInfo, BorderLayout.SOUTH);
 		paymentPanel.add(paymentScrollPane, BorderLayout.CENTER);
@@ -324,19 +326,19 @@ public class VAllocation extends Allocation
 	 *  - Allocate
 	 *  @param e event
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		log.config("");
 		if (e.getSource().equals(multiCurrency))
 			loadBPartner();
 		//	Allocate
-		else if (e.getSource().equals(allocateButton))
-		{
-			allocateButton.setEnabled(false);
+		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL)) {
+			dispose();
+		} else if (e.getActionCommand().equals(ConfirmPanel.A_OK)) {
+			confirmPanel.getOKButton().setEnabled(false);
 			m_description = descriptionField.getText();
 			saveData();
 			loadBPartner();
-			allocateButton.setEnabled(true);
+			confirmPanel.getOKButton().setEnabled(true);
 		}
 	}   //  actionPerformed
 
@@ -479,11 +481,11 @@ public class VAllocation extends Allocation
 		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0 ^ m_C_Charge_ID > 0)
 
 		{
-			allocateButton.setEnabled(true);
+			confirmPanel.getOKButton().setEnabled(true);
 		}
 		else
 		{
-			allocateButton.setEnabled(false);
+			confirmPanel.getOKButton().setEnabled(false);
 		}
 
 		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0)
