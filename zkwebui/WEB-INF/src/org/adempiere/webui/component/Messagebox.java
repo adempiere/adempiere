@@ -35,8 +35,8 @@ import org.zkoss.zul.Separator;
 * @author  Niraj Sohun
 * @date    Jul 31, 2007
 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *		<a href="https://github.com/adempiere/adempiere/issues/407">
- * 		@see FR [ 407 ] Enhance visualization of allocation payment window</a>
+ *		<a href="https://github.com/adempiere/adempiere/issues/609">
+ * 		@see FR [ 609 ] Confirm dialog for ZK don't have a Standard ADempiere Buttons</a>
 */
 public class Messagebox extends Window implements EventListener
 {	
