@@ -60,15 +60,15 @@ public class Doc_PPCostCollector extends Doc
 	
 
 	/**	Pseudo Line */
-	protected DocLine_CostCollector m_line = null;
+	protected DocLine_CostCollector docLineCostCollector = null;
 	
 	/** Collector Cost */
-	protected MPPCostCollector m_cc = null;
+	protected MPPCostCollector costCollector = null;
 	/** Manufacturing Order **/
 	protected I_PP_Order manufacturingOrder = null;
 
 	/** Routing Service */
-	protected RoutingService m_routingService = null;
+	protected RoutingService routingService = null;
 
 	
 	/**
@@ -78,23 +78,23 @@ public class Doc_PPCostCollector extends Doc
 	protected String loadDocumentDetails()
 	{
 		setC_Currency_ID (NO_CURRENCY);
-		m_cc = (MPPCostCollector)getPO();
-		manufacturingOrder = m_cc.getPP_Order();
+		costCollector = (MPPCostCollector)getPO();
+		manufacturingOrder = costCollector.getPP_Order();
 
-		setDateDoc (m_cc.getMovementDate());
-		setDateAcct(m_cc.getMovementDate());
+		setDateDoc (costCollector.getMovementDate());
+		setDateAcct(costCollector.getMovementDate());
 		
 		//	Pseudo Line
-		m_line = new DocLine_CostCollector (m_cc, this); 
-		m_line.setQty (m_cc.getMovementQty(), false);    //  sets Trx and Storage Qty
+		docLineCostCollector = new DocLine_CostCollector (costCollector, this);
+		docLineCostCollector.setQty (costCollector.getMovementQty(), false);    //  sets Trx and Storage Qty
 		
 		//	Pseudo Line Check
-		if (m_line.getM_Product_ID() == 0)
-			log.warning(m_line.toString() + " - No Product");
-		log.fine(m_line.toString());
+		if (docLineCostCollector.getM_Product_ID() == 0)
+			log.warning(docLineCostCollector.toString() + " - No Product");
+		log.fine(docLineCostCollector.toString());
 		
 		// Load the RoutingService
-		m_routingService = RoutingServiceFactory.get().getRoutingService(m_cc.getAD_Client_ID());
+		routingService = RoutingServiceFactory.get().getRoutingService(costCollector.getAD_Client_ID());
 		
 		return null;
 	}   //  loadDocumentDetails
@@ -119,35 +119,35 @@ public class Doc_PPCostCollector extends Doc
 		setC_Currency_ID(as.getC_Currency_ID());
 		final ArrayList<Fact> facts = new ArrayList<Fact>();
 		
-		if(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt.equals(m_cc.getCostCollectorType()))
+		if(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt.equals(costCollector.getCostCollectorType()))
 		{
 			facts.add(createMaterialReceipt(as));
 		}
-		else if (MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue.equals(m_cc.getCostCollectorType()))
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue.equals(costCollector.getCostCollectorType()))
 		{
 			facts.add(createComponentIssue(as));
 		}
-		else if (MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance.equals(m_cc.getCostCollectorType()))
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance.equals(costCollector.getCostCollectorType()))
 		{
 			facts.add(createVariance(as, ProductCost.ACCTTYPE_P_MethodChangeVariance));
 		}
-		else if (MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance.equals(m_cc.getCostCollectorType()))
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance.equals(costCollector.getCostCollectorType()))
 		{
 			facts.add(createVariance(as, ProductCost.ACCTTYPE_P_UsageVariance));
 		}
-		else if (MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance.equals(m_cc.getCostCollectorType()))
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance.equals(costCollector.getCostCollectorType()))
 		{
 			facts.add(createVariance(as, ProductCost.ACCTTYPE_P_UsageVariance));
 		}
-		else if (MPPCostCollector.COSTCOLLECTORTYPE_RateVariance.equals(m_cc.getCostCollectorType()))
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_RateVariance.equals(costCollector.getCostCollectorType()))
 		{
 			facts.add(createVariance(as, ProductCost.ACCTTYPE_P_RateVariance));
 		}
-		else if (MPPCostCollector.COSTCOLLECTORTYPE_MixVariance.equals(m_cc.getCostCollectorType()))
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_MixVariance.equals(costCollector.getCostCollectorType()))
 		{
 			facts.add(createVariance(as, ProductCost.ACCTTYPE_P_MixVariance));
 		}
-		else if (MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl.equals(m_cc.getCostCollectorType()))
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl.equals(costCollector.getCostCollectorType()))
 		{
 			facts.addAll(createActivityControl(as));
 		}
@@ -169,22 +169,22 @@ public class Doc_PPCostCollector extends Doc
 		FactLine cr = null;
 		if(cost.signum() != 0)
 		{	
-			dr = fact.createLine(m_line, debit , as.getC_Currency_ID(), cost, null);
+			dr = fact.createLine(docLineCostCollector, debit , as.getC_Currency_ID(), cost, null);
 			dr.setQty(qty);
-			String desc = manufacturingOrder.getDocumentNo() + " - " + m_cc.getS_Resource().getName() + "- " + element.getName();
+			String desc = manufacturingOrder.getDocumentNo() + " - " + costCollector.getS_Resource().getName() + "- " + element.getName();
 			dr.addDescription(desc);
-			dr.setC_Project_ID(m_cc.getC_Project_ID());
-			dr.setC_Activity_ID(m_cc.getC_Activity_ID());
-			dr.setC_Campaign_ID(m_cc.getC_Campaign_ID());
-			dr.setM_Locator_ID(m_cc.getM_Locator_ID());
+			dr.setC_Project_ID(costCollector.getC_Project_ID());
+			dr.setC_Activity_ID(costCollector.getC_Activity_ID());
+			dr.setC_Campaign_ID(costCollector.getC_Campaign_ID());
+			dr.setM_Locator_ID(costCollector.getM_Locator_ID());
 
-			cr = fact.createLine(m_line, credit,as.getC_Currency_ID(), null, cost);
+			cr = fact.createLine(docLineCostCollector, credit,as.getC_Currency_ID(), null, cost);
 			cr.setQty(qty);
 			cr.addDescription(desc);
-			cr.setC_Project_ID(m_cc.getC_Project_ID());
-			cr.setC_Activity_ID(m_cc.getC_Activity_ID());
-			cr.setC_Campaign_ID(m_cc.getC_Campaign_ID());
-			cr.setM_Locator_ID(m_cc.getM_Locator_ID());
+			cr.setC_Project_ID(costCollector.getC_Project_ID());
+			cr.setC_Activity_ID(costCollector.getC_Activity_ID());
+			cr.setC_Campaign_ID(costCollector.getC_Campaign_ID());
+			cr.setM_Locator_ID(costCollector.getM_Locator_ID());
 		}			
 	}
 	
@@ -217,12 +217,12 @@ public class Doc_PPCostCollector extends Doc
 		final Fact fact = new Fact(this, as, Fact.POST_Actual);
 		FactLine dr = null;
 		FactLine cr = null;
-		final MAccount credit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
-		final MAccount burden = m_line.getAccount(ProductCost.ACCTTYPE_P_Burden, as);
-		MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
+		final MAccount credit = docLineCostCollector.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
+		final MAccount burden = docLineCostCollector.getAccount(ProductCost.ACCTTYPE_P_Burden, as);
+		MAccount debit = docLineCostCollector.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
 		BigDecimal totalcosts = Env.ZERO;
 		BigDecimal totalcostsScrapped = Env.ZERO;
-		for (MCostDetail cd : getCostDetails())
+		for (MCostDetail cd : docLineCostCollector.getCostDetail(as, true))
 		{
 			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
 			String description = manufacturingOrder.getDocumentNo() + " - " + cd.getM_CostType().getName() + " - " + element.getName();
@@ -233,35 +233,35 @@ public class Doc_PPCostCollector extends Doc
 					cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 				if (cost.compareTo(Env.ZERO)== 0)
 					continue;
-				cr = fact.createLine(m_line, burden,as.getC_Currency_ID(), null, cost);
-				cr.setQty(m_cc.getMovementQty());
+				cr = fact.createLine(docLineCostCollector, burden,as.getC_Currency_ID(), null, cost);
+				cr.setQty(costCollector.getMovementQty());
 				cr.setDescription(description);
 				totalcosts = totalcosts.add(cost);
 				//createLines(element, as, fact, product, debit, burden, cost, m_cc.getMovementQty());
 				continue;
 			}			
-			if (m_cc.getMovementQty().signum() != 0)
+			if (costCollector.getMovementQty().signum() != 0)
 			{
 				BigDecimal cost = cd.getAmt().add(cd.getAmtLL());
 				if (cost.scale() > as.getStdPrecision())
 					cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 				if (cost.compareTo(Env.ZERO)== 0)
 					continue;
-				cr = fact.createLine(m_line, credit,as.getC_Currency_ID(), cost.negate());
-				cr.setQty(m_cc.getMovementQty());
+				cr = fact.createLine(docLineCostCollector, credit,as.getC_Currency_ID(), cost.negate());
+				cr.setQty(costCollector.getMovementQty());
 				cr.setDescription(description);
 				totalcosts = totalcosts.add(cost);
 			}
-			if(m_cc.getScrappedQty().signum() != 0)
+			if(costCollector.getScrappedQty().signum() != 0)
 			{
-				BigDecimal cost = cd.getPrice().multiply(m_cc.getScrappedQty()).add(cd.getCurrentCostPriceLL());
+				BigDecimal cost = cd.getPrice().multiply(costCollector.getScrappedQty()).add(cd.getCurrentCostPriceLL());
 				if (cost.compareTo(Env.ZERO)== 0)
 					continue;
 				if (cost.scale() > as.getStdPrecision())
 					cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 
-				cr = fact.createLine(m_line, credit,as.getC_Currency_ID(), null, cost);
-				cr.setQty(m_cc.getMovementQty());
+				cr = fact.createLine(docLineCostCollector, credit,as.getC_Currency_ID(), null, cost);
+				cr.setQty(costCollector.getMovementQty());
 				description = manufacturingOrder.getDocumentNo() + " - " + cd.getM_CostType().getName() + " - " + element.getName() + " - " + Msg.parseTranslation(getCtx() , "@Scrap@"); ;
 				cr.setDescription(description);
 				totalcostsScrapped = totalcostsScrapped.add(cost);
@@ -269,13 +269,13 @@ public class Doc_PPCostCollector extends Doc
 		}
 
 		String description = manufacturingOrder.getDocumentNo();
-		dr = fact.createLine(m_line, debit, as.getC_Currency_ID(), totalcosts);
-		dr.setQty(m_cc.getMovementQty());
+		dr = fact.createLine(docLineCostCollector, debit, as.getC_Currency_ID(), totalcosts);
+		dr.setQty(costCollector.getMovementQty());
 		dr.setDescription(description);
 		if (totalcostsScrapped.compareTo(Env.ZERO)!= 0)
 		{
-			dr = fact.createLine(m_line, debit, as.getC_Currency_ID(), totalcostsScrapped);
-			dr.setQty(m_cc.getScrappedQty());	
+			dr = fact.createLine(docLineCostCollector, debit, as.getC_Currency_ID(), totalcostsScrapped);
+			dr.setQty(costCollector.getScrappedQty());
 			description = Msg.parseTranslation(getCtx() , "@Scrap@");
 			dr.setDescription(description);
 		}
@@ -313,21 +313,21 @@ public class Doc_PPCostCollector extends Doc
 
 		FactLine dr = null;
 		FactLine cr = null;
-		MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
-		MAccount credit = m_line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
-		if(m_cc.isFloorStock())
+		MAccount debit = docLineCostCollector.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
+		MAccount credit = docLineCostCollector.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
+		if(costCollector.isFloorStock())
 		{
-			credit = m_line.getAccount(ProductCost.ACCTTYPE_P_FloorStock, as);
+			credit = docLineCostCollector.getAccount(ProductCost.ACCTTYPE_P_FloorStock, as);
 		}
 
-		for (MCostDetail cd : getCostDetails())
+		for (MCostDetail cd : docLineCostCollector.getCostDetail(as , false))
 		{
 			BigDecimal cost =  MCostDetail.getTotalCost(cd, as);
 			if (cost.compareTo(Env.ZERO)==0)
 				continue;
 			if (cost.scale() > as.getStdPrecision())
 				cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
-			dr = fact.createLine(m_line, debit, as.getC_Currency_ID(), cost.negate());
+			dr = fact.createLine(docLineCostCollector, debit, as.getC_Currency_ID(), cost.negate());
 			I_M_CostElement element = cd.getM_CostElement();
 			String description = manufacturingOrder.getDocumentNo() + " - " + cd.getM_CostType().getName() + " - " + element.getName();
 			dr.setDescription(description);
@@ -335,7 +335,7 @@ public class Doc_PPCostCollector extends Doc
 			totalCost = totalCost.add(cost.negate());
 		}
 		String description = manufacturingOrder.getDocumentNo();
-		cr = fact.createLine(m_line, credit, as.getC_Currency_ID(), totalCost.negate());
+		cr = fact.createLine(docLineCostCollector, credit, as.getC_Currency_ID(), totalCost.negate());
 		cr.setDescription(description);
 		return fact;	
 	}
@@ -357,9 +357,9 @@ public class Doc_PPCostCollector extends Doc
 		final Fact fact = new Fact(this, as, Fact.POST_Actual);
 		facts.add(fact);
 		
-		final MProduct product = m_cc.getM_Product();
+		final MProduct product = costCollector.getM_Product();
 
-		MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
+		MAccount debit = docLineCostCollector.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
 		for (MCostDetail cd : getCostDetailsActivityControl())
 		{
 			//BigDecimal costs =  MCostDetail.getTotalCost(cd, as);//cd.getAmt().add(cd.getAmtLL()).negate();
@@ -368,8 +368,8 @@ public class Doc_PPCostCollector extends Doc
 			if (costs.signum() == 0)
 				continue;
 			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
-			MAccount credit = m_line.getAccount(as, element);
-			createLines(element, as, fact, product, debit, credit, costs, m_cc.getMovementQty());
+			MAccount credit = docLineCostCollector.getAccount(as, element);
+			createLines(element, as, fact, product, debit, credit, costs, costCollector.getMovementQty());
 		}
 		//
 		return facts;
@@ -378,12 +378,12 @@ public class Doc_PPCostCollector extends Doc
 	protected Fact createVariance(MAcctSchema as, int VarianceAcctType)
 	{
 		final Fact fact = new Fact(this, as, Fact.POST_Actual);
-		final MProduct product = m_cc.getM_Product();
+		final MProduct product = costCollector.getM_Product();
 		
-		MAccount debit = m_line.getAccount(VarianceAcctType, as);
-		MAccount credit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
+		MAccount debit = docLineCostCollector.getAccount(VarianceAcctType, as);
+		MAccount credit = docLineCostCollector.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
 
-		for (MCostDetail cd : getCostDetails())
+		for (MCostDetail cd : docLineCostCollector.getCostDetail(as ,false))
 		{
 			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
 				BigDecimal costs =  MCostDetail.getTotalCost(cd, as).negate();
@@ -398,32 +398,19 @@ public class Doc_PPCostCollector extends Doc
 		return fact;
 	}
 	
-	private List<MCostDetail> getCostDetails()
-	{
-		if (m_costDetails == null)
-		{
-			String whereClause = MCostDetail.COLUMNNAME_PP_Cost_Collector_ID+"=? ";
-			m_costDetails = new Query(getCtx(), MCostDetail.Table_Name, whereClause, getTrxName())
-			.setParameters(new Object[]{m_cc.getPP_Cost_Collector_ID()})
-			.setOrderBy(MCostDetail.COLUMNNAME_M_CostDetail_ID)
-			.list();
-		}
-		return m_costDetails;
-	}
-	
 	private List<MCostDetail> getCostDetailsActivityControl()
 	{
-		if (m_costDetails == null)
+		if (costDetails == null)
 		{
 			String whereClause = MCostDetail.COLUMNNAME_PP_Cost_Collector_ID+"=? AND EXISTS(SELECT 1 FROM M_CostElement ce " +
 								 "WHERE ce.M_CostElement_ID = M_CostDetail.M_CostElement_ID AND ce.CostElementType IN('R','O'))";
-			m_costDetails = new Query(getCtx(), MCostDetail.Table_Name, whereClause, getTrxName())
-			.setParameters(new Object[]{m_cc.getPP_Cost_Collector_ID()})
+			costDetails = new Query(getCtx(), MCostDetail.Table_Name, whereClause, getTrxName())
+			.setParameters(costCollector.getPP_Cost_Collector_ID())
 			.setOrderBy(MCostDetail.COLUMNNAME_M_CostDetail_ID)
 			.list();
 		}
-		return m_costDetails;
+		return costDetails;
 	}
 	
-	private List<MCostDetail> m_costDetails = null;
+	private List<MCostDetail> costDetails = null;
 }   //  Doc Cost Collector
