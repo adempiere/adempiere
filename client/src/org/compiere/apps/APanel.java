@@ -142,7 +142,8 @@ import org.eevolution.form.VBrowser;
  * 		@see https://github.com/adempiere/adempiere/issues/248
  * 		<a href="https://github.com/adempiere/adempiere/issues/592">
  * 		@see FR [ 592 ] Delete Selection dialog is not MVC</a>
- * 		
+ * 		<a href="https://github.com/adempiere/adempiere/issues/611">
+ * 		@see BR [ 611 ] Error dialog is showed and lost focus from window</a>
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -627,6 +628,8 @@ public final class APanel extends CPanel
 	private boolean 		m_isPersonalLock = MRole.getDefault().isPersonalLock();
 	/**	Last Modifier of Action Event					*/
 	private int 			m_lastModifiers;
+	/**	Error on the load								*/
+	private String 			loadError = null;
 
 	private HashMap<Integer, GridController> includedMap;
 
@@ -667,7 +670,8 @@ public final class APanel extends CPanel
 		//	}
 		//	tabPanel.setWorkbench(true);
 		//	tabPanel.addChangeListener(this);
-			ADialog.warn(0, this, "","Not implemented yet");
+			log.warning("Workbench Not implemented yet [" + this + "]");
+			loadError = "Workbench Not implemented yet";
 			return false;
 		}
 
@@ -718,7 +722,8 @@ public final class APanel extends CPanel
 				GridWindowVO wVO = AEnv.getMWindowVO(m_curWindowNo, m_mWorkbench.getWindowID(wb), 0);
 				if (wVO == null)
 				{
-					ADialog.error(0, null, "AccessTableNoView", "(No Window Model Info)");
+					log.warning("AccessTableNoView for [" + this + "]");
+					loadError = "AccessTableNoView";
 					return false;
 				}
 				GridWindow mWindow = new GridWindow (wVO, true);			                //  Timing: ca. 0.3-1 sec
@@ -762,7 +767,8 @@ public final class APanel extends CPanel
 					    	}
 							isCancel = false; //Goodwill
 							query = initialQuery (query, gTab);
-							if (isCancel) return false; //Cancel opening window
+							if (isCancel) 
+								return false; //Cancel opening window
 							if (query != null && query.getRecordCount() <= 1)
 								goSingleRow = true;
 						}
@@ -908,6 +914,14 @@ public final class APanel extends CPanel
 		m_curWinTab.requestFocusInWindow();
 		return true;
 	}	//	initPanel
+	
+	/**
+	 * Get load error if the window is not displayed
+	 * @return
+	 */
+	public String getLoadError() {
+		return loadError;
+	}
 
 	private boolean zoomToDetailTab(MQuery query) {
 		if (query != null && query.getZoomTableName() != null && query.getZoomColumnName() != null)
