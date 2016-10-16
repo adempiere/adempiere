@@ -72,6 +72,8 @@ import org.compiere.util.Msg;
  *			@see https://github.com/adempiere/adempiere/issues/298
  *			<a href="https://github.com/adempiere/adempiere/issues/571">
  * 			@see FR [ 571 ] Process Dialog is not MVC</a>
+ * 			<a href="https://github.com/adempiere/adempiere/issues/602">
+ * 			@see BR [ 602 ] Error in SmallViewController</a>
  */
 public class ProcessPanel extends ProcessController 
 	implements SmallViewEditable, ActionListener, ASyncProcess {
@@ -365,6 +367,7 @@ public class ProcessPanel extends ProcessController
 	public void setComponentVisibility(int index, Boolean visible, Boolean isRange) {
 		
 		VEditor editor = (VEditor) getEditor(index);
+		VEditor editorTo = (VEditor) getEditorTo(index);
 		if (editor == null)
 			return;
 		
@@ -375,16 +378,17 @@ public class ProcessPanel extends ProcessController
 					if (!comp.isVisible()) {
 						comp.setVisible(true); // visibility
 						//	FR [ 349 ]
-						if (isRange)
-							m_separators.get(index).setText(" - ");
-						else
-							m_separators.get(index).setText("");
+						if (isRange && editorTo != null) {
+							m_separators.get(index).setVisible(true);
+							editorTo.setVisible(true);
+						}
 					}
 				}
 				else if (comp.isVisible()) {
 					comp.setVisible(false);
-					if (isRange) {
+					if(isRange && editorTo != null) {
 						m_separators.get(index).setText("");
+						editorTo.setVisible(false);
 					}
 				}
 			}
