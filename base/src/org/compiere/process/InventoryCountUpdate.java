@@ -39,6 +39,8 @@ public class InventoryCountUpdate extends SvrProcess
 {
 	/** Physical Inventory		*/
 	private int		p_M_Inventory_ID = 0;
+	/** update count qty, else just book qty */
+	private boolean	p_SetCountQty = false;
 	/** Update to What			*/
 	private boolean	p_InventoryCountSetZero = false;
 	
@@ -55,6 +57,8 @@ public class InventoryCountUpdate extends SvrProcess
 				;
 			else if (name.equals("InventoryCountSet"))
 				p_InventoryCountSetZero = "Z".equals(para[i].getParameter());
+			else if (name.equals("UpdateCountQty"))
+				p_SetCountQty = para[i].getParameterAsBoolean();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -92,7 +96,8 @@ public class InventoryCountUpdate extends SvrProcess
 		//	ASI
 		sql = "UPDATE M_InventoryLine l "
 			+ "SET (QtyBook,QtyCount) = "
-				+ "(SELECT QtyOnHand,QtyOnHand FROM M_Storage s "
+				+ "(SELECT QtyOnHand, " 
+			+ (p_SetCountQty ? "s.QtyOnHand" : "l.QtyCount") + " FROM M_Storage s "
 				+ "WHERE s.M_Product_ID=l.M_Product_ID AND s.M_Locator_ID=l.M_Locator_ID"
 				+ " AND s.M_AttributeSetInstance_ID=l.M_AttributeSetInstance_ID),"
 			+ " Updated=SysDate,"
@@ -109,7 +114,7 @@ public class InventoryCountUpdate extends SvrProcess
 		int noMA = updateWithMA();
 
 		//	Set Count to Zero
-		if (p_InventoryCountSetZero)
+		if (p_SetCountQty && p_InventoryCountSetZero)
 		{
 			sql = "UPDATE M_InventoryLine l "
 				+ "SET QtyCount=0 "
@@ -162,7 +167,8 @@ public class InventoryCountUpdate extends SvrProcess
 						;
 				}
 				il.setQtyBook(onHand);
-				il.setQtyCount(onHand);
+				if ( p_SetCountQty )
+					il.setQtyCount(onHand);
 				if (il.save())
 					no++;
 			}
