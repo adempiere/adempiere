@@ -132,7 +132,7 @@ public class GenericPaymentExport extends PaymentExportList {
 
 				//  Comment - list of invoice document no
 				StringBuffer comment = new StringBuffer();
-				List<MPaySelectionLine> paySelectionLines = paySelectionCheck.getPaySelectionLines(false);
+				List<MPaySelectionLine> paySelectionLines = paySelectionCheck.getPaySelectionLinesAsList(false);
 				for (MPaySelectionLine paySelectionLine : paySelectionLines)
 				{
 					if (paySelectionLine.get_ID() == paySelectionLines.get(0).get_ID())
