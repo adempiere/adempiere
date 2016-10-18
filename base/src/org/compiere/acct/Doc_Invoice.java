@@ -330,7 +330,7 @@ public class Doc_Invoice extends Doc
 			for (int i = 0; i < m_taxes.length; i++)
 			{
 				amt = m_taxes[i].getAmount();
-				if (amt != null && amt.signum() != 0)
+				if (amt != null)
 				{
 					FactLine tl = fact.createLine(null, m_taxes[i].getAccount(DocTax.ACCTTYPE_TaxDue, as),
 						getC_Currency_ID(), null, amt);
@@ -411,7 +411,7 @@ public class Doc_Invoice extends Doc
 			for (int i = 0; i < m_taxes.length; i++)
 			{
 				amt = m_taxes[i].getAmount();
-				if (amt != null && amt.signum() != 0)
+				if (amt != null)
 				{
 					FactLine tl = fact.createLine(null, m_taxes[i].getAccount(DocTax.ACCTTYPE_TaxDue, as),
 						getC_Currency_ID(), amt, null);
