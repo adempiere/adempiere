@@ -311,8 +311,11 @@ public class Doc_AllocationHdr extends Doc
 				if (as.isAccrual())
 				{
 					bpAcct = getAccount(Doc.ACCTTYPE_C_Receivable, as);
-					fl = fact.createLine (line, bpAcct,
-						getC_Currency_ID(), null, allocationSource);		//	payment currency 
+					if (allocationSource.signum() >= 0)
+						fl = fact.createLine (line, bpAcct, getC_Currency_ID(), null, allocationSource);		//	payment currency
+					else
+						fl = fact.createLine (line, bpAcct, getC_Currency_ID(), allocationSource.negate() , null);		//	payment currency
+
 					if (fl != null)
 						allocationAccounted = fl.getAcctBalance().negate();
 					if (fl != null && invoice != null)
