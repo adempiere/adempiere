@@ -29,6 +29,7 @@ import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MFactAcct;
+import org.compiere.model.MMatchInv;
 import org.compiere.model.MMovement;
 import org.compiere.model.MRevenueRecognitionPlan;
 import org.compiere.model.X_C_AcctSchema_Element;
@@ -1083,6 +1084,13 @@ public final class FactLine extends X_Fact_Acct
 				//  Accounted Amounts - reverse
 				BigDecimal dr = fact.getAmtAcctDr();
 				BigDecimal cr = fact.getAmtAcctCr();
+
+				if (MMatchInv.Table_ID == getAD_Table_ID())
+				{
+					dr = fact.getAmtAcctCr();
+					cr = fact.getAmtAcctDr();
+				}
+
 				// setAmtAcctDr (cr.multiply(multiplier));
 				// setAmtAcctCr (dr.multiply(multiplier));
 				setAmtAcct(fact.getC_Currency_ID(),  dr.multiply(multiplier) , cr.multiply(multiplier));
@@ -1091,6 +1099,13 @@ public final class FactLine extends X_Fact_Acct
 				//  Fixing source amounts
 				BigDecimal drSourceAmt = fact.getAmtSourceDr();
 				BigDecimal crSourceAmt = fact.getAmtSourceCr();
+
+				if (MMatchInv.Table_ID == getAD_Table_ID())
+				{
+					drSourceAmt = fact.getAmtSourceCr();
+					crSourceAmt = fact.getAmtSourceDr();
+				}
+
 				setAmtSource(fact.getC_Currency_ID(), drSourceAmt.multiply(multiplier) , crSourceAmt.multiply(multiplier));
 				//  end Bayu Sistematika
 				//
