@@ -230,9 +230,11 @@ public final class FactLine extends X_Fact_Acct
 			setAmtSourceDr (AmtSourceDr);
 		if (AmtSourceCr != null)
 			setAmtSourceCr (AmtSourceCr);
+
 		//  one needs to be non zero
-		if (getAmtSourceDr().compareTo(Env.ZERO)==0 && getAmtSourceCr().compareTo(Env.ZERO)==0)
-			return false;
+		//if (getAmtSourceDr().compareTo(Env.ZERO)==0 && getAmtSourceCr().compareTo(Env.ZERO)==0)
+		//	return false;
+
 		//	Currency Precision
 		int precision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
 		if (AmtSourceDr != null && AmtSourceDr.scale() > precision)
