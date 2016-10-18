@@ -17,14 +17,17 @@
 package org.compiere.acct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
+
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCharge;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostType;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MProduct;
 import org.compiere.model.PO;
 import org.compiere.model.ProductCost;
@@ -273,8 +276,9 @@ public class DocLine
 	{
 		m_LineNetAmt =  LineNetAmt == null ? Env.ZERO : LineNetAmt;
 
+		int precision = MCurrency.getStdPrecision(p_po.getCtx(), getC_Currency_ID());
 		if (PriceList != null && Qty != null)
-			m_ListAmt = PriceList.multiply(Qty);
+			m_ListAmt = PriceList.multiply(Qty).setScale(precision, RoundingMode.HALF_UP);
 		if (m_ListAmt.compareTo(Env.ZERO) == 0)
 			m_ListAmt = m_LineNetAmt;
 		m_DiscountAmt = m_ListAmt.subtract(m_LineNetAmt);
