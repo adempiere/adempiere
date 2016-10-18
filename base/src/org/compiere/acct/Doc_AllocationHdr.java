@@ -229,8 +229,11 @@ public class Doc_AllocationHdr extends Doc
 				//	Payment Only
 				  else if (line.getC_Invoice_ID() == 0 && line.getC_Payment_ID() != 0)
 				  {
-					fl = fact.createLine (line, getPaymentAcct(as, line.getC_Payment_ID()),
-						getC_Currency_ID(), line.getAmtSource(), null);
+					if (line.getAmtSource().signum() >= 0)
+						fl = fact.createLine (line, getPaymentAcct(as, line.getC_Payment_ID()), getC_Currency_ID(), line.getAmtSource(), null);
+					else
+						fl = fact.createLine (line, getPaymentAcct(as, line.getC_Payment_ID()), getC_Currency_ID(), null , line.getAmtSource().negate());
+
 					if (fl != null && payment != null)
 						fl.setAD_Org_ID(payment.getAD_Org_ID());
 				   }
@@ -361,8 +364,11 @@ public class Doc_AllocationHdr extends Doc
 				if (as.isAccrual())
 				{
 					bpAcct = getAccount(Doc.ACCTTYPE_V_Liability, as);
-					fl = fact.createLine (line, bpAcct,
-						getC_Currency_ID(), allocationSource, null);		//	payment currency
+					if (allocationSource.signum() >= 0)
+						fl = fact.createLine (line, bpAcct, getC_Currency_ID(), allocationSource, null);		//	payment currency
+					else
+						fl = fact.createLine (line, bpAcct, getC_Currency_ID(), null , allocationSource.negate());		//	payment currency
+
 					if (fl != null)
 						allocationAccounted = fl.getAcctBalance();
 					if (fl != null && invoice != null)
