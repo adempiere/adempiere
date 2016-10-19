@@ -590,7 +590,7 @@ public class GridField
 					return new Timestamp (System.currentTimeMillis());
 				else if (defStr.indexOf('@') != -1)			//	it is a variable
 					defStr = Env.getContext(m_vo.ctx, m_vo.WindowNo, defStr.replace('@',' ').trim());
-				else if (defStr.indexOf("'") != -1)			//	it is a 'String'
+				else if (defStr.startsWith("'") && defStr.endsWith("'"))			//	it is a real 'String'
 					defStr = defStr.replace('\'', ' ').trim();
 
 				if (!defStr.equals(""))
