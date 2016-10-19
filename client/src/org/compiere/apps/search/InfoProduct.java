@@ -1381,7 +1381,10 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		int M_Product_ID = record_id;
 		if (M_Product_ID <= 0)
 			return;
-		int M_Warehouse_ID = ((Integer) fWarehouse_ID.getValue()).intValue();
+		int M_Warehouse_ID = 0;
+		if (fWarehouse_ID.getValue() != null)
+			M_Warehouse_ID = (Integer)fWarehouse_ID.getValue();
+		
 		int M_AttributeSetInstance_ID = m_M_AttributeSetInstance_ID;
 		if (m_M_AttributeSetInstance_ID < 0)	//	not selected
 			M_AttributeSetInstance_ID = 0;
