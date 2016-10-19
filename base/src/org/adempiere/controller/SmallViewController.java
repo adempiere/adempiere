@@ -236,6 +236,7 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		//  before the events are set to avoid unnecessary events.
 		Object defaultObject = field.getDefault();
 		editor.setValue(defaultObject);
+		field.setValue(defaultObject, false);
 		
 		//	Add event handling.  
 		//  Swing uses vetoableChangeListeners.
@@ -277,6 +278,7 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		//	Set Default Value
 		Object defaultObject2 = fieldTo.getDefault();
 		editorTo.setValue(defaultObject2);
+		fieldTo.setValue(defaultObject2, false);
 
 		//	Add event handling.  
 		//  Swing uses vetoableChangeListeners.
