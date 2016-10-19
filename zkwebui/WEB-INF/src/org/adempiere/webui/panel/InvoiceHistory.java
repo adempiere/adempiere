@@ -82,6 +82,9 @@ public class InvoiceHistory extends Window implements EventListener
 		m_M_Product_ID = M_Product_ID;
 		m_M_Warehouse_ID = M_Warehouse_ID;
 		m_M_AttributeSetInstance_ID = M_AttributeSetInstance_ID;
+		setHeight("600px");
+		setWidth("900px");
+		setSizable(true);
 		try
 		{
 			jbInit();
@@ -177,8 +180,8 @@ public class InvoiceHistory extends Window implements EventListener
 		confirmPanel.addActionListener(this);
         
 		Borderlayout borderlayout = new Borderlayout();
-        borderlayout.setWidth("700px");
-        borderlayout.setHeight("400px");
+        borderlayout.setWidth("100%");
+        borderlayout.setHeight("100%");
         borderlayout.setStyle("border: none; position: relative");
 		this.appendChild(borderlayout);
 		
