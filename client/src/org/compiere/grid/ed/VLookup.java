@@ -913,7 +913,7 @@ public class VLookup extends JComponent
 		try
 		{
 			// -> GridController.vetoableChange
-			fireVetoableChange (m_columnName, null, value);
+			fireVetoableChange (m_columnName, m_value, value);
 		}
 		catch (PropertyVetoException pve)
 		{
