@@ -2661,7 +2661,7 @@ public abstract class PO
 		//	Set new DocumentNo
 		String columnName = "DocumentNo";
 		int index = p_info.getColumnIndex(columnName);
-		if (index != -1)
+		if (index != -1 && p_info.getColumn(index).ColumnSQL == null)
 		{
 			String value = (String)get_Value(index);
 			if (value != null && value.startsWith("<") && value.endsWith(">"))
