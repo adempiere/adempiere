@@ -2250,8 +2250,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (notPrint)		//	refresh if not print
 			{
 				updateUI(pi);
+			} else {
+				Clients.showBusy(null, false);
 			}
-			Clients.showBusy(null, false);
 		}
 		else
 		{
@@ -2262,8 +2263,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					if (notPrint)		//	refresh if not print
 					{
 						updateUI(pi);
+					} else {
+						Clients.showBusy(null, false);
 					}
-                	Clients.showBusy(null, false);
                 } catch(Error ex){
                 	throw ex;
                 } finally{
@@ -2292,6 +2294,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		//	Get Log Info
 		ProcessInfoUtil.setLogFromDB(pi);
 		String logInfo = pi.getLogInfo();
+		//	
+		Clients.showBusy(null, false);
 		if (logInfo.length() > 0)
 			FDialog.info(curWindowNo, this.getComponent(), Env.getHeader(ctx, curWindowNo),
 				pi.getTitle() + "<br>" + logInfo);
