@@ -1108,9 +1108,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                     int index = advancedPanel.getSelectedIndex();
                     if (index >= 0)
                     {
-                    	advancedPanel.getSelectedItem().detach();
-                    	advancedPanel.setSelectedIndex(--index);
-                    	//refreshUserQueries();
+                        cmd_delete();
                     }
                 }
 
@@ -1210,6 +1208,27 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     		}
         }
     }   //  onEvent
+
+	/**
+	 * 
+	 */
+	private void cmd_delete() {
+		int index = advancedPanel.getSelectedIndex();
+		if (index < 0) {
+			int index0 = fQueryName.getSelectedIndex();
+			if(index0 < 0) return;
+			MUserQuery uq = userQueries[index0];
+			uq.delete(true);
+			userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
+			for (int i = 0; i < userQueries.length; i++)
+				fQueryName.appendItem(userQueries[i].getName());
+			fQueryName.setValue("");
+		} else {
+			advancedPanel.getSelectedItem().detach();
+			advancedPanel.setSelectedIndex(--index);
+	    	//refreshUserQueries();
+		}
+	}
 
     /** 
      * Parse a user query from the database and fill the advanced query table.  The query is saved 
