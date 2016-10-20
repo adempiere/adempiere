@@ -446,6 +446,9 @@ public class AcctViewer extends CFrame
 			m_data.buttonRecordID.put(keyColumn,Record_ID);
 			selRecord.setText(m_data.getButtonText(tableName, keyColumn, selectSQL));
 		}
+		
+		// Display quantity as default
+		displayQty.setValue('Y');
 	}   //  dynInit
 
 	/**
