@@ -722,6 +722,9 @@ public class WAcctViewer extends Window implements EventListener
 
 		if (tabResult.isSelected())
 			stateChanged();
+		
+		// Display quantity as default
+		displayQty.setSelected(true);
 	} // dynInit
 
 	/**
