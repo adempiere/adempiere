@@ -669,12 +669,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	}
 
 //	@Override
-	public int getC_Currency_ID()
-	{
-		return 0;
-	}
-
-//	@Override
 	public BigDecimal getApprovalAmt()
 	{
 		return Env.ZERO;
@@ -1072,6 +1066,23 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	public IDocumentLine getReversalDocumentLine() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		return BigDecimal.ZERO;
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		return -1;
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return -1;
 	}
 
 }	//	MPPCostCollector

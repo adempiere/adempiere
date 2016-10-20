@@ -355,5 +355,22 @@ public class MProductionLine extends X_M_ProductionLine  implements IDocumentLin
 				.setClient_ID().setParameters(X_C_DocType.DOCBASETYPE_MaterialProduction)
 				.firstId();
 	}
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		return BigDecimal.ZERO;
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		return -1;
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return -1;
+	}
 	
 }

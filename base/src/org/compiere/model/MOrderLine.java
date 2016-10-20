@@ -1107,4 +1107,21 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	public int getC_DocType_ID() {
 		return getParent().getC_DocType_ID();
 	}
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		return getPriceActual();
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		return getParent().getC_Currency_ID();
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return getParent().getC_ConversionType_ID();
+	}
 }	//	MOrderLine
