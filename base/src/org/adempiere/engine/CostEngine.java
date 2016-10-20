@@ -40,6 +40,7 @@ import org.compiere.model.I_M_Production;
 import org.compiere.model.I_M_Transaction;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
+import org.compiere.model.MConversionRate;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
@@ -294,7 +295,18 @@ public class CostEngine {
 
 		if (model instanceof MLandedCostAllocation) {
 			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
-			costThisLevel = allocation.getPriceActual();
+			if(model.getC_Currency_ID() != accountSchema.getC_Currency_ID()) {
+				BigDecimal rate = MConversionRate.getRate(
+						model.getC_Currency_ID(), accountSchema.getC_Currency_ID(),
+						model.getDateAcct(), model.getC_ConversionType_ID(),
+						model.getAD_Client_ID(), model.getAD_Org_ID());
+				if (rate != null) {
+					costThisLevel = model.getPriceActualCurrency().multiply(rate);
+					if (costThisLevel.scale() > accountSchema.getCostingPrecision())
+						costThisLevel = costThisLevel.setScale(accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				}
+			}
+			else  costThisLevel = model.getPriceActual();
 		}
 
 		MCost cost = MCost.validateCostForCostType(accountSchema, costType, costElement,
@@ -337,12 +349,18 @@ public class CostEngine {
 					if (costMovementFrom.signum() > 0 )
 						costThisLevel = costMovementFrom;					
 				}
-			} else if (MCostElement.COSTELEMENTTYPE_Material.equals(costElement
-					.getCostElementType())) {
-				if (model.getPriceActual().signum() != 0)
-					costThisLevel = model.getPriceActual();
-				//else of cost should only be take from source document in this case purchase order
-                //    costThisLevel = cost.getCurrentCostPrice();
+			} else if (MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+				if(model.getC_Currency_ID() != accountSchema.getC_Currency_ID()) {
+						BigDecimal rate = MConversionRate.getRate(
+								model.getC_Currency_ID(), accountSchema.getC_Currency_ID(),
+								model.getDateAcct(), model.getC_ConversionType_ID(),
+								model.getAD_Client_ID(), model.getAD_Org_ID());
+						if (rate != null) {
+							costThisLevel = model.getPriceActualCurrency().multiply(rate);
+							if (costThisLevel.scale() > accountSchema.getCostingPrecision())
+								costThisLevel = costThisLevel.setScale(accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+						}
+				} else costThisLevel = model.getPriceActual();
 			}
 		}
 
@@ -415,8 +433,18 @@ public class CostEngine {
                 costThisLevel = getSeedCost(transaction.getCtx(), transaction.getM_Product_ID(), transaction.get_TrxName());
                 if (costThisLevel.signum() == 0)
                     if (model instanceof  MInOutLine && !model.isSOTrx()) {
-                        MInOutLine inOutLine = (MInOutLine) model;
-                        costThisLevel = inOutLine.getC_OrderLine().getPriceActual();
+						if(model.getC_Currency_ID() != accountSchema.getC_Currency_ID()) {
+							BigDecimal rate = MConversionRate.getRate(
+									model.getC_Currency_ID(), accountSchema.getC_Currency_ID(),
+									model.getDateAcct(), model.getC_ConversionType_ID(),
+									model.getAD_Client_ID(), model.getAD_Org_ID());
+							if (rate != null) {
+								costThisLevel = model.getPriceActualCurrency().multiply(rate);
+								if (costThisLevel.scale() > accountSchema.getCostingPrecision())
+									costThisLevel = costThisLevel.setScale(accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+							}
+						}
+                       	else  costThisLevel = model.getPriceActual();
                     }
                 if (costThisLevel.signum() != 0) {
                     cost.setCurrentCostPrice(costThisLevel);

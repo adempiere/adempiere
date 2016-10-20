@@ -444,4 +444,22 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine
 	public int getC_DocType_ID() {
 		return getParent().getC_DocType_ID();
 	}
+
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		return BigDecimal.ZERO;
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		return -1;
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return -1;
+	}
 }	//	MInventoryLine

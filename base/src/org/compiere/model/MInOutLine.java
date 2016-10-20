@@ -811,4 +811,107 @@ implements IDocumentLine
 		return getParent().getC_DocType_ID();
 	}
 
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		BigDecimal price = null;
+		if (getC_OrderLine_ID() > 0)
+		{
+			price = DB.getSQLValueBDEx(get_TrxName(),
+					"SELECT ol.PriceActual AS price " +
+							" FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+							" WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
+					getC_OrderLine_ID());
+
+			if (price == null || price.signum() == 0)
+				price = DB.getSQLValueBDEx(get_TrxName(),
+						" SELECT ol.PriceActual AS price" +
+								" FROM M_MatchPO mpo LEFT JOIN C_OrderLine ol ON ( mpo.C_OrderLine_ID=ol.C_OrderLine_ID) " +
+								" INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+								" WHERE  mpo."+MMatchPO.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+
+			if (price == null || price.signum() == 0)
+				price = DB.getSQLValueBDEx(get_TrxName(),
+						" SELECT il.PriceActual AS price " +
+								" FROM M_MatchInv mi LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) " +
+								" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
+								" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+		}
+		if (getM_RMALine_ID() > 0)
+		{
+			price = DB.getSQLValueBDEx(get_TrxName(),
+					"SELECT "+MRMALine.COLUMNNAME_Amt+" FROM "+MRMALine.Table_Name
+							+" WHERE "+MRMALine.COLUMNNAME_M_RMALine_ID+"=?",
+					getM_RMALine_ID());
+		}
+		if (price == null)
+		{
+			price = Env.ZERO;
+		}
+		return price;
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		int currencyId = -1;
+		if (getC_OrderLine_ID() > 0)
+		{
+			currencyId = DB.getSQLValueEx(get_TrxName(),
+					"SELECT o.C_Currency_ID " +
+							" FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+							" WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
+					getC_OrderLine_ID());
+
+			if (currencyId <= 0)
+				currencyId = DB.getSQLValueEx(get_TrxName(),
+						" SELECT o.C_Currency_ID " +
+								" FROM M_MatchPO mpo LEFT JOIN C_OrderLine ol ON ( mpo.C_OrderLine_ID=ol.C_OrderLine_ID) " +
+								" INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+								" WHERE  mpo."+MMatchPO.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+
+			if (currencyId <= 0)
+				currencyId = DB.getSQLValueEx(get_TrxName(),
+						" SELECT i.C_Currency_ID " +
+								" FROM M_MatchInv mi LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) " +
+								" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
+								" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+		}
+		if (getM_RMALine_ID() > 0)
+			currencyId = -1;
+
+		return currencyId;
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		int conversionTypeId = -1;
+		if (getC_OrderLine_ID() > 0)
+		{
+			conversionTypeId = DB.getSQLValueEx(get_TrxName(),
+					"SELECT o.C_ConversionType_ID " +
+							" FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+							" WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
+					getC_OrderLine_ID());
+
+			if (conversionTypeId <= 0)
+				conversionTypeId = DB.getSQLValueEx(get_TrxName(),
+						" SELECT o.C_ConversionType_ID " +
+								" FROM M_MatchPO mpo LEFT JOIN C_OrderLine ol ON ( mpo.C_OrderLine_ID=ol.C_OrderLine_ID) " +
+								" INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
+								" WHERE  mpo."+MMatchPO.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+
+			if (conversionTypeId <= 0)
+				conversionTypeId = DB.getSQLValueEx(get_TrxName(),
+						" SELECT i.C_ConversionType_ID " +
+								" FROM M_MatchInv mi LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) " +
+								" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
+								" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
+		}
+		if (getM_RMALine_ID() > 0)
+			conversionTypeId = -1;
+
+		return conversionTypeId;
+	}
+
 }	//	MInOutLine
