@@ -165,14 +165,14 @@ public class ZkJRViewer extends Window implements EventListener {
 
 		if ( selected == null || "PDF".equals(selected.getValue() ) )  {
 
-			File file = File.createTempFile(prefix, ".pdf", new File(path));
+			file = File.createTempFile(prefix, ".pdf", new File(path));
 			JasperExportManager.exportReportToPdfFile(jasperPrint, file.getAbsolutePath());
 			media = new AMedia(this.title, "pdf", "application/pdf", file, true);
 		}
 
 		else if ("XLS".equals(previewType.getSelectedItem().getValue())){
 
-			File file = File.createTempFile(prefix, ".xls", new File(path));
+			file = File.createTempFile(prefix, ".xls", new File(path));
 			FileOutputStream fos = new FileOutputStream(file);
 			JRXlsExporter exporterXLS = new JRXlsExporter();
 			exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
