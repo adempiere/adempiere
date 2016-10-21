@@ -5,7 +5,7 @@
 /project
 /backend
 /zkwebui/WEB-INF/classes/metainfo/zk/lang-addon.xml
-/adempiere
+/adempiere/
 /com.kkalice.adempiere.migrate/apidoc/
 /base/Base.jar
 /com.kkalice.adempiere.migrate/lib/migrate.jar
