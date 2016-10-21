@@ -1076,13 +1076,14 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	@Override
 	public int getC_Currency_ID ()
 	{
-		return -1;
+		MClient client  = MClient.get(getCtx());
+		return client.getC_Currency_ID();
 	}
 
 	@Override
 	public int getC_ConversionType_ID()
 	{
-		return -1;
+		return  MConversionType.getDefault(getAD_Client_ID());
 	}
 
 }	//	MPPCostCollector

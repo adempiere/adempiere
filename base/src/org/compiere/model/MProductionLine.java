@@ -364,13 +364,14 @@ public class MProductionLine extends X_M_ProductionLine  implements IDocumentLin
 	@Override
 	public int getC_Currency_ID ()
 	{
-		return -1;
+		MClient client  = MClient.get(getCtx());
+		return client.getC_Currency_ID();
 	}
 
 	@Override
 	public int getC_ConversionType_ID()
 	{
-		return -1;
+		return  MConversionType.getDefault(getAD_Client_ID());
 	}
 	
 }

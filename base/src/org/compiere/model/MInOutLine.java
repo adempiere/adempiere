@@ -853,7 +853,8 @@ implements IDocumentLine
 	@Override
 	public int getC_Currency_ID ()
 	{
-		int currencyId = -1;
+		MClient client  = MClient.get(getCtx());
+		int currencyId = client.getC_Currency_ID();
 		if (getC_OrderLine_ID() > 0)
 		{
 			currencyId = DB.getSQLValueEx(get_TrxName(),
@@ -876,16 +877,15 @@ implements IDocumentLine
 								" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
 								" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
 		}
-		if (getM_RMALine_ID() > 0)
-			currencyId = -1;
-
+		//if (getM_RMALine_ID() > 0)
+		//	currencyId = -1;
 		return currencyId;
 	}
 
 	@Override
 	public int getC_ConversionType_ID()
 	{
-		int conversionTypeId = -1;
+		int conversionTypeId = MConversionType.getDefault(getAD_Client_ID());
 		if (getC_OrderLine_ID() > 0)
 		{
 			conversionTypeId = DB.getSQLValueEx(get_TrxName(),
@@ -908,8 +908,8 @@ implements IDocumentLine
 								" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
 								" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());
 		}
-		if (getM_RMALine_ID() > 0)
-			conversionTypeId = -1;
+		//if (getM_RMALine_ID() > 0)
+		//	conversionTypeId = -1;
 
 		return conversionTypeId;
 	}

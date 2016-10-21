@@ -414,8 +414,10 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine
 	}
 
 	public BigDecimal getPriceActual() {
-		// TODO Auto-generated method stub
-		return null;
+		BigDecimal priceActual = MConversionRate.convertBase(getCtx(), getCurrentCostPrice(), getC_Currency_ID(),
+				getDateAcct(), getC_ConversionType_ID(),
+				getAD_Client_ID(), getAD_Org_ID());
+		return priceActual;
 	}
 
 	@Override
@@ -448,18 +450,19 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine
 
 	@Override
 	public BigDecimal getPriceActualCurrency() {
-		return BigDecimal.ZERO;
+		return getCurrentCostPrice();
 	}
 
 	@Override
 	public int getC_Currency_ID ()
 	{
-		return -1;
+		MClient client  = MClient.get(getCtx());
+		return client.getC_Currency_ID();
 	}
 
 	@Override
 	public int getC_ConversionType_ID()
 	{
-		return -1;
+		return MConversionType.getDefault(getAD_Client_ID());
 	}
 }	//	MInventoryLine
