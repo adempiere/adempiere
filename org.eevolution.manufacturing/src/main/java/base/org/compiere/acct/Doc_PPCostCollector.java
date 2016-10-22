@@ -327,12 +327,12 @@ public class Doc_PPCostCollector extends Doc
 				continue;
 			if (cost.scale() > as.getStdPrecision())
 				cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
-			dr = fact.createLine(docLineCostCollector, debit, as.getC_Currency_ID(), cost.negate());
+			dr = fact.createLine(docLineCostCollector, debit, as.getC_Currency_ID(), cost);
 			I_M_CostElement element = cd.getM_CostElement();
 			String description = manufacturingOrder.getDocumentNo() + " - " + cd.getM_CostType().getName() + " - " + element.getName();
 			dr.setDescription(description);
 
-			totalCost = totalCost.add(cost.negate());
+			totalCost = totalCost.add(cost);
 		}
 		String description = manufacturingOrder.getDocumentNo();
 		cr = fact.createLine(docLineCostCollector, credit, as.getC_Currency_ID(), totalCost.negate());
