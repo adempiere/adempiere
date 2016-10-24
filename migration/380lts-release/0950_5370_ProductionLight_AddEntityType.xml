@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Production Light" ReleaseNo="" SeqNo="5020">
+  <Migration EntityType="D" Name="Production Light" ReleaseNo="" SeqNo="0950">
     <Comments>Add Entity Type and translation</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="U" Record_ID="54066" Table="AD_Table">
