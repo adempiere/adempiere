@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Delete Planned Purchase Orders" ReleaseNo="" SeqNo="5010">
+  <Migration EntityType="D" Name="Delete Planned Purchase Orders" ReleaseNo="" SeqNo="5035">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="58348" Table="AD_Element">
         <Data AD_Column_ID="2602" Column="ColumnName">IsDeletePlannedPO</Data>
