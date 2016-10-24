@@ -1298,11 +1298,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			if(con.getHR_Concept_Category_ID() == category.get_ID())
 			{
 				MHRMovement movement = m_movement.get(pc.getHR_Concept_ID());
-				if (movement == null) {
+				if (movement == null)
 					createMovementFromConcept(con, con.isPrinted());
 					movement = m_movement.get(con.get_ID());
-				}
-				else
+
+				if (movement != null)
 				{
 					String columnType = movement.getColumnType();
 					if(MHRConcept.COLUMNTYPE_Amount.equals(columnType))
@@ -2146,6 +2146,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		//m_scriptCtx.put("_HR_PayrollConcept_ID", payrollConcept.getHR_PayrollConcept_ID());
 		//Define movement cache
 		m_movement = new Hashtable<Integer, MHRMovement>();
+		//Load Payroll Concept
+		linesConcept = MHRPayrollConcept.getPayrollConcepts(this);
 		//Load the Manual movement
 		loadMovements(m_movement,m_employee.getC_BPartner_ID());
 		//Remove movement if this is calculated this way can be calculated again
