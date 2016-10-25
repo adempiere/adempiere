@@ -736,44 +736,11 @@ implements IDocumentLine
 	 */
 	public BigDecimal getPriceActual()
 	{
-			// FIXME: ancabradau: we need to implement a real solution that will cover all cases
-			BigDecimal price = null;
-			if (getC_OrderLine_ID() > 0)
-			{	
-						price = DB.getSQLValueBDEx(get_TrxName(),
-							"SELECT currencyBase(ol.PriceActual,o.C_Currency_ID,o.DateAcct,o.AD_Client_ID,o.AD_Org_ID) AS price " +
-						    " FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " +
-						    " WHERE "+MOrderLine.COLUMNNAME_C_OrderLine_ID+"=?",
-						getC_OrderLine_ID());
-				
-					if (price == null || price.signum() == 0)
-						price = DB.getSQLValueBDEx(get_TrxName(),
-							" SELECT currencyBase(ol.PriceActual,o.C_Currency_ID,o.DateAcct,o.AD_Client_ID,o.AD_Org_ID) AS price" + 
-							" FROM M_MatchPO mpo LEFT JOIN C_OrderLine ol ON ( mpo.C_OrderLine_ID=ol.C_OrderLine_ID) " +
-							" INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) " + 		
-							" WHERE  mpo."+MMatchPO.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());					
-				
-					if (price == null || price.signum() == 0)				
-						price = DB.getSQLValueBDEx(get_TrxName(), 
-							" SELECT currencyBase(il.PriceActual,i.C_Currency_ID,i.DateAcct,i.AD_Client_ID,i.AD_Org_ID) AS price " +
-							" FROM M_MatchInv mi LEFT JOIN C_InvoiceLine il ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) " +
-							" INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) " +
-							" WHERE  mi."+MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?", getM_InOutLine_ID());		
-			}
-			if (getM_RMALine_ID() > 0)
-			{
-				price = DB.getSQLValueBDEx(get_TrxName(),
-						"SELECT "+MRMALine.COLUMNNAME_Amt+" FROM "+MRMALine.Table_Name
-						+" WHERE "+MRMALine.COLUMNNAME_M_RMALine_ID+"=?",
-						getM_RMALine_ID());
-			}	
-			if (price == null)
-			{
-				//throw new AdempiereException("Shipment: PriceActual not found");
-				price = Env.ZERO;
-			}
-			return price;
-		}
+		BigDecimal priceActual = MConversionRate.convertBase(getCtx(), getPriceActualCurrency(), getC_Currency_ID(),
+				getDateAcct(), getC_ConversionType_ID(),
+				getAD_Client_ID(), getAD_Org_ID());
+			return priceActual;
+	}
 	
 	/**
 	 * get if this document line is the Sales transaction

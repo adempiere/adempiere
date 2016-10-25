@@ -295,10 +295,7 @@ public class CostEngine {
 
 		if (model instanceof MLandedCostAllocation) {
 			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
-			if(model.getC_Currency_ID() != accountSchema.getC_Currency_ID())
-				costThisLevel = convertCostThisLevel(accountSchema, model);
-			else
-				costThisLevel = model.getPriceActual();
+			costThisLevel = convertCostThisLevel(accountSchema, model);
 		}
 
 		MCost cost = MCost.validateCostForCostType(accountSchema, costType, costElement,
@@ -330,10 +327,7 @@ public class CostEngine {
 					if (inventoryLine.getQtyInternalUse().signum() == 0 &&
 							inventoryLine.getCurrentCostPrice() != null &&
 							inventoryLine.getCurrentCostPrice().signum() > 0) {
-						if (model.getC_Currency_ID() != accountSchema.getC_Currency_ID())
 							costThisLevel = convertCostThisLevel(accountSchema, model);
-						else
-							costThisLevel = inventoryLine.getPriceActual();
 					}
 					if(costThisLevel.signum() == 0)
 						costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
@@ -347,10 +341,7 @@ public class CostEngine {
 						costThisLevel = costMovementFrom;					
 				}
 			} else if (MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
-					if(model.getC_Currency_ID() != accountSchema.getC_Currency_ID())
 					costThisLevel = convertCostThisLevel(accountSchema , model);
-				else
-					costThisLevel = model.getPriceActual();
 			}
 		}
 
@@ -408,10 +399,7 @@ public class CostEngine {
 				if (inventoryLine.getQtyInternalUse().signum() == 0 &&
 					inventoryLine.getCurrentCostPrice() != null &&
 					inventoryLine.getCurrentCostPrice().signum() > 0) {
-					if(model.getC_Currency_ID() != accountSchema.getC_Currency_ID())
 						costThisLevel = convertCostThisLevel(accountSchema , model);
-					else
-						costThisLevel = model.getPriceActual();
 
 					cost.setCurrentCostPrice(costThisLevel);
 					cost.saveEx();
@@ -427,10 +415,7 @@ public class CostEngine {
                 costThisLevel = getSeedCost(transaction.getCtx(), transaction.getM_Product_ID(), transaction.get_TrxName());
                 if (costThisLevel.signum() == 0)
                     if (model instanceof  MInOutLine && !model.isSOTrx()) {
-						if(model.getC_Currency_ID() != accountSchema.getC_Currency_ID())
 							costThisLevel = convertCostThisLevel(accountSchema , model);
-						else
-							costThisLevel = model.getPriceActual();
                     }
                 if (costThisLevel.signum() != 0) {
                     cost.setCurrentCostPrice(costThisLevel);
