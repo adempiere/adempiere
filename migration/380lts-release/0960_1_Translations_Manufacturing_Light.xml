@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="Translations for Manufacturing Light" ReleaseNo="" SeqNo="960">
+  <Migration EntityType="D" Name="Translations for Manufacturing Light" ReleaseNo="" SeqNo="960">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
         <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
