@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="DocType planned Production for Garden World" ReleaseNo="" SeqNo="0910">
+  <Migration EntityType="D" Name="DocType planned Production for Garden World" ReleaseNo="" SeqNo="0910">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="217" Action="I" Record_ID="1000000" Table="C_DocType">
         <Data AD_Column_ID="1502" Column="AD_Client_ID">11</Data>
