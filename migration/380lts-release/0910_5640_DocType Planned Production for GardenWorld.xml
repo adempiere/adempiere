@@ -101,7 +101,7 @@
         <Data AD_Column_ID="78207" Column="DocumentNo">1000000</Data>
         <Data AD_Column_ID="78194" Column="IsActive">true</Data>
         <Data AD_Column_ID="78210" Column="IsComplete" isNewNull="true"/>
-        <Data AD_Column_ID="78202" Column="IsCreated">N</Data>
+        <Data AD_Column_ID="78202" Column="IsCreated">false</Data>
         <Data AD_Column_ID="78849" Column="IsCreateMove">false</Data>
         <Data AD_Column_ID="78209" Column="M_Locator_ID">50001</Data>
         <Data AD_Column_ID="78208" Column="M_Product_ID">50008</Data>
