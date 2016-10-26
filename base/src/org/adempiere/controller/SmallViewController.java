@@ -287,7 +287,7 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 			editorTo.addVetoableChangeListener(this);
 		}
 		else {
-			editor.addValueChangeListener(this);			
+			editorTo.addValueChangeListener(this);
 		}
 		//  GridFields use PropertyChange events to propagate changes
 		//  back to the editors and controller.
