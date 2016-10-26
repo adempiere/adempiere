@@ -110,6 +110,9 @@ public class WFilenameEditor extends WEditor
 		else if (Events.ON_CLICK.equals(event.getName()))
 		{
 			cmd_file();
+			String newValue = getComponent().getText();
+			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
+			fireValueChange(changeEvent);
 		}
 	}
 
