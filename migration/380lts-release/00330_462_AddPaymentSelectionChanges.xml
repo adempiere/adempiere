@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="PS like Document #297" ReleaseNo="3.9.0" SeqNo="00330">
+  <Migration EntityType="D" Name="Add Payment Selection changes #297" ReleaseNo="3.9.0" SeqNo="00330">
     <Comments>See: https://github.com/adempiere/adempiere/pull/462</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="54666" Table="AD_View_Column">
