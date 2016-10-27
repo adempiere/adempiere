@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Process parameter don't have a parameter like only informati" ReleaseNo="3.9.0" SeqNo="00313">
+  <Migration EntityType="D" Name="Add isInfoOnly process parameter" ReleaseNo="3.9.0" SeqNo="00313">
     <Comments>See: https://github.com/adempiere/adempiere/issues/566</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="81287" Table="AD_Column">
