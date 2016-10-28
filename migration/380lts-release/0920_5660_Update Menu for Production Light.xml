@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="Update Menu for Production Light" ReleaseNo="" SeqNo="0920">
+  <Migration EntityType="D" Name="Update Menu for Production Light" ReleaseNo="" SeqNo="0920">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="116" Action="U" Record_ID="53301" Table="AD_Menu">
         <Data AD_Column_ID="3375" Column="AD_Process_ID" oldValue="53230">53159</Data>

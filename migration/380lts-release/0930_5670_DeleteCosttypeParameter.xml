@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="Delete Costtype Parameter" ReleaseNo="" SeqNo="0930">
+  <Migration EntityType="D" Name="Delete Costtype Parameter" ReleaseNo="" SeqNo="0930">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="D" Record_ID="1000000" Table="AD_Process_Para">
         <Data AD_Column_ID="2816" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
