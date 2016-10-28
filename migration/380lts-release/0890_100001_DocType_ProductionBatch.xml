@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="I forgot to set the DICTIONARY_ID_COMMENTS System Configurat" ReleaseNo="" SeqNo="0890">
+  <Migration EntityType="D" Name="I forgot to set the DICTIONARY_ID_COMMENTS System Configurat" ReleaseNo="" SeqNo="0890">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="108" Action="I" Record_ID="300000" Table="AD_Val_Rule">
         <Data AD_Column_ID="7715" Column="EntityType">U</Data>

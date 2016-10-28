@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="Change UOM for Products in GardenWorld" ReleaseNo="" SeqNo="0900">
+  <Migration EntityType="D" Name="Change UOM for Products in GardenWorld" ReleaseNo="" SeqNo="0900">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="208" Action="U" Record_ID="50009" Table="M_Product">
         <Data AD_Column_ID="1760" Column="C_UOM_ID" oldValue="50005">50001</Data>

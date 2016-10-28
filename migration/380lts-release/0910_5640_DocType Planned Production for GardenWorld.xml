@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="DocType planned Production for Garden World" ReleaseNo="" SeqNo="0910">
+  <Migration EntityType="D" Name="DocType planned Production for Garden World" ReleaseNo="" SeqNo="0910">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="217" Action="I" Record_ID="1000000" Table="C_DocType">
         <Data AD_Column_ID="1502" Column="AD_Client_ID">11</Data>
@@ -101,7 +101,7 @@
         <Data AD_Column_ID="78207" Column="DocumentNo">1000000</Data>
         <Data AD_Column_ID="78194" Column="IsActive">true</Data>
         <Data AD_Column_ID="78210" Column="IsComplete" isNewNull="true"/>
-        <Data AD_Column_ID="78202" Column="IsCreated">N</Data>
+        <Data AD_Column_ID="78202" Column="IsCreated">false</Data>
         <Data AD_Column_ID="78849" Column="IsCreateMove">false</Data>
         <Data AD_Column_ID="78209" Column="M_Locator_ID">50001</Data>
         <Data AD_Column_ID="78208" Column="M_Product_ID">50008</Data>
