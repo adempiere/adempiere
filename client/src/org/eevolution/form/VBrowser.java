@@ -784,7 +784,6 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 				continue;
 			//	
 			GridField field = editor.getField();
-			field.setValue(editor.getValue(), true);
 			m_List.put(entry.getKey(), field);
 		}
 		//	Default Return

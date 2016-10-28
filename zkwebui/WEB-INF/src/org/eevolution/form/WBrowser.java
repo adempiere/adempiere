@@ -844,7 +844,6 @@ public class WBrowser extends Browser implements IFormController,
 				continue;
 			//
 			GridField field = editor.getGridField();
-			field.setValue(editor.getValue(), true);
 			m_List.put(entry.getKey(), field);
 		}
 		//	Default Return
