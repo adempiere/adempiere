@@ -310,8 +310,10 @@ public class VLocator extends JComponent
 		{
 			m_mLocator.setOnly_Warehouse_ID (getOnly_Warehouse_ID ());
 			m_mLocator.setOnly_Product_ID(getOnly_Product_ID());
-			if (!m_mLocator.isValid(value))
+			if (!m_mLocator.isValid(value)) {
 				value = null;
+				m_mField.setValue(null, true);
+			}
 		}
 		//
 		m_value = value;
