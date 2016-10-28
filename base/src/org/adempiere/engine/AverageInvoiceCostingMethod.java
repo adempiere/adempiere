@@ -663,7 +663,6 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 				MLandedCostAllocation.getOfInOutline(line,
 							costElement.getM_CostElement_ID()))
 			{
-				//System.out.println("Allocation : " + allocation.getC_LandedCostAllocation_ID() +  " Amount:" +  allocation.getAmt());
 				CostEngineFactory
 				.getCostEngine(clientId)
 				.createCostDetail(accountSchema, costType, costElement, transaction, allocation, true);
