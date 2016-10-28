@@ -642,6 +642,24 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 
 		return super.afterSave(newRecord, success);
 	}
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		return BigDecimal.ZERO;
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		MClient client  = MClient.get(getCtx());
+		return client.getC_Currency_ID();
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return  MConversionType.getDefault(getAD_Client_ID());
+	}
 	
 	
 	

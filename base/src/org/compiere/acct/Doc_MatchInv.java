@@ -367,12 +367,11 @@ public class Doc_MatchInv extends Doc
 			
 			BigDecimal diff = ipv.subtract(costs);
 			MInvoice m_invoice = m_invoiceLine.getParent();
-			int C_Currency_ID = m_invoice.getC_Currency_ID();
 			if (diff.compareTo(Env.ZERO)!= 0 )
 			{
 				FactLine diffline = fact.createLine(null,
 						m_pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
-						C_Currency_ID, diff);
+						as.getC_Currency_ID(), diff);
 				if (diffline != null) {
 					diffline.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
 					diffline.setC_Project_ID(m_invoiceLine.getC_Project_ID());
