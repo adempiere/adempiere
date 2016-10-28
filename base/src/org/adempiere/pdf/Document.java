@@ -84,6 +84,7 @@ public class Document {
 	            pageable.getPrintable(page).print(g2, pf, page);
 	            g2.dispose();
 	            cb.addTemplate(tp, 0, 0);
+	            writer.releaseTemplate(tp);
             }
             document.close();
             
