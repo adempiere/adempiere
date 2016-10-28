@@ -235,8 +235,10 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		//	Set the Default Value to match the field default
 		//  before the events are set to avoid unnecessary events.
 		Object defaultObject = field.getDefault();
-		editor.setValue(defaultObject);
 		field.setValue(defaultObject, false);
+		field.validateValue();
+		editor.setValue(field.getValue());
+
 		
 		//	Add event handling.  
 		//  Swing uses vetoableChangeListeners.
@@ -277,8 +279,9 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		setParameter(fieldTo.getColumnNameAlias(), editorTo);
 		//	Set Default Value
 		Object defaultObject2 = fieldTo.getDefault();
-		editorTo.setValue(defaultObject2);
 		fieldTo.setValue(defaultObject2, false);
+		fieldTo.validateValue();
+		editorTo.setValue(field.getValue());
 
 		//	Add event handling.  
 		//  Swing uses vetoableChangeListeners.
@@ -693,13 +696,13 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 	 * Validate all fields for values and mandatory
 	 * @return null if nothing happens
 	 */
-	public String validateFields() {
+	public String 	validateFields() {
 		log.config("");
 
 		StringBuffer sb = new StringBuffer();
 		int size = fields.size();
 		for (int i = 0; i < size; i++) {
-			GridField field = (GridField) fields.get(i);
+			GridField field = fields.get(i);
 			//	FR [ 566 ] Only Information
 			if(field == null || field.isInfoOnly())
 				continue;
@@ -715,12 +718,12 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 			}
 				
 			//  Check for Range
-			GridField fieldTo = (GridField) fieldsTo.get(i);
+			GridField fieldTo = fieldsTo.get(i);
 			//	Validate
 			if (fieldTo != null && !fieldTo.validateValue()) {
 				if (sb.length() > 0)
 					sb.append(", ");
-				sb.append(field.getHeader());
+				sb.append(fieldTo.getHeader());
 				CEditor editor = editorsTo.get(i);
 				if (editor != null)
 					editor.setBackground(fieldTo.isError());
