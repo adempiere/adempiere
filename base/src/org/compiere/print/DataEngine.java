@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -127,6 +128,8 @@ public class DataEngine
 	private boolean			m_nowhere = false;
 	/** Key Indicator in Report			*/
 	public static final String KEY = "*";
+
+	private static final String REPORT_DISPLAY_YES_NO = "REPORT_DISPLAY_YES_NO";
 
 
 	/**************************************************************************
@@ -1031,12 +1034,27 @@ order by 1,2
 							//	Transformation for Booleans
 							if (pdc.getDisplayType() == DisplayType.YesNo)
 							{
+								String displayAs = MSysConfig.getValue(REPORT_DISPLAY_YES_NO, "text", Env.getAD_Client_ID(pd.getCtx()));
 								String s = rs.getString(counter++);
 								if (!rs.wasNull())
 								{
+									Serializable value = null;
 									boolean b = s.equals("Y");
-									pde = new PrintDataElement(pdc.getColumnName(), new Boolean(b), pdc.getDisplayType(), pdc.getFormatPattern());
+									if ( "symbol".equalsIgnoreCase(displayAs) )
+									{
+										value = b ? "\u2714" : "\u2718";
+									}
+									else if ( "image".equalsIgnoreCase(displayAs) )
+									{
+										value = Boolean.valueOf(b);
 								}
+									else  // default text
+									{
+										value = b ? "Y" : "N";
+							}
+									pde = new PrintDataElement(pdc.getColumnName(), value, pdc.getDisplayType(), pdc.getFormatPattern());
+								}
+								
 							}
 							else if (pdc.getDisplayType() == DisplayType.TextLong)
 							{
