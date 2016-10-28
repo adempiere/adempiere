@@ -194,6 +194,8 @@ public class ReportCtl
 			Properties ctx = Env.getCtx();
 			MPrintFormat format = (MPrintFormat)transientObject;
 			String tableName = MTable.getTableName(ctx, format.getAD_Table_ID());
+			if ( processInfo.getAD_Process_ID() == 202	)
+				tableName = "T_Report";
 			MQuery query = MQuery.get (ctx, processInfo.getAD_PInstance_ID(), tableName);
 			PrintInfo info = new PrintInfo(processInfo);
 			reportEngine = new ReportEngine(ctx, format, query, info);
