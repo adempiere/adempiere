@@ -62,6 +62,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
     
 	private MLocatorLookup m_mLocator;
 	private Object m_value;
+	private Object oldValue;
 	private int m_WindowNo;
 	
 	private WEditorPopupMenu popupMenu;
@@ -148,13 +149,13 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 				gridField.setValue(null, false);
 			}
 		}
-
+		oldValue = m_value;
 		m_value = value;
 		getComponent().setText(m_mLocator.getDisplay(value));	//	loads value
 		
 		//	Data Binding
 		if (fire) {
-			ValueChangeEvent val = new ValueChangeEvent(this, getColumnName(), null, value); 
+			ValueChangeEvent val = new ValueChangeEvent(this, getColumnName(), oldValue, value);
 			fireValueChange(val);
 		}
 
