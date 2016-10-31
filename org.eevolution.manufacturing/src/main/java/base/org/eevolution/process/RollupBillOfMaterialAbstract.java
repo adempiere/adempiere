@@ -19,7 +19,7 @@ package org.eevolution.process;
 import org.compiere.process.SvrProcess;
 /** Generated Process for (Bill of Material & Formula Cost Roll-UP)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public abstract class RollupBillOfMaterialAbstract extends SvrProcess
 {

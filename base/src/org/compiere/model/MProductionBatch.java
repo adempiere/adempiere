@@ -1,26 +1,39 @@
+/******************************************************************************
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
 
-
+/**
+ * Contributed from Adaxa
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/648">
+ * 		@see FR [ 648 ] Add Support to document Action on Standard Production window</a>		
+ */
 public class MProductionBatch extends X_M_Production_Batch implements DocAction {
 
 	/**
@@ -34,16 +47,16 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 	private String				m_processMsg			= null;
 	/** Just Prepared Flag */
 	private boolean				m_justPrepared			= false;
-
-	private int					docType_PlannedOrder	= 0;
-	private MPBatchLine[]	m_pBatchLines = null;
-
-	private Map<Integer, BigDecimal> mapBatchLine = new HashMap<Integer, BigDecimal>();
+	private MPBatchLine[]		m_pBatchLines = null;
 	
 	public MProductionBatch(Properties ctx, int M_Production_Batch_ID,
 			String trxName) {
 		super(ctx, M_Production_Batch_ID, trxName);
-		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public MProductionBatch(Properties ctx, ResultSet rs, String trxName) {
+		super(ctx, rs, trxName);
 	}
 
 	public boolean hasOpenOrder() {
@@ -52,43 +65,54 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 		return false;
 	}
 	
-	public MProduction[] getHeaders(boolean requery)
+	/**
+	 * Get Production like a Array
+	 * @param requery
+	 * @return
+	 */
+	public MProduction[] getProductionArray(boolean requery)
 	{
 		if (m_productions != null && !requery) {
 			set_TrxName(m_productions, get_TrxName());
 			return m_productions;
 		}
-		String whereClause = "docstatus in ('DR','IP')";
-		List<MProduction> list = new Query(getCtx(), I_M_Production.Table_Name, "M_Production_Batch_ID=?", get_TrxName())
-		.setParameters(getM_Production_Batch_ID())
-		.setOrderBy(MProduction.COLUMNNAME_M_Production_ID)
-		.list();
+		List<MProduction> list = new Query(getCtx(), I_M_Production.Table_Name, "M_Production_Batch_ID = ?", get_TrxName())
+			.setParameters(getM_Production_Batch_ID())
+			.setOrderBy(MProduction.COLUMNNAME_M_Production_ID)
+			.list();
 		//
 		m_productions = new MProduction[list.size()];
 		list.toArray(m_productions);
 		return m_productions;
 	}	//	getHeaders
 
-
-	public MMovement[] getMMovements(boolean requery)
+	/**
+	 * Get Movements
+	 * @param requery
+	 * @return
+	 */
+	public MMovement[] getMovements(boolean requery)
 	{
 		if (m_moves != null && !requery) {
 			set_TrxName(m_moves, get_TrxName());
 			return m_moves;
 		}
 		List<MMovement> list = new Query(getCtx(), I_M_Movement.Table_Name, "M_Production_Batch_ID=?", get_TrxName())
-		.setParameters(getM_Production_Batch_ID())
-		.setOrderBy(MMovement.COLUMNNAME_M_Movement_ID)
-		.list();
+			.setParameters(getM_Production_Batch_ID())
+			.setOrderBy(MMovement.COLUMNNAME_M_Movement_ID)
+			.list();
 		//
 		m_moves = new MMovement[list.size()];
 		list.toArray(m_moves);
 		return m_moves;
 	}	//	getHeaders
 
-	
+	/**
+	 * Get Open orders
+	 * @return
+	 */
 	public MProduction getOpenOrder() {
-		MProduction[] productions = getHeaders(true);
+		MProduction[] productions = getProductionArray(true);
 		for (MProduction production : productions) {
 			if (!production.isProcessed()) {
 				return production;
@@ -96,60 +120,11 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 		}
 		return null;
 	}
-	public MProduction createProductionHeader(boolean check) {
-		MProduction[] productions = getHeaders(true);
-		BigDecimal qtyOrder = getTargetQty();
-		BigDecimal qtyCompleted = BigDecimal.ZERO;
-		int orderCount = 1;
-		MProduction newProdOrder = null;
-		
-		for (MProduction production : productions) {
-			if (!production.isProcessed() && check) {
-				//still open production order
-				return null;
-			}
-			qtyOrder = qtyOrder.subtract(production.getProductionQty());
-			qtyCompleted = qtyCompleted.add(production.getProductionQty());
-			orderCount++;
-		}
-		setQtyOrdered(qtyOrder);
-		setQtyCompleted(qtyCompleted);
-		if (qtyOrder.compareTo(BigDecimal.ZERO) > 0) {
-			setCountOrder(orderCount);
-			newProdOrder = createProductionHeader(orderCount);
-		}
-		save();
-
-		return newProdOrder;
-	}
-	
-	private MProduction createProductionHeader(int count) {
-		MProduction production = new MProduction(getCtx(), 0, get_TrxName());
-		production.set_Value(COLUMNNAME_M_Production_Batch_ID, getM_Production_Batch_ID());
-		production.setClientOrg(this);
-		production.setM_Product_ID(getM_Product_ID());
-		production.setDatePromised(getMovementDate());
-		production.setMovementDate(getMovementDate());
-		production.setM_Locator_ID(getM_Locator_ID());
-		production.setProductionQty(getTargetQty().subtract(getQtyCompleted()));
-		production.setDocumentNo(getDocumentNo() + String.format("-%02d",count));
-		int C_DocType_ID= MDocType.getDocType(MDocType.DOCBASETYPE_MaterialProduction, getAD_Org_ID());
-		if (C_DocType_ID ==0)
-			C_DocType_ID= MDocType.getDocType(MDocType.DOCBASETYPE_MaterialProduction);
-		if (C_DocType_ID ==0 )
-			return null;
-		production.setC_DocType_ID(C_DocType_ID);
-		production.save();
-		log.info("M_Production_ID=" + production.getM_Production_ID() + " created.");
-		
-		return production;
-	}
-	
 	
 	@Override
 	protected boolean beforeDelete() {
 		
-		MMovement[] movements = getMMovements(true);
+		MMovement[] movements = getMovements(true);
 		for (MMovement movement : movements) {
 			if (movement.isProcessed()) {
 				throw new AdempiereException("Cannot delete Batch No: " + getDocumentNo() + ". Movement DocNo=" + movement.getDocumentNo() + " is already processed");
@@ -159,7 +134,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 			}
 			movement.delete(false);
 		}
-		MProduction[] headers = getHeaders(true);
+		MProduction[] headers = getProductionArray(true);
 		for (MProduction production : headers) {
 			if (production.isProcessed()) {
 				throw new AdempiereException("Cannot delete Batch No: " + getDocumentNo() + ". Production DocNo=" + production.getDocumentNo() + " is already processed");
@@ -288,8 +263,6 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 	@Override
 	public String prepareIt()
 	{
-	
-
 		if (log.isLoggable(Level.INFO))
 			log.info(toString());
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
@@ -301,7 +274,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 
 		if (getTargetQty().compareTo(Env.ZERO) == 0)
 		{
-			m_processMsg = "Must be Target Qty";
+			m_processMsg = "@TargetQty@ = 0";
 			return DocAction.STATUS_Invalid;
 		}
 
@@ -330,78 +303,88 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-
-		StringBuilder errors = new StringBuilder();
-
-		// Production Order Processes
-		MProduction[] headers = getHeaders(true);
-		MProduction header = null;
-		if (headers.length == 0)
-		{
-			header = createProductionHeader(1);
-			header.createLines(false);
-		}
-		else if (headers.length == 1)
-		{
-			header = headers[0];
-			if (getTargetQty().compareTo(header.getProductionQty()) == 0)
-			{
-				if (!header.isCreated())
-					header.createLines(false);
-			}
-			else
-			{
-				if (header.isCreated())
-					header.deleteLines(get_TrxName());
-
-				header.setProductionQty(getTargetQty());
-				header.createLines(false);
-			}
-		}
-		else
-		{
-			m_processMsg = "Batch having production order not more than one";
-			return DocAction.STATUS_Invalid;
-		}
 		
-		header.setIsCreated(true);
-		header.saveEx(get_TrxName());
-
-		/*if (!reserveStock((MProduct)getM_Product(), getTargetQty(),0))
-		{
-			m_processMsg = "Issue while reserving stock on Production Order: " + header.getDocumentInfo();
-			return DocAction.STATUS_Invalid;
-		}*/
-
-		//if (!orderedStock(getM_Product(), getTargetQty()))
-		//{
-		//	m_processMsg = "Issue while ordered stock of finished product on Production Order: "
-		//			+ header.getDocumentInfo();
-		//	return DocAction.STATUS_Invalid;
-		//}
-
-		setQtyReserved(getTargetQty());
-		setCountOrder(1);
-		setQtyOrdered(getTargetQty());
-
-		if (errors.length() > 0)
-		{
-			m_processMsg = errors.toString();
+		//	Create Production
+		m_processMsg = createAutomaticProduction();
+		//	
+		if(m_processMsg != null) {
 			return DocAction.STATUS_Invalid;
 		}
-
 		// User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
-		if (valid != null)
-		{
+		if (valid != null) {
 			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
-
+		//	
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
 		setDocStatus(DOCSTATUS_Completed);
 		return DocAction.STATUS_Completed;
+	}
+	
+	/**
+	 * Create Production
+	 * @return
+	 */
+	private String createAutomaticProduction() {
+		// Production Order Processes
+		MProduction[] headers = getProductionArray(true);
+		MProduction header = null;
+		if (headers.length == 0) {
+			header = new MProduction(this);
+			header.setDocAction(DOCACTION_Prepare);
+			header.saveEx();
+			header.processIt(DocAction.ACTION_Prepare);
+		} else if (headers.length == 1) {
+			header = headers[0];
+			if (getTargetQty().compareTo(header.getProductionQty()) == 0) {
+				if (!header.isCreated()) {
+					header.setDocAction(DOCACTION_Prepare);
+					header.processIt(DocAction.ACTION_Prepare);
+				}
+			} else {
+				//	
+				header.setProductionQty(getTargetQty());
+				header.setDocAction(DOCACTION_Prepare);
+				header.processIt(DocAction.ACTION_Prepare);
+			}
+		} else {
+			return "ProductionBatchNotOne";	//	TODO: Translate from message (Batch having production order not more than one")
+		}
+		//	
+		header.saveEx(get_TrxName());
+		//	Return Error
+		return null;
+	}
+	
+	/**
+	 * Create Production Header from it
+	 * @return
+	 */
+	public MProduction createComplementProduction() {
+		MProduction[] productions = getProductionArray(true);
+		BigDecimal qtyOrder = getTargetQty();
+		BigDecimal qtyCompleted = BigDecimal.ZERO;
+		int orderCount = 1;
+		MProduction newProdOrder = null;
+		
+		for (MProduction production : productions) {
+			qtyOrder = qtyOrder.subtract(production.getProductionQty());
+			qtyCompleted = qtyCompleted.add(production.getProductionQty());
+			orderCount++;
+		}
+		setQtyOrdered(qtyOrder);
+		setQtyCompleted(qtyCompleted);
+		if (qtyOrder.compareTo(BigDecimal.ZERO) > 0) {
+			setCountOrder(orderCount);
+			newProdOrder = new MProduction(this);
+			newProdOrder.setDocStatus(STATUS_Drafted);
+			newProdOrder.saveEx();
+			newProdOrder.processIt(DocAction.ACTION_Prepare);
+		}
+		//	
+		return newProdOrder;
 	}
 
 	@Override
@@ -451,7 +434,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 			return false;
 		}
 
-		for (MProduction production: getHeaders(true))
+		for (MProduction production: getProductionArray(true))
 		{
 			if (!(MProduction.DOCSTATUS_Closed.equals(production.getDocStatus())
 					|| MProduction.DOCSTATUS_Reversed.equals(production.getDocStatus()) || MProduction.DOCSTATUS_Voided
@@ -509,11 +492,13 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 	 * @param qty
 	 * @return
 	 */
-	public boolean reserveStock(MProduct fProduct, BigDecimal qty, int M_Production_ID)
+	private boolean reserveStock(MProduct fProduct, BigDecimal qty, int M_Production_ID)
 	{		
-		String whereClause = "m_production_ID in (select m_production_ID from m_production where m_production_batch_ID =?)";
+		String whereClause = "EXISTS(SELECT 1 FROM M_Production "
+				+ "WHERE M_Production_ID = M_ProductionLine.M_Production_ID "
+				+ "AND M_Production_Batch_ID =?)";
 		if (M_Production_ID !=0)
-			whereClause = whereClause + " AND M_Production_ID=" + M_Production_ID;
+			whereClause = whereClause + " AND M_Production_ID = " + M_Production_ID;
 		List<MProductionLine> list= new Query(getCtx(), MProductionLine.Table_Name, whereClause, get_TrxName())
 				.setParameters(getM_Production_Batch_ID())
 				.list();
@@ -579,7 +564,30 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 		
 		return true;
 	}
-	public void freeStock()
+	
+	/**
+	 * Get Batch Line
+	 * @param requery
+	 * @return
+	 */
+	public MPBatchLine[] getPBatchLines(Boolean requery)
+	{
+		if (m_pBatchLines != null && !requery) {
+			set_TrxName(m_pBatchLines, get_TrxName());
+			return m_pBatchLines;
+		}
+		//
+		List<MPBatchLine> list = new Query(getCtx(), MPBatchLine.Table_Name, "M_Production_Batch_ID=?", get_TrxName())
+			.setParameters(get_ID())
+			.list();
+		m_pBatchLines = list.toArray(new MPBatchLine[list.size()]);
+		return m_pBatchLines;
+	}	//	getLines} // getPBatchLines
+	
+	/**
+	 * Free Stock
+	 */
+	private void freeStock()
 	{
 		int reservationAttributeSetInstance_ID = 0;
 		BigDecimal reservationQty = Env.ZERO;
@@ -604,184 +612,169 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 	 * @param orderedQty - on storage ordered stock qty
 	 * @return
 	 */
-	public boolean orderedStock(I_M_Product fProduct, BigDecimal orderedQty)
-	{
-		if (fProduct.getProductType().compareTo(MProduct.PRODUCTTYPE_Item) != 0)
-			return true;
+//	private boolean orderedStock(I_M_Product fProduct, BigDecimal orderedQty)
+//	{
+//		if (fProduct.getProductType().compareTo(MProduct.PRODUCTTYPE_Item) != 0)
+//			return true;
+//
+//		if (fProduct.isBOM() && fProduct.isPhantom())
+//			return true;
+//		BigDecimal difference = getTargetQty().subtract(getQtyReserved());
+//		if (MStorage.add(getCtx(), getM_Locator().getM_Warehouse_ID(), getM_Locator_ID(), fProduct.getM_Product_ID(),
+//				0, 0, Env.ZERO, Env.ZERO, orderedQty, get_TrxName()))
+//		{
+//			log.log(Level.INFO, "Stock Ordered " + orderedQty + " Qty of " + fProduct.getValue());
+//		}
+//		else
+//		{
+//			log.log(Level.SEVERE, "Ordered Storage is not updated");
+//			return false;
+//		}
+//
+//		return true;
+//	}
 
-		if (fProduct.isBOM() && fProduct.isPhantom())
-			return true;
-		BigDecimal difference = getTargetQty().subtract(getQtyReserved());
-		if (MStorage.add(getCtx(), getM_Locator().getM_Warehouse_ID(), getM_Locator_ID(), fProduct.getM_Product_ID(),
-				0, 0, Env.ZERO, Env.ZERO, orderedQty, get_TrxName()))
-		{
-			log.log(Level.INFO, "Stock Ordered " + orderedQty + " Qty of " + fProduct.getValue());
-		}
-		else
-		{
-			log.log(Level.SEVERE, "Ordered Storage is not updated");
-			return false;
-		}
+//	private void setReservationOnBatchLine(BigDecimal currQtyReserved)
+//	{
+//		mapBatchLine.clear();
+//		createReservationMap((MProduct) getM_Product(), currQtyReserved);
+//		createOrUpdateBatchLine(currQtyReserved);
+//	}
 
-		return true;
-	}
+//	private void createOrUpdateBatchLine(BigDecimal currQtyReserved)
+//	{
+//		// Finished Production
+//		int id = DB.getSQLValue(get_TrxName(),
+//				"SELECT pbl.M_PBatch_Line_ID  FROM M_PBatch_Line pbl  WHERE pbl.M_Production_Batch_ID = ? AND pbl.IsEndProduct='Y'",
+//				this.getM_Production_Batch_ID());
+//		if (id <= 0)
+//		{
+//			MPBatchLine batchLine = new MPBatchLine(getCtx(), 0, get_TrxName());
+//			batchLine.setM_Product_ID(this.getM_Product_ID());
+//			batchLine.setIsEndProduct(true);
+//			batchLine.setM_Production_Batch_ID(this.getM_Production_Batch_ID());
+//			batchLine.setQtyReserved(currQtyReserved);
+//			batchLine.saveEx();
+//		}
+//		else
+//		{
+//			MPBatchLine batchLine = new MPBatchLine(getCtx(), id, get_TrxName());
+//			batchLine.setQtyReserved(currQtyReserved);
+//			batchLine.saveEx();
+//		}
+//
+//		// Sub-Component
+//		for (MPBatchLine bline : getPBatchLines(true))
+//		{
+//			int productID = bline.getM_Product_ID();
+//			if (mapBatchLine.containsKey(productID))
+//			{
+//				bline.setQtyReserved(mapBatchLine.get(productID));
+//				bline.saveEx();
+//				mapBatchLine.remove(productID);
+//			}
+//		}
+//
+//		for (Integer productID : mapBatchLine.keySet())
+//		{
+//			if (mapBatchLine.get(productID).compareTo(Env.ZERO) == 0)
+//			{
+//				continue;
+//			}
+//			else
+//			{
+//				MPBatchLine batchLine = new MPBatchLine(getCtx(), 0, get_TrxName());
+//				batchLine.setM_Product_ID(productID);
+//				batchLine.setIsEndProduct(false);
+//				batchLine.setM_Production_Batch_ID(this.getM_Production_Batch_ID());
+//				batchLine.setQtyReserved(mapBatchLine.get(productID));
+//				batchLine.saveEx();
+//			}
+//		}
+//	} // createOrUpdateBatchLine
 
-	private void setReservationOnBatchLine(BigDecimal currQtyReserved)
-	{
-		mapBatchLine.clear();
-		createReservationMap((MProduct) getM_Product(), currQtyReserved);
-		createOrUpdateBatchLine(currQtyReserved);
-	}
-
-	private void createOrUpdateBatchLine(BigDecimal currQtyReserved)
-	{
-		// Finished Production
-		int id = DB.getSQLValue(get_TrxName(),
-				"SELECT pbl.M_PBatch_Line_ID  FROM M_PBatch_Line pbl  WHERE pbl.M_Production_Batch_ID = ? AND pbl.IsEndProduct='Y'",
-				this.getM_Production_Batch_ID());
-		if (id <= 0)
-		{
-			MPBatchLine batchLine = new MPBatchLine(getCtx(), 0, get_TrxName());
-			batchLine.setM_Product_ID(this.getM_Product_ID());
-			batchLine.setIsEndProduct(true);
-			batchLine.setM_Production_Batch_ID(this.getM_Production_Batch_ID());
-			batchLine.setQtyReserved(currQtyReserved);
-			batchLine.saveEx();
-		}
-		else
-		{
-			MPBatchLine batchLine = new MPBatchLine(getCtx(), id, get_TrxName());
-			batchLine.setQtyReserved(currQtyReserved);
-			batchLine.saveEx();
-		}
-
-		// Sub-Component
-		for (MPBatchLine bline : getPBatchLines(true))
-		{
-			int productID = bline.getM_Product_ID();
-			if (mapBatchLine.containsKey(productID))
-			{
-				bline.setQtyReserved(mapBatchLine.get(productID));
-				bline.saveEx();
-				mapBatchLine.remove(productID);
-			}
-		}
-
-		for (Integer productID : mapBatchLine.keySet())
-		{
-			if (mapBatchLine.get(productID).compareTo(Env.ZERO) == 0)
-			{
-				continue;
-			}
-			else
-			{
-				MPBatchLine batchLine = new MPBatchLine(getCtx(), 0, get_TrxName());
-				batchLine.setM_Product_ID(productID);
-				batchLine.setIsEndProduct(false);
-				batchLine.setM_Production_Batch_ID(this.getM_Production_Batch_ID());
-				batchLine.setQtyReserved(mapBatchLine.get(productID));
-				batchLine.saveEx();
-			}
-		}
-	} // createOrUpdateBatchLine
-
-	private void createReservationMap(MProduct finishedProduct, BigDecimal requiredQty)
-	{
-		
-		MPPProductBOM bom = MPPProductBOM.getDefault(finishedProduct, get_TrxName());
-		for (MPPProductBOMLine bLine:bom.getLines())
-		{
-			//int BOMProduct_ID = rs.getInt(1);
-			//BigDecimal BOMQty = rs.getBigDecimal(2);
-			BigDecimal BOMReseverQty = bLine.getQty().multiply(requiredQty);
-
-			MProduct subProduct = bLine.getProduct();
-
-			if (subProduct.getProductType().compareTo(MProduct.PRODUCTTYPE_Item) != 0)
-				continue;
-
-			if (subProduct.isBOM() && subProduct.isPhantom())
-			{
-				createReservationMap(subProduct, BOMReseverQty);
-			}
-			else
-			{
-				if (mapBatchLine.containsKey(subProduct.getM_Product_ID()))
-				{
-					mapBatchLine.put(subProduct.getM_Product_ID(), mapBatchLine.get(subProduct.getM_Product_ID()).add(BOMReseverQty));
-				}
-				else
-				{
-					mapBatchLine.put(subProduct.getM_Product_ID(), BOMReseverQty);
-				}
-			}
-		
-			
-		}
-		// products used in production
-		//String sql = "SELECT M_ProductBom_ID, BOMQty  FROM PP_Product_BOM " + " WHERE M_Product_ID="
-		//		+ finishedProduct.getM_Product_ID() + " ORDER BY Line";
-		/*
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				int BOMProduct_ID = rs.getInt(1);
-				BigDecimal BOMQty = rs.getBigDecimal(2);
-				BigDecimal BOMReseverQty = BOMQty.multiply(requiredQty);
-
-				MProduct subProduct = new MProduct(Env.getCtx(), BOMProduct_ID, get_TrxName());
-
-				if (subProduct.getProductType().compareTo(MProduct.PRODUCTTYPE_Item) != 0)
-					continue;
-
-				if (subProduct.isBOM() && subProduct.isPhantom())
-				{
-					createReservationMap(subProduct, BOMReseverQty);
-				}
-				else
-				{
-					if (mapBatchLine.containsKey(BOMProduct_ID))
-					{
-						mapBatchLine.put(BOMProduct_ID, mapBatchLine.get(BOMProduct_ID).add(BOMReseverQty));
-					}
-					else
-					{
-						mapBatchLine.put(BOMProduct_ID, BOMReseverQty);
-					}
-				}
-			} // for all bom products
-		}
-		catch (Exception e)
-		{
-			throw new AdempiereException("Failed to fill reservation map for batch lines", e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}*/
-	} // createReservationMap
-
-	public MPBatchLine[] getPBatchLines(Boolean requery)
-	{
-			if (m_pBatchLines != null && !requery) {
-				set_TrxName(m_pBatchLines, get_TrxName());
-				return m_pBatchLines;
-			}
-			//
-			List<MPBatchLine> list = new Query(getCtx(), MPBatchLine.Table_Name, "M_Production_Batch_ID=?", get_TrxName())
-											.setParameters(get_ID())
-											.list();
-			m_pBatchLines = list.toArray(new MPBatchLine[list.size()]);
-			return m_pBatchLines;
-		}	//	getLines} // getPBatchLines
-	
+//	private void createReservationMap(MProduct finishedProduct, BigDecimal requiredQty)
+//	{
+//		
+//		MPPProductBOM bom = MPPProductBOM.getDefault(finishedProduct, get_TrxName());
+//		for (MPPProductBOMLine bLine:bom.getLines())
+//		{
+//			//int BOMProduct_ID = rs.getInt(1);
+//			//BigDecimal BOMQty = rs.getBigDecimal(2);
+//			BigDecimal BOMReseverQty = bLine.getQty().multiply(requiredQty);
+//
+//			MProduct subProduct = bLine.getProduct();
+//
+//			if (subProduct.getProductType().compareTo(MProduct.PRODUCTTYPE_Item) != 0)
+//				continue;
+//
+//			if (subProduct.isBOM() && subProduct.isPhantom())
+//			{
+//				createReservationMap(subProduct, BOMReseverQty);
+//			}
+//			else
+//			{
+//				if (mapBatchLine.containsKey(subProduct.getM_Product_ID()))
+//				{
+//					mapBatchLine.put(subProduct.getM_Product_ID(), mapBatchLine.get(subProduct.getM_Product_ID()).add(BOMReseverQty));
+//				}
+//				else
+//				{
+//					mapBatchLine.put(subProduct.getM_Product_ID(), BOMReseverQty);
+//				}
+//			}
+//		
+//			
+//		}
+//		// products used in production
+//		//String sql = "SELECT M_ProductBom_ID, BOMQty  FROM PP_Product_BOM " + " WHERE M_Product_ID="
+//		//		+ finishedProduct.getM_Product_ID() + " ORDER BY Line";
+//		/*
+//
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//
+//		try
+//		{
+//			pstmt = DB.prepareStatement(sql, get_TrxName());
+//			rs = pstmt.executeQuery();
+//			while (rs.next())
+//			{
+//				int BOMProduct_ID = rs.getInt(1);
+//				BigDecimal BOMQty = rs.getBigDecimal(2);
+//				BigDecimal BOMReseverQty = BOMQty.multiply(requiredQty);
+//
+//				MProduct subProduct = new MProduct(Env.getCtx(), BOMProduct_ID, get_TrxName());
+//
+//				if (subProduct.getProductType().compareTo(MProduct.PRODUCTTYPE_Item) != 0)
+//					continue;
+//
+//				if (subProduct.isBOM() && subProduct.isPhantom())
+//				{
+//					createReservationMap(subProduct, BOMReseverQty);
+//				}
+//				else
+//				{
+//					if (mapBatchLine.containsKey(BOMProduct_ID))
+//					{
+//						mapBatchLine.put(BOMProduct_ID, mapBatchLine.get(BOMProduct_ID).add(BOMReseverQty));
+//					}
+//					else
+//					{
+//						mapBatchLine.put(BOMProduct_ID, BOMReseverQty);
+//					}
+//				}
+//			} // for all bom products
+//		}
+//		catch (Exception e)
+//		{
+//			throw new AdempiereException("Failed to fill reservation map for batch lines", e);
+//		}
+//		finally
+//		{
+//			DB.close(rs, pstmt);
+//			rs = null;
+//			pstmt = null;
+//		}*/
+//	} // createReservationMap
 }

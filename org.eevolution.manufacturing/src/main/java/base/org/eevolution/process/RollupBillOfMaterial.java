@@ -18,11 +18,9 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.adempiere.engine.CostDimension;
