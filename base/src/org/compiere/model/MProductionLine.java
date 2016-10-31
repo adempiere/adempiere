@@ -1,20 +1,38 @@
+/******************************************************************************
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.Formatter.BigDecimalLayoutForm;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.engine.IDocumentLine;
-import org.compiere.process.DocAction;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
-
+/**
+ * Contributed from Adaxa
+ * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/648">
+ * 		@see FR [ 648 ] Add Support to document Action on Standard Production window</a>		
+ */
 public class MProductionLine extends X_M_ProductionLine implements IDocumentLine{
 	/**
 	 * 
@@ -59,8 +77,8 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 	 * @param plan
 	 */
 	public MProductionLine( MProduction header ) {
-		super( header.getCtx(), 0, header.get_TrxName() );
-		setM_Production_ID( header.get_ID());
+		super(header.getCtx(), 0, header.get_TrxName() );
+		setM_Production_ID(header.getM_Production_ID());
 		setAD_Client_ID(header.getAD_Client_ID());
 		setAD_Org_ID(header.getAD_Org_ID());
 	}

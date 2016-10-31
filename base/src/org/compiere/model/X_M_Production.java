@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -26,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Production
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_M_Production extends PO implements I_M_Production, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20161030L;
 
     /** Standard Constructor */
     public X_M_Production (Properties ctx, int M_Production_ID, String trxName)
@@ -41,20 +40,15 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
       super (ctx, M_Production_ID, trxName);
       /** if (M_Production_ID == 0)
         {
-			setDocumentNo (null);
-			setIsCreated (null);
+			setIsCreated (false);
 // N
 			setIsWIP (false);
 // N
-			setM_Locator_ID (0);
-			setM_Product_ID (0);
-			setM_Production_ID (0);
 			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
+			setM_Production_ID (0);
 			setPosted (false);
 			setProcessed (false);
-			setProductionQty (Env.ZERO);
-// 0
         } */
     }
 
@@ -189,9 +183,9 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -457,26 +451,28 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_IsComplete);
 	}
-	/** Set Records created.
-	@param IsCreated Records created	  */
-public void setIsCreated (boolean IsCreated)
-{
-	set_Value (COLUMNNAME_IsCreated, Boolean.valueOf(IsCreated));
-}
 
-/** Get Records created.
-	@return Records created	  */
-public boolean isCreated () 
-{
-	Object oo = get_Value(COLUMNNAME_IsCreated);
-	if (oo != null) 
+	/** Set Records created.
+		@param IsCreated Records created	  */
+	public void setIsCreated (boolean IsCreated)
 	{
-		 if (oo instanceof Boolean) 
-			 return ((Boolean)oo).booleanValue(); 
-		return "Y".equals(oo);
+		set_Value (COLUMNNAME_IsCreated, Boolean.valueOf(IsCreated));
 	}
-	return false;
-}
+
+	/** Get Records created.
+		@return Records created	  */
+	public boolean isCreated () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCreated);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Work In Progress.
 		@param IsWIP Work In Progress	  */
 	public void setIsWIP (boolean IsWIP)
@@ -526,6 +522,23 @@ public boolean isCreated ()
 		return ii.intValue();
 	}
 
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
@@ -554,9 +567,9 @@ public boolean isCreated ()
 		return ii.intValue();
 	}
 
-	public I_M_Production_Batch getM_Production_Batch() throws RuntimeException
+	public org.compiere.model.I_M_Production_Batch getM_Production_Batch() throws RuntimeException
     {
-		return (I_M_Production_Batch)MTable.get(getCtx(), I_M_Production_Batch.Table_Name)
+		return (org.compiere.model.I_M_Production_Batch)MTable.get(getCtx(), org.compiere.model.I_M_Production_Batch.Table_Name)
 			.getPO(getM_Production_Batch_ID(), get_TrxName());	}
 
 	/** Set Production Batch.
@@ -564,9 +577,9 @@ public boolean isCreated ()
 	public void setM_Production_Batch_ID (int M_Production_Batch_ID)
 	{
 		if (M_Production_Batch_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Production_Batch_ID, null);
+			set_Value (COLUMNNAME_M_Production_Batch_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_M_Production_Batch_ID, Integer.valueOf(M_Production_Batch_ID));
+			set_Value (COLUMNNAME_M_Production_Batch_ID, Integer.valueOf(M_Production_Batch_ID));
 	}
 
 	/** Get Production Batch.
@@ -602,21 +615,28 @@ public boolean isCreated ()
 		return ii.intValue();
 	}
 
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
+	/** Set Product quantity must be in stock.
+		@param MustBeStocked 
+		If not sufficient in stock in the warehouse, the BOM is not produced
 	  */
-	public void setMovementDate (Timestamp MovementDate)
+	public void setMustBeStocked (boolean MustBeStocked)
 	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
+		set_Value (COLUMNNAME_MustBeStocked, Boolean.valueOf(MustBeStocked));
 	}
 
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
+	/** Get Product quantity must be in stock.
+		@return If not sufficient in stock in the warehouse, the BOM is not produced
 	  */
-	public Timestamp getMovementDate () 
+	public boolean isMustBeStocked () 
 	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+		Object oo = get_Value(COLUMNNAME_MustBeStocked);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Name.
@@ -745,9 +765,9 @@ public boolean isCreated ()
 		return bd;
 	}
 
-	public I_M_Production getReversal() throws RuntimeException
+	public org.compiere.model.I_M_Production getReversal() throws RuntimeException
     {
-		return (I_M_Production)MTable.get(getCtx(), I_M_Production.Table_Name)
+		return (org.compiere.model.I_M_Production)MTable.get(getCtx(), org.compiere.model.I_M_Production.Table_Name)
 			.getPO(getReversal_ID(), get_TrxName());	}
 
 	/** Set Reversal ID.

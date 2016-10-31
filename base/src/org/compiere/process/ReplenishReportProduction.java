@@ -22,7 +22,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
@@ -35,22 +34,17 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrg;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProduction;
-import org.compiere.model.MProductionLine;
-import org.compiere.model.MReplenish;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.X_T_Replenish;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ReplenishInterface;
-import org.compiere.util.Util;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
 
@@ -62,6 +56,10 @@ import org.eevolution.model.MDDOrderLine;
  *  
  *  Carlos Ruiz globalqss - integrate bug fixing from Chris Farley
  *    [ 1619517 ] Replenish report fails when no records in m_storage
+ *  @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ *	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/648">
+ * 		@see FR [ 648 ] Add Support to document Action on Standard Production window</a>
  */
 public class ReplenishReportProduction extends SvrProcess
 {
@@ -802,11 +800,10 @@ public class ReplenishReportProduction extends SvrProcess
 				production.setProductionQty(qty);
 				production.setMovementDate(Env.getContextAsDate(getCtx(), "#Date"));
 				production.saveEx();
-
-				production.createLines(false);
-
-				//production.setIsCreated("Y");
-				production.save(get_TrxName());
+				//	Process
+				production.setDocAction(DocAction.ACTION_Complete);
+				production.processIt(DocAction.ACTION_Complete);
+				production.saveEx(get_TrxName());
 				log.fine(production.toString());
 				noProds++;
 				info += " - " + production.getDocumentNo();

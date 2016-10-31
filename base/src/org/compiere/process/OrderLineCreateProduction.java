@@ -19,7 +19,6 @@ package org.compiere.process;
 import java.sql.Timestamp;
 import java.util.logging.*;
 
-import org.apache.commons.net.ntp.TimeStamp;
 import org.compiere.model.*;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -31,6 +30,11 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: OrderLineCreateProduction.java,v 1.1 2007/07/23 05:34:35 mfuggle Exp $
+ *  
+ *  @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com
+ * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/648">
+ * 		@see FR [ 648 ] Add Support to document Action on Standard Production window</a>
  */
 public class OrderLineCreateProduction extends SvrProcess
 {
@@ -109,27 +113,10 @@ public class OrderLineCreateProduction extends SvrProcess
 			}
 		}
 		
-		MProduction production = new MProduction( line );
-		MProduct product = new MProduct (getCtx(), line.getM_Product_ID(), get_TrxName());
-		
-		production.setM_Product_ID(line.getM_Product_ID());
-		production.setProductionQty(line.getQtyOrdered().subtract(line.getQtyDelivered()));
-		production.setDatePromised(line.getDatePromised());
-		if ( product.getM_Locator_ID() > 0 )
-			production.setM_Locator_ID(product.getM_Locator_ID());
-		production.setC_OrderLine_ID(p_C_OrderLine_ID);
-		
-		int locator = product.getM_Locator_ID();
-		if ( locator == 0 )
-			locator = MWarehouse.get(getCtx(), line.getM_Warehouse_ID()).getDefaultLocator().get_ID();
-		production.setM_Locator_ID(locator);
+		MProduction production = new MProduction(line);
 		production.saveEx();
-		
-		production.createLines(false);
-		//production.setIsCreated("Y");
-		production.saveEx();
-	
-		return "Production created -- " + production.get_ValueAsString("DocumentNo");
+		production.processIt(DocAction.ACTION_Prepare);
+		return "@M_Production_ID@ @Created@ " + production.getDocumentNo();
 	}	//	OrderLineCreateShipment
 	
 }	//	OrderLineCreateShipment
