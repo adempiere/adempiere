@@ -173,11 +173,10 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 		processPanel.setAutoStart(autoStart);
 		processPanel.createFieldsAndEditors();
 		//	Set Default
-		getRootPane().setDefaultButton(processPanel.getDefaultButton());
 		getContentPane().add(processPanel.getPanel());
 		setTitle(processPanel.getName());
 		//	Revalidate
-		validate();
+		validateScreen();
 		return true;
 	}	//	init
 	
@@ -198,6 +197,7 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 	@Override
 	public void validateScreen() {
 		validate();
+		getRootPane().setDefaultButton(processPanel.getDefaultButton());
 	}
 
 	@Override

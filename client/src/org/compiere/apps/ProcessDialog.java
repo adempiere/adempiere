@@ -47,6 +47,8 @@ import org.compiere.util.Env;
  *					@see https://github.com/adempiere/adempiere/issues/265
  *					<a href="https://github.com/adempiere/adempiere/issues/571">
  * 					@see FR [ 571 ] Process Dialog is not MVC</a>
+ * 					<a href="https://github.com/adempiere/adempiere/issues/659">
+ * 					@see FR [ 659 ] Default button is not set on Process Dialog</a>
  */
 public class ProcessDialog extends CFrame
 	implements IProcessDialog, ASyncProcess {
@@ -127,12 +129,11 @@ public class ProcessDialog extends CFrame
 		pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		parameterPanel = new ProcessPanel(this, windowNo, pi, ProcessPanel.COLUMNS_1);
 		//	Set Default
-		getRootPane().setDefaultButton(parameterPanel.getDefaultButton());
 		parameterPanel.createFieldsAndEditors();
 		getContentPane().add(parameterPanel.getPanel());
 		setTitle(parameterPanel.getName());
 		//	Revalidate
-		validate();
+		validateScreen();
 		return true;
 	}	//	init
 	
@@ -144,6 +145,7 @@ public class ProcessDialog extends CFrame
 	@Override
 	public void validateScreen() {
 		validate();
+		getRootPane().setDefaultButton(parameterPanel.getDefaultButton());
 	}
 
 	@Override
