@@ -1715,7 +1715,7 @@ public class TableElement extends PrintElement
 					g2D.setStroke(rLine.getUnderlineStroke(m_tFormat.getVLineStroke()));
 					g2D.drawLine(origX, curY, 							//	 -> - (bottom)
 							(int)(origX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
-					//curY += m_tFormat.getVLineStroke().floatValue(); jobrian  
+					curY += m_tFormat.getVLineStroke().floatValue(); //jobrian  
 					curY += V_GAP;
 				}
 				if ( rLine.getUnderline() > 0 )
@@ -1724,7 +1724,7 @@ public class TableElement extends PrintElement
 					g2D.setStroke(rLine.getUnderlineStroke(m_tFormat.getVLineStroke()));
 					g2D.drawLine(origX, curY, 							//	 -> - (bottom)
 						(int)(origX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
-					//curY += m_tFormat.getVLineStroke().floatValue();  jobrian
+//					curY += m_tFormat.getVLineStroke().floatValue();  //jobrian
 				}
 			}
 			//placeholder to substitute comment above - jobrian
