@@ -1083,7 +1083,7 @@ public class DocumentEngine implements DocAction
 		{
 			//	Draft                       ..  DR/IP/IN
 			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
-//					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
 					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
 			{
 				options[index++] = DocumentEngine.ACTION_Prepare;
