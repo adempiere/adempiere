@@ -63,6 +63,8 @@ import org.compiere.wf.MWorkflow;
  *			@see https://github.com/adempiere/adempiere/issues/94
  *			<li> BR [ 304 ] Is Document Attribute in table create columns with bad size
  *			@see https://github.com/adempiere/adempiere/issues/304
+ *			<a href="https://github.com/adempiere/adempiere/issues/657">
+ * 			@see FR [ 657 ] The tables mark like IsDocument is deleteable</a>
  *
  *	@author Trifon Trifon
  *			<li> FR [ 356 ] Decrease verbosity of SQL statement closing lines.
@@ -679,7 +681,8 @@ public class MTable extends X_AD_Table
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if (isView() && isDeleteable())
+		if ((isView() || isDocument()) 
+				&& isDeleteable())
 			setIsDeleteable(false);
 		//
 		return true;
