@@ -181,10 +181,14 @@ public class CostEngine {
 			MCostElement costElement, I_M_Production production) {
 		//	Get BOM Cost - Sum of individual lines
 		BigDecimal totalCost = Env.ZERO;
+		BigDecimal movementQty = Env.ZERO;
 		for (MProductionLine productionLine : ((MProduction)production).getLines())
 		{
 			if (productionLine.isParent())
-				continue;
+			{
+				movementQty = productionLine.getMovementQty();
+				continue;				
+			}
 
 			String productType = productionLine.getM_Product().getProductType();
 
@@ -220,8 +224,8 @@ public class CostEngine {
 		}
 
 		BigDecimal unitCost = Env.ZERO;
-		if (production.getProductionQty().signum() != 0 && totalCost.signum() != 0)
-			unitCost = totalCost.divide(production.getProductionQty() , accountSchema.getCostingPrecision() , BigDecimal.ROUND_HALF_UP);
+		if (movementQty.signum() != 0 && totalCost.signum() != 0)
+			unitCost = totalCost.divide(movementQty, accountSchema.getCostingPrecision() , BigDecimal.ROUND_HALF_UP);
 
 		return unitCost;
 	}
