@@ -220,6 +220,7 @@ ContextMenuListener, IZoomableEditor
         else
         {
             getComponent().setValue(null);
+			oldValue = value;
         }                                
     }
     
