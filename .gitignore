@@ -7,7 +7,7 @@ posterita/posterita/web/WEB-INF/classes/
 install/lib/
 install/CInstall.jar
 zkwebui/WEB-INF/classes/metainfo/zk/lang-addon.xml
-adempiere/
+/adempiere/
 com.kkalice.adempiere.migrate/apidoc/
 base/Base.jar
 com.kkalice.adempiere.migrate/lib/migrate.jar
