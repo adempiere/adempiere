@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="IDEMPIERE-140 #952(Adaxa)" ReleaseNo="3.9.0" SeqNo="00413">
+    <Step DBType="Oracle" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Feb 15, 2012 10:38:23 AM COT
+-- IDEMPIERE-140 Different length column between pg database and dictionary
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:38:23&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14628
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:38:55 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:38:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15601
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:39:14 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:39:14&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15781
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:39:39 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:39:39&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15802
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="50" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:40:56 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:40:56&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15752
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="60" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:41:07 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:41:07&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15770
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="70" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:42:55 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:42:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14657
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="80" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:43:11 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:43:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=53260
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="90" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:43:26 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:43:26&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15617
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="100" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:46:01 AM COT
+UPDATE AD_Column SET FieldLength=1023,Updated=TO_DATE(&apos;2012-02-15 10:46:01&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=52112
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="110" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:47:01 AM COT
+UPDATE AD_Column SET FieldLength=240,Updated=TO_DATE(&apos;2012-02-15 10:47:01&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=52068
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="120" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:47:30 AM COT
+UPDATE AD_Column SET FieldLength=50,Updated=TO_DATE(&apos;2012-02-15 10:47:30&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=50195
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="130" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:47:44 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:47:44&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14357
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="140" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:47:56 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:47:56&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14584
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="150" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:48:14 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:48:14&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14459
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="160" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:48:27 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:48:27&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15630
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="170" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:48:38 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:48:38&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15210
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="180" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:48:49 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:48:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15187
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="190" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:49:04 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:49:04&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15709
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="200" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:49:16 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:49:16&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15491
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="210" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:49:29 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:49:29&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15155
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="220" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:49:38 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:49:38&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15253
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="230" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:49:48 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:49:48&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15741
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="240" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:00 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:50:00&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15305
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="250" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:11 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:50:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15566
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="260" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:24 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:50:24&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15331
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="270" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:33 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:50:33&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15362
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="280" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:42 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:50:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15377
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="290" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:50 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:50:50&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15391
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="300" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:51:03 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:51:03&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15581
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="310" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:51:17 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:51:17&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15199
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="320" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:51:30 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:51:30&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15235
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="330" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:51:44 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:51:44&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15403
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="340" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:51:56 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:51:56&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15137
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="350" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:52:05 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:52:05&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15433
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="360" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:52:41 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:52:41&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15552
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="370" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:53:01 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:53:01&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15120
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="380" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:53:10 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:53:10&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15443
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="390" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:53:21 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:53:21&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15993
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="400" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:53:36 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:53:36&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14538
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="410" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:53:58 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:53:58&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14554
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="420" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:54:10 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:54:10&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14569
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="430" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:54:24 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:54:24&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14796
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="440" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:55:16 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:55:16&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14808
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="450" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:55:27 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:55:27&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14745
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="460" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:55:37 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:55:37&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14771
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="470" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:55:48 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:55:48&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14516
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="480" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:55:58 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:55:58&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14821
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="490" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:56:09 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:56:09&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14833
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="500" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:56:19 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:56:19&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14954
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="510" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:56:30 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:56:30&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14874
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="520" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:56:42 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:56:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14885
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="530" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:56:54 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_DATE(&apos;2012-02-15 10:56:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14997
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="540" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:57:33 AM COT
+UPDATE AD_Column SET FieldLength=255,Updated=TO_DATE(&apos;2012-02-15 10:57:33&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=7794
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="550" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:58:53 AM COT
+ALTER TABLE CM_NewsChannel MODIFY AD_Language VARCHAR2(6) DEFAULT NULL 
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="560" StepType="SQL">
+      <SQLStatement>
+UPDATE AD_System
+  SET LastMigrationScriptApplied=&apos;819_IDEMPIERE-140.sql&apos;
+WHERE LastMigrationScriptApplied&lt;&apos;819_IDEMPIERE-140.sql&apos;
+   OR LastMigrationScriptApplied IS NULL
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Feb 15, 2012 10:38:23 AM COT
+-- IDEMPIERE-140 Different length column between pg database and dictionary
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:38:23&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14628
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:38:55 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:38:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15601
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:39:14 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:39:14&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15781
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:39:39 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:39:39&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15802
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="50" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:40:56 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:40:56&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15752
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="60" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:41:07 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:41:07&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15770
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="70" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:42:55 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:42:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14657
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="80" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:43:11 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:43:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=53260
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="90" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:43:26 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:43:26&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15617
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="100" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:46:01 AM COT
+UPDATE AD_Column SET FieldLength=1023,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:46:01&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=52112
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="110" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:47:01 AM COT
+UPDATE AD_Column SET FieldLength=240,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:47:01&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=52068
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="120" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:47:30 AM COT
+UPDATE AD_Column SET FieldLength=50,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:47:30&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=50195
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="130" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:47:44 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:47:44&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14357
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="140" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:47:56 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:47:56&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14584
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="150" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:48:14 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:48:14&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14459
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="160" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:48:27 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:48:27&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15630
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="170" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:48:38 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:48:38&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15210
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="180" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:48:49 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:48:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15187
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="190" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:49:04 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:49:04&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15709
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="200" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:49:16 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:49:16&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15491
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="210" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:49:29 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:49:29&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15155
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="220" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:49:38 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:49:38&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15253
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="230" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:49:48 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:49:48&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15741
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="240" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:00 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:50:00&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15305
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="250" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:11 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:50:11&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15566
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="260" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:24 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:50:24&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15331
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="270" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:33 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:50:33&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15362
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="280" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:42 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:50:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15377
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="290" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:50:50 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:50:50&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15391
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="300" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:51:03 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:51:03&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15581
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="310" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:51:17 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:51:17&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15199
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="320" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:51:30 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:51:30&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15235
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="330" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:51:44 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:51:44&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15403
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="340" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:51:56 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:51:56&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15137
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="350" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:52:05 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:52:05&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15433
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="360" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:52:41 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:52:41&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15552
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="370" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:53:01 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:53:01&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15120
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="380" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:53:10 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:53:10&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15443
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="390" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:53:21 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:53:21&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=15993
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="400" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:53:36 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:53:36&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14538
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="410" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:53:58 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:53:58&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14554
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="420" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:54:10 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:54:10&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14569
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="430" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:54:24 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:54:24&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14796
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="440" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:55:16 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:55:16&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14808
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="450" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:55:27 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:55:27&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14745
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="460" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:55:37 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:55:37&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14771
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="470" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:55:48 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:55:48&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14516
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="480" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:55:58 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:55:58&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14821
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="490" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:56:09 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:56:09&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14833
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="500" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:56:19 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:56:19&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14954
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="510" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:56:30 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:56:30&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14874
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="520" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:56:42 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:56:42&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14885
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="530" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:56:54 AM COT
+UPDATE AD_Column SET FieldLength=60,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:56:54&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=14997
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="540" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:57:33 AM COT
+UPDATE AD_Column SET FieldLength=255,Updated=TO_TIMESTAMP(&apos;2012-02-15 10:57:33&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),UpdatedBy=100 WHERE AD_Column_ID=7794
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="550" StepType="SQL">
+      <SQLStatement>
+-- Feb 15, 2012 10:58:53 AM COT
+INSERT INTO t_alter_column values(&apos;cm_newschannel&apos;,&apos;AD_Language&apos;,&apos;VARCHAR(6)&apos;,null,&apos;NULL&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="560" StepType="SQL">
+      <SQLStatement>
+UPDATE AD_System
+  SET LastMigrationScriptApplied=&apos;819_IDEMPIERE-140.sql&apos;
+WHERE LastMigrationScriptApplied&lt;&apos;819_IDEMPIERE-140.sql&apos;
+   OR LastMigrationScriptApplied IS NULL
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

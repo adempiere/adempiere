@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="IDEMPIERE-139_LastMigrationScriptApplied #949(Adaxa)" ReleaseNo="3.9.0" SeqNo="00410">
+    <Step DBType="Oracle" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Feb 8, 2012 5:46:45 PM COT
+-- IDEMPIERE-139 Store the last migration script applied
+INSERT INTO AD_Element (AD_Element_ID,ColumnName,Help,EntityType,Name,Description,PrintName,AD_Client_ID,Created,Updated,IsActive,AD_Org_ID,CreatedBy,UpdatedBy) VALUES (200002,&apos;LastMigrationScriptApplied&apos;,NULL,&apos;D&apos;,&apos;Last Migration Script Applied&apos;,&apos;Register of the filename for the last migration script applied on this database&apos;,&apos;Last Migration Script Applied&apos;,0,TO_DATE(&apos;2012-02-08 17:46:44&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_DATE(&apos;2012-02-08 17:46:44&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),&apos;Y&apos;,0,100,100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:46:45 PM COT
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Help,PO_Description,PO_Help,Name,Description,PrintName,PO_PrintName,PO_Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Help,t.PO_Description,t.PO_Help,t.Name,t.Description,t.PrintName,t.PO_PrintName,t.PO_Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Element_ID=200002 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:48:50 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,IsAllowCopy,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200015,531,&apos;D&apos;,0,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;N&apos;,255,&apos;N&apos;,10,&apos;N&apos;,&apos;N&apos;,200002,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;LastMigrationScriptApplied&apos;,&apos;Register of the filename for the last migration script applied on this database&apos;,&apos;Last Migration Script Applied&apos;,&apos;Y&apos;,100,TO_DATE(&apos;2012-02-08 17:48:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_DATE(&apos;2012-02-08 17:48:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:48:50 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200015 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="50" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:49:09 PM COT
+ALTER TABLE AD_System ADD LastMigrationScriptApplied NVARCHAR2(255) DEFAULT NULL 
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="60" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:51:34 PM COT
+INSERT INTO AD_Field (SortNo,IsEncrypted,DisplayLength,IsDisplayed,IsSameLine,IsHeading,AD_Column_ID,IsFieldOnly,SeqNo,IsCentrallyMaintained,AD_Tab_ID,AD_Field_ID,IsReadOnly,EntityType,Description,Name,UpdatedBy,AD_Org_ID,IsActive,Created,AD_Client_ID,CreatedBy,Updated) VALUES (0,&apos;N&apos;,40,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,200015,&apos;N&apos;,290,&apos;Y&apos;,440,200000,&apos;N&apos;,&apos;D&apos;,&apos;Register of the filename for the last migration script applied on this database&apos;,&apos;Last Migration Script Applied&apos;,100,0,&apos;Y&apos;,TO_DATE(&apos;2012-02-08 17:51:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,100,TO_DATE(&apos;2012-02-08 17:51:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;))
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="70" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:51:34 PM COT
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Help,Description,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Help,t.Description,t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Field_ID=200000 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="80" StepType="SQL">
+      <SQLStatement>
+UPDATE AD_System
+  SET LastMigrationScriptApplied=&apos;816_IDEMPIERE-139_LastMigrationScriptApplied.sql&apos;
+WHERE LastMigrationScriptApplied&lt;&apos;816_IDEMPIERE-139_LastMigrationScriptApplied.sql&apos;
+   OR LastMigrationScriptApplied IS NULL
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Feb 8, 2012 5:46:45 PM COT
+-- IDEMPIERE-139 Store the last migration script applied
+INSERT INTO AD_Element (AD_Element_ID,ColumnName,Help,EntityType,Name,Description,PrintName,AD_Client_ID,Created,Updated,IsActive,AD_Org_ID,CreatedBy,UpdatedBy) VALUES (200002,&apos;LastMigrationScriptApplied&apos;,NULL,&apos;D&apos;,&apos;Last Migration Script Applied&apos;,&apos;Register of the filename for the last migration script applied on this database&apos;,&apos;Last Migration Script Applied&apos;,0,TO_TIMESTAMP(&apos;2012-02-08 17:46:44&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_TIMESTAMP(&apos;2012-02-08 17:46:44&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),&apos;Y&apos;,0,100,100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:46:45 PM COT
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Help,PO_Description,PO_Help,Name,Description,PrintName,PO_PrintName,PO_Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Help,t.PO_Description,t.PO_Help,t.Name,t.Description,t.PrintName,t.PO_PrintName,t.PO_Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Element_ID=200002 AND NOT EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Element_ID=t.AD_Element_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="30" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:48:50 PM COT
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,IsParent,FieldLength,IsSelectionColumn,AD_Reference_ID,IsSyncDatabase,IsKey,AD_Element_ID,IsAutocomplete,IsAllowLogging,IsEncrypted,IsUpdateable,IsAlwaysUpdateable,ColumnName,Description,Name,IsAllowCopy,CreatedBy,Updated,AD_Client_ID,AD_Org_ID,IsActive,Created,UpdatedBy) VALUES (200015,531,&apos;D&apos;,0,&apos;N&apos;,&apos;N&apos;,&apos;N&apos;,0,&apos;N&apos;,255,&apos;N&apos;,10,&apos;N&apos;,&apos;N&apos;,200002,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;Y&apos;,&apos;N&apos;,&apos;LastMigrationScriptApplied&apos;,&apos;Register of the filename for the last migration script applied on this database&apos;,&apos;Last Migration Script Applied&apos;,&apos;Y&apos;,100,TO_TIMESTAMP(&apos;2012-02-08 17:48:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-02-08 17:48:49&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="40" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:48:50 PM COT
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Column_ID=200015 AND NOT EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Column_ID=t.AD_Column_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="50" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:49:09 PM COT
+ALTER TABLE AD_System ADD COLUMN LastMigrationScriptApplied VARCHAR(255) DEFAULT NULL 
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="60" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:51:34 PM COT
+INSERT INTO AD_Field (SortNo,IsEncrypted,DisplayLength,IsDisplayed,IsSameLine,IsHeading,AD_Column_ID,IsFieldOnly,SeqNo,IsCentrallyMaintained,AD_Tab_ID,AD_Field_ID,IsReadOnly,EntityType,Description,Name,UpdatedBy,AD_Org_ID,IsActive,Created,AD_Client_ID,CreatedBy,Updated) VALUES (0,&apos;N&apos;,40,&apos;Y&apos;,&apos;N&apos;,&apos;N&apos;,200015,&apos;N&apos;,290,&apos;Y&apos;,440,200000,&apos;N&apos;,&apos;D&apos;,&apos;Register of the filename for the last migration script applied on this database&apos;,&apos;Last Migration Script Applied&apos;,100,0,&apos;Y&apos;,TO_TIMESTAMP(&apos;2012-02-08 17:51:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),0,100,TO_TIMESTAMP(&apos;2012-02-08 17:51:34&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;))
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="70" StepType="SQL">
+      <SQLStatement>
+-- Feb 8, 2012 5:51:34 PM COT
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Help,Description,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Help,t.Description,t.Name, &apos;N&apos;,t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive=&apos;Y&apos; AND l.IsSystemLanguage=&apos;Y&apos; AND l.IsBaseLanguage=&apos;N&apos; AND t.AD_Field_ID=200000 AND NOT EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.AD_Field_ID=t.AD_Field_ID)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="80" StepType="SQL">
+      <SQLStatement>
+UPDATE AD_System
+  SET LastMigrationScriptApplied=&apos;816_IDEMPIERE-139_LastMigrationScriptApplied.sql&apos;
+WHERE LastMigrationScriptApplied&lt;&apos;816_IDEMPIERE-139_LastMigrationScriptApplied.sql&apos;
+   OR LastMigrationScriptApplied IS NULL
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

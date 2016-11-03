@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="IDEMPIERE23 #943(Adaxa)" ReleaseNo="3.9.0" SeqNo="00407">
+    <Step DBType="Oracle" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- new columns found to be problematic
+UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE ColumnName IN (
+&apos;Reversal_ID&apos;
+);</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- new columns found to be problematic
+UPDATE AD_Column SET IsAllowCopy=&apos;N&apos; WHERE ColumnName IN (
+&apos;Reversal_ID&apos;
+);</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>
