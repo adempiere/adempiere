@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Manufacturing Planned Order RefList" ReleaseNo="" SeqNo="00690">
+  <Migration EntityType="D" Name="Manufacturing Planned Order RefList" ReleaseNo="3.9.0" SeqNo="00690">
     <Comments>add to reference list</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="54625" Table="AD_Ref_List">
