@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Spin Contribution Entity Type" ReleaseNo="3.9.0" SeqNo="00430">
+  <Migration EntityType="D" Name="Spin Contribution Entity Type" ReleaseNo="3.9.0" SeqNo="00420">
     <Comments>Add Spin Contribution Entity Type, See: https://github.com/adempiere/adempiere/issues/661</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="882" Action="I" Record_ID="50017" Table="AD_EntityType">
