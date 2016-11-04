@@ -41,6 +41,7 @@ public class MDistribution extends X_GL_Distribution
 	 */
 	private static final long serialVersionUID = -906547096682610205L;
 
+
 	/**
 	 * 	Get Distribution for combination
 	 *	@param acct account (ValidCombination)
@@ -57,8 +58,46 @@ public class MDistribution extends X_GL_Distribution
 			acct.getM_Product_ID(), acct.getC_BPartner_ID(), acct.getC_Project_ID(),
 			acct.getC_Campaign_ID(), acct.getC_Activity_ID(), acct.getAD_OrgTrx_ID(),
 			acct.getC_SalesRegion_ID(), acct.getC_LocTo_ID(), acct.getC_LocFrom_ID(),
-			acct.getUser1_ID(), acct.getUser2_ID());
+			acct.getUser1_ID(), acct.getUser2_ID() , acct.getUser3_ID() , acct.getUser4_ID());
 	}	//	get
+
+	/**
+	 *
+	 * @param ctx
+	 * @param C_AcctSchema_ID
+	 * @param PostingType
+	 * @param C_DocType_ID
+	 * @param AD_Org_ID
+	 * @param Account_ID
+	 * @param M_Product_ID
+	 * @param C_BPartner_ID
+	 * @param C_Project_ID
+	 * @param C_Campaign_ID
+	 * @param C_Activity_ID
+	 * @param AD_OrgTrx_ID
+	 * @param C_SalesRegion_ID
+	 * @param C_LocTo_ID
+	 * @param C_LocFrom_ID
+	 * @param User1_ID
+	 * @param User2_ID
+	 * @return
+	 */
+	@Deprecated
+	public static MDistribution[] get (Properties ctx, int C_AcctSchema_ID,
+									   String PostingType, int C_DocType_ID,
+									   int AD_Org_ID, int Account_ID,
+									   int M_Product_ID, int C_BPartner_ID, int C_Project_ID,
+									   int C_Campaign_ID, int C_Activity_ID, int AD_OrgTrx_ID,
+									   int C_SalesRegion_ID, int C_LocTo_ID, int C_LocFrom_ID,
+									   int User1_ID, int User2_ID)
+	{
+		return get(ctx , C_AcctSchema_ID,
+				PostingType, C_DocType_ID ,
+				AD_Org_ID , Account_ID,
+				M_Product_ID , C_BPartner_ID , C_Project_ID ,
+				C_Campaign_ID , C_Activity_ID , AD_OrgTrx_ID , C_SalesRegion_ID , C_LocTo_ID , C_LocFrom_ID,
+				User1_ID, User2_ID , 0 , 0);
+	}
 
 	/**
 	 * 	Get Distributions for combination
@@ -79,6 +118,8 @@ public class MDistribution extends X_GL_Distribution
 	 *	@param C_LocFrom_ID location from
 	 *	@param User1_ID user 1
 	 *	@param User2_ID user 2
+	 *	@param User3_ID user 1
+	 *	@param User4_ID user 2
 	 *	@return array of distributions or null
 	 */
 	public static MDistribution[] get (Properties ctx, int C_AcctSchema_ID, 
@@ -87,7 +128,7 @@ public class MDistribution extends X_GL_Distribution
 		int M_Product_ID, int C_BPartner_ID, int C_Project_ID,
 		int C_Campaign_ID, int C_Activity_ID, int AD_OrgTrx_ID,
 		int C_SalesRegion_ID, int C_LocTo_ID, int C_LocFrom_ID,
-		int User1_ID, int User2_ID)
+		int User1_ID, int User2_ID, int User3_ID, int User4_ID)
 	{
 		MDistribution[] acctList = get (ctx, Account_ID);
 		if (acctList == null || acctList.length == 0)
@@ -134,6 +175,10 @@ public class MDistribution extends X_GL_Distribution
 			if (!distribution.isAnyUser1() && distribution.getUser1_ID() != User1_ID)
 				continue;
 			if (!distribution.isAnyUser2() && distribution.getUser2_ID() != User2_ID)
+				continue;
+			if (!distribution.isAnyUser3() && distribution.getUser3_ID() != User3_ID)
+				continue;
+			if (!distribution.isAnyUser4() && distribution.getUser4_ID() != User4_ID)
 				continue;
 			//
 			list.add (distribution);
@@ -421,6 +466,10 @@ public class MDistribution extends X_GL_Distribution
 			setUser1_ID(0);
 		if (isAnyUser2() && getUser2_ID() != 0)
 			setUser2_ID(0);
+		if (isAnyUser3() && getUser3_ID() != 0)
+			setUser3_ID(0);
+		if (isAnyUser4() && getUser4_ID() != 0)
+			setUser4_ID(0);
 		return true;
 	}	//	beforeSave
 	

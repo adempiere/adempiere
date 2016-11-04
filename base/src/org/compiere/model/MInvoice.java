@@ -367,6 +367,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setC_Activity_ID(line.getC_Activity_ID());
 		setUser1_ID(line.getUser1_ID());
 		setUser2_ID(line.getUser2_ID());
+		setUser3_ID(line.getUser3_ID());
+		setUser4_ID(line.getUser4_ID());
 		//
 		setC_DocTypeTarget_ID(line.getC_DocType_ID());
 		setDateInvoiced(line.getDateInvoiced());
@@ -485,6 +487,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setC_Activity_ID(order.getC_Activity_ID());
 		setUser1_ID(order.getUser1_ID());
 		setUser2_ID(order.getUser2_ID());
+		setUser3_ID(order.getUser3_ID());
+		setUser4_ID(order.getUser4_ID());
 	}	//	setOrder
 
 	/**
@@ -515,6 +519,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setC_Activity_ID(ship.getC_Activity_ID());
 		setUser1_ID(ship.getUser1_ID());
 		setUser2_ID(ship.getUser2_ID());
+		setUser3_ID(ship.getUser3_ID());
+		setUser4_ID(ship.getUser4_ID());
 		//
 		if (ship.getC_Order_ID() != 0)
 		{
@@ -2341,6 +2347,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
         setC_Campaign_ID(originalInvoice.getC_Campaign_ID());
         setUser1_ID(originalInvoice.getUser1_ID());
         setUser2_ID(originalInvoice.getUser2_ID());
+		setUser3_ID(originalInvoice.getUser3_ID());
+		setUser4_ID(originalInvoice.getUser4_ID());
 	}
 
 	/**

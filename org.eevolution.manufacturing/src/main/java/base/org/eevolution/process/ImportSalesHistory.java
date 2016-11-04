@@ -172,6 +172,8 @@ public class ImportSalesHistory extends SvrProcess {
 		salesHistory.setC_Activity_ID(salesHistoryImporth.getC_Activity_ID());
 		salesHistory.setUser1_ID(salesHistoryImporth.getUser1_ID());
 		salesHistory.setUser2_ID(salesHistoryImporth.getUser2_ID());
+		salesHistory.setUser3_ID(salesHistoryImporth.getUser3_ID());
+		salesHistory.setUser4_ID(salesHistoryImporth.getUser4_ID());
 		salesHistory.saveEx();
 
 

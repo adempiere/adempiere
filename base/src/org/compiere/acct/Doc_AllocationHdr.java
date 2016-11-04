@@ -580,7 +580,9 @@ public class Doc_AllocationHdr extends Doc
 				&& factLine.getUserElement1_ID() == prevFactLine.getUserElement1_ID()
 				&& factLine.getUserElement2_ID() == prevFactLine.getUserElement2_ID()
 				&& factLine.getUser1_ID() == prevFactLine.getUser1_ID() 
-				&& factLine.getUser2_ID() == prevFactLine.getUser2_ID());
+				&& factLine.getUser2_ID() == prevFactLine.getUser2_ID()
+				&& factLine.getUser3_ID() == prevFactLine.getUser3_ID()
+				&& factLine.getUser4_ID() == prevFactLine.getUser4_ID());
 	}
 
 	/**

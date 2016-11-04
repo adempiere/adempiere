@@ -50,6 +50,8 @@ public class GenerateSalesHistory extends SvrProcess {
 	private int p_C_Activity_ID;
 	private int p_User1_ID;
 	private int p_User2_ID;
+	private int p_User3_ID;
+	private int p_User4_ID;
 	private int p_M_Warehouse_ID;
 	private int p_M_Product_Classification_ID;
 	private int p_M_Product_Class_ID;
@@ -104,6 +106,10 @@ public class GenerateSalesHistory extends SvrProcess {
 				p_User1_ID = para.getParameterAsInt();
 			else if (name.equals(I_C_SalesHistory.COLUMNNAME_User2_ID))
 				p_User2_ID = para.getParameterAsInt();
+			else if (name.equals(I_C_SalesHistory.COLUMNNAME_User3_ID))
+				p_User3_ID = para.getParameterAsInt();
+			else if (name.equals(I_C_SalesHistory.COLUMNNAME_User4_ID))
+				p_User4_ID = para.getParameterAsInt();
 
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
@@ -154,6 +160,8 @@ public class GenerateSalesHistory extends SvrProcess {
 		insert.append(MSalesHistory.COLUMNNAME_C_ProjectTask_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_User1_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_User2_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_User3_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_User4_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_DateInvoiced).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_Qty).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_TotalInvQty).append(",");
@@ -190,6 +198,8 @@ public class GenerateSalesHistory extends SvrProcess {
 		insert.append("il.C_ProjectTask_ID,");
 		insert.append("il.User1_ID,");
 		insert.append("il.User2_ID,");
+		insert.append("il.User3_ID,");
+		insert.append("il.User4_ID,");
 		insert.append("i.DateInvoiced,");
 		insert.append("il.QtyInvoiced,");
 		insert.append("il.QtyInvoiced,");
@@ -295,6 +305,16 @@ public class GenerateSalesHistory extends SvrProcess {
 		if (p_User2_ID > 0) {
 			whereClause.append("il.User2_ID=? AND ");
 			parameters.add(p_User2_ID);
+		}
+
+		if (p_User3_ID > 0) {
+			whereClause.append("il.User3_ID=? AND ");
+			parameters.add(p_User3_ID);
+		}
+
+		if (p_User4_ID > 0) {
+			whereClause.append("il.User4_ID=? AND ");
+			parameters.add(p_User4_ID);
 		}
 
 		if (p_DateInvoicedFrom != null && p_DateInvoicedTo != null) {

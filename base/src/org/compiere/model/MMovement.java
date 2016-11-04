@@ -113,6 +113,8 @@ public class MMovement extends X_M_Movement implements DocAction
 		setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
 		setUser1_ID(order.getUser1_ID());
 		setUser2_ID(order.getUser2_ID());
+		setUser3_ID(order.getUser3_ID());
+		setUser4_ID(order.getUser4_ID());
 		setPriorityRule(order.getPriorityRule());
 		if (movementDate != null)
 			setMovementDate (movementDate);

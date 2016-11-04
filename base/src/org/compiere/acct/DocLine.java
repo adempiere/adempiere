@@ -1117,6 +1117,38 @@ public class DocLine
 		return 0;
 	}   //  getUser2_ID
 
+	/**
+	 *  Get User 3
+	 *  @return user defined 3
+	 */
+	public int getUser3_ID()
+	{
+		int index = p_po.get_ColumnIndex("User3_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}   //  getUser3_ID
+
+	/**
+	 *  Get User 4
+	 *  @return user defined 4
+	 */
+	public int getUser4_ID()
+	{
+		int index = p_po.get_ColumnIndex("User4_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}   //  getUser4_ID
+
         	/**
 	 *  Get User Defined Column
 	 *  @param ColumnName column name

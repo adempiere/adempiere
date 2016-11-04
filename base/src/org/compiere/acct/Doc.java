@@ -2235,7 +2235,7 @@ public abstract class Doc
 	
 	/**
 	 * 	Get User2_ID
-	 *	@return Campaign
+	 *	@return User2_ID
 	 */
 	public int getUser2_ID()
 	{
@@ -2248,7 +2248,39 @@ public abstract class Doc
 		}
 		return 0;
 	}	//	getUser2_ID
-        
+
+	/**
+	 * 	Get User3_ID
+	 *	@return User3_ID
+	 */
+	public int getUser3_ID()
+	{
+		int index = p_po.get_ColumnIndex("User3_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}	//	getUser3_ID
+
+	/**
+	 * 	Get User4_ID
+	 *	@return User4_ID
+	 */
+	public int getUser4_ID()
+	{
+		int index = p_po.get_ColumnIndex("User4_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}	//	getUser4_ID
+    
         	/**
 	 * 	Get User Defined value
 	 *	@return User defined
