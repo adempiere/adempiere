@@ -42,6 +42,7 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogMgt;
+import org.compiere.util.CacheMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
@@ -1633,19 +1634,40 @@ public class FinReport extends SvrProcess
 					pfi.setIsOrderBy(false);
 				if (pfi.getSortNo() != 0)
 					pfi.setSortNo(0);
-			
-				//MOrgInfo oi = MOrgInfo.get(Env.getCtx(), Env.getAD_Org_ID(Env.getCtx()), null);
-				MClientInfo ci=MClientInfo.get(getCtx(), Env.getAD_Client_ID(getCtx()));
-				MImage mimage = MImage.get(Env.getCtx(), ci.getLogoReport_ID());
-				byte[] imageData = mimage.getData();
-				MAttachment attach=pfi.createAttachment();
-				attach.setBinaryData(imageData);
-				if(attach.getEntryCount()>0)
-					attach.updateEntry(0, imageData);
-				else			
-					attach.addEntry("logo", imageData);
+							
+				MImage mimage = null;				
 				
-				attach.saveEx();
+				if ( p_Org_ID != 0 )
+				{
+					MOrgInfo oi = MOrgInfo.get(Env.getCtx(), p_Org_ID, null);
+					if ( oi.getLogo_ID() > 0 )
+					{
+						mimage = MImage.get(Env.getCtx(), oi.getLogo_ID());
+					}
+				}
+				
+				if ( mimage == null )
+				{
+					MClientInfo ci=MClientInfo.get(getCtx(), Env.getAD_Client_ID(getCtx()));
+					if ( ci.getLogoReport_ID() > 0 )
+					{
+						mimage = MImage.get(Env.getCtx(), ci.getLogoReport_ID()); 
+					}
+				}
+
+				if ( mimage != null )
+				{
+					byte[] imageData = mimage.getData();
+					MAttachment attach=pfi.createAttachment();
+					attach.setBinaryData(imageData);
+					if(attach.getEntryCount()>0)
+						attach.updateEntry(0, imageData);
+					else			
+						attach.addEntry(mimage.getName(), imageData);
+
+					attach.saveEx();
+					CacheMgt.get().reset("ImageElement");
+				}
 			}
 			
 			if(name.contains("@City@"))
