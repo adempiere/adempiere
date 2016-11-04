@@ -2044,6 +2044,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			toMovement.setC_Project_ID(fromMovement.getC_Project_ID());
 			toMovement.setUser1_ID(fromMovement.getUser1_ID());
 			toMovement.setUser2_ID(fromMovement.getUser2_ID());
+			toMovement.setUser3_ID(fromMovement.getUser3_ID());
+			toMovement.setUser4_ID(fromMovement.getUser4_ID());
 			toMovement.setProcessed(false);
 			toMovement.setC_BP_Group_ID(fromMovement.getC_BP_Group_ID());
 			toMovement.setHR_Employee_ID(fromMovement.getHR_Employee_ID());

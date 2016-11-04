@@ -227,6 +227,8 @@ public class Doc_MatchPO extends Doc
 				cr.setC_UOM_ID(m_oLine.getC_UOM_ID());
 				cr.setUser1_ID(m_oLine.getUser1_ID());
 				cr.setUser2_ID(m_oLine.getUser2_ID());
+				cr.setUser3_ID(m_oLine.getUser3_ID());
+				cr.setUser4_ID(m_oLine.getUser4_ID());
 			}
 	
 			//  PPV Offset
@@ -245,6 +247,8 @@ public class Doc_MatchPO extends Doc
 				dr.setC_UOM_ID(m_oLine.getC_UOM_ID());
 				dr.setUser1_ID(m_oLine.getUser1_ID());
 				dr.setUser2_ID(m_oLine.getUser2_ID());
+				dr.setUser3_ID(m_oLine.getUser3_ID());
+				dr.setUser4_ID(m_oLine.getUser4_ID());
 			}
 			
 			// Avoid usage of clearing accounts

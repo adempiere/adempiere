@@ -175,6 +175,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		cc.setProcessing(false);
 		cc.setUser1_ID(order.getUser1_ID());
 		cc.setUser2_ID(order.getUser2_ID());
+		cc.setUser3_ID(order.getUser3_ID());
+		cc.setUser4_ID(order.getUser4_ID());
 		cc.setM_Product_ID(productId);
 		if(orderNodeId > 0)
 		{	

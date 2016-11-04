@@ -259,6 +259,10 @@ public class MElementValue extends X_C_ElementValue
 				MAccount.updateValueDescription(getCtx(), "User1_ID=" + getC_ElementValue_ID(),get_TrxName());
 			if ("Y".equals(Env.getContext(getCtx(), "$Element_U2"))) 
 				MAccount.updateValueDescription(getCtx(), "User2_ID=" + getC_ElementValue_ID(),get_TrxName());
+			if ("Y".equals(Env.getContext(getCtx(), "$Element_U3")))
+				MAccount.updateValueDescription(getCtx(), "User3_ID=" + getC_ElementValue_ID(),get_TrxName());
+			if ("Y".equals(Env.getContext(getCtx(), "$Element_U4")))
+				MAccount.updateValueDescription(getCtx(), "User4_ID=" + getC_ElementValue_ID(),get_TrxName());
 		}
 
 		return success;
