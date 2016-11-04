@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Inventory count update param" ReleaseNo="3.9.0" SeqNo="00380">
+  <Migration EntityType="D" Name="Inventory count update param" ReleaseNo="3.9.0" SeqNo="00370">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="55579" Table="AD_Process_Para">
         <Data AD_Column_ID="2830" Column="IsRange">false</Data>
