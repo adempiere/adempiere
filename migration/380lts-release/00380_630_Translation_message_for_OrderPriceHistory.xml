@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Translation message for OrderPriceHistory #630" ReleaseNo="3.9.0" SeqNo="00390">
+  <Migration EntityType="D" Name="Translation message for OrderPriceHistory #630" ReleaseNo="3.9.0" SeqNo="00380">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53335" Table="AD_Message">
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
