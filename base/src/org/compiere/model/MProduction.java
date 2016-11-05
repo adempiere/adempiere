@@ -1120,7 +1120,7 @@ public class MProduction extends X_M_Production implements DocAction {
 	 * @param mustBeStocked
 	 * @return
 	 */
-	private String createLines(boolean mustBeStocked)  {
+	public String createLines(boolean mustBeStocked)  {
 		
 		lineno = 100;
 		String error ="";
