@@ -211,6 +211,15 @@ public interface I_M_Production_Batch
 	  */
 	public boolean isActive();
 
+    /** Column name IsAutoProduction */
+    public static final String COLUMNNAME_IsAutoProduction = "IsAutoProduction";
+
+	/** Set Automatic Production	  */
+	public void setIsAutoProduction (boolean IsAutoProduction);
+
+	/** Get Automatic Production	  */
+	public boolean isAutoProduction();
+
     /** Column name IsComplete */
     public static final String COLUMNNAME_IsComplete = "IsComplete";
 

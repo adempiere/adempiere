@@ -31,7 +31,7 @@ public class X_M_Production_Batch extends PO implements I_M_Production_Batch, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161030L;
+	private static final long serialVersionUID = 20161106L;
 
     /** Standard Constructor */
     public X_M_Production_Batch (Properties ctx, int M_Production_Batch_ID, String trxName)
@@ -339,6 +339,27 @@ public class X_M_Production_Batch extends PO implements I_M_Production_Batch, I_
 	public String getDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
+	/** Set Automatic Production.
+		@param IsAutoProduction Automatic Production	  */
+	public void setIsAutoProduction (boolean IsAutoProduction)
+	{
+		set_Value (COLUMNNAME_IsAutoProduction, Boolean.valueOf(IsAutoProduction));
+	}
+
+	/** Get Automatic Production.
+		@return Automatic Production	  */
+	public boolean isAutoProduction () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAutoProduction);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Complete.
