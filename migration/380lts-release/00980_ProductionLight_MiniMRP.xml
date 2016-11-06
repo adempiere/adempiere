@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Production Light Mini MRP" ReleaseNo="3.9.0" SeqNo="00980">
+  <Migration EntityType="D" Name="Production Light Replenish Plan" ReleaseNo="3.9.0" SeqNo="00980">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="81404" Table="AD_Column">
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>

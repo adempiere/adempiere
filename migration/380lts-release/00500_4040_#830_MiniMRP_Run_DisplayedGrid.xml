@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="MiniMRP_Run_DisplayedGrid" ReleaseNo="3.9.0" SeqNo="00500">
+  <Migration EntityType="D" Name="ReplenishPlan_DisplayedGrid" ReleaseNo="3.9.0" SeqNo="00500">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="76532" Table="AD_Field">
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid" oldValue="false">true</Data>
@@ -210,9 +210,9 @@
       <SQLStatement>UPDATE ad_printformat SET AD_ReportView_ID=53136 WHERE ad_table_id=53975</SQLStatement>
     </Step>
 	<Step DBType="Postgres" SeqNo="430" StepType="SQL">
-      <SQLStatement>ALTER TABLE mrp_runline
-  ADD CONSTRAINT mrp_run_mrp_runline FOREIGN KEY (mrp_run_id)
-      REFERENCES mrp_run (mrp_run_id) MATCH SIMPLE
+      <SQLStatement>ALTER TABLE M_ReplenishPlanLine
+  ADD CONSTRAINT M_ReplenishPlan_M_ReplenishPlanLine FOREIGN KEY (M_ReplenishPlan_ID)
+      REFERENCES M_ReplenishPlan (M_ReplenishPlan_ID) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;</SQLStatement>
     </Step>
   </Migration>

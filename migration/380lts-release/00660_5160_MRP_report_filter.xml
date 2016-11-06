@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="MRP report filtering" ReleaseNo="3.9.0" SeqNo="00660">
+  <Migration EntityType="D" Name="Replenish Plan report filtering" ReleaseNo="3.9.0" SeqNo="00660">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53778" Table="AD_Process">
-        <Data AD_Column_ID="4023" Column="Value" oldValue="MiniERP_Generate_Report">MiniMRP_Generate_Report</Data>
-        <Data AD_Column_ID="2809" Column="Name" oldValue="Generate MiniERP Report">Generate MiniMRP Report</Data>
+        <Data AD_Column_ID="4023" Column="Value" oldValue="ReplenishPlan_Generate_Report">ReplenishPlan_Generate_Report</Data>
+        <Data AD_Column_ID="2809" Column="Name" oldValue="Generate Replenish Plan Report">Generate Replenish Plan Report</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
@@ -27,8 +27,8 @@
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic">1=1</Data>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2822" Column="Name">MRP Run</Data>
-        <Data AD_Column_ID="4017" Column="ColumnName">MRP_Run_ID</Data>
+        <Data AD_Column_ID="2822" Column="Name">Replenish Plan Run</Data>
+        <Data AD_Column_ID="4017" Column="ColumnName">M_ReplenishPlan_ID</Data>
         <Data AD_Column_ID="2817" Column="IsActive">true</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2821" Column="UpdatedBy">1003191</Data>
@@ -37,7 +37,7 @@
         <Data AD_Column_ID="2818" Column="Created">2016-01-08 09:28:19.872</Data>
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">55351</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="3739" Column="DefaultValue">@MRP_Run_ID@</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue">@M_ReplenishPlan_ID@</Data>
         <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
       </PO>
     </Step>
@@ -53,7 +53,7 @@
         <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2603" Column="Name">Has Supply/Demand</Data>
-        <Data AD_Column_ID="2604" Column="Description">This product has supply or demand in the current MRP run.</Data>
+        <Data AD_Column_ID="2604" Column="Description">This product has supply or demand in the current Replenish Plan run.</Data>
         <Data AD_Column_ID="4299" Column="PrintName">Has Supply/Demand</Data>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
@@ -136,7 +136,7 @@
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="116" Column="ColumnName">HasSupplyDemand</Data>
-        <Data AD_Column_ID="112" Column="Description">This product has supply or demand in the current MRP run.</Data>
+        <Data AD_Column_ID="112" Column="Description">This product has supply or demand in the current Replenish Plan run.</Data>
         <Data AD_Column_ID="111" Column="Name">Has Supply/Demand</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>

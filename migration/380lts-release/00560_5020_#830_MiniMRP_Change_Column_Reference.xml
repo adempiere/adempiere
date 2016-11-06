@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="MiniMRP_Change_Column_Reference 5020_#830" ReleaseNo="3.9.0" SeqNo="00560">
+  <Migration EntityType="D" Name="ReplenishPlan_Change_Column_Reference 5020_#830" ReleaseNo="3.9.0" SeqNo="00560">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="74093" Table="AD_Column">
         <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>

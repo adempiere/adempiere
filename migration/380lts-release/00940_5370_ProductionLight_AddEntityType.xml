@@ -725,18 +725,18 @@
       <PO AD_Table_ID="132" Action="U" Record_ID="0" Table="AD_Window_Trl">
         <Data AD_Column_ID="307" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="306" Column="AD_Window_ID" oldValue="53419">53419</Data>
-        <Data AD_Column_ID="310" Column="Name" oldValue="MiniMRP Run">Mini-MRP</Data>
+        <Data AD_Column_ID="310" Column="Name" oldValue="Replenish Plan Run">Replenish Plan</Data>
       </PO>
     </Step>
     <Step SeqNo="1390" StepType="AD">
       <PO AD_Table_ID="105" Action="U" Record_ID="53419" Table="AD_Window">
-        <Data AD_Column_ID="156" Column="Name" oldValue="MiniMRP Run">Mini-MRP Run</Data>
+        <Data AD_Column_ID="156" Column="Name" oldValue="Replenish Plan Run">Replenish Plan Run</Data>
       </PO>
     </Step>
     <Step SeqNo="1400" StepType="AD">
       <PO AD_Table_ID="116" Action="U" Record_ID="53987" Table="AD_Menu">
         <Data AD_Column_ID="230" Column="Description" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="229" Column="Name" oldValue="MiniMRP Run">Mini-MRP Run</Data>
+        <Data AD_Column_ID="229" Column="Name" oldValue="Replenish Plan Run">Replenish Plan Run</Data>
       </PO>
     </Step>
     <Step SeqNo="1410" StepType="AD">
@@ -1122,8 +1122,8 @@
       <PO AD_Table_ID="277" Action="U" Record_ID="58006" Table="AD_Element_Trl">
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="58006">58006</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="2646" Column="Name" oldValue="MRP_Run ID">Mini-MRP</Data>
-        <Data AD_Column_ID="4300" Column="PrintName" oldValue="MRP_Run ID">Mini-MRP</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="M_ReplenishPlan ID">Replenish Plan</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="M_ReplenishPlan ID">Replenish Plan</Data>
       </PO>
     </Step>
     <Step SeqNo="2110" StepType="AD">
@@ -1137,8 +1137,8 @@
       <PO AD_Table_ID="277" Action="U" Record_ID="58008" Table="AD_Element_Trl">
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="58008">58008</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="2646" Column="Name" oldValue="MRP_RunLine ID">Línea de Mini-MRP</Data>
-        <Data AD_Column_ID="4300" Column="PrintName" oldValue="MRP_RunLine ID">Línea de Mini-MRP</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="M_ReplenishPlanLine ID">Línea de Replenish Plan</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="M_ReplenishPlanLine ID">Línea de Replenish Plan</Data>
       </PO>
     </Step>
     <Step SeqNo="2130" StepType="AD">
@@ -1225,8 +1225,8 @@
       <PO AD_Table_ID="277" Action="U" Record_ID="57373" Table="AD_Element_Trl">
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="57373">57373</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="2646" Column="Name" oldValue="T_MiniMRP ID">Mini-MRP ID</Data>
-        <Data AD_Column_ID="4300" Column="PrintName" oldValue="T_MiniMRP ID">Mini-MRP ID</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="T_ReplenishPlan ID">T_Replenish Plan ID</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="T_ReplenishPlan ID">T_Replenish Plan ID</Data>
       </PO>
     </Step>
     <Step SeqNo="2250" StepType="AD">
