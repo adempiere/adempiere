@@ -71,13 +71,13 @@
         <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
         <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
-        <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table M_Production_Batch</Data>
+        <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table M_ProductionBatch</Data>
         <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
         <Data AD_Column_ID="349" Column="IsActive">true</Data>
         <Data AD_Column_ID="222" Column="IsAudited">false</Data>
         <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
         <Data AD_Column_ID="350" Column="IsTableID">false</Data>
-        <Data AD_Column_ID="216" Column="Name">DocumentNo_M_Production_Batch</Data>
+        <Data AD_Column_ID="216" Column="Name">DocumentNo_M_ProductionBatch</Data>
         <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
         <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
@@ -88,7 +88,7 @@
       </PO>
     </Step>
     <Step SeqNo="40" StepType="AD">
-      <PO AD_Table_ID="54052" Action="I" Record_ID="1000000" Table="M_Production_Batch">
+      <PO AD_Table_ID="54052" Action="I" Record_ID="1000000" Table="M_ProductionBatch">
         <Data AD_Column_ID="78192" Column="AD_Client_ID">11</Data>
         <Data AD_Column_ID="78193" Column="AD_Org_ID">50001</Data>
         <Data AD_Column_ID="78218" Column="C_DocType_ID">1000000</Data>
@@ -105,7 +105,7 @@
         <Data AD_Column_ID="78849" Column="IsCreateMove">false</Data>
         <Data AD_Column_ID="78209" Column="M_Locator_ID">50001</Data>
         <Data AD_Column_ID="78208" Column="M_Product_ID">50008</Data>
-        <Data AD_Column_ID="78199" Column="M_Production_Batch_ID">1000000</Data>
+        <Data AD_Column_ID="78199" Column="M_ProductionBatch_ID">1000000</Data>
         <Data AD_Column_ID="78201" Column="MovementDate">2016-10-05 00:00:00.0</Data>
         <Data AD_Column_ID="78203" Column="Posted">false</Data>
         <Data AD_Column_ID="78204" Column="Processed">false</Data>
@@ -120,7 +120,7 @@
       </PO>
     </Step>
     <Step SeqNo="50" StepType="AD">
-      <PO AD_Table_ID="54052" Action="U" Record_ID="1000000" Table="M_Production_Batch">
+      <PO AD_Table_ID="54052" Action="U" Record_ID="1000000" Table="M_ProductionBatch">
         <Data AD_Column_ID="78211" Column="TargetQty" oldValue="0">100.000000000000</Data>
       </PO>
     </Step>
