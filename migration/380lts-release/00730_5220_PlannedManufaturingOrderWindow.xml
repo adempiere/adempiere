@@ -6305,7 +6305,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1530" StepType="AD">
       <PO AD_Table_ID="106" Action="U" Record_ID="54161" Table="AD_Tab">
-        <Data AD_Column_ID="2741" Column="WhereClause" isOldNull="true">EXISTS (SELECT * FROM c_doctype WHERE docbasetype = 'MPO' AND c_doctype_id = m_production_batch.c_doctype_id)</Data>
+        <Data AD_Column_ID="2741" Column="WhereClause" isOldNull="true">EXISTS (SELECT * FROM c_doctype WHERE docbasetype = 'MPO' AND c_doctype_id = m_productionbatch.c_doctype_id)</Data>
       </PO>
     </Step>
     <Step SeqNo="1540" StepType="AD">
@@ -6327,7 +6327,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1570" StepType="AD">
       <PO AD_Table_ID="106" Action="U" Record_ID="54146" Table="AD_Tab">
-        <Data AD_Column_ID="2741" Column="WhereClause" isOldNull="true">EXISTS (SELECT * FROM c_doctype WHERE docbasetype = 'MOP' AND c_doctype_id = m_production_batch.c_doctype_id)</Data>
+        <Data AD_Column_ID="2741" Column="WhereClause" isOldNull="true">EXISTS (SELECT * FROM c_doctype WHERE docbasetype = 'MOP' AND c_doctype_id = m_productionbatch.c_doctype_id)</Data>
       </PO>
     </Step>
     <Step SeqNo="1580" StepType="AD">

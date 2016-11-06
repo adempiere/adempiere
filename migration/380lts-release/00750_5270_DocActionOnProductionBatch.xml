@@ -364,7 +364,7 @@
         <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
         <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
         <Data AD_Column_ID="2810" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="4023" Column="Value">M_Production_Batch Process</Data>
+        <Data AD_Column_ID="4023" Column="Value">M_ProductionBatch Process</Data>
         <Data AD_Column_ID="2809" Column="Name">Process Production Batch</Data>
         <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2807" Column="Updated">2016-02-09 13:01:55.363</Data>

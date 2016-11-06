@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Create Table M_PBatch_Line" ReleaseNo="3.9.0" SeqNo="00770">
+  <Migration EntityType="D" Name="Create Table M_ProductionBatchLine" ReleaseNo="3.9.0" SeqNo="00770">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54066" Table="AD_Table">
         <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
@@ -18,7 +18,7 @@
         <Data AD_Column_ID="59135" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">true</Data>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
-        <Data AD_Column_ID="107" Column="TableName">M_PBatch_Line</Data>
+        <Data AD_Column_ID="107" Column="TableName">M_ProductionBatchLine</Data>
         <Data AD_Column_ID="103" Column="Description">Prodiction Batch line for maintain qty reservations and orders.</Data>
         <Data AD_Column_ID="102" Column="Name">Production Batch Line</Data>
         <Data AD_Column_ID="355" Column="AD_Client_ID">0</Data>
@@ -395,7 +395,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="58405" Table="AD_Element">
-        <Data AD_Column_ID="2602" Column="ColumnName">M_PBatch_Line_ID</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">M_ProductionBatchLine_ID</Data>
         <Data AD_Column_ID="58588" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="58589" Column="FieldLength" isNewNull="true"/>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -453,7 +453,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="116" Column="ColumnName">M_PBatch_Line_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">M_ProductionBatchLine_ID</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="111" Column="Name">Production Batch Line ID</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -484,8 +484,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
         <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
-        <Data AD_Column_ID="347" Column="Description">Table M_PBatch_Line</Data>
-        <Data AD_Column_ID="216" Column="Name">M_PBatch_Line</Data>
+        <Data AD_Column_ID="347" Column="Description">Table M_ProductionBatchLine</Data>
+        <Data AD_Column_ID="216" Column="Name">M_ProductionBatchLine</Data>
         <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="629" Column="Updated">2016-04-12 14:47:18.24</Data>
         <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
@@ -531,7 +531,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="116" Column="ColumnName">M_Production_Batch_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">M_ProductionBatch_ID</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="111" Column="Name">Production Batch</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>

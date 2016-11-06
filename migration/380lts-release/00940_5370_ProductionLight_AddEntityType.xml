@@ -521,7 +521,7 @@
     </Step>
     <Step SeqNo="1000" StepType="AD">
       <PO AD_Table_ID="106" Action="U" Record_ID="54146" Table="AD_Tab">
-        <Data AD_Column_ID="2741" Column="WhereClause" oldValue="EXISTS (SELECT * FROM c_doctype WHERE docbasetype = 'MOP' AND c_doctype_id = m_production_batch.c_doctype_id)">EXISTS (SELECT 1 FROM C_DocType WHERE DocBaseType = 'MOP' AND C_DocType_ID = M_Production_Batch.C_DocType_ID)</Data>
+        <Data AD_Column_ID="2741" Column="WhereClause" oldValue="EXISTS (SELECT * FROM c_doctype WHERE docbasetype = 'MOP' AND c_doctype_id = m_productionbatch.c_doctype_id)">EXISTS (SELECT 1 FROM C_DocType WHERE DocBaseType = 'MOP' AND C_DocType_ID = M_ProductionBatch.C_DocType_ID)</Data>
       </PO>
     </Step>
     <Step SeqNo="1010" StepType="AD">
@@ -1713,7 +1713,7 @@
     </Step>
     <Step SeqNo="2970" StepType="AD">
       <PO AD_Table_ID="106" Action="U" Record_ID="54146" Table="AD_Tab">
-        <Data AD_Column_ID="2741" Column="WhereClause" oldValue="EXISTS (SELECT 1 FROM C_DocType WHERE DocBaseType = 'MOP' AND C_DocType_ID = M_Production_Batch.C_DocType_ID)">EXISTS (SELECT 1 FROM C_DocType WHERE DocBaseType = 'MPO' AND C_DocType_ID = M_Production_Batch.C_DocType_ID)</Data>
+        <Data AD_Column_ID="2741" Column="WhereClause" oldValue="EXISTS (SELECT 1 FROM C_DocType WHERE DocBaseType = 'MOP' AND C_DocType_ID = M_ProductionBatch.C_DocType_ID)">EXISTS (SELECT 1 FROM C_DocType WHERE DocBaseType = 'MPO' AND C_DocType_ID = M_ProductionBatch.C_DocType_ID)</Data>
       </PO>
     </Step>
     <Step SeqNo="2980" StepType="AD">

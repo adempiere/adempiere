@@ -41,7 +41,7 @@
         <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="116" Column="ColumnName">M_Production_Batch_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">M_ProductionBatch_ID</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="111" Column="Name">Production Batch</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
