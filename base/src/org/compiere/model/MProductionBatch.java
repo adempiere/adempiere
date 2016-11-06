@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.Env;
@@ -119,30 +118,6 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 			}
 		}
 		return null;
-	}
-	
-	@Override
-	protected boolean beforeDelete() {
-		
-		MMovement[] movements = getMovements(true);
-		for (MMovement movement : movements) {
-			if (movement.isProcessed()) {
-				throw new AdempiereException("Cannot delete Batch No: " + getDocumentNo() + ". Movement DocNo=" + movement.getDocumentNo() + " is already processed");
-			}
-			for (MMovementLine line : movement.getLines(true)) {
-				line.delete(false);
-			}
-			movement.delete(false);
-		}
-		MProduction[] headers = getProductionArray(true);
-		for (MProduction production : headers) {
-			if (production.isProcessed()) {
-				throw new AdempiereException("Cannot delete Batch No: " + getDocumentNo() + ". Production DocNo=" + production.getDocumentNo() + " is already processed");
-			}
-			production.delete(false);
-		}
-		
-		return super.beforeDelete();
 	}
 
 	@Override
@@ -328,6 +303,9 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 	 * @return
 	 */
 	private String createAutomaticProduction() {
+		//	Validate if is allow create automatic production
+		if(!isAutoProduction())
+			return null;
 		// Production Order Processes
 		MProduction[] headers = getProductionArray(true);
 		MProduction header = null;
@@ -350,7 +328,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 				header.processIt(DocAction.ACTION_Prepare);
 			}
 		} else {
-			return "ProductionBatchNotOne";	//	TODO: Translate from message (Batch having production order not more than one")
+			return "ProductionBatchNotOne";
 		}
 		//	
 		header.saveEx(get_TrxName());
@@ -363,6 +341,9 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 	 * @return
 	 */
 	public MProduction createComplementProduction() {
+		//	Validate if is allow create automatic production
+		if(!isAutoProduction())
+			return null;
 		MProduction[] productions = getProductionArray(true);
 		BigDecimal qtyOrder = getTargetQty();
 		BigDecimal qtyCompleted = BigDecimal.ZERO;
