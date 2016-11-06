@@ -8,7 +8,7 @@
         <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6486" Column="EntityType">U</Data>
         <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
-        <Data AD_Column_ID="130" Column="Name">M_Production_MiniMRP</Data>
+        <Data AD_Column_ID="130" Column="Name">M_Production_ReplenishPlan</Data>
         <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
@@ -376,7 +376,7 @@
         <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6486" Column="EntityType">U</Data>
         <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
-        <Data AD_Column_ID="130" Column="Name">C_Order_MiniMRP</Data>
+        <Data AD_Column_ID="130" Column="Name">C_Order_ReplenishPlan</Data>
         <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="555" Column="CreatedBy">100</Data>

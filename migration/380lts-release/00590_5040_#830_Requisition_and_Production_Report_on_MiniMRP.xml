@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Requisition and Planned Production Report On MiniMRP" ReleaseNo="3.9.0" SeqNo="00590">
+  <Migration EntityType="D" Name="Requisition and Planned Production Report On Replenish Plan" ReleaseNo="3.9.0" SeqNo="00590">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="76557" Table="AD_Column">
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">162</Data>
@@ -102,11 +102,11 @@
     </Step>
     <Step DBType="Postgres" SeqNo="40" StepType="SQL">
       <SQLStatement>
-DROP VIEW IF EXISTS rv_minimrp_production;      	
+DROP VIEW IF EXISTS rv_replenishplan_production;
       	
-      	CREATE OR REPLACE VIEW rv_minimrp_production AS 
- SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.mrp_run_id, p.m_product_id, pd.m_production_id, pd.productionqty, pd.datepromised, pd.movementdate, pd.isactive, trunc(c.currentcostprice, 6) AS currentcostprice
-   FROM mrp_runline mrl
+      	CREATE OR REPLACE VIEW rv_replenishplan_production AS
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplan_id, p.m_product_id, pd.m_production_id, pd.productionqty, pd.datepromised, pd.movementdate, pd.isactive, trunc(c.currentcostprice, 6) AS currentcostprice
+   FROM m_replenishplanline mrl
    JOIN m_production pd ON pd.m_production_id = mrl.m_production_id
    JOIN m_product p ON p.m_product_id = pd.m_product_id
    LEFT JOIN m_cost c ON c.ad_client_id = mrl.ad_client_id AND c.ad_org_id = 0::numeric AND c.m_product_id = p.m_product_id AND c.m_attributesetinstance_id = 0::numeric AND c.c_acctschema_id = 1000007::numeric AND c.m_costtype_id = 1000007::numeric AND c.m_costelement_id = 1000007::numeric
@@ -115,10 +115,10 @@ DROP VIEW IF EXISTS rv_minimrp_production;
     </Step>
     <Step DBType="Postgres" SeqNo="50" StepType="SQL">
       <SQLStatement>
-DROP VIEW IF EXISTS rv_minimrp_requisition;      	
-CREATE OR REPLACE VIEW rv_minimrp_requisition AS 
- SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.mrp_runline_id, mrl.mrp_run_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
-   FROM mrp_runline mrl
+DROP VIEW IF EXISTS rv_replenishplan_requisition;
+CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
+   FROM m_replenishplanline mrl
    JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
    JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
    JOIN m_product p ON p.m_product_id = rl.m_product_id
@@ -143,9 +143,9 @@ CREATE OR REPLACE VIEW rv_minimrp_requisition AS
         <Data AD_Column_ID="59135" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
-        <Data AD_Column_ID="107" Column="TableName">RV_MiniMRP_Production</Data>
+        <Data AD_Column_ID="107" Column="TableName">RV_ReplenishPlan_Production</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="102" Column="Name">MiniMRP Production</Data>
+        <Data AD_Column_ID="102" Column="Name">ReplenishPlan Production</Data>
         <Data AD_Column_ID="355" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="543" Column="IsActive">true</Data>
         <Data AD_Column_ID="545" Column="CreatedBy">100</Data>
@@ -328,8 +328,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
         <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
-        <Data AD_Column_ID="347" Column="Description">Table RV_MiniMRP_Production</Data>
-        <Data AD_Column_ID="216" Column="Name">RV_MiniMRP_Production</Data>
+        <Data AD_Column_ID="347" Column="Description">Table RV_ReplenishPlan_Production</Data>
+        <Data AD_Column_ID="216" Column="Name">RV_ReplenishPlan_Production</Data>
         <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="629" Column="Updated">2016-01-06 15:14:57.86</Data>
         <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
@@ -375,9 +375,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="116" Column="ColumnName">MRP_Run_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">M_ReplenishPlan_ID</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="111" Column="Name">MRP_Run ID</Data>
+        <Data AD_Column_ID="111" Column="Name">M_ReplenishPlan ID</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">78332</Data>
@@ -715,9 +715,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59135" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
-        <Data AD_Column_ID="107" Column="TableName">RV_MiniMRP_Requisition</Data>
+        <Data AD_Column_ID="107" Column="TableName">RV_ReplenishPlan_Requisition</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="102" Column="Name">MiniMRP Requisition</Data>
+        <Data AD_Column_ID="102" Column="Name">Replenish Plan Requisition</Data>
         <Data AD_Column_ID="355" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="543" Column="IsActive">true</Data>
         <Data AD_Column_ID="545" Column="CreatedBy">100</Data>
@@ -900,8 +900,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
         <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
-        <Data AD_Column_ID="347" Column="Description">Table RV_MiniMRP_Requisition</Data>
-        <Data AD_Column_ID="216" Column="Name">RV_MiniMRP_Requisition</Data>
+        <Data AD_Column_ID="347" Column="Description">Table RV_ReplenishPlan_Requisition</Data>
+        <Data AD_Column_ID="216" Column="Name">RV_ReplenishPlan_Requisition</Data>
         <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="629" Column="Updated">2016-01-06 15:17:02.213</Data>
         <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
@@ -947,9 +947,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="116" Column="ColumnName">MRP_RunLine_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">M_ReplenishPlanLine_ID</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="111" Column="Name">MRP_RunLine ID</Data>
+        <Data AD_Column_ID="111" Column="Name">M_ReplenishPlanLine ID</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">78346</Data>
@@ -998,9 +998,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="116" Column="ColumnName">MRP_Run_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">M_ReplenishPlan_ID</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="111" Column="Name">MRP_Run ID</Data>
+        <Data AD_Column_ID="111" Column="Name">M_ReplenishPlan ID</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">78347</Data>
@@ -1430,8 +1430,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="4395" Column="WhereClause" isNewNull="true"/>
         <Data AD_Column_ID="4394" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="10032" Column="EntityType">U</Data>
-        <Data AD_Column_ID="4393" Column="Description">Report View of MiniMRP planned Production</Data>
-        <Data AD_Column_ID="4392" Column="Name">RV_MiniMRP_Production</Data>
+        <Data AD_Column_ID="4393" Column="Description">Report View of Replenish Plan planned Production</Data>
+        <Data AD_Column_ID="4392" Column="Name">RV_ReplenishPlan_Production</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
         <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="4388" Column="Created">2016-01-06 15:19:14.922</Data>
@@ -1448,8 +1448,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="4395" Column="WhereClause" isNewNull="true"/>
         <Data AD_Column_ID="4394" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="10032" Column="EntityType">U</Data>
-        <Data AD_Column_ID="4393" Column="Description">Report View of MiniMRP Suggested Requisition</Data>
-        <Data AD_Column_ID="4392" Column="Name">RV_MiniMRP_Requisition</Data>
+        <Data AD_Column_ID="4393" Column="Description">Report View of Replenish Plan Suggested Requisition</Data>
+        <Data AD_Column_ID="4392" Column="Name">RV_ReplenishPlan_Requisition</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
         <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="4388" Column="Created">2016-01-06 15:21:20.38</Data>
@@ -1476,15 +1476,15 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="6485" Column="EntityType">U</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
-        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.GenerateMRPProductionReport</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.GenerateReplenishPlanProductionReport</Data>
         <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
         <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
         <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
         <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
         <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
-        <Data AD_Column_ID="2810" Column="Description">Showing report of Planned Production generated from current MRPRun.</Data>
-        <Data AD_Column_ID="4023" Column="Value">MiniMRP_Production_Report</Data>
-        <Data AD_Column_ID="2809" Column="Name">MiniMRP Production Report</Data>
+        <Data AD_Column_ID="2810" Column="Description">Showing report of Planned Production generated from current Replenish Plan Run.</Data>
+        <Data AD_Column_ID="4023" Column="Value">ReplenishPlan_Production_Report</Data>
+        <Data AD_Column_ID="2809" Column="Name">Replenish Plan Production Report</Data>
         <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2807" Column="Updated">2016-01-06 15:26:44.661</Data>
         <Data AD_Column_ID="2808" Column="UpdatedBy">100</Data>
@@ -1511,15 +1511,15 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="6485" Column="EntityType">U</Data>
         <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
-        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.GenerateMRPRequisitionReport</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.GenerateReplenishPlanRequisitionReport</Data>
         <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
         <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
         <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
         <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
         <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
-        <Data AD_Column_ID="2810" Column="Description">Showing report of Suggested Requisition generated from current MRPRun.</Data>
-        <Data AD_Column_ID="4023" Column="Value">MiniMRP_Requisition_Report</Data>
-        <Data AD_Column_ID="2809" Column="Name">MiniMRP Requisition Report</Data>
+        <Data AD_Column_ID="2810" Column="Description">Showing report of Suggested Requisition generated from current Replenish Plan Run.</Data>
+        <Data AD_Column_ID="4023" Column="Value">ReplenishPlan_Requisition_Report</Data>
+        <Data AD_Column_ID="2809" Column="Name">Replenish Plan Requisition Report</Data>
         <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2807" Column="Updated">2016-01-06 15:28:25.506</Data>
         <Data AD_Column_ID="2808" Column="UpdatedBy">100</Data>
@@ -1549,7 +1549,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="50209" Column="JasperProcess_ID" isNewNull="true"/>
         <Data AD_Column_ID="52069" Column="Args" isNewNull="true"/>
         <Data AD_Column_ID="52068" Column="Classname" isNewNull="true"/>
-        <Data AD_Column_ID="7019" Column="Name">MiniMRP Planned Production</Data>
+        <Data AD_Column_ID="7019" Column="Name">Replenish Plan Planned Production</Data>
         <Data AD_Column_ID="7025" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="8562" Column="PrinterName" isNewNull="true"/>
         <Data AD_Column_ID="7010" Column="IsActive">true</Data>
@@ -1615,8 +1615,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
         <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
         <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
-        <Data AD_Column_ID="6946" Column="PrintName">MRP Run</Data>
-        <Data AD_Column_ID="6940" Column="Name">MRP_Run_ID</Data>
+        <Data AD_Column_ID="6946" Column="PrintName">Replenish Plan Run</Data>
+        <Data AD_Column_ID="6940" Column="Name">M_ReplenishPlan_ID</Data>
         <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
@@ -1989,7 +1989,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="50209" Column="JasperProcess_ID" isNewNull="true"/>
         <Data AD_Column_ID="52069" Column="Args" isNewNull="true"/>
         <Data AD_Column_ID="52068" Column="Classname" isNewNull="true"/>
-        <Data AD_Column_ID="7019" Column="Name">MiniMRP Suggested Requisition</Data>
+        <Data AD_Column_ID="7019" Column="Name">Replenish Plan Suggested Requisition</Data>
         <Data AD_Column_ID="7025" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="8562" Column="PrinterName" isNewNull="true"/>
         <Data AD_Column_ID="7010" Column="IsActive">true</Data>
@@ -2053,8 +2053,8 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="7060" Column="IsCounted">false</Data>
         <Data AD_Column_ID="10259" Column="IsDeviationCalc">false</Data>
         <Data AD_Column_ID="9966" Column="IsRunningTotal">false</Data>
-        <Data AD_Column_ID="6946" Column="PrintName">MRP Run</Data>
-        <Data AD_Column_ID="6940" Column="Name">MRP_Run_ID</Data>
+        <Data AD_Column_ID="6946" Column="PrintName">Replenish Plan Run</Data>
+        <Data AD_Column_ID="6940" Column="Name">M_ReplenishPlan_ID</Data>
         <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
         <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
         <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>

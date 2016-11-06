@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="MRPRun_Enhancements" ReleaseNo="3.9.0" SeqNo="00850">
+  <Migration EntityType="D" Name="ReplenishPlanRun_Enhancements" ReleaseNo="3.9.0" SeqNo="00850">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="80525" Table="AD_Column">
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
@@ -206,10 +206,10 @@
       </PO>
     </Step>
     <Step DBType="Postgres" SeqNo="50" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW rv_minimrp_production AS 
+      <SQLStatement>CREATE OR REPLACE VIEW rv_replenishplan_production AS
  SELECT mrl.ad_client_id,
     mrl.ad_org_id,
-    mrl.mrp_run_id,
+    mrl.m_replenishplan_id,
     p.m_product_id,
     pd.m_production_id,
     pd.productionqty,
@@ -219,7 +219,7 @@
     trunc(c.currentcostprice, 6) AS currentcostprice,
     p.m_product_category_id,
     trunc(c.currentcostprice, 6)*pd.productionqty AS currentcostvalue
-   FROM mrp_runline mrl
+   FROM m_replenishplanline mrl
      JOIN m_production pd ON pd.m_production_id = mrl.m_production_id
      JOIN m_product p ON p.m_product_id = pd.m_product_id
      LEFT JOIN m_cost c ON c.m_product_id = p.m_product_id 
@@ -229,17 +229,17 @@
           WHERE m_costelement.ad_client_id = p.ad_client_id AND m_costelement.costingmethod = 'S'::bpchar AND m_costelement.costelementtype = 'M'::bpchar)
   ORDER BY pd.m_production_id;
 
-ALTER TABLE rv_minimrp_production
+ALTER TABLE rv_replenishplan_production
   OWNER TO adempiere;
 </SQLStatement>
     </Step>
     <Step DBType="Postgres" SeqNo="60" StepType="SQL">
       <SQLStatement>
-CREATE OR REPLACE VIEW rv_minimrp_requisition AS 
+CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
  SELECT mrl.ad_client_id,
     mrl.ad_org_id,
-    mrl.mrp_runline_id,
-    mrl.mrp_run_id,
+    mrl.m_replenishplanline_id,
+    mrl.m_replenishplan_id,
     r.m_requisition_id,
     r.documentno,
     rl.line,
@@ -252,14 +252,14 @@ CREATE OR REPLACE VIEW rv_minimrp_requisition AS
     r.daterequired,
     p.m_product_category_id,
     rl.priceactual * rl.qty as amount
-   FROM mrp_runline mrl
+   FROM m_replenishplanline mrl
      JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
      JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
      JOIN m_product p ON p.m_product_id = rl.m_product_id
      LEFT JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
   ORDER BY r.m_requisition_id, rl.line;
 
-ALTER TABLE rv_minimrp_requisition
+ALTER TABLE rv_replenishplan_requisition
   OWNER TO adempiere;
 </SQLStatement>
     </Step>
@@ -367,11 +367,11 @@ ALTER TABLE rv_minimrp_requisition
     </Step>
     <Step DBType="Postgres" SeqNo="90" StepType="SQL">
       <SQLStatement>
-      	DROP VIEW IF EXISTS rv_minimrp_production;      	
-      	CREATE OR REPLACE VIEW rv_minimrp_production AS 
+      	DROP VIEW IF EXISTS rv_replenishplan_production;
+      	CREATE OR REPLACE VIEW rv_replenishplan_production AS
  SELECT mrl.ad_client_id,
     mrl.ad_org_id,
-    mrl.mrp_run_id,
+    mrl.M_ReplenishPlan_id,
     p.m_product_id,
     pd.m_production_id,
     pd.productionqty,
@@ -381,7 +381,7 @@ ALTER TABLE rv_minimrp_requisition
     p.m_product_category_id,
     trunc(c.currentcostprice, 6) AS currentcostprice,
     trunc(c.currentcostprice, 6)*pd.productionqty AS currentcostvalue
-   FROM mrp_runline mrl
+   FROM m_replenishplanline mrl
      JOIN m_production pd ON pd.m_production_id = mrl.m_production_id
      JOIN m_product p ON p.m_product_id = pd.m_product_id
      LEFT JOIN m_cost c ON c.m_product_id = p.m_product_id 
@@ -391,18 +391,18 @@ ALTER TABLE rv_minimrp_requisition
           WHERE m_costelement.ad_client_id = p.ad_client_id AND m_costelement.costingmethod = 'S'::bpchar AND m_costelement.costelementtype = 'M'::bpchar)
   ORDER BY pd.m_production_id;
 
-ALTER TABLE rv_minimrp_production
+ALTER TABLE rv_replenishplan_production
   OWNER TO adempiere;
 </SQLStatement>
     </Step>
     <Step DBType="Postgres" SeqNo="100" StepType="SQL">
       <SQLStatement>
-      	DROP VIEW IF EXISTS rv_minimrp_requisition;      	
-CREATE OR REPLACE VIEW rv_minimrp_requisition AS 
+      	DROP VIEW IF EXISTS rv_replenishplan_requisition;
+CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
  SELECT mrl.ad_client_id,
     mrl.ad_org_id,
-    mrl.mrp_runline_id,
-    mrl.mrp_run_id,
+    mrl.m_replenishplanline_id,
+    mrl.m_replenishplan_id,
     r.m_requisition_id,
     r.documentno,
     rl.line,
@@ -415,14 +415,14 @@ CREATE OR REPLACE VIEW rv_minimrp_requisition AS
     r.daterequired,
     p.m_product_category_id,
     rl.priceactual * rl.qty as amount
-   FROM mrp_runline mrl
+   FROM m_replenishplanline mrl
      JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
      JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
      JOIN m_product p ON p.m_product_id = rl.m_product_id
      LEFT JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
   ORDER BY r.m_requisition_id, rl.line;
 
-ALTER TABLE rv_minimrp_requisition
+ALTER TABLE rv_replenishplan_requisition
   OWNER TO adempiere;
 </SQLStatement>
     </Step>

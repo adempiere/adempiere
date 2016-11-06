@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Mini MRP Convert Document" ReleaseNo="3.9.0" SeqNo="00650">
+  <Migration EntityType="D" Name="Replenish Plan Convert Document" ReleaseNo="3.9.0" SeqNo="00650">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="376" Action="I" Record_ID="53063" Table="AD_Form">
         <Data AD_Column_ID="5791" Column="AccessLevel">3</Data>
@@ -9,7 +9,7 @@
         <Data AD_Column_ID="12738" Column="IsBetaFunctionality">false</Data>
         <Data AD_Column_ID="7708" Column="EntityType">D</Data>
         <Data AD_Column_ID="4605" Column="Description">Convert Planned Order to Manufacturing Order</Data>
-        <Data AD_Column_ID="4604" Column="Name">MRP Convert Document</Data>
+        <Data AD_Column_ID="4604" Column="Name">Replenish Plan Convert Document</Data>
         <Data AD_Column_ID="4597" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="4603" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="4601" Column="CreatedBy">100</Data>
@@ -18,7 +18,7 @@
         <Data AD_Column_ID="4600" Column="Created">2016-01-05 11:36:22.62</Data>
         <Data AD_Column_ID="4596" Column="AD_Form_ID">53063</Data>
         <Data AD_Column_ID="4598" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="4607" Column="Classname">org.adaxa.form.VMRPConvertForm</Data>
+        <Data AD_Column_ID="4607" Column="Classname">org.adaxa.form.VReplenishPlanConvertForm</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
@@ -44,7 +44,7 @@
         <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="229" Column="Name">MRP Convert Document</Data>
+        <Data AD_Column_ID="229" Column="Name">Replenish Plan Convert Document</Data>
         <Data AD_Column_ID="232" Column="Action">X</Data>
       </PO>
     </Step>

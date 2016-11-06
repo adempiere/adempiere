@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="MiniMRP_PrintFormat" ReleaseNo="3.9.0" SeqNo="00480">
+  <Migration EntityType="D" Name="ReplenishPlan_PrintFormat" ReleaseNo="3.9.0" SeqNo="00480">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="493" Action="I" Record_ID="50250" Table="AD_PrintFormat">
         <Data AD_Column_ID="7014" Column="IsForm">false</Data>
@@ -19,8 +19,8 @@
         <Data AD_Column_ID="50209" Column="JasperProcess_ID" isNewNull="true"/>
         <Data AD_Column_ID="52069" Column="Args" isNewNull="true"/>
         <Data AD_Column_ID="52068" Column="Classname" isNewNull="true"/>
-        <Data AD_Column_ID="7019" Column="Name">MiniMRP_Print_Format</Data>
-        <Data AD_Column_ID="7025" Column="Description">MiniMRP Print Format</Data>
+        <Data AD_Column_ID="7019" Column="Name">Replenish Plan_Print_Format</Data>
+        <Data AD_Column_ID="7025" Column="Description">Replenish Plan Print Format</Data>
         <Data AD_Column_ID="8562" Column="PrinterName" isNewNull="true"/>
         <Data AD_Column_ID="7010" Column="IsActive">true</Data>
         <Data AD_Column_ID="7007" Column="Updated">2014-08-02 11:39:51.717</Data>
