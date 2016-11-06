@@ -19,6 +19,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -30,7 +31,7 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
@@ -107,30 +108,15 @@ public class MProduction extends X_M_Production implements DocAction {
 	 */
 	public MProduction(MProductionBatch batch) {
 		super(batch.getCtx(), 0, batch.get_TrxName());
-		setM_Production_Batch_ID(batch.getM_Production_Batch_ID());
-		setClientOrg(batch);
-		setM_Product_ID(batch.getM_Product_ID());
-		setDatePromised(batch.getMovementDate());
-		setMovementDate(batch.getMovementDate());
-		setM_Locator_ID(batch.getM_Locator_ID());
-		setProductionQty(batch.getTargetQty().subtract(batch.getQtyCompleted()));
-		//	Add Reference
-		setC_Activity_ID(batch.getC_Activity_ID());
-		setC_Project_ID(batch.getC_Project_ID());
-		setC_Campaign_ID(batch.getC_Campaign_ID());
-		setUser1_ID(batch.getUser1_ID());
-		setUser2_ID(batch.getUser2_ID());
-		//	Set Description
-		setDescription(Msg.parseTranslation(getCtx(), 
-				"@Created@ @from@ @M_Production_Batch_ID@ " + batch.getDocumentNo()));
-		log.info("M_Production_ID=" + getM_Production_ID() + " created");
+		setFromBatch(batch);
 	}
 
 	/**
 	 * Get Parent
+	 * reload
 	 * @return
 	 */
-	public MProductionBatch getParent() {
+	public MProductionBatch getParent(boolean reload) {
 		//	Cache
 		if(parent == null
 				&& getM_Production_Batch_ID() != 0) {
@@ -138,6 +124,14 @@ public class MProduction extends X_M_Production implements DocAction {
 		}
 		//	Return
 		return parent;
+	}
+	
+	/**
+	 * Get Parent without reload
+	 * @return
+	 */
+	public MProductionBatch getParent() {
+		return getParent(false);
 	}
 	
 	/**
@@ -368,6 +362,8 @@ public class MProduction extends X_M_Production implements DocAction {
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
+		//	Validate
+		m_processMsg = validateHeader();
 		//	For production created from Batch
 		if(getM_Production_Batch_ID() != 0) {
 			m_processMsg = processFromBatch();
@@ -408,6 +404,10 @@ public class MProduction extends X_M_Production implements DocAction {
 		{
 			return DocAction.STATUS_Invalid;
 		}
+		//	Validate Header
+		m_processMsg = validateHeader();
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
 		//	Create Lines
 		createLines();
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
@@ -421,11 +421,27 @@ public class MProduction extends X_M_Production implements DocAction {
 	}
 
 	/**
+	 * Validate Production Header
+	 * @return
+	 */
+	private String validateHeader() {
+		if(getM_Product_ID() != 0) {
+			if(getProductionQty() == null
+					|| getProductionQty().equals(Env.ZERO))
+				return "@ProductionQty@ = 0";
+			else if(getM_Locator_ID() == 0)
+				return "@M_Locator_ID@ @NotFound@";
+		}
+		//	Default Return
+		return null;
+	}
+	
+	/**
 	 * Validate End Product
 	 * @param M_Product_ID
 	 * @return
 	 */
-	protected String validateEndProduct(int M_Product_ID)
+	private String validateEndProduct(int M_Product_ID)
 	{
 		String msg = isBOM(M_Product_ID);
 		if (!Util.isEmpty(msg))
@@ -439,7 +455,7 @@ public class MProduction extends X_M_Production implements DocAction {
 	 * @param M_Product_ID
 	 * @return
 	 */
-	protected String isBOM(int M_Product_ID) {
+	private String isBOM(int M_Product_ID) {
 		MProduct product = MProduct.get(getCtx(), M_Product_ID);
 		//	Verify if is BOM
 		if(!product.isBOM()) {
@@ -459,48 +475,48 @@ public class MProduction extends X_M_Production implements DocAction {
 	 * @return
 	 * @throws AdempiereUserError
 	 */
-	protected boolean costsOK(int M_Product_ID) throws AdempiereUserError
-	{
-		
-		MProduct product = MProduct.get(getCtx(), M_Product_ID);
-		String costingMethod = product.getCostingMethod(MClient.get(getCtx()).getAcctSchema());
-		if (!costingMethod.equals(MAcctSchema.COSTINGMETHOD_StandardCosting))
-			return true;
-		// will not work if non-standard costing is used
-		if (MAcctSchema.COSTINGMETHOD_StandardCosting.equals(costingMethod))
-		{
-			String sql = "SELECT ABS(((cc.currentcostprice-(SELECT SUM(c.currentcostprice*bom.bomqty)"
-					+ " FROM m_cost c"
-					+ " INNER JOIN pp_product_bom bom ON (c.m_product_id=bom.pp_product_id)"
-					+ " INNER JOIN m_costelement ce ON (c.m_costelement_id = ce.m_costelement_id AND ce.costingmethod = 'S')"
-					+ " WHERE bom.m_product_id = pp.m_product_id)" + " )/cc.currentcostprice))" + " FROM m_product pp"
-					+ " INNER JOIN m_cost cc on (cc.m_product_id=pp.m_product_id)"
-					+ " INNER JOIN m_costelement ce ON (cc.m_costelement_id=ce.m_costelement_id)"
-					+ " WHERE cc.currentcostprice > 0 AND pp.M_Product_ID = ?" + " AND ce.costingmethod='S'";
-
-			BigDecimal costPercentageDiff = DB.getSQLValueBD(get_TrxName(), sql, M_Product_ID);
-
-			if (costPercentageDiff == null)
-			{
-				costPercentageDiff = Env.ZERO;
-				String msg = "Could not retrieve costs";
-				if (MSysConfig.getBooleanValue("MFG_ValidateCostsOnCreate", false, getAD_Client_ID()))
-				{
-					throw new AdempiereUserError(msg);
-				}
-				else
-				{
-					log.warning(msg);
-				}
-			}
-
-			if ((costPercentageDiff.compareTo(new BigDecimal("0.005"))) < 0)
-				return true;
-
-			return false;
-		}
-		return true;
-	}
+//	private boolean costsOK(int M_Product_ID) throws AdempiereUserError
+//	{
+//		
+//		MProduct product = MProduct.get(getCtx(), M_Product_ID);
+//		String costingMethod = product.getCostingMethod(MClient.get(getCtx()).getAcctSchema());
+//		if (!costingMethod.equals(MAcctSchema.COSTINGMETHOD_StandardCosting))
+//			return true;
+//		// will not work if non-standard costing is used
+//		if (MAcctSchema.COSTINGMETHOD_StandardCosting.equals(costingMethod))
+//		{
+//			String sql = "SELECT ABS(((cc.currentcostprice-(SELECT SUM(c.currentcostprice*bom.bomqty)"
+//					+ " FROM m_cost c"
+//					+ " INNER JOIN pp_product_bom bom ON (c.m_product_id=bom.pp_product_id)"
+//					+ " INNER JOIN m_costelement ce ON (c.m_costelement_id = ce.m_costelement_id AND ce.costingmethod = 'S')"
+//					+ " WHERE bom.m_product_id = pp.m_product_id)" + " )/cc.currentcostprice))" + " FROM m_product pp"
+//					+ " INNER JOIN m_cost cc on (cc.m_product_id=pp.m_product_id)"
+//					+ " INNER JOIN m_costelement ce ON (cc.m_costelement_id=ce.m_costelement_id)"
+//					+ " WHERE cc.currentcostprice > 0 AND pp.M_Product_ID = ?" + " AND ce.costingmethod='S'";
+//
+//			BigDecimal costPercentageDiff = DB.getSQLValueBD(get_TrxName(), sql, M_Product_ID);
+//
+//			if (costPercentageDiff == null)
+//			{
+//				costPercentageDiff = Env.ZERO;
+//				String msg = "Could not retrieve costs";
+//				if (MSysConfig.getBooleanValue("MFG_ValidateCostsOnCreate", false, getAD_Client_ID()))
+//				{
+//					throw new AdempiereUserError(msg);
+//				}
+//				else
+//				{
+//					log.warning(msg);
+//				}
+//			}
+//
+//			if ((costPercentageDiff.compareTo(new BigDecimal("0.005"))) < 0)
+//				return true;
+//
+//			return false;
+//		}
+//		return true;
+//	}
 
 	@Override
 	public boolean approveIt()
@@ -706,7 +722,7 @@ public class MProduction extends X_M_Production implements DocAction {
 		setDocStatus(DOCSTATUS_Reversed); // may come from void
 		setDocAction(DOCACTION_None);
 		
-		MProductionBatch pBatch = (MProductionBatch) getM_Production_Batch();
+		MProductionBatch pBatch = getParent();
 		//pBatch.reserveStock((MProduct)reversal.getM_Product(), getProductionQty(), getM_Production_ID());
 		//pBatch.orderedStock(reversal.getM_Product(), getProductionQty());
 		pBatch.saveEx(get_TrxName());
@@ -724,7 +740,7 @@ public class MProduction extends X_M_Production implements DocAction {
 		MProduction to = new MProduction(getCtx(), 0, get_TrxName());
 		PO.copyValues(this, to, getAD_Client_ID(), getAD_Org_ID());
 
-		to.set_ValueNoCheck("DocumentNo", null);
+		to.setDocumentNo(null);
 		//
 		to.setDocStatus(DOCSTATUS_Drafted); // Draft
 		to.setDocAction(DOCACTION_Complete);
@@ -762,22 +778,21 @@ public class MProduction extends X_M_Production implements DocAction {
 			//nothing to create;
 			return null;
 		}
-		I_M_Production_Batch batch = getM_Production_Batch();
+		MProductionBatch batch = getParent();
 		MMovement move = new MMovement(getCtx(), 0, get_TrxName());
 		MWarehouse wh = (MWarehouse) getM_Locator().getM_Warehouse();
 		boolean allowSameLocator = wh.get_ValueAsBoolean("IsAllowSameLocatorMove");
 		move.setClientOrg(this);
-		move.setDescription("Material move created from Production Batch#" + batch.getDocumentNo());
-		try {
-			move.set_Value("M_Warehouse_ID", wh.getM_Warehouse_ID());
-			move.set_Value("M_Warehouse_To_ID", wh.getM_Warehouse_ID());
-		} catch (Exception e) {
-			//in case columns are not defined
-		}
+		move.setDescription(Msg.parseTranslation(getCtx(), 
+				"@Created@ @from@ @M_Production_Batch_ID@ " + batch.getDocumentNo()));
+		//	
+		move.set_Value("M_Warehouse_ID", wh.getM_Warehouse_ID());
+		move.set_Value("M_Warehouse_To_ID", wh.getM_Warehouse_ID());
 		//set fields
 		move.set_Value("M_Production_Batch_ID", batch.getM_Production_Batch_ID());
-		
+		//	Save Movement
 		move.saveEx();
+		//	
 		log.fine("Movement Documentno=" + move.getDocumentNo() + " created for Production Batch=" + batch.getDocumentNo() );
 		
 		for (MProductionLine line : lines) {
@@ -790,7 +805,7 @@ public class MProduction extends X_M_Production implements DocAction {
 				continue;
 			}
 			if (getM_Locator_ID() == line.getM_Product().getM_Locator_ID() && !allowSameLocator) {
-				throw new AdempiereUserError("Cannot use same locator. Please Allow Same Locator in Warehouse Settings");
+				throw new AdempiereUserError("CannotUseSameLocator");
 			}
 			
 			MMovementLine moveLine = new MMovementLine(move);
@@ -799,11 +814,7 @@ public class MProduction extends X_M_Production implements DocAction {
 			moveLine.setM_Product_ID(line.getM_Product_ID());
 			moveLine.setM_AttributeSetInstance_ID(line.getM_AttributeSetInstance_ID());
 			moveLine.setM_AttributeSetInstanceTo_ID(line.getM_AttributeSetInstance_ID());
-			//moveLine.setMovementQty(line.getMovementQty().negate());
-			moveLine.set_Value("MovementQty", line.getMovementQty().negate()); //skip UOM check
-			if (moveLine.getMovementQty().compareTo(line.getMovementQty().negate()) != 0) {
-				throw new AdempiereException("Please adjust standard precision for " + line.getM_Product().getC_UOM().getName() );
-			}
+			moveLine.setMovementQty(line.getMovementQty().negate()); //skip UOM check
 			moveLine.saveEx();
 		}	
 		return move;
@@ -909,76 +920,83 @@ public class MProduction extends X_M_Production implements DocAction {
 				throw new AdempiereException("@C_DocType_ID@ @NotFound@");
 			setC_DocType_ID(C_DocType_ID);
 		}
+		//	For Production Batch
+		if(is_ValueChanged(COLUMNNAME_M_Production_Batch_ID)) {
+			if(!isProcessed()) {
+				setFromBatch(getParent(true));
+			}
+		}
 		//	For quantity
-		if(is_ValueChanged("ProductionQty")) {
+		if(is_ValueChanged(COLUMNNAME_ProductionQty)) {
 			if(!isProcessed()
 					&& isCreated()) {
 				setIsCreated(false);
 			}
 		}
 		//	
-//		if (newRecord && getM_Production_Batch_ID() == 0) {
-//			MProductionBatch batch = new MProductionBatch(getCtx(), 0, get_TrxName());
-//			batch.setClientOrg(this);
-//			batch.setMovementDate(getMovementDate());
-//			batch.setTargetQty(getProductionQty());
-//			batch.setQtyOrdered(getProductionQty());
-//			batch.setDescription(getDescription());
-//			batch.setC_DocType_ID(getC_DocType_ID());
-//			batch.setQtyCompleted(Env.ZERO);
-//			batch.setM_Product_ID(getM_Product_ID());
-//			batch.setM_Locator_ID(getM_Locator_ID());
-//			batch.setDocumentNo(getDocumentNo());
-//			batch.setProcessed(false);
-//			batch.setCountOrder(1);
-//			batch.saveEx();
-//			
-//			if (batch.get_ID() == 0) {
-//				return false;
-//			}
-//			setM_Production_Batch_ID(batch.get_ID());
-//			setDocumentNo(batch.getDocumentNo() + "-01");
-//			return true;
-//		}
-		
 		return true;
+	}
+	
+	/**
+	 * Set values from parent
+	 */
+	private void setFromBatch(MProductionBatch batch) {
+		setM_Production_Batch_ID(batch.getM_Production_Batch_ID());
+		setClientOrg(batch);
+		setM_Product_ID(batch.getM_Product_ID());
+		setDatePromised(batch.getMovementDate());
+		setMovementDate(batch.getMovementDate());
+		setM_Locator_ID(batch.getM_Locator_ID());
+		setProductionQty(batch.getTargetQty().subtract(batch.getQtyCompleted()));
+		//	Add Reference
+		setC_Activity_ID(batch.getC_Activity_ID());
+		setC_Project_ID(batch.getC_Project_ID());
+		setC_Campaign_ID(batch.getC_Campaign_ID());
+		setUser1_ID(batch.getUser1_ID());
+		setUser2_ID(batch.getUser2_ID());
+		//	Set Description
+		if(getDescription() == null) {
+			setDescription(Msg.parseTranslation(getCtx(), 
+					"@Created@ @from@ @M_Production_Batch_ID@ " + batch.getDocumentNo()));
+		}
+		log.info("M_Production_ID=" + getM_Production_ID() + " created");
 	}
 	
 	/**
 	 * Verify if the cost is OK
 	 * @return
 	 */
-	public String costsOK()  {
-		String costingMethod = "";
-		MAcctSchema[] acctschemas= MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
-		for (MAcctSchema as: acctschemas)
-		{
-			costingMethod = as.getCostingMethod();
-			continue;			
-		}		
-		if (!costingMethod.equals(MAcctSchema.COSTINGMETHOD_StandardCosting))
-			return "";
-		String whereClause = "m_productionline_ID in (select m_productionline_ID from m_productionline where m_production_ID = ?)";
-		BigDecimal costPercentageDiff = new Query(getCtx(), MCostDetail.Table_Name, whereClause, get_TrxName())
-				.setOnlyActiveRecords(true)
-				.setParameters(getM_Production_ID())
-				.aggregate("CostAmt", Query.AGGREGATE_SUM);
-				
-		if (costPercentageDiff == null)
-		{
-			return "Could not retrieve costs";
-		}
-		
-		MClientInfo ci = MClientInfo.get(getCtx(), getAD_Client_ID());
-		BigDecimal percentDiffMax =  (BigDecimal) ci.get_Value("PercentDiffMax");
-		if (percentDiffMax == null) {
-			percentDiffMax = new BigDecimal(0.005);
-		}
-		
-		if ( (costPercentageDiff.compareTo(percentDiffMax))< 0 )
-			return "";		
-		return  "Excessive difference in standard costs";
-	}
+//	private String costsOK()  {
+//		String costingMethod = "";
+//		MAcctSchema[] acctschemas= MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
+//		for (MAcctSchema as: acctschemas)
+//		{
+//			costingMethod = as.getCostingMethod();
+//			continue;			
+//		}		
+//		if (!costingMethod.equals(MAcctSchema.COSTINGMETHOD_StandardCosting))
+//			return "";
+//		String whereClause = "m_productionline_ID in (select m_productionline_ID from m_productionline where m_production_ID = ?)";
+//		BigDecimal costPercentageDiff = new Query(getCtx(), MCostDetail.Table_Name, whereClause, get_TrxName())
+//				.setOnlyActiveRecords(true)
+//				.setParameters(getM_Production_ID())
+//				.aggregate("CostAmt", Query.AGGREGATE_SUM);
+//				
+//		if (costPercentageDiff == null)
+//		{
+//			return "Could not retrieve costs";
+//		}
+//		
+//		MClientInfo ci = MClientInfo.get(getCtx(), getAD_Client_ID());
+//		BigDecimal percentDiffMax =  (BigDecimal) ci.get_Value("PercentDiffMax");
+//		if (percentDiffMax == null) {
+//			percentDiffMax = new BigDecimal(0.005);
+//		}
+//		
+//		if ( (costPercentageDiff.compareTo(percentDiffMax))< 0 )
+//			return "";		
+//		return  "Excessive difference in standard costs";
+//	}
 
 	/** Reversal Flag		*/
 	private boolean m_reversal = false;
@@ -1013,60 +1031,47 @@ public class MProduction extends X_M_Production implements DocAction {
 			log.config("Delete old #" + no);
 
 		//	Incoming Trx
-		boolean inTrx = MovementType.charAt(1) == '+';	
 		boolean needSave = false;
 		MProduct product = pLine.getProduct();
-		if (inTrx)
+
+		String MMPolicy = product.getMMPolicy();
+		Timestamp minGuaranteeDate = getMovementDate();
+		MStorage[] storages = MStorage.getWarehouse(getCtx(), pLine.getM_Locator().getM_Warehouse_ID(), pLine.getM_Product_ID(), pLine.getM_AttributeSetInstance_ID(),
+				minGuaranteeDate, MClient.MMPOLICY_FiFo.equals(MMPolicy), true, pLine.getM_Locator_ID(), get_TrxName());
+		BigDecimal qtyToDeliver = pLine.getMovementQty().negate();
+		for (MStorage storage: storages)
 		{
+			if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
+			{
+				MProductionLineMA ma = new MProductionLineMA (pLine,
+						storage.getM_AttributeSetInstance_ID(),
+						qtyToDeliver);
+				ma.saveEx();
+				qtyToDeliver = Env.ZERO;
+			}
+			else
+			{
+				MProductionLineMA ma = new MProductionLineMA (pLine,
+						storage.getM_AttributeSetInstance_ID(),
+						storage.getQtyOnHand());
+				ma.saveEx();
+				qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+				log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);
+			}
+
+			if (qtyToDeliver.signum() == 0)
+				break;
 		}
 
-		//	Attribute Set Instance
-		//  Create an  Attribute Set Instance to any receipt FIFO/LIFO
-		//if (product != null && line.getM_AttributeSetInstance_ID() == 0)
-		else
+		if (qtyToDeliver.signum() != 0)
 		{
-			// Create consume the Attribute Set Instance using policy FIFO/LIFO
-			{
-				String MMPolicy = product.getMMPolicy();
-				Timestamp minGuaranteeDate = getMovementDate();
-				MStorage[] storages = MStorage.getWarehouse(getCtx(), pLine.getM_Locator().getM_Warehouse_ID(), pLine.getM_Product_ID(), pLine.getM_AttributeSetInstance_ID(),
-						minGuaranteeDate, MClient.MMPOLICY_FiFo.equals(MMPolicy), true, pLine.getM_Locator_ID(), get_TrxName());
-				BigDecimal qtyToDeliver = pLine.getMovementQty().negate();
-				for (MStorage storage: storages)
-				{
-					if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
-					{
-						MProductionLineMA ma = new MProductionLineMA (pLine,
-								storage.getM_AttributeSetInstance_ID(),
-								qtyToDeliver);
-						ma.saveEx();
-						qtyToDeliver = Env.ZERO;
-					}
-					else
-					{
-						MProductionLineMA ma = new MProductionLineMA (pLine,
-								storage.getM_AttributeSetInstance_ID(),
-								storage.getQtyOnHand());
-						ma.saveEx();
-						qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
-						log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);
-					}
-
-					if (qtyToDeliver.signum() == 0)
-						break;
-				}
-
-				if (qtyToDeliver.signum() != 0)
-				{
-					//deliver using new asi
-					MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
-					int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
-					MProductionLineMA ma = new MProductionLineMA (pLine, M_AttributeSetInstance_ID, qtyToDeliver);
-					ma.saveEx();
-					log.fine("##: " + ma);
-				}
-			}	//	outgoing Trx
-		}	//	attributeSetInstance
+			//deliver using new asi
+			MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
+			int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
+			MProductionLineMA ma = new MProductionLineMA (pLine, M_AttributeSetInstance_ID, qtyToDeliver);
+			ma.saveEx();
+			log.fine("##: " + ma);
+		}
 
 		if (needSave)
 		{
@@ -1081,7 +1086,6 @@ public class MProduction extends X_M_Production implements DocAction {
 		//	If it already created then ignore
 		if (isCreated())
 			return;
-		int created = 0;
 		isBOM(getM_Product_ID());
 		//	Recalculate
 		recalculate();
@@ -1094,21 +1098,20 @@ public class MProduction extends X_M_Production implements DocAction {
 		}
 
 		BigDecimal maxPlanQty = pBatch.getTargetQty().subtract(cntQty);
-		if (getProductionQty().compareTo(maxPlanQty) > 0)
-			throw new AdempiereException("Production batch target qty is: " + pBatch.getTargetQty()
-					+ " <BR/>Total production planned qty on current batch is: " + cntQty
-					+ " <BR/>Maximum plan qty should be: " + maxPlanQty);
+		if (getProductionQty().compareTo(maxPlanQty) > 0) {
+			DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Quantity);
+			throw new AdempiereException("@Total@ @ProductionQty@ > @TargetQty@ [@TargetQty@ = " + format.format(pBatch.getTargetQty())
+					+ " @Total@ @ProductionQty@ = " + format.format(cntQty)
+					+ " @Max@ = " + format.format(maxPlanQty));
+		}
 		//	Delete before process
 		deleteLines();
 		createLines(isMustBeStocked());
-		created = getLines().length;
-		if (created == 0) 
-			throw new AdempiereException("Failed to create production lines");
 		//	Set flag created
 		setIsCreated(true);
 		saveEx();
 		//jobrian - update Production Batch
-		MProductionBatch batch = (MProductionBatch) getM_Production_Batch();
+		MProductionBatch batch = getParent();
 		if(batch != null) {
 			batch.setQtyOrdered(getProductionQty());
 			batch.saveEx();
@@ -1148,17 +1151,15 @@ public class MProduction extends X_M_Production implements DocAction {
 
 			MProductionLine line = new MProductionLine(this);
 			line.setLine(lineno);
-			line.setM_Product_ID( finishedProduct.get_ID() );
-			line.setM_Locator_ID( getM_Locator_ID() );
-			line.setMovementQty( getProductionQty());
+			line.setM_Product_ID(finishedProduct.getM_Product_ID());
+			line.setM_Locator_ID(getM_Locator_ID());
+			line.setMovementQty(getProductionQty());
 			line.setPlannedQty(getProductionQty());
 			line.saveEx();
 		}
-
 		//
-		
 		error = creareBOM(mustBeStocked, finishedProduct, getProductionQty());
-		
+		//	
 		return error;
 	}
 	
@@ -1176,8 +1177,6 @@ public class MProduction extends X_M_Production implements DocAction {
 		{
 			
 			lineno = lineno + 10;
-			//int BOMProduct_ID = rs.getInt(1);
-			//BigDecimal BOMQty = rs.getBigDecimal(2);
 			BigDecimal BOMMovementQty = bLine.getQty(true).multiply(requiredQty);			
 			MProduct bomproduct = bLine.getProduct();
 			if ( bomproduct.isBOM() && bomproduct.isPhantom() )
