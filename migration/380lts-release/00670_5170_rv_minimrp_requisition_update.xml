@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="RV_ReplenishPlan_Requisition update" ReleaseNo="3.9.0" SeqNo="00670">
+  <Migration EntityType="D" Name="RV_M_ReplenishPlan_Requisition update" ReleaseNo="3.9.0" SeqNo="00670">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="78363" Table="AD_Column">
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
@@ -53,11 +53,11 @@
       </PO>
     </Step>
     <Step DBType="Postgres" SeqNo="20" StepType="SQL">
-      <SQLStatement>-- View: rv_replenishplan_requisition
+      <SQLStatement>-- View: rv_m_replenishplan_requisition
 
-DROP VIEW IF EXISTS rv_replenishplan_requisition;
+DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
 
-CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
+CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
  SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
  , r.daterequired
    FROM m_replenishplanline mrl
@@ -67,7 +67,7 @@ CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
    LEFT JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
   ORDER BY r.m_requisition_id, rl.line;
 
-ALTER TABLE rv_replenishplan_requisition
+ALTER TABLE rv_m_replenishplan_requisition
   OWNER TO adempiere;
 </SQLStatement>
     </Step>

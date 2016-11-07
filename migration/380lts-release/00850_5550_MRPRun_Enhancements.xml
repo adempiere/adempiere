@@ -206,7 +206,7 @@
       </PO>
     </Step>
     <Step DBType="Postgres" SeqNo="50" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW rv_replenishplan_production AS
+      <SQLStatement>CREATE OR REPLACE VIEW rv_m_replenishplan_production AS
  SELECT mrl.ad_client_id,
     mrl.ad_org_id,
     mrl.m_replenishplan_id,
@@ -229,13 +229,13 @@
           WHERE m_costelement.ad_client_id = p.ad_client_id AND m_costelement.costingmethod = 'S'::bpchar AND m_costelement.costelementtype = 'M'::bpchar)
   ORDER BY pd.m_production_id;
 
-ALTER TABLE rv_replenishplan_production
+ALTER TABLE rv_m_replenishplan_production
   OWNER TO adempiere;
 </SQLStatement>
     </Step>
     <Step DBType="Postgres" SeqNo="60" StepType="SQL">
       <SQLStatement>
-CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
+CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
  SELECT mrl.ad_client_id,
     mrl.ad_org_id,
     mrl.m_replenishplanline_id,
@@ -259,7 +259,7 @@ CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
      LEFT JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
   ORDER BY r.m_requisition_id, rl.line;
 
-ALTER TABLE rv_replenishplan_requisition
+ALTER TABLE rv_m_replenishplan_requisition
   OWNER TO adempiere;
 </SQLStatement>
     </Step>
@@ -367,8 +367,8 @@ ALTER TABLE rv_replenishplan_requisition
     </Step>
     <Step DBType="Postgres" SeqNo="90" StepType="SQL">
       <SQLStatement>
-      	DROP VIEW IF EXISTS rv_replenishplan_production;
-      	CREATE OR REPLACE VIEW rv_replenishplan_production AS
+      	DROP VIEW IF EXISTS rv_m_replenishplan_production;
+      	CREATE OR REPLACE VIEW rv_m_replenishplan_production AS
  SELECT mrl.ad_client_id,
     mrl.ad_org_id,
     mrl.M_ReplenishPlan_id,
@@ -391,14 +391,14 @@ ALTER TABLE rv_replenishplan_requisition
           WHERE m_costelement.ad_client_id = p.ad_client_id AND m_costelement.costingmethod = 'S'::bpchar AND m_costelement.costelementtype = 'M'::bpchar)
   ORDER BY pd.m_production_id;
 
-ALTER TABLE rv_replenishplan_production
+ALTER TABLE rv_m_replenishplan_production
   OWNER TO adempiere;
 </SQLStatement>
     </Step>
     <Step DBType="Postgres" SeqNo="100" StepType="SQL">
       <SQLStatement>
-      	DROP VIEW IF EXISTS rv_replenishplan_requisition;
-CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
+      	DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
+CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
  SELECT mrl.ad_client_id,
     mrl.ad_org_id,
     mrl.m_replenishplanline_id,
@@ -422,7 +422,7 @@ CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
      LEFT JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
   ORDER BY r.m_requisition_id, rl.line;
 
-ALTER TABLE rv_replenishplan_requisition
+ALTER TABLE rv_m_replenishplan_requisition
   OWNER TO adempiere;
 </SQLStatement>
     </Step>

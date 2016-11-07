@@ -102,9 +102,9 @@
     </Step>
     <Step DBType="Postgres" SeqNo="40" StepType="SQL">
       <SQLStatement>
-DROP VIEW IF EXISTS rv_replenishplan_production;
+DROP VIEW IF EXISTS rv_m_replenishplan_production;
       	
-      	CREATE OR REPLACE VIEW rv_replenishplan_production AS
+      	CREATE OR REPLACE VIEW rv_m_replenishplan_production AS
  SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplan_id, p.m_product_id, pd.m_production_id, pd.productionqty, pd.datepromised, pd.movementdate, pd.isactive, trunc(c.currentcostprice, 6) AS currentcostprice
    FROM m_replenishplanline mrl
    JOIN m_production pd ON pd.m_production_id = mrl.m_production_id
@@ -115,8 +115,8 @@ DROP VIEW IF EXISTS rv_replenishplan_production;
     </Step>
     <Step DBType="Postgres" SeqNo="50" StepType="SQL">
       <SQLStatement>
-DROP VIEW IF EXISTS rv_replenishplan_requisition;
-CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
+DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
+CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
  SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
    FROM m_replenishplanline mrl
    JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
@@ -143,7 +143,7 @@ CREATE OR REPLACE VIEW rv_replenishplan_requisition AS
         <Data AD_Column_ID="59135" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
-        <Data AD_Column_ID="107" Column="TableName">RV_ReplenishPlan_Production</Data>
+        <Data AD_Column_ID="107" Column="TableName">RV_M_ReplenishPlan_Production</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="102" Column="Name">ReplenishPlan Production</Data>
         <Data AD_Column_ID="355" Column="AD_Client_ID">0</Data>
@@ -328,8 +328,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
         <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
-        <Data AD_Column_ID="347" Column="Description">Table RV_ReplenishPlan_Production</Data>
-        <Data AD_Column_ID="216" Column="Name">RV_ReplenishPlan_Production</Data>
+        <Data AD_Column_ID="347" Column="Description">Table RV_M_ReplenishPlan_Production</Data>
+        <Data AD_Column_ID="216" Column="Name">RV_M_ReplenishPlan_Production</Data>
         <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="629" Column="Updated">2016-01-06 15:14:57.86</Data>
         <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
@@ -715,7 +715,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59135" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
-        <Data AD_Column_ID="107" Column="TableName">RV_ReplenishPlan_Requisition</Data>
+        <Data AD_Column_ID="107" Column="TableName">RV_M_ReplenishPlan_Requisition</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="102" Column="Name">Replenish Plan Requisition</Data>
         <Data AD_Column_ID="355" Column="AD_Client_ID">0</Data>
@@ -900,8 +900,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
         <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
-        <Data AD_Column_ID="347" Column="Description">Table RV_ReplenishPlan_Requisition</Data>
-        <Data AD_Column_ID="216" Column="Name">RV_ReplenishPlan_Requisition</Data>
+        <Data AD_Column_ID="347" Column="Description">Table RV_M_ReplenishPlan_Requisition</Data>
+        <Data AD_Column_ID="216" Column="Name">RV_M_ReplenishPlan_Requisition</Data>
         <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="629" Column="Updated">2016-01-06 15:17:02.213</Data>
         <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
@@ -1431,7 +1431,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="4394" Column="AD_Table_ID">54054</Data>
         <Data AD_Column_ID="10032" Column="EntityType">U</Data>
         <Data AD_Column_ID="4393" Column="Description">Report View of Replenish Plan planned Production</Data>
-        <Data AD_Column_ID="4392" Column="Name">RV_ReplenishPlan_Production</Data>
+        <Data AD_Column_ID="4392" Column="Name">RV_M_ReplenishPlan_Production</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
         <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="4388" Column="Created">2016-01-06 15:19:14.922</Data>
@@ -1449,7 +1449,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="4394" Column="AD_Table_ID">54055</Data>
         <Data AD_Column_ID="10032" Column="EntityType">U</Data>
         <Data AD_Column_ID="4393" Column="Description">Report View of Replenish Plan Suggested Requisition</Data>
-        <Data AD_Column_ID="4392" Column="Name">RV_ReplenishPlan_Requisition</Data>
+        <Data AD_Column_ID="4392" Column="Name">RV_M_ReplenishPlan_Requisition</Data>
         <Data AD_Column_ID="4387" Column="IsActive">true</Data>
         <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="4388" Column="Created">2016-01-06 15:21:20.38</Data>
