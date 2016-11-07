@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.compiere.model.MMRPRun;
 import org.compiere.model.MReplenishPlan;
 import org.compiere.model.MTable;
 import org.compiere.model.X_AD_PrintFormatItem;

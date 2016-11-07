@@ -30,7 +30,7 @@ public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161106L;
+	private static final long serialVersionUID = 20161107L;
 
     /** Standard Constructor */
     public X_M_ReplenishPlan (Properties ctx, int M_ReplenishPlan_ID, String trxName)
@@ -140,23 +140,23 @@ public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persis
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocType_ReplenishPlanRequ() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType_Requisit() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
-			.getPO(getC_DocType_ReplenishPlanRequisi(), get_TrxName());	}
+			.getPO(getC_DocType_Requisition(), get_TrxName());	}
 
 	/** Set Replenish Plan Requisition Doc Type.
-		@param C_DocType_ReplenishPlanRequisi Replenish Plan Requisition Doc Type	  */
-	public void setC_DocType_ReplenishPlanRequisi (int C_DocType_ReplenishPlanRequisi)
+		@param C_DocType_Requisition Replenish Plan Requisition Doc Type	  */
+	public void setC_DocType_Requisition (int C_DocType_Requisition)
 	{
-		set_Value (COLUMNNAME_C_DocType_ReplenishPlanRequisi, Integer.valueOf(C_DocType_ReplenishPlanRequisi));
+		set_Value (COLUMNNAME_C_DocType_Requisition, Integer.valueOf(C_DocType_Requisition));
 	}
 
 	/** Get Replenish Plan Requisition Doc Type.
 		@return Replenish Plan Requisition Doc Type	  */
-	public int getC_DocType_ReplenishPlanRequisi () 
+	public int getC_DocType_Requisition () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ReplenishPlanRequisi);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_Requisition);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

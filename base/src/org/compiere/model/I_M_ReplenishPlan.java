@@ -94,16 +94,16 @@ public interface I_M_ReplenishPlan
 
 	public org.compiere.model.I_C_DocType getC_DocType_PlannedOr() throws RuntimeException;
 
-    /** Column name C_DocType_ReplenishPlanRequisi */
-    public static final String COLUMNNAME_C_DocType_ReplenishPlanRequisi = "C_DocType_ReplenishPlanRequisi";
+    /** Column name C_DocType_Requisition */
+    public static final String COLUMNNAME_C_DocType_Requisition = "C_DocType_Requisition";
 
 	/** Set Replenish Plan Requisition Doc Type	  */
-	public void setC_DocType_ReplenishPlanRequisi (int C_DocType_ReplenishPlanRequisi);
+	public void setC_DocType_Requisition (int C_DocType_Requisition);
 
 	/** Get Replenish Plan Requisition Doc Type	  */
-	public int getC_DocType_ReplenishPlanRequisi();
+	public int getC_DocType_Requisition();
 
-	public org.compiere.model.I_C_DocType getC_DocType_ReplenishPlanRequ() throws RuntimeException;
+	public org.compiere.model.I_C_DocType getC_DocType_Requisit() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

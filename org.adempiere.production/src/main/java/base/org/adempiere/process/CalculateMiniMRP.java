@@ -189,7 +189,7 @@ public class CalculateMiniMRP extends SvrProcess
 		docType_PlannedOrder = run.getC_DocType_PlannedOrder();
 		docType_ConfirmedOrder = run.getC_DocType_ConfirmedOrder();
 		docType_PurchaseOrder = run.getC_DocType_PO();
-		//docType_MRPRequisition = run.getC_DocType_MRPRequisition();
+		docType_MRPRequisition = run.getC_DocType_Requisition();
 		
 		if (docType_PlannedOrder <= 0)
 			error.append("No Mfg Planned Order Document set. \n");
