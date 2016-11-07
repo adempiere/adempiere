@@ -10,7 +10,7 @@ import org.compiere.util.Trx;
 /**
  * @author Sachin Bhimani
  */
-public class GenerateMRPProductionReport extends SvrProcess
+public class GenerateReplenishPlanProductionReport extends SvrProcess
 {
 
 	@Override
