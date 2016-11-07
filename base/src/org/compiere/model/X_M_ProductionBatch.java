@@ -31,7 +31,7 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161106L;
+	private static final long serialVersionUID = 20161107L;
 
     /** Standard Constructor */
     public X_M_ProductionBatch (Properties ctx, int M_ProductionBatch_ID, String trxName)

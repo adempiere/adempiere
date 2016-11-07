@@ -30,7 +30,7 @@ public class X_M_ProductionBatchLine extends PO implements I_M_ProductionBatchLi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161106L;
+	private static final long serialVersionUID = 20161107L;
 
     /** Standard Constructor */
     public X_M_ProductionBatchLine (Properties ctx, int M_ProductionBatchLine_ID, String trxName)

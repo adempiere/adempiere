@@ -32,7 +32,7 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161106L;
+	private static final long serialVersionUID = 20161107L;
 
     /** Standard Constructor */
     public X_M_Production (Properties ctx, int M_Production_ID, String trxName)
@@ -44,9 +44,6 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 // N
 			setIsWIP (false);
 // N
-			setM_Locator_ID (0);
-// -1
-			setM_Product_ID (0);
 			setM_Production_ID (0);
 			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@

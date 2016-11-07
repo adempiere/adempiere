@@ -31,7 +31,7 @@ public class X_M_ReplenishPlanLine extends PO implements I_M_ReplenishPlanLine, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161106L;
+	private static final long serialVersionUID = 20161107L;
 
     /** Standard Constructor */
     public X_M_ReplenishPlanLine (Properties ctx, int M_ReplenishPlanLine_ID, String trxName)
