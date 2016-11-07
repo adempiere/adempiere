@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -22,34 +21,33 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.util.Env;
 
-/** Generated Model for M_PBatch_Line
+/** Generated Model for M_ProductionBatchLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
- */
-public class X_M_PBatch_Line extends PO implements I_M_PBatch_Line, I_Persistent 
+ *  @version Release 3.9.0 - $Id$ */
+public class X_M_ProductionBatchLine extends PO implements I_M_ProductionBatchLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160412L;
+	private static final long serialVersionUID = 20161106L;
 
     /** Standard Constructor */
-    public X_M_PBatch_Line (Properties ctx, int M_PBatch_Line_ID, String trxName)
+    public X_M_ProductionBatchLine (Properties ctx, int M_ProductionBatchLine_ID, String trxName)
     {
-      super (ctx, M_PBatch_Line_ID, trxName);
-      /** if (M_PBatch_Line_ID == 0)
+      super (ctx, M_ProductionBatchLine_ID, trxName);
+      /** if (M_ProductionBatchLine_ID == 0)
         {
 			setIsEndProduct (false);
 // N
-			setM_PBatch_Line_ID (0);
 			setM_Product_ID (0);
-			setM_Production_Batch_ID (0);
+			setM_ProductionBatchLine_ID (0);
+			setM_ProductionBatch_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_M_PBatch_Line (Properties ctx, ResultSet rs, String trxName)
+    public X_M_ProductionBatchLine (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -71,7 +69,7 @@ public class X_M_PBatch_Line extends PO implements I_M_PBatch_Line, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_M_PBatch_Line[")
+      StringBuffer sb = new StringBuffer ("X_M_ProductionBatchLine[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -100,29 +98,9 @@ public class X_M_PBatch_Line extends PO implements I_M_PBatch_Line, I_Persistent
 		return false;
 	}
 
-	/** Set Production Batch Line ID.
-		@param M_PBatch_Line_ID Production Batch Line ID	  */
-	public void setM_PBatch_Line_ID (int M_PBatch_Line_ID)
-	{
-		if (M_PBatch_Line_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_PBatch_Line_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_PBatch_Line_ID, Integer.valueOf(M_PBatch_Line_ID));
-	}
-
-	/** Get Production Batch Line ID.
-		@return Production Batch Line ID	  */
-	public int getM_PBatch_Line_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PBatch_Line_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -148,26 +126,46 @@ public class X_M_PBatch_Line extends PO implements I_M_PBatch_Line, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Production_Batch getM_Production_Batch() throws RuntimeException
+	/** Set Production Batch Line.
+		@param M_ProductionBatchLine_ID Production Batch Line	  */
+	public void setM_ProductionBatchLine_ID (int M_ProductionBatchLine_ID)
+	{
+		if (M_ProductionBatchLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductionBatchLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductionBatchLine_ID, Integer.valueOf(M_ProductionBatchLine_ID));
+	}
+
+	/** Get Production Batch Line.
+		@return Production Batch Line	  */
+	public int getM_ProductionBatchLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionBatchLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_ProductionBatch getM_ProductionBatch() throws RuntimeException
     {
-		return (I_M_Production_Batch)MTable.get(getCtx(), I_M_Production_Batch.Table_Name)
-			.getPO(getM_Production_Batch_ID(), get_TrxName());	}
+		return (org.compiere.model.I_M_ProductionBatch)MTable.get(getCtx(), org.compiere.model.I_M_ProductionBatch.Table_Name)
+			.getPO(getM_ProductionBatch_ID(), get_TrxName());	}
 
 	/** Set Production Batch.
-		@param M_Production_Batch_ID Production Batch	  */
-	public void setM_Production_Batch_ID (int M_Production_Batch_ID)
+		@param M_ProductionBatch_ID Production Batch	  */
+	public void setM_ProductionBatch_ID (int M_ProductionBatch_ID)
 	{
-		if (M_Production_Batch_ID < 1) 
-			set_Value (COLUMNNAME_M_Production_Batch_ID, null);
+		if (M_ProductionBatch_ID < 1) 
+			set_Value (COLUMNNAME_M_ProductionBatch_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Production_Batch_ID, Integer.valueOf(M_Production_Batch_ID));
+			set_Value (COLUMNNAME_M_ProductionBatch_ID, Integer.valueOf(M_ProductionBatch_ID));
 	}
 
 	/** Get Production Batch.
 		@return Production Batch	  */
-	public int getM_Production_Batch_ID () 
+	public int getM_ProductionBatch_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Production_Batch_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionBatch_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

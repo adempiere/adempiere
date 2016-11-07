@@ -24,18 +24,17 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.compiere.model.MMRPRun;
+import org.compiere.model.MReplenishPlan;
 import org.compiere.model.MOrder;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProduction;
 import org.compiere.model.MRequisition;
-import org.compiere.model.X_MRP_RunLine;
+import org.compiere.model.X_M_ReplenishPlanLine;
 import org.compiere.process.ProcessInfoLog;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPProductBOM;
 
 import com.mchange.v2.c3p0.C3P0ProxyConnection;
 
@@ -181,7 +180,7 @@ public class CalculateMiniMRP extends SvrProcess
 		Timestamp t1 = new Timestamp(System.currentTimeMillis());
 		log.config("Start DoIt: " + sdf.format(t1));
 
-		MMRPRun run = new MMRPRun(ctx, mrpRunID, trx);
+		MReplenishPlan run = new MReplenishPlan(ctx, mrpRunID, trx);
 		StringBuilder error = new StringBuilder();
 		dateFrom = run.getDateStart();
 		dateTo = run.getDateFinish();
@@ -190,7 +189,7 @@ public class CalculateMiniMRP extends SvrProcess
 		docType_PlannedOrder = run.getC_DocType_PlannedOrder();
 		docType_ConfirmedOrder = run.getC_DocType_ConfirmedOrder();
 		docType_PurchaseOrder = run.getC_DocType_PO();
-		docType_MRPRequisition = run.getC_DocType_MRPRequisition();
+		//docType_MRPRequisition = run.getC_DocType_MRPRequisition();
 		
 		if (docType_PlannedOrder <= 0)
 			error.append("No Mfg Planned Order Document set. \n");
@@ -204,7 +203,7 @@ public class CalculateMiniMRP extends SvrProcess
 		if (error.length() > 0) {
 			throw new Exception(error.toString());
 		}
-		String sql = "DELETE FROM MRP_RunLine WHERE MRP_Run_ID=? AND AD_Client_ID=?";
+		String sql = "DELETE FROM M_ReplenishPlanLine WHERE M_ReplenishPlan_ID=? AND AD_Client_ID=?";
 		int noOfLinesDeleted = DB.executeUpdateEx(sql, new Object[] { mrpRunID, Env.getAD_Client_ID(ctx) }, trx);
 		log.fine("No. of MRP lines deleted : " + noOfLinesDeleted);
 
@@ -371,13 +370,13 @@ public class CalculateMiniMRP extends SvrProcess
 	{
 
 		String sql = "WITH HasSupply AS "
-				+ "(SELECT M_Product_ID, MRP_Run_ID, AD_Client_ID, COUNT (M_Product_ID) "
-				+ " FROM MRP_RunLine	WHERE MRP_Run_ID = ? AND AD_Client_ID = ? "
-				+ " GROUP BY AD_Client_ID, MRP_Run_ID, M_Product_ID "
+				+ "(SELECT M_Product_ID, M_ReplenishPlan_ID, AD_Client_ID, COUNT (M_Product_ID) "
+				+ " FROM M_ReplenishPlanLine	WHERE M_ReplenishPlan_ID = ? AND AD_Client_ID = ? "
+				+ " GROUP BY AD_Client_ID, M_ReplenishPlan_ID, M_Product_ID "
 				+ " HAVING COUNT (M_Product_ID) > 2	"
 				+ ") "
-				+ "UPDATE MRP_RunLine rl SET HasSupplyDemand = 'Y' FROM HasSupply hs "
-				+ "WHERE hs.MRP_Run_ID = rl.MRP_Run_ID AND hs.AD_Client_ID = rl.AD_Client_ID AND hs.M_Product_ID = rl.M_Product_ID";
+				+ "UPDATE M_ReplenishPlanLine rl SET HasSupplyDemand = 'Y' FROM HasSupply hs "
+				+ "WHERE hs.M_ReplenishPlan_ID = rl.M_ReplenishPlan_ID AND hs.AD_Client_ID = rl.AD_Client_ID AND hs.M_Product_ID = rl.M_Product_ID";
 
 		int updated = DB.executeUpdateEx(sql, new Object[] { mrpRunID, Env.getAD_Client_ID(ctx) }, trx);
 
@@ -849,16 +848,16 @@ public class CalculateMiniMRP extends SvrProcess
 	 * @param miniMrpProduct
 	 * @param line
 	 * @param type
-	 * @return miniMRP_RunLine
+	 * @return miniM_ReplenishPlanLine
 	 */
-	private X_MRP_RunLine getX_MRP_RunLine(MiniMRPProduct miniMrpProduct, int line, String type)
+	private X_M_ReplenishPlanLine getX_M_ReplenishPlanLine(MiniMRPProduct miniMrpProduct, int line, String type)
 	{
-		X_MRP_RunLine miniMRP = new X_MRP_RunLine(ctx, 0, trx);
+		X_M_ReplenishPlanLine miniMRP = new X_M_ReplenishPlanLine(ctx, 0, trx);
 		miniMRP.setM_Product_ID(miniMrpProduct.getM_Product_ID());
 		miniMRP.setM_Product_Category_ID(miniMrpProduct.getM_Product_Category_ID());
 		miniMRP.setProductName(miniMrpProduct.getName());
 		miniMRP.setLine(line);
-		miniMRP.setMRP_Run_ID(mrpRunID);
+		miniMRP.setM_ReplenishPlan_ID(mrpRunID);
 		miniMRP.setRecordType(type);
 		miniMRP.setDateStart(dateFrom);
 		miniMRP.setDateFinish(dateTo);
@@ -932,7 +931,7 @@ public class CalculateMiniMRP extends SvrProcess
 				Map<Integer, BigDecimal> weeklyDemand = orderDemands.get(orderId);
 				if (weeklyDemand.size() > 0)
 				{
-					X_MRP_RunLine miniMRP = getX_MRP_RunLine(miniMrpProduct, lineNo, TYPE_PRODUCT_ORDER_DEMAND);
+					X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, TYPE_PRODUCT_ORDER_DEMAND);
 					miniMRP.setC_Order_ID(orderId);
 					MOrder order = new MOrder(ctx, orderId, trx);
 
@@ -1022,7 +1021,7 @@ public class CalculateMiniMRP extends SvrProcess
 	private void insertProductionDemand(MiniMRPProduct miniMrpProduct, Map<Integer, BigDecimal> totalDemandLine,
 			int mProduction_ID, String documentNo, Timestamp promisedDate, BigDecimal qtyUsed, String prodType)
 	{
-		X_MRP_RunLine miniMRP = getX_MRP_RunLine(miniMrpProduct, lineNo, TYPE_PRODUCT_ORDER_DEMAND);
+		X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, TYPE_PRODUCT_ORDER_DEMAND);
 		miniMRP.setM_Production_ID(mProduction_ID);
 		String datePromised = null;
 		int week = 0;
@@ -1059,7 +1058,7 @@ public class CalculateMiniMRP extends SvrProcess
 	{
 		if (!totalLine.isEmpty())
 		{
-			X_MRP_RunLine miniMRP = getX_MRP_RunLine(miniMrpProduct, lineNo, lineType);
+			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, lineType);
 			for (Integer week : totalLine.keySet())
 			{
 				BigDecimal qty = totalLine.get(week);
@@ -1134,7 +1133,7 @@ public class CalculateMiniMRP extends SvrProcess
 				{
 					if (weeklyDemand.size() > 0)
 					{
-						X_MRP_RunLine miniMRP = getX_MRP_RunLine(miniMrpProduct, lineNo, isPlannedOrder
+						X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPlannedOrder
 								? TYPE_SUPPLY_LINE_MO_PLANNED : TYPE_SUPPLY_LINE_MO_NONPLANNED);
 						miniMRP.setM_Production_ID(M_Production_ID);
 
@@ -1198,7 +1197,7 @@ public class CalculateMiniMRP extends SvrProcess
 				Map<Integer, BigDecimal> weeklyDemand = supplyLine.get(columnID);
 				if (weeklyDemand.size() > 0)
 				{
-					X_MRP_RunLine miniMRP = getX_MRP_RunLine(miniMrpProduct, lineNo, typeSupply);
+					X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, typeSupply);
 					Timestamp date1;
 					String docNo = null;
 					if (isPO)
@@ -1257,7 +1256,7 @@ public class CalculateMiniMRP extends SvrProcess
 	{
 		if (!subTotalSupplyLine.isEmpty())
 		{
-			X_MRP_RunLine miniMRP = getX_MRP_RunLine(miniMrpProduct, lineNo, isPO ? TYPE_TOTAL_SUPPLY_LINE_PO
+			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPO ? TYPE_TOTAL_SUPPLY_LINE_PO
 					: TYPE_TOTAL_SUPPLY_LINE_RQ);
 
 			// Insert Total Supply line.
@@ -1284,7 +1283,7 @@ public class CalculateMiniMRP extends SvrProcess
 	{
 		if (!subTotalSupplyLine.isEmpty())
 		{
-			X_MRP_RunLine miniMRP = getX_MRP_RunLine(miniMrpProduct, lineNo, isPlanned ? TYPE_TOTAL_SUPPLY_PLANNED_LINE
+			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, isPlanned ? TYPE_TOTAL_SUPPLY_PLANNED_LINE
 					: TYPE_TOTAL_SUPPLY_NONPLANNED_LINE);
 
 			// Insert Total Supply Production as per docType.
@@ -1309,7 +1308,7 @@ public class CalculateMiniMRP extends SvrProcess
 	{
 		if (!openingBalanceLine.isEmpty())
 		{
-			X_MRP_RunLine miniMRP = getX_MRP_RunLine(miniMrpProduct, 10, TYPE_OPENING_BALANCE_LINE
+			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, 10, TYPE_OPENING_BALANCE_LINE
 					+ (miniMrpProduct.isPhantom ? " - Phantom Product" : ""));
 			for (Integer week : openingBalanceLine.keySet())
 			{
@@ -1330,7 +1329,7 @@ public class CalculateMiniMRP extends SvrProcess
 	{
 		if (!closingBalanceLine.isEmpty())
 		{
-			X_MRP_RunLine miniMRP = getX_MRP_RunLine(miniMrpProduct, lineNo, TYPE_CLOSING_BALANCE_LINE);
+			X_M_ReplenishPlanLine miniMRP = getX_M_ReplenishPlanLine(miniMrpProduct, lineNo, TYPE_CLOSING_BALANCE_LINE);
 			for (Integer week : closingBalanceLine.keySet())
 			{
 				setWeeklyData(miniMRP, week, closingBalanceLine.get(week));
@@ -2338,7 +2337,7 @@ public class CalculateMiniMRP extends SvrProcess
 	 * @param week
 	 * @param qty
 	 */
-	public void setWeeklyData(X_MRP_RunLine miniMRP, int week, BigDecimal qty)
+	public void setWeeklyData(X_M_ReplenishPlanLine miniMRP, int week, BigDecimal qty)
 	{
 		int wk = week - START_WEEK;
 

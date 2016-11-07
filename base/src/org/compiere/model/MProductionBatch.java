@@ -33,7 +33,7 @@ import org.compiere.util.Env;
  * 		<a href="https://github.com/adempiere/adempiere/issues/648">
  * 		@see FR [ 648 ] Add Support to document Action on Standard Production window</a>		
  */
-public class MProductionBatch extends X_M_Production_Batch implements DocAction {
+public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 
 	/**
 	 * 
@@ -46,7 +46,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 	private String				m_processMsg			= null;
 	/** Just Prepared Flag */
 	private boolean				m_justPrepared			= false;
-	private MPBatchLine[]		m_pBatchLines = null;
+	private MProductionBatchLine[] productionBatchLines = null;
 	
 	public MProductionBatch(Properties ctx, int M_Production_Batch_ID,
 			String trxName) {
@@ -76,7 +76,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 			return m_productions;
 		}
 		List<MProduction> list = new Query(getCtx(), I_M_Production.Table_Name, "M_Production_Batch_ID = ?", get_TrxName())
-			.setParameters(getM_Production_Batch_ID())
+			.setParameters(getM_ProductionBatch_ID())
 			.setOrderBy(MProduction.COLUMNNAME_M_Production_ID)
 			.list();
 		//
@@ -97,7 +97,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 			return m_moves;
 		}
 		List<MMovement> list = new Query(getCtx(), I_M_Movement.Table_Name, "M_Production_Batch_ID=?", get_TrxName())
-			.setParameters(getM_Production_Batch_ID())
+			.setParameters(getM_ProductionBatch_ID())
 			.setOrderBy(MMovement.COLUMNNAME_M_Movement_ID)
 			.list();
 		//
@@ -481,7 +481,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 		if (M_Production_ID !=0)
 			whereClause = whereClause + " AND M_Production_ID = " + M_Production_ID;
 		List<MProductionLine> list= new Query(getCtx(), MProductionLine.Table_Name, whereClause, get_TrxName())
-				.setParameters(getM_Production_Batch_ID())
+				.setParameters(getM_ProductionBatch_ID())
 				.list();
 		for (MProductionLine pLine:list)
 		{	
@@ -551,19 +551,19 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 	 * @param requery
 	 * @return
 	 */
-	public MPBatchLine[] getPBatchLines(Boolean requery)
+	public MProductionBatchLine[] getProductionBatchLines(Boolean requery)
 	{
-		if (m_pBatchLines != null && !requery) {
-			set_TrxName(m_pBatchLines, get_TrxName());
-			return m_pBatchLines;
+		if (productionBatchLines != null && !requery) {
+			set_TrxName(productionBatchLines, get_TrxName());
+			return productionBatchLines;
 		}
 		//
-		List<MPBatchLine> list = new Query(getCtx(), MPBatchLine.Table_Name, "M_Production_Batch_ID=?", get_TrxName())
+		List<MProductionBatchLine> list = new Query(getCtx(), MProductionBatchLine.Table_Name, "M_Production_Batch_ID=?", get_TrxName())
 			.setParameters(get_ID())
 			.list();
-		m_pBatchLines = list.toArray(new MPBatchLine[list.size()]);
-		return m_pBatchLines;
-	}	//	getLines} // getPBatchLines
+		productionBatchLines = list.toArray(new MProductionBatchLine[list.size()]);
+		return productionBatchLines;
+	}	//	getLines} // getProductionBatchLines
 	
 	/**
 	 * Free Stock
@@ -572,7 +572,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 	{
 		int reservationAttributeSetInstance_ID = 0;
 		BigDecimal reservationQty = Env.ZERO;
-		for (MPBatchLine pBatchLine: getPBatchLines(true))
+		for (MProductionBatchLine pBatchLine: getProductionBatchLines(true))
 		{
 			if (pBatchLine.getQtyReserved().signum()==0)
 				continue;
@@ -630,7 +630,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 //				this.getM_Production_Batch_ID());
 //		if (id <= 0)
 //		{
-//			MPBatchLine batchLine = new MPBatchLine(getCtx(), 0, get_TrxName());
+//			MProductionBatchLine batchLine = new MProductionBatchLine(getCtx(), 0, get_TrxName());
 //			batchLine.setM_Product_ID(this.getM_Product_ID());
 //			batchLine.setIsEndProduct(true);
 //			batchLine.setM_Production_Batch_ID(this.getM_Production_Batch_ID());
@@ -639,13 +639,13 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 //		}
 //		else
 //		{
-//			MPBatchLine batchLine = new MPBatchLine(getCtx(), id, get_TrxName());
+//			MProductionBatchLine batchLine = new MProductionBatchLine(getCtx(), id, get_TrxName());
 //			batchLine.setQtyReserved(currQtyReserved);
 //			batchLine.saveEx();
 //		}
 //
 //		// Sub-Component
-//		for (MPBatchLine bline : getPBatchLines(true))
+//		for (MProductionBatchLine bline : getProductionBatchLines(true))
 //		{
 //			int productID = bline.getM_Product_ID();
 //			if (mapBatchLine.containsKey(productID))
@@ -664,7 +664,7 @@ public class MProductionBatch extends X_M_Production_Batch implements DocAction 
 //			}
 //			else
 //			{
-//				MPBatchLine batchLine = new MPBatchLine(getCtx(), 0, get_TrxName());
+//				MProductionBatchLine batchLine = new MProductionBatchLine(getCtx(), 0, get_TrxName());
 //				batchLine.setM_Product_ID(productID);
 //				batchLine.setIsEndProduct(false);
 //				batchLine.setM_Production_Batch_ID(this.getM_Production_Batch_ID());

@@ -33,7 +33,7 @@
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="58933" Table="AD_Element">
-        <Data AD_Column_ID="2602" Column="ColumnName">C_DocType_ReplenishPlanRequisition</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">C_DocType_Requisition</Data>
         <Data AD_Column_ID="58588" Column="AD_Reference_ID">18</Data>
         <Data AD_Column_ID="58589" Column="FieldLength">0</Data>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">170</Data>
@@ -197,7 +197,7 @@
         <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="116" Column="ColumnName">C_DocType_ReplenishPlanRequisition</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">C_DocType_Requisition</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="111" Column="Name">Replenish Plan Requisition Doc Type</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>

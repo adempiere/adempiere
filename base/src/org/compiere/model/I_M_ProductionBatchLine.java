@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -20,15 +19,15 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for M_PBatch_Line
+/** Generated Interface for M_ProductionBatchLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
-public interface I_M_PBatch_Line 
+public interface I_M_ProductionBatchLine 
 {
 
-    /** TableName=M_PBatch_Line */
-    public static final String Table_Name = "M_PBatch_Line";
+    /** TableName=M_ProductionBatchLine */
+    public static final String Table_Name = "M_ProductionBatchLine";
 
     /** AD_Table_ID=54066 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
@@ -52,13 +51,13 @@ public interface I_M_PBatch_Line
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organisation.
-	  * Organisational entity within client
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organisation.
-	  * Organisational entity within client
+	/** Get Organization.
+	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
 
@@ -104,15 +103,6 @@ public interface I_M_PBatch_Line
 	  */
 	public boolean isEndProduct();
 
-    /** Column name M_PBatch_Line_ID */
-    public static final String COLUMNNAME_M_PBatch_Line_ID = "M_PBatch_Line_ID";
-
-	/** Set Production Batch Line ID	  */
-	public void setM_PBatch_Line_ID (int M_PBatch_Line_ID);
-
-	/** Get Production Batch Line ID	  */
-	public int getM_PBatch_Line_ID();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -126,18 +116,27 @@ public interface I_M_PBatch_Line
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_Production_Batch_ID */
-    public static final String COLUMNNAME_M_Production_Batch_ID = "M_Production_Batch_ID";
+    /** Column name M_ProductionBatchLine_ID */
+    public static final String COLUMNNAME_M_ProductionBatchLine_ID = "M_ProductionBatchLine_ID";
+
+	/** Set Production Batch Line	  */
+	public void setM_ProductionBatchLine_ID (int M_ProductionBatchLine_ID);
+
+	/** Get Production Batch Line	  */
+	public int getM_ProductionBatchLine_ID();
+
+    /** Column name M_ProductionBatch_ID */
+    public static final String COLUMNNAME_M_ProductionBatch_ID = "M_ProductionBatch_ID";
 
 	/** Set Production Batch	  */
-	public void setM_Production_Batch_ID (int M_Production_Batch_ID);
+	public void setM_ProductionBatch_ID (int M_ProductionBatch_ID);
 
 	/** Get Production Batch	  */
-	public int getM_Production_Batch_ID();
+	public int getM_ProductionBatch_ID();
 
-	public I_M_Production_Batch getM_Production_Batch() throws RuntimeException;
+	public org.compiere.model.I_M_ProductionBatch getM_ProductionBatch() throws RuntimeException;
 
     /** Column name QtyReserved */
     public static final String COLUMNNAME_QtyReserved = "QtyReserved";

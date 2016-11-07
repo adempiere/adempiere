@@ -12,7 +12,7 @@
         <Data AD_Column_ID="585" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="189" Column="Description">Document Type for Production Order</Data>
         <Data AD_Column_ID="583" Column="IsActive">true</Data>
-        <Data AD_Column_ID="188" Column="Name">C_DocTypePO ProductionLight</Data>
+        <Data AD_Column_ID="188" Column="Name">C_DocTypePO Production Light</Data>
         <Data AD_Column_ID="192" Column="Type">S</Data>
         <Data AD_Column_ID="586" Column="Updated">2016-10-04 11:02:18.955</Data>
         <Data AD_Column_ID="587" Column="UpdatedBy">0</Data>

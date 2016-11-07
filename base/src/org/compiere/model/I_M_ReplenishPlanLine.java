@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -20,15 +19,15 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for MRP_RunLine
+/** Generated Interface for M_ReplenishPlanLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
-public interface I_MRP_RunLine 
+public interface I_M_ReplenishPlanLine 
 {
 
-    /** TableName=MRP_RunLine */
-    public static final String Table_Name = "MRP_RunLine";
+    /** TableName=M_ReplenishPlanLine */
+    public static final String Table_Name = "M_ReplenishPlanLine";
 
     /** AD_Table_ID=53975 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
@@ -52,13 +51,13 @@ public interface I_MRP_RunLine
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organisation.
-	  * Organisational entity within client
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organisation.
-	  * Organisational entity within client
+	/** Get Organization.
+	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
 
@@ -75,7 +74,7 @@ public interface I_MRP_RunLine
 	  */
 	public int getC_Order_ID();
 
-	public I_C_Order getC_Order() throws RuntimeException;
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -123,12 +122,12 @@ public interface I_MRP_RunLine
     public static final String COLUMNNAME_HasSupplyDemand = "HasSupplyDemand";
 
 	/** Set Has Supply/Demand.
-	  * This product has supply or demand in the current MRP run.
+	  * This product has supply or demand in the current Replenish Plan run.
 	  */
 	public void setHasSupplyDemand (boolean HasSupplyDemand);
 
 	/** Get Has Supply/Demand.
-	  * This product has supply or demand in the current MRP run.
+	  * This product has supply or demand in the current Replenish Plan run.
 	  */
 	public boolean isHasSupplyDemand();
 
@@ -171,7 +170,7 @@ public interface I_MRP_RunLine
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException;
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -186,7 +185,7 @@ public interface I_MRP_RunLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Production_ID */
     public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
@@ -201,7 +200,27 @@ public interface I_MRP_RunLine
 	  */
 	public int getM_Production_ID();
 
-	public I_M_Production getM_Production() throws RuntimeException;
+	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException;
+
+    /** Column name M_ReplenishPlanLine_ID */
+    public static final String COLUMNNAME_M_ReplenishPlanLine_ID = "M_ReplenishPlanLine_ID";
+
+	/** Set M_ReplenishPlanLine ID	  */
+	public void setM_ReplenishPlanLine_ID (int M_ReplenishPlanLine_ID);
+
+	/** Get M_ReplenishPlanLine ID	  */
+	public int getM_ReplenishPlanLine_ID();
+
+    /** Column name M_ReplenishPlan_ID */
+    public static final String COLUMNNAME_M_ReplenishPlan_ID = "M_ReplenishPlan_ID";
+
+	/** Set M_ReplenishPlan ID	  */
+	public void setM_ReplenishPlan_ID (int M_ReplenishPlan_ID);
+
+	/** Get M_ReplenishPlan ID	  */
+	public int getM_ReplenishPlan_ID();
+
+	public org.compiere.model.I_M_ReplenishPlan getM_ReplenishPlan() throws RuntimeException;
 
     /** Column name M_Requisition_ID */
     public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
@@ -216,27 +235,7 @@ public interface I_MRP_RunLine
 	  */
 	public int getM_Requisition_ID();
 
-	public I_M_Requisition getM_Requisition() throws RuntimeException;
-
-    /** Column name MRP_Run_ID */
-    public static final String COLUMNNAME_MRP_Run_ID = "MRP_Run_ID";
-
-	/** Set MRP_Run ID	  */
-	public void setMRP_Run_ID (int MRP_Run_ID);
-
-	/** Get MRP_Run ID	  */
-	public int getMRP_Run_ID();
-
-	public I_MRP_Run getMRP_Run() throws RuntimeException;
-
-    /** Column name MRP_RunLine_ID */
-    public static final String COLUMNNAME_MRP_RunLine_ID = "MRP_RunLine_ID";
-
-	/** Set MRP_RunLine ID	  */
-	public void setMRP_RunLine_ID (int MRP_RunLine_ID);
-
-	/** Get MRP_RunLine ID	  */
-	public int getMRP_RunLine_ID();
+	public org.compiere.model.I_M_Requisition getM_Requisition() throws RuntimeException;
 
     /** Column name OrderInfo */
     public static final String COLUMNNAME_OrderInfo = "OrderInfo";
@@ -246,15 +245,6 @@ public interface I_MRP_RunLine
 
 	/** Get Order Info	  */
 	public String getOrderInfo();
-
-    /** Column name ProductionInfo */
-    public static final String COLUMNNAME_ProductionInfo = "ProductionInfo";
-
-	/** Set Production Info	  */
-	public void setProductionInfo (String ProductionInfo);
-
-	/** Get Production Info	  */
-	public String getProductionInfo();
 
     /** Column name ProductName */
     public static final String COLUMNNAME_ProductName = "ProductName";
@@ -268,6 +258,15 @@ public interface I_MRP_RunLine
 	  * Name of the Product
 	  */
 	public String getProductName();
+
+    /** Column name ProductionInfo */
+    public static final String COLUMNNAME_ProductionInfo = "ProductionInfo";
+
+	/** Set Production Info	  */
+	public void setProductionInfo (String ProductionInfo);
+
+	/** Get Production Info	  */
+	public String getProductionInfo();
 
     /** Column name RecordType */
     public static final String COLUMNNAME_RecordType = "RecordType";

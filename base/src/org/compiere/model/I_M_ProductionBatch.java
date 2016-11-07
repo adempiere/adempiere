@@ -19,15 +19,15 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for M_Production_Batch
+/** Generated Interface for M_ProductionBatch
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_M_Production_Batch 
+public interface I_M_ProductionBatch 
 {
 
-    /** TableName=M_Production_Batch */
-    public static final String Table_Name = "M_Production_Batch";
+    /** TableName=M_ProductionBatch */
+    public static final String Table_Name = "M_ProductionBatch";
 
     /** AD_Table_ID=54052 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
@@ -106,15 +106,6 @@ public interface I_M_Production_Batch
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name CountOrder */
-    public static final String COLUMNNAME_CountOrder = "CountOrder";
-
-	/** Set Order Count	  */
-	public void setCountOrder (int CountOrder);
-
-	/** Get Order Count	  */
-	public int getCountOrder();
-
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -129,6 +120,15 @@ public interface I_M_Production_Batch
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name CountOrder */
+    public static final String COLUMNNAME_CountOrder = "CountOrder";
+
+	/** Set Order Count	  */
+	public void setCountOrder (int CountOrder);
+
+	/** Get Order Count	  */
+	public int getCountOrder();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -233,15 +233,6 @@ public interface I_M_Production_Batch
 	  */
 	public String getIsComplete();
 
-    /** Column name IsCreated */
-    public static final String COLUMNNAME_IsCreated = "IsCreated";
-
-	/** Set Records created	  */
-	public void setIsCreated (String IsCreated);
-
-	/** Get Records created	  */
-	public String getIsCreated();
-
     /** Column name IsCreateMove */
     public static final String COLUMNNAME_IsCreateMove = "IsCreateMove";
 
@@ -250,6 +241,15 @@ public interface I_M_Production_Batch
 
 	/** Get Create Move	  */
 	public boolean isCreateMove();
+
+    /** Column name IsCreated */
+    public static final String COLUMNNAME_IsCreated = "IsCreated";
+
+	/** Set Records created	  */
+	public void setIsCreated (String IsCreated);
+
+	/** Get Records created	  */
+	public String getIsCreated();
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -266,19 +266,6 @@ public interface I_M_Production_Batch
 
 	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException;
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -294,14 +281,27 @@ public interface I_M_Production_Batch
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_Production_Batch_ID */
-    public static final String COLUMNNAME_M_Production_Batch_ID = "M_Production_Batch_ID";
+    /** Column name M_ProductionBatch_ID */
+    public static final String COLUMNNAME_M_ProductionBatch_ID = "M_ProductionBatch_ID";
 
 	/** Set Production Batch	  */
-	public void setM_Production_Batch_ID (int M_Production_Batch_ID);
+	public void setM_ProductionBatch_ID (int M_ProductionBatch_ID);
 
 	/** Get Production Batch	  */
-	public int getM_Production_Batch_ID();
+	public int getM_ProductionBatch_ID();
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";

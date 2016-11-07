@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -22,34 +21,33 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for MRP_Run
+/** Generated Model for M_ReplenishPlan
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
- */
-public class X_MRP_Run extends PO implements I_MRP_Run, I_Persistent 
+ *  @version Release 3.9.0 - $Id$ */
+public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160603L;
+	private static final long serialVersionUID = 20161106L;
 
     /** Standard Constructor */
-    public X_MRP_Run (Properties ctx, int MRP_Run_ID, String trxName)
+    public X_M_ReplenishPlan (Properties ctx, int M_ReplenishPlan_ID, String trxName)
     {
-      super (ctx, MRP_Run_ID, trxName);
-      /** if (MRP_Run_ID == 0)
+      super (ctx, M_ReplenishPlan_ID, trxName);
+      /** if (M_ReplenishPlan_ID == 0)
         {
 			setIsDeletePlannedPO (false);
 // N
 			setIsDeleteUnconfirmedProduction (false);
 // N
-			setMRP_Run_ID (0);
+			setM_ReplenishPlan_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_MRP_Run (Properties ctx, ResultSet rs, String trxName)
+    public X_M_ReplenishPlan (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -71,14 +69,14 @@ public class X_MRP_Run extends PO implements I_MRP_Run, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_MRP_Run[")
+      StringBuffer sb = new StringBuffer ("X_M_ReplenishPlan[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	public I_C_DocType getC_DocType_ConfirmedOr() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType_ConfirmedOr() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ConfirmedOrder(), get_TrxName());	}
 
 	/** Set Confirmed Mfg Order Doc Type.
@@ -98,31 +96,31 @@ public class X_MRP_Run extends PO implements I_MRP_Run, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType_MRPRequisit() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
-			.getPO(getC_DocType_MRPRequisition(), get_TrxName());	}
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocType_PO(), get_TrxName());	}
 
-	/** Set MRP Requisition Doc Type.
-		@param C_DocType_MRPRequisition MRP Requisition Doc Type	  */
-	public void setC_DocType_MRPRequisition (int C_DocType_MRPRequisition)
+	/** Set Purchase Order Doc Type.
+		@param C_DocType_PO Purchase Order Doc Type	  */
+	public void setC_DocType_PO (int C_DocType_PO)
 	{
-		set_Value (COLUMNNAME_C_DocType_MRPRequisition, Integer.valueOf(C_DocType_MRPRequisition));
+		set_Value (COLUMNNAME_C_DocType_PO, Integer.valueOf(C_DocType_PO));
 	}
 
-	/** Get MRP Requisition Doc Type.
-		@return MRP Requisition Doc Type	  */
-	public int getC_DocType_MRPRequisition () 
+	/** Get Purchase Order Doc Type.
+		@return Purchase Order Doc Type	  */
+	public int getC_DocType_PO () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_MRPRequisition);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PO);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType_PlannedOr() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType_PlannedOr() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_PlannedOrder(), get_TrxName());	}
 
 	/** Set Planned Mfg Order Doc Type.
@@ -142,23 +140,23 @@ public class X_MRP_Run extends PO implements I_MRP_Run, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType_ReplenishPlanRequ() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
-			.getPO(getC_DocType_PO(), get_TrxName());	}
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ReplenishPlanRequisi(), get_TrxName());	}
 
-	/** Set Purchase Order Doc Type.
-		@param C_DocType_PO Purchase Order Doc Type	  */
-	public void setC_DocType_PO (int C_DocType_PO)
+	/** Set Replenish Plan Requisition Doc Type.
+		@param C_DocType_ReplenishPlanRequisi Replenish Plan Requisition Doc Type	  */
+	public void setC_DocType_ReplenishPlanRequisi (int C_DocType_ReplenishPlanRequisi)
 	{
-		set_Value (COLUMNNAME_C_DocType_PO, Integer.valueOf(C_DocType_PO));
+		set_Value (COLUMNNAME_C_DocType_ReplenishPlanRequisi, Integer.valueOf(C_DocType_ReplenishPlanRequisi));
 	}
 
-	/** Get Purchase Order Doc Type.
-		@return Purchase Order Doc Type	  */
-	public int getC_DocType_PO () 
+	/** Get Replenish Plan Requisition Doc Type.
+		@return Replenish Plan Requisition Doc Type	  */
+	public int getC_DocType_ReplenishPlanRequisi () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PO);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ReplenishPlanRequisi);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -254,9 +252,9 @@ public class X_MRP_Run extends PO implements I_MRP_Run, I_Persistent
 		return false;
 	}
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException
+	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException
     {
-		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+		return (org.compiere.model.I_M_PriceList)MTable.get(getCtx(), org.compiere.model.I_M_PriceList.Table_Name)
 			.getPO(getM_PriceList_ID(), get_TrxName());	}
 
 	/** Set Price List.
@@ -282,21 +280,21 @@ public class X_MRP_Run extends PO implements I_MRP_Run, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set MRP_Run ID.
-		@param MRP_Run_ID MRP_Run ID	  */
-	public void setMRP_Run_ID (int MRP_Run_ID)
+	/** Set M_ReplenishPlan ID.
+		@param M_ReplenishPlan_ID M_ReplenishPlan ID	  */
+	public void setM_ReplenishPlan_ID (int M_ReplenishPlan_ID)
 	{
-		if (MRP_Run_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_MRP_Run_ID, null);
+		if (M_ReplenishPlan_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ReplenishPlan_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_MRP_Run_ID, Integer.valueOf(MRP_Run_ID));
+			set_ValueNoCheck (COLUMNNAME_M_ReplenishPlan_ID, Integer.valueOf(M_ReplenishPlan_ID));
 	}
 
-	/** Get MRP_Run ID.
-		@return MRP_Run ID	  */
-	public int getMRP_Run_ID () 
+	/** Get M_ReplenishPlan ID.
+		@return M_ReplenishPlan ID	  */
+	public int getM_ReplenishPlan_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_MRP_Run_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ReplenishPlan_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -360,6 +358,20 @@ public class X_MRP_Run extends PO implements I_MRP_Run, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Replenish Plan Initial Setup.
+		@param ReplenishPlanInitialSetup Replenish Plan Initial Setup	  */
+	public void setReplenishPlanInitialSetup (String ReplenishPlanInitialSetup)
+	{
+		set_Value (COLUMNNAME_ReplenishPlanInitialSetup, ReplenishPlanInitialSetup);
+	}
+
+	/** Get Replenish Plan Initial Setup.
+		@return Replenish Plan Initial Setup	  */
+	public String getReplenishPlanInitialSetup () 
+	{
+		return (String)get_Value(COLUMNNAME_ReplenishPlanInitialSetup);
 	}
 
 	/** Set Generate Suggested Requisition Report.

@@ -37,7 +37,6 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductBOMLine;
-import org.eevolution.process.RollupBillOfMaterial;
 import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
@@ -119,8 +118,8 @@ public class MProduction extends X_M_Production implements DocAction {
 	public MProductionBatch getParent(boolean reload) {
 		//	Cache
 		if(parent == null
-				&& getM_Production_Batch_ID() != 0) {
-			parent = (MProductionBatch) getM_Production_Batch();
+				&& getM_ProductionBatch_ID() != 0) {
+			parent = (MProductionBatch) getM_ProductionBatch();
 		}
 		//	Return
 		return parent;
@@ -139,18 +138,18 @@ public class MProduction extends X_M_Production implements DocAction {
 	 */
 	private String processFromBatch() {
 		if(getParent() == null)
-			return "@M_Production_Batch_ID@ @NotFound@";
+			return "@M_ProductionBatch_ID@ @NotFound@";
 		//	
 		if (parent.isProcessed()) {
 			if (parent.getDocStatus().equals(MProductionBatch.DOCACTION_Close))
-				return "@M_Production_Batch_ID@ @closed@";
+				return "@M_ProductionBatch_ID@ @closed@";
 			else if (parent.getDocStatus().equals(MProductionBatch.DOCACTION_Void))
-				return "@M_Production_Batch_ID@ @Voided@";
+				return "@M_ProductionBatch_ID@ @Voided@";
 			else if (parent.getDocStatus().equals(MProductionBatch.DOCACTION_Complete)
 					&& parent.getQtyCompleted().compareTo(parent.getTargetQty()) > 0)
 				return "@QtyCompleted@ > @TargetQty@";
 		} else {
-			return "@M_Production_Batch_ID@ @Unprocessed@";//	TODO: Missing message translation
+			return "@M_ProductionBatch_ID@ @Unprocessed@";//	TODO: Missing message translation
 		}
 		
 		StringBuilder errors = new StringBuilder();
@@ -365,7 +364,7 @@ public class MProduction extends X_M_Production implements DocAction {
 		//	Validate
 		m_processMsg = validateHeader();
 		//	For production created from Batch
-		if(getM_Production_Batch_ID() != 0) {
+		if(getM_ProductionBatch_ID() != 0) {
 			m_processMsg = processFromBatch();
 		} else {
 			m_processMsg = processFromPlan();
@@ -784,12 +783,12 @@ public class MProduction extends X_M_Production implements DocAction {
 		boolean allowSameLocator = wh.get_ValueAsBoolean("IsAllowSameLocatorMove");
 		move.setClientOrg(this);
 		move.setDescription(Msg.parseTranslation(getCtx(), 
-				"@Created@ @from@ @M_Production_Batch_ID@ " + batch.getDocumentNo()));
+				"@Created@ @from@ @M_ProductionBatch_ID@ " + batch.getDocumentNo()));
 		//	
 		move.set_Value("M_Warehouse_ID", wh.getM_Warehouse_ID());
 		move.set_Value("M_Warehouse_To_ID", wh.getM_Warehouse_ID());
 		//set fields
-		move.set_Value("M_Production_Batch_ID", batch.getM_Production_Batch_ID());
+		move.set_Value("M_ProductionBatch_ID", batch.getM_ProductionBatch_ID());
 		//	Save Movement
 		move.saveEx();
 		//	
@@ -921,7 +920,7 @@ public class MProduction extends X_M_Production implements DocAction {
 			setC_DocType_ID(C_DocType_ID);
 		}
 		//	For Production Batch
-		if(is_ValueChanged(COLUMNNAME_M_Production_Batch_ID)) {
+		if(is_ValueChanged(COLUMNNAME_M_ProductionBatch_ID)) {
 			if(!isProcessed()) {
 				setFromBatch(getParent(true));
 			}
@@ -941,7 +940,7 @@ public class MProduction extends X_M_Production implements DocAction {
 	 * Set values from parent
 	 */
 	private void setFromBatch(MProductionBatch batch) {
-		setM_Production_Batch_ID(batch.getM_Production_Batch_ID());
+		setM_ProductionBatch_ID(batch.getM_ProductionBatch_ID());
 		setClientOrg(batch);
 		setM_Product_ID(batch.getM_Product_ID());
 		setDatePromised(batch.getMovementDate());
@@ -957,7 +956,7 @@ public class MProduction extends X_M_Production implements DocAction {
 		//	Set Description
 		if(getDescription() == null) {
 			setDescription(Msg.parseTranslation(getCtx(), 
-					"@Created@ @from@ @M_Production_Batch_ID@ " + batch.getDocumentNo()));
+					"@Created@ @from@ @M_ProductionBatch_ID@ " + batch.getDocumentNo()));
 		}
 		log.info("M_Production_ID=" + getM_Production_ID() + " created");
 	}
@@ -1091,7 +1090,7 @@ public class MProduction extends X_M_Production implements DocAction {
 		recalculate();
 		// Check batch having production planned Qty.
 		BigDecimal cntQty = Env.ZERO;
-		MProductionBatch pBatch = (MProductionBatch) getM_Production_Batch();
+		MProductionBatch pBatch = (MProductionBatch) getM_ProductionBatch();
 		for (MProduction p : pBatch.getProductionArray(true)) {
 			if (p.getM_Production_ID() != getM_Production_ID())
 				cntQty = cntQty.add(p.getProductionQty());
@@ -1247,7 +1246,8 @@ public class MProduction extends X_M_Production implements DocAction {
 		int AD_Org_ID = costingLevel.equals(MAcctSchema.COSTINGLEVEL_Organization)?getAD_Org_ID():0;
 		int M_Warehouse_ID = costingLevel.equals(MAcctSchema.COSTINGLEVEL_Warehouse)?getM_Locator().getM_Warehouse_ID():0;
 		ProcessInfo processInfo = ProcessBuilder.create(getCtx())
-				.process(RollupBillOfMaterial.getProcessId())
+				//.process(RollupBillOfMaterial.getProcessId())
+				.process(53062)
 				.withRecordId(MProduction.Table_ID, getM_Product_ID())
 				.withParameter("C_AcctSchema_ID", as.getC_AcctSchema_ID())
 				.withParameter("S_Resource_ID", as.getC_AcctSchema_ID())
