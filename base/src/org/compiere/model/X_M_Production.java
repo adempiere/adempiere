@@ -44,9 +44,12 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 // N
 			setIsWIP (false);
 // N
+			setM_Locator_ID (0);
+// -1
+			setM_Product_ID (0);
+			setM_Production_ID (0);
 			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
-			setM_Production_ID (0);
 			setPosted (false);
 			setProcessed (false);
         } */
@@ -522,23 +525,6 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
@@ -567,26 +553,26 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Production_Batch getM_Production_Batch() throws RuntimeException
+	public org.compiere.model.I_M_ProductionBatch getM_ProductionBatch() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Production_Batch)MTable.get(getCtx(), org.compiere.model.I_M_Production_Batch.Table_Name)
-			.getPO(getM_Production_Batch_ID(), get_TrxName());	}
+		return (org.compiere.model.I_M_ProductionBatch)MTable.get(getCtx(), org.compiere.model.I_M_ProductionBatch.Table_Name)
+			.getPO(getM_ProductionBatch_ID(), get_TrxName());	}
 
 	/** Set Production Batch.
-		@param M_Production_Batch_ID Production Batch	  */
-	public void setM_Production_Batch_ID (int M_Production_Batch_ID)
+		@param M_ProductionBatch_ID Production Batch	  */
+	public void setM_ProductionBatch_ID (int M_ProductionBatch_ID)
 	{
-		if (M_Production_Batch_ID < 1) 
-			set_Value (COLUMNNAME_M_Production_Batch_ID, null);
+		if (M_ProductionBatch_ID < 1) 
+			set_Value (COLUMNNAME_M_ProductionBatch_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Production_Batch_ID, Integer.valueOf(M_Production_Batch_ID));
+			set_Value (COLUMNNAME_M_ProductionBatch_ID, Integer.valueOf(M_ProductionBatch_ID));
 	}
 
 	/** Get Production Batch.
 		@return Production Batch	  */
-	public int getM_Production_Batch_ID () 
+	public int getM_ProductionBatch_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Production_Batch_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionBatch_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -613,6 +599,23 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
 	/** Set Product quantity must be in stock.

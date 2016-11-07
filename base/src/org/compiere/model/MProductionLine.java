@@ -111,7 +111,7 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 			asiString = "";
 		log.log(Level.FINEST, "asi Description is: " + asiString);
 		
-		int batchLocatorID = getM_Production().getM_Production_Batch().getM_Locator_ID();
+		int batchLocatorID = getM_Production().getM_ProductionBatch().getM_Locator_ID();
 		
 		// create transactions for finished goods
 		if ( getMovementQty().compareTo(Env.ZERO) > 0 ) {
@@ -145,7 +145,7 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 					else
 					{
 						MStorage.add(getCtx(),
-								getM_Production().getM_Production_Batch().getM_Locator().getM_Warehouse_ID(),
+								getM_Production().getM_ProductionBatch().getM_Locator().getM_Warehouse_ID(),
 								batchLocatorID, getM_Product_ID(), 0, 0, Env.ZERO, getMovementQty().negate(), Env.ZERO,
 								get_TrxName());
 					}
@@ -160,7 +160,7 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 					else
 					{
 						MStorage.add(getCtx(),
-								getM_Production().getM_Production_Batch().getM_Locator().getM_Warehouse_ID(),
+								getM_Production().getM_ProductionBatch().getM_Locator().getM_Warehouse_ID(),
 								batchLocatorID, getM_Product_ID(), 0, 0, Env.ZERO, Env.ZERO, getMovementQty().negate(),
 								get_TrxName());
 					}
@@ -237,7 +237,7 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 						else
 						{
 							MStorage.add(getCtx(),
-									getM_Production().getM_Production_Batch().getM_Locator().getM_Warehouse_ID(),
+									getM_Production().getM_ProductionBatch().getM_Locator().getM_Warehouse_ID(),
 									batchLocatorID, getM_Product_ID(), 0, 0, Env.ZERO, lineQty.negate(), Env.ZERO,
 									get_TrxName());
 						}
@@ -325,7 +325,7 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 						else
 						{
 							MStorage.add(getCtx(),
-									getM_Production().getM_Production_Batch().getM_Locator().getM_Warehouse_ID(),
+									getM_Production().getM_ProductionBatch().getM_Locator().getM_Warehouse_ID(),
 									batchLocatorID, getM_Product_ID(), 0, 0, Env.ZERO, lineQty.negate(), Env.ZERO,
 									get_TrxName());
 						}
@@ -414,7 +414,7 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 								QtyMA.negate(), pLine.getParent().getMovementDate(), get_TrxName());
 						mtrx.setM_ProductionLine_ID(pLine.getM_ProductionLine_ID());
 						BigDecimal qtyreserved = getMovementQty();
-						MPBatchLine pbLine = MPBatchLine.getbyProduct(getM_Production().getM_Production_Batch_ID(), getM_Product_ID(), getCtx(), get_TrxName());
+						MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(getM_Production().getM_ProductionBatch_ID(), getM_Product_ID(), getCtx(), get_TrxName());
 						pbLine.setQtyReserved(pbLine.getQtyReserved().add(qtyreserved));
 						pbLine.saveEx();
 						if (!mtrx.save())
@@ -468,7 +468,7 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 						return false;
 					}
 					BigDecimal qtyreserved = isEndProduct()?getMovementQty():getMovementQty().negate();
-					MPBatchLine pbLine = MPBatchLine.getbyProduct(getM_Production().getM_Production_Batch_ID(), getM_Product_ID(), getCtx(), get_TrxName());
+					MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(getM_Production().getM_ProductionBatch_ID(), getM_Product_ID(), getCtx(), get_TrxName());
 					pbLine.setQtyReserved(pbLine.getQtyReserved().subtract(qtyreserved));
 					pbLine.saveEx();
 				}
@@ -529,7 +529,7 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 
 		deleteMA();
 		//if (pBatch.getHeaders(true).length)
-		MPBatchLine pbLine = MPBatchLine.getbyProduct(getParent().getM_Production_Batch_ID(), getM_Product_ID(), getCtx(), get_TrxName());
+		MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(getParent().getM_ProductionBatch_ID(), getM_Product_ID(), getCtx(), get_TrxName());
 		if (pbLine != null)
 		{
 			BigDecimal qtyReserved = isEndProduct()?getMovementQty().negate():getMovementQty();
@@ -617,12 +617,12 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success)
 	{
-		int M_ProductionBatch_ID = getParent().getM_Production_Batch_ID();
+		int M_ProductionBatch_ID = getParent().getM_ProductionBatch_ID();
 		if (newRecord )
 		{
 			if (M_ProductionBatch_ID ==0)
 				return true;
-			MPBatchLine pbLine = MPBatchLine.getbyProduct(M_ProductionBatch_ID, getM_Product_ID(), getCtx(), get_TrxName());
+			MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(M_ProductionBatch_ID, getM_Product_ID(), getCtx(), get_TrxName());
 			if (pbLine !=null)
 			{
 				BigDecimal movementQty = isEndProduct()?getMovementQty():getMovementQty().negate();
@@ -631,8 +631,8 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 				return true;
 			}
 			BigDecimal movementQty = isEndProduct()?getMovementQty():getMovementQty().negate();
-			pbLine = new MPBatchLine(getCtx(), 0, get_TrxName());
-			pbLine.setM_Production_Batch_ID(M_ProductionBatch_ID);
+			pbLine = new MProductionBatchLine(getCtx(), 0, get_TrxName());
+			pbLine.setM_ProductionBatch_ID(M_ProductionBatch_ID);
 			pbLine.setM_Product_ID(getM_Product_ID());
 			pbLine.setQtyReserved(movementQty);
 			pbLine.setIsEndProduct(isEndProduct());
@@ -645,11 +645,11 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 			BigDecimal oldValue= (BigDecimal)get_ValueOld(COLUMNNAME_MovementQty);
 			BigDecimal diff = getMovementQty().subtract(oldValue);
 			diff = isEndProduct()?diff:diff.negate();
-			MPBatchLine pbLine = MPBatchLine.getbyProduct(M_ProductionBatch_ID, getM_Product_ID(), getCtx(), get_TrxName());
+			MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(M_ProductionBatch_ID, getM_Product_ID(), getCtx(), get_TrxName());
 			if (pbLine == null)
 			{
-				pbLine = new MPBatchLine(getCtx(), 0, get_TrxName());
-				pbLine.setM_Production_Batch_ID(M_ProductionBatch_ID);
+				pbLine = new MProductionBatchLine(getCtx(), 0, get_TrxName());
+				pbLine.setM_ProductionBatch_ID(M_ProductionBatch_ID);
 				pbLine.setM_Product_ID(getM_Product_ID());
 				pbLine.setQtyReserved(getMovementQty().negate());
 				pbLine.saveEx();				

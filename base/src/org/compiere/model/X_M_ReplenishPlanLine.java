@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,30 +22,29 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.util.Env;
 
-/** Generated Model for MRP_RunLine
+/** Generated Model for M_ReplenishPlanLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
- */
-public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent 
+ *  @version Release 3.9.0 - $Id$ */
+public class X_M_ReplenishPlanLine extends PO implements I_M_ReplenishPlanLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20160701L;
+	private static final long serialVersionUID = 20161106L;
 
     /** Standard Constructor */
-    public X_MRP_RunLine (Properties ctx, int MRP_RunLine_ID, String trxName)
+    public X_M_ReplenishPlanLine (Properties ctx, int M_ReplenishPlanLine_ID, String trxName)
     {
-      super (ctx, MRP_RunLine_ID, trxName);
-      /** if (MRP_RunLine_ID == 0)
+      super (ctx, M_ReplenishPlanLine_ID, trxName);
+      /** if (M_ReplenishPlanLine_ID == 0)
         {
-			setMRP_RunLine_ID (0);
+			setM_ReplenishPlanLine_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_MRP_RunLine (Properties ctx, ResultSet rs, String trxName)
+    public X_M_ReplenishPlanLine (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -68,14 +66,14 @@ public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_MRP_RunLine[")
+      StringBuffer sb = new StringBuffer ("X_M_ReplenishPlanLine[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	public I_C_Order getC_Order() throws RuntimeException
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
 			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
@@ -137,7 +135,7 @@ public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent
 
 	/** Set Has Supply/Demand.
 		@param HasSupplyDemand 
-		This product has supply or demand in the current MRP run.
+		This product has supply or demand in the current Replenish Plan run.
 	  */
 	public void setHasSupplyDemand (boolean HasSupplyDemand)
 	{
@@ -145,7 +143,7 @@ public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent
 	}
 
 	/** Get Has Supply/Demand.
-		@return This product has supply or demand in the current MRP run.
+		@return This product has supply or demand in the current Replenish Plan run.
 	  */
 	public boolean isHasSupplyDemand () 
 	{
@@ -179,9 +177,9 @@ public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException
+	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
-		return (I_M_Product_Category)MTable.get(getCtx(), I_M_Product_Category.Table_Name)
+		return (org.compiere.model.I_M_Product_Category)MTable.get(getCtx(), org.compiere.model.I_M_Product_Category.Table_Name)
 			.getPO(getM_Product_Category_ID(), get_TrxName());	}
 
 	/** Set Product Category.
@@ -207,9 +205,9 @@ public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -235,9 +233,9 @@ public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Production getM_Production() throws RuntimeException
+	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException
     {
-		return (I_M_Production)MTable.get(getCtx(), I_M_Production.Table_Name)
+		return (org.compiere.model.I_M_Production)MTable.get(getCtx(), org.compiere.model.I_M_Production.Table_Name)
 			.getPO(getM_Production_ID(), get_TrxName());	}
 
 	/** Set Production.
@@ -263,9 +261,54 @@ public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Requisition getM_Requisition() throws RuntimeException
+	/** Set M_ReplenishPlanLine ID.
+		@param M_ReplenishPlanLine_ID M_ReplenishPlanLine ID	  */
+	public void setM_ReplenishPlanLine_ID (int M_ReplenishPlanLine_ID)
+	{
+		if (M_ReplenishPlanLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ReplenishPlanLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ReplenishPlanLine_ID, Integer.valueOf(M_ReplenishPlanLine_ID));
+	}
+
+	/** Get M_ReplenishPlanLine ID.
+		@return M_ReplenishPlanLine ID	  */
+	public int getM_ReplenishPlanLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ReplenishPlanLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_ReplenishPlan getM_ReplenishPlan() throws RuntimeException
     {
-		return (I_M_Requisition)MTable.get(getCtx(), I_M_Requisition.Table_Name)
+		return (org.compiere.model.I_M_ReplenishPlan)MTable.get(getCtx(), org.compiere.model.I_M_ReplenishPlan.Table_Name)
+			.getPO(getM_ReplenishPlan_ID(), get_TrxName());	}
+
+	/** Set M_ReplenishPlan ID.
+		@param M_ReplenishPlan_ID M_ReplenishPlan ID	  */
+	public void setM_ReplenishPlan_ID (int M_ReplenishPlan_ID)
+	{
+		if (M_ReplenishPlan_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ReplenishPlan_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ReplenishPlan_ID, Integer.valueOf(M_ReplenishPlan_ID));
+	}
+
+	/** Get M_ReplenishPlan ID.
+		@return M_ReplenishPlan ID	  */
+	public int getM_ReplenishPlan_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ReplenishPlan_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Requisition getM_Requisition() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Requisition)MTable.get(getCtx(), org.compiere.model.I_M_Requisition.Table_Name)
 			.getPO(getM_Requisition_ID(), get_TrxName());	}
 
 	/** Set Requisition.
@@ -291,51 +334,6 @@ public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_MRP_Run getMRP_Run() throws RuntimeException
-    {
-		return (I_MRP_Run)MTable.get(getCtx(), I_MRP_Run.Table_Name)
-			.getPO(getMRP_Run_ID(), get_TrxName());	}
-
-	/** Set MRP_Run ID.
-		@param MRP_Run_ID MRP_Run ID	  */
-	public void setMRP_Run_ID (int MRP_Run_ID)
-	{
-		if (MRP_Run_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_MRP_Run_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_MRP_Run_ID, Integer.valueOf(MRP_Run_ID));
-	}
-
-	/** Get MRP_Run ID.
-		@return MRP_Run ID	  */
-	public int getMRP_Run_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_MRP_Run_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set MRP_RunLine ID.
-		@param MRP_RunLine_ID MRP_RunLine ID	  */
-	public void setMRP_RunLine_ID (int MRP_RunLine_ID)
-	{
-		if (MRP_RunLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_MRP_RunLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_MRP_RunLine_ID, Integer.valueOf(MRP_RunLine_ID));
-	}
-
-	/** Get MRP_RunLine ID.
-		@return MRP_RunLine ID	  */
-	public int getMRP_RunLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_MRP_RunLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Order Info.
 		@param OrderInfo Order Info	  */
 	public void setOrderInfo (String OrderInfo)
@@ -348,20 +346,6 @@ public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent
 	public String getOrderInfo () 
 	{
 		return (String)get_Value(COLUMNNAME_OrderInfo);
-	}
-
-	/** Set Production Info.
-		@param ProductionInfo Production Info	  */
-	public void setProductionInfo (String ProductionInfo)
-	{
-		set_Value (COLUMNNAME_ProductionInfo, ProductionInfo);
-	}
-
-	/** Get Production Info.
-		@return Production Info	  */
-	public String getProductionInfo () 
-	{
-		return (String)get_Value(COLUMNNAME_ProductionInfo);
 	}
 
 	/** Set Product Name.
@@ -379,6 +363,20 @@ public class X_MRP_RunLine extends PO implements I_MRP_RunLine, I_Persistent
 	public String getProductName () 
 	{
 		return (String)get_Value(COLUMNNAME_ProductName);
+	}
+
+	/** Set Production Info.
+		@param ProductionInfo Production Info	  */
+	public void setProductionInfo (String ProductionInfo)
+	{
+		set_Value (COLUMNNAME_ProductionInfo, ProductionInfo);
+	}
+
+	/** Get Production Info.
+		@return Production Info	  */
+	public String getProductionInfo () 
+	{
+		return (String)get_Value(COLUMNNAME_ProductionInfo);
 	}
 
 	/** Set RecordType.
