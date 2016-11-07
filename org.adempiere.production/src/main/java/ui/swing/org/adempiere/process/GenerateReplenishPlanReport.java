@@ -21,7 +21,7 @@ import org.compiere.util.Msg;
 /**
  * @author Sachin Bhimani
  */
-public class GenerateMiniMRPReport extends SvrProcess
+public class GenerateReplenishPlanReport extends SvrProcess
 {
 	private int						START_WEEK;
 	private int						END_WEEK;
