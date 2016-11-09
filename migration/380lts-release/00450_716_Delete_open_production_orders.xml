@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Delete open production orders" ReleaseNo="3.9.0" SeqNo="00450">
+    <Comments>This process was needed when Production was not implemented as a document. Now it is left only for legacy reasons</Comments>
+<!--
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="53707" Table="AD_Process">
         <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
@@ -104,5 +106,6 @@
       <SQLStatement>INSERT INTO AD_TREENODEMM(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, Parent_ID, SeqNo, AD_Tree_ID, Node_ID)VALUES(0, 0, 0, 0, 53296,16, 10, 53883)
 ;</SQLStatement>
     </Step>
+-->
   </Migration>
 </Migrations>
