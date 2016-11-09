@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="DocType planned Production for Garden World" ReleaseNo="3.9.0" SeqNo="00900">
+    <Comments>Avoid using ID greater than or equal 1000000. See: https://github.com/SusanneCalderon/productionLight/issues/22</Comments>
     <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="217" Action="I" Record_ID="1000000" Table="C_DocType">
+      <PO AD_Table_ID="217" Action="I" Record_ID="50031" Table="C_DocType">
         <Data AD_Column_ID="1502" Column="AD_Client_ID">11</Data>
         <Data AD_Column_ID="1503" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="8761" Column="AD_PrintFormat_ID" isNewNull="true"/>
-        <Data AD_Column_ID="1501" Column="C_DocType_ID">1000000</Data>
+        <Data AD_Column_ID="1501" Column="C_DocType_ID">50031</Data>
         <Data AD_Column_ID="12404" Column="C_DocTypeDifference_ID" isNewNull="true"/>
         <Data AD_Column_ID="3916" Column="C_DocTypeInvoice_ID" isNewNull="true"/>
         <Data AD_Column_ID="3914" Column="C_DocTypeProforma_ID" isNewNull="true"/>
@@ -48,7 +49,7 @@
         <Data AD_Column_ID="3127" Column="AD_Client_ID">11</Data>
         <Data AD_Column_ID="3126" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="3128" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="3125" Column="C_DocType_ID">1000000</Data>
+        <Data AD_Column_ID="3125" Column="C_DocType_ID">50031</Data>
         <Data AD_Column_ID="3130" Column="Created">2016-10-05 10:56:08.375</Data>
         <Data AD_Column_ID="3131" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="3135" Column="DocumentNote" isNewNull="true"/>
@@ -61,13 +62,13 @@
       </PO>
     </Step>
     <Step SeqNo="30" StepType="AD">
-      <PO AD_Table_ID="115" Action="I" Record_ID="1000092" Table="AD_Sequence">
+      <PO AD_Table_ID="115" Action="I" Record_ID="54343" Table="AD_Sequence">
         <Data AD_Column_ID="426" Column="AD_Client_ID">11</Data>
         <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="1186" Column="AD_Sequence_ID">1000092</Data>
+        <Data AD_Column_ID="1186" Column="AD_Sequence_ID">54343</Data>
         <Data AD_Column_ID="627" Column="Created">2016-10-05 10:56:26.978</Data>
         <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="220" Column="CurrentNext">1000001</Data>
+        <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
         <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
         <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
@@ -88,24 +89,24 @@
       </PO>
     </Step>
     <Step SeqNo="40" StepType="AD">
-      <PO AD_Table_ID="54052" Action="I" Record_ID="1000000" Table="M_ProductionBatch">
+      <PO AD_Table_ID="54052" Action="I" Record_ID="50000" Table="M_ProductionBatch">
         <Data AD_Column_ID="78192" Column="AD_Client_ID">11</Data>
         <Data AD_Column_ID="78193" Column="AD_Org_ID">50001</Data>
-        <Data AD_Column_ID="78218" Column="C_DocType_ID">1000000</Data>
+        <Data AD_Column_ID="78218" Column="C_DocType_ID">50031</Data>
         <Data AD_Column_ID="78213" Column="CountOrder">0</Data>
         <Data AD_Column_ID="78195" Column="Created">2016-10-05 10:56:26.949</Data>
         <Data AD_Column_ID="78197" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="78200" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="78425" Column="DocAction">CO</Data>
         <Data AD_Column_ID="78426" Column="DocStatus">DR</Data>
-        <Data AD_Column_ID="78207" Column="DocumentNo">1000000</Data>
+        <Data AD_Column_ID="78207" Column="DocumentNo">50000</Data>
         <Data AD_Column_ID="78194" Column="IsActive">true</Data>
         <Data AD_Column_ID="78210" Column="IsComplete" isNewNull="true"/>
         <Data AD_Column_ID="78202" Column="IsCreated">false</Data>
         <Data AD_Column_ID="78849" Column="IsCreateMove">false</Data>
         <Data AD_Column_ID="78209" Column="M_Locator_ID">50001</Data>
         <Data AD_Column_ID="78208" Column="M_Product_ID">50008</Data>
-        <Data AD_Column_ID="78199" Column="M_ProductionBatch_ID">1000000</Data>
+        <Data AD_Column_ID="78199" Column="M_ProductionBatch_ID">50000</Data>
         <Data AD_Column_ID="78201" Column="MovementDate">2016-10-05 00:00:00.0</Data>
         <Data AD_Column_ID="78203" Column="Posted">false</Data>
         <Data AD_Column_ID="78204" Column="Processed">false</Data>
@@ -120,7 +121,7 @@
       </PO>
     </Step>
     <Step SeqNo="50" StepType="AD">
-      <PO AD_Table_ID="54052" Action="U" Record_ID="1000000" Table="M_ProductionBatch">
+      <PO AD_Table_ID="54052" Action="U" Record_ID="50000" Table="M_ProductionBatch">
         <Data AD_Column_ID="78211" Column="TargetQty" oldValue="0">100.000000000000</Data>
       </PO>
     </Step>
