@@ -39,11 +39,11 @@ import org.compiere.util.Msg;
 import com.mchange.v2.c3p0.C3P0ProxyConnection;
 
 /**
- * CalculateMiniMRP.Java
+ * CalculateReplenishPlan.Java
  * 
  * @author hitesh.panchani, www.logilite.com
  */
-public class CalculateMiniMRP extends SvrProcess
+public class CalculateReplenishPlan extends SvrProcess
 {
 	private static final String			TYPE_CLOSING_BALANCE_LINE				= "Closing Balance";
 	private static final String			TYPE_OPENING_BALANCE_LINE				= "Opening Balance";
