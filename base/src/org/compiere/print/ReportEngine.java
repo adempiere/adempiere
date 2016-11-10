@@ -769,7 +769,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 								{
 									if (DisplayType.isNumeric(pde.getDisplayType())) {
 										td.setClass(cssPrefix + "-number");
-										td.setClass(cssPrefix + "-numberalign");
 									}
 									
 									else if (DisplayType.isDate(pde.getDisplayType()))
