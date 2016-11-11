@@ -23,6 +23,7 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.desktop.IDesktop;
+import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.IFormLauncher;
 import org.adempiere.webui.process.WProcessInfo;
@@ -30,15 +31,24 @@ import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
 import org.compiere.apps.ProcessCtl;
+import org.compiere.model.Lookup;
+import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
+import org.compiere.model.MProcess;
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.X_AD_ReportView;
+import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuEcho;
@@ -157,14 +167,16 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		center.setStyle("border: none");
 		
 		Rows rows = southRowPanel.newRows();
+		Row row1 = rows.newRow();
 		Row row = rows.newRow();
 
 		Hbox hBox = new Hbox();
-
+		Hbox hBox1 = new Hbox();
+		
 		//Panel saveParaPanel =new Panel();
 		//saveParaPanel.setAlign("left");
 
-		hBox.appendChild(lSaved);
+		hBox1.appendChild(lSaved);
 		fSavedName.addEventListener(Events.ON_CHANGE, this);
 		hBox.appendChild(fSavedName);
 
@@ -180,8 +192,31 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		bDelete.addActionListener(this);
 		hBox.appendChild(bDelete);
 
+		row1.appendChild(hBox1);
 		row.appendChild(hBox);
 
+		//Print format on report para
+		MProcess pr=new MProcess(m_ctx, m_AD_Process_ID, null);
+		if(pr.isReport() && pr.getJasperReport() == null)
+		{
+			listPrintFormat();
+		
+			hBox = new Hbox();
+			hBox1 = new Hbox();
+			hBox1.appendChild(lPrintFormat);
+			hBox.appendChild(fPrintFormat.getComponent());
+			row1.appendChild(hBox1);
+			row.appendChild(hBox);
+			
+			hBox = new Hbox();
+			hBox1 = new Hbox();
+			hBox1.appendChild(lreportType);
+			hBox.appendChild(freportType);		
+		
+			row1.appendChild(hBox1);
+			row.appendChild(hBox);
+		
+		}
 
 		Panel confParaPanel =new Panel();
 		confParaPanel.setAlign("right");
@@ -238,7 +273,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	private String initialMessage;
 	private BusyDialog progressWindow;
 
-	//saved paramaters
+	//saved parameters
 
 	private Combobox fSavedName=new Combobox();
 	private Button bSave=new Button("Save");
@@ -247,7 +282,15 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	private Label lSaved=new Label(Msg.getMsg(Env.getCtx(), "SavedParameter"));
 
 
-	/**
+	//Print Format
+	
+	private WTableDirEditor fPrintFormat=null;
+	private Combobox freportType=new Combobox();
+	private Label lPrintFormat = new Label("Print Format:");
+	private Label lreportType = new Label("Report Type:");
+
+	
+		/**
 	 * 	Set Visible 
 	 * 	(set focus to OK if visible)
 	 * 	@param visible true if visible
@@ -355,6 +398,62 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		return true;
 	}	//	init
 
+	private void listPrintFormat()
+	{
+		int AD_Column_ID = 0;
+		MProcess pr=new MProcess(m_ctx, m_AD_Process_ID, null);
+		int table_ID=0;
+		try 
+		{
+			if(pr.getAD_ReportView_ID() > 0)
+			{
+				X_AD_ReportView m_Reportview = new X_AD_ReportView(m_ctx, pr.getAD_ReportView_ID() ,null);
+				table_ID=m_Reportview.getAD_Table_ID();
+			}
+			else if (pr.getAD_PrintFormat_ID() > 0)
+			{
+				MPrintFormat format = new MPrintFormat(m_ctx, pr.getAD_PrintFormat_ID(), null);
+				table_ID=format.getAD_Table_ID();
+			}
+			String valCode=null;
+			if(table_ID > 0)
+			{
+				valCode="AD_PrintFormat.AD_Table_ID="+table_ID;
+			}
+			Lookup lookup = MLookupFactory.get (Env.getCtx(), m_WindowNo, 
+					AD_Column_ID, DisplayType.TableDir,
+					Env.getLanguage(Env.getCtx()), "AD_PrintFormat_ID", 0, false,
+					valCode);
+			
+			fPrintFormat = new WTableDirEditor("AD_PrintFormat_ID", false, false, true, lookup);
+		} 
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE,e.getLocalizedMessage());
+		}
+		freportType.removeAllItems();
+		MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+		boolean m_isAllowHTMLView = roleCurrent.isAllow_HTML_View();
+		boolean m_isAllowXLSView = roleCurrent.isAllow_XLS_View();
+	
+		
+		if(m_isAllowHTMLView)
+			freportType.appendItem("HTML","H");
+		freportType.appendItem("PDF","P");
+		if(m_isAllowXLSView) {
+			freportType.appendItem("XLS","X");
+			freportType.appendItem("XLSX","XX");
+		}
+		freportType.setSelectedIndex(0);
+		
+		String where = "AD_Process_ID = ? AND AD_User_ID = ? AND Name IS NULL ";
+		
+		MPInstance lastrun = MTable.get(Env.getCtx(), MPInstance.Table_Name).createQuery(where, null).setOnlyActiveRecords(true)
+		.setClient_ID().setParameters(m_AD_Process_ID, Env.getContextAsInt(Env.getCtx(), "#AD_User_ID")).setOrderBy("Created DESC").first();
+		
+		setReportTypeAndPrintFormat(lastrun);
+	}
+
 	private void querySaved()
 	{
 		//user query
@@ -369,6 +468,24 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		fSavedName.setValue("");
 	}
 
+	private void setReportTypeAndPrintFormat(MPInstance instance)
+	{
+		if (fPrintFormat != null && instance != null)
+		{
+			fPrintFormat.setValue((Integer) instance.get_Value("AD_PrintFormat_ID"));
+		}
+		if (freportType != null && instance != null)
+		{
+			if (instance.get_Value("ReportType").equals("H"))
+				freportType.setValue("HTML");
+			else if (instance.get_Value("ReportType").equals("X"))
+				freportType.setValue("XLS");
+			else if (instance.get_Value("ReportType").equals("XX"))
+				freportType.setValue("XLSX");
+			else
+				freportType.setValue("PDF");
+		}
+	}
 	/**
 	 * Start Process
 	 */
@@ -424,6 +541,23 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 			if(m_IsProcessed) {
 				this.dispose();
 			} else {
+				//Print format on report para
+				if(freportType != null && freportType.getSelectedItem() != null && freportType.getSelectedItem().getValue() != null)
+				{
+					m_pi.setReportType(freportType.getSelectedItem().getValue().toString());
+				}
+				if(fPrintFormat!=null && fPrintFormat.getValue() != null)
+				{
+					MPrintFormat format=new MPrintFormat(m_ctx, (Integer)fPrintFormat.getValue(), null);
+					if(format != null)
+					{
+						if (Ini.isClient())
+							m_pi.setTransientObject (format);
+						else
+							m_pi.setSerializableObject(format);				
+					}
+				}
+				
 				//	Start
 				this.startProcess();
 			}
@@ -447,6 +581,10 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 							para.deleteEx(true);
 						}
 						parameterPanel.saveParameters();
+						savedParams.get(i).set_ValueOfColumn("AD_PrintFormat_ID", (Integer)fPrintFormat.getValue());
+						savedParams.get(i).set_ValueOfColumn("ReportType", freportType.getSelectedItem().getValue().toString());
+						savedParams.get(i).saveEx();
+						
 					}
 				}
 			}
@@ -458,6 +596,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 				{
 					instance = new MPInstance(Env.getCtx(), m_pi.getAD_Process_ID(), m_pi.getRecord_ID());
 					instance.setName(saveName);
+					instance.set_ValueOfColumn("AD_PrintFormat_ID", (Integer) fPrintFormat.getValue());
+					instance.set_ValueOfColumn("ReportType", freportType.getSelectedItem().getValue().toString());
 					instance.saveEx();
 					m_pi.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 					//				Get Parameters
@@ -535,6 +675,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 
 	private void loadSavedParams(MPInstance instance) {
 		parameterPanel.loadParameters(instance);
+		setReportTypeAndPrintFormat(instance);
 	}
 
 	public void lockUI(ProcessInfo pi) {

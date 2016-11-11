@@ -118,6 +118,8 @@ public class ZkReportViewer extends Window implements EventListener {
 	/** Table ID					*/
 	private int					m_AD_Table_ID = 0;
 	private boolean				m_isCanExport;
+	private boolean 			m_isAllowHTMLView;
+	private boolean 			m_isAllowXLSView;	
 	
 	private MQuery 		m_ddQ = null;
 	private MQuery 		m_daQ = null;
@@ -168,6 +170,9 @@ public class ZkReportViewer extends Window implements EventListener {
 			this.onClose();
 		}
 		m_isCanExport = MRole.getDefault().isCanExport(m_AD_Table_ID);
+		MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+		m_isAllowHTMLView = roleCurrent.isAllow_HTML_View();	
+		m_isAllowXLSView = roleCurrent.isAllow_XLS_View();			
 		try
 		{
 			m_ctx = m_reportEngine.getCtx();
@@ -195,8 +200,13 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 		previewType.setMold("select");
 		previewType.appendItem("PDF", "PDF");
-		previewType.appendItem("HTML", "HTML");
-		previewType.appendItem("Excel", "XLS");
+		if (m_isAllowHTMLView) {
+			previewType.appendItem("HTML", "HTML");
+		}
+		if (m_isAllowXLSView) {
+			previewType.appendItem("Excel", "XLS");
+			previewType.appendItem("XLSX", "XLSX");
+		}
 		toolBar.appendChild(previewType);		
 		previewType.addEventListener(Events.ON_SELECT, this);
 		toolBar.appendChild(new Separator("vertical"));
@@ -206,14 +216,44 @@ public class ZkReportViewer extends Window implements EventListener {
 				? MSysConfig.getValue("ZK_REPORT_FORM_OUTPUT_TYPE")
 				: MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE");
 
+		if ("HTML".equals(type)  && !m_isAllowHTMLView) {
+			type = "PDF";
+		}
+		if (("XLS".equals(type)  && !m_isAllowXLSView) ||
+			("XLSX".equals(type)  && !m_isAllowXLSView)) {
+			type = "PDF";
+		}
 		if ("PDF".equals(type))
 			previewType.setSelectedIndex(0);
 		else if ("HTML".equals(type))
 			previewType.setSelectedIndex(1);
 		else if ("XLS".equals(type))
 			previewType.setSelectedIndex(2);
+		else if ("XLSX".equals(type))
+			previewType.setSelectedIndex(3);
 		else
+			// XXX - provide hint if unexpected value
 			previewType.setSelectedIndex(0); //fallback to PDF
+			
+		if(m_reportEngine.getReportType()!=null)
+		{
+			if(m_reportEngine.getReportType().equals("P"))
+			{
+				previewType.setSelectedIndex(0);
+			}
+			else if(m_reportEngine.getReportType().equals("H"))
+			{
+				previewType.setSelectedIndex(1);
+			}
+			else if(m_reportEngine.getReportType().equals("X"))
+			{
+				previewType.setSelectedIndex(2);
+			}
+			else if(m_reportEngine.getReportType().equals("XX"))
+			{
+				previewType.setSelectedIndex(3);
+			}
+		}
 			
 		
 		labelDrill.setValue(Msg.getMsg(Env.getCtx(), "Drill") + ": ");
@@ -379,8 +419,17 @@ public class ZkReportViewer extends Window implements EventListener {
 			File file = File.createTempFile(prefix, ".xls", new File(path));
 			m_reportEngine.createXLS(file, AEnv.getLanguage(Env.getCtx()));
 			media = new AMedia(getTitle(), "xls", "application/vnd.ms-excel", file, true);
+		} else if ("XLSX".equals(previewType.getSelectedItem().getValue())) {
+			String path = System.getProperty("java.io.tmpdir");
+			String prefix = makePrefix(m_reportEngine.getName());
+			if (log.isLoggable(Level.FINE))
+			{
+				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
+			}
+			File file = File.createTempFile(prefix, ".xls", new File(path));
+			m_reportEngine.createXLSX(file, AEnv.getLanguage(Env.getCtx()));
+			media = new AMedia(prefix, "xlsx", "application/vnd.ms-excel", file, true);
 		}
-		
 		iframe.setContent(media);
 	}
 
