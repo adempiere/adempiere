@@ -23,18 +23,32 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Combobox;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.ConfirmPanel;
+import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.editor.WTableDirEditor;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.ProcessDialog;
+import org.compiere.model.Lookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MProcess;
+import org.compiere.model.MRole;
+import org.compiere.model.X_AD_ReportView;
+import org.compiere.print.MPrintFormat;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
@@ -45,6 +59,7 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Html;
+import org.zkoss.zul.Row;
 
 /**
  * 
@@ -62,12 +77,22 @@ import org.zkoss.zul.Html;
  */
 public class ProcessModalDialog extends Window implements EventListener
 {
+	private static final int AD_PROCESS_FINREPORT = 202;
 	/**
 	 * generated serial version ID
 	 */
 	private static final long serialVersionUID = -7109707014309321369L;
 	private boolean m_autoStart;
 	private VerticalBox dialogBody;
+	
+	// Print Format
+	private WTableDirEditor		fPrintFormat		= null;
+	private Combobox			freportType			= new Combobox();
+	private Label				lPrintFormat		= new Label("Print Format:");
+	private Label				lreportType			= new Label("Report Type:");
+	
+	private int 		    	m_AD_Process_ID;
+	
 	private Button bOK = null;
 	private Button bCancel = null;
 
@@ -84,7 +109,8 @@ public class ProcessModalDialog extends Window implements EventListener
 		m_WindowNo = WindowNo;
 		m_pi = pi;
 		m_autoStart = autoStart;
-		
+		m_AD_Process_ID = m_pi.getAD_Process_ID();
+
 		log.info("Process=" + pi.getAD_Process_ID());		
 		try
 		{
@@ -154,6 +180,31 @@ public class ProcessModalDialog extends Window implements EventListener
 		dialogBody.appendChild(div);
 		centerPanel = new Panel();
 		dialogBody.appendChild(centerPanel);
+		
+		//Print format on report para
+		MProcess pr=new MProcess(m_ctx, m_pi.getAD_Process_ID(), null);
+		if(pr.getAD_Process_ID() != AD_PROCESS_FINREPORT && pr.isReport() && pr.getJasperReport() == null)
+		{
+			listPrintFormat();
+
+			Grid grid = GridFactory.newGridLayout();
+			Rows rows = grid.newRows();
+
+			div = new Div();
+			div.setAlign("left");
+			div.appendChild(grid);
+			dialogBody.appendChild(div);
+
+			Row row1 = rows.newRow();
+			row1.appendChild(lPrintFormat);
+			row1.appendChild(lreportType);
+
+			Row row2 = rows.newRow();
+			row2.appendChild(fPrintFormat.getComponent());
+			row2.appendChild(freportType);
+		}
+				
+		
 		div = new Div();
 		div.setAlign("right");
 		Hbox hbox = new Hbox();
@@ -379,6 +430,23 @@ public class ProcessModalDialog extends Window implements EventListener
 		if (component instanceof Button) {
 			if (event.getTarget().equals(bOK)) {
 				if(!m_OnlyPanel) {
+					if (freportType != null && freportType.getSelectedItem() != null
+							&& freportType.getSelectedItem().getValue() != null)
+					{
+						m_pi.setReportType(freportType.getSelectedItem().getValue().toString());
+					}
+					if (fPrintFormat != null && fPrintFormat.getValue() != null)
+					{
+						MPrintFormat format = new MPrintFormat(m_ctx, (Integer) fPrintFormat.getValue(), null);
+						if (format != null)
+						{
+							if (Ini.isClient())
+								m_pi.setTransientObject(format);
+							else
+								m_pi.setSerializableObject(format);
+						}
+					}
+					
 					this.startProcess();
 				} else {
 					//	check if saving parameters is complete
@@ -393,6 +461,57 @@ public class ProcessModalDialog extends Window implements EventListener
 				this.dispose();
 			}
 		}		
+	}
+	
+	private void listPrintFormat()
+	{
+		int AD_Column_ID = 0;
+		int table_ID = 0;
+		MProcess pr = new MProcess(m_ctx, m_AD_Process_ID, null);
+
+		try
+		{
+			if (pr.getAD_ReportView_ID() > 0)
+			{
+				X_AD_ReportView m_Reportview = new X_AD_ReportView(m_ctx, pr.getAD_ReportView_ID(), null);
+				table_ID = m_Reportview.getAD_Table_ID();
+			}
+			else if (pr.getAD_PrintFormat_ID() > 0)
+			{
+				MPrintFormat format = new MPrintFormat(m_ctx, pr.getAD_PrintFormat_ID(), null);
+				table_ID = format.getAD_Table_ID();
+			}
+
+			String valCode = null;
+			if (table_ID > 0)
+			{
+				valCode = "AD_PrintFormat.AD_Table_ID=" + table_ID;
+			}
+
+			Lookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo, AD_Column_ID, DisplayType.TableDir,
+					Env.getLanguage(Env.getCtx()), "AD_PrintFormat_ID", 0, false, valCode);
+
+			fPrintFormat = new WTableDirEditor("AD_PrintFormat_ID", false, false, true, lookup);
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, e.getMessage());
+		}
+
+		MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+		boolean m_isAllowHTMLView = roleCurrent.isAllow_HTML_View();
+		boolean m_isAllowXLSView = roleCurrent.isAllow_XLS_View();
+
+		freportType.removeAllItems();
+		freportType.appendItem("PDF", "P");
+		if (m_isAllowXLSView) {
+			freportType.appendItem("XLS", "X");
+			freportType.appendItem("XLSX","XX");
+		}
+		if (m_isAllowHTMLView)
+			freportType.appendItem("HTML", "H");
+		freportType.setSelectedIndex(0);
+
 	}
 	
 	/**
