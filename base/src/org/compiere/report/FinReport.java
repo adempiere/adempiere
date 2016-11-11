@@ -433,7 +433,7 @@ public class FinReport extends SvrProcess
 
 				String sql = null;
 				FinReportPeriod frpTo = null;
-				if (relativeOffsetTo != null && !relativeOffsetTo.equals(BigDecimal.ZERO))
+				if (relativeOffsetTo != null)
 					frpTo = getPeriod(relativeOffsetTo);
 
 				if (m_columns[col].isPeriod())
@@ -1054,7 +1054,7 @@ public class FinReport extends SvrProcess
 				{
 					FinReportPeriod frpTo = null;
 					BigDecimal relativeOffsetTo = (BigDecimal) m_columns[col].get_Value("RelativePeriodTo");
-					if (relativeOffsetTo != null && !relativeOffsetTo.equals(BigDecimal.ZERO))
+					if (relativeOffsetTo != null)
 						frpTo = getPeriod(relativeOffsetTo);
 
 					if (m_columns[col].isPeriod())
@@ -1419,7 +1419,7 @@ public class FinReport extends SvrProcess
 					
 						if ( s.contains("@Period@") )
 						{
-							if (relativeOffsetTo != null && !relativeOffsetTo.equals(BigDecimal.ZERO))
+							if (relativeOffsetTo != null)
 							{
 								FinReportPeriod frpTo = getPeriod(relativeOffsetTo);
 								s = s.replace("@Period@", frp.getName() + " - " + frpTo.getName());
