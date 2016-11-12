@@ -96,7 +96,7 @@ public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 			set_TrxName(m_moves, get_TrxName());
 			return m_moves;
 		}
-		List<MMovement> list = new Query(getCtx(), I_M_Movement.Table_Name, "M_Production_Batch_ID=?", get_TrxName())
+		List<MMovement> list = new Query(getCtx(), I_M_Movement.Table_Name, "M_ProductionBatch_ID=?", get_TrxName())
 			.setParameters(getM_ProductionBatch_ID())
 			.setOrderBy(MMovement.COLUMNNAME_M_Movement_ID)
 			.list();
