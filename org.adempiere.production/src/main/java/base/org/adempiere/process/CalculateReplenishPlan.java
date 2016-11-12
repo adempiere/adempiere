@@ -269,22 +269,22 @@ public class CalculateReplenishPlan extends SvrProcess
 			noOfLinesDeleted = DB.executeUpdate(sql, docType_PlannedOrder, trx);
 			log.fine("No. of planned production deleted : " + noOfLinesDeleted);
 
-			sql = "DELETE FROM m_production_batch b  " +
+			sql = "DELETE FROM m_productionbatch b  " +
 					"WHERE b.c_doctype_id = ? " +
 		            "AND   NOT EXISTS (SELECT * " +
 		             "                  FROM m_production " +
-		             "                  WHERE m_production_batch_id = b.m_production_batch_id)";
+		             "                  WHERE m_productionbatch_id = b.m_productionbatch_id)";
 			noOfLinesDeleted = DB.executeUpdate(sql, docType_PlannedOrder, trx);
 			log.fine("No. of Production Batch deleted " + noOfLinesDeleted);
 
 			sql = "DELETE FROM M_MovementLine ml 	USING M_Movement m "
-					+ " WHERE m.M_Production_Batch_ID IS NOT NULL AND m.Processed = 'N' "
-					+ " AND NOT EXISTS (SELECT * FROM M_Production_Batch b WHERE b.M_Production_Batch_ID = m.M_Production_Batch_ID)";
+					+ " WHERE m.M_ProductionBatch_ID IS NOT NULL AND m.Processed = 'N' "
+					+ " AND NOT EXISTS (SELECT * FROM M_ProductionBatch b WHERE b.M_ProductionBatch_ID = m.M_ProductionBatch_ID)";
 			noOfLinesDeleted = DB.executeUpdate(sql, trx);
 			log.fine("No. of Movement Lines cleaned : " + noOfLinesDeleted);
 
-			sql = "DELETE FROM M_Movement m " + " WHERE m.M_Production_Batch_ID IS NOT NULL AND m.Processed = 'N'"
-					+ "	AND NOT EXISTS (SELECT * FROM M_Production_Batch b WHERE b.M_Production_Batch_ID = m.M_Production_Batch_ID)";
+			sql = "DELETE FROM M_Movement m " + " WHERE m.M_ProductionBatch_ID IS NOT NULL AND m.Processed = 'N'"
+					+ "	AND NOT EXISTS (SELECT * FROM M_ProductionBatch b WHERE b.M_ProductionBatch_ID = m.M_ProductionBatch_ID)";
 			noOfLinesDeleted = DB.executeUpdate(sql, trx);
 			log.fine("No. of Inventory Movements cleaned : " + noOfLinesDeleted);
 		}
