@@ -48,9 +48,9 @@ public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 	private boolean				m_justPrepared			= false;
 	private MProductionBatchLine[] productionBatchLines = null;
 	
-	public MProductionBatch(Properties ctx, int M_Production_Batch_ID,
+	public MProductionBatch(Properties ctx, int M_ProductionBatch_ID,
 			String trxName) {
-		super(ctx, M_Production_Batch_ID, trxName);
+		super(ctx, M_ProductionBatch_ID, trxName);
 	}
 	
 	
@@ -75,7 +75,7 @@ public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 			set_TrxName(m_productions, get_TrxName());
 			return m_productions;
 		}
-		List<MProduction> list = new Query(getCtx(), I_M_Production.Table_Name, "M_Production_Batch_ID = ?", get_TrxName())
+		List<MProduction> list = new Query(getCtx(), I_M_Production.Table_Name, "M_ProductionBatch_ID = ?", get_TrxName())
 			.setParameters(getM_ProductionBatch_ID())
 			.setOrderBy(MProduction.COLUMNNAME_M_Production_ID)
 			.list();
@@ -477,7 +477,7 @@ public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 	{		
 		String whereClause = "EXISTS(SELECT 1 FROM M_Production "
 				+ "WHERE M_Production_ID = M_ProductionLine.M_Production_ID "
-				+ "AND M_Production_Batch_ID =?)";
+				+ "AND M_ProductionBatch_ID =?)";
 		if (M_Production_ID !=0)
 			whereClause = whereClause + " AND M_Production_ID = " + M_Production_ID;
 		List<MProductionLine> list= new Query(getCtx(), MProductionLine.Table_Name, whereClause, get_TrxName())
@@ -558,7 +558,7 @@ public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 			return productionBatchLines;
 		}
 		//
-		List<MProductionBatchLine> list = new Query(getCtx(), MProductionBatchLine.Table_Name, "M_Production_Batch_ID=?", get_TrxName())
+		List<MProductionBatchLine> list = new Query(getCtx(), MProductionBatchLine.Table_Name, "M_ProductionBatch_ID=?", get_TrxName())
 			.setParameters(get_ID())
 			.list();
 		productionBatchLines = list.toArray(new MProductionBatchLine[list.size()]);
