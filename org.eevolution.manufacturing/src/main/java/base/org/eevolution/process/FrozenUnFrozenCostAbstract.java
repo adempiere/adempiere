@@ -17,18 +17,18 @@
 package org.eevolution.process;
 
 import org.compiere.process.SvrProcess;
-/** Generated Process for (Workflow Cost Roll-Up)
+/** Generated Process for (Frozen/UnFrozen Cost)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class RollupWorkflowAbstract extends SvrProcess
+public abstract class FrozenUnFrozenCostAbstract extends SvrProcess
 {
 	/** Process Value 	*/
-	private static final String VALUE = "PP_Workflow Cost Roll-Up";
+	private static final String VALUE = "PP_Cost Frozen/UnFrozen";
 	/** Process Name 	*/
-	private static final String NAME = "Workflow Cost Roll-Up";
+	private static final String NAME = "Frozen/UnFrozen Cost";
 	/** Process Id 	*/
-	private static final int ID = 53058;
+	private static final int ID = 53160;
  
 	/**	Parameter Name for C_AcctSchema_ID	*/
 	public static final String C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -40,18 +40,18 @@ public abstract class RollupWorkflowAbstract extends SvrProcess
 	public static final String AD_Org_ID = "AD_Org_ID";
 	/**	Parameter Name for M_Warehouse_ID	*/
 	public static final String M_Warehouse_ID = "M_Warehouse_ID";
-	/**	Parameter Name for S_Resource_ID	*/
-	public static final String S_Resource_ID = "S_Resource_ID";
 	/**	Parameter Name for M_Product_ID	*/
 	public static final String M_Product_ID = "M_Product_ID";
 	/**	Parameter Name for M_Product_Category_ID	*/
 	public static final String M_Product_Category_ID = "M_Product_Category_ID";
-	/**	Parameter Name for M_Product_Class_ID	*/
-	public static final String M_Product_Class_ID = "M_Product_Class_ID";
-	/**	Parameter Name for M_Product_Group_ID	*/
-	public static final String M_Product_Group_ID = "M_Product_Group_ID";
 	/**	Parameter Name for M_Product_Classification_ID	*/
 	public static final String M_Product_Classification_ID = "M_Product_Classification_ID";
+	/**	Parameter Name for M_Product_Group_ID	*/
+	public static final String M_Product_Group_ID = "M_Product_Group_ID";
+	/**	Parameter Name for M_Product_Class_ID	*/
+	public static final String M_Product_Class_ID = "M_Product_Class_ID";
+	/**	Parameter Name for IsCostFrozen	*/
+	public static final String IsCostFrozen = "IsCostFrozen";
 
 	/**	Parameter Value for accountingSchemaId	*/
 	private int accountingSchemaId;
@@ -63,18 +63,18 @@ public abstract class RollupWorkflowAbstract extends SvrProcess
 	private int organizationId;
 	/**	Parameter Value for warehouseId	*/
 	private int warehouseId;
-	/**	Parameter Value for resourcePlantId	*/
-	private int resourcePlantId;
 	/**	Parameter Value for productId	*/
 	private int productId;
 	/**	Parameter Value for productCategoryId	*/
 	private int productCategoryId;
-	/**	Parameter Value for productClassId	*/
-	private int productClassId;
-	/**	Parameter Value for productGroupId	*/
-	private int productGroupId;
 	/**	Parameter Value for productClassificationId	*/
 	private int productClassificationId;
+	/**	Parameter Value for productGroupId	*/
+	private int productGroupId;
+	/**	Parameter Value for productClassId	*/
+	private int productClassId;
+	/**	Parameter Value for isCostFrozen	*/
+	private boolean isCostFrozen;
  
 
 	@Override
@@ -85,12 +85,12 @@ public abstract class RollupWorkflowAbstract extends SvrProcess
 		costElementId = getParameterAsInt(M_CostElement_ID);
 		organizationId = getParameterAsInt(AD_Org_ID);
 		warehouseId = getParameterAsInt(M_Warehouse_ID);
-		resourcePlantId = getParameterAsInt(S_Resource_ID);
 		productId = getParameterAsInt(M_Product_ID);
 		productCategoryId = getParameterAsInt(M_Product_Category_ID);
-		productClassId = getParameterAsInt(M_Product_Class_ID);
-		productGroupId = getParameterAsInt(M_Product_Group_ID);
 		productClassificationId = getParameterAsInt(M_Product_Classification_ID);
+		productGroupId = getParameterAsInt(M_Product_Group_ID);
+		productClassId = getParameterAsInt(M_Product_Class_ID);
+		isCostFrozen = getParameterAsBoolean(IsCostFrozen);
 	}
 
 	/**	 Getter Parameter Value for accountingSchemaId	*/
@@ -118,11 +118,6 @@ public abstract class RollupWorkflowAbstract extends SvrProcess
 		return warehouseId;
 	}
 
-	/**	 Getter Parameter Value for resourcePlantId	*/
-	protected int getResourcePlantId() {
-		return resourcePlantId;
-	}
-
 	/**	 Getter Parameter Value for productId	*/
 	protected int getProductId() {
 		return productId;
@@ -133,9 +128,9 @@ public abstract class RollupWorkflowAbstract extends SvrProcess
 		return productCategoryId;
 	}
 
-	/**	 Getter Parameter Value for productClassId	*/
-	protected int getProductClassId() {
-		return productClassId;
+	/**	 Getter Parameter Value for productClassificationId	*/
+	protected int getProductClassificationId() {
+		return productClassificationId;
 	}
 
 	/**	 Getter Parameter Value for productGroupId	*/
@@ -143,9 +138,14 @@ public abstract class RollupWorkflowAbstract extends SvrProcess
 		return productGroupId;
 	}
 
-	/**	 Getter Parameter Value for productClassificationId	*/
-	protected int getProductClassificationId() {
-		return productClassificationId;
+	/**	 Getter Parameter Value for productClassId	*/
+	protected int getProductClassId() {
+		return productClassId;
+	}
+
+	/**	 Getter Parameter Value for isCostFrozen	*/
+	protected boolean isCostFrozen() {
+		return isCostFrozen;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
