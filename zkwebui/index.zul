@@ -9,6 +9,8 @@ Copyright (C) 2007 Ashley G Ramdass.
 <?link rel="stylesheet" type="text/css" href="${themeStyleSheet}"?>
 <?link rel="stylesheet" type="text/css" href="${themeStyleSheetByBrowser}"?>
 <?link rel="stylesheet" type="text/css" href="css/PAPanel.css"?>
+<?link rel="stylesheet" type="text/css" href="theme/default/css/color.css.dsp"?>
+<?link rel="stylesheet" type="text/css" href="theme/default/css/img.css.dsp"?>
 <zk>
 	<script>
 		var zkTimeoutText = "The page or component you request is no longer available. This is normally caused by timeout or rebooting the server.";
