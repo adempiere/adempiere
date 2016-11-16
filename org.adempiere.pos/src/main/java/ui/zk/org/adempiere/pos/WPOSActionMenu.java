@@ -13,8 +13,6 @@
  * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  * ****************************************************************************/
-
-
 package org.adempiere.pos;
 
 import java.util.Map;
@@ -157,8 +155,8 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
             FDialog.info(pos.getWindowNo(), popupMenu, "DocProcessed", pos.getDocumentNo());
     }
 
-    private void afterExecutionCommand(Command command)
-    {
+    private void afterExecutionCommand(Command command) {
+    	
     }
 
     private void executeCommand(Command command)

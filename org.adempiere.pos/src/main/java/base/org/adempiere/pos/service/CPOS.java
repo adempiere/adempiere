@@ -2304,6 +2304,6 @@ public class CPOS {
 	 * @return
 	 */
 	public String getTicketHandlerClassName() {
-		return entityPOS.get_ValueAsString("ClassName");
+		return entityPOS.getTicketClassName();
 	}
 }
