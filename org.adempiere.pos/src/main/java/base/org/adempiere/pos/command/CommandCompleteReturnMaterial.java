@@ -13,7 +13,6 @@
  * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  * ****************************************************************************/
-
 package org.adempiere.pos.command;
 
 import org.adempiere.pos.AdempierePOSException;
@@ -24,9 +23,6 @@ import org.compiere.model.MInOutLineConfirm;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
-import org.compiere.model.Query;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Msg;
@@ -38,10 +34,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * execute Complete a return material command
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 23/01/16.
+ * @contributor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/672">
+ * 		@see FR [ 672 ] Add abstract class for basic operation of POS</a>
  */
 public class CommandCompleteReturnMaterial extends CommandAbstract implements Command {
     public CommandCompleteReturnMaterial(String command,String event) {
@@ -104,18 +102,7 @@ public class CommandCompleteReturnMaterial extends CommandAbstract implements Co
                                .withParameter(MInvoice.COLUMNNAME_DocAction, MInvoice.DOCACTION_Complete)
                                .withoutTransactionClose()
                                .execute(trxName);
-
-                       for (MInvoice invoice :  returnOrder.getInvoices()) {
-                           ReportCtl.startDocumentPrint(
-                                   ReportEngine.INVOICE,
-                                   null  /* custom Print Format */,
-                                   invoice.get_ID(),
-                                   null /* Parent */,
-                                   processInfo.getWindowNo(),
-                                   false /* Is print direct */,
-                                   null /* Printer Name */,
-                                   processInfo);
-                       }
+                       //	
                        commandReceiver.setProcessInfo(processInfo);
                    }
                    else // if not exist invoice then return of payment
@@ -143,17 +130,6 @@ public class CommandCompleteReturnMaterial extends CommandAbstract implements Co
                        returnOrder.saveEx();
 
                        processInfo.addLog(0,null,null,payment.getDocumentInfo());
-
-                       ReportCtl.startDocumentPrint(
-                               ReportEngine.ORDER,
-                               null  /* custom Print Format */,
-                               returnOrder.get_ID(),
-                               null /* Parent */,
-                               processInfo.getWindowNo(),
-                               false /* Is print direct */,
-                               null /* Printer Name */,
-                               processInfo);
-
                    }
                 }
                 commandReceiver.setProcessInfo(processInfo);

@@ -17,10 +17,20 @@
 
 package org.adempiere.pos;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowse;
-import org.adempiere.pos.command.CommandManager;
 import org.adempiere.pos.command.Command;
+import org.adempiere.pos.command.CommandManager;
 import org.adempiere.pos.command.CommandReceiver;
 import org.adempiere.pos.search.POSQuery;
 import org.adempiere.pos.search.QueryBPartner;
@@ -31,27 +41,13 @@ import org.compiere.apps.AEnv;
 import org.compiere.apps.Waiting;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
-import org.compiere.model.Query;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.eevolution.form.VBrowser;
-
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * Class that execute business logic from POS
@@ -130,11 +126,11 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         	});
         	
         	// For certain documents, there is no further processing
-        	String docSubTypeSO = pos.getM_Order().getC_DocTypeTarget().getDocSubTypeSO();
+        	String docSubTypeSO = pos.getOrder().getC_DocTypeTarget().getDocSubTypeSO();
         	if((docSubTypeSO.equals(MOrder.DocSubTypeSO_Standard) ||
         		docSubTypeSO.equals(MOrder.DocSubTypeSO_OnCredit) ||
         		docSubTypeSO.equals(MOrder.DocSubTypeSO_Warehouse)) 
-        		&& pos.getM_Order().getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {        		
+        		&& pos.getOrder().getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {        		
         		String message = Msg.parseTranslation(pos.getCtx(), " @DocProcessed@. " 
         				+ "@order.no@: " + pos.getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
         		ADialog.info(pos.getWindowNo(), popupMenu ,"DocProcessed",  message );
@@ -190,8 +186,11 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                     } else {
                         afterExecutionCommand(command);
                         showOkMessage(processInfo);
-                        pos.setOrder(processInfo.getRecord_ID());
+                        if(processInfo != null)
+                        	pos.setOrder(processInfo.getRecord_ID());
                         pos.refreshHeader();
+                        //	Print Ticket
+                        pos.printTicket();
                     }
                     return;
                 }

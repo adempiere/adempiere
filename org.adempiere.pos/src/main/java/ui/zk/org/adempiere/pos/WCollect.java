@@ -71,7 +71,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	 * @param posPanel
 	 */
 	public WCollect(WPOS posPanel) {
-		super(posPanel.getCtx(), posPanel.getM_Order(), posPanel.getM_POS());
+		super(posPanel.getCtx(), posPanel.getOrder(), posPanel.getM_POS());
 		this.posPanel = posPanel;
 		p_ctx = posPanel.getCtx();
 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
@@ -85,7 +85,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 	public WCollect load (WPOS posPanel)
 	{
 		//	Instance Collects
-		load(posPanel.getCtx() , posPanel.getM_Order() , posPanel.getM_POS());
+		load(posPanel.getCtx() , posPanel.getOrder() , posPanel.getM_POS());
 		removeAllCollectDetail();
 		collectRowNo = 0;
 		calculatePanelData();
