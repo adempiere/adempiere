@@ -127,7 +127,8 @@ public abstract class POSTicketHandler {
 	
 	/**
 	 * Show Message
+	 * @param message
 	 */
-	public abstract void showMessage();
+	public abstract void showMessage(String message);
 
 }

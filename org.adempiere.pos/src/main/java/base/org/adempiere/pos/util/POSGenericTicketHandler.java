@@ -59,7 +59,7 @@ public class POSGenericTicketHandler extends POSTicketHandler {
 	}
 
 	@Override
-	public void showMessage() {
+	public void showMessage(String message) {
 		//	
 	}
 }
