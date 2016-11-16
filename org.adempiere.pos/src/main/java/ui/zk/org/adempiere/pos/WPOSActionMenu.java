@@ -32,17 +32,11 @@ import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
-import org.adempiere.webui.component.*;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
-import org.compiere.model.Query;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -137,11 +131,11 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
         	});
         	
         	// For certain documents, there is no further processing
-        	String docSubTypeSO = pos.getM_Order().getC_DocTypeTarget().getDocSubTypeSO();
+        	String docSubTypeSO = pos.getOrder().getC_DocTypeTarget().getDocSubTypeSO();
         	if((docSubTypeSO.equals(MOrder.DocSubTypeSO_Standard) ||
         		docSubTypeSO.equals(MOrder.DocSubTypeSO_OnCredit) ||
         		docSubTypeSO.equals(MOrder.DocSubTypeSO_Warehouse)) 
-        		&& pos.getM_Order().getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {        		
+        		&& pos.getOrder().getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {        		
         		String message = Msg.parseTranslation(pos.getCtx(), " @DocProcessed@. " 
         				+ "@order.no@: " + pos.getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
         		FDialog.info(pos.getWindowNo(), popupMenu ,"DocProcessed",  message );
@@ -198,8 +192,11 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                     } else {
                         afterExecutionCommand(command);
                         showOkMessage(processInfo);
-                        pos.setOrder(processInfo.getRecord_ID());
+                        if(processInfo != null)
+                        	pos.setOrder(processInfo.getRecord_ID());
                         pos.refreshHeader();
+                        //	Print Ticket
+                        pos.printTicket();
                     }
                     return;
                 }

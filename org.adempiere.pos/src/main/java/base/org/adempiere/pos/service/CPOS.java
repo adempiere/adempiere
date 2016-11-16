@@ -31,6 +31,7 @@ import java.util.Vector;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
+import org.adempiere.pos.util.POSTicketHandler;
 import org.compiere.model.I_AD_User;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MAllocationHdr;
@@ -61,7 +62,6 @@ import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Order;
-import org.compiere.print.ReportCtl;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
@@ -471,7 +471,7 @@ public class CPOS {
 	 * @return
 	 * @return MOrder
 	 */
-	public MOrder getM_Order() {
+	public MOrder getOrder() {
 		return currentOrder;
 	}
 	
@@ -1441,7 +1441,7 @@ public class CPOS {
 	public BigDecimal getAmountReceived()
 	{
 		BigDecimal totalPayAmt = Env.ZERO;
-		for (MPayment payment : MPayment.getOfOrder(getM_Order()))
+		for (MPayment payment : MPayment.getOfOrder(getOrder()))
 			totalPayAmt = totalPayAmt.add(payment.getPayAmt());
 
 		return totalPayAmt;
@@ -2223,16 +2223,12 @@ public class CPOS {
 	public void printTicket() {
 		if (!hasOrder())
 			return;
-		try
-		{
-			//if (p_pos.getAD_PrintLabel_ID() != 0)
-			//		PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
-			//print standard document
-			ReportCtl.startDocumentPrint(0, getC_Order_ID(), false);
-		}
-		catch (Exception e) {
-			throw new AdempierePOSException("PrintTicket - Error Printing Ticket");
-		}
+		//	Print
+		POSTicketHandler ticketHandler = POSTicketHandler.getTicketHandler(this);
+		if(ticketHandler == null)
+			return;
+		//	
+		ticketHandler.printTicket();
 	}
 
 	/**
@@ -2301,5 +2297,13 @@ public class CPOS {
 	 */
 	public String getDateOrderedForView() {
 		return getDateFormat().format(getDateOrdered());
+	}
+	
+	/**
+	 * Get Class name for ticket handler
+	 * @return
+	 */
+	public String getTicketHandlerClassName() {
+		return entityPOS.get_ValueAsString("ClassName");
 	}
 }

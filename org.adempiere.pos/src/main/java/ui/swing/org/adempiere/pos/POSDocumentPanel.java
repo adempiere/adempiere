@@ -462,7 +462,7 @@ public class POSDocumentPanel extends POSSubPanel
 			fieldSalesRep.setText(posPanel.getSalesRepName());
 			fieldDocumentType.setText(posPanel.getDocumentTypeName());
 			fieldDocumentNo.setText(posPanel.getDocumentNo());
-			fieldDocumentStatus.setText(posPanel.getM_Order().getDocStatusName());
+			fieldDocumentStatus.setText(posPanel.getOrder().getDocStatusName());
 			fieldDocumentDate.setText(posPanel.getDateOrderedForView());
 			fieldTotalLines.setText(posPanel.getTotaLinesForView());
 			fieldGrandTotal.setText(posPanel.getGrandTotalForView());

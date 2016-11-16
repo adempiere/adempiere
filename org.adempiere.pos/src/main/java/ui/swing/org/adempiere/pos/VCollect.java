@@ -68,7 +68,7 @@ public class VCollect extends Collect
 	 * @param posPanel
 	 */
 	public VCollect(VPOS posPanel) {
-		super(posPanel.getCtx(), posPanel.getM_Order(), posPanel.getM_POS());
+		super(posPanel.getCtx(), posPanel.getOrder(), posPanel.getM_POS());
 		pos = posPanel;
 		ctx = pos.getCtx();
 		collectRowNo = 0;
@@ -78,7 +78,7 @@ public class VCollect extends Collect
 	public VCollect load (VPOS posPanel)
 	{
 		//	Instance Collects
-		load(posPanel.getCtx() , posPanel.getM_Order() , posPanel.getM_POS());
+		load(posPanel.getCtx() , posPanel.getOrder() , posPanel.getM_POS());
 		centerPanel.removeAll();
 		collectRowNo = 0;
 		calculatePanelData();
