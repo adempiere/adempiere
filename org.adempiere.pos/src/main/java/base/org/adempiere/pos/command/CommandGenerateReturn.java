@@ -19,7 +19,6 @@ package org.adempiere.pos.command;
 import org.adempiere.pos.process.CreateOrderBasedOnAnother;
 import org.compiere.model.MDocType;
 import org.compiere.process.DocAction;
-import org.compiere.process.ProcessInfo;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.eevolution.service.dsl.ProcessBuilder;
@@ -39,7 +38,6 @@ public class CommandGenerateReturn extends CommandAbstract implements Command {
     @Override
     public void execute(CommandReceiver commandReceiver) {
         Trx.run(new TrxRunnable() {
-            ProcessInfo processInfo;
             public void run(String trxName) {
                 //Create partial return
                 commandReceiver.setProcessInfo(ProcessBuilder

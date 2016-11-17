@@ -18,6 +18,7 @@
 package org.adempiere.pos;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -46,6 +47,7 @@ import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.pos.service.POSScalesPanelInterface;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.StatusBar;
+import org.compiere.apps.Waiting;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.model.MPOS;
@@ -63,8 +65,6 @@ import org.compiere.util.Msg;
  */
 public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScalesPanelInterface {
 	
-	/**	Window No					*/
-	private int 							windowNo;
 	/**	FormFrame					*/
 	private CFrame 							frame;
 	/**	Main Panel					*/
@@ -120,6 +120,8 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	private int 							buttonSize;
 	/** Status bar info				*/
 	private String 							statusBarInfo;
+	/**	Waiting Dialog				*/
+	private Waiting 						waiting;
 	
 	/**
 	 * *** Constructor ***
@@ -170,7 +172,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		this.frame.setResizable(true);
 		//	
 		logger.info("init - SalesRep_ID=" + Env.getAD_User_ID(getCtx()));
-		windowNo = WindowNo;
+		setWindowNo(WindowNo);
 		frame.setJMenuBar(null);
 
 		if (!loadPOS())
@@ -353,7 +355,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 		//	Select POS
 		int orgId = Env.getAD_Org_ID(getCtx());
 		String msg = Msg.getMsg(getCtx(), "SelectPOS");
-		String title = Env.getHeader(getCtx(), windowNo);
+		String title = Env.getHeader(getCtx(), getWindowNo());
 		Object selection = JOptionPane.showInputDialog(frame, msg, title,
 				JOptionPane.QUESTION_MESSAGE, null, getPOSByOrganization(orgId).toArray(), null);
 
@@ -486,16 +488,6 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	 */
 	public POSKeyboard getKeyboard() {
 		return getKeyboard(getOSKeyLayout_ID());
-	}
-
-	/**
-	 * Get Window Number
-	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
-	 * @return
-	 * @return int
-	 */
-	public int getWindowNo() {
-		return windowNo;
 	}
 	
 	/**
@@ -738,5 +730,40 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	public void updateProductPlaceholder(String name)
 	{
 		actionPanel.updateProductPlaceholder(name);
+	}
+
+	/**
+	 * Show a busy dialog or hide it
+	 * @param busy
+	 */
+	public void setBusy(boolean busy) {
+		if(busy) {
+//			waiting = new Waiting(getFrame(), Msg.parseTranslation(getCtx(), "@Processing@"), false, 5);
+//			waiting.toFront();
+			getFrame().getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		} else {
+//			if(waiting != null) {
+//				waiting.dispose();
+//				waiting = null;
+//			}
+			getFrame().getContentPane().setCursor(Cursor.getDefaultCursor());
+		}
+	}
+
+	/**
+	 * Show a message on busy dialog if it exists
+	 * @param message
+	 */
+	public void setBusyMessage(String message) {
+//		if(waiting != null)
+//			waiting.setText(message);
+	}
+	
+	/**
+	 * Gerify if is busy
+	 * @return
+	 */
+	public boolean isBusy() {
+		return waiting != null;
 	}
 }

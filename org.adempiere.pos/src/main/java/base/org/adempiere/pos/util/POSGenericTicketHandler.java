@@ -21,6 +21,7 @@ import org.adempiere.pos.service.CPOS;
 import org.compiere.model.MInvoice;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
+import org.compiere.process.ProcessInfo;
 
 /**
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
@@ -36,16 +37,33 @@ public class POSGenericTicketHandler extends POSTicketHandler {
 	public POSGenericTicketHandler(CPOS pos) {
 		super(pos);
 	}
-
+	
 	@Override
 	public void printTicket() {
 		try {
+			ProcessInfo info = new ProcessInfo(null, 0);
+			info.setTransactionName(getPOS().get_TrxName());
 			if(!getPOS().isInvoiced()) {
-				//print standard document
-				ReportCtl.startDocumentPrint(ReportEngine.ORDER, getPOS().getC_Order_ID(), false);
+				ReportCtl.startDocumentPrint(
+						ReportEngine.ORDER, 
+						null, 
+						getPOS().getC_Order_ID(), 
+						null, 
+						getPOS().getWindowNo(), 
+						false, 
+						null, 
+						info);
 			} else {
 				for (MInvoice invoice :  getPOS().getOrder().getInvoices()) {
-					ReportCtl.startDocumentPrint(ReportEngine.ORDER, invoice.getC_Invoice_ID(), false);
+					ReportCtl.startDocumentPrint(
+							ReportEngine.INVOICE, 
+							null, 
+							invoice.getC_Invoice_ID(), 
+							null, 
+							getPOS().getWindowNo(), 
+							false, 
+							null, 
+							info);
                 }
 			}
 		} catch (Exception e) {

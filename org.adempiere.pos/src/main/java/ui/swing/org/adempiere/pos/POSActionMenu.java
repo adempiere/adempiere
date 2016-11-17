@@ -13,8 +13,6 @@
  * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  * ****************************************************************************/
-
-
 package org.adempiere.pos;
 
 import java.awt.Component;
@@ -41,17 +39,17 @@ import org.compiere.apps.AEnv;
 import org.compiere.apps.Waiting;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MOrder;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Trx;
-import org.compiere.util.TrxRunnable;
 import org.eevolution.form.VBrowser;
 
 /**
  * Class that execute business logic from POS
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 29/12/15.
+ * @contributor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/670">
+ * 		@see FR [ 670 ] Standard process for return material on POS</a>
  */
 public class POSActionMenu implements  ActionListener , POSQueryListener{
 
@@ -90,66 +88,30 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         }
     }
 
-    private void beforeExecutionCommand(Command command)
-    {
-        if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE)
-        {
+    private void beforeExecutionCommand(Command command) {
+        if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE) {
             if (pos.isCompleted()) {
                 queryPartner = new QueryBPartner(pos);
                 queryPartner.setModal(true);
                 queryPartner.addOptionListener(this);
                 queryPartner.showView();
-                return;
             }
-        }
-        if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES)
-        {
+        } else if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES) {
             if (pos.isCompleted())
                 executeCommand(command);
-        }
-        if (command.getCommand() == CommandManager.GENERATE_RETURN)
-        {
-            executeCommand(command);
-            return;
-        }
-        if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT
-        		&& (pos.isDrafted() || pos.isInProgress() || pos.isInvalid())) {
-        	Trx.run(new TrxRunnable() {
-        		public void run(String trxName) {
-        			if (!pos.processOrder(trxName, false, false)) {
-        				String errorMessage = Msg.parseTranslation(pos.getCtx(), " @ProcessRunError@. " 
-        						+ "@order.no@: " + pos.getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
-        				throw new AdempierePOSException(errorMessage);
-        			}
-        			pos.refreshHeader();
-        		}
-        	});
-        	
-        	// For certain documents, there is no further processing
-        	String docSubTypeSO = pos.getOrder().getC_DocTypeTarget().getDocSubTypeSO();
-        	if((docSubTypeSO.equals(MOrder.DocSubTypeSO_Standard) ||
-        		docSubTypeSO.equals(MOrder.DocSubTypeSO_OnCredit) ||
-        		docSubTypeSO.equals(MOrder.DocSubTypeSO_Warehouse)) 
-        		&& pos.getOrder().getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {        		
-        		String message = Msg.parseTranslation(pos.getCtx(), " @DocProcessed@. " 
-        				+ "@order.no@: " + pos.getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
-        		ADialog.info(pos.getWindowNo(), popupMenu ,"DocProcessed",  message );
-        	}
-        	else
+        } else if (command.getCommand() == CommandManager.GENERATE_RETURN) {
+        	if(pos.getC_Order_ID() > 0 
+        			&& !pos.isReturnMaterial() 
+        			&& pos.isCompleted()) {
         		executeCommand(command);
-        }
-        if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL)
-        {
+        	}
+        } else if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL) {
             executeCommand(command);
-            return;
-        }
-        if (command.getCommand() == CommandManager.CLOSE_STATEMENT)
-        {
+        } else if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
             executeCommand(command);
-            return;
-        }
-        else
+        } else {
         	ADialog.info(pos.getWindowNo(), popupMenu, "DocProcessed", pos.getDocumentNo());
+        }
     }
 
     private void afterExecutionCommand(Command command)
@@ -192,11 +154,10 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                         //	Print Ticket
                         pos.printTicket();
                     }
-                    return;
                 }
             }
             //Reverse The Sales Transaction
-            if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES
+            else if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES
                     && pos.getC_Order_ID() > 0
                     && !pos.isReturnMaterial()
                     && !pos.isVoided()
@@ -224,11 +185,13 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                         showOkMessage(processInfo);
                     }
                     pos.printTicket();
-                    return;
                 }
             }
             //Return product
-            if (command.getCommand() == CommandManager.GENERATE_RETURN && pos.getC_Order_ID() > 0 && !pos.isReturnMaterial() && pos.isCompleted()) {
+            else if (command.getCommand() == CommandManager.GENERATE_RETURN 
+            		&& pos.getC_Order_ID() > 0 
+            		&& !pos.isReturnMaterial() 
+            		&& pos.isCompleted()) {
                 receiver.setCtx(pos.getCtx());
                 receiver.setOrderId(pos.getC_Order_ID());
                 receiver.setPOSId(pos.getC_POS_ID());
@@ -251,51 +214,29 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                         afterExecutionCommand(command);
                         showOkMessage(processInfo);
                         //execute out transaction
-                        if (processInfo.getRecord_ID() > 0) {
+                        if (processInfo != null 
+                        		&& processInfo.getRecord_ID() > 0) {
                             pos.setOrder(processInfo.getRecord_ID());
                             pos.refreshHeader();
                         }
                     }
-
-                    return;
                 }
-            }
-            if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT && pos.getC_Order_ID() > 0) {
-                if (pos.isReturnMaterial() && pos.isCompleted()) {
-                    receiver.setCtx(pos.getCtx());
-                    receiver.setOrderId(pos.getC_Order_ID());
-                    receiver.setPOSId(pos.getC_POS_ID());
-                    receiver.setWarehouseId(pos.getM_Warehouse_ID());
-                    receiver.setBankAccountId(pos.getC_BankAccount_ID());
-                    AEnv.showCenterScreen(waiting);
-                    command.execute(receiver);
-                    ProcessInfo processInfo = receiver.getProcessInfo();
-                    waiting.setVisible(false);
-                    if (processInfo != null && processInfo.isError()) {
-                        showError(processInfo);
-                    }
-                    afterExecutionCommand(command);
-                    showOkMessage(processInfo);
-                    pos.refreshHeader();
-                }
-            }
-            if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL) {
+            } else if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL) {
                 Env.setContext(pos.getCtx(), pos.getWindowNo() , "C_POS_ID" , pos.getC_POS_ID());
                 Dimension size = new Dimension(1024, 768);
                 FormFrame ff = new FormFrame(pos.getWindowNo());
                 ff.setSize(size);
                 MBrowse browse = new MBrowse(Env.getCtx(), 50056 , null);
-                VBrowser browser = new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "", true);
+                new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "", true);
                 ff.pack();
                 AEnv.showCenterScreen(ff);
-            }
-            if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
+            } else if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
                 Env.setContext(pos.getCtx(), pos.getWindowNo() , "C_POS_ID" , pos.getC_POS_ID());
                 Dimension size = new Dimension(1024, 768);
                 FormFrame ff = new FormFrame(pos.getWindowNo());
                 ff.setSize(size);
                 MBrowse browse = new MBrowse(Env.getCtx(), 50057 , null);
-                VBrowser browser = new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "", true);
+                new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "", true);
                 ff.pack();
                 AEnv.showCenterScreen(ff);
             }
