@@ -11,7 +11,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-
 package org.adempiere.pos;
 
 import java.awt.Cursor;
@@ -103,8 +102,8 @@ public class POSActionPanel extends POSSubPanel
 	/** Find Product Timer **/
 	private javax.swing.Timer   findProductTimer;
 	private POSLookupProduct 	lookupProduct;
-	/**	Process Action 						*/
-	private POSActionMenu actionProcessMenu;
+	/**	Process Action 		*/
+	private POSActionMenu 		actionProcessMenu;
 	/**	Padding				*/
 	private int 				topPadding;
 	private int 				bottonPadding;
@@ -328,7 +327,11 @@ public class POSActionPanel extends POSSubPanel
 				} else if (actionEvent.getSource().equals(buttonNext)){
 					nextRecord();
 				} else if (actionEvent.getSource().equals(buttonCollect)) {
-					payOrder();
+					if(posPanel.isReturnMaterial()) {
+						completeReturn();
+					} else {
+						payOrder();
+					}
 				} else if (actionEvent.getSource().equals(buttonCancel)) {
 					if (posPanel.isUserPinValid())
 						deleteOrder();
@@ -468,6 +471,37 @@ public class POSActionPanel extends POSSubPanel
 			posPanel.showCollectPayment();
 		}	
 	}  // payOrder
+	
+	/**
+	 * Complete Return Material
+	 */
+	private void completeReturn() {
+		String errorMsg = null;
+		String askMsg = "@new.customer.return.order@ @DisplayDocumentInfo@ : " + posPanel.getDocumentNo()
+                + " @To@ @C_BPartner_ID@ : " + posPanel.getBPName();
+		//	
+		if (posPanel.isCompleted()) {
+			return;
+		}
+		//	Show Ask
+		if (ADialog.ask(posPanel.getWindowNo(), this, "StartProcess?", Msg.parseTranslation(ctx, askMsg))) {
+			requestFocus();
+			posPanel.getFrame().getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			try {
+				posPanel.completeReturn();
+			} catch(Exception e) {
+				errorMsg = e.getLocalizedMessage();
+			} finally {
+				//	Set Cursor to default
+				posPanel.getFrame().getContentPane().setCursor(Cursor.getDefaultCursor());
+			}
+		}
+		//	show if exists error
+		if(errorMsg != null)
+			ADialog.error(posPanel.getWindowNo(), this, Msg.parseTranslation(ctx, errorMsg));
+		//	Update
+		posPanel.refreshPanel();
+	}
 
 	/**
 	 * Execute deleting an order
@@ -522,8 +556,7 @@ public class POSActionPanel extends POSSubPanel
 			//	For Collect
 			if(posPanel.hasLines()
 					&& !posPanel.isPaid()
-					&& !posPanel.isVoided()
-					&& !posPanel.isReturnMaterial()) {
+					&& !posPanel.isVoided()) {
 				//	For Credit Order
 				buttonCollect.setEnabled(true);
 			} else {
@@ -562,7 +595,7 @@ public class POSActionPanel extends POSSubPanel
 	}
 
 	/**
-	 * Enable Bttons
+	 * Enable Buttons
 	 * @return void
 	 */
 	public void enableButton(){
