@@ -505,7 +505,6 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			{
 				po = table.getPO(0, get_TrxName());
 				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID());
-				po.setIsDirectLoad(true);
 			} else if(po == null 
 					&& table.getTableName().endsWith("_Trl")) {
 				setStatusCode(MMigrationStep.STATUSCODE_Applied);
@@ -518,7 +517,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				// The PO has not been set and we aren't inserting a new record - something is wrong.
 				bailout("Step " + getSeqNo() + ", Record " + getRecord_ID() + " was not found in table " + table.getName() + " (" + table.get_ID() + ").");
 			}
-
+			//	Set flag for direct load from migration
+			po.setIsDirectLoad(true);
 			for (MMigrationData data : m_migrationData )
 			{
 				if (!data.isActive())

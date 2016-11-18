@@ -101,6 +101,8 @@ import org.w3c.dom.Element;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 392 ] Translation method does not use PO class
  *			@see https://github.com/adempiere/adempiere/issues/392
+ *			<a href="https://github.com/adempiere/adempiere/issues/673">
+ * 			@see FR [ 673 ] Model Migration don't load current value for Multi-Key records</a>
  */
 public abstract class PO
 	implements Serializable, Comparator, Evaluatee, Cloneable
@@ -2261,16 +2263,16 @@ public abstract class PO
 	 */
 	private boolean saveFinish (boolean newRecord, boolean success)
 	{
-		//	Translations
-		if (success)
-		{
-			if (newRecord)
-				insertTranslations();
-			else
-				updateTranslations();
-		}
 		if (!isDirectLoad)
 		{
+			//	Translations
+			if (success)
+			{
+				if (newRecord)
+					insertTranslations();
+				else
+					updateTranslations();
+			}
 			//
 			try
 			{
