@@ -45,6 +45,8 @@ import org.w3c.dom.NodeList;
  *		@see https://github.com/adempiere/adempiere/issues/425
  *		<li> BR [ 440 ] Translation tables does not support rollback in Migration
  *		@see https://github.com/adempiere/adempiere/issues/440
+ *		<a href="https://github.com/adempiere/adempiere/issues/673">
+ * 		@see FR [ 673 ] Model Migration don't load current value for Multi-Key records</a>
  */
 public class MMigrationStep extends X_AD_MigrationStep {
 
@@ -492,7 +494,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		}
 
 		try {
-			MTable table = MTable.get( getCtx(), getAD_Table_ID() );
+			MTable table = MTable.get(getCtx(), getAD_Table_ID());
 			PO po = null;
 			//reset cache of persistence object
 			POInfo.removeFromCache(getAD_Table_ID());
@@ -546,7 +548,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 					data.saveEx(get_TrxName());
 				}
 				// apply new values
-				if ( getAction().equals(MMigrationStep.ACTION_Insert) || getAction().equals(MMigrationStep.ACTION_Update) )
+				if (getAction().equals(MMigrationStep.ACTION_Insert) || getAction().equals(MMigrationStep.ACTION_Update))
 						po.set_ValueNoCheck(column.getColumnName(), stringToObject(column, value));
 
 			}
@@ -566,7 +568,12 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			}
 			else
 			{
-				po.saveEx(get_TrxName());
+				if(po.get_TableName().endsWith("Trl")
+						&& getAction().equals(MMigrationStep.ACTION_Insert)) {
+					po.save(get_TrxName());
+				} else {
+					po.saveEx(get_TrxName());
+				}
 
 				//  Synchronize the AD_Column changes with the database.
 				if ( po instanceof MColumn )
