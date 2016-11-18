@@ -27,21 +27,7 @@ import org.compiere.util.Msg;
  * All other migration status codes will result in a rollback.
  *
  */
-public class MigrationApply extends SvrProcess {
-
-	private boolean failOnError = true;
-
-	@Override
-	protected void prepare() {
-
-		ProcessInfoParameter[] params = getParameter();
-		for ( ProcessInfoParameter p : params)
-		{
-			String para = p.getParameterName();
-			if ( para.equals("FailOnError") )
-				failOnError  = "Y".equals((String)p.getParameter());
-		}
-	}
+public class MigrationApply extends MigrationApplyAbstract {
 
 	@Override
 	protected String doIt() throws Exception{
@@ -54,22 +40,20 @@ public class MigrationApply extends SvrProcess {
 		
 			// Use a null transaction to generate a read only query
 			MMigration migration = new MMigration(getCtx(), getRecord_ID() , null);		// Doesn't lock table 
-			if ( migration == null || migration.is_new() )
+			if (migration.is_new())
 			{
 				addLog( Msg.getMsg(getCtx(), "NoMigrationMessage"));
 				//return;
 				return "@Error@";
 			}
 			
-			migration.setFailOnError(failOnError);
+			migration.setIsForce(isForce());
 			
 			try {
-
 				addLog(migration.apply());
-
 			} catch (AdempiereException e) {
 				addLog(e.getMessage());
-				if (failOnError)    // abort on first error
+				if (!isForce())    // abort on first error
 					throw new AdempiereException(e.getMessage(), e);
 			}
 		return "@OK@";
