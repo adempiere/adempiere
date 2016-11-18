@@ -1714,6 +1714,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 						m_processMsg = "Could not create PO Matching";
 						return DocAction.STATUS_Invalid;
 					}*/
+					
 					matchOrders.getAndUpdate(record -> record + 1);
 					if (isNewMatchPO)
 						addDocsPostProcess(matchPO);
@@ -1729,6 +1730,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				else
 					rmaLine.setQtyInvoiced(invoiceLine.getQtyInvoiced());
 
+				rmaLine.saveEx();
 				/*if (!rmaLine.save(get_TrxName()))
 				{
 					m_processMsg = "Could not update RMA Line";
