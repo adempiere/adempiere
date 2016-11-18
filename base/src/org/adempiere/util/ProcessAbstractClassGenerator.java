@@ -29,6 +29,8 @@ import org.compiere.util.Env;
  *		@see https://github.com/adempiere/adempiere/issues/326
  *		<a href="https://github.com/adempiere/adempiere/issues/566">
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/676">
+ * 		@see FR [ 676 ] Process Class Generator not get parameters names correctly</a>
  *	@author Victor Perez, victor.perez@e-evolution.com, http://e-evolution.com
  */
 public class ProcessAbstractClassGenerator {
@@ -339,9 +341,13 @@ public class ProcessAbstractClassGenerator {
 		if ((DisplayType.List == parameter.getAD_Reference_ID() 
 				&& 319 == parameter.getAD_Reference_Value_ID()))
 			variableName.append("is").append(parameterName);
-		else if (DisplayType.YesNo == parameter.getAD_Reference_ID())
-			variableName.append("is").append(parameterName.substring(2));
-		else
+		else if (DisplayType.YesNo == parameter.getAD_Reference_ID()) {
+			if(parameterName.startsWith("Is")) {
+				variableName.append(parameterName.replaceFirst("I", "i"));
+			} else {
+				variableName.append("is").append(parameterName);
+			}
+		} else
 			variableName
 					.append(parameterName.substring(0 ,1).toLowerCase())
 					.append(parameterName.substring(1,getParameterName(parameter).length()));
@@ -365,8 +371,13 @@ public class ProcessAbstractClassGenerator {
 		if ((DisplayType.List == parameter.getAD_Reference_ID() 
 				&& 319 == parameter.getAD_Reference_Value_ID()))
 			variableName.append("is").append(parameterName);
-		else if (DisplayType.YesNo == parameter.getAD_Reference_ID())
-			variableName.append("is").append(parameterName.substring(2));
+		else if (DisplayType.YesNo == parameter.getAD_Reference_ID()) {
+			if(parameterName.startsWith("Is")) {
+				variableName.append(parameterName.replaceFirst("I", "i"));
+			} else {
+				variableName.append("is").append(parameterName);
+			}
+		}
 		else
 			variableName.append("get").append(parameterName);
 		if (DisplayType.Location == parameter.getAD_Reference_ID()
@@ -384,7 +395,7 @@ public class ProcessAbstractClassGenerator {
 	 * @return
 	 */
 	private String getType(MProcessPara parameter) {
-		Class clazz = DisplayType.getClass(parameter.getAD_Reference_ID(), true);
+		Class<?> clazz = DisplayType.getClass(parameter.getAD_Reference_ID(), true);
 		//	Verify Type
 		if (clazz == String.class && DisplayType.isText(parameter.getAD_Reference_ID())) {
 			return "String";
