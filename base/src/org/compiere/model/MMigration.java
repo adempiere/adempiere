@@ -55,15 +55,24 @@ public class MMigration extends X_AD_Migration {
 	/**	Logger	*/
 	private CLogger	log	= CLogger.getCLogger (MMigration.class);
 
-	public boolean isFailOnError() {
-		return isFailOnError;
+	/**
+	 * is force
+	 * @return
+	 */
+	public boolean isForce() {
+		return isForce;
 	}
 
-	public void setFailOnError(boolean isFailOnError) {
-		this.isFailOnError = isFailOnError;
+	/**
+	 * Set if is force
+	 * @param isForce
+	 */
+	public void setIsForce(boolean isForce) {
+		this.isForce = isForce;
 	}
-
-	private boolean isFailOnError = true;
+	
+	/**	Is Force		*/
+	private boolean isForce = true;
 
 	public MMigration(Properties ctx, int AD_Migration_ID, String trxName) {
 		super(ctx, AD_Migration_ID, trxName);		
@@ -126,7 +135,7 @@ public class MMigration extends X_AD_Migration {
 			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "Y");
 			
 			// Get the set of active steps and apply each in order
-			for ( int stepId : getStepIds(!apply) )
+			for (int stepId : getStepIds(!apply))
 			{
 				MMigrationStep step = new MMigrationStep(getCtx(), stepId, get_TrxName());
 				step.setParent(this);
@@ -137,8 +146,14 @@ public class MMigration extends X_AD_Migration {
 						log.log(Level.CONFIG, step.toString() + " ---> Migration Step unapplied - skipping.");
 						continue;
 				}
-
-				step.apply();
+				//	Apply
+				try {
+					step.apply();
+				} catch(Exception e) {
+					if(!isForce) {
+						throw e;
+					}
+				}
 			}
 			//	Synchronize Columns
 			syncColumn();
@@ -146,7 +161,7 @@ public class MMigration extends X_AD_Migration {
 		catch (Exception e)
 		{
 			log.warning(e.getMessage());
-			if (isFailOnError)    // abort on first error
+			if (!isForce)    // abort on first error
 			{			
 				if (apply) // Try to rollback the transaction
 				{
@@ -193,12 +208,6 @@ public class MMigration extends X_AD_Migration {
 		return retVal;
 	}
 	
-	@Deprecated // Since 3.8.0#002.  Use apply() instead.
-	private String rollback() {
-
-		return apply();
-	}
-
 	/**
 	 * Update the status of a Migration to reflect the status of its steps.
 	 * The status will be Applied, Partially Applied or Unapplied.
