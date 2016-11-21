@@ -2104,8 +2104,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			form.setClosable(true);
 			form.setMaximizable(true);
 			form.setSizable(true);
-			form.setHeight("90%");
-			form.setWidth("80%");
 			form.setContentStyle("overflow: auto");
 			AEnv.showWindow(form);
 			//	End Yamel Senih
