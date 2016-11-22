@@ -37,7 +37,6 @@ import org.apache.ecs.xhtml.fieldset;
 import org.apache.ecs.xhtml.form;
 import org.apache.ecs.xhtml.h1;
 import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.label;
 import org.apache.ecs.xhtml.table;
 import org.apache.ecs.xhtml.td;
 import org.apache.ecs.xhtml.th;
@@ -52,8 +51,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-
-import com.sun.corba.se.spi.orbutil.fsm.Input;
 /**
  *  WLookup Servlet.
  *  <p>

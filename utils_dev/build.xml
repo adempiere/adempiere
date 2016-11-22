@@ -31,7 +31,7 @@
 		<ant inheritAll="false" dir="webCM"/>
 		<ant inheritAll="false" dir="sqlj"/>
 		<ant inheritAll="false" dir="zkwebui"/>
-		<ant inheritAll="false" dir="mobile"/>
+		<ant inheritAll="false" dir="org.compiere.mobile"/>
 		<ant inheritAll="false" dir="migration"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing"/>
@@ -62,7 +62,7 @@
 		<ant inheritAll="false" dir="sqlj" target="clean"/>
 		<ant inheritAll="false" dir="install" target="clean"/>
 		<ant inheritAll="false" dir="zkwebui" target="clean"/>
-		<ant inheritAll="false" dir="mobile" target="clean"/>
+		<ant inheritAll="false" dir="org.compiere.mobile" target="clean"/>
 		<ant inheritAll="false" dir="migration" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing" target="clean"/>
