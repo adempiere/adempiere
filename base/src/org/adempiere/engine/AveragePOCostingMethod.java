@@ -27,7 +27,9 @@ import org.eevolution.model.MPPCostCollector;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com
- * 
+ * @contributor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/681">
+ * 		@see FR [ 681 ] NPE on Average cost</a>
  */
 public class AveragePOCostingMethod extends AbstractCostingMethod
 		implements ICostingMethod {
@@ -46,9 +48,10 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
                                  MCost dimension, BigDecimal costThisLevel,
                                  BigDecimal costLowLevel, Boolean isSalesTransaction) {
 		if (model instanceof MMatchInv) {
-			if (costDetail != null && costDetail.get_ID() > 0)
+			if (costDetail != null && costDetail.get_ID() > 0) {
 				costDetail.setC_InvoiceLine_ID(((MMatchInv) model).getC_InvoiceLine_ID());
 				costDetail.saveEx();
+			}
 			return;
 		}
 
@@ -683,9 +686,6 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 
 		BigDecimal costThisLevel = Env.ZERO;
 		BigDecimal costLowLevel = Env.ZERO;
-		String costingLevel = MProduct.get(mtrx.getCtx(),
-				mtrx.getM_Product_ID()).getCostingLevel(acctSchema,
-						mtrx.getAD_Org_ID());
 		costCollectorVariance.set_ValueOfColumn("Cost", costVarianceThisLevel.compareTo(Env.ZERO) != 0 ? costVarianceThisLevel : costVarianceLowLevel);
 		costCollectorVariance.saveEx();
 		IDocumentLine model = costCollectorVariance;
