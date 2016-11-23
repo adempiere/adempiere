@@ -87,6 +87,21 @@ public class MProcess extends X_AD_Process
 	}	//	get
 	
 	/**
+	 * Get Process From Instance
+	 * @param ctx
+	 * @param processInstanceId
+	 * @return
+	 */
+	public static MProcess getFromInstance(Properties ctx, int processInstanceId) {
+		return new Query(Env.getCtx() , Table_Name , 
+				"EXISTS(SELECT 1 FROM AD_PInstance pi "
+				+ "WHERE pi.AD_Process_ID = AD_Process.AD_Process_ID "
+				+ "AND pi.AD_PInstance_ID = ?)", null)
+			.setParameters(processInstanceId)
+			.first();
+	}
+	
+	/**
 	 * 	Get MProcess from Menu
 	 *	@param ctx context
 	 *	@param AD_Menu_ID id
@@ -387,6 +402,14 @@ public class MProcess extends X_AD_Process
 	}	//	is JavaProcess
 	
 	/**
+	 * Is a Jasper Process
+	 * @return
+	 */
+	public boolean isJasper() {
+		return getJasperReport() != null && getJasperReport().trim().length() > 0;
+	}
+	
+	/**
 	 *  Start Database Process
 	 *  @param ProcedureName PL/SQL procedure name
 	 *  @param pInstance process instance
@@ -562,5 +585,16 @@ public class MProcess extends X_AD_Process
 	{
 		return processIt(pi, trx, false);
 	}	//	processItWithoutTrxClose
+	
+	/**
+	 * Get Estimated Seconds
+	 * @return
+	 */
+	public int getEstimatedSeconds() {
+		if(getStatistic_Count() == 0)
+			return 0;
+		//	Else
+		return getStatistic_Seconds() / getStatistic_Count();
+	}
 	
 }	//	MProcess
