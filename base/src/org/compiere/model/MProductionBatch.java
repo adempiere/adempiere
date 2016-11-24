@@ -302,7 +302,7 @@ public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 	 * Create Production
 	 * @return
 	 */
-	private String createAutomaticProduction() {
+	public String createAutomaticProduction() {
 		//	Validate if is allow create automatic production
 		if(!isAutoProduction())
 			return null;
