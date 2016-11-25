@@ -116,7 +116,7 @@ public class RollupWorkflow extends RollupWorkflowAbstract {
                                 MWorkflow workflow = new MWorkflow(getCtx(), workflowId, trxName);
                                 //Iterate Cost elements
                                 costElements.stream()
-                                        .filter(costElement -> costElement != null)
+                                        .filter(costElement -> costElement != null && CostEngine.isActivityControlElement(costElement))
                                         .forEach(costElement -> {
                                             rollup(accountSchema , costType , costElement, product, workflow, trxName);
                                         });
@@ -247,17 +247,20 @@ public class RollupWorkflow extends RollupWorkflowAbstract {
                     final CostEngine costEngine = CostEngineFactory.getCostEngine(node.getAD_Client_ID());
                     final BigDecimal rate = StandardCostingMethod.getResourceActualCostRate(node.getS_Resource_ID(), costDimension, trxName);
                     final BigDecimal baseValue = routingService.getResourceBaseValue(node.getS_Resource_ID(), node);
-                    final int precision = accountSchema.getCostingPrecision();
                     BigDecimal nodeCostPrecision = baseValue.multiply(rate);
-                    if (nodeCostPrecision.scale() > precision) {
-                        final BigDecimal nodeCost = nodeCostPrecision.setScale(precision, RoundingMode.HALF_UP);
-                        segmentCost.updateAndGet(costAmt -> costAmt.add(nodeCost));
-                        log.info(Msg.parseTranslation(getCtx(), " @M_CostElement_ID@ : ") + costElement.getName() + ", Node=" + node
-                                + ", BaseValue=" + baseValue + ", rate=" + rate
-                                + ", nodeCost=" + nodeCost + " => Cost=" + segmentCost);
-                        // Update AD_WF_Node.Cost:
-                        node.setCost(node.getCost().add(nodeCost));
-                    }
+                    BigDecimal nodeCost;
+                    if (nodeCostPrecision.scale() > accountSchema.getCostingPrecision())
+                        nodeCost = nodeCostPrecision.setScale(accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
+                    else
+                        nodeCost = nodeCostPrecision;
+
+                    segmentCost.updateAndGet(costAmt -> costAmt.add(nodeCost));
+                    log.info(Msg.parseTranslation(getCtx(), " @M_CostElement_ID@ : ") + costElement.getName() + ", Node=" + node
+                            + ", BaseValue=" + baseValue + ", rate=" + rate
+                            + ", nodeCost=" + nodeCost + " => Cost=" + segmentCost);
+                    // Update AD_WF_Node.Cost:
+                    node.setCost(node.getCost().add(nodeCost));
+
                 });
         cost.setFutureCostPrice(segmentCost.get());
         if (!cost.isCostFrozen())
