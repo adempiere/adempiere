@@ -145,11 +145,14 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	 */
 	private boolean init() {
 		setAttribute("modal", true);
-		setStyle("height: 50%; width: 50%");
 		setBorder("normal");
 		setSizable(true);
 		setClosable(true);
 		setMaximizable(true);
+		setPosition("center");
+		setStyle("overflow: auto");
+		setWidth("70%");
+        setHeight("60%");
 		log.config("");
 		//	Move from APanel.actionButton
 		processInfo.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
@@ -168,7 +171,7 @@ public class ProcessModalDialog extends Window implements IZKProcessDialog {
 	 *  @return true if parameters saved correctly
 	 */
 	public boolean isOK() {
-		return !processPanel.isError();
+		return processPanel.isOkPressed();
 	}	//	isOK
 
 	@Override

@@ -185,7 +185,7 @@ public class ProcessModalDialog extends CDialog implements IProcessDialog {
 	 *  @return true if parameters saved correctly
 	 */
 	public boolean isOK() {
-		return processPanel.isOkActionPressed();
+		return processPanel.isOkPressed();
 	}	//	isOK
 
 

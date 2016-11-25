@@ -1128,8 +1128,6 @@ public class ZkReportViewer extends Window implements EventListener {
 		//	Launch dialog
 		ProcessModalDialog dialog = new ProcessModalDialog(null, m_WindowNo, pi);
 		if (dialog.isValid()) {
-			dialog.setPosition("center");
-			dialog.setSizable(true);
 			try {
 				dialog.setPage(this.getPage());
 				dialog.doModal();
@@ -1142,12 +1140,14 @@ public class ZkReportViewer extends Window implements EventListener {
 					//	
 					ReportEngine re = ReportEngine.get(Env.getCtx(), pi);
 					//	
-					m_reportEngine.setQuery(re.getQuery());
+					if(re != null) {
+						m_reportEngine.setQuery(re.getQuery());
+					}
 					//	
 					return true;
 				}
-			}
-			catch (InterruptedException e) {
+			} catch (InterruptedException e) {
+				log.severe(e.getLocalizedMessage());
 			}
 		}
 		//	Default

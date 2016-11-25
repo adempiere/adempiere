@@ -88,6 +88,7 @@ public abstract class ProcessController extends SmallViewController {
 	private boolean 	showButtons = true;
 	private boolean 	showDescription = true;
 	private boolean 	autoStart;
+	private boolean 	isOKPressed = false;
 	/**	Information Only	*/
 	private HashMap<Integer, Boolean>	fieldsInfoOnly;
 	private List<MPInstance> savedParams;
@@ -183,6 +184,22 @@ public abstract class ProcessController extends SmallViewController {
 	 */
 	public void setIsOnlyPanel(boolean isOnlyPanel) {
 		this.isOnlyPanel = isOnlyPanel;
+	}
+	
+	/**
+	 * Verify if Ok action is pressed
+	 * @return
+	 */
+	public boolean isOkPressed() {
+		return isOKPressed;
+	}
+	
+	/**
+	 * Set Is Ok Action Pressed
+	 * @param isOkPressed
+	 */
+	public void setIsOkPressed(boolean isOkPressed) {
+		this.isOKPressed = isOkPressed;
 	}
 	
 	/**
