@@ -220,26 +220,30 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 		//Iterate bom lines
 		Arrays.stream(bom.getLines())
 			.filter(bomLine -> bomLine != null && !bomLine.isCoProduct())
-			.forEach(bomline -> {
-				MProduct component = MProduct.get(getCtx(), bomline.getM_Product_ID());
+			.forEach(bomLine -> {
+				MProduct component = MProduct.get(getCtx(), bomLine.getM_Product_ID());
 				MCost cost = MCost.getOrCreate(component, 0 , acctSchema , getOrganizationId() , getWarehouseId()  , getCostTypeId(),  costElement.getM_CostElement_ID());
 				Boolean includingScrapQty = true;
-				BigDecimal qty = bomline.getQty(includingScrapQty);
+				BigDecimal qty = bomLine.getQty(includingScrapQty);
 				// By Products
-				if (bomline.isByProduct())
-					cost.setFutureCostPriceLL(Env.ZERO); //cost.setCurrentCostPriceLL(Env.ZERO);
+				if (bomLine.isByProduct())
+					cost.setFutureCostPriceLL(Env.ZERO);
 
 				BigDecimal costPrice = cost.getFutureCostPrice().add(cost.getFutureCostPriceLL());
-				if (bomline.getM_Product().getC_UOM_ID() != bomline.getC_UOM_ID())
+				//If not exist future cost use current cost
+				if (costPrice.equals(BigDecimal.ZERO))
+					costPrice = cost.getCurrentCostPrice().add(cost.getCurrentCostPriceLL());
+
+				if (bomLine.getM_Product().getC_UOM_ID() != bomLine.getC_UOM_ID())
 				{
-					BigDecimal rate = MUOMConversion.getProductRateFrom(getCtx(), component.getM_Product_ID(), bomline.getC_UOM_ID());
+					BigDecimal rate = MUOMConversion.getProductRateFrom(getCtx(), component.getM_Product_ID(), bomLine.getC_UOM_ID());
 					if (rate == null)
 						costPrice = costPrice.multiply(BigDecimal.ONE);
 					else
 						costPrice = costPrice.multiply(rate);
 				}
 
-				if (bomline.isPacking()) {
+				if (bomLine.isPacking()) {
 					int workflowId = 0;
 					MProduct product = MProduct.get(getCtx(), bom.getM_Product_ID());
 					MPPProductPlanning productPlanning = null;

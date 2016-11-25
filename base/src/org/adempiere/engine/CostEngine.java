@@ -471,10 +471,9 @@ public class CostEngine {
 	public static boolean isActivityControlElement(I_M_CostElement element) {
 		String costElementType = element.getCostElementType();
 		return MCostElement.COSTELEMENTTYPE_Resource.equals(costElementType)
-				|| MCostElement.COSTELEMENTTYPE_Overhead
-						.equals(costElementType)
-				|| MCostElement.COSTELEMENTTYPE_BurdenMOverhead
-						.equals(costElementType);
+				|| MCostElement.COSTELEMENTTYPE_Overhead.equals(costElementType)
+				|| MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(costElementType)
+				|| MCostElement.COSTELEMENTTYPE_OutsideProcessing.equals(costElementType);
 	}
 
 	public static List<MAcctSchema> getAcctSchema(PO po) {
