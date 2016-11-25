@@ -113,7 +113,6 @@ public class ProcessPanel extends ProcessController
 	private int cols = 0;
 	private int row = 0;
 	private int[] ids = null;
-	private boolean isOKAction = false;
 	private IProcessDialog parent = null;
 	//
 	// Presentation for ranges
@@ -477,7 +476,7 @@ public class ProcessPanel extends ProcessController
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == bOK) {
-			isOKAction = true;
+			setIsOkPressed(true);
 			if(isOnlyPanel()) {
 				//	check if saving parameters is complete
 				if (saveParameters() == null) {
@@ -502,14 +501,6 @@ public class ProcessPanel extends ProcessController
 				parent.printScreen();
 			}
 		}
-	}
-	
-	/**
-	 * Verify if the action ok is pressed
-	 * @return
-	 */
-	public boolean isOkActionPressed() {
-		return isOKAction;
 	}
 	
 	/**

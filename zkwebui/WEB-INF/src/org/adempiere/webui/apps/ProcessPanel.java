@@ -484,6 +484,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		}
 		//	Ok
 		if (event.getTarget().equals(bOK)) {
+			setIsOkPressed(true);
 			if(isOnlyPanel()) {
 				//	check if saving parameters is complete
 				if (saveParameters() == null) {
