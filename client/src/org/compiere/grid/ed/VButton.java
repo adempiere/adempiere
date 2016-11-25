@@ -301,30 +301,30 @@ public final class VButton extends CButton
 		m_values = new HashMap<String,String>();
 		String SQL;
 		if (Env.isBaseLanguage(Env.getCtx(), "AD_Ref_List"))
-			SQL = "SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=?";
+			SQL = "SELECT Value, Name FROM AD_Ref_List WHERE IsActive='Y' AND AD_Reference_ID=?"; // @Trifon
 		else
 			SQL = "SELECT l.Value, t.Name FROM AD_Ref_List l, AD_Ref_List_Trl t "
 				+ "WHERE l.AD_Ref_List_ID=t.AD_Ref_List_ID"
+				+ " AND l.IsActive='Y' "   // @Trifon
+				+ " AND t.IsActive='Y' "   // @Trifon
 				+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "'"
 				+ " AND l.AD_Reference_ID=?";
 
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(SQL, null);
 			pstmt.setInt(1, AD_Reference_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
 				String value = rs.getString(1);
 				String name = rs.getString(2);
 				m_values.put(value, name);
 			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			log.log(Level.SEVERE, SQL, e);
+		} finally {
+			DB.close(rs,  pstmt);
 		}
 	}	//	readReference
 
