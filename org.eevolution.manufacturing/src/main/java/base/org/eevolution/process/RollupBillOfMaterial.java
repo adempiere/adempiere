@@ -148,7 +148,7 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 			log.info(" Product :" + product.getName()  + " Element Cost : " + costElement.getName() + " Cost Low Level : " + price);
 			cost.setFutureCostPriceLL(price);
 			if (!cost.isCostFrozen())
-				cost.setCurrentCostPrice(price);
+				cost.setCurrentCostPriceLL(price);
 
 			updateCoProductCosts(bom, cost ,trxName);
 			cost.saveEx();
