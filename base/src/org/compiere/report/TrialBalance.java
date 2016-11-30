@@ -397,6 +397,7 @@ public class TrialBalance extends SvrProcess
 			sql.append ("null");
 		else
 			sql.append (p_User2_ID);
+		sql.append(",");
 		//	User3_ID, User4_ID, A_Asset_ID, Description)
 		if (p_User3_ID == 0)
 			sql.append ("null");
@@ -407,9 +408,7 @@ public class TrialBalance extends SvrProcess
 			sql.append ("null");
 		else
 			sql.append (p_User4_ID);
-		sql.append(",");
-
-		sql.append("null,null");
+		sql.append(", null,null");
 		//
 		sql.append(" FROM Fact_Acct WHERE AD_Client_ID=").append(getAD_Client_ID())
 			.append (" AND ").append(m_parameterWhere)
