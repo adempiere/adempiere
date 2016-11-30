@@ -228,7 +228,7 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 		
         //  Add to Editors ArrayList
 		editors.add(editor);
-		
+
 		//  Add to the list of parameters
 		setParameter(field.getColumnNameAlias(), editor);
 		
@@ -778,6 +778,8 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
      * @return the LinkedHasMap<String columnName, Object editor>
      */
     public LinkedHashMap<String, Object> getParameters() {
+		if (m_search == null)
+			return new LinkedHashMap<String, Object>();
         return m_search;
     }
         
@@ -815,7 +817,7 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 	}
 
 	/**
-	 * @param m_IsLoaded the m_IsLoaded to set
+	 * @param loaded the m_IsLoaded to set
 	 */
 	protected void setLoaded(boolean loaded) {
 		m_IsLoaded = loaded;
