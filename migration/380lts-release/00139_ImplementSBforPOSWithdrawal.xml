@@ -604,7 +604,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="4017" Column="ColumnName">C_Currency_ID</Data>
         <Data AD_Column_ID="2818" Column="Created">2016-04-22 16:11:12.381</Data>
         <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="3739" Column="DefaultValue">@SQL=SELECT C_Currency_ID FROM C_BankAccount_ID = @C_BankAccount_ID@</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue">@SQL=SELECT C_Currency_ID FROM C_BankAccount WHERE C_BankAccount_ID=@C_BankAccount_ID@</Data>
         <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="2823" Column="Description">The Currency for this record</Data>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
