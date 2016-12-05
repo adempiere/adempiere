@@ -136,34 +136,30 @@ public class CostEngine {
      * @param accountSchema
      * @param costTypeId
      * @param costElementId
-     * @param order
+     * @param costCollector
      * @return
      */
-	public static BigDecimal getParentActualCostByCostType(MAcctSchema accountSchema, int costTypeId, int costElementId, MPPOrder order) {
-		StringBuffer whereClause = new StringBuffer();
+	public static BigDecimal getParentActualCostByCostType(MAcctSchema accountSchema, int costTypeId, int costElementId, MPPCostCollector costCollector) {
+		StringBuffer whereClause = new StringBuffer()
+		.append(MCostDetail.COLUMNNAME_C_AcctSchema_ID).append("=? AND ")
+		.append(MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND ")
+		.append(MCostDetail.COLUMNNAME_M_CostElement_ID + "=? AND ")
+		.append(MCostDetail.COLUMNNAME_PP_Cost_Collector_ID)
+		.append(" IN (SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector cc WHERE cc.PP_Order_ID=? AND ")
+		.append(" cc.CostCollectorType <> '").append(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt).append("')");
 
-		whereClause.append(MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND ");
-		whereClause.append(MCostDetail.COLUMNNAME_M_CostElement_ID + "=? AND ");
-		whereClause.append(MCostDetail.COLUMNNAME_PP_Cost_Collector_ID);
-		whereClause.append(" IN (SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector cc WHERE cc.PP_Order_ID=? AND ");
-		whereClause.append(" cc.CostCollectorType <> '").append(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt).append("')");
-
-		BigDecimal actualCost = new Query(order.getCtx(),
-				I_M_CostDetail.Table_Name, whereClause.toString(),
-				order.get_TrxName())
+		BigDecimal actualCost = new Query(costCollector.getCtx(), MCostDetail.Table_Name, whereClause.toString(), costCollector.get_TrxName())
 				.setClient_ID()
-				.setParameters(costTypeId, costElementId,
-						order.getPP_Order_ID())
-				.sum("(" + MCostDetail.COLUMNNAME_Amt + "+"
-						+ MCostDetail.COLUMNNAME_CostAmtLL + ")");
+				.setParameters(accountSchema.getC_AcctSchema_ID() , costTypeId, costElementId, costCollector.getPP_Order_ID())
+				.sum("(" + MCostDetail.COLUMNNAME_Amt + "+" + MCostDetail.COLUMNNAME_CostAmtLL + ")");
 
 		whereClause = new StringBuffer();
 		whereClause
-				.append(" EXISTS (SELECT 1 FROM PP_Cost_Collector cc WHERE PP_Cost_Collector_ID=M_Transaction.PP_Cost_Collector_ID AND cc.PP_Order_ID=? AND cc.M_Product_ID=? )");
-		BigDecimal qtyDelivered = new Query(order.getCtx(),
-				I_M_Transaction.Table_Name, whereClause.toString(),
-				order.get_TrxName()).setClient_ID()
-				.setParameters(order.getPP_Order_ID(), order.getM_Product_ID())
+				.append(" EXISTS (SELECT 1 FROM PP_Cost_Collector cc ")
+				.append(" WHERE PP_Cost_Collector_ID=M_Transaction.PP_Cost_Collector_ID AND cc.PP_Order_ID=? AND cc.M_Product_ID=? )");
+		BigDecimal qtyDelivered = new Query(costCollector.getCtx(), I_M_Transaction.Table_Name, whereClause.toString(), costCollector.get_TrxName())
+				.setClient_ID()
+				.setParameters(costCollector.getPP_Order_ID(), costCollector.getM_Product_ID())
 				.sum(MTransaction.COLUMNNAME_MovementQty);
 
 		if (actualCost == null)
@@ -173,7 +169,16 @@ public class CostEngine {
 			actualCost = actualCost.divide(qtyDelivered,
 					accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_DOWN);
 
-		// return actualCost.negate();
+		BigDecimal rate = MConversionRate.getRate(
+				costCollector.getC_Currency_ID(), costCollector.getC_Currency_ID(),
+				costCollector.getDateAcct(), costCollector.getC_ConversionType_ID(),
+				costCollector.getAD_Client_ID(), costCollector.getAD_Org_ID());
+		if (rate != null) {
+			actualCost = actualCost.multiply(rate);
+			if (actualCost.scale() > accountSchema.getCostingPrecision())
+				actualCost = actualCost.setScale(accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+		}
+
 		return actualCost;
 	}
 
@@ -348,12 +353,9 @@ public class CostEngine {
 		if (!MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod())) {
 			if (model instanceof MPPCostCollector) {
 				MPPCostCollector costCollector = (MPPCostCollector) model;
-				if (MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt
-						.equals(costCollector.getCostCollectorType())) {
+				if (MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt.equals(costCollector.getCostCollectorType())) {
 					// get Actual Cost for Cost Type and Cost Element
-					costLowLevel = CostEngine.getParentActualCostByCostType(
-                            accountSchema, costType.getM_CostType_ID(), costElement.getM_CostElement_ID(), costCollector.getPP_Order()
-                    );
+					costLowLevel = CostEngine.getParentActualCostByCostType(accountSchema, costType.getM_CostType_ID(), costElement.getM_CostElement_ID(), costCollector);
 				} 
 			}
 			if (model instanceof MProductionLine) {
@@ -640,13 +642,12 @@ public class CostEngine {
 			else if (transaction.getPP_Cost_Collector_ID() > 0)
 			{
 				MPPCostCollector costCollector = (MPPCostCollector) transaction.getPP_Cost_Collector();
-				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector ,
-						costCollector.getDateAcct()));
+				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector , costCollector.getDateAcct()));
 				return;
 			}
 			else
 			{
-				System.out.println ("Document does not exist :" + transaction);
+				log.info("Document does not exist :" + transaction);
 			}	
 
 	}
