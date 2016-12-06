@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Replenish by production" ReleaseNo="3.9.0" SeqNo="00780">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="104" Action="U" Record_ID="53712" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value" oldValue="MMP">MOP</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
