@@ -100,20 +100,16 @@
         <Data AD_Column_ID="78296" Column="IsAllowNewAttributeInstance">false</Data>
       </PO>
     </Step>
-    <Step DBType="Postgres" SeqNo="40" StepType="SQL">
-      <SQLStatement>
-DROP VIEW IF EXISTS rv_m_replenishplan_production;
-      	
-      	CREATE OR REPLACE VIEW rv_m_replenishplan_production AS
- SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplan_id, p.m_product_id, pd.m_production_id, pd.productionqty, pd.datepromised, pd.movementdate, pd.isactive, trunc(c.currentcostprice, 6) AS currentcostprice
-   FROM m_replenishplanline mrl
-   JOIN m_production pd ON pd.m_production_id = mrl.m_production_id
-   JOIN m_product p ON p.m_product_id = pd.m_product_id
-   LEFT JOIN m_cost c ON c.ad_client_id = mrl.ad_client_id AND c.ad_org_id = 0::numeric AND c.m_product_id = p.m_product_id AND c.m_attributesetinstance_id = 0::numeric AND c.c_acctschema_id = 1000007::numeric AND c.m_costtype_id = 1000007::numeric AND c.m_costelement_id = 1000007::numeric
-  WHERE mrl.recordtype::text = 'Planned Production'::text
-  ORDER BY pd.m_production_id;</SQLStatement>
+    <Step DBType="ALL" SeqNo="40" StepType="SQL">
+      <SQLStatement>	       	  
+ CREATE OR REPLACE VIEW rv_m_replenishplan_production AS    
+ SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplan_id, p.m_product_id, pd.m_production_id, pd.productionqty, pd.datepromised, pd.movementdate,   pd.isactive, 0 AS currentcostprice      
+ FROM m_replenishplanline mrl      
+ JOIN m_production pd ON pd.m_production_id = mrl.m_production_id      
+ JOIN m_product p ON p.m_product_id = pd.m_product_id           
+ WHERE mrl.recordtype= 'Planned Production'  ORDER BY pd.m_production_id;</SQLStatement>
     </Step>
-    <Step DBType="Postgres" SeqNo="50" StepType="SQL">
+    <Step DBType="ALL" SeqNo="50" StepType="SQL">
       <SQLStatement>
 DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
 CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
@@ -122,7 +118,7 @@ CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
    JOIN m_requisitionline rl ON rl.m_requisition_id = mrl.m_requisition_id AND rl.m_product_id = mrl.m_product_id
    JOIN m_requisition r ON r.m_requisition_id = rl.m_requisition_id
    JOIN m_product p ON p.m_product_id = rl.m_product_id
-   LEFT JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
+   LEFT OUTER JOIN m_product_po po ON po.m_product_id = p.m_product_id AND po.c_bpartner_id = rl.c_bpartner_id
   ORDER BY r.m_requisition_id, rl.line;</SQLStatement>
     </Step>
     <Step SeqNo="60" StepType="AD">
