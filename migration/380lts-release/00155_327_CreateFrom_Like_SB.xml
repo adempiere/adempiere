@@ -4376,7 +4376,7 @@ AND EXISTS(SELECT 1
     </Step>
     <Step SeqNo="1980" StepType="AD">
       <PO AD_Table_ID="53229" Action="I" Record_ID="50053" Table="AD_View_Trl">
-        <Data AD_Column_ID="58064" Column="Name">Bank Statement Create From View</Data>
+        <Data AD_Column_ID="58064" Column="Name">Crear Desde Estado de Cuenta</Data>
         <Data AD_Column_ID="58054" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58056" Column="Created">2016-06-27 09:33:46.732</Data>
         <Data AD_Column_ID="58058" Column="CreatedBy">100</Data>
@@ -4388,13 +4388,7 @@ AND EXISTS(SELECT 1
         <Data AD_Column_ID="58053" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58061" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58060" Column="AD_View_ID">50053</Data>
-        <Data AD_Column_ID="58062" Column="Description">View for Create From in Bank Statement</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="1990" StepType="AD">
-      <PO AD_Table_ID="53229" Action="U" Record_ID="50053" Table="AD_View_Trl">
-        <Data AD_Column_ID="58064" Column="Name" oldValue="Bank Statement Create From View">Crear Desde Estado de Cuenta</Data>
-        <Data AD_Column_ID="58062" Column="Description" oldValue="View for Create From in Bank Statement">Vista para Crear Desde en Estado de Cuenta Bancario</Data>
+        <Data AD_Column_ID="58062" Column="Description">Vista para Crear Desde en Estado de Cuenta Bancario</Data>
       </PO>
     </Step>
     <Step SeqNo="2000" StepType="AD">
@@ -16724,15 +16718,10 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58055" Column="IsActive">true</Data>
         <Data AD_Column_ID="58063" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58059" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58064" Column="Name">Create From Invoice View</Data>
+        <Data AD_Column_ID="58064" Column="Name">Vista para Crear Desde Factura</Data>
         <Data AD_Column_ID="58061" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58060" Column="AD_View_ID">50055</Data>
         <Data AD_Column_ID="58056" Column="Created">2016-06-30 15:39:34.335</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="8020" StepType="AD">
-      <PO AD_Table_ID="53229" Action="U" Record_ID="50055" Table="AD_View_Trl">
-        <Data AD_Column_ID="58064" Column="Name" oldValue="Create From Invoice View">Vista para Crear Desde Factura</Data>
       </PO>
     </Step>
     <Step SeqNo="8030" StepType="AD">
