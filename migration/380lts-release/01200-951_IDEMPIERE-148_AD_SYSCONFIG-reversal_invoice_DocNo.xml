@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="IDEMPIERE-148 #951(Adaxa)" ReleaseNo="3.9.0" SeqNo="01200">
+    <Step DBType="Oracle" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Feb 13, 2012 12:36:56 PM COT
+-- IDEMPIERE-148 Allow reversal invoice to use DocNo^ instead of consuming an invoice #
+INSERT INTO AD_SysConfig (AD_SysConfig_ID,EntityType,ConfigurationLevel,Name,Value,Description,AD_Client_ID,AD_Org_ID,Created,Updated,CreatedBy,UpdatedBy,IsActive) VALUES (200009,&apos;D&apos;,&apos;C&apos;,&apos;Invoice_ReverseUseNewNumber&apos;,&apos;Y&apos;,&apos;Allows you to choose to use a new number for the reversed invoice.&apos;,0,0,TO_DATE(&apos;2012-02-13 12:36:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_DATE(&apos;2012-02-13 12:36:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,100,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+UPDATE AD_System
+  SET LastMigrationScriptApplied=&apos;818_IDEMPIERE-148.sql&apos;
+WHERE LastMigrationScriptApplied&lt;&apos;818_IDEMPIERE-148.sql&apos;
+   OR LastMigrationScriptApplied IS NULL
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="10" StepType="SQL">
+      <SQLStatement>-- Feb 13, 2012 12:36:56 PM COT
+-- IDEMPIERE-148 Allow reversal invoice to use DocNo^ instead of consuming an invoice #
+INSERT INTO AD_SysConfig (AD_SysConfig_ID,EntityType,ConfigurationLevel,Name,Value,Description,AD_Client_ID,AD_Org_ID,Created,Updated,CreatedBy,UpdatedBy,IsActive) VALUES (200009,&apos;D&apos;,&apos;C&apos;,&apos;Invoice_ReverseUseNewNumber&apos;,&apos;Y&apos;,&apos;Allows you to choose to use a new number for the reversed invoice.&apos;,0,0,TO_TIMESTAMP(&apos;2012-02-13 12:36:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),TO_TIMESTAMP(&apos;2012-02-13 12:36:55&apos;,&apos;YYYY-MM-DD HH24:MI:SS&apos;),100,100,&apos;Y&apos;)
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" SeqNo="20" StepType="SQL">
+      <SQLStatement>
+UPDATE AD_System
+  SET LastMigrationScriptApplied=&apos;818_IDEMPIERE-148.sql&apos;
+WHERE LastMigrationScriptApplied&lt;&apos;818_IDEMPIERE-148.sql&apos;
+   OR LastMigrationScriptApplied IS NULL
+;</SQLStatement>
+      <RollbackStatement></RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>
