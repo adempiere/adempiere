@@ -2,10 +2,10 @@
 <Migrations>
   <Migration EntityType="U" Name="Drop column qtyavailable in table M_ProductionLine" ReleaseNo="3.9.0" SeqNo="01110">
     <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="107" Action="D" Record_ID="1000000" Table="AD_Field">
+      <PO AD_Table_ID="107" Action="D" Record_ID="78329" Table="AD_Field">
         <Data AD_Column_ID="383" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
         <Data AD_Column_ID="174" Column="AD_Column_ID" isNewNull="true" oldValue="61946"/>
-        <Data AD_Column_ID="167" Column="AD_Field_ID" isNewNull="true" oldValue="1000000"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID" isNewNull="true" oldValue="78329"/>
         <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="384" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true" isOldNull="true"/>
