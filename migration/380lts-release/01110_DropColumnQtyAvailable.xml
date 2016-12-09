@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="Drop column qtyavailable in table M_ProductionLine" ReleaseNo="3.9.0" SeqNo="01110">
+  <Migration EntityType="D" Name="Drop column qtyavailable in table M_ProductionLine" ReleaseNo="3.9.0" SeqNo="01110">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="107" Action="D" Record_ID="78329" Table="AD_Field">
         <Data AD_Column_ID="383" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
