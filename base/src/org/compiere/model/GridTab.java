@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -1123,7 +1124,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		}
 		//	Prevent New Where Main Record is processed
 		//	but not apply for TabLevel=0 - teo_sarca [ 1673902 ]
-		if (m_vo.TabLevel > 0 && m_vo.TabNo > 0)
+		/*if (m_vo.TabLevel > 0 && m_vo.TabNo > 0)
 		{
 			boolean processed = "Y".equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, "Processed"));
 		//	boolean active = "Y".equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, "IsActive"));
@@ -1133,7 +1134,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				return false;
 			}
 			log.finest("Processed=" + processed);
-		}
+		}*/
 		
 		//hengsin, don't create new when parent is empty
 		if (isDetail() && m_parentNeedSave)
@@ -1151,15 +1152,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			return retValue;
 		setCurrentRow(m_currentRow + 1, true);
 		
-		//  process all Callouts (no dependency check - assumed that settings are valid)
-		for (int i = 0; i < getFieldCount(); i++)
-			processCallout(getField(i));
-		//  check validity of defaults
-		for (int i = 0; i < getFieldCount(); i++)
-		{
-			getField(i).refreshLookup();
-			getField(i).validateValue();
-		}
+
+        //Check validity of defaults
+        Arrays.stream(getFields()).forEach( field -> {
+            field.refreshLookup();
+            field.validateValue();
+        });
+
+        //  process all Callouts (no dependency check - assumed that settings are valid)
+        Arrays.stream(getFields()).forEach( field -> processCallout(field));
+
 		m_mTable.setChanged(false);
 		
 		fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_NEW));
