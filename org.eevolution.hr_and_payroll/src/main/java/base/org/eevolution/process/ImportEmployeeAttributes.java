@@ -50,33 +50,33 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
      */
     protected String doIt() throws Exception {
         if (isDeleteoldimportedrecords())
-            getAttribute(true, true).stream().forEach(importAttribute -> importAttribute.deleteEx(true));
+            getAttributes(true, true).stream().forEach(importAttribute -> importAttribute.deleteEx(true));
 
         int count = 0;
 
-        for (X_I_HR_Attribute importAttributes : getAttribute(false, false)) {
+        for (X_I_HR_Attribute importAttribute : getAttributes(false, false)) {
 
             final String partnerQuery = "SELECT C_BPartner_ID FROM C_BPartner WHERE TRIM(Value) = ?";
-            int partnerId = DB.getSQLValue(null, partnerQuery, importAttributes.getValue().trim());
+            int partnerId = DB.getSQLValue(null, partnerQuery, importAttribute.getValue().trim());
             if (partnerId < 0) {
-                importAttributes.setI_ErrorMsg(Msg.parseTranslation(getCtx(), "@HR_Employee_ID@ @NotFound@"));
-                importAttributes.saveEx();
+                importAttribute.setI_ErrorMsg(Msg.parseTranslation(getCtx(), "@HR_Employee_ID@ @NotFound@"));
+                importAttribute.saveEx();
                 continue;
             }
 
             final String conceptQuery = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(Value) = ?";
-            int conceptId = DB.getSQLValue(null, conceptQuery, importAttributes.getConceptValue().trim());
+            int conceptId = DB.getSQLValue(null, conceptQuery, importAttribute.getConceptValue().trim());
             if (conceptId < 0) {
-                importAttributes.setI_ErrorMsg(Msg.parseTranslation(getCtx(), "@HR_Concept_ID@ @NotFound@"));
-                importAttributes.saveEx();
+                importAttribute.setI_ErrorMsg(Msg.parseTranslation(getCtx(), "@HR_Concept_ID@ @NotFound@"));
+                importAttribute.saveEx();
                 continue;
             }
 
             MHRConcept concept = new MHRConcept(getCtx(), conceptId, get_TrxName());
 
-            if (importAttributes.getValidFrom() == null) {
-                importAttributes.setI_ErrorMsg(Msg.parseTranslation(getCtx(), "@Invalid@ @ValidFrom@"));
-                importAttributes.saveEx();
+            if (importAttribute.getValidFrom() == null) {
+                importAttribute.setI_ErrorMsg(Msg.parseTranslation(getCtx(), "@Invalid@ @ValidFrom@"));
+                importAttribute.saveEx();
                 continue;
             }
 
@@ -85,28 +85,28 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
             attribute.setHR_Concept_ID(concept.get_ID());
             attribute.setColumnType(concept.getColumnType());
             //Set Amount
-            Optional.ofNullable(importAttributes.getAmount()).filter(amount -> amount != null && amount.signum() > 0 ).ifPresent(amount -> attribute.setAmount(importAttributes.getAmount()));
+            Optional.ofNullable(importAttribute.getAmount()).filter(amount -> amount != null && amount.signum() > 0 ).ifPresent(amount -> attribute.setAmount(importAttribute.getAmount()));
             //Set Quantity
-            Optional.ofNullable(importAttributes.getQty()).filter(quantity -> quantity != null && quantity.signum() > 0).ifPresent(quantity -> attribute.setQty(quantity));
+            Optional.ofNullable(importAttribute.getQty()).filter(quantity -> quantity != null && quantity.signum() > 0).ifPresent(quantity -> attribute.setQty(quantity));
             // Set Service Date
-            Optional.ofNullable(importAttributes.getServiceDate()).ifPresent(serviceDate -> attribute.setServiceDate(serviceDate));
+            Optional.ofNullable(importAttribute.getServiceDate()).ifPresent(serviceDate -> attribute.setServiceDate(serviceDate));
             //Set service data
-            Optional.ofNullable(importAttributes.getTextMsg()).ifPresent(msgText -> attribute.setTextMsg(msgText));
+            Optional.ofNullable(importAttribute.getTextMsg()).ifPresent(msgText -> attribute.setTextMsg(msgText));
             //Set msg text
-            Optional.ofNullable(importAttributes.getMinValue()).filter(minValue -> minValue != null && minValue > 0).ifPresent(minValue -> attribute.setMinValue(minValue));
+            Optional.ofNullable(importAttribute.getMinValue()).filter(minValue -> minValue != null && minValue > 0).ifPresent(minValue -> attribute.setMinValue(minValue));
             //Set Max Value
-            Optional.ofNullable(importAttributes.getMaxValue()).filter(maxValue -> maxValue != null && maxValue > 0).ifPresent(maxValue -> attribute.setMaxValue(maxValue));
+            Optional.ofNullable(importAttribute.getMaxValue()).filter(maxValue -> maxValue != null && maxValue > 0).ifPresent(maxValue -> attribute.setMaxValue(maxValue));
             // Set Max Value
-            Optional.ofNullable(importAttributes.getHR_Department_ID()).ifPresent(departamentId -> attribute.setHR_Department_ID(departamentId));
+            Optional.ofNullable(importAttribute.getHR_Department_ID()).ifPresent(departamentId -> attribute.setHR_Department_ID(departamentId));
             // Set Min Value
-            Optional.ofNullable(importAttributes.getHR_Job_ID()).ifPresent(jobId -> attribute.setHR_Job_ID(jobId));
+            Optional.ofNullable(importAttribute.getHR_Job_ID()).ifPresent(jobId -> attribute.setHR_Job_ID(jobId));
             // Set valid dates
-            Optional.ofNullable(importAttributes.getValidFrom()).ifPresent(validFrom -> attribute.setValidFrom(validFrom));
-            Optional.ofNullable(importAttributes.getValidTo()).ifPresent(validTo -> attribute.setValidTo(validTo));
+            Optional.ofNullable(importAttribute.getValidFrom()).ifPresent(validFrom -> attribute.setValidFrom(validFrom));
+            Optional.ofNullable(importAttribute.getValidTo()).ifPresent(validTo -> attribute.setValidTo(validTo));
             // Set Rule Engine
-            Optional.ofNullable(importAttributes.getAD_Rule_ID()).filter(ruleId -> ruleId != null && ruleId > 0).ifPresent(ruleId -> attribute.setAD_Rule_ID(ruleId));
+            Optional.ofNullable(importAttribute.getAD_Rule_ID()).filter(ruleId -> ruleId != null && ruleId > 0).ifPresent(ruleId -> attribute.setAD_Rule_ID(ruleId));
             // Set Payroll
-            Optional.ofNullable(importAttributes.getPayrollValue()).ifPresent(payrollValue -> {
+            Optional.ofNullable(importAttribute.getPayrollValue()).ifPresent(payrollValue -> {
                 final String payrollQuery = "SELECT HR_Payroll_ID FROM HR_Payroll WHERE TRIM(Value) = ?";
                 int payrollId = DB.getSQLValue(null, payrollQuery, payrollValue.trim());
                 if (payrollId < 0) {
@@ -115,11 +115,11 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
             });
             attribute.setIsActive(true);
             if (attribute.save()) {
-                importAttributes.setI_IsImported(true);
-                importAttributes.setI_ErrorMsg("");
-                importAttributes.setProcessed(true);
-                importAttributes.setHR_Attribute_ID(attribute.get_ID());
-                importAttributes.saveEx();
+                importAttribute.setI_IsImported(true);
+                importAttribute.setI_ErrorMsg("");
+                importAttribute.setProcessed(true);
+                importAttribute.setHR_Attribute_ID(attribute.get_ID());
+                importAttribute.saveEx();
             }
         }
         return count + " @Records@ @ProcessOK@";
@@ -131,7 +131,7 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
      * @param isProcessed
      * @return
      */
-    private List<X_I_HR_Attribute> getAttribute(boolean isImported, boolean isProcessed) {
+    private List<X_I_HR_Attribute> getAttributes(boolean isImported, boolean isProcessed) {
         StringBuilder whereClause = new StringBuilder();
         whereClause.append(I_I_HR_Attribute.COLUMNNAME_I_IsImported).append("=? AND ")
                 .append(I_I_HR_Attribute.COLUMNNAME_Processed).append("=?");
