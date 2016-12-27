@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
@@ -26,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_HR_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20161226L;
 
     /** Standard Constructor */
     public X_I_HR_Attribute (Properties ctx, int I_HR_Attribute_ID, String trxName)
@@ -146,6 +145,62 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
+			.getPO(getC_Charge_ID(), get_TrxName());	}
+
+	/** Set Charge.
+		@param C_Charge_ID 
+		Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID)
+	{
+		if (C_Charge_ID < 1) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+	}
+
+	/** Get Charge.
+		@return Additional document charges
+	  */
+	public int getC_Charge_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
+
+	/** Set Document Type.
+		@param C_DocType_ID 
+		Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID)
+	{
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+	}
+
+	/** Get Document Type.
+		@return Document type or rules
+	  */
+	public int getC_DocType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Concept Value.
 		@param ConceptValue 
 		Value of the Concept
@@ -213,7 +268,7 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 		return (org.eevolution.model.I_HR_Concept)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept.Table_Name)
 			.getPO(getHR_Concept_ID(), get_TrxName());	}
 
-	/** Set AD Payroll Concept.
+	/** Set Global Payroll Concept.
 		@param HR_Concept_ID 
 		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
@@ -225,12 +280,90 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 			set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get AD Payroll Concept.
+	/** Get Global Payroll Concept.
 		@return The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
+			.getPO(getHR_Department_ID(), get_TrxName());	}
+
+	/** Set Department.
+		@param HR_Department_ID 
+		Department of the organization
+	  */
+	public void setHR_Department_ID (int HR_Department_ID)
+	{
+		if (HR_Department_ID < 1) 
+			set_Value (COLUMNNAME_HR_Department_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
+	}
+
+	/** Get Department.
+		@return Department of the organization
+	  */
+	public int getHR_Department_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Employee)MTable.get(getCtx(), org.eevolution.model.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
+
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID)
+	{
+		if (HR_Employee_ID < 1) 
+			set_Value (COLUMNNAME_HR_Employee_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
+	}
+
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
+	public int getHR_Employee_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Job)MTable.get(getCtx(), org.eevolution.model.I_HR_Job.Table_Name)
+			.getPO(getHR_Job_ID(), get_TrxName());	}
+
+	/** Set Payroll Job.
+		@param HR_Job_ID Payroll Job	  */
+	public void setHR_Job_ID (int HR_Job_ID)
+	{
+		if (HR_Job_ID < 1) 
+			set_Value (COLUMNNAME_HR_Job_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
+	}
+
+	/** Get Payroll Job.
+		@return Payroll Job	  */
+	public int getHR_Job_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -325,6 +458,64 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 		return false;
 	}
 
+	/** Set Printed.
+		@param IsPrinted 
+		Indicates if this document / line is printed
+	  */
+	public void setIsPrinted (boolean IsPrinted)
+	{
+		set_Value (COLUMNNAME_IsPrinted, Boolean.valueOf(IsPrinted));
+	}
+
+	/** Get Printed.
+		@return Indicates if this document / line is printed
+	  */
+	public boolean isPrinted () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPrinted);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Max Value.
+		@param MaxValue Max Value	  */
+	public void setMaxValue (int MaxValue)
+	{
+		set_Value (COLUMNNAME_MaxValue, Integer.valueOf(MaxValue));
+	}
+
+	/** Get Max Value.
+		@return Max Value	  */
+	public int getMaxValue () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_MaxValue);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Min Value.
+		@param MinValue Min Value	  */
+	public void setMinValue (int MinValue)
+	{
+		set_Value (COLUMNNAME_MinValue, Integer.valueOf(MinValue));
+	}
+
+	/** Get Min Value.
+		@return Min Value	  */
+	public int getMinValue () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_MinValue);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Payroll Value.
 		@param PayrollValue 
 		Define the a Search key of a payroll
@@ -405,6 +596,40 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Service date.
+		@param ServiceDate 
+		Date service was provided
+	  */
+	public void setServiceDate (Timestamp ServiceDate)
+	{
+		set_Value (COLUMNNAME_ServiceDate, ServiceDate);
+	}
+
+	/** Get Service date.
+		@return Date service was provided
+	  */
+	public Timestamp getServiceDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ServiceDate);
+	}
+
+	/** Set Text Message.
+		@param TextMsg 
+		Text Message
+	  */
+	public void setTextMsg (String TextMsg)
+	{
+		set_Value (COLUMNNAME_TextMsg, TextMsg);
+	}
+
+	/** Get Text Message.
+		@return Text Message
+	  */
+	public String getTextMsg () 
+	{
+		return (String)get_Value(COLUMNNAME_TextMsg);
 	}
 
 	/** Set Valid from.
