@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add support for the project in necessary tables #695" ReleaseNo="" SeqNo="500">
+  <Migration EntityType="D" Name="Add support for the project in necessary tables #695" ReleaseNo="3.9.0" SeqNo="500">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="81607" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
