@@ -452,6 +452,7 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 		MHRConcept conceptOK   = MHRConcept.get(Env.getCtx(),m_HR_Concept_ID);
 		int mov = sHR_Movement_ID > 0 ? sHR_Movement_ID : 0;
 		MHRMovement movementOK = new MHRMovement(Env.getCtx(),mov,null);
+		movementOK.setSeqNo(conceptOK.getSeqNo());
 		movementOK.setDescription(fieldDescription.getValue() != null ? (String)fieldDescription.getValue().toString() : "");
 		movementOK.setHR_Process_ID((Integer)fieldProcess.getValue());
 		movementOK.setC_BPartner_ID((Integer)fieldEmployee.getValue());

@@ -137,6 +137,7 @@ public class MHRMovement extends X_HR_Movement
 	{
 		this(process.getCtx(), 0, process.get_TrxName());
 		// Process
+		this.setSeqNo(concept.getSeqNo());
 		this.setHR_Process_ID(process.getHR_Process_ID());
 		this.setHR_Payroll_ID(process.getHR_Payroll_ID());
 		// Concept
