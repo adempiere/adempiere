@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
@@ -144,5 +145,20 @@ public class MHRAttribute extends X_HR_Attribute
 	public I_HR_Concept getHR_Concept()
 	{
 		return MHRConcept.get(getCtx(), getHR_Concept_ID());
+	}
+
+	/**************************************************************************
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return save
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (getHR_Concept().isEmployee() && getHR_Employee_ID() <= 0)
+			throw new AdempiereException("@HR_Employee_ID@ @NotFound@");
+		else if (!getHR_Concept().isEmployee())
+			setHR_Employee_ID(-1);
+
+		return true;
 	}
 }
