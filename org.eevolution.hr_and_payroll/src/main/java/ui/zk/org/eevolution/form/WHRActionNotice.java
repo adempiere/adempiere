@@ -397,6 +397,7 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 		MHRConcept conceptOK = MHRConcept.get(Env.getCtx(), m_HR_Concept_ID);
 		int mov = sHR_Movement_ID > 0 ? sHR_Movement_ID : 0;
 		MHRMovement movementOK = new MHRMovement(Env.getCtx(), mov, null);
+		movementOK.setSeqNo(conceptOK.getSeqNo());
 		movementOK
 				.setDescription(fieldDescription.getValue() != null ? (String) fieldDescription
 						.getValue().toString() : "");

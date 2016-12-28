@@ -1036,6 +1036,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		{
 			log.info("Skip concept "+concept+" - attribute not found");
 			MHRMovement dummyMovement = new MHRMovement (getCtx(), 0, get_TrxName());
+			dummyMovement.setSeqNo(concept.getSeqNo());
 			dummyMovement.setIsManual(true); // to avoid landing on movement table
 			m_movement.put(concept.getHR_Concept_ID(), dummyMovement);
 			return dummyMovement;
@@ -1043,6 +1044,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		log.info(Msg.parseTranslation(getCtx(), "@HR_Concept_ID@ : ")+ concept.getName());
 		MHRMovement movement = new MHRMovement (getCtx(), 0, get_TrxName());
+		movement.setSeqNo(concept.getSeqNo());
 		movement.setC_BPartner_ID(m_C_BPartner_ID);
 		movement.setHR_Concept_ID(concept.getHR_Concept_ID());
 		movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
@@ -1205,14 +1207,15 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	{
 		try
 		{
-			MHRConcept c = MHRConcept.forValue(getCtx(), conceptValue); 
-			if (c == null)
+			MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+			if (concept == null)
 			{
 				return; // TODO throw exception
 			}
 			MHRMovement movement = new MHRMovement(getCtx(), 0, get_TrxName());
 			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), m_C_BPartner_ID, get_TrxName());
-			movement.setColumnType(c.getColumnType());
+			movement.setSeqNo(concept.getSeqNo());
+			movement.setColumnType(concept.getColumnType());
 			movement.setColumnValue(BigDecimal.valueOf(value));
 
 			movement.setHR_Process_ID(getHR_Process_ID());
@@ -1222,8 +1225,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			movement.setValidFrom(m_dateTo);
 			movement.setValidTo(m_dateTo);
 
-			movement.setHR_Concept_Category_ID(c.getHR_Concept_Category_ID());
-			movement.setIsManual(c.isManual());
+			movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+			movement.setIsManual(concept.isManual());
 			int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
 			movement.setC_BP_Group_ID(bpGroupId);
 			movement.setEmployee(employee);
@@ -1244,29 +1247,30 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	{
 		try
 		{
-			MHRConcept c = MHRConcept.forValue(getCtx(), conceptValue); 
-			if (c == null)
+			MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+			if (concept == null)
 			{
 				return; // TODO throw exception
 			}
 			MHRMovement movement = new MHRMovement(Env.getCtx(),0,get_TrxName());
 			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), m_C_BPartner_ID, get_TrxName());
-			movement.setColumnType(c.getColumnType());
-			if (c.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
+			movement.setSeqNo(concept.getSeqNo());
+			movement.setColumnType(concept.getColumnType());
+			if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
 				movement.setAmount(BigDecimal.valueOf(value));
-			else if (c.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity))
+			else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity))
 				movement.setQty(BigDecimal.valueOf(value));
 			else
 				return;
 			movement.setHR_Process_ID(getHR_Process_ID());
-			movement.setHR_Concept_ID(c.getHR_Concept_ID());
+			movement.setHR_Concept_ID(concept.getHR_Concept_ID());
 			movement.setC_BPartner_ID(m_C_BPartner_ID);
 			movement.setDescription("Added From Rule"); // TODO: translate
 			movement.setValidFrom(m_dateTo);
 			movement.setValidTo(m_dateTo);
 			movement.setIsManual(isManual);
-			movement.setHR_Concept_Category_ID(c.getHR_Concept_Category_ID());
-			movement.setIsManual(c.isManual());
+			movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+			movement.setIsManual(concept.isManual());
 			int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", m_C_BPartner_ID);
 			movement.setC_BP_Group_ID(bpGroupId);
 			movement.setEmployee(employee);
