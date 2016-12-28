@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
@@ -52,6 +53,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
+import org.eevolution.model.I_HR_Period;
 import org.eevolution.model.MHRConcept;
 import org.eevolution.model.MHREmployee;
 import org.eevolution.model.MHRMovement;
@@ -394,57 +396,45 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 	} // actionPerformed
 
 	public void saveMovement() {
-		MHRConcept conceptOK = MHRConcept.get(Env.getCtx(), m_HR_Concept_ID);
-		int mov = sHR_Movement_ID > 0 ? sHR_Movement_ID : 0;
-		MHRMovement movementOK = new MHRMovement(Env.getCtx(), mov, null);
-		movementOK.setSeqNo(conceptOK.getSeqNo());
-		movementOK
-				.setDescription(fieldDescription.getValue() != null ? (String) fieldDescription
-						.getValue().toString() : "");
-		movementOK.setHR_Process_ID(((KeyNamePair) fieldProcess
-				.getSelectedItem().getValue()).getKey());
-		movementOK.setC_BPartner_ID(((KeyNamePair) fieldEmployee
-				.getSelectedItem().getValue()).getKey());
-		movementOK.setHR_Concept_ID(Integer
-				.parseInt(((ValueNamePair) fieldConcept.getSelectedItem()
-						.getValue()).getValue()));
-		movementOK.setHR_Concept_Category_ID(conceptOK
-				.getHR_Concept_Category_ID());
-		movementOK.setColumnType(conceptOK.getColumnType());
-		movementOK.setQty(fieldQty.getValue() != null ? (BigDecimal) fieldQty
-				.getValue() : Env.ZERO);
-		movementOK
-				.setAmount(fieldAmount.getValue() != null ? (BigDecimal) fieldAmount
-						.getValue() : Env.ZERO);
-		movementOK.setTextMsg(fieldText.getValue() != null ? (String) fieldText
-				.getValue().toString() : "");
-		movementOK
-				.setServiceDate(fieldDate.getValue() != null ? (Timestamp) fieldDate
-						.getValue() : null);
-		movementOK.setValidFrom((Timestamp) fieldValidFrom.getValue());
-		movementOK.setValidTo((Timestamp) fieldValidFrom.getValue());
-		MHREmployee employee = MHREmployee.getActiveEmployee(Env.getCtx(),
-				movementOK.getC_BPartner_ID(), null);
+		MHRConcept concept = MHRConcept.get(Env.getCtx(), m_HR_Concept_ID);
+		int movementId = sHR_Movement_ID > 0 ? sHR_Movement_ID : 0;
+		MHRProcess process = new MHRProcess(Env.getCtx() , (Integer)fieldProcess.getValue() , null);
+		I_HR_Period payrollPeriod = process.getHR_Period();
+		MHRMovement movement = new MHRMovement(Env.getCtx(), movementId, null);
+		movement.setSeqNo(concept.getSeqNo());
+		Optional.ofNullable(fieldDescription.getValue()).ifPresent( description -> movement.setDescription((description.toString())));
+		movement.setHR_Process_ID(((KeyNamePair) fieldProcess.getSelectedItem().getValue()).getKey());
+		Optional.ofNullable(payrollPeriod).ifPresent(period -> movement.setPeriodNo(period.getPeriodNo()));
+		movement.setC_BPartner_ID(((KeyNamePair) fieldEmployee.getSelectedItem().getValue()).getKey());
+		movement.setHR_Concept_ID(Integer.parseInt(((ValueNamePair) fieldConcept.getSelectedItem().getValue()).getValue()));
+		movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+		movement.setColumnType(concept.getColumnType());
+		Optional.ofNullable(fieldQty.getValue()).ifPresent(qty -> movement.setQty( (BigDecimal) qty));
+		Optional.ofNullable(fieldAmount.getValue()).ifPresent(amount -> movement.setAmount((BigDecimal) amount));
+		Optional.ofNullable(fieldText.getValue()).ifPresent( msg -> movement.setTextMsg((String) msg.toString()));
+		Optional.ofNullable(fieldDate.getValue()).ifPresent(date -> movement.setServiceDate((Timestamp) date));
+		movement.setValidFrom((Timestamp) fieldValidFrom.getValue());
+		movement.setValidTo((Timestamp) fieldValidFrom.getValue());
+		MHREmployee employee = MHREmployee.getActiveEmployee(Env.getCtx(), movement.getC_BPartner_ID(), null);
 		if (employee != null) {
-			movementOK.setAD_Org_ID(employee.getAD_Org_ID());
-			movementOK.setHR_Department_ID(employee.getHR_Department_ID());
-			movementOK.setHR_Job_ID(employee.getHR_Job_ID());
-			movementOK
-					.setC_Activity_ID(employee.getC_Activity_ID() > 0 ? employee
+			movement.setAD_Org_ID(employee.getAD_Org_ID());
+			movement.setHR_Department_ID(employee.getHR_Department_ID());
+			movement.setHR_Job_ID(employee.getHR_Job_ID());
+			movement.setC_Activity_ID(employee.getC_Activity_ID() > 0 ? employee
 							.getC_Activity_ID() : employee.getHR_Department()
 							.getC_Activity_ID());
 		}
-		movementOK.setIsManual(true);
-		movementOK.saveEx();
+		movement.setIsManual(true);
+		movement.saveEx();
 		// check if user saved an empty record and delete it
-		if ((movementOK.getAmount() == null || Env.ZERO.compareTo(movementOK
+		if ((movement.getAmount() == null || Env.ZERO.compareTo(movement
 				.getAmount()) == 0)
-				&& (movementOK.getQty() == null || Env.ZERO
-						.compareTo(movementOK.getQty()) == 0)
-				&& (movementOK.getServiceDate() == null)
-				&& (movementOK.getTextMsg() == null || movementOK.getTextMsg()
+				&& (movement.getQty() == null || Env.ZERO
+						.compareTo(movement.getQty()) == 0)
+				&& (movement.getServiceDate() == null)
+				&& (movement.getTextMsg() == null || movement.getTextMsg()
 						.trim().length() == 0)) {
-			movementOK.deleteEx(false);
+			movement.deleteEx(false);
 		}
 		executeQuery();
 		fieldValidFrom.setValue(m_dateEnd);
