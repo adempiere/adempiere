@@ -58,66 +58,66 @@ public class MHRAttribute extends X_HR_Attribute
 	 * @deprecated since 3.5.3a
 	 * Get Concept by Value
 	 * @param ctx
-	 * @param value
-	 * @param C_BPartner_ID
+	 * @param conceptValue
+	 * @param partnerId
 	 * @param startDate
 	 * @return attribute
 	 */
-	public static MHRAttribute forValue(Properties ctx, String value, int C_BPartner_ID, Timestamp date)
+	public static MHRAttribute forValue(Properties ctx, String conceptValue, int partnerId, Timestamp startDate)
 	{
-		if (Util.isEmpty(value, true))
+		if (Util.isEmpty(conceptValue, true))
 		{
 			return null;
 		}
 		
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		int clientId = Env.getAD_Client_ID(ctx);
 		
 		final String whereClause = COLUMNNAME_C_BPartner_ID+"=? AND AD_Client_ID IN (?,?) "
 								+ " AND " + COLUMNNAME_ValidFrom +"<=?"
 								+ " AND EXISTS (SELECT 1 FROM HR_Concept c WHERE HR_Attribute.HR_Concept_ID = c.HR_Concept_ID" 
 								+ " AND c.Value=?)"; 
-		MHRAttribute att = new Query(ctx, Table_Name, whereClause, null)
-							.setParameters(new Object[]{C_BPartner_ID, 0, AD_Client_ID, date, value})
+		MHRAttribute attribute = new Query(ctx, Table_Name, whereClause, null)
+							.setParameters(new Object[]{partnerId, 0, clientId, startDate, conceptValue})
 							.setOnlyActiveRecords(true)
 							.setOrderBy(COLUMNNAME_ValidFrom + " DESC")
 							.first();
-		return att;
+		return attribute;
 	}	
 	
 	/**
 	 * Get Concept by Value
 	 * @param ctx
-	 * @param value
-	 * @param C_BPartner_ID
+	 * @param conceptValue
+	 * @param partnerId
 	 * @param startDate
 	 * @param endDate
 	 * @return attribute
 	 */	
-	public static MHRAttribute forValue(Properties ctx, String value, int C_BPartner_ID, Timestamp startDate, Timestamp endDate)
+	public static MHRAttribute forValue(Properties ctx, String conceptValue, int partnerId, Timestamp startDate, Timestamp endDate)
 	{
-		if (Util.isEmpty(value, true))
+		if (Util.isEmpty(conceptValue, true))
 		{
 			return null;
 		}
 
 		if (endDate == null)
 		{
-			return forValue(ctx, value, C_BPartner_ID, startDate);
+			return forValue(ctx, conceptValue, partnerId, startDate);
 		}
 		else
 		{			
-			int AD_Client_ID = Env.getAD_Client_ID(ctx);
+			int clientId = Env.getAD_Client_ID(ctx);
 			
 			final String whereClause = COLUMNNAME_C_BPartner_ID+"=? AND AD_Client_ID IN (?,?) "
 									+ " AND " + COLUMNNAME_ValidFrom +"<=? AND " + COLUMNNAME_ValidTo +">=?"
 									+ " AND EXISTS (SELECT 1 FROM HR_Concept c WHERE HR_Attribute.HR_Concept_ID = c.HR_Concept_ID" 
 									+ " AND c.Value=?)"; 
-			MHRAttribute att = new Query(ctx, Table_Name, whereClause, null)
-								.setParameters(new Object[]{C_BPartner_ID, 0, AD_Client_ID, startDate, endDate, value})
+			MHRAttribute attribute = new Query(ctx, Table_Name, whereClause, null)
+								.setParameters(new Object[]{partnerId, 0, clientId, startDate, endDate, conceptValue})
 								.setOnlyActiveRecords(true)
 								.setOrderBy(COLUMNNAME_ValidFrom + " DESC")
 								.first();
-			return att;
+			return attribute;
 		}
 	}	
 	
