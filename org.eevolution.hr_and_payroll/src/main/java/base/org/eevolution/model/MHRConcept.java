@@ -32,11 +32,9 @@ import org.compiere.util.Util;
 
 /**
  *	Payroll Concept for HRayroll Module
- *	
  *  @author Oscar Gómez Islas
- *  @version $Id: HRPayroll.java,v 1.0 2005/10/05 ogomezi
- *  
  *  @author Cristina Ghita, www.arhipac.ro
+ *  @author victor.perez@e-evolution.com , www.e-Evolution.com
  */
 public class MHRConcept extends X_HR_Concept
 {
@@ -46,23 +44,23 @@ public class MHRConcept extends X_HR_Concept
 	private static final long serialVersionUID = 7859469065116713767L;
 	
 	/** Cache */
-	private static CCache<Integer, MHRConcept> s_cache = new CCache<Integer, MHRConcept>(Table_Name, 100);
+	private static CCache<Integer, MHRConcept> cache = new CCache<Integer, MHRConcept>(Table_Name, 100);
 	/** Cache by Value */
-	private static CCache<String, MHRConcept> s_cacheValue = new CCache<String, MHRConcept>(Table_Name+"_Value", 100);
+	private static CCache<String, MHRConcept> cacheValue = new CCache<String, MHRConcept>(Table_Name+"_Value", 100);
 	
-	public static MHRConcept get(Properties ctx, int HR_Concept_ID)
+	public static MHRConcept get(Properties ctx, int conceptId)
 	{
-		if (HR_Concept_ID <= 0)
+		if (conceptId <= 0)
 			return null;
 		//
-		MHRConcept concept = s_cache.get(HR_Concept_ID);
+		MHRConcept concept = cache.get(conceptId);
 		if (concept != null)
 			return concept;
 		//
-		concept = new MHRConcept(ctx, HR_Concept_ID, null);
-		if (concept.get_ID() == HR_Concept_ID)
+		concept = new MHRConcept(ctx, conceptId, null);
+		if (concept.get_ID() == conceptId)
 		{
-			s_cache.put(HR_Concept_ID, concept);
+			cache.put(conceptId, concept);
 		}
 		else
 		{
@@ -86,7 +84,7 @@ public class MHRConcept extends X_HR_Concept
 		
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		final String key = AD_Client_ID+"#"+value;
-		MHRConcept concept = s_cacheValue.get(key);
+		MHRConcept concept = cacheValue.get(key);
 		if (concept != null)
 		{
 			return concept;
@@ -100,8 +98,8 @@ public class MHRConcept extends X_HR_Concept
 							.first();
 		if (concept != null)
 		{
-			s_cacheValue.put(key, concept);
-			s_cache.put(concept.get_ID(), concept);
+			cacheValue.put(key, concept);
+			cache.put(concept.get_ID(), concept);
 		}
 		return concept;
 	}
@@ -211,32 +209,56 @@ public class MHRConcept extends X_HR_Concept
 		return getValue() + " - " + getName();
 	}   //  toString
 
+	/**************************************************************************
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return save
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (is_Changed() && is_ValueChanged(MHRConcept.COLUMNNAME_Value))
+		{
+			final String errorMessage = validateRules((String)get_ValueOld(MHRConcept.COLUMNNAME_Value));
+			if (errorMessage.length() > 0)
+				throw new AdempiereException("@HR_Concept_ID@ @RecordFound@ " + errorMessage);
+		}
+		return true;
+	}
+
+
 	/**
 	 * 	Before Delete
 	 *	@return true of it can be deleted
 	 */
 	protected boolean beforeDelete ()
 	{
-		if (TYPE_RuleEngine.equals(getType())) {
-			final StringBuilder whereClause = new  StringBuilder();
-			whereClause
-					.append(MRule.COLUMNNAME_EventType).append("=? AND ")
-					.append(MRule.COLUMNNAME_Script)
-					.append(" LIKE '%\""+ getValue() + "\"%'");
-
-			AtomicReference<String> errorMessage  = new AtomicReference<>("");
-			List<MRule> rules = new Query(getCtx() , MRule.Table_Name , whereClause.toString(), get_TrxName())
-					.setParameters(MRule.EVENTTYPE_HumanResourcePayroll)
-					.list();
-			rules.forEach(rule -> {
-				String error =  Msg.parseTranslation(getCtx()," @AD_Rule_ID@ :") + rule.getValue() + Msg.parseTranslation(getCtx(), " @Name@ :")+ rule.getName() +  " ";
-				errorMessage.getAndUpdate(msg -> msg + error);
-			});
-
-			if (rules.size() > 0)
-				throw new AdempiereException("@HR_Concept_ID@ @CannotDeleteUsed@ " + errorMessage.get());
-		}
+		final String errorMessage = validateRules(getValue());
+		if (errorMessage.length() > 0)
+			throw new AdempiereException("@HR_Concept_ID@ @CannotDeleteUsed@ " + errorMessage);
 		return true;
+	}
+
+	private String validateRules(String conceptValue)
+	{
+		AtomicReference<String> errorMessage  = new AtomicReference<>("");
+		List<MRule> rules = getRulesDependences(conceptValue);
+		rules.forEach(rule -> {
+			String error =  Msg.parseTranslation(getCtx()," @AD_Rule_ID@: ") + rule.getValue() + Msg.parseTranslation(getCtx(), " -> ")+ rule.getName() +  " , ";
+			errorMessage.getAndUpdate(msg -> msg + error);
+		});
+		return errorMessage.get();
+	}
+
+	private List<MRule> getRulesDependences(String conceptValue)
+	{
+		final StringBuilder whereClause = new  StringBuilder();
+		whereClause
+				.append(MRule.COLUMNNAME_EventType).append("=? AND ")
+				.append(MRule.COLUMNNAME_Script)
+				.append(" LIKE '%\""+ conceptValue + "\"%'");
+		return new Query(getCtx() , MRule.Table_Name , whereClause.toString(), get_TrxName())
+				.setParameters(MRule.EVENTTYPE_HumanResourcePayroll)
+				.list();
 	}
 
 }	//	HRConcept
