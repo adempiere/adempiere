@@ -1006,7 +1006,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		log.info("Calculating -> "+ Msg.parseTranslation(getCtx(), " @HR_Concept_ID@ ") + concept.getValue());
 		columnType = concept.getColumnType();
 
-		List<Object> params = new ArrayList<Object>();
+		/*List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		whereClause.append("? >= ValidFrom AND ( ? <= ValidTo OR ValidTo IS NULL)");
 		params.add(dateFrom);
@@ -1032,7 +1032,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		.setParameters(params)
 		.setOnlyActiveRecords(true)
 		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
-		.first();
+		.first();*/
+		MHRAttribute attribute = MHRAttribute.getAttribute(concept , employee, getHR_Payroll_ID(),  dateFrom ,dateTo);
 		if (attribute == null || concept.isManual())
 		{
 			log.info("Skip concept "+concept+" - attribute not found");

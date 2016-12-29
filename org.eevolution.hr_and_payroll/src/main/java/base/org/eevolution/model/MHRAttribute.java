@@ -15,6 +15,8 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -30,6 +32,47 @@ import org.compiere.util.Util;
 public class MHRAttribute extends X_HR_Attribute
 {
 	private static final long serialVersionUID = 3783311896401143394L;
+
+	/**
+	 * Get Employee Attribute
+	 * @param concept
+	 * @param employee
+	 * @param payrollId
+	 * @param dateFrom
+	 * @param dateTo
+	 * @return
+	 */
+	public static MHRAttribute getAttribute(MHRConcept concept , MHREmployee employee , int payrollId, Timestamp dateFrom, Timestamp dateTo)
+	{
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		whereClause.append("? >= ValidFrom AND ( ? <= ValidTo OR ValidTo IS NULL)");
+		params.add(dateFrom);
+		params.add(dateTo);
+		whereClause.append(" AND HR_Concept_ID = ? ");
+		params.add(concept.getHR_Concept_ID());
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept conc WHERE conc.HR_Concept_ID = HR_Attribute.HR_Concept_ID )");
+
+		// Check the concept is within a valid range for the attribute
+		if (concept.isEmployee()) {
+			whereClause.append(" AND C_BPartner_ID = ? AND (HR_Employee_ID = ? OR HR_Employee_ID IS NULL)");
+			params.add(employee.getC_BPartner_ID());
+			params.add(employee.get_ID());
+		}
+		else
+			whereClause.append(" AND C_BPartner_ID IS NULL ");
+
+
+		whereClause.append(" AND (HR_Payroll_ID = ? OR HR_Payroll_ID IS NULL)");
+		params.add(payrollId);
+
+		MHRAttribute attribute = new Query(concept.getCtx(), MHRAttribute.Table_Name, whereClause.toString(), concept.get_TrxName())
+				.setParameters(params)
+				.setOnlyActiveRecords(true)
+				.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+				.first();
+		return attribute;
+	}
 
 	/**
 	 * Get Attribute to Invoice
