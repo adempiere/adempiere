@@ -19,11 +19,15 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MRule;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Util;
 
 /**
@@ -104,13 +108,13 @@ public class MHRConcept extends X_HR_Concept
 
 	/**
 	 * 	Get Employee's of Payroll Type
-	 *  @param payroll_id Payroll ID
-	 *  @param department_id Department ID
-	 *  @param employee_id Employee_ID
-	 * 	@param sqlwhere Clause SQLWhere
+	 *  @param payrollId Payroll ID
+	 *  @param departmentId Department ID
+	 *  @param departmentId Employee_ID
+	 * 	@param sqlWhere Clause SQLWhere
 	 * 	@return lines
 	 */
-	public static MHRConcept[] getConcepts (int payroll_id, int department_id, String sqlWhere)
+	public static MHRConcept[] getConcepts (int payrollId, int departmentId, String sqlWhere)
 	{
 		Properties ctx = Env.getCtx();
 		List<Object> params = new ArrayList<Object>();
@@ -122,12 +126,12 @@ public class MHRConcept extends X_HR_Concept
 		
 		whereClause.append(" AND (" + COLUMNNAME_HR_Payroll_ID + " =? OR "
 				+COLUMNNAME_HR_Payroll_ID +" IS NULL)");
-		params.add(payroll_id);
+		params.add(payrollId);
 		
-		if (department_id != 0 )
+		if (departmentId != 0 )
 		{
 			whereClause.append(" AND HR_Concept.HR_Department_ID=?");
-			params.add(department_id);
+			params.add(departmentId);
 		}
 		
 		if (!Util.isEmpty(sqlWhere))
@@ -206,5 +210,33 @@ public class MHRConcept extends X_HR_Concept
 	{
 		return getValue() + " - " + getName();
 	}   //  toString
+
+	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		if (TYPE_RuleEngine.equals(getType())) {
+			final StringBuilder whereClause = new  StringBuilder();
+			whereClause
+					.append(MRule.COLUMNNAME_EventType).append("=? AND ")
+					.append(MRule.COLUMNNAME_Script)
+					.append(" LIKE '%\""+ getValue() + "\"%'");
+
+			AtomicReference<String> errorMessage  = new AtomicReference<>("");
+			List<MRule> rules = new Query(getCtx() , MRule.Table_Name , whereClause.toString(), get_TrxName())
+					.setParameters(MRule.EVENTTYPE_HumanResourcePayroll)
+					.list();
+			rules.forEach(rule -> {
+				String error =  Msg.parseTranslation(getCtx()," @AD_Rule_ID@ :") + rule.getValue() + Msg.parseTranslation(getCtx(), " @Name@ :")+ rule.getName() +  " ";
+				errorMessage.getAndUpdate(msg -> msg + error);
+			});
+
+			if (rules.size() > 0)
+				throw new AdempiereException("@HR_Concept_ID@ @CannotDeleteUsed@ " + errorMessage.get());
+		}
+		return true;
+	}
 
 }	//	HRConcept
