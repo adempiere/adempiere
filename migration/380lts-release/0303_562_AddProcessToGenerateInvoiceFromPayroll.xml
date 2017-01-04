@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="#562 Add process to generate invoice from payroll process" ReleaseNo="" SeqNo="303">
+  <Migration EntityType="D" Name="Add process to generate invoice from payroll process #562" ReleaseNo="3.9.0" SeqNo="00303">
     <Comments>https://github.com/adempiere/adempiere/issues/562</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="53889" Table="AD_Process">
