@@ -2048,7 +2048,7 @@ public class Gui implements ActionListener, FocusListener {
 			if (newName==null) {
 				// use parameter values
 				if (s_parameters.getSourceName()!=null)
-					name = s_parameters.getSourceName().toLowerCase();
+					name = s_parameters.getSourceName();
 			} else if (newName.length()==0) {
 				// use default values
 				if (m_sourceName.getSelectedItem()!=null)
@@ -2062,7 +2062,7 @@ public class Gui implements ActionListener, FocusListener {
 			if (newName==null) {
 				// use parameter values
 				if (s_parameters.getTargetName()!=null)
-					name = s_parameters.getTargetName().toLowerCase();
+					name = s_parameters.getTargetName();
 			} else if (newName.length()==0) {
 				// use default values
 				if (m_targetName.getSelectedItem()!=null)
@@ -2085,9 +2085,9 @@ public class Gui implements ActionListener, FocusListener {
         if (databaseNames != null && databaseNames.size()>0) {
 			for (String databaseName : databaseNames) {
 				if (isSource) {
-					m_sourceName.addItem(databaseName.toLowerCase());
+					m_sourceName.addItem(databaseName);
 				} else {
-					m_targetName.addItem(databaseName.toLowerCase());
+					m_targetName.addItem(databaseName);
 				}
 			}
 		} else {

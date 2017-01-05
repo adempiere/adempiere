@@ -28,7 +28,7 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.EditorBox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.window.WRecordInfo;
 import org.adempiere.webui.window.WLocatorDialog;
 import org.compiere.model.GridField;
@@ -62,6 +62,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
     
 	private MLocatorLookup m_mLocator;
 	private Object m_value;
+	private Object oldValue;
 	private int m_WindowNo;
 	
 	private WEditorPopupMenu popupMenu;
@@ -143,16 +144,18 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 			m_mLocator.setOnly_Warehouse_ID (getOnly_Warehouse_ID ());
 			m_mLocator.setOnly_Product_ID(getOnly_Product_ID());
 			
-			if (!m_mLocator.isValid(value))
+			if (!m_mLocator.isValid(value)) {
 				value = null;
+				gridField.setValue(null, false);
+			}
 		}
-
+		oldValue = m_value;
 		m_value = value;
 		getComponent().setText(m_mLocator.getDisplay(value));	//	loads value
 		
 		//	Data Binding
 		if (fire) {
-			ValueChangeEvent val = new ValueChangeEvent(this, getColumnName(), null, value); 
+			ValueChangeEvent val = new ValueChangeEvent(this, getColumnName(), oldValue, value);
 			fireValueChange(val);
 		}
 
@@ -246,8 +249,10 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 	
 			//	redisplay
 			
-			if (!ld.isChanged())
+			if (!ld.isChanged()) {
+				setValue(null , true);
 				return;
+			}
 			setValue (ld.getValue(), true);
 		}
 	}

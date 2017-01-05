@@ -28,8 +28,8 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WLocationEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
@@ -72,9 +72,9 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 	 * 	@param frame	parent
 	 * 	@param WindowNo	Window No
 	 */
-	public WPOSBPartner(int WindowNo, WPOS p_posPanel) {
+	public WPOSBPartner(int WindowNo, WPOS pos) {
 		super();
-		v_POSPanel = p_posPanel;
+		this.pos = pos;
 		m_WindowNo = WindowNo;
 		m_readOnly = !MRole.getDefault().canUpdate(
 			Env.getAD_Client_ID(Env.getCtx()), Env.getAD_Org_ID(Env.getCtx()), 
@@ -101,7 +101,7 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 	private int 				m_WindowNo;
 	
 	/** The Partner				*/
-	private MBPartner 			m_partner = null;
+	private MBPartner 			partner = null;
 	
 	/** The Location			*/
 	private MBPartnerLocation 	m_pLocation = null;
@@ -127,7 +127,7 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 	
 	private ConfirmPanel 		confirmPanel = new ConfirmPanel(true, false, false, false, false, false);
 	
-	private WPOS				v_POSPanel = null;
+	private WPOS				pos = null;
 
 	/**
 	 *	Static Init
@@ -253,28 +253,28 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 		//  New bpartner
 		if (C_BPartner_ID == 0)
 		{
-			m_partner = null;
+			partner = null;
 			m_pLocation = null;
 			m_user = null;
 			return true;
 		}
 
-		m_partner = new MBPartner (Env.getCtx(), C_BPartner_ID, null);
+		partner = new MBPartner (Env.getCtx(), C_BPartner_ID, null);
 		
-		if (m_partner.get_ID() == 0)
+		if (partner.get_ID() == 0)
 		{
 			FDialog.error(m_WindowNo, this, "BPartnerNotFound");
 			return false;
 		}
 
 		//	BPartner - Load values
-		fValue.setText(m_partner.getValue());
+		fValue.setText(partner.getValue());
 		
-		fName.setText(m_partner.getName());
-		fName2.setText(m_partner.getName2());
+		fName.setText(partner.getName());
+		fName2.setText(partner.getName2());
 
 		//	Contact - Load values
-		m_pLocation = m_partner.getLocation(
+		m_pLocation = partner.getLocation(
 			Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_BPartner_Location_ID"));
 		
 		if (m_pLocation != null)
@@ -286,7 +286,7 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 			fPhone2.setText(m_pLocation.getPhone2());
 		}
 		//	User - Load values
-		m_user = m_partner.getContact(
+		m_user = partner.getContact(
 			Env.getContextAsInt(Env.getCtx(), m_WindowNo, "AD_User_ID"));
 		
 		if (m_user != null)
@@ -324,14 +324,14 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 
 		//	***** Business Partner *****
 		
-		if (m_partner == null)
+		if (partner == null)
 		{
 			int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-			m_partner = MBPartner.getTemplate(Env.getCtx(), AD_Client_ID);
-			m_partner.setAD_Org_ID(Env.getAD_Org_ID(Env.getCtx())); // Elaine 2009/07/03
+			partner = MBPartner.getTemplate(Env.getCtx(), AD_Client_ID, pos.getC_POS_ID());
+			partner.setAD_Org_ID(Env.getAD_Org_ID(Env.getCtx())); // Elaine 2009/07/03
 			boolean isSOTrx = !"N".equals(Env.getContext(Env.getCtx(), m_WindowNo, "IsSOTrx"));
-			m_partner.setIsCustomer (isSOTrx);
-			m_partner.setIsVendor (!isSOTrx);
+			partner.setIsCustomer (isSOTrx);
+			partner.setIsVendor (!isSOTrx);
 		}
 		
 		//	Check Value
@@ -345,21 +345,21 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 			fValue.setText(value);
 		}
 		
-		m_partner.setValue(fValue.getText());
+		partner.setValue(fValue.getText());
 		
-		m_partner.setName(fName.getText());
-		m_partner.setName2(fName2.getText());
+		partner.setName(fName.getText());
+		partner.setName2(fName2.getText());
 		
 		
-		if (m_partner.save())
-			log.fine("C_BPartner_ID=" + m_partner.getC_BPartner_ID());
+		if (partner.save())
+			log.fine("C_BPartner_ID=" + partner.getC_BPartner_ID());
 		else
 			FDialog.error(m_WindowNo, this, "BPartnerNotSaved");
 		
 		//	***** Business Partner - Location *****
 		
 		if (m_pLocation == null)
-			m_pLocation = new MBPartnerLocation(m_partner);
+			m_pLocation = new MBPartnerLocation(partner);
 		
 		m_pLocation.setC_Location_ID(fAddress.getC_Location_ID());
 
@@ -377,7 +377,7 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 		String email = fEMail.getText();
 		
 		if (m_user == null && (contact.length() > 0 || email.length() > 0))
-			m_user = new MUser (m_partner);
+			m_user = new MUser (partner);
 		
 		if (m_user != null)
 		{
@@ -405,22 +405,22 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 	
 	public int getC_BPartner_ID()
 	{
-		if (m_partner == null)
+		if (partner == null)
 			return 0;
 		
-		return m_partner.getC_BPartner_ID();
+		return partner.getC_BPartner_ID();
 	}	//	getBPartner_ID
 
 	public String showKeyboard(Event e){
 		isKeyboard = true;
 		Textbox field = (Textbox) e.getTarget();
 
-		WPOSKeyboard keyboard = v_POSPanel.getKeyboard();
-  	if(keyboard != null){
-  		if(e.getName().equals(Events.ON_FOCUS)){
-  			keyboard.setPosTextField(field);	
-  			AEnv.showWindow(keyboard);
-  		}
+		WPOSKeyboard keyboard = pos.getKeyboard();
+	  	if(keyboard != null){
+	  		if(e.getName().equals(Events.ON_FOCUS)){
+	  			keyboard.setPosTextField(field);	
+	  			AEnv.showWindow(keyboard);
+	  		}
 		}
 		return field.getText();
 	}
@@ -432,50 +432,44 @@ public class WPOSBPartner extends Window implements EventListener, ValueChangeLi
 		//  Fixed error #538
 		String m_Text;
 		//	copy value
-		 if(e.getTarget().equals(fValue.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-		   m_Text = showKeyboard(e);
-	      if(m_Text.length() > 0)
-	        fValue.setValue(m_Text);
-			 fValue.setFocus(true);
-		}
-		 else if(e.getTarget().equals(fName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-		   m_Text = showKeyboard(e);
-       if(m_Text.length() > 0)
-         fName.setValue(m_Text);
-			 fName.setFocus(true);
-		}
-		 else if(e.getTarget().equals(fName2.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-		   m_Text = showKeyboard(e);
-       if(m_Text.length() > 0)
-         fName2.setValue(m_Text);
-			 fName2.setFocus(true);
-		}
-		 else if(e.getTarget().equals(fContact.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-		   m_Text = showKeyboard(e);
-       if(m_Text.length() > 0)
-         fContact.setValue(m_Text);
-			 fContact.setFocus(true);
-		}
-		 else if(e.getTarget().equals(fEMail.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-		   m_Text = showKeyboard(e);
-       if(m_Text.length() > 0)
-         fEMail.setValue(m_Text);
-			 fEMail.setFocus(true);
-		}
-		 else if(e.getTarget().equals(fPhone.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-		   m_Text = showKeyboard(e);
-       if(m_Text.length() > 0)
-         fPhone.setValue(m_Text);
-			 fPhone.setFocus(true);
-		}
-		 else if(e.getTarget().equals(fPhone2.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
-		   m_Text = showKeyboard(e);
-       if(m_Text.length() > 0)
-         fPhone2.setValue(m_Text);
-			 fPhone2.setFocus(true);
+		if(e.getTarget().equals(fValue.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			m_Text = showKeyboard(e);
+			if(m_Text.length() > 0)
+				fValue.setValue(m_Text);
+			fValue.setFocus(true);
+		} else if(e.getTarget().equals(fName.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			m_Text = showKeyboard(e);
+			if(m_Text.length() > 0)
+				fName.setValue(m_Text);
+			fName.setFocus(true);
+		} else if(e.getTarget().equals(fName2.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			m_Text = showKeyboard(e);
+			if(m_Text.length() > 0)
+				fName2.setValue(m_Text);
+			fName2.setFocus(true);
+		} else if(e.getTarget().equals(fContact.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			m_Text = showKeyboard(e);
+			if(m_Text.length() > 0)
+				fContact.setValue(m_Text);
+			fContact.setFocus(true);
+		} else if(e.getTarget().equals(fEMail.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			m_Text = showKeyboard(e);
+			if(m_Text.length() > 0)
+				fEMail.setValue(m_Text);
+			fEMail.setFocus(true);
+		} else if(e.getTarget().equals(fPhone.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard) {
+			m_Text = showKeyboard(e);
+			if(m_Text.length() > 0)
+				fPhone.setValue(m_Text);
+			fPhone.setFocus(true);
+		} else if(e.getTarget().equals(fPhone2.getComponent(WPOSTextField.SECONDARY)) && !isKeyboard){
+			m_Text = showKeyboard(e);
+			if(m_Text.length() > 0)
+				fPhone2.setValue(m_Text);
+			fPhone2.setFocus(true);
 		}
 		 // End
-		 else if(e.getTarget().equals(fValue.getComponent(WPOSTextField.PRIMARY)) 
+		else if(e.getTarget().equals(fValue.getComponent(WPOSTextField.PRIMARY)) 
 				|| e.getTarget().equals(fName.getComponent(WPOSTextField.PRIMARY))
 				|| e.getTarget().equals(fName2.getComponent(WPOSTextField.PRIMARY))
 				|| e.getTarget().equals(fContact.getComponent(WPOSTextField.PRIMARY))

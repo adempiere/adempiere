@@ -415,7 +415,7 @@ public class WPOSDocumentPanel extends WPOSSubPanel implements POSKeyListener, P
 			salesRep.setText(posPanel.getSalesRepName());
 			documentType.setText(posPanel.getDocumentTypeName());
 			documentNo.setText(posPanel.getDocumentNo());
-			documentStatus.setText(posPanel.getM_Order().getDocStatusName());
+			documentStatus.setText(posPanel.getOrder().getDocStatusName());
 			documentDate.setText(posPanel.getDateOrderedForView());
 			totalLines.setText(posPanel.getTotaLinesForView());
 			grandTotal.setText(posPanel.getGrandTotalForView());

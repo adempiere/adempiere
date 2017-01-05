@@ -13,8 +13,6 @@
  * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  * ****************************************************************************/
-
-
 package org.adempiere.pos;
 
 import java.util.Map;
@@ -32,22 +30,13 @@ import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
-import org.adempiere.webui.component.*;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ADialog;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MOrder;
-import org.compiere.model.Query;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Trx;
-import org.compiere.util.TrxRunnable;
 import org.eevolution.form.WBrowser;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -59,6 +48,9 @@ import org.zkoss.zul.Menupopup;
  * Class that execute business logic from POS
  * eEvolution author Victor Perez <victor.perez@e-evolution.com> 
  * Raul Muñoz, rmunoz@erpcya.com, ERPCYA http://www.erpcya.com
+ * @contributor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/670">
+ * 		@see FR [ 670 ] Standard process for return material on POS</a>
  */
 public class WPOSActionMenu implements  POSQueryListener, EventListener{
 
@@ -103,68 +95,29 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
 
     private void beforeExecutionCommand(Command command) throws AdempierePOSException
     {
-        if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE)
-        {
+        if (command.getCommand() == CommandManager.GENERATE_IMMEDIATE_INVOICE) {
             if (pos.isCompleted()) {
                 queryPartner = new WQueryBPartner(pos);
                 AEnv.showWindow(queryPartner);
                 queryPartner.addOptionListener(this);
                 queryPartner.showView();
-                return;
             }
-        }
-        if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES)
-        {
+        } else if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES) {
             if (pos.isCompleted())
                 executeCommand(command);
-        }
-        if (command.getCommand() == CommandManager.GENERATE_RETURN)
-        {
+        } else if (command.getCommand() == CommandManager.GENERATE_RETURN) {
             executeCommand(command);
-            return;
-        }
-        if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT
-        		&& (pos.isDrafted() || pos.isInProgress() || pos.isInvalid())) {
-        	Trx.run(new TrxRunnable() {
-        		public void run(String trxName) {
-        			if (!pos.processOrder(trxName, false, false)) {
-        				String errorMessage = Msg.parseTranslation(pos.getCtx(), " @ProcessRunError@. " 
-        						+ "@order.no@: " + pos.getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
-        				throw new AdempierePOSException(errorMessage);
-        			}
-        			pos.refreshHeader();
-        		}
-        	});
-        	
-        	// For certain documents, there is no further processing
-        	String docSubTypeSO = pos.getM_Order().getC_DocTypeTarget().getDocSubTypeSO();
-        	if((docSubTypeSO.equals(MOrder.DocSubTypeSO_Standard) ||
-        		docSubTypeSO.equals(MOrder.DocSubTypeSO_OnCredit) ||
-        		docSubTypeSO.equals(MOrder.DocSubTypeSO_Warehouse)) 
-        		&& pos.getM_Order().getDocStatus().equals(MOrder.DOCSTATUS_Completed)) {        		
-        		String message = Msg.parseTranslation(pos.getCtx(), " @DocProcessed@. " 
-        				+ "@order.no@: " + pos.getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
-        		FDialog.info(pos.getWindowNo(), popupMenu ,"DocProcessed",  message );
-        	}
-        	else
-        		executeCommand(command);
-        }
-        if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL)
-        {
+        } else if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL) {
             executeCommand(command);
-            return;
-        }
-        if (command.getCommand() == CommandManager.CLOSE_STATEMENT)
-        {
+        } else if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
             executeCommand(command);
-            return;
+        } else {
+        	FDialog.info(pos.getWindowNo(), popupMenu, "DocProcessed", pos.getDocumentNo());
         }
-        else
-            FDialog.info(pos.getWindowNo(), popupMenu, "DocProcessed", pos.getDocumentNo());
     }
 
-    private void afterExecutionCommand(Command command)
-    {
+    private void afterExecutionCommand(Command command) {
+    	
     }
 
     private void executeCommand(Command command)
@@ -198,14 +151,16 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                     } else {
                         afterExecutionCommand(command);
                         showOkMessage(processInfo);
-                        pos.setOrder(processInfo.getRecord_ID());
+                        if(processInfo != null)
+                        	pos.setOrder(processInfo.getRecord_ID());
                         pos.refreshHeader();
+                        //	Print Ticket
+                        pos.printTicket();
                     }
-                    return;
                 }
             }
             //Reverse The Sales Transaction
-            if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES
+            else if (command.getCommand() == CommandManager.GENERATE_REVERSE_SALES
                     && pos.getC_Order_ID() > 0
                     && !pos.isReturnMaterial()
                     && !pos.isVoided()
@@ -234,11 +189,13 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                         showOkMessage(processInfo);
                     }
                     pos.printTicket();
-                    return;
                 }
             }
             //Return product
-            if (command.getCommand() == CommandManager.GENERATE_RETURN && pos.getC_Order_ID() > 0 && !pos.isReturnMaterial() && pos.isCompleted()) {
+            else if (command.getCommand() == CommandManager.GENERATE_RETURN 
+            		&& pos.getC_Order_ID() > 0 
+            		&& !pos.isReturnMaterial() 
+            		&& pos.isCompleted()) {
                 receiver.setCtx(pos.getCtx());
                 receiver.setOrderId(pos.getC_Order_ID());
                 receiver.setPOSId(pos.getC_POS_ID());
@@ -262,36 +219,14 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                         afterExecutionCommand(command);
                         showOkMessage(processInfo);
                         //execute out transaction
-                        if (processInfo.getRecord_ID() > 0) {
+                        if (processInfo != null 
+                        		&& processInfo.getRecord_ID() > 0) {
                             pos.setOrder(processInfo.getRecord_ID());
                             pos.refreshHeader();
                         }
                     }
-
-                    return;
                 }
-            }
-            if (command.getCommand() == CommandManager.COMPLETE_DOCUMENT && pos.getC_Order_ID() > 0) {
-                if (pos.isReturnMaterial() && pos.isCompleted()) {
-                    receiver.setCtx(pos.getCtx());
-                    receiver.setOrderId(pos.getC_Order_ID());
-                    receiver.setPOSId(pos.getC_POS_ID());
-                    receiver.setWarehouseId(pos.getM_Warehouse_ID());
-                    receiver.setBankAccountId(pos.getC_BankAccount_ID());
-                    waiting.setPage(pos.v_Panel.getPage());
-                    waiting.doHighlighted();
-                    command.execute(receiver);
-                    ProcessInfo processInfo = receiver.getProcessInfo();
-                    waiting.dispose();
-                    if (processInfo != null  && processInfo.isError()) {
-                        showError(processInfo);
-                    }
-                    afterExecutionCommand(command);
-                    showOkMessage(processInfo);
-                    pos.refreshHeader();
-                }
-            }
-            if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL) {
+            } else if (command.getCommand() == CommandManager.GENERATE_WITHDRAWAL) {
                 Env.setContext(pos.getCtx(), pos.getWindowNo(), "C_POS_ID", pos.getC_POS_ID());
                 MBrowse browse = new MBrowse(Env.getCtx(), 50056, null);
                 WBrowser browser = new WBrowser(true, pos.getWindowNo(), "", browse, "", true, "", true);
@@ -300,8 +235,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                 ff.setAttribute(org.adempiere.webui.component.Window.INSERT_POSITION_KEY, org.adempiere.webui.component.Window.INSERT_NEXT);
                 ff.setTitle(browse.getTitle());
                 SessionManager.getAppDesktop().showWindow(ff);
-            }
-            if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
+            } else if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
                 Env.setContext(pos.getCtx(), pos.getWindowNo(), "C_POS_ID", pos.getC_POS_ID());
                 MBrowse browse = new MBrowse(Env.getCtx(), 50057, null);
                 WBrowser browser = new WBrowser(true, pos.getWindowNo(), "", browse, "", true, "" , true);

@@ -679,6 +679,4 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 		return  MConversionType.getDefault(getAD_Client_ID());
 	}
 	
-	
-	
 }

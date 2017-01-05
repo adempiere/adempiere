@@ -16,13 +16,19 @@
  *****************************************************************************/
 package org.compiere.swing;
 
+import java.beans.PropertyChangeListener;
+import java.beans.VetoableChangeListener;
+
+import org.adempiere.exceptions.ValueChangeListener;
+import org.compiere.model.GridField;
+
 /**
  *  Adempiere Editor interface
  *
  *  @author     Jorg Janke
  *  @version    $Id: CEditor.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
  */
-public interface CEditor
+public interface CEditor extends PropertyChangeListener
 {
 	/**
 	 *	Enable Editor
@@ -77,5 +83,11 @@ public interface CEditor
 	 *  @return displayed String value
 	 */
 	public String getDisplay();
+
+	public void addVetoableChangeListener(VetoableChangeListener listener);
+
+	public void addValueChangeListener(ValueChangeListener listener);
+
+	public GridField getField();
 
 }   //  CEditor

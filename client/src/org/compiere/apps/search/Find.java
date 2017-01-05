@@ -95,6 +95,7 @@ import org.compiere.model.MUserQuery;
 import org.compiere.model.X_AD_Column;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
+import org.compiere.swing.CComboBoxEditable;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -248,7 +249,7 @@ public final class Find extends CDialog
 	private ConfirmPanel confirmPanelA = new ConfirmPanel(true, true, false, false, false, false, true);
 	private CButton bIgnore = new CButton();
 	private JToolBar toolBar = new JToolBar();
-	private JComboBox fQueryName = new JComboBox();
+	private CComboBoxEditable fQueryName = new CComboBoxEditable();
 	private CButton bSave = new CButton();
 	private CButton bNew = new CButton();
 	private CButton bDelete = new CButton();
@@ -1857,8 +1858,40 @@ public final class Find extends CDialog
 		advancedTable.stopEditor(false);
 		DefaultTableModel model = (DefaultTableModel)advancedTable.getModel();
 		int row = advancedTable.getSelectedRow();
-		if (row >= 0)
+		if (row >= 0) {
 			model.removeRow(row);
+		} else {
+			//delete the whole thing
+			MUserQuery uq = null;
+			Object o = fQueryName.getSelectedItem();
+			if (userQueries != null && o != null)
+			{
+				String selected = o.toString();
+				for (int i = 0; i < userQueries.length; i++) 
+				{
+					if (userQueries[i].getName().equals(selected))
+					{
+						uq = userQueries[i];
+						break;
+					}
+				}
+			}
+			if (uq != null) {
+				uq.delete(true);
+				userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
+				String[] queries = new String[userQueries.length];
+				for (int i = 0; i < userQueries.length; i++)
+					queries[i] = userQueries[i].getName();
+				fQueryName.setModel(new DefaultComboBoxModel(queries));
+				fQueryName.setValue("");
+
+				int cnt = model.getRowCount();
+				for (int i = cnt - 1; i >=0; i--)
+					model.removeRow(i);
+				
+				advancedTable.invalidate();
+			}
+		}
 		cmd_refresh();		
 		advancedTable.requestFocusInWindow();
 	}	//	cmd_delete

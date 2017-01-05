@@ -36,8 +36,8 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
@@ -56,6 +56,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.PaymentExport;
+import org.compiere.util.PaymentExportList;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -353,12 +354,19 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 				paymentExportClass = "org.compiere.util.GenericPaymentExport";
 			}
 			//	Get Payment Export Class
-			PaymentExport custom = null;
 			try
 			{
 				Class<?> clazz = Class.forName(paymentExportClass);
-				custom = (PaymentExport)clazz.newInstance();
-				no = custom.exportToFile(paySelectionChecks, tempFile, error);
+				if (clazz.isInstance(PaymentExportList.class))
+				{
+					PaymentExportList custom = (PaymentExportList)clazz.newInstance();
+					no = custom.exportToFile(paySelectionChecks, tempFile, error);
+				}
+				else if (clazz.isInstance(PaymentExport.class))
+				{
+					PaymentExport custom = (PaymentExport)clazz.newInstance();
+					no = custom.exportToFile(paySelectionChecks.toArray(new MPaySelectionCheck[paySelectionChecks.size()]), tempFile, error);
+				}
 			}
 			catch (ClassNotFoundException e)
 			{

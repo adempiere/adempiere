@@ -29,7 +29,6 @@ import org.compiere.model.MAllocationLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
 import org.compiere.model.MRole;
-import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -37,94 +36,24 @@ import org.compiere.util.Env;
  *	Write-off Open Invoices
  *	
  *  @author Jorg Janke
- *  @version $Id: InvoiceWriteOff.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  @author victor.perez@e-evolution.com , www.e-evolution.com
  */
-public class InvoiceWriteOff extends SvrProcess
+public class InvoiceWriteOff extends InvoiceWriteOffAbstract
 {
-	/**	Organization				*/
-	private int			p_AD_Org_ID = 0;
-	/**	BPartner				*/
-	private int			p_C_BPartner_ID = 0;
-	/** BPartner Group			*/
-	private int			p_C_BP_Group_ID = 0;
-	/**	Invoice					*/
-	private int			p_C_Invoice_ID = 0;
-	
-	/** Max Amt					*/
-	private BigDecimal	p_MaxInvWriteOffAmt = Env.ZERO;
-	/** AP or AR				*/
-	private String		p_APAR = "R";
+
 	private static String	ONLY_AP = "P";
 	private static String	ONLY_AR = "R";
-	
-	/** Invoice Date From		*/
-	private Timestamp	p_DateInvoiced_From = null;
-	/** Invoice Date To			*/
-	private Timestamp	p_DateInvoiced_To = null;
-	/** Accounting Date			*/
-	private Timestamp	p_DateAcct = null;
-	/** Create Payment			*/
-	private boolean		p_CreatePayment = false;
-	/** Bank Account			*/
-	private int			p_C_BankAccount_ID = 0;
-	/** Simulation				*/
-	private boolean		p_IsSimulation = true;
-	/** InvoiceCollectionType 	*/
-	private String p_InvoiceCollectionType = null;
-	/** Dunning Level 			*/
-	private int p_C_DunningLevel_ID = 0 ;
-
 	/**	Allocation Hdr			*/
-	private MAllocationHdr	m_alloc = null;
+	private MAllocationHdr allocation = null;
 	/**	Payment					*/
-	private MPayment		m_payment = null;
+	private MPayment payment = null;
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		for (ProcessInfoParameter para : getParameter())
-		{
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if (name.equals("AD_Org_ID"))
-				p_AD_Org_ID = para.getParameterAsInt();
-			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = para.getParameterAsInt();
-			else if (name.equals("C_BP_Group_ID"))
-				p_C_BP_Group_ID = para.getParameterAsInt();
-			else if (name.equals("C_Invoice_ID"))
-				p_C_Invoice_ID = para.getParameterAsInt();
-			else if (name.equals("InvoiceCollectionType"))
-				p_InvoiceCollectionType = (String) para.getParameter();
-			else if (name.equals("C_DunningLevel_ID"))
-				p_C_DunningLevel_ID = para.getParameterAsInt();
-			//
-			else if (name.equals("MaxInvWriteOffAmt"))
-				p_MaxInvWriteOffAmt = (BigDecimal)para.getParameter();
-			else if (name.equals("APAR"))
-				p_APAR = (String)para.getParameter();
-			//
-			else if (name.equals("DateInvoiced"))
-			{
-				p_DateInvoiced_From = (Timestamp)para.getParameter();
-				p_DateInvoiced_To = (Timestamp)para.getParameter_To();
-			}
-			else if (name.equals("DateAcct"))
-				p_DateAcct = (Timestamp)para.getParameter();
-			//
-			else if (name.equals("CreatePayment"))
-				p_CreatePayment = "Y".equals(para.getParameter());
-			else if (name.equals("C_BankAccount_ID"))
-				p_C_BankAccount_ID = para.getParameterAsInt();
-			//
-			else if (name.equals("IsSimulation"))
-				p_IsSimulation = "Y".equals(para.getParameter());
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
+		super.prepare();
 	}	//	prepare
 
 	/**
@@ -135,88 +64,81 @@ public class InvoiceWriteOff extends SvrProcess
 	protected String doIt () throws Exception
 	{
 		List<Object> parameters = new ArrayList<Object>();
-		log.info("C_BPartner_ID=" + p_C_BPartner_ID 
-			+ ", C_BP_Group_ID=" + p_C_BP_Group_ID
-			+ ", C_Invoice_ID=" + p_C_Invoice_ID
-			+ ", InvoiceCollectionType=" + p_InvoiceCollectionType
-			+ ", C_DunningLevel_ID=" + p_C_DunningLevel_ID
-			+ "; APAR=" + p_APAR
-			+ ", " + p_DateInvoiced_From + " - " + p_DateInvoiced_To
-			+ "; CreatePayment=" + p_CreatePayment
-			+ ", C_BankAccount_ID=" + p_C_BankAccount_ID);
-		//
+		log.info("C_BPartner_ID=" + getBusinessPartnerId()
+			+ ", C_BP_Group_ID=" + getBusinessPartnerGroupId()
+			+ ", C_Invoice_ID=" + getInvoiceId()
+			+ ", InvoiceCollectionType=" + getCollectionStatus()
+			+ ", C_DunningLevel_ID=" + getDunningLevelId()
+			+ "; APAR=" + getAccountPayableAndReceivable()
+			+ ", " + getDateInvoiced() + " - " + getDateInvoicedTo()
+			+ "; CreatePayment=" + isCreatePayment()
+			+ ", C_BankAccount_ID=" + getBankAccountId());
 		
-		if (p_C_BPartner_ID == 0 && p_C_Invoice_ID == 0 && p_C_BP_Group_ID == 0 && p_InvoiceCollectionType == null && p_C_DunningLevel_ID == 0)
-			throw new AdempiereUserError ("@FillMandatory@ @C_Invoice_ID@ / @C_BPartner_ID@ / @C_BP_Group_ID@ / @InvoiceCollectionType@ / @C_DunningLevel_ID@");
-		//
-		if (p_CreatePayment && p_C_BankAccount_ID == 0)
-			throw new AdempiereUserError ("@FillMandatory@  @C_BankAccount_ID@");
-		//
 		StringBuffer sql = new StringBuffer(
 			"SELECT C_Invoice_ID,DocumentNo,DateInvoiced,"
 			+ " C_Currency_ID,GrandTotal, invoiceOpen(C_Invoice_ID, 0) AS OpenAmt "
 			+ "FROM C_Invoice WHERE ");
 		
-		if (p_AD_Org_ID != 0)
+		if (getOrganizationId() > 0)
 		{	
 			sql.append("AD_Org_ID=? AND ");
-			parameters.add(p_AD_Org_ID);
+			parameters.add(getOrganizationId());
 		}
 		
-		if (p_C_Invoice_ID != 0)
+		if (getInvoiceId() > 0)
 		{	
 			sql.append("C_Invoice_ID=? AND ");
-			parameters.add(p_C_Invoice_ID);
+			parameters.add(getInvoiceId());
 		}	
 		else
 		{
-			if (p_C_BPartner_ID != 0)
+			if (getBusinessPartnerId() > 0)
 			{	
 				sql.append("C_BPartner_ID=? AND ");
-				parameters.add(p_C_BPartner_ID);
+				parameters.add(getBusinessPartnerId());
 			}
-			else if (p_C_BP_Group_ID != 0)
+			else if (getBusinessPartnerGroupId() > 0)
 			{
 				sql.append("EXISTS (SELECT * FROM C_BPartner bp WHERE C_Invoice.C_BPartner_ID=bp.C_BPartner_ID AND bp.C_BP_Group_ID=?) AND ");
-				parameters.add(p_C_BP_Group_ID);
+				parameters.add(getBusinessPartnerGroupId());
 			}
 			//
-			if (ONLY_AR.equals(p_APAR))
+			if (ONLY_AR.equals(getAccountPayableAndReceivable()))
 			{	
 				sql.append("IsSOTrx=? AND ");
 				parameters.add("Y");
 			}
-			else if (ONLY_AP.equals(p_APAR))
+			else if (ONLY_AP.equals(getAccountPayableAndReceivable()))
 			{	
 				sql.append("IsSOTrx=? AND ");
 				parameters.add("N");
 			}	
 			
-			if(p_InvoiceCollectionType != null)
+			if(getCollectionStatus() != null)
 			{	
 				sql.append(" InvoiceCollectionType=? AND ");
-				parameters.add(p_InvoiceCollectionType);
+				parameters.add(getCollectionStatus());
 			}	
 			
-			if(p_C_DunningLevel_ID != 0)
+			if(getDunningLevelId() > 0)
 			{	
 				sql.append(" C_DunningLevel_ID=? AND ");
-				parameters.add(p_C_DunningLevel_ID);
+				parameters.add(getDunningLevelId());
 			}	
 			//
-			if (p_DateInvoiced_From != null && p_DateInvoiced_To != null)
+			if (getDateInvoiced() != null && getDateInvoicedTo() != null)
 				sql.append(" TRUNC(DateInvoiced, 'DD') BETWEEN ")
-					.append(DB.TO_DATE(p_DateInvoiced_From, true))
+					.append(DB.TO_DATE(getDateInvoiced(), true))
 					.append(" AND ")
-					.append(DB.TO_DATE(p_DateInvoiced_To, true))
+					.append(DB.TO_DATE(getDateInvoicedTo(), true))
 					.append(" AND ");
-			else if (p_DateInvoiced_From != null)
+			else if (getDateInvoiced() != null)
 				sql.append(" TRUNC(DateInvoiced, 'DD') >= ")
-					.append(DB.TO_DATE(p_DateInvoiced_From, true))
+					.append(DB.TO_DATE(getDateInvoiced(), true))
 					.append(" AND ");
-			else if (p_DateInvoiced_To != null)
+			else if (getDateInvoicedTo() != null)
 				sql.append("  TRUNC(DateInvoiced, 'DD') <= ")
-					.append(DB.TO_DATE(p_DateInvoiced_To, true))
+					.append(DB.TO_DATE(getDateInvoicedTo(), true))
 					.append(" AND ");
 		}
 		sql.append(" IsPaid='N' ORDER BY C_Currency_ID, C_BPartner_ID, DateInvoiced");
@@ -264,66 +186,66 @@ public class InvoiceWriteOff extends SvrProcess
 
 	/**
 	 * 	Write Off
-	 *	@param C_Invoice_ID invoice
-	 *	@param DocumentNo doc no
-	 *	@param DateInvoiced date
-	 *	@param C_Currency_ID currency
-	 *	@param OpenAmt open amt
+	 *	@param invoiceId invoice
+	 *	@param documentNo doc no
+	 *	@param dateInvoiced date
+	 *	@param currencyId currency
+	 *	@param openAmt open amt
 	 *	@return true if written off
 	 */
-	private boolean writeOff (int C_Invoice_ID, String DocumentNo, Timestamp DateInvoiced, 
-		int C_Currency_ID, BigDecimal OpenAmt)
+	private boolean writeOff (int invoiceId, String documentNo, Timestamp dateInvoiced,
+		int currencyId, BigDecimal openAmt)
 	{
 		//	Nothing to do
-		if (OpenAmt == null || OpenAmt.signum() == 0)
+		if (openAmt == null || openAmt.signum() == 0)
 			return false;
-		if (OpenAmt.abs().compareTo(p_MaxInvWriteOffAmt) >= 0)
+		if (openAmt.abs().compareTo(getMaximumWriteOffperInvoice()) >= 0)
 			return false;
 		//
-		if (p_IsSimulation)
+		if (isSimulation())
 		{
 			addLog("@IsSimulation@");
-			addLog(C_Invoice_ID, DateInvoiced, OpenAmt, DocumentNo);
+			addLog(invoiceId, dateInvoiced, openAmt, documentNo);
 			return true;
 		}
 		
 		//	Invoice
-		MInvoice invoice = new MInvoice(getCtx(), C_Invoice_ID, get_TrxName());
+		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
 		if (!invoice.isSOTrx())
-			OpenAmt = OpenAmt.negate();
+			openAmt = openAmt.negate();
 		
 		//	Allocation
-		if (m_alloc == null || C_Currency_ID != m_alloc.getC_Currency_ID())
+		if (allocation == null || currencyId != allocation.getC_Currency_ID())
 		{
 			processAllocation();
-			m_alloc = new MAllocationHdr (getCtx(), true, 
-				p_DateAcct, C_Currency_ID,
+			allocation = new MAllocationHdr (getCtx(), true, 
+				getAccountDate(), currencyId,
 				getProcessInfo().getTitle() + " #" + getAD_PInstance_ID(), get_TrxName());
-			m_alloc.setAD_Org_ID(invoice.getAD_Org_ID());
-			if (!m_alloc.save())
+			allocation.setAD_Org_ID(invoice.getAD_Org_ID());
+			if (!allocation.save())
 			{
 				log.log(Level.SEVERE, "Cannot create allocation header");
 				return false;
 			}
 		}
 		//	Payment
-		if (p_CreatePayment 
-			&& (m_payment == null 
-				|| invoice.getC_BPartner_ID() != m_payment.getC_BPartner_ID()
-				|| C_Currency_ID != m_payment.getC_Currency_ID()))
+		if (isCreatePayment()
+			&& (payment == null 
+				|| invoice.getC_BPartner_ID() != payment.getC_BPartner_ID()
+				|| currencyId != payment.getC_Currency_ID()))
 		{
 			processPayment();
-			m_payment = new MPayment(getCtx(), 0, get_TrxName());
-			m_payment.setAD_Org_ID(invoice.getAD_Org_ID());
-			m_payment.setC_BankAccount_ID(p_C_BankAccount_ID);
-			m_payment.setTenderType(MPayment.TENDERTYPE_Check);
-			m_payment.setDateTrx(p_DateAcct);
-			m_payment.setDateAcct(p_DateAcct);
-			m_payment.setDescription(getProcessInfo().getTitle() + " #" + getAD_PInstance_ID());
-			m_payment.setC_BPartner_ID(invoice.getC_BPartner_ID());
-			m_payment.setIsReceipt(true);	//	payments are negative
-			m_payment.setC_Currency_ID(C_Currency_ID);
-			if (!m_payment.save())
+			payment = new MPayment(getCtx(), 0, get_TrxName());
+			payment.setAD_Org_ID(invoice.getAD_Org_ID());
+			payment.setC_BankAccount_ID(getBankAccountId());
+			payment.setTenderType(MPayment.TENDERTYPE_Check);
+			payment.setDateTrx(getAccountDate());
+			payment.setDateAcct(getAccountDate());
+			payment.setDescription(getProcessInfo().getTitle() + " #" + getAD_PInstance_ID());
+			payment.setC_BPartner_ID(invoice.getC_BPartner_ID());
+			payment.setIsReceipt(true);	//	payments are negative
+			payment.setC_Currency_ID(currencyId);
+			if (!payment.save())
 			{
 				log.log(Level.SEVERE, "Cannot create payment");
 				return false;
@@ -331,25 +253,25 @@ public class InvoiceWriteOff extends SvrProcess
 		}
 
 		//	Line
-		MAllocationLine aLine = null;
-		if (p_CreatePayment)
+		MAllocationLine allocationLine = null;
+		if (isCreatePayment())
 		{
-			aLine = new MAllocationLine (m_alloc, OpenAmt,
+			allocationLine = new MAllocationLine (allocation, openAmt,
 				Env.ZERO, Env.ZERO, Env.ZERO);
-			m_payment.setPayAmt(m_payment.getPayAmt().add(OpenAmt));
-			aLine.setC_Payment_ID(m_payment.getC_Payment_ID());
+			payment.setPayAmt(payment.getPayAmt().add(openAmt));
+			allocationLine.setC_Payment_ID(payment.getC_Payment_ID());
 		}
 		else
-			aLine = new MAllocationLine (m_alloc, Env.ZERO, 
-				Env.ZERO, OpenAmt, Env.ZERO);
-		aLine.setC_Invoice_ID(C_Invoice_ID);
-		if (aLine.save())
+			allocationLine = new MAllocationLine (allocation, Env.ZERO,
+				Env.ZERO, openAmt, Env.ZERO);
+		allocationLine.setC_Invoice_ID(invoiceId);
+		if (allocationLine.save())
 		{
-			addLog(C_Invoice_ID, DateInvoiced, OpenAmt, DocumentNo);
+			addLog(invoiceId, dateInvoiced, openAmt, documentNo);
 			return true;
 		}
 		//	Error
-		log.log(Level.SEVERE, "Cannot create allocation line for C_Invoice_ID=" + C_Invoice_ID);
+		log.log(Level.SEVERE, "Cannot create allocation line for C_Invoice_ID=" + invoiceId);
 		return false;
 	}	//	writeOff
 	
@@ -359,17 +281,17 @@ public class InvoiceWriteOff extends SvrProcess
 	 */
 	private boolean processAllocation()
 	{
-		if (m_alloc == null)
+		if (allocation == null)
 			return true;
 		processPayment();
 		//	Process It
-		if (m_alloc.processIt(DocAction.ACTION_Complete) &&  m_alloc.save())
+		if (allocation.processIt(DocAction.ACTION_Complete) &&  allocation.save())
 		{
-			m_alloc = null;
+			allocation = null;
 			return true;
 		}
 		//
-		m_alloc = null;
+		allocation = null;
 		return false;
 	}	//	processAllocation
 
@@ -379,16 +301,16 @@ public class InvoiceWriteOff extends SvrProcess
 	 */
 	private boolean processPayment()
 	{
-		if (m_payment == null)
+		if (payment == null)
 			return true;
 		//	Process It
-		if (m_payment.processIt(DocAction.ACTION_Complete) &&  m_payment.save())
+		if (payment.processIt(DocAction.ACTION_Complete) &&  payment.save())
 		{
-			m_payment = null;
+			payment = null;
 			return true;
 		}
 		//
-		m_payment = null;
+		payment = null;
 		return false;
 	}	//	processPayment
 	

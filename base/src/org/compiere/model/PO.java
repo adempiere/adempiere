@@ -101,6 +101,8 @@ import org.w3c.dom.Element;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 392 ] Translation method does not use PO class
  *			@see https://github.com/adempiere/adempiere/issues/392
+ *			<a href="https://github.com/adempiere/adempiere/issues/673">
+ * 			@see FR [ 673 ] Model Migration don't load current value for Multi-Key records</a>
  */
 public abstract class PO
 	implements Serializable, Comparator, Evaluatee, Cloneable
@@ -2261,16 +2263,16 @@ public abstract class PO
 	 */
 	private boolean saveFinish (boolean newRecord, boolean success)
 	{
-		//	Translations
-		if (success)
-		{
-			if (newRecord)
-				insertTranslations();
-			else
-				updateTranslations();
-		}
 		if (!isDirectLoad)
 		{
+			//	Translations
+			if (success)
+			{
+				if (newRecord)
+					insertTranslations();
+				else
+					updateTranslations();
+			}
 			//
 			try
 			{
@@ -2661,7 +2663,7 @@ public abstract class PO
 		//	Set new DocumentNo
 		String columnName = "DocumentNo";
 		int index = p_info.getColumnIndex(columnName);
-		if (index != -1)
+		if (index != -1 && p_info.getColumn(index).ColumnSQL == null)
 		{
 			String value = (String)get_Value(index);
 			if (value != null && value.startsWith("<") && value.endsWith(">"))
@@ -3266,7 +3268,7 @@ public abstract class PO
 			po.set_Value(keyColumn, get_ID());
 			po.set_Value("IsTranslated", false);
 			po.set_Value("AD_Language", language.getAD_Language());
-			po.setAD_Client_ID(0);
+			po.setAD_Client_ID(getAD_Client_ID());
 			po.setAD_Org_ID(0);
 			//	Add Translation Column
 			for(String translationColumn : tColumns) {

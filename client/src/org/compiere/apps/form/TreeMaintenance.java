@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.compiere.apps.form.TreeMaintenance.ListItem;
 import org.compiere.model.MRole;
 import org.compiere.model.MTree;
 import org.compiere.model.MTree_Node;
@@ -26,6 +27,7 @@ import org.compiere.model.MTree_NodeMM;
 import org.compiere.model.MTree_NodePR;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 public class TreeMaintenance {
@@ -47,20 +49,30 @@ public class TreeMaintenance {
 	public ArrayList<ListItem> getTreeItemData()
 	{
 		ArrayList<ListItem> data = new ArrayList<ListItem>();
-		
+
+		String columnNameX = m_tree.getSourceTableName(true) + "_ID";
+		String sqlTrl = "select ad_table_ID from ad_table where tablename = '" + m_tree.getSourceTableName(true) + "_Trl" + "'";
+		int ad_table_ID =  DB.getSQLValueEx(null, sqlTrl);
+		Boolean existsTranslation = ad_table_ID>0?true:false;
 		String fromClause = m_tree.getSourceTableName(false);	//	fully qualified
-		String columnNameX = m_tree.getSourceTableName(true);
+		if (existsTranslation)
+		{
+				fromClause = fromClause +
+					" LEFT JOIN " + m_tree.getSourceTableName(true) + "_TRL  trl on t." + columnNameX + " = trl." + columnNameX +
+					" AND AD_Language = '" + Env.getAD_Language(Env.getCtx()) + "'";
+		}
 		String actionColor = m_tree.getActionColorName();
-		
+		String nameString = existsTranslation?"coalesce(trl.name, t.name) as name," : "t.name,";
+		String descriptionString = existsTranslation?"coalesce(trl.description, t.description) as description," : "t.description,";
 		String sql = "SELECT t." + columnNameX 
-			+ "_ID,t.Name,t.Description,t.IsSummary,"
-			+ actionColor
-			+ " FROM " + fromClause
-		//	+ " WHERE t.IsActive='Y'"	//	R/O
-			+ " ORDER BY 2";
-		sql = MRole.getDefault().addAccessSQL(sql, 
-			"t", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
-		log.config(sql);
+				+ "," + nameString + descriptionString + "t.IsSummary,"
+				+ actionColor
+				+ " FROM " + fromClause
+			//	+ " WHERE t.IsActive='Y'"	//	R/O
+				+ " ORDER BY 2";
+			sql = MRole.getDefault().addAccessSQL(sql, 
+				"t", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+			log.config(sql);
 		//	
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

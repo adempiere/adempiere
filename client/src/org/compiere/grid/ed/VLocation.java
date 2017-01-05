@@ -36,6 +36,7 @@ import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.RecordInfo;
 import org.compiere.model.GridField;
@@ -450,6 +451,12 @@ public class VLocation extends JComponent
 	@Override
 	public GridField getField() {
 		return m_mField;
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }	//	VLocation

@@ -538,7 +538,7 @@ public class Collect {
 			payment.setDescription(Msg.getMsg(Env.getCtx(), "Order No ") + order.getDocumentNo());
 		}
 		order.setC_POS_ID(entityPOS.getC_POS_ID());
-		order.saveEx();
+		order.saveEx(trxName);
 		return payment;
 	}
 
@@ -752,7 +752,7 @@ public class Collect {
 				return;
 			}
 		}
-		order.saveEx();
+		order.saveEx(trxName);
 	}  // processPayment
 	/**
 	* Get PayAmt 

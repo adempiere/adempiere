@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Allows use any SO Document Type in POS" ReleaseNo="3.9.0" SeqNo="00118">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="12795" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" oldValue="208">207</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

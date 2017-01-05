@@ -46,8 +46,8 @@ import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.ProcessCtl;
-import org.compiere.apps.ProcessParameter;
-import org.compiere.apps.ProcessParameterPanel;
+import org.compiere.apps.ProcessController;
+import org.compiere.apps.ProcessPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.Waiting;
 import org.compiere.apps.form.FormFrame;
@@ -58,7 +58,6 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
-import org.compiere.swing.CScrollPane;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.DB;
@@ -152,7 +151,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 	} // InfoGeneral
 
 	/** Process Parameters Panel */
-	private ProcessParameterPanel processParameterPanel;
+	private ProcessPanel processParameterPanel;
 	/** StatusBar **/
 	protected StatusBar statusBar = new StatusBar();
 	/** Worker */
@@ -212,15 +211,19 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		if (getAD_Process_ID() > 0) {
 			//	FR [ 245 ]
 			initProcessInfo();
-			processParameterPanel = new ProcessParameterPanel(getWindowNo(), getBrowseProcessInfo());
-			processParameterPanel.setColumns(ProcessParameter.COLUMNS_2);
-			processParameterPanel.init();
-			//	Add Scroll FR [ 265 ]
-			CScrollPane scrollPane = new CScrollPane(processParameterPanel.getPanel());
-			scrollPane.setAutoscrolls(true);
-			scrollPane.createVerticalScrollBar();
-			scrollPane.createHorizontalScrollBar();
-			processPanel.add(scrollPane, BorderLayout.CENTER);
+			processParameterPanel = new ProcessPanel(getWindowNo(), getBrowseProcessInfo());
+			processParameterPanel.setColumns(ProcessController.COLUMNS_2);
+			processParameterPanel.setShowButtons(false);
+			processParameterPanel.setShowDescription(false);
+			processParameterPanel.createFieldsAndEditors();
+			//	If don't have parameters then don'show collapsible panel
+			if(processParameterPanel.hasParameters()) {
+				//	Add collapsible panel for process pane;
+				CollapsiblePanel collapsibleProcess = new CollapsiblePanel(Msg.getMsg(Env.getCtx(),("Parameter")));
+				collapsibleProcess.add(processParameterPanel.getPanel());
+				collapsibleProcess.validate();
+				processPanel.add(collapsibleProcess);
+			}
 		}
 	}
 
@@ -781,7 +784,6 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 				continue;
 			//	
 			GridField field = editor.getField();
-			field.setValue(editor.getValue(), true);
 			m_List.put(entry.getKey(), field);
 		}
 		//	Default Return

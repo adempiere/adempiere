@@ -17,28 +17,27 @@
 package org.compiere.util;
 
 import java.io.File;
-import java.util.List;
 
 import org.compiere.model.MPaySelectionCheck;
 
 /**
  * 	Custom Payment Export Interface
- *	
+ *
  *  @author Carlos Ruiz - GlobalQSS
  *	@author  victor.perez , victor.perez@e-evolution.com http://www.e-evolution.com
  * 		<li> FR [ 297 ] Apply ADempiere best Pratice
  *		@see https://github.com/adempiere/adempiere/issues/297
  *  @version PaymentExport.java
  */
+@Deprecated
 public interface PaymentExport
 {
-
 	/**************************************************************************
 	 *  Export to File
 	 *  @param checks array of checks
 	 *  @param file file to export checks
 	 *  @return number of lines
 	 */
-	public int exportToFile (List<MPaySelectionCheck> checks, File file, StringBuffer error);
-
+	@Deprecated
+	public int exportToFile (MPaySelectionCheck[] checks, File file, StringBuffer error);
 }	//	PaymentExport

@@ -446,6 +446,9 @@ public class AcctViewer extends CFrame
 			m_data.buttonRecordID.put(keyColumn,Record_ID);
 			selRecord.setText(m_data.getButtonText(tableName, keyColumn, selectSQL));
 		}
+		
+		// Display quantity as default
+		displayQty.setValue('Y');
 	}   //  dynInit
 
 	/**
@@ -532,7 +535,7 @@ public class AcctViewer extends CFrame
 			MAcctSchemaElement acctSchemaElement = elements[i];
 			String columnName = acctSchemaElement.getColumnName();
 			String displayColumnName = acctSchemaElement.getDisplayColumnName();
-			if (columnName.equals("User1_ID") || columnName.equals("User2_ID"))
+			if (columnName.equals("User1_ID") || columnName.equals("User2_ID") || columnName.equals("User3_ID") || columnName.equals("User4_ID"))
 				displayColumnName = acctSchemaElement.getName();
 			else
 				displayColumnName = acctSchemaElement.getDisplayColumnName();
@@ -728,6 +731,22 @@ public class AcctViewer extends CFrame
 			lookupColumn = "C_ElementValue_ID";
 			MAcctSchemaElement ase = m_data.ASchema
 				.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList2);
+			if (ase != null)
+				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
+		}
+		else if (keyColumn.equals("User3_ID"))
+		{
+			lookupColumn = "C_ElementValue_ID";
+			MAcctSchemaElement ase = m_data.ASchema
+					.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList3);
+			if (ase != null)
+				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
+		}
+		else if (keyColumn.equals("User4_ID"))
+		{
+			lookupColumn = "C_ElementValue_ID";
+			MAcctSchemaElement ase = m_data.ASchema
+					.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList4);
 			if (ase != null)
 				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
 		}
