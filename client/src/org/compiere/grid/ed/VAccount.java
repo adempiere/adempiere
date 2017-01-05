@@ -39,6 +39,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.RecordInfo;
 import org.compiere.model.GridField;
@@ -491,6 +492,12 @@ public final class VAccount extends JComponent
 		{
 			cmd_text();
 		}
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }	//	VAccount

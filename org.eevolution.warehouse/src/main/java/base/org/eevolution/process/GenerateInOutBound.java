@@ -64,14 +64,20 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
      * @return info
      */
     protected String doIt() throws Exception {
+
         // Create Outbound Order
-        MWMInOutBound outBoundOrder = createOutBoundOrder();
+        MWMInOutBound outBoundOrder = null;
         // Based on Sales Order Line
-        if (MOrderLine.Table_ID == getTable_ID())
-            createBasedOnSalesOrders(outBoundOrder);
+        if ("ol".equals(getAliasForTableSelection())) {
+            outBoundOrder = createOutBoundOrder();
+            createBasedOnSalesOrders(outBoundOrder, (List<MOrderLine>) getInstancesForSelection(get_TrxName()));
+        }
         // Based on MRP
-        if (MPPMRP.Table_ID == getTable_ID())
-            createBasedOnDemand(outBoundOrder);
+        if ( "demand".equals(getAliasForTableSelection())) {
+            getProcessInfo().setTableSelectionId(MPPMRP.Table_ID);
+            outBoundOrder = createOutBoundOrder();
+            createBasedOnDemand(outBoundOrder, (List<MPPMRP>) getInstancesForSelection(get_TrxName()));
+        }
         return "@DocumentNo@ " + outBoundOrder.getDocumentNo();
     }
 
@@ -111,8 +117,7 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
         return outBoundOrder;
     }
 
-    private void createBasedOnSalesOrders(MWMInOutBound outBoundOrder) {
-        List<MOrderLine> orderLines = (List<MOrderLine>) getInstancesForSelection(get_TrxName());
+    private void createBasedOnSalesOrders(MWMInOutBound outBoundOrder , List<MOrderLine> orderLines) {
         orderLines.stream().forEach(orderLine -> {
             MWMInOutBoundLine outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
             outBoundOrderLine.setLine(getLineNo(outBoundOrder));
@@ -129,9 +134,7 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
         });
     }
 
-    private void createBasedOnDemand(MWMInOutBound outBoundOrder) {
-
-        List<MPPMRP> demands = (List<MPPMRP>) getInstancesForSelection(get_TrxName());
+    private void createBasedOnDemand(MWMInOutBound outBoundOrder, List<MPPMRP> demands) {
         demands.stream().forEach( demand -> {
             MWMInOutBoundLine outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
             outBoundOrderLine.setLine(getLineNo(outBoundOrder));

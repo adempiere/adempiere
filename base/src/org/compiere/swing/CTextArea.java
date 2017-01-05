@@ -23,13 +23,16 @@ import java.awt.event.InputMethodListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.im.InputMethodRequests;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.InputVerifier;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.text.Document;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.model.GridField;
 
 /**
  *  Adempiere TextArea - A ScrollPane with a JTextArea.
@@ -467,6 +470,24 @@ public class CTextArea extends JScrollPane
 	public void setInputVerifier (InputVerifier l)
 	{
 		m_textArea.setInputVerifier(l);
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public GridField getField() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }   //  CTextArea

@@ -20,8 +20,10 @@ import java.math.BigDecimal;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import org.adempiere.webui.component.Button;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
@@ -35,14 +37,13 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WDateEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.panel.StatusBarPanel;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.form.Allocation;
 import org.compiere.model.MLookup;
@@ -59,6 +60,7 @@ import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Space;
 
@@ -70,6 +72,9 @@ import org.zkoss.zul.Space;
  * @version $Id: VAllocation.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  * 
  * Contributor : Fabian Aguilar - OFBConsulting - Multiallocation
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/407">
+ * 		@see FR [ 407 ] Enhance visualization of allocation payment window</a>
  */
 public class WAllocation extends Allocation
 	implements IFormController, EventListener, WTableModelListener, ValueChangeListener
@@ -90,7 +95,7 @@ public class WAllocation extends Allocation
 	 */
 	public WAllocation()
 	{
-		Env.setContext(Env.getCtx(), form.getWindowNo(), "IsSOTrx", "Y");   //  defaults to no
+		setWindowNo(getWindowNo());
 		try
 		{
 			super.dynInit();
@@ -129,7 +134,8 @@ public class WAllocation extends Allocation
 	private Grid allocationLayout = GridFactory.newGridLayout();
 	private Label differenceLabel = new Label();
 	private Textbox differenceField = new Textbox();
-	private Button allocateButton = new Button();
+	private Label descriptionLabel = new Label();
+	private Textbox descriptionField = new Textbox();
 	private Label currencyLabel = new Label();
 	private WTableDirEditor currencyPick = null;
 	private Checkbox multiCurrency = new Checkbox();
@@ -140,7 +146,10 @@ public class WAllocation extends Allocation
 	private Checkbox autoWriteOff = new Checkbox();
 	private Label organizationLabel = new Label();
 	private WTableDirEditor organizationPick;
-	
+	private Label apartLabel = new Label();
+	private WTableDirEditor aparPick = null;
+	/**	Confirm Panel		*/
+	private ConfirmPanel confirmPanel;
 	private Panel southPanel = new Panel();
 
 	private boolean m_isCalculating;
@@ -151,9 +160,10 @@ public class WAllocation extends Allocation
 	 */
 	private void zkInit() throws Exception
 	{
-		//
+		//	
+		confirmPanel = new ConfirmPanel(true);
 		form.appendChild(mainLayout);
-		mainLayout.setWidth("99%");
+		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
 		dateLabel.setText(Msg.getMsg(Env.getCtx(), "Date"));
 		autoWriteOff.setSelected(false);
@@ -172,15 +182,16 @@ public class WAllocation extends Allocation
 		chargeLabel.setText(" " + Msg.translate(Env.getCtx(), "C_Charge_ID"));
 		differenceLabel.setText(Msg.getMsg(Env.getCtx(), "Difference"));
 		differenceField.setText("0");
-		allocateButton.setLabel(Msg.getMsg(Env.getCtx(), "Process"));
-		allocateButton.addActionListener(this);
+		differenceField.setStyle("text-align: right");
+		descriptionLabel.setText(Msg.getMsg(Env.getCtx(), "Description"));
+		confirmPanel.addActionListener(this);
 		currencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
 		multiCurrency.setText(Msg.getMsg(Env.getCtx(), "MultiCurrency"));
 		multiCurrency.addActionListener(this);
 		allocCurrencyLabel.setText(".");
 		
 		organizationLabel.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
-		
+		apartLabel.setText(Msg.translate(Env.getCtx(), "APAR"));
 		North north = new North();
 		north.setStyle("border: none");
 		mainLayout.appendChild(north);
@@ -201,8 +212,13 @@ public class WAllocation extends Allocation
 		
 		row = rows.newRow();
 		row.appendChild(currencyLabel.rightAlign());
-		row.appendChild(currencyPick.getComponent());		
-		row.appendChild(multiCurrency);		
+		row.appendChild(currencyPick.getComponent());
+		Div div = new Div();
+		div.setStyle("text-align: center");
+		div.appendChild(multiCurrency);
+		row.appendChild(div);
+		row.appendChild(apartLabel.rightAlign());
+		row.appendChild(aparPick.getComponent());
 		row.appendChild(new Space());
 		row.appendChild(new Space());
 		row.setSpans("1,1,2,1,1");
@@ -220,6 +236,7 @@ public class WAllocation extends Allocation
 		mainLayout.appendChild(south);
 		south.appendChild(southPanel);
 		southPanel.appendChild(allocationPanel);
+		
 		allocationPanel.appendChild(allocationLayout);
 		allocationLayout.setWidth("100%");
 		rows = allocationLayout.newRows();
@@ -230,9 +247,11 @@ public class WAllocation extends Allocation
 		row.appendChild(new Space());
 		row.appendChild(chargeLabel.rightAlign());
 		row.appendChild(chargePick.getComponent());
-		
 		row.appendChild(new Space());
-		row.appendChild(allocateButton);
+		row.appendChild(descriptionLabel.rightAlign());
+		row.appendChild(descriptionField);
+		row.appendChild(new Space());
+		row.appendChild(confirmPanel);
 		
 		paymentPanel.appendChild(paymentLayout);
 		paymentPanel.setWidth("100%");
@@ -260,7 +279,7 @@ public class WAllocation extends Allocation
 		paymentLayout.appendChild(center);
 		center.appendChild(paymentTable);
 		paymentTable.setWidth("99%");
-		paymentTable.setHeight("99%");
+		paymentTable.setHeight("100%");
 		paymentTable.setMultiSelection(true);
 		center.setStyle("border: none");
 		
@@ -310,21 +329,21 @@ public class WAllocation extends Allocation
 	{
 		//  Currency
 		int AD_Column_ID = 3505;    //  C_Invoice.C_Currency_ID
-		MLookup lookupCur = MLookupFactory.get (Env.getCtx(), form.getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
+		MLookup lookupCur = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		currencyPick = new WTableDirEditor("C_Currency_ID", true, false, true, lookupCur);
 		currencyPick.setValue(new Integer(m_C_Currency_ID));
 		currencyPick.addValueChangeListener(this);
 
 		// Organization filter selection
 		AD_Column_ID = 839; //C_Period.AD_Org_ID (needed to allow org 0)
-		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), form.getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
+		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		organizationPick = new WTableDirEditor("AD_Org_ID", true, false, true, lookupOrg);
 		organizationPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
 		organizationPick.addValueChangeListener(this);
 		
 		//  BPartner
 		AD_Column_ID = 3499;        //  C_Invoice.C_BPartner_ID
-		MLookup lookupBP = MLookupFactory.get (Env.getCtx(), form.getWindowNo(), 0, AD_Column_ID, DisplayType.Search);
+		MLookup lookupBP = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.Search);
 		bpartnerSearch = new WSearchEditor("C_BPartner_ID", true, false, true, lookupBP);
 		bpartnerSearch.addValueChangeListener(this);
 
@@ -337,10 +356,17 @@ public class WAllocation extends Allocation
 		dateField.addValueChangeListener(this);
 		
 		AD_Column_ID = 61804;    //  C_AllocationLine.C_Charge_ID
-		MLookup lookupCharge = MLookupFactory.get (Env.getCtx(), form.getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
+		MLookup lookupCharge = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		chargePick = new WTableDirEditor("C_Charge_ID", true, false, true, lookupCharge);
 		chargePick.setValue(new Integer(m_C_Charge_ID));
 		chargePick.addValueChangeListener(this);
+		
+		//	APAR
+		AD_Column_ID = 14082;    //  T_InvoiceGL.APAR
+		MLookup lookupAPAR = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.List);
+		aparPick = new WTableDirEditor("APAR", true, false, true, lookupAPAR);
+		aparPick.setValue(APAR_A);
+		aparPick.addValueChangeListener(this);
 	}   //  dynInit
 	
 	/**************************************************************************
@@ -349,20 +375,28 @@ public class WAllocation extends Allocation
 	 *  - Allocate
 	 *  @param e event
 	 */
-	public void onEvent(Event e)
-	{
+	public void onEvent(Event e) {
 		log.config("");
 		if (e.getTarget().equals(multiCurrency))
 			loadBPartner();
 		//	Allocate
-		else if (e.getTarget().equals(allocateButton))
-		{
-			allocateButton.setEnabled(false);
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL)) {
+			dispose();
+		} else if (e.getTarget().getId().equals(ConfirmPanel.A_OK)) {
+			confirmPanel.getOKButton().setEnabled(false);
+			m_description = descriptionField.getText();
 			saveData();
 			loadBPartner();
-			allocateButton.setEnabled(true);
+			confirmPanel.getOKButton().setEnabled(true);
 		}
 	}   //  actionPerformed
+	
+	/**
+	 * 	Dispose
+	 */
+	public void dispose() {
+		SessionManager.getAppDesktop().closeActiveWindow();
+	}	//	dispose
 
 	/**
 	 *  Table Model Listener.
@@ -392,7 +426,7 @@ public class WAllocation extends Allocation
 		
 		String msg = writeOff(row, col, isInvoice, paymentTable, invoiceTable, isAutoWriteOff);
 		if(msg != null && msg.length() > 0)
-			FDialog.warn(form.getWindowNo(), "AllocationWriteOffWarn");
+			FDialog.warn(getWindowNo(), "AllocationWriteOffWarn");
 
 		calculate();
 		
@@ -414,12 +448,11 @@ public class WAllocation extends Allocation
 		log.config(name + "=" + value);
 		
 		// Organization
-		if (name.equals("AD_Org_ID"))
-		{
+		if (name.equals("AD_Org_ID")) {
 			if (value == null)
-				m_AD_Org_ID = 0;
+				setAD_Org_ID(0);
 			else
-				m_AD_Org_ID = ((Integer) value).intValue();
+				setAD_Org_ID(((Integer) value).intValue());
 			loadBPartner();
 		}
 
@@ -470,6 +503,13 @@ public class WAllocation extends Allocation
 		else if (name.equals("Date") && multiCurrency.isSelected())
 		{
 			loadBPartner();
+		} else if(name.equals("APAR")) {
+			if(value == null
+					|| value.toString().length() == 0)
+				apar = APAR_A;
+			else 
+				apar = value.toString();
+			loadBPartner();
 		}
 	}   //  vetoableChange
 	
@@ -477,13 +517,11 @@ public class WAllocation extends Allocation
 
 		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0 ^ m_C_Charge_ID > 0)
 		{
-			allocateButton.setEnabled(true);
-      	// chargePick.setValue(m_C_Charge_ID);
-
+			confirmPanel.getOKButton().setEnabled(true);
 		}
 		else
 		{
-			allocateButton.setEnabled(false);
+			confirmPanel.getOKButton().setEnabled(false);
 		}
 
 		if (totalDiff.compareTo(new BigDecimal(0.0)) == 0)
@@ -566,24 +604,20 @@ public class WAllocation extends Allocation
 	 */
 	public void saveData()
 	{
-		if (m_AD_Org_ID > 0)
-			Env.setContext(Env.getCtx(), form.getWindowNo(), "AD_Org_ID", m_AD_Org_ID);
-		else
-			Env.setContext(Env.getCtx(), form.getWindowNo(), "AD_Org_ID", "");
-		
+		setAD_Org_ID();
 		try
 		{
 			Trx.run(new TrxRunnable() 
 			{
 				public void run(String trxName)
 				{
-					statusBar.setStatusLine(saveData(form.getWindowNo(), dateField.getValue(), paymentTable, invoiceTable, trxName));
+					statusBar.setStatusLine(saveData(getWindowNo(), dateField.getValue(), paymentTable, invoiceTable, trxName));
 				}
 			});
 		}
 		catch (Exception e)
 		{
-			FDialog.error(form.getWindowNo(), form , "Error", e.getLocalizedMessage());
+			FDialog.error(getWindowNo(), form , "Error", e.getLocalizedMessage());
 			return;
 		}
 	}   //  saveData

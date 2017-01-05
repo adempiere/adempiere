@@ -40,8 +40,7 @@ import org.compiere.model.MPaySelectionLine;
  * 		<li> FR [ 297 ] Apply ADempiere best Pratice
  *		@see https://github.com/adempiere/adempiere/issues/297
  */
-public class GenericPaymentExport implements PaymentExport
-{
+public class GenericPaymentExport extends PaymentExportList {
 	/** Logger								*/
 	static private CLogger	s_log = CLogger.getCLogger (GenericPaymentExport.class);
 
@@ -67,7 +66,6 @@ public class GenericPaymentExport implements PaymentExport
 	/** BPartner Info Index for Reference No    */
 	private static final int     BP_REFNO = 9;
 
-	
 	/**************************************************************************
 	 *  Export to File
 	 *  @param paySelectionChecks array of checks
@@ -134,7 +132,7 @@ public class GenericPaymentExport implements PaymentExport
 
 				//  Comment - list of invoice document no
 				StringBuffer comment = new StringBuffer();
-				List<MPaySelectionLine> paySelectionLines = paySelectionCheck.getPaySelectionLines(false);
+				List<MPaySelectionLine> paySelectionLines = paySelectionCheck.getPaySelectionLinesAsList(false);
 				for (MPaySelectionLine paySelectionLine : paySelectionLines)
 				{
 					if (paySelectionLine.get_ID() == paySelectionLines.get(0).get_ID())
@@ -246,6 +244,4 @@ public class GenericPaymentExport implements PaymentExport
 		}
 		return bp;
 	}   //  getBPartnerInfo
-
-	
 }	//	PaymentExport

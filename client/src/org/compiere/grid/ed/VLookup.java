@@ -47,6 +47,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AWindow;
@@ -113,6 +114,8 @@ import org.eevolution.model.I_PP_Product_BOMLine;
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
+ * 		<a href="https://github.com/adempiere/adempiere/issues/611">
+ * 		@see BR [ 611 ] Error dialog is showed and lost focus from window</a>
  */
 public class VLookup extends JComponent
 	implements VEditor, ActionListener, FocusListener
@@ -910,7 +913,7 @@ public class VLookup extends JComponent
 		try
 		{
 			// -> GridController.vetoableChange
-			fireVetoableChange (m_columnName, null, value);
+			fireVetoableChange (m_columnName, m_value, value);
 		}
 		catch (PropertyVetoException pve)
 		{
@@ -1656,8 +1659,8 @@ public class VLookup extends JComponent
 		//
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		//
-		AWindow frame = new AWindow();
-		if (!frame.initWindow(AD_Window_ID, zoomQuery))
+		AWindow frame = new AWindow(getGraphicsConfiguration());
+		if (!frame.initWindow(AD_Window_ID, zoomQuery, false))
 		{
 			setCursor(Cursor.getDefaultCursor());
 			ValueNamePair pp = CLogger.retrieveError();
@@ -1953,6 +1956,12 @@ public class VLookup extends JComponent
 				m_isSOTrx = false;
 			else
 				m_isSOTrx = true;
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }	//	VLookup

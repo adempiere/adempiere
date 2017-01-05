@@ -191,7 +191,7 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 			pstmt.setInt(5, warehouseId);
 			
 			if(getProductCategoryId() > 0)
-				pstmt.setInt(5, getProductCategoryId());
+				pstmt.setInt(6, getProductCategoryId());
 			
 			pstmt.addBatch();
 			

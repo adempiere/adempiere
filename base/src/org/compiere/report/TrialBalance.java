@@ -79,6 +79,8 @@ public class TrialBalance extends SvrProcess
 	private int					p_C_LocTo_ID = 0;
 	private int					p_User1_ID = 0;
 	private int					p_User2_ID = 0;
+	private int					p_User3_ID = 0;
+	private int					p_User4_ID = 0;
 	
 	
 	/**	Parameter Where Clause			*/
@@ -99,7 +101,7 @@ public class TrialBalance extends SvrProcess
 		+ " AmtAcctDr, AmtAcctCr, AmtAcctBalance, C_UOM_ID, Qty,"
 		+ " M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID, C_LocFrom_ID,C_LocTo_ID,"
 		+ " C_SalesRegion_ID, C_Project_ID, C_Campaign_ID, C_Activity_ID,"
-		+ " User1_ID, User2_ID, A_Asset_ID, Description)";
+		+ " User1_ID, User2_ID,User3_ID, User4_ID, A_Asset_ID, Description)";
 
 	
 	/**
@@ -395,6 +397,17 @@ public class TrialBalance extends SvrProcess
 			sql.append ("null");
 		else
 			sql.append (p_User2_ID);
+		sql.append(",");
+		//	User3_ID, User4_ID, A_Asset_ID, Description)
+		if (p_User3_ID == 0)
+			sql.append ("null");
+		else
+			sql.append (p_User3_ID);
+		sql.append(",");
+		if (p_User4_ID == 0)
+			sql.append ("null");
+		else
+			sql.append (p_User4_ID);
 		sql.append(", null,null");
 		//
 		sql.append(" FROM Fact_Acct WHERE AD_Client_ID=").append(getAD_Client_ID())
@@ -444,8 +457,8 @@ public class TrialBalance extends SvrProcess
 		sql.append ("M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID, C_LocFrom_ID,C_LocTo_ID,");
 		//	C_SalesRegion_ID, C_Project_ID, C_Campaign_ID, C_Activity_ID,
 		sql.append ("C_SalesRegion_ID, C_Project_ID, C_Campaign_ID, C_Activity_ID,");
-		//	User1_ID, User2_ID, A_Asset_ID, Description)
-		sql.append ("User1_ID, User2_ID, A_Asset_ID, Description");
+		//	User1_ID, User2_ID, User3_ID, User3_ID , A_Asset_ID, Description)
+		sql.append ("User1_ID, User2_ID, User3_ID, User4_ID, A_Asset_ID, Description");
 		//
 		sql.append(" FROM Fact_Acct WHERE AD_Client_ID=").append(getAD_Client_ID())
 			.append (" AND ").append(m_parameterWhere)

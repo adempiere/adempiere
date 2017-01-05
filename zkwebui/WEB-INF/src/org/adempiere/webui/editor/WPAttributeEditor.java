@@ -19,7 +19,7 @@ import org.adempiere.webui.component.PAttributebox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.panel.InfoPAttributePanel;
 import org.adempiere.webui.panel.InfoProductPanel;
 import org.adempiere.webui.window.WRecordInfo;

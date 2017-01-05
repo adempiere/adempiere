@@ -405,6 +405,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
 		setUser1_ID(order.getUser1_ID());
 		setUser2_ID(order.getUser2_ID());
+		setUser3_ID(order.getUser3_ID());
+		setUser4_ID(order.getUser4_ID());
 		setPriorityRule(order.getPriorityRule());
 		// Drop shipment
 		setIsDropShip(order.isDropShip());
@@ -464,6 +466,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(invoice.getAD_OrgTrx_ID());
 		setUser1_ID(invoice.getUser1_ID());
 		setUser2_ID(invoice.getUser2_ID());
+		setUser3_ID(invoice.getUser3_ID());
+		setUser4_ID(invoice.getUser4_ID());
 
 		if (order != null)
 		{
@@ -530,6 +534,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(original.getAD_OrgTrx_ID());
 		setUser1_ID(original.getUser1_ID());
 		setUser2_ID(original.getUser2_ID());
+		setUser3_ID(original.getUser3_ID());
+		setUser4_ID(original.getUser4_ID());
 
 		// DropShipment
 		setIsDropShip(original.isDropShip());

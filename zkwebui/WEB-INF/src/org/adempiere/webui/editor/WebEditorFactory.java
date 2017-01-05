@@ -188,17 +188,23 @@ public class WebEditorFactory
         }
         
         // Change the label from the column to a user defined value for specific fields.
-        if (gridField.getColumnName() != null && gridField.getColumnName().equals("User1_ID") || gridField.getColumnName() != null && gridField.getColumnName().equals("User2_ID")) {
+        if (gridField.getColumnName() != null && gridField.getColumnName().equals("User1_ID")
+         || gridField.getColumnName() != null && gridField.getColumnName().equals("User2_ID")
+         || gridField.getColumnName() != null && gridField.getColumnName().equals("User3_ID")
+         || gridField.getColumnName() != null && gridField.getColumnName().equals("User4_ID")) {
         	int accountSchemaId = Env.getContextAsInt(Env.getCtx(), "$C_AcctSchema_ID");
         	if (accountSchemaId > 0) {
             	MAcctSchema accountSchema = MAcctSchema.get(Env.getCtx(),	accountSchemaId);
             	if (accountSchema != null) {
-            		MAcctSchemaElement accountSchemaElement;
-            		if (gridField.getColumnName().equals("User1_ID")) {
+            		MAcctSchemaElement accountSchemaElement = null;
+            		if (gridField.getColumnName().equals("User1_ID"))
                     	accountSchemaElement = accountSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList1);
-            		}
-            		else
+            		else if (gridField.getColumnName().equals("User2_ID"))
             			accountSchemaElement = accountSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList2);
+                    else if (gridField.getColumnName().equals("User3_ID"))
+                        accountSchemaElement = accountSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList3);
+                    else if (gridField.getColumnName().equals("User4_ID"))
+                        accountSchemaElement = accountSchema.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList4);
             		
             		if ( accountSchemaElement != null )
             			editor.setLabel(accountSchemaElement.getName());

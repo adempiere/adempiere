@@ -257,6 +257,27 @@ public class MReportSource extends X_PA_ReportSource
 		} else
 		if (isIncludeNullsUser2())
 			whcomb.append(" AND User2_ID IS NULL");
+
+
+		if (getUser3_ID() > 0) {
+			String whtree = "User3_ID=" + getUser3_ID(); // No Tree
+			if (isIncludeNullsUser3())
+				whcomb.append(" AND (User3_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+		if (isIncludeNullsUser3())
+			whcomb.append(" AND User3_ID IS NULL");
+
+		if (getUser4_ID() > 0) {
+			String whtree = "User4_ID=" + getUser4_ID(); // No Tree
+			if (isIncludeNullsUser4())
+				whcomb.append(" AND (User4_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+		if (isIncludeNullsUser4())
+			whcomb.append(" AND User4_ID IS NULL");
 		
 		// drop the first " AND "
 		if (whcomb.length() > 5 && whcomb.toString().startsWith(" AND "))

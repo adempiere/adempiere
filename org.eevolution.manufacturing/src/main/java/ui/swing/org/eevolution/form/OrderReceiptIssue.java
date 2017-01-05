@@ -407,35 +407,27 @@ public class OrderReceiptIssue extends GenForm {
 				issue.setValueAt(isQtyPercentage, row, 16); // isQtyPercentage
 				issue.setValueAt(qtyBatch, row, 17); // QtyBatch
 
-				if (componentType
-						.equals(MPPProductBOMLine.COMPONENTTYPE_Component)
-						|| componentType
-								.equals(MPPProductBOMLine.COMPONENTTYPE_Packing)) {
+				if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Component)
+				||  componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Packing)) {
 					// If the there is product on hand and product is required
 					// the product should be selected
-					id.setSelected(qtyOnHand.signum() > 0
-							&& qtyRequired.signum() > 0);
+					id.setSelected(qtyOnHand.signum() > 0 && qtyRequired.signum() > 0);
 					issue.setValueAt(id, row, 0); // PP_OrderBOMLine_ID
 
 					if (isQtyPercentage) {
 						// If the quantity of product is calculated as a
 						// percentage
-						BigDecimal qtyBatchPerc = qtyBatch.divide(
-								Env.ONEHUNDRED, 8, RoundingMode.HALF_UP);
+						BigDecimal qtyBatchPerc = qtyBatch.divide(Env.ONEHUNDRED, 8, RoundingMode.HALF_UP);
 
 						if (isBackflush()) { // Is Backflush - Calculate
 												// Component from Qty To Deliver
-							if (qtyRequired.signum() == 0
-									|| qtyOpen.signum() == 0) {
+							if (qtyRequired.signum() == 0 || qtyOpen.signum() == 0) {
 								componentToDeliverQty = Env.ZERO;
 							} else {
-								componentToDeliverQty = toDeliverQty
-										.multiply(qtyBatchPerc);
+								componentToDeliverQty = toDeliverQty.multiply(qtyBatchPerc);
 
-								if (qtyRequired.subtract(qtyDelivered).signum() < 0
-										| componentToDeliverQty.signum() == 0)
-									componentToDeliverQty = qtyRequired
-											.subtract(qtyDelivered);
+								if (qtyRequired.subtract(qtyDelivered).signum() < 0 | componentToDeliverQty.signum() == 0)
+									componentToDeliverQty = qtyRequired.subtract(qtyDelivered);
 
 							}
 
@@ -446,8 +438,7 @@ public class OrderReceiptIssue extends GenForm {
 								// componentQtyReq =
 								// toDeliverQty.multiply(qtyBatchPerc); // TODO:
 								// set scale 4
-								componentQtyToDel = componentToDeliverQty
-										.setScale(4, BigDecimal.ROUND_HALF_UP);
+								componentQtyToDel = componentToDeliverQty.setScale(4, BigDecimal.ROUND_HALF_UP);
 								// issue.setValueAt(toDeliverQty.multiply(qtyBatchPerc),
 								// row, 6); // QtyRequired
 								issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery
@@ -457,15 +448,10 @@ public class OrderReceiptIssue extends GenForm {
 									// Qty
 							componentToDeliverQty = qtyOpen;
 							if (componentToDeliverQty.signum() != 0) {
-								componentQtyReq = openQty
-										.multiply(qtyBatchPerc); // scale 4
-								componentQtyToDel = componentToDeliverQty
-										.setScale(4, BigDecimal.ROUND_HALF_UP);
-								issue.setValueAt(componentToDeliverQty
-										.setScale(8, BigDecimal.ROUND_HALF_UP),
-										row, 8); // QtyToDelivery
-								issue.setValueAt(
-										openQty.multiply(qtyBatchPerc), row, 6); // QtyRequired
+								componentQtyReq = openQty.multiply(qtyBatchPerc); // scale 4
+								componentQtyToDel = componentToDeliverQty.setScale(4, BigDecimal.ROUND_HALF_UP);
+								issue.setValueAt(componentToDeliverQty.setScale(8, BigDecimal.ROUND_HALF_UP), row, 8); // QtyToDelivery
+								issue.setValueAt(openQty.multiply(qtyBatchPerc), row, 6); // QtyRequired
 							}
 						}
 
@@ -479,11 +465,17 @@ public class OrderReceiptIssue extends GenForm {
 							issue.setValueAt(componentScrapQty, row, 9); // QtyScrap
 					} else { // Absolute Qtys (not Percentage)
 						if (isBackflush()) { // Is Backflush - Calculate
-												// Component from Qty To Deliver
-							componentToDeliverQty = toDeliverQty
-									.multiply(qtyBom); // TODO: set Number scale
+							// Component from Qty To Deliver
+							if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Packing))
+								componentToDeliverQty = qtyRequired.subtract(qtyDelivered);
+							else
+								componentToDeliverQty = toDeliverQty.multiply(qtyBom); // TODO: set Number scale
+
 							if (componentToDeliverQty.signum() != 0) {
-								componentQtyReq = toDeliverQty.multiply(qtyBom);
+								if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Packing))
+									componentQtyReq = qtyRequired.subtract(qtyDelivered);
+								else
+									componentQtyReq = toDeliverQty.multiply(qtyBom);
 								componentQtyToDel = componentToDeliverQty;
 								issue.setValueAt(componentQtyReq, row, 6); // QtyRequired
 								issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery
@@ -492,7 +484,11 @@ public class OrderReceiptIssue extends GenForm {
 									// Qty
 							componentToDeliverQty = qtyOpen;
 							if (componentToDeliverQty.signum() != 0) {
-								componentQtyReq = openQty.multiply(qtyBom);
+								if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Packing))
+									componentQtyReq = qtyOpen;
+								else
+									componentQtyReq = openQty.multiply(qtyBom);
+
 								componentQtyToDel = componentToDeliverQty;
 								issue.setValueAt(componentQtyReq, row, 6); // QtyRequired
 								issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery

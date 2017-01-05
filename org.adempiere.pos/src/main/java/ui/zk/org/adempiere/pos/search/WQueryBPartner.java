@@ -302,6 +302,8 @@ public class WQueryBPartner extends WPOSQuery {
 	
 		if (partnerId > 0) {
 			posPanel.configureBPartner(partnerId);
+			//	Refresh
+			posPanel.refreshPanel();
 			logger.fine("C_BPartner_ID=" + partnerId);
 		} else {
 			posPanel.configureBPartner(0);

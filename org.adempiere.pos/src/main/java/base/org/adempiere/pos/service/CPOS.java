@@ -31,6 +31,8 @@ import java.util.Vector;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
+import org.adempiere.pos.command.CommandManager;
+import org.adempiere.pos.util.POSTicketHandler;
 import org.compiere.model.I_AD_User;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MAllocationHdr;
@@ -41,6 +43,8 @@ import org.compiere.model.MCashLine;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
+import org.compiere.model.MInOutConfirm;
+import org.compiere.model.MInOutLineConfirm;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrder;
@@ -61,7 +65,6 @@ import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_Order;
-import org.compiere.print.ReportCtl;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
@@ -70,6 +73,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.service.dsl.ProcessBuilder;
 
@@ -136,6 +140,8 @@ public class CPOS {
 	private DecimalFormat 		decimalFormat;
 	/**	Date Format				*/
 	private SimpleDateFormat	dateFormat;
+	/**	Window No				*/
+	private int 							windowNo;
 	
 	/**
 	 * 	Set MPOS
@@ -178,6 +184,24 @@ public class CPOS {
 	 */
 	public SimpleDateFormat getDateFormat() {
 		return dateFormat;
+	}
+	
+	/**
+	 * Get Window Number
+	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+	 * @return
+	 * @return int
+	 */
+	public int getWindowNo() {
+		return windowNo;
+	}
+	
+	/**
+	 * Set window No
+	 * @param windowNo
+	 */
+	public void setWindowNo(int windowNo) {
+		this.windowNo = windowNo;
 	}
 	
 	/**
@@ -389,11 +413,10 @@ public class CPOS {
 			return false;
 		}
 		//	
-		int[] invoice_IDs = MInvoice.getAllIDs(MInvoice.Table_Name, MInvoice.COLUMNNAME_C_Order_ID + "=" + currentOrder.getC_Order_ID(), null);
+		MInvoice[] invoices = getOrder().getInvoices();
 		boolean orderInvoiced = false;
-		if (invoice_IDs!=null && invoice_IDs.length>0 && invoice_IDs[0]>0) {
-			MInvoice invoice = new MInvoice(getCtx(), invoice_IDs[0], null);
-			orderInvoiced = invoice.getDocStatus().equalsIgnoreCase(MInvoice.DOCSTATUS_Completed);
+		if (invoices != null && invoices.length > 0) {
+			orderInvoiced = invoices[0].getDocStatus().equalsIgnoreCase(MInvoice.DOCSTATUS_Completed);
 		}
 	
 		return currentOrder.isInvoiced() || orderInvoiced;
@@ -471,7 +494,7 @@ public class CPOS {
 	 * @return
 	 * @return MOrder
 	 */
-	public MOrder getM_Order() {
+	public MOrder getOrder() {
 		return currentOrder;
 	}
 	
@@ -1233,8 +1256,7 @@ public class CPOS {
 		//Returning orderCompleted to check for order completeness
 		boolean orderCompleted = isCompleted();
 		// check if order completed OK
-		if (isCompleted()) {	//	Order already completed -> default nothing
-			orderCompleted = isCompleted();
+		if (orderCompleted) {	//	Order already completed -> default nothing
 			setIsToPrint(false);
 		} else {	//	Complete Order
 			//	Replace
@@ -1244,11 +1266,11 @@ public class CPOS {
 				currentOrder.set_TrxName(trxName);
 			}
 			// In case the Order is Invalid, set to In Progress; otherwise it will not be completed
-			if (currentOrder.getDocStatus().equalsIgnoreCase(MOrder.STATUS_Invalid) ) 
+			if (currentOrder.getDocStatus().equalsIgnoreCase(MOrder.STATUS_Invalid)) 
 				currentOrder.setDocStatus(MOrder.STATUS_InProgress);
-
+			//	Set Document Action
 			currentOrder.setDocAction(DocAction.ACTION_Complete);
-			if (currentOrder.processIt(DocAction.ACTION_Complete) ) {
+			if (currentOrder.processIt(DocAction.ACTION_Complete)) {
 				currentOrder.saveEx();
 				orderCompleted = true;
 				setIsToPrint(true);
@@ -1296,6 +1318,129 @@ public class CPOS {
 
 		if(processInfo.isError())
 			throw new AdempiereException(processInfo.getSummary());
+	}
+	
+	/**
+	 * Complete Return with transaction
+	 */
+	public void completeReturn() {
+		Trx.run(new TrxRunnable() {
+			public void run(String trxName) {
+				String error = completeReturn(trxName);
+				if(error != null) {
+					throw new AdempiereException(error);
+				}
+				//	Print Ticket
+				if (isToPrint()) {
+					printTicket();
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Complete return material
+	 * @param trxName
+	 * @return String error Message
+	 */
+	private String completeReturn(String trxName) {
+		if (isDrafted() || isInProgress() || isInvalid()) {
+        	if (!processOrder(trxName, false, false)) {
+        		return Msg.parseTranslation(getCtx(), " @ProcessRunError@. " 
+        				+ "@order.no@: " + getDocumentNo()+ ". @Process@: " + CommandManager.COMPLETE_DOCUMENT);
+        	}
+        	// For certain documents, there is no further processing
+        	String docSubTypeSO = getDocSubTypeSO();
+        	if((docSubTypeSO.equals(MOrder.DocSubTypeSO_Standard) ||
+        		docSubTypeSO.equals(MOrder.DocSubTypeSO_OnCredit) ||
+        		docSubTypeSO.equals(MOrder.DocSubTypeSO_Warehouse)) 
+        		&& isCompleted())
+        		return "@POS.IsNotReturn@";
+        }
+		//	Create
+		MOrder returnOrder = new MOrder(getCtx(), getC_Order_ID(), trxName);
+        returnOrder.setInvoiceRule(MOrder.INVOICERULE_Immediate);
+        returnOrder.setDeliveryRule(MOrder.DELIVERYRULE_Force);
+        returnOrder.saveEx();
+        List<Integer> selectionIds = new ArrayList<Integer>();
+        selectionIds.add(returnOrder.get_ID());
+        //Generate Return using InOutGenerate
+        ProcessInfo processInfo = ProcessBuilder
+                .create(getCtx())
+                .process(199)
+                .withParameter(MOrder.COLUMNNAME_M_Warehouse_ID, getM_Warehouse_ID())
+                .withParameter("Selection", true)
+                .withSelectedRecordsIds(selectionIds)
+                .withoutTransactionClose()
+                .execute(trxName);
+
+        if (processInfo.isError()) {
+            return processInfo.getLogInfo();
+        }
+        //Force the confirmation
+        for (MInOut customerReturn : returnOrder.getShipments()) {
+            customerReturn.processIt(DocAction.ACTION_Complete);
+            customerReturn.saveEx();
+
+            for (MInOutConfirm confirm : customerReturn.getConfirmations(true)) {
+                for (MInOutLineConfirm confirmLine : confirm.getLines(true)) {
+                    confirmLine.setConfirmedQty(confirmLine.getTargetQty());
+                    confirmLine.saveEx();
+                }
+                confirm.processIt(DocAction.ACTION_Complete);
+                confirm.saveEx();
+            }
+        }
+
+        MOrder sourceOrder = (MOrder) returnOrder.getRef_Order();
+        if (sourceOrder != null && returnOrder.getC_Order_ID() > 0)
+        {
+           if (sourceOrder.getInvoices().length > 0) {
+               //Generate Credit note InvoiceGenerate
+               processInfo = ProcessBuilder
+                       .create(getCtx())
+                       .process(134)
+                       .withTitle(processInfo.getTitle())
+                       .withParameter("Selection", true)
+                       .withSelectedRecordsIds(selectionIds)
+                       .withParameter(MInvoice.COLUMNNAME_DocAction, MInvoice.DOCACTION_Complete)
+                       .withoutTransactionClose()
+                       .execute(trxName);
+               //	Validate Error
+               if (processInfo.isError()) {
+                   return processInfo.getLogInfo();
+               }
+           }
+           else // if not exist invoice then return of payment
+           {
+               Timestamp today = new Timestamp(System.currentTimeMillis());
+               // Create return payment
+               MPayment payment = new MPayment(returnOrder.getCtx() ,  0 , returnOrder.get_TrxName());
+               payment.setDateTrx(today);
+               payment.setC_Order_ID(returnOrder.getC_Order_ID());
+               payment.setC_BankAccount_ID(getC_BankAccount_ID());
+               payment.setDateAcct(today);
+               payment.addDescription(Msg.parseTranslation(returnOrder.getCtx(), " @C_Order_ID@ " + returnOrder.getDocumentNo()));
+               payment.setIsReceipt(false);
+               payment.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_APPayment));
+               payment.setAmount(returnOrder.getC_Currency_ID() , returnOrder.getGrandTotal());
+               payment.setDocAction(DocAction.ACTION_Complete);
+               payment.setDocStatus(DocAction.STATUS_Drafted);
+               payment.setIsPrepayment(true);
+               payment.saveEx();
+
+               payment.processIt(DocAction.ACTION_Complete);
+               payment.saveEx();
+
+               returnOrder.setC_POS_ID(getC_POS_ID());
+               returnOrder.saveEx();
+
+               processInfo.addLog(0,null,null,payment.getDocumentInfo());
+           }
+        }
+        setIsToPrint(true);
+        //	Default return
+        return null;
 	}
 	
 	/**
@@ -1441,7 +1586,7 @@ public class CPOS {
 	public BigDecimal getAmountReceived()
 	{
 		BigDecimal totalPayAmt = Env.ZERO;
-		for (MPayment payment : MPayment.getOfOrder(getM_Order()))
+		for (MPayment payment : MPayment.getOfOrder(getOrder()))
 			totalPayAmt = totalPayAmt.add(payment.getPayAmt());
 
 		return totalPayAmt;
@@ -2223,16 +2368,12 @@ public class CPOS {
 	public void printTicket() {
 		if (!hasOrder())
 			return;
-		try
-		{
-			//if (p_pos.getAD_PrintLabel_ID() != 0)
-			//		PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
-			//print standard document
-			ReportCtl.startDocumentPrint(0, getC_Order_ID(), false);
-		}
-		catch (Exception e) {
-			throw new AdempierePOSException("PrintTicket - Error Printing Ticket");
-		}
+		//	Print
+		POSTicketHandler ticketHandler = POSTicketHandler.getTicketHandler(this);
+		if(ticketHandler == null)
+			return;
+		//	
+		ticketHandler.printTicket();
 	}
 
 	/**
@@ -2301,5 +2442,20 @@ public class CPOS {
 	 */
 	public String getDateOrderedForView() {
 		return getDateFormat().format(getDateOrdered());
+	}
+	
+	/**
+	 * Get Class name for ticket handler
+	 * @return
+	 */
+	public String getTicketHandlerClassName() {
+		return entityPOS.getTicketClassName();
+	}
+	
+	public String get_TrxName() {
+		if(!hasOrder())
+			return null;
+		//	Default
+		return currentOrder.get_TrxName();
 	}
 }
