@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Production Batch default Doc Type" ReleaseNo="3.9.0" SeqNo="00860">
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="78218" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" oldValue="0">-1</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

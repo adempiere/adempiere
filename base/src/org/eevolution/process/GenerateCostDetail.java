@@ -304,7 +304,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
             final Comparator<Integer> orderTransaction =
                     new Comparator<Integer>() {
                         public int compare(Integer t1, Integer t2) {
-                            return t2.compareTo(t1);
+                            return t1.compareTo(t2);
                         }
                     };
 
@@ -341,7 +341,8 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                                     //System.out.println("Deferred Product : " + product.getValue() + " Name :" + product.getName());
 
                                 }
-
+                                if (dbTransaction==null)
+                                	dbTransaction = Trx.get(productId.toString(), true);
                                 MTransaction transaction = new MTransaction(getCtx(), transactionId, dbTransaction.getTrxName());
                                 generateCostDetail(accountSchema, costType, costElement, transaction);
                         }

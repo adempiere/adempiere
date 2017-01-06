@@ -277,6 +277,23 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Picked Qty.
+		@param PickedQty Picked Qty	  */
+	public void setPickedQty (BigDecimal PickedQty)
+	{
+		set_Value (COLUMNNAME_PickedQty, PickedQty);
+	}
+
+	/** Get Picked Qty.
+		@return Picked Qty	  */
+	public BigDecimal getPickedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PickedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Production)MTable.get(getCtx(), org.compiere.model.I_M_Production.Table_Name)
@@ -411,6 +428,54 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 			 return Env.ZERO;
 		return bd;
 	}
+	/** Set Reserved Quantity.
+	@param QtyReserved 
+	Reserved Quantity
+  */
+public void setQtyReserved (BigDecimal QtyReserved)
+{
+	set_Value (COLUMNNAME_QtyReserved, QtyReserved);
+}
+
+/** Get Reserved Quantity.
+	@return Reserved Quantity
+  */
+public BigDecimal getQtyReserved () 
+{
+	BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyReserved);
+	if (bd == null)
+		 return Env.ZERO;
+	return bd;
+}
+
+
+public org.compiere.model.I_M_ProductionLine getReversalLine() throws RuntimeException
+{
+	return (org.compiere.model.I_M_ProductionLine)MTable.get(getCtx(), org.compiere.model.I_M_ProductionLine.Table_Name)
+		.getPO(getReversalLine_ID(), get_TrxName());	}
+
+/** Set Reversal Line.
+	@param ReversalLine_ID 
+	Use to keep the reversal line ID for reversing costing purpose
+  */
+public void setReversalLine_ID (int ReversalLine_ID)
+{
+	if (ReversalLine_ID < 1) 
+		set_Value (COLUMNNAME_ReversalLine_ID, null);
+	else 
+		set_Value (COLUMNNAME_ReversalLine_ID, Integer.valueOf(ReversalLine_ID));
+}
+
+/** Get Reversal Line.
+	@return Use to keep the reversal line ID for reversing costing purpose
+  */
+public int getReversalLine_ID () 
+{
+	Integer ii = (Integer)get_Value(COLUMNNAME_ReversalLine_ID);
+	if (ii == null)
+		 return 0;
+	return ii.intValue();
+}
 
 	/** Set Quantity Used.
 		@param QtyUsed Quantity Used	  */

@@ -186,10 +186,14 @@ public class CostEngine {
 			MCostElement costElement, I_M_Production production) {
 		//	Get BOM Cost - Sum of individual lines
 		BigDecimal totalCost = Env.ZERO;
+		BigDecimal movementQty = Env.ZERO;
 		for (MProductionLine productionLine : ((MProduction)production).getLines())
 		{
 			if (productionLine.isParent())
-				continue;
+			{
+				movementQty = productionLine.getMovementQty();
+				continue;				
+			}
 
 			String productType = productionLine.getM_Product().getProductType();
 
@@ -200,7 +204,17 @@ public class CostEngine {
 			}
 			else if(X_M_Product.PRODUCTTYPE_Resource.equals(productType))
 			{
-				MCost costDimension = MCost.validateCostForCostType(accountSchema, costType, costElement,
+				MCostElement ceresource = null;
+				List<MCostElement>ces = MCostElement.getCostElement(productionLine.getCtx(), null);
+				for (MCostElement ce:ces)
+				{
+					if (ce.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
+					{
+						ceresource = ce;
+						break;
+					}
+				}
+				MCost costDimension = MCost.validateCostForCostType(accountSchema, costType, ceresource,
 						productionLine.getM_Product_ID(), productionLine.getAD_Org_ID(), productionLine.getM_Locator().getM_Warehouse_ID(),
 						productionLine.getM_AttributeSetInstance_ID(), productionLine.get_TrxName());
 
@@ -215,8 +229,8 @@ public class CostEngine {
 		}
 
 		BigDecimal unitCost = Env.ZERO;
-		if (production.getProductionQty().signum() != 0 && totalCost.signum() != 0)
-			unitCost = totalCost.divide(production.getProductionQty() , accountSchema.getCostingPrecision() , BigDecimal.ROUND_HALF_UP);
+		if (movementQty.signum() != 0 && totalCost.signum() != 0)
+			unitCost = totalCost.divide(movementQty, accountSchema.getCostingPrecision() , BigDecimal.ROUND_HALF_UP);
 
 		return unitCost;
 	}
@@ -336,6 +350,8 @@ public class CostEngine {
 					}
 					if(costThisLevel.signum() == 0)
 						costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
+					if (costLowLevel.signum() == 0)
+						costLowLevel = cost.getCurrentCostPriceLL();
 				}
 				//Get cost from movement from if it > that zero replace cost This Level
 				if (model instanceof MMovementLine) {
@@ -375,7 +391,7 @@ public class CostEngine {
                                 transaction.getM_Product_ID(),
                                 transaction.get_TrxName());
 						
-				// Material Receipt for Production light
+				/*// Material Receipt for Production light
 				if (productionLine.isParent()) {
 					// get Actual Cost for Cost Type and Cost Element
 					// if the product is purchase then no use low level 
@@ -385,7 +401,7 @@ public class CostEngine {
 						costThisLevel = Env.ZERO;
 					} 
 				} else if ( productionLine.getMovementQty().signum() < 0)
-					costLowLevel= Env.ZERO;
+					costLowLevel= Env.ZERO;*/
 			}
 		}
         else if (MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod())){
@@ -633,7 +649,7 @@ public class CostEngine {
 				MProductionLine line = (MProductionLine) transaction
 						.getM_ProductionLine();
 				MProduction production = (MProduction) line
-						.getM_ProductionPlan().getM_Production();
+						.getM_Production();
 				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , production,
                         production.getMovementDate()))
 					return;
