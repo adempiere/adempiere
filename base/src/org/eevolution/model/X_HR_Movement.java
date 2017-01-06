@@ -33,7 +33,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161103L;
+	private static final long serialVersionUID = 20170105L;
 
     /** Standard Constructor */
     public X_HR_Movement (Properties ctx, int HR_Movement_ID, String trxName)
@@ -249,6 +249,34 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BP_Relation getC_BP_Relation() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BP_Relation)MTable.get(getCtx(), org.compiere.model.I_C_BP_Relation.Table_Name)
+			.getPO(getC_BP_Relation_ID(), get_TrxName());	}
+
+	/** Set Partner Relation.
+		@param C_BP_Relation_ID 
+		Business Partner Relation
+	  */
+	public void setC_BP_Relation_ID (int C_BP_Relation_ID)
+	{
+		if (C_BP_Relation_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Relation_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Relation_ID, Integer.valueOf(C_BP_Relation_ID));
+	}
+
+	/** Get Partner Relation.
+		@return Business Partner Relation
+	  */
+	public int getC_BP_Relation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Relation_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

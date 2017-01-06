@@ -701,7 +701,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		catch (Exception e)
 		{
-			throw new AdempiereException("Execution error " + e.getMessage() + " @AD_Rule_ID@=" + rulee.getValue());
+			throw new AdempiereException("@HR_Employee_ID@ : " + employee.getName() + " Execution error " + e.getLocalizedMessage() + " @AD_Rule_ID@=" + rulee.getValue());
 		}
 		return result;
 	}
@@ -808,6 +808,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			MHRMovement movement = new MHRMovement(this, concept);
 			movement.setHR_Attribute_ID(attribute.getHR_Attribute_ID());
 			movement.setC_BPartner_ID(C_BPartner_ID);
+			movement.setC_BP_Relation_ID(attribute.getC_BP_Relation_ID());
 			movement.setAD_Rule_ID(attribute.getAD_Rule_ID());
 			movement.setValidFrom(dateFrom);
 			movement.setValidTo(dateTo);
@@ -1003,36 +1004,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @return
 	 */
 	private MHRMovement createMovementFromConcept(MHRConcept concept, boolean isPrinted) {
-		log.info("Calculating -> "+ Msg.parseTranslation(getCtx(), " @HR_Concept_ID@ ") + concept.getValue());
+		log.info("Calculating -> "+ Msg.parseTranslation(getCtx(), " @HR_Concept_ID@ "+ concept.getValue() + " -> " + concept.getName()));
 		columnType = concept.getColumnType();
-
-		/*List<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer();
-		whereClause.append("? >= ValidFrom AND ( ? <= ValidTo OR ValidTo IS NULL)");
-		params.add(dateFrom);
-		params.add(dateTo);
-		whereClause.append(" AND HR_Concept_ID = ? ");
-		params.add(concept.getHR_Concept_ID());
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept conc WHERE conc.HR_Concept_ID = HR_Attribute.HR_Concept_ID )");
-
-		// Check the concept is within a valid range for the attribute
-		if (concept.isEmployee()) {
-			whereClause.append(" AND C_BPartner_ID = ? AND (HR_Employee_ID = ? OR HR_Employee_ID IS NULL)");
-			params.add(employee.getC_BPartner_ID());
-			params.add(employee.get_ID());
-		}
-		else
-			whereClause.append(" AND C_BPartner_ID IS NULL ");
-
-
-		whereClause.append(" AND (HR_Payroll_ID = ? OR HR_Payroll_ID IS NULL)");
-		params.add(this.getHR_Payroll_ID());
-
-		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
-		.setParameters(params)
-		.setOnlyActiveRecords(true)
-		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
-		.first();*/
 		MHRAttribute attribute = MHRAttribute.getAttribute(concept , employee, getHR_Payroll_ID(),  dateFrom ,dateTo);
 		if (attribute == null || concept.isManual())
 		{
@@ -1052,6 +1025,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		movement.setHR_Attribute_ID(attribute.getHR_Attribute_ID());
 		Optional.ofNullable(payrollPeriod).ifPresent(period -> movement.setPeriodNo(period.getPeriodNo()));
 		movement.setC_BPartner_ID(partnerId);
+		movement.setC_BP_Relation_ID(attribute.getC_BP_Relation_ID());
 		movement.setHR_Concept_ID(concept.getHR_Concept_ID());
 		movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
 		movement.setHR_Process_ID(getHR_Process_ID());
@@ -1062,6 +1036,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		movement.setIsPrinted(isPrinted);
 		movement.setIsManual(concept.isManual());
 		int bpGroupId = DB.getSQLValue(null, "SELECT C_BP_Group_ID FROM C_BPartner WHERE C_BPartner_ID=?", partnerId);
+		movement.setC_BP_Group_ID(bpGroupId);
 		movement.setEmployee(employee);
 
 		if (MHRConcept.TYPE_RuleEngine.equals(concept.getType()))
@@ -1443,15 +1418,14 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		return value.doubleValue();
 	} // getList
 
-
 	/**
 	 * Helper Method : Get Attribute [get Attribute to search key concept ]
-	 * @param pConcept - Value to Concept
+	 * @param conceptValue - Value to Concept
 	 * @return	Amount of concept, applying to employee
 	 */ 
-	public double getAttribute (String pConcept)
+	public double getAttribute (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), pConcept);
+		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
 		if (concept == null)
 			return 0;
 
@@ -1483,7 +1457,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		//check concept
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
 				+ " AND c.Value = ?)");
-		params.add(pConcept);
+		params.add(conceptValue);
 		//
 		if (!concept.getType().equals(MHRConcept.TYPE_Information))
 		{
@@ -1873,12 +1847,12 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		
 	/**
 	 * Helper Method : Get AttributeInvoice 
-	 * @param pConcept - Value to Concept
+	 * @param conceptValue - Value to Concept
 	 * @return	C_Invoice_ID, 0 if does't
 	 */ 
-	public int getAttributeInvoice (String pConcept)
+	public int getAttributeInvoice (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), pConcept);
+		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
 		if (concept == null)
 			return 0;
 		
@@ -1893,7 +1867,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		//check concept
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
 						   + " AND c.Value = ?)");
-		params.add(pConcept);
+		params.add(conceptValue);
 		//
 		if (!MHRConcept.TYPE_Information.equals(concept.getType()))
 		{
@@ -1915,12 +1889,12 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		
 	/**
 	 * Helper Method : Get AttributeDocType
-	 * @param pConcept - Value to Concept
+	 * @param conceptValue - Value to Concept
 	 * @return	C_DocType_ID, 0 if does't
 	 */ 
-	public int getAttributeDocType (String pConcept)
+	public int getAttributeDocType (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), pConcept);
+		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
 		if (concept == null)
 			return 0;
 		
@@ -1935,7 +1909,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		//check concept
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
 						   + " AND c.Value = ?)");
-		params.add(pConcept);
+		params.add(conceptValue);
 		//
 		if (!MHRConcept.TYPE_Information.equals(concept.getType()))
 		{
