@@ -34,6 +34,48 @@ public class MHRAttribute extends X_HR_Attribute
 	private static final long serialVersionUID = 3783311896401143394L;
 
 	/**
+	 * Get Employee first ttribute based on concept , partner , payroll , description and valid from
+	 * @param concept
+	 * @param partnerId
+	 * @param payrollId
+	 * @param desc
+	 * @param validFrom
+	 * @return
+	 */
+	public static MHRAttribute getAttribute(MHRConcept concept , Integer partnerId, int payrollId, String desc , Timestamp validFrom) {
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		whereClause.append(MHRAttribute.COLUMNNAME_HR_Concept_ID).append("=?");
+		params.add(concept.getHR_Concept_ID());
+		if (partnerId > 0) {
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_C_BPartner_ID).append("=? ");
+			params.add(partnerId);
+		}
+
+		if (desc != null && desc.length() > 0) {
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_Description).append("=? ");
+			params.add(desc);
+		}
+
+		if (payrollId > 0) {
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_HR_Payroll_ID).append("? ");
+			params.add(payrollId);
+		}
+
+		if (validFrom != null) {
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_ValidFrom).append("=? ");
+			params.add(validFrom);
+		}
+
+		MHRAttribute attribute = new Query(concept.getCtx(), MHRAttribute.Table_Name, whereClause.toString(), concept.get_TrxName())
+				.setParameters(params)
+				.setOnlyActiveRecords(true)
+				.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+				.first();
+		return attribute;
+	}
+
+	/**
 	 * Get Employee Attribute
 	 * @param concept
 	 * @param employee
@@ -42,10 +84,11 @@ public class MHRAttribute extends X_HR_Attribute
 	 * @param dateTo
 	 * @return
 	 */
-	public static MHRAttribute getAttribute(MHRConcept concept , MHREmployee employee , int payrollId, Timestamp dateFrom, Timestamp dateTo)
+	public static MHRAttribute getAttribute(MHRConcept concept , MHREmployee employee , int payrollId , Timestamp dateFrom, Timestamp dateTo)
 	{
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
+
 		whereClause.append("? >= ValidFrom AND ( ? <= ValidTo OR ValidTo IS NULL)");
 		params.add(dateFrom);
 		params.add(dateTo);
@@ -54,7 +97,7 @@ public class MHRAttribute extends X_HR_Attribute
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept conc WHERE conc.HR_Concept_ID = HR_Attribute.HR_Concept_ID )");
 
 		// Check the concept is within a valid range for the attribute
-		if (concept.isEmployee()) {
+		if (concept.isEmployee() && employee != null) {
 			whereClause.append(" AND C_BPartner_ID = ? AND (HR_Employee_ID = ? OR HR_Employee_ID IS NULL)");
 			params.add(employee.getC_BPartner_ID());
 			params.add(employee.get_ID());
@@ -182,6 +225,22 @@ public class MHRAttribute extends X_HR_Attribute
 	public MHRAttribute(Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
+	}
+
+	/**
+	 *
+	 * @param importAttribute
+	 */
+	public MHRAttribute(X_I_HR_Attribute importAttribute)
+	{
+		super(importAttribute.getCtx() , 0 , importAttribute.get_TrxName());
+		setAD_Org_ID(importAttribute.getAD_Org_ID());
+		setHR_Employee_ID(importAttribute.getHR_Employee_ID());
+		setC_BPartner_ID(importAttribute.getC_BPartner_ID());
+		setC_Charge_ID(importAttribute.getC_Charge_ID());
+		setHR_Concept_ID(importAttribute.getHR_Concept_ID());
+		setDescription(importAttribute.getDescription());
+		setIsPrinted(importAttribute.isPrinted());
 	}
 
 	@Override
