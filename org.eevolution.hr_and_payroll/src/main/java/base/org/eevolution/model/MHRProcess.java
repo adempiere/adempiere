@@ -915,7 +915,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			scriptCtx.remove("_HR_Employee_ID");
 
 			scriptCtx.put("_DateStart", employee.getStartDate());
-			scriptCtx.put("_DateEnd", employee.getEndDate() == null ? TimeUtil.getDay(2999, 12, 31) : employee.getEndDate());
+			scriptCtx.put("_DateEnd", employee.getEndDate() == null ? dateTo == null ? getDateAcct() : dateTo : employee.getEndDate());
 			scriptCtx.put("_Days", TimeUtil.getDaysBetween(payrollPeriod.getStartDate(),payrollPeriod.getEndDate()) + 1);
 			scriptCtx.put("_C_BPartner_ID", partner.getC_BPartner_ID());
 			scriptCtx.put("_HR_Employee_ID", employee.getHR_Employee_ID());
