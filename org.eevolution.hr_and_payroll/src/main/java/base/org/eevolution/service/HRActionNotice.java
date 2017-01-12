@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -52,19 +53,22 @@ public class HRActionNotice
 	/**	Window No			*/
 	public int         	m_WindowNo = 0;
 
-	public static  I_HR_Process m_process = null;
-	public static int m_HR_Process_ID = 0;
-	public static int m_HR_Payroll_ID = 0;
-	public static int m_HR_Concept_ID = 0;
-	public static int m_C_BPartner_ID = 0;
-	public static int sHR_Movement_ID = 0; // // initial not exist record in Movement to actual date
+	protected static  I_HR_Process payrollProcess = null;
+	protected static int payrollProcessId = 0;
+	protected static int payrollId = 0;
+	protected static int conceptId = 0;
+	protected static int partnerId = 0;
+	protected static int movementId = 0; // // initial not exist record in Movement to actual date
 
-	public Timestamp m_dateStart = null;
-	public static Timestamp m_dateEnd = null;
-	public int m_qty = 0;
-	public BigDecimal m_amount = Env.ZERO;
-	public String m_text = null;
-	public Timestamp m_date = null;
+	protected Timestamp dateStart = null;
+	protected static Timestamp dateEnd = null;
+	protected BigDecimal quantity = Env.ZERO;
+	protected BigDecimal amount = Env.ZERO;
+	protected String text = null;
+	protected Timestamp serviceDate = null;
+	protected String description;
+	protected Timestamp validFrom = null;
+	protected Timestamp validTo = null;
 
 
 	public void dynInit() throws Exception
@@ -119,9 +123,9 @@ public class HRActionNotice
 				+ " INNER JOIN HR_Employee e ON (e.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN HR_Concept hc ON (hm.HR_Concept_ID=hc.HR_Concept_ID)"
 				+ " LEFT OUTER JOIN AD_Rule er ON (hm.AD_Rule_ID=er.AD_Rule_ID)"
-				+ " WHERE hm.Processed='N' AND hp.HR_Process_ID = " +m_HR_Process_ID
+				+ " WHERE hm.Processed='N' AND hp.HR_Process_ID = " + payrollProcessId
 				//+ " AND IsStatic = 'Y' " // Just apply incidences [add 30Dic2006 to see everything]
-				+ " AND hm.C_BPartner_ID = " + m_C_BPartner_ID
+				+ " AND hm.C_BPartner_ID = " + partnerId
 				//	+ " AND (Qty > 0 OR Amount > 0 OR hm.TextMsg IS NOT NULL OR ServiceDate IS NOT NULL) "
 				);
 		//if (fieldValidFrom.getValue() != null ) {
@@ -197,7 +201,7 @@ public class HRActionNotice
 		KeyNamePair pp = new KeyNamePair(0, "");
 		list.add(pp);
 		String sql = MRole.getDefault().addAccessSQL(
-				"SELECT DISTINCT bp.C_BPartner_ID,bp.Name FROM HR_Employee hrpe INNER JOIN C_BPartner bp ON(bp.C_BPartner_ID=hrpe.C_BPartner_ID)",
+				"SELECT DISTINCT bp.C_BPartner_ID,bp.Value || ' - ' || bp.Name || ' ' || bp.Name2 FROM HR_Employee hrpe INNER JOIN C_BPartner bp ON(bp.C_BPartner_ID=hrpe.C_BPartner_ID)",
 				"hrpe",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + " AND hrpe.IsActive = 'Y' ";
 		if ( process.getHR_Payroll_ID() != 0){
 			sql += " AND (hrpe.HR_Payroll_ID =" +process.getHR_Payroll_ID()+ " OR hrpe.HR_Payroll_ID is NULL)" ;
@@ -206,7 +210,7 @@ public class HRActionNotice
  			if ( process.getHR_Employee_ID() > 0 )
  				sql += " AND (hrpe.HR_Employee_ID =" + process.getHR_Employee_ID()+" OR hrpe.HR_Employee_ID is NULL)" ;
 		}
-		sql += " ORDER BY bp.Name ";
+		sql += " ORDER BY 2 ";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -244,12 +248,12 @@ public class HRActionNotice
 
 		ArrayList<ValueNamePair> data = new ArrayList<ValueNamePair>();
 
-		String sql = "SELECT DISTINCT hrpc.HR_Concept_ID,hrpc.Name,hrpc.Value "
+		String sql = "SELECT DISTINCT hrpc.HR_Concept_ID,hrpc.Value || ' - ' || hrpc.Name,hrpc.Value "
 			+ " FROM HR_Concept hrpc "
 			+ " INNER JOIN HR_Attribute hrpa ON (hrpa.HR_Concept_ID=hrpc.HR_Concept_ID)"
 			+ " WHERE hrpc.AD_Client_ID = " +Env.getAD_Client_ID(Env.getCtx())
 			+ " AND hrpc.IsActive = 'Y' AND hrpc.IsManual = 'Y' AND hrpc.Type != 'E'"
-			+ " AND (hrpa.HR_Payroll_ID = " +m_HR_Payroll_ID+ " OR hrpa.HR_Payroll_ID IS NULL)";
+			+ " AND (hrpa.HR_Payroll_ID = " + payrollId + " OR hrpa.HR_Payroll_ID IS NULL)";
 		if (!isFieldProcessNull)    
 		{ // Process
 			if (process.getHR_Payroll_ID() != 0) // Process & Payroll
@@ -259,7 +263,7 @@ public class HRActionNotice
  			if (process.getHR_Department_ID() != 0 ); // Process & Employee
  				sql = sql + " AND (hrpa.HR_Employee_ID = " + process.getHR_Employee_ID()+" OR hrpa.HR_Employee_ID is NULL)" ;	
 		}
-		sql = sql +" ORDER BY hrpc.Name";
+		sql = sql +" ORDER BY 2";
 		
 		try
 		{
@@ -290,13 +294,13 @@ public class HRActionNotice
 	 */
 	public int seekMovement(Timestamp dt)
 	{
-		if(m_HR_Concept_ID <= 0 )
+		if(conceptId <= 0 )
 			return 0;
 		int HR_Movement_ID = 0;
 		String date = DB.TO_DATE(dt);
-		int Process_ID = m_HR_Process_ID;
-		int Employee_ID = m_C_BPartner_ID;
-		int Concept_ID = m_HR_Concept_ID;
+		int Process_ID = payrollProcessId;
+		int Employee_ID = partnerId;
+		int Concept_ID = conceptId;
 		
 		I_HR_Concept concept = new X_HR_Concept(Env.getCtx(),Concept_ID, null);
 		//
@@ -333,5 +337,85 @@ public class HRActionNotice
 		sql += " AND zz.Value = "+sqlValue;
 		return sql;
 	} // getSQL_ColumnType
+
+	protected Integer getConceptId() {
+		return conceptId;
+	}
+
+	protected Integer getPartnerId() {
+		return partnerId;
+	}
+
+	protected I_HR_Process getPayrollProcess() {
+		return payrollProcess;
+	}
+
+	protected BigDecimal getQuantity() {
+		return quantity;
+	}
+
+	protected BigDecimal getAmount() {
+		return amount;
+	}
+
+	protected String getText() {
+		return text;
+	}
+
+	protected String getDescription() {
+		return text;
+	}
+
+	protected Timestamp getValidFrom() {
+		return validFrom;
+	}
+
+	protected Timestamp getValidTo() {
+		return validTo;
+	}
+	protected Timestamp getServiceDate() {
+		return serviceDate;
+	}
+
+
+
+	public MHRMovement saveMovement() {
+		MHRConcept concept = MHRConcept.get(Env.getCtx(), getConceptId());
+		int movementId = HRActionNotice.movementId > 0 ? HRActionNotice.movementId : 0;
+		MHRMovement movement = new MHRMovement(Env.getCtx(), movementId, null);
+		I_HR_Period payrollPeriod = getPayrollProcess().getHR_Period();
+		movement.setSeqNo(concept.getSeqNo());
+		Optional.ofNullable(getDescription()).ifPresent(description -> movement.setDescription((description.toString())));
+		movement.setHR_Process_ID(getPayrollProcess().getHR_Process_ID());
+		Optional.ofNullable(payrollPeriod).ifPresent(period -> movement.setPeriodNo(period.getPeriodNo()));
+		movement.setC_BPartner_ID(getPartnerId());
+		movement.setHR_Concept_ID(getConceptId());
+		movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+		movement.setColumnType(concept.getColumnType());
+		Optional.ofNullable(getQuantity()).ifPresent(qty -> movement.setQty((BigDecimal) qty));
+		Optional.ofNullable(getAmount()).ifPresent(amount -> movement.setAmount((BigDecimal) amount));
+		Optional.ofNullable(getText()).ifPresent(msg -> movement.setTextMsg((String) msg.toString()));
+		Optional.ofNullable(getServiceDate()).ifPresent(date -> movement.setServiceDate((Timestamp) date));
+		movement.setValidFrom(getValidFrom());
+		movement.setValidTo(getValidTo());
+		MHREmployee employee = MHREmployee.getActiveEmployee(Env.getCtx(), movement.getC_BPartner_ID(), null);
+		if (employee != null) {
+			movement.setAD_Org_ID(employee.getAD_Org_ID());
+			movement.setHR_Department_ID(employee.getHR_Department_ID());
+			movement.setHR_Job_ID(employee.getHR_Job_ID());
+			movement.setHR_SkillType_ID(employee.getHR_SkillType_ID());
+			movement.setC_Activity_ID(employee.getC_Activity_ID() > 0 ? employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());
+		}
+		movement.setIsManual(true);
+		movement.saveEx();
+		// check if user saved an empty record and delete it
+		if ((movement.getAmount() == null || Env.ZERO.compareTo(movement.getAmount()) == 0)
+				&& (movement.getQty() == null || Env.ZERO.compareTo(movement.getQty()) == 0)
+				&& (movement.getServiceDate() == null)
+				&& (movement.getTextMsg() == null || movement.getTextMsg().trim().length() == 0)) {
+			movement.deleteEx(false);
+		}
+		return movement;
+	}
 
 }   //  VHRActionNotice
