@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -33,16 +34,101 @@ public class MHRAttribute extends X_HR_Attribute
 {
 	private static final long serialVersionUID = 3783311896401143394L;
 
+
 	/**
-	 * Get Employee first ttribute based on concept , partner , payroll , description and valid from
+	 * Get Attribute By Concept value , partner Id , reference and description
+	 * @param ctx
+	 * @param conceptValue
+	 * @param partnerId
+	 * @param referenceNo
+	 * @param description
+	 * @param trxName
+	 * @return
+	 */
+	public static Optional<MHRAttribute> getByConceptValueAndPartnerId(Properties ctx , String conceptValue, Integer partnerId , String referenceNo, String description, String trxName)
+	{
+		if (partnerId == null)
+			return Optional.empty();
+
+		StringBuilder whereClause = new StringBuilder();
+		List<Object> parameters = new ArrayList<Object>();
+		whereClause.append("EXISTS (SELECT 1 FROM HR_Concept c WHERE c.IsEmployee=? AND c.HR_Concept_ID=HR_Attribute.HR_Concept_ID AND c.Value=?)");
+		parameters.add("Y");
+		parameters.add(conceptValue);
+		if (partnerId != null && partnerId > 0)
+		{
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_C_BPartner_ID).append("=?");
+			parameters.add(partnerId);
+		}
+		if (description != null && description.length() > 0)
+		{
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_Description).append("=?");
+			parameters.add(description);
+		}
+		if (referenceNo != null && referenceNo.length() > 0)
+		{
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_ReferenceNo).append("=?");
+			parameters.add(referenceNo);
+		}
+		MHRAttribute attribute = new Query(ctx , MHRAttribute.Table_Name , whereClause.toString(), trxName)
+				.setClient_ID()
+				.setParameters(parameters)
+				.first();
+		return Optional.ofNullable(attribute);
+	}
+	/**
+	 * Find by concept value , partner Id , reference no and description
+	 * @param ctx
+	 * @param conceptValue
+	 * @param partnerId
+	 * @param referenceNo
+	 * @param description
+	 * @param trxName
+	 * @return
+	 */
+	public static List<MHRAttribute> findByConceptValueAndPartnerId(Properties ctx , String conceptValue, Integer partnerId , String referenceNo , String description , String trxName)
+	{
+		List<MHRAttribute> attributes = new ArrayList<MHRAttribute>();
+		if (partnerId == null)
+			return attributes;
+
+		StringBuilder whereClause = new StringBuilder();
+		List<Object> parameters = new ArrayList<Object>();
+		whereClause.append("EXISTS (SELECT 1 FROM HR_Concept c WHERE c.IsEmployee=? AND c.HR_Concept_ID=HR_Attribute.HR_Concept_ID AND c.Value=?)");
+		parameters.add("Y");
+		parameters.add(conceptValue);
+		if (partnerId != null && partnerId > 0)
+		{
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_C_BPartner_ID).append("=?");
+			parameters.add(partnerId);
+		}
+		if (description != null && description.length() > 0)
+		{
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_Description).append("=?");
+			parameters.add(description);
+		}
+		if (referenceNo != null && referenceNo.length() > 0)
+		{
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_ReferenceNo).append("=?");
+			parameters.add(referenceNo);
+		}
+		attributes = new Query(ctx , MHRAttribute.Table_Name , whereClause.toString(), trxName)
+				.setClient_ID()
+				.setParameters(parameters)
+				.list();
+		return attributes;
+	}
+
+	/**
+	 * Get first attribute by concept , partner id , payroll id , reference no , description and valid fro
 	 * @param concept
 	 * @param partnerId
 	 * @param payrollId
-	 * @param desc
-	 * @param validFrom
-	 * @return
+	 * @param referenceNo
+	 * @param description
+	 *@param validFrom  @return
 	 */
-	public static MHRAttribute getAttribute(MHRConcept concept , Integer partnerId, int payrollId, String desc , Timestamp validFrom) {
+	public static MHRAttribute getByConceptAndPartnerId(MHRConcept concept, Integer partnerId, int payrollId, String referenceNo, String description, Timestamp validFrom) {
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		whereClause.append(MHRAttribute.COLUMNNAME_HR_Concept_ID).append("=?");
@@ -52,9 +138,14 @@ public class MHRAttribute extends X_HR_Attribute
 			params.add(partnerId);
 		}
 
-		if (desc != null && desc.length() > 0) {
+		if (referenceNo != null && referenceNo.length() > 0) {
+			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_ReferenceNo).append("=? ");
+			params.add(referenceNo);
+		}
+
+		if (description != null && description.length() > 0) {
 			whereClause.append(" AND ").append(MHRAttribute.COLUMNNAME_Description).append("=? ");
-			params.add(desc);
+			params.add(description);
 		}
 
 		if (payrollId > 0) {
@@ -84,7 +175,7 @@ public class MHRAttribute extends X_HR_Attribute
 	 * @param dateTo
 	 * @return
 	 */
-	public static MHRAttribute getAttribute(MHRConcept concept , MHREmployee employee , int payrollId , Timestamp dateFrom, Timestamp dateTo)
+	public static MHRAttribute getByConceptAndEmployee(MHRConcept concept , MHREmployee employee , int payrollId , Timestamp dateFrom, Timestamp dateTo)
 	{
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
@@ -120,13 +211,13 @@ public class MHRAttribute extends X_HR_Attribute
 	/**
 	 * Get Attribute to Invoice
 	 * @param ctx
-	 * @param partnerId
 	 * @param conceptId
+	 * @param partnerId
 	 * @param validFrom
 	 * @param trxName
 	 * @return
 	 */
-	public static MHRAttribute getAttributeToInvoice(Properties ctx,int partnerId, int conceptId , Timestamp validFrom,  String trxName) {
+	public static MHRAttribute getByConceptIdAndPartnerId(Properties ctx, int conceptId, int partnerId, Timestamp validFrom, String trxName) {
 		StringBuilder whereClause = new StringBuilder("(");
 		whereClause.append(I_HR_Attribute.COLUMNNAME_C_BPartner_ID).append("=? OR ")
 				.append(I_HR_Attribute.COLUMNNAME_C_BPartner_ID).append(" IS NULL) AND ");
@@ -149,7 +240,7 @@ public class MHRAttribute extends X_HR_Attribute
 	 * @param startDate
 	 * @return attribute
 	 */
-	public static MHRAttribute forValue(Properties ctx, String conceptValue, int partnerId, Timestamp startDate)
+	public static MHRAttribute getByConceptValueAndPartnerId(Properties ctx, String conceptValue, int partnerId, Timestamp startDate)
 	{
 		if (Util.isEmpty(conceptValue, true))
 		{
@@ -179,7 +270,7 @@ public class MHRAttribute extends X_HR_Attribute
 	 * @param endDate
 	 * @return attribute
 	 */	
-	public static MHRAttribute forValue(Properties ctx, String conceptValue, int partnerId, Timestamp startDate, Timestamp endDate)
+	public static MHRAttribute getByConceptValueAndPartnerId(Properties ctx, String conceptValue, int partnerId, Timestamp startDate, Timestamp endDate)
 	{
 		if (Util.isEmpty(conceptValue, true))
 		{
@@ -188,7 +279,7 @@ public class MHRAttribute extends X_HR_Attribute
 
 		if (endDate == null)
 		{
-			return forValue(ctx, conceptValue, partnerId, startDate);
+			return getByConceptValueAndPartnerId(ctx, conceptValue, partnerId, startDate);
 		}
 		else
 		{			

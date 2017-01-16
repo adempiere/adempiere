@@ -382,6 +382,19 @@ public interface I_I_HR_Attribute
 	  */
 	public BigDecimal getQty();
 
+    /** Column name ReferenceNo */
+    public static final String COLUMNNAME_ReferenceNo = "ReferenceNo";
+
+	/** Set Reference No.
+	  * Your customer or vendor number at the Business Partner's site
+	  */
+	public void setReferenceNo (String ReferenceNo);
+
+	/** Get Reference No.
+	  * Your customer or vendor number at the Business Partner's site
+	  */
+	public String getReferenceNo();
+
     /** Column name ServiceDate */
     public static final String COLUMNNAME_ServiceDate = "ServiceDate";
 

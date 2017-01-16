@@ -123,7 +123,7 @@ public class MRule extends X_AD_Rule
 	}	//	getModelValidatorLoginRules
 
 	/**	Cache						*/
-	private static CCache<Integer,MRule> s_cache = new CCache<Integer,MRule>("AD_Rule", 20);
+	private static CCache<Integer,MRule> s_cache = new CCache<Integer,MRule>("AD_Rule", 100);
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MRule.class);
@@ -169,7 +169,7 @@ public class MRule extends X_AD_Rule
 			String engineName = getEngineName();
 			if (engineName == null || 
 					(!   (engineName.equalsIgnoreCase("groovy")
-							|| engineName.equalsIgnoreCase("jython") 
+							|| engineName.equalsIgnoreCase("jython")
 							|| engineName.equalsIgnoreCase("beanshell")))) {
 				log.saveError("Error", Msg.getMsg(getCtx(), "WrongScriptValue"));
 				return false;
@@ -197,7 +197,7 @@ public class MRule extends X_AD_Rule
 		factory = new ScriptEngineManager();
 		String engineName = getEngineName();
 		if (engineName != null)
-			engine = factory.getEngineByName(getEngineName());
+			engine = factory.getEngineByName(engineName);
 		return engine;
 	}
 

@@ -70,20 +70,33 @@ public class MHRConcept extends X_HR_Concept
 	}
 
 	/**
-	 * Get Concept by Value
+	 * for value
 	 * @param ctx
 	 * @param value
 	 * @return
+	 *
 	 */
-	public static MHRConcept forValue(Properties ctx, String value)
+	@Deprecated
+	public static MHRConcept forValue(Properties ctx, String conceptValue)
 	{
-		if (Util.isEmpty(value, true))
+		return getByValue(ctx, conceptValue);
+	}
+
+	/**
+	 * Get Concept by Value
+	 * @param ctx
+	 * @param conceptValue
+	 * @return
+	 */
+	public static MHRConcept getByValue(Properties ctx, String conceptValue)
+	{
+		if (Util.isEmpty(conceptValue, true))
 		{
 			return null;
 		}
 		
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		final String key = AD_Client_ID+"#"+value;
+		final String key = AD_Client_ID+"#"+conceptValue;
 		MHRConcept concept = cacheValue.get(key);
 		if (concept != null)
 		{
@@ -92,7 +105,7 @@ public class MHRConcept extends X_HR_Concept
 		
 		final String whereClause = COLUMNNAME_Value+"=? AND AD_Client_ID IN (?,?)"; 
 		concept = new Query(ctx, Table_Name, whereClause, null)
-							.setParameters(new Object[]{value, 0, AD_Client_ID})
+							.setParameters(conceptValue, 0, AD_Client_ID)
 							.setOnlyActiveRecords(true)
 							.setOrderBy("AD_Client_ID DESC")
 							.first();

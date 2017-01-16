@@ -19,12 +19,7 @@ package org.eevolution.process;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
-import org.eevolution.model.I_I_HR_Attribute;
-import org.eevolution.model.MHRAttribute;
-import org.eevolution.model.MHRConcept;
-import org.eevolution.model.MHREmployee;
-import org.eevolution.model.MHRPayroll;
-import org.eevolution.model.X_I_HR_Attribute;
+import org.eevolution.model.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -96,13 +91,15 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
             Optional<Timestamp> optionalValidTo = Optional.ofNullable(importAttribute.getValidTo());
             Optional<Integer> optionalRuleId = Optional.ofNullable(importAttribute.getAD_Rule_ID());
             Optional<MHRPayroll> optionalPayroll = Optional.ofNullable(MHRPayroll.forValue(getCtx(), importAttribute.getPayrollValue()));
+            Optional<String> optinalReferenceNo = Optional.ofNullable(importAttribute.getReferenceNo());
             int payrollId = optionalPayroll.isPresent() ? optionalPayroll.get().getHR_Payroll_ID() : 0;
             MHREmployee employee = MHREmployee.getActiveEmployee(getCtx() , partnerId , get_TrxName());
             Optional<MHRAttribute> optionalAttribute = Optional.ofNullable(
-                    MHRAttribute.getAttribute(
+                    MHRAttribute.getByConceptAndPartnerId(
                             concept,
                             partnerId,
                             payrollId,
+                            importAttribute.getReferenceNo(),
                             importAttribute.getDescription(),
                             importAttribute.getValidFrom())
             );
@@ -114,6 +111,7 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
                 optionalPayroll.ifPresent(payroll -> attribute.setHR_Payroll_ID(payroll.getHR_Payroll_ID()));
             }
 
+            optinalReferenceNo.ifPresent(referenceNo -> attribute.setReferenceNo(referenceNo));
             optionalAmount.filter(amount -> amount != null && amount.signum() > 0).ifPresent(amount -> attribute.setAmount(amount));
             optionalQuantity.filter(quantity -> quantity != null && quantity.signum() > 0).ifPresent(quantity -> attribute.setQty(quantity));
             optionalServiceDate.ifPresent(serviceDate -> attribute.setServiceDate(serviceDate));
