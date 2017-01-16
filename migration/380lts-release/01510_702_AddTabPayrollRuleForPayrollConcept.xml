@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add tab Payroll rule for Payroll Concept this type #702" ReleaseNo="3.9.0" SeqNo="620">
+  <Migration EntityType="D" Name="Add tab Payroll rule for Payroll Concept this type #702" ReleaseNo="3.9.0" SeqNo="01510">
     <Comments>https://github.com/adempiere/adempiere/issues/702</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="106" Action="I" Record_ID="54266" Table="AD_Tab">
