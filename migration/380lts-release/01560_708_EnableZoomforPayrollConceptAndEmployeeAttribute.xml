@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Enable Zoom for Payroll Concept and Employee Attribute #708" ReleaseNo="3.9.0" SeqNo="670">
+  <Migration EntityType="D" Name="Enable Zoom for Payroll Concept and Employee Attribute #708" ReleaseNo="3.9.0" SeqNo="01560">
     <Comments>https://github.com/adempiere/adempiere/issues/708</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="U" Record_ID="53096" Table="AD_Table">
