@@ -44,7 +44,9 @@ import org.eevolution.model.X_I_HR_Movement;
  *	Import Payroll Movements from I_HR_Movement
  *
  * 	@author 	GlobalQSS/jjgq
+ * 	@deprecated implement new approach not si not use direct inserts
  */
+@Deprecated
 public class ImportPayrollMovement extends SvrProcess
 {
 	/**	Client to be imported to		*/
@@ -329,6 +331,4 @@ public class ImportPayrollMovement extends SvrProcess
 		addLog (0, null, new BigDecimal (noUpdatehrm), "@HR_Movement_ID@: @Updated@");
 		return "";
 	}	//	doIt
-	
-
 }	//	ImportPayrollMovement

@@ -33,7 +33,7 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170115L;
+	private static final long serialVersionUID = 20170120L;
 
     /** Standard Constructor */
     public X_I_HR_Movement (Properties ctx, int I_HR_Movement_ID, String trxName)
@@ -42,7 +42,7 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
       /** if (I_HR_Movement_ID == 0)
         {
 			setI_HR_Movement_ID (0);
-			setI_IsImported (null);
+			setI_IsImported (false);
 // N
         } */
     }
@@ -301,17 +301,24 @@ public class X_I_HR_Movement extends PO implements I_I_HR_Movement, I_Persistent
 		@param I_IsImported 
 		Has this import been processed
 	  */
-	public void setI_IsImported (String I_IsImported)
+	public void setI_IsImported (boolean I_IsImported)
 	{
-		set_Value (COLUMNNAME_I_IsImported, I_IsImported);
+		set_Value (COLUMNNAME_I_IsImported, Boolean.valueOf(I_IsImported));
 	}
 
 	/** Get Imported.
 		@return Has this import been processed
 	  */
-	public String getI_IsImported () 
+	public boolean isI_IsImported () 
 	{
-		return (String)get_Value(COLUMNNAME_I_IsImported);
+		Object oo = get_Value(COLUMNNAME_I_IsImported);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Process Name.

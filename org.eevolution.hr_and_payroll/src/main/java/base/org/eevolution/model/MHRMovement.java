@@ -71,7 +71,6 @@ public class MHRMovement extends X_HR_Movement
 			return  movements;
 
 		return findByProcessAndConceptIdAndPartnerId(process, concept.getHR_Concept_ID() , partnerId, referenceNo , description);
-
 	}
 
 
@@ -221,51 +220,41 @@ public class MHRMovement extends X_HR_Movement
 	
 	/**
 	 * 	Import Constructor
-	 *	@param importMovement import
+	 *	@param importPayrollMovement import
 	 */
-	public MHRMovement (X_I_HR_Movement importMovement)
+	public MHRMovement (X_I_HR_Movement importPayrollMovement)
 	{
-		this (importMovement.getCtx(), 0, importMovement.get_TrxName());
-
-		MHRConcept hrconcept = new MHRConcept(getCtx(), importMovement.getHR_Concept_ID(), get_TrxName());
-		MHREmployee employee  = MHREmployee.getActiveEmployee(getCtx(), importMovement.getC_BPartner_ID(), get_TrxName());
-		MHRProcess process = new MHRProcess(getCtx(), importMovement.getHR_Process_ID(), get_TrxName());
-
-		setAD_Org_ID(process.getAD_Org_ID());
-		setUpdatedBy(importMovement.getUpdatedBy());
-		//
-		setHR_Process_ID(importMovement.getHR_Process_ID());
-		setC_BPartner_ID(importMovement.getC_BPartner_ID());
-		setHR_Concept_ID(importMovement.getHR_Concept_ID());
-
-
-		setHR_Concept_Category_ID(hrconcept.getHR_Concept_Category_ID());
-		setDescription(importMovement.getDescription());
-		
+		this (importPayrollMovement.getCtx(), 0, importPayrollMovement.get_TrxName());
+		MHRConcept concept = new MHRConcept(getCtx(), importPayrollMovement.getHR_Concept_ID(), get_TrxName());
+		MHREmployee employee  = MHREmployee.getActiveEmployee(getCtx(), importPayrollMovement.getC_BPartner_ID(), get_TrxName());
+		setAD_Org_ID(employee.getAD_Org_ID());
+		setUpdatedBy(importPayrollMovement.getUpdatedBy());
+		setHR_Process_ID(importPayrollMovement.getHR_Process_ID());
+		setC_BPartner_ID(importPayrollMovement.getC_BPartner_ID());
+		setHR_Concept_ID(importPayrollMovement.getHR_Concept_ID());
+		setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+		setDescription(importPayrollMovement.getDescription());
 		setHR_Job_ID(employee.getHR_Job_ID());
 		setHR_Department_ID(employee.getHR_Department_ID());
 		setC_Activity_ID(employee.getC_Activity_ID());
-		setColumnType(hrconcept.getColumnType());
-		setValidFrom(importMovement.getValidFrom());
-        setValidTo(importMovement.getValidTo());
-		setIsManual(hrconcept.isManual());
-		setIsPrinted(hrconcept.isPrinted());
-
-		// set corresponding values
+		setColumnType(concept.getColumnType());
+		setValidFrom(importPayrollMovement.getValidFrom());
+        setValidTo(importPayrollMovement.getValidTo());
+		setIsManual(concept.isManual());
+		setIsPrinted(concept.isPrinted());
 		setAmount(null);
 		setQty(null);
 		setServiceDate(null);
 		setTextMsg(null);
-		if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
-			setQty(importMovement.getQty());
-		} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
-			setAmount(importMovement.getAmount());
-		} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
-			setServiceDate(importMovement.getServiceDate());
-		} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
-			setTextMsg(importMovement.getTextMsg());
-		}
-	}	//	MHRMovement
+		if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity))			// Concept Type
+			setQty(importPayrollMovement.getQty());
+		else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
+			setAmount(importPayrollMovement.getAmount());
+		else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date))
+			setServiceDate(importPayrollMovement.getServiceDate());
+		else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text))
+			setTextMsg(importPayrollMovement.getTextMsg());
+	}
 
 	public MHRMovement (MHRProcess process, I_HR_Concept concept)
 	{

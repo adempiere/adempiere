@@ -210,12 +210,12 @@ public interface I_I_HR_Movement
 	/** Set Imported.
 	  * Has this import been processed
 	  */
-	public void setI_IsImported (String I_IsImported);
+	public void setI_IsImported (boolean I_IsImported);
 
 	/** Get Imported.
 	  * Has this import been processed
 	  */
-	public String getI_IsImported();
+	public boolean isI_IsImported();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
