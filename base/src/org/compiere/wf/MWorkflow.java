@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MMenu;
 import org.compiere.model.MProduct;
+import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.model.X_AD_Workflow;
 import org.compiere.process.ProcessInfo;
@@ -709,18 +710,25 @@ public class MWorkflow extends X_AD_Workflow
 	 */
 	public MWFProcess start (ProcessInfo pi, String trxName)
 	{
-		MWFProcess retValue = null;
+		MWFProcess workflowProcess = null;
 		Trx localTrx = null;
 		if (trxName == null)
 			localTrx = Trx.get(Trx.createTrxName("WFP"), true);
 		try
 		{
-			retValue = new MWFProcess (this, pi, trxName != null ? trxName : localTrx.getTrxName());
-			retValue.saveEx();
+			if (isLock(getAD_Table_ID(), pi.getRecord_ID()))
+				throw new IllegalStateException(Msg.getMsg(getCtx() , "OtherProcessActive"));
+			else
+				lock(getAD_Table_ID(),pi.getRecord_ID());
+
+			workflowProcess = new MWFProcess (this, pi, trxName != null ? trxName : localTrx.getTrxName());
+			workflowProcess.saveEx();
 			pi.setSummary(Msg.getMsg(getCtx(), "Processing"));
-			retValue.startWork();
+			workflowProcess.startWork();
 			if (localTrx != null)
 				localTrx.commit(true);
+
+			unlock(getAD_Table_ID(),pi.getRecord_ID());
 		}
 		catch (Exception e)
 		{
@@ -728,15 +736,52 @@ public class MWorkflow extends X_AD_Workflow
 				localTrx.rollback();
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			pi.setSummary(e.getMessage(), true);
-			retValue = null;
+			workflowProcess = null;
 		}
 		finally 
 		{
 			if (localTrx != null)
 				localTrx.close();
 		}
-		return retValue;
+		return workflowProcess;
 	}	//	MWFProcess
+
+	/**
+	 * Validate if a workflow is running for same Entity Data Id
+	 * @param tableId
+	 * @param recordId
+	 * @return
+	 */
+	private boolean isLock(int tableId , int recordId)
+	{
+		MTable domain = MTable.get(getCtx() , tableId);
+		String sqlProcessing = "SELECT Processing FROM " + domain.getTableName() +  " WHERE " +  domain.getKeyColumns()[0] + "=?";
+		return "Y".equals(DB.getSQLValueStringEx(null , sqlProcessing, recordId));
+	}
+
+	/**
+	 * Lock the entity data based on field processing set on for this document
+	 * @param tableId
+	 * @param recordId
+	 */
+	private void lock(int tableId , int recordId)
+	{
+		MTable domain = MTable.get(getCtx() , tableId);
+		String update = "UPDATE "+ domain.getTableName() +" SET Processing='Y' WHERE (Processing='N' OR Processing IS NULL) AND " +  domain.getKeyColumns()[0]+ "=?";
+		DB.executeUpdateEx(update, new Object[] {recordId}, null);
+	}
+
+	/**
+	 * Unlock the entity data based on field processing set off for this document
+	 * @param tableId
+	 * @param recordId
+	 */
+	private void unlock(int tableId , int recordId)
+	{
+		MTable domain = MTable.get (getCtx(), tableId);
+		String update = "UPDATE "+ domain.getTableName() +" SET Processing='N' WHERE " +  domain.getKeyColumns()[0]+ "=?";
+		DB.executeUpdateEx(update, new Object[] {recordId}, null);
+	}
 
 	/**
 	 * 	Start Workflow and Wait for completion.

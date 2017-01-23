@@ -50,6 +50,7 @@ import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.eevolution.model.I_DD_Order;
 import org.eevolution.model.I_PP_Cost_Collector;
 import org.eevolution.model.I_PP_Order;
@@ -218,7 +219,6 @@ public class DocumentEngine implements DocAction
 				|| isReversed() || isClosed() || isVoided() );
 	}	//	isUnknown
 
-	
 	/**
 	 * 	Process actual document.
 	 * 	Checks if user (document) action is valid and then process action 
@@ -889,7 +889,7 @@ public class DocumentEngine implements DocAction
 		
 		int index = 0;
 		
-//		Locked
+		//		Locked
 		if (processing != null)
 		{
 			boolean locked = "Y".equals(processing);
@@ -1178,17 +1178,18 @@ public class DocumentEngine implements DocAction
 				+ "WHERE l.AD_Ref_List_ID=t.AD_Ref_List_ID"
 				+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "'"
 				+ " AND l.AD_Reference_ID=? ORDER BY t.Name";
-
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, DocAction.AD_REFERENCE_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
+			preparedStatement = DB.prepareStatement(sql, null);
+			preparedStatement.setInt(1, DocAction.AD_REFERENCE_ID);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next())
 			{
-				String value = rs.getString(1);
-				String name = rs.getString(2);
-				String description = rs.getString(3);
+				String value = resultSet.getString(1);
+				String name = resultSet.getString(2);
+				String description = resultSet.getString(3);
 				if (description == null)
 					description = "";
 				//
@@ -1196,13 +1197,17 @@ public class DocumentEngine implements DocAction
 				v_name.add(name);
 				v_description.add(description);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
+		finally {
+			DB.close(resultSet, preparedStatement);
+			resultSet = null;
+			preparedStatement = null;
+		}
+
 	}
 
 	/**
@@ -1272,5 +1277,4 @@ public class DocumentEngine implements DocAction
 		
 		return error;
 	}	//	postImmediate
-	
 }	//	DocumentEnine
