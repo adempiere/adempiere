@@ -347,7 +347,7 @@ public class MHRAttribute extends X_HR_Attribute
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if (getHR_Concept().isEmployee() && getHR_Employee_ID() <= 0)
+		if (getHR_Concept().isEmployee() && getC_BPartner_ID() <= 0)
 			throw new AdempiereException("@HR_Employee_ID@ @NotFound@");
 		else if (!getHR_Concept().isEmployee())
 			setHR_Employee_ID(-1);
