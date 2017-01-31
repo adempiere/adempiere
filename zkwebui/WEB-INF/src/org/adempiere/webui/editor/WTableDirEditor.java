@@ -25,12 +25,17 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MRole;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
+import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Comboitem;
@@ -215,7 +220,7 @@ ContextMenuListener, IZoomableEditor
         else
         {
             getComponent().setValue(null);
-            oldValue = value;
+			oldValue = value;
         }                                
     }
     
@@ -311,7 +316,6 @@ ContextMenuListener, IZoomableEditor
 	        if (isValueChange(newValue)) {
 		        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 		        super.fireValueChange(changeEvent);
-		        oldValue = newValue;
 	        }
     	}
     	else if (Events.ON_BLUR.equalsIgnoreCase(event.getName()))

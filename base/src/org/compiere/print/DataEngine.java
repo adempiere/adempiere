@@ -900,7 +900,8 @@ order by 1,2
 				if (hasLevelNo)
 				{
 					levelNo = rs.getInt("LevelNo");
-					reportLineId = rs.getInt("PA_ReportLine_ID");
+					if(pd.getTableName().equals("T_Report"))
+						reportLineId = rs.getInt("PA_ReportLine_ID");
 				}
 				else
 					levelNo = 0;

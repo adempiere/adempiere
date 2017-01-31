@@ -163,8 +163,19 @@ public class TrxMaterial {
 						ColumnName = "M_Production_ID";
 						SQL = "SELECT M_Production_ID FROM M_ProductionLine WHERE M_ProductionLine_ID=?";
 					}
-					else
-						log.fine("Not found WindowNo=" + m_WindowNo);
+					else 
+					{
+						lineID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_ProjectIssue_ID");
+						if (lineID != 0)
+						{
+							log.fine("C_ProjectIssue_ID=" + lineID);
+							AD_Window_ID = 286;
+							ColumnName = "C_Project_ID";
+							SQL = "SELECT C_Project_ID FROM C_ProjectIssue WHERE C_ProjectIssue_ID=?";
+						}
+						else
+							log.fine("Not found WindowNo=" + m_WindowNo);
+					}
 				}
 			}
 		}

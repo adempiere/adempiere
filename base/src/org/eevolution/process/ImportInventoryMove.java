@@ -18,12 +18,6 @@
 package org.eevolution.process;
 
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-
 import org.compiere.model.I_M_Movement;
 import org.compiere.model.I_M_MovementLine;
 import org.compiere.model.MBPartner;
@@ -45,6 +39,12 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.model.X_I_Movement;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 
 
 /**
@@ -77,9 +77,9 @@ public class ImportInventoryMove extends SvrProcess
 			if (para.getParameter() == null)
 				;
 			else if ("IsImportOnlyNoErrors".equals(name))
-				deleteOldImported = para.getParameterAsBoolean();
-			else if ("DeleteOldImported".equals(name))
 				isImportOnlyNoErrors = para.getParameterAsBoolean();
+			else if ("DeleteOldImported".equals(name))
+				deleteOldImported = para.getParameterAsBoolean();
 			else if ("DocAction".equals(name))
 				docAction = para.getParameterAsString();
 			else
@@ -93,7 +93,7 @@ public class ImportInventoryMove extends SvrProcess
 	 *  @return Message
 	 *  @throws Exception
 	 */
-	protected String doIt() throws java.lang.Exception
+	protected String doIt() throws Exception
 	{
 		
 		//Delete Old Imported
@@ -306,7 +306,7 @@ public class ImportInventoryMove extends SvrProcess
 	{
 		for(X_I_Movement movementImport : getRecords(false, isImportOnlyNoErrors))
 		{
-			//if(imov.getAD_Org_ID()==0)
+			//if(movementImport.getAD_Org_ID()==0)
 				movementImport.setAD_Org_ID(getID(MOrg.Table_Name,"Value = ?", new Object[]{movementImport.getOrgValue()}));
 			if(movementImport.getM_Product_ID()==0)
 				movementImport.setM_Product_ID(getID(MProduct.Table_Name,"Value = ?", new Object[]{movementImport.getProductValue()}));
@@ -344,7 +344,7 @@ public class ImportInventoryMove extends SvrProcess
 			if(movementImport.getC_DocType_ID()<=0)
 				err.append(" @C_DocType_ID@ @NotFound@,");
 			
-			if(err.toString()!=null && err.toString().length()>0)
+			if(err.toString() != null && err.toString().length()>0)
 			{
 				notImported++;
 				movementImport.setI_ErrorMsg(Msg.parseTranslation(getCtx(), err.toString()));

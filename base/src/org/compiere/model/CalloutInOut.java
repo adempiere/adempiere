@@ -68,6 +68,8 @@ public class CalloutInOut extends CalloutEngine
 			mTab.setValue("C_Project_ID", new Integer(order.getC_Project_ID()));
 			mTab.setValue("User1_ID", new Integer(order.getUser1_ID()));
 			mTab.setValue("User2_ID", new Integer(order.getUser2_ID()));
+			mTab.setValue("User3_ID", new Integer(order.getUser3_ID()));
+			mTab.setValue("User4_ID", new Integer(order.getUser4_ID()));
 			mTab.setValue("M_Warehouse_ID", new Integer(order.getM_Warehouse_ID()));
 			//
 			mTab.setValue("DeliveryRule", order.getDeliveryRule());
@@ -121,6 +123,8 @@ public class CalloutInOut extends CalloutEngine
 			mTab.setValue("C_Project_ID", new Integer(originalReceipt.getC_Project_ID()));
 			mTab.setValue("User1_ID", new Integer(originalReceipt.getUser1_ID()));
 			mTab.setValue("User2_ID", new Integer(originalReceipt.getUser2_ID()));
+			mTab.setValue("User3_ID", new Integer(originalReceipt.getUser3_ID()));
+			mTab.setValue("User4_ID", new Integer(originalReceipt.getUser4_ID()));
 			mTab.setValue("M_Warehouse_ID", new Integer(originalReceipt.getM_Warehouse_ID()));
 			//
 			mTab.setValue("DeliveryRule", originalReceipt.getDeliveryRule());
@@ -419,6 +423,8 @@ public class CalloutInOut extends CalloutEngine
 			mTab.setValue("AD_OrgTrx_ID", new Integer(ol.getAD_OrgTrx_ID()));
 			mTab.setValue("User1_ID", new Integer(ol.getUser1_ID()));
 			mTab.setValue("User2_ID", new Integer(ol.getUser2_ID()));
+			mTab.setValue("User3_ID", new Integer(ol.getUser3_ID()));
+			mTab.setValue("User4_ID", new Integer(ol.getUser4_ID()));
 		}
 		return "";
 	}	//	orderLine
@@ -464,6 +470,8 @@ public class CalloutInOut extends CalloutEngine
 			mTab.setValue("AD_OrgTrx_ID", new Integer(rl.getAD_OrgTrx_ID()));
 			mTab.setValue("User1_ID", new Integer(rl.getUser1_ID()));
 			mTab.setValue("User2_ID", new Integer(rl.getUser2_ID()));
+			mTab.setValue("User3_ID", new Integer(rl.getUser3_ID()));
+			mTab.setValue("User4_ID", new Integer(rl.getUser4_ID()));
 		}
 		return "";
 	}	//	rmaLine

@@ -655,16 +655,19 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
                     }
                 }
 			}
-
 			//get landed allocation cost
-			for (MLandedCostAllocation allocation : 
+			/*for (MLandedCostAllocation allocation : 
 				MLandedCostAllocation.getOfInOutline(line,
-							costElement.getM_CostElement_ID()))
+							costElement.getM_CostElement_ID()))*/
+			// only own allocation
+			if (costDetail.getC_LandedCostAllocation_ID()!=0)
 			{
-				//System.out.println("Allocation : " + allocation.getC_LandedCostAllocation_ID() +  " Amount:" +  allocation.getAmt());
-				CostEngineFactory
-				.getCostEngine(clientId)
-				.createCostDetail(accountSchema, costType, costElement, transaction, allocation, true);
+				MLandedCostAllocation allocation = (MLandedCostAllocation)costDetail.getC_LandedCostAllocation();
+				{
+					CostEngineFactory
+					.getCostEngine(clientId)
+					.createCostDetail(accountSchema, costType, costElement, transaction, allocation, true);
+				}
 			}
 		}
         else

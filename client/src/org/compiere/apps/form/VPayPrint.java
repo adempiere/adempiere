@@ -55,6 +55,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.PaymentExport;
+import org.compiere.util.PaymentExportList;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -361,13 +362,20 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener, Ve
 		if (paymentExportClass == null || paymentExportClass.trim().length() == 0) {
 			paymentExportClass = "org.compiere.util.GenericPaymentExport";
 		}
-		//	Get Payment Export Class
-		PaymentExport custom = null;
+
 		try
 		{
 			Class<?> clazz = Class.forName(paymentExportClass);
-			custom = (PaymentExport)clazz.newInstance();
-			no = custom.exportToFile(paySelectionChecks, fc.getSelectedFile(), error);
+			if (clazz.isInstance(PaymentExportList.class))
+			{
+				PaymentExportList custom = (PaymentExportList)clazz.newInstance();
+				no = custom.exportToFile(paySelectionChecks, fc.getSelectedFile(), error);
+			}
+			else if (clazz.isInstance(PaymentExport.class))
+			{
+				PaymentExport custom = (PaymentExport)clazz.newInstance();
+				no = custom.exportToFile(paySelectionChecks.toArray(new MPaySelectionCheck[paySelectionChecks.size()]), fc.getSelectedFile(), error);
+			}
 		}
 		catch (ClassNotFoundException e)
 		{

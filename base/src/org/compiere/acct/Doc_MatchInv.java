@@ -234,6 +234,8 @@ public class Doc_MatchInv extends Doc
 					pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 					pv.setUser1_ID(m_invoiceLine.getUser1_ID());
 					pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+					pv.setUser3_ID(m_invoiceLine.getUser3_ID());
+					pv.setUser4_ID(m_invoiceLine.getUser4_ID());
 					if (diff.compareTo(Env.ZERO)!= 0 && MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
 					{
 						FactLine diffline = fact.createLine(null,
@@ -246,6 +248,8 @@ public class Doc_MatchInv extends Doc
 						diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 						diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
 						diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
+						diffline.setUser3_ID(m_invoiceLine.getUser3_ID());
+						diffline.setUser4_ID(m_invoiceLine.getUser4_ID());
 					}
 				}
 				log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());
@@ -287,6 +291,8 @@ public class Doc_MatchInv extends Doc
 		cr.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 		cr.setUser1_ID(m_invoiceLine.getUser1_ID());
 		cr.setUser2_ID(m_invoiceLine.getUser2_ID());
+		cr.setUser3_ID(m_invoiceLine.getUser3_ID());
+		cr.setUser4_ID(m_invoiceLine.getUser4_ID());
 
 		//AZ Goodwill
 		//Desc: Source Not Balanced problem because Currency is Difference - PO=CNY but AP=USD 
@@ -343,6 +349,8 @@ public class Doc_MatchInv extends Doc
 			pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 			pv.setUser1_ID(m_invoiceLine.getUser1_ID());
 			pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+			pv.setUser3_ID(m_invoiceLine.getUser3_ID());
+			pv.setUser4_ID(m_invoiceLine.getUser4_ID());
 			
 			//
 		}
@@ -363,16 +371,17 @@ public class Doc_MatchInv extends Doc
 				pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 				pv.setUser1_ID(m_invoiceLine.getUser1_ID());
 				pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+				pv.setUser3_ID(m_invoiceLine.getUser3_ID());
+				pv.setUser4_ID(m_invoiceLine.getUser4_ID());
 			}
 			
 			BigDecimal diff = ipv.subtract(costs);
 			MInvoice m_invoice = m_invoiceLine.getParent();
-			int C_Currency_ID = m_invoice.getC_Currency_ID();
 			if (diff.compareTo(Env.ZERO)!= 0 )
 			{
 				FactLine diffline = fact.createLine(null,
 						m_pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
-						C_Currency_ID, diff);
+						as.getC_Currency_ID(), diff);
 				if (diffline != null) {
 					diffline.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
 					diffline.setC_Project_ID(m_invoiceLine.getC_Project_ID());
@@ -381,6 +390,8 @@ public class Doc_MatchInv extends Doc
 					diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 					diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
 					diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
+					diffline.setUser3_ID(m_invoiceLine.getUser3_ID());
+					diffline.setUser4_ID(m_invoiceLine.getUser4_ID());
 				}
 			}
 		}

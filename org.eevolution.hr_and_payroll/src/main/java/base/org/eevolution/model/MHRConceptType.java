@@ -15,6 +15,10 @@
  *****************************************************************************/
 package org.eevolution.model;
 
+import org.compiere.model.Query;
+import org.compiere.util.CCache;
+import org.compiere.util.Env;
+
 import java.sql.ResultSet;
 import java.util.Properties;
 
@@ -22,11 +26,45 @@ import java.util.Properties;
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 07/07/15.
  */
 public class MHRConceptType extends X_HR_Concept_Type {
+
+    private static CCache<Integer, MHRConceptType> cache = new CCache<Integer, MHRConceptType>(Table_Name, 20);
+    private static CCache<String, MHRConceptType> cacheValue = new CCache<String, MHRConceptType>(Table_Name+"_Value", 20);
+
     public MHRConceptType(Properties ctx, int HR_Concept_Type_ID, String trxName) {
         super(ctx, HR_Concept_Type_ID, trxName);
     }
 
     public MHRConceptType(Properties ctx, ResultSet rs, String trxName) {
         super(ctx, rs, trxName);
+    }
+
+    public static MHRConceptType forValue(Properties ctx, String value)
+    {
+        if (value == null)
+        {
+            return null;
+        }
+        final int clientId = Env.getAD_Client_ID(ctx);
+        // Try cache
+        final String key = clientId+"#"+value;
+        MHRConceptType conceptType = cacheValue.get(key);
+        if (conceptType != null)
+        {
+            return conceptType;
+        }
+        // Try database
+        final String whereClause = COLUMNNAME_Value+"=? AND AD_Client_ID IN (?,?)";
+        conceptType = new Query(ctx, Table_Name, whereClause, null)
+                .setParameters(value, 0, clientId)
+                .setOnlyActiveRecords(true)
+                .setOrderBy("AD_Client_ID DESC")
+                .first();
+
+        if (conceptType != null)
+        {
+            cacheValue.put(key, conceptType);
+            cache.put(conceptType.get_ID(), conceptType);
+        }
+        return conceptType;
     }
 }

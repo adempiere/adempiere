@@ -198,7 +198,7 @@ public class Doc_InOut extends Doc
 					{
 						//	Set AmtAcctDr from Original Shipment/Receipt
 						if (!dr.updateReverseLine (MInOut.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID() , cost.getQty().negate() , Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID() , cost.getQty().negate() , Env.ONE.negate()))
 						{
 							p_Error = "Original Shipment/Receipt not posted yet";
 							return null;
@@ -226,7 +226,7 @@ public class Doc_InOut extends Doc
 					{
 						//	Set AmtAcctCr from Original Shipment/Receipt
 						if (!cr.updateReverseLine (MInOut.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),cost.getQty() ,Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID(),cost.getQty() ,Env.ONE.negate()))
 						{
 							p_Error = "Original Shipment/Receipt not posted yet";
 							return null;
@@ -255,7 +255,7 @@ public class Doc_InOut extends Doc
 				for (int i = 0; i < p_lines.length; i++)
 				{
 					DocLine line = p_lines[i];
-					BigDecimal multiplier = Env.ONE;
+					BigDecimal multiplier = Env.ONE.negate();
 					if (m_Reversal_ID != 0 && m_Reversal_ID < get_ID())
 						multiplier = multiplier.negate();
 					Fact factcomm = Doc_Order.getCommitmentSalesRelease(as, this, 
@@ -307,7 +307,7 @@ public class Doc_InOut extends Doc
 					{
 						//	Set AmtAcctDr from Original Shipment/Receipt
 						if (!dr.updateReverseLine (MInOut.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID() , cost.getQty() ,Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID() , cost.getQty() ,Env.ONE.negate()))
 						{
 							p_Error = "Original Shipment/Receipt not posted yet";
 							return null;
@@ -336,7 +336,7 @@ public class Doc_InOut extends Doc
 					{
 						//	Set AmtAcctCr from Original Shipment/Receipt
 						if (!cr.updateReverseLine (MInOut.Table_ID, 
-								m_Reversal_ID, line.getReversalLine_ID(),cost.getQty().negate() , Env.ONE))
+								m_Reversal_ID, line.getReversalLine_ID(),cost.getQty().negate() , Env.ONE.negate()))
 						{
 							p_Error = "Original Shipment/Receipt not posted yet";
 							return null;
@@ -410,7 +410,7 @@ public class Doc_InOut extends Doc
 						{
 							//	Set AmtAcctDr from Original Shipment/Receipt
 							if (!dr.updateReverseLine (MInOut.Table_ID, 
-									m_Reversal_ID, line.getReversalLine_ID() , cost.getQty() ,Env.ONE))
+									m_Reversal_ID, line.getReversalLine_ID() , cost.getQty() ,Env.ONE.negate()))
 							{
 								p_Error = "Original Receipt not posted yet";
 								return null;
@@ -437,7 +437,7 @@ public class Doc_InOut extends Doc
 						{
 							//	Set AmtAcctCr from Original Shipment/Receipt
 							if (!cr.updateReverseLine (MInOut.Table_ID, 
-									m_Reversal_ID, line.getReversalLine_ID(),cost.getQty().negate(),Env.ONE))
+									m_Reversal_ID, line.getReversalLine_ID(),cost.getQty().negate(),Env.ONE.negate()))
 							{
 								p_Error = "Original Receipt not posted yet";
 								return null;
@@ -499,7 +499,7 @@ public class Doc_InOut extends Doc
 						{
 							//	Set AmtAcctDr from Original Shipment/Receipt
 							if (!dr.updateReverseLine (MInOut.Table_ID, 
-									m_Reversal_ID, line.getReversalLine_ID(),cost.getQty().negate(),Env.ONE))
+									m_Reversal_ID, line.getReversalLine_ID(),cost.getQty().negate(),Env.ONE.negate()))
 							{
 								p_Error = "Original Receipt not posted yet";
 								return null;
@@ -529,7 +529,7 @@ public class Doc_InOut extends Doc
 						{
 							//	Set AmtAcctCr from Original Shipment/Receipt
 							if (!cr.updateReverseLine (MInOut.Table_ID, 
-									m_Reversal_ID, line.getReversalLine_ID() , cost.getQty() ,Env.ONE))
+									m_Reversal_ID, line.getReversalLine_ID() , cost.getQty() ,Env.ONE.negate()))
 							{
 								p_Error = "Original Receipt not posted yet";
 								return null;

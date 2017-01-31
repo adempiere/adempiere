@@ -334,7 +334,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 					payment.setC_PaymentBatch_ID(batch.getC_PaymentBatch_ID());
 				}
 				//	Link to Invoice
-				List<MPaySelectionLine> paySelectionLines = paySelectionCheck.getPaySelectionLines(false);
+				List<MPaySelectionLine> paySelectionLines = paySelectionCheck.getPaySelectionLinesAsList(false);
 				logger.fine("confirmPrint - " + paySelectionCheck + " (#SelectionLines=" + (paySelectionLines != null? paySelectionLines.size(): 0) + ")");
 				if (paySelectionCheck.getQty() == 1 && paySelectionLines != null && paySelectionLines.size() == 1)
 				{
@@ -576,13 +576,20 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			.append("]");
 		return sb.toString();
 	}	//	toString
-	
+
+	public MPaySelectionLine[] getPaySelectionLines (boolean reQuery)
+	{
+		List<MPaySelectionLine> paySelectionLinesAsList =  getPaySelectionLinesAsList(reQuery);
+		MPaySelectionLine[] paySelectionLine = new MPaySelectionLine[paySelectionLinesAsList.size()];
+		return paySelectionLinesAsList.toArray(paySelectionLine); // fill the array
+	}
+
 	/**
 	 * 	Get Payment Selection Lines of this check
 	 *	@param reQuery reQuery
 	 * 	@return array of peyment selection lines
 	 */
-	public List<MPaySelectionLine> getPaySelectionLines (boolean reQuery)
+	public List<MPaySelectionLine> getPaySelectionLinesAsList (boolean reQuery)
 	{
 		if (paySelectionLines != null && !reQuery) {
 			paySelectionLines.stream().filter(paySelectionLine -> paySelectionLine != null).forEach(paySelectionLine -> paySelectionLine.set_TrxName(get_TrxName()));

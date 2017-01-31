@@ -29,6 +29,7 @@ import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MFactAcct;
+import org.compiere.model.MMatchInv;
 import org.compiere.model.MMovement;
 import org.compiere.model.MRevenueRecognitionPlan;
 import org.compiere.model.X_C_AcctSchema_Element;
@@ -229,9 +230,11 @@ public final class FactLine extends X_Fact_Acct
 			setAmtSourceDr (AmtSourceDr);
 		if (AmtSourceCr != null)
 			setAmtSourceCr (AmtSourceCr);
+
 		//  one needs to be non zero
-		if (getAmtSourceDr().compareTo(Env.ZERO)==0 && getAmtSourceCr().compareTo(Env.ZERO)==0)
-			return false;
+		//if (getAmtSourceDr().compareTo(Env.ZERO)==0 && getAmtSourceCr().compareTo(Env.ZERO)==0)
+		//	return false;
+
 		//	Currency Precision
 		int precision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
 		if (AmtSourceDr != null && AmtSourceDr.scale() > precision)
@@ -422,6 +425,16 @@ public final class FactLine extends X_Fact_Acct
 			setUser2_ID (m_docLine.getUser2_ID());
 		if (getUser2_ID() == 0)
 			setUser2_ID (m_doc.getUser2_ID());
+		//	User List 3
+		if (m_docLine != null)
+			setUser3_ID (m_docLine.getUser3_ID());
+		if (getUser3_ID() == 0)
+			setUser3_ID (m_doc.getUser3_ID());
+		//	User List 4
+		if (m_docLine != null)
+			setUser4_ID (m_docLine.getUser4_ID());
+		if (getUser4_ID() == 0)
+			setUser4_ID (m_doc.getUser4_ID());
 		//	References in setAccount
 	}   //  setDocumentInfo
 
@@ -896,6 +909,10 @@ public final class FactLine extends X_Fact_Acct
 				setUser1_ID (m_acct.getUser1_ID());
 			if (getUser2_ID() == 0)
 				setUser2_ID (m_acct.getUser2_ID());
+			if (getUser3_ID() == 0)
+				setUser3_ID (m_acct.getUser3_ID());
+			if (getUser4_ID() == 0)
+				setUser4_ID (m_acct.getUser4_ID());
 			
 			//  Revenue Recognition for AR Invoices
 			if (m_doc.getDocumentType().equals(Doc.DOCTYPE_ARInvoice) 
@@ -912,15 +929,14 @@ public final class FactLine extends X_Fact_Acct
 						getC_LocFrom_ID(), getC_LocTo_ID(), 
 						getC_SalesRegion_ID(), getC_Project_ID(),
 						getC_Campaign_ID(), getC_Activity_ID(), 
-						getUser1_ID(), getUser2_ID(), 
+						getUser1_ID(), getUser2_ID(), getUser3_ID(), getUser3_ID(),
 						getUserElement1_ID(), getUserElement2_ID())
 					);
 			}
 		}
 		return true;
 	}	//	beforeSave
-	
-	
+
 	/**************************************************************************
 	 *  Revenue Recognition.
 	 *  Called from FactLine.save
@@ -951,6 +967,57 @@ public final class FactLine extends X_Fact_Acct
 	 *  @param UserElement2_ID user element 2
 	 *  @return Account_ID for Unearned Revenue or Revenue Account if not found
 	 */
+	@Deprecated
+	private int createRevenueRecognition (
+			int C_RevenueRecognition_ID, int C_InvoiceLine_ID,
+			int AD_Client_ID, int AD_Org_ID, int AD_User_ID,
+			int Account_ID, int C_SubAcct_ID,
+			int M_Product_ID, int C_BPartner_ID, int AD_OrgTrx_ID,
+			int C_LocFrom_ID, int C_LocTo_ID, int C_SRegion_ID, int C_Project_ID,
+			int	C_Campaign_ID, int C_Activity_ID,
+			int User1_ID, int User2_ID, int UserElement1_ID, int UserElement2_ID)
+	{
+		return createRevenueRecognition(C_RevenueRecognition_ID , C_InvoiceLine_ID,
+				AD_Client_ID , AD_Org_ID , AD_User_ID ,
+				Account_ID , C_SubAcct_ID ,
+				M_Product_ID , C_BPartner_ID , AD_OrgTrx_ID ,
+				C_LocFrom_ID , C_LocTo_ID , C_SRegion_ID , C_Project_ID , C_Campaign_ID , C_Activity_ID ,
+				User1_ID, User2_ID , 0 , 0 , UserElement1_ID , UserElement2_ID);
+	}
+
+	
+	/**************************************************************************
+	 *  Revenue Recognition.
+	 *  Called from FactLine.save
+	 *  <p>
+	 *  Create Revenue recognition plan and return Unearned Revenue account
+	 *  to be used instead of Revenue Account. If not found, it returns
+	 *  the revenue account.
+	 *
+	 *  @param C_RevenueRecognition_ID revenue recognition
+	 *  @param C_InvoiceLine_ID invoice line
+	 *  @param AD_Client_ID client
+	 *  @param AD_Org_ID org
+	 *  @param AD_User_ID user
+	 *  @param Account_ID of Revenue Account
+	 *  @param C_SubAcct_ID sub account
+	 *  @param M_Product_ID product
+	 *  @param C_BPartner_ID bpartner
+	 *  @param AD_OrgTrx_ID trx org
+	 *  @param C_LocFrom_ID loc from
+	 *  @param C_LocTo_ID loc to
+	 *  @param C_SRegion_ID sales region
+	 *  @param C_Project_ID project
+	 *  @param C_Campaign_ID campaign
+	 *  @param C_Activity_ID activity
+	 *  @param User1_ID user1
+	 *  @param User2_ID user2
+	 *  @param User3_ID user3
+	 *  @param User4_ID user4
+	 *  @param UserElement1_ID user element 1
+	 *  @param UserElement2_ID user element 2
+	 *  @return Account_ID for Unearned Revenue or Revenue Account if not found
+	 */
 	private int createRevenueRecognition (
 		int C_RevenueRecognition_ID, int C_InvoiceLine_ID,
 		int AD_Client_ID, int AD_Org_ID, int AD_User_ID, 
@@ -958,7 +1025,7 @@ public final class FactLine extends X_Fact_Acct
 		int M_Product_ID, int C_BPartner_ID, int AD_OrgTrx_ID,
 		int C_LocFrom_ID, int C_LocTo_ID, int C_SRegion_ID, int C_Project_ID,
 		int	C_Campaign_ID, int C_Activity_ID, 
-		int User1_ID, int User2_ID, int UserElement1_ID, int UserElement2_ID)
+		int User1_ID, int User2_ID, int User3_ID, int User4_ID, int UserElement1_ID, int UserElement2_ID)
 	{
 		log.fine("From Accout_ID=" + Account_ID);
 		//  get VC for P_Revenue (from Product)
@@ -966,7 +1033,7 @@ public final class FactLine extends X_Fact_Acct
 			AD_Client_ID, AD_Org_ID, getC_AcctSchema_ID(), Account_ID, C_SubAcct_ID,
 			M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID, C_LocFrom_ID, C_LocTo_ID, C_SRegion_ID, 
 			C_Project_ID, C_Campaign_ID, C_Activity_ID, 
-			User1_ID, User2_ID, UserElement1_ID, UserElement2_ID, null);
+			User1_ID, User2_ID , User3_ID, User4_ID, UserElement1_ID, UserElement2_ID, null);
 		if (revenue != null && revenue.get_ID() == 0)
 			revenue.saveEx();
 		if (revenue == null || revenue.get_ID() == 0)
@@ -1083,15 +1150,29 @@ public final class FactLine extends X_Fact_Acct
 				//  Accounted Amounts - reverse
 				BigDecimal dr = fact.getAmtAcctDr();
 				BigDecimal cr = fact.getAmtAcctCr();
+
+				if (MMatchInv.Table_ID == getAD_Table_ID())
+				{
+					dr = fact.getAmtAcctCr();
+					cr = fact.getAmtAcctDr();
+				}
+
 				// setAmtAcctDr (cr.multiply(multiplier));
 				// setAmtAcctCr (dr.multiply(multiplier));
-				setAmtAcct(fact.getC_Currency_ID(), cr.multiply(multiplier), dr.multiply(multiplier));
+				setAmtAcct(fact.getC_Currency_ID(),  dr.multiply(multiplier) , cr.multiply(multiplier));
 				//  
 				//  Bayu Sistematika - Source Amounts
 				//  Fixing source amounts
 				BigDecimal drSourceAmt = fact.getAmtSourceDr();
 				BigDecimal crSourceAmt = fact.getAmtSourceCr();
-				setAmtSource(fact.getC_Currency_ID(), crSourceAmt.multiply(multiplier), drSourceAmt.multiply(multiplier));
+
+				if (MMatchInv.Table_ID == getAD_Table_ID())
+				{
+					drSourceAmt = fact.getAmtSourceCr();
+					crSourceAmt = fact.getAmtSourceDr();
+				}
+
+				setAmtSource(fact.getC_Currency_ID(), drSourceAmt.multiply(multiplier) , crSourceAmt.multiply(multiplier));
 				//  end Bayu Sistematika
 				//
 				success = true;
@@ -1117,6 +1198,8 @@ public final class FactLine extends X_Fact_Acct
 				setM_Locator_ID(fact.getM_Locator_ID());
 				setUser1_ID(fact.getUser1_ID());
 				setUser2_ID(fact.getUser2_ID());
+				setUser3_ID(fact.getUser3_ID());
+				setUser4_ID(fact.getUser4_ID());
 				setC_UOM_ID(fact.getC_UOM_ID());
 				setC_Tax_ID(fact.getC_Tax_ID());
 				//	Org for cross charge

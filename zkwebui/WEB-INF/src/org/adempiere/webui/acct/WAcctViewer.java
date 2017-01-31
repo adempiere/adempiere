@@ -722,6 +722,9 @@ public class WAcctViewer extends Window implements EventListener
 
 		if (tabResult.isSelected())
 			stateChanged();
+		
+		// Display quantity as default
+		displayQty.setSelected(true);
 	} // dynInit
 
 	/**
@@ -846,7 +849,7 @@ public class WAcctViewer extends Window implements EventListener
 			MAcctSchemaElement acctSchemaElement = elements[i];
 			String columnName = acctSchemaElement.getColumnName();
 			String displayColumnName;
-			if (columnName.equals("User1_ID") || columnName.equals("User2_ID"))
+			if (columnName.equals("User1_ID") || columnName.equals("User2_ID") || columnName.equals("User3_ID") || columnName.equals("User4_ID")  )
 				displayColumnName = acctSchemaElement.getName();
 			else
 				displayColumnName = acctSchemaElement.getDisplayColumnName();
@@ -1091,7 +1094,16 @@ public class WAcctViewer extends Window implements EventListener
 					if (ase != null)
 						displayColumnName = Msg.translate(Env.getCtx(), ase.getName());					
 				}
-
+				else if (columnName.equals("User3_ID")) {
+					MAcctSchemaElement ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList3);
+					if (ase != null)
+						displayColumnName = Msg.translate(Env.getCtx(), ase.getName());
+				}
+				else if (columnName.equals("User4_ID")) {
+					MAcctSchemaElement ase = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_UserList4);
+					if (ase != null)
+						displayColumnName = Msg.translate(Env.getCtx(), ase.getName());
+				}
 				Listheader listheader = new Listheader(displayColumnName);
 				listheader.setTooltiptext(rmodel.getColumnName(i));
 				listhead.appendChild(listheader);
@@ -1214,6 +1226,24 @@ public class WAcctViewer extends Window implements EventListener
 			lookupColumn = "C_ElementValue_ID";
 			MAcctSchemaElement ase = m_data.ASchema
 				.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList2);
+
+			if (ase != null)
+				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
+		}
+		else if ("User3_ID".equals(keyColumn))
+		{
+			lookupColumn = "C_ElementValue_ID";
+			MAcctSchemaElement ase = m_data.ASchema
+					.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList3);
+
+			if (ase != null)
+				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
+		}
+		else if ("User4_ID".equals(keyColumn))
+		{
+			lookupColumn = "C_ElementValue_ID";
+			MAcctSchemaElement ase = m_data.ASchema
+					.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList4);
 
 			if (ase != null)
 				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();

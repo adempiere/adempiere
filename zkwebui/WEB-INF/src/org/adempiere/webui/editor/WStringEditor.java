@@ -25,7 +25,7 @@ import org.adempiere.webui.component.StringBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.WRecordInfo;
 import org.adempiere.webui.window.WTextEditorDialog;

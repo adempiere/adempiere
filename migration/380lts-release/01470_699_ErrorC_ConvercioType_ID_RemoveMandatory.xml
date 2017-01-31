@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Error C_ConvercioType_ID is mandatory when try create a fixe" ReleaseNo="3.9.0" SeqNo="01470">
+    <Comments>https://github.com/adempiere/adempiere/issues/699</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59461" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

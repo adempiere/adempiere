@@ -175,6 +175,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		cc.setProcessing(false);
 		cc.setUser1_ID(order.getUser1_ID());
 		cc.setUser2_ID(order.getUser2_ID());
+		cc.setUser3_ID(order.getUser3_ID());
+		cc.setUser4_ID(order.getUser4_ID());
 		cc.setM_Product_ID(productId);
 		if(orderNodeId > 0)
 		{	
@@ -669,12 +671,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	}
 
 //	@Override
-	public int getC_Currency_ID()
-	{
-		return 0;
-	}
-
-//	@Override
 	public BigDecimal getApprovalAmt()
 	{
 		return Env.ZERO;
@@ -1072,6 +1068,24 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	public IDocumentLine getReversalDocumentLine() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		return BigDecimal.ZERO;
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		MClient client  = MClient.get(getCtx());
+		return client.getC_Currency_ID();
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return  MConversionType.getDefault(getAD_Client_ID());
 	}
 
 }	//	MPPCostCollector

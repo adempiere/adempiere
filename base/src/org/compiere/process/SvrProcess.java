@@ -869,13 +869,27 @@ public abstract class SvrProcess implements ProcessCall
 		return processInfo.getTableName();
 	}
 
+	public String getTableNameSelection()
+	{
+		return processInfo.getTableNameSelection();
+	}
+
+	/**
+	 * Get Table selection Id
+	 * @return
+	 */
+	public int getTableSelectionId()
+	{
+		return processInfo.getTableSelectionId();
+	}
+
 	/**
 	 * get Alias for Table Selection
 	 * @return
 	 */
 	public String getAliasForTableSelection()
 	{
-		return getAliasForTableSelection();
+		return processInfo.getAliasForTableSelection();
 	}
 	/**
 	 *

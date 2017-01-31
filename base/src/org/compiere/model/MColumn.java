@@ -50,6 +50,8 @@ import org.compiere.util.Util;
  *  	@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
  *  	<li> BR [ 185 ] Fixed error with validation in beforeSave method for MColumn 
  *  	@see https://github.com/adempiere/adempiere/issues/185
+ *  	<a href="https://github.com/adempiere/adempiere/issues/655">
+ * 		@see FR [ 655 ] Bad validation for sequence of identifier columns</a>
  */
 public class MColumn extends X_AD_Column
 {
@@ -336,23 +338,6 @@ public class MColumn extends X_AD_Column
 		SET IsUpdateable='N', IsAlwaysUpdateable='N'
 		WHERE AD_Table_ID IN (SELECT AD_Table_ID FROM AD_Table WHERE IsView='Y')
 		**/
-		
-		/* Diego Ruiz - globalqss - BF [1651899] - AD_Column: Avoid dup. SeqNo for IsIdentifier='Y' */
-		if (isIdentifier())
-		{
-			int cnt = DB.getSQLValue(get_TrxName(),"SELECT COUNT(*) FROM AD_Column "+
-					"WHERE AD_Table_ID=?"+
-					" AND AD_Column_ID!=?"+
-					" AND IsIdentifier='Y'"+
-					" AND SeqNo=?",
-					new Object[] {getAD_Table_ID(), getAD_Column_ID(), getSeqNo()});
-			if (cnt>0)
-			{
-				log.saveError("SaveErrorNotUnique", Msg.getElement(getCtx(), COLUMNNAME_SeqNo));
-				return false;
-			}
-		}
-		
 		//	Virtual Column
 		if (isVirtualColumn())
 		{

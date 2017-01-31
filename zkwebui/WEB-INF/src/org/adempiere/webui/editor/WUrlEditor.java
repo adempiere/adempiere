@@ -20,7 +20,7 @@ package org.adempiere.webui.editor;
 import org.adempiere.webui.component.Urlbox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;

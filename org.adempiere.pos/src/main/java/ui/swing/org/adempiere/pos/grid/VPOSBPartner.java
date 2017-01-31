@@ -362,10 +362,9 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 			fAddress.setBackground(AdempierePLAF.getFieldBackground_Mandatory());
 
 		//	***** Business Partner *****
-		if (partner == null)
-		{
+		if (partner == null) {
 			int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-			partner = MBPartner.getTemplate(Env.getCtx(), AD_Client_ID);
+			partner = MBPartner.getTemplate(Env.getCtx(), AD_Client_ID, pos.getC_POS_ID());
 			partner.setAD_Org_ID(Env.getAD_Org_ID(Env.getCtx())); // Elaine 2009/07/03
 			boolean isSOTrx = !"N".equals(Env.getContext(Env.getCtx(), windowNo, "IsSOTrx"));
 			partner.setIsCustomer (isSOTrx);

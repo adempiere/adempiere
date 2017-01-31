@@ -194,6 +194,27 @@ public abstract class POSQuery extends CDialog
 		this.listener = listener;
 	}
 	
+	/**
+	 * Fire Ok Action
+	 */
+	public void setOkAction() {
+		close();
+		//	Fire
+		if(listener != null) {
+			listener.okAction(this);
+		}
+	}
+	
+	/**
+	 * Fire Cancel Action
+	 */
+	public void setCancelAction() {
+		//	Fire
+		if(listener != null) {
+			listener.cancelAction(this);
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		logger.info(e.getActionCommand());
@@ -217,17 +238,10 @@ public abstract class POSQuery extends CDialog
 			return;
 		} else if(buttonCancel.equals(e.getSource())) {
 			cancel();
-			//	Fire
-			if(listener != null) {
-				listener.cancelAction(this);
-			}
+			setCancelAction();
 		} else if (buttonOk.equals(e.getSource())) {
 			select();
-			close();
-			//	Fire
-			if(listener != null) {
-				listener.okAction(this);
-			}
+			setOkAction();
 		} else if(e.getSource() instanceof POSTextField
 				|| e.getSource() instanceof CCheckBox) {
 			if(posTable == null)
@@ -374,11 +388,7 @@ public abstract class POSQuery extends CDialog
 				&& posTable.getSelectedRow() != -1)	{
 			
 			select();
-			close();
-			//	Fire
-			if(listener != null) {
-				listener.okAction(this);
-			}
+			setOkAction();
 		}
 	}
 	
@@ -395,15 +405,12 @@ public abstract class POSQuery extends CDialog
 	protected CButton createButtonAction(String action, KeyStroke accelerator) {
 		String acceleratorText = "";
 		if (action != null && accelerator != null) {
-
-			if (accelerator != null) {
-				int modifiers = accelerator.getModifiers();
-				if (modifiers >= 0) {
-					acceleratorText = "(" + KeyEvent.getKeyModifiersText(modifiers);
-					//acceleratorText += "+";
-				}
-				acceleratorText += KeyEvent.getKeyText(accelerator.getKeyCode());
+			int modifiers = accelerator.getModifiers();
+			if (modifiers >= 0) {
+				acceleratorText = "(" + KeyEvent.getKeyModifiersText(modifiers);
+				//acceleratorText += "+";
 			}
+			acceleratorText += KeyEvent.getKeyText(accelerator.getKeyCode());
 			addStatusBarInfo(action + acceleratorText + ")");
 		}
 

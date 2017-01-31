@@ -39,6 +39,7 @@ import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AWindow;
@@ -309,8 +310,10 @@ public class VLocator extends JComponent
 		{
 			m_mLocator.setOnly_Warehouse_ID (getOnly_Warehouse_ID ());
 			m_mLocator.setOnly_Product_ID(getOnly_Product_ID());
-			if (!m_mLocator.isValid(value))
+			if (!m_mLocator.isValid(value)) {
 				value = null;
+				m_mField.setValue(null, true);
+			}
 		}
 		//
 		m_value = value;
@@ -630,6 +633,12 @@ public class VLocator extends JComponent
 			return;
 		}
 		setValue(Integer.valueOf(loc.get_ID()));
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }	//	VLocator

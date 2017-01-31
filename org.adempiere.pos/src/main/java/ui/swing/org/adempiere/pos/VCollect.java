@@ -38,6 +38,7 @@ import java.util.logging.Level;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.pos.service.Collect;
 import org.adempiere.pos.service.POSPanelInterface;
@@ -68,7 +69,7 @@ public class VCollect extends Collect
 	 * @param posPanel
 	 */
 	public VCollect(VPOS posPanel) {
-		super(posPanel.getCtx(), posPanel.getM_Order(), posPanel.getM_POS());
+		super(posPanel.getCtx(), posPanel.getOrder(), posPanel.getM_POS());
 		pos = posPanel;
 		ctx = pos.getCtx();
 		collectRowNo = 0;
@@ -78,7 +79,7 @@ public class VCollect extends Collect
 	public VCollect load (VPOS posPanel)
 	{
 		//	Instance Collects
-		load(posPanel.getCtx() , posPanel.getM_Order() , posPanel.getM_POS());
+		load(posPanel.getCtx() , posPanel.getOrder() , posPanel.getM_POS());
 		centerPanel.removeAll();
 		collectRowNo = 0;
 		calculatePanelData();
@@ -288,30 +289,16 @@ public class VCollect extends Collect
 	 * @return
 	 * @return String
 	 */
-	public String executePayment() {
-		String errorMsg = null;
-		try {
-			dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			Trx.run(new TrxRunnable() {
-				public void run(String trxName) {
-					if(pos.processOrder(trxName, isAllowsPartialPayment(), getBalance(pos.getOpenAmt()).signum() <= 0)) {
-						processTenderTypes(trxName, pos.getOpenAmt());
-						String error = getErrorMsg();
-						if(error != null && error.length() > 0)
-							throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": " + getErrorMsg()));
-					} else {
-						throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": "  +
-					                 "@ProcessRunError@" + " (" +  pos.getProcessMsg() + ")"));
-					}
-				}
-			});
-		} catch (Exception e) {
-			errorMsg = e.getLocalizedMessage();
-		} finally {
-			dialog.setCursor(Cursor.getDefaultCursor());
+	public void executePayment(String trxName) {
+		if(pos.processOrder(trxName, isAllowsPartialPayment(), getBalance(pos.getOpenAmt()).signum() <= 0)) {
+			processTenderTypes(trxName, pos.getOpenAmt());
+			String error = getErrorMsg();
+			if(error != null && error.length() > 0)
+				throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": " + getErrorMsg()));
+		} else {
+			throw new POSaveFailedException(Msg.parseTranslation(ctx, "@order.no@ " + pos.getDocumentNo() + ": "  +
+		                 "@ProcessRunError@" + " (" +  pos.getProcessMsg() + ")"));
 		}
-		//	Default
-		return errorMsg;
 	}
 	
 	@Override
@@ -322,34 +309,31 @@ public class VCollect extends Collect
 			addCollectType();
 		} else if (actionEvent.getSource().equals(buttonOk)) {	//	Process if is ok validation
 			//	Validate before process
-			String validResult = validatePayment();
-			if(validResult == null) {
-				validResult = executePayment();
-			}
-			//	Show error dialog
-			if(validResult != null) {
-				ADialog.warn(pos.getWindowNo(), dialog, Msg.parseTranslation(ctx, validResult));
-				return;
-			}
-			//	Process printing
-			isProcessed = true;
-			if(!pos.isStandardOrder() && !pos.isWarehouseOrder() && pos.isToPrint()) {
+			try {
+				pos.getFrame().getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				Trx.run(new TrxRunnable() {
 					public void run(String trxName) {
-						if (pos.getAD_Sequence_ID()!= 0) {
-							String docno = pos.getSequenceDoc(trxName);
-							String q = "Confirmar el número consecutivo "  + docno;
-							if (ADialog.ask(pos.getWindowNo(), pos.getFrame(), q)) {
-								pos.setPOReference(docno);
-								pos.saveNextSeq(trxName);
-							}
+						String validResult = validatePayment();
+						if(validResult == null) {
+							executePayment(trxName);
+						} else {
+							throw new AdempiereException(validResult);
+						}
+						//	Print Ticket
+						if (pos.isToPrint()) {
+							pos.printTicket();
 						}
 					}
 				});
+			} catch(Exception e) {
+				ADialog.warn(pos.getWindowNo(), dialog, Msg.parseTranslation(ctx, e.getLocalizedMessage()));
+				pos.reloadOrder();
+				return;
+			} finally {
+				pos.getFrame().getContentPane().setCursor(Cursor.getDefaultCursor());
 			}
-			if (pos.isToPrint())
-				pos.printTicket();
-
+			//	Process printing
+			isProcessed = true;
 			hidePanel();
 			pos.showKeyboard();
 			pos.refreshPanel();

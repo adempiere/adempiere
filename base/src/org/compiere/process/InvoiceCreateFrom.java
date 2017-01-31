@@ -199,6 +199,8 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 			invoice.setC_Activity_ID(fromInvoice.getC_Activity_ID());
 			invoice.setUser1_ID(fromInvoice.getUser1_ID());
 			invoice.setUser2_ID(fromInvoice.getUser2_ID());
+			invoice.setUser3_ID(fromInvoice.getUser3_ID());
+			invoice.setUser4_ID(fromInvoice.getUser4_ID());
 		} else if(createFromType.equals(RMA)) {
 			MRMA rma = new MRMA(getCtx(), referenceId, get_TrxName());
 			invoice.setRMA(rma);

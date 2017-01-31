@@ -15,8 +15,11 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
@@ -29,6 +32,47 @@ import org.compiere.util.Util;
 public class MHRAttribute extends X_HR_Attribute
 {
 	private static final long serialVersionUID = 3783311896401143394L;
+
+	/**
+	 * Get Employee Attribute
+	 * @param concept
+	 * @param employee
+	 * @param payrollId
+	 * @param dateFrom
+	 * @param dateTo
+	 * @return
+	 */
+	public static MHRAttribute getAttribute(MHRConcept concept , MHREmployee employee , int payrollId, Timestamp dateFrom, Timestamp dateTo)
+	{
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		whereClause.append("? >= ValidFrom AND ( ? <= ValidTo OR ValidTo IS NULL)");
+		params.add(dateFrom);
+		params.add(dateTo);
+		whereClause.append(" AND HR_Concept_ID = ? ");
+		params.add(concept.getHR_Concept_ID());
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept conc WHERE conc.HR_Concept_ID = HR_Attribute.HR_Concept_ID )");
+
+		// Check the concept is within a valid range for the attribute
+		if (concept.isEmployee()) {
+			whereClause.append(" AND C_BPartner_ID = ? AND (HR_Employee_ID = ? OR HR_Employee_ID IS NULL)");
+			params.add(employee.getC_BPartner_ID());
+			params.add(employee.get_ID());
+		}
+		else
+			whereClause.append(" AND C_BPartner_ID IS NULL ");
+
+
+		whereClause.append(" AND (HR_Payroll_ID = ? OR HR_Payroll_ID IS NULL)");
+		params.add(payrollId);
+
+		MHRAttribute attribute = new Query(concept.getCtx(), MHRAttribute.Table_Name, whereClause.toString(), concept.get_TrxName())
+				.setParameters(params)
+				.setOnlyActiveRecords(true)
+				.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+				.first();
+		return attribute;
+	}
 
 	/**
 	 * Get Attribute to Invoice
@@ -57,66 +101,66 @@ public class MHRAttribute extends X_HR_Attribute
 	 * @deprecated since 3.5.3a
 	 * Get Concept by Value
 	 * @param ctx
-	 * @param value
-	 * @param C_BPartner_ID
+	 * @param conceptValue
+	 * @param partnerId
 	 * @param startDate
 	 * @return attribute
 	 */
-	public static MHRAttribute forValue(Properties ctx, String value, int C_BPartner_ID, Timestamp date)
+	public static MHRAttribute forValue(Properties ctx, String conceptValue, int partnerId, Timestamp startDate)
 	{
-		if (Util.isEmpty(value, true))
+		if (Util.isEmpty(conceptValue, true))
 		{
 			return null;
 		}
 		
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		int clientId = Env.getAD_Client_ID(ctx);
 		
 		final String whereClause = COLUMNNAME_C_BPartner_ID+"=? AND AD_Client_ID IN (?,?) "
 								+ " AND " + COLUMNNAME_ValidFrom +"<=?"
 								+ " AND EXISTS (SELECT 1 FROM HR_Concept c WHERE HR_Attribute.HR_Concept_ID = c.HR_Concept_ID" 
 								+ " AND c.Value=?)"; 
-		MHRAttribute att = new Query(ctx, Table_Name, whereClause, null)
-							.setParameters(new Object[]{C_BPartner_ID, 0, AD_Client_ID, date, value})
+		MHRAttribute attribute = new Query(ctx, Table_Name, whereClause, null)
+							.setParameters(new Object[]{partnerId, 0, clientId, startDate, conceptValue})
 							.setOnlyActiveRecords(true)
 							.setOrderBy(COLUMNNAME_ValidFrom + " DESC")
 							.first();
-		return att;
+		return attribute;
 	}	
 	
 	/**
 	 * Get Concept by Value
 	 * @param ctx
-	 * @param value
-	 * @param C_BPartner_ID
+	 * @param conceptValue
+	 * @param partnerId
 	 * @param startDate
 	 * @param endDate
 	 * @return attribute
 	 */	
-	public static MHRAttribute forValue(Properties ctx, String value, int C_BPartner_ID, Timestamp startDate, Timestamp endDate)
+	public static MHRAttribute forValue(Properties ctx, String conceptValue, int partnerId, Timestamp startDate, Timestamp endDate)
 	{
-		if (Util.isEmpty(value, true))
+		if (Util.isEmpty(conceptValue, true))
 		{
 			return null;
 		}
 
 		if (endDate == null)
 		{
-			return forValue(ctx, value, C_BPartner_ID, startDate);
+			return forValue(ctx, conceptValue, partnerId, startDate);
 		}
 		else
 		{			
-			int AD_Client_ID = Env.getAD_Client_ID(ctx);
+			int clientId = Env.getAD_Client_ID(ctx);
 			
 			final String whereClause = COLUMNNAME_C_BPartner_ID+"=? AND AD_Client_ID IN (?,?) "
 									+ " AND " + COLUMNNAME_ValidFrom +"<=? AND " + COLUMNNAME_ValidTo +">=?"
 									+ " AND EXISTS (SELECT 1 FROM HR_Concept c WHERE HR_Attribute.HR_Concept_ID = c.HR_Concept_ID" 
 									+ " AND c.Value=?)"; 
-			MHRAttribute att = new Query(ctx, Table_Name, whereClause, null)
-								.setParameters(new Object[]{C_BPartner_ID, 0, AD_Client_ID, startDate, endDate, value})
+			MHRAttribute attribute = new Query(ctx, Table_Name, whereClause, null)
+								.setParameters(new Object[]{partnerId, 0, clientId, startDate, endDate, conceptValue})
 								.setOnlyActiveRecords(true)
 								.setOrderBy(COLUMNNAME_ValidFrom + " DESC")
 								.first();
-			return att;
+			return attribute;
 		}
 	}	
 	
@@ -144,5 +188,20 @@ public class MHRAttribute extends X_HR_Attribute
 	public I_HR_Concept getHR_Concept()
 	{
 		return MHRConcept.get(getCtx(), getHR_Concept_ID());
+	}
+
+	/**************************************************************************
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return save
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (getHR_Concept().isEmployee() && getHR_Employee_ID() <= 0)
+			throw new AdempiereException("@HR_Employee_ID@ @NotFound@");
+		else if (!getHR_Concept().isEmployee())
+			setHR_Employee_ID(-1);
+
+		return true;
 	}
 }

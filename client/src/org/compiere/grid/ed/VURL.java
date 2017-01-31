@@ -39,6 +39,7 @@ import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.RecordInfo;
@@ -504,6 +505,12 @@ public class VURL extends JComponent
 		m_infocus = false;
 		setText(getText());		//	obscure
 	}	//	focus Lost
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 }	//	VURL
