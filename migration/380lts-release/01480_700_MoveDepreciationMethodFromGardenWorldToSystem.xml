@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Move depreciation method from Garden World to System #700" ReleaseNo="3.9.0" SeqNo="01480">
+    <Comments>https://github.com/adempiere/adempiere/issues/700</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE A_Depreciation SET AD_Client_ID = 0 , AD_Org_ID = 0 WHERE AD_Client_ID=11 AND AD_Org_ID=11;</SQLStatement>
+      <RollbackStatement>UPDATE A_Depreciation SET AD_Client_ID = 11 , AD_Org_ID = 11 WHERE AD_Client_ID=0 AND AD_Org_ID=0;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

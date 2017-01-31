@@ -63,7 +63,9 @@ import org.zkoss.zul.Hbox;
  * 				https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
  * 
  * @TODO: Implement fOnline button present in swing client
- * 
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/685">
+ * 		@see FR [ 685 ] Location dialog for ZK don't have a Standard ADempiere Buttons Position</a>
  **/
 public class WLocationDialog extends Window implements EventListener
 {
@@ -281,8 +283,8 @@ public class WLocationDialog extends Window implements EventListener
 	    pnlButtonLeft.setAlign("left");
 	        
 		Panel pnlButtonRight   = new Panel();
-		pnlButtonRight.appendChild(btnOk);
 		pnlButtonRight.appendChild(btnCancel);
+		pnlButtonRight.appendChild(btnOk);
 		pnlButtonRight.setWidth("100%");
 		pnlButtonRight.setStyle("text-align:right");
 

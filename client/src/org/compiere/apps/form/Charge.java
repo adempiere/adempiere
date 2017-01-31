@@ -356,6 +356,8 @@ public class Charge
             defaultAccount.getC_Activity_ID(),
             defaultAccount.getUser1_ID(),
             defaultAccount.getUser2_ID(),
+			defaultAccount.getUser3_ID(),
+			defaultAccount.getUser4_ID(),
             defaultAccount.getUserElement1_ID(),
             defaultAccount.getUserElement2_ID(), null);
 

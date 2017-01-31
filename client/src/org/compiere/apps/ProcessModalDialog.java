@@ -14,34 +14,15 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-
-import org.adempiere.exceptions.DBException;
 import org.compiere.process.ProcessInfo;
-import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
-import org.compiere.swing.CPanel;
-import org.compiere.swing.CScrollPane;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 /**
  * [ 1639242 ] Inconsistent appearance of Process/Report Dialog
@@ -61,10 +42,10 @@ import org.compiere.util.Msg;
  *		@see https://github.com/adempiere/adempiere/issues/300
  *		<li>BR[ 323 ] Process parameter panel is showed without parameter
  *		@see https://github.com/adempiere/adempiere/issues/323
+ *		<a href="https://github.com/adempiere/adempiere/issues/571">
+ * 		@see FR [ 571 ] Process Dialog is not MVC</a>
  */
-public class ProcessModalDialog extends CDialog
-	implements ActionListener
-{
+public class ProcessModalDialog extends CDialog implements IProcessDialog {
 	
 	/**
 	 * 
@@ -87,7 +68,7 @@ public class ProcessModalDialog extends CDialog
 			ASyncProcess aProcess, int WindowNo, int AD_Process_ID,
 			int tableId, int recordId, boolean autoStart) {
 		this(ctx, parent, title, aProcess, WindowNo, 
-				AD_Process_ID, tableId, recordId, autoStart, null);
+				AD_Process_ID, tableId, recordId, autoStart, null, false);
 	}
 	
 	
@@ -98,41 +79,34 @@ public class ProcessModalDialog extends CDialog
 	 * @param title
 	 * @param aProcess
 	 * @param WindowNo
-	 * @param AD_Process_ID
+	 * @param processId
 	 * @param tableId
 	 * @param recordId
 	 * @param autoStart
 	 * @param pi
+	 * @param isOnlyPanel
 	 */
 	private ProcessModalDialog (Properties ctx, Frame parent, String title, 
-			ASyncProcess aProcess, int WindowNo, int AD_Process_ID,
-			int tableId, int recordId, boolean autoStart, ProcessInfo pi)
-	{
+			ASyncProcess aProcess, int WindowNo, int processId,
+			int tableId, int recordId, boolean autoStart, ProcessInfo pi, boolean isOnlyPanel) {
 		super(parent, title, true);
-		log.info("Process=" + AD_Process_ID );
+		log.info("Process=" + processId);
+		this.isOnlyPanel = isOnlyPanel;
+		this.autoStart = autoStart;
 		if(pi == null) {
-			m_ctx = ctx;
-			m_ASyncProcess = aProcess;
-			m_AD_Process_ID = AD_Process_ID;
-			m_tableId = tableId;
-			m_recordId = recordId;
-			m_autoStart = autoStart;
+			aSyncProcess = aProcess;
+			processInfo = new ProcessInfo(title, processId, tableId, recordId);
 		} else {
-			m_pi = pi;
-			m_AD_Process_ID = pi.getAD_Process_ID();
-			m_tableId = pi.getTable_ID();
-			m_recordId = pi.getRecord_ID();
+			processInfo = pi;
 		}
+		
 		//	
-		m_WindowNo = WindowNo;
+		windowNo = WindowNo;
 		//	
-		try
-		{
+		try {
 			jbInit();
 			init();
-		}
-		catch(Exception ex)
-		{
+		} catch(Exception ex) {
 			log.log(Level.SEVERE, "", ex);
 		}
 	}	//	ProcessDialog
@@ -146,290 +120,105 @@ public class ProcessModalDialog extends CDialog
 	public ProcessModalDialog (Frame frame, int WindowNo, ProcessInfo pi) {
 		this(Env.getCtx(), frame, pi.getTitle(), 
 				null, WindowNo, pi.getAD_Process_ID(), 
-				pi.getTable_ID(), pi.getRecord_ID(), false, pi);
-		//	Set Process instance and flag
-		m_pi = pi;
-		m_OnlyPanel = true;
+				pi.getTable_ID(), pi.getRecord_ID(), false, pi, true);
 	}
 
-	private ASyncProcess m_ASyncProcess;
-	private int m_WindowNo;
-	private Properties m_ctx;
-	private int m_tableId;
-	private int m_recordId;
-	private boolean m_autoStart;
-	private int 		    m_AD_Process_ID;
-	private String		    m_Name = null;
-	private StringBuffer	m_messageText = new StringBuffer();
-	private String          m_ShowHelp = null; // Determine if a Help Process Window is shown
-	private boolean 		m_valid = true;
-	private boolean 		m_OnlyPanel = false;
-	private boolean 		m_isOK = false;
+	private ASyncProcess 	aSyncProcess;
+	private int 			windowNo;
+	private boolean 		isValid = true;
+	private boolean 		isOnlyPanel;
+	private boolean 		autoStart;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessDialog.class);
 	//
-
-	private CPanel dialog = new CPanel()
-	{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -8093428846912456722L;
-
-		public Dimension getPreferredSize() {
-			Dimension d = super.getPreferredSize();
-			Dimension m = getMinimumSize();
-			if ( d.height < m.height || d.width < m.width ) {
-				Dimension d1 = new Dimension();
-				d1.height = Math.max(d.height, m.height);
-				d1.width = Math.max(d.width, m.width);
-				return d1;
-			} else
-				return d;
-		}
-	};
-	private BorderLayout mainLayout = new BorderLayout();
-	private ConfirmPanel southPanel = new ConfirmPanel(true);
-	private CButton bOK = null;
-	private JEditorPane message = new JEditorPane()
-	{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1218214722657165651L;
-
-		public Dimension getPreferredSize() {
-			Dimension d = super.getPreferredSize();
-			Dimension m = getMaximumSize();
-			if ( d.height > m.height || d.width > m.width ) {
-				Dimension d1 = new Dimension();
-				d1.height = Math.min(d.height, m.height);
-				d1.width = Math.min(d.width, m.width);
-				return d1;
-			} else
-				return d;
-		}
-	};
-	private JScrollPane messagePane = new JScrollPane(message)
-	{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 8653555758412012675L;
-
-		public Dimension getPreferredSize() {
-			Dimension d = super.getPreferredSize();
-			Dimension m = getMaximumSize();
-			if ( d.height > m.height || d.width > m.width ) {
-				Dimension d1 = new Dimension();
-				d1.height = Math.min(d.height, m.height);
-				d1.width = Math.min(d.width, m.width);
-				return d1;
-			} else
-				return d;
-		}
-	};
-	
-	private CPanel centerPanel = null;
-	private ProcessParameterPanel parameterPanel = null;
-	private JSeparator separator = new JSeparator();
-	private ProcessInfo m_pi;
+	private ProcessPanel processPanel = null;
+	private ProcessInfo processInfo;
 
 	/**
 	 *	Static Layout
 	 *  @throws Exception
 	 */
-	private void jbInit() throws Exception
-	{
-		dialog.setLayout(mainLayout);
-		dialog.setMinimumSize(new Dimension(500, 200));
-		southPanel.addActionListener(this);
-		bOK = southPanel.getOKButton();
-		//
-		message.setContentType("text/html");
-		message.setEditable(false);
-		message.setBackground(Color.white);
-		message.setFocusable(false);
-		getContentPane().add(dialog);
-		dialog.add(southPanel, BorderLayout.SOUTH);
-		dialog.add(messagePane, BorderLayout.NORTH);
-		messagePane.setBorder(null);
-		messagePane.setMaximumSize(new Dimension(600, 300));
-		centerPanel = new CPanel();
-		centerPanel.setBorder(null);
-		centerPanel.setLayout(new BorderLayout());
-		dialog.add(centerPanel, BorderLayout.CENTER);
-		//
-		this.getRootPane().setDefaultButton(bOK);
+	private void jbInit() throws Exception {
+		setIconImage(Env.getImage("mProcess.gif"));
 	}	//	jbInit
-
-	/**
-	 * 	Set Visible 
-	 * 	(set focus to OK if visible)
-	 * 	@param visible true if visible
-	 */
-	public void setVisible(boolean visible) {
-		if(m_OnlyPanel) {
-			if(m_ShowHelp != null && m_ShowHelp.equals("N")) {
-				// It is defined as a silent process
-				if(parameterPanel.saveParameters() == null) {
-					m_isOK = true;
-					dispose();
-				}
-			} else {
-				// Not a silent process
-				super.setVisible(visible);
-			}
-		} else {
-			super.setVisible(visible);
-			if (visible) {
-				bOK.requestFocus();
-			}
-		}
-	}
 
 	/**
 	 *	Dispose
 	 */
-	public void dispose()
-	{
-		m_valid = false;
-		parameterPanel.restoreContext(); // teo_sarca [ 1699826 ]
+	public void dispose() {
+		isValid = false;
+		processPanel.restoreContext(); // teo_sarca [ 1699826 ]
 		super.dispose();
 	}	//	dispose
 
-	public boolean isValidDialog()
-	{
-		return m_valid;
+	/**
+	 * Is Valid the dialog
+	 * @return
+	 */
+	public boolean isValidDialog() {
+		return isValid;
 	}
 
 	/**
 	 *	Dynamic Init
 	 *  @return true, if there is something to process (start from menu)
 	 */
-	private boolean init()
-	{
+	private boolean init() {
 		log.config("");
-		//
-		boolean trl = !Env.isBaseLanguage(m_ctx, "AD_Process");
-		String sql = "SELECT Name, Description, Help, IsReport, ShowHelp "
-				+ "FROM AD_Process "
-				+ "WHERE AD_Process_ID=?";
-		if (trl)
-			sql = "SELECT t.Name, t.Description, t.Help, p.IsReport, p.ShowHelp "
-				+ "FROM AD_Process p, AD_Process_Trl t "
-				+ "WHERE p.AD_Process_ID=t.AD_Process_ID"
-				+ " AND p.AD_Process_ID=? AND t.AD_Language=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_AD_Process_ID);
-			if (trl)
-				pstmt.setString(2, Env.getAD_Language(m_ctx));
-			rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				m_Name = rs.getString(1);
-				m_ShowHelp = rs.getString(5);
-				//
-				m_messageText.append("<b>");
-				String s = rs.getString(2);		//	Description
-				if (rs.wasNull())
-					m_messageText.append(Msg.getMsg(m_ctx, "StartProcess?"));
-				else
-					m_messageText.append(s);
-				m_messageText.append("</b>");
-				
-				s = rs.getString(3);			//	Help
-				if (!rs.wasNull())
-					m_messageText.append("<p>").append(s).append("</p>");
-			}
-		}
-		catch (SQLException e)
-		{
-			throw new DBException(e, sql);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-
-		if (m_Name == null)
-			return false;
-		//
-		this.setTitle(m_Name);
-		message.setMargin(new Insets(10,10,10,10));
-		message.setText(m_messageText.toString());
-
-		//	Move from APanel.actionButton
-		if(m_pi == null) {
-			m_pi = new ProcessInfo(m_Name, m_AD_Process_ID, m_tableId, m_recordId);
-		}
-		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
-		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
-		centerPanel.removeAll();
-		//	BR [ 265 ]
-		m_valid = parameterPanel.init();
-		if (m_valid) {
-			// hasfields
-			centerPanel.add(separator, BorderLayout.NORTH);
-			//	Add Scroll FR [ 265 ]
-			CScrollPane scrollPane = new CScrollPane(parameterPanel.getPanel());
-			scrollPane.setAutoscrolls(true);
-			scrollPane.createVerticalScrollBar();
-			scrollPane.createHorizontalScrollBar();
-			//	
-			centerPanel.add(scrollPane, BorderLayout.CENTER);
-		} else {
-			if (m_ShowHelp != null && m_ShowHelp.equals("N")) {
-				m_autoStart = true;
-			}
-			if (m_autoStart)
-				bOK.doClick();    // don't ask first click
-		}
-		
-		// Check if the process is a silent one
-		if(m_ShowHelp != null && m_ShowHelp.equals("S"))
-			bOK.doClick();
-		
-		dialog.revalidate();
+		processInfo.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
+		processInfo.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		processPanel = new ProcessPanel(this, windowNo, processInfo, ProcessPanel.COLUMNS_1);
+		processPanel.setIsOnlyPanel(isOnlyPanel);
+		processPanel.setAutoStart(autoStart);
+		processPanel.createFieldsAndEditors();
+		//	Set Default
+		getContentPane().add(processPanel.getPanel());
+		setTitle(processPanel.getName());
+		//	Revalidate
+		validateScreen();
 		return true;
 	}	//	init
-
-	/**
-	 *	ActionListener (Start)
-	 *  @param e ActionEvent
-	 */
-	public void actionPerformed (ActionEvent e) {
-		m_isOK = false;
-		if (e.getSource() == bOK) {
-			if(!m_OnlyPanel) {
-				ProcessCtl.process(m_ASyncProcess, m_WindowNo, parameterPanel, m_pi, null);
-				dispose();
-			} else {
-				//	check if saving parameters is complete
-				if (parameterPanel.validateParameters() == null) {
-					//	Save Parameters
-					parameterPanel.saveParameters();
-					m_isOK = true;
-					dispose();
-				}
-			}
-		} else if (e.getSource() == southPanel.getCancelButton()) {
-			dispose();
-		}
-	}	//	actionPerformed
 	
 	/**
 	 *	Is everything OK?
 	 *  @return true if parameters saved correctly
 	 */
 	public boolean isOK() {
-		return m_isOK;
+		return processPanel.isOkPressed();
 	}	//	isOK
+
+
+	@Override
+	public void printScreen() {
+		PrintScreenPainter.printScreen(this);
+	}
+
+	@Override
+	public void validateScreen() {
+		validate();
+		getRootPane().setDefaultButton(processPanel.getDefaultButton());
+	}
+
+	@Override
+	public void showCenterScreen() {
+		AEnv.showCenterScreen(this);
+	}
+	
+	@Override
+	public ASyncProcess getParentProcess() {
+		return aSyncProcess;
+	}
+
+
+	@Override
+	public boolean isEmbedded() {
+		return true;
+	}
+
+
+	@Override
+	public Object getParentContainer() {
+		return this;
+	}
 }	//	ProcessDialog

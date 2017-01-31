@@ -736,7 +736,8 @@ public class ImportBudget extends SvrProcess
 							rs.getInt("M_Product_ID"), rs.getInt("C_BPartner_ID"),  rs.getInt("AD_OrgTrx_ID"),
 							rs.getInt("C_LocFrom_ID"), rs.getInt("C_LocTo_ID"), rs.getInt("C_SalesRegion_ID"),
 							rs.getInt("C_Project_ID"), rs.getInt("C_Campaign_ID"), rs.getInt("C_Activity_ID"),
-							rs.getInt("User1_ID"), rs.getInt("User2_ID"), 0, 0, get_TrxName());
+							rs.getInt("User1_ID"), rs.getInt("User2_ID") , rs.getInt("User3_ID"), rs.getInt("User4_ID"),
+							0, 0, get_TrxName());
 					if (acct != null && acct.get_ID() == 0)
 						acct.saveEx();
 					if (acct == null || acct.get_ID() == 0)

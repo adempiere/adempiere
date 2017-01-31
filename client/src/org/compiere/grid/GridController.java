@@ -993,7 +993,7 @@ public class GridController extends CPanel
 			log.config("(" + m_mTab.toString() + ") "
 				+ columnName + " - Dependents=" + dependants.size());
 			//	No Dependents and no Callout - Set just Background
-			if (dependants.size() == 0 && changedField.getCallout().length() > 0)
+			if (dependants.size() == 0 && changedField.getCallout().length() == 0)
 			{
 				Component[] comp = vPanel.getComponentsRecursive();
 				for (int i = 0; i < comp.length; i++)

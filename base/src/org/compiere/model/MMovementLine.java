@@ -371,5 +371,23 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine
 
 	public boolean isSOTrx(){
 		return false;
-	}	
+	}
+
+	@Override
+	public BigDecimal getPriceActualCurrency() {
+		return BigDecimal.ZERO;
+	}
+
+	@Override
+	public int getC_Currency_ID ()
+	{
+		MClient client  = MClient.get(getCtx());
+		return client.getC_Currency_ID();
+	}
+
+	@Override
+	public int getC_ConversionType_ID()
+	{
+		return  MConversionType.getDefault(getAD_Client_ID());
+	}
 }	//	MMovementLine

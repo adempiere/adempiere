@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Spin Contribution Entity Type" ReleaseNo="3.9.0" SeqNo="00420">
+    <Comments>Add Spin Contribution Entity Type, See: https://github.com/adempiere/adempiere/issues/661</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="882" Action="I" Record_ID="50017" Table="AD_EntityType">
+        <Data AD_Column_ID="15593" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="15595" Column="AD_EntityType_ID">50017</Data>
+        <Data AD_Column_ID="15594" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15606" Column="Classpath" isNewNull="true"/>
+        <Data AD_Column_ID="15597" Column="Created">2015-11-13 23:15:01.403</Data>
+        <Data AD_Column_ID="15598" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="15602" Column="Description">Spin-Suite Contribution</Data>
+        <Data AD_Column_ID="15592" Column="EntityType">ECA01</Data>
+        <Data AD_Column_ID="15603" Column="Help">Contribution by E.R.P Consultores y Asociados, C.A</Data>
+        <Data AD_Column_ID="15596" Column="IsActive">true</Data>
+        <Data AD_Column_ID="15605" Column="ModelPackage">org.spinsuite.model</Data>
+        <Data AD_Column_ID="15601" Column="Name">Spin-Suite Contribution</Data>
+        <Data AD_Column_ID="15607" Column="Processing">false</Data>
+        <Data AD_Column_ID="15599" Column="Updated">2015-11-13 23:15:01.403</Data>
+        <Data AD_Column_ID="15600" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="15604" Column="Version" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="882" Action="I" Record_ID="50018" Table="AD_EntityType">
+        <Data AD_Column_ID="15593" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="15595" Column="AD_EntityType_ID">50018</Data>
+        <Data AD_Column_ID="15594" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15606" Column="Classpath" isNewNull="true"/>
+        <Data AD_Column_ID="15597" Column="Created">2015-11-13 23:15:30.032</Data>
+        <Data AD_Column_ID="15598" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="15602" Column="Description">Spin Contribution</Data>
+        <Data AD_Column_ID="15592" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="15603" Column="Help">Contribution by E.R.P Consultores y Asociados, C.A</Data>
+        <Data AD_Column_ID="15596" Column="IsActive">true</Data>
+        <Data AD_Column_ID="15605" Column="ModelPackage">org.spin.model</Data>
+        <Data AD_Column_ID="15601" Column="Name">Spin Contribution</Data>
+        <Data AD_Column_ID="15607" Column="Processing">false</Data>
+        <Data AD_Column_ID="15599" Column="Updated">2015-11-13 23:15:30.032</Data>
+        <Data AD_Column_ID="15600" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="15604" Column="Version" isNewNull="true"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -40,6 +40,7 @@ import org.compiere.model.I_M_Production;
 import org.compiere.model.I_M_Transaction;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
+import org.compiere.model.MConversionRate;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
@@ -135,34 +136,30 @@ public class CostEngine {
      * @param accountSchema
      * @param costTypeId
      * @param costElementId
-     * @param order
+     * @param costCollector
      * @return
      */
-	public static BigDecimal getParentActualCostByCostType(MAcctSchema accountSchema, int costTypeId, int costElementId, MPPOrder order) {
-		StringBuffer whereClause = new StringBuffer();
+	public static BigDecimal getParentActualCostByCostType(MAcctSchema accountSchema, int costTypeId, int costElementId, MPPCostCollector costCollector) {
+		StringBuffer whereClause = new StringBuffer()
+		.append(MCostDetail.COLUMNNAME_C_AcctSchema_ID).append("=? AND ")
+		.append(MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND ")
+		.append(MCostDetail.COLUMNNAME_M_CostElement_ID + "=? AND ")
+		.append(MCostDetail.COLUMNNAME_PP_Cost_Collector_ID)
+		.append(" IN (SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector cc WHERE cc.PP_Order_ID=? AND ")
+		.append(" cc.CostCollectorType <> '").append(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt).append("')");
 
-		whereClause.append(MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND ");
-		whereClause.append(MCostDetail.COLUMNNAME_M_CostElement_ID + "=? AND ");
-		whereClause.append(MCostDetail.COLUMNNAME_PP_Cost_Collector_ID);
-		whereClause.append(" IN (SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector cc WHERE cc.PP_Order_ID=? AND ");
-		whereClause.append(" cc.CostCollectorType <> '").append(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt).append("')");
-
-		BigDecimal actualCost = new Query(order.getCtx(),
-				I_M_CostDetail.Table_Name, whereClause.toString(),
-				order.get_TrxName())
+		BigDecimal actualCost = new Query(costCollector.getCtx(), MCostDetail.Table_Name, whereClause.toString(), costCollector.get_TrxName())
 				.setClient_ID()
-				.setParameters(costTypeId, costElementId,
-						order.getPP_Order_ID())
-				.sum("(" + MCostDetail.COLUMNNAME_Amt + "+"
-						+ MCostDetail.COLUMNNAME_CostAmtLL + ")");
+				.setParameters(accountSchema.getC_AcctSchema_ID() , costTypeId, costElementId, costCollector.getPP_Order_ID())
+				.sum("(" + MCostDetail.COLUMNNAME_Amt + "+" + MCostDetail.COLUMNNAME_CostAmtLL + ")");
 
 		whereClause = new StringBuffer();
 		whereClause
-				.append(" EXISTS (SELECT 1 FROM PP_Cost_Collector cc WHERE PP_Cost_Collector_ID=M_Transaction.PP_Cost_Collector_ID AND cc.PP_Order_ID=? AND cc.M_Product_ID=? )");
-		BigDecimal qtyDelivered = new Query(order.getCtx(),
-				I_M_Transaction.Table_Name, whereClause.toString(),
-				order.get_TrxName()).setClient_ID()
-				.setParameters(order.getPP_Order_ID(), order.getM_Product_ID())
+				.append(" EXISTS (SELECT 1 FROM PP_Cost_Collector cc ")
+				.append(" WHERE PP_Cost_Collector_ID=M_Transaction.PP_Cost_Collector_ID AND cc.PP_Order_ID=? AND cc.M_Product_ID=? )");
+		BigDecimal qtyDelivered = new Query(costCollector.getCtx(), I_M_Transaction.Table_Name, whereClause.toString(), costCollector.get_TrxName())
+				.setClient_ID()
+				.setParameters(costCollector.getPP_Order_ID(), costCollector.getM_Product_ID())
 				.sum(MTransaction.COLUMNNAME_MovementQty);
 
 		if (actualCost == null)
@@ -172,7 +169,16 @@ public class CostEngine {
 			actualCost = actualCost.divide(qtyDelivered,
 					accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_DOWN);
 
-		// return actualCost.negate();
+		BigDecimal rate = MConversionRate.getRate(
+				costCollector.getC_Currency_ID(), costCollector.getC_Currency_ID(),
+				costCollector.getDateAcct(), costCollector.getC_ConversionType_ID(),
+				costCollector.getAD_Client_ID(), costCollector.getAD_Org_ID());
+		if (rate != null) {
+			actualCost = actualCost.multiply(rate);
+			if (actualCost.scale() > accountSchema.getCostingPrecision())
+				actualCost = actualCost.setScale(accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+		}
+
 		return actualCost;
 	}
 
@@ -294,7 +300,7 @@ public class CostEngine {
 
 		if (model instanceof MLandedCostAllocation) {
 			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
-			costThisLevel = allocation.getPriceActual();
+			costThisLevel = convertCostThisLevel(accountSchema, model);
 		}
 
 		MCost cost = MCost.validateCostForCostType(accountSchema, costType, costElement,
@@ -323,9 +329,11 @@ public class CostEngine {
 								.getCostElementType())) {
 					MInventoryLine inventoryLine = (MInventoryLine) model;
 					// Use the cost only for Physical Inventory
-					if (inventoryLine.getQtyInternalUse().signum() == 0 )
-						costThisLevel = inventoryLine.getCurrentCostPrice();
-					
+					if (inventoryLine.getQtyInternalUse().signum() == 0 &&
+							inventoryLine.getCurrentCostPrice() != null &&
+							inventoryLine.getCurrentCostPrice().signum() > 0) {
+							costThisLevel = convertCostThisLevel(accountSchema, model);
+					}
 					if(costThisLevel.signum() == 0)
 						costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 				}
@@ -337,24 +345,17 @@ public class CostEngine {
 					if (costMovementFrom.signum() > 0 )
 						costThisLevel = costMovementFrom;					
 				}
-			} else if (MCostElement.COSTELEMENTTYPE_Material.equals(costElement
-					.getCostElementType())) {
-				if (model.getPriceActual().signum() != 0)
-					costThisLevel = model.getPriceActual();
-				//else of cost should only be take from source document in this case purchase order
-                //    costThisLevel = cost.getCurrentCostPrice();
+			} else if (MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+					costThisLevel = convertCostThisLevel(accountSchema , model);
 			}
 		}
 
 		if (!MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod())) {
 			if (model instanceof MPPCostCollector) {
 				MPPCostCollector costCollector = (MPPCostCollector) model;
-				if (MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt
-						.equals(costCollector.getCostCollectorType())) {
+				if (MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt.equals(costCollector.getCostCollectorType())) {
 					// get Actual Cost for Cost Type and Cost Element
-					costLowLevel = CostEngine.getParentActualCostByCostType(
-                            accountSchema, costType.getM_CostType_ID(), costElement.getM_CostElement_ID(), costCollector.getPP_Order()
-                    );
+					costLowLevel = CostEngine.getParentActualCostByCostType(accountSchema, costType.getM_CostType_ID(), costElement.getM_CostElement_ID(), costCollector);
 				} 
 			}
 			if (model instanceof MProductionLine) {
@@ -400,7 +401,8 @@ public class CostEngine {
 				if (inventoryLine.getQtyInternalUse().signum() == 0 &&
 					inventoryLine.getCurrentCostPrice() != null &&
 					inventoryLine.getCurrentCostPrice().signum() > 0) {
-					costThisLevel = inventoryLine.getCurrentCostPrice();
+						costThisLevel = convertCostThisLevel(accountSchema , model);
+
 					cost.setCurrentCostPrice(costThisLevel);
 					cost.saveEx();
 				}
@@ -415,8 +417,7 @@ public class CostEngine {
                 costThisLevel = getSeedCost(transaction.getCtx(), transaction.getM_Product_ID(), transaction.get_TrxName());
                 if (costThisLevel.signum() == 0)
                     if (model instanceof  MInOutLine && !model.isSOTrx()) {
-                        MInOutLine inOutLine = (MInOutLine) model;
-                        costThisLevel = inOutLine.getC_OrderLine().getPriceActual();
+							costThisLevel = convertCostThisLevel(accountSchema , model);
                     }
                 if (costThisLevel.signum() != 0) {
                     cost.setCurrentCostPrice(costThisLevel);
@@ -433,55 +434,20 @@ public class CostEngine {
 	}
 
 
-
-	/*public void createCostDetail(MAcctSchema accountSchema, CostComponent costCollector, IDocumentLine model,
-                                 Boolean isSOTrx, boolean setProcessed) {
-		final String idColumnName = model.get_TableName() + "_ID";
-		final String trxName = model.get_TrxName();
-
-		// Delete Unprocessed zero Differences
-		String sql = "DELETE M_CostDetail "
-				+ "WHERE Processed='N' AND COALESCE(DeltaAmt,0)=0 AND COALESCE(DeltaQty,0)=0"
-				+ " AND " + idColumnName + "=?" + " AND C_AcctSchema_ID=?"
-				+ " AND M_AttributeSetInstance_ID=?";
-		if (isSOTrx != null) {
-			sql += " AND " + I_M_CostDetail.COLUMNNAME_IsSOTrx + "="
-					+ (isSOTrx ? "'Y'" : "'N'");
+	public BigDecimal convertCostThisLevel(MAcctSchema acctSchema , IDocumentLine model)
+	{
+		BigDecimal costThisLevel = BigDecimal.ZERO;
+		BigDecimal rate = MConversionRate.getRate(
+				model.getC_Currency_ID(), acctSchema.getC_Currency_ID() ,
+				model.getDateAcct(), model.getC_ConversionType_ID() ,
+				model.getAD_Client_ID(), model.getAD_Org_ID());
+		if (rate != null) {
+			costThisLevel = model.getPriceActualCurrency().multiply(rate);
+			if (costThisLevel.scale() > acctSchema.getCostingPrecision())
+				costThisLevel = costThisLevel.setScale(acctSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 		}
-		int no = DB.executeUpdateEx(
-				sql,
-				new Object[] { model.get_ID(), accountSchema.getC_AcctSchema_ID(),
-						model.getM_AttributeSetInstance_ID() }, trxName);
-		if (no != 0)
-			log.config("Deleted #" + no);
-
-		// Build Description string
-		StringBuilder description = new StringBuilder();
-		if (!Util.isEmpty(model.getDescription(), true))
-			description.append(model.getDescription());
-		if (isSOTrx != null) {
-			description.append(isSOTrx ? "(|->)" : "(|<-)");
-		}
-
-		List<MCost> costs = MCost.getForProduct(accountSchema, model);
-		for (MCost cost : costs) {
-			final MCostElement ce = MCostElement.get(cost.getCtx(),
-					cost.getM_CostElement_ID());
-			if (MCostElement.COSTELEMENTTYPE_LandedCost.equals(ce
-					.getCostElementType())) {
-				// skip landed costs
-				continue;
-			}
-
-			final ICostingMethod method = CostingMethodFactory.get()
-					.getCostingMethod(cost.getCostingMethod());
-			method.setCostingMethod(accountSchema, null, model, cost,
-					model.getPriceActual(), Env.ZERO, isSOTrx);
-
-            method.process();
-		}
-	}*/
-
+		return costThisLevel;
+	}
 
 	//Create cost detail for by document
 	public void createCostDetailForLandedCostAllocation(
@@ -504,36 +470,12 @@ public class CostEngine {
 		}
 	}
 
-	/*public static int deleteCostDetail(MAcctSchema accountSchema, int costElementId, int attributeSetInstanceId, IDocumentLine model) {
-		// Delete Unprocessed zero Differences
-		String sql = "DELETE "
-				+ MCostDetail.Table_Name
-				+ " WHERE Processed='N' AND COALESCE(DeltaAmt,0)=0 AND COALESCE(DeltaQty,0)=0"
-				+ " AND " + model.get_TableName() + "_ID=?" + " AND "
-				+ MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=?" + " AND "
-				+ MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID + "=?"
-				// + " AND "+MCostDetail.COLUMNNAME_M_CostType_ID+"=?"
-				+ " AND " + MCostDetail.COLUMNNAME_M_CostElement_ID + "=?";
-		Object[] parameters = new Object[] { model.get_ID(),
-				accountSchema.getC_AcctSchema_ID(), attributeSetInstanceId,
-				// as.getM_CostType_ID(),
-                costElementId};
-
-		int no = DB.executeUpdateEx(sql, parameters, model.get_TrxName());
-		//if (no != 0)
-		//	log.config("Deleted #" + no);
-		return no;
-	}*/
-
-
-
 	public static boolean isActivityControlElement(I_M_CostElement element) {
 		String costElementType = element.getCostElementType();
 		return MCostElement.COSTELEMENTTYPE_Resource.equals(costElementType)
-				|| MCostElement.COSTELEMENTTYPE_Overhead
-						.equals(costElementType)
-				|| MCostElement.COSTELEMENTTYPE_BurdenMOverhead
-						.equals(costElementType);
+				|| MCostElement.COSTELEMENTTYPE_Overhead.equals(costElementType)
+				|| MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(costElementType)
+				|| MCostElement.COSTELEMENTTYPE_OutsideProcessing.equals(costElementType);
 	}
 
 	public static List<MAcctSchema> getAcctSchema(PO po) {
@@ -700,13 +642,12 @@ public class CostEngine {
 			else if (transaction.getPP_Cost_Collector_ID() > 0)
 			{
 				MPPCostCollector costCollector = (MPPCostCollector) transaction.getPP_Cost_Collector();
-				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector ,
-						costCollector.getDateAcct()));
+				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector , costCollector.getDateAcct()));
 				return;
 			}
 			else
 			{
-				System.out.println ("Document does not exist :" + transaction);
+				log.info("Document does not exist :" + transaction);
 			}	
 
 	}

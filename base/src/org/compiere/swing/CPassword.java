@@ -17,11 +17,14 @@
 package org.compiere.swing;
 
 import java.awt.Color;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.JPasswordField;
 import javax.swing.text.Document;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.model.GridField;
 
 /**
  *  Password Field
@@ -214,6 +217,24 @@ public class CPassword extends JPasswordField implements CEditor
 	{
 		return new String(super.getPassword());
 	}   //  getDisplay
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public GridField getField() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }

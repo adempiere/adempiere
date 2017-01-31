@@ -19,7 +19,7 @@ package org.eevolution.process;
 import org.compiere.process.SvrProcess;
 /** Generated Process for (Workflow Cost Roll-Up)
  *  @author ADempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public abstract class RollupWorkflowAbstract extends SvrProcess
 {
@@ -30,57 +30,67 @@ public abstract class RollupWorkflowAbstract extends SvrProcess
 	/** Process Id 	*/
 	private static final int ID = 53058;
  
-	/**	Parameter Name for AD_Org_ID	*/
-	public static final String AD_Org_ID = "AD_Org_ID";
 	/**	Parameter Name for C_AcctSchema_ID	*/
 	public static final String C_AcctSchema_ID = "C_AcctSchema_ID";
-	/**	Parameter Name for S_Resource_ID	*/
-	public static final String S_Resource_ID = "S_Resource_ID";
-	/**	Parameter Name for M_Warehouse_ID	*/
-	public static final String M_Warehouse_ID = "M_Warehouse_ID";
 	/**	Parameter Name for M_CostType_ID	*/
 	public static final String M_CostType_ID = "M_CostType_ID";
-	/**	Parameter Name for CostingMethod	*/
-	public static final String CostingMethod = "CostingMethod";
+	/**	Parameter Name for M_CostElement_ID	*/
+	public static final String M_CostElement_ID = "M_CostElement_ID";
+	/**	Parameter Name for AD_Org_ID	*/
+	public static final String AD_Org_ID = "AD_Org_ID";
+	/**	Parameter Name for M_Warehouse_ID	*/
+	public static final String M_Warehouse_ID = "M_Warehouse_ID";
+	/**	Parameter Name for S_Resource_ID	*/
+	public static final String S_Resource_ID = "S_Resource_ID";
 	/**	Parameter Name for M_Product_ID	*/
 	public static final String M_Product_ID = "M_Product_ID";
 	/**	Parameter Name for M_Product_Category_ID	*/
 	public static final String M_Product_Category_ID = "M_Product_Category_ID";
+	/**	Parameter Name for M_Product_Class_ID	*/
+	public static final String M_Product_Class_ID = "M_Product_Class_ID";
+	/**	Parameter Name for M_Product_Group_ID	*/
+	public static final String M_Product_Group_ID = "M_Product_Group_ID";
+	/**	Parameter Name for M_Product_Classification_ID	*/
+	public static final String M_Product_Classification_ID = "M_Product_Classification_ID";
 
-	/**	Parameter Value for organizationId	*/
-	private int organizationId;
 	/**	Parameter Value for accountingSchemaId	*/
 	private int accountingSchemaId;
-	/**	Parameter Value for resourcePlantId	*/
-	private int resourcePlantId;
-	/**	Parameter Value for warehouseId	*/
-	private int warehouseId;
 	/**	Parameter Value for costTypeId	*/
 	private int costTypeId;
-	/**	Parameter Value for costingMethod	*/
-	private String costingMethod;
+	/**	Parameter Value for costElementId	*/
+	private int costElementId;
+	/**	Parameter Value for organizationId	*/
+	private int organizationId;
+	/**	Parameter Value for warehouseId	*/
+	private int warehouseId;
+	/**	Parameter Value for resourcePlantId	*/
+	private int resourcePlantId;
 	/**	Parameter Value for productId	*/
 	private int productId;
 	/**	Parameter Value for productCategoryId	*/
 	private int productCategoryId;
+	/**	Parameter Value for productClassId	*/
+	private int productClassId;
+	/**	Parameter Value for productGroupId	*/
+	private int productGroupId;
+	/**	Parameter Value for productClassificationId	*/
+	private int productClassificationId;
  
 
 	@Override
 	protected void prepare()
 	{
-		organizationId = getParameterAsInt(AD_Org_ID);
 		accountingSchemaId = getParameterAsInt(C_AcctSchema_ID);
-		resourcePlantId = getParameterAsInt(S_Resource_ID);
-		warehouseId = getParameterAsInt(M_Warehouse_ID);
 		costTypeId = getParameterAsInt(M_CostType_ID);
-		costingMethod = getParameterAsString(CostingMethod);
+		costElementId = getParameterAsInt(M_CostElement_ID);
+		organizationId = getParameterAsInt(AD_Org_ID);
+		warehouseId = getParameterAsInt(M_Warehouse_ID);
+		resourcePlantId = getParameterAsInt(S_Resource_ID);
 		productId = getParameterAsInt(M_Product_ID);
 		productCategoryId = getParameterAsInt(M_Product_Category_ID);
-	}
-
-	/**	 Getter Parameter Value for organizationId	*/
-	protected int getOrganizationId() {
-		return organizationId;
+		productClassId = getParameterAsInt(M_Product_Class_ID);
+		productGroupId = getParameterAsInt(M_Product_Group_ID);
+		productClassificationId = getParameterAsInt(M_Product_Classification_ID);
 	}
 
 	/**	 Getter Parameter Value for accountingSchemaId	*/
@@ -88,9 +98,19 @@ public abstract class RollupWorkflowAbstract extends SvrProcess
 		return accountingSchemaId;
 	}
 
-	/**	 Getter Parameter Value for resourcePlantId	*/
-	protected int getResourcePlantId() {
-		return resourcePlantId;
+	/**	 Getter Parameter Value for costTypeId	*/
+	protected int getCostTypeId() {
+		return costTypeId;
+	}
+
+	/**	 Getter Parameter Value for costElementId	*/
+	protected int getCostElementId() {
+		return costElementId;
+	}
+
+	/**	 Getter Parameter Value for organizationId	*/
+	protected int getOrganizationId() {
+		return organizationId;
 	}
 
 	/**	 Getter Parameter Value for warehouseId	*/
@@ -98,14 +118,9 @@ public abstract class RollupWorkflowAbstract extends SvrProcess
 		return warehouseId;
 	}
 
-	/**	 Getter Parameter Value for costTypeId	*/
-	protected int getCostTypeId() {
-		return costTypeId;
-	}
-
-	/**	 Getter Parameter Value for costingMethod	*/
-	protected String getCostingMethod() {
-		return costingMethod;
+	/**	 Getter Parameter Value for resourcePlantId	*/
+	protected int getResourcePlantId() {
+		return resourcePlantId;
 	}
 
 	/**	 Getter Parameter Value for productId	*/
@@ -116,6 +131,21 @@ public abstract class RollupWorkflowAbstract extends SvrProcess
 	/**	 Getter Parameter Value for productCategoryId	*/
 	protected int getProductCategoryId() {
 		return productCategoryId;
+	}
+
+	/**	 Getter Parameter Value for productClassId	*/
+	protected int getProductClassId() {
+		return productClassId;
+	}
+
+	/**	 Getter Parameter Value for productGroupId	*/
+	protected int getProductGroupId() {
+		return productGroupId;
+	}
+
+	/**	 Getter Parameter Value for productClassificationId	*/
+	protected int getProductClassificationId() {
+		return productClassificationId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

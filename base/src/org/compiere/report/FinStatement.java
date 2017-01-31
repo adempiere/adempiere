@@ -83,6 +83,10 @@ public class FinStatement extends SvrProcess
 	private int					p_User1_ID = 0;
 	/** User List 2 Parameter			*/
 	private int					p_User2_ID = 0;
+	/** User List 3 Parameter			*/
+	private int					p_User3_ID = 0;
+	/** User List 4 Parameter			*/
+	private int					p_User4_ID = 0;
 	/** User Element 1 Parameter		*/
 	private int					p_UserElement1_ID = 0;
 	/** User Element 2 Parameter		*/
@@ -145,6 +149,10 @@ public class FinStatement extends SvrProcess
 				p_User1_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("User2_ID"))
 				p_User2_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("User3_ID"))
+				p_User3_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("User4_ID"))
+				p_User4_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("UserElement1_ID"))
 				p_UserElement1_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("UserElement2_ID"))
@@ -196,6 +204,14 @@ public class FinStatement extends SvrProcess
 		if (p_User2_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
 				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList2, p_User2_ID));
+		//	Optional User3_ID
+		if (p_User3_ID != 0)
+			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(),
+					p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList3, p_User3_ID));
+		//  Optional User4_ID
+		if (p_User4_ID != 0)
+			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(),
+					p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList4, p_User4_ID));
 		//	Optional UserElement1_ID
 		if (p_UserElement1_ID != 0)
 			m_parameterWhere.append(" AND UserElement1_ID=").append(p_UserElement1_ID);

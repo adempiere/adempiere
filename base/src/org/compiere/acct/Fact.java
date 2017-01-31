@@ -697,7 +697,7 @@ public final class Fact
 					dLine.getM_Product_ID(), dLine.getC_BPartner_ID(), dLine.getC_Project_ID(),
 					dLine.getC_Campaign_ID(), dLine.getC_Activity_ID(), dLine.getAD_OrgTrx_ID(),
 					dLine.getC_SalesRegion_ID(), dLine.getC_LocTo_ID(), dLine.getC_LocFrom_ID(),
-					dLine.getUser1_ID(), dLine.getUser2_ID());
+					dLine.getUser1_ID(), dLine.getUser2_ID(), dLine.getUser3_ID(), dLine.getUser4_ID());
 				if (distributions == null || distributions.length == 0)
 					continue;
 			}
@@ -759,7 +759,11 @@ public final class Fact
 				if(dl.isOverwriteUser1())				
 					factLine.setUser1_ID(dl.getUser1_ID());
 				if(dl.isOverwriteUser2())				
-					factLine.setUser2_ID(dl.getUser2_ID());					
+					factLine.setUser2_ID(dl.getUser2_ID());
+				if(dl.isOverwriteUser3())
+					factLine.setUser3_ID(dl.getUser3_ID());
+				if(dl.isOverwriteUser4())
+					factLine.setUser4_ID(dl.getUser4_ID());
 				// F3P end
 				//
 				if (dl.getAmt().signum() < 0)

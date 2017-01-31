@@ -25,6 +25,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -44,7 +45,9 @@ import javax.swing.event.ListDataListener;
 import javax.swing.plaf.ComboBoxUI;
 import javax.swing.text.JTextComponent;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.model.GridField;
 import org.compiere.plaf.CompiereComboBoxUI;
 import org.compiere.util.NamePair;
 import org.compiere.util.Trace;
@@ -984,5 +987,23 @@ public class CComboBox extends JComboBox
 			}
 		}
 	}   //   ReducibleKeyListener
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public GridField getField() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }   //  CComboBox

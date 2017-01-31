@@ -745,7 +745,7 @@ public class MPeriod extends X_C_Period
         if (AD_Org_ID != 0)
         {
             MOrgInfo info = MOrgInfo.get(ctx, AD_Org_ID, null);
-            C_Calendar_ID = info.getC_Calendar_ID();
+            C_Calendar_ID = info == null ? 0 : info.getC_Calendar_ID();
         }
         
         if (C_Calendar_ID == 0)

@@ -325,66 +325,6 @@ public class MDDOrderLine extends X_DD_OrderLine
 		//	We can change
 		return true;
 	}	//	canChangeWarehouse
-	
-	/**
-	 * 	Get C_Project_ID
-	 *	@return project
-	 */
-	public int getC_Project_ID()
-	{
-		int ii = super.getC_Project_ID ();
-		if (ii == 0)
-			ii = getParent().getC_Project_ID();
-		return ii;
-	}	//	getC_Project_ID
-	
-	/**
-	 * 	Get C_Activity_ID
-	 *	@return Activity
-	 */
-	public int getC_Activity_ID()
-	{
-		int ii = super.getC_Activity_ID ();
-		if (ii == 0)
-			ii = getParent().getC_Activity_ID();
-		return ii;
-	}	//	getC_Activity_ID
-	
-	/**
-	 * 	Get C_Campaign_ID
-	 *	@return Campaign
-	 */
-	public int getC_Campaign_ID()
-	{
-		int ii = super.getC_Campaign_ID ();
-		if (ii == 0)
-			ii = getParent().getC_Campaign_ID();
-		return ii;
-	}	//	getC_Campaign_ID
-	
-	/**
-	 * 	Get User2_ID
-	 *	@return User2
-	 */
-	public int getUser1_ID ()
-	{
-		int ii = super.getUser1_ID ();
-		if (ii == 0)
-			ii = getParent().getUser1_ID();
-		return ii;
-	}	//	getUser1_ID
-
-	/**
-	 * 	Get User2_ID
-	 *	@return User2
-	 */
-	public int getUser2_ID ()
-	{
-		int ii = super.getUser2_ID ();
-		if (ii == 0)
-			ii = getParent().getUser2_ID();
-		return ii;
-	}	//	getUser2_ID
 
 	/**
 	 * 	Get AD_OrgTrx_ID

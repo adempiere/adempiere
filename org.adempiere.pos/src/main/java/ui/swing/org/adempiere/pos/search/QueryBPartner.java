@@ -189,8 +189,9 @@ public class QueryBPartner extends POSQuery {
 		VPOSBPartner posPartner = new VPOSBPartner(new Frame(), 0, posPanel);
 		posPartner.setVisible(true);
 		partnerId = posPartner.getC_BPartner_ID();
-		//	Close
-		close();
+		if(partnerId > 0) {
+			setOkAction();
+		}
 	}
 	
 	@Override

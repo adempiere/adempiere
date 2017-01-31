@@ -13,7 +13,6 @@
  * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  * ****************************************************************************/
-
 package org.adempiere.pos.process;
 
 import org.compiere.model.MAllocationHdr;
@@ -34,6 +33,9 @@ import java.util.List;
  * This process allows create a new sales order based on other and change the business partner
  * all payments and allocations can be replicated for new order with new business partner
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 23/12/15.
+ * @contributor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/670">
+ * 		@see FR [ 670 ] Standard process for return material on POS</a>
  */
 public class CreateOrderBasedOnAnother extends CreateOrderBasedOnAnotherAbstract {
 
@@ -72,15 +74,21 @@ public class CreateOrderBasedOnAnother extends CreateOrderBasedOnAnotherAbstract
         //Complete new Order
         targetOrder.processIt(getDocumentAction());
         targetOrder.saveEx();
-        addLog(targetOrder.getDocumentInfo());
+        addLog(targetOrder.getDocumentNo());
+        //	Set Record ID
+        getProcessInfo().setRecord_ID(targetOrder.get_ID());
+        String message = "@C_Order_ID@ " + targetOrder.getDocumentNo();
+        //	Validate Document Action
+        if(!targetOrder.isProcessed()) {
+        	return message;
+        }
 
         if(isIncludePayments())
             createPayments(sourceOrder, targetOrder);
         if (isAllocated())
             createAllocations(targetOrder);
-
-        getProcessInfo().setRecord_ID(targetOrder.get_ID());
-        return "@C_Order_ID@ " + targetOrder.getDocumentInfo();
+        //	Default Return
+        return message;
     }
 
     /**

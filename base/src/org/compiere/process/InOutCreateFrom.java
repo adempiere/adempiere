@@ -154,6 +154,8 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 				inOutLine.setAD_OrgTrx_ID(orderLine.getAD_OrgTrx_ID());
 				inOutLine.setUser1_ID(orderLine.getUser1_ID());
 				inOutLine.setUser2_ID(orderLine.getUser2_ID());
+				inOutLine.setUser3_ID(orderLine.getUser3_ID());
+				inOutLine.setUser4_ID(orderLine.getUser4_ID());
 			} else if(createFromType.equals(INVOICE)) {
 				invoiceLine = new MInvoiceLine (getCtx(), key, get_TrxName());
 				MInvoice invoice = invoiceLine.getParent();
@@ -179,6 +181,8 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 				inOutLine.setAD_OrgTrx_ID(invoiceLine.getAD_OrgTrx_ID());
 				inOutLine.setUser1_ID(invoiceLine.getUser1_ID());
 				inOutLine.setUser2_ID(invoiceLine.getUser2_ID());
+				inOutLine.setUser3_ID(invoiceLine.getUser3_ID());
+				inOutLine.setUser4_ID(invoiceLine.getUser4_ID());
 			} else if(createFromType.equals(RMA)) {
 				MRMALine rmal = new MRMALine(getCtx(), key, get_TrxName());
 				//	Set reference
@@ -194,6 +198,8 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 				inOutLine.setAD_OrgTrx_ID(rmal.getAD_OrgTrx_ID());
 				inOutLine.setUser1_ID(rmal.getUser1_ID());
 				inOutLine.setUser2_ID(rmal.getUser2_ID());
+				inOutLine.setUser3_ID(rmal.getUser3_ID());
+				inOutLine.setUser4_ID(rmal.getUser4_ID());
 			}
 			//	Set Charge
 			if(chargeId != 0)
@@ -234,6 +240,8 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 			inout.setC_Activity_ID(order.getC_Activity_ID());
 			inout.setUser1_ID(order.getUser1_ID());
 			inout.setUser2_ID(order.getUser2_ID());
+			inout.setUser3_ID(order.getUser3_ID());
+			inout.setUser4_ID(order.getUser4_ID());
 			//	For Drop Ship
 			if(order.isDropShip()) {
 				inout.setM_Warehouse_ID( order.getM_Warehouse_ID() );
@@ -253,6 +261,8 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 			inout.setC_Activity_ID(invoice.getC_Activity_ID());
 			inout.setUser1_ID(invoice.getUser1_ID());
 			inout.setUser2_ID(invoice.getUser2_ID());
+			inout.setUser3_ID(invoice.getUser3_ID());
+			inout.setUser4_ID(invoice.getUser4_ID());
 		} else if(createFromType.equals(RMA)) {
 			MRMA rma = new MRMA(getCtx(), referenceId, get_TrxName());
 			MInOut originalIO = rma.getShipment();
@@ -266,6 +276,8 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 			inout.setC_Activity_ID(originalIO.getC_Activity_ID());
 			inout.setUser1_ID(originalIO.getUser1_ID());
 			inout.setUser2_ID(originalIO.getUser2_ID());
+			inout.setUser3_ID(originalIO.getUser3_ID());
+			inout.setUser4_ID(originalIO.getUser4_ID());
 		}
 		//	Save
 		inout.saveEx();

@@ -20,19 +20,21 @@ package org.adempiere.webui.editor;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
 import org.adempiere.webui.AdempiereIdGenerator;
 import org.adempiere.webui.component.CWindowToolbar;
 import org.adempiere.webui.component.Bandbox;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.StringBox;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.panel.IADTabPanel;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.swing.CEditor;
 import org.compiere.util.DisplayType;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -52,7 +54,7 @@ import org.zkoss.zul.Image;
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
  */
-public abstract class WEditor implements EventListener, PropertyChangeListener
+public abstract class WEditor implements CEditor, EventListener, PropertyChangeListener
 {
     private static final String[] LISTENER_EVENTS = {};
 
@@ -276,6 +278,15 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     {
         return gridField;
     }
+
+    /**
+    * Added for compatibility with SWING
+    * @return grid field for this editor ( can be null )
+    */
+   public GridField getField()
+   {
+       return gridField;
+   }
 
     /**
      *
@@ -677,6 +688,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
                 return false;
     }
 
+    
 	public void updateLabelStyle()
 	{
 		if (getLabel() != null)
@@ -718,5 +730,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 		this.rowIndex = rowIndex;
 	}
 
+	public void addVetoableChangeListener(VetoableChangeListener listener) {
+		// Not used in ZK		
+	}
 
 }

@@ -178,6 +178,8 @@ public class AcctSchemaCopyAcct extends SvrProcess
 		int C_Activity_ID = 0;
 		int User1_ID = 0;
 		int User2_ID = 0;
+		int User3_ID = 0;
+		int User4_ID = 0;
 		int UserElement1_ID = 0;
 		int UserElement2_ID = 0;
 		//
@@ -216,6 +218,10 @@ public class AcctSchemaCopyAcct extends SvrProcess
 				User1_ID = sourceAcct.getUser1_ID();
 			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserList2))
 				User2_ID = sourceAcct.getUser2_ID();
+			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserList3))
+				User3_ID = sourceAcct.getUser3_ID();
+			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserList4))
+				User3_ID = sourceAcct.getUser4_ID();
 			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserElement1))
 				UserElement1_ID = sourceAcct.getUserElement1_ID();
 			else if (elementType.equals(MAcctSchemaElement.ELEMENTTYPE_UserElement2))
@@ -228,7 +234,7 @@ public class AcctSchemaCopyAcct extends SvrProcess
 			M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID,
 			C_LocFrom_ID, C_LocTo_ID, C_SalesRegion_ID, 
 			C_Project_ID, C_Campaign_ID, C_Activity_ID,
-			User1_ID, User2_ID, UserElement1_ID, UserElement2_ID, null);
+			User1_ID, User2_ID, User3_ID , User4_ID , UserElement1_ID, UserElement2_ID, null);
 	}	//	createAccount
 	
 	

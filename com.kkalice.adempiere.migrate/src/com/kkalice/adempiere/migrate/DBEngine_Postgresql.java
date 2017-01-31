@@ -117,7 +117,7 @@ public class DBEngine_Postgresql implements DBEngineInterface {
 	 */
 	public String getDBUrl (String host, String port, String name) {
 		StringBuffer url = new StringBuffer();
-		if (host==null || host.length()==0 || host.equalsIgnoreCase("localhost"))
+		if (host==null || host.length()==0)
 			host="";
 		if (port==null || port.length()==0 || port.equalsIgnoreCase("5432"))
 			port="";

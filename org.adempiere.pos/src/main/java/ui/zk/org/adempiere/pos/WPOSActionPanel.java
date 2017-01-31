@@ -274,7 +274,6 @@ public class WPOSActionPanel extends WPOSSubPanel
 		try {
             if(e.getName().equals(Events.ON_CHANGE)){
                 if(lookupProduct.getSelectedRecord() >= 0) {
-//                    posPanel.addOrUpdateLine(lookupProduct.getSelectedRecord(), Env.ZERO);
                   lookupProduct.setText(String.valueOf(lookupProduct.getSelectedRecord()));
                     lookupProduct.captureProduct();
                 }
@@ -365,7 +364,11 @@ public class WPOSActionPanel extends WPOSSubPanel
 				openBPartner();
 			}
             else if(e.getTarget().equals(buttonCollect)){
-                payOrder();
+            	if(posPanel.isReturnMaterial()) {
+					completeReturn();
+				} else {
+					payOrder();
+				}
                 return;
             }
             else if(e.getTarget().equals(buttonProcess)){
@@ -517,6 +520,32 @@ public class WPOSActionPanel extends WPOSSubPanel
 		posPanel.nextRecord();
 		posPanel.refreshPanel();
 	}
+	
+	/**
+	 * Complete Return Material
+	 */
+	private void completeReturn() {
+		String errorMsg = null;
+		String askMsg = "@new.customer.return.order@ @DisplayDocumentInfo@ : " + posPanel.getDocumentNo()
+                + " @To@ @C_BPartner_ID@ : " + posPanel.getBPName();
+		//	
+		if (posPanel.isCompleted()) {
+			return;
+		}
+		//	Show Ask
+		if (FDialog.ask(posPanel.getWindowNo(), this, "StartProcess?", Msg.parseTranslation(posPanel.getCtx(), askMsg))) {
+			try {
+				posPanel.completeReturn();
+			} catch(Exception e) {
+				errorMsg = e.getLocalizedMessage();
+			}
+		}
+		//	show if exists error
+		if(errorMsg != null)
+			FDialog.error(posPanel.getWindowNo(), Msg.parseTranslation(ctx, errorMsg));
+		//	Update
+		posPanel.refreshPanel();
+	}
 
 	/**
 	 * Execute order payment
@@ -567,7 +596,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 
 	@Override
 	public void changeViewPanel() {
-
+		refreshPanel();
 	}
 
 	@Override
@@ -586,8 +615,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 			//	For Collect
 			if(posPanel.hasLines()
 					&& !posPanel.isPaid()
-					&& !posPanel.isVoided()
-					&& !posPanel.isReturnMaterial()) {
+					&& !posPanel.isVoided()) {
 				//	For Credit Order
 				buttonCollect.setEnabled(true);
 			} else {
@@ -685,22 +713,24 @@ public class WPOSActionPanel extends WPOSSubPanel
 	public void moveDown() {
 	}	
 
-  public void disableButtons() {
-    buttonNew.setEnabled(false);
-    buttonHistory.setEnabled(false);
-    buttonNext.setEnabled(false);
-    buttonBack.setEnabled(false);
-    buttonCollect.setEnabled(false);
-    buttonCancel.setEnabled(false);
-    buttonDocType.setEnabled(false);
-    buttonBPartner.setEnabled(false); 
-    buttonProcess.setEnabled(false);
-  }
-
-
-  public void resetPanel() {
-    fieldProductName.setValue(Msg.translate(Env.getCtx(), "M_Product_ID"));
-  }
+	public void disableButtons() {
+		buttonNew.setEnabled(false);
+	    buttonHistory.setEnabled(false);
+	    buttonNext.setEnabled(false);
+	    buttonBack.setEnabled(false);
+	    buttonCollect.setEnabled(false);
+	    buttonCancel.setEnabled(false);
+	    buttonDocType.setEnabled(false);
+	    buttonBPartner.setEnabled(false); 
+	    buttonProcess.setEnabled(false);
+	}
+	
+	/**
+	 * Reset Panel
+	 */
+	public void resetPanel() {
+		fieldProductName.setValue(Msg.translate(Env.getCtx(), "M_Product_ID"));
+	}
 
 	public Timer getProductTimer()
 	{

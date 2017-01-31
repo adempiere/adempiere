@@ -59,33 +59,31 @@ public class MHREmployee extends X_HR_Employee
 	
 	/**
 	 * 	Get Employees of Process
-	 *  @param p HR Process
+	 *  @param process HR Process
 	 * 	@return Array of Business Partners
 	 */
-	public static MBPartner[] getEmployees (MHRProcess p)
+	public static MBPartner[] getEmployees (MHRProcess process)
 	{
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
-		whereClause.append(" C_BPartner.C_BPartner_ID IN (SELECT e.C_BPartner_ID FROM HR_Employee e WHERE e.IsActive=?");
-		// Just active employee
-		params.add(true);
+		whereClause.append(" C_BPartner.C_BPartner_ID IN (SELECT e.C_BPartner_ID FROM HR_Employee e WHERE 1=1 ");
 
 		// This payroll not content periods, NOT IS a Regular Payroll > ogi-cd 28Nov2007
-		if(p.getHR_Payroll_ID() != 0 && p.getHR_Period_ID() != 0)
+		if(process.getHR_Payroll_ID() != 0 && process.getHR_Period_ID() != 0)
 		{
 			whereClause.append(" AND (e.HR_Payroll_ID IS NULL OR e.HR_Payroll_ID=?) " );
-			params.add(p.getHR_Payroll_ID());
+			params.add(process.getHR_Payroll_ID());
 		}
 		
 		// HR Period
-		if(p.getHR_Period_ID() == 0)
+		if(process.getHR_Period_ID() == 0)
 		{
 			whereClause.append(" AND e.StartDate <=? ");
-			params.add(p.getDateAcct());	
+			params.add(process.getDateAcct());
 		}
 		else
 		{
-			MHRPeriod period = new MHRPeriod(p.getCtx(), p.getHR_Period_ID(), p.get_TrxName());
+			MHRPeriod period = new MHRPeriod(process.getCtx(), process.getHR_Period_ID(), process.get_TrxName());
 			whereClause.append(" AND e.StartDate <=? ");
 			params.add(period.getEndDate());
 			whereClause.append(" AND (e.EndDate IS NULL OR e.EndDate >=?) ");
@@ -93,32 +91,32 @@ public class MHREmployee extends X_HR_Employee
 		}
 		
 		// Selected Department
-		if (p.getHR_Department_ID() != 0) 
+		if (process.getHR_Department_ID() != 0)
 		{
 			whereClause.append(" AND e.HR_Department_ID =? ");
-			params.add(p.getHR_Department_ID());
+			params.add(process.getHR_Department_ID());
 		}		
 		// Selected Job add
-		if (p.getHR_Job_ID() != 0) 
+		if (process.getHR_Job_ID() != 0)
 		{
 			whereClause.append(" AND e.HR_Job_ID =? ");
-			params.add(p.getHR_Job_ID());
+			params.add(process.getHR_Job_ID());
 		}
 		
 		whereClause.append(" ) "); // end select from HR_Employee
 		
 		// Selected Employee
-		if (p.getC_BPartner_ID() != 0)
+		if (process.getC_BPartner_ID() != 0)
 		{
 			whereClause.append(" AND C_BPartner_ID =? ");
-			params.add(p.getC_BPartner_ID());
+			params.add(process.getC_BPartner_ID());
 		}
 		
 		//client
 		whereClause.append(" AND AD_Client_ID =? ");
-		params.add(p.getAD_Client_ID());
+		params.add(process.getAD_Client_ID());
 		
-		List<MBPartner> list = new Query(p.getCtx(), MBPartner.Table_Name, whereClause.toString(), p.get_TrxName())
+		List<MBPartner> list = new Query(process.getCtx(), MBPartner.Table_Name, whereClause.toString(), process.get_TrxName())
 								.setParameters(params)
 								.setOnlyActiveRecords(true)
 								.setOrderBy(COLUMNNAME_Name)

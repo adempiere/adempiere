@@ -25,6 +25,7 @@
 
 package org.adempiere.webui.window;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,6 +45,7 @@ import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Combobox;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListCell;
@@ -58,14 +60,15 @@ import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.ToolBar;
 import org.adempiere.webui.component.ToolBarButton;
+import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.part.MultiTabPart;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
@@ -98,7 +101,6 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.ListSubModel;
 
 /**
  *  This class is based on org.compiere.apps.search.Find written by Jorg Janke.
@@ -115,6 +117,10 @@ import org.zkoss.zul.ListSubModel;
  *  @author  WalkingTree (www.walkingtree.in)
  *  @date    October 4th,2013
  *      <li> Added Range based lookup for selection columns.
+ *  
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/589">
+ * 		@see FR [ 589 ] The ZK search window don't have standard position buttons</a>
  */
 public class FindWindow extends Window implements EventListener,ValueChangeListener
 {
@@ -262,17 +268,19 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         this.setHeight("350px");
         this.setTitle(Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", "") + ": " + title);
         this.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
-        this.setClosable(false);
+        this.setClosable(true);
         this.setSizable(true);
+        this.setMaximizable(true);
         
         this.setVisible(true);
         AEnv.showWindow(this);
     }
     /**
      * initialise lookup record tab
+     * @throws IOException 
      *
     **/
-    private void initSimple()
+    private void initSimple() throws IOException
     {
         lblDocumentNo = new Label();
         lblDocumentNo.setValue(Msg.translate(Env.getCtx(),"DocumentNo").replaceAll("&", ""));
@@ -300,27 +308,28 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         fieldValue = new Textbox();
         fieldValue.setMaxlength(40);
 
-        Button btnNew = new Button();
+        //	Get button from Action
+        WAppsAction action = new WAppsAction(ConfirmPanel.A_NEW, null, ConfirmPanel.A_NEW);
+        Button btnNew = action.getButton();
         btnNew.setName("btnNew");
-        btnNew.setImage("/images/New24.png");
         btnNew.addEventListener(Events.ON_CLICK,this);
-        LayoutUtils.addSclass("action-button", btnNew);
 
-        Button btnOk = new Button();
+        //	Get button from Action
+        action = new WAppsAction(ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
+        Button btnOk = action.getButton();
         btnOk.setName("btnOkSimple");
-        btnOk.setImage("/images/Ok24.png");
         btnOk.addEventListener(Events.ON_CLICK,this);
-        LayoutUtils.addSclass("action-button", btnOk);
 
-        Button btnCancel = new Button();
+        //	Get from action
+        action = new WAppsAction(ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+        Button btnCancel = action.getButton();
         btnCancel.setName("btnCancel");
-        btnCancel.setImage("/images/Cancel24.png");
         btnCancel.addEventListener(Events.ON_CLICK,this);
-        LayoutUtils.addSclass("action-button", btnCancel);
 
         Panel pnlButtonRight = new Panel();
-        pnlButtonRight.appendChild(btnOk);
+        //	Change to Standard button order
         pnlButtonRight.appendChild(btnCancel);
+        pnlButtonRight.appendChild(btnOk);
         pnlButtonRight.setAlign("right");
         pnlButtonRight.setWidth("100%");
 
@@ -381,12 +390,19 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         winLookupRecord.addEventListener(Events.ON_OK, this);
 
     }   //  initSimple
+    
+    @Override
+    public void onClose() {
+    	m_isCancel = true;
+    	super.onClose();
+    }
 
     /**
      * initialise Advanced Tab
+     * @throws IOException 
      *
     **/
-    private void initAdvanced()
+    private void initAdvanced() throws IOException
     {
         ToolBarButton btnNew = new ToolBarButton();
         btnNew.setImage("/images/New24.png");
@@ -410,22 +426,22 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 		fQueryName.addEventListener(Events.ON_BLUR, this);
         fQueryName.addEventListener(Events.ON_SELECT, this);
 
-
-        Button btnOk = new Button();
+        //	Get from Action
+        WAppsAction action = new WAppsAction(ConfirmPanel.A_OK, null, ConfirmPanel.A_OK);
+        Button btnOk = action.getButton();
         btnOk.setName("btnOkAdv");
-        btnOk.setImage("/images/Ok24.png");
         btnOk.addEventListener(Events.ON_CLICK, this);
-        LayoutUtils.addSclass("action-button", btnOk);
 
-        Button btnCancel = new Button();
+        //	
+        action = new WAppsAction(ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
+        Button btnCancel = action.getButton();
         btnCancel.setName("btnCancel");
-        btnCancel.setImage("/images/Cancel24.png");
         btnCancel.addEventListener(Events.ON_CLICK, this);
-        LayoutUtils.addSclass("action-button", btnCancel);
 
         Panel pnlButtonRight = new Panel();
-        pnlButtonRight.appendChild(btnOk);
+        //	Change to Standard button order
         pnlButtonRight.appendChild(btnCancel);
+        pnlButtonRight.appendChild(btnOk);
         pnlButtonRight.setAlign("right");
 
         ToolBar toolBar = new ToolBar();
@@ -528,9 +544,12 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         m_sTipText = "<".concat(Msg.getMsg(Env.getCtx(),"SelectOrEnterQueryName")).concat(">");
 		m_sToolTipText = Msg.getMsg(Env.getCtx(),"SelectOrEnterQueryNameToolTip");
 		
-        initSimple();
-        initAdvanced();
-
+		try {
+			initSimple();
+			initAdvanced();
+		} catch (Exception e) {
+			log.warning("Init failed " + e.getLocalizedMessage());
+		}
     } // initPanel
 
     /**
@@ -1089,9 +1108,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                     int index = advancedPanel.getSelectedIndex();
                     if (index >= 0)
                     {
-                    	advancedPanel.getSelectedItem().detach();
-                    	advancedPanel.setSelectedIndex(--index);
-                    	//refreshUserQueries();
+                        cmd_delete();
                     }
                 }
 
@@ -1191,6 +1208,27 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     		}
         }
     }   //  onEvent
+
+	/**
+	 * 
+	 */
+	private void cmd_delete() {
+		int index = advancedPanel.getSelectedIndex();
+		if (index < 0) {
+			int index0 = fQueryName.getSelectedIndex();
+			if(index0 < 0) return;
+			MUserQuery uq = userQueries[index0];
+			uq.delete(true);
+			userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
+			for (int i = 0; i < userQueries.length; i++)
+				fQueryName.appendItem(userQueries[i].getName());
+			fQueryName.setValue("");
+		} else {
+			advancedPanel.getSelectedItem().detach();
+			advancedPanel.setSelectedIndex(--index);
+	    	//refreshUserQueries();
+		}
+	}
 
     /** 
      * Parse a user query from the database and fill the advanced query table.  The query is saved 

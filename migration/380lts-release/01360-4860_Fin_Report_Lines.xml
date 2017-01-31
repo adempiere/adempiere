@@ -533,8 +533,13 @@ CREATE TABLE t_report
   col_18 numeric,
   col_19 numeric,
   col_20 numeric,
+  tablevel numeric(10,0),
+  reportlinestyle character(1),
+  fixedpercentage numeric,
+  accounttype character(1),
+  ax_case character(1),
   c_validcombination_id numeric(10,0) NOT NULL DEFAULT 0::numeric,
-  CONSTRAINT t_report_pkey PRIMARY KEY (ad_pinstance_id, pa_reportline_id, record_id, fact_acct_id, c_validcombination_id),
+  CONSTRAINT t_report_pkey PRIMARY KEY (ad_pinstance_id, pa_reportline_id, record_id, fact_acct_id),
   CONSTRAINT adpinstance_treport FOREIGN KEY (ad_pinstance_id)
       REFERENCES ad_pinstance (ad_pinstance_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,

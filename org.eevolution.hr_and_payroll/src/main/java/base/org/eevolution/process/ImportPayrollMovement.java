@@ -266,6 +266,7 @@ public class ImportPayrollMovement extends SvrProcess
 					MHRConcept payrollConcept = new MHRConcept(getCtx(), payrollMovement.getHR_Concept_ID(), get_TrxName());
 					
 					// set corresponding values
+					payrollMovement.setSeqNo(payrollConcept.getSeqNo());
 					payrollMovement.setAmount(null);
 					payrollMovement.setQty(null);
 					payrollMovement.setServiceDate(null);

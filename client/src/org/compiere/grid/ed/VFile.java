@@ -35,6 +35,7 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.LookAndFeel;
 
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.model.GridField;
 import org.compiere.swing.CButton;
@@ -446,5 +447,11 @@ public class VFile extends JComponent
 		}
 		m_setting = false;
 	}	//	focusLost
+
+	@Override
+	public void addValueChangeListener(ValueChangeListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }	//	VFile

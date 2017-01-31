@@ -416,7 +416,7 @@ public class AllocationAuto extends SvrProcess
 					continue;
 				//
 				BigDecimal totalInvoice = Env.ZERO;
-				List<MPaySelectionLine> paySelectionLines = psCheck.getPaySelectionLines(false);
+				List<MPaySelectionLine> paySelectionLines = psCheck.getPaySelectionLinesAsList(false);
 				//for (int i = 0; i < psLines.length; i++)
 				for (MPaySelectionLine paySelectionLine : paySelectionLines)
 				{

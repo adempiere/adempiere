@@ -1388,6 +1388,8 @@ public class Viewer extends CFrame
 	 * @return isOk
 	 */
 	private boolean launchProcessPara() {
+		if(m_reportEngine.getProcessInfo() == null)
+			return false;
 		//	Create new Instance
 		ProcessInfo pi = new ProcessInfo(m_reportEngine.getProcessInfo().getTitle(), 
 				m_reportEngine.getProcessInfo().getAD_Process_ID(), 

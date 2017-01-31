@@ -416,7 +416,9 @@ public class MJournalLine extends X_GL_JournalLine
 						|| is_ValueChanged("C_Campaign_ID")
 						|| is_ValueChanged("C_Activity_ID")
 						|| is_ValueChanged("User1_ID")
-						|| is_ValueChanged("User2_ID"))))
+						|| is_ValueChanged("User2_ID")
+						|| is_ValueChanged("User3_ID")
+						|| is_ValueChanged("User4_ID"))))
 		{
 			MJournal gl = new MJournal(getCtx(), getGL_Journal_ID(), get_TrxName());
 
@@ -449,6 +451,10 @@ public class MJournalLine extends X_GL_JournalLine
 					errorFields += "@" + "User1_ID" + "@, ";
 				if (MAcctSchemaElement.ELEMENTTYPE_UserList2.equals(et) && get_ValueAsInt("User2_ID")  == 0)
 					errorFields += "@" + "User2_ID" + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_UserList3.equals(et) && get_ValueAsInt("User3_ID")  == 0)
+					errorFields += "@" + "User3_ID" + "@, ";
+				if (MAcctSchemaElement.ELEMENTTYPE_UserList4.equals(et) && get_ValueAsInt("User4_ID")  == 0)
+					errorFields += "@" + "User4_ID" + "@, ";
 			}
 			if (errorFields.length() > 0)
 			{
@@ -459,7 +465,7 @@ public class MJournalLine extends X_GL_JournalLine
 			MAccount acct = MAccount.get(getCtx(), getAD_Client_ID(), getAD_Org_ID(), gl.getC_AcctSchema_ID(), get_ValueAsInt("Account_ID"),
 					get_ValueAsInt("C_SubAcct_ID"),  get_ValueAsInt("M_Product_ID"), get_ValueAsInt("C_BPartner_ID"), get_ValueAsInt("AD_OrgTrx_ID"), get_ValueAsInt("C_LocFrom_ID"),
 					get_ValueAsInt("C_LocTo_ID"), get_ValueAsInt("C_SalesRegion_ID"), get_ValueAsInt("C_Project_ID"), get_ValueAsInt("C_Campaign_ID"), 
-					 get_ValueAsInt("C_Activity_ID"), get_ValueAsInt("User1_ID"),get_ValueAsInt("User2_ID"), 0, 0 );
+					 get_ValueAsInt("C_Activity_ID"), get_ValueAsInt("User1_ID"),get_ValueAsInt("User2_ID"), get_ValueAsInt("User3_ID"),get_ValueAsInt("User4_ID"), 0, 0 , null);
 
 			if (acct != null)
 			{
@@ -495,6 +501,8 @@ public class MJournalLine extends X_GL_JournalLine
 			set_Value("C_Activity_ID", combi.getC_Activity_ID() > 0 ? combi.getC_Activity_ID() : null);
 			set_Value("User1_ID", combi.getUser1_ID() > 0 ? combi.getUser1_ID() : null);
 			set_Value("User2_ID", combi.getUser2_ID() > 0 ? combi.getUser2_ID() : null);
+			set_Value("User3_ID", combi.getUser3_ID() > 0 ? combi.getUser3_ID() : null);
+			set_Value("User4_ID", combi.getUser4_ID() > 0 ? combi.getUser4_ID() : null);
 		}		
 	}	// fillDimensionsFromCombination
 	

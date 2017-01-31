@@ -453,17 +453,17 @@ public class MOrder extends X_C_Order implements DocAction
 			setM_PriceList_ID(ii);
 		//	Default Delivery/Via Rule
 		String ss = bp.getDeliveryRule();
-		if (ss != null)
+		if (ss != null && ss.trim().length() != 0)
 			setDeliveryRule(ss);
 		ss = bp.getDeliveryViaRule();
-		if (ss != null)
+		if (ss != null && ss.trim().length() != 0)
 			setDeliveryViaRule(ss);
 		//	Default Invoice/Payment Rule
 		ss = bp.getInvoiceRule();
-		if (ss != null)
+		if (ss != null && ss.trim().length() != 0)
 			setInvoiceRule(ss);
 		ss = bp.getPaymentRule();
-		if (ss != null)
+		if (ss != null && ss.trim().length() != 0)
 			setPaymentRule(ss);
 		//	Sales Rep
 		ii = bp.getSalesRep_ID();

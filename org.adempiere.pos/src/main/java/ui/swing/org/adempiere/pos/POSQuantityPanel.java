@@ -326,8 +326,8 @@ public class POSQuantityPanel extends POSSubPanel implements POSPanelInterface, 
 			buttonUp.setEnabled(true);
 			
 			// Only enable buttons if status==(drafted or in progress)
-			if(posPanel.getM_Order().getDocStatus().compareToIgnoreCase(MOrder.STATUS_Drafted)==0 || 
-			   posPanel.getM_Order().getDocStatus().compareToIgnoreCase(MOrder.STATUS_InProgress)==0 ){
+			if(posPanel.getOrder().getDocStatus().compareToIgnoreCase(MOrder.STATUS_Drafted)==0 || 
+			   posPanel.getOrder().getDocStatus().compareToIgnoreCase(MOrder.STATUS_InProgress)==0 ){
 				fieldQuantity.setReadWrite(true);
 				fieldPrice.setReadWrite(true);
 				fieldDiscountPercentage.setReadWrite(true);
