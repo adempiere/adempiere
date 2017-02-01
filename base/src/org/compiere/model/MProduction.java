@@ -17,6 +17,7 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -1157,7 +1158,7 @@ public class MProduction extends X_M_Production implements DocAction {
 			line.saveEx();
 		}
 		//
-		error = creareBOM(mustBeStocked, finishedProduct, getProductionQty());
+		error = createBOM(mustBeStocked, finishedProduct, getProductionQty());
 		//	
 		return error;
 	}
@@ -1169,18 +1170,22 @@ public class MProduction extends X_M_Production implements DocAction {
 	 * @param requiredQty
 	 * @return
 	 */
-	private String creareBOM(boolean mustBeStocked, MProduct finishedProduct, BigDecimal requiredQty)  {
+	private String createBOM(boolean mustBeStocked, MProduct finishedProduct, BigDecimal requiredQty)  {
 		int defaultLocator = 0;		
 		MPPProductBOM bom = MPPProductBOM.getDefault(finishedProduct, get_TrxName());
 		for (MPPProductBOMLine bLine : bom.getLines())
-		{
-			
+		{			
 			lineno = lineno + 10;
-			BigDecimal BOMMovementQty = bLine.getQty(true).multiply(requiredQty);			
+			BigDecimal BOMMovementQty = getQty(bLine,true).multiply(requiredQty);	
+			int precision = bLine.getPrecision();
+			if (BOMMovementQty.scale() > precision)
+			{
+				BOMMovementQty = BOMMovementQty.setScale(precision, RoundingMode.HALF_UP);
+			}
 			MProduct bomproduct = bLine.getProduct();
 			if ( bomproduct.isBOM() && bomproduct.isPhantom() )
 			{
-				creareBOM(mustBeStocked, bomproduct, BOMMovementQty);
+				createBOM(mustBeStocked, bomproduct, BOMMovementQty);
 			}
 			else
 			{
@@ -1264,4 +1269,27 @@ public class MProduction extends X_M_Production implements DocAction {
 		log.info(processInfo.getSummary());
 		return "";
 	}
+	
+	public BigDecimal getQty(MPPProductBOMLine bLine, boolean includeScrapQty)
+	{
+		int precision = bLine.getPrecision();
+		BigDecimal qty;
+		if (bLine.isQtyPercentage())
+		{
+			precision += 2;
+			qty = bLine.getQtyBatch().divide(Env.ONEHUNDRED, precision, RoundingMode.HALF_UP);
+		}
+		else
+		{
+			qty = bLine.getQtyBOM();
+		}
+		//
+		if (includeScrapQty)
+		{
+			BigDecimal scrapDec = bLine.getScrap().divide(Env.ONEHUNDRED, 12, BigDecimal.ROUND_UP);
+			qty = qty.divide(Env.ONE.subtract(scrapDec), precision, BigDecimal.ROUND_HALF_UP);
+		}
+		return qty;
+	}
+
 }
