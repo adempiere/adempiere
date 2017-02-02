@@ -273,17 +273,17 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                                 generateCostCollectorNotTransaction(productId, dbTransaction.getTrxName());
                                 processNewProduct = false;
 
-                                if (MCostType.COSTINGMETHOD_AverageInvoice.equals(costType.getCostingMethod())
+                                /*if (MCostType.COSTINGMETHOD_AverageInvoice.equals(costType.getCostingMethod())
                                         || MCostType.COSTINGMETHOD_AveragePO.equals(costType.getCostingMethod())) {
                                     if (IsUsedInProduction(productId, dbTransaction.getTrxName()))
                                         deferredProductIds.add(productId);
-                                }
+                                }*/
                             }
 
-                            if (deferredProductIds.contains(transaction.getM_Product_ID())) {
+                           /* if (deferredProductIds.contains(transaction.getM_Product_ID())) {
                                 deferredTransactionIds.add(transactionId);
                                 continue;
-                            }
+                            }*/
 
                             generateCostDetail(accountSchema, costType, costElement, transaction);
                         }
@@ -479,7 +479,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
 
         sql.append("SELECT M_Transaction_ID , M_Product_ID FROM RV_Transaction ")
                 .append(whereClause)
-                .append(" ORDER BY M_Product_ID ,  TRUNC( DateAcct ) , M_Transaction_ID , SUBSTR(MovementType,2,1) ");
+                .append(" ORDER BY lowlevel desc, M_Product_ID ,  TRUNC( DateAcct ) , M_Transaction_ID , SUBSTR(MovementType,2,1) ");
         //.append(" ORDER BY M_Product_ID , DateAcct , M_Transaction_ID");
         //System.out.append("SQL :" + sql);
         return DB.getKeyNamePairs(get_TrxName(), sql.toString(), false, parameters.toArray());
