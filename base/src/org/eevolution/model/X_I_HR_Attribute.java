@@ -32,7 +32,7 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20161226L;
+	private static final long serialVersionUID = 20170115L;
 
     /** Standard Constructor */
     public X_I_HR_Attribute (Properties ctx, int I_HR_Attribute_ID, String trxName)
@@ -596,6 +596,23 @@ public class X_I_HR_Attribute extends PO implements I_I_HR_Attribute, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Reference No.
+		@param ReferenceNo 
+		Your customer or vendor number at the Business Partner's site
+	  */
+	public void setReferenceNo (String ReferenceNo)
+	{
+		set_Value (COLUMNNAME_ReferenceNo, ReferenceNo);
+	}
+
+	/** Get Reference No.
+		@return Your customer or vendor number at the Business Partner's site
+	  */
+	public String getReferenceNo () 
+	{
+		return (String)get_Value(COLUMNNAME_ReferenceNo);
 	}
 
 	/** Set Service date.

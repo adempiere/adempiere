@@ -42,26 +42,159 @@ public class MHRMovement extends X_HR_Movement
 	 */
 	private static final long serialVersionUID = 9100478676337821603L;
 
+	/***
+	 *   get list HR movement by Concept , Partner and description
+	 * @param process
+	 * @param conceptValue
+	 * @param partnerId
+	 * @return
+	 */
+	public static List<MHRMovement> findByProcessAndConceptValueAndPartnerId(MHRProcess process, String conceptValue, int partnerId)
+	{
+		return findByProcessAndConceptValueAndPartnerId(process, conceptValue , partnerId, null , null);
+	}
+
+	/***
+	 *   get list HR movement by Concept , Partner and description
+	 * @param process
+	 * @param conceptValue
+	 * @param partnerId
+	 * @param description
+	 * @param referenceNo
+	 * @return
+	 */
+	public static List<MHRMovement> findByProcessAndConceptValueAndPartnerId(MHRProcess process, String conceptValue, int partnerId, String referenceNo, String description)
+	{
+		List<MHRMovement> movements =  new ArrayList<>();
+		MHRConcept concept = MHRConcept.getByValue(process.getCtx() , conceptValue);
+		if (concept == null)
+			return  movements;
+
+		return findByProcessAndConceptIdAndPartnerId(process, concept.getHR_Concept_ID() , partnerId, referenceNo , description);
+	}
+
+
 	 /***
 	 * get list HR movement by concept and PArtner
 	 * @param process
 	 * @param conceptId
 	 * @param partnerId
+	 * @param referenceNo
+	 * @param description
 	 * @return
 	*/
-	public static List<MHRMovement> getBy(MHRProcess process, int conceptId, int partnerId)
+	public static List<MHRMovement> findByProcessAndConceptIdAndPartnerId(MHRProcess process, int conceptId, int partnerId , String referenceNo , String description)
 	{
+
+		List<MHRMovement> movements = new ArrayList<>();
+		List<Object> parameters = new ArrayList<>();
+		if (conceptId <0)
+			return  movements;
+
 		StringBuilder whereClause = new StringBuilder();
 		whereClause.append(MHRMovement.COLUMNNAME_HR_Process_ID).append("=? AND ");
+		parameters.add(process.getHR_Process_ID());
 		whereClause.append(MHRMovement.COLUMNNAME_HR_Concept_ID).append("=? AND ");
+		parameters.add(conceptId);
 		whereClause.append(MHRMovement.COLUMNNAME_C_BPartner_ID).append("=?");
-		return new Query(process.getCtx(), MHRMovement.Table_Name , whereClause.toString(), process.get_TrxName())
+		parameters.add(partnerId);
+		if (referenceNo != null && referenceNo.length() > 0 )
+		{
+			whereClause.append( " AND ").append(MHRMovement.COLUMNNAME_ReferenceNo).append("=?");
+			parameters.add(referenceNo);
+		}
+		if (description != null && description.length() > 0 )
+		{
+			whereClause.append( " AND ").append(MHRMovement.COLUMNNAME_Description).append("=?");
+			parameters.add(description);
+		}
+		movements =  new Query(process.getCtx(), MHRMovement.Table_Name , whereClause.toString(), process.get_TrxName())
 				.setClient_ID()
-				.setParameters(process.getHR_Process_ID(), conceptId , partnerId)
+				.setParameters(parameters)
 				.list();
 
+		return movements;
 	}
 
+	public static  List<MHRMovement> findByConceptValueAndPartnerId(Properties ctx , String conceptValue , Integer partnerId  , String referenceNo , String description , String trxName)
+	{
+		return findByConceptValueAndPartnerId(ctx , conceptValue, partnerId, referenceNo , description , null , null , trxName);
+	}
+
+	/**
+	 * Find by concept value , partner id , reference , description , from and to
+	 * @param ctx
+	 * @param conceptValue
+	 * @param partnerId
+	 * @param referenceNo
+	 * @param description
+	 * @param from
+	 * @param to
+	 * @param trxName
+	 * @return
+	 */
+	public static  List<MHRMovement> findByConceptValueAndPartnerId(Properties ctx , String conceptValue , Integer partnerId, String referenceNo , String description , Timestamp from , Timestamp to , String trxName)
+	{
+		List<MHRMovement> movements =  new ArrayList<>();
+		List<Object> parameters = new ArrayList<>();
+		if (conceptValue == null)
+			return  movements;
+
+		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue);
+		if (concept == null)
+			return movements;
+
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MHRMovement.COLUMNNAME_HR_Concept_ID).append("=?");
+		parameters.add(concept.getHR_Concept_ID());
+		if (partnerId > 0 ) {
+			whereClause.append(" AND ").append(MHRMovement.COLUMNNAME_C_BPartner_ID).append("=?");
+			parameters.add(partnerId);
+		}
+
+		if (referenceNo != null && referenceNo.length() > 0)
+		{
+			whereClause.append(" AND ").append(MHRMovement.COLUMNNAME_ReferenceNo).append("=?");
+			parameters.add(referenceNo);
+		}
+
+		if (description != null && description.length() > 0)
+		{
+			whereClause.append(" AND ").append(MHRMovement.COLUMNNAME_Description).append("=?");
+			parameters.add(description);
+		}
+
+		if (from != null) {
+			whereClause.append(" AND ").append(MHRMovement.COLUMNNAME_ValidFrom).append("=>?");
+			parameters.add(from);
+		}
+
+		if (to != null) {
+			whereClause.append(" AND ").append(MHRMovement.COLUMNNAME_ValidTo).append("<=?");
+			parameters.add(to);
+		}
+
+		movements = new Query(ctx, MHRMovement.Table_Name , whereClause.toString(), trxName)
+				.setClient_ID()
+				.setParameters(parameters)
+				.list();
+		return movements;
+	}
+
+	/**
+	 * Get Movement by payroll process
+	 * @param process
+	 * @return
+	 */
+	public static List<MHRMovement> findByProcess(MHRProcess process)
+	{
+		final String whereClause = MHRMovement.COLUMNNAME_HR_Process_ID+"=?";
+		//
+		return new Query (process.getCtx(), I_HR_Movement.Table_Name, whereClause , process.get_TrxName())
+				.setClient_ID()
+				.setParameters(process.getHR_Process_ID())
+				.list();
+	}
 
 	/**
 	 * 	Standard Constructor
@@ -87,51 +220,41 @@ public class MHRMovement extends X_HR_Movement
 	
 	/**
 	 * 	Import Constructor
-	 *	@param impHRm import
+	 *	@param importPayrollMovement import
 	 */
-	public MHRMovement (X_I_HR_Movement impHRm)
+	public MHRMovement (X_I_HR_Movement importPayrollMovement)
 	{
-		this (impHRm.getCtx(), 0, impHRm.get_TrxName());
-
-		MHRConcept hrconcept = new MHRConcept(getCtx(), impHRm.getHR_Concept_ID(), get_TrxName());
-		MHREmployee employee  = MHREmployee.getActiveEmployee(getCtx(), impHRm.getC_BPartner_ID(), get_TrxName());
-		MHRProcess process = new MHRProcess(getCtx(), impHRm.getHR_Process_ID(), get_TrxName());
-
-		setAD_Org_ID(process.getAD_Org_ID());
-		setUpdatedBy(impHRm.getUpdatedBy());
-		//
-		setHR_Process_ID(impHRm.getHR_Process_ID());
-		setC_BPartner_ID(impHRm.getC_BPartner_ID());
-		setHR_Concept_ID(impHRm.getHR_Concept_ID());
-
-
-		setHR_Concept_Category_ID(hrconcept.getHR_Concept_Category_ID());
-		setDescription(impHRm.getDescription());
-		
+		this (importPayrollMovement.getCtx(), 0, importPayrollMovement.get_TrxName());
+		MHRConcept concept = new MHRConcept(getCtx(), importPayrollMovement.getHR_Concept_ID(), get_TrxName());
+		MHREmployee employee  = MHREmployee.getActiveEmployee(getCtx(), importPayrollMovement.getC_BPartner_ID(), get_TrxName());
+		setAD_Org_ID(employee.getAD_Org_ID());
+		setUpdatedBy(importPayrollMovement.getUpdatedBy());
+		setHR_Process_ID(importPayrollMovement.getHR_Process_ID());
+		setC_BPartner_ID(importPayrollMovement.getC_BPartner_ID());
+		setHR_Concept_ID(importPayrollMovement.getHR_Concept_ID());
+		setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+		setDescription(importPayrollMovement.getDescription());
 		setHR_Job_ID(employee.getHR_Job_ID());
 		setHR_Department_ID(employee.getHR_Department_ID());
 		setC_Activity_ID(employee.getC_Activity_ID());
-		setColumnType(hrconcept.getColumnType());
-		setValidFrom(impHRm.getValidFrom());
-        setValidTo(impHRm.getValidTo());
-		setIsManual(hrconcept.isManual());
-		setIsPrinted(hrconcept.isPrinted());
-
-		// set corresponding values
+		setColumnType(concept.getColumnType());
+		setValidFrom(importPayrollMovement.getValidFrom());
+        setValidTo(importPayrollMovement.getValidTo());
+		setIsManual(concept.isManual());
+		setIsPrinted(concept.isPrinted());
 		setAmount(null);
 		setQty(null);
 		setServiceDate(null);
 		setTextMsg(null);
-		if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
-			setQty(impHRm.getQty());
-		} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
-			setAmount(impHRm.getAmount());
-		} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
-			setServiceDate(impHRm.getServiceDate());
-		} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
-			setTextMsg(impHRm.getTextMsg());
-		}
-	}	//	MHRMovement
+		if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity))			// Concept Type
+			setQty(importPayrollMovement.getQty());
+		else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
+			setAmount(importPayrollMovement.getAmount());
+		else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date))
+			setServiceDate(importPayrollMovement.getServiceDate());
+		else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text))
+			setTextMsg(importPayrollMovement.getTextMsg());
+	}
 
 	public MHRMovement (MHRProcess process, I_HR_Concept concept)
 	{
@@ -168,7 +291,6 @@ public class MHRMovement extends X_HR_Movement
 	
 	/**
 	 * According to the concept type, it's saved in the column specified for the purpose
-	 * @param columnType column type (see MHRConcept.COLUMNTYPE_*)
 	 * @param value
 	 */
 	public void setColumnValue(Object value)
@@ -236,22 +358,6 @@ public class MHRMovement extends X_HR_Movement
 		return true;
 	}
 
-	
-	/**
-	 * 	Get Lines
-	 *	@param MHRProcess process
-	 *	@return List with MHRMovement
-	 */
-	public static List<MHRMovement> getLinesForProcess (MHRProcess process)
-	{
-		final String whereClause = MHRMovement.COLUMNNAME_HR_Process_ID+"=?";
-		//
-		return new Query (process.getCtx(), I_HR_Movement.Table_Name, whereClause , process.get_TrxName())
-		.setClient_ID()
-		.setParameters(process.getHR_Process_ID())
-		.list();
-	}
-
 	/**
 	 * Set Employee info
 	 * @param employee
@@ -270,5 +376,4 @@ public class MHRMovement extends X_HR_Movement
 		if (employee.getHR_Payroll_ID() > 0)
 			setHR_Contract_ID(employee.getHR_Payroll().getHR_Contract_ID());
 	}
-
 }	//	HRMovement

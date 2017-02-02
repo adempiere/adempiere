@@ -112,7 +112,7 @@
     <libelement value="jar://$MODULE_DIR$/tools/lib/payflow.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/cron4j-2.2.1.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/mysql-connector-java-5.1.13-bin.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/tools/lib/groovy-all-2.0.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/groovy-all-2.4.7.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/jcommon-1.0.18.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/jfreechart-1.0.15.jar!/" />
     <libelement value="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-5.1.0.jar!/" />
@@ -1224,7 +1224,7 @@
     <orderEntry type="module-library" exported="">
       <library name="groovy-all-2.0.1.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/groovy-all-2.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/groovy-all-2.4.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1344,6 +1344,5 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="customization" level="project" />
   </component>
 </module>

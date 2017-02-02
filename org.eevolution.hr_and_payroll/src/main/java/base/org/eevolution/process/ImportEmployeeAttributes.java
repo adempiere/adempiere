@@ -19,17 +19,15 @@ package org.eevolution.process;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
-import org.eevolution.model.I_I_HR_Attribute;
-import org.eevolution.model.MHRConcept;
-import org.eevolution.model.X_HR_Attribute;
-import org.eevolution.model.X_I_HR_Attribute;
+import org.eevolution.model.*;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Import Employee Attribute, this process allows import employee attribute for an employee
- *
  * @author oscar.gomez@www.e-evolution.com, e-Evolution
  * @author victor.perez@www.e-evolution.com, e-Evolution
  */
@@ -63,6 +61,7 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
                 importAttribute.saveEx();
                 continue;
             }
+            importAttribute.setC_BPartner_ID(partnerId);
 
             final String conceptQuery = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(Value) = ?";
             int conceptId = DB.getSQLValue(null, conceptQuery, importAttribute.getConceptValue().trim());
@@ -71,8 +70,8 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
                 importAttribute.saveEx();
                 continue;
             }
-
             MHRConcept concept = new MHRConcept(getCtx(), conceptId, get_TrxName());
+            importAttribute.setHR_Concept_ID(concept.getHR_Concept_ID());
 
             if (importAttribute.getValidFrom() == null) {
                 importAttribute.setI_ErrorMsg(Msg.parseTranslation(getCtx(), "@Invalid@ @ValidFrom@"));
@@ -80,39 +79,49 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
                 continue;
             }
 
-            X_HR_Attribute attribute = new X_HR_Attribute(getCtx(), 0, get_TrxName());
-            attribute.setC_BPartner_ID(partnerId);
-            attribute.setHR_Concept_ID(concept.get_ID());
-            attribute.setColumnType(concept.getColumnType());
-            //Set Amount
-            Optional.ofNullable(importAttribute.getAmount()).filter(amount -> amount != null && amount.signum() > 0 ).ifPresent(amount -> attribute.setAmount(importAttribute.getAmount()));
-            //Set Quantity
-            Optional.ofNullable(importAttribute.getQty()).filter(quantity -> quantity != null && quantity.signum() > 0).ifPresent(quantity -> attribute.setQty(quantity));
-            // Set Service Date
-            Optional.ofNullable(importAttribute.getServiceDate()).ifPresent(serviceDate -> attribute.setServiceDate(serviceDate));
-            //Set service data
-            Optional.ofNullable(importAttribute.getTextMsg()).ifPresent(msgText -> attribute.setTextMsg(msgText));
-            //Set msg text
-            Optional.ofNullable(importAttribute.getMinValue()).filter(minValue -> minValue != null && minValue > 0).ifPresent(minValue -> attribute.setMinValue(minValue));
-            //Set Max Value
-            Optional.ofNullable(importAttribute.getMaxValue()).filter(maxValue -> maxValue != null && maxValue > 0).ifPresent(maxValue -> attribute.setMaxValue(maxValue));
-            // Set Max Value
-            Optional.ofNullable(importAttribute.getHR_Department_ID()).ifPresent(departamentId -> attribute.setHR_Department_ID(departamentId));
-            // Set Min Value
-            Optional.ofNullable(importAttribute.getHR_Job_ID()).ifPresent(jobId -> attribute.setHR_Job_ID(jobId));
-            // Set valid dates
-            Optional.ofNullable(importAttribute.getValidFrom()).ifPresent(validFrom -> attribute.setValidFrom(validFrom));
-            Optional.ofNullable(importAttribute.getValidTo()).ifPresent(validTo -> attribute.setValidTo(validTo));
-            // Set Rule Engine
-            Optional.ofNullable(importAttribute.getAD_Rule_ID()).filter(ruleId -> ruleId != null && ruleId > 0).ifPresent(ruleId -> attribute.setAD_Rule_ID(ruleId));
-            // Set Payroll
-            Optional.ofNullable(importAttribute.getPayrollValue()).ifPresent(payrollValue -> {
-                final String payrollQuery = "SELECT HR_Payroll_ID FROM HR_Payroll WHERE TRIM(Value) = ?";
-                int payrollId = DB.getSQLValue(null, payrollQuery, payrollValue.trim());
-                if (payrollId < 0) {
-                    attribute.setHR_Payroll_ID(payrollId);
-                }
-            });
+            Optional<BigDecimal> optionalAmount = Optional.ofNullable(importAttribute.getAmount());
+            Optional<BigDecimal> optionalQuantity = Optional.ofNullable(importAttribute.getQty());
+            Optional<Timestamp> optionalServiceDate = Optional.ofNullable(importAttribute.getServiceDate());
+            Optional<String> optionalTextMsg = Optional.ofNullable(importAttribute.getTextMsg());
+            Optional<Integer> optionalMinValue = Optional.ofNullable(importAttribute.getMinValue());
+            Optional<Integer> optionalMaxValue = Optional.ofNullable(importAttribute.getMaxValue());
+            Optional<Integer> optionalDepartamentId = Optional.ofNullable(importAttribute.getHR_Department_ID());
+            Optional<Integer> optionalJobId = Optional.ofNullable(importAttribute.getHR_Job_ID());
+            Optional<Timestamp> optionalValidFrom = Optional.ofNullable(importAttribute.getValidFrom());
+            Optional<Timestamp> optionalValidTo = Optional.ofNullable(importAttribute.getValidTo());
+            Optional<Integer> optionalRuleId = Optional.ofNullable(importAttribute.getAD_Rule_ID());
+            Optional<MHRPayroll> optionalPayroll = Optional.ofNullable(MHRPayroll.forValue(getCtx(), importAttribute.getPayrollValue()));
+            Optional<String> optinalReferenceNo = Optional.ofNullable(importAttribute.getReferenceNo());
+            int payrollId = optionalPayroll.isPresent() ? optionalPayroll.get().getHR_Payroll_ID() : 0;
+            MHREmployee employee = MHREmployee.getActiveEmployee(getCtx() , partnerId , get_TrxName());
+            Optional<MHRAttribute> optionalAttribute = Optional.ofNullable(
+                    MHRAttribute.getByConceptAndPartnerId(
+                            concept,
+                            partnerId,
+                            payrollId,
+                            importAttribute.getReferenceNo(),
+                            importAttribute.getDescription(),
+                            importAttribute.getValidFrom())
+            );
+            MHRAttribute attribute = optionalAttribute.orElse(new MHRAttribute(importAttribute));
+            if (attribute.getHR_Attribute_ID() <= 0) {
+                attribute.setColumnType(concept.getColumnType());
+                attribute.setHR_Employee_ID(employee.getHR_Employee_ID());
+                optionalValidFrom.ifPresent(validFrom -> attribute.setValidFrom(validFrom));
+                optionalPayroll.ifPresent(payroll -> attribute.setHR_Payroll_ID(payroll.getHR_Payroll_ID()));
+            }
+
+            optinalReferenceNo.ifPresent(referenceNo -> attribute.setReferenceNo(referenceNo));
+            optionalAmount.filter(amount -> amount != null && amount.signum() > 0).ifPresent(amount -> attribute.setAmount(amount));
+            optionalQuantity.filter(quantity -> quantity != null && quantity.signum() > 0).ifPresent(quantity -> attribute.setQty(quantity));
+            optionalServiceDate.ifPresent(serviceDate -> attribute.setServiceDate(serviceDate));
+            optionalTextMsg.ifPresent(msgText -> attribute.setTextMsg(msgText));
+            optionalMinValue.filter(minValue -> minValue != null && minValue > 0).ifPresent(minValue -> attribute.setMinValue(minValue));
+            optionalMaxValue.filter(maxValue -> maxValue != null && maxValue > 0).ifPresent(maxValue -> attribute.setMaxValue(maxValue));
+            optionalDepartamentId.ifPresent(departamentId -> attribute.setHR_Department_ID(departamentId));
+            optionalJobId.ifPresent(jobId -> attribute.setHR_Job_ID(jobId));
+            optionalValidTo.ifPresent(validTo -> attribute.setValidTo(validTo));
+            optionalRuleId.filter(ruleId -> ruleId != null && ruleId > 0).ifPresent(ruleId -> attribute.setAD_Rule_ID(ruleId));
             attribute.setIsActive(true);
             if (attribute.save()) {
                 importAttribute.setI_IsImported(true);

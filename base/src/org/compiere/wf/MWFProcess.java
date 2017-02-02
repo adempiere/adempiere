@@ -129,7 +129,7 @@ public class MWFProcess extends X_AD_WF_Process
 		getPO();
 		//hengsin: remove lock/unlock which is causing deadlock
 		//if (m_po != null)
-			//m_po.lock();
+		//	m_po.lock();
 	}	//	MWFProcess
 
 	/**	State Machine				*/
@@ -290,13 +290,13 @@ public class MWFProcess extends X_AD_WF_Process
 				//
 				if (closedState == null)
 					closedState = activityWFState;
-				else if (!closedState.equals(activityState))
+				else if (!closedState.equals(activityState.getState()))
 				{
 					//	Overwrite if terminated
-					if (WFSTATE_Terminated.equals(activityState))
+					if (activityState.isTerminated())
 						closedState = activityWFState;
 					//	Overwrite if activity aborted and no other terminated
-					else if (WFSTATE_Aborted.equals(activityState) && !WFSTATE_Terminated.equals(closedState))
+					else if (activityState.isAborted() && !WFSTATE_Terminated.equals(closedState))
 						closedState = activityWFState;
 				}
 			}

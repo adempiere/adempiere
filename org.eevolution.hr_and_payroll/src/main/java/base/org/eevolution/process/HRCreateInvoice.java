@@ -69,7 +69,7 @@ public class HRCreateInvoice extends HRCreateInvoiceAbstract {
                         MInvoice invoice = null;
                         for (MHRMovement movement : getPayrollMovement(getPayrollProcessId(), partnerId, trxName)) {
                             MBPartner partner = new MBPartner(getCtx(), partnerId, trxName);
-                            MHRAttribute attribute = MHRAttribute.getAttributeToInvoice(movement.getCtx(), movement.getC_BPartner_ID(), movement.getHR_Concept_ID(), movement.getValidFrom(), trxName);
+                            MHRAttribute attribute = MHRAttribute.getByConceptIdAndPartnerId(movement.getCtx(), movement.getHR_Concept_ID(), movement.getC_BPartner_ID(), movement.getValidFrom(), trxName);
                             if (attribute != null && attribute.getC_DocType_ID() == 0) {
                                 log.log(Level.SEVERE, "@HR_Employee_ID@ " + partner.getName() + "  @HR_Concept_ID@  " + movement.getHR_Concept().getName() + " @C_DocType_ID@ @NotFound@ : ");
                                 addLog(0, null, null, "@HR_Employee_ID@ " + partner.getName() + "  @HR_Concept_ID@  " + movement.getHR_Concept().getName() + " @C_DocType_ID@ @NotFound@ : ");
