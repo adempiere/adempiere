@@ -644,7 +644,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
                         }
                     }
                 }
-                else if (costDetail.getM_InOutLine_ID() > 0 && costDetail.getQty().signum() == 0 && costDetail.getC_InvoiceLine_ID() > 0 ) {
+                else if (costDetail.getM_InOutLine_ID() > 0 && costDetail.getQty().signum() == 0 && costDetail.getC_InvoiceLine_ID() > 0 
+                		 && costDetail.getC_LandedCostAllocation_ID() ==0) {
                     List<MMatchInv> invoiceMatches = MMatchInv
                             .getInOutLine(line);
                     for (MMatchInv match : invoiceMatches) {
