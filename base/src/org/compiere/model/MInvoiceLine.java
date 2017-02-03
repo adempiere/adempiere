@@ -1045,6 +1045,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 					return "Invalid Receipt Line - " + iol;
 				MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 				lca.setM_Product_ID(iol.getM_Product_ID());
+				lca.setM_InOutLine_ID(lc.getM_InOutLine_ID());
 				lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
 				BigDecimal base = iol.getBase(lc.getLandedCostDistribution()); 
 				lca.setBase(base);
