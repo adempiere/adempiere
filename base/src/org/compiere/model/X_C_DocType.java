@@ -365,6 +365,11 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public static final String DOCBASETYPE_FixedAssetsDisposal = "FAD";
 	/** Fixed Assets Depreciation = FDP */
 	public static final String DOCBASETYPE_FixedAssetsDepreciation = "FDP";
+	/** Manufacturing Planned Order = MPO */
+	public static final String DOCBASETYPE_ManufacturingPlannedOrder = "MPO";
+	/** Manufacturing PO Requisition = MPR */
+	public static final String DOCBASETYPE_ManufacturingPORequisition = "MPR";
+	
 	/** Set Document BaseType.
 		@param DocBaseType 
 		Logical type of document

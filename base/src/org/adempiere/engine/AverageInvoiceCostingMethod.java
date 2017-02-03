@@ -108,6 +108,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// The cost detail was created before then is necessary to update cost by
 		// generate adjustment
 		if (transaction.getM_Transaction_ID() == lastCostDetail.getM_Transaction_ID()) {
+			//SHW
+			movementQuantity = Env.ZERO;
 			
 			//Processing provision of purchase cost  
 			//Provision is calculated when the last cost detail  is a material receipt and not exist of invoice line
