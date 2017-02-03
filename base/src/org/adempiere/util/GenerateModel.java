@@ -77,8 +77,11 @@ public class GenerateModel
 		log.info("----------------------------------");
 		//	first parameter
 		//String directory = "C:\\Compiere\\compiere-all\\extend\\src\\compiere\\model\\";
-		String directory = "/Users/e-Evolution/Desktop/Develop/ADempiere/adempiere/base/src/org/compiere/model";
-        //String directory = "/Users/e-Evolution/Desktop/Develop/ADempiere/adempiere/base/src/org/eevolution/model";
+		//String directory = "/Users/e-Evolution/Develop/ADempiere/adempiere/base/src/org/compiere/model";
+        //String directory = "/Users/e-Evolution/Develop/ADempiere/adempiere/org.eevolution.budget/src/main/java/org/eevolution/model";
+		//String directory = "/Users/e-Evolution/Develop/ADempiere/adempiere/org.eevolution.budget/src/main/java/org/eevolution/model";
+		String directory = "/Users/e-Evolution/Develop/ADempiere/adempiere/base/src/org/eevolution/model";
+
         //String directory = "/Users/e-Evolution/Desktop/Develop/ADempiere/adempiere/base/src/org/adempiere/model";
 		if (args.length > 0)
 			directory = args[0];
@@ -91,8 +94,8 @@ public class GenerateModel
 		
 		//	second parameter
 		//String packageName = "compiere.model";
-        //String packageName = "org.eevolution.model";
-        String packageName = "org.compiere.model";
+        String packageName = "org.eevolution.model";
+        //String packageName = "org.compiere.model";
         //String packageName = "org.adempiere.model";
 		if (args.length > 1)
 			packageName = args[1]; 
@@ -105,10 +108,13 @@ public class GenerateModel
 		
 		//	third parameter
 		//String entityType = "'U','A'";	//	User, Application
-        String entityType = "'D'";	//	User, Application
+        //String entityType = "'D'";	//	User, Application
 		//String entityType = "'EE01','EE02','EE03','EE04','EE06'";	//	User, Application
         //String entityType = "'EE07'";	//	User, Application
+		String entityType = "'EE02'";	//	User, Application
+		//String entityType = "'EE08'";	//	User, Application
         //String entityType = "'EE05'";	//	User, Application
+		//String entityType = "'EE08'";	//	User, Application
 		if (args.length > 2)
 			entityType = args[2]; 
 		if (entityType == null || entityType.length() == 0)
@@ -122,7 +128,7 @@ public class GenerateModel
 		log.info("----------------------------------");
 		
 		String tableLike = null;
-        tableLike = "'%'";	//	All tables
+        tableLike = "'%I_HR_Movement%'";	//	All tables
 		// tableLike = "'AD_OrgInfo', 'AD_Role', 'C_CashLine', 'C_Currency', 'C_Invoice', 'C_Order', 'C_Payment', 'M_InventoryLine', 'M_PriceList', 'M_Product', 'U_POSTerminal'";	//	Only specific tables
 		if (args.length > 3)
 			tableLike = args[3];

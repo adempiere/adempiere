@@ -974,11 +974,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		MLandedCost[] lcs = MLandedCost.getLandedCosts(this);
 		if (lcs.length == 0)
 			return "";
-		String sql = "DELETE M_CostDetail WHERE C_landedcostallocation_ID in " +
-				"(select c_landedCostAllocation_ID from c_landedcostAllocation where c_invoiceline_ID=" + getC_InvoiceLine_ID() + ")";
+		String sql = "DELETE C_LandedCostAllocation WHERE C_InvoiceLine_ID=" + getC_InvoiceLine_ID();
 		int no = DB.executeUpdate(sql, get_TrxName());
-		sql = "DELETE C_LandedCostAllocation WHERE C_InvoiceLine_ID=" + getC_InvoiceLine_ID();
-		no = DB.executeUpdate(sql, get_TrxName());
 		if (no != 0)
 			log.info("Deleted #" + no);
 
@@ -1048,6 +1045,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 					return "Invalid Receipt Line - " + iol;
 				MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 				lca.setM_Product_ID(iol.getM_Product_ID());
+				lca.setM_InOutLine_ID(lc.getM_InOutLine_ID());
 				lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
 				BigDecimal base = iol.getBase(lc.getLandedCostDistribution()); 
 				lca.setBase(base);

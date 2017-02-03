@@ -448,57 +448,58 @@ public class MCostDetail extends X_M_CostDetail
 	
 	/**
 	 * Get a list of the Cost Detail After the Accounting Date 
-	 * @param cd Cost Detail
+	 * @param costDetail Cost Detail
 	 * @param costingLevel Costing Level
 	 * @return MCostDetail List
 	 */
-	public static List<MCostDetail> getAfterDate (MCostDetail cd, String costingLevel)
+	public static List<MCostDetail> getAfterDate (MCostDetail costDetail, String costingLevel)
 	{
 		ArrayList<Object> params = new ArrayList<Object>();
 		final StringBuffer whereClause = new StringBuffer(MCostDetail.COLUMNNAME_C_AcctSchema_ID + "=? AND ");
-		params.add(cd.getC_AcctSchema_ID());
+		params.add(costDetail.getC_AcctSchema_ID());
 		whereClause.append(MCostDetail.COLUMNNAME_M_Product_ID).append("=? AND ");		
-		params.add(cd.getM_Product_ID());
+		params.add(costDetail.getM_Product_ID());
 		
 		if(MAcctSchema.COSTINGLEVEL_Organization.equals(costingLevel))
 		{	
 		whereClause.append(MCostDetail.COLUMNNAME_AD_Org_ID).append("=? AND ");
-		params.add(cd.getAD_Org_ID());
+		params.add(costDetail.getAD_Org_ID());
 		}
 		if(MAcctSchema.COSTINGLEVEL_Warehouse.equals(costingLevel))
 		{	
 		whereClause.append(MCostDetail.COLUMNNAME_M_Warehouse_ID).append("=? AND ");
-		params.add(cd.getM_Warehouse_ID());
+		params.add(costDetail.getM_Warehouse_ID());
 		}
 		if(MAcctSchema.COSTINGLEVEL_BatchLot.equals(costingLevel))
 		{
 			whereClause.append(MCostDetail.COLUMNNAME_M_AttributeSetInstance_ID).append("=? AND ");
-			params.add(cd.getM_AttributeSetInstance_ID());
+			params.add(costDetail.getM_AttributeSetInstance_ID());
 		}
 		
 		whereClause.append( MCostDetail.COLUMNNAME_M_CostType_ID).append("=? AND ");
-		params.add(cd.getM_CostType_ID());
+		params.add(costDetail.getM_CostType_ID());
 		
 		whereClause.append(MCostDetail.COLUMNNAME_M_CostElement_ID).append("=? AND ");
-		params.add(cd.getM_CostElement_ID());
+		params.add(costDetail.getM_CostElement_ID());
 
 		whereClause.append( MCostDetail.COLUMNNAME_M_CostDetail_ID).append("<>? AND ");
-		params.add(cd.getM_CostDetail_ID());
+		params.add(costDetail.getM_CostDetail_ID());
 		
 		whereClause.append( MCostDetail.COLUMNNAME_M_Transaction_ID).append("<>? AND ");
-		params.add(cd.getM_Transaction_ID());
+		params.add(costDetail.getM_Transaction_ID());
 		
 		whereClause.append(MCostDetail.COLUMNNAME_SeqNo).append(">=? AND ");
-		params.add(cd.getSeqNo());
+		params.add(costDetail.getSeqNo());
 		whereClause.append(MCostDetail.COLUMNNAME_Processing).append("=? ");
 		params.add(false);
-		
-		
-		return  new Query(cd.getCtx(), Table_Name, whereClause.toString(), cd.get_TrxName())
+
+
+		List<MCostDetail>  afterDateTransactions = new Query(costDetail.getCtx(), Table_Name, whereClause.toString(), costDetail.get_TrxName())
 		.setClient_ID()
 		.setParameters(params)
 		.setOrderBy(MCostDetail.COLUMNNAME_SeqNo + " ASC")
 		.list();
+		return afterDateTransactions;
 	}
 	
 	/**

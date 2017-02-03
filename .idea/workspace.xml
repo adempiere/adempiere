@@ -2,49 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tools/lib/bsh-2.0b6.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tools/lib/groovy-all-2.4.7.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01580_700_AddSupportToPaymenPartnerRelation.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01610_AddAttributeReferenceNoPayrollConcept.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/migration/380lts-release/01630_ImplementNewApproachToImportPayroll.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportPayrollMovements.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportPayrollMovementsAbstract.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/lib/bsh-2.0b5.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/lib/groovy-all-2.0.1.jar" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/SBT__com_typesafe_config_1_2_0_jar.xml" afterPath="$PROJECT_DIR$/.idea/libraries/SBT__com_typesafe_config_1_2_0_jar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/SBT__javax_servlet_javax_servlet_api_3_0_1_jar.xml" afterPath="$PROJECT_DIR$/.idea/libraries/SBT__javax_servlet_javax_servlet_api_3_0_1_jar.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adempiere.iml" afterPath="$PROJECT_DIR$/adempiere.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostEngine.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MInvoiceLine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MInvoiceLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MRule.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MRule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/process/DocumentEngine.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/DocumentEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/wf/MWFProcess.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/wf/MWFProcess.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/wf/MWorkflow.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/wf/MWorkflow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/I_HR_Attribute.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/I_HR_Attribute.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/I_HR_Movement.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/I_HR_Movement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/I_I_HR_Attribute.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/I_I_HR_Attribute.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/I_I_HR_Movement.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/I_I_HR_Movement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/X_HR_Attribute.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/X_HR_Attribute.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/X_HR_Movement.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/X_HR_Movement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/X_I_HR_Attribute.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/X_I_HR_Attribute.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/X_I_HR_Movement.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/X_I_HR_Movement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/process/GenerateCostDetail.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/process/GenerateCostDetail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/compiere/acct/Doc_HRProcess.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/compiere/acct/Doc_HRProcess.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRAttribute.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRAttribute.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRConcept.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRConcept.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRDepartment.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRDepartment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRMovement.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRMovement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRPayroll.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRPayroll.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRProcess.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRProcess.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRCreateInvoice.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRCreateInvoice.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/apps/ProcessController.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/apps/ProcessController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MActivity.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MProduct.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MProduct.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MYear.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MYear.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/util/ConnectTest.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/ConnectTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/I_DD_OrderLine.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/I_DD_OrderLine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/X_DD_OrderLine.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/X_DD_OrderLine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/org/eevolution/grid/Browser.java" afterPath="$PROJECT_DIR$/client/src/org/eevolution/grid/Browser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/tomcatServerTemplate.xml" afterPath="$PROJECT_DIR$/lib/tomcatServerTemplate.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/command/CommandManager.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/command/CommandManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRRace.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRRace.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRSkillType.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRSkillType.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportEmployeeAttributes.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportEmployeeAttributes.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportPayrollMovement.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportPayrollMovement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/service/HRActionNotice.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/service/HRActionNotice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/swing/org/eevolution/form/VHRActionNotice.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/swing/org/eevolution/form/VHRActionNotice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/zk/org/eevolution/form/WHRActionNotice.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/zk/org/eevolution/form/WHRActionNotice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/build.xml" afterPath="$PROJECT_DIR$/tools/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportEmployeeAttributesAbstract.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportEmployeeAttributesAbstract.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/ImportForecast.java" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/ImportForecast.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/PostgreSQL/ImportAdempiere.sh" afterPath="$PROJECT_DIR$/utils/PostgreSQL/ImportAdempiere.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java" />
     </list>
     <ignored path="extension_apparel_management.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -101,9 +84,27 @@
       <file leaf-file-name="ProcessingInvoiceSelection.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="735">
-              <caret line="74" column="0" lean-forward="false" selection-start-line="35" selection-start-column="3" selection-end-line="74" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="540">
+              <caret line="61" column="86" lean-forward="false" selection-start-line="61" selection-start-column="86" selection-end-line="61" selection-end-column="86" />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#1939#1940#0" expanded="false" />
+                <element signature="e#1970#1971#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HRPayrollTemplete.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPayrollTemplete.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="273">
+              <caret line="168" column="35" lean-forward="false" selection-start-line="168" selection-start-column="35" selection-end-line="168" selection-end-column="35" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -111,11 +112,9 @@
       <file leaf-file-name="GroovyEditor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/GroovyEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="132" column="16" lean-forward="false" selection-start-line="132" selection-start-column="16" selection-end-line="132" selection-end-column="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="45">
+              <caret line="15" column="18" lean-forward="false" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -215,7 +214,12 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="4440">
               <caret line="324" column="17" lean-forward="false" selection-start-line="324" selection-start-column="8" selection-end-line="324" selection-end-column="17" />
-              <folding />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#23541#23542#0" expanded="false" />
+                <element signature="e#23571#23572#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -244,13 +248,10 @@
       <file leaf-file-name="MHRProcess.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRProcess.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13485">
-              <caret line="933" column="45" lean-forward="false" selection-start-line="933" selection-start-column="45" selection-end-line="933" selection-end-column="45" />
+            <state relative-caret-position="13620">
+              <caret line="978" column="33" lean-forward="false" selection-start-line="978" selection-start-column="23" selection-end-line="978" selection-end-column="33" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3389#3411#0" expanded="false" />
-                <element signature="e#3606#3622#0" expanded="false" />
-                <element signature="e#3755#3767#0" expanded="false" />
+                <element signature="n#!!doc" expanded="false" />
                 <element signature="e#5155#5156#0" expanded="false" />
                 <element signature="e#5184#5185#0" expanded="false" />
                 <element signature="e#9194#9195#0" expanded="false" />
@@ -265,8 +266,10 @@
                 <element signature="e#15199#15200#0" expanded="false" />
                 <element signature="e#15231#15232#0" expanded="false" />
                 <element signature="e#15247#15248#0" expanded="false" />
-                <element signature="e#16264#16272#0" expanded="false" />
-                <marker date="1486066201000" expanded="true" signature="72636:73204" ph="{...}" />
+                <element signature="e#37701#37702#0" expanded="false" />
+                <element signature="e#37744#37745#0" expanded="false" />
+                <element signature="e#43153#43154#0" expanded="false" />
+                <element signature="e#43200#43201#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -280,8 +283,6 @@
               <folding>
                 <element signature="n#!!doc" expanded="false" />
                 <element signature="imports" expanded="false" />
-                <element signature="e#2502#2532#0" expanded="false" />
-                <element signature="e#3575#3590#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -393,8 +394,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -413,12 +412,158 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="productionLight" />
+              <option name="myItemId" value="adempiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zkwebui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zkwebui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WEB-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zkwebui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WEB-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zkwebui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WEB-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eevolution" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zkwebui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WEB-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eevolution" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="form" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zkwebui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WEB-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -918,12 +1063,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="2048" height="1254" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951543" sideWeight="0.498006" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5572183" sideWeight="0.5224327" order="18" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5044014" sideWeight="0.5224327" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23479562" sideWeight="0.4707792" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -936,7 +1081,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4845815" sideWeight="0.8968096" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19441675" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19441675" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4775673" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19042872" sideWeight="0.47339448" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1074,7 +1219,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/base/src/org/eevolution/process/GenerateCostDetail.java</url>
-          <line>75</line>
+          <line>76</line>
           <properties />
           <option name="timeStamp" value="163" />
         </line-breakpoint>
@@ -1390,6 +1535,14 @@
     <option name="serverIp" value="localhost" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="554">
+          <caret line="124" column="46" lean-forward="false" selection-start-line="124" selection-start-column="46" selection-end-line="124" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MReplicationRoleAccess.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
@@ -1472,7 +1625,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="19" column="42" lean-forward="false" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
-          <folding />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1939#1940#0" expanded="false" />
+            <element signature="e#1970#1971#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1663,7 +1821,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4440">
           <caret line="324" column="17" lean-forward="false" selection-start-line="324" selection-start-column="8" selection-end-line="324" selection-end-column="17" />
-          <folding />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#23541#23542#0" expanded="false" />
+            <element signature="e#23571#23572#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1674,8 +1837,19 @@
           <folding>
             <element signature="n#!!doc" expanded="false" />
             <element signature="imports" expanded="false" />
-            <element signature="e#2502#2532#0" expanded="false" />
-            <element signature="e#3575#3590#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="61" column="86" lean-forward="false" selection-start-line="61" selection-start-column="86" selection-end-line="61" selection-end-column="86" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1939#1940#0" expanded="false" />
+            <element signature="e#1970#1971#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1785,13 +1959,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRProcess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13485">
-          <caret line="933" column="45" lean-forward="false" selection-start-line="933" selection-start-column="45" selection-end-line="933" selection-end-column="45" />
+        <state relative-caret-position="13620">
+          <caret line="978" column="33" lean-forward="false" selection-start-line="978" selection-start-column="23" selection-end-line="978" selection-end-column="33" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3389#3411#0" expanded="false" />
-            <element signature="e#3606#3622#0" expanded="false" />
-            <element signature="e#3755#3767#0" expanded="false" />
+            <element signature="n#!!doc" expanded="false" />
             <element signature="e#5155#5156#0" expanded="false" />
             <element signature="e#5184#5185#0" expanded="false" />
             <element signature="e#9194#9195#0" expanded="false" />
@@ -1806,37 +1977,31 @@
             <element signature="e#15199#15200#0" expanded="false" />
             <element signature="e#15231#15232#0" expanded="false" />
             <element signature="e#15247#15248#0" expanded="false" />
-            <element signature="e#16264#16272#0" expanded="false" />
-            <marker date="1486066201000" expanded="true" signature="72636:73204" ph="{...}" />
+            <element signature="e#37701#37702#0" expanded="false" />
+            <element signature="e#37744#37745#0" expanded="false" />
+            <element signature="e#43153#43154#0" expanded="false" />
+            <element signature="e#43200#43201#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/packages/liberoHR.jar!/org/eevolution/process/HRPayrollTemplete.class" />
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPayrollTemplete.java" />
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MProductionLine_BACKUP_55986.java">
+    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPayrollTemplete.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="35" column="13" lean-forward="false" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="74" column="0" lean-forward="false" selection-start-line="35" selection-start-column="3" selection-end-line="74" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="273">
+          <caret line="168" column="35" lean-forward="false" selection-start-line="168" selection-start-column="35" selection-end-line="168" selection-end-column="35" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/GroovyEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="132" column="16" lean-forward="false" selection-start-line="132" selection-start-column="16" selection-end-line="132" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="45">
+          <caret line="15" column="18" lean-forward="false" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1873,7 +2038,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.40536398" />
               </list>
             </option>
           </splitter-proportions>
@@ -1917,7 +2082,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>SBT: javax.servlet:javax.servlet-api:3.0.1:jar</last-edited>
+          <last-edited>SBT: com.typesafe:config:1.2.0:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

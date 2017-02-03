@@ -5,9 +5,7 @@
       <root url="file://$PROJECT_DIR$/packages" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/javax.servlet-api/srcs/javax.servlet-api-3.0.1-sources.jar!/" />
-    </SOURCES>
+    <SOURCES />
     <jarDirectory url="file://$PROJECT_DIR$/packages" recursive="false" />
   </library>
 </component>

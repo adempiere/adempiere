@@ -104,7 +104,6 @@ public class ImportForecast extends SvrProcess {
 				ifl.setI_ErrorMsg("");
 				ifl.saveEx();
 				imported++;
-				ifl.saveEx();
 			} else {
 				ifl.setI_IsImported(false);
 				ifl.setProcessed(true);
