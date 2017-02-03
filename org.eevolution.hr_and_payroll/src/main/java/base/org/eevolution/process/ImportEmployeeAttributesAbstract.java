@@ -24,7 +24,7 @@ import org.compiere.process.SvrProcess;
 public abstract class ImportEmployeeAttributesAbstract extends SvrProcess
 {
 	/** Process Value 	*/
-	private static final String VALUE = "HR_Attribute Import Employee Attribute";
+	private static final String VALUE = "Import_Employee Attribute";
 	/** Process Name 	*/
 	private static final String NAME = "Import Employee Attribute";
 	/** Process Id 	*/
