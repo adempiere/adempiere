@@ -157,14 +157,17 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		if (originalTransaction == null)
 		{	
 			 //throw new AdempiereException("Can not found the original transaction");
-			System.out.println("Transaction not found :" + transaction);
+			//System.out.println("Transaction not found :" + transaction);
+			log.info("Transaction not found :" + transaction);
 			return;
 		}	
 		
 		costDetail = new MCostDetail(model.getCtx(), 0, transaction.get_TrxName());
 		// Qty Transaction
-		lastCostDetail = MCostDetail.getByTransaction(originalTransaction.getDocumentLine(),
-                originalTransaction, accountSchema.getC_AcctSchema_ID(),
+		lastCostDetail = MCostDetail.getByTransaction(
+				originalTransaction.getDocumentLine(),
+				originalTransaction,
+				accountSchema.getC_AcctSchema_ID(),
                 dimension.getM_CostType_ID(),
                 dimension.getM_CostElement_ID());
 		if (lastCostDetail == null)
@@ -176,7 +179,8 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 			
 			 //throw new
 			 //		 AdempiereException("Can not found the original cost detail");
-			System.out.println("Detail Cost not found :" + originalTransaction);
+			//System.out.println("Detail Cost not found :" + originalTransaction);
+			log.info("Detail Cost not found :" + originalTransaction);
 			return;
 		}
 
