@@ -22,12 +22,15 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
+import org.compiere.model.MInventory;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProduction;
 import org.compiere.model.ProductCost;
 import org.compiere.model.X_M_Product;
 import org.compiere.model.X_M_Production;
@@ -52,6 +55,9 @@ public class Doc_Production extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
+
+	private int				m_Reversal_ID = 0;
+	private String			m_DocStatus = "";
 	public Doc_Production (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super (ass, X_M_Production.class, rs, DOCTYPE_MatProduction, trxName);
@@ -67,6 +73,8 @@ public class Doc_Production extends Doc
 		X_M_Production prod = (X_M_Production)getPO();
 		setDateDoc (prod.getMovementDate());
 		setDateAcct(prod.getMovementDate());
+		m_Reversal_ID = prod.getReversal_ID();//store original (voided/reversed) document
+		m_DocStatus = prod.getDocStatus();
 		//	Contained Objects
 		p_lines = loadLines(prod);
 		log.fine("Lines=" + p_lines.length);
@@ -162,81 +170,72 @@ public class Doc_Production extends Doc
 			if (X_M_Product.PRODUCTTYPE_Item.equals(product.getProductType()))
 			{
 				BigDecimal totalCosts = Env.ZERO;
+				BigDecimal qty = line.getQty();
+				BigDecimal costTransaction = Env.ZERO;
 				for (MCostDetail cost : line.getCostDetail(as, false)) {
-
 					if (!MCostDetail.existsCost(cost))
 						continue;
-
-					BigDecimal costTransaction =  MCostDetail.getTotalCost(cost, as);
-
+					costTransaction =  MCostDetail.getTotalCost(cost, as);
 					totalCosts = totalCosts.add(costTransaction);
-
-					String description = cost.getM_CostElement().getName() + " " + cost.getM_CostType().getName();
-
-					if (cost.getQty().signum() > 0)
-					{
-						// Debit Work in Process credit  Inventory
-						factLine = fact.createLine(line,  line.getAccount(ProductCost.ACCTTYPE_P_Asset, as), line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as),
-								as.getC_Currency_ID() , costTransaction.abs());
-					}
-					else if (cost.getQty().signum() < 0)
-					{
-						// Debit  Inventory credit  Work in Process
-						factLine = fact.createLine(line, line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as), line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
-								as.getC_Currency_ID() , costTransaction.abs());
-
-
-					}
-					factLine.setM_Product_ID(cost.getM_Product_ID());
-					factLine.setM_Locator_ID(line.getM_LocatorTo_ID());
-					factLine.setDescription(description);
-					factLine.saveEx();
-
-					total = total.add(totalCosts);
-
 				}
+				if (qty.signum()< 0)
+					totalCosts= totalCosts.negate();
+				total = total.add(totalCosts);
+				factLine = fact.createLine(line,  line.getAccount(ProductCost.ACCTTYPE_P_Asset, as), line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+						as.getC_Currency_ID() , totalCosts);
+				factLine.setM_Product_ID(line.getM_Product_ID());
+				factLine.setM_Locator_ID(line.getM_LocatorTo_ID());
+				factLine.setDescription("");
+				factLine.saveEx();
 			}
-			else if (X_M_Product.PRODUCTTYPE_Item.equals(product.getProductType()))
+			else if (!X_M_Product.PRODUCTTYPE_Item.equals(product.getProductType()))
 			{
 				BigDecimal totalCosts = Env.ZERO;
+				MAccount acct = null;
 				for (MCostElement costElement :  MCostElement.getCostElement(line.getCtx(), line.getTrxName())) {
-					int warehouseId = DB.getSQLValue(line.getTrxName() , "SELECT M_Warehouse_ID WHERE M_Locator WHERE M_Locator_ID=?", line.getM_Locator_ID());
+					
+					if (MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(costElement.getCostElementType()))
+						acct  = line.getAccount(ProductCost.ACCTTYPE_P_Burden, as);
+					else if (MCostElement.COSTELEMENTTYPE_OutsideProcessing.equals(costElement.getCostElementType()))
+						acct  = line.getAccount(ProductCost.ACCTTYPE_P_OutsideProcessing, as);
+					else if (MCostElement.COSTELEMENTTYPE_Overhead.equals(costElement.getCostElementType()))
+						acct  = line.getAccount(ProductCost.ACCTTYPE_P_Overhead, as);
+					else if (MCostElement.COSTELEMENTTYPE_Resource.equals(costElement.getCostElementType()))
+						acct  = line.getAccount(ProductCost.ACCTTYPE_P_Labor, as);
+					else 
+						acct  = line.getAccount(ProductCost.ACCTTYPE_P_OutsideProcessing, as);
+					int warehouseId =
+							DB.getSQLValue(line.getTrxName() , "SELECT M_Warehouse_ID from M_Locator WHERE M_Locator_ID=?", line.getM_Locator_ID());
 					BigDecimal costTransaction = Env.ZERO;
 					MCost costDimension = MCost.validateCostForCostType(
-							 as,
-							 (MCostType)as.getM_CostType() ,
-							 costElement,
-							 product.getM_Product_ID(),
-							 line.getAD_Org_ID() ,
-							 warehouseId ,
-							 line.getM_AttributeSetInstance_ID() ,
-							 line.getTrxName());
+							as,
+							(MCostType)as.getM_CostType() ,
+							costElement,
+							product.getM_Product_ID(),
+							line.getAD_Org_ID() ,
+							warehouseId ,
+							line.getM_AttributeSetInstance_ID() ,
+							line.getTrxName());
 
 					if (costDimension != null)
 						costTransaction = costDimension.getCurrentCostPrice().add(costDimension.getCurrentCostPriceLL());
-
 					totalCosts = totalCosts.add(costTransaction.multiply(line.getQty()));
-
-					String description = costElement.getName() + " " + as.getM_CostType().getName();
-
-					if (line.getQty().signum() > 0)
-					{
-						// Debit Cost of Production Credit Working in process
-						factLine = fact.createLine(line,  line.getAccount(ProductCost.ACCTTYPE_P_CostOfProduction, as), line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as),
-								as.getC_Currency_ID() , costTransaction.abs());
-					}
-					else if (line.getQty().signum() < 0 )
-					{
-						// Debit Work in Process credit Cost of Production
-						factLine = fact.createLine(line, line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as), line.getAccount(ProductCost.ACCTTYPE_P_CostOfProduction , as),
-								as.getC_Currency_ID() , costTransaction.abs());
-					}
-
-					factLine.setM_Product_ID(line.getM_Product_ID());
-					factLine.setM_Locator_ID(line.getM_LocatorTo_ID());
-					factLine.setDescription(description);
-					factLine.saveEx();
 				}
+				factLine = fact.createLine(line, acct, acct,as.getC_Currency_ID() , totalCosts);
+				factLine.setM_Product_ID(line.getM_Product_ID());
+				factLine.setM_Locator_ID(line.getM_LocatorTo_ID());
+				if (m_DocStatus.equals(MProduction.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+				{
+					//	Set AmtAcctDr from Original Phys.Inventory
+					if (!factLine.updateReverseLine (MProduction.Table_ID, 
+							m_Reversal_ID, line.getReversalLine_ID(), line.getQty() ,Env.ONE))
+					{
+						p_Error = "Original Physical Inventory not posted yet";
+						return null;
+					}
+				}
+				factLine.setDescription("");
+				factLine.saveEx();
 				total = total.add(totalCosts);
 			}
 		}

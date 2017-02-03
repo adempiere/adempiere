@@ -155,6 +155,7 @@ public class MCost extends X_M_Cost
 
 			return new Query(product.getCtx(), I_M_Cost.Table_Name, whereClause.toString(), product.get_TrxName())
 			.setClient_ID()
+			.setOnlyActiveRecords(true)
 			.setParameters(parameters)	
 			.first();
 		}

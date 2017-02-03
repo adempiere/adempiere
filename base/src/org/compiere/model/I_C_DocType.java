@@ -24,6 +24,7 @@ import org.compiere.util.KeyNamePair;
  *  @author Adempiere (generated) 
  *  @version Release 3.8.0
  */
+
 public interface I_C_DocType 
 {
 
