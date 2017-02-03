@@ -20,15 +20,10 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.TreeMap;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.process.IDocAction;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
@@ -37,27 +32,25 @@ import org.compiere.util.Msg;
 
 /**
  *	Requisition Model
- *	
+ *
  *  @author Jorg Janke
  *
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
- * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
- *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
  *  @version $Id: MRequisition.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  *  @author red1
- *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query  
+ *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>FR [ 2744682 ] Requisition: improve error reporting
  */
-public class MRequisition extends X_M_Requisition implements IDocAction
+public class MRequisition extends X_M_Requisition implements DocAction
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 898606565778668659L;
 
-	Map<Integer, RequisitionLineQueue> lineQueue = new TreeMap<Integer, RequisitionLineQueue>();
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -93,10 +86,10 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 	{
 		super(ctx, rs, trxName);
 	}	//	MRequisition
-	
+
 	/** Lines						*/
 	private MRequisitionLine[]		m_lines = null;
-	
+
 	/**
 	 * 	Get Lines
 	 *	@return array of lines
@@ -107,8 +100,8 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		
-		//red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query  
+
+		//red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
  	 	final String whereClause = I_M_RequisitionLine.COLUMNNAME_M_Requisition_ID+"=?";
 	 	List <MRequisitionLine> list = new Query(getCtx(), I_M_RequisitionLine.Table_Name, whereClause, get_TrxName())
 			.setParameters(get_ID())
@@ -120,7 +113,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		list.toArray (m_lines);
 		return m_lines;
 	}	//	getLines
-	
+
 	/**
 	 * 	String Representation
 	 *	@return info
@@ -133,7 +126,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 			.append ("]");
 		return sb.toString ();
 	}	//	toString
-	
+
 	/**
 	 * 	Get Document Info
 	 *	@return document info
@@ -142,7 +135,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 	{
 		return Msg.getElement(getCtx(), "M_Requisition_ID") + " " + getDocumentNo();
 	}	//	getDocumentInfo
-	
+
 	/**
 	 * 	Create PDF
 	 *	@return File or null
@@ -185,7 +178,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		if (defaultPL != null)
 			setM_PriceList_ID(defaultPL.getM_PriceList_ID());
 	}	//	setM_PriceList_ID()
-	
+
 	/**
 	 * 	Before Save
 	 *	@param newRecord new
@@ -197,7 +190,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 			setM_PriceList_ID();
 		return true;
 	}	//	beforeSave
-	
+
 	@Override
 	protected boolean beforeDelete() {
 		for (MRequisitionLine line : getLines()) {
@@ -217,7 +210,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	process
-	
+
 	/**	Process Message 			*/
 	private String			m_processMsg = null;
 	/**	Just Prepared Flag			*/
@@ -225,7 +218,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 
 	/**
 	 * 	Unlock Document.
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean unlockIt()
 	{
@@ -233,20 +226,20 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		setProcessing(false);
 		return true;
 	}	//	unlockIt
-	
+
 	/**
 	 * 	Invalidate Document
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean invalidateIt()
 	{
 		log.info("invalidateIt - " + toString());
 		return true;
 	}	//	invalidateIt
-	
+
 	/**
 	 *	Prepare Document
-	 * 	@return new status (In Progress or Invalid) 
+	 * 	@return new status (In Progress or Invalid)
 	 */
 	public String prepareIt()
 	{
@@ -255,23 +248,23 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		MRequisitionLine[] lines = getLines();
-		
+
 		//	Invalid
-		if (getAD_User_ID() == 0 
+		if (getAD_User_ID() == 0
 			|| getM_PriceList_ID() == 0
 			|| getM_Warehouse_ID() == 0)
 		{
 			return DocAction.STATUS_Invalid;
 		}
-		
+
 		if(lines.length == 0)
 		{
 			throw new AdempiereException("@NoLines@");
 		}
-		
+
 		//	Std Period open?
 		MPeriod.testPeriodOpen(getCtx(), getDateDoc(), MDocType.DOCBASETYPE_PurchaseRequisition, getAD_Org_ID());
-		
+
 		//	Add up Amounts
 		int precision = MPriceList.getStandardPrecision(getCtx(), getM_PriceList_ID());
 		BigDecimal totalLines = Env.ZERO;
@@ -292,18 +285,18 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 			setTotalLines(totalLines);
 			saveEx();
 		}
-		
+
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
+
 		m_justPrepared = true;
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
-	
+
 	/**
 	 * 	Approve Document
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean  approveIt()
 	{
@@ -311,10 +304,10 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		setIsApproved(true);
 		return true;
 	}	//	approveIt
-	
+
 	/**
 	 * 	Reject Approval
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean rejectIt()
 	{
@@ -322,7 +315,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		setIsApproved(false);
 		return true;
 	}	//	rejectIt
-	
+
 	/**
 	 * 	Complete Document
 	 * 	@return new status (Complete, In Progress, Invalid, Waiting ..)
@@ -340,12 +333,12 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		
+
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
 		log.info(toString());
-		
+
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -362,7 +355,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		setDocAction(ACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
-	
+
 	/**
 	 * 	Set the definite document number after completed
 	 */
@@ -381,7 +374,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 	/**
 	 * 	Void Document.
 	 * 	Same as Close.
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean voidIt()
 	{
@@ -390,22 +383,22 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
-		
+
 		if (!closeIt())
 			return false;
-		
+
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
 			return false;
-		
+
 		return true;
 	}	//	voidIt
-	
+
 	/**
 	 * 	Close Document.
 	 * 	Cancel not delivered Qunatities
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean closeIt()
 	{
@@ -414,7 +407,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
 		if (m_processMsg != null)
 			return false;
-		
+
 		//	Close Not delivered Qty
 		MRequisitionLine[] lines = getLines();
 		BigDecimal totalLines = Env.ZERO;
@@ -435,7 +428,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 				String description = line.getDescription();
 				if (description == null)
 					description = "";
-				description += " [" + line.getQty() + "]"; 
+				description += " [" + line.getQty() + "]";
 				line.setDescription(description);
 				line.setQty(finalQty);
 				line.setLineNetAmt();
@@ -452,13 +445,13 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
 		if (m_processMsg != null)
 			return false;
-		
+
 		return true;
 	}	//	closeIt
-	
+
 	/**
 	 * 	Reverse Correction
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean reverseCorrectIt()
 	{
@@ -475,10 +468,10 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 
 		return false;
 	}	//	reverseCorrectionIt
-	
+
 	/**
 	 * 	Reverse Accrual - none
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean reverseAccrualIt()
 	{
@@ -491,14 +484,14 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 		// After reverseAccrual
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
 		if (m_processMsg != null)
-			return false;				
-		
+			return false;
+
 		return false;
 	}	//	reverseAccrualIt
-	
-	/** 
+
+	/**
 	 * 	Re-activate
-	 * 	@return true if success 
+	 * 	@return true if success
 	 */
 	public boolean reActivateIt()
 	{
@@ -519,7 +512,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 
 		return true;
 	}	//	reActivateIt
-	
+
 	/*************************************************************************
 	 * 	Get Summary
 	 *	@return Summary of Document
@@ -539,7 +532,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 			sb.append(" - ").append(getDescription());
 		return sb.toString();
 	}	//	getSummary
-	
+
 	/**
 	 * 	Get Process Message
 	 *	@return clear text error message
@@ -548,7 +541,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 	{
 		return m_processMsg;
 	}	//	getProcessMsg
-	
+
 	/**
 	 * 	Get Document Owner
 	 *	@return AD_User_ID
@@ -557,7 +550,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 	{
 		return getAD_User_ID();
 	}
-	
+
 	/**
 	 * 	Get Document Currency
 	 *	@return C_Currency_ID
@@ -576,7 +569,7 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 	{
 		return getTotalLines();
 	}
-	
+
 	/**
 	 * 	Get User Name
 	 *	@return user name
@@ -593,100 +586,9 @@ public class MRequisition extends X_M_Requisition implements IDocAction
 	public boolean isComplete()
 	{
 		String ds = getDocStatus();
-		return DOCSTATUS_Completed.equals(ds) 
+		return DOCSTATUS_Completed.equals(ds)
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
 
-	@Override
-	public HashMap<Integer, BigDecimal> getChargeLines()
-	{
-		HashMap<Integer, BigDecimal> mapChargeAuthority = new HashMap<Integer, BigDecimal>();
-		MRequisitionLine lines[] = getLines();
-		for (MRequisitionLine line : lines)
-		{
-			if (line.getC_Charge_ID() > 0)
-			{
-				MCharge charge = MCharge.get(getCtx(), line.getC_Charge_ID());
-				if (charge.get_ValueAsInt("X_AuthorityType_ID") > 0)
-				{
-					int key = charge.get_ValueAsInt("X_AuthorityType_ID");
-					if (mapChargeAuthority.get(key) != null)
-					{
-						mapChargeAuthority.put(key, mapChargeAuthority.get(key).add(line.getLineNetAmt()));
-					}
-					else
-					{
-						mapChargeAuthority.put(key, line.getLineNetAmt());
-					}
-				}
-			}
-		}
-		return mapChargeAuthority;
-	}
-
-	@Override
-	public String getLineTableName()
-	{
-		return MRequisitionLine.Table_Name;
-	}
-	@Override
-	public String getAmtColumnName()
-	{
-		return MRequisitionLine.COLUMNNAME_LineNetAmt;
-	}
-	
-	public void addLinetoQueue(int p_Product_ID, int p_BPartner_ID, BigDecimal qty, BigDecimal price)
-	{
-		if (lineQueue.containsKey(p_Product_ID)) {
-			RequisitionLineQueue line = lineQueue.get(p_Product_ID);
-			line.add(qty);
-		} else {
-			RequisitionLineQueue line = new RequisitionLineQueue(p_Product_ID, p_BPartner_ID, price, qty);
-			lineQueue.put(p_Product_ID, line);
-		}
-	}
-	
-	public void saveLineQueue()
-	{
-		int lineNo = 0;
-		for (int productID : lineQueue.keySet())
-		{
-			lineNo+=10;
-			RequisitionLineQueue line = lineQueue.get(productID);
-			MRequisitionLine rLine = new MRequisitionLine(this);
-			rLine.setLine(lineNo );
-			rLine.setM_Product_ID(line.M_Product_ID);
-			rLine.setC_BPartner_ID(line.C_BPartner_ID);
-			rLine.setPriceActual(line.priceActual);
-			rLine.setQty(line.qty);
-			rLine.saveEx();
-		}
-	}
-	
-	/**
-	 * Temporarily hold in memory, requisition lines created
-	 * @author jobriant
-	 *
-	 */
-	class RequisitionLineQueue
-	{
-		public RequisitionLineQueue(int p_M_Product_ID, int p_C_BPartner_ID,
-				BigDecimal p_priceActual, BigDecimal p_Qty) {
-			super();
-			this.M_Product_ID = p_M_Product_ID;
-			this.C_BPartner_ID = p_C_BPartner_ID;
-			this.priceActual = p_priceActual;
-			this.qty = p_Qty;
-		}
-
-		int M_Product_ID = 0;
-		int C_BPartner_ID = 0;
-		BigDecimal priceActual = Env.ZERO;
-		BigDecimal qty = Env.ZERO;
-		
-		void add(BigDecimal qtyToAdd) {
-			qty = qty.add(qtyToAdd);
-		}
-	}
 }	//	MRequisition
