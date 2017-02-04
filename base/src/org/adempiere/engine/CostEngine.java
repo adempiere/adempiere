@@ -27,7 +27,6 @@ import java.util.Properties;
 import org.compiere.model.I_C_InvoiceLine;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.I_C_ProjectIssue;
-import org.compiere.model.I_M_CostDetail;
 import org.compiere.model.I_M_CostElement;
 import org.compiere.model.I_M_CostType;
 import org.compiere.model.I_M_InOut;
@@ -69,7 +68,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Util;
 import org.eevolution.model.I_PP_Cost_Collector;
 import org.eevolution.model.MPPCostCollector;
-import org.eevolution.model.MPPOrder;
+
 
 /**
  * Cost Engine

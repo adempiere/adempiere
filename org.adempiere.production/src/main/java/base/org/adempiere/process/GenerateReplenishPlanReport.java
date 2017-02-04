@@ -56,7 +56,7 @@ public class GenerateReplenishPlanReport extends SvrProcess
 		if (isAfterDate > 0)
 		{
 			START_WEEK = DB.getSQLValue(get_TrxName(), "SELECT EXTRACT( WEEK FROM ?::Timestamp )", dateFrom) - 2;
-			END_WEEK = DB.getSQLValue(get_TrxName(), CalculateMiniMRP.SQL_GET_ISO_WEEKNO, dateFrom, dateTo, dateTo,
+			END_WEEK = DB.getSQLValue(get_TrxName(), CalculateReplenishPlan.SQL_GET_ISO_WEEKNO, dateFrom, dateTo, dateTo,
 					dateTo) + 2;
 
 			if (START_WEEK == 0)
@@ -174,9 +174,6 @@ public class GenerateReplenishPlanReport extends SvrProcess
 		return pf;
 	}
 
-	/**
-	 * @param year
-	 */
 	private void addWeekDateInfo()
 	{
 		int start = START_WEEK;

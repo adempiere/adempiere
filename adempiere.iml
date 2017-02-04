@@ -199,6 +199,7 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/test/scala" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/main/scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.eevolution.warehouse/src/main/java/ui/zk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.production/src/main/java/base" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />

@@ -328,8 +328,8 @@ public class CalculateReplenishPlan extends SvrProcess
 		for (Date date : mapRequisition.keySet())
 		{
 			MRequisition requisition = mapRequisition.get(date);
+			//requisition.saveLineQueue();
 			log.config("START: Write to DB Requisition Line " + requisition.toString() + " " + sdf.format(new Date()));
-			requisition.saveLineQueue();
 			log.config("END: Write to DB Requisition Line " + requisition.toString() + " " + sdf.format(new Date()));
 		}
 
@@ -738,7 +738,7 @@ public class CalculateReplenishPlan extends SvrProcess
 
 	private void createRequisitionLine(MRequisition requisition, MiniMRPProduct mrp, BigDecimal qty)
 	{
-		requisition.addLinetoQueue(mrp.getM_Product_ID(), mrp.getC_BPartner_ID(), qty, mrp.getPriceActual());
+		//requisition.addLinetoQueue(mrp.getM_Product_ID(), mrp.getC_BPartner_ID(), qty, mrp.getPriceActual());
 /*		MRequisitionLine rLine = new MRequisitionLine(requisition);
 		rLine.setM_Product_ID(mrp.getM_Product_ID());
 		rLine.setC_BPartner_ID(mrp.getC_BPartner_ID());
