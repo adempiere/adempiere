@@ -20,11 +20,13 @@ import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.engine.CostingMethodFactory;
 import org.adempiere.engine.StandardCostingMethod;
 import org.compiere.model.I_M_Cost;
+import org.compiere.model.I_M_Product;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
 import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoice;
 import org.compiere.model.MLandedCostAllocation;
 import org.compiere.model.MMatchInv;
 import org.compiere.model.MMatchPO;
@@ -41,6 +43,8 @@ import org.eevolution.model.MPPCostCollector;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Regenerate Cost Detail The Generate Cost Transaction process allows the
@@ -64,8 +68,8 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
     private List<MCostElement> costElements = new ArrayList<MCostElement>();
     private StringBuffer deleteCostDetailWhereClause;
     private StringBuffer resetCostWhereClause;
-    private List<Integer> deferredTransactionIds = new ArrayList<Integer>();
-    private List<Integer> deferredProductIds = new ArrayList<Integer>();
+    private List<MTransaction> deferredTransactions = new ArrayList<MTransaction>();
+    private List<I_M_Product> deferredProducts = new ArrayList<I_M_Product>();
 
     /**
      * Prepare - e.g., get Parameters.
@@ -276,12 +280,12 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                                 if (MCostType.COSTINGMETHOD_AverageInvoice.equals(costType.getCostingMethod())
                                         || MCostType.COSTINGMETHOD_AveragePO.equals(costType.getCostingMethod())) {
                                     if (IsUsedInProduction(productId, dbTransaction.getTrxName()))
-                                        deferredProductIds.add(productId);
+                                        deferredProducts.add(transaction.getM_Product());
                                 }
                             }
 
-                            if (deferredProductIds.contains(transaction.getM_Product_ID())) {
-                                deferredTransactionIds.add(transactionId);
+                            if (deferredProducts.contains(transaction.getM_Product())) {
+                                deferredTransactions.add(transaction);
                                 continue;
                             }
 
@@ -300,54 +304,6 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                 dbTransaction = null;
             }
 
-            //process deferred transaction for Average Invoice or Average PO
-            final Comparator<Integer> orderTransaction =
-                    new Comparator<Integer>() {
-                        public int compare(Integer t1, Integer t2) {
-                            return t2.compareTo(t1);
-                        }
-                    };
-
-            Collections.sort(deferredTransactionIds, orderTransaction);
-                //process deferred transaction for Average Invoice or Average PO
-            for (Integer transactionId : deferredTransactionIds) {
-                for (MAcctSchema accountSchema : acctSchemas) {
-                    // for each Cost Type
-                    for (MCostType costType : costTypes) {
-                        if (MCostType.COSTINGMETHOD_AverageInvoice.equals(costType.getCostingMethod())
-                        ||  MCostType.COSTINGMETHOD_AveragePO.equals(costType.getCostingMethod()))
-                            ;
-                        else
-                            continue;
-                        // for each Cost Element
-                        for (MCostElement costElement : costElements) {
-                                int transactionProductId = DB.getSQLValue(get_TrxName(), "SELECT M_Product_ID FROM M_Transaction WHERE M_Transaction_ID=?", transactionId);
-
-                                //Detected a new product
-                                if (productId != transactionProductId) {
-
-                                    //commit last transaction by product
-                                    if (dbTransaction != null) {
-                                        dbTransaction.commit(true);
-                                        dbTransaction.close();
-                                    }
-
-                                    productId = transactionProductId;
-
-                                    //Create new transaction for this product
-                                    dbTransaction = Trx.get(productId.toString(), true);
-
-                                    MProduct product = MProduct.get(Env.getCtx(), productId);
-                                    //System.out.println("Deferred Product : " + product.getValue() + " Name :" + product.getName());
-
-                                }
-
-                                MTransaction transaction = new MTransaction(getCtx(), transactionId, dbTransaction.getTrxName());
-                                generateCostDetail(accountSchema, costType, costElement, transaction);
-                        }
-                    }
-                }
-            }
         } catch (Exception e) {
             if (dbTransaction != null) {
                 dbTransaction.rollback();
@@ -362,6 +318,15 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                 dbTransaction.close();
                 dbTransaction = null;
             }
+        }
+
+        final Comparator<I_M_Product> orderProductLowLevel =
+        		  Comparator.comparing(I_M_Product::getLowLevel).reversed();
+        ;
+        Collections.sort(deferredProducts, orderProductLowLevel);
+        for (I_M_Product product:deferredProducts)
+        {
+            generateCostDeferredProduct(product);
         }
     }
 
@@ -482,5 +447,54 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
         //.append(" ORDER BY M_Product_ID , DateAcct , M_Transaction_ID");
         //System.out.append("SQL :" + sql);
         return DB.getKeyNamePairs(get_TrxName(), sql.toString(), false, parameters.toArray());
+    }
+    
+    private void generateCostDeferredProduct(I_M_Product product) 
+    {
+		final Integer productId = (Integer)product.getM_Product_ID();
+    	final Trx dbTransaction = Trx.get(productId.toString(), true);
+    	final Comparator<MTransaction> orderTransactionDate_ID =
+    			Comparator.comparing(MTransaction::getDateAcct).thenComparingInt(MTransaction::getM_Transaction_ID);    	
+    	
+    	try {
+    				 Object [] filteredListe=
+    				deferredTransactions.stream().filter(deferredTransaction -> deferredTransaction != null &&
+    				deferredTransaction.getM_Product_ID() == product.getM_Product_ID()).sorted(orderTransactionDate_ID).toArray();
+    				 
+    		//filteredTransactions.sorted(orderTransactionDate_ID);
+    				 for (Object obj:filteredListe)
+    				 {		
+    					 MTransaction deferredTransaction = (MTransaction)obj;
+    					 
+    					 for (MAcctSchema accountSchema : acctSchemas) {
+    						 // for each Cost Type
+    						 for (MCostType costType : costTypes) {
+    							 if (MCostType.COSTINGMETHOD_AverageInvoice.equals(costType.getCostingMethod())
+    									 ||  MCostType.COSTINGMETHOD_AveragePO.equals(costType.getCostingMethod()))
+    								 ;
+    							 else
+    								 continue;
+    							 // for each Cost Element
+    							 for (MCostElement costElement : costElements) {
+    								 deferredTransaction.set_TrxName(dbTransaction.getTrxName());
+    								 generateCostDetail(accountSchema, costType, costElement, deferredTransaction);
+    							 }
+    						 }
+    					 }
+    				 }
+    	}
+    	catch (Exception e) {
+    		if (dbTransaction != null) {
+    			dbTransaction.rollback();
+    			dbTransaction.close();
+    			e.printStackTrace();
+    			addLog(e.getMessage());
+    		}
+    	} finally {
+    		if (dbTransaction != null) {
+    			dbTransaction.commit();
+    			dbTransaction.close();
+    		}
+    	}
     }
 }
