@@ -27,7 +27,7 @@
 
 	<!-- properties for main build -->
 	<property name="tools.dir" value="../tools/lib" />
-	<property name="source.dir" value="src" />
+	<property name="source.dir" value="src/main/java" />
 	<property name="build.dir" value="build" />
 	<property name="jar.dir" value="lib" />
 	<property name="jar.name" value="migrate" />
