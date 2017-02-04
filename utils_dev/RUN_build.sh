@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#	This script rebuilds Adempiere 
+#	This script rebuilds Adempiere
 #	Ported from Windows script Marek Mosiewicz<marek.mosiewicz@jotel.com.pl>
 #	If you have difficulties, compare it with the Windows version.
 #
@@ -8,7 +8,7 @@
 
 #check java home
 if [ $JAVA_HOME ]; then
-  export PATH=$JAVA_HOME/bin:$PATH	
+  export PATH=$JAVA_HOME/bin:$PATH
 else
   echo JAVA_HOME is not set.
   echo You may not be able to build Adempiere
@@ -31,9 +31,8 @@ echo Cleanup ...
 $JAVA_HOME/bin/java $ANT_OPTS -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main clean
 
 echo Building ...
-$JAVA_HOME/bin/java $ANT_OPTS -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main -logger org.apache.tools.ant.listener.MailLogger complete
+$JAVA_HOME/bin/java $ANT_OPTS -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main complete
 
 echo Done ...
 
 exit 0
-

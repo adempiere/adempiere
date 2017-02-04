@@ -2,12 +2,12 @@
     <description>
         Building FixedAsset.jar
         by
-        Victor Perez 
+        Victor Perez
         http://www.e-evolution.com
     </description>
   <!-- set global properties for this build -->
   <property file="build.properties"/>
-  <import file="${adempiere.source}/utils_dev/properties.xml"/>	
+  <import file="${adempiere.source}/utils_dev/properties.xml"/>
   <property name="src" location="src/main/java/base"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
@@ -26,8 +26,8 @@
     <echo message="source location: ${adempiere.source}"/>
     <!-- Create the time stamp -->
     <tstamp/>
-    <!-- Create the build directory structure used by compile -->
     <mkdir dir="${build}"/>
+    <mkdir dir="${adempiere.source}/packages"/>
   </target>
 
   <target name="compile" depends="init"
@@ -48,6 +48,7 @@
     <jar jarfile="${dist}/lib/FixedAsset.jar" basedir="${build}"/>
 
     <!-- Create target Libero deployment -->
+
     <mkdir dir="${env.ADEMPIERE_HOME}/packages/FixedAsset/lib"/>
 
     <!-- Transfer FixedAsset.jar -->
