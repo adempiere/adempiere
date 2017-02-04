@@ -191,5 +191,5 @@ migration/postgresql.properties
 install/CInstall.jar
 # org.adempiere.webservice/deploy/lib/ADInterface-1.0.war
 # org.compiere.mobile/WEB-INF/classes/
-zkpackages/*.jar
-packages/*.jar
+zkpackages/
+packages/
