@@ -139,7 +139,6 @@ $RECYCLE.BIN/
 # Default .gitignore patterns previously in the project
 
 /bin
-/lib
 /install/lib
 /test
 /project
@@ -193,3 +192,7 @@ install/CInstall.jar
 # org.compiere.mobile/WEB-INF/classes/
 zkpackages/
 packages/
+#lib/adempiere*
+#lib/*war
+#lib/*.sh
+lib/
