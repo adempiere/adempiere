@@ -283,4 +283,21 @@ public class MTransaction extends X_M_Transaction
 		return sb.toString ();
 	}	//	toString
 	
+	public Timestamp getDateAcct()
+	{
+		if (getM_InOutLine_ID() != 0)
+			return getM_InOutLine().getM_InOut().getDateAcct();
+		if (getM_InventoryLine_ID() !=0)
+			return getM_InventoryLine().getM_Inventory().getMovementDate();
+		if (getM_MovementLine_ID() !=0)
+			return getM_MovementLine().getM_Movement().getMovementDate();
+		if (getM_ProductionLine_ID() !=0)
+			return getM_ProductionLine().getM_Production().getMovementDate();
+		if (getC_ProjectIssue_ID() !=0)
+			return getC_ProjectIssue().getMovementDate();
+		if (getPP_Cost_Collector_ID() !=0)
+			return getPP_Cost_Collector().getDateAcct();
+		return null;
+	}
+	
 }	//	MTransaction
