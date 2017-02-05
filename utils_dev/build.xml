@@ -24,12 +24,11 @@
 		<ant inheritAll="false" dir="client"/>
 		<ant inheritAll="false" dir="JasperReports"/>
 		<ant inheritAll="false" dir="JasperReportsWebApp"/>
-		<ant inheritAll="false" dir="org.adempiere.webservice"/>
+		<!-- ant inheritAll="false" dir="org.adempiere.webservice"/-->
 		<ant inheritAll="false" dir="serverRoot"/>
-		<ant inheritAll="false" dir="serverApps"/>
+		<!-- ant inheritAll="false" dir="serverApps"/>
 		<ant inheritAll="false" dir="webStore"/>
-		<ant inheritAll="false" dir="webCM"/>
-		<ant inheritAll="false" dir="sqlj"/>
+		<ant inheritAll="false" dir="webCM"/ -->
 		<ant inheritAll="false" dir="zkwebui"/>
 		<ant inheritAll="false" dir="org.compiere.mobile"/>
 		<ant inheritAll="false" dir="migration"/>
@@ -49,17 +48,16 @@
 		<ant inheritAll="false" dir="tools" target="clean"/>
 		<ant inheritAll="false" dir="base" target="clean"/>
 		<ant inheritAll="false" dir="org.adempiere.asset" target="clean"/>
-		<ant inheritAll="false" dir="org.adempiere.webservice" target="clean"/>
+		<!-- ant inheritAll="false" dir="org.adempiere.webservice" target="clean"/-->
 		<ant inheritAll="false" dir="extend" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow" target="clean"/>
 		<ant inheritAll="false" dir="JasperReports" target="clean"/>
 		<ant inheritAll="false" dir="JasperReportsWebApp" target="clean"/>
 		<ant inheritAll="false" dir="client" target="clean"/>
 		<ant inheritAll="false" dir="serverRoot" target="clean"/>
-		<ant inheritAll="false" dir="serverApps" target="clean"/>
+		<!-- ant inheritAll="false" dir="serverApps" target="clean"/>
 		<ant inheritAll="false" dir="webStore" target="clean"/>
-		<ant inheritAll="false" dir="webCM" target="clean"/>
-		<ant inheritAll="false" dir="sqlj" target="clean"/>
+		<ant inheritAll="false" dir="webCM" target="clean"/-->
 		<ant inheritAll="false" dir="install" target="clean"/>
 		<ant inheritAll="false" dir="zkwebui" target="clean"/>
 		<ant inheritAll="false" dir="org.compiere.mobile" target="clean"/>

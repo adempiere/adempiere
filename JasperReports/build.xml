@@ -61,17 +61,13 @@
 		  <pathelement path="../client/build"/>
 	      <pathelement path="../base/Base.jar"/>
 	      <pathelement path="../extend/Extend.jar"/>
-	      <pathelement path="../lib/CSTools.jar"/>
-	      <pathelement path="../lib/oracle.jar"/>
-      	<!-- SHW: old Lib <pathelement path="../JasperReportsTools/lib/jasperreports-3.7.3.jar"/>--> 
-      	  <pathelement path="../JasperReportsTools/lib/jasperreports-5.1.0.jar"/>
-      	  <!-- SHW: old Lib <pathelement path="../JasperReportsTools/lib/commons-digester-1.7.jar"/> -->
-      	  <pathelement path="../JasperReportsTools/lib/commons-digester-2.1.jar"/>
+	      <pathelement path="${jar.path}/CSTools.jar"/>
+	      <pathelement path="${jar.path}/oracle.jar"/>
+      	  <pathelement path="${jar.path}/jasperreports-5.1.0.jar"/>
+      	  <pathelement path="${jar.path}/commons-digester-2.1.jar"/>
 	      <pathelement path="../tools/lib/commons-logging.jar"/>
-      	  <!-- SHW: old Lib <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.7.jar"/>  -->  
-      	  <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.8.0.jar"/>
-	      <!-- SHW:new library  --> 
-	      <pathelement path="../JasperReportsTools/lib/jasperreports-fonts-5.1.0.jar"/> 	
+      	  <pathelement path="${jar.path}/commons-beanutils-1.8.0.jar"/>
+	      <pathelement path="${jar.path}/jasperreports-fonts-5.1.0.jar"/>
       	  <pathelement path="../tools/lib/xercesImpl.jar"/>
       	  <pathelement path="../tools/lib/xml-apis.jar"/>
       	  <pathelement path="../tools/lib/postgresql.jar"/>  
@@ -116,7 +112,7 @@
       </manifest>
     </jar>
 
-  	<unjar src="../JasperReportsTools/lib/iReport.jar" dest="${needed.dir}">
+  	<unjar src="${jar.path}/iReport.jar" dest="${needed.dir}">
   		<!-- producing an iReport runTime -->
   	    <patternset> 
   	        <exclude name="**/*.class"/>
@@ -139,22 +135,22 @@
   	  duplicate="preserve">
       <fileset dir="${needed.dir}"/>
   	  <!-- SHW: old Lib <zipfileset src="../JasperReportsTools/lib/jasperreports-3.7.3.jar" > -->
-  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-5.1.0.jar" >
+  	  <zipfileset src="${jar.path}/jasperreports-5.1.0.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <!-- SHW: old Lib <zipfileset src="../JasperReportsTools/lib/commons-digester-1.7.jar" > -->
-  	  <zipfileset src="../JasperReportsTools/lib/commons-digester-2.1.jar" >
+  	  <zipfileset src="${jar.path}/commons-digester-2.1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../tools/lib/commons-logging.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   		<!-- SHW: old Lib <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.7.jar" > -->
-  	  <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.8.0.jar" >
+  	  <zipfileset src="${jar.path}/commons-beanutils-1.8.0.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <!-- SHW: new lib--> 
-      <zipfileset src="../JasperReportsTools/lib/jasperreports-fonts-5.1.0.jar" >
+      <zipfileset src="${jar.path}/jasperreports-fonts-5.1.0.jar" >
   		<patternset refid="manifest.exclude"/>
   	  </zipfileset>
   	  <zipfileset src="../tools/lib/xercesImpl.jar" >
@@ -173,7 +169,7 @@
 	<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
       </manifest>
     </jar>
-	<copy file="${dist.dir}/${needed.jar.name}.jar" todir="../lib">
+	<copy file="${dist.dir}/${needed.jar.name}.jar" todir="${jar.path}">
 		</copy>
   </target>
 

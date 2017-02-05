@@ -130,9 +130,6 @@
 	<fixcrlf srcdir="${utils.dir}/unix"
 		eol="lf" eof="remove"
 		includes="*"/>
-	<fixcrlf srcdir="../sqlj/oracle"
-		eol="lf" eof="remove"
-		includes="*.sh"/>
   </target>
 
 
@@ -221,7 +218,6 @@
 	</copy>
 	<copy file="${launch.dir}/Release/Adempiere.exe" todir="${build.dir}/Adempiere/lib"/>
 	<copy file="CInstall.jar" todir="${build.dir}/Adempiere/lib"/>
-	<copy file="../sqlj/sqlj.jar" todir="${build.dir}/Adempiere/lib"/>
 	<copy file="../JasperReports/CompiereJasperReqs.jar" todir="${build.dir}/Adempiere/lib"/>
 	<concat destfile="${build.dir}/Adempiere/lib/index.html">AdempiereHome</concat>
 
@@ -233,11 +229,9 @@
 	</copy>
 	<copy todir="${build.dir}/Adempiere/utils/oracle">
 	  <fileset dir="${dbStartup.dir}/oracle" includes="*.sql"/>
-	  <fileset dir="../sqlj/oracle/"/>
 	</copy>
 	<copy todir="${build.dir}/Adempiere/utils/PostgreSQL">
 	  <fileset dir="${dbStartup.dir}/PostgreSQL" includes="*.sql"/>
-	  <fileset dir="../sqlj/postgresql/"/>
 	</copy>
 	<copy todir="${build.dir}/Adempiere/utils/oracleXE">
 	  <fileset dir="${dbStartup.dir}/oracleXE" includes="*.sql"/>
