@@ -7,7 +7,7 @@
 <project name="base" default="dist" basedir=".">
 
   <description>
-    This buildfile is used to build the base subproject within 
+    This buildfile is used to build the base subproject within
     the Adempiere project.
   </description>
 
@@ -32,7 +32,7 @@
     <pathelement path="../tools/lib/junit.jar"/>
     <pathelement path="../tools/lib/j2ee.jar"/>
     <pathelement path="../tools/lib/jnlp.jar"/>
-    <pathelement path="../tools/lib/servlet-api.jar" />  	
+    <pathelement path="../tools/lib/servlet-api.jar" />
   	<pathelement path="../tools/lib/cron4j-2.2.1.jar" />
     <pathelement path="../tools/lib/commons-io.jar"/>
   </path>
@@ -53,7 +53,7 @@
     <mkdir dir="${dist.dir}"/>
   </target>
 
-  
+
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
     <javac target="1.8" encoding="UTF-8" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
@@ -63,34 +63,6 @@
       <src path="../jbossfacet/src"/>
       <classpath refid="project.class.path"/>
     </javac>
-    <!-- copy all image & sound files from src to the build directory -->
-    <copy todir="${build.dir}">
-      <fileset dir="${src}">
-        <include name="**/images/*"/>
-        <include name="**/*.gif"/>
-        <include name="**/*.jpg"/>
-        <include name="**/*.png"/>
-        <include name="**/*.wav"/>
-        <include name="**/*.htm"/>
-        <include name="**/*.html"/>
-        <include name="**/*.properties"/>
-        <exclude name="**/package.html"/>
-      </fileset>
-    </copy>
-    <!-- copy all image & sound files from looksSrc to the build directory -->
-    <copy todir="${build.dir}">
-      <fileset dir="${looksSrc}">
-        <include name="**/images/*"/>
-        <include name="**/*.gif"/>
-        <include name="**/*.jpg"/>
-        <include name="**/*.png"/>
-        <include name="**/*.wav"/>
-        <include name="**/*.htm"/>
-        <include name="**/*.html"/>
-        <include name="**/*.properties"/>
-        <exclude name="**/package.html"/>
-      </fileset>
-    </copy>
 
     <!-- copy login.conf -->
     <copy todir="${build.dir}">
@@ -123,7 +95,7 @@
     <pathelement path="./base.jar" />
   </path>
 
-<target name="GenerateModel" depends="dist"> 
+<target name="GenerateModel" depends="dist">
       <java fork="true" classname="org.compiere.util.GenerateModel">
       	<classpath refid="class.path.test" />
 	<arg value="/work2/adempiere/base/src/org/compiere/model/"/>
