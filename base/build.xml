@@ -58,7 +58,6 @@
     <!-- compile the java code from ${src} into ${build.dir} -->
     <javac target="1.8" encoding="UTF-8" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="${src}"/>
-      <src path="${looksSrc}"/>
       <src path="../glassfishfacet/src"/>
       <src path="../jbossfacet/src"/>
       <classpath refid="project.class.path"/>

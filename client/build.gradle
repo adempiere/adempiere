@@ -9,9 +9,8 @@ dependencies {
 
 
 jar {
-    print 'Building JAR...'
     manifest {
-        attributes("Implementation-Title": "Adempiere Base Module",
+        attributes("Implementation-Title": "Adempiere SWING Client Module",
                    "Implementation-Version": version)
     }
 }
