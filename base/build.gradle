@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+
+dependencies {
+    compile fileTree(dir: '../lib', include: '*.jar')
+    compile fileTree(dir: '../tools/lib', include: '*.jar')
+}
+
+print rootProject.rootDir
