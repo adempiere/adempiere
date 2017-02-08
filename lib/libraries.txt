@@ -1,0 +1,55 @@
+External Libraries
+==================
+
+$Id: libraries.txt,v 1.1 2006/04/21 18:06:25 jjanke Exp $
+
+For CTools.jar
+==============
+
+mail.jar
+	Java Mail 1.3		C:\Sources\javamail-1.3
+
+activation.jar
+	Java Activation 1.0.2 	C:\Sources\jaf-1.0.2
+
+bsh-core-2.0b1.jar
+	Bean Shell		http://www.beanshell.org/download.html
+
+Verisign.jar 
+	PayFlowPro 3.06
+
+xdoclet.jar
+	XDoclet 1.1.2		http://xdoclet.sourceforge.net/
+
+standard.jar
+jstl.jar
+	JSTL Version 1.1	http://jakarta.apache.org/taglibs/index.html
+
+log4j.jar
+	Log4J 1.2.9		http://logging.apache.org/site/binindex.html
+
+--------
+
+ojdbc14.jar	Oracle JDBC 9.2.0.3 - also lib/oracle.jar
+ojdbc14_g.jar	Oracle JDBC 9.2.0.3 debug
+ocrs12.jar	Oracle JDBC 9.2.0.3 RowSet	
+
+--------
+
+Build
+-----
+ant.jar
+ant-launcher.jar
+ant-commons-net.jar
+	Ant 1.6.2		http://ant.apache.org/bindownload.cgi
+commons-net.jar
+	Commons Net 1.1.0	http://jakarta.apache.org/site/binindex.cgi
+jakarta-oro.jar
+	ORO 2.0.8
+
+
+servlet.jar
+	javax.servlet		
+
+
+
