@@ -17,17 +17,17 @@
 	<property name="build.dir" value="build" />
 	<property name="jboss.dir" value="../jboss" />
 	<property name="glassfish.dir" value="../glassfishfacet" />
-	<property name="dist.dir" value="../lib" />
+	<property name="dist.dir" value="../dist" />
 	<!--<property environment="env"/>-->
 	<import file="../utils_dev/properties.xml" />
 
 	<!-- set path to include the necessary jar files for javac -->
 	<path id="project.class.path">
 		<pathelement path="${classpath}" />
-		<pathelement path="lib/jstl.jar" />
-		<pathelement path="lib/jsp-api.jar" />
-		<pathelement path="lib/servlet-api.jar" />
-		<pathelement path="lib/standard.jar" />
+		<pathelement path="../lib/jstl.jar" />
+		<pathelement path="../lib/jsp-api.jar" />
+		<pathelement path="../lib/servlet-api.jar" />
+		<pathelement path="../lib/standard.jar" />
 	</path>
 
 	<patternset id="manifest.exclude">
@@ -40,7 +40,7 @@
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
-			<fileset file="lib/ant-contrib-1.0b1.jar"></fileset>
+			<fileset file="../lib/ant-contrib-1.0b1.jar"></fileset>
 		</classpath>
 	</taskdef>
 
@@ -116,7 +116,7 @@
 			<zipgroupfileset dir="${glassfish.dir}/lib" includes="*.jar">
 				<patternset refid="manifest.exclude" />
 			</zipgroupfileset>
-			<zipfileset src="lib/javaee.jar">
+			<zipfileset src="../lib/javaee.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>
@@ -134,11 +134,12 @@
 	<!-- ============================================= -->
 	<!-- Buld Database Jars                            -->
 	<!-- ============================================= -->
+	<!-- TODO @sramazzina - Seems to be a nonsense the target below - Evaluate removal -->
 	<target name="toolsDatabase" depends="toolsCompile" unless="jars.uptodate" description="Create db jars">
 
 		<!-- Create oracle.jar file 	-->
 		<jar jarfile="${dist.dir}/oracle.jar" duplicate="preserve">
-			<zipfileset src="lib/ojdbc6.jar">
+			<zipfileset src="../lib/ojdbc6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 
@@ -155,7 +156,7 @@
 
 		<!-- Create postgresql.jar file 	-->
 		<jar jarfile="${dist.dir}/postgresql.jar">
-			<zipfileset src="lib/postgresql.jar">
+			<zipfileset src="../lib/postgresql.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 
@@ -170,9 +171,9 @@
 			</manifest>
 		</jar>
 
-		<!-- @Trifon - CREATE MYSQL JAR FILE --> 
+		<!-- @Trifon - CREATE MYSQL JAR FILE -->
 		<jar jarfile="${dist.dir}/mysql-connector-java-5.1.13-bin.jar">
-			<zipfileset src="lib/mysql-connector-java-5.1.13-bin.jar">
+			<zipfileset src="../lib/mysql-connector-java-5.1.13-bin.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 
@@ -205,10 +206,10 @@
 			</fileset>
 
 			<!-- JSTL				-->
-			<zipfileset src="lib/jstl.jar">
+			<zipfileset src="../lib/jstl.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/standard.jar">
+			<zipfileset src="../lib/standard.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- ECS -->
@@ -216,99 +217,99 @@
 				<include name="**/apache/ecs/**" />
 			</fileset>
 			<!-- Installing Script Based in JSR 223 Scripting APIs -->
-			<zipfileset src="lib/script-api.jar">
+			<zipfileset src="../lib/script-api.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- BeanShell -->
-			<zipfileset src="lib/bsh-2.0b6.jar">
+			<zipfileset src="../lib/bsh-2.0b6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/bsh-engine.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<!-- Groovy -->
-			<zipfileset src="lib/groovy-all-2.4.7.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/groovy-engine.jar">
+			<zipfileset src="../lib/bsh-engine.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<zipfileset src="lib/jython.jar">
+			<zipfileset src="../lib/groovy-all-2.4.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jython-engine.jar">
+			<zipfileset src="../lib/groovy-engine.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<!-- Groovy -->
+			<zipfileset src="../lib/jython.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="../lib/jython-engine.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Payment Processors		-->
-			<zipfileset src="lib/Verisign.jar">
+			<zipfileset src="../lib/Verisign.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/payflow.jar">
+			<zipfileset src="../lib/payflow.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/miglayout-3.7.1-swing.jar">
+			<zipfileset src="../lib/miglayout-3.7.1-swing.jar">
 					<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jpayment.jar">
+			<zipfileset src="../lib/jpayment.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Log4J, jnlp			-->
-			<zipfileset src="lib/commons-logging.jar">
+			<zipfileset src="../lib/commons-logging.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/log4j.jar">
+			<zipfileset src="../lib/log4j.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jnlp.jar">
+			<zipfileset src="../lib/jnlp.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Barcode, ftp			-->
-			<zipfileset src="lib/barbecue-1.5-beta1.jar">
+			<zipfileset src="../lib/barbecue-1.5-beta1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-net-1.4.0.jar">
+			<zipfileset src="../lib/commons-net-1.4.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Adempiere look and feel -->
-			<zipfileset src="lib/looks-2.0.4.jar">
+			<zipfileset src="../lib/looks-2.0.4.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- PDF -->
-			<zipfileset src="lib/jpedal.jar">
+			<zipfileset src="../lib/jpedal.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/iText-2.1.7.jar">
+			<zipfileset src="../lib/iText-2.1.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JFreeChart			-->
-			<zipfileset src="lib/jfreechart-1.0.15.jar">
+			<zipfileset src="../lib/jfreechart-1.0.15.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jcommon-1.0.18.jar">
+			<zipfileset src="../lib/jcommon-1.0.18.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JMS -->
-			<zipfileset src="lib/activemq-core-5.7.0.jar">
+			<zipfileset src="../lib/activemq-core-5.7.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- C3P0 connection pool -->
-			<zipfileset src="lib/c3p0-0.9.1.2.jar">
+			<zipfileset src="../lib/c3p0-0.9.1.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
+			<zipfileset src="../lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<zipfileset src="lib/poi-3.9-20121203.jar">
+			<zipfileset src="../lib/poi-3.9-20121203.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- CGLib -->
-			<zipfileset src="lib/cglib.jar">
+			<zipfileset src="../lib/cglib.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Open Forecast -->
-			<zipfileset src="lib/OpenForecast-0.5.0.jar">
+			<zipfileset src="../lib/OpenForecast-0.5.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>
@@ -321,23 +322,23 @@
 				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
-			<zipfileset src="lib/commons-collections-3.1.jar">
+			<zipfileset src="../lib/commons-collections-3.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-codec.jar">
+			<zipfileset src="../lib/commons-codec.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- jars for 2pack                         -->
-			<zipfileset src="lib/ant.jar">
+			<zipfileset src="../lib/ant.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/xercesImpl.jar">
+			<zipfileset src="../lib/xercesImpl.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- cron job -->
-			<zipfileset src="lib/cron4j-2.2.1.jar">
+			<zipfileset src="../lib/cron4j-2.2.1.jar">
 				<patternset refid="manifest.exclude" />
-			</zipfileset>			
+			</zipfileset>
 		</jar>
 
 	</target>
@@ -364,118 +365,118 @@
 				<include name="it/**" />
 			</fileset>
 			<!-- Mail				-->
-			<zipfileset src="lib/mail.jar">
+			<zipfileset src="../lib/mail.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Installing Script Based in JSR 223 Scripting APIs -->
-			<zipfileset src="lib/script-api.jar">
+			<zipfileset src="../lib/script-api.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- BeanShell -->
-			<zipfileset src="lib/bsh-2.0b6.jar">
+			<zipfileset src="../lib/bsh-2.0b6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/bsh-engine.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<!-- Groovy -->
-			<zipfileset src="lib/groovy-all-2.4.7.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/groovy-engine.jar">
+			<zipfileset src="../lib/bsh-engine.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<zipfileset src="lib/jython.jar">
+			<zipfileset src="../lib/groovy-all-2.4.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jython-engine.jar">
+			<zipfileset src="../lib/groovy-engine.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<!-- Groovy -->
+			<zipfileset src="../lib/jython.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="../lib/jython-engine.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 
 			<!-- Payment Processors		-->
-			<zipfileset src="lib/Verisign.jar">
+			<zipfileset src="../lib/Verisign.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/payflow.jar">
+			<zipfileset src="../lib/payflow.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/miglayout-3.7.1-swing.jar">
+			<zipfileset src="../lib/miglayout-3.7.1-swing.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jpayment.jar">
+			<zipfileset src="../lib/jpayment.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Log4J, jnlp			-->
-			<zipfileset src="lib/commons-logging.jar">
+			<zipfileset src="../lib/commons-logging.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/log4j.jar">
+			<zipfileset src="../lib/log4j.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jnlp.jar">
+			<zipfileset src="../lib/jnlp.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Commons IO			-->
-			<zipfileset src="lib/commons-io.jar">
+			<zipfileset src="../lib/commons-io.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Barcode, ftp			-->
-			<zipfileset src="lib/barbecue-1.5-beta1.jar">
+			<zipfileset src="../lib/barbecue-1.5-beta1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-net-1.4.0.jar">
+			<zipfileset src="../lib/commons-net-1.4.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JFreeChart			-->
-			<zipfileset src="lib/jfreechart-1.0.15.jar">
+			<zipfileset src="../lib/jfreechart-1.0.15.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jcommon-1.0.18.jar">
+			<zipfileset src="../lib/jcommon-1.0.18.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Graph				-->
-			<zipfileset src="lib/jgraph.jar">
+			<zipfileset src="../lib/jgraph.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Adempeire Look and Feal				-->
-			<zipfileset src="lib/looks-2.0.4.jar">
+			<zipfileset src="../lib/looks-2.0.4.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- jars for 2pack                         -->
-			<zipfileset src="lib/ant.jar">
+			<zipfileset src="../lib/ant.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/xercesImpl.jar">
+			<zipfileset src="../lib/xercesImpl.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- PDF -->
-			<zipfileset src="lib/jpedal.jar">
+			<zipfileset src="../lib/jpedal.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/iText-2.1.7.jar">
+			<zipfileset src="../lib/iText-2.1.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/swingx-1.6.jar">
+			<zipfileset src="../lib/swingx-1.6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JMS -->
-			<zipfileset src="lib/activemq-core-5.7.0.jar">
+			<zipfileset src="../lib/activemq-core-5.7.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- C3P0 connection pool -->
-			<zipfileset src="lib/c3p0-0.9.1.2.jar">
+			<zipfileset src="../lib/c3p0-0.9.1.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
+			<zipfileset src="../lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<zipfileset src="lib/poi-3.9-20121203.jar">
+			<zipfileset src="../lib/poi-3.9-20121203.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Open Forecast -->
-			<zipfileset src="lib/OpenForecast-0.5.0.jar">
+			<zipfileset src="../lib/OpenForecast-0.5.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>
@@ -488,10 +489,10 @@
 				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
-			<zipfileset src="lib/commons-collections-3.1.jar">
+			<zipfileset src="../lib/commons-collections-3.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-codec.jar">
+			<zipfileset src="../lib/commons-codec.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 		</jar>

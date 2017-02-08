@@ -21,6 +21,7 @@
   <property name="data.dir" value="../data"/>
   <property name="migration.dir" value="../migration"/>
   <property name="jboss.dir" value="../jboss"/>
+	<property name="dist.dir" value="../dist"/>
 
   <property name="src" value="src"/>
   <property name="compile.dir" value="lib"/>
@@ -34,9 +35,9 @@
 	<pathelement path="${lib.dir}/Adempiere.jar"/>
 	<pathelement path="${lib.dir}/oracle.jar"/>
 	<pathelement path="${lib.dir}/postgresql.jar"/>
-	<pathelement path="../tools/lib/mysql-connector-java-5.1.13-bin.jar"/>
-	<pathelement path="../tools/lib/ant.jar"/>
-	<pathelement path="../tools/lib/ant-launcher.jar"/>
+	<pathelement path="${lib.dir}/mysql-connector-java-5.1.13-bin.jar"/>
+	<pathelement path="${lib.dir}/ant.jar"/>
+	<pathelement path="${lib.dir}/ant-launcher.jar"/>
   </path>
 
   <patternset id="manifest.exclude">
@@ -78,7 +79,7 @@
 		<exclude name="**/package.html"/>
 	  </fileset>
 	</copy>
-	
+
 		<!-- put everything into the $CInstall.jar file -->
 	<jar
 	  jarfile="CInstall.jar"
@@ -86,19 +87,19 @@
 	  duplicate="preserve">
 	  <fileset dir="${compile.dir}"/>
 	  <!-- Ant (with ftp) files -->
-	  <zipfileset src="../tools/lib/ant.jar" >
+	  <zipfileset src="${lib.dir}/ant.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-	  <zipfileset src="../tools/lib/ant-launcher.jar" >
+	  <zipfileset src="${lib.dir}/ant-launcher.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-	  <zipfileset src="../tools/lib/ant-commons-net.jar" >
+	  <zipfileset src="${lib.dir}/ant-commons-net.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-	  <zipfileset src="../tools/lib/commons-net-1.4.0.jar" >
+	  <zipfileset src="${lib.dir}/commons-net-1.4.0.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-			
+
 	  <manifest>
 		<attribute name="Specification-Title" value="CInstall"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
@@ -142,7 +143,7 @@
 	<mkdir dir="${build.dir}/Adempiere/images"/>
   	<mkdir dir="${build.dir}/Adempiere/packages"/>
   	<mkdir dir="${build.dir}/Adempiere/zkpackages"/>
-  	
+
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG"/>
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG/lib"/>
   	<copy file="../packages/liberoMFG.jar" tofile="${build.dir}/Adempiere/packages/liberoMFG/lib/liberoMFG.jar"/>
@@ -154,7 +155,7 @@
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoCashflow"/>
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoCashflow/lib"/>
   	<copy file="../packages/liberoCashflow.jar" tofile="${build.dir}/Adempiere/packages/liberoCashflow/lib/liberoCashflow.jar"/>
-  	
+
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoWM"/>
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoWM/lib"/>
   	<copy file="../packages/liberoWM.jar" tofile="${build.dir}/Adempiere/packages/liberoWM/lib/liberoWM.jar"/>
@@ -162,11 +163,11 @@
     <mkdir dir="${build.dir}/Adempiere/zkpackages/liberoWM"/>
     <mkdir dir="${build.dir}/Adempiere/zkpackages/liberoWM/lib"/>
     <copy file="../zkpackages/liberozkWM.jar" tofile="${build.dir}/Adempiere/zkpackages/liberoWM/lib/liberozkWM.jar"/>
-  	
+
 	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG"/>
 	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG/lib"/>
   	<copy file="../zkpackages/liberozkMFG.jar" tofile="${build.dir}/Adempiere/zkpackages/liberoMFG/lib/liberozkMFG.jar"/>
-  	
+
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR"/>
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR/lib"/>
   	<copy file="../packages/liberoHR.jar" tofile="${build.dir}/Adempiere/packages/liberoHR/lib/liberoHR.jar"/>
@@ -211,11 +212,24 @@
 	<!-- copy file="${launch.dir}/jlaunchs.ico" tofile="${build.dir}/Adempiere/lib/Adempieres.ico"/-->
 	<copy todir="${build.dir}/Adempiere/lib">
 	  <fileset dir="${lib.dir}">
-	  	<include name="**/*ar"/>
-	  	<include name="**/*xml"/>
-	  	<include name="**/*0"/>
+	  	<include name="**/mariadb*.jar"/>
+	  	<include name="**/tomcat.jar"/>
+			<include name="**/migrate.jar"/>
+			<include name="**/packages.jar"/>
+			<include name="**/patches.jar"/>
+			<include name="**/customization.jar"/>
+	  	<include name="**/zk*.jar"/>
+			<include name="**/*.war"/>
+			<include name="**/*.xml"/>
+			<include name="**/adempiere*.*"/>
 	  </fileset>
 	</copy>
+	<copy todir="${build.dir}/Adempiere/lib">
+	  <fileset dir="${dist.dir}">
+			<include name="**/*.jar"/>
+	  </fileset>
+	</copy>
+
 	<copy file="${launch.dir}/Release/Adempiere.exe" todir="${build.dir}/Adempiere/lib"/>
 	<copy file="CInstall.jar" todir="${build.dir}/Adempiere/lib"/>
 	<copy file="../JasperReports/CompiereJasperReqs.jar" todir="${build.dir}/Adempiere/lib"/>
@@ -249,13 +263,13 @@
 	    <include name="**/Accounting*.*"/>
 	    <include name="Example*.csv"/>
 	  </fileset>
-	</copy> 
+	</copy>
     <copy todir="${build.dir}/Adempiere/data/">
 	  <fileset dir="${data.dir}/seed/">
       	<include name="**/*.jar"/>
       </fileset>
 	</copy>
-  	
+
 	<!-- Migration Directory			-->
 	<mkdir dir="${build.dir}/Adempiere/migration"/>
 	<copy todir="${build.dir}/Adempiere/migration">
@@ -280,7 +294,7 @@
 	  <fileset dir="${jboss.dir}/server"
 		excludes="**/CVS/**"/>
 	</copy>
-  	
+
   	<!-- GlassFish -->
   	<mkdir dir="${build.dir}/Adempiere/glassfish"/>
   	<copy todir="${build.dir}/Adempiere/glassfish">
@@ -316,7 +330,7 @@
   		<!-- <tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh" filemode="755"> -->
   		<tarfileset dir="${build.dir}" includes="Adempiere/**/*.sh">
   		</tarfileset>
-	</tar>  	
+	</tar>
 
 	<!-- Create Checksums		-->
 
@@ -326,7 +340,7 @@
   	     <filterchain>
   	        <striplinebreaks/>
   	      </filterchain>
-  	 </loadfile>  		
+  	 </loadfile>
   	 <concat destfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz.MD5">${myfile} Adempiere_${env.ADEMPIERE_VERSION_FILE}.tar.gz</concat>
   		<!-- Test with md5sum -c Adempiere_251.zip.MD5	-->
   		<checksum file="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip"/>
@@ -334,8 +348,8 @@
   	  	<loadfile property="myfile2" srcFile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip.MD5">
   	  	    <filterchain>
   	  	        <striplinebreaks/>
-  	  	   </filterchain>  	  	       
-  	  	 </loadfile>  	
+  	  	   </filterchain>
+  	  	 </loadfile>
   		<concat destfile="${build.dir}/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip.MD5">${myfile2} Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip</concat>
   </target>
 

@@ -1,0 +1,57 @@
+apply plugin: 'java'
+
+description = 'Add description to tools project'
+version = '4.0.0-SNAPSHOT'
+
+
+def libDir = '../lib'
+def toolsLibDir = '../tools/lib'
+
+def assemblyDir = 'build/assembly'
+
+dependencies {
+    compile fileTree(dir: libDir, include: '*.jar')
+    compile fileTree(dir: '../tools/lib', include: '*.jar')
+}
+
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "CompiereJasper - Rel." + version,
+                   "Implementation-Version": version,
+                   "Implementation-Vendor": "ADempiere",
+                   "Implementation-URL": "http://www.adempiere.org",
+                   "Main-Class": "org.compiere.report.ReportStarter"
+                   )
+    }
+}
+
+task rebuildJars(type: Jar) {
+
+    FileCollection fc = files([libDir + '/iReport.jar',
+        libDir + '/jasperreports-5.1.0.jar',
+        libDir + '/commons-digester-2.1.jar',
+        libDir + '/jasperreports-fonts-5.1.0.jar',
+        toolsLibDir + '/commons-logging.jar',
+        libDir + '/commons-beanutils-1.8.0.jar',
+        toolsLibDir + '/xercesImpl.jar',
+        toolsLibDir + '/xml-apis.jar'
+        ])
+
+    from {
+        fc.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }{
+        exclude 'META-INF/*'
+    }
+
+    archivesBaseName = 'CompiereJasperReqs'
+    manifest {
+        attributes("Implementation-Title": "Needed libraries for Jasper Reports integration on org.compiere.report.ReportStarter - " + version,
+                   "Implementation-Version": version,
+                   "Implementation-Vendor": "ADempiere",
+                   "Implementation-URL": "http://www.adempiere.org"
+                   )
+    }
+}

@@ -28,13 +28,13 @@
     <pathelement path="${jar.path}/mariadb-java-client.jar"/>
     <pathelement path="${jar.path}/jboss.jar"/>
     <pathelement path="${jar.path}/glassfish.jar"/>
-	<pathelement path="../tools/lib/mysql-connector-java-5.1.13-bin.jar"/><!--@MySQl-->
-    <pathelement path="../tools/lib/junit.jar"/>
-    <pathelement path="../tools/lib/j2ee.jar"/>
-    <pathelement path="../tools/lib/jnlp.jar"/>
-    <pathelement path="../tools/lib/servlet-api.jar" />
-  	<pathelement path="../tools/lib/cron4j-2.2.1.jar" />
-    <pathelement path="../tools/lib/commons-io.jar"/>
+	<pathelement path="${jar.path}/mysql-connector-java-5.1.13-bin.jar"/><!--@MySQl-->
+    <pathelement path="${jar.path}/junit.jar"/>
+    <pathelement path="${jar.path}/j2ee.jar"/>
+    <pathelement path="${jar.path}/jnlp.jar"/>
+    <pathelement path="${jar.path}/servlet-api.jar" />
+  	<pathelement path="${jar.path}/cron4j-2.2.1.jar" />
+    <pathelement path="${jar.path}/commons-io.jar"/>
   </path>
 
 

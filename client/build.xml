@@ -8,7 +8,7 @@
 <project name="client" default="clientDistribute" basedir=".">
 
   <description>
-    This buildfile is used to build the client subproject within 
+    This buildfile is used to build the client subproject within
     the Adempiere project.
   </description>
 
@@ -25,14 +25,14 @@
     <pathelement path="${classpath}"/>
     <pathelement path="${jar.path}/CCTools.jar"/>
     <pathelement path="../base/Base.jar"/>
-    <pathelement path="../lib/customization.jar"/>
-    <pathelement path="../lib/patches.jar"/>
-    <pathelement path="../lib/jcommon-1.0.16.jar"/>
-    <pathelement path="../lib/jfreechart-1.0.13.jar"/>
+    <pathelement path="${jar.path}/customization.jar"/>
+    <pathelement path="${jar.path}/patches.jar"/>
+    <pathelement path="${jar.path}/jcommon-1.0.16.jar"/>
+    <pathelement path="${jar.path}/jfreechart-1.0.13.jar"/>
     <pathelement path="../extend/Extend.jar"/>
-    <pathelement path="../tools/lib/j2ee.jar"/>
-  	<pathelement path="../tools/lib/swinglabs-0.8.0.jar"/>  	
-  	<pathelement path="../tools/lib/lablib-checkboxtree-3.3.jar"/>  	
+    <pathelement path="${jar.path}/lib/j2ee.jar"/>
+  	<pathelement path="${jar.path}/swinglabs-0.8.0.jar"/>
+  	<pathelement path="${jar.path}/lablib-checkboxtree-3.3.jar"/>  	
   </path>
 
 
@@ -57,7 +57,7 @@
     <!-- create the distribution directory if not available -->
     <mkdir dir="${dist.dir}"/>
   </target>
-  
+
 
   <!-- =========================================== -->
   <!-- Compile                                     -->
@@ -87,13 +87,13 @@
   <!-- Distribution                                -->
   <!-- =========================================== -->
   <target name="clientDistribute" depends="clientCompile" unless="jar.uptodate">
-	
+
 	<!-- Compile JasperReports classes because it is required when packaging client jar! -->
 	<ant inheritall="false" antfile="../JasperReports/build.xml" dir="../JasperReports"/>
-	
+
     <!-- put everything from ${build.dir} into Adempiere.jar file -->
     <jar
-	  jarfile="${dist.dir}/Adempiere.jar" 
+	  jarfile="${dist.dir}/Adempiere.jar"
 	  basedir="${build.dir}"
 	  duplicate="preserve"
 	  index="yes">
@@ -106,11 +106,11 @@
         <attribute name="Specification-Vendor" value="ADempiere"/>
         <attribute name="Implementation-Title" value="Adempiere ${env.ADEMPIERE_VERSION}"/>
         <attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
-        <attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/> 
+        <attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
         <attribute name="Implementation-URL" value="http://wwww.adempiere.net"/>
         <attribute name="Main-Class" value="org.compiere.Adempiere"/>
         <attribute name="Class-Path" value="AdempiereSLib.jar"/>
-      </manifest> 
+      </manifest>
     </jar>
   </target>
 

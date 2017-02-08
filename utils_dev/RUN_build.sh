@@ -23,7 +23,7 @@ if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
 fi
 
 #classpath
-export ANT_CLASSPATH=$CLASSPATH:../tools/lib/ant.jar:../tools/lib/ant-launcher.jar:../tools/lib/ant-swing.jar:../tools/lib/ant-commons-net.jar:../tools/lib/commons-net.jar:$JAVA_HOME/lib/tools.jar
+export ANT_CLASSPATH=$CLASSPATH:../lib/ant.jar:../lib/ant-launcher.jar:../lib/ant-swing.jar:../lib/ant-commons-net.jar:../lib/commons-net.jar:$JAVA_HOME/lib/tools.jar
 
 export ANT_OPTS="-Xms128m -Xmx512m"
 

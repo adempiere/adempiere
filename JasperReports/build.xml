@@ -65,13 +65,13 @@
 	      <pathelement path="${jar.path}/oracle.jar"/>
       	  <pathelement path="${jar.path}/jasperreports-5.1.0.jar"/>
       	  <pathelement path="${jar.path}/commons-digester-2.1.jar"/>
-	      <pathelement path="../tools/lib/commons-logging.jar"/>
+	      <pathelement path="${jar.path}/commons-logging.jar"/>
       	  <pathelement path="${jar.path}/commons-beanutils-1.8.0.jar"/>
 	      <pathelement path="${jar.path}/jasperreports-fonts-5.1.0.jar"/>
-      	  <pathelement path="../tools/lib/xercesImpl.jar"/>
-      	  <pathelement path="../tools/lib/xml-apis.jar"/>
-      	  <pathelement path="../tools/lib/postgresql.jar"/>
-		  <pathelement path="../tools/lib/iText-2.1.7.jar"/>
+      	  <pathelement path="${jar.path}/xercesImpl.jar"/>
+      	  <pathelement path="${jar.path}/xml-apis.jar"/>
+      	  <pathelement path="${jar.path}/postgresql.jar"/>
+		  <pathelement path="${jar.path}/iText-2.1.7.jar"/>
       	  <fileset dir="../jboss/client" includes="*.jar"/>
       </classpath>
     </javac>
@@ -129,7 +129,7 @@
   	  <zipfileset src="${jar.path}/commons-digester-2.1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-  	  <zipfileset src="../tools/lib/commons-logging.jar" >
+  	  <zipfileset src="${jar.path}/commons-logging.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   		<!-- SHW: old Lib <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.7.jar" > -->
@@ -140,10 +140,10 @@
       <zipfileset src="${jar.path}/jasperreports-fonts-5.1.0.jar" >
   		<patternset refid="manifest.exclude"/>
   	  </zipfileset>
-  	  <zipfileset src="../tools/lib/xercesImpl.jar" >
+  	  <zipfileset src="${jar.path}/xercesImpl.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-  	  <zipfileset src="../tools/lib/xml-apis.jar" >
+  	  <zipfileset src="${jar.path}/xml-apis.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <manifest>

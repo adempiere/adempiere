@@ -32,17 +32,17 @@
   <path id="base.path">
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
-    <pathelement location="../tools/lib/j2ee.jar" />
-	<pathelement location="../tools/lib/jnlp.jar" />
-	<pathelement location="../tools/lib/servlet-api.jar" />
-	<pathelement location="../tools/lib/mail.jar" />
-	<pathelement location="../tools/lib/bsh-1.3.0.jar" />
-	<pathelement location="../tools/lib/junit.jar" />
-  	<pathelement location="../tools/lib/cron4j-2.2.1.jar" />
+    <pathelement location="../lib/j2ee.jar" />
+	<pathelement location="../lib/jnlp.jar" />
+	<pathelement location="../lib/servlet-api.jar" />
+	<pathelement location="../lib/mail.jar" />
+	<pathelement location="../lib/bsh-1.3.0.jar" />
+	<pathelement location="../lib/junit.jar" />
+  	<pathelement location="../lib/cron4j-2.2.1.jar" />
 	<pathelement location="../lib/oracle.jar" />
 	<pathelement location="../lib/jboss.jar" />
 	<pathelement location="../lib/postgresql.jar" />
-	<pathelement location="../tools/lib/mysql-connector-java-5.1.13-bin.jar" />
+	<pathelement location="../lib/mysql-connector-java-5.1.13-bin.jar" />
     <pathelement location="${build.classes.dir}" />
   </path>
 
@@ -140,7 +140,7 @@
 	<copy todir="../lib">
 		<fileset dir="${build.deploy.dir}"/>
 	</copy>
-	<copy file="${src.ear.dir}/application.xml" 
+	<copy file="${src.ear.dir}/application.xml"
 		tofile="../lib/adempiereRoot.xml"/>
   </target>
 

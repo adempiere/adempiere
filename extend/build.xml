@@ -6,7 +6,7 @@
 <project name="extend" default="dist" basedir=".">
 
   <description>
-    This buildfile is used to build the extend subproject within 
+    This buildfile is used to build the extend subproject within
     the Adempiere project.
   </description>
 
@@ -24,11 +24,11 @@
 	<pathelement path="${jar.path}/jboss.jar"/>
     <pathelement path="../base/build"/>
     <pathelement path="../org.adempiere.asset/build"/>
-    <pathelement path="../tools/lib/junit.jar"/>
+    <pathelement path="${jar.path}/junit.jar"/>
     <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
-	<fileset dir="../tools/lib/testing/">
+	<fileset dir="${jar.path}/testing/">
 		<include name="*.jar"/>
-	</fileset> 
+	</fileset>
   </path>
 
   <target name="init" description="initialization target">
@@ -45,7 +45,7 @@
     <!-- create the distribution directory if not available -->
     <mkdir dir="${dist}/${dist.dir}"/>
   </target>
-  
+
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
     <javac  target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
@@ -80,7 +80,7 @@
     <pathelement path="${classpath}"/>
     <pathelement path="${jar.path}/CCTools.jar"/>
     <pathelement path="../base/build"/>
-    <pathelement path="../tools/lib/junit.jar"/>
+    <pathelement path="${jar.path}/lib/junit.jar"/>
     <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
     <pathelement path="../adempiere/Adempiere/lib/jboss.jar" />
     <pathelement path="../adempiere/Adempiere/lib/oracle.jar" />
@@ -116,7 +116,7 @@
       <test name="test.performance.MProductTest" />
     </junit>
   </target>
-	
+
   <target name="run" depends="dist">
       <java fork="true" classname="test.functional.XMLImportStructureTest">
         <classpath refid="class.path.test" />

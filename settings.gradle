@@ -1,4 +1,4 @@
 
-include 'base', 'JasperReport', 'client'
+include 'tools', 'base', 'JasperReport', 'client'
 
 rootProject.name = 'ADempiere'

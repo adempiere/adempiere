@@ -35,8 +35,8 @@
     <pathelement path="../org.adempiere.asset/dist/lib/FixedAsset.jar"/>
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
-    <pathelement location="../tools/lib/servlet-api.jar" />
-  	<pathelement location="../tools/lib/jsp-api.jar" />
+    <pathelement location="../lib/servlet-api.jar" />
+  	<pathelement location="../lib/jsp-api.jar" />
   </path>
 
   <!-- =========================================== -->
@@ -50,7 +50,7 @@
       <path refid="base.path"/>
       <pathelement location="${servlet-lib.path}"/>
     </path>
-  	
+
     <javac
       target="1.8" encoding="UTF-8"
 	  destdir="${build.war.dir}"
@@ -60,7 +60,7 @@
 	  classpathref="web.path">
       <src path="${src.servlet.dir}"/>
     </javac>
-  	
+
     <copy todir="${build.war.dir}">
       <fileset dir="${src.servlet.dir}">
         <include name="**/images/*"/>
@@ -132,9 +132,9 @@
   <!-- =========================================== -->
   <target name="serverAppsDeployServer" depends="serverAppsWar">
     <copy todir="../lib">
-      <fileset dir="${build.deploy.dir}" 
+      <fileset dir="${build.deploy.dir}"
       	includes="*.jar,*.war,*.ear"/>
-      <fileset dir="${build.jar.dir}" 
+      <fileset dir="${build.jar.dir}"
       	includes="*.jar,*.war,*.ear"/>
     </copy>
   </target>

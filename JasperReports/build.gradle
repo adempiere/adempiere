@@ -1,6 +1,8 @@
 apply plugin: 'java'
 
+description = ''
 version = '4.0.0-SNAPSHOT'
+
 
 def libDir = '../lib'
 def toolsLibDir = '../tools/lib'
@@ -52,5 +54,4 @@ task rebuildJars(type: Jar) {
                    "Implementation-URL": "http://www.adempiere.org"
                    )
     }
-
 }
