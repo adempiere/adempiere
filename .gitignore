@@ -167,13 +167,7 @@ gradle-app.setting
 /com.kkalice.adempiere.migrate/lib/migrate.jar
 /extend/Extend.jar
 /JasperReports/build
-/JasperReports/CompiereJasper.jar
-/JasperReports/CompiereJasperReqs.jar
 /JasperReports/needed/
-/JasperReportsWebApp/webApp.ear
-/JasperReportsWebApp/webApp.war
-/JasperReportsWebApp/webAppEJB.jar
-/JasperReportsWebApp/webEJB-client.jar
 /migration/dist/
 /mobile/dist/
 /mobile/WEB-INF/classes/
