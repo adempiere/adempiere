@@ -21,11 +21,11 @@ import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MBPartner;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Properties;
 
 /**
@@ -38,37 +38,14 @@ import java.util.Properties;
  */
 public class CalloutEmployee extends CalloutEngine {
 
-    public void calculateAge(Properties ctx, int WindowNo, GridTab mTab,
-                             GridField mField, Object value) {
-
-        if (value == null || isCalloutActive()) {
-            return;
-        }
-
-        I_HR_EmployeeDependent employeeDependent = GridTabWrapper.create(mTab, I_HR_EmployeeDependent.class);
-
-        Timestamp date = (Timestamp) value;
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(date.getTime());
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        int birthYear = calendar.get(Calendar.YEAR);
-        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
-        int birthday = 365 - calendar.get(Calendar.DAY_OF_YEAR);
-        int totalDays = currentDay + birthday;
-
-        if (currentYear < birthYear) {
-            mTab.fireDataStatusEEvent("", Msg.getMsg(ctx, "Invalid") + " " + Msg.parseTranslation(ctx,"@Birthday@"), false);
-            return;
-
-        }
-        Integer age = currentYear - birthYear;
-        //if (totalDays >= 365)
-        //   age = age + 1;
-
-        employeeDependent.setAge(age.toString());
-        return;
-    }
-
+	/**
+	 * Calculate insurance balance
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 */
     public void calculateInsuranceBalance(Properties ctx, int WindowNo, GridTab mTab,
                                           GridField mField, Object value) {
         if (value == null || isCalloutActive())
@@ -78,6 +55,75 @@ public class CalloutEmployee extends CalloutEngine {
         BigDecimal balanceAmount = employeeInsurance.getCoverageAmount().subtract(employeeInsurance.getClaimedAmount());
         employeeInsurance.setBalanceAmount(balanceAmount);
         return;
+    }
+    
+    /**
+     * Create A Callout For Last Paid Date Less than The Next Payment Date.
+     *
+     * @param ctx
+     * @param WindowNo
+     * @param mTab
+     * @param mField
+     * @param value
+     * @return
+     */
+    public String validateLastPaidDate(Properties ctx, int WindowNo,
+                                       GridTab mTab, GridField mField, Object value) {
+
+
+        if (isCalloutActive() || value == null)
+            return "";
+
+        I_HR_EmployeeInsurance employeeInsurance = GridTabWrapper.create(mTab, I_HR_EmployeeInsurance.class);
+        Timestamp payDate = employeeInsurance.getPayDate();
+        Timestamp lastPaidDate = (Timestamp) value;
+        if (payDate == null)
+            return "";
+
+        if (lastPaidDate.before(payDate))
+            return "";
+        else {
+            String message = Msg.getMsg(Env.getCtx(), "Invalid") + "  " + Msg.parseTranslation(ctx , "@PayDate@");
+            employeeInsurance.setDateLastPaid((Timestamp) mField.getOldValue());
+            mTab.fireDataStatusEEvent(message, null, false);
+        }
+        return "";
+
+    }
+
+    /**
+     * Create A Callout For LastPremium Date  It Should Not Exceed the Next Payment Date.
+     *
+     * @param ctx
+     * @param WindowNo
+     * @param mTab
+     * @param mField
+     * @param value
+     * @return
+     */
+    public String validateLastPremiumDate(Properties ctx, int WindowNo,
+                                          GridTab mTab, GridField mField, Object value) {
+
+        if (isCalloutActive() || value == null) {
+            return "";
+        }
+
+        I_HR_EmployeeInsurance employeeInsurance = GridTabWrapper.create(mTab, I_HR_EmployeeInsurance.class);
+        Timestamp payDate = employeeInsurance.getPayDate();
+        Timestamp lastPremiumDate = (Timestamp) value;
+
+        if (payDate == null)
+            return "";
+
+        if (lastPremiumDate.after(payDate))
+            return "";
+        else {
+            String message = Msg.getMsg(Env.getCtx(), "Invalid") + " " + Msg.parseTranslation(ctx,"@HR_EmployeeInsurance_ID@");
+            employeeInsurance.setDateLastPremium((Timestamp) mField.getOldValue());
+            mTab.fireDataStatusEEvent(message, null, false);
+        }
+        return "";
+
     }
     
 	/**
