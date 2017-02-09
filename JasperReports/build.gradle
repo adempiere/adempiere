@@ -5,13 +5,11 @@ version = '4.0.0-SNAPSHOT'
 
 
 def libDir = '../lib'
-def toolsLibDir = '../tools/lib'
 
 def assemblyDir = 'build/assembly'
 
 dependencies {
     compile fileTree(dir: libDir, include: '*.jar')
-    compile fileTree(dir: '../tools/lib', include: '*.jar')
 }
 
 
@@ -32,10 +30,10 @@ task rebuildJars(type: Jar) {
         libDir + '/jasperreports-5.1.0.jar',
         libDir + '/commons-digester-2.1.jar',
         libDir + '/jasperreports-fonts-5.1.0.jar',
-        toolsLibDir + '/commons-logging.jar',
+        libDir + '/commons-logging.jar',
         libDir + '/commons-beanutils-1.8.0.jar',
-        toolsLibDir + '/xercesImpl.jar',
-        toolsLibDir + '/xml-apis.jar'
+        libDir + '/xercesImpl.jar',
+        libDir + '/xml-apis.jar'
         ])
 
     from {

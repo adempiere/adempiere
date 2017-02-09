@@ -1,23 +1,23 @@
 apply plugin: 'java'
 
-description = 'Add description to tools project'
+description = 'Add description for tools project'
 version = '4.0.0-SNAPSHOT'
 
 
 def libDir = '../lib'
-def toolsLibDir = '../tools/lib'
+def jbossClientLibDir = '../jboss/client'
+def glassfishLibDir = '../glassfishfacet/lib'
 
-def assemblyDir = 'build/assembly'
+def archiveSpecifier = '-' + version + '.jar'
 
 dependencies {
     compile fileTree(dir: libDir, include: '*.jar')
-    compile fileTree(dir: '../tools/lib', include: '*.jar')
 }
 
 
 jar {
     manifest {
-        attributes("Implementation-Title": "CompiereJasper - Rel." + version,
+        attributes("Implementation-Title": "ADempiere Tools - Rel." + version,
                    "Implementation-Version": version,
                    "Implementation-Vendor": "ADempiere",
                    "Implementation-URL": "http://www.adempiere.org",
@@ -26,17 +26,43 @@ jar {
     }
 }
 
-task rebuildJars(type: Jar) {
+task buildCSToolsJar(type: Jar) {
 
-    FileCollection fc = files([libDir + '/iReport.jar',
-        libDir + '/jasperreports-5.1.0.jar',
-        libDir + '/commons-digester-2.1.jar',
-        libDir + '/jasperreports-fonts-5.1.0.jar',
-        toolsLibDir + '/commons-logging.jar',
-        libDir + '/commons-beanutils-1.8.0.jar',
-        toolsLibDir + '/xercesImpl.jar',
-        toolsLibDir + '/xml-apis.jar'
-        ])
+    FileCollection fc = files([libDir + '/jstl.jar',
+                               libDir + '/standard.jar',
+                               libDir + '/script-api.jar',
+                               libDir + '/bsh-2.0b6.jar',
+                               libDir + '/bsh-engine.jar',
+                               libDir + '/groovy-all-2.4.7.jar',
+                               libDir + '/groovy-engine.jar',
+                               libDir + '/jython.jar',
+                               libDir + '/jython-engine.jar',
+                               libDir + '/Verisign.jar',
+                               libDir + '/payflow.jar',
+                               libDir + '/miglayout-3.7.1-swing.jar',
+                               libDir + '/jpayment.jar',
+                               libDir + '/commons-logging.jar',
+                               libDir + '/log4j.jar',
+                               libDir + '/jnlp.jar',
+                               libDir + '/barbecue-1.5-beta1.jar',
+                               libDir + '/commons-net-1.4.0.jar',
+                               libDir + '/looks-2.0.4.jar',
+                               libDir + '/jpedal.jar',
+                               libDir + '/iText-2.1.7.jar',
+                               libDir + '/jfreechart-1.0.13.jar',
+                               libDir + '/jcommon-1.0.18.jar',
+                               libDir + '/activemq-core-5.7.0.jar',
+                               libDir + '/c3p0-0.9.1.2.jar',
+                               libDir + '/c3p0-oracle-thin-extras-0.9.1.2.jar',
+                               libDir + '/poi-3.9-20121203.jar',
+                               libDir + '/cglib.jar',
+                               libDir + '/OpenForecast-0.5.0.jar',
+                               libDir + '/commons-collections-3.1.jar',
+                               libDir + '/commons-codec.jar',
+                               libDir + '/ant.jar',
+                               libDir + '/xercesImpl.jar',
+                               libDir + '/cron4j-2.2.1.jar'
+    ])
 
     from {
         fc.collect {
@@ -46,12 +72,145 @@ task rebuildJars(type: Jar) {
         exclude 'META-INF/*'
     }
 
-    archivesBaseName = 'CompiereJasperReqs'
+    // include '**/apache/ecs/**'
+
+    archiveName = 'CSTools' + archiveSpecifier
+
     manifest {
-        attributes("Implementation-Title": "Needed libraries for Jasper Reports integration on org.compiere.report.ReportStarter - " + version,
+        attributes("Implementation-Title": "Adempiere Server Tools (CSTOOLS) - " + version,
+                "Implementation-Version": version,
+                "Implementation-Vendor": "ADempiere",
+                "Implementation-URL": "http://www.adempiere.org"
+        )
+    }
+}
+
+
+task buildJBossJar(type: Jar) {
+
+    FileCollection fc = files([jbossClientLibDir + '/jboss-ejb3x.jar',
+                               jbossClientLibDir + '/jboss-ejb3-client.jar',
+                               jbossClientLibDir + '/jbossall-client.jar'
+    ])
+
+    archiveName = 'jboss' + archiveSpecifier
+
+    manifest {
+        attributes("Implementation-Title": "Adempiere JBoss Client - " + version,
                    "Implementation-Version": version,
                    "Implementation-Vendor": "ADempiere",
                    "Implementation-URL": "http://www.adempiere.org"
                    )
+    }
+
+    from {
+        fc.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }{
+        exclude 'META-INF/*'
+    }
+
+}
+
+task buildGlassfishJar(type: Jar) {
+
+    FileCollection fc = files([glassfishLibDir + '/appserv-admin.jar',
+                                glassfishLibDir + '/appserv-deployment-client.jar',
+                                glassfishLibDir + '/appserv-rt.jar',
+                                glassfishLibDir + '/appserv-ext.jar',
+                                libDir + '/javaee.jar'
+    ])
+
+    from {
+        fc.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }{
+        exclude 'META-INF/*'
+    }
+
+    archiveName = 'glassfish' + archiveSpecifier
+
+    manifest {
+        attributes("Implementation-Title": "Adempiere GlassFish Client - " + version,
+                "Implementation-Version": version,
+                "Implementation-Vendor": "ADempiere",
+                "Implementation-URL": "http://www.adempiere.org"
+        )
+    }
+}
+
+
+task buildOracleJar(type: Jar) {
+
+    FileCollection fc = files([libDir + '/ojdbc6.jar'
+    ])
+
+    from {
+        fc.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }{
+        exclude 'META-INF/*'
+    }
+
+    archiveName = 'oracle' + archiveSpecifier
+
+    manifest {
+        attributes("Implementation-Title": "Adempiere Oracle - " + version,
+                "Implementation-Version": version,
+                "Implementation-Vendor": "ADempiere",
+                "Implementation-URL": "http://www.adempiere.org"
+        )
+    }
+}
+
+task buildPostgresqlJar(type: Jar) {
+
+    FileCollection fc = files([libDir + '/postgresql.jar'
+    ])
+
+    from {
+        fc.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }{
+        exclude 'META-INF/*'
+    }
+
+    archiveName = 'postgresql' + archiveSpecifier
+
+    manifest {
+        attributes("Implementation-Title": "Adempiere PostgreSQL - " + version,
+                "Implementation-Version": version,
+                "Implementation-Vendor": "ADempiere",
+                "Implementation-URL": "http://www.adempiere.org"
+        )
+    }
+}
+
+task buildMySQLJar(type: Jar) {
+
+    FileCollection fc = files([
+        libDir + '/mysql-connector-java-5.1.13-bin.jar'
+    ])
+
+    from {
+        fc.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }{
+        exclude 'META-INF/*'
+    }
+
+    archiveName = 'mysql-connector' + archiveSpecifier
+
+    manifest {
+        attributes("Implementation-Title": "Adempiere MySQL - " + version,
+                "Implementation-Version": version,
+                "Implementation-Vendor": "ADempiere",
+                "Implementation-URL": "http://www.adempiere.org"
+        )
     }
 }
