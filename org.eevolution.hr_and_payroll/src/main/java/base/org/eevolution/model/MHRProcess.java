@@ -329,59 +329,59 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public boolean voidIt() 
 	{
 
-	logger.info("voidIt - " + toString());
-	// Before Void
-	m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
-	if (m_processMsg != null)
-		return false;
-
-
-
-	if (DOCSTATUS_Closed.equals(getDocStatus())
-	|| DOCSTATUS_Reversed.equals(getDocStatus())
-	|| DOCSTATUS_Voided.equals(getDocStatus()))
-	{
-		m_processMsg = "Document Closed: " + getDocStatus();
-		return false;
-	}
-
-	//		Not Processed
-	if (DOCSTATUS_Drafted.equals(getDocStatus())
-	|| DOCSTATUS_Invalid.equals(getDocStatus())
-	|| DOCSTATUS_InProgress.equals(getDocStatus())
-	|| DOCSTATUS_Approved.equals(getDocStatus())
-	|| DOCSTATUS_NotApproved.equals(getDocStatus()) )
-	{
-		//Set lines to 0
-		List<MHRMovement> lines = MHRMovement.findByProcess(this);
-		for (MHRMovement movement : lines)
+		logger.info("voidIt - " + toString());
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;
+	
+	
+	
+		if (DOCSTATUS_Closed.equals(getDocStatus())
+		|| DOCSTATUS_Reversed.equals(getDocStatus())
+		|| DOCSTATUS_Voided.equals(getDocStatus()))
 		{
-	
-			BigDecimal oldAmount = movement.getAmount();
-	
-			if (oldAmount.signum() != 0)
-		
-			{	
-				movement.setAmount(Env.ZERO);
-				movement.setDescription("Void (" + oldAmount + ")");
-				movement.save(null);
-			}
+			m_processMsg = "Document Closed: " + getDocStatus();
+			return false;
 		}
-		//
-		setProcessed(true);
-		setDocStatus(DOCSTATUS_Voided); // need to set & save docstatus to be able to check it in MHRProcess.voidIt()
-		saveEx();
-	}
-	else
-	{
-		return reverseCorrectIt();
-	}
-	// After Void
-	m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-	if (m_processMsg != null)
-		return false;
+	
+		//		Not Processed
+		if (DOCSTATUS_Drafted.equals(getDocStatus())
+		|| DOCSTATUS_Invalid.equals(getDocStatus())
+		|| DOCSTATUS_InProgress.equals(getDocStatus())
+		|| DOCSTATUS_Approved.equals(getDocStatus())
+		|| DOCSTATUS_NotApproved.equals(getDocStatus()) )
+		{
+			//Set lines to 0
+			List<MHRMovement> lines = MHRMovement.findByProcess(this);
+			for (MHRMovement movement : lines)
+			{
+		
+				BigDecimal oldAmount = movement.getAmount();
+		
+				if (oldAmount.signum() != 0)
+			
+				{	
+					movement.setAmount(Env.ZERO);
+					movement.setDescription("Void (" + oldAmount + ")");
+					movement.save(null);
+				}
+			}
+			//
+			setProcessed(true);
+			setDocStatus(DOCSTATUS_Voided); // need to set & save docstatus to be able to check it in MHRProcess.voidIt()
+			saveEx();
+		}
+		else
+		{
+			return reverseCorrectIt();
+		}
+		// After Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
+			return false;
 
-	return true;
+		return true;
 	}	//	voidIt
 
 
@@ -740,13 +740,18 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				.replace(".process.get", ".get");
 			}
 			String resultType = "double";
-			if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType))
+			//	Yamel Senih Add DefValue to another Types
+			String defValue = "0";
+			if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType)) {
 				resultType = "Timestamp";
-			else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType))
+				defValue = "null";
+			} else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType)) {
 				resultType = "String";
+				defValue = "null";
+			}
 			final String script =
 				s_scriptImport.toString()
-				+" " + resultType + " result = 0;"
+				+" " + resultType + " result = " + defValue + ";"
 				+" String description = null;"
 				+ text;
 			Scriptlet engine = new Scriptlet (Scriptlet.VARIABLE, script, scriptCtx);
