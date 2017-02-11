@@ -16,6 +16,14 @@
 
 package org.eevolution.process;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.engine.CostingMethodFactory;
 import org.adempiere.engine.StandardCostingMethod;
@@ -26,25 +34,16 @@ import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
 import org.compiere.model.MInOutLine;
-import org.compiere.model.MInvoice;
 import org.compiere.model.MLandedCostAllocation;
 import org.compiere.model.MMatchInv;
 import org.compiere.model.MMatchPO;
-import org.compiere.model.MProduct;
 import org.compiere.model.MTransaction;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_CostType;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Trx;
 import org.eevolution.model.MPPCostCollector;
-
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Regenerate Cost Detail The Generate Cost Transaction process allows the
