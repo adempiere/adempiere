@@ -66,6 +66,8 @@ import javax.script.ScriptEngine;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/761">
  * 		@see FR [ 761 ] Add Payroll variables for Scripts</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/762">
+ * 		@see FR [ 762 ] getConcept return NPE</a>
  */
 public class MHRProcess extends X_HR_Process implements DocAction
 {
@@ -1170,7 +1172,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public double getConcept (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue.trim());
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue.trim());
 		if (concept == null)
 			return 0;
 
@@ -1198,7 +1200,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public String getConceptString (String pconcept)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), pconcept.trim());
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), pconcept.trim());
 		if (concept == null)
 			return null;
 
@@ -1222,7 +1224,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public Timestamp getConceptDate (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue.trim());
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue.trim());
 		if (concept == null)
 			return null;
 
@@ -1529,7 +1531,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */ 
 	public double getAttribute (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
 			return 0;
 
@@ -1596,7 +1598,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */ 
 	public Timestamp getAttributeDate (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
 			return null;
 
@@ -1633,7 +1635,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */ 
 	public String getAttributeString (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
 			return null;
 
@@ -1785,10 +1787,14 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		else
 		{
-			payroll_id = MHRPayroll.forValue(getCtx(), payrollValue).get_ID();
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			if(payroll == null)
+				return 0.0;
+			//	
+			payroll_id = payroll.get_ID();
 		}
 
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
 			return 0.0;
 		//
@@ -1875,10 +1881,14 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		else
 		{
-			payroll_id = MHRPayroll.forValue(getCtx(), payrollValue).get_ID();
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			if(payroll == null)
+				return 0.0;
+			//	
+			payroll_id = payroll.get_ID();
 		}
 		
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
 			return 0.0;
 		//
@@ -1981,7 +1991,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */ 
 	public int getAttributeInvoice (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
 			return 0;
 		
@@ -2023,7 +2033,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */ 
 	public int getAttributeDocType (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
 			return 0;
 		
@@ -2065,7 +2075,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @return
 	 */
 	public BigDecimal getAttributeBPartner(String conceptValue, int BPartnerId) {
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
 			return BigDecimal.ZERO;
 
@@ -2233,7 +2243,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			throw new AdempiereException("@C_BPartner_ID@ @NotFound@ " + partnerValue);
 		partnerId = partner.get_ID();
 
-		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
 			throw  new AdempiereException("@HR_Concept_ID@ @NotFound@ " +  conceptValue);
 		payrollConceptId = concept.get_ID();
