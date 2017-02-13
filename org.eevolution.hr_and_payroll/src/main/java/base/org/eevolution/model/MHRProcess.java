@@ -62,7 +62,10 @@ import javax.script.ScriptEngine;
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
- * @author Cristina Ghita, www.arhipac.ro
+ *  @author Cristina Ghita, www.arhipac.ro
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/761">
+ * 		@see FR [ 761 ] Add Payroll variables for Scripts</a>
  */
 public class MHRProcess extends X_HR_Process implements DocAction
 {
@@ -901,12 +904,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	private void createMovements() throws Exception
 	{
 		scriptCtx.clear();
-		scriptCtx.put("process", this);
-		scriptCtx.put("_Process", getHR_Process_ID());
-		scriptCtx.put("_Period", getHR_Period_ID());
-		scriptCtx.put("_Payroll", getHR_Payroll_ID());
-		scriptCtx.put("_Department", getHR_Department_ID());
-
+		//	
 		logger.info("info data - " +
 				Msg.parseTranslation(getCtx(), "@HR_Process_ID@ ") +getHR_Process_ID()+
 				Msg.parseTranslation(getCtx(), ", @HR_Period_ID@ :") +getHR_Period_ID()+
@@ -937,16 +935,24 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		dateFrom = payrollPeriod.getStartDate();
 		dateTo   = payrollPeriod.getEndDate();
+		MHRPayroll payroll = MHRPayroll.getByPayrollId(getCtx(), getHR_Payroll_ID());
+		//	Put variables
+		scriptCtx.put("process", this);
+		scriptCtx.put("_Process", getHR_Process_ID());
+		scriptCtx.put("_Period", getHR_Period_ID());
+		scriptCtx.put("_Payroll", getHR_Payroll_ID());
+		scriptCtx.put("_Department", getHR_Department_ID());
 		scriptCtx.put("_From", dateFrom);
 		scriptCtx.put("_To", dateTo);
 		scriptCtx.put("_Period", payrollPeriod.getPeriodNo());
-				
+		scriptCtx.put("_HR_Payroll_Value", payroll.getValue());
+		//	
 		if(getHR_Payroll_ID() > 0)
-			payrollId =getHR_Payroll_ID();
+			payrollId = getHR_Payroll_ID();
 		if(getHR_Department_ID() > 0)
-			departmentId =getHR_Department_ID();
+			departmentId = getHR_Department_ID();
 		if(getHR_Job_ID() > 0)
-			jobId =getHR_Job_ID();
+			jobId = getHR_Job_ID();
 
 		payrollConcepts = MHRPayrollConcept.getPayrollConcepts(this);
 
@@ -969,21 +975,48 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		logger.info(Msg.parseTranslation(getCtx() , "@HR_Employee_ID@ # ") + Msg.parseTranslation(getCtx() , " @BPValue@ ") + partner.getValue() +  Msg.parseTranslation(getCtx(), " @BPName@ ") + partner.getName() +  " " + partner.getName2());
 		partnerId = partner.get_ID();
 		employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, null);
+		String employeePayrollValue = null;
+		if(employee.getHR_Payroll_ID() != 0) {
+			MHRPayroll employeePayroll = MHRPayroll.getByPayrollId(getCtx(), employee.getHR_Payroll_ID());
+			employeePayrollValue = employeePayroll.getValue();
+		}
+		Timestamp employeeValidFrom = dateFrom;
+		Timestamp employeeValidTo = dateTo;
+		//	Valid from for employee
+		if(employee.getStartDate() != null && dateFrom != null && employee.getStartDate().getTime() > dateFrom.getTime()) {
+			employeeValidFrom = employee.getStartDate();
+		}
+		//  Valid to for employee
+		if(employee.getEndDate() != null && dateTo != null && employee.getEndDate().getTime() < dateTo.getTime()) {
+			employeeValidTo = employee.getEndDate();
+		}
 		scriptCtx.remove("_DateStart");
 		scriptCtx.remove("_DateEnd");
 		scriptCtx.remove("_Days");
 		scriptCtx.remove("_C_BPartner_ID");
 		scriptCtx.remove("_HR_Employee_ID");
+		scriptCtx.remove("_C_BPartner");
+		scriptCtx.remove("_HR_Employee");
+		scriptCtx.remove("_HR_Employee_ValidFrom");
+		scriptCtx.remove("_HR_Employee_ValidTo");
+		scriptCtx.remove("_HR_Employee_Payroll_Value");
 
 		scriptCtx.put("_DateStart", employee.getStartDate());
 		scriptCtx.put("_DateEnd", employee.getEndDate() == null ? dateTo == null ? getDateAcct() : dateTo : employee.getEndDate());
 		scriptCtx.put("_Days", TimeUtil.getDaysBetween(payrollPeriod.getStartDate(),payrollPeriod.getEndDate()) + 1);
 		scriptCtx.put("_C_BPartner_ID", partner.getC_BPartner_ID());
 		scriptCtx.put("_HR_Employee_ID", employee.getHR_Employee_ID());
-
-		if(getHR_Period_ID() > 0)
+		scriptCtx.put("_C_BPartner", partner);
+		scriptCtx.put("_HR_Employee", employee);
+		scriptCtx.put("_HR_Employee_Payroll_Value", employeePayrollValue);
+		//	Get Employee valid from and to
+		scriptCtx.put("_HR_Employee_ValidFrom", employeeValidFrom);
+		scriptCtx.put("_HR_Employee_ValidTo", employeeValidTo);
+		//	
+		if(getHR_Period_ID() > 0) {
 			createCostCollectorMovements(partner.get_ID(), payrollPeriod);
-
+		}
+		//	Clear movements
 		movements.clear();
 		loadMovements(movements, partnerId);
 		//
@@ -1004,12 +1037,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				movement = movements.get(concept.get_ID());
 				movement.setHR_Payroll_ID(payrollConcept.getHR_Payroll_ID());
 				movement.setHR_PayrollConcept_ID(payrollConcept.getHR_PayrollConcept_ID());
-				if (payrollPeriod != null)
-					movement.setPeriodNo(payrollPeriod.getPeriodNo());
-			}
-			if (movement == null)
-			{
-				throw new AdempiereException("Concept " + concept.getValue() + " not created");
+				movement.setPeriodNo(payrollPeriod.getPeriodNo());
 			}
 		} // concept
 
