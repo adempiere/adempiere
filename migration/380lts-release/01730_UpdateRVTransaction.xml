@@ -1,4 +1,8 @@
---DROP VIEW RV_TRANSACTION;
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="U" Name="UpdateRV_Transaction, field lowlevel" ReleaseNo="" SeqNo="1730">
+    <Step DBType="ALL" Parse="Y" SeqNo="0" StepType="SQL">
+      <SQLStatement>--DROP VIEW RV_TRANSACTION;
 CREATE OR REPLACE VIEW RV_TRANSACTION
 AS
 SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
@@ -49,4 +53,7 @@ FROM M_Transaction t
   LEFT OUTER JOIN M_Production prd ON prdl.M_Production_ID = prd.M_Production_ID
   LEFT OUTER JOIN C_ProjectIssue pjl ON (t.C_ProjectIssue_ID=pjl.C_ProjectIssue_ID)
   LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id
-  LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;
+  LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

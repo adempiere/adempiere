@@ -16,35 +16,31 @@
 
 package org.eevolution.process;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.engine.CostingMethodFactory;
 import org.adempiere.engine.StandardCostingMethod;
 import org.compiere.model.I_M_Cost;
-import org.compiere.model.I_M_Product;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
 import org.compiere.model.MInOutLine;
-import org.compiere.model.MInvoice;
 import org.compiere.model.MLandedCostAllocation;
 import org.compiere.model.MMatchInv;
 import org.compiere.model.MMatchPO;
-import org.compiere.model.MProduct;
 import org.compiere.model.MTransaction;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_CostType;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Trx;
 import org.eevolution.model.MPPCostCollector;
-
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Regenerate Cost Detail The Generate Cost Transaction process allows the
@@ -68,8 +64,8 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
     private List<MCostElement> costElements = new ArrayList<MCostElement>();
     private StringBuffer deleteCostDetailWhereClause;
     private StringBuffer resetCostWhereClause;
-    private List<MTransaction> deferredTransactions = new ArrayList<MTransaction>();
-    private List<I_M_Product> deferredProducts = new ArrayList<I_M_Product>();
+    //private List<MTransaction> deferredTransactions = new ArrayList<MTransaction>();
+    //private List<I_M_Product> deferredProducts = new ArrayList<I_M_Product>();
 
     /**
      * Prepare - e.g., get Parameters.
@@ -227,7 +223,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
     }
 
     public void generateCostDetail() {
-
+    	//Generate Costdetail
         KeyNamePair[] transactions = getTransactionIdsByDateAcct();
        // System.out.println("Transaction to process : " + transactions.length);
         Integer process = 0;
@@ -280,14 +276,15 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                                 if (MCostType.COSTINGMETHOD_AverageInvoice.equals(costType.getCostingMethod())
                                         || MCostType.COSTINGMETHOD_AveragePO.equals(costType.getCostingMethod())) {
                                     if (IsUsedInProduction(productId, dbTransaction.getTrxName()))
-                                        deferredProducts.add(transaction.getM_Product());
+                                        //deferredProducts.add(transaction.getM_Product())
+                                        ;
                                 }
                             }
 
-                            if (deferredProducts.contains(transaction.getM_Product())) {
-                                deferredTransactions.add(transaction);
-                                continue;
-                            }
+                            //if (deferredProducts.contains(transaction.getM_Product())) {
+                           //     deferredTransactions.add(transaction);
+                             //   continue;
+                           // }
 
                             generateCostDetail(accountSchema, costType, costElement, transaction);
                         }
@@ -320,14 +317,6 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
             }
         }
 
-        final Comparator<I_M_Product> orderProductLowLevel =
-        		  Comparator.comparing(I_M_Product::getLowLevel).reversed();
-        ;
-        Collections.sort(deferredProducts, orderProductLowLevel);
-        for (I_M_Product product:deferredProducts)
-        {
-            generateCostDeferredProduct(product);
-        }
     }
 
     private boolean IsUsedInProduction(int productId, String trxName) {
@@ -443,58 +432,11 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
 
         sql.append("SELECT M_Transaction_ID , M_Product_ID FROM RV_Transaction ")
                 .append(whereClause)
-                .append(" ORDER BY M_Product_ID ,  TRUNC( DateAcct ) , M_Transaction_ID , SUBSTR(MovementType,2,1) ");
+                .append(" ORDER BY lowlevel desc, M_Product_ID ,  TRUNC( DateAcct ) , M_Transaction_ID , SUBSTR(MovementType,2,1) ");
         //.append(" ORDER BY M_Product_ID , DateAcct , M_Transaction_ID");
         //System.out.append("SQL :" + sql);
         return DB.getKeyNamePairs(get_TrxName(), sql.toString(), false, parameters.toArray());
     }
     
-    private void generateCostDeferredProduct(I_M_Product product) 
-    {
-		final Integer productId = (Integer)product.getM_Product_ID();
-    	final Trx dbTransaction = Trx.get(productId.toString(), true);
-    	final Comparator<MTransaction> orderTransactionDate_ID =
-    			Comparator.comparing(MTransaction::getDateAcct).thenComparingInt(MTransaction::getM_Transaction_ID);    	
-    	
-    	try {
-    				 Object [] filteredListe=
-    				deferredTransactions.stream().filter(deferredTransaction -> deferredTransaction != null &&
-    				deferredTransaction.getM_Product_ID() == product.getM_Product_ID()).sorted(orderTransactionDate_ID).toArray();
-    				 
-    		//filteredTransactions.sorted(orderTransactionDate_ID);
-    				 for (Object obj:filteredListe)
-    				 {		
-    					 MTransaction deferredTransaction = (MTransaction)obj;
-    					 
-    					 for (MAcctSchema accountSchema : acctSchemas) {
-    						 // for each Cost Type
-    						 for (MCostType costType : costTypes) {
-    							 if (MCostType.COSTINGMETHOD_AverageInvoice.equals(costType.getCostingMethod())
-    									 ||  MCostType.COSTINGMETHOD_AveragePO.equals(costType.getCostingMethod()))
-    								 ;
-    							 else
-    								 continue;
-    							 // for each Cost Element
-    							 for (MCostElement costElement : costElements) {
-    								 deferredTransaction.set_TrxName(dbTransaction.getTrxName());
-    								 generateCostDetail(accountSchema, costType, costElement, deferredTransaction);
-    							 }
-    						 }
-    					 }
-    				 }
-    	}
-    	catch (Exception e) {
-    		if (dbTransaction != null) {
-    			dbTransaction.rollback();
-    			dbTransaction.close();
-    			e.printStackTrace();
-    			addLog(e.getMessage());
-    		}
-    	} finally {
-    		if (dbTransaction != null) {
-    			dbTransaction.commit();
-    			dbTransaction.close();
-    		}
-    	}
-    }
+    
 }
