@@ -17,6 +17,12 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -29,6 +35,9 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: MCalendar.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/763">
+ *		@see FR [ 763 ] Helper method for get non business day from calendar</a>
  */
 public class MCalendar extends X_C_Calendar
 {
@@ -132,4 +141,81 @@ public class MCalendar extends X_C_Calendar
 		return year;
 	}	//	createYear
 	
+	/**	Non Business Days			*/
+	private HashMap<String, MNonBusinessDay> nonBusinessDays;
+	private SimpleDateFormat format;
+	
+	/**
+	 * Get Non Business Days
+	 * @return
+	 */
+	private void loadNonBusinessDay() {
+		if(nonBusinessDays != null) {
+			return;
+		}
+		//	Get
+		List<MNonBusinessDay> nonBusinessDaysList = new Query(getCtx(), I_C_NonBusinessDay.Table_Name, 
+				I_C_NonBusinessDay.COLUMNNAME_C_Calendar_ID + " = ?", get_TrxName())
+			.setParameters(getC_Calendar_ID())
+			.setOnlyActiveRecords(true)
+			.setOrderBy(I_C_NonBusinessDay.COLUMNNAME_Date1)
+			.<MNonBusinessDay>list();
+		//	To HashMap
+		nonBusinessDays = new HashMap<String, MNonBusinessDay>();
+		format = new SimpleDateFormat("yyyyMMdd");
+		//	Add
+		for(MNonBusinessDay nonBusinessDay : nonBusinessDaysList) {
+			nonBusinessDays.put(format.format(nonBusinessDay.getDate1()) + "|" + nonBusinessDay.getAD_Org_ID(), nonBusinessDay);
+		}
+	}
+	
+	/**
+	 * Verify if it is a not business day from Timestamp
+	 * @param day
+	 * @return boolean
+	 */
+	public boolean isNonBusinessDay(Timestamp day) {
+		//	Validate null before
+		if(day == null)
+			return false;
+		//	
+		Calendar date = Calendar.getInstance();
+		date.setTimeInMillis(day.getTime());
+		//	REturn
+		return isNonBusinessDay(date.getTime());
+	}
+	
+	/**
+	 * Verify if it is a not business day from Date by Org
+	 * @param day
+	 * @return boolean
+	 */
+	public boolean isNonBusinessDay(Date day, int orgId) {
+		//	Validate null before
+		if(day == null)
+			return false;
+		//	Load
+		loadNonBusinessDay();
+		//	
+		String keyOrg = format.format(day) + "|" + orgId;
+		String keyGlobal = format.format(day) + "|" + 0;
+		//	
+		MNonBusinessDay nonBusinessDay = nonBusinessDays.get(keyOrg);
+		//	Validate
+		if(nonBusinessDay == null
+				&& orgId != 0) {
+			nonBusinessDay = nonBusinessDays.get(keyGlobal);
+		}
+		//	Default return
+		return nonBusinessDay != null;
+	}
+	
+	/**
+	 * Verify if it is a not business day from Date
+	 * @param day
+	 * @return boolean
+	 */
+	public boolean isNonBusinessDay(Date day) {
+		return isNonBusinessDay(day, 0);
+	}
 }	//	MCalendar
