@@ -32,12 +32,10 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
-import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.window.FDialog;
@@ -45,13 +43,11 @@ import org.compiere.apps.ProcessController;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.model.GridField;
 import org.compiere.model.MPInstance;
-import org.compiere.print.MPrintFormat;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CEditor;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuEcho;
@@ -94,21 +90,17 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	 */
 	public ProcessPanel(int WindowNo, ProcessInfo pi) {
 		this(null, WindowNo, pi, "100%");
-	}	//	ProcessPanel
+	}	//	ProcessParameterPanel
 	
 	/**
 	 *	Dynamic generated Parameter panel.
-	 *  @param parent
 	 *  @param WindowNo window
 	 *  @param pi process info
-	 *  @param width
 	 */
 	public ProcessPanel(IZKProcessDialog parent, int WindowNo, ProcessInfo pi, String width) {
 		this(WindowNo, pi, width, COLUMNS_1);
 		this.parent = parent;
-		this.processInfo = pi;
-		this.processId = pi.getAD_Process_ID();
-	}	//	ProcessPanel
+	}	//	ProcessParameterPanel
 	
 	/**
 	 * With Columns
@@ -148,14 +140,6 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	private IZKProcessDialog parent = null;
 	private BusyDialog progressWindow;
 	//saved paramaters
-
-	private static final int AD_PROCESS_FINREPORT = 202;
-
-	private WTableDirEditor 	fPrintFormat		= null;
-	private Combobox			freportType			= new Combobox();
-	private Label				lPrintFormat		= new Label("Print Format:");
-	private Label				lreportType			= new Label("Report Type:");
-
 
 	private Combobox fSavedName=new Combobox();
 	private Button bSave = new Button("Save");
@@ -213,32 +197,6 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		centerPanel.appendChild(parameterPanel);
 		centerPanel.setFlex(false);
 		centerPanel.setStyle("border: none");
-
-		Div div = new Div();
-		VerticalBox dialogBody = new VerticalBox();
-		dialogBody.appendChild(centerPanel);
-		if(getReportProcess().getAD_Process_ID() != AD_PROCESS_FINREPORT && getReportProcess().isReport() && getReportProcess().getJasperReport() == null)
-		{
-			fPrintFormat = new WTableDirEditor("AD_PrintFormat_ID", false, false, true, listPrintFormat());
-			setReportTypeAndPrintFormat();
-
-			Grid grid = GridFactory.newGridLayout();
-			Rows rows = grid.newRows();
-
-			div = new Div();
-			div.setAlign("left");
-			div.appendChild(grid);
-			dialogBody.appendChild(div);
-
-			org.zkoss.zul.Row row1 = rows.newRow();
-			row1.appendChild(lPrintFormat);
-			row1.appendChild(lreportType);
-
-			org.zkoss.zul.Row row2 = rows.newRow();
-			row2.appendChild(fPrintFormat.getComponent());
-			row2.appendChild(freportType);
-		}
-
 		
 		//	Buttons Panel
 		if(isShowButtons()) {
@@ -537,22 +495,6 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 				dispose();
 			} else {
 				//	BR [ 265 ]
-				if (freportType != null && freportType.getSelectedItem() != null
-						&& freportType.getSelectedItem().getValue() != null)
-				{
-					processInfo.setReportType(freportType.getSelectedItem().getValue().toString());
-				}
-				if (fPrintFormat != null && fPrintFormat.getValue() != null)
-				{
-					MPrintFormat format = new MPrintFormat(Env.getCtx(), (Integer) fPrintFormat.getValue(), null);
-					if (format != null)
-					{
-						if (Ini.isClient())
-							processInfo.setTransientObject(format);
-						else
-							processInfo.setSerializableObject(format);
-					}
-				}
 				process();
 			}
 		} else if (event.getTarget().equals(bCancel)) {
@@ -675,41 +617,5 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		//	
 		return validError;
 	}	//	printInvoices
-
-	
-	/**
-	 * Entries for report type are set, depending on Role configuration.
-	 * Last run parameters are remembered. 
-	 */
-	private void setReportTypeAndPrintFormat()
-	{
-		freportType.removeAllItems();
-		freportType.appendItem("PDF", "P");
-		if (isAllowHTMLView())
-			freportType.appendItem("HTML", "H");
-		if (isAllowXLSView()) {
-			freportType.appendItem("XLS", "X");
-			freportType.appendItem("XLSX","XX");
-		}
-		freportType.setSelectedIndex(0);		
-			
-		MPInstance lastProcessInstance = getLastProcessInstance();		
-		
-		if (fPrintFormat != null && lastProcessInstance != null)
-		{
-			fPrintFormat.setValue((Integer) lastProcessInstance.get_Value("AD_PrintFormat_ID"));
-		}
-		if (freportType != null && lastProcessInstance != null)
-		{
-			if (lastProcessInstance.get_Value("ReportType").equals("H"))
-				freportType.setValue("HTML");
-			else if (lastProcessInstance.get_Value("ReportType").equals("X"))
-				freportType.setValue("XLS");
-			else if (lastProcessInstance.get_Value("ReportType").equals("XX"))
-				freportType.setValue("XLSX");
-			else
-				freportType.setValue("PDF");
-		}
-	}  // setReportTypeAndPrintFormat
 	
 }	//	ProcessParameterPanel
