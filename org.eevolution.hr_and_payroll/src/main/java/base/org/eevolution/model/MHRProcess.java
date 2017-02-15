@@ -677,7 +677,6 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 	private Object executeScriptEngine(MHRConcept concept , MRule rule, String columnType)
 	{
-		String msg = null;
 		Object result = null;
 		try {
 			String text = "";
@@ -700,13 +699,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			ScriptEngine engine = rule.getScriptEngine();
 			//MRule.setContext(engine, concept.getCtx(), 0);  // no window
 			scriptCtx.entrySet().stream().forEach( entry -> engine.put(entry.getKey(), entry.getValue()));
-			msg = engine.eval(script).toString();
-			if (msg != null && "@Error@".equals(msg))
-				throw new AdempiereException("@AD_Rule_ID@ @Error@" + msg);
-			else if (msg != null) {
- 				result = msg;
+			result = engine.eval(script);
+			if (result != null && "@Error@".equals(result.toString())) {
+				throw new AdempiereException("@AD_Rule_ID@ @Error@" + result);
 			}
-
+			//	
 			description = rule.getValue();
 
 		}
@@ -860,7 +857,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			try
 			{
 				result = executeScript(concept , attribute.getAD_Rule_ID(), attribute.getColumnType());
-				logger.info(Msg.parseTranslation(getCtx(), "@ScriptResult@ -> @HR_Concept_ID@ @Name@ ") + concept.getName() + " = " + result.toString());
+				logger.info(Msg.parseTranslation(getCtx(), "@ScriptResult@ -> @HR_Concept_ID@ @Name@ ") + concept.getName() + " = " + result);
 			}
 			finally
 			{
@@ -1040,6 +1037,10 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				scriptCtx.put("_HR_PayrollConcept_ID", payrollConcept.getHR_PayrollConcept_ID());
 				createMovementFromConcept(concept, printed);
 				movement = movements.get(concept.get_ID());
+				//	Validate null
+				if (movement == null)
+					throw new AdempiereException("Concept " + concept.getValue() + " not created");
+				//	
 				movement.setHR_Payroll_ID(payrollConcept.getHR_Payroll_ID());
 				movement.setHR_PayrollConcept_ID(payrollConcept.getHR_PayrollConcept_ID());
 				movement.setPeriodNo(payrollPeriod.getPeriodNo());
@@ -1098,7 +1099,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			}
 			activeConceptRule.add(concept);
 			Object result = executeScript(concept , attribute.getAD_Rule_ID(), attribute.getColumnType());
-			logger.info(Msg.parseTranslation(getCtx(), "@ScriptResult@ -> @HR_Concept_ID@ @Name@ ") + concept.getName() + " = " + result.toString());
+			logger.info(Msg.parseTranslation(getCtx(), "@ScriptResult@ -> @HR_Concept_ID@ @Name@ ") + concept.getName() + " = " + result);
 			activeConceptRule.remove(concept);
 			if (result == null)
 			{
