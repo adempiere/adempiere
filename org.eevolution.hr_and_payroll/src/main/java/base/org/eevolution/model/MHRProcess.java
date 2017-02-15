@@ -68,6 +68,8 @@ import javax.script.ScriptEngine;
  * 		@see FR [ 761 ] Add Payroll variables for Scripts</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/762">
  * 		@see FR [ 762 ] getConcept return NPE</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/765">
+ * 		@see FR [ 765 ] Method getAttribute is inconsistent</a>
  */
 public class MHRProcess extends X_HR_Process implements DocAction
 {
@@ -1524,6 +1526,87 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		return value.doubleValue();
 	} // getList
 
+	
+	/**
+	 * Get Attribute PO for current bus
+	 * @param conceptValue
+	 * @return
+	 */
+	public MHRAttribute getAttributePO(String conceptValue) {
+		return getAttributePO(conceptValue, partnerId);
+	}
+	
+	/**
+	 * Overload getAttributePO
+	 * @param conceptValue
+	 * @param bpartnerId
+	 * @return
+	 */
+	public MHRAttribute getAttributePO(String conceptValue, int bpartnerId) {
+		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
+		return getAttributePO(concept, bpartnerId);
+	}
+	
+	/**
+	 * Get Attribute PO from current Business Partner
+	 * @param concept
+	 * @return
+	 */
+	public MHRAttribute getAttributePO(MHRConcept concept) {
+		return getAttributePO(concept, partnerId);
+	}
+	
+	/**
+	 * Get attribute like MHRAttribute
+	 * @param conceptValue
+	 * @param bpartnerId
+	 * @return
+	 */
+	public MHRAttribute getAttributePO(MHRConcept concept, int bpartnerId) {
+		if (concept == null)
+			return null;
+		//	
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		// check ValidFrom:
+		whereClause.append(MHRAttribute.COLUMNNAME_ValidFrom + "<=?");
+		params.add(dateFrom);
+		//check client
+		whereClause.append(" AND AD_Client_ID = ?");
+		params.add(getAD_Client_ID());
+		//	Add criteria by payroll
+		if(payrollId > 0) {
+			whereClause.append(" AND (HR_Payroll_ID=? OR HR_Payroll_ID IS NULL)");
+			params.add(payrollId);
+		}
+		//	by department
+		if(departmentId > 0) {
+			whereClause.append(" AND (HR_Department_ID=? OR HR_Department_ID IS NULL)");
+			params.add(departmentId);
+		}
+		//	by job
+		if(jobId > 0) {
+			whereClause.append(" AND (HR_Job_ID=? OR HR_Job_ID IS NULL)");
+			params.add(jobId);
+		}
+		//check concept
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID = HR_Attribute.HR_Concept_ID" 
+				+ " AND c.Value = ?)");
+		params.add(concept.getValue());
+		//
+		if (!concept.getType().equals(MHRConcept.TYPE_Information)) {
+			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
+			params.add(bpartnerId);
+		}
+		//	Get from query
+		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
+			.setParameters(params)
+			.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+			.first();
+		//	Return
+		return attribute;
+	}
+	
 	/**
 	 * Helper Method : Get Attribute [get Attribute to search key concept ]
 	 * @param conceptValue - Value to Concept
@@ -1533,48 +1616,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	{
 		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
-			return 0;
-
-		ArrayList<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer();
-		// check ValidFrom:
-		whereClause.append(MHRAttribute.COLUMNNAME_ValidFrom + "<=?");
-		params.add(dateFrom);
-		//check client
-		whereClause.append(" AND AD_Client_ID = ?");
-		params.add(getAD_Client_ID());
-		
-		if(payrollId > 0)
-		{
-			whereClause.append(" AND (HR_Payroll_ID=? OR HR_Payroll_ID IS NULL)");
-			params.add(payrollId);
-		}
-		if(departmentId > 0)
-		{
-			whereClause.append(" AND (HR_Department_ID=? OR HR_Department_ID IS NULL)");
-			params.add(departmentId);
-		}
-		if(jobId > 0)
-		{
-			whereClause.append(" AND (HR_Job_ID=? OR HR_Job_ID IS NULL)");
-			params.add(jobId);
-		}
-
-		//check concept
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
-				+ " AND c.Value = ?)");
-		params.add(conceptValue);
-		//
-		if (!concept.getType().equals(MHRConcept.TYPE_Information))
-		{
-			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
-			params.add(partnerId);
-		}
-
-		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
-		.setParameters(params)
-		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
-		.first();
+			return 0.0;
+		//	Get from PO
+		MHRAttribute attribute = getAttributePO(concept);
 		if (attribute == null)
 			return 0.0;
 
@@ -1598,33 +1642,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */ 
 	public Timestamp getAttributeDate (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
-		if (concept == null)
-			return null;
-
-		ArrayList<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer();
-		//check client
-		whereClause.append("AD_Client_ID = ?");
-		params.add(getAD_Client_ID());
-		//check concept
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
-				+ " AND c.Value = ?)");
-		params.add(conceptValue);
-		//
-		if (!concept.getType().equals(MHRConcept.TYPE_Information))
-		{
-			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
-			params.add(partnerId);
-		}
-
-		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
-		.setParameters(params)
-		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
-		.first();
+		//	Get from PO
+		MHRAttribute attribute = getAttributePO(conceptValue);
 		if (attribute == null)
 			return null;
-
+		//	
 		return attribute.getServiceDate();
 	} // getAttributeDate
 
@@ -1635,33 +1657,10 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */ 
 	public String getAttributeString (String conceptValue)
 	{
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
-		if (concept == null)
-			return null;
-
-		ArrayList<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer();
-		//check client
-		whereClause.append("AD_Client_ID = ?");
-		params.add(getAD_Client_ID());
-		//check concept
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
-				+ " AND c.Value = ?)");
-		params.add(conceptValue);
-		//
-		if (!concept.getType().equals(MHRConcept.TYPE_Information))
-		{
-			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
-			params.add(partnerId);
-		}
-
-		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
-		.setParameters(params)
-		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
-		.first();
+		MHRAttribute attribute = getAttributePO(conceptValue);
 		if (attribute == null)
 			return null;
-
+		//	
 		return attribute.getTextMsg();
 	} // getAttributeString
 
@@ -1989,41 +1988,12 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param conceptValue - Value to Concept
 	 * @return	C_Invoice_ID, 0 if does't
 	 */ 
-	public int getAttributeInvoice (String conceptValue)
-	{
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
-		if (concept == null)
+	public int getAttributeInvoice (String conceptValue) {
+		MHRAttribute attribute = getAttributePO(conceptValue);
+		if (attribute == null)
 			return 0;
-		
-		ArrayList<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer();
-		// check ValidFrom:
-		whereClause.append(MHRAttribute.COLUMNNAME_ValidFrom + "<=?");
-		params.add(dateFrom);
-		//check client
-		whereClause.append(" AND AD_Client_ID = ?");
-		params.add(getAD_Client_ID());
-		//check concept
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
-						   + " AND c.Value = ?)");
-		params.add(conceptValue);
-		//
-		if (!MHRConcept.TYPE_Information.equals(concept.getType()))
-		{
-			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
-			params.add(partnerId);
-		}
-		
-		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
-		.setParameters(params)
-		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
-		.first();
-		
-		if(attribute!=null)
-			return (Integer) attribute.get_Value("C_Invoice_ID");
-		else
-			return 0;
-		
+		//	Get invoice
+		return attribute.get_ValueAsInt("C_Invoice_ID");
 	} // getAttributeInvoice
 		
 	/**
@@ -2031,41 +2001,12 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param conceptValue - Value to Concept
 	 * @return	C_DocType_ID, 0 if does't
 	 */ 
-	public int getAttributeDocType (String conceptValue)
-	{
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
-		if (concept == null)
+	public int getAttributeDocType (String conceptValue) {
+		MHRAttribute attribute = getAttributePO(conceptValue);
+		if (attribute == null)
 			return 0;
-		
-		ArrayList<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer();
-		// check ValidFrom:
-		whereClause.append(MHRAttribute.COLUMNNAME_ValidFrom + "<=?");
-		params.add(dateFrom);
-		//check client
-		whereClause.append(" AND AD_Client_ID = ?");
-		params.add(getAD_Client_ID());
-		//check concept
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
-						   + " AND c.Value = ?)");
-		params.add(conceptValue);
-		//
-		if (!MHRConcept.TYPE_Information.equals(concept.getType()))
-		{
-			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
-			params.add(partnerId);
-		}
-		
-		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
-		.setParameters(params)
-		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
-		.first();
-		
-		if(attribute!=null)
-			return (Integer) attribute.get_Value("C_DocType_ID");
-		else
-			return 0;
-		 
+		//	
+		return attribute.get_ValueAsInt("C_DocType_ID"); 
 	} // getAttributeDocType
 
 	/**
