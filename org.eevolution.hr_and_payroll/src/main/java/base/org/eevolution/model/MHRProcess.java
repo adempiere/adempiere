@@ -106,11 +106,12 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 
 	private static StringBuffer s_scriptImport = new StringBuffer(	 " import org.eevolution.model.*;" 
-			+" import org.compiere.model.*;"
-			+" import org.adempiere.model.*;"
-			+" import org.compiere.util.*;"
-			+" import java.math.*;"
-			+" import java.sql.*;");
+			+ Env.NL + "import org.compiere.model.*;"
+			+ Env.NL + "import org.adempiere.model.*;"
+			+ Env.NL + "import org.compiere.util.*;"
+			+ Env.NL + "import java.util.*;" 
+			+ Env.NL + "import java.math.*;"
+			+ Env.NL + "import java.sql.*;");
 
 	public static void addScriptImportPackage(String packageName)
 	{
@@ -692,9 +693,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				resultType = "String";
 			final String script =
 					s_scriptImport.toString()
-							+" " + resultType + " result = 0;"
-							+" String description = null;"
-							+ text;
+							+ Env.NL + resultType + " result = 0;"
+							+ Env.NL + "String description = null;"
+							+ Env.NL + text;
 
 			ScriptEngine engine = rule.getScriptEngine();
 			//MRule.setContext(engine, concept.getCtx(), 0);  // no window
@@ -1528,7 +1529,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 	
 	/**
-	 * Get Attribute PO for current bus
+	 * Get Attribute PO for current busines partner
 	 * @param conceptValue
 	 * @return
 	 */
