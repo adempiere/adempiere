@@ -1534,8 +1534,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param conceptValue
 	 * @return
 	 */
-	public MHRAttribute getAttributePO(String conceptValue) {
-		return getAttributePO(conceptValue, partnerId);
+	public MHRAttribute getAttributeInstance(String conceptValue) {
+		return getAttributeInstance(conceptValue, partnerId);
 	}
 	
 	/**
@@ -1544,7 +1544,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param bpartnerId
 	 * @return
 	 */
-	public MHRAttribute getAttributePO(String conceptValue, int bpartnerId) {
+	public MHRAttribute getAttributeInstance(String conceptValue, int bpartnerId) {
 		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		return getAttributePO(concept, bpartnerId);
 	}
@@ -1645,7 +1645,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public Timestamp getAttributeDate (String conceptValue)
 	{
 		//	Get from PO
-		MHRAttribute attribute = getAttributePO(conceptValue);
+		MHRAttribute attribute = getAttributeInstance(conceptValue);
 		if (attribute == null)
 			return null;
 		//	
@@ -1659,7 +1659,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */ 
 	public String getAttributeString (String conceptValue)
 	{
-		MHRAttribute attribute = getAttributePO(conceptValue);
+		MHRAttribute attribute = getAttributeInstance(conceptValue);
 		if (attribute == null)
 			return null;
 		//	
@@ -1991,7 +1991,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @return	C_Invoice_ID, 0 if does't
 	 */ 
 	public int getAttributeInvoice (String conceptValue) {
-		MHRAttribute attribute = getAttributePO(conceptValue);
+		MHRAttribute attribute = getAttributeInstance(conceptValue);
 		if (attribute == null)
 			return 0;
 		//	Get invoice
@@ -2004,7 +2004,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @return	C_DocType_ID, 0 if does't
 	 */ 
 	public int getAttributeDocType (String conceptValue) {
-		MHRAttribute attribute = getAttributePO(conceptValue);
+		MHRAttribute attribute = getAttributeInstance(conceptValue);
 		if (attribute == null)
 			return 0;
 		//	
