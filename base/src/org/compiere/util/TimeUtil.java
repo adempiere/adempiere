@@ -424,7 +424,8 @@ public class TimeUtil
 		calEnd.set(Calendar.SECOND, 0);
 		calEnd.set(Calendar.MILLISECOND, 0);
 		//	in same year
-		if (cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR))
+		if (cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR)
+				&& (matchingDay == null || matchingDay.length == 0))
 		{
 			if (negative)
 				return (calEnd.get(Calendar.DAY_OF_YEAR) - cal.get(Calendar.DAY_OF_YEAR)) * -1;
