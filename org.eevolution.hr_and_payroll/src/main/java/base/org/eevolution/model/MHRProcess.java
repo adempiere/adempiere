@@ -2014,48 +2014,13 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	/**
 	 * Get attribute by employee
 	 * @param conceptValue
-	 * @param BPartnerId
+	 * @param partnerId
 	 * @return
 	 */
-	public BigDecimal getAttributeBPartner(String conceptValue, int BPartnerId) {
+	public BigDecimal getAttributeBPartner(String conceptValue, int partnerId) {
 		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
-		if (concept == null)
-			return BigDecimal.ZERO;
-
-		ArrayList<Object> params = new ArrayList<>();
-		StringBuffer whereClause = new StringBuffer();
-		// check ValidFrom:
-		whereClause.append(MHRAttribute.COLUMNNAME_ValidFrom).append("<=?");
-		params.add(dateFrom);
-		// check client
-		whereClause.append(" AND AD_Client_ID = ?");
-		params.add(getAD_Client_ID());
-		if (payrollId > 0) {
-			whereClause.append(" AND (HR_Payroll_ID=? OR HR_Payroll_ID IS NULL)");
-			params.add(payrollId);
-		}
-		if (departmentId > 0) {
-			whereClause.append(" AND (HR_Department_ID=? OR HR_Department_ID IS NULL)");
-			params.add(departmentId);
-		}
-		if (jobId > 0) {
-			whereClause.append(" AND (HR_Job_ID=? OR HR_Job_ID IS NULL)");
-			params.add(jobId);
-		}
-
-		// check concept
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID")
-				   .append(" AND c.Value = ?)");
-		params.add(concept);
-		//
-		if (!concept.getType().equals(MHRConcept.TYPE_Information)) {
-			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
-			params.add(BPartnerId);
-		}
-
-		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), null)
-				.setParameters(params)
-				.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC").first();
+		//	
+		MHRAttribute attribute = getAttributeInstance(conceptValue, partnerId);
 		if (attribute == null)
 			return BigDecimal.ZERO;
 
@@ -2066,7 +2031,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		// if column type is Amount return amount
 		if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
 			return attribute.getAmount();
-
+		//	
 		return BigDecimal.ZERO;
 	} // getByConceptAndPartnerId
 
