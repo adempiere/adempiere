@@ -2017,7 +2017,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param partnerId
 	 * @return
 	 */
-	public BigDecimal getAttributeBPartner(String conceptValue, int partnerId) {
+	public BigDecimal getAttributeByPartnerId(String conceptValue, int partnerId) {
 		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		//	
 		MHRAttribute attribute = getAttributeInstance(conceptValue, partnerId);
@@ -2033,6 +2033,17 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			return attribute.getAmount();
 		//	
 		return BigDecimal.ZERO;
+	}
+	
+	/**
+	 * Get attribute by employee
+	 * @param conceptValue
+	 * @param partnerId
+	 * @return
+	 */
+	@Deprecated
+	public BigDecimal getAttributeBPartner(String conceptValue, int partnerId) {
+		return getAttributeByPartnerId(conceptValue, partnerId);
 	} // getByConceptAndPartnerId
 
 	/**
