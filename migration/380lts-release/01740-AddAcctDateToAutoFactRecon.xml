@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add account date as a parameter to auto acct fact reconcile" ReleaseNo="3.9.0" SeqNo="460">
+  <Migration EntityType="D" Name="Add account date as a parameter to auto acct fact reconcile" ReleaseNo="" SeqNo="1740">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="55696" Table="AD_Process_Para">
         <Data AD_Column_ID="2824" Column="Help">The Accounting Date indicates the date to be used on the General Ledger account entries generated from this document. It is also used for any currency conversion.</Data>
