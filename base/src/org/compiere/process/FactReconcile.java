@@ -16,12 +16,15 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MElementValue;
+import org.compiere.model.MRule;
+import org.compiere.util.DB;
 
 /**
  *	Suspense account reconciliation report
@@ -30,8 +33,10 @@ import org.compiere.util.*;
 public class FactReconcile extends SvrProcess
 {
 	private MElementValue account;
-	private String type;
 	private int ruleID;
+	private Timestamp			p_DateAcct_From = null;
+	private Timestamp			p_DateAcct_To = null;
+
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -49,6 +54,11 @@ public class FactReconcile extends SvrProcess
 				ruleID = para[i].getParameterAsInt();
 			else if (name.equals("Account_ID"))
 				accountID = para[i].getParameterAsInt();
+			else if (name.equals("DateAcct"))
+			{
+				p_DateAcct_From = (Timestamp)para[i].getParameter();
+				p_DateAcct_To = (Timestamp)para[i].getParameter_To();
+			}
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 			
@@ -62,10 +72,10 @@ public class FactReconcile extends SvrProcess
 	 *	@return Message
 	 *	@throws Exception
 	 */
+	@SuppressWarnings("resource")
 	protected String doIt() throws Exception
 	{
 
-		String result;
 		log.info("Reconcile Account: " + account.getName());
 		
 		String subselect = "null";
@@ -110,6 +120,15 @@ public class FactReconcile extends SvrProcess
 			
 			*/
 		
+		// Set dates
+		String dateWhere = "";
+
+		if (p_DateAcct_From != null)
+			dateWhere += " AND TRUNC(f.DateAcct, 'DD') >= " + DB.TO_DATE(p_DateAcct_From);
+		if (p_DateAcct_To != null)
+			dateWhere += " AND TRUNC(f.DateAcct, 'DD') <= " + DB.TO_DATE(p_DateAcct_To);
+
+		
 		String sql = "";
 		
 		log.info("AD_PInstance_ID= " + getAD_PInstance_ID());
@@ -145,7 +164,8 @@ public class FactReconcile extends SvrProcess
 				" ) " + 
 				"WHERE MatchCode is null " +
 				"AND (SELECT f.Account_ID FROM Fact_Acct f " +
-				"     WHERE f.Fact_Acct_ID = Fact_Reconciliation.Fact_Acct_ID ) = ? " +
+				"     WHERE f.Fact_Acct_ID = Fact_Reconciliation.Fact_Acct_ID " + dateWhere +
+				") = ? " +
 				"AND ( " + subselect +
 					" ) IS NOT NULL " ;
 					
