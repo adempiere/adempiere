@@ -25,6 +25,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_C_BP_BankAccount;
 import org.compiere.model.MCurrency;
 import org.compiere.model.Query;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
 
@@ -33,6 +34,9 @@ import org.compiere.util.Util;
  *	
  *  @author Oscar Gómez Islas
  *  @author Teo Sarca, www.arhipac.ro
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/771">
+ * 		@see FR [ 771 ] method don't search completed process</a>
  */
 public class MHRMovement extends X_HR_Movement
 {
@@ -133,7 +137,7 @@ public class MHRMovement extends X_HR_Movement
 	 * @param trxName
 	 * @return
 	 */
-	public static  List<MHRMovement> findByConceptValueAndPartnerId(Properties ctx , String conceptValue , Integer partnerId, String referenceNo , String description , Timestamp from , Timestamp to , String trxName)
+	public static  List<MHRMovement> findByConceptValueAndPartnerId(Properties ctx, String conceptValue , Integer partnerId, String referenceNo , String description , Timestamp from , Timestamp to , String trxName)
 	{
 		List<MHRMovement> movements =  new ArrayList<>();
 		List<Object> parameters = new ArrayList<>();
@@ -181,6 +185,242 @@ public class MHRMovement extends X_HR_Movement
 		return movements;
 	}
 
+	/**
+	 * Helper Method: gets Concept value of a payroll between 2 dates
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param partnerId business partner for search
+	 * @param from
+	 * @param to
+	 * */
+	public static double getConceptSum(Properties ctx, String conceptValue, int payroll_id, int partnerId, Timestamp from,Timestamp to) {
+		
+		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue);
+		if (concept == null)
+			return 0.0;
+		//
+		// Detect field name
+		final String fieldName;
+		if (MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType())) {
+			fieldName = MHRMovement.COLUMNNAME_Qty;
+		} else if (MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType())) {
+			fieldName = MHRMovement.COLUMNNAME_Amount;
+		} else {
+			return 0; // TODO: throw exception?
+		}
+		//
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		//check concept
+		whereClause.append(MHRMovement.COLUMNNAME_HR_Concept_ID + "=?");
+		params.add(concept.get_ID());
+		//check partner
+		whereClause.append(" AND " + MHRMovement.COLUMNNAME_C_BPartner_ID  + "=?");
+		params.add(partnerId);
+		//Adding dates 
+		whereClause.append(" AND validTo BETWEEN ? AND ?");
+		params.add(from);
+		params.add(to);
+		//
+		//check process and payroll
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
+							+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
+							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
+							+" AND p.DocStatus IN('CO', 'CL')"
+							+" AND p.HR_Payroll_ID=?");
+
+		params.add(payroll_id);
+		
+		whereClause.append(")");
+		//
+		StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(")
+								.append(fieldName).append("),0) FROM ").append(MHRMovement.Table_Name)
+								.append(" WHERE ").append(whereClause);
+		BigDecimal value = DB.getSQLValueBDEx(null, sql.toString(), params);
+		return value.doubleValue();
+		
+	} // getConcept
+	
+	/**
+	 * Helper Method: gets Concept AVG value of a payroll between 2 dates
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param partnerId business partner for search
+	 * @param from
+	 * @param to
+	 * */
+	public static double getConceptAvg(Properties ctx, String conceptValue, int payroll_id, int partnerId, Timestamp from,Timestamp to) {
+		
+		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue);
+		if (concept == null)
+			return 0.0;
+		//
+		// Detect field name
+		final String fieldName;
+		if (MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType())) {
+			fieldName = MHRMovement.COLUMNNAME_Qty;
+		} else if (MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType())) {
+			fieldName = MHRMovement.COLUMNNAME_Amount;
+		} else {
+			return 0; // TODO: throw exception?
+		}
+		//
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		//check concept
+		whereClause.append(MHRMovement.COLUMNNAME_HR_Concept_ID + "=?");
+		params.add(concept.get_ID());
+		//check partner
+		whereClause.append(" AND " + MHRMovement.COLUMNNAME_C_BPartner_ID  + "=?");
+		params.add(partnerId);
+		//Adding dates 
+		whereClause.append(" AND validTo BETWEEN ? AND ?");
+		params.add(from);
+		params.add(to);
+		//
+		//check process and payroll
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
+							+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
+							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
+							+" AND p.DocStatus IN('CO', 'CL')"
+							+" AND p.HR_Payroll_ID=?");
+
+		params.add(payroll_id);
+		
+		whereClause.append(")");
+		//
+		StringBuffer sql = new StringBuffer("SELECT COALESCE(AVG(")
+								.append(fieldName).append("),0) FROM ").append(MHRMovement.Table_Name)
+								.append(" WHERE ").append(whereClause);
+		BigDecimal value = DB.getSQLValueBDEx(null, sql.toString(), params);
+		return value.doubleValue();
+		
+	} // getConcept
+	
+	/**
+	 *  Helper Method : Concept by range from-to in periods from a different payroll
+	 *  periods with values 0 -1 1, etc. actual previous one period, next period
+	 *  0 corresponds to actual period
+	 *  @param conceptValue
+	 *  @param payroll ID is the ID of the payroll.
+	 *  @param partnerId business partner for search
+	 *  @param periodId period ID
+	 *  @param periodFrom
+	 *  @param periodTo the search is done by the period value, it helps to search from previous years
+	 */
+	public static double getConceptSum(Properties ctx, String conceptValue, int payroll_id, int partnerId, int periodId, int periodFrom,int periodTo) {
+		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue);
+		if (concept == null)
+			return 0.0;
+		//
+		// Detect field name
+		final String fieldName;
+		if (MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType())) {
+			fieldName = MHRMovement.COLUMNNAME_Qty;
+		} else if (MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType())) {
+			fieldName = MHRMovement.COLUMNNAME_Amount;
+		} else {
+			return 0; // TODO: throw exception?
+		}
+		//
+		MHRPeriod period = MHRPeriod.get(ctx, periodId);
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		//check concept
+		whereClause.append(MHRMovement.COLUMNNAME_HR_Concept_ID + "=?");
+		params.add(concept.get_ID());
+		//check partner
+		whereClause.append(" AND " + MHRMovement.COLUMNNAME_C_BPartner_ID  + "=?");
+		params.add(partnerId);
+		//
+		//check process and payroll
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
+				+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
+				+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
+				+" AND p.DocStatus IN('CO', 'CL')"
+				+" AND p.HR_Payroll_ID=?");
+
+		params.add(payroll_id);
+		if (periodFrom < 0) {
+			whereClause.append(" AND pr.PeriodNo >= ?");
+			params.add(period.getPeriodNo() +periodFrom);
+		}
+		if (periodTo > 0) {
+			whereClause.append(" AND pr.PeriodNo <= ?");
+			params.add(period.getPeriodNo() +periodTo);
+		}
+		whereClause.append(")");
+		//
+		StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(")
+					.append(fieldName).append("),0) FROM ").append(MHRMovement.Table_Name)
+					.append(" WHERE ").append(whereClause);
+		BigDecimal value = DB.getSQLValueBDEx(null, sql.toString(), params);
+		return value.doubleValue();
+
+	} // getConcept
+	
+	/**
+	 *  Helper Method : Concept AVG by range from-to in periods from a different payroll
+	 *  periods with values 0 -1 1, etc. actual previous one period, next period
+	 *  0 corresponds to actual period
+	 *  @param conceptValue
+	 *  @param payroll ID is the ID of the payroll.
+	 *  @param partnerId business partner for search
+	 *  @param periodId period ID
+	 *  @param periodFrom
+	 *  @param periodTo the search is done by the period value, it helps to search from previous years
+	 */
+	public static double getConceptAvg(Properties ctx, String conceptValue, int payroll_id, int partnerId, int periodId, int periodFrom,int periodTo) {
+		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue);
+		if (concept == null)
+			return 0.0;
+		//
+		// Detect field name
+		final String fieldName;
+		if (MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType())) {
+			fieldName = MHRMovement.COLUMNNAME_Qty;
+		} else if (MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType())) {
+			fieldName = MHRMovement.COLUMNNAME_Amount;
+		} else {
+			return 0; // TODO: throw exception?
+		}
+		//
+		MHRPeriod period = MHRPeriod.get(ctx, periodId);
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		//check concept
+		whereClause.append(MHRMovement.COLUMNNAME_HR_Concept_ID + "=?");
+		params.add(concept.get_ID());
+		//check partner
+		whereClause.append(" AND " + MHRMovement.COLUMNNAME_C_BPartner_ID  + "=?");
+		params.add(partnerId);
+		//
+		//check process and payroll
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
+				+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
+				+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
+				+" AND p.DocStatus IN('CO', 'CL')"
+				+" AND p.HR_Payroll_ID=?");
+
+		params.add(payroll_id);
+		if (periodFrom < 0) {
+			whereClause.append(" AND pr.PeriodNo >= ?");
+			params.add(period.getPeriodNo() +periodFrom);
+		}
+		if (periodTo > 0) {
+			whereClause.append(" AND pr.PeriodNo <= ?");
+			params.add(period.getPeriodNo() +periodTo);
+		}
+		whereClause.append(")");
+		//
+		StringBuffer sql = new StringBuffer("SELECT COALESCE(AVG(")
+					.append(fieldName).append("),0) FROM ").append(MHRMovement.Table_Name)
+					.append(" WHERE ").append(whereClause);
+		BigDecimal value = DB.getSQLValueBDEx(null, sql.toString(), params);
+		return value.doubleValue();
+
+	} // getConcept
+	
 	/**
 	 * Get Movement by payroll process
 	 * @param process

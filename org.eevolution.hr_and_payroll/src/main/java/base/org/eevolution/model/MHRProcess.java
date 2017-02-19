@@ -1779,78 +1779,20 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 *  @param periodFrom
 	 *  @param periodTo the search is done by the period value, it helps to search from previous years
 	 */
-	public double getConcept(String conceptValue, String payrollValue,int periodFrom,int periodTo)
-	{
-		int payroll_id;
-		if (payrollValue == null)
-		{
-			payroll_id = getHR_Payroll_ID();
-		}
-		else
-		{
+	public double getConcept(String conceptValue, String payrollValue,int periodFrom, int periodTo) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
 			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
 			if(payroll == null)
 				return 0.0;
 			//	
-			payroll_id = payroll.get_ID();
+			payrollId = payroll.get_ID();
 		}
-
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
-		if (concept == null)
-			return 0.0;
-		//
-		// Detect field name
-		final String fieldName;
-		if (MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType()))
-		{
-			fieldName = MHRMovement.COLUMNNAME_Qty;
-		}
-		else if (MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType()))
-		{
-			fieldName = MHRMovement.COLUMNNAME_Amount;
-		}
-		else
-		{
-			return 0; // TODO: throw exception?
-		}
-		//
-		MHRPeriod period = MHRPeriod.get(getCtx(), getHR_Period_ID());
-		ArrayList<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer();
-		//check client
-		whereClause.append("AD_Client_ID = ?");
-		params.add(getAD_Client_ID());
-		//check concept
-		whereClause.append(" AND " + MHRMovement.COLUMNNAME_HR_Concept_ID + "=?");
-		params.add(concept.get_ID());
-		//check partner
-		whereClause.append(" AND " + MHRMovement.COLUMNNAME_C_BPartner_ID  + "=?");
-		params.add(partnerId);
-		//
-		//check process and payroll
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
-				+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
-				+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
-				+" AND p.HR_Payroll_ID=?");
-
-		params.add(payroll_id);
-		if (periodFrom < 0)
-		{
-			whereClause.append(" AND pr.PeriodNo >= ?");
-			params.add(period.getPeriodNo() +periodFrom);
-		}
-		if (periodTo > 0)
-		{
-			whereClause.append(" AND pr.PeriodNo <= ?");
-			params.add(period.getPeriodNo() +periodTo);
-		}
-		whereClause.append(")");
-		//
-		StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(").append(fieldName).append("),0) FROM ").append(MHRMovement.Table_Name)
-		.append(" WHERE ").append(whereClause);
-		BigDecimal value = DB.getSQLValueBDEx(null, sql.toString(), params);
-		return value.doubleValue();
-
+		//	Get from Movement helper method
+		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, 
+				partnerId, getHR_Period_ID(), periodFrom, periodTo);
 	} // getConcept
 
 	/**
@@ -1873,72 +1815,19 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param from
 	 * @param to
 	 * */
-	public double getConcept (String conceptValue, String payrollValue,Timestamp from,Timestamp to)
-	{
-		int payroll_id;
-		if (payrollValue == null)
-		{
-			payroll_id = getHR_Payroll_ID();
-		}
-		else
-		{
+	public double getConcept (String conceptValue, String payrollValue,Timestamp from,Timestamp to) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
 			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
 			if(payroll == null)
 				return 0.0;
 			//	
-			payroll_id = payroll.get_ID();
+			payrollId = payroll.get_ID();
 		}
-		
-		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
-		if (concept == null)
-			return 0.0;
-		//
-		// Detect field name
-		final String fieldName;
-		if (MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType()))
-		{
-			fieldName = MHRMovement.COLUMNNAME_Qty;
-		}
-		else if (MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType()))
-		{
-			fieldName = MHRMovement.COLUMNNAME_Amount;
-		}
-		else
-		{
-			return 0; // TODO: throw exception?
-		}
-		//
-		ArrayList<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer();
-		//check client
-		whereClause.append("AD_Client_ID = ?");
-		params.add(getAD_Client_ID());
-		//check concept
-		whereClause.append(" AND " + MHRMovement.COLUMNNAME_HR_Concept_ID + "=?");
-		params.add(concept.get_ID());
-		//check partner
-		whereClause.append(" AND " + MHRMovement.COLUMNNAME_C_BPartner_ID  + "=?");
-		params.add(partnerId);
-		//Adding dates 
-		whereClause.append(" AND validTo BETWEEN ? AND ?");
-		params.add(from);
-		params.add(to);
-		//
-		//check process and payroll
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
-							+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
-							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
-							+" AND p.HR_Payroll_ID=?");
-
-		params.add(payroll_id);
-		
-		whereClause.append(")");
-		//
-		StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(").append(fieldName).append("),0) FROM ").append(MHRMovement.Table_Name)
-								.append(" WHERE ").append(whereClause);
-		BigDecimal value = DB.getSQLValueBDEx(null, sql.toString(), params);
-		return value.doubleValue();
-		
+		//	Get from Movement helper method
+		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, from, to);
 	} // getConcept
 
 	/**
