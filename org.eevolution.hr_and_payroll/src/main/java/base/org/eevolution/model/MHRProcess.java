@@ -1059,7 +1059,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 													|| movement.isPrinted() 
 													|| concept.isPaid() 
 													|| concept.isPrinted()) 
-											&& !concept.isNotSaveInHistoryIfNull();
+											&& (!concept.isNotSaveInHistoryIfNull() || !movement.isEmpty());
 					if (saveThisRecord)
 						movement.saveEx();
 				}
