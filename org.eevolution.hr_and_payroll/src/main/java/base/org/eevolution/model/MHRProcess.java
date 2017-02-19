@@ -1055,7 +1055,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				if (concept.isManual()) {
 					logger.fine("Skip saving " + movement);
 				} else {
-					boolean saveThisRecord = concept.isSaveInHistoric() || movement.isPrinted() || concept.isPaid() || concept.isPrinted();
+					boolean saveThisRecord = (concept.isSaveInHistoric() 
+													|| movement.isPrinted() 
+													|| concept.isPaid() 
+													|| concept.isPrinted()) 
+											&& !concept.isNotSaveInHistoryIfNull();
 					if (saveThisRecord)
 						movement.saveEx();
 				}
