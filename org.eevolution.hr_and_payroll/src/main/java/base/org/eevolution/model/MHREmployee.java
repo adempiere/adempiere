@@ -31,6 +31,9 @@ import org.compiere.util.Env;
  *
  * @author Victor Perez
  * @author Cristina Ghita, www.arhipac.ro
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/775">
+ * 		@see FR [ 775 ] Add isIgnoreDefaultPayroll feature for payroll definition</a>
  */
 public class MHREmployee extends X_HR_Employee
 {
@@ -67,9 +70,10 @@ public class MHREmployee extends X_HR_Employee
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		whereClause.append(" C_BPartner.C_BPartner_ID IN (SELECT e.C_BPartner_ID FROM HR_Employee e WHERE 1=1 ");
-
+		//	look if it is a not regular payroll
+		MHRPayroll payroll = MHRPayroll.getByPayrollId(process.getCtx(), process.getHR_Payroll_ID());
 		// This payroll not content periods, NOT IS a Regular Payroll > ogi-cd 28Nov2007
-		if(process.getHR_Payroll_ID() != 0 && process.getHR_Period_ID() != 0)
+		if(process.getHR_Payroll_ID() != 0 && process.getHR_Period_ID() != 0 && !payroll.isIgnoreDefaultPayroll())
 		{
 			whereClause.append(" AND (e.HR_Payroll_ID IS NULL OR e.HR_Payroll_ID=?) " );
 			params.add(process.getHR_Payroll_ID());
