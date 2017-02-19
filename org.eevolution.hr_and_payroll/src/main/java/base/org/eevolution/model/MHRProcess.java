@@ -1796,6 +1796,31 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	} // getConcept
 
 	/**
+	 *  Helper Method : Concept Average by range from-to in periods from a different payroll
+	 *  periods with values 0 -1 1, etc. actual previous one period, next period
+	 *  0 corresponds to actual period
+	 *  @param conceptValue
+	 *  @param payrollValue is the value of the payroll.
+	 *  @param periodFrom
+	 *  @param periodTo the search is done by the period value, it helps to search from previous years
+	 */
+	public double getConceptAvg(String conceptValue, String payrollValue,int periodFrom, int periodTo) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			if(payroll == null)
+				return 0.0;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		return MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, 
+				partnerId, getHR_Period_ID(), periodFrom, periodTo);
+	} // getConcept
+	
+	/**
 	 * Get Concept for this payroll for range dates
 	 * @param conceptValue
 	 * @param from
@@ -1830,6 +1855,29 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		return MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, from, to);
 	} // getConcept
 
+	/**
+	 * Helper Method: gets Concept Average value of a payrroll between 2 dates
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param from
+	 * @param to
+	 * */
+	public double getConceptAvg(String conceptValue, String payrollValue,Timestamp from,Timestamp to) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			if(payroll == null)
+				return 0.0;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		return MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, partnerId, from, to);
+	} // getConcept
+	
+	
 	/**
 	 * Helper Method : Attribute that had from some date to another to date,
 	 * if it finds just one period it's seen for the attribute of such period 
