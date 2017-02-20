@@ -17,14 +17,12 @@ package org.eevolution.form;
 
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.ValueChangeEvent;
+import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -37,16 +35,14 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WDateEditor;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
-import org.adempiere.exceptions.ValueChangeEvent;
-import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.compiere.minigrid.ColumnInfo;
-import org.compiere.process.ProcessInfo;
-import org.compiere.util.DB;
+import org.compiere.model.MRefList;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
@@ -63,20 +59,19 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Space;
 
 /**
  * HRActionNotice Form
  * 
  * @author oscar.gomez@e-evolution.com
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/779">
+ * 		@see FR [ 779 ] Payroll Action Notice is slow</a>
  */
 public class WHRActionNotice extends HRActionNotice implements IFormController,
 		EventListener, WTableModelListener, ValueChangeListener {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7806119329546820204L;
 
 	private CustomForm form = new CustomForm();
 
@@ -113,6 +108,7 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 	// Concept
 	private Label labelConcept = new Label();
 	private Listbox fieldConcept = ListboxFactory.newDropdownListbox();
+	private Listbox fieldTextLookup = ListboxFactory.newDropdownListbox();
 	// ColumnType
 	private Label labelColumnType = new Label();
 	private WStringEditor fieldColumnType = new WStringEditor();
@@ -125,12 +121,8 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 	private Label labelDescription = new Label();
 	public WStringEditor fieldDescription = new WStringEditor();
 	private Button bOk = new Button();
-
-	// private Grid parameterLayout = GridFactory.newGridLayout();
+	
 	private WListbox miniTable = ListboxFactory.newDataTable();
-
-	@SuppressWarnings("unused")
-	private ProcessInfo m_pi;
 
 	Language language = Language.getLoginLanguage(); // Base Language
 	int AD_Column_ID = 0;
@@ -173,8 +165,9 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 		fieldText.setVisible(false);
 		fieldText.addValueChangeListener(this);
 		fieldDescription.addValueChangeListener(this);
-
-		bOk.setLabel(Msg.getMsg(Env.getCtx(), "Process"));
+		fieldColumnType.setReadWrite(false);
+		ConfirmPanel panel = new ConfirmPanel(false, false, false, false, false, false, false);
+		bOk = panel.createButton(ConfirmPanel.A_OK);
 		bOk.addActionListener(this);
 
 		North north = new North();
@@ -201,19 +194,31 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 		fieldConcept.setWidth("100%");
 
 		row = rows.newRow();
+		//  Raul Muñoz 19/02/2015
+		//  Add div for Qty-Amount-Date-Text-RuleEngine
+		Div div = new Div();
 		row.appendChild(labelColumnType.rightAlign());
 		row.appendChild(fieldColumnType.getComponent());
-		row.appendChild(fieldDate.getComponent());
-		row.appendChild(fieldQty.getComponent());
-		row.appendChild(fieldAmount.getComponent());
-		row.appendChild(fieldText.getComponent());
-
+		row.appendChild(new Space());
+		div.appendChild(fieldDate.getComponent());
+		div.appendChild(fieldQty.getComponent());
+		div.appendChild(fieldAmount.getComponent());
+		div.appendChild(fieldText.getComponent());
+		div.appendChild(fieldTextLookup);
+		row.appendChild(div);
+		fieldDate.fillHorizontal();
+		fieldQty.fillHorizontal();
+		fieldAmount.fillHorizontal();
+		fieldText.fillHorizontal();
+		fieldValidFrom.fillHorizontal();
+		fieldTextLookup.setWidth("100%");
+		//	End Yamel Senih
 		row = rows.newRow();
 		row.appendChild(labelDescription.rightAlign());
 		row.appendChild(fieldDescription.getComponent());
 		row.appendChild(new Space());
 		row.appendChild(bOk);
-
+		//	
 		Center center = new Center();
 		center.setFlex(true);
 		center.appendChild(miniTable);
@@ -226,28 +231,22 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 
 	} // jbInit
 
+	/**
+	 * Configure Table
+	 */
 	private void configureMiniTable() {
 
 		ColumnInfo[] layout = {
-				// new ColumnInfo(" ", " ", IDColumn.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "AD_Org_ID"), "",
-						String.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "HR_Concept_ID"),
-						"", String.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "ValidFrom"), "",
-						Timestamp.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "ColumnType"), "",
-						String.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Qty"), "",
-						BigDecimal.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Amount"), "",
-						BigDecimal.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "ServiceDate"), "",
-						Timestamp.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Text"), "",
-						String.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "",
-						String.class) };
+				new ColumnInfo(Msg.translate(Env.getCtx(), "AD_Org_ID"), "", String.class),
+				new ColumnInfo(Msg.translate(Env.getCtx(), "HR_Concept_ID"), "", String.class),
+				new ColumnInfo(Msg.translate(Env.getCtx(), "ValidFrom"), "", Timestamp.class),
+				new ColumnInfo(Msg.translate(Env.getCtx(), "ColumnType"), "", String.class),
+				new ColumnInfo(Msg.translate(Env.getCtx(), "Qty"), "", BigDecimal.class),
+				new ColumnInfo(Msg.translate(Env.getCtx(), "Amount"), "", BigDecimal.class),
+				new ColumnInfo(Msg.translate(Env.getCtx(), "ServiceDate"), "", Timestamp.class),
+				new ColumnInfo(Msg.translate(Env.getCtx(), "TextMsg"), "", String.class),
+				new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "", String.class) 
+				};
 
 		miniTable.prepareTable(layout, "", "", false, "");
 	}
@@ -266,6 +265,27 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 		fieldProcess.setSelectedIndex(0);
 	} // dynInit
 
+	/**
+	 * Load Text Message Lookup
+	 * @param referenceId
+	 * @return void
+	 */
+	private void loadTextMsgLookup(int referenceId) {
+		//	Remove all Items
+		fieldTextLookup.removeAllItems();
+		isLookupTextMsg = false;
+		//	Valid reference
+		if(referenceId == 0)
+			return;
+		//	Set to new
+		ArrayList<ValueNamePair> conceptData = getConceptReference(referenceId);
+		for(ValueNamePair vp : conceptData) {
+			fieldTextLookup.appendItem(vp.getName(), vp);
+		}
+		//	Set Flag
+		isLookupTextMsg = true;
+	}
+	
 	/**************************************************************************
 	 * Action Listener. - MultiCurrency - Allocate
 	 * 
@@ -278,31 +298,47 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 		if (e.getTarget() == fieldProcess && processKeyNamePair != null && processKeyNamePair.getKey() > 0) {
 			payrollProcess = new MHRProcess(Env.getCtx(), processKeyNamePair.getKey(), null);
 			payrollProcessId = payrollProcess.getHR_Process_ID();
-			if (e.getTarget() == fieldProcess) {
-				fieldEmployee.removeAllItems();
-				List<KeyNamePair> employeeData = getEmployeeValid(payrollProcess);
-				for (KeyNamePair vp : employeeData)
-					fieldEmployee.appendItem(vp.getName(), vp);
+			if(payrollProcess.getHR_Period_ID() > 0) {
+				MHRPeriod period = MHRPeriod.get(Env.getCtx(), payrollProcess.getHR_Period_ID());
+				dateStart= period.getStartDate();
+				dateEnd  = period.getEndDate();
+			} else {
+				dateEnd = payrollProcess.getDateAcct();
+			}
+			fieldEmployee.removeAllItems();
+			KeyNamePair[] employeeData = getEmployeeValid(payrollProcess);
+			for (KeyNamePair vp : employeeData) {
+				fieldEmployee.appendItem(vp.getName(), vp);
+			}
+		}
+		//	
+		if (e.getTarget() == fieldEmployee) {
+			partnerId = ((KeyNamePair) fieldEmployee.getSelectedItem().getValue()).getKey();
+			//	Validate
+			if (partnerId > 0) {
+				fieldValidFrom.setValue(dateEnd);
+				fieldConcept.removeAllItems();
+				KeyNamePair[] conceptData = getConcept(getPayrollProcess(), fieldProcess != null);
+				for (KeyNamePair vp : conceptData) {
+					fieldConcept.appendItem(vp.getName(), vp);
+				}
 			}
 		}
 
-		if (e.getTarget() == fieldEmployee) {
-			partnerId = ((KeyNamePair) fieldEmployee.getSelectedItem().getValue()).getKey();
-			fieldConcept.removeAllItems();
-			ArrayList<ValueNamePair> conceptData = getConcept(getPayrollProcess(), fieldProcess != null);
-			for (ValueNamePair vp : conceptData)
-				fieldConcept.appendItem(vp.getName(), vp);
-		}
-
 		if (e.getTarget() == fieldConcept) {
-			ValueNamePair valueNamePair = (ValueNamePair) fieldConcept.getSelectedItem().getValue();
-			if (valueNamePair != null)
-				conceptId = Integer.parseInt(((ValueNamePair) fieldConcept.getSelectedItem().getValue()).getValue());
-
+			KeyNamePair valueNamePair = (KeyNamePair) fieldConcept.getSelectedItem().getValue();
+			if (valueNamePair != null) {
+				conceptId = ((KeyNamePair) fieldConcept.getSelectedItem().getValue()).getKey();
+			}
+			//	
 			if (conceptId > 0) {
-
 				MHRConcept concept = MHRConcept.get(Env.getCtx(), conceptId);
-				fieldColumnType.setValue(DB.getSQLValueStringEx(null, getSQL_ColumnType(Env.getCtx(), "?"), concept.getColumnType()));
+				//	Load Data Combo Box
+				loadTextMsgLookup(concept.getAD_Reference_ID());
+				//	
+				String columnType = MRefList.getListName(Env.getCtx(), 
+						MHRConcept.COLUMNTYPE_AD_Reference_ID, concept.getColumnType());
+				fieldColumnType.setValue(columnType);
 				fieldColumnType.setVisible(true);
 
 				movementId = seekMovement((Timestamp) fieldValidFrom.getValue());
@@ -313,14 +349,20 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 					fieldDate.setValue(null);
 					fieldQty.setValue(Env.ZERO);
 					fieldAmount.setValue(Env.ZERO);
-					if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Quantity)) // Quantity
+					if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Quantity)) { // Quantity
 						fieldQty.setValue(movementFound.getQty());
-					else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount)) // Amount
+					} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount)) { // Amount
 						fieldAmount.setValue(movementFound.getAmount());
-					else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Text)) // Text
-						fieldText.setValue(movementFound.getTextMsg());
-					else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Date)) // Date
+					} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Text)) { // Text
+						//	Verify Reference
+						if(isLookupTextMsg) {
+							fieldTextLookup.setValue(movementFound.getTextMsg());
+						} else {
+							fieldText.setValue(movementFound.getTextMsg());
+						}
+					} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Date)) { // Date
 						fieldDate.setValue(movementFound.getServiceDate());
+					}
 				}
 
 				if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Quantity)) { // Concept Type
@@ -329,21 +371,32 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(false);
 					fieldText.setVisible(false);
+					fieldTextLookup.setVisible(false);
 				} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount)) {
 					fieldQty.setVisible(false);
 					fieldAmount.setVisible(true);
 					fieldAmount.setReadWrite(true);
 					fieldDate.setVisible(false);
 					fieldText.setVisible(false);
+					fieldTextLookup.setVisible(false);
 				} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Date)) {
 					fieldQty.setVisible(false);
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(true);
 					fieldDate.setReadWrite(true);
 					fieldText.setVisible(false);
+					fieldTextLookup.setVisible(false);
 				} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Text)) {
-					fieldText.setVisible(true);
-					fieldText.setReadWrite(true);
+					//	Verify Reference
+					if(isLookupTextMsg) {
+						fieldText.setVisible(false);
+						fieldText.setReadWrite(false);
+						fieldTextLookup.setVisible(true);
+					} else {
+						fieldTextLookup.setVisible(false);
+						fieldText.setVisible(true);
+						fieldText.setReadWrite(true);
+					}
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(false);
 				}
@@ -351,19 +404,24 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 		}
 		if (e.getTarget() == bOk) {
 			if(fieldConcept.getSelectedItem() != null)
-				conceptId = Integer.parseInt(((ValueNamePair) fieldConcept.getSelectedItem().getValue()).getValue());
+				conceptId = ((KeyNamePair) fieldConcept.getSelectedItem().getValue()).getKey();
 				partnerId = ((KeyNamePair) fieldEmployee.getSelectedItem().getValue()).getKey();
 				payrollId = getPayrollProcess().getHR_Payroll_ID();
 				if(payrollProcess.getHR_Period_ID() > 0) {
 					MHRPeriod period = MHRPeriod.get(Env.getCtx(), payrollProcess.getHR_Period_ID());
 					dateStart = period.getStartDate();
 					dateEnd = period.getEndDate();
-				}
-				else
+				} else {
 					dateEnd = payrollProcess.getDateAcct();
+				}
 				quantity = (BigDecimal) fieldQty.getValue();
 				amount = (BigDecimal) fieldAmount.getValue();
-				text = (String) fieldText.getValue();
+				//	Get from List
+				if(isLookupTextMsg) {
+					text = (String) ((ValueNamePair)fieldTextLookup.getValue()).getValue();
+				} else {
+					text = (String) fieldText.getValue();
+				}
 				serviceDate = (Timestamp) fieldDate.getValue();
 				description = (String) fieldDescription.getValue();
 				validFrom = (Timestamp) fieldValidFrom.getValue();
@@ -376,109 +434,17 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 					|| ((KeyNamePair) fieldEmployee.getSelectedItem().getValue()).getKey() <= 0) { // required fields
 			} else {
 				saveMovement();
-				executeQuery();
-				//fieldValidFrom.setValue(dateEnd);
-				fieldColumnType.setValue("");
-				fieldQty.setValue(Env.ZERO);
-				fieldAmount.setValue(Env.ZERO);
-				//fieldQty.setReadWrite(false);
-				//fieldAmount.setReadWrite(false);
-				//fieldText.setReadWrite(false);
-				//fieldDescription.setReadWrite(true);
-				HRActionNotice.movementId = 0; // Initial not exist record in Movement to actual
-				// date
-				// clear fields
-				fieldDescription.setValue("");
-				fieldText.setValue("");
-				fieldDate.setValue(null);
-				fieldQty.setValue(Env.ZERO);
-				fieldAmount.setValue(Env.ZERO);
-				fieldConcept.setSelectedIndex(0);
 			}
 		}
-
+		//	
 		executeQuery();
 
 		return;
 	} // actionPerformed
 
 	private void executeQuery() {
-		StringBuffer sqlQuery = new StringBuffer(
-				"SELECT DISTINCT o.Name,hp.Name," // AD_Org_ID, HR_Process_ID --
-													// 1,2
-						+ " bp.Name,hc.Name,hm.ValidFrom," // HR_Employee_ID,HR_Concept_ID,ValidFrom,ColumnType
-															// -- 3,4,5
-						+ "("
-						+ getSQL_ColumnType(Env.getCtx(), "hc.ColumnType")
-						+ ") AS ColumnType," // 6 ColumnType(Reference Name)
-						+ " hm.Qty,hm.Amount,hm.ServiceDate,hm.TextMsg,er.Name,hm.Description " // Qty,Amount,ServiceDate,Text,AD_Rule_ID,Description
-																								// --
-																								// 7,8,9,10,11,12
-						+ " , HR_Movement_id, hm.AD_Org_ID,hp.HR_Process_ID,hm.HR_Concept_ID " // to
-																								// make
-																								// the
-																								// distinct
-																								// useful
-						+ " FROM HR_Movement hm "
-						+ " INNER JOIN AD_Org o ON (hm.AD_Org_ID=o.AD_Org_ID)"
-						+ " INNER JOIN HR_Process hp ON (hm.HR_Process_ID=hp.HR_Process_ID)"
-						+ " INNER JOIN C_BPartner bp ON (hm.C_BPartner_ID=bp.C_BPartner_ID)"
-						+ " INNER JOIN HR_Employee e ON (e.C_BPartner_ID=bp.C_BPartner_ID)"
-						+ " INNER JOIN HR_Concept hc ON (hm.HR_Concept_ID=hc.HR_Concept_ID)"
-						+ " LEFT OUTER JOIN AD_Rule er ON (hm.AD_Rule_ID=er.AD_Rule_ID)"
-						+ " WHERE hm.Processed='N' AND hp.HR_Process_ID = "
-						+ payrollProcessId
-						// + " AND IsStatic = 'Y' " // Just apply incidences
-						// [add 30Dic2006 to see everything]
-						+ " AND hm.C_BPartner_ID = " + partnerId
-		// +
-		// " AND (Qty > 0 OR Amount > 0 OR hm.TextMsg IS NOT NULL OR ServiceDate IS NOT NULL) "
-		);
-		// if (fieldValidFrom.getValue() != null ) {
-		// sqlQuery.append(" AND "
-		// +DB.TO_DATE(m_dateStart)+" >= hm.ValidFrom  AND "+DB.TO_DATE(m_dateEnd)+" <=  hm.ValidTo ");
-		// }
-		sqlQuery.append(" ORDER BY hm.AD_Org_ID,hp.HR_Process_ID,bp.Name,hm.ValidFrom,hm.HR_Concept_ID");
-		// reset table
-		int row = 0;
-		miniTable.setRowCount(row);
-		// Execute
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(sqlQuery.toString(), null);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				// extend table
-				miniTable.setRowCount(row + 1);
-				// set values
-				// miniTable.setColumnClass(0, IDColumn.class, false, " ");
-				miniTable.setValueAt(rs.getString(1), row, 0); // AD_Org_ID
-				miniTable.setValueAt(rs.getString(4), row, 1); // HR_Concept_ID
-				miniTable.setValueAt(rs.getTimestamp(5), row, 2); // ValidFrom
-				miniTable.setValueAt(rs.getString(6), row, 3); // ColumnType
-				miniTable.setValueAt(
-						rs.getObject(7) != null ? rs.getBigDecimal(7)
-								: Env.ZERO, row, 4); // Qty
-				miniTable.setValueAt(
-						rs.getObject(8) != null ? rs.getBigDecimal(8)
-								: Env.ZERO, row, 5); // Amount
-				miniTable.setValueAt(rs.getTimestamp(9), row, 6); // ServiceDate
-				miniTable.setValueAt(rs.getString(10), row, 7); // TextMsg
-				// miniTable.setValueAt(rs.getString(11), row, 9); // AD_Rule_ID
-				miniTable.setValueAt(rs.getString(12), row, 8); // Description
-				// prepare next
-				row++;
-
-			}
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, sqlQuery.toString(), e);
-		} finally {
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
+		executeQuery(Env.getCtx(), miniTable, 0);
+		//	
 		miniTable.repaint();
 		miniTable.autoSize();
 	}

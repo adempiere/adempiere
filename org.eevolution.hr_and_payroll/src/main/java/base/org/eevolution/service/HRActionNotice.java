@@ -28,9 +28,10 @@ import java.util.logging.Level;
 
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.I_AD_Ref_List;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MLookupInfo;
 import org.compiere.model.MRole;
-import org.compiere.model.MTable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -42,6 +43,9 @@ import org.eevolution.model.*;
 /**
  *  @author victor.perez@e-evolution.com, www.e-evolution.com
  *  @author alberto.juarez@e-evolution.com, www.e-evolution.com
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/779">
+ * 		@see FR [ 779 ] Payroll Action Notice is slow</a>
  */
 public class HRActionNotice
 {
@@ -53,15 +57,16 @@ public class HRActionNotice
 	/**	Window No			*/
 	public int         	m_WindowNo = 0;
 
-	protected static  I_HR_Process payrollProcess = null;
-	protected static int payrollProcessId = 0;
-	protected static int payrollId = 0;
-	protected static int conceptId = 0;
-	protected static int partnerId = 0;
-	protected static int movementId = 0; // // initial not exist record in Movement to actual date
+	protected I_HR_Process payrollProcess = null;
+	protected int payrollProcessId = 0;
+	protected int payrollId = 0;
+	protected int conceptId = 0;
+	protected int partnerId = 0;
+	protected int movementId = 0; // // initial not exist record in Movement to actual date
+	protected boolean isLookupTextMsg = false;
 
 	protected Timestamp dateStart = null;
-	protected static Timestamp dateEnd = null;
+	protected Timestamp dateEnd = null;
 	protected BigDecimal quantity = Env.ZERO;
 	protected BigDecimal amount = Env.ZERO;
 	protected String text = null;
@@ -76,6 +81,10 @@ public class HRActionNotice
 		log.info("HRActionNotice");
 	}
 
+	/**
+	 * Configure Mini table
+	 * @param miniTable
+	 */
 	public void configureMiniTable(IMiniTable miniTable)
 	{
 		miniTable.addColumn("HR_Movement_ID"); 		// 0
@@ -86,8 +95,7 @@ public class HRActionNotice
 		miniTable.addColumn("Qty");					// 5
 		miniTable.addColumn("Amount");				// 6
 		miniTable.addColumn("ServiceDate");			// 7
-		miniTable.addColumn("Text");				// 8
-		//miniTable.addColumn("AD_Rule_ID");			// 9
+		miniTable.addColumn("TextMsg");				// 8
 		miniTable.addColumn("Description");			// 10
 		//  set details
 		miniTable.setColumnClass(0, IDColumn.class, false, " ");
@@ -98,40 +106,39 @@ public class HRActionNotice
 		miniTable.setColumnClass(5, BigDecimal.class, true, Msg.translate(Env.getCtx(), "Qty"));
 		miniTable.setColumnClass(6, BigDecimal.class, true, Msg.translate(Env.getCtx(), "Amount"));
 		miniTable.setColumnClass(7, Timestamp.class, true, Msg.translate(Env.getCtx(), "ServiceDate"));
-		miniTable.setColumnClass(8, String.class, true, Msg.translate(Env.getCtx(), "Text"));		
-		//miniTable.setColumnClass(9, String.class, true, Msg.translate(Env.getCtx(), "AD_Rule_ID"));
+		miniTable.setColumnClass(8, String.class, true, Msg.translate(Env.getCtx(), "TextMsg"));
 		miniTable.setColumnClass(9, String.class, true, Msg.translate(Env.getCtx(), "Description"));
 		//
 		miniTable.autoSize();
 	}
 	
-	
 	/**
 	 *  Query Info
 	 */
-	public static void executeQuery(Properties ctx ,IMiniTable miniTable)
-	{	
-		StringBuffer sqlQuery = new StringBuffer("SELECT DISTINCT o.Name,hp.Name,"   // AD_Org_ID, HR_Process_ID -- 1,2
-				+ " bp.Name,hc.Name,hm.ValidFrom,"		// HR_Employee_ID,HR_Concept_ID,ValidFrom,ColumnType -- 3,4,5
-				+ "("+getSQL_ColumnType(ctx, "hc.ColumnType")+") AS ColumnType,"	// 6 ColumnType(Reference Name)
-				+ " hm.Qty,hm.Amount,hm.ServiceDate,hm.TextMsg,er.Name,hm.Description "	// Qty,Amount,ServiceDate,Text,AD_Rule_ID,Description -- 7,8,9,10,11,12
-				+ " , HR_Movement_id, hm.AD_Org_ID,hp.HR_Process_ID,hm.HR_Concept_ID "  // to make the distinct useful
-				+ " FROM HR_Movement hm "
-				+ " INNER JOIN AD_Org o ON (hm.AD_Org_ID=o.AD_Org_ID)"
-				+ " INNER JOIN HR_Process hp ON (hm.HR_Process_ID=hp.HR_Process_ID)"
-				+ " INNER JOIN C_BPartner bp ON (hm.C_BPartner_ID=bp.C_BPartner_ID)"
-				+ " INNER JOIN HR_Employee e ON (e.C_BPartner_ID=bp.C_BPartner_ID)"
-				+ " INNER JOIN HR_Concept hc ON (hm.HR_Concept_ID=hc.HR_Concept_ID)"
-				+ " LEFT OUTER JOIN AD_Rule er ON (hm.AD_Rule_ID=er.AD_Rule_ID)"
-				+ " WHERE hm.Processed='N' AND hp.HR_Process_ID = " + payrollProcessId
-				//+ " AND IsStatic = 'Y' " // Just apply incidences [add 30Dic2006 to see everything]
-				+ " AND hm.C_BPartner_ID = " + partnerId
-				//	+ " AND (Qty > 0 OR Amount > 0 OR hm.TextMsg IS NOT NULL OR ServiceDate IS NOT NULL) "
-				);
-		//if (fieldValidFrom.getValue() != null ) {
-		//	sqlQuery.append(" AND " +DB.TO_DATE(m_dateStart)+" >= hm.ValidFrom  AND "+DB.TO_DATE(m_dateEnd)+" <=  hm.ValidTo ");
-		//}
-		sqlQuery.append(" ORDER BY hm.AD_Org_ID,hp.HR_Process_ID,bp.Name,hm.ValidFrom,hm.HR_Concept_ID");
+	public void executeQuery(Properties ctx ,IMiniTable miniTable, int beging) {
+		//	Validate criteria
+		if(payrollProcessId == 0
+				|| partnerId == 0)
+			return;
+		//	
+		StringBuffer sqlQuery = new StringBuffer("SELECT o.Name, hc.Name, "				//	Organization Name, Concept Name
+				+ "hm.ValidFrom, cr.ColumnType, "										//	Valid From, Column Type
+				+ "hm.Qty, hm.Amount, hm.ServiceDate, hm.TextMsg, hm.Description, "		//	Quantity, Amount, Service Date, Text Message, Description
+				+ "hm.HR_Movement_ID, hm.AD_Org_ID, hm.HR_Process_ID,hm.HR_Concept_ID ");	//	References
+		//	From Clause
+		sqlQuery.append("FROM HR_Movement hm "
+				+ "INNER JOIN AD_Org o ON(hm.AD_Org_ID = o.AD_Org_ID) "
+				+ "INNER JOIN HR_Concept hc ON(hm.HR_Concept_ID = hc.HR_Concept_ID) "
+				+ "LEFT JOIN (SELECT r.Value, COALESCE(rt.Name, r.Name) ColumnType "
+				+ "				FROM AD_Ref_List r "
+				+ "				LEFT JOIN AD_Ref_List_Trl rt ON(rt.AD_Ref_List_ID = r.AD_Ref_List_ID AND rt.AD_Language = ?) "
+				+ "				WHERE r.AD_Reference_ID = ?) cr ON(cr.Value = hc.ColumnType) ");
+		//	Where Clause
+		sqlQuery.append("WHERE hm.Processed = 'N' "
+				+ "AND hm.HR_Process_ID = ? "
+				+ "AND hm.C_BPartner_ID = ? ");
+		//	Order By
+		sqlQuery.append("ORDER BY o.AD_Org_ID, hm.HR_Process_ID, hm.ValidFrom, hm.HR_Concept_ID");
 		//  reset table
 		int row = 0;
 		miniTable.setRowCount(row);
@@ -140,22 +147,30 @@ public class HRActionNotice
 		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sqlQuery.toString(), null);
+			//	Language
+			pstmt.setString(1, Env.getAD_Language(Env.getCtx()));
+			//	Reference for Column Type
+			pstmt.setInt(2, MHRConcept.COLUMNTYPE_AD_Reference_ID);
+			//	HR Process
+			pstmt.setInt(3, payrollProcessId);
+			//	Business Partner
+			pstmt.setInt(4, partnerId);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
+				int column = beging;
 				//  extend table
 				miniTable.setRowCount(row+1);
 				//  set values
 				miniTable.setColumnClass(0, IDColumn.class, false, " ");
-				miniTable.setValueAt(rs.getString(1), row, 1);		// AD_Org_ID
-				miniTable.setValueAt(rs.getString(4), row, 2);		// HR_Concept_ID
-				miniTable.setValueAt(rs.getTimestamp(5), row, 3);	// ValidFrom
-				miniTable.setValueAt(rs.getString(6), row, 4);		// ColumnType
-				miniTable.setValueAt(rs.getObject(7) != null ? rs.getBigDecimal(7) : Env.ZERO, row, 5);	// Qty
-				miniTable.setValueAt(rs.getObject(8) != null ? rs.getBigDecimal(8) : Env.ZERO, row, 6);	// Amount
-				miniTable.setValueAt(rs.getTimestamp(9), row, 7);	// ServiceDate
-				miniTable.setValueAt(rs.getString(10), row, 8);		// TextMsg
-				//miniTable.setValueAt(rs.getString(11), row, 9);		// AD_Rule_ID
-				miniTable.setValueAt(rs.getString(12), row, 9);	// Description
+				miniTable.setValueAt(rs.getString(1), row, column++);		// AD_Org_ID
+				miniTable.setValueAt(rs.getString(2), row, column++);		// HR_Concept_ID
+				miniTable.setValueAt(rs.getTimestamp(3), row, column++);	// ValidFrom
+				miniTable.setValueAt(rs.getString(4), row, column++);		// ColumnType
+				miniTable.setValueAt(rs.getObject(5) != null ? rs.getBigDecimal(5) : Env.ZERO, row, column++);	// Qty
+				miniTable.setValueAt(rs.getObject(6) != null ? rs.getBigDecimal(6) : Env.ZERO, row, column++);	// Amount
+				miniTable.setValueAt(rs.getTimestamp(7), row, column++);	// ServiceDate
+				miniTable.setValueAt(rs.getString(8), row, column++);		// TextMsg
+				miniTable.setValueAt(rs.getString(9), row, column++);	// Description
 				//  prepare next
 				row++;
 			}
@@ -174,11 +189,13 @@ public class HRActionNotice
 	 *  get Process
 	 *  parameter: MHRProcess
 	 */
-	public static KeyNamePair[] getProcess()
-	{
+	public static KeyNamePair[] getProcess() {
 		String sql = MRole.getDefault().addAccessSQL(
-				"SELECT hrp.HR_Process_ID,hrp.DocumentNo ||'-'|| hrp.Name,hrp.DocumentNo,hrp.Name FROM HR_Process hrp",
-				"hrp",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + " AND hrp.IsActive = 'Y' ";
+				"SELECT hrp.HR_Process_ID,hrp.DocumentNo ||'-'|| hrp.Name, hrp.DocumentNo, hrp.Name "
+				+ "FROM HR_Process hrp",
+				"hrp",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) 
+				+ " AND hrp.IsActive = 'Y'"
+				+ " AND hrp.DocStatus IN('DR', 'IP') ";
 		sql += " ORDER BY hrp.DocumentNo, hrp.Name";
 
 		return DB.getKeyNamePairs(sql, true);
@@ -191,100 +208,73 @@ public class HRActionNotice
 	 *  to Valid  Payroll-Department-Employee of Process Actual 
 	 *  parameter: MHRProcess
 	 */
-	public static List<KeyNamePair> getEmployeeValid(I_HR_Process process)
-	{
+	public static KeyNamePair[] getEmployeeValid(I_HR_Process process) {
 		List<KeyNamePair> list = new ArrayList<KeyNamePair>();
 		if (process == null)
-			return list;
-
+			return new KeyNamePair[]{new KeyNamePair(0, "")};
+		//	Get Payroll attribute
+		MHRPayroll payroll = MHRPayroll.getByPayrollId(Env.getCtx(), process.getHR_Payroll_ID());
 		
 		KeyNamePair pp = new KeyNamePair(0, "");
 		list.add(pp);
 		String sql = MRole.getDefault().addAccessSQL(
-				"SELECT DISTINCT bp.C_BPartner_ID,bp.Value || ' - ' || bp.Name || ' ' || bp.Name2 FROM HR_Employee hrpe INNER JOIN C_BPartner bp ON(bp.C_BPartner_ID=hrpe.C_BPartner_ID)",
-				"hrpe",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + " AND hrpe.IsActive = 'Y' ";
-		if ( process.getHR_Payroll_ID() != 0){
-			sql += " AND (hrpe.HR_Payroll_ID =" +process.getHR_Payroll_ID()+ " OR hrpe.HR_Payroll_ID is NULL)" ;
-			if ( process.getHR_Department_ID() > 0 )
- 				sql += " AND (hrpe.HR_Department_ID =" +process.getHR_Department_ID()+" OR hrpe.HR_Department_ID is NULL)" ;
- 			if ( process.getHR_Employee_ID() > 0 )
- 				sql += " AND (hrpe.HR_Employee_ID =" + process.getHR_Employee_ID()+" OR hrpe.HR_Employee_ID is NULL)" ;
-		}
-		sql += " ORDER BY 2 ";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try{
-			pstmt = DB.prepareStatement(sql, null);
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				list.add(pp);
-			}
-			return list;
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-			return list;
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		    rs = null; pstmt = null;
-		}
+				"SELECT bp.C_BPartner_ID, bp.Value || ' - ' || bp.Name || COALESCE(' ' || bp.Name2, '') "
+				+ "FROM C_BPartner bp",
+				"bp",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + " "
+					+ "AND bp.IsActive = 'Y' "
+					+ "AND EXISTS(SELECT 1 FROM HR_Employee hrpe "
+					+ "				WHERE hrpe.C_BPartner_ID = bp.C_BPartner_ID "
+					+ "				AND hrpe.IsActive = 'Y'";
 		
+		if (process.getHR_Payroll_ID() != 0
+				&& process.getHR_Payroll_ID() != 0
+				&& !payroll.isIgnoreDefaultPayroll()){
+			sql += " AND (hrpe.HR_Payroll_ID =" +process.getHR_Payroll_ID()+ " OR hrpe.HR_Payroll_ID is NULL)";
+			if (process.getHR_Department_ID() > 0)
+ 				sql += " AND (hrpe.HR_Department_ID =" +process.getHR_Department_ID()+" OR hrpe.HR_Department_ID is NULL)";
+			if (process.getHR_Job_ID() > 0)
+ 				sql += " AND (hrpe.HR_Job_ID =" +process.getHR_Job_ID()+" OR hrpe.HR_Job_ID is NULL)" ;
+ 			if (process.getHR_Employee_ID() > 0)
+ 				sql += " AND (hrpe.HR_Employee_ID =" + process.getHR_Employee_ID()+" OR hrpe.HR_Employee_ID is NULL)";
+		}
+		sql += ") ORDER BY 2 ";
+		//	Get from DB
+		return DB.getKeyNamePairs(sql, true);
 	} //getEmployeeValid
 	
-	
-
-	
-
-	public ArrayList<ValueNamePair> getConcept(I_HR_Process process, boolean isFieldProcessNull)
-	{
+	/**
+	 * Get Concept for Payroll
+	 * @param process
+	 * @param isFieldProcessNull
+	 * @return
+	 */
+	public KeyNamePair[] getConcept(I_HR_Process process, boolean isFieldProcessNull) {
 		if( process == null )
 			return null;
-
-		ArrayList<ValueNamePair> data = new ArrayList<ValueNamePair>();
-
-		String sql = "SELECT DISTINCT hrpc.HR_Concept_ID,hrpc.Value || ' - ' || hrpc.Name,hrpc.Value "
-			+ " FROM HR_Concept hrpc "
-			+ " INNER JOIN HR_Attribute hrpa ON (hrpa.HR_Concept_ID=hrpc.HR_Concept_ID)"
-			+ " WHERE hrpc.AD_Client_ID = " +Env.getAD_Client_ID(Env.getCtx())
-			+ " AND hrpc.IsActive = 'Y' AND hrpc.IsManual = 'Y' AND hrpc.Type != 'E'"
-			+ " AND (hrpa.HR_Payroll_ID = " + payrollId + " OR hrpa.HR_Payroll_ID IS NULL)";
-		if (!isFieldProcessNull)    
-		{ // Process
+		//	Prepare SQL
+		String sql = MRole.getDefault().addAccessSQL(
+				"SELECT hrpc.HR_Concept_ID, hrpc.Value || ' - ' || hrpc.Name, hrpc.Value "
+					+ "FROM HR_Concept hrpc ",
+					"hrpc",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + " "
+			+ "AND hrpc.AD_Client_ID = " + process.getAD_Client_ID() + " "
+			+ "AND hrpc.IsActive = 'Y' "
+			+ "AND hrpc.IsManual = 'Y' "
+			+ "AND hrpc.Type != 'E' "
+			+ "AND EXISTS(SELECT 1 FROM HR_Attribute a "
+			+ "						WHERE a.HR_Concept_ID = hrpc.HR_Concept_ID";
+		if (!isFieldProcessNull) { // Process
 			if (process.getHR_Payroll_ID() != 0) // Process & Payroll
- 				sql = sql + " AND (hrpa.HR_Payroll_ID = " +process.getHR_Payroll_ID()+ " OR hrpa.HR_Payroll_ID is NULL)" ;
+ 				sql = sql + " AND (a.HR_Payroll_ID = " +process.getHR_Payroll_ID()+ " OR a.HR_Payroll_ID is NULL)";
  			if (process.getHR_Department_ID() != 0 ); // Process & Department
- 				sql = sql + " AND (hrpa.HR_Department_ID = " +process.getHR_Department_ID()+" OR hrpa.HR_Department_ID is NULL)" ;
+ 				sql = sql + " AND (a.HR_Department_ID = " +process.getHR_Department_ID()+" OR a.HR_Department_ID is NULL)";
+ 			if (process.getHR_Job_ID() != 0 ); // Process & Job
+ 				sql = sql + " AND (a.HR_Job_ID = " +process.getHR_Job_ID()+" OR a.HR_Job_ID is NULL)" ;
  			if (process.getHR_Department_ID() != 0 ); // Process & Employee
- 				sql = sql + " AND (hrpa.HR_Employee_ID = " + process.getHR_Employee_ID()+" OR hrpa.HR_Employee_ID is NULL)" ;	
+ 				sql = sql + " AND (a.HR_Employee_ID = " + process.getHR_Employee_ID()+" OR a.HR_Employee_ID is NULL)";	
 		}
-		sql = sql +" ORDER BY 2";
-		
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			//pstmt.setInt(1, bi.C_BankAccount_ID);
-			ResultSet rs = pstmt.executeQuery();
-			ValueNamePair vp = null;
-			data.add(new ValueNamePair("",""));
-			while (rs.next())
-			{
-				vp = new ValueNamePair(rs.getString(1), rs.getString(2));   //  returns also not active
-				data.add(vp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		return data;
+		sql = sql +") ORDER BY 2";
+		//	Get from DB
+		return DB.getKeyNamePairs(sql, true);
 	}
 
 
@@ -292,8 +282,7 @@ public class HRActionNotice
 	 *  get record Found to Movement Payroll
 	 *  parameter: 
 	 */
-	public int seekMovement(Timestamp dt)
-	{
+	public int seekMovement(Timestamp dt) {
 		if(conceptId <= 0 )
 			return 0;
 		int HR_Movement_ID = 0;
@@ -301,11 +290,8 @@ public class HRActionNotice
 		int Process_ID = payrollProcessId;
 		int Employee_ID = partnerId;
 		int Concept_ID = conceptId;
-		
-		I_HR_Concept concept = new X_HR_Concept(Env.getCtx(),Concept_ID, null);
 		//
-
-		if ( (Process_ID+Employee_ID+Concept_ID) > 0 ){
+		if ((Process_ID + Employee_ID + Concept_ID) > 0 ){
 			HR_Movement_ID = DB.getSQLValue(null,"SELECT HR_Movement_ID "
 					+" FROM HR_Movement WHERE HR_Process_ID = "+Process_ID
 					+" AND C_BPartner_ID =" +Employee_ID+ " AND HR_Concept_ID = "+Concept_ID
@@ -314,29 +300,52 @@ public class HRActionNotice
 		return HR_Movement_ID;
 	} //seekMovement
 	
+	/**
+	 * Get Column Type Lookup
+	 * @return
+	 */
+	public MLookup getColumnTypeLookup() {
+		MLookupInfo columnTypeLookup = MLookupFactory.getLookup_List(
+				Env.getLanguage(Env.getCtx()), MHRConcept.COLUMNTYPE_AD_Reference_ID);
+		return new MLookup(columnTypeLookup, 0);
+	}
 	
 	/**
-	 * Get SQL Code of ColumnType for given sqlValue
-	 * @param sqlValue
-	 * @return sql select code
+	 * Get Reference Concept
+	 * @param referenceId
+	 * @return
+	 * @return ArrayList<ValueNamePair>
 	 */
-	public static  String getSQL_ColumnType(Properties ctx,String sqlValue) {
-		int columnType_Ref_ID = MTable.get(ctx, I_HR_Concept.Table_ID)
-		.getColumn(I_HR_Concept.COLUMNNAME_ColumnType)
-		.getAD_Reference_Value_ID();
-		String sql;
-		if (Env.isBaseLanguage(Env.getCtx(), I_AD_Ref_List.Table_Name)) {
-			sql = "SELECT zz.Name FROM AD_Ref_List zz WHERE zz.AD_Reference_ID="+columnType_Ref_ID; 
+	public ArrayList<ValueNamePair> getConceptReference(int referenceId) {
+		ArrayList<ValueNamePair> data = new ArrayList<ValueNamePair>();
+
+		//	Get Lookup Info
+		MLookupInfo infoLookup = MLookupFactory.getLookup_List(Env.getLanguage(Env.getCtx()), referenceId);
+		//	Valid Lookup
+		if(infoLookup == null)
+			return data;
+		//	Get SQL
+		String sql = infoLookup.Query;
+		//	
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(sql, null);
+			rs = pstmt.executeQuery();
+			ValueNamePair vp = null;
+			data.add(new ValueNamePair("",""));
+			while (rs.next()) {
+				vp = new ValueNamePair(rs.getString(2), rs.getString(3));
+				data.add(vp);
+			}
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, sql, e);
+		} finally {
+			DB.close(rs);
+			DB.close(pstmt);
 		}
-		else {
-			sql = "SELECT zz.Name FROM AD_Ref_List zz, AD_Ref_List_Trl zzt"
-				+" WHERE zz.AD_Reference_ID="+columnType_Ref_ID
-				+" AND zzt.AD_Ref_List_ID=zz.AD_Ref_List_ID"
-				+" AND zzt.AD_Language="+DB.TO_STRING(Env.getAD_Language(Env.getCtx()));
-		}
-		sql += " AND zz.Value = "+sqlValue;
-		return sql;
-	} // getSQL_ColumnType
+		return data;
+	}
 
 	protected Integer getConceptId() {
 		return conceptId;
@@ -363,7 +372,7 @@ public class HRActionNotice
 	}
 
 	protected String getDescription() {
-		return text;
+		return description;
 	}
 
 	protected Timestamp getValidFrom() {
@@ -373,15 +382,17 @@ public class HRActionNotice
 	protected Timestamp getValidTo() {
 		return validTo;
 	}
+	
 	protected Timestamp getServiceDate() {
 		return serviceDate;
 	}
-
-
-
+	
+	/**
+	 * Save movements
+	 * @return
+	 */
 	public MHRMovement saveMovement() {
 		MHRConcept concept = MHRConcept.get(Env.getCtx(), getConceptId());
-		int movementId = HRActionNotice.movementId > 0 ? HRActionNotice.movementId : 0;
 		MHRMovement movement = new MHRMovement(Env.getCtx(), movementId, null);
 		I_HR_Period payrollPeriod = getPayrollProcess().getHR_Period();
 		movement.setSeqNo(concept.getSeqNo());
@@ -415,6 +426,8 @@ public class HRActionNotice
 				&& (movement.getTextMsg() == null || movement.getTextMsg().trim().length() == 0)) {
 			movement.deleteEx(false);
 		}
+		//	Duplicate movement when is saved on first
+		movementId = movement.getHR_Movement_ID();
 		return movement;
 	}
 
