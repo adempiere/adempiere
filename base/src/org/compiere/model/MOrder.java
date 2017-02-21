@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -94,6 +95,9 @@ public class MOrder extends X_C_Order implements DocAction
 		PO.copyValues(from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
 		to.set_ValueNoCheck ("C_Order_ID", I_ZERO);
 		to.set_ValueNoCheck ("DocumentNo", null);
+		// Goodwill
+		if (counter) // BF: counter document no get sequence from wrong org
+			to.setDocumentNo(from.getDocumentNo() + UUID.randomUUID().toString());	// temporarily until it gets the counter org
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
 		to.setDocAction(DOCACTION_Complete);
@@ -123,9 +127,14 @@ public class MOrder extends X_C_Order implements DocAction
 		to.setIsTransferred (false);
 		to.setPosted (false);
 		to.setProcessed (false);
-		if (counter)
+		if (counter) {
 			to.setRef_Order_ID(from.getC_Order_ID());
-		else
+			MOrg org = MOrg.get(from.getCtx(), from.getAD_Org_ID());
+			int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(trxName);
+			if (counterC_BPartner_ID == 0)
+				return null;
+			to.setBPartner(MBPartner.get(from.getCtx(), counterC_BPartner_ID));
+		} else
 			to.setRef_Order_ID(0);
 		//
 		if (!to.save(trxName))
@@ -1935,12 +1944,21 @@ public class MOrder extends X_C_Order implements DocAction
 		//
 		counter.setAD_Org_ID(counterAD_Org_ID);
 		counter.setM_Warehouse_ID(counterOrgInfo.getM_Warehouse_ID());
+		// Goodwill BF: counter document no get sequence from wrong org
+		String value = DB.getDocumentNo(C_DocTypeTarget_ID, get_TrxName(), false, counter);
+		if (value != null)
+			counter.setDocumentNo(value);
 		//
-		counter.setBPartner(counterBP);
+//		counter.setBPartner(counterBP); // was set on copyFrom
 		counter.setDatePromised(getDatePromised());		// default is date ordered 
-		//	Refernces (Should not be required
+		// Goodwill
+		MPriceList pl = MPriceList.getDefault(getCtx(), !isSOTrx(), MCurrency.getISO_Code(getCtx(), getC_Currency_ID()));
+		if (pl != null)
+			counter.setM_PriceList_ID(pl.getM_PriceList_ID());
+		// end Goodwill
+		//	References (Should not be required)
 		counter.setSalesRep_ID(getSalesRep_ID());
-		counter.save(get_TrxName());
+		counter.saveEx(get_TrxName());
 		
 		//	Update copied lines
 		MOrderLine[] counterLines = counter.getLines(true, null);
@@ -1948,8 +1966,9 @@ public class MOrder extends X_C_Order implements DocAction
 		{
 			MOrderLine counterLine = counterLines[i];
 			counterLine.setOrder(counter);	//	copies header values (BP, etc.)
-			counterLine.setPrice();
-			counterLine.setTax();
+			// Goodwill commented because this will overwrite Price from original doc
+			//counterLine.setPrice();
+			//counterLine.setTax();
 			counterLine.save(get_TrxName());
 		}
 		log.fine(counter.toString());
@@ -1960,8 +1979,11 @@ public class MOrder extends X_C_Order implements DocAction
 			if (counterDT.getDocAction() != null)
 			{
 				counter.setDocAction(counterDT.getDocAction());
-				counter.processIt(counterDT.getDocAction());
-				counter.save(get_TrxName());
+				// added AdempiereException by zuhri
+				if (!counter.processIt(counterDT.getDocAction()))
+					throw new AdempiereException("Failed when processing document - " + counter.getProcessMsg());
+				// end added
+				counter.saveEx(get_TrxName());
 			}
 		}
 		return counter;

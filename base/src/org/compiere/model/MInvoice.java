@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -98,6 +99,9 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		PO.copyValues (from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
 		to.set_ValueNoCheck ("C_Invoice_ID", I_ZERO);
 		to.set_ValueNoCheck ("DocumentNo", null);
+		//	Goodwill
+		if (counter) // BF: counter document no get sequence from wrong org
+			to.setDocumentNo(from.getDocumentNo() + UUID.randomUUID().toString());	// temporarily until it gets the counter org
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
 		to.setDocAction(DOCACTION_Complete);
@@ -133,6 +137,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		if (counter)
 		{
 			to.setRef_Invoice_ID(from.getC_Invoice_ID());
+			MOrg org = MOrg.get(from.getCtx(), from.getAD_Org_ID());
+			int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(trxName);
+			if (counterC_BPartner_ID == 0)
+				return null;
+			to.setBPartner(MBPartner.get(from.getCtx(), counterC_BPartner_ID));
+
 			//	Try to find Order link
 			if (from.getC_Order_ID() != 0)
 			{
@@ -1900,6 +1910,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 */
 	private MInvoice createCounterDoc()
 	{
+		if (isReversal())	// Goodwill
+			return null;
 		//	Is this a counter doc ?
 		if (getRef_Invoice_ID() != 0)
 			return null;
@@ -1943,11 +1955,20 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		//
 		counter.setAD_Org_ID(counterAD_Org_ID);
 	//	counter.setM_Warehouse_ID(counterOrgInfo.getM_Warehouse_ID());
+		// Goodwill BF: counter document no get sequence from wrong org
+		String value = DB.getDocumentNo(C_DocTypeTarget_ID, get_TrxName(), false, counter);
+		if (value != null)
+			counter.setDocumentNo(value);
 		//
-		counter.setBPartner(counterBP);
-		//	Refernces (Should not be required
+//		counter.setBPartner(counterBP);// was set on copyFrom
+		// Goodwill
+		MPriceList pl = MPriceList.getDefault(getCtx(), !isSOTrx(), MCurrency.getISO_Code(getCtx(), getC_Currency_ID()));
+		if (pl != null)
+			counter.setM_PriceList_ID(pl.getM_PriceList_ID());
+		// end Goodwill
+		//	References (Should not be required)
 		counter.setSalesRep_ID(getSalesRep_ID());
-		counter.save(get_TrxName());
+		counter.saveEx(get_TrxName());
 
 		//	Update copied lines
 		MInvoiceLine[] counterLines = counter.getLines(true);
@@ -1956,10 +1977,11 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			MInvoiceLine counterLine = counterLines[i];
 			counterLine.setClientOrg(counter);
 			counterLine.setInvoice(counter);	//	copies header values (BP, etc.)
-			counterLine.setPrice();
-			counterLine.setTax();
+			// Goodwill commented because this will overwrite Price from original doc
+			//counterLine.setPrice();
+			//counterLine.setTax();
 			//
-			counterLine.save(get_TrxName());
+			counterLine.saveEx(get_TrxName());
 		}
 
 		log.fine(counter.toString());
@@ -1970,8 +1992,11 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			if (counterDT.getDocAction() != null)
 			{
 				counter.setDocAction(counterDT.getDocAction());
-				counter.processIt(counterDT.getDocAction());
-				counter.save(get_TrxName());
+				// added AdempiereException by zuhri
+				if (!counter.processIt(counterDT.getDocAction()))
+					throw new AdempiereException("Failed when processing document - " + counter.getProcessMsg());
+				// end added
+				counter.saveEx(get_TrxName());
 			}
 		}
 		return counter;
