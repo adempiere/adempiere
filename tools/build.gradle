@@ -18,61 +18,59 @@ dependencies {
 jar {
     manifest {
         attributes("Implementation-Title": "ADempiere Tools - Rel." + version,
-                   "Implementation-Version": version,
-                   "Implementation-Vendor": "ADempiere",
-                   "Implementation-URL": "http://www.adempiere.org",
-                   "Main-Class": "org.compiere.report.ReportStarter"
-                   )
+                "Implementation-Version": version,
+                "Implementation-Vendor": "ADempiere",
+                "Implementation-URL": "http://www.adempiere.org",
+                "Main-Class": "org.compiere.report.ReportStarter"
+        )
+    }
+}
+
+task prepareCSToolsJar(type: Copy) {
+
+    destinationDir = new File('build/tmp/cstools')
+
+    FileTree ft1 = fileTree(dir: '../lib/server')
+
+    ft1.each { File it1 ->
+
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/INDEX.LIST'
+
+        from zipTree(it1)
+        into destinationDir
+    }
+
+
+    FileTree ft2 = fileTree(dir: '.', include: 'META-INF/services/**')
+
+    from {
+        ft2.each { it2 ->
+            it2.isDirectory() ? it2 : zipTree(it2)
+        }
+    }
+
+    FileTree ft3 = fileTree(dir: './build/classes/main', include: '**/apache/ecs/**')
+
+    from {
+        ft3.each { it3 ->
+            it3.isDirectory() ? it3 : zipTree(it3)
+        }
     }
 }
 
 task buildCSToolsJar(type: Jar) {
 
-    FileCollection fc = files([libDir + '/jstl.jar',
-                               libDir + '/standard.jar',
-                               libDir + '/script-api.jar',
-                               libDir + '/bsh-2.0b6.jar',
-                               libDir + '/bsh-engine.jar',
-                               libDir + '/groovy-all-2.4.7.jar',
-                               libDir + '/groovy-engine.jar',
-                               libDir + '/jython.jar',
-                               libDir + '/jython-engine.jar',
-                               libDir + '/Verisign.jar',
-                               libDir + '/payflow.jar',
-                               libDir + '/miglayout-3.7.1-swing.jar',
-                               libDir + '/jpayment.jar',
-                               libDir + '/commons-logging.jar',
-                               libDir + '/log4j.jar',
-                               libDir + '/jnlp.jar',
-                               libDir + '/barbecue-1.5-beta1.jar',
-                               libDir + '/commons-net-1.4.0.jar',
-                               libDir + '/looks-2.0.4.jar',
-                               libDir + '/jpedal.jar',
-                               libDir + '/iText-2.1.7.jar',
-                               libDir + '/jfreechart-1.0.13.jar',
-                               libDir + '/jcommon-1.0.18.jar',
-                               libDir + '/activemq-core-5.7.0.jar',
-                               libDir + '/c3p0-0.9.1.2.jar',
-                               libDir + '/c3p0-oracle-thin-extras-0.9.1.2.jar',
-                               libDir + '/poi-3.9-20121203.jar',
-                               libDir + '/cglib.jar',
-                               libDir + '/OpenForecast-0.5.0.jar',
-                               libDir + '/commons-collections-3.1.jar',
-                               libDir + '/commons-codec.jar',
-                               libDir + '/ant.jar',
-                               libDir + '/xercesImpl.jar',
-                               libDir + '/cron4j-2.2.1.jar'
-    ])
+    FileTree ft1 = fileTree(dir: 'build/tmp/cstools')
 
     from {
-        fc.collect {
-            it.isDirectory() ? it : zipTree(it)
+        ft1.each { it1 ->
+            it1.isDirectory() ? it1 : zipTree(it1)
         }
-    }{
-        exclude 'META-INF/*'
     }
-
-    // include '**/apache/ecs/**'
 
     archiveName = 'CSTools' + archiveSpecifier
 
@@ -85,7 +83,6 @@ task buildCSToolsJar(type: Jar) {
     }
 }
 
-
 task buildJBossJar(type: Jar) {
 
     FileCollection fc = files([jbossClientLibDir + '/jboss-ejb3x.jar',
@@ -97,17 +94,17 @@ task buildJBossJar(type: Jar) {
 
     manifest {
         attributes("Implementation-Title": "Adempiere JBoss Client - " + version,
-                   "Implementation-Version": version,
-                   "Implementation-Vendor": "ADempiere",
-                   "Implementation-URL": "http://www.adempiere.org"
-                   )
+                "Implementation-Version": version,
+                "Implementation-Vendor": "ADempiere",
+                "Implementation-URL": "http://www.adempiere.org"
+        )
     }
 
     from {
         fc.collect {
             it.isDirectory() ? it : zipTree(it)
         }
-    }{
+    } {
         exclude 'META-INF/*'
     }
 
@@ -116,17 +113,17 @@ task buildJBossJar(type: Jar) {
 task buildGlassfishJar(type: Jar) {
 
     FileCollection fc = files([glassfishLibDir + '/appserv-admin.jar',
-                                glassfishLibDir + '/appserv-deployment-client.jar',
-                                glassfishLibDir + '/appserv-rt.jar',
-                                glassfishLibDir + '/appserv-ext.jar',
-                                libDir + '/javaee.jar'
+                               glassfishLibDir + '/appserv-deployment-client.jar',
+                               glassfishLibDir + '/appserv-rt.jar',
+                               glassfishLibDir + '/appserv-ext.jar',
+                               libDir + '/javaee.jar'
     ])
 
     from {
         fc.collect {
             it.isDirectory() ? it : zipTree(it)
         }
-    }{
+    } {
         exclude 'META-INF/*'
     }
 
@@ -151,7 +148,7 @@ task buildOracleJar(type: Jar) {
         fc.collect {
             it.isDirectory() ? it : zipTree(it)
         }
-    }{
+    } {
         exclude 'META-INF/*'
     }
 
@@ -175,7 +172,7 @@ task buildPostgresqlJar(type: Jar) {
         fc.collect {
             it.isDirectory() ? it : zipTree(it)
         }
-    }{
+    } {
         exclude 'META-INF/*'
     }
 
@@ -193,14 +190,14 @@ task buildPostgresqlJar(type: Jar) {
 task buildMySQLJar(type: Jar) {
 
     FileCollection fc = files([
-        libDir + '/mysql-connector-java-5.1.13-bin.jar'
+            libDir + '/mysql-connector-java-5.1.13-bin.jar'
     ])
 
     from {
         fc.collect {
             it.isDirectory() ? it : zipTree(it)
         }
-    }{
+    } {
         exclude 'META-INF/*'
     }
 
