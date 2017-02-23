@@ -4,14 +4,15 @@ description = 'Add description for tools project'
 version = '4.0.0-SNAPSHOT'
 
 
-def libDir = '../lib'
+def commonsLibDir = '../lib'
 def jbossClientLibDir = '../jboss/client'
 def glassfishLibDir = '../glassfishfacet/lib'
 
 def archiveSpecifier = '-' + version + '.jar'
+def tmpDir = 'build/tmp'
 
 dependencies {
-    compile fileTree(dir: libDir, include: '*.jar')
+    compile fileTree(dir: 'lib', include: '*.jar')
 }
 
 
@@ -20,17 +21,80 @@ jar {
         attributes("Implementation-Title": "ADempiere Tools - Rel." + version,
                 "Implementation-Version": version,
                 "Implementation-Vendor": "ADempiere",
-                "Implementation-URL": "http://www.adempiere.org",
-                "Main-Class": "org.compiere.report.ReportStarter"
+                "Implementation-URL": "http://www.adempiere.org"
         )
     }
 }
 
-task prepareCSToolsJar(type: Copy) {
+task prepareCCToolsJar(type: Copy, dependsOn: 'compileJava') {
 
-    destinationDir = new File('build/tmp/cstools')
+    destinationDir = new File(tmpDir + '/cctools')
 
-    FileTree ft1 = fileTree(dir: '../lib/server')
+    FileTree ft1 = fileTree(dir: commonsLibDir + '/client')
+
+    ft1.each { File it1 ->
+
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/INDEX.LIST'
+
+        from zipTree(it1)
+        into destinationDir
+    }
+
+    FileTree ft2 = fileTree(dir: '.', include: 'META-INF/services/**')
+
+    from {
+        ft2.each { it2 ->
+            it2.isDirectory() ? it2 : zipTree(it2)
+        }
+    }
+
+    FileTree ft3 = fileTree(dir: './build/classes/main', include: '**/apache/ecs/**')
+
+    from {
+        ft3.each { it3 ->
+            it3.isDirectory() ? it3 : zipTree(it3)
+        }
+    }
+
+    FileTree ft4 = fileTree(dir: './build/classes/main', include: 'it/**')
+
+    from {
+        ft3.each { it4 ->
+            it4.isDirectory() ? it4 : zipTree(it4)
+        }
+    }
+}
+
+task buildCCToolsJar(type: Jar, dependsOn: 'prepareCCToolsJar') {
+
+    FileTree ft1 = fileTree(dir: tmpDir + '/cctools')
+
+    from {
+        ft1.each { it1 ->
+            it1.isDirectory() ? it1 : zipTree(it1)
+        }
+    }
+
+    archiveName = 'CCTools' + archiveSpecifier
+
+    manifest {
+        attributes("Implementation-Title": "Adempiere Client Tools (CCTOOLS) - " + version,
+                "Implementation-Version": version,
+                "Implementation-Vendor": "ADempiere",
+                "Implementation-URL": "http://www.adempiere.org"
+        )
+    }
+}
+
+task prepareCSToolsJar(type: Copy, dependsOn: 'compileJava') {
+
+    destinationDir = new File(tmpDir + '/cstools')
+
+    FileTree ft1 = fileTree(dir: commonsLibDir + '/server')
 
     ft1.each { File it1 ->
 
@@ -62,9 +126,9 @@ task prepareCSToolsJar(type: Copy) {
     }
 }
 
-task buildCSToolsJar(type: Jar) {
+task buildCSToolsJar(type: Jar, dependsOn: 'prepareCSToolsJar') {
 
-    FileTree ft1 = fileTree(dir: 'build/tmp/cstools')
+    FileTree ft1 = fileTree(dir: tmpDir + '/cstools')
 
     from {
         ft1.each { it1 ->
@@ -83,12 +147,37 @@ task buildCSToolsJar(type: Jar) {
     }
 }
 
-task buildJBossJar(type: Jar) {
+task prepareJBossJar(type: Copy) {
+
+    destinationDir = new File(tmpDir + '/jboss')
 
     FileCollection fc = files([jbossClientLibDir + '/jboss-ejb3x.jar',
                                jbossClientLibDir + '/jboss-ejb3-client.jar',
                                jbossClientLibDir + '/jbossall-client.jar'
     ])
+
+    fc.each { File it1 ->
+
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/INDEX.LIST'
+
+        from zipTree(it1)
+        into destinationDir
+    }
+}
+
+task buildJBossJar(type: Jar, dependsOn: 'prepareJBossJar') {
+
+    FileTree ft1 = fileTree(dir: tmpDir + '/jboss')
+
+    from {
+        ft1.each { it1 ->
+            it1.isDirectory() ? it1 : zipTree(it1)
+        }
+    }
 
     archiveName = 'jboss' + archiveSpecifier
 
@@ -99,32 +188,40 @@ task buildJBossJar(type: Jar) {
                 "Implementation-URL": "http://www.adempiere.org"
         )
     }
-
-    from {
-        fc.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    } {
-        exclude 'META-INF/*'
-    }
-
 }
 
-task buildGlassfishJar(type: Jar) {
+task prepareGlassfishJar(type: Copy) {
+
+    destinationDir = new File(tmpDir + '/glassfish')
 
     FileCollection fc = files([glassfishLibDir + '/appserv-admin.jar',
                                glassfishLibDir + '/appserv-deployment-client.jar',
                                glassfishLibDir + '/appserv-rt.jar',
                                glassfishLibDir + '/appserv-ext.jar',
-                               libDir + '/javaee.jar'
+                               commonsLibDir + '/server/javaee.jar'
     ])
 
+    fc.each { File it1 ->
+
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/INDEX.LIST'
+
+        from zipTree(it1)
+        into destinationDir
+    }
+}
+
+task buildGlassfishJar(type: Jar, dependsOn: 'prepareGlassfishJar') {
+
+    FileTree ft1 = fileTree(dir: tmpDir + '/glassfish')
+
     from {
-        fc.collect {
-            it.isDirectory() ? it : zipTree(it)
+        ft1.each { it1 ->
+            it1.isDirectory() ? it1 : zipTree(it1)
         }
-    } {
-        exclude 'META-INF/*'
     }
 
     archiveName = 'glassfish' + archiveSpecifier
@@ -138,18 +235,33 @@ task buildGlassfishJar(type: Jar) {
     }
 }
 
+task prepareOracleJar(type: Copy) {
 
-task buildOracleJar(type: Jar) {
+    destinationDir = new File(tmpDir + '/oracle')
 
-    FileCollection fc = files([libDir + '/ojdbc6.jar'
-    ])
+    FileCollection fc = files([commonsLibDir + '/jdbc/ojdbc6.jar'])
+
+    fc.each { File it1 ->
+
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/INDEX.LIST'
+
+        from zipTree(it1)
+        into destinationDir
+    }
+}
+
+task buildOracleJar(type: Jar, dependsOn: 'prepareOracleJar') {
+
+    FileTree ft1 = fileTree(dir: tmpDir + '/oracle')
 
     from {
-        fc.collect {
-            it.isDirectory() ? it : zipTree(it)
+        ft1.each { it1 ->
+            it1.isDirectory() ? it1 : zipTree(it1)
         }
-    } {
-        exclude 'META-INF/*'
     }
 
     archiveName = 'oracle' + archiveSpecifier
@@ -163,17 +275,33 @@ task buildOracleJar(type: Jar) {
     }
 }
 
-task buildPostgresqlJar(type: Jar) {
+task preparePostgresqlJar(type: Copy) {
 
-    FileCollection fc = files([libDir + '/postgresql.jar'
-    ])
+    destinationDir = new File(tmpDir + '/postgresql')
+
+    FileCollection fc = files([commonsLibDir + '/jdbc/postgresql.jar'])
+
+    fc.each { File it1 ->
+
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/INDEX.LIST'
+
+        from zipTree(it1)
+        into destinationDir
+    }
+}
+
+task buildPostgresqlJar(type: Jar, dependsOn: 'preparePostgresqlJar') {
+
+    FileTree ft1 = fileTree(dir: tmpDir + '/postgresql')
 
     from {
-        fc.collect {
-            it.isDirectory() ? it : zipTree(it)
+        ft1.each { it1 ->
+            it1.isDirectory() ? it1 : zipTree(it1)
         }
-    } {
-        exclude 'META-INF/*'
     }
 
     archiveName = 'postgresql' + archiveSpecifier
@@ -187,18 +315,34 @@ task buildPostgresqlJar(type: Jar) {
     }
 }
 
-task buildMySQLJar(type: Jar) {
+task prepareMySQLJar(type: Copy) {
 
-    FileCollection fc = files([
-            libDir + '/mysql-connector-java-5.1.13-bin.jar'
-    ])
+    destinationDir = new File(tmpDir + '/mysql')
+
+    FileCollection fc = files([commonsLibDir + '/jdbc/mysql-connector-java-5.1.13-bin.jar'])
+
+    fc.each { File it1 ->
+
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/INDEX.LIST'
+
+        from zipTree(it1)
+        into destinationDir
+    }
+}
+
+
+task buildMySQLJar(type: Jar, dependsOn: 'prepareMySQLJar') {
+
+    FileTree ft1 = fileTree(dir: tmpDir + '/mysql')
 
     from {
-        fc.collect {
-            it.isDirectory() ? it : zipTree(it)
+        ft1.each { it1 ->
+            it1.isDirectory() ? it1 : zipTree(it1)
         }
-    } {
-        exclude 'META-INF/*'
     }
 
     archiveName = 'mysql-connector' + archiveSpecifier

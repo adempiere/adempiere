@@ -1,36 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/SBT__org_scala_lang_scala_reflect_2_11_7_jar.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.adempiere.test/.idea/modules/adempiereTestSuite-build.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.adempiere.test/.idea/modules/adempiereTestSuite.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/ADInterface-1.0.war" afterPath="$PROJECT_DIR$/lib/ADInterface-1.0.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/customization.jar" afterPath="$PROJECT_DIR$/lib/customization.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/zkcustomization.jar" afterPath="$PROJECT_DIR$/lib/zkcustomization.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/FixedAsset.jar" afterPath="$PROJECT_DIR$/packages/FixedAsset.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoCashflow.jar" afterPath="$PROJECT_DIR$/packages/liberoCashflow.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoHR.jar" afterPath="$PROJECT_DIR$/packages/liberoHR.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoMFG.jar" afterPath="$PROJECT_DIR$/packages/liberoMFG.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoWM.jar" afterPath="$PROJECT_DIR$/packages/liberoWM.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ant.xml" afterPath="$PROJECT_DIR$/.idea/ant.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sbt.xml" afterPath="$PROJECT_DIR$/.idea/sbt.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/scala_compiler.xml" afterPath="$PROJECT_DIR$/.idea/scala_compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="Changed directory structure to support Gradle as a build engine.">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/base/ADempiere-all.launch" afterPath="$PROJECT_DIR$/tools/launchers/ADempiere-all.launch" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/base/adempiereTrunkMvcForms-GenerateModel-table.launch" afterPath="$PROJECT_DIR$/tools/launchers/adempiereTrunkMvcForms-GenerateModel-table.launch" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/base/org.adempiere.ad.migration-GenerateModels.launch" afterPath="$PROJECT_DIR$/tools/launchers/org.adempiere.ad.migration-GenerateModels.launch" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adempiere.iml" afterPath="$PROJECT_DIR$/adempiere.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AveragePOCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AveragePOCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/StandardCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/StandardCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/model/ExportModelValidator.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/model/ExportModelValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/pipo/PackIn.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/pipo/PackIn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/CalloutInvoice.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/CalloutInvoice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MReplicationStrategy.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MReplicationStrategy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.test/build.sbt" afterPath="$PROJECT_DIR$/org.adempiere.test/build.sbt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JasperReports/build.gradle" afterPath="$PROJECT_DIR$/JasperReports/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/build.gradle" afterPath="$PROJECT_DIR$/client/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/build.gradle" afterPath="$PROJECT_DIR$/tools/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/launchers/Adempiere.launch" afterPath="$PROJECT_DIR$/tools/launchers/Adempiere.launch" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/launchers/GenerateModel-general.launch" afterPath="$PROJECT_DIR$/tools/launchers/GenerateModel-general.launch" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/launchers/ModelClassGenerator.launch" afterPath="$PROJECT_DIR$/tools/launchers/ModelClassGenerator.launch" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/launchers/ModelInterfaceGenerator.launch" afterPath="$PROJECT_DIR$/tools/launchers/ModelInterfaceGenerator.launch" />
     </list>
     <ignored path="extension_apparel_management.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -84,114 +70,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ProcessingInvoiceSelection.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelection.java">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="61" column="86" selection-start-line="61" selection-start-column="86" selection-end-line="61" selection-end-column="86" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HRPayrollTemplete.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/packages/liberoHR.jar!/org/eevolution/process/HRPayrollTemplete.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="26" column="30" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HRPayrollTemplete.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPayrollTemplete.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="168" column="156" selection-start-line="168" selection-start-column="156" selection-end-line="168" selection-end-column="156" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProcessingOrderSelection.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingOrderSelection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="906">
-              <caret line="88" column="64" selection-start-line="88" selection-start-column="64" selection-end-line="88" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SvrProcess.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/SvrProcess.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="877" column="15" selection-start-line="877" selection-start-column="15" selection-end-line="877" selection-end-column="15" />
-              <folding>
-                <element signature="e#23768#23769#0" expanded="true" />
-                <element signature="e#23809#23810#0" expanded="true" />
-                <element signature="e#23887#23888#0" expanded="true" />
-                <element signature="e#23946#23947#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MHRPayroll.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRPayroll.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MStorage.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MStorage.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1051">
-              <caret line="324" column="17" selection-start-line="324" selection-start-column="8" selection-end-line="324" selection-end-column="17" />
-              <folding>
-                <element signature="e#10962#10972#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MHRMovement.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRMovement.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="51" column="41" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MHRProcess.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRProcess.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
-              <caret line="978" column="45" selection-start-line="978" selection-start-column="23" selection-end-line="978" selection-end-column="45" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#30459#30467#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Msg.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/base/src/org/compiere/util/Msg.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="650" column="70" selection-start-line="650" selection-start-column="69" selection-end-line="650" selection-end-column="70" />
+            <state relative-caret-position="262">
+              <caret line="67" column="2" lean-forward="false" selection-start-line="67" selection-start-column="2" selection-end-line="67" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -207,8 +90,32 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>S</find>
+      <find>Insert</find>
+      <find>Adempiere</find>
+      <find>lib</find>
+      <find>../lib</find>
+      <find>org.apache.ecs</find>
+      <find>AdempiereServer</find>
+      <find>dbStartup.dir</find>
+      <find>Adempiere.jar</find>
+      <find>manifest.exclude</find>
+      <find>javaee.jar</find>
+      <find>ant</find>
+      <find>logkit</find>
+      <find>jsp-api</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>${jar.path}</replace>
+    </replaceStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <push-targets>
+      <push-target-info repo="$PROJECT_DIR$" source="sandbox/4.0.0#001" target-remote="origin" target-branch="sandbox/4.0.0#001" />
+    </push-targets>
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -218,20 +125,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/adempiere/Adempiere/lib/posterita.xml" />
-        <option value="$PROJECT_DIR$/adempiere/Adempiere/lib/adempiereAll.xml" />
-        <option value="$PROJECT_DIR$/install/build/Adempiere/build.xml" />
-        <option value="$PROJECT_DIR$/adempiere/Adempiere/build.xml" />
-        <option value="$PROJECT_DIR$/target/webapp/WEB-INF/lib/posterita.xml" />
-        <option value="$PROJECT_DIR$/lib/adempiereAll.xml" />
-        <option value="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/eevolution/form/ScanBar.java" />
-        <option value="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/eevolution/form/ExpressReceiptScanBar.java" />
-        <option value="$PROJECT_DIR$/base/src/org/compiere/wf/MWFActivity.java" />
-        <option value="$PROJECT_DIR$/migration/380lts-release/0253_470_ExpressReceipt.xml" />
-        <option value="$PROJECT_DIR$/migration/380lts-release/0263_470_ExpressReceiptBarCode.xml" />
-        <option value="$PROJECT_DIR$/client/src/org/compiere/apps/wf/WFActivity.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/wf/WFPanel.java" />
-        <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java" />
         <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/desktop/NavBarDesktop.java" />
         <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/desktop/IDesktop.java" />
         <option value="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/desktop/TabbedDesktop.java" />
@@ -269,33 +162,36 @@
         <option value="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRPayroll.java" />
         <option value="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRProcess.java" />
         <option value="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPayrollTemplete.java" />
+        <option value="$PROJECT_DIR$/base/build.xml" />
+        <option value="$PROJECT_DIR$/client/build.xml" />
+        <option value="$PROJECT_DIR$/com.kkalice.adempiere.migrate/build.xml" />
+        <option value="$PROJECT_DIR$/JasperReportsWebApp/build.xml" />
+        <option value="$PROJECT_DIR$/JasperReportsWebApp/packaging-build.xml" />
+        <option value="$PROJECT_DIR$/base/src/main/java/org/adempiere/util/GenerateModel.java" />
+        <option value="$PROJECT_DIR$/JasperReports/build.xml" />
+        <option value="$PROJECT_DIR$/utils_dev/build.xml" />
+        <option value="$PROJECT_DIR$/install/build.xml" />
+        <option value="$PROJECT_DIR$/tools/build.xml" />
+        <option value="$PROJECT_DIR$/client/build.gradle" />
+        <option value="$PROJECT_DIR$/JasperReports/build.gradle" />
+        <option value="$PROJECT_DIR$/tools/build.gradle" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="Bundled (Maven 3)" />
-      </MavenGeneralSettings>
-    </option>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="MavenProjectNavigator">
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="2048" />
-    <option name="height" value="1253" />
-  </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
-    <OptionsSetting value="true" id="Add" />
-    <OptionsSetting value="true" id="Remove" />
-    <OptionsSetting value="true" id="Checkout" />
-    <OptionsSetting value="true" id="Update" />
-    <OptionsSetting value="true" id="Status" />
-    <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
-    <ConfirmationsSetting value="0" id="Remove" />
+    <option name="width" value="1440" />
+    <option name="height" value="873" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -312,6 +208,67 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiereDevelop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adempiere" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="adempiere">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="adempiere">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="base">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="adempiere">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="base">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="src">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -320,16 +277,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="adempiere" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -344,7 +291,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="zkwebui" />
+              <option name="myItemId" value="tools" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -358,337 +305,22 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="zkwebui" />
+              <option name="myItemId" value="tools" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zkwebui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zkwebui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zkwebui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="form" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="zkwebui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="base" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="base" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="service" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="base" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="process" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="base" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
+              <option name="myItemId" value="launchers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
-      <pane id="Scratches" />
-      <pane id="Scope">
-        <subPane subId="Project Files" />
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.40536398" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../InacorpCustomization" />
@@ -708,24 +340,37 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1092" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
+    <property name="js.eslint.eslintPackage" value="" />
+    <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
+    <property name="SearchEverywhereHistoryKey" value="AccountEngine&#9;null&#9;null&#10;Gene&#9;FILE&#9;file:///Users/sramazzina/Documents/02.OSS/forked/adempiere/base/src/main/java/org/adempiere/util/GenerateModel.java&#10;Model&#9;PSI&#9;JAVA://org.adempiere.util.ModelClassGenerator&#10;ModelIn&#9;PSI&#9;JAVA://org.adempiere.util.ModelInterfaceGenerator&#10;GeneraModel.&#9;FILE&#9;file:///Users/sramazzina/Documents/02.OSS/forked/adempiere/base/src/main/java/org/adempiere/util/GenerateModel.java&#10;Genera&#9;RUN_CONFIGURATION&#9;GenerateModel&#10;PO&#9;PSI&#9;JAVA://org.compiere.model.PO&#10;DB&#9;PSI&#9;JAVA://org.compiere.util.DB" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/eevolution/form" />
+      <recent name="$PROJECT_DIR$/tools/launchers" />
+      <recent name="$PROJECT_DIR$/tools/lib" />
+      <recent name="$PROJECT_DIR$/lib/client" />
+      <recent name="$PROJECT_DIR$/lib/jdbc" />
+      <recent name="$PROJECT_DIR$/JasperReports/lib" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="main.resources" />
       <recent name="org.compiere.minigrid" />
       <recent name="org.eevolution.service" />
       <recent name="org.eevolution.form" />
       <recent name="org.eevolution.process" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/base/src/org/eevolution/process" />
+      <recent name="$PROJECT_DIR$/tools/lib" />
+      <recent name="$PROJECT_DIR$/lib/client" />
+      <recent name="$PROJECT_DIR$/JasperReports/lib" />
+      <recent name="$PROJECT_DIR$/tools/src/test/resources" />
+      <recent name="$PROJECT_DIR$/tools/src/test/java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Adempiere">
+  <component name="RunManager" selected="Application.GenerateModel">
     <configuration default="false" name="Adempiere" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -810,6 +455,62 @@
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
       <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
+        <option name="GAPID_ENABLED" value="false" />
+        <option name="GAPID_DISABLE_PCS" value="false" />
+        <option name="SUPPORT_LIB_ENABLED" value="true" />
+        <option name="INSTRUMENTATION_ENABLED" value="true" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
+        <option name="GAPID_ENABLED" value="false" />
+        <option name="GAPID_DISABLE_PCS" value="false" />
+        <option name="SUPPORT_LIB_ENABLED" value="true" />
+        <option name="INSTRUMENTATION_ENABLED" value="true" />
+      </Profilers>
       <method />
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -835,12 +536,134 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="CabalRunConfiguration" factoryName="Haskell">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
-      <setting name="executableName" value="" />
-      <setting name="parameters" value="" />
-      <setting name="workingDir" value="" />
-      <environmetVariables />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Cold Fusion runner description" factoryName="Cold Fusion" custom_browser="" web_path="">
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="myFilePath" />
+      <option name="GLUE" />
+      <option name="myNameFilter" />
+      <option name="myGeneratedName" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
+      <option name="BCName" value="" />
+      <option name="IOSSimulatorSdkPath" value="" />
+      <option name="adlOptions" value="" />
+      <option name="airProgramParameters" value="" />
+      <option name="appDescriptorForEmulator" value="Android" />
+      <option name="debugTransport" value="USB" />
+      <option name="debuggerSdkRaw" value="BC SDK" />
+      <option name="emulator" value="NexusOne" />
+      <option name="emulatorAdlOptions" value="" />
+      <option name="fastPackaging" value="true" />
+      <option name="fullScreenHeight" value="0" />
+      <option name="fullScreenWidth" value="0" />
+      <option name="launchUrl" value="false" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
+        </LauncherParameters>
+      </option>
+      <option name="mobileRunTarget" value="Emulator" />
+      <option name="moduleName" value="" />
+      <option name="overriddenMainClass" value="" />
+      <option name="overriddenOutputFileName" value="" />
+      <option name="overrideMainClass" value="false" />
+      <option name="runTrusted" value="true" />
+      <option name="screenDpi" value="0" />
+      <option name="screenHeight" value="0" />
+      <option name="screenWidth" value="0" />
+      <option name="url" value="http://" />
+      <option name="usbDebugPort" value="7936" />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" package_name="" scope="Class">
+      <option name="BCName" value="" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
+        </LauncherParameters>
+      </option>
+      <option name="moduleName" value="" />
+      <option name="trusted" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
@@ -859,6 +682,24 @@
       </ExternalSystemSettings>
       <method />
     </configuration>
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
+      <setting name="vmparams" value="" />
+      <setting name="cmdLine" value="run-app" />
+      <setting name="passParentEnv" value="true" />
+      <setting name="launchBrowser" value="true" />
+      <setting name="launchBrowserUrl" value="" />
+      <setting name="depsClasspath" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -871,27 +712,6 @@
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnitTestDiscovery" factoryName="JUnit Test Discovery" changeList="All">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
@@ -919,6 +739,40 @@
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="adempiere" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
       <envs />
       <method />
     </configuration>
@@ -967,6 +821,12 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -995,32 +855,26 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="TestNGTestDiscovery" factoryName="TestNG Test Discovery" changeList="All">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="ANNOTATION_TYPE" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <option name="USE_DEFAULT_REPORTERS" value="false" />
-      <option name="PROPERTIES_FILE" />
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
       <envs />
-      <properties />
-      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="osgi.bnd.run" factoryName="Run Launcher">
+      <method />
+    </configuration>
+    <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
       <method />
     </configuration>
     <configuration default="true" type="uTestRunConfiguration" factoryName="utest">
@@ -1058,19 +912,18 @@
       <envs />
       <method />
     </configuration>
-    <list size="6">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.Adempiere Pastora" />
-      <item index="1" class="java.lang.String" itemvalue="SBT Task.Jetty Start" />
-      <item index="2" class="java.lang.String" itemvalue="Application.Adempiere" />
-      <item index="3" class="java.lang.String" itemvalue="Application.HRPayrollTemplete" />
-      <item index="4" class="java.lang.String" itemvalue="Application.CreateUUIDforTables" />
-      <item index="5" class="java.lang.String" itemvalue="Application.GenerateModel" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Adempiere" />
+      <item index="2" class="java.lang.String" itemvalue="Application.HRPayrollTemplete" />
+      <item index="3" class="java.lang.String" itemvalue="Application.CreateUUIDforTables" />
+      <item index="4" class="java.lang.String" itemvalue="Application.GenerateModel" />
     </list>
     <recent_temporary>
       <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Application.Adempiere" />
-        <item index="1" class="java.lang.String" itemvalue="Application.HRPayrollTemplete" />
-        <item index="2" class="java.lang.String" itemvalue="Application.GenerateModel" />
+        <item index="0" class="java.lang.String" itemvalue="Application.GenerateModel" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Adempiere" />
+        <item index="2" class="java.lang.String" itemvalue="Application.HRPayrollTemplete" />
         <item index="3" class="java.lang.String" itemvalue="Application.CreateUUIDforTables" />
       </list>
     </recent_temporary>
@@ -1106,9 +959,9 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="1469777170000" />
         <entry key="$PROJECT_DIR$/../../Scala/quiz-management-service/tutorial-3" value="1449794724000" />
         <entry key="$PROJECT_DIR$/../../Scala/quiz-management-service/tutorial-4" value="1449794724000" />
+        <entry key="$PROJECT_DIR$" value="1469777170000" />
       </map>
     </option>
     <option name="externalProjectsViewState">
@@ -1135,53 +988,269 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1464635426385</updated>
+      <workItem from="1486203538059" duration="22946000" />
+      <workItem from="1486333686734" duration="89000" />
+      <workItem from="1486476427298" duration="266000" />
+      <workItem from="1486510249360" duration="219000" />
+      <workItem from="1486593307283" duration="3254000" />
+      <workItem from="1486626689392" duration="908000" />
+      <workItem from="1486648041788" duration="3198000" />
+      <workItem from="1486676619685" duration="2084000" />
+      <workItem from="1486997967837" duration="12000" />
+      <workItem from="1487796188575" duration="3059000" />
+      <workItem from="1487869218768" duration="13758000" />
     </task>
+    <task id="LOCAL-00001" summary="Changed directory structure to support Gradle as a build engine.">
+      <created>1486209490944</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1486209490944</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Changed directory structure to support Gradle as a build engine.">
+      <created>1486210398345</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1486210398345</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Changed directory structure to support Gradle as a build engine.">
+      <created>1486210733678</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1486210733678</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Changed directory structure to support Gradle as a build engine.">
+      <created>1486212376680</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1486212376680</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Changed directory structure to support Gradle as a build engine.">
+      <created>1486213134660</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1486213134660</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Refactoring. JAR files moved to global lib directory to remove this project whose only role was to be a sort of container for Jasperreport jars">
+      <created>1486300905897</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1486300905897</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Updated build xml to get Jasper dependencies from lib directory">
+      <created>1486301121284</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1486301121284</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Changed directory structure to support Gradle as a build engine. Added some modifications to .gitignore">
+      <created>1486301306720</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1486301306720</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Moved Jasperreport libraries from JasperReportsTools to global lib directory">
+      <created>1486323523144</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1486323523144</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Updated .gitignore file">
+      <created>1486324564438</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1486324564438</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Removed unneeded project">
+      <created>1486330213104</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1486330213104</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Removed project sqlj because not used. Fixed build.xml in install to manage the removal of sqlj project. Temporarly disabled compilation of serverApps, webStore, webCM in global build.xml (utils_dev).">
+      <created>1486333094088</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1486333094088</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Removed unneeded project">
+      <created>1486476505988</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1486476505988</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Just started migration to Gradle in base and JasperReport projects.">
+      <created>1486510371677</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1486510371677</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Removed lib directory from tools project and relocated jars to global lib directory. Reworked all the existing build.xml to link jar files currently relocated to global lib. Added gradle file to tools project to initiate the migration to that build engine">
+      <created>1486593607909</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1486593607909</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Add jar files relocated from tools/lib">
+      <created>1486593869699</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1486593869699</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Changed directory structure to support Gradle as a build engine.">
+      <created>1486593901265</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1486593901265</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Relocated tools dir sources in subdir compatible wth ths the Gradle's directory's schema layout. Minor fixes to JasPerReport's project build.gradle after relocating tools/lib jars to lib.">
+      <created>1486650289364</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1486650289364</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Library refactoring">
+      <created>1487871563821</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1487871563821</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Almost there to build the project with Gradle!">
+      <created>1487871642288</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1487871642288</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Library placement refactoring. Moved launcher to tools/launchers directory">
+      <created>1487893200144</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1487893200144</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="49793000" />
+  </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2048" height="1253" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4384106" sideWeight="0.5487106" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20226936" sideWeight="0.49393415" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="IvyIDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.18982808" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18982808" sideWeight="0.47339448" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.120704845" sideWeight="0.6560319" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951543" sideWeight="0.498006" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43788546" sideWeight="0.86340976" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5048458" sideWeight="0.5224327" order="18" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50463575" sideWeight="0.5224327" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23479562" sideWeight="0.4707792" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41409692" sideWeight="0.5428714" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20226936" sideWeight="0.49393415" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3894273" sideWeight="0.6296112" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16423841" sideWeight="0.6296112" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.54361236" sideWeight="0.68494517" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4845815" sideWeight="0.8968096" order="17" side_tool="false" content_ui="tabs" />
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
-      <window_info id="GhcMod" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919848" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19242273" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
-      <window_info id="Cabal" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951146" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36740088" sideWeight="0.4571286" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4775673" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19042872" sideWeight="0.47339448" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30873924" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26490065" sideWeight="0.4512894" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12063809" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.120704845" sideWeight="0.6560319" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985783" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Cabal" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951146" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43788546" sideWeight="0.86340976" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985783" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21834497" sideWeight="0.52922076" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="GhcMod" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919848" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2" sideWeight="0.54584527" order="13" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985783" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20226936" sideWeight="0.49393415" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="IvyIDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Cabal" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951146" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="15" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.18982808" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18982808" sideWeight="0.47339448" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.120704845" sideWeight="0.6560319" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951543" sideWeight="0.498006" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43788546" sideWeight="0.86340976" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50463575" sideWeight="0.5224327" order="19" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23479562" sideWeight="0.4707792" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985783" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16423841" sideWeight="0.6296112" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.54361236" sideWeight="0.68494517" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21834497" sideWeight="0.52922076" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4845815" sideWeight="0.8968096" order="18" side_tool="false" content_ui="tabs" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
+      <window_info id="GhcMod" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919848" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29154727" sideWeight="0.5" order="8" side_tool="true" content_ui="combo" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22384106" sideWeight="0.45415473" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12063809" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -1193,6 +1262,26 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="Refactoring. JAR files moved to global lib directory to remove this project whose only role was to be a sort of container for Jasperreport jars" />
+    <MESSAGE value="Updated build xml to get Jasper dependencies from lib directory" />
+    <MESSAGE value="Changed directory structure to support Gradle as a build engine. Added some modifications to .gitignore" />
+    <MESSAGE value="Moved Jasperreport libraries from JasperReportsTools to global lib directory" />
+    <MESSAGE value="Updated .gitignore file" />
+    <MESSAGE value="Removed project sqlj because not used. Fixed build.xml in install to manage the removal of sqlj project. Temporarly disabled compilation of serverApps, webStore, webCM in global build.xml (utils_dev)." />
+    <MESSAGE value="Removed unneeded project" />
+    <MESSAGE value="Just started migration to Gradle in base and JasperReport projects." />
+    <MESSAGE value="Removed lib directory from tools project and relocated jars to global lib directory. Reworked all the existing build.xml to link jar files currently relocated to global lib. Added gradle file to tools project to initiate the migration to that build engine" />
+    <MESSAGE value="Add jar files relocated from tools/lib" />
+    <MESSAGE value="Changed directory structure to support Gradle as a build engine." />
+    <MESSAGE value="Relocated tools dir sources in subdir compatible wth ths the Gradle's directory's schema layout. Minor fixes to JasPerReport's project build.gradle after relocating tools/lib jars to lib." />
+    <MESSAGE value="Library refactoring" />
+    <MESSAGE value="Almost there to build the project with Gradle!" />
+    <MESSAGE value="Library placement refactoring. Moved launcher to tools/launchers directory" />
+    <option name="LAST_COMMIT_MESSAGE" value="Library placement refactoring. Moved launcher to tools/launchers directory" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1494,7 +1583,7 @@
           <option name="timeStamp" value="314" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="348" />
+      <option name="time" value="349" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -1583,556 +1672,333 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/model/MReplicationRoleAccess.java" />
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java">
+    <entry file="file://$PROJECT_DIR$/base/src/main/java/org/adempiere/util/ModelClassGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="124" column="46" selection-start-line="124" selection-start-column="46" selection-end-line="124" selection-end-column="46" />
-          <folding />
+        <state relative-caret-position="465">
+          <caret line="69" column="13" lean-forward="false" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MReplicationRoleAccess.java">
+    <entry file="file://$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/FA/exceptions/ArhRuntimeException.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
+        <state relative-caret-position="90">
+          <caret line="18" column="28" lean-forward="true" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/X_AD_ReplicationRoleAccess.java">
+    <entry file="file://$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/acct/Doc_AssetAddition.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-576">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+        <state relative-caret-position="-270">
+          <caret line="25" column="13" lean-forward="false" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MReplicationOrgAccess.java">
+    <entry file="file://$PROJECT_DIR$/base/src/main/java/org/compiere/Adempiere.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        <state relative-caret-position="-50">
+          <caret line="523" column="26" lean-forward="false" selection-start-line="523" selection-start-column="26" selection-end-line="523" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/process/rpl/imp/ModelImporter.java">
+    <entry file="file://$PROJECT_DIR$/base/src/main/java/org/adempiere/util/ModelInterfaceGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-934">
-          <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
+        <state relative-caret-position="-4370">
+          <caret line="79" column="13" lean-forward="false" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MReplicationStrategy.java">
+    <entry file="file://$PROJECT_DIR$/base/src/main/java/org/adempiere/util/GenerateModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="156" column="45" selection-start-line="156" selection-start-column="45" selection-end-line="156" selection-end-column="45" />
+        <state relative-caret-position="1095">
+          <caret line="73" column="29" lean-forward="true" selection-start-line="73" selection-start-column="29" selection-end-line="73" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/model/ExportModelValidator.java">
+    <entry file="file://$PROJECT_DIR$/JasperReportsWebApp/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-28">
-          <caret line="265" column="11" selection-start-line="265" selection-start-column="11" selection-end-line="265" selection-end-column="11" />
+        <state relative-caret-position="289">
+          <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRPeriod.java">
+    <entry file="file://$PROJECT_DIR$/JasperReports/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        <state relative-caret-position="-1066">
+          <caret line="152" column="34" lean-forward="false" selection-start-line="152" selection-start-column="34" selection-end-line="152" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/migration/380lts-release/0253_470_ExpressReceipt.xml">
+    <entry file="file://$PROJECT_DIR$/.gitgitattributes">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="108" column="60" selection-start-line="108" selection-start-column="60" selection-end-line="108" selection-end-column="60" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java">
+    <entry file="file://$PROJECT_DIR$/migration/320-330/postgresql/007_add_StoreArchiveOnFilesystem.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9264">
-          <caret line="647" column="80" selection-start-line="647" selection-start-column="80" selection-end-line="647" selection-end-column="80" />
+        <state relative-caret-position="-1350">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java">
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/99999_Sync_DB_version.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="39" column="51" selection-start-line="39" selection-start-column="51" selection-end-line="39" selection-end-column="51" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/model/MWMInOutBoundLine.java">
+    <entry file="file://$PROJECT_DIR$/tools/packages.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/GenerateShipmentOutBound.java">
+    <entry file="file://$PROJECT_DIR$/tools/src/org/apache/ecs/ecs.properties" />
+    <entry file="file://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/com/_3e/ADInterface/ModelADService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="48" column="39" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
+        <state relative-caret-position="-261">
+          <caret line="12" column="26" lean-forward="true" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="19" column="42" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
-          <folding />
+    <entry file="file://$PROJECT_DIR$/org.adempiere.webservice/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelectionAbstract.java">
+    <entry file="file://$PROJECT_DIR$/sqlj/src/org/compiere/sqlj/Product.java" />
+    <entry file="file://$PROJECT_DIR$/sqlj/src/org/compiere/sqlj/Compiere.java" />
+    <entry file="file://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/com/_3e/ADInterface/ADService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+        <state relative-caret-position="60">
+          <caret line="19" column="17" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/service/ScanBar.java">
+    <entry file="file://$PROJECT_DIR$/org.adempiere.webservice/WEB-INF/src/org/compiere/model/MWebService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="28" column="34" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
+        <state relative-caret-position="-144">
+          <caret line="78" column="30" lean-forward="false" selection-start-line="78" selection-start-column="30" selection-end-line="78" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IMiniTable.java">
+    <entry file="jar://$PROJECT_DIR$/zkwebui/WEB-INF/lib/zweb.jar!/META-INF/MANIFEST.MF">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IDColumnEditor.java">
+    <entry file="file://$PROJECT_DIR$/com.kkalice.adempiere.migrate/src/main/java/com/kkalice/adempiere/migrate/documentation/images/doc_guiOptions.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tools/launchers/ModelInterfaceGenerator.launch">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IDColumn.java">
+    <entry file="file://$PROJECT_DIR$/nbproject/private/private.xml" />
+    <entry file="file://$PROJECT_DIR$/serverApps/src/main/servlet/org/compiere/www/WFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+        <state relative-caret-position="165">
+          <caret line="31" column="19" lean-forward="false" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/ROCellEditor.java">
+    <entry file="file://$PROJECT_DIR$/serverApps/src/main/servlet/org/compiere/wstore/OrderServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="29" column="19" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
+        <state relative-caret-position="-750">
+          <caret line="49" column="13" lean-forward="false" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/MiniTable.java">
+    <entry file="file://$PROJECT_DIR$/serverApps/src/main/servlet/org/compiere/wstore/AssetServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="111" column="13" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#5835#5836#0" expanded="false" />
-            <element signature="e#5870#5871#0" expanded="false" />
-            <element signature="e#9720#9721#0" expanded="false" />
-            <element signature="e#9781#9782#0" expanded="false" />
-            <element signature="e#10646#10647#0" expanded="false" />
-            <element signature="e#10689#10690#0" expanded="false" />
-            <element signature="e#15443#15452#0" expanded="false" />
-            <element signature="e#15544#15553#0" expanded="false" />
-            <element signature="e#16647#16648#0" expanded="false" />
-            <element signature="e#16671#16672#0" expanded="false" />
-            <element signature="e#16721#16722#0" expanded="false" />
-            <element signature="e#16756#16757#0" expanded="false" />
-            <element signature="e#16914#16915#0" expanded="false" />
-            <element signature="e#16960#16961#0" expanded="false" />
-            <element signature="e#17049#17050#0" expanded="false" />
-            <element signature="e#17097#17098#0" expanded="false" />
-            <element signature="e#33220#33221#0" expanded="false" />
-            <element signature="e#33267#33268#0" expanded="false" />
-            <element signature="e#33394#33395#0" expanded="false" />
-            <element signature="e#33433#33434#0" expanded="false" />
-            <element signature="e#34685#34694#0" expanded="false" />
-            <element signature="e#35404#35405#0" expanded="false" />
-            <element signature="e#35426#35427#0" expanded="false" />
-            <element signature="e#35826#35827#0" expanded="false" />
-            <element signature="e#35856#35857#0" expanded="false" />
-            <element signature="e#36052#36053#0" expanded="false" />
-            <element signature="e#36096#36097#0" expanded="false" />
-            <element signature="e#36254#36255#0" expanded="false" />
-            <element signature="e#36297#36298#0" expanded="false" />
-            <element signature="e#36467#36468#0" expanded="false" />
-            <element signature="e#36505#36506#0" expanded="false" />
-            <element signature="e#36702#36703#0" expanded="false" />
-            <element signature="e#36736#36737#0" expanded="false" />
-            <element signature="e#36870#36871#0" expanded="false" />
-            <element signature="e#36903#36904#0" expanded="false" />
-            <element signature="e#37037#37038#0" expanded="false" />
-            <element signature="e#37076#37077#0" expanded="false" />
-            <element signature="e#38355#38356#0" expanded="false" />
-            <element signature="e#38378#38379#0" expanded="false" />
-            <element signature="e#38475#38476#0" expanded="false" />
-            <element signature="e#38499#38500#0" expanded="false" />
-            <element signature="e#46214#46215#0" expanded="false" />
-            <element signature="e#46277#46278#0" expanded="false" />
-            <element signature="e#52115#52271#0" expanded="false" />
-            <element signature="e#52270#52271#0" expanded="false" />
-            <element signature="e#52336#53377#0" expanded="false" />
-            <element signature="e#53376#53377#0" expanded="false" />
-            <element signature="e#53446#53661#0" expanded="false" />
-            <element signature="e#53660#53661#0" expanded="false" />
-            <element signature="e#53728#53950#0" expanded="false" />
-            <element signature="e#53949#53950#0" expanded="false" />
-            <element signature="e#54014#54230#0" expanded="false" />
-            <element signature="e#54229#54230#0" expanded="false" />
-            <element signature="e#54300#54502#0" expanded="false" />
-            <element signature="e#54501#54502#0" expanded="false" />
-            <element signature="e#54572#54788#0" expanded="false" />
-            <element signature="e#54787#54788#0" expanded="false" />
-            <element signature="e#54864#55084#0" expanded="false" />
-            <element signature="e#55083#55084#0" expanded="false" />
-            <element signature="e#55152#55378#0" expanded="false" />
-            <element signature="e#55377#55378#0" expanded="false" />
-            <element signature="e#55448#55675#0" expanded="false" />
-            <element signature="e#55674#55675#0" expanded="false" />
-            <element signature="e#55751#55943#0" expanded="false" />
-            <element signature="e#55942#55943#0" expanded="false" />
-            <element signature="e#56009#56136#0" expanded="false" />
-            <element signature="e#56135#56136#0" expanded="false" />
-            <element signature="e#56211#56345#0" expanded="false" />
-            <element signature="e#56344#56345#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/MiniCellEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/CheckRenderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/ColumnInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="42" column="51" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="e#4794#4795#0" expanded="false" />
-            <element signature="e#4818#4819#0" expanded="false" />
-            <element signature="e#4900#4901#0" expanded="false" />
-            <element signature="e#4925#4926#0" expanded="false" />
-            <element signature="e#4998#4999#0" expanded="false" />
-            <element signature="e#5020#5021#0" expanded="false" />
-            <element signature="e#5092#5093#0" expanded="false" />
-            <element signature="e#5116#5117#0" expanded="false" />
-            <element signature="e#5217#5218#0" expanded="false" />
-            <element signature="e#5245#5246#0" expanded="false" />
-            <element signature="e#5643#5644#0" expanded="false" />
-            <element signature="e#5667#5668#0" expanded="false" />
-            <element signature="e#5766#5767#0" expanded="false" />
-            <element signature="e#5794#5795#0" expanded="false" />
-            <element signature="e#5907#5908#0" expanded="false" />
-            <element signature="e#5941#5942#0" expanded="false" />
-            <element signature="e#6036#6037#0" expanded="false" />
-            <element signature="e#6063#6064#0" expanded="false" />
-            <element signature="e#6431#6432#0" expanded="false" />
-            <element signature="e#6460#6461#0" expanded="false" />
-            <element signature="e#6541#6542#0" expanded="false" />
-            <element signature="e#6583#6584#0" expanded="false" />
-            <element signature="e#6689#6690#0" expanded="false" />
-            <element signature="e#6723#6724#0" expanded="false" />
-            <element signature="e#6808#6809#0" expanded="false" />
-            <element signature="e#6835#6836#0" expanded="false" />
-            <element signature="e#6942#6943#0" expanded="false" />
-            <element signature="e#6979#6980#0" expanded="false" />
-            <element signature="e#7052#7053#0" expanded="false" />
-            <element signature="e#7077#7078#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="165">
+          <caret line="52" column="13" lean-forward="false" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/eevolution/form/WExpressReceiptScanBarUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="67" column="37" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="37" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#19250#19251#0" expanded="false" />
-            <element signature="e#19316#19317#0" expanded="false" />
-            <element signature="e#19344#19345#0" expanded="false" />
-            <element signature="e#19362#19363#0" expanded="false" />
-            <element signature="e#19403#19404#0" expanded="false" />
-            <element signature="e#19443#19444#0" expanded="false" />
-            <element signature="e#19473#19474#0" expanded="false" />
-            <element signature="e#19510#19511#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="150">
+          <caret line="67" column="13" lean-forward="false" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WScanBarUI.java">
+    <entry file="file://$PROJECT_DIR$/tools/src/org/apache/ecs/AlignType.java" />
+    <entry file="file://$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/ldap/LdapConnectionHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7776">
-          <caret line="544" column="27" selection-start-line="544" selection-start-column="27" selection-end-line="544" selection-end-column="27" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#20095#20096#0" expanded="false" />
-            <element signature="e#20161#20162#0" expanded="false" />
-            <element signature="e#20189#20190#0" expanded="false" />
-            <element signature="e#20207#20208#0" expanded="false" />
-            <element signature="e#20248#20249#0" expanded="false" />
-            <element signature="e#20288#20289#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="525">
+          <caret line="62" column="13" lean-forward="false" selection-start-line="62" selection-start-column="13" selection-end-line="62" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/service/ExpressReceiptScanBar.java">
+    <entry file="file://$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/AcctProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3968">
-          <caret line="304" column="37" selection-start-line="304" selection-start-column="28" selection-end-line="304" selection-end-column="37" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#4573#4574#0" expanded="false" />
-            <element signature="e#4596#4597#0" expanded="false" />
-            <element signature="e#4788#4789#0" expanded="false" />
-            <element signature="e#4826#4827#0" expanded="false" />
-            <element signature="e#6724#6725#0" expanded="false" />
-            <element signature="e#6743#6744#0" expanded="false" />
-            <element signature="e#6772#6773#0" expanded="false" />
-            <element signature="e#6791#6792#0" expanded="false" />
-            <element signature="e#6833#6834#0" expanded="false" />
-            <element signature="e#6858#6859#0" expanded="false" />
-            <element signature="e#6900#6901#0" expanded="false" />
-            <element signature="e#6925#6926#0" expanded="false" />
-            <element signature="e#6958#6959#0" expanded="false" />
-            <element signature="e#6979#6980#0" expanded="false" />
-            <element signature="e#7042#7043#0" expanded="false" />
-            <element signature="e#7065#7066#0" expanded="false" />
-            <element signature="e#9657#9658#0" expanded="false" />
-            <element signature="e#9680#9681#0" expanded="false" />
-            <element signature="e#10273#10274#0" expanded="false" />
-            <element signature="e#10296#10297#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="-450">
+          <caret line="44" column="13" lean-forward="false" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRConcept.java">
+    <entry file="file://$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/Scheduler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#5166#5167#0" expanded="false" />
-            <element signature="e#5196#5197#0" expanded="false" />
-            <element signature="e#5918#5919#0" expanded="false" />
-            <element signature="e#5962#5963#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="225">
+          <caret line="58" column="13" lean-forward="false" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/I_M_Product.java">
+    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14400">
-          <caret line="917" column="31" selection-start-line="917" selection-start-column="31" selection-end-line="917" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/model/X_HR_Process.java">
+    <entry file="file://$PROJECT_DIR$/serverRoot/src/web/WEB-INF/web.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="162" column="15" selection-start-line="162" selection-start-column="15" selection-end-line="162" selection-end-column="15" />
+        <state relative-caret-position="-681">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/AdempiereServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="45" column="37" lean-forward="false" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/serverApps/src/web/WEB-INF/web.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="39">
+          <caret line="215" column="21" lean-forward="false" selection-start-line="215" selection-start-column="21" selection-end-line="215" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/serverApps/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/install/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3540">
+          <caret line="236" column="35" lean-forward="false" selection-start-line="236" selection-start-column="22" selection-end-line="236" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils_dev/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tools/launchers/ADempiere.launch">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tools/src/test/resources/.donotdeleteme">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tools/src/test/java/.donotdeleteme">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tools/src/main/resources/.donotdeleteme">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/adempiereApps.xml" />
+    <entry file="file://$PROJECT_DIR$/webStore/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/wf/MWorkflow.java">
+    <entry file="file://$PROJECT_DIR$/client/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="750" column="0" selection-start-line="750" selection-start-column="0" selection-end-line="750" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/swing/org/eevolution/form/VHRActionNotice.java">
+    <entry file="file://$PROJECT_DIR$/tools/META-INF/services/javax.script.ScriptEngineFactory">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="73" column="37" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/zk/org/eevolution/form/WHRActionNotice.java">
+    <entry file="file://$PROJECT_DIR$/client/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="71" column="37" selection-start-line="71" selection-start-column="37" selection-end-line="71" selection-end-column="37" />
+        <state relative-caret-position="240">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/packages/liberoHR.jar!/org/eevolution/form/HRPayPrint.class">
+    <entry file="file://$PROJECT_DIR$/JasperReports/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        <state relative-caret-position="-105">
+          <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/zk/org/eevolution/form/WHRPayPrint.java">
+    <entry file="file://$PROJECT_DIR$/tools/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="46" column="41" selection-start-line="46" selection-start-column="41" selection-end-line="46" selection-end-column="41" />
+        <state relative-caret-position="1077">
+          <caret line="256" column="20" lean-forward="false" selection-start-line="256" selection-start-column="17" selection-end-line="256" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/swing/org/eevolution/form/VHRPayPrint.java">
+    <entry file="file://$PROJECT_DIR$/tools/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2817">
-          <caret line="37" column="41" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/DocumentEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="408" column="0" selection-start-line="408" selection-start-column="0" selection-end-line="408" selection-end-column="0" />
+        <state relative-caret-position="285">
+          <caret line="81" column="46" lean-forward="false" selection-start-line="81" selection-start-column="46" selection-end-line="81" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/service/HRActionNotice.java">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="49" column="54" selection-start-line="49" selection-start-column="54" selection-end-line="49" selection-end-column="54" />
+        <state relative-caret-position="262">
+          <caret line="67" column="2" lean-forward="false" selection-start-line="67" selection-start-column="2" selection-end-line="67" selection-end-column="2" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MLocator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MOrderLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="881" column="59" selection-start-line="881" selection-start-column="59" selection-end-line="881" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MStorage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1051">
-          <caret line="324" column="17" selection-start-line="324" selection-start-column="8" selection-end-line="324" selection-end-column="17" />
-          <folding>
-            <element signature="e#10962#10972#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/util/Msg.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="650" column="70" selection-start-line="650" selection-start-column="69" selection-end-line="650" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="61" column="86" selection-start-line="61" selection-start-column="86" selection-end-line="61" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/SvrProcess.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="877" column="15" selection-start-line="877" selection-start-column="15" selection-end-line="877" selection-end-column="15" />
-          <folding>
-            <element signature="e#23768#23769#0" expanded="true" />
-            <element signature="e#23809#23810#0" expanded="true" />
-            <element signature="e#23887#23888#0" expanded="true" />
-            <element signature="e#23946#23947#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingOrderSelection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="906">
-          <caret line="88" column="64" selection-start-line="88" selection-start-column="64" selection-end-line="88" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRMovement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="51" column="41" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRPayroll.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRProcess.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="978" column="45" selection-start-line="978" selection-start-column="23" selection-end-line="978" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#30459#30467#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/packages/liberoHR.jar!/org/eevolution/process/HRPayrollTemplete.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="26" column="30" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPayrollTemplete.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="168" column="156" selection-start-line="168" selection-start-column="156" selection-end-line="168" selection-end-column="156" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2165,7 +2031,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>scala-sdk-2.11.8</last-edited>
+          <last-edited>actionmailer (v3.2.12, RVM: ruby-1.8.7-p374) [gem]</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -2194,7 +2060,6 @@
             <option name="proportions">
               <list>
                 <option value="0.40536398" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

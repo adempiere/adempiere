@@ -4,7 +4,7 @@ description = ''
 version = '4.0.0-SNAPSHOT'
 
 
-def libDir = '../lib'
+def libDir = './lib'
 
 def assemblyDir = 'build/assembly'
 

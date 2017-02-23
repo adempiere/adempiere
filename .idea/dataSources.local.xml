@@ -2,10 +2,13 @@
 <project version="4">
   <component name="dataSourceStorageLocal">
     <data-source name="PostgreSQL - adempiere@localhost" uuid="8483ad34-1a4b-461b-961b-16939f8ccda7">
+      <database-info product="PostgreSQL" version="9.4.0" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.3 JDBC4.1 (build 1102)">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
       <user-name>adempiere</user-name>
-      <schema-pattern>adempiere.adempiere adempiere.pg_catalog adempiere.public</schema-pattern>
-      <default-schemas>adempiere.adempiere adempiere.pg_catalog adempiere.public</default-schemas>
+      <resolve-scope>adempiere:adempiere,pg_catalog,public</resolve-scope>
     </data-source>
   </component>
 </project>
