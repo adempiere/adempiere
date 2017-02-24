@@ -1825,6 +1825,39 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	} // getConcept
 	
 	/**
+	 * Get last concept without break date
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @return
+	 */
+	public double getLastConcept(String conceptValue, String payrollValue) {
+		return getLastConcept(conceptValue, payrollValue, dateFrom);
+	}
+	
+	/**
+	 * Get Last concept for a employee
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param breakDate
+	 * @return
+	 */
+	public double getLastConcept(String conceptValue, String payrollValue, Timestamp breakDate) {
+		int payrollId;
+		if (payrollValue == null) {
+			payrollId = getHR_Payroll_ID();
+		} else {
+			MHRPayroll payroll = MHRPayroll.getByValue(getCtx(), payrollValue);
+			if(payroll == null)
+				return 0.0;
+			//	
+			payrollId = payroll.get_ID();
+		}
+		//	Get from Movement helper method
+		return MHRMovement.getLastConcept(getCtx(), conceptValue, payrollId, 
+				partnerId, breakDate);
+	} // getConcept
+	
+	/**
 	 * Get Concept for this payroll for range dates
 	 * @param conceptValue
 	 * @param from

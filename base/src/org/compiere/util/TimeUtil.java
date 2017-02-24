@@ -830,9 +830,63 @@ public class TimeUtil
 	 */
 	public static int getMonthsBetween (Timestamp start, Timestamp end)
 	{
-		Calendar endCal = getCalendar(end);
-		//
-		return endCal.get(Calendar.YEAR) * 12 + endCal.get(Calendar.MONTH);
+		boolean negative = false;
+		if (end.before(start)) {
+			negative = true;
+			Timestamp temp = start;
+			start = end;
+			end = temp;
+		}
+
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(start);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		GregorianCalendar calEnd = new GregorianCalendar();
+
+		calEnd.setTime(end);
+		calEnd.set(Calendar.HOUR_OF_DAY, 0);
+		calEnd.set(Calendar.MINUTE, 0);
+		calEnd.set(Calendar.SECOND, 0);
+		calEnd.set(Calendar.MILLISECOND, 0);
+
+		if (cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR)) {
+			int months = 0;
+			if (negative) {
+				months = (calEnd.get(Calendar.MONTH) - cal.get(Calendar.MONTH)) * -1;
+				if(((calEnd.get(Calendar.DAY_OF_MONTH) - cal.get(Calendar.DAY_OF_MONTH)) * -1) < 0)
+					months--;
+			} else {
+				months = calEnd.get(Calendar.MONTH) - cal.get(Calendar.MONTH);
+				if(calEnd.get(Calendar.DAY_OF_MONTH) - cal.get(Calendar.DAY_OF_MONTH) < 0)
+					months--;
+			}
+			//	Return Months
+			return months;
+		}
+
+		//	not very efficient, but correct
+		int counter = 0;
+		while (calEnd.after(cal)) {
+			cal.add (Calendar.MONTH, 1);
+			counter++;
+			//	Yamel Senih 2014-09-04, 17:15:35
+			//	Add Break on equals values
+			if(calEnd.get(Calendar.MONTH) == cal.get(Calendar.MONTH))
+				break;
+			//	End Yamel Senih
+		}
+		if (negative) {
+			counter *= -1;
+			if(((calEnd.get(Calendar.DAY_OF_MONTH) - cal.get(Calendar.DAY_OF_MONTH)) * -1) < 0)
+				counter --;
+		} else {
+			if(calEnd.get(Calendar.DAY_OF_MONTH) - cal.get(Calendar.DAY_OF_MONTH) < 0)
+				counter--;
+		}
+		return counter;
 	}
 
 	/**

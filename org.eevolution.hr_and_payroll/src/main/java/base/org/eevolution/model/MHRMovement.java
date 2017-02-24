@@ -360,6 +360,61 @@ public class MHRMovement extends X_HR_Movement
 	} // getConcept
 	
 	/**
+	 * Get a amount from the last concept
+	 * @param ctx
+	 * @param conceptValue
+	 * @param payroll_id
+	 * @param partnerId
+	 * @param breakDate
+	 * @return
+	 */
+	public static double getLastConcept(Properties ctx, String conceptValue, int payroll_id, int partnerId, Timestamp breakDate) {
+		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue);
+		if (concept == null)
+			return 0.0;
+		//
+		// Detect field name
+		final String fieldName;
+		if (MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType())) {
+			fieldName = MHRMovement.COLUMNNAME_Qty;
+		} else if (MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType())) {
+			fieldName = MHRMovement.COLUMNNAME_Amount;
+		} else {
+			return 0; // TODO: throw exception?
+		}
+		//
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		//check concept
+		whereClause.append(MHRMovement.COLUMNNAME_HR_Concept_ID + "=?");
+		params.add(concept.get_ID());
+		//check partner
+		whereClause.append(" AND " + MHRMovement.COLUMNNAME_C_BPartner_ID  + "=?");
+		params.add(partnerId);
+		//Adding dates 
+		whereClause.append(" AND validTo <= ?");
+		params.add(breakDate);
+		//
+		//check process and payroll
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
+							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID"
+							+" AND p.DocStatus IN('CO', 'CL')"
+							+" AND p.HR_Payroll_ID=?");
+
+		params.add(payroll_id);
+		
+		whereClause.append(")");
+		//
+		StringBuffer sql = new StringBuffer("SELECT COALESCE(").append(fieldName).append(", 0) FROM ").append(MHRMovement.Table_Name)
+								.append(" WHERE ").append(whereClause).append(" ORDER BY " + I_HR_Movement.COLUMNNAME_ValidFrom + " DESC");
+		BigDecimal value = DB.getSQLValueBDEx(null, sql.toString(), params);
+		if(value != null)
+			return value.doubleValue();
+		//	Default
+		return 0.0;
+	}
+	
+	/**
 	 *  Helper Method : Concept AVG by range from-to in periods from a different payroll
 	 *  periods with values 0 -1 1, etc. actual previous one period, next period
 	 *  0 corresponds to actual period
