@@ -16,6 +16,7 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
@@ -23,71 +24,87 @@ import org.compiere.util.Env;
 
 /**
  * @author Cristina Ghita, www.arhipac.ro
- *
  */
-public class MHRDepartment extends X_HR_Department
-{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 83878114891519775L;
+public class MHRDepartment extends X_HR_Department {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 83878114891519775L;
+    private static CCache<Integer, MHRDepartment> departmentCacheIds = new CCache<Integer, MHRDepartment>(Table_Name, 50, 0);
+    private static CCache<String, MHRDepartment> departmentCacheValues = new CCache<String, MHRDepartment>(Table_Name, 50, 0);
 
-	public static List<MHRDepartment> getAll(Properties ctx)
-	{
-		List<MHRDepartment> list = new Query(Env.getCtx(), X_HR_Department.Table_Name, "AD_Client_ID=?", null)
-											.setParameters(new Object[] {Env.getAD_Client_ID(ctx)})
-											.setOrderBy(COLUMNNAME_Name)
-											.list();
-		for (MHRDepartment dep : list)
-		{
-			s_cache.put(dep.get_ID(), dep);
-		}
-		return list;
-	}
-	
-	public static MHRDepartment get(Properties ctx, int HR_Department_ID)
-	{
-		if (HR_Department_ID <= 0)
-		{
-			return null;
-		}
-		
-		if (s_cache.size() == 0)
-		{
-			getAll(ctx);
-		}
-		MHRDepartment dep = s_cache.get(HR_Department_ID);
-		if (dep != null)
-		{
-			return dep;
-		}
-		dep = new MHRDepartment(ctx, HR_Department_ID, null);
-		if (dep.get_ID() == HR_Department_ID)
-		{
-			s_cache.put(HR_Department_ID, dep);
-		}
-		return dep;
-	}
-	
-	private static CCache<Integer, MHRDepartment> s_cache = new CCache<Integer, MHRDepartment>(Table_Name, 50, 0);
-	
-	/**
-	 * @param ctx
-	 * @param HR_Department_ID
-	 * @param trxName
-	 */
-	public MHRDepartment(Properties ctx, int HR_Department_ID, String trxName)
-	{
-		super(ctx, HR_Department_ID, trxName);
-	}
+    public MHRDepartment(Properties ctx, String departmentValue, String departmentName, String trxName) {
+        super(ctx, 0, trxName);
+        setValue(departmentValue);
+        setName(departmentName);
+    }
 
-	/**
-	 * @param ctx
-	 * @param rs
-	 * @param trxName
-	 */
-	public MHRDepartment(Properties ctx, ResultSet rs, String trxName)
-	{
-		super(ctx, rs, trxName);
-	}
+    /**
+     * @param ctx
+     * @param departmentId
+     * @param trxName
+     */
+    public MHRDepartment(Properties ctx, int departmentId, String trxName) {
+        super(ctx, departmentId, trxName);
+    }
+
+    /**
+     * @param ctx
+     * @param rs
+     * @param trxName
+     */
+    public MHRDepartment(Properties ctx, ResultSet rs, String trxName) {
+        super(ctx, rs, trxName);
+    }
+
+    public static List<MHRDepartment> getAll(Properties ctx, boolean resetCache) {
+        List<MHRDepartment> departmentList;
+        if (resetCache || departmentCacheIds.size() > 0) {
+            departmentList = new Query(Env.getCtx(), X_HR_Department.Table_Name, null, null)
+                    .setClient_ID()
+                    .setOrderBy(COLUMNNAME_Name)
+                    .list();
+            departmentList.stream().forEach(departament -> {
+                departmentCacheIds.put(departament.getHR_Department_ID(), departament);
+                departmentCacheValues.put(departament.getValue(), departament);
+            });
+            return departmentList;
+        }
+        departmentList = departmentCacheIds.entrySet().stream()
+                .map(departament -> departament.getValue())
+                .collect(Collectors.toList());
+        return departmentList;
+    }
+
+    public static MHRDepartment getById(Properties ctx, int departmentId) {
+        if (departmentId <= 0)
+            return null;
+        //fiill cache
+        if (departmentCacheIds.size() == 0)
+            getAll(ctx, true);
+
+        MHRDepartment department = departmentCacheIds.get(departmentId);
+        if (department != null)
+            return department;
+
+        department = new MHRDepartment(ctx, departmentId, null);
+        if (department.get_ID() == departmentId)
+            departmentCacheIds.put(departmentId, department);
+        return department;
+    }
+
+    public static MHRDepartment getByValue(Properties ctx, String value) {
+        if (value == null)
+            return null;
+        if (departmentCacheValues.size() == 0)
+            getAll(ctx, true);
+
+        MHRDepartment department = new Query(ctx, Table_Name, COLUMNNAME_Value + "=?", null)
+                .setClient_ID()
+                .setParameters(value)
+                .first();
+        if (department.getHR_Department_ID() > 0)
+            departmentCacheValues.put(department.getValue(), department);
+        return department;
+    }
 }

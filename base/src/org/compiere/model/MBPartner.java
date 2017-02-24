@@ -44,6 +44,8 @@ import org.compiere.util.Msg;
  *	@contributor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *    	<a href="https://github.com/adempiere/adempiere/issues/683">
  *    	@see FR [ 683 ] BP Template of POS is not get when a Customer is created on POS</a>
+ *		<a href="https://github.com/adempiere/adempiere/issues/752">
+ * 		@see FR [ 752 ] Blood group should be a BP attribute</a>
  */
 public class MBPartner extends X_C_BPartner
 {
@@ -313,6 +315,13 @@ public class MBPartner extends X_C_BPartner
 		setTaxID(impBP.getTaxID());
 		setNAICS(impBP.getNAICS());
 		setC_BP_Group_ID(impBP.getC_BP_Group_ID());
+		//	Employee values
+		setBirthday(impBP.getBirthday());
+		setFathersName(impBP.getFathersName());
+		setBloodGroup(impBP.getBloodGroup());
+		setPlaceOfBirth(impBP.getPlaceOfBirth());
+		setGender(impBP.getGender());
+		//	Se
 	}	//	MBPartner
 	
 	

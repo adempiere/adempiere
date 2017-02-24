@@ -157,6 +157,21 @@ public interface I_HR_Movement
 
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
+    /** Column name C_BP_Relation_ID */
+    public static final String COLUMNNAME_C_BP_Relation_ID = "C_BP_Relation_ID";
+
+	/** Set Partner Relation.
+	  * Business Partner Relation
+	  */
+	public void setC_BP_Relation_ID (int C_BP_Relation_ID);
+
+	/** Get Partner Relation.
+	  * Business Partner Relation
+	  */
+	public int getC_BP_Relation_ID();
+
+	public org.compiere.model.I_C_BP_Relation getC_BP_Relation() throws RuntimeException;
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -632,6 +647,19 @@ public interface I_HR_Movement
 	  * Quantity
 	  */
 	public BigDecimal getQty();
+
+    /** Column name ReferenceNo */
+    public static final String COLUMNNAME_ReferenceNo = "ReferenceNo";
+
+	/** Set Reference No.
+	  * Your customer or vendor number at the Business Partner's site
+	  */
+	public void setReferenceNo (String ReferenceNo);
+
+	/** Get Reference No.
+	  * Your customer or vendor number at the Business Partner's site
+	  */
+	public String getReferenceNo();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

@@ -2509,4 +2509,38 @@ public final class DB
 		}
 		return false;
 	}
+
+	public static int[] getIDsEx(String trxName, String sql, Object ... params) throws DBException
+	{
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        try
+        {
+            pstmt = DB.prepareStatement(sql, trxName);
+            setParameters(pstmt, params);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+            {
+                list.add(rs.getInt(1));
+            }
+        }
+        catch (SQLException e)
+        {
+    		throw new DBException(e, sql);
+        }
+        finally
+        {
+            close(rs, pstmt);
+            rs= null;
+            pstmt = null;
+        }
+		//	Convert to array
+		int[] retValue = new int[list.size()];
+		for (int i = 0; i < retValue.length; i++)
+		{
+			retValue[i] = list.get(i);
+		}
+        return retValue;
+	}	//	getIDsEx
 }	//	DB

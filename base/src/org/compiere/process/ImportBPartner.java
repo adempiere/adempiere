@@ -47,6 +47,9 @@ import org.compiere.util.DB;
  * 				https://sourceforge.net/tracker/?func=detail&aid=2788074&group_id=176962&atid=879335
  * 			<li>FR [ 2788278 ] Data Import Validator - migrate core processes
  * 				https://sourceforge.net/tracker/?func=detail&aid=2788278&group_id=176962&atid=879335
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/752">
+ * 		@see FR [ 752 ] Blood group should be a BP attribute</a>
  */
 public class ImportBPartner extends SvrProcess
 implements ImportProcess
@@ -374,6 +377,18 @@ implements ImportProcess
 							bp.setDescription(impBP.getDescription());
 						if (impBP.getC_BP_Group_ID() != 0)
 							bp.setC_BP_Group_ID(impBP.getC_BP_Group_ID());
+						//	Employee values
+						if(impBP.getBirthday() != null)
+							bp.setBirthday(impBP.getBirthday());
+						if(impBP.getFathersName() != null)
+							bp.setFathersName(impBP.getFathersName());
+						if(impBP.getBloodGroup() != null)
+							bp.setBloodGroup(impBP.getBloodGroup());
+						if(impBP.getPlaceOfBirth() != null)
+							bp.setPlaceOfBirth(impBP.getPlaceOfBirth());
+						if(impBP.getGender() != null)
+							bp.setGender(impBP.getGender());
+						//	
 						ModelValidationEngine.get().fireImportValidate(this, impBP, bp, ImportValidator.TIMING_AFTER_IMPORT);
 						
 						setTypeOfBPartner(impBP,bp);

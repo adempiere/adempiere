@@ -2,35 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/SBT__org_scala_lang_scala_reflect_2_11_7_jar.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.adempiere.test/.idea/modules/adempiereTestSuite-build.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/org.adempiere.test/.idea/modules/adempiereTestSuite.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/ADInterface-1.0.war" afterPath="$PROJECT_DIR$/lib/ADInterface-1.0.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/customization.jar" afterPath="$PROJECT_DIR$/lib/customization.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/zkcustomization.jar" afterPath="$PROJECT_DIR$/lib/zkcustomization.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/FixedAsset.jar" afterPath="$PROJECT_DIR$/packages/FixedAsset.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoCashflow.jar" afterPath="$PROJECT_DIR$/packages/liberoCashflow.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoHR.jar" afterPath="$PROJECT_DIR$/packages/liberoHR.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoMFG.jar" afterPath="$PROJECT_DIR$/packages/liberoMFG.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/packages/liberoWM.jar" afterPath="$PROJECT_DIR$/packages/liberoWM.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkHR.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" afterPath="$PROJECT_DIR$/zkpackages/liberozkMFG.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ant.xml" afterPath="$PROJECT_DIR$/.idea/ant.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sbt.xml" afterPath="$PROJECT_DIR$/.idea/sbt.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/scala_compiler.xml" afterPath="$PROJECT_DIR$/.idea/scala_compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/SBT__com_typesafe_config_1_2_0_jar.xml" afterPath="$PROJECT_DIR$/.idea/libraries/SBT__com_typesafe_config_1_2_0_jar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/SBT__javax_servlet_javax_servlet_api_3_0_1_jar.xml" afterPath="$PROJECT_DIR$/.idea/libraries/SBT__javax_servlet_javax_servlet_api_3_0_1_jar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adempiere.iml" afterPath="$PROJECT_DIR$/adempiere.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AverageInvoiceCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AveragePOCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AveragePOCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/StandardCostingMethod.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/StandardCostingMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/model/ExportModelValidator.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/model/ExportModelValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/pipo/PackIn.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/pipo/PackIn.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostEngine.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/CostEngine.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" afterPath="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/CalloutInvoice.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/CalloutInvoice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MReplicationStrategy.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MReplicationStrategy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.test/build.sbt" afterPath="$PROJECT_DIR$/org.adempiere.test/build.sbt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/apps/ProcessController.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/apps/ProcessController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MActivity.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MProduct.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MProduct.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MYear.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MYear.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/compiere/util/ConnectTest.java" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/ConnectTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/I_DD_OrderLine.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/I_DD_OrderLine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/X_DD_OrderLine.java" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/X_DD_OrderLine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/org/eevolution/grid/Browser.java" afterPath="$PROJECT_DIR$/client/src/org/eevolution/grid/Browser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/tomcatServerTemplate.xml" afterPath="$PROJECT_DIR$/lib/tomcatServerTemplate.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/command/CommandManager.java" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/command/CommandManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRRace.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRRace.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRSkillType.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRSkillType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportEmployeeAttributes.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportEmployeeAttributes.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportEmployeeAttributesAbstract.java" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/ImportEmployeeAttributesAbstract.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/ImportForecast.java" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/ImportForecast.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/PostgreSQL/ImportAdempiere.sh" afterPath="$PROJECT_DIR$/utils/PostgreSQL/ImportAdempiere.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/AbstractADWindowPanel.java" />
     </list>
     <ignored path="extension_apparel_management.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -87,28 +84,23 @@
       <file leaf-file-name="ProcessingInvoiceSelection.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="61" column="86" selection-start-line="61" selection-start-column="86" selection-end-line="61" selection-end-column="86" />
-              <folding />
+            <state relative-caret-position="540">
+              <caret line="61" column="86" lean-forward="false" selection-start-line="61" selection-start-column="86" selection-end-line="61" selection-end-column="86" />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#1939#1940#0" expanded="false" />
+                <element signature="e#1970#1971#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HRPayrollTemplete.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/packages/liberoHR.jar!/org/eevolution/process/HRPayrollTemplete.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="26" column="30" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HRPayrollTemplete.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HRPayrollTemplete.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPayrollTemplete.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="273">
-              <caret line="168" column="156" selection-start-line="168" selection-start-column="156" selection-end-line="168" selection-end-column="156" />
+              <caret line="168" column="35" lean-forward="false" selection-start-line="168" selection-start-column="35" selection-end-line="168" selection-end-column="35" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -117,12 +109,27 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="GroovyEditor.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/GroovyEditor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="15" column="18" lean-forward="false" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ProcessingOrderSelection.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingOrderSelection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="906">
-              <caret line="88" column="64" selection-start-line="88" selection-start-column="64" selection-end-line="88" selection-end-column="64" />
-              <folding />
+            <state relative-caret-position="930">
+              <caret line="88" column="64" lean-forward="false" selection-start-line="88" selection-start-column="64" selection-end-line="88" selection-end-column="64" />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#1858#1859#0" expanded="false" />
+                <element signature="e#1880#1881#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -130,13 +137,55 @@
       <file leaf-file-name="SvrProcess.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/SvrProcess.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="877" column="15" selection-start-line="877" selection-start-column="15" selection-end-line="877" selection-end-column="15" />
+            <state relative-caret-position="11910">
+              <caret line="877" column="15" lean-forward="false" selection-start-line="877" selection-start-column="15" selection-end-line="877" selection-end-column="15" />
               <folding>
-                <element signature="e#23768#23769#0" expanded="true" />
-                <element signature="e#23809#23810#0" expanded="true" />
-                <element signature="e#23887#23888#0" expanded="true" />
-                <element signature="e#23946#23947#0" expanded="true" />
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#11530#11531#0" expanded="false" />
+                <element signature="e#11550#11551#0" expanded="false" />
+                <element signature="e#12101#12102#0" expanded="false" />
+                <element signature="e#12126#12127#0" expanded="false" />
+                <element signature="e#12233#12234#0" expanded="false" />
+                <element signature="e#12250#12251#0" expanded="false" />
+                <element signature="e#12343#12344#0" expanded="false" />
+                <element signature="e#12379#12380#0" expanded="false" />
+                <element signature="e#12499#12500#0" expanded="false" />
+                <element signature="e#12545#12546#0" expanded="false" />
+                <element signature="e#12656#12657#0" expanded="false" />
+                <element signature="e#12695#12696#0" expanded="false" />
+                <element signature="e#12800#12801#0" expanded="false" />
+                <element signature="e#12840#12841#0" expanded="false" />
+                <element signature="e#14353#14354#0" expanded="false" />
+                <element signature="e#14392#14393#0" expanded="false" />
+                <element signature="e#14516#14517#0" expanded="false" />
+                <element signature="e#14560#14561#0" expanded="false" />
+                <element signature="e#16132#16133#0" expanded="false" />
+                <element signature="e#16185#16186#0" expanded="false" />
+                <element signature="e#16638#16639#0" expanded="false" />
+                <element signature="e#16700#16701#0" expanded="false" />
+                <element signature="e#16872#16873#0" expanded="false" />
+                <element signature="e#16930#16931#0" expanded="false" />
+                <element signature="e#17114#17115#0" expanded="false" />
+                <element signature="e#17175#17176#0" expanded="false" />
+                <element signature="e#17614#17615#0" expanded="false" />
+                <element signature="e#17669#17670#0" expanded="false" />
+                <element signature="e#18375#18376#0" expanded="false" />
+                <element signature="e#18435#18436#0" expanded="false" />
+                <element signature="e#19357#19358#0" expanded="false" />
+                <element signature="e#19412#19413#0" expanded="false" />
+                <element signature="e#20220#20221#0" expanded="false" />
+                <element signature="e#20280#20281#0" expanded="false" />
+                <element signature="e#23625#23626#0" expanded="false" />
+                <element signature="e#23665#23666#0" expanded="false" />
+                <element signature="e#23708#23709#0" expanded="false" />
+                <element signature="e#23757#23758#0" expanded="false" />
+                <element signature="e#23844#23845#0" expanded="false" />
+                <element signature="e#23891#23892#0" expanded="false" />
+                <element signature="e#23994#23995#0" expanded="false" />
+                <element signature="e#24047#24048#0" expanded="false" />
+                <element signature="e#24125#24126#0" expanded="false" />
+                <element signature="e#24184#24185#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -145,9 +194,17 @@
       <file leaf-file-name="MHRPayroll.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRPayroll.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="105">
+              <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="e#2747#2748#0" expanded="false" />
+                <element signature="e#2786#2787#0" expanded="false" />
+                <element signature="e#3111#3112#0" expanded="false" />
+                <element signature="e#3163#3164#0" expanded="false" />
+                <element signature="e#4276#4277#0" expanded="false" />
+                <element signature="e#4329#4330#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -155,10 +212,13 @@
       <file leaf-file-name="MStorage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MStorage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1051">
-              <caret line="324" column="17" selection-start-line="324" selection-start-column="8" selection-end-line="324" selection-end-column="17" />
+            <state relative-caret-position="4440">
+              <caret line="324" column="17" lean-forward="false" selection-start-line="324" selection-start-column="8" selection-end-line="324" selection-end-column="17" />
               <folding>
-                <element signature="e#10962#10972#0" expanded="true" />
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#23541#23542#0" expanded="false" />
+                <element signature="e#23571#23572#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -167,9 +227,20 @@
       <file leaf-file-name="MHRMovement.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRMovement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="51" column="41" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="41" />
-              <folding />
+            <state relative-caret-position="375">
+              <caret line="51" column="41" lean-forward="false" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="41" />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#7143#7144#0" expanded="false" />
+                <element signature="e#7182#7183#0" expanded="false" />
+                <element signature="e#7352#7353#0" expanded="false" />
+                <element signature="e#7382#7383#0" expanded="false" />
+                <element signature="e#9702#9703#0" expanded="false" />
+                <element signature="e#9771#9772#0" expanded="false" />
+                <element signature="e#9812#9813#0" expanded="false" />
+                <element signature="e#9872#9873#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -177,11 +248,28 @@
       <file leaf-file-name="MHRProcess.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRProcess.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
-              <caret line="978" column="45" selection-start-line="978" selection-start-column="23" selection-end-line="978" selection-end-column="45" />
+            <state relative-caret-position="13620">
+              <caret line="978" column="33" lean-forward="false" selection-start-line="978" selection-start-column="23" selection-end-line="978" selection-end-column="33" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#30459#30467#0" expanded="true" />
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="e#5155#5156#0" expanded="false" />
+                <element signature="e#5184#5185#0" expanded="false" />
+                <element signature="e#9194#9195#0" expanded="false" />
+                <element signature="e#9212#9213#0" expanded="false" />
+                <element signature="e#14876#14877#0" expanded="false" />
+                <element signature="e#14891#14892#0" expanded="false" />
+                <element signature="e#15024#15025#0" expanded="false" />
+                <element signature="e#15053#15054#0" expanded="false" />
+                <element signature="e#15122#15123#0" expanded="false" />
+                <element signature="e#15137#15138#0" expanded="false" />
+                <element signature="e#15173#15174#0" expanded="false" />
+                <element signature="e#15199#15200#0" expanded="false" />
+                <element signature="e#15231#15232#0" expanded="false" />
+                <element signature="e#15247#15248#0" expanded="false" />
+                <element signature="e#37701#37702#0" expanded="false" />
+                <element signature="e#37744#37745#0" expanded="false" />
+                <element signature="e#43153#43154#0" expanded="false" />
+                <element signature="e#43200#43201#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -190,9 +278,12 @@
       <file leaf-file-name="Msg.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/base/src/org/compiere/util/Msg.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="650" column="70" selection-start-line="650" selection-start-column="69" selection-end-line="650" selection-end-column="70" />
-              <folding />
+            <state relative-caret-position="9390">
+              <caret line="650" column="70" lean-forward="false" selection-start-line="650" selection-start-column="69" selection-end-line="650" selection-end-column="70" />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -283,19 +374,9 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
+    <option name="y" value="22" />
     <option name="width" value="2048" />
-    <option name="height" value="1253" />
-  </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
-    <OptionsSetting value="true" id="Add" />
-    <OptionsSetting value="true" id="Remove" />
-    <OptionsSetting value="true" id="Checkout" />
-    <OptionsSetting value="true" id="Update" />
-    <OptionsSetting value="true" id="Status" />
-    <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
-    <ConfirmationsSetting value="0" id="Remove" />
+    <option name="height" value="1254" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -312,6 +393,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -478,211 +560,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="base" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="base" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="service" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="base" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eevolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="process" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiereDevelop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adempiere" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.eevolution.hr_and_payroll" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="base" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
       <pane id="Scratches" />
-      <pane id="Scope">
-        <subPane subId="Project Files" />
-      </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -810,6 +691,62 @@
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
       <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
+        <option name="GAPID_ENABLED" value="false" />
+        <option name="GAPID_DISABLE_PCS" value="false" />
+        <option name="SUPPORT_LIB_ENABLED" value="true" />
+        <option name="INSTRUMENTATION_ENABLED" value="true" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
+        <option name="GAPID_ENABLED" value="false" />
+        <option name="GAPID_DISABLE_PCS" value="false" />
+        <option name="SUPPORT_LIB_ENABLED" value="true" />
+        <option name="INSTRUMENTATION_ENABLED" value="true" />
+      </Profilers>
       <method />
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -833,14 +770,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="CabalRunConfiguration" factoryName="Haskell">
-      <module name="" />
-      <setting name="executableName" value="" />
-      <setting name="parameters" value="" />
-      <setting name="workingDir" value="" />
-      <environmetVariables />
       <method />
     </configuration>
     <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
@@ -880,27 +809,6 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="true" type="JUnitTestDiscovery" factoryName="JUnit Test Discovery" changeList="All">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <envs />
@@ -919,6 +827,31 @@
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="adempiere" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
       <envs />
       <method />
     </configuration>
@@ -949,6 +882,8 @@
       <setting name="testName" value="" />
       <setting name="testKind" value="Class" />
       <setting name="showProgressMessages" value="true" />
+      <classRegexps />
+      <testRegexps />
       <envs />
       <method />
     </configuration>
@@ -964,6 +899,8 @@
       <setting name="testName" value="" />
       <setting name="testKind" value="Class" />
       <setting name="showProgressMessages" value="true" />
+      <classRegexps />
+      <testRegexps />
       <envs />
       <method />
     </configuration>
@@ -995,32 +932,17 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="TestNGTestDiscovery" factoryName="TestNG Test Discovery" changeList="All">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="ANNOTATION_TYPE" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <option name="USE_DEFAULT_REPORTERS" value="false" />
-      <option name="PROPERTIES_FILE" />
-      <envs />
-      <properties />
-      <listeners />
+    <configuration default="true" type="executeSpecs" factoryName="Gauge Execution">
+      <setting name="environment" value="" />
+      <setting name="specsToExecute" value="" />
+      <setting name="tags" value="" />
+      <setting name="parallelNodes" value="" />
+      <setting name="execInParallel" value="false" />
+      <setting name="programParameters" value="" />
+      <setting name="workingDirectory" value="" />
+      <setting name="moduleName" value="" />
+      <envMap />
+      <setting name="rowsRange" value="" />
       <method />
     </configuration>
     <configuration default="true" type="uTestRunConfiguration" factoryName="utest">
@@ -1035,6 +957,8 @@
       <setting name="testName" value="" />
       <setting name="testKind" value="Class" />
       <setting name="showProgressMessages" value="true" />
+      <classRegexps />
+      <testRegexps />
       <envs />
       <method />
     </configuration>
@@ -1058,13 +982,12 @@
       <envs />
       <method />
     </configuration>
-    <list size="6">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.Adempiere Pastora" />
-      <item index="1" class="java.lang.String" itemvalue="SBT Task.Jetty Start" />
-      <item index="2" class="java.lang.String" itemvalue="Application.Adempiere" />
-      <item index="3" class="java.lang.String" itemvalue="Application.HRPayrollTemplete" />
-      <item index="4" class="java.lang.String" itemvalue="Application.CreateUUIDforTables" />
-      <item index="5" class="java.lang.String" itemvalue="Application.GenerateModel" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Adempiere" />
+      <item index="2" class="java.lang.String" itemvalue="Application.HRPayrollTemplete" />
+      <item index="3" class="java.lang.String" itemvalue="Application.CreateUUIDforTables" />
+      <item index="4" class="java.lang.String" itemvalue="Application.GenerateModel" />
     </list>
     <recent_temporary>
       <list size="4">
@@ -1139,49 +1062,74 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2048" height="1253" extended-state="6" />
+    <frame x="0" y="22" width="2048" height="1254" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951543" sideWeight="0.498006" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43788546" sideWeight="0.86340976" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5048458" sideWeight="0.5224327" order="18" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5044014" sideWeight="0.5224327" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23479562" sideWeight="0.4707792" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41409692" sideWeight="0.5428714" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20226936" sideWeight="0.49393415" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3894273" sideWeight="0.6296112" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.54361236" sideWeight="0.68494517" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3894273" sideWeight="0.6296112" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4845815" sideWeight="0.8968096" order="17" side_tool="false" content_ui="tabs" />
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
-      <window_info id="GhcMod" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919848" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19242273" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
-      <window_info id="Cabal" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951146" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36740088" sideWeight="0.4571286" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19441675" sideWeight="0.5" order="6" side_tool="true" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4775673" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19042872" sideWeight="0.47339448" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.120704845" sideWeight="0.6560319" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12063809" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.120704845" sideWeight="0.6560319" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985783" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Cabal" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32951146" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43788546" sideWeight="0.86340976" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985783" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21834497" sideWeight="0.52922076" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="GhcMod" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919848" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36740088" sideWeight="0.4571286" order="2" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="VaadinDesigner.SizePresetsSettingsComponent">
+    <option name="sizePresets">
+      <list>
+        <SizePreset>
+          <option name="caption" value="Phone" />
+          <option name="height" value="568" />
+          <option name="width" value="320" />
+        </SizePreset>
+        <SizePreset>
+          <option name="caption" value="Tablet" />
+          <option name="height" value="1024" />
+          <option name="width" value="768" />
+        </SizePreset>
+        <SizePreset>
+          <option name="caption" value="Desktop" />
+          <option name="height" value="900" />
+          <option name="width" value="1440" />
+        </SizePreset>
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -1582,12 +1530,15 @@
       <expanded value="false" />
     </buildFile>
   </component>
+  <component name="designer.settings">
+    <option name="autodetectServerAddress" value="true" />
+    <option name="serverIp" value="localhost" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/model/MReplicationRoleAccess.java" />
     <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="554">
-          <caret line="124" column="46" selection-start-line="124" selection-start-column="46" selection-end-line="124" selection-end-column="46" />
+          <caret line="124" column="46" lean-forward="false" selection-start-line="124" selection-start-column="46" selection-end-line="124" selection-end-column="46" />
           <folding />
         </state>
       </provider>
@@ -1595,376 +1546,210 @@
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MReplicationRoleAccess.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
-          <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
+          <caret line="9" column="65" lean-forward="false" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/X_AD_ReplicationRoleAccess.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-576">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MReplicationOrgAccess.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/process/rpl/imp/ModelImporter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-934">
-          <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
+          <caret line="50" column="13" lean-forward="false" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MReplicationStrategy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="278">
-          <caret line="156" column="45" selection-start-line="156" selection-start-column="45" selection-end-line="156" selection-end-column="45" />
+          <caret line="156" column="45" lean-forward="false" selection-start-line="156" selection-start-column="45" selection-end-line="156" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/adempiere/model/ExportModelValidator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-28">
-          <caret line="265" column="11" selection-start-line="265" selection-start-column="11" selection-end-line="265" selection-end-column="11" />
+          <caret line="265" column="11" lean-forward="false" selection-start-line="265" selection-start-column="11" selection-end-line="265" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRPeriod.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="122">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/migration/380lts-release/0253_470_ExpressReceipt.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="108" column="60" selection-start-line="108" selection-start-column="60" selection-end-line="108" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/migration/380lts-release/0253_470_ExpressReceipt.xml" />
     <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WBrowser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9264">
-          <caret line="647" column="80" selection-start-line="647" selection-start-column="80" selection-end-line="647" selection-end-column="80" />
+          <caret line="647" column="80" lean-forward="false" selection-start-line="647" selection-start-column="80" selection-end-line="647" selection-end-column="80" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/org/eevolution/form/VBrowser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
-          <caret line="39" column="51" selection-start-line="39" selection-start-column="51" selection-end-line="39" selection-end-column="51" />
+          <caret line="39" column="51" lean-forward="false" selection-start-line="39" selection-start-column="51" selection-end-line="39" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/model/MWMInOutBoundLine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
-          <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+          <caret line="38" column="35" lean-forward="false" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/GenerateShipmentOutBound.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
-          <caret line="48" column="39" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
+          <caret line="48" column="39" lean-forward="false" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
-          <caret line="19" column="42" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
-          <folding />
+          <caret line="19" column="42" lean-forward="false" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1939#1940#0" expanded="false" />
+            <element signature="e#1970#1971#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelectionAbstract.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
-          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+          <caret line="31" column="1" lean-forward="false" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/service/ScanBar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
-          <caret line="28" column="34" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
+          <caret line="28" column="34" lean-forward="false" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IMiniTable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IDColumnEditor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="185">
-          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+          <caret line="42" column="13" lean-forward="false" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/IDColumn.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/ROCellEditor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
-          <caret line="29" column="19" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
+          <caret line="29" column="19" lean-forward="false" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/MiniTable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="185">
-          <caret line="111" column="13" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#5835#5836#0" expanded="false" />
-            <element signature="e#5870#5871#0" expanded="false" />
-            <element signature="e#9720#9721#0" expanded="false" />
-            <element signature="e#9781#9782#0" expanded="false" />
-            <element signature="e#10646#10647#0" expanded="false" />
-            <element signature="e#10689#10690#0" expanded="false" />
-            <element signature="e#15443#15452#0" expanded="false" />
-            <element signature="e#15544#15553#0" expanded="false" />
-            <element signature="e#16647#16648#0" expanded="false" />
-            <element signature="e#16671#16672#0" expanded="false" />
-            <element signature="e#16721#16722#0" expanded="false" />
-            <element signature="e#16756#16757#0" expanded="false" />
-            <element signature="e#16914#16915#0" expanded="false" />
-            <element signature="e#16960#16961#0" expanded="false" />
-            <element signature="e#17049#17050#0" expanded="false" />
-            <element signature="e#17097#17098#0" expanded="false" />
-            <element signature="e#33220#33221#0" expanded="false" />
-            <element signature="e#33267#33268#0" expanded="false" />
-            <element signature="e#33394#33395#0" expanded="false" />
-            <element signature="e#33433#33434#0" expanded="false" />
-            <element signature="e#34685#34694#0" expanded="false" />
-            <element signature="e#35404#35405#0" expanded="false" />
-            <element signature="e#35426#35427#0" expanded="false" />
-            <element signature="e#35826#35827#0" expanded="false" />
-            <element signature="e#35856#35857#0" expanded="false" />
-            <element signature="e#36052#36053#0" expanded="false" />
-            <element signature="e#36096#36097#0" expanded="false" />
-            <element signature="e#36254#36255#0" expanded="false" />
-            <element signature="e#36297#36298#0" expanded="false" />
-            <element signature="e#36467#36468#0" expanded="false" />
-            <element signature="e#36505#36506#0" expanded="false" />
-            <element signature="e#36702#36703#0" expanded="false" />
-            <element signature="e#36736#36737#0" expanded="false" />
-            <element signature="e#36870#36871#0" expanded="false" />
-            <element signature="e#36903#36904#0" expanded="false" />
-            <element signature="e#37037#37038#0" expanded="false" />
-            <element signature="e#37076#37077#0" expanded="false" />
-            <element signature="e#38355#38356#0" expanded="false" />
-            <element signature="e#38378#38379#0" expanded="false" />
-            <element signature="e#38475#38476#0" expanded="false" />
-            <element signature="e#38499#38500#0" expanded="false" />
-            <element signature="e#46214#46215#0" expanded="false" />
-            <element signature="e#46277#46278#0" expanded="false" />
-            <element signature="e#52115#52271#0" expanded="false" />
-            <element signature="e#52270#52271#0" expanded="false" />
-            <element signature="e#52336#53377#0" expanded="false" />
-            <element signature="e#53376#53377#0" expanded="false" />
-            <element signature="e#53446#53661#0" expanded="false" />
-            <element signature="e#53660#53661#0" expanded="false" />
-            <element signature="e#53728#53950#0" expanded="false" />
-            <element signature="e#53949#53950#0" expanded="false" />
-            <element signature="e#54014#54230#0" expanded="false" />
-            <element signature="e#54229#54230#0" expanded="false" />
-            <element signature="e#54300#54502#0" expanded="false" />
-            <element signature="e#54501#54502#0" expanded="false" />
-            <element signature="e#54572#54788#0" expanded="false" />
-            <element signature="e#54787#54788#0" expanded="false" />
-            <element signature="e#54864#55084#0" expanded="false" />
-            <element signature="e#55083#55084#0" expanded="false" />
-            <element signature="e#55152#55378#0" expanded="false" />
-            <element signature="e#55377#55378#0" expanded="false" />
-            <element signature="e#55448#55675#0" expanded="false" />
-            <element signature="e#55674#55675#0" expanded="false" />
-            <element signature="e#55751#55943#0" expanded="false" />
-            <element signature="e#55942#55943#0" expanded="false" />
-            <element signature="e#56009#56136#0" expanded="false" />
-            <element signature="e#56135#56136#0" expanded="false" />
-            <element signature="e#56211#56345#0" expanded="false" />
-            <element signature="e#56344#56345#0" expanded="false" />
-          </folding>
+          <caret line="111" column="13" lean-forward="false" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/MiniCellEditor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="224">
-          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+          <caret line="43" column="13" lean-forward="false" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/org/compiere/minigrid/CheckRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
-          <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
+          <caret line="41" column="19" lean-forward="false" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/minigrid/ColumnInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
-          <caret line="42" column="51" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="e#4794#4795#0" expanded="false" />
-            <element signature="e#4818#4819#0" expanded="false" />
-            <element signature="e#4900#4901#0" expanded="false" />
-            <element signature="e#4925#4926#0" expanded="false" />
-            <element signature="e#4998#4999#0" expanded="false" />
-            <element signature="e#5020#5021#0" expanded="false" />
-            <element signature="e#5092#5093#0" expanded="false" />
-            <element signature="e#5116#5117#0" expanded="false" />
-            <element signature="e#5217#5218#0" expanded="false" />
-            <element signature="e#5245#5246#0" expanded="false" />
-            <element signature="e#5643#5644#0" expanded="false" />
-            <element signature="e#5667#5668#0" expanded="false" />
-            <element signature="e#5766#5767#0" expanded="false" />
-            <element signature="e#5794#5795#0" expanded="false" />
-            <element signature="e#5907#5908#0" expanded="false" />
-            <element signature="e#5941#5942#0" expanded="false" />
-            <element signature="e#6036#6037#0" expanded="false" />
-            <element signature="e#6063#6064#0" expanded="false" />
-            <element signature="e#6431#6432#0" expanded="false" />
-            <element signature="e#6460#6461#0" expanded="false" />
-            <element signature="e#6541#6542#0" expanded="false" />
-            <element signature="e#6583#6584#0" expanded="false" />
-            <element signature="e#6689#6690#0" expanded="false" />
-            <element signature="e#6723#6724#0" expanded="false" />
-            <element signature="e#6808#6809#0" expanded="false" />
-            <element signature="e#6835#6836#0" expanded="false" />
-            <element signature="e#6942#6943#0" expanded="false" />
-            <element signature="e#6979#6980#0" expanded="false" />
-            <element signature="e#7052#7053#0" expanded="false" />
-            <element signature="e#7077#7078#0" expanded="false" />
-          </folding>
+          <caret line="42" column="51" lean-forward="false" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/eevolution/form/WExpressReceiptScanBarUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
-          <caret line="67" column="37" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="37" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#19250#19251#0" expanded="false" />
-            <element signature="e#19316#19317#0" expanded="false" />
-            <element signature="e#19344#19345#0" expanded="false" />
-            <element signature="e#19362#19363#0" expanded="false" />
-            <element signature="e#19403#19404#0" expanded="false" />
-            <element signature="e#19443#19444#0" expanded="false" />
-            <element signature="e#19473#19474#0" expanded="false" />
-            <element signature="e#19510#19511#0" expanded="false" />
-          </folding>
+          <caret line="67" column="37" lean-forward="false" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/eevolution/form/WScanBarUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7776">
-          <caret line="544" column="27" selection-start-line="544" selection-start-column="27" selection-end-line="544" selection-end-column="27" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#20095#20096#0" expanded="false" />
-            <element signature="e#20161#20162#0" expanded="false" />
-            <element signature="e#20189#20190#0" expanded="false" />
-            <element signature="e#20207#20208#0" expanded="false" />
-            <element signature="e#20248#20249#0" expanded="false" />
-            <element signature="e#20288#20289#0" expanded="false" />
-          </folding>
+          <caret line="544" column="27" lean-forward="false" selection-start-line="544" selection-start-column="27" selection-end-line="544" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/service/ExpressReceiptScanBar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3968">
-          <caret line="304" column="37" selection-start-line="304" selection-start-column="28" selection-end-line="304" selection-end-column="37" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#4573#4574#0" expanded="false" />
-            <element signature="e#4596#4597#0" expanded="false" />
-            <element signature="e#4788#4789#0" expanded="false" />
-            <element signature="e#4826#4827#0" expanded="false" />
-            <element signature="e#6724#6725#0" expanded="false" />
-            <element signature="e#6743#6744#0" expanded="false" />
-            <element signature="e#6772#6773#0" expanded="false" />
-            <element signature="e#6791#6792#0" expanded="false" />
-            <element signature="e#6833#6834#0" expanded="false" />
-            <element signature="e#6858#6859#0" expanded="false" />
-            <element signature="e#6900#6901#0" expanded="false" />
-            <element signature="e#6925#6926#0" expanded="false" />
-            <element signature="e#6958#6959#0" expanded="false" />
-            <element signature="e#6979#6980#0" expanded="false" />
-            <element signature="e#7042#7043#0" expanded="false" />
-            <element signature="e#7065#7066#0" expanded="false" />
-            <element signature="e#9657#9658#0" expanded="false" />
-            <element signature="e#9680#9681#0" expanded="false" />
-            <element signature="e#10273#10274#0" expanded="false" />
-            <element signature="e#10296#10297#0" expanded="false" />
-          </folding>
+          <caret line="304" column="37" lean-forward="false" selection-start-line="304" selection-start-column="28" selection-end-line="304" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRConcept.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
-          <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#5166#5167#0" expanded="false" />
-            <element signature="e#5196#5197#0" expanded="false" />
-            <element signature="e#5918#5919#0" expanded="false" />
-            <element signature="e#5962#5963#0" expanded="false" />
-          </folding>
+          <caret line="36" column="13" lean-forward="false" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/I_M_Product.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="14400">
-          <caret line="917" column="31" selection-start-line="917" selection-start-column="31" selection-end-line="917" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
+          <caret line="917" column="31" lean-forward="false" selection-start-line="917" selection-start-column="31" selection-end-line="917" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/eevolution/model/X_HR_Process.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="278">
-          <caret line="162" column="15" selection-start-line="162" selection-start-column="15" selection-end-line="162" selection-end-column="15" />
-          <folding />
+          <caret line="162" column="15" lean-forward="false" selection-start-line="162" selection-start-column="15" selection-end-line="162" selection-end-column="15" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/wf/MWorkflow.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="166">
-          <caret line="750" column="0" selection-start-line="750" selection-start-column="0" selection-end-line="750" selection-end-column="0" />
+          <caret line="750" column="0" lean-forward="false" selection-start-line="750" selection-start-column="0" selection-end-line="750" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1972,167 +1757,251 @@
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/swing/org/eevolution/form/VHRActionNotice.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
-          <caret line="73" column="37" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
-          <folding />
+          <caret line="73" column="37" lean-forward="false" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/zk/org/eevolution/form/WHRActionNotice.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
-          <caret line="71" column="37" selection-start-line="71" selection-start-column="37" selection-end-line="71" selection-end-column="37" />
-          <folding />
+          <caret line="71" column="37" lean-forward="false" selection-start-line="71" selection-start-column="37" selection-end-line="71" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/packages/liberoHR.jar!/org/eevolution/form/HRPayPrint.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-          <folding />
+          <caret line="25" column="13" lean-forward="false" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/zk/org/eevolution/form/WHRPayPrint.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="48">
-          <caret line="46" column="41" selection-start-line="46" selection-start-column="41" selection-end-line="46" selection-end-column="41" />
-          <folding />
+          <caret line="46" column="41" lean-forward="false" selection-start-line="46" selection-start-column="41" selection-end-line="46" selection-end-column="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/ui/swing/org/eevolution/form/VHRPayPrint.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2817">
-          <caret line="37" column="41" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+          <caret line="37" column="41" lean-forward="false" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/DocumentEngine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="163">
-          <caret line="408" column="0" selection-start-line="408" selection-start-column="0" selection-end-line="408" selection-end-column="0" />
-          <folding />
+          <caret line="408" column="0" lean-forward="false" selection-start-line="408" selection-start-column="0" selection-end-line="408" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/service/HRActionNotice.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="49" column="54" selection-start-line="49" selection-start-column="54" selection-end-line="49" selection-end-column="54" />
-          <folding />
+          <caret line="49" column="54" lean-forward="false" selection-start-line="49" selection-start-column="54" selection-end-line="49" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MLocator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
-          <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
-          <folding />
+          <caret line="83" column="13" lean-forward="false" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MOrderLine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="881" column="59" selection-start-line="881" selection-start-column="59" selection-end-line="881" selection-end-column="59" />
-          <folding />
+          <caret line="881" column="59" lean-forward="false" selection-start-line="881" selection-start-column="59" selection-end-line="881" selection-end-column="59" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/model/MStorage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1051">
-          <caret line="324" column="17" selection-start-line="324" selection-start-column="8" selection-end-line="324" selection-end-column="17" />
+        <state relative-caret-position="4440">
+          <caret line="324" column="17" lean-forward="false" selection-start-line="324" selection-start-column="8" selection-end-line="324" selection-end-column="17" />
           <folding>
-            <element signature="e#10962#10972#0" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#23541#23542#0" expanded="false" />
+            <element signature="e#23571#23572#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/util/Msg.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="650" column="70" selection-start-line="650" selection-start-column="69" selection-end-line="650" selection-end-column="70" />
-          <folding />
+        <state relative-caret-position="9390">
+          <caret line="650" column="70" lean-forward="false" selection-start-line="650" selection-start-column="69" selection-end-line="650" selection-end-column="70" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingInvoiceSelection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="61" column="86" selection-start-line="61" selection-start-column="86" selection-end-line="61" selection-end-column="86" />
-          <folding />
+        <state relative-caret-position="540">
+          <caret line="61" column="86" lean-forward="false" selection-start-line="61" selection-start-column="86" selection-end-line="61" selection-end-column="86" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1939#1940#0" expanded="false" />
+            <element signature="e#1970#1971#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/base/src/org/compiere/process/SvrProcess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="877" column="15" selection-start-line="877" selection-start-column="15" selection-end-line="877" selection-end-column="15" />
+        <state relative-caret-position="11910">
+          <caret line="877" column="15" lean-forward="false" selection-start-line="877" selection-start-column="15" selection-end-line="877" selection-end-column="15" />
           <folding>
-            <element signature="e#23768#23769#0" expanded="true" />
-            <element signature="e#23809#23810#0" expanded="true" />
-            <element signature="e#23887#23888#0" expanded="true" />
-            <element signature="e#23946#23947#0" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#11530#11531#0" expanded="false" />
+            <element signature="e#11550#11551#0" expanded="false" />
+            <element signature="e#12101#12102#0" expanded="false" />
+            <element signature="e#12126#12127#0" expanded="false" />
+            <element signature="e#12233#12234#0" expanded="false" />
+            <element signature="e#12250#12251#0" expanded="false" />
+            <element signature="e#12343#12344#0" expanded="false" />
+            <element signature="e#12379#12380#0" expanded="false" />
+            <element signature="e#12499#12500#0" expanded="false" />
+            <element signature="e#12545#12546#0" expanded="false" />
+            <element signature="e#12656#12657#0" expanded="false" />
+            <element signature="e#12695#12696#0" expanded="false" />
+            <element signature="e#12800#12801#0" expanded="false" />
+            <element signature="e#12840#12841#0" expanded="false" />
+            <element signature="e#14353#14354#0" expanded="false" />
+            <element signature="e#14392#14393#0" expanded="false" />
+            <element signature="e#14516#14517#0" expanded="false" />
+            <element signature="e#14560#14561#0" expanded="false" />
+            <element signature="e#16132#16133#0" expanded="false" />
+            <element signature="e#16185#16186#0" expanded="false" />
+            <element signature="e#16638#16639#0" expanded="false" />
+            <element signature="e#16700#16701#0" expanded="false" />
+            <element signature="e#16872#16873#0" expanded="false" />
+            <element signature="e#16930#16931#0" expanded="false" />
+            <element signature="e#17114#17115#0" expanded="false" />
+            <element signature="e#17175#17176#0" expanded="false" />
+            <element signature="e#17614#17615#0" expanded="false" />
+            <element signature="e#17669#17670#0" expanded="false" />
+            <element signature="e#18375#18376#0" expanded="false" />
+            <element signature="e#18435#18436#0" expanded="false" />
+            <element signature="e#19357#19358#0" expanded="false" />
+            <element signature="e#19412#19413#0" expanded="false" />
+            <element signature="e#20220#20221#0" expanded="false" />
+            <element signature="e#20280#20281#0" expanded="false" />
+            <element signature="e#23625#23626#0" expanded="false" />
+            <element signature="e#23665#23666#0" expanded="false" />
+            <element signature="e#23708#23709#0" expanded="false" />
+            <element signature="e#23757#23758#0" expanded="false" />
+            <element signature="e#23844#23845#0" expanded="false" />
+            <element signature="e#23891#23892#0" expanded="false" />
+            <element signature="e#23994#23995#0" expanded="false" />
+            <element signature="e#24047#24048#0" expanded="false" />
+            <element signature="e#24125#24126#0" expanded="false" />
+            <element signature="e#24184#24185#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ProcessingOrderSelection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="906">
-          <caret line="88" column="64" selection-start-line="88" selection-start-column="64" selection-end-line="88" selection-end-column="64" />
-          <folding />
+        <state relative-caret-position="930">
+          <caret line="88" column="64" lean-forward="false" selection-start-line="88" selection-start-column="64" selection-end-line="88" selection-end-column="64" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1858#1859#0" expanded="false" />
+            <element signature="e#1880#1881#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRMovement.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="51" column="41" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="41" />
-          <folding />
+        <state relative-caret-position="375">
+          <caret line="51" column="41" lean-forward="false" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="41" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#7143#7144#0" expanded="false" />
+            <element signature="e#7182#7183#0" expanded="false" />
+            <element signature="e#7352#7353#0" expanded="false" />
+            <element signature="e#7382#7383#0" expanded="false" />
+            <element signature="e#9702#9703#0" expanded="false" />
+            <element signature="e#9771#9772#0" expanded="false" />
+            <element signature="e#9812#9813#0" expanded="false" />
+            <element signature="e#9872#9873#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRPayroll.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="105">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#2747#2748#0" expanded="false" />
+            <element signature="e#2786#2787#0" expanded="false" />
+            <element signature="e#3111#3112#0" expanded="false" />
+            <element signature="e#3163#3164#0" expanded="false" />
+            <element signature="e#4276#4277#0" expanded="false" />
+            <element signature="e#4329#4330#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/model/MHRProcess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="978" column="45" selection-start-line="978" selection-start-column="23" selection-end-line="978" selection-end-column="45" />
+        <state relative-caret-position="13620">
+          <caret line="978" column="33" lean-forward="false" selection-start-line="978" selection-start-column="23" selection-end-line="978" selection-end-column="33" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#30459#30467#0" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#5155#5156#0" expanded="false" />
+            <element signature="e#5184#5185#0" expanded="false" />
+            <element signature="e#9194#9195#0" expanded="false" />
+            <element signature="e#9212#9213#0" expanded="false" />
+            <element signature="e#14876#14877#0" expanded="false" />
+            <element signature="e#14891#14892#0" expanded="false" />
+            <element signature="e#15024#15025#0" expanded="false" />
+            <element signature="e#15053#15054#0" expanded="false" />
+            <element signature="e#15122#15123#0" expanded="false" />
+            <element signature="e#15137#15138#0" expanded="false" />
+            <element signature="e#15173#15174#0" expanded="false" />
+            <element signature="e#15199#15200#0" expanded="false" />
+            <element signature="e#15231#15232#0" expanded="false" />
+            <element signature="e#15247#15248#0" expanded="false" />
+            <element signature="e#37701#37702#0" expanded="false" />
+            <element signature="e#37744#37745#0" expanded="false" />
+            <element signature="e#43153#43154#0" expanded="false" />
+            <element signature="e#43200#43201#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/packages/liberoHR.jar!/org/eevolution/process/HRPayrollTemplete.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="26" column="30" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="jar://$PROJECT_DIR$/packages/liberoHR.jar!/org/eevolution/process/HRPayrollTemplete.class" />
     <entry file="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPayrollTemplete.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
-          <caret line="168" column="156" selection-start-line="168" selection-start-column="156" selection-end-line="168" selection-end-column="156" />
+          <caret line="168" column="35" lean-forward="false" selection-start-line="168" selection-start-column="35" selection-end-line="168" selection-end-column="35" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/org/compiere/apps/GroovyEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="15" column="18" lean-forward="false" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2169,7 +2038,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.40536398" />
               </list>
             </option>
           </splitter-proportions>
@@ -2194,7 +2063,6 @@
             <option name="proportions">
               <list>
                 <option value="0.40536398" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -2214,7 +2082,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>SBT: javax.servlet:javax.servlet-api:3.0.1:jar</last-edited>
+          <last-edited>SBT: com.typesafe:config:1.2.0:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

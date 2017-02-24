@@ -362,6 +362,7 @@ public class ImportBankStatement extends SvrProcess
 		//Import Bank Statement
 		sql = new StringBuffer("SELECT * FROM I_BankStatement"
 			+ " WHERE I_IsImported='N'"
+			+ clientCheck
 			+ " ORDER BY C_BankAccount_ID, Name, EftStatementDate, EftStatementReference");
 			
 		MBankStatement statement = null;

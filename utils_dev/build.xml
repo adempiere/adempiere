@@ -40,6 +40,7 @@
 		<ant inheritAll="false" dir="org.eevolution.freight"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate"/>
 		<ant inheritAll="false" dir="org.adempiere.pos"/>
+		<ant inheritAll="false" dir="org.adempiere.production"/>
 	</target>
 	<target name="build" depends="clean, jar">
 		<ant inheritAll="false" dir="install"/>		
@@ -71,6 +72,7 @@
 		<ant inheritAll="false" dir="org.eevolution.freight" target="clean"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate" target="migrate.clean"/>
 		<ant inheritAll="false" dir="org.adempiere.pos" target="clean"/>
+		<ant inheritAll="false" dir="org.adempiere.production" target="clean"/>
 	</target>
 
   <target name="clean-all" depends="clean">

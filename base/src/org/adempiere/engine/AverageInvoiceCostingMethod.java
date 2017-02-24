@@ -86,16 +86,13 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 
 		// If model is reversal then no calculate cost
 		//Validate if model have a reverses and processing of reverse
-		if (model.getReversalLine_ID() > 0
-			&& costDetail == null)
+		if (model.getReversalLine_ID() > 0 && costDetail == null)
 			return;
-		else if( costDetail != null
-			&& costDetail.isReversal()
-			&& model.getReversalLine_ID() > 0)
-	{	
-		setReversalCostDetail();		
-		return;
-	}	
+		else if( costDetail != null && costDetail.isReversal() && model.getReversalLine_ID() > 0)
+		{
+			setReversalCostDetail();
+			return;
+		}
 
 		// created a new instance cost detail to process calculated cost
 		if (lastCostDetail == null) {
@@ -111,6 +108,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// The cost detail was created before then is necessary to update cost by
 		// generate adjustment
 		if (transaction.getM_Transaction_ID() == lastCostDetail.getM_Transaction_ID()) {
+			//SHW
+			movementQuantity = Env.ZERO;
 			
 			//Processing provision of purchase cost  
 			//Provision is calculated when the last cost detail  is a material receipt and not exist of invoice line
@@ -391,12 +390,11 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// Check if cost detail is an earlier transaction
 		// get the cost details that need be re process before this cost
 		// transaction
-		List<MCostDetail> cds = MCostDetail.getAfterDate(costDetail,
-				costingLevel);
-		if (cds == null || cds.size() == 0)
+		List<MCostDetail> costDetails = MCostDetail.getAfterDate(costDetail, costingLevel);
+		if (costDetails == null || costDetails.size() == 0)
 			return;
 		
-		MCostDetail last_cd = costDetail;
+		MCostDetail lastCostDetail = costDetail;
 		costDetail = null;
 		
 		 /*System.out.println(
@@ -406,19 +404,22 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		 );*/
 		 
 		//Renumber sequence
-		for (MCostDetail cd : cds) {
-			cd.setSeqNo(last_cd.getSeqNo() + 10); // remunerate sequence
-			cd.setProcessing(true);
-			cd.saveEx();
-			last_cd = cd;
+		for (MCostDetail costDetail : costDetails) {
+			costDetail.setSeqNo(lastCostDetail.getSeqNo() + 10); // remunerate sequence
+			costDetail.setProcessing(true);
+			costDetail.saveEx();
+			lastCostDetail = costDetail;
 			// Only uncomment to debug
 			// Trx.get(cd.get_TrxName(), false).commit();
 		}
-
-		for (MCostDetail cd : cds) {
-			adjustCostDetail(cd);
-            cd.setProcessing(false);
-            cd.saveEx();
+		int costDetailAdjustmentNo = 0;
+		log.info("Cost Detail Adjustment to process -> " + costDetails.size());
+		for (MCostDetail costDetail : costDetails) {
+			costDetailAdjustmentNo ++;
+			adjustCostDetail(costDetail);
+            costDetail.setProcessing(false);
+            costDetail.saveEx();
+            log.info(" Cost Adjustment no -> " + costDetailAdjustmentNo +  " Cost Detail " + costDetail.toString());
  			//clearAccounting(cd);
 			// Only uncomment to debug
 			// Trx.get(cd.get_TrxName(), false).commit();
@@ -644,7 +645,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
                         }
                     }
                 }
-                else if (costDetail.getM_InOutLine_ID() > 0 && costDetail.getQty().signum() == 0 && costDetail.getC_InvoiceLine_ID() > 0 ) {
+                else if (costDetail.getM_InOutLine_ID() > 0 && costDetail.getQty().signum() == 0 && costDetail.getC_InvoiceLine_ID() > 0 
+                		 && costDetail.getC_LandedCostAllocation_ID() ==0) {
                     List<MMatchInv> invoiceMatches = MMatchInv
                             .getInOutLine(line);
                     for (MMatchInv match : invoiceMatches) {

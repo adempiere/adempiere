@@ -108,7 +108,7 @@ public class   Doc_HRProcess extends Doc
 	{
 		Fact fact = new Fact(this, as, Fact.POST_Actual);		
 		final String sql= "SELECT m.HR_Concept_id, MAX(c.Name) As Name, SUM(m.Amount) As Amount, MAX(c.AccountSign) As AccountSign, " + // 1,2,3,4
-		" MAX(CA.IsBalancing) As IsBalancing, e.AD_Org_ID As AD_Org_ID, m.C_Activity_ID, bp.C_BPartner_ID, User1_ID, User2_ID, User3_ID, User4_ID " // 5,6,7
+		" MAX(CA.IsBalancing) As IsBalancing, e.AD_Org_ID As AD_Org_ID, m.C_Activity_ID, bp.C_BPartner_ID, m.User1_ID, m.User2_ID, m.User3_ID, m.User4_ID " // 5,6,7
 		+ " FROM HR_Movement m"
 		+ " INNER JOIN HR_Concept_Acct ca ON (ca.HR_Concept_ID=m.HR_Concept_ID AND ca.AD_Client_ID = m.AD_Client_ID AND ca.IsActive = 'Y')"
 		+ " INNER JOIN HR_Concept      c  ON (c.HR_Concept_ID=m.HR_Concept_ID AND c.IsActive = 'Y')"
@@ -116,8 +116,8 @@ public class   Doc_HRProcess extends Doc
 		+ " INNER JOIN HR_Employee	 e  ON (bp.C_BPartner_ID=e.C_BPartner_ID)"
 		+ " INNER JOIN HR_Department   d  ON (d.HR_Department_ID=e.HR_Department_ID)"
 		+ " WHERE m.HR_Process_ID=? AND (m.Qty <> 0 OR m.Amount <> 0) AND c.AccountSign != 'N'"
-		+ " GROUP BY m.HR_Concept_ID,e.AD_Org_ID,m.C_Activity_ID , bp.C_BPartner_ID"
-		+ " ORDER BY e.AD_Org_ID,m.C_Activity_ID,bp.C_BPartner_ID";
+		+ " GROUP BY m.HR_Concept_ID,e.AD_Org_ID,m.C_Activity_ID , bp.C_BPartner_ID , m.User1_ID, m.User2_ID, m.User3_ID, m.User4_ID  "
+		+ " ORDER BY e.AD_Org_ID,m.C_Activity_ID,bp.C_BPartner_ID, m.User1_ID, m.User2_ID, m.User3_ID, m.User4_ID ";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		try

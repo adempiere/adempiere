@@ -27,7 +27,6 @@ import java.util.Properties;
 import org.compiere.model.I_C_InvoiceLine;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.I_C_ProjectIssue;
-import org.compiere.model.I_M_CostDetail;
 import org.compiere.model.I_M_CostElement;
 import org.compiere.model.I_M_CostType;
 import org.compiere.model.I_M_InOut;
@@ -69,7 +68,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Util;
 import org.eevolution.model.I_PP_Cost_Collector;
 import org.eevolution.model.MPPCostCollector;
-import org.eevolution.model.MPPOrder;
+
 
 /**
  * Cost Engine
@@ -339,8 +338,7 @@ public class CostEngine {
 				}
 				//Get cost from movement from if it > that zero replace cost This Level
 				if (model instanceof MMovementLine) {
-					MTransaction transactionFrom = MTransaction.getByDocumentLine(model,
-							MTransaction.MOVEMENTTYPE_MovementFrom);					
+					MTransaction transactionFrom = MTransaction.getByDocumentLine(model, MTransaction.MOVEMENTTYPE_MovementFrom);
 					BigDecimal costMovementFrom = getCostThisLevel(accountSchema, costType, costElement, transactionFrom == null ? transaction : transactionFrom, model,costingLevel);
 					if (costMovementFrom.signum() > 0 )
 						costThisLevel = costMovementFrom;					
@@ -392,10 +390,7 @@ public class CostEngine {
 			costThisLevel = cost.getCurrentCostPrice();
 			costLowLevel = cost.getCurrentCostPriceLL();
 
-			if (model instanceof MInventoryLine
-					&& costThisLevel.signum() == 0
-					&& MCostElement.COSTELEMENTTYPE_Material.equals(costElement
-					.getCostElementType())) {
+			if (model instanceof MInventoryLine && costThisLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
 				MInventoryLine inventoryLine = (MInventoryLine) model;
 				// Use the cost only for Physical Inventory
 				if (inventoryLine.getQtyInternalUse().signum() == 0 &&
@@ -410,10 +405,13 @@ public class CostEngine {
 				if(costThisLevel.signum() == 0)
 					costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 			}
-
-
-            if (costThisLevel.signum() == 0
-            &&  MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+			if (model instanceof  MMovementLine && costThisLevel.signum() == 0 && MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
+				MTransaction transactionFrom = MTransaction.getByDocumentLine(model, MTransaction.MOVEMENTTYPE_MovementFrom);
+				BigDecimal costMovementFrom = getCostThisLevel(accountSchema, costType, costElement, transactionFrom == null ? transaction : transactionFrom, model,costingLevel);
+				if (costMovementFrom.signum() > 0 )
+					costThisLevel = costMovementFrom;
+			}
+            if (costThisLevel.signum() == 0 &&  MCostElement.COSTELEMENTTYPE_Material.equals(costElement.getCostElementType())) {
                 costThisLevel = getSeedCost(transaction.getCtx(), transaction.getM_Product_ID(), transaction.get_TrxName());
                 if (costThisLevel.signum() == 0)
                     if (model instanceof  MInOutLine && !model.isSOTrx()) {
@@ -622,8 +620,7 @@ public class CostEngine {
 					return;
 			}
 			else if (transaction.getM_MovementLine_ID() > 0) {
-				MMovementLine line = (MMovementLine) transaction
-						.getM_MovementLine();
+				MMovementLine line = (MMovementLine) transaction.getM_MovementLine();
 				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),
                         line.getDateAcct()))
 					return;
