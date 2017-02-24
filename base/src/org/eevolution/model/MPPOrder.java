@@ -1271,37 +1271,28 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			if (qtyIssue.signum() != 0 || qtyScrapComponent.signum() != 0 || qtyReject.signum() != 0)
 			{
 				String CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue;
-				
 				if (orderBOMLine.isComponentType(MPPOrderBOMLine.COMPONENTTYPE_Co_Product))
-				{
 					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_MixVariance;
-				}
-				//
-				collectors.add
-						(
-							MPPCostCollector.createCollector (
-							order, 															//MPPOrder
-							orderBOMLine.getM_Product_ID(),									//M_Product_ID
-							storage.getM_Locator_ID(),										//M_Locator_ID
-							storage.getM_AttributeSetInstance_ID(),							//M_AttributeSetInstance_ID
-							order.getS_Resource_ID(),										//S_Resource_ID
-							orderBOMLine.getPP_Order_BOMLine_ID(),							//PP_Order_BOMLine_ID
-							0,																//PP_Order_Node_ID
-							MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingCostCollector), 	//C_DocType_ID,
-							CostCollectorType, 												//Production "-"
-							movementdate,													//MovementDate
-							qtyIssue, qtyScrapComponent, qtyReject,									//qty,scrap,reject
-							Env.ZERO,Env.ZERO														//durationSetup,duration
+				collectors.add(
+						MPPCostCollector.createCollector (
+						order, 															//MPPOrder
+						orderBOMLine.getM_Product_ID(),									//M_Product_ID
+						storage.getM_Locator_ID(),										//M_Locator_ID
+						storage.getM_AttributeSetInstance_ID(),							//M_AttributeSetInstance_ID
+						order.getS_Resource_ID(),										//S_Resource_ID
+						orderBOMLine.getPP_Order_BOMLine_ID(),							//PP_Order_BOMLine_ID
+						0,																//PP_Order_Node_ID
+						MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingCostCollector), 	//C_DocType_ID,
+						CostCollectorType, 												//Production "-"
+						movementdate,													//MovementDate
+						qtyIssue, qtyScrapComponent, qtyReject,									//qty,scrap,reject
+						Env.ZERO,Env.ZERO														//durationSetup,duration
 						)
 				);
 				orderBOMLine.load(order.get_TrxName());
 				// Method Variance
-				if (orderBOMLine.getQtyBatch().signum() == 0
-						&& orderBOMLine.getQtyBOM().signum() == 0)
-				{
+				if (orderBOMLine.getQtyBatch().signum() == 0 && orderBOMLine.getQtyBOM().signum() == 0)
 					order.createMethodChangeVariance(orderBOMLine);
-				}
-
 			}			
 			toIssue = toIssue.subtract(qtyIssue);
 			if (toIssue.signum() == 0)
@@ -1310,8 +1301,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 
 		if(forceIssue && toIssue.signum() != 0)
 		{
-			collectors.add
-					(
+			collectors.add(
 						MPPCostCollector.createCollector (
 						order, 																	//MPPOrder
 						orderBOMLine.getM_Product_ID(),										//M_Product_ID
@@ -1344,9 +1334,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	{
 		MProduct product = MProduct.get(order.getCtx(), line.getM_Product_ID());
 		if (product == null || !product.isStocked())
-		{
 			return true;
-		}
 		
 		BigDecimal qtyToDeliver = line.getQtyRequired();
 		BigDecimal qtyScrap = line.getQtyScrap();
@@ -1373,19 +1361,18 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 */
 	private int getM_Locator_ID(BigDecimal qty)
 	{
-		int M_Locator_ID = 0;
+		int locatorId = 0;
 		int M_ASI_ID = getM_AttributeSetInstance_ID();
 		// Get existing Locator
 		if (M_ASI_ID != 0)
-		{
-			M_Locator_ID = MStorage.getM_Locator_ID(getM_Warehouse_ID(), getM_Product_ID(), M_ASI_ID, qty, get_TrxName());
-		}
+			locatorId = MStorage.getM_Locator_ID(getM_Warehouse_ID(), getM_Product_ID(), M_ASI_ID, qty, get_TrxName());
+
 		// Get Default
-		if (M_Locator_ID == 0)
+		if (locatorId == 0)
 		{
-			M_Locator_ID = getM_Locator_ID();
+			locatorId = getM_Locator_ID();
 		}
-		return M_Locator_ID;
+		return locatorId;
 	}
 	
 	/**
@@ -1394,28 +1381,21 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	public boolean isDelivered()
 	{
 		if(getQtyDelivered().signum() > 0 || getQtyScrap().signum() > 0 ||  getQtyReject().signum() > 0)
-		{
 			return true;
-		}
 		
 		for (MPPOrderBOMLine line : getLines())
 		{
 			if(line.getQtyDelivered().signum() > 0)
-			{
 				return true;
-			}
 		}
 		
 		for(MPPOrderNode node : this.getMPPOrderWorkflow().getNodes(true, getAD_Client_ID()))
 		{
 			if(node.getQtyDelivered().signum() > 0)
-			{
 				return true;
-			}
+
 			if(node.getDurationReal().signum() > 0)
-			{
 				return true;
-			}
 		}
 		return false;		
 	}
@@ -1517,7 +1497,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		{
 			final MProduct product = getM_Product();
 			productsAdded.add(product.getM_Product_ID());
-			//
 			final CostDimension d = new CostDimension(product, as, as.getM_CostType_ID(),
 												getAD_Org_ID() , getM_Warehouse_ID() , getM_AttributeSetInstance_ID(),
 												CostDimension.ANY);
@@ -1533,12 +1512,10 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		for (MPPOrderBOMLine line : getLines())
 		{
 			final MProduct product = line.getM_Product();
-			//
 			// Check if we already added this product
 			if (productsAdded.contains(product.getM_Product_ID()))
-			{
 				continue;
-			}
+
 			productsAdded.add(product.getM_Product_ID());
 			//
 			CostDimension d = new CostDimension(line.getM_Product(), as, as.getM_CostType_ID(),
@@ -1558,16 +1535,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			final int S_Resource_ID = node.getS_Resource_ID();
 			if (S_Resource_ID <= 0)
 				continue;
-			//
+
 			final MProduct resourceProduct = MProduct.forS_Resource_ID(getCtx(), S_Resource_ID, null);
-			//
 			// Check if we already added this product
 			if (productsAdded.contains(resourceProduct.getM_Product_ID()))
-			{
 				continue;
-			}
+
 			productsAdded.add(resourceProduct.getM_Product_ID());
-			//
 			CostDimension d = new CostDimension(resourceProduct, as, as.getM_CostType_ID(),
 					node.getAD_Org_ID(),
 					getM_Warehouse_ID(),
@@ -1620,18 +1594,15 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		final BigDecimal qtyUsageVariance = qtyOpen.subtract(qtyUsageVariancePrev);
 		//
 		if (qtyUsageVariance.signum() == 0)
-		{
 			return;
-		}
+
 		// Get Locator
 		int M_Locator_ID = line.getM_Locator_ID();
 		if (M_Locator_ID <= 0)
 		{
 			MLocator locator = MLocator.getDefault(MWarehouse.get(order.getCtx(), order.getM_Warehouse_ID()));
 			if (locator != null)
-			{
 				M_Locator_ID = locator.getM_Locator_ID();
-			}
 		}
 		//
 		MPPCostCollector.createCollector(
@@ -1660,9 +1631,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		// If QtyBatch and QtyBOM is zero, than this is a method variance
 		// (a product that "was not" in BOM was used)
 		if (line.getQtyBatch().signum() != 0 && line.getQtyBOM().signum() != 0)
-		{
 			return;
-		}
 		
 		final BigDecimal qtyMethodChangeVariancePrev = line.getQtyMethodChangeVariance();	// Previous booked method Change  variance
 		final BigDecimal qtyOpen = line.getQtyOpen();
@@ -1670,18 +1639,15 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		final BigDecimal qtyMethodChangeVariance = qtyOpen.subtract(qtyMethodChangeVariancePrev);
 		//
 		if (qtyMethodChangeVariance.signum() == 0)
-		{
 			return;
-		}
+
 		// Get Locator
 		int M_Locator_ID = line.getM_Locator_ID();
 		if (M_Locator_ID <= 0)
 		{
 			MLocator locator = MLocator.getDefault(MWarehouse.get(order.getCtx(), order.getM_Warehouse_ID()));
 			if (locator != null)
-			{
 				M_Locator_ID = locator.getM_Locator_ID();
-			}
 		}
 		//
 		MPPCostCollector cc = MPPCostCollector.createCollector(
@@ -1707,7 +1673,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		MPPOrder order = this;
 		final Timestamp movementDate = order.getUpdated();
 		final MPPOrderNode node = (MPPOrderNode)orderNode;
-		//
 		final BigDecimal setupTimeReal = node.getSetupTimeReal();
 		final BigDecimal durationReal = node.getDurationReal();
 		if (setupTimeReal.signum() == 0 && durationReal.signum() == 0)
