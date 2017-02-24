@@ -220,14 +220,14 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- BeanShell -->
-			<zipfileset src="lib/bsh-2.0b5.jar">
+			<zipfileset src="lib/bsh-2.0b6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/bsh-engine.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<zipfileset src="lib/groovy-all-2.0.1.jar">
+			<zipfileset src="lib/groovy-all-2.4.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/groovy-engine.jar">
@@ -382,14 +382,14 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- BeanShell -->
-			<zipfileset src="lib/bsh-2.0b5.jar">
+			<zipfileset src="lib/bsh-2.0b6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/bsh-engine.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Groovy -->
-			<zipfileset src="lib/groovy-all-2.0.1.jar">
+			<zipfileset src="lib/groovy-all-2.4.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/groovy-engine.jar">

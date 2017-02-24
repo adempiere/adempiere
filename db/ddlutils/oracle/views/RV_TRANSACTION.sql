@@ -32,7 +32,8 @@ SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
     0 AS C_Region_ID,
     COALESCE(il.CreatedBy, io.C_BPartner_ID, m.C_BPartner_ID ) AS C_BPartner_ID,
     COALESCE(i.User1_ID, iol.User1_ID, m.User1_ID , cc.User1_ID) AS User1_ID,
-    COALESCE(i.User2_ID, iol.User2_ID, m.User2_ID , cc.User2_ID) AS User2_ID
+    COALESCE(i.User2_ID, iol.User2_ID, m.User2_ID , cc.User2_ID) AS User2_ID,
+    p.lowlevel
 FROM M_Transaction t
   INNER JOIN M_Locator l ON (t.M_Locator_ID=l.M_Locator_ID)
   INNER JOIN M_Product p ON (t.M_Product_ID=p.M_Product_ID)

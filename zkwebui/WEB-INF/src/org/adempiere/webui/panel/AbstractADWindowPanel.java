@@ -2214,7 +2214,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{
 			try {
 				//get full control of desktop
-				Executions.activate(getComponent().getDesktop(), 500);
+				Executions.activate(getComponent().getDesktop(), 2000);
 				try {
 					Clients.showBusy(null, true);
                 } catch(Error ex){

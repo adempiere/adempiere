@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Concept
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.0
  */
 public interface I_HR_Concept 
 {
@@ -147,12 +146,12 @@ public interface I_HR_Concept
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
-	/** Set AD Payroll Concept.
+	/** Set Global Payroll Concept.
 	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public void setHR_Concept_ID (int HR_Concept_ID);
 
-	/** Get AD Payroll Concept.
+	/** Get Global Payroll Concept.
 	  * The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
 	  */
 	public int getHR_Concept_ID();
@@ -160,14 +159,10 @@ public interface I_HR_Concept
     /** Column name HR_Concept_Type_ID */
     public static final String COLUMNNAME_HR_Concept_Type_ID = "HR_Concept_Type_ID";
 
-	/** Set Global Payroll Concept Type.
-	  * Allows define types for concepts
-	  */
+	/** Set Global Payroll Concept Type ID	  */
 	public void setHR_Concept_Type_ID (int HR_Concept_Type_ID);
 
-	/** Get Global Payroll Concept Type.
-	  * Allows define types for concepts
-	  */
+	/** Get Global Payroll Concept Type ID	  */
 	public int getHR_Concept_Type_ID();
 
 	public org.eevolution.model.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException;
@@ -277,6 +272,15 @@ public interface I_HR_Concept
 	  * This is a manual process
 	  */
 	public boolean isManual();
+
+    /** Column name IsNotSaveInHistoryIfNull */
+    public static final String COLUMNNAME_IsNotSaveInHistoryIfNull = "IsNotSaveInHistoryIfNull";
+
+	/** Set No Save In History If Is Null	  */
+	public void setIsNotSaveInHistoryIfNull (boolean IsNotSaveInHistoryIfNull);
+
+	/** Get No Save In History If Is Null	  */
+	public boolean isNotSaveInHistoryIfNull();
 
     /** Column name IsPaid */
     public static final String COLUMNNAME_IsPaid = "IsPaid";
