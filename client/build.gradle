@@ -1,10 +1,22 @@
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
-version = '4.0.0-SNAPSHOT'
+version = System.properties['project.version']
+description = 'This buildfile is used to build the client subproject within the Adempiere project.'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
 
 dependencies {
-    compile fileTree(dir: '../lib', include: '*.jar')
-    compile fileTree(dir: '../tools/lib', include: '*.jar')
+
+    compile group: 'jfree', name: 'jcommon', version: '1.0.16'
+    compile group: 'jfree', name: 'jfreechart', version: '1.0.13'
+
+    compile group:'org.adempiere', name: 'CCTools', version: version
+    compile group:'org.adempiere', name: 'Base', version: version
+
 }
 
 
