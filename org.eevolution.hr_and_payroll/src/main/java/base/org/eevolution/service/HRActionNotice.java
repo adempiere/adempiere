@@ -411,11 +411,16 @@ public class HRActionNotice
 		movement.setValidTo(getValidTo());
 		MHREmployee employee = MHREmployee.getActiveEmployee(Env.getCtx(), movement.getC_BPartner_ID(), null);
 		if (employee != null) {
+			MHRPayroll payroll = MHRPayroll.getByPayrollId(Env.getCtx(), payrollProcess.getHR_Payroll_ID());
 			movement.setAD_Org_ID(employee.getAD_Org_ID());
 			movement.setHR_Department_ID(employee.getHR_Department_ID());
 			movement.setHR_Job_ID(employee.getHR_Job_ID());
 			movement.setHR_SkillType_ID(employee.getHR_SkillType_ID());
 			movement.setC_Activity_ID(employee.getC_Activity_ID() > 0 ? employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());
+			movement.setHR_Payroll_ID(payrollProcess.getHR_Payroll_ID());
+			movement.setHR_Contract_ID(payroll.getHR_Contract_ID());
+			movement.setHR_Employee_ID(employee.getHR_Employee_ID());
+			movement.setHR_EmployeeType_ID(employee.getHR_EmployeeType_ID());
 		}
 		movement.setIsManual(true);
 		movement.saveEx();
