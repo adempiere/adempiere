@@ -258,6 +258,8 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		mainPanel.appendChild(mainLayout);
 		mainPanel.setHeight("100%");
 		mainPanel.setWidth("100%");
+		
+		loadQuerySaved();
 	}
 	
 	/**
