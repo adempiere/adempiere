@@ -15,11 +15,29 @@ dependencies {
     compile group: 'jfree', name: 'jfreechart', version: '1.0.13'
 
     compile group:'org.adempiere', name: 'CCTools', version: version
+    // TODO  Temporarily using CSTools to compile client. Better to use the specific libraries and remove CSTools!
+    compile group:'org.adempiere', name: 'CSTools', version: version
     compile group:'org.adempiere', name: 'Base', version: version
+
+    compile fileTree(dir: './lib', include: '*.jar')
+
+    // compile file('lib/customization.jar')
+    // compile file('lib/patches.jar')
 
 }
 
+// TODO to consider definitive we need to add the inclusion of the Jasper things + other (see original build.xml)
+publishing {
+    publications {
+        swingClientJar(MavenPublication) {
+            groupId 'org.adempiere'
+            artifactId 'Adempiere' // TODO Why not giving a name that identify the nature of this client? SWING
+            version version
 
+            artifact jar
+        }
+    }
+}
 jar {
     manifest {
         attributes("Implementation-Title": "Adempiere SWING Client Module",
