@@ -188,22 +188,33 @@ public class MHRAttribute extends X_HR_Attribute
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept conc WHERE conc.HR_Concept_ID = HR_Attribute.HR_Concept_ID )");
 
 		// Check the concept is within a valid range for the attribute
-		if (concept.isEmployee() && employee != null) {
-			whereClause.append(" AND C_BPartner_ID = ? AND (HR_Employee_ID = ? OR HR_Employee_ID IS NULL)");
-			params.add(employee.getC_BPartner_ID());
-			params.add(employee.get_ID());
+		if(employee != null) {
+			if (concept.isEmployee()) {
+				whereClause.append(" AND C_BPartner_ID = ? AND (HR_Employee_ID = ? OR HR_Employee_ID IS NULL)");
+				params.add(employee.getC_BPartner_ID());
+				params.add(employee.get_ID());
+			} else {
+				whereClause.append(" AND C_BPartner_ID IS NULL ");
+			}
+			//	Add support for Department
+			whereClause.append(" AND (HR_Department_ID = ? OR HR_Department_ID IS NULL)");
+			params.add(employee.getHR_Department_ID());
+			//	Add support for Job
+			whereClause.append(" AND (HR_Job_ID = ? OR HR_Job_ID IS NULL)");
+			params.add(employee.getHR_Job_ID());
 		}
-		else
-			whereClause.append(" AND C_BPartner_ID IS NULL ");
-
-
+		//	For Payroll
 		whereClause.append(" AND (HR_Payroll_ID = ? OR HR_Payroll_ID IS NULL)");
 		params.add(payrollId);
-
+		//	
 		MHRAttribute attribute = new Query(concept.getCtx(), MHRAttribute.Table_Name, whereClause.toString(), concept.get_TrxName())
 				.setParameters(params)
 				.setOnlyActiveRecords(true)
-				.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+				.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom 
+						+ ", " + MHRAttribute.COLUMNNAME_HR_Payroll_ID 
+						+ ", " + MHRAttribute.COLUMNNAME_HR_Department_ID 
+						+ ", " + MHRAttribute.COLUMNNAME_HR_Job_ID 
+						+ ", " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " DESC")
 				.first();
 		return attribute;
 	}
