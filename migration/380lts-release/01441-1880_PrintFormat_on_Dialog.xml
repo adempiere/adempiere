@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Print Format and Output Type on Process Dialog #1880" ReleaseNo="" SeqNo="01450">
+  <Migration EntityType="D" Name="Print Format and Output Type on Process Dialog #1880" ReleaseNo="" SeqNo="01441">
       <Step DBType="ALL" SeqNo="1" StepType="SQL">
       	<SQLStatement>ALTER TABLE ad_role ADD COLUMN allow_html_view character(1);
       	ALTER TABLE ad_role ALTER COLUMN allow_html_view SET DEFAULT 'Y'::bpchar;
