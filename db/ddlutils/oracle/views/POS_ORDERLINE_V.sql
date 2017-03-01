@@ -1,8 +1,9 @@
 -- DROP VIEW POS_OrderLine_v;
 CREATE OR REPLACE VIEW POS_OrderLine_v
-	(C_OrderLine_ID, C_Order_ID, AD_Client_ID, AD_Org_ID, IsActive,
-	Created, CreatedBy, Updated, UpdatedBy, ProductName, PriceActual,
-	QtyOrdered, UOMSymbol, TaxindIcator, Rate, LineNetAmt, GrandTotal, Discount) AS
+(C_OrderLine_ID,
+    C_Order_ID, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy, ProductName, PriceActual,
+    QtyOrdered, UOMSymbol, TaxindIcator, Rate, LineNetAmt, GrandTotal, Discount)
+AS
  SELECT ol.C_OrderLine_ID,
     ol.C_Order_ID,
     ol.AD_Client_ID,
