@@ -409,7 +409,8 @@ public class MProduction extends X_M_Production implements DocAction {
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		//	Create Lines
-		createLines();
+		if (!isReversal())
+			createLines();
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
@@ -636,6 +637,7 @@ public class MProduction extends X_M_Production implements DocAction {
 			rLine.setPlannedQty(oLine.getPlannedQty().negate());
 			rLine.setQtyUsed(oLine.getQtyUsed().negate());
 			rLine.setM_Production_ID(reversal.getM_Production_ID());
+			rLine.setM_AttributeSetInstance_ID(oLine.getM_AttributeSetInstance_ID());
 			rLine.saveEx();
 			//AZ Goodwill
 			// store original (voided/reversed) document line
