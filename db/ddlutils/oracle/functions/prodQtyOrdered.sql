@@ -3,6 +3,7 @@ CREATE OR REPLACE FUNCTION prodqtyordered(
     p_warehouse_id NUMBER)
   RETURN NUMBER AS
   
+  
 	v_Warehouse_ID			NUMBER;
  	v_Quantity				NUMBER := 99999;	--	unlimited
 	v_IsBOM					CHAR(1);
