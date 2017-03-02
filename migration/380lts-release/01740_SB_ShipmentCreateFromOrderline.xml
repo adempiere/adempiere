@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="SB_InoutGererateFromOrderLine" ReleaseNo="" SeqNo="1740">
+  <Migration EntityType="D" Name="SB_InoutGererateFromOrderLine" ReleaseNo="" SeqNo="1740">
     <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
       <SQLStatement>-- View: rv_storage_per_product
 
@@ -97,6 +97,87 @@ CREATE OR REPLACE VIEW m_inout_candidatedetail_v AS
 ALTER TABLE m_inout_candidatedetail_v
   OWNER TO adempiere;
 </SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="3" StepType="SQL">
+      <SQLStatement> CREATE VIEW rv_storage_per_product (ad_client_id,     ad_org_id,     m_product_id,    value,     name,     description,     upc,     sku,     c_uom_id,     m_product_category_id,     classification,     weight,     volume,     versionno,     guaranteedays,     guaranteedaysmin,     sumqtyonhand,     sumqtyreserved,     m_warehouse_id)      AS   SELECT strg.ad_client_id,     strg.ad_org_id,     p.m_product_id,     p.value,     p.name,     p.description,     p.upc,     p.sku,     p.c_uom_id,     p.m_product_category_id,     p.classification,     p.weight,     p.volume,     p.versionno,     p.guaranteedays,     p.guaranteedaysmin,     strg.sumqtyonhand,     strg.sumqtyreserved,     l.m_warehouse_id    FROM m_product p      JOIN ( SELECT rv_storage.m_product_id,             rv_storage.m_locator_id,             sum(rv_storage.qtyonhand) AS sumqtyonhand,             sum(rv_storage.qtyreserved) AS sumqtyreserved,             rv_storage.ad_client_id,             rv_storage.ad_org_id            FROM rv_storage           GROUP BY rv_storage.m_product_id, rv_storage.m_locator_id, rv_storage.ad_client_id, rv_storage.ad_org_id) strg ON p.m_product_id = strg.m_product_id      JOIN m_locator l ON strg.m_locator_id = l.m_locator_id; </SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="4" StepType="SQL">
+      <SQLStatement>
+CREATE VIEW m_inout_candidatedetail_v(
+ad_client_id,
+    ad_org_id,
+    c_bpartner_id,
+    c_order_id,
+    documentno,
+    dateordered,
+    c_doctype_id,
+    poreference,
+    description,
+    salesrep_id,
+    m_warehouse_id,
+    totallines,
+    qtytodeliver,
+    c_orderline_id,
+    datepromised,
+    m_product_id,
+    c_charge_id,
+    qtyordered,
+    isunconfirmedinout,
+    no_unconfirmed,
+    deliveryrule,
+    qtyavailable
+)
+
+ AS 
+ SELECT o.ad_client_id,
+    o.ad_org_id,
+    o.c_bpartner_id,
+    o.c_order_id,
+    o.documentno,
+    o.dateordered,
+    o.c_doctype_id,
+    o.poreference,
+    o.description,
+    o.salesrep_id,
+    l.m_warehouse_id,
+    (l.qtyordered - l.qtydelivered) * l.priceactual AS totallines,
+    l.qtyordered - l.qtydelivered AS qtytodeliver,
+    l.c_orderline_id,
+    l.datepromised,
+    l.m_product_id,
+    l.c_charge_id,
+    l.qtyordered,
+        CASE
+            WHEN iol.no_unconfirmed IS NULL THEN 'N'::text
+            ELSE 'Y'::text
+        END AS isunconfirmedinout,
+    iol.no_unconfirmed,
+    o.deliveryrule,
+    storage.qtyavailable - l.qtyreserved AS qtyavailable
+   FROM c_order o
+     JOIN c_orderline l ON o.c_order_id = l.c_order_id
+     LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS no_unconfirmed,
+            iol_1.c_orderline_id
+           FROM m_inoutline iol_1
+             JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
+          WHERE io.docstatus = ANY (ARRAY['IP'::bpchar, 'WC'::bpchar])
+          GROUP BY iol_1.c_orderline_id) iol ON iol.c_orderline_id = l.c_orderline_id
+     LEFT JOIN ( SELECT sum(rv_storage_per_product.sumqtyonhand - rv_storage_per_product.sumqtyreserved) AS qtyavailable,
+            rv_storage_per_product.m_product_id,
+            rv_storage_per_product.m_warehouse_id
+           FROM rv_storage_per_product
+          GROUP BY rv_storage_per_product.m_product_id, rv_storage_per_product.m_warehouse_id) storage ON storage.m_product_id = l.m_product_id AND storage.m_warehouse_id = o.m_warehouse_id
+  WHERE o.docstatus = 'CO'::bpchar AND o.isdelivered = 'N'::bpchar AND (o.c_doctype_id IN ( SELECT c_doctype.c_doctype_id
+           FROM c_doctype
+          WHERE c_doctype.docbasetype = 'SOO'::bpchar AND (c_doctype.docsubtypeso not in ('ON','OB' ,'WR')  ))) AND o.deliveryrule &lt;&gt; 'M'::bpchar AND (l.m_product_id IS NULL OR (EXISTS ( SELECT p.value
+           FROM m_product p
+          WHERE l.m_product_id = p.m_product_id AND p.isexcludeautodelivery = 'N'::bpchar))) AND l.qtyordered &lt;&gt; l.qtydelivered AND o.isdropship = 'N'::bpchar AND (l.m_product_id IS NOT NULL OR l.c_charge_id IS NOT NULL) AND NOT (EXISTS ( SELECT iol_1.m_inoutline_id
+           FROM m_inoutline iol_1
+             JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
+          WHERE iol_1.c_orderline_id = l.c_orderline_id AND (io.docstatus  in ('IP','WC' ))));
+
+</SQLStatement>
+      <RollbackStatement>drop view m_inout_candidatedetail_v;</RollbackStatement>
     </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54193" Table="AD_Table">
@@ -1751,7 +1832,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="2602" Column="ColumnName">no_unconfirmed</Data>
         <Data AD_Column_ID="4299" Column="PrintName">no_unconfirmed</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -2218,7 +2299,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
         <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3739" Column="DefaultValue">IO_</Data>
         <Data AD_Column_ID="2826" Column="SeqNo">50</Data>
         <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
@@ -2359,7 +2440,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     </Step>
     <Step SeqNo="750" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55031" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.AD_Client_ID</Data>
@@ -2397,7 +2478,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     </Step>
     <Step SeqNo="770" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55032" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.AD_Org_ID</Data>
@@ -2436,7 +2517,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     <Step SeqNo="790" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55033" Table="AD_View_Column">
         <Data AD_Column_ID="58098" Column="CreatedBy">0</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.C_BPartner_ID</Data>
@@ -2475,7 +2556,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
       <PO AD_Table_ID="53232" Action="I" Record_ID="55034" Table="AD_View_Column">
         <Data AD_Column_ID="58109" Column="AD_Column_ID">82188</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Document Type determines document sequence and processing rules</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.C_DocType_ID</Data>
@@ -2511,7 +2592,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     </Step>
     <Step SeqNo="830" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55035" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.C_Order_ID</Data>
@@ -2549,7 +2630,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     </Step>
     <Step SeqNo="850" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55036" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Sales Order Line is a unique identifier for a line in an order.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.C_OrderLine_ID</Data>
@@ -2587,7 +2668,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     </Step>
     <Step SeqNo="870" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55037" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Created field indicates the date that this record was created.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.Created</Data>
@@ -2625,7 +2706,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     </Step>
     <Step SeqNo="890" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55038" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Created By field indicates the user who created this record.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.CreatedBy</Data>
@@ -2663,7 +2744,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     </Step>
     <Step SeqNo="910" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55039" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">Indicates the Date an item was ordered.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.DateOrdered</Data>
@@ -2701,7 +2782,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     </Step>
     <Step SeqNo="930" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55040" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">A description is limited to 255 characters.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.Description</Data>
@@ -2739,7 +2820,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     </Step>
     <Step SeqNo="950" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55041" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "&lt;&gt;".
 
 If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_&lt;TableName&gt;", where TableName is the actual name of the table (e.g. C_Order).</Data>
@@ -2779,7 +2860,7 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="970" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55042" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
@@ -2820,7 +2901,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="990" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55043" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.M_Warehouse_ID</Data>
@@ -2858,7 +2939,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1010" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55044" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The business partner order reference is the order reference for this specific transaction; Often Purchase Order numbers are given to print on Invoices for easier reference.  A standard number can be defined in the Business Partner (Customer) window.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.POReference</Data>
@@ -2896,7 +2977,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1030" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55045" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Sales Representative indicates the Sales Rep for this Region.  Any Sales Rep must be a valid internal user.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.SalesRep_ID</Data>
@@ -2934,7 +3015,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1050" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55046" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Total amount displays the total of all lines in document currency</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.TotalLines</Data>
@@ -2972,7 +3053,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1070" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55047" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Updated field indicates the date that this record was updated.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.Updated</Data>
@@ -3010,7 +3091,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1090" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55048" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Updated By field indicates the user who updated this record.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.UpdatedBy</Data>
@@ -3048,7 +3129,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1110" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55049" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Date Promised indicates the date, if any, that an Order was promised for.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.DatePromised</Data>
@@ -3086,7 +3167,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1130" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55050" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Charge indicates a type of Charge (Handling, Shipping, Restocking)</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.C_Charge_ID</Data>
@@ -3124,7 +3205,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1150" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55051" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">Identifies an item which is either purchased or sold in this organization.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.M_Product_ID</Data>
@@ -3162,7 +3243,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1170" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55052" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Ordered Quantity indicates the quantity of a product that was ordered.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.QtyOrdered</Data>
@@ -3200,7 +3281,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1190" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55053" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.QtyToDeliver</Data>
@@ -3238,7 +3319,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1210" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55054" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">The Delivery Rule indicates when an order should be delivered. For example should the order be delivered when the entire order is complete, when a line is complete or as the products become available.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.DeliveryRule</Data>
@@ -3276,7 +3357,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1230" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55055" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">You can also include orders who have outstanding confirmations (e.g. ordered=10 - not confirmed shipments=4 - would create a new shipment of 6 if available).</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.IsUnconfirmedInOut</Data>
@@ -3314,7 +3395,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1250" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55056" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.no_unconfirmed</Data>
@@ -3352,7 +3433,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1270" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55057" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">U</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58104" Column="Help">Quantity available to promise = On Hand minus Reserved Quantity</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">io.QtyAvailable</Data>
@@ -5589,7 +5670,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
         <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="57960" Column="AD_Browse_ID">50079</Data>
         <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>

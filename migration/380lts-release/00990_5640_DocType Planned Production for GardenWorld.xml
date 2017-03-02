@@ -88,6 +88,7 @@
         <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
       </PO>
     </Step>
+    <!-- Not included because of ID=1000000
     <Step SeqNo="40" StepType="AD">
       <PO AD_Table_ID="54052" Action="I" Record_ID="50000" Table="M_ProductionBatch">
         <Data AD_Column_ID="78192" Column="AD_Client_ID">11</Data>
@@ -125,5 +126,6 @@
         <Data AD_Column_ID="78211" Column="TargetQty" oldValue="0">100.000000000000</Data>
       </PO>
     </Step>
+    -->
   </Migration>
 </Migrations>
