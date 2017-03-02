@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="SB_InoutGererateFromOrderLine" ReleaseNo="" SeqNo="1690">
+  <Migration EntityType="U" Name="SB_InoutGererateFromOrderLine" ReleaseNo="" SeqNo="1740">
     <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
       <SQLStatement>-- View: rv_storage_per_product
 
