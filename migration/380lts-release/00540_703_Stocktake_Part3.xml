@@ -1079,12 +1079,12 @@ SELECT t.AD_Client_ID, 0, 'Y',  100,  100,t.AD_Tree_ID, 53626, 0, 999 FROM AD_Tr
 AND t.TreeType='MM' AND NOT EXISTS (SELECT * FROM AD_TreeNodeMM e WHERE e.AD_Tree_ID=t.AD_Tree_ID AND Node_ID=53626) ;
 </SQLStatement>
     </Step>
-    <Step DBType="ALL" Parse="Y" SeqNo="320" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="320" StepType="SQL">
       <Comments>-- 23/09/2013 1:55:46 PM
 -- Physical Inventory Improvements</Comments>
-      <SQLStatement>UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=0, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=167;
+      <SQLStatement>UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=167;
 
-UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=1, Updated=SysDate  WHERE AD_Tree_ID=10 AND Node_ID=357;
+UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=1, Updated=CURRENT_TIMESTAMP  WHERE AD_Tree_ID=10 AND Node_ID=357;
 
 UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53296;
 
@@ -1134,6 +1134,62 @@ UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=24, Updated=CURRENT_TIMESTAMP WHER
 
 UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=25, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=515;
 </SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="321" StepType="SQL">
+      <Comments>-- 23/09/2013 1:55:46 PM
+        -- Physical Inventory Improvements</Comments>
+      <SQLStatement>UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=0, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=167;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=1, Updated=SysDate  WHERE AD_Tree_ID=10 AND Node_ID=357;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=2, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=53296;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=3, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=229;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=4, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=412;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=5, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=256;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=6, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=197;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=7, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=477;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=8, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=179;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=9, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=53626;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=10, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=181;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=11, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=53410;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=12, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=503;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=13, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=196;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=14, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=228;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=15, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=479;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=16, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=482;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=17, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=481;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=18, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=411;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=19, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=426;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=20, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=53253;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=21, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=537;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=22, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=311;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=23, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=292;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=24, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=504;
+
+        UPDATE AD_TreeNodeMM SET Parent_ID=183, SeqNo=25, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=515;
+      </SQLStatement>
     </Step>
     <Step SeqNo="330" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="69542" Table="AD_Field">
