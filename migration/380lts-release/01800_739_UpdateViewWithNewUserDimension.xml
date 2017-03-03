@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Update Account View with new user dimension" ReleaseNo="1800" SeqNo="0">
+  <Migration EntityType="D" Name="Update Account View with new user dimension" ReleaseNo="3.9.0" SeqNo="1800">
     <Comments>https://github.com/adempiere/adempiere/issues/739</Comments>
     <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
       <Comments>Add User3_ID and User4_ID in account fact views</Comments>

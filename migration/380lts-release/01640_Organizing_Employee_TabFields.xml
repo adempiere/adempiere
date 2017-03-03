@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Bad validation for Employee #751" ReleaseNo="" SeqNo="1640">
+  <Migration EntityType="D" Name="Bad validation for Employee #751" ReleaseNo="3.9.0" SeqNo="1640">
     <Comments>Organizing Tabs on Employee All</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="105" Action="U" Record_ID="53311" Table="AD_Window">

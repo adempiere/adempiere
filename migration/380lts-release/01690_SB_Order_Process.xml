@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="SB_OrderProcess" ReleaseNo="" SeqNo="1690">
+  <Migration EntityType="D" Name="SB_OrderProcess" ReleaseNo="3.9.0" SeqNo="1690">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="53924" Table="AD_Process">
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>

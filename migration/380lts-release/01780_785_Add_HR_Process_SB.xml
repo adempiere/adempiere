@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Payroll process Like criteria to Payment Selection CF #7" ReleaseNo="" SeqNo="1780">
+  <Migration EntityType="D" Name="Add Payroll process Like criteria to Payment Selection CF #7" ReleaseNo="3.9.0" SeqNo="1780">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55151" Table="AD_Browse_Field">
         <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
