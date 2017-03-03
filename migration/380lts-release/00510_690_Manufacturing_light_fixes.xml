@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Manufacturing light fixes" ReleaseNo="3.9.0" SeqNo="510">
-    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE FUNCTION prodqtyordered(p_product_id numeric, p_warehouse_id numeric)
   RETURNS numeric AS
 $BODY$
@@ -68,7 +68,7 @@ $BODY$
       <RollbackStatement>DROP FUNCTION prodqtyordered(numeric, numeric);
 </RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="Y" SeqNo="15" StepType="SQL">
+    <Step DBType="Oracle" Parse="N" SeqNo="15" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE FUNCTION prodqtyordered(
     p_product_id NUMBER,
     p_warehouse_id NUMBER)
@@ -133,7 +133,7 @@ END prodqtyordered;
 /</SQLStatement>
       <RollbackStatement>DROP FUNCTION prodqtyordered(NUMBER, NUMBER);</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
+    <Step DBType="Postgres" Parse="N" SeqNo="20" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE FUNCTION prodqtyreserved(p_product_id numeric, p_warehouse_id numeric)
   RETURNS numeric AS
 $BODY$
@@ -201,7 +201,7 @@ $BODY$
       <RollbackStatement>DROP FUNCTION prodqtyreserved(numeric, numeric);
 </RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="Y" SeqNo="25" StepType="SQL">
+    <Step DBType="Oracle" Parse="N" SeqNo="25" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE FUNCTION prodQtyReserved
 (
 	p_Product_ID 		IN NUMBER,
