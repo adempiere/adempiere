@@ -557,6 +557,7 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 
         costDetail.setCumulatedQty(getNewAccumulatedQuantity(lastCostDetail));
         costDetail.setCumulatedAmt(getNewAccumulatedAmount(lastCostDetail));
+		costDetail.setCumulatedAmtLL(getNewAccumulatedAmountLowerLevel(lastCostDetail));
         costDetail.setCurrentCostPrice(currentCostPrice);
         costDetail.setCurrentCostPriceLL(currentCostPriceLowerLevel);
 

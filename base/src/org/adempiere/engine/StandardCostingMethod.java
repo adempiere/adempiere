@@ -207,8 +207,8 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 
 		costDetail.setCumulatedQty(dimension.getCumulatedQty());
 		costDetail.setCumulatedAmt(dimension.getCumulatedAmt());
-		costDetail.setCurrentCostPrice(dimension.getCurrentCostPrice());
 		costDetail.setCumulatedAmtLL(dimension.getCumulatedAmtLL());
+		costDetail.setCurrentCostPrice(dimension.getCurrentCostPrice());
 		costDetail.setCurrentCostPriceLL(dimension.getCurrentCostPriceLL());
 		StringBuilder description = new StringBuilder();
 		if (!Util.isEmpty(model.getDescription(), true))
@@ -345,6 +345,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 
         costDetail.setCumulatedQty(getNewAccumulatedQuantity(lastCostDetail));
         costDetail.setCumulatedAmt(getNewAccumulatedAmount(lastCostDetail));
+        costDetail.setCumulatedAmtLL(getNewAccumulatedAmountLowerLevel(lastCostDetail));
 
         // set the id for model
         final String idColumnName = CostEngine.getIDColumnName(model);

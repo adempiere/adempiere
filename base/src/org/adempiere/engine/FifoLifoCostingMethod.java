@@ -250,6 +250,7 @@ public class FifoLifoCostingMethod extends AbstractCostingMethod
 			}
 			costDetail.setCumulatedQty(dimension.getCumulatedQty());
 			costDetail.setCumulatedAmt(dimension.getCumulatedQty());
+			costDetail.setCumulatedAmtLL(getNewAccumulatedAmountLowerLevel(lastCostDetail));
 			costDetail.setCurrentCostPrice(dimension.getCurrentCostPrice());
 			updateCurrentCost(costDetail);
 			costDetail.saveEx();
