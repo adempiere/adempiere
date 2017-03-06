@@ -29,7 +29,7 @@
     <libelement value="jar://$MODULE_DIR$/tools/lib/xml-apis.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/jpedal.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/swingx-1.6.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-2.0b5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-2.0b6.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-engine.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/groovy-engine.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/jython.jar!/" />
@@ -456,9 +456,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="bsh-2.0b5.jar">
+      <library name="bsh-2.0b6.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/bsh-2.0b5.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/bsh-2.0b6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1111,15 +1111,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="zkplus-sources.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zkplus-sources.jar!/" />
@@ -1249,15 +1240,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="poi-3.9-20121203.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/poi-3.9-20121203.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module-library">
       <library name="OpenForecast-0.5.0.jar">
         <CLASSES>
@@ -1336,8 +1318,50 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="scripting-scala-0.1.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="scala-sdk-2.12.0" level="project" />
-    <orderEntry type="library" name="groovy-all-2.4.7" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/groovy-all-2.4.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/poi-ooxml-3.14-20160307.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-logging-1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ooxml-schemas-1.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/poi-3.14-20160307.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
