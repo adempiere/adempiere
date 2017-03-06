@@ -29,7 +29,7 @@
     <libelement value="jar://$MODULE_DIR$/tools/lib/xml-apis.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/jpedal.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/swingx-1.6.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-2.0b5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-2.0b6.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/bsh-engine.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/groovy-engine.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/jython.jar!/" />
@@ -456,9 +456,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="bsh-2.0b5.jar">
+      <library name="bsh-2.0b6.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/bsh-2.0b5.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/bsh-2.0b6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
