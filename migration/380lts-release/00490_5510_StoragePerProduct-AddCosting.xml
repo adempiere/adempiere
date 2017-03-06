@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="StoragePerProduct-Add costing" ReleaseNo="3.9.0" SeqNo="820">
+  <Migration EntityType="D" Name="StoragePerProduct-Add costing" ReleaseNo="3.9.0" SeqNo="490">
     <Comments>Generation of AD_Element currentcostValue. This element is needed in other xml.</Comments>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="58925" Table="AD_Element">
