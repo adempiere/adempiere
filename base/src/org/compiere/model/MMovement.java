@@ -20,6 +20,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -332,7 +333,7 @@ public class MMovement extends X_M_Movement implements DocAction
 		}
 		
 		//	Confirmation
-		if (dt.isInTransit())
+		if (dt.isInTransit() && !isReversal())
 			createConfirmation();
 
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
@@ -400,17 +401,15 @@ public class MMovement extends X_M_Movement implements DocAction
 
 		//	Outstanding (not processed) Incoming Confirmations ?
 		MMovementConfirm[] confirmations = getConfirmations(true);
-		for (int i = 0; i < confirmations.length; i++)
+		for (MMovementConfirm confirm : confirmations)
 		{
-			MMovementConfirm confirm = confirmations[i];
 			if (!confirm.isProcessed())
 			{
-				m_processMsg = "Open: @M_MovementConfirm_ID@ - " 
-					+ confirm.getDocumentNo();
-				return DocAction.STATUS_InProgress;
+					m_processMsg = "Open: @M_MovementConfirm_ID@ - " + confirm.getDocumentNo();
+					return DocAction.STATUS_InProgress;
 			}
 		}
-		
+
 		//	Implicit Approval
 		if (!isApproved())
 			approveIt();
@@ -752,6 +751,7 @@ public class MMovement extends X_M_Movement implements DocAction
 		reversal.addDescription("{->" + getDocumentNo() + ")");
 		//FR [ 1948157  ]
 		reversal.setReversal_ID(getM_Movement_ID());
+		reversal.setReversal(true);
 		if (!reversal.save())
 		{
 			m_processMsg = "Could not create Movement Reversal";
@@ -766,18 +766,38 @@ public class MMovement extends X_M_Movement implements DocAction
 			MMovementLine rLine = new MMovementLine(getCtx(), 0, get_TrxName());
 			copyValues(oLine, rLine, oLine.getAD_Client_ID(), oLine.getAD_Org_ID());
 			rLine.setM_Movement_ID(reversal.getM_Movement_ID());
-			//AZ Goodwill			
 			// store original (voided/reversed) document line
 			rLine.setReversalLine_ID(oLine.getM_MovementLine_ID());
-			//
-			rLine.setMovementQty(rLine.getMovementQty().negate());
-			rLine.setTargetQty(Env.ZERO);
-			rLine.setScrappedQty(Env.ZERO);
-			rLine.setConfirmedQty(Env.ZERO);
+			rLine.setMovementQty(oLine.getMovementQty().negate());
+			rLine.setTargetQty(oLine.getTargetQty().negate());
+			rLine.setScrappedQty(oLine.getScrappedQty().negate());
+			rLine.setConfirmedQty(oLine.getConfirmedQty().negate());
 			rLine.setProcessed(false);
 			rLine.saveEx();
 		}
-		//
+
+		//After that those reverse movements confirmations are generated,
+		//the reverse reference for movement and movement line are set
+		Arrays.stream(getConfirmations(true)).forEach(movementConfirm -> {
+			movementConfirm.reverseCorrectIt();
+		});
+		//After movements confirmations are reverce generate the movement id and movement line
+		Arrays.stream(getConfirmations(true)).filter(movementConfirm -> movementConfirm.getReversal_ID() > 0 )
+				.forEach(movementConfirm -> {
+					Arrays.stream(reversal.getLines(true)).forEach( reversalMovementLine -> {
+						Arrays.stream(movementConfirm.getLines(true))
+								.filter(movementLineConfirm -> movementLineConfirm.getM_MovementLine_ID() == reversalMovementLine.getReversalLine_ID())
+								.forEach(movementLineConfirm -> {
+									movementLineConfirm.setM_MovementLine_ID(reversalMovementLine.getM_MovementLine_ID());
+									movementLineConfirm.saveEx();
+								});
+					});
+					movementConfirm.setM_Movement_ID(reversal.getM_Movement_ID());
+					movementConfirm.setIsReversal(true);
+					movementConfirm.saveEx();
+		});
+
+
 		if (!reversal.processIt(DocAction.ACTION_Complete))
 		{
 			m_processMsg = "Reversal ERROR: " + reversal.getProcessMsg();
@@ -788,7 +808,7 @@ public class MMovement extends X_M_Movement implements DocAction
 		reversal.setDocAction(DOCACTION_None);
 		reversal.saveEx();
 		m_processMsg = reversal.getDocumentNo();
-		
+
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)
@@ -796,7 +816,6 @@ public class MMovement extends X_M_Movement implements DocAction
 		
 		//	Update Reversed (this)
 		addDescription("(" + reversal.getDocumentNo() + "<-)");
-		//FR [ 1948157  ]
 		setReversal_ID(reversal.getM_Movement_ID());
 		setProcessed(true);
 		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
