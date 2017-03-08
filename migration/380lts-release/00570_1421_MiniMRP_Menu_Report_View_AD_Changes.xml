@@ -42,7 +42,7 @@
         <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
         <Data AD_Column_ID="2810" Column="Description">Replenish Plan Calculation Report</Data>
         <Data AD_Column_ID="4023" Column="Value">ReplenishPlan</Data>
-        <Data AD_Column_ID="2809" Column="Name">ReplenishPlan_Report</Data>
+        <Data AD_Column_ID="2809" Column="Name">Replenish Plan Report</Data>
         <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2807" Column="Updated">2014-08-02 11:24:24.249</Data>
         <Data AD_Column_ID="2808" Column="UpdatedBy">100</Data>
