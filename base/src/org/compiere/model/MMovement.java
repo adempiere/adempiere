@@ -951,13 +951,13 @@ public class MMovement extends X_M_Movement implements DocAction
 		MProduct product = MProduct.get(getCtx(), trxFrom.getM_Product_ID());
 		String costingLevel = product.getCostingLevel(as,trxFrom.getAD_Org_ID());
 		int orgId = trxFrom.getAD_Org_ID();
-		int OrgToId = trxTo.getAD_Org_ID();
+		int orgToId = trxTo.getAD_Org_ID();
 		int attributeSetInstanceId = trxFrom.getM_AttributeSetInstance_ID();
 		int attributeSetInstanceToId = trxTo.getM_AttributeSetInstance_ID();
 		if (MAcctSchema.COSTINGLEVEL_Client.equals(costingLevel))
 		{
 			orgId = 0;
-			OrgToId = 0;
+			orgToId = 0;
 			attributeSetInstanceId = 0;
 			attributeSetInstanceToId = 0;
 		}
@@ -969,10 +969,10 @@ public class MMovement extends X_M_Movement implements DocAction
 		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(costingLevel))
 		{
 			orgId = 0;
-			OrgToId = 0;
+			orgToId = 0;
 		}
 		//
-		return orgId == OrgToId && attributeSetInstanceId == attributeSetInstanceToId;
+		return orgId == orgToId && attributeSetInstanceId == attributeSetInstanceToId;
 	}
 }	//	MMovement
 
