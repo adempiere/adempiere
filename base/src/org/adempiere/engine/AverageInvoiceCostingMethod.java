@@ -582,6 +582,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
 			costDetail.setM_InOutLine_ID(allocation.getM_InOutLine_ID());
 			costDetail.setC_InvoiceLine_ID(allocation.getC_InvoiceLine_ID());
+			costDetail.setC_LandedCostAllocation_ID(allocation.getC_LandedCostAllocation_ID());
 			costDetail.setProcessed(false);
 		}
 		costDetail.saveEx();
