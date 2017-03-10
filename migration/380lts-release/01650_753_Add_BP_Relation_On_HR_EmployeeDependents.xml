@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="BP reference on Employee #753" ReleaseNo="3.8.0" SeqNo="1650">
+  <Migration EntityType="D" Name="BP reference on Employee #753" ReleaseNo="3.9.0" SeqNo="1650">
     <Comments>Add reference to BP on Employee Dependents
 See: https://github.com/adempiere/adempiere/issues/753</Comments>
     <Step SeqNo="10" StepType="AD">

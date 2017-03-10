@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Blood group should be a BP attribute #752" ReleaseNo="3.8.0" SeqNo="1660">
+  <Migration EntityType="D" Name="Blood group should be a BP attribute #752" ReleaseNo="3.9.0" SeqNo="1660">
     <Comments>Change Attributes to Parent</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82081" Table="AD_Column">
