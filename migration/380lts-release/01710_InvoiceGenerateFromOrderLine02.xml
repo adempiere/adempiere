@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="SB_InvoiceFromOrderLine_02" ReleaseNo="" SeqNo="1710">
+  <Migration EntityType="D" Name="SB_InvoiceFromOrderLine_02" ReleaseNo="3.9.0" SeqNo="1710">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53230" Action="U" Record_ID="90002" Table="AD_View">
         <Data AD_Column_ID="58078" Column="Help" isNewNull="true" isOldNull="true"/>

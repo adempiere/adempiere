@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="SB_InvoiceFromOrderLine_01" ReleaseNo="" SeqNo="1700">
+  <Migration EntityType="D" Name="SB_InvoiceFromOrderLine_01" ReleaseNo="3.9.0" SeqNo="1700">
     <Step DBType="Postgres" Parse="Y" SeqNo="0" StepType="SQL">
       <SQLStatement>-- View: shw_orderline_storage
 
