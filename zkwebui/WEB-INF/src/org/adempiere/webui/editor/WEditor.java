@@ -22,12 +22,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
-import org.adempiere.webui.AdempiereIdGenerator;
-import org.adempiere.webui.component.CWindowToolbar;
-import org.adempiere.webui.component.Bandbox;
+
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
+import org.adempiere.webui.AdempiereIdGenerator;
+import org.adempiere.webui.component.Bandbox;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.CWindowToolbar;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.StringBox;
