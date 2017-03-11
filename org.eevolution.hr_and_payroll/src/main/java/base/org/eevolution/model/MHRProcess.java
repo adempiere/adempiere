@@ -937,7 +937,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		dateFrom = payrollPeriod.getStartDate();
 		dateTo   = payrollPeriod.getEndDate();
-		MHRPayroll payroll = MHRPayroll.getByPayrollId(getCtx(), getHR_Payroll_ID());
+		MHRPayroll payroll = MHRPayroll.getById(getCtx(), getHR_Payroll_ID());
 		//	Put variables
 		scriptCtx.put("process", this);
 		scriptCtx.put("_Process", getHR_Process_ID());
@@ -979,7 +979,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		employee = MHREmployee.getActiveEmployee(getCtx(), partnerId, null);
 		String employeePayrollValue = null;
 		if(employee.getHR_Payroll_ID() != 0) {
-			MHRPayroll employeePayroll = MHRPayroll.getByPayrollId(getCtx(), employee.getHR_Payroll_ID());
+			MHRPayroll employeePayroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID());
 			employeePayrollValue = employeePayroll.getValue();
 		}
 		Timestamp employeeValidFrom = dateFrom;

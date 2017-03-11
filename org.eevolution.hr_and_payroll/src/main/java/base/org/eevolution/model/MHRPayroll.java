@@ -1,19 +1,23 @@
-/******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms either version 2 of the  License, 						  *
- * or (at your option) any later version.									  *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
- * Contributor(s): Victor Perez www.e-evolution.com                           *
- *****************************************************************************/
+/**
+ * Copyright (C) 2003-2017, e-Evolution Consultants S.A. , http://www.e-evolution.com
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/gpl-2.0.html>.
+ * #L%
+ * Email: victor.perez@e-evolution.com, http://www.e-evolution.com , http://github.com/e-Evolution
+ * Created by victor.perez@e-evolution.com , www.e-evolution.com
+ */
+
 package org.eevolution.model;
 
 import java.sql.ResultSet;
@@ -45,15 +49,11 @@ public class /**/MHRPayroll extends X_HR_Payroll {
      * Cache
      */
     private static CCache<Integer, MHRPayroll> payrollCacheIds = new CCache<Integer, MHRPayroll>(Table_Name, 10);
-    /**
-     * Cache
-     */
     private static CCache<String, MHRPayroll> payrollCacheValues = new CCache<String, MHRPayroll>(Table_Name + "_Value", 10);
 
 
     /**
      * Standard Constructor
-     *
      * @param ctx           context
      * @param HR_Payroll_ID id
      */
@@ -67,7 +67,6 @@ public class /**/MHRPayroll extends X_HR_Payroll {
 
     /**
      * Load Constructor
-     *
      * @param ctx context
      * @param rs  result set
      */
@@ -77,7 +76,6 @@ public class /**/MHRPayroll extends X_HR_Payroll {
 
     /**
      * Parent Constructor
-     *
      * @param calendar
      */
     public MHRPayroll(MCalendar calendar) {
@@ -91,31 +89,27 @@ public class /**/MHRPayroll extends X_HR_Payroll {
     }
 
     /**
-     * Get payroll by value
-     *
+     * Get payroll by search key
      * @param ctx
      * @param payrollValue
      * @return
      */
     public static MHRPayroll getByValue(Properties ctx, String payrollValue) {
-        if (Util.isEmpty(payrollValue, true)) {
+        if (Util.isEmpty(payrollValue, true))
             return null;
-        }
 
-        int AD_Client_ID = Env.getAD_Client_ID(ctx);
-        final String key = AD_Client_ID + "#" + payrollValue;
+        int clientId = Env.getAD_Client_ID(ctx);
+        final String key = clientId + "#" + payrollValue;
         MHRPayroll payroll = payrollCacheValues.get(key);
-        if (payroll != null) {
+        if (payroll != null && payroll.get_ID() > 0)
             return payroll;
-        }
 
-        final String whereClause = COLUMNNAME_Value + "=? AND AD_Client_ID IN (?,?)";
-        payroll = new Query(ctx, Table_Name, whereClause, null)
-                .setParameters(payrollValue, 0, AD_Client_ID)
+        payroll = new Query(ctx, Table_Name, MHRPayroll.COLUMNNAME_Value + "=?", null)
+                .setClient_ID()
+                .setParameters(payrollValue)
                 .setOnlyActiveRecords(true)
-                .setOrderBy("AD_Client_ID DESC")
                 .first();
-        if (payroll != null) {
+        if (payroll != null && payroll.get_ID() > 0) {
             payrollCacheValues.put(key, payroll);
             payrollCacheIds.put(payroll.get_ID(), payroll);
         }
@@ -124,36 +118,39 @@ public class /**/MHRPayroll extends X_HR_Payroll {
 
     @Deprecated
     public static MHRPayroll get(Properties ctx, int payrollId) {
-        return getByPayrollId(ctx, payrollId);
+        return getById(ctx, payrollId);
     }
 
     /**
-     * Get Payroll by ID
-     *
+     * Get Payroll by Id
      * @param ctx
      * @param payrollId
      * @return payroll
      */
-    public static MHRPayroll getByPayrollId(Properties ctx, int payrollId) {
+    public static MHRPayroll getById(Properties ctx, int payrollId) {
         if (payrollId <= 0)
             return null;
-        //
+
         MHRPayroll payroll = payrollCacheIds.get(payrollId);
-        if (payroll != null)
+        if (payroll != null && payroll.get_ID() > 0)
             return payroll;
-        //
-        payroll = new MHRPayroll(ctx, payrollId, null);
-        if (payroll.get_ID() == payrollId) {
-            payrollCacheIds.put(payrollId, payroll);
-        } else {
-            payroll = null;
+
+        payroll = new Query(ctx , Table_Name , MHRPayroll.COLUMNNAME_HR_Payroll_ID + "=?", null)
+                .setClient_ID()
+                .setParameters(payrollId)
+                .first();
+        if (payroll != null && payroll.get_ID() > 0) {
+            int clientId = Env.getAD_Client_ID(ctx);
+            String key = clientId + "#" + payroll.getValue();
+            payrollCacheIds.put(payroll.get_ID(), payroll);
+            payrollCacheValues.put(key, payroll);
         }
+
         return payroll;
     }
 
     /**
      * Get period count
-     *
      * @return period no
      */
     public int countPeriods() {
@@ -167,7 +164,6 @@ public class /**/MHRPayroll extends X_HR_Payroll {
 
     /**
      * Get HR period based on a date
-     *
      * @param date
      * @return HR Period instance
      */
@@ -183,7 +179,6 @@ public class /**/MHRPayroll extends X_HR_Payroll {
 
     /**
      * get period list based on range dates
-     *
      * @param from
      * @param to
      * @return
@@ -202,7 +197,6 @@ public class /**/MHRPayroll extends X_HR_Payroll {
     /**
      * get period list based on range dates
      * method created to compatibility with groovy not support list only array
-     *
      * @param from
      * @param to
      * @return
@@ -216,7 +210,6 @@ public class /**/MHRPayroll extends X_HR_Payroll {
 
     /**
      * Get HR period based on year and period no
-     *
      * @param year
      * @param periodNo
      * @return HR Period instance

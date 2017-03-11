@@ -20,17 +20,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for HR_Employee
+/** Generated Interface for I_HR_Employee
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_HR_Employee 
+public interface I_I_HR_Employee 
 {
 
-    /** TableName=HR_Employee */
-    public static final String Table_Name = "HR_Employee";
+    /** TableName=I_HR_Employee */
+    public static final String Table_Name = "I_HR_Employee";
 
-    /** AD_Table_ID=53086 */
+    /** AD_Table_ID=54184 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -76,6 +76,28 @@ public interface I_HR_Employee
 	public int getAD_User_ID();
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name ActivityValue */
+    public static final String COLUMNNAME_ActivityValue = "ActivityValue";
+
+	/** Set Activity Value	  */
+	public void setActivityValue (String ActivityValue);
+
+	/** Get Activity Value	  */
+	public String getActivityValue();
+
+    /** Column name BPartnerValue */
+    public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
+
+	/** Set Business Partner Key.
+	  * Key of the Business Partner
+	  */
+	public void setBPartnerValue (String BPartnerValue);
+
+	/** Get Business Partner Key.
+	  * Key of the Business Partner
+	  */
+	public String getBPartnerValue();
 
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
@@ -129,6 +151,32 @@ public interface I_HR_Employee
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
+    /** Column name CareerLevelName */
+    public static final String COLUMNNAME_CareerLevelName = "CareerLevelName";
+
+	/** Set Career Level Name.
+	  * The Career Level Name for this position
+	  */
+	public void setCareerLevelName (String CareerLevelName);
+
+	/** Get Career Level Name.
+	  * The Career Level Name for this position
+	  */
+	public String getCareerLevelName();
+
+    /** Column name CareerLevelValue */
+    public static final String COLUMNNAME_CareerLevelValue = "CareerLevelValue";
+
+	/** Set Career Level Value.
+	  * The Career Level Value for this position
+	  */
+	public void setCareerLevelValue (String CareerLevelValue);
+
+	/** Get Career Level Value.
+	  * The Career Level Value for this position
+	  */
+	public String getCareerLevelValue();
+
     /** Column name Code */
     public static final String COLUMNNAME_Code = "Code";
 
@@ -171,6 +219,45 @@ public interface I_HR_Employee
 	  */
 	public BigDecimal getDailySalary();
 
+    /** Column name DepartmentName */
+    public static final String COLUMNNAME_DepartmentName = "DepartmentName";
+
+	/** Set Department Name.
+	  * Department Name
+	  */
+	public void setDepartmentName (String DepartmentName);
+
+	/** Get Department Name.
+	  * Department Name
+	  */
+	public String getDepartmentName();
+
+    /** Column name DepartmentValue */
+    public static final String COLUMNNAME_DepartmentValue = "DepartmentValue";
+
+	/** Set Department Value.
+	  * Department Value
+	  */
+	public void setDepartmentValue (String DepartmentValue);
+
+	/** Get Department Value.
+	  * Department Value
+	  */
+	public String getDepartmentValue();
+
+    /** Column name DesignationValue */
+    public static final String COLUMNNAME_DesignationValue = "DesignationValue";
+
+	/** Set Designation Value.
+	  * Designation Value is a nationally recognized level
+	  */
+	public void setDesignationValue (String DesignationValue);
+
+	/** Get Designation Value.
+	  * Designation Value is a nationally recognized level
+	  */
+	public String getDesignationValue();
+
     /** Column name EmployeeImage_ID */
     public static final String COLUMNNAME_EmployeeImage_ID = "EmployeeImage_ID";
 
@@ -192,6 +279,32 @@ public interface I_HR_Employee
 
 	/** Get Employee Status	  */
 	public String getEmployeeStatus();
+
+    /** Column name EmployeeTypeName */
+    public static final String COLUMNNAME_EmployeeTypeName = "EmployeeTypeName";
+
+	/** Set Employee Type Name.
+	  * Employee Type Name
+	  */
+	public void setEmployeeTypeName (String EmployeeTypeName);
+
+	/** Get Employee Type Name.
+	  * Employee Type Name
+	  */
+	public String getEmployeeTypeName();
+
+    /** Column name EmployeeTypeValue */
+    public static final String COLUMNNAME_EmployeeTypeValue = "EmployeeTypeValue";
+
+	/** Set Employee Type Value.
+	  * Employee Type Value
+	  */
+	public void setEmployeeTypeValue (String EmployeeTypeValue);
+
+	/** Get Employee Type Value.
+	  * Employee Type Value
+	  */
+	public String getEmployeeTypeValue();
 
     /** Column name EndDate */
     public static final String COLUMNNAME_EndDate = "EndDate";
@@ -218,6 +331,15 @@ public interface I_HR_Employee
 	  * Father's Name
 	  */
 	public String getFathersName();
+
+    /** Column name File_Directory */
+    public static final String COLUMNNAME_File_Directory = "File_Directory";
+
+	/** Set File_Directory	  */
+	public void setFile_Directory (String File_Directory);
+
+	/** Get File_Directory	  */
+	public String getFile_Directory();
 
     /** Column name Gender */
     public static final String COLUMNNAME_Gender = "Gender";
@@ -293,6 +415,8 @@ public interface I_HR_Employee
 	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
 
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
+
     /** Column name HR_JobEducation_ID */
     public static final String COLUMNNAME_HR_JobEducation_ID = "HR_JobEducation_ID";
 
@@ -307,21 +431,6 @@ public interface I_HR_Employee
 	public int getHR_JobEducation_ID();
 
 	public org.eevolution.model.I_HR_JobEducation getHR_JobEducation() throws RuntimeException;
-
-    /** Column name HR_JobOpening_ID */
-    public static final String COLUMNNAME_HR_JobOpening_ID = "HR_JobOpening_ID";
-
-	/** Set Job Openings .
-	  * Job Openings for Recruitment Management
-	  */
-	public void setHR_JobOpening_ID (int HR_JobOpening_ID);
-
-	/** Get Job Openings .
-	  * Job Openings for Recruitment Management
-	  */
-	public int getHR_JobOpening_ID();
-
-	public org.eevolution.model.I_HR_JobOpening getHR_JobOpening() throws RuntimeException;
 
     /** Column name HR_JobType_ID */
     public static final String COLUMNNAME_HR_JobType_ID = "HR_JobType_ID";
@@ -420,6 +529,41 @@ public interface I_HR_Employee
 
 	public org.eevolution.model.I_HR_SkillType getHR_SkillType() throws RuntimeException;
 
+    /** Column name I_ErrorMsg */
+    public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
+
+	/** Set Import Error Message.
+	  * Messages generated from import process
+	  */
+	public void setI_ErrorMsg (String I_ErrorMsg);
+
+	/** Get Import Error Message.
+	  * Messages generated from import process
+	  */
+	public String getI_ErrorMsg();
+
+    /** Column name I_HR_Employee_ID */
+    public static final String COLUMNNAME_I_HR_Employee_ID = "I_HR_Employee_ID";
+
+	/** Set I_HR_Employee ID	  */
+	public void setI_HR_Employee_ID (int I_HR_Employee_ID);
+
+	/** Get I_HR_Employee ID	  */
+	public int getI_HR_Employee_ID();
+
+    /** Column name I_IsImported */
+    public static final String COLUMNNAME_I_IsImported = "I_IsImported";
+
+	/** Set Imported.
+	  * Has this import been processed
+	  */
+	public void setI_IsImported (boolean I_IsImported);
+
+	/** Get Imported.
+	  * Has this import been processed
+	  */
+	public boolean isI_IsImported();
+
     /** Column name IdentificationMark */
     public static final String COLUMNNAME_IdentificationMark = "IdentificationMark";
 
@@ -471,6 +615,84 @@ public interface I_HR_Employee
 	  * Defines employee as manager
 	  */
 	public boolean isManager();
+
+    /** Column name JobEducationName */
+    public static final String COLUMNNAME_JobEducationName = "JobEducationName";
+
+	/** Set Job Education Name.
+	  * Job Education Name of an Employee
+	  */
+	public void setJobEducationName (String JobEducationName);
+
+	/** Get Job Education Name.
+	  * Job Education Name of an Employee
+	  */
+	public String getJobEducationName();
+
+    /** Column name JobEducationValue */
+    public static final String COLUMNNAME_JobEducationValue = "JobEducationValue";
+
+	/** Set Job Education Value.
+	  * Job Education Value of an Employee
+	  */
+	public void setJobEducationValue (String JobEducationValue);
+
+	/** Get Job Education Value.
+	  * Job Education Value of an Employee
+	  */
+	public String getJobEducationValue();
+
+    /** Column name JobName */
+    public static final String COLUMNNAME_JobName = "JobName";
+
+	/** Set Job Name.
+	  * Job Name
+	  */
+	public void setJobName (String JobName);
+
+	/** Get Job Name.
+	  * Job Name
+	  */
+	public String getJobName();
+
+    /** Column name JobTypeName */
+    public static final String COLUMNNAME_JobTypeName = "JobTypeName";
+
+	/** Set Job Type Name.
+	  * The Job Type Name for a Job Openings
+	  */
+	public void setJobTypeName (String JobTypeName);
+
+	/** Get Job Type Name.
+	  * The Job Type Name for a Job Openings
+	  */
+	public String getJobTypeName();
+
+    /** Column name JobTypeValue */
+    public static final String COLUMNNAME_JobTypeValue = "JobTypeValue";
+
+	/** Set Job Type Value.
+	  * The Job Type Value for a Job Openings
+	  */
+	public void setJobTypeValue (String JobTypeValue);
+
+	/** Get Job Type Value.
+	  * The Job Type Value for a Job Openings
+	  */
+	public String getJobTypeValue();
+
+    /** Column name JobValue */
+    public static final String COLUMNNAME_JobValue = "JobValue";
+
+	/** Set Job Value.
+	  * Job Value
+	  */
+	public void setJobValue (String JobValue);
+
+	/** Get Job Value.
+	  * Job Value
+	  */
+	public String getJobValue();
 
     /** Column name Logo_ID */
     public static final String COLUMNNAME_Logo_ID = "Logo_ID";
@@ -564,6 +786,19 @@ public interface I_HR_Employee
 	  */
 	public int getNationality_ID();
 
+    /** Column name OrgValue */
+    public static final String COLUMNNAME_OrgValue = "OrgValue";
+
+	/** Set Org Key.
+	  * Key of the Organization
+	  */
+	public void setOrgValue (String OrgValue);
+
+	/** Get Org Key.
+	  * Key of the Organization
+	  */
+	public String getOrgValue();
+
     /** Column name PartnersBirthDate */
     public static final String COLUMNNAME_PartnersBirthDate = "PartnersBirthDate";
 
@@ -603,6 +838,19 @@ public interface I_HR_Employee
 	  */
 	public String getPaymentRule();
 
+    /** Column name PayrollValue */
+    public static final String COLUMNNAME_PayrollValue = "PayrollValue";
+
+	/** Set Payroll Value.
+	  * Define the a Search key of a payroll
+	  */
+	public void setPayrollValue (String PayrollValue);
+
+	/** Get Payroll Value.
+	  * Define the a Search key of a payroll
+	  */
+	public String getPayrollValue();
+
     /** Column name PlaceOfBirth */
     public static final String COLUMNNAME_PlaceOfBirth = "PlaceOfBirth";
 
@@ -616,6 +864,54 @@ public interface I_HR_Employee
 	  */
 	public String getPlaceOfBirth();
 
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
+
+	/** Set Processed.
+	  * The document has been processed
+	  */
+	public void setProcessed (boolean Processed);
+
+	/** Get Processed.
+	  * The document has been processed
+	  */
+	public boolean isProcessed();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
+
+    /** Column name RaceName */
+    public static final String COLUMNNAME_RaceName = "RaceName";
+
+	/** Set Race Name.
+	  * Race Name
+	  */
+	public void setRaceName (String RaceName);
+
+	/** Get Race Name.
+	  * Race Name
+	  */
+	public String getRaceName();
+
+    /** Column name RaceValue */
+    public static final String COLUMNNAME_RaceValue = "RaceValue";
+
+	/** Set Race Value.
+	  * Race Value
+	  */
+	public void setRaceValue (String RaceValue);
+
+	/** Get Race Value.
+	  * Race Value
+	  */
+	public String getRaceValue();
+
     /** Column name SSCode */
     public static final String COLUMNNAME_SSCode = "SSCode";
 
@@ -624,6 +920,58 @@ public interface I_HR_Employee
 
 	/** Get Social Security Code	  */
 	public String getSSCode();
+
+    /** Column name SalaryRangeValue */
+    public static final String COLUMNNAME_SalaryRangeValue = "SalaryRangeValue";
+
+	/** Set Salary Range Value.
+	  * The Salary Rage Value is use in Job Openings
+	  */
+	public void setSalaryRangeValue (String SalaryRangeValue);
+
+	/** Get Salary Range Value.
+	  * The Salary Rage Value is use in Job Openings
+	  */
+	public String getSalaryRangeValue();
+
+    /** Column name SalaryStructureValue */
+    public static final String COLUMNNAME_SalaryStructureValue = "SalaryStructureValue";
+
+	/** Set Salary Structure Value.
+	  * Salary Structure Value of an Employee
+	  */
+	public void setSalaryStructureValue (String SalaryStructureValue);
+
+	/** Get Salary Structure Value.
+	  * Salary Structure Value of an Employee
+	  */
+	public String getSalaryStructureValue();
+
+    /** Column name SkillTypeName */
+    public static final String COLUMNNAME_SkillTypeName = "SkillTypeName";
+
+	/** Set Skill Type Name.
+	  * Skill Type Name
+	  */
+	public void setSkillTypeName (String SkillTypeName);
+
+	/** Get Skill Type Name.
+	  * Skill Type Name
+	  */
+	public String getSkillTypeName();
+
+    /** Column name SkillTypeValue */
+    public static final String COLUMNNAME_SkillTypeValue = "SkillTypeValue";
+
+	/** Set Skill Type Value.
+	  * Skill Type Value
+	  */
+	public void setSkillTypeValue (String SkillTypeValue);
+
+	/** Get Skill Type Value.
+	  * Skill Type Value
+	  */
+	public String getSkillTypeValue();
 
     /** Column name StartDate */
     public static final String COLUMNNAME_StartDate = "StartDate";
