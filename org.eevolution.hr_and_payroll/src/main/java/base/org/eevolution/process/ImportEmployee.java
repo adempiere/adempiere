@@ -79,6 +79,7 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         Arrays.stream(getImportEmployeeIds(false, false)).forEach(importEmployeeId -> {
             Trx.run(trxName -> {
                         X_I_HR_Employee importEmployee = new X_I_HR_Employee(getCtx() , importEmployeeId ,trxName);
+                        importEmployee.setI_ErrorMsg(null);
                         fillIdValues(importEmployee, trxName);
                         if (importRecord(importEmployee, trxName))
                             importedRecord.updateAndGet(record -> record + 1);
@@ -99,6 +100,7 @@ public class ImportEmployee extends ImportEmployeeAbstract {
      * @param trxName
      */
     private void fillIdValues(X_I_HR_Employee importEmployee, String trxName) {
+        StringBuffer stringError = new StringBuffer("");
         Integer orgId = 0;
         if (importEmployee.getAD_Org_ID() > 0)
             orgId = importEmployee.getAD_Org_ID();
@@ -110,6 +112,15 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         Integer partnerId = getId(MBPartner.Table_Name, MBPartner.COLUMNNAME_Value + "=?", trxName, importEmployee.getBPartnerValue());
         if (partnerId > 0)
             importEmployee.setC_BPartner_ID(partnerId);
+        else if (isCreatedBusinessPartner()){
+            if (getBusinessPartnerGroupId() > 0) {
+                MBPartner partner = createPartnerFromEmployeeData(importEmployee);
+                partnerId = partner.get_ID();
+                importEmployee.setC_BPartner_ID(partnerId);
+            }
+            else
+                stringError.append(" @C_BP_Group_ID@ @NotFound@");
+        }
 
         //Set Race
         MHRRace race = null;
@@ -270,8 +281,6 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         if (skillType != null && skillType.getHR_SkillType_ID() > 0)
             importEmployee.setHR_SkillType_ID(skillType.getHR_SkillType_ID());
 
-
-        StringBuffer stringError = new StringBuffer("");
         if (importEmployee.getAD_Org_ID() <= 0)
             stringError.append(" @AD_Org_ID@ @IsMandatory@");
         if (importEmployee.getC_BPartner_ID() <= 0)
@@ -312,7 +321,7 @@ public class ImportEmployee extends ImportEmployeeAbstract {
                 importEmployeeImages(importEmployee);
                 employee = new MHREmployee(importEmployee);
                 employee.saveEx();
-                updatePartnerEmployeeData(importEmployee);
+                updatePartnerFromEmployeeData(importEmployee);
             }
             importEmployee.setHR_Employee_ID(employee.getHR_Employee_ID());
             importEmployee.setI_IsImported(true);
@@ -322,12 +331,33 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         } else return false;
     }
 
+    private MBPartner createPartnerFromEmployeeData(X_I_HR_Employee importEmployee)
+    {
+        MBPartner partner = new MBPartner(importEmployee.getCtx() , 0 , importEmployee.get_TrxName());
+        partner.setAD_Org_ID(0);
+        partner.setName(importEmployee.getName());
+        partner.setName2(importEmployee.getName2());
+        partner.setIsEmployee(true);
+        partner.setIsCustomer(true);
+        partner.setIsSalesRep(false);
+        partner.setC_BP_Group_ID(getBusinessPartnerGroupId());
+        partner.setBirthday(importEmployee.getBirthday());
+        partner.setBloodGroup(importEmployee.getBloodGroup());
+        partner.setGender(importEmployee.getGender());
+        partner.setPlaceOfBirth(importEmployee.getPlaceOfBirth());
+        partner.saveEx();
+
+        importEmployee.setC_BPartner_ID(importEmployee.getC_BPartner_ID());
+        importEmployee.saveEx();
+        return  partner;
+    }
+
     /**
      * Update Business Partner from import employee data
      * @param importEmployee
      * @return
      */
-    private MBPartner updatePartnerEmployeeData(X_I_HR_Employee importEmployee) {
+    private MBPartner updatePartnerFromEmployeeData(X_I_HR_Employee importEmployee) {
         MBPartner partner = (MBPartner) importEmployee.getC_BPartner();
         partner.setName(importEmployee.getName());
         partner.setName2(importEmployee.getName2());

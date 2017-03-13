@@ -34,11 +34,19 @@ public abstract class ImportEmployeeAbstract extends SvrProcess
 	public static final String IsValidateOnly = "IsValidateOnly";
 	/**	Parameter Name for DeleteOldImported	*/
 	public static final String DeleteOldImported = "DeleteOldImported";
+	/**	Parameter Name for IsCreated	*/
+	public static final String IsCreated = "IsCreated";
+	/**	Parameter Name for C_BP_Group_ID	*/
+	public static final String C_BP_Group_ID = "C_BP_Group_ID";
 
 	/**	Parameter Value for isOnlyValidateData	*/
 	private boolean isOnlyValidateData;
 	/**	Parameter Value for isDeleteoldimportedrecords	*/
 	private boolean isDeleteoldimportedrecords;
+	/**	Parameter Value for isCreatedBusinessPartner	*/
+	private boolean isCreatedBusinessPartner;
+	/**	Parameter Value for businessPartnerGroupId	*/
+	private int businessPartnerGroupId;
  
 
 	@Override
@@ -46,6 +54,8 @@ public abstract class ImportEmployeeAbstract extends SvrProcess
 	{
 		isOnlyValidateData = getParameterAsBoolean(IsValidateOnly);
 		isDeleteoldimportedrecords = getParameterAsBoolean(DeleteOldImported);
+		isCreatedBusinessPartner = getParameterAsBoolean(IsCreated);
+		businessPartnerGroupId = getParameterAsInt(C_BP_Group_ID);
 	}
 
 	/**	 Getter Parameter Value for isOnlyValidateData	*/
@@ -56,6 +66,16 @@ public abstract class ImportEmployeeAbstract extends SvrProcess
 	/**	 Getter Parameter Value for isDeleteoldimportedrecords	*/
 	protected boolean isDeleteoldimportedrecords() {
 		return isDeleteoldimportedrecords;
+	}
+
+	/**	 Getter Parameter Value for isCreatedBusinessPartner	*/
+	protected boolean isCreatedBusinessPartner() {
+		return isCreatedBusinessPartner;
+	}
+
+	/**	 Getter Parameter Value for businessPartnerGroupId	*/
+	protected int getBusinessPartnerGroupId() {
+		return businessPartnerGroupId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
