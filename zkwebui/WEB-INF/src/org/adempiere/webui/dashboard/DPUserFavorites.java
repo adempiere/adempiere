@@ -7,7 +7,6 @@ import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.SimpleFavoriteTreeModel;
 import org.adempiere.webui.util.TreeUtils;
 import org.adempiere.webui.window.FDialog;
-import org.apache.commons.lang.StringUtils;
 import org.compiere.model.MTreeFavorite;
 import org.compiere.model.MTreeFavoriteNode;
 import org.compiere.model.MTreeNode;
