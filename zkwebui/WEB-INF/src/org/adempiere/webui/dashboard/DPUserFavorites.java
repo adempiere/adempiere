@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.SimpleFavoriteTreeModel;
+import org.adempiere.webui.util.TreeItemAction;
 import org.adempiere.webui.util.TreeUtils;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MTreeFavorite;
@@ -109,7 +110,6 @@ public class DPUserFavorites extends DashboardPanel implements EventListener
 
 		if (AD_FavTree_ID == -1)
 		{
-			//mTreeFav.setAD_Client_ID(AD_Client_ID);  // PO method not accessible
 			mTreeFav.set_ValueOfColumn(MTreeFavorite.COLUMNNAME_AD_Client_ID, AD_Client_ID);
 			mTreeFav.setAD_Org_ID(AD_Org_ID);
 			mTreeFav.setAD_Role_ID(AD_Role_ID);
@@ -135,6 +135,23 @@ public class DPUserFavorites extends DashboardPanel implements EventListener
 	public void initTree()
 	{
 		tModel = SimpleFavoriteTreeModel.initADTree(tree, m_AD_FavTree_ID, 0);
+
+		if (tree.getTreechildren() != null)
+		{
+			TreeUtils.traverse(tree.getTreechildren(), new TreeItemAction() {
+
+				public void run(Treeitem treeItem)
+				{
+					SimpleTreeNode simpleTreeNode = (SimpleTreeNode) treeItem.getValue();
+					MTreeNode mtn = (MTreeNode) simpleTreeNode.getData();
+					if (mtn.IsCollapsible())
+						treeItem.setOpen(false);
+					else
+						treeItem.setOpen(true);
+				} // run
+			});
+
+		}
 	}
 
 	/**
@@ -192,7 +209,6 @@ public class DPUserFavorites extends DashboardPanel implements EventListener
 	private void insertNode(String nodeName)
 	{
 		MTreeFavoriteNode mTreeFavoriteNode = new MTreeFavoriteNode(Env.getCtx(), 0, null);
-		//mTreeFavoriteNode.setAD_Client_ID(AD_Client_ID);  // PO method not accessible
 		mTreeFavoriteNode.set_ValueOfColumn(MTreeFavoriteNode.COLUMNNAME_AD_Client_ID, AD_Client_ID);
 		mTreeFavoriteNode.setAD_Org_ID(AD_Org_ID);
 		mTreeFavoriteNode.setAD_Tree_Favorite_ID(m_AD_FavTree_ID);
@@ -211,7 +227,7 @@ public class DPUserFavorites extends DashboardPanel implements EventListener
 			MTreeNode mtnNew = new MTreeNode(mTreeFavoriteNode.getAD_Tree_Favorite_Node_ID(),
 					mTreeFavoriteNode.getSeqNo(), mTreeFavoriteNode.getNodeName(), "",
 					mTreeFavoriteNode.getParent_ID(), mTreeFavoriteNode.isSummary(), mTreeFavoriteNode.getAD_Menu_ID(),
-					null);
+					null, false);
 			SimpleTreeNode newNode = new SimpleTreeNode(mtnNew, new ArrayList());
 			SimpleTreeNode parentNode = tModel.find(null, mtnNew.getParent_ID());
 

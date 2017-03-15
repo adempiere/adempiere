@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.WTextEditorDialog;
 import org.compiere.model.MTreeFavorite;
+import org.compiere.model.MTreeFavoriteNode;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -78,11 +80,13 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 		{
 			tree.setTreeitemRenderer(treeModel);
 			tree.setModel(treeModel);
+			//TODO : Might be need to code here for default expand collapse
 		}
 		catch (Exception e)
 		{
 			logger.log(Level.SEVERE, "Failed to setup tree");
 		}
+		
 		return treeModel;
 	}
 
@@ -156,8 +160,8 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 			}
 			if (!onDropListners.isEmpty())
 			{
-				System.out.println();
 				ti.getTreerow().addEventListener(Events.ON_CLICK, this);
+				ti.getTreerow().addEventListener(Events.ON_DOUBLE_CLICK, this);
 				tr.setDroppable("true");
 				tr.addEventListener(Events.ON_SELECT, this);
 				tr.addEventListener(Events.ON_RIGHT_CLICK, this);
@@ -245,6 +249,45 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 				else
 				{
 					setSelectedFolderID(mtn.getNode_ID());
+				}
+			}
+		}
+		else if (Events.ON_DOUBLE_CLICK.equals(eventName))
+		{
+			if (comp instanceof Treerow)
+			{
+				Treerow treerow = (Treerow) comp;
+				Treeitem treeitem = (Treeitem) treerow.getParent();
+				Object value = treeitem.getValue();
+
+				SimpleTreeNode simpleTreeNode = (SimpleTreeNode) value;
+				MTreeNode mtn = (MTreeNode) simpleTreeNode.getData();
+				if (mtn.isSummary())
+				{
+					WTextEditorDialog dialog = new WTextEditorDialog("Edit folder text",
+							mtn.getName() == null ? "" : mtn.getName(), true, 100, false);
+					
+					dialog.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+					SessionManager.getAppDesktop().showWindow(dialog);
+					if (!dialog.isCancelled())
+					{
+						mtn.setName(dialog.getText());
+						MTreeFavoriteNode treeFavNode = new MTreeFavoriteNode(Env.getCtx(), mtn.getNode_ID(), null);
+						treeFavNode.setNodeName(dialog.getText());
+						treeFavNode.saveEx();
+
+						int path[] = this.getPath(getRoot(), simpleTreeNode);
+						if (path != null && path.length > 0)
+						{
+							SimpleTreeNode parentNode = getRoot();
+							int index = path.length - 1;
+							for (int i = 0; i < index; i++)
+							{
+								parentNode = (SimpleTreeNode) getChild(parentNode, path[i]);
+							}
+							fireEvent(parentNode, path[index], path[index], TreeDataEvent.CONTENTS_CHANGED);
+						}
+					}
 				}
 			}
 		}
@@ -339,4 +382,5 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 	public SimpleTreeNode getChild(Object parent, int index) {
 		return (SimpleTreeNode) super.getChild(parent, index);
 	}
+
 }

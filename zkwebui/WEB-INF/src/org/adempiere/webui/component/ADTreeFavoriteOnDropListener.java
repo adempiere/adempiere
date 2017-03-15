@@ -31,12 +31,15 @@ public class ADTreeFavoriteOnDropListener implements EventListener
 	private int						windowNo;
 	private Tree					tree;
 	private int						mTreeFavoriteID;
-	private int						AD_Role_ID		= Env.getAD_Role_ID(Env.getCtx());
-	private int						AD_Client_ID	= Env.getAD_Client_ID(Env.getCtx());
-	private int						AD_Org_ID		= Env.getContextAsInt(Env.getCtx(), "#AD_Org_ID");
-	private int						AD_User_ID		= Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
-	private static final CLogger	log				= CLogger.getCLogger(ADTreeFavoriteOnDropListener.class);
-
+	private int						AD_Role_ID			= Env.getAD_Role_ID(Env.getCtx());
+	private int						AD_Client_ID		= Env.getAD_Client_ID(Env.getCtx());
+	private int						AD_Org_ID			= Env.getContextAsInt(Env.getCtx(), "#AD_Org_ID");
+	private int						AD_User_ID			= Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+	private static final CLogger	log					= CLogger.getCLogger(ADTreeFavoriteOnDropListener.class);
+	public static final String		MENU_ITEM_DELETE	= "DELETE";
+	public static final String		MENU_ITEM_EXPAND	= "StartExpanded";
+	public static final String		MENU_ITEM_COLLAPSE	= "StartCollapsed";
+	
 	public ADTreeFavoriteOnDropListener(Tree tree, SimpleFavoriteTreeModel treeModel, MTreeFavorite mTreeFavorite,
 			int windowNo)
 	{
@@ -57,7 +60,7 @@ public class ADTreeFavoriteOnDropListener implements EventListener
 			MouseEvent me = (MouseEvent) event;
 			Treeitem target = (Treeitem) ((Treerow) me.getTarget()).getParent();
 			SimpleTreeNode toNode = (SimpleTreeNode) target.getValue();
-			deleteNodeItem(toNode);
+			menuItemList(toNode);
 		}
 		if (event instanceof DropEvent)
 		{
@@ -160,20 +163,38 @@ public class ADTreeFavoriteOnDropListener implements EventListener
 	 * When Right click on Item show Delete Menupopup for Delete a node.
 	 * @param toNode
 	 */
-	private void deleteNodeItem(SimpleTreeNode toNode)
+	private void menuItemList(SimpleTreeNode toNode)
 	{
 		int path[] = treeModel.getPath(treeModel.getRoot(), toNode);
 		Treeitem toItem = tree.renderItemByPath(path);
 
 		tree.setSelectedItem(toItem);
 		Events.sendEvent(tree, new Event(Events.ON_RIGHT_CLICK, tree));
-		DeleteListener listener = new DeleteListener(toNode);
-
+		
 		Menupopup popup = new Menupopup();
 		Menuitem menuItem = new Menuitem(Msg.getMsg(Env.getCtx() , "delete"), "/images/Delete24.png");
-		menuItem.setValue("Delete");
+		menuItem.setValue(MENU_ITEM_DELETE);
 		menuItem.setParent(popup);
-		menuItem.addEventListener(Events.ON_CLICK, listener);
+		menuItem.addEventListener(Events.ON_CLICK, new DeleteListener(toNode));
+		
+		MTreeNode mtn = (MTreeNode) toNode.getData();
+		if (mtn.isSummary())
+		{
+			MTreeFavoriteNode favNode = new MTreeFavoriteNode(Env.getCtx(), mtn.getNode_ID(), null);
+			if (favNode.isCollapsible())
+			{
+				menuItem = new Menuitem(Msg.getMsg(Env.getCtx(), MENU_ITEM_EXPAND), "/images/Minus16.png");
+				menuItem.setValue(MENU_ITEM_EXPAND);
+			}
+			else
+			{
+				menuItem = new Menuitem(Msg.getMsg(Env.getCtx(), MENU_ITEM_COLLAPSE), "/images/Plus16.png");
+				menuItem.setValue(MENU_ITEM_COLLAPSE);
+			}
+			menuItem.setParent(popup);
+			menuItem.addEventListener(Events.ON_CLICK, new CollExpdListener(favNode));
+		}
+		
 		popup.setPage(tree.getPage());
 		popup.open(toItem.getTreerow(), "after_pointer");
 	}
@@ -197,7 +218,7 @@ public class ADTreeFavoriteOnDropListener implements EventListener
 			if (Events.ON_CLICK.equals(event.getName()) && event.getTarget() instanceof Menuitem)
 			{
 				Menuitem menuItem = (Menuitem) event.getTarget();
-				if ("Delete".equals(menuItem.getValue()))
+				if (MENU_ITEM_DELETE.equals(menuItem.getValue()))
 				{
 					deleteNodeItem(toNode);
 				}
@@ -228,6 +249,42 @@ public class ADTreeFavoriteOnDropListener implements EventListener
 		}
 	}
 
+	
+	/**
+	 * Listener for set default start Collapse/Expand Node by Right click on
+	 * MouseEvent.
+	 * 
+	 * @author Sachin
+	 */
+	class CollExpdListener implements EventListener
+	{
+		private MTreeFavoriteNode favNode;
+
+		CollExpdListener(MTreeFavoriteNode favNode)
+		{
+			this.favNode = favNode;
+		}
+
+		public void onEvent(Event event) throws Exception
+		{
+			if (Events.ON_CLICK.equals(event.getName()) && event.getTarget() instanceof Menuitem)
+			{
+				Menuitem menuItem = (Menuitem) event.getTarget();
+				if (MENU_ITEM_EXPAND.equals(menuItem.getValue()))
+				{
+					favNode.setIsCollapsible(false);
+				}
+				else if (MENU_ITEM_COLLAPSE.equals(menuItem.getValue()))
+				{
+					favNode.setIsCollapsible(true);
+				}
+				favNode.saveEx();
+			}
+
+		} // onEvent
+
+	} // ColExpListener
+	
 	/**
 	 * Insert Node into Tree it's contains only Menu type node, Dragged from
 	 * Menu Tab.
@@ -239,7 +296,6 @@ public class ADTreeFavoriteOnDropListener implements EventListener
 	public void insertNodeMenu(int menuID, int parentNodeID, SimpleTreeNode stn)
 	{
 		MTreeFavoriteNode mTreeFavoriteNode = new MTreeFavoriteNode(Env.getCtx(), 0, null);
-		// mTreeFavoriteNode.setAD_Client_ID(AD_Client_ID);  // PO method not accessible
 		mTreeFavoriteNode.set_ValueOfColumn(MTreeFavoriteNode.COLUMNNAME_AD_Client_ID, AD_Client_ID);
 		mTreeFavoriteNode.setAD_Org_ID(AD_Org_ID);
 		mTreeFavoriteNode.setAD_Tree_Favorite_ID(mTreeFavoriteID);
@@ -254,7 +310,7 @@ public class ADTreeFavoriteOnDropListener implements EventListener
 		MMenu menu = new MMenu(Env.getCtx(), menuID, null);
 		MTreeNode mNode = new MTreeNode(mTreeFavoriteNode.getAD_Tree_Favorite_Node_ID(), mTreeFavoriteNode.getSeqNo(),
 				menu.getName(), menu.getName(), mTreeFavoriteNode.getParent_ID(), mTreeFavoriteNode.isSummary(),
-				mTreeFavoriteNode.getAD_Menu_ID(), menu.getAction());
+				mTreeFavoriteNode.getAD_Menu_ID(), menu.getAction(), false);
 
 		SimpleTreeNode node = new SimpleTreeNode(mNode, new ArrayList());
 		int index = 0;
