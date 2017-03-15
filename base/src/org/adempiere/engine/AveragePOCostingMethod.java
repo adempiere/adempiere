@@ -398,9 +398,9 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 		// Check if cost detail is an earlier transaction
 		// get the cost details that need be re process before this cost
 		// transaction
-		List<MCostDetail> cds = MCostDetail.getAfterDate(costDetail,
+		List<MCostDetail> costDetails = MCostDetail.getAfterDate(costDetail,
 				costingLevel);
-		if (cds == null || cds.size() == 0)
+		if (costDetails == null || costDetails.size() == 0)
 			return;
 		
 		MCostDetail last_cd = costDetail;
@@ -413,28 +413,24 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 		 );*/
 		 
 		//Renumber sequence
-		for (MCostDetail cd : cds) {
-			cd.setSeqNo(last_cd.getSeqNo() + 10); // remunerate sequence
-			cd.setProcessing(true);
-			cd.saveEx();
-			last_cd = cd;
+		for (MCostDetail cost : costDetails) {
+			cost.setSeqNo(last_cd.getSeqNo() + 10); // remunerate sequence
+			cost.setProcessing(true);
+			cost.saveEx();
+			last_cd = cost;
 			// Only uncomment to debug
 			// Trx.get(cd.get_TrxName(), false).commit();
 		}
 
-		for (MCostDetail cd : cds) {
-			adjustCostDetail(cd);
-            cd.setProcessing(false);
-            cd.saveEx();
+		for (MCostDetail cost : costDetails) {
+			adjustCostDetail(cost);
+            cost.setProcessing(false);
+            cost.saveEx();
  			//clearAccounting(cd);
 			// Only uncomment to debug
 			// Trx.get(cd.get_TrxName(), false).commit();
 		}
 	}
-
-	/*@Override
-	public void processCostDetail(MCostDetail costDetail) {
-	}*/
 
 	@Override
 	protected List<CostComponent> getCalculatedCosts() {
@@ -444,98 +440,76 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 
 	/**
 	 * Average Invoice Get the New Current Cost Price This Level
-	 * 
-	 * @param cd
-	 *            Cost Detail
-	 * @param scale
-	 *            Scale
-	 * @param roundingMode
-	 *            Rounding Mode
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price This Level
 	 */
-	public BigDecimal getNewCurrentCostPrice(MCostDetail cd, int scale,
-			int roundingMode) {
-		if (getNewAccumulatedQuantity(cd).signum() != 0
-				&& getNewAccumulatedAmount(cd).signum() != 0)
-			return getNewAccumulatedAmount(cd).divide(getNewAccumulatedQuantity(cd), scale,
-					roundingMode);
+	public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, int roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmount(cost).signum() != 0)
+			return getNewAccumulatedAmount(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
 		else
 			return BigDecimal.ZERO;
 	}
 
 	/**
-	 * Average Invoice Get the New Cumulated Amt This Level
-	 * 
-	 * @param cd
-	 *            Cost Detail
+	 * Average PO Get the New Cumulated Amt This Level
+	 * @param cost Cost Detail
 	 * @return New Cumulated Amt This Level
 	 */
-	public BigDecimal getNewAccumulatedAmount(MCostDetail cd) {
-
+	public BigDecimal getNewAccumulatedAmount(MCostDetail cost) {
 		BigDecimal accumulatedAmount = Env.ZERO;
-		if (cd.getQty().signum() > 0)
-			accumulatedAmount = cd.getCumulatedAmt().add(cd.getCostAmt())
-					.add(cd.getCostAdjustment());
-		else if (cd.getQty().signum() < 0)
-			accumulatedAmount = cd.getCumulatedAmt().add(cd.getCostAmt().negate())
-					.add(cd.getCostAdjustment().negate());
-		else if (cd.getQty().signum() == 0)
+		if (cost.getQty().signum() > 0)
+			accumulatedAmount = cost.getCumulatedAmt().add(cost.getCostAmt()).add(cost.getCostAdjustment());
+		else if (cost.getQty().signum() < 0)
+			accumulatedAmount = cost.getCumulatedAmt().add(cost.getCostAmt().negate()).add(cost.getCostAdjustment().negate());
+		else if (cost.getQty().signum() == 0)
 		{
-			if(getNewAccumulatedQuantity(cd).signum() > 0)
-				accumulatedAmount = cd.getCumulatedAmt().add(cd.getCostAmt())
-				.add(cd.getCostAdjustment());
-			else if (getNewAccumulatedQuantity(cd).signum() < 0)
-				accumulatedAmount = cd.getCumulatedAmt().add(cd.getCostAmt().negate())
-				.add(cd.getCostAdjustment().negate());
-				
+			if(getNewAccumulatedQuantity(cost).signum() > 0)
+				accumulatedAmount = cost.getCumulatedAmt().add(cost.getCostAmt()).add(cost.getCostAdjustment());
+			else if (getNewAccumulatedQuantity(cost).signum() < 0)
+				accumulatedAmount = cost.getCumulatedAmt().add(cost.getCostAmt().negate()).add(cost.getCostAdjustment().negate());
+
 		}
-		
+
 		return accumulatedAmount;
 	}
 
 	/**
 	 * Average Invoice Get the New Current Cost Price low level
-	 * 
-	 * @param costDetail Cost Detail
+	 * @param cost Cost Detail
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price low level
 	 */
-	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail costDetail, int scale,
-                                                       int roundingMode) {
-		if (getNewAccumulatedQuantity(costDetail).signum() != 0
-				&& getNewAccumulatedAmountLowerLevel(costDetail).signum() != 0)
-			return getNewAccumulatedAmountLowerLevel(costDetail).divide(getNewAccumulatedQuantity(costDetail),
-					scale, roundingMode);
+	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, int roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmountLowerLevel(cost).signum() != 0)
+			return getNewAccumulatedAmountLowerLevel(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
 		else
 			return BigDecimal.ZERO;
 	}
 
 	/**
 	 * Average Invoice Get the new Cumulated Amt Low Level
-	 * 
-	 * @param costDetail MCostDetail
+	 * @param cost MCostDetail
 	 * @return New Cumulated Am Low Level
 	 */
-	public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail costDetail) {
+	public BigDecimal getNewAccumulatedAmountLowerLevel(MCostDetail cost) {
 		BigDecimal accumulatedAmountLowerLevel = Env.ZERO;
-		if (costDetail.getQty().signum() >= 0)
-			accumulatedAmountLowerLevel = costDetail.getCumulatedAmtLL().add(costDetail.getCostAmtLL())
-					.add(costDetail.getCostAdjustmentLL());
+		if (cost.getQty().signum() >= 0)
+			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL()).add(cost.getCostAdjustmentLL());
 		else
-			accumulatedAmountLowerLevel = costDetail.getCumulatedAmtLL()
-					.add(costDetail.getCostAmtLL().negate())
-					.add(costDetail.getCostAdjustmentLL().negate());
+			accumulatedAmountLowerLevel = cost.getCumulatedAmtLL().add(cost.getCostAmtLL().negate()).add(cost.getCostAdjustmentLL().negate());
 		return accumulatedAmountLowerLevel;
 	}
 
 	/**
 	 * Average Invoice Get the new Cumulated Qty
-	 * @param costDetail Cost Detail
+	 * @param cost Cost Detail
 	 * @return New Accumulated Quantity
 	 */
-	public BigDecimal getNewAccumulatedQuantity(MCostDetail costDetail) {
-		    return costDetail.getCumulatedQty().add(costDetail.getQty());
+	public BigDecimal getNewAccumulatedQuantity(MCostDetail cost) {
+		return cost.getCumulatedQty().add(cost.getQty());
 	}
 
 	/**
@@ -590,10 +564,8 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
     public void updateInventoryValue() {
         if (accumulatedQuantity.signum() != 0)
         {
-            dimension.setCurrentCostPrice(accumulatedAmount.divide(accumulatedQuantity, accountSchema.getCostingPrecision(),
-                    BigDecimal.ROUND_HALF_UP));
-            dimension.setCurrentCostPriceLL(accumulatedAmountLowerLevel.divide(accumulatedQuantity, accountSchema.getCostingPrecision(),
-                    BigDecimal.ROUND_HALF_UP));
+        	dimension.setCurrentCostPrice(accumulatedAmount.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
+            dimension.setCurrentCostPriceLL(accumulatedAmountLowerLevel.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
         }
         dimension.setCumulatedAmt(accumulatedAmount);
         dimension.setCumulatedAmtLL(accumulatedAmountLowerLevel);
@@ -630,8 +602,8 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 			{
                 if (costDetail.getM_InOutLine_ID() > 0 && costDetail.getQty().signum() !=  0 )
                 {
-                    CostEngineFactory.getCostEngine(clientId).createCostDetail(
-                            accountSchema, costType, costElement, transaction, line, true);
+                    CostEngineFactory.getCostEngine(clientId)
+							.createCostDetail(accountSchema, costType, costElement, transaction, line, true);
                 }
                 else if (costDetail.getM_InOutLine_ID() > 0 && costDetail.getQty().signum() != 0 && costDetail.getC_OrderLine_ID() > 0) {
                     List<MMatchPO> orderMatches = MMatchPO.getInOutLine(line);
@@ -644,23 +616,18 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
                     }
                 }
                 else if (costDetail.getM_InOutLine_ID() > 0 && costDetail.getQty().signum() == 0 && costDetail.getC_OrderLine_ID() > 0 ) {
-                    List<MMatchPO> poMatches = MMatchPO
-                            .getInOutLine(line);
+                    List<MMatchPO> poMatches = MMatchPO.getInOutLine(line);
                     for (MMatchPO match : poMatches) {
                         if (match.getM_Product_ID() == transaction.getM_Product_ID()) {
                             CostEngineFactory.getCostEngine(clientId)
-                                    .createCostDetail(accountSchema, costType, costElement, transaction, match, true);
+									.createCostDetail(accountSchema, costType, costElement, transaction, match, true);
                         }
                     }
                 }
 			}
 
-			//get landed allocation cost
-			for (MLandedCostAllocation allocation : 
-				MLandedCostAllocation.getOfInOutline(line,
-							costElement.getM_CostElement_ID()))
+			for (MLandedCostAllocation allocation : MLandedCostAllocation.getOfInOutline(line, costElement.getM_CostElement_ID()))
 			{
-				//System.out.println("Allocation : " + allocation.getC_LandedCostAllocation_ID() +  " Amount:" +  allocation.getAmt());
 				CostEngineFactory
 				.getCostEngine(clientId)
 				.createCostDetail(accountSchema, costType, costElement, transaction, allocation, true);
@@ -691,12 +658,9 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 		costCollectorVariance.saveEx();
 		IDocumentLine model = costCollectorVariance;
 
-		MCost cost = MCost.validateCostForCostType(acctSchema, costType, costElement,product.getM_Product_ID(),
-				0, 0, 0, mtrx.get_TrxName());
-		final ICostingMethod method = CostingMethodFactory.get()
-				.getCostingMethod(costType.getCostingMethod());
-		method.setCostingMethod(acctSchema, mtrx, model, cost, costThisLevel,
-				costLowLevel, model.isSOTrx());
+		MCost cost = MCost.validateCostForCostType(acctSchema, costType, costElement,product.getM_Product_ID(), 0, 0, 0, mtrx.get_TrxName());
+		final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(costType.getCostingMethod());
+		method.setCostingMethod(acctSchema, mtrx, model, cost, costThisLevel, costLowLevel, model.isSOTrx());
 		method.process();
 	}
 
