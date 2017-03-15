@@ -59,7 +59,7 @@ public class MTreeFavorite extends X_AD_Tree_Favorite
 	 */
 	public void loadNode(int AD_Tree_Favorite_ID)
 	{
-		String displayQuery = "SELECT ad_tree_favorite_node_id, parent_id, seqno, nodename,  issummary, ad_menu_id "
+		String displayQuery = "SELECT ad_tree_favorite_node_id, parent_id, seqno, nodename,  issummary, ad_menu_id, iscollapsible "
 				+ " FROM ad_tree_favorite_node  WHERE ad_tree_favorite_id = ? "
 				+ " ORDER BY COALESCE(parent_id,-1), seqno, nodename";
 		PreparedStatement pstmt = null;
@@ -69,7 +69,7 @@ public class MTreeFavorite extends X_AD_Tree_Favorite
 			pstmt = DB.prepareStatement(displayQuery, get_TrxName());
 			pstmt.setInt(1, AD_Tree_Favorite_ID);
 			rs = pstmt.executeQuery();
-			mroot = new MTreeNode(0, 0, "User Favourite Root", "User Favourite Root", 0, true, 0, null);
+			mroot = new MTreeNode(0, 0, "User Favourite Root", "User Favourite Root", 0, true, 0, null, false);
 			
 			while (rs.next())
 			{
@@ -78,6 +78,7 @@ public class MTreeFavorite extends X_AD_Tree_Favorite
 				int seqno = rs.getInt(3);
 				String name = rs.getString(4);
 				boolean isSummary = (rs.getString(5).equals("Y"));
+				boolean isCollapsible = rs.getString("iscollapsible").equals("Y");
 				String img = null;
 				int menuID = 0;
 				if (!isSummary)
@@ -90,7 +91,7 @@ public class MTreeFavorite extends X_AD_Tree_Favorite
 				if (AD_Tree_Favorite_ID == 0 && (parentID == 0 || NodeID == 0))
 					;
 				else
-					addToTree(NodeID, parentID, seqno, name, isSummary, menuID, img);
+					addToTree(NodeID, parentID, seqno, name, isSummary, menuID, img, isCollapsible);
 			}
 		}
 		catch (SQLException e)
@@ -117,11 +118,12 @@ public class MTreeFavorite extends X_AD_Tree_Favorite
 	 * @param isSummary
 	 * @param menuID
 	 * @param img
+	 * @param isCollapsible 
 	 */
 	private void addToTree(int favNodeID, int parentID, int seqno, String name, boolean isSummary, int menuID,
-			String img)
+			String img, boolean isCollapsible)
 	{
-		MTreeNode child = new MTreeNode(favNodeID, seqno, name, name, parentID, isSummary, menuID, img);
+		MTreeNode child = new MTreeNode(favNodeID, seqno, name, name, parentID, isSummary, menuID, img, isCollapsible);
 
 		MTreeNode parent = null;
 		if (mroot != null)

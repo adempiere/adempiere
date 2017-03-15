@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Tree_Favorite_Node
  *  @author Adempiere (generated) 
- *  @version 1.03
+ *  @version 1.6.3
  */
 public interface I_AD_Tree_Favorite_Node 
 {
@@ -30,7 +30,7 @@ public interface I_AD_Tree_Favorite_Node
     /** TableName=AD_Tree_Favorite_Node */
     public static final String Table_Name = "AD_Tree_Favorite_Node";
 
-    /** AD_Table_ID=1000116 */
+    /** AD_Table_ID=53870 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -80,10 +80,10 @@ public interface I_AD_Tree_Favorite_Node
     /** Column name AD_Tree_Favorite_ID */
     public static final String COLUMNNAME_AD_Tree_Favorite_ID = "AD_Tree_Favorite_ID";
 
-	/** Set AD_Tree_Favorite_ID	  */
+	/** Set Tree Favorite ID	  */
 	public void setAD_Tree_Favorite_ID (int AD_Tree_Favorite_ID);
 
-	/** Get AD_Tree_Favorite_ID	  */
+	/** Get Tree Favorite ID	  */
 	public int getAD_Tree_Favorite_ID();
 
 	public I_AD_Tree_Favorite getAD_Tree_Favorite() throws RuntimeException;
@@ -91,10 +91,10 @@ public interface I_AD_Tree_Favorite_Node
     /** Column name AD_Tree_Favorite_Node_ID */
     public static final String COLUMNNAME_AD_Tree_Favorite_Node_ID = "AD_Tree_Favorite_Node_ID";
 
-	/** Set AD_Tree_Favorite_Node_ID	  */
+	/** Set Tree Favorite Node ID	  */
 	public void setAD_Tree_Favorite_Node_ID (int AD_Tree_Favorite_Node_ID);
 
-	/** Get AD_Tree_Favorite_Node_ID	  */
+	/** Get Tree Favorite Node ID	  */
 	public int getAD_Tree_Favorite_Node_ID();
 
     /** Column name Created */
@@ -125,6 +125,19 @@ public interface I_AD_Tree_Favorite_Node
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsCollapsible */
+    public static final String COLUMNNAME_IsCollapsible = "IsCollapsible";
+
+	/** Set Collapsible.
+	  * Flag to indicate the state of the dashboard panel
+	  */
+	public void setIsCollapsible (boolean IsCollapsible);
+
+	/** Get Collapsible.
+	  * Flag to indicate the state of the dashboard panel
+	  */
+	public boolean isCollapsible();
 
     /** Column name IsSummary */
     public static final String COLUMNNAME_IsSummary = "IsSummary";

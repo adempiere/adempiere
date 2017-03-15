@@ -70,6 +70,7 @@ public final class MTreeNode extends DefaultMutableTreeNode
 		m_onBar = onBar;
 		m_color = color;
 	}   //  MTreeNode
+	
 	/**
 	 * This Constructor is Used by MTreeFavorite
 	 * @param node_ID
@@ -80,10 +81,10 @@ public final class MTreeNode extends DefaultMutableTreeNode
 	 * @param isSummary
 	 * @param menu_ID
 	 * @param img
+	 * @param isCollapsible
 	 */
-	  public MTreeNode(int node_ID, int seqNo, String name, String description,
-	 
-			int parent_ID, boolean isSummary, int menu_ID, String img) {
+	public MTreeNode(int node_ID, int seqNo, String name, String description, int parent_ID, boolean isSummary,
+			int menu_ID, String img, boolean isCollapsible) {
 		m_node_ID = node_ID;
 		m_seqNo = seqNo;
 		m_name = name;
@@ -93,6 +94,7 @@ public final class MTreeNode extends DefaultMutableTreeNode
 		m_parent_ID = parent_ID;
 		setSummary(isSummary);
 		m_menu_ID = menu_ID;
+		m_iscollapsible = isCollapsible;
 		setImageIndicator(img);
 	}
 
@@ -116,7 +118,8 @@ public final class MTreeNode extends DefaultMutableTreeNode
 	private boolean 	m_onBar;
 	/**	Color			*/
 	private Color 		m_color;
-	private int m_menu_ID;
+	private int			m_menu_ID;
+	private boolean		m_iscollapsible;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(MTreeNode.class);
 	
@@ -481,6 +484,24 @@ public final class MTreeNode extends DefaultMutableTreeNode
 	 */
 	public void setMenu_ID(int m_menu_ID) {
 		this.m_menu_ID = m_menu_ID;
+	}
+	
+	/**
+	 * Is Collapsible
+	 * 
+	 * @return boolean
+	 */
+	public boolean IsCollapsible() {
+		return m_iscollapsible;
+	}
+
+	/**
+	 * Set is Collapsible
+	 * 
+	 * @param iscollapsible
+	 */
+	public void setIsCollapsible(boolean iscollapsible) {
+		this.m_iscollapsible = iscollapsible;
 	}
 	
 }   //  MTreeNode

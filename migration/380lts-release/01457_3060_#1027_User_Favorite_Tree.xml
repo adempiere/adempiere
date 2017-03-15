@@ -1382,6 +1382,22 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6766" Column="Value">add.as.root</Data>
       </PO>
     </Step>
+    <Step SeqNo="335" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53278</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="609" Column="Created">2014-08-05 16:41:40.206</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Añadir a raíz</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="611" Column="Updated">2014-08-05 16:41:40.206</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
     <Step SeqNo="340" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53279" Table="AD_Message">
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
@@ -1397,6 +1413,22 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="591" Column="Updated">2014-08-05 16:41:56.615</Data>
         <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="6766" Column="Value">add.folder</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="345" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53279</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="609" Column="Created">2014-08-05 16:41:40.206</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Crear carpeta</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="611" Column="Updated">2014-08-05 16:41:40.206</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="350" StepType="AD">
@@ -1416,6 +1448,22 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6766" Column="Value">could.not.create.node</Data>
       </PO>
     </Step>
+    <Step SeqNo="355" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53280</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="609" Column="Created">2014-08-05 16:42:14.807</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">No se pudo crear la carpeta</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="611" Column="Updated">2014-08-05 16:42:14.807</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
     <Step SeqNo="360" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53281" Table="AD_Message">
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
@@ -1431,6 +1479,22 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="591" Column="Updated">2014-08-05 16:42:27.959</Data>
         <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="6766" Column="Value">insert.after</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="365" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53281</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="609" Column="Created">2014-08-05 16:42:27.959</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Colocar atrás</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="611" Column="Updated">2014-08-05 16:42:27.959</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="370" StepType="AD">
@@ -1450,6 +1514,22 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6766" Column="Value">its.already.there</Data>
       </PO>
     </Step>
+    <Step SeqNo="375" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53282</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="609" Column="Created">2014-08-05 16:42:43.103</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Ya existe</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="611" Column="Updated">2014-08-05 16:42:27.959</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
     <Step SeqNo="380" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53283" Table="AD_Message">
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
@@ -1465,6 +1545,22 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="591" Column="Updated">2014-08-05 16:42:56.567</Data>
         <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="6766" Column="Value">move.into</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="385" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53283</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="609" Column="Created">2014-08-05 16:42:56.567</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Mover a</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="611" Column="Updated">2014-08-05 16:42:56.567</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
   </Migration>

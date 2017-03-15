@@ -22,11 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_Tree_Favorite_Node
  *  @author Adempiere (generated) 
- *  @version 1.03 - $Id$ */
+ *  @version 1.6.3 - $Id$ */
 public class X_AD_Tree_Favorite_Node extends PO implements I_AD_Tree_Favorite_Node, I_Persistent 
 {
 
-	private static final long serialVersionUID = 20140723L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 20170131L;
 
     /** Standard Constructor */
     public X_AD_Tree_Favorite_Node (Properties ctx, int AD_Tree_Favorite_Node_ID, String trxName)
@@ -36,6 +39,8 @@ public class X_AD_Tree_Favorite_Node extends PO implements I_AD_Tree_Favorite_No
         {
 			setAD_Tree_Favorite_ID (0);
 			setAD_Tree_Favorite_Node_ID (0);
+			setIsCollapsible (false);
+// N
 			setIsSummary (false);
 			setSeqNo (0);
         } */
@@ -47,7 +52,7 @@ public class X_AD_Tree_Favorite_Node extends PO implements I_AD_Tree_Favorite_No
       super (ctx, rs, trxName);
     }
 
-	/** AccessLevel
+    /** AccessLevel
       * @return 7 - System - Client - Org 
       */
     protected int get_AccessLevel()
@@ -102,8 +107,8 @@ public class X_AD_Tree_Favorite_Node extends PO implements I_AD_Tree_Favorite_No
 		return (I_AD_Tree_Favorite)MTable.get(getCtx(), I_AD_Tree_Favorite.Table_Name)
 			.getPO(getAD_Tree_Favorite_ID(), get_TrxName());	}
 
-	/** Set AD_Tree_Favorite_ID.
-		@param AD_Tree_Favorite_ID AD_Tree_Favorite_ID	  */
+	/** Set Tree Favorite ID.
+		@param AD_Tree_Favorite_ID Tree Favorite ID	  */
 	public void setAD_Tree_Favorite_ID (int AD_Tree_Favorite_ID)
 	{
 		if (AD_Tree_Favorite_ID < 1) 
@@ -112,8 +117,8 @@ public class X_AD_Tree_Favorite_Node extends PO implements I_AD_Tree_Favorite_No
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Favorite_ID, Integer.valueOf(AD_Tree_Favorite_ID));
 	}
 
-	/** Get AD_Tree_Favorite_ID.
-		@return AD_Tree_Favorite_ID	  */
+	/** Get Tree Favorite ID.
+		@return Tree Favorite ID	  */
 	public int getAD_Tree_Favorite_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Tree_Favorite_ID);
@@ -122,8 +127,8 @@ public class X_AD_Tree_Favorite_Node extends PO implements I_AD_Tree_Favorite_No
 		return ii.intValue();
 	}
 
-	/** Set AD_Tree_Favorite_Node_ID.
-		@param AD_Tree_Favorite_Node_ID AD_Tree_Favorite_Node_ID	  */
+	/** Set Tree Favorite Node ID.
+		@param AD_Tree_Favorite_Node_ID Tree Favorite Node ID	  */
 	public void setAD_Tree_Favorite_Node_ID (int AD_Tree_Favorite_Node_ID)
 	{
 		if (AD_Tree_Favorite_Node_ID < 1) 
@@ -132,14 +137,38 @@ public class X_AD_Tree_Favorite_Node extends PO implements I_AD_Tree_Favorite_No
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Favorite_Node_ID, Integer.valueOf(AD_Tree_Favorite_Node_ID));
 	}
 
-	/** Get AD_Tree_Favorite_Node_ID.
-		@return AD_Tree_Favorite_Node_ID	  */
+	/** Get Tree Favorite Node ID.
+		@return Tree Favorite Node ID	  */
 	public int getAD_Tree_Favorite_Node_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Tree_Favorite_Node_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Collapsible.
+		@param IsCollapsible 
+		Flag to indicate the state of the dashboard panel
+	  */
+	public void setIsCollapsible (boolean IsCollapsible)
+	{
+		set_Value (COLUMNNAME_IsCollapsible, Boolean.valueOf(IsCollapsible));
+	}
+
+	/** Get Collapsible.
+		@return Flag to indicate the state of the dashboard panel
+	  */
+	public boolean isCollapsible () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCollapsible);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Summary Level.
