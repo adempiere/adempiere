@@ -445,7 +445,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 				getDateAcct(), getC_ConversionType_ID(),
 				getAD_Client_ID(), getAD_Org_ID());	
 		if (X_C_DocType.DOCBASETYPE_APCreditMemo.equals(invoiceLine.getParent().getC_DocType().getDocBaseType()))
-			return priceActual.multiply(new BigDecimal(-1));
+			return priceActual.negate();
 		else
 			return priceActual;
 	}
