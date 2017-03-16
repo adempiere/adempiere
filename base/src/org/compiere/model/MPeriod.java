@@ -282,7 +282,7 @@ public class MPeriod extends X_C_Period
 	public static MPeriod getFirstInYear (Properties ctx, Timestamp DateAcct, int AD_Org_ID)
 	{
 		MPeriod retValue = null;
-		int C_Calendar_ID = MPeriod.get(ctx, DateAcct, AD_Org_ID).getC_Calendar_ID();
+		int C_Calendar_ID = MPeriod.getC_Calendar_ID(ctx, AD_Org_ID);
 
         String sql = "SELECT * "
                     + "FROM C_Period "
