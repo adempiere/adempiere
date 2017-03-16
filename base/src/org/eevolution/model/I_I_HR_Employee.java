@@ -49,6 +49,19 @@ public interface I_I_HR_Employee
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -150,6 +163,21 @@ public interface I_I_HR_Employee
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name CareerLevelName */
     public static final String COLUMNNAME_CareerLevelName = "CareerLevelName";
@@ -786,6 +814,19 @@ public interface I_I_HR_Employee
 	  */
 	public int getNationality_ID();
 
+    /** Column name OrgTrxValue */
+    public static final String COLUMNNAME_OrgTrxValue = "OrgTrxValue";
+
+	/** Set Trx Org Key.
+	  * Key of the Transaction Organization
+	  */
+	public void setOrgTrxValue (String OrgTrxValue);
+
+	/** Get Trx Org Key.
+	  * Key of the Transaction Organization
+	  */
+	public String getOrgTrxValue();
+
     /** Column name OrgValue */
     public static final String COLUMNNAME_OrgValue = "OrgValue";
 
@@ -885,6 +926,19 @@ public interface I_I_HR_Employee
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name ProjectValue */
+    public static final String COLUMNNAME_ProjectValue = "ProjectValue";
+
+	/** Set Project Key.
+	  * Key of the Project
+	  */
+	public void setProjectValue (String ProjectValue);
+
+	/** Get Project Key.
+	  * Key of the Project
+	  */
+	public String getProjectValue();
 
     /** Column name RaceName */
     public static final String COLUMNNAME_RaceName = "RaceName";

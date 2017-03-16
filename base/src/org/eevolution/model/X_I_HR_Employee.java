@@ -33,7 +33,7 @@ public class X_I_HR_Employee extends PO implements I_I_HR_Employee, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170311L;
+	private static final long serialVersionUID = 20170315L;
 
     /** Standard Constructor */
     public X_I_HR_Employee (Properties ctx, int I_HR_Employee_ID, String trxName)
@@ -75,6 +75,29 @@ public class X_I_HR_Employee extends PO implements I_I_HR_Employee, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
@@ -236,6 +259,34 @@ public class X_I_HR_Employee extends PO implements I_I_HR_Employee, I_Persistent
 	public int getC_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1272,6 +1323,23 @@ public class X_I_HR_Employee extends PO implements I_I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Trx Org Key.
+		@param OrgTrxValue 
+		Key of the Transaction Organization
+	  */
+	public void setOrgTrxValue (String OrgTrxValue)
+	{
+		set_Value (COLUMNNAME_OrgTrxValue, OrgTrxValue);
+	}
+
+	/** Get Trx Org Key.
+		@return Key of the Transaction Organization
+	  */
+	public String getOrgTrxValue () 
+	{
+		return (String)get_Value(COLUMNNAME_OrgTrxValue);
+	}
+
 	/** Set Org Key.
 		@param OrgValue 
 		Key of the Organization
@@ -1434,6 +1502,23 @@ public class X_I_HR_Employee extends PO implements I_I_HR_Employee, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Project Key.
+		@param ProjectValue 
+		Key of the Project
+	  */
+	public void setProjectValue (String ProjectValue)
+	{
+		set_Value (COLUMNNAME_ProjectValue, ProjectValue);
+	}
+
+	/** Get Project Key.
+		@return Key of the Project
+	  */
+	public String getProjectValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ProjectValue);
 	}
 
 	/** Set Race Name.

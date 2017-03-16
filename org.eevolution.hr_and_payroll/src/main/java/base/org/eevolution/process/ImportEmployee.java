@@ -25,6 +25,7 @@ import org.compiere.model.MActivity;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MImage;
 import org.compiere.model.MOrg;
+import org.compiere.model.MProject;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -136,6 +137,28 @@ public class ImportEmployee extends ImportEmployeeAbstract {
         }
         if (race != null && race.getHR_Race_ID() > 0)
             importEmployee.setHR_Race_ID(race.getHR_Race_ID());
+
+        //Set Organization Trx
+        MOrg orgTrx = null;
+        if (importEmployee.getAD_OrgTrx_ID() > 0)
+            orgTrx = MOrg.get(getCtx(), importEmployee.getAD_OrgTrx_ID());
+        if (orgTrx == null && importEmployee.getActivityValue() != null) {
+            int orgTrxId = getId(MOrg.Table_Name, MOrg.COLUMNNAME_Value + "=?", trxName, importEmployee.getOrgValue());
+            orgTrx = MOrg.get(getCtx(), orgTrxId);
+        }
+        if (orgTrx != null && orgTrx.getAD_Org_ID() > 0)
+            importEmployee.setAD_OrgTrx_ID(orgTrx.getAD_Org_ID());
+
+        //Set Project
+        MProject project = null;
+        if (importEmployee.getC_Project_ID() > 0)
+            project = MProject
+                    .getById(getCtx(), importEmployee.getC_Activity_ID());
+        if (project == null && importEmployee.getActivityValue() != null)
+            project = MProject.getByValue(getCtx(), importEmployee.getProjectValue());
+        if (project != null && project.getC_Project_ID() > 0)
+            importEmployee.setC_Project_ID(project.getC_Project_ID());
+
         //Set Departament
         MHRDepartment department = null;
         if (importEmployee.getHR_Department_ID() > 0)
@@ -335,6 +358,7 @@ public class ImportEmployee extends ImportEmployeeAbstract {
     {
         MBPartner partner = new MBPartner(importEmployee.getCtx() , 0 , importEmployee.get_TrxName());
         partner.setAD_Org_ID(0);
+        partner.setValue(importEmployee.getBPartnerValue());
         partner.setName(importEmployee.getName());
         partner.setName2(importEmployee.getName2());
         partner.setIsEmployee(true);
