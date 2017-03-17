@@ -72,6 +72,7 @@ public abstract class ProcessController extends SmallViewController {
 		//	Get parameters
 		windowNo     = WindowNo;
 		processInfo  = pi;
+		processId = pi.getAD_Process_ID();
 		this.columns = columns;
 	}	//	ProcessParameterPanel
 	
