@@ -2,11 +2,11 @@
 <Migrations>
   <Migration EntityType="D" Name="SB_InvoiceFromOrderLine_01" ReleaseNo="3.9.0" SeqNo="1700">
     <Step DBType="Postgres" Parse="Y" SeqNo="0" StepType="SQL">
-      <SQLStatement>-- View: shw_orderline_storage
+      <SQLStatement>-- View: rv_orderline_storage
 
--- DROP VIEW shw_orderline_storage;
+-- DROP VIEW rv_orderline_storage;
 
-CREATE OR REPLACE VIEW shw_orderline_storage AS 
+CREATE OR REPLACE VIEW RV_OrderLine_Storage AS 
  SELECT oline.c_orderline_id,
     oline.ad_client_id,
     oline.ad_org_id,
@@ -66,12 +66,12 @@ CREATE OR REPLACE VIEW shw_orderline_storage AS
     oline.isconsumesforecast,
     oline.createfrom,
     oline.createshipment,
-    st.qtyreserved AS st_qtyreserved,
-    st.qtyonhand AS stqtyonhand,
-    st.qtyordered AS st_qtyordered,
+    st.qtyreserved AS ST_QtyReserved,
+    st.qtyonhand AS ST_QtyOnHand,
+    st.qtyordered AS ST_QtyOrdered,
     oline.qtyreserved AS qtytodeliver,
-    COALESCE(ioldr.qtydelivereddr, 0::numeric) AS qtydelivereddr,
-    oline.qtyordered - oline.qtyinvoiced AS qtyopentoinvoice,
+    COALESCE(ioldr.QtyDeliveredDr, 0::numeric) AS QtyDeliveredDr,
+    oline.qtyordered - oline.qtyinvoiced AS QtyOpenToInvoice,
     o.documentno,
     o.docstatus
    FROM c_orderline oline
@@ -85,33 +85,122 @@ CREATE OR REPLACE VIEW shw_orderline_storage AS
              JOIN m_locator l ON s.m_locator_id = l.m_locator_id
           GROUP BY s.m_product_id, l.m_warehouse_id) st ON st.m_product_id = oline.m_product_id AND o.m_warehouse_id = st.m_warehouse_id
      LEFT JOIN ( SELECT iol.c_orderline_id,
-            sum(iol.movementqty) AS qtydelivereddr
+            sum(iol.movementqty) AS QtyDeliveredDr
            FROM m_inoutline iol
              JOIN m_inout io ON iol.m_inout_id = io.m_inout_id
           WHERE io.docstatus = ANY (ARRAY['DR'::bpchar, 'IP'::bpchar])
           GROUP BY iol.c_orderline_id) ioldr ON oline.c_orderline_id = ioldr.c_orderline_id;
 
-ALTER TABLE shw_orderline_storage
+ALTER TABLE RV_OrderLine_Storage 
   OWNER TO adempiere;
 </SQLStatement>
+      <RollbackStatement> DROP VIEW rv_orderline_storage;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="5" StepType="SQL">
+      <SQLStatement>
+CREATE OR REPLACE VIEW RV_OrderLine_Storage AS 
+ SELECT oline.c_orderline_id,
+    oline.ad_client_id,
+    oline.ad_org_id,
+    oline.isactive,
+    oline.created,
+    oline.createdby,
+    oline.updated,
+    oline.updatedby,
+    oline.c_order_id,
+    oline.line,
+    oline.c_bpartner_id,
+    oline.c_bpartner_location_id,
+    oline.dateordered,
+    oline.datepromised,
+    oline.datedelivered,
+    oline.dateinvoiced,
+    oline.description,
+    oline.m_product_id,
+    oline.m_warehouse_id,
+    oline.c_uom_id,
+    oline.qtyordered,
+    oline.qtyreserved,
+    oline.qtydelivered,
+    oline.qtyinvoiced,
+    oline.m_shipper_id,
+    oline.c_currency_id,
+    oline.pricelist,
+    oline.priceactual,
+    oline.pricelimit,
+    oline.linenetamt,
+    oline.discount,
+    oline.freightamt,
+    oline.c_charge_id,
+    oline.c_tax_id,
+    oline.s_resourceassignment_id,
+    oline.ref_orderline_id,
+    oline.m_attributesetinstance_id,
+    oline.isdescription,
+    oline.processed,
+    oline.qtyentered,
+    oline.priceentered,
+    oline.c_project_id,
+    oline.pricecost,
+    oline.qtylostsales,
+    oline.c_projectphase_id,
+    oline.c_projecttask_id,
+    oline.rrstartdate,
+    oline.rramt,
+    oline.c_campaign_id,
+    oline.c_activity_id,
+    oline.user1_id,
+    oline.user2_id,
+    oline.ad_orgtrx_id,
+    oline.link_orderline_id,
+    oline.pp_cost_collector_id,
+    oline.m_promotion_id,
+    oline.isconsumesforecast,
+    oline.createfrom,
+    oline.createshipment,
+    st.qtyreserved AS ST_QtyReserved,
+    st.qtyonhand AS ST_QtyOnHand,
+    st.qtyordered AS ST_QtyOrdered,
+    oline.qtyreserved AS qtytodeliver,
+    COALESCE(ioldr.QtyDeliveredDr, 0::numeric) AS QtyDeliveredDr,
+    oline.qtyordered - oline.qtyinvoiced AS QtyOpenToInvoice,
+    o.documentno,
+    o.docstatus
+   FROM c_orderline oline
+     JOIN c_order o ON oline.c_order_id = o.c_order_id
+     LEFT JOIN ( SELECT sum(s.qtyonhand) AS qtyonhand,
+            sum(s.qtyreserved) AS qtyreserved,
+            s.m_product_id,
+            l.m_warehouse_id,
+            sum(s.qtyordered) AS qtyordered
+           FROM m_storage s
+             JOIN m_locator l ON s.m_locator_id = l.m_locator_id
+          GROUP BY s.m_product_id, l.m_warehouse_id) st ON st.m_product_id = oline.m_product_id AND o.m_warehouse_id = st.m_warehouse_id
+     LEFT JOIN ( SELECT iol.c_orderline_id,
+            sum(iol.movementqty) AS QtyDeliveredDr
+           FROM m_inoutline iol
+             JOIN m_inout io ON iol.m_inout_id = io.m_inout_id
+          WHERE io.docstatus = ANY (ARRAY['DR'::bpchar, 'IP'::bpchar])
+          GROUP BY iol.c_orderline_id) ioldr ON oline.c_orderline_id = ioldr.c_orderline_id;</SQLStatement>
+      <RollbackStatement> DROP VIEW rv_orderline_storage;</RollbackStatement>
     </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54194" Table="AD_Table">
         <Data AD_Column_ID="64711" Column="SQLStatement" isNewNull="true"/>
         <Data AD_Column_ID="6489" Column="ImportTable">N</Data>
-        <Data AD_Column_ID="102" Column="Name">shw_Orderline_Storage</Data>
+        <Data AD_Column_ID="102" Column="Name">rv_orderline_storage</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="108" Column="LoadSeq" isNewNull="true"/>
         <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
         <Data AD_Column_ID="354" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="106" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="107" Column="TableName">shw_Orderline_Storage</Data>
+        <Data AD_Column_ID="107" Column="TableName">rv_orderline_storage</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="105" Column="AD_Window_ID" isNewNull="true"/>
         <Data AD_Column_ID="4196" Column="IsHighVolume">false</Data>
         <Data AD_Column_ID="100" Column="AD_Table_ID">54194</Data>
-        <Data AD_Column_ID="6488" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6488" Column="EntityType">D</Data>
         <Data AD_Column_ID="6125" Column="IsView">true</Data>
         <Data AD_Column_ID="9342" Column="PO_Window_ID" isNewNull="true"/>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
@@ -135,7 +224,7 @@ ALTER TABLE shw_orderline_storage
         <Data AD_Column_ID="12715" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12714" Column="AD_Table_ID">54194</Data>
         <Data AD_Column_ID="12724" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12716" Column="Name">shw_Orderline_Storage</Data>
+        <Data AD_Column_ID="12716" Column="Name">rv_orderline_storage</Data>
         <Data AD_Column_ID="12720" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12722" Column="Created">2017-02-10 09:52:40.295</Data>
         <Data AD_Column_ID="12723" Column="Updated">2017-02-10 09:52:40.295</Data>
@@ -148,7 +237,7 @@ ALTER TABLE shw_orderline_storage
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82204" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82204</Data>
@@ -186,7 +275,6 @@ ALTER TABLE shw_orderline_storage
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">102</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:40.531</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -214,7 +302,7 @@ ALTER TABLE shw_orderline_storage
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82205" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82205</Data>
@@ -252,7 +340,6 @@ ALTER TABLE shw_orderline_storage
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">113</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:41.711</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -282,7 +369,7 @@ ALTER TABLE shw_orderline_storage
         <Data AD_Column_ID="226" Column="AD_Reference_ID">20</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">The record is active in the system</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82206</Data>
@@ -321,7 +408,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">348</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:43.341</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -349,7 +435,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82207" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82207</Data>
@@ -387,7 +473,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">245</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:44.375</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -415,7 +500,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="110" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82208" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date this record was updated</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82208</Data>
@@ -453,7 +538,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">607</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:45.46</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -481,7 +565,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="130" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82209" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">User who created this records</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82209</Data>
@@ -519,7 +603,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">246</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:46.526</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -548,7 +631,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="101" Action="I" Record_ID="82210" Table="AD_Column">
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">User who updated this records</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82210</Data>
@@ -585,7 +668,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">608</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:47.575</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -615,9 +697,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
         <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
-        <Data AD_Column_ID="347" Column="Description">Table shw_Orderline_Storage</Data>
+        <Data AD_Column_ID="347" Column="Description">Table rv_orderline_storage</Data>
         <Data AD_Column_ID="350" Column="IsTableID">true</Data>
-        <Data AD_Column_ID="216" Column="Name">shw_Orderline_Storage</Data>
+        <Data AD_Column_ID="216" Column="Name">rv_orderline_storage</Data>
         <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
         <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
@@ -642,7 +724,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Sales Order Line</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82211</Data>
@@ -678,7 +760,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">561</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:51.906</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -706,7 +787,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="200" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82212" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Order</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82212</Data>
@@ -744,7 +825,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">558</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:52.998</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -773,7 +853,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="101" Action="I" Record_ID="82213" Table="AD_Column">
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Unique line for this document</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82213</Data>
@@ -810,7 +890,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">439</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:54.185</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -838,7 +917,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="240" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82214" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Identifies a Business Partner</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82214</Data>
@@ -876,7 +955,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">187</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:55.354</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -904,7 +982,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="260" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82215" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Identifies the (ship to) address for this Business Partner</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82215</Data>
@@ -942,7 +1020,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">189</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:56.513</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -971,7 +1048,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="101" Action="I" Record_ID="82216" Table="AD_Column">
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date of Order</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82216</Data>
@@ -1008,7 +1085,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">268</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:57.814</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1036,7 +1112,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="300" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82217" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date Order was promised</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82217</Data>
@@ -1074,7 +1150,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">269</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:52:58.985</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1103,7 +1178,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="101" Action="I" Record_ID="82218" Table="AD_Column">
         <Data AD_Column_ID="552" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date when the product was delivered</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82218</Data>
@@ -1141,7 +1216,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">264</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:00.269</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1168,7 +1242,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="340" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82219" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date printed on Invoice</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82219</Data>
@@ -1206,7 +1280,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">267</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:01.488</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1234,7 +1307,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="360" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82220" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Optional short description of the record</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82220</Data>
@@ -1272,7 +1345,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">275</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:02.701</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1302,7 +1374,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Product, Service, Item</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82221</Data>
@@ -1338,7 +1410,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">454</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:03.839</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1366,7 +1437,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="400" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82222" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Storage Warehouse and Service Point</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82222</Data>
@@ -1404,7 +1475,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">459</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:05.125</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1432,7 +1502,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="420" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82223" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Unit of Measure</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82223</Data>
@@ -1470,7 +1540,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">215</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:06.31</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1498,7 +1567,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="440" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82224" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Ordered Quantity</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82224</Data>
@@ -1536,7 +1605,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">531</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:07.556</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1565,7 +1633,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="101" Action="I" Record_ID="82225" Table="AD_Column">
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Reserved Quantity</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82225</Data>
@@ -1602,7 +1670,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">532</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:08.802</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1630,7 +1697,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="480" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82226" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Delivered Quantity</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82226</Data>
@@ -1668,7 +1735,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">528</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:10.163</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1698,7 +1764,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Invoiced Quantity</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82227</Data>
@@ -1736,7 +1802,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">529</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:11.346</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1762,7 +1827,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="520" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82228" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Method or manner of product delivery</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82228</Data>
@@ -1800,7 +1865,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">455</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:12.497</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1828,7 +1892,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="540" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82229" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">The Currency for this record</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82229</Data>
@@ -1866,7 +1930,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">193</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:13.672</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1896,7 +1959,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">List Price</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82230</Data>
@@ -1932,7 +1995,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">520</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:14.903</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -1960,7 +2022,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="580" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82231" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Actual Price </Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82231</Data>
@@ -1998,7 +2060,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">519</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:16.037</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2026,7 +2087,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="600" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82232" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Lowest price for a product</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82232</Data>
@@ -2064,7 +2125,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">955</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:17.205</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2092,7 +2152,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="620" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82233" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Line Extended Amount (Quantity * Actual Price) without Freight and Charges</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82233</Data>
@@ -2130,7 +2190,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">441</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:18.473</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2158,7 +2217,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="640" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82234" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Discount in percent</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82234</Data>
@@ -2196,7 +2255,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">280</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:19.813</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2227,7 +2285,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Freight Amount </Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82235</Data>
@@ -2262,7 +2320,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">306</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:21.14</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2292,7 +2349,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Additional document charges</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82236</Data>
@@ -2330,7 +2387,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">968</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:22.398</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2356,7 +2412,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="700" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82237" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Tax identifier</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82237</Data>
@@ -2394,7 +2450,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">213</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:23.711</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2422,7 +2477,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="720" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82238" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Resource Assignment</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82238</Data>
@@ -2460,7 +2515,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">1778</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:24.832</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2490,7 +2544,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Reference to corresponding Sales/Purchase Order</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82239</Data>
@@ -2526,7 +2580,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">1905</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:25.978</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2554,7 +2607,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="760" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82240" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Product Attribute Set Instance</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82240</Data>
@@ -2592,7 +2645,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">2019</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:27.132</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2620,7 +2672,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="780" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82241" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">if true, the line is just description and no transaction</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82241</Data>
@@ -2658,7 +2710,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">2183</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:28.384</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2686,7 +2737,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="800" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82242" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">The document has been processed</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82242</Data>
@@ -2724,7 +2775,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">1047</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:29.581</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2752,7 +2802,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="820" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82243" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">The Quantity Entered is based on the selected UoM</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82243</Data>
@@ -2790,7 +2840,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">2589</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:30.775</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2818,7 +2867,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="840" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82244" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Price Entered - the price based on the selected/base UoM</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82244</Data>
@@ -2856,7 +2905,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">2588</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:32.019</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2884,7 +2932,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="860" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82245" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Financial Project</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82245</Data>
@@ -2922,7 +2970,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">208</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:33.298</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -2950,7 +2997,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="880" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82246" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Price per Unit of Measure including all indirect costs (Freight, etc.)</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82246</Data>
@@ -2988,7 +3035,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">2821</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:34.476</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3016,7 +3062,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="900" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82247" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Quantity of potential sales</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82247</Data>
@@ -3054,7 +3100,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">2826</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:35.696</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3082,7 +3127,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="920" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82248" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Phase of a Project</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82248</Data>
@@ -3120,7 +3165,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">2073</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:36.922</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3151,7 +3195,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Actual Project Task in a Phase</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82249</Data>
@@ -3186,7 +3230,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">2074</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:38.222</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3216,7 +3259,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Revenue Recognition Start Date</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82250</Data>
@@ -3254,7 +3297,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">3032</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:39.411</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3280,7 +3322,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="980" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82251" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Revenue Recognition Amount</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82251</Data>
@@ -3318,7 +3360,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">3033</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:40.847</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3346,7 +3387,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1000" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82252" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Marketing Campaign</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82252</Data>
@@ -3384,7 +3425,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">550</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:42.121</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3413,7 +3453,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="101" Action="I" Record_ID="82253" Table="AD_Column">
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Business Activity</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82253</Data>
@@ -3450,7 +3490,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">1005</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:43.366</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3478,7 +3517,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1040" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82254" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">User defined list element #1</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82254</Data>
@@ -3516,7 +3555,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">613</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:44.559</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3544,7 +3582,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1060" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82255" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">User defined list element #2</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82255</Data>
@@ -3582,7 +3620,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">614</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:45.711</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3610,7 +3647,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1080" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82256" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Performing or initiating organization</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82256</Data>
@@ -3648,7 +3685,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">112</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:46.963</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3676,7 +3712,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1100" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82257" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">This field links a sales order line to the purchase order line that is generated from it.</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82257</Data>
@@ -3714,7 +3750,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">53463</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:48.165</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3741,19 +3776,19 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1120" StepType="AD">
       <PO AD_Table_ID="276" Action="U" Record_ID="53310" Table="AD_Element">
-        <Data AD_Column_ID="2604" Column="Description" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true" isOldNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1130" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82258" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82258</Data>
@@ -3791,7 +3826,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">53310</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:49.837</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3822,7 +3856,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82259</Data>
@@ -3857,7 +3891,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">53802</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:51.006</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3884,18 +3917,18 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1170" StepType="AD">
       <PO AD_Table_ID="276" Action="U" Record_ID="55619" Table="AD_Element">
-        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true" isOldNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1180" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82260" Table="AD_Column">
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Is Consumes Forecast</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82260</Data>
@@ -3932,7 +3965,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">55619</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:52.736</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -3960,7 +3992,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1200" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82261" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Process which will generate a new document lines based on an existing document</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82261</Data>
@@ -3998,7 +4030,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">1490</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:54.01</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -4026,7 +4057,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1220" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82262" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82262</Data>
@@ -4064,7 +4095,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">56518</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:55.184</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -4092,7 +4122,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1240" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82263" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Payment identifier</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82263</Data>
@@ -4130,7 +4160,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">1384</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:56.437</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -4158,7 +4187,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1260" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82264" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Weight of a product</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82264</Data>
@@ -4196,7 +4225,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">629</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:57.726</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -4224,7 +4252,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1280" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82265" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Price of the last invoice for the product</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82265</Data>
@@ -4262,7 +4290,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">1740</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:53:58.849</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -4287,129 +4314,16 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="12952" Column="Updated">2017-02-10 09:53:59.772</Data>
       </PO>
     </Step>
-    <Step SeqNo="1300" StepType="AD">
-      <PO AD_Table_ID="276" Action="I" Record_ID="59193" Table="AD_Element">
-        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="2594" Column="AD_Element_ID">59193</Data>
-        <Data AD_Column_ID="2603" Column="Name">SHW_CostDistribution_ID</Data>
-        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2602" Column="ColumnName">SHW_CostDistribution_ID</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">SHW_CostDistribution ID</Data>
-        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
-        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
-        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
-        <Data AD_Column_ID="58589" Column="FieldLength" isNewNull="true"/>
-        <Data AD_Column_ID="58588" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="2601" Column="UpdatedBy">0</Data>
-        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="2599" Column="CreatedBy">0</Data>
-        <Data AD_Column_ID="2598" Column="Created">2017-02-10 09:54:00.034</Data>
-        <Data AD_Column_ID="2600" Column="Updated">2017-02-10 09:54:00.034</Data>
-        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="1310" StepType="AD">
-      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2646" Column="Name">SHW_CostDistribution_ID</Data>
-        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
-        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="2637" Column="AD_Element_ID">59193</Data>
-        <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">SHW_CostDistribution ID</Data>
-        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
-        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
-        <Data AD_Column_ID="2645" Column="UpdatedBy">0</Data>
-        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2642" Column="Created">2017-02-10 09:54:00.742</Data>
-        <Data AD_Column_ID="2643" Column="CreatedBy">0</Data>
-        <Data AD_Column_ID="2644" Column="Updated">2017-02-10 09:54:00.742</Data>
-        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="1320" StepType="AD">
-      <PO AD_Table_ID="101" Action="I" Record_ID="82266" Table="AD_Column">
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
-        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
-        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">82266</Data>
-        <Data AD_Column_ID="110" Column="Version">0</Data>
-        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
-        <Data AD_Column_ID="114" Column="AD_Table_ID">54194</Data>
-        <Data AD_Column_ID="111" Column="Name">SHW_CostDistribution_ID</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">SHW_CostDistribution_ID</Data>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
-        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
-        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
-        <Data AD_Column_ID="6483" Column="IsSyncDatabase">Y</Data>
-        <Data AD_Column_ID="119" Column="IsKey">false</Data>
-        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
-        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
-        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
-        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
-        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
-        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="2608" Column="AD_Element_ID">59193</Data>
-        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="549" Column="Created">2017-02-10 09:54:01.099</Data>
-        <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
-        <Data AD_Column_ID="551" Column="Updated">2017-02-10 09:54:01.099</Data>
-        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="552" Column="UpdatedBy">0</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="1330" StepType="AD">
-      <PO AD_Table_ID="752" Action="I" Record_ID="82266" Table="AD_Column_Trl">
-        <Data AD_Column_ID="12955" Column="AD_Column_ID">82266</Data>
-        <Data AD_Column_ID="12957" Column="Name">SHW_CostDistribution_ID</Data>
-        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="12960" Column="Created">2017-02-10 09:54:02.049</Data>
-        <Data AD_Column_ID="12958" Column="UpdatedBy">0</Data>
-        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
-        <Data AD_Column_ID="12956" Column="CreatedBy">0</Data>
-        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="12952" Column="Updated">2017-02-10 09:54:02.049</Data>
-      </PO>
-    </Step>
     <Step SeqNo="1340" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="59194" Table="AD_Element">
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">59194</Data>
-        <Data AD_Column_ID="2603" Column="Name">st_qtyreserved</Data>
+        <Data AD_Column_ID="2603" Column="Name">ST_QtyReserved</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2602" Column="ColumnName">st_qtyreserved</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">st_qtyreserved</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">ST_QtyReserved</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">ST_QtyReserved</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -4430,13 +4344,13 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="2645" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2646" Column="Name">st_qtyreserved</Data>
+        <Data AD_Column_ID="2646" Column="Name">ST_QtyReserved</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID">59194</Data>
         <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">st_qtyreserved</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">ST_QtyReserved</Data>
         <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="2641" Column="IsActive">true</Data>
@@ -4450,7 +4364,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1360" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82267" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82267</Data>
@@ -4458,11 +4372,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54194</Data>
-        <Data AD_Column_ID="111" Column="Name">st_qtyreserved</Data>
+        <Data AD_Column_ID="111" Column="Name">ST_QtyReserved</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">st_qtyreserved</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">ST_QtyReserved</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -4488,7 +4402,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">59194</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:54:03.277</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -4501,7 +4414,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1370" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="82267" Table="AD_Column_Trl">
         <Data AD_Column_ID="12955" Column="AD_Column_ID">82267</Data>
-        <Data AD_Column_ID="12957" Column="Name">st_qtyreserved</Data>
+        <Data AD_Column_ID="12957" Column="Name">ST_QtyReserved</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12960" Column="Created">2017-02-10 09:54:04.208</Data>
@@ -4524,12 +4437,12 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2599" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">59195</Data>
-        <Data AD_Column_ID="2603" Column="Name">st_qtyordered</Data>
+        <Data AD_Column_ID="2603" Column="Name">ST_QtyOrdered</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2602" Column="ColumnName">st_qtyordered</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">st_qtyordered</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">ST_QtyOrdered</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">ST_QtyOrdered</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -4541,13 +4454,13 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1390" StepType="AD">
       <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2646" Column="Name">st_qtyordered</Data>
+        <Data AD_Column_ID="2646" Column="Name">ST_QtyOrdered</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID">59195</Data>
         <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">st_qtyordered</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">ST_QtyOrdered</Data>
         <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
@@ -4563,7 +4476,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1400" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82268" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82268</Data>
@@ -4571,11 +4484,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54194</Data>
-        <Data AD_Column_ID="111" Column="Name">st_qtyordered</Data>
+        <Data AD_Column_ID="111" Column="Name">ST_QtyOrdered</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">st_qtyordered</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">ST_QtyOrdered</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -4601,7 +4514,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">59195</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:54:05.361</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -4616,7 +4528,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="12958" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">82268</Data>
-        <Data AD_Column_ID="12957" Column="Name">st_qtyordered</Data>
+        <Data AD_Column_ID="12957" Column="Name">ST_QtyOrdered</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12960" Column="Created">2017-02-10 09:54:06.294</Data>
@@ -4630,12 +4542,12 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="276" Action="I" Record_ID="59196" Table="AD_Element">
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">59196</Data>
-        <Data AD_Column_ID="2603" Column="Name">stqtyonhand</Data>
+        <Data AD_Column_ID="2603" Column="Name">ST_QtyOnHand</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2602" Column="ColumnName">stqtyonhand</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">stqtyonhand</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">ST_QtyOnHand</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">ST_QtyOnHand</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -4654,13 +4566,13 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1430" StepType="AD">
       <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2646" Column="Name">stqtyonhand</Data>
+        <Data AD_Column_ID="2646" Column="Name">ST_QtyOnHand</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID">59196</Data>
         <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">stqtyonhand</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">ST_QtyOnHand</Data>
         <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
@@ -4677,7 +4589,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="101" Action="I" Record_ID="82269" Table="AD_Column">
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82269</Data>
@@ -4685,11 +4597,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54194</Data>
-        <Data AD_Column_ID="111" Column="Name">stqtyonhand</Data>
+        <Data AD_Column_ID="111" Column="Name">ST_QtyOnHand</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">stqtyonhand</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">ST_QtyOnHand</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -4714,7 +4626,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">59196</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:54:07.498</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -4727,7 +4638,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1450" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="82269" Table="AD_Column_Trl">
         <Data AD_Column_ID="12955" Column="AD_Column_ID">82269</Data>
-        <Data AD_Column_ID="12957" Column="Name">stqtyonhand</Data>
+        <Data AD_Column_ID="12957" Column="Name">ST_QtyOnHand</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12960" Column="Created">2017-02-10 09:54:08.414</Data>
@@ -4742,7 +4653,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1460" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82270" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82270</Data>
@@ -4780,7 +4691,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">1250</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:54:08.63</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -4809,12 +4719,12 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="276" Action="I" Record_ID="59197" Table="AD_Element">
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">59197</Data>
-        <Data AD_Column_ID="2603" Column="Name">qtydelivereddr</Data>
+        <Data AD_Column_ID="2603" Column="Name">QtyDeliveredDr</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2602" Column="ColumnName">qtydelivereddr</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">qtydelivereddr</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">QtyDeliveredDr</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">QtyDeliveredDr</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -4833,13 +4743,13 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1490" StepType="AD">
       <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2646" Column="Name">qtydelivereddr</Data>
+        <Data AD_Column_ID="2646" Column="Name">QtyDeliveredDr</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID">59197</Data>
         <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">qtydelivereddr</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">QtyDeliveredDr</Data>
         <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
@@ -4858,7 +4768,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82271</Data>
@@ -4866,11 +4776,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54194</Data>
-        <Data AD_Column_ID="111" Column="Name">qtydelivereddr</Data>
+        <Data AD_Column_ID="111" Column="Name">QtyDeliveredDr</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">qtydelivereddr</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">QtyDeliveredDr</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -4893,7 +4803,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">59197</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:54:10.778</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -4906,7 +4815,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1510" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="82271" Table="AD_Column_Trl">
         <Data AD_Column_ID="12955" Column="AD_Column_ID">82271</Data>
-        <Data AD_Column_ID="12957" Column="Name">qtydelivereddr</Data>
+        <Data AD_Column_ID="12957" Column="Name">QtyDeliveredDr</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12960" Column="Created">2017-02-10 09:54:11.697</Data>
@@ -4922,12 +4831,12 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="276" Action="I" Record_ID="59198" Table="AD_Element">
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">59198</Data>
-        <Data AD_Column_ID="2603" Column="Name">qtyopentoinvoice</Data>
+        <Data AD_Column_ID="2603" Column="Name">QtyOpenToInvoice</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2602" Column="ColumnName">qtyopentoinvoice</Data>
-        <Data AD_Column_ID="4299" Column="PrintName">qtyopentoinvoice</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">QtyOpenToInvoice</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">QtyOpenToInvoice</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -4946,13 +4855,13 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1530" StepType="AD">
       <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="2646" Column="Name">qtyopentoinvoice</Data>
+        <Data AD_Column_ID="2646" Column="Name">QtyOpenToInvoice</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID">59198</Data>
         <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">qtyopentoinvoice</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">QtyOpenToInvoice</Data>
         <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
@@ -4971,16 +4880,16 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82272</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54194</Data>
-        <Data AD_Column_ID="111" Column="Name">qtyopentoinvoice</Data>
+        <Data AD_Column_ID="111" Column="Name">QtyOpenToInvoice</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">qtyopentoinvoice</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">QtyOpenToInvoice</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -5006,7 +4915,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">59198</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:54:12.971</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -5019,7 +4927,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="1550" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="82272" Table="AD_Column_Trl">
         <Data AD_Column_ID="12955" Column="AD_Column_ID">82272</Data>
-        <Data AD_Column_ID="12957" Column="Name">qtyopentoinvoice</Data>
+        <Data AD_Column_ID="12957" Column="Name">QtyOpenToInvoice</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12960" Column="Created">2017-02-10 09:54:14.078</Data>
@@ -5035,7 +4943,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="101" Action="I" Record_ID="82273" Table="AD_Column">
         <Data AD_Column_ID="118" Column="FieldLength">30</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Document sequence number of the document</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82273</Data>
@@ -5074,7 +4982,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">290</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:54:14.304</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -5102,7 +5009,7 @@ If the document type of your document has no automatic document sequence defined
     <Step SeqNo="1580" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82274" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">The current status of the document</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82274</Data>
@@ -5140,7 +5047,6 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">289</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="549" Column="Created">2017-02-10 09:54:15.574</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
@@ -5421,9 +5327,9 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="58106" Column="ColumnSQL">OLine.QtyDelivered</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">90002</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">55059</Data>
-        <Data AD_Column_ID="58105" Column="Name">OLINE_qtyopentoinvoice</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">OLINE_qtyopentoinvoice</Data>
-        <Data AD_Column_ID="58102" Column="Description">OLINE_qtyopentoinvoice</Data>
+        <Data AD_Column_ID="58105" Column="Name">OLINE_QtyOpenToInvoice</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">OLINE_QtyOpenToInvoice</Data>
+        <Data AD_Column_ID="58102" Column="Description">OLINE_QtyOpenToInvoice</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">82272</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
@@ -5438,10 +5344,10 @@ If the document type of your document has no automatic document sequence defined
       <PO AD_Table_ID="53228" Action="I" Record_ID="55059" Table="AD_View_Column_Trl">
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">55059</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58049" Column="Description">OLINE_qtyopentoinvoice</Data>
+        <Data AD_Column_ID="58049" Column="Description">OLINE_QtyOpenToInvoice</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">OLINE_qtyopentoinvoice</Data>
+        <Data AD_Column_ID="58052" Column="Name">OLINE_QtyOpenToInvoice</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
@@ -7701,11 +7607,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58103" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">90013</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">OLine.st_qtyordered</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">OLine.ST_QtyOrdered</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">90002</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">55060</Data>
-        <Data AD_Column_ID="58105" Column="Name">st_qtyordered</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">OLINE_st_qtyordered</Data>
+        <Data AD_Column_ID="58105" Column="Name">ST_QtyOrdered</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">OLINE_ST_QtyOrdered</Data>
         <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">82268</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
@@ -7724,7 +7630,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">st_qtyordered</Data>
+        <Data AD_Column_ID="58052" Column="Name">ST_QtyOrdered</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
@@ -7739,11 +7645,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58103" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">90013</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">OLine.st_qtyreserved</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">OLine.ST_QtyReserved</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">90002</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">55061</Data>
-        <Data AD_Column_ID="58105" Column="Name">st_qtyreserved</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">OLINE_st_qtyreserved</Data>
+        <Data AD_Column_ID="58105" Column="Name">ST_QtyReserved</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">OLINE_ST_QtyReserved</Data>
         <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">82267</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
@@ -7762,7 +7668,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="58052" Column="Name">st_qtyreserved</Data>
+        <Data AD_Column_ID="58052" Column="Name">ST_QtyReserved</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
@@ -7777,11 +7683,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58103" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">90013</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">OLine.stqtyonhand</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">OLine.ST_QtyOnHand</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">90002</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">55062</Data>
         <Data AD_Column_ID="58105" Column="Name">Existencia</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">OLINE_stqtyonhand</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">OLINE_ST_QtyOnHand</Data>
         <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">82269</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
@@ -11463,14 +11369,14 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="4890" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="90872" Table="AD_View_Column">
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">90872</Data>
+        <Data AD_Column_ID="58105" Column="Name">Created</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">DT_Created</Data>
         <Data AD_Column_ID="58103" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="58104" Column="Help">The Created field indicates the date that this record was created.</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">90015</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">dt.Created</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">90002</Data>
-        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">90872</Data>
-        <Data AD_Column_ID="58105" Column="Name">Created</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">DT_Created</Data>
         <Data AD_Column_ID="58102" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">1505</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
@@ -11811,13 +11717,13 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
     </Step>
     <Step SeqNo="5070" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="90880" Table="AD_View_Column">
-        <Data AD_Column_ID="58104" Column="Help">The Document Note is used for recording any additional information regarding this product.</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">90015</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">dt.DocumentNote</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">90002</Data>
         <Data AD_Column_ID="58103" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">90880</Data>
         <Data AD_Column_ID="58105" Column="Name">Document Note</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Document Note is used for recording any additional information regarding this product.</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">90015</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">DT_DocumentNote</Data>
         <Data AD_Column_ID="58102" Column="Description">Additional information for a Document</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">3025</Data>
@@ -12063,6 +11969,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="5200" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="90886" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2017-02-10 09:56:00.816</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">90886</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58049" Column="Description">Default value</Data>
@@ -12074,7 +11981,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58043" Column="Created">2017-02-10 09:56:00.816</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2017-02-10 09:56:00.816</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">0</Data>
       </PO>
     </Step>
