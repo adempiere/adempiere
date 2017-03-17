@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="T_ReplenishPlan Table 1420" ReleaseNo="3.9.0" SeqNo="00560">
-    <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50002" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="9Rabab8c">zAcechu7</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="20" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50001" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="globalqss">phib</Data>
-      </PO>
-    </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="53868" Table="AD_Table">
         <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
