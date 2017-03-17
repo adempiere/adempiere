@@ -5548,7 +5548,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="232" Column="Action">W</Data>
       </PO>
     </Step>
-	<Step DBType="Postgres" SeqNo="1730" StepType="SQL">
+	<Step DBType="ALL" SeqNo="1730" StepType="SQL">
       <SQLStatement>UPDATE AD_PrintFormat SET AD_Table_ID=53975 WHERE AD_Table_ID=53868 AND AD_Client_ID=0</SQLStatement>
     </Step>
 	<Step SeqNo="1740" StepType="AD">
