@@ -349,10 +349,23 @@ public class FinReport extends SvrProcess
 		//	Create Report
 		if (Ini.isClient())
 			getProcessInfo().setTransientObject (getPrintFormat());
-		else
-			getProcessInfo().setSerializableObject(getPrintFormat());
+		else {
+			if (getProcessInfo().getSerializableObject()!=null) {
+				MPrintFormat format = null;
+				Object so = getProcessInfo().getSerializableObject();
+				if (so instanceof MPrintFormat)
+					format = (MPrintFormat)so;
+
+				if (format != null)		
+					m_report.setAD_PrintFormat_ID(format.getAD_PrintFormat_ID());
+			}
+			else
+				getProcessInfo().setSerializableObject(getPrintFormat());
+
+		}
 
 		log.fine((System.currentTimeMillis() - m_start) + " ms");
+		
 		return "";
 	}	//	doIt
 
