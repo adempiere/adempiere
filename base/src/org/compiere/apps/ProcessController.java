@@ -145,7 +145,7 @@ public abstract class ProcessController extends SmallViewController {
 	 * Set value for is processed
 	 * @param isProcessed
 	 */
-	private void setIsProcessed(boolean isProcessed) {
+	public void setIsProcessed(boolean isProcessed) {
 		this.isProcessed = isProcessed;
 	}
 	
