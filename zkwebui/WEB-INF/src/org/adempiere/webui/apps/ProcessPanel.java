@@ -233,8 +233,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			bDelete.addActionListener(this);
 			hBox.appendChild(bDelete);
 
-			boolean isReport = true;
-			if (isReport ) {
+			if (isReport() ) {
 				Lookup lookup = listPrintFormat();
 				fPrintFormat = new WTableDirEditor("AD_PrintFormat_ID", false, false, true, lookup);
 				MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
@@ -499,7 +498,9 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		hideBusyDialog();
 		//	Hide
 		if(isReport() && !pi.isError()) {
-			dispose();
+			//dispose();
+			getProcessInfo().setAD_PInstance_ID(0);
+			setIsProcessed(false);
 		}
 	}
 
