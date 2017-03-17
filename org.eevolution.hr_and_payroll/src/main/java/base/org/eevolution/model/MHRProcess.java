@@ -70,6 +70,8 @@ import javax.script.ScriptEngine;
  * 		@see FR [ 762 ] getConcept return NPE</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/765">
  * 		@see FR [ 765 ] Method getAttribute is inconsistent</a>
+ * 		<a href="https://github.com/adempiere/adempiere/issues/834">
+ * 		@see FR [ 834 ] add break date for getAttribute</a>
  */
 public class MHRProcess extends X_HR_Process implements DocAction
 {
@@ -1539,27 +1541,18 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @return
 	 */
 	public MHRAttribute getAttributeInstance(String conceptValue) {
-		return getAttributeInstance(conceptValue, partnerId);
+		return getAttributeInstance(conceptValue, 0, null);
 	}
 	
 	/**
-	 * Overload getAttributePO
+	 * Overload get Attribute Instance
 	 * @param conceptValue
 	 * @param bpartnerId
 	 * @return
 	 */
-	public MHRAttribute getAttributeInstance(String conceptValue, int bpartnerId) {
+	public MHRAttribute getAttributeInstance(String conceptValue, int bpartnerId, Timestamp breakDate) {
 		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
-		return getAttributePO(concept, bpartnerId);
-	}
-	
-	/**
-	 * Get Attribute PO from current Business Partner
-	 * @param concept
-	 * @return
-	 */
-	public MHRAttribute getAttributePO(MHRConcept concept) {
-		return getAttributePO(concept, partnerId);
+		return getAttributeInstance(concept, bpartnerId, breakDate);
 	}
 	
 	/**
@@ -1568,15 +1561,21 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param bpartnerId
 	 * @return
 	 */
-	public MHRAttribute getAttributePO(MHRConcept concept, int bpartnerId) {
+	public MHRAttribute getAttributeInstance(MHRConcept concept, int bpartnerId, Timestamp breakDate) {
 		if (concept == null)
 			return null;
+		//	validate break date
+		if(breakDate == null)
+			breakDate = dateFrom;
+		//	BPartner
+		if(bpartnerId <= 0)
+			bpartnerId = partnerId;
 		//	
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		// check ValidFrom:
 		whereClause.append(MHRAttribute.COLUMNNAME_ValidFrom + "<=?");
-		params.add(dateFrom);
+		params.add(breakDate);
 		//check client
 		whereClause.append(" AND AD_Client_ID = ?");
 		params.add(getAD_Client_ID());
@@ -1618,13 +1617,22 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param conceptValue - Value to Concept
 	 * @return	Amount of concept, applying to employee
 	 */ 
-	public double getAttribute (String conceptValue)
-	{
+	public double getAttribute (String conceptValue) {
+		return getAttribute(conceptValue, null); 
+	} // 
+	
+	/**
+	 * Helper Method : Get Attribute [get Attribute to search key concept and break date]
+	 * @param conceptValue
+	 * @param breakDate
+	 * @return
+	 */
+	public double getAttribute (String conceptValue, Timestamp breakDate) {
 		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		if (concept == null)
 			return 0.0;
 		//	Get from PO
-		MHRAttribute attribute = getAttributePO(concept);
+		MHRAttribute attribute = getAttributeInstance(concept, 0, breakDate);
 		if (attribute == null)
 			return 0.0;
 
@@ -1638,7 +1646,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		//something else
 		return 0.0; //TODO throw exception ?? 
-	} // getByConceptAndPartnerId
+	} // 
 
 
 	/**
@@ -1646,10 +1654,18 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 *  @param conceptValue
 	 *  @return ServiceDate
 	 */ 
-	public Timestamp getAttributeDate (String conceptValue)
-	{
+	public Timestamp getAttributeDate (String conceptValue) {
+		return getAttributeDate(conceptValue, null);
+	} // getAttributeDate
+	
+	/**
+	 * 	Helper Method : Get Attribute [get Attribute to search key concept and break date]
+	 *  @param conceptValue
+	 *  @return ServiceDate
+	 */ 
+	public Timestamp getAttributeDate (String conceptValue, Timestamp breakDate) {
 		//	Get from PO
-		MHRAttribute attribute = getAttributeInstance(conceptValue);
+		MHRAttribute attribute = getAttributeInstance(conceptValue, 0, breakDate);
 		if (attribute == null)
 			return null;
 		//	
@@ -1661,15 +1677,23 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 *  @param conceptValue
 	 *  @return TextMsg
 	 */ 
-	public String getAttributeString (String conceptValue)
-	{
-		MHRAttribute attribute = getAttributeInstance(conceptValue);
+	public String getAttributeString (String conceptValue) {
+		return getAttributeString(conceptValue, null);
+	} // getAttributeString
+
+	/**
+	 * 	Helper Method : Get Attribute [get Attribute to search key concept and break date]
+	 *  @param conceptValue
+	 *  @return TextMsg
+	 */ 
+	public String getAttributeString (String conceptValue, Timestamp breakDate) {
+		MHRAttribute attribute = getAttributeInstance(conceptValue, 0, breakDate);
 		if (attribute == null)
 			return null;
 		//	
 		return attribute.getTextMsg();
 	} // getAttributeString
-
+	
 	/**
 	 * 	Helper Method : Get the number of days between start and end, in Timestamp format
 	 *  @param date1 
@@ -1991,10 +2015,10 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param partnerId
 	 * @return
 	 */
-	public BigDecimal getAttributeByPartnerId(String conceptValue, int partnerId) {
+	public BigDecimal getAttributeByPartnerId(String conceptValue, int partnerId, Timestamp breakDate) {
 		MHRConcept concept = MHRConcept.getByValue(getCtx(), conceptValue);
 		//	
-		MHRAttribute attribute = getAttributeInstance(conceptValue, partnerId);
+		MHRAttribute attribute = getAttributeInstance(conceptValue, partnerId, breakDate);
 		if (attribute == null)
 			return BigDecimal.ZERO;
 
@@ -2007,6 +2031,16 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			return attribute.getAmount();
 		//	
 		return BigDecimal.ZERO;
+	}
+	
+	/**
+	 * Overload attribute by employee
+	 * @param conceptValue
+	 * @param partnerId
+	 * @return
+	 */
+	public BigDecimal getAttributeByPartnerId(String conceptValue, int partnerId) {
+		return getAttributeByPartnerId(conceptValue, partnerId, null);
 	}
 	
 	/**
