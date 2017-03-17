@@ -209,11 +209,14 @@
     <Step DBType="ALL" Parse="Y" SeqNo="420" StepType="SQL">
       <SQLStatement>UPDATE ad_printformat SET AD_ReportView_ID=53136 WHERE ad_table_id=53975</SQLStatement>
     </Step>
-    <Step DBType="ALL" Parse="Y" SeqNo="430" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="430" StepType="SQL">
       <SQLStatement>ALTER TABLE M_ReplenishPlanLine
   ADD CONSTRAINT M_ReplenishPlan_M_ReplenishPlanLine FOREIGN KEY (M_ReplenishPlan_ID)
       REFERENCES M_ReplenishPlan (M_ReplenishPlan_ID) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;</SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="435" StepType="SQL">
+      <SQLStatement>ALTER TABLE M_ReplenishPlanLine   ADD CONSTRAINT M_ReplenishPlan_M_ReplenishPlanLine FOREIGN KEY (M_ReplenishPlan_ID)       REFERENCES M_ReplenishPlan (M_ReplenishPlan_ID) ;</SQLStatement>
     </Step>
   </Migration>
 </Migrations>

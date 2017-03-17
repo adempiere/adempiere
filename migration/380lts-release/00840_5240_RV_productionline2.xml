@@ -2,21 +2,11 @@
 <Migrations>
   <Migration EntityType="D" Name="RV_ProductionLine 2" ReleaseNo="3.9.0" SeqNo="840">
     <Step DBType="Oracle" Parse="Y" SeqNo="0" StepType="SQL">
-      <SQLStatement>
-CREATE OR REPLACE VIEW rv_productionline
-(m_productionline_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, m_productionplan_id, line, m_product_id, movementqty, m_locator_id, description, 
-m_attributesetinstance_id, processed, m_production_id, plannedqty, qtyused, isendproduct, qtyreserved, pickedqty, m_product_category_id, producttype, productvalue, 
- productname)
-
-  AS 
- SELECT pl.m_productionline_id, pl.ad_client_id, pl.ad_org_id, pl.isactive, pl.created, pl.createdby, pl.updated, pl.updatedby, pl.m_productionplan_id, pl.line, pl.m_product_id, pl.movementqty, pl.m_locator_id, pl.description, pl.m_attributesetinstance_id, pl.processed, pl.m_production_id, pl.plannedqty, pl.qtyused, pl.isendproduct, pl.qtyreserved, pl.pickedqty, p.m_product_category_id, p.producttype, p.value AS productvalue, 
- p.name AS productname
-   FROM m_productionline pl
-   JOIN m_product p ON pl.m_product_id = p.m_product_id;</SQLStatement>
+      <SQLStatement> CREATE OR REPLACE VIEW rv_productionline (m_productionline_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, m_productionplan_id, line, m_product_id, movementqty, m_locator_id, description,  m_attributesetinstance_id, processed, m_production_id, plannedqty, qtyused, isendproduct, qtyreserved, pickedqty, m_product_category_id, producttype, productvalue,   productname)    AS   SELECT pl.m_productionline_id, pl.ad_client_id, pl.ad_org_id, pl.isactive, pl.created, pl.createdby, pl.updated, pl.updatedby, pl.m_productionplan_id, pl.line, pl.m_product_id, pl.movementqty, pl.m_locator_id, pl.description, pl.m_attributesetinstance_id, pl.processed, pl.m_production_id, pl.plannedqty, pl.qtyused, pl.isendproduct, pl.qtyreserved, pl.pickedqty, p.m_product_category_id, p.producttype, p.value AS productvalue,   p.name AS productname    FROM m_productionline pl    JOIN m_product p ON pl.m_product_id = p.m_product_id;</SQLStatement>
+      <RollbackStatement>DROP VIEW rv_productionline;</RollbackStatement>
     </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="78389" Table="AD_Column">
-        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54056</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
@@ -54,7 +44,6 @@ m_attributesetinstance_id, processed, m_production_id, plannedqty, qtyused, isen
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">78389</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy" isNewNull="true"/>
         <Data AD_Column_ID="551" Column="Updated">2016-01-20 17:01:51.077</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
@@ -62,10 +51,12 @@ m_attributesetinstance_id, processed, m_production_id, plannedqty, qtyused, isen
         <Data AD_Column_ID="549" Column="Created">2016-01-20 17:01:51.077</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="78390" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54056</Data>
@@ -82,7 +73,6 @@ m_attributesetinstance_id, processed, m_production_id, plannedqty, qtyused, isen
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="118" Column="FieldLength">255</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
-        <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -104,7 +94,6 @@ m_attributesetinstance_id, processed, m_production_id, plannedqty, qtyused, isen
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">78390</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy" isNewNull="true"/>
         <Data AD_Column_ID="551" Column="Updated">2016-01-20 17:01:52.919</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
@@ -116,6 +105,7 @@ m_attributesetinstance_id, processed, m_production_id, plannedqty, qtyused, isen
     </Step>
     <Step DBType="Postgres" Parse="Y" SeqNo="30" StepType="SQL">
       <SQLStatement>DROP VIEW IF EXISTS rv_productionline;  CREATE OR REPLACE VIEW rv_productionline AS   SELECT pl.m_productionline_id, pl.ad_client_id, pl.ad_org_id, pl.isactive, pl.created, pl.createdby, pl.updated, pl.updatedby, pl.m_productionplan_id, pl.line, pl.m_product_id, pl.movementqty, pl.m_locator_id, pl.description, pl.m_attributesetinstance_id, pl.processed, pl.m_production_id, pl.plannedqty, pl.qtyused, pl.isendproduct, pl.qtyreserved, pl.pickedqty, p.m_product_category_id, p.producttype, p.value AS productvalue,   p.name AS productname    FROM m_productionline pl    JOIN m_product p ON pl.m_product_id = p.m_product_id;  ALTER TABLE rv_productionline   OWNER TO adempiere; </SQLStatement>
+      <RollbackStatement>DROP VIEW IF EXISTS rv_productionline;  </RollbackStatement>
     </Step>
   </Migration>
 </Migrations>
