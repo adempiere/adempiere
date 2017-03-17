@@ -36,18 +36,23 @@ import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
+import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ProcessController;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.model.GridField;
+import org.compiere.model.Lookup;
 import org.compiere.model.MPInstance;
+import org.compiere.model.MRole;
+import org.compiere.print.MPrintFormat;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CEditor;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuEcho;
@@ -145,6 +150,14 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 	private Button bSave = new Button("Save");
 	private Button bDelete = new Button("Delete");
 	private Label lSaved = new Label(Msg.getMsg(Env.getCtx(), "SavedParameter"));
+	
+	// Print Format
+	private WTableDirEditor		fPrintFormat		= null;
+	private Combobox			freportType			= new Combobox();
+	private Label				lPrintFormat		= new Label("Print Format:");
+	private Label				lreportType			= new Label("Report Type:");
+
+	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ProcessPanel.class);
 	
@@ -220,6 +233,30 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			bDelete.addActionListener(this);
 			hBox.appendChild(bDelete);
 
+			boolean isReport = true;
+			if (isReport ) {
+				Lookup lookup = listPrintFormat();
+				fPrintFormat = new WTableDirEditor("AD_PrintFormat_ID", false, false, true, lookup);
+				MRole roleCurrent = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+				boolean m_isAllowHTMLView = roleCurrent.isAllow_HTML_View();
+				boolean m_isAllowXLSView = roleCurrent.isAllow_XLS_View();
+
+				freportType.removeAllItems();
+				freportType.appendItem("PDF", "P");
+				if (m_isAllowXLSView) {
+					freportType.appendItem("Excel", "X");
+					freportType.appendItem("XLSX", "XX");
+				}
+				if (m_isAllowHTMLView)
+					freportType.appendItem("HTML", "H");
+				freportType.setSelectedIndex(0);
+				
+				hBox.appendChild(lPrintFormat);
+				hBox.appendChild(fPrintFormat.getComponent());
+
+				hBox.appendChild(lreportType);
+				hBox.appendChild(freportType);
+			}
 			row.appendChild(hBox);
 
 
@@ -496,6 +533,26 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			} else if (isProcessed()) {
 				dispose();
 			} else {
+				
+				// Print format on report para
+				if (freportType != null && freportType.getSelectedItem() != null
+						&& freportType.getSelectedItem().getValue() != null)
+				{
+					getProcessInfo().setReportType(freportType.getSelectedItem().getValue().toString());
+				}
+				if (fPrintFormat != null && fPrintFormat.getValue() != null)
+				{
+					MPrintFormat format = new MPrintFormat(Env.getCtx(), (Integer) fPrintFormat.getValue(), null);
+					if (format != null)
+					{
+						if (Ini.isClient())
+							getProcessInfo().setTransientObject(format);
+						else
+							getProcessInfo().setSerializableObject(format);
+					}
+				}
+								
+				
 				//	BR [ 265 ]
 				process();
 			}
