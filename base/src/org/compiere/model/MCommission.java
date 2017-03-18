@@ -136,7 +136,7 @@ public class MCommission extends X_C_Commission
 			list.add((MBPartner) getC_BPartner());
 		} else {
 			list = new Query(getCtx(), I_C_BPartner.Table_Name, "EXISTS(SELECT 1 FROM C_CommissionSalesRep csr "
-					+ "WHERE csr.C_BPartner_ID = C_BPartner_ID "
+					+ "WHERE csr.C_BPartner_ID = C_BPartner.C_BPartner_ID "
 					+ "AND csr.C_Commission_ID = ?"
 					+ "AND csr.IsActive = 'Y')", get_TrxName())
 											.setParameters(getC_Commission_ID())

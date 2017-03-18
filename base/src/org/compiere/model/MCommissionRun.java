@@ -27,6 +27,7 @@ import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -42,7 +43,7 @@ import java.util.logging.Level;
  *  	<a href="https://github.com/adempiere/adempiere/issues/766">
  * 		@see FR [ 766 ] Improve Commission Calculation</a>
  **/
-public class MCommissionRun extends X_C_CommissionRun implements DocAction {
+public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocOptions {
 
 	/**
 	 *
@@ -221,15 +222,22 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction {
 	}	//	prepareIt
 	
 	/**
+	 * Delete Current Movements
+	 */
+	private void deleteMovements() {
+		// RE-Process, delete old movements
+		int no = DB.executeUpdateEx("DELETE FROM C_CommissionAmt c "
+				+ "WHERE C_CommissionRun_ID = ?", new Object[]{getC_CommissionRun_ID()}, get_TrxName());
+		log.info("C_CommissionAmt deleted #"+ no);
+	}
+	
+	/**
 	 * Create Commission Movements
 	 * @author <a href="mailto:yamelsenih@gmail.com">Yamel Senih</a> Feb 24, 2016, 1:13:03 AM
 	 * @return void
 	 */
 	private void createMovements() {
-		// RE-Process, delete old movements
-		int no = DB.executeUpdateEx("DELETE FROM C_CommissionAmt c "
-				+ "WHERE C_CommissionRun_ID = ?", new Object[]{getC_CommissionRun_ID()}, get_TrxName());
-		log.info("C_CommissionAmt deleted #"+ no);
+		deleteMovements();
 		//	Get lines
 		List<MCommission> commissionList = new ArrayList<MCommission>();
 		String frequencyType = null;
@@ -319,6 +327,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction {
 			salesRegion = new ArrayList<Integer>();
 			//	Amt for Line - Updated By Trigger
 			MCommissionAmt comAmt = new MCommissionAmt (this, lines[i].getC_CommissionLine_ID());
+			comAmt.setC_BPartner_ID(bPartner.getC_BPartner_ID());
 			comAmt.saveEx();
 			//
 			StringBuffer sql = new StringBuffer();
@@ -840,10 +849,9 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction {
 	public boolean reActivateIt()
 	{
 		log.info("reActivateIt - " + toString());
+		deleteMovements();
 		setProcessed(false);
-		if (reverseCorrectIt())
-			return true;
-		return false;
+		return true;
 	}	//	reActivateIt
 	
 	
@@ -902,6 +910,29 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction {
 	//	return pl.getC_Currency_ID();
 		return 0;
 	}	//	getC_Currency_ID
+	
+	@Override
+	public int customizeValidActions(String docStatus, Object processing,
+			String orderType, String isSOTrx, int AD_Table_ID,
+			String[] docAction, String[] options, int index) {
+			if (docStatus.equals(DocumentEngine.STATUS_Completed))	{
+				//	Reactivate
+				options[index++] = DocumentEngine.ACTION_ReActivate;
+				//	Void
+				options[index++] = DocumentEngine.ACTION_Void;
+				//	Close
+				options[index++] = DocumentEngine.ACTION_Close;
+			}	else if(docStatus.equals(DocumentEngine.STATUS_InProgress)
+							|| docStatus.equals(DocumentEngine.STATUS_Drafted)){
+				//	Prepare
+				options[index++] = DocumentEngine.ACTION_Prepare;
+				//	Complete
+				options[index++] = DocumentEngine.ACTION_Complete;
+				//	Void
+				options[index++] = DocumentEngine.ACTION_Void;
+			}
+		return index;
+	}
 
     @Override
     public String toString()
