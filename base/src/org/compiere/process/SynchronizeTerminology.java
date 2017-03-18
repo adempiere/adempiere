@@ -881,7 +881,7 @@ public class SynchronizeTerminology extends SvrProcess
 					+" 				FROM AD_Table tt "
 					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID) "
 					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID "
-					+" 				AND tt.Name <> COALESCE(rvt.PrintName, '')"
+					+" 				AND tt.Name <> COALESCE(rvt.PrintName, NULL)"
 					+"				AND rv.IsCentrallyMaintained = 'Y') ";
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  trl rows updated: "+no);
@@ -900,7 +900,7 @@ public class SynchronizeTerminology extends SvrProcess
 					+"				INNER JOIN AD_Table_Trl tt ON(tt.AD_Table_ID = t.AD_Table_ID)"
 					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID)"
 					+"				LEFT JOIN AD_Element e ON(SUBSTR(t.TableName, 1, LENGTH(t.TableName) - 4) || '_ID' = e.ColumnName)"
-					+"				LEFT JOIN AD_Element_Trl et ON(et.AD_Element_ID = e.AD_Element_ID AND et.AD_Language = rvt.AD_Language)"
+					+"				LEFT JOIN AD_Element_Trl et ON(et.AD_Element_ID = e.AD_Element_ID AND et.AD_Language = tt.AD_Language)"
 					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID"
 					+"				AND tt.AD_Language = rvt.AD_Language"
 					+"), "
@@ -909,7 +909,7 @@ public class SynchronizeTerminology extends SvrProcess
 					+"				INNER JOIN AD_Table_Trl tt ON(tt.AD_Table_ID = t.AD_Table_ID)"
 					+"				INNER JOIN AD_ReportView rv ON(rv.AD_Table_ID = tt.AD_Table_ID)"
 					+"				LEFT JOIN AD_Element e ON(SUBSTR(t.TableName, 1, LENGTH(t.TableName) - 4) || '_ID' = e.ColumnName)"
-					+"				LEFT JOIN AD_Element_Trl et ON(et.AD_Element_ID = e.AD_Element_ID AND et.AD_Language = rvt.AD_Language)"
+					+"				LEFT JOIN AD_Element_Trl et ON(et.AD_Element_ID = e.AD_Element_ID AND et.AD_Language = tt.AD_Language)"
 					+"				WHERE rv.AD_ReportView_ID = rvt.AD_ReportView_ID"
 					+"				AND tt.AD_Language = rvt.AD_Language"
 					+")"
