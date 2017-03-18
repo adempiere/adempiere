@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -124,5 +125,26 @@ public class MCommission extends X_C_Commission
 			log.log(Level.SEVERE, "copyLinesFrom - Line difference - From=" + fromLines.length + " <> Saved=" + count);
 		return count;
 	}	//	copyLinesFrom
+	
+	/**
+	 * Get business partner for commission run
+	 * @return
+	 */
+	public List<MBPartner> getBPartnerOfCommission() {
+		List<MBPartner> list = new ArrayList<MBPartner>();
+		if(getC_BPartner_ID() != 0) {
+			list.add((MBPartner) getC_BPartner());
+		} else {
+			list = new Query(getCtx(), I_C_BPartner.Table_Name, "EXISTS(SELECT 1 FROM C_CommissionSalesRep csr "
+					+ "WHERE csr.C_BPartner_ID = C_BPartner_ID "
+					+ "AND csr.C_Commission_ID = ?"
+					+ "AND csr.IsActive = 'Y')", get_TrxName())
+											.setParameters(getC_Commission_ID())
+											.setOnlyActiveRecords(true)
+											.list();
+		}
+		//	Return
+		return list;
+	}
 
 }	//	MCommission

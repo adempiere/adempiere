@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -24,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_C_Commission extends PO implements I_C_Commission, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20170318L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -39,7 +38,6 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
       super (ctx, C_Commission_ID, trxName);
       /** if (C_Commission_ID == 0)
         {
-			setC_BPartner_ID (0);
 			setC_Charge_ID (0);
 			setC_Commission_ID (0);
 			setC_Currency_ID (0);
@@ -131,6 +129,31 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public int getC_Charge_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_CommissionGroup)MTable.get(getCtx(), org.compiere.model.I_C_CommissionGroup.Table_Name)
+			.getPO(getC_CommissionGroup_ID(), get_TrxName());	}
+
+	/** Set Commission Group.
+		@param C_CommissionGroup_ID Commission Group	  */
+	public void setC_CommissionGroup_ID (int C_CommissionGroup_ID)
+	{
+		if (C_CommissionGroup_ID < 1) 
+			set_Value (COLUMNNAME_C_CommissionGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CommissionGroup_ID, Integer.valueOf(C_CommissionGroup_ID));
+	}
+
+	/** Get Commission Group.
+		@return Commission Group	  */
+	public int getC_CommissionGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionGroup_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

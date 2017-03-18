@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Improve Commission Calculation #766" ReleaseNo="" SeqNo="1750">
+  <Migration EntityType="D" Name="Improve Commission Calculation #766" ReleaseNo="" SeqNo="1750">
     <Comments>Create window Commission Group</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54195" Table="AD_Table">
@@ -15,7 +15,7 @@
         <Data AD_Column_ID="544" Column="Created">2017-02-14 14:33:10.317</Data>
         <Data AD_Column_ID="545" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="103" Column="Description">Commission Group</Data>
-        <Data AD_Column_ID="6488" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6488" Column="EntityType">D</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6489" Column="ImportTable">N</Data>
         <Data AD_Column_ID="543" Column="IsActive">true</Data>
@@ -54,7 +54,7 @@
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82278" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82278</Data>
@@ -119,7 +119,7 @@
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82279" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82279</Data>
@@ -184,7 +184,7 @@
     <Step SeqNo="70" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82280" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">The record is active in the system</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82280</Data>
@@ -252,7 +252,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82281" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82281</Data>
@@ -317,7 +317,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="110" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82282" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date this record was updated</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82282</Data>
@@ -382,7 +382,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="130" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82283" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">User who created this records</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82283</Data>
@@ -447,7 +447,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="150" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82284" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">User who updated this records</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82284</Data>
@@ -520,7 +520,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2598" Column="Created">2017-02-14 14:33:24.799</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="58589" Column="FieldLength" isNewNull="true"/>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
@@ -559,7 +559,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="190" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82285" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82285</Data>
@@ -650,7 +650,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="220" StepType="AD">
       <PO AD_Table_ID="100" Action="U" Record_ID="54195" Table="AD_Table">
-        <Data AD_Column_ID="6488" Column="EntityType" oldValue="U">ECA02</Data>
+        <Data AD_Column_ID="6488" Column="EntityType" oldValue="U">D</Data>
       </PO>
     </Step>
     <Step SeqNo="230" StepType="AD">
@@ -663,7 +663,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="240" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82286" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">3</Data>
         <Data AD_Column_ID="112" Column="Description">Frequency of event</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82286</Data>
@@ -728,7 +728,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="260" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82287" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">2</Data>
         <Data AD_Column_ID="112" Column="Description">Alphanumeric identifier of the entity</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82287</Data>
@@ -793,7 +793,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="280" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82288" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">1</Data>
         <Data AD_Column_ID="112" Column="Description">Search key for the record in the format required - must be unique</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82288</Data>
@@ -866,7 +866,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="569" Column="Created">2017-02-14 14:44:14.669</Data>
         <Data AD_Column_ID="570" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="157" Column="Description">Maintain Commissions and Royalties Group</Data>
-        <Data AD_Column_ID="6490" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6490" Column="EntityType">D</Data>
         <Data AD_Column_ID="158" Column="Help">Define how and when you want the commissions to be calculated and to whom to pay it.
 The Commissions Window allows you define how commissions and royalties will be paid. You can pay multiple commissions for the same order or invoice (e.g. to the person entering the transaction, to the person responsible for sale of the product (category) and or business partner (group).</Data>
         <Data AD_Column_ID="568" Column="IsActive">true</Data>
@@ -932,7 +932,7 @@ The Commissions Window allows you define how commissions and royalties will be p
         <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="162" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="13450" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7713" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7713" Column="EntityType">D</Data>
         <Data AD_Column_ID="1183" Column="HasTree">false</Data>
         <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6487" Column="ImportFields">N</Data>
@@ -977,7 +977,7 @@ The Commissions Window allows you define how commissions and royalties will be p
     </Step>
     <Step SeqNo="360" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="80790" Table="AD_Field">
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="174" Column="AD_Column_ID">82280</Data>
         <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
@@ -1062,7 +1062,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1118,7 +1118,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1178,7 +1178,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Frequency of event</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The frequency type is used for calculating the date of the next event.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1238,7 +1238,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Alphanumeric identifier of the entity</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">60</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1298,7 +1298,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1359,7 +1359,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Search key for the record in the format required - must be unique</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">60</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A search key allows you a fast method of finding a particular record.
 If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_&lt;TableName&gt;", where TableName is the actual name of the table (e.g. C_Order).</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
@@ -1466,7 +1466,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="599" Column="Created">2017-02-14 15:01:21.202</Data>
         <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="230" Column="Description">Maintain Commissions and Royalties Group</Data>
-        <Data AD_Column_ID="7721" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
@@ -1612,7 +1612,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     <Step SeqNo="770" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82289" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82289</Data>
@@ -1691,7 +1691,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1770,7 +1770,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="2598" Column="Created">2017-02-14 16:25:37.041</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="58589" Column="FieldLength">0</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
@@ -1825,7 +1825,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="2598" Column="Created">2017-02-14 16:26:50.563</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="58589" Column="FieldLength">0</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
@@ -1863,7 +1863,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="910" StepType="AD">
       <PO AD_Table_ID="276" Action="U" Record_ID="59204" Table="AD_Element">
-        <Data AD_Column_ID="6484" Column="EntityType" oldValue="U">ECA02</Data>
+        <Data AD_Column_ID="6484" Column="EntityType" oldValue="U">D</Data>
       </PO>
     </Step>
     <Step SeqNo="920" StepType="AD">
@@ -1887,7 +1887,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     <Step SeqNo="950" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82290" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82290</Data>
@@ -1952,7 +1952,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     <Step SeqNo="970" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82291" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82291</Data>
@@ -2031,7 +2031,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2091,7 +2091,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3281,7 +3281,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     <Step SeqNo="1730" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82297" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82297</Data>
@@ -3367,7 +3367,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -3495,7 +3495,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="544" Column="Created">2017-02-15 18:48:24.541</Data>
         <Data AD_Column_ID="545" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6488" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6488" Column="EntityType">D</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6489" Column="ImportTable">N</Data>
         <Data AD_Column_ID="543" Column="IsActive">true</Data>
@@ -3534,7 +3534,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     <Step SeqNo="1940" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82298" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82298</Data>
@@ -3599,7 +3599,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     <Step SeqNo="1960" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82299" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82299</Data>
@@ -3664,7 +3664,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     <Step SeqNo="1980" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82300" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">The record is active in the system</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82300</Data>
@@ -3732,7 +3732,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2000" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82301" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82301</Data>
@@ -3797,7 +3797,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2020" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82302" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Date this record was updated</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82302</Data>
@@ -3862,7 +3862,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2040" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82303" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">User who created this records</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82303</Data>
@@ -3927,7 +3927,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2060" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82304" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">User who updated this records</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82304</Data>
@@ -4000,7 +4000,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2598" Column="Created">2017-02-15 18:48:42.773</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="58589" Column="FieldLength" isNewNull="true"/>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
@@ -4039,7 +4039,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2100" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82305" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82305</Data>
@@ -4131,7 +4131,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2130" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82306" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Commission</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82306</Data>
@@ -4196,7 +4196,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2150" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82307" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Identifies a Business Partner</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82307</Data>
@@ -4275,7 +4275,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="162" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="13450" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7713" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7713" Column="EntityType">D</Data>
         <Data AD_Column_ID="1183" Column="HasTree">false</Data>
         <Data AD_Column_ID="163" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6487" Column="ImportFields">N</Data>
@@ -4335,7 +4335,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">The record is active in the system</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
 There are two reasons for de-activating and not deleting records:
 (1) The system requires the record for audit purposes.
@@ -4401,7 +4401,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Identifies a Business Partner</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4461,7 +4461,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4521,7 +4521,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Commission</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Commission Rules or internal or external company agents, sales reps or vendors.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4581,7 +4581,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4641,7 +4641,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -4806,7 +4806,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="564" Column="Created">2017-02-18 23:30:17.198</Data>
         <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
         <Data AD_Column_ID="563" Column="IsActive">true</Data>
         <Data AD_Column_ID="149" Column="Name">Sales Commission</Data>
         <Data AD_Column_ID="566" Column="Updated">2017-02-18 23:30:17.198</Data>
@@ -4848,7 +4848,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="584" Column="Created">2017-02-18 23:31:06.913</Data>
         <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="189" Column="Description">Sales Commision</Data>
-        <Data AD_Column_ID="7715" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
         <Data AD_Column_ID="583" Column="IsActive">true</Data>
         <Data AD_Column_ID="188" Column="Name">C_DocType Sales Commission</Data>
         <Data AD_Column_ID="192" Column="Type">S</Data>
@@ -4909,7 +4909,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2670" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82309" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Identifies a Business Partner</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82309</Data>
@@ -4988,7 +4988,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Identifies a Business Partner</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -5064,7 +5064,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2770" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82310" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Class of a Product</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82310</Data>
@@ -5129,7 +5129,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2790" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82311" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Classification of a Product</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82311</Data>
@@ -5194,7 +5194,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2810" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82312" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Group of a Product</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82312</Data>
@@ -5259,7 +5259,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2830" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82313" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Marketing Campaign</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82313</Data>
@@ -5324,7 +5324,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2850" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82314" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Sales Channel</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82314</Data>
@@ -5389,7 +5389,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2870" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82315" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Financial Project</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82315</Data>
@@ -5454,7 +5454,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2890" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82316" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">The terms of Payment (timing, discount)</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82316</Data>
@@ -5519,7 +5519,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2910" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82317" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Invoice Collection Status</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82317</Data>
@@ -5584,7 +5584,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2930" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82318" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82318</Data>
@@ -5663,7 +5663,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Marketing Campaign</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Campaign defines a unique marketing program.  Projects can be associated with a pre defined Marketing Campaign.  You can then report based on a specific Campaign.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -5723,7 +5723,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Sales Channel</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">The Sales Channel identifies a channel (or method) of sales generation.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -5783,7 +5783,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Invoice Collection Status</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">1</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Status of the invoice collection process</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -5843,7 +5843,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -5903,7 +5903,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">The terms of Payment (timing, discount)</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Payment Terms identify the method and timing of payment.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -5963,7 +5963,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Class of a Product</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Identifies the Class which this product belongs to</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -6023,7 +6023,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Classification of a Product</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Identifies the classification which this product belongs to.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -6083,7 +6083,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Group of a Product</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">Identifies the Group which this product belongs to.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -6143,7 +6143,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Financial Project</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">22</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A Project allows you to track and control internal or external activities.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
@@ -6490,7 +6490,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="3730" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82319" Table="AD_Column">
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="112" Column="Description">Optional short description of the record</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82319</Data>
@@ -6569,7 +6569,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="169" Column="Description">Optional short description of the record</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="170" Column="Help">A description is limited to 255 characters.</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>

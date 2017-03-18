@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2016 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +11,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -25,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.0 - $Id$ */
 public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20170318L;
 
     /** Standard Constructor */
     public X_C_CommissionDetail (Properties ctx, int C_CommissionDetail_ID, String trxName)
@@ -224,6 +223,26 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		return ii.intValue();
 	}
 
+	/** Set Converted Amount.
+		@param ConvertedAmt 
+		Converted Amount
+	  */
+	public void setConvertedAmt (BigDecimal ConvertedAmt)
+	{
+		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
+	}
+
+	/** Get Converted Amount.
+		@return Converted Amount
+	  */
+	public BigDecimal getConvertedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
 		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
@@ -250,26 +269,6 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Converted Amount.
-		@param ConvertedAmt 
-		Converted Amount
-	  */
-	public void setConvertedAmt (BigDecimal ConvertedAmt)
-	{
-		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
-	}
-
-	/** Get Converted Amount.
-		@return Converted Amount
-	  */
-	public BigDecimal getConvertedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Info.

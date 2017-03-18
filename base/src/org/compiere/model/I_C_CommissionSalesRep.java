@@ -19,17 +19,17 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_Commission
+/** Generated Interface for C_CommissionSalesRep
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0
  */
-public interface I_C_Commission 
+public interface I_C_CommissionSalesRep 
 {
 
-    /** TableName=C_Commission */
-    public static final String Table_Name = "C_Commission";
+    /** TableName=C_CommissionSalesRep */
+    public static final String Table_Name = "C_CommissionSalesRep";
 
-    /** AD_Table_ID=429 */
+    /** AD_Table_ID=54196 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -76,32 +76,6 @@ public interface I_C_Commission
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_Charge_ID */
-    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
-
-	/** Set Charge.
-	  * Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID);
-
-	/** Get Charge.
-	  * Additional document charges
-	  */
-	public int getC_Charge_ID();
-
-	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
-
-    /** Column name C_CommissionGroup_ID */
-    public static final String COLUMNNAME_C_CommissionGroup_ID = "C_CommissionGroup_ID";
-
-	/** Set Commission Group	  */
-	public void setC_CommissionGroup_ID (int C_CommissionGroup_ID);
-
-	/** Get Commission Group	  */
-	public int getC_CommissionGroup_ID();
-
-	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException;
-
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
 
@@ -115,20 +89,16 @@ public interface I_C_Commission
 	  */
 	public int getC_Commission_ID();
 
-    /** Column name C_Currency_ID */
-    public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
+	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException;
 
-	/** Set Currency.
-	  * The Currency for this record
-	  */
-	public void setC_Currency_ID (int C_Currency_ID);
+    /** Column name C_CommissionSalesRep_ID */
+    public static final String COLUMNNAME_C_CommissionSalesRep_ID = "C_CommissionSalesRep_ID";
 
-	/** Get Currency.
-	  * The Currency for this record
-	  */
-	public int getC_Currency_ID();
+	/** Set Commission Sales Rep ID	  */
+	public void setC_CommissionSalesRep_ID (int C_CommissionSalesRep_ID);
 
-	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
+	/** Get Commission Sales Rep ID	  */
+	public int getC_CommissionSalesRep_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -146,71 +116,6 @@ public interface I_C_Commission
 	  */
 	public int getCreatedBy();
 
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
-
-    /** Column name DateLastRun */
-    public static final String COLUMNNAME_DateLastRun = "DateLastRun";
-
-	/** Set Date last run.
-	  * Date the process was last run.
-	  */
-	public void setDateLastRun (Timestamp DateLastRun);
-
-	/** Get Date last run.
-	  * Date the process was last run.
-	  */
-	public Timestamp getDateLastRun();
-
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
-
-    /** Column name DocBasisType */
-    public static final String COLUMNNAME_DocBasisType = "DocBasisType";
-
-	/** Set Calculation Basis.
-	  * Basis for the calculation the commission
-	  */
-	public void setDocBasisType (String DocBasisType);
-
-	/** Get Calculation Basis.
-	  * Basis for the calculation the commission
-	  */
-	public String getDocBasisType();
-
-    /** Column name FrequencyType */
-    public static final String COLUMNNAME_FrequencyType = "FrequencyType";
-
-	/** Set Frequency Type.
-	  * Frequency of event
-	  */
-	public void setFrequencyType (String FrequencyType);
-
-	/** Get Frequency Type.
-	  * Frequency of event
-	  */
-	public String getFrequencyType();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -223,41 +128,6 @@ public interface I_C_Commission
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name ListDetails */
-    public static final String COLUMNNAME_ListDetails = "ListDetails";
-
-	/** Set List Details.
-	  * List document details
-	  */
-	public void setListDetails (boolean ListDetails);
-
-	/** Get List Details.
-	  * List document details
-	  */
-	public boolean isListDetails();
-
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public String getName();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
