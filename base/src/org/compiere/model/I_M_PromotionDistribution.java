@@ -174,6 +174,15 @@ public interface I_M_PromotionDistribution
 	  */
 	public BigDecimal getQty();
 
+    /** Column name tyReward */
+    public static final String COLUMNNAME_QtyReward = "QtyReward";
+
+	/** Set qtyReward	  */
+	public void setQtyReward (BigDecimal QtyReward);
+
+	/** Get qtyReward	  */
+	public BigDecimal getQtyReward();
+
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
 
