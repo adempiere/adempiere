@@ -2,297 +2,308 @@
 <Migrations>
   <Migration EntityType="D" Name="SB_InoutGererateFromOrderLine" ReleaseNo="3.9.0" SeqNo="1740">
     <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
-      <SQLStatement>-- View: rv_storage_per_product
-
--- DROP VIEW rv_storage_per_product;
-
-CREATE OR REPLACE VIEW rv_storage_per_product AS 
- SELECT strg.ad_client_id,
-    strg.ad_org_id,
-    p.m_product_id,
-    p.value,
-    p.name,
-    p.description,
-    p.upc,
-    p.sku,
-    p.c_uom_id,
-    p.m_product_category_id,
-    p.classification,
-    p.weight,
-    p.volume,
-    p.versionno,
-    p.guaranteedays,
-    p.guaranteedaysmin,
-    strg.sumqtyonhand,
-    strg.sumqtyreserved,
-    l.m_warehouse_id
-   FROM m_product p
-     JOIN ( SELECT rv_storage.m_product_id,
-            rv_storage.m_locator_id,
-            sum(rv_storage.qtyonhand) AS sumqtyonhand,
-            sum(rv_storage.qtyreserved) AS sumqtyreserved,
-            rv_storage.ad_client_id,
-            rv_storage.ad_org_id
-           FROM rv_storage
-          GROUP BY rv_storage.m_product_id, rv_storage.m_locator_id, rv_storage.ad_client_id, rv_storage.ad_org_id) strg ON p.m_product_id = strg.m_product_id
-     JOIN m_locator l ON strg.m_locator_id = l.m_locator_id;
-
-ALTER TABLE rv_storage_per_product
-  OWNER TO adempiere;
-</SQLStatement>
-      <RollbackStatement>-- View: rv_storage_per_product
-
- DROP VIEW rv_storage_per_product;
-
-CREATE OR REPLACE VIEW rv_storage_per_product AS 
- SELECT strg.ad_client_id,
-    strg.ad_org_id,
-    p.m_product_id,
-    p.value,
-    p.name,
-    p.description,
-    p.upc,
-    p.sku,
-    p.c_uom_id,
-    p.m_product_category_id,
-    p.classification,
-    p.weight,
-    p.volume,
-    p.versionno,
-    p.guaranteedays,
-    p.guaranteedaysmin,
-    strg.sumqtyonhand
-   FROM m_product p
-     JOIN ( SELECT rv_storage.m_product_id,
-            rv_storage.m_locator_id,
-            sum(rv_storage.qtyonhand) AS sumqtyonhand,
-            sum(rv_storage.qtyreserved) AS sumqtyreserved,
-            rv_storage.ad_client_id,
-            rv_storage.ad_org_id
-           FROM rv_storage
-          GROUP BY rv_storage.m_product_id, rv_storage.m_locator_id, rv_storage.ad_client_id, rv_storage.ad_org_id) strg ON p.m_product_id = strg.m_product_id
-     JOIN m_locator l ON strg.m_locator_id = l.m_locator_id;
-
-ALTER TABLE rv_storage_per_product
-  OWNER TO adempiere;
-</RollbackStatement>
+      <SQLStatement>-- DROP VIEW rv_storage_per_product;
+CREATE VIEW rv_storage_per_product (
+ad_client_id,
+ad_org_id,
+m_product_id,
+value,
+name,
+description,
+upc,
+sku,
+c_uom_id,
+m_product_category_id,
+classification,
+weight,
+volume,
+versionno,
+guaranteedays,
+guaranteedaysmin,
+sumqtyonhand,
+sumqtyreserved,
+m_warehouse_id
+) AS
+SELECT
+strg.ad_client_id,
+strg.ad_org_id,
+p.m_product_id,
+p.value,
+p.name,
+p.description,
+p.upc,
+p.sku,
+p.c_uom_id,
+p.m_product_category_id,
+p.classification,
+p.weight,
+p.volume,
+p.versionno,
+p.guaranteedays,
+p.guaranteedaysmin,
+strg.sumqtyonhand,
+strg.sumqtyreserved,
+l.m_warehouse_id
+FROM
+m_product p
+JOIN
+(
+SELECT
+rv_storage.m_product_id,
+rv_storage.m_locator_id,
+SUM(rv_storage.qtyonhand) AS sumqtyonhand,
+SUM(rv_storage.qtyreserved) AS sumqtyreserved,
+rv_storage.ad_client_id,
+rv_storage.ad_org_id
+FROM
+rv_storage
+GROUP BY
+rv_storage.m_product_id,
+rv_storage.m_locator_id,
+rv_storage.ad_client_id,
+rv_storage.ad_org_id
+) strg
+ON
+p.m_product_id = strg.m_product_id
+JOIN
+m_locator l
+ON
+strg.m_locator_id = l.m_locator_id;</SQLStatement>
+      <RollbackStatement>DROP VIEW  rv_storage_per_product;</RollbackStatement>
     </Step>
     <Step DBType="Postgres" Parse="Y" SeqNo="2" StepType="SQL">
-      <SQLStatement>-- View: M_InOut_CandidateDetail_v
-
--- DROP VIEW M_InOut_CandidateDetail_v;
-
-CREATE OR REPLACE VIEW M_InOut_CandidateDetail_v AS 
- SELECT o.ad_client_id,
-    o.ad_org_id,
-    o.c_bpartner_id,
-    o.c_order_id,
-    o.documentno,
-    o.dateordered,
-    o.c_doctype_id,
-    o.poreference,
-    o.description,
-    o.salesrep_id,
-    l.m_warehouse_id,
-    (l.qtyordered - l.qtydelivered) * l.priceactual AS totallines,
-    l.qtyordered - l.qtydelivered AS qtytodeliver,
-    l.c_orderline_id,
-    l.datepromised,
-    l.m_product_id,
-    l.c_charge_id,
-    l.qtyordered,
-        CASE
-            WHEN iol.no_unconfirmed IS NULL THEN 'N'::text
-            ELSE 'Y'::text
-        END AS isunconfirmedinout,
-    iol.no_unconfirmed,
-    o.deliveryrule,
-    storage.qtyavailable - l.qtyreserved AS qtyavailable
-   FROM c_order o
-     JOIN c_orderline l ON o.c_order_id = l.c_order_id
-     LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS no_unconfirmed,
-            iol_1.c_orderline_id
-           FROM m_inoutline iol_1
-             JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
-          WHERE io.docstatus = ANY (ARRAY['IP'::bpchar, 'WC'::bpchar])
-          GROUP BY iol_1.c_orderline_id) iol ON iol.c_orderline_id = l.c_orderline_id
-     LEFT JOIN ( SELECT sum(rv_storage_per_product.sumqtyonhand - rv_storage_per_product.sumqtyreserved) AS qtyavailable,
-            rv_storage_per_product.m_product_id,
-            rv_storage_per_product.m_warehouse_id
-           FROM rv_storage_per_product
-          GROUP BY rv_storage_per_product.m_product_id, rv_storage_per_product.m_warehouse_id) storage ON storage.m_product_id = l.m_product_id AND storage.m_warehouse_id = o.m_warehouse_id
-  WHERE o.docstatus = 'CO'::bpchar AND o.isdelivered = 'N'::bpchar AND (o.c_doctype_id IN ( SELECT c_doctype.c_doctype_id
-           FROM c_doctype
-          WHERE c_doctype.docbasetype = 'SOO'::bpchar AND (c_doctype.docsubtypeso &lt;&gt; ALL (ARRAY['ON'::bpchar, 'OB'::bpchar, 'WR'::bpchar])))) AND o.deliveryrule &lt;&gt; 'M'::bpchar AND (l.m_product_id IS NULL OR (EXISTS ( SELECT p.value
-           FROM m_product p
-          WHERE l.m_product_id = p.m_product_id AND p.isexcludeautodelivery = 'N'::bpchar))) AND l.qtyordered &lt;&gt; l.qtydelivered AND o.isdropship = 'N'::bpchar AND (l.m_product_id IS NOT NULL OR l.c_charge_id IS NOT NULL) AND NOT (EXISTS ( SELECT iol_1.m_inoutline_id
-           FROM m_inoutline iol_1
-             JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
-          WHERE iol_1.c_orderline_id = l.c_orderline_id AND (io.docstatus = ANY (ARRAY['IP'::bpchar, 'WC'::bpchar]))));
-
-ALTER TABLE M_InOut_CandidateDetail_v
-  OWNER TO adempiere;
+      <SQLStatement>-- DROP VIEW M_InOut_CandidateDetail_v;
+CREATE OR REPLACE VIEW M_InOut_CandidateDetail_v (
+ad_client_id,
+ad_org_id,
+c_bpartner_id,
+c_order_id,
+documentno,
+dateordered,
+c_doctype_id,
+poreference,
+description,
+salesrep_id,
+m_warehouse_id,
+totallines,
+qtytodeliver,
+c_orderline_id,
+datepromised,
+m_product_id,
+c_charge_id,
+qtyordered,
+isunconfirmedinout,
+no_unconfirmed,
+deliveryrule,
+qtyavailable
+)
+AS
+SELECT o.ad_client_id,
+o.ad_org_id,
+o.c_bpartner_id,
+o.c_order_id,
+o.documentno,
+o.dateordered,
+o.c_doctype_id,
+o.poreference,
+o.description,
+o.salesrep_id,
+l.m_warehouse_id,
+(l.qtyordered - l.qtydelivered) * l.priceactual AS totallines,
+l.qtyordered - l.qtydelivered AS qtytodeliver,
+l.c_orderline_id,
+l.datepromised,
+l.m_product_id,
+l.c_charge_id,
+l.qtyordered,
+CASE
+WHEN iol.no_unconfirmed IS NULL THEN 'N'
+ELSE 'Y'
+END AS isunconfirmedinout,
+iol.no_unconfirmed,
+o.deliveryrule,
+storage.qtyavailable - l.qtyreserved AS qtyavailable
+FROM c_order o
+JOIN c_orderline l ON o.c_order_id = l.c_order_id
+LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS no_unconfirmed,
+iol_1.c_orderline_id
+FROM m_inoutline iol_1
+JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
+WHERE io.docstatus IN('IP','WC')
+GROUP BY iol_1.c_orderline_id) iol ON iol.c_orderline_id = l.c_orderline_id
+LEFT JOIN ( SELECT sum(rv_storage_per_product.sumqtyonhand - rv_storage_per_product.sumqtyreserved) AS qtyavailable,
+rv_storage_per_product.m_product_id,
+rv_storage_per_product.m_warehouse_id
+FROM rv_storage_per_product
+GROUP BY rv_storage_per_product.m_product_id, rv_storage_per_product.m_warehouse_id) storage ON storage.m_product_id = l.m_product_id AND storage.m_warehouse_id = o.m_warehouse_id
+WHERE o.docstatus = 'CO' AND o.isdelivered = 'N' AND (o.c_doctype_id IN ( SELECT c_doctype.c_doctype_id
+FROM c_doctype
+WHERE c_doctype.docbasetype = 'SOO' AND (c_doctype.docsubtypeso not in ('ON','OB' ,'WR')  ))) AND o.deliveryrule &lt;&gt; 'M' AND (l.m_product_id IS NULL OR (EXISTS ( SELECT p.value
+FROM m_product p
+WHERE l.m_product_id = p.m_product_id AND p.isexcludeautodelivery = 'N'))) AND l.qtyordered &lt;&gt; l.qtydelivered AND o.isdropship = 'N' AND (l.m_product_id IS NOT NULL OR l.c_charge_id IS NOT NULL) AND NOT (EXISTS ( SELECT iol_1.m_inoutline_id
+FROM m_inoutline iol_1
+JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
+WHERE iol_1.c_orderline_id = l.c_orderline_id AND (io.docstatus  in ('IP','WC' ))));
 </SQLStatement>
-      <RollbackStatement>DROP VIEW M_InOut_CandidateDetail_v;</RollbackStatement>
+      <RollbackStatement>DROP VIEW  M_InOut_CandidateDetail_v;</RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="3" StepType="SQL">
-      <SQLStatement>DROP VIEW rv_storage_per_product;
-
-              CREATE VIEW rv_storage_per_product (
-              ad_client_id,
-              ad_org_id,
-              m_product_id,
-              value,
-              name,
-              description,
-              upc,
-              sku,
-              c_uom_id,
-              m_product_category_id,
-              classification,
-              weight,
-              volume,
-              versionno,
-              guaranteedays,
-              guaranteedaysmin,
-              sumqtyonhand,
-              sumqtyreserved,
-              m_warehouse_id
-              ) AS
-              SELECT
-              strg.ad_client_id,
-              strg.ad_org_id,
-              p.m_product_id,
-              p.value,
-              p.name,
-              p.description,
-              p.upc,
-              p.sku,
-              p.c_uom_id,
-              p.m_product_category_id,
-              p.classification,
-              p.weight,
-              p.volume,
-              p.versionno,
-              p.guaranteedays,
-              p.guaranteedaysmin,
-              strg.sumqtyonhand,
-              strg.sumqtyreserved,
-              l.m_warehouse_id
-              FROM
-              m_product p
-              JOIN
-              (
-              SELECT
-              rv_storage.m_product_id,
-              rv_storage.m_locator_id,
-              SUM(rv_storage.qtyonhand) AS sumqtyonhand,
-              SUM(rv_storage.qtyreserved) AS sumqtyreserved,
-              rv_storage.ad_client_id,
-              rv_storage.ad_org_id
-              FROM
-              rv_storage
-              GROUP BY
-              rv_storage.m_product_id,
-              rv_storage.m_locator_id,
-              rv_storage.ad_client_id,
-              rv_storage.ad_org_id
-              ) strg
-              ON
-              p.m_product_id = strg.m_product_id
-              JOIN
-              m_locator l
-              ON
-              strg.m_locator_id = l.m_locator_id</SQLStatement>
+      <SQLStatement>-- DROP VIEW rv_storage_per_product;
+CREATE VIEW rv_storage_per_product (
+ad_client_id,
+ad_org_id,
+m_product_id,
+value,
+name,
+description,
+upc,
+sku,
+c_uom_id,
+m_product_category_id,
+classification,
+weight,
+volume,
+versionno,
+guaranteedays,
+guaranteedaysmin,
+sumqtyonhand,
+sumqtyreserved,
+m_warehouse_id
+) AS
+SELECT
+strg.ad_client_id,
+strg.ad_org_id,
+p.m_product_id,
+p.value,
+p.name,
+p.description,
+p.upc,
+p.sku,
+p.c_uom_id,
+p.m_product_category_id,
+p.classification,
+p.weight,
+p.volume,
+p.versionno,
+p.guaranteedays,
+p.guaranteedaysmin,
+strg.sumqtyonhand,
+strg.sumqtyreserved,
+l.m_warehouse_id
+FROM
+m_product p
+JOIN
+(
+SELECT
+rv_storage.m_product_id,
+rv_storage.m_locator_id,
+SUM(rv_storage.qtyonhand) AS sumqtyonhand,
+SUM(rv_storage.qtyreserved) AS sumqtyreserved,
+rv_storage.ad_client_id,
+rv_storage.ad_org_id
+FROM
+rv_storage
+GROUP BY
+rv_storage.m_product_id,
+rv_storage.m_locator_id,
+rv_storage.ad_client_id,
+rv_storage.ad_org_id
+) strg
+ON
+p.m_product_id = strg.m_product_id
+JOIN
+m_locator l
+ON
+strg.m_locator_id = l.m_locator_id;</SQLStatement>
+      <RollbackStatement>DROP VIEW  rv_storage_per_product;</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="4" StepType="SQL">
-      <SQLStatement>DROP VIEW m_inout_candidatedetail_v;
-              CREATE OR REPLACE VIEW m_inout_candidatedetail_v (
-              ad_client_id,
-              ad_org_id,
-              c_bpartner_id,
-              c_order_id,
-              documentno,
-              dateordered,
-              c_doctype_id,
-              poreference,
-              description,
-              salesrep_id,
-              m_warehouse_id,
-              totallines,
-              qtytodeliver,
-              c_orderline_id,
-              datepromised,
-              m_product_id,
-              c_charge_id,
-              qtyordered,
-              isunconfirmedinout,
-              no_unconfirmed,
-              deliveryrule,
-              qtyavailable
-              )
-              AS
-              SELECT o.ad_client_id,
-              o.ad_org_id,
-              o.c_bpartner_id,
-              o.c_order_id,
-              o.documentno,
-              o.dateordered,
-              o.c_doctype_id,
-              o.poreference,
-              o.description,
-              o.salesrep_id,
-              l.m_warehouse_id,
-              (l.qtyordered - l.qtydelivered) * l.priceactual AS totallines,
-              l.qtyordered - l.qtydelivered AS qtytodeliver,
-              l.c_orderline_id,
-              l.datepromised,
-              l.m_product_id,
-              l.c_charge_id,
-              l.qtyordered,
-              CASE
-              WHEN iol.no_unconfirmed IS NULL THEN 'N'
-              ELSE 'Y'
-              END AS isunconfirmedinout,
-              iol.no_unconfirmed,
-              o.deliveryrule,
-              storage.qtyavailable - l.qtyreserved AS qtyavailable
-              FROM c_order o
-              JOIN c_orderline l ON o.c_order_id = l.c_order_id
-              LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS no_unconfirmed,
-              iol_1.c_orderline_id
-              FROM m_inoutline iol_1
-              JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
-              WHERE io.docstatus IN('IP','WC')
-              GROUP BY iol_1.c_orderline_id) iol ON iol.c_orderline_id = l.c_orderline_id
-              LEFT JOIN ( SELECT sum(rv_storage_per_product.sumqtyonhand - rv_storage_per_product.sumqtyreserved) AS qtyavailable,
-              rv_storage_per_product.m_product_id,
-              rv_storage_per_product.m_warehouse_id
-              FROM rv_storage_per_product
-              GROUP BY rv_storage_per_product.m_product_id, rv_storage_per_product.m_warehouse_id) storage ON storage.m_product_id = l.m_product_id AND storage.m_warehouse_id = o.m_warehouse_id
-              WHERE o.docstatus = 'CO' AND o.isdelivered = 'N' AND (o.c_doctype_id IN ( SELECT c_doctype.c_doctype_id
-              FROM c_doctype
-              WHERE c_doctype.docbasetype = 'SOO' AND (c_doctype.docsubtypeso not in ('ON','OB' ,'WR')  ))) AND o.deliveryrule &lt;&gt; 'M' AND (l.m_product_id IS NULL OR (EXISTS ( SELECT p.value
-              FROM m_product p
-              WHERE l.m_product_id = p.m_product_id AND p.isexcludeautodelivery = 'N'))) AND l.qtyordered &lt;&gt; l.qtydelivered AND o.isdropship = 'N' AND (l.m_product_id IS NOT NULL OR l.c_charge_id IS NOT NULL) AND NOT (EXISTS ( SELECT iol_1.m_inoutline_id
-              FROM m_inoutline iol_1
-              JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
-              WHERE iol_1.c_orderline_id = l.c_orderline_id AND (io.docstatus  in ('IP','WC' ))))</SQLStatement>
-      <RollbackStatement>drop view M_InOut_CandidateDetail_v;</RollbackStatement>
+    <Step DBType="Oracle" Parse="Y" SeqNo="4" StepType="SQL">
+      <SQLStatement>-- DROP VIEW M_InOut_CandidateDetail_v;
+CREATE OR REPLACE VIEW M_InOut_CandidateDetail_v (
+ad_client_id,
+ad_org_id,
+c_bpartner_id,
+c_order_id,
+documentno,
+dateordered,
+c_doctype_id,
+poreference,
+description,
+salesrep_id,
+m_warehouse_id,
+totallines,
+qtytodeliver,
+c_orderline_id,
+datepromised,
+m_product_id,
+c_charge_id,
+qtyordered,
+isunconfirmedinout,
+no_unconfirmed,
+deliveryrule,
+qtyavailable
+)
+AS
+SELECT o.ad_client_id,
+o.ad_org_id,
+o.c_bpartner_id,
+o.c_order_id,
+o.documentno,
+o.dateordered,
+o.c_doctype_id,
+o.poreference,
+o.description,
+o.salesrep_id,
+l.m_warehouse_id,
+(l.qtyordered - l.qtydelivered) * l.priceactual AS totallines,
+l.qtyordered - l.qtydelivered AS qtytodeliver,
+l.c_orderline_id,
+l.datepromised,
+l.m_product_id,
+l.c_charge_id,
+l.qtyordered,
+CASE
+WHEN iol.no_unconfirmed IS NULL THEN 'N'
+ELSE 'Y'
+END AS isunconfirmedinout,
+iol.no_unconfirmed,
+o.deliveryrule,
+storage.qtyavailable - l.qtyreserved AS qtyavailable
+FROM c_order o
+JOIN c_orderline l ON o.c_order_id = l.c_order_id
+LEFT JOIN ( SELECT count(iol_1.m_inoutline_id) AS no_unconfirmed,
+iol_1.c_orderline_id
+FROM m_inoutline iol_1
+JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
+WHERE io.docstatus IN('IP','WC')
+GROUP BY iol_1.c_orderline_id) iol ON iol.c_orderline_id = l.c_orderline_id
+LEFT JOIN ( SELECT sum(rv_storage_per_product.sumqtyonhand - rv_storage_per_product.sumqtyreserved) AS qtyavailable,
+rv_storage_per_product.m_product_id,
+rv_storage_per_product.m_warehouse_id
+FROM rv_storage_per_product
+GROUP BY rv_storage_per_product.m_product_id, rv_storage_per_product.m_warehouse_id) storage ON storage.m_product_id = l.m_product_id AND storage.m_warehouse_id = o.m_warehouse_id
+WHERE o.docstatus = 'CO' AND o.isdelivered = 'N' AND (o.c_doctype_id IN ( SELECT c_doctype.c_doctype_id
+FROM c_doctype
+WHERE c_doctype.docbasetype = 'SOO' AND (c_doctype.docsubtypeso not in ('ON','OB' ,'WR')  ))) AND o.deliveryrule &lt;&gt; 'M' AND (l.m_product_id IS NULL OR (EXISTS ( SELECT p.value
+FROM m_product p
+WHERE l.m_product_id = p.m_product_id AND p.isexcludeautodelivery = 'N'))) AND l.qtyordered &lt;&gt; l.qtydelivered AND o.isdropship = 'N' AND (l.m_product_id IS NOT NULL OR l.c_charge_id IS NOT NULL) AND NOT (EXISTS ( SELECT iol_1.m_inoutline_id
+FROM m_inoutline iol_1
+JOIN m_inout io ON iol_1.m_inout_id = io.m_inout_id
+WHERE iol_1.c_orderline_id = l.c_orderline_id AND (io.docstatus  in ('IP','WC' ))));</SQLStatement>
+      <RollbackStatement>DROP VIEW  M_InOut_CandidateDetail_v;</RollbackStatement>
     </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54193" Table="AD_Table">
         <Data AD_Column_ID="105" Column="AD_Window_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64711" Column="SQLStatement" isNewNull="true"/>
         <Data AD_Column_ID="6489" Column="ImportTable">N</Data>
-        <Data AD_Column_ID="102" Column="Name">M_InOut_CandidateDetail_v</Data>
+        <Data AD_Column_ID="102" Column="Name">m_inout_candidatedetail_v</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="108" Column="LoadSeq" isNewNull="true"/>
         <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
         <Data AD_Column_ID="354" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="106" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="107" Column="TableName">M_InOut_CandidateDetail_v</Data>
+        <Data AD_Column_ID="107" Column="TableName">m_inout_candidatedetail_v</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="4196" Column="IsHighVolume">false</Data>
         <Data AD_Column_ID="100" Column="AD_Table_ID">54193</Data>
@@ -320,7 +331,7 @@ ALTER TABLE M_InOut_CandidateDetail_v
         <Data AD_Column_ID="12715" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12714" Column="AD_Table_ID">54193</Data>
         <Data AD_Column_ID="12724" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12716" Column="Name">M_InOut_CandidateDetail_v</Data>
+        <Data AD_Column_ID="12716" Column="Name">m_inout_candidatedetail_v</Data>
         <Data AD_Column_ID="12720" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12722" Column="Created">2017-02-09 20:19:20.575</Data>
         <Data AD_Column_ID="12723" Column="Updated">2017-02-09 20:19:20.575</Data>
@@ -793,9 +804,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
         <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
-        <Data AD_Column_ID="347" Column="Description">Table M_InOut_CandidateDetail_v</Data>
+        <Data AD_Column_ID="347" Column="Description">Table m_inout_candidatedetail_v</Data>
         <Data AD_Column_ID="350" Column="IsTableID">true</Data>
-        <Data AD_Column_ID="216" Column="Name">M_InOut_CandidateDetail_v</Data>
+        <Data AD_Column_ID="216" Column="Name">m_inout_candidatedetail_v</Data>
         <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
         <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
@@ -2171,7 +2182,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
         <Data AD_Column_ID="2810" Column="Description">Generate and print Shipments from open Orders</Data>
         <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
-        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.SB_InOutGenerateFromOrderLine</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.shw.process.SB_InOutGenerateFromOrderLine</Data>
         <Data AD_Column_ID="2811" Column="Help">Shipments for open Orders are created based on the delivery rule of the Order and the relative order priority.  If a Promise Date is selected only orders up to (including) the date are selected.&lt;br&gt;
 If several Orders of a business partner have the same location, the orders can be consolidated into one Shipment.&lt;br&gt;
 You can also include orders who have outstanding confirmations (e.g. ordered=10 - not confirmed shipments=4 - would create a new shipment of 6 if available).</Data>
@@ -2484,12 +2495,12 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     <Step SeqNo="720" StepType="AD">
       <PO AD_Table_ID="53230" Action="I" Record_ID="50063" Table="AD_View">
         <Data AD_Column_ID="64855" Column="CopyFrom" isNewNull="true"/>
-        <Data AD_Column_ID="58074" Column="Value">M_InOut_CandidateDetail_v</Data>
+        <Data AD_Column_ID="58074" Column="Value">m_inout_candidateDetail_v</Data>
         <Data AD_Column_ID="58076" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58077" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="58078" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58073" Column="AD_View_ID">50063</Data>
-        <Data AD_Column_ID="58075" Column="Name">M_InOut_CandidateDetail_v</Data>
+        <Data AD_Column_ID="58075" Column="Name">m_inout_candidateDetail_v</Data>
         <Data AD_Column_ID="58068" Column="IsActive">true</Data>
         <Data AD_Column_ID="58069" Column="Created">2017-02-09 20:20:09.347</Data>
         <Data AD_Column_ID="58070" Column="Updated">2017-02-09 20:20:09.347</Data>
@@ -2505,7 +2516,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
         <Data AD_Column_ID="58062" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58063" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58065" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58064" Column="Name">M_InOut_CandidateDetail_v</Data>
+        <Data AD_Column_ID="58064" Column="Name">m_inout_candidateDetail_v</Data>
         <Data AD_Column_ID="58061" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58058" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="58059" Column="UpdatedBy">0</Data>
@@ -3453,11 +3464,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1230" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55055" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
-        <Data AD_Column_ID="58104" Column="Help">You can also include orders who have outstanding confirmations (e.g. ordered=10 - not confirmed shipments=4 - would create a new shipment of 6 if available).</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">io.IsUnconfirmedInOut</Data>
-        <Data AD_Column_ID="58108" Column="AD_View_ID">50063</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">55055</Data>
         <Data AD_Column_ID="58105" Column="Name">Orders with unconfirmed Shipments</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">IO_IsUnconfirmedInOut</Data>
@@ -3470,6 +3476,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58097" Column="Updated">2017-02-09 20:20:36.036</Data>
         <Data AD_Column_ID="58099" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58104" Column="Help">You can also include orders who have outstanding confirmations (e.g. ordered=10 - not confirmed shipments=4 - would create a new shipment of 6 if available).</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">io.IsUnconfirmedInOut</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50063</Data>
       </PO>
     </Step>
     <Step SeqNo="1240" StepType="AD">
@@ -4349,8 +4360,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1790" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="56369" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50079</Data>
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="64357" Column="FieldLength" isNewNull="true"/>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
@@ -4371,6 +4380,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">56369</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">18</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50079</Data>
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="57981" Column="Name">Date Ordered</Data>
@@ -4611,9 +4622,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1870" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="56373" Table="AD_Browse_Field">
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">10</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="57972" Column="Description">Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner</Data>
         <Data AD_Column_ID="57973" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="57974" Column="Help">The business partner order reference is the order reference for this specific transaction; Often Purchase Order numbers are given to print on Invoices for easier reference.  A standard number can be defined in the Business Partner (Customer) window.</Data>
@@ -4675,7 +4686,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1890" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="56374" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">190</Data>
         <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">18</Data>
@@ -4689,6 +4699,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">56374</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">23</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID">190</Data>
         <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50079</Data>
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
@@ -5315,6 +5326,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2090" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="56384" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57965" Column="Updated">2017-02-09 20:41:55.194</Data>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">14</Data>
         <Data AD_Column_ID="57972" Column="Description">Generate shipments for Orders with open delivery confirmations?</Data>
@@ -5355,9 +5369,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2017-02-09 20:41:55.194</Data>
-        <Data AD_Column_ID="57967" Column="UpdatedBy">0</Data>
-        <Data AD_Column_ID="57966" Column="CreatedBy">0</Data>
       </PO>
     </Step>
     <Step SeqNo="2100" StepType="AD">
@@ -5811,7 +5822,7 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="2530" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53925" Table="AD_Process">
-        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.adempiere.process.SB_InOutGenerateFromOrderLine">org.adempiere.process.SB_InOutGenerateFromOrderLine</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.shw.process.SB_InOutGenerateFromOrderLine">org.adempiere.process.SB_InOutGenerateFromOrderLine</Data>
         <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
       </PO>
     </Step>
