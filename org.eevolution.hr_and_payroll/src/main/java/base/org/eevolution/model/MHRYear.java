@@ -115,7 +115,7 @@ public class MHRYear extends X_HR_Year
 				EndDate   = TimeUtil.getMonthLastDay(StartDate);
 				
 			}	
-			//SHW fortnight payment
+			// fortnight payment
 			else if ((24 == getQty())&& (15 == getNetDays() || 16 == getNetDays()))
 			{
 				if (period >1)
