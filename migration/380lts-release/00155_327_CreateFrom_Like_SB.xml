@@ -2,8 +2,14 @@
 <Migrations>
   <Migration EntityType="D" Name="Create From in M_InOut change to Smart Browse #327" ReleaseNo="3.9.0" SeqNo="155">
     <Comments>See: https://github.com/adempiere/adempiere/issues/327</Comments>
-    <Step DBType="Postgres" Parse="Y" SeqNo="5" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom AS
+    <Step DBType="Oracle" Parse="Y" SeqNo="5" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom 
+(AD_Client_ID, AD_Org_ID, CreatedBy, Created, UpdatedBy, 
+Updated, IsActive, RV_InOut_CreateFrom_ID, Line, QtyEntered, C_UOM_ID, MovementQty, Multiplier, 
+M_Locator_ID, Name, M_Product_ID, M_AttributeSetInstance_ID, C_Charge_ID, Description, 
+VendorProductNo, C_Order_ID, C_Invoice_ID, M_RMA_ID, DateDoc, C_BPartner_ID, DocStatus, CreateFromType,
+C_Activity_ID, C_Project_ID, C_Campaign_ID, User1_ID, User2_ID)
+AS
 --  From Order
 SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_OrderLine_ID AS RV_InOut_CreateFrom_ID, l.Line, 
 ((CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) * (l.QtyOrdered - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
@@ -76,14 +82,8 @@ WHERE l.Qty &lt;&gt; 0
 AND (l.M_InOutLine_ID IS NOT NULL OR l.C_Charge_ID IS NOT NULL);</SQLStatement>
       <RollbackStatement>DROP VIEW RV_InOut_CreateFrom;</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="Y" SeqNo="5" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom 
-(AD_Client_ID, AD_Org_ID, CreatedBy, Created, UpdatedBy, 
-Updated, IsActive, RV_InOut_CreateFrom_ID, Line, QtyEntered, C_UOM_ID, MovementQty, Multiplier, 
-M_Locator_ID, Name, M_Product_ID, M_AttributeSetInstance_ID, C_Charge_ID, Description, 
-VendorProductNo, C_Order_ID, C_Invoice_ID, M_RMA_ID, DateDoc, C_BPartner_ID, DocStatus, CreateFromType,
-C_Activity_ID, C_Project_ID, C_Campaign_ID, User1_ID, User2_ID)
-AS
+    <Step DBType="Postgres" Parse="Y" SeqNo="5" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_InOut_CreateFrom AS
 --  From Order
 SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_OrderLine_ID AS RV_InOut_CreateFrom_ID, l.Line, 
 ((CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) * (l.QtyOrdered - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
@@ -3486,6 +3486,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1020" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="55609" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">55609</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50058</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
@@ -3493,7 +3494,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">13</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">54253</Data>
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
@@ -3840,8 +3840,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1370" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55598" Table="AD_Browse_Field">
-        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">50</Data>
         <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">50</Data>
       </PO>
     </Step>
     <Step SeqNo="1380" StepType="AD">
@@ -3870,8 +3870,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1420" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55596" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="true">false</Data>
         <Data AD_Column_ID="57977" Column="IsIdentifier" oldValue="false">true</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="true">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1430" StepType="AD">
@@ -4091,6 +4091,7 @@ AND EXISTS(SELECT 1
     </Step>
     <Step SeqNo="1630" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="53851" Table="AD_Process">
+        <Data AD_Column_ID="2810" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2807" Column="Updated">2016-05-03 02:16:16.105</Data>
         <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
@@ -4105,7 +4106,6 @@ AND EXISTS(SELECT 1
         <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
         <Data AD_Column_ID="2805" Column="Created">2016-05-03 02:16:16.105</Data>
         <Data AD_Column_ID="2806" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="2810" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
         <Data AD_Column_ID="2811" Column="Help" isNewNull="true"/>
@@ -4393,11 +4393,11 @@ AND EXISTS(SELECT 1
     </Step>
     <Step SeqNo="2000" StepType="AD">
       <PO AD_Table_ID="53231" Action="I" Record_ID="50114" Table="AD_View_Definition">
+        <Data AD_Column_ID="58079" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58080" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58081" Column="IsActive">true</Data>
         <Data AD_Column_ID="58083" Column="Updated">2016-06-27 09:36:58.173</Data>
         <Data AD_Column_ID="58085" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58079" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58080" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58089" Column="AD_Table_ID">297</Data>
         <Data AD_Column_ID="58086" Column="AD_View_Definition_ID">50114</Data>
         <Data AD_Column_ID="58087" Column="AD_View_ID">50053</Data>
@@ -6489,6 +6489,7 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
     </Step>
     <Step SeqNo="3100" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="54411" Table="AD_View_Column">
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58102" Column="Description">Organizational entity within client</Data>
         <Data AD_Column_ID="58104" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
@@ -6501,7 +6502,6 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
         <Data AD_Column_ID="58106" Column="ColumnSQL">p.AD_Org_ID</Data>
         <Data AD_Column_ID="58096" Column="Created">2016-06-27 09:58:33.722</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58105" Column="Name">Organization</Data>
         <Data AD_Column_ID="58097" Column="Updated">2016-06-27 09:58:33.722</Data>
@@ -7899,8 +7899,8 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="3840" StepType="AD">
       <PO AD_Table_ID="53228" Action="U" Record_ID="0" Table="AD_View_Column_Trl">
         <Data AD_Column_ID="58048" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="58052" Column="Name" oldValue="Converted Amount">Monto Convertido</Data>
         <Data AD_Column_ID="58049" Column="Description" oldValue="Converted Amount">Monto Convertido</Data>
+        <Data AD_Column_ID="58052" Column="Name" oldValue="Converted Amount">Monto Convertido</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID" oldValue="54447">54447</Data>
       </PO>
     </Step>
@@ -9045,6 +9045,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="4230" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="55631" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">55631</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50060</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
@@ -9062,7 +9063,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="57972" Column="Description">Date this record was updated</Data>
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="57973" Column="EntityType">D</Data>
         <Data AD_Column_ID="64357" Column="FieldLength" isNewNull="true"/>
         <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
@@ -9549,11 +9549,11 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="4390" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="55639" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">840</Data>
+        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">55639</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50060</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">840</Data>
-        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">10</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -14096,8 +14096,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="6560" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55661" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="57">40</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="6570" StepType="AD">
@@ -14144,8 +14144,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="6650" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55673" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57980" Column="IsRange" oldValue="false">true</Data>
         <Data AD_Column_ID="64355" Column="DefaultValue2" isOldNull="true">@StatementDate@</Data>
+        <Data AD_Column_ID="57980" Column="IsRange" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="6660" StepType="AD">
@@ -14382,10 +14382,10 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="6950" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53877">53877</Data>
-        <Data AD_Column_ID="2852" Column="Name" oldValue="Create From Statement (Process)">Crear Desde Estado de Cuenta (Proceso)</Data>
         <Data AD_Column_ID="2853" Column="Description" oldValue="Process for create lines of Bank Statement from Payments">Proceso para Crear Lineas del Estado de Cuenta Desde los Pagos</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Create From Statement (Process)">Crear Desde Estado de Cuenta (Proceso)</Data>
       </PO>
     </Step>
     <Step SeqNo="6960" StepType="AD">
@@ -14489,8 +14489,8 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="7150" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55619" Table="AD_Browse_Field">
         <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="13">19</Data>
-        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isOldNull="true">@BA_C_BankAccount_ID@!0</Data>
         <Data AD_Column_ID="64354" Column="DefaultValue" isOldNull="true">@C_BankAccount_ID@</Data>
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isOldNull="true">@BA_C_BankAccount_ID@!0</Data>
       </PO>
     </Step>
     <Step SeqNo="7160" StepType="AD">
@@ -14530,11 +14530,7 @@ AND NOT EXISTS(SELECT 1 FROM C_BankStatementLine l WHERE p.C_Payment_ID = l.C_Pa
       </PO>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="7225" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW RV_Invoice_CreateFrom 
-(AD_Client_ID, AD_Org_ID, CreatedBy, Created, UpdatedBy, Updated, IsActive, RV_Invoice_CreateFrom_ID, Line, 
-QtyEntered, C_UOM_ID, MovementQty, Multiplier, Name, M_Product_ID, M_AttributeSetInstance_ID, C_Charge_ID, Description, VendorProductNo,
-C_Order_ID, C_Invoice_ID, M_InOut_ID, M_RMA_ID, DateDoc, C_BPartner_ID, DocStatus, CreateFromType)
-AS
+      <SQLStatement>CREATE OR REPLACE VIEW RV_Invoice_CreateFrom AS
 --  From Order
 SELECT l.AD_Client_ID, l.AD_Org_ID, l.CreatedBy, l.Created, l.UpdatedBy, l.Updated, l.IsActive, l.C_OrderLine_ID AS RV_Invoice_CreateFrom_ID, l.Line, 
 ((CASE WHEN l.QtyOrdered = 0 THEN 0 ELSE l.QtyEntered / l.QtyOrdered END) * (l.QtyOrdered - SUM(COALESCE(m.Qty, 0)))) QtyEntered, 
@@ -15308,9 +15304,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="7440" StepType="AD">
       <PO AD_Table_ID="746" Action="U" Record_ID="0" Table="AD_Table_Trl">
+        <Data AD_Column_ID="12715" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="12714" Column="AD_Table_ID" oldValue="54131">54131</Data>
         <Data AD_Column_ID="12716" Column="Name" oldValue="Invoice Create from View">Crear Desde Factura (Vista)</Data>
-        <Data AD_Column_ID="12715" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>
     </Step>
     <Step SeqNo="7450" StepType="AD">
@@ -16420,6 +16416,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="7790" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="80666" Table="AD_Column">
+        <Data AD_Column_ID="549" Column="Created">2016-06-30 15:34:28.378</Data>
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">187</Data>
@@ -16439,7 +16436,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">C_BPartner_ID</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2016-06-30 15:34:28.378</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -17183,6 +17179,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="8270" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="0" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58043" Column="Created">2016-06-30 15:40:55.659</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
@@ -17192,7 +17189,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Description</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58043" Column="Created">2016-06-30 15:40:55.659</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">54486</Data>
         <Data AD_Column_ID="58049" Column="Description">Optional short description of the record</Data>
         <Data AD_Column_ID="58044" Column="Updated">2016-06-30 15:40:55.659</Data>
@@ -17826,8 +17822,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="8600" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53879">53879</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2852" Column="Name" oldValue="Invoice Create From">Crear Desde Factura</Data>
       </PO>
     </Step>
@@ -19682,8 +19678,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="9350" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55742" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="20">30</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="9360" StepType="AD">
@@ -19730,8 +19726,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="9430" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55735" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
         <Data AD_Column_ID="57982" Column="SeqNo" oldValue="13">110</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="9440" StepType="AD">
@@ -19778,8 +19774,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="9510" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55735" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="true">false</Data>
         <Data AD_Column_ID="57977" Column="IsIdentifier" oldValue="false">true</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="true">false</Data>
       </PO>
     </Step>
     <Step SeqNo="9520" StepType="AD">
@@ -20185,82 +20181,7 @@ OR AD_Ref_List.Value &lt;&gt; 'A')</Data>
       </PO>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="10050" StepType="SQL">
-      <SQLStatement>CREATE OR REPLACE VIEW C_Payment_v 
-(C_Payment_ID,
-    AD_Client_ID,
-    AD_Org_ID,
-    IsActive,
-    Created,
-    CreatedBy,
-    Updated,
-    UpdatedBy,
-    DocumentNo,
-    DateTrx,
-    DateAcct,
-    IsReceipt,
-    C_Doctype_ID,
-    TrxType,
-    C_BankAccount_ID,
-    C_BPartner_ID,
-    C_Invoice_ID,
-    C_BP_BankAccount_ID,
-    C_PaymentBatch_ID,
-    TenderType,
-    CreditCardType,
-    CreditCardNumber,
-    CreditCardVV,
-    CreditCardExpMM,
-    CreditCardExpYY,
-    Micr,
-    RoutingNo,
-    AccountNo,
-    CheckNo,
-    A_Name,
-    A_Street,
-    A_City,
-    A_State,
-    A_Zip,
-    A_Ident_DL,
-    A_Ident_SSN,
-    A_Email,
-    VoiceAuthCode,
-    Orig_TrxID,
-    PONum,
-    C_Currency_ID,
-    C_ConversionType_ID,
-    PayAmt,
-    DiscountAmt,
-    WriteOffAmt,
-    TaxAmt,
-    OverUnderAmt,
-    MultiplierAP,
-    IsOverUnderPayment,
-    IsApproved,
-    R_PNRef,
-    R_Result,
-    R_RespMsg,
-    R_AuthCode,
-    R_AvsAddr,
-    r_AvsZip,
-    r_Info,
-    Processing,
-    Oprocessing,
-    DocStatus,
-    DocAction,
-    IsPrepayment,
-    C_Charge_ID,
-    IsReconciled,
-    IsAllocated,
-    IsOnline,
-    Processed,
-    Posted,
-    C_Campaign_ID,
-    C_Project_ID,
-    C_Activity_ID,
-    C_Order_ID,
-    User1_ID, 
-    User2_ID)
-AS 
+      <SQLStatement>CREATE OR REPLACE VIEW C_Payment_v AS 
  SELECT p.C_Payment_ID,
     p.AD_Client_ID,
     p.AD_Org_ID,
@@ -20710,13 +20631,13 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     </Step>
     <Step SeqNo="10060" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="81042" Table="AD_Column">
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Order</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">81042</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">554</Data>
@@ -20881,8 +20802,8 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     </Step>
     <Step SeqNo="10130" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55759" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">140</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="10140" StepType="AD">
@@ -20912,8 +20833,8 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     </Step>
     <Step SeqNo="10190" StepType="AD">
       <PO AD_Table_ID="276" Action="U" Record_ID="58443" Table="AD_Element">
-        <Data AD_Column_ID="2603" Column="Name" oldValue="Is Same Warehouse">Only from same Warehouse</Data>
         <Data AD_Column_ID="4299" Column="PrintName" oldValue="Is Same Warehouse">Only from same Warehouse</Data>
+        <Data AD_Column_ID="2603" Column="Name" oldValue="Is Same Warehouse">Only from same Warehouse</Data>
       </PO>
     </Step>
     <Step SeqNo="10200" StepType="AD">
@@ -21817,8 +21738,8 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     </Step>
     <Step SeqNo="10630" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55760" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">60</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="10640" StepType="AD">
@@ -21841,8 +21762,8 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     </Step>
     <Step SeqNo="10670" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55764" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">100</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
       </PO>
     </Step>
     <Step SeqNo="10680" StepType="AD">
