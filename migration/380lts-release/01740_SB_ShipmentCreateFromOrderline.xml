@@ -2,8 +2,7 @@
 <Migrations>
   <Migration EntityType="D" Name="SB_InoutGererateFromOrderLine" ReleaseNo="3.9.0" SeqNo="1740">
     <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
-      <SQLStatement>-- DROP VIEW rv_storage_per_product;
-CREATE VIEW rv_storage_per_product (
+      <SQLStatement>CREATE VIEW rv_storage_per_product (
 ad_client_id,
 ad_org_id,
 m_product_id,
@@ -72,8 +71,7 @@ strg.m_locator_id = l.m_locator_id;</SQLStatement>
       <RollbackStatement>DROP VIEW  rv_storage_per_product;</RollbackStatement>
     </Step>
     <Step DBType="Postgres" Parse="Y" SeqNo="2" StepType="SQL">
-      <SQLStatement>-- DROP VIEW M_InOut_CandidateDetail_v;
-CREATE OR REPLACE VIEW M_InOut_CandidateDetail_v (
+      <SQLStatement>CREATE OR REPLACE VIEW M_InOut_CandidateDetail_v (
 ad_client_id,
 ad_org_id,
 c_bpartner_id,
@@ -148,8 +146,7 @@ WHERE iol_1.c_orderline_id = l.c_orderline_id AND (io.docstatus  in ('IP','WC' )
       <RollbackStatement>DROP VIEW  M_InOut_CandidateDetail_v;</RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="3" StepType="SQL">
-      <SQLStatement>-- DROP VIEW rv_storage_per_product;
-CREATE VIEW rv_storage_per_product (
+      <SQLStatement>CREATE VIEW rv_storage_per_product (
 ad_client_id,
 ad_org_id,
 m_product_id,
@@ -218,8 +215,7 @@ strg.m_locator_id = l.m_locator_id;</SQLStatement>
       <RollbackStatement>DROP VIEW  rv_storage_per_product;</RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="4" StepType="SQL">
-      <SQLStatement>-- DROP VIEW M_InOut_CandidateDetail_v;
-CREATE OR REPLACE VIEW M_InOut_CandidateDetail_v (
+      <SQLStatement>CREATE OR REPLACE VIEW M_InOut_CandidateDetail_v (
 ad_client_id,
 ad_org_id,
 c_bpartner_id,
@@ -1220,10 +1216,6 @@ If the document type of your document has no automatic document sequence defined
     </Step>
     <Step SeqNo="300" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="82190" Table="AD_Column">
-        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">EE07</Data>
-        <Data AD_Column_ID="112" Column="Description">Optional short description of the record</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">82190</Data>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -1266,6 +1258,10 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">EE07</Data>
+        <Data AD_Column_ID="112" Column="Description">Optional short description of the record</Data>
       </PO>
     </Step>
     <Step SeqNo="310" StepType="AD">
@@ -2682,11 +2678,6 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     </Step>
     <Step SeqNo="820" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="55034" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">55034</Data>
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58049" Column="Description">Document type or rules</Data>
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Document Type</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
@@ -2695,6 +2686,11 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
         <Data AD_Column_ID="58043" Column="Created">2017-02-09 20:20:14.829</Data>
         <Data AD_Column_ID="58044" Column="Updated">2017-02-09 20:20:14.829</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">55034</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58049" Column="Description">Document type or rules</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
       </PO>
     </Step>
     <Step SeqNo="830" StepType="AD">
@@ -4151,9 +4147,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1720" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="56365" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">56365</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58036" Column="Description">Order</Data>
         <Data AD_Column_ID="58037" Column="Help">The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Order</Data>
@@ -4164,6 +4157,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">56365</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58036" Column="Description">Order</Data>
       </PO>
     </Step>
     <Step SeqNo="1730" StepType="AD">
@@ -4360,6 +4356,26 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1790" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="56369" Table="AD_Browse_Field">
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57981" Column="Name">Date Ordered</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">55039</Data>
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">268</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="57964" Column="Created">2017-02-09 20:41:35.531</Data>
+        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2017-02-09 20:41:35.531</Data>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="64357" Column="FieldLength" isNewNull="true"/>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
@@ -4383,26 +4399,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50079</Data>
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57981" Column="Name">Date Ordered</Data>
-        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
-        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">55039</Data>
-        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">268</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
-        <Data AD_Column_ID="57964" Column="Created">2017-02-09 20:41:35.531</Data>
-        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2017-02-09 20:41:35.531</Data>
-        <Data AD_Column_ID="57967" Column="UpdatedBy">0</Data>
-        <Data AD_Column_ID="57966" Column="CreatedBy">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1800" StepType="AD">
@@ -4558,27 +4554,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1850" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="56372" Table="AD_Browse_Field">
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">19</Data>
-        <Data AD_Column_ID="57972" Column="Description">Storage Warehouse and Service Point</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">EE07</Data>
-        <Data AD_Column_ID="57974" Column="Help">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.</Data>
-        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
-        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">56372</Data>
-        <Data AD_Column_ID="57982" Column="SeqNo">21</Data>
-        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50079</Data>
-        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57981" Column="Name">Warehouse</Data>
-        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
-        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">55043</Data>
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -4601,6 +4576,27 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57965" Column="Updated">2017-02-09 20:41:39.06</Data>
         <Data AD_Column_ID="57967" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="57966" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="57972" Column="Description">Storage Warehouse and Service Point</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">EE07</Data>
+        <Data AD_Column_ID="57974" Column="Help">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">56372</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo">21</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50079</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57981" Column="Name">Warehouse</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">55043</Data>
       </PO>
     </Step>
     <Step SeqNo="1860" StepType="AD">
@@ -5326,6 +5322,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2090" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="56384" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2017-02-09 20:41:55.194</Data>
         <Data AD_Column_ID="57967" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="57966" Column="CreatedBy">0</Data>
@@ -5366,9 +5365,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57964" Column="Created">2017-02-09 20:41:55.194</Data>
-        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
       </PO>
     </Step>
     <Step SeqNo="2100" StepType="AD">
