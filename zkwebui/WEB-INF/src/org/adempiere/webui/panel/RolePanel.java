@@ -260,7 +260,16 @@ public class RolePanel extends Window implements EventListener, Deferrable
         btnCancel.addEventListener("onClick", this);
 
         // initial role - Elaine 2009/02/06
-        UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+        updateRoleList();
+    }
+
+	/**
+	 * 
+	 */
+	private void updateRoleList()
+	{
+		lstRole.getItems().clear();
+		UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
         String initDefault = userPreference.getProperty(UserPreference.P_ROLE);
         for(int i = 0; i < rolesKNPairs.length; i++)
         {
@@ -272,7 +281,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
         if (lstRole.getSelectedIndex() == -1 && lstRole.getItemCount() > 0)
         	lstRole.setSelectedIndex(0);
         //
-        
+
 		// If we have only one role, we can hide the combobox - metas-2009_0021_AP1_G94
 		if (lstRole.getItemCount() == 1 && ! MSysConfig.getBooleanValue("ALogin_ShowOneRole", true))
 		{
@@ -285,7 +294,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
 			lblRole.setVisible(true);
 			lstRole.setVisible(true);
 		}
-        
+
         updateClientList();
     }
 
@@ -463,5 +472,24 @@ public class RolePanel extends Window implements EventListener, Deferrable
 
 	public boolean isDeferrable() {
 		return false;
+	}	
+	
+	/**
+	 * @param ctx
+	 */
+	public void changeRole(Properties ctx)
+	{
+		updateRoleList();
+		int AD_Role_ID = Env.getAD_Role_ID(ctx);
+		lstRole.setValue(AD_Role_ID);
+		updateClientList();
+		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		lstClient.setValue(AD_Client_ID);
+		updateOrganisationList();
+		int AD_Org_ID = Env.getAD_Org_ID(ctx);
+		lstOrganisation.setValue(AD_Org_ID);
+		updateWarehouseList();
+		int M_Warehouse_ID = Env.getContextAsInt(ctx, Env.M_WAREHOUSE_ID);
+		lstWarehouse.setValue(M_Warehouse_ID);
 	}
 }

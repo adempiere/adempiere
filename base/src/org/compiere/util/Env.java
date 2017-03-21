@@ -1118,7 +1118,7 @@ public final class Env
 	public static ArrayList<String> getSupportedLanguages()
 	{
 		ArrayList<String> AD_Languages = new ArrayList<String>();
-		String sql = "SELECT AD_Language FROM AD_Language WHERE (isBaseLanguage = 'Y' OR isSystemLanguage = 'Y' )";
+		String sql = "SELECT AD_Language FROM AD_Language WHERE (isBaseLanguage = 'Y' OR isSystemLanguage = 'Y') AND (IsActive = 'Y')";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -1155,9 +1155,12 @@ public final class Env
 		if (language.isBaseLanguage())
 			return;
 		
+		if (!DB.isConnected())
+			return;
+		
 		boolean isSystemLanguage = false;
 		ArrayList<String> AD_Languages = new ArrayList<String>();
-		String sql = "SELECT AD_Language FROM AD_Language WHERE (isBaseLanguage = 'Y' OR isSystemLanguage = 'Y' )";
+		String sql = "SELECT AD_Language FROM AD_Language WHERE (isBaseLanguage = 'Y' OR isSystemLanguage = 'Y' ) AND (IsActive = 'Y')";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try

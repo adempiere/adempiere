@@ -14,6 +14,9 @@
 
 package org.adempiere.webui;
 
+import java.util.Locale;
+import java.util.Properties;
+
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.theme.ITheme;
@@ -47,6 +50,7 @@ public class WLogin extends AbstractUIPart
 	private IWebClient app;
 	private Borderlayout layout;
 	private Window browserWarningWindow;
+	private LoginWindow loginWindow;
 
     public WLogin(IWebClient app)
     {
@@ -77,7 +81,7 @@ public class WLogin extends AbstractUIPart
         vb.setAlign("center");
         vb.setStyle("background-color: transparent;");
 
-        LoginWindow loginWindow = new LoginWindow(app);
+        loginWindow = new LoginWindow(app);
         loginWindow.setParent(vb);
 
         if (!AEnv.isBrowserSupported())
@@ -180,5 +184,9 @@ public class WLogin extends AbstractUIPart
 
 	public Component getComponent() {
 		return layout;
+	}
+	
+	public void changeRole(Locale locale, Properties properties) {
+		loginWindow.changeRole(locale, properties);
 	}
 }

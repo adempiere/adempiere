@@ -125,6 +125,16 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
         langSession = Env.getContext(ctx, Env.LANGUAGE);
         SessionManager.setSessionApplication(this);
         Session session = Executions.getCurrent().getDesktop().getSession();
+        
+        @SuppressWarnings("unchecked")
+		Map<String, Object>map = (Map<String, Object>) session.getAttribute(SAVED_CONTEXT);
+        session.removeAttribute(SAVED_CONTEXT);
+        if (map != null && !map.isEmpty())
+        {
+        	onChangeRole(map);
+        	return;
+        }
+        
         if (session.getAttribute(SessionContextListener.SESSION_CTX) == null || !SessionManager.isUserLoggedIn(ctx))
         {
             loginDesktop = new WLogin(this);
@@ -143,6 +153,17 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     public void onCancel()
     {
     }
+
+	private void onChangeRole(Map<String, Object> map)
+	{
+		Locale locale = (Locale) map.get("locale");
+		Properties properties = (Properties) map.get("context");
+
+		SessionManager.setSessionApplication(this);
+		loginDesktop = new WLogin(this);
+		loginDesktop.createPart(this.getPage());
+		loginDesktop.changeRole(locale, properties);
+	}
 
     /* (non-Javadoc)
 	 * @see org.adempiere.webui.IWebClient#loginCompleted()
@@ -428,6 +449,11 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		properties.setProperty(SessionContextListener.SERVLET_SESSION_ID, newSession.getId());
 		
 		Executions.sendRedirect("index.zul");
+	}
+	
+	public void changeRole(Locale locale, Properties properties)
+	{
+		loginDesktop.changeRole(locale, properties);
 	}
 
 	/*
