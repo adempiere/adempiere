@@ -184,9 +184,10 @@ public class SessionManager
  		if (Events.inEventListener()) {
  			return true;
  		}
-     	if (desktop ==  null) {
-     		return false;
-     	}
+    	if (desktop ==  null) {
+    		log.severe("Attempted to activate NULL desktop.");
+    		return false;
+    	}
      	
  		try {
  			if (Executions.activate((org.zkoss.zk.ui.Desktop) desktop, 500)) {
@@ -200,7 +201,7 @@ public class SessionManager
  			}
  			
  		} catch (Exception e) {
- 			log.fine(e.getMessage());
+			log.severe(e.getMessage());
  		} finally {
  		}
  		return false;
