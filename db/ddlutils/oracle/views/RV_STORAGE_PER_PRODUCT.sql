@@ -1,4 +1,4 @@
-DROP VIEW rv_storage_per_product;
+-- DROP VIEW rv_storage_per_product;
 CREATE VIEW rv_storage_per_product (
 ad_client_id,
 ad_org_id,
