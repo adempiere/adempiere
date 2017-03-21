@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="New pay selection not work get an invalid query" ReleaseNo="3.8.0" SeqNo="1940">
+  <Migration EntityType="D" Name="New pay selection not work get an invalid query" ReleaseNo="3.8.0" SeqNo="1950">
     <Comments>See: https://github.com/adempiere/adempiere/issues/844</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="55285" Table="AD_Browse_Field">
