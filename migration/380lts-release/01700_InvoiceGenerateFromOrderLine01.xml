@@ -178,7 +178,7 @@
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54194" Table="AD_Table">
         <Data AD_Column_ID="6489" Column="ImportTable">N</Data>
-        <Data AD_Column_ID="102" Column="Name">RV_OrderLine_Storage</Data>
+        <Data AD_Column_ID="102" Column="Name">View Order Line Storage</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="108" Column="LoadSeq" isNewNull="true"/>
         <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
@@ -214,7 +214,7 @@
         <Data AD_Column_ID="12715" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12714" Column="AD_Table_ID">54194</Data>
         <Data AD_Column_ID="12724" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12716" Column="Name">RV_OrderLine_Storage</Data>
+        <Data AD_Column_ID="12716" Column="Name">View Order Line Storage</Data>
         <Data AD_Column_ID="12720" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12722" Column="Created">2017-02-10 09:52:40.295</Data>
         <Data AD_Column_ID="12723" Column="Updated">2017-02-10 09:52:40.295</Data>
