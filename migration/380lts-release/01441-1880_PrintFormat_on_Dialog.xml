@@ -3,18 +3,18 @@
   <Migration EntityType="D" Name="Print Format and Output Type on Process Dialog #1880" ReleaseNo="" SeqNo="01441">
       <Step DBType="ALL" SeqNo="1" StepType="SQL">
       	<SQLStatement>ALTER TABLE ad_role ADD COLUMN allow_html_view character(1);
-      	ALTER TABLE ad_role ALTER COLUMN allow_html_view SET DEFAULT 'Y'::bpchar;
+      	ALTER TABLE ad_role ALTER COLUMN allow_html_view SET DEFAULT 'Y';
       	UPDATE ad_role SET allow_html_view = 'Y' WHERE allow_html_view IS NULL;
       	ALTER TABLE ad_role ADD COLUMN allow_xls_view character(1);
-      	ALTER TABLE ad_role ALTER COLUMN allow_xls_view SET DEFAULT 'Y'::bpchar;
+      	ALTER TABLE ad_role ALTER COLUMN allow_xls_view SET DEFAULT 'Y';
       	UPDATE ad_role SET allow_xls_view = 'Y' WHERE allow_xls_view IS NULL;
       	
       	ALTER TABLE ad_pinstance ADD COLUMN reporttype character(1);
-      	UPDATE ad_pinstance set reporttype = 'P'::bpchar where reporttype IS NULL;
-      	ALTER TABLE ad_pinstance ALTER COLUMN reporttype SET DEFAULT 'P'::bpchar;
+      	UPDATE ad_pinstance set reporttype = 'P' where reporttype IS NULL;
+      	ALTER TABLE ad_pinstance ALTER COLUMN reporttype SET DEFAULT 'P';
       	
       	ALTER TABLE ad_pinstance ADD COLUMN ad_printformat_id numeric(10,0);
-      	ALTER TABLE ad_pinstance ALTER COLUMN ad_printformat_id SET DEFAULT NULL::numeric;
+      	ALTER TABLE ad_pinstance ALTER COLUMN ad_printformat_id SET DEFAULT NULL;
 		</SQLStatement>
 	  </Step>
     <Step SeqNo="10" StepType="AD">
