@@ -2,7 +2,7 @@
 <Migrations>
   <Migration EntityType="D" Name="SB_InoutGererateFromOrderLine" ReleaseNo="3.9.0" SeqNo="1740">
     <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
-      <SQLStatement>-- DROP VIEW  RV_Storage_Per_Product;
+      <SQLStatement>DROP VIEW  RV_Storage_Per_Product;
 CREATE OR REPLACE VIEW RV_Storage_Per_Product (
 ad_client_id,
 ad_org_id,
@@ -147,7 +147,7 @@ WHERE iol_1.c_orderline_id = l.c_orderline_id AND (io.docstatus  in ('IP','WC' )
       <RollbackStatement>DROP VIEW  M_InOut_CandidateDetail_v;</RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="3" StepType="SQL">
-      <SQLStatement>-- DROP VIEW  RV_Storage_Per_Product;
+      <SQLStatement>DROP VIEW  RV_Storage_Per_Product;
 CREATE OR REPLACE VIEW RV_Storage_Per_Product (
 ad_client_id,
 ad_org_id,
