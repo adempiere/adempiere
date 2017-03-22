@@ -2,7 +2,8 @@
 <Migrations>
   <Migration EntityType="D" Name="SB_InoutGererateFromOrderLine" ReleaseNo="3.9.0" SeqNo="1740">
     <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
-      <SQLStatement>CREATE VIEW rv_storage_per_product (
+      <SQLStatement>-- DROP VIEW  RV_Storage_Per_Product;
+CREATE OR REPLACE VIEW RV_Storage_Per_Product (
 ad_client_id,
 ad_org_id,
 m_product_id,
@@ -68,7 +69,7 @@ JOIN
 m_locator l
 ON
 strg.m_locator_id = l.m_locator_id;</SQLStatement>
-      <RollbackStatement>DROP VIEW  rv_storage_per_product;</RollbackStatement>
+      <RollbackStatement>DROP VIEW  RV_Storage_Per_Product;</RollbackStatement>
     </Step>
     <Step DBType="Postgres" Parse="Y" SeqNo="2" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW M_InOut_CandidateDetail_v (
@@ -146,7 +147,8 @@ WHERE iol_1.c_orderline_id = l.c_orderline_id AND (io.docstatus  in ('IP','WC' )
       <RollbackStatement>DROP VIEW  M_InOut_CandidateDetail_v;</RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="3" StepType="SQL">
-      <SQLStatement>CREATE VIEW rv_storage_per_product (
+      <SQLStatement>-- DROP VIEW  RV_Storage_Per_Product;
+CREATE OR REPLACE VIEW RV_Storage_Per_Product (
 ad_client_id,
 ad_org_id,
 m_product_id,
@@ -212,7 +214,7 @@ JOIN
 m_locator l
 ON
 strg.m_locator_id = l.m_locator_id;</SQLStatement>
-      <RollbackStatement>DROP VIEW  rv_storage_per_product;</RollbackStatement>
+      <RollbackStatement>DROP VIEW  RV_Storage_Per_Product;</RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="4" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW M_InOut_CandidateDetail_v (
@@ -292,14 +294,14 @@ WHERE iol_1.c_orderline_id = l.c_orderline_id AND (io.docstatus  in ('IP','WC' )
       <PO AD_Table_ID="100" Action="I" Record_ID="54193" Table="AD_Table">
         <Data AD_Column_ID="105" Column="AD_Window_ID" isNewNull="true"/>
         <Data AD_Column_ID="6489" Column="ImportTable">N</Data>
-        <Data AD_Column_ID="102" Column="Name">m_inout_candidatedetail_v</Data>
+        <Data AD_Column_ID="102" Column="Name">M_InOut_CandidateDetail_v</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="108" Column="LoadSeq" isNewNull="true"/>
         <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
         <Data AD_Column_ID="354" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="106" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="107" Column="TableName">m_inout_candidatedetail_v</Data>
+        <Data AD_Column_ID="107" Column="TableName">M_InOut_CandidateDetail_v</Data>
         <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
         <Data AD_Column_ID="4196" Column="IsHighVolume">false</Data>
         <Data AD_Column_ID="100" Column="AD_Table_ID">54193</Data>
@@ -327,7 +329,7 @@ WHERE iol_1.c_orderline_id = l.c_orderline_id AND (io.docstatus  in ('IP','WC' )
         <Data AD_Column_ID="12715" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12714" Column="AD_Table_ID">54193</Data>
         <Data AD_Column_ID="12724" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12716" Column="Name">m_inout_candidatedetail_v</Data>
+        <Data AD_Column_ID="12716" Column="Name">M_InOut_CandidateDetail_v</Data>
         <Data AD_Column_ID="12720" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12722" Column="Created">2017-02-09 20:19:20.575</Data>
         <Data AD_Column_ID="12723" Column="Updated">2017-02-09 20:19:20.575</Data>
@@ -800,9 +802,9 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
         <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
-        <Data AD_Column_ID="347" Column="Description">Table m_inout_candidatedetail_v</Data>
+        <Data AD_Column_ID="347" Column="Description">Table M_InOut_CandidateDetail_v</Data>
         <Data AD_Column_ID="350" Column="IsTableID">true</Data>
-        <Data AD_Column_ID="216" Column="Name">m_inout_candidatedetail_v</Data>
+        <Data AD_Column_ID="216" Column="Name">M_InOut_CandidateDetail_v</Data>
         <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
         <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
@@ -2491,12 +2493,12 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
     <Step SeqNo="720" StepType="AD">
       <PO AD_Table_ID="53230" Action="I" Record_ID="50063" Table="AD_View">
         <Data AD_Column_ID="64855" Column="CopyFrom" isNewNull="true"/>
-        <Data AD_Column_ID="58074" Column="Value">m_inout_candidateDetail_v</Data>
+        <Data AD_Column_ID="58074" Column="Value">M_InOut_CandidateDetail_v</Data>
         <Data AD_Column_ID="58076" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58077" Column="EntityType">EE07</Data>
         <Data AD_Column_ID="58078" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58073" Column="AD_View_ID">50063</Data>
-        <Data AD_Column_ID="58075" Column="Name">m_inout_candidateDetail_v</Data>
+        <Data AD_Column_ID="58075" Column="Name">M_InOut_CandidateDetail_v</Data>
         <Data AD_Column_ID="58068" Column="IsActive">true</Data>
         <Data AD_Column_ID="58069" Column="Created">2017-02-09 20:20:09.347</Data>
         <Data AD_Column_ID="58070" Column="Updated">2017-02-09 20:20:09.347</Data>
@@ -2512,7 +2514,7 @@ You can also include orders who have outstanding confirmations (e.g. ordered=10 
         <Data AD_Column_ID="58062" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58063" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58065" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58064" Column="Name">m_inout_candidateDetail_v</Data>
+        <Data AD_Column_ID="58064" Column="Name">M_InOut_CandidateDetail_v</Data>
         <Data AD_Column_ID="58061" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58058" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="58059" Column="UpdatedBy">0</Data>
@@ -3042,15 +3044,15 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1010" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="55044" Table="AD_View_Column">
-        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
-        <Data AD_Column_ID="58104" Column="Help">The business partner order reference is the order reference for this specific transaction; Often Purchase Order numbers are given to print on Invoices for easier reference.  A standard number can be defined in the Business Partner (Customer) window.</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">io.POReference</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50063</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">55044</Data>
         <Data AD_Column_ID="58105" Column="Name">Order Reference</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">IO_POReference</Data>
         <Data AD_Column_ID="58102" Column="Description">Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58104" Column="Help">The business partner order reference is the order reference for this specific transaction; Often Purchase Order numbers are given to print on Invoices for easier reference.  A standard number can be defined in the Business Partner (Customer) window.</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50127</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">io.POReference</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">82189</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
@@ -4164,6 +4166,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1730" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="56366" Table="AD_Browse_Field">
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">19</Data>
         <Data AD_Column_ID="57972" Column="Description">Sales Order Line</Data>
@@ -4182,7 +4185,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="57981" Column="Name">Sales Order Line</Data>
-        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">55036</Data>
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
