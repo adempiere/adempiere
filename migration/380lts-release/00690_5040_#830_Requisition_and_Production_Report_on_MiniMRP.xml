@@ -111,7 +111,6 @@
     </Step>
     <Step DBType="ALL" SeqNo="50" StepType="SQL">
       <SQLStatement>
-DROP VIEW IF EXISTS rv_m_replenishplan_requisition;
 CREATE OR REPLACE VIEW rv_m_replenishplan_requisition AS
  SELECT mrl.ad_client_id, mrl.ad_org_id, mrl.m_replenishplanline_id, mrl.m_replenishplan_id, r.m_requisition_id, r.documentno, rl.line, p.m_product_id, po.vendorproductno, rl.c_bpartner_id, rl.qty, rl.priceactual, rl.isactive
    FROM m_replenishplanline mrl
